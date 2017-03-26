@@ -11,9 +11,9 @@ import (
 
 func init() {
 	proc.GoFunctions["match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["match!"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.String, TypeOut: types.String}
+	proc.GoFunctions["!match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.String, TypeOut: types.String}
 	proc.GoFunctions["regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["regex!"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.String, TypeOut: types.String}
+	proc.GoFunctions["!regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.String, TypeOut: types.String}
 	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.String, TypeOut: types.String}
 	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.String, TypeOut: types.String}
 	proc.GoFunctions["prepend"] = proc.GoFunction{Func: cmdPrepend, TypeIn: types.String, TypeOut: types.String}

@@ -2,14 +2,14 @@ package encoders
 
 import (
 	"compress/gzip"
-	"io"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"io"
 )
 
 func init() {
 	proc.GoFunctions["gz"] = proc.GoFunction{Func: cmdGz, TypeIn: types.Generic, TypeOut: types.Binary}
-	proc.GoFunctions["gz!"] = proc.GoFunction{Func: cmdUngz, TypeIn: types.Binary, TypeOut: types.Generic}
+	proc.GoFunctions["!gz"] = proc.GoFunction{Func: cmdUngz, TypeIn: types.Binary, TypeOut: types.Generic}
 }
 
 func cmdGz(p *proc.Process) error {

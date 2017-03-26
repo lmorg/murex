@@ -60,7 +60,7 @@ func CreateProcess(p *Process, f Flow) {
 		p.Parent.mapRef = "null"
 	}
 
-	if p.Name[len(p.Name)-1] == '!' {
+	if p.Name[0] == '!' {
 		p.Not = true
 	}
 

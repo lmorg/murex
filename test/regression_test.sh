@@ -2,7 +2,7 @@
 
 # Regressing tests
 cd test
-JSH="../jsh"
+JSH="../murex"
 timeout="1.1"
 nreps=50
 repstimeout="10"
@@ -147,7 +147,7 @@ while true; do
         64)shell 'text: fox.txt->match: jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         65)shell 'text: fox.txt->match: jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         66)shell 'text: fox.txt->match' 2>&1 | check "No parameters supplied.";;
-        67)shell 'text: fox.txt->match!:e->match!:o' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        67)shell 'text: fox.txt->!match:e->!match:o' 2>&1| check "$(echo -e 'quick\nlazy')";;
         68)shell 'text: fox.txt->match!' 2>&1| check "No parameters supplied.";;
 
         69)shell 'text: fox.txt->regex: m,jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
@@ -163,15 +163,15 @@ while true; do
         79)shell 'text: fox.txt->regex: "m#jumped#"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         80)shell 'text: fox.txt->regex: "m#jumped#"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         81)shell 'text: fox.txt->regex: ' 2>&1 | check "No parameters supplied.";;
-        82)shell 'text: fox.txt->regex!: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
-        83)shell 'text: fox.txt->regex!: ' 2>&1| check "No parameters supplied.";;
-        84)shell 'text: fox.txt->regex!: m,[eo]->regex: s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
+        82)shell 'text: fox.txt->!regex: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        83)shell 'text: fox.txt->!regex: ' 2>&1| check "No parameters supplied.";;
+        84)shell 'text: fox.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
 
         85)shell 'text: fox_crlf.txt->match: jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         86)shell 'text: fox_crlf.txt->match: jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         87)shell 'text: fox_crlf.txt->match: ' 2>&1 | check "No parameters supplied.";;
-        88)shell 'text: fox_crlf.txt->match!: e->match!: o' 2>&1| check "$(echo -e 'quick\nlazy')";;
-        89)shell 'text: fox_crlf.txt->match!: ' 2>&1| check "No parameters supplied.";;
+        88)shell 'text: fox_crlf.txt->!match: e->!match: o' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        89)shell 'text: fox_crlf.txt->!match: ' 2>&1| check "No parameters supplied.";;
 
         90)shell 'text: fox_crlf.txt->regex: m,jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         91)shell 'text: fox_crlf.txt->regex: m,jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
@@ -186,9 +186,9 @@ while true; do
         100)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         101)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         102)shell 'text: fox_crlf.txt->regex: ' 2>&1 | check "No parameters supplied.";;
-        103)shell 'text: fox_crlf.txt->regex!: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
-        104)shell 'text: fox_crlf.txt->regex!: ' 2>&1| check "No parameters supplied.";;
-        105)shell 'text: fox_crlf.txt->regex!: m,[eo]->regex: s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
+        103)shell 'text: fox_crlf.txt->!regex: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        104)shell 'text: fox_crlf.txt->!regex: ' 2>&1| check "No parameters supplied.";;
+        105)shell 'text: fox_crlf.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
 
         106)shell 'out: out|grep: out' 2>&1 | check "out";;
         107)shell 'out: out | grep: out' 2>&1 | check "out";;
@@ -216,59 +216,59 @@ while true; do
         126)reps 'text: fox_crlf.txt->foreach: line {out: $line} ->match: "This is just some dummy text for regression testing"' $nreps 2>&1 | checkreps $nreps;;
 
         127)shell 'out: true->if: {out: match}' 2>&1 | check "match";;
-        128)shell 'out: true->if!: {out: match}' 2>&1 | check "";;
-        129)shell 'out: true->if: {out: false} {out: match}' 2>&1 | check "";;
-        130)shell 'out: true->if!: {out: false} {out: match}' 2>&1 | check "match";;
+        128)shell 'out: true->!if: {out: match}' 2>&1 | check "";;
+        129)shell 'out: true->!if: {out: false} {out: match}' 2>&1 | check "";;
+        130)shell 'out: true->!if: {out: false} {out: match}' 2>&1 | check "match";;
         131)shell 'if: {out: false} {out: match}' 2>&1 | check "";;
-        132)shell 'if!: {out: false} {out: match}' 2>&1 | check "match";;
+        132)shell '!if: {out: false} {out: match}' 2>&1 | check "match";;
         133)shell 'if: {out: true} {out: match}' 2>&1 | check "match";;
-        134)shell 'if!: {out: true} {out: match}' 2>&1 | check "";;
+        134)shell '!if: {out: true} {out: match}' 2>&1 | check "";;
         135)shell 'if: {out: true} {out: positive} {out: negative}' 2>&1 | check "positive";;
-        136)shell 'if!: {out: true} {out: positive} {out: negative}' 2>&1 | check "negative";;
+        136)shell '!if: {out: true} {out: positive} {out: negative}' 2>&1 | check "negative";;
         137)shell 'if: {out: false} {out: positive} {out: negative}' 2>&1 | check "negative";;
-        138)shell 'if!: {out: false} {out: positive} {out: negative}' 2>&1 | check "positive";;
+        138)shell '!if: {out: false} {out: positive} {out: negative}' 2>&1 | check "positive";;
         139)shell 'exec: true->if: {out: match} # returns false because no stdout' 2>&1 | check "";;
-        140)shell 'exec: true->if!: {out: match}# returns false because no stdout' 2>&1 | check "match";;
+        140)shell 'exec: true->!if: {out: match}# returns false because no stdout' 2>&1 | check "match";;
         141)shell 'exec: false->if: {out: match}' 2>&1 | check "";;
-        142)shell 'exec: false->if!: {out: match}' 2>&1 | check "match";;
+        142)shell 'exec: false->!if: {out: match}' 2>&1 | check "match";;
         143)shell 'out: qwerty->if: {out: match}' 2>&1 | check "match";;
-        144)shell 'out: qwerty->if!: {out: match}' 2>&1 | check "";;
+        144)shell 'out: qwerty->!if: {out: match}' 2>&1 | check "";;
         145)shell 'out: ->if: {out: match}' 2>&1 | check "";;
-        146)shell 'out: ->if!: {out: match}' 2>&1 | check "match";;
+        146)shell 'out: ->!if: {out: match}' 2>&1 | check "match";;
         147)shell 'out: 1->if: {out: match}' 2>&1 | check "match";;
-        148)shell 'out: 1->if!: {out: match}' 2>&1 | check "";;
+        148)shell 'out: 1->!if: {out: match}' 2>&1 | check "";;
         149)shell 'out: 0->if: {out: match}' 2>&1 | check "";;
-        150)shell 'out: 0->if!: {out: match}' 2>&1 | check "match";;
+        150)shell 'out: 0->!if: {out: match}' 2>&1 | check "match";;
         151)shell 'out: yes->if: {out: match}' 2>&1 | check "match";;
-        152)shell 'out: yes->if!: {out: match}' 2>&1 | check "";;
+        152)shell 'out: yes->!if: {out: match}' 2>&1 | check "";;
         153)shell 'out: no->if: {out: match}' 2>&1 | check "";;
-        154)shell 'out: no->if!: {out: match}' 2>&1 | check "match";;
+        154)shell 'out: no->!if: {out: match}' 2>&1 | check "match";;
         155)shell 'out: on->if: {out: match}' 2>&1 | check "match";;
-        156)shell 'out: on->if!: {out: match}' 2>&1 | check "";;
+        156)shell 'out: on->!if: {out: match}' 2>&1 | check "";;
         157)shell 'out: off->if: {out: match}' 2>&1 | check "";;
-        158)shell 'out: off->if!: {out: match}' 2>&1 | check "match";;
+        158)shell 'out: off->!if: {out: match}' 2>&1 | check "match";;
         159)shell 'out: pass->if: {out: match}' 2>&1 | check "match";;
-        160)shell 'out: pass->if!: {out: match}' 2>&1 | check "";;
+        160)shell 'out: pass->!if: {out: match}' 2>&1 | check "";;
         161)shell 'out: fail->if: {out: match}' 2>&1 | check "";;
-        162)shell 'out: fail->if!: {out: match}' 2>&1 | check "match";;
+        162)shell 'out: fail->!if: {out: match}' 2>&1 | check "match";;
         163)shell 'out: passed->if: {out: match}' 2>&1 | check "match";;
-        164)shell 'out: passed->if!: {out: match}' 2>&1 | check "";;
+        164)shell 'out: passed->!if: {out: match}' 2>&1 | check "";;
         165)shell 'out: failed->if: {out: match}' 2>&1 | check "";;
-        166)shell 'out: failed->if!: {out: match}' 2>&1 | check "match";;
+        166)shell 'out: failed->!if: {out: match}' 2>&1 | check "match";;
         167)shell 'true: ->if: {out: match}' 2>&1 | check "match";;
-        168)shell 'true: ->if!: {out: match}' 2>&1 | check "";;
+        168)shell 'true: ->!if: {out: match}' 2>&1 | check "";;
         169)shell 'false: ->if: {out: match}' 2>&1 | check "";;
-        170)shell 'false: ->if!: {out: match}' 2>&1 | check "match";;
+        170)shell 'false: ->!if: {out: match}' 2>&1 | check "match";;
         171)shell 'true: ->!' 2>&1 | check "False";;
         172)shell 'false: ->!' 2>&1 | check "True";;
 
         173)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
 
-        174)shell 'out: test->base64->base64!' 2>&1 | check "test\n";;
-        175)reps 'out: test->base64->base64!->match: test' $nreps 2>&1 | checkreps $nreps;;
-        176)reps 'out: test\n->base64->base64!->match: test' $nreps 2>&1 | checkreps $nreps;;
-        177)shell 'out: test->escape->escape!' 2>&1 | check "test";;
-        178)shell 'out: test->gz->gz!' 2>&1         | check "test";;
+        174)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
+        175)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        176)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        177)shell 'out: test->escape->!escape' 2>&1 | check "test";;
+        178)shell 'out: test->gz->!gz' 2>&1         | check "test";;
 
 
         *) break

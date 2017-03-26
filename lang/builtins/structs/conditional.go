@@ -10,7 +10,7 @@ import (
 
 func init() {
 	proc.GoFunctions["if"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["if!"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["!if"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["else"] = proc.GoFunction{Func: cmdElse, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 

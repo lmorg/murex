@@ -1,14 +1,14 @@
 package encoders
 
 import (
-	"html"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"html"
 )
 
 func init() {
 	proc.GoFunctions["escape"] = proc.GoFunction{Func: cmdEscape, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["escape!"] = proc.GoFunction{Func: cmdEscape, TypeIn: types.String, TypeOut: types.String}
+	proc.GoFunctions["!escape"] = proc.GoFunction{Func: cmdEscape, TypeIn: types.String, TypeOut: types.String}
 }
 
 func cmdEscape(p *proc.Process) error {
