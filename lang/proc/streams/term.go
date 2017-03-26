@@ -1,0 +1,92 @@
+package streams
+
+import (
+	"io"
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/utils"
+	"os"
+	"sync"
+)
+
+// This structure exists as a wrapper around os.Stdout and os.Stderr so they can be easily interchanged with this
+// shells streams (which has a larger array of methods to enable easier writing of builtin shell functions.
+
+type term struct {
+	sync.Mutex
+	bWritten uint64
+	bRead    uint64
+	lastChar byte
+}
+
+func (t *term) MakeParent()               {}
+func (t *term) UnmakeParent()             {}
+func (t *term) Read([]byte) (int, error)  { return 0, io.EOF }
+func (t *term) ReadLine(*string) bool     { return true }
+func (t *term) ReadData() ([]byte, bool)  { return []byte{}, false }
+func (t *term) ReaderFunc(func([]byte))   {}
+func (t *term) ReadLineFunc(func([]byte)) {}
+func (t *term) ReadAll() []byte           { return []byte{} }
+func (t *term) Write([]byte) (int, error) { return 0, nil } // i probably dont want
+
+func (t *term) Stats() (bytesWritten, bytesRead uint64) {
+	t.Lock()
+	bytesWritten = t.bWritten
+	bytesRead = t.bRead
+	t.Unlock()
+	return
+}
+
+func (t *term) Close() { // i probably dont want
+	if t.lastChar != '\n' {
+		t.Write(utils.NewLineByte)
+	}
+	debug.Log("agggghhhh", t.lastChar)
+}
+
+// Terminal: Standard Out
+
+type TermOut struct {
+	term
+}
+
+func (t *TermOut) Write(b []byte) (i int, err error) {
+	t.Lock()
+	t.bWritten += uint64(len(b))
+	i, err = os.Stdout.Write(b)
+	if err != nil {
+		os.Stderr.WriteString(err.Error())
+	} else if len(b) > 0 {
+		t.lastChar = b[len(b)-1]
+	}
+	t.Unlock()
+	return
+}
+
+func (t *TermOut) Writeln(b []byte) (int, error) {
+	line := append(b, utils.NewLineByte...)
+	return t.Write(line)
+}
+
+// Terminal: Standard Error
+
+type TermErr struct {
+	term
+}
+
+func (t *TermErr) Write(b []byte) (i int, err error) {
+	t.Lock()
+	t.bWritten += uint64(len(b))
+	i, err = os.Stderr.Write(b)
+	if err != nil {
+		os.Stdout.WriteString(err.Error())
+	} else if len(b) > 0 {
+		t.lastChar = b[len(b)-1]
+	}
+	t.Unlock()
+	return
+}
+
+func (t *TermErr) Writeln(b []byte) (int, error) {
+	line := append(b, utils.NewLineByte...)
+	return t.Write(line)
+}
