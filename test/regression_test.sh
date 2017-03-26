@@ -148,7 +148,7 @@ while true; do
         65)shell 'text: fox.txt->match: jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         66)shell 'text: fox.txt->match' 2>&1 | check "No parameters supplied.";;
         67)shell 'text: fox.txt->!match:e->!match:o' 2>&1| check "$(echo -e 'quick\nlazy')";;
-        68)shell 'text: fox.txt->match!' 2>&1| check "No parameters supplied.";;
+        68)shell 'text: fox.txt->!match' 2>&1| check "No parameters supplied.";;
 
         69)shell 'text: fox.txt->regex: m,jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
         70)shell 'text: fox.txt->regex: m,jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
@@ -217,7 +217,7 @@ while true; do
 
         127)shell 'out: true->if: {out: match}' 2>&1 | check "match";;
         128)shell 'out: true->!if: {out: match}' 2>&1 | check "";;
-        129)shell 'out: true->!if: {out: false} {out: match}' 2>&1 | check "";;
+        129)shell 'out: true->if: {out: false} {out: match}' 2>&1 | check "";;
         130)shell 'out: true->!if: {out: false} {out: match}' 2>&1 | check "match";;
         131)shell 'if: {out: false} {out: match}' 2>&1 | check "";;
         132)shell '!if: {out: false} {out: match}' 2>&1 | check "match";;

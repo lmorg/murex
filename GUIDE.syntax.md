@@ -33,14 +33,14 @@ defined for special purposes:
 * Generic   (defined: *)
 * Null      (defined: null)
 * Die       (defined: die)
-* Binary    (defined: bin)
+* Binary    (defined: bin) // Not yet implemented
 * String    (defined: str)
 * Boolean   (defined: bool)
-* Integer   (defined: int)
-* Float     (defined: float)
+* Integer   (defined: int) // Implemented by currently unused
+* Float     (defined: float) // Implemented by currently unused
 * Code Block (defined: block)
 * JSON      (defined: json)
-* XML       (defined: xml)
+* XML       (defined: xml) // Not yet implemented
 
 ### Generic
 
@@ -207,33 +207,34 @@ variables (eg `$variableName`)
 
 `out: 'a b c' "1 2 3";` translates to 2 parameters: "a b c"s, "1 2 3".
 
-## Back ticks
+## Anti-aliases: bang prefix
 
-Back ticks have no special function and thus are treated like a regular,
-printable, character.
+Some functions support an optional bang (!) prefix. These are called
+"anti-aliases" and similarly to how a bang can `not` a boolean state,
+anti-aliases are aliases that perform opposite functions to their
+default behaviour. For example `out: hello world -> !match: world` would
+return no results as the `!match` anti-alias with look for strings that
+don't match "world". Some encoding / compression routines also have an
+anti-alias to decode or deflate their input.
 
-##
+## Anonymous pipes
 
+As already discussed earlier in this document, there are 3 types of
+anonymous pipes:
 
+1. `|`: This works exactly the same as in Linux/UNIX and cmd.exe. It
+pipes STDOUT to the STDIN of the next routine.
 
-## Code golfing
+2. `?`: This works similarly to the pipe (|) character except it pipes
+STDERR to the next STDIN.
 
-For those who are unaware, 'code golfing' is the process of writing a
-piece of code in the fewest number of characters possible (much like the
-sport of Golf). While code golfing isn't something sane people would
-advocate for normal programming practices (ie anything that requires any
-level of maintainability), sometimes command line users would "golf"
-their code when typing a one-liner in their interactive shell purely out
-of convenience / laziness.
+3. `->`: This denotes the next process is a method, then pipes STDOUT to
+the STDIN of that method.
 
-The syntax of this shell is designed to be flexible enough to write
-readable and maintainable multi-line scripts but also to be terse enough
-to write "golfed" one liners.
+## End of chain semi-colons
 
-One of the earlier code examples could be written like this:
-```
-out:foo\nbar->match:bar->if:{out:bar found}
-```
+Like on Linux/UNIX and cmd.exe, you can terminate a pipeline chain with
+a semi-colon (;).
 
 ## To colon or not to colon?
 
@@ -256,3 +257,27 @@ curve of using this new shell. eg:
 ```echo hello world | grep world```
 
 (which would work both in this shell and in Bash)
+
+## Back ticks
+
+Back ticks have no special function and thus are treated like a regular,
+printable, character.
+
+## Code golfing
+
+For those who are unaware, 'code golfing' is the process of writing a
+piece of code in the fewest number of characters possible (much like the
+sport of Golf). While code golfing isn't something sane people would
+advocate for normal programming practices (ie anything that requires any
+level of maintainability), sometimes command line users would "golf"
+their code when typing a one-liner in their interactive shell purely out
+of convenience / laziness.
+
+The syntax of this shell is designed to be flexible enough to write
+readable and maintainable multi-line scripts but also to be terse enough
+to write "golfed" one liners.
+
+One of the earlier code examples could be written like this:
+```
+out:foo\nbar->match:bar->if:{out:bar found}
+```
