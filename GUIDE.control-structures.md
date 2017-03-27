@@ -32,7 +32,9 @@ if: { out: hello world | grep: world } { out: world found }
 
 #### If Else
 
-Same as a Function If but with an Else block.
+Same as a Function If but with an Else block. This is the only usage of
+`if` that doesn't set the exit status to zero (0) if the "if" condition
+doesn't match "true".
 ```
 if: { out: hello world | grep: world } { out: world found } { out: world missing }
 ```
@@ -58,3 +60,16 @@ fuction_with_listed_output -> foreach: variable { iteration }
 while: { conditional } { iteration } 
 ```
 
+## try
+
+This will force a different execution behavior. All pipelined processes
+will become sequential (unlike normally when they run in parallel) and
+any exit numbers not equal to zero (0) will terminate the code block.
+This also includes `if` statements so be very careful to use the three
+parameter `if` which handles the "else" condition without raising an
+error.
+
+To handle errors in `try`, pipe the result into `else`.
+```
+try: { out: "hello world" -> match: "foobar"; out: "other stuff" } -> else { out: "error raised" } 
+```

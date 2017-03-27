@@ -42,7 +42,13 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName stri
 	}
 
 	compile(&tree, grandParent)
-	exitNum = run(&tree)
+	// Support for different run modes:
+	switch {
+	case grandParent.Name== "try":
+		exitNum = runHyperSensitive(&tree)
+	default:
+		exitNum = runNormal(&tree)
+	}
 
 	// This will just unlock the parent lock. Stdxxx.Close() will still have to be called.
 	grandParent.Stdout.UnmakeParent()

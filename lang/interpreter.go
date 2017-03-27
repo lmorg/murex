@@ -85,7 +85,7 @@ func compile(tree *Nodes, parent *proc.Process) {
 	}
 }
 
-func run(tree *Nodes) (exitNum int) {
+func runNormal(tree *Nodes) (exitNum int) {
 	if len(*tree) == 0 {
 		return 1
 	}
@@ -102,5 +102,24 @@ func run(tree *Nodes) (exitNum int) {
 
 	(*tree).Last().Process.Wait()
 	exitNum = (*tree).Last().Process.ExitNum
+	return
+}
+
+
+func runHyperSensitive(tree *Nodes) (exitNum int) {
+	if len(*tree) == 0 {
+		return 1
+	}
+
+	(*tree)[0].Process.Previous.Terminated = true
+
+	for i := range *tree {
+		(*tree)[i].Process.Execute()
+		exitNum = (*tree)[i].Process.ExitNum
+		if exitNum!= 0 {
+			return
+		}
+	}
+
 	return
 }

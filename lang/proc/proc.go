@@ -151,5 +151,6 @@ func (p *Process) Execute() {
 func (p *Process) Wait() {
 	debug.Log("Waiting for", p.Name)
 	for !p.Terminated {
+		// Wait for process to terminate
 	}
 }
