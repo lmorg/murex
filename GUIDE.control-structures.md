@@ -15,7 +15,7 @@ list of conditions that are evaluated to determine a true or false state
 of a function, please read the documentation on the `boolean` data type
 in [GUIDE.syntax.md](GUIDE.syntax.md#boolean).
 
-### Method If
+#### Method If
 
 This is where the conditional is evaluated from the result of the
 piped function.
@@ -23,14 +23,14 @@ piped function.
 out: hello world | grep: world -> if: { out: world found }
 ```
 
-### Function If
+#### Function If
 
 This is where the conditional is evaluated from the first parameter.
 ```
 if: { out: hello world | grep: world } { out: world found }
 ```
 
-### If Else
+#### If Else
 
 Same as a Function If but with an Else block.
 ```

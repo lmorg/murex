@@ -99,3 +99,8 @@ that even a substantial rewrite of core logic can be done safely in
 isolation from other, working, code. If anyone wishes to contribute
 their time to this project then that would be the one area I would most
 appreciate your support.
+
+* _Subshells._ At some point I am planning on implementing support for
+subshells like `$( command )` (or back ticked) stuff are in Bash.
+However I'm considering this a low priority as it has a scope to cause
+more damage if not implemented correctly.
