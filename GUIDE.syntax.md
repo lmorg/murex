@@ -165,7 +165,7 @@ method like so:
 out: "hello world" -> match: "world"
 ```
 
-### External processes and pipes
+### Piping to external processes
 
 To pass streams into external processes you can use pipes like you would
 in your standard shell. eg `out: "hello world" | grep: "world"`.
@@ -223,10 +223,10 @@ As already discussed earlier in this document, there are 3 types of
 anonymous pipes:
 
 1. `|`: This works exactly the same as in Linux/UNIX and cmd.exe. It
-pipes STDOUT to the STDIN of the next routine.
+pipes STDOUT to the STDIN of an external process (eg grep). 
 
 2. `?`: This works similarly to the pipe (|) character except it pipes
-STDERR to the next STDIN.
+STDERR to the STDIN if ab external process.
 
 3. `->`: This denotes the next process is a method, then pipes STDOUT to
 the STDIN of that method.
@@ -248,14 +248,14 @@ missing colon.
 
 If I was to impose my own style guidelines then I would argue that the
 idiomatic way to write code would be with a colon. eg:
-
-```out: "hello world" -> match: "world"```
-
+```
+out: "hello world" -> match: "world"
+```
 but support for dropping the colon is allowed to ease the learning
 curve of using this new shell. eg:
-
-```echo hello world | grep world```
-
+```
+echo hello world | grep world
+```
 (which would work both in this shell and in Bash)
 
 ## Back ticks

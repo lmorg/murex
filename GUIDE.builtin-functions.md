@@ -3,8 +3,8 @@
 I haven't written much documentation on this at the moment, however
 there are three places you can look:
 
-1. [GUIDE.control-structures.md], which contains builtins required for
-building logic.
+1. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
+contains builtins required for building logic.
 
 2. Go source code: under the `lang/builtins` path of the shell source
 source code project files is several packages, each hosting a few

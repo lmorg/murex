@@ -13,7 +13,7 @@ and the exit number. Any non-zero exit numbers are an automatic "false".
 Any functions returning no data are also classed as a "false". For a full
 list of conditions that are evaluated to determine a true or false state
 of a function, please read the documentation on the `boolean` data type
-in GUIDE.syntax.md.
+in [GUIDE.syntax.md](GUIDE.syntax.md#boolean).
 
 ### Method If
 

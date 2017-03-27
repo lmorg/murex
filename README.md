@@ -1,6 +1,10 @@
 # murex
 (I'm not sold on that name either. However I am open to suggestions)
 
+## Description
+
+Murex is a cross-platform 
+
 ## Dependencies
 ```
 go get github.com/chzyer/readline
@@ -21,11 +25,11 @@ test/regression_test.sh
 
 Please read the guides:
 
-1. [GUIDE.syntax.md] - this is recommended first as it gives an overview
+1. [GUIDE.syntax.md](./GUIDE.syntax.md) - this is recommended first as it gives an overview
 if the shell scripting languages syntax and data types.
 
-2. [GUIDE.control-structures.md] - this will list how to use if
+2. [GUIDE.control-structures.md](./GUIDE.control-structures.md) - this will list how to use if
 statements and iteration like for loops.
 
-3. [GUIDE.builtin-functions.md] - lastly this will list some of the
+3. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md) - lastly this will list some of the
 builtin functions available for this shell.
