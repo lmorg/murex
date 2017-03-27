@@ -41,3 +41,20 @@ if: { out: hello world | grep: world } { out: world found } { out: world missing
 
 `if` also supports an anti-alias where the conditional is "notted".
 `else` is also an alias for `!if`.
+```
+out: hello world | grep: world -> if: { out: world found } -> else { out: world missing }
+```
+
+## foreach
+
+(description to follow)
+```
+fuction_with_listed_output -> foreach: variable { iteration } 
+```
+
+## while
+(description to follow)
+```
+while: { conditional } { iteration } 
+```
+
