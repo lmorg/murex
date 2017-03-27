@@ -105,7 +105,6 @@ func runNormal(tree *Nodes) (exitNum int) {
 	return
 }
 
-
 func runHyperSensitive(tree *Nodes) (exitNum int) {
 	if len(*tree) == 0 {
 		return 1
@@ -116,7 +115,7 @@ func runHyperSensitive(tree *Nodes) (exitNum int) {
 	for i := range *tree {
 		(*tree)[i].Process.Execute()
 		exitNum = (*tree)[i].Process.ExitNum
-		if exitNum!= 0 {
+		if exitNum != 0 {
 			return
 		}
 	}

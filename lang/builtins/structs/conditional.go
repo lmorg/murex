@@ -14,12 +14,6 @@ func init() {
 	proc.GoFunctions["else"] = proc.GoFunction{Func: cmdElse, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
-// `else` is essentially an alias for `if!`
-func cmdElse(p *proc.Process) error {
-	p.Not = true
-	return cmdIf(p)
-}
-
 func cmdIf(p *proc.Process) (err error) {
 	var ifBlock, thenBlock, elseBlock []rune
 
@@ -62,11 +56,19 @@ func cmdIf(p *proc.Process) (err error) {
 
 	default:
 		// Error
-		return errors.New(`Not a valid if statement. Usage:
+		if !p.Not {
+			return errors.New(`Not a valid if statement. Usage:
   $conditional -> if: { $then }            # conditional result read from stdin or previous process exit number
   if: { $conditional } { $then }           # if / then
   if: { $conditional } { $then } { $else } # if / then / else
 `)
+		} else {
+			return errors.New(`Not a valid if statement. Usage:
+  $conditional -> !if: { $else }            # conditional result read from stdin or previous process exit number
+  !if: { $conditional } { $else }           # if / then
+  !if: { $conditional } { $else } { $then } # if / then / else
+`)
+		}
 	}
 
 	var conditional bool
@@ -107,4 +109,9 @@ func cmdIf(p *proc.Process) (err error) {
 	}
 
 	return
+}
+
+func cmdElse(p *proc.Process) error {
+	p.Not = true
+	return cmdIf(p)
 }

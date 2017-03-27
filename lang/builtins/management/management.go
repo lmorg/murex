@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"os"
 	"strconv"
 )
 
@@ -13,6 +14,7 @@ func init() {
 	proc.GoFunctions["exitnum"] = proc.GoFunction{Func: cmdExitNum, TypeIn: types.Generic, TypeOut: types.Integer}
 	proc.GoFunctions["config"] = proc.GoFunction{Func: cmdConfig, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["builtins"] = proc.GoFunction{Func: cmdListBuiltins, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["cd"] = proc.GoFunction{Func: cmdCd, TypeIn: types.Null, TypeOut: types.Null}
 }
 
 func cmdDebugMode(p *proc.Process) error {
@@ -57,4 +59,14 @@ func cmdConfig(p *proc.Process) error {
 	}
 
 	return nil
+}
+
+func cmdCd(p *proc.Process) error {
+	s, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	err = os.Chdir(s)
+	return err
 }
