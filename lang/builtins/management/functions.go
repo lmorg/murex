@@ -2,6 +2,7 @@ package management
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -56,6 +57,31 @@ func cmdConfig(p *proc.Process) error {
 
 		_, err = p.Stdout.Writeln(b)
 		return err
+	}
+
+	option, _ := p.Parameters.String(0)
+	switch option {
+	case "get":
+		app, _ := p.Parameters.String(1)
+		key, _ := p.Parameters.String(2)
+		val, err := proc.GlobalConf.Get(app, key, types.String)
+		if err != nil {
+			return err
+		}
+		p.Stdout.Writeln([]byte(val.(string)))
+
+	case "set":
+		app, _ := p.Parameters.String(1)
+		key, _ := p.Parameters.String(2)
+		val, _ := p.Parameters.String(3)
+		err := proc.GlobalConf.Set(app, key, val)
+		return err
+
+		/*case "stdin":
+		err := proc.GlobalConf.Set(p.Parameters.String(1), p.Parameters.String(2), p.Stdin.ReadAll())
+		return err*/
+	default:
+		return errors.New("Unknown option.")
 	}
 
 	return nil

@@ -2,11 +2,11 @@ package shell
 
 import (
 	"github.com/chzyer/readline"
-	"io"
-	"io/ioutil"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"io"
+	"io/ioutil"
 	"strings"
 )
 
@@ -28,6 +28,11 @@ func Start() {
 	defer rl.Close()
 
 	for {
+		//prompt, _ := proc.GlobalConf.Get("shell", "Prompt", types.CodeBlock)
+		//out := streams.NewStdin()
+		//lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, types.Null)
+		//rl.SetPrompt(string(out.ReadAll()))
+
 		line, err := rl.Readline()
 		if err == readline.ErrInterrupt {
 			if len(line) == 0 {
