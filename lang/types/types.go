@@ -29,8 +29,8 @@ func IsTrue(stdout []byte, exitNum int) bool {
 	return true
 }
 
-const TrueString = "True"
-const FalseString = "False"
+const TrueString = "true"
+const FalseString = "false"
 
 var TrueByte = []byte(TrueString)
 var FalseByte = []byte(FalseString)
