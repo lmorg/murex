@@ -259,8 +259,8 @@ while true; do
         168)shell 'true: ->!if: {out: match}' 2>&1 | check "";;
         169)shell 'false: ->if: {out: match}' 2>&1 | check "";;
         170)shell 'false: ->!if: {out: match}' 2>&1 | check "match";;
-        171)shell 'true: ->!' 2>&1 | check "False";;
-        172)shell 'false: ->!' 2>&1 | check "True";;
+        171)shell 'true: ->!' 2>&1 | check "false";;
+        172)shell 'false: ->!' 2>&1 | check "true";;
 
         173)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
 
