@@ -279,5 +279,5 @@ to write "golfed" one liners.
 
 One of the earlier code examples could be written like this:
 ```
-out:foo\nbar->match:bar->if:{out:bar found}
+out:foo\nbar->match:bar->if{out:bar found}
 ```
