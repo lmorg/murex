@@ -11,22 +11,33 @@ import (
 func init() {
 	proc.GoFunctions["if"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["!if"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["else"] = proc.GoFunction{Func: cmdElse, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
 func cmdIf(p *proc.Process) (err error) {
 	var ifBlock, thenBlock, elseBlock []rune
 
-	switch p.Parameters.Len() {
-	case 1:
-		// "if" taken from stdin, "then" from second parameter.
+	switch {
+	case p.Parameters.Len() == 1 && p.Method:
+		// "if" taken from stdin, "then" from 1st parameter.
 		thenBlock, err = p.Parameters.Block(0)
 		if err != nil {
 			return err
 		}
 
-	case 2:
-		// "if" taken from first parameter, "then" from second parameter.
+	case p.Parameters.Len() == 2 && p.Method:
+		// "if" taken from stdin, "then" and "else" from 1st and 2nd parameter.
+		thenBlock, err = p.Parameters.Block(0)
+		if err != nil {
+			return err
+		}
+
+		elseBlock, err = p.Parameters.Block(1)
+		if err != nil {
+			return err
+		}
+
+	case p.Parameters.Len() == 2 && !p.Method:
+		// "if" taken from 1st parameter, "then" from 2nd parameter.
 		ifBlock, err = p.Parameters.Block(0)
 		if err != nil {
 			return err
@@ -37,8 +48,8 @@ func cmdIf(p *proc.Process) (err error) {
 			return err
 		}
 
-	case 3:
-		// "if" taken from first parameter, "then" from second, "else" from third.
+	case p.Parameters.Len() == 3 && !p.Method:
+		// "if" taken from 1st parameter, "then" from 2nd, "else" from 3rd.
 		ifBlock, err = p.Parameters.Block(0)
 		if err != nil {
 			return err
@@ -55,18 +66,19 @@ func cmdIf(p *proc.Process) (err error) {
 		}
 
 	default:
-		// Error
 		if !p.Not {
 			return errors.New(`Not a valid if statement. Usage:
-  $conditional -> if: { $then }            # conditional result read from stdin or previous process exit number
-  if: { $conditional } { $then }           # if / then
-  if: { $conditional } { $then } { $else } # if / then / else
+  $conditional -> if: -m { $then }           # conditional result read from stdin or previous process exit number
+  $conditional -> if: -m { $then } { $else } # conditional result read from stdin or previous process exit number
+  if: { $conditional } { $then }             # if / then
+  if: { $conditional } { $then } { $else }   # if / then / else
 `)
 		} else {
 			return errors.New(`Not a valid if statement. Usage:
-  $conditional -> !if: { $else }            # conditional result read from stdin or previous process exit number
-  !if: { $conditional } { $else }           # if / then
-  !if: { $conditional } { $else } { $then } # if / then / else
+  $conditional -> !if: -m { $else }           # conditional result read from stdin or previous process exit number
+  $conditional -> !if: -m { $else } { $then } # conditional result read from stdin or previous process exit number
+  !if: { $conditional } { $else }             # if / then
+  !if: { $conditional } { $else } { $then }   # if / then / else
 `)
 		}
 	}
@@ -109,9 +121,4 @@ func cmdIf(p *proc.Process) (err error) {
 	}
 
 	return
-}
-
-func cmdElse(p *proc.Process) error {
-	p.Not = true
-	return cmdIf(p)
 }

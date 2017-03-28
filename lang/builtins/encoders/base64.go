@@ -15,6 +15,7 @@ func init() {
 func cmdBase64(p *proc.Process) (err error) {
 	encoder := base64.NewEncoder(base64.StdEncoding, p.Stdout)
 	_, err = io.Copy(encoder, p.Stdin)
+	//p.Stdin.WriteTo(encoder)
 
 	encoder.Close()
 	p.Stdout.Writeln([]byte{})
@@ -24,5 +25,6 @@ func cmdBase64(p *proc.Process) (err error) {
 func cmdUnbase64(p *proc.Process) (err error) {
 	decoder := base64.NewDecoder(base64.StdEncoding, p.Stdin)
 	_, err = io.Copy(p.Stdout, decoder)
+	//p.Stdout.ReadFrom(decoder)
 	return
 }

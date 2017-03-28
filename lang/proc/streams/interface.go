@@ -20,5 +20,8 @@ type Io interface {
 	Write(p []byte) (int, error)
 	Writeln(p []byte) (int, error)
 
+	//ReadFrom(r io.Reader) (n int64, err error)
+	//WriteTo(w io.Writer) (n int64, err error)
+
 	Close()
 }
