@@ -42,9 +42,10 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName stri
 	}
 
 	compile(&tree, grandParent)
+
 	// Support for different run modes:
 	switch {
-	case grandParent.Name== "try":
+	case grandParent.Name == "try":
 		exitNum = runHyperSensitive(&tree)
 	default:
 		exitNum = runNormal(&tree)

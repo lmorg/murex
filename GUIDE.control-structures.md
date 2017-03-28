@@ -2,50 +2,58 @@
 
 ## if
 
-`if` supports 3 "modes" depending on the number of parameters:
+`if` supports 2 "modes":
 
-1. Method If: `conditional -> if: { true }`
-2. Function If: `if: { conditional } { true }`
-3. If Else: `if: { conditional } { true } { false }`
+1. Method If: `conditional -> if: { true } { false }`
+2. Function If: `if: { conditional } { true } { false }`
 
-The conditional is evaluated based on the output produced by the function
-and the exit number. Any non-zero exit numbers are an automatic "false".
-Any functions returning no data are also classed as a "false". For a full
-list of conditions that are evaluated to determine a true or false state
-of a function, please read the documentation on the `boolean` data type
-in [GUIDE.syntax.md](GUIDE.syntax.md#boolean).
+The conditional is evaluated based on the output produced by the
+function and the exit number. Any non-zero exit numbers are an automatic
+"false". Any functions returning no data are also classed as a "false".
+For a full list of conditions that are evaluated to determine a true or
+false state of a function, please read the documentation on the `boolean`
+data type in [GUIDE.syntax.md](GUIDE.syntax.md#boolean).
+
+Please also note that while the last parameter is optional, if it is
+left off and `if` or `!if` would have otherwise called it, then `if` /
+`!if` will return a non-zero exit number. The significance of this is
+important when using `if` or `!if` inside a `try` block.
 
 #### Method If
 
-This is where the conditional is evaluated from the result of the
-piped function.
+This is where the conditional is evaluated from the result of the piped
+function. The last parameter is optional.
 ```
+# if / then
 out: hello world | grep: world -> if: { out: world found }
+
+# if / then / else
+out: hello world | grep: world -> if: { out: world found } { out: world missing }
+
+# if / else
+out: hello world | grep: world -> !if: { out: world missing }
 ```
 
 #### Function If
 
-This is where the conditional is evaluated from the first parameter.
+This is where the conditional is evaluated from the first parameter. The
+last parameter is optional.
 ```
+# if / then / else
 if: { out: hello world | grep: world } { out: world found }
-```
 
-#### If Else
-
-Same as a Function If but with an Else block. This is the only usage of
-`if` that doesn't set the exit status to zero (0) if the "if" condition
-doesn't match "true".
-```
+# if / then / else
 if: { out: hello world | grep: world } { out: world found } { out: world missing }
+
+# if / else
+!if: { out: hello world | grep: world } { out: world missing }
 ```
 
-## else / !if
+## !if
 
-`if` also supports an anti-alias where the conditional is "notted".
-`else` is also an alias for `!if`.
-```
-out: hello world | grep: world -> if: { out: world found } -> else { out: world missing }
-```
+`if` also supports an anti-alias which will "not" the conditional,
+effectively reversing the "then" and "else" parameters. See `if` (above)
+for examples.
 
 ## foreach
 
@@ -65,11 +73,40 @@ while: { conditional } { iteration }
 This will force a different execution behavior. All pipelined processes
 will become sequential (unlike normally when they run in parallel) and
 any exit numbers not equal to zero (0) will terminate the code block.
-This also includes `if` statements so be very careful to use the three
-parameter `if` which handles the "else" condition without raising an
-error.
+This also includes `if` statements so be very careful to include an else
+parameter, even if it's an empty block, so `if` doesn't raise an error.
 
-To handle errors in `try`, pipe the result into `else`.
+If the try block fails then try will raise a non-zero error number. If
+you want to run an alternative block of code in an event of a failure
+then combine with the `catch` method.
 ```
-try: { out: "hello world" -> match: "foobar"; out: "other stuff" } -> else { out: "error raised" } 
+# try
+try: { out: hello world | grep: foobar; out: other stuff }
+
+# try / catch
+try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try` failed }
 ```
+
+## catch
+
+This works a little like the single parameter `!if` method except it
+only checks the exit number (not stdin) and the stdin stream is simply
+forwarded along the chain.
+
+`catch` is typically used alongside `try` but it can also be used on its
+own where you want to check the success of a routine while preserving
+its stdout stream.
+
+```
+# try / catch
+try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try` failed }
+
+# catch
+out: hello world | grep: foobar -> catch { out: foobar not found }
+
+# !catch
+out: hello world | grep: world -> catch { out: world found }
+```
+
+`catch` also supports anti-alias (`!catch`) where the code block only
+executes if the exit number equals zero.

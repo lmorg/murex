@@ -116,8 +116,15 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case quoteSingle, quoteDouble:
 				*pop += string(b)
 			case scanFuncName:
-				pErr = raiseErr(ErrUnexpectedOpenBrace, i)
-				return
+				//pErr = raiseErr(ErrUnexpectedOpenBrace, i)
+				//return
+				// Update function name:
+				scanFuncName = false
+				node.Parameters = make([]string, 1)
+				pop = &node.Parameters[0]
+				// Update first parameter:
+				*pop += string(b)
+				braceCount++
 			default:
 				*pop += string(b)
 				braceCount++

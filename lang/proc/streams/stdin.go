@@ -2,9 +2,9 @@ package streams
 
 import (
 	"bytes"
-	"io"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
+	"io"
 	"sync"
 )
 
@@ -16,7 +16,7 @@ type buffer struct {
 
 type Stdin struct {
 	sync.Mutex
-	data     []buffer
+	buffer   []buffer
 	closed   bool
 	bRead    uint64
 	bWritten uint64
@@ -25,7 +25,7 @@ type Stdin struct {
 
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
-	stdin.data = make([]buffer, 0)
+	stdin.buffer = make([]buffer, 0)
 	return
 }
 
@@ -59,27 +59,45 @@ func (rw *Stdin) Stats() (bytesWritten, bytesRead uint64) {
 
 // Standard Reader interface Read() method.
 func (read *Stdin) Read(p []byte) (i int, err error) {
-	for {
-		read.Lock()
-		if len(read.data) == 0 {
-			read.Unlock()
-			continue
-		}
-		break
+	read.Lock()
+	if len(read.buffer) == 0 {
+		read.Unlock()
+		return 0, nil
 	}
 
 	var eot bool
-	copy(p, make([]byte, len(p)))
-	if len(p) >= len(read.data[0].data) {
-		i = len(read.data[0].data)
-		copy(p, read.data[0].data)
-		eot = read.data[0].eot
-		read.data = read.data[1:]
-		debug.Log("read: [2]:", string(p), len(p), len(read.data))
+	//copy(p, make([]byte, len(p)))
+	if len(p) >= len(read.buffer[0].data) {
+		i = len(read.buffer[0].data)
+		copy(p, read.buffer[0].data)
+		/*for j := 0; j < i; j++ {
+			p[j] = read.data[0].data[j]
+		}*/
+		eot = read.buffer[0].eot
+		switch {
+		case eot && len(read.buffer[1:]) == 0:
+			read.buffer = make([]buffer, 0)
+
+		case eot && len(read.buffer[1:]) > 0:
+			read.buffer = []buffer{{
+				data: []byte{},
+				eot:  true,
+			}}
+			eot = false
+
+		default:
+			read.buffer = read.buffer[1:]
+		}
+		debug.Log("read: [2]:", string(p), len(p), len(read.buffer))
+
 	} else {
 		i = len(p)
-		copy(p, read.data[0].data[:i])
-		read.data[0].data = read.data[0].data[i+1:]
+		copy(p[:i], read.buffer[0].data[:i])
+		/*for j := 0; j < i; j++ {
+			p[j] = read.data[0].data[j]
+		}*/
+		read.buffer[0].data = read.buffer[0].data[i+1:]
+		debug.Log("read: [3]:", string(p), len(p), len(read.buffer))
 	}
 
 	read.bRead += uint64(i)
@@ -101,15 +119,15 @@ func (read *Stdin) ReadLine(line *string) (more bool) {
 scan:
 	for {
 		read.Lock()
-		if len(read.data) == 0 {
+		if len(read.buffer) == 0 {
 			read.Unlock()
 			continue
 		}
 		break
 	}
 
-	in := read.data[0]
-	read.data = read.data[1:]
+	in := read.buffer[0]
+	read.buffer = read.buffer[1:]
 	read.Unlock()
 
 	lines := bytes.SplitAfter(in.data, []byte{'\n'})
@@ -118,11 +136,11 @@ scan:
 		read.Lock()
 		for i := len(lines) - 1; i > 1; i-- {
 			if len(lines[i]) != 0 {
-				read.data = append([]buffer{{data: lines[i]}}, read.data...)
+				read.buffer = append([]buffer{{data: lines[i]}}, read.buffer...)
 			}
 		}
 		if in.eot {
-			read.data[len(read.data)-1].eot = true
+			read.buffer[len(read.buffer)-1].eot = true
 		}
 		read.Unlock()
 		*line = string(lines[0])
@@ -144,10 +162,10 @@ scan:
 
 	if len(remainder) != 0 {
 		read.Lock()
-		if len(read.data) > 0 {
-			read.data[0].data = append(remainder, read.data[0].data...)
+		if len(read.buffer) > 0 {
+			read.buffer[0].data = append(remainder, read.buffer[0].data...)
 		} else {
-			read.data = append(read.data, buffer{
+			read.buffer = append(read.buffer, buffer{
 				data: remainder,
 				eot:  false,
 			})
@@ -167,13 +185,13 @@ scan:
 func (read *Stdin) ReadData() (b []byte, more bool) {
 	for {
 		read.Lock()
-		if len(read.data) == 0 {
+		if len(read.buffer) == 0 {
 			read.Unlock()
 			continue
 		}
 
-		in := read.data[0]
-		read.data = read.data[1:]
+		in := read.buffer[0]
+		read.buffer = read.buffer[1:]
 		read.bRead += uint64(len(in.data))
 
 		read.Unlock()
@@ -194,13 +212,13 @@ func (read *Stdin) ReadData() (b []byte, more bool) {
 func (read *Stdin) ReaderFunc(callback func([]byte)) {
 	for {
 		read.Lock()
-		if len(read.data) == 0 {
+		if len(read.buffer) == 0 {
 			read.Unlock()
 			continue
 		}
 
-		in := read.data[0]
-		read.data = read.data[1:]
+		in := read.buffer[0]
+		read.buffer = read.buffer[1:]
 		read.bRead += uint64(len(in.data))
 
 		read.Unlock()
@@ -223,13 +241,13 @@ func (read *Stdin) ReadLineFunc(callback func([]byte)) {
 	var remainder []byte
 	for {
 		read.Lock()
-		if len(read.data) == 0 {
+		if len(read.buffer) == 0 {
 			read.Unlock()
 			continue
 		}
 
-		in := read.data[0]
-		read.data = read.data[1:]
+		in := read.buffer[0]
+		read.buffer = read.buffer[1:]
 
 		read.Unlock()
 
@@ -285,8 +303,9 @@ func (read *Stdin) ReadAll() (b []byte) {
 // Standard Writer interface Write() method.
 func (write *Stdin) Write(b []byte) (int, error) {
 	if len(b) == 0 {
-		return len(b), nil
+		return 0, nil
 	}
+
 	write.Lock()
 
 	if write.closed {
@@ -295,7 +314,7 @@ func (write *Stdin) Write(b []byte) (int, error) {
 		panic("Writing to closed pipe.")
 	}
 
-	write.data = append(write.data, buffer{data: b})
+	write.buffer = append(write.buffer, buffer{data: b})
 	write.bWritten += uint64(len(b))
 
 	write.Unlock()
@@ -333,7 +352,42 @@ func (write *Stdin) Close() {
 	}
 
 	write.closed = true
-	write.data = append(write.data, buffer{
+	write.buffer = append(write.buffer, buffer{
 		eot: true,
 	})
 }
+
+/*func (rw *Stdin) ReadFrom(src io.Reader) (n int64, err error) {
+	b := make([]byte, 1024)
+	for {
+		i, err := src.Read(b)
+		debug.Log("#############readfrom#####################", i, string(b))
+		rw.Write(b[:i])
+
+		n += int64(i)
+
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			}
+			return n, err
+		}
+	}
+	return n, nil
+}
+
+func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
+	var i int
+	rw.ReaderFunc(func(b []byte) {
+		i, err = dst.Write(b)
+		debug.Log("#############writeto#####################", i, string(b))
+		n += int64(i)
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			}
+			return
+		}
+	})
+	return
+}*/

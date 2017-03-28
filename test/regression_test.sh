@@ -131,7 +131,7 @@ while true; do
         51)shell 'printf: out\n->match: out; err: err' 2>&1 >/dev/null | check "err";;
         52)shell 'printf: out\n->match: out; err: err->match: out' 2>/dev/null | check "out";;
         53)shell 'printf: out\n->match: out; err: err' 2>&1            | check "$(echo -e 'out\nerr')";;
-        54)shell 'printf: out1\n->match: out1; printf: out2\n->match: out2' 2>&1 | check "$(echo -e 'out1\nout2')";;
+        54)shell 'printf:out1\n->match:out1;printf:out2\n->match:out2' 2>&1 | check "$(echo -e 'out1\nout2')";;
         55)shell 'printf: out\n->match: noout' 2>&1                   | check "";;
         56)shell 'printf: out\n->match: noout' 2>/dev/null            | check "";;
 
@@ -188,7 +188,7 @@ while true; do
         102)shell 'text: fox_crlf.txt->regex: ' 2>&1 | check "No parameters supplied.";;
         103)shell 'text: fox_crlf.txt->!regex: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
         104)shell 'text: fox_crlf.txt->!regex: ' 2>&1| check "No parameters supplied.";;
-        105)shell 'text: fox_crlf.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
+        105)shell 'text:fox_crlf.txt->!regex:m,[eo]->regex:s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
 
         106)shell 'out: out|grep: out' 2>&1 | check "out";;
         107)shell 'out: out | grep: out' 2>&1 | check "out";;
@@ -217,7 +217,7 @@ while true; do
 
         127)shell 'out: true->if: {out: match}' 2>&1 | check "match";;
         128)shell 'out: true->!if: {out: match}' 2>&1 | check "";;
-        129)shell 'out: true->if: {out: false} {out: match}' 2>&1 | check "";;
+        129)shell 'out: true->if: {out: true} {out: match}' 2>&1 | check "true";;
         130)shell 'out: true->!if: {out: false} {out: match}' 2>&1 | check "match";;
         131)shell 'if: {out: false} {out: match}' 2>&1 | check "";;
         132)shell '!if: {out: false} {out: match}' 2>&1 | check "match";;
@@ -264,12 +264,20 @@ while true; do
 
         173)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
 
-        174)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
-        175)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        176)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        177)shell 'out: test->escape->!escape' 2>&1 | check "test";;
-        178)shell 'out: test->gz->!gz' 2>&1         | check "test";;
+        174)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
+        175)shell 'try{out:1;out:2|grep:false;out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
+        176)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
+        177)shell 'try {out:1;out:2|grep:2;out:3}->catch{out:failed}' 2>&1 | check "1\n2\n\3";;
+        178)shell 'out:1;out:2|grep:false->catch{out:failed}' 2>&1 | check '1\nfailed';;
+        179)shell 'out:1;out:2|grep:2->catch{out:failed}' 2>&1 | check '1\n2';;
+        180)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;
+        181)shell 'out:1;out:2|grep:2->!catch{out:success}' 2>&1 | check '1\n2\nsuccess';;
 
+        182)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
+        183)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        184)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        185)shell 'out: test->escape->!escape' 2>&1 | check "test";;
+        186)shell 'out: test->gz->!gz' 2>&1         | check "test";;
 
         *) break
     esac

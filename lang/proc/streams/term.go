@@ -1,9 +1,8 @@
 package streams
 
 import (
-	"io"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
+	"io"
 	"os"
 	"sync"
 )
@@ -15,7 +14,7 @@ type term struct {
 	sync.Mutex
 	bWritten uint64
 	bRead    uint64
-	lastChar byte
+	//lastChar byte
 }
 
 func (t *term) MakeParent()               {}
@@ -26,7 +25,10 @@ func (t *term) ReadData() ([]byte, bool)  { return []byte{}, false }
 func (t *term) ReaderFunc(func([]byte))   {}
 func (t *term) ReadLineFunc(func([]byte)) {}
 func (t *term) ReadAll() []byte           { return []byte{} }
-func (t *term) Write([]byte) (int, error) { return 0, nil } // i probably dont want
+func (t *term) Close()                    {}
+
+//func (t *term) ReadFrom(r io.Reader) (int64, error) { return 0, io.EOF }
+//func (t *term) WriteTo(io.Writer) (int64, error)    { return 0, io.EOF }
 
 func (t *term) Stats() (bytesWritten, bytesRead uint64) {
 	t.Lock()
@@ -34,13 +36,6 @@ func (t *term) Stats() (bytesWritten, bytesRead uint64) {
 	bytesRead = t.bRead
 	t.Unlock()
 	return
-}
-
-func (t *term) Close() { // i probably dont want
-	if t.lastChar != '\n' {
-		t.Write(utils.NewLineByte)
-	}
-	debug.Log("agggghhhh", t.lastChar)
 }
 
 // Terminal: Standard Out
@@ -55,9 +50,9 @@ func (t *TermOut) Write(b []byte) (i int, err error) {
 	i, err = os.Stdout.Write(b)
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
-	} else if len(b) > 0 {
+	} /*else if len(b) > 0 {
 		t.lastChar = b[len(b)-1]
-	}
+	}*/
 	t.Unlock()
 	return
 }
@@ -66,6 +61,13 @@ func (t *TermOut) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	return t.Write(line)
 }
+
+/*func (t *TermOut) Close() {
+	if t.lastChar != '\n' {
+		t.Write(utils.NewLineByte)
+		debug.Log("Appending \\n to", t.lastChar)
+	}
+}*/
 
 // Terminal: Standard Error
 
@@ -79,9 +81,9 @@ func (t *TermErr) Write(b []byte) (i int, err error) {
 	i, err = os.Stderr.Write(b)
 	if err != nil {
 		os.Stdout.WriteString(err.Error())
-	} else if len(b) > 0 {
+	} /*else if len(b) > 0 {
 		t.lastChar = b[len(b)-1]
-	}
+	}*/
 	t.Unlock()
 	return
 }

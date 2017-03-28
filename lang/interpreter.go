@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 )
@@ -105,8 +106,8 @@ func runNormal(tree *Nodes) (exitNum int) {
 	return
 }
 
-
 func runHyperSensitive(tree *Nodes) (exitNum int) {
+	debug.Log("Entering Hyper Sensitive mode!!!")
 	if len(*tree) == 0 {
 		return 1
 	}
@@ -116,7 +117,7 @@ func runHyperSensitive(tree *Nodes) (exitNum int) {
 	for i := range *tree {
 		(*tree)[i].Process.Execute()
 		exitNum = (*tree)[i].Process.ExitNum
-		if exitNum!= 0 {
+		if exitNum != 0 {
 			return
 		}
 	}
