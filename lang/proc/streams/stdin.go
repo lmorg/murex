@@ -35,7 +35,7 @@ func (rw *Stdin) UnmakeParent() {
 	rw.Lock()
 	if !rw.isParent {
 		// Should be fine to panic because this runtime error is generated from block compilation.
-		panic("Cannot call CloseParent() on stdin not marked as Parent.")
+		panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
 	}
 	rw.isParent = false
 
@@ -82,6 +82,8 @@ func (read *Stdin) Read(p []byte) (i int, err error) {
 
 // Reads a line at a time. This method will be slower than the other Read* methods because ReadLine() needs to be
 // stateless. So ReadLine() will write back to the interface on occasions where \n appears mid-buffer.
+// The observant of you will notice lots of ugly `goto`s. I know it's a /faux/ pas in modern languages but in this
+// instance I believe it's the structure that produces the cleaner and most readable code.
 func (read *Stdin) ReadLine(line *string) (more bool) {
 	defer func() {
 		read.bRead += uint64(len(*line))
@@ -107,24 +109,46 @@ start:
 
 	lines := bytes.SplitAfter(b, []byte{'\n'})
 
+	// Empty line. Let's just discard it.
+	if (len(lines[0]) == 1 && lines[0][0] == '\n') ||
+		(len(lines[0]) == 2 && lines[0][0] == '\r' && lines[0][1] == '\n') {
+		lines = lines[1:]
+	}
+
+	// Just check we haven't emptied the slice through doing the above.
+	if len(lines) == 0 {
+		goto start
+	}
+
+	// Multiple lines. Take the first then push the rest back into the beginning of the Reader's slice.
 	if len(lines) > 1 {
 		*line = string(lines[0])
 		read.buffer = append(lines[1:], read.buffer...)
 		return
 	}
 
+	// One line. Just nothing more needs to be done other than returning it.
 	if len(lines[0]) > 0 && lines[0][len(lines[0])] == '\n' {
 		*line = string(lines[0])
 		return
 	}
 
+	// Values found but missing a \n. So we'll push it back to the beginning of the Reader's slice. and wait for a
+	// complete line.
 	if len(read.buffer) > 0 {
 		read.buffer[0] = append(lines[0], read.buffer[0]...)
-
-	} else {
-		read.buffer = lines
+		goto start
 	}
 
+	// Values found and Reader's slice is empty. If the Reader interface is closed then we'll just append \n and
+	// return that.
+	if read.closed {
+		*line = string(lines[0]) + utils.NewLineString
+		return false
+	}
+
+	// ...otherwise push the values back onto the Reader slice and wait for a complete line.
+	read.buffer = lines
 	goto start
 }
 
@@ -179,13 +203,18 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 	}
 }
 
-// Should be more performant than ReadLine() because it's uses callback functions (ie does not need to be stateless).
+// Should be more performant than ReadLine() because it's uses callback functions (ie does not need to be stateless) so
+// we don't need to keep pushing stuff back to the interfaces buffer.
 func (read *Stdin) ReadLineFunc(callback func([]byte)) {
 	var remainder []byte
 	for {
 		read.Lock()
 		if len(read.buffer) == 0 {
 			if read.closed {
+				if len(remainder) > 0 {
+					read.bRead += uint64(len(remainder))
+					callback(remainder)
+				}
 				read.Unlock()
 				return
 			}
@@ -202,36 +231,48 @@ func (read *Stdin) ReadLineFunc(callback func([]byte)) {
 		lines[0] = append(remainder, lines[0]...)
 		remainder = []byte{}
 
+		debug.Log("lines count:", len(lines))
+
+		// Lots of lines so lets just dump all of them out bar the last one; ignoring any empty lines.
 		for len(lines) > 1 {
-			if len(lines[0]) > 0 {
+			if len(lines[0]) > 1 && !(len(lines[0]) == 2 && lines[0][0] == '\r') {
 				read.Lock()
 				read.bRead += uint64(len(lines[0]))
 				read.Unlock()
+				debug.Log("lines callback", string(lines[0]))
 				callback(lines[0])
 			}
 			lines = lines[1:]
 		}
 
-		if len(lines[0]) > 0 && lines[0][len(lines[0])-1] == '\n' {
+		debug.Log("lines: [0] == ", string(lines[0]))
+		// Empty line. Let's just discard it.
+		if (len(lines[0]) == 1 && lines[0][0] == '\n') ||
+			(len(lines[0]) == 2 && lines[0][0] == '\r' && lines[0][1] == '\n') {
+			continue
+		}
+
+		// Valid line. Callback it.
+		if len(lines[0]) > 1 && lines[0][len(lines[0])-1] == '\n' {
 			read.Lock()
 			read.bRead += uint64(len(lines[0]))
 			read.Unlock()
 			callback(lines[0])
-
-			lines = lines[1:]
-
-		} else {
-			if read.closed {
-				lines[0] = append(lines[0], utils.NewLineByte...)
-				read.Lock()
-				read.bRead += uint64(len(lines[0]))
-				read.Unlock()
-				callback(lines[0])
-			} else {
-				remainder = lines[0]
-			}
+			continue
 		}
 
+		// Now we just have an incomplete line. So lets check if the interface is closed and if so append a \n.
+		if read.closed {
+			lines[0] = append(lines[0], utils.NewLineByte...)
+			read.Lock()
+			read.bRead += uint64(len(lines[0]))
+			read.Unlock()
+			callback(lines[0])
+			return
+		}
+
+		// Otherwise we're safe to add it to the remainder and wait for more data.
+		remainder = lines[0]
 	}
 
 	return
@@ -295,7 +336,7 @@ func (write *Stdin) Close() {
 	write.closed = true
 }
 
-/*func (rw *Stdin) ReadFrom(src io.Reader) (n int64, err error) {
+func (rw *Stdin) ReadFrom(src io.Reader) (n int64, err error) {
 	b := make([]byte, 1024)
 	for {
 		i, err := src.Read(b)
@@ -328,4 +369,4 @@ func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 		}
 	})
 	return
-}*/
+}

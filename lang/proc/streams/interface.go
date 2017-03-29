@@ -1,5 +1,7 @@
 package streams
 
+import "io"
+
 // This is the stream interface that's used for the shell functions streaming of data via standard in, out and err.
 // It's written to be compatible with Go Reader and Writer interfaces however does expand upon then with additional
 // helper methods  to enable easier writing of builtin shell functions.
@@ -20,8 +22,8 @@ type Io interface {
 	Write(p []byte) (int, error)
 	Writeln(p []byte) (int, error)
 
-	//ReadFrom(r io.Reader) (n int64, err error)
-	//WriteTo(w io.Writer) (n int64, err error)
+	ReadFrom(r io.Reader) (n int64, err error)
+	WriteTo(w io.Writer) (n int64, err error)
 
 	Close()
 }

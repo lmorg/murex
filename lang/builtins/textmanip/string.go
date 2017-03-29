@@ -24,12 +24,14 @@ func cmdMatch(p *proc.Process) error {
 		return errors.New("No parameters supplied.")
 	}
 
-	p.Stdin.ReadLineFunc(func(b []byte) {
+	var s string
+	for p.Stdin.ReadLine(&s) {
+		b := []byte(s)
 		matched := bytes.Contains(b, p.Parameters.AllByte())
 		if (matched && !p.Not) || (!matched && p.Not) {
 			p.Stdout.Write(b)
 		}
-	})
+	}
 
 	return nil
 }
