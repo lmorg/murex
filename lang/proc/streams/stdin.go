@@ -85,27 +85,22 @@ func (read *Stdin) Read(p []byte) (i int, err error) {
 // The observant of you will notice lots of ugly `goto`s. I know it's a /faux/ pas in modern languages but in this
 // instance I believe it's the structure that produces the cleaner and most readable code.
 func (read *Stdin) ReadLine(line *string) (more bool) {
-	defer func() {
-		read.bRead += uint64(len(*line))
-		read.Unlock()
-	}()
-
 	more = true
 
 start:
-	for {
-		read.Lock()
-		if len(read.buffer) == 0 {
-			if read.closed {
-				return false
-			}
+	read.Lock()
+	if len(read.buffer) == 0 {
+		if read.closed {
 			read.Unlock()
-			continue
+			return false
 		}
+		read.Unlock()
+		goto start
 	}
 
 	b := read.buffer[0]
 	read.buffer = read.buffer[1:]
+	read.Unlock()
 
 	lines := bytes.SplitAfter(b, []byte{'\n'})
 
@@ -123,20 +118,30 @@ start:
 	// Multiple lines. Take the first then push the rest back into the beginning of the Reader's slice.
 	if len(lines) > 1 {
 		*line = string(lines[0])
+		read.Lock()
 		read.buffer = append(lines[1:], read.buffer...)
+		read.bRead += uint64(len(*line))
+		read.Unlock()
 		return
 	}
 
 	// One line. Just nothing more needs to be done other than returning it.
-	if len(lines[0]) > 0 && lines[0][len(lines[0])] == '\n' {
+	if len(lines[0]) > 0 && lines[0][len(lines[0])-1] == '\n' {
 		*line = string(lines[0])
+		read.Lock()
+		read.bRead += uint64(len(*line))
+		read.Unlock()
 		return
 	}
+
+	// It's probably safer to assume the interface needs locking for the following lines of code:
+	read.Lock()
 
 	// Values found but missing a \n. So we'll push it back to the beginning of the Reader's slice. and wait for a
 	// complete line.
 	if len(read.buffer) > 0 {
 		read.buffer[0] = append(lines[0], read.buffer[0]...)
+		read.Unlock()
 		goto start
 	}
 
@@ -144,11 +149,14 @@ start:
 	// return that.
 	if read.closed {
 		*line = string(lines[0]) + utils.NewLineString
+		read.bRead += uint64(len(*line))
+		read.Unlock()
 		return false
 	}
 
 	// ...otherwise push the values back onto the Reader slice and wait for a complete line.
 	read.buffer = lines
+	read.Unlock()
 	goto start
 }
 
@@ -206,6 +214,13 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 // Should be more performant than ReadLine() because it's uses callback functions (ie does not need to be stateless) so
 // we don't need to keep pushing stuff back to the interfaces buffer.
 func (read *Stdin) ReadLineFunc(callback func([]byte)) {
+	var s string
+	for read.ReadLine(&s) {
+		callback([]byte(s))
+	}
+}
+
+/*func (read *Stdin) ReadLineFunc(callback func([]byte)) {
 	var remainder []byte
 	for {
 		read.Lock()
@@ -276,7 +291,7 @@ func (read *Stdin) ReadLineFunc(callback func([]byte)) {
 	}
 
 	return
-}
+}*/
 
 // Read everything and dump it into one byte slice.
 func (read *Stdin) ReadAll() (b []byte) {
@@ -336,7 +351,7 @@ func (write *Stdin) Close() {
 	write.closed = true
 }
 
-func (rw *Stdin) ReadFrom(src io.Reader) (n int64, err error) {
+/*func (rw *Stdin) ReadFrom(src io.Reader) (n int64, err error) {
 	b := make([]byte, 1024)
 	for {
 		i, err := src.Read(b)
@@ -369,4 +384,4 @@ func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 		}
 	})
 	return
-}
+}*/
