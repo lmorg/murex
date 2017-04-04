@@ -10,6 +10,6 @@ func init() {
 	proc.GlobalConf.Define("shell", "Prompt", config.Properties{
 		Description: "Shell prompt",
 		Default:     `{ out: "murex » " }`,
-		DataType:    types.String,
+		DataType:    types.CodeBlock,
 	})
 }
