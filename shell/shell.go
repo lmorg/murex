@@ -4,18 +4,21 @@ import (
 	"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
 func Start() {
 	rl, err := readline.NewEx(&readline.Config{
-		Prompt:          "\033[31m»\033[0m ",
+		//Prompt:          "\033[31m»\033[0m ",
 		HistoryFile:     "murex.history",
 		AutoComplete:    createCompleter(),
-		InterruptPrompt: "^C",
+		InterruptPrompt: "^c",
 		//EOFPrompt:       "exit",
 
 		HistorySearchFold:   true,
@@ -28,10 +31,25 @@ func Start() {
 	defer rl.Close()
 
 	for {
-		//prompt, _ := proc.GlobalConf.Get("shell", "Prompt", types.CodeBlock)
-		//out := streams.NewStdin()
-		//lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, types.Null)
-		//rl.SetPrompt(string(out.ReadAll()))
+		prompt, _ := proc.GlobalConf.Get("shell", "Prompt", types.CodeBlock)
+		out := streams.NewStdin()
+		exitNum, err := lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, types.Null)
+		out.Close()
+		b := out.ReadAll()
+		if exitNum != 0 || err != nil {
+			os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
+			b = []byte("murex » ")
+		}
+
+		if b[len(b)-1] == '\n' {
+			b = b[:len(b)-1]
+		}
+
+		if b[len(b)-1] == '\r' {
+			b = b[:len(b)-1]
+		}
+
+		rl.SetPrompt(string(b))
 
 		line, err := rl.Readline()
 		if err == readline.ErrInterrupt {

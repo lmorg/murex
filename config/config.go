@@ -49,7 +49,13 @@ func (gc *Config) Get(app, key, dataType string) (value interface{}, err error) 
 		return nil, errors.New("Cannot Get() that value when no config properties have been defined for that app and key.")
 	}
 
-	value, err = types.ConvertGoType(gc.values[app][key], dataType)
+	var v interface{}
+	v= gc.values[app][key]
+	if v == nil {
+		v = gc.properties[app][key].Default
+	}
+
+	value, err = types.ConvertGoType(v, dataType)
 	gc.mutex.Unlock()
 	return
 }

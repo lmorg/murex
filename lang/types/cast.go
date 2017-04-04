@@ -40,7 +40,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			}
 			return false, nil
 		case CodeBlock:
-			return fmt.Sprintf("{ out(%d) }", v), nil
+			return fmt.Sprintf("out: %d", v), nil
 		case String:
 			return strconv.Itoa(v.(int)), nil
 		case Json:
@@ -67,7 +67,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			}
 			return false, nil
 		case CodeBlock:
-			return fmt.Sprintf("{ out(%f) }", v), nil
+			return fmt.Sprintf("out: %f", v), nil
 		case String:
 			return fmt.Sprintf("%f", v), nil
 		case Json:
@@ -93,9 +93,9 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return v, nil
 		case CodeBlock:
 			if v.(bool) == true {
-				return "{ true() }", nil
+				return "true", nil
 			}
-			return "{ false() }", nil
+			return "false", nil
 		case String:
 			if v.(bool) == true {
 				return string(TrueByte), nil
@@ -125,11 +125,14 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		case Boolean:
 			return IsTrue([]byte(v.(string)), 0), nil
 		case CodeBlock:
-			return fmt.Sprintf("{ out(%s) }", v), nil
-		case String:
+			if v.(string)[0] == '{' && v.(string)[len(v.(string))-1] == '}' {
+				return v.(string)[1 : len(v.(string))-1], nil
+			}
+			return "out: '" + v.(string) + "'", nil
+		case String, Json:
 			return v, nil
-		case Json:
-			return fmt.Sprintf(`{"Value": "%s";}`, v), nil
+		//case Json:
+		//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
 		case Xml:
 			return nil, errors.New(ErrConversionFailed)
 		case Null:
