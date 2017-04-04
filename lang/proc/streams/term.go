@@ -25,10 +25,8 @@ func (t *term) ReadData() ([]byte, bool)  { return []byte{}, false }
 func (t *term) ReaderFunc(func([]byte))   {}
 func (t *term) ReadLineFunc(func([]byte)) {}
 func (t *term) ReadAll() []byte           { return []byte{} }
+func (t *term) WriteTo(io.Writer) (int64, error)    { return 0, io.EOF }
 func (t *term) Close()                    {}
-
-//func (t *term) ReadFrom(r io.Reader) (int64, error) { return 0, io.EOF }
-//func (t *term) WriteTo(io.Writer) (int64, error)    { return 0, io.EOF }
 
 func (t *term) Stats() (bytesWritten, bytesRead uint64) {
 	t.Lock()

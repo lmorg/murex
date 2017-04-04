@@ -1,11 +1,11 @@
 package streams
 
 import (
-	"bytes"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"sync"
+	"bytes"
 )
 
 type Stdin struct {
@@ -355,7 +355,7 @@ func (write *Stdin) Close() {
 	b := make([]byte, 1024)
 	for {
 		i, err := src.Read(b)
-		debug.Log("#############readfrom#####################", i, string(b))
+		//debug.Log("#############readfrom#####################", i, string(b))
 		rw.Write(b[:i])
 
 		n += int64(i)
@@ -368,13 +368,13 @@ func (write *Stdin) Close() {
 		}
 	}
 	return n, nil
-}
+}*/
 
 func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 	var i int
 	rw.ReaderFunc(func(b []byte) {
 		i, err = dst.Write(b)
-		debug.Log("#############writeto#####################", i, string(b))
+		//debug.Log("#############writeto#####################", i, string(b))
 		n += int64(i)
 		if err != nil {
 			if err == io.EOF {
@@ -384,4 +384,4 @@ func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 		}
 	})
 	return
-}*/
+}
