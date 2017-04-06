@@ -11,6 +11,7 @@ import (
 var (
 	fCommand string
 	fStdin   bool
+	fTrace   string
 
 	fHelp1 bool
 	fHelp2 bool
@@ -19,13 +20,14 @@ var (
 
 func readFlags() {
 	flag.StringVar(&fCommand, "c", "", "Run command block - read from parameters")
-	flag.BoolVar(&fStdin, "--stdin", false, "Run command block - read from STDIN")
+	flag.BoolVar(&fStdin, "stdin", false, "Run command block - read from STDIN")
 
 	flag.BoolVar(&fHelp1, "?", false, "Help")
 	flag.BoolVar(&fHelp2, "h", false, "Help")
 	flag.BoolVar(&fHelp3, "help", false, "Help")
 
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
+	flag.StringVar(&fTrace, "trace", "", "Trace")
 	flag.BoolVar(&debug.EchoOn, "echo", false, "Echo on")
 
 	flag.Parse()
