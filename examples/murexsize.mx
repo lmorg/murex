@@ -1,0 +1,5 @@
+#!/usr/bin/env murex
+
+which murex -> set murex;
+ls -lh $murex -> regex f/[0-9.]+M/ -> set size;
+out This executable is $size big!

@@ -11,15 +11,15 @@ func init() {
 	proc.GoFunctions["set"] = proc.GoFunction{Func: cmdSet, TypeIn: types.Generic, TypeOut: types.Null}
 }
 
-func cmdSet(p *proc.Process) (err error) {
+func cmdSet(p *proc.Process) error {
 	s, err := p.Parameters.String(0)
 	if err != nil {
-		return
+		return err
 	}
 
-	proc.GlobalVars.Set(s, string(p.Stdin.ReadAll()), p.Previous.ReturnType)
+	err = proc.GlobalVars.Set(s, string(p.Stdin.ReadAll()), p.Previous.ReturnType)
 
-	return nil
+	return err
 }
 
 func cmdGlobals(p *proc.Process) error {

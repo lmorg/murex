@@ -90,15 +90,24 @@ func (v *Vars) GetString(name string) (value string) {
 }
 
 // Set a variable.
-func (v *Vars) Set(name string, value interface{}, dataType string) {
+func (v *Vars) Set(name string, value interface{}, dataType string) error {
 	v.mutex.Lock()
 	v.types[name] = dataType
+
 	switch dataType {
 	case Integer:
-		v.ints[name] = value.(int)
+		i, err := ConvertGoType(value, dataType)
+		if err != nil {
+			return err
+		}
+		v.ints[name] = i.(int)
 
 	case Float:
-		v.floats[name] = value.(float64)
+		f, err := ConvertGoType(value, dataType)
+		if err != nil {
+			return err
+		}
+		v.floats[name] = f.(float64)
 
 	/*case types.Boolean:
 	if types.IsTrue([]byte(v.strings[name]), 0) {
@@ -108,11 +117,15 @@ func (v *Vars) Set(name string, value interface{}, dataType string) {
 	}*/
 
 	default:
-		v.strings[name] = strings.TrimSpace(value.(string))
+		s, err := ConvertGoType(value, dataType)
+		if err != nil {
+			return err
+		}
+		v.strings[name] = strings.TrimSpace(s.(string))
 	}
 
 	v.mutex.Unlock()
-	return
+	return nil
 }
 
 // Replaces variable key names with values inside a string.

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -119,7 +120,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		case Generic:
 			return v, nil
 		case Integer:
-			return strconv.Itoa(v.(int)), nil
+			return strconv.Atoi(strings.TrimSpace(v.(string)))
 		case Float:
 			return strconv.ParseFloat(v.(string), 64)
 		case Boolean:

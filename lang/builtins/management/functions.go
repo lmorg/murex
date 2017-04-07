@@ -14,7 +14,8 @@ func init() {
 	proc.GoFunctions["debugmode"] = proc.GoFunction{Func: cmdDebugMode, TypeIn: types.Null, TypeOut: types.Boolean}
 	proc.GoFunctions["exitnum"] = proc.GoFunction{Func: cmdExitNum, TypeIn: types.Generic, TypeOut: types.Integer}
 	proc.GoFunctions["config"] = proc.GoFunction{Func: cmdConfig, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["builtins"] = proc.GoFunction{Func: cmdListBuiltins, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["builtins"] = proc.GoFunction{Func: cmdListBuiltins, TypeIn: types.Null, TypeOut: types.String}
+	proc.GoFunctions["bexists"] = proc.GoFunction{Func: cmdBuiltinExists, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["cd"] = proc.GoFunction{Func: cmdCd, TypeIn: types.Null, TypeOut: types.Null}
 }
 
@@ -46,6 +47,31 @@ func cmdListBuiltins(p *proc.Process) error {
 	}
 
 	return nil
+}
+
+func cmdBuiltinExists(p *proc.Process) error {
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing parameters. Please name builtins you want to check.")
+	}
+
+	var j struct {
+		Installed []string
+		Missing   []string
+	}
+
+	for _, name := range p.Parameters {
+		if proc.GoFunctions[name].Func != nil {
+			j.Installed = append(j.Installed, name)
+		} else {
+			j.Missing = append(j.Missing, name)
+			p.ExitNum++
+		}
+	}
+
+	b, err := json.MarshalIndent(j, "", "\t")
+	p.Stdout.Writeln(b)
+
+	return err
 }
 
 func cmdConfig(p *proc.Process) error {
@@ -81,7 +107,7 @@ func cmdConfig(p *proc.Process) error {
 		err := proc.GlobalConf.Set(p.Parameters.String(1), p.Parameters.String(2), p.Stdin.ReadAll())
 		return err*/
 	default:
-		return errors.New("Unknown option.")
+		return errors.New("Unknown option. Please get or set.")
 	}
 
 	return nil

@@ -13,6 +13,8 @@ var (
 	fStdin   bool
 	fTrace   string
 
+	fSource []string
+
 	fHelp1 bool
 	fHelp2 bool
 	fHelp3 bool
@@ -38,4 +40,6 @@ func readFlags() {
 		flag.Usage()
 		os.Exit(1)
 	}
+
+	fSource = flag.Args()
 }

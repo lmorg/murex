@@ -1,0 +1,10 @@
+#!/usr/bin/env murex
+
+out This is a list of builtin functions and methods:;
+builtins;
+
+out The following functions were tested to see if they were compiled in:;
+bexists try catch if foo bar;
+exitnum -> set count;
+out $count functions were not compiled.
+
