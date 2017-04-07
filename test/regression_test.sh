@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Regressing tests
+# Regression tests
 cd test
 JSH="../murex"
 timeout="1.1"
@@ -54,7 +54,6 @@ reps() {
     printf "[%3d] $DESC%-50s $NC" $i "$2 REPS: $1" >$TTY
     timeout $repstimeout bash -c "( for i in {1..$2}; do echo -n '->';	$JSH -c '$1'; done ) | wc -l | sed -r 's/ //g'"
     if [ $? -eq 124 ]; then
-        #echo "timed out"
         printf "$TIMEDOUT " >$TTY
     fi
 }
@@ -77,7 +76,7 @@ while true; do
         3)shell 'out: out # comment' 2>&1           | check "out";;
         4)shell 'out: out; err: err' 2>/dev/null     | check "out";;
         5)shell 'out: out; err: err' 2>&1 >/dev/null | check "err";;
-        6)shell 'out: out; err: err' 2>&1            | check "echo -e 'out\nerr";;
+        6)shell 'out: out; err: err' 2>&1            | check "out\nerr";;
 
         7)shell 'out: o u t' 2>&1   | check "o u t";;
         8)shell 'err: o u t' 2>&1   | check "o u t";;
@@ -96,10 +95,10 @@ while true; do
         21)shell 'out: `o,u,t`' 2>&1 | check '`o,u,t`';;
         22)shell 'err: `o,u,t`' 2>&1 | check '`o,u,t`';;
 
-        #23)shell 'printf: out\n' 2>&1                  | check "out";;
-        #24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "echo -e 'out1\nout2";;
-        23)shell 'printf: out\n' 2>&1                  | check "out\r";;                         # printf with a pty sends \r\n
-        24)shell 'printf: out1\n; printf: out2\n' 2>&1 | check "out1\r\nout2\r";; # printf with a pty sends \r\n
+        #23)shell 'printf: out\n' 2>&1                  | check "out";;                      # `printf` without a pty sends \n
+        #24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "echo -e 'out1\nout2";;   # `printf` without a pty sends \n
+        23)shell 'printf: out\n' 2>&1                  | check "out\r";;                     # `printf` with a pty sends \r\n
+        24)shell 'printf: out1\n; printf: out2\n' 2>&1 | check "out1\r\nout2\r";;            # `printf` with a pty sends \r\n
         25)shell 'printf: out\n | grep: out' 2>&1      | check "out";;
         26)shell 'out: out | grep: out' 2>&1         | check "out";;
         27)shell 'err: err | grep: err' 2>/dev/null  | check "";;
@@ -255,36 +254,55 @@ while true; do
         164)shell 'out: passed->!if: {out: match}' 2>&1 | check "";;
         165)shell 'out: failed->if: {out: match}' 2>&1 | check "";;
         166)shell 'out: failed->!if: {out: match}' 2>&1 | check "match";;
-        167)shell 'true: ->if: {out: match}' 2>&1 | check "match";;
-        168)shell 'true: ->!if: {out: match}' 2>&1 | check "";;
-        169)shell 'false: ->if: {out: match}' 2>&1 | check "";;
-        170)shell 'false: ->!if: {out: match}' 2>&1 | check "match";;
-        171)shell 'true: ->!' 2>&1 | check "false";;
-        172)shell 'false: ->!' 2>&1 | check "true";;
+        167)shell 'true ->if: {out: match}' 2>&1 | check "match";;
+        168)shell 'true ->!if: {out: match}' 2>&1 | check "";;
+        169)shell 'false ->if: {out: match}' 2>&1 | check "";;
+        170)shell 'false ->!if: {out: match}' 2>&1 | check "match";;
+        171)shell 'false ->if: {out: match}' 2>&1 | check "";;
+        172)shell 'false ->!if: {out: match}' 2>&1 | check "match";;
+        173)shell 'true ->!' 2>&1 | check "false";;
+        174)shell 'false ->!' 2>&1 | check "true";;
 
-        173)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
+        175)shell 'true         ->catch  {out: catch}' 2>&1 | check "true";;
+        176)shell 'false        ->catch  {out: catch}' 2>&1 | check "false\ncatch";;
+        177)shell 'true         ->!catch {out: catch}' 2>&1 | check "true\ncatch";;
+        178)shell 'false        ->!catch {out: catch}' 2>&1 | check "false";;
+        179)shell 'try { true  }->catch  {out: catch}' 2>&1 | check "true";;
+        180)shell 'try { false }->catch  {out: catch}' 2>&1 | check "false\ncatch";;
+        181)shell 'try { true  }->!catch {out: catch}' 2>&1 | check "true\ncatch";;
+        182)shell 'try { false }->!catch {out: catch}' 2>&1 | check "false";;
 
-        174)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
-        175)shell 'try{out:1;out:2|grep:false;out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
-        176)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
-        177)shell 'try {out 1;out 2|grep 2;out 3}->catch{out failed}' 2>&1 | check "1\n2\n3";;
-        178)shell 'try {out 1;out 2|grep 2;out 3}->!catch{out failed}' 2>&1 | check "1\n2\n3\nfailed";;
-        179)shell 'out:1;out:2|grep:false->catch{out:failed}' 2>&1 | check '1\nfailed';;
-        180)shell 'out:1;out:2|grep:2->catch{out:failed}' 2>&1 | check '1\n2';;
-        181)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;
-        182)shell 'out:1;out:2|grep:2->!catch{out:success}' 2>&1 | check '1\n2\nsuccess';;
+        183)shell 'true         ->catch  {out: catch}->else {out: else}' 2>&1 | check "true\nelse";;
+        184)shell 'false        ->catch  {out: catch}->else {out: else}' 2>&1 | check "false\ncatch";;
+        185)shell 'true         ->!catch {out: catch}->else {out: else}' 2>&1 | check "true\ncatch";;
+        186)shell 'false        ->!catch {out: catch}->else {out: else}' 2>&1 | check "false\nelse";;
+        187)shell 'try { true  }->catch  {out: catch}->else {out: else}' 2>&1 | check "true\nelse";;
+        188)shell 'try { false }->catch  {out: catch}->else {out: else}' 2>&1 | check "false\ncatch";;
+        189)shell 'try { true  }->!catch {out: catch}->else {out: else}' 2>&1 | check "true\ncatch";;
+        190)shell 'try { false }->!catch {out: catch}->else {out: else}' 2>&1 | check "false\nelse";;
 
-        183)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
-        184)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        185)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        186)shell 'out: test->escape->!escape' 2>&1 | check "test";;
-        187)shell 'out: test->gz->!gz' 2>&1         | check "test";;
+        191)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
+
+        192)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
+        193)shell 'try{out:1;out:2|grep:false;out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
+        194)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
+        195)shell 'try {out 1;out 2|grep 2;out 3}->catch{out failed}' 2>&1 | check "1\n2\n3";;
+        196)shell 'try {out 1;out 2|grep 2;out 3}->!catch{out failed}' 2>&1 | check "1\n2\n3\nfailed";;
+        197)shell 'out:1;out:2|grep:false->catch{out:failed}' 2>&1 | check '1\nfailed';;
+        198)shell 'out:1;out:2|grep:2->catch{out:failed}' 2>&1 | check '1\n2';;
+        199)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;
+        200)shell 'out:1;out:2|grep:2->!catch{out:success}' 2>&1 | check '1\n2\nsuccess';;
+
+        201)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
+        202)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        203)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        204)shell 'out: test->escape->!escape' 2>&1 | check "test";;
+        205)shell 'out: test->gz->!gz' 2>&1         | check "test";;
 
         *) break
     esac
     let failed=$failed+$?
     let i++
-    #sleep 0.050
 done
 
 echo -e "\nAll tests have been run. $failed failed."
