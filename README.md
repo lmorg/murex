@@ -84,10 +84,6 @@ TODO rather than bug.
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
 
-* _No support for reading saved files._ Again this is an easy fix but
-wasn't required for the MVP. However it will be needed if I want support
-for sha-bang (`#!/bin/env`-prefixed scripts).
-
 * _The lang/builins/encoders package exhibits weird behaviors as seen
 from the failing regression tests._ This is a tougher problem to crack.
 My current working theory is that there is a race condition with io.Copy
