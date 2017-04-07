@@ -38,14 +38,16 @@ func cmdCatch(p *proc.Process) error {
 		return err
 	}
 
+	p.ExitNum = p.Previous.ExitNum
+
 	if p.Previous.ExitNum != 0 && !p.Not {
-		p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
+		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
 		if err != nil {
 			return err
 		}
 
 	} else if p.Previous.ExitNum == 0 && p.Not {
-		p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
+		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
 		if err != nil {
 			return err
 		}

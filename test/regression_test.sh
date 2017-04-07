@@ -272,14 +272,14 @@ while true; do
         181)shell 'try { true  }->!catch {out: catch}' 2>&1 | check "true\ncatch";;
         182)shell 'try { false }->!catch {out: catch}' 2>&1 | check "false";;
 
-        183)shell 'true         ->catch  {out: catch}->else {out: else}' 2>&1 | check "true\nelse";;
-        184)shell 'false        ->catch  {out: catch}->else {out: else}' 2>&1 | check "false\ncatch";;
-        185)shell 'true         ->!catch {out: catch}->else {out: else}' 2>&1 | check "true\ncatch";;
-        186)shell 'false        ->!catch {out: catch}->else {out: else}' 2>&1 | check "false\nelse";;
-        187)shell 'try { true  }->catch  {out: catch}->else {out: else}' 2>&1 | check "true\nelse";;
-        188)shell 'try { false }->catch  {out: catch}->else {out: else}' 2>&1 | check "false\ncatch";;
-        189)shell 'try { true  }->!catch {out: catch}->else {out: else}' 2>&1 | check "true\ncatch";;
-        190)shell 'try { false }->!catch {out: catch}->else {out: else}' 2>&1 | check "false\nelse";;
+        183)shell 'true         ->catch  {out: catch}->!catch {out: else}' 2>&1 | check "true\nelse";;
+        184)shell 'false        ->catch  {out: catch}->!catch {out: else}' 2>&1 | check "false\ncatch";;
+        185)shell 'true         ->!catch {out: catch}->catch  {out: else}' 2>&1 | check "true\ncatch";;
+        186)shell 'false        ->!catch {out: catch}->catch  {out: else}' 2>&1 | check "false\nelse";;
+        187)shell 'try { true  }->catch  {out: catch}->!catch {out: else}' 2>&1 | check "true\nelse";;
+        188)shell 'try { false }->catch  {out: catch}->!catch {out: else}' 2>&1 | check "false\ncatch";;
+        189)shell 'try { true  }->!catch {out: catch}->catch  {out: else}' 2>&1 | check "true\ncatch";;
+        190)shell 'try { false }->!catch {out: catch}->catch  {out: else}' 2>&1 | check "false\nelse";;
 
         191)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
 

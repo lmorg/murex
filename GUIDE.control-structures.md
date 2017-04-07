@@ -76,7 +76,7 @@ any exit numbers not equal to zero (0) will terminate the code block.
 This also includes `if` statements so be very careful to include an else
 parameter, even if it's an empty block, so `if` doesn't raise an error.
 
-If the try block fails then try will raise a non-zero error number. If
+If the try block fails then try will raise a non-zero exit number. If
 you want to run an alternative block of code in an event of a failure
 then combine with the `catch` method.
 ```
@@ -97,6 +97,8 @@ forwarded along the chain.
 own where you want to check the success of a routine while preserving
 its stdout stream.
 
+Use `!catch` to "else" the `try`
+
 ```
 # try / catch
 try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try` failed }
@@ -105,7 +107,12 @@ try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try`
 out: hello world | grep: foobar -> catch { out: foobar not found }
 
 # !catch
-out: hello world | grep: world -> catch { out: world found }
+out: hello world | grep: world -> !catch { out: world found }
+
+# else
+try: { out: hello world | grep: foobar; out: other stuff }
+    -> catch  { out: `try` failed }
+    -> !catch { out: `try` succeeded }
 ```
 
 `catch` also supports anti-alias (`!catch`) where the code block only
