@@ -77,7 +77,7 @@ while true; do
         3)shell 'out: out # comment' 2>&1           | check "out";;
         4)shell 'out: out; err: err' 2>/dev/null     | check "out";;
         5)shell 'out: out; err: err' 2>&1 >/dev/null | check "err";;
-        6)shell 'out: out; err: err' 2>&1            | check "$(echo -e 'out\nerr')";;
+        6)shell 'out: out; err: err' 2>&1            | check "echo -e 'out\nerr";;
 
         7)shell 'out: o u t' 2>&1   | check "o u t";;
         8)shell 'err: o u t' 2>&1   | check "o u t";;
@@ -97,9 +97,9 @@ while true; do
         22)shell 'err: `o,u,t`' 2>&1 | check '`o,u,t`';;
 
         #23)shell 'printf: out\n' 2>&1                  | check "out";;
-        #24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "$(echo -e 'out1\nout2')";;
+        #24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "echo -e 'out1\nout2";;
         23)shell 'printf: out\n' 2>&1                  | check "out\r";;                         # printf with a pty sends \r\n
-        24)shell 'printf: out1\n; printf: out2\n' 2>&1 | check "$(echo -e 'out1\r\nout2\r')";; # printf with a pty sends \r\n
+        24)shell 'printf: out1\n; printf: out2\n' 2>&1 | check "out1\r\nout2\r";; # printf with a pty sends \r\n
         25)shell 'printf: out\n | grep: out' 2>&1      | check "out";;
         26)shell 'out: out | grep: out' 2>&1         | check "out";;
         27)shell 'err: err | grep: err' 2>/dev/null  | check "";;
@@ -117,9 +117,9 @@ while true; do
         38)shell 'out: out->match: out; err: err' 2>/dev/null    | check "out";;
         39)shell 'out: out->match: out; err: err' 2>&1 >/dev/null | check "err";;
         40)shell 'out: out->match: out; err: err->match: out' 2>/dev/null | check "out";;
-        41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "$(echo -e 'Methodable function `match` does not exist for `err.(null)`\nout\nerr')";;
-        42)shell 'out: out->match: out; err: err' 2>&1            | check "$(echo -e 'out\nerr')";;
-        43)shell 'out: out1->match: out1; out: out2->match: out2' 2>&1 | check "$(echo -e 'out1\nout2')";;
+        41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "Methodable function \`match\` does not exist for \`err.(null)\`\nout\nerr";;
+        42)shell 'out: out->match: out; err: err' 2>&1            | check "out\nerr";;
+        43)shell 'out: out1->match: out1; out: out2->match: out2' 2>&1 | check "out1\nout2";;
         44)shell 'out: out->match: noout' 2>&1                   | check "";;
         45)shell 'out: out->match: noout' 2>/dev/null            | check "";;
 
@@ -130,12 +130,12 @@ while true; do
         50)shell 'printf: out\n->match: out; err: err' 2>/dev/null     | check "out";;
         51)shell 'printf: out\n->match: out; err: err' 2>&1 >/dev/null | check "err";;
         52)shell 'printf: out\n->match: out; err: err->match: out' 2>/dev/null | check "out";;
-        53)shell 'printf: out\n->match: out; err: err' 2>&1            | check "$(echo -e 'out\nerr')";;
-        54)shell 'printf:out1\n->match:out1;printf:out2\n->match:out2' 2>&1 | check "$(echo -e 'out1\nout2')";;
+        53)shell 'printf: out\n->match: out; err: err' 2>&1            | check "out\nerr";;
+        54)shell 'printf:out1\n->match:out1;printf:out2\n->match:out2' 2>&1 | check "out1\nout2";;
         55)shell 'printf: out\n->match: noout' 2>&1                   | check "";;
         56)shell 'printf: out\n->match: noout' 2>/dev/null            | check "";;
 
-        57)shell 'out: out->match: out; err: err; out: 2' 2>&1        | check "$(echo -e 'out\nerr\n2')";;
+        57)shell 'out: out->match: out; err: err; out: 2' 2>&1        | check "out\nerr\n2";;
 
         58)shell 'out: out ? grep: out' 2>&1 >/dev/null | check "";;
         59)shell 'err: err ? grep: err' 2>/dev/null     | check "err";;
@@ -144,51 +144,51 @@ while true; do
         62)shell 'sleep: 1 ? out: awake' 2>&1           | check "awake";;
         63)shell 'sleep: 60 ? out: awake # this should timeout' 2>&1 | check "awake";;
 
-        64)shell 'text: fox.txt->match: jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        65)shell 'text: fox.txt->match: jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
+        64)shell 'text: fox.txt->match: jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        65)shell 'text: fox.txt->match: jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         66)shell 'text: fox.txt->match' 2>&1 | check "No parameters supplied.";;
-        67)shell 'text: fox.txt->!match:e->!match:o' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        67)shell 'text: fox.txt->!match:e->!match:o' 2>&1| check "quick\nlazy";;
         68)shell 'text: fox.txt->!match' 2>&1| check "No parameters supplied.";;
 
-        69)shell 'text: fox.txt->regex: m,jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        70)shell 'text: fox.txt->regex: m,jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
+        69)shell 'text: fox.txt->regex: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        70)shell 'text: fox.txt->regex: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         71)shell 'text: fox.txt->regex: `m,jumped`' 2>/dev/null | check "";;
         72)shell 'text: fox.txt->regex: `m,jumped`' 2>&1| check "Invalid regexp.";;
-        73)shell 'text: fox.txt->regex: m jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        74)shell 'text: fox.txt->regex: m jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        75)shell 'text: fox.txt->regex: "m,jumped"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        76)shell 'text: fox.txt->regex: "m,jumped"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        77)shell 'text: fox.txt->regex: m/jumped/' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        78)shell 'text: fox.txt->regex: m/jumped/' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        79)shell 'text: fox.txt->regex: "m#jumped#"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        80)shell 'text: fox.txt->regex: "m#jumped#"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
+        73)shell 'text: fox.txt->regex: m jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        74)shell 'text: fox.txt->regex: m jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        75)shell 'text: fox.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        76)shell 'text: fox.txt->regex: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        77)shell 'text: fox.txt->regex: m/jumped/' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        78)shell 'text: fox.txt->regex: m/jumped/' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        79)shell 'text: fox.txt->regex: "m#jumped#"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        80)shell 'text: fox.txt->regex: "m#jumped#"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         81)shell 'text: fox.txt->regex: ' 2>&1 | check "No parameters supplied.";;
-        82)shell 'text: fox.txt->!regex: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        82)shell 'text: fox.txt->!regex: m,[eo]' 2>&1| check "quick\nlazy";;
         83)shell 'text: fox.txt->!regex: ' 2>&1| check "No parameters supplied.";;
-        84)shell 'text: fox.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
+        84)shell 'text: fox.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
 
-        85)shell 'text: fox_crlf.txt->match: jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        86)shell 'text: fox_crlf.txt->match: jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
+        85)shell 'text: fox_crlf.txt->match: jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        86)shell 'text: fox_crlf.txt->match: jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         87)shell 'text: fox_crlf.txt->match: ' 2>&1 | check "No parameters supplied.";;
-        88)shell 'text: fox_crlf.txt->!match: e->!match: o' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        88)shell 'text: fox_crlf.txt->!match: e->!match: o' 2>&1| check "quick\nlazy";;
         89)shell 'text: fox_crlf.txt->!match: ' 2>&1| check "No parameters supplied.";;
 
-        90)shell 'text: fox_crlf.txt->regex: m,jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        91)shell 'text: fox_crlf.txt->regex: m,jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        92)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";; # `
-        93)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;         # `
-        94)shell 'text: fox_crlf.txt->regex: m jumped' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";; # `
-        95)shell 'text: fox_crlf.txt->regex: m jumped' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;         # `
-        96)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        97)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        98)shell 'text: fox_crlf.txt->regex: m/jumped/' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        99)shell 'text: fox_crlf.txt->regex: m/jumped/' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        100)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>/dev/null | check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
-        101)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>&1| check "$(echo -e 'fox jumped over\njumped over\nfox jumped\njumped')";;
+        90)shell 'text: fox_crlf.txt->regex: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        91)shell 'text: fox_crlf.txt->regex: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        92)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";; # `
+        93)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;         # `
+        94)shell 'text: fox_crlf.txt->regex: m jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";; # `
+        95)shell 'text: fox_crlf.txt->regex: m jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;         # `
+        96)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        97)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        98)shell 'text: fox_crlf.txt->regex: m/jumped/' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        99)shell 'text: fox_crlf.txt->regex: m/jumped/' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        100)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        101)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         102)shell 'text: fox_crlf.txt->regex: ' 2>&1 | check "No parameters supplied.";;
-        103)shell 'text: fox_crlf.txt->!regex: m,[eo]' 2>&1| check "$(echo -e 'quick\nlazy')";;
+        103)shell 'text: fox_crlf.txt->!regex: m,[eo]' 2>&1| check "quick\nlazy";;
         104)shell 'text: fox_crlf.txt->!regex: ' 2>&1| check "No parameters supplied.";;
-        105)shell 'text:fox_crlf.txt->!regex:m,[eo]->regex:s/[ai]/x/' 2>&1| check "$(echo -e 'quxck\nlxzy')";;
+        105)shell 'text:fox_crlf.txt->!regex:m,[eo]->regex:s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
 
         106)shell 'out: out|grep: out' 2>&1 | check "out";;
         107)shell 'out: out | grep: out' 2>&1 | check "out";;
@@ -267,17 +267,18 @@ while true; do
         174)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
         175)shell 'try{out:1;out:2|grep:false;out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
         176)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
-        177)shell 'try {out:1;out:2|grep:2;out:3}->catch{out:failed}' 2>&1 | check "1\n2\n\3";;
-        178)shell 'out:1;out:2|grep:false->catch{out:failed}' 2>&1 | check '1\nfailed';;
-        179)shell 'out:1;out:2|grep:2->catch{out:failed}' 2>&1 | check '1\n2';;
-        180)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;
-        181)shell 'out:1;out:2|grep:2->!catch{out:success}' 2>&1 | check '1\n2\nsuccess';;
+        177)shell 'try {out 1;out 2|grep 2;out 3}->catch{out failed}' 2>&1 | check "1\n2\n3";;
+        178)shell 'try {out 1;out 2|grep 2;out 3}->!catch{out failed}' 2>&1 | check "1\n2\n3\nfailed";;
+        179)shell 'out:1;out:2|grep:false->catch{out:failed}' 2>&1 | check '1\nfailed';;
+        180)shell 'out:1;out:2|grep:2->catch{out:failed}' 2>&1 | check '1\n2';;
+        181)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;
+        182)shell 'out:1;out:2|grep:2->!catch{out:success}' 2>&1 | check '1\n2\nsuccess';;
 
-        182)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
-        183)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        184)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        185)shell 'out: test->escape->!escape' 2>&1 | check "test";;
-        186)shell 'out: test->gz->!gz' 2>&1         | check "test";;
+        183)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
+        184)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        185)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        186)shell 'out: test->escape->!escape' 2>&1 | check "test";;
+        187)shell 'out: test->gz->!gz' 2>&1         | check "test";;
 
         *) break
     esac
