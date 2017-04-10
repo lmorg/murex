@@ -12,7 +12,7 @@ loosely on functional and stack-based programming paradigms (albeit
 without the LISP-style nested parentheses that scare a lot of developers.
 For example, a program structure could look like the following:
 ```
-command -> command -> if { then_command } -> else { else_command }.
+command -> command -> if { then_command } -> else { else_command }
 ```
 
 The language supports multiple data types, with JSON (and later XML)
