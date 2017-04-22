@@ -148,7 +148,29 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				braceCount--
 			}
 
-		case ' ', '\t', '\r', '\n':
+		case ' ', '\t', '\r':
+			switch {
+			case escaped:
+				*pop += string(b)
+				escaped = false
+			case quoteSingle, quoteDouble:
+				*pop += string(b)
+			case braceCount > 0:
+				*pop += string(b)
+			case !scanFuncName:
+				if len(*pop) > 0 {
+					node.Parameters = append(node.Parameters, "")
+					pop = &node.Parameters[len(node.Parameters)-1]
+				}
+			case scanFuncName && !ignoreWhitespace:
+				scanFuncName = false
+				node.Parameters = make([]string, 1)
+				pop = &node.Parameters[0]
+			default:
+				// do nothing
+			}
+
+		case '\n':
 			switch {
 			case escaped:
 				*pop += string(b)

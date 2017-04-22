@@ -17,16 +17,16 @@ type term struct {
 	//lastChar byte
 }
 
-func (t *term) MakeParent()               {}
-func (t *term) UnmakeParent()             {}
-func (t *term) Read([]byte) (int, error)  { return 0, io.EOF }
-func (t *term) ReadLine(*string) bool     { return true }
-func (t *term) ReadData() ([]byte, bool)  { return []byte{}, false }
-func (t *term) ReaderFunc(func([]byte))   {}
-func (t *term) ReadLineFunc(func([]byte)) {}
-func (t *term) ReadAll() []byte           { return []byte{} }
-func (t *term) WriteTo(io.Writer) (int64, error)    { return 0, io.EOF }
-func (t *term) Close()                    {}
+func (t *term) MakeParent()                      {}
+func (t *term) UnmakeParent()                    {}
+func (t *term) Read([]byte) (int, error)         { return 0, io.EOF }
+func (t *term) ReadLine(*string) bool            { return true }
+func (t *term) ReadData() ([]byte, bool)         { return []byte{}, false }
+func (t *term) ReaderFunc(func([]byte))          {}
+func (t *term) ReadLineFunc(func([]byte))        {}
+func (t *term) ReadAll() []byte                  { return []byte{} }
+func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
+func (t *term) Close()                           {}
 
 func (t *term) Stats() (bytesWritten, bytesRead uint64) {
 	t.Lock()

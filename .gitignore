@@ -1,3 +1,4 @@
-murex
-.idea/
+/murex
+/.idea/
 /murex.history
+/trace.out

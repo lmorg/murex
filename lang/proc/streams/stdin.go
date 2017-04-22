@@ -1,11 +1,11 @@
 package streams
 
 import (
+	"bytes"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"sync"
-	"bytes"
 )
 
 type Stdin struct {
@@ -100,6 +100,9 @@ start:
 
 	b := read.buffer[0]
 	read.buffer = read.buffer[1:]
+	//b := make([]byte, len(read.buffer[0]))
+	//copy(b, read.buffer[0])
+	//read.buffer = read.buffer[1:]
 	read.Unlock()
 
 	lines := bytes.SplitAfter(b, []byte{'\n'})
@@ -175,6 +178,10 @@ func (read *Stdin) ReadData() (b []byte, more bool) {
 
 		b = read.buffer[0]
 		read.buffer = read.buffer[1:]
+		//b = make([]byte, len(read.buffer[0]))
+		//copy(b, read.buffer[0])
+		//read.buffer = read.buffer[1:]
+
 		read.bRead += uint64(len(b))
 
 		read.Unlock()
@@ -203,6 +210,10 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 
 		b := read.buffer[0]
 		read.buffer = read.buffer[1:]
+		//b := make([]byte, len(read.buffer[0]))
+		//copy(b, read.buffer[0])
+		//read.buffer = read.buffer[1:]
+
 		read.bRead += uint64(len(b))
 
 		read.Unlock()

@@ -50,7 +50,7 @@ func (gc *Config) Get(app, key, dataType string) (value interface{}, err error) 
 	}
 
 	var v interface{}
-	v= gc.values[app][key]
+	v = gc.values[app][key]
 	if v == nil {
 		v = gc.properties[app][key].Default
 	}

@@ -10,24 +10,39 @@ import (
 	"github.com/lmorg/murex/utils"
 	"io/ioutil"
 	"os"
+	"os/signal"
 	"runtime/trace"
+	"syscall"
 )
 
 func main() {
 	readFlags()
 
 	if fTrace != "" {
-		f, err := os.Create(fTrace)
+		file, err := os.Create(fTrace)
 		if err != nil {
 			panic(err)
 		}
-		defer f.Close()
+		defer file.Close()
 
-		err = trace.Start(f)
+		err = trace.Start(file)
 		if err != nil {
 			panic(err)
 		}
-		defer trace.Stop()
+		//defer trace.Stop()
+
+		ctrlC := make(chan os.Signal)
+		signal.Notify(ctrlC, os.Interrupt, syscall.SIGTERM)
+		go func() {
+			//os.Stderr.WriteString("1")
+			<-ctrlC
+			//os.Stderr.WriteString("2")
+			trace.Stop()
+			//os.Stderr.WriteString("3")
+			file.Close()
+			os.Stderr.WriteString("[SIGTERM]")
+			os.Exit(1)
+		}()
 	}
 
 	switch {
