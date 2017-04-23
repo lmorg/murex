@@ -13,8 +13,8 @@ type Io interface {
 	Stats() (bytesWritten, bytesRead uint64)
 
 	Read(p []byte) (i int, err error)
-	ReadLine(line *string) (more bool)
-	ReadData() (b []byte, more bool)
+	//ReadLine(line *string) (more bool)
+	//ReadData() (b []byte, more bool)
 	ReaderFunc(callback func([]byte))
 	ReadLineFunc(callback func([]byte))
 	ReadAll() (b []byte)

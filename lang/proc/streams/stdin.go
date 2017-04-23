@@ -1,7 +1,7 @@
 package streams
 
 import (
-	"bytes"
+	"bufio"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -10,7 +10,7 @@ import (
 
 type Stdin struct {
 	sync.Mutex
-	buffer   [][]byte
+	buffer   []byte
 	closed   bool
 	bRead    uint64
 	bWritten uint64
@@ -19,7 +19,7 @@ type Stdin struct {
 
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
-	stdin.buffer = make([][]byte, 1)
+	//stdin.buffer = make([]byte, 1)
 	return
 }
 
@@ -53,38 +53,58 @@ func (rw *Stdin) Stats() (bytesWritten, bytesRead uint64) {
 
 // Standard Reader interface Read() method.
 func (read *Stdin) Read(p []byte) (i int, err error) {
+	for {
+		read.Lock()
+		//defer read.Unlock()
+
+		if len(read.buffer) == 0 && read.closed {
+			read.Unlock()
+			return 0, io.EOF
+		}
+
+		if len(read.buffer) == 0 && !read.closed {
+			read.Unlock()
+			continue
+		}
+
+		break
+	}
+
+	/*for {
 	read.Lock()
-	defer read.Unlock()
+	if len(read.buffer) == 0 {
+		if read.closed {
+			read.Unlock()
+			return
+		}
+		//read.Unlock()
+		continue
+	}*/
 
-	if len(read.buffer) == 0 && read.closed {
-		return 0, io.EOF
-	}
-
-	if len(read.buffer) == 0 && !read.closed {
-		return 0, nil
-	}
-
-	if len(p) >= len(read.buffer[0]) {
-		i = len(read.buffer[0])
-		copy(p, read.buffer[0])
-		read.buffer = read.buffer[1:]
+	if len(p) >= len(read.buffer) {
+		i = len(read.buffer)
+		copy(p, read.buffer)
+		//read.buffer = read.buffer[1:]
+		read.buffer = make([]byte, 0)
 
 	} else {
 		i = len(p)
-		copy(p[:i], read.buffer[0][:i])
-		read.buffer[0] = read.buffer[0][i+1:]
+		copy(p[:i], read.buffer[:i])
+		read.buffer = read.buffer[i+1:]
 	}
 
 	read.bRead += uint64(i)
 
+	read.Unlock()
 	return i, err
+	//}
 }
 
 // Reads a line at a time. This method will be slower than the other Read* methods because ReadLine() needs to be
 // stateless. So ReadLine() will write back to the interface on occasions where \n appears mid-buffer.
 // The observant of you will notice lots of ugly `goto`s. I know it's a /faux/ pas in modern languages but in this
 // instance I believe it's the structure that produces the cleaner and most readable code.
-func (read *Stdin) ReadLine(line *string) (more bool) {
+/*func (read *Stdin) ReadLine(line *string) (more bool) {
 	more = true
 
 start:
@@ -161,9 +181,9 @@ start:
 	read.buffer = lines
 	read.Unlock()
 	goto start
-}
+}*/
 
-// Faster than ReadLine but doesn't chunk the data based on new lines.
+/*// Faster than ReadLine but doesn't chunk the data based on new lines.
 func (read *Stdin) ReadData() (b []byte, more bool) {
 	for {
 		read.Lock()
@@ -193,10 +213,33 @@ func (read *Stdin) ReadData() (b []byte, more bool) {
 		return
 	}
 	return
-}
+}*/
 
 // A callback function for reading raw data. I'm thinking this is largely unnecessary so might delete it.
 func (read *Stdin) ReaderFunc(callback func([]byte)) {
+	for {
+		read.Lock()
+		if len(read.buffer) == 0 {
+			if read.closed {
+				read.Unlock()
+				return
+			}
+			read.Unlock()
+			continue
+		}
+
+		b := read.buffer
+		read.buffer = make([]byte, 0)
+
+		read.bRead += uint64(len(b))
+
+		read.Unlock()
+
+		callback(b)
+	}
+}
+
+/*func (read *Stdin) ReaderFunc(callback func([]byte)) {
 	for {
 		read.Lock()
 		if len(read.buffer) == 0 {
@@ -220,98 +263,44 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 
 		callback(b)
 	}
-}
+}*/
 
 // Should be more performant than ReadLine() because it's uses callback functions (ie does not need to be stateless) so
 // we don't need to keep pushing stuff back to the interfaces buffer.
 func (read *Stdin) ReadLineFunc(callback func([]byte)) {
-	var s string
-	for read.ReadLine(&s) {
-		callback([]byte(s))
+	scanner := bufio.NewScanner(read)
+	for scanner.Scan() {
+		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
-}
 
-/*func (read *Stdin) ReadLineFunc(callback func([]byte)) {
-	var remainder []byte
-	for {
-		read.Lock()
-		if len(read.buffer) == 0 {
-			if read.closed {
-				if len(remainder) > 0 {
-					read.bRead += uint64(len(remainder))
-					callback(remainder)
-				}
-				read.Unlock()
-				return
-			}
-			read.Unlock()
-			continue
-		}
-
-		b := read.buffer[0]
-		read.buffer = read.buffer[1:]
-
-		read.Unlock()
-
-		lines := bytes.SplitAfter(b, []byte{'\n'})
-		lines[0] = append(remainder, lines[0]...)
-		remainder = []byte{}
-
-		debug.Log("lines count:", len(lines))
-
-		// Lots of lines so lets just dump all of them out bar the last one; ignoring any empty lines.
-		for len(lines) > 1 {
-			if len(lines[0]) > 1 && !(len(lines[0]) == 2 && lines[0][0] == '\r') {
-				read.Lock()
-				read.bRead += uint64(len(lines[0]))
-				read.Unlock()
-				debug.Log("lines callback", string(lines[0]))
-				callback(lines[0])
-			}
-			lines = lines[1:]
-		}
-
-		debug.Log("lines: [0] == ", string(lines[0]))
-		// Empty line. Let's just discard it.
-		if (len(lines[0]) == 1 && lines[0][0] == '\n') ||
-			(len(lines[0]) == 2 && lines[0][0] == '\r' && lines[0][1] == '\n') {
-			continue
-		}
-
-		// Valid line. Callback it.
-		if len(lines[0]) > 1 && lines[0][len(lines[0])-1] == '\n' {
-			read.Lock()
-			read.bRead += uint64(len(lines[0]))
-			read.Unlock()
-			callback(lines[0])
-			continue
-		}
-
-		// Now we just have an incomplete line. So lets check if the interface is closed and if so append a \n.
-		if read.closed {
-			lines[0] = append(lines[0], utils.NewLineByte...)
-			read.Lock()
-			read.bRead += uint64(len(lines[0]))
-			read.Unlock()
-			callback(lines[0])
-			return
-		}
-
-		// Otherwise we're safe to add it to the remainder and wait for more data.
-		remainder = lines[0]
+	if err := scanner.Err(); err != nil {
+		panic("ReadLine: " + err.Error())
 	}
 
 	return
-}*/
+}
 
 // Read everything and dump it into one byte slice.
 func (read *Stdin) ReadAll() (b []byte) {
+	for !read.closed {
+		// Wait for interface to close.
+	}
+
+	read.Lock()
+	b = read.buffer
+	read.buffer = make([]byte, 0)
+	read.bRead = uint64(len(b))
+	read.Unlock()
+	return
+}
+
+/*func (read *Stdin) ReadAll() (b []byte) {
 	read.ReaderFunc(func(line []byte) {
 		b = append(b, line...)
 	})
 
 	return
-}
+}*/
 
 // Standard Writer interface Write() method.
 func (write *Stdin) Write(b []byte) (int, error) {
@@ -327,7 +316,7 @@ func (write *Stdin) Write(b []byte) (int, error) {
 		panic("Writing to closed pipe.")
 	}
 
-	write.buffer = append(write.buffer, b)
+	write.buffer = append(write.buffer, b...)
 	write.bWritten += uint64(len(b))
 
 	write.Unlock()

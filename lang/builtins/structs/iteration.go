@@ -1,12 +1,12 @@
 package structs
 
 import (
+	"bytes"
 	"errors"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"strings"
 )
 
 func init() {
@@ -20,21 +20,20 @@ func cmdForEach(p *proc.Process) (err error) {
 		return err
 	}
 
-	var line string
-	for p.Stdin.ReadLine(&line) {
-		line = strings.TrimSpace(line)
-		if len(line) == 0 {
+	p.Stdin.ReadLineFunc(func(b []byte) {
+		b = bytes.TrimSpace(b)
+		if len(b) == 0 {
 			return
 		}
 
-		proc.GlobalVars.Set(p.Parameters[0], line, p.Previous.ReturnType)
+		proc.GlobalVars.Set(p.Parameters[0], string(b), p.Previous.ReturnType)
 
 		stdin := streams.NewStdin()
-		stdin.Writeln([]byte(line))
+		stdin.Writeln(b)
 		stdin.Close()
 
 		lang.ProcessNewBlock(block, stdin, p.Stdout, p.Stderr, p.Previous.Name)
-	}
+	})
 
 	return nil
 }
