@@ -12,6 +12,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		braceCount               int
 		ignoreWhitespace         bool = true
 		scanFuncName             bool = true
+		newLine                  bool
 
 		// Parsed thus far
 		node Node    = Node{NewChain: true}
@@ -184,6 +185,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				node = Node{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
+				newLine = true
 			case scanFuncName && !ignoreWhitespace:
 				scanFuncName = false
 				node.Parameters = make([]string, 1)
@@ -204,6 +206,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeToken, i)
 				return
+			case newLine:
+				newLine = false
+				node.NewChain = false
+				if len(nodes) > 0 {
+					nodes.Last().PipeOut = true
+				}
 			default:
 				node.PipeOut = true
 				appendNode()
@@ -224,6 +232,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeToken, i)
 				return
+			case newLine:
+				newLine = false
+				node.NewChain = false
+				if len(nodes) > 0 {
+					nodes.Last().PipeErr = true
+				}
 			default:
 				node.PipeErr = true
 				appendNode()
@@ -242,16 +256,23 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case braceCount > 0:
 				*pop += string(b)
 			case len(*pop) > 0 && (*pop)[len(*pop)-1] == '-':
-				if len(node.Name) == 0 {
+				/*if len(node.Name) == 0 {
 					pErr = raiseErr(ErrUnexpectedPipeToken, i)
 					return
-				}
+				}*/
 				*pop = (*pop)[:len(*pop)-1]
 				node.PipeOut = true
 				appendNode()
 				node = Node{Method: true}
 				pop = &node.Name
 				scanFuncName = true
+
+				if newLine {
+					node.NewChain = false
+					node.Method = true
+					nodes.Last().PipeOut = true
+					newLine = false
+				}
 			default:
 				*pop += string(b)
 			}
@@ -265,11 +286,13 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				*pop += string(b)
 			case braceCount > 0:
 				*pop += string(b)
-			default:
+			case !scanFuncName:
 				appendNode()
 				node = Node{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
+			default:
+				// do nothing
 			}
 
 		case 's':
@@ -332,6 +355,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			default:
 				ignoreWhitespace = false
 				*pop += string(b)
+				if b != '-' {
+					newLine = false
+				}
 			}
 		}
 	}

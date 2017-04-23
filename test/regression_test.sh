@@ -70,6 +70,7 @@ checkreps() {
 
 while true; do
     case $i in
+        # testing basic syntax with out and err streams
         0)shell '' 2>&1                             | check "";;
         1)shell 'null' 2>&1                         | check "";;
         2)shell '# out: out' 2>&1                   | check "";;
@@ -77,7 +78,6 @@ while true; do
         4)shell 'out: out; err: err' 2>/dev/null     | check "out";;
         5)shell 'out: out; err: err' 2>&1 >/dev/null | check "err";;
         6)shell 'out: out; err: err' 2>&1            | check "out\nerr";;
-
         7)shell 'out: o u t' 2>&1   | check "o u t";;
         8)shell 'err: o u t' 2>&1   | check "o u t";;
         9)shell 'out: "o u t"' 2>&1 | check "o u t";;
@@ -95,6 +95,7 @@ while true; do
         21)shell 'out: `o,u,t`' 2>&1 | check '`o,u,t`';;
         22)shell 'err: `o,u,t`' 2>&1 | check '`o,u,t`';;
 
+        # testing out and err pipes
         #23)shell 'printf: out\n' 2>&1                  | check "out";;                      # `printf` without a pty sends \n
         #24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "echo -e 'out1\nout2";;   # `printf` without a pty sends \n
         23)shell 'printf: out\n' 2>&1                  | check "out\r";;                     # `printf` with a pty sends \r\n
@@ -109,6 +110,7 @@ while true; do
         32)shell 'sleep: 1 | out: awake' 2>&1        | check "awake";;
         33)shell 'sleep: 60 | out: awake # this should timeout' 2>&1 | check "awake";;
 
+        # more complex testing of pipes
         34)shell 'out: out->match: out' 2>&1                     | check "out";;
         35)shell 'out: aaout->match: out' 2>&1                   | check "aaout";;
         36)shell 'out: outaa->match: out' 2>&1                   | check "outaa";;
@@ -122,6 +124,7 @@ while true; do
         44)shell 'out: out->match: noout' 2>&1                   | check "";;
         45)shell 'out: out->match: noout' 2>/dev/null            | check "";;
 
+        # more complex testing of pipes originating from PTYs
         46)shell 'printf: out\n->match: out' 2>&1                     | check "out";;
         47)shell 'printf: aaout\n->match: out' 2>&1                   | check "aaout";;
         48)shell 'printf: outaa\n->match: out' 2>&1                   | check "outaa";;
@@ -134,8 +137,8 @@ while true; do
         55)shell 'printf: out\n->match: noout' 2>&1                   | check "";;
         56)shell 'printf: out\n->match: noout' 2>/dev/null            | check "";;
 
+        # testing err pipes
         57)shell 'out: out->match: out; err: err; out: 2' 2>&1        | check "out\nerr\n2";;
-
         58)shell 'out: out ? grep: out' 2>&1 >/dev/null | check "";;
         59)shell 'err: err ? grep: err' 2>/dev/null     | check "err";;
         60)shell 'err: err ? grep: err' >/dev/null      | check "";;
@@ -143,12 +146,14 @@ while true; do
         62)shell 'sleep: 1 ? out: awake' 2>&1           | check "awake";;
         63)shell 'sleep: 60 ? out: awake # this should timeout' 2>&1 | check "awake";;
 
+        # test `match` without ending \n
         64)shell 'text: fox.txt->match: jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
         65)shell 'text: fox.txt->match: jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         66)shell 'text: fox.txt->match' 2>&1 | check "No parameters supplied.";;
         67)shell 'text: fox.txt->!match:e->!match:o' 2>&1| check "quick\nlazy";;
         68)shell 'text: fox.txt->!match' 2>&1| check "No parameters supplied.";;
 
+        # test `regex` without ending \n
         69)shell 'text: fox.txt->regex: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
         70)shell 'text: fox.txt->regex: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         71)shell 'text: fox.txt->regex: `m,jumped`' 2>/dev/null | check "";;
@@ -166,12 +171,14 @@ while true; do
         83)shell 'text: fox.txt->!regex: ' 2>&1| check "No parameters supplied.";;
         84)shell 'text: fox.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
 
+        # test `match` with ending \n
         85)shell 'text: fox_crlf.txt->match: jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
         86)shell 'text: fox_crlf.txt->match: jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         87)shell 'text: fox_crlf.txt->match: ' 2>&1 | check "No parameters supplied.";;
         88)shell 'text: fox_crlf.txt->!match: e->!match: o' 2>&1| check "quick\nlazy";;
         89)shell 'text: fox_crlf.txt->!match: ' 2>&1| check "No parameters supplied.";;
 
+        # test `regex` with ending \n
         90)shell 'text: fox_crlf.txt->regex: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
         91)shell 'text: fox_crlf.txt->regex: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
         92)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";; # `
@@ -189,13 +196,17 @@ while true; do
         104)shell 'text: fox_crlf.txt->!regex: ' 2>&1| check "No parameters supplied.";;
         105)shell 'text:fox_crlf.txt->!regex:m,[eo]->regex:s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
 
+        # test whitespaces
         106)shell 'out: out|grep: out' 2>&1 | check "out";;
         107)shell 'out: out | grep: out' 2>&1 | check "out";;
         108)shell 'out: out  |  grep: out' 2>&1 | check "out";;
         109)shell "$(echo -e 'out: out\t|\tgrep: out')" 2>&1 | check "out";;
         110)shell "$(echo -e 'out: out\r|\ngrep: out')" 2>&1 | check "out";;
+
+        # test builtins don't get called when executing a PTY
         111)shell 'out: out|match: out' 2>&1 | check 'exec: "match": executable file not found in $PATH';;
 
+        # test blocking in concurrent pipes
         112)shell 'exec: printf out\n' 2>&1 | check "out";;
         113)shell 'exec: sleep 5; out: awake # this should timeout' 2>&1 | check "";;
         114)shell 'exec: sleep 1;  out: awake' 2>&1          | check "awake";;
@@ -206,14 +217,17 @@ while true; do
         119)shell 'exec: sh -c "sleep 5; echo out" | grep: out # this should timeout' 2>&1  | check "";;
         120)shell 'exec: sh -c "sleep 5; echo out"->match: out # this should timeout' 2>&1   | check "";;
 
+        # testing `get`
         121)shell 'get: http://laurencemorgan.co.uk->json: Status Code' 2>&1 | check "200";;
 
+        # repetition tests for consistency
         122)reps 'out: out | grep: out->match: out' $nreps 2>&1 | checkreps $nreps;;
         123)reps 'printf: out\n->match: out' $nreps 2>&1 | checkreps $nreps;;
         124)reps 'out: out->match: out' $nreps 2>&1 | checkreps $nreps;;
         125)reps 'text: fox.txt->foreach: line {out: $line} ->match: "This is just some dummy text for regression testing"' $nreps 2>&1 | checkreps $nreps;;
         126)reps 'text: fox_crlf.txt->foreach: line {out: $line} ->match: "This is just some dummy text for regression testing"' $nreps 2>&1 | checkreps $nreps;;
 
+        # checking booleans and `if` structures
         127)shell 'out: true->if: {out: match}' 2>&1 | check "match";;
         128)shell 'out: true->!if: {out: match}' 2>&1 | check "";;
         129)shell 'out: true->if: {out: true} {out: match}' 2>&1 | check "true";;
@@ -263,6 +277,7 @@ while true; do
         173)shell 'true ->!' 2>&1 | check "false";;
         174)shell 'false ->!' 2>&1 | check "true";;
 
+        # testing `try` and `catch` structures
         175)shell 'true         ->catch  {out: catch}' 2>&1 | check "true";;
         176)shell 'false        ->catch  {out: catch}' 2>&1 | check "false\ncatch";;
         177)shell 'true         ->!catch {out: catch}' 2>&1 | check "true\ncatch";;
@@ -272,6 +287,7 @@ while true; do
         181)shell 'try { true  }->!catch {out: catch}' 2>&1 | check "true\ncatch";;
         182)shell 'try { false }->!catch {out: catch}' 2>&1 | check "false";;
 
+        # testing `try` and `catch` structures with secondary `catch` for else conditions
         183)shell 'true         ->catch  {out: catch}->!catch {out: else}' 2>&1 | check "true\nelse";;
         184)shell 'false        ->catch  {out: catch}->!catch {out: else}' 2>&1 | check "false\ncatch";;
         185)shell 'true         ->!catch {out: catch}->catch  {out: else}' 2>&1 | check "true\ncatch";;
@@ -281,8 +297,10 @@ while true; do
         189)shell 'try { true  }->!catch {out: catch}->catch  {out: else}' 2>&1 | check "true\ncatch";;
         190)shell 'try { false }->!catch {out: catch}->catch  {out: else}' 2>&1 | check "false\nelse";;
 
+        # testing new regex function: find
         191)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
 
+        # some more advanced testing of `try` and `catch`
         192)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
         193)shell 'try{out:1;out:2|grep:false;out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
         194)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
@@ -293,6 +311,7 @@ while true; do
         199)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;
         200)shell 'out:1;out:2|grep:2->!catch{out:success}' 2>&1 | check '1\n2\nsuccess';;
 
+        # testing encoder builtins
         201)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
         202)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
         203)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
