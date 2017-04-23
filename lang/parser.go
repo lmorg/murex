@@ -180,10 +180,10 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case braceCount > 0:
 				*pop += string(b)
 			case !scanFuncName:
-				if len(*pop) > 0 {
-					node.Parameters = append(node.Parameters, "")
-					pop = &node.Parameters[len(node.Parameters)-1]
-				}
+				appendNode()
+				node = Node{NewChain: true}
+				pop = &node.Name
+				scanFuncName = true
 			case scanFuncName && !ignoreWhitespace:
 				scanFuncName = false
 				node.Parameters = make([]string, 1)

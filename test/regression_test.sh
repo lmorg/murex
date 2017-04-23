@@ -193,7 +193,7 @@ while true; do
         107)shell 'out: out | grep: out' 2>&1 | check "out";;
         108)shell 'out: out  |  grep: out' 2>&1 | check "out";;
         109)shell "$(echo -e 'out: out\t|\tgrep: out')" 2>&1 | check "out";;
-        110)shell "$(echo -e 'out: out\n|\ngrep: out')" 2>&1 | check "out";;
+        110)shell "$(echo -e 'out: out\r|\ngrep: out')" 2>&1 | check "out";;
         111)shell 'out: out|match: out' 2>&1 | check 'exec: "match": executable file not found in $PATH';;
 
         112)shell 'exec: printf out\n' 2>&1 | check "out";;
