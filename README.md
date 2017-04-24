@@ -73,9 +73,11 @@ previous issue.
 
 * _No support for mathematical operators._ This is going be the next
 feature I include. Current plan is to build a `math` builtin function
-rather than allowing users to inline mathematical operations. I'm also
-considering using [Polish Notation](https://en.wikipedia.org/wiki/Polish_notation)
-simply because it's easier to write a PN parser.
+rather than allowing users to inline mathematical operations. My original
+plan was to support this via using [Polish Notation](https://en.wikipedia.org/wiki/Polish_notation)
+simply because it's easier to write a PN parser. However now I'm thinking
+this will be it's own functional command and a fully operational BODMAS
+parser exposed via a `let` command. I'm open to suggestions.
 
 * _`foreach` only supports line splitting - not JSON objects._ This is a
 TODO rather than bug.
@@ -83,18 +85,6 @@ TODO rather than bug.
 * _No support for piping scripts to the shell executable._ This will be
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
-
-* _The lang/builins/encoders package exhibits weird behaviors as seen
-from the failing regression tests._ This is a tougher problem to crack.
-My current working theory is that there is a race condition with io.Copy
-finishing before the encoder has finished writing to it's buffer. I've
-spent some time investigating this issue but now sidelined it to focus
-on developing other aspects of this project. My worry is that this is a
-symptom of a much broader problem, however the project is modular enough
-that even a substantial rewrite of core logic can be done safely in
-isolation from other, working, code. If anyone wishes to contribute
-their time to this project then that would be the one area I would most
-appreciate your support.
 
 * _Subshells._ At some point I am planning on implementing support for
 subshells like `$( command )` (or back ticked) stuff are in Bash.
