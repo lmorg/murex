@@ -90,3 +90,12 @@ wasn't considered necessary for the MVP (minimum viable product).
 subshells like `$( command )` (or back ticked) stuff are in Bash.
 However I'm considering this a low priority as it has a scope to cause
 more damage if not implemented correctly.
+
+* _No support for file globbing._ This is one feature I'm most nervous
+about implimenting because of the issues it can create eg with filename
+containing spaces or prefixed with hyphens. I have a few ideas on how to
+do this safely but will welcome any better suggestions. I was also
+tempted by the idea to support regex pattern matching as well as (or
+instead of) globbing. Regex, being more complex to write expressions,
+does offer a possibility for greater user error so this might just be an
+optional feature that is disabled by default.
