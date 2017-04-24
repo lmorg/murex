@@ -92,7 +92,7 @@ However I'm considering this a low priority as it has a scope to cause
 more damage if not implemented correctly.
 
 * _No support for file globbing._ This is one feature I'm most nervous
-about implimenting because of the issues it can create eg with filename
+about implementing because of the issues it can create eg with filename
 containing spaces or prefixed with hyphens. I have a few ideas on how to
 do this safely but will welcome any better suggestions. I was also
 tempted by the idea to support regex pattern matching as well as (or
