@@ -10,6 +10,6 @@ out: hello world | grep: foobar -> catch { out: foobar not found }
 out: hello world | grep: world -> !catch { out: world found }
 
 # else
-try: { out: hello world | grep: foobar; out: other stuff }
-    -> catch  { out: `try` failed }
+try: { out: hello world | grep: foobar; out: other stuff } \
+    -> catch  { out: `try` failed } \
     -> !catch { out: `try` succeeded }

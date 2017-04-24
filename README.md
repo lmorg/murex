@@ -71,13 +71,9 @@ one.
 * _Interactive shell does not support multiline scripts._ Related to
 previous issue.
 
-* _No support for mathematical operators._ This is going be the next
-feature I include. Current plan is to build a `math` builtin function
-rather than allowing users to inline mathematical operations. My original
-plan was to support this via using [Polish Notation](https://en.wikipedia.org/wiki/Polish_notation)
-simply because it's easier to write a PN parser. However now I'm thinking
-this will be it's own functional command and a fully operational BODMAS
-parser exposed via a `let` command. I'm open to suggestions.
+* _Support for mathematical operators._ This is going be the next
+feature I include. I'm thinking this will be it's own functional command
+exposed via a `let` command.
 
 * _`foreach` only supports line splitting - not JSON objects._ This is a
 TODO rather than bug.
@@ -92,7 +88,7 @@ However I'm considering this a low priority as it has a scope to cause
 more damage if not implemented correctly.
 
 * _No support for file globbing._ This is one feature I'm most nervous
-about implimenting because of the issues it can create eg with filename
+about implementing because of the issues it can create eg with filename
 containing spaces or prefixed with hyphens. I have a few ideas on how to
 do this safely but will welcome any better suggestions. I was also
 tempted by the idea to support regex pattern matching as well as (or
