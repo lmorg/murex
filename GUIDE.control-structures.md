@@ -84,7 +84,7 @@ then combine with the `catch` method.
 try: { out: hello world | grep: foobar; out: other stuff }
 
 # try / catch
-try: { out: hello world | grep: foobar; out: other stuff }
+try: { out: hello world | grep: foobar; out: other stuff } \
     -> catch { out: `try` failed }
 ```
 
@@ -111,8 +111,8 @@ out: hello world | grep: foobar -> catch { out: foobar not found }
 out: hello world | grep: world -> !catch { out: world found }
 
 # else
-try: { out: hello world | grep: foobar; out: other stuff }
-    -> catch  { out: `try` failed }
+try: { out: hello world | grep: foobar; out: other stuff } \
+    -> catch  { out: `try` failed } \
     -> !catch { out: `try` succeeded }
 ```
 

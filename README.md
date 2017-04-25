@@ -71,13 +71,9 @@ one.
 * _Interactive shell does not support multiline scripts._ Related to
 previous issue.
 
-* _No support for mathematical operators._ This is going be the next
-feature I include. Current plan is to build a `math` builtin function
-rather than allowing users to inline mathematical operations. My original
-plan was to support this via using [Polish Notation](https://en.wikipedia.org/wiki/Polish_notation)
-simply because it's easier to write a PN parser. However now I'm thinking
-this will be it's own functional command and a fully operational BODMAS
-parser exposed via a `let` command. I'm open to suggestions.
+* _Support for mathematical operators._ This is going be the next
+feature I include. I'm thinking this will be it's own functional command
+exposed via a `let` command.
 
 * _`foreach` only supports line splitting - not JSON objects._ This is a
 TODO rather than bug.
