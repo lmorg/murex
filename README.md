@@ -33,7 +33,13 @@ much flexibility nor power away from the command line.
 ```
 go get github.com/chzyer/readline
 go get github.com/kr/pty
+go get github.com/Knetic/govaluate
 ```
+
+Explanation behind these dependencies:
+* `readline` is used for the REPL (interactive mode)
+* `pty` is used for spawning pseudo-terminals for shell processes
+* `govaluate` evaluated the math formulas (exposed via `eval` and `let`)
 
 ## Build
 ```
