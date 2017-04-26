@@ -15,45 +15,70 @@ func init() {
 	proc.GoFunctions["let"] = proc.GoFunction{Func: cmdLet, TypeIn: types.Null, TypeOut: types.Boolean}
 }
 
-var rxLet *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)\s*=`)
+var rxLet *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)\s*=(.*)`)
 
-func cmdLet(p *proc.Process) error {
+func cmdEval(p *proc.Process) (err error) {
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing expression.")
+	}
+	value, err := evaluate(p, p.Parameters.AllString())
+	if err != nil {
+		return
+	}
+
+	_, err = p.Stdout.Write([]byte(value))
+	return
+}
+
+func cmdLet(p *proc.Process) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			p.ExitNum = 2
+			err = errors.New(fmt.Sprint("Panic caught: ", r))
+		}
+	}()
+
 	params := p.Parameters.AllString()
 
 	if !rxLet.MatchString(params) {
 		return errors.New("Invalid syntax for `let`. Should be `let variable-name = expression`.")
 	}
 
-	params = rxLet.ReplaceAllString(params, "")
+	match := rxLet.FindAllStringSubmatch(params, -1)
 
-	return cmdEval(p)
+	value, err := evaluate(p, match[0][2])
+	if err != nil {
+		return err
+	}
+
+	err = proc.GlobalVars.Set(match[0][1], value, types.Float)
+
+	return err
 }
 
-func cmdEval(p *proc.Process) (err error) {
+func evaluate(p *proc.Process, expression string) (value string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			p.ExitNum = 2
 			err = errors.New(fmt.Sprint("Panic caught: ", r))
-			//msg := fmt.Sprint("Panic caught: ", r)
-			//p.Stderr.Writeln([]byte(msg))
 		}
 	}()
 
-	expression, err := gov.NewEvaluableExpression(p.Parameters.AllString())
+	eval, err := gov.NewEvaluableExpression(expression)
 	if err != nil {
-		return err
-	}
-	result, err := expression.Evaluate(nil)
-	if err != nil {
-		return err
+		return
 	}
 
-	cgt, err := types.ConvertGoType(result, types.String)
+	result, err := eval.Evaluate(nil)
 	if err != nil {
-		return err
+		return
 	}
 
-	s := strings.Replace(cgt.(string), ".000000", "", 1) // TODO: this is hacky!!!
-	_, err = p.Stdout.Write([]byte(s))
-	return err
+	goType, err := types.ConvertGoType(result, types.String)
+	if err != nil {
+		return
+	}
+
+	value = strings.Replace(goType.(string), ".000000", "", 1) // TODO: this is hacky!!!
+	return
 }
