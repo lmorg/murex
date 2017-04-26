@@ -1,0 +1,12 @@
+#!/usr/bin/env murex
+
+echo 0 -> set a
+# I'll want to change the above so nil variables return 0.
+while {
+    eval $a < 5
+} {
+    echo $a
+    eval $a+1 -> set a
+    # better written as:
+    # let a=$a+1
+}

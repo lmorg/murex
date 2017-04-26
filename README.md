@@ -33,7 +33,13 @@ much flexibility nor power away from the command line.
 ```
 go get github.com/chzyer/readline
 go get github.com/kr/pty
+go get github.com/Knetic/govaluate
 ```
+
+Explanation behind these dependencies:
+* `readline` is used for the REPL (interactive mode)
+* `pty` is used for spawning pseudo-terminals for shell processes
+* `govaluate` evaluates the math formulas (exposed via `eval` and `let`)
 
 ## Build
 ```
@@ -70,10 +76,6 @@ one.
 
 * _Interactive shell does not support multiline scripts._ Related to
 previous issue.
-
-* _Support for mathematical operators._ This is going be the next
-feature I include. I'm thinking this will be it's own functional command
-exposed via a `let` command.
 
 * _`foreach` only supports line splitting - not JSON objects._ This is a
 TODO rather than bug.
