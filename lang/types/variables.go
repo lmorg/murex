@@ -1,7 +1,6 @@
 package types
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -10,15 +9,17 @@ import (
 type Vars struct {
 	mutex   sync.Mutex
 	strings map[string]string
-	ints    map[string]int
-	floats  map[string]float64
-	types   map[string]string
+	numbers map[string]float64
+	//ints    map[string]int
+	//floats  map[string]float64
+	types map[string]string
 }
 
 func NewVariableGroup() (v Vars) {
 	v.strings = make(map[string]string)
-	v.ints = make(map[string]int)
-	v.floats = make(map[string]float64)
+	//v.ints = make(map[string]int)
+	//v.floats = make(map[string]float64)
+	v.numbers = make(map[string]float64)
 	v.types = make(map[string]string)
 	return
 }
@@ -29,8 +30,9 @@ func (v *Vars) Dump() (obj map[string]interface{}) {
 	obj = make(map[string]interface{}, 0)
 	obj["Type"] = v.types
 	obj["String"] = v.strings
-	obj["Integer"] = v.ints
-	obj["Float"] = v.floats
+	//obj["Integer"] = v.ints
+	//obj["Float"] = v.floats
+	obj["Number"] = v.numbers
 	v.mutex.Unlock()
 	return
 }
@@ -51,11 +53,14 @@ func (v *Vars) GetType(name string) (t string) {
 func (v *Vars) GetValue(name string) (value interface{}) {
 	v.mutex.Lock()
 	switch v.types[name] {
-	case Integer:
+	/*case Integer:
 		value = v.ints[name]
 
 	case Float:
-		value = v.floats[name]
+		value = v.floats[name]*/
+
+	case Integer, Float, Number:
+		value = v.numbers[name]
 
 	case Boolean:
 		if IsTrue([]byte(v.strings[name]), 0) {
@@ -76,11 +81,14 @@ func (v *Vars) GetValue(name string) (value interface{}) {
 func (v *Vars) GetString(name string) (value string) {
 	v.mutex.Lock()
 	switch v.types[name] {
-	case Integer:
-		value = strconv.Itoa(v.ints[name])
+	//case Integer:
+	//	value = strconv.Itoa(v.ints[name])
 
-	case Float:
-		value = fmt.Sprint(v.floats[name]) //TODO: this lazy fix needs to be replaced by strconv.floatthingy
+	//case Float:
+	//	value = strconv.FormatFloat(v.floats[name], 'f', -1, 64)
+
+	case Integer, Float, Number:
+		value = strconv.FormatFloat(v.numbers[name], 'f', -1, 64)
 
 	default:
 		value = v.strings[name]
@@ -100,14 +108,21 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 		if err != nil {
 			return err
 		}
-		v.ints[name] = i.(int)
+		v.numbers[name] = float64(i.(int))
 
-	case Float:
+	/*case Float:
+	f, err := ConvertGoType(value, dataType)
+	if err != nil {
+		return err
+	}
+	v.numbers[name] = f.(float64)*/
+
+	case Float, Number:
 		f, err := ConvertGoType(value, dataType)
 		if err != nil {
 			return err
 		}
-		v.floats[name] = f.(float64)
+		v.numbers[name] = f.(float64)
 
 	/*case types.Boolean:
 	if types.IsTrue([]byte(v.strings[name]), 0) {

@@ -2,12 +2,10 @@ package math
 
 import (
 	"errors"
-	"fmt"
-	gov "github.com/Knetic/govaluate"
+	valuate "github.com/Knetic/govaluate"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"regexp"
-	"strings"
 )
 
 func init() {
@@ -31,12 +29,14 @@ func cmdEval(p *proc.Process) (err error) {
 }
 
 func cmdLet(p *proc.Process) (err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			p.ExitNum = 2
-			err = errors.New(fmt.Sprint("Panic caught: ", r))
-		}
-	}()
+	/*if debug.Enable == false {
+		defer func() {
+			if r := recover(); r != nil {
+				p.ExitNum = 2
+				err = errors.New(fmt.Sprint("Panic caught: ", r))
+			}
+		}()
+	}*/
 
 	params := p.Parameters.AllString()
 
@@ -57,14 +57,16 @@ func cmdLet(p *proc.Process) (err error) {
 }
 
 func evaluate(p *proc.Process, expression string) (value string, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			p.ExitNum = 2
-			err = errors.New(fmt.Sprint("Panic caught: ", r))
-		}
-	}()
+	/*if debug.Enable == false {
+		defer func() {
+			if r := recover(); r != nil {
+				p.ExitNum = 2
+				err = errors.New(fmt.Sprint("Panic caught: ", r))
+			}
+		}()
+	}*/
 
-	eval, err := gov.NewEvaluableExpression(expression)
+	eval, err := valuate.NewEvaluableExpression(expression)
 	if err != nil {
 		return
 	}
@@ -74,11 +76,14 @@ func evaluate(p *proc.Process, expression string) (value string, err error) {
 		return
 	}
 
-	goType, err := types.ConvertGoType(result, types.String)
+	iface, err := types.ConvertGoType(result, types.String)
+	value = iface.(string)
+	return
+	/*goType, err = types.ConvertGoType(result, types.String)
 	if err != nil {
 		return
 	}
 
 	value = strings.Replace(goType.(string), ".000000", "", 1) // TODO: this is hacky!!!
-	return
+	return*/
 }

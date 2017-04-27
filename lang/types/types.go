@@ -3,17 +3,23 @@ package types
 import "strings"
 
 const (
-	Generic   = "*"
-	Null      = "null"
-	Die       = "die"
-	Binary    = "bin"
+	// system types
+	Generic = "*"
+	Null    = "null"
+	Die     = "die"
+	Binary  = "bin"
+
+	// string types
 	String    = "str"
-	Boolean   = "bool"
-	Integer   = "int"
-	Float     = "float"
-	CodeBlock = "block"
 	Json      = "json"
 	Xml       = "xml"
+	Boolean   = "bool"
+	CodeBlock = "block"
+
+	// number types
+	Number  = "num"
+	Integer = "int"
+	Float   = "float"
 )
 
 func IsTrue(stdout []byte, exitNum int) bool {

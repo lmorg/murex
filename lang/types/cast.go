@@ -33,7 +33,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return v, nil
 		case Integer:
 			return v.(int), nil
-		case Float:
+		case Float, Number:
 			return float64(v.(int)), nil
 		case Boolean:
 			if v.(int) == 0 {
@@ -60,19 +60,19 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return v, nil
 		case Integer:
 			return int(v.(float64)), nil
-		case Float:
+		case Float, Number:
 			return v.(float64), nil
 		case Boolean:
-			if v.(int) == 0 {
+			if v.(float64) == 0 {
 				return true, nil
 			}
 			return false, nil
 		case CodeBlock:
-			return fmt.Sprintf("out: %f", v), nil
+			return "out: " + FloatToString(v.(float64)), nil
 		case String:
-			return fmt.Sprintf("%f", v), nil
+			return FloatToString(v.(float64)), nil
 		case Json:
-			return fmt.Sprintf(`{"Value": %d;}`, v), nil
+			return fmt.Sprintf(`{"Value": %s;}`, FloatToString(v.(float64))), nil
 		case Xml:
 			return nil, errors.New(ErrConversionFailed)
 		case Null:
@@ -85,7 +85,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		switch dataType {
 		case Generic:
 			return v, nil
-		case Integer, Float:
+		case Integer, Float, Number:
 			if v.(bool) == true {
 				return 0, nil
 			}
@@ -120,8 +120,14 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		case Generic:
 			return v, nil
 		case Integer:
+			if v.(string) == "" {
+				v = "0"
+			}
 			return strconv.Atoi(strings.TrimSpace(v.(string)))
-		case Float:
+		case Float, Number:
+			if v.(string) == "" {
+				v = "0"
+			}
 			return strconv.ParseFloat(v.(string), 64)
 		case Boolean:
 			return IsTrue([]byte(v.(string)), 0), nil
@@ -145,4 +151,10 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	}
 
 	return nil, errors.New(ErrUnexpectedGoType)
+}
+
+func FloatToString(f float64) (s string) {
+	s = strconv.FormatFloat(f, 'f', -1, 64)
+	s = strings.TrimRight(s, "0")
+	return
 }
