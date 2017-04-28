@@ -2,7 +2,7 @@ package math
 
 import (
 	"errors"
-	valuate "github.com/Knetic/govaluate"
+	"github.com/Knetic/govaluate"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"regexp"
@@ -11,6 +11,12 @@ import (
 func init() {
 	proc.GoFunctions["eval"] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["let"] = proc.GoFunction{Func: cmdLet, TypeIn: types.Null, TypeOut: types.Boolean}
+
+	/*proc.GlobalConf.Define("murex", "Auto-Declare", config.Properties{
+		Description: "If a number is undefined then auto-declare it as zero.",
+		Default:     true,
+		DataType:    types.Boolean,
+	})*/
 }
 
 var rxLet *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)\s*=(.*)`)
@@ -66,24 +72,36 @@ func evaluate(p *proc.Process, expression string) (value string, err error) {
 		}()
 	}*/
 
-	eval, err := valuate.NewEvaluableExpression(expression)
+	eval, err := govaluate.NewEvaluableExpression(expression)
 	if err != nil {
 		return
 	}
 
-	result, err := eval.Evaluate(nil)
+	result, err := eval.Evaluate(proc.GlobalVars.DumpMap())
 	if err != nil {
 		return
 	}
 
-	iface, err := types.ConvertGoType(result, types.String)
-	value = iface.(string)
+	/*
+		autoDeclare, err := proc.GlobalConf.Get("murex", "Auto-Declare", types.Boolean)
+		if err != nil {
+			return
+		}
+		p.Stderr.Writeln([]byte(fmt.Sprint(autoDeclare)))
+		if autoDeclare.(bool) {
+			f, err := types.ConvertGoType(result, types.Float)
+			if err != nil {
+				return "", err
+			}
+			value = types.FloatToString(f.(float64))
+			p.Stderr.Writeln([]byte(value))
+			return value, err
+		}
+	*/
+
+	s, err := types.ConvertGoType(result, types.String)
+	if err == nil {
+		value = s.(string)
+	}
 	return
-	/*goType, err = types.ConvertGoType(result, types.String)
-	if err != nil {
-		return
-	}
-
-	value = strings.Replace(goType.(string), ".000000", "", 1) // TODO: this is hacky!!!
-	return*/
 }

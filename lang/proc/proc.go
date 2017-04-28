@@ -134,7 +134,7 @@ func (p *Process) Execute() {
 	// Execute function.
 	err := GoFunctions[p.mapRef].Func(p)
 	if err != nil {
-		p.Stderr.Writeln([]byte(err.Error()))
+		p.Stderr.Writeln([]byte("Error in `" + p.mapRef + "`: " + err.Error()))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
