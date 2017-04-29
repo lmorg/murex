@@ -41,7 +41,6 @@ defined for special purposes:
 * Float     (defined: float) // No recommended for general use
 * Code Block (defined: block)
 * JSON      (defined: json)
-* XML       (defined: xml) // Not yet implemented
 
 ### Generic
 
@@ -101,10 +100,6 @@ encapsulated by curly brackets, `{}`.
 ### JSON
 
 A JSON object.
-
-### XML
-
-An XML object.
 
 ## Structure
 

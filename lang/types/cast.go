@@ -17,7 +17,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	switch v.(type) {
 	case nil:
 		switch dataType {
-		case Integer, Float:
+		case Integer, Float, Number:
 			return 0, nil
 		case Boolean:
 			return false, nil
@@ -46,8 +46,6 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return strconv.Itoa(v.(int)), nil
 		case Json:
 			return fmt.Sprintf(`{"Value": %d;}`, v), nil
-		case Xml:
-			return nil, errors.New(ErrConversionFailed)
 		case Null:
 			return "", nil
 		default:
@@ -73,8 +71,6 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return FloatToString(v.(float64)), nil
 		case Json:
 			return fmt.Sprintf(`{"Value": %s;}`, FloatToString(v.(float64))), nil
-		case Xml:
-			return nil, errors.New(ErrConversionFailed)
 		case Null:
 			return "", nil
 		default:
@@ -107,8 +103,6 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 				return `{"Value": true;}`, nil
 			}
 			return `{"Value": false;}`, nil
-		case Xml:
-			return nil, errors.New(ErrConversionFailed)
 		case Null:
 			return "", nil
 		default:
@@ -140,8 +134,6 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return v, nil
 		//case Json:
 		//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
-		case Xml:
-			return nil, errors.New(ErrConversionFailed)
 		case Null:
 			return "", nil
 		default:

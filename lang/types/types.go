@@ -12,7 +12,6 @@ const (
 	// string types
 	String    = "str"
 	Json      = "json"
-	Xml       = "xml"
 	Boolean   = "bool"
 	CodeBlock = "block"
 
