@@ -33,11 +33,12 @@ defined for special purposes:
 * Generic   (defined: *)
 * Null      (defined: null)
 * Die       (defined: die)
-* Binary    (defined: bin) // Not yet implemented
+* Binary    (defined: bin) // Only experimental support
 * String    (defined: str)
 * Boolean   (defined: bool)
-* Integer   (defined: int) // Implemented by currently unused
-* Float     (defined: float) // Implemented by currently unused
+* Number    (defined: num) // Preferred type for numbers
+* Integer   (defined: int) // No recommended for general use
+* Float     (defined: float) // No recommended for general use
 * Code Block (defined: block)
 * JSON      (defined: json)
 * XML       (defined: xml) // Not yet implemented
@@ -74,6 +75,14 @@ True or False. Generic input can be translated to boolean:
 * "" == False, all other strings == True
 
 Strings are not case sensitive when converted to boolean.
+
+### Number
+
+This is the preferred (and default) method for storing numeric data. All
+numbers are stored as a floating point value. There are specific types
+for integer and float if you should want to force a specific type, but
+it's not recommended you use them. In fact I am considering deleting
+those types entirely for the sake of simplifying the language syntax.
 
 ### Integer
 
