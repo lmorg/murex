@@ -155,6 +155,6 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 
 func FloatToString(f float64) (s string) {
 	s = strconv.FormatFloat(f, 'f', -1, 64)
-	s = strings.TrimRight(s, "0")
+	//s = strings.TrimRight(s, "0")
 	return
 }

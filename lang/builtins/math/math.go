@@ -2,7 +2,9 @@ package math
 
 import (
 	"errors"
+	"fmt"
 	"github.com/Knetic/govaluate"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"regexp"
@@ -19,7 +21,7 @@ func init() {
 	})*/
 }
 
-var rxLet *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)\s*=(.*)`)
+var rxLet *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\s*=(.*)`)
 
 func cmdEval(p *proc.Process) (err error) {
 	if p.Parameters.Len() == 0 {
@@ -35,14 +37,14 @@ func cmdEval(p *proc.Process) (err error) {
 }
 
 func cmdLet(p *proc.Process) (err error) {
-	/*if debug.Enable == false {
+	if debug.Enable == false {
 		defer func() {
 			if r := recover(); r != nil {
 				p.ExitNum = 2
 				err = errors.New(fmt.Sprint("Panic caught: ", r))
 			}
 		}()
-	}*/
+	}
 
 	params := p.Parameters.AllString()
 
@@ -63,14 +65,14 @@ func cmdLet(p *proc.Process) (err error) {
 }
 
 func evaluate(p *proc.Process, expression string) (value string, err error) {
-	/*if debug.Enable == false {
+	if debug.Enable == false {
 		defer func() {
 			if r := recover(); r != nil {
 				p.ExitNum = 2
 				err = errors.New(fmt.Sprint("Panic caught: ", r))
 			}
 		}()
-	}*/
+	}
 
 	eval, err := govaluate.NewEvaluableExpression(expression)
 	if err != nil {

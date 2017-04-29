@@ -9,18 +9,10 @@ import (
 type Vars struct {
 	mutex  sync.Mutex
 	values map[string]interface{}
-	//strings map[string]string
-	//numbers map[string]float64
-	//ints    map[string]int
-	//floats  map[string]float64
-	types map[string]string
+	types  map[string]string
 }
 
 func NewVariableGroup() (v Vars) {
-	//v.strings = make(map[string]string)
-	//v.ints = make(map[string]int)
-	//v.floats = make(map[string]float64)
-	//v.numbers = make(map[string]float64)
 	v.values = make(map[string]interface{})
 	v.types = make(map[string]string)
 	return
@@ -31,12 +23,16 @@ func (v *Vars) Dump() (obj map[string]interface{}) {
 	v.mutex.Lock()
 	obj = make(map[string]interface{}, 0)
 	obj["Type"] = v.types
-	//obj["String"] = v.strings
-	//obj["Integer"] = v.ints
-	//obj["Float"] = v.floats
-	//obj["Number"] = v.numbers
 	obj["Values"] = v.values
 	v.mutex.Unlock()
+	return
+}
+
+func (v *Vars) DumpMap() (m map[string]interface{}) {
+	m = make(map[string]interface{})
+	for k, v := range v.values {
+		m[k] = v
+	}
 	return
 }
 
@@ -55,26 +51,6 @@ func (v *Vars) GetType(name string) (t string) {
 // Get variable in native type.
 func (v *Vars) GetValue(name string) (value interface{}) {
 	v.mutex.Lock()
-	/*switch v.types[name] {
-	case Integer:
-		value = v.ints[name]
-
-	case Float:
-		value = v.floats[name]
-
-	case Integer, Float, Number:
-		value = v.numbers[name]
-
-	case Boolean:
-		if IsTrue([]byte(v.strings[name]), 0) {
-			value = true
-		} else {
-			value = false
-		}
-
-	default:
-		value = v.strings[name]
-	}*/
 	value = v.values[name]
 	v.mutex.Unlock()
 	return
@@ -89,9 +65,6 @@ func (v *Vars) GetString(name string) (value string) {
 
 	case Integer:
 		value = strconv.Itoa(v.values[name].(int))
-
-	//case Float:
-	//	value = strconv.FormatFloat(v.floats[name], 'f', -1, 64)
 
 	case Float, Number:
 		value = strconv.FormatFloat(v.values[name].(float64), 'f', -1, 64)
@@ -115,13 +88,6 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 			return err
 		}
 		v.values[name] = i.(int)
-
-	/*case Float:
-	f, err := ConvertGoType(value, dataType)
-	if err != nil {
-		return err
-	}
-	v.numbers[name] = f.(float64)*/
 
 	case Float, Number:
 		f, err := ConvertGoType(value, dataType)
@@ -147,6 +113,13 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 
 	v.mutex.Unlock()
 	return nil
+}
+
+func (v *Vars) Unset(name string) {
+	v.mutex.Lock()
+	delete(v.values, name)
+	delete(v.types, name)
+	v.mutex.Unlock()
 }
 
 // Replaces variable key names with values inside a string.
@@ -179,7 +152,7 @@ func (v *Vars) KeyValueReplace(s *string) {
 				start = 0
 			}
 
-		case (*s)[i] == '_', (*s)[i] == '-',
+		case (*s)[i] == '_',
 			(*s)[i] <= 'z' && 'a' <= (*s)[i],
 			(*s)[i] <= 'Z' && 'A' <= (*s)[i],
 			(*s)[i] <= '9' && '0' <= (*s)[i]:
@@ -196,12 +169,4 @@ func (v *Vars) KeyValueReplace(s *string) {
 	}
 
 	*s = (*s)[1 : len(*s)-1]
-}
-
-func (v *Vars) DumpMap() (m map[string]interface{}) {
-	m = make(map[string]interface{})
-	for k, v := range v.values {
-		m[k] = v
-	}
-	return
 }
