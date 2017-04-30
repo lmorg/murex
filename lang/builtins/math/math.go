@@ -11,8 +11,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["eval"] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["let"] = proc.GoFunction{Func: cmdLet, TypeIn: types.Null, TypeOut: types.Boolean}
+	proc.GoFunctions["eval"] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Number}
+	proc.GoFunctions["let"] = proc.GoFunction{Func: cmdLet, TypeIn: types.Null, TypeOut: types.Null}
 
 	/*proc.GlobalConf.Define("murex", "Auto-Declare", config.Properties{
 		Description: "If a number is undefined then auto-declare it as zero.",
@@ -59,7 +59,7 @@ func cmdLet(p *proc.Process) (err error) {
 		return err
 	}
 
-	err = proc.GlobalVars.Set(match[0][1], value, types.Float)
+	err = proc.GlobalVars.Set(match[0][1], value, types.Number)
 
 	return err
 }

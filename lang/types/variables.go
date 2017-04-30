@@ -12,6 +12,13 @@ type Vars struct {
 	types  map[string]string
 }
 
+type JsonableVarItem struct {
+	Value interface{}
+	Type  string
+}
+
+type JsonableVars map[string]JsonableVarItem
+
 func NewVariableGroup() (v Vars) {
 	v.values = make(map[string]interface{})
 	v.types = make(map[string]string)
@@ -19,6 +26,20 @@ func NewVariableGroup() (v Vars) {
 }
 
 // Dump the entire variable structure into a JSON-able interface.
+func (v *Vars) Dump() (obj JsonableVars) {
+	v.mutex.Lock()
+	obj = make(map[string]JsonableVarItem, 0)
+	for name := range v.values {
+		obj[name] = JsonableVarItem{
+			Value: v.values[name],
+			Type:  v.types[name],
+		}
+	}
+	v.mutex.Unlock()
+	return
+}
+
+/*
 func (v *Vars) Dump() (obj map[string]interface{}) {
 	v.mutex.Lock()
 	obj = make(map[string]interface{}, 0)
@@ -27,7 +48,9 @@ func (v *Vars) Dump() (obj map[string]interface{}) {
 	v.mutex.Unlock()
 	return
 }
+*/
 
+// This exists so we can dump variables natively into `eval` and `let`.
 func (v *Vars) DumpMap() (m map[string]interface{}) {
 	m = make(map[string]interface{})
 	for k, v := range v.values {

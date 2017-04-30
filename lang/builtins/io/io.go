@@ -3,9 +3,9 @@ package io
 import (
 	"compress/gzip"
 	"fmt"
-	"io"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"io"
 	"os"
 	"time"
 )
@@ -16,7 +16,7 @@ func init() {
 	proc.GoFunctions["err"] = proc.GoFunction{Func: cmdErr, TypeIn: types.Null, TypeOut: types.Null}
 	proc.GoFunctions["print"] = proc.GoFunction{Func: cmdPrint, TypeIn: types.Null, TypeOut: types.Null}
 	proc.GoFunctions["text"] = proc.GoFunction{Func: cmdText, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["open"] = proc.GoFunction{Func: cmdOpen, TypeIn: types.Null, TypeOut: types.String}
+	proc.GoFunctions["open"] = proc.GoFunction{Func: cmdOpen, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["pt"] = proc.GoFunction{Func: cmdPipeTelemetry, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 

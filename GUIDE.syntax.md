@@ -26,42 +26,67 @@ as functions or via `exec`
 
 ## Types
 
-Because this is a shell language optimised for stream processing,
-all types are compiled down to strings. However there are a few types
-defined for special purposes:
+### Strong typing plus auto type conversion
+
+Because this is a shell language optimised for stream processing, all
+types are generally transparently re-casted on the fly, depending on
+their application. However there are a couple exceptions to this rule:
+
+* Methods are allowed based on their input and output types. This is by
+design to help catch developer errors chaining incompatible methods
+together. Eventually the REPL readline will use this type data to drive
+its autocomplete (again enhancing the developers experience).
+* `eval` and `let` functions evaluate the data type as well as the value.
+An example of strict typing in `eval` can be seen with these 2 blocks:
+```
+set a=1  # define 'a' as string
+let b=1  # define 'b' as number
+eval a+b # returns '11' as 'a' is string so values are concatenated
+```
+
+```
+let a=1  # define 'a' as number
+let b=1  # define 'b' as number
+eval a+b # returns '2' as both 'a' and 'b' are numers
+```
+
+### Supported types
+
+The types natively supported by this shell are:
 
 * Generic   (defined: *)
 * Null      (defined: null)
 * Die       (defined: die)
-* Binary    (defined: bin) // Only experimental support
+* Binary    (defined: bin)
 * String    (defined: str)
 * Boolean   (defined: bool)
-* Number    (defined: num) // Preferred type for numbers
-* Integer   (defined: int) // No recommended for general use
-* Float     (defined: float) // No recommended for general use
+* Number    (defined: num); this is the preferred type for numbers
+* Integer   (defined: int)
+* Float     (defined: float)
 * Code Block (defined: block)
 * JSON      (defined: json)
 
-### Generic
+#### Generic
 
-This is used by functions and methods to state they can accept any data
-type. Both methods and functions can accept `generic` input.
+This is used by methods to state they can accept any data type or output
+any data type. Use of a `generic` input type can all define that a
+method call also operate as a function (ie with no STDIN).
 
-### Null
+#### Null
 
 This states that no data expected. Use `null` input to define functions
 and/or `null` output to state the process doesn't write to STDOUT.
 
-### Die
+#### Die
 
 If a `die` object is created it kills the shell.
 
-### Binary
+#### Binary
 
 String output that's not expected to be analyzed by text manipulation
 tools.
 
-### Boolean
+#### Boolean
 
 True or False. Generic input can be translated to boolean:
 
@@ -75,29 +100,30 @@ True or False. Generic input can be translated to boolean:
 
 Strings are not case sensitive when converted to boolean.
 
-### Number
+#### Number
 
 This is the preferred (and default) method for storing numeric data. All
-numbers are stored as a floating point value. There are specific types
-for integer and float if you should want to force a specific type, but
-it's not recommended you use them. In fact I am considering deleting
-those types entirely for the sake of simplifying the language syntax.
+numbers are stored as a floating point value (in fact `float` and `num`
+are one and the same data type internally).
 
-### Integer
+#### Integer
 
 As with normal programming languages, any number that doesn't have a
 decimal point.
 
-### Float
+#### Float
 
 A number which does have a decimal point.
 
-### Code Block
+This data type shouldn't ever be needed because its functionality is
+duplicated by the default numeric data type, number (`num`).
+
+#### Code Block
 
 A sub-shell. This is used to inline code. eg for loops. Blocks are
 encapsulated by curly brackets, `{}`.
 
-### JSON
+#### JSON
 
 A JSON object.
 
@@ -151,8 +177,8 @@ scripting REPLs do not.
 ### Functions
 
 Functions are called by name then parameters. The function name can be
-separated by either a colon (:) and/or a white space character (\s, \t, \r,
-or \n). eg `out: "hello world"`.
+separated by either a colon (:) and/or a white space character (\s, \t,
+\r, or \n). eg `out: "hello world"`.
 
 Function name can be quoted (eg `"out": "hello world"`) however this is
 not necessary unless you are calling an external executable with white

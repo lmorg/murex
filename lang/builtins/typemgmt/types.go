@@ -3,6 +3,7 @@ package typemgmt
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"io"
 	"os"
 )
 
@@ -15,6 +16,7 @@ func init() {
 	proc.GoFunctions["true"] = proc.GoFunction{Func: cmdTrue, TypeIn: types.Null, TypeOut: types.Boolean}
 	proc.GoFunctions["false"] = proc.GoFunction{Func: cmdFalse, TypeIn: types.Null, TypeOut: types.Boolean}
 	proc.GoFunctions["!"] = proc.GoFunction{Func: cmdNot, TypeIn: types.Generic, TypeOut: types.Boolean}
+	proc.GoFunctions["untype"] = proc.GoFunction{Func: cmdUntype, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
 func cmdNull(*proc.Process) error {
@@ -51,4 +53,9 @@ func cmdExit(p *proc.Process) error {
 	i, _ := p.Parameters.Int(0)
 	os.Exit(i)
 	return nil
+}
+
+func cmdUntype(p *proc.Process) (err error) {
+	_, err = io.Copy(p.Stdout, p.Stdin)
+	return
 }
