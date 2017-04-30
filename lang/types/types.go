@@ -7,12 +7,12 @@ const (
 	Generic = "*"
 	Null    = "null"
 	Die     = "die"
-	Binary  = "bin"
+	Boolean = "bool"
 
 	// string types
 	String    = "str"
+	Binary    = "bin"
 	Json      = "json"
-	Boolean   = "bool"
 	CodeBlock = "block"
 
 	// number types

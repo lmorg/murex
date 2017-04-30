@@ -50,6 +50,8 @@ let b=1  # define 'b' as number
 eval a+b # returns '2' as both 'a' and 'b' are numers
 ```
 
+For more on the `set`, `let` and `eval` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
+
 ### Supported types
 
 The types natively supported by this shell are:
@@ -65,6 +67,11 @@ The types natively supported by this shell are:
 * Float     (defined: float)
 * Code Block (defined: block)
 * JSON      (defined: json)
+
+Support for other mark ups such as XML and YAML will likely follow.
+However JSON will always be a first class citizen because it is the
+primary format for transmitting objects between methods (much like
+Javascript's relationship with JSON).
 
 #### Generic
 

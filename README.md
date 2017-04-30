@@ -55,15 +55,17 @@ test/regression_test.sh
 
 Please read the following guides:
 
-1. [GUIDE.syntax.md](./GUIDE.syntax.md) - this is recommended first as
-it gives an overview if the shell scripting languages syntax and data
-types.
+1. [GUIDE.syntax.md](./GUIDE.syntax.md) is recommended first as it gives
+an overview if the shell scripting languages syntax and data types.
 
-2. [GUIDE.control-structures.md](./GUIDE.control-structures.md) - this
-will list how to use if statements and iteration like for loops.
+2. [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md) -
+describes how to define variables and how to use them.
 
-3. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md) - lastly
-this will list some of the builtin functions available for this shell.
+3. [GUIDE.control-structures.md](./GUIDE.control-structures.md) will
+list how to use if statements and iteration like for loops.
+
+4. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md) lists some
+of the builtin functions available for this shell.
 
 ## Known bugs / TODO
 
