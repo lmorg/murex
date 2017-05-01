@@ -68,17 +68,17 @@ func cmdIf(p *proc.Process) (err error) {
 	default:
 		if !p.Not {
 			return errors.New(`Not a valid if statement. Usage:
-  $conditional -> if: { $then }           # conditional result read from stdin or previous process exit number
-  $conditional -> if: { $then } { $else } # conditional result read from stdin or previous process exit number
-  if: { $conditional } { $then }             # if / then
-  if: { $conditional } { $then } { $else }   # if / then / else
+  $conditional -> if: { $then }            # conditional result read from stdin or previous process exit number
+  $conditional -> if: { $then } { $else }  # conditional result read from stdin or previous process exit number
+  if: { $conditional } { $then }           # if / then
+  if: { $conditional } { $then } { $else } # if / then / else
 `)
 		} else {
 			return errors.New(`Not a valid if statement. Usage:
-  $conditional -> !if: { $else }           # conditional result read from stdin or previous process exit number
-  $conditional -> !if: { $else } { $then } # conditional result read from stdin or previous process exit number
-  !if: { $conditional } { $else }             # if / then
-  !if: { $conditional } { $else } { $then }   # if / then / else
+  $conditional -> !if: { $else }            # conditional result read from stdin or previous process exit number
+  $conditional -> !if: { $else } { $then }  # conditional result read from stdin or previous process exit number
+  !if: { $conditional } { $else }           # if / then
+  !if: { $conditional } { $else } { $then } # if / then / else
 `)
 		}
 	}

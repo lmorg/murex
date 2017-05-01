@@ -12,7 +12,6 @@ import (
 	_ "github.com/lmorg/murex/lang/builtins/httpclient"
 	_ "github.com/lmorg/murex/lang/builtins/io"
 	_ "github.com/lmorg/murex/lang/builtins/management"
-	_ "github.com/lmorg/murex/lang/builtins/math"
 	_ "github.com/lmorg/murex/lang/builtins/misc"
 	_ "github.com/lmorg/murex/lang/builtins/structs"
 	_ "github.com/lmorg/murex/lang/builtins/textmanip"

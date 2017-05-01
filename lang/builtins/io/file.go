@@ -11,28 +11,9 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["echo"] = proc.GoFunction{Func: cmdOut, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["out"] = proc.GoFunction{Func: cmdOut, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["err"] = proc.GoFunction{Func: cmdErr, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["print"] = proc.GoFunction{Func: cmdPrint, TypeIn: types.Null, TypeOut: types.Null}
 	proc.GoFunctions["text"] = proc.GoFunction{Func: cmdText, TypeIn: types.Null, TypeOut: types.String}
 	proc.GoFunctions["open"] = proc.GoFunction{Func: cmdOpen, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["pt"] = proc.GoFunction{Func: cmdPipeTelemetry, TypeIn: types.Generic, TypeOut: types.Generic}
-}
-
-func cmdOut(p *proc.Process) (err error) {
-	_, err = p.Stdout.Writeln(p.Parameters.AllByte())
-	return
-}
-
-func cmdErr(p *proc.Process) (err error) {
-	_, err = p.Stderr.Writeln(p.Parameters.AllByte())
-	return
-}
-
-func cmdPrint(p *proc.Process) (err error) {
-	_, err = fmt.Println(p.Parameters.AllByte())
-	return
 }
 
 func cmdText(p *proc.Process) error {
@@ -104,10 +85,3 @@ func cmdPipeTelemetry(p *proc.Process) error {
 	io.Copy(p.Stdout, p.Stdin)
 	return nil
 }
-
-/*
-func cmdTimeStamp(pid string) (err error) {
-	//out.StdOut =
-	//return
-}
-*/
