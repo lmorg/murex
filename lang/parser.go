@@ -286,12 +286,13 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				*pop += string(b)
 			case braceCount > 0:
 				*pop += string(b)
-			case !scanFuncName:
+				//case !scanFuncName:
+			default:
 				appendNode()
 				node = Node{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
-			default:
+				//default:
 				// do nothing
 			}
 
