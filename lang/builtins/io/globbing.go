@@ -87,7 +87,7 @@ func cmdLsFf(p *proc.Process) (err error) {
 	stdin := p.Stdin.ReadAll()
 
 	// Attempt to auto-detect JSON string or string array
-	if stdin[0] == '[' {
+	if types.IsJsonArray(stdin) {
 		if err := json.Unmarshal(stdin, &files); err != nil {
 			return err
 		}

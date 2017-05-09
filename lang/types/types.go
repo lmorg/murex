@@ -34,6 +34,20 @@ func IsTrue(stdout []byte, exitNum int) bool {
 	return true
 }
 
+func IsJson(b []byte) bool {
+	if b[0] == '{' && b[len(b)-1] == '}' {
+		return true
+	}
+	return false
+}
+
+func IsJsonArray(b []byte) bool {
+	if b[0] == '[' && b[len(b)-1] == ']' {
+		return true
+	}
+	return false
+}
+
 const TrueString = "true"
 const FalseString = "false"
 
