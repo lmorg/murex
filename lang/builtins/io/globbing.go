@@ -48,7 +48,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 		}
 	}
 
-	j, err := json.MarshalIndent(files, "", "\t")
+	j, err := json.MarshalIndent(matched, "", "\t")
 	if err != nil {
 		return
 	}
