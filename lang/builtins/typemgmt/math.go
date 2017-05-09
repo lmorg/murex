@@ -21,7 +21,11 @@ func init() {
 	})*/
 }
 
-var rxLet *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\s*=(.*)`)
+var (
+	rxLet   *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\s*=(.*)$`)
+	rxMinus *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)--$`)
+	rxPlus  *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
+)
 
 func cmdEval(p *proc.Process) (err error) {
 	if p.Parameters.Len() == 0 {
@@ -47,19 +51,34 @@ func cmdLet(p *proc.Process) (err error) {
 	}
 
 	params := p.Parameters.AllString()
+	var variable, expression string
 
-	if !rxLet.MatchString(params) {
+	switch {
+	case rxLet.MatchString(params):
+		match := rxLet.FindAllStringSubmatch(params, -1)
+		variable = match[0][1]
+		expression = match[0][2]
+
+	case rxPlus.MatchString(params):
+		match := rxPlus.FindAllStringSubmatch(params, -1)
+		variable = match[0][1]
+		expression = variable + "+1"
+
+	case rxMinus.MatchString(params):
+		match := rxMinus.FindAllStringSubmatch(params, -1)
+		variable = match[0][1]
+		expression = variable + "-1"
+
+	default:
 		return errors.New("Invalid syntax for `let`. Should be `let variable-name = expression`.")
 	}
 
-	match := rxLet.FindAllStringSubmatch(params, -1)
-
-	value, err := evaluate(p, match[0][2])
+	value, err := evaluate(p, expression)
 	if err != nil {
 		return err
 	}
 
-	err = proc.GlobalVars.Set(match[0][1], value, types.Number)
+	err = proc.GlobalVars.Set(variable, value, types.Number)
 
 	return err
 }

@@ -5,15 +5,19 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
+
+var rxWhiteSpace *regexp.Regexp = regexp.MustCompile(`[\n\r\t]+`)
 
 func init() {
 	proc.GoFunctions["g"] = proc.GoFunction{Func: cmdLsG, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["rx"] = proc.GoFunction{Func: cmdLsRx, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["ff"] = proc.GoFunction{Func: cmdLsFf, TypeIn: types.Json, TypeOut: types.Json}
+	proc.GoFunctions["ff"] = proc.GoFunction{Func: cmdLsFf, TypeIn: types.Generic, TypeOut: types.Json}
 }
 
 func cmdLsG(p *proc.Process) (err error) {
@@ -53,7 +57,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 	return
 }
 
-func cmdLsFf(p *proc.Process) error {
+func cmdLsFf(p *proc.Process) (err error) {
 	var (
 		file      bool
 		directory bool
@@ -79,8 +83,17 @@ func cmdLsFf(p *proc.Process) error {
 	}
 
 	var files, matched []string
-	if err := json.Unmarshal(p.Stdin.ReadAll(), &files); err != nil {
-		return err
+	var isJson bool
+	stdin := p.Stdin.ReadAll()
+
+	// Attempt to auto-detect JSON string or string array
+	if stdin[0] == '[' {
+		if err := json.Unmarshal(stdin, &files); err != nil {
+			return err
+		}
+		isJson = true
+	} else {
+		files = rxWhiteSpace.Split(string(stdin), -1)
 	}
 
 	for i := range files {
@@ -101,5 +114,17 @@ func cmdLsFf(p *proc.Process) error {
 			// TODO: code me
 		}
 	}
-	return nil
+
+	var b []byte
+	if isJson {
+		b, err = json.MarshalIndent(matched, "", "\t")
+		if err != nil {
+			return err
+		}
+	} else {
+		b = []byte(strings.Join(matched, utils.NewLineString))
+	}
+
+	_, err = p.Stdout.Writeln(b)
+	return
 }

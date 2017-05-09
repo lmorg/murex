@@ -27,7 +27,7 @@ func IsTrue(stdout []byte, exitNum int) bool {
 	}
 
 	s := strings.ToLower(strings.TrimSpace(string(stdout)))
-	if len(s) == 0 || s == "0" || s == "false" || s == "no" || s == "off" || s == "fail" || s == "failed" {
+	if len(s) == 0 || s == "null" || s == "0" || s == "false" || s == "no" || s == "off" || s == "fail" || s == "failed" {
 		return false
 	}
 

@@ -296,6 +296,19 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				// do nothing
 			}
 
+		/*case '$':
+		switch {
+		case braceCount > 0:
+			*pop += string(b)
+		case quoteSingle:
+			*pop += string(b)
+			case escaped:
+			*pop += string(b)
+		default:
+			*pop += string(b) // TODO: delete this line
+
+		}*/
+
 		case 's':
 			switch {
 			case braceCount > 0:

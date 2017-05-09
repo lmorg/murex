@@ -1,10 +1,7 @@
 #!/usr/bin/env murex
 
-let a=0
-# I'll want to change the above so nil variables return 0.
-while {
-    eval a < 5
-} {
-    echo $a
-    let a=a+1
+let a=1
+while { eval a < 5 } {
+    out "Iteration $a...."
+    let a++
 }

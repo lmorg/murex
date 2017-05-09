@@ -98,6 +98,8 @@ tools.
 True or False. Generic input can be translated to boolean:
 
 * 0 == False, none zero numbers == True
+* "0" == False
+* "null" == False
 * "false" == False, "true" == True
 * "no" == False, "yes" == True
 * "off" == False, "on" == True
