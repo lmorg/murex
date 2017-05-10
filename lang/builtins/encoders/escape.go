@@ -3,6 +3,7 @@ package encoders
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"html"
 	"strconv"
 )
 
@@ -11,21 +12,23 @@ func init() {
 	proc.GoFunctions["!escape"] = proc.GoFunction{Func: cmdEscape, TypeIn: types.String, TypeOut: types.String}
 }
 
-func cmdEscape(p *proc.Process) (err error) {
+func cmdEscape(p *proc.Process) error {
 	var str string
 	if p.Parameters.Len() == 0 {
 		str = string(p.Stdin.ReadAll())
-		//debug.Log("[cmdEscape] [p.Stdin.ReadAll]", str)
+
 	} else {
 		str = p.Parameters.AllString()
-		//debug.Log("[cmdEscape] [len(p.Parameters)]", len(p.Parameters), "'"+p.Parameters.String()+"'")
+
 	}
 
 	if p.Not {
-		str, err = strconv.Unquote(str)
+		unescape, err := strconv.Unquote(str)
 		if err != nil {
-			return
+			unescape = html.UnescapeString(str)
 		}
+		str = unescape
+
 	} else {
 		str = strconv.Quote(str)
 	}
