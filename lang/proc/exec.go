@@ -25,7 +25,12 @@ func External(p *Process) error {
 }
 
 func execute(p *Process) error {
-	cmd := exec.Command(p.Parameters[0], p.Parameters[1:]...)
+	exeName, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+	parameters := p.Parameters.StringArray()
+	cmd := exec.Command(exeName, parameters[1:]...)
 
 	cmd.Stdin = p.Stdin
 	cmd.Stdout = p.Stdout
@@ -61,11 +66,12 @@ func ExternalPty(p *Process) error {
 
 // Prototype call with support for PTYs. Highly experimental, doesn't really work yet.
 func shellExecute(p *Process) error {
-	cmd := exec.Command(p.Parameters[0], p.Parameters[1:]...)
-
-	//cmd.Stdin = p.Stdin
-	//cmd.Stdout = p.Stdout
-	//cmd.Stderr = p.Stderr
+	exeName, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+	parameters := p.Parameters.StringArray()
+	cmd := exec.Command(exeName, parameters[1:]...)
 
 	f, err := pty.Start(cmd)
 	if err != nil {

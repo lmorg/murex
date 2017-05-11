@@ -59,7 +59,7 @@ func cmdBuiltinExists(p *proc.Process) error {
 		Missing   []string
 	}
 
-	for _, name := range p.Parameters {
+	for _, name := range p.Parameters.StringArray() {
 		if proc.GoFunctions[name].Func != nil {
 			j.Installed = append(j.Installed, name)
 		} else {

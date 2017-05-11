@@ -31,7 +31,7 @@ func cmdEval(p *proc.Process) (err error) {
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing expression.")
 	}
-	value, err := evaluate(p, p.Parameters.AllString())
+	value, err := evaluate(p, p.Parameters.StringAll())
 	if err != nil {
 		return
 	}
@@ -50,7 +50,7 @@ func cmdLet(p *proc.Process) (err error) {
 		}()
 	}
 
-	params := p.Parameters.AllString()
+	params := p.Parameters.StringAll()
 	var variable, expression string
 
 	switch {

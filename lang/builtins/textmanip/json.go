@@ -33,7 +33,7 @@ func cmdJson(p *proc.Process) (err error) {
 		return
 	}
 
-	for _, field := range p.Parameters {
+	for _, field := range p.Parameters.StringArray() {
 		switch t := jInterface.(type) {
 		case map[string]interface{}:
 			jInterface = t[field]
@@ -42,7 +42,7 @@ func cmdJson(p *proc.Process) (err error) {
 			jInterface = t
 
 		default:
-			errors.New("Unable to find " + p.Parameters.AllString() + " in JSON.")
+			errors.New("Unable to find " + p.Parameters.StringAll() + " in JSON.")
 			return
 		}
 	}

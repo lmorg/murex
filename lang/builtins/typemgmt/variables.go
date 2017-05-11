@@ -36,7 +36,7 @@ func cmdSet(p *proc.Process) error {
 		return errors.New("Missing variable name.")
 	}
 
-	params := p.Parameters.AllString()
+	params := p.Parameters.StringAll()
 
 	// Set variable as method:
 	if p.Method {
@@ -62,7 +62,7 @@ func cmdExport(p *proc.Process) error {
 		return errors.New("Missing variable name.")
 	}
 
-	params := p.Parameters.AllString()
+	params := p.Parameters.StringAll()
 
 	// Set env as method:
 	if p.Method {

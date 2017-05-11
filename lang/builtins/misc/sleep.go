@@ -3,7 +3,6 @@ package misc
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"strconv"
 	"time"
 )
 
@@ -11,14 +10,13 @@ func init() {
 	proc.GoFunctions["sleep"] = proc.GoFunction{Func: cmdSleep, TypeIn: types.Null, TypeOut: types.Null}
 }
 
-func cmdSleep(p *proc.Process) (err error) {
-	var i int64
-	i, err = strconv.ParseInt(string(p.Parameters[0]), 10, 0)
+func cmdSleep(p *proc.Process) error {
+	i, err := p.Parameters.Int(0)
 	if err != nil {
-		p.Stderr.Writeln([]byte(err.Error()))
+		return err
 	}
 
-	time.Sleep(time.Duration(i) * time.Second)
+	time.Sleep(time.Duration(int64(i)) * time.Second)
 
-	return
+	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"os"
@@ -20,7 +21,7 @@ type Process struct {
 	Stdin      streams.Io
 	Stdout     streams.Io
 	Stderr     streams.Io
-	Parameters Parameters
+	Parameters parameters.Parameters
 	ExitNum    int
 	Name       string
 	Id         int
@@ -89,7 +90,8 @@ func CreateProcess(p *Process, f Flow) {
 		p.mapRef = p.Name
 
 	case !p.Method:
-		p.Parameters = append(Parameters{p.Name}, p.Parameters...)
+		//p.Parameters = append(Parameters{p.Name}, p.Parameters...)
+		p.Parameters.SetPrepend(p.Name)
 		if f.NewChain && !f.PipeOut && !f.PipeErr {
 			p.mapRef = "pty"
 		} else {
@@ -119,11 +121,12 @@ func (p *Process) Execute() {
 	GlobalVars.Dump()
 
 	// Expand variables if parameter isn't a code block.
-	for i := range p.Parameters {
+	/*for i := range p.Parameters {
 		if len(p.Parameters[i]) > 1 && (p.Parameters[i][0] != '{' || p.Parameters[i][len(p.Parameters[i])-1] != '}') {
 			GlobalVars.KeyValueReplace(&p.Parameters[i])
 		}
-	}
+	}*/
+	p.Parameters.ExpandInString(&GlobalVars)
 
 	// A little catch for unexpected behavior.
 	// This shouldn't ever happen so lets produce a stack trace for debugging.

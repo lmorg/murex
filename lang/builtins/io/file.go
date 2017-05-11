@@ -17,7 +17,7 @@ func init() {
 }
 
 func cmdText(p *proc.Process) error {
-	for _, filename := range p.Parameters {
+	for _, filename := range p.Parameters.StringArray() {
 		file, err := os.Open(filename)
 		if err != nil {
 			return err
@@ -50,7 +50,7 @@ func cmdText(p *proc.Process) error {
 }
 
 func cmdOpen(p *proc.Process) error {
-	for _, filename := range p.Parameters {
+	for _, filename := range p.Parameters.StringArray() {
 		file, err := os.Open(filename)
 		if err != nil {
 			file.Close()

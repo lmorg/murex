@@ -20,13 +20,18 @@ func cmdForEach(p *proc.Process) (err error) {
 		return err
 	}
 
+	varName, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
 	p.Stdin.ReadLineFunc(func(b []byte) {
 		b = bytes.TrimSpace(b)
 		if len(b) == 0 {
 			return
 		}
 
-		proc.GlobalVars.Set(p.Parameters[0], string(b), p.Previous.ReturnType)
+		proc.GlobalVars.Set(varName, string(b), p.Previous.ReturnType)
 
 		stdin := streams.NewStdin()
 		stdin.Writeln(b)

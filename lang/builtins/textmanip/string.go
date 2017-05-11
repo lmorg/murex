@@ -20,12 +20,12 @@ func init() {
 }
 
 func cmdMatch(p *proc.Process) error {
-	if p.Parameters.AllString() == "" {
+	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")
 	}
 
 	p.Stdin.ReadLineFunc(func(b []byte) {
-		matched := bytes.Contains(b, p.Parameters.AllByte())
+		matched := bytes.Contains(b, p.Parameters.ByteAll())
 		if (matched && !p.Not) || (!matched && p.Not) {
 			p.Stdout.Write(b)
 		}
@@ -35,15 +35,15 @@ func cmdMatch(p *proc.Process) error {
 }
 
 func cmdRegexp(p *proc.Process) (err error) {
-	if p.Parameters.AllString() == "" {
+	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")
 	}
 
 	var sRegex []string
-	if len(p.Parameters) == 1 {
-		sRegex = splitRegexParams(p.Parameters.AllString())
+	if p.Parameters.Len() == 1 {
+		sRegex = splitRegexParams(p.Parameters.StringAll())
 	} else {
-		sRegex = p.Parameters
+		sRegex = p.Parameters.StringArray()
 	}
 
 	var rx *regexp.Regexp
@@ -150,7 +150,7 @@ func cmdRight(p *proc.Process) error {
 }
 
 func cmdPrepend(p *proc.Process) (err error) {
-	prepend := p.Parameters.AllByte()
+	prepend := p.Parameters.ByteAll()
 	_, err = p.Stdout.Write(append(prepend, p.Stdin.ReadAll()...))
 
 	return

@@ -3,10 +3,10 @@ package httpclient
 import (
 	"encoding/json"
 	"errors"
-	"io"
-	"io/ioutil"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -20,7 +20,10 @@ func cmdGet(p *proc.Process) (err error) {
 
 	var jhttp jsonHttp
 
-	url := string(p.Parameters[len(p.Parameters)-1])
+	url, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
 	if !rxHttpProto.MatchString(url) {
 		url = "http://" + url
 	}
@@ -56,7 +59,10 @@ func cmdGetFile(p *proc.Process) (err error) {
 		return errors.New("URL required.")
 	}
 
-	url := string(p.Parameters[len(p.Parameters)-1])
+	url, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
 	if !rxHttpProto.MatchString(url) {
 		url = "http://" + url
 	}

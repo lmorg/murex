@@ -18,7 +18,7 @@ func cmdEscape(p *proc.Process) error {
 		str = string(p.Stdin.ReadAll())
 
 	} else {
-		str = p.Parameters.AllString()
+		str = p.Parameters.StringAll()
 
 	}
 

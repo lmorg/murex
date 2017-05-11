@@ -1,10 +1,12 @@
 package lang
 
-import "github.com/lmorg/murex/lang/proc"
+import (
+	"github.com/lmorg/murex/lang/proc"
+)
 
 type Node struct {
 	Name       string
-	Parameters proc.Parameters
+	Parameters []string
 	NewChain   bool
 	Method     bool
 	PipeOut    bool

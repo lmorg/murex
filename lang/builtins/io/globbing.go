@@ -21,7 +21,7 @@ func init() {
 }
 
 func cmdLsG(p *proc.Process) (err error) {
-	glob := p.Parameters.AllString()
+	glob := p.Parameters.StringAll()
 	files, err := filepath.Glob(glob)
 
 	j, err := json.MarshalIndent(files, "", "\t")
@@ -34,7 +34,7 @@ func cmdLsG(p *proc.Process) (err error) {
 }
 
 func cmdLsRx(p *proc.Process) (err error) {
-	rx, err := regexp.Compile(p.Parameters.AllString())
+	rx, err := regexp.Compile(p.Parameters.StringAll())
 	if err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func cmdLsFf(p *proc.Process) (err error) {
 		symlink   bool = true
 	)
 
-	for _, flag := range p.Parameters {
+	for _, flag := range p.Parameters.StringArray() {
 		switch flag {
 		case "+f":
 			file = true

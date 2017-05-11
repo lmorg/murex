@@ -15,24 +15,24 @@ func init() {
 
 func cmdOut(p *proc.Process) (err error) {
 	if f, _ := p.Parameters.String(0); f == "-n" {
-		_, err = p.Stdout.Write(p.Parameters[1:].AllByte())
+		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(0, -1))
 		return
 	}
-	_, err = p.Stdout.Writeln(p.Parameters.AllByte())
+	_, err = p.Stdout.Writeln(p.Parameters.ByteAll())
 	return
 }
 
 func cmdErr(p *proc.Process) (err error) {
 	if f, _ := p.Parameters.String(0); f == "-n" {
-		_, err = p.Stdout.Write(p.Parameters[1:].AllByte())
+		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(0, -1))
 		return
 	}
-	_, err = p.Stderr.Writeln(p.Parameters.AllByte())
+	_, err = p.Stderr.Writeln(p.Parameters.ByteAll())
 	return
 }
 
 func cmdPrint(p *proc.Process) (err error) {
-	_, err = fmt.Println(p.Parameters.AllByte())
+	_, err = fmt.Println(p.Parameters.ByteAll())
 	return
 }
 
