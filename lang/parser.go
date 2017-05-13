@@ -1,6 +1,9 @@
 package lang
 
-import "github.com/lmorg/murex/debug"
+import (
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/proc/parameters"
+)
 
 func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 	defer debug.Json("Parser", nodes)
@@ -13,6 +16,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		ignoreWhitespace         bool = true
 		scanFuncName             bool = true
 		//newLine                  bool
+
+		// Variable and subshell tokens
+		inStrToken parameters.InStrToken
 
 		// Parsed thus far
 		node Node    = Node{NewChain: true}
@@ -38,6 +44,38 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				commentLine = false
 			}
 			continue
+		}
+
+		if inStrToken.Type != 0 {
+			switch {
+			case b == '-' ||
+				('a' < b && b < 'z') ||
+				('A' < b && b < 'Z') ||
+				('0' < b && b < '9'):
+				inStrToken.Key += string(b)
+				*pop += string(b)
+				continue
+
+			case b == '{' && (*pop)[inStrToken.Location-1] != '$':
+				inStrToken.Type = parameters.InStrTokenTypeBlockString
+				*pop += string(b)
+				continue
+
+			case b == '{' && (*pop)[inStrToken.Location-1] != '@':
+				inStrToken.Type = parameters.InStrTokenTypeBlockArray
+				*pop += string(b)
+				continue
+
+			default:
+				if len(inStrToken.Key) > 0 {
+					// TODO: need to get this bit working
+					//nodes[len(nodes)-1].InStrTokens[len(nodes[len(nodes)-1].InStrTokens-1)] =
+					//	append(nodes.Last().InStrTokens[len(nodes[len(nodes)-1].InStrTokens-1)], inStrToken)
+					inStrToken.Key = ""
+				}
+				inStrToken.Type = 0
+			}
+
 		}
 
 		switch b {
@@ -296,18 +334,19 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				// do nothing
 			}
 
-		/*case '$':
-		switch {
-		case braceCount > 0:
+		case '$':
+			if braceCount == 0 && !quoteSingle && !escaped {
+				inStrToken.Type = parameters.InStrTokenTypeString
+				inStrToken.Location = len(*pop)
+			}
 			*pop += string(b)
-		case quoteSingle:
-			*pop += string(b)
-			case escaped:
-			*pop += string(b)
-		default:
-			*pop += string(b) // TODO: delete this line
 
-		}*/
+		case '@':
+			if braceCount == 0 && !quoteSingle && !escaped {
+				inStrToken.Type = parameters.InStrTokenTypeArray
+				inStrToken.Location = len(*pop)
+			}
+			*pop += string(b)
 
 		case 's':
 			switch {

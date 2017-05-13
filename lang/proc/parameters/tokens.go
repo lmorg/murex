@@ -7,7 +7,7 @@ type InStrToken struct {
 }
 
 const (
-	InStrTokenTypeString = iota + 1
+	InStrTokenTypeString = 1 + iota
 	InStrTokenTypeBlockString
 	InStrTokenTypeArray
 	InStrTokenTypeBlockArray

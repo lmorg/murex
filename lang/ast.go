@@ -2,16 +2,18 @@ package lang
 
 import (
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
 type Node struct {
-	Name       string
-	Parameters []string
-	NewChain   bool
-	Method     bool
-	PipeOut    bool
-	PipeErr    bool
-	Process    proc.Process
+	Name        string
+	Parameters  []string
+	InStrTokens [][]parameters.InStrToken
+	NewChain    bool
+	Method      bool
+	PipeOut     bool
+	PipeErr     bool
+	Process     proc.Process
 	//Children   Nodes
 }
 

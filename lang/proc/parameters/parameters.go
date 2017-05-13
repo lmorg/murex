@@ -6,7 +6,7 @@ import (
 
 type Parameters struct {
 	params []string
-	tokens []InStrToken
+	tokens [][]InStrToken
 }
 
 func (p *Parameters) SetPrepend(parameter string) {
@@ -17,7 +17,7 @@ func (p *Parameters) SetAll(parameters []string) {
 	p.params = parameters
 }
 
-func (p *Parameters) SetTokens(tokens []InStrToken) {
+func (p *Parameters) SetTokens(tokens [][]InStrToken) {
 	p.tokens = tokens
 }
 
