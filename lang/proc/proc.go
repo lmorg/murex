@@ -126,7 +126,7 @@ func (p *Process) Execute() {
 			GlobalVars.KeyValueReplace(&p.Parameters[i])
 		}
 	}*/
-	p.Parameters.ExpandInString(&GlobalVars)
+	p.Parameters.Parse(&GlobalVars)
 
 	// A little catch for unexpected behavior.
 	// This shouldn't ever happen so lets produce a stack trace for debugging.

@@ -5,6 +5,12 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
+func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
+	pt = make([][]parameters.ParamToken, 1)
+	pt[0] = make([]parameters.ParamToken, 1)
+	return
+}
+
 func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 	defer debug.Json("Parser", nodes)
 	var (
@@ -17,14 +23,23 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		scanFuncName             bool = true
 		//newLine                  bool
 
-		// Variable and subshell tokens
-		inStrToken parameters.InStrToken
-
 		// Parsed thus far
-		node Node    = Node{NewChain: true}
-		pop  *string = &node.Name
+		node   Node                   = Node{NewChain: true, ParamTokens: genEmptyParamTokens()}
+		pop    *string                = &node.Name
+		pCount int                    // parameter count
+		pToken *parameters.ParamToken = &node.ParamTokens[0][0]
+		//pToken parameters.ParamToken
 	)
 	defer debug.Json("Last node", node)
+
+	startParameters := func() {
+		scanFuncName = false
+		node.Parameters = make([]string, 1)
+		pop = &node.Parameters[0]
+		node.ParamTokens = genEmptyParamTokens()
+		pCount = 0
+		//pToken = &node.ParamTokens[pCount][0]
+	}
 
 	appendNode := func() {
 		if len(node.Parameters) > 1 && len(node.Parameters[len(node.Parameters)-1]) == 0 {
@@ -46,34 +61,35 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			continue
 		}
 
-		if inStrToken.Type != 0 {
+		if pToken.Type != 0 {
 			switch {
 			case b == '-' ||
 				('a' < b && b < 'z') ||
 				('A' < b && b < 'Z') ||
 				('0' < b && b < '9'):
-				inStrToken.Key += string(b)
+				pToken.Key += string(b)
 				*pop += string(b)
 				continue
 
-			case b == '{' && (*pop)[inStrToken.Location-1] != '$':
-				inStrToken.Type = parameters.InStrTokenTypeBlockString
+			case b == '{' && (*pop)[pToken.StrLoc-1] != '$':
+				pToken.Type = parameters.TokenTypeBlockString
 				*pop += string(b)
 				continue
 
-			case b == '{' && (*pop)[inStrToken.Location-1] != '@':
-				inStrToken.Type = parameters.InStrTokenTypeBlockArray
+			case b == '{' && (*pop)[pToken.StrLoc-1] != '@':
+				pToken.Type = parameters.TokenTypeBlockArray
 				*pop += string(b)
 				continue
 
 			default:
-				if len(inStrToken.Key) > 0 {
+				if len(pToken.Key) > 0 {
 					// TODO: need to get this bit working
 					//nodes[len(nodes)-1].InStrTokens[len(nodes[len(nodes)-1].InStrTokens-1)] =
 					//	append(nodes.Last().InStrTokens[len(nodes[len(nodes)-1].InStrTokens-1)], inStrToken)
-					inStrToken.Key = ""
+					//pToken.Key = ""
+					//nodes.Last().ParamTokens = append(nodes.Last().ParamTokens)
 				}
-				inStrToken.Type = 0
+				pToken.Type = 0
 			}
 
 		}
@@ -138,9 +154,13 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case braceCount > 0:
 				*pop += string(b)
 			case scanFuncName:
-				scanFuncName = false
+				/*scanFuncName = false
 				node.Parameters = make([]string, 1)
 				pop = &node.Parameters[0]
+				node.ParamTokens = make([][]parameters.ParamToken, 1)
+				pCount = 0
+				pToken = &node.ParamTokens[pCount][0]*/
+				startParameters()
 			default:
 				*pop += string(b)
 				//pErr = raiseErr(ErrUnexpectedColon, i)
@@ -158,9 +178,13 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				//pErr = raiseErr(ErrUnexpectedOpenBrace, i)
 				//return
 				// Update function name:
-				scanFuncName = false
+				/*scanFuncName = false
 				node.Parameters = make([]string, 1)
 				pop = &node.Parameters[0]
+				node.ParamTokens = make([][]parameters.ParamToken, 1)
+				pCount = 0
+				pToken = &node.ParamTokens[pCount][0]*/
+				startParameters()
 				// Update first parameter:
 				*pop += string(b)
 				braceCount++
@@ -202,9 +226,11 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 					pop = &node.Parameters[len(node.Parameters)-1]
 				}
 			case scanFuncName && !ignoreWhitespace:
-				scanFuncName = false
+				/*scanFuncName = false
 				node.Parameters = make([]string, 1)
-				pop = &node.Parameters[0]
+				pop = &node.Parameters[0]*/
+				startParameters()
+
 			default:
 				// do nothing
 			}
@@ -225,9 +251,10 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				scanFuncName = true
 				//newLine = true
 			case scanFuncName && !ignoreWhitespace:
-				scanFuncName = false
+				/*scanFuncName = false
 				node.Parameters = make([]string, 1)
-				pop = &node.Parameters[0]
+				pop = &node.Parameters[0]*/
+				startParameters()
 			default:
 				// do nothing
 			}
@@ -335,16 +362,16 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			}
 
 		case '$':
-			if braceCount == 0 && !quoteSingle && !escaped {
-				inStrToken.Type = parameters.InStrTokenTypeString
-				inStrToken.Location = len(*pop)
+			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
+				pToken.Type = parameters.TokenTypeString
+				pToken.StrLoc = len(*pop)
 			}
 			*pop += string(b)
 
 		case '@':
-			if braceCount == 0 && !quoteSingle && !escaped {
-				inStrToken.Type = parameters.InStrTokenTypeArray
-				inStrToken.Location = len(*pop)
+			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
+				pToken.Type = parameters.TokenTypeArray
+				pToken.StrLoc = len(*pop)
 			}
 			*pop += string(b)
 

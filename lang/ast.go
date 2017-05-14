@@ -8,7 +8,7 @@ import (
 type Node struct {
 	Name        string
 	Parameters  []string
-	InStrTokens [][]parameters.InStrToken
+	ParamTokens [][]parameters.ParamToken
 	NewChain    bool
 	Method      bool
 	PipeOut     bool

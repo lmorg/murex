@@ -1,14 +1,14 @@
 package parameters
 
-type InStrToken struct {
-	Type     int
-	Location int
-	Key      string
+type ParamToken struct {
+	Type   int
+	StrLoc int
+	Key    string
 }
 
 const (
-	InStrTokenTypeString = 1 + iota
-	InStrTokenTypeBlockString
-	InStrTokenTypeArray
-	InStrTokenTypeBlockArray
+	TokenTypeString = 1 + iota
+	TokenTypeBlockString
+	TokenTypeArray
+	TokenTypeBlockArray
 )
