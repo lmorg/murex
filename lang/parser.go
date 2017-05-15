@@ -65,25 +65,30 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		if pToken.Type != 0 {
 			switch {
 			case b == '-' ||
-				('a' < b && b < 'z') ||
-				('A' < b && b < 'Z') ||
-				('0' < b && b < '9'):
+				('a' <= b && b <= 'z') ||
+				('A' <= b && b <= 'Z') ||
+				('0' <= b && b <= '9'):
+				debug.Log("!!!letters!!!")
 				pToken.Key += string(b)
 				*pop += string(b)
 				continue
 
 			case b == '{' && (*pop)[pToken.StrLoc-1] != '$':
+				debug.Log("!!!$curls!!!")
 				pToken.Type = parameters.TokenTypeBlockString
 				*pop += string(b)
 				continue
 
 			case b == '{' && (*pop)[pToken.StrLoc-1] != '@':
+				debug.Log("!!!@curls!!!")
 				pToken.Type = parameters.TokenTypeBlockArray
 				*pop += string(b)
 				continue
 
 			default:
+				debug.Log("!!!default!!!")
 				if len(pToken.Key) > 0 {
+					debug.Log("!!!default>0!!!")
 					// TODO: need to get this bit working
 					node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
@@ -342,6 +347,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 
 		case '$':
 			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
+				debug.Log("!!!############ DOLLAR!!!!!!!!!!!!!!!!!!")
 				pToken.Type = parameters.TokenTypeString
 				pToken.StrLoc = len(*pop)
 			}
@@ -432,6 +438,10 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		return nil, raiseErr(ErrUnterminatedBrace, 0)
 	}
 
+	if len(pToken.Key) > 0 {
+		debug.Log("!!!end>0!!!")
+		//node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
+	}
 	appendNode()
 
 	return

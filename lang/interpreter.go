@@ -10,6 +10,7 @@ func compile(tree *Nodes, parent *proc.Process) {
 	for i := range *tree {
 		(*tree)[i].Process.Name = (*tree)[i].Name
 		(*tree)[i].Process.Parameters.SetAll((*tree)[i].Parameters)
+		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
 		(*tree)[i].Process.Method = (*tree)[i].Method
 		(*tree)[i].Process.Parent = parent
 
