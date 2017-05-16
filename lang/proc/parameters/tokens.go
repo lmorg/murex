@@ -2,7 +2,7 @@ package parameters
 
 type Parameters struct {
 	params []string
-	Tokens [][]ParamToken
+	tokens [][]ParamToken
 }
 
 type ParamToken struct {

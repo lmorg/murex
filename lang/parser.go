@@ -66,29 +66,29 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				('a' <= b && b <= 'z') ||
 				('A' <= b && b <= 'Z') ||
 				('0' <= b && b <= '9'):
-				pToken.Key += string(b)
+				//pToken.Key += string(b)
 				*pop += string(b)
 				continue
 
 			case b == '{' && last == '$':
 				pToken.Type = parameters.TokenTypeBlockString
-				*pop += string(b)
+				//*pop += string(b)
 				continue
 
 			case b == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeBlockArray
-				*pop += string(b)
+				//*pop += string(b)
 				continue
 
 			default:
-				if len(pToken.Key) > 0 {
-					node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
-					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
-				} else {
-					pToken.Type = parameters.TokenTypeValue
-				}
+				//if len(*pop) > 0 {
+				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeValue})
+				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+				pop = &pToken.Key
+				//} else {
+				//	pToken.Type = parameters.TokenTypeValue
+				//}
 			}
-
 		}
 
 		switch b {
@@ -179,6 +179,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				startParameters()
 				*pop += string(b)
 				braceCount++
+				pToken.Type = parameters.TokenTypeValue
 			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
 				pToken.Type = parameters.TokenTypeValue
 				fallthrough
@@ -355,14 +356,18 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 
 		case '$':
 			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
-				pToken.Type = parameters.TokenTypeString
+				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeString})
+				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+				pop = &pToken.Key
 			} else {
 				*pop += string(b)
 			}
 
 		case '@':
 			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
-				pToken.Type = parameters.TokenTypeArray
+				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeArray})
+				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+				pop = &pToken.Key
 			} else {
 				*pop += string(b)
 			}
