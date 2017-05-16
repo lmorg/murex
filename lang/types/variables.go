@@ -80,28 +80,31 @@ func (v *Vars) GetValue(name string) (value interface{}) {
 }
 
 // Get variable - cast as string.
-func (v *Vars) GetString(name string) (value string) {
+func (v *Vars) GetString(name string) string {
 	v.mutex.Lock()
+	defer v.mutex.Unlock()
+
 	switch v.types[name] {
 	case "":
 		return ""
 
 	case Integer:
-		value = strconv.Itoa(v.values[name].(int))
+		return strconv.Itoa(v.values[name].(int))
 
 	case Float, Number:
-		value = strconv.FormatFloat(v.values[name].(float64), 'f', -1, 64)
+		return strconv.FormatFloat(v.values[name].(float64), 'f', -1, 64)
 
 	default:
-		value = v.values[name].(string)
+		return v.values[name].(string)
 	}
-	v.mutex.Unlock()
-	return
+	return ""
 }
 
 // Set a variable.
 func (v *Vars) Set(name string, value interface{}, dataType string) error {
 	v.mutex.Lock()
+	defer v.mutex.Unlock()
+
 	v.types[name] = dataType
 
 	switch dataType {
@@ -134,7 +137,6 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 		v.values[name] = strings.TrimSpace(s.(string))
 	}
 
-	v.mutex.Unlock()
 	return nil
 }
 
