@@ -1,18 +1,19 @@
 package parameters
 
 type Parameters struct {
-	Params []string
+	params []string
 	Tokens [][]ParamToken
 }
 
 type ParamToken struct {
-	Type   int
-	StrLoc int
-	Key    string
+	Type int
+	Key  string
 }
 
 const (
-	TokenTypeString = 1 + iota
+	TokenTypeNil = iota
+	TokenTypeValue
+	TokenTypeString
 	TokenTypeBlockString
 	TokenTypeArray
 	TokenTypeBlockArray

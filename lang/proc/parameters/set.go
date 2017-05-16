@@ -1,12 +1,11 @@
 package parameters
 
-func (p *Parameters) SetPrepend(parameter string) {
-	p.Params = append([]string{parameter}, p.Params...)
-	p.Tokens = append([][]ParamToken{}, p.Tokens...)
-}
-
-func (p *Parameters) SetAll(parameters []string) {
-	p.Params = parameters
+func (p *Parameters) SetPrepend(value string) {
+	pt := make([][]ParamToken, 1)
+	pt[0] = make([]ParamToken, 1)
+	pt[0][0].Key = value
+	pt[0][0].Type = TokenTypeValue
+	p.Tokens = append(pt, p.Tokens...)
 }
 
 func (p *Parameters) SetTokens(tokens [][]ParamToken) {

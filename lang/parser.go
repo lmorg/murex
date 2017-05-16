@@ -15,6 +15,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 	defer debug.Json("Parser", nodes)
 	var (
 		// Current state
+		last                     rune
 		commentLine              bool
 		escaped                  bool
 		quoteSingle, quoteDouble bool
@@ -28,23 +29,20 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		pop    *string                = &node.Name
 		pCount int                    // parameter count
 		pToken *parameters.ParamToken = &node.ParamTokens[0][0]
-		//pToken parameters.ParamToken
 	)
 	defer debug.Json("Last node", node)
 
 	startParameters := func() {
 		scanFuncName = false
-		node.Parameters = make([]string, 1)
-		pop = &node.Parameters[0]
 		node.ParamTokens = genEmptyParamTokens()
+		pop = &node.ParamTokens[0][0].Key
 		pCount = 0
 		pToken = &node.ParamTokens[pCount][0]
 	}
 
 	appendNode := func() {
-		if len(node.Parameters) > 1 && len(node.Parameters[len(node.Parameters)-1]) == 0 {
-			node.Parameters = node.Parameters[:len(node.Parameters)-1]
-			//TODO: crop if node.ParamToken[][].Type == 0 ???
+		if len(node.ParamTokens) > 1 && len(node.ParamTokens[len(node.ParamTokens)-1]) == 0 {
+			node.ParamTokens = node.ParamTokens[:len(node.ParamTokens)-1]
 		}
 
 		if node.Name != "" {
@@ -62,38 +60,32 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			continue
 		}
 
-		if pToken.Type != 0 {
+		if pToken.Type > parameters.TokenTypeValue {
 			switch {
 			case b == '-' ||
 				('a' <= b && b <= 'z') ||
 				('A' <= b && b <= 'Z') ||
 				('0' <= b && b <= '9'):
-				debug.Log("!!!letters!!!")
 				pToken.Key += string(b)
 				*pop += string(b)
 				continue
 
-			case b == '{' && (*pop)[pToken.StrLoc-1] != '$':
-				debug.Log("!!!$curls!!!")
+			case b == '{' && last == '$':
 				pToken.Type = parameters.TokenTypeBlockString
 				*pop += string(b)
 				continue
 
-			case b == '{' && (*pop)[pToken.StrLoc-1] != '@':
-				debug.Log("!!!@curls!!!")
+			case b == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeBlockArray
 				*pop += string(b)
 				continue
 
 			default:
-				debug.Log("!!!default!!!")
 				if len(pToken.Key) > 0 {
-					debug.Log("!!!default>0!!!")
-					// TODO: need to get this bit working
 					node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				} else {
-					pToken.Type = 0
+					pToken.Type = parameters.TokenTypeValue
 				}
 			}
 
@@ -115,6 +107,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case escaped:
 				*pop += string(b)
 				escaped = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				escaped = true
 			}
@@ -130,6 +125,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				quoteSingle = false
 			case quoteDouble:
 				*pop += string(b)
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				quoteSingle = true
 			}
@@ -145,6 +143,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				*pop += string(b)
 			case quoteDouble:
 				quoteDouble = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				quoteDouble = true
 			}
@@ -160,6 +161,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				*pop += string(b)
 			case scanFuncName:
 				startParameters()
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 			}
@@ -175,6 +179,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				startParameters()
 				*pop += string(b)
 				braceCount++
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 				braceCount++
@@ -209,15 +216,13 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				*pop += string(b)
 			case !scanFuncName:
 				if len(*pop) > 0 {
-					node.Parameters = append(node.Parameters, "")
-					pop = &node.Parameters[len(node.Parameters)-1]
-					pCount++
 					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
-					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+					pCount++
+					pop = &node.ParamTokens[pCount][0].Key
+					pToken = &node.ParamTokens[pCount][0]
 				}
 			case scanFuncName && !ignoreWhitespace:
 				startParameters()
-
 			default:
 				// do nothing
 			}
@@ -322,6 +327,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 					nodes.Last().PipeOut = true
 					newLine = false
 				}*/
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 			}
@@ -347,18 +355,17 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 
 		case '$':
 			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
-				debug.Log("!!!############ DOLLAR!!!!!!!!!!!!!!!!!!")
 				pToken.Type = parameters.TokenTypeString
-				pToken.StrLoc = len(*pop)
+			} else {
+				*pop += string(b)
 			}
-			*pop += string(b)
 
 		case '@':
 			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
 				pToken.Type = parameters.TokenTypeArray
-				pToken.StrLoc = len(*pop)
+			} else {
+				*pop += string(b)
 			}
-			*pop += string(b)
 
 		case 's':
 			switch {
@@ -369,6 +376,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case escaped:
 				*pop += " "
 				escaped = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 			}
@@ -382,6 +392,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case escaped:
 				*pop += "\t"
 				escaped = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 			}
@@ -395,6 +408,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case escaped:
 				*pop += "\r"
 				escaped = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 			}
@@ -408,6 +424,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case escaped:
 				*pop += "\n"
 				escaped = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				*pop += string(b)
 			}
@@ -417,6 +436,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			case escaped:
 				*pop += string(b)
 				escaped = false
+			case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
+				pToken.Type = parameters.TokenTypeValue
+				fallthrough
 			default:
 				ignoreWhitespace = false
 				*pop += string(b)
@@ -425,6 +447,8 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				}*/
 			}
 		}
+
+		last = b
 	}
 
 	switch {
@@ -438,10 +462,6 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		return nil, raiseErr(ErrUnterminatedBrace, 0)
 	}
 
-	if len(pToken.Key) > 0 {
-		debug.Log("!!!end>0!!!")
-		//node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
-	}
 	appendNode()
 
 	return

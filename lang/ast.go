@@ -7,7 +7,6 @@ import (
 
 type Node struct {
 	Name        string
-	Parameters  []string
 	ParamTokens [][]parameters.ParamToken
 	NewChain    bool
 	Method      bool
