@@ -48,12 +48,4 @@ func (p *Parameters) Parse(vars *types.Vars) {
 			p.Params = p.Params[:len(p.Tokens)-1]
 		}
 	}
-
-	/*if len(p.Tokens) != 0 && len(p.Tokens[len(p.Tokens)-1]) != 0 && p.Tokens[len(p.Tokens)-1][0].Type == TokenTypeNil {
-		if len(p.Tokens) == 1 {
-			p.Params = make([]string, 0)
-		} else {
-			p.Params = p.Params[:len(p.Tokens)-1]
-		}
-	}*/
 }

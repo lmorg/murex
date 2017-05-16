@@ -14,10 +14,6 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 	defer debug.Json("Parser", nodes)
 
-	/*if block[0] == '{' && block[len(block)-1] == '}' {
-		block = block[1 : len(block)-1]
-	}*/
-
 	var (
 		// Current state
 		last                     rune
@@ -78,28 +74,21 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				('a' <= b && b <= 'z') ||
 				('A' <= b && b <= 'Z') ||
 				('0' <= b && b <= '9'):
-				//pToken.Key += string(b)
 				*pop += string(b)
 				continue
 
 			case b == '{' && last == '$':
 				pToken.Type = parameters.TokenTypeBlockString
-				//*pop += string(b)
 				continue
 
 			case b == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeBlockArray
-				//*pop += string(b)
 				continue
 
 			default:
-				//if len(*pop) > 0 {
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
-				//} else {
-				//	pToken.Type = parameters.TokenTypeValue
-				//}
 			}
 		}
 
@@ -107,7 +96,6 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '#':
 			switch {
 			case escaped, quoteSingle, quoteDouble, braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			default:
 				commentLine = true
@@ -116,15 +104,10 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '\\':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
 				escaped = true
 			}
@@ -132,20 +115,14 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '\'':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle:
 				quoteSingle = false
 			case quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
 				pToken.Type = parameters.TokenTypeValue
 				quoteSingle = true
@@ -154,20 +131,14 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '"':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle:
-				//*pop += string(b)
 				pUpdate(b)
 			case quoteDouble:
 				quoteDouble = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
 				pToken.Type = parameters.TokenTypeValue
 				quoteDouble = true
@@ -176,43 +147,30 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case ':':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case scanFuncName:
 				startParameters()
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		case '{':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case scanFuncName:
 				startParameters()
 				*pop += string(b)
 				braceCount++
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 				braceCount++
 			}
@@ -220,11 +178,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '}':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case scanFuncName:
 				pErr = raiseErr(ErrUnexpectedCloseBrace, i)
@@ -233,7 +189,6 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pErr = raiseErr(ErrClosingBraceNoOpen, i)
 				return
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 				braceCount--
 			}
@@ -241,21 +196,17 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case ' ', '\t', '\r':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case !scanFuncName:
 				if len(*pop) > 0 {
 					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 					pCount++
 					pToken = &node.ParamTokens[pCount][0]
-					//pop = &node.ParamTokens[pCount][0].Key
 					pop = &pToken.Key
 				}
 			case scanFuncName && !ignoreWhitespace:
@@ -267,14 +218,11 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '\n':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case !scanFuncName:
 				appendNode()
@@ -291,14 +239,11 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '|':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeToken, i)
@@ -320,14 +265,11 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '?':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeToken, i)
@@ -349,16 +291,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '>':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
-			//case len(*pop) > 0 && (*pop)[len(*pop)-1] == '-':
 			case last == '-':
 				/*if len(node.Name) == 0 {
 					pErr = raiseErr(ErrUnexpectedPipeToken, i)
@@ -380,25 +318,18 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 					nodes.Last().PipeOut = true
 					newLine = false
 				}*/
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		case ';':
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				//*pop += string(b)
 				pUpdate(b)
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 				//case !scanFuncName:
 			default:
@@ -416,7 +347,6 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
 			} else {
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
@@ -426,102 +356,68 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
 			} else {
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		case 's':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case quoteSingle:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += " "
 				pUpdate(' ')
 				escaped = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		case 't':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case quoteSingle:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += "\t"
 				pUpdate('\t')
 				escaped = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		case 'r':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case quoteSingle:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += "\r"
 				pUpdate('\r')
 				escaped = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		case 'n':
 			switch {
 			case braceCount > 0:
-				//*pop += string(b)
 				pUpdate(b)
 			case quoteSingle:
-				//*pop += string(b)
 				pUpdate(b)
 			case escaped:
-				//*pop += "\n"
 				pUpdate('\n')
 				escaped = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
-				//*pop += string(b)
 				pUpdate(b)
 			}
 
 		default:
 			switch {
 			case escaped:
-				//*pop += string(b)
 				pUpdate(b)
 				escaped = false
-			//case !scanFuncName && *pop == "" && pToken.Type == parameters.TokenTypeNil:
-			//	pToken.Type = parameters.TokenTypeValue
-			//	fallthrough
 			default:
 				ignoreWhitespace = false
-				//*pop += string(b)
 				pUpdate(b)
 				/*if b != '-' {
 					newLine = false
