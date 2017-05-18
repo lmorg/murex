@@ -31,13 +31,16 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
 				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
+				stdout.Close()
 				p.Params[i] += string(stdout.ReadAll())
 				tCount[i]++
 
 			case parameters.TokenTypeArray:
 				var err error
 				var array []string
+
 				b := []byte(vars.GetString(p.Tokens[i][j].Key))
+
 				if types.IsArray(b) {
 					err = json.Unmarshal(b, &array)
 				}
@@ -45,6 +48,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 					s := strings.Replace(p.Tokens[i][j].Key, "\r", "", -1)
 					array = strings.Split(s, "\n")
 				}
+
 				// add to params
 				params := append(p.Params[i:], array...)
 				p.Params = append(params, p.Params[i+1:]...)
@@ -60,8 +64,10 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 				stdout := streams.NewStdin()
 				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
+				stdout.Close()
 
 				b := []byte(stdout.ReadAll())
+
 				if types.IsArray(b) {
 					err = json.Unmarshal(b, &array)
 				}
@@ -69,6 +75,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 					s := strings.Replace(p.Tokens[i][j].Key, "\r", "", -1)
 					array = strings.Split(s, "\n")
 				}
+
 				// add to params
 				params := append(p.Params[i:], array...)
 				p.Params = append(params, p.Params[i+1:]...)
