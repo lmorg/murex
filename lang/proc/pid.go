@@ -6,23 +6,23 @@ import "sync"
 // However since this is still very much an alpha project, I'm using this hard limit as a catch for runaway processes.
 const pidPool int = 1024
 
-type Pid struct {
+type pid struct {
 	sync.Mutex
 	Process [pidPool]*Process
 	count   int
 }
 
-func (pid *Pid) Add(process *Process) {
+func (pid *pid) Add(process *Process) {
 	pid.Lock()
 	pid.count++
 	pid.Process[pid.count] = process
 	pid.Unlock()
 }
 
-func (pid *Pid) CountRunning() (i int) {
+func (pid *pid) CountRunning() (i int) {
 	pid.Lock()
 	for j := range pid.Process {
-		if !pid.Process[j].Terminated {
+		if !pid.Process[j].HasTerminated {
 			i++
 		}
 	}

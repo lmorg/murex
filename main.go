@@ -2,9 +2,9 @@ package main
 
 import (
 	"compress/gzip"
+	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	_ "github.com/lmorg/murex/lang/builtins"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"

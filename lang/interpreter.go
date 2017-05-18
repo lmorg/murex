@@ -6,11 +6,11 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 )
 
-func compile(tree *Nodes, parent *proc.Process) {
+func compile(tree *astNodes, parent *proc.Process) {
 	for i := range *tree {
 		(*tree)[i].Process.Name = (*tree)[i].Name
 		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
-		(*tree)[i].Process.Method = (*tree)[i].Method
+		(*tree)[i].Process.IsMethod = (*tree)[i].Method
 		(*tree)[i].Process.Parent = parent
 
 		// Define previous and next processes:
@@ -77,7 +77,7 @@ func compile(tree *Nodes, parent *proc.Process) {
 	}
 
 	for i := range *tree {
-		proc.CreateProcess(&(*tree)[i].Process, proc.Flow{
+		createProcess(&(*tree)[i].Process, proc.Flow{
 			NewChain: (*tree)[i].NewChain,
 			PipeOut:  (*tree)[i].PipeOut,
 			PipeErr:  (*tree)[i].PipeErr,
@@ -86,36 +86,38 @@ func compile(tree *Nodes, parent *proc.Process) {
 	}
 }
 
-func runNormal(tree *Nodes) (exitNum int) {
+func runNormal(tree *astNodes) (exitNum int) {
 	if len(*tree) == 0 {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.Terminated = true
+	(*tree)[0].Process.Previous.HasTerminated = true
 
 	for i := range *tree {
 		if (*tree)[i].NewChain && i > 0 {
-			(*tree)[i-1].Process.Wait()
+			waitProcess(&(*tree)[i-1].Process)
 		}
 
-		go (*tree)[i].Process.Execute()
+		go executeProcess(&(*tree)[i].Process)
 	}
 
-	(*tree).Last().Process.Wait()
+	//(*tree).Last().Process.Wait()
+	waitProcess(&(*tree).Last().Process)
 	exitNum = (*tree).Last().Process.ExitNum
 	return
 }
 
-func runHyperSensitive(tree *Nodes) (exitNum int) {
+func runHyperSensitive(tree *astNodes) (exitNum int) {
 	debug.Log("Entering Hyper Sensitive mode!!!")
 	if len(*tree) == 0 {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.Terminated = true
+	(*tree)[0].Process.Previous.HasTerminated = true
 
 	for i := range *tree {
-		(*tree)[i].Process.Execute()
+		//(*tree)[i].Process.Execute()
+		executeProcess(&(*tree)[i].Process)
 		exitNum = (*tree)[i].Process.ExitNum
 		if exitNum != 0 {
 			return

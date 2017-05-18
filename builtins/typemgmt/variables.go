@@ -39,7 +39,7 @@ func cmdSet(p *proc.Process) error {
 	params := p.Parameters.StringAll()
 
 	// Set variable as method:
-	if p.Method {
+	if p.IsMethod {
 		if !rxVarName.MatchString(params) {
 			return errors.New("Invalid variable name; unexpected parameters for calling `set` as method.")
 		}
@@ -65,7 +65,7 @@ func cmdExport(p *proc.Process) error {
 	params := p.Parameters.StringAll()
 
 	// Set env as method:
-	if p.Method {
+	if p.IsMethod {
 		if !rxVarName.MatchString(params) {
 			return errors.New("Invalid variable name; unexpected parameters for calling `export` as method.")
 		}

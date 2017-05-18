@@ -22,7 +22,7 @@ func cmdEscape(p *proc.Process) error {
 
 	}
 
-	if p.Not {
+	if p.IsNot {
 		unescape, err := strconv.Unquote(str)
 		if err != nil {
 			unescape = html.UnescapeString(str)

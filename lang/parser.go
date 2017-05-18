@@ -11,7 +11,7 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 	return
 }
 
-func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
+func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 	defer debug.Json("Parser", nodes)
 
 	var (
@@ -26,7 +26,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		//newLine                  bool
 
 		// Parsed thus far
-		node   Node                   = Node{NewChain: true, ParamTokens: genEmptyParamTokens()}
+		node   astNode                = astNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
 		pop    *string                = &node.Name
 		pCount int                    // parameter count
 		pToken *parameters.ParamToken = &node.ParamTokens[0][0]
@@ -79,10 +79,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 
 			case r == '{' && last == '$':
 				pToken.Type = parameters.TokenTypeBlockString
+				braceCount++
 				continue
 
 			case r == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeBlockArray
+				braceCount++
 				continue
 
 			default:
@@ -226,7 +228,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pUpdate(r)
 			case !scanFuncName:
 				appendNode()
-				node = Node{NewChain: true}
+				node = astNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
 				//newLine = true
@@ -257,7 +259,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			default:
 				node.PipeOut = true
 				appendNode()
-				node = Node{}
+				node = astNode{}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -283,7 +285,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			default:
 				node.PipeErr = true
 				appendNode()
-				node = Node{}
+				node = astNode{}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -308,7 +310,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				}
 				node.PipeOut = true
 				appendNode()
-				node = Node{Method: true}
+				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 
@@ -334,7 +336,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				//case !scanFuncName:
 			default:
 				appendNode()
-				node = Node{NewChain: true}
+				node = astNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
 				//default:

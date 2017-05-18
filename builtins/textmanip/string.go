@@ -26,7 +26,7 @@ func cmdMatch(p *proc.Process) error {
 
 	p.Stdin.ReadLineFunc(func(b []byte) {
 		matched := bytes.Contains(b, p.Parameters.ByteAll())
-		if (matched && !p.Not) || (!matched && p.Not) {
+		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 			p.Stdout.Write(b)
 		}
 	})
@@ -61,7 +61,7 @@ func cmdRegexp(p *proc.Process) (err error) {
 		//}
 		p.Stdin.ReadLineFunc(func(b []byte) {
 			matched := rx.Match(b)
-			if (matched && !p.Not) || (!matched && p.Not) {
+			if (matched && !p.IsNot) || (!matched && p.IsNot) {
 				p.Stdout.Write(b)
 			}
 		})

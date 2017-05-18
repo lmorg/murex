@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
-type Node struct {
+type astNode struct {
 	Name        string
 	ParamTokens [][]parameters.ParamToken
 	NewChain    bool
@@ -16,9 +16,9 @@ type Node struct {
 	//Children   Nodes
 }
 
-type Nodes []Node
+type astNodes []astNode
 
-func (n *Nodes) Last() *Node {
+func (n *astNodes) Last() *astNode {
 	if len(*n) == 0 {
 		return &(*n)[0]
 	}
