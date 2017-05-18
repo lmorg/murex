@@ -60,9 +60,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		*pop += string(r)
 	}
 
-	for i, b := range block {
+	for i, r := range block {
 		if commentLine {
-			if b == '\n' {
+			if r == '\n' {
 				commentLine = false
 			}
 			continue
@@ -70,18 +70,18 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
-			case b == '-' ||
-				('a' <= b && b <= 'z') ||
-				('A' <= b && b <= 'Z') ||
-				('0' <= b && b <= '9'):
-				*pop += string(b)
+			case r == '-' ||
+				('a' <= r && r <= 'z') ||
+				('A' <= r && r <= 'Z') ||
+				('0' <= r && r <= '9'):
+				*pop += string(r)
 				continue
 
-			case b == '{' && last == '$':
+			case r == '{' && last == '$':
 				pToken.Type = parameters.TokenTypeBlockString
 				continue
 
-			case b == '{' && last == '@':
+			case r == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeBlockArray
 				continue
 
@@ -92,11 +92,11 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 			}
 		}
 
-		switch b {
+		switch r {
 		case '#':
 			switch {
 			case escaped, quoteSingle, quoteDouble, braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			default:
 				commentLine = true
 			}
@@ -104,9 +104,9 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '\\':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			default:
 				escaped = true
@@ -115,14 +115,14 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '\'':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle:
 				quoteSingle = false
 			case quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			default:
 				pToken.Type = parameters.TokenTypeValue
 				quoteSingle = true
@@ -131,12 +131,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '"':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle:
-				pUpdate(b)
+				pUpdate(r)
 			case quoteDouble:
 				quoteDouble = false
 			default:
@@ -147,41 +147,41 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case ':':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case scanFuncName:
 				startParameters()
 			default:
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case '{':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case scanFuncName:
 				startParameters()
-				*pop += string(b)
+				*pop += string(r)
 				braceCount++
 			default:
-				pUpdate(b)
+				pUpdate(r)
 				braceCount++
 			}
 
 		case '}':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case scanFuncName:
 				pErr = raiseErr(ErrUnexpectedCloseBrace, i)
 				return
@@ -189,19 +189,19 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pErr = raiseErr(ErrClosingBraceNoOpen, i)
 				return
 			default:
-				pUpdate(b)
+				pUpdate(r)
 				braceCount--
 			}
 
 		case ' ', '\t', '\r':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case !scanFuncName:
 				if len(*pop) > 0 {
 					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
@@ -218,12 +218,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '\n':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case !scanFuncName:
 				appendNode()
 				node = Node{NewChain: true}
@@ -239,12 +239,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '|':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeToken, i)
 				return
@@ -265,12 +265,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '?':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeToken, i)
 				return
@@ -291,12 +291,12 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 		case '>':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case last == '-':
 				/*if len(node.Name) == 0 {
 					pErr = raiseErr(ErrUnexpectedPipeToken, i)
@@ -319,18 +319,18 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 					newLine = false
 				}*/
 			default:
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case ';':
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			case quoteSingle, quoteDouble:
-				pUpdate(b)
+				pUpdate(r)
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 				//case !scanFuncName:
 			default:
 				appendNode()
@@ -347,7 +347,7 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
 			} else {
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case '@':
@@ -356,76 +356,76 @@ func parseBlock(block []rune) (nodes Nodes, pErr ParserError) {
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
 			} else {
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case 's':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case quoteSingle:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
 				pUpdate(' ')
 				escaped = false
 			default:
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case 't':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case quoteSingle:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
 				pUpdate('\t')
 				escaped = false
 			default:
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case 'r':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case quoteSingle:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
 				pUpdate('\r')
 				escaped = false
 			default:
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		case 'n':
 			switch {
 			case braceCount > 0:
-				pUpdate(b)
+				pUpdate(r)
 			case quoteSingle:
-				pUpdate(b)
+				pUpdate(r)
 			case escaped:
 				pUpdate('\n')
 				escaped = false
 			default:
-				pUpdate(b)
+				pUpdate(r)
 			}
 
 		default:
 			switch {
 			case escaped:
-				pUpdate(b)
+				pUpdate(r)
 				escaped = false
 			default:
 				ignoreWhitespace = false
-				pUpdate(b)
+				pUpdate(r)
 				/*if b != '-' {
 					newLine = false
 				}*/
 			}
 		}
 
-		last = b
+		last = r
 	}
 
 	switch {

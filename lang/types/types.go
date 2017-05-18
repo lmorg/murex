@@ -41,7 +41,7 @@ func IsJson(b []byte) bool {
 	return false
 }
 
-func IsJsonArray(b []byte) bool {
+func IsArray(b []byte) bool {
 	if b[0] == '[' && b[len(b)-1] == ']' {
 		return true
 	}
