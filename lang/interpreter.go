@@ -2,11 +2,10 @@ package lang
 
 import (
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/streams"
 )
 
-func compile(tree *Nodes, parent *proc.Process) {
+func compile(tree *Nodes, parent *Process) {
 	for i := range *tree {
 		(*tree)[i].Process.Name = (*tree)[i].Name
 		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
@@ -77,7 +76,7 @@ func compile(tree *Nodes, parent *proc.Process) {
 	}
 
 	for i := range *tree {
-		proc.CreateProcess(&(*tree)[i].Process, proc.Flow{
+		CreateProcess(&(*tree)[i].Process, Flow{
 			NewChain: (*tree)[i].NewChain,
 			PipeOut:  (*tree)[i].PipeOut,
 			PipeErr:  (*tree)[i].PipeErr,

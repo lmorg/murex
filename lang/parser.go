@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 )
 
 func genEmptyParamTokens() (pt [][]parameters.ParamToken) {

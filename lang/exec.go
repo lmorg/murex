@@ -1,4 +1,4 @@
-package proc
+package lang
 
 import (
 	"github.com/kr/pty"

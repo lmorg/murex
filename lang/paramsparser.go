@@ -1,15 +1,15 @@
-package parameters
+package lang
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/streams"
 	"github.com/lmorg/murex/lang/types"
 	"strings"
 )
 
-func (p *Parameters) Parse(vars *types.Vars) {
+func ParseParameters(p *parameters.Parameters, vars *types.Vars) {
 	l := len(p.Tokens)
 	p.Params = make([]string, l)
 	tCount := make([]int, l)
@@ -17,24 +17,24 @@ func (p *Parameters) Parse(vars *types.Vars) {
 	for i := 0; i < l; i++ {
 		for j := range p.Tokens[i] {
 			switch p.Tokens[i][j].Type {
-			case TokenTypeNil:
+			case parameters.TokenTypeNil:
 				// do nothing
 
-			case TokenTypeValue:
+			case parameters.TokenTypeValue:
 				p.Params[i] += p.Tokens[i][j].Key
 				tCount[i]++
 
-			case TokenTypeString:
+			case parameters.TokenTypeString:
 				p.Params[i] += vars.GetString(p.Tokens[i][j].Key)
 				tCount[i]++
 
-			case TokenTypeBlockString:
+			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
-				lang.ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
 				p.Params[i] += string(stdout.ReadAll())
 				tCount[i]++
 
-			case TokenTypeArray:
+			case parameters.TokenTypeArray:
 				var err error
 				var array []string
 				b := []byte(vars.GetString(p.Tokens[i][j].Key))
@@ -54,12 +54,12 @@ func (p *Parameters) Parse(vars *types.Vars) {
 				}
 				i += len(array)
 
-			case TokenTypeBlockArray:
+			case parameters.TokenTypeBlockArray:
 				var err error
 				var array []string
 
 				stdout := streams.NewStdin()
-				lang.ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
 
 				b := []byte(stdout.ReadAll())
 				if types.IsArray(b) {

@@ -1,8 +1,7 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 )
 
 type Node struct {
@@ -12,7 +11,7 @@ type Node struct {
 	Method      bool
 	PipeOut     bool
 	PipeErr     bool
-	Process     proc.Process
+	Process     Process
 	//Children   Nodes
 }
 

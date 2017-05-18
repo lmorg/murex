@@ -2,7 +2,7 @@ package httpclient
 
 import (
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"net/http"
 	"regexp"
