@@ -10,11 +10,12 @@ import (
 )
 
 func parseParameters(p *parameters.Parameters, vars *types.Vars) {
-	l := len(p.Tokens)
-	p.Params = make([]string, l)
-	tCount := make([]int, l)
-
-	for i := 0; i < l; i++ {
+	p.Params = make([]string, 0)
+	//tCount := make([]int, len(p.Tokens))
+	var tCount bool
+	for i := range p.Tokens {
+		tCount = false
+		p.Params = append(p.Params, "")
 		for j := range p.Tokens[i] {
 			switch p.Tokens[i][j].Type {
 			case parameters.TokenTypeNil:
@@ -22,18 +23,18 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 			case parameters.TokenTypeValue:
 				p.Params[i] += p.Tokens[i][j].Key
-				tCount[i]++
+				tCount = true
 
 			case parameters.TokenTypeString:
 				p.Params[i] += vars.GetString(p.Tokens[i][j].Key)
-				tCount[i]++
+				tCount = true
 
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
 				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
 				stdout.Close()
 				p.Params[i] += string(stdout.ReadAll())
-				tCount[i]++
+				tCount = true
 
 			case parameters.TokenTypeArray:
 				var err error
@@ -50,13 +51,8 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				}
 
 				// add to params
-				params := append(p.Params[i:], array...)
-				p.Params = append(params, p.Params[i+1:]...)
-				tCount = append(tCount, make([]int, len(array))...)
-				for k := range array {
-					tCount[i+k] = 1
-				}
-				i += len(array)
+				p.Params = append(p.Params, array...)
+				tCount = true
 
 			case parameters.TokenTypeBlockArray:
 				var err error
@@ -77,13 +73,8 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				}
 
 				// add to params
-				params := append(p.Params[i:], array...)
-				p.Params = append(params, p.Params[i+1:]...)
-				tCount = append(tCount, make([]int, len(array))...)
-				for k := range array {
-					tCount[i+k] = 1
-				}
-				i += len(array)
+				p.Params = append(p.Params, array...)
+				tCount = true
 
 			default:
 				panic(fmt.Sprintf(
@@ -94,7 +85,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 		}
 	}
 
-	if len(p.Tokens) != 0 && tCount[len(p.Tokens)-1] == 0 {
+	if len(p.Tokens) != 0 && tCount == false {
 		if len(p.Tokens) == 1 {
 			p.Params = make([]string, 0)
 		} else {
