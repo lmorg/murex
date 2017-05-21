@@ -75,16 +75,25 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				('A' <= r && r <= 'Z') ||
 				('0' <= r && r <= '9'):
 				*pop += string(r)
+				last = r
 				continue
 
 			case r == '}':
 				braceCount--
-				if braceCount > 0 {
+				switch {
+				case braceCount > 0:
 					*pop += string(r)
-				} else {
+				case pToken.Type == parameters.TokenTypeBlockString:
 					node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 					pop = &pToken.Key
+				case pToken.Type == parameters.TokenTypeBlockArray:
+					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+					pCount++
+					pToken = &node.ParamTokens[pCount][0]
+					pop = &pToken.Key
+				default:
+					*pop += string(r)
 				}
 				continue
 
@@ -108,9 +117,14 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				continue
 
 			default:
-				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
-				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
-				pop = &pToken.Key
+				//node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
+				//pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+				//pop = &pToken.Key
+
+				//node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+				//pCount++
+				//pToken = &node.ParamTokens[pCount][0]
+				//pop = &pToken.Key
 			}
 		}
 
@@ -213,6 +227,13 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			default:
 				pUpdate(r)
 				braceCount--
+				/*if braceCount == 0 {
+					appendNode()
+					node = astNode{NewChain: true}
+					pop = &node.Name
+					scanFuncName = true
+					//newLine = true
+				}*/
 			}
 
 		case ' ', '\t', '\r':
@@ -225,7 +246,8 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			case braceCount > 0:
 				pUpdate(r)
 			case !scanFuncName:
-				if len(*pop) > 0 {
+				//if len(*pop) > 0 {
+				if pToken.Type != parameters.TokenTypeNil {
 					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 					pCount++
 					pToken = &node.ParamTokens[pCount][0]
