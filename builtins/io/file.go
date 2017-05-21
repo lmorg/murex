@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
 	"time"
@@ -70,18 +71,30 @@ func cmdOpen(p *proc.Process) error {
 
 func cmdPipeTelemetry(p *proc.Process) error {
 	quit := false
+	stats := func() {
+		written, _ := p.Stdin.Stats()
+		_, read := p.Stdout.Stats()
+		os.Stderr.WriteString(
+			fmt.Sprintf("Pipe telemetry: `%s` written %s -> pt -> `%s` read %s\n",
+				p.Previous.Name,
+				utils.HumanBytes(written),
+				p.Next.Name,
+				utils.HumanBytes(read)),
+		)
+	}
+
 	go func() {
 		for !quit {
 			time.Sleep(1 * time.Second)
 			if quit {
 				return
 			}
-			written, _ := p.Stdin.Stats()
-			_, read := p.Stdout.Stats()
-			os.Stderr.WriteString(fmt.Sprintf("Pipe telemetry: written %d bytes -> .pt() -> read %d bytes\n", written, read))
+			stats()
 		}
 	}()
 
-	io.Copy(p.Stdout, p.Stdin)
-	return nil
+	_, err := io.Copy(p.Stdout, p.Stdin)
+	quit = true
+	stats()
+	return err
 }

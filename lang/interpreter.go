@@ -118,7 +118,15 @@ func runHyperSensitive(tree *astNodes) (exitNum int) {
 	for i := range *tree {
 		//(*tree)[i].Process.Execute()
 		executeProcess(&(*tree)[i].Process)
+
 		exitNum = (*tree)[i].Process.ExitNum
+		outSize, _ := (*tree)[i].Process.Stdout.Stats()
+		errSize, _ := (*tree)[i].Process.Stderr.Stats()
+
+		if exitNum == 0 && errSize > outSize {
+			exitNum = 1
+		}
+
 		if exitNum != 0 {
 			return
 		}
