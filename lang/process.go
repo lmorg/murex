@@ -2,58 +2,38 @@ package lang
 
 import (
 	"fmt"
-	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/streams"
+	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/proc"
 	"os"
 )
 
-type Flow struct {
-	PipeOut  bool
-	PipeErr  bool
-	NewChain bool
-	Last     bool
-}
-
-var (
-	ProcIDs Pid
-)
-
-/*
-func (p *Process) OverrideProcName(name string) {
-	p.Name = name
-	p.MethodRef = name
-}
-*/
-func CreateProcess(p *proc.Process, f Flow) {
-	ProcIDs.Add(p)
+func createProcess(p *proc.Process, f proc.Flow) {
+	proc.ProcIDs.Add(p)
 
 	if p.Parent.MethodRef == "" {
 		p.Parent.MethodRef = "null"
 	}
 
 	if p.Name[0] == '!' {
-		p.Not = true
+		p.IsNot = true
 	}
 
 	local := "[" + p.Previous.Name + "]" + p.Name
 	switch {
-	case proc.GoFunctions[local].Func != nil && p.Method &&
+	case proc.GoFunctions[local].Func != nil && p.IsMethod &&
 		(proc.GoFunctions[local].TypeIn == proc.GoFunctions[p.Previous.MethodRef].TypeOut ||
 			proc.GoFunctions[local].TypeIn == types.Generic ||
 			proc.GoFunctions[p.Previous.MethodRef].TypeOut == types.Generic):
 		p.MethodRef = local
 
-	case proc.GoFunctions[p.Name].Func != nil && p.Method &&
+	case proc.GoFunctions[p.Name].Func != nil && p.IsMethod &&
 		(proc.GoFunctions[p.Name].TypeIn == proc.GoFunctions[p.Previous.MethodRef].TypeOut ||
 			proc.GoFunctions[p.Name].TypeIn == types.Generic ||
 			proc.GoFunctions[p.Previous.MethodRef].TypeOut == types.Generic):
 		p.MethodRef = p.Name
 
-	case proc.GoFunctions[p.Name].Func != nil && !f.NewChain && !p.Method &&
+	case proc.GoFunctions[p.Name].Func != nil && !f.NewChain && !p.IsMethod &&
 		(proc.GoFunctions[p.Name].TypeIn == types.Null ||
 			proc.GoFunctions[p.Name].TypeIn == types.Generic):
 		p.MethodRef = p.Name
@@ -63,7 +43,8 @@ func CreateProcess(p *proc.Process, f Flow) {
 			proc.GoFunctions[p.Name].TypeIn == types.Generic):
 		p.MethodRef = p.Name
 
-	case !p.Method:
+	case !p.IsMethod:
+		//p.Parameters = append(Parameters{p.Name}, p.Parameters...)
 		p.Parameters.SetPrepend(p.Name)
 		if f.NewChain && !f.PipeOut && !f.PipeErr {
 			p.MethodRef = "pty"
@@ -81,17 +62,9 @@ func CreateProcess(p *proc.Process, f Flow) {
 	return
 }
 
-func DestroyProcess(p *proc.Process) {
-	debug.Json("Destroying:", p)
-	p.Stdout.Close()
-	p.Stderr.Close()
-	p.Terminated = true
-	debug.Log("Destroyed")
-}
-
-func ExecuteProcess(p *proc.Process) {
+func executeProcess(p *proc.Process) {
 	debug.Json("Executing:", p)
-	//proc.GlobalVars.Dump()
+	proc.GlobalVars.Dump()
 
 	// Expand variables if parameter isn't a code block.
 	/*for i := range p.Parameters {
@@ -99,7 +72,7 @@ func ExecuteProcess(p *proc.Process) {
 			GlobalVars.KeyValueReplace(&p.Parameters[i])
 		}
 	}*/
-	ParseParameters(&p.Parameters, &proc.GlobalVars)
+	parseParameters(&p.Parameters, &proc.GlobalVars)
 
 	// A little catch for unexpected behavior.
 	// This shouldn't ever happen so lets produce a stack trace for debugging.
@@ -116,17 +89,25 @@ func ExecuteProcess(p *proc.Process) {
 		}
 	}
 
-	for !p.Previous.Terminated {
+	for !p.Previous.HasTerminated {
 		// Code shouldn't really get stuck here.
 		// This would only happen if someone abuses pipes on a function that has no stdin.
 	}
 
-	DestroyProcess(p)
+	destroyProcess(p)
 }
 
-func (p *Process) Wait() {
+func waitProcess(p *proc.Process) {
 	debug.Log("Waiting for", p.Name)
-	for !p.Terminated {
+	for !p.HasTerminated {
 		// Wait for process to terminate
 	}
+}
+
+func destroyProcess(p *proc.Process) {
+	debug.Json("Destroying:", p)
+	p.Stdout.Close()
+	p.Stderr.Close()
+	p.HasTerminated = true
+	debug.Log("Destroyed")
 }

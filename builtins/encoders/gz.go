@@ -2,17 +2,17 @@ package encoders
 
 import (
 	"compress/gzip"
-	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"io"
 )
 
 func init() {
-	lang.GoFunctions["gz"] = lang.GoFunction{Func: cmdGz, TypeIn: types.Generic, TypeOut: types.Binary}
-	lang.GoFunctions["!gz"] = lang.GoFunction{Func: cmdUngz, TypeIn: types.Binary, TypeOut: types.Generic}
+	proc.GoFunctions["gz"] = proc.GoFunction{Func: cmdGz, TypeIn: types.Generic, TypeOut: types.Binary}
+	proc.GoFunctions["!gz"] = proc.GoFunction{Func: cmdUngz, TypeIn: types.Binary, TypeOut: types.Generic}
 }
 
-func cmdGz(p *lang.Process) error {
+func cmdGz(p *proc.Process) error {
 	gz := gzip.NewWriter(p.Stdout)
 	_, err := io.Copy(gz, p.Stdin)
 	if err != nil {
@@ -24,7 +24,7 @@ func cmdGz(p *lang.Process) error {
 	return nil
 }
 
-func cmdUngz(p *lang.Process) error {
+func cmdUngz(p *proc.Process) error {
 	gz, err := gzip.NewReader(p.Stdin)
 	if err != nil {
 		return err

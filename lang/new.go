@@ -3,12 +3,14 @@ package lang
 import (
 	"errors"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/streams"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams"
 )
 
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName string) (exitNum int, err error) {
-	grandParent := new(Process)
-	grandParent.OverrideProcName(gpName)
+	grandParent := new(proc.Process)
+	grandParent.Name = gpName
+	grandParent.MethodRef = gpName
 	grandParent.Parent = nil
 
 	if stdin != nil {

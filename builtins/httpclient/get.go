@@ -3,7 +3,7 @@ package httpclient
 import (
 	"encoding/json"
 	"errors"
-	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func cmdGet(p *lang.Process) (err error) {
+func cmdGet(p *proc.Process) (err error) {
 	if p.Parameters.Len() == 0 {
 		return errors.New("URL required.")
 	}
@@ -54,7 +54,7 @@ func cmdGet(p *lang.Process) (err error) {
 	return nil
 }
 
-func cmdGetFile(p *lang.Process) (err error) {
+func cmdGetFile(p *proc.Process) (err error) {
 	if p.Parameters.Len() == 0 {
 		return errors.New("URL required.")
 	}

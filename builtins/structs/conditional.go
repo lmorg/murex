@@ -17,14 +17,14 @@ func cmdIf(p *proc.Process) (err error) {
 	var ifBlock, thenBlock, elseBlock []rune
 
 	switch {
-	case p.Parameters.Len() == 1 && p.Method:
+	case p.Parameters.Len() == 1 && p.IsMethod:
 		// "if" taken from stdin, "then" from 1st parameter.
 		thenBlock, err = p.Parameters.Block(0)
 		if err != nil {
 			return err
 		}
 
-	case p.Parameters.Len() == 2 && p.Method:
+	case p.Parameters.Len() == 2 && p.IsMethod:
 		// "if" taken from stdin, "then" and "else" from 1st and 2nd parameter.
 		thenBlock, err = p.Parameters.Block(0)
 		if err != nil {
@@ -36,7 +36,7 @@ func cmdIf(p *proc.Process) (err error) {
 			return err
 		}
 
-	case p.Parameters.Len() == 2 && !p.Method:
+	case p.Parameters.Len() == 2 && !p.IsMethod:
 		// "if" taken from 1st parameter, "then" from 2nd parameter.
 		ifBlock, err = p.Parameters.Block(0)
 		if err != nil {
@@ -48,7 +48,7 @@ func cmdIf(p *proc.Process) (err error) {
 			return err
 		}
 
-	case p.Parameters.Len() == 3 && !p.Method:
+	case p.Parameters.Len() == 3 && !p.IsMethod:
 		// "if" taken from 1st parameter, "then" from 2nd, "else" from 3rd.
 		ifBlock, err = p.Parameters.Block(0)
 		if err != nil {
@@ -66,7 +66,7 @@ func cmdIf(p *proc.Process) (err error) {
 		}
 
 	default:
-		if !p.Not {
+		if !p.IsNot {
 			return errors.New(`Not a valid if statement. Usage:
   $conditional -> if: { $then }            # conditional result read from stdin or previous process exit number
   $conditional -> if: { $then } { $else }  # conditional result read from stdin or previous process exit number
@@ -101,7 +101,7 @@ func cmdIf(p *proc.Process) (err error) {
 		conditional = types.IsTrue(b, p.Previous.ExitNum)
 	}
 
-	if (conditional && !p.Not) || (!conditional && p.Not) {
+	if (conditional && !p.IsNot) || (!conditional && p.IsNot) {
 		// --- THEN ---
 		_, err = lang.ProcessNewBlock(thenBlock, nil, p.Stdout, p.Stderr, types.Null)
 		if err != nil {

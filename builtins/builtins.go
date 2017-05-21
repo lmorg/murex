@@ -8,12 +8,12 @@ package builtins
 // first take a look at `misc`.
 
 import (
-	_ "github.com/lmorg/murex/lang/builtins/encoders"
-	_ "github.com/lmorg/murex/lang/builtins/httpclient"
-	_ "github.com/lmorg/murex/lang/builtins/io"
-	_ "github.com/lmorg/murex/lang/builtins/management"
-	_ "github.com/lmorg/murex/lang/builtins/misc"
-	_ "github.com/lmorg/murex/lang/builtins/structs"
-	_ "github.com/lmorg/murex/lang/builtins/textmanip"
-	_ "github.com/lmorg/murex/lang/builtins/typemgmt"
+	_ "github.com/lmorg/murex/builtins/encoders"
+	_ "github.com/lmorg/murex/builtins/httpclient"
+	_ "github.com/lmorg/murex/builtins/io"
+	_ "github.com/lmorg/murex/builtins/management"
+	_ "github.com/lmorg/murex/builtins/misc"
+	_ "github.com/lmorg/murex/builtins/structs"
+	_ "github.com/lmorg/murex/builtins/textmanip"
+	_ "github.com/lmorg/murex/builtins/typemgmt"
 )

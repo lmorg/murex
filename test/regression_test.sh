@@ -5,7 +5,7 @@ cd test
 JSH="../murex"
 timeout="1.1"
 nreps=250
-repstimeout="10"
+repstimeout="15"
 
 i=1
 failed=0
