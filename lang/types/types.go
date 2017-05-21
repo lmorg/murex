@@ -1,6 +1,9 @@
 package types
 
-import "strings"
+import (
+	"bytes"
+	"strings"
+)
 
 const (
 	// system types
@@ -35,6 +38,7 @@ func IsTrue(stdout []byte, exitNum int) bool {
 }
 
 func IsJson(b []byte) bool {
+	b = bytes.TrimSpace(b)
 	if b[0] == '{' && b[len(b)-1] == '}' {
 		return true
 	}
@@ -42,6 +46,7 @@ func IsJson(b []byte) bool {
 }
 
 func IsArray(b []byte) bool {
+	b = bytes.TrimSpace(b)
 	if b[0] == '[' && b[len(b)-1] == ']' {
 		return true
 	}

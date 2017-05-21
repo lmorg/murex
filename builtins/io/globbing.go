@@ -17,7 +17,7 @@ var rxWhiteSpace *regexp.Regexp = regexp.MustCompile(`[\n\r\t]+`)
 func init() {
 	proc.GoFunctions["g"] = proc.GoFunction{Func: cmdLsG, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["rx"] = proc.GoFunction{Func: cmdLsRx, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["ff"] = proc.GoFunction{Func: cmdLsFf, TypeIn: types.Generic, TypeOut: types.Json}
+	proc.GoFunctions["f"] = proc.GoFunction{Func: cmdLsF, TypeIn: types.Generic, TypeOut: types.Json}
 }
 
 func cmdLsG(p *proc.Process) (err error) {
@@ -57,7 +57,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 	return
 }
 
-func cmdLsFf(p *proc.Process) (err error) {
+func cmdLsF(p *proc.Process) (err error) {
 	var (
 		file      bool
 		directory bool
@@ -84,16 +84,25 @@ func cmdLsFf(p *proc.Process) (err error) {
 
 	var files, matched []string
 	var isJson bool
-	stdin := p.Stdin.ReadAll()
 
-	// Attempt to auto-detect JSON string or string array
-	if types.IsArray(stdin) {
-		if err := json.Unmarshal(stdin, &files); err != nil {
-			return err
+	if p.IsMethod {
+		stdin := p.Stdin.ReadAll()
+
+		// Attempt to auto-detect JSON string or string array
+		if types.IsArray(stdin) {
+			if err := json.Unmarshal(stdin, &files); err != nil {
+				return err
+			}
+			isJson = true
+		} else {
+			files = rxWhiteSpace.Split(string(stdin), -1)
 		}
-		isJson = true
+
 	} else {
-		files = rxWhiteSpace.Split(string(stdin), -1)
+		files, err = filepath.Glob("*")
+		if err != nil {
+			return
+		}
 	}
 
 	for i := range files {

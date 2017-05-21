@@ -13,10 +13,7 @@ import (
 var rxNewLine *regexp.Regexp = regexp.MustCompile(`[\r\n]+`)
 
 func parseParameters(p *parameters.Parameters, vars *types.Vars) {
-	//p.Params = make([]string, 0)
-	//tCount := make([]bool, len(p.Tokens))
-	//var tCount []bool
-	debug.Json("####################################", p.Tokens)
+	//debug.Json("####################################", p.Tokens)
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")
 		//tCount = append(tCount, false)
@@ -59,6 +56,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 				if types.IsArray(b) {
 					err = json.Unmarshal(b, &array)
+					debug.Log("json.Unmarshal(b, &array) return:", err)
 				}
 				if err != nil || !types.IsArray(b) {
 					array = rxNewLine.Split(string(b), -1)
@@ -95,6 +93,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 				if types.IsArray(b) {
 					err = json.Unmarshal(b, &array)
+					debug.Log("json.Unmarshal(b, &array) return:", err)
 				}
 				if err != nil || !types.IsArray(b) {
 					array = rxNewLine.Split(string(b), -1)
@@ -126,35 +125,11 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				))
 			}
 		}
-		debug.Log("#######################################", tCount)
-		debug.Json("############### before ", p.Params)
+		//debug.Log("#######################################", tCount)
+		//debug.Json("############### before ", p.Params)
 		if !tCount {
 			p.Params = p.Params[:len(p.Params)-1]
 		}
-		debug.Json("############### after ", p.Params)
+		//debug.Json("############### after ", p.Params)
 	}
-
-	/*if len(p.Tokens) != 0 && tCount[len(tCount)-1] == false {
-		if len(p.Tokens) == 1 {
-			p.Params = make([]string, 0)
-		} else {
-			p.Params = p.Params[:len(p.Tokens)-1]
-		}
-	}*/
-	/*for i := 0; i < len(tCount); i++ {
-		if !tCount[i] {
-			switch {
-			case i == 0:
-				p.Params = p.Params[1:]
-				tCount = tCount[1:]
-			case i == len(tCount):
-				p.Params = p.Params[:i]
-				tCount = tCount[:i]
-			default:
-				p.Params = append(p.Params[:i], p.Params[i+1:]...)
-				tCount = append(tCount[:i], tCount[i+1:]...)
-			}
-			i--
-		}
-	}*/
 }

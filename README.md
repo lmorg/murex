@@ -67,10 +67,14 @@ list how to use if statements and iteration like for loops.
 4. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md) lists some
 of the builtin functions available for this shell.
 
+Or if you're already a seasoned Bash developer then you read the Quick
+Start Guide, [GUIDE.quick-start.md](./GUIDE.quick-start.md), to jump
+straight into using Murex.
+
 ## Known bugs / TODO
 
-* _Currently no support for interactive commands._ This will need to be
-addressed.
+* _Currently no support for interactive commands._ This will **need** to be
+addressed. Possibly as my next job.
 
 * _Interactive shell auto-completion is unreliable._ I have a nasty
 feeling I may need to fork the readline package or even create my own
