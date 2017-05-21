@@ -288,21 +288,21 @@ while true; do
         182)shell 'try { false }->!catch {out: catch}' 2>&1 | check "false";;
 
         # testing `try` and `catch` structures with secondary `catch` for else conditions
-        183)shell 'true         ->catch  {out: catch}->!catch {out: else}' 2>&1 | check "true\nelse";;
-        184)shell 'false        ->catch  {out: catch}->!catch {out: else}' 2>&1 | check "false\ncatch";;
-        185)shell 'true         ->!catch {out: catch}->catch  {out: else}' 2>&1 | check "true\ncatch";;
-        186)shell 'false        ->!catch {out: catch}->catch  {out: else}' 2>&1 | check "false\nelse";;
-        187)shell 'try { true  }->catch  {out: catch}->!catch {out: else}' 2>&1 | check "true\nelse";;
-        188)shell 'try { false }->catch  {out: catch}->!catch {out: else}' 2>&1 | check "false\ncatch";;
-        189)shell 'try { true  }->!catch {out: catch}->catch  {out: else}' 2>&1 | check "true\ncatch";;
-        190)shell 'try { false }->!catch {out: catch}->catch  {out: else}' 2>&1 | check "false\nelse";;
+        183)shell 'true         ->catch {out:catch}->!catch{out:else}' 2>&1 | check "true\nelse";;
+        184)shell 'false        ->catch {out:catch}->!catch{out:else}' 2>&1 | check "false\ncatch";;
+        185)shell 'true         ->!catch{out:catch}->catch {out:else}' 2>&1 | check "true\ncatch";;
+        186)shell 'false        ->!catch{out:catch}->catch {out:else}' 2>&1 | check "false\nelse";;
+        187)shell 'try { true  }->catch {out:catch}->!catch{out:else}' 2>&1 | check "true\nelse";;
+        188)shell 'try { false }->catch {out:catch}->!catch{out:else}' 2>&1 | check "false\ncatch";;
+        189)shell 'try { true  }->!catch{out:catch}->catch {out:else}' 2>&1 | check "true\ncatch";;
+        190)shell 'try { false }->!catch{out:catch}->catch {out:else}' 2>&1 | check "false\nelse";;
 
         # testing new regex function: find
         191)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
 
         # some more advanced testing of `try` and `catch`
         192)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
-        193)shell 'try{out:1;out:2|grep:false;out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
+        193)shell 'try{out:1;out:2|grep:no; out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
         194)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
         195)shell 'try {out 1;out 2|grep 2;out 3}->catch{out failed}' 2>&1 | check "1\n2\n3";;
         196)shell 'try {out 1;out 2|grep 2;out 3}->!catch{out failed}' 2>&1 | check "1\n2\n3\nfailed";;
@@ -314,9 +314,23 @@ while true; do
         # testing encoder builtins
         201)shell 'out: test->base64->!base64' 2>&1 | check "test\n";;
         202)reps 'out: test->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
-        203)reps 'out: test\n->base64->!base64->match: test' $nreps 2>&1 | checkreps $nreps;;
+        203)reps 'out: test\n->base64->!base64->match:test' $nreps 2>&1 | checkreps $nreps;;
         204)shell 'out: test->escape->!escape' 2>&1 | check "test";;
         205)shell 'out: test->gz->!gz' 2>&1         | check "test";;
+
+        # variables and subshells
+        206)shell 'set foo=bar; out $foo' 2>&1      | check "bar";;
+        207)shell 'set foo=bar; out "$foo"' 2>&1    | check "bar";;
+        208)shell "set foo=bar; out '\$foo'" 2>&1   | check '$foo';;
+        209)shell 'set foo=bar; out "\$foo"' 2>&1   | check '$foo';;
+        210)shell 'out bar->set foo; out $foo' 2>&1      | check "bar";;
+        211)shell 'out bar->set foo; out "$foo"' 2>&1    | check "bar";;
+        212)shell "out bar->set foo; out '\$foo'" 2>&1   | check '$foo';;
+        213)shell 'out bar->set foo; out "\$foo"' 2>&1   | check '$foo';;
+        214)shell 'out ${out foo}' 2>&1      | check "foo";;
+        215)shell 'out "${out foo}"' 2>&1    | check "foo";;
+        216)shell "out '\${out foo}'" 2>&1   | check '${out foo}';;
+        217)shell 'out "\${out foo}"' 2>&1   | check '${out foo}';;
 
         *) break
     esac
