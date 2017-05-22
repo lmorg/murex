@@ -96,10 +96,10 @@ while true; do
         22)shell 'err: `o,u,t`' 2>&1 | check '`o,u,t`';;
 
         # testing out and err pipes
-        #23)shell 'printf: out\n' 2>&1                  | check "out";;                      # `printf` without a pty sends \n
-        #24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "echo -e 'out1\nout2";;   # `printf` without a pty sends \n
-        23)shell 'printf: out\n' 2>&1                  | check "out\r";;                     # `printf` with a pty sends \r\n
-        24)shell 'printf: out1\n; printf: out2\n' 2>&1 | check "out1\r\nout2\r";;            # `printf` with a pty sends \r\n
+        23)shell 'printf: out\n' 2>&1                  | check "out";;                      # `printf` without a pty sends \n
+        24)shell 'printf: out1\n; printf: out2\n' 2>&1    | check "out1\nout2\n";;          # `printf` without a pty sends \n
+        #23)shell 'printf: out\n' 2>&1                  | check "out\r";;                     # `printf` with a pty sends \r\n
+        #24)shell 'printf: out1\n; printf: out2\n' 2>&1 | check "out1\r\nout2\r";;            # `printf` with a pty sends \r\n
         25)shell 'printf: out\n | grep: out' 2>&1      | check "out";;
         26)shell 'out: out | grep: out' 2>&1         | check "out";;
         27)shell 'err: err | grep: err' 2>/dev/null  | check "";;

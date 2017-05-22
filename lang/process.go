@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+var ShellEnabled bool
+
 func createProcess(p *proc.Process, f proc.Flow) {
 	proc.ProcIDs.Add(p)
 
@@ -44,9 +46,8 @@ func createProcess(p *proc.Process, f proc.Flow) {
 		p.MethodRef = p.Name
 
 	case !p.IsMethod:
-		//p.Parameters = append(Parameters{p.Name}, p.Parameters...)
 		p.Parameters.SetPrepend(p.Name)
-		if f.NewChain && !f.PipeOut && !f.PipeErr {
+		if f.NewChain && !f.PipeOut && !f.PipeErr && ShellEnabled {
 			p.MethodRef = "pty"
 		} else {
 			p.MethodRef = "exec"

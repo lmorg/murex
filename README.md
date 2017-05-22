@@ -73,9 +73,6 @@ straight into using Murex.
 
 ## Known bugs / TODO
 
-* _Currently no support for interactive commands._ This will **need** to be
-addressed. Possibly as my next job.
-
 * _Interactive shell auto-completion is unreliable._ I have a nasty
 feeling I may need to fork the readline package or even create my own
 one.
@@ -89,3 +86,8 @@ TODO rather than bug.
 * _No support for piping scripts to the shell executable._ This will be
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
+
+* _Not tested on Windows._ The code "should" be portable but there may
+be a few issues with PTY usage and/or exit numbers. The way the code is
+written, I'm not expecting any of the issues to be too problematic to
+resolve.

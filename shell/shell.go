@@ -14,6 +14,7 @@ import (
 )
 
 func Start() {
+	lang.ShellEnabled = true
 	rl, err := readline.NewEx(&readline.Config{
 		//Prompt:          "\033[31m»\033[0m ",
 		HistoryFile:     "murex.history",
@@ -24,6 +25,7 @@ func Start() {
 		HistorySearchFold:   true,
 		FuncFilterInputRune: filterInput,
 	})
+	defer rl.Terminal.ExitRawMode()
 
 	if err != nil {
 		panic(err)
@@ -65,7 +67,11 @@ func Start() {
 		line = strings.TrimSpace(line)
 		switch {
 		case line == "":
+		case line == "exit":
+			defer rl.Terminal.ExitRawMode()
+			fallthrough
 		default:
+			rl.Terminal.EnterRawMode()
 			lang.ProcessNewBlock(
 				[]rune(line),
 				nil,
@@ -73,7 +79,7 @@ func Start() {
 				nil,
 				types.Null,
 			)
-
+			rl.Terminal.ExitRawMode()
 		}
 	}
 }
