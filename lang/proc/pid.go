@@ -2,20 +2,18 @@ package proc
 
 import "sync"
 
-// Setting a fixed PID pool below without any recycling of PIDs does severely hamper the usefulness of this shell.
-// However since this is still very much an alpha project, I'm using this hard limit as a catch for runaway processes.
-const pidPool int = 1024
+// TODO: need to write some method of recycling terminated PIDs.
 
 type pid struct {
 	sync.Mutex
-	Process [pidPool]*Process
+	Process []*Process
 	count   int
 }
 
 func (pid *pid) Add(process *Process) {
 	pid.Lock()
 	pid.count++
-	pid.Process[pid.count] = process
+	pid.Process = append(pid.Process, process)
 	pid.Unlock()
 }
 
