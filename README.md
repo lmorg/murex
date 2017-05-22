@@ -1,15 +1,12 @@
 # murex
-(I'm not sold on that name either. However I am open to suggestions)
-
-## Description
 
 Murex is a cross-platform shell like Bash but with greater emphasis on
-writing shell scripts and powerful one-liners while maintaining
+writing safe shell scripts and powerful one-liners while maintaining
 readability.
 
 To achieve this the language employs a relatively simple syntax modelled
 loosely on functional and stack-based programming paradigms (albeit
-without the LISP-style nested parentheses that scare a lot of developers.
+without the LISP-style nested parentheses that scare a lot of developers).
 For example, a program structure could look like the following:
 ```
 command -> command -> if { then_command } -> else { else_command }
@@ -86,3 +83,14 @@ TODO rather than bug.
 * _No support for piping scripts to the shell executable._ This will be
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
+
+* _No support for interactive commands in Windows._ The shell works fine
+on Windows aside not pausing for prompts on Windows. I don't really know
+enough about Windows shells to resolve this issue and since I tend not
+to Windows this bug is of a pretty low priorety for me however I will
+readily accept any pull requests for other developers to resolve this
+issue.
+
+* _No PID recycling._ This is a potential cause for a memory leak but is
+currently a pretty low priorety at the moment as the amount of memory
+consumed is low and the chance over overflowing the array slice is tiny.
