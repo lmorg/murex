@@ -13,9 +13,12 @@ import (
 	"strings"
 )
 
+var Instance *readline.Instance
+
 func Start() {
+	var err error
 	lang.ShellEnabled = true
-	rl, err := readline.NewEx(&readline.Config{
+	Instance, err = readline.NewEx(&readline.Config{
 		//Prompt:          "\033[31m»\033[0m ",
 		HistoryFile:     "murex.history",
 		AutoComplete:    createCompleter(),
@@ -25,12 +28,12 @@ func Start() {
 		HistorySearchFold:   true,
 		FuncFilterInputRune: filterInput,
 	})
-	//defer rl.Terminal.ExitRawMode()
+	defer Instance.Terminal.ExitRawMode()
 
 	if err != nil {
 		panic(err)
 	}
-	defer rl.Close()
+	defer Instance.Close()
 
 	for {
 		prompt, _ := proc.GlobalConf.Get("shell", "Prompt", types.CodeBlock)
@@ -51,9 +54,9 @@ func Start() {
 			b = b[:len(b)-1]
 		}
 
-		rl.SetPrompt(string(b))
+		Instance.SetPrompt(string(b))
 
-		line, err := rl.Readline()
+		line, err := Instance.Readline()
 		if err == readline.ErrInterrupt {
 			if len(line) == 0 {
 				break
@@ -67,11 +70,8 @@ func Start() {
 		line = strings.TrimSpace(line)
 		switch {
 		case line == "":
-		case line == "exit":
-			rl.Terminal.ExitRawMode()
-			os.Exit(0)
 		default:
-			rl.Terminal.EnterRawMode()
+			Instance.Terminal.EnterRawMode()
 			lang.ProcessNewBlock(
 				[]rune(line),
 				nil,
@@ -79,7 +79,7 @@ func Start() {
 				nil,
 				types.Null,
 			)
-			rl.Terminal.ExitRawMode()
+			Instance.Terminal.ExitRawMode()
 		}
 	}
 }

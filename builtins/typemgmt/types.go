@@ -3,6 +3,7 @@ package typemgmt
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell"
 	"io"
 	"os"
 )
@@ -45,12 +46,18 @@ func cmdNot(p *proc.Process) error {
 }
 
 func cmdDie(*proc.Process) error {
+	if shell.Instance != nil {
+		shell.Instance.Terminal.ExitRawMode()
+	}
 	os.Exit(1)
 	return nil
 }
 
 func cmdExit(p *proc.Process) error {
 	i, _ := p.Parameters.Int(0)
+	if shell.Instance != nil {
+		shell.Instance.Terminal.ExitRawMode()
+	}
 	os.Exit(i)
 	return nil
 }
