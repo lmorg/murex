@@ -25,7 +25,7 @@ func Start() {
 		HistorySearchFold:   true,
 		FuncFilterInputRune: filterInput,
 	})
-	defer rl.Terminal.ExitRawMode()
+	//defer rl.Terminal.ExitRawMode()
 
 	if err != nil {
 		panic(err)
@@ -68,8 +68,8 @@ func Start() {
 		switch {
 		case line == "":
 		case line == "exit":
-			defer rl.Terminal.ExitRawMode()
-			fallthrough
+			rl.Terminal.ExitRawMode()
+			os.Exit(0)
 		default:
 			rl.Terminal.EnterRawMode()
 			lang.ProcessNewBlock(
