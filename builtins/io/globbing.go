@@ -78,7 +78,7 @@ func cmdLsF(p *proc.Process) (err error) {
 			p.Stderr.Writeln(usage)
 			return nil
 		default:
-			return errors.New("Invalid flag. `ft -h` for usage.")
+			return errors.New("Invalid flag. `f -h` for usage.")
 		}
 	}
 
