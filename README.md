@@ -84,13 +84,6 @@ TODO rather than bug.
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
 
-* _No support for interactive commands in Windows._ The shell works fine
-on Windows aside not pausing for prompts on Windows. I don't really know
-enough about Windows shells to resolve this issue and since I tend not
-to Windows this bug is of a pretty low priorety for me however I will
-readily accept any pull requests for other developers to resolve this
-issue.
-
 * _No PID recycling._ This is a potential cause for a memory leak but is
 currently a pretty low priorety at the moment as the amount of memory
 consumed is low and the chance over overflowing the array slice is tiny.
