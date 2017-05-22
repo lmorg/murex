@@ -86,8 +86,3 @@ TODO rather than bug.
 * _No support for piping scripts to the shell executable._ This will be
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
-
-* _Not tested on Windows._ The code "should" be portable but there may
-be a few issues with PTY usage and/or exit numbers. The way the code is
-written, I'm not expecting any of the issues to be too problematic to
-resolve.
