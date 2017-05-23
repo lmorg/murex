@@ -30,8 +30,9 @@ func execute(p *Process) error {
 	if err != nil {
 		return err
 	}
-	parameters := p.Parameters.StringArray()
-	cmd := exec.Command(exeName, "cmd", "/c", parameters[1:]...)
+	// Horrible fudge adding cmd /c to the parameters but this is to get around cmd.exe builtins.
+	parameters := append([]string{"cmd", "/c"}, p.Parameters.StringArray()...)
+	cmd := exec.Command(exeName, parameters[1:]...)
 
 	cmd.Stdin = p.Stdin
 	cmd.Stdout = p.Stdout
@@ -70,9 +71,9 @@ func shellExecute(p *Process) error {
 	if err != nil {
 		return err
 	}
-	parameters := p.Parameters.StringArray()
 	// Horrible fudge adding cmd /c to the parameters but this is to get around cmd.exe builtins.
-	cmd := exec.Command(exeName, "cmd", "/c", parameters[1:]...)
+	parameters := append([]string{"cmd", "/c"}, p.Parameters.StringArray()...)
+	cmd := exec.Command(exeName, parameters[1:]...)
 
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -86,7 +87,7 @@ func shellExecute(p *Process) error {
 	active := true
 	go func() {
 		defer stdin.Close()
-		b := make([]byte, 1024*1024)
+		b := make([]byte, 1024)
 		for active {
 			i, err := os.Stdin.Read(b)
 			if err != nil {
