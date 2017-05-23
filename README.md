@@ -87,3 +87,7 @@ wasn't considered necessary for the MVP (minimum viable product).
 * _No PID recycling._ This is a potential cause for a memory leak but is
 currently a pretty low priorety at the moment as the amount of memory
 consumed is low and the chance over overflowing the array slice is tiny.
+
+* _First character of the shell doesn't type._ This only happens for
+commands returning from a PTY. I think I understand *why* it happens but
+I haven't yet worked out a clean way to prevent it from happening.
