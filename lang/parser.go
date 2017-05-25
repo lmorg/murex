@@ -180,6 +180,19 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				quoteDouble = true
 			}
 
+		case '`':
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+			case quoteSingle, quoteDouble:
+				pUpdate(r)
+			case braceCount > 0:
+				pUpdate(r)
+			default:
+				pUpdate('\'')
+			}
+
 		case ':':
 			switch {
 			case escaped:
@@ -204,7 +217,8 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case scanFuncName:
 				startParameters()
-				*pop += string(r)
+				//*pop += string(r)
+				pUpdate(r)
 				braceCount++
 			default:
 				pUpdate(r)
