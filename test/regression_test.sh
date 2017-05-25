@@ -84,16 +84,16 @@ while true; do
         10)shell 'err: "o u t"' 2>&1 | check "o u t";;
         11)shell "out: 'o u t'" 2>&1 | check "o u t";;
         12)shell "err: 'o u t'" 2>&1 | check "o u t";;
-        13)shell 'out: `o u t`' 2>&1 | check '`o u t`';;
-        14)shell 'err: `o u t`' 2>&1 | check '`o u t`';;
+        13)shell 'out: `o u t`' 2>&1 | check "'o u t'";;
+        14)shell 'err: `o u t`' 2>&1 | check "'o u t'";;
         15)shell 'out: o,u,t' 2>&1   | check "o,u,t";;
         16)shell 'err: o,u,t' 2>&1   | check "o,u,t";;
         17)shell 'out: "o,u,t"' 2>&1 | check "o,u,t";;
         18)shell 'err: "o,u,t"' 2>&1 | check "o,u,t";;
         19)shell "out: 'o,u,t'" 2>&1 | check "o,u,t";;
         20)shell "err: 'o,u,t'" 2>&1 | check "o,u,t";;
-        21)shell 'out: `o,u,t`' 2>&1 | check '`o,u,t`';;
-        22)shell 'err: `o,u,t`' 2>&1 | check '`o,u,t`';;
+        21)shell 'out: `o,u,t`' 2>&1 | check "'o,u,t'";;
+        22)shell 'err: `o,u,t`' 2>&1 | check "'o,u,t'";;
 
         # testing out and err pipes
         23)shell 'printf: out\n' 2>&1                  | check "out";;                      # `printf` without a pty sends \n
