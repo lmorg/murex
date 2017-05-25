@@ -22,9 +22,13 @@ func init() {
 
 func cmdLsG(p *proc.Process) (err error) {
 	glob := p.Parameters.StringAll()
-	files, err := filepath.Glob(glob)
 
-	j, err := json.MarshalIndent(files, "", "\t")
+	files, err := filepath.Glob(glob)
+	if err != nil {
+		return
+	}
+
+	j, err := utils.JsonMarshal(files)
 	if err != nil {
 		return
 	}
@@ -40,6 +44,9 @@ func cmdLsRx(p *proc.Process) (err error) {
 	}
 
 	files, err := filepath.Glob("*")
+	if err != nil {
+		return
+	}
 
 	var matched []string
 	for i := range files {
@@ -48,7 +55,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 		}
 	}
 
-	j, err := json.MarshalIndent(matched, "", "\t")
+	j, err := utils.JsonMarshal(matched)
 	if err != nil {
 		return
 	}
@@ -125,15 +132,15 @@ func cmdLsF(p *proc.Process) (err error) {
 	}
 
 	var b []byte
-	if isJson {
-		b, err = json.MarshalIndent(matched, "", "\t")
-		if err != nil {
-			return err
-		}
+	if isJson || !p.IsMethod {
+		b, err = utils.JsonMarshal(matched)
 	} else {
 		b = []byte(strings.Join(matched, utils.NewLineString))
 	}
 
-	_, err = p.Stdout.Writeln(b)
+	if err == nil {
+		_, err = p.Stdout.Writeln(b)
+	}
+
 	return
 }

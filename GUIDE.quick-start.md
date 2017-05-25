@@ -54,7 +54,7 @@ Examples:
 ls -l @{g *.txt}
 
 # all text and markdown files via regexp:
-ls -l @{rx '*.\.(txt|md)'}
+ls -l @{rx '\.(txt|md)$'}
 
 # all files via type matching:
 ls -l @{f +f}
