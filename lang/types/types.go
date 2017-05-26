@@ -39,17 +39,27 @@ func IsTrue(stdout []byte, exitNum int) bool {
 
 func IsJson(b []byte) bool {
 	b = bytes.TrimSpace(b)
+	if len(b) < 2 {
+		return false
+	}
+
 	if b[0] == '{' && b[len(b)-1] == '}' {
 		return true
 	}
+
 	return false
 }
 
 func IsArray(b []byte) bool {
 	b = bytes.TrimSpace(b)
+	if len(b) < 2 {
+		return false
+	}
+
 	if b[0] == '[' && b[len(b)-1] == ']' {
 		return true
 	}
+
 	return false
 }
 
