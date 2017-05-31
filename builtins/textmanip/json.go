@@ -17,7 +17,8 @@ func init() {
 }
 
 func cmdDebug(p *proc.Process) error {
-	b, err := json.MarshalIndent(p.Previous, "", "\t")
+	var obj proc.Process = *p.Previous
+	b, err := json.MarshalIndent(obj, "", "\t")
 	if err != nil {
 		return err
 	}

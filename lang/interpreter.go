@@ -12,6 +12,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
 		(*tree)[i].Process.IsMethod = (*tree)[i].Method
 		(*tree)[i].Process.Parent = parent
+		(*tree)[i].Process.WaitForTermination = make(chan bool)
 
 		// Define previous and next processes:
 		switch {
@@ -94,14 +95,17 @@ func runNormal(tree *astNodes) (exitNum int) {
 	(*tree)[0].Process.Previous.HasTerminated = true
 
 	for i := range *tree {
-		if (*tree)[i].NewChain && i > 0 {
-			waitProcess(&(*tree)[i-1].Process)
+		if i > 0 {
+			if (*tree)[i].NewChain {
+				waitProcess(&(*tree)[i-1].Process)
+			} else {
+				go waitProcess(&(*tree)[i-1].Process)
+			}
 		}
 
 		go executeProcess(&(*tree)[i].Process)
 	}
 
-	//(*tree).Last().Process.Wait()
 	waitProcess(&(*tree).Last().Process)
 	exitNum = (*tree).Last().Process.ExitNum
 	return
@@ -116,8 +120,8 @@ func runHyperSensitive(tree *astNodes) (exitNum int) {
 	(*tree)[0].Process.Previous.HasTerminated = true
 
 	for i := range *tree {
-		//(*tree)[i].Process.Execute()
-		executeProcess(&(*tree)[i].Process)
+		go executeProcess(&(*tree)[i].Process)
+		waitProcess(&(*tree)[i].Process)
 
 		exitNum = (*tree)[i].Process.ExitNum
 		outSize, _ := (*tree)[i].Process.Stdout.Stats()

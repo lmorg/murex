@@ -19,7 +19,6 @@ type Stdin struct {
 
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
-	//stdin.buffer = make([]byte, 1)
 	return
 }
 

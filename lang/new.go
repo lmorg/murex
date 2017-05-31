@@ -50,6 +50,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName stri
 		exitNum = runHyperSensitive(&tree)
 	default:
 		exitNum = runNormal(&tree)
+		//exitNum = runHyperSensitive(&tree)
 	}
 
 	// This will just unlock the parent lock. Stdxxx.Close() will still have to be called.

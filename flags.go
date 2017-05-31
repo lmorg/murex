@@ -11,7 +11,6 @@ import (
 var (
 	fCommand string
 	fStdin   bool
-	fTrace   string
 
 	fSource []string
 
@@ -29,7 +28,6 @@ func readFlags() {
 	flag.BoolVar(&fHelp3, "help", false, "Help")
 
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
-	flag.StringVar(&fTrace, "trace", "", "Trace")
 	flag.BoolVar(&debug.EchoOn, "echo", false, "Echo on")
 
 	flag.Parse()

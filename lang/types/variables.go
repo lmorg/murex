@@ -7,7 +7,8 @@ import (
 )
 
 type Vars struct {
-	mutex  sync.Mutex
+	mutex sync.Mutex
+	//mutex  debug.Mutex
 	values map[string]interface{}
 	types  map[string]string
 }

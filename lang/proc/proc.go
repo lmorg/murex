@@ -15,22 +15,23 @@ type Flow struct {
 }
 
 type Process struct {
-	Stdin         streams.Io
-	Stdout        streams.Io
-	Stderr        streams.Io
-	Parameters    parameters.Parameters
-	ExitNum       int
-	Name          string
-	Id            int
-	Path          string
-	IsMethod      bool
-	Parent        *Process `json:"-"`
-	Previous      *Process `json:"-"`
-	Next          *Process `json:"-"`
-	HasTerminated bool
-	IsNot         bool
-	MethodRef     string
-	ReturnType    string
+	Stdin              streams.Io
+	Stdout             streams.Io
+	Stderr             streams.Io
+	Parameters         parameters.Parameters
+	ExitNum            int
+	Name               string
+	Id                 int
+	Path               string
+	IsMethod           bool
+	Parent             *Process `json:"-"`
+	Previous           *Process `json:"-"`
+	Next               *Process `json:"-"`
+	HasTerminated      bool
+	WaitForTermination chan bool `json:"-"`
+	IsNot              bool
+	MethodRef          string
+	ReturnType         string
 }
 
 type GoFunction struct {

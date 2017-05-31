@@ -12,6 +12,7 @@ import (
 
 type term struct {
 	sync.Mutex
+	//debug.Mutex
 	bWritten uint64
 	bRead    uint64
 	lastChar byte

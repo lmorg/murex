@@ -65,14 +65,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 
 func executeProcess(p *proc.Process) {
 	debug.Json("Executing:", p)
-	proc.GlobalVars.Dump()
 
-	// Expand variables if parameter isn't a code block.
-	/*for i := range p.Parameters {
-		if len(p.Parameters[i]) > 1 && (p.Parameters[i][0] != '{' || p.Parameters[i][len(p.Parameters[i])-1] != '}') {
-			GlobalVars.KeyValueReplace(&p.Parameters[i])
-		}
-	}*/
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 
 	// A little catch for unexpected behavior.
@@ -100,15 +93,13 @@ func executeProcess(p *proc.Process) {
 
 func waitProcess(p *proc.Process) {
 	debug.Log("Waiting for", p.Name)
-	for !p.HasTerminated {
-		// Wait for process to terminate
-	}
+	p.HasTerminated = <-p.WaitForTermination
 }
 
 func destroyProcess(p *proc.Process) {
 	debug.Json("Destroying:", p)
 	p.Stdout.Close()
 	p.Stderr.Close()
-	p.HasTerminated = true
+	p.WaitForTermination <- true
 	debug.Log("Destroyed")
 }
