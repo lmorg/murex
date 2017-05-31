@@ -12,6 +12,7 @@ import (
 func init() {
 	proc.GoFunctions["foreach"] = proc.GoFunction{Func: cmdForEach, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["!while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
 }
 
 func cmdForEach(p *proc.Process) (err error) {
@@ -53,10 +54,26 @@ func cmdWhile(p *proc.Process) error {
 		}
 
 		for {
-			i, err := lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
-			if err != nil || !types.IsTrue([]byte{}, i) {
+			stdout := streams.NewStdin()
+			i, err := lang.ProcessNewBlock(block, nil, stdout, p.Stderr, types.Null)
+			if err != nil {
+				return err
+			}
+			stdout.Close()
+			b := stdout.ReadAll()
+
+			_, err = p.Stdout.Write(b)
+			if err != nil {
+				return err
+			}
+
+			conditional := types.IsTrue(b, i)
+
+			if (!p.IsNot && !conditional) ||
+				(p.IsNot && conditional) {
 				return nil
 			}
+
 		}
 
 	case 2:
@@ -81,7 +98,8 @@ func cmdWhile(p *proc.Process) error {
 			b := stdout.ReadAll()
 			conditional := types.IsTrue(b, i)
 
-			if !conditional {
+			if (!p.IsNot && !conditional) ||
+				(p.IsNot && conditional) {
 				return nil
 			}
 
