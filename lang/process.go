@@ -11,8 +11,6 @@ import (
 var ShellEnabled bool
 
 func createProcess(p *proc.Process, f proc.Flow) {
-	proc.ProcIDs.Add(p)
-
 	if p.Parent.MethodRef == "" {
 		p.Parent.MethodRef = "null"
 	}
