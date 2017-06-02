@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["debugmode"] = proc.GoFunction{Func: cmdDebugMode, TypeIn: types.Null, TypeOut: types.Boolean}
+	proc.GoFunctions["debug"] = proc.GoFunction{Func: cmdDebug, TypeIn: types.Generic, TypeOut: types.Json}
 	proc.GoFunctions["exitnum"] = proc.GoFunction{Func: cmdExitNum, TypeIn: types.Generic, TypeOut: types.Integer}
 	proc.GoFunctions["config"] = proc.GoFunction{Func: cmdConfig, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["builtins"] = proc.GoFunction{Func: cmdListBuiltins, TypeIn: types.Null, TypeOut: types.String}
@@ -19,21 +19,41 @@ func init() {
 	proc.GoFunctions["cd"] = proc.GoFunction{Func: cmdCd, TypeIn: types.Null, TypeOut: types.Null}
 }
 
-func cmdDebugMode(p *proc.Process) error {
-	v, err := p.Parameters.Bool(0)
-	if err != nil {
-		p.Stdout.Writeln(types.FalseByte)
-		p.ExitNum = 1
-		return nil
+func cmdDebug(p *proc.Process) (err error) {
+	if p.IsMethod {
+		var (
+			obj proc.Process = *p.Previous
+			b   []byte
+		)
+
+		b, err = json.MarshalIndent(obj, "", "\t")
+		if err != nil {
+			return err
+		}
+
+		_, err = p.Stdout.Writeln(b)
+
+	} else {
+
+		var v bool
+		v, err = p.Parameters.Bool(0)
+
+		if err != nil {
+			p.Stdout.Writeln(types.FalseByte)
+			p.ExitNum = 1
+			return nil
+		}
+		debug.Enable = v
+		if v == false {
+			p.Stdout.Writeln(types.FalseByte)
+			p.ExitNum = 1
+			return nil
+		}
+
+		_, err = p.Stdout.Writeln(types.TrueByte)
 	}
-	debug.Enable = v
-	if v == false {
-		p.Stdout.Writeln(types.FalseByte)
-		p.ExitNum = 1
-		return nil
-	}
-	p.Stdout.Writeln(types.TrueByte)
-	return nil
+
+	return
 }
 
 func cmdExitNum(p *proc.Process) error {

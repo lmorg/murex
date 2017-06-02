@@ -11,20 +11,8 @@ import (
 type jsonInterface map[interface{}]interface{}
 
 func init() {
-	proc.GoFunctions["debug"] = proc.GoFunction{Func: cmdDebug, TypeIn: types.Generic, TypeOut: types.Json}
 	proc.GoFunctions["json"] = proc.GoFunction{Func: cmdJson, TypeIn: types.Json, TypeOut: types.Generic}
 	proc.GoFunctions["prettify"] = proc.GoFunction{Func: cmdPrettify, TypeIn: types.Json, TypeOut: types.String}
-}
-
-func cmdDebug(p *proc.Process) error {
-	var obj proc.Process = *p.Previous
-	b, err := json.MarshalIndent(obj, "", "\t")
-	if err != nil {
-		return err
-	}
-
-	p.Stdout.Writeln(b)
-	return nil
 }
 
 func cmdJson(p *proc.Process) (err error) {
