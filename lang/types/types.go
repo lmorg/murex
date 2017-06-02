@@ -37,6 +37,10 @@ func IsTrue(stdout []byte, exitNum int) bool {
 	return true
 }
 
+func IsBlock(b []byte) bool {
+	return IsJson(b)
+}
+
 func IsJson(b []byte) bool {
 	b = bytes.TrimSpace(b)
 	if len(b) < 2 {
