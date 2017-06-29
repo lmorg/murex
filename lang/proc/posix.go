@@ -4,8 +4,8 @@ package proc
 
 import (
 	"github.com/kr/pty"
+	"github.com/lmorg/murex/lang/proc/streams/osstdin"
 	"io"
-	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -89,21 +89,23 @@ func shellExecute(p *Process) (err error) {
 		b := make([]byte, 1024)
 		for active {
 			var i int
-			i, err = os.Stdin.Read(b)
+
+			i, err := osstdin.Stdin.Read(b)
 			if err != nil {
 				return
 			}
-			/*if !active {
-				os.Stdin.Write(b[:i])
+			// oops the program has closed but this goroutine is still active.
+			// So lets push the []bytes back into the stack.
+			if !active {
+				osstdin.Stdin.Prepend(b[:i])
 				return
-			}*/
+			}
 			if _, err = f.Write(b[:i]); err != nil {
 				return
 			}
 		}
 	}()
 
-	/*_, err = */
 	io.Copy(p.Stdout, f)
 	active = false
 	return

@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/osstdin"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -18,6 +19,7 @@ var Instance *readline.Instance
 func Start() {
 	var err error
 	lang.ShellEnabled = true
+
 	Instance, err = readline.NewEx(&readline.Config{
 		//Prompt:          "\033[31m»\033[0m ",
 		HistoryFile:     "murex.history",
@@ -27,6 +29,7 @@ func Start() {
 
 		HistorySearchFold:   true,
 		FuncFilterInputRune: filterInput,
+		Stdin:               osstdin.Stdin,
 	})
 	defer Instance.Terminal.ExitRawMode()
 
