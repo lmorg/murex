@@ -2,11 +2,11 @@
 
 set: name=murex
 try {
-    ls -lh @{which: murex} -> regex: f/[0-9.]+M/ -> set: size
+    ls -lh ${which: $name} -> regex: f/[0-9.]+[A-Z]/ -> set: size
     # The above line is equivalent to the follow:
     # which: $name -> set path
     # ls -lh $path -> regex f/[0-9.]+M/ -> set size
-    out: "This executable is $size big!"
+    out: "The $name executable is $size big!"
 } ->
 catch {
     out: "`$name` not found in \$PATH"
