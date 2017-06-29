@@ -16,6 +16,9 @@ const (
 )
 
 func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
+	// First switch:  input data type
+	// Second switch: output data type
+
 	switch v.(type) {
 	case nil:
 		switch dataType {
