@@ -70,7 +70,7 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
-			case r == '-' ||
+			case r == '_' ||
 				('a' <= r && r <= 'z') ||
 				('A' <= r && r <= 'Z') ||
 				('0' <= r && r <= '9'):
@@ -117,14 +117,9 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				continue
 
 			default:
-				//node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
-				//pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
-				//pop = &pToken.Key
-
-				//node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
-				//pCount++
-				//pToken = &node.ParamTokens[pCount][0]
-				//pop = &pToken.Key
+				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
+				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+				pop = &pToken.Key
 			}
 		}
 
