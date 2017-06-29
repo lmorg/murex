@@ -5,7 +5,9 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"os"
+	"strings"
 )
 
 var ShellEnabled bool
@@ -72,8 +74,18 @@ func executeProcess(p *proc.Process) {
 		panic("Failed to execute GoFunc[mapRef] `" + p.MethodRef + "`. This should never happen!!")
 	}
 
+	// Echo
+	echo, err := proc.GlobalConf.Get("shell", "Echo", types.Boolean)
+	if err != nil {
+		panic(err.Error())
+	}
+	if echo.(bool) {
+		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
+		os.Stdout.WriteString("# " + p.MethodRef + `("` + params + `");` + utils.NewLineString)
+	}
+
 	// Execute function.
-	err := proc.GoFunctions[p.MethodRef].Func(p)
+	err = proc.GoFunctions[p.MethodRef].Func(p)
 	if err != nil {
 		p.Stderr.Writeln([]byte("Error in `" + p.MethodRef + "`: " + err.Error()))
 		if p.ExitNum == 0 {

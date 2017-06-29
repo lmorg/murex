@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 	"os"
 )
 
@@ -13,6 +15,8 @@ var (
 	fStdin   bool
 
 	fSource []string
+
+	fEcho bool
 
 	fHelp1 bool
 	fHelp2 bool
@@ -28,7 +32,7 @@ func readFlags() {
 	flag.BoolVar(&fHelp3, "help", false, "Help")
 
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
-	flag.BoolVar(&debug.EchoOn, "echo", false, "Echo on")
+	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 
 	flag.Parse()
 
@@ -38,6 +42,12 @@ func readFlags() {
 		flag.Usage()
 		os.Exit(1)
 	}
+
+	proc.GlobalConf.Define("shell", "Echo", config.Properties{
+		Description: "Echo shell functions",
+		Default:     fEcho,
+		DataType:    types.Boolean,
+	})
 
 	fSource = flag.Args()
 }

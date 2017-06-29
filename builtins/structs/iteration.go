@@ -7,12 +7,62 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"strings"
 )
 
 func init() {
+	proc.GoFunctions["for"] = proc.GoFunction{Func: cmdFor, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["foreach"] = proc.GoFunction{Func: cmdForEach, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["!while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
+}
+
+func cmdFor(p *proc.Process) (err error) {
+	cblock, err := p.Parameters.Block(0)
+	if err != nil {
+		return err
+	}
+
+	block, err := p.Parameters.Block(1)
+	if err != nil {
+		return err
+	}
+
+	parameters := strings.Split(string(cblock), ";")
+	if len(parameters) != 3 {
+		return errors.New("Invalid syntax. Must be { variable; conditional; incremental }")
+	}
+
+	variable := "let " + parameters[0]
+	conditional := "eval " + parameters[1]
+	incremental := "let " + parameters[2]
+
+	_, err = lang.ProcessNewBlock([]rune(variable), nil, nil, p.Stderr, types.Null)
+	if err != nil {
+		return err
+	}
+
+	for {
+		stdout := streams.NewStdin()
+		i, err := lang.ProcessNewBlock([]rune(conditional), nil, stdout, p.Stderr, types.Null)
+		stdout.Close()
+		if err != nil {
+			return err
+		}
+
+		if !types.IsTrue(stdout.ReadAll(), i) {
+			return nil
+		}
+
+		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
+
+		_, err = lang.ProcessNewBlock([]rune(incremental), nil, nil, p.Stderr, types.Null)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func cmdForEach(p *proc.Process) (err error) {
@@ -56,10 +106,10 @@ func cmdWhile(p *proc.Process) error {
 		for {
 			stdout := streams.NewStdin()
 			i, err := lang.ProcessNewBlock(block, nil, stdout, p.Stderr, types.Null)
+			stdout.Close()
 			if err != nil {
 				return err
 			}
-			stdout.Close()
 			b := stdout.ReadAll()
 
 			_, err = p.Stdout.Write(b)
@@ -91,10 +141,10 @@ func cmdWhile(p *proc.Process) error {
 		for {
 			stdout := streams.NewStdin()
 			i, err := lang.ProcessNewBlock(ifBlock, nil, stdout, nil, types.Null)
+			stdout.Close()
 			if err != nil {
 				return err
 			}
-			stdout.Close()
 			b := stdout.ReadAll()
 			conditional := types.IsTrue(b, i)
 

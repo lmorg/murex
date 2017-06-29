@@ -1,6 +1,6 @@
 #!/usr/bin/env murex
 
-let a=1
+let a=0
 while { eval a < 5 } {
     out "Iteration $a...."
     let a++

@@ -5,10 +5,7 @@ import (
 	"log"
 )
 
-var (
-	Enable bool
-	EchoOn bool
-)
+var Enable bool
 
 func Log(data ...interface{}) {
 	if Enable {

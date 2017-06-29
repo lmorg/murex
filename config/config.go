@@ -30,12 +30,13 @@ func NewConfiguration() (gc Config) {
 // value == the setting itself
 func (gc *Config) Set(app string, key string, value interface{}) error {
 	gc.mutex.Lock()
+	defer gc.mutex.Unlock()
+
 	if gc.properties[app] == nil || gc.properties[app][key].DataType == "" || gc.properties[app][key].Description == "" {
 		return errors.New("Cannot Set() that value when no config properties have been defined for that app and key.")
 	}
 
 	gc.values[app][key] = value
-	gc.mutex.Unlock()
 	return nil
 }
 
@@ -45,6 +46,8 @@ func (gc *Config) Set(app string, key string, value interface{}) error {
 // dataType == what `types.dataType` to cast the return value into
 func (gc *Config) Get(app, key, dataType string) (value interface{}, err error) {
 	gc.mutex.Lock()
+	defer gc.mutex.Unlock()
+
 	if gc.properties[app] == nil || gc.properties[app][key].DataType == "" || gc.properties[app][key].Description == "" {
 		return nil, errors.New("Cannot Get() that value when no config properties have been defined for that app and key.")
 	}
@@ -56,7 +59,6 @@ func (gc *Config) Get(app, key, dataType string) (value interface{}, err error) 
 	}
 
 	value, err = types.ConvertGoType(v, dataType)
-	gc.mutex.Unlock()
 	return
 }
 
