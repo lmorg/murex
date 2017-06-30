@@ -41,7 +41,8 @@ type GoFunction struct {
 }
 
 var (
-	GlobalVars  types.Vars            = types.NewVariableGroup()
-	GoFunctions map[string]GoFunction = make(map[string]GoFunction)
-	GlobalConf  config.Config         = config.NewConfiguration()
+	GlobalVars   types.Vars            = types.NewVariableGroup()
+	GoFunctions  map[string]GoFunction = make(map[string]GoFunction)
+	GlobalConf   config.Config         = config.NewConfiguration()
+	ShellEnabled bool
 )

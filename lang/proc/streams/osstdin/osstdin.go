@@ -14,7 +14,6 @@ type stdin struct {
 	mutex  sync.Mutex
 	data   chan []byte
 	buffer []byte
-	int
 }
 
 var Stdin *stdin
@@ -22,7 +21,6 @@ var Stdin *stdin
 func init() {
 	Stdin = new(stdin)
 	Stdin.data = make(chan []byte)
-	go read()
 }
 
 func (in *stdin) Prepend(b []byte) {
@@ -33,8 +31,15 @@ func (in *stdin) Prepend(b []byte) {
 }
 
 func (in *stdin) Read(p []byte) (i int, err error) {
+	err = nil
+
 	in.mutex.Lock()
 	defer in.mutex.Unlock()
+
+	//if !in.started {
+	//in.started = true
+	go read()
+	//}
 
 	if len(in.buffer) == 0 {
 		in.buffer = <-in.data
@@ -49,28 +54,28 @@ func (in *stdin) Read(p []byte) (i int, err error) {
 	copy(p, in.buffer)
 	i = len(in.buffer)
 	in.buffer = make([]byte, 0)
-	return i, nil
+	return
 }
 
 func read() {
 	p := make([]byte, BuffSize)
+	//for {
+	var in []byte
+
 	for {
-		var in []byte
+		i, err := os.Stdin.Read(p)
 
-		for {
-			i, err := os.Stdin.Read(p)
-
-			if err != nil {
-				os.Stderr.WriteString(err.Error())
-			}
-
-			in = append(in, p[:i]...)
-
-			if i < BuffSize {
-				break
-			}
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
 		}
 
-		Stdin.data <- in
+		in = append(in, p[:i]...)
+
+		if i < BuffSize {
+			break
+		}
 	}
+
+	Stdin.data <- in
+	//}
 }

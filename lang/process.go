@@ -10,8 +10,6 @@ import (
 	"strings"
 )
 
-var ShellEnabled bool
-
 func createProcess(p *proc.Process, f proc.Flow) {
 	if p.Parent.MethodRef == "" {
 		p.Parent.MethodRef = "null"
@@ -47,7 +45,8 @@ func createProcess(p *proc.Process, f proc.Flow) {
 
 	case !p.IsMethod:
 		p.Parameters.SetPrepend(p.Name)
-		if f.NewChain && !f.PipeOut && !f.PipeErr && ShellEnabled {
+		// Forcing `printf` to `exec` is a bit of a kludge.
+		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" /*&& ShellEnabled*/ {
 			p.MethodRef = "pty"
 		} else {
 			p.MethodRef = "exec"
