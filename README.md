@@ -8,9 +8,8 @@ To achieve this the language employs a relatively simple syntax modelled
 loosely on functional and stack-based programming paradigms (albeit
 without the LISP-style nested parentheses that scare a lot of developers).
 For example, a program structure could look like the following:
-```
-command -> command -> if { then_command } -> else { else_command }
-```
+
+    command -> command -> if { then_command } -> else { else_command }
 
 The language supports multiple data types, with JSON (and later XML)
 support as a native data type. Which makes passing data through the
@@ -27,11 +26,10 @@ traps. I'm hoping to address as many of them as I can without taking
 much flexibility nor power away from the command line.
 
 ## Dependencies
-```
-go get github.com/chzyer/readline
-go get github.com/kr/pty
-go get github.com/Knetic/govaluate
-```
+
+    go get github.com/chzyer/readline
+    go get github.com/kr/pty
+    go get github.com/Knetic/govaluate
 
 Explanation behind these dependencies:
 * `readline` is used for the REPL (interactive mode)
@@ -39,14 +37,12 @@ Explanation behind these dependencies:
 * `govaluate` evaluates the math formulas (exposed via `eval` and `let`)
 
 ## Build
-```
-go build github.com/lmorg/murex
-```
+
+    go build github.com/lmorg/murex
 
 Test the binary (requires Bash):
-```
-test/regression_test.sh
-```
+
+    test/regression_test.sh
 
 A Dockerfile is also included for your convenience. The file is located
 in test/docker and includes a [README.md](./test/docker/README.md) with
