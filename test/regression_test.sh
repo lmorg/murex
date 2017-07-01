@@ -68,6 +68,9 @@ checkreps() {
     fi
 }
 
+#cat /etc/*-release
+#sleep 2
+
 while true; do
     case $i in
         # testing basic syntax with out and err streams
