@@ -48,6 +48,10 @@ Test the binary (requires Bash):
 test/regression_test.sh
 ```
 
+A Dockerfile is also included for your convenience. The file is located
+in test/docker and includes a [README.md](./test/docker/README.md) with
+more information.
+
 ## Language guides
 
 Please read the following guides:

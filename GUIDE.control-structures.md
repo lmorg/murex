@@ -23,31 +23,30 @@ important when using `if` or `!if` inside a `try` block.
 
 This is where the conditional is evaluated from the result of the piped
 function. The last parameter is optional.
-```
-# if / then
-out: hello world | grep: world -> if: { out: world found }
 
-# if / then / else
-out: hello world | grep: world -> if: { out: world found } { out: world missing }
+    # if / then
+    out: hello world | grep: world -> if: { out: world found }
 
-# if / else
-out: hello world | grep: world -> !if: { out: world missing }
-```
+    # if / then / else
+    out: hello world | grep: world -> if: { out: world found } { out: world missing }
+
+    if / else
+    out: hello world | grep: world -> !if: { out: world missing }
 
 #### Function If
 
 This is where the conditional is evaluated from the first parameter. The
 last parameter is optional.
-```
-# if / then / else
-if: { out: hello world | grep: world } { out: world found }
 
-# if / then / else
-if: { out: hello world | grep: world } { out: world found } { out: world missing }
+    # if / then / else
+    if: { out: hello world | grep: world } { out: world found }
 
-# if / else
-!if: { out: hello world | grep: world } { out: world missing }
-```
+    # if / then / else
+    if: { out: hello world | grep: world } { out: world found } { out: world missing }
+
+    if / else
+    !if: { out: hello world | grep: world } { out: world missing }
+
 
 ## !if
 
@@ -55,18 +54,46 @@ if: { out: hello world | grep: world } { out: world found } { out: world missing
 effectively reversing the "then" and "else" parameters. See `if` (above)
 for examples.
 
+## for
+
+I was a little naughty in creating this builtin as it breaks one of my
+style guidelines where the first parameter is input as a code block but
+is actually split into 3 strings via the semi-colon character, `;`, and
+processed as a code block.
+
+Usage:
+
+    for { i=1; i<6; i++ } { echo $i }
+
+The first parameter is: `{ i=1; i<6; i++ }`, but it is then converted
+into the following code:
+
+1. `let i=0` - declare the loop iteration variable
+2. `eval i<0` - if the condition is true then proceed to run the code in
+the second parameter - `{ echo $i }`
+3. `let i++` - increment the loop iteration variable
+
+The reason behind breaking my own style guidelines on this function was
+to create a for loop that was mirrored what the average developer might
+expect. However `foreach` and `while` both follow the usual structure of
+murex code so if you feel dirty using the above code then you could
+write it using a `while` loop instead. eg
+
+    let i=0; while { eval i<6 } { echo $i; let i++ }
+
+Personally I find that less readable but the option is there if you do
+want to get religiously idiomatic about the structure of your code.
+
 ## foreach
 
 (description to follow)
-```
-fuction_with_listed_output -> foreach: variable { iteration } 
-```
+
+    fuction_with_listed_output -> foreach: variable { iteration }
 
 ## while
 (description to follow)
-```
-while: { conditional } { iteration } 
-```
+
+    while: { conditional } { iteration }
 
 ## try
 
@@ -79,14 +106,13 @@ parameter, even if it's an empty block, so `if` doesn't raise an error.
 If the try block fails then try will raise a non-zero exit number. If
 you want to run an alternative block of code in an event of a failure
 then combine with the `catch` method.
-```
-# try
-try: { out: hello world | grep: foobar; out: other stuff }
 
-# try / catch
-try: { out: hello world | grep: foobar; out: other stuff } \
-    -> catch { out: `try` failed }
-```
+    # try
+    try: { out: hello world | grep: foobar; out: other stuff }
+
+    # try / catch
+    try: { out: hello world | grep: foobar; out: other stuff } \
+        -> catch { out: `try` failed }
 
 ## catch
 
@@ -100,21 +126,19 @@ its stdout stream.
 
 Use `!catch` to "else" the `try`
 
-```
-# try / catch
-try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try` failed }
+    # try / catch
+    try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try` failed }
 
-# catch
-out: hello world | grep: foobar -> catch { out: foobar not found }
+    # catch
+    out: hello world | grep: foobar -> catch { out: foobar not found }
 
-# !catch
-out: hello world | grep: world -> !catch { out: world found }
+    # !catch
+    out: hello world | grep: world -> !catch { out: world found }
 
-# else
-try: { out: hello world | grep: foobar; out: other stuff } \
-    -> catch  { out: `try` failed } \
-    -> !catch { out: `try` succeeded }
-```
+    # else
+    try: { out: hello world | grep: foobar; out: other stuff } \
+        -> catch  { out: `try` failed } \
+        -> !catch { out: `try` succeeded }
 
 `catch` also supports anti-alias (`!catch`) where the code block only
 executes if the exit number equals zero.

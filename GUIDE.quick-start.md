@@ -13,9 +13,8 @@ support for the `>` or `<` tokens. Instead you use `?` to pipe stderr to
 the stdout stream.
 
 Example:
-```
-sh -c 'echo "stderr" 2>&1' ? grep stderr
-```
+
+    sh -c 'echo "stderr" 2>&1' ? grep stderr
 
 ## Subshells
 
@@ -34,10 +33,9 @@ file names. Array shells are equivalent to the following in Bash:
 `command $(subshell command)`
 
 Examples:
-```
-ls -l ${echo: file name}
-ls -l @{echo: file1 file2 file3}
-```
+
+    ls -l ${echo: file name}
+    ls -l @{echo: file1 file2 file3}
 
 ## Globbing
 
@@ -49,28 +47,25 @@ damage. Instead globbing is achieved via subshells using either:
 * `f` (file or directory type matching)
 
 Examples:
-```
-# all text files via globbing:
-ls -l @{g *.txt}
 
-# all text and markdown files via regexp:
-ls -l @{rx '\.(txt|md)$'}
+    # all text files via globbing:
+    ls -l @{g *.txt}
 
-# all files via type matching:
-ls -l @{f +f}
-```
+    # all text and markdown files via regexp:
+    ls -l @{rx '\.(txt|md)$'}
+
+    # all files via type matching:
+    ls -l @{f +f}
 
 You can also using type matching against globbing and regexp to filter
 out types in conjunction with file name matching:
-```
-# all directories named *.txt
-ls -l @{g *.txt -> f +d}
-```
+
+    # all directories named *.txt
+    ls -l @{g *.txt -> f +d}
 
 ## Exit code
 
 In Bash the variable `$?` would store the exit code. This doesn't exit in
 Murex. Instead there a separate command `exitnum`:
-```
-open test/fox.txt | grep foobar; exitnum
-```
+
+    open test/fox.txt | grep foobar; exitnum

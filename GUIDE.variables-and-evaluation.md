@@ -33,9 +33,9 @@ Numbers are declared with `let` and strings with `set`.
 ### Declaring a number
 
 `let` supports mathematical operations, for example
-```
-let percent=(7/10)*100
-```
+
+    let percent=(7/10)*100
+
 will declare a variable called `percent` and assign it the value of the
 formula `(7/10)*100`.
 
@@ -43,21 +43,21 @@ formula `(7/10)*100`.
 
 Strings are declared via `set` with the input being added without any
 evaluation. For example
-```
-set formula=(7/10)*100
-```
+
+    set formula=(7/10)*100
+
 will create a variable called `formula` with the value being the string
 `(7/10)*100` (ie the formula stored as text rather than the calculation
 of the formula).
 
 ## Variable usage in common functions and methods
 
-Like with many other shells and some scripting languages (eg Perl and
-PHP), this shell supports inlining variables via the dollar prefix. eg
-```
-set a=world
-echo "Hello $a" # outputs: Hello world
-```
+Like with many other shells and some scripting languages (eg AWK, Bash,
+Perl and PHP), this shell supports inlining variables via the dollar
+prefix. eg
+
+    set a=world
+    echo "Hello $a" # outputs: Hello world
 
 Currently this is only supported in function parameters (ie you cannot
 use variables as function names).

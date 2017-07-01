@@ -36,8 +36,10 @@ their application. However there are a couple exceptions to this rule:
 design to help catch developer errors chaining incompatible methods
 together. Eventually the REPL readline will use this type data to drive
 its autocomplete (again enhancing the developers experience).
+
 * `eval` and `let` functions evaluate the data type as well as the value.
 An example of strict typing in `eval` can be seen with these 2 blocks:
+
 ```
 set a=1  # define 'a' as string
 let b=1  # define 'b' as number
@@ -47,7 +49,7 @@ eval a+b # returns '11' as 'a' is string so values are concatenated
 ```
 let a=1  # define 'a' as number
 let b=1  # define 'b' as number
-eval a+b # returns '2' as both 'a' and 'b' are numers
+eval a+b # returns '2' as both 'a' and 'b' are numbers
 ```
 
 For more on the `set`, `let` and `eval` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
