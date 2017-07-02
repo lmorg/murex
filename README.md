@@ -81,6 +81,10 @@ previous issue.
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
 
+* _Add support for adhoc arrays._ This will be via a builtin which will
+behave something like `a: [1..3] [a..c] b[a,i,o]b` which would return
+`["1", "2", "3", "a", "b", "c", "bab", "bib", "bob"]`
+
 * _Review merging methods into pipes._ Having separate distinctions
 between the two is weird to the uninitiated. However merging the two
 might produce uglier syntax eg `try {} | catch {}`.
