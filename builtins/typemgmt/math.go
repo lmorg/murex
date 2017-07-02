@@ -11,14 +11,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["eval"] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Number}
+	proc.GoFunctions["eval"] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["let"] = proc.GoFunction{Func: cmdLet, TypeIn: types.Null, TypeOut: types.Null}
-
-	/*proc.GlobalConf.Define("murex", "Auto-Declare", config.Properties{
-		Description: "If a number is undefined then auto-declare it as zero.",
-		Default:     true,
-		DataType:    types.Boolean,
-	})*/
 }
 
 var (
@@ -28,6 +22,8 @@ var (
 )
 
 func cmdEval(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
+
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing expression.")
 	}
@@ -41,6 +37,8 @@ func cmdEval(p *proc.Process) (err error) {
 }
 
 func cmdLet(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Null)
+
 	if debug.Enable == false {
 		defer func() {
 			if r := recover(); r != nil {
@@ -102,23 +100,6 @@ func evaluate(p *proc.Process, expression string) (value string, err error) {
 	if err != nil {
 		return
 	}
-
-	/*
-		autoDeclare, err := proc.GlobalConf.Get("murex", "Auto-Declare", types.Boolean)
-		if err != nil {
-			return
-		}
-		p.Stderr.Writeln([]byte(fmt.Sprint(autoDeclare)))
-		if autoDeclare.(bool) {
-			f, err := types.ConvertGoType(result, types.Float)
-			if err != nil {
-				return "", err
-			}
-			value = types.FloatToString(f.(float64))
-			p.Stderr.Writeln([]byte(value))
-			return value, err
-		}
-	*/
 
 	s, err := types.ConvertGoType(result, types.String)
 	if err == nil {

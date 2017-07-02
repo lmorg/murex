@@ -14,6 +14,7 @@ func init() {
 }
 
 func cmdOut(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
 	if f, _ := p.Parameters.String(0); f == "-n" {
 		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(0, -1))
 		return
@@ -23,6 +24,7 @@ func cmdOut(p *proc.Process) (err error) {
 }
 
 func cmdErr(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Null)
 	if f, _ := p.Parameters.String(0); f == "-n" {
 		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(0, -1))
 		return
@@ -32,6 +34,7 @@ func cmdErr(p *proc.Process) (err error) {
 }
 
 func cmdPrint(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Null)
 	_, err = fmt.Println(p.Parameters.ByteAll())
 	return
 }

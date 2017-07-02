@@ -21,6 +21,7 @@ func init() {
 }
 
 func cmdLsG(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Json)
 	glob := p.Parameters.StringAll()
 
 	files, err := filepath.Glob(glob)
@@ -38,6 +39,7 @@ func cmdLsG(p *proc.Process) (err error) {
 }
 
 func cmdLsRx(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Json)
 	rx, err := regexp.Compile(p.Parameters.StringAll())
 	if err != nil {
 		return
@@ -65,6 +67,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 }
 
 func cmdLsF(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Json)
 	var (
 		file      bool
 		directory bool

@@ -13,6 +13,7 @@ func init() {
 }
 
 func cmdBase64(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
 	encoder := base64.NewEncoder(base64.StdEncoding, p.Stdout)
 	_, err = io.Copy(encoder, p.Stdin)
 	//p.Stdin.WriteTo(encoder)
@@ -23,6 +24,7 @@ func cmdBase64(p *proc.Process) (err error) {
 }
 
 func cmdUnbase64(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
 	decoder := base64.NewDecoder(base64.StdEncoding, p.Stdin)
 	_, err = io.Copy(p.Stdout, decoder)
 	//p.Stdout.ReadFrom(decoder)

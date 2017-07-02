@@ -12,8 +12,8 @@ import (
 	_ "github.com/lmorg/murex/builtins/httpclient"
 	_ "github.com/lmorg/murex/builtins/io"
 	_ "github.com/lmorg/murex/builtins/management"
-	_ "github.com/lmorg/murex/builtins/misc"
 	_ "github.com/lmorg/murex/builtins/structs"
 	_ "github.com/lmorg/murex/builtins/textmanip"
+	_ "github.com/lmorg/murex/builtins/time"
 	_ "github.com/lmorg/murex/builtins/typemgmt"
 )

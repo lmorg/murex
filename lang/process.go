@@ -84,7 +84,9 @@ func executeProcess(p *proc.Process) {
 	}
 
 	// Execute function.
+	p.Stderr.SetDataType(types.String)
 	err = proc.GoFunctions[p.MethodRef].Func(p)
+	p.Stdout.DefaultDataType(err != nil)
 	if err != nil {
 		p.Stderr.Writeln([]byte("Error in `" + p.MethodRef + "`: " + err.Error()))
 		if p.ExitNum == 0 {

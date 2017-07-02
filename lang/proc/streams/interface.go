@@ -10,21 +10,22 @@ type Io interface {
 	MakeParent()
 	UnmakeParent()
 
-	Stats() (bytesWritten, bytesRead uint64)
+	Stats() (uint64, uint64)
 
 	GetDataType() string
-	SetDataType(t string)
+	SetDataType(string)
+	DefaultDataType(bool)
 
-	Read(p []byte) (i int, err error)
+	Read([]byte) (int, error)
 	ReaderFunc(callback func([]byte))
 	ReadLineFunc(callback func([]byte))
-	ReadAll() (b []byte)
+	ReadAll() []byte
 
-	Write(p []byte) (int, error)
-	Writeln(p []byte) (int, error)
+	Write([]byte) (int, error)
+	Writeln([]byte) (int, error)
 
 	//ReadFrom(r io.Reader) (n int64, err error)
-	WriteTo(w io.Writer) (n int64, err error)
+	WriteTo(io.Writer) (int64, error)
 
 	Close()
 }

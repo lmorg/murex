@@ -18,6 +18,8 @@ func init() {
 }
 
 func cmdFor(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
+
 	cblock, err := p.Parameters.Block(0)
 	if err != nil {
 		return err
@@ -66,6 +68,8 @@ func cmdFor(p *proc.Process) (err error) {
 }
 
 func cmdForEach(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
+
 	block, err := p.Parameters.Block(1)
 	if err != nil {
 		return err
@@ -95,6 +99,8 @@ func cmdForEach(p *proc.Process) (err error) {
 }
 
 func cmdWhile(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Generic)
+
 	switch p.Parameters.Len() {
 	case 1:
 		// Condition is taken from the while loop.

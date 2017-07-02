@@ -16,6 +16,8 @@ func init() {
 func cmdIf(p *proc.Process) (err error) {
 	var ifBlock, thenBlock, elseBlock []rune
 
+	p.Stdout.SetDataType(types.Generic)
+
 	switch {
 	case p.Parameters.Len() == 1 && p.IsMethod:
 		// "if" taken from stdin, "then" from 1st parameter.

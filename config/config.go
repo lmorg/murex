@@ -62,6 +62,10 @@ func (gc *Config) Get(app, key, dataType string) (value interface{}, err error) 
 	return
 }
 
+func (gc *Config) DataType(app, key string) string {
+	return gc.properties[app][key].DataType
+}
+
 func (gc *Config) Define(app string, key string, properties Properties) {
 	gc.mutex.Lock()
 	if gc.properties[app] == nil {

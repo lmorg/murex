@@ -14,6 +14,8 @@ func init() {
 }
 
 func cmdTry(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
+
 	block, err := p.Parameters.Block(0)
 	if err != nil {
 		return err
@@ -28,6 +30,8 @@ func cmdTry(p *proc.Process) (err error) {
 }
 
 func cmdCatch(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Generic)
+
 	block, err := p.Parameters.Block(0)
 	if err != nil {
 		return err

@@ -13,6 +13,7 @@ func init() {
 }
 
 func cmdGz(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Binary)
 	gz := gzip.NewWriter(p.Stdout)
 	_, err := io.Copy(gz, p.Stdin)
 	if err != nil {
@@ -25,6 +26,7 @@ func cmdGz(p *proc.Process) error {
 }
 
 func cmdUngz(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Generic)
 	gz, err := gzip.NewReader(p.Stdin)
 	if err != nil {
 		return err

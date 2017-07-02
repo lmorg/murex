@@ -20,6 +20,8 @@ func init() {
 }
 
 func cmdMatch(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+
 	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")
 	}
@@ -35,6 +37,8 @@ func cmdMatch(p *proc.Process) error {
 }
 
 func cmdRegexp(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
 	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")
 	}
@@ -116,6 +120,8 @@ func splitRegexParams(s string) (regex []string) {
 }
 
 func cmdLeft(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+
 	left, err := p.Parameters.Int(0)
 	if err != nil {
 		return err
@@ -133,6 +139,8 @@ func cmdLeft(p *proc.Process) error {
 }
 
 func cmdRight(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+
 	right, err := p.Parameters.Int(0)
 	if err != nil {
 		return err
@@ -150,6 +158,8 @@ func cmdRight(p *proc.Process) error {
 }
 
 func cmdPrepend(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
 	prepend := p.Parameters.ByteAll()
 	_, err = p.Stdout.Write(append(prepend, p.Stdin.ReadAll()...))
 

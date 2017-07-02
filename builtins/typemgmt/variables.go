@@ -16,6 +16,8 @@ func init() {
 }
 
 func cmdGlobals(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
 	b, err := json.MarshalIndent(proc.GlobalVars.Dump(), "", "\t")
 	if err != nil {
 		return err
@@ -32,6 +34,8 @@ var (
 )
 
 func cmdSet(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing variable name.")
 	}
@@ -58,6 +62,8 @@ func cmdSet(p *proc.Process) error {
 }
 
 func cmdExport(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing variable name.")
 	}

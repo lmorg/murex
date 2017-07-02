@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"os"
 	"strconv"
 )
@@ -20,6 +21,7 @@ func init() {
 }
 
 func cmdDebug(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Json)
 	if p.IsMethod {
 		var (
 			obj proc.Process = *p.Previous
@@ -57,19 +59,22 @@ func cmdDebug(p *proc.Process) (err error) {
 }
 
 func cmdExitNum(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Integer)
 	p.Stdout.Writeln([]byte(strconv.Itoa(p.Previous.ExitNum)))
 	return nil
 }
 
 func cmdListBuiltins(p *proc.Process) error {
-	for name := range proc.GoFunctions {
-		p.Stdout.Writeln([]byte(name))
-	}
-
+	p.Stdout.SetDataType(types.Json)
+	//for name := range proc.GoFunctions {
+	//	p.Stdout.Writeln([]byte(name))
+	//}
+	utils.JsonMarshal(proc.GoFunctions)
 	return nil
 }
 
 func cmdBuiltinExists(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Json)
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing parameters. Please name builtins you want to check.")
 	}
@@ -96,6 +101,8 @@ func cmdBuiltinExists(p *proc.Process) error {
 
 func cmdConfig(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
+		p.Stdout.SetDataType(types.Json)
+
 		b, err := json.MarshalIndent(proc.GlobalConf.Dump(), "", "\t")
 		if err != nil {
 			return err
@@ -114,9 +121,11 @@ func cmdConfig(p *proc.Process) error {
 		if err != nil {
 			return err
 		}
+		p.Stdout.SetDataType(proc.GlobalConf.DataType(app, key))
 		p.Stdout.Writeln([]byte(val.(string)))
 
 	case "set":
+		p.Stdout.SetDataType(types.Null)
 		app, _ := p.Parameters.String(1)
 		key, _ := p.Parameters.String(2)
 		val, _ := p.Parameters.String(3)
@@ -127,6 +136,7 @@ func cmdConfig(p *proc.Process) error {
 		err := proc.GlobalConf.Set(p.Parameters.String(1), p.Parameters.String(2), p.Stdin.ReadAll())
 		return err*/
 	default:
+		p.Stdout.SetDataType(types.Null)
 		return errors.New("Unknown option. Please get or set.")
 	}
 
@@ -134,6 +144,7 @@ func cmdConfig(p *proc.Process) error {
 }
 
 func cmdCd(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
 	s, err := p.Parameters.String(0)
 	if err != nil {
 		return err

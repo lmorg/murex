@@ -18,6 +18,7 @@ func init() {
 }
 
 func cmdText(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
 	for _, filename := range p.Parameters.StringArray() {
 		file, err := os.Open(filename)
 		if err != nil {
@@ -51,6 +52,7 @@ func cmdText(p *proc.Process) error {
 }
 
 func cmdOpen(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Generic)
 	for _, filename := range p.Parameters.StringArray() {
 		file, err := os.Open(filename)
 		if err != nil {
@@ -70,6 +72,7 @@ func cmdOpen(p *proc.Process) error {
 }
 
 func cmdPipeTelemetry(p *proc.Process) error {
+	p.Stdout.SetDataType(p.Stdin.GetDataType())
 	quit := false
 	stats := func() {
 		written, _ := p.Stdin.Stats()

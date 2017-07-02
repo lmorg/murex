@@ -28,6 +28,7 @@ func (t *term) ReadAll() []byte                  { return []byte{} }
 func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
 func (t *term) GetDataType() string              { return types.Null }
 func (t *term) SetDataType(string)               {}
+func (t *term) DefaultDataType(bool)             {}
 
 //func (t *term) Close()                           {}
 

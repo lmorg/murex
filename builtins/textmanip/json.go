@@ -16,6 +16,8 @@ func init() {
 }
 
 func cmdJson(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
+
 	var jInterface interface{}
 
 	if err = json.Unmarshal(p.Stdin.ReadAll(), &jInterface); err != nil {
@@ -42,6 +44,8 @@ func cmdJson(p *proc.Process) (err error) {
 }
 
 func cmdPrettify(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
 	var prettyJSON bytes.Buffer
 	err = json.Indent(&prettyJSON, p.Stdin.ReadAll(), "", "\t")
 	p.Stdout.Write(prettyJSON.Bytes())

@@ -20,22 +20,27 @@ func init() {
 	proc.GoFunctions["untype"] = proc.GoFunction{Func: cmdUntype, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
-func cmdNull(*proc.Process) error {
+func cmdNull(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
 	return nil
 }
 
 func cmdTrue(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Boolean)
 	p.Stdout.Writeln(types.TrueByte)
 	return nil
 }
 
 func cmdFalse(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Boolean)
 	p.Stdout.Writeln(types.FalseByte)
 	p.ExitNum = 1
 	return nil
 }
 
 func cmdNot(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Boolean)
+
 	val := !types.IsTrue(p.Stdin.ReadAll(), p.Previous.ExitNum)
 	if val {
 		p.Stdout.Writeln(types.TrueByte)
@@ -45,7 +50,9 @@ func cmdNot(p *proc.Process) error {
 	return nil
 }
 
-func cmdDie(*proc.Process) error {
+func cmdDie(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Die)
+
 	if shell.Instance != nil {
 		shell.Instance.Terminal.ExitRawMode()
 	}
@@ -54,6 +61,8 @@ func cmdDie(*proc.Process) error {
 }
 
 func cmdExit(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
 	i, _ := p.Parameters.Int(0)
 	if shell.Instance != nil {
 		shell.Instance.Terminal.ExitRawMode()
@@ -63,6 +72,7 @@ func cmdExit(p *proc.Process) error {
 }
 
 func cmdUntype(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
 	_, err = io.Copy(p.Stdout, p.Stdin)
 	return
 }

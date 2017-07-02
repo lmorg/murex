@@ -13,6 +13,7 @@ func init() {
 }
 
 func cmdSleep(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
 	i, err := p.Parameters.Int(0)
 	if err != nil {
 		return err
@@ -24,6 +25,7 @@ func cmdSleep(p *proc.Process) error {
 }
 
 func cmdTime(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Integer)
 	block := p.Parameters.ByteAll()
 
 	if types.IsBlock(block) {

@@ -13,6 +13,7 @@ func init() {
 }
 
 func cmdEscape(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
 	var str string
 	if p.Parameters.Len() == 0 {
 		str = string(p.Stdin.ReadAll())
