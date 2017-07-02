@@ -77,9 +77,15 @@ one.
 * _Interactive shell does not support multiline scripts._ Related to
 previous issue.
 
-* _`foreach` only supports line splitting - not JSON objects._ This is a
-TODO rather than bug.
-
 * _No support for piping scripts to the shell executable._ This will be
 supported via a `--stdin` flag. It's an easy thing to implement but
 wasn't considered necessary for the MVP (minimum viable product).
+
+* _Review merging methods into pipes._ Having separate distinctions
+between the two is weird to the uninitiated. However merging the two
+might produce uglier syntax eg `try {} | catch {}`.
+
+* _Review removing the hardcoded type definitions for builtins._ Given
+how the data is now typed on transmit, and how builtins can dynamically
+alter their behavior depending on the type, it seems redundant having
+that type information hardcoded.

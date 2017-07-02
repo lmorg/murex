@@ -22,8 +22,8 @@ type term struct {
 func (t *term) MakeParent()                      {}
 func (t *term) UnmakeParent()                    {}
 func (t *term) Read([]byte) (int, error)         { return 0, io.EOF }
-func (t *term) ReaderFunc(func([]byte))          {}
-func (t *term) ReadLineFunc(func([]byte))        {}
+func (t *term) ReadLine(func([]byte))            {}
+func (t *term) ReadArray(func([]byte))           {}
 func (t *term) ReadAll() []byte                  { return []byte{} }
 func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
 func (t *term) GetDataType() string              { return types.Null }

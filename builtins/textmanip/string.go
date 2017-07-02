@@ -10,12 +10,12 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["!match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["!regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.String, TypeOut: types.String}
+	proc.GoFunctions["match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["!match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["!regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["prepend"] = proc.GoFunction{Func: cmdPrepend, TypeIn: types.String, TypeOut: types.String}
 }
 
@@ -26,7 +26,7 @@ func cmdMatch(p *proc.Process) error {
 		return errors.New("No parameters supplied.")
 	}
 
-	p.Stdin.ReadLineFunc(func(b []byte) {
+	p.Stdin.ReadArray(func(b []byte) {
 		matched := bytes.Contains(b, p.Parameters.ByteAll())
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 			p.Stdout.Write(b)
@@ -63,7 +63,7 @@ func cmdRegexp(p *proc.Process) (err error) {
 		//if len(sRegex) != 2 {
 		//	return errors.New("Invalid regexp.")
 		//}
-		p.Stdin.ReadLineFunc(func(b []byte) {
+		p.Stdin.ReadArray(func(b []byte) {
 			matched := rx.Match(b)
 			if (matched && !p.IsNot) || (!matched && p.IsNot) {
 				p.Stdout.Write(b)
@@ -74,7 +74,7 @@ func cmdRegexp(p *proc.Process) (err error) {
 		//if len(sRegex) != 3 {
 		//	return errors.New("Invalid regexp.")
 		//}
-		p.Stdin.ReadLineFunc(func(b []byte) {
+		p.Stdin.ReadLine(func(b []byte) {
 			p.Stdout.Write(rx.ReplaceAll(b, []byte(sRegex[2])))
 		})
 
@@ -82,7 +82,7 @@ func cmdRegexp(p *proc.Process) (err error) {
 		//if len(sRegex) != 2 {
 		//	return errors.New("Invalid regexp.")
 		//}
-		p.Stdin.ReadLineFunc(func(b []byte) {
+		p.Stdin.ReadArray(func(b []byte) {
 			found := rx.Find(b)
 			if len(found) != 0 {
 				p.Stdout.Writeln(found)
@@ -127,7 +127,7 @@ func cmdLeft(p *proc.Process) error {
 		return err
 	}
 
-	p.Stdin.ReadLineFunc(func(b []byte) {
+	p.Stdin.ReadArray(func(b []byte) {
 		if len(b) < left {
 			_, err = p.Stdout.Write(b)
 		} else {
@@ -146,7 +146,7 @@ func cmdRight(p *proc.Process) error {
 		return err
 	}
 
-	p.Stdin.ReadLineFunc(func(b []byte) {
+	p.Stdin.ReadArray(func(b []byte) {
 		if len(b) < right {
 			_, err = p.Stdout.Write(b)
 		} else {

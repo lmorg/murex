@@ -113,7 +113,7 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 
 // Should be more performant than ReadLine() because it's uses callback functions (ie does not need to be stateless) so
 // we don't need to keep pushing stuff back to the interfaces buffer.
-func (read *Stdin) ReadLineFunc(callback func([]byte)) {
+func (read *Stdin) ReadLine(callback func([]byte)) {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		callback(append(scanner.Bytes(), utils.NewLineByte...))

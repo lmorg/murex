@@ -17,8 +17,9 @@ type Io interface {
 	DefaultDataType(bool)
 
 	Read([]byte) (int, error)
-	ReaderFunc(callback func([]byte))
-	ReadLineFunc(callback func([]byte))
+	//ReaderFunc(callback func([]byte))
+	ReadLine(callback func([]byte))
+	ReadArray(callback func([]byte))
 	ReadAll() []byte
 
 	Write([]byte) (int, error)

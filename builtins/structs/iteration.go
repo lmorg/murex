@@ -17,6 +17,8 @@ func init() {
 	proc.GoFunctions["!while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
 }
 
+// Example usage:
+// for { i=1; i<6; i++ } { echo $i }
 func cmdFor(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
@@ -80,7 +82,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		return err
 	}
 
-	p.Stdin.ReadLineFunc(func(b []byte) {
+	p.Stdin.ReadArray(func(b []byte) {
 		b = bytes.TrimSpace(b)
 		if len(b) == 0 {
 			return
@@ -168,4 +170,10 @@ func cmdWhile(p *proc.Process) error {
 	}
 
 	return errors.New("cmdWhile(p *proc.Process) unexpected escaped a switch with default case.")
+}
+
+func cmdR(p *proc.Process) error {
+	// @{r: abc[1,2,3] [1..3]
+	//r [1..10] -> foreach line {}
+	return nil
 }

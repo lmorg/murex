@@ -1,9 +1,8 @@
 package streams
 
 import (
-	"bufio"
+	"encoding/json"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 )
 
 func (in *Stdin) GetDataType() (dt string) {
@@ -34,15 +33,29 @@ func (in *Stdin) DefaultDataType(err bool) {
 	in.mutex.Unlock()
 }
 
-// Stream
-func (read *Stdin) ReadDataFunc(callback func([]byte)) {
-	scanner := bufio.NewScanner(read)
-	for scanner.Scan() {
-		callback(append(scanner.Bytes(), utils.NewLineByte...))
-	}
+// Stream arrays regardless of data type.
+// Though currently only 'strings' support streaming, but since this is now a single API it gives an easy place to
+// upgrade multiple builtins.
+func (read *Stdin) ReadArray(callback func([]byte)) {
+	read.mutex.Lock()
+	dt := read.dataType
+	read.mutex.Unlock()
 
-	if err := scanner.Err(); err != nil {
-		panic("ReadLine: " + err.Error())
+	switch dt {
+	case types.Json:
+		b := read.ReadAll()
+		j := make([]string, 0)
+		err := json.Unmarshal(b, &j)
+		if err == nil {
+			for i := range j {
+				callback([]byte(j[i]))
+			}
+			return
+		}
+		fallthrough
+
+	default:
+		read.ReadLine(callback)
 	}
 
 	return
