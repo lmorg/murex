@@ -9,12 +9,13 @@ import (
 )
 
 type Stdin struct {
-	sync.Mutex
+	mutex    sync.Mutex
 	buffer   []byte
 	closed   bool
 	bRead    uint64
 	bWritten uint64
 	isParent bool
+	dataType string
 }
 
 func NewStdin() (stdin *Stdin) {
@@ -24,45 +25,45 @@ func NewStdin() (stdin *Stdin) {
 
 // This is used for subshells so they don't accidentally close the parent stream.
 func (rw *Stdin) MakeParent() {
-	rw.Lock()
+	rw.mutex.Lock()
 	rw.isParent = true
-	rw.Unlock()
+	rw.mutex.Unlock()
 }
 
 // Subshell terminated, now we allow the stream to be closable again.
 func (rw *Stdin) UnmakeParent() {
-	rw.Lock()
+	rw.mutex.Lock()
 	if !rw.isParent {
 		// Should be fine to panic because this runtime error is generated from block compilation.
 		panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
 	}
 	rw.isParent = false
 
-	rw.Unlock()
+	rw.mutex.Unlock()
 }
 
 // Real time stream stats. Useful for progress bars etc.
 func (rw *Stdin) Stats() (bytesWritten, bytesRead uint64) {
-	rw.Lock()
+	rw.mutex.Lock()
 	bytesWritten = rw.bWritten
 	bytesRead = rw.bRead
-	rw.Unlock()
+	rw.mutex.Unlock()
 	return
 }
 
 // Standard Reader interface Read() method.
 func (read *Stdin) Read(p []byte) (i int, err error) {
 	for {
-		read.Lock()
+		read.mutex.Lock()
 		//defer read.Unlock()
 
 		if len(read.buffer) == 0 && read.closed {
-			read.Unlock()
+			read.mutex.Unlock()
 			return 0, io.EOF
 		}
 
 		if len(read.buffer) == 0 && !read.closed {
-			read.Unlock()
+			read.mutex.Unlock()
 			continue
 		}
 
@@ -82,20 +83,20 @@ func (read *Stdin) Read(p []byte) (i int, err error) {
 
 	read.bRead += uint64(i)
 
-	read.Unlock()
+	read.mutex.Unlock()
 	return i, err
 }
 
 // A callback function for reading raw data.
 func (read *Stdin) ReaderFunc(callback func([]byte)) {
 	for {
-		read.Lock()
+		read.mutex.Lock()
 		if len(read.buffer) == 0 {
 			if read.closed {
-				read.Unlock()
+				read.mutex.Unlock()
 				return
 			}
-			read.Unlock()
+			read.mutex.Unlock()
 			continue
 		}
 
@@ -104,7 +105,7 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 
 		read.bRead += uint64(len(b))
 
-		read.Unlock()
+		read.mutex.Unlock()
 
 		callback(b)
 	}
@@ -131,11 +132,11 @@ func (read *Stdin) ReadAll() (b []byte) {
 		// Wait for interface to close.
 	}
 
-	read.Lock()
+	read.mutex.Lock()
 	b = read.buffer
 	read.buffer = make([]byte, 0)
 	read.bRead = uint64(len(b))
-	read.Unlock()
+	read.mutex.Unlock()
 	return
 }
 
@@ -145,7 +146,7 @@ func (write *Stdin) Write(b []byte) (int, error) {
 		return 0, nil
 	}
 
-	write.Lock()
+	write.mutex.Lock()
 
 	if write.closed {
 		// This shouldn't happen because it then means we have lost track of the state of the streams.
@@ -156,7 +157,7 @@ func (write *Stdin) Write(b []byte) (int, error) {
 	write.buffer = append(write.buffer, b...)
 	write.bWritten += uint64(len(b))
 
-	write.Unlock()
+	write.mutex.Unlock()
 
 	return len(b), nil
 }
@@ -169,8 +170,8 @@ func (write *Stdin) Writeln(b []byte) (int, error) {
 }
 
 func (write *Stdin) Close() {
-	write.Lock()
-	defer write.Unlock()
+	write.mutex.Lock()
+	defer write.mutex.Unlock()
 
 	if write.isParent {
 		// This will legitimately happen a lot since the reason we mark a stream as parent is to prevent

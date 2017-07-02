@@ -12,6 +12,9 @@ type Io interface {
 
 	Stats() (bytesWritten, bytesRead uint64)
 
+	GetDataType() string
+	SetDataType(t string)
+
 	Read(p []byte) (i int, err error)
 	ReaderFunc(callback func([]byte))
 	ReadLineFunc(callback func([]byte))

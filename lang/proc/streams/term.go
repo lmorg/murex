@@ -1,6 +1,7 @@
 package streams
 
 import (
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
@@ -25,6 +26,8 @@ func (t *term) ReaderFunc(func([]byte))          {}
 func (t *term) ReadLineFunc(func([]byte))        {}
 func (t *term) ReadAll() []byte                  { return []byte{} }
 func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
+func (t *term) GetDataType() string              { return types.Null }
+func (t *term) SetDataType(string)               {}
 
 //func (t *term) Close()                           {}
 
