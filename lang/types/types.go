@@ -15,8 +15,9 @@ const (
 	// string types
 	String    = "str"
 	Binary    = "bin"
-	Json      = "json"
 	CodeBlock = "block"
+	Json      = "json"
+	Csv       = "csv"
 
 	// number types
 	Number  = "num"

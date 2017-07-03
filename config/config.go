@@ -18,9 +18,10 @@ type Config struct {
 	values     map[string]map[string]interface{}
 }
 
-func NewConfiguration() (gc Config) {
-	gc.properties = make(map[string]map[string]Properties)
-	gc.values = make(map[string]map[string]interface{})
+func NewConfiguration() (config Config) {
+	config.properties = make(map[string]map[string]Properties)
+	config.values = make(map[string]map[string]interface{})
+	defaults(&config)
 	return
 }
 
@@ -28,15 +29,15 @@ func NewConfiguration() (gc Config) {
 // app == tooling name
 // key == name of setting
 // value == the setting itself
-func (gc *Config) Set(app string, key string, value interface{}) error {
-	gc.mutex.Lock()
-	defer gc.mutex.Unlock()
+func (config *Config) Set(app string, key string, value interface{}) error {
+	config.mutex.Lock()
+	defer config.mutex.Unlock()
 
-	if gc.properties[app] == nil || gc.properties[app][key].DataType == "" || gc.properties[app][key].Description == "" {
+	if config.properties[app] == nil || config.properties[app][key].DataType == "" || config.properties[app][key].Description == "" {
 		return errors.New("Cannot Set() that value when no config properties have been defined for that app and key.")
 	}
 
-	gc.values[app][key] = value
+	config.values[app][key] = value
 	return nil
 }
 
@@ -44,51 +45,51 @@ func (gc *Config) Set(app string, key string, value interface{}) error {
 // app == tooling name
 // key == name of setting
 // dataType == what `types.dataType` to cast the return value into
-func (gc *Config) Get(app, key, dataType string) (value interface{}, err error) {
-	gc.mutex.Lock()
-	defer gc.mutex.Unlock()
+func (config *Config) Get(app, key, dataType string) (value interface{}, err error) {
+	config.mutex.Lock()
+	defer config.mutex.Unlock()
 
-	if gc.properties[app] == nil || gc.properties[app][key].DataType == "" || gc.properties[app][key].Description == "" {
+	if config.properties[app] == nil || config.properties[app][key].DataType == "" || config.properties[app][key].Description == "" {
 		return nil, errors.New("Cannot Get() that value when no config properties have been defined for that app and key.")
 	}
 
 	var v interface{}
-	v = gc.values[app][key]
+	v = config.values[app][key]
 	if v == nil {
-		v = gc.properties[app][key].Default
+		v = config.properties[app][key].Default
 	}
 
 	value, err = types.ConvertGoType(v, dataType)
 	return
 }
 
-func (gc *Config) DataType(app, key string) string {
-	return gc.properties[app][key].DataType
+func (config *Config) DataType(app, key string) string {
+	return config.properties[app][key].DataType
 }
 
-func (gc *Config) Define(app string, key string, properties Properties) {
-	gc.mutex.Lock()
-	if gc.properties[app] == nil {
-		gc.properties[app] = make(map[string]Properties)
-		gc.values[app] = make(map[string]interface{})
+func (config *Config) Define(app string, key string, properties Properties) {
+	config.mutex.Lock()
+	if config.properties[app] == nil {
+		config.properties[app] = make(map[string]Properties)
+		config.values[app] = make(map[string]interface{})
 	}
-	gc.properties[app][key] = properties
-	gc.mutex.Unlock()
+	config.properties[app][key] = properties
+	config.mutex.Unlock()
 }
 
-func (gc *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
-	gc.mutex.Lock()
+func (config *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
+	config.mutex.Lock()
 	obj = make(map[string]map[string]map[string]interface{})
-	for app := range gc.properties {
+	for app := range config.properties {
 		obj[app] = make(map[string]map[string]interface{})
-		for key := range gc.properties[app] {
+		for key := range config.properties[app] {
 			obj[app][key] = make(map[string]interface{})
-			obj[app][key]["Description"] = gc.properties[app][key].Description
-			obj[app][key]["Data-Type"] = gc.properties[app][key].DataType
-			obj[app][key]["Default"] = gc.properties[app][key].Default
-			obj[app][key]["Value"] = gc.values[app][key]
+			obj[app][key]["Description"] = config.properties[app][key].Description
+			obj[app][key]["Data-Type"] = config.properties[app][key].DataType
+			obj[app][key]["Default"] = config.properties[app][key].Default
+			obj[app][key]["Value"] = config.values[app][key]
 		}
 	}
-	gc.mutex.Unlock()
+	config.mutex.Unlock()
 	return
 }

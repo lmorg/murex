@@ -1,8 +1,12 @@
 package streams
 
 import (
+	"bufio"
+	"encoding/csv"
 	"encoding/json"
 	"github.com/lmorg/murex/lang/types"
+	"io"
+	"strconv"
 )
 
 func (in *Stdin) GetDataType() (dt string) {
@@ -59,4 +63,51 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 	}
 
 	return
+}
+
+func (read *Stdin) ReadHash(callback func(key, value []byte)) error {
+	read.mutex.Lock()
+	dt := read.dataType
+	read.mutex.Unlock()
+
+	switch dt {
+	/*case types.Json:
+	b := read.ReadAll()
+	j := make(map[string]string, 0)
+	err := json.Unmarshal(b, &j)
+	if err == nil {
+		for i := range j {
+			callback([]byte(j[i]))
+		}
+		return
+	}
+	fallthrough*/
+
+	case types.Csv:
+		r := csv.NewReader(read)
+		for {
+			_, err := r.Read()
+			switch {
+			case err == io.EOF:
+				return nil
+			case err != nil:
+				return err
+			}
+
+		}
+
+	default:
+		scanner := bufio.NewScanner(read)
+		var i int
+		for scanner.Scan() {
+			i++
+			callback([]byte(strconv.Itoa(i)), scanner.Bytes())
+		}
+
+		if err := scanner.Err(); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

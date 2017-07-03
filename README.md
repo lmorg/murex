@@ -55,7 +55,7 @@ Please read the following guides:
 1. [GUIDE.syntax.md](./GUIDE.syntax.md) is recommended first as it gives
 an overview if the shell scripting languages syntax and data types.
 
-2. [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md) -
+2. [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md)
 describes how to define variables and how to use them.
 
 3. [GUIDE.control-structures.md](./GUIDE.control-structures.md) will
