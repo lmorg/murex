@@ -3,6 +3,7 @@ package httpclient
 import (
 	"encoding/json"
 	"errors"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -30,11 +31,14 @@ func cmdGet(p *proc.Process) (err error) {
 		url = "http://" + url
 	}
 
-	resp, err := http.Get(url)
+	debug.Log("resp, err := http.Get(url)....")
+	resp := new(http.Response)
+	resp, err = http.Get(url)
+	debug.Log("resp, err := http.Get(url)!!!!")
 	if err != nil {
 		return err
 	}
-
+	debug.Log("jhttp.Status.Code, _ = strconv.Atoi(resp.Status[:3])....")
 	jhttp.Status.Code, _ = strconv.Atoi(resp.Status[:3])
 	jhttp.Status.Message = resp.Status[4:]
 
@@ -46,6 +50,7 @@ func cmdGet(p *proc.Process) (err error) {
 		return err
 	}
 
+	debug.Log(`b, err = json.MarshalIndent(jhttp, "", "\t")....`)
 	b, err = json.MarshalIndent(jhttp, "", "\t")
 	if err != nil {
 		return err

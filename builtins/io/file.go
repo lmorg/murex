@@ -45,7 +45,6 @@ func cmdText(p *proc.Process) error {
 			}
 
 		}
-
 	}
 
 	return nil

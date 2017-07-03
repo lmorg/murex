@@ -42,11 +42,7 @@ func (in *Stdin) DefaultDataType(err bool) {
 // Though currently only 'strings' support streaming, but since this is now a single API it gives an easy place to
 // upgrade multiple builtins.
 func (read *Stdin) ReadArray(callback func([]byte)) {
-	read.mutex.Lock()
-	dt := read.dataType
-	read.mutex.Unlock()
-
-	switch dt {
+	switch read.GetDataType() {
 	case types.Json:
 		b := read.ReadAll()
 		j := make([]string, 0)

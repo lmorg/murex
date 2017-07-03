@@ -1,18 +1,15 @@
 package io
 
 import (
-	"encoding/json"
 	"errors"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 )
-
-var rxWhiteSpace *regexp.Regexp = regexp.MustCompile(`[\n\r\t]+`)
 
 func init() {
 	proc.GoFunctions["g"] = proc.GoFunction{Func: cmdLsG, TypeIn: types.Null, TypeOut: types.Json}
@@ -93,20 +90,11 @@ func cmdLsF(p *proc.Process) (err error) {
 	}
 
 	var files, matched []string
-	var isJson bool
 
 	if p.IsMethod {
-		stdin := p.Stdin.ReadAll()
-
-		// Attempt to auto-detect JSON string or string array
-		if types.IsArray(stdin) {
-			if err := json.Unmarshal(stdin, &files); err != nil {
-				return err
-			}
-			isJson = true
-		} else {
-			files = rxWhiteSpace.Split(string(stdin), -1)
-		}
+		p.Stdin.ReadArray(func(b []byte) {
+			files = append(files, string(b))
+		})
 
 	} else {
 		files, err = filepath.Glob("*")
@@ -115,6 +103,9 @@ func cmdLsF(p *proc.Process) (err error) {
 		}
 	}
 
+	for _, f := range files {
+		debug.Log("f->", f)
+	}
 	for i := range files {
 		info, err := os.Stat(files[i])
 		if err != nil {
@@ -135,12 +126,7 @@ func cmdLsF(p *proc.Process) (err error) {
 	}
 
 	var b []byte
-	if isJson || !p.IsMethod {
-		b, err = utils.JsonMarshal(matched)
-	} else {
-		b = []byte(strings.Join(matched, utils.NewLineString))
-	}
-
+	b, err = utils.JsonMarshal(matched)
 	if err == nil {
 		_, err = p.Stdout.Writeln(b)
 	}

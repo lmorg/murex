@@ -1,7 +1,6 @@
-package textmanip
+package typemgmt
 
-import (
-	"bytes"
+/*import (
 	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
@@ -11,11 +10,10 @@ import (
 type jsonInterface map[interface{}]interface{}
 
 func init() {
-	proc.GoFunctions["json"] = proc.GoFunction{Func: cmdJson, TypeIn: types.Json, TypeOut: types.Generic}
-	proc.GoFunctions["prettify"] = proc.GoFunction{Func: cmdPrettify, TypeIn: types.Json, TypeOut: types.String}
+	proc.GoFunctions["->"] = proc.GoFunction{Func: indexJson, TypeIn: types.Die, TypeOut: types.Generic}
 }
 
-func cmdJson(p *proc.Process) (err error) {
+func indexJson(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
 	var jInterface interface{}
@@ -42,13 +40,4 @@ func cmdJson(p *proc.Process) (err error) {
 	p.Stdout.Write(b)
 	return err
 }
-
-func cmdPrettify(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.String)
-
-	var prettyJSON bytes.Buffer
-	err = json.Indent(&prettyJSON, p.Stdin.ReadAll(), "", "\t")
-	p.Stdout.Write(prettyJSON.Bytes())
-
-	return
-}
+*/

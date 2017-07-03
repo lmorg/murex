@@ -65,7 +65,7 @@ func IsBlock(b []byte) bool {
 	return false
 }*/
 
-func IsArray(b []byte) bool {
+/*func IsArray(b []byte) bool {
 	b = bytes.TrimSpace(b)
 	if len(b) < 2 {
 		return false
@@ -76,7 +76,7 @@ func IsArray(b []byte) bool {
 	}
 
 	return false
-}
+}*/
 
 const TrueString = "true"
 const FalseString = "false"

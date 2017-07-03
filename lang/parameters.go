@@ -1,9 +1,7 @@
 package lang
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
@@ -49,12 +47,18 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				tCount = true
 
 			case parameters.TokenTypeArray:
-				var err error
 				var array []string
 
-				b := []byte(vars.GetString(p.Tokens[i][j].Key))
+				variable := new(streams.Stdin)
+				variable.SetDataType(vars.GetType(p.Tokens[i][j].Key))
+				variable.Write([]byte(vars.GetString(p.Tokens[i][j].Key)))
+				variable.Close()
 
-				if types.IsArray(b) {
+				variable.ReadArray(func(b []byte) {
+					array = append(array, string(b))
+				})
+
+				/*if types.IsArray(b) {
 					err = json.Unmarshal(b, &array)
 					debug.Log("json.Unmarshal(b, &array) return:", err)
 				}
@@ -67,29 +71,29 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 				if array[len(array)-1] == "" {
 					array = array[:len(array)-1]
-				}
+				}*/
 
 				if !tCount {
 					p.Params = p.Params[:len(p.Params)-1]
 				}
 
 				p.Params = append(p.Params, array...)
-				t := make([]bool, len(array))
-				for ti := range t {
-					t[ti] = true
-				}
+				// i can't remember what this does...
+				//t := make([]bool, len(array))
+				//for ti := range t {
+				//	t[ti] = true
+				//}
 
 				tCount = true
 
 			case parameters.TokenTypeBlockArray:
-				var err error
 				var array []string
 
 				stdout := streams.NewStdin()
 				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
 				stdout.Close()
 
-				b := []byte(stdout.ReadAll())
+				/*b := []byte(stdout.ReadAll())
 
 				if types.IsArray(b) {
 					err = json.Unmarshal(b, &array)
@@ -97,24 +101,30 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				}
 				if err != nil || !types.IsArray(b) {
 					array = rxNewLine.Split(string(b), -1)
-				}
-				if array[0] == "" {
-					array = array[1:]
-				}
+				}*/
 
-				if array[len(array)-1] == "" {
-					array = array[:len(array)-1]
-				}
+				stdout.ReadArray(func(b []byte) {
+					array = append(array, string(b))
+				})
+
+				//if array[0] == "" {
+				//	array = array[1:]
+				//}
+
+				//if array[len(array)-1] == "" {
+				//	array = array[:len(array)-1]
+				//}
 
 				if !tCount {
 					p.Params = p.Params[:len(p.Params)-1]
 				}
 
 				p.Params = append(p.Params, array...)
-				t := make([]bool, len(array))
-				for ti := range t {
-					t[ti] = true
-				}
+				// i can't remember what this does...
+				//t := make([]bool, len(array))
+				//for ti := range t {
+				//	t[ti] = true
+				//}
 
 				tCount = true
 
