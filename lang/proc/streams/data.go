@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/csv"
 	"encoding/json"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"io"
 	"strconv"
@@ -65,7 +66,7 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 	return
 }
 
-func (read *Stdin) ReadHash(callback func(key, value []byte)) error {
+func (read *Stdin) ReadMap(config *config.Config, callback func(key, value []byte)) error {
 	read.mutex.Lock()
 	dt := read.dataType
 	read.mutex.Unlock()
@@ -85,6 +86,25 @@ func (read *Stdin) ReadHash(callback func(key, value []byte)) error {
 
 	case types.Csv:
 		r := csv.NewReader(read)
+		r.LazyQuotes = true
+		r.TrimLeadingSpace = true
+
+		s, err := config.Get("shell", "Csv-Separator", types.String)
+		if err != nil {
+			return err
+		}
+		if len(s.(string)) > 0 {
+			r.Comma = []rune(s.(string))[0]
+		}
+
+		s, err = config.Get("shell", "Csv-Comment", types.String)
+		if err != nil {
+			return err
+		}
+		if len(s.(string)) > 0 {
+			r.Comment = []rune(s.(string))[0]
+		}
+
 		for {
 			_, err := r.Read()
 			switch {
