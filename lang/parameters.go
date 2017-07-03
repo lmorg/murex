@@ -5,16 +5,12 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"regexp"
 )
 
-var rxNewLine *regexp.Regexp = regexp.MustCompile(`[\r\n]+`)
-
 func parseParameters(p *parameters.Parameters, vars *types.Vars) {
-	//debug.Json("####################################", p.Tokens)
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")
-		//tCount = append(tCount, false)
+
 		var tCount bool
 		for j := range p.Tokens[i] {
 			switch p.Tokens[i][j].Type {
@@ -58,31 +54,11 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 					array = append(array, string(b))
 				})
 
-				/*if types.IsArray(b) {
-					err = json.Unmarshal(b, &array)
-					debug.Log("json.Unmarshal(b, &array) return:", err)
-				}
-				if err != nil || !types.IsArray(b) {
-					array = rxNewLine.Split(string(b), -1)
-				}
-				if array[0] == "" {
-					array = array[1:]
-				}
-
-				if array[len(array)-1] == "" {
-					array = array[:len(array)-1]
-				}*/
-
 				if !tCount {
 					p.Params = p.Params[:len(p.Params)-1]
 				}
 
 				p.Params = append(p.Params, array...)
-				// i can't remember what this does...
-				//t := make([]bool, len(array))
-				//for ti := range t {
-				//	t[ti] = true
-				//}
 
 				tCount = true
 
@@ -93,38 +69,15 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
 				stdout.Close()
 
-				/*b := []byte(stdout.ReadAll())
-
-				if types.IsArray(b) {
-					err = json.Unmarshal(b, &array)
-					debug.Log("json.Unmarshal(b, &array) return:", err)
-				}
-				if err != nil || !types.IsArray(b) {
-					array = rxNewLine.Split(string(b), -1)
-				}*/
-
 				stdout.ReadArray(func(b []byte) {
 					array = append(array, string(b))
 				})
-
-				//if array[0] == "" {
-				//	array = array[1:]
-				//}
-
-				//if array[len(array)-1] == "" {
-				//	array = array[:len(array)-1]
-				//}
 
 				if !tCount {
 					p.Params = p.Params[:len(p.Params)-1]
 				}
 
 				p.Params = append(p.Params, array...)
-				// i can't remember what this does...
-				//t := make([]bool, len(array))
-				//for ti := range t {
-				//	t[ti] = true
-				//}
 
 				tCount = true
 
@@ -135,11 +88,10 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				))
 			}
 		}
-		//debug.Log("#######################################", tCount)
-		//debug.Json("############### before ", p.Params)
+
 		if !tCount {
 			p.Params = p.Params[:len(p.Params)-1]
 		}
-		//debug.Json("############### after ", p.Params)
+
 	}
 }

@@ -25,6 +25,12 @@ const (
 	Float   = "float"
 )
 
+const TrueString = "true"
+const FalseString = "false"
+
+var TrueByte = []byte(TrueString)
+var FalseByte = []byte(FalseString)
+
 func IsTrue(stdout []byte, exitNum int) bool {
 	if exitNum != 0 {
 		return false
@@ -39,7 +45,6 @@ func IsTrue(stdout []byte, exitNum int) bool {
 }
 
 func IsBlock(b []byte) bool {
-	//return IsJson(b)
 	b = bytes.TrimSpace(b)
 	if len(b) < 2 {
 		return false
@@ -51,35 +56,3 @@ func IsBlock(b []byte) bool {
 
 	return false
 }
-
-/*func IsJson(b []byte) bool {
-	b = bytes.TrimSpace(b)
-	if len(b) < 2 {
-		return false
-	}
-
-	if b[0] == '{' && b[len(b)-1] == '}' {
-		return true
-	}
-
-	return false
-}*/
-
-/*func IsArray(b []byte) bool {
-	b = bytes.TrimSpace(b)
-	if len(b) < 2 {
-		return false
-	}
-
-	if b[0] == '[' && b[len(b)-1] == ']' {
-		return true
-	}
-
-	return false
-}*/
-
-const TrueString = "true"
-const FalseString = "false"
-
-var TrueByte = []byte(TrueString)
-var FalseByte = []byte(FalseString)
