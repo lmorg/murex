@@ -2,6 +2,7 @@ package textmanip
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -17,6 +18,7 @@ func init() {
 	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["prepend"] = proc.GoFunction{Func: cmdPrepend, TypeIn: types.String, TypeOut: types.String}
+	proc.GoFunctions["prettify"] = proc.GoFunction{Func: cmdPrettify, TypeIn: types.Json, TypeOut: types.String}
 }
 
 func cmdMatch(p *proc.Process) error {
@@ -162,6 +164,16 @@ func cmdPrepend(p *proc.Process) (err error) {
 
 	prepend := p.Parameters.ByteAll()
 	_, err = p.Stdout.Write(append(prepend, p.Stdin.ReadAll()...))
+
+	return
+}
+
+func cmdPrettify(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, p.Stdin.ReadAll(), "", "\t")
+	p.Stdout.Write(prettyJSON.Bytes())
 
 	return
 }

@@ -1,4 +1,4 @@
 package config
 
 const AppName = "Murex"
-const Version = "0.2.5001 ALPHA"
+const Version = "0.3.0001 ALPHA"
