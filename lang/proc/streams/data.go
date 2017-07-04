@@ -2,13 +2,14 @@ package streams
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/csv"
 	"encoding/json"
-	"fmt"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"io"
 	"strconv"
+	"strings"
 )
 
 func (in *Stdin) GetDataType() (dt string) {
@@ -50,14 +51,18 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 		err := json.Unmarshal(b, &j)
 		if err == nil {
 			for i := range j {
-				callback([]byte(j[i]))
+				callback(bytes.TrimSpace([]byte(j[i])))
 			}
 			return
 		}
 		fallthrough
 
 	default:
-		read.ReadLine(callback)
+		//read.ReadLine(callback)
+		scanner := bufio.NewScanner(read)
+		for scanner.Scan() {
+			callback(bytes.TrimSpace(scanner.Bytes()))
+		}
 	}
 
 	return
@@ -122,7 +127,9 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 
 			if useHeadings {
 				if recNum == 1 {
-					recHeadings = fields
+					for i := range fields {
+						recHeadings = append(recHeadings, strings.TrimSpace(fields[i]))
+					}
 					//r.FieldsPerRecord = len(fields)
 					continue
 				}
@@ -130,16 +137,17 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 				l := len(fields) - 2
 				for i := range fields {
 					if i < len(recHeadings) {
-						callback(recHeadings[i], fields[i], i == l)
+						callback(recHeadings[i], strings.TrimSpace(fields[i]), i == l)
 					} else {
-						callback(strconv.Itoa(i), fields[i], i == l)
+						callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
 					}
 				}
 
 			} else {
 				l := len(fields) - 2
 				for i := range fields {
-					callback(fmt.Sprintf("%d:%d", recNum, i), fields[i], i == l)
+					//callback(fmt.Sprintf("%d:%d", recNum, i), strings.TrimSpace(fields[i]), i == l)
+					callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
 				}
 			}
 		}
@@ -149,7 +157,7 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 		var i int
 		for scanner.Scan() {
 			i++
-			callback(strconv.Itoa(i), string(scanner.Bytes()), false)
+			callback(strconv.Itoa(i), strings.TrimSpace(string(scanner.Bytes())), false)
 		}
 
 		if err := scanner.Err(); err != nil {
@@ -159,3 +167,8 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 
 	return nil
 }
+
+/*func (out *Stdin) WriteArray(item string) error {
+	out.
+	return nil
+}*/

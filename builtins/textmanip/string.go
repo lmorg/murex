@@ -31,7 +31,7 @@ func cmdMatch(p *proc.Process) error {
 	p.Stdin.ReadArray(func(b []byte) {
 		matched := bytes.Contains(b, p.Parameters.ByteAll())
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
-			p.Stdout.Write(b)
+			p.Stdout.Writeln(b)
 		}
 	})
 
@@ -68,7 +68,7 @@ func cmdRegexp(p *proc.Process) (err error) {
 		p.Stdin.ReadArray(func(b []byte) {
 			matched := rx.Match(b)
 			if (matched && !p.IsNot) || (!matched && p.IsNot) {
-				p.Stdout.Write(b)
+				p.Stdout.Writeln(b)
 			}
 		})
 
@@ -76,8 +76,8 @@ func cmdRegexp(p *proc.Process) (err error) {
 		//if len(sRegex) != 3 {
 		//	return errors.New("Invalid regexp.")
 		//}
-		p.Stdin.ReadLine(func(b []byte) {
-			p.Stdout.Write(rx.ReplaceAll(b, []byte(sRegex[2])))
+		p.Stdin.ReadArray(func(b []byte) {
+			p.Stdout.Writeln(rx.ReplaceAll(b, []byte(sRegex[2])))
 		})
 
 	case 'f': // match
@@ -131,9 +131,9 @@ func cmdLeft(p *proc.Process) error {
 
 	p.Stdin.ReadArray(func(b []byte) {
 		if len(b) < left {
-			_, err = p.Stdout.Write(b)
+			_, err = p.Stdout.Writeln(b)
 		} else {
-			_, err = p.Stdout.Write(b[:left])
+			_, err = p.Stdout.Writeln(b[:left])
 		}
 	})
 
@@ -150,9 +150,9 @@ func cmdRight(p *proc.Process) error {
 
 	p.Stdin.ReadArray(func(b []byte) {
 		if len(b) < right {
-			_, err = p.Stdout.Write(b)
+			_, err = p.Stdout.Writeln(b)
 		} else {
-			_, err = p.Stdout.Write(b[len(b)-right:])
+			_, err = p.Stdout.Writeln(b[len(b)-right:])
 		}
 	})
 
@@ -169,7 +169,7 @@ func cmdPrepend(p *proc.Process) (err error) {
 }
 
 func cmdPrettify(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.String)
+	p.Stdout.SetDataType(types.Json)
 
 	var prettyJSON bytes.Buffer
 	err = json.Indent(&prettyJSON, p.Stdin.ReadAll(), "", "\t")
