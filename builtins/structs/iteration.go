@@ -1,7 +1,6 @@
 package structs
 
 import (
-	"bytes"
 	"errors"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -84,12 +83,12 @@ func cmdForEach(p *proc.Process) (err error) {
 	}
 
 	p.Stdin.ReadArray(func(b []byte) {
-		b = bytes.TrimSpace(b)
+		//b = bytes.TrimSpace(b)
 		if len(b) == 0 {
 			return
 		}
 
-		proc.GlobalVars.Set(varName, string(b), p.Previous.ReturnType)
+		proc.GlobalVars.Set(varName, string(b), types.String)
 
 		stdin := streams.NewStdin()
 		stdin.Writeln(b)

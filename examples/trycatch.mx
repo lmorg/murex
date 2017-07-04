@@ -1,10 +1,10 @@
 #!/usr/bin/env murex
 
 # try / catch
-try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `try` failed }
+try: { out: hello world | grep: foobar; out: other stuff } -> catch { out: `catch` successfully cause an error in `try` }
 
 # catch
-out: hello world | grep: foobar -> catch { out: foobar not found }
+out: hello world | grep: foobar -> catch { out: `catch` spotted that foobar was not found }
 
 # !catch
 out: hello world | grep: world -> !catch { out: world found }

@@ -5,6 +5,7 @@ package proc
 import (
 	"github.com/kr/pty"
 	"github.com/lmorg/murex/lang/proc/streams/osstdin"
+	"github.com/lmorg/murex/lang/types"
 	"io"
 	"os/exec"
 	"strconv"
@@ -28,6 +29,8 @@ func External(p *Process) error {
 }
 
 func execute(p *Process) error {
+	p.Stdout.SetDataType(types.String)
+
 	exeName, err := p.Parameters.String(0)
 	if err != nil {
 		return err
@@ -69,6 +72,8 @@ func ExternalPty(p *Process) error {
 
 // Prototype call with support for PTYs. Highly experimental.
 func shellExecute(p *Process) (err error) {
+	p.Stdout.SetDataType(types.Null)
+
 	// Create an object for the executable we wish to invoke.
 	exeName, err := p.Parameters.String(0)
 	if err != nil {
@@ -85,6 +90,9 @@ func shellExecute(p *Process) (err error) {
 
 	// Create an STDIN function, copying 1KB blocks at a time.
 	active := true
+	//if p.IsMethod {
+	//	go io.Copy(f, p.Stdin)
+	//} else {
 	go func() {
 		b := make([]byte, 1024)
 		for active {
@@ -105,6 +113,7 @@ func shellExecute(p *Process) (err error) {
 			}
 		}
 	}()
+	//}
 
 	io.Copy(p.Stdout, f)
 	active = false

@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"fmt"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -11,15 +10,15 @@ import (
 )
 
 func createProcess(p *proc.Process, f proc.Flow) {
-	if p.Parent.MethodRef == "" {
-		p.Parent.MethodRef = "null"
-	}
+	//if p.Parent.MethodRef == "" {
+	//	p.Parent.MethodRef = "null"
+	//}
 
 	if p.Name[0] == '!' {
 		p.IsNot = true
 	}
 
-	local := "[" + p.Previous.Name + "]" + p.Name
+	/*local := "[" + p.Previous.Name + "]" + p.Name
 	switch {
 	case proc.GoFunctions[local].Func != nil && p.IsMethod &&
 		(proc.GoFunctions[local].TypeIn == proc.GoFunctions[p.Previous.MethodRef].TypeOut ||
@@ -46,7 +45,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 	case !p.IsMethod:
 		p.Parameters.SetPrepend(p.Name)
 		// Forcing `printf` to `exec` is a bit of a kludge.
-		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" /*&& ShellEnabled*/ {
+		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf"  {
 			p.MethodRef = "pty"
 		} else {
 			p.MethodRef = "exec"
@@ -56,9 +55,21 @@ func createProcess(p *proc.Process, f proc.Flow) {
 		p.MethodRef = "die"
 		os.Stderr.WriteString(fmt.Sprintf("Methodable function `%s` does not exist for `%s.(%s)`\n",
 			p.Name, p.Previous.Name, proc.GoFunctions[p.Previous.Name].TypeOut))
+	}*/
+
+	//p.ReturnType = proc.GoFunctions[p.MethodRef].TypeOut
+
+	if !proc.GlobalAliases.Exists(p.Name) && proc.GoFunctions[p.Name].Func == nil {
+		p.Parameters.SetPrepend(p.Name)
+		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" {
+			p.Name = "pty"
+		} else {
+			p.Name = "exec"
+		}
 	}
 
-	p.ReturnType = proc.GoFunctions[p.MethodRef].TypeOut
+	p.IsMethod = !f.NewChain
+
 	return
 }
 
@@ -69,8 +80,8 @@ func executeProcess(p *proc.Process) {
 
 	// A little catch for unexpected behavior.
 	// This shouldn't ever happen so lets produce a stack trace for debugging.
-	if proc.GoFunctions[p.MethodRef].Func == nil {
-		panic("Failed to execute GoFunc[mapRef] `" + p.MethodRef + "`. This should never happen!!")
+	if proc.GoFunctions[p.Name].Func == nil {
+		panic("Failed to execute GoFunc[mapRef] `" + p.Name + "`. This should never happen!!")
 	}
 
 	// Echo
@@ -80,15 +91,15 @@ func executeProcess(p *proc.Process) {
 	}
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
-		os.Stdout.WriteString("# " + p.MethodRef + `("` + params + `");` + utils.NewLineString)
+		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
 	}
 
 	// Execute function.
 	p.Stderr.SetDataType(types.String)
-	err = proc.GoFunctions[p.MethodRef].Func(p)
+	err = proc.GoFunctions[p.Name].Func(p)
 	p.Stdout.DefaultDataType(err != nil)
 	if err != nil {
-		p.Stderr.Writeln([]byte("Error in `" + p.MethodRef + "`: " + err.Error()))
+		p.Stderr.Writeln([]byte("Error in `" + p.Name + "`: " + err.Error()))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
@@ -112,5 +123,5 @@ func destroyProcess(p *proc.Process) {
 	p.Stdout.Close()
 	p.Stderr.Close()
 	p.WaitForTermination <- true
-	debug.Log("Destroyed")
+	debug.Log("Destroyed " + p.Name)
 }

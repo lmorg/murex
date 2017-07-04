@@ -10,7 +10,7 @@ import (
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName string) (exitNum int, err error) {
 	grandParent := new(proc.Process)
 	grandParent.Name = gpName
-	grandParent.MethodRef = gpName
+	//grandParent.MethodRef = gpName
 	grandParent.Parent = nil
 
 	if stdin != nil {

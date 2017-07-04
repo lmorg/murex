@@ -47,7 +47,9 @@ func cmdSet(p *proc.Process) error {
 		if !rxVarName.MatchString(params) {
 			return errors.New("Invalid variable name; unexpected parameters for calling `set` as method.")
 		}
-		return proc.GlobalVars.Set(params, string(p.Stdin.ReadAll()), p.Previous.ReturnType)
+		b := p.Stdin.ReadAll()
+		dt := p.Stdin.GetDataType()
+		return proc.GlobalVars.Set(params, string(b), dt)
 	}
 
 	// Only one parameter, so unset variable:

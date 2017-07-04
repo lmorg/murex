@@ -30,8 +30,8 @@ type Process struct {
 	HasTerminated      bool
 	WaitForTermination chan bool `json:"-"`
 	IsNot              bool
-	MethodRef          string
-	ReturnType         string
+	//MethodRef          string
+	//ReturnType string
 }
 
 type GoFunction struct {
@@ -41,8 +41,9 @@ type GoFunction struct {
 }
 
 var (
-	GlobalVars   types.Vars            = types.NewVariableGroup()
-	GoFunctions  map[string]GoFunction = make(map[string]GoFunction)
-	GlobalConf   config.Config         = config.NewConfiguration()
-	ShellEnabled bool
+	GlobalVars    types.Vars            = types.NewVariableGroup()
+	GoFunctions   map[string]GoFunction = make(map[string]GoFunction)
+	GlobalConf    config.Config         = config.NewConfiguration()
+	GlobalAliases Aliases               = NewAliases()
+	//ShellEnabled bool
 )
