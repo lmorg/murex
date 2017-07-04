@@ -80,9 +80,9 @@ func executeProcess(p *proc.Process) {
 
 	// A little catch for unexpected behavior.
 	// This shouldn't ever happen so lets produce a stack trace for debugging.
-	if proc.GoFunctions[p.Name].Func == nil {
-		panic("Failed to execute GoFunc[mapRef] `" + p.Name + "`. This should never happen!!")
-	}
+	//if proc.GoFunctions[p.Name].Func == nil {
+	//	panic("Failed to execute GoFunc[mapRef] `" + p.Name + "`. This should never happen!!")
+	//}
 
 	// Echo
 	echo, err := proc.GlobalConf.Get("shell", "Echo", types.Boolean)
@@ -96,8 +96,16 @@ func executeProcess(p *proc.Process) {
 
 	// Execute function.
 	p.Stderr.SetDataType(types.String)
-	err = proc.GoFunctions[p.Name].Func(p)
+
+	if proc.GlobalAliases.Exists(p.Name) {
+		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
+		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, types.Null)
+	} else {
+		err = proc.GoFunctions[p.Name].Func(p)
+	}
+
 	p.Stdout.DefaultDataType(err != nil)
+
 	if err != nil {
 		p.Stderr.Writeln([]byte("Error in `" + p.Name + "`: " + err.Error()))
 		if p.ExitNum == 0 {

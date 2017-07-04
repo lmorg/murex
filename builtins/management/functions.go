@@ -18,6 +18,8 @@ func init() {
 	proc.GoFunctions["builtins"] = proc.GoFunction{Func: cmdListBuiltins, TypeIn: types.Null, TypeOut: types.String}
 	proc.GoFunctions["bexists"] = proc.GoFunction{Func: cmdBuiltinExists, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["cd"] = proc.GoFunction{Func: cmdCd, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["alias"] = proc.GoFunction{Func: cmdAlias, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["!alias"] = proc.GoFunction{Func: cmdUnalias, TypeIn: types.Null, TypeOut: types.Null}
 }
 
 func cmdDebug(p *proc.Process) (err error) {
@@ -152,4 +154,44 @@ func cmdCd(p *proc.Process) error {
 
 	err = os.Chdir(s)
 	return err
+}
+
+func cmdAlias(p *proc.Process) error {
+	if p.Parameters.Len() == 0 {
+		p.Stdout.SetDataType(types.Json)
+		b, err := utils.JsonMarshal(proc.GlobalAliases.Dump())
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Writeln(b)
+		return err
+
+	}
+
+	p.Stdout.SetDataType(types.Null)
+
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	block, err := p.Parameters.Block(1)
+	if err != nil {
+		return err
+	}
+
+	proc.GlobalAliases.Add(name, block)
+	return nil
+}
+
+func cmdUnalias(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	for _, name := range p.Parameters.StringArray() {
+		err := proc.GlobalAliases.Delete(name)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

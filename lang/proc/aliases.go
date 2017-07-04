@@ -45,3 +45,13 @@ func (a *Aliases) Delete(name string) error {
 	delete(a.aliases, name)
 	return nil
 }
+
+func (a *Aliases) Dump() map[string]string {
+	dump := make(map[string]string)
+	a.mutex.Lock()
+	for name := range a.aliases {
+		dump[name] = string(a.aliases[name])
+	}
+	a.mutex.Unlock()
+	return dump
+}
