@@ -20,14 +20,9 @@ func Start() {
 	var err error
 	//proc.ShellEnabled = true
 
-	//usr, err := user.Current()
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-
 	Instance, err = readline.NewEx(&readline.Config{
 		//Prompt:          "\033[31m»\033[0m ",
-		HistoryFile:     "murex.history",
+		HistoryFile:     HomeDirectory + ".murex_history",
 		AutoComplete:    createCompleter(),
 		InterruptPrompt: "^c",
 		//EOFPrompt:       "exit",
