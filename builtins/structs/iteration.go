@@ -13,6 +13,7 @@ import (
 func init() {
 	proc.GoFunctions["for"] = proc.GoFunction{Func: cmdFor, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["foreach"] = proc.GoFunction{Func: cmdForEach, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["formap"] = proc.GoFunction{Func: cmdForMap, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["!while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
 }
@@ -98,6 +99,39 @@ func cmdForEach(p *proc.Process) (err error) {
 	})
 
 	return nil
+}
+
+func cmdForMap(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Generic)
+
+	block, err := p.Parameters.Block(2)
+	if err != nil {
+		return err
+	}
+
+	varKey, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	varVal, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+		proc.GlobalVars.Set(varKey, key, types.String)
+		proc.GlobalVars.Set(varVal, value, types.String)
+
+		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)
+		//_, err := lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)
+		//if err != nil {
+		//	p.Stderr.Writeln([]byte(err.Error()))
+		//}
+
+	})
+
+	return err
 }
 
 func cmdWhile(p *proc.Process) error {

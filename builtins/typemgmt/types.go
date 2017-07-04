@@ -22,6 +22,7 @@ func init() {
 
 func cmdNull(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
+	p.Stdin.ReadAll()
 	return nil
 }
 

@@ -1,6 +1,7 @@
 package streams
 
 import (
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -19,16 +20,17 @@ type term struct {
 	lastChar byte
 }
 
-func (t *term) MakeParent()                      {}
-func (t *term) UnmakeParent()                    {}
-func (t *term) Read([]byte) (int, error)         { return 0, io.EOF }
-func (t *term) ReadLine(func([]byte))            {}
-func (t *term) ReadArray(func([]byte))           {}
-func (t *term) ReadAll() []byte                  { return []byte{} }
-func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
-func (t *term) GetDataType() string              { return types.Null }
-func (t *term) SetDataType(string)               {}
-func (t *term) DefaultDataType(bool)             {}
+func (t *term) MakeParent()                                              {}
+func (t *term) UnmakeParent()                                            {}
+func (t *term) Read([]byte) (int, error)                                 { return 0, io.EOF }
+func (t *term) ReadLine(func([]byte))                                    {}
+func (t *term) ReadArray(func([]byte))                                   {}
+func (t *term) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
+func (t *term) ReadAll() []byte                                          { return []byte{} }
+func (t *term) WriteTo(io.Writer) (int64, error)                         { return 0, io.EOF }
+func (t *term) GetDataType() string                                      { return types.Null }
+func (t *term) SetDataType(string)                                       {}
+func (t *term) DefaultDataType(bool)                                     {}
 
 //func (t *term) Close()                           {}
 

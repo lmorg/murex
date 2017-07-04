@@ -8,6 +8,8 @@ import (
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -17,8 +19,31 @@ func init() {
 	proc.GoFunctions["pt"] = proc.GoFunction{Func: cmdPipeTelemetry, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
+var rxExt *regexp.Regexp = regexp.MustCompile(`\.([a-zA-Z]+)(\.gz|)$`)
+
 func cmdText(p *proc.Process) error {
-	p.Stdout.SetDataType(types.String)
+	filename, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	var ext string
+	match := rxExt.FindAllStringSubmatch(filename, -1)
+	if len(match) > 0 && len(match[0]) > 1 {
+		ext = strings.ToLower(match[0][1])
+	}
+
+	switch ext {
+	case "csv":
+		p.Stdout.SetDataType(types.Csv)
+
+	case "json":
+		p.Stdout.SetDataType(types.Json)
+
+	default:
+		p.Stdout.SetDataType(types.String)
+	}
+
 	for _, filename := range p.Parameters.StringArray() {
 		file, err := os.Open(filename)
 		if err != nil {
@@ -71,17 +96,19 @@ func cmdOpen(p *proc.Process) error {
 }
 
 func cmdPipeTelemetry(p *proc.Process) error {
-	p.Stdout.SetDataType(p.Stdin.GetDataType())
+	dt := p.Stdin.GetDataType()
+	p.Stdout.SetDataType(dt)
 	quit := false
 	stats := func() {
 		written, _ := p.Stdin.Stats()
 		_, read := p.Stdout.Stats()
 		os.Stderr.WriteString(
-			fmt.Sprintf("Pipe telemetry: `%s` written %s -> pt -> `%s` read %s\n",
+			fmt.Sprintf("Pipe telemetry: `%s` written %s -> pt -> `%s` read %s (Data type: %s)\n",
 				p.Previous.Name,
 				utils.HumanBytes(written),
 				p.Next.Name,
-				utils.HumanBytes(read)),
+				utils.HumanBytes(read),
+				dt),
 		)
 	}
 

@@ -1,6 +1,9 @@
 package streams
 
-import "io"
+import (
+	"github.com/lmorg/murex/config"
+	"io"
+)
 
 // This is the stream interface that's used for the shell functions streaming of data via standard in, out and err.
 // It's written to be compatible with Go Reader and Writer interfaces however does expand upon then with additional
@@ -20,6 +23,7 @@ type Io interface {
 	//ReaderFunc(callback func([]byte))
 	ReadLine(callback func([]byte))
 	ReadArray(callback func([]byte))
+	ReadMap(*config.Config, func(string, string, bool)) error
 	ReadAll() []byte
 
 	Write([]byte) (int, error)

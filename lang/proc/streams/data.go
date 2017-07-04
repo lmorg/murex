@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/csv"
 	"encoding/json"
+	"fmt"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"io"
@@ -62,12 +63,8 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 	return
 }
 
-func (read *Stdin) ReadMap(config *config.Config, callback func(key, value []byte)) error {
-	read.mutex.Lock()
-	dt := read.dataType
-	read.mutex.Unlock()
-
-	switch dt {
+func (read *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
+	switch read.GetDataType() {
 	/*case types.Json:
 	b := read.ReadAll()
 	j := make(map[string]string, 0)
@@ -83,26 +80,39 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value []byt
 	case types.Csv:
 		r := csv.NewReader(read)
 		r.LazyQuotes = true
-		r.TrimLeadingSpace = true
+		r.TrimLeadingSpace = false
+		//r.FieldsPerRecord = -1
 
-		s, err := config.Get("shell", "Csv-Separator", types.String)
+		v, err := config.Get("shell", "Csv-Separator", types.String)
 		if err != nil {
 			return err
 		}
-		if len(s.(string)) > 0 {
-			r.Comma = []rune(s.(string))[0]
+		if len(v.(string)) > 0 {
+			r.Comma = []rune(v.(string))[0]
 		}
 
-		s, err = config.Get("shell", "Csv-Comment", types.String)
+		v, err = config.Get("shell", "Csv-Comment", types.String)
 		if err != nil {
 			return err
 		}
-		if len(s.(string)) > 0 {
-			r.Comment = []rune(s.(string))[0]
+		if len(v.(string)) > 0 {
+			r.Comment = []rune(v.(string))[0]
 		}
+
+		v, err = config.Get("shell", "Csv-Headings", types.Boolean)
+		if err != nil {
+			return err
+		}
+
+		var (
+			useHeadings bool = v.(bool)
+			recHeadings []string
+			recNum      int
+		)
 
 		for {
-			_, err := r.Read()
+			recNum++
+			fields, err := r.Read()
 			switch {
 			case err == io.EOF:
 				return nil
@@ -110,6 +120,28 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value []byt
 				return err
 			}
 
+			if useHeadings {
+				if recNum == 1 {
+					recHeadings = fields
+					//r.FieldsPerRecord = len(fields)
+					continue
+				}
+
+				l := len(fields) - 2
+				for i := range fields {
+					if i < len(recHeadings) {
+						callback(recHeadings[i], fields[i], i == l)
+					} else {
+						callback(strconv.Itoa(i), fields[i], i == l)
+					}
+				}
+
+			} else {
+				l := len(fields) - 2
+				for i := range fields {
+					callback(fmt.Sprintf("%d:%d", recNum, i), fields[i], i == l)
+				}
+			}
 		}
 
 	default:
@@ -117,7 +149,7 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value []byt
 		var i int
 		for scanner.Scan() {
 			i++
-			callback([]byte(strconv.Itoa(i)), scanner.Bytes())
+			callback(strconv.Itoa(i), string(scanner.Bytes()), false)
 		}
 
 		if err := scanner.Err(); err != nil {
