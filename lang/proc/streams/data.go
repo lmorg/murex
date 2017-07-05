@@ -30,22 +30,25 @@ func (in *Stdin) SetDataType(dt string) {
 }
 
 func (in *Stdin) DefaultDataType(err bool) {
-	in.mutex.Lock()
 	if in.dataType == "" {
 		if err {
+			in.mutex.Lock()
 			in.dataType = types.Null
+			in.mutex.Unlock()
 		} else {
+			in.mutex.Lock()
 			in.dataType = types.Generic
+			in.mutex.Unlock()
 		}
 	}
-	in.mutex.Unlock()
 }
 
 // Stream arrays regardless of data type.
 // Though currently only 'strings' support streaming, but since this is now a single API it gives an easy place to
 // upgrade multiple builtins.
 func (read *Stdin) ReadArray(callback func([]byte)) {
-	switch read.GetDataType() {
+	dt := read.GetDataType()
+	switch dt {
 	case types.Json:
 		b := read.ReadAll()
 		j := make([]interface{}, 0)
@@ -81,7 +84,8 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 }
 
 func (read *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
-	switch read.GetDataType() {
+	dt := read.GetDataType()
+	switch dt {
 	/*case types.Json:
 	b := read.ReadAll()
 	j := make(map[string]string, 0)

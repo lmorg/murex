@@ -71,6 +71,8 @@ func cmdFor(p *proc.Process) (err error) {
 
 func cmdForEach(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
+	dt := p.Stdin.GetDataType()
+	//p.Stdout.SetDataType(dt)
 
 	block, err := p.Parameters.Block(1)
 	if err != nil {
@@ -88,7 +90,7 @@ func cmdForEach(p *proc.Process) (err error) {
 			return
 		}
 
-		proc.GlobalVars.Set(varName, string(b), types.String)
+		proc.GlobalVars.Set(varName, string(b), dt)
 
 		stdin := streams.NewStdin()
 		stdin.Writeln(b)
@@ -102,6 +104,8 @@ func cmdForEach(p *proc.Process) (err error) {
 
 func cmdForMap(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Generic)
+	dt := p.Stdin.GetDataType()
+	//p.Stdout.SetDataType(dt)
 
 	block, err := p.Parameters.Block(2)
 	if err != nil {
@@ -120,7 +124,7 @@ func cmdForMap(p *proc.Process) error {
 
 	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
 		proc.GlobalVars.Set(varKey, key, types.String)
-		proc.GlobalVars.Set(varVal, value, types.String)
+		proc.GlobalVars.Set(varVal, value, dt)
 
 		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)
 		//_, err := lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)

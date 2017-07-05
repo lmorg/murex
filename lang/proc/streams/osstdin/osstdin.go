@@ -11,7 +11,8 @@ import (
 var BuffSize int = 1024 * 1024 * 10
 
 type stdin struct {
-	mutex  sync.Mutex
+	mutex sync.Mutex
+	//mutex  debug.BadMutex
 	data   chan []byte
 	buffer []byte
 }

@@ -59,7 +59,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 
 	//p.ReturnType = proc.GoFunctions[p.MethodRef].TypeOut
 
-	if !proc.GlobalAliases.Exists(p.Name) && proc.GoFunctions[p.Name].Func == nil {
+	if !proc.GlobalAliases.Exists(p.Name) && p.Name[0] != '$' && proc.GoFunctions[p.Name].Func == nil {
 		p.Parameters.SetPrepend(p.Name)
 		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" {
 			p.Name = "pty"
@@ -94,13 +94,20 @@ func executeProcess(p *proc.Process) {
 		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
 	}
 
-	// Execute function.
 	p.Stderr.SetDataType(types.String)
 
-	if proc.GlobalAliases.Exists(p.Name) {
+	// Execute function.
+	switch {
+	case proc.GlobalAliases.Exists(p.Name):
 		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
 		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, types.Null)
-	} else {
+
+	case p.Name[0] == '$' && len(p.Name) > 1:
+		s := proc.GlobalVars.GetString(p.Name[1:])
+		p.Stdout.SetDataType(proc.GlobalVars.GetType(p.Name[1:]))
+		_, err = p.Stdout.Write([]byte(s))
+
+	default:
 		err = proc.GoFunctions[p.Name].Func(p)
 	}
 

@@ -5,10 +5,14 @@ import (
 	"strings"
 )
 
-var rxMimePrefix *regexp.Regexp = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+var (
+	rxMimePrefix *regexp.Regexp = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+	//rxMimePrefix *regexp.Regexp = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+)
 
 func MimeToMurex(mimeType string) string {
 	mime := strings.ToLower(mimeType)
+	mime = strings.Replace(mime, "; charset=utf-8", "", -1) //TODO: do this dynamically
 
 	// Find a direct match. This is only used to pick up edge cases, eg text files used as images.
 	switch mime {
@@ -23,9 +27,11 @@ func MimeToMurex(mimeType string) string {
 		"model/vrml", "x-world/x-vrml", "application/x-vrml",
 		"image/svg+xml",
 		"application/javascript", "application/x-javascript",
-		"application/xml",
-		"application/json":
+		"application/xml":
 		return String
+
+	case "application/json":
+		return Json
 
 	case "multipart/x-zip":
 		return Binary

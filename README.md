@@ -25,8 +25,8 @@ are times when a little magic goes a long way. For example you _murex_
 supports complex data objects from various formats including JSON and
 CSV files and you can query those nodes on them directly. eg
 
-    text: file.csv -> [ $column_name ] # return specific columns in CSV file
-    text: file.json -> [ $index ]      # return specific items from JSON
+    text: file.csv -> @[ $column_name ] # return specific columns in CSV file
+    text: file.json -> @[ $index ]      # return specific items from JSON
 
 The index function (`[`) alters it's matching depending on the piped
 data type and `text` sets the data type depending on the file extension.

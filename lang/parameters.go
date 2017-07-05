@@ -31,11 +31,11 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				stdout.Close()
 				b := stdout.ReadAll()
 
-				if b[len(b)-1] == '\n' {
+				if len(b) > 0 && b[len(b)-1] == '\n' {
 					b = b[:len(b)-1]
 				}
 
-				if b[len(b)-1] == '\r' {
+				if len(b) > 0 && b[len(b)-1] == '\r' {
 					b = b[:len(b)-1]
 				}
 
