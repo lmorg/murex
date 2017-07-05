@@ -11,6 +11,7 @@ type jsonInterface map[interface{}]interface{}
 
 func init() {
 	proc.GoFunctions["["] = proc.GoFunction{Func: indexJson, TypeIn: types.Generic, TypeOut: types.Generic}
+	//proc.GoFunctions["@["] = proc.GoFunction{Func: indexJson, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
 func indexJson(p *proc.Process) (err error) {

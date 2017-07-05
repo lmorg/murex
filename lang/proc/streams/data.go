@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"io"
 	"strconv"
 	"strings"
@@ -47,13 +48,24 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 	switch read.GetDataType() {
 	case types.Json:
 		b := read.ReadAll()
-		j := make([]string, 0)
+		j := make([]interface{}, 0)
 		err := json.Unmarshal(b, &j)
 		if err == nil {
 			for i := range j {
-				callback(bytes.TrimSpace([]byte(j[i])))
+				switch j[i].(type) {
+				case string:
+					//for i := range j {
+					callback(bytes.TrimSpace([]byte(j[i].(string))))
+					//}
+					//return
+
+				default:
+					//for i := range j {
+					jBytes, _ := utils.JsonMarshal(j[i])
+					callback(jBytes)
+					//}
+				}
 			}
-			return
 		}
 		fallthrough
 
