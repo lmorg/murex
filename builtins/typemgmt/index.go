@@ -55,7 +55,11 @@ func index(p *proc.Process) (err error) {
 
 		var b []byte
 		b, err = json.MarshalIndent(jInterface, "", "\t")
-		p.Stdout.Write(b)
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Write(b)
+		return err
 
 	case types.Csv:
 		p.Stdout.SetDataType(types.Csv)
@@ -117,7 +121,7 @@ func array(p *proc.Process) (err error) {
 		case map[string]interface{}:
 			for _, key := range params {
 				if v[key] == nil {
-					return errors.New("Key '" + key + "' not found.")
+					return errors.New("sKey '" + key + "' not found.")
 				}
 				b, err := utils.JsonMarshal(v[key])
 				if err != nil {
@@ -150,9 +154,9 @@ func array(p *proc.Process) (err error) {
 			return
 		}
 
-		var b []byte
-		b, err = json.MarshalIndent(jInterface, "", "\t")
-		p.Stdout.Write(b)
+		//var b []byte
+		//b, err = json.MarshalIndent(jInterface, "", "\t")
+		//p.Stdout.Write(b)
 
 	case types.Csv:
 		p.Stdout.SetDataType(types.Csv)
