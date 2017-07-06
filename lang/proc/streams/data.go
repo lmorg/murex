@@ -15,9 +15,9 @@ import (
 
 func (in *Stdin) GetDataType() (dt string) {
 	for {
-		in.mutex.Lock()
+		in.dtLock.Lock()
 		dt = in.dataType
-		in.mutex.Unlock()
+		in.dtLock.Unlock()
 		if dt != "" {
 			return
 		}
@@ -27,9 +27,9 @@ func (in *Stdin) GetDataType() (dt string) {
 }
 
 func (in *Stdin) SetDataType(dt string) {
-	in.mutex.Lock()
+	in.dtLock.Lock()
 	in.dataType = dt
-	in.mutex.Unlock()
+	in.dtLock.Unlock()
 	return
 }
 
@@ -50,13 +50,13 @@ func (in *Stdin) SetDataType(dt string) {
 func (in *Stdin) DefaultDataType(err bool) {
 	if in.dataType == "" {
 		if err {
-			in.mutex.Lock()
+			in.dtLock.Lock()
 			in.dataType = types.Null
-			in.mutex.Unlock()
+			in.dtLock.Unlock()
 		} else {
-			in.mutex.Lock()
+			in.dtLock.Lock()
 			in.dataType = types.Generic
-			in.mutex.Unlock()
+			in.dtLock.Unlock()
 		}
 	}
 }
