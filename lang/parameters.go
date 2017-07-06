@@ -45,7 +45,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 			case parameters.TokenTypeArray:
 				var array []string
 
-				variable := new(streams.Stdin)
+				variable := streams.NewStdin()
 				variable.SetDataType(vars.GetType(p.Tokens[i][j].Key))
 				variable.Write([]byte(vars.GetString(p.Tokens[i][j].Key)))
 				variable.Close()

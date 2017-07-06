@@ -15,6 +15,7 @@ import (
 
 func (in *Stdin) GetDataType() (dt string) {
 	for {
+		//time.Sleep(1 * time.Millisecond) // Terrible hack
 		in.dtLock.Lock()
 		dt = in.dataType
 		in.dtLock.Unlock()
@@ -48,6 +49,7 @@ func (in *Stdin) SetDataType(dt string) {
 }*/
 
 func (in *Stdin) DefaultDataType(err bool) {
+	return
 	if in.dataType == "" {
 		if err {
 			in.dtLock.Lock()

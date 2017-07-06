@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"os"
+	"runtime"
 )
 
 var (
@@ -34,6 +35,8 @@ func readFlags() {
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 
+	maxProcs := flag.Int("max-procs", 0, "")
+
 	flag.Parse()
 
 	if fHelp1 || fHelp2 || fHelp3 {
@@ -48,6 +51,11 @@ func readFlags() {
 		Default:     fEcho,
 		DataType:    types.Boolean,
 	})
+
+	if *maxProcs != 0 {
+		runtime.GOMAXPROCS(*maxProcs)
+		fmt.Println("Setting GOMAXPROCS to", *maxProcs)
+	}
 
 	fSource = flag.Args()
 }

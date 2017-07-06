@@ -30,8 +30,6 @@ type Process struct {
 	HasTerminated      bool
 	WaitForTermination chan bool `json:"-"`
 	IsNot              bool
-	//MethodRef          string
-	//ReturnType string
 }
 
 type GoFunction struct {

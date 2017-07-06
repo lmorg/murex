@@ -5,7 +5,6 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"strconv"
 	"strings"
 )
@@ -38,22 +37,31 @@ func array(p *proc.Process) (err error) {
 			return
 		}
 
+		var jArray []interface{}
 		switch v := jInterface.(type) {
 		case map[string]interface{}:
-			var jArray []interface{}
 			for _, key := range params {
 				if v[key] == nil {
 					return errors.New("Key '" + key + "' not found.")
 				}
-				b, err := json.Marshal(v[key])
-				if err != nil {
-					return err
-				}
+				//b, err := json.Marshal(v[key])
+				//if err != nil {
+				//	return err
+				//}
 
 				if len(params) > 1 {
 					jArray = append(jArray, v[key])
 				} else {
-					p.Stdout.Write(b)
+					switch v[key].(type) {
+					case string:
+						p.Stdout.Write([]byte(v[key].(string)))
+					default:
+						b, err := json.Marshal(jArray)
+						if err != nil {
+							return err
+						}
+						p.Stdout.Write(b)
+					}
 				}
 			}
 			if len(jArray) > 0 {
@@ -77,11 +85,28 @@ func array(p *proc.Process) (err error) {
 				if i >= len(v) {
 					return errors.New("Key '" + key + "' greater than number of items in array.")
 				}
-				b, err := utils.JsonMarshal(v[i])
+				//b, err := utils.JsonMarshal(v[i])
+				//if err != nil {
+				//	return err
+				//}
+				//p.Stdout.Writeln(b)
+
+				if len(params) > 1 {
+					jArray = append(jArray, v[i])
+				} else {
+					b, err := json.Marshal(v[i])
+					if err != nil {
+						return err
+					}
+					p.Stdout.Write(b)
+				}
+			}
+			if len(jArray) > 0 {
+				b, err := json.Marshal(jArray)
 				if err != nil {
 					return err
 				}
-				p.Stdout.Writeln(b)
+				p.Stdout.Write(b)
 			}
 			return nil
 

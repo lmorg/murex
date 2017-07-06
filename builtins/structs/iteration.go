@@ -70,29 +70,48 @@ func cmdFor(p *proc.Process) (err error) {
 }
 
 func cmdForEach(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Generic)
+	//p.Stdout.SetDataType(types.Generic)
 	dt := p.Stdin.GetDataType()
-	//p.Stdout.SetDataType(dt)
+	p.Stdout.SetDataType(dt)
 
-	block, err := p.Parameters.Block(1)
-	if err != nil {
-		return err
-	}
+	var (
+		block   []rune
+		varName string
+	)
 
-	varName, err := p.Parameters.String(0)
-	if err != nil {
-		return err
+	switch p.Parameters.Len() {
+	case 1:
+		block, err = p.Parameters.Block(0)
+		if err != nil {
+			return err
+		}
+
+	case 2:
+		block, err = p.Parameters.Block(1)
+		if err != nil {
+			return err
+		}
+
+		varName, err = p.Parameters.String(0)
+		if err != nil {
+			return err
+		}
+
+	default:
+		return errors.New("Invalid number of parameters.")
 	}
 
 	p.Stdin.ReadArray(func(b []byte) {
-		//b = bytes.TrimSpace(b)
 		if len(b) == 0 {
 			return
 		}
 
-		proc.GlobalVars.Set(varName, string(b), dt)
+		if varName != "" {
+			proc.GlobalVars.Set(varName, string(b), dt)
+		}
 
 		stdin := streams.NewStdin()
+		stdin.SetDataType(dt)
 		stdin.Writeln(b)
 		stdin.Close()
 

@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName string) (exitNum int, err error) {
@@ -17,6 +18,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName stri
 		grandParent.Stdin = stdin
 	} else {
 		grandParent.Stdin = streams.NewStdin()
+		grandParent.Stdin.SetDataType(types.Null)
 		grandParent.Stdin.Close()
 	}
 

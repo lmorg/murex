@@ -1,57 +1,64 @@
 package httpclient
 
 import (
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
+	"net"
 	"net/http"
+	net_url "net/url"
 	"time"
 )
 
-var client = &http.Client{
-	Timeout: time.Second * 5,
-}
-
-/*
-func createClient(client *http.Client, request *http.Request) {
-		client = new(http.Client)
-
-		u, err := url.Parse(job.URL)
-		//isErr(err)
-
-		tr := http.Transport{
-			Dial: dialTimeout(job),
-		}
-
-		tr.TLSClientConfig = &tls.Config{InsecureSkipVerify: job.Insecure}
-
-		client.Transport = &tr
-		client.Timeout = job.Timeout
-
-		//request, err = http.NewRequest("GET", u.Scheme+"://"+ip+u.RequestURI(), nil)
-		request, err = http.NewRequest(job.Method, job.URL, nil) // TODO: this will eventually support IPs with hostnames using the above code
-		//isErr(err)
-
-		request.Header.Set("User-Agent", job.UserAgent)
-		request.Header.Set("Referer", job.Referrer)
-		for header, _ := range job.Headers {
-			request.Header.Set(header, job.Headers[header])
-		}
-		// for some reason 'request.Host' isn't setting the request header, so doing so manually with request.Header
-		//request.Host = u.Host
-		request.Header.Set("Host", u.Host)
-		//job.AddCookies(request)
-
-		return client, request
+func get(url string) (response *http.Response, err error) {
+	toStr, err := proc.GlobalConf.Get("http", "Timeout", types.String)
+	if err != nil {
+		return
 	}
+
+	toDur, err := time.ParseDuration(toStr.(string) + "s")
+	if err != nil {
+		return
+	}
+
+	ua, err := proc.GlobalConf.Get("http", "User-Agent", types.String)
+	if err != nil {
+		return
+	}
+
+	tr := http.Transport{
+		Dial: dialTimeout(toDur, toDur),
+	}
+	client := &http.Client{
+		Timeout:   toDur,
+		Transport: &tr,
+	}
+
+	request, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return
+	}
+
+	request.Header.Set("User-Agent", ua.(string))
+
+	urlParsed, err := net_url.Parse(url)
+	if err != nil {
+		return
+	}
+
+	request.Header.Set("Host", urlParsed.Host)
+
+	return client.Do(request)
 }
 
-
-func dialTimeout(job *Job) func(net, addr string) (c net.Conn, err error) {
+// Code unashamedly copy and pasted from:
+// https://stackoverflow.com/questions/16895294/how-to-set-timeout-for-http-get-requests-in-golang#16930649
+func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error) {
 	return func(netw, addr string) (net.Conn, error) {
-		// http://stackoverflow.com/questions/16895294/how-to-set-timeout-for-http-get-requests-in-golang#16930649
-		conn, err := net.DialTimeout(netw, addr, job.Timeout) //connect
+		conn, err := net.DialTimeout(netw, addr, cTimeout)
 		if err != nil {
 			return nil, err
 		}
-		conn.SetDeadline(time.Now().Add(job.Timeout)) //reply
+		conn.SetDeadline(time.Now().Add(rwTimeout))
 		return conn, nil
 	}
-}*/
+}

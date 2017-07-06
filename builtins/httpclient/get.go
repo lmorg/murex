@@ -3,7 +3,6 @@ package httpclient
 import (
 	"encoding/json"
 	"errors"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -15,6 +14,8 @@ import (
 )
 
 func cmdGet(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Json)
+
 	if p.Parameters.Len() == 0 {
 		return errors.New("URL required.")
 	}
@@ -29,14 +30,11 @@ func cmdGet(p *proc.Process) (err error) {
 		url = "http://" + url
 	}
 
-	debug.Log("resp, err := http.Get(url)....")
-	//resp, err := http.Get(url)
-	resp, err := client.Get(url)
-	debug.Log("resp, err := http.Get(url)!!!!")
+	resp, err := get(url)
 	if err != nil {
 		return err
 	}
-	debug.Log("jhttp.Status.Code, _ = strconv.Atoi(resp.Status[:3])....")
+
 	jhttp.Status.Code, _ = strconv.Atoi(resp.Status[:3])
 	jhttp.Status.Message = resp.Status[4:]
 
@@ -48,14 +46,12 @@ func cmdGet(p *proc.Process) (err error) {
 		return err
 	}
 
-	debug.Log(`b, err = json.MarshalIndent(jhttp, "", "\t")....`)
 	b, err = json.MarshalIndent(jhttp, "", "\t")
 	if err != nil {
 		return err
 	}
 
 	p.Stdout.Write(b)
-	p.Stdout.SetDataType(types.Json)
 
 	return nil
 }
@@ -73,16 +69,15 @@ func cmdGetFile(p *proc.Process) (err error) {
 		url = "http://" + url
 	}
 
-	//resp, err := http.Get(url)
-	resp, err := client.Get(url)
+	resp, err := get(url)
 	if err != nil {
 		return err
 	}
 
+	p.Stdout.SetDataType(types.MimeToMurex(resp.Header.Get("Content-Type")))
+
 	quit := false
 	cl := resp.Header.Get("Content-Length")
-
-	defer p.Stdout.SetDataType(types.MimeToMurex(resp.Header.Get("Content-Type")))
 
 	if cl == "" {
 		cl = "{unknown}"
@@ -94,7 +89,6 @@ func cmdGetFile(p *proc.Process) (err error) {
 
 	defer func() {
 		quit = true
-		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
 		os.Stderr.WriteString("Downloaded " + utils.HumanBytes(written) + ".\n")
 	}()
@@ -119,6 +113,11 @@ func cmdGetFile(p *proc.Process) (err error) {
 	_, err = io.Copy(p.Stdout, resp.Body)
 	if err != nil {
 		return err
+	}
+
+	err = resp.Body.Close()
+	if err != nil {
+		return
 	}
 
 	return nil

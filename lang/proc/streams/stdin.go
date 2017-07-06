@@ -56,12 +56,12 @@ func (rw *Stdin) Stats() (bytesWritten, bytesRead uint64) {
 
 // Standard Reader interface Read() method.
 func (read *Stdin) Read(p []byte) (i int, err error) {
+	defer read.mutex.Unlock()
 	for {
 		read.mutex.Lock()
-		//defer read.Unlock()
 
 		if len(read.buffer) == 0 && read.closed {
-			read.mutex.Unlock()
+			//read.mutex.Unlock()
 			return 0, io.EOF
 		}
 
@@ -86,12 +86,13 @@ func (read *Stdin) Read(p []byte) (i int, err error) {
 
 	read.bRead += uint64(i)
 
-	read.mutex.Unlock()
+	//read.mutex.Unlock()
 	return i, err
 }
 
 // A callback function for reading raw data.
 func (read *Stdin) ReaderFunc(callback func([]byte)) {
+	//defer read.mutex.Unlock()
 	for {
 		read.mutex.Lock()
 		if len(read.buffer) == 0 {
@@ -131,8 +132,17 @@ func (read *Stdin) ReadLine(callback func([]byte)) {
 
 // Read everything and dump it into one byte slice.
 func (read *Stdin) ReadAll() (b []byte) {
-	for !read.closed {
-		// Wait for interface to close.
+	//for !read.closed {
+	//	// Wait for interface to close.
+	//}
+	for {
+		read.mutex.Lock()
+		closed := read.closed
+		read.mutex.Unlock()
+
+		if closed {
+			break
+		}
 	}
 
 	read.mutex.Lock()
