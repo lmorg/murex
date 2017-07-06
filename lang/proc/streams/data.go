@@ -15,7 +15,6 @@ import (
 
 func (in *Stdin) GetDataType() (dt string) {
 	for {
-		//time.Sleep(1 * time.Millisecond) // Terrible hack
 		in.dtLock.Lock()
 		dt = in.dataType
 		in.dtLock.Unlock()
@@ -23,8 +22,6 @@ func (in *Stdin) GetDataType() (dt string) {
 			return
 		}
 	}
-	//go putDataType(in)
-	//return <-in.getDT
 }
 
 func (in *Stdin) SetDataType(dt string) {
@@ -33,24 +30,13 @@ func (in *Stdin) SetDataType(dt string) {
 	in.dtLock.Unlock()
 	return
 }
-
-/*func putDataType(in *Stdin) {
-	for {
-		in.mutex.Lock()
-		if in.closed {
-			//close(in.getDT)
-			in.mutex.Unlock()
-			return
-		}
-		dt := in.dataType
-		in.mutex.Unlock()
-		in.getDT <- dt
-	}
-}*/
-
 func (in *Stdin) DefaultDataType(err bool) {
 	return
-	if in.dataType == "" {
+	in.dtLock.Lock()
+	dt := in.dataType
+	in.dtLock.Unlock()
+
+	if dt == "" {
 		if err {
 			in.dtLock.Lock()
 			in.dataType = types.Null
@@ -64,8 +50,6 @@ func (in *Stdin) DefaultDataType(err bool) {
 }
 
 // Stream arrays regardless of data type.
-// Though currently only 'strings' support streaming, but since this is now a single API it gives an easy place to
-// upgrade multiple builtins.
 func (read *Stdin) ReadArray(callback func([]byte)) {
 	dt := read.GetDataType()
 	switch dt {

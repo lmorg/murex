@@ -44,19 +44,16 @@ func array(p *proc.Process) (err error) {
 				if v[key] == nil {
 					return errors.New("Key '" + key + "' not found.")
 				}
-				//b, err := json.Marshal(v[key])
-				//if err != nil {
-				//	return err
-				//}
 
 				if len(params) > 1 {
 					jArray = append(jArray, v[key])
+
 				} else {
 					switch v[key].(type) {
 					case string:
 						p.Stdout.Write([]byte(v[key].(string)))
 					default:
-						b, err := json.Marshal(jArray)
+						b, err := json.Marshal(v[key])
 						if err != nil {
 							return err
 						}
@@ -85,14 +82,10 @@ func array(p *proc.Process) (err error) {
 				if i >= len(v) {
 					return errors.New("Key '" + key + "' greater than number of items in array.")
 				}
-				//b, err := utils.JsonMarshal(v[i])
-				//if err != nil {
-				//	return err
-				//}
-				//p.Stdout.Writeln(b)
 
 				if len(params) > 1 {
 					jArray = append(jArray, v[i])
+
 				} else {
 					b, err := json.Marshal(v[i])
 					if err != nil {
