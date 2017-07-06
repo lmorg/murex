@@ -16,10 +16,12 @@ type Stdin struct {
 	bWritten uint64
 	isParent bool
 	dataType string
+	getDT    chan string
 }
 
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
+	stdin.getDT = make(chan string)
 	return
 }
 
@@ -187,6 +189,7 @@ func (write *Stdin) Close() {
 	}
 
 	write.closed = true
+	//close(write.getDT)
 }
 
 func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {

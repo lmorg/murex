@@ -14,12 +14,16 @@ import (
 )
 
 func (in *Stdin) GetDataType() (dt string) {
-	for dt == "" {
+	for {
 		in.mutex.Lock()
 		dt = in.dataType
 		in.mutex.Unlock()
+		if dt != "" {
+			return
+		}
 	}
-	return
+	//go putDataType(in)
+	//return <-in.getDT
 }
 
 func (in *Stdin) SetDataType(dt string) {
@@ -28,6 +32,20 @@ func (in *Stdin) SetDataType(dt string) {
 	in.mutex.Unlock()
 	return
 }
+
+/*func putDataType(in *Stdin) {
+	for {
+		in.mutex.Lock()
+		if in.closed {
+			//close(in.getDT)
+			in.mutex.Unlock()
+			return
+		}
+		dt := in.dataType
+		in.mutex.Unlock()
+		in.getDT <- dt
+	}
+}*/
 
 func (in *Stdin) DefaultDataType(err bool) {
 	if in.dataType == "" {

@@ -14,11 +14,10 @@ type jsonInterface map[interface{}]interface{}
 func init() {
 	proc.GoFunctions["$["] = proc.GoFunction{Func: index, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["@["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
 func index(p *proc.Process) (err error) {
-	dt := p.Stdin.GetDataType()
-
 	end, err := p.Parameters.String(p.Parameters.Len() - 1)
 	if err != nil {
 		return err
@@ -29,7 +28,7 @@ func index(p *proc.Process) (err error) {
 
 	params := p.Parameters.StringArray()[:p.Parameters.Len()-1]
 
-	switch dt {
+	switch p.Stdin.GetDataType() {
 	case types.Json:
 		p.Stdout.SetDataType(types.Json)
 
@@ -95,8 +94,6 @@ func index(p *proc.Process) (err error) {
 }
 
 func array(p *proc.Process) (err error) {
-	dt := p.Stdin.GetDataType()
-
 	end, err := p.Parameters.String(p.Parameters.Len() - 1)
 	if err != nil {
 		return err
@@ -107,7 +104,7 @@ func array(p *proc.Process) (err error) {
 
 	params := p.Parameters.StringArray()[:p.Parameters.Len()-1]
 
-	switch dt {
+	switch p.Stdin.GetDataType() {
 	case types.Json:
 		p.Stdout.SetDataType(types.Json)
 
@@ -121,7 +118,7 @@ func array(p *proc.Process) (err error) {
 		case map[string]interface{}:
 			for _, key := range params {
 				if v[key] == nil {
-					return errors.New("sKey '" + key + "' not found.")
+					return errors.New("Key '" + key + "' not found.")
 				}
 				b, err := utils.JsonMarshal(v[key])
 				if err != nil {
@@ -129,6 +126,7 @@ func array(p *proc.Process) (err error) {
 				}
 				p.Stdout.Writeln(b)
 			}
+			return nil
 
 		case []interface{}:
 			for _, key := range params {
@@ -148,15 +146,11 @@ func array(p *proc.Process) (err error) {
 				}
 				p.Stdout.Writeln(b)
 			}
+			return nil
 
 		default:
-			errors.New("JSON object cannot be indexed by array")
-			return
+			return errors.New("JSON object cannot be indexed by array")
 		}
-
-		//var b []byte
-		//b, err = json.MarshalIndent(jInterface, "", "\t")
-		//p.Stdout.Write(b)
 
 	case types.Csv:
 		p.Stdout.SetDataType(types.Csv)

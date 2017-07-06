@@ -66,6 +66,6 @@ out types in conjunction with file name matching:
 ## Exit code
 
 In Bash the variable `$?` would store the exit code. This doesn't exit in
-Murex. Instead there a separate command `exitnum`:
+_murex_. Instead there a separate command `exitnum`:
 
     open test/fox.txt | grep foobar; exitnum

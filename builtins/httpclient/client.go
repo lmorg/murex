@@ -1,5 +1,14 @@
 package httpclient
 
+import (
+	"net/http"
+	"time"
+)
+
+var client = &http.Client{
+	Timeout: time.Second * 5,
+}
+
 /*
 func createClient(client *http.Client, request *http.Request) {
 		client = new(http.Client)

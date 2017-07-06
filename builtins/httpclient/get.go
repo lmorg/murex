@@ -9,14 +9,12 @@ import (
 	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"strconv"
 	"time"
 )
 
 func cmdGet(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Json)
 	if p.Parameters.Len() == 0 {
 		return errors.New("URL required.")
 	}
@@ -32,8 +30,8 @@ func cmdGet(p *proc.Process) (err error) {
 	}
 
 	debug.Log("resp, err := http.Get(url)....")
-	resp := new(http.Response)
-	resp, err = http.Get(url)
+	//resp, err := http.Get(url)
+	resp, err := client.Get(url)
 	debug.Log("resp, err := http.Get(url)!!!!")
 	if err != nil {
 		return err
@@ -44,8 +42,8 @@ func cmdGet(p *proc.Process) (err error) {
 
 	jhttp.Headers = resp.Header
 	b, err := ioutil.ReadAll(resp.Body)
-	jhttp.Body = string(b)
 	resp.Body.Close()
+	jhttp.Body = string(b)
 	if err != nil {
 		return err
 	}
@@ -57,6 +55,7 @@ func cmdGet(p *proc.Process) (err error) {
 	}
 
 	p.Stdout.Write(b)
+	p.Stdout.SetDataType(types.Json)
 
 	return nil
 }
@@ -74,7 +73,8 @@ func cmdGetFile(p *proc.Process) (err error) {
 		url = "http://" + url
 	}
 
-	resp, err := http.Get(url)
+	//resp, err := http.Get(url)
+	resp, err := client.Get(url)
 	if err != nil {
 		return err
 	}
@@ -82,7 +82,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 	quit := false
 	cl := resp.Header.Get("Content-Length")
 
-	p.Stdout.SetDataType(types.MimeToMurex(resp.Header.Get("Content-Type")))
+	defer p.Stdout.SetDataType(types.MimeToMurex(resp.Header.Get("Content-Type")))
 
 	if cl == "" {
 		cl = "{unknown}"

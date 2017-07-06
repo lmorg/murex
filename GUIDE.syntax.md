@@ -61,7 +61,6 @@ The types natively supported by this shell are:
 * Generic   (defined: *)
 * Null      (defined: null)
 * Die       (defined: die)
-* Binary    (defined: bin)
 * String    (defined: str)
 * Boolean   (defined: bool)
 * Number    (defined: num); this is the preferred type for numbers
@@ -69,6 +68,7 @@ The types natively supported by this shell are:
 * Float     (defined: float)
 * Code Block (defined: block)
 * JSON      (defined: json)
+* CSV       (defined: csv)
 
 Support for other mark ups such as XML and YAML will likely follow.
 However JSON will always be a first class citizen because it is the
@@ -89,11 +89,6 @@ and/or `null` output to state the process doesn't write to STDOUT.
 #### Die
 
 If a `die` object is created it kills the shell.
-
-#### Binary
-
-String output that's not expected to be analyzed by text manipulation
-tools.
 
 #### Boolean
 

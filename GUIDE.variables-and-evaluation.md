@@ -12,7 +12,7 @@ It's easier to think of variables as three major classes:
 2. Textual data types:
  * `string`
  * `json` (including objects)
- * `binary` (bytes that are not intended to be parsed by text utilities)
+ * `csv`
  * `code blocks` (code that will be parsed by a subshell)
 
 3. System types:
