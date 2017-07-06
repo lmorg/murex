@@ -87,11 +87,16 @@ func array(p *proc.Process) (err error) {
 					jArray = append(jArray, v[i])
 
 				} else {
-					b, err := json.Marshal(v[i])
-					if err != nil {
-						return err
+					switch v[i].(type) {
+					case string:
+						p.Stdout.Write([]byte(v[i].(string)))
+					default:
+						b, err := json.Marshal(v[i])
+						if err != nil {
+							return err
+						}
+						p.Stdout.Write(b)
 					}
-					p.Stdout.Write(b)
 				}
 			}
 			if len(jArray) > 0 {

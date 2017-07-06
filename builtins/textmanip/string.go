@@ -18,7 +18,7 @@ func init() {
 	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["prepend"] = proc.GoFunction{Func: cmdPrepend, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["prettify"] = proc.GoFunction{Func: cmdPrettify, TypeIn: types.Json, TypeOut: types.String}
+	proc.GoFunctions["pretty"] = proc.GoFunction{Func: cmdPretty, TypeIn: types.Json, TypeOut: types.String}
 }
 
 func cmdMatch(p *proc.Process) error {
@@ -168,7 +168,7 @@ func cmdPrepend(p *proc.Process) (err error) {
 	return
 }
 
-func cmdPrettify(p *proc.Process) (err error) {
+func cmdPretty(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	var prettyJSON bytes.Buffer

@@ -1,44 +1,51 @@
 package httpclient
 
 import (
+	"crypto/tls"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"io"
 	"net"
 	"net/http"
 	net_url "net/url"
 	"time"
 )
 
-func get(url string) (response *http.Response, err error) {
+func request(method, url string, body io.Reader) (response *http.Response, err error) {
 	toStr, err := proc.GlobalConf.Get("http", "Timeout", types.String)
 	if err != nil {
 		return
 	}
-
 	toDur, err := time.ParseDuration(toStr.(string) + "s")
 	if err != nil {
 		return
 	}
 
-	ua, err := proc.GlobalConf.Get("http", "User-Agent", types.String)
+	insecure, err := proc.GlobalConf.Get("http", "Insecure", types.Boolean)
 	if err != nil {
 		return
 	}
 
 	tr := http.Transport{
-		Dial: dialTimeout(toDur, toDur),
+		Dial:            dialTimeout(toDur, toDur),
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
 	}
+
 	client := &http.Client{
 		Timeout:   toDur,
 		Transport: &tr,
 	}
 
-	request, err := http.NewRequest("GET", url, nil)
+	userAgent, err := proc.GlobalConf.Get("http", "User-Agent", types.String)
 	if err != nil {
 		return
 	}
 
-	request.Header.Set("User-Agent", ua.(string))
+	request, err := http.NewRequest(method, url, body)
+	if err != nil {
+		return
+	}
+	request.Header.Set("User-Agent", userAgent.(string))
 
 	urlParsed, err := net_url.Parse(url)
 	if err != nil {
@@ -47,7 +54,18 @@ func get(url string) (response *http.Response, err error) {
 
 	request.Header.Set("Host", urlParsed.Host)
 
-	return client.Do(request)
+	redirects, err := proc.GlobalConf.Get("http", "Redirect", types.Boolean)
+	if err != nil {
+		return
+	}
+
+	if redirects.(bool) {
+		response, err = client.Do(request)
+	} else {
+		response, err = client.Transport.RoundTrip(request)
+	}
+
+	return
 }
 
 // Code unashamedly copy and pasted from:

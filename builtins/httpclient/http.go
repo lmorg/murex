@@ -9,7 +9,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["get"] = proc.GoFunction{Func: cmdGet, TypeIn: types.Null, TypeOut: types.Json}
+	proc.GoFunctions["get"] = proc.GoFunction{Func: cmdGet, TypeIn: types.Generic, TypeOut: types.Json}
+	proc.GoFunctions["post"] = proc.GoFunction{Func: cmdPost, TypeIn: types.Generic, TypeOut: types.Json}
 	proc.GoFunctions["getfile"] = proc.GoFunction{Func: cmdGetFile, TypeIn: types.Null, TypeOut: types.Generic}
 
 	proc.GlobalConf.Define("http", "User-Agent", config.Properties{
@@ -24,9 +25,15 @@ func init() {
 		DataType:    types.Integer,
 	})
 
-	proc.GlobalConf.Define("http", "Ignore-Insecure", config.Properties{
+	proc.GlobalConf.Define("http", "Insecure", config.Properties{
 		Description: "Ignore certificate errors.",
 		Default:     false,
+		DataType:    types.Boolean,
+	})
+
+	proc.GlobalConf.Define("http", "Redirect", config.Properties{
+		Description: "Automatically follow redirects.",
+		Default:     true,
 		DataType:    types.Boolean,
 	})
 }

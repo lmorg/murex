@@ -61,23 +61,17 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 			for i := range j {
 				switch j[i].(type) {
 				case string:
-					//for i := range j {
 					callback(bytes.TrimSpace([]byte(j[i].(string))))
-					//}
-					//return
 
 				default:
-					//for i := range j {
 					jBytes, _ := utils.JsonMarshal(j[i])
 					callback(jBytes)
-					//}
 				}
 			}
 		}
 		fallthrough
 
 	default:
-		//read.ReadLine(callback)
 		scanner := bufio.NewScanner(read)
 		for scanner.Scan() {
 			callback(bytes.TrimSpace(scanner.Bytes()))
@@ -90,17 +84,23 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 func (read *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
 	dt := read.GetDataType()
 	switch dt {
-	/*case types.Json:
-	b := read.ReadAll()
-	j := make(map[string]string, 0)
-	err := json.Unmarshal(b, &j)
-	if err == nil {
-		for i := range j {
-			callback([]byte(j[i]))
+	case types.Json:
+		b := read.ReadAll()
+		var jMap map[string]interface{}
+		err := json.Unmarshal(b, &jMap)
+		if err == nil {
+			i := 1
+			for key := range jMap {
+				j, err := json.Marshal(jMap[key])
+				if err != nil {
+					return err
+				}
+				callback(key, string(j), i != len(jMap))
+				i++
+			}
+			return nil
 		}
-		return
-	}
-	fallthrough*/
+		fallthrough
 
 	case types.Csv:
 		r := csv.NewReader(read)

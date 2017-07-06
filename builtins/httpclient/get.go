@@ -30,7 +30,14 @@ func cmdGet(p *proc.Process) (err error) {
 		url = "http://" + url
 	}
 
-	resp, err := get(url)
+	var body io.Reader
+	if p.IsMethod {
+		body = p.Stdin
+	} else {
+		body = nil
+	}
+
+	resp, err := request("GET", url, body)
 	if err != nil {
 		return err
 	}
@@ -69,7 +76,14 @@ func cmdGetFile(p *proc.Process) (err error) {
 		url = "http://" + url
 	}
 
-	resp, err := get(url)
+	var body io.Reader
+	if p.IsMethod {
+		body = p.Stdin
+	} else {
+		body = nil
+	}
+
+	resp, err := request("GET", url, body)
 	if err != nil {
 		return err
 	}
@@ -89,6 +103,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 
 	defer func() {
 		quit = true
+		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
 		os.Stderr.WriteString("Downloaded " + utils.HumanBytes(written) + ".\n")
 	}()
@@ -113,11 +128,6 @@ func cmdGetFile(p *proc.Process) (err error) {
 	_, err = io.Copy(p.Stdout, resp.Body)
 	if err != nil {
 		return err
-	}
-
-	err = resp.Body.Close()
-	if err != nil {
-		return
 	}
 
 	return nil
