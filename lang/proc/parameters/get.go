@@ -7,6 +7,13 @@ import (
 	"strings"
 )
 
+func (p Parameters) Byte(pos int) ([]byte, error) {
+	if p.Len() <= pos {
+		return []byte{}, errors.New("Too few parameters.")
+	}
+	return []byte(p.Params[pos]), nil
+}
+
 func (p Parameters) ByteAll() []byte {
 	return []byte(strings.Join(p.Params, " "))
 }

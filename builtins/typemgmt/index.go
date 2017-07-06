@@ -7,90 +7,14 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"strconv"
+	"strings"
 )
 
 type jsonInterface map[interface{}]interface{}
 
 func init() {
-	proc.GoFunctions["$["] = proc.GoFunction{Func: index, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["@["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
-}
-
-func index(p *proc.Process) (err error) {
-	end, err := p.Parameters.String(p.Parameters.Len() - 1)
-	if err != nil {
-		return err
-	}
-	if end != "]" {
-		return errors.New("Missing closing bracket, ` ]`")
-	}
-
-	params := p.Parameters.StringArray()[:p.Parameters.Len()-1]
-
-	switch p.Stdin.GetDataType() {
-	case types.Json:
-		p.Stdout.SetDataType(types.Json)
-
-		var jInterface interface{}
-
-		if err = json.Unmarshal(p.Stdin.ReadAll(), &jInterface); err != nil {
-			return
-		}
-
-		for _, field := range params {
-			switch v := jInterface.(type) {
-			case map[string]interface{}:
-				jInterface = v[field]
-
-			case string:
-				jInterface = v
-
-			default:
-				errors.New("Unable to find " + p.Parameters.StringAll() + " in JSON.")
-				return
-			}
-		}
-
-		var b []byte
-		b, err = json.MarshalIndent(jInterface, "", "\t")
-		if err != nil {
-			return err
-		}
-		_, err = p.Stdout.Write(b)
-		return err
-
-	case types.Csv:
-		p.Stdout.SetDataType(types.Csv)
-
-		match := make(map[string]bool)
-		for i := range params {
-			match[params[i]] = true
-		}
-
-		//v, _ := proc.GlobalConf.Get("shell", "Csv-Headings", types.Boolean)
-		//useHeadings := v.(bool)
-
-		v, _ := proc.GlobalConf.Get("shell", "Csv-Separator", types.String)
-		separator := v.(string)[:1]
-
-		p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
-			if match[key] {
-				if !last {
-					p.Stdout.Write([]byte(value + separator))
-				} else {
-					p.Stdout.Write([]byte(value + "\n"))
-				}
-			}
-		})
-
-	default:
-		p.Stdout.SetDataType(types.Null)
-
-		err = errors.New("I don't know how to get an index from this data type")
-	}
-
-	return err
+	proc.GoFunctions["table"] = proc.GoFunction{Func: cmdTable, TypeIn: types.Generic, TypeOut: types.Csv}
 }
 
 func array(p *proc.Process) (err error) {
@@ -116,15 +40,28 @@ func array(p *proc.Process) (err error) {
 
 		switch v := jInterface.(type) {
 		case map[string]interface{}:
+			var jArray []interface{}
 			for _, key := range params {
 				if v[key] == nil {
 					return errors.New("Key '" + key + "' not found.")
 				}
-				b, err := utils.JsonMarshal(v[key])
+				b, err := json.Marshal(v[key])
 				if err != nil {
 					return err
 				}
-				p.Stdout.Writeln(b)
+
+				if len(params) > 1 {
+					jArray = append(jArray, v[key])
+				} else {
+					p.Stdout.Write(b)
+				}
+			}
+			if len(jArray) > 0 {
+				b, err := json.Marshal(jArray)
+				if err != nil {
+					return err
+				}
+				p.Stdout.Write(b)
 			}
 			return nil
 
@@ -182,4 +119,32 @@ func array(p *proc.Process) (err error) {
 	}
 
 	return err
+}
+
+func cmdTable(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Csv)
+
+	separator, err := p.Parameters.String(0)
+	if err != nil {
+		return
+	}
+
+	var (
+		a []string
+		s string
+	)
+
+	join := func(b []byte) {
+		a = append(a, string(b))
+	}
+
+	if p.IsMethod {
+		p.Stdin.ReadArray(join)
+		s = strings.Join(a, separator)
+	} else {
+		s = strings.Join(p.Parameters.StringArray()[1:], string(separator))
+	}
+
+	_, err = p.Stdout.Writeln([]byte(s))
+	return
 }
