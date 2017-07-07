@@ -137,3 +137,5 @@ might produce uglier syntax eg `try {} | catch {}`.
 how the data is now typed on transmit, and how builtins can dynamically
 alter their behavior depending on the type, it seems redundant having
 that type information hardcoded.
+
+* _less / more not working._ I don't think this issue is related to PTYs.

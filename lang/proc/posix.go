@@ -88,12 +88,10 @@ func shellExecute(p *Process) (err error) {
 		return err
 	}
 
-	// Create an STDIN function, copying 1KB blocks at a time.
 	active := true
-	//if p.IsMethod {
-	//	go io.Copy(f, p.Stdin)
-	//} else {
+
 	go func() {
+		// Create an STDIN function, copying 1KB blocks at a time.
 		b := make([]byte, 1024)
 		for active {
 			var i int
@@ -113,7 +111,6 @@ func shellExecute(p *Process) (err error) {
 			}
 		}
 	}()
-	//}
 
 	io.Copy(p.Stdout, f)
 	active = false

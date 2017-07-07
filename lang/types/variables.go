@@ -1,6 +1,7 @@
 package types
 
 import (
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -40,23 +41,21 @@ func (v *Vars) Dump() (obj JsonableVars) {
 	return
 }
 
-/*
-func (v *Vars) Dump() (obj map[string]interface{}) {
-	v.mutex.Lock()
-	obj = make(map[string]interface{}, 0)
-	obj["Type"] = v.types
-	obj["Values"] = v.values
-	v.mutex.Unlock()
-	return
-}
-*/
-
 // This exists so we can dump variables natively into `eval` and `let`.
+// It includes OS environmental variables as well as murex local variables.
+// In the case where they share the same name, the local variables will override the OS env vars.
 func (v *Vars) DumpMap() (m map[string]interface{}) {
 	m = make(map[string]interface{})
+
+	for _, e := range os.Environ() {
+		pair := strings.Split(e, "=")
+		m[pair[0]] = pair[1]
+	}
+
 	for k, v := range v.values {
 		m[k] = v
 	}
+
 	return
 }
 
@@ -77,6 +76,9 @@ func (v *Vars) GetValue(name string) (value interface{}) {
 	v.mutex.Lock()
 	value = v.values[name]
 	v.mutex.Unlock()
+	if value == nil {
+		value = os.Getenv(name)
+	}
 	return
 }
 
@@ -87,7 +89,7 @@ func (v *Vars) GetString(name string) string {
 
 	switch v.types[name] {
 	case "":
-		return ""
+		return os.Getenv(name)
 
 	case Integer:
 		return strconv.Itoa(v.values[name].(int))
