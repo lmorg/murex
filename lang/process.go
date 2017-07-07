@@ -10,57 +10,16 @@ import (
 )
 
 func createProcess(p *proc.Process, f proc.Flow) {
-	//if p.Parent.MethodRef == "" {
-	//	p.Parent.MethodRef = "null"
-	//}
-
 	if p.Name[0] == '!' {
 		p.IsNot = true
 	}
 
-	/*local := "[" + p.Previous.Name + "]" + p.Name
-	switch {
-	case proc.GoFunctions[local].Func != nil && p.IsMethod &&
-		(proc.GoFunctions[local].TypeIn == proc.GoFunctions[p.Previous.MethodRef].TypeOut ||
-			proc.GoFunctions[local].TypeIn == types.Generic ||
-			proc.GoFunctions[p.Previous.MethodRef].TypeOut == types.Generic):
-		p.MethodRef = local
-
-	case proc.GoFunctions[p.Name].Func != nil && p.IsMethod &&
-		(proc.GoFunctions[p.Name].TypeIn == proc.GoFunctions[p.Previous.MethodRef].TypeOut ||
-			proc.GoFunctions[p.Name].TypeIn == types.Generic ||
-			proc.GoFunctions[p.Previous.MethodRef].TypeOut == types.Generic):
-		p.MethodRef = p.Name
-
-	case proc.GoFunctions[p.Name].Func != nil && !f.NewChain && !p.IsMethod &&
-		(proc.GoFunctions[p.Name].TypeIn == types.Null ||
-			proc.GoFunctions[p.Name].TypeIn == types.Generic):
-		p.MethodRef = p.Name
-
-	case proc.GoFunctions[p.Name].Func != nil && f.NewChain &&
-		(proc.GoFunctions[p.Name].TypeIn == types.Null ||
-			proc.GoFunctions[p.Name].TypeIn == types.Generic):
-		p.MethodRef = p.Name
-
-	case !p.IsMethod:
-		p.Parameters.SetPrepend(p.Name)
-		// Forcing `printf` to `exec` is a bit of a kludge.
-		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf"  {
-			p.MethodRef = "pty"
-		} else {
-			p.MethodRef = "exec"
-		}
-
-	default:
-		p.MethodRef = "die"
-		os.Stderr.WriteString(fmt.Sprintf("Methodable function `%s` does not exist for `%s.(%s)`\n",
-			p.Name, p.Previous.Name, proc.GoFunctions[p.Previous.Name].TypeOut))
-	}*/
-
-	//p.ReturnType = proc.GoFunctions[p.MethodRef].TypeOut
-
 	if !proc.GlobalAliases.Exists(p.Name) && p.Name[0] != '$' && proc.GoFunctions[p.Name].Func == nil {
 		p.Parameters.SetPrepend(p.Name)
+		// Make a special case of excluding `printf` from running inside a PTY as it hangs murex.
+		// Obviously this shouldn't happen and in an ideal world I would fix murex instead of implementing this
+		// horrible kludge. But I can live without `printf` being inside a PTY so I will class this bug as a low
+		// priority.
 		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" {
 			p.Name = "pty"
 		} else {
