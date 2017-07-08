@@ -14,7 +14,8 @@ func createProcess(p *proc.Process, f proc.Flow) {
 		p.IsNot = true
 	}
 
-	if !proc.GlobalAliases.Exists(p.Name) && p.Name[0] != '$' && proc.GoFunctions[p.Name].Func == nil {
+	if (!proc.GlobalAliases.Exists(p.Name) || p.Parent.Name == "alias") &&
+		p.Name[0] != '$' && proc.GoFunctions[p.Name].Func == nil {
 		p.Parameters.SetPrepend(p.Name)
 		// Make a special case of excluding `printf` from running inside a PTY as it hangs murex.
 		// Obviously this shouldn't happen and in an ideal world I would fix murex instead of implementing this
@@ -51,14 +52,17 @@ func executeProcess(p *proc.Process) {
 
 	// Execute function.
 	switch {
-	case proc.GlobalAliases.Exists(p.Name):
+	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias":
 		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
-		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, types.Null)
+		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, "alias")
 
 	case p.Name[0] == '$' && len(p.Name) > 1:
 		s := proc.GlobalVars.GetString(p.Name[1:])
 		p.Stdout.SetDataType(proc.GlobalVars.GetType(p.Name[1:]))
 		_, err = p.Stdout.Write([]byte(s))
+
+	//case proc.GoFunctions[p.Name].Func == nil:
+	//	err = proc.GoFunctions[p.Name].Func(p)
 
 	default:
 		err = proc.GoFunctions[p.Name].Func(p)

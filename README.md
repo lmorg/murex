@@ -114,28 +114,4 @@ straight into using Murex.
 
 ## Known bugs / TODO
 
-* _Interactive shell auto-completion is unreliable._ I have a nasty
-feeling I may need to fork the readline package or even create my own
-one.
-
-* _Interactive shell does not support multiline scripts._ Related to
-previous issue.
-
-* _No support for piping scripts to the shell executable._ This will be
-supported via a `--stdin` flag. It's an easy thing to implement but
-wasn't considered necessary for the MVP (minimum viable product).
-
-* _Add support for adhoc arrays._ This will be via a builtin which will
-behave something like `a: [1..3] [a..c] b[a,i,o]b` which would return
-`["1", "2", "3", "a", "b", "c", "bab", "bib", "bob"]`
-
-* _Review merging methods into pipes._ Having separate distinctions
-between the two is weird to the uninitiated. However merging the two
-might produce uglier syntax eg `try {} | catch {}`.
-
-* _Review removing the hardcoded type definitions for builtins._ Given
-how the data is now typed on transmit, and how builtins can dynamically
-alter their behavior depending on the type, it seems redundant having
-that type information hardcoded.
-
-* _less / more not working._ I don't think this issue is related to PTYs.
+These have now been moved into Github's issue tracker: https://github.com/lmorg/murex/issues
