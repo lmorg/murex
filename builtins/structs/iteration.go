@@ -227,9 +227,3 @@ func cmdWhile(p *proc.Process) error {
 
 	return errors.New("cmdWhile(p *proc.Process) unexpected escaped a switch with default case.")
 }
-
-func cmdR(p *proc.Process) error {
-	// @{r: abc[1,2,3] [1..3]
-	//r [1..10] -> foreach line {}
-	return nil
-}
