@@ -8,12 +8,12 @@ import (
 const (
 	caseLower = 1 + iota
 	caseTitle
-	CaseUpper
+	caseUpper
 )
 
 var (
 	rxCaseLower *regexp.Regexp = regexp.MustCompile(`^[a-z]+$`)
-	rxCaseTitle *regexp.Regexp = regexp.MustCompile(`^[A-Z]{1}[a-z]+$`)
+	rxCaseTitle *regexp.Regexp = regexp.MustCompile(`^[A-Z][a-z]+$`)
 	rxCaseUpper *regexp.Regexp = regexp.MustCompile(`^[A-Z]+$`)
 )
 
@@ -24,7 +24,7 @@ func getCase(s string) int {
 	case rxCaseTitle.MatchString(s):
 		return caseTitle
 	case rxCaseUpper.MatchString(s):
-		return CaseUpper
+		return caseUpper
 	default:
 		return 0
 	}
@@ -36,7 +36,7 @@ func setCase(s string, c int) string {
 		return s
 	case caseTitle:
 		return strings.ToTitle(s)
-	case CaseUpper:
+	case caseUpper:
 		return strings.ToUpper(s)
 	default:
 		return s
