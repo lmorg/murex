@@ -134,7 +134,6 @@ func mkArray(p *proc.Process) error {
 			if open {
 				groups[len(groups)-1] = append(groups[len(groups)-1], nodes[i])
 			} else {
-				//groups[len(groups)-1] = append(groups[len(groups)-1], ast{})
 				groups = append(groups, []ast{})
 			}
 
@@ -144,72 +143,78 @@ func mkArray(p *proc.Process) error {
 	}
 
 	// Now do your magic
-	var array []string
+	var (
+		array  []string
+		marker string = string([]byte{0})
+	)
 
 	for g := range groups {
 		var (
 			template string
-			//static   []string
 			variable map[int][]string = make(map[int][]string)
-			l        int              = len(variable) - 1
+			l        int              = -1
 		)
 
 		for n := range groups[g] {
 			switch groups[g][n].Type {
 			case astTypeString:
 				if open {
-					variable[len(static)-1] = append(variable[len(static)-1], string(groups[g][n].Data))
+					variable[l] = append(variable[l], string(groups[g][n].Data))
 					continue
 				}
-				static = append(static, string(groups[g][n].Data))
+				template += string(groups[g][n].Data)
 
 			case astTypeRange:
 				a, err := rangeToArray(groups[g][n].Data)
 				if err != nil {
 					return err
 				}
-				variable[len(static)-1] = append(variable[len(static)-1], a...)
+				variable[l] = append(variable[l], a...)
 				continue
 
 			case astTypeOpen:
-				variable[len(static)-1] = make([]string, 0)
+				template += marker
+				l++
+				variable[l] = make([]string, 0)
 				open = true
 
 			case astTypeClose:
 				open = false
-
 			}
 		}
 
-		var (
-			s       string
-			i       int
-			counter map[int]int = make(map[int]int)
-		)
+		counter := make([]int, len(variable))
 
 		for {
-			s += static[i] + variable[i][counter[i]]
-			i++
-			if i == len(static)-1 {
-				if s != "" {
-					array = append(array, s)
-				}
-				i = 0
-				j := len(static) - 1
-				for {
-					counter[j]++
-					if counter[j] >= len(variable[j]) {
-						if j == 0 {
-							goto nextGroup
-						}
-						counter[j] = 0
-						if counter[j-1] < len(variable[j-1])-1 {
-							counter[j-1]++
-							s = ""
-							break
-						}
-						j--
+		nextIndex:
+			s := template
+			//fmt.Println("variable:", variable, "\ncounter:", counter[0])
+			for t := 0; t < len(counter); t++ {
+				//fmt.Println("s:", s, "\nvar:", variable, "\nt:", t, "\ncounter:", counter)
+				c := counter[t]
+				s = strings.Replace(s, marker, variable[t][c], 1)
+				fmt.Println(s)
+			}
+			array = append(array, s)
+
+			i := len(counter) - 1
+			for {
+				counter[i]++
+				if counter[i] == len(variable[i]) {
+				nextCounter:
+					counter[i] = 0
+					i--
+					if i < 0 {
+						goto nextGroup
 					}
+					counter[i]++
+					if counter[i] < len(variable[i]) {
+						goto nextIndex
+					} else {
+						goto nextCounter
+					}
+				} else {
+					goto nextIndex
 				}
 			}
 		}
