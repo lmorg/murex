@@ -1,4 +1,4 @@
-package typemgmt
+package mkarray
 
 import (
 	"errors"
@@ -6,9 +6,10 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"strconv"
 	"strings"
 )
+
+// This code is ugly. Read at your own risk.
 
 func init() {
 	proc.GoFunctions["a"] = proc.GoFunction{Func: mkArray, TypeIn: types.Generic, TypeOut: types.Csv}
@@ -188,12 +189,9 @@ func mkArray(p *proc.Process) error {
 		for {
 		nextIndex:
 			s := template
-			//fmt.Println("variable:", variable, "\ncounter:", counter[0])
 			for t := 0; t < len(counter); t++ {
-				//fmt.Println("s:", s, "\nvar:", variable, "\nt:", t, "\ncounter:", counter)
 				c := counter[t]
 				s = strings.Replace(s, marker, variable[t][c], 1)
-				fmt.Println(s)
 			}
 			array = append(array, s)
 
@@ -228,39 +226,4 @@ func mkArray(p *proc.Process) error {
 
 	_, err = p.Stdout.Writeln(b)
 	return err
-}
-
-func rangeToArray(b []byte) ([]string, error) {
-	split := strings.Split(string(b), "..")
-	if len(split) > 2 {
-		return nil, errors.New("Invalid syntax. Too many periods in range, `..`. Please escape periods, `\\.`, if you wish to include period in your range.")
-	}
-
-	if len(split) < 2 {
-		return nil, errors.New("Invalid syntax. Range periods, `..`, found but cannot determine start and end range.")
-	}
-
-	i1, e1 := strconv.Atoi(split[0])
-	i2, e2 := strconv.Atoi(split[1])
-
-	if e1 == nil && e2 == nil {
-		switch {
-		case i1 < i2:
-			a := make([]string, i2-i1+1)
-			for i := range a {
-				a[i] = strconv.Itoa(i + i1)
-			}
-			return a, nil
-		case i1 > i2:
-			a := make([]string, i1-i2+1)
-			for i := range a {
-				a[i] = strconv.Itoa(i1 - i)
-			}
-			return a, nil
-		default:
-			return nil, errors.New("Invalid range. Start and end of range are the same.")
-		}
-	}
-
-	return nil, errors.New("TODO: write code pleases")
 }
