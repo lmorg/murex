@@ -86,19 +86,34 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 	switch dt {
 	case types.Json:
 		b := read.ReadAll()
-		var jMap map[string]interface{}
-		err := json.Unmarshal(b, &jMap)
+
+		var jObj interface{}
+		err := json.Unmarshal(b, &jObj)
 		if err == nil {
-			i := 1
-			for key := range jMap {
-				j, err := json.Marshal(jMap[key])
-				if err != nil {
-					return err
+
+			switch jObj.(type) {
+
+			case map[string]interface{}:
+				i := 1
+				for key := range jObj.(map[string]interface{}) {
+					j, err := json.Marshal(jObj.(map[string]interface{})[key])
+					if err != nil {
+						return err
+					}
+					callback(key, string(j), i != len(jObj.(map[string]interface{})))
+					i++
 				}
-				callback(key, string(j), i != len(jMap))
-				i++
+				return nil
+
+			case []interface{}:
+				for i := range jObj.([]interface{}) {
+					j, err := json.Marshal(jObj.([]interface{})[i])
+					if err != nil {
+						return err
+					}
+					callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
+				}
 			}
-			return nil
 		}
 		fallthrough
 
@@ -187,8 +202,3 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 
 	return nil
 }
-
-/*func (out *Stdin) WriteArray(item string) error {
-	out.
-	return nil
-}*/
