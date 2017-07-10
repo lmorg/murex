@@ -136,7 +136,7 @@ func array(p *proc.Process) (err error) {
 			}
 		})
 
-	case types.String:
+	case types.String, types.Generic:
 		p.Stdout.SetDataType(types.String)
 
 		match := make(map[string]bool)

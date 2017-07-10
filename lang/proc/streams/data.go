@@ -182,7 +182,6 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 			} else {
 				l := len(fields) - 2
 				for i := range fields {
-					//callback(fmt.Sprintf("%d:%d", recNum, i), strings.TrimSpace(fields[i]), i == l)
 					callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
 				}
 			}
@@ -190,7 +189,7 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 
 	default:
 		scanner := bufio.NewScanner(read)
-		var i int
+		i := -1
 		for scanner.Scan() {
 			i++
 			callback(strconv.Itoa(i), strings.TrimSpace(string(scanner.Bytes())), false)

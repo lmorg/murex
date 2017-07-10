@@ -1,11 +1,13 @@
 package typemgmt
 
 import (
+	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"io"
 	"os"
+	"strings"
 )
 
 func init() {
@@ -80,9 +82,29 @@ func cmdUntype(p *proc.Process) (err error) {
 }
 
 func cmdCast(p *proc.Process) error {
-	dt, err := p.Parameters.String(0)
+	s, err := p.Parameters.String(0)
 	if err != nil {
 		return err
+	}
+
+	// Data types are lower case. So lets help people out a little here.
+	dt := strings.ToLower(s)
+
+	// Technically you could use the following values as data types, but it's unlikely anyone would intend to do so,
+	// so lets just disable them with a helpful error to ease debugging.
+	switch dt {
+	case "string":
+		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.String + "`?")
+	case "number":
+		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Number + "`?")
+	case "integer":
+		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Integer + "`?")
+	case "boolean":
+		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Boolean + "`?")
+	case "code", "codeblock":
+		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.CodeBlock + "`?")
+	case "generic":
+		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Generic + "`?")
 	}
 
 	p.Stdout.SetDataType(dt)

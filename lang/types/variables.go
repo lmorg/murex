@@ -1,6 +1,7 @@
 package types
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -83,9 +84,16 @@ func (v *Vars) GetValue(name string) (value interface{}) {
 }
 
 // Get variable - cast as string.
-func (v *Vars) GetString(name string) string {
+func (v *Vars) GetString(name string) (s string) {
 	v.mutex.Lock()
-	defer v.mutex.Unlock()
+
+	defer func() {
+		r := recover()
+		if r != nil {
+			s = fmt.Sprint("Unexpected value of:", v.values[name])
+		}
+		v.mutex.Unlock()
+	}()
 
 	switch v.types[name] {
 	case "":
