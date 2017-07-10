@@ -19,7 +19,6 @@ func init() {
 	proc.GoFunctions["true"] = proc.GoFunction{Func: cmdTrue, TypeIn: types.Null, TypeOut: types.Boolean}
 	proc.GoFunctions["false"] = proc.GoFunction{Func: cmdFalse, TypeIn: types.Null, TypeOut: types.Boolean}
 	proc.GoFunctions["!"] = proc.GoFunction{Func: cmdNot, TypeIn: types.Generic, TypeOut: types.Boolean}
-	proc.GoFunctions["untype"] = proc.GoFunction{Func: cmdUntype, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["cast"] = proc.GoFunction{Func: cmdCast, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
@@ -73,12 +72,6 @@ func cmdExit(p *proc.Process) error {
 	}
 	os.Exit(i)
 	return nil
-}
-
-func cmdUntype(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Generic)
-	_, err = io.Copy(p.Stdout, p.Stdin)
-	return
 }
 
 func cmdCast(p *proc.Process) error {

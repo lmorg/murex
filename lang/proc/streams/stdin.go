@@ -17,12 +17,10 @@ type Stdin struct {
 	isParent bool
 	dataType string
 	dtLock   sync.Mutex
-	//getDT    chan string
 }
 
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
-	//stdin.getDT = make(chan string)
 	return
 }
 

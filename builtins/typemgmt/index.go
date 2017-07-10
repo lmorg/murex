@@ -6,14 +6,12 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"strconv"
-	"strings"
 )
 
 type jsonInterface map[interface{}]interface{}
 
 func init() {
 	proc.GoFunctions["["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["table"] = proc.GoFunction{Func: cmdTable, TypeIn: types.Generic, TypeOut: types.Csv}
 }
 
 func array(p *proc.Process) (err error) {
@@ -156,32 +154,4 @@ func array(p *proc.Process) (err error) {
 	}
 
 	return err
-}
-
-func cmdTable(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Csv)
-
-	separator, err := p.Parameters.String(0)
-	if err != nil {
-		return
-	}
-
-	var (
-		a []string
-		s string
-	)
-
-	join := func(b []byte) {
-		a = append(a, string(b))
-	}
-
-	if p.IsMethod {
-		p.Stdin.ReadArray(join)
-		s = strings.Join(a, separator)
-	} else {
-		s = strings.Join(p.Parameters.StringArray()[1:], string(separator))
-	}
-
-	_, err = p.Stdout.Writeln([]byte(s))
-	return
 }
