@@ -131,8 +131,22 @@ func array(p *proc.Process) (err error) {
 				if !last {
 					p.Stdout.Write([]byte(value + separator))
 				} else {
-					p.Stdout.Write([]byte(value + "\n"))
+					p.Stdout.Writeln([]byte(value))
 				}
+			}
+		})
+
+	case types.String:
+		p.Stdout.SetDataType(types.String)
+
+		match := make(map[string]bool)
+		for i := range params {
+			match[params[i]] = true
+		}
+
+		p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+			if match[key] {
+				p.Stdout.Writeln([]byte(value))
 			}
 		})
 

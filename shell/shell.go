@@ -18,7 +18,6 @@ var Instance *readline.Instance
 
 func Start() {
 	var err error
-	//proc.ShellEnabled = true
 
 	Instance, err = readline.NewEx(&readline.Config{
 		//Prompt:          "\033[31m»\033[0m ",

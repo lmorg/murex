@@ -337,6 +337,7 @@ while true; do
         216)shell "out '\${out foo}'" 2>&1   | check '${out foo}';;
         217)shell 'out "\${out foo}"' 2>&1   | check '${out foo}';;
 
+
         *) break
     esac
     let failed=$failed+$?
