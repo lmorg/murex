@@ -69,37 +69,34 @@ func rangeToArray(b []byte) ([]string, error) {
 	start := strings.ToLower(split[0])
 	end := strings.ToLower(split[1])
 	for i := range mapRanges {
-		matched, array, err := mapArray(&start, &end, mapRanges[i], c)
+		matched, array := mapArray(mapRanges[i][start], mapRanges[i][end], mapRanges[i], c)
 		if matched {
-			return array, err
+			return array, nil
 		}
 	}
 
 	return nil, errors.New("Unable to auto-detect range in `" + string(b) + "`.")
 }
 
-func mapArray(start, end *string, constMap map[string]int, c int) (matched bool, array []string, err error) {
-	if constMap[*start] == 0 || constMap[*end] == 0 {
+func mapArray(start, end int, constMap map[string]int, c int) (matched bool, array []string) {
+	if start == 0 || end == 0 {
 		return
 	}
 
 	matched = true
 
-	consts := make([]string, len(constMap)+1)
+	consts := make([]string, len(constMap))
 	for s, i := range constMap {
-		consts[i] = setCase(s, c)
+		consts[i-1] = setCase(s, c)
 	}
 
 	switch {
-	case *start < *end:
-		array = consts[constMap[*start] : constMap[*end]+1]
+	case start < end:
+		array = consts[start-1 : end]
 
-	case *start > *end:
-		array = consts[constMap[*start]:]
-		array = append(array, consts[1:constMap[*end]+1]...)
-
-	default:
-		err = errors.New("Invalid range. Start and end of range are the same in `" + *start + ".." + *end + "`.")
+	case start >= end:
+		array = consts[start-1:]
+		array = append(array, consts[:end]...)
 	}
 
 	return

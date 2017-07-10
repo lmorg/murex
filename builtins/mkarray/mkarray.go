@@ -12,7 +12,8 @@ import (
 // This code is ugly. Read at your own risk.
 
 func init() {
-	proc.GoFunctions["a"] = proc.GoFunction{Func: mkArray, TypeIn: types.Generic, TypeOut: types.Csv}
+	proc.GoFunctions["a"] = proc.GoFunction{Func: mkArray, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["ja"] = proc.GoFunction{Func: mkArray, TypeIn: types.Generic, TypeOut: types.Json}
 }
 
 const (
@@ -31,7 +32,13 @@ type ast struct {
 // echo @{a: abc[1,2,3],[1..3]}
 //a: [1..10] -> ...
 func mkArray(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Json)
+	jsonArray := p.Name == "ja"
+
+	if jsonArray {
+		p.Stdout.SetDataType(types.Json)
+	} else {
+		p.Stdout.SetDataType(types.String)
+	}
 
 	var (
 		escaped, open, dots bool
@@ -193,7 +200,11 @@ func mkArray(p *proc.Process) error {
 				c := counter[t]
 				s = strings.Replace(s, marker, variable[t][c], 1)
 			}
-			array = append(array, s)
+			if jsonArray {
+				array = append(array, s)
+			} else {
+				p.Stdout.Writeln([]byte(s))
+			}
 
 			i := len(counter) - 1
 			for {
@@ -219,11 +230,15 @@ func mkArray(p *proc.Process) error {
 	nextGroup:
 	}
 
-	b, err := utils.JsonMarshal(array)
-	if err != nil {
+	if jsonArray {
+		b, err := utils.JsonMarshal(array)
+		if err != nil {
+			return err
+		}
+
+		_, err = p.Stdout.Writeln(b)
 		return err
 	}
 
-	_, err = p.Stdout.Writeln(b)
-	return err
+	return nil
 }

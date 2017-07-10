@@ -35,7 +35,7 @@ func setCase(s string, c int) string {
 	case caseLower:
 		return s
 	case caseTitle:
-		return strings.ToTitle(s)
+		return strings.ToUpper(s[:1]) + s[1:]
 	case caseUpper:
 		return strings.ToUpper(s)
 	default:
