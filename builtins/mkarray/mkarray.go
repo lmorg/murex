@@ -113,10 +113,12 @@ func mkArray(p *proc.Process) error {
 			node = &nodes[len(nodes)-1]
 
 		case '.':
-			if dots {
-				node.Type = astTypeRange
+			if open {
+				if dots {
+					node.Type = astTypeRange
+				}
+				dots = !dots
 			}
-			dots = !dots
 			node.Data = append(node.Data, b)
 
 		default:
@@ -207,25 +209,28 @@ func mkArray(p *proc.Process) error {
 			}
 
 			i := len(counter) - 1
-			for {
-				counter[i]++
-				if counter[i] == len(variable[i]) {
-				nextCounter:
-					counter[i] = 0
-					i--
-					if i < 0 {
-						goto nextGroup
-					}
-					counter[i]++
-					if counter[i] < len(variable[i]) {
-						goto nextIndex
-					} else {
-						goto nextCounter
-					}
-				} else {
-					goto nextIndex
-				}
+			if i < 0 {
+				goto nextGroup
 			}
+
+			counter[i]++
+			if counter[i] == len(variable[i]) {
+			nextCounter:
+				counter[i] = 0
+				i--
+				if i < 0 {
+					goto nextGroup
+				}
+				counter[i]++
+				if counter[i] < len(variable[i]) {
+					goto nextIndex
+				} else {
+					goto nextCounter
+				}
+			} else {
+				goto nextIndex
+			}
+
 		}
 	nextGroup:
 	}
