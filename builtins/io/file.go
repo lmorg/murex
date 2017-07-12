@@ -17,6 +17,8 @@ func init() {
 	proc.GoFunctions["text"] = proc.GoFunction{Func: cmdText, TypeIn: types.Null, TypeOut: types.String}
 	proc.GoFunctions["open"] = proc.GoFunction{Func: cmdOpen, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["pt"] = proc.GoFunction{Func: cmdPipeTelemetry, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions[">"] = proc.GoFunction{Func: cmdWriteFile, TypeIn: types.Generic, TypeOut: types.Null}
+	proc.GoFunctions[">>"] = proc.GoFunction{Func: cmdAppendFile, TypeIn: types.Generic, TypeOut: types.Null}
 }
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`\.([a-zA-Z]+)(\.gz|)$`)
@@ -125,5 +127,43 @@ func cmdPipeTelemetry(p *proc.Process) error {
 	_, err := io.Copy(p.Stdout, p.Stdin)
 	quit = true
 	stats()
+	return err
+}
+
+func cmdWriteFile(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	file, err := os.Create(name)
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	_, err = io.Copy(file, p.Stdin)
+	return err
+}
+
+func cmdAppendFile(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	file, err := os.Open(name)
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	_, err = io.Copy(file, p.Stdin)
 	return err
 }

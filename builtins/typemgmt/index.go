@@ -55,7 +55,7 @@ func array(p *proc.Process) (err error) {
 						if err != nil {
 							return err
 						}
-						p.Stdout.Write(b)
+						p.Stdout.Writeln(b)
 					}
 				}
 			}
@@ -64,7 +64,7 @@ func array(p *proc.Process) (err error) {
 				if err != nil {
 					return err
 				}
-				p.Stdout.Write(b)
+				p.Stdout.Writeln(b)
 			}
 			return nil
 
@@ -93,7 +93,7 @@ func array(p *proc.Process) (err error) {
 						if err != nil {
 							return err
 						}
-						p.Stdout.Write(b)
+						p.Stdout.Writeln(b)
 					}
 				}
 			}
@@ -102,7 +102,7 @@ func array(p *proc.Process) (err error) {
 				if err != nil {
 					return err
 				}
-				p.Stdout.Write(b)
+				p.Stdout.Writeln(b)
 			}
 			return nil
 

@@ -126,6 +126,7 @@ func fStringGeneric(p *proc.Process, format string) (err error) {
 			s = strings.Replace(s, `\`, `\\`, -1)
 			s = strings.Replace(s, `"`, `\"`, -1)
 			s = `"` + rxWhiteSpaceSplit.ReplaceAllString(s, `"`+outSep+`"`) + `"`
+			//s = rxWhiteSpaceSplit.ReplaceAllString(s, outSep)
 			p.Stdout.Writeln([]byte(s))
 		}
 		if err := scanner.Err(); err != nil {

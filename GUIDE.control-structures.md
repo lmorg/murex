@@ -19,7 +19,7 @@ left off and `if` or `!if` would have otherwise called it, then `if` /
 `!if` will return a non-zero exit number. The significance of this is
 important when using `if` or `!if` inside a `try` block.
 
-#### Method If
+* Method If
 
 This is where the conditional is evaluated from the result of the piped
 function. The last parameter is optional.
@@ -33,7 +33,7 @@ function. The last parameter is optional.
     if / else
     out: hello world | grep: world -> !if: { out: world missing }
 
-#### Function If
+* Function If
 
 This is where the conditional is evaluated from the first parameter. The
 last parameter is optional.
@@ -53,47 +53,6 @@ last parameter is optional.
 `if` also supports an anti-alias which will "not" the conditional,
 effectively reversing the "then" and "else" parameters. See `if` (above)
 for examples.
-
-## for
-
-I was a little naughty in creating this builtin as it breaks one of my
-style guidelines where the first parameter is input as a code block but
-is actually split into 3 strings via the semi-colon character, `;`, and
-processed as a code block.
-
-Usage:
-
-    for { i=1; i<6; i++ } { echo $i }
-
-The first parameter is: `{ i=1; i<6; i++ }`, but it is then converted
-into the following code:
-
-1. `let i=0` - declare the loop iteration variable
-2. `eval i<0` - if the condition is true then proceed to run the code in
-the second parameter - `{ echo $i }`
-3. `let i++` - increment the loop iteration variable
-
-The reason behind breaking my own style guidelines on this function was
-to create a for loop that was mirrored what the average developer might
-expect. However `foreach` and `while` both follow the usual structure of
-murex code so if you feel dirty using the above code then you could
-write it using a `while` loop instead. eg
-
-    let i=0; while { eval i<6 } { echo $i; let i++ }
-
-Personally I find that less readable but the option is there if you do
-want to get religiously idiomatic about the structure of your code.
-
-## foreach
-
-(description to follow)
-
-    fuction_with_listed_output -> foreach: variable { iteration }
-
-## while
-(description to follow)
-
-    while: { conditional } { iteration }
 
 ## try
 
@@ -141,4 +100,56 @@ Use `!catch` to "else" the `try`
         -> !catch { out: `try` succeeded }
 
 `catch` also supports anti-alias (`!catch`) where the code block only
-executes if the exit number equals zero.
+executes if the exit number equals zero. This is useful if you have a
+block of code and want to report back a message or process additional
+commands if the original block was successful.
+
+## for
+
+I was a little naughty in creating this builtin as it breaks one of my
+style guidelines where the first parameter is input as a code block but
+is actually treated as a string which is then split into 3 strings via
+the semi-colon character, `;`, and processed as 3 separate blocks.
+
+Usage:
+
+    for { i=1; i<6; i++ } { echo $i }
+
+The parameter is: `{ i=1; i<6; i++ }`, but it is then converted into the
+following code:
+
+1. `let i=0` - declare the loop iteration variable
+2. `eval i<0` - if the condition is true then proceed to run the code in
+the second parameter - `{ echo $i }`
+3. `let i++` - increment the loop iteration variable
+
+The reason behind breaking my own style guidelines on this function was
+to create a for loop that was mirrored what the average developer might
+expect. However `foreach` and `while` both follow the usual structure of
+_murex_ code or want the performance gained from not running 3 additional
+commands on each loop iteration, then you could write it using the array
+function, `a`:
+
+    a: [1..5] -> foreach i { echo $i }
+
+Using the `a` function like this is more idiomatic _murex_ as well as
+much more performant. For example, in the commands below, both print
+every multiple of 2 between 10 and 10,000 (inclusive). The former is
+less readable but will take approximately 1/10th of the time to process
+when compared to the latter:
+
+    time { a: [1..999][0,2,4,6,8],10000 -> foreach i { $i } }
+    time { for { i=10; i<10001; i=i+2 } { $i } }
+
+For more information about the array function see (TODO: WRITE DOC).
+
+## foreach
+
+(description to follow)
+
+    fuction_with_listed_output -> foreach: variable { iteration }
+
+## while
+(description to follow)
+
+    while: { conditional } { iteration }

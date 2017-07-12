@@ -60,6 +60,9 @@ func cmdSet(p *proc.Process) error {
 
 	// Set variable as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
+	if len(match) > 0 || len(match[0]) > 2 {
+		return errors.New("Invalid syntax of `set`. Usage: set variable_name=value")
+	}
 	return proc.GlobalVars.Set(match[0][1], match[0][2], types.String)
 }
 
