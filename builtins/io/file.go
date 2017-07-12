@@ -157,7 +157,10 @@ func cmdAppendFile(p *proc.Process) error {
 		return err
 	}
 
-	file, err := os.Open(name)
+	file, err := os.OpenFile(name, os.O_APPEND|os.O_WRONLY, 0664)
+	if err != nil {
+		panic(err)
+	}
 	if err != nil {
 		return err
 	}
