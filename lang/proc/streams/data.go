@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/csv"
 	"strconv"
 	"strings"
 )
@@ -122,16 +123,14 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 		r.TrimLeadingSpace = false
 		//r.FieldsPerRecord = -1*/
 
-		separator := ","
-		comment := "#"
-		headings := true
+		csvParser := csv.NewParser(read)
 
 		v, err := config.Get("shell", "Csv-Separator", types.String)
 		if err != nil {
 			return err
 		}
 		if len(v.(string)) > 0 {
-			separator = v.(string)
+			csvParser.Separator = v.(string)[0]
 		}
 
 		v, err = config.Get("shell", "Csv-Comment", types.String)
@@ -139,46 +138,29 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 			return err
 		}
 		if len(v.(string)) > 0 {
-			comment = v.(string)
+			csvParser.Comment = v.(string)[0]
 		}
 
 		v, err = config.Get("shell", "Csv-Headings", types.Boolean)
 		if err != nil {
 			return err
 		}
-		headings = v.(bool)
+		headings := v.(bool)
 
 		var (
 			recHeadings []string
 			recNum      int
 		)
 
-		/*decode := func(s *string) {
-			if len(*s) < 3 {
-				return
-			}
-			if *s[0] == '"' && *s[len(*s)-1] == '"' {
-				*s = *s[1 : len(*s)-2]
-			}
-		}*/
-
-		scanner := bufio.NewScanner(read)
-		for scanner.Scan() {
+		err = csvParser.ReadLine(func(fields []string) {
 			recNum++
-
-			s := scanner.Text()
-			if strings.HasPrefix(s, comment) {
-				continue
-			}
-
-			fields := strings.Split(s, separator)
 
 			if headings {
 				if recNum == 1 {
 					for i := range fields {
 						recHeadings = append(recHeadings, strings.TrimSpace(fields[i]))
 					}
-					continue
+					return
 				}
 
 				l := len(fields) - 2
@@ -196,9 +178,8 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 					callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
 				}
 			}
-		}
+		})
 
-		err = scanner.Err()
 		return err
 
 	default:
