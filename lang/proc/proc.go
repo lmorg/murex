@@ -33,7 +33,7 @@ type Process struct {
 }
 
 type GoFunction struct {
-	Func    func(*Process) error
+	Func    func(*Process) error `json:"-"`
 	TypeIn  string
 	TypeOut string
 }

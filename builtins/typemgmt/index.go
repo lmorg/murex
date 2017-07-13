@@ -124,13 +124,26 @@ func array(p *proc.Process) (err error) {
 		v, _ := proc.GlobalConf.Get("shell", "Csv-Separator", types.String)
 		separator := v.(string)[:1]
 
+		var (
+			matched bool
+			count   int
+		)
+
 		p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
-			if match[key] {
+			count++
+			switch {
+			case match[key] /*|| match[strconv.Itoa(count)]*/ :
+				matched = true
 				if !last {
 					p.Stdout.Write([]byte(value + separator))
 				} else {
+					count = 0
 					p.Stdout.Writeln([]byte(value))
 				}
+			case last && matched:
+				count = 0
+				matched = false
+				p.Stdout.Writeln([]byte{})
 			}
 		})
 

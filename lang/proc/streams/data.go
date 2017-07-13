@@ -3,12 +3,10 @@ package streams
 import (
 	"bufio"
 	"bytes"
-	"encoding/csv"
 	"encoding/json"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"io"
 	"strconv"
 	"strings"
 )
@@ -119,17 +117,21 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 		fallthrough
 
 	case types.Csv:
-		r := csv.NewReader(read)
+		/*r := csv.NewReader(read)
 		r.LazyQuotes = true
 		r.TrimLeadingSpace = false
-		//r.FieldsPerRecord = -1
+		//r.FieldsPerRecord = -1*/
+
+		separator := ","
+		comment := "#"
+		headings := true
 
 		v, err := config.Get("shell", "Csv-Separator", types.String)
 		if err != nil {
 			return err
 		}
 		if len(v.(string)) > 0 {
-			r.Comma = []rune(v.(string))[0]
+			separator = v.(string)
 		}
 
 		v, err = config.Get("shell", "Csv-Comment", types.String)
@@ -137,36 +139,45 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 			return err
 		}
 		if len(v.(string)) > 0 {
-			r.Comment = []rune(v.(string))[0]
+			comment = v.(string)
 		}
 
 		v, err = config.Get("shell", "Csv-Headings", types.Boolean)
 		if err != nil {
 			return err
 		}
+		headings = v.(bool)
 
 		var (
-			useHeadings bool = v.(bool)
 			recHeadings []string
 			recNum      int
 		)
 
-		for {
+		/*decode := func(s *string) {
+			if len(*s) < 3 {
+				return
+			}
+			if *s[0] == '"' && *s[len(*s)-1] == '"' {
+				*s = *s[1 : len(*s)-2]
+			}
+		}*/
+
+		scanner := bufio.NewScanner(read)
+		for scanner.Scan() {
 			recNum++
-			fields, err := r.Read()
-			switch {
-			case err == io.EOF:
-				return nil
-			case err != nil:
-				return err
+
+			s := scanner.Text()
+			if strings.HasPrefix(s, comment) {
+				continue
 			}
 
-			if useHeadings {
+			fields := strings.Split(s, separator)
+
+			if headings {
 				if recNum == 1 {
 					for i := range fields {
 						recHeadings = append(recHeadings, strings.TrimSpace(fields[i]))
 					}
-					//r.FieldsPerRecord = len(fields)
 					continue
 				}
 
@@ -186,6 +197,9 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 				}
 			}
 		}
+
+		err = scanner.Err()
+		return err
 
 	default:
 		scanner := bufio.NewScanner(read)

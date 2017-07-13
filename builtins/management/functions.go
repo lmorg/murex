@@ -71,8 +71,13 @@ func cmdListBuiltins(p *proc.Process) error {
 	//for name := range proc.GoFunctions {
 	//	p.Stdout.Writeln([]byte(name))
 	//}
-	utils.JsonMarshal(proc.GoFunctions)
-	return nil
+	b, err := utils.JsonMarshal(proc.GoFunctions)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Writeln(b)
+	return err
 }
 
 func cmdBuiltinExists(p *proc.Process) error {
