@@ -129,45 +129,6 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 			}
 		})
 
-		/*v, err := config.Get("shell", "Csv-Headings", types.Boolean)
-		if err != nil {
-			return err
-		}
-		headings := v.(bool)
-
-		var (
-			recHeadings []string
-			recNum      int
-		)
-
-		err = csvParser.ReadLine(func(fields []string) {
-			recNum++
-
-			if headings {
-				if recNum == 1 {
-					for i := range fields {
-						recHeadings = append(recHeadings, strings.TrimSpace(fields[i]))
-					}
-					return
-				}
-
-				l := len(fields) - 1
-				for i := range fields {
-					if i < len(recHeadings) {
-						callback(recHeadings[i], strings.TrimSpace(fields[i]), i == l)
-					} else {
-						callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
-					}
-				}
-
-			} else {
-				l := len(fields) - 1
-				for i := range fields {
-					callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
-				}
-			}
-		})*/
-
 		return err
 
 	default:

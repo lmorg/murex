@@ -127,8 +127,7 @@ func array(p *proc.Process) (err error) {
 		var matched bool
 
 		p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
-			//fmt.Println("----->", key, value, last, match, match[key], records)
-			if match[key] != 0 /*|| match[strconv.Itoa(count)]*/ {
+			if match[key] != 0 {
 				matched = true
 				records[match[key]] = value
 			}
