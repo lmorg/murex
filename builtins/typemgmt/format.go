@@ -3,9 +3,11 @@ package typemgmt
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/csv"
 	"regexp"
 	"strconv"
 	"strings"
@@ -15,6 +17,8 @@ func init() {
 	proc.GoFunctions["table"] = proc.GoFunction{Func: cmdTable, TypeIn: types.Generic, TypeOut: types.Csv}
 	proc.GoFunctions["format"] = proc.GoFunction{Func: cmdFormat, TypeIn: types.Generic, TypeOut: types.Generic}
 }
+
+const iDontKnow = "I don't know how to convert %s into %s."
 
 func cmdTable(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Csv)
@@ -56,20 +60,23 @@ func cmdFormat(p *proc.Process) (err error) {
 
 	switch dt {
 	case types.String, types.Generic:
-		return fStringGeneric(p, format)
+		return fStringGeneric(p, dt, format)
 	case types.Csv:
-		return fCsv(p, format)
+		return fCsv(p, dt, format)
+	case types.Json:
+		return fJson(p, dt, format)
 	}
 
-	return errors.New("I don't know how to convert this data")
+	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
 }
 
-func fStringGeneric(p *proc.Process, format string) (err error) {
+func fStringGeneric(p *proc.Process, dt, format string) error {
 	inSep, _ := p.Parameters.String(1)
 	outSep, _ := p.Parameters.String(2)
 
 	if inSep == "" {
-		inSep = `[\s][\s]+`
+		//inSep = `[\s][\s]+`
+		inSep = `\s+`
 	}
 
 	if outSep == "" {
@@ -77,7 +84,7 @@ func fStringGeneric(p *proc.Process, format string) (err error) {
 		outSep = iface.(string)
 	}
 
-	rxWhiteSpaceSplit, err := regexp.Compile(inSep)
+	rxSplit, err := regexp.Compile(inSep)
 	if err != nil {
 		return err
 	}
@@ -92,7 +99,7 @@ func fStringGeneric(p *proc.Process, format string) (err error) {
 		scanner := bufio.NewScanner(p.Stdin)
 		for scanner.Scan() {
 			s := scanner.Text()
-			split := rxWhiteSpaceSplit.Split(s, -1)
+			split := rxSplit.Split(s, -1)
 			if len(headings) == 0 {
 				headings = split
 			} else {
@@ -120,49 +127,65 @@ func fStringGeneric(p *proc.Process, format string) (err error) {
 		return err
 
 	case types.Csv:
+		parser, err := csv.NewParser(nil, &proc.GlobalConf)
+		if err != nil {
+			return err
+		}
+
 		scanner := bufio.NewScanner(p.Stdin)
 		for scanner.Scan() {
 			s := scanner.Text()
-			s = strings.Replace(s, `\`, `\\`, -1)
-			s = strings.Replace(s, `"`, `\"`, -1)
-			s = `"` + rxWhiteSpaceSplit.ReplaceAllString(s, `"`+outSep+`"`) + `"`
-			//s = rxWhiteSpaceSplit.ReplaceAllString(s, outSep)
-			p.Stdout.Writeln([]byte(s))
+			split := rxSplit.Split(s, -1)
+			b := parser.ArrayToCsv(split)
+			p.Stdout.Writeln(b)
 		}
 		if err := scanner.Err(); err != nil {
 			return err
 		}
-		return
+		return nil
 	}
 
-	return errors.New("I don't know how to convert this data")
+	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
 }
 
-func fCsv(p *proc.Process, format string) (err error) {
-	outSep, _ := p.Parameters.String(1)
-
-	if outSep == "" {
-		iface, _ := proc.GlobalConf.Get("shell", "Csv-Separator", types.String)
-		outSep = iface.(string)
-	}
-
+func fJson(p *proc.Process, dt, format string) error {
 	switch format {
-	case types.Json:
+	case types.Csv:
+		var a []string
+
+		p.Stdin.ReadArray(func(b []byte) {
+			a = append(a, string(b))
+		})
+
+		csvParser, err := csv.NewParser(nil, &proc.GlobalConf)
+		if err != nil {
+			return err
+		}
+
+		_, err = p.Stdout.Writeln(csvParser.ArrayToCsv(a))
+		return err
+
+	case types.String:
+		separator, _ := p.Parameters.String(1)
+
 		var (
 			a []string
 			s string
 		)
 
-		join := func(b []byte) {
+		p.Stdin.ReadArray(func(b []byte) {
 			a = append(a, string(b))
-		}
+		})
 
-		p.Stdin.ReadArray(join)
-		s = strings.Join(a, outSep)
+		s = strings.Join(a, separator)
 
-		_, err = p.Stdout.Writeln([]byte(s))
-		return
+		_, err := p.Stdout.Writeln([]byte(s))
+		return err
 	}
 
-	return errors.New("I don't know how to convert this data")
+	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
+}
+
+func fCsv(p *proc.Process, dt, format string) error {
+	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
 }

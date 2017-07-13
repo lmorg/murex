@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/csv"
 	"strconv"
 )
 
@@ -113,37 +114,29 @@ func array(p *proc.Process) (err error) {
 	case types.Csv:
 		p.Stdout.SetDataType(types.Csv)
 
-		match := make(map[string]bool)
+		match := make(map[string]int)
 		for i := range params {
-			match[params[i]] = true
+			match[params[i]] = i + 1
 		}
 
-		//v, _ := proc.GlobalConf.Get("shell", "Csv-Headings", types.Boolean)
-		//useHeadings := v.(bool)
-
-		v, _ := proc.GlobalConf.Get("shell", "Csv-Separator", types.String)
-		separator := v.(string)[:1]
-
-		var (
-			matched bool
-			count   int
-		)
+		csvParser, err := csv.NewParser(nil, &proc.GlobalConf)
+		if err != nil {
+			return err
+		}
+		records := make([]string, len(params)+1)
+		var matched bool
 
 		p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
-			count++
-			switch {
-			case match[key] /*|| match[strconv.Itoa(count)]*/ :
+			//fmt.Println("----->", key, value, last, match, match[key], records)
+			if match[key] != 0 /*|| match[strconv.Itoa(count)]*/ {
 				matched = true
-				if !last {
-					p.Stdout.Write([]byte(value + separator))
-				} else {
-					count = 0
-					p.Stdout.Writeln([]byte(value))
-				}
-			case last && matched:
-				count = 0
+				records[match[key]] = value
+			}
+
+			if last && matched {
+				p.Stdout.Writeln(csvParser.ArrayToCsv(records[1:]))
 				matched = false
-				p.Stdout.Writeln([]byte{})
+				records = make([]string, len(params)+1)
 			}
 		})
 

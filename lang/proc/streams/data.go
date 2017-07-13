@@ -118,30 +118,12 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 		fallthrough
 
 	case types.Csv:
-		/*r := csv.NewReader(read)
-		r.LazyQuotes = true
-		r.TrimLeadingSpace = false
-		//r.FieldsPerRecord = -1*/
-
-		csvParser := csv.NewParser(read)
-
-		v, err := config.Get("shell", "Csv-Separator", types.String)
+		csvParser, err := csv.NewParser(read, config)
 		if err != nil {
 			return err
 		}
-		if len(v.(string)) > 0 {
-			csvParser.Separator = v.(string)[0]
-		}
 
-		v, err = config.Get("shell", "Csv-Comment", types.String)
-		if err != nil {
-			return err
-		}
-		if len(v.(string)) > 0 {
-			csvParser.Comment = v.(string)[0]
-		}
-
-		v, err = config.Get("shell", "Csv-Headings", types.Boolean)
+		v, err := config.Get("shell", "Csv-Headings", types.Boolean)
 		if err != nil {
 			return err
 		}
@@ -163,7 +145,7 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 					return
 				}
 
-				l := len(fields) - 2
+				l := len(fields) - 1
 				for i := range fields {
 					if i < len(recHeadings) {
 						callback(recHeadings[i], strings.TrimSpace(fields[i]), i == l)
@@ -173,7 +155,7 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 				}
 
 			} else {
-				l := len(fields) - 2
+				l := len(fields) - 1
 				for i := range fields {
 					callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
 				}
