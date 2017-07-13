@@ -187,5 +187,30 @@ func fJson(p *proc.Process, dt, format string) error {
 }
 
 func fCsv(p *proc.Process, dt, format string) error {
+	switch format {
+	case types.Json:
+		csvParser, err := csv.NewParser(p.Stdin, &proc.GlobalConf)
+		if err != nil {
+			return err
+		}
+
+		var jObj []map[string]string
+		csvParser.ReadLine(func(records []string, headings []string) {
+			obj := make(map[string]string)
+			for i := range records {
+				obj[headings[i]] = records[i]
+			}
+			jObj = append(jObj, obj)
+		})
+
+		b, err := utils.JsonMarshal(jObj)
+		if err != nil {
+			return err
+		}
+
+		_, err = p.Stdout.Writeln(b)
+		return err
+	}
+
 	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
 }

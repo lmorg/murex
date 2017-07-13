@@ -123,7 +123,13 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 			return err
 		}
 
-		v, err := config.Get("shell", "Csv-Headings", types.Boolean)
+		err = csvParser.ReadLine(func(records []string, headings []string) {
+			for i := range records {
+				callback(headings[i], records[i], i == len(records)-1)
+			}
+		})
+
+		/*v, err := config.Get("shell", "Csv-Headings", types.Boolean)
 		if err != nil {
 			return err
 		}
@@ -160,7 +166,7 @@ func (read *Stdin) ReadMap(config *config.Config, callback func(key, value strin
 					callback(strconv.Itoa(i), strings.TrimSpace(fields[i]), i == l)
 				}
 			}
-		})
+		})*/
 
 		return err
 

@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -13,6 +14,7 @@ type Parser struct {
 	Separator byte
 	Quote     byte
 	Comment   byte
+	Headings  bool
 }
 
 func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err error) {
@@ -38,13 +40,21 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 	if len(v.(string)) > 0 {
 		parser.Comment = v.(string)[0]
 	}
+
+	v, err = config.Get("shell", "Csv-Headings", types.Boolean)
+	if err != nil {
+		return nil, err
+	}
+	parser.Headings = v.(bool)
 	return
 }
 
-func (csv *Parser) ReadLine(callback func([]string)) (err error) {
+func (csv *Parser) ReadLine(callback func(records []string, headings []string)) (err error) {
 	scanner := bufio.NewScanner(csv.reader)
-	for scanner.Scan() {
 
+	var headings []string
+
+	for scanner.Scan() {
 		var (
 			records     []string
 			current     []byte
@@ -112,7 +122,24 @@ func (csv *Parser) ReadLine(callback func([]string)) (err error) {
 			records = append(records, string(current))
 		}
 
-		callback(records)
+		if len(headings) == 0 {
+			if csv.Headings {
+				headings = records
+			} else {
+				for i := range records {
+					headings = append(headings, strconv.Itoa(i))
+				}
+			}
+			continue
+		}
+
+		if len(records) > len(headings) {
+			for i := len(headings); i < len(records); i++ {
+				headings = append(headings, strconv.Itoa(i))
+			}
+		}
+
+		callback(records, headings)
 	}
 
 	err = scanner.Err()
