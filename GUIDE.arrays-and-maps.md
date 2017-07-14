@@ -77,9 +77,9 @@ Unlike bash, _murex_ also supports some special ranges:
     a: [jan..dec]
     a: [janurary..december]
 
-It is also case aware. If the ranges are un uppercase then the return
-will be uppercase. If the ranges are title case (capital first letter)
-then the return will be in title case:
+It is also case aware. If the ranges are uppercase then the return will
+be uppercase. If the ranges are title case (capital first letter) then
+the return will be in title case:
 
     » a: [Monday..Sunday]
 

@@ -141,13 +141,18 @@ when compared to the latter:
     time { a: [1..999][0,2,4,6,8],10000 -> foreach i { $i } }
     time { for { i=10; i<10001; i=i+2 } { $i } }
 
-For more information about the `array` function see [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#The-array-builtin).
+For more information about the `array` function see [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#the-array-builtin).
 
-## foreach
+## foreach / formap
 
-(description to follow)
+These functions will loop though each element in an array (`foreach`) or
+map (`formap`)
 
-    fuction_with_listed_output -> foreach: variable { iteration }
+    listed_output -> foreach: var_name { iteration }
+    structured_output -> formap: var_key var_value { iteration }
+
+More detailed descriptions on working with structured data, including
+examples, can be found in [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#working-with-structured-data).
 
 ## while
 (description to follow)

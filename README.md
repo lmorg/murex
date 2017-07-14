@@ -89,28 +89,31 @@ Test the binary (requires Bash):
     test/regression_test.sh
 
 A Dockerfile is also included for your convenience. The file is located
-in test/docker and includes a [README.md](./test/docker/README.md) with
+in test/docker and includes a [README.md](test/docker/README.md) with
 more information.
 
 ## Language guides
 
 Please read the following guides:
 
-1. [GUIDE.syntax.md](./GUIDE.syntax.md) is recommended first as it gives
+1. [GUIDE.syntax.md](GUIDE.syntax.md) is recommended first as it gives
 an overview if the shell scripting languages syntax and data types.
 
-2. [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md)
+2. [GUIDE.variables-and-evaluation.md](GUIDE.variables-and-evaluation.md)
 describes how to define variables and how to use them.
 
-3. [GUIDE.control-structures.md](./GUIDE.control-structures.md) will
+3. [GUIDE.control-structures.md](GUIDE.control-structures.md) will
 list how to use if statements and iteration like for loops.
 
-4. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md) lists some
+4. [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md) demonstrates how
+to create arrays and return specific fields from an array or map.
+
+5. [GUIDE.builtin-functions.md](GUIDE.builtin-functions.md) lists some
 of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick
-Start Guide, [GUIDE.quick-start.md](./GUIDE.quick-start.md), to jump
-straight into using Murex.
+Start Guide, [GUIDE.quick-start.md](GUIDE.quick-start.md), to jump
+straight into using _murex_.
 
 ## Known bugs / TODO
 
