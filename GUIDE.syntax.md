@@ -1,138 +1,5 @@
 # Language Guide: Syntax
 
-## Processes
-
-There are 3 types of processes:
-
-1. Functions
-2. Methods
-3. External
-
-Like with all programming languages, methods are functions attached to a
-particular object.
-
-### Functions
-
-These are processes that only accept no originating stream data via STDIN
-
-### Methods
-
-These are processes that accept stream data via STDIN.
-
-### External
-
-These are external processes. They can be called in exactly the same way
-as functions or via `exec`
-
-## Types
-
-### Strong typing plus auto type conversion
-
-Because this is a shell language optimised for stream processing, all
-types are generally transparently re-casted on the fly, depending on
-their application. However there are a couple exceptions to this rule:
-
-* Methods are allowed based on their input and output types. This is by
-design to help catch developer errors chaining incompatible methods
-together. Eventually the REPL readline will use this type data to drive
-its autocomplete (again enhancing the developers experience).
-
-* `eval` and `let` functions evaluate the data type as well as the value.
-An example of strict typing in `eval` can be seen with these 2 blocks:
-
-```
-set a=1  # define 'a' as string
-let b=1  # define 'b' as number
-eval a+b # returns '11' as 'a' is string so values are concatenated
-```
-
-```
-let a=1  # define 'a' as number
-let b=1  # define 'b' as number
-eval a+b # returns '2' as both 'a' and 'b' are numbers
-```
-
-For more on the `set`, `let` and `eval` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
-
-### Supported types
-
-The types natively supported by this shell are:
-
-* Generic   (defined: *)
-* Null      (defined: null)
-* Die       (defined: die)
-* String    (defined: str)
-* Boolean   (defined: bool)
-* Number    (defined: num); this is the preferred type for numbers
-* Integer   (defined: int)
-* Float     (defined: float)
-* Code Block (defined: block)
-* JSON      (defined: json)
-* CSV       (defined: csv)
-
-Support for other mark ups such as XML and YAML will likely follow.
-However JSON will always be a first class citizen because it is the
-primary format for transmitting objects between methods (much like
-Javascript's relationship with JSON).
-
-#### Generic
-
-This is used by methods to state they can accept any data type or output
-any data type. Use of a `generic` input type can all define that a
-method call also operate as a function (ie with no STDIN).
-
-#### Null
-
-This states that no data expected. Use `null` input to define functions
-and/or `null` output to state the process doesn't write to STDOUT.
-
-#### Die
-
-If a `die` object is created it kills the shell.
-
-#### Boolean
-
-True or False. Generic input can be translated to boolean:
-
-* 0 == False, none zero numbers == True
-* "0" == False
-* "null" == False
-* "false" == False, "true" == True
-* "no" == False, "yes" == True
-* "off" == False, "on" == True
-* "fail" == False, "pass" == True
-* "failed" == False, "passed" == True
-* "" == False, all other strings == True
-
-Strings are not case sensitive when converted to boolean.
-
-#### Number
-
-This is the preferred (and default) method for storing numeric data. All
-numbers are stored as a floating point value (in fact `float` and `num`
-are one and the same data type internally).
-
-#### Integer
-
-As with normal programming languages, any number that doesn't have a
-decimal point.
-
-#### Float
-
-A number which does have a decimal point.
-
-This data type shouldn't ever be needed because its functionality is
-duplicated by the default numeric data type, number (`num`).
-
-#### Code Block
-
-A sub-shell. This is used to inline code. eg for loops. Blocks are
-encapsulated by curly brackets, `{}`.
-
-#### JSON
-
-A JSON object.
-
 ## Structure
 
 The following examples all produce the same output but demonstrate the
@@ -180,26 +47,16 @@ style one liners in a way that many more advanced scripting languages
 normally struggle. It also supports forking processes in PTYs while many
 scripting REPLs do not.
 
-### Functions
+### Processes
 
-Functions are called by name then parameters. The function name can be
+Processes are called by name then parameters. The process name can be
 separated by either a colon (:) and/or a white space character (\s, \t,
 \r, or \n). eg `out: "hello world"`.
 
-Function name can be quoted (eg `"out": "hello world"`) however this is
+Process names can be quoted (eg `"out": "hello world"`) however this is
 not necessary unless you are calling an external executable with white
 space characters or a colon. Additionally characters can be escaped in
-the function name (eg: `o\ut: "hello world"`).
-
-### Methods
-
-Methods are prefix by an ASCII arrow (->). eg `->match("world")`.
-
-Since methods require data input from the pipeline, you would use a
-method like so:
-```
-out: "hello world" -> match: "world"
-```
+the process name (eg: `o\ut: "hello world"`).
 
 ### Piping to external processes
 
@@ -259,7 +116,7 @@ As already discussed earlier in this document, there are 3 types of
 anonymous pipes:
 
 1. `|`: This works exactly the same as in Linux/UNIX and cmd.exe. It
-pipes STDOUT to the STDIN of an external process (eg grep). 
+pipes STDOUT to the STDIN of an external process (eg grep).
 
 2. `?`: This works similarly to the pipe (|) character except it pipes
 STDERR to the STDIN if ab external process.

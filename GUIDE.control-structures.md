@@ -2,7 +2,7 @@
 
 ## if
 
-`if` supports 2 "modes":
+`if` can be called in two different ways:
 
 1. Method If: `conditional -> if: { true } { false }`
 2. Function If: `if: { conditional } { true } { false }`
