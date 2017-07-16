@@ -207,7 +207,7 @@ func (write *Stdin) Close() {
 
 	if write.closed {
 		if write.isNamedPipe {
-			os.Stderr.WriteString("Error with murex named pipes: Trying to close and already closed named pipe." + utils.NewLineString)
+			os.Stderr.WriteString("Error with murex named pipes: Trying to close an already closed named pipe." + utils.NewLineString)
 			return
 		} else {
 			// This shouldn't happen because it then means we have lost track of the state of the streams.
