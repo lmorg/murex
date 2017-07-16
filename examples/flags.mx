@@ -1,0 +1,40 @@
+#!/usr/bin/env murex
+
+# First we define what parameters to accept:
+# (this will create a murex variable called $ARGS)
+args {
+    "AllowAdditional": true,
+    "Flags": {
+        "--str": "str",
+        "--num": "num",
+        "--bool": "bool"
+    }
+
+} -> catch {
+# Lets check for errors in the command line parameters:
+    $ARGS->[ Error ]
+    exit 1
+}
+
+out "The structure of \$ARGS is:\n$ARGS \n\n"
+
+
+# Some example usage:
+# -------------------
+
+# (`? null` suppresses error message, however the `?` operator must be prefixed by a space or tab character)
+!if { $ARGS->[ Flags ]->[ --bool ] ? null } {
+    out "Flag `--bool` was not set."
+}
+
+
+try {
+    $ARGS -> [ Flags ] -> [ --str ] -> set string
+    $ARGS -> [ Flags ] -> [ --num ] -> set number
+} -> catch {
+    out "Missing `--str` and/or `--num` flags."
+}
+
+$ARGS -> [ Additional ] -> foreach arg {
+    out "Additional argument (ie not assigned to a flag): `$arg`."
+}

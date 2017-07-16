@@ -24,9 +24,9 @@ func main() {
 		os.Exit(1)
 
 	case len(fSource) > 0:
-		for _, filename := range fSource {
-			execSource(diskSource(filename))
-		}
+		//for _, filename := range fSource {
+		execSource(diskSource(fSource[0]))
+		//}
 
 	default:
 		shell.Start()

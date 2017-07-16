@@ -19,6 +19,10 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 	var previous string
 	flags = make(map[string]string)
 
+	//for f := range args.Flags {
+	//	flags[f] = ""
+	//}
+
 	for i := range params {
 		switch {
 		case strings.HasPrefix(params[i], "-"):
@@ -39,7 +43,7 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 
 		default:
 			if !args.AllowAdditional {
-				return nil, nil, errors.New("Invalid parameters! Parameter found without a flag: " + previous)
+				return nil, nil, errors.New("Invalid parameters! Parameter found without a flag: " + params[i])
 			}
 			additional = append(additional, params[i])
 		}

@@ -141,7 +141,7 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 	}*/
 
 	default:
-		s, err := ConvertGoType(value, dataType)
+		s, err := ConvertGoType(value, String)
 		if err != nil {
 			return err
 		}

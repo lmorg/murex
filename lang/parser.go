@@ -333,7 +333,7 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			if len(nodes) > 0 {
 				nodes.Last().PipeErr = true
 			}*/
-			case last == ' ' || last == '\t' || last == '\n':
+			case last == ' ' || last == '\t':
 				node.PipeErr = true
 				appendNode()
 				node = astNode{}
