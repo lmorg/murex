@@ -95,7 +95,7 @@ might not otherwise sit on the same code pipeline.
         out: "pipe closed, exiting `fork`"
     }
 
-    # Lets send some data to our named pipe, then close.
+    # Lets send some data to our named pipe, then close it.
 
     a: <foobar> [1..1000]
     pipe: --close foobar
@@ -134,20 +134,6 @@ default behaviour. For example `out: hello world -> !match: world` would
 return no results as the `!match` anti-alias with look for strings that
 don't match "world". Some encoding / compression routines also have an
 anti-alias to decode or deflate their input.
-
-## Anonymous pipes
-
-As already discussed earlier in this document, there are 3 types of
-anonymous pipes:
-
-1. `|`: This works exactly the same as in Linux/UNIX and cmd.exe. It
-pipes STDOUT to the STDIN of an external process (eg grep).
-
-2. `?`: This works similarly to the pipe (|) character except it pipes
-STDERR to the STDIN if ab external process.
-
-3. `->`: This denotes the next process is a method, then pipes STDOUT to
-the STDIN of that method.
 
 ## End of chain semi-colons
 
