@@ -33,7 +33,7 @@ standard `if` / `else` block:
 However since the language is optimised for one liners, the idiomatic
 way of writing this code would be:
 
-    out foo\nbar -> match bar -> if { out "bar found" }
+    out: foo\nbar -> match: bar -> if { out: "bar found" }
 
 The syntax is designed to be fast for writing logic while also readable.
 Which positions it between Bash and many other scripting languages (for
@@ -72,8 +72,8 @@ tokens are interchangeable.
 Another important difference in piping is the way redirection is handled.
 In _murex_ you define redirection as the first parameter(s). For example
 
-    err <!out> "error message redirected to stdout"
-    out <err> "output redirected to stderr"
+    err: <!out> "error message redirected to stdout"
+    out: <err> "output redirected to stderr"
 
 The redirection must be the first parameter, surrounded by less than /
 greater than, and can only be alpha and numeric characters. The prefixed
@@ -90,7 +90,7 @@ might not otherwise sit on the same code pipeline.
     # then pipes that into a regexp matcher.
     # <foobar> will stay running until it is closed.
 
-    fork: {
+    fork {
         <foobar> -> regex: m/00$/
         out: "pipe closed, exiting `fork`"
     }
@@ -182,6 +182,8 @@ readable and maintainable multi-line scripts but also to be terse enough
 to write "golfed" one liners.
 
 One of the earlier code examples could be written like this:
-```
-out:foo\nbar->match:bar->if{out:bar found}
-```
+
+    out:foo\nbar|match:bar|if{out:bar found}
+
+...which is pretty ugly to say the least! It's not idiomatic to write
+code in this style...but it is possible should be "need" arise.
