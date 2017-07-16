@@ -1,29 +1,56 @@
 # Language Guide: _murex_ Type System
 
-_murex_ is a strictly typed shell with a few concessions for usability:
+Most of the time you will not need to worry about typing in_murex_ as
+the shell is designed around productivity as opposed to strictness
+despite generally being a strictly typed design. Examples of this are as
+follows:
 
 * Variables when outputted are automatically converted to strings
 
 * `eval` and `let` functions evaluate the data type as well as the value.
 An example of strict typing in `eval` can be seen with these 2 blocks:
 
-```
-set a=1  # define 'a' as string
-let b=1  # define 'b' as number
-eval a+b # returns '11' as 'a' is string so values are concatenated
-```
+    1. adding numbers:
 
-```
-let a=1  # define 'a' as number
-let b=1  # define 'b' as number
-eval a+b # returns '2' as both 'a' and 'b' are numbers
-```
+        ```
+        let a=1  # define 'a' as number
+        let b=1  # define 'b' as number
+        eval a+b # returns '2' as both 'a' and 'b' are numbers
+        ```
+
+    2. adding strings:
+
+        ```
+        set a=1  # define 'a' as string
+        let b=1  # define 'b' as number
+        eval a+b # returns '11' as 'a' is string so values are concatenated
+        ```
 
 For more on the `set`, `let` and `eval` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
 
-## Supported types
+* Data can be cast into other data types using the `cast` process:
 
-The types natively supported by this shell are:
+    echo "{ echo 'this is a string' }" -> cast block
+
+This is usually handy if you have some data that should be processed as
+a JSON or CSV (for example) but was pulled from a source that couldn't
+disclose a data type.
+
+# Data type auto-detection
+
+The following inbuilts autodetect data types using the following methods
+
+* `getfile` will look at the 'Content-Type' HTTP header
+
+* `text` will look at the file extension (ignoring the .gz suffix)
+
+# Supported types
+
+It's possible to name additional types and use them as you wish inside
+your own _murex_ scripts, however they will be processed by _murex_'s
+internals as a string.
+
+Below are the types natively supported by the shells internals:
 
 * Generic   (defined: *)
 * Null      (defined: null)

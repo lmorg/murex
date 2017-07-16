@@ -108,7 +108,11 @@ list how to use if statements and iteration like for loops.
 4. [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md) demonstrates how
 to create arrays and return specific fields from an array or map.
 
-5. [GUIDE.builtin-functions.md](GUIDE.builtin-functions.md) lists some
+5. [GUIDE-type-system.md](GUIDE-type-system.md) describes _murex_'s type
+system. Most of the time you will not need to worry about typing in
+_murex_ as the shell is designed around productivity.
+
+6. [GUIDE.builtin-functions.md](GUIDE.builtin-functions.md) lists some
 of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick

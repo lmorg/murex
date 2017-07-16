@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/csv"
@@ -71,17 +72,23 @@ func cmdFormat(p *proc.Process) (err error) {
 }
 
 func fStringGeneric(p *proc.Process, dt, format string) error {
-	inSep, _ := p.Parameters.String(1)
-	outSep, _ := p.Parameters.String(2)
+	flags, _, err := parameters.ParseFlags(p.Parameters.Params[1:], &parameters.Arguments{
+		AllowAdditional: false,
+		Flags: map[string]string{
+			"-is": types.String,
+			"-os": types.String,
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	inSep := flags["-is"]
+	outSep := flags["-os"]
 
 	if inSep == "" {
 		//inSep = `[\s][\s]+`
 		inSep = `\s+`
-	}
-
-	if outSep == "" {
-		iface, _ := proc.GlobalConf.Get("shell", "Csv-Separator", types.String)
-		outSep = iface.(string)
 	}
 
 	rxSplit, err := regexp.Compile(inSep)
@@ -130,6 +137,10 @@ func fStringGeneric(p *proc.Process, dt, format string) error {
 		parser, err := csv.NewParser(nil, &proc.GlobalConf)
 		if err != nil {
 			return err
+		}
+
+		if outSep != "" {
+			parser.Separator = outSep[0]
 		}
 
 		scanner := bufio.NewScanner(p.Stdin)
