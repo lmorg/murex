@@ -89,7 +89,8 @@ func cmdIf(p *proc.Process) (err error) {
 	if len(ifBlock) != 0 {
 		// --- IF ---
 		stdout := streams.NewStdin()
-		i, err := lang.ProcessNewBlock(ifBlock, nil, stdout, nil, types.Null)
+		stderr := new(streams.Null)
+		i, err := lang.ProcessNewBlock(ifBlock, nil, stdout, stderr, types.Null)
 		if err != nil {
 			return err
 		}

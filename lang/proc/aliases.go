@@ -11,7 +11,6 @@ type Aliases struct {
 }
 
 func NewAliases() (a Aliases) {
-	//a = new(Aliases)
 	a.aliases = make(map[string][]rune)
 	return
 }

@@ -2,21 +2,24 @@ package streams
 
 import (
 	"bufio"
+	"errors"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
 	"io"
+	"os"
 	"sync"
 )
 
 type Stdin struct {
-	mutex    sync.Mutex
-	buffer   []byte
-	closed   bool
-	bRead    uint64
-	bWritten uint64
-	isParent bool
-	dataType string
-	dtLock   sync.Mutex
+	mutex       sync.Mutex
+	buffer      []byte
+	closed      bool
+	bRead       uint64
+	bWritten    uint64
+	isParent    bool
+	isNamedPipe bool
+	dataType    string
+	dtLock      sync.Mutex
 }
 
 func NewStdin() (stdin *Stdin) {
@@ -35,11 +38,24 @@ func (rw *Stdin) MakeParent() {
 func (rw *Stdin) UnmakeParent() {
 	rw.mutex.Lock()
 	if !rw.isParent {
-		// Should be fine to panic because this runtime error is generated from block compilation.
-		panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
+		if rw.isNamedPipe {
+			os.Stderr.WriteString("Error with murex named pipes: Trying to unmake parent on a non-parent pipe." + utils.NewLineString)
+		} else {
+			// Should be fine to panic because this runtime error is generated from block compilation.
+			panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
+		}
 	}
 	rw.isParent = false
 
+	rw.mutex.Unlock()
+}
+
+// This is used for named pipes. Basically just used to relax the exception handling since we can make fewer guarantees
+// about the state of named pipes.
+func (rw *Stdin) MakePipe() {
+	rw.mutex.Lock()
+	rw.isParent = true
+	rw.isNamedPipe = true
 	rw.mutex.Unlock()
 }
 
@@ -59,7 +75,6 @@ func (read *Stdin) Read(p []byte) (i int, err error) {
 		read.mutex.Lock()
 
 		if len(read.buffer) == 0 && read.closed {
-			//read.mutex.Unlock()
 			return 0, io.EOF
 		}
 
@@ -84,7 +99,6 @@ func (read *Stdin) Read(p []byte) (i int, err error) {
 
 	read.bRead += uint64(i)
 
-	//read.mutex.Unlock()
 	return i, err
 }
 
@@ -130,9 +144,6 @@ func (read *Stdin) ReadLine(callback func([]byte)) {
 
 // Read everything and dump it into one byte slice.
 func (read *Stdin) ReadAll() (b []byte) {
-	//for !read.closed {
-	//	// Wait for interface to close.
-	//}
 	for {
 		read.mutex.Lock()
 		closed := read.closed
@@ -158,17 +169,20 @@ func (write *Stdin) Write(b []byte) (int, error) {
 	}
 
 	write.mutex.Lock()
+	defer write.mutex.Unlock()
 
 	if write.closed {
-		// This shouldn't happen because it then means we have lost track of the state of the streams.
-		// So we'll throw a panic to highlight our error early on and force better code.
-		panic("Writing to closed pipe.")
+		if write.isNamedPipe {
+			return 0, errors.New("Error with murex named pipes: Trying to write to a closed pipe.")
+		} else {
+			// This shouldn't happen because it then means we have lost track of the state of the streams.
+			// So we'll throw a panic to highlight our error early on and force better code.
+			panic("Writing to closed pipe.")
+		}
 	}
 
 	write.buffer = append(write.buffer, b...)
 	write.bWritten += uint64(len(b))
-
-	write.mutex.Unlock()
 
 	return len(b), nil
 }
@@ -192,13 +206,17 @@ func (write *Stdin) Close() {
 	}
 
 	if write.closed {
-		// This shouldn't happen because it then means we have lost track of the state of the streams.
-		// So we'll throw a panic to highlight our error early on and force better code.
-		panic("Trying to close an already closed stdin.")
+		if write.isNamedPipe {
+			os.Stderr.WriteString("Error with murex named pipes: Trying to close and already closed named pipe." + utils.NewLineString)
+			return
+		} else {
+			// This shouldn't happen because it then means we have lost track of the state of the streams.
+			// So we'll throw a panic to highlight our error early on and force better code.
+			panic("Trying to close an already closed stdin.")
+		}
 	}
 
 	write.closed = true
-	//close(write.getDT)
 }
 
 func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {

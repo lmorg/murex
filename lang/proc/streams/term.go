@@ -22,6 +22,7 @@ type term struct {
 
 func (t *term) MakeParent()                                              {}
 func (t *term) UnmakeParent()                                            {}
+func (t *term) MakePipe()                                                {}
 func (t *term) Read([]byte) (int, error)                                 { return 0, io.EOF }
 func (t *term) ReadLine(func([]byte))                                    {}
 func (t *term) ReadArray(func([]byte))                                   {}

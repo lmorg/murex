@@ -6,10 +6,18 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"os"
+	"regexp"
 	"strings"
 )
 
+var rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
+
 func createProcess(p *proc.Process, f proc.Flow) {
+	if rxNamedPipeStdinOnly.MatchString(p.Name) {
+		p.Parameters.SetPrepend(p.Name[1 : len(p.Name)-1])
+		p.Name = "<read-pipe>"
+	}
+
 	if p.Name[0] == '!' {
 		p.IsNot = true
 	}
@@ -36,6 +44,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 func executeProcess(p *proc.Process) {
 	debug.Json("Executing:", p)
 
+	parseRedirection(p)
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 
 	// Echo

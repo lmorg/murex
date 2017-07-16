@@ -1,7 +1,9 @@
 #!/usr/bin/env murex
 
 # First we define what parameters to accept:
-# (this will create a murex variable called $ARGS)
+# Pass the `args` function a JSON string (because JSON objects share the same braces as murex block, you can enter JSON
+# directly as unescaped values as parameters in murex).
+# `args` will then create a murex variable called $ARGS.
 args {
     "AllowAdditional": true,
     "Flags": {
@@ -9,7 +11,6 @@ args {
         "--num": "num",
         "--bool": "bool"
     }
-
 } -> catch {
 # Lets check for errors in the command line parameters:
     $ARGS->[ Error ]
@@ -22,13 +23,13 @@ out "The structure of \$ARGS is:\n$ARGS \n\n"
 # Some example usage:
 # -------------------
 
-# (`? null` suppresses error message, however the `?` operator must be prefixed by a space or tab character)
-!if { $ARGS->[ Flags ]->[ --bool ] ? null } {
+!if { $ARGS->[ Flags ]->[ --bool ] } {
     out "Flag `--bool` was not set."
 }
 
-
-try {
+# `<!null>` redirects the STDERR to a named pipe. In this instance it's the 'null' pipe so equivalent to 2>/dev/null
+# thus we are just suppressing any error messages.
+try <!null> {
     $ARGS -> [ Flags ] -> [ --str ] -> set string
     $ARGS -> [ Flags ] -> [ --num ] -> set number
 } -> catch {

@@ -12,6 +12,7 @@ import (
 type Io interface {
 	MakeParent()
 	UnmakeParent()
+	MakePipe()
 
 	Stats() (uint64, uint64)
 

@@ -37,10 +37,7 @@ func (in *stdin) Read(p []byte) (i int, err error) {
 	in.mutex.Lock()
 	defer in.mutex.Unlock()
 
-	//if !in.started {
-	//in.started = true
 	go read()
-	//}
 
 	if len(in.buffer) == 0 {
 		in.buffer = <-in.data
@@ -60,7 +57,7 @@ func (in *stdin) Read(p []byte) (i int, err error) {
 
 func read() {
 	p := make([]byte, BuffSize)
-	//for {
+
 	var in []byte
 
 	for {
@@ -78,5 +75,4 @@ func read() {
 	}
 
 	Stdin.data <- in
-	//}
 }

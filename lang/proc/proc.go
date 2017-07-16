@@ -43,4 +43,5 @@ var (
 	GoFunctions   map[string]GoFunction = make(map[string]GoFunction)
 	GlobalConf    config.Config         = config.NewConfiguration()
 	GlobalAliases Aliases               = NewAliases()
+	GlobalPipes   Named                 = NewNamed()
 )

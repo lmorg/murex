@@ -5,36 +5,35 @@
 The following examples all produce the same output but demonstrate the
 way the language is structured.
 
-```
-if: { echo: foo\nbar -> match: bar } {
-    echo: "bar found"
-} {
-    echo: "no bar found"
-}
-```
+standard `if` / `else` block:
 
-```
-echo: foo\nbar -> match: bar -> if {
-    echo: "bar found"
-}
-```
-
-```
-echo: foo\nbar -> foreach: line {
-    if: {echo: $line } {
+    if: { echo: foo\nbar -> match: bar } {
         echo: "bar found"
     } {
         echo: "no bar found"
     }
-}
-```
+
+
+`if` evaluation pulled from stdin:
+
+    echo: foo\nbar -> match: bar -> if {
+        echo: "bar found"
+    }
+
+`foreach` line check value:
+
+    echo: foo\nbar -> foreach: line {
+        if: { echo: $line } {
+            echo: "bar found"
+        } {
+            echo: "no bar found"
+        }
+    }
 
 However since the language is optimised for one liners, the idiomatic
 way of writing this code would be:
 
-```
-out foo\nbar -> match bar -> if { out "bar found" }
-```
+    out foo\nbar -> match bar -> if { out "bar found" }
 
 The syntax is designed to be fast for writing logic while also readable.
 Which positions it between Bash and many other scripting languages (for
@@ -58,24 +57,37 @@ not necessary unless you are calling an external executable with white
 space characters or a colon. Additionally characters can be escaped in
 the process name (eg: `o\ut: "hello world"`).
 
-### Piping to external processes
+### Piping
 
-To pass streams into external processes you can use pipes like you would
-in your standard shell. eg `out: "hello world" | grep: "world"`.
+To pass streams into processes you use pipes like you would in your
+standard shell. However _murex_ pipes are arrows, `->`, as I feel that
+improves readability as it represents the direction the data is flowing.
+However for compatibility reasons I do also support the standard pipe
+character eg `out: "hello world" | grep: "world"`.
 
-However where this shell differs from the likes of Bash is STDOUT and
-STDERR redirection. With this shell there are two pipe operators:
+While the idiomatic way to write _murex_ code would be using arrow pipes
+there isn't any danger in using the pipe character since those two
+tokens are interchangeable.
 
-* | == pipe STDOUT to next processes STDIN and STDERR to parents STDERR
-* ? == pipe STDERR to next processes STDIN and STDOUT to parents STDERR
-(essentially swapping the STDOUT and STDERR streams in that process)
+Another important difference in piping is the way redirection is handled.
+In _murex_ you define redirection as the first parameter(s). For example
 
-An example of error redirection:
-```
-exec: sh -c "echo hello world 1>&2" ? grep: "world"
-```
+    err <!out> "error message redirected to stdout"
+    out <err> "output redirected to stderr"
 
-Currently there is no method to merge STDOUT and STDERR streams.
+The redirection must be the first parameter, surrounded by less than /
+greater than, and can only be alpha and numeric characters. The prefixed
+exclamation mark denotes whether you are redirecting the stdin or stdout
+stream (stderr contains the `!`)
+
+The advantage of this method is that you can create more meaningful
+named pipes for tunneling information between concurrent processes that
+might not otherwise sit on the same code pipeline.
+
+    pipe --create foobar
+    out <foobar> "this is only a test"
+    pipe --close foobar
+    <foobar>
 
 ### Parameters
 
