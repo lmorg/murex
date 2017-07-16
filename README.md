@@ -18,27 +18,30 @@ a simple byte stream when compared to standard shells like Bash.
 
 ## Concise yet predictable
 
-However despite the amount of features added to shell, I have  tried to
-keep the amount of "magic" to a minimum and follow a pretty standard
-structure so the language is predictable and guessable. However there
-are times when a little magic goes a long way. For example you _murex_
-supports complex data objects from various formats including JSON and
-CSV files and you can query those nodes on them directly. eg
+Despite the amount of features added to shell, I have tried to keep the
+amount of "magic" to a minimum and follow a pretty standard structure so
+the language is predictable. However there are times when a little magic
+goes a long way. For example _murex_ supports complex data objects from
+various formats including JSON and CSV files and you can query their
+properties directly:
 
     text: file.csv -> [ $column_name ] # return specific columns in CSV file
     text: file.json -> [ $index ]      # return specific items from JSON
 
-The index function (`[`) alters it's matching depending on the piped
-data type and `text` sets the data type depending on the file extension.
-However sometimes you will want fewer guesswork, and on those occasions
-you can remove one layer of magic by casting the data type:
+The index process (`[`) alters its matching function depending on the
+piped data type and `text` sets the data type depending on the file
+extension.
+
+Sometimes you will want fewer guesswork or just the robustness a forced
+expected behavior. On those occasions you can remove one layer of magic
+by casting the data type:
 
     text: file.txt -> cast csv -> [ $column_name ]
     text: file.txt -> cast json -> [ $index ]
 
-This awareness of data structures is also utilised in `foreach` (cycle
-through each index in an array) and `formap` (key/value iteration against
-complex objects). See [GUIDE.control-structures.md](./GUIDE.control-structures.md)
+This awareness of data structures is also utilised in `foreach` (which
+will cycle through each index in an array) and `formap` (key/value
+iteration against complex objects). See [GUIDE.control-structures.md](./GUIDE.control-structures.md)
 for more details on these and other control structures.
 
 ## More robust scripts / shell one liners
