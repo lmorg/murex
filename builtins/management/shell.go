@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -16,6 +17,7 @@ import (
 func init() {
 	proc.GoFunctions["history"] = proc.GoFunction{Func: cmdHistory, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["args"] = proc.GoFunction{Func: cmdArgs, TypeIn: types.Null, TypeOut: types.Json}
+	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
 func cmdHistory(p *proc.Process) (err error) {
@@ -70,4 +72,15 @@ func cmdArgs(p *proc.Process) (err error) {
 
 	err = proc.GlobalVars.Set("ARGS", string(b), types.Json)
 	return err
+}
+
+func cmdFork(p *proc.Process) (err error) {
+	block, err := p.Parameters.Block(0)
+	if err != nil {
+		return err
+	}
+
+	go lang.ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stderr, "fork")
+
+	return
 }

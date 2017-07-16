@@ -84,10 +84,23 @@ The advantage of this method is that you can create more meaningful
 named pipes for tunneling information between concurrent processes that
 might not otherwise sit on the same code pipeline.
 
-    pipe --create foobar
-    out <foobar> "this is only a test"
-    pipe --close foobar
-    <foobar>
+    pipe: --create foobar
+
+    # Create background process that outputs from the named pipe,
+    # then pipes that into a regexp matcher.
+    # <foobar> will stay running until it is closed.
+
+    fork: {
+        <foobar> -> regex: m/00$/
+        out: "pipe closed, exiting `fork`"
+    }
+
+    # Lets send some data to our named pipe, then close.
+
+    a: <foobar> [1..1000]
+    pipe: --close foobar
+
+
 
 ### Parameters
 
