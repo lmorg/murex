@@ -13,6 +13,8 @@ import (
 var rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 
 func createProcess(p *proc.Process, f proc.Flow) {
+	parseRedirection(p)
+
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
 		p.Parameters.SetPrepend(p.Name[1 : len(p.Name)-1])
 		p.Name = "<read-pipe>"
@@ -44,7 +46,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 func executeProcess(p *proc.Process) {
 	debug.Json("Executing:", p)
 
-	parseRedirection(p)
+	//parseRedirection(p)
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 
 	// Echo
@@ -55,6 +57,39 @@ func executeProcess(p *proc.Process) {
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
 		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
+	}
+
+	switch p.NamedPipeOut {
+	case "":
+	case "err":
+		p.Stdout.SetDataType(types.Null)
+		p.Stdout.Close()
+		p.Stdout = p.Next.Stderr
+	case "out":
+		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
+	default:
+		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
+		if err == nil {
+			p.Stdout = pipe
+		} else {
+			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+		}
+	}
+
+	switch p.NamedPipeErr {
+	case "":
+	case "err":
+		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
+	case "out":
+		p.Stderr.Close()
+		p.Stderr = p.Next.Stdout
+	default:
+		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
+		if err == nil {
+			p.Stderr = pipe
+		} else {
+			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+		}
 	}
 
 	p.Stderr.SetDataType(types.String)

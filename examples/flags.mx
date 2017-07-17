@@ -12,7 +12,7 @@ args {
         "--bool": "bool"
     }
 } -> catch {
-# Lets check for errors in the command line parameters:
+# Lets check for errors in the command line parameters. If they exist then print the error and then exit.
     $ARGS->[ Error ]
     exit 1
 }
@@ -30,10 +30,16 @@ out "The structure of \$ARGS is:\n$ARGS \n\n"
 # `<!null>` redirects the STDERR to a named pipe. In this instance it's the 'null' pipe so equivalent to 2>/dev/null
 # thus we are just suppressing any error messages.
 try <!null> {
-    $ARGS -> [ Flags ] -> [ --str ] -> set string
-    $ARGS -> [ Flags ] -> [ --num ] -> set number
+    $ARGS -> [ Flags ] -> [ --str ] -> set fStr
+    $ARGS -> [ Flags ] -> [ --num ] -> set fNum
+
 } -> catch {
     out "Missing `--str` and/or `--num` flags."
+
+} -> !catch {
+    out "Defined Flags:"
+    out "  --str == $fStr"
+    out "  --num == $fNum"
 }
 
 $ARGS -> [ Additional ] -> foreach arg {

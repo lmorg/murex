@@ -100,7 +100,15 @@ might not otherwise sit on the same code pipeline.
     a: <foobar> [1..1000]
     pipe: --close foobar
 
+There is also a `null` device for forwarding output into a black hole.
 
+    try <!null> {
+        err "raise an error to fail `try`."
+    } -> catch {
+        out "An error was raised but the message was dumped into `null`."
+    }
+
+(the `null` device doesn't need to be created)
 
 ### Parameters
 

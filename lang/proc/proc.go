@@ -30,6 +30,8 @@ type Process struct {
 	HasTerminated      bool
 	WaitForTermination chan bool `json:"-"`
 	IsNot              bool
+	NamedPipeOut       string
+	NamedPipeErr       string
 }
 
 type GoFunction struct {

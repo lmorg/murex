@@ -18,10 +18,7 @@ func (p *Parameters) ParseFlags(args *Arguments) (flags map[string]string, addit
 func ParseFlags(params []string, args *Arguments) (flags map[string]string, additional []string, err error) {
 	var previous string
 	flags = make(map[string]string)
-
-	//for f := range args.Flags {
-	//	flags[f] = ""
-	//}
+	additional = make([]string, 0)
 
 	for i := range params {
 		switch {
