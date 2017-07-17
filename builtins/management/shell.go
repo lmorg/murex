@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"io"
+	"io/ioutil"
 	"os"
 )
 
@@ -18,6 +19,8 @@ func init() {
 	proc.GoFunctions["history"] = proc.GoFunction{Func: cmdHistory, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["args"] = proc.GoFunction{Func: cmdArgs, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 }
 
 func cmdHistory(p *proc.Process) (err error) {
@@ -83,4 +86,24 @@ func cmdFork(p *proc.Process) (err error) {
 	go lang.ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stderr, "fork")
 
 	return
+}
+
+func cmdSource(p *proc.Process) error {
+	filename, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+
+	b, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+
+	p.ExitNum, err = lang.ProcessNewBlock([]rune(string(b)), nil, p.Stdout, p.Stderr, "source")
+	return err
 }

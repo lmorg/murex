@@ -1,0 +1,8 @@
+# This is an example murex profile.
+#
+# This would normally be stored in your home directory and prefixed with a dot, but it can also be laoded via `source`:
+# » source examples/murex_profile
+
+alias ls { ls --color=auto }
+alias grep { grep --color=auto }
+
