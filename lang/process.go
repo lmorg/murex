@@ -68,6 +68,8 @@ func executeProcess(p *proc.Process) {
 	case "out":
 		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
+		p.Stdout.SetDataType(types.Null)
+		p.Stdout.Close()
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
 			p.Stdout = pipe
@@ -81,9 +83,12 @@ func executeProcess(p *proc.Process) {
 	case "err":
 		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
+		p.Stderr.SetDataType(types.String)
 		p.Stderr.Close()
 		p.Stderr = p.Next.Stdout
 	default:
+		p.Stderr.SetDataType(types.String)
+		p.Stderr.Close()
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
 			p.Stderr = pipe
