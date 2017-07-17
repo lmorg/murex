@@ -90,3 +90,11 @@ _murex_ this is another subshell process: `a: a[1..5]b`. As you can see,
 _murex_ also uses square brackets instead as well. There are a few other
 changes, read [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#the-array-builtin)
 for more on using the `array` builtin.
+
+## Back ticks
+
+In _murex_ back ticks do not spawn subshells. Back ticks are treated
+like a regular, printable, character. Their only "special" function is
+quoting strings in `eval`, eg:
+
+    if { eval: `quoted string`==variable } { out "do something" }

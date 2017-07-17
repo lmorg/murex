@@ -100,6 +100,8 @@ might not otherwise sit on the same code pipeline.
     a: <foobar> [1..1000]
     pipe: --close foobar
 
+(*PLEASE NOTE* that _murex_ named pipes are not file system FIFO objects)
+
 There is also a `null` device for forwarding output into a black hole.
 
     try <!null> {
@@ -109,6 +111,19 @@ There is also a `null` device for forwarding output into a black hole.
     }
 
 (the `null` device doesn't need to be created)
+
+You can also use named pipes for writing files:
+
+    pipe: --file log error.log
+    try <!log> {
+        err "Do something bad."
+    } -> catch {
+        out "An error was raised. See error.log for details."
+    }
+
+*PLEASE NOTE* that the <pipe> parameter cannot be populated by variables.
+This is a security design to protect against a $variable containing `<>`
+and causing unexpected behaviour.
 
 ### Parameters
 
@@ -169,11 +184,6 @@ curve of using this new shell. eg:
 echo hello world | grep world
 ```
 (which would work both in this shell and in Bash)
-
-## Back ticks
-
-Back ticks have no special function and thus are treated like a regular,
-printable, character.
 
 ## Code golfing
 
