@@ -9,14 +9,24 @@ _murex_ supports the `|` pipe just like Bash but the preferred pipe
 token in _murex_ the arrow, `->` (those two token are interchangeable).
 
 Redirection of stdout and stderr is very different in _murex_. There is
-no support for the `>` or `<` tokens,  instead you name the pipe as the
-first parameter:
+no support for the `2>` or `&1` tokens,  instead you name the pipe as
+the first parameter:
 
     err: <!out> "error message redirected to stdout"
     out: <err> "output redirected to stderr"
 
-You can also use named pipes this way too. See [GUIDE.syntax.md](GUIDE.syntax.md#piping)
+You can also use named pipes this way to join up parts of the script
+that otherwise wouldn't be part of the same pipeline. See [GUIDE.syntax.md](GUIDE.syntax.md#piping)
 for more details on named pipes.
+
+To redirect to a file you can use the `>` or `>>` functions. They work
+similarly to bash except that they are functions rather than tokens:
+
+    out: "message" ->> new-file.txt
+    out: "message" ->>> append-file.txt
+
+(these can be written as `-> >` / `-> >>` respectively since they are
+literally just inbuilt functions).
 
 ## Embeddable subshells
 
