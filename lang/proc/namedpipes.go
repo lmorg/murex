@@ -17,7 +17,7 @@ func NewNamed() (n Named) {
 	return
 }
 
-func (n *Named) Create(name string) error {
+func (n *Named) CreatePipe(name string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
@@ -27,6 +27,24 @@ func (n *Named) Create(name string) error {
 
 	n.pipes[name] = streams.NewStdin()
 	n.pipes[name].MakePipe()
+	return nil
+}
+
+func (n *Named) CreateFile(pipe string, filename string) error {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	if n.pipes[pipe] != nil {
+		return errors.New("Named pipe `" + pipe + "`already exists.")
+	}
+
+	file, err := streams.NewFile(filename)
+	if err != nil {
+		return err
+	}
+
+	n.pipes[pipe] = file
+	n.pipes[pipe].MakePipe()
 	return nil
 }
 

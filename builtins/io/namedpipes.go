@@ -3,7 +3,6 @@ package io
 import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"io"
 )
@@ -16,40 +15,30 @@ func init() {
 func cmdPipe(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	flags, args, err := p.Parameters.ParseFlags(&parameters.Arguments{
-		AllowAdditional: true,
-		Flags: map[string]string{
-			"--create": types.Boolean,
-			"--close":  types.Boolean,
-		},
-	})
-
+	flag, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	if flags["--create"] == types.TrueString && flags["--close"] == types.TrueString {
-		return errors.New("Cannot `--create` and `--close` in the same command.")
+	args := p.Parameters.StringArray()
+	if err != nil {
+		return err
 	}
+	if len(args) < 1 {
+		return errors.New("Not enough parameters!")
+	}
+	args = args[1:]
 
-	switch types.TrueString {
-	case flags["--create"]:
-		if len(args) == 0 {
-			return errors.New("Not enough parameters. Please include the name(s) of pipe(s) you wish to create.")
-		}
-
+	switch flag {
+	case "--create", "-c":
 		for i := range args {
-			err := proc.GlobalPipes.Create(args[i])
+			err := proc.GlobalPipes.CreatePipe(args[i])
 			if err != nil {
 				return err
 			}
 		}
 
-	case flags["--close"]:
-		if len(args) == 0 {
-			return errors.New("Not enough parameters. Please include the name(s) of pipe(s) you wish to close.")
-		}
-
+	case "--close", "-x":
 		for i := range args {
 			err := proc.GlobalPipes.Close(args[i])
 			if err != nil {
@@ -57,8 +46,14 @@ func cmdPipe(p *proc.Process) error {
 			}
 		}
 
+	case "--file", "-f":
+		err := proc.GlobalPipes.CreateFile(args[0], args[1])
+		if err != nil {
+			return err
+		}
+
 	default:
-		return errors.New("Not enough parameters. Please include either `--create` or `--close`.")
+		return errors.New("Invalid parameters. Please include either `--create` or `--close`.")
 	}
 
 	return nil
