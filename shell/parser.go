@@ -1,8 +1,6 @@
 package shell
 
 import (
-	"github.com/lmorg/murex/lang/proc"
-	"sort"
 	"strings"
 )
 
@@ -109,6 +107,21 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 				expectFunc = false
 				readFunc = false
 			}
+
+		/*case "-":
+		switch {
+		case escaped:
+			escaped = false
+			if readFunc {
+				funcName += `-`
+			}
+		case qSingle, qDouble:
+			if readFunc {
+				funcName += `-`
+			}
+		case !readFunc:
+
+		}*/
 
 		case '>':
 			loc = i
@@ -233,19 +246,12 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			s = strings.TrimSpace(string(line[loc:]))
 		}
 		retPos = len(s)
-		for name := range proc.GoFunctions {
-			if strings.HasPrefix(name, s) {
-				items = append(items, name[len(s):]+": ")
-			}
-		}
-		if len(items) == 0 {
-			items = []string{": "}
-		} else {
-			sort.Strings(items)
-		}
+		items = matchExes(s)
 
 	case bracket > 0:
 		items = append([]string{" } "})
+	case len(line) > loc && line[loc] == '-':
+		items = []string{"> "}
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
 	}
