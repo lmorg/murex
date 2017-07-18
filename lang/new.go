@@ -8,11 +8,15 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+var ShellExitNum int // for when running murex in interactive shell mode
+
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName string) (exitNum int, err error) {
 	grandParent := new(proc.Process)
 	grandParent.Name = gpName
-	//grandParent.MethodRef = gpName
 	grandParent.Parent = nil
+	if gpName == "shell" {
+		grandParent.ExitNum = ShellExitNum
+	}
 
 	if stdin != nil {
 		grandParent.Stdin = stdin

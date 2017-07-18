@@ -7,8 +7,9 @@ import (
 func defaults(config *Config) {
 	config.Define("shell", "Prompt", Properties{
 		Description: "Shell prompt",
-		Default:     "{ out: 'murex » ' }",
-		DataType:    types.CodeBlock,
+		//Default:     "{ exitnum->set: x; if { = x!=`0` } { set: prompt='\033[31m»\033[0m' } { set: prompt='\033[31m»\033[0m' }; out: murex $prompt }",
+		Default:  "{ out 'murex » ' }",
+		DataType: types.CodeBlock,
 	})
 
 	config.Define("shell", "Csv-Separator", Properties{

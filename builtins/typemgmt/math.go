@@ -12,6 +12,7 @@ import (
 
 func init() {
 	proc.GoFunctions["eval"] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["="] = proc.GoFunction{Func: cmdEval, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["let"] = proc.GoFunction{Func: cmdLet, TypeIn: types.Null, TypeOut: types.Null}
 }
 
