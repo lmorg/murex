@@ -12,13 +12,14 @@ type MurexCompleter struct{}
 
 func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var (
-		loc     int = -1
-		escaped bool
-		qSingle bool
-		qDouble bool
-		//bracket int
+		loc        int = -1
+		escaped    bool
+		qSingle    bool
+		qDouble    bool
+		bracket    int
 		expectFunc bool = true
 		readFunc   bool
+		funcName   string
 	)
 
 	for i := range line {
@@ -26,15 +27,48 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		case '#':
 			loc = i
 			switch {
-			case escaped, qSingle, qDouble:
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `#`
+				}
+				escaped = false
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += `#`
+				}
+				escaped = false
 			default:
 				return
+			}
+
+		case '\\':
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `\`
+				}
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += `\`
+				}
+			default:
+				escaped = true
 			}
 
 		case '\'':
 			loc = i
 			switch {
-			case escaped, qDouble:
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `'`
+				}
+			case qDouble:
+				if readFunc {
+					funcName += `'`
+				}
 			case qSingle:
 				qSingle = false
 			default:
@@ -44,32 +78,141 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		case '"':
 			loc = i
 			switch {
-			case escaped, qSingle:
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `"`
+				}
+			case qSingle:
+				if readFunc {
+					funcName += `"`
+				}
 			case qDouble:
 				qDouble = false
 			default:
 				qDouble = true
 			}
 
-		case ';', '|':
-			loc = i
-			switch {
-			case escaped, qSingle, qDouble:
-			default:
-				expectFunc = true
-			}
-
 		case ' ':
 			loc = i
 			switch {
-			case escaped, qSingle, qDouble:
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += ` `
+				}
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += ` `
+				}
 			case expectFunc && readFunc:
 				expectFunc = false
 				readFunc = false
 			}
 
+		case '>':
+			loc = i
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `>`
+				}
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += `>`
+				}
+			case i > 0 && line[i-1] == '-':
+				expectFunc = true
+
+			}
+
+		case ';', '|':
+			loc = i
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += string(line[i])
+				}
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += string(line[i])
+				}
+			default:
+				expectFunc = true
+			}
+
+		case '?':
+			loc = i
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `?`
+				}
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += `?`
+				}
+			case i > 0 && line[i-1] == ' ':
+				expectFunc = true
+			default:
+				if readFunc {
+					funcName += `?`
+				}
+			}
+
+		case '{':
+			loc = i
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `{`
+				}
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += `{`
+				}
+			default:
+				bracket++
+				expectFunc = true
+			}
+
+		case '}':
+			//loc = i
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += `}`
+				}
+			case escaped, qSingle, qDouble:
+				if readFunc {
+					funcName += `}`
+				}
+			default:
+				bracket--
+			}
+
+		case ':':
+			switch {
+			case escaped:
+				escaped = false
+			case qSingle, qDouble:
+				if readFunc {
+					funcName += `:`
+				}
+			}
+
 		default:
 			switch {
+			case escaped:
+				escaped = false
+				fallthrough
+			case readFunc:
+				funcName += string(line[i])
 			case expectFunc:
 				readFunc = true
 			}
@@ -85,7 +228,6 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 	case qDouble:
 		items = []string{"\""}
 	case expectFunc:
-		//fmt.Println(len(line), loc)
 		var s string
 		if loc < len(line) {
 			s = strings.TrimSpace(string(line[loc:]))
@@ -93,7 +235,7 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		retPos = len(s)
 		for name := range proc.GoFunctions {
 			if strings.HasPrefix(name, s) {
-				items = append(items, name[len(s):])
+				items = append(items, name[len(s):]+": ")
 			}
 		}
 		if len(items) == 0 {
@@ -101,6 +243,11 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		} else {
 			sort.Strings(items)
 		}
+
+	case bracket > 0:
+		items = append([]string{" } "})
+	default:
+		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
 	}
 
 	suggest = make([][]rune, len(items))
