@@ -1,9 +1,14 @@
 package shell
 
 import (
+	"encoding/json"
 	"github.com/lmorg/murex/lang/proc"
 	"os"
 )
+
+var ExesFlags map[string]string = make(map[string]string)
+
+type Flags []string
 
 func allExecutables() map[string]bool {
 	exes := make(map[string]bool)
@@ -23,4 +28,19 @@ func allExecutables() map[string]bool {
 	}
 
 	return exes
+}
+
+func exesParameters(exe string) (flags []string) {
+	if ExesFlags[exe] == "" {
+		return
+	}
+
+	//flags := make(Flags)
+	//err = json.Unmarshal([]byte(ExesFlags[exe]), &flags)
+	//if err != nil {
+	//	return
+	//}
+
+	json.Unmarshal([]byte(ExesFlags[exe]), &flags)
+	return
 }

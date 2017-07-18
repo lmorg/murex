@@ -227,6 +227,7 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			case readFunc:
 				funcName += string(line[i])
 			case expectFunc:
+				funcName = string(line[i])
 				readFunc = true
 			}
 		}
@@ -254,6 +255,7 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		items = []string{"> "}
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
+		items = append(items, exesParameters(funcName)...)
 	}
 
 	suggest = make([][]rune, len(items))

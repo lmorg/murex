@@ -1,0 +1,7 @@
+#!/usr/bin/env murex
+
+g: *.txt -> foreach: file {
+    out: "$file..."
+    $file -> sed: -r 's/\\..*//' -> set: cmd
+    text: $file -> setflags: $cmd
+}

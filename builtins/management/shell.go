@@ -21,6 +21,8 @@ func init() {
 	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["setflags"] = proc.GoFunction{Func: cmdSetFlags, TypeIn: types.Json, TypeOut: types.Null}
+	proc.GoFunctions["listflags"] = proc.GoFunction{Func: cmdListFlags, TypeIn: types.Null, TypeOut: types.Json}
 }
 
 func cmdHistory(p *proc.Process) (err error) {
@@ -106,4 +108,44 @@ func cmdSource(p *proc.Process) error {
 
 	p.ExitNum, err = lang.ProcessNewBlock([]rune(string(b)), nil, p.Stdout, p.Stderr, "source")
 	return err
+}
+
+func cmdSetFlags(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+	exe, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	var flags shell.Flags
+	if p.IsMethod {
+		p.Stdin.ReadArray(func(b []byte) {
+			flags = append(flags, string(b))
+		})
+	} else {
+		b, err := p.Parameters.Byte(1)
+		if err != nil {
+			return err
+		}
+		err = json.Unmarshal(b, &flags)
+		if err != nil {
+			return err
+		}
+	}
+
+	b, err := json.Marshal(flags)
+	if err != nil {
+		return err
+	}
+
+	shell.ExesFlags[exe] = string(b)
+	return nil
+}
+
+func cmdListFlags(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+	for name := range shell.ExesFlags {
+		p.Stdout.Writeln([]byte(name + ": " + shell.ExesFlags[name]))
+	}
+	return nil
 }
