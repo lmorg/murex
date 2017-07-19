@@ -108,21 +108,6 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 				readFunc = false
 			}
 
-		/*case "-":
-		switch {
-		case escaped:
-			escaped = false
-			if readFunc {
-				funcName += `-`
-			}
-		case qSingle, qDouble:
-			if readFunc {
-				funcName += `-`
-			}
-		case !readFunc:
-
-		}*/
-
 		case '>':
 			loc = i
 			switch {
@@ -213,6 +198,9 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			switch {
 			case escaped:
 				escaped = false
+				if readFunc {
+					funcName += `:`
+				}
 			case qSingle, qDouble:
 				if readFunc {
 					funcName += `:`
@@ -239,23 +227,43 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 	switch {
 	case qSingle:
 		items = []string{"'"}
+
 	case qDouble:
 		items = []string{"\""}
+
 	case expectFunc:
 		var s string
 		if loc < len(line) {
 			s = strings.TrimSpace(string(line[loc:]))
 		}
 		retPos = len(s)
-		items = matchExes(s)
+		switch {
+		case isLocal(s):
+			items = matchLocal(s)
+		default:
+			exes := allExecutables()
+			items = matchExes(s, &exes)
+		}
 
 	case bracket > 0:
 		items = append([]string{" } "})
+
 	case len(line) > loc && line[loc] == '-':
 		items = []string{"> "}
+
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
-		items = append(items, exesParameters(funcName)...)
+		switch funcName {
+		case "cd":
+			var s string
+			if loc < len(line) {
+				s = strings.TrimSpace(string(line[loc:]))
+			}
+			retPos = len(s)
+			items = append(matchDirs(s))
+		default:
+			items = append(items, getExeFlags(funcName)...)
+		}
 	}
 
 	suggest = make([][]rune, len(items))

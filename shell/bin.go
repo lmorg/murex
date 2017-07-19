@@ -30,7 +30,7 @@ func allExecutables() map[string]bool {
 	return exes
 }
 
-func exesParameters(exe string) (flags []string) {
+func getExeFlags(exe string) (flags []string) {
 	if ExesFlags[exe] == "" {
 		return
 	}

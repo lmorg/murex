@@ -15,6 +15,8 @@ import (
 func main() {
 	readFlags()
 
+	execProfile()
+
 	switch {
 	case fCommand != "":
 		execSource([]rune(fCommand))
@@ -93,4 +95,24 @@ func execSource(source []rune) {
 	if exitNum != 0 {
 		os.Exit(exitNum)
 	}
+}
+
+func execProfile() {
+	profile := shell.HomeDirectory + "/.murex_profile"
+
+	file, err := os.OpenFile(profile, os.O_RDONLY|os.O_CREATE, 0644)
+	if err != nil {
+		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		return
+	}
+
+	defer file.Close()
+
+	b, err := ioutil.ReadAll(file)
+	if err != nil {
+		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		return
+	}
+
+	lang.ProcessNewBlock([]rune(string(b)), nil, nil, nil, "source")
 }
