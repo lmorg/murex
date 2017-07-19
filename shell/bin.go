@@ -32,7 +32,7 @@ func allExecutables() map[string]bool {
 	return exes
 }
 
-func getExeFlags(exe string) (flags []string) {
+func matchFlags(partial, exe string) (items []string) {
 	if ExesFlags[exe] == "" {
 		return
 	}
@@ -43,11 +43,23 @@ func getExeFlags(exe string) (flags []string) {
 	//	return
 	//}
 
+	var flags []string
 	json.Unmarshal([]byte(ExesFlags[exe]), &flags)
+
+	for i := range flags {
+		flag := strings.TrimSpace(flags[i])
+		if flag == "" {
+			continue
+		}
+		if strings.HasPrefix(flag, partial) {
+			items = append(items, flag[len(partial):])
+		}
+	}
+	sort.Strings(items)
 	return
 }
 
-func getVars(partial string) (items []string) {
+func matchVars(partial string) (items []string) {
 	vars := proc.GlobalVars.DumpMap()
 
 	envVars := os.Environ()

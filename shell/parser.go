@@ -118,20 +118,18 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			}
 
 		case '>':
-			loc = i
 			switch {
+			case i > 0 && line[i-1] == '-':
+				loc = i
+				expectFunc = true
+			case expectFunc, readFunc:
+				readFunc = true
+				funcName += `>`
+				fallthrough
 			case escaped:
 				escaped = false
-				if readFunc {
-					funcName += `>`
-				}
-			case qSingle, qDouble:
-				if readFunc {
-					funcName += `>`
-				}
-			case i > 0 && line[i-1] == '-':
-				expectFunc = true
-
+			default:
+				loc = i
 			}
 
 		case ';', '|':
@@ -257,7 +255,7 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		}
 		s = variable + s
 		retPos = len(s)
-		items = getVars(s)
+		items = matchVars(s)
 
 	case qSingle:
 		items = []string{"'"}
@@ -282,28 +280,40 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 	case bracket > 0:
 		items = []string{" } "}
 
-	case len(line) > loc && line[loc] == '-':
-		items = []string{"> "}
+	//case len(line) > loc && line[loc] == '-':
+	//	items = []string{"> "}
 
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
 		switch funcName {
-		case "cd":
+		case "cd", "mkdir", "rmdir":
 			var s string
 			if loc < len(line) {
 				s = strings.TrimSpace(string(line[loc:]))
 			}
 			retPos = len(s)
-			items = append(matchDirs(s))
+			items = matchDirs(s)
+		//case "vi", "vim", "cat", "zcat", "text", "open":
 		default:
-			items = append(items, getExeFlags(funcName)...)
+			var s string
+			if loc < len(line) {
+				s = strings.TrimSpace(string(line[loc:]))
+			}
+			retPos = len(s)
+
+			items = matchFlags(s, funcName)
+			items = append(items, matchFileAndDirs(s)...)
 		}
 	}
 
-	suggest = make([][]rune, len(items))
-	for i := range items {
-		suggest[i] = []rune(items[i])
+	maxItems := 30
+	if len(items) < maxItems {
+		maxItems = len(items)
 	}
 
+	suggest = make([][]rune, len(items[:maxItems]))
+	for i := range items[:maxItems] {
+		suggest[i] = []rune(items[i])
+	}
 	return
 }

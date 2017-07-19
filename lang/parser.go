@@ -136,6 +136,8 @@ func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			switch {
 			case braceCount > 0:
 				pUpdate(r)
+			case quoteSingle:
+				pUpdate(r)
 			case escaped:
 				pUpdate(r)
 				escaped = false

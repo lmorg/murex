@@ -42,13 +42,16 @@ func listExes(path string, exes *map[string]bool) {
 func matchExes(s string, exes *map[string]bool) (items []string) {
 	for name := range *exes {
 		if strings.HasPrefix(name, s) {
-			items = append(items, name[len(s):])
+			switch name {
+			case ">", ">>", "[":
+				items = append(items, name[len(s):]+" ")
+			case "<read-pipe>":
+			default:
+				items = append(items, name[len(s):]+": ")
+			}
 		}
 	}
 	sort.Strings(items)
-	for i := range items {
-		items[i] += ": "
-	}
 	return
 }
 
@@ -56,26 +59,31 @@ func isLocal(s string) bool {
 	return strings.HasPrefix(s, "./") || strings.HasPrefix(s, "/")
 }
 
-func partialPath(loc string) (path, partial string) {
-	split := strings.Split(loc, "/")
+func partialPath(s string) (path, partial string) {
+	split := strings.Split(s, "/")
 	path = strings.Join(split[:len(split)-1], "/")
 	partial = split[len(split)-1]
+
+	if len(s) > 0 && s[0] == '/' {
+		path = "/" + path
+	}
+
 	if path == "" {
 		path = "."
 	}
 	return
 }
 
-func matchLocal(loc string) (items []string) {
-	path, file := partialPath(loc)
+func matchLocal(s string) (items []string) {
+	path, file := partialPath(s)
 	exes := make(map[string]bool)
 	listExes(path, &exes)
 	items = matchExes(file, &exes)
 	return
 }
 
-func matchDirs(loc string) (items []string) {
-	path, partial := partialPath(loc)
+func matchDirs(s string) (items []string) {
+	path, partial := partialPath(s)
 
 	dirs := []string{"../"}
 	files, _ := ioutil.ReadDir(path)
@@ -88,6 +96,27 @@ func matchDirs(loc string) (items []string) {
 	for i := range dirs {
 		if strings.HasPrefix(dirs[i], partial) {
 			items = append(items, dirs[i][len(partial):])
+		}
+	}
+	return
+}
+
+func matchFileAndDirs(loc string) (items []string) {
+	path, partial := partialPath(loc)
+
+	item := []string{"../"}
+	files, _ := ioutil.ReadDir(path)
+	for _, f := range files {
+		if f.IsDir() {
+			item = append(item, f.Name()+"/")
+		} else {
+			item = append(item, f.Name())
+		}
+	}
+
+	for i := range item {
+		if strings.HasPrefix(item[i], partial) {
+			items = append(items, item[i][len(partial):])
 		}
 	}
 	return

@@ -12,7 +12,9 @@ import (
 func init() {
 	proc.GoFunctions["globals"] = proc.GoFunction{Func: cmdGlobals, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["set"] = proc.GoFunction{Func: cmdSet, TypeIn: types.Generic, TypeOut: types.Null}
+	proc.GoFunctions["!set"] = proc.GoFunction{Func: cmdUnset, TypeIn: types.Generic, TypeOut: types.Null}
 	proc.GoFunctions["export"] = proc.GoFunction{Func: cmdExport, TypeIn: types.Generic, TypeOut: types.Null}
+	proc.GoFunctions["!export"] = proc.GoFunction{Func: cmdUnexport, TypeIn: types.Generic, TypeOut: types.Null}
 }
 
 func cmdGlobals(p *proc.Process) error {
@@ -64,6 +66,22 @@ func cmdSet(p *proc.Process) error {
 	return proc.GlobalVars.Set(match[0][1], match[0][2], types.String)
 }
 
+func cmdUnset(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing variable name.")
+	}
+
+	varName, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	proc.GlobalVars.Unset(varName)
+	return nil
+}
+
 func cmdExport(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
@@ -89,4 +107,20 @@ func cmdExport(p *proc.Process) error {
 	// Set env as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
 	return os.Setenv(match[0][1], match[0][2])
+}
+
+func cmdUnexport(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing variable name.")
+	}
+
+	varName, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	err = os.Unsetenv(varName)
+	return err
 }

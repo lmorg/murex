@@ -42,13 +42,16 @@ func matchExes(s string, exes *map[string]bool) (items []string) {
 	for name := range *exes {
 		lc := strings.ToLower(s)
 		if strings.HasPrefix(strings.ToLower(name), lc) {
-			items = append(items, name[len(s):])
+			switch name {
+			case ">", ">>", "[":
+				items = append(items, name[len(s):]+" ")
+			case "<read-pipe>":
+			default:
+				items = append(items, name[len(s):]+": ")
+			}
 		}
 	}
 	sort.Strings(items)
-	for i := range items {
-		items[i] += ": "
-	}
 	return
 }
 
@@ -68,6 +71,10 @@ func matchDirs(path string, dirs []string) (items []string) {
 		}
 	}
 	return*/
+	return []string{"[TODO: write me]"}
+}
+
+func matchFiles(path string, dirs []string) (items []string) {
 	return []string{"[TODO: write me]"}
 }
 
