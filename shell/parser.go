@@ -1,12 +1,16 @@
 package shell
 
 import (
+	"regexp"
 	"strings"
 )
 
-var murexCompleter *MurexCompleter = new(MurexCompleter)
-
 type MurexCompleter struct{}
+
+var (
+	murexCompleter    *MurexCompleter = new(MurexCompleter)
+	rxAllowedVarChars *regexp.Regexp  = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
+)
 
 func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var (
@@ -18,9 +22,14 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		expectFunc bool = true
 		readFunc   bool
 		funcName   string
+		variable   string
 	)
 
 	for i := range line {
+		if variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
+			variable = ""
+		}
+
 		switch line[i] {
 		case '#':
 			loc = i
@@ -194,6 +203,22 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 				bracket--
 			}
 
+		case '$', '@':
+			loc = i
+			switch {
+			case escaped:
+				escaped = false
+				if readFunc {
+					funcName += string(line[i])
+				}
+			case qSingle:
+				if readFunc {
+					funcName += string(line[i])
+				}
+			default:
+				variable = string(line[i])
+			}
+
 		case ':':
 			switch {
 			case escaped:
@@ -225,6 +250,15 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 	var items []string
 
 	switch {
+	case variable != "":
+		var s string
+		if loc < len(line) {
+			s = strings.TrimSpace(string(line[loc:]))
+		}
+		s = variable + s
+		retPos = len(s)
+		items = getVars(s)
+
 	case qSingle:
 		items = []string{"'"}
 
@@ -246,7 +280,7 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		}
 
 	case bracket > 0:
-		items = append([]string{" } "})
+		items = []string{" } "}
 
 	case len(line) > loc && line[loc] == '-':
 		items = []string{"> "}
