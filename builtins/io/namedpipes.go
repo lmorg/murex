@@ -21,9 +21,6 @@ func cmdPipe(p *proc.Process) error {
 	}
 
 	args := p.Parameters.StringArray()
-	if err != nil {
-		return err
-	}
 	if len(args) < 1 {
 		return errors.New("Not enough parameters!")
 	}
@@ -47,13 +44,37 @@ func cmdPipe(p *proc.Process) error {
 		}
 
 	case "--file", "-f":
+		if len(args) < 2 {
+			return errors.New("Not enough parameters!")
+		}
+
 		err := proc.GlobalPipes.CreateFile(args[0], args[1])
 		if err != nil {
 			return err
 		}
 
+	case "--udp-dial":
+		if len(args) < 2 {
+			return errors.New("Not enough parameters!")
+		}
+
+		err := proc.GlobalPipes.CreateNetDialer(args[0], "udp", args[1])
+		if err != nil {
+			return err
+		}
+
+	case "--tcp-dial":
+		if len(args) < 2 {
+			return errors.New("Not enough parameters!")
+		}
+
+		err := proc.GlobalPipes.CreateNetDialer(args[0], "tcp", args[1])
+		if err != nil {
+			return err
+		}
+
 	default:
-		return errors.New("Invalid parameters. Please include either `--create` or `--close`.")
+		return errors.New("Invalid parameters.")
 	}
 
 	return nil

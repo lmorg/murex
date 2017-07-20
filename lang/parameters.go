@@ -5,6 +5,8 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
+	"os"
 )
 
 func parseParameters(p *parameters.Parameters, vars *types.Vars) {
@@ -37,7 +39,10 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				stdout := streams.NewStdin()
 				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
 				stdout.Close()
-				b := stdout.ReadAll()
+				b, err := stdout.ReadAll()
+				if err != nil {
+					os.Stderr.WriteString(err.Error() + utils.NewLineString)
+				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {
 					b = b[:len(b)-1]

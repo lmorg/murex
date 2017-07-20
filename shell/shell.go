@@ -38,18 +38,19 @@ func Start() {
 		out := streams.NewStdin()
 		exitNum, err := lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
 		out.Close()
-		b := out.ReadAll()
-		if exitNum != 0 || err != nil {
+
+		b, err2 := out.ReadAll()
+		if len(b) > 1 && b[len(b)-1] == '\n' {
+			b = b[:len(b)-1]
+		}
+
+		if len(b) > 1 && b[len(b)-1] == '\r' {
+			b = b[:len(b)-1]
+		}
+
+		if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
 			os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
 			b = []byte("murex » ")
-		}
-
-		if b[len(b)-1] == '\n' {
-			b = b[:len(b)-1]
-		}
-
-		if b[len(b)-1] == '\r' {
-			b = b[:len(b)-1]
 		}
 
 		Instance.SetPrompt(string(b))

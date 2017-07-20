@@ -21,11 +21,10 @@ type Io interface {
 	DefaultDataType(bool)
 
 	Read([]byte) (int, error)
-	//ReaderFunc(callback func([]byte))
-	ReadLine(callback func([]byte))
-	ReadArray(callback func([]byte))
+	ReadLine(callback func([]byte)) error
+	ReadArray(callback func([]byte)) error
 	ReadMap(*config.Config, func(string, string, bool)) error
-	ReadAll() []byte
+	ReadAll() ([]byte, error)
 
 	Write([]byte) (int, error)
 	Writeln([]byte) (int, error)

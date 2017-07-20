@@ -20,6 +20,11 @@ autocomplete set autocomplete {
     "Flags"  : [ "get", "set" ]
 }
 
+autocomplete set pipe {
+    "NoFiles": true,
+    "Flags"  : [ "--create", "-c", "--close", "-x", "--file", "-f", "--udp-dial", "--tcp-dial" ]
+}
+
 autocomplete set dd {
     "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
 }

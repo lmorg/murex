@@ -14,9 +14,11 @@ type Named struct {
 }
 
 const (
-	npStream = 1 + iota
+	npNull = 1 + iota
+	npStream
 	npFile
-	npNull
+	npNetDialer
+	npNetListener
 )
 
 func NewNamed() (n Named) {
@@ -61,6 +63,25 @@ func (n *Named) CreateFile(pipename string, filename string) error {
 	return nil
 }
 
+func (n *Named) CreateNetDialer(pipename, protocol, address string) error {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	if n.pipes[pipename] != nil {
+		return errors.New("Named pipe `" + pipename + "`already exists.")
+	}
+
+	file, err := streams.NewNetDialer(protocol, address)
+	if err != nil {
+		return err
+	}
+
+	n.pipes[pipename] = file
+	n.pipes[pipename].MakePipe()
+	n.types[pipename] = npNetDialer
+	return nil
+}
+
 func (n *Named) Close(name string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -77,16 +98,13 @@ func (n *Named) Close(name string) error {
 	n.pipes[name].Close()
 
 	switch n.types[name] {
-	case npStream:
+	case npStream, npNetDialer, npNetListener:
 		go func() {
 			time.Sleep(10 * time.Second)
 			delete(n.pipes, name)
 			delete(n.types, name)
 		}()
-	case npNull:
-		delete(n.pipes, name)
-		delete(n.types, name)
-	case npFile:
+	case npNull, npFile:
 		delete(n.pipes, name)
 		delete(n.types, name)
 	default:

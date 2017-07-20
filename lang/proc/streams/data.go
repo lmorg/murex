@@ -12,51 +12,18 @@ import (
 	"strings"
 )
 
-func (in *Stdin) GetDataType() (dt string) {
-	for {
-		in.dtLock.Lock()
-		dt = in.dataType
-		in.dtLock.Unlock()
-		if dt != "" {
-			return
-		}
-	}
-}
-
-func (in *Stdin) SetDataType(dt string) {
-	in.dtLock.Lock()
-	in.dataType = dt
-	in.dtLock.Unlock()
-	return
-}
-
-func (in *Stdin) DefaultDataType(err bool) {
-	return
-	in.dtLock.Lock()
-	dt := in.dataType
-	in.dtLock.Unlock()
-
-	if dt == "" {
-		if err {
-			in.dtLock.Lock()
-			in.dataType = types.Null
-			in.dtLock.Unlock()
-		} else {
-			in.dtLock.Lock()
-			in.dataType = types.Generic
-			in.dtLock.Unlock()
-		}
-	}
-}
-
 // Stream arrays regardless of data type.
-func (read *Stdin) ReadArray(callback func([]byte)) {
+func readArray(read Io, callback func([]byte)) error {
 	dt := read.GetDataType()
 	switch dt {
 	case types.Json:
-		b := read.ReadAll()
+		b, err := read.ReadAll()
+		if err != nil {
+			return err
+		}
+
 		j := make([]interface{}, 0)
-		err := json.Unmarshal(b, &j)
+		err = json.Unmarshal(b, &j)
 		if err == nil {
 			for i := range j {
 				switch j[i].(type) {
@@ -64,7 +31,10 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 					callback(bytes.TrimSpace([]byte(j[i].(string))))
 
 				default:
-					jBytes, _ := utils.JsonMarshal(j[i])
+					jBytes, err := utils.JsonMarshal(j[i])
+					if err != nil {
+						return err
+					}
 					callback(jBytes)
 				}
 			}
@@ -76,23 +46,29 @@ func (read *Stdin) ReadArray(callback func([]byte)) {
 		for scanner.Scan() {
 			callback(bytes.TrimSpace(scanner.Bytes()))
 		}
+
+		if err := scanner.Err(); err != nil {
+			return err
+		}
 	}
 
-	return
+	return nil
 }
 
-func (read *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read Io, config *config.Config, callback func(key, value string, last bool)) error {
 	dt := read.GetDataType()
 	switch dt {
 	case types.Json:
-		b := read.ReadAll()
+		b, err := read.ReadAll()
+		if err != nil {
+			return err
+		}
 
 		var jObj interface{}
-		err := json.Unmarshal(b, &jObj)
+		err = json.Unmarshal(b, &jObj)
 		if err == nil {
 
 			switch jObj.(type) {
-
 			case map[string]interface{}:
 				i := 1
 				for key := range jObj.(map[string]interface{}) {

@@ -19,10 +19,10 @@ type File struct {
 
 // These are null because file devices are write only
 func (f *File) Read([]byte) (int, error)                                 { return 0, io.EOF }
-func (f *File) ReadLine(func([]byte))                                    {}
-func (f *File) ReadArray(func([]byte))                                   {}
+func (f *File) ReadLine(func([]byte)) error                              { return nil }
+func (f *File) ReadArray(func([]byte)) error                             { return nil }
 func (f *File) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
-func (f *File) ReadAll() []byte                                          { return []byte{} }
+func (f *File) ReadAll() ([]byte, error)                                 { return []byte{}, nil }
 func (f *File) WriteTo(io.Writer) (int64, error)                         { return 0, io.EOF }
 func (f *File) GetDataType() string                                      { return types.Null }
 func (f *File) SetDataType(string)                                       {}

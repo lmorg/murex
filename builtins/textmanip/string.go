@@ -164,7 +164,11 @@ func cmdPrepend(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	prepend := p.Parameters.ByteAll()
-	_, err = p.Stdout.Write(append(prepend, p.Stdin.ReadAll()...))
+	b, err := p.Stdin.ReadAll()
+	if err != nil {
+		return err
+	}
+	_, err = p.Stdout.Write(append(prepend, b...))
 
 	return
 }
@@ -173,11 +177,15 @@ func cmdAppend(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	b := p.Parameters.ByteAll()
-	text := p.Stdin.ReadAll()
-	if text[len(text)-1] == '\n' {
+	text, err := p.Stdin.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	if len(text) > 1 && text[len(text)-1] == '\n' {
 		text = text[:len(text)-1]
 	}
-	if text[len(text)-1] == '\r' {
+	if len(text) > 1 && text[len(text)-1] == '\r' {
 		text = text[:len(text)-1]
 	}
 	_, err = p.Stdout.Write(append(text, b...))
@@ -185,12 +193,20 @@ func cmdAppend(p *proc.Process) (err error) {
 	return
 }
 
-func cmdPretty(p *proc.Process) (err error) {
+func cmdPretty(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	var prettyJSON bytes.Buffer
-	err = json.Indent(&prettyJSON, p.Stdin.ReadAll(), "", "\t")
-	p.Stdout.Write(prettyJSON.Bytes())
+	b, err := p.Stdin.ReadAll()
+	if err != nil {
+		return err
+	}
 
-	return
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, b, "", "\t")
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(prettyJSON.Bytes())
+	return err
 }

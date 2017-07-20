@@ -54,7 +54,11 @@ func cmdFor(p *proc.Process) (err error) {
 			return err
 		}
 
-		if !types.IsTrue(stdout.ReadAll(), i) {
+		b, err := stdout.ReadAll()
+		if err != nil {
+			return err
+		}
+		if !types.IsTrue(b, i) {
 			return nil
 		}
 
@@ -70,7 +74,6 @@ func cmdFor(p *proc.Process) (err error) {
 }
 
 func cmdForEach(p *proc.Process) (err error) {
-	//p.Stdout.SetDataType(types.Generic)
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -174,7 +177,10 @@ func cmdWhile(p *proc.Process) error {
 			if err != nil {
 				return err
 			}
-			b := stdout.ReadAll()
+			b, err := stdout.ReadAll()
+			if err != nil {
+				return err
+			}
 
 			_, err = p.Stdout.Write(b)
 			if err != nil {
@@ -209,7 +215,10 @@ func cmdWhile(p *proc.Process) error {
 			if err != nil {
 				return err
 			}
-			b := stdout.ReadAll()
+			b, err := stdout.ReadAll()
+			if err != nil {
+				return err
+			}
 			conditional := types.IsTrue(b, i)
 
 			if (!p.IsNot && !conditional) ||

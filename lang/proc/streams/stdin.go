@@ -3,7 +3,9 @@ package streams
 import (
 	"bufio"
 	"errors"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
@@ -129,21 +131,21 @@ func (read *Stdin) ReaderFunc(callback func([]byte)) {
 
 // Should be more performant than ReadLine() because it's uses callback functions (ie does not need to be stateless) so
 // we don't need to keep pushing stuff back to the interfaces buffer.
-func (read *Stdin) ReadLine(callback func([]byte)) {
+func (read *Stdin) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
 
 	if err := scanner.Err(); err != nil {
-		panic("ReadLine: " + err.Error())
+		return err
 	}
 
-	return
+	return nil
 }
 
 // Read everything and dump it into one byte slice.
-func (read *Stdin) ReadAll() (b []byte) {
+func (read *Stdin) ReadAll() ([]byte, error) {
 	for {
 		read.mutex.Lock()
 		closed := read.closed
@@ -155,11 +157,19 @@ func (read *Stdin) ReadAll() (b []byte) {
 	}
 
 	read.mutex.Lock()
-	b = read.buffer
+	b := read.buffer
 	read.buffer = make([]byte, 0)
 	read.bRead = uint64(len(b))
 	read.mutex.Unlock()
-	return
+	return b, nil
+}
+
+func (read *Stdin) ReadArray(callback func([]byte)) error {
+	return readArray(read, callback)
+}
+
+func (read *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
+	return readMap(read, config, callback)
 }
 
 // Standard Writer interface Write() method.
@@ -232,4 +242,41 @@ func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 		}
 	})
 	return
+}
+
+func (in *Stdin) GetDataType() (dt string) {
+	for {
+		in.dtLock.Lock()
+		dt = in.dataType
+		in.dtLock.Unlock()
+		if dt != "" {
+			return
+		}
+	}
+}
+
+func (in *Stdin) SetDataType(dt string) {
+	in.dtLock.Lock()
+	in.dataType = dt
+	in.dtLock.Unlock()
+	return
+}
+
+func (in *Stdin) DefaultDataType(err bool) {
+	return
+	in.dtLock.Lock()
+	dt := in.dataType
+	in.dtLock.Unlock()
+
+	if dt == "" {
+		if err {
+			in.dtLock.Lock()
+			in.dataType = types.Null
+			in.dtLock.Unlock()
+		} else {
+			in.dtLock.Lock()
+			in.dataType = types.Generic
+			in.dtLock.Unlock()
+		}
+	}
 }

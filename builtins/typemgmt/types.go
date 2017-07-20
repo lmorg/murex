@@ -44,7 +44,12 @@ func cmdFalse(p *proc.Process) error {
 func cmdNot(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Boolean)
 
-	val := !types.IsTrue(p.Stdin.ReadAll(), p.Previous.ExitNum)
+	b, err := p.Stdin.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	val := !types.IsTrue(b, p.Previous.ExitNum)
 	if val {
 		p.Stdout.Writeln(types.TrueByte)
 	} else {

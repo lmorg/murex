@@ -15,7 +15,7 @@ func init() {
 	proc.GoFunctions["["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
-func array(p *proc.Process) (err error) {
+func array(p *proc.Process) error {
 	end, err := p.Parameters.String(p.Parameters.Len() - 1)
 	if err != nil {
 		return err
@@ -32,8 +32,14 @@ func array(p *proc.Process) (err error) {
 
 		var jInterface interface{}
 
-		if err = json.Unmarshal(p.Stdin.ReadAll(), &jInterface); err != nil {
-			return
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+
+		err = json.Unmarshal(b, &jInterface)
+		if err != nil {
+			return err
 		}
 
 		var jArray []interface{}

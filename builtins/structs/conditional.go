@@ -95,12 +95,18 @@ func cmdIf(p *proc.Process) (err error) {
 			return err
 		}
 		stdout.Close()
-		b := stdout.ReadAll()
+		b, err := stdout.ReadAll()
+		if err != nil {
+			return err
+		}
 		conditional = types.IsTrue(b, i)
 
 	} else {
 		// --- IF ---
-		b := p.Stdin.ReadAll()
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
 		conditional = types.IsTrue(b, p.Previous.ExitNum)
 	}
 

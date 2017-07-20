@@ -49,7 +49,10 @@ func cmdSet(p *proc.Process) error {
 		if !rxVarName.MatchString(params) {
 			return errors.New("Invalid variable name; unexpected parameters for calling `set` as method.")
 		}
-		b := p.Stdin.ReadAll()
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
 		dt := p.Stdin.GetDataType()
 		return proc.GlobalVars.Set(params, string(b), dt)
 	}
@@ -96,7 +99,11 @@ func cmdExport(p *proc.Process) error {
 		if !rxVarName.MatchString(params) {
 			return errors.New("Invalid variable name; unexpected parameters for calling `export` as method.")
 		}
-		return os.Setenv(params, string(p.Stdin.ReadAll()))
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		return os.Setenv(params, string(b))
 	}
 
 	// Only one parameter, so unset env:
