@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"fmt"
 	"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -16,7 +17,11 @@ import (
 var Instance *readline.Instance
 
 func Start() {
-	var err error
+	var (
+		err       error
+		multiline bool
+		lines     []string
+	)
 
 	Instance, err = readline.NewEx(&readline.Config{
 		HistoryFile:         HomeDirectory + ".murex_history",
@@ -26,34 +31,39 @@ func Start() {
 		FuncFilterInputRune: filterInput,
 		Stdin:               osstdin.Stdin,
 	})
-	defer Instance.Terminal.ExitRawMode()
 
 	if err != nil {
 		panic(err)
 	}
+
 	defer Instance.Close()
+	defer Instance.Terminal.ExitRawMode()
 
 	for {
-		prompt, _ := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
-		out := streams.NewStdin()
-		exitNum, err := lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
-		out.Close()
+		if !multiline {
+			prompt, _ := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
+			out := streams.NewStdin()
+			exitNum, err := lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
+			out.Close()
 
-		b, err2 := out.ReadAll()
-		if len(b) > 1 && b[len(b)-1] == '\n' {
-			b = b[:len(b)-1]
+			b, err2 := out.ReadAll()
+			if len(b) > 1 && b[len(b)-1] == '\n' {
+				b = b[:len(b)-1]
+			}
+
+			if len(b) > 1 && b[len(b)-1] == '\r' {
+				b = b[:len(b)-1]
+			}
+
+			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
+				os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
+				b = []byte("murex » ")
+			}
+
+			Instance.SetPrompt(string(b))
+		} else {
+			Instance.SetPrompt(fmt.Sprintf("%d » ", len(lines)+1))
 		}
-
-		if len(b) > 1 && b[len(b)-1] == '\r' {
-			b = b[:len(b)-1]
-		}
-
-		if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-			os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
-			b = []byte("murex » ")
-		}
-
-		Instance.SetPrompt(string(b))
 
 		line, err := Instance.Readline()
 		if err == readline.ErrInterrupt {
@@ -69,6 +79,14 @@ func Start() {
 		line = strings.TrimSpace(line)
 		switch {
 		case line == "":
+		case line[len(line)-1] == '\\':
+			multiline = true
+			lines = append(lines, line[:len(line)-1])
+		case multiline:
+			multiline = false
+			lines = append(lines, line)
+			line = strings.Join(lines, " ")
+			fallthrough
 		default:
 			Instance.Terminal.EnterRawMode()
 			lang.ShellExitNum, _ = lang.ProcessNewBlock(
