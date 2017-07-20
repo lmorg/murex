@@ -9,4 +9,4 @@ alias grep { grep --color=auto }
 config set shell Prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
 
 set-cached-flags dd { [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ] }
-set-cached-flags git { [ "push", "pull", "stash", "status", "clone" ] }
+set-cached-flags git { [ "push", "pull", "stash", "status", "clone", "commit", "diff" ] }
