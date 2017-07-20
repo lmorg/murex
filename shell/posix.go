@@ -40,23 +40,33 @@ func listExes(path string, exes *map[string]bool) {
 }
 
 func matchExes(s string, exes *map[string]bool, includeColon bool) (items []string) {
-	var colon string
+	colon := " "
 	if includeColon {
 		colon = ": "
 	}
 
 	for name := range *exes {
 		if strings.HasPrefix(name, s) {
-			switch name {
-			case ">", ">>", "[", "=":
-				items = append(items, name[len(s):]+" ")
-			case "<read-pipe>":
-			default:
-				items = append(items, name[len(s):]+colon)
+			if name != "<read-pipe>" {
+				items = append(items, name[len(s):])
 			}
 		}
 	}
 	sort.Strings(items)
+
+	// I know it seems weird and inefficient to cycle through the array after it has been created just to append a
+	// couple of characters (that easily could have been appended in the former for loop) but this is so that the
+	// colon isn't included as part of the sorting algo (otherwise `manpath:` would precede `man:`). Ideally I would
+	// write my own sorting algo to take this into account but that can be part of the optimisation stage - whenever
+	// I get there.
+	for i := range items {
+		switch items[i] {
+		case ">", ">>", "[", "=":
+			items[i] += " "
+		default:
+			items[i] += colon
+		}
+	}
 	return
 }
 
