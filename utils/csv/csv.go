@@ -153,6 +153,8 @@ func (p *Parser) ArrayToCsv(array []string) (csv []byte) {
 
 	for i := range array {
 		array[i] = strings.Replace(array[i], `\`, `\\`, -1)
+		array[i] = strings.Replace(array[i], "\n", `\n`, -1)
+		array[i] = strings.Replace(array[i], "\r", `\r`, -1)
 		array[i] = strings.Replace(array[i], quote, escapedQuote, -1)
 	}
 	csv = []byte(quote + strings.Join(array, separator) + quote)
