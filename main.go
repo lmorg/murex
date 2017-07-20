@@ -15,8 +15,6 @@ import (
 
 func main() {
 	readFlags()
-	man.Initialise()
-	execProfile()
 
 	switch {
 	case fCommand != "":
@@ -32,6 +30,8 @@ func main() {
 		//}
 
 	default:
+		man.Initialise()
+		execProfile()
 		shell.Start()
 	}
 
