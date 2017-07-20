@@ -8,7 +8,11 @@ import (
 	"strings"
 )
 
-type Flags []string
+type Flags struct {
+	NoFiles bool
+	NoDirs  bool
+	Flags   []string
+}
 
 var ExesFlags map[string]Flags = make(map[string]Flags)
 
@@ -37,12 +41,12 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 }
 
 func matchFlags(partial, exe string) (items []string) {
-	if len(ExesFlags[exe]) == 0 {
-		ExesFlags[exe] = man.ScanManPages(exe)
+	if len(ExesFlags[exe].Flags) == 0 {
+		ExesFlags[exe] = Flags{Flags: man.ScanManPages(exe)}
 	}
 
-	for i := range ExesFlags[exe] {
-		flag := strings.TrimSpace(ExesFlags[exe][i])
+	for i := range ExesFlags[exe].Flags {
+		flag := strings.TrimSpace(ExesFlags[exe].Flags[i])
 		if flag == "" {
 			continue
 		}

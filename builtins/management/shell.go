@@ -23,8 +23,7 @@ func init() {
 	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["set-cached-flags"] = proc.GoFunction{Func: cmdSetFlags, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["list-cached-flags"] = proc.GoFunction{Func: cmdListFlags, TypeIn: types.Null, TypeOut: types.Json}
+	proc.GoFunctions["autocomplete"] = proc.GoFunction{Func: cmdAutocomplete, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["version"] = proc.GoFunction{Func: cmdVersion, TypeIn: types.Null, TypeOut: types.String}
 }
 
@@ -113,7 +112,44 @@ func cmdSource(p *proc.Process) error {
 	return err
 }
 
-func cmdListFlags(p *proc.Process) error {
+func cmdAutocomplete(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	mode, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	switch mode {
+	case "get":
+		return listAutocomplete(p)
+	case "set":
+	default:
+		return errors.New("Not a valid mode. Please use `get` or `set`.")
+	}
+
+	exe, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	jf, err := p.Parameters.Byte(2)
+	if err != nil {
+		return err
+	}
+
+	var flags shell.Flags
+	err = json.Unmarshal(jf, &flags)
+	if err != nil {
+		return err
+	}
+
+	sort.Strings(flags.Flags)
+	shell.ExesFlags[exe] = flags
+	return nil
+}
+
+func listAutocomplete(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	b, err := utils.JsonMarshal(shell.ExesFlags)
@@ -123,30 +159,6 @@ func cmdListFlags(p *proc.Process) error {
 
 	_, err = p.Stdout.Writeln(b)
 	return err
-}
-
-func cmdSetFlags(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Null)
-
-	exe, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-
-	jf, err := p.Parameters.Block(1)
-	if err != nil {
-		return err
-	}
-
-	flags := make(shell.Flags, 0)
-	err = json.Unmarshal([]byte(string(jf)), &flags)
-	if err != nil {
-		return err
-	}
-
-	sort.Strings(flags)
-	shell.ExesFlags[exe] = flags
-	return nil
 }
 
 func cmdVersion(p *proc.Process) error {

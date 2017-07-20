@@ -4,4 +4,4 @@ murex.history
 trace.out
 dev-notes/
 murex.iml
-/flags/*.txt
+flags/

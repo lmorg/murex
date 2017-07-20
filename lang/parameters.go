@@ -18,11 +18,19 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				// do nothing
 
 			case parameters.TokenTypeValue:
+				//if len(p.Params) > 0 {
 				p.Params[len(p.Params)-1] += p.Tokens[i][j].Key
+				//} else {
+				//	p.Params = append(p.Params, p.Tokens[i][j].Key)
+				//}
 				tCount = true
 
 			case parameters.TokenTypeString:
+				//if len(p.Params) > 0 {
 				p.Params[len(p.Params)-1] += vars.GetString(p.Tokens[i][j].Key)
+				//} else {
+				//	p.Params = append(p.Params, vars.GetString(p.Tokens[i][j].Key))
+				//}
 				tCount = true
 
 			case parameters.TokenTypeBlockString:

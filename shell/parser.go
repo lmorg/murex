@@ -299,7 +299,12 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			items = matchExes(s, &exes, false)
 		default:
 			items = matchFlags(s, funcName)
-			items = append(items, matchFileAndDirs(s)...)
+			switch {
+			case !ExesFlags[funcName].NoFiles:
+				items = append(items, matchFileAndDirs(s)...)
+			case !ExesFlags[funcName].NoDirs:
+				items = append(items, matchDirs(s)...)
+			}
 		}
 	}
 

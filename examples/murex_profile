@@ -6,7 +6,42 @@
 alias ls { ls --color=auto }
 alias grep { grep --color=auto }
 
-config set shell Prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
+config set shell prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
 
-set-cached-flags dd { [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ] }
-set-cached-flags git { [ "push", "pull", "stash", "status", "clone", "commit", "diff" ] }
+autocomplete set config {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Flags"  : [ "get", "set" ]
+}
+
+autocomplete set autocomplete {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Flags"  : [ "get", "set" ]
+}
+
+autocomplete set dd {
+    "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
+}
+
+autocomplete set git {
+    "NoFiles": true,
+    "Flags"  : [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ]
+}
+
+autocomplete set go {
+    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ]
+}
+
+autocomplete set systemctl {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Flags"  : [ "list-units", "list-sockets", "list-timers", "start", "stop", "reload", "restart", "try-restart", "reload-or-restart", "try-reload-or-restart", "isolate", "kill", "is-active", "is-failed", "status", "show", "cat", "set-property", "help", "reset-failed", "list-dependencies", "list-unit-files", "enable", "disable", "reenable", "preset", "preset-all", "is-enabled", "mask", "unmask", "link", "revert", "add-wants", "add-requires", "edit", "get-default", "set-default", "list-machines", "list-jobs", "cancel", "show-environment", "set-environment", "unset-environment", "import-environment", "daemon-reload", "daemon-reexec", "is-system-running", "default", "rescue", "emergency", "halt", "poweroff", "reboot", "kexec", "exit", "switch-root", "suspend", "hibernate", "hybrid-sleep" ]
+}
+
+
+autocomplete set docker {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Flags"  : [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
+}

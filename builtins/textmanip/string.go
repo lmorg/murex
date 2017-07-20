@@ -17,6 +17,7 @@ func init() {
 	proc.GoFunctions["!regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.Generic, TypeOut: types.String}
 	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["append"] = proc.GoFunction{Func: cmdAppend, TypeIn: types.String, TypeOut: types.String}
 	proc.GoFunctions["prepend"] = proc.GoFunction{Func: cmdPrepend, TypeIn: types.String, TypeOut: types.String}
 	proc.GoFunctions["pretty"] = proc.GoFunction{Func: cmdPretty, TypeIn: types.Json, TypeOut: types.String}
 }
@@ -164,6 +165,22 @@ func cmdPrepend(p *proc.Process) (err error) {
 
 	prepend := p.Parameters.ByteAll()
 	_, err = p.Stdout.Write(append(prepend, p.Stdin.ReadAll()...))
+
+	return
+}
+
+func cmdAppend(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
+	b := p.Parameters.ByteAll()
+	text := p.Stdin.ReadAll()
+	if text[len(text)-1] == '\n' {
+		text = text[:len(text)-1]
+	}
+	if text[len(text)-1] == '\r' {
+		text = text[:len(text)-1]
+	}
+	_, err = p.Stdout.Write(append(text, b...))
 
 	return
 }

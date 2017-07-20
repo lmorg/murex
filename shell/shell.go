@@ -19,8 +19,9 @@ func Start() {
 	var err error
 
 	Instance, err = readline.NewEx(&readline.Config{
-		//Prompt:          "\033[31m»\033[0m ",
-		HistoryFile:     HomeDirectory + ".murex_history",
+		HistoryFile: HomeDirectory + ".murex_history",
+		//DisableAutoSaveHistory:true,
+
 		AutoComplete:    murexCompleter,
 		InterruptPrompt: "^c",
 		//EOFPrompt:       "exit",
@@ -36,7 +37,7 @@ func Start() {
 	defer Instance.Close()
 
 	for {
-		prompt, _ := proc.GlobalConf.Get("shell", "Prompt", types.CodeBlock)
+		prompt, _ := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
 		out := streams.NewStdin()
 		exitNum, err := lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
 		out.Close()

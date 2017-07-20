@@ -25,7 +25,7 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 	parser.Quote = '"'
 	parser.Comment = '#'
 
-	v, err := config.Get("shell", "Csv-Separator", types.String)
+	v, err := config.Get("csv", "separator", types.String)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 		parser.Separator = v.(string)[0]
 	}
 
-	v, err = config.Get("shell", "Csv-Comment", types.String)
+	v, err = config.Get("csv", "comment", types.String)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 		parser.Comment = v.(string)[0]
 	}
 
-	v, err = config.Get("shell", "Csv-Headings", types.Boolean)
+	v, err = config.Get("csv", "headings", types.Boolean)
 	if err != nil {
 		return nil, err
 	}
