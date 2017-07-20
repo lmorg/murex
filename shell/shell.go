@@ -19,12 +19,9 @@ func Start() {
 	var err error
 
 	Instance, err = readline.NewEx(&readline.Config{
-		HistoryFile: HomeDirectory + ".murex_history",
-		//DisableAutoSaveHistory:true,
-
-		AutoComplete:    murexCompleter,
-		InterruptPrompt: "^c",
-		//EOFPrompt:       "exit",
+		HistoryFile:         HomeDirectory + ".murex_history",
+		AutoComplete:        murexCompleter,
+		InterruptPrompt:     "^c",
 		HistorySearchFold:   true,
 		FuncFilterInputRune: filterInput,
 		Stdin:               osstdin.Stdin,

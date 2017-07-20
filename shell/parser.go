@@ -12,7 +12,7 @@ var (
 	rxAllowedVarChars *regexp.Regexp  = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 )
 
-func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
+func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var (
 		loc        int = -1
 		escaped    bool
