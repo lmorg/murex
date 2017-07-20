@@ -38,12 +38,17 @@ func listExes(path string, exes *map[string]bool) {
 	return
 }
 
-func matchExes(s string, exes *map[string]bool) (items []string) {
+func matchExes(s string, exes *map[string]bool, includeColon bool) (items []string) {
+	var colon string
+	if includeColon {
+		colon = ": "
+	}
+
 	for name := range *exes {
 		lc := strings.ToLower(s)
 		if strings.HasPrefix(strings.ToLower(name), lc) {
 			switch name {
-			case ">", ">>", "[":
+			case ">", ">>", "[", "=":
 				items = append(items, name[len(s):]+" ")
 			case "<read-pipe>":
 			default:
@@ -89,6 +94,6 @@ func partialPath(loc string) (path, partial string) {
 	return
 }
 
-func matchLocal(loc string) (items []string) {
+func matchLocal(loc string, includeColon bool) (items []string) {
 	return []string{"[TODO: write me]"}
 }

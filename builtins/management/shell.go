@@ -21,8 +21,8 @@ func init() {
 	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["setflags"] = proc.GoFunction{Func: cmdSetFlags, TypeIn: types.Json, TypeOut: types.Null}
-	proc.GoFunctions["listflags"] = proc.GoFunction{Func: cmdListFlags, TypeIn: types.Null, TypeOut: types.Json}
+	proc.GoFunctions["set-cached-flags"] = proc.GoFunction{Func: cmdSetFlags, TypeIn: types.Json, TypeOut: types.Null}
+	proc.GoFunctions["list-cached-flags"] = proc.GoFunction{Func: cmdListFlags, TypeIn: types.Null, TypeOut: types.Json}
 }
 
 func cmdHistory(p *proc.Process) (err error) {
@@ -110,42 +110,36 @@ func cmdSource(p *proc.Process) error {
 	return err
 }
 
+func cmdListFlags(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
+	b, err := utils.JsonMarshal(shell.ExesFlags)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Writeln(b)
+	return err
+}
+
 func cmdSetFlags(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
+
 	exe, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	var flags shell.Flags
-	if p.IsMethod {
-		p.Stdin.ReadArray(func(b []byte) {
-			flags = append(flags, string(b))
-		})
-	} else {
-		b, err := p.Parameters.Byte(1)
-		if err != nil {
-			return err
-		}
-		err = json.Unmarshal(b, &flags)
-		if err != nil {
-			return err
-		}
-	}
-
-	b, err := json.Marshal(flags)
+	jf, err := p.Parameters.Byte(1)
 	if err != nil {
 		return err
 	}
 
-	shell.ExesFlags[exe] = string(b)
-	return nil
-}
-
-func cmdListFlags(p *proc.Process) error {
-	p.Stdout.SetDataType(types.String)
-	for name := range shell.ExesFlags {
-		p.Stdout.Writeln([]byte(name + ": " + shell.ExesFlags[name]))
+	flags := make(shell.Flags, 0)
+	err = json.Unmarshal(jf, &flags)
+	if err != nil {
+		return err
 	}
+	shell.ExesFlags[exe] = flags
 	return nil
 }

@@ -1,18 +1,18 @@
 package shell
 
 import (
-	"encoding/json"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/utils/man"
 	"os"
 	"sort"
 	"strings"
 )
 
-var ExesFlags map[string]string = make(map[string]string)
-
 type Flags []string
 
-func allExecutables() map[string]bool {
+var ExesFlags map[string]Flags = make(map[string]Flags)
+
+func allExecutables(includeBuiltins bool) map[string]bool {
 	exes := make(map[string]bool)
 	envPath := proc.GlobalVars.GetString("PATH")
 	if envPath == "" {
@@ -25,6 +25,10 @@ func allExecutables() map[string]bool {
 		listExes(dirs[i], &exes)
 	}
 
+	if !includeBuiltins {
+		return exes
+	}
+
 	for name := range proc.GoFunctions {
 		exes[name] = true
 	}
@@ -33,21 +37,12 @@ func allExecutables() map[string]bool {
 }
 
 func matchFlags(partial, exe string) (items []string) {
-	if ExesFlags[exe] == "" {
-		return
+	if len(ExesFlags[exe]) == 0 {
+		ExesFlags[exe] = man.ScanManPages(exe)
 	}
 
-	//flags := make(Flags)
-	//err = json.Unmarshal([]byte(ExesFlags[exe]), &flags)
-	//if err != nil {
-	//	return
-	//}
-
-	var flags []string
-	json.Unmarshal([]byte(ExesFlags[exe]), &flags)
-
-	for i := range flags {
-		flag := strings.TrimSpace(flags[i])
+	for i := range ExesFlags[exe] {
+		flag := strings.TrimSpace(ExesFlags[exe][i])
 		if flag == "" {
 			continue
 		}

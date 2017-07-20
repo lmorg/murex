@@ -39,15 +39,20 @@ func listExes(path string, exes *map[string]bool) {
 	}
 }
 
-func matchExes(s string, exes *map[string]bool) (items []string) {
+func matchExes(s string, exes *map[string]bool, includeColon bool) (items []string) {
+	var colon string
+	if includeColon {
+		colon = ": "
+	}
+
 	for name := range *exes {
 		if strings.HasPrefix(name, s) {
 			switch name {
-			case ">", ">>", "[":
+			case ">", ">>", "[", "=":
 				items = append(items, name[len(s):]+" ")
 			case "<read-pipe>":
 			default:
-				items = append(items, name[len(s):]+": ")
+				items = append(items, name[len(s):]+colon)
 			}
 		}
 	}
@@ -74,11 +79,11 @@ func partialPath(s string) (path, partial string) {
 	return
 }
 
-func matchLocal(s string) (items []string) {
+func matchLocal(s string, includeColon bool) (items []string) {
 	path, file := partialPath(s)
 	exes := make(map[string]bool)
 	listExes(path, &exes)
-	items = matchExes(file, &exes)
+	items = matchExes(file, &exes, includeColon)
 	return
 }
 

@@ -271,10 +271,10 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		retPos = len(s)
 		switch {
 		case isLocal(s):
-			items = matchLocal(s)
+			items = matchLocal(s, true)
 		default:
-			exes := allExecutables()
-			items = matchExes(s, &exes)
+			exes := allExecutables(true)
+			items = matchExes(s, &exes, true)
 		}
 
 	case bracket > 0:
@@ -285,22 +285,19 @@ func (fz MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
+		var s string
+		if loc < len(line) {
+			s = strings.TrimSpace(string(line[loc:]))
+		}
+		retPos = len(s)
 		switch funcName {
 		case "cd", "mkdir", "rmdir":
-			var s string
-			if loc < len(line) {
-				s = strings.TrimSpace(string(line[loc:]))
-			}
-			retPos = len(s)
 			items = matchDirs(s)
 		//case "vi", "vim", "cat", "zcat", "text", "open":
+		case "man":
+			exes := allExecutables(false)
+			items = matchExes(s, &exes, false)
 		default:
-			var s string
-			if loc < len(line) {
-				s = strings.TrimSpace(string(line[loc:]))
-			}
-			retPos = len(s)
-
 			items = matchFlags(s, funcName)
 			items = append(items, matchFileAndDirs(s)...)
 		}

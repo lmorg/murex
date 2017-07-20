@@ -8,13 +8,14 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/man"
 	"io/ioutil"
 	"os"
 )
 
 func main() {
 	readFlags()
-
+	man.Initialise()
 	execProfile()
 
 	switch {
