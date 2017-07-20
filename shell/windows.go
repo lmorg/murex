@@ -5,6 +5,7 @@ package shell
 import (
 	"io/ioutil"
 	"os/user"
+	"sort"
 	"strings"
 )
 
@@ -52,7 +53,7 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 				items = append(items, name[len(s):]+" ")
 			case "<read-pipe>":
 			default:
-				items = append(items, name[len(s):]+": ")
+				items = append(items, name[len(s):]+colon)
 			}
 		}
 	}
@@ -60,31 +61,8 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 	return
 }
 
-func matchDirs(path string, dirs []string) (items []string) {
-	/*items = []string{"../"}
-	files, _ := ioutil.ReadDir(path)
-	for _, f := range files {
-		if f.IsDir() {
-			items = append(items, f.Name()+`\`)
-		}
-	}
-
-	for i := range dirs {
-		lc := strings.ToLower(path)
-		if strings.HasPrefix(strings.ToLower(dirs[path]), lc) {
-			items = append(items, name[len(path):])
-		}
-	}
-	return*/
-	return []string{"[TODO: write me]"}
-}
-
-func matchFiles(path string, dirs []string) (items []string) {
-	return []string{"[TODO: write me]"}
-}
-
 func isLocal(s string) bool {
-	return strings.HasPrefix(s, `.\`) || strings.HasPrefix(s, `\`) || strings.HasPrefix(s[1:], `:\`)
+	return strings.HasPrefix(s, `.\`) || strings.HasPrefix(s, `\`) || (len(s) > 2 && strings.HasPrefix(s[1:], `:\`))
 }
 
 func partialPath(loc string) (path, partial string) {
@@ -94,6 +72,50 @@ func partialPath(loc string) (path, partial string) {
 	return
 }
 
-func matchLocal(loc string, includeColon bool) (items []string) {
-	return []string{"[TODO: write me]"}
+func matchLocal(s string, includeColon bool) (items []string) {
+	path, file := partialPath(s)
+	exes := make(map[string]bool)
+	listExes(path, &exes)
+	items = matchExes(file, &exes, includeColon)
+	return
+}
+
+func matchDirs(s string) (items []string) {
+	path, partial := partialPath(s)
+
+	dirs := []string{`..\`}
+	files, _ := ioutil.ReadDir(path)
+	for _, f := range files {
+		if f.IsDir() {
+			dirs = append(dirs, f.Name()+`\`)
+		}
+	}
+
+	for i := range dirs {
+		if strings.HasPrefix(dirs[i], partial) {
+			items = append(items, dirs[i][len(partial):])
+		}
+	}
+	return
+}
+
+func matchFileAndDirs(s string) (items []string) {
+	path, partial := partialPath(s)
+
+	item := []string{`..\`}
+	files, _ := ioutil.ReadDir(path)
+	for _, f := range files {
+		if f.IsDir() {
+			item = append(item, f.Name()+`\`)
+		} else {
+			item = append(item, f.Name())
+		}
+	}
+
+	for i := range item {
+		if strings.HasPrefix(item[i], partial) {
+			items = append(items, item[i][len(partial):])
+		}
+	}
+	return
 }

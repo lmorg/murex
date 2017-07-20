@@ -106,8 +106,8 @@ func matchDirs(s string) (items []string) {
 	return
 }
 
-func matchFileAndDirs(loc string) (items []string) {
-	path, partial := partialPath(loc)
+func matchFileAndDirs(s string) (items []string) {
+	path, partial := partialPath(s)
 
 	item := []string{"../"}
 	files, _ := ioutil.ReadDir(path)
