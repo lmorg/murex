@@ -27,7 +27,7 @@ type Net struct {
 	protocol string
 }
 
-func NewNetDialer(protocol, address string) (n *Net, err error) {
+func NewDialer(protocol, address string) (n *Net, err error) {
 	n = new(Net)
 	n.protocol = protocol
 
@@ -38,6 +38,30 @@ func NewNetDialer(protocol, address string) (n *Net, err error) {
 	}
 
 	n.conn, err = net.Dial(protocol, address)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}
+
+func NewListener(protocol, address string) (n *Net, err error) {
+	n = new(Net)
+	n.protocol = protocol
+
+	if protocol == "udp" || protocol == "tcp" {
+		n.dataType = types.Generic
+	} else {
+		protocol = "tcp"
+	}
+
+	listen, err := net.Listen(protocol, address)
+	if err != nil {
+		return nil, err
+	}
+	defer listen.Close()
+
+	n.conn, err = listen.Accept()
 	if err != nil {
 		return nil, err
 	}

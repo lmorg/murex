@@ -58,7 +58,7 @@ func cmdPipe(p *proc.Process) error {
 			return errors.New("Not enough parameters!")
 		}
 
-		err := proc.GlobalPipes.CreateNetDialer(args[0], "udp", args[1])
+		err := proc.GlobalPipes.CreateDialer(args[0], "udp", args[1])
 		if err != nil {
 			return err
 		}
@@ -68,7 +68,27 @@ func cmdPipe(p *proc.Process) error {
 			return errors.New("Not enough parameters!")
 		}
 
-		err := proc.GlobalPipes.CreateNetDialer(args[0], "tcp", args[1])
+		err := proc.GlobalPipes.CreateDialer(args[0], "tcp", args[1])
+		if err != nil {
+			return err
+		}
+
+	case "--udp-listen":
+		if len(args) < 2 {
+			return errors.New("Not enough parameters!")
+		}
+
+		err := proc.GlobalPipes.CreateListener(args[0], "udp", args[1])
+		if err != nil {
+			return err
+		}
+
+	case "--tcp-listen":
+		if len(args) < 2 {
+			return errors.New("Not enough parameters!")
+		}
+
+		err := proc.GlobalPipes.CreateListener(args[0], "tcp", args[1])
 		if err != nil {
 			return err
 		}

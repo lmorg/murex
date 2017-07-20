@@ -22,7 +22,7 @@ autocomplete set autocomplete {
 
 autocomplete set pipe {
     "NoFiles": true,
-    "Flags"  : [ "--create", "-c", "--close", "-x", "--file", "-f", "--udp-dial", "--tcp-dial" ]
+    "Flags"  : [ "--create", "-c", "--close", "-x", "--file", "-f", "--udp-dial", "--tcp-dial", "--udp-listen", "--tcp-listen" ]
 }
 
 autocomplete set dd {

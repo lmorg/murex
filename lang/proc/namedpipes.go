@@ -63,7 +63,7 @@ func (n *Named) CreateFile(pipename string, filename string) error {
 	return nil
 }
 
-func (n *Named) CreateNetDialer(pipename, protocol, address string) error {
+func (n *Named) CreateDialer(pipename, protocol, address string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
@@ -71,7 +71,7 @@ func (n *Named) CreateNetDialer(pipename, protocol, address string) error {
 		return errors.New("Named pipe `" + pipename + "`already exists.")
 	}
 
-	file, err := streams.NewNetDialer(protocol, address)
+	file, err := streams.NewDialer(protocol, address)
 	if err != nil {
 		return err
 	}
@@ -79,6 +79,25 @@ func (n *Named) CreateNetDialer(pipename, protocol, address string) error {
 	n.pipes[pipename] = file
 	n.pipes[pipename].MakePipe()
 	n.types[pipename] = npNetDialer
+	return nil
+}
+
+func (n *Named) CreateListener(pipename, protocol, address string) error {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	if n.pipes[pipename] != nil {
+		return errors.New("Named pipe `" + pipename + "`already exists.")
+	}
+
+	file, err := streams.NewListener(protocol, address)
+	if err != nil {
+		return err
+	}
+
+	n.pipes[pipename] = file
+	n.pipes[pipename].MakePipe()
+	n.types[pipename] = npNetListener
 	return nil
 }
 
