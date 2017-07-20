@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -13,6 +14,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"sort"
 )
 
 func init() {
@@ -21,8 +23,9 @@ func init() {
 	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["set-cached-flags"] = proc.GoFunction{Func: cmdSetFlags, TypeIn: types.Json, TypeOut: types.Null}
+	proc.GoFunctions["set-cached-flags"] = proc.GoFunction{Func: cmdSetFlags, TypeIn: types.Null, TypeOut: types.Null}
 	proc.GoFunctions["list-cached-flags"] = proc.GoFunction{Func: cmdListFlags, TypeIn: types.Null, TypeOut: types.Json}
+	proc.GoFunctions["version"] = proc.GoFunction{Func: cmdVersion, TypeIn: types.Null, TypeOut: types.String}
 }
 
 func cmdHistory(p *proc.Process) (err error) {
@@ -130,16 +133,24 @@ func cmdSetFlags(p *proc.Process) error {
 		return err
 	}
 
-	jf, err := p.Parameters.Byte(1)
+	jf, err := p.Parameters.Block(1)
 	if err != nil {
 		return err
 	}
 
 	flags := make(shell.Flags, 0)
-	err = json.Unmarshal(jf, &flags)
+	err = json.Unmarshal([]byte(string(jf)), &flags)
 	if err != nil {
 		return err
 	}
+
+	sort.Strings(flags)
 	shell.ExesFlags[exe] = flags
 	return nil
+}
+
+func cmdVersion(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+	_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
+	return err
 }
