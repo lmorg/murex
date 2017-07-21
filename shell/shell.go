@@ -18,6 +18,7 @@ import (
 var (
 	Instance *readline.Instance
 	forward  int
+	rxVars   *regexp.Regexp = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
 )
 
 func Start() {
@@ -119,6 +120,9 @@ func filterInput(r rune) (rune, bool) {
 
 func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
 	switch {
+	case key == readline.CharEnter:
+		return nil, 0, false
+
 	case forward == 2 && pos == len(line):
 		newLine = expandVars(line)
 		newPos = len(newLine)
@@ -141,8 +145,6 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 
 	return newLine, newPos, true
 }
-
-var rxVars *regexp.Regexp = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
 
 func expandVars(line []rune) []rune {
 	s := string(line)

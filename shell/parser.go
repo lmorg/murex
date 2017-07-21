@@ -314,7 +314,11 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 
 	suggest = make([][]rune, len(items[:maxItems]))
 	for i := range items[:maxItems] {
+		if len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
+			items[i] = strings.Replace(items[i][:len(items[i])-1], " ", `\ `, -1) + items[i][len(items[i])-1:]
+		}
 		suggest[i] = []rune(items[i])
 	}
+
 	return
 }
