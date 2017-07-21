@@ -11,10 +11,14 @@ import (
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
+	"regexp"
 	"strings"
 )
 
-var Instance *readline.Instance
+var (
+	Instance *readline.Instance
+	forward  int
+)
 
 func Start() {
 	var (
@@ -24,18 +28,20 @@ func Start() {
 	)
 
 	Instance, err = readline.NewEx(&readline.Config{
-		HistoryFile:         HomeDirectory + ".murex_history",
-		AutoComplete:        murexCompleter,
-		InterruptPrompt:     "^c",
-		HistorySearchFold:   true,
-		FuncFilterInputRune: filterInput,
-		Stdin:               osstdin.Stdin,
+		HistoryFile:            HomeDirectory + ".murex_history",
+		InterruptPrompt:        "^c",
+		Stdin:                  osstdin.Stdin,
+		AutoComplete:           murexCompleter,
+		FuncFilterInputRune:    filterInput,
+		HistorySearchFold:      true,
+		DisableAutoSaveHistory: true,
 	})
 
 	if err != nil {
 		panic(err)
 	}
 
+	Instance.Config.SetListener(listener)
 	defer Instance.Close()
 	defer Instance.Terminal.ExitRawMode()
 
@@ -67,6 +73,11 @@ func Start() {
 
 		line, err := Instance.Readline()
 		if err == readline.ErrInterrupt {
+			if multiline {
+				multiline = false
+				lines = make([]string, 0)
+				continue
+			}
 			if len(line) == 0 {
 				break
 			} else {
@@ -76,26 +87,19 @@ func Start() {
 			break
 		}
 
-		line = strings.TrimSpace(line)
+		lines = append(lines, line+"\n")
+		block := []rune(strings.Join(lines, ""))
+		_, pErr := lang.ParseBlock(block)
 		switch {
-		case line == "":
-		case line[len(line)-1] == '\\':
+		case pErr.Code == lang.ErrUnterminatedBrace,
+			pErr.Code == lang.ErrUnterminatedEscape,
+			pErr.Code == lang.ErrUnterminatedQuotesSingle:
 			multiline = true
-			lines = append(lines, line[:len(line)-1])
-		case multiline:
-			multiline = false
-			lines = append(lines, line)
-			line = strings.Join(lines, " ")
-			fallthrough
 		default:
+			multiline = false
+			lines = make([]string, 0)
 			Instance.Terminal.EnterRawMode()
-			lang.ShellExitNum, _ = lang.ProcessNewBlock(
-				[]rune(line),
-				nil,
-				nil,
-				nil,
-				"shell",
-			)
+			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, "shell")
 			Instance.Terminal.ExitRawMode()
 		}
 	}
@@ -106,6 +110,45 @@ func filterInput(r rune) (rune, bool) {
 	// block CtrlZ feature
 	case readline.CharCtrlZ:
 		return r, false
+	case readline.CharForward:
+		forward++
+		return r, true
 	}
 	return r, true
+}
+
+func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
+	switch {
+	case forward == 2 && pos == len(line):
+		newLine = expandVars(line)
+		newPos = len(newLine)
+		forward = 0
+
+	case forward == 1 && pos == len(line):
+		if len(rxVars.FindAllString(string(line), -1)) > 0 {
+			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS." + utils.NewLineString)
+		} else {
+			forward = 0
+		}
+		newPos = pos
+		newLine = line
+
+	default:
+		forward = 0
+		newPos = pos
+		newLine = line
+	}
+
+	return newLine, newPos, true
+}
+
+var rxVars *regexp.Regexp = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
+
+func expandVars(line []rune) []rune {
+	s := string(line)
+	match := rxVars.FindAllString(s, -1)
+	for i := range match {
+		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
+	}
+	return []rune(s)
 }

@@ -40,7 +40,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, gpName stri
 	}
 	grandParent.Stderr.MakeParent()
 
-	tree, pErr := parseBlock(block)
+	tree, pErr := ParseBlock(block)
 	if pErr.Code != 0 {
 		grandParent.Stderr.Writeln([]byte(pErr.Message))
 		debug.Json("ParseBlock returned:", pErr)

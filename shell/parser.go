@@ -293,8 +293,7 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		switch funcName {
 		case "cd", "mkdir", "rmdir":
 			items = matchDirs(s)
-		//case "vi", "vim", "cat", "zcat", "text", "open":
-		case "man":
+		case "man", "which", "whereis", "sudo":
 			exes := allExecutables(false)
 			items = matchExes(s, &exes, false)
 		default:

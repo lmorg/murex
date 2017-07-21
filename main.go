@@ -15,6 +15,7 @@ import (
 
 func main() {
 	readFlags()
+	setShellVar()
 
 	switch {
 	case fCommand != "":
@@ -36,6 +37,13 @@ func main() {
 	}
 
 	debug.Log("[FIN]")
+}
+
+func setShellVar() {
+	shell, err := os.Executable()
+	if err != nil {
+		os.Setenv("SHELL", shell)
+	}
 }
 
 func diskSource(filename string) []rune {

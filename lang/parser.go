@@ -11,7 +11,7 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 	return
 }
 
-func parseBlock(block []rune) (nodes astNodes, pErr ParserError) {
+func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 	defer debug.Json("Parser", nodes)
 
 	var (
