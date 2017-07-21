@@ -44,7 +44,7 @@ func (rw *Stdin) UnmakeParent() {
 			os.Stderr.WriteString("Error with murex named pipes: Trying to unmake parent on a non-parent pipe." + utils.NewLineString)
 		} else {
 			// Should be fine to panic because this runtime error is generated from block compilation.
-			panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
+			//panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
 		}
 	}
 	rw.isParent = false
@@ -222,7 +222,8 @@ func (write *Stdin) Close() {
 		} else {
 			// This shouldn't happen because it then means we have lost track of the state of the streams.
 			// So we'll throw a panic to highlight our error early on and force better code.
-			panic("Trying to close an already closed stdin.")
+			//panic("Trying to close an already closed stdin.")
+			os.Stderr.WriteString("Trying to close an already closed stdin." + utils.NewLineString)
 		}
 	}
 

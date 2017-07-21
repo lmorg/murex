@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"fmt"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -15,6 +16,7 @@ import (
 	"io/ioutil"
 	"os"
 	"sort"
+	"strings"
 )
 
 func init() {
@@ -25,6 +27,8 @@ func init() {
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["autocomplete"] = proc.GoFunction{Func: cmdAutocomplete, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["version"] = proc.GoFunction{Func: cmdVersion, TypeIn: types.Null, TypeOut: types.String}
+	proc.GoFunctions["fid-list"] = proc.GoFunction{Func: cmdFidList, TypeIn: types.Null, TypeOut: types.String}
+	proc.GoFunctions["fid-kill"] = proc.GoFunction{Func: cmdFidKill, TypeIn: types.Null, TypeOut: types.String}
 }
 
 func cmdHistory(p *proc.Process) (err error) {
@@ -165,4 +169,39 @@ func cmdVersion(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
 	_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
 	return err
+}
+
+func cmdFidList(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Generic)
+	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %-20s", "FID", "Command")))
+
+	procs := proc.GlobalFIDs.ListAll()
+	for i := range procs {
+		s := fmt.Sprintf("%7d  %-20s",
+			procs[i].Id,
+			procs[i].Name+"("+strings.Join(procs[i].Parameters.StringArray(), ",")+")",
+		)
+		p.Stdout.Writeln([]byte(s))
+	}
+	return nil
+}
+
+func cmdFidKill(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	fid, err := p.Parameters.Int(0)
+	if err != nil {
+		return err
+	}
+
+	process, err := proc.GlobalFIDs.Proc(fid)
+	if err != nil {
+		return err
+	}
+
+	process.Stdin.UnmakeParent()
+	process.Stdin.Close()
+	process.Stdout.Close()
+	process.Stderr.Close()
+	return nil
 }

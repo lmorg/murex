@@ -46,4 +46,5 @@ var (
 	GlobalConf    config.Config         = config.NewConfiguration()
 	GlobalAliases Aliases               = NewAliases()
 	GlobalPipes   Named                 = NewNamed()
+	GlobalFIDs    funcID                = newFuncID()
 )

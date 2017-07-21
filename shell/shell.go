@@ -29,13 +29,12 @@ func Start() {
 	)
 
 	Instance, err = readline.NewEx(&readline.Config{
-		HistoryFile:            HomeDirectory + ".murex_history",
-		InterruptPrompt:        "^c",
-		Stdin:                  osstdin.Stdin,
-		AutoComplete:           murexCompleter,
-		FuncFilterInputRune:    filterInput,
-		HistorySearchFold:      true,
-		DisableAutoSaveHistory: true,
+		HistoryFile:         HomeDirectory + ".murex_history",
+		InterruptPrompt:     "^c",
+		Stdin:               osstdin.Stdin,
+		AutoComplete:        murexCompleter,
+		FuncFilterInputRune: filterInput,
+		//DisableAutoSaveHistory: true,
 	})
 
 	if err != nil {

@@ -13,6 +13,7 @@ import (
 var rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 
 func createProcess(p *proc.Process, f proc.Flow) {
+	proc.GlobalFIDs.Register(p)
 	parseRedirection(p)
 
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
@@ -145,4 +146,6 @@ func destroyProcess(p *proc.Process) {
 	p.Stderr.Close()
 	p.WaitForTermination <- true
 	debug.Log("Destroyed " + p.Name)
+
+	proc.GlobalFIDs.Deregister(p.Id)
 }
