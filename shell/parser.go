@@ -1,6 +1,10 @@
 package shell
 
 import (
+	"github.com/chzyer/readline"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/utils"
+	"os"
 	"regexp"
 	"strings"
 )
@@ -10,270 +14,281 @@ type MurexCompleter struct{}
 var (
 	murexCompleter    *MurexCompleter = new(MurexCompleter)
 	rxAllowedVarChars *regexp.Regexp  = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
+	rxVars            *regexp.Regexp  = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
 )
 
-func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
-	var (
-		loc        int = -1
-		escaped    bool
-		qSingle    bool
-		qDouble    bool
-		bracket    int
-		expectFunc bool = true
-		readFunc   bool
-		funcName   string
-		variable   string
-		//remainder  string
-	)
+type parseTokens struct {
+	loc        int
+	escaped    bool
+	qSingle    bool
+	qDouble    bool
+	bracket    int
+	expectFunc bool
+	funcName   string
+	variable   string
+}
+
+func parse(line []rune) (pt parseTokens) {
+	var readFunc bool
+	pt.loc = -1
+	pt.expectFunc = true
 
 	for i := range line {
-		if variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
-			variable = ""
+		if pt.variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
+			pt.variable = ""
 		}
 
-		if i > pos {
+		/*if i > pt.pos-1 {
 			//remainder = string(line[i:])
 			line = line[:i]
 			break
-		}
+		}*/
 
 		switch line[i] {
 		case '#':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `#`
+					pt.funcName += `#`
 				}
-				escaped = false
-			case qSingle, qDouble:
+				pt.escaped = false
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += `#`
+					pt.funcName += `#`
 				}
-				escaped = false
+				pt.escaped = false
 			default:
 				return
 			}
 
 		case '\\':
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `\`
+					pt.funcName += `\`
 				}
-			case qSingle, qDouble:
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += `\`
+					pt.funcName += `\`
 				}
 			default:
-				escaped = true
+				pt.escaped = true
 			}
 
 		case '\'':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `'`
+					pt.funcName += `'`
 				}
-			case qDouble:
+			case pt.qDouble:
 				if readFunc {
-					funcName += `'`
+					pt.funcName += `'`
 				}
-			case qSingle:
-				qSingle = false
+			case pt.qSingle:
+				pt.qSingle = false
 			default:
-				qSingle = true
+				pt.qSingle = true
 			}
 
 		case '"':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `"`
+					pt.funcName += `"`
 				}
-			case qSingle:
+			case pt.qSingle:
 				if readFunc {
-					funcName += `"`
+					pt.funcName += `"`
 				}
-			case qDouble:
-				qDouble = false
+			case pt.qDouble:
+				pt.qDouble = false
 			default:
-				qDouble = true
+				pt.qDouble = true
 			}
 
 		case ' ':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += ` `
+					pt.funcName += ` `
 				}
-			case qSingle, qDouble:
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += ` `
+					pt.funcName += ` `
 				}
-			case expectFunc && readFunc:
-				expectFunc = false
+			case pt.expectFunc && readFunc:
+				pt.expectFunc = false
 				readFunc = false
 			}
 
 		case '>':
 			switch {
 			case i > 0 && line[i-1] == '-':
-				loc = i
-				expectFunc = true
-			case expectFunc, readFunc:
+				pt.loc = i
+				pt.expectFunc = true
+			case pt.expectFunc, readFunc:
 				readFunc = true
-				funcName += `>`
+				pt.funcName += `>`
 				fallthrough
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 			default:
-				loc = i
+				pt.loc = i
 			}
 
 		case ';', '|':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += string(line[i])
+					pt.funcName += string(line[i])
 				}
-			case qSingle, qDouble:
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += string(line[i])
+					pt.funcName += string(line[i])
 				}
 			default:
-				expectFunc = true
+				pt.expectFunc = true
 			}
 
 		case '?':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `?`
+					pt.funcName += `?`
 				}
-			case qSingle, qDouble:
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += `?`
+					pt.funcName += `?`
 				}
 			case i > 0 && line[i-1] == ' ':
-				expectFunc = true
+				pt.expectFunc = true
 			default:
 				if readFunc {
-					funcName += `?`
+					pt.funcName += `?`
 				}
 			}
 
 		case '{':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `{`
+					pt.funcName += `{`
 				}
-			case qSingle, qDouble:
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += `{`
+					pt.funcName += `{`
 				}
 			default:
-				bracket++
-				expectFunc = true
+				pt.bracket++
+				pt.expectFunc = true
 			}
 
 		case '}':
 			//loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `}`
+					pt.funcName += `}`
 				}
-			case escaped, qSingle, qDouble:
+			case pt.escaped, pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += `}`
+					pt.funcName += `}`
 				}
 			default:
-				bracket--
+				pt.bracket--
 			}
 
 		case '$', '@':
-			loc = i
+			pt.loc = i
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += string(line[i])
+					pt.funcName += string(line[i])
 				}
-			case qSingle:
+			case pt.qSingle:
 				if readFunc {
-					funcName += string(line[i])
+					pt.funcName += string(line[i])
 				}
 			default:
-				variable = string(line[i])
+				pt.variable = string(line[i])
 			}
 
 		case ':':
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				if readFunc {
-					funcName += `:`
+					pt.funcName += `:`
 				}
-			case qSingle, qDouble:
+			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					funcName += `:`
+					pt.funcName += `:`
 				}
 			}
 
 		default:
 			switch {
-			case escaped:
-				escaped = false
+			case pt.escaped:
+				pt.escaped = false
 				fallthrough
 			case readFunc:
-				funcName += string(line[i])
-			case expectFunc:
-				funcName = string(line[i])
+				pt.funcName += string(line[i])
+			case pt.expectFunc:
+				pt.funcName = string(line[i])
 				readFunc = true
 			}
 		}
 	}
+	pt.loc++
+	return
+}
 
-	loc++
+func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var items []string
+	if len(line) > pos {
+		line = line[:pos]
+	}
+
+	pt := parse(line)
 
 	switch {
-	case variable != "":
+	case pt.variable != "":
 		var s string
-		if loc < len(line) {
-			s = strings.TrimSpace(string(line[loc:]))
+		if pt.loc < len(line) {
+			s = strings.TrimSpace(string(line[pt.loc:]))
 		}
-		s = variable + s
+		s = pt.variable + s
 		retPos = len(s)
 		items = matchVars(s)
 
-	case qSingle:
+	case pt.qSingle:
 		items = []string{"'"}
 
-	case qDouble:
+	case pt.qDouble:
 		items = []string{"\""}
 
-	case expectFunc:
+	case pt.expectFunc:
 		var s string
-		if loc < len(line) {
-			s = strings.TrimSpace(string(line[loc:]))
+		if pt.loc < len(line) {
+			s = strings.TrimSpace(string(line[pt.loc:]))
 		}
 		retPos = len(s)
 		switch {
@@ -284,7 +299,7 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			items = matchExes(s, &exes, true)
 		}
 
-	case bracket > 0:
+	case pt.bracket > 0:
 		items = []string{" } "}
 
 	//case len(line) > loc && line[loc] == '-':
@@ -293,22 +308,22 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
 		var s string
-		if loc < len(line) {
-			s = strings.TrimSpace(string(line[loc:]))
+		if pt.loc < len(line) {
+			s = strings.TrimSpace(string(line[pt.loc:]))
 		}
 		retPos = len(s)
-		switch funcName {
+		switch pt.funcName {
 		case "cd", "mkdir", "rmdir":
 			items = matchDirs(s)
 		case "man", "which", "whereis", "sudo":
 			exes := allExecutables(false)
 			items = matchExes(s, &exes, false)
 		default:
-			items = matchFlags(s, funcName)
+			items = matchFlags(s, pt.funcName)
 			switch {
-			case !ExesFlags[funcName].NoFiles:
+			case !ExesFlags[pt.funcName].NoFiles:
 				items = append(items, matchFileAndDirs(s)...)
-			case !ExesFlags[funcName].NoDirs:
+			case !ExesFlags[pt.funcName].NoDirs:
 				items = append(items, matchDirs(s)...)
 			}
 		}
@@ -328,4 +343,72 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 	}
 
 	return
+}
+
+func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
+	switch {
+	case key == readline.CharEnter:
+		return nil, 0, false
+
+	case forward == 2 && pos == len(line):
+		newLine = expandVars(line)
+		newPos = len(newLine)
+		forward = 0
+
+	case forward == 1 && pos == len(line):
+		if len(rxVars.FindAllString(string(line), -1)) > 0 {
+			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS." + utils.NewLineString)
+		} else {
+			forward = 0
+		}
+		newPos = pos
+		newLine = line
+
+	case key == '{':
+		pt := parse(line)
+		forward = 0
+		if !pt.escaped && !pt.qSingle && !pt.qDouble {
+			newLine = append(line, ' ', '}')
+			newPos = len(newLine) - 1
+		} else {
+			newPos = pos
+			newLine = line
+		}
+
+	case key == readline.CharBackspace, key == readline.CharDelete:
+		newLine = line
+		newPos = pos
+		pt := parse(line)
+		if pt.bracket < 0 {
+
+			for i := pos; i < len(line); i++ {
+				if line[i] == '}' {
+					newLine = line[:i]
+					if i < len(line) {
+						newLine = append(newLine, line[i+1:]...)
+					} else {
+						newPos = newPos - 1
+					}
+				}
+			}
+		}
+		forward = 0
+
+	default:
+		forward = 0
+		newPos = pos
+		newLine = line
+
+	}
+
+	return newLine, newPos, true
+}
+
+func expandVars(line []rune) []rune {
+	s := string(line)
+	match := rxVars.FindAllString(s, -1)
+	for i := range match {
+		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
+	}
+	return []rune(s)
 }

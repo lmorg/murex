@@ -11,14 +11,12 @@ import (
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
-	"regexp"
 	"strings"
 )
 
 var (
 	Instance *readline.Instance
 	forward  int
-	rxVars   *regexp.Regexp = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
 )
 
 func Start() {
@@ -115,41 +113,4 @@ func filterInput(r rune) (rune, bool) {
 		return r, true
 	}
 	return r, true
-}
-
-func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
-	switch {
-	case key == readline.CharEnter:
-		return nil, 0, false
-
-	case forward == 2 && pos == len(line):
-		newLine = expandVars(line)
-		newPos = len(newLine)
-		forward = 0
-
-	case forward == 1 && pos == len(line):
-		if len(rxVars.FindAllString(string(line), -1)) > 0 {
-			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS." + utils.NewLineString)
-		} else {
-			forward = 0
-		}
-		newPos = pos
-		newLine = line
-
-	default:
-		forward = 0
-		newPos = pos
-		newLine = line
-	}
-
-	return newLine, newPos, true
-}
-
-func expandVars(line []rune) []rune {
-	s := string(line)
-	match := rxVars.FindAllString(s, -1)
-	for i := range match {
-		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
-	}
-	return []rune(s)
 }
