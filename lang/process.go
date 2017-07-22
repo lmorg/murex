@@ -47,6 +47,16 @@ func createProcess(p *proc.Process, f proc.Flow) {
 func executeProcess(p *proc.Process) {
 	debug.Json("Executing:", p)
 
+	/*// This doesn't work. At some point I will need to make this stuff work
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, syscall.SIGTERM)
+	go func() {
+		<-c
+		//destroyProcess(p)
+		os.Stdout.WriteString("qwertyuiopoiuytrewertyu\n")
+	}()*/
+
 	//parseRedirection(p)
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 

@@ -205,7 +205,10 @@ func mkArray(p *proc.Process) error {
 			if jsonArray {
 				array = append(array, s)
 			} else {
-				p.Stdout.Writeln([]byte(s))
+				_, err := p.Stdout.Writeln([]byte(s))
+				if err != nil {
+					return err
+				}
 			}
 
 			i := len(counter) - 1

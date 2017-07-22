@@ -23,11 +23,18 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		readFunc   bool
 		funcName   string
 		variable   string
+		//remainder  string
 	)
 
 	for i := range line {
 		if variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
 			variable = ""
+		}
+
+		if i > pos {
+			//remainder = string(line[i:])
+			line = line[:i]
+			break
 		}
 
 		switch line[i] {

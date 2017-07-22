@@ -199,8 +199,8 @@ func cmdFidKill(p *proc.Process) error {
 		return err
 	}
 
-	process.Stdin.UnmakeParent()
-	process.Stdin.Close()
+	//process.Stdin.UnmakeParent()
+	//process.Stdin.Close()
 	process.Stdout.Close()
 	process.Stderr.Close()
 	return nil
