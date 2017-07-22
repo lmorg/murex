@@ -348,7 +348,7 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
 	switch {
 	case key == readline.CharEnter:
-		return nil, 0, false
+		return nil, 0, ok
 
 	case forward == 2 && pos == len(line):
 		newLine = expandVars(line)
