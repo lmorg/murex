@@ -21,17 +21,21 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 	additional = make([]string, 0)
 
 	for i := range params {
+	scanFlags:
 		switch {
 		case strings.HasPrefix(params[i], "-"):
 			switch {
+			case strings.HasPrefix(args.Flags[params[i]], "-"):
+				params[i] = args.Flags[params[i]]
+				goto scanFlags
 			case previous != "":
-				return nil, nil, errors.New("Invalid parameters! Flag found without value: " + previous)
+				return nil, nil, errors.New("Invalid parameters! Flag found without value: `" + previous + "`")
 			case args.Flags[params[i]] == types.Boolean:
 				flags[params[i]] = types.TrueString
 			case args.Flags[params[i]] != "":
 				previous = params[i]
 			default:
-				return nil, nil, errors.New("Invalid parameters! Flag not recognised: " + params[i])
+				return nil, nil, errors.New("Invalid parameters! Flag not recognised: `" + params[i] + "`")
 			}
 
 		case previous != "":
@@ -40,14 +44,14 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 
 		default:
 			if !args.AllowAdditional {
-				return nil, nil, errors.New("Invalid parameters! Parameter found without a flag: " + params[i])
+				return nil, nil, errors.New("Invalid parameters! Parameter found without a flag: `" + params[i] + "`")
 			}
 			additional = append(additional, params[i])
 		}
 	}
 
 	if previous != "" {
-		return nil, nil, errors.New("Invalid parameters! Flag found without value: " + previous)
+		return nil, nil, errors.New("Invalid parameters! Flag found without value: `" + previous + "`")
 	}
 
 	return

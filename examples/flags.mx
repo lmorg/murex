@@ -3,13 +3,20 @@
 # First we define what parameters to accept:
 # Pass the `args` function a JSON string (because JSON objects share the same braces as murex block, you can enter JSON
 # directly as unescaped values as parameters in murex).
-# `args` will then create a murex variable called $ARGS.
+#
+# `args` will create a murex variable called $ARGS.
+#
+# --str: str == string data type
+# --num: num == numeric data type
+# --bool: bool == flag used == true, missing == false
+# -b: --bool == alias of --bool flag
 args {
     "AllowAdditional": true,
     "Flags": {
         "--str": "str",
         "--num": "num",
-        "--bool": "bool"
+        "--bool": "bool",
+        "-b": "--bool"
     }
 } -> catch {
 # Lets check for errors in the command line parameters. If they exist then print the error and then exit.

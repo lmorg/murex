@@ -3,6 +3,7 @@ package io
 import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 	"io"
@@ -16,84 +17,65 @@ func init() {
 func cmdPipe(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	flag, err := p.Parameters.String(0)
+	flags, _, err := p.Parameters.ParseFlags(&parameters.Arguments{
+		AllowAdditional: false,
+		Flags: map[string]string{
+			"--create":     types.String,
+			"-c":           "--create",
+			"--close":      types.String,
+			"-x":           "--close",
+			"--file":       types.String,
+			"--f":          "--file",
+			"--tcp-dial":   types.String,
+			"--udp-dial":   types.String,
+			"--tcp-listen": types.String,
+			"--udp-listen": types.String,
+		},
+	})
+
 	if err != nil {
 		return err
 	}
 
-	args := p.Parameters.StringArray()
-	if len(args) < 1 {
-		return errors.New("Not enough parameters!")
-	}
-	args = args[1:]
+	switch {
+	case flags["--close"] != "":
+		if err := proc.GlobalPipes.Close(flags["--close"]); err != nil {
+			return err
+		}
 
-	switch flag {
-	case "--create", "-c":
-		for i := range args {
-			err := proc.GlobalPipes.CreatePipe(args[i])
-			if err != nil {
+	case flags["--create"] != "":
+		switch {
+		case flags["--file"] != "":
+			if err := proc.GlobalPipes.CreateFile(flags["--create"], flags["--file"]); err != nil {
 				return err
 			}
-		}
 
-	case "--close", "-x":
-		for i := range args {
-			err := proc.GlobalPipes.Close(args[i])
-			if err != nil {
+		case flags["--udp-dial"] != "":
+			if err := proc.GlobalPipes.CreateDialer(flags["--create"], "udp", flags["--udp-dial"]); err != nil {
 				return err
 			}
-		}
 
-	case "--file", "-f":
-		if len(args) < 2 {
-			return errors.New("Not enough parameters!")
-		}
+		case flags["--tcp-dial"] != "":
+			if err := proc.GlobalPipes.CreateDialer(flags["--create"], "tcp", flags["--tcp-dial"]); err != nil {
+				return err
+			}
 
-		err := proc.GlobalPipes.CreateFile(args[0], args[1])
-		if err != nil {
-			return err
-		}
+		case flags["--udp-listen"] != "":
+			if err := proc.GlobalPipes.CreateListener(flags["--create"], "udp", flags["--udp-listen"]); err != nil {
+				return err
+			}
 
-	case "--udp-dial":
-		if len(args) < 2 {
-			return errors.New("Not enough parameters!")
-		}
+		case flags["--tcp-listen"] != "":
+			if err := proc.GlobalPipes.CreateListener(flags["--create"], "tcp", flags["--tcp-listen"]); err != nil {
+				return err
+			}
 
-		err := proc.GlobalPipes.CreateDialer(args[0], "udp", args[1])
-		if err != nil {
-			return err
-		}
+		default:
+			if err := proc.GlobalPipes.CreatePipe(flags["--create"]); err != nil {
+				return err
+			}
 
-	case "--tcp-dial":
-		if len(args) < 2 {
-			return errors.New("Not enough parameters!")
 		}
-
-		err := proc.GlobalPipes.CreateDialer(args[0], "tcp", args[1])
-		if err != nil {
-			return err
-		}
-
-	case "--udp-listen":
-		if len(args) < 2 {
-			return errors.New("Not enough parameters!")
-		}
-
-		err := proc.GlobalPipes.CreateListener(args[0], "udp", args[1])
-		if err != nil {
-			return err
-		}
-
-	case "--tcp-listen":
-		if len(args) < 2 {
-			return errors.New("Not enough parameters!")
-		}
-
-		err := proc.GlobalPipes.CreateListener(args[0], "tcp", args[1])
-		if err != nil {
-			return err
-		}
-
 	default:
 		return errors.New("Invalid parameters.")
 	}

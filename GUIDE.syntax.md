@@ -118,7 +118,7 @@ There is a `null` device for forwarding output into a black hole.
 
 You can also use named pipes for writing files:
 
-    pipe: --file log error.log
+    pipe: --create log --file error.log
     try <!log> {
         err "Do something bad."
     } -> catch {
@@ -149,7 +149,7 @@ There are 4 networking pipes:
 
 These are used in the same way as the other named-pipes described above.
 
-    pipe: --tcp-dial google google.com:80
+    pipe: --create google --tcp-dial google.com:80
     out: <google> "GET /"
     <google>
     pipe: --close google
