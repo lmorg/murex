@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 	"os"
 	"regexp"
 	"strings"
@@ -18,7 +19,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
 		p.Parameters.SetPrepend(p.Name[1 : len(p.Name)-1])
-		p.Name = "<read-pipe>"
+		p.Name = consts.NamedPipeProcName
 	}
 
 	if p.Name[0] == '!' {

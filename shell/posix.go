@@ -3,6 +3,7 @@
 package shell
 
 import (
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/permbits"
 	"io/ioutil"
 	"os/user"
@@ -47,7 +48,7 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 
 	for name := range *exes {
 		if strings.HasPrefix(name, s) {
-			if name != "<read-pipe>" {
+			if name != consts.NamedPipeProcName {
 				items = append(items, name[len(s):])
 			}
 		}

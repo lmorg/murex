@@ -4,12 +4,13 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 	"io"
 )
 
 func init() {
 	proc.GoFunctions["pipe"] = proc.GoFunction{Func: cmdPipe, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["<read-pipe>"] = proc.GoFunction{Func: cmdReadPipe, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions[consts.NamedPipeProcName] = proc.GoFunction{Func: cmdReadPipe, TypeIn: types.Null, TypeOut: types.Generic}
 }
 
 func cmdPipe(p *proc.Process) error {
@@ -108,6 +109,12 @@ func cmdReadPipe(p *proc.Process) error {
 
 	pipe, err := proc.GlobalPipes.Get(name)
 	if err != nil {
+		return err
+	}
+
+	if p.IsMethod {
+		pipe.SetDataType(p.Stdin.GetDataType())
+		_, err = io.Copy(pipe, p.Stdin)
 		return err
 	}
 

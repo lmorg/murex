@@ -2,20 +2,21 @@ package proc
 
 import (
 	"errors"
+	"sort"
 	"sync"
 )
-
-/*type Fork {
-	fid uint64
-	state int
-	Proc *Process
-}*/
 
 type funcID struct {
 	procs  map[int]*Process
 	mutex  sync.Mutex
 	latest int
 }
+
+type fidList []*Process
+
+func (f fidList) Len() int           { return len(f) }
+func (f fidList) Less(i, j int) bool { return f[i].Id < f[j].Id }
+func (f fidList) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
 
 func newFuncID() funcID {
 	var f funcID
@@ -52,11 +53,13 @@ func (f *funcID) Proc(fid int) (*Process, error) {
 	return nil, errors.New("Function ID does not exist.")
 }
 
-func (f *funcID) ListAll() (procs []*Process) {
+func (f *funcID) ListAll() (procs fidList) {
 	f.mutex.Lock()
 	for id := range f.procs {
 		procs = append(procs, f.procs[id])
 	}
 	f.mutex.Unlock()
+
+	sort.Sort(procs)
 	return
 }

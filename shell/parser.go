@@ -263,7 +263,7 @@ func parse(line []rune) (pt parseTokens) {
 
 func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var items []string
-	if len(line) > pos {
+	if len(line) > pos-1 {
 		line = line[:pos]
 	}
 
@@ -299,8 +299,8 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			items = matchExes(s, &exes, true)
 		}
 
-	case pt.bracket > 0:
-		items = []string{" } "}
+	//case pt.bracket > 0:
+	//	items = []string{" } "}
 
 	//case len(line) > loc && line[loc] == '-':
 	//	items = []string{"> "}

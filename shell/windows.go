@@ -3,6 +3,7 @@
 package shell
 
 import (
+	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
 	"os/user"
 	"sort"
@@ -51,7 +52,7 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 			switch name {
 			case ">", ">>", "[", "=":
 				items = append(items, name[len(s):])
-			case "<read-pipe>":
+			case consts.NamedPipeProcName:
 			default:
 				items = append(items, name[len(s):])
 			}
