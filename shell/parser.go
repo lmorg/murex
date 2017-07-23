@@ -281,11 +281,11 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		retPos = len(s)
 		items = matchVars(s)
 
-	case pt.qSingle:
-		items = []string{"'"}
+	//case pt.qSingle:
+	//	items = []string{"'"}
 
-	case pt.qDouble:
-		items = []string{"\""}
+	//case pt.qDouble:
+	//	items = []string{"\""}
 
 	case pt.expectFunc:
 		var s string
@@ -374,6 +374,28 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		forward = 0
 		if !pt.escaped && !pt.qSingle && !pt.qDouble {
 			newLine = append(line, ' ', '}')
+			newPos = len(newLine) - 1
+		} else {
+			newPos = pos
+			newLine = line
+		}
+
+	case key == '\'' && typed:
+		pt := parse(line)
+		forward = 0
+		if !pt.escaped && pt.qSingle && !pt.qDouble {
+			newLine = append(line, '\'')
+			newPos = len(newLine) - 1
+		} else {
+			newPos = pos
+			newLine = line
+		}
+
+	case key == '"' && typed:
+		pt := parse(line)
+		forward = 0
+		if !pt.escaped && !pt.qSingle && pt.qDouble {
+			newLine = append(line, '"')
 			newPos = len(newLine) - 1
 		} else {
 			newPos = pos
