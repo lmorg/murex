@@ -7,6 +7,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"time"
 )
 
 type MurexCompleter struct{}
@@ -15,6 +16,7 @@ var (
 	murexCompleter    *MurexCompleter = new(MurexCompleter)
 	rxAllowedVarChars *regexp.Regexp  = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 	rxVars            *regexp.Regexp  = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
+	keyPressTimer     time.Time
 )
 
 type parseTokens struct {
@@ -346,6 +348,9 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 }
 
 func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
+	typed := time.Now().After(keyPressTimer)
+	keyPressTimer = time.Now().Add(5 * time.Millisecond)
+
 	switch {
 	case key == readline.CharEnter:
 		return nil, 0, ok
@@ -364,7 +369,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		newPos = pos
 		newLine = line
 
-	case key == '{':
+	case key == '{' && typed:
 		pt := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && !pt.qDouble {
