@@ -40,9 +40,9 @@ func main() {
 }
 
 func setShellVar() {
-	shell, err := os.Executable()
-	if err != nil {
-		os.Setenv("SHELL", shell)
+	sh, err := os.Executable()
+	if err == nil {
+		os.Setenv("SHELL", sh)
 	}
 }
 

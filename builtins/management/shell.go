@@ -69,6 +69,10 @@ func cmdArgs(p *proc.Process) (err error) {
 	var jObj flags
 
 	margs := flag.Args()
+	if len(margs) == 0 {
+		return errors.New("Empty args. Was this run inside a murex shell script?")
+	}
+
 	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(margs[1:], &args)
 	if err != nil {
 		jObj.Error = err.Error()
