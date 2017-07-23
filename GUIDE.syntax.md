@@ -102,7 +102,9 @@ might not otherwise sit on the same code pipeline.
 
 (*PLEASE NOTE* that _murex_ named pipes are not file system FIFO objects)
 
-There is also a `null` device for forwarding output into a black hole.
+#### `null` pipe
+
+There is a `null` device for forwarding output into a black hole.
 
     try <!null> {
         err "raise an error to fail `try`."
@@ -111,6 +113,8 @@ There is also a `null` device for forwarding output into a black hole.
     }
 
 (the `null` device doesn't need to be created)
+
+#### File writer pipe
 
 You can also use named pipes for writing files:
 
@@ -123,7 +127,32 @@ You can also use named pipes for writing files:
 
 *PLEASE NOTE* that the <pipe> parameter cannot be populated by variables.
 This is a security design to protect against a $variable containing `<>`
-and causing unexpected behaviour.
+and causing unexpected behaviour. Alternatively you can use <pipe> as a
+function:
+
+    pipe: --create foobar
+    fork: { <foobar> -> cat }
+    out: "writing to foobar..." -> <foobar>
+    pipe: --close foobar
+
+(this example includes a redundant usage of `cat` to demonstrate named-
+pipes writing to functions)
+
+#### Networking pipes
+
+There are 4 networking pipes:
+
+1. tcp-dial - makes an outbound TCP connection
+2. udp-dial - makes an outbound UDP connection
+3. tcp-listen - listens for an incoming TCP connection request
+4. udp-listen - listens for an incoming UDP connection request
+
+These are used in the same way as the other named-pipes described above.
+
+    pipe: --tcp-dial google google.com:80
+    out: <google> "GET /"
+    <google>
+    pipe: --close google
 
 ### Parameters
 

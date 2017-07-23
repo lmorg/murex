@@ -117,13 +117,13 @@ func (n *Named) Close(name string) error {
 	n.pipes[name].Close()
 
 	switch n.types[name] {
-	case npStream, npNetDialer, npNetListener:
+	case npStream:
 		go func() {
 			time.Sleep(10 * time.Second)
 			delete(n.pipes, name)
 			delete(n.types, name)
 		}()
-	case npNull, npFile:
+	case npNull, npFile, npNetDialer, npNetListener:
 		delete(n.pipes, name)
 		delete(n.types, name)
 	default:
