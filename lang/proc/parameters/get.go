@@ -71,10 +71,10 @@ func (p Parameters) Block(pos int) ([]rune, error) {
 		return []rune{}, errors.New("Not a valid code block. Too few characters.")
 
 	case p.Params[pos][0] != '{':
-		return []rune{}, errors.New("Not a valid code block. Missing opening curly brace. Found " + string([]byte{p.Params[pos][0]}) + " instead.")
+		return []rune{}, errors.New("Not a valid code block. Missing opening curly brace. Found `" + string([]byte{p.Params[pos][0]}) + "` instead.")
 
 	case p.Params[pos][len(p.Params[pos])-1] != '}':
-		return []rune{}, errors.New("Not a valid code block. Missing closing curly brace. Found " + string([]byte{p.Params[pos][len(p.Params[pos])-1]}) + " instead.")
+		return []rune{}, errors.New("Not a valid code block. Missing closing curly brace. Found `" + string([]byte{p.Params[pos][len(p.Params[pos])-1]}) + "` instead.")
 
 	}
 

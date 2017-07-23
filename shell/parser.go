@@ -373,8 +373,10 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		pt := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && !pt.qDouble {
-			newLine = append(line, ' ', '}')
-			newPos = len(newLine) - 1
+			//newLine = append(line, '}')
+			//newPos = len(newLine) - 1
+			newLine = smooshLines(line, pos, '}')
+			newPos = pos
 		} else {
 			newPos = pos
 			newLine = line
@@ -384,8 +386,10 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		pt := parse(line)
 		forward = 0
 		if !pt.escaped && pt.qSingle && !pt.qDouble {
-			newLine = append(line, '\'')
-			newPos = len(newLine) - 1
+			//newLine = append(line, '\'')
+			//newPos = len(newLine) - 1
+			newLine = smooshLines(line, pos, '\'')
+			newPos = pos
 		} else {
 			newPos = pos
 			newLine = line
@@ -395,8 +399,10 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		pt := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && pt.qDouble {
-			newLine = append(line, '"')
-			newPos = len(newLine) - 1
+			//newLine = append(line, '"')
+			//newPos = len(newLine) - 1
+			newLine = smooshLines(line, pos, '"')
+			newPos = pos
 		} else {
 			newPos = pos
 			newLine = line
@@ -405,9 +411,11 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	case key == readline.CharBackspace, key == readline.CharDelete:
 		newLine = line
 		newPos = pos
-		pt := parse(line)
-		if pt.bracket < 0 {
+		forward = 0
 
+		pt := parse(line)
+		switch {
+		case pt.bracket < 0:
 			for i := pos; i < len(line); i++ {
 				if line[i] == '}' {
 					newLine = line[:i]
@@ -418,14 +426,51 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 					}
 				}
 			}
+		case pt.qSingle:
+			newLine, newPos = unsmooshLines(line, pos, '\'')
+			/*if pos >= len(line) {
+				pos = len(line) - 1
+			}
+			if line[pos] == '\'' {
+				newLine = line[:pos]
+				if pos < len(line) {
+					newLine = append(newLine, line[pos+1:]...)
+				} else {
+					newPos = newPos - 1
+				}
+			} else {
+				newLine = line
+				newPos = pos
+			}*/
+		case pt.qDouble:
+			newLine, newPos = unsmooshLines(line, pos, '"')
+			/*if pos >= len(line) {
+				pos = len(line) - 1
+			}
+			if line[pos] == '"' {
+				newLine = line[:pos]
+				if pos < len(line) {
+					newLine = append(newLine, line[pos+1:]...)
+				} else {
+					newPos = newPos - 1
+				}
+			} else {
+				newLine = line
+				newPos = pos
+			}*/
 		}
-		forward = 0
 
 	default:
 		forward = 0
 		newPos = pos
 		newLine = line
 
+	}
+
+	if newPos > len(newLine) {
+		newPos = len(line) - 1
+	} else if newPos < 0 {
+		newPos = 0
 	}
 
 	return newLine, newPos, true
@@ -438,4 +483,61 @@ func expandVars(line []rune) []rune {
 		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
 	}
 	return []rune(s)
+}
+
+func smooshLines(line []rune, pos int, injectedChar rune) []rune {
+	if pos == len(line) {
+		return append(line, injectedChar)
+	}
+
+	// How the did this happen?
+	if pos > len(line) {
+		return line
+	}
+
+	// It might seem odd converting this into a slice only to convert back to []rune but Go does some pretty fucked
+	// up stuff with slices sometimes due to them literally just being pointers. I found this caused all kinds of
+	// annoying little glitches in this routine, as simple as it seems.
+	before := string(line[:pos])
+	after := string(line[pos:])
+	newLine := before + string(injectedChar) + after
+	return []rune(newLine)
+}
+
+func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
+	if pos > len(line) {
+		return line, pos
+	}
+
+	if pos < 2 {
+		if line[0] == injectedChar {
+			if len(line) > 1 {
+				return line[1:], pos
+			} else {
+				return []rune{}, 0
+			}
+		} else {
+			return line, pos
+		}
+	}
+
+	if pos == len(line) {
+		if line[pos-1] == injectedChar {
+			if len(line) > 1 {
+				return line[:pos], pos
+			} else {
+				return []rune{}, 0
+			}
+		} else {
+			return line, pos
+		}
+	}
+
+	if line[pos] == injectedChar {
+		before := string(line[:pos])
+		after := string(line[pos+1:])
+		return []rune(before + after), pos
+	}
+
+	return line, pos
 }
