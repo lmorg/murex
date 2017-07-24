@@ -62,7 +62,7 @@ func executeProcess(p *proc.Process) {
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 
 	// Echo
-	echo, err := proc.GlobalConf.Get("shell", "Echo", types.Boolean)
+	echo, err := proc.GlobalConf.Get("shell", "echo", types.Boolean)
 	if err != nil {
 		panic(err.Error())
 	}

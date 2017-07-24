@@ -8,20 +8,17 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"os"
-	"runtime"
 )
 
 var (
 	fCommand string
 	fStdin   bool
-
-	fSource []string
-
-	fEcho bool
-
-	fHelp1 bool
-	fHelp2 bool
-	fHelp3 bool
+	fSource  []string
+	fEcho    bool
+	fHelp1   bool
+	fHelp2   bool
+	fHelp3   bool
+	fSh      bool
 )
 
 func readFlags() {
@@ -34,8 +31,7 @@ func readFlags() {
 
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
-
-	maxProcs := flag.Int("max-procs", 0, "")
+	flag.BoolVar(&fSh, "shell", false, "")
 
 	flag.Parse()
 
@@ -46,16 +42,11 @@ func readFlags() {
 		os.Exit(1)
 	}
 
-	proc.GlobalConf.Define("shell", "Echo", config.Properties{
+	proc.GlobalConf.Define("shell", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
 		DataType:    types.Boolean,
 	})
-
-	if *maxProcs != 0 {
-		runtime.GOMAXPROCS(*maxProcs)
-		fmt.Println("Setting GOMAXPROCS to", *maxProcs)
-	}
 
 	fSource = flag.Args()
 }
