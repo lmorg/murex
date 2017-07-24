@@ -27,12 +27,12 @@ func Start() {
 	)
 
 	Instance, err = readline.NewEx(&readline.Config{
-		HistoryFile:         HomeDirectory + ".murex_history",
-		InterruptPrompt:     "^c",
-		Stdin:               osstdin.Stdin,
-		AutoComplete:        murexCompleter,
-		FuncFilterInputRune: filterInput,
-		//DisableAutoSaveHistory: true,
+		HistoryFile:            HomeDirectory + ".murex_history",
+		InterruptPrompt:        "^c",
+		Stdin:                  osstdin.Stdin,
+		AutoComplete:           murexCompleter,
+		FuncFilterInputRune:    filterInput,
+		DisableAutoSaveHistory: true,
 	})
 
 	if err != nil {
@@ -45,18 +45,27 @@ func Start() {
 
 	for {
 		if !multiline {
-			prompt, _ := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
-			out := streams.NewStdin()
-			exitNum, err := lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
-			out.Close()
+			var (
+				err, err2 error
+				exitNum   int
+				b         []byte
+			)
 
-			b, err2 := out.ReadAll()
-			if len(b) > 1 && b[len(b)-1] == '\n' {
-				b = b[:len(b)-1]
-			}
+			proc.GlobalVars.Set("linenum", 1, types.Number)
+			prompt, err := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
+			if err == nil {
+				out := streams.NewStdin()
+				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
+				out.Close()
 
-			if len(b) > 1 && b[len(b)-1] == '\r' {
-				b = b[:len(b)-1]
+				b, err2 = out.ReadAll()
+				if len(b) > 1 && b[len(b)-1] == '\n' {
+					b = b[:len(b)-1]
+				}
+
+				if len(b) > 1 && b[len(b)-1] == '\r' {
+					b = b[:len(b)-1]
+				}
 			}
 
 			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
@@ -66,7 +75,35 @@ func Start() {
 
 			Instance.SetPrompt(string(b))
 		} else {
-			Instance.SetPrompt(fmt.Sprintf("%d » ", len(lines)+1))
+			var (
+				err, err2 error
+				exitNum   int
+				b         []byte
+			)
+
+			proc.GlobalVars.Set("linenum", len(lines)+1, types.Number)
+			prompt, err := proc.GlobalConf.Get("shell", "prompt-multiline", types.CodeBlock)
+			if err == nil {
+				out := streams.NewStdin()
+				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
+				out.Close()
+
+				b, err2 = out.ReadAll()
+				if len(b) > 1 && b[len(b)-1] == '\n' {
+					b = b[:len(b)-1]
+				}
+
+				if len(b) > 1 && b[len(b)-1] == '\r' {
+					b = b[:len(b)-1]
+				}
+			}
+
+			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
+				os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
+				b = []byte(fmt.Sprintf("%5d » ", len(lines)+1))
+			}
+
+			Instance.SetPrompt(string(b))
 		}
 
 		line, err := Instance.Readline()
@@ -85,8 +122,8 @@ func Start() {
 			break
 		}
 
-		lines = append(lines, line+"\n")
-		block := []rune(strings.Join(lines, ""))
+		lines = append(lines, line)
+		block := []rune(strings.Join(lines, "\n"))
 		_, pErr := lang.ParseBlock(block)
 		switch {
 		case pErr.Code == lang.ErrUnterminatedBrace,
@@ -94,8 +131,10 @@ func Start() {
 			pErr.Code == lang.ErrUnterminatedQuotesSingle:
 			multiline = true
 		default:
+			history := strings.Join(lines, " ")
 			multiline = false
 			lines = make([]string, 0)
+			Instance.SaveHistory(history)
 			Instance.Terminal.EnterRawMode()
 			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, "shell")
 			Instance.Terminal.ExitRawMode()

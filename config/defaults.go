@@ -12,6 +12,12 @@ func defaults(config *Config) {
 		DataType: types.CodeBlock,
 	})
 
+	config.Define("shell", "prompt-multiline", Properties{
+		Description: "Shell prompt",
+		Default:     `{ out "$linenum » " }`,
+		DataType:    types.CodeBlock,
+	})
+
 	config.Define("shell", "history", Properties{
 		Description: "Save shell history",
 		Default:     true,
