@@ -16,6 +16,7 @@ import (
 
 var (
 	Instance *readline.Instance
+	History  history
 	forward  int
 )
 
@@ -27,16 +28,18 @@ func Start() {
 	)
 
 	Instance, err = readline.NewEx(&readline.Config{
-		HistoryFile:            HomeDirectory + ".murex_history",
 		InterruptPrompt:        "^c",
 		Stdin:                  osstdin.Stdin,
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
 	})
-
 	if err != nil {
 		panic(err)
+	}
+
+	History = history{
+		file: HomeDirectory + ".murex_history",
 	}
 
 	Instance.Config.SetListener(listener)
@@ -131,10 +134,10 @@ func Start() {
 			pErr.Code == lang.ErrUnterminatedQuotesSingle:
 			multiline = true
 		default:
-			history := strings.Join(lines, " ")
+			History.Last = strings.Join(lines, " ")
 			multiline = false
 			lines = make([]string, 0)
-			Instance.SaveHistory(history)
+			Instance.SaveHistory(History.Last)
 			Instance.Terminal.EnterRawMode()
 			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, "shell")
 			Instance.Terminal.ExitRawMode()
