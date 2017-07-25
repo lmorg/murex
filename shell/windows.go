@@ -71,7 +71,7 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 }
 
 func isLocal(s string) bool {
-	return strings.HasPrefix(s, `.\`) || strings.HasPrefix(s, `\`) || (len(s) > 2 && strings.HasPrefix(s[1:], `:\`))
+	return strings.HasPrefix(s, `.\`) || strings.HasPrefix(s, `..\`) || strings.HasPrefix(s, `\`) || (len(s) > 2 && strings.HasPrefix(s[1:], `:\`))
 }
 
 func partialPath(loc string) (path, partial string) {

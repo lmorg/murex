@@ -290,6 +290,7 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		switch {
 		case isLocal(s):
 			items = matchLocal(s, true)
+			items = append(items, matchDirs(s)...)
 		default:
 			exes := allExecutables(true)
 			items = matchExes(s, &exes, true)

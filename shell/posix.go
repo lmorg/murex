@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/permbits"
 	"io/ioutil"
+	"os"
 	"os/user"
 	"sort"
 	"strings"
@@ -34,8 +35,30 @@ func listExes(path string, exes *map[string]bool) {
 			continue
 		}
 		perm := permbits.FileMode(f.Mode())
-		if perm.OtherExecute() /*|| perm.GroupExecute()||perm.UserExecute() need to check what user and groups you are in first */ {
+		switch {
+		case perm.OtherExecute() && f.Mode().IsRegular():
 			(*exes)[f.Name()] = true
+		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
+			ln, err := os.Readlink(path + "/" + f.Name())
+			if err != nil {
+				continue
+				//panic(err.Error())
+			}
+			if ln[0] != '/' {
+				ln = path + "/" + ln
+			}
+			info, err := os.Stat(ln)
+			if err != nil {
+				continue
+				//panic(err.Error())
+			}
+			perm := permbits.FileMode(info.Mode())
+			if perm.OtherExecute() && info.Mode().IsRegular() {
+				(*exes)[f.Name()] = true
+			}
+
+		default:
+			/*|| perm.GroupExecute()||perm.UserExecute() need to check what user and groups you are in first */
 		}
 	}
 }
@@ -72,7 +95,7 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 }
 
 func isLocal(s string) bool {
-	return strings.HasPrefix(s, "./") || strings.HasPrefix(s, "/")
+	return strings.HasPrefix(s, "./") || strings.HasPrefix(s, "../") || strings.HasPrefix(s, "/")
 }
 
 func partialPath(s string) (path, partial string) {
@@ -106,6 +129,32 @@ func matchDirs(s string) (items []string) {
 	for _, f := range files {
 		if f.IsDir() {
 			dirs = append(dirs, f.Name()+"/")
+			continue
+		}
+
+		perm := permbits.FileMode(f.Mode())
+		switch {
+		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
+			ln, err := os.Readlink(path + "/" + f.Name())
+			if err != nil {
+				continue
+				//panic(err.Error())
+			}
+			if ln[0] != '/' {
+				ln = path + "/" + ln
+			}
+			info, err := os.Stat(ln)
+			if err != nil {
+				continue
+				//panic(err.Error())
+			}
+			perm := permbits.FileMode(info.Mode())
+			if perm.OtherExecute() && info.Mode().IsDir() {
+				dirs = append(dirs, f.Name()+"/")
+			}
+
+		default:
+			/*|| perm.GroupExecute()||perm.UserExecute() need to check what user and groups you are in first */
 		}
 	}
 
