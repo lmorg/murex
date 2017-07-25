@@ -281,12 +281,6 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 		retPos = len(s)
 		items = matchVars(s)
 
-	//case pt.qSingle:
-	//	items = []string{"'"}
-
-	//case pt.qDouble:
-	//	items = []string{"\""}
-
 	case pt.expectFunc:
 		var s string
 		if pt.loc < len(line) {
@@ -300,12 +294,6 @@ func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int)
 			exes := allExecutables(true)
 			items = matchExes(s, &exes, true)
 		}
-
-	//case pt.bracket > 0:
-	//	items = []string{" } "}
-
-	//case len(line) > loc && line[loc] == '-':
-	//	items = []string{"> "}
 
 	default:
 		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
@@ -386,8 +374,6 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		pt := parse(line)
 		forward = 0
 		if !pt.escaped && pt.qSingle && !pt.qDouble {
-			//newLine = append(line, '\'')
-			//newPos = len(newLine) - 1
 			newLine = smooshLines(line, pos, '\'')
 			newPos = pos
 		} else {
@@ -399,8 +385,6 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		pt := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && pt.qDouble {
-			//newLine = append(line, '"')
-			//newPos = len(newLine) - 1
 			newLine = smooshLines(line, pos, '"')
 			newPos = pos
 		} else {
@@ -428,36 +412,8 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 			}
 		case pt.qSingle:
 			newLine, newPos = unsmooshLines(line, pos, '\'')
-			/*if pos >= len(line) {
-				pos = len(line) - 1
-			}
-			if line[pos] == '\'' {
-				newLine = line[:pos]
-				if pos < len(line) {
-					newLine = append(newLine, line[pos+1:]...)
-				} else {
-					newPos = newPos - 1
-				}
-			} else {
-				newLine = line
-				newPos = pos
-			}*/
 		case pt.qDouble:
 			newLine, newPos = unsmooshLines(line, pos, '"')
-			/*if pos >= len(line) {
-				pos = len(line) - 1
-			}
-			if line[pos] == '"' {
-				newLine = line[:pos]
-				if pos < len(line) {
-					newLine = append(newLine, line[pos+1:]...)
-				} else {
-					newPos = newPos - 1
-				}
-			} else {
-				newLine = line
-				newPos = pos
-			}*/
 		}
 
 	default:
