@@ -3,7 +3,7 @@
 package proc
 
 import (
-	"os"
+	"github.com/lmorg/murex/lang/types"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -26,13 +26,12 @@ func External(p *Process) error {
 }
 
 func execute(p *Process) error {
-	exeName, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-	// Horrible fudge adding cmd /c to the parameters but this is to get around cmd.exe builtins.
+	p.Stdout.SetDataType(types.String)
+
+	// Horrible fudge adding cmd /c to the parameters,
+	// this is to get around half the useful features in cmd.exe being builtins.
 	parameters := append([]string{"cmd", "/c"}, p.Parameters.StringArray()...)
-	cmd := exec.Command(exeName, parameters[1:]...)
+	cmd := exec.Command(parameters[0], parameters...)
 
 	cmd.Stdin = p.Stdin
 	cmd.Stdout = p.Stdout
@@ -50,7 +49,8 @@ func execute(p *Process) error {
 }
 
 func ExternalPty(p *Process) error {
-	// External executable
+	return External(p)
+	/*// External executable
 	if err := shellExecute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.
 		if strings.HasPrefix(err.Error(), "exit status ") {
@@ -62,52 +62,52 @@ func ExternalPty(p *Process) error {
 		}
 
 	}
-	return nil
+	return nil*/
 }
 
-func shellExecute(p *Process) error {
+// Prototype call with support for PTYs. Highly experimental.
+/*func shellExecute(p *Process) (err error) {
+	p.Stdout.SetDataType(types.Null)
+
 	// Create an object for the executable we wish to invoke.
 	exeName, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
-	// Horrible fudge adding cmd /c to the parameters but this is to get around cmd.exe builtins.
 	parameters := append([]string{"cmd", "/c"}, p.Parameters.StringArray()...)
 	cmd := exec.Command(exeName, parameters[1:]...)
 
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	stdin, err := cmd.StdinPipe()
+	// Create a PTY for the executable.
+	f, err := pty.Start(cmd)
 	if err != nil {
 		return err
 	}
 
-	// Create an STDIN function, copying 1KB blocks at a time.
 	active := true
+
 	go func() {
-		defer stdin.Close()
+		// Create an STDIN function, copying 1KB blocks at a time.
 		b := make([]byte, 1024)
 		for active {
-			i, err := os.Stdin.Read(b)
+			var i int
+
+			i, err := osstdin.Stdin.Read(b)
 			if err != nil {
 				return
 			}
-			if _, err := stdin.Write(b[:i]); err != nil {
+			// oops the program has closed but this goroutine is still active.
+			// So lets push the []bytes back into the stack.
+			if !active {
+				osstdin.Stdin.Prepend(b[:i])
+				return
+			}
+			if _, err = f.Write(b[:i]); err != nil {
 				return
 			}
 		}
-		stdin.Close()
 	}()
 
-	if err := cmd.Start(); err != nil {
-		return err
-	}
-
-	if err := cmd.Wait(); err != nil {
-		return err
-	}
-
+	io.Copy(p.Stdout, f)
 	active = false
-	return nil
-}
+	return
+}*/
