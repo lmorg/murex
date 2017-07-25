@@ -46,11 +46,15 @@ func matchFlags(partial, exe string) (items []string) {
 	}
 
 	for i := range ExesFlags[exe].Flags {
-		flag := strings.TrimSpace(ExesFlags[exe].Flags[i])
+		//flag := strings.TrimSpace(ExesFlags[exe].Flags[i])
+		flag := ExesFlags[exe].Flags[i]
 		if flag == "" {
 			continue
 		}
 		if strings.HasPrefix(flag, partial) {
+			if flag[len(flag)-1] != '=' {
+				flag += " "
+			}
 			items = append(items, flag[len(partial):])
 		}
 	}
