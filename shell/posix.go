@@ -124,7 +124,11 @@ func matchLocal(s string, includeColon bool) (items []string) {
 func matchDirs(s string) (items []string) {
 	path, partial := partialPath(s)
 
-	dirs := []string{"../"}
+	var dirs []string
+	if path != "/" {
+		dirs = []string{"../"}
+	}
+
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
@@ -143,7 +147,7 @@ func matchDirs(s string) (items []string) {
 			if ln[0] != '/' {
 				ln = path + "/" + ln
 			}
-			info, err := os.Stat(ln)
+			info, err := os.Lstat(ln)
 			if err != nil {
 				continue
 				//panic(err.Error())
