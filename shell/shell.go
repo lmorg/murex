@@ -38,8 +38,9 @@ func Start() {
 		panic(err)
 	}
 
-	History = history{
-		file: HomeDirectory + ".murex_history",
+	History, err = openHistFile(HomeDirectory + ".murex_history")
+	if err != nil {
+		os.Stderr.WriteString("Error opening history file: " + err.Error())
 	}
 
 	Instance.Config.SetListener(listener)
@@ -133,11 +134,14 @@ func Start() {
 			pErr.Code == lang.ErrUnterminatedEscape,
 			pErr.Code == lang.ErrUnterminatedQuotesSingle:
 			multiline = true
+		case len(block) == 0:
+			continue
 		default:
 			History.Last = strings.Join(lines, " ")
 			multiline = false
 			lines = make([]string, 0)
 			Instance.SaveHistory(History.Last)
+			History.Write(block)
 			Instance.Terminal.EnterRawMode()
 			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, "shell")
 			Instance.Terminal.ExitRawMode()
