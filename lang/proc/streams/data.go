@@ -5,8 +5,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/csv"
 	"strconv"
 	"strings"
@@ -31,7 +31,7 @@ func readArray(read Io, callback func([]byte)) error {
 					callback(bytes.TrimSpace([]byte(j[i].(string))))
 
 				default:
-					jBytes, err := utils.JsonMarshal(j[i])
+					jBytes, err := json.Marshal(j[i])
 					if err != nil {
 						return err
 					}
@@ -68,7 +68,7 @@ func readMap(read Io, config *config.Config, callback func(key, value string, la
 		err = json.Unmarshal(b, &jObj)
 		if err == nil {
 
-			switch jObj.(type) {
+			switch v := jObj.(type) {
 			case map[string]interface{}:
 				i := 1
 				for key := range jObj.(map[string]interface{}) {
@@ -89,9 +89,15 @@ func readMap(read Io, config *config.Config, callback func(key, value string, la
 					}
 					callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
 				}
+
+			default:
+				if debug.Enable {
+					panic(v)
+				}
 			}
+			return nil
 		}
-		fallthrough
+		return err
 
 	case types.Csv:
 		csvParser, err := csv.NewParser(read, config)
