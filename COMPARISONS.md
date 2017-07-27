@@ -7,7 +7,7 @@ where members compared different shell one liners.
 
 Bash + jq:
 
-    curl -s  https://api.github.com/repos/lmorg/murex/issues | jq -r  '.[] | [(.number|tostring), .title] | join(": ")'
+    curl -s https://api.github.com/repos/lmorg/murex/issues | jq -r  '.[] | [(.number|tostring), .title] | join(": ")'
 
 Elvish:
 
@@ -15,4 +15,4 @@ Elvish:
 
 Murex:
 
-    get https://api.github.com/repos/lmorg/murex/issues -> [ Body ] -> foreach { -> [ number title ] -> table ": " }
+    get https://api.github.com/repos/lmorg/murex/issues -> [ Body ] -> foreach { -> [ number title ] -> sprintf "%2s: %s" }
