@@ -125,7 +125,7 @@ func fStringGeneric(p *proc.Process, dt, format string) error {
 			return err
 		}
 
-		b, err := utils.JsonMarshal(jObj)
+		b, err := utils.JsonMarshal(jObj, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -214,7 +214,7 @@ func fCsv(p *proc.Process, dt, format string) error {
 			jObj = append(jObj, obj)
 		})
 
-		b, err := utils.JsonMarshal(jObj)
+		b, err := utils.JsonMarshal(jObj, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}

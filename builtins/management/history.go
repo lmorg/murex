@@ -21,7 +21,7 @@ func cmdHistory(p *proc.Process) (err error) {
 		return errors.New("This is only designed to be run when the shell is in interactive mode.")
 	}
 
-	b, err := utils.JsonMarshal(shell.History.List)
+	b, err := utils.JsonMarshal(shell.History.List, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

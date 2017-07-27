@@ -1,7 +1,6 @@
 package management
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
@@ -30,7 +29,7 @@ func cmdDebug(p *proc.Process) (err error) {
 			b   []byte
 		)
 
-		b, err = json.MarshalIndent(obj, "", "\t")
+		b, err = utils.JsonMarshal(obj, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -71,7 +70,7 @@ func cmdListBuiltins(p *proc.Process) error {
 	//for name := range proc.GoFunctions {
 	//	p.Stdout.Writeln([]byte(name))
 	//}
-	b, err := utils.JsonMarshal(proc.GoFunctions)
+	b, err := utils.JsonMarshal(proc.GoFunctions, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -100,7 +99,7 @@ func cmdBuiltinExists(p *proc.Process) error {
 		}
 	}
 
-	b, err := json.MarshalIndent(j, "", "\t")
+	b, err := utils.JsonMarshal(j, p.Stdout.IsTTY())
 	p.Stdout.Writeln(b)
 
 	return err
@@ -110,7 +109,7 @@ func cmdConfig(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
 		p.Stdout.SetDataType(types.Json)
 
-		b, err := json.MarshalIndent(proc.GlobalConf.Dump(), "", "\t")
+		b, err := utils.JsonMarshal(proc.GlobalConf.Dump(), p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -164,7 +163,7 @@ func cmdCd(p *proc.Process) error {
 func cmdAlias(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
 		p.Stdout.SetDataType(types.Json)
-		b, err := utils.JsonMarshal(proc.GlobalAliases.Dump())
+		b, err := utils.JsonMarshal(proc.GlobalAliases.Dump(), p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}

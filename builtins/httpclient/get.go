@@ -1,7 +1,6 @@
 package httpclient
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -53,7 +52,7 @@ func cmdGet(p *proc.Process) (err error) {
 		return err
 	}
 
-	b, err = json.MarshalIndent(jhttp, "", "\t")
+	b, err = utils.JsonMarshal(jhttp, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

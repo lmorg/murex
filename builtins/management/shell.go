@@ -62,7 +62,7 @@ func cmdArgs(p *proc.Process) (err error) {
 	}
 	jObj.Self = margs[0]
 
-	b, err := utils.JsonMarshal(jObj)
+	b, err := utils.JsonMarshal(jObj, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -142,7 +142,7 @@ func cmdAutocomplete(p *proc.Process) error {
 func listAutocomplete(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	b, err := utils.JsonMarshal(shell.ExesFlags)
+	b, err := utils.JsonMarshal(shell.ExesFlags, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

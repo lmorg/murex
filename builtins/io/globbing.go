@@ -26,7 +26,7 @@ func cmdLsG(p *proc.Process) (err error) {
 		return
 	}
 
-	j, err := utils.JsonMarshal(files)
+	j, err := utils.JsonMarshal(files, p.Stdout.IsTTY())
 	if err != nil {
 		return
 	}
@@ -54,7 +54,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 		}
 	}
 
-	j, err := utils.JsonMarshal(matched)
+	j, err := utils.JsonMarshal(matched, p.Stdout.IsTTY())
 	if err != nil {
 		return
 	}
@@ -126,7 +126,7 @@ func cmdLsF(p *proc.Process) (err error) {
 	}
 
 	var b []byte
-	b, err = utils.JsonMarshal(matched)
+	b, err = utils.JsonMarshal(matched, p.Stdout.IsTTY())
 	if err == nil {
 		_, err = p.Stdout.Writeln(b)
 	}

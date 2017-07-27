@@ -239,7 +239,7 @@ func mkArray(p *proc.Process) error {
 	}
 
 	if jsonArray {
-		b, err := utils.JsonMarshal(array)
+		b, err := utils.JsonMarshal(array, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
