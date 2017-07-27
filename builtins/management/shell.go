@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
-	"io"
 	"io/ioutil"
 	"os"
 	"sort"
@@ -32,18 +31,22 @@ func init() {
 }
 
 func cmdHistory(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.String)
+	p.Stdout.SetDataType(types.Json)
 	if shell.Instance == nil {
 		return errors.New("This is only designed to be run when the shell is in interactive mode.")
 	}
 
-	file, err := os.Open(shell.Instance.Config.HistoryFile)
+	hist := make(map[int]shell.HistItem)
+	for i, item := range shell.History.List {
+		hist[i+1] = item
+	}
+
+	b, err := utils.JsonMarshal(hist)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
 
-	_, err = io.Copy(p.Stdout, file)
+	_, err = p.Stdout.Writeln(b)
 	return err
 }
 

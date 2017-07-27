@@ -38,7 +38,7 @@ func Start() {
 		panic(err)
 	}
 
-	History, err = openHistFile(HomeDirectory + ".murex_history")
+	History, err = newHist(HomeDirectory + ".murex_history")
 	if err != nil {
 		os.Stderr.WriteString("Error opening history file: " + err.Error())
 	}
