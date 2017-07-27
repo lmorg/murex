@@ -13,8 +13,6 @@ import (
 	"sync"
 )
 
-func (n *Net) DefaultDataType(bool) {}
-
 type Net struct {
 	mutex    sync.Mutex
 	buffer   []byte
@@ -26,6 +24,9 @@ type Net struct {
 	dataType string
 	protocol string
 }
+
+func (n *Net) DefaultDataType(bool) {}
+func (n *Net) IsTTY() bool          { return false }
 
 func NewDialer(protocol, address string) (n *Net, err error) {
 	n = new(Net)

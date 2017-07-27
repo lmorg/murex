@@ -19,6 +19,7 @@ type Io interface {
 	GetDataType() string
 	SetDataType(string)
 	DefaultDataType(bool)
+	IsTTY() bool
 
 	Read([]byte) (int, error)
 	ReadLine(callback func([]byte)) error

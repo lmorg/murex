@@ -15,4 +15,4 @@ Elvish:
 
 Murex:
 
-    get https://api.github.com/repos/lmorg/murex/issues -> [ Body ] -> foreach { -> [ number title ] -> sprintf "%2s: %s" }
+    get https://api.github.com/repos/lmorg/murex/issues -> [ Body ] -> foreach { -> [ number title ] -> sprintf "%2s: %s\n" }

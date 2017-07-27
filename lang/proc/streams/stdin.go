@@ -29,6 +29,8 @@ func NewStdin() (stdin *Stdin) {
 	return
 }
 
+func (in *Stdin) IsTTY() bool { return false }
+
 // This is used for subshells so they don't accidentally close the parent stream.
 func (rw *Stdin) MakeParent() {
 	rw.mutex.Lock()

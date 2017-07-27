@@ -25,4 +25,5 @@ func (t *Null) Stats() (uint64, uint64)                                  { retur
 func (t *Null) GetDataType() string                                      { return types.Null }
 func (t *Null) SetDataType(string)                                       {}
 func (t *Null) DefaultDataType(bool)                                     {}
+func (t *Null) IsTTY() bool                                              { return false }
 func (t *Null) Close()                                                   {}

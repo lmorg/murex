@@ -13,16 +13,14 @@ import (
 // shells streams (which has a larger array of methods to enable easier writing of builtin shell functions.
 
 type term struct {
-	sync.Mutex
+	mutex sync.Mutex
 	//debug.Mutex
 	bWritten uint64
 	bRead    uint64
 	lastChar byte
+	isParent bool
 }
 
-func (t *term) MakeParent()                                              {}
-func (t *term) UnmakeParent()                                            {}
-func (t *term) MakePipe()                                                {}
 func (t *term) Read([]byte) (int, error)                                 { return 0, io.EOF }
 func (t *term) ReadLine(func([]byte)) error                              { return nil }
 func (t *term) ReadArray(func([]byte)) error                             { return nil }
@@ -32,14 +30,29 @@ func (t *term) WriteTo(io.Writer) (int64, error)                         { retur
 func (t *term) GetDataType() string                                      { return types.Null }
 func (t *term) SetDataType(string)                                       {}
 func (t *term) DefaultDataType(bool)                                     {}
+func (t *term) IsTTY() bool                                              { return true }
 
-//func (t *term) Close()                           {}
+func (t *term) MakeParent() {
+	t.mutex.Lock()
+	t.isParent = true
+	t.mutex.Unlock()
+}
+
+func (t *term) UnmakeParent() {
+	t.mutex.Lock()
+	t.isParent = false
+	t.mutex.Unlock()
+}
+
+func (t *term) MakePipe() {
+	t.MakeParent()
+}
 
 func (t *term) Stats() (bytesWritten, bytesRead uint64) {
-	t.Lock()
+	t.mutex.Lock()
 	bytesWritten = t.bWritten
 	bytesRead = t.bRead
-	t.Unlock()
+	t.mutex.Unlock()
 	return
 }
 
@@ -50,7 +63,7 @@ type TermOut struct {
 }
 
 func (t *TermOut) Write(b []byte) (i int, err error) {
-	t.Lock()
+	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
 	i, err = os.Stdout.Write(b)
 	if err != nil {
@@ -58,7 +71,7 @@ func (t *TermOut) Write(b []byte) (i int, err error) {
 	} else if len(b) > 0 {
 		t.lastChar = b[len(b)-1]
 	}
-	t.Unlock()
+	t.mutex.Unlock()
 	return
 }
 
@@ -69,7 +82,7 @@ func (t *TermOut) Writeln(b []byte) (int, error) {
 
 func (t *TermOut) Close() {
 	// Since this is a terminal we'll append \n if none present (for better readability)
-	if t.lastChar != '\n' && t.bWritten > 0 {
+	if !t.isParent && t.lastChar != '\n' && t.bWritten > 0 {
 		t.Write(utils.NewLineByte)
 	}
 }
@@ -81,7 +94,7 @@ type TermErr struct {
 }
 
 func (t *TermErr) Write(b []byte) (i int, err error) {
-	t.Lock()
+	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
 	i, err = os.Stderr.Write(b)
 	if err != nil {
@@ -89,7 +102,7 @@ func (t *TermErr) Write(b []byte) (i int, err error) {
 	} else if len(b) > 0 {
 		t.lastChar = b[len(b)-1]
 	}
-	t.Unlock()
+	t.mutex.Unlock()
 	return
 }
 
@@ -100,7 +113,7 @@ func (t *TermErr) Writeln(b []byte) (int, error) {
 
 func (t *TermErr) Close() {
 	// Since this is a terminal we'll append \n if none present (for better readability)
-	if t.lastChar != '\n' && t.bWritten > 0 {
+	if !t.isParent && t.lastChar != '\n' && t.bWritten > 0 {
 		t.Write(utils.NewLineByte)
 	}
 }

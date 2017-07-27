@@ -27,6 +27,7 @@ func (f *File) WriteTo(io.Writer) (int64, error)                         { retur
 func (f *File) GetDataType() string                                      { return types.Null }
 func (f *File) SetDataType(string)                                       {}
 func (f *File) DefaultDataType(bool)                                     {}
+func (f *File) IsTTY() bool                                              { return false }
 
 func (f *File) MakePipe() {
 	f.mutex.Lock()
