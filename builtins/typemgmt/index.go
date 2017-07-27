@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/csv"
 	"strconv"
 	"strings"
@@ -17,14 +18,6 @@ func init() {
 }
 
 func array(p *proc.Process) (err error) {
-	/*end, err := p.Parameters.String(p.Parameters.Len() - 1)
-	if err != nil {
-		return err
-	}
-	if end != "]" {
-		return errors.New("Missing closing bracket, ` ]`")
-	}*/
-
 	params := p.Parameters.StringArray()
 	l := len(params) - 1
 	if l < 0 {
@@ -71,7 +64,7 @@ func array(p *proc.Process) (err error) {
 					case string:
 						p.Stdout.Write([]byte(v[key].(string)))
 					default:
-						b, err := json.Marshal(v[key])
+						b, err := utils.JsonMarshal(v[key], p.Stdout.IsTTY())
 						if err != nil {
 							return err
 						}
@@ -80,7 +73,7 @@ func array(p *proc.Process) (err error) {
 				}
 			}
 			if len(jArray) > 0 {
-				b, err := json.Marshal(jArray)
+				b, err := utils.JsonMarshal(jArray, p.Stdout.IsTTY())
 				if err != nil {
 					return err
 				}
@@ -109,7 +102,7 @@ func array(p *proc.Process) (err error) {
 					case string:
 						p.Stdout.Write([]byte(v[i].(string)))
 					default:
-						b, err := json.Marshal(v[i])
+						b, err := utils.JsonMarshal(v[i], p.Stdout.IsTTY())
 						if err != nil {
 							return err
 						}
@@ -118,7 +111,7 @@ func array(p *proc.Process) (err error) {
 				}
 			}
 			if len(jArray) > 0 {
-				b, err := json.Marshal(jArray)
+				b, err := utils.JsonMarshal(jArray, p.Stdout.IsTTY())
 				if err != nil {
 					return err
 				}

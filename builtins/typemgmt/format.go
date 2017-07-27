@@ -15,39 +15,10 @@ import (
 )
 
 func init() {
-	//proc.GoFunctions["table"] = proc.GoFunction{Func: cmdTable, TypeIn: types.Generic, TypeOut: types.Csv}
 	proc.GoFunctions["format"] = proc.GoFunction{Func: cmdFormat, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
 const iDontKnow = "I don't know how to convert %s into %s."
-
-/*func cmdTable(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Csv)
-
-	separator, err := p.Parameters.String(0)
-	if err != nil {
-		return
-	}
-
-	var (
-		a []string
-		s string
-	)
-
-	join := func(b []byte) {
-		a = append(a, string(b))
-	}
-
-	if p.IsMethod {
-		p.Stdin.ReadArray(join)
-		s = strings.Join(a, separator)
-	} else {
-		s = strings.Join(p.Parameters.StringArray()[1:], string(separator))
-	}
-
-	_, err = p.Stdout.Writeln([]byte(s))
-	return
-}*/
 
 func cmdFormat(p *proc.Process) (err error) {
 	format, err := p.Parameters.String(0)

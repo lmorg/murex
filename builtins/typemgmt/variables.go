@@ -1,10 +1,10 @@
 package typemgmt
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"os"
 	"regexp"
 )
@@ -20,7 +20,7 @@ func init() {
 func cmdGlobals(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	b, err := json.MarshalIndent(proc.GlobalVars.Dump(), "", "\t")
+	b, err := utils.JsonMarshal(proc.GlobalVars.Dump(), p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
