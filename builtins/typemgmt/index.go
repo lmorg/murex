@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/csv"
 	"strconv"
+	"strings"
 )
 
 type jsonInterface map[interface{}]interface{}
@@ -15,16 +16,28 @@ func init() {
 	proc.GoFunctions["["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
-func array(p *proc.Process) error {
-	end, err := p.Parameters.String(p.Parameters.Len() - 1)
+func array(p *proc.Process) (err error) {
+	/*end, err := p.Parameters.String(p.Parameters.Len() - 1)
 	if err != nil {
 		return err
 	}
 	if end != "]" {
 		return errors.New("Missing closing bracket, ` ]`")
-	}
+	}*/
 
-	params := p.Parameters.StringArray()[:p.Parameters.Len()-1]
+	params := p.Parameters.StringArray()
+	l := len(params) - 1
+	if l < 0 {
+		return errors.New("Missing parameters. Please select 1 or more indexes.")
+	}
+	switch {
+	case params[l] == "]":
+		params = params[:l]
+	case strings.HasSuffix(params[l], "]"):
+		params[l] = params[l][:len(params[l])-1]
+	default:
+		return errors.New("Missing closing bracket, ` ]`")
+	}
 
 	switch p.Stdin.GetDataType() {
 	case types.Json:

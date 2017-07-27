@@ -12,11 +12,12 @@ import (
 type history struct {
 	filename string
 	Last     string
-	List     []HistItem
+	List     []histItem
 	writer   streams.Io
 }
 
-type HistItem struct {
+type histItem struct {
+	Index    int
 	DateTime time.Time
 	Block    string
 }
@@ -34,7 +35,7 @@ func newHist(filename string) (h history, err error) {
 	return h, err
 }
 
-func openHist(filename string) (list []HistItem, err error) {
+func openHist(filename string) (list []histItem, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return list, err
@@ -43,11 +44,12 @@ func openHist(filename string) (list []HistItem, err error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		var item HistItem
+		var item histItem
 		err := json.Unmarshal(scanner.Bytes(), &item)
 		if err != nil || len(item.Block) == 0 {
 			continue
 		}
+		item.Index = len(list)
 		list = append(list, item)
 		if Instance != nil {
 			Instance.SaveHistory(strings.Replace(item.Block, "\n", " ", -1))
@@ -57,12 +59,14 @@ func openHist(filename string) (list []HistItem, err error) {
 }
 
 func (h *history) Write(block []rune) {
-	item := HistItem{
+	item := histItem{
 		DateTime: time.Now(),
 		Block:    string(block),
+		Index:    len(h.List),
 	}
 	b, _ := json.Marshal(item)
 	h.writer.Writeln(b)
+	h.List = append(h.List, item)
 }
 
 func (h *history) Close() {

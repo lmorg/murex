@@ -19,7 +19,6 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["history"] = proc.GoFunction{Func: cmdHistory, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["args"] = proc.GoFunction{Func: cmdArgs, TypeIn: types.Null, TypeOut: types.Json}
 	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
@@ -28,26 +27,6 @@ func init() {
 	proc.GoFunctions["version"] = proc.GoFunction{Func: cmdVersion, TypeIn: types.Null, TypeOut: types.String}
 	proc.GoFunctions["fid-list"] = proc.GoFunction{Func: cmdFidList, TypeIn: types.Null, TypeOut: types.String}
 	proc.GoFunctions["fid-kill"] = proc.GoFunction{Func: cmdFidKill, TypeIn: types.Null, TypeOut: types.String}
-}
-
-func cmdHistory(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Json)
-	if shell.Instance == nil {
-		return errors.New("This is only designed to be run when the shell is in interactive mode.")
-	}
-
-	hist := make(map[int]shell.HistItem)
-	for i, item := range shell.History.List {
-		hist[i+1] = item
-	}
-
-	b, err := utils.JsonMarshal(hist)
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Writeln(b)
-	return err
 }
 
 func cmdArgs(p *proc.Process) (err error) {
