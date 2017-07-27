@@ -53,6 +53,7 @@ func cmdHistCmd(p *proc.Process) (err error) {
 	}
 
 	fmt.Println("» " + block)
+	p.Stdin.MakeParent()
 	p.ExitNum, err = lang.ProcessNewBlock([]rune(block), p.Stdin, p.Stdout, p.Stderr, "^")
 
 	return err

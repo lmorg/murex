@@ -16,9 +16,11 @@ import (
 )
 
 var (
-	paths        []string
-	manId        []string       = []string{"man1", "man6", "man7", "man8"}
-	rxMatchFlags *regexp.Regexp = regexp.MustCompile(`\\fB(\\-[a-zA-Z0-9]|\\-\\-[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
+	paths               []string
+	manId               []string       = []string{"man1", "man6", "man7", "man8"}
+	rxMatchFlagsEscaped *regexp.Regexp = regexp.MustCompile(`\\f[BI](\\-[a-zA-Z0-9]|\\-\\-[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
+	rxMatchFlagsQuoted  *regexp.Regexp = regexp.MustCompile(`\.IP "(.*?)"`)
+	rxMatchFlagsFlag    *regexp.Regexp = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
 )
 
 /*
@@ -40,7 +42,8 @@ MANUAL SECTIONS
 
 func Initialise() {
 	debug.Log("Initialising man pages...")
-	cmd := exec.Command("man", "-w")
+	//cmd := exec.Command("man", "-w")
+	cmd := exec.Command("manpath")
 
 	b, err := cmd.Output()
 	if err != nil {
@@ -90,14 +93,34 @@ func parseManPage(flags *map[string]bool, filename string) {
 	scanner := bufio.NewScanner(gz)
 
 	for scanner.Scan() {
-		match := rxMatchFlags.FindAllStringSubmatch(scanner.Text(), -1)
+		s := scanner.Text()
+
+		match := rxMatchFlagsEscaped.FindAllStringSubmatch(s, -1)
 		for i := range match {
-			if len(match[i]) > 0 {
-				s := strings.Replace(match[i][1], `\`, "", -1)
-				if strings.HasSuffix(s, "fR") || strings.HasSuffix(s, "fP") {
-					s = s[:len(s)-2]
+			if len(match[i]) == 0 {
+				continue
+			}
+
+			s := strings.Replace(match[i][1], `\`, "", -1)
+			if strings.HasSuffix(s, "fR") || strings.HasSuffix(s, "fP") {
+				s = s[:len(s)-2]
+			}
+			(*flags)[s] = true
+		}
+
+		match = rxMatchFlagsQuoted.FindAllStringSubmatch(s, -1)
+		for i := range match {
+			if len(match[i]) == 0 {
+				continue
+			}
+
+			flag := rxMatchFlagsFlag.FindAllStringSubmatch(match[i][1], -1)
+			for j := range flag {
+				if len(flag[j]) == 0 {
+					continue
 				}
-				(*flags)[s] = true
+
+				(*flags)[flag[j][1]] = true
 			}
 		}
 	}

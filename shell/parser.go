@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/utils"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -16,6 +17,7 @@ var (
 	murexCompleter    *MurexCompleter = new(MurexCompleter)
 	rxAllowedVarChars *regexp.Regexp  = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 	rxVars            *regexp.Regexp  = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
+	rxHistory         *regexp.Regexp  = regexp.MustCompile(`(\^[0-9]+)`)
 	keyPressTimer     time.Time
 )
 
@@ -350,8 +352,8 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		forward = 0
 
 	case forward == 1 && pos == len(line):
-		if len(rxVars.FindAllString(string(line), -1)) > 0 {
-			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS." + utils.NewLineString)
+		if len(rxVars.FindAllString(string(line), -1))+len(rxHistory.FindAllString(string(line), -1)) > 0 {
+			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS and ^HISTORY." + utils.NewLineString)
 		} else {
 			forward = 0
 		}
@@ -365,6 +367,17 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 			//newLine = append(line, '}')
 			//newPos = len(newLine) - 1
 			newLine = smooshLines(line, pos, '}')
+			newPos = pos
+		} else {
+			newPos = pos
+			newLine = line
+		}
+
+	case key == '[' && typed:
+		pt := parse(line)
+		forward = 0
+		if !pt.escaped && !pt.qSingle && !pt.qDouble {
+			newLine = smooshLines(line, pos, ']')
 			newPos = pos
 		} else {
 			newPos = pos
@@ -431,15 +444,6 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	}
 
 	return newLine, newPos, true
-}
-
-func expandVars(line []rune) []rune {
-	s := string(line)
-	match := rxVars.FindAllString(s, -1)
-	for i := range match {
-		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
-	}
-	return []rune(s)
 }
 
 func smooshLines(line []rune, pos int, injectedChar rune) []rune {
@@ -509,4 +513,23 @@ func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 	}
 
 	return line, pos
+}
+
+func expandVars(line []rune) []rune {
+	s := string(line)
+	match := rxVars.FindAllString(s, -1)
+	for i := range match {
+		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
+	}
+
+	match = rxHistory.FindAllString(s, -1)
+	for i := range match {
+		val, _ := strconv.Atoi(match[i][1:])
+		if val > len(History.List) {
+			continue
+		}
+		s = rxHistory.ReplaceAllString(s, History.List[val].Block)
+	}
+
+	return []rune(s)
 }
