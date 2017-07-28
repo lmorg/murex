@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/osstdin"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -29,7 +28,6 @@ func Start() {
 
 	Instance, err = readline.NewEx(&readline.Config{
 		InterruptPrompt:        "^c",
-		Stdin:                  osstdin.Stdin,
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,

@@ -69,53 +69,6 @@ func ExternalPty(p *Process) error {
 	return nil
 }
 
-/*// Prototype call with support for PTYs. Highly experimental.
-func shellExecute(p *Process) (err error) {
-	p.Stdout.SetDataType(types.Null)
-
-	// Create an object for the executable we wish to invoke.
-	exeName, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-	parameters := p.Parameters.StringArray()
-	cmd := exec.Command(exeName, parameters[1:]...)
-
-	// Create a PTY for the executable.
-	f, err := pty.Start(cmd)
-	if err != nil {
-		return err
-	}
-
-	active := true
-
-	go func() {
-		// Create an STDIN function, copying 1KB blocks at a time.
-		b := make([]byte, 1024)
-		for active {
-			var i int
-
-			i, err := osstdin.Stdin.Read(b)
-			if err != nil {
-				return
-			}
-			// oops the program has closed but this goroutine is still active.
-			// So lets push the []bytes back into the stack.
-			if !active {
-				osstdin.Stdin.Prepend(b[:i])
-				return
-			}
-			if _, err = f.Write(b[:i]); err != nil {
-				return
-			}
-		}
-	}()
-
-	io.Copy(p.Stdout, f)
-	active = false
-	return
-}*/
-
 func shellExecute(p *Process) error {
 	p.Stdout.SetDataType(types.String)
 
@@ -126,7 +79,10 @@ func shellExecute(p *Process) error {
 	parameters := p.Parameters.StringArray()
 	cmd := exec.Command(exeName, parameters[1:]...)
 
-	cmd.SysProcAttr = &syscall.SysProcAttr{Ctty: int(os.Stdout.Fd())}
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Ctty: int(os.Stdout.Fd()),
+	}
+
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
