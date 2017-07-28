@@ -3,13 +3,12 @@
 package proc
 
 import (
-	"github.com/kr/pty"
-	"github.com/lmorg/murex/lang/proc/streams/osstdin"
 	"github.com/lmorg/murex/lang/types"
-	"io"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
+	"syscall"
 )
 
 func External(p *Process) error {
@@ -70,7 +69,7 @@ func ExternalPty(p *Process) error {
 	return nil
 }
 
-// Prototype call with support for PTYs. Highly experimental.
+/*// Prototype call with support for PTYs. Highly experimental.
 func shellExecute(p *Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
@@ -115,4 +114,30 @@ func shellExecute(p *Process) (err error) {
 	io.Copy(p.Stdout, f)
 	active = false
 	return
+}*/
+
+func shellExecute(p *Process) error {
+	p.Stdout.SetDataType(types.String)
+
+	exeName, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+	parameters := p.Parameters.StringArray()
+	cmd := exec.Command(exeName, parameters[1:]...)
+
+	cmd.SysProcAttr = &syscall.SysProcAttr{Ctty: int(os.Stdout.Fd())}
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+
+	if err := cmd.Wait(); err != nil {
+		return err
+	}
+
+	return nil
 }
