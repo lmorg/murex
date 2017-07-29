@@ -114,7 +114,6 @@ As well as a saner `if` syntax:
 ## Dependencies
 
     go get github.com/chzyer/readline
-    go get github.com/kr/pty
     go get github.com/Knetic/govaluate
 
 Explanation behind these dependencies:

@@ -5,7 +5,6 @@ package man
 import (
 	"bufio"
 	"compress/gzip"
-	"github.com/lmorg/murex/utils"
 	"os"
 	"os/exec"
 	"regexp"
@@ -20,6 +19,23 @@ var (
 )
 
 /*
+MANUAL SECTIONS (Linux)
+    The standard sections of the manual include:
+
+    1      User Commands
+    2      System Calls
+    3      C Library Functions
+    4      Devices and Special Files
+    5      File Formats and Conventions
+    6      Games et. al.
+    7      Miscellanea
+    8      System Administration tools and Daemons
+
+    Distributions customize the manual section to their specifics,
+    which often include additional sections.
+*/
+/*
+	OpenBSD
 	1	General commands (tools and utilities).
 	2	System calls and error numbers.
 	3	Library functions.
@@ -39,7 +55,6 @@ func ScanManPages(exe string) (flags []string) {
 	cmd := exec.Command("man", "-w", exe)
 	b, err := cmd.Output()
 	if err != nil {
-		os.Stderr.WriteString("Error initialising man pages: " + err.Error() + utils.NewLineString)
 		return
 	}
 
