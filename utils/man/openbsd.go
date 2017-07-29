@@ -1,4 +1,4 @@
-//// +build openbsd
+// +build !windows
 
 package man
 

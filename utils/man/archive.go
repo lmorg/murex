@@ -1,5 +1,4 @@
 // +build ignore
-// !windows !openbsd
 
 package man
 
