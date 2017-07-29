@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"sync"
 )
 
 type Flow struct {
@@ -24,14 +25,30 @@ type Process struct {
 	Id                 int
 	Path               string
 	IsMethod           bool
-	Parent             *Process `json:"-"`
-	Previous           *Process `json:"-"`
-	Next               *Process `json:"-"`
-	HasTerminated      bool
+	Parent             *Process  `json:"-"`
+	Previous           *Process  `json:"-"`
+	Next               *Process  `json:"-"`
 	WaitForTermination chan bool `json:"-"`
 	IsNot              bool
 	NamedPipeOut       string
 	NamedPipeErr       string
+	Kill               func()
+	hasTerminatedM     sync.Mutex
+	hasTerminatedV     bool
+}
+
+func (p *Process) HasTerminated() (state bool) {
+	p.hasTerminatedM.Lock()
+	state = p.hasTerminatedV
+	p.hasTerminatedM.Unlock()
+	return
+}
+
+func (p *Process) SetTerminatedState(state bool) {
+	p.hasTerminatedM.Lock()
+	p.hasTerminatedV = state
+	p.hasTerminatedM.Unlock()
+	return
 }
 
 type GoFunction struct {
@@ -41,10 +58,12 @@ type GoFunction struct {
 }
 
 var (
-	GlobalVars    types.Vars            = types.NewVariableGroup()
-	GoFunctions   map[string]GoFunction = make(map[string]GoFunction)
-	GlobalConf    config.Config         = config.NewConfiguration()
-	GlobalAliases Aliases               = NewAliases()
-	GlobalPipes   Named                 = NewNamed()
-	GlobalFIDs    funcID                = newFuncID()
+	GlobalVars     types.Vars            = types.NewVariableGroup()
+	GoFunctions    map[string]GoFunction = make(map[string]GoFunction)
+	GlobalConf     config.Config         = config.NewConfiguration()
+	GlobalAliases  Aliases               = NewAliases()
+	GlobalPipes    Named                 = NewNamed()
+	GlobalFIDs     funcID                = newFuncID()
+	KillForeground func()                = func() {}
+	ShellProcess   *Process              = &Process{Name: "shell"}
 )

@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/consts"
+	. "github.com/lmorg/murex/utils/consts"
 	"os"
 	"regexp"
 	"strings"
@@ -14,12 +14,16 @@ import (
 var rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 
 func createProcess(p *proc.Process, f proc.Flow) {
+	// Create empty function so we don't have to check nil state when invoking kill, ie you try to kill a process
+	// before it's fully started
+	p.Kill = func() {}
+
 	proc.GlobalFIDs.Register(p)
 	parseRedirection(p)
 
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
 		p.Parameters.SetPrepend(p.Name[1 : len(p.Name)-1])
-		p.Name = consts.NamedPipeProcName
+		p.Name = NamedPipeProcName
 	}
 
 	if p.Name[0] == '!' {
@@ -34,9 +38,9 @@ func createProcess(p *proc.Process, f proc.Flow) {
 		// horrible kludge. But I can live without `printf` being inside a PTY so I will class this bug as a low
 		// priority.
 		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" {
-			p.Name = "pty"
+			p.Name = CmdPty
 		} else {
-			p.Name = "exec"
+			p.Name = CmdExec
 		}
 	}
 
@@ -46,19 +50,21 @@ func createProcess(p *proc.Process, f proc.Flow) {
 }
 
 func executeProcess(p *proc.Process) {
+	var err error
+
 	debug.Json("Executing:", p)
 
-	/*// This doesn't work. At some point I will need to make this stuff work
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	signal.Notify(c, syscall.SIGTERM)
-	go func() {
-		<-c
-		//destroyProcess(p)
-		os.Stdout.WriteString("qwertyuiopoiuytrewertyu\n")
-	}()*/
+	switch p.Name {
+	case CmdExec:
+	case CmdPty:
+	default:
+		p.Kill = func() {
 
-	//parseRedirection(p)
+			destroyProcess(p)
+		}
+		proc.KillForeground = p.Kill
+	}
+
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 
 	// Echo
@@ -115,7 +121,7 @@ func executeProcess(p *proc.Process) {
 	switch {
 	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias":
 		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
-		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, "alias")
+		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
 
 	case p.Name[0] == '$' && len(p.Name) > 1:
 		s := proc.GlobalVars.GetString(p.Name[1:])
@@ -138,7 +144,7 @@ func executeProcess(p *proc.Process) {
 		}
 	}
 
-	for !p.Previous.HasTerminated {
+	for !p.Previous.HasTerminated() {
 		// Code shouldn't really get stuck here.
 		// This would only happen if someone abuses pipes on a function that has no stdin.
 	}
@@ -148,14 +154,17 @@ func executeProcess(p *proc.Process) {
 
 func waitProcess(p *proc.Process) {
 	debug.Log("Waiting for", p.Name)
-	p.HasTerminated = <-p.WaitForTermination
+	//p.HasTerminated = <-p.WaitForTermination
+	<-p.WaitForTermination
 }
 
 func destroyProcess(p *proc.Process) {
 	debug.Json("Destroying:", p)
 	p.Stdout.Close()
 	p.Stderr.Close()
-	p.WaitForTermination <- true
+
+	p.SetTerminatedState(true)
+	p.WaitForTermination <- false
 	debug.Log("Destroyed " + p.Name)
 
 	proc.GlobalFIDs.Deregister(p.Id)

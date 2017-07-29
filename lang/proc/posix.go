@@ -37,6 +37,12 @@ func execute(p *Process) error {
 	parameters := p.Parameters.StringArray()
 	cmd := exec.Command(exeName, parameters[1:]...)
 
+	p.Kill = func() {
+		defer func() { recover() }() // I don't care about errors.
+		cmd.Process.Kill()
+	}
+	KillForeground = p.Kill
+
 	cmd.Stdin = p.Stdin
 	cmd.Stdout = p.Stdout
 	cmd.Stderr = p.Stderr
@@ -79,9 +85,13 @@ func shellExecute(p *Process) error {
 	parameters := p.Parameters.StringArray()
 	cmd := exec.Command(exeName, parameters[1:]...)
 
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Ctty: int(os.Stdout.Fd()),
+	cmd.SysProcAttr = &syscall.SysProcAttr{Ctty: int(os.Stdout.Fd())}
+
+	p.Kill = func() {
+		defer func() { recover() }() // I don't care about errors.
+		cmd.Process.Kill()
 	}
+	KillForeground = p.Kill
 
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -92,7 +102,9 @@ func shellExecute(p *Process) error {
 	}
 
 	if err := cmd.Wait(); err != nil {
-		return err
+		if !strings.HasPrefix(err.Error(), "signal: ") {
+			return err
+		}
 	}
 
 	return nil

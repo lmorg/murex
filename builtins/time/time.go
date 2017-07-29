@@ -36,7 +36,7 @@ func cmdTime(p *proc.Process) error {
 
 		start := time.Now()
 
-		p.ExitNum, err = lang.ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stdout, "time")
+		p.ExitNum, err = lang.ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stdout, p)
 		if err != nil {
 			return err
 		}

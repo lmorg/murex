@@ -21,7 +21,7 @@ func cmdTry(p *proc.Process) (err error) {
 		return err
 	}
 
-	p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Name)
+	p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 	if err != nil {
 		return err
 	}
@@ -45,13 +45,13 @@ func cmdCatch(p *proc.Process) error {
 	p.ExitNum = p.Previous.ExitNum
 
 	if p.Previous.ExitNum != 0 && !p.IsNot {
-		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
+		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 		if err != nil {
 			return err
 		}
 
 	} else if p.Previous.ExitNum == 0 && p.IsNot {
-		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
+		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 		if err != nil {
 			return err
 		}
