@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -12,6 +13,7 @@ var ShellExitNum int // for when running murex in interactive shell mode
 
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *proc.Process) (exitNum int, err error) {
 	container := new(proc.Process)
+	container.State = state.MemAllocated
 	container.Name = caller.Name
 	//container.Parent = nil
 	container.Parent = caller

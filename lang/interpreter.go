@@ -3,11 +3,13 @@ package lang
 import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 )
 
 func compile(tree *astNodes, parent *proc.Process) {
 	for i := range *tree {
+		(*tree)[i].Process.State = state.MemAllocated
 		(*tree)[i].Process.Name = (*tree)[i].Name
 		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
 		(*tree)[i].Process.IsMethod = (*tree)[i].Method

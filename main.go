@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/man"
@@ -18,6 +19,7 @@ func main() {
 	setShellVar()
 
 	proc.ShellProcess.Parent = proc.ShellProcess
+	proc.ShellProcess.State = state.Executing
 
 	switch {
 	case fCommand != "":

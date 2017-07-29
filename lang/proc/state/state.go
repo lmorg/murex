@@ -5,9 +5,12 @@ package state
 type FunctionStates int
 
 const (
-	Unknown FunctionStates = iota
-	Created
-	Running
+	Undefined FunctionStates = iota
+	MemAllocated
+	Assigned
+	Starting
+	Executing
+	Executed
 	Terminating
 	AwaitingGC
 )

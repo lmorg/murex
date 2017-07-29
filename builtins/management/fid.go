@@ -15,7 +15,7 @@ func init() {
 
 func cmdFidList(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Generic)
-	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %7s  %-10s  %s", "FID", "Parent", "Command", "Parameters")))
+	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %7s  %-12s  %-10s  %s", "FID", "Parent", "State", "Command", "Parameters")))
 
 	procs := proc.GlobalFIDs.ListAll()
 	for i := range procs {
@@ -24,9 +24,10 @@ func cmdFidList(p *proc.Process) error {
 			b, _ := json.Marshal(procs[i].Parameters.Tokens)
 			params = "Unparsed: " + string(b)
 		}
-		s := fmt.Sprintf("%7d  %7d  %-10s  %s",
+		s := fmt.Sprintf("%7d  %7d  %-12s  %-10s  %s",
 			procs[i].Id,
 			procs[i].Parent.Id,
+			procs[i].State,
 			procs[i].Name,
 			params,
 		)

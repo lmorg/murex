@@ -3,6 +3,7 @@ package lang
 import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	. "github.com/lmorg/murex/utils/consts"
@@ -46,11 +47,15 @@ func createProcess(p *proc.Process, f proc.Flow) {
 
 	p.IsMethod = !f.NewChain
 
+	p.State = state.Assigned
+
 	return
 }
 
 func executeProcess(p *proc.Process) {
 	var err error
+
+	p.State = state.Starting
 
 	//debug.Json("Executing:", p)
 
@@ -59,7 +64,6 @@ func executeProcess(p *proc.Process) {
 	case CmdPty:
 	default:
 		p.Kill = func() {
-
 			destroyProcess(p)
 		}
 		proc.KillForeground = p.Kill
@@ -118,6 +122,7 @@ func executeProcess(p *proc.Process) {
 	p.Stderr.SetDataType(types.String)
 
 	// Execute function.
+	p.State = state.Executing
 	switch {
 	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias":
 		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
@@ -134,6 +139,7 @@ func executeProcess(p *proc.Process) {
 	default:
 		err = proc.GoFunctions[p.Name].Func(p)
 	}
+	p.State = state.Executed
 
 	p.Stdout.DefaultDataType(err != nil)
 
@@ -154,18 +160,21 @@ func executeProcess(p *proc.Process) {
 
 func waitProcess(p *proc.Process) {
 	debug.Log("Waiting for", p.Name)
-	//p.HasTerminated = <-p.WaitForTermination
 	<-p.WaitForTermination
 }
 
 func destroyProcess(p *proc.Process) {
+	p.State = state.Terminating
 	//debug.Json("Destroying:", p)
 	p.Stdout.Close()
 	p.Stderr.Close()
 
 	p.SetTerminatedState(true)
-	p.WaitForTermination <- false
+	if p.Name != "fork" { // make special case for `fork` because that doesn't wait
+		p.WaitForTermination <- false
+	}
 	debug.Log("Destroyed " + p.Name)
 
 	proc.GlobalFIDs.Deregister(p.Id)
+	p.State = state.AwaitingGC
 }
