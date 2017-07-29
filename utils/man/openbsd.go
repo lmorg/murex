@@ -1,19 +1,16 @@
-// +build openbsd
+//// +build openbsd
 
 package man
 
 import (
 	"bufio"
 	"compress/gzip"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
-	"text/scanner"
 )
 
 var (
@@ -47,7 +44,7 @@ func ScanManPages(exe string) (flags []string) {
 	}
 
 	s := strings.TrimSpace(string(b))
-	paths = strings.Split(s, ":")
+	paths := strings.Split(s, ":")
 
 	// Parse man pages
 	fMap := make(map[string]bool)
