@@ -63,7 +63,7 @@ func parseManPage(flags *map[string]bool, filename string) {
 	file, err := os.Open(filename)
 	defer file.Close()
 	if err != nil {
-		return err
+		return
 	}
 
 	var scanner *bufio.Scanner
@@ -72,7 +72,7 @@ func parseManPage(flags *map[string]bool, filename string) {
 		gz, err := gzip.NewReader(file)
 		defer gz.Close()
 		if err != nil {
-			return err
+			return
 		}
 
 		scanner = bufio.NewScanner(gz)
