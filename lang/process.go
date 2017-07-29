@@ -59,14 +59,13 @@ func executeProcess(p *proc.Process) {
 
 	//debug.Json("Executing:", p)
 
-	switch p.Name {
-	case CmdExec:
-	case CmdPty:
-	default:
-		p.Kill = func() {
-			destroyProcess(p)
-		}
+	if p.Name != CmdExec && p.Name != CmdPty {
+		p.Kill = func() { destroyProcess(p) }
+	}
+
+	if !p.IsBackground {
 		proc.KillForeground = p.Kill
+		proc.ForegroundProc = p
 	}
 
 	parseParameters(&p.Parameters, &proc.GlobalVars)

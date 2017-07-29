@@ -13,6 +13,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 		(*tree)[i].Process.Name = (*tree)[i].Name
 		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
 		(*tree)[i].Process.IsMethod = (*tree)[i].Method
+		(*tree)[i].Process.IsBackground = parent.IsBackground
 		(*tree)[i].Process.Parent = parent
 		(*tree)[i].Process.WaitForTermination = make(chan bool)
 

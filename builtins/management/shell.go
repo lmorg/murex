@@ -73,6 +73,7 @@ func cmdFork(p *proc.Process) (err error) {
 		return err
 	}
 
+	p.IsBackground = true
 	p.WaitForTermination <- false
 	lang.ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stderr, p)
 

@@ -14,6 +14,7 @@ var ShellExitNum int // for when running murex in interactive shell mode
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *proc.Process) (exitNum int, err error) {
 	container := new(proc.Process)
 	container.State = state.MemAllocated
+	container.IsBackground = caller.IsBackground
 	container.Name = caller.Name
 	//container.Parent = nil
 	container.Parent = caller

@@ -37,6 +37,7 @@ type Process struct {
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.FunctionStates
+	IsBackground       bool
 }
 
 func (p *Process) HasTerminated() (state bool) {
@@ -60,12 +61,13 @@ type GoFunction struct {
 }
 
 var (
-	GlobalVars     types.Vars            = types.NewVariableGroup()
+	ShellProcess   *Process              = &Process{Name: "shell"}
 	GoFunctions    map[string]GoFunction = make(map[string]GoFunction)
+	GlobalVars     types.Vars            = types.NewVariableGroup()
 	GlobalConf     config.Config         = config.NewConfiguration()
 	GlobalAliases  Aliases               = NewAliases()
 	GlobalPipes    Named                 = NewNamed()
 	GlobalFIDs     funcID                = newFuncID()
 	KillForeground func()                = func() {}
-	ShellProcess   *Process              = &Process{Name: "shell"}
+	ForegroundProc *Process              = ShellProcess
 )

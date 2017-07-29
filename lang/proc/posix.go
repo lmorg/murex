@@ -48,11 +48,15 @@ func execute(p *Process) error {
 	cmd.Stderr = p.Stderr
 
 	if err := cmd.Start(); err != nil {
-		return err
+		if !strings.HasPrefix(err.Error(), "signal:") {
+			return err
+		}
 	}
 
 	if err := cmd.Wait(); err != nil {
-		return err
+		if !strings.HasPrefix(err.Error(), "signal:") {
+			return err
+		}
 	}
 
 	return nil
@@ -98,11 +102,13 @@ func shellExecute(p *Process) error {
 	cmd.Stderr = os.Stderr
 
 	if err := cmd.Start(); err != nil {
-		return err
+		if !strings.HasPrefix(err.Error(), "signal:") {
+			return err
+		}
 	}
 
 	if err := cmd.Wait(); err != nil {
-		if !strings.HasPrefix(err.Error(), "signal: ") {
+		if !strings.HasPrefix(err.Error(), "signal:") {
 			return err
 		}
 	}
