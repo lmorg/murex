@@ -52,7 +52,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 func executeProcess(p *proc.Process) {
 	var err error
 
-	debug.Json("Executing:", p)
+	//debug.Json("Executing:", p)
 
 	switch p.Name {
 	case CmdExec:
@@ -70,7 +70,7 @@ func executeProcess(p *proc.Process) {
 	// Echo
 	echo, err := proc.GlobalConf.Get("shell", "echo", types.Boolean)
 	if err != nil {
-		panic(err.Error())
+		echo = false
 	}
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
@@ -159,7 +159,7 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
-	debug.Json("Destroying:", p)
+	//debug.Json("Destroying:", p)
 	p.Stdout.Close()
 	p.Stderr.Close()
 

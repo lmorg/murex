@@ -3,6 +3,7 @@ package proc
 import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"sync"
@@ -35,6 +36,7 @@ type Process struct {
 	Kill               func()
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
+	State              state.FunctionStates
 }
 
 func (p *Process) HasTerminated() (state bool) {

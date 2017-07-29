@@ -2,6 +2,7 @@ package management
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -19,7 +20,7 @@ func cmdFidList(p *proc.Process) error {
 	procs := proc.GlobalFIDs.ListAll()
 	for i := range procs {
 		params := procs[i].Parameters.StringAll()
-		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 0 {
+		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
 			b, _ := json.Marshal(procs[i].Parameters.Tokens)
 			params = "Unparsed: " + string(b)
 		}
@@ -34,7 +35,7 @@ func cmdFidList(p *proc.Process) error {
 	return nil
 }
 
-func cmdFidKill(p *proc.Process) error {
+func cmdFidKill(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
 	fid, err := p.Parameters.Int(0)
@@ -47,6 +48,11 @@ func cmdFidKill(p *proc.Process) error {
 		return err
 	}
 
-	process.Kill()
-	return nil
+	if process.Kill != nil {
+		process.Kill()
+	} else {
+		err = errors.New(fmt.Sprintf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid))
+	}
+
+	return err
 }

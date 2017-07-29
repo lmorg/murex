@@ -96,9 +96,10 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				tCount = true
 
 			default:
-				panic(fmt.Sprintf(
-					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"`,
+				os.Stderr.WriteString(fmt.Sprintf(
+					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"%s`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
+					utils.NewLineString,
 				))
 			}
 		}

@@ -127,7 +127,7 @@ func (n *Named) Close(name string) error {
 		delete(n.pipes, name)
 		delete(n.types, name)
 	default:
-		panic("Invalid pipe ID!")
+		return errors.New("Invalid pipe ID!")
 	}
 
 	return nil

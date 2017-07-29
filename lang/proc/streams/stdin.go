@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
-	"os"
 	"sync"
 )
 
@@ -42,12 +41,7 @@ func (rw *Stdin) MakeParent() {
 func (rw *Stdin) UnmakeParent() {
 	rw.mutex.Lock()
 	if !rw.isParent {
-		if rw.isNamedPipe {
-			os.Stderr.WriteString("Error with murex named pipes: Trying to unmake parent on a non-parent pipe." + utils.NewLineString)
-		} else {
-			// Should be fine to panic because this runtime error is generated from block compilation.
-			//panic("Cannot call UnmakeParent() on stdin not marked as Parent.")
-		}
+		debug.Log("Trying to unmake parent on a non-parent pipe.")
 	}
 	rw.isParent = false
 
@@ -184,13 +178,7 @@ func (write *Stdin) Write(b []byte) (int, error) {
 	defer write.mutex.Unlock()
 
 	if write.closed {
-		if write.isNamedPipe {
-			return 0, errors.New("Error with murex named pipes: Trying to write to a closed pipe.")
-		} else {
-			// This shouldn't happen because it then means we have lost track of the state of the streams.
-			// So we'll throw a panic to highlight our error early on and force better code.
-			panic("Writing to closed pipe.")
-		}
+		return 0, errors.New("Writing to closed pipe.")
 	}
 
 	write.buffer = append(write.buffer, b...)
@@ -219,13 +207,11 @@ func (write *Stdin) Close() {
 
 	if write.closed {
 		if write.isNamedPipe {
-			os.Stderr.WriteString("Error with murex named pipes: Trying to close an already closed named pipe." + utils.NewLineString)
+			debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 			return
 		} else {
-			// This shouldn't happen because it then means we have lost track of the state of the streams.
-			// So we'll throw a panic to highlight our error early on and force better code.
-			//panic("Trying to close an already closed stdin.")
-			os.Stderr.WriteString("Trying to close an already closed stdin." + utils.NewLineString)
+			debug.Log("Trying to close an already closed stdin.")
+			return
 		}
 	}
 
