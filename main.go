@@ -19,6 +19,7 @@ func main() {
 
 	proc.ShellProcess.Parent = proc.ShellProcess
 	proc.ShellProcess.State = state.Executing
+	proc.ShellProcess.Parameters.Params = os.Args[1:]
 
 	switch {
 	case fCommand != "":

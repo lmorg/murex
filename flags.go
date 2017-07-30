@@ -49,5 +49,4 @@ func readFlags() {
 	})
 
 	fSource = flag.Args()
-	proc.ShellProcess.Parameters.Params = os.Args
 }

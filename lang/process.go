@@ -125,6 +125,7 @@ func executeProcess(p *proc.Process) {
 	switch {
 	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias":
 		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
+		p.Name = "alias"
 		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
 
 	case p.Name[0] == '$' && len(p.Name) > 1:

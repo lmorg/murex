@@ -17,7 +17,6 @@ type term struct {
 	//debug.Mutex
 	bWritten uint64
 	bRead    uint64
-	lastChar byte
 	isParent bool
 }
 
@@ -31,6 +30,7 @@ func (t *term) GetDataType() string                                      { retur
 func (t *term) SetDataType(string)                                       {}
 func (t *term) DefaultDataType(bool)                                     {}
 func (t *term) IsTTY() bool                                              { return true }
+func (t *term) Close()                                                   {}
 
 func (t *term) MakeParent() {
 	t.mutex.Lock()
@@ -69,7 +69,7 @@ func (t *TermOut) Write(b []byte) (i int, err error) {
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
 	} else if len(b) > 0 {
-		t.lastChar = b[len(b)-1]
+		CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
 	return
@@ -78,13 +78,6 @@ func (t *TermOut) Write(b []byte) (i int, err error) {
 func (t *TermOut) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	return t.Write(line)
-}
-
-func (t *TermOut) Close() {
-	// Since this is a terminal we'll append \n if none present (for better readability)
-	if !t.isParent && t.lastChar != '\n' && t.bWritten > 0 {
-		t.Write(utils.NewLineByte)
-	}
 }
 
 // Terminal: Standard Error
@@ -100,7 +93,7 @@ func (t *TermErr) Write(b []byte) (i int, err error) {
 	if err != nil {
 		os.Stdout.WriteString(err.Error())
 	} else if len(b) > 0 {
-		t.lastChar = b[len(b)-1]
+		CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
 	return
@@ -109,11 +102,4 @@ func (t *TermErr) Write(b []byte) (i int, err error) {
 func (t *TermErr) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	return t.Write(line)
-}
-
-func (t *TermErr) Close() {
-	// Since this is a terminal we'll append \n if none present (for better readability)
-	if !t.isParent && t.lastChar != '\n' && t.bWritten > 0 {
-		t.Write(utils.NewLineByte)
-	}
 }

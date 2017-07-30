@@ -145,6 +145,7 @@ func Start() {
 			multiline = false
 			lines = make([]string, 0)
 			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, proc.ShellProcess)
+			streams.CrLf.Write()
 		}
 	}
 }

@@ -61,7 +61,7 @@ type GoFunction struct {
 }
 
 var (
-	ShellProcess   *Process              = &Process{Name: "shell"}
+	ShellProcess   *Process              = &Process{Name: "$SHELL"}
 	GoFunctions    map[string]GoFunction = make(map[string]GoFunction)
 	GlobalVars     types.Vars            = types.NewVariableGroup()
 	GlobalConf     config.Config         = config.NewConfiguration()

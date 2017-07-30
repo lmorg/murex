@@ -5,6 +5,7 @@ var mapRanges []map[string]int = []map[string]int{
 	rangeWeekdayShort,
 	rangeMonthLong,
 	rangeMonthShort,
+	rangeSeason,
 }
 
 var rangeWeekdayLong map[string]int = map[string]int{
@@ -55,4 +56,11 @@ var rangeMonthShort map[string]int = map[string]int{
 	"oct": 10,
 	"nov": 11,
 	"dec": 12,
+}
+
+var rangeSeason map[string]int = map[string]int{
+	"spring": 1,
+	"summer": 2,
+	"autum":  3,
+	"winter": 4,
 }

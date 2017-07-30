@@ -19,7 +19,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *pro
 	//container.Parent = nil
 	container.Parent = caller
 	container.Id = caller.Id
-	if caller.Name == "shell" {
+	if caller.Name == proc.ShellProcess.Name {
 		container.ExitNum = ShellExitNum
 	}
 
