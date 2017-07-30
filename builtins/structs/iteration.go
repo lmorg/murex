@@ -41,14 +41,18 @@ func cmdFor(p *proc.Process) (err error) {
 	conditional := "eval " + parameters[1]
 	incremental := "let " + parameters[2]
 
-	_, err = lang.ProcessNewBlock([]rune(variable), nil, nil, p.Stderr, types.Null)
+	_, err = lang.ProcessNewBlock([]rune(variable), nil, nil, p.Stderr, p)
 	if err != nil {
 		return err
 	}
 
 	for {
+		if p.HasTerminated() {
+			return nil
+		}
+
 		stdout := streams.NewStdin()
-		i, err := lang.ProcessNewBlock([]rune(conditional), nil, stdout, p.Stderr, types.Null)
+		i, err := lang.ProcessNewBlock([]rune(conditional), nil, stdout, p.Stderr, p)
 		stdout.Close()
 		if err != nil {
 			return err
@@ -62,9 +66,11 @@ func cmdFor(p *proc.Process) (err error) {
 			return nil
 		}
 
-		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, types.Null)
+		// Execute block.
+		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 
-		_, err = lang.ProcessNewBlock([]rune(incremental), nil, nil, p.Stderr, types.Null)
+		// Increment counter.
+		_, err = lang.ProcessNewBlock([]rune(incremental), nil, nil, p.Stderr, p)
 		if err != nil {
 			return err
 		}
@@ -118,7 +124,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		stdin.Writeln(b)
 		stdin.Close()
 
-		lang.ProcessNewBlock(block, stdin, p.Stdout, p.Stderr, p.Previous.Name)
+		lang.ProcessNewBlock(block, stdin, p.Stdout, p.Stderr, p)
 	})
 
 	return nil
@@ -148,7 +154,7 @@ func cmdForMap(p *proc.Process) error {
 		proc.GlobalVars.Set(varKey, key, types.String)
 		proc.GlobalVars.Set(varVal, value, dt)
 
-		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)
+		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 		//_, err := lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)
 		//if err != nil {
 		//	p.Stderr.Writeln([]byte(err.Error()))
@@ -171,8 +177,12 @@ func cmdWhile(p *proc.Process) error {
 		}
 
 		for {
+			if p.HasTerminated() {
+				return nil
+			}
+
 			stdout := streams.NewStdin()
-			i, err := lang.ProcessNewBlock(block, nil, stdout, p.Stderr, types.Null)
+			i, err := lang.ProcessNewBlock(block, nil, stdout, p.Stderr, p)
 			stdout.Close()
 			if err != nil {
 				return err
@@ -209,8 +219,12 @@ func cmdWhile(p *proc.Process) error {
 		}
 
 		for {
+			if p.HasTerminated() {
+				return nil
+			}
+
 			stdout := streams.NewStdin()
-			i, err := lang.ProcessNewBlock(ifBlock, nil, stdout, nil, types.Null)
+			i, err := lang.ProcessNewBlock(ifBlock, nil, stdout, nil, p)
 			stdout.Close()
 			if err != nil {
 				return err
@@ -226,7 +240,7 @@ func cmdWhile(p *proc.Process) error {
 				return nil
 			}
 
-			lang.ProcessNewBlock(whileBlock, nil, p.Stdout, p.Stderr, types.Null)
+			lang.ProcessNewBlock(whileBlock, nil, p.Stdout, p.Stderr, p)
 		}
 
 	default:

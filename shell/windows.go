@@ -15,7 +15,7 @@ var HomeDirectory string
 func init() {
 	usr, err := user.Current()
 	if err != nil {
-		panic(err)
+		os.Stderr.WriteString(err.Error() + utils.NewLineString)
 	}
 
 	HomeDirectory = usr.HomeDir + `\`

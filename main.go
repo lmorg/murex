@@ -5,10 +5,10 @@ import (
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/man"
 	"io/ioutil"
 	"os"
 )
@@ -16,6 +16,9 @@ import (
 func main() {
 	readFlags()
 	setShellVar()
+
+	proc.ShellProcess.Parent = proc.ShellProcess
+	proc.ShellProcess.State = state.Executing
 
 	switch {
 	case fCommand != "":
@@ -26,12 +29,10 @@ func main() {
 		os.Exit(1)
 
 	case len(fSource) > 0:
-		//for _, filename := range fSource {
+		shell.SigHandler()
 		execSource(diskSource(fSource[0]))
-		//}
 
 	default:
-		man.Initialise()
 		execProfile()
 		shell.Start()
 	}
@@ -90,7 +91,7 @@ func execSource(source []rune) {
 		nil,
 		nil,
 		nil,
-		types.Null,
+		proc.ShellProcess,
 	)
 
 	if err != nil {
@@ -123,5 +124,5 @@ func execProfile() {
 		return
 	}
 
-	lang.ProcessNewBlock([]rune(string(b)), nil, nil, nil, "source")
+	lang.ProcessNewBlock([]rune(string(b)), nil, nil, nil, proc.ShellProcess)
 }

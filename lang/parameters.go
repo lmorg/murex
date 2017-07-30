@@ -2,6 +2,7 @@ package lang
 
 import (
 	"fmt"
+	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
@@ -37,7 +38,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, proc.ShellProcess)
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
@@ -79,7 +80,7 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				var array []string
 
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, types.Null)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, proc.ShellProcess)
 				stdout.Close()
 
 				stdout.ReadArray(func(b []byte) {
@@ -95,9 +96,10 @@ func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 				tCount = true
 
 			default:
-				panic(fmt.Sprintf(
-					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"`,
+				os.Stderr.WriteString(fmt.Sprintf(
+					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"%s`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
+					utils.NewLineString,
 				))
 			}
 		}

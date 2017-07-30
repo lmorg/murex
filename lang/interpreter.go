@@ -3,14 +3,17 @@ package lang
 import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 )
 
 func compile(tree *astNodes, parent *proc.Process) {
 	for i := range *tree {
+		(*tree)[i].Process.State = state.MemAllocated
 		(*tree)[i].Process.Name = (*tree)[i].Name
 		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
 		(*tree)[i].Process.IsMethod = (*tree)[i].Method
+		(*tree)[i].Process.IsBackground = parent.IsBackground
 		(*tree)[i].Process.Parent = parent
 		(*tree)[i].Process.WaitForTermination = make(chan bool)
 
@@ -92,7 +95,8 @@ func runNormal(tree *astNodes) (exitNum int) {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.HasTerminated = true
+	//(*tree)[0].Process.Previous.HasTerminated = true
+	(*tree)[0].Process.Previous.SetTerminatedState(true)
 
 	for i := range *tree {
 		if i > 0 {
@@ -117,7 +121,8 @@ func runHyperSensitive(tree *astNodes) (exitNum int) {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.HasTerminated = true
+	//(*tree)[0].Process.Previous.HasTerminated = true
+	(*tree)[0].Process.Previous.SetTerminatedState(true)
 
 	for i := range *tree {
 		go executeProcess(&(*tree)[i].Process)

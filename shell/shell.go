@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/osstdin"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -29,11 +28,11 @@ func Start() {
 
 	Instance, err = readline.NewEx(&readline.Config{
 		InterruptPrompt:        "^c",
-		Stdin:                  osstdin.Stdin,
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
 	})
+
 	if err != nil {
 		panic(err)
 	}
@@ -45,7 +44,7 @@ func Start() {
 
 	Instance.Config.SetListener(listener)
 	defer Instance.Close()
-	defer Instance.Terminal.ExitRawMode()
+	SigHandler()
 
 	for {
 		if !multiline {
@@ -59,7 +58,7 @@ func Start() {
 			prompt, err := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
 			if err == nil {
 				out := streams.NewStdin()
-				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
+				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
 				out.Close()
 
 				b, err2 = out.ReadAll()
@@ -89,7 +88,7 @@ func Start() {
 			prompt, err := proc.GlobalConf.Get("shell", "prompt-multiline", types.CodeBlock)
 			if err == nil {
 				out := streams.NewStdin()
-				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, "shell")
+				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
 				out.Close()
 
 				b, err2 = out.ReadAll()
@@ -145,9 +144,7 @@ func Start() {
 			}
 			multiline = false
 			lines = make([]string, 0)
-			Instance.Terminal.EnterRawMode()
-			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, "shell")
-			Instance.Terminal.ExitRawMode()
+			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, proc.ShellProcess)
 		}
 	}
 }

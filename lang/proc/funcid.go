@@ -21,6 +21,8 @@ func (f fidList) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
 func newFuncID() funcID {
 	var f funcID
 	f.procs = make(map[int]*Process)
+	f.procs[0] = ShellProcess
+	f.latest++
 	return f
 }
 
@@ -44,8 +46,13 @@ func (f *funcID) Deregister(fid int) {
 }
 
 func (f *funcID) Proc(fid int) (*Process, error) {
+	if fid == 0 {
+		return nil, errors.New("FID 0 is reserved for the shell.")
+	}
+
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
+
 	if f.procs[fid] != nil {
 		return f.procs[fid], nil
 	}

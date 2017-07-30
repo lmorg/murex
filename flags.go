@@ -31,7 +31,7 @@ func readFlags() {
 
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
-	flag.BoolVar(&fSh, "shell", false, "")
+	flag.BoolVar(&fSh, "murex", false, "")
 
 	flag.Parse()
 
@@ -49,4 +49,5 @@ func readFlags() {
 	})
 
 	fSource = flag.Args()
+	proc.ShellProcess.Parameters.Params = os.Args
 }

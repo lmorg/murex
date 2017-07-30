@@ -5,26 +5,21 @@ package man
 import (
 	"bufio"
 	"compress/gzip"
-	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/utils"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
 )
 
 var (
-	paths               []string
-	manId               []string       = []string{"man1", "man6", "man7", "man8"}
 	rxMatchFlagsEscaped *regexp.Regexp = regexp.MustCompile(`\\f[BI](\\-[a-zA-Z0-9]|\\-\\-[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
 	rxMatchFlagsQuoted  *regexp.Regexp = regexp.MustCompile(`\.IP "(.*?)"`)
 	rxMatchFlagsFlag    *regexp.Regexp = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
 )
 
 /*
-MANUAL SECTIONS
+MANUAL SECTIONS (Linux)
     The standard sections of the manual include:
 
     1      User Commands
@@ -39,35 +34,35 @@ MANUAL SECTIONS
     Distributions customize the manual section to their specifics,
     which often include additional sections.
 */
+/*
+	OpenBSD
+	1	General commands (tools and utilities).
+	2	System calls and error numbers.
+	3	Library functions.
+	3p	perl(1) programmer's reference guide.
+	4	Device drivers.
+	5	File formats.
+	6	Games.
+	7	Miscellaneous information.
+	8	System maintenance and operation commands.
+	9	Kernel internals.
+*/
 
-func Initialise() {
-	debug.Log("Initialising man pages...")
-	//cmd := exec.Command("man", "-w")
-	cmd := exec.Command("manpath")
-
+func ScanManPages(exe string) (flags []string) {
+	// Get paths
+	cmd := exec.Command("man", "-w", exe)
 	b, err := cmd.Output()
 	if err != nil {
-		os.Stderr.WriteString("Error initialising man pages: " + err.Error() + utils.NewLineString)
 		return
 	}
 
 	s := strings.TrimSpace(string(b))
-	paths = strings.Split(s, ":")
-	debug.Log(paths)
-}
+	paths := strings.Split(s, ":")
 
-func ScanManPages(exe string) (flags []string) {
+	// Parse man pages
 	fMap := make(map[string]bool)
 	for i := range paths {
-		for j := range manId {
-			files, err := filepath.Glob(paths[i] + "/" + manId[j] + "/" + exe + ".*.gz")
-			if err != nil {
-				continue
-			}
-			for k := range files {
-				parseManPage(&fMap, files[k])
-			}
-		}
+		parseManPage(&fMap, paths[i])
 	}
 
 	for f := range fMap {
@@ -79,18 +74,24 @@ func ScanManPages(exe string) (flags []string) {
 
 func parseManPage(flags *map[string]bool, filename string) {
 	file, err := os.Open(filename)
-	if err != nil {
-		return
-	}
 	defer file.Close()
-
-	gz, err := gzip.NewReader(file)
 	if err != nil {
 		return
 	}
-	defer gz.Close()
 
-	scanner := bufio.NewScanner(gz)
+	var scanner *bufio.Scanner
+
+	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
+		gz, err := gzip.NewReader(file)
+		defer gz.Close()
+		if err != nil {
+			return
+		}
+
+		scanner = bufio.NewScanner(gz)
+	} else {
+		scanner = bufio.NewScanner(file)
+	}
 
 	for scanner.Scan() {
 		s := scanner.Text()

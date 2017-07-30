@@ -4,4 +4,7 @@ package consts
 
 const (
 	NamedPipeProcName = "<named-piped>"
+
+	CmdExec = "exec"
+	CmdPty  = "pty"
 )

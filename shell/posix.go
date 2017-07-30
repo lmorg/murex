@@ -3,6 +3,7 @@
 package shell
 
 import (
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/permbits"
 	"io/ioutil"
@@ -17,7 +18,7 @@ var HomeDirectory string
 func init() {
 	usr, err := user.Current()
 	if err != nil {
-		panic(err)
+		os.Stderr.WriteString(err.Error() + utils.NewLineString)
 	}
 
 	HomeDirectory = usr.HomeDir + "/"
@@ -42,7 +43,6 @@ func listExes(path string, exes *map[string]bool) {
 			ln, err := os.Readlink(path + "/" + f.Name())
 			if err != nil {
 				continue
-				//panic(err.Error())
 			}
 			if ln[0] != '/' {
 				ln = path + "/" + ln
@@ -50,7 +50,6 @@ func listExes(path string, exes *map[string]bool) {
 			info, err := os.Stat(ln)
 			if err != nil {
 				continue
-				//panic(err.Error())
 			}
 			perm := permbits.FileMode(info.Mode())
 			if perm.OtherExecute() && info.Mode().IsRegular() {
@@ -142,7 +141,6 @@ func matchDirs(s string) (items []string) {
 			ln, err := os.Readlink(path + "/" + f.Name())
 			if err != nil {
 				continue
-				//panic(err.Error())
 			}
 			if ln[0] != '/' {
 				ln = path + "/" + ln
@@ -150,7 +148,6 @@ func matchDirs(s string) (items []string) {
 			info, err := os.Lstat(ln)
 			if err != nil {
 				continue
-				//panic(err.Error())
 			}
 			perm := permbits.FileMode(info.Mode())
 			if perm.OtherExecute() && info.Mode().IsDir() {
