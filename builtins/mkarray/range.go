@@ -50,19 +50,39 @@ func rangeToArray(b []byte) ([]string, error) {
 	if rxEngAlphaLower.MatchString(split[0]) && rxEngAlphaLower.MatchString(split[1]) {
 		switch {
 		case split[0] < split[1]:
+			a := make([]string, 0)
+			for i := []byte(split[0])[0]; i <= []byte(split[1])[0]; i++ {
+				a = append(a, string([]byte{i}))
+			}
+			return a, nil
 		case split[0] > split[1]:
+			a := make([]string, 0)
+			for i := []byte(split[1])[0]; i <= []byte(split[0])[0]; i-- {
+				a = append(a, string([]byte{i}))
+			}
+			return a, nil
 		default:
+			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
 		}
-		return nil, errors.New("TODO: Code me")
 	}
 
 	if rxEngAlphaUpper.MatchString(split[0]) && rxEngAlphaUpper.MatchString(split[1]) {
 		switch {
 		case split[0] < split[1]:
+			a := make([]string, 0)
+			for i := []byte(split[0])[0]; i <= []byte(split[1])[0]; i++ {
+				a = append(a, string([]byte{i}))
+			}
+			return a, nil
 		case split[0] > split[1]:
+			a := make([]string, 0)
+			for i := []byte(split[1])[0]; i <= []byte(split[0])[0]; i-- {
+				a = append(a, string([]byte{i}))
+			}
+			return a, nil
 		default:
+			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
 		}
-		return nil, errors.New("TODO: Code me")
 	}
 
 	/*if rxAltNumberBase.Match(b) {

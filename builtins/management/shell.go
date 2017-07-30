@@ -18,7 +18,6 @@ import (
 
 func init() {
 	proc.GoFunctions["args"] = proc.GoFunction{Func: cmdArgs, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
 	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["autocomplete"] = proc.GoFunction{Func: cmdAutocomplete, TypeIn: types.Null, TypeOut: types.Generic}
@@ -65,19 +64,6 @@ func cmdArgs(p *proc.Process) (err error) {
 
 	err = proc.GlobalVars.Set("ARGS", string(b), types.Json)
 	return err
-}
-
-func cmdFork(p *proc.Process) (err error) {
-	block, err := p.Parameters.Block(0)
-	if err != nil {
-		return err
-	}
-
-	p.IsBackground = true
-	p.WaitForTermination <- false
-	lang.ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stderr, p)
-
-	return
 }
 
 func cmdSource(p *proc.Process) error {

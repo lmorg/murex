@@ -118,7 +118,6 @@ As well as a saner `if` syntax:
 
 Explanation behind these dependencies:
 * `readline` is used for the REPL (interactive mode)
-* `pty` is used for spawning pseudo-terminals for shell processes
 * `govaluate` evaluates the math formulas (exposed via `eval` and `let`)
 
 ## Build
