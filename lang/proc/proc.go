@@ -9,13 +9,6 @@ import (
 	"sync"
 )
 
-type Flow struct {
-	PipeOut  bool
-	PipeErr  bool
-	NewChain bool
-	Last     bool
-}
-
 type Process struct {
 	Stdin              streams.Io
 	Stdout             streams.Io

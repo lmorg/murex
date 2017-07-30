@@ -31,21 +31,6 @@ func createProcess(p *proc.Process, isMethod bool) {
 		p.IsNot = true
 	}
 
-	/*if (!proc.GlobalAliases.Exists(p.Name) || p.Parent.Name == "alias") &&
-		p.Name[0] != '$' && proc.GoFunctions[p.Name].Func == nil {
-		p.Parameters.SetPrepend(p.Name)
-		// Make a special case of excluding `printf` from running inside a PTY as it hangs murex.
-		// Obviously this shouldn't happen and in an ideal world I would fix murex instead of implementing this
-		// horrible kludge. But I can live without `printf` being inside a PTY so I will class this bug as a low
-		// priority.
-		if f.NewChain && !f.PipeOut && !f.PipeErr && p.Name != "printf" {
-			p.Name = CmdPty
-		} else {
-			p.Name = CmdExec
-		}
-	}*/
-
-	//p.IsMethod = !f.NewChain
 	p.IsMethod = isMethod
 
 	p.State = state.Assigned
