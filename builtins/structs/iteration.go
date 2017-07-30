@@ -159,11 +159,6 @@ func cmdForMap(p *proc.Process) error {
 		proc.GlobalVars.Set(varVal, value, dt)
 
 		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
-		//_, err := lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p.Previous.Name)
-		//if err != nil {
-		//	p.Stderr.Writeln([]byte(err.Error()))
-		//}
-
 	})
 
 	return err

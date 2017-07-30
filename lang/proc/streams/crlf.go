@@ -22,10 +22,11 @@ func (lf *appendCrLf) set(b byte) {
 func (lf *appendCrLf) Write() {
 	lf.mutex.Lock()
 	b := lf.char
+	lf.char = '\n'
 	lf.mutex.Unlock()
 	if b != '\n' {
 		os.Stderr.Write(utils.NewLineByte)
 	}
 }
 
-var CrLf appendCrLf
+var CrLf appendCrLf = appendCrLf{char: '\n'}

@@ -171,14 +171,12 @@ func (n *Net) Close() {
 	defer n.mutex.Unlock()
 
 	if n.isParent {
-		// This will legitimately happen a lot since the reason we mark a stream as parent is to prevent
-		// accidental closing. However it's worth pushing a message out in debug mode during this alpha build.
 		debug.Log("Cannot Close() net marked as parent. We don't want to EOT parent streams multiple times")
 		return
 	}
 
 	if n.closed {
-		os.Stderr.WriteString("Error with murex named pipes: Trying to close an already closed named pipe." + utils.NewLineString)
+		debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 		return
 	}
 
