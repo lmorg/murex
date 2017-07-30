@@ -111,7 +111,7 @@ func cmdForEach(p *proc.Process) (err error) {
 	}
 
 	p.Stdin.ReadArray(func(b []byte) {
-		if len(b) == 0 {
+		if len(b) == 0 || p.HasTerminated() {
 			return
 		}
 
@@ -151,6 +151,10 @@ func cmdForMap(p *proc.Process) error {
 	}
 
 	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+		if p.HasTerminated() {
+			return
+		}
+
 		proc.GlobalVars.Set(varKey, key, types.String)
 		proc.GlobalVars.Set(varVal, value, dt)
 

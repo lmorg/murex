@@ -10,7 +10,8 @@ import (
 
 func init() {
 	proc.GoFunctions["fid-list"] = proc.GoFunction{Func: cmdFidList, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["fid-kill"] = proc.GoFunction{Func: cmdFidKill, TypeIn: types.Null, TypeOut: types.String}
+	proc.GoFunctions["fid-kill"] = proc.GoFunction{Func: cmdFidKill, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["fid-killall"] = proc.GoFunction{Func: cmdKillAll, TypeIn: types.Null, TypeOut: types.Null}
 }
 
 func cmdFidList(p *proc.Process) error {
@@ -61,6 +62,17 @@ func cmdFidKill(p *proc.Process) (err error) {
 		process.Kill()
 	} else {
 		err = errors.New(fmt.Sprintf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid))
+	}
+
+	return err
+}
+
+func cmdKillAll(*proc.Process) (err error) {
+	fids := proc.GlobalFIDs.ListAll()
+	for _, f := range fids {
+		if f.Kill != nil {
+			go f.Kill()
+		}
 	}
 
 	return err

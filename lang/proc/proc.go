@@ -33,7 +33,7 @@ type Process struct {
 	IsNot              bool
 	NamedPipeOut       string
 	NamedPipeErr       string
-	Kill               func()
+	Kill               func() `json:"-"`
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.FunctionStates

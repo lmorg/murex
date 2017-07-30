@@ -10,7 +10,7 @@ import (
 var (
 	rxEngAlphaLower *regexp.Regexp = regexp.MustCompile(`^[a-z]$`)
 	rxEngAlphaUpper *regexp.Regexp = regexp.MustCompile(`^[A-Z]$`)
-	rxAltNumberBase *regexp.Regexp = regexp.MustCompile(`^[a-zA-Z0-9]+\.\.([a-zA-Z0-9]+)[\.x]([0-9]+)$`)
+	rxAltNumberBase *regexp.Regexp = regexp.MustCompile(`^([a-zA-Z0-9]+)\.\.([a-zA-Z0-9]+)[\.x]([0-9]+)$`)
 )
 
 func rangeToArray(b []byte) ([]string, error) {
@@ -86,14 +86,44 @@ func rangeToArray(b []byte) ([]string, error) {
 
 	}
 
-	/*if rxAltNumberBase.Match(b) {
+	if rxAltNumberBase.Match(b) {
 		split = rxAltNumberBase.FindStringSubmatch(string(b))
-		switch {
-		case split[1] < split[2]:
-		case split[1] > split[2]:
-		default:
+		base, err := strconv.Atoi(split[3])
+		if err != nil {
+			return nil, errors.New("Unable to determin number base: " + err.Error())
 		}
-	}*/
+		if base < 2 || base > 36 {
+			return nil, errors.New("Number base must be between 2 and 36 (inclusive).")
+		}
+
+		i1, err := strconv.ParseInt(split[1], base, 64)
+		if err != nil {
+			return nil, errors.New("Unable to determin start of range: " + err.Error())
+		}
+
+		i2, err := strconv.ParseInt(split[2], base, 64)
+		if err != nil {
+			return nil, errors.New("Unable to determin end of range: " + err.Error())
+		}
+
+		switch {
+		case i1 < i2:
+			a := make([]string, i2-i1+1)
+			for i := range a {
+				a[i] = strconv.FormatInt(i1+int64(i), base)
+			}
+			return a, nil
+
+		case i1 > i2:
+			a := make([]string, i1-i2+1)
+			for i := range a {
+				a[i] = strconv.FormatInt(i1-int64(i), base)
+			}
+			return a, nil
+		default:
+			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
+		}
+	}
 
 	// Mapped lists. See consts.go
 	c := getCase(split[0])
