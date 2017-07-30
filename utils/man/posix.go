@@ -48,8 +48,6 @@ MANUAL SECTIONS (Linux)
 	9	Kernel internals.
 */
 
-func Initialise() {}
-
 func ScanManPages(exe string) (flags []string) {
 	// Get paths
 	cmd := exec.Command("man", "-w", exe)

@@ -29,10 +29,11 @@ entire TTY screen while most others do (specifically `top`).
 
 Aside that, FreeBSD support is considered very good.
 
-## OpenBSD
+## OpenBSD (AMD64)
 
-Untested but should compile. I will be creating a test environment for
-NetBSD soon.
+Tested. Regression tests cannot be run because of `timeout` dependency
+however _murex_ does compile and run well - seems fully functional from
+a functional test.
 
 ## NetBSD
 

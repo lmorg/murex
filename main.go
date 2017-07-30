@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/man"
 	"io/ioutil"
 	"os"
 )
@@ -34,7 +33,6 @@ func main() {
 		execSource(diskSource(fSource[0]))
 
 	default:
-		man.Initialise()
 		execProfile()
 		shell.Start()
 	}
