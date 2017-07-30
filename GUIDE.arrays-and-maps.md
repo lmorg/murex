@@ -68,6 +68,32 @@ like bash's `{1..9}` syntax:
 
     a: [1..9]
 
+You can also specify an alternative number base by using an `x` or `.`
+in the end range:
+
+    a: [00..ffx16]
+    a: [00..ff.16]
+
+All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
+Please note that the start and end range are written in the target base
+while the base identifier is written in decimal: `[hex..hex.dec]`
+
+Currently there isn't any support for padding numbers. If you need to do
+this then use `sprintf`:
+
+    a: [0..19] -> foreach: { -> sprintf %02s\n }
+
+### Character arrays
+
+You can select a range of letters (a to z):
+
+    a: [a..z]
+    a: [z..a]
+    a: [A..Z]
+    a: [Z..A]
+
+...or any characters within that range.
+
 ### Special ranges
 
 Unlike bash, _murex_ also supports some special ranges:
@@ -76,6 +102,7 @@ Unlike bash, _murex_ also supports some special ranges:
     a: [monday..sunday]
     a: [jan..dec]
     a: [janurary..december]
+    a: [spring..winter]
 
 It is also case aware. If the ranges are uppercase then the return will
 be uppercase. If the ranges are title case (capital first letter) then
@@ -214,9 +241,3 @@ as `a` but forgo the streaming capability:
             "Saturday",
             "Sunday"
     ]
-
-### Coming soon
-
-Aside integer ranges and the special ranges described above, I plan on
-building support for alpha ranges, hexadecimal and possibly octal and/or
-binary. I will also be including more constants to the special ranges.
