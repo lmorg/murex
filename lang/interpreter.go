@@ -15,6 +15,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 		(*tree)[i].Process.IsMethod = (*tree)[i].Method
 		(*tree)[i].Process.IsBackground = parent.IsBackground
 		(*tree)[i].Process.Parent = parent
+		(*tree)[i].Process.Scope = parent.Scope
 		(*tree)[i].Process.WaitForTermination = make(chan bool)
 
 		// Define previous and next processes:
@@ -81,12 +82,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 	}
 
 	for i := range *tree {
-		createProcess(&(*tree)[i].Process, proc.Flow{
-			NewChain: (*tree)[i].NewChain,
-			PipeOut:  (*tree)[i].PipeOut,
-			PipeErr:  (*tree)[i].PipeErr,
-			Last:     i == len(*tree)-1,
-		})
+		createProcess(&(*tree)[i].Process, !(*tree)[i].NewChain)
 	}
 }
 

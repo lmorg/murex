@@ -6,18 +6,18 @@ import (
 )
 
 type Aliases struct {
-	aliases map[string][]rune
+	aliases map[string][]string
 	mutex   sync.Mutex
 }
 
 func NewAliases() (a Aliases) {
-	a.aliases = make(map[string][]rune)
+	a.aliases = make(map[string][]string)
 	return
 }
 
-func (a *Aliases) Add(name string, block []rune) {
+func (a *Aliases) Add(name string, alias []string) {
 	a.mutex.Lock()
-	a.aliases[name] = block
+	a.aliases[name] = alias
 	a.mutex.Unlock()
 }
 
@@ -27,9 +27,9 @@ func (a *Aliases) Exists(name string) bool {
 	return len(a.aliases[name]) > 0
 }
 
-func (a *Aliases) Get(name string) (block []rune) {
+func (a *Aliases) Get(name string) (alias []string) {
 	a.mutex.Lock()
-	block = a.aliases[name]
+	alias = a.aliases[name]
 	a.mutex.Unlock()
 	return
 }
@@ -45,12 +45,9 @@ func (a *Aliases) Delete(name string) error {
 	return nil
 }
 
-func (a *Aliases) Dump() map[string]string {
-	dump := make(map[string]string)
+func (a *Aliases) Dump() map[string][]string {
 	a.mutex.Lock()
-	for name := range a.aliases {
-		dump[name] = string(a.aliases[name])
-	}
+	dump := a.aliases
 	a.mutex.Unlock()
 	return dump
 }

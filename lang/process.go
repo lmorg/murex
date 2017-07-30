@@ -14,7 +14,7 @@ import (
 
 var rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 
-func createProcess(p *proc.Process, f proc.Flow) {
+func createProcess(p *proc.Process, isMethod bool) {
 	// Create empty function so we don't have to check nil state when invoking kill, ie you try to kill a process
 	// before it's fully started
 	p.Kill = func() {}
@@ -31,7 +31,7 @@ func createProcess(p *proc.Process, f proc.Flow) {
 		p.IsNot = true
 	}
 
-	if (!proc.GlobalAliases.Exists(p.Name) || p.Parent.Name == "alias") &&
+	/*if (!proc.GlobalAliases.Exists(p.Name) || p.Parent.Name == "alias") &&
 		p.Name[0] != '$' && proc.GoFunctions[p.Name].Func == nil {
 		p.Parameters.SetPrepend(p.Name)
 		// Make a special case of excluding `printf` from running inside a PTY as it hangs murex.
@@ -43,9 +43,10 @@ func createProcess(p *proc.Process, f proc.Flow) {
 		} else {
 			p.Name = CmdExec
 		}
-	}
+	}*/
 
-	p.IsMethod = !f.NewChain
+	//p.IsMethod = !f.NewChain
+	p.IsMethod = isMethod
 
 	p.State = state.Assigned
 
@@ -57,8 +58,14 @@ func executeProcess(p *proc.Process) {
 
 	p.State = state.Starting
 
+	echo, err := proc.GlobalConf.Get("shell", "echo", types.Boolean)
+	if err != nil {
+		echo = false
+	}
+
 	//debug.Json("Executing:", p)
 
+	// Create a kill switch
 	if p.Name != CmdExec && p.Name != CmdPty {
 		p.Kill = func() { destroyProcess(p) }
 	}
@@ -70,18 +77,9 @@ func executeProcess(p *proc.Process) {
 
 	parseParameters(&p.Parameters, &proc.GlobalVars)
 
-	// Echo
-	echo, err := proc.GlobalConf.Get("shell", "echo", types.Boolean)
-	if err != nil {
-		echo = false
-	}
-	if echo.(bool) {
-		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
-		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
-	}
-
 	switch p.NamedPipeOut {
 	case "":
+		//p.NamedPipeOut = "out"
 	case "err":
 		p.Stdout.SetDataType(types.Null)
 		p.Stdout.Close()
@@ -101,6 +99,7 @@ func executeProcess(p *proc.Process) {
 
 	switch p.NamedPipeErr {
 	case "":
+		//p.NamedPipeErr = "err"
 	case "err":
 		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
@@ -121,22 +120,55 @@ func executeProcess(p *proc.Process) {
 	p.Stderr.SetDataType(types.String)
 
 	// Execute function.
+	var parsedAlias bool
 	p.State = state.Executing
+
+executeProcess:
+	if echo.(bool) {
+		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
+		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
+	}
+
 	switch {
-	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias":
-		r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
-		p.Name = "alias"
-		p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
+	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && parsedAlias == false:
+		//r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
+		//p.Name = "alias"
+		//p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
+		alias := proc.GlobalAliases.Get(p.Name)
+		p.Name = alias[0]
+		p.Parameters.Params = append(alias[1:], p.Parameters.Params...)
+		parsedAlias = true
+		goto executeProcess
+
+	case proc.MxFunctions.Exists(p.Name):
+		p.Scope = p
+		r, err := proc.MxFunctions.Block(p.Name)
+		if err == nil {
+			p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
+		}
 
 	case p.Name[0] == '$' && len(p.Name) > 1:
 		s := proc.GlobalVars.GetString(p.Name[1:])
 		p.Stdout.SetDataType(proc.GlobalVars.GetType(p.Name[1:]))
 		_, err = p.Stdout.Write([]byte(s))
 
-	//case proc.GoFunctions[p.Name].Func == nil:
-	//	err = proc.GoFunctions[p.Name].Func(p)
+	case proc.GoFunctions[p.Name].Func != nil:
+		err = proc.GoFunctions[p.Name].Func(p)
 
 	default:
+		//err = errors.New("Function not found (" + p.Name + ")! This is likely due to a bad alias.")
+		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
+
+		// Make a special case of excluding `printf` from running inside a PTY as it hangs murex.
+		// Obviously this shouldn't happen and in an ideal world I would fix murex instead of implementing this
+		// horrible kludge. But I can live without `printf` being inside a PTY so I will class this bug as a low
+		// priority.
+		if !p.IsMethod && p.Stdout.IsTTY() && p.Name != "printf" {
+			p.Name = CmdPty
+		} else {
+			p.Name = CmdExec
+		}
+
 		err = proc.GoFunctions[p.Name].Func(p)
 	}
 	p.State = state.Executed

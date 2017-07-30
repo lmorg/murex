@@ -16,7 +16,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *pro
 	container.State = state.MemAllocated
 	container.IsBackground = caller.IsBackground
 	container.Name = caller.Name
-	//container.Parent = nil
+	container.Scope = caller.Scope
 	container.Parent = caller
 	container.Id = caller.Id
 	if caller.Name == proc.ShellProcess.Name {

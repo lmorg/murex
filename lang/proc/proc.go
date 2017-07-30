@@ -26,14 +26,15 @@ type Process struct {
 	Id                 int
 	Path               string
 	IsMethod           bool
+	Scope              *Process  `json:"-"`
 	Parent             *Process  `json:"-"`
 	Previous           *Process  `json:"-"`
 	Next               *Process  `json:"-"`
 	WaitForTermination chan bool `json:"-"`
+	Kill               func()    `json:"-"`
 	IsNot              bool
 	NamedPipeOut       string
 	NamedPipeErr       string
-	Kill               func() `json:"-"`
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.FunctionStates
@@ -62,6 +63,7 @@ type GoFunction struct {
 
 var (
 	ShellProcess   *Process              = &Process{Name: "$SHELL"}
+	MxFunctions    MurexFuncs            = NewMurexFuncs()
 	GoFunctions    map[string]GoFunction = make(map[string]GoFunction)
 	GlobalVars     types.Vars            = types.NewVariableGroup()
 	GlobalConf     config.Config         = config.NewConfiguration()

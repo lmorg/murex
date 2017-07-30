@@ -24,7 +24,7 @@ args {
     exit 1
 }
 
-out "The structure of \$ARGS is:\n$ARGS \n\n"
+out "The structure of \$ARGS is: ${$ARGS->pretty}\n\n"
 
 
 # Some example usage:

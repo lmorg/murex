@@ -17,9 +17,11 @@ func main() {
 	readFlags()
 	setShellVar()
 
-	proc.ShellProcess.Parent = proc.ShellProcess
 	proc.ShellProcess.State = state.Executing
+	proc.ShellProcess.Name = os.Args[0]
 	proc.ShellProcess.Parameters.Params = os.Args[1:]
+	proc.ShellProcess.Scope = proc.ShellProcess
+	proc.ShellProcess.Parent = proc.ShellProcess
 
 	switch {
 	case fCommand != "":

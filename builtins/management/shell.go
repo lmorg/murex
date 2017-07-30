@@ -3,7 +3,6 @@ package management
 import (
 	"encoding/json"
 	"errors"
-	"flag"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -45,17 +44,19 @@ func cmdArgs(p *proc.Process) (err error) {
 	}
 	var jObj flags
 
-	margs := flag.Args()
-	if len(margs) == 0 {
-		return errors.New("Empty args. Was this run inside a murex shell script?")
-	}
+	//margs := flag.Args()
+	//if len(margs) == 0 {
+	//	return errors.New("Empty args. Was this run inside a murex shell script?")
+	//}
 
-	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(margs[1:], &args)
+	//jObj.Flags, jObj.Additional, err = parameters.ParseFlags(margs[1:], &args)
+	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(p.Scope.Parameters.Params, &args)
 	if err != nil {
 		jObj.Error = err.Error()
 		p.ExitNum = 1
 	}
-	jObj.Self = margs[0]
+	//jObj.Self = margs[0]
+	jObj.Self = p.Scope.Name
 
 	b, err := utils.JsonMarshal(jObj, p.Stdout.IsTTY())
 	if err != nil {
