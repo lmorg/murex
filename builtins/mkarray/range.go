@@ -10,6 +10,7 @@ import (
 var (
 	rxEngAlphaLower *regexp.Regexp = regexp.MustCompile(`^[a-z]$`)
 	rxEngAlphaUpper *regexp.Regexp = regexp.MustCompile(`^[A-Z]$`)
+	rxAltNumberBase *regexp.Regexp = regexp.MustCompile(`^[a-zA-Z0-9]+\.\.([a-zA-Z0-9]+)[\.x]([0-9]+)$`)
 )
 
 func rangeToArray(b []byte) ([]string, error) {
@@ -63,6 +64,15 @@ func rangeToArray(b []byte) ([]string, error) {
 		}
 		return nil, errors.New("TODO: Code me")
 	}
+
+	/*if rxAltNumberBase.Match(b) {
+		split = rxAltNumberBase.FindStringSubmatch(string(b))
+		switch {
+		case split[1] < split[2]:
+		case split[1] > split[2]:
+		default:
+		}
+	}*/
 
 	// Mapped lists. See consts.go
 	c := getCase(split[0])

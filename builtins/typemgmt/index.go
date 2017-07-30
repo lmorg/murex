@@ -14,10 +14,10 @@ import (
 type jsonInterface map[interface{}]interface{}
 
 func init() {
-	proc.GoFunctions["["] = proc.GoFunction{Func: array, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["["] = proc.GoFunction{Func: index, TypeIn: types.Generic, TypeOut: types.Generic}
 }
 
-func array(p *proc.Process) (err error) {
+func index(p *proc.Process) (err error) {
 	params := p.Parameters.StringArray()
 	l := len(params) - 1
 	if l < 0 {
@@ -32,7 +32,8 @@ func array(p *proc.Process) (err error) {
 		return errors.New("Missing closing bracket, ` ]`")
 	}
 
-	switch p.Stdin.GetDataType() {
+	dt := p.Stdin.GetDataType()
+	switch dt {
 	case types.Json:
 		p.Stdout.SetDataType(types.Json)
 
@@ -167,7 +168,7 @@ func array(p *proc.Process) (err error) {
 
 	default:
 		p.Stdout.SetDataType(types.Null)
-		err = errors.New("I don't know how to get an index from this data type")
+		err = errors.New("I don't know how to get an index from this data type: `" + dt + "`")
 	}
 
 	return err
