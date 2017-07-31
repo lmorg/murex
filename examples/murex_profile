@@ -3,8 +3,8 @@
 # This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via `source`:
 # » source examples/murex_profile
 
-alias ls { ls --color=auto }
-alias grep { grep --color=auto }
+alias ls=ls --color=auto
+alias grep=grep --color=auto
 
 config set shell prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
 config set shell prompt-multiline { printf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}d » " $linenum }

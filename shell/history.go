@@ -24,13 +24,7 @@ type histItem struct {
 
 func newHist(filename string) (h history, err error) {
 	h.filename = filename
-
 	h.List, _ = openHist(filename)
-	/*// On this one rare occasion we don't care about errors.
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-	}*/
-
 	h.writer, err = streams.NewFile(filename)
 	return h, err
 }
@@ -51,6 +45,7 @@ func openHist(filename string) (list []histItem, err error) {
 		}
 		item.Index = len(list)
 		list = append(list, item)
+
 		if Instance != nil {
 			Instance.SaveHistory(strings.Replace(item.Block, "\n", " ", -1))
 		}
@@ -65,8 +60,17 @@ func (h *history) Write(block []rune) {
 		Index:    len(h.List),
 	}
 	b, _ := json.Marshal(item)
-	h.writer.Writeln(b)
 	h.List = append(h.List, item)
+
+	type ws struct {
+		DateTime time.Time
+		Block    string
+	}
+	var w ws
+	w.Block = item.Block
+	w.DateTime = item.DateTime
+	b, _ = json.Marshal(w)
+	h.writer.Writeln(b)
 }
 
 func (h *history) Close() {
