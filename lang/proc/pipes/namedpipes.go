@@ -1,4 +1,4 @@
-package proc
+package pipes
 
 import (
 	"errors"
@@ -9,24 +9,16 @@ import (
 
 type Named struct {
 	pipes map[string]streams.Io
-	types map[string]int
+	types map[string]PipeTypes
 	mutex sync.Mutex
 }
 
-const (
-	npNull = 1 + iota
-	npStream
-	npFile
-	npNetDialer
-	npNetListener
-)
-
 func NewNamed() (n Named) {
 	n.pipes = make(map[string]streams.Io)
-	n.types = make(map[string]int)
+	n.types = make(map[string]PipeTypes)
 
 	n.pipes["null"] = new(streams.Null)
-	n.types["null"] = npNull
+	n.types["null"] = pipeNull
 	return
 }
 
@@ -40,7 +32,7 @@ func (n *Named) CreatePipe(name string) error {
 
 	n.pipes[name] = streams.NewStdin()
 	n.pipes[name].MakePipe()
-	n.types[name] = npStream
+	n.types[name] = pipeStream
 	return nil
 }
 
@@ -59,7 +51,7 @@ func (n *Named) CreateFile(pipename string, filename string) error {
 
 	n.pipes[pipename] = file
 	n.pipes[pipename].MakePipe()
-	n.types[pipename] = npFile
+	n.types[pipename] = pipeFileWriter
 	return nil
 }
 
@@ -78,7 +70,7 @@ func (n *Named) CreateDialer(pipename, protocol, address string) error {
 
 	n.pipes[pipename] = file
 	n.pipes[pipename].MakePipe()
-	n.types[pipename] = npNetDialer
+	n.types[pipename] = pipeNetDialer
 	return nil
 }
 
@@ -97,7 +89,7 @@ func (n *Named) CreateListener(pipename, protocol, address string) error {
 
 	n.pipes[pipename] = file
 	n.pipes[pipename].MakePipe()
-	n.types[pipename] = npNetListener
+	n.types[pipename] = pipeNetListener
 	return nil
 }
 
@@ -117,13 +109,13 @@ func (n *Named) Close(name string) error {
 	n.pipes[name].Close()
 
 	switch n.types[name] {
-	case npStream:
+	case pipeStream:
 		go func() {
 			time.Sleep(10 * time.Second)
 			delete(n.pipes, name)
 			delete(n.types, name)
 		}()
-	case npNull, npFile, npNetDialer, npNetListener:
+	case pipeNull, pipeFileWriter, pipeNetDialer, pipeNetListener:
 		delete(n.pipes, name)
 		delete(n.types, name)
 	default:
@@ -142,4 +134,14 @@ func (n *Named) Get(name string) (streams.Io, error) {
 	}
 
 	return n.pipes[name], nil
+}
+
+func (n *Named) Dump() (dump map[string]string) {
+	dump = make(map[string]string)
+	n.mutex.Lock()
+	for name := range n.types {
+		dump[name] = n.types[name].String()
+	}
+	n.mutex.Unlock()
+	return
 }

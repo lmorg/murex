@@ -78,10 +78,8 @@ All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
 Please note that the start and end range are written in the target base
 while the base identifier is written in decimal: `[hex..hex.dec]`
 
-Currently there isn't any support for padding numbers. If you need to do
-this then use `sprintf`:
-
-    a: [0..19] -> foreach: { -> sprintf %02s\n }
+Also note that the additional zeros denotes padding (ie the results will
+start at `00`, `01`, etc rather than `0`, `1`...
 
 ### Character arrays
 

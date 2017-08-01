@@ -70,3 +70,9 @@ func (f *funcID) ListAll() (procs fidList) {
 	sort.Sort(procs)
 	return
 }
+
+func (f *funcID) Dump() map[int]*Process {
+	f.mutex.Lock()
+	f.mutex.Unlock()
+	return f.procs
+}

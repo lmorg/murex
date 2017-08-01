@@ -21,6 +21,7 @@ func init() {
 	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["autocomplete"] = proc.GoFunction{Func: cmdAutocomplete, TypeIn: types.Null, TypeOut: types.Generic}
 	proc.GoFunctions["version"] = proc.GoFunction{Func: cmdVersion, TypeIn: types.Null, TypeOut: types.String}
+	proc.GoFunctions["runtime"] = proc.GoFunction{Func: cmdRuntime, TypeIn: types.Json, TypeOut: types.Json}
 }
 
 func cmdArgs(p *proc.Process) (err error) {
@@ -44,18 +45,12 @@ func cmdArgs(p *proc.Process) (err error) {
 	}
 	var jObj flags
 
-	//margs := flag.Args()
-	//if len(margs) == 0 {
-	//	return errors.New("Empty args. Was this run inside a murex shell script?")
-	//}
-
-	//jObj.Flags, jObj.Additional, err = parameters.ParseFlags(margs[1:], &args)
 	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(p.Scope.Parameters.Params, &args)
 	if err != nil {
 		jObj.Error = err.Error()
 		p.ExitNum = 1
 	}
-	//jObj.Self = margs[0]
+
 	jObj.Self = p.Scope.Name
 
 	b, err := utils.JsonMarshal(jObj, p.Stdout.IsTTY())
@@ -139,5 +134,18 @@ func listAutocomplete(p *proc.Process) error {
 func cmdVersion(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
 	_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
+	return err
+}
+
+func cmdRuntime(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
+	runtime := proc.ExportRuntime()
+	b, err := utils.JsonMarshal(runtime, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
 	return err
 }

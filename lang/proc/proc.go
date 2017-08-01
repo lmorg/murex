@@ -3,6 +3,7 @@ package proc
 import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
@@ -61,8 +62,19 @@ var (
 	GlobalVars     types.Vars            = types.NewVariableGroup()
 	GlobalConf     config.Config         = config.NewConfiguration()
 	GlobalAliases  Aliases               = NewAliases()
-	GlobalPipes    Named                 = NewNamed()
+	GlobalPipes    pipes.Named           = pipes.NewNamed()
 	GlobalFIDs     funcID                = newFuncID()
 	KillForeground func()                = func() {}
 	ForegroundProc *Process              = ShellProcess
 )
+
+func ExportRuntime() map[string]interface{} {
+	m := make(map[string]interface{})
+	m["Vars"] = GlobalVars.Dump()
+	m["Aliases"] = GlobalAliases.Dump()
+	m["Config"] = GlobalConf.Dump()
+	m["Pipes"] = GlobalPipes.Dump()
+	m["Funcs"] = MxFunctions.Dump()
+	m["Fids"] = GlobalFIDs.Dump()
+	return m
+}

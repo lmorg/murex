@@ -2,6 +2,7 @@ package mkarray
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -30,15 +31,31 @@ func rangeToArray(b []byte) ([]string, error) {
 		switch {
 		case i1 < i2:
 			a := make([]string, i2-i1+1)
-			for i := range a {
-				a[i] = strconv.Itoa(i + i1)
+			if split[0][0] != '0' {
+				for i := range a {
+					a[i] = strconv.Itoa(i + i1)
+				}
+			} else {
+				l := len(split[0])
+				s := "%0" + strconv.Itoa(l) + "d"
+				for i := range a {
+					a[i] = fmt.Sprintf(s, i+i1)
+				}
 			}
 			return a, nil
 
 		case i1 > i2:
 			a := make([]string, i1-i2+1)
-			for i := range a {
-				a[i] = strconv.Itoa(i1 - i)
+			if split[1][0] != '0' {
+				for i := range a {
+					a[i] = strconv.Itoa(i1 - i)
+				}
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "d"
+				for i := range a {
+					a[i] = fmt.Sprintf(s, i1-i)
+				}
 			}
 			return a, nil
 
@@ -109,15 +126,31 @@ func rangeToArray(b []byte) ([]string, error) {
 		switch {
 		case i1 < i2:
 			a := make([]string, i2-i1+1)
-			for i := range a {
-				a[i] = strconv.FormatInt(i1+int64(i), base)
+			if split[0][0] != '0' {
+				for i := range a {
+					a[i] = strconv.FormatInt(i1+int64(i), base)
+				}
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "s"
+				for i := range a {
+					a[i] = fmt.Sprintf(s, strconv.FormatInt(i1+int64(i), base))
+				}
 			}
 			return a, nil
 
 		case i1 > i2:
 			a := make([]string, i1-i2+1)
-			for i := range a {
-				a[i] = strconv.FormatInt(i1-int64(i), base)
+			if split[1][0] != '0' {
+				for i := range a {
+					a[i] = strconv.FormatInt(i1-int64(i), base)
+				}
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "s"
+				for i := range a {
+					a[i] = fmt.Sprintf(s, strconv.FormatInt(i1-int64(i), base))
+				}
 			}
 			return a, nil
 		default:

@@ -35,7 +35,7 @@ func (fn *MurexFuncs) Block(name string) (block []rune, err error) {
 		return nil, errors.New("Cannot locate function named `" + name + "`")
 	}
 	block = fn.funcs[name]
-	return
+	return block, err
 }
 
 func (fn *MurexFuncs) Undefine(name string) error {
@@ -46,4 +46,14 @@ func (fn *MurexFuncs) Undefine(name string) error {
 	}
 	delete(fn.funcs, name)
 	return nil
+}
+
+func (fn *MurexFuncs) Dump() (dump map[string]string) {
+	dump = make(map[string]string)
+	fn.mutex.Lock()
+	for name := range fn.funcs {
+		dump[name] = string(fn.funcs[name])
+	}
+	fn.mutex.Unlock()
+	return
 }
