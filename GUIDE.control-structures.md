@@ -158,3 +158,5 @@ examples, can be found in [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#wo
 (description to follow)
 
     while: { conditional } { iteration }
+
+    select: { condition } {
