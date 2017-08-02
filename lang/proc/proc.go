@@ -56,7 +56,7 @@ type GoFunction struct {
 }
 
 var (
-	ShellProcess   *Process              = &Process{Name: "$SHELL"}
+	ShellProcess   *Process              = &Process{}
 	MxFunctions    MurexFuncs            = NewMurexFuncs()
 	GoFunctions    map[string]GoFunction = make(map[string]GoFunction)
 	GlobalVars     types.Vars            = types.NewVariableGroup()
@@ -76,5 +76,7 @@ func ExportRuntime() map[string]interface{} {
 	m["Pipes"] = GlobalPipes.Dump()
 	m["Funcs"] = MxFunctions.Dump()
 	m["Fids"] = GlobalFIDs.Dump()
+	m["ReadArray"] = streams.ListArrays()
+	m["ReadMap"] = streams.ListMaps()
 	return m
 }

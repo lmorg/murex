@@ -6,23 +6,20 @@ import (
 )
 
 const (
-	// system types
-	Generic = "*"
-	Null    = "null"
-	Die     = "die"
-	Boolean = "bool"
-
-	// string types
+	// These are only a list of the base types. Others can be added via builtins or during runtime. However their
+	// behavior will default to string (str).
+	Generic   = "*"
+	Null      = "null"
+	Die       = "die"
+	Boolean   = "bool"
 	String    = "str"
 	Binary    = "bin"
 	CodeBlock = "block"
 	Json      = "json"
 	Csv       = "csv"
-
-	// number types
-	Number  = "num"
-	Integer = "int"
-	Float   = "float"
+	Number    = "num"
+	Integer   = "int"
+	Float     = "float"
 )
 
 const TrueString = "true"

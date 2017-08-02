@@ -1,10 +1,8 @@
 package types
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/utils"
 	"strconv"
 	"strings"
 )
@@ -154,10 +152,4 @@ func FloatToString(f float64) (s string) {
 	s = strconv.FormatFloat(f, 'f', -1, 64)
 	//s = strings.TrimRight(s, "0")
 	return
-}
-
-func StringToArray(s string) []byte {
-	s = strings.Replace(s, "\r", "", -1)
-	b, _ := json.Marshal(strings.Split(s, utils.NewLineString))
-	return b
 }
