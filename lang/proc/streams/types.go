@@ -40,17 +40,3 @@ func readMap(read Io, config *config.Config, callback func(key, value string, la
 
 	return ReadMap[types.Generic](read, config, callback)
 }
-
-func ListArrays() (s []string) {
-	for name := range ReadArray {
-		s = append(s, name)
-	}
-	return
-}
-
-func ListMaps() (s []string) {
-	for name := range ReadMap {
-		s = append(s, name)
-	}
-	return
-}

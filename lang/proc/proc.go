@@ -7,6 +7,8 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/data"
+	"sort"
 	"sync"
 )
 
@@ -69,6 +71,14 @@ var (
 )
 
 func ExportRuntime() map[string]interface{} {
+	/*ListMap := func(m map[string]interface{}) (s []string) {
+		for name := range m {
+			s = append(s, name)
+		}
+		sort.Strings(s)
+		return
+	}*/
+
 	m := make(map[string]interface{})
 	m["Vars"] = GlobalVars.Dump()
 	m["Aliases"] = GlobalAliases.Dump()
@@ -76,7 +86,13 @@ func ExportRuntime() map[string]interface{} {
 	m["Pipes"] = GlobalPipes.Dump()
 	m["Funcs"] = MxFunctions.Dump()
 	m["Fids"] = GlobalFIDs.Dump()
-	m["ReadArray"] = streams.ListArrays()
-	m["ReadMap"] = streams.ListMaps()
+
+	/*ctypes := make(map[string]interface{})
+	ctypes["foreach"] = ListMap(streams.ReadArray)
+	ctypes["formap"] = ListMap(streams.ReadMap)
+	ctypes["index"] = ListMap(data.ReadIndexes)
+	ctypes["format-in"] = ListMap(data.Marshal)
+	ctypes["format-out"] = ListMap(data.Unmarshal)*/
+
 	return m
 }
