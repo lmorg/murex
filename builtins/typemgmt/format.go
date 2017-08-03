@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/data"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/csv"
 	"regexp"
@@ -26,20 +27,33 @@ func cmdFormat(p *proc.Process) (err error) {
 		return
 	}
 
-	p.Stdout.SetDataType(format)
-
 	dt := p.Stdin.GetDataType()
 
-	switch dt {
-	case types.String, types.Generic:
-		return fStringGeneric(p, dt, format)
-	case types.Csv:
-		return fCsv(p, dt, format)
-	case types.Json:
-		return fJson(p, dt, format)
+	if data.Unmarshal[dt] == nil {
+		p.Stdout.SetDataType(types.Null)
+		return errors.New("I don't know how to unmarshal `" + dt + "`.")
 	}
 
-	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
+	if data.Marshal[format] == nil {
+		p.Stdout.SetDataType(types.Null)
+		return errors.New("I don't know how to marshal `" + format + "`.")
+	}
+
+	v, err := data.Unmarshal[dt](p)
+	if err != nil {
+		p.Stdout.SetDataType(types.Null)
+		return errors.New("[" + dt + " unmarshaller] " + err.Error())
+	}
+
+	b, err := data.Marshal[format](p, v)
+	if err != nil {
+		p.Stdout.SetDataType(types.Null)
+		return errors.New("[" + format + " marshaller] " + err.Error())
+	}
+
+	p.Stdout.SetDataType(format)
+	_, err = p.Stdout.Write(b)
+	return
 }
 
 func fStringGeneric(p *proc.Process, dt, format string) error {

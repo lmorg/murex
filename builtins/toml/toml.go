@@ -3,16 +3,16 @@ package yaml
 import (
 	"bytes"
 	"errors"
+	"github.com/BurntSushi/toml"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types/data"
-	"gopkg.in/yaml.v2"
 	"strconv"
 )
 
-const TypeName = "yaml"
+const TypeName = "toml"
 
 func init() {
 	streams.ReadArray[TypeName] = readArray
@@ -22,6 +22,18 @@ func init() {
 	data.Unmarshal[TypeName] = unmarshal
 }
 
+func tomlMarshal(v interface{}) (b []byte, err error) {
+	w := streams.NewStdin()
+	enc := toml.NewEncoder(w)
+	err = enc.Encode(v)
+	if err != nil {
+		return nil, err
+	}
+	w.Close()
+	b, err = w.ReadAll()
+	return b, err
+}
+
 func readArray(read streams.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
@@ -29,7 +41,7 @@ func readArray(read streams.Io, callback func([]byte)) error {
 	}
 
 	j := make([]interface{}, 0)
-	err = yaml.Unmarshal(b, &j)
+	err = toml.Unmarshal(b, &j)
 	if err != nil {
 		return err
 	}
@@ -40,7 +52,7 @@ func readArray(read streams.Io, callback func([]byte)) error {
 			callback(bytes.TrimSpace([]byte(j[i].(string))))
 
 		default:
-			jBytes, err := yaml.Marshal(j[i])
+			jBytes, err := tomlMarshal(j[i])
 			if err != nil {
 				return err
 			}
@@ -58,13 +70,13 @@ func readMap(read streams.Io, config *config.Config, callback func(key, value st
 	}
 
 	var jObj interface{}
-	err = yaml.Unmarshal(b, &jObj)
+	err = toml.Unmarshal(b, &jObj)
 	if err == nil {
 
 		switch v := jObj.(type) {
 		case []interface{}:
 			for i := range jObj.([]interface{}) {
-				j, err := yaml.Marshal(jObj.([]interface{})[i])
+				j, err := tomlMarshal(jObj.([]interface{})[i])
 				if err != nil {
 					return err
 				}
@@ -74,7 +86,7 @@ func readMap(read streams.Io, config *config.Config, callback func(key, value st
 		case map[string]interface{}, map[interface{}]interface{}:
 			i := 1
 			for key := range jObj.(map[string]interface{}) {
-				j, err := yaml.Marshal(jObj.(map[string]interface{})[key])
+				j, err := tomlMarshal(jObj.(map[string]interface{})[key])
 				if err != nil {
 					return err
 				}
@@ -101,7 +113,7 @@ func readIndex(p *proc.Process, params []string) error {
 		return err
 	}
 
-	err = yaml.Unmarshal(b, &jInterface)
+	err = toml.Unmarshal(b, &jInterface)
 	if err != nil {
 		return err
 	}
@@ -129,7 +141,7 @@ func readIndex(p *proc.Process, params []string) error {
 				case string:
 					p.Stdout.Write([]byte(v[i].(string)))
 				default:
-					b, err := yaml.Marshal(v[i])
+					b, err := tomlMarshal(v[i])
 					if err != nil {
 						return err
 					}
@@ -138,7 +150,7 @@ func readIndex(p *proc.Process, params []string) error {
 			}
 		}
 		if len(jArray) > 0 {
-			b, err := yaml.Marshal(jArray)
+			b, err := tomlMarshal(jArray)
 			if err != nil {
 				return err
 			}
@@ -160,7 +172,7 @@ func readIndex(p *proc.Process, params []string) error {
 				case string:
 					p.Stdout.Write([]byte(v[key].(string)))
 				default:
-					b, err := yaml.Marshal(v[key])
+					b, err := tomlMarshal(v[key])
 					if err != nil {
 						return err
 					}
@@ -169,7 +181,7 @@ func readIndex(p *proc.Process, params []string) error {
 			}
 		}
 		if len(jArray) > 0 {
-			b, err := yaml.Marshal(jArray)
+			b, err := tomlMarshal(jArray)
 			if err != nil {
 				return err
 			}
@@ -191,7 +203,7 @@ func readIndex(p *proc.Process, params []string) error {
 				case string:
 					p.Stdout.Write([]byte(v[key].(string)))
 				default:
-					b, err := yaml.Marshal(v[key])
+					b, err := tomlMarshal(v[key])
 					if err != nil {
 						return err
 					}
@@ -200,7 +212,7 @@ func readIndex(p *proc.Process, params []string) error {
 			}
 		}
 		if len(jArray) > 0 {
-			b, err := yaml.Marshal(jArray)
+			b, err := tomlMarshal(jArray)
 			if err != nil {
 				return err
 			}
@@ -209,12 +221,12 @@ func readIndex(p *proc.Process, params []string) error {
 		return nil
 
 	default:
-		return errors.New("YAML object cannot be indexed.")
+		return errors.New("TOML object cannot be indexed.")
 	}
 }
 
 func marshal(p *proc.Process, v interface{}) ([]byte, error) {
-	return yaml.Marshal(v)
+	return tomlMarshal(v)
 }
 
 func unmarshal(p *proc.Process) (v interface{}, err error) {
@@ -223,6 +235,6 @@ func unmarshal(p *proc.Process) (v interface{}, err error) {
 		return
 	}
 
-	err = yaml.Unmarshal(b, &v)
+	err = toml.Unmarshal(b, &v)
 	return
 }
