@@ -7,8 +7,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/data"
-	"sort"
 	"sync"
 )
 
