@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+// Home directory in Windows
 var HomeDirectory string
 
 func init() {

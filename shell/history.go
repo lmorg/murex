@@ -53,6 +53,7 @@ func openHist(filename string) (list []histItem, err error) {
 	return list, nil
 }
 
+// Write item to history file. eg ~/.murex_history
 func (h *history) Write(block []rune) {
 	item := histItem{
 		DateTime: time.Now(),
@@ -73,6 +74,7 @@ func (h *history) Write(block []rune) {
 	h.writer.Writeln(b)
 }
 
+// Close history file
 func (h *history) Close() {
 	if h.writer != nil {
 		h.writer.Close()

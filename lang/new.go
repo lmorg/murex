@@ -2,15 +2,23 @@ package lang
 
 import (
 	"errors"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 )
 
-var ShellExitNum int // for when running murex in interactive shell mode
+// for when running murex in interactive shell mode
+var ShellExitNum int
 
+// Parse new block and execute the code.
+// Inputs are:
+//     the code block ([]rune),
+//     Stdin, stdout and stderr streams; or nil to black hole those data streams,
+//     caller proc.Process to determine scope and any inherited properties.
+// Outputs are:
+//     exit number of the last process in the block,
+//     any errors raised during the parse.
 func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *proc.Process) (exitNum int, err error) {
 	container := new(proc.Process)
 	container.State = state.MemAllocated
@@ -48,7 +56,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *pro
 	tree, pErr := ParseBlock(block)
 	if pErr.Code != 0 {
 		container.Stderr.Writeln([]byte(pErr.Message))
-		debug.Json("ParseBlock returned:", pErr)
+		//debug.Json("ParseBlock returned:", pErr)
 		err = errors.New(pErr.Message)
 		return 1, err
 	}
@@ -61,13 +69,12 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *pro
 		exitNum = runHyperSensitive(&tree)
 	default:
 		exitNum = runNormal(&tree)
-		//exitNum = runHyperSensitive(&tree)
 	}
 
 	// This will just unlock the parent lock. Stdxxx.Close() will still have to be called.
 	container.Stdout.UnmakeParent()
 	container.Stderr.UnmakeParent()
 
-	debug.Json("Finished running &tree", tree)
+	//debug.Json("Finished running &tree", tree)
 	return
 }

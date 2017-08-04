@@ -11,13 +11,13 @@ import (
 	"time"
 )
 
-type MurexCompleter struct{}
+type murexCompleterIface struct{}
 
 var (
-	murexCompleter    *MurexCompleter = new(MurexCompleter)
-	rxAllowedVarChars *regexp.Regexp  = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
-	rxVars            *regexp.Regexp  = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
-	rxHistory         *regexp.Regexp  = regexp.MustCompile(`(\^[0-9]+)`)
+	murexCompleter    *murexCompleterIface = new(murexCompleterIface)
+	rxAllowedVarChars *regexp.Regexp       = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
+	rxVars            *regexp.Regexp       = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
+	rxHistory         *regexp.Regexp       = regexp.MustCompile(`(\^[0-9]+)`)
 	keyPressTimer     time.Time
 )
 
@@ -265,7 +265,7 @@ func parse(line []rune) (pt parseTokens) {
 	return
 }
 
-func (mc MurexCompleter) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
+func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var items []string
 	if len(line) > pos-1 {
 		line = line[:pos]

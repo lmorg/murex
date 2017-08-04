@@ -13,6 +13,7 @@ import (
 	"strings"
 )
 
+// Home directory on non-Windows systems. Typically /home/$USER/
 var HomeDirectory string
 
 func init() {

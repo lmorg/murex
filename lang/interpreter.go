@@ -91,7 +91,6 @@ func runNormal(tree *astNodes) (exitNum int) {
 		return 1
 	}
 
-	//(*tree)[0].Process.Previous.HasTerminated = true
 	(*tree)[0].Process.Previous.SetTerminatedState(true)
 
 	for i := range *tree {
@@ -111,13 +110,13 @@ func runNormal(tree *astNodes) (exitNum int) {
 	return
 }
 
+// `try`
 func runHyperSensitive(tree *astNodes) (exitNum int) {
 	debug.Log("Entering Hyper Sensitive mode!!!")
 	if len(*tree) == 0 {
 		return 1
 	}
 
-	//(*tree)[0].Process.Previous.HasTerminated = true
 	(*tree)[0].Process.Previous.SetTerminatedState(true)
 
 	for i := range *tree {

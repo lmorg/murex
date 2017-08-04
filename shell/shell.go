@@ -14,11 +14,12 @@ import (
 )
 
 var (
-	Instance *readline.Instance
-	History  history
+	Instance *readline.Instance // Readline instance
+	History  history            // History file
 	forward  int
 )
 
+// Start interactive shell
 func Start() {
 	var (
 		err       error

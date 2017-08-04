@@ -10,6 +10,7 @@ import (
 	"os"
 )
 
+// Internal function to parse parameters
 func parseParameters(p *parameters.Parameters, vars *types.Vars) {
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")

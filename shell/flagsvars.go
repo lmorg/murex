@@ -8,12 +8,14 @@ import (
 	"strings"
 )
 
+// Struct to store auto-complete options
 type Flags struct {
-	NoFiles bool
-	NoDirs  bool
-	Flags   []string
+	NoFiles bool     // `true` to disable file name completion
+	NoDirs  bool     // `true` to disable directory navigation completion
+	Flags   []string // known supported command line flags for executable
 }
 
+// Map of executables and their supported auto-complete options
 var ExesFlags map[string]Flags = make(map[string]Flags)
 
 func allExecutables(includeBuiltins bool) map[string]bool {
