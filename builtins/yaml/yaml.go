@@ -60,7 +60,7 @@ func readArray(read streams.Io, callback func([]byte)) error {
 	return nil
 }
 
-func readMap(read streams.Io, config *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read streams.Io, _ *config.Config, callback func(key, value string, last bool)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -222,7 +222,7 @@ func readIndex(p *proc.Process, params []string) error {
 	}
 }
 
-func marshal(p *proc.Process, v interface{}) ([]byte, error) {
+func marshal(_ *proc.Process, v interface{}) ([]byte, error) {
 	return yaml.Marshal(v)
 }
 
