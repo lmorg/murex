@@ -13,6 +13,7 @@ const (
 	ErrUnexpectedGoType  = "Unexpected Go type."
 )
 
+// Convert a Go lang variable into a murex variable
 func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	// First switch:  input data type
 	// Second switch: output data type
@@ -148,8 +149,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	return nil, errors.New(ErrUnexpectedGoType)
 }
 
-func FloatToString(f float64) (s string) {
-	s = strconv.FormatFloat(f, 'f', -1, 64)
-	//s = strings.TrimRight(s, "0")
-	return
+// Convert a Float64 (what murex numbers are stored as) into a string. Typically for outputting to Stdout/Stderr.
+func FloatToString(f float64) string {
+	return strconv.FormatFloat(f, 'f', -1, 64)
 }

@@ -28,6 +28,7 @@ type Net struct {
 func (n *Net) DefaultDataType(bool) {}
 func (n *Net) IsTTY() bool          { return false }
 
+// New net.Dial-based stream.Io pipe
 func NewDialer(protocol, address string) (n *Net, err error) {
 	n = new(Net)
 	n.protocol = protocol
@@ -46,6 +47,7 @@ func NewDialer(protocol, address string) (n *Net, err error) {
 	return
 }
 
+// New net.Listen-based stream.Io pipe
 func NewListener(protocol, address string) (n *Net, err error) {
 	n = new(Net)
 	n.protocol = protocol

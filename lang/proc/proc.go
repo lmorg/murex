@@ -35,6 +35,9 @@ type Process struct {
 	IsBackground       bool
 }
 
+// Check if process has terminated.
+// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
+// thread safe.
 func (p *Process) HasTerminated() (state bool) {
 	p.hasTerminatedM.Lock()
 	state = p.hasTerminatedV
@@ -42,6 +45,9 @@ func (p *Process) HasTerminated() (state bool) {
 	return
 }
 
+// Set the process terminated state.
+// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
+// thread safe.
 func (p *Process) SetTerminatedState(state bool) {
 	p.hasTerminatedM.Lock()
 	p.hasTerminatedV = state
@@ -68,6 +74,7 @@ var (
 	ForegroundProc *Process              = ShellProcess
 )
 
+// Export a JSONable structure of the shell running state
 func ExportRuntime() map[string]interface{} {
 	/*ListMap := func(m map[string]interface{}) (s []string) {
 		for name := range m {

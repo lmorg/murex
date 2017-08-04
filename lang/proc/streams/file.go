@@ -77,6 +77,7 @@ func (f *File) Stats() (bytesWritten, bytesRead uint64) {
 	return
 }
 
+// New file writer stream.Io pipe
 func NewFile(name string) (f *File, err error) {
 	f = new(File)
 	f.file, err = os.OpenFile(name, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0664)

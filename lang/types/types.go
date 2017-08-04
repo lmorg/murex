@@ -5,9 +5,9 @@ import (
 	"strings"
 )
 
+// These are only a list of the base types. Others can be added via builtins or during runtime. However their
+// behavior will default to string (str).
 const (
-	// These are only a list of the base types. Others can be added via builtins or during runtime. However their
-	// behavior will default to string (str).
 	Generic   = "*"
 	Null      = "null"
 	Die       = "die"
@@ -22,12 +22,20 @@ const (
 	Float     = "float"
 )
 
+// `true` boolean value
 const TrueString = "true"
+
+// `false` boolean value
 const FalseString = "false"
 
+// `true` as a []byte slice
 var TrueByte = []byte(TrueString)
+
+// `false` as a []byte slice
 var FalseByte = []byte(FalseString)
 
+// Checks if a process has returned a `true` state.
+// This will check a few conditions as not every external process will return a non-zero exit number on a failure.
 func IsTrue(stdout []byte, exitNum int) bool {
 	if exitNum != 0 {
 		return false
@@ -41,6 +49,7 @@ func IsTrue(stdout []byte, exitNum int) bool {
 	return true
 }
 
+// Checks if the []byte slice is a code or JSON block
 func IsBlock(b []byte) bool {
 	b = bytes.TrimSpace(b)
 	if len(b) < 2 {

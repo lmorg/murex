@@ -23,6 +23,8 @@ type Stdin struct {
 	dtLock      sync.Mutex
 }
 
+// New stream.Io interface for piping data between processes.
+// Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	return

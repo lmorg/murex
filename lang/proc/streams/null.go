@@ -7,7 +7,6 @@ import (
 )
 
 // This structure exists as a null interface for named pipes
-
 type Null struct{}
 
 func (t *Null) MakeParent()                                              {}

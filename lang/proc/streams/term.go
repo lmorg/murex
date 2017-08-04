@@ -11,7 +11,6 @@ import (
 
 // This structure exists as a wrapper around os.Stdout and os.Stderr so they can be easily interchanged with this
 // shells streams (which has a larger array of methods to enable easier writing of builtin shell functions.
-
 type term struct {
 	mutex sync.Mutex
 	//debug.Mutex
@@ -29,8 +28,10 @@ func (t *term) WriteTo(io.Writer) (int64, error)                         { retur
 func (t *term) GetDataType() string                                      { return types.Null }
 func (t *term) SetDataType(string)                                       {}
 func (t *term) DefaultDataType(bool)                                     {}
-func (t *term) IsTTY() bool                                              { return true }
 func (t *term) Close()                                                   {}
+
+// Return `true` since you are writing to a TTY. All over stream.Io interfaces should return `false`.
+func (t *term) IsTTY() bool { return true }
 
 func (t *term) MakeParent() {
 	t.mutex.Lock()

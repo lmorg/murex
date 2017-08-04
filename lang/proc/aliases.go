@@ -10,23 +10,27 @@ type Aliases struct {
 	mutex   sync.Mutex
 }
 
+// Create a new table of aliases
 func NewAliases() (a Aliases) {
 	a.aliases = make(map[string][]string)
 	return
 }
 
+// Create an alias
 func (a *Aliases) Add(name string, alias []string) {
 	a.mutex.Lock()
 	a.aliases[name] = alias
 	a.mutex.Unlock()
 }
 
+// Check if alias exists in table
 func (a *Aliases) Exists(name string) bool {
 	a.mutex.Lock()
 	defer a.mutex.Unlock()
 	return len(a.aliases[name]) > 0
 }
 
+// Get the aliased code
 func (a *Aliases) Get(name string) (alias []string) {
 	a.mutex.Lock()
 	alias = a.aliases[name]
@@ -34,6 +38,7 @@ func (a *Aliases) Get(name string) (alias []string) {
 	return
 }
 
+// Delete alias
 func (a *Aliases) Delete(name string) error {
 	a.mutex.Lock()
 	defer a.mutex.Unlock()
@@ -45,6 +50,7 @@ func (a *Aliases) Delete(name string) error {
 	return nil
 }
 
+// Return the complete alias table
 func (a *Aliases) Dump() map[string][]string {
 	a.mutex.Lock()
 	dump := a.aliases

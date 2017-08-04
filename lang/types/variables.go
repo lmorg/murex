@@ -15,13 +15,14 @@ type Vars struct {
 	types  map[string]string
 }
 
-type JsonableVarItem struct {
+type jsonableVarItem struct {
 	Value interface{}
 	Type  string
 }
 
-type JsonableVars map[string]JsonableVarItem
+type jsonableVars map[string]jsonableVarItem
 
+// Create a new scope of variables
 func NewVariableGroup() (v Vars) {
 	v.values = make(map[string]interface{})
 	v.types = make(map[string]string)
@@ -29,11 +30,11 @@ func NewVariableGroup() (v Vars) {
 }
 
 // Dump the entire variable structure into a JSON-able interface.
-func (v *Vars) Dump() (obj JsonableVars) {
+func (v *Vars) Dump() (obj jsonableVars) {
 	v.mutex.Lock()
-	obj = make(map[string]JsonableVarItem, 0)
+	obj = make(map[string]jsonableVarItem, 0)
 	for name := range v.values {
-		obj[name] = JsonableVarItem{
+		obj[name] = jsonableVarItem{
 			Value: v.values[name],
 			Type:  v.types[name],
 		}
@@ -151,6 +152,7 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 	return nil
 }
 
+// Unset a variable
 func (v *Vars) Unset(name string) {
 	v.mutex.Lock()
 	delete(v.values, name)

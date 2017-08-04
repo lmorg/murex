@@ -11,8 +11,8 @@ import (
 	"syscall"
 )
 
+// Execute an external process. Don't give it a TTY
 func External(p *Process) error {
-	// External executable
 	if err := execute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.
 		if strings.HasPrefix(err.Error(), "exit status ") {
@@ -62,9 +62,8 @@ func execute(p *Process) error {
 	return nil
 }
 
-// Prototype call with support for PTYs. Highly experimental.
+// Execute an external process. Give it a TTY
 func ExternalPty(p *Process) error {
-	// External executable
 	if err := shellExecute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.
 		if strings.HasPrefix(err.Error(), "exit status ") {

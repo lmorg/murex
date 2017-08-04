@@ -11,10 +11,17 @@ type Arguments struct {
 	Flags           map[string]string
 }
 
-func (p *Parameters) ParseFlags(args *Arguments) (flags map[string]string, additional []string, err error) {
-	return ParseFlags(p.Params, args)
-}
-
+// Parse the parameters and return which flags are set.
+// `Arguments` is a list of supported flags taken as a struct to enable easy querying from within murex shell scripts.
+// eg:
+// 	   args {
+// 	   	   "AllowAdditional": true,
+// 	   	   "Flags": {
+// 	 	     "--str": "str",
+// 	 	     "--num": "num",
+// 	 	     "--bool": "bool",
+// 	 	     "-b": "--bool"
+// 	   }
 func ParseFlags(params []string, args *Arguments) (flags map[string]string, additional []string, err error) {
 	var previous string
 	flags = make(map[string]string)
@@ -55,4 +62,9 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 	}
 
 	return
+}
+
+// A wrapper function for ParseFlags (above) so you can use inside your proc.Process.Parameters object
+func (p *Parameters) ParseFlags(args *Arguments) (flags map[string]string, additional []string, err error) {
+	return ParseFlags(p.Params, args)
 }

@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
+// Execute an external (Windows) process
 func External(p *Process) error {
-	// External executable
 	if err := execute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.
 		if strings.HasPrefix(err.Error(), "exit status ") {
@@ -48,66 +48,8 @@ func execute(p *Process) error {
 	return nil
 }
 
+// This function exists for POSIX builds. Since Windows doesn't have TTYs, lets just make it a wrapper around the
+// first function in this file
 func ExternalPty(p *Process) error {
 	return External(p)
-	/*// External executable
-	if err := shellExecute(p); err != nil {
-		// Get exit status. This has only been tested on Linux. May not work on other OSs.
-		if strings.HasPrefix(err.Error(), "exit status ") {
-			i, _ := strconv.Atoi(strings.Replace(err.Error(), "exit status ", "", 1))
-			p.ExitNum = i
-		} else {
-			p.Stderr.Writeln([]byte(err.Error()))
-			p.ExitNum = 1
-		}
-
-	}
-	return nil*/
 }
-
-// Prototype call with support for PTYs. Highly experimental.
-/*func shellExecute(p *Process) (err error) {
-	p.Stdout.SetDataType(types.Null)
-
-	// Create an object for the executable we wish to invoke.
-	exeName, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-	parameters := append([]string{"cmd", "/c"}, p.Parameters.StringArray()...)
-	cmd := exec.Command(exeName, parameters[1:]...)
-
-	// Create a PTY for the executable.
-	f, err := pty.Start(cmd)
-	if err != nil {
-		return err
-	}
-
-	active := true
-
-	go func() {
-		// Create an STDIN function, copying 1KB blocks at a time.
-		b := make([]byte, 1024)
-		for active {
-			var i int
-
-			i, err := osstdin.Stdin.Read(b)
-			if err != nil {
-				return
-			}
-			// oops the program has closed but this goroutine is still active.
-			// So lets push the []bytes back into the stack.
-			if !active {
-				osstdin.Stdin.Prepend(b[:i])
-				return
-			}
-			if _, err = f.Write(b[:i]); err != nil {
-				return
-			}
-		}
-	}()
-
-	io.Copy(p.Stdout, f)
-	active = false
-	return
-}*/
