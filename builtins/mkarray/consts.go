@@ -30,7 +30,7 @@ var rangeWeekdayShort map[string]int = map[string]int{
 
 var rangeMonthLong map[string]int = map[string]int{
 	"january":   1,
-	"feburary":  2,
+	"february":  2,
 	"march":     3,
 	"april":     4,
 	"may":       5,

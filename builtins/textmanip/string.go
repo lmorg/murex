@@ -98,7 +98,7 @@ func cmdRegexp(p *proc.Process) (err error) {
 		})
 
 	default:
-		return errors.New("Invalid regexp. Please use either match (m), substitude (s) or find (f).")
+		return errors.New("Invalid regexp. Please use either match (m), substitute (s) or find (f).")
 	}
 
 	return

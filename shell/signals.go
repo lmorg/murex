@@ -25,7 +25,7 @@ func SigHandler() {
 			switch sig.String() {
 			case syscall.SIGTERM.String():
 				Instance.Terminal.ExitRawMode()
-				os.Stderr.WriteString("Shell recieved SIGTERM!" + utils.NewLineString)
+				os.Stderr.WriteString("Shell received SIGTERM!" + utils.NewLineString)
 				os.Exit(1)
 			case os.Interrupt.String():
 				if Instance == nil {
@@ -43,7 +43,7 @@ func SigHandler() {
 					//os.Stderr.WriteString("^c")
 				}
 			case syscall.SIGQUIT.String():
-				os.Stderr.WriteString("Shell recieved SIGQUIT!" + utils.NewLineString)
+				os.Stderr.WriteString("Shell received SIGQUIT!" + utils.NewLineString)
 				os.Exit(2)
 			default:
 				os.Stderr.WriteString("Unhandled signal: " + sig.String())

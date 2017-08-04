@@ -28,7 +28,7 @@ func main() {
 		execSource([]rune(fCommand))
 
 	case fStdin:
-		os.Stderr.WriteString("Not implimented yet.\n")
+		os.Stderr.WriteString("Not implemented yet.\n")
 		os.Exit(1)
 
 	case len(fSource) > 0:

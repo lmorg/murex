@@ -20,7 +20,7 @@ const (
 
 var errMessages map[int]string = map[int]string{
 	1: "Unquoted or unescaped colon located in function parameters.",
-	2: "Pipe token preceeding function name.",
+	2: "Pipe token preceding function name.",
 	3: "Unquoted or unescaped opening brace in function parameters.",
 	4: "Unquoted or unescaped closinging brace in function parameters.",
 	5: "Unexpected closing brace as no matching opening brace found.",
