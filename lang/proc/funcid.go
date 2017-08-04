@@ -18,8 +18,8 @@ func (f fidList) Len() int           { return len(f) }
 func (f fidList) Less(i, j int) bool { return f[i].Id < f[j].Id }
 func (f fidList) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
 
-func newFuncID() funcID {
-	var f funcID
+func newFuncID() *funcID {
+	f := new(funcID)
 	f.procs = make(map[int]*Process)
 	f.procs[0] = ShellProcess
 	f.latest++

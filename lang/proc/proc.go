@@ -63,7 +63,7 @@ var (
 	GlobalConf     config.Config         = config.NewConfiguration()
 	GlobalAliases  Aliases               = NewAliases()
 	GlobalPipes    pipes.Named           = pipes.NewNamed()
-	GlobalFIDs     funcID                = newFuncID()
+	GlobalFIDs     funcID                = *newFuncID()
 	KillForeground func()                = func() {}
 	ForegroundProc *Process              = ShellProcess
 )

@@ -108,7 +108,7 @@ func (v *Vars) GetString(name string) (s string) {
 	default:
 		return v.values[name].(string)
 	}
-	return ""
+	//return ""
 }
 
 // Set a variable.
