@@ -76,7 +76,7 @@ func cmdFor(p *proc.Process) (err error) {
 		}
 	}
 
-	return nil
+	//return nil
 }
 
 func cmdForEach(p *proc.Process) (err error) {
@@ -110,7 +110,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		return errors.New("Invalid number of parameters.")
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArray(func(b []byte) {
 		if len(b) == 0 || p.HasTerminated() {
 			return
 		}
@@ -127,7 +127,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		lang.ProcessNewBlock(block, stdin, p.Stdout, p.Stderr, p)
 	})
 
-	return nil
+	return err
 }
 
 func cmdForMap(p *proc.Process) error {
@@ -247,5 +247,5 @@ func cmdWhile(p *proc.Process) error {
 		return errors.New("Invalid number of parameters. Please read usage notes.")
 	}
 
-	return errors.New("cmdWhile(p *proc.Process) unexpected escaped a switch with default case.")
+	//return errors.New("cmdWhile(p *proc.Process) unexpected escaped a switch with default case.")
 }

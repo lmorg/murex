@@ -252,7 +252,6 @@ func (in *Stdin) SetDataType(dt string) {
 }
 
 func (in *Stdin) DefaultDataType(err bool) {
-	return
 	in.dtLock.Lock()
 	dt := in.dataType
 	in.dtLock.Unlock()
