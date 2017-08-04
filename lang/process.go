@@ -126,8 +126,9 @@ executeProcess:
 		goto executeProcess
 
 	case proc.MxFunctions.Exists(p.Name):
+		var r []rune
 		p.Scope = p
-		r, err := proc.MxFunctions.Block(p.Name)
+		r, err = proc.MxFunctions.Block(p.Name)
 		if err == nil {
 			p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
