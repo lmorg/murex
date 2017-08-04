@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/data"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
@@ -35,15 +36,11 @@ func cmdText(p *proc.Process) error {
 		ext = strings.ToLower(match[0][1])
 	}
 
-	switch ext {
-	case "csv":
-		p.Stdout.SetDataType(types.Csv)
-
-	case "json":
-		p.Stdout.SetDataType(types.Json)
-
-	default:
+	dt := data.GetExtType(ext)
+	if dt == "" {
 		p.Stdout.SetDataType(types.String)
+	} else {
+		p.Stdout.SetDataType(dt)
 	}
 
 	for _, filename := range p.Parameters.StringArray() {

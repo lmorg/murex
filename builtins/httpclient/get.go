@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/data"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
@@ -87,7 +88,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 		return err
 	}
 
-	p.Stdout.SetDataType(types.MimeToMurex(resp.Header.Get("Content-Type")))
+	p.Stdout.SetDataType(data.MimeToMurex(resp.Header.Get("Content-Type")))
 
 	quit := false
 	cl := resp.Header.Get("Content-Length")

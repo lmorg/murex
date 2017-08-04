@@ -20,6 +20,15 @@ func init() {
 	data.ReadIndexes[TypeName] = readIndex
 	data.Marshal[TypeName] = marshal
 	data.Unmarshal[TypeName] = unmarshal
+
+	data.SetMime(TypeName,
+		"application/yaml", // this is preferred but we will include others since not everyone follows standards.
+		"application/x-yaml",
+		"text/yaml",
+		"text/x-yaml",
+	)
+
+	data.SetFileExtensions(TypeName, "yaml", "yml")
 }
 
 func readArray(read streams.Io, callback func([]byte)) error {

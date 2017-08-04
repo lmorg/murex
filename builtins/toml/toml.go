@@ -20,6 +20,15 @@ func init() {
 	data.ReadIndexes[TypeName] = readIndex
 	data.Marshal[TypeName] = marshal
 	data.Unmarshal[TypeName] = unmarshal
+
+	data.SetMime(TypeName,
+		"application/toml", // this is preferred but we will include others since not everyone follows standards.
+		"application/x-toml",
+		"text/toml",
+		"text/x-toml",
+	)
+
+	data.SetFileExtensions(TypeName, "toml")
 }
 
 func tomlMarshal(v interface{}) (b []byte, err error) {
