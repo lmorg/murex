@@ -3,24 +3,75 @@ package data
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/csv"
+	"strings"
 )
 
-func marshalCsv(*proc.Process, interface{}) ([]byte, error) {
-	/*switch v := t.(type) {
-	case []string:
-		//return csv.ArrayToCsv(v), nil
-	case map[string]string:
-	case map[string][]string:
-	case []map[string]string:
-	case []map[string]interface{}:
-	case []interface{}:
-	default:
+func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
+	w, err := csv.NewParser(nil, &proc.GlobalConf)
+	if err != nil {
+		return
 	}
-	return nil, nil*/
-	return nil, errors.New("TODO: marsheller not yet written!")
+
+	switch v := iface.(type) {
+	case []string:
+		for i := range v {
+			s := strings.TrimSpace(v[i])
+			b = append(b, w.ArrayToCsv([]string{s})...)
+			b = append(b, utils.NewLineByte...)
+		}
+		return
+
+	case []interface{}:
+		for i := range v {
+			s := strings.TrimSpace(fmt.Sprintln(v[i]))
+			b = append(b, w.ArrayToCsv([]string{s})...)
+			b = append(b, utils.NewLineByte...)
+		}
+		return
+
+	/*case map[string]string:
+	var
+	var array []string
+	for s := range v {
+		array=append(array,v[s])
+	}
+	sort.Strings(array)
+	for i:= range
+	b = w.ArrayToCsv()
+	for s := range v {
+		b = append(b, []byte(s+": "+v[s]+utils.NewLineString)...)
+	}
+	return*/
+
+	/*case map[string]interface{}:
+		for s := range v {
+			b = append(b, []byte(fmt.Sprintf("%s: %s%s", s, fmt.Sprint(v[s]), utils.NewLineString))...)
+		}
+		return
+
+	case map[interface{}]interface{}:
+		for s := range v {
+			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), fmt.Sprint(v[s]), utils.NewLineString))...)
+		}
+		return
+
+	case map[interface{}]string:
+		for s := range v {
+			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), v[s], utils.NewLineString))...)
+		}
+		return
+
+	case interface{}:
+		return []byte(fmt.Sprintln(iface)), nil*/
+
+	default:
+		err = errors.New("I don't know how to marshal that data into a `csv`. Data possibly too complex?")
+		return
+	}
 }
 
 func unmarshalCsv(p *proc.Process) (interface{}, error) {
@@ -55,8 +106,51 @@ func unmarshalJson(p *proc.Process) (v interface{}, err error) {
 	return
 }
 
-func marshalString(p *proc.Process, v interface{}) ([]byte, error) {
-	return nil, errors.New("TODO: marsheller not yet written!")
+func marshalString(_ *proc.Process, iface interface{}) (b []byte, err error) {
+	switch v := iface.(type) {
+	case []string:
+		for i := range v {
+			b = append(b, []byte(v[i]+utils.NewLineString)...)
+		}
+		return
+
+	case []interface{}:
+		for i := range v {
+			b = append(b, []byte(fmt.Sprintln(v[i]))...)
+		}
+		return
+
+	case map[string]string:
+		for s := range v {
+			b = append(b, []byte(s+": "+v[s]+utils.NewLineString)...)
+		}
+		return
+
+	case map[string]interface{}:
+		for s := range v {
+			b = append(b, []byte(fmt.Sprintf("%s: %s%s", s, fmt.Sprint(v[s]), utils.NewLineString))...)
+		}
+		return
+
+	case map[interface{}]interface{}:
+		for s := range v {
+			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), fmt.Sprint(v[s]), utils.NewLineString))...)
+		}
+		return
+
+	case map[interface{}]string:
+		for s := range v {
+			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), v[s], utils.NewLineString))...)
+		}
+		return
+
+	case interface{}:
+		return []byte(fmt.Sprintln(iface)), nil
+
+	default:
+		err = errors.New("I don't know how to marshal that data into a `str`. Data possibly too complex?")
+		return
+	}
 }
 
 func unmarshalString(p *proc.Process) (interface{}, error) {

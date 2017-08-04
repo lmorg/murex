@@ -1,4 +1,4 @@
-# Builtins: `mkarray`
+# Builtins: make array
 
 This provides the array builtin, `a` and `ja` (returns array in JSON):
 
