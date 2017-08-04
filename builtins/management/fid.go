@@ -9,9 +9,9 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["fid-list"] = proc.GoFunction{Func: cmdFidList, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["fid-kill"] = proc.GoFunction{Func: cmdFidKill, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["fid-killall"] = proc.GoFunction{Func: cmdKillAll, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["fid-list"] = cmdFidList
+	proc.GoFunctions["fid-kill"] = cmdFidKill
+	proc.GoFunctions["fid-killall"] = cmdKillAll
 }
 
 func cmdFidList(p *proc.Process) error {

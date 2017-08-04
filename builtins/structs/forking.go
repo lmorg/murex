@@ -3,11 +3,10 @@ package structs
 import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["fork"] = proc.GoFunction{Func: cmdFork, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["fork"] = cmdFork
 }
 
 func cmdFork(p *proc.Process) (err error) {

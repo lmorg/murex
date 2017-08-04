@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["if"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["!if"] = proc.GoFunction{Func: cmdIf, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["if"] = cmdIf
+	proc.GoFunctions["!if"] = cmdIf
 }
 
 func cmdIf(p *proc.Process) (err error) {

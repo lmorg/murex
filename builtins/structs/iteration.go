@@ -10,11 +10,11 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["for"] = proc.GoFunction{Func: cmdFor, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["foreach"] = proc.GoFunction{Func: cmdForEach, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["formap"] = proc.GoFunction{Func: cmdForMap, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["!while"] = proc.GoFunction{Func: cmdWhile, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["for"] = cmdFor
+	proc.GoFunctions["foreach"] = cmdForEach
+	proc.GoFunctions["formap"] = cmdForMap
+	proc.GoFunctions["while"] = cmdWhile
+	proc.GoFunctions["!while"] = cmdWhile
 }
 
 // Example usage:

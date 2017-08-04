@@ -5,6 +5,7 @@ import (
 	"sync"
 )
 
+// Table of aliases
 type Aliases struct {
 	aliases map[string][]string
 	mutex   sync.Mutex

@@ -8,8 +8,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["gz"] = proc.GoFunction{Func: cmdGz, TypeIn: types.Generic, TypeOut: types.Binary}
-	proc.GoFunctions["!gz"] = proc.GoFunction{Func: cmdUngz, TypeIn: types.Binary, TypeOut: types.Generic}
+	proc.GoFunctions["gz"] = cmdGz
+	proc.GoFunctions["!gz"] = cmdUngz
 }
 
 func cmdGz(p *proc.Process) error {

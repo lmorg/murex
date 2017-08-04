@@ -16,12 +16,12 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["args"] = proc.GoFunction{Func: cmdArgs, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["source"] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["."] = proc.GoFunction{Func: cmdSource, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["autocomplete"] = proc.GoFunction{Func: cmdAutocomplete, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["version"] = proc.GoFunction{Func: cmdVersion, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["runtime"] = proc.GoFunction{Func: cmdRuntime, TypeIn: types.Json, TypeOut: types.Json}
+	proc.GoFunctions["args"] = cmdArgs
+	proc.GoFunctions["source"] = cmdSource
+	proc.GoFunctions["."] = cmdSource
+	proc.GoFunctions["autocomplete"] = cmdAutocomplete
+	proc.GoFunctions["version"] = cmdVersion
+	proc.GoFunctions["runtime"] = cmdRuntime
 }
 
 func cmdArgs(p *proc.Process) (err error) {

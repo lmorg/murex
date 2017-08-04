@@ -8,8 +8,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["sleep"] = proc.GoFunction{Func: cmdSleep, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["time"] = proc.GoFunction{Func: cmdTime, TypeIn: types.Null, TypeOut: types.Integer}
+	proc.GoFunctions["sleep"] = cmdSleep
+	proc.GoFunctions["time"] = cmdTime
 }
 
 func cmdSleep(p *proc.Process) error {

@@ -8,15 +8,14 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["base64"] = proc.GoFunction{Func: cmdBase64, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["!base64"] = proc.GoFunction{Func: cmdUnbase64, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["base64"] = cmdBase64
+	proc.GoFunctions["!base64"] = cmdUnbase64
 }
 
 func cmdBase64(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 	encoder := base64.NewEncoder(base64.StdEncoding, p.Stdout)
 	_, err = io.Copy(encoder, p.Stdin)
-	//p.Stdin.WriteTo(encoder)
 
 	encoder.Close()
 	p.Stdout.Writeln([]byte{})
@@ -27,6 +26,5 @@ func cmdUnbase64(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 	decoder := base64.NewDecoder(base64.StdEncoding, p.Stdin)
 	_, err = io.Copy(p.Stdout, decoder)
-	//p.Stdout.ReadFrom(decoder)
 	return
 }

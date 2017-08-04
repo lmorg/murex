@@ -11,12 +11,12 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["debug"] = proc.GoFunction{Func: cmdDebug, TypeIn: types.Generic, TypeOut: types.Json}
-	proc.GoFunctions["exitnum"] = proc.GoFunction{Func: cmdExitNum, TypeIn: types.Generic, TypeOut: types.Integer}
-	proc.GoFunctions["config"] = proc.GoFunction{Func: cmdConfig, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["builtins"] = proc.GoFunction{Func: cmdListBuiltins, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["bexists"] = proc.GoFunction{Func: cmdBuiltinExists, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["cd"] = proc.GoFunction{Func: cmdCd, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["debug"] = cmdDebug
+	proc.GoFunctions["exitnum"] = cmdExitNum
+	proc.GoFunctions["config"] = cmdConfig
+	proc.GoFunctions["builtins"] = cmdListBuiltins
+	proc.GoFunctions["bexists"] = cmdBuiltinExists
+	proc.GoFunctions["cd"] = cmdCd
 }
 
 func cmdDebug(p *proc.Process) (err error) {
@@ -65,10 +65,13 @@ func cmdExitNum(p *proc.Process) error {
 
 func cmdListBuiltins(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
-	//for name := range proc.GoFunctions {
-	//	p.Stdout.Writeln([]byte(name))
-	//}
-	b, err := utils.JsonMarshal(proc.GoFunctions, p.Stdout.IsTTY())
+
+	var s []string
+	for name := range proc.GoFunctions {
+		s = append(s, name)
+	}
+
+	b, err := utils.JsonMarshal(s, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -89,7 +92,7 @@ func cmdBuiltinExists(p *proc.Process) error {
 	}
 
 	for _, name := range p.Parameters.StringArray() {
-		if proc.GoFunctions[name].Func != nil {
+		if proc.GoFunctions[name] != nil {
 			j.Installed = append(j.Installed, name)
 		} else {
 			j.Missing = append(j.Missing, name)

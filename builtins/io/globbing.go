@@ -12,9 +12,9 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["g"] = proc.GoFunction{Func: cmdLsG, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["rx"] = proc.GoFunction{Func: cmdLsRx, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["f"] = proc.GoFunction{Func: cmdLsF, TypeIn: types.Generic, TypeOut: types.Json}
+	proc.GoFunctions["g"] = cmdLsG
+	proc.GoFunctions["rx"] = cmdLsRx
+	proc.GoFunctions["f"] = cmdLsF
 }
 
 func cmdLsG(p *proc.Process) (err error) {

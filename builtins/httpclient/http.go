@@ -9,9 +9,9 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["get"] = proc.GoFunction{Func: cmdGet, TypeIn: types.Generic, TypeOut: types.Json}
-	proc.GoFunctions["post"] = proc.GoFunction{Func: cmdPost, TypeIn: types.Generic, TypeOut: types.Json}
-	proc.GoFunctions["getfile"] = proc.GoFunction{Func: cmdGetFile, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["get"] = cmdGet
+	proc.GoFunctions["post"] = cmdPost
+	proc.GoFunctions["getfile"] = cmdGetFile
 
 	proc.GlobalConf.Define("http", "User-Agent", config.Properties{
 		Description: "User agent string for `get` and `getfile`.",

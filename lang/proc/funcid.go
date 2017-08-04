@@ -6,6 +6,7 @@ import (
 	"sync"
 )
 
+// FID (Function ID) table: ie table of murex `proc.Process` processes
 type funcID struct {
 	procs  map[int]*Process
 	mutex  sync.Mutex

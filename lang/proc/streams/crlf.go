@@ -29,4 +29,5 @@ func (lf *appendCrLf) Write() {
 	}
 }
 
+// Function to append a line feed character at the end of text piped to the terminal to aid readability.
 var CrLf appendCrLf = appendCrLf{char: '\n'}

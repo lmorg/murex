@@ -8,9 +8,9 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["try"] = proc.GoFunction{Func: cmdTry, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["catch"] = proc.GoFunction{Func: cmdCatch, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions["!catch"] = proc.GoFunction{Func: cmdCatch, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["try"] = cmdTry
+	proc.GoFunctions["catch"] = cmdCatch
+	proc.GoFunctions["!catch"] = cmdCatch
 }
 
 func cmdTry(p *proc.Process) (err error) {

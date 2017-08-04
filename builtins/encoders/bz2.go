@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["!bz2"] = proc.GoFunction{Func: cmdUnbz2, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["!bz2"] = cmdUnbz2
 }
 
 func cmdUnbz2(p *proc.Process) error {

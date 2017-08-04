@@ -10,11 +10,11 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["globals"] = proc.GoFunction{Func: cmdGlobals, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["set"] = proc.GoFunction{Func: cmdSet, TypeIn: types.Generic, TypeOut: types.Null}
-	proc.GoFunctions["!set"] = proc.GoFunction{Func: cmdUnset, TypeIn: types.Generic, TypeOut: types.Null}
-	proc.GoFunctions["export"] = proc.GoFunction{Func: cmdExport, TypeIn: types.Generic, TypeOut: types.Null}
-	proc.GoFunctions["!export"] = proc.GoFunction{Func: cmdUnexport, TypeIn: types.Generic, TypeOut: types.Null}
+	proc.GoFunctions["globals"] = cmdGlobals
+	proc.GoFunctions["set"] = cmdSet
+	proc.GoFunctions["!set"] = cmdUnset
+	proc.GoFunctions["export"] = cmdExport
+	proc.GoFunctions["!export"] = cmdUnexport
 }
 
 func cmdGlobals(p *proc.Process) error {

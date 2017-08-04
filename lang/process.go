@@ -138,8 +138,8 @@ executeProcess:
 		p.Stdout.SetDataType(proc.GlobalVars.GetType(p.Name[1:]))
 		_, err = p.Stdout.Write([]byte(s))
 
-	case proc.GoFunctions[p.Name].Func != nil:
-		err = proc.GoFunctions[p.Name].Func(p)
+	case proc.GoFunctions[p.Name] != nil:
+		err = proc.GoFunctions[p.Name](p)
 
 	default:
 		//err = errors.New("Function not found (" + p.Name + ")! This is likely due to a bad alias.")
@@ -155,7 +155,7 @@ executeProcess:
 			p.Name = CmdExec
 		}
 
-		err = proc.GoFunctions[p.Name].Func(p)
+		err = proc.GoFunctions[p.Name](p)
 	}
 	p.State = state.Executed
 

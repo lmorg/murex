@@ -10,15 +10,15 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["exec"] = proc.GoFunction{Func: proc.External, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["pty"] = proc.GoFunction{Func: proc.ExternalPty, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["die"] = proc.GoFunction{Func: cmdDie, TypeIn: types.Generic, TypeOut: types.Die}
-	proc.GoFunctions["exit"] = proc.GoFunction{Func: cmdExit, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["null"] = proc.GoFunction{Func: cmdNull, TypeIn: types.Generic, TypeOut: types.Null}
-	proc.GoFunctions["true"] = proc.GoFunction{Func: cmdTrue, TypeIn: types.Null, TypeOut: types.Boolean}
-	proc.GoFunctions["false"] = proc.GoFunction{Func: cmdFalse, TypeIn: types.Null, TypeOut: types.Boolean}
-	proc.GoFunctions["!"] = proc.GoFunction{Func: cmdNot, TypeIn: types.Generic, TypeOut: types.Boolean}
-	proc.GoFunctions["cast"] = proc.GoFunction{Func: cmdCast, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["exec"] = proc.External
+	proc.GoFunctions["pty"] = proc.ExternalPty
+	proc.GoFunctions["die"] = cmdDie
+	proc.GoFunctions["exit"] = cmdExit
+	proc.GoFunctions["null"] = cmdNull
+	proc.GoFunctions["true"] = cmdTrue
+	proc.GoFunctions["false"] = cmdFalse
+	proc.GoFunctions["!"] = cmdNot
+	proc.GoFunctions["cast"] = cmdCast
 }
 
 func cmdNull(p *proc.Process) error {

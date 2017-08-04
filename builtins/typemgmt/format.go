@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["format"] = proc.GoFunction{Func: cmdFormat, TypeIn: types.Generic, TypeOut: types.Generic}
+	proc.GoFunctions["format"] = cmdFormat
 }
 
 const iDontKnow = "I don't know how to convert %s into %s."

@@ -15,11 +15,11 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["text"] = proc.GoFunction{Func: cmdText, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["open"] = proc.GoFunction{Func: cmdOpen, TypeIn: types.Null, TypeOut: types.Generic}
-	proc.GoFunctions["pt"] = proc.GoFunction{Func: cmdPipeTelemetry, TypeIn: types.Generic, TypeOut: types.Generic}
-	proc.GoFunctions[">"] = proc.GoFunction{Func: cmdWriteFile, TypeIn: types.Generic, TypeOut: types.Null}
-	proc.GoFunctions[">>"] = proc.GoFunction{Func: cmdAppendFile, TypeIn: types.Generic, TypeOut: types.Null}
+	proc.GoFunctions["text"] = cmdText
+	proc.GoFunctions["open"] = cmdOpen
+	proc.GoFunctions["pt"] = cmdPipeTelemetry
+	proc.GoFunctions[">"] = cmdWriteFile
+	proc.GoFunctions[">>"] = cmdAppendFile
 }
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`\.([a-zA-Z]+)(\.gz|)$`)

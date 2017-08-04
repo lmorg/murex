@@ -5,6 +5,7 @@ import (
 	"sync"
 )
 
+// Table of murex functions
 type MurexFuncs struct {
 	mutex sync.Mutex
 	funcs map[string][]rune

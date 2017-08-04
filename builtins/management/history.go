@@ -11,8 +11,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["history"] = proc.GoFunction{Func: cmdHistory, TypeIn: types.Null, TypeOut: types.Json}
-	proc.GoFunctions["^"] = proc.GoFunction{Func: cmdHistCmd, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["history"] = cmdHistory
+	proc.GoFunctions["^"] = cmdHistCmd
 }
 
 func cmdHistory(p *proc.Process) (err error) {

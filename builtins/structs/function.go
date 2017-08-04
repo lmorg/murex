@@ -9,13 +9,12 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["alias"] = proc.GoFunction{Func: cmdAlias, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["!alias"] = proc.GoFunction{Func: cmdUnalias, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["func"] = proc.GoFunction{Func: cmdFunc, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["!func"] = proc.GoFunction{Func: cmdUnfunc, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["alias"] = cmdAlias
+	proc.GoFunctions["!alias"] = cmdUnalias
+	proc.GoFunctions["func"] = cmdFunc
+	proc.GoFunctions["!func"] = cmdUnfunc
 }
 
-//var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9])+\s*=(.*)$`)
 var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)[\s$]`)
 
 func cmdAlias(p *proc.Process) error {

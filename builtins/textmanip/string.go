@@ -12,16 +12,16 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["!match"] = proc.GoFunction{Func: cmdMatch, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["!regex"] = proc.GoFunction{Func: cmdRegexp, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["left"] = proc.GoFunction{Func: cmdLeft, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["right"] = proc.GoFunction{Func: cmdRight, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["append"] = proc.GoFunction{Func: cmdAppend, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["prepend"] = proc.GoFunction{Func: cmdPrepend, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["pretty"] = proc.GoFunction{Func: cmdPretty, TypeIn: types.Json, TypeOut: types.String}
-	proc.GoFunctions["sprintf"] = proc.GoFunction{Func: cmdSprintf, TypeIn: types.Generic, TypeOut: types.String}
+	proc.GoFunctions["match"] = cmdMatch
+	proc.GoFunctions["!match"] = cmdMatch
+	proc.GoFunctions["regex"] = cmdRegexp
+	proc.GoFunctions["!regex"] = cmdRegexp
+	proc.GoFunctions["left"] = cmdLeft
+	proc.GoFunctions["right"] = cmdRight
+	proc.GoFunctions["append"] = cmdAppend
+	proc.GoFunctions["prepend"] = cmdPrepend
+	proc.GoFunctions["pretty"] = cmdPretty
+	proc.GoFunctions["sprintf"] = cmdSprintf
 }
 
 func cmdMatch(p *proc.Process) error {

@@ -7,10 +7,10 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["echo"] = proc.GoFunction{Func: cmdOut, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["out"] = proc.GoFunction{Func: cmdOut, TypeIn: types.Null, TypeOut: types.String}
-	proc.GoFunctions["err"] = proc.GoFunction{Func: cmdErr, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions["print"] = proc.GoFunction{Func: cmdPrint, TypeIn: types.Null, TypeOut: types.Null}
+	proc.GoFunctions["echo"] = cmdOut
+	proc.GoFunctions["out"] = cmdOut
+	proc.GoFunctions["err"] = cmdErr
+	proc.GoFunctions["print"] = cmdPrint
 }
 
 func cmdOut(p *proc.Process) (err error) {

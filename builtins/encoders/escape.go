@@ -8,8 +8,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["escape"] = proc.GoFunction{Func: cmdEscape, TypeIn: types.String, TypeOut: types.String}
-	proc.GoFunctions["!escape"] = proc.GoFunction{Func: cmdEscape, TypeIn: types.String, TypeOut: types.String}
+	proc.GoFunctions["escape"] = cmdEscape
+	proc.GoFunctions["!escape"] = cmdEscape
 }
 
 func cmdEscape(p *proc.Process) error {

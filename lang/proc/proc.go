@@ -10,6 +10,9 @@ import (
 	"sync"
 )
 
+// Each process running inside the murex shell will be one of these objects.
+// It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
+// External processes will also appear in the host OS's process list.
 type Process struct {
 	Stdin              streams.Io
 	Stdout             streams.Io
@@ -55,23 +58,17 @@ func (p *Process) SetTerminatedState(state bool) {
 	return
 }
 
-type GoFunction struct {
-	Func    func(*Process) error `json:"-"`
-	TypeIn  string
-	TypeOut string
-}
-
 var (
-	ShellProcess   *Process              = &Process{}
-	MxFunctions    MurexFuncs            = NewMurexFuncs()
-	GoFunctions    map[string]GoFunction = make(map[string]GoFunction)
-	GlobalVars     types.Vars            = types.NewVariableGroup()
-	GlobalConf     config.Config         = config.NewConfiguration()
-	GlobalAliases  Aliases               = NewAliases()
-	GlobalPipes    pipes.Named           = pipes.NewNamed()
-	GlobalFIDs     funcID                = *newFuncID()
-	KillForeground func()                = func() {}
-	ForegroundProc *Process              = ShellProcess
+	ShellProcess   *Process                        = &Process{}
+	MxFunctions    MurexFuncs                      = NewMurexFuncs()
+	GoFunctions    map[string]func(*Process) error = make(map[string]func(*Process) error)
+	GlobalVars     types.Vars                      = types.NewVariableGroup()
+	GlobalConf     config.Config                   = config.NewConfiguration()
+	GlobalAliases  Aliases                         = NewAliases()
+	GlobalPipes    pipes.Named                     = pipes.NewNamed()
+	GlobalFIDs     funcID                          = *newFuncID()
+	KillForeground func()                          = func() {}
+	ForegroundProc *Process                        = ShellProcess
 )
 
 // Export a JSONable structure of the shell running state

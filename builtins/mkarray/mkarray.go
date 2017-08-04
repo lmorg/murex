@@ -12,8 +12,8 @@ import (
 // This code is ugly. Read at your own risk.
 
 func init() {
-	proc.GoFunctions["a"] = proc.GoFunction{Func: mkArray, TypeIn: types.Generic, TypeOut: types.String}
-	proc.GoFunctions["ja"] = proc.GoFunction{Func: mkArray, TypeIn: types.Generic, TypeOut: types.Json}
+	proc.GoFunctions["a"] = mkArray
+	proc.GoFunctions["ja"] = mkArray
 }
 
 const (

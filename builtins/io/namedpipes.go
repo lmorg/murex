@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["pipe"] = proc.GoFunction{Func: cmdPipe, TypeIn: types.Null, TypeOut: types.Null}
-	proc.GoFunctions[consts.NamedPipeProcName] = proc.GoFunction{Func: cmdReadPipe, TypeIn: types.Null, TypeOut: types.Generic}
+	proc.GoFunctions["pipe"] = cmdPipe
+	proc.GoFunctions[consts.NamedPipeProcName] = cmdReadPipe
 }
 
 func cmdPipe(p *proc.Process) error {
