@@ -17,7 +17,7 @@ type File struct {
 	file     *os.File
 }
 
-// These are null because file devices are write only
+// These are empty methods because file devices are write only
 func (f *File) Read([]byte) (int, error)                                 { return 0, io.EOF }
 func (f *File) ReadLine(func([]byte)) error                              { return nil }
 func (f *File) ReadArray(func([]byte)) error                             { return nil }
