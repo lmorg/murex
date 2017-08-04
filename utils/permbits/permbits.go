@@ -50,7 +50,11 @@ func FileMode(fm os.FileMode) PermissionBits {
 // Given a filepath, set it's permission bits directly
 func Chmod(filepath string, b PermissionBits) error {
 	if e := syscall.Chmod(filepath, syscallMode(b)); e != nil {
-		return &os.PathError{"chmod", filepath, e}
+		return &os.PathError{
+			Op:   "chmod",
+			Path: filepath,
+			Err:  e,
+		}
 	}
 	return nil
 }
