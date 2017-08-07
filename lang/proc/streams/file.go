@@ -29,6 +29,7 @@ func (f *File) SetDataType(string)                                       {}
 func (f *File) DefaultDataType(bool)                                     {}
 func (f *File) IsTTY() bool                                              { return false }
 
+// Turns the stream.Io interface into a named pipe
 func (f *File) MakePipe() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
@@ -36,6 +37,7 @@ func (f *File) MakePipe() {
 	f.isParent = true
 }
 
+// Prevents the stream.Io interface from being casually closed
 func (f *File) MakeParent() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
@@ -43,6 +45,7 @@ func (f *File) MakeParent() {
 	f.isParent = true
 }
 
+// Allows the stream.Io interface to be closed
 func (f *File) UnmakeParent() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
@@ -50,6 +53,7 @@ func (f *File) UnmakeParent() {
 	f.isParent = false
 }
 
+// io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
 	i, err := f.file.Write(b)
 
@@ -69,6 +73,7 @@ func (f *File) Writeln(b []byte) (int, error) {
 
 	return i, err
 }
+
 func (f *File) Stats() (bytesWritten, bytesRead uint64) {
 	f.mutex.Lock()
 	bytesWritten = f.bWritten

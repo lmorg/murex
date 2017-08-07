@@ -72,6 +72,7 @@ func NewListener(protocol, address string) (n *Net, err error) {
 	return
 }
 
+// Turns the stream.Io interface into a named pipe
 func (n *Net) MakePipe() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -79,6 +80,7 @@ func (n *Net) MakePipe() {
 	n.isParent = true
 }
 
+// Assign a data type to the stream.Io interface
 func (n *Net) SetDataType(dt string) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -86,6 +88,7 @@ func (n *Net) SetDataType(dt string) {
 	n.dataType = dt
 }
 
+// Prevents the stream.Io interface from being casually closed
 func (n *Net) MakeParent() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -93,6 +96,7 @@ func (n *Net) MakeParent() {
 	n.isParent = true
 }
 
+// Allows the stream.Io interface to be closed
 func (n *Net) UnmakeParent() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -100,6 +104,7 @@ func (n *Net) UnmakeParent() {
 	n.isParent = false
 }
 
+// Read the stream.Io interface's data type
 func (n *Net) GetDataType() string {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()

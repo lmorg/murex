@@ -1,11 +1,13 @@
 package data
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/csv"
+	"os"
 	"sort"
 	"strings"
 )
@@ -27,7 +29,11 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 
 	case []interface{}:
 		for i := range v {
-			s := strings.TrimSpace(fmt.Sprintln(v[i]))
+			j, err := json.Marshal(v[i])
+			s := string(j)
+			if err != nil {
+				s = strings.TrimSpace(fmt.Sprintln(v[i]))
+			}
 			b = append(b, w.ArrayToCsv([]string{s})...)
 			b = append(b, utils.NewLineByte...)
 		}
@@ -61,7 +67,12 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 
 		records := make([]string, len(headings))
 		for i := range headings {
-			records[i] = fmt.Sprint(v[headings[i]])
+			j, err := json.Marshal(v[headings[i]])
+			s := string(j)
+			if err != nil {
+				s = strings.TrimSpace(fmt.Sprint(v[headings[i]]))
+			}
+			records[i] = s
 		}
 		b = append(b, w.ArrayToCsv(records)...)
 
@@ -96,10 +107,14 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 
 		records := make([]string, len(headings))
 		for i := range headings {
-			records[i] = fmt.Sprint(v[headings[i]])
+			j, err := json.Marshal(v[headings[i]])
+			s := string(j)
+			if err != nil {
+				s = strings.TrimSpace(fmt.Sprint(v[headings[i]]))
+			}
+			records[i] = s
 		}
 		b = append(b, w.ArrayToCsv(records)...)
-
 		return
 
 	case []map[string]string:
@@ -112,7 +127,6 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 				}
 				sort.Strings(headings)
 				b = w.ArrayToCsv(headings)
-				//b = append(b, utils.NewLineByte...)
 			}
 
 			//order := make(map[string]int)
@@ -127,7 +141,8 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		return b, errors.New("Warning: untested!")
+		os.Stderr.WriteString("Warning: untested!\n")
+		return b, nil
 
 	case []map[string]interface{}:
 		var headings []string
@@ -139,17 +154,22 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 				}
 				sort.Strings(headings)
 				b = w.ArrayToCsv(headings)
-				//b = append(b, utils.NewLineByte...)
 			}
 
 			records := make([]string, len(headings))
 			for i := range headings {
-				records[i] = fmt.Sprint(v[slice][headings[i]])
+				j, err := json.Marshal(v[slice][headings[i]])
+				s := string(j)
+				if err != nil {
+					s = strings.TrimSpace(fmt.Sprint(v[slice][headings[i]]))
+				}
+				records[i] = s
 			}
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		return b, errors.New("Warning: untested!")
+		os.Stderr.WriteString("Warning: untested!\n")
+		return b, nil
 
 	case []map[interface{}]string:
 		var headings []string
@@ -161,17 +181,22 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 				}
 				sort.Strings(headings)
 				b = w.ArrayToCsv(headings)
-				//b = append(b, utils.NewLineByte...)
 			}
 
 			records := make([]string, len(headings))
 			for i := range headings {
-				records[i] = v[slice][headings[i]]
+				j, err := json.Marshal(v[slice][headings[i]])
+				s := string(j)
+				if err != nil {
+					s = strings.TrimSpace(fmt.Sprint(v[slice][headings[i]]))
+				}
+				records[i] = s
 			}
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		return b, errors.New("Warning: untested!")
+		os.Stderr.WriteString("Warning: untested!\n")
+		return b, nil
 
 	case []map[interface{}]interface{}:
 		var headings []string
@@ -183,17 +208,23 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 				}
 				sort.Strings(headings)
 				b = w.ArrayToCsv(headings)
-				//b = append(b, utils.NewLineByte...)
 			}
 
 			records := make([]string, len(headings))
 			for i := range headings {
+				j, err := json.Marshal(v[slice][headings[i]])
+				s := string(j)
+				if err != nil {
+					s = strings.TrimSpace(fmt.Sprint(v[slice][headings[i]]))
+				}
+				records[i] = s
 				records[i] = fmt.Sprint(v[slice][headings[i]])
 			}
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		return b, errors.New("Warning: untested!")
+		os.Stderr.WriteString("Warning: untested!\n")
+		return b, nil
 
 	default:
 		err = errors.New("I don't know how to marshal that data into a `csv`. Data possibly too complex?")
