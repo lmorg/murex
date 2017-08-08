@@ -32,8 +32,8 @@ exposed via `eval` / `=` and `let`
 ## Optional dependencies
 
 * `labix.org/v2/mgo/bson`  adds support for BSON (binary JSON) (as used
-by MongoDB). This is disabled by default on Windows due to a requirement
-for `bzr` to exist in %PATH%
+by MongoDB). This is disabled by default due to a requirement for `bzr`
+to exist in $PATH
 
 * `github.com/abesto/sexp` adds support for s-expressions and canonical
 s-expressions
