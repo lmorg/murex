@@ -134,15 +134,15 @@ Explanation behind these dependencies:
 * `toml` adds support for TOML
 
 If you wish do disable any of these then delete the appropriate files in
-the `builtins` directory of this project or append `//+build !ignore` to
-the top of the line if you wish to preserve the change in subsequent
-`git pull` updates.
+the `builtins` directory of this project or append `// +build ignore` to
+the `.go` file if you wish to preserve the change in subsequent updates
+from git.
 
 ## Build
 
     go build github.com/lmorg/murex
 
-Test the binary (requires Bash):
+Test the binary (requires Bash and `timeout`):
 
     test/regression_test.sh
 
