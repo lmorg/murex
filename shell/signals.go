@@ -9,7 +9,7 @@ import (
 	"syscall"
 )
 
-// This is an internal function to capture and handle OS signals (eg SIGTERM)
+// This is an internal function to capture and handle OS signals (eg SIGTERM).
 func SigHandler() {
 	defer func() {
 		if r := recover(); r != nil {

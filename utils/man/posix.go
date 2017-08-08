@@ -48,6 +48,7 @@ MANUAL SECTIONS (Linux)
 	9	Kernel internals.
 */
 
+// Executes `man -w` to locate the manual files then runs the parser to locate any flags with hyphen prefixes
 func ScanManPages(exe string) (flags []string) {
 	// Get paths
 	cmd := exec.Command("man", "-w", exe)

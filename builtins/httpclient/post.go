@@ -34,7 +34,7 @@ func cmdPost(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := request("POST", url, body)
+	resp, err := request("POST", url, body, enableTimeout)
 	if err != nil {
 		return err
 	}

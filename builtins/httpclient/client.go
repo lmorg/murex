@@ -11,7 +11,12 @@ import (
 	"time"
 )
 
-func request(method, url string, body io.Reader) (response *http.Response, err error) {
+const (
+	enableTimeout  = true
+	disableTimeout = false
+)
+
+func request(method, url string, body io.Reader, setTimeout bool) (response *http.Response, err error) {
 	toStr, err := proc.GlobalConf.Get("http", "Timeout", types.String)
 	if err != nil {
 		return
@@ -26,14 +31,26 @@ func request(method, url string, body io.Reader) (response *http.Response, err e
 		return
 	}
 
-	tr := http.Transport{
-		Dial:            dialTimeout(toDur, toDur),
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
-	}
+	client := &http.Client{}
+	if setTimeout {
+		tr := http.Transport{
+			Dial:            dialTimeout(toDur, toDur),
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
+		}
 
-	client := &http.Client{
-		Timeout:   toDur,
-		Transport: &tr,
+		client = &http.Client{
+			Timeout:   toDur,
+			Transport: &tr,
+		}
+
+	} else {
+		tr := http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
+		}
+
+		client = &http.Client{
+			Transport: &tr,
+		}
 	}
 
 	userAgent, err := proc.GlobalConf.Get("http", "User-Agent", types.String)

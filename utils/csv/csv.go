@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// CSV parser settings
 type Parser struct {
 	reader    io.Reader
 	Separator byte
@@ -17,6 +18,9 @@ type Parser struct {
 	Headings  bool
 }
 
+// Create a new CSV reader and writer - albeit it doesn't conform to Go's io.Reader / io.Writer interface{}.
+// The sensible thing might have been to create this as a marshaller but it's written now and works so little point
+// breaking it at this point in time.
 func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err error) {
 	parser = new(Parser)
 	parser.reader = reader
@@ -49,6 +53,7 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 	return
 }
 
+// Read a line from a CSV file
 func (csv *Parser) ReadLine(callback func(records []string, headings []string)) (err error) {
 	scanner := bufio.NewScanner(csv.reader)
 
@@ -146,6 +151,7 @@ func (csv *Parser) ReadLine(callback func(records []string, headings []string)) 
 	return
 }
 
+// Marshal a list into a CSV line
 func (p *Parser) ArrayToCsv(array []string) (csv []byte) {
 	quote := string(p.Quote)
 	escapedQuote := `\` + quote
