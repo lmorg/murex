@@ -111,14 +111,32 @@ As well as a saner `if` syntax:
         err: "`foobar` could not be run"
     }
 
-## Dependencies
+## Required dependencies
 
-    go get github.com/chzyer/readline
-    go get github.com/Knetic/govaluate
+    go get -u github.com/chzyer/readline
+    go get -u github.com/Knetic/govaluate
 
 Explanation behind these dependencies:
 * `readline` is used for the REPL (interactive mode)
 * `govaluate` evaluates the math formulas (exposed via `eval` and `let`)
+
+## Optional dependencies
+
+    go get -u labix.org/v2/mgo/bson
+    go get -u github.com/abesto/sexp
+    go get -u gopkg.in/yaml.v2
+    go get -u github.com/BurntSushi/toml
+
+Explanation behind these dependencies:
+* `bson` is used to add support for BSON (binary JSON) (as used by MongoDB)
+* `sexp` adds support for s-expressions and canonical s-expressions
+* `yaml` adds support for YAML
+* `toml` adds support for TOML
+
+If you wish do disable any of these then delete the appropriate files in
+the `builtins` directory of this project or append `//+build !ignore` to
+the top of the line if you wish to preserve the change in subsequent
+`git pull` updates.
 
 ## Build
 

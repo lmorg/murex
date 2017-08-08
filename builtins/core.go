@@ -4,8 +4,7 @@ package builtins
 // Each builtin package should include a README.md with details about its use. However the code should also be readable
 // so take a look through the .go files if you're still undecided about whether to include a builtin or not.
 //
-// Shell author's recommendation: keep everything included ;-). If you really feel the need to disable something then
-// first take a look at `misc`.
+// My recommendation is to keep everything in this file included, but disable any of the files marked `optional`.
 
 import (
 	_ "github.com/lmorg/murex/builtins/encoders"
