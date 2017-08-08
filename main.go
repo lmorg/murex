@@ -44,10 +44,13 @@ func main() {
 }
 
 func setShellVar() {
-	sh, err := os.Executable()
-	if err == nil {
-		os.Setenv("SHELL", sh)
-	}
+	// Requires Go v 1.8
+	//sh, err := os.Executable()
+	//if err == nil {
+	//	os.Setenv("SHELL", sh)
+	//}
+
+	os.Setenv("SHELL", os.Args[0])
 }
 
 func diskSource(filename string) []rune {
