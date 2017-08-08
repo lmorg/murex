@@ -3,7 +3,6 @@ package typemgmt
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -18,8 +17,6 @@ import (
 func init() {
 	proc.GoFunctions["format"] = cmdFormat
 }
-
-const iDontKnow = "I don't know how to convert %s into %s."
 
 func cmdFormat(p *proc.Process) (err error) {
 	format, err := p.Parameters.String(0)
@@ -141,7 +138,7 @@ func fStringGeneric(p *proc.Process, dt, format string) error {
 		return nil
 	}
 
-	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
+	return errors.New("error!!!")
 }
 
 func fJson(p *proc.Process, dt, format string) error {
@@ -179,7 +176,7 @@ func fJson(p *proc.Process, dt, format string) error {
 		return err
 	}
 
-	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
+	return errors.New("error!!!")
 }
 
 func fCsv(p *proc.Process, dt, format string) error {
@@ -208,5 +205,5 @@ func fCsv(p *proc.Process, dt, format string) error {
 		return err
 	}
 
-	return errors.New(fmt.Sprintf(iDontKnow, dt, format))
+	return errors.New("error!!!")
 }
