@@ -38,4 +38,4 @@ Test the binary (requires Bash and `timeout`):
     test/regression_test.sh
 
 A Dockerfile is also included for your convenience. The file is located
-in test/docker and includes a test/docker/README.md with more information.
+in test/docker and includes a README.md with more information.

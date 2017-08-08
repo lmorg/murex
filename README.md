@@ -179,4 +179,4 @@ straight into using _murex_.
 
 ## Known bugs / TODO
 
-These have now been moved into Github's issue tracker: https://github.com/lmorg/murex/issues
+These have now been moved into Github's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
