@@ -29,6 +29,7 @@ func init() {
 	data.Marshal[csexp] = marshalC
 	data.Unmarshal[csexp] = unmarshal
 
+	// These are just guessed at as I couldn't find any formally named MIMEs
 	data.SetMime(sexpr,
 		"application/sexp",
 		"application/x-sexp",
