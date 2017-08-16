@@ -35,7 +35,6 @@ func cmdDebug(p *proc.Process) (err error) {
 		_, err = p.Stdout.Writeln(b)
 
 	} else {
-
 		var v bool
 		v, err = p.Parameters.Bool(0)
 

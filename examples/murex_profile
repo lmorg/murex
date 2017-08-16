@@ -2,12 +2,14 @@
 #
 # This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via `source`:
 # » source examples/murex_profile
+#
+# Some of these settings are not supported in Windows
 
 alias ls=ls --color=auto
 alias grep=grep --color=auto
 
 config set shell prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
-config set shell prompt-multiline { printf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}d » " $linenum }
+config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}s » " }
 
 autocomplete set config {
     "NoFiles": true,
@@ -36,7 +38,8 @@ autocomplete set git {
 }
 
 autocomplete set go {
-    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ]
+    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
+    "Dynamic": "{ find /home/lau/dev/go/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
 }
 
 autocomplete set systemctl {
@@ -45,9 +48,20 @@ autocomplete set systemctl {
     "Flags"  : [ "list-units", "list-sockets", "list-timers", "start", "stop", "reload", "restart", "try-restart", "reload-or-restart", "try-reload-or-restart", "isolate", "kill", "is-active", "is-failed", "status", "show", "cat", "set-property", "help", "reset-failed", "list-dependencies", "list-unit-files", "enable", "disable", "reenable", "preset", "preset-all", "is-enabled", "mask", "unmask", "link", "revert", "add-wants", "add-requires", "edit", "get-default", "set-default", "list-machines", "list-jobs", "cancel", "show-environment", "set-environment", "unset-environment", "import-environment", "daemon-reload", "daemon-reexec", "is-system-running", "default", "rescue", "emergency", "halt", "poweroff", "reboot", "kexec", "exit", "switch-root", "suspend", "hibernate", "hybrid-sleep" ]
 }
 
-
 autocomplete set docker {
     "NoFiles": true,
     "NoDirs" : true,
     "Flags"  : [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
+}
+
+autocomplete set ssh {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Dynamic": "{ sed -r 's/#.*$//g; s/\\s+/\\n/g' /etc/hosts -> sort -> uniq }"
+}
+
+autocomplete set ping {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Dynamic": "{ sed -r 's/#.*$//g; s/\\s+/\\n/g' /etc/hosts -> sort -> uniq }"
 }

@@ -28,7 +28,9 @@ type parseTokens struct {
 	qDouble    bool
 	bracket    int
 	expectFunc bool
+	__pop      *string
 	funcName   string
+	parameters []string
 	variable   string
 }
 
@@ -36,6 +38,7 @@ func parse(line []rune) (pt parseTokens) {
 	var readFunc bool
 	pt.loc = -1
 	pt.expectFunc = true
+	pt.__pop = &pt.funcName
 
 	for i := range line {
 		if pt.variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
@@ -55,12 +58,12 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `#`
+					*pt.__pop += `#`
 				}
 				pt.escaped = false
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += `#`
+					*pt.__pop += `#`
 				}
 				pt.escaped = false
 			default:
@@ -72,11 +75,11 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `\`
+					*pt.__pop += `\`
 				}
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += `\`
+					*pt.__pop += `\`
 				}
 			default:
 				pt.escaped = true
@@ -88,11 +91,11 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `'`
+					*pt.__pop += `'`
 				}
 			case pt.qDouble:
 				if readFunc {
-					pt.funcName += `'`
+					*pt.__pop += `'`
 				}
 			case pt.qSingle:
 				pt.qSingle = false
@@ -106,11 +109,11 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `"`
+					*pt.__pop += `"`
 				}
 			case pt.qSingle:
 				if readFunc {
-					pt.funcName += `"`
+					*pt.__pop += `"`
 				}
 			case pt.qDouble:
 				pt.qDouble = false
@@ -124,15 +127,20 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += ` `
+					*pt.__pop += ` `
 				}
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += ` `
+					*pt.__pop += ` `
 				}
 			case pt.expectFunc && readFunc:
 				pt.expectFunc = false
 				readFunc = false
+				pt.parameters = append(pt.parameters, "")
+				pt.__pop = &pt.parameters[0]
+			default:
+				pt.parameters = append(pt.parameters, "")
+				pt.__pop = &pt.parameters[len(pt.parameters)-1]
 			}
 
 		case '>':
@@ -140,9 +148,11 @@ func parse(line []rune) (pt parseTokens) {
 			case i > 0 && line[i-1] == '-':
 				pt.loc = i
 				pt.expectFunc = true
+				pt.__pop = &pt.funcName
+				pt.parameters = make([]string, 0)
 			case pt.expectFunc, readFunc:
 				readFunc = true
-				pt.funcName += `>`
+				*pt.__pop += `>`
 				fallthrough
 			case pt.escaped:
 				pt.escaped = false
@@ -156,14 +166,17 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += string(line[i])
+					*pt.__pop += string(line[i])
 				}
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += string(line[i])
+					*pt.__pop += string(line[i])
 				}
 			default:
 				pt.expectFunc = true
+				pt.__pop = &pt.funcName
+				pt.parameters = make([]string, 0)
+
 			}
 
 		case '?':
@@ -172,17 +185,20 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `?`
+					*pt.__pop += `?`
 				}
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += `?`
+					*pt.__pop += `?`
 				}
 			case i > 0 && line[i-1] == ' ':
 				pt.expectFunc = true
+				pt.__pop = &pt.funcName
+				pt.parameters = make([]string, 0)
+
 			default:
 				if readFunc {
-					pt.funcName += `?`
+					*pt.__pop += `?`
 				}
 			}
 
@@ -192,15 +208,18 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `{`
+					*pt.__pop += `{`
 				}
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += `{`
+					*pt.__pop += `{`
 				}
 			default:
 				pt.bracket++
 				pt.expectFunc = true
+				pt.__pop = &pt.funcName
+				pt.parameters = make([]string, 0)
+
 			}
 
 		case '}':
@@ -209,11 +228,11 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `}`
+					*pt.__pop += `}`
 				}
 			case pt.escaped, pt.qSingle, pt.qDouble:
 				if readFunc {
-					pt.funcName += `}`
+					*pt.__pop += `}`
 				}
 			default:
 				pt.bracket--
@@ -225,11 +244,11 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += string(line[i])
+					*pt.__pop += string(line[i])
 				}
 			case pt.qSingle:
 				if readFunc {
-					pt.funcName += string(line[i])
+					*pt.__pop += string(line[i])
 				}
 			default:
 				pt.variable = string(line[i])
@@ -240,12 +259,14 @@ func parse(line []rune) (pt parseTokens) {
 			case pt.escaped:
 				pt.escaped = false
 				if readFunc {
-					pt.funcName += `:`
+					*pt.__pop += `:`
 				}
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					pt.funcName += `:`
-				}
+				//if readFunc {
+				*pt.__pop += `:`
+				//}
+			case !pt.expectFunc:
+				*pt.__pop += `:`
 			}
 
 		default:
@@ -254,9 +275,9 @@ func parse(line []rune) (pt parseTokens) {
 				pt.escaped = false
 				fallthrough
 			case readFunc:
-				pt.funcName += string(line[i])
+				*pt.__pop += string(line[i])
 			case pt.expectFunc:
-				pt.funcName = string(line[i])
+				*pt.__pop = string(line[i])
 				readFunc = true
 			}
 		}
@@ -313,6 +334,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 			items = matchExes(s, &exes, false)
 		default:
 			items = matchFlags(s, pt.funcName)
+			items = append(items, matchDynamic(s, pt.funcName, pt.parameters)...)
 			switch {
 			case !ExesFlags[pt.funcName].NoFiles:
 				items = append(items, matchFileAndDirs(s)...)

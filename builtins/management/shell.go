@@ -83,20 +83,23 @@ func cmdSource(p *proc.Process) error {
 }
 
 func cmdAutocomplete(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Null)
-
 	mode, err := p.Parameters.String(0)
 	if err != nil {
+		p.Stdout.SetDataType(types.Null)
 		return err
 	}
 
 	switch mode {
 	case "get":
+		p.Stdout.SetDataType(types.Json)
 		return listAutocomplete(p)
 	case "set":
 	default:
+		p.Stdout.SetDataType(types.Null)
 		return errors.New("Not a valid mode. Please use `get` or `set`.")
 	}
+
+	p.Stdout.SetDataType(types.Null)
 
 	exe, err := p.Parameters.String(1)
 	if err != nil {
