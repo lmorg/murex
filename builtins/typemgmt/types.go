@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	proc.GoFunctions["datatype"] = cmdSetDt
 	proc.GoFunctions["exec"] = proc.External
 	proc.GoFunctions["pty"] = proc.ExternalPty
 	proc.GoFunctions["die"] = cmdDie
@@ -19,6 +20,12 @@ func init() {
 	proc.GoFunctions["false"] = cmdFalse
 	proc.GoFunctions["!"] = cmdNot
 	proc.GoFunctions["cast"] = cmdCast
+}
+
+func cmdSetDt(p *proc.Process) error {
+	dt := p.Parameters.StringAll()
+	p.Stdout.SetDataType(dt)
+	return nil
 }
 
 func cmdNull(p *proc.Process) error {

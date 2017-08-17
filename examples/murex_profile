@@ -58,14 +58,16 @@ autocomplete set docker {
     "Flags"  : [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
 }
 
+func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
+
 autocomplete set ssh {
     "NoFiles": true,
     "NoDirs" : true,
-    "Dynamic": "{ sed -r 's/#.*$//g; s/\\s+/\\n/g' /etc/hosts -> sort -> uniq }"
+    "Dynamic": "{ getHostsFile }"
 }
 
 autocomplete set ping {
     "NoFiles": true,
     "NoDirs" : true,
-    "Dynamic": "{ sed -r 's/#.*$//g; s/\\s+/\\n/g' /etc/hosts -> sort -> uniq }"
+    "Dynamic": "{ getHostsFile }"
 }
