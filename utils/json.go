@@ -13,7 +13,7 @@ const JsonNoData = "No data returned."
 // for better support with iteration / concatenation when output to system functions.
 func JsonMarshal(obj interface{}, isTTY bool) (b []byte, err error) {
 	if isTTY {
-		b, err = json.MarshalIndent(obj, "", "\t")
+		b, err = json.MarshalIndent(obj, "", "    ")
 		if err != nil {
 			return
 		}

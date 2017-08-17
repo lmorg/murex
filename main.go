@@ -15,13 +15,14 @@ import (
 
 func main() {
 	readFlags()
-	setShellVar()
 
 	proc.ShellProcess.State = state.Executing
 	proc.ShellProcess.Name = os.Args[0]
 	proc.ShellProcess.Parameters.Params = os.Args[1:]
 	proc.ShellProcess.Scope = proc.ShellProcess
 	proc.ShellProcess.Parent = proc.ShellProcess
+
+	os.Setenv("SHELL", proc.ShellProcess.Name)
 
 	switch {
 	case fCommand != "":
@@ -41,16 +42,6 @@ func main() {
 	}
 
 	debug.Log("[FIN]")
-}
-
-func setShellVar() {
-	// Requires Go v 1.8
-	//sh, err := os.Executable()
-	//if err == nil {
-	//	os.Setenv("SHELL", sh)
-	//}
-
-	os.Setenv("SHELL", os.Args[0])
 }
 
 func diskSource(filename string) []rune {

@@ -8,6 +8,10 @@
 alias ls=ls --color=auto
 alias grep=grep --color=auto
 
+func h {
+    history: -> foreach { -> [ Index Block ] -> sprintf "%6s: %s\n" }
+}
+
 config set shell prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
 config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}s » " }
 
@@ -39,7 +43,7 @@ autocomplete set git {
 
 autocomplete set go {
     "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
-    "Dynamic": "{ find /home/lau/dev/go/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
+    "Dynamic": "{ find $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
 }
 
 autocomplete set systemctl {
