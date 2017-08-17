@@ -369,7 +369,8 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		return nil, 0, ok
 
 	case forward == 2 && pos == len(line):
-		newLine = expandVars(line)
+		newLine = expandVariables(line)
+		newLine = expandHistory(newLine)
 		newPos = len(newLine)
 		forward = 0
 
@@ -537,23 +538,76 @@ func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 	return line, pos
 }
 
-func expandVars(line []rune) []rune {
+func expandVariables(line []rune) []rune {
 	s := string(line)
 	match := rxVars.FindAllString(s, -1)
 	for i := range match {
 		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
 	}
 
-	match = rxHistory.FindAllString(s, -1)
+	return []rune(s)
+}
+
+func expandHistory(line []rune) []rune {
+	s := string(line)
+	match := rxHistory.FindAllString(s, -1)
 	for i := range match {
 		val, _ := strconv.Atoi(match[i][1:])
 		if val > len(History.List) {
 			continue
 		}
-		s = rxHistory.ReplaceAllString(s, History.List[val].Block)
+		s = rxHistory.ReplaceAllString(s, noColon(History.List[val].Block))
 	}
 
-	s = strings.Replace(s, "^!!", History.Last, -1)
+	s = strings.Replace(s, "^!!", noColon(History.Last), -1)
 
 	return []rune(s)
+}
+
+func noColon(line string) string {
+	var escape, qSingle, qDouble bool
+
+	for i := range line {
+		switch line[i] {
+		case '#':
+			return line
+		case '\\':
+			switch {
+			case escape:
+				escape = false
+			case qSingle:
+				// do nothing
+			default:
+				escape = true
+			}
+		case '\'':
+			switch {
+			case qDouble, escape:
+				escape = false
+			default:
+				qSingle = !qSingle
+			}
+		case '"':
+			switch {
+			case qSingle, escape:
+				escape = false
+			default:
+				qDouble = !qDouble
+			}
+		case '{':
+			if !escape && !qSingle && !qDouble {
+				return line
+			}
+		case '\r', '\n', '\t', ' ':
+			if !escape && !qSingle && !qDouble {
+				return line
+			}
+		case ':':
+			if !escape && !qSingle && !qDouble {
+				return line[:i] + line[i+1:]
+			}
+		}
+	}
+
+	return line
 }

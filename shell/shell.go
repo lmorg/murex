@@ -137,14 +137,22 @@ func Start() {
 		case len(block) == 0:
 			continue
 		default:
+			expanded := expandHistory(block)
+			if string(expanded) != string(block) {
+				os.Stderr.WriteString(string(expanded) + utils.NewLineString)
+				block = expanded
+			}
+
 			hist := strings.TrimSpace(strings.Join(lines, " "))
 			if History.Last != hist {
 				History.Last = hist
 				Instance.SaveHistory(hist)
 				History.Write(block)
 			}
+
 			multiline = false
 			lines = make([]string, 0)
+
 			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, proc.ShellProcess)
 			streams.CrLf.Write()
 		}
