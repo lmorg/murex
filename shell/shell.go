@@ -14,12 +14,14 @@ import (
 )
 
 var (
-	Instance *readline.Instance // Readline instance
-	History  history            // History file
-	forward  int
+	// Instance is the active readline instance
+	Instance *readline.Instance
+	// History is an object of data read and written to the .murex_history file
+	History history
+	forward int
 )
 
-// Start interactive shell
+// Start the interactive shell
 func Start() {
 	var (
 		err       error

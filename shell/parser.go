@@ -493,7 +493,7 @@ func smooshLines(line []rune, pos int, injectedChar rune) []rune {
 			break
 		}
 	}
-	// It might seem odd converting this into a slice only to convert back to []rune but Go does some pretty fucked
+	// It might seem odd converting this into a string only to convert back to []rune but Go does some pretty fucked
 	// up stuff with slices sometimes due to them literally just being pointers. I found this caused all kinds of
 	// annoying little glitches in this routine, as simple as it seems.
 	if i >= len(line) || line[i] == '}' || line[i] == '|' || line[i] == ';' {
