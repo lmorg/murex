@@ -373,7 +373,15 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		forward = 0
 
 	case forward == 1 && pos == len(line):
-		if len(rxVars.FindAllString(string(line), -1))+len(rxHistIndex.FindAllString(string(line), -1)) > 0 || strings.Contains(string(line), "^!!") {
+		s := string(line)
+		if len(rxVars.FindAllString(s, -1)) > 0 ||
+			len(rxHistIndex.FindAllString(s, -1)) > 0 ||
+			len(rxHistRegex.FindAllString(s, -1)) > 0 ||
+			len(rxHistPrefix.FindAllString(s, -1)) > 0 ||
+			len(rxHistTag.FindAllString(s, -1)) > 0 ||
+			len(rxHistAllPs.FindAllString(s, -1)) > 0 ||
+			len(rxHistParam.FindAllString(s, -1)) > 0 ||
+			strings.Contains(s, "^!!") {
 			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS and ^HISTORY." + utils.NewLineString)
 		} else {
 			forward = 0

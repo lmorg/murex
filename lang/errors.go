@@ -7,7 +7,8 @@ type ParserError struct {
 }
 
 const (
-	ErrUnexpectedColon = 1 + iota
+	NoParsingErrors = 0 + iota
+	ErrUnexpectedColon
 	ErrUnexpectedPipeToken
 	ErrUnexpectedOpenBrace
 	ErrUnexpectedCloseBrace
@@ -19,6 +20,7 @@ const (
 )
 
 var errMessages map[int]string = map[int]string{
+	0: "No errors. Block successfully parsed.",
 	1: "Unquoted or unescaped colon located in function parameters.",
 	2: "Pipe token preceding function name.",
 	3: "Unquoted or unescaped opening brace in function parameters.",

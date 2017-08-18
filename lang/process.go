@@ -60,7 +60,7 @@ func executeProcess(p *proc.Process) {
 		proc.ForegroundProc = p
 	}
 
-	parseParameters(&p.Parameters, &proc.GlobalVars)
+	ParseParameters(&p.Parameters, &proc.GlobalVars)
 
 	switch p.NamedPipeOut {
 	case "":
