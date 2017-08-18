@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/utils"
 	"os"
 	"regexp"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -17,7 +16,6 @@ var (
 	murexCompleter    *murexCompleterIface = new(murexCompleterIface)
 	rxAllowedVarChars *regexp.Regexp       = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 	rxVars            *regexp.Regexp       = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
-	rxHistory         *regexp.Regexp       = regexp.MustCompile(`(\^[0-9]+)`)
 	keyPressTimer     time.Time
 )
 
@@ -375,7 +373,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		forward = 0
 
 	case forward == 1 && pos == len(line):
-		if len(rxVars.FindAllString(string(line), -1))+len(rxHistory.FindAllString(string(line), -1)) > 0 || strings.Contains(string(line), "^!!") {
+		if len(rxVars.FindAllString(string(line), -1))+len(rxHistIndex.FindAllString(string(line), -1)) > 0 || strings.Contains(string(line), "^!!") {
 			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS and ^HISTORY." + utils.NewLineString)
 		} else {
 			forward = 0
@@ -546,68 +544,4 @@ func expandVariables(line []rune) []rune {
 	}
 
 	return []rune(s)
-}
-
-func expandHistory(line []rune) []rune {
-	s := string(line)
-	match := rxHistory.FindAllString(s, -1)
-	for i := range match {
-		val, _ := strconv.Atoi(match[i][1:])
-		if val > len(History.List) {
-			continue
-		}
-		s = rxHistory.ReplaceAllString(s, noColon(History.List[val].Block))
-	}
-
-	s = strings.Replace(s, "^!!", noColon(History.Last), -1)
-
-	return []rune(s)
-}
-
-func noColon(line string) string {
-	var escape, qSingle, qDouble bool
-
-	for i := range line {
-		switch line[i] {
-		case '#':
-			return line
-		case '\\':
-			switch {
-			case escape:
-				escape = false
-			case qSingle:
-				// do nothing
-			default:
-				escape = true
-			}
-		case '\'':
-			switch {
-			case qDouble, escape:
-				escape = false
-			default:
-				qSingle = !qSingle
-			}
-		case '"':
-			switch {
-			case qSingle, escape:
-				escape = false
-			default:
-				qDouble = !qDouble
-			}
-		case '{':
-			if !escape && !qSingle && !qDouble {
-				return line
-			}
-		case '\r', '\n', '\t', ' ':
-			if !escape && !qSingle && !qDouble {
-				return line
-			}
-		case ':':
-			if !escape && !qSingle && !qDouble {
-				return line[:i] + line[i+1:]
-			}
-		}
-	}
-
-	return line
 }

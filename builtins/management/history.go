@@ -2,8 +2,6 @@ package management
 
 import (
 	"errors"
-	"fmt"
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
@@ -30,36 +28,7 @@ func cmdHistory(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdHistCmd(p *proc.Process) (err error) {
-	if shell.Instance == nil {
-		return errors.New("This is only designed to be run when the shell is in interactive mode.")
-	}
-
-	var block string
-	i, piErr := p.Parameters.Int(0)
-	s, _ := p.Parameters.String(0)
-
-	switch {
-	case p.Parameters.Len() == 0:
-		return errors.New("Missing parameters.")
-		//block = shell.History.List[len(shell.History.List)-2].Block
-
-	case piErr == nil:
-		if i < 0 || i > len(shell.History.List) {
-			return errors.New("Not a valid history index. Use `history` to pick an item.")
-		}
-		block = shell.History.List[i].Block
-
-	case s == "!!":
-		block = shell.History.Last
-
-	default:
-		return errors.New("I do not understand your request." + utils.NewLineString + piErr.Error())
-	}
-
-	fmt.Println("» " + block)
-	p.Stdin.MakeParent()
-	p.ExitNum, err = lang.ProcessNewBlock([]rune(block), p.Stdin, p.Stdout, p.Stderr, p)
-
-	return err
+func cmdHistCmd(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+	return errors.New("Invalid usage of history variable!")
 }
