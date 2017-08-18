@@ -14,8 +14,8 @@ var (
 	rxHistRegex  *regexp.Regexp = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
 	rxHistPrefix *regexp.Regexp = regexp.MustCompile(`(\^[a-zA-Z]+)`)
 	rxHistTag    *regexp.Regexp = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
-	rxHistAllPs  *regexp.Regexp = regexp.MustCompile(`\^\[([0-9]+)]\[([0-9]+)]`)
-	rxHistParam  *regexp.Regexp = regexp.MustCompile(`\^\[([0-9]+)]`)
+	rxHistAllPs  *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistParam  *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
 )
 
 func expandHistory(line []rune) []rune {
@@ -83,6 +83,9 @@ func expandHistory(line []rune) []rune {
 
 		for i := range mhParam {
 			cmd, _ := strconv.Atoi(mhParam[i][1])
+			if cmd < 0 {
+				cmd += len(nodes) + 1
+			}
 			val, _ := strconv.Atoi(mhParam[i][2])
 
 			if cmd < 0 || cmd+1 > len(nodes) {
@@ -91,6 +94,9 @@ func expandHistory(line []rune) []rune {
 
 			p := parameters.Parameters{Tokens: nodes[cmd].ParamTokens}
 			lang.ParseParameters(&p, &proc.GlobalVars)
+			if val < 0 {
+				val += p.Len() + 1
+			}
 
 			if val == 0 {
 				s = strings.Replace(s, mhParam[i][0], nodes[cmd].Name, -1)
@@ -115,6 +121,10 @@ func expandHistory(line []rune) []rune {
 
 		for i := range mhParam {
 			val, _ := strconv.Atoi(mhParam[i][1])
+			if val < 0 {
+				val += p.Len() + 1
+			}
+
 			if val == 0 {
 				s = strings.Replace(s, mhParam[i][0], nodes.Last().Name, -1)
 			} else if val > 0 && val-1 < p.Len() {
