@@ -17,6 +17,7 @@ import (
 
 func init() {
 	proc.GoFunctions["args"] = cmdArgs
+	proc.GoFunctions["params"] = cmdParams
 	proc.GoFunctions["source"] = cmdSource
 	proc.GoFunctions["."] = cmdSource
 	proc.GoFunctions["autocomplete"] = cmdAutocomplete
@@ -59,6 +60,20 @@ func cmdArgs(p *proc.Process) (err error) {
 	}
 
 	err = proc.GlobalVars.Set("ARGS", string(b), types.Json)
+	return err
+}
+
+func cmdParams(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
+	params := append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
+
+	b, err := utils.JsonMarshal(&params, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
 	return err
 }
 

@@ -12,7 +12,7 @@ func h {
     history: -> foreach { -> [ Index Block ] -> sprintf "%6s: %s\n" }
 }
 
-config set shell prompt { out "${pwd -> regex 'f#[^/]+$#'} » " }
+config set shell prompt           { out "${pwd -> regex 'f#[^/]+$#'} » " }
 config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}s » " }
 
 autocomplete set config {
