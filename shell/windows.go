@@ -7,22 +7,9 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
 	"os"
-	"os/user"
 	"sort"
 	"strings"
 )
-
-// Home directory in Windows
-var HomeDirectory string
-
-func init() {
-	usr, err := user.Current()
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-	}
-
-	HomeDirectory = usr.HomeDir + `\`
-}
 
 func splitPath(envPath string) []string {
 	split := strings.Split(envPath, ";")

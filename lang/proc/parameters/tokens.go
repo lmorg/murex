@@ -17,4 +17,5 @@ const (
 	TokenTypeBlockString
 	TokenTypeArray
 	TokenTypeBlockArray
+	TokenTypeTilde
 )

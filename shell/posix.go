@@ -3,27 +3,13 @@
 package shell
 
 import (
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/permbits"
 	"io/ioutil"
 	"os"
-	"os/user"
 	"sort"
 	"strings"
 )
-
-// Home directory on non-Windows systems. Typically /home/$USER/
-var HomeDirectory string
-
-func init() {
-	usr, err := user.Current()
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-	}
-
-	HomeDirectory = usr.HomeDir + "/"
-}
 
 func splitPath(envPath string) []string {
 	split := strings.Split(envPath, ":")

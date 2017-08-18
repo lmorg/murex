@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/home"
 	"io"
 	"os"
 	"strings"
@@ -40,7 +41,7 @@ func Start() {
 		panic(err)
 	}
 
-	History, err = newHist(HomeDirectory + ".murex_history")
+	History, err = newHist(home.MyDir + ".murex_history")
 	if err != nil {
 		os.Stderr.WriteString("Error opening history file: " + err.Error())
 	}
@@ -169,6 +170,13 @@ func filterInput(r rune) (rune, bool) {
 	case readline.CharForward:
 		forward++
 		return r, true
+		//case 77:
+		//line = expandVariables(line)
+		//line = expandHistory(line)
+		//os.Stderr.WriteString(string(line) + utils.NewLineString)
+		//return r, true
+		//default:
+		//	os.Stderr.WriteString("|" + strconv.Itoa(int(r)) + "|" + utils.NewLineString)
 	}
 	return r, true
 }

@@ -456,6 +456,15 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				// do nothing
 			}
 
+		case '~':
+			if braceCount == 0 && !quoteSingle && !escaped {
+				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeTilde})
+				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
+				pop = &pToken.Key
+			} else {
+				pUpdate(r)
+			}
+
 		case '$':
 			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeString})
@@ -472,10 +481,6 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				pToken = &node.ParamTokens[pCount][0]
 				pToken.Type = parameters.TokenTypeArray
 				pop = &pToken.Key
-				//node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeArray})
-				//pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
-				//pop = &pToken.Key
-
 			} else {
 				pUpdate(r)
 			}

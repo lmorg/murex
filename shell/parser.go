@@ -4,6 +4,7 @@ import (
 	"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/home"
 	"os"
 	"regexp"
 	"strings"
@@ -363,6 +364,12 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	keyPressTimer = time.Now().Add(5 * time.Millisecond)
 
 	switch {
+	/*case key == 77:
+	line = expandVariables(line)
+	line = expandHistory(line)
+	os.Stderr.WriteString(string(line) + utils.NewLineString)
+	return line, pos, ok*/
+
 	case key == readline.CharEnter:
 		return nil, 0, ok
 
@@ -374,7 +381,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 
 	case forward == 1 && pos == len(line):
 		s := string(line)
-		if len(rxVars.FindAllString(s, -1)) > 0 ||
+		if len(rxVars.FindAllString(s, -1)) > 0 || strings.Contains(s, "~") ||
 			len(rxHistIndex.FindAllString(s, -1)) > 0 ||
 			len(rxHistRegex.FindAllString(s, -1)) > 0 ||
 			len(rxHistPrefix.FindAllString(s, -1)) > 0 ||
@@ -550,6 +557,8 @@ func expandVariables(line []rune) []rune {
 	for i := range match {
 		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
 	}
+
+	s = strings.Replace(s, "~", home.MyDir, -1)
 
 	return []rune(s)
 }

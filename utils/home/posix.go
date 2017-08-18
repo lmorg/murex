@@ -1,0 +1,3 @@
+package home
+
+const slash = "/"
