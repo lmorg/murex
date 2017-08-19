@@ -72,6 +72,15 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
+			case pToken.Type == parameters.TokenTypeTilde &&
+				(r == '_' || r == '-' || r == '.' ||
+					('a' <= r && r <= 'z') ||
+					('A' <= r && r <= 'Z') ||
+					('0' <= r && r <= '9')):
+				*pop += string(r)
+				last = r
+				continue
+
 			case r == '_' ||
 				('a' <= r && r <= 'z') ||
 				('A' <= r && r <= 'Z') ||
@@ -119,7 +128,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				continue
 
 			default:
-				if pToken.Type == parameters.TokenTypeString {
+				if pToken.Type == parameters.TokenTypeString || pToken.Type == parameters.TokenTypeTilde {
 					node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 					pop = &pToken.Key
