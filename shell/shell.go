@@ -172,5 +172,6 @@ func filterInput(r rune) (rune, bool) {
 		forward++
 		return r, true
 	}
+	forward = 0
 	return r, true
 }
