@@ -1,6 +1,7 @@
 package streams
 
 import (
+	"errors"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -55,6 +56,10 @@ func (f *File) UnmakeParent() {
 
 // io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
+	if f == nil {
+		return 0, errors.New("No file open.")
+	}
+
 	i, err := f.file.Write(b)
 
 	f.mutex.Lock()
@@ -65,6 +70,10 @@ func (f *File) Write(b []byte) (int, error) {
 }
 
 func (f *File) Writeln(b []byte) (int, error) {
+	if f == nil {
+		return 0, errors.New("No file open.")
+	}
+
 	i, err := f.file.Write(append(b, utils.NewLineByte...))
 
 	f.mutex.Lock()

@@ -17,6 +17,7 @@ var (
 	murexCompleter    *murexCompleterIface = new(murexCompleterIface)
 	rxAllowedVarChars *regexp.Regexp       = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 	rxVars            *regexp.Regexp       = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
+	rxHome            *regexp.Regexp       = regexp.MustCompile(`(~[_\-.a-zA-Z0-9]+)`)
 	keyPressTimer     time.Time
 )
 
@@ -389,7 +390,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 			len(rxHistAllPs.FindAllString(s, -1)) > 0 ||
 			len(rxHistParam.FindAllString(s, -1)) > 0 ||
 			strings.Contains(s, "^!!") {
-			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS and ^HISTORY." + utils.NewLineString)
+			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS, ~HOME and ^HISTORY." + utils.NewLineString)
 		} else {
 			forward = 0
 		}
@@ -556,6 +557,11 @@ func expandVariables(line []rune) []rune {
 	match := rxVars.FindAllString(s, -1)
 	for i := range match {
 		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
+	}
+
+	match = rxHome.FindAllString(s, -1)
+	for i := range match {
+		s = rxHome.ReplaceAllString(s, home.UserDir(match[i][1:]))
 	}
 
 	s = strings.Replace(s, "~", home.MyDir, -1)

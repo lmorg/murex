@@ -1,3 +1,3 @@
 package home
 
-const slash = "/"
+const PathSlash = "/"

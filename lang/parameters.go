@@ -7,8 +7,8 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/home"
 	"os"
-	"os/user"
 )
 
 // Internal function to parse parameters
@@ -91,10 +91,9 @@ func ParseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 			case parameters.TokenTypeTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
-					home, _ := user.Current()
-					p.Params[len(p.Params)-1] += home.HomeDir
+					p.Params[len(p.Params)-1] += home.MyDir
 				} else {
-
+					p.Params[len(p.Params)-1] += home.UserDir(p.Tokens[i][j].Key)
 				}
 				tCount = true
 

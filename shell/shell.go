@@ -19,6 +19,7 @@ var (
 	Instance *readline.Instance
 	// History is an object of data read and written to the .murex_history file
 	History history
+
 	forward int
 )
 
@@ -41,7 +42,7 @@ func Start() {
 		panic(err)
 	}
 
-	History, err = newHist(home.MyDir + ".murex_history")
+	History, err = newHist(home.MyDir + home.PathSlash + ".murex_history")
 	if err != nil {
 		os.Stderr.WriteString("Error opening history file: " + err.Error())
 	}
@@ -170,13 +171,6 @@ func filterInput(r rune) (rune, bool) {
 	case readline.CharForward:
 		forward++
 		return r, true
-		//case 77:
-		//line = expandVariables(line)
-		//line = expandHistory(line)
-		//os.Stderr.WriteString(string(line) + utils.NewLineString)
-		//return r, true
-		//default:
-		//	os.Stderr.WriteString("|" + strconv.Itoa(int(r)) + "|" + utils.NewLineString)
 	}
 	return r, true
 }

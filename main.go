@@ -106,7 +106,7 @@ func execSource(source []rune) {
 }
 
 func execProfile() {
-	profile := home.MyDir + ".murex_profile"
+	profile := home.MyDir + home.PathSlash + ".murex_profile"
 
 	file, err := os.OpenFile(profile, os.O_RDONLY|os.O_CREATE, 0644)
 	if err != nil {
