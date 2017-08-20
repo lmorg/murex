@@ -14,7 +14,10 @@ func init() {
 	proc.GoFunctions["["] = index
 }
 
-func index(p *proc.Process) (err error) {
+func index(p *proc.Process) error {
+	dt := p.Stdin.GetDataType()
+	p.Stdout.SetDataType(dt)
+
 	params := p.Parameters.StringArray()
 	l := len(params) - 1
 	if l < 0 {
@@ -29,15 +32,19 @@ func index(p *proc.Process) (err error) {
 		return errors.New("Missing closing bracket, ` ]`")
 	}
 
-	dt := p.Stdin.GetDataType()
-
 	if data.ReadIndexes[dt] != nil {
-		p.Stdout.SetDataType(dt)
-		return data.ReadIndexes[dt](p, params)
+		silent, err := proc.GlobalConf.Get("index", "silent", types.Boolean)
+		if err != nil {
+			silent = false
+		}
+
+		err = data.ReadIndexes[dt](p, params)
+		if silent.(bool) {
+			return nil
+		}
+		return err
+
 	}
 
-	p.Stdout.SetDataType(types.Null)
-	err = errors.New("I don't know how to get an index from this data type: `" + dt + "`")
-
-	return err
+	return errors.New("I don't know how to get an index from this data type: `" + dt + "`")
 }

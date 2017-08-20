@@ -53,4 +53,10 @@ func defaults(config *Config) {
 		Default:     true,
 		DataType:    types.Boolean,
 	})
+
+	config.Define("index", "silent", Properties{
+		Description: "Don't report error if an index in [] does not exist",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
 }
