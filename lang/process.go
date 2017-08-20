@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi"
 	. "github.com/lmorg/murex/utils/consts"
 	"os"
 	"regexp"
@@ -162,7 +163,8 @@ executeProcess:
 	p.Stdout.DefaultDataType(err != nil)
 
 	if err != nil {
-		p.Stderr.Writeln([]byte("Error in `" + p.Name + "`: " + err.Error()))
+		//p.Stderr.Writeln([]byte("Error in `" + p.Name + "`: " + err.Error()))
+		ansi.Streamln(p.Stderr, ansi.FgRed, "Error in `"+p.Name+"`: "+err.Error())
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}

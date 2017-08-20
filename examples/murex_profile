@@ -2,7 +2,8 @@
 #
 # This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via `source`:
 # » source examples/murex_profile
-#
+# or installed to auto start with murex:
+# » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
 # Some of these settings are not supported in Windows
 
 alias ls=ls --color=auto

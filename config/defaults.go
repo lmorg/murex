@@ -13,7 +13,7 @@ func defaults(config *Config) {
 	})
 
 	config.Define("shell", "prompt-multiline", Properties{
-		Description: "Shell prompt",
+		Description: "Shell prompt when command line string spans multiple lines",
 		Default:     `{ out "$linenum » " }`,
 		DataType:    types.CodeBlock,
 	})
@@ -23,6 +23,18 @@ func defaults(config *Config) {
 		Default:     true,
 		DataType:    types.Boolean,
 	})
+
+	config.Define("shell", "add-colour", Properties{
+		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, etc",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
+
+	//config.Define("shell", "strip-colour", Properties{
+	//	Description: "Strips the colour codes (ANSI escape sequences from all output destined for the terminal",
+	//	Default:     true,
+	//	DataType:    types.Boolean,
+	//})
 
 	config.Define("csv", "separator", Properties{
 		Description: "The delimiter for records in a CSV file",
