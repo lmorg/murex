@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-// Internal function to parse parameters
+// ParseParameters is an internal function to parse parameters
 func ParseParameters(p *parameters.Parameters, vars *types.Vars) {
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")

@@ -22,7 +22,7 @@ type jsonableVarItem struct {
 
 type jsonableVars map[string]jsonableVarItem
 
-// Create a new scope of variables
+// NewVariableGroup creates a new scope of variables
 func NewVariableGroup() (v Vars) {
 	v.values = make(map[string]interface{})
 	v.types = make(map[string]string)
@@ -43,7 +43,7 @@ func (v *Vars) Dump() (obj jsonableVars) {
 	return
 }
 
-// This exists so we can dump variables natively into `eval` and `let`.
+// DumpMap exists so we can dump variables natively into `eval` and `let`.
 // It includes OS environmental variables as well as murex local variables.
 // In the case where they share the same name, the local variables will override the OS env vars.
 func (v *Vars) DumpMap() (m map[string]interface{}) {
@@ -61,7 +61,7 @@ func (v *Vars) DumpMap() (m map[string]interface{}) {
 	return
 }
 
-// Get the variable type.
+// GetType gets the murex variable's murex data type.
 func (v *Vars) GetType(name string) (t string) {
 	v.mutex.Lock()
 	t = v.types[name]
@@ -73,7 +73,7 @@ func (v *Vars) GetType(name string) (t string) {
 	return
 }
 
-// Get variable in native type.
+// GetValue gets a murex variable in a Go native type.
 func (v *Vars) GetValue(name string) (value interface{}) {
 	v.mutex.Lock()
 	value = v.values[name]
@@ -84,7 +84,7 @@ func (v *Vars) GetValue(name string) (value interface{}) {
 	return
 }
 
-// Get variable - cast as string.
+// GetString gets a murex variable casted as a string.
 func (v *Vars) GetString(name string) (s string) {
 	v.mutex.Lock()
 
@@ -112,7 +112,7 @@ func (v *Vars) GetString(name string) (s string) {
 	//return ""
 }
 
-// Set a variable.
+// Set murex a variable.
 func (v *Vars) Set(name string, value interface{}, dataType string) error {
 	v.mutex.Lock()
 	defer v.mutex.Unlock()
@@ -152,7 +152,7 @@ func (v *Vars) Set(name string, value interface{}, dataType string) error {
 	return nil
 }
 
-// Unset a variable
+// Unset a murex variable
 func (v *Vars) Unset(name string) {
 	v.mutex.Lock()
 	delete(v.values, name)

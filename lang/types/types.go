@@ -22,19 +22,19 @@ const (
 	Float     = "float"
 )
 
-// `true` boolean value
+// TrueString is `true` boolean value
 const TrueString = "true"
 
-// `false` boolean value
+// FalseString is `false` boolean value
 const FalseString = "false"
 
-// `true` as a []byte slice
+// TrueByte is `true` as a []byte slice
 var TrueByte = []byte(TrueString)
 
-// `false` as a []byte slice
+// FalseByte is `false` as a []byte slice
 var FalseByte = []byte(FalseString)
 
-// Checks if a process has returned a `true` state.
+// IsTrue checks if a process has returned a `true` state.
 // This will check a few conditions as not every external process will return a non-zero exit number on a failure.
 func IsTrue(stdout []byte, exitNum int) bool {
 	if exitNum != 0 {
@@ -49,7 +49,7 @@ func IsTrue(stdout []byte, exitNum int) bool {
 	return true
 }
 
-// Checks if the []byte slice is a code or JSON block
+// IsBlock checks if the []byte slice is a code or JSON block
 func IsBlock(b []byte) bool {
 	b = bytes.TrimSpace(b)
 	if len(b) < 2 {

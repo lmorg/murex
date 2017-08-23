@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// Execute an external (Windows) process
+// External executes an external (Windows) process
 func External(p *Process) error {
 	if err := execute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.
@@ -48,8 +48,8 @@ func execute(p *Process) error {
 	return nil
 }
 
-// This function exists for POSIX builds. Since Windows doesn't have TTYs, lets just make it a wrapper around the
-// first function in this file
+// ExternalPty exists for POSIX builds to assign functions a TTY. Since Windows doesn't have TTYs, lets just make it a
+// wrapper around the first function in this file
 func ExternalPty(p *Process) error {
 	return External(p)
 }

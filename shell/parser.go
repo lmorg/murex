@@ -471,7 +471,6 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		forward = 0
 		newPos = pos
 		newLine = line
-
 	}
 
 	if newPos > len(newLine) {
@@ -497,10 +496,11 @@ func smooshLines(line []rune, pos int, injectedChar rune) []rune {
 	for i = pos; i < len(line); i++ {
 		if line[i] == ' ' || line[i] == '\t' {
 			continue
-		} else {
-			break
-		}
+		} //else {
+		break
+		//}
 	}
+
 	// It might seem odd converting this into a string only to convert back to []rune but Go does some pretty fucked
 	// up stuff with slices sometimes due to them literally just being pointers. I found this caused all kinds of
 	// annoying little glitches in this routine, as simple as it seems.
@@ -523,24 +523,24 @@ func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 		if line[0] == injectedChar {
 			if len(line) > 1 {
 				return line[1:], pos
-			} else {
-				return []rune{}, 0
-			}
-		} else {
-			return line, pos
-		}
+			} // else {
+			return []rune{}, 0
+			//}
+		} //else {
+		return line, pos
+		//}
 	}
 
 	if pos == len(line) {
 		if line[pos-1] == injectedChar {
 			if len(line) > 1 {
 				return line[:pos], pos
-			} else {
-				return []rune{}, 0
-			}
-		} else {
-			return line, pos
-		}
+			} //else {
+			return []rune{}, 0
+			//}
+		} //else {
+		return line, pos
+		//}
 	}
 
 	if line[pos] == injectedChar {

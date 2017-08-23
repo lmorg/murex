@@ -18,6 +18,7 @@ type astNode struct {
 
 type astNodes []astNode
 
+// Last node in the AST array
 func (n *astNodes) Last() *astNode {
 	if len(*n) == 0 {
 		return &(*n)[0]

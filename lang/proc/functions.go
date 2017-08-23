@@ -5,26 +5,26 @@ import (
 	"sync"
 )
 
-// Table of murex functions
+// MurexFuncs is a table of murex functions
 type MurexFuncs struct {
 	mutex sync.Mutex
 	funcs map[string][]rune
 }
 
-// Create a new table of murex functions
+// NewMurexFuncs creates a new table of murex functions
 func NewMurexFuncs() (fn MurexFuncs) {
 	fn.funcs = make(map[string][]rune)
 	return
 }
 
-// Create a function
+// Define creates a function
 func (fn *MurexFuncs) Define(name string, block []rune) {
 	fn.mutex.Lock()
 	fn.funcs[name] = block
 	fn.mutex.Unlock()
 }
 
-// Check if function already created
+// Exists checks if function already created
 func (fn *MurexFuncs) Exists(name string) bool {
 	fn.mutex.Lock()
 	exists := len(fn.funcs[name]) > 0
@@ -32,7 +32,7 @@ func (fn *MurexFuncs) Exists(name string) bool {
 	return exists
 }
 
-// Return function code
+// Block returns function code
 func (fn *MurexFuncs) Block(name string) (block []rune, err error) {
 	fn.mutex.Lock()
 	defer fn.mutex.Unlock()
@@ -43,7 +43,7 @@ func (fn *MurexFuncs) Block(name string) (block []rune, err error) {
 	return block, err
 }
 
-// Delete function from table
+// Undefine deletes function from table
 func (fn *MurexFuncs) Undefine(name string) error {
 	fn.mutex.Lock()
 	defer fn.mutex.Unlock()
@@ -54,7 +54,7 @@ func (fn *MurexFuncs) Undefine(name string) error {
 	return nil
 }
 
-// List all murex functions in table
+// Dump list all murex functions in table
 func (fn *MurexFuncs) Dump() (dump map[string]string) {
 	dump = make(map[string]string)
 	fn.mutex.Lock()

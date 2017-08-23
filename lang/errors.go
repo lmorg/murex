@@ -1,5 +1,6 @@
 package lang
 
+// ParserError is the error object used for the murex parser
 type ParserError struct {
 	Message string
 	Code    int

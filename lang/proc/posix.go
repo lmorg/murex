@@ -11,7 +11,7 @@ import (
 	"syscall"
 )
 
-// Execute an external process. Don't give it a TTY
+// External executes an external process. Don't give it a TTY
 func External(p *Process) error {
 	if err := execute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.
@@ -62,7 +62,7 @@ func execute(p *Process) error {
 	return nil
 }
 
-// Execute an external process. Give it a TTY
+// ExternalPty executes an external process inside a TTY
 func ExternalPty(p *Process) error {
 	if err := shellExecute(p); err != nil {
 		// Get exit status. This has only been tested on Linux. May not work on other OSs.

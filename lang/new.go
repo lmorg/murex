@@ -8,10 +8,10 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// for when running murex in interactive shell mode
+// ShellExitNum is for when running murex in interactive shell mode
 var ShellExitNum int
 
-// Parse new block and execute the code.
+// ProcessNewBlock parses new block and execute the code.
 // Inputs are:
 //     the code block ([]rune),
 //     Stdin, stdout and stderr streams; or nil to black hole those data streams,

@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-// Each process running inside the murex shell will be one of these objects.
+// Process - Each process running inside the murex shell will be one of these objects.
 // It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
 // External processes will also appear in the host OS's process list.
 type Process struct {
@@ -38,7 +38,7 @@ type Process struct {
 	IsBackground       bool
 }
 
-// Check if process has terminated.
+// HasTerminated checks if process has terminated.
 // This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
 // thread safe.
 func (p *Process) HasTerminated() (state bool) {
@@ -48,7 +48,7 @@ func (p *Process) HasTerminated() (state bool) {
 	return
 }
 
-// Set the process terminated state.
+// SetTerminatedState sets the process terminated state.
 // This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
 // thread safe.
 func (p *Process) SetTerminatedState(state bool) {
@@ -71,7 +71,7 @@ var (
 	ForegroundProc *Process                        = ShellProcess
 )
 
-// Export a JSONable structure of the shell running state
+// ExportRuntime exports a JSONable structure of the shell running state minus the FIDs
 func ExportRuntime() map[string]interface{} {
 	/*ListMap := func(m map[string]interface{}) (s []string) {
 		for name := range m {
@@ -87,7 +87,7 @@ func ExportRuntime() map[string]interface{} {
 	m["Config"] = GlobalConf.Dump()
 	m["Pipes"] = GlobalPipes.Dump()
 	m["Funcs"] = MxFunctions.Dump()
-	m["Fids"] = GlobalFIDs.Dump()
+	//m["Fids"] = GlobalFIDs.Dump()
 
 	/*ctypes := make(map[string]interface{})
 	ctypes["foreach"] = ListMap(streams.ReadArray)
