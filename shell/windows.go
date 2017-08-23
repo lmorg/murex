@@ -20,9 +20,17 @@ func listExes(path string, exes *map[string]bool) {
 		if f.IsDir() {
 			continue
 		}
+
 		name := strings.ToLower(f.Name())
-		if name == ".exe" || name == ".com" || name == ".bat" || name == ".cmd" || name == ".scr" {
-			(*exes)[f.Name()] = true
+
+		if len(name) < 5 {
+			continue
+		}
+
+		ext := name[len(name)-4:]
+
+		if ext == ".exe" || ext == ".com" || ext == ".bat" || ext == ".cmd" || ext == ".scr" {
+			(*exes)[name] = true
 		}
 	}
 	return
