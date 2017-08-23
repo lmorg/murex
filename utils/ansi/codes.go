@@ -8,7 +8,7 @@ const (
 	Blink      = "\x1b[5m"
 )
 
-// Text colour
+// Text colours
 const (
 	FgBlack   = "\x1b[30m"
 	FgRed     = "\x1b[31m"
@@ -29,7 +29,7 @@ const (
 	FgWhiteBright   = "\x1b[1;37m"
 )
 
-// Background colour
+// Background colours
 const (
 	BgBlack   = "\x1b[40m"
 	BgRed     = "\x1b[41m"

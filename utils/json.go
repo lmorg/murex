@@ -8,9 +8,9 @@ import (
 // JsonNoData is a custom default error message when JSON marshaller returns nil
 const JsonNoData = "No data returned."
 
-// Wrapper around Go's JSON marshaller to prettify output depending on whether the target is a terminal or not.
-// This is so that the output is human readable when output for a human but a single line machine readable formatting
-// for better support with iteration / concatenation when output to system functions.
+// JsonMarshal is a wrapper around Go's JSON marshaller to prettify output depending on whether the target is a terminal
+// or not. This is so that the output is human readable when output for a human but a single line machine readable
+// formatting for better support with iteration / concatenation when output to system functions.
 func JsonMarshal(obj interface{}, isTTY bool) (b []byte, err error) {
 	if isTTY {
 		b, err = json.MarshalIndent(obj, "", "    ")
