@@ -3,10 +3,8 @@
 package shell
 
 import (
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
-	"os"
 	"sort"
 	"strings"
 )
