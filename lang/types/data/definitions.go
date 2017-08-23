@@ -8,22 +8,30 @@ import (
 )
 
 var (
-	ReadIndexes  map[string]func(p *proc.Process, params []string) error         = make(map[string]func(*proc.Process, []string) error)
-	Unmarshal    map[string]func(p *proc.Process) (interface{}, error)           = make(map[string]func(*proc.Process) (interface{}, error))
-	Marshal      map[string]func(p *proc.Process, v interface{}) ([]byte, error) = make(map[string]func(*proc.Process, interface{}) ([]byte, error))
-	mimes        map[string]string                                               = make(map[string]string)
-	fileExts     map[string]string                                               = make(map[string]string)
-	rxMimePrefix *regexp.Regexp                                                  = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+	// ReadIndexes defines the Go functions for the `[ Index ]` murex function
+	ReadIndexes map[string]func(p *proc.Process, params []string) error = make(map[string]func(*proc.Process, []string) error)
+
+	// Unmarshal defines the Go functions for converting a murex data type into a Go interface
+	Unmarshal map[string]func(p *proc.Process) (interface{}, error) = make(map[string]func(*proc.Process) (interface{}, error))
+
+	// Marshal defines the Go functions for converting a Go interface into a murex data type
+	Marshal map[string]func(p *proc.Process, v interface{}) ([]byte, error) = make(map[string]func(*proc.Process, interface{}) ([]byte, error))
 )
 
-// Define MIME(s) and assign it a murex data type
+var (
+	mimes        map[string]string = make(map[string]string)
+	fileExts     map[string]string = make(map[string]string)
+	rxMimePrefix *regexp.Regexp    = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+)
+
+// SetMime defines MIME(s) and assign it a murex data type
 func SetMime(dt string, mime ...string) {
 	for i := range mime {
 		mimes[mime[i]] = dt
 	}
 }
 
-// Get the murex data type for a corresponding MIME
+// MimeToMurex gets the murex data type for a corresponding MIME
 func MimeToMurex(mimeType string) string {
 	mime := strings.ToLower(mimeType)
 	mime = strings.Replace(mime, "; charset=utf-8", "", -1) //TODO: do this dynamically
@@ -55,14 +63,14 @@ func MimeToMurex(mimeType string) string {
 	return types.Generic
 }
 
-// Define file extension(s) and assign it a murex data type
+// SetFileExtensions defines file extension(s) and assign it a murex data type
 func SetFileExtensions(dt string, extension ...string) {
 	for i := range extension {
 		fileExts[extension[i]] = strings.ToLower(dt)
 	}
 }
 
-// Get the murex data type for a corresponding file extension
+// GetExtType gets the murex data type for a corresponding file extension
 func GetExtType(extension string) (dt string) {
 	dt = fileExts[strings.ToLower(extension)]
 	return

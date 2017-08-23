@@ -17,6 +17,7 @@ import (
 var (
 	// Instance is the active readline instance
 	Instance *readline.Instance
+
 	// History is an object of data read and written to the .murex_history file
 	History history
 

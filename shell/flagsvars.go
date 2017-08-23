@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-// Struct to store auto-complete options
+// Flags is a struct to store auto-complete options
 type Flags struct {
 	NoFiles bool     // `true` to disable file name completion
 	NoDirs  bool     // `true` to disable directory navigation completion
@@ -22,7 +22,7 @@ type Flags struct {
 	Dynamic string   // Use murex script to generate auto-complete options
 }
 
-// Map of executables and their supported auto-complete options
+// ExesFlags is map of executables and their supported auto-complete options
 var ExesFlags map[string]Flags = make(map[string]Flags)
 
 func allExecutables(includeBuiltins bool) map[string]bool {
