@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
 	"io"
@@ -31,7 +32,7 @@ func Start() {
 	)
 
 	Instance, err = readline.NewEx(&readline.Config{
-		InterruptPrompt:        "^c",
+		InterruptPrompt:        interruptPrompt,
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
@@ -133,7 +134,7 @@ func Start() {
 		}
 
 		lines = append(lines, line)
-		block := []rune(strings.Join(lines, "\n"))
+		block := []rune(strings.Join(lines, utils.NewLineString))
 		_, pErr := lang.ParseBlock(block)
 		switch {
 		case pErr.Code == lang.ErrUnterminatedBrace,
@@ -170,7 +171,7 @@ func filterInput(r rune) (rune, bool) {
 	switch r {
 	// block CtrlZ feature
 	case readline.CharCtrlZ:
-		return r, false
+		return r, true
 	case readline.CharForward:
 		forward++
 		return r, true

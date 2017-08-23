@@ -9,7 +9,9 @@ import (
 	"syscall"
 )
 
-// This is an internal function to capture and handle OS signals (eg SIGTERM).
+const interruptPrompt = "^C"
+
+// SigHandler is an internal function to capture and handle OS signals (eg SIGTERM).
 func SigHandler() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -19,7 +21,7 @@ func SigHandler() {
 	}()
 
 	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, syscall.SIGQUIT)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {
 		for {
 			sig := <-c
@@ -31,7 +33,7 @@ func SigHandler() {
 			case os.Interrupt.String():
 				if Instance == nil {
 					go proc.KillForeground()
-					//os.Stderr.WriteString("^c")
+					os.Stderr.WriteString(interruptPrompt)
 				} else {
 					p := proc.ForegroundProc
 					for p.Id != 0 {
@@ -41,7 +43,7 @@ func SigHandler() {
 						}
 						p = parent
 					}
-					//os.Stderr.WriteString("^c")
+					os.Stderr.WriteString(interruptPrompt)
 				}
 			case syscall.SIGQUIT.String():
 				os.Stderr.WriteString("Shell received SIGQUIT!" + utils.NewLineString)
