@@ -12,24 +12,24 @@ import (
 	"strconv"
 )
 
-const TypeName = "bson"
+const typeName = "bson"
 
 func init() {
-	streams.ReadArray[TypeName] = readArray
-	streams.ReadMap[TypeName] = readMap
-	data.ReadIndexes[TypeName] = readIndex
-	data.Marshal[TypeName] = marshal
-	data.Unmarshal[TypeName] = unmarshal
+	streams.ReadArray[typeName] = readArray
+	streams.ReadMap[typeName] = readMap
+	data.ReadIndexes[typeName] = readIndex
+	data.Marshal[typeName] = marshal
+	data.Unmarshal[typeName] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
-	data.SetMime(TypeName,
+	data.SetMime(typeName,
 		"application/bson",
 		"application/x-bson",
 		"text/bson",
 		"text/x-bson",
 	)
 
-	data.SetFileExtensions(TypeName, "bson")
+	data.SetFileExtensions(typeName, "bson")
 }
 
 func readArray(read streams.Io, callback func([]byte)) error {

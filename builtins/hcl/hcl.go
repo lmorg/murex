@@ -14,24 +14,24 @@ import (
 	"strconv"
 )
 
-const TypeName = "hcl"
+const typeName = "hcl"
 
 func init() {
-	streams.ReadArray[TypeName] = readArray
-	streams.ReadMap[TypeName] = readMap
-	data.ReadIndexes[TypeName] = readIndex
-	data.Marshal[TypeName] = marshal
-	data.Unmarshal[TypeName] = unmarshal
+	streams.ReadArray[typeName] = readArray
+	streams.ReadMap[typeName] = readMap
+	data.ReadIndexes[typeName] = readIndex
+	data.Marshal[typeName] = marshal
+	data.Unmarshal[typeName] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
-	data.SetMime(TypeName,
+	data.SetMime(typeName,
 		"application/hcl",
 		"application/x-hcl",
 		"text/hcl",
 		"text/x-hcl",
 	)
 
-	data.SetFileExtensions(TypeName, "hcl")
+	data.SetFileExtensions(typeName, "hcl")
 }
 
 func readArray(read streams.Io, callback func([]byte)) error {

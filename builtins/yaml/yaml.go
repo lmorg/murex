@@ -12,23 +12,23 @@ import (
 	"strconv"
 )
 
-const TypeName = "yaml"
+const typeName = "yaml"
 
 func init() {
-	streams.ReadArray[TypeName] = readArray
-	streams.ReadMap[TypeName] = readMap
-	data.ReadIndexes[TypeName] = readIndex
-	data.Marshal[TypeName] = marshal
-	data.Unmarshal[TypeName] = unmarshal
+	streams.ReadArray[typeName] = readArray
+	streams.ReadMap[typeName] = readMap
+	data.ReadIndexes[typeName] = readIndex
+	data.Marshal[typeName] = marshal
+	data.Unmarshal[typeName] = unmarshal
 
-	data.SetMime(TypeName,
+	data.SetMime(typeName,
 		"application/yaml", // this is preferred but we will include others since not everyone follows standards.
 		"application/x-yaml",
 		"text/yaml",
 		"text/x-yaml",
 	)
 
-	data.SetFileExtensions(TypeName, "yaml", "yml")
+	data.SetFileExtensions(typeName, "yaml", "yml")
 }
 
 func readArray(read streams.Io, callback func([]byte)) error {

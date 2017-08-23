@@ -12,23 +12,23 @@ import (
 	"strconv"
 )
 
-const TypeName = "toml"
+const typeName = "toml"
 
 func init() {
-	streams.ReadArray[TypeName] = readArray
-	streams.ReadMap[TypeName] = readMap
-	data.ReadIndexes[TypeName] = readIndex
-	data.Marshal[TypeName] = marshal
-	data.Unmarshal[TypeName] = unmarshal
+	streams.ReadArray[typeName] = readArray
+	streams.ReadMap[typeName] = readMap
+	data.ReadIndexes[typeName] = readIndex
+	data.Marshal[typeName] = marshal
+	data.Unmarshal[typeName] = unmarshal
 
-	data.SetMime(TypeName,
+	data.SetMime(typeName,
 		"application/toml", // this is preferred but we will include others since not everyone follows standards.
 		"application/x-toml",
 		"text/toml",
 		"text/x-toml",
 	)
 
-	data.SetFileExtensions(TypeName, "toml")
+	data.SetFileExtensions(typeName, "toml")
 }
 
 func tomlMarshal(v interface{}) (b []byte, err error) {
