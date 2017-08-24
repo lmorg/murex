@@ -5,8 +5,6 @@
 # or installed to auto start with murex:
 # » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
 
-func indent_test
-
 func h {
     history: -> foreach { -> [ Index Block ] -> sprintf "%6s: %s\n" }
 }
@@ -53,8 +51,6 @@ autocomplete set docker {
     "Flags"  : [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
 }
 
-func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
-
 autocomplete set ssh {
     "NoFiles": true,
     "NoDirs" : true,
@@ -69,7 +65,7 @@ autocomplete set ping {
 
 os -> set os
 
-if { =os!=`windows` } {
+if { = os!=`windows` } {
     alias ls=ls --color=auto
     alias grep=grep --color=auto
 
@@ -80,4 +76,9 @@ if { =os!=`windows` } {
         "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
         "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
     }
+
+    func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
+
+} {
+    func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
 }

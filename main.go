@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
 	"io/ioutil"
 	"os"
@@ -106,7 +107,7 @@ func execSource(source []rune) {
 }
 
 func execProfile() {
-	profile := home.MyDir + home.PathSlash + ".murex_profile"
+	profile := home.MyDir + consts.PathSlash + ".murex_profile"
 
 	file, err := os.OpenFile(profile, os.O_RDONLY|os.O_CREATE, 0644)
 	if err != nil {

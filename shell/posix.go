@@ -27,12 +27,12 @@ func listExes(path string, exes *map[string]bool) {
 		case perm.OtherExecute() && f.Mode().IsRegular():
 			(*exes)[f.Name()] = true
 		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
-			ln, err := os.Readlink(path + "/" + f.Name())
+			ln, err := os.Readlink(path + consts.PathSlash + f.Name())
 			if err != nil {
 				continue
 			}
-			if ln[0] != '/' {
-				ln = path + "/" + ln
+			if ln[0] != consts.PathSlash[0] {
+				ln = path + consts.PathSlash + ln
 			}
 			info, err := os.Stat(ln)
 			if err != nil {
@@ -81,16 +81,16 @@ func matchExes(s string, exes *map[string]bool, includeColon bool) (items []stri
 }
 
 func isLocal(s string) bool {
-	return strings.HasPrefix(s, "./") || strings.HasPrefix(s, "../") || strings.HasPrefix(s, "/")
+	return strings.HasPrefix(s, "."+consts.PathSlash) || strings.HasPrefix(s, ".."+consts.PathSlash) || strings.HasPrefix(s, consts.PathSlash)
 }
 
 func partialPath(s string) (path, partial string) {
-	split := strings.Split(s, "/")
-	path = strings.Join(split[:len(split)-1], "/")
+	split := strings.Split(s, consts.PathSlash)
+	path = strings.Join(split[:len(split)-1], consts.PathSlash)
 	partial = split[len(split)-1]
 
-	if len(s) > 0 && s[0] == '/' {
-		path = "/" + path
+	if len(s) > 0 && s[0] == consts.PathSlash[0] {
+		path = consts.PathSlash + path
 	}
 
 	if path == "" {
@@ -111,26 +111,26 @@ func matchDirs(s string) (items []string) {
 	path, partial := partialPath(s)
 
 	var dirs []string
-	if path != "/" {
-		dirs = []string{"../"}
+	if path != consts.PathSlash {
+		dirs = []string{".." + consts.PathSlash}
 	}
 
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
-			dirs = append(dirs, f.Name()+"/")
+			dirs = append(dirs, f.Name()+consts.PathSlash)
 			continue
 		}
 
 		perm := permbits.FileMode(f.Mode())
 		switch {
 		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
-			ln, err := os.Readlink(path + "/" + f.Name())
+			ln, err := os.Readlink(path + consts.PathSlash + f.Name())
 			if err != nil {
 				continue
 			}
-			if ln[0] != '/' {
-				ln = path + "/" + ln
+			if ln[0] != consts.PathSlash[0] {
+				ln = path + consts.PathSlash + ln
 			}
 			info, err := os.Lstat(ln)
 			if err != nil {
@@ -138,7 +138,7 @@ func matchDirs(s string) (items []string) {
 			}
 			perm := permbits.FileMode(info.Mode())
 			if perm.OtherExecute() && info.Mode().IsDir() {
-				dirs = append(dirs, f.Name()+"/")
+				dirs = append(dirs, f.Name()+consts.PathSlash)
 			}
 
 		default:
@@ -157,11 +157,11 @@ func matchDirs(s string) (items []string) {
 func matchFileAndDirs(s string) (items []string) {
 	path, partial := partialPath(s)
 
-	item := []string{"../"}
+	item := []string{".." + consts.PathSlash}
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
-			item = append(item, f.Name()+"/")
+			item = append(item, f.Name()+consts.PathSlash)
 		} else {
 			item = append(item, f.Name())
 		}

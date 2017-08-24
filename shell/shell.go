@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
 	"io"
 	"strings"
@@ -43,7 +44,7 @@ func Start() {
 		panic(err)
 	}
 
-	History, err = newHist(home.MyDir + home.PathSlash + ".murex_history")
+	History, err = newHist(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
 		//os.Stderr.WriteString("Error opening history file: " + err.Error())
 		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())

@@ -2,6 +2,7 @@ package home
 
 import (
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 	"os"
 	"os/user"
 )
@@ -13,7 +14,7 @@ func init() {
 	usr, err := user.Current()
 	if err != nil {
 		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-		MyDir = PathSlash
+		MyDir = consts.PathSlash
 		return
 	}
 
@@ -24,7 +25,7 @@ func init() {
 func UserDir(username string) string {
 	usr, err := user.Lookup(username)
 	if err != nil {
-		return PathSlash
+		return consts.PathSlash
 	}
 
 	return usr.HomeDir
