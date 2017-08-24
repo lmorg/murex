@@ -36,6 +36,8 @@ type Process struct {
 	hasTerminatedV     bool
 	State              state.FunctionStates
 	IsBackground       bool
+	LineNumber         int
+	ColNumber          int
 }
 
 // HasTerminated checks if process has terminated.
@@ -59,7 +61,7 @@ func (p *Process) SetTerminatedState(state bool) {
 }
 
 var (
-	ShellProcess   *Process                        = &Process{}
+	ShellProcess   *Process                        = &Process{} //LineNumber: 1, ColNumber: 1}
 	MxFunctions    MurexFuncs                      = NewMurexFuncs()
 	GoFunctions    map[string]func(*Process) error = make(map[string]func(*Process) error)
 	GlobalVars     types.Vars                      = types.NewVariableGroup()
@@ -71,30 +73,15 @@ var (
 	ForegroundProc *Process                        = ShellProcess
 )
 
-// ExportRuntime exports a JSONable structure of the shell running state minus the FIDs
+// ExportRuntime exports a JSONable structure of the shell running state
 func ExportRuntime() map[string]interface{} {
-	/*ListMap := func(m map[string]interface{}) (s []string) {
-		for name := range m {
-			s = append(s, name)
-		}
-		sort.Strings(s)
-		return
-	}*/
-
 	m := make(map[string]interface{})
 	m["Vars"] = GlobalVars.Dump()
 	m["Aliases"] = GlobalAliases.Dump()
 	m["Config"] = GlobalConf.Dump()
 	m["Pipes"] = GlobalPipes.Dump()
 	m["Funcs"] = MxFunctions.Dump()
-	//m["Fids"] = GlobalFIDs.Dump()
-
-	/*ctypes := make(map[string]interface{})
-	ctypes["foreach"] = ListMap(streams.ReadArray)
-	ctypes["formap"] = ListMap(streams.ReadMap)
-	ctypes["index"] = ListMap(data.ReadIndexes)
-	ctypes["format-in"] = ListMap(data.Marshal)
-	ctypes["format-out"] = ListMap(data.Unmarshal)*/
+	m["Fids"] = GlobalFIDs.Dump()
 
 	return m
 }

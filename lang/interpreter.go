@@ -18,6 +18,18 @@ func compile(tree *astNodes, parent *proc.Process) {
 		(*tree)[i].Process.Scope = parent.Scope
 		(*tree)[i].Process.WaitForTermination = make(chan bool)
 
+		if (*tree)[i].LineNumber == 0 {
+			(*tree)[i].Process.ColNumber = (*tree)[i].ColNumber + parent.ColNumber
+		} else {
+			(*tree)[i].Process.ColNumber = (*tree)[i].ColNumber
+		}
+
+		if parent.Id == 0 {
+			(*tree)[i].Process.LineNumber = (*tree)[i].LineNumber + parent.LineNumber + 1
+		} else {
+			(*tree)[i].Process.LineNumber = (*tree)[i].LineNumber + parent.LineNumber
+		}
+
 		// Define previous and next processes:
 		switch {
 		case i == 0:

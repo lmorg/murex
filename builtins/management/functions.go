@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"os"
+	"runtime"
 	"strconv"
 )
 
@@ -17,6 +18,9 @@ func init() {
 	proc.GoFunctions["builtins"] = cmdListBuiltins
 	proc.GoFunctions["bexists"] = cmdBuiltinExists
 	proc.GoFunctions["cd"] = cmdCd
+	proc.GoFunctions["os"] = cmdOs
+	proc.GoFunctions["cpuarch"] = cmdCpuArch
+	proc.GoFunctions["cpucount"] = cmdCpuCount
 }
 
 func cmdDebug(p *proc.Process) (err error) {
@@ -158,4 +162,22 @@ func cmdCd(p *proc.Process) error {
 
 	err = os.Chdir(s)
 	return err
+}
+
+func cmdOs(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+	_, err = p.Stdout.Write([]byte(runtime.GOOS))
+	return
+}
+
+func cmdCpuArch(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+	_, err = p.Stdout.Write([]byte(runtime.GOARCH))
+	return
+}
+
+func cmdCpuCount(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Integer)
+	_, err = p.Stdout.Write([]byte(strconv.Itoa(runtime.NumCPU())))
+	return
 }

@@ -13,6 +13,8 @@ type astNode struct {
 	PipeOut     bool
 	PipeErr     bool
 	Process     proc.Process
+	LineNumber  int
+	ColNumber   int
 	//Children   Nodes
 }
 

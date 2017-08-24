@@ -4,17 +4,12 @@
 # » source examples/murex_profile
 # or installed to auto start with murex:
 # » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
-# Some of these settings are not supported in Windows
 
-alias ls=ls --color=auto
-alias grep=grep --color=auto
+func indent_test
 
 func h {
     history: -> foreach { -> [ Index Block ] -> sprintf "%6s: %s\n" }
 }
-
-config set shell prompt           { out "${pwd -> regex 'f#[^/]+$#'} » " }
-config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}s » " }
 
 autocomplete set config {
     "NoFiles": true,
@@ -37,14 +32,13 @@ autocomplete set dd {
     "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
 }
 
+autocomplete set go {
+    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ]
+}
+
 autocomplete set git {
     "NoFiles": true,
     "Flags"  : [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ]
-}
-
-autocomplete set go {
-    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
-    "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
 }
 
 autocomplete set systemctl {
@@ -71,4 +65,19 @@ autocomplete set ping {
     "NoFiles": true,
     "NoDirs" : true,
     "Dynamic": "{ getHostsFile }"
+}
+
+os -> set os
+
+if { =os!=`windows` } {
+    alias ls=ls --color=auto
+    alias grep=grep --color=auto
+
+    config set shell prompt           { out "${pwd -> regex 'f#[^/]+$#'} » " }
+    config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}s » " }
+
+    autocomplete set go {
+        "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
+        "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
+    }
 }

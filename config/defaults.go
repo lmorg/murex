@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/lmorg/murex/lang/types"
+	"runtime"
 )
 
 func defaults(config *Config) {
@@ -26,7 +27,7 @@ func defaults(config *Config) {
 
 	config.Define("shell", "add-colour", Properties{
 		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, etc",
-		Default:     true,
+		Default:     runtime.GOOS != "windows",
 		DataType:    types.Boolean,
 	})
 

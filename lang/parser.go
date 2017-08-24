@@ -18,6 +18,8 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 
 	var (
 		// Current state
+		lineNumber               int
+		colNumber                int
 		last                     rune
 		commentLine              bool
 		escaped                  bool
@@ -25,7 +27,6 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 		braceCount               int
 		ignoreWhitespace         bool = true
 		scanFuncName             bool = true
-		//newLine                  bool
 
 		// Parsed thus far
 		node   astNode                = astNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
@@ -59,13 +60,23 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 		if !scanFuncName && pToken.Type == parameters.TokenTypeNil {
 			pToken.Type = parameters.TokenTypeValue
 		}
+
+		if node.Name == "" {
+			node.LineNumber = lineNumber
+			node.ColNumber = colNumber
+		}
+
 		*pop += string(r)
 	}
 
 	for i, r := range block {
+		colNumber++
+
 		if commentLine {
 			if r == '\n' {
 				commentLine = false
+				lineNumber++
+				colNumber = 0
 			}
 			continue
 		}
@@ -94,7 +105,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				switch {
 				case braceCount > 0:
 					*pop += string(r)
-				case pToken.Type == parameters.TokenTypeBlockString: // || pToken.Type == parameters.TokenTypeBlockArray:
+				case pToken.Type == parameters.TokenTypeBlockString:
 					node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 					pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 					pop = &pToken.Key
@@ -337,6 +348,8 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			}
 
 		case '\n':
+			lineNumber++
+			colNumber = 0
 			switch {
 			case escaped:
 				pUpdate(r)

@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"fmt"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
@@ -163,8 +164,8 @@ executeProcess:
 	p.Stdout.DefaultDataType(err != nil)
 
 	if err != nil {
-		//p.Stderr.Writeln([]byte("Error in `" + p.Name + "`: " + err.Error()))
-		ansi.Streamln(p.Stderr, ansi.FgRed, "Error in `"+p.Name+"`: "+err.Error())
+		//ansi.Streamln(p.Stderr, ansi.FgRed, "Error in `"+p.Name+"`: "+err.Error())
+		ansi.Streamln(p.Stderr, ansi.FgRed, fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error()))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
