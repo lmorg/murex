@@ -31,6 +31,12 @@ func defaults(config *Config) {
 		DataType:    types.Boolean,
 	})
 
+	config.Define("shell", "show-exts", Properties{
+		Description: "Windows only! Auto-completes file extensions. This also affects the auto-completion parameters",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
 	//config.Define("shell", "strip-colour", Properties{
 	//	Description: "Strips the colour codes (ANSI escape sequences from all output destined for the terminal",
 	//	Default:     true,
@@ -56,7 +62,7 @@ func defaults(config *Config) {
 	})
 
 	config.Define("index", "silent", Properties{
-		Description: "Don't report error if an index in [] does not exist",
+		Description: "Don't report error if an index in [ ] does not exist",
 		Default:     false,
 		DataType:    types.Boolean,
 	})

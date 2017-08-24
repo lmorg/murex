@@ -3,6 +3,8 @@
 package shell
 
 import (
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
 	"sort"
@@ -15,6 +17,15 @@ func splitPath(envPath string) []string {
 }
 
 func listExes(path string, exes *map[string]bool) {
+	var showExts bool
+
+	v, err := proc.GlobalConf.Get("shell", "show-exts", types.Boolean)
+	if err != nil {
+		showExts = false
+	} else {
+		showExts = v.(bool)
+	}
+
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
@@ -30,7 +41,11 @@ func listExes(path string, exes *map[string]bool) {
 		ext := name[len(name)-4:]
 
 		if ext == ".exe" || ext == ".com" || ext == ".bat" || ext == ".cmd" || ext == ".scr" {
-			(*exes)[name] = true
+			if showExts {
+				(*exes)[name] = true
+			} else {
+				(*exes)[name[:len(name)-4]] = true
+			}
 		}
 	}
 	return
