@@ -48,7 +48,7 @@ func Stderr(ansiCode, message string) (err error) {
 	return
 }
 
-// Stderr writes colourised output to os.Stderr with an OS specific carriage return
+// Stderrln writes colourised output to os.Stderr with an OS specific carriage return
 func Stderrln(ansiCode, message string) (err error) {
 	if allowAnsi() {
 		_, err = os.Stderr.WriteString(ansiCode + message + utils.NewLineString + Reset)
