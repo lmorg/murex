@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Get a single parameter as a []byte slice
+// Byte gets a single parameter as a []byte slice
 func (p Parameters) Byte(pos int) ([]byte, error) {
 	if p.Len() <= pos {
 		return []byte{}, errors.New("Too few parameters.")
@@ -15,12 +15,12 @@ func (p Parameters) Byte(pos int) ([]byte, error) {
 	return []byte(p.Params[pos]), nil
 }
 
-// Get all parameters as one space-delimited []byte slice
+// ByteAll returns all parameters as one space-delimited []byte slice
 func (p Parameters) ByteAll() []byte {
 	return []byte(strings.Join(p.Params, " "))
 }
 
-// Get all parameters within range as one space-delimited []byte slice
+// ByteAllRange returns all parameters within range as one space-delimited []byte slice
 // `start` is first point in array. `end` is last. Set `end` to `-1` if you want `[n:]`.
 func (p Parameters) ByteAllRange(start, end int) []byte {
 	if end == -1 {
@@ -29,7 +29,7 @@ func (p Parameters) ByteAllRange(start, end int) []byte {
 	return []byte(strings.Join(p.Params[start:end], " "))
 }
 
-// Get a single parameter as string
+// String gets a single parameter as string
 func (p Parameters) String(pos int) (string, error) {
 	if p.Len() <= pos {
 		return "", errors.New("Too few parameters.")
@@ -37,17 +37,17 @@ func (p Parameters) String(pos int) (string, error) {
 	return p.Params[pos], nil
 }
 
-// Get all parameters as a slice of strings
+// StringArray returns all parameters as a slice of strings
 func (p Parameters) StringArray() []string {
 	return p.Params
 }
 
-// Get all parameters as one space-delimited string
+// StringAll returns all parameters as one space-delimited string
 func (p Parameters) StringAll() string {
 	return strings.Join(p.Params, " ")
 }
 
-// Get all parameters within range as one space-delimited string.
+// StringAllRange returns all parameters within range as one space-delimited string.
 // `start` is first point in array. `end` is last. Set `end` to `-1` if you want `[n:]`.
 func (p Parameters) StringAllRange(start, end int) string {
 	if end == -1 {
@@ -56,7 +56,7 @@ func (p Parameters) StringAllRange(start, end int) string {
 	return strings.Join(p.Params[start:end], " ")
 }
 
-// Get parameter as integer
+// Int gets parameter as integer
 func (p Parameters) Int(pos int) (int, error) {
 	if p.Len() <= pos {
 		return 0, errors.New("Too few parameters.")
@@ -64,7 +64,7 @@ func (p Parameters) Int(pos int) (int, error) {
 	return strconv.Atoi(p.Params[pos])
 }
 
-// Get parameter as boolean
+// Bool gets parameter as boolean
 func (p Parameters) Bool(pos int) (bool, error) {
 	if p.Len() <= pos {
 		return false, errors.New("Too few parameters.")
@@ -72,7 +72,7 @@ func (p Parameters) Bool(pos int) (bool, error) {
 	return types.IsTrue([]byte(p.Params[pos]), 0), nil
 }
 
-// Get parameter as a code block or JSON block
+// Block get parameter as a code block or JSON block
 func (p Parameters) Block(pos int) ([]rune, error) {
 	switch {
 	case p.Len() <= pos:
@@ -92,7 +92,7 @@ func (p Parameters) Block(pos int) ([]rune, error) {
 	return []rune(p.Params[pos][1 : len(p.Params[pos])-1]), nil
 }
 
-// Get the number of parameters
+// Len returns the number of parameters
 func (p Parameters) Len() int {
 	return len(p.Params)
 }
