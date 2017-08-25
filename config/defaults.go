@@ -40,8 +40,8 @@ func defaults(config *Config) {
 	})
 
 	//config.Define("shell", "strip-colour", Properties{
-	//	Description: "Strips the colour codes (ANSI escape sequences from all output destined for the terminal",
-	//	Default:     true,
+	//	Description: "Strips the colour codes (ANSI escape sequences) from all output destined for the terminal",
+	//	Default:     false,
 	//	DataType:    types.Boolean,
 	//})
 
