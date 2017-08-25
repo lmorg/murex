@@ -33,105 +33,105 @@ func NewStdin() (stdin *Stdin) {
 }
 
 // IsTTY returns false because the Stdin stream is not a pseudo-TTY
-func (in *Stdin) IsTTY() bool { return false }
+func (stdin *Stdin) IsTTY() bool { return false }
 
 // MakeParent is used for subshells so they don't accidentally close the parent stream.
-func (rw *Stdin) MakeParent() {
-	rw.mutex.Lock()
-	rw.isParent = true
-	rw.mutex.Unlock()
+func (stdin *Stdin) MakeParent() {
+	stdin.mutex.Lock()
+	stdin.isParent = true
+	stdin.mutex.Unlock()
 }
 
 // UnmakeParent is used when the subshell has terminated, now we allow the stream to be closable again.
-func (rw *Stdin) UnmakeParent() {
-	rw.mutex.Lock()
-	if !rw.isParent {
+func (stdin *Stdin) UnmakeParent() {
+	stdin.mutex.Lock()
+	if !stdin.isParent {
 		debug.Log("Trying to unmake parent on a non-parent pipe.")
 	}
-	rw.isParent = false
+	stdin.isParent = false
 
-	rw.mutex.Unlock()
+	stdin.mutex.Unlock()
 }
 
 // MakePipe is used for named pipes. Basically just used to relax the exception handling since we can make fewer
 // guarantees about the state of named pipes.
-func (rw *Stdin) MakePipe() {
-	rw.mutex.Lock()
-	rw.isParent = true
-	rw.isNamedPipe = true
-	rw.mutex.Unlock()
+func (stdin *Stdin) MakePipe() {
+	stdin.mutex.Lock()
+	stdin.isParent = true
+	stdin.isNamedPipe = true
+	stdin.mutex.Unlock()
 }
 
 // Stats provides real time stream stats. Useful for progress bars etc.
-func (rw *Stdin) Stats() (bytesWritten, bytesRead uint64) {
-	rw.mutex.Lock()
-	bytesWritten = rw.bWritten
-	bytesRead = rw.bRead
-	rw.mutex.Unlock()
+func (stdin *Stdin) Stats() (bytesWritten, bytesRead uint64) {
+	stdin.mutex.Lock()
+	bytesWritten = stdin.bWritten
+	bytesRead = stdin.bRead
+	stdin.mutex.Unlock()
 	return
 }
 
 // Read is the standard Reader interface Read() method.
-func (read *Stdin) Read(p []byte) (i int, err error) {
-	defer read.mutex.Unlock()
+func (stdin *Stdin) Read(p []byte) (i int, err error) {
+	defer stdin.mutex.Unlock()
 	for {
-		read.mutex.Lock()
+		stdin.mutex.Lock()
 
-		if len(read.buffer) == 0 && read.closed {
+		if len(stdin.buffer) == 0 && stdin.closed {
 			return 0, io.EOF
 		}
 
-		if len(read.buffer) == 0 && !read.closed {
-			read.mutex.Unlock()
+		if len(stdin.buffer) == 0 && !stdin.closed {
+			stdin.mutex.Unlock()
 			continue
 		}
 
 		break
 	}
 
-	if len(p) >= len(read.buffer) {
-		i = len(read.buffer)
-		copy(p, read.buffer)
-		read.buffer = make([]byte, 0)
+	if len(p) >= len(stdin.buffer) {
+		i = len(stdin.buffer)
+		copy(p, stdin.buffer)
+		stdin.buffer = make([]byte, 0)
 
 	} else {
 		i = len(p)
-		copy(p[:i], read.buffer[:i])
-		read.buffer = read.buffer[i+1:]
+		copy(p[:i], stdin.buffer[:i])
+		stdin.buffer = stdin.buffer[i+1:]
 	}
 
-	read.bRead += uint64(i)
+	stdin.bRead += uint64(i)
 
 	return i, err
 }
 
-// ReaderFunc is a callback function for reading raw data.
-func (read *Stdin) ReaderFunc(callback func([]byte)) {
+// readerFunc is a callback function for reading raw data.
+func (stdin *Stdin) readerFunc(callback func([]byte)) {
 	for {
-		read.mutex.Lock()
-		if len(read.buffer) == 0 {
-			if read.closed {
-				read.mutex.Unlock()
+		stdin.mutex.Lock()
+		if len(stdin.buffer) == 0 {
+			if stdin.closed {
+				stdin.mutex.Unlock()
 				return
 			}
-			read.mutex.Unlock()
+			stdin.mutex.Unlock()
 			continue
 		}
 
-		b := read.buffer
-		read.buffer = make([]byte, 0)
+		b := stdin.buffer
+		stdin.buffer = make([]byte, 0)
 
-		read.bRead += uint64(len(b))
+		stdin.bRead += uint64(len(b))
 
-		read.mutex.Unlock()
+		stdin.mutex.Unlock()
 
 		callback(b)
 	}
 }
 
 // ReadLine returns each line in the stream as a callback function
-func (read *Stdin) ReadLine(callback func([]byte)) error {
-	scanner := bufio.NewScanner(read)
+func (stdin *Stdin) ReadLine(callback func([]byte)) error {
+	scanner := bufio.NewScanner(stdin)
 	for scanner.Scan() {
 		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
@@ -144,75 +144,75 @@ func (read *Stdin) ReadLine(callback func([]byte)) error {
 }
 
 // ReadAll reads everything and dump it into one byte slice.
-func (read *Stdin) ReadAll() ([]byte, error) {
+func (stdin *Stdin) ReadAll() ([]byte, error) {
 	for {
-		read.mutex.Lock()
-		closed := read.closed
-		read.mutex.Unlock()
+		stdin.mutex.Lock()
+		closed := stdin.closed
+		stdin.mutex.Unlock()
 
 		if closed {
 			break
 		}
 	}
 
-	read.mutex.Lock()
-	b := read.buffer
-	read.buffer = make([]byte, 0)
-	read.bRead = uint64(len(b))
-	read.mutex.Unlock()
+	stdin.mutex.Lock()
+	b := stdin.buffer
+	stdin.buffer = make([]byte, 0)
+	stdin.bRead = uint64(len(b))
+	stdin.mutex.Unlock()
 	return b, nil
 }
 
 // ReadArray returns a data type-specific array returned via a callback function
-func (read *Stdin) ReadArray(callback func([]byte)) error {
-	return readArray(read, callback)
+func (stdin *Stdin) ReadArray(callback func([]byte)) error {
+	return readArray(stdin, callback)
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function
-func (read *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
-	return readMap(read, config, callback)
+func (stdin *Stdin) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
+	return readMap(stdin, config, callback)
 }
 
 // Write is the standard Writer interface Write() method.
-func (write *Stdin) Write(b []byte) (int, error) {
+func (stdin *Stdin) Write(b []byte) (int, error) {
 	if len(b) == 0 {
 		return 0, nil
 	}
 
-	write.mutex.Lock()
-	defer write.mutex.Unlock()
+	stdin.mutex.Lock()
+	defer stdin.mutex.Unlock()
 
-	if write.closed {
+	if stdin.closed {
 		return 0, errors.New("Writing to closed pipe.")
 	}
 
-	write.buffer = append(write.buffer, b...)
-	write.bWritten += uint64(len(b))
+	stdin.buffer = append(stdin.buffer, b...)
+	stdin.bWritten += uint64(len(b))
 
 	return len(b), nil
 }
 
 // Writeln just calls Write() but with an appended, OS specific, new line.
-func (write *Stdin) Writeln(b []byte) (int, error) {
+func (stdin *Stdin) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
-	write.Write(line)
+	stdin.Write(line)
 	return len(b), nil
 }
 
 // Close the stream.Io interface
-func (write *Stdin) Close() {
-	write.mutex.Lock()
-	defer write.mutex.Unlock()
+func (stdin *Stdin) Close() {
+	stdin.mutex.Lock()
+	defer stdin.mutex.Unlock()
 
-	if write.isParent {
+	if stdin.isParent {
 		// This will legitimately happen a lot since the reason we mark a stream as parent is to prevent
 		// accidental closing. However it's worth pushing a message out in debug mode during this alpha build.
 		debug.Log("Cannot Close() stdin marked as parent. We don't want to EOT parent streams multiple times")
 		return
 	}
 
-	if write.closed {
-		if write.isNamedPipe {
+	if stdin.closed {
+		if stdin.isNamedPipe {
 			debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 			return
 		} else {
@@ -221,13 +221,13 @@ func (write *Stdin) Close() {
 		}
 	}
 
-	write.closed = true
+	stdin.closed = true
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface
-func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
+func (stdin *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 	var i int
-	rw.ReaderFunc(func(b []byte) {
+	stdin.readerFunc(func(b []byte) {
 		i, err = dst.Write(b)
 		n += int64(i)
 		if err != nil {
@@ -241,11 +241,11 @@ func (rw *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 }
 
 // GetDataType returns the murex data type for the stream.Io interface
-func (in *Stdin) GetDataType() (dt string) {
+func (stdin *Stdin) GetDataType() (dt string) {
 	for {
-		in.dtLock.Lock()
-		dt = in.dataType
-		in.dtLock.Unlock()
+		stdin.dtLock.Lock()
+		dt = stdin.dataType
+		stdin.dtLock.Unlock()
 		if dt != "" {
 			return
 		}
@@ -253,28 +253,28 @@ func (in *Stdin) GetDataType() (dt string) {
 }
 
 // SetDataType defines the murex data type for the stream.Io interface
-func (in *Stdin) SetDataType(dt string) {
-	in.dtLock.Lock()
-	in.dataType = dt
-	in.dtLock.Unlock()
+func (stdin *Stdin) SetDataType(dt string) {
+	stdin.dtLock.Lock()
+	stdin.dataType = dt
+	stdin.dtLock.Unlock()
 	return
 }
 
 // DefaultDataType defines the murex data type for the stream.Io interface if it's not already set
-func (in *Stdin) DefaultDataType(err bool) {
-	in.dtLock.Lock()
-	dt := in.dataType
-	in.dtLock.Unlock()
+func (stdin *Stdin) DefaultDataType(err bool) {
+	stdin.dtLock.Lock()
+	dt := stdin.dataType
+	stdin.dtLock.Unlock()
 
 	if dt == "" {
 		if err {
-			in.dtLock.Lock()
-			in.dataType = types.Null
-			in.dtLock.Unlock()
+			stdin.dtLock.Lock()
+			stdin.dataType = types.Null
+			stdin.dtLock.Unlock()
 		} else {
-			in.dtLock.Lock()
-			in.dataType = types.Generic
-			in.dtLock.Unlock()
+			stdin.dtLock.Lock()
+			stdin.dataType = types.Generic
+			stdin.dtLock.Unlock()
 		}
 	}
 }
