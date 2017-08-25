@@ -14,10 +14,22 @@ func parseRedirection(p *proc.Process) {
 
 	if len(p.Parameters.Tokens) > 0 {
 		var i int
-		for len(p.Parameters.Tokens[0]) > 0 && i < 2 {
+		end := 2
 
-			if p.Parameters.Tokens[0][0].Type == parameters.TokenTypeValue && rxNamedPipe.MatchString(p.Parameters.Tokens[0][0].Key) {
-				name := p.Parameters.Tokens[0][0].Key[1 : len(p.Parameters.Tokens[0][0].Key)-1]
+		for i < end {
+
+			if i == len(p.Parameters.Tokens) {
+				break
+			}
+
+			if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeNil {
+				i++
+				end++
+				continue
+			}
+
+			if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeValue && rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) {
+				name := p.Parameters.Tokens[i][0].Key[1 : len(p.Parameters.Tokens[i][0].Key)-1]
 				if name[0] == '!' {
 					if p.NamedPipeErr == "" {
 						p.NamedPipeErr = name[1:]
@@ -33,11 +45,8 @@ func parseRedirection(p *proc.Process) {
 					}
 				}
 
-				if len(p.Parameters.Tokens) > 1 {
-					p.Parameters.Tokens = p.Parameters.Tokens[1:]
-				} else {
-					p.Parameters.Tokens[0][0].Type = parameters.TokenTypeNil
-				}
+				// Instead of deleting it, lets mark it as nil.
+				p.Parameters.Tokens[i][0].Type = parameters.TokenTypeNil
 				i++
 			} else {
 				break

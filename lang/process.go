@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
-	. "github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/consts"
 	"os"
 	"regexp"
 	"strings"
@@ -26,7 +26,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
 		p.Parameters.SetPrepend(p.Name[1 : len(p.Name)-1])
-		p.Name = NamedPipeProcName
+		p.Name = consts.NamedPipeProcName
 	}
 
 	if p.Name[0] == '!' {
@@ -53,7 +53,7 @@ func executeProcess(p *proc.Process) {
 	//debug.Json("Executing:", p)
 
 	// Create a kill switch
-	if p.Name != CmdExec && p.Name != CmdPty {
+	if p.Name != consts.CmdExec && p.Name != consts.CmdPty {
 		p.Kill = func() { destroyProcess(p) }
 	}
 
@@ -152,9 +152,9 @@ executeProcess:
 		// horrible kludge. But I can live without `printf` being inside a PTY so I will class this bug as a low
 		// priority.
 		if !p.IsMethod && p.Stdout.IsTTY() && p.Name != "printf" {
-			p.Name = CmdPty
+			p.Name = consts.CmdPty
 		} else {
-			p.Name = CmdExec
+			p.Name = consts.CmdExec
 		}
 
 		err = proc.GoFunctions[p.Name](p)
