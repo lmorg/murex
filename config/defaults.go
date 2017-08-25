@@ -5,6 +5,8 @@ import (
 	"runtime"
 )
 
+var IsInteractive bool // eventually this will be turned into TTY detection
+
 func defaults(config *Config) {
 	config.Define("shell", "prompt", Properties{
 		Description: "Shell prompt",
@@ -27,7 +29,7 @@ func defaults(config *Config) {
 
 	config.Define("shell", "add-colour", Properties{
 		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, etc",
-		Default:     runtime.GOOS != "windows",
+		Default:     (runtime.GOOS != "windows" && IsInteractive),
 		DataType:    types.Boolean,
 	})
 

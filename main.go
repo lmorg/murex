@@ -3,6 +3,7 @@ package main
 import (
 	"compress/gzip"
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -39,6 +40,7 @@ func main() {
 		execSource(diskSource(fSource[0]))
 
 	default:
+		config.IsInteractive = true
 		execProfile()
 		shell.Start()
 	}
