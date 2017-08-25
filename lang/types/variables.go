@@ -8,6 +8,7 @@ import (
 	"sync"
 )
 
+// Vars is used to store a table of variables
 type Vars struct {
 	mutex sync.Mutex
 	//mutex  debug.Mutex

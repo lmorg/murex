@@ -20,7 +20,7 @@ const (
 	fEB float64 = fPB * 1024
 )
 
-// Convert n bytes into a human readable format
+// HumanBytes converts n bytes into a human readable format
 func HumanBytes(size uint64) (human string) {
 	switch {
 	case size > EB*2:

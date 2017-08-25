@@ -76,7 +76,7 @@ var (
 	// GlobalConf is a table of global config options
 	GlobalConf config.Config = config.NewConfiguration()
 
-	// GlobalConf is a table of global aliases
+	// GlobalAliases is a table of global aliases
 	GlobalAliases Aliases = NewAliases()
 
 	// GlobalPipes is a table of  named pipes
