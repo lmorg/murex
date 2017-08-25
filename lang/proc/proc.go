@@ -61,16 +61,35 @@ func (p *Process) SetTerminatedState(state bool) {
 }
 
 var (
-	ShellProcess   *Process                        = &Process{} //LineNumber: 1, ColNumber: 1}
-	MxFunctions    MurexFuncs                      = NewMurexFuncs()
-	GoFunctions    map[string]func(*Process) error = make(map[string]func(*Process) error)
-	GlobalVars     types.Vars                      = types.NewVariableGroup()
-	GlobalConf     config.Config                   = config.NewConfiguration()
-	GlobalAliases  Aliases                         = NewAliases()
-	GlobalPipes    pipes.Named                     = pipes.NewNamed()
-	GlobalFIDs     funcID                          = *newFuncID()
-	KillForeground func()                          = func() {}
-	ForegroundProc *Process                        = ShellProcess
+	// ShellProcess is the root murex process
+	ShellProcess *Process = &Process{}
+
+	// MxFunctions is a table of global murex functions
+	MxFunctions MurexFuncs = NewMurexFuncs()
+
+	// GoFunctions is a table of available builtin functions
+	GoFunctions map[string]func(*Process) error = make(map[string]func(*Process) error)
+
+	// GlobalVars is a table of global variables
+	GlobalVars types.Vars = types.NewVariableGroup()
+
+	// GlobalConf is a table of global config options
+	GlobalConf config.Config = config.NewConfiguration()
+
+	// GlobalConf is a table of global aliases
+	GlobalAliases Aliases = NewAliases()
+
+	// GlobalPipes is a table of  named pipes
+	GlobalPipes pipes.Named = pipes.NewNamed()
+
+	// GlobalFIDs is a table of running murex processes
+	GlobalFIDs funcID = *newFuncID()
+
+	// KillForeground is the `kill` function for whichever FID currently has "focus"
+	KillForeground func() = func() {}
+
+	// ForegroundProc is the murex FID which currently has "focus"
+	ForegroundProc *Process = ShellProcess
 )
 
 // ExportRuntime exports a JSONable structure of the shell running state

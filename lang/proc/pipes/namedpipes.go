@@ -7,12 +7,14 @@ import (
 	"time"
 )
 
+// Named is a table of created named pipes
 type Named struct {
 	pipes map[string]streams.Io
 	types map[string]PipeTypes
 	mutex sync.Mutex
 }
 
+// NewNamed creates a new table of named pipes
 func NewNamed() (n Named) {
 	n.pipes = make(map[string]streams.Io)
 	n.types = make(map[string]PipeTypes)
@@ -22,6 +24,7 @@ func NewNamed() (n Named) {
 	return
 }
 
+// CreatePipe creates a named pipe using the stdin interface
 func (n *Named) CreatePipe(name string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -36,6 +39,7 @@ func (n *Named) CreatePipe(name string) error {
 	return nil
 }
 
+// CreateFile creates a named pipe using the file interface
 func (n *Named) CreateFile(pipename string, filename string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -55,6 +59,7 @@ func (n *Named) CreateFile(pipename string, filename string) error {
 	return nil
 }
 
+// CreateDialer creates a named pipe using the net dialer interface
 func (n *Named) CreateDialer(pipename, protocol, address string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -74,6 +79,7 @@ func (n *Named) CreateDialer(pipename, protocol, address string) error {
 	return nil
 }
 
+// CreateListener creates a named pipe using the net listener interface
 func (n *Named) CreateListener(pipename, protocol, address string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -93,6 +99,7 @@ func (n *Named) CreateListener(pipename, protocol, address string) error {
 	return nil
 }
 
+// Close a named pipe
 func (n *Named) Close(name string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -125,6 +132,7 @@ func (n *Named) Close(name string) error {
 	return nil
 }
 
+// Get a named pipe interface from the named pipe table
 func (n *Named) Get(name string) (streams.Io, error) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -136,6 +144,7 @@ func (n *Named) Get(name string) (streams.Io, error) {
 	return n.pipes[name], nil
 }
 
+// Dump returns the named pipe table in a format that can be serialised into JSON
 func (n *Named) Dump() (dump map[string]string) {
 	dump = make(map[string]string)
 	n.mutex.Lock()

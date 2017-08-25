@@ -5,6 +5,7 @@ import (
 	"syscall"
 )
 
+// PermissionBits is the bit for each POSIX permission value
 type PermissionBits uint32
 
 const (
