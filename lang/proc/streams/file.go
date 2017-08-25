@@ -49,7 +49,7 @@ func (f *File) DefaultDataType(bool) {}
 // IsTTY returns false because the file writer is not a pseudo-TTY
 func (f *File) IsTTY() bool { return false }
 
-// Turns the stream.Io interface into a named pipe
+// MakePipe turns the stream.Io interface into a named pipe
 func (f *File) MakePipe() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
@@ -112,7 +112,7 @@ func (f *File) Stats() (bytesWritten, bytesRead uint64) {
 	return
 }
 
-// New file writer stream.Io pipe
+// NewFile writer stream.Io pipe
 func NewFile(name string) (f *File, err error) {
 	f = new(File)
 	f.file, err = os.OpenFile(name, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0664)

@@ -54,8 +54,8 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 }
 
 // ReadLine - read a line from a CSV file
-func (csv *Parser) ReadLine(callback func(records []string, headings []string)) (err error) {
-	scanner := bufio.NewScanner(csv.reader)
+func (parser *Parser) ReadLine(callback func(records []string, headings []string)) (err error) {
+	scanner := bufio.NewScanner(parser.reader)
 
 	var headings []string
 
@@ -70,7 +70,7 @@ func (csv *Parser) ReadLine(callback func(records []string, headings []string)) 
 
 		for _, b := range scanner.Bytes() {
 			switch b {
-			case csv.Comment:
+			case parser.Comment:
 				switch {
 				case relativePos == 0:
 					break
@@ -79,7 +79,7 @@ func (csv *Parser) ReadLine(callback func(records []string, headings []string)) 
 					relativePos++
 				}
 
-			case csv.Quote:
+			case parser.Quote:
 				switch {
 				case escape:
 					current = append(current, b)
@@ -104,7 +104,7 @@ func (csv *Parser) ReadLine(callback func(records []string, headings []string)) 
 					escape = true
 				}
 
-			case csv.Separator:
+			case parser.Separator:
 				switch {
 				case escape, quoted:
 					current = append(current, b)
@@ -128,7 +128,7 @@ func (csv *Parser) ReadLine(callback func(records []string, headings []string)) 
 		}
 
 		if len(headings) == 0 {
-			if csv.Headings {
+			if parser.Headings {
 				headings = records
 			} else {
 				for i := range records {
@@ -152,10 +152,10 @@ func (csv *Parser) ReadLine(callback func(records []string, headings []string)) 
 }
 
 // ArrayToCsv marshals a list into a CSV line
-func (p *Parser) ArrayToCsv(array []string) (csv []byte) {
-	quote := string(p.Quote)
+func (parser *Parser) ArrayToCsv(array []string) (csv []byte) {
+	quote := string(parser.Quote)
 	escapedQuote := `\` + quote
-	separator := quote + string(p.Separator) + quote
+	separator := quote + string(parser.Separator) + quote
 
 	for i := range array {
 		array[i] = strings.Replace(array[i], `\`, `\\`, -1)

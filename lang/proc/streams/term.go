@@ -109,7 +109,7 @@ func (t *TermOut) Writeln(b []byte) (int, error) {
 
 // Terminal: Standard Error
 
-// TermOut is the Stderr interface for term
+// TermErr is the Stderr interface for term
 type TermErr struct {
 	term
 }

@@ -6,5 +6,5 @@ type BadMutex struct{}
 // Lock is a fake mutex lock used to check deadlocks
 func (bm *BadMutex) Lock() {}
 
-// Lock is a fake mutex Unlock used to check deadlocks
+// Unlock is a fake mutex Unlock used to check deadlocks
 func (bm *BadMutex) Unlock() {}
