@@ -46,6 +46,9 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 		exes[name] = true
 	}
 
+	proc.MxFunctions.UpdateMap(exes)
+	proc.GlobalAliases.UpdateMap(exes)
+
 	return exes
 }
 

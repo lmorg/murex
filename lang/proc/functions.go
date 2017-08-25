@@ -64,3 +64,10 @@ func (fn *MurexFuncs) Dump() (dump map[string]string) {
 	fn.mutex.Unlock()
 	return
 }
+
+// UpdateMap is used for auto-completions. It takes an existing map and updates it's values rather than copying data
+func (fn *MurexFuncs) UpdateMap(m map[string]bool) {
+	for name := range fn.funcs {
+		m[name] = true
+	}
+}

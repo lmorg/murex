@@ -58,3 +58,10 @@ func (a *Aliases) Dump() map[string][]string {
 	a.mutex.Unlock()
 	return dump
 }
+
+// UpdateMap is used for auto-completions. It takes an existing map and updates it's values rather than copying data
+func (a *Aliases) UpdateMap(m map[string]bool) {
+	for name := range a.aliases {
+		m[name] = true
+	}
+}
