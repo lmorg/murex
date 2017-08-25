@@ -134,7 +134,7 @@ func (n *Net) Read(p []byte) (i int, err error) {
 	return
 }
 
-// Read a line from net Io interface
+// ReadLine reads a line from net Io interface
 func (n *Net) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(n)
 	for scanner.Scan() {
@@ -148,7 +148,7 @@ func (n *Net) ReadLine(callback func([]byte)) error {
 	return nil
 }
 
-// Read all data from net Io interface
+// ReadAll data from net Io interface
 func (n *Net) ReadAll() (b []byte, err error) {
 	b, err = ioutil.ReadAll(n.conn)
 	n.mutex.Lock()
@@ -211,7 +211,7 @@ func (n *Net) ReadArray(callback func([]byte)) error {
 	return readArray(n, callback)
 }
 
-// ReadArray treats net Io interface as an hash of data
+// ReadMap treats net Io interface as an hash of data
 func (n *Net) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
 	return readMap(n, config, callback)
 }

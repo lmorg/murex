@@ -5,7 +5,10 @@ import (
 	"runtime"
 )
 
-var IsInteractive bool // eventually this will be turned into TTY detection
+// IsInteractive defined whether the shell is interactive.
+// This variable just exists as a kludge to work around cyclic package imports so will either get moved out of the
+// config package and/or eventually turned into TTY detection. Do not depend on this variable long term.
+var IsInteractive bool
 
 func defaults(config *Config) {
 	config.Define("shell", "prompt", Properties{
