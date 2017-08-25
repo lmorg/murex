@@ -10,6 +10,7 @@ import (
 	"sync"
 )
 
+// File Io interface
 type File struct {
 	mutex    sync.Mutex
 	closed   bool
@@ -18,17 +19,35 @@ type File struct {
 	file     *os.File
 }
 
-// These are empty methods because file devices are write only
-func (f *File) Read([]byte) (int, error)                                 { return 0, io.EOF }
-func (f *File) ReadLine(func([]byte)) error                              { return nil }
-func (f *File) ReadArray(func([]byte)) error                             { return nil }
+// Read is an empty method because file devices are write only
+func (f *File) Read([]byte) (int, error) { return 0, io.EOF }
+
+// ReadLine is an empty method because file devices are write only
+func (f *File) ReadLine(func([]byte)) error { return nil }
+
+// ReadArray is an empty method because file devices are write only
+func (f *File) ReadArray(func([]byte)) error { return nil }
+
+// ReadMap is an empty method because file devices are write only
 func (f *File) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
-func (f *File) ReadAll() ([]byte, error)                                 { return []byte{}, nil }
-func (f *File) WriteTo(io.Writer) (int64, error)                         { return 0, io.EOF }
-func (f *File) GetDataType() string                                      { return types.Null }
-func (f *File) SetDataType(string)                                       {}
-func (f *File) DefaultDataType(bool)                                     {}
-func (f *File) IsTTY() bool                                              { return false }
+
+// ReadAll is an empty method because file devices are write only
+func (f *File) ReadAll() ([]byte, error) { return []byte{}, nil }
+
+// WriteTo is an empty method because file devices are write only
+func (f *File) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
+
+// GetDataType is an empty method because file devices are write only
+func (f *File) GetDataType() string { return types.Null }
+
+// SetDataType is an empty method because file devices are write only
+func (f *File) SetDataType(string) {}
+
+// DefaultDataType is an empty method because file devices are write only
+func (f *File) DefaultDataType(bool) {}
+
+// IsTTY returns false because the file writer is not a pseudo-TTY
+func (f *File) IsTTY() bool { return false }
 
 // Turns the stream.Io interface into a named pipe
 func (f *File) MakePipe() {
@@ -38,7 +57,7 @@ func (f *File) MakePipe() {
 	f.isParent = true
 }
 
-// Prevents the stream.Io interface from being casually closed
+// MakeParent prevents the stream.Io interface from being casually closed
 func (f *File) MakeParent() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
@@ -46,7 +65,7 @@ func (f *File) MakeParent() {
 	f.isParent = true
 }
 
-// Allows the stream.Io interface to be closed
+// UnmakeParent allows the stream.Io interface to be closed
 func (f *File) UnmakeParent() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
@@ -54,7 +73,7 @@ func (f *File) UnmakeParent() {
 	f.isParent = false
 }
 
-// io.Writer interface
+// Write is the io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
 	if f == nil {
 		return 0, errors.New("No file open.")
@@ -69,6 +88,7 @@ func (f *File) Write(b []byte) (int, error) {
 	return i, err
 }
 
+// Writeln is the io.Writeln interface
 func (f *File) Writeln(b []byte) (int, error) {
 	if f == nil {
 		return 0, errors.New("No file open.")
@@ -83,6 +103,7 @@ func (f *File) Writeln(b []byte) (int, error) {
 	return i, err
 }
 
+// Stats returns bytes written and read. As File is a write-only interface bytes read will always equal 0
 func (f *File) Stats() (bytesWritten, bytesRead uint64) {
 	f.mutex.Lock()
 	bytesWritten = f.bWritten
@@ -101,6 +122,7 @@ func NewFile(name string) (f *File, err error) {
 	return
 }
 
+// Close file writer
 func (f *File) Close() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()

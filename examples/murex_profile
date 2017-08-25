@@ -6,7 +6,13 @@
 # » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
 
 func h {
-    history: -> foreach { -> [ Index Block ] -> sprintf "%6s: %s\n" }
+    history -> foreach { -> [ Index Block ] -> sprintf: "%6s: %s\n" }
+}
+
+func a {
+    alias -> formap: key val {
+        $key -> sprintf: "%-10s { ${ $val -> sprintf: %s %s } }\n"
+    }
 }
 
 autocomplete set config {

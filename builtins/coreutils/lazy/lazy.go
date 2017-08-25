@@ -14,6 +14,7 @@ func init() {
 	proc.GoFunctions["ls"] = alias("dir")
 	proc.GoFunctions["rm"] = alias("del")
 	proc.GoFunctions["clear"] = alias("cls")
+	proc.GoFunctions["cat"] = alias("type")
 }
 
 func alias(cmd string) func(p *proc.Process) error {

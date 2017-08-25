@@ -6,23 +6,56 @@ import (
 	"io"
 )
 
-// This structure exists as a null interface for named pipes
+// Null is null interface for named pipes
 type Null struct{}
 
-func (t *Null) MakeParent()                                              {}
-func (t *Null) UnmakeParent()                                            {}
-func (t *Null) MakePipe()                                                {}
-func (t *Null) Read([]byte) (int, error)                                 { return 0, io.EOF }
-func (t *Null) ReadLine(func([]byte)) error                              { return nil }
-func (t *Null) ReadArray(func([]byte)) error                             { return nil }
+// MakeParent - null interface
+func (t *Null) MakeParent() {}
+
+// UnmakeParent - null interface
+func (t *Null) UnmakeParent() {}
+
+// MakePipe - null interface
+func (t *Null) MakePipe() {}
+
+// Read - null interface
+func (t *Null) Read([]byte) (int, error) { return 0, io.EOF }
+
+// ReadLine - null interface
+func (t *Null) ReadLine(func([]byte)) error { return nil }
+
+// ReadArray - null interface
+func (t *Null) ReadArray(func([]byte)) error { return nil }
+
+// ReadMap - null interface
 func (t *Null) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
-func (t *Null) ReadAll() ([]byte, error)                                 { return []byte{}, nil }
-func (t *Null) WriteTo(io.Writer) (int64, error)                         { return 0, io.EOF }
-func (t *Null) Write(b []byte) (int, error)                              { return len(b), nil }
-func (t *Null) Writeln(b []byte) (int, error)                            { return len(b), nil }
-func (t *Null) Stats() (uint64, uint64)                                  { return 0, 0 }
-func (t *Null) GetDataType() string                                      { return types.Null }
-func (t *Null) SetDataType(string)                                       {}
-func (t *Null) DefaultDataType(bool)                                     {}
-func (t *Null) IsTTY() bool                                              { return false }
-func (t *Null) Close()                                                   {}
+
+// ReadAll - null interface
+func (t *Null) ReadAll() ([]byte, error) { return []byte{}, nil }
+
+// WriteTo - null interface
+func (t *Null) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
+
+// Write - null interface
+func (t *Null) Write(b []byte) (int, error) { return len(b), nil }
+
+// Writeln - null interface
+func (t *Null) Writeln(b []byte) (int, error) { return len(b), nil }
+
+// Stats - null interface
+func (t *Null) Stats() (uint64, uint64) { return 0, 0 }
+
+// GetDataType - null interface
+func (t *Null) GetDataType() string { return types.Null }
+
+// SetDataType - null interface
+func (t *Null) SetDataType(string) {}
+
+// DefaultDataType - null interface
+func (t *Null) DefaultDataType(bool) {}
+
+// IsTTY - null interface
+func (t *Null) IsTTY() bool { return false }
+
+// Close - null interface
+func (t *Null) Close() {}

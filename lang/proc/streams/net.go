@@ -13,6 +13,7 @@ import (
 	"sync"
 )
 
+// Net Io interface
 type Net struct {
 	mutex    sync.Mutex
 	buffer   []byte
@@ -25,10 +26,13 @@ type Net struct {
 	protocol string
 }
 
+// DefaultDataType is unavailable for net Io interfaces
 func (n *Net) DefaultDataType(bool) {}
-func (n *Net) IsTTY() bool          { return false }
 
-// New net.Dial-based stream.Io pipe
+// IsTTY always returns false because net Io interfaces are not a pseudo-TTY
+func (n *Net) IsTTY() bool { return false }
+
+// NewDialer creates a new net.Dial-based stream.Io pipe
 func NewDialer(protocol, address string) (n *Net, err error) {
 	n = new(Net)
 	n.protocol = protocol
@@ -47,7 +51,7 @@ func NewDialer(protocol, address string) (n *Net, err error) {
 	return
 }
 
-// New net.Listen-based stream.Io pipe
+// NewListener creates a new net.Listen-based stream.Io pipe
 func NewListener(protocol, address string) (n *Net, err error) {
 	n = new(Net)
 	n.protocol = protocol
@@ -72,7 +76,7 @@ func NewListener(protocol, address string) (n *Net, err error) {
 	return
 }
 
-// Turns the stream.Io interface into a named pipe
+// MakePipe turns the stream.Io interface into a named pipe
 func (n *Net) MakePipe() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -80,7 +84,7 @@ func (n *Net) MakePipe() {
 	n.isParent = true
 }
 
-// Assign a data type to the stream.Io interface
+// SetDataType assigns a data type to the stream.Io interface
 func (n *Net) SetDataType(dt string) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -88,7 +92,7 @@ func (n *Net) SetDataType(dt string) {
 	n.dataType = dt
 }
 
-// Prevents the stream.Io interface from being casually closed
+// MakeParent prevents the stream.Io interface from being casually closed
 func (n *Net) MakeParent() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -96,7 +100,7 @@ func (n *Net) MakeParent() {
 	n.isParent = true
 }
 
-// Allows the stream.Io interface to be closed
+// UnmakeParent allows the stream.Io interface to be closed
 func (n *Net) UnmakeParent() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -104,7 +108,7 @@ func (n *Net) UnmakeParent() {
 	n.isParent = false
 }
 
-// Read the stream.Io interface's data type
+// GetDataType read the stream.Io interface's data type
 func (n *Net) GetDataType() string {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -112,6 +116,7 @@ func (n *Net) GetDataType() string {
 	return n.dataType
 }
 
+// Stats returns the bytes written and bytes read to the net Io interface
 func (n *Net) Stats() (bytesWritten, bytesRead uint64) {
 	n.mutex.Lock()
 	bytesWritten = n.bWritten
@@ -120,6 +125,7 @@ func (n *Net) Stats() (bytesWritten, bytesRead uint64) {
 	return
 }
 
+// Read bytes from net Io interface
 func (n *Net) Read(p []byte) (i int, err error) {
 	i, err = n.conn.Read(p)
 	n.mutex.Lock()
@@ -128,6 +134,7 @@ func (n *Net) Read(p []byte) (i int, err error) {
 	return
 }
 
+// Read a line from net Io interface
 func (n *Net) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(n)
 	for scanner.Scan() {
@@ -141,6 +148,7 @@ func (n *Net) ReadLine(callback func([]byte)) error {
 	return nil
 }
 
+// Read all data from net Io interface
 func (n *Net) ReadAll() (b []byte, err error) {
 	b, err = ioutil.ReadAll(n.conn)
 	n.mutex.Lock()
@@ -149,6 +157,7 @@ func (n *Net) ReadAll() (b []byte, err error) {
 	return
 }
 
+// Write bytes to net Io interface
 func (n *Net) Write(b []byte) (i int, err error) {
 	i, err = n.conn.Write(b)
 	n.mutex.Lock()
@@ -157,6 +166,7 @@ func (n *Net) Write(b []byte) (i int, err error) {
 	return
 }
 
+// Writeln writes a line to net Io interface
 func (n *Net) Writeln(b []byte) (i int, err error) {
 	i, err = n.conn.Write(append(b, utils.NewLineByte...))
 	n.mutex.Lock()
@@ -165,6 +175,7 @@ func (n *Net) Writeln(b []byte) (i int, err error) {
 	return
 }
 
+// WriteTo reads from net Io interface and then writes that to foreign Writer interface
 func (n *Net) WriteTo(dst io.Writer) (i int64, err error) {
 	i, err = io.Copy(dst, n.conn)
 	n.mutex.Lock()
@@ -173,6 +184,7 @@ func (n *Net) WriteTo(dst io.Writer) (i int64, err error) {
 	return
 }
 
+// Close net Io interface
 func (n *Net) Close() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
@@ -194,10 +206,12 @@ func (n *Net) Close() {
 	}
 }
 
+// ReadArray treats net Io interface as an array of data
 func (n *Net) ReadArray(callback func([]byte)) error {
 	return readArray(n, callback)
 }
 
+// ReadArray treats net Io interface as an hash of data
 func (n *Net) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
 	return readMap(n, config, callback)
 }
