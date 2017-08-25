@@ -2,7 +2,6 @@ package management
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -65,7 +64,7 @@ func cmdFidKill(p *proc.Process) (err error) {
 	if process.Kill != nil {
 		process.Kill()
 	} else {
-		err = errors.New(fmt.Sprintf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid))
+		err = fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid)
 	}
 
 	return err

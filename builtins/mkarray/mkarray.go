@@ -1,7 +1,6 @@
 package mkarray
 
 import (
-	"errors"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -80,7 +79,7 @@ func mkArray(p *proc.Process) error {
 				continue
 			}
 			if open {
-				return errors.New(fmt.Sprintf("Cannot open bracket (char %d) inside of open bracket.\nIf you wanted to print the bracket then please escape it: `\\[``", i))
+				return fmt.Errorf("Cannot open bracket (char %d) inside of open bracket.\nIf you wanted to print the bracket then please escape it: `\\[``", i)
 			}
 			open = true
 			nodes = append(nodes,
@@ -100,7 +99,7 @@ func mkArray(p *proc.Process) error {
 				continue
 			}
 			if !open {
-				return errors.New(fmt.Sprintf("Cannot close bracket (char %d) with an open bracket.\nIf you wanted to print the bracket then please escape it: `\\]``", i))
+				return fmt.Errorf("Cannot close bracket (char %d) with an open bracket.\nIf you wanted to print the bracket then please escape it: `\\]``", i)
 			}
 			open = false
 			nodes = append(nodes,
