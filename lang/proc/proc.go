@@ -88,7 +88,7 @@ var (
 	// KillForeground is the `kill` function for whichever FID currently has "focus"
 	KillForeground func() = func() {}
 
-	// ForegroundProc is the murex FID which currently has "focus"
+	// ForegroundProc is the murex FID which currently has "focus"  Em3w
 	ForegroundProc *Process = ShellProcess
 )
 

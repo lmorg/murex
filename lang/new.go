@@ -68,9 +68,9 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *pro
 	// Support for different run modes:
 	switch {
 	case container.Name == "try":
-		exitNum = runHyperSensitive(&tree)
+		exitNum = runModeTry(&tree)
 	default:
-		exitNum = runNormal(&tree)
+		exitNum = runModeNormal(&tree)
 	}
 
 	// This will just unlock the parent lock. Stdxxx.Close() will still have to be called.

@@ -3,10 +3,16 @@ package previews
 import (
 	"github.com/eliukblau/pixterm/ansimage"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lucasb-eyer/go-colorful"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 )
+
+type color struct{}
+
+// Implement the Go color.Color interface.
+func (col color) RGBA() (uint32, uint32, uint32, uint32) {
+	return 0, 0, 0, 0xFFFF
+}
 
 func init() {
 	proc.GoFunctions["img"] = cmdImg
@@ -23,9 +29,8 @@ func cmdImg(p *proc.Process) error {
 		return err
 	}
 
-	mc, err := colorful.Hex("#000000")
+	img, err := ansimage.NewScaledFromFile(2*(ty-1), tx, ansimage.ScaleModeFit, color{}, filename)
 
-	img, err := ansimage.NewScaledFromFile(2*(ty-1), tx, ansimage.ScaleModeFit, mc, filename)
 	if err != nil {
 		return err
 	}

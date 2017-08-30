@@ -57,10 +57,10 @@ func executeProcess(p *proc.Process) {
 		p.Kill = func() { destroyProcess(p) }
 	}
 
-	if !p.IsBackground {
-		proc.KillForeground = p.Kill
-		proc.ForegroundProc = p
-	}
+	//if !p.IsBackground {
+	//	proc.KillForeground = p.Kill
+	//	proc.ForegroundProc = p
+	//}
 
 	ParseParameters(&p.Parameters, &proc.GlobalVars)
 

@@ -98,7 +98,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 	}
 }
 
-func runNormal(tree *astNodes) (exitNum int) {
+func runModeNormal(tree *astNodes) (exitNum int) {
 	if len(*tree) == 0 {
 		return 1
 	}
@@ -123,8 +123,8 @@ func runNormal(tree *astNodes) (exitNum int) {
 }
 
 // `try`
-func runHyperSensitive(tree *astNodes) (exitNum int) {
-	debug.Log("Entering Hyper Sensitive mode!!!")
+func runModeTry(tree *astNodes) (exitNum int) {
+	debug.Log("Entering run mode `try`")
 	if len(*tree) == 0 {
 		return 1
 	}
