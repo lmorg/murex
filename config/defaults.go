@@ -24,6 +24,12 @@ func defaults(config *Config) {
 		DataType:    types.CodeBlock,
 	})
 
+	config.Define("shell", "max-suggestions", Properties{
+		Description: "Maximum number of auto-completion suggestions to display. Negative values disables cropping",
+		Default:     30,
+		DataType:    types.Integer,
+	})
+
 	config.Define("shell", "history", Properties{
 		Description: "Save shell history",
 		Default:     true,

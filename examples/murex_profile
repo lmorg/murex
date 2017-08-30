@@ -86,5 +86,6 @@ if { = os!=`windows` } {
     func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
 
 } {
+    config set shell prompt { out "${pwd -> regex 'f#[^\\]+$#'} » " }
     func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
 }

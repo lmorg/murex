@@ -3,6 +3,7 @@ package shell
 import (
 	"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
 	"os"
@@ -344,8 +345,13 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 	}
 
-	maxItems := 30
-	if len(items) < maxItems {
+	v, err := proc.GlobalConf.Get("shell", "max-suggestions", types.Integer)
+	if err != nil {
+		v = -1
+	}
+
+	maxItems := v.(int)
+	if len(items) < maxItems || maxItems < 0 {
 		maxItems = len(items)
 	}
 

@@ -84,7 +84,7 @@ func isLocal(s string) bool {
 	return strings.HasPrefix(s, "."+consts.PathSlash) || strings.HasPrefix(s, ".."+consts.PathSlash) || strings.HasPrefix(s, consts.PathSlash)
 }
 
-func partialPath(s string) (path, partial string) {
+/*func partialPath(s string) (path, partial string) {
 	split := strings.Split(s, consts.PathSlash)
 	path = strings.Join(split[:len(split)-1], consts.PathSlash)
 	partial = split[len(split)-1]
@@ -97,7 +97,7 @@ func partialPath(s string) (path, partial string) {
 		path = "."
 	}
 	return
-}
+}*/
 
 func matchLocal(s string, includeColon bool) (items []string) {
 	path, file := partialPath(s)
