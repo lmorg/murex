@@ -1,6 +1,7 @@
 package preview
 
 import (
+	"bytes"
 	"compress/gzip"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -22,7 +23,13 @@ func open(p *proc.Process) error {
 		dt := p.Stdin.GetDataType()
 		p.Stdout.SetDataType(dt)
 
-		return preview(p.Stdout, p.Stdin, dt)
+		var buf bytes.Buffer
+		_, err := io.Copy(&buf, p.Stdin)
+		if err != nil {
+			return err
+		}
+
+		return preview(p.Stdout, &buf, dt)
 	}
 
 	filename, err := p.Parameters.String(0)
