@@ -7,10 +7,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/data"
 	"github.com/lmorg/murex/utils"
-	"github.com/mattn/go-sixel"
-	"image"
-	_ "image/jpeg"
-	_ "image/png"
 	"io"
 	"os"
 	"regexp"
@@ -20,8 +16,6 @@ import (
 
 func init() {
 	proc.GoFunctions["text"] = cmdText
-	proc.GoFunctions["open"] = cmdOpen
-	proc.GoFunctions["img"] = cmdImg
 	proc.GoFunctions["pt"] = cmdPipeTelemetry
 	proc.GoFunctions[">"] = cmdWriteFile
 	proc.GoFunctions[">>"] = cmdAppendFile
@@ -74,49 +68,6 @@ func cmdText(p *proc.Process) error {
 			}
 
 		}
-	}
-
-	return nil
-}
-
-func cmdImg(p *proc.Process) error {
-	filename, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-
-	file, err := os.Open(filename)
-	defer file.Close()
-	if err != nil {
-		return err
-	}
-
-	img, _, err := image.Decode(file)
-	if err != nil {
-		return err
-	}
-
-	enc := sixel.NewEncoder(os.Stdout)
-	err = enc.Encode(img)
-
-	return err
-}
-
-func cmdOpen(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Generic)
-	for _, filename := range p.Parameters.StringArray() {
-		file, err := os.Open(filename)
-		if err != nil {
-			file.Close()
-			return err
-		}
-		_, err = io.Copy(p.Stdout, file)
-		if err != nil {
-			file.Close()
-			return err
-		}
-
-		file.Close()
 	}
 
 	return nil

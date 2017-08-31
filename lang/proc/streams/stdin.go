@@ -17,6 +17,7 @@ type Stdin struct {
 	mutex       sync.Mutex
 	buffer      []byte
 	closed      bool
+	isClosed    chan bool
 	bRead       uint64
 	bWritten    uint64
 	isParent    bool
@@ -29,6 +30,7 @@ type Stdin struct {
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
+	stdin.isClosed = make(chan bool, 1)
 	return
 }
 
@@ -222,6 +224,7 @@ func (stdin *Stdin) Close() {
 	}
 
 	stdin.closed = true
+	stdin.isClosed <- true
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface
@@ -277,4 +280,8 @@ func (stdin *Stdin) DefaultDataType(err bool) {
 			stdin.dtLock.Unlock()
 		}
 	}
+}
+
+func (stdin *Stdin) WaitUntilClosed() {
+	<-stdin.isClosed
 }
