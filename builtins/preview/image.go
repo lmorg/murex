@@ -17,7 +17,7 @@ func init() {
 
 // Implement the Go color.Color interface.
 func (col color) RGBA() (uint32, uint32, uint32, uint32) {
-	return 0, 0, 0, 0xFFFF
+	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 }
 
 func pvImage(writer io.Writer, reader io.Reader) error {

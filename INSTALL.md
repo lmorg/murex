@@ -42,6 +42,14 @@ s-expressions
 
 * `github.com/BurntSushi/toml` adds support for TOML
 
+* Image previewing requires a few dependencies:
+
+    1. `github.com/disintegration/imaging`
+    2. `golang.org/x/crypto/ssh/terminal`
+    3. `golang.org/x/image/bmp`
+    4. `golang.org/x/image/tiff`
+    5. `golang.org/x/image/webp`
+
 If you wish do disable any of these then delete the appropriate files in
 the `builtins` directory of this project or append `// +build ignore` to
 the `.go` file if you wish to preserve the change in subsequent updates

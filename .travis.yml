@@ -1,0 +1,21 @@
+language: go
+
+go:
+  - 1.x
+  - 1.6
+  - 1.7.x
+  - master
+
+install:
+  - go get github.com/chzyer/readline
+  - go get github.com/Knetic/govaluate
+  - go get github.com/abesto/sexp
+  - go get gopkg.in/yaml.v2
+  - go get github.com/BurntSushi/toml
+  - go get github.com/lmorg/murex/builtins/preview/ansimage
+  - go get golang.org/x/crypto/ssh/terminal
+  - go get github.com/disintegration/imaging`
+  - go get golang.org/x/crypto/ssh/terminal
+  - go get golang.org/x/image/bmp
+  - go get golang.org/x/image/tiff
+  - go get golang.org/x/image/webp
