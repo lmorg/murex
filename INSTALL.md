@@ -11,13 +11,22 @@ Test the binary (requires Bash and `timeout`):
 
     test/regression_test.sh
 
-(A Dockerfile is also included for your convenience. The file is located
-in `test/docker` and includes a [README.md](test/docker/README.md) with
-more information).
-
 Then to start the shell:
 
     ./murex
+
+## Travis
+
+A `.travis.yml` file has been included and the automated tests can be
+viewed at [https://travis-ci.org/lmorg/murex](https://travis-ci.org/lmorg/murex).
+
+## Docker
+
+A `Dockerfile` is also included should you want to run an local tests in
+a sandboxed environment.
+
+The file is located in `test/docker` and includes a [README.md](test/docker/README.md)
+with more information.
 
 ## Required dependencies
 
