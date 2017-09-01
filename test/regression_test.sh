@@ -2,7 +2,7 @@
 
 # Regression tests
 cd test
-JSH="../murex"
+JSH="$GOPATH/src/github.com/lmorg/murex/murex"
 timeout="1.1"
 nreps=250
 repstimeout="15"
@@ -345,3 +345,4 @@ while true; do
 done
 
 echo -e "\nAll tests have been run. $failed failed."
+exit $failed
