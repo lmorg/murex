@@ -1,7 +1,6 @@
 package permbits
 
 import (
-	"github.com/lmorg/murex/lang/proc"
 	"os"
 	"runtime"
 	"syscall"
