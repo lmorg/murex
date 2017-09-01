@@ -75,30 +75,44 @@ func (f *File) UnmakeParent() {
 
 // Write is the io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
-	if f == nil {
+	f.mutex.Lock()
+	defer f.mutex.Unlock()
+
+	if f == nil || f.file == nil {
 		return 0, errors.New("No file open.")
 	}
 
+	if f.closed {
+		return 0, io.ErrClosedPipe
+	}
+
+	f.mutex.Unlock()
 	i, err := f.file.Write(b)
 
 	f.mutex.Lock()
 	f.bWritten += uint64(i)
-	f.mutex.Unlock()
 
 	return i, err
 }
 
 // Writeln is the io.Writeln interface
 func (f *File) Writeln(b []byte) (int, error) {
-	if f == nil {
+	f.mutex.Lock()
+	defer f.mutex.Unlock()
+
+	if f == nil || f.file == nil {
 		return 0, errors.New("No file open.")
 	}
 
+	if f.closed {
+		return 0, io.ErrClosedPipe
+	}
+
+	f.mutex.Unlock()
 	i, err := f.file.Write(append(b, utils.NewLineByte...))
 
 	f.mutex.Lock()
 	f.bWritten += uint64(i)
-	f.mutex.Unlock()
 
 	return i, err
 }

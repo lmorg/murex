@@ -2,7 +2,6 @@ package streams
 
 import (
 	"bufio"
-	"errors"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
@@ -183,7 +182,8 @@ func (stdin *Stdin) Write(b []byte) (int, error) {
 	defer stdin.mutex.Unlock()
 
 	if stdin.closed {
-		return 0, errors.New("Writing to closed pipe.")
+		//return 0, errors.New("Writing to closed pipe.")
+		return 0, io.ErrClosedPipe
 	}
 
 	stdin.buffer = append(stdin.buffer, b...)
