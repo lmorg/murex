@@ -20,3 +20,6 @@ install:
   - go get golang.org/x/image/webp
   - go get labix.org/v2/mgo/bson
   - go get github.com/hashicorp/hcl
+  - apt-get install -y timeout
+  - go build github.com/lmorg/murex
+  - $GOPATH/github/lmorg/murex/test/regression_test.sh
