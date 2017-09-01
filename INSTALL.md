@@ -42,6 +42,10 @@ s-expressions
 
 * `github.com/BurntSushi/toml` adds support for TOML
 
+* `github.com/hashicorp/hcl` adds support for HCL. Disabled by default
+because of converting from JSON to HCL and back to JSON fails to produce
+consistent output and there is likely very little demand for HCL anyway
+
 * Image previewing requires a few dependencies:
 
     1. `github.com/disintegration/imaging`
