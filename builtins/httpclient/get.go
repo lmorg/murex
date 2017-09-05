@@ -37,7 +37,7 @@ func cmdGet(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := request("GET", url, body, enableTimeout)
+	resp, err := Request("GET", url, body, enableTimeout)
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := request("GET", url, body, disableTimeout)
+	resp, err := Request("GET", url, body, disableTimeout)
 	if err != nil {
 		return err
 	}

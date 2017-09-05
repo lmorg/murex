@@ -16,7 +16,7 @@ const (
 	disableTimeout = false
 )
 
-func request(method, url string, body io.Reader, setTimeout bool) (response *http.Response, err error) {
+func Request(method, url string, body io.Reader, setTimeout bool) (response *http.Response, err error) {
 	toStr, err := proc.GlobalConf.Get("http", "Timeout", types.String)
 	if err != nil {
 		return

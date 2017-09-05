@@ -3,9 +3,11 @@ package preview
 import (
 	"bytes"
 	"compress/gzip"
+	"github.com/lmorg/murex/builtins/httpclient"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/data"
+	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
 	"regexp"
@@ -35,6 +37,19 @@ func open(p *proc.Process) error {
 	filename, err := p.Parameters.String(0)
 	if err != nil {
 		return err
+	}
+
+	if utils.IsURL(filename) {
+		resp, err := httpclient.Request("GET", filename, nil, true)
+		if err != nil {
+			return err
+		}
+
+		defer resp.Body.Close()
+
+		dt := data.MimeToMurex(resp.Header.Get("Content-Type"))
+		p.Stdout.SetDataType(dt)
+		return preview(p.Stdout, resp.Body, dt)
 	}
 
 	var ext string
