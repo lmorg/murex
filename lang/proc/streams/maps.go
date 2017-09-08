@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/utils/csv"
 	"strconv"
 	"strings"
 )
@@ -49,21 +48,6 @@ func readMapJson(read Io, config *config.Config, callback func(key, value string
 		}
 		return nil
 	}
-	return err
-}
-
-func readMapCsv(read Io, config *config.Config, callback func(key, value string, last bool)) error {
-	csvParser, err := csv.NewParser(read, config)
-	if err != nil {
-		return err
-	}
-
-	err = csvParser.ReadLine(func(records []string, headings []string) {
-		for i := range records {
-			callback(headings[i], records[i], i == len(records)-1)
-		}
-	})
-
 	return err
 }
 

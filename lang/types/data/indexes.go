@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/csv"
 	"strconv"
 )
 
@@ -128,35 +127,6 @@ func indexJson(p *proc.Process, params []string) error {
 	default:
 		return errors.New("JSON object cannot be indexed.")
 	}
-}
-
-func indexCsv(p *proc.Process, params []string) error {
-	match := make(map[string]int)
-	for i := range params {
-		match[params[i]] = i + 1
-	}
-
-	csvParser, err := csv.NewParser(nil, &proc.GlobalConf)
-	if err != nil {
-		return err
-	}
-	records := make([]string, len(params)+1)
-	var matched bool
-
-	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
-		if match[key] != 0 {
-			matched = true
-			records[match[key]] = value
-		}
-
-		if last && matched {
-			p.Stdout.Writeln(csvParser.ArrayToCsv(records[1:]))
-			matched = false
-			records = make([]string, len(params)+1)
-		}
-	})
-
-	return err
 }
 
 func indexGeneric(p *proc.Process, params []string) error {

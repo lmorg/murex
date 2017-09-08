@@ -16,7 +16,6 @@ const (
 	Binary    = "bin"
 	CodeBlock = "block"
 	Json      = "json"
-	Csv       = "csv"
 	Number    = "num"
 	Integer   = "int"
 	Float     = "float"

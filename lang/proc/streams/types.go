@@ -23,7 +23,6 @@ func init() {
 	ReadMap[types.Generic] = readMapDefault
 	ReadMap[types.String] = readMapDefault
 	ReadMap[types.Json] = readMapJson
-	ReadMap[types.Csv] = readMapCsv
 }
 
 func readArray(read Io, callback func([]byte)) error {

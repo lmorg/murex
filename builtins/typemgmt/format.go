@@ -1,17 +1,10 @@
 package typemgmt
 
 import (
-	"bufio"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/data"
-	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/csv"
-	"regexp"
-	"strconv"
-	"strings"
 )
 
 func init() {
@@ -53,7 +46,7 @@ func cmdFormat(p *proc.Process) (err error) {
 	return
 }
 
-func fStringGeneric(p *proc.Process, dt, format string) error {
+/*func fStringGeneric(p *proc.Process, dt, format string) error {
 	flags, _, err := parameters.ParseFlags(p.Parameters.Params[1:], &parameters.Arguments{
 		AllowAdditional: false,
 		Flags: map[string]string{
@@ -207,3 +200,4 @@ func fCsv(p *proc.Process, dt, format string) error {
 
 	return errors.New("error!!!")
 }
+*/

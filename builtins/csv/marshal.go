@@ -1,4 +1,4 @@
-package data
+package csv
 
 import (
 	"encoding/json"
@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/csv"
 	"os"
 	"sort"
 	"strings"
 )
 
-func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
-	w, err := csv.NewParser(nil, &proc.GlobalConf)
+func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
+	w, err := NewParser(nil, &proc.GlobalConf)
 	if err != nil {
 		return
 	}
@@ -232,8 +231,8 @@ func marshalCsv(_ *proc.Process, iface interface{}) (b []byte, err error) {
 	}
 }
 
-func unmarshalCsv(p *proc.Process) (interface{}, error) {
-	csvReader, err := csv.NewParser(p.Stdin, &proc.GlobalConf)
+func unmarshal(p *proc.Process) (interface{}, error) {
+	csvReader, err := NewParser(p.Stdin, &proc.GlobalConf)
 	if err != nil {
 		return nil, err
 	}

@@ -10,11 +10,7 @@ func init() {
 	Marshal[types.Json] = marshalJson
 	Unmarshal[types.Json] = unmarshalJson
 
-	Marshal[types.Csv] = marshalCsv
-	Unmarshal[types.Csv] = unmarshalCsv
-
 	ReadIndexes[types.Json] = indexJson
-	ReadIndexes[types.Csv] = indexCsv
 	ReadIndexes[types.Generic] = indexGeneric
 	ReadIndexes[types.String] = indexGeneric
 
@@ -36,6 +32,5 @@ func init() {
 
 	SetMime(types.Binary, "multipart/x-zip")
 
-	SetFileExtensions(types.Csv, "csv")
 	SetFileExtensions(types.Json, "json")
 }
