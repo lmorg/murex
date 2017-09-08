@@ -134,6 +134,11 @@ func cmdAutocomplete(p *proc.Process) error {
 		return err
 	}
 
+	// So we don't have nil values in JSON
+	if len(flags.Flags) == 0 {
+		flags.Flags = make([]string, 0)
+	}
+
 	sort.Strings(flags.Flags)
 	shell.ExesFlags[exe] = flags
 	return nil
