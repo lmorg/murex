@@ -10,6 +10,25 @@ import (
 // config package and/or eventually turned into TTY detection. Do not depend on this variable long term.
 var IsInteractive bool
 
+/*type defaults struct {
+	app   []string
+	key   []string
+	prop  []Properties
+	mutex sync.Mutex
+}
+
+var Defaults defaults
+
+func (d *defaults) Add(app string, key string, properties Properties) {
+	d.mutex.Lock()
+
+	d.app = append(d.app, app)
+	d.key = append(d.key, key)
+	d.prop = append(d.prop, properties)
+
+	d.mutex.Unlock()
+}*/
+
 func defaults(config *Config) {
 	config.Define("shell", "prompt", Properties{
 		Description: "Shell prompt",
@@ -72,9 +91,4 @@ func defaults(config *Config) {
 		DataType:    types.Boolean,
 	})
 
-	config.Define("index", "silent", Properties{
-		Description: "Don't report error if an index in [ ] does not exist",
-		Default:     false,
-		DataType:    types.Boolean,
-	})
 }

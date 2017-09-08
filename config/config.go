@@ -37,7 +37,7 @@ func (config *Config) Set(app string, key string, value interface{}) error {
 	defer config.mutex.Unlock()
 
 	if config.properties[app] == nil || config.properties[app][key].DataType == "" || config.properties[app][key].Description == "" {
-		return errors.New("Cannot Set() that value when no config properties have been defined for that app and key.")
+		return errors.New("Cannot Get() `" + app + "`:`" + key + "` when no config properties have been defined for that app and key.")
 	}
 
 	config.values[app][key] = value
@@ -53,7 +53,7 @@ func (config *Config) Get(app, key, dataType string) (value interface{}, err err
 	defer config.mutex.Unlock()
 
 	if config.properties[app] == nil || config.properties[app][key].DataType == "" || config.properties[app][key].Description == "" {
-		return nil, errors.New("Cannot Get() that value when no config properties have been defined for that app and key.")
+		return nil, errors.New("Cannot Get() `" + app + "`:`" + key + "` when no config properties have been defined for that app and key.")
 	}
 
 	var v interface{}

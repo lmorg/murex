@@ -56,7 +56,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 		}
 	}
 
-	userAgent, err := proc.GlobalConf.Get("http", "user-Agent", types.String)
+	userAgent, err := proc.GlobalConf.Get("http", "user-agent", types.String)
 	if err != nil {
 		return
 	}

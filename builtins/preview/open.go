@@ -16,8 +16,18 @@ import (
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`\.([a-zA-Z]+)(\.gz|)$`)
 
+type OpenAgent struct {
+	Block         []rune
+	GoFunc        func(process *proc.Process) error `json:"-"`
+	PassPathOrURL bool
+}
+
+var OpenAgents map[string]OpenAgent
+
 func init() {
 	proc.GoFunctions["open"] = open
+
+	OpenAgents = make(map[string]OpenAgent)
 }
 
 func open(p *proc.Process) error {
@@ -25,6 +35,10 @@ func open(p *proc.Process) error {
 		dt := p.Stdin.GetDataType()
 		p.Stdout.SetDataType(dt)
 
+		// I know this routine is sub-optimal (to say the least) as I am copying from one buffer to another, but the
+		// file sizes we are talking about shouldn't be so large nor so frequent that this will become problematic.
+		// However I do imagine I will at some point rewrite much of this code to make it leaner rather than faster to
+		// develop and deploy.
 		var buf bytes.Buffer
 		_, err := io.Copy(&buf, p.Stdin)
 		if err != nil {
