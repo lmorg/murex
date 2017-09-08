@@ -91,16 +91,3 @@ var (
 	// ForegroundProc is the murex FID which currently has "focus"  Em3w
 	ForegroundProc *Process = ShellProcess
 )
-
-// ExportRuntime exports a JSONable structure of the shell running state
-func ExportRuntime() map[string]interface{} {
-	m := make(map[string]interface{})
-	m["Vars"] = GlobalVars.Dump()
-	m["Aliases"] = GlobalAliases.Dump()
-	m["Config"] = GlobalConf.Dump()
-	m["Pipes"] = GlobalPipes.Dump()
-	m["Funcs"] = MxFunctions.Dump()
-	m["Fids"] = GlobalFIDs.Dump()
-
-	return m
-}

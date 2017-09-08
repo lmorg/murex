@@ -7,7 +7,9 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/data"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"io/ioutil"
@@ -158,7 +160,21 @@ func cmdVersion(p *proc.Process) error {
 func cmdRuntime(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	runtime := proc.ExportRuntime()
+	runtime := make(map[string]interface{})
+	runtime["Vars"] = proc.GlobalVars.Dump()
+	runtime["Aliases"] = proc.GlobalAliases.Dump()
+	runtime["Config"] = proc.GlobalConf.Dump()
+	runtime["Pipes"] = proc.GlobalPipes.Dump()
+	runtime["Funcs"] = proc.MxFunctions.Dump()
+	runtime["Fids"] = proc.GlobalFIDs.Dump()
+	runtime["Arrays"] = streams.DumpArray()
+	runtime["Maps"] = streams.DumpMap()
+	runtime["Indexes"] = data.DumpIndex()
+	runtime["Marshallers"] = data.DumpMarshaller()
+	runtime["Unmarshallers"] = data.DumpUnmarshaller()
+	runtime["Mimes"] = data.DumpMime()
+	runtime["FileExts"] = data.DumpFileExts()
+
 	b, err := utils.JsonMarshal(runtime, p.Stdout.IsTTY())
 	if err != nil {
 		return err

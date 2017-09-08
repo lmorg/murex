@@ -3,6 +3,7 @@ package streams
 import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
+	"sort"
 )
 
 // ReadArray is where custom data formats can define how to iterate through arrays (eg `foreach`).
@@ -43,4 +44,22 @@ func readMap(read Io, config *config.Config, callback func(key, value string, la
 	}
 
 	return ReadMap[types.Generic](read, config, callback)
+}
+
+// DumpArray returns an array of compiled builtins supporting deserialization as an array
+func DumpArray() (dump []string) {
+	for name := range ReadArray {
+		dump = append(dump, name)
+	}
+	sort.Strings(dump)
+	return
+}
+
+// DumpMap returns an array of compiled builtins supporting deserialization as a key/value map (or hash)
+func DumpMap() (dump []string) {
+	for name := range ReadMap {
+		dump = append(dump, name)
+	}
+	sort.Strings(dump)
+	return
 }
