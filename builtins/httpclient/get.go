@@ -26,9 +26,7 @@ func cmdGet(p *proc.Process) (err error) {
 	if err != nil {
 		return err
 	}
-	if !rxHttpProto.MatchString(url) {
-		url = "http://" + url
-	}
+	validateURL(&url)
 
 	var body io.Reader
 	if p.IsMethod {
@@ -72,9 +70,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 	if err != nil {
 		return err
 	}
-	if !rxHttpProto.MatchString(url) {
-		url = "http://" + url
-	}
+	validateURL(&url)
 
 	var body io.Reader
 	if p.IsMethod {

@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	net_url "net/url"
+	"regexp"
 	"time"
 )
 
@@ -16,8 +17,10 @@ const (
 	disableTimeout = false
 )
 
+var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
+
 func Request(method, url string, body io.Reader, setTimeout bool) (response *http.Response, err error) {
-	toStr, err := proc.GlobalConf.Get("http", "Timeout", types.String)
+	toStr, err := proc.GlobalConf.Get("http", "timeout", types.String)
 	if err != nil {
 		return
 	}
@@ -26,7 +29,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 		return
 	}
 
-	insecure, err := proc.GlobalConf.Get("http", "Insecure", types.Boolean)
+	insecure, err := proc.GlobalConf.Get("http", "insecure", types.Boolean)
 	if err != nil {
 		return
 	}
@@ -53,7 +56,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 		}
 	}
 
-	userAgent, err := proc.GlobalConf.Get("http", "User-Agent", types.String)
+	userAgent, err := proc.GlobalConf.Get("http", "user-Agent", types.String)
 	if err != nil {
 		return
 	}
@@ -71,7 +74,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 
 	request.Header.Set("Host", urlParsed.Host)
 
-	redirects, err := proc.GlobalConf.Get("http", "Redirect", types.Boolean)
+	redirects, err := proc.GlobalConf.Get("http", "redirect", types.Boolean)
 	if err != nil {
 		return
 	}
@@ -95,5 +98,21 @@ func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr
 		}
 		conn.SetDeadline(time.Now().Add(rwTimeout))
 		return conn, nil
+	}
+}
+
+func validateURL(url *string) {
+	if !rxHttpProto.MatchString(*url) {
+		v, err := proc.GlobalConf.Get("http", "default-https", types.Boolean)
+		if err != nil {
+			v = false
+		}
+
+		if v.(bool) {
+			*url = "https://" + *url
+			return
+		}
+
+		*url = "http://" + *url
 	}
 }
