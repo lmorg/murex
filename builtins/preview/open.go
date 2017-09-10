@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-var rxExt *regexp.Regexp = regexp.MustCompile(`\.([a-zA-Z]+)(\.gz|)$`)
+var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
 
 type OpenAgent struct {
 	Block         []rune
@@ -85,7 +85,7 @@ func open(p *proc.Process) error {
 		return err
 	}
 
-	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
+	if len(filename) > 3 && strings.ToLower(filename[len(filename)-3:]) == ".gz" {
 		gz, err := gzip.NewReader(file)
 		if err != nil {
 			file.Close()

@@ -8,14 +8,15 @@ import (
 	"os"
 )
 
-type color struct{}
-
 func init() {
 	data.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
 	data.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
 }
 
-// Implement the Go color.Color interface.
+// color implements the Go color.Color interface.
+type color struct{}
+
+// RGBA is required for the Go color.Color interface.
 func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 }
