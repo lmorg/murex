@@ -36,11 +36,11 @@ func cmdText(p *proc.Process) error {
 	}
 
 	dt := data.GetExtType(ext)
-	if dt == "" {
-		p.Stdout.SetDataType(types.String)
-	} else {
-		p.Stdout.SetDataType(dt)
-	}
+	//if dt == "" {
+	//	p.Stdout.SetDataType(types.String)
+	//} else {
+	p.Stdout.SetDataType(dt)
+	//}
 
 	for _, filename := range p.Parameters.StringArray() {
 		file, err := os.Open(filename)

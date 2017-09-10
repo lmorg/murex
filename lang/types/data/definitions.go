@@ -34,8 +34,9 @@ func SetMime(dt string, mime ...string) {
 
 // MimeToMurex gets the murex data type for a corresponding MIME
 func MimeToMurex(mimeType string) string {
-	mime := strings.ToLower(mimeType)
-	mime = strings.Replace(mime, "; charset=utf-8", "", -1) //TODO: do this dynamically
+	mime := strings.Split(mimeType, ";")[0]
+	mime = strings.TrimSpace(mime)
+	mime = strings.ToLower(mime)
 
 	// Find a direct match. This is only used to pick up edge cases, eg text files used as images.
 	dt := mimes[mime]
@@ -74,6 +75,9 @@ func SetFileExtensions(dt string, extension ...string) {
 // GetExtType gets the murex data type for a corresponding file extension
 func GetExtType(extension string) (dt string) {
 	dt = fileExts[strings.ToLower(extension)]
+	if dt == "" {
+		return types.Generic
+	}
 	return
 }
 

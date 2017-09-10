@@ -33,4 +33,5 @@ func init() {
 	SetMime(types.Binary, "multipart/x-zip")
 
 	SetFileExtensions(types.Json, "json")
+	SetFileExtensions(types.Binary, "bin")
 }

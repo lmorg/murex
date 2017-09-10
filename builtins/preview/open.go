@@ -5,7 +5,6 @@ import (
 	"compress/gzip"
 	"github.com/lmorg/murex/builtins/httpclient"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/data"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -16,18 +15,18 @@ import (
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
 
-type OpenAgent struct {
-	Block         []rune
-	GoFunc        func(process *proc.Process) error `json:"-"`
-	PassPathOrURL bool
-}
-
-var OpenAgents map[string]OpenAgent
+//type OpenAgent struct {
+//	Block         []rune
+//	GoFunc        func(process *proc.Process) error `json:"-"`
+//	PassPathOrURL bool
+//}
+//
+//var OpenAgents map[string]OpenAgent
 
 func init() {
 	proc.GoFunctions["open"] = open
 
-	OpenAgents = make(map[string]OpenAgent)
+	//OpenAgents = make(map[string]OpenAgent)
 }
 
 func open(p *proc.Process) error {
@@ -73,11 +72,11 @@ func open(p *proc.Process) error {
 	}
 
 	dt := data.GetExtType(ext)
-	if dt == "" {
-		p.Stdout.SetDataType(types.Generic)
-	} else {
-		p.Stdout.SetDataType(dt)
-	}
+	//if dt == "" {
+	//	p.Stdout.SetDataType(types.Generic)
+	//} else {
+	p.Stdout.SetDataType(dt)
+	//}
 
 	//for _, filename := range p.Parameters.StringArray() {
 	file, err := os.Open(filename)
