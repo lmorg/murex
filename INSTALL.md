@@ -28,10 +28,21 @@ a sandboxed environment.
 The file is located in `test/docker` and includes a [README.md](test/docker/README.md)
 with more information.
 
+## Managing dependencies
+
+As of Go v1.6 the language compiler supports a `vendors` directory to
+manage dependencies. _murex_ uses this to consolidate all of the required
+and optional packages so you only need to compile the program. However
+if you - for whatever reason - prefer to compile _murex_ on an earlier
+version of Go then you will need to manage them manually using `go get`.
+
+If you are unsure which version of Go you are running, then it is likely
+to be greater than 1.6 (as that is pretty old now) however you can check
+this in the command line: `go version`
+
 ## Required dependencies
 
-Dependencies should be managed by `go get` however for your information
-below is a list of packages used by _murex_:
+for your information below is a list of packages required by _murex_:
 
 * `github.com/chzyer/readline` used for interactive mode (REPL)
 

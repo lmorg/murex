@@ -1,0 +1,23 @@
+#!/usr/bin/env murex
+
+func pull {
+	params -> [ 1 ] -> set src
+	out "Updating $src...."
+	cd $GOPATH/src/github.com/lmorg/murex/vendor/$src
+	git <null> --no-pager pull
+}
+
+pull github.com/chzyer/readline
+pull github.com/Knetic/govaluate
+pull github.com/fsnotify/fsnotify
+pull labix.org/v2/mgo/bson
+pull github.com/abesto/sexp
+pull gopkg.in/yaml.v2
+pull github.com/BurntSushi/toml
+pull github.com/hashicorp/hcl
+pull github.com/disintegration/imaging
+pull golang.org/x/image
+pull golang.org/x/crypto
+pull golang.org/x/sys
+
+out "fin"

@@ -23,3 +23,5 @@ install:
   - sudo apt-get install -y coreutils
   - go build github.com/lmorg/murex
   - $GOPATH/src/github.com/lmorg/murex/test/regression_test.sh
+  - docker build -t murex -f $GOPATH/src/github.com/lmorg/murex/test/docker/Dockerfile $GOPATH/src/github.com/lmorg/murex
+  - docker run --rm --name murex -it murex /bin/sh -c 'cd $GOPATH/src/github.com/lmorg/murex; test/regression_test.sh'

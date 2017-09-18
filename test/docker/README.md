@@ -11,7 +11,7 @@ Suggested instructions on using the Dockerfile are as follows:
 
     # Pease ensure that your working directory is the parent directory
     # of this project. For exampple:
-    cd /home/$USER/go/src/github.com/lmorg/murex
+    cd $GOPATH/src/github.com/lmorg/murex
 
     # Create the docker container
     docker build -t murex -f test/docker/Dockerfile .
