@@ -8,7 +8,27 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
+// deinterface is used to fudge around the lack of support for `map[interface{}]interface{}` in Go's JSON marshaller.
+func deinterface(v interface{}) interface{} {
+	switch t := v.(type) {
+	case map[interface{}]interface{}:
+		newV := make(map[string]interface{})
+		for key := range t {
+			newV[fmt.Sprint(key)] = deinterface(t[key])
+		}
+		fmt.Printf("%T\n", newV)
+		return newV
+
+	default:
+		fmt.Printf("%T\n", t)
+		return v
+	}
+}
+
 func marshalJson(p *proc.Process, v interface{}) ([]byte, error) {
+	//newV := deinterface(v)
+	//fmt.Printf("--> %T\n", v)
+	//fmt.Printf("==> %T\n", newV)
 	return utils.JsonMarshal(v, p.Stdout.IsTTY())
 }
 

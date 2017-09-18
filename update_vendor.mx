@@ -1,23 +1,35 @@
 #!/usr/bin/env murex
 
+export GOPATH=$GOPATH/src/github.com/lmorg/murex
+mv $GOPATH/vendor $GOPATH/src
+
 func pull {
 	params -> [ 1 ] -> set src
 	out "Updating $src...."
-	cd $GOPATH/src/github.com/lmorg/murex/vendor/$src
-	git <null> --no-pager pull
+	go get $src
 }
 
+# required
 pull github.com/chzyer/readline
 pull github.com/Knetic/govaluate
+
+# notify
 pull github.com/fsnotify/fsnotify
+
+# custom types:
 pull labix.org/v2/mgo/bson
 pull github.com/abesto/sexp
 pull gopkg.in/yaml.v2
 pull github.com/BurntSushi/toml
 pull github.com/hashicorp/hcl
+
+# terminal imaging:
 pull github.com/disintegration/imaging
-pull golang.org/x/image
-pull golang.org/x/crypto
-pull golang.org/x/sys
+pull golang.org/x/crypto/ssh/terminal
+pull golang.org/x/image/bmp
+pull golang.org/x/image/tiff
+pull golang.org/x/image/webp
+
+mv $GOPATH/src $GOPATH/vendor
 
 out "fin"
