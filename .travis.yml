@@ -25,4 +25,4 @@ install:
   - $GOPATH/src/github.com/lmorg/murex/test/regression_test.sh
   - docker build -t murex -f $GOPATH/src/github.com/lmorg/murex/test/docker/Dockerfile $GOPATH/src/github.com/lmorg/murex
   - docker run --rm --name murex -it murex /bin/sh -c 'cd $GOPATH/src/github.com/lmorg/murex; test/regression_test.sh'
-  - rm -Rv cd $GOPATH/src/github.com/lmorg/murex/vendor
+  - rm -Rv cd $GOPATH/src/github.com/lmorg/murex/vendor || true
