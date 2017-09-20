@@ -30,6 +30,10 @@ pull golang.org/x/image/bmp
 pull golang.org/x/image/tiff
 pull golang.org/x/image/webp
 
+# required by other packages
+pull github.com/nbutton23/zxcvbn-go
+pull golang.org/x/text/encoding/charmap
+
 mv $GOPATH/src $GOPATH/vendor
 
 out "fin"
