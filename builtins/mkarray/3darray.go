@@ -57,12 +57,13 @@ func ThreeDArray(p *proc.Process) (err error) {
 
 	for i := 0; i < p.Parameters.Len(); i++ {
 		wg.Add(1)
-		func() {
-			count := 0
-			out := streams.NewStdin()
-			//go out.ReadArray(callback(i))
 
-			_, err := lang.ProcessNewBlock(block[i], nil, out, p.Stderr, p)
+		index := i
+		count := 0
+		out := streams.NewStdin()
+
+		go func() {
+			_, err := lang.ProcessNewBlock(block[index], nil, out, p.Stderr, p)
 			if err != nil {
 				p.Stderr.Write([]byte(err.Error()))
 			}
@@ -70,7 +71,7 @@ func ThreeDArray(p *proc.Process) (err error) {
 			out.Close()
 			out.ReadArray(func(b []byte) {
 				count++
-				array.Append(i, count, string(b))
+				array.Append(index, count, string(b))
 			})
 
 			wg.Done()
