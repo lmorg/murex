@@ -10,10 +10,13 @@ import (
 func init() {
 	proc.GoFunctions["escape"] = cmdEscape
 	proc.GoFunctions["!escape"] = cmdEscape
+	proc.GoFunctions["htmlesc"] = cmdHtmlEscape
+	proc.GoFunctions["!htmlesc"] = cmdHtmlEscape
 }
 
 func cmdEscape(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
+
 	var str string
 	if p.Parameters.Len() == 0 {
 		b, err := p.Stdin.ReadAll()
@@ -36,6 +39,34 @@ func cmdEscape(p *proc.Process) error {
 
 	} else {
 		str = strconv.Quote(str)
+	}
+
+	p.Stdout.Write([]byte(str))
+
+	return nil
+}
+
+func cmdHtmlEscape(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+
+	var str string
+	if p.Parameters.Len() == 0 {
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		str = string(b)
+
+	} else {
+		str = p.Parameters.StringAll()
+
+	}
+
+	if p.IsNot {
+		str = html.UnescapeString(str)
+
+	} else {
+		str = html.EscapeString(str)
 	}
 
 	p.Stdout.Write([]byte(str))
