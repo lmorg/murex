@@ -1,0 +1,10 @@
+# Junk
+._*
+*.swp
+
+# Go.
+pkg/*
+
+# From http://glide.readthedocs.io/en/latest/vendor/:
+# Libraries (codebases without a main package) should not store outside packages in a vendor/ folder in their VCS unless they have a specific reason and understand why they're doing it.
+/vendor
