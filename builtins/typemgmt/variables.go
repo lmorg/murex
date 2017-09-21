@@ -43,7 +43,6 @@ func cmdSet(p *proc.Process) error {
 	}
 
 	params := p.Parameters.StringAll()
-	os.Stdout.WriteString("-->" + params + "\n")
 
 	// Set variable as method:
 	if p.IsMethod {
