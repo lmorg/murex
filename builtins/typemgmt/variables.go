@@ -17,6 +17,11 @@ func init() {
 	proc.GoFunctions["!export"] = cmdUnexport
 }
 
+var (
+	rxSet     *regexp.Regexp = regexp.MustCompile(`(?sm)^([_a-zA-Z0-9]+)\s*=(.*$)`)
+	rxVarName *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
+)
+
 func cmdGlobals(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
@@ -30,11 +35,6 @@ func cmdGlobals(p *proc.Process) error {
 	return nil
 }
 
-var (
-	rxSet     *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\s*=(.*)`)
-	rxVarName *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
-)
-
 func cmdSet(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
@@ -43,6 +43,7 @@ func cmdSet(p *proc.Process) error {
 	}
 
 	params := p.Parameters.StringAll()
+	os.Stdout.WriteString("-->" + params + "\n")
 
 	// Set variable as method:
 	if p.IsMethod {
