@@ -19,7 +19,8 @@ Lastly in all of examples provided there will be a multitude of ways of
 writing the code. This is true for both _murex_ and the other tools too.
 
 So please treat these examples as a fun comparison between different
-tools to help demonstrate using _murex_ on real world problems.
+tools to help demonstrate using _murex_ on real world problems rather
+than a recommendation nor "flamewar" about which method is best.
 
 ## Github issue parsing
 
