@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"os"
 	"runtime"
@@ -21,6 +22,7 @@ func init() {
 	proc.GoFunctions["os"] = cmdOs
 	proc.GoFunctions["cpuarch"] = cmdCpuArch
 	proc.GoFunctions["cpucount"] = cmdCpuCount
+	proc.GoFunctions["murex-update-exe-list"] = cmdUpdateExeList
 }
 
 func cmdDebug(p *proc.Process) (err error) {
@@ -180,4 +182,10 @@ func cmdCpuCount(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Integer)
 	_, err = p.Stdout.Write([]byte(strconv.Itoa(runtime.NumCPU())))
 	return
+}
+
+func cmdUpdateExeList(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+	shell.UpdateGlobalExeList()
+	return nil
 }

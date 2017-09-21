@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
 	"os"
 	"sort"
@@ -18,6 +18,7 @@ import (
 type Flags struct {
 	NoFiles bool     // `true` to disable file name completion
 	NoDirs  bool     // `true` to disable directory navigation completion
+	NoFlags bool     // `true` to disable Flags[] slice and man page parsing
 	Flags   []string // known supported command line flags for executable
 	Dynamic string   // Use murex script to generate auto-complete options
 }
@@ -25,8 +26,11 @@ type Flags struct {
 // ExesFlags is map of executables and their supported auto-complete options
 var ExesFlags map[string]Flags = make(map[string]Flags)
 
-func allExecutables(includeBuiltins bool) map[string]bool {
-	exes := make(map[string]bool)
+// globalExes is a pre-populated list of all executables in $PATH.
+// The point of this is to speed up exe auto-completion.
+var globalExes map[string]bool = make(map[string]bool)
+
+func UpdateGlobalExeList() {
 	envPath := proc.GlobalVars.GetString("PATH")
 	if envPath == "" {
 		envPath = os.Getenv("PATH")
@@ -35,8 +39,12 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	dirs := splitPath(envPath)
 
 	for i := range dirs {
-		listExes(dirs[i], &exes)
+		listExes(dirs[i], &globalExes)
 	}
+}
+
+func allExecutables(includeBuiltins bool) map[string]bool {
+	exes := globalExes
 
 	if !includeBuiltins {
 		return exes
@@ -53,14 +61,13 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 }
 
 func matchFlags(partial, exe string) (items []string) {
-	if len(ExesFlags[exe].Flags) == 0 {
+	if len(ExesFlags[exe].Flags) == 0 && !ExesFlags[exe].NoFlags {
 		f := ExesFlags[exe]
 		f.Flags = man.ScanManPages(exe)
 		ExesFlags[exe] = f
 	}
 
 	for i := range ExesFlags[exe].Flags {
-		//flag := strings.TrimSpace(ExesFlags[exe].Flags[i])
 		flag := ExesFlags[exe].Flags[i]
 		if flag == "" {
 			continue
@@ -107,7 +114,8 @@ func matchDynamic(partial, exe string, params []string) (items []string) {
 	p.Scope = p
 
 	if !types.IsBlock([]byte(ExesFlags[exe].Dynamic)) {
-		os.Stdout.WriteString("Dynamic autocompleter is not a code block!" + utils.NewLineString)
+		ansi.Stderrln(ansi.FgRed, "Dynamic autocompleter is not a code block!")
+		//os.Stdout.WriteString("Dynamic autocompleter is not a code block!" + utils.NewLineString)
 		return
 	}
 	block := []rune(ExesFlags[exe].Dynamic[1 : len(ExesFlags[exe].Dynamic)-1])
@@ -119,14 +127,17 @@ func matchDynamic(partial, exe string, params []string) (items []string) {
 	stderr.Close()
 
 	b, _ := stderr.ReadAll()
-	os.Stderr.Write(b)
+	ansi.Stderrln(ansi.FgRed, string(b))
+	//os.Stderr.Write(b)
 
 	if err != nil {
-		os.Stdout.WriteString(err.Error() + utils.NewLineString)
-		return
+		ansi.Stderrln(ansi.FgRed, "Error in dynamic autocomplete code: "+err.Error())
+		//os.Stdout.WriteString(err.Error() + utils.NewLineString)
+		//return
 	}
 	if exitNum != 0 {
-		os.Stdout.WriteString("None zero exit number!" + utils.NewLineString)
+		ansi.Stderrln(ansi.FgRed, "None zero exit number!")
+		//os.Stdout.WriteString("None zero exit number!" + utils.NewLineString)
 		//return
 	}
 

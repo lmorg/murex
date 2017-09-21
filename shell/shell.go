@@ -53,6 +53,7 @@ func Start() {
 	Instance.Config.SetListener(listener)
 	defer Instance.Close()
 	SigHandler()
+	go UpdateGlobalExeList()
 
 	for {
 		if !multiline {
