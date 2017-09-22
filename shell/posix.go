@@ -84,21 +84,6 @@ func isLocal(s string) bool {
 	return strings.HasPrefix(s, "."+consts.PathSlash) || strings.HasPrefix(s, ".."+consts.PathSlash) || strings.HasPrefix(s, consts.PathSlash)
 }
 
-/*func partialPath(s string) (path, partial string) {
-	split := strings.Split(s, consts.PathSlash)
-	path = strings.Join(split[:len(split)-1], consts.PathSlash)
-	partial = split[len(split)-1]
-
-	if len(s) > 0 && s[0] == consts.PathSlash[0] {
-		path = consts.PathSlash + path
-	}
-
-	if path == "" {
-		path = "."
-	}
-	return
-}*/
-
 func matchLocal(s string, includeColon bool) (items []string) {
 	path, file := partialPath(s)
 	exes := make(map[string]bool)
@@ -111,9 +96,9 @@ func matchDirs(s string) (items []string) {
 	path, partial := partialPath(s)
 
 	var dirs []string
-	if path != consts.PathSlash {
-		dirs = []string{".." + consts.PathSlash}
-	}
+	//if path != consts.PathSlash {
+	//	dirs = []string{".." + consts.PathSlash}
+	//}
 
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
@@ -146,18 +131,24 @@ func matchDirs(s string) (items []string) {
 		}
 	}
 
+	if path != consts.PathSlash {
+		dirs = append(dirs, ".."+consts.PathSlash)
+	}
+
 	for i := range dirs {
 		if strings.HasPrefix(dirs[i], partial) {
 			items = append(items, dirs[i][len(partial):])
 		}
 	}
+
 	return
 }
 
 func matchFileAndDirs(s string) (items []string) {
 	path, partial := partialPath(s)
 
-	item := []string{".." + consts.PathSlash}
+	var item []string
+	//item := []string{".." + consts.PathSlash}
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
@@ -166,6 +157,8 @@ func matchFileAndDirs(s string) (items []string) {
 			item = append(item, f.Name())
 		}
 	}
+
+	item = append(item, ".."+consts.PathSlash)
 
 	for i := range item {
 		if strings.HasPrefix(item[i], partial) {

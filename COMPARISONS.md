@@ -72,11 +72,11 @@ Murex:
 
 This can be done in one line but I'll split it for readability:
 
-    3darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc } -> foreach rec {
+    2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc } -> foreach rec {
         out "<tr> <td>${ $rec->[1] }</td> <td>${ $rec->[0] }</td> <tr>"
     }
 
-What this does is create a three dimensional JSON array using the two
+What this does is create a two dimensional JSON array using the two
 outputs from `git log`. Since we now have the output sorted in a proper
 object we can then pull the required values and drop it into the HTML
 string with clean escaping. A longer version of the code might read:
@@ -90,7 +90,7 @@ string with clean escaping. A longer version of the code might read:
         </tr>'
 
     # Create array with git logs output. HTML escape the titles.
-    3darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc} -> set gitlog
+    2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc} -> set gitlog
 
     # For each grouped record create a HTML row.
     # Use the $row variable defined above as a template.

@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["3darray"] = ThreeDArray
+	proc.GoFunctions["2darray"] = twoDArray
 }
 
 type mdarray struct {
@@ -36,7 +36,7 @@ func (a *mdarray) Append(index int, count int, value string) {
 	a.mutex.Unlock()
 }
 
-func ThreeDArray(p *proc.Process) (err error) {
+func twoDArray(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {
