@@ -46,7 +46,6 @@ func Start() {
 
 	History, err = newHist(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
-		//os.Stderr.WriteString("Error opening history file: " + err.Error())
 		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())
 	}
 
@@ -81,7 +80,6 @@ func Start() {
 			}
 
 			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-				//os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
 				ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
 				b = []byte("murex » ")
 			}
@@ -112,7 +110,6 @@ func Start() {
 			}
 
 			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-				//os.Stderr.WriteString("Invalid prompt. Block returned false." + utils.NewLineString)
 				ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
 				b = []byte(fmt.Sprintf("%5d » ", len(lines)+1))
 			}
@@ -149,7 +146,6 @@ func Start() {
 		default:
 			expanded := expandHistory(block)
 			if string(expanded) != string(block) {
-				//os.Stderr.WriteString(string(expanded) + utils.NewLineString)
 				ansi.Stderrln(ansi.FgBlue, string(expanded))
 				block = expanded
 			}
