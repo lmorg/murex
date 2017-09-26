@@ -2,15 +2,15 @@ package preview
 
 import (
 	"github.com/lmorg/murex/builtins/preview/ansimage"
-	"github.com/lmorg/murex/lang/types/data"
+	"github.com/lmorg/murex/lang/types/define"
 	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"os"
 )
 
 func init() {
-	data.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
-	data.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
+	define.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
+	define.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
 }
 
 // color implements the Go color.Color interface.

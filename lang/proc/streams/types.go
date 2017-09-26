@@ -2,31 +2,20 @@ package streams
 
 import (
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"sort"
 )
 
 // ReadArray is where custom data formats can define how to iterate through arrays (eg `foreach`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
-var ReadArray map[string]func(read Io, callback func([]byte)) error = make(map[string]func(read Io, callback func([]byte)) error)
+var ReadArray map[string]func(read stdio.Io, callback func([]byte)) error = make(map[string]func(read stdio.Io, callback func([]byte)) error)
 
 // ReadMap is where custom data formats can define how to iterate through structured data (eg `formap`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
-var ReadMap map[string]func(read Io, config *config.Config, callback func(key, value string, last bool)) error = make(map[string]func(read Io, config *config.Config, callback func(key, value string, last bool)) error)
+var ReadMap map[string]func(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error = make(map[string]func(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error)
 
-func init() {
-	// ReadArray
-	ReadArray[types.Generic] = readArrayDefault
-	ReadArray[types.String] = readArrayDefault
-	ReadArray[types.Json] = readArrayJson
-
-	// ReadMap
-	ReadMap[types.Generic] = readMapString
-	ReadMap[types.String] = readMapGeneric
-	ReadMap[types.Json] = readMapJson
-}
-
-func readArray(read Io, callback func([]byte)) error {
+func readArray(read stdio.Io, callback func([]byte)) error {
 	dt := read.GetDataType()
 
 	if ReadArray[dt] != nil {
@@ -36,7 +25,7 @@ func readArray(read Io, callback func([]byte)) error {
 	return ReadArray[types.Generic](read, callback)
 }
 
-func readMap(read Io, config *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
 	dt := read.GetDataType()
 
 	if ReadMap[dt] != nil {

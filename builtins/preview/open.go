@@ -3,9 +3,9 @@ package preview
 import (
 	"bytes"
 	"compress/gzip"
-	"github.com/lmorg/murex/builtins/httpclient"
+	"github.com/lmorg/murex/builtins/core/httpclient"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types/data"
+	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
@@ -60,7 +60,7 @@ func open(p *proc.Process) error {
 
 		defer resp.Body.Close()
 
-		dt := data.MimeToMurex(resp.Header.Get("Content-Type"))
+		dt := define.MimeToMurex(resp.Header.Get("Content-Type"))
 		p.Stdout.SetDataType(dt)
 		return preview(p.Stdout, resp.Body, dt)
 	}
@@ -71,7 +71,7 @@ func open(p *proc.Process) error {
 		ext = strings.ToLower(match[0][1])
 	}
 
-	dt := data.GetExtType(ext)
+	dt := define.GetExtType(ext)
 	//if dt == "" {
 	//	p.Stdout.SetDataType(types.Generic)
 	//} else {

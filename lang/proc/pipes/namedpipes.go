@@ -3,20 +3,21 @@ package pipes
 import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"sync"
 	"time"
 )
 
 // Named is a table of created named pipes
 type Named struct {
-	pipes map[string]streams.Io
+	pipes map[string]stdio.Io
 	types map[string]PipeTypes
 	mutex sync.Mutex
 }
 
 // NewNamed creates a new table of named pipes
 func NewNamed() (n Named) {
-	n.pipes = make(map[string]streams.Io)
+	n.pipes = make(map[string]stdio.Io)
 	n.types = make(map[string]PipeTypes)
 
 	n.pipes["null"] = new(streams.Null)
@@ -133,7 +134,7 @@ func (n *Named) Close(name string) error {
 }
 
 // Get a named pipe interface from the named pipe table
-func (n *Named) Get(name string) (streams.Io, error) {
+func (n *Named) Get(name string) (stdio.Io, error) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 

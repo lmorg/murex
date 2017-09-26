@@ -1,3 +1,3 @@
 package builtins
 
-import _ "github.com/lmorg/murex/builtins/yaml"
+import _ "github.com/lmorg/murex/builtins/types/yaml"

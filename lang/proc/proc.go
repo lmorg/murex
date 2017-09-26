@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"sync"
 )
@@ -14,9 +14,9 @@ import (
 // It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
 // External processes will also appear in the host OS's process list.
 type Process struct {
-	Stdin              streams.Io
-	Stdout             streams.Io
-	Stderr             streams.Io
+	Stdin              stdio.Io
+	Stdout             stdio.Io
+	Stderr             stdio.Io
 	Parameters         parameters.Parameters
 	ExitNum            int
 	Name               string

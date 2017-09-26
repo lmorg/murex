@@ -2,7 +2,7 @@
 
 package builtins
 
-import _ "github.com/lmorg/murex/builtins/coreutils"
+import _ "github.com/lmorg/murex/builtins/optional/coreutils"
 
 // This is an optional package that covers some of the basic packages you'd expect to find in your POSIX environment.
 // It it not aimed at being a complete like for like rewrite of GNU coreutils (for example) nor will it offer the same
