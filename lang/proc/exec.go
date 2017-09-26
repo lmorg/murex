@@ -47,7 +47,7 @@ func execute(p *Process) error {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 	} else {
-		// If cmd is `exec` then the input and output streams are the murex streams.Io rather than STD(IN|OUT|ERR)
+		// If cmd is `exec` then the input and output streams are the murex stdio.Io rather than STD(IN|OUT|ERR)
 		cmd.Stdin = p.Stdin
 		cmd.Stdout = p.Stdout
 		cmd.Stderr = p.Stderr

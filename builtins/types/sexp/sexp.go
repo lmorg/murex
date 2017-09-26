@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"strconv"
 )
@@ -40,10 +41,10 @@ func init() {
 	define.SetFileExtensions(sexpr, "sexp")
 }
 
-func readArrayC(read streams.Io, callback func([]byte)) error { return readArray(read, callback, true) }
-func readArrayS(read streams.Io, callback func([]byte)) error { return readArray(read, callback, false) }
+func readArrayC(read stdio.Io, callback func([]byte)) error { return readArray(read, callback, true) }
+func readArrayS(read stdio.Io, callback func([]byte)) error { return readArray(read, callback, false) }
 
-func readArray(read streams.Io, callback func([]byte), canonical bool) error {
+func readArray(read stdio.Io, callback func([]byte), canonical bool) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -71,15 +72,15 @@ func readArray(read streams.Io, callback func([]byte), canonical bool) error {
 	return nil
 }
 
-func readMapC(read streams.Io, config *config.Config, callback func(key, value string, last bool)) error {
+func readMapC(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
 	return readMap(read, config, callback, true)
 }
 
-func readMapS(read streams.Io, config *config.Config, callback func(key, value string, last bool)) error {
+func readMapS(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
 	return readMap(read, config, callback, false)
 }
 
-func readMap(read streams.Io, _ *config.Config, callback func(key, value string, last bool), canonical bool) error {
+func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool), canonical bool) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

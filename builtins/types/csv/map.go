@@ -2,10 +2,10 @@ package csv
 
 import (
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
 
-func readMap(read streams.Io, config *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
 	csvParser, err := NewParser(read, config)
 	if err != nil {
 		return err

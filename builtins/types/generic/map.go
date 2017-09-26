@@ -3,11 +3,11 @@ package generic
 import (
 	"bufio"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"strconv"
 )
 
-func readMap(read streams.Io, _ *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		recs := rxWhitespace.Split(scanner.Text(), -1)

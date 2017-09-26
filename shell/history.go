@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"os"
 	"strings"
 	"time"
@@ -13,7 +14,7 @@ type history struct {
 	filename string
 	Last     string
 	List     []histItem
-	writer   streams.Io
+	writer   stdio.Io
 }
 
 type histItem struct {

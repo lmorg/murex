@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -19,7 +20,7 @@ var ShellExitNum int
 // Outputs are:
 // * exit number of the last process in the block,
 // * any errors raised during the parse.
-func ProcessNewBlock(block []rune, stdin, stdout, stderr streams.Io, caller *proc.Process) (exitNum int, err error) {
+func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	container := new(proc.Process)
 	container.State = state.MemAllocated
 	container.IsBackground = caller.IsBackground

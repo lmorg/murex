@@ -2,7 +2,7 @@ package ansi
 
 import (
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"os"
@@ -16,8 +16,8 @@ func allowAnsi() bool {
 	return v.(bool)
 }
 
-// Stream writes colourised output to a streams.Io interface
-func Stream(std streams.Io, ansiCode, message string) (err error) {
+// Stream writes colourised output to a stdio.Io interface
+func Stream(std stdio.Io, ansiCode, message string) (err error) {
 	if std.IsTTY() && allowAnsi() {
 		_, err = std.Write([]byte(ansiCode + message + Reset))
 		return
@@ -27,8 +27,8 @@ func Stream(std streams.Io, ansiCode, message string) (err error) {
 	return
 }
 
-// Streamln writes colourised output to a streams.Io interface with an OS specific carriage return
-func Streamln(std streams.Io, ansiCode, message string) (err error) {
+// Streamln writes colourised output to a stdio.Io interface with an OS specific carriage return
+func Streamln(std stdio.Io, ansiCode, message string) (err error) {
 	if std.IsTTY() && allowAnsi() {
 		_, err = std.Writeln([]byte(ansiCode + message + Reset))
 		return

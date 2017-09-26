@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 	"strconv"
@@ -34,7 +35,7 @@ func init() {
 	define.SetFileExtensions(typeName, "hcl")
 }
 
-func readArray(read streams.Io, callback func([]byte)) error {
+func readArray(read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -63,7 +64,7 @@ func readArray(read streams.Io, callback func([]byte)) error {
 	return nil
 }
 
-func readMap(read streams.Io, _ *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
