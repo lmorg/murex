@@ -1,4 +1,4 @@
-// Murex source code.
+// Murex is a cross-platform shell like Bash but with greater emphasis on writing safe shell scripts and powerful one-liners while maintaining readability.
 //
 // A quick breakdown of the project structure:
 //     * builtins contains all the plugins exposed via the languages runtime
