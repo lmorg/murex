@@ -11,8 +11,8 @@ func init() {
 	Unmarshal[types.Json] = unmarshalJson
 
 	ReadIndexes[types.Json] = indexJson
+	ReadIndexes[types.String] = indexString
 	ReadIndexes[types.Generic] = indexGeneric
-	ReadIndexes[types.String] = indexGeneric
 
 	SetMime(types.String,
 		"application/x-latex",

@@ -21,8 +21,8 @@ func init() {
 	ReadArray[types.Json] = readArrayJson
 
 	// ReadMap
-	ReadMap[types.Generic] = readMapDefault
-	ReadMap[types.String] = readMapDefault
+	ReadMap[types.Generic] = readMapString
+	ReadMap[types.String] = readMapGeneric
 	ReadMap[types.Json] = readMapJson
 }
 
