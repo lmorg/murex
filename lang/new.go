@@ -14,12 +14,12 @@ var ShellExitNum int
 
 // ProcessNewBlock parses new block and execute the code.
 // Inputs are:
-// * the code block ([]rune),
-// * Stdin, stdout and stderr streams; or nil to black hole those data streams,
-// * caller proc.Process to determine scope and any inherited properties.
+//     * the code block ([]rune),
+//     * Stdin, stdout and stderr streams; or nil to black hole those data streams,
+//     * caller proc.Process to determine scope and any inherited properties.
 // Outputs are:
-// * exit number of the last process in the block,
-// * any errors raised during the parse.
+//     * exit number of the last process in the block,
+//     * any errors raised during the parse.
 func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	container := new(proc.Process)
 	container.State = state.MemAllocated
