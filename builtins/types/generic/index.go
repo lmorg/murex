@@ -50,7 +50,64 @@ func index(p *proc.Process, params []string) error {
 
 	switch mode {
 	case 1:
-		// TODO: match rows
+		// Match row numbers
+		var (
+			unordered bool
+			last      int
+			max       int
+		)
+		// check order
+		for _, i := range matchInt {
+			if i < last {
+				unordered = true
+			}
+			if i > max {
+				max = i
+			}
+			last = i
+		}
+
+		if !unordered {
+			// ordered matching - for this we can just read in the records we want sequentially. Low memory overhead
+			var i int
+			err := p.Stdin.ReadLine(func(b []byte) {
+				if i == matchInt[0] {
+					_, err := p.Stdout.Write(b)
+					if err != nil {
+						p.Stderr.Writeln([]byte(err.Error()))
+					}
+					if len(matchInt) == 1 {
+						matchInt[0] = -1
+						return
+					}
+					matchInt = matchInt[1:]
+				}
+				i++
+			})
+			if err != nil {
+				return err
+			}
+
+		} else {
+			// unordered matching - for this we load the entire data set into memory - up until the maximum value
+			var (
+				i    int
+				recs map[int][]byte = make(map[int][]byte)
+			)
+			err := p.Stdin.ReadLine(func(b []byte) {
+				if i <= max {
+					recs[i] = b
+				}
+				i++
+			})
+			if err != nil {
+				return err
+			}
+			for _, i = range matchInt {
+				p.Stdout.Write(recs[i])
+			}
+
+		}
 
 	case 2:
 		// Match column numbers

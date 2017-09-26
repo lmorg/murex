@@ -5,7 +5,6 @@ package builtins
 // so take a look through the .go files if you're still undecided about whether to include a builtin or not.
 //
 // These are all optional functions
-
 import (
 	_ "github.com/lmorg/murex/builtins/optional/encoders"
 	_ "github.com/lmorg/murex/builtins/optional/time"

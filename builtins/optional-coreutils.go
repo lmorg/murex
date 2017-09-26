@@ -2,8 +2,6 @@
 
 package builtins
 
-import _ "github.com/lmorg/murex/builtins/optional/coreutils"
-
 // This is an optional package that covers some of the basic packages you'd expect to find in your POSIX environment.
 // It it not aimed at being a complete like for like rewrite of GNU coreutils (for example) nor will it offer the same
 // degree of optimisations. So if you are running on a POSIX environment then it is recommend you leave this package
@@ -13,3 +11,4 @@ import _ "github.com/lmorg/murex/builtins/optional/coreutils"
 // [1] https://msdn.microsoft.com/en-gb/commandline/wsl/install_guide
 // [2] https://www.cygwin.com/
 // [3] http://www.mingw.org/
+import _ "github.com/lmorg/murex/builtins/optional/coreutils"

@@ -1,5 +1,9 @@
 # murex
 
+[![Build Status on Travis](https://travis-ci.org/lmorg/murex.svg?branch=master)](https://travis-ci.org/lmorg/murex)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
+[![GoDoc](http://godoc.org/github.com/lmorg/murex?status.svg)](http://godoc.org/github.com/lmorg/murex)
+
 ## Install instructions
 
 Install instructions have been moved into its own file: [INSTALL.md](INSTALL.md)
@@ -17,8 +21,8 @@ For example, a program structure could look like the following:
 
     command -> command -> [ index ] -> if { command }
 
-The language supports multiple data types, with JSON (and later XML)
-support as a native data type. Which makes passing data through the
+The language supports multiple data types, with JSON, CSV, S-Expressions,
+etc support as a native data type. This makes passing data through the
 pipeline easier when dealing with more complex arrangements of data than
 a simple byte stream when compared to standard shells like Bash.
 

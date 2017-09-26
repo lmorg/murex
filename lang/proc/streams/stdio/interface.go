@@ -5,9 +5,9 @@ import (
 	"io"
 )
 
-// This is the stream interface that's used for the shell functions streaming of data via standard in, out and err.
-// It's written to be compatible with Go Reader and Writer interfaces however does expand upon then with additional
-// helper methods  to enable easier writing of builtin shell functions.
+// Io is the interface that's used for the shell functions pipelining of data eg via standard in, out and err.
+// It is written to be compatible with Go Reader and Writer interfaces however does expand upon them with additional
+// helper methods to enable easier writing of builtin shell functions.
 type Io interface {
 	MakeParent()
 	UnmakeParent()

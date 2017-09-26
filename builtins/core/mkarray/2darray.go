@@ -20,7 +20,7 @@ type mdarray struct {
 	len   int
 }
 
-func NewMultiArray(len int) mdarray {
+func newMultiArray(len int) mdarray {
 	array := [][]string{make([]string, len)}
 	return mdarray{array: array, len: len}
 }
@@ -53,7 +53,7 @@ func twoDArray(p *proc.Process) (err error) {
 	}
 
 	var wg sync.WaitGroup
-	array := NewMultiArray(p.Parameters.Len())
+	array := newMultiArray(p.Parameters.Len())
 
 	for i := 0; i < p.Parameters.Len(); i++ {
 		wg.Add(1)
