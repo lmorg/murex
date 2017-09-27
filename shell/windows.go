@@ -94,6 +94,7 @@ func matchLocal(s string, includeColon bool) (items []string) {
 }
 
 func matchDirs(s string) (items []string) {
+	s = expandVariablesString(s)
 	path, partial := partialPath(s)
 
 	var dirs []string
@@ -115,7 +116,8 @@ func matchDirs(s string) (items []string) {
 	return
 }
 
-func matchFileAndDirs(s string) (items []string) {
+func matchFilesAndDirs(s string) (items []string) {
+	s = expandVariablesString(s)
 	path, partial := partialPath(s)
 
 	var item []string

@@ -2,13 +2,11 @@ package shell
 
 import (
 	"github.com/gohxs/readline"
-	//"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
-	"os"
 	"regexp"
 	"strings"
 	"time"
@@ -38,6 +36,7 @@ var (
 
 type parseTokens struct {
 	loc        int
+	vloc       int
 	escaped    bool
 	qSingle    bool
 	qDouble    bool
@@ -183,7 +182,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			}
 
 		case ' ':
-			pt.loc = i
+			//pt.loc = i
 			switch {
 			case pt.escaped:
 				pt.escaped = false
@@ -197,6 +196,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				}
 				syntaxHighlighted += string(line[i])
 			case pt.expectFunc && readFunc:
+				pt.loc = i
 				pt.expectFunc = false
 				readFunc = false
 				pt.parameters = append(pt.parameters, "")
@@ -204,6 +204,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				//syntaxHighlighted += string(line[i])
 				ansiReset(line[i])
 			default:
+				pt.loc = i
 				pt.parameters = append(pt.parameters, "")
 				pt.__pop = &pt.parameters[len(pt.parameters)-1]
 				syntaxHighlighted += string(line[i])
@@ -332,7 +333,8 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			}
 
 		case '$', '@':
-			pt.loc = i
+			//pt.loc = i
+			pt.vloc = i
 			switch {
 			case pt.escaped:
 				pt.escaped = false
@@ -388,6 +390,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 		}
 	}
 	pt.loc++
+	pt.vloc++
 	syntaxHighlighted += ansi.Reset
 	return
 }
@@ -403,8 +406,8 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 	switch {
 	case pt.variable != "":
 		var s string
-		if pt.loc < len(line) {
-			s = strings.TrimSpace(string(line[pt.loc:]))
+		if pt.vloc < len(line) {
+			s = strings.TrimSpace(string(line[pt.vloc:]))
 		}
 		s = pt.variable + s
 		retPos = len(s)
@@ -426,7 +429,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 
 	default:
-		items = []string{"{ ", "-> ", "| ", " ? ", "; "}
+		//items = []string{"{ ", "-> ", "| ", " ? ", "; "}
 		var s string
 		if pt.loc < len(line) {
 			s = strings.TrimSpace(string(line[pt.loc:]))
@@ -443,7 +446,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 			items = append(items, matchDynamic(s, pt.funcName, pt.parameters)...)
 			switch {
 			case !ExesFlags[pt.funcName].NoFiles:
-				items = append(items, matchFileAndDirs(s)...)
+				items = append(items, matchFilesAndDirs(s)...)
 			case !ExesFlags[pt.funcName].NoDirs:
 				items = append(items, matchDirs(s)...)
 			}
@@ -486,9 +489,12 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		return nil, 0, ok
 
 	case forward == 2 && pos == len(line):
-		newLine = expandVariables(line)
-		newLine = expandHistory(newLine)
-		newPos = len(newLine)
+		//newLine = expandVariables(line)
+		//newLine = expandHistory(newLine)
+		//newPos = len(newLine)
+		ansi.Stderrln(ansi.FgGreen, utils.NewLineString+string(expandVariables(expandHistory(line))))
+		newLine = line
+		newPos = pos
 		forward = 0
 
 	case forward == 1 && pos == len(line):
@@ -501,7 +507,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 			len(rxHistAllPs.FindAllString(s, -1)) > 0 ||
 			len(rxHistParam.FindAllString(s, -1)) > 0 ||
 			strings.Contains(s, "^!!") {
-			os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS, ~HOME and ^HISTORY." + utils.NewLineString)
+			//os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS, ~HOME and ^HISTORY." + utils.NewLineString)
 		} else {
 			forward = 0
 		}
@@ -663,19 +669,21 @@ func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 	return line, pos
 }
 
+func expandVariablesString(line string) string {
+	match := rxVars.FindAllString(line, -1)
+	for i := range match {
+		line = strings.Replace(line, match[i], proc.GlobalVars.GetString(match[i][1:]), -1)
+	}
+
+	match = rxHome.FindAllString(line, -1)
+	for i := range match {
+		line = rxHome.ReplaceAllString(line, home.UserDir(match[i][1:]))
+	}
+
+	line = strings.Replace(line, "~", home.MyDir, -1)
+	return line
+}
+
 func expandVariables(line []rune) []rune {
-	s := string(line)
-	match := rxVars.FindAllString(s, -1)
-	for i := range match {
-		s = rxVars.ReplaceAllString(s, proc.GlobalVars.GetString(match[i][1:]))
-	}
-
-	match = rxHome.FindAllString(s, -1)
-	for i := range match {
-		s = rxHome.ReplaceAllString(s, home.UserDir(match[i][1:]))
-	}
-
-	s = strings.Replace(s, "~", home.MyDir, -1)
-
-	return []rune(s)
+	return []rune(expandVariablesString(string(line)))
 }
