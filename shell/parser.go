@@ -1,7 +1,8 @@
 package shell
 
 import (
-	"github.com/chzyer/readline"
+	"github.com/gohxs/readline"
+	//"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
