@@ -3,6 +3,7 @@ package shell
 import (
 	"fmt"
 	"github.com/gohxs/readline"
+	//"github.com/chzyer/readline"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -38,7 +39,6 @@ func Start() {
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
-		Output:                 display,
 	})
 
 	if err != nil {
@@ -56,6 +56,16 @@ func Start() {
 	go UpdateGlobalExeList()
 
 	for {
+		highlight, err := proc.GlobalConf.Get("shell", "syntax-highlighting", types.Boolean)
+		if err != nil {
+			highlight = false
+		}
+		if highlight.(bool) == true {
+			Instance.Config.Output = display
+		} else {
+			Instance.Config.Output = nil
+		}
+
 		if !multiline {
 			var (
 				err, err2 error
@@ -180,7 +190,7 @@ func filterInput(r rune) (rune, bool) {
 	return r, true
 }
 
-func display(input string) (output string) {
+/*func display(input string) (output string) {
 	runes := []rune(input)
 	for _, r := range runes {
 		switch r {
@@ -191,5 +201,10 @@ func display(input string) (output string) {
 		}
 	}
 	output += ansi.Reset
+	return
+}*/
+
+func display(input string) (output string) {
+	_, output = parse([]rune(input))
 	return
 }

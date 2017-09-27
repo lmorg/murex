@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
 	"os"
 	"regexp"
@@ -22,6 +23,17 @@ var (
 	keyPressTimer     time.Time
 )
 
+// syntax highlighting
+var (
+	hlFunction string = ansi.FgWhiteBright
+	hlVariable string = ansi.FgGreen
+	hlEscaped  string = ansi.FgYellow
+	hlQuote    string = ansi.FgBlue
+	hlBlock    string = ansi.BgBlackBright
+	hlPipe     string = ansi.FgMagenta
+	hlComment  string = ansi.BgGreen
+)
+
 type parseTokens struct {
 	loc        int
 	escaped    bool
@@ -35,22 +47,55 @@ type parseTokens struct {
 	variable   string
 }
 
-func parse(line []rune) (pt parseTokens) {
+func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 	var readFunc bool
+	reset := []string{ansi.Reset, hlFunction}
+	syntaxHighlighted = hlFunction
 	pt.loc = -1
 	pt.expectFunc = true
 	pt.__pop = &pt.funcName
 
+	ansiColour := func(colour string, r rune) {
+		syntaxHighlighted += colour + string(r)
+		reset = append(reset, colour)
+	}
+
+	ansiReset := func(r rune) {
+		if len(reset) > 1 {
+			reset = reset[:len(reset)-1]
+		}
+		syntaxHighlighted += string(r) + reset[len(reset)-1]
+		if len(reset) == 1 && pt.bracket > 0 {
+			syntaxHighlighted += hlBlock
+		}
+	}
+
+	ansiResetNoChar := func() {
+		if len(reset) > 1 {
+			reset = reset[:len(reset)-1]
+		}
+		syntaxHighlighted += reset[len(reset)-1]
+		if len(reset) == 1 && pt.bracket > 0 {
+			syntaxHighlighted += hlBlock
+		}
+	}
+
+	ansiChar := func(colour string, r rune) {
+		syntaxHighlighted += colour + string(r) + reset[len(reset)-1]
+		if len(reset) == 1 && pt.bracket > 0 {
+			syntaxHighlighted += hlBlock
+		}
+	}
+
 	for i := range line {
 		if pt.variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
 			pt.variable = ""
+			//if len(reset) > 1 {
+			//	reset = reset[:len(reset)-1]
+			//}
+			//syntaxHighlighted += reset[len(reset)-1]
+			ansiResetNoChar()
 		}
-
-		/*if i > pt.pos-1 {
-			//remainder = string(line[i:])
-			line = line[:i]
-			break
-		}*/
 
 		switch line[i] {
 		case '#':
@@ -61,13 +106,15 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `#`
 				}
-				pt.escaped = false
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += `#`
 				}
-				pt.escaped = false
+				//pt.escaped = false
+				syntaxHighlighted += string(line[i])
 			default:
+				syntaxHighlighted += hlComment + string(line[i:]) + ansi.Reset
 				return
 			}
 
@@ -78,12 +125,15 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `\`
 				}
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += `\`
 				}
+				syntaxHighlighted += string(line[i])
 			default:
 				pt.escaped = true
+				ansiColour(hlEscaped, line[i])
 			}
 
 		case '\'':
@@ -94,14 +144,18 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `'`
 				}
+				ansiReset(line[i])
 			case pt.qDouble:
 				if readFunc {
 					*pt.__pop += `'`
 				}
+				syntaxHighlighted += string(line[i])
 			case pt.qSingle:
 				pt.qSingle = false
+				ansiReset(line[i])
 			default:
 				pt.qSingle = true
+				ansiColour(hlQuote, line[i])
 			}
 
 		case '"':
@@ -112,14 +166,18 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `"`
 				}
+				ansiReset(line[i])
 			case pt.qSingle:
 				if readFunc {
 					*pt.__pop += `"`
 				}
+				syntaxHighlighted += string(line[i])
 			case pt.qDouble:
 				pt.qDouble = false
+				ansiReset(line[i])
 			default:
 				pt.qDouble = true
+				ansiColour(hlQuote, line[i])
 			}
 
 		case ' ':
@@ -130,18 +188,23 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += ` `
 				}
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += ` `
 				}
+				syntaxHighlighted += string(line[i])
 			case pt.expectFunc && readFunc:
 				pt.expectFunc = false
 				readFunc = false
 				pt.parameters = append(pt.parameters, "")
 				pt.__pop = &pt.parameters[0]
+				//syntaxHighlighted += string(line[i])
+				ansiReset(line[i])
 			default:
 				pt.parameters = append(pt.parameters, "")
 				pt.__pop = &pt.parameters[len(pt.parameters)-1]
+				syntaxHighlighted += string(line[i])
 			}
 
 		case '>':
@@ -151,14 +214,22 @@ func parse(line []rune) (pt parseTokens) {
 				pt.expectFunc = true
 				pt.__pop = &pt.funcName
 				pt.parameters = make([]string, 0)
+				//syntaxHighlighted += string(line[i])
+				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
+				ansiColour(hlPipe, '-')
+				ansiReset('>')
+				syntaxHighlighted += hlFunction
+
 			case pt.expectFunc, readFunc:
 				readFunc = true
 				*pt.__pop += `>`
 				fallthrough
 			case pt.escaped:
 				pt.escaped = false
+				ansiReset(line[i])
 			default:
 				pt.loc = i
+				syntaxHighlighted += string(line[i])
 			}
 
 		case ';', '|':
@@ -169,15 +240,19 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += string(line[i])
 				}
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += string(line[i])
 				}
+				syntaxHighlighted += string(line[i])
 			default:
 				pt.expectFunc = true
 				pt.__pop = &pt.funcName
 				pt.parameters = make([]string, 0)
-
+				//syntaxHighlighted += string(line[i])
+				ansiChar(hlPipe, line[i])
+				syntaxHighlighted += hlFunction
 			}
 
 		case '?':
@@ -188,19 +263,24 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `?`
 				}
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += `?`
 				}
+				syntaxHighlighted += string(line[i])
 			case i > 0 && line[i-1] == ' ':
 				pt.expectFunc = true
 				pt.__pop = &pt.funcName
 				pt.parameters = make([]string, 0)
-
+				//syntaxHighlighted += string(line[i])
+				ansiChar(hlPipe, line[i])
+				syntaxHighlighted += hlFunction
 			default:
 				if readFunc {
 					*pt.__pop += `?`
 				}
+				syntaxHighlighted += string(line[i])
 			}
 
 		case '{':
@@ -211,16 +291,19 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `{`
 				}
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += `{`
 				}
+				syntaxHighlighted += string(line[i])
 			default:
 				pt.bracket++
 				pt.expectFunc = true
 				pt.__pop = &pt.funcName
 				pt.parameters = make([]string, 0)
-
+				syntaxHighlighted += hlBlock + string(line[i])
+				//ansiColour(ansi.BgBlackBright, line[i])
 			}
 
 		case '}':
@@ -231,12 +314,19 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `}`
 				}
+				ansiReset(line[i])
 			case pt.escaped, pt.qSingle, pt.qDouble:
 				if readFunc {
 					*pt.__pop += `}`
 				}
+				syntaxHighlighted += string(line[i])
 			default:
 				pt.bracket--
+				syntaxHighlighted += string(line[i])
+				if pt.bracket == 0 {
+					syntaxHighlighted += ansi.Reset + reset[len(reset)-1]
+				}
+				//ansiReset(line[i])
 			}
 
 		case '$', '@':
@@ -247,12 +337,15 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += string(line[i])
 				}
+				ansiReset(line[i])
 			case pt.qSingle:
 				if readFunc {
 					*pt.__pop += string(line[i])
 				}
+				syntaxHighlighted += string(line[i])
 			default:
 				pt.variable = string(line[i])
+				ansiColour(hlVariable, line[i])
 			}
 
 		case ':':
@@ -262,12 +355,17 @@ func parse(line []rune) (pt parseTokens) {
 				if readFunc {
 					*pt.__pop += `:`
 				}
+				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				//if readFunc {
 				*pt.__pop += `:`
 				//}
+				syntaxHighlighted += string(line[i])
 			case !pt.expectFunc:
 				*pt.__pop += `:`
+				syntaxHighlighted += string(line[i])
+			default:
+				syntaxHighlighted += string(line[i])
 			}
 
 		default:
@@ -277,13 +375,18 @@ func parse(line []rune) (pt parseTokens) {
 				fallthrough
 			case readFunc:
 				*pt.__pop += string(line[i])
+				syntaxHighlighted += string(line[i])
 			case pt.expectFunc:
 				*pt.__pop = string(line[i])
 				readFunc = true
+				syntaxHighlighted += string(line[i])
+			default:
+				syntaxHighlighted += string(line[i])
 			}
 		}
 	}
 	pt.loc++
+	syntaxHighlighted += ansi.Reset
 	return
 }
 
@@ -293,7 +396,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		line = line[:pos]
 	}
 
-	pt := parse(line)
+	pt, _ := parse(line)
 
 	switch {
 	case pt.variable != "":
@@ -404,7 +507,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		newLine = line
 
 	case key == '{' && typed:
-		pt := parse(line)
+		pt, _ := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && !pt.qDouble {
 			//newLine = append(line, '}')
@@ -417,7 +520,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		}
 
 	case key == '[' && typed:
-		pt := parse(line)
+		pt, _ := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && !pt.qDouble {
 			newLine = smooshLines(line, pos, ']')
@@ -428,7 +531,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		}
 
 	case key == '\'' && typed:
-		pt := parse(line)
+		pt, _ := parse(line)
 		forward = 0
 		if !pt.escaped && pt.qSingle && !pt.qDouble {
 			newLine = smooshLines(line, pos, '\'')
@@ -439,7 +542,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		}
 
 	case key == '"' && typed:
-		pt := parse(line)
+		pt, _ := parse(line)
 		forward = 0
 		if !pt.escaped && !pt.qSingle && pt.qDouble {
 			newLine = smooshLines(line, pos, '"')
@@ -454,7 +557,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		newPos = pos
 		forward = 0
 
-		pt := parse(line)
+		pt, _ := parse(line)
 		switch {
 		case pt.bracket < 0:
 			for i := pos; i < len(line); i++ {
