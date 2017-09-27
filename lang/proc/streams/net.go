@@ -16,7 +16,6 @@ import (
 // Net Io interface
 type Net struct {
 	mutex    sync.Mutex
-	buffer   []byte
 	closed   bool
 	bRead    uint64
 	bWritten uint64

@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-// Stdin is the default stream.Io interface.
+// Stdin is the default stdio.Io interface.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 type Stdin struct {
 	mutex       sync.Mutex
@@ -23,6 +23,9 @@ type Stdin struct {
 	dataType    string
 	dtLock      sync.Mutex
 }
+
+// Maximum size of buffer size for stdin
+var MaxBufferSize int = 1024 * 1024 * 10 // 10 meg
 
 // NewStdin creates a new stream.Io interface for piping data between processes.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
@@ -179,15 +182,28 @@ func (stdin *Stdin) Write(b []byte) (int, error) {
 	}
 
 	stdin.mutex.Lock()
-	defer stdin.mutex.Unlock()
+	isClosed := stdin.closed
+	stdin.mutex.Unlock()
 
-	if stdin.closed {
+	if isClosed {
 		//return 0, errors.New("Writing to closed pipe.")
 		return 0, io.ErrClosedPipe
 	}
 
+	for {
+		stdin.mutex.Lock()
+		buffSize := len(stdin.buffer)
+		stdin.mutex.Unlock()
+
+		if buffSize < MaxBufferSize {
+			break
+		}
+	}
+
+	stdin.mutex.Lock()
 	stdin.buffer = append(stdin.buffer, b...)
 	stdin.bWritten += uint64(len(b))
+	stdin.mutex.Unlock()
 
 	return len(b), nil
 }
