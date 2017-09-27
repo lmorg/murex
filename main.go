@@ -29,18 +29,22 @@ func main() {
 
 	switch {
 	case fCommand != "":
+		config.Defaults(&proc.GlobalConf)
 		execSource([]rune(fCommand))
 
 	case fStdin:
+		config.Defaults(&proc.GlobalConf)
 		os.Stderr.WriteString("Not implemented yet.\n")
 		os.Exit(1)
 
 	case len(fSource) > 0:
 		shell.SigHandler()
+		config.Defaults(&proc.GlobalConf)
 		execSource(diskSource(fSource[0]))
 
 	default:
 		config.IsInteractive = true
+		config.Defaults(&proc.GlobalConf)
 		execProfile()
 		shell.Start()
 	}

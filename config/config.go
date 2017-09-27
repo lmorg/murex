@@ -24,7 +24,7 @@ type Config struct {
 func NewConfiguration() (config Config) {
 	config.properties = make(map[string]map[string]Properties)
 	config.values = make(map[string]map[string]interface{})
-	defaults(&config)
+	//defaults(&config)
 	return
 }
 
@@ -79,6 +79,7 @@ func (config *Config) Define(app string, key string, properties Properties) {
 		config.values[app] = make(map[string]interface{})
 	}
 	config.properties[app][key] = properties
+	config.values[app][key] = properties.Default
 	config.mutex.Unlock()
 }
 

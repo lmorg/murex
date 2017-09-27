@@ -29,7 +29,8 @@ func (d *defaults) Add(app string, key string, properties Properties) {
 	d.mutex.Unlock()
 }*/
 
-func defaults(config *Config) {
+// Defaults defines the default config
+func Defaults(config *Config) {
 	config.Define("shell", "prompt", Properties{
 		Description: "Interactive shell prompt.",
 		//Default:     "{ exitnum->set: x; if { = x!=`0` } { set: prompt='\033[31m»\033[0m' } { set: prompt='\033[31m»\033[0m' }; out: murex $prompt }",
