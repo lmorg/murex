@@ -38,7 +38,7 @@ func Start() {
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
-		Output: display,
+		Output:                 display,
 	})
 
 	if err != nil {
@@ -180,16 +180,16 @@ func filterInput(r rune) (rune, bool) {
 	return r, true
 }
 
-func display(input string) (output string ){
-	runes:= []rune(input)
-	for _,r:=range runes {
+func display(input string) (output string) {
+	runes := []rune(input)
+	for _, r := range runes {
 		switch r {
 		case '#':
-			output+=ansi.BgGreen+string(r)
-			default:
-			output +=string(r)
+			output += ansi.BgGreen + string(r)
+		default:
+			output += string(r)
 		}
 	}
-	output+=ansi.Reset
+	output += ansi.Reset
 	return
 }
