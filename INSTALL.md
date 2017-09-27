@@ -44,7 +44,7 @@ this in the command line: `go version`
 
 for your information below is a list of packages required by _murex_:
 
-* `github.com/chzyer/readline` used for interactive mode (REPL)
+* `github.com/gohxs/readline` used for interactive mode (REPL)
 
 * `github.com/Knetic/govaluate` evaluates the math formulas. This is
 exposed via `eval` / `=` and `let`
