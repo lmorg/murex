@@ -2,7 +2,7 @@ package shell
 
 import (
 	"fmt"
-	"github.com/chzyer/readline"
+	"github.com/gohxs/readline"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -38,6 +38,7 @@ func Start() {
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
+		Output: display,
 	})
 
 	if err != nil {
@@ -177,4 +178,18 @@ func filterInput(r rune) (rune, bool) {
 	}
 	forward = 0
 	return r, true
+}
+
+func display(input string) (output string ){
+	runes:= []rune(input)
+	for _,r:=range runes {
+		switch r {
+		case '#':
+			output+=ansi.BgGreen+string(r)
+			default:
+			output +=string(r)
+		}
+	}
+	output+=ansi.Reset
+	return
 }

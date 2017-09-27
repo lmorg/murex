@@ -10,7 +10,8 @@ func pull {
 }
 
 # required
-pull github.com/chzyer/readline
+#pull github.com/chzyer/readline
+pull github.com/gohxs/readline
 pull github.com/Knetic/govaluate
 
 # notify
@@ -29,6 +30,9 @@ pull golang.org/x/crypto/ssh/terminal
 pull golang.org/x/image/bmp
 pull golang.org/x/image/tiff
 pull golang.org/x/image/webp
+
+out Tidying up...
+find $GOPATH/src -type d -name *.git -exec rm -rf {} \; 
 
 mv $GOPATH/src $GOPATH/vendor
 
