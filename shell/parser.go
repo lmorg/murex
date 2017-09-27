@@ -26,13 +26,14 @@ var (
 
 // syntax highlighting
 var (
-	hlFunction string = ansi.FgWhiteBright
-	hlVariable string = ansi.FgGreen
-	hlEscaped  string = ansi.FgYellow
-	hlQuote    string = ansi.FgBlue
-	hlBlock    string = ansi.BgBlackBright
-	hlPipe     string = ansi.FgMagenta
-	hlComment  string = ansi.BgGreen
+	hlFunction    string = ansi.FgWhiteBright
+	hlVariable    string = ansi.FgGreen
+	hlEscaped     string = ansi.FgYellow
+	hlSingleQuote string = ansi.FgBlueBright
+	hlDoubleQuote string = ansi.FgBlue
+	hlBlock       string = ansi.BgBlackBright
+	hlPipe        string = ansi.FgMagenta
+	hlComment     string = ansi.BgGreen
 )
 
 type parseTokens struct {
@@ -156,7 +157,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				ansiReset(line[i])
 			default:
 				pt.qSingle = true
-				ansiColour(hlQuote, line[i])
+				ansiColour(hlSingleQuote, line[i])
 			}
 
 		case '"':
@@ -178,7 +179,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				ansiReset(line[i])
 			default:
 				pt.qDouble = true
-				ansiColour(hlQuote, line[i])
+				ansiColour(hlDoubleQuote, line[i])
 			}
 
 		case ' ':

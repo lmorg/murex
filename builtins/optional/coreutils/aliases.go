@@ -1,4 +1,4 @@
-package lazy
+package coreutils
 
 import (
 	"github.com/lmorg/murex/lang/proc"

@@ -1,4 +1,4 @@
-package directory
+package coreutils
 
 import (
 	"github.com/lmorg/murex/lang/proc"

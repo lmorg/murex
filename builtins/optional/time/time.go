@@ -1,4 +1,4 @@
-package misc
+package time
 
 import (
 	"github.com/lmorg/murex/lang"
