@@ -14,7 +14,7 @@ type Arguments struct {
 
 // ParseFlags parses the parameters and return which flags are set.
 // `Arguments` is a list of supported flags taken as a struct to enable easy querying from within murex shell scripts.
-// eg:
+//
 // 	   args {
 // 	   	   "AllowAdditional": true,
 // 	   	   "Flags": {

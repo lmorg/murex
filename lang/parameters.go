@@ -12,7 +12,7 @@ import (
 )
 
 // ParseParameters is an internal function to parse parameters
-func ParseParameters(p *parameters.Parameters, vars *types.Vars) {
+func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Vars) {
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")
 
@@ -32,7 +32,7 @@ func ParseParameters(p *parameters.Parameters, vars *types.Vars) {
 
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, proc.ShellProcess)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, prc)
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
@@ -74,7 +74,7 @@ func ParseParameters(p *parameters.Parameters, vars *types.Vars) {
 				var array []string
 
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, proc.ShellProcess)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, prc)
 				stdout.Close()
 
 				stdout.ReadArray(func(b []byte) {

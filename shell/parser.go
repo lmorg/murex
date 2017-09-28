@@ -381,6 +381,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				readFunc = true
 				syntaxHighlighted += string(line[i])
 			default:
+				*pt.__pop += string(line[i])
 				syntaxHighlighted += string(line[i])
 			}
 		}

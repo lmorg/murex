@@ -93,7 +93,7 @@ func expandHistory(line []rune) []rune {
 			}
 
 			p := parameters.Parameters{Tokens: nodes[cmd].ParamTokens}
-			lang.ParseParameters(&p, &proc.GlobalVars)
+			lang.ParseParameters(proc.ShellProcess, &p, &proc.GlobalVars)
 			if val < 0 {
 				val += p.Len() + 1
 			}
@@ -117,7 +117,7 @@ func expandHistory(line []rune) []rune {
 			goto cannotParseLast
 		}
 		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
-		lang.ParseParameters(&p, &proc.GlobalVars)
+		lang.ParseParameters(proc.ShellProcess, &p, &proc.GlobalVars)
 
 		for i := range mhParam {
 			val, _ := strconv.Atoi(mhParam[i][1])

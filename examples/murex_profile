@@ -18,7 +18,7 @@ func aliases {
 autocomplete set config {
     "NoFiles": true,
     "NoDirs" : true,
-    "Flags"  : [ "get", "set" ]
+    "Dynamic": "{ mxacConfig @{params} }"
 }
 
 autocomplete set autocomplete {
@@ -88,4 +88,28 @@ if { = os!=`windows` } {
 } {
     #config set shell prompt { out "${pwd -> regexp 'f#[^\\]+$#'} » " }
     #func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
+}
+
+func mxacConfig {
+	params -> set p
+	let len=${ $p -> format str -> wc -l }
+
+	if { = len==3} {
+		a [get,set]
+	}
+
+	if { = len==4} {
+		config: -> formap k v { out $k } -> sort
+	}
+
+	if { = len==5} {
+		config: -> [ ${$p->[3]} ] -> formap k v { out $k } -> sort
+	}
+
+	if { = len==6} {
+    	config: -> [ ${$p->[3]} ] -> [ ${$p->[4]} ] -> [ Data-Type ] -> set dt
+    	if { = dt==`bool` } {
+    	    a [true,false]
+    	}
+    } { null }
 }

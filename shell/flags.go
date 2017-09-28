@@ -27,15 +27,15 @@ type Flags struct {
 // ExesFlags is map of executables and their supported auto-complete options.
 // We might as well pre-populate the structure with a few base commands we might expect.
 var ExesFlags map[string]Flags = map[string]Flags{
-	"cd":      Flags{Flags: []string{}, NoFiles: true},
-	"mkdir":   Flags{Flags: []string{}, NoFiles: true},
-	"rmdir":   Flags{Flags: []string{}, NoFiles: true},
-	"man":     Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"which":   Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"whereis": Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"sudo":    Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"exec":    Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"pty":     Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"cd":      {Flags: []string{}, NoFiles: true},
+	"mkdir":   {Flags: []string{}, NoFiles: true},
+	"rmdir":   {Flags: []string{}, NoFiles: true},
+	"man":     {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"which":   {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"whereis": {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"sudo":    {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"exec":    {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"pty":     {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
 }
 
 // globalExes is a pre-populated list of all executables in $PATH.
@@ -133,7 +133,6 @@ func matchDynamic(partial, exe string, params []string) (items []string) {
 
 	if !types.IsBlock([]byte(ExesFlags[exe].Dynamic)) {
 		ansi.Stderrln(ansi.FgRed, "Dynamic autocompleter is not a code block!")
-		//os.Stdout.WriteString("Dynamic autocompleter is not a code block!" + utils.NewLineString)
 		return
 	}
 	block := []rune(ExesFlags[exe].Dynamic[1 : len(ExesFlags[exe].Dynamic)-1])
@@ -146,17 +145,12 @@ func matchDynamic(partial, exe string, params []string) (items []string) {
 
 	b, _ := stderr.ReadAll()
 	ansi.Stderrln(ansi.FgRed, string(b))
-	//os.Stderr.Write(b)
 
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "Error in dynamic autocomplete code: "+err.Error())
-		//os.Stdout.WriteString(err.Error() + utils.NewLineString)
-		//return
 	}
 	if exitNum != 0 {
 		ansi.Stderrln(ansi.FgRed, "None zero exit number!")
-		//os.Stdout.WriteString("None zero exit number!" + utils.NewLineString)
-		//return
 	}
 
 	stdout.ReadArray(func(b []byte) {
@@ -165,7 +159,7 @@ func matchDynamic(partial, exe string, params []string) (items []string) {
 			return
 		}
 		if strings.HasPrefix(s, partial) {
-			items = append(items, s[len(partial):])
+			items = append(items, s[len(partial):]+" ")
 		}
 	})
 
