@@ -41,15 +41,23 @@ func execute(p *Process) error {
 	KillForeground = p.Kill
 
 	if p.Name == consts.CmdPty {
-		// If cmd is `pty` then assign function a TTY (on POSIX) and allow it to read and write directly from STDIN et al
+		// If cmd is `pty` then assign function a TTY (on POSIX) and allow it to read directly from STDIN
 		osSyscalls(cmd)
 		cmd.Stdin = os.Stdin
+	} else {
+		// If cmd is `exec` then the input stream is stdio.Io rather than os.Stdin
+		cmd.Stdin = p.Stdin
+	}
+
+	if p.Stdout.IsTTY() {
 		cmd.Stdout = os.Stdout
+	} else {
+		cmd.Stdout = p.Stdout
+	}
+
+	if p.Stderr.IsTTY() {
 		cmd.Stderr = os.Stderr
 	} else {
-		// If cmd is `exec` then the input and output streams are the murex stdio.Io rather than STD(IN|OUT|ERR)
-		cmd.Stdin = p.Stdin
-		cmd.Stdout = p.Stdout
 		cmd.Stderr = p.Stderr
 	}
 
