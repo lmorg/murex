@@ -24,14 +24,14 @@ var (
 
 // syntax highlighting
 var (
-	hlFunction    string = ansi.FgWhiteBright
+	hlFunction    string = ansi.Bold
 	hlVariable    string = ansi.FgGreen
 	hlEscaped     string = ansi.FgYellow
-	hlSingleQuote string = ansi.FgBlueBright
+	hlSingleQuote string = ansi.FgBlue
 	hlDoubleQuote string = ansi.FgBlue
 	hlBlock       string = ansi.BgBlackBright
 	hlPipe        string = ansi.FgMagenta
-	hlComment     string = ansi.BgGreen
+	hlComment     string = ansi.BgGreenBright
 )
 
 type parseTokens struct {
@@ -91,10 +91,6 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 	for i := range line {
 		if pt.variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
 			pt.variable = ""
-			//if len(reset) > 1 {
-			//	reset = reset[:len(reset)-1]
-			//}
-			//syntaxHighlighted += reset[len(reset)-1]
 			ansiResetNoChar()
 		}
 
@@ -376,7 +372,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				fallthrough
+				ansiReset(line[i])
 			case readFunc:
 				*pt.__pop += string(line[i])
 				syntaxHighlighted += string(line[i])
@@ -425,7 +421,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 			items = append(items, matchDirs(s)...)
 		default:
 			exes := allExecutables(true)
-			items = matchExes(s, &exes, true)
+			items = matchExes(s, exes, true)
 		}
 
 	default:
@@ -435,21 +431,20 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 			s = strings.TrimSpace(string(line[pt.loc:]))
 		}
 		retPos = len(s)
-		switch pt.funcName {
-		case "cd", "mkdir", "rmdir":
-			items = matchDirs(s)
-		case "man", "which", "whereis", "sudo":
-			exes := allExecutables(false)
-			items = matchExes(s, &exes, false)
-		default:
-			items = matchFlags(s, pt.funcName)
-			items = append(items, matchDynamic(s, pt.funcName, pt.parameters)...)
-			switch {
-			case !ExesFlags[pt.funcName].NoFiles:
-				items = append(items, matchFilesAndDirs(s)...)
-			case !ExesFlags[pt.funcName].NoDirs:
-				items = append(items, matchDirs(s)...)
-			}
+
+		items = matchFlags(s, pt.funcName)
+		items = append(items, matchDynamic(s, pt.funcName, pt.parameters)...)
+
+		if ExesFlags[pt.funcName].IncExePath {
+			pathexes := allExecutables(false)
+			items = append(items, matchExes(s, pathexes, false)...)
+		}
+
+		switch {
+		case !ExesFlags[pt.funcName].NoFiles:
+			items = append(items, matchFilesAndDirs(s)...)
+		case !ExesFlags[pt.funcName].NoDirs:
+			items = append(items, matchDirs(s)...)
 		}
 	}
 
@@ -458,13 +453,15 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		v = -1
 	}
 
-	maxItems := v.(int)
-	if len(items) < maxItems || maxItems < 0 {
-		maxItems = len(items)
+	limitSuggestions := v.(int)
+	if len(items) < limitSuggestions || limitSuggestions < 0 {
+		limitSuggestions = len(items)
 	}
 
-	suggest = make([][]rune, len(items[:maxItems]))
-	for i := range items[:maxItems] {
+	Instance.Config.MaxCompleteLines = limitSuggestions
+
+	suggest = make([][]rune, len(items))
+	for i := range items {
 		if len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
 			items[i] = strings.Replace(items[i][:len(items[i])-1], " ", `\ `, -1) + items[i][len(items[i])-1:]
 		}
@@ -492,7 +489,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		//newLine = expandVariables(line)
 		//newLine = expandHistory(newLine)
 		//newPos = len(newLine)
-		ansi.Stderrln(ansi.FgGreen, utils.NewLineString+string(expandVariables(expandHistory(line))))
+		ansi.Stderrln(ansi.FgBlue, utils.NewLineString+string(expandVariables(expandHistory(line))))
 		newLine = line
 		newPos = pos
 		forward = 0

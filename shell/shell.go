@@ -156,7 +156,7 @@ func Start() {
 		default:
 			expanded := expandHistory(block)
 			if string(expanded) != string(block) {
-				ansi.Stderrln(ansi.FgBlue, string(expanded))
+				ansi.Stderrln(ansi.FgGreen, string(expanded))
 				block = expanded
 			}
 

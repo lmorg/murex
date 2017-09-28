@@ -13,8 +13,9 @@ import (
 )
 
 var (
-	rxMatchFlagsEscaped *regexp.Regexp = regexp.MustCompile(`\\f[BI](\\-[a-zA-Z0-9]|\\-\\-[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
+	rxMatchFlagsEscaped *regexp.Regexp = regexp.MustCompile(`\\f[BI]((\\-|-)[a-zA-Z0-9]|(\\-\\-|--)[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
 	rxMatchFlagsQuoted  *regexp.Regexp = regexp.MustCompile(`\.IP "(.*?)"`)
+	rxMatchFlagsOther   *regexp.Regexp = regexp.MustCompile(`\.B (.*?)\\fR`)
 	rxMatchFlagsFlag    *regexp.Regexp = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
 )
 
@@ -111,6 +112,22 @@ func parseManPage(flags *map[string]bool, filename string) {
 		}
 
 		match = rxMatchFlagsQuoted.FindAllStringSubmatch(s, -1)
+		for i := range match {
+			if len(match[i]) == 0 {
+				continue
+			}
+
+			flag := rxMatchFlagsFlag.FindAllStringSubmatch(match[i][1], -1)
+			for j := range flag {
+				if len(flag[j]) == 0 {
+					continue
+				}
+
+				(*flags)[flag[j][1]] = true
+			}
+		}
+
+		match = rxMatchFlagsOther.FindAllStringSubmatch(s, -1)
 		for i := range match {
 			if len(match[i]) == 0 {
 				continue

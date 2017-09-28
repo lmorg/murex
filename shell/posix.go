@@ -16,7 +16,7 @@ func splitPath(envPath string) []string {
 	return split
 }
 
-func listExes(path string, exes *map[string]bool) {
+func listExes(path string, exes map[string]bool) {
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
@@ -25,7 +25,7 @@ func listExes(path string, exes *map[string]bool) {
 		perm := permbits.FileMode(f.Mode())
 		switch {
 		case perm.OtherExecute() && f.Mode().IsRegular():
-			(*exes)[f.Name()] = true
+			exes[f.Name()] = true
 		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
 			ln, err := os.Readlink(path + consts.PathSlash + f.Name())
 			if err != nil {
@@ -40,7 +40,7 @@ func listExes(path string, exes *map[string]bool) {
 			}
 			perm := permbits.FileMode(info.Mode())
 			if perm.OtherExecute() && info.Mode().IsRegular() {
-				(*exes)[f.Name()] = true
+				exes[f.Name()] = true
 			}
 
 		default:
@@ -49,13 +49,13 @@ func listExes(path string, exes *map[string]bool) {
 	}
 }
 
-func matchExes(s string, exes *map[string]bool, includeColon bool) (items []string) {
+func matchExes(s string, exes map[string]bool, includeColon bool) (items []string) {
 	colon := " "
 	if includeColon {
 		colon = ": "
 	}
 
-	for name := range *exes {
+	for name := range exes {
 		if strings.HasPrefix(name, s) {
 			if name != consts.NamedPipeProcName {
 				items = append(items, name[len(s):])
@@ -87,8 +87,8 @@ func isLocal(s string) bool {
 func matchLocal(s string, includeColon bool) (items []string) {
 	path, file := partialPath(s)
 	exes := make(map[string]bool)
-	listExes(path, &exes)
-	items = matchExes(file, &exes, includeColon)
+	listExes(path, exes)
+	items = matchExes(file, exes, includeColon)
 	return
 }
 

@@ -16,15 +16,27 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	NoFiles bool     // `true` to disable file name completion
-	NoDirs  bool     // `true` to disable directory navigation completion
-	NoFlags bool     // `true` to disable Flags[] slice and man page parsing
-	Flags   []string // known supported command line flags for executable
-	Dynamic string   // Use murex script to generate auto-complete options
+	NoFiles    bool     // `true` to disable file name completion
+	NoDirs     bool     // `true` to disable directory navigation completion
+	NoFlags    bool     // `true` to disable Flags[] slice and man page parsing
+	IncExePath bool     // `true` to include binaries in $PATH
+	Flags      []string // known supported command line flags for executable
+	Dynamic    string   // Use murex script to generate auto-complete options
 }
 
-// ExesFlags is map of executables and their supported auto-complete options
-var ExesFlags map[string]Flags = make(map[string]Flags)
+// ExesFlags is map of executables and their supported auto-complete options.
+// We might as well pre-populate the structure with a few base commands we might expect.
+var ExesFlags map[string]Flags = map[string]Flags{
+	"cd":      Flags{Flags: []string{}, NoFiles: true},
+	"mkdir":   Flags{Flags: []string{}, NoFiles: true},
+	"rmdir":   Flags{Flags: []string{}, NoFiles: true},
+	"man":     Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"which":   Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"whereis": Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"sudo":    Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"exec":    Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+	"pty":     Flags{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+}
 
 // globalExes is a pre-populated list of all executables in $PATH.
 // The point of this is to speed up exe auto-completion.
@@ -39,12 +51,15 @@ func UpdateGlobalExeList() {
 	dirs := splitPath(envPath)
 
 	for i := range dirs {
-		listExes(dirs[i], &globalExes)
+		listExes(dirs[i], globalExes)
 	}
 }
 
 func allExecutables(includeBuiltins bool) map[string]bool {
-	exes := globalExes
+	exes := make(map[string]bool)
+	for k, v := range globalExes {
+		exes[k] = v
+	}
 
 	if !includeBuiltins {
 		return exes
