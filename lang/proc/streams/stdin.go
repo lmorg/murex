@@ -24,7 +24,7 @@ type Stdin struct {
 	dtLock      sync.Mutex
 }
 
-// Maximum size of buffer size for stdin
+// MaxBufferSize is the maximum size of buffer for stdin
 var MaxBufferSize int = 1024 * 1024 * 10 // 10 meg
 
 // NewStdin creates a new stream.Io interface for piping data between processes.

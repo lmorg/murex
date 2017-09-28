@@ -42,6 +42,9 @@ var ExesFlags map[string]Flags = map[string]Flags{
 // The point of this is to speed up exe auto-completion.
 var globalExes map[string]bool = make(map[string]bool)
 
+// UpdateGlobalExeList generates a list of executables in $PATH. This used to be called upon demand but it caused a
+// slight but highly annoying pause if murex had been sat idle for a while. So now it's an exported function so it can
+// be run as a background job or upon user request.
 func UpdateGlobalExeList() {
 	envPath := proc.GlobalVars.GetString("PATH")
 	if envPath == "" {

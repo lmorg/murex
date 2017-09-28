@@ -19,6 +19,7 @@ const (
 
 var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
 
+// Request generates a HTTP request
 func Request(method, url string, body io.Reader, setTimeout bool) (response *http.Response, err error) {
 	toStr, err := proc.GlobalConf.Get("http", "timeout", types.String)
 	if err != nil {

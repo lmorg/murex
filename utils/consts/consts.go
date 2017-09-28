@@ -9,6 +9,6 @@ const (
 	// CmdExec is the GoFunction name used for murex builtin that executes external processes without a TTY
 	CmdExec = "exec"
 
-	// CmdExec is the GoFunction name used for murex builtin that executes external processes with a TTY
+	// CmdPty is the GoFunction name used for murex builtin that executes external processes with a TTY
 	CmdPty = "pty"
 )

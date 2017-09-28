@@ -84,22 +84,11 @@ func isLocal(s string) bool {
 	return strings.HasPrefix(s, "."+consts.PathSlash) || strings.HasPrefix(s, ".."+consts.PathSlash) || strings.HasPrefix(s, consts.PathSlash)
 }
 
-func matchLocal(s string, includeColon bool) (items []string) {
-	path, file := partialPath(s)
-	exes := make(map[string]bool)
-	listExes(path, exes)
-	items = matchExes(file, exes, includeColon)
-	return
-}
-
 func matchDirs(s string) (items []string) {
 	s = expandVariablesString(s)
 	path, partial := partialPath(s)
 
 	var dirs []string
-	//if path != consts.PathSlash {
-	//	dirs = []string{".." + consts.PathSlash}
-	//}
 
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
@@ -142,30 +131,5 @@ func matchDirs(s string) (items []string) {
 		}
 	}
 
-	return
-}
-
-func matchFilesAndDirs(s string) (items []string) {
-	s = expandVariablesString(s)
-	path, partial := partialPath(s)
-
-	var item []string
-	//item := []string{".." + consts.PathSlash}
-	files, _ := ioutil.ReadDir(path)
-	for _, f := range files {
-		if f.IsDir() {
-			item = append(item, f.Name()+consts.PathSlash)
-		} else {
-			item = append(item, f.Name())
-		}
-	}
-
-	item = append(item, ".."+consts.PathSlash)
-
-	for i := range item {
-		if strings.HasPrefix(item[i], partial) {
-			items = append(items, item[i][len(partial):])
-		}
-	}
 	return
 }

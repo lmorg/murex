@@ -2,6 +2,7 @@ package shell
 
 import (
 	"github.com/lmorg/murex/utils/consts"
+	"io/ioutil"
 	"strings"
 )
 
@@ -17,6 +18,39 @@ func partialPath(s string) (path, partial string) {
 
 	if path == "" {
 		path = "."
+	}
+	return
+}
+
+func matchLocal(s string, includeColon bool) (items []string) {
+	path, file := partialPath(s)
+	exes := make(map[string]bool)
+	listExes(path, exes)
+	items = matchExes(file, exes, includeColon)
+	return
+}
+
+func matchFilesAndDirs(s string) (items []string) {
+	s = expandVariablesString(s)
+	path, partial := partialPath(s)
+
+	var item []string
+
+	files, _ := ioutil.ReadDir(path)
+	for _, f := range files {
+		if f.IsDir() {
+			item = append(item, f.Name()+consts.PathSlash)
+		} else {
+			item = append(item, f.Name())
+		}
+	}
+
+	item = append(item, ".."+consts.PathSlash)
+
+	for i := range item {
+		if strings.HasPrefix(item[i], partial) {
+			items = append(items, item[i][len(partial):])
+		}
 	}
 	return
 }
