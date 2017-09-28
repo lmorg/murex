@@ -32,11 +32,6 @@ func main() {
 		config.Defaults(&proc.GlobalConf, false)
 		execSource([]rune(fCommand))
 
-	case fStdin:
-		config.Defaults(&proc.GlobalConf, false)
-		os.Stderr.WriteString("Not implemented yet.\n")
-		os.Exit(1)
-
 	case len(fSource) > 0:
 		shell.SigHandler()
 		config.Defaults(&proc.GlobalConf, false)

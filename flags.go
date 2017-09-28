@@ -12,7 +12,6 @@ import (
 
 var (
 	fCommand string
-	fStdin   bool
 	fSource  []string
 	fEcho    bool
 	fHelp1   bool
@@ -23,7 +22,6 @@ var (
 
 func readFlags() {
 	flag.StringVar(&fCommand, "c", "", "Run command block - read from parameters")
-	flag.BoolVar(&fStdin, "stdin", false, "Run command block - read from STDIN")
 
 	flag.BoolVar(&fHelp1, "?", false, "Help")
 	flag.BoolVar(&fHelp2, "h", false, "Help")
