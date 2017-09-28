@@ -12,8 +12,8 @@ func init() {
 	streams.ReadMap[typeName] = readMap
 	define.ReadIndexes[typeName] = readIndex
 
-	define.Marshal[typeName] = marshal
-	define.Unmarshal[typeName] = unmarshal
+	define.Marshallers[typeName] = marshal
+	define.Unmarshallers[typeName] = unmarshal
 
 	// `application/csv` and `text/csv` are the common ones. `x-csv` is added just in case anyone decides to use
 	// something non-standard.

@@ -19,8 +19,8 @@ func init() {
 	streams.ReadArray[typeName] = readArray
 	streams.ReadMap[typeName] = readMap
 	define.ReadIndexes[typeName] = readIndex
-	define.Marshal[typeName] = marshal
-	define.Unmarshal[typeName] = unmarshal
+	define.Marshallers[typeName] = marshal
+	define.Unmarshallers[typeName] = unmarshal
 
 	define.SetMime(typeName,
 		"application/yaml", // this is preferred but we will include others since not everyone follows standards.

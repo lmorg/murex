@@ -21,14 +21,14 @@ func init() {
 	streams.ReadArray[sexpr] = readArrayS
 	streams.ReadMap[sexpr] = readMapS
 	define.ReadIndexes[sexpr] = readIndexS
-	define.Marshal[sexpr] = marshalS
-	define.Unmarshal[sexpr] = unmarshal
+	define.Marshallers[sexpr] = marshalS
+	define.Unmarshallers[sexpr] = unmarshal
 
 	streams.ReadArray[csexp] = readArrayC
 	streams.ReadMap[csexp] = readMapC
 	define.ReadIndexes[csexp] = readIndexC
-	define.Marshal[csexp] = marshalC
-	define.Unmarshal[csexp] = unmarshal
+	define.Marshallers[csexp] = marshalC
+	define.Unmarshallers[csexp] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
 	define.SetMime(sexpr,

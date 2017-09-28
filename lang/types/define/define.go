@@ -12,11 +12,11 @@ var (
 	// ReadIndexes defines the Go functions for the `[ Index ]` murex function
 	ReadIndexes map[string]func(p *proc.Process, params []string) error = make(map[string]func(*proc.Process, []string) error)
 
-	// Unmarshal defines the Go functions for converting a murex data type into a Go interface
-	Unmarshal map[string]func(p *proc.Process) (interface{}, error) = make(map[string]func(*proc.Process) (interface{}, error))
+	// Unmarshallers defines the Go functions for converting a murex data type into a Go interface
+	Unmarshallers map[string]func(p *proc.Process) (interface{}, error) = make(map[string]func(*proc.Process) (interface{}, error))
 
-	// Marshal defines the Go functions for converting a Go interface into a murex data type
-	Marshal map[string]func(p *proc.Process, v interface{}) ([]byte, error) = make(map[string]func(*proc.Process, interface{}) ([]byte, error))
+	// Marshallers defines the Go functions for converting a Go interface into a murex data type
+	Marshallers map[string]func(p *proc.Process, v interface{}) ([]byte, error) = make(map[string]func(*proc.Process, interface{}) ([]byte, error))
 )
 
 var (
@@ -92,7 +92,7 @@ func DumpIndex() (dump []string) {
 
 // DumpMarshaller returns an array of compiled builtins supporting unmarshalling
 func DumpUnmarshaller() (dump []string) {
-	for name := range Unmarshal {
+	for name := range Unmarshallers {
 		dump = append(dump, name)
 	}
 	sort.Strings(dump)
@@ -101,7 +101,7 @@ func DumpUnmarshaller() (dump []string) {
 
 // DumpMarshaller returns an array of compiled builtins supporting marshalling
 func DumpMarshaller() (dump []string) {
-	for name := range Marshal {
+	for name := range Marshallers {
 		dump = append(dump, name)
 	}
 	sort.Strings(dump)

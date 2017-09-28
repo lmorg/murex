@@ -21,8 +21,8 @@ func init() {
 	streams.ReadArray[typeName] = readArray
 	streams.ReadMap[typeName] = readMap
 	define.ReadIndexes[typeName] = readIndex
-	define.Marshal[typeName] = marshal
-	define.Unmarshal[typeName] = unmarshal
+	define.Marshallers[typeName] = marshal
+	define.Unmarshallers[typeName] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
 	define.SetMime(typeName,

@@ -8,8 +8,8 @@ import (
 
 func init() {
 	// Register data type
-	define.Marshal[types.String] = marshal
-	define.Unmarshal[types.String] = unmarshal
+	define.Marshallers[types.String] = marshal
+	define.Unmarshallers[types.String] = unmarshal
 	define.ReadIndexes[types.String] = index
 	streams.ReadArray[types.Generic] = readArray
 	streams.ReadMap[types.Generic] = readMap

@@ -1,3 +1,3 @@
 # Builtins: `textmanip`
 
-A bunch of builtins for text manipulation.
+A bunch of builtins for text manipulation within arrays

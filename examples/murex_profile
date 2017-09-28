@@ -75,8 +75,8 @@ if { = os!=`windows` } {
     alias ls=ls --color=auto
     alias grep=grep --color=auto
 
-    config set shell prompt           { out "${pwd -> regex 'f#[^/]+$#'} » " }
-    config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> regex 'f#[^/]+$#' -> wc -c}-1}s » " }
+    config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
+    config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
 
     autocomplete set go {
         "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
@@ -86,6 +86,6 @@ if { = os!=`windows` } {
     func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
 
 } {
-    config set shell prompt { out "${pwd -> regex 'f#[^\\]+$#'} » " }
-    func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
+    #config set shell prompt { out "${pwd -> regexp 'f#[^\\]+$#'} » " }
+    #func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
 }
