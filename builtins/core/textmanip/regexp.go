@@ -1,6 +1,7 @@
 package textmanip
 
 import (
+	"bytes"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
@@ -9,28 +10,37 @@ import (
 )
 
 func init() {
-	//proc.GoFunctions["match"] = cmdMatch
-	//proc.GoFunctions["!match"] = cmdMatch
+	proc.GoFunctions["match"] = cmdMatch
+	proc.GoFunctions["!match"] = cmdMatch
 	proc.GoFunctions["regexp"] = cmdRegexp
 	proc.GoFunctions["!regexp"] = cmdRegexp
 }
 
-/*func cmdMatch(p *proc.Process) error {
-	p.Stdout.SetDataType(types.String)
+func cmdMatch(p *proc.Process) error {
+	dt := p.Stdin.GetDataType()
+	p.Stdout.SetDataType(dt)
 
 	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")
 	}
 
+	var output []string
+
 	p.Stdin.ReadArray(func(b []byte) {
 		matched := bytes.Contains(b, p.Parameters.ByteAll())
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
-			p.Stdout.Writeln(b)
+			output = append(output, string(b))
 		}
 	})
 
-	return nil
-}*/
+	b, err := define.MarshalData(p, dt, output)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
 
 func cmdRegexp(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()

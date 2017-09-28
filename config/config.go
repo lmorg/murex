@@ -29,9 +29,10 @@ func NewConfiguration() (config Config) {
 }
 
 // Set changes a setting in the Config object
-// app == tooling name
-// key == name of setting
-// value == the setting itself
+//
+//     app == tooling name
+//     key == name of setting
+//     value == the setting itself
 func (config *Config) Set(app string, key string, value interface{}) error {
 	config.mutex.Lock()
 	defer config.mutex.Unlock()
@@ -45,9 +46,10 @@ func (config *Config) Set(app string, key string, value interface{}) error {
 }
 
 // Get retrieves a setting from the Config. Returns an interface{} for the value and err for conversion failures.
-// app == tooling name
-// key == name of setting
-// dataType == what `types.dataType` to cast the return value into
+//
+//     app == tooling name
+//     key == name of setting
+//     dataType == what `types.dataType` to cast the return value into
 func (config *Config) Get(app, key, dataType string) (value interface{}, err error) {
 	config.mutex.Lock()
 	defer config.mutex.Unlock()

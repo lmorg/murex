@@ -3,7 +3,7 @@
 # Regression tests
 cd test
 JSH="$GOPATH/src/github.com/lmorg/murex/murex"
-timeout="1.1"
+timeout="1.3"
 nreps=250
 repstimeout="15"
 
@@ -122,7 +122,7 @@ while true; do
         39)shell 'out: out->match: out; err: err' 2>&1 >/dev/null | check "err";;
         40)shell 'out: out->match: out; err: err->match: out' 2>/dev/null | check "out";;
         #41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "Methodable function \`match\` does not exist for \`err.(null)\`\nout\nerr";;
-        41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "out\nerr";;
+        41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "out\nerr\nError in \`match\` (1,33): I don't know how to marshal \`null\`.";;
         42)shell 'out: out->match: out; err: err' 2>&1            | check "out\nerr";;
         43)shell 'out: out1->match: out1; out: out2->match: out2' 2>&1 | check "out1\nout2";;
         44)shell 'out: out->match: noout' 2>&1                   | check "";;
@@ -157,23 +157,23 @@ while true; do
         67)shell 'text: fox.txt->!match:e->!match:o' 2>&1| check "quick\nlazy";;
         68)shell 'text: fox.txt->!match' 2>&1| check 'Error in `!match` (1,16): No parameters supplied.';;
 
-        # test `regex` without ending \n
-        69)shell 'text: fox.txt->regex: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        70)shell 'text: fox.txt->regex: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        71)shell 'text: fox.txt->regex: `m,jumped`' 2>/dev/null | check "";;
-        72)shell 'text: fox.txt->regex: `m,jumped`' 2>&1| check 'Error in `regex` (1,16): Invalid regexp.';;
-        73)shell 'text: fox.txt->regex: m jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        74)shell 'text: fox.txt->regex: m jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        75)shell 'text: fox.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        76)shell 'text: fox.txt->regex: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        77)shell 'text: fox.txt->regex: m/jumped/' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        78)shell 'text: fox.txt->regex: m/jumped/' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        79)shell 'text: fox.txt->regex: "m#jumped#"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        80)shell 'text: fox.txt->regex: "m#jumped#"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        81)shell 'text: fox.txt->regex: ' 2>&1 | check 'Error in `regex` (1,16): No parameters supplied.';;
-        82)shell 'text: fox.txt->!regex: m,[eo]' 2>&1| check "quick\nlazy";;
-        83)shell 'text: fox.txt->!regex: ' 2>&1| check 'Error in `!regex` (1,16): No parameters supplied.';;
-        84)shell 'text: fox.txt->!regex: m,[eo]->regex: s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
+        # test `regexp` without ending \n
+        69)shell 'text: fox.txt->regexp: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        70)shell 'text: fox.txt->regexp: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        71)shell 'text: fox.txt->regexp: `m,jumped`' 2>/dev/null | check "";;
+        72)shell 'text: fox.txt->regexp: `m,jumped`' 2>&1| check 'Error in `regexp` (1,16): Invalid regexp.';;
+        73)shell 'text: fox.txt->regexp: m jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        74)shell 'text: fox.txt->regexp: m jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        75)shell 'text: fox.txt->regexp: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        76)shell 'text: fox.txt->regexp: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        77)shell 'text: fox.txt->regexp: m/jumped/' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        78)shell 'text: fox.txt->regexp: m/jumped/' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        79)shell 'text: fox.txt->regexp: "m#jumped#"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        80)shell 'text: fox.txt->regexp: "m#jumped#"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        81)shell 'text: fox.txt->regexp: ' 2>&1 | check 'Error in `regexp` (1,16): No parameters supplied.';;
+        82)shell 'text: fox.txt->!regexp: m,[eo]' 2>&1| check "quick\nlazy";;
+        83)shell 'text: fox.txt->!regexp: ' 2>&1| check 'Error in `!regexp` (1,16): No parameters supplied.';;
+        84)shell 'text: fox.txt->!regexp: m,[eo]->regexp: s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
 
         # test `match` with ending \n
         85)shell 'text: fox_crlf.txt->match: jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
@@ -182,23 +182,23 @@ while true; do
         88)shell 'text: fox_crlf.txt->!match: e->!match: o' 2>&1| check "quick\nlazy";;
         89)shell 'text: fox_crlf.txt->!match: ' 2>&1| check 'Error in `!match` (1,21): No parameters supplied.';;
 
-        # test `regex` with ending \n
-        90)shell 'text: fox_crlf.txt->regex: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        91)shell 'text: fox_crlf.txt->regex: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        92)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        93)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        94)shell 'text: fox_crlf.txt->regex: m jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        95)shell 'text: fox_crlf.txt->regex: m jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        96)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        97)shell 'text: fox_crlf.txt->regex: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        98)shell 'text: fox_crlf.txt->regex: m/jumped/' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        99)shell 'text: fox_crlf.txt->regex: m/jumped/' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        100)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
-        101)shell 'text: fox_crlf.txt->regex: "m#jumped#"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
-        102)shell 'text: fox_crlf.txt->regex: ' 2>&1 | check 'Error in `regex` (1,21): No parameters supplied.';;
-        103)shell 'text: fox_crlf.txt->!regex: m,[eo]' 2>&1| check "quick\nlazy";;
-        104)shell 'text: fox_crlf.txt->!regex: ' 2>&1| check 'Error in `!regex` (1,21): No parameters supplied.';;
-        105)shell 'text:fox_crlf.txt->!regex:m,[eo]->regex:s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
+        # test `regexp` with ending \n
+        90)shell 'text: fox_crlf.txt->regexp: m,jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        91)shell 'text: fox_crlf.txt->regexp: m,jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        92)shell 'text: fox_crlf.txt->regexp: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        93)shell 'text: fox_crlf.txt->regexp: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        94)shell 'text: fox_crlf.txt->regexp: m jumped' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        95)shell 'text: fox_crlf.txt->regexp: m jumped' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        96)shell 'text: fox_crlf.txt->regexp: "m,jumped"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        97)shell 'text: fox_crlf.txt->regexp: "m,jumped"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        98)shell 'text: fox_crlf.txt->regexp: m/jumped/' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        99)shell 'text: fox_crlf.txt->regexp: m/jumped/' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        100)shell 'text: fox_crlf.txt->regexp: "m#jumped#"' 2>/dev/null | check "fox jumped over\njumped over\nfox jumped\njumped";;
+        101)shell 'text: fox_crlf.txt->regexp: "m#jumped#"' 2>&1| check "fox jumped over\njumped over\nfox jumped\njumped";;
+        102)shell 'text: fox_crlf.txt->regexp: ' 2>&1 | check 'Error in `regexp` (1,21): No parameters supplied.';;
+        103)shell 'text: fox_crlf.txt->!regexp: m,[eo]' 2>&1| check "quick\nlazy";;
+        104)shell 'text: fox_crlf.txt->!regexp: ' 2>&1| check 'Error in `!regexp` (1,21): No parameters supplied.';;
+        105)shell 'text:fox_crlf.txt->!regexp:m,[eo]->regexp:s/[ai]/x/' 2>&1| check "quxck\nlxzy";;
 
         # test whitespaces
         106)shell 'out: out|grep: out' 2>&1 | check "out";;
@@ -303,7 +303,7 @@ while true; do
         190)shell 'try { false }->!catch{out:catch}->catch {out:else}' 2>&1 | check "false\nelse";;
 
         # testing new regex function: find
-        191)shell 'text: fox_crlf.txt->regex: f/fox/' | check "fox\nfox\nfox\nfox";;
+        191)shell 'text: fox_crlf.txt->regexp: f/fox/' | check "[[fox] [fox] [fox] [fox]]";;
 
         # some more advanced testing of `try` and `catch`
         192)shell 'try: { out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
