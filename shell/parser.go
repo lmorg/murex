@@ -100,14 +100,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `#`
-				}
+				//if readFunc {
+				*pt.__pop += `#`
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += `#`
-				}
+				//if readFunc {
+				*pt.__pop += `#`
+				//}
 				//pt.escaped = false
 				syntaxHighlighted += string(line[i])
 			default:
@@ -119,14 +119,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `\`
-				}
+				//if readFunc {
+				*pt.__pop += `\`
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += `\`
-				}
+				//if readFunc {
+				*pt.__pop += `\`
+				//}
 				syntaxHighlighted += string(line[i])
 			default:
 				pt.escaped = true
@@ -138,14 +138,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `'`
-				}
+				//if readFunc {
+				*pt.__pop += `'`
+				//}
 				ansiReset(line[i])
 			case pt.qDouble:
-				if readFunc {
-					*pt.__pop += `'`
-				}
+				//if readFunc {
+				*pt.__pop += `'`
+				//}
 				syntaxHighlighted += string(line[i])
 			case pt.qSingle:
 				pt.qSingle = false
@@ -160,14 +160,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `"`
-				}
+				//if readFunc {
+				*pt.__pop += `"`
+				//}
 				ansiReset(line[i])
 			case pt.qSingle:
-				if readFunc {
-					*pt.__pop += `"`
-				}
+				//if readFunc {
+				*pt.__pop += `"`
+				//}
 				syntaxHighlighted += string(line[i])
 			case pt.qDouble:
 				pt.qDouble = false
@@ -182,14 +182,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += ` `
-				}
+				//if readFunc {
+				*pt.__pop += ` `
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += ` `
-				}
+				//if readFunc {
+				*pt.__pop += ` `
+				//}
 				syntaxHighlighted += string(line[i])
 			case pt.expectFunc && readFunc:
 				pt.loc = i
@@ -236,14 +236,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += string(line[i])
-				}
+				//if readFunc {
+				*pt.__pop += string(line[i])
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += string(line[i])
-				}
+				//if readFunc {
+				*pt.__pop += string(line[i])
+				//}
 				syntaxHighlighted += string(line[i])
 			default:
 				pt.expectFunc = true
@@ -259,14 +259,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `?`
-				}
+				//if readFunc {
+				*pt.__pop += `?`
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += `?`
-				}
+				//if readFunc {
+				*pt.__pop += `?`
+				//}
 				syntaxHighlighted += string(line[i])
 			case i > 0 && line[i-1] == ' ':
 				pt.expectFunc = true
@@ -276,9 +276,9 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				ansiChar(hlPipe, line[i])
 				syntaxHighlighted += hlFunction
 			default:
-				if readFunc {
-					*pt.__pop += `?`
-				}
+				//if readFunc {
+				*pt.__pop += `?`
+				//}
 				syntaxHighlighted += string(line[i])
 			}
 
@@ -287,14 +287,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `{`
-				}
+				//if readFunc {
+				*pt.__pop += `{`
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += `{`
-				}
+				//if readFunc {
+				*pt.__pop += `{`
+				//}
 				syntaxHighlighted += string(line[i])
 			default:
 				pt.bracket++
@@ -310,14 +310,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `}`
-				}
+				//if readFunc {
+				*pt.__pop += `}`
+				//}
 				ansiReset(line[i])
 			case pt.escaped, pt.qSingle, pt.qDouble:
-				if readFunc {
-					*pt.__pop += `}`
-				}
+				//if readFunc {
+				*pt.__pop += `}`
+				//}
 				syntaxHighlighted += string(line[i])
 			default:
 				pt.bracket--
@@ -334,14 +334,14 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += string(line[i])
-				}
+				//if readFunc {
+				*pt.__pop += string(line[i])
+				//}
 				ansiReset(line[i])
 			case pt.qSingle:
-				if readFunc {
-					*pt.__pop += string(line[i])
-				}
+				//if readFunc {
+				*pt.__pop += string(line[i])
+				//}
 				syntaxHighlighted += string(line[i])
 			default:
 				pt.variable = string(line[i])
@@ -352,9 +352,9 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			switch {
 			case pt.escaped:
 				pt.escaped = false
-				if readFunc {
-					*pt.__pop += `:`
-				}
+				//if readFunc {
+				*pt.__pop += `:`
+				//}
 				ansiReset(line[i])
 			case pt.qSingle, pt.qDouble:
 				//if readFunc {
@@ -427,9 +427,13 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 
 	default:
 		//items = []string{"{ ", "-> ", "| ", " ? ", "; "}
+		//var s string
+		//if pt.loc < len(line) {
+		//	s = strings.TrimSpace(string(line[pt.loc:]))
+		//}
 		var s string
-		if pt.loc < len(line) {
-			s = strings.TrimSpace(string(line[pt.loc:]))
+		if len(pt.parameters) > 0 {
+			s = pt.parameters[len(pt.parameters)-1]
 		}
 		retPos = len(s)
 
@@ -463,7 +467,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 
 	suggest = make([][]rune, len(items))
 	for i := range items {
-		if len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
+		if !pt.qSingle && !pt.qDouble && len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
 			items[i] = strings.Replace(items[i][:len(items[i])-1], " ", `\ `, -1) + items[i][len(items[i])-1:]
 		}
 		suggest[i] = []rune(items[i])
