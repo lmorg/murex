@@ -1,11 +1,10 @@
 #!/usr/bin/env murex
 
 export GOPATH=$GOPATH/src/github.com/lmorg/murex
-mv $GOPATH/vendor $GOPATH/src
 
 func pull {
 	params -> [ 1 ] -> set src
-	out "Updating $src...."
+	out "Downloading $src...."
 	go get $src
 }
 
@@ -31,9 +30,21 @@ pull golang.org/x/image/bmp
 pull golang.org/x/image/tiff
 pull golang.org/x/image/webp
 
-out Tidying up...
-find $GOPATH/src -type d -name *.git -exec rm -rf {} \; 
+out Purging surplus git directories....
+find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \; 
 
+out Purging surplus bzr directories....
+find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \; 
+
+out Purging pkg (no longer needed)....
+rm <!null> -rf $GOPATH/pkg
+
+out Purging historic vendor.old....
+rm <!null> -rf $GOPATH/vendor.old
+
+out Applying change....
+mv <!null> $GOPATH/vendor $GOPATH/vendor.old
 mv $GOPATH/src $GOPATH/vendor
+git <!null> add $GOPATH/vendor
 
-out "fin"
+git status $GOPATH/vendor

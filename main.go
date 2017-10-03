@@ -2,12 +2,14 @@ package main
 
 import (
 	"compress/gzip"
+	"encoding/json"
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -26,6 +28,13 @@ func main() {
 	proc.ShellProcess.Parent = proc.ShellProcess
 
 	os.Setenv("SHELL", proc.ShellProcess.Name)
+
+	// Pre-populate $PWDHIST with current working directory
+	s, _ := os.Getwd()
+	pwd := []string{s}
+	if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
+		proc.GlobalVars.Set("PWDHIST", string(b), types.Json)
+	}
 
 	switch {
 	case fCommand != "":

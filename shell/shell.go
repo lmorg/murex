@@ -132,13 +132,13 @@ func Start() {
 			if multiline {
 				multiline = false
 				lines = make([]string, 0)
-				continue
+				//continue
 			}
-			if len(line) == 0 {
-				break
-			} else {
-				continue
-			}
+			//if len(line) == 0 {
+			//	break
+			//} else {
+			continue
+			//}
 		} else if err == io.EOF {
 			break
 		}
@@ -161,9 +161,9 @@ func Start() {
 			}
 
 			hist := strings.TrimSpace(strings.Join(lines, " "))
+			Instance.SaveHistory(hist)
 			if History.Last != hist {
 				History.Last = hist
-				Instance.SaveHistory(hist)
 				History.Write(block)
 			}
 

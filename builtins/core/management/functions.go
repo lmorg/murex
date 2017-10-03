@@ -1,6 +1,7 @@
 package management
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
@@ -163,6 +164,33 @@ func cmdCd(p *proc.Process) error {
 	}
 
 	err = os.Chdir(s)
+	if err != nil {
+		return err
+	}
+
+	hist := proc.GlobalVars.GetString("PWDHIST")
+	if hist == "" {
+		hist = "[]"
+	}
+
+	var v []string
+	err = json.Unmarshal([]byte(hist), &v)
+	if err != nil {
+		return errors.New("Unable to unpack $PWDHIST: " + err.Error())
+	}
+
+	pwd, err := os.Getwd()
+	if err != nil {
+		pwd = s
+	}
+
+	v = append(v, pwd)
+	b, err := json.MarshalIndent(v, "", "    ")
+	if err != nil {
+		return errors.New("Unable to repack $PWDHIST: " + err.Error())
+	}
+
+	err = proc.GlobalVars.Set("PWDHIST", string(b), types.Json)
 	return err
 }
 
