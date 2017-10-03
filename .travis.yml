@@ -21,6 +21,7 @@ install:
   - go get golang.org/x/image/webp
   - go get labix.org/v2/mgo/bson
   - go get github.com/hashicorp/hcl
+  - go get github.com/lmorg/apachelogs
   - sudo apt-get install -y coreutils
   - go build github.com/lmorg/murex
   - $GOPATH/src/github.com/lmorg/murex/test/regression_test.sh
