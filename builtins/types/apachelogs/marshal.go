@@ -6,7 +6,7 @@ import (
 )
 
 func unmarshal(p *proc.Process) (interface{}, error) {
-	var log apachelogs.AccessLog
+	var log []apachelogs.AccessLine
 
 	p.Stdin.ReadLine(func(b []byte) {
 		line, err, _ := apachelogs.ParseAccessLine(string(b))
@@ -14,7 +14,7 @@ func unmarshal(p *proc.Process) (interface{}, error) {
 			return
 		}
 
-		log = append(log, line)
+		log = append(log, *line)
 	})
 
 	return log, nil

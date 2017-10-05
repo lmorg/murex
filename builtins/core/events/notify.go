@@ -15,7 +15,7 @@ import (
 	"sync"
 )
 
-var w watch = newWatch()
+var w *watch = newWatch()
 
 func init() {
 	proc.GoFunctions["event"] = cmdEvent
@@ -29,13 +29,15 @@ type watch struct {
 	cbBlocks map[string][]rune
 }
 
-func newWatch() (w watch) {
+func newWatch() (w *watch) {
+	w = new(watch)
 	w.watcher, w.error = fsnotify.NewWatcher()
 	w.cbBlocks = make(map[string][]rune)
 
 	return
 }
 
+// Callback returns the block to execute upon a triggered event
 func (w *watch) Callback(path string) (block []rune) {
 	w.mutex.Lock()
 	defer w.mutex.Unlock()
@@ -65,6 +67,7 @@ func (w *watch) Callback(path string) (block []rune) {
 	return
 }
 
+// Add a path to the watch event list
 func (w *watch) Add(path string, block []rune) (err error) {
 	for len(path) > 1 && path[len(path)-1] == '/' {
 		path = path[:len(path)-1]
@@ -86,6 +89,7 @@ func (w *watch) Add(path string, block []rune) (err error) {
 	return
 }
 
+// Watch starts a new watch event loop
 func (w *watch) Watch() {
 	defer w.watcher.Close()
 	type j struct {
@@ -165,6 +169,7 @@ func cmdEvent(p *proc.Process) error {
 	return err
 }
 
+// Dump returns all the events in w
 func (w watch) Dump() (dump map[string]string) {
 	dump = make(map[string]string)
 	w.mutex.Lock()
@@ -175,6 +180,7 @@ func (w watch) Dump() (dump map[string]string) {
 	return
 }
 
+// DumpEvents is used for `runtime` to output all the saved events
 func DumpEvents() map[string]string {
 	return w.Dump()
 }

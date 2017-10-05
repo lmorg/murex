@@ -2,6 +2,7 @@
 
 package apachelogs
 
+/*
 import (
 	"bufio"
 	"github.com/lmorg/apachelogs"
@@ -25,3 +26,4 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 
 	return nil
 }
+*/
