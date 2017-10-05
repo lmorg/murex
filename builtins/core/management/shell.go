@@ -3,6 +3,7 @@ package management
 import (
 	"encoding/json"
 	"errors"
+	"github.com/lmorg/murex/builtins/core/events"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -179,6 +180,7 @@ func cmdRuntime(p *proc.Process) error {
 	runtime["Unmarshallers"] = define.DumpUnmarshaller()
 	runtime["Mimes"] = define.DumpMime()
 	runtime["FileExts"] = define.DumpFileExts()
+	runtime["Events"] = events.DumpEvents()
 
 	b, err := utils.JsonMarshal(runtime, p.Stdout.IsTTY())
 	if err != nil {

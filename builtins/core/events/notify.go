@@ -164,3 +164,17 @@ func cmdEvent(p *proc.Process) error {
 
 	return err
 }
+
+func (w watch) Dump() (dump map[string]string) {
+	dump = make(map[string]string)
+	w.mutex.Lock()
+	defer w.mutex.Unlock()
+	for s := range w.cbBlocks {
+		dump[s] = string(w.cbBlocks[s])
+	}
+	return
+}
+
+func DumpEvents() map[string]string {
+	return w.Dump()
+}

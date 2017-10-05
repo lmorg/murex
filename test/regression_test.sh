@@ -5,7 +5,7 @@ cd test
 JSH="$GOPATH/src/github.com/lmorg/murex/murex"
 timeout="1.3"
 nreps=250
-repstimeout="15"
+repstimeout="20"
 
 i=1
 failed=0
