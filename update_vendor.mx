@@ -41,6 +41,7 @@ find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
 
 out Purging pkg (no longer needed)....
 rm <!null> -rf $GOPATH/pkg
+rm <!null> -rf $GOPATH/bin
 
 out Purging historic vendor.old....
 rm <!null> -rf $GOPATH/vendor.old
