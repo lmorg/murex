@@ -132,19 +132,21 @@ func Start() {
 			if multiline {
 				multiline = false
 				lines = make([]string, 0)
-				//continue
 			}
-			//if len(line) == 0 {
-			//	break
-			//} else {
 			continue
-			//}
+
 		} else if err == io.EOF {
 			break
 		}
 
 		lines = append(lines, line)
 		block := []rune(strings.Join(lines, utils.NewLineString))
+		expanded := expandHistory(block)
+		if string(expanded) != string(block) {
+			ansi.Stderrln(ansi.FgGreen, string(expanded))
+			block = expanded
+		}
+
 		_, pErr := lang.ParseBlock(block)
 		switch {
 		case pErr.Code == lang.ErrUnterminatedBrace,
@@ -154,13 +156,8 @@ func Start() {
 		case len(block) == 0:
 			continue
 		default:
-			expanded := expandHistory(block)
-			if string(expanded) != string(block) {
-				ansi.Stderrln(ansi.FgGreen, string(expanded))
-				block = expanded
-			}
+			hist := strings.Replace(string(block), "\n", " ", -1)
 
-			hist := strings.TrimSpace(strings.Join(lines, " "))
 			Instance.SaveHistory(hist)
 			if History.Last != hist {
 				History.Last = hist
