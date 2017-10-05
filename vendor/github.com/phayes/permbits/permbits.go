@@ -5,7 +5,6 @@ import (
 	"syscall"
 )
 
-// PermissionBits is the bit for each POSIX permission value
 type PermissionBits uint32
 
 const (
@@ -23,7 +22,7 @@ const (
 	OtherExecute
 )
 
-// Stat - Given a filepath, get it's permission bits
+// Given a filepath, get it's permission bits
 func Stat(filepath string) (PermissionBits, error) {
 	fi, err := os.Stat(filepath)
 	if err != nil {
@@ -32,7 +31,7 @@ func Stat(filepath string) (PermissionBits, error) {
 	return FileMode(fi.Mode()), nil
 }
 
-// FileMode - Given a FileMode from the os package, get it's permission bits
+// Given a FileMode from the os package, get it's permission bits
 func FileMode(fm os.FileMode) PermissionBits {
 	perm := PermissionBits(fm.Perm())
 
@@ -48,19 +47,15 @@ func FileMode(fm os.FileMode) PermissionBits {
 	return perm
 }
 
-// Chmod - Given a filepath, set it's permission bits directly
+// Given a filepath, set it's permission bits directly
 func Chmod(filepath string, b PermissionBits) error {
 	if e := syscall.Chmod(filepath, syscallMode(b)); e != nil {
-		return &os.PathError{
-			Op:   "chmod",
-			Path: filepath,
-			Err:  e,
-		}
+		return &os.PathError{"chmod", filepath, e}
 	}
 	return nil
 }
 
-// UpdateFileMode - Given an os.FileMode object, update it's permissions
+// Given an os.FileMode object, update it's permissions
 func UpdateFileMode(fm *os.FileMode, b PermissionBits) {
 	// Setuid, Setgid, and Sticky bits are not in the same position in the two bitmaks
 	// So we need to set their values manually
@@ -92,67 +87,54 @@ func UpdateFileMode(fm *os.FileMode, b PermissionBits) {
 	*fm |= os.FileMode(b)
 }
 
-// Setuid sets the UID permission bit
 func (b PermissionBits) Setuid() bool {
 	return b&Setuid != 0
 }
 
-// Setgid sets the GID permission bit
 func (b PermissionBits) Setgid() bool {
 	return b&Setgid != 0
 }
 
-// Sticky sets the sticky permission bit
 func (b PermissionBits) Sticky() bool {
 	return b&Sticky != 0
 }
 
-// UserRead sets the user readable permission bit
 func (b PermissionBits) UserRead() bool {
 	return b&UserRead != 0
 }
 
-// UserWrite sets the user writable permission bit
 func (b PermissionBits) UserWrite() bool {
 	return b&UserWrite != 0
 }
 
-// UserExecute sets the user executable permission bit
 func (b PermissionBits) UserExecute() bool {
 	return b&UserExecute != 0
 }
 
-// GroupRead sets the group readable permission bit
 func (b PermissionBits) GroupRead() bool {
 	return b&GroupRead != 0
 }
 
-// GroupWrite sets the group writable permission bit
 func (b PermissionBits) GroupWrite() bool {
 	return b&GroupWrite != 0
 }
 
-// GroupExecute sets the group executable permission bit
 func (b PermissionBits) GroupExecute() bool {
 	return b&GroupExecute != 0
 }
 
-// OtherRead sets the other readable permission bit
 func (b PermissionBits) OtherRead() bool {
 	return b&GroupRead != 0
 }
 
-// OtherWrite sets the other writable permission bit
 func (b PermissionBits) OtherWrite() bool {
 	return b&GroupWrite != 0
 }
 
-// OtherExecute sets the other executable permission bit
 func (b PermissionBits) OtherExecute() bool {
 	return b&GroupExecute != 0
 }
 
-// SetSetuid sets the SetUID permission bit (dangerous!)
 func (b *PermissionBits) SetSetuid(set bool) {
 	if set {
 		*b |= Setuid
@@ -161,7 +143,6 @@ func (b *PermissionBits) SetSetuid(set bool) {
 	}
 }
 
-// SetSetgid sets the SetGID permission bit (dangerous!)
 func (b *PermissionBits) SetSetgid(set bool) {
 	if set {
 		*b |= Setgid
@@ -170,7 +151,6 @@ func (b *PermissionBits) SetSetgid(set bool) {
 	}
 }
 
-// SetSticky sets the SetSticky permission bit (dangerous!)
 func (b *PermissionBits) SetSticky(set bool) {
 	if set {
 		*b |= Sticky
@@ -179,7 +159,6 @@ func (b *PermissionBits) SetSticky(set bool) {
 	}
 }
 
-// SetUserRead sets the SetUserRead permission bit (dangerous!)
 func (b *PermissionBits) SetUserRead(set bool) {
 	if set {
 		*b |= UserRead
@@ -188,7 +167,6 @@ func (b *PermissionBits) SetUserRead(set bool) {
 	}
 }
 
-// SetUserWrite sets the SetUserWrite permission bit (dangerous!)
 func (b *PermissionBits) SetUserWrite(set bool) {
 	if set {
 		*b |= UserWrite
@@ -197,7 +175,6 @@ func (b *PermissionBits) SetUserWrite(set bool) {
 	}
 }
 
-// SetUserExecute sets the SetUserExecute permission bit (dangerous!)
 func (b *PermissionBits) SetUserExecute(set bool) {
 	if set {
 		*b |= UserExecute
@@ -206,7 +183,6 @@ func (b *PermissionBits) SetUserExecute(set bool) {
 	}
 }
 
-// SetGroupRead sets the SetGroupRead permission bit (dangerous!)
 func (b *PermissionBits) SetGroupRead(set bool) {
 	if set {
 		*b |= GroupRead
@@ -215,7 +191,6 @@ func (b *PermissionBits) SetGroupRead(set bool) {
 	}
 }
 
-// SetGroupWrite sets the SetGroupWrite permission bit (dangerous!)
 func (b *PermissionBits) SetGroupWrite(set bool) {
 	if set {
 		*b |= GroupWrite
@@ -224,7 +199,6 @@ func (b *PermissionBits) SetGroupWrite(set bool) {
 	}
 }
 
-// SetGroupExecute sets the SetGroupExecute permission bit (dangerous!)
 func (b *PermissionBits) SetGroupExecute(set bool) {
 	if set {
 		*b |= GroupExecute
@@ -233,7 +207,6 @@ func (b *PermissionBits) SetGroupExecute(set bool) {
 	}
 }
 
-// SetOtherRead sets the SetOtherRead permission bit (dangerous!)
 func (b *PermissionBits) SetOtherRead(set bool) {
 	if set {
 		*b |= OtherRead
@@ -242,7 +215,6 @@ func (b *PermissionBits) SetOtherRead(set bool) {
 	}
 }
 
-// SetOtherWrite sets the SetOtherWrite permission bit (dangerous!)
 func (b *PermissionBits) SetOtherWrite(set bool) {
 	if set {
 		*b |= OtherWrite
@@ -251,7 +223,6 @@ func (b *PermissionBits) SetOtherWrite(set bool) {
 	}
 }
 
-// SetOtherExecute sets the SetOtherExecute permission bit (dangerous!)
 func (b *PermissionBits) SetOtherExecute(set bool) {
 	if set {
 		*b |= OtherExecute
@@ -260,7 +231,6 @@ func (b *PermissionBits) SetOtherExecute(set bool) {
 	}
 }
 
-// String returns the POSIX permission string: rwxrwxrwx
 func (b PermissionBits) String() string {
 	var buf [32]byte // Mode is uint32.
 	w := 0

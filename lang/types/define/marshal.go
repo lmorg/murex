@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 )
 
-// Marshallers is a global marshaller
+// MarshalData is a global marshaller
 func MarshalData(p *proc.Process, dataType string, data interface{}) (b []byte, err error) {
 
 	if Marshallers[dataType] == nil {
@@ -20,7 +20,7 @@ func MarshalData(p *proc.Process, dataType string, data interface{}) (b []byte, 
 	return
 }
 
-// Unmarshallers is a global unmarshaller
+// UnmarshalData is a global unmarshaller
 func UnmarshalData(p *proc.Process, dataType string) (v interface{}, err error) {
 
 	if Unmarshallers[dataType] == nil {

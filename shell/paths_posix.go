@@ -4,7 +4,7 @@ package shell
 
 import (
 	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/permbits"
+	"github.com/phayes/permbits"
 	"io/ioutil"
 	"os"
 	"sort"

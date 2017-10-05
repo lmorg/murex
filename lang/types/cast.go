@@ -8,9 +8,11 @@ import (
 )
 
 const (
-	ErrConversionFailed  = "Conversion failed. No reason given. Please review shell source code for point of failure."
-	ErrDataTypeDefaulted = "Unexpected or unknown shell data type."
-	ErrUnexpectedGoType  = "Unexpected Go type."
+	// ErrDataTypeDefaulted is returned if the murex data type is unknown
+	ErrDataTypeDefaulted = "Unexpected or unknown murex data type."
+
+	// ErrUnexpectedGoType is returned if the Go data type is unhandled
+	ErrUnexpectedGoType = "Unexpected Go type."
 )
 
 // ConvertGoType converts a Go lang variable into a murex variable

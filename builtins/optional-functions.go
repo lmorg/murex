@@ -6,6 +6,6 @@ package builtins
 //
 // These are all optional functions
 import (
-	_ "github.com/lmorg/murex/builtins/optional/encoders"
-	_ "github.com/lmorg/murex/builtins/optional/time"
+	_ "github.com/lmorg/murex/builtins/optional/encoders" // base64, file archives, etc
+	_ "github.com/lmorg/murex/builtins/optional/time"     // sleep, time
 )

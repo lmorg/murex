@@ -1,3 +1,3 @@
 package builtins
 
-import _ "github.com/lmorg/murex/builtins/types/apachelogs"
+import _ "github.com/lmorg/murex/builtins/types/apachelogs" // compile data type

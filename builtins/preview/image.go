@@ -1,7 +1,7 @@
 package preview
 
 import (
-	"github.com/lmorg/murex/builtins/preview/ansimage"
+	"github.com/eliukblau/pixterm/ansimage"
 	"github.com/lmorg/murex/lang/types/define"
 	"golang.org/x/crypto/ssh/terminal"
 	"io"

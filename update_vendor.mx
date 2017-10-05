@@ -12,8 +12,9 @@ func pull {
 #pull github.com/chzyer/readline
 pull github.com/gohxs/readline
 pull github.com/Knetic/govaluate
+pull github.com/phayes/permbits
 
-# notify
+# events
 pull github.com/fsnotify/fsnotify
 
 # custom types:
@@ -25,6 +26,7 @@ pull github.com/hashicorp/hcl
 pull github.com/lmorg/apachelogs
 
 # terminal imaging:
+pull github.com/eliukblau/pixterm
 pull github.com/disintegration/imaging
 pull golang.org/x/crypto/ssh/terminal
 pull golang.org/x/image/bmp
@@ -46,6 +48,7 @@ rm <!null> -rf $GOPATH/vendor.old
 out Applying change....
 mv <!null> $GOPATH/vendor $GOPATH/vendor.old
 mv $GOPATH/src $GOPATH/vendor
+cd $GOPATH/vendor; find <!null> . -name "vendor" -exec rm -rf {} \;
 git <!null> add $GOPATH/vendor
 
 git status $GOPATH/vendor

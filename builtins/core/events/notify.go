@@ -170,7 +170,7 @@ func cmdEvent(p *proc.Process) error {
 }
 
 // Dump returns all the events in w
-func (w watch) Dump() (dump map[string]string) {
+func (w *watch) Dump() (dump map[string]string) {
 	dump = make(map[string]string)
 	w.mutex.Lock()
 	defer w.mutex.Unlock()

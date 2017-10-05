@@ -10,6 +10,7 @@ import (
 )
 
 const interruptPrompt = "^C"
+const eofPrompt = "^D"
 
 // SigHandler is an internal function to capture and handle OS signals (eg SIGTERM).
 func SigHandler() {
