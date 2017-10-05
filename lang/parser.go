@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
@@ -14,7 +13,7 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 // ParseBlock parses a murex code block.
 // Returns the abstract syntax tree (astNodes) or any syntax errors preventing a successful parse (ParserError)
 func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
-	defer debug.Json("Parser", nodes)
+	//defer debug.Json("Parser", nodes)
 
 	var (
 		// Current state
@@ -34,7 +33,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 		pCount int                    // parameter count
 		pToken *parameters.ParamToken = &node.ParamTokens[0][0]
 	)
-	defer debug.Json("Last node", node)
+	//defer debug.Json("Last node", node)
 
 	startParameters := func() {
 		scanFuncName = false

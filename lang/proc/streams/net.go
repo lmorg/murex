@@ -189,7 +189,7 @@ func (n *Net) Close() {
 	defer n.mutex.Unlock()
 
 	if n.isParent {
-		debug.Log("Cannot Close() net marked as parent. We don't want to EOT parent streams multiple times")
+		//debug.Log("Cannot Close() net marked as parent. We don't want to EOT parent streams multiple times")
 		return
 	}
 

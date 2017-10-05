@@ -223,7 +223,7 @@ func (stdin *Stdin) Close() {
 	if stdin.isParent {
 		// This will legitimately happen a lot since the reason we mark a stream as parent is to prevent
 		// accidental closing. However it's worth pushing a message out in debug mode during this alpha build.
-		debug.Log("Cannot Close() stdin marked as parent. We don't want to EOT parent streams multiple times")
+		//debug.Log("Cannot Close() stdin marked as parent. We don't want to EOT parent streams multiple times")
 		return
 	}
 

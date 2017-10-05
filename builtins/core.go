@@ -6,6 +6,7 @@ package builtins
 //
 // My recommendation is to keep everything in this file included, but disable any of the files marked `optional`.
 import (
+	_ "github.com/lmorg/murex/builtins/core/events"
 	_ "github.com/lmorg/murex/builtins/core/httpclient"
 	_ "github.com/lmorg/murex/builtins/core/io"
 	_ "github.com/lmorg/murex/builtins/core/management"

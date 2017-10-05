@@ -19,6 +19,7 @@ func init() {
 	proc.GoFunctions["pt"] = cmdPipeTelemetry
 	proc.GoFunctions[">"] = cmdWriteFile
 	proc.GoFunctions[">>"] = cmdAppendFile
+	proc.GoFunctions["ttyfd"] = cmdTtyFd
 }
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
@@ -142,4 +143,10 @@ func cmdAppendFile(p *proc.Process) error {
 
 	_, err = io.Copy(file, p.Stdin)
 	return err
+}
+
+func cmdTtyFd(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Integer)
+	_, err = p.Stdout.Write([]byte(fmt.Sprint(os.Stdout.Fd())))
+	return
 }

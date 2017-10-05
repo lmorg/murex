@@ -16,7 +16,7 @@ func splitPath(envPath string) []string {
 	return split
 }
 
-func listExes(path string, exes *map[string]bool) {
+func listExes(path string, exes map[string]bool) {
 	var showExts bool
 
 	v, err := proc.GlobalConf.Get("shell", "show-exts", types.Boolean)
@@ -42,22 +42,22 @@ func listExes(path string, exes *map[string]bool) {
 
 		if ext == ".exe" || ext == ".com" || ext == ".bat" || ext == ".cmd" || ext == ".scr" {
 			if showExts {
-				(*exes)[name] = true
+				exes[name] = true
 			} else {
-				(*exes)[name[:len(name)-4]] = true
+				exes[name[:len(name)-4]] = true
 			}
 		}
 	}
 	return
 }
 
-func matchExes(s string, exes *map[string]bool, includeColon bool) (items []string) {
+func matchExes(s string, exes map[string]bool, includeColon bool) (items []string) {
 	colon := " "
 	if includeColon {
 		colon = ": "
 	}
 
-	for name := range *exes {
+	for name := range exes {
 		lc := strings.ToLower(s)
 		if strings.HasPrefix(strings.ToLower(name), lc) {
 			switch name {
