@@ -230,11 +230,10 @@ func (stdin *Stdin) Close() {
 	if stdin.closed {
 		if stdin.isNamedPipe {
 			debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
-			return
 		} else {
 			debug.Log("Trying to close an already closed stdin.")
-			return
 		}
+		return
 	}
 
 	stdin.closed = true

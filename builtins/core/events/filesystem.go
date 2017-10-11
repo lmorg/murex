@@ -1,26 +1,17 @@
 package events
 
 import (
-	"errors"
 	"github.com/fsnotify/fsnotify"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"os"
 	"strings"
 	"sync"
 )
-
-var w *watch = newWatch()
-
-func init() {
-	proc.GoFunctions["event"] = cmdEvent
-	go w.Watch()
-}
 
 type watch struct {
 	watcher  *fsnotify.Watcher
@@ -89,8 +80,30 @@ func (w *watch) Add(path string, block []rune) (err error) {
 	return
 }
 
+// Remove a path to the watch event list
+func (w *watch) Remove(path string) (err error) {
+	for len(path) > 1 && path[len(path)-1] == '/' {
+		path = path[:len(path)-1]
+	}
+
+	pwd, err := os.Getwd()
+	if err == nil && path[0] != '/' {
+		path = pwd + "/" + path
+	}
+
+	w.mutex.Lock()
+	defer w.mutex.Unlock()
+
+	err = w.watcher.Remove(path)
+	if err == nil {
+		delete(w.cbBlocks, path)
+	}
+
+	return
+}
+
 // Watch starts a new watch event loop
-func (w *watch) Watch() {
+func (w *watch) Init() {
 	defer w.watcher.Close()
 	type j struct {
 		Object      string
@@ -111,20 +124,20 @@ func (w *watch) Watch() {
 				Description: event.Op.String(),
 			}, false)
 			if err != nil {
-				ansi.Stderrln(ansi.FgRed, "error building Event input: "+err.Error())
+				ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
 				continue
 			}
 
 			_, err = stdin.Write(json)
 			if err != nil {
-				ansi.Stderrln(ansi.FgRed, "error writing Event input: "+err.Error())
+				ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
 				continue
 			}
 			stdin.Close()
 
 			_, err = lang.ProcessNewBlock(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, proc.ShellProcess)
 			if err != nil {
-				ansi.Stderrln(ansi.FgRed, "error compiling Event callback: "+err.Error())
+				ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
 				continue
 			}
 
@@ -138,37 +151,6 @@ func (w *watch) Watch() {
 	}
 }
 
-func cmdEvent(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Null)
-
-	if w.error != nil {
-		return errors.New("watcher failed to initialise with the following error: " + w.error.Error())
-	}
-
-	if p.Parameters.Len() < 2 {
-		return errors.New("No paths selected to watch")
-	}
-
-	block, err := p.Parameters.Block(p.Parameters.Len() - 1)
-	if err != nil {
-		return err
-	}
-
-	var errs string
-	for _, f := range p.Parameters.StringArray()[0 : p.Parameters.Len()-1] {
-		err := w.Add(f, block)
-		if err != nil {
-			errs += " {path: " + f + ", err: " + err.Error() + "}"
-		}
-	}
-
-	if errs != "" {
-		err = errors.New(errs)
-	}
-
-	return err
-}
-
 // Dump returns all the events in w
 func (w *watch) Dump() (dump map[string]string) {
 	dump = make(map[string]string)
@@ -178,9 +160,4 @@ func (w *watch) Dump() (dump map[string]string) {
 		dump[s] = string(w.cbBlocks[s])
 	}
 	return
-}
-
-// DumpEvents is used for `runtime` to output all the saved events
-func DumpEvents() map[string]string {
-	return w.Dump()
 }
