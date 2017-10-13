@@ -2,9 +2,14 @@ package events
 
 import (
 	"errors"
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 func init() {
@@ -33,9 +38,8 @@ var args *parameters.Arguments = &parameters.Arguments{
 
 type eventType interface {
 	Init()
-	Add(article string, block []rune) (err error)
-	Remove(article string) (err error)
-	Callback(path string) (block []rune)
+	Add(interrupt string, block []rune) (err error)
+	Remove(interrupt string) (err error)
 	Dump() (dump map[string]string)
 }
 
@@ -65,20 +69,25 @@ func cmdEvent(p *proc.Process) error {
 	}
 
 	if len(params) < 2 {
-		return errors.New("Too few parameters. You need to include articles to listen for and a callback code block")
+		return errors.New("Too few parameters. You need to include interrupts to listen for and a callback code block")
 	}
 
-	block := []rune(params[len(params)-1])
+	//block := []rune(params[len(params)-1])
+	block, _ := types.ConvertGoType(params[len(params)-1], types.CodeBlock)
+	//if err != nil {
+	//	return err
+	//}
+
 	params = params[:len(params)-1]
-	if !types.IsBlock([]byte(string(block))) {
-		return errors.New("Callback parameter is not a code block")
-	}
+	//if !types.IsBlock([]byte(string(block))) {
+	//	return errors.New("Callback parameter is not a code block")
+	//}
 
 	var errs string
 	for _, a := range params {
-		err := events[et].Add(a, block)
+		err := events[et].Add(a, []rune(block.(string)))
 		if err != nil {
-			errs += " {article: " + a + ", err: " + err.Error() + "}"
+			errs += " {interrupt: " + a + ", err: " + err.Error() + "}"
 		}
 	}
 
@@ -111,14 +120,14 @@ func cmdUnevent(p *proc.Process) error {
 	}
 
 	if len(params) == 0 {
-		return errors.New("Too few parameters. You need to include articles you want terminated")
+		return errors.New("Too few parameters. You need to include interrupts you want terminated")
 	}
 
 	var errs string
 	for _, a := range params {
 		err := events[et].Remove(a)
 		if err != nil {
-			errs += " {article: " + a + ", err: " + err.Error() + "}"
+			errs += " {interrupt: " + a + ", err: " + err.Error() + "}"
 		}
 	}
 
@@ -127,6 +136,53 @@ func cmdUnevent(p *proc.Process) error {
 	}
 
 	return err
+}
+
+type j struct {
+	Interrupt   string
+	Event       interface{}
+	Description string
+}
+
+func callback(evtName string, evtOp interface{}, evtDesc string, block []rune) {
+	json, err := utils.JsonMarshal(&j{
+		Interrupt:   evtName,
+		Event:       evtOp,
+		Description: evtDesc,
+	}, false)
+	if err != nil {
+		ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
+		return
+	}
+
+	stdin := streams.NewStdin()
+	_, err = stdin.Write(json)
+	if err != nil {
+		ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
+		return
+	}
+	stdin.Close()
+
+	/*stdout := streams.NewStdin()
+	go func() {
+		b, _ := stdout.ReadAll()
+		os.Stdout.Write(b)
+		stdout.Close()
+	}()
+
+	stderr := streams.NewStdin()
+	go func() {
+		b, _ := stderr.ReadAll()
+		os.Stderr.Write(b)
+		stderr.Close()
+	}()*/
+
+	debug.Log("Event callback:", string(json), string(block))
+	_, err = lang.ProcessNewBlock(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, proc.ShellProcess)
+	if err != nil {
+		ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
+		return
+	}
 }
 
 // DumpEvents is used for `runtime` to output all the saved events

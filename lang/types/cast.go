@@ -3,6 +3,7 @@ package types
 import (
 	"errors"
 	"fmt"
+	"github.com/lmorg/murex/debug"
 	"strconv"
 	"strings"
 )
@@ -19,6 +20,8 @@ const (
 func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	// First switch:  input data type
 	// Second switch: output data type
+
+	debug.Log("ConvertGoType:", fmt.Sprintf("%t %s %v", v, dataType, v))
 
 	switch v.(type) {
 	case nil:
@@ -135,7 +138,71 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			if v.(string)[0] == '{' && v.(string)[len(v.(string))-1] == '}' {
 				return v.(string)[1 : len(v.(string))-1], nil
 			}
-			return "out: '" + v.(string) + "'", nil
+			return "out: '" + v.(string) + "'", errors.New("Not a valid code block: `" + v.(string) + "`")
+		case String, Json:
+			return v, nil
+		//case Json:
+		//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
+		case Null:
+			return "", nil
+		default:
+			return nil, errors.New(ErrDataTypeDefaulted)
+		}
+
+	case []byte:
+		str := string(v.([]byte))
+		switch dataType {
+		case Generic:
+			return str, nil
+		case Integer:
+			if str == "" {
+				str = "0"
+			}
+			return strconv.Atoi(strings.TrimSpace(str))
+		case Float, Number:
+			if str == "" {
+				str = "0"
+			}
+			return strconv.ParseFloat(str, 64)
+		case Boolean:
+			return IsTrue(v.([]byte), 0), nil
+		case CodeBlock:
+			if str[0] == '{' && str[len(str)-1] == '}' {
+				return str[1 : len(str)-1], nil
+			}
+			return "out: '" + str + "'", errors.New("Not a valid code block: `" + str + "`")
+		case String, Json:
+			return v, nil
+		//case Json:
+		//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
+		case Null:
+			return "", nil
+		default:
+			return nil, errors.New(ErrDataTypeDefaulted)
+		}
+
+	case []rune:
+		str := string(v.([]byte))
+		switch dataType {
+		case Generic:
+			return str, nil
+		case Integer:
+			if str == "" {
+				str = "0"
+			}
+			return strconv.Atoi(strings.TrimSpace(str))
+		case Float, Number:
+			if str == "" {
+				str = "0"
+			}
+			return strconv.ParseFloat(str, 64)
+		case Boolean:
+			return IsTrue([]byte(str), 0), nil
+		case CodeBlock:
+			if str[0] == '{' && str[len(str)-1] == '}' {
+				return str[1 : len(str)-1], nil
+			}
+			return "out: '" + str + "'", errors.New("Not a valid code block: `" + str + "`")
 		case String, Json:
 			return v, nil
 		//case Json:

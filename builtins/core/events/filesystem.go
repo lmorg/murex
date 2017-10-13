@@ -3,10 +3,6 @@ package events
 import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"os"
 	"strings"
@@ -29,7 +25,7 @@ func newWatch() (w *watch) {
 }
 
 // Callback returns the block to execute upon a triggered event
-func (w *watch) Callback(path string) (block []rune) {
+func (w *watch) callback(path string) (block []rune) {
 	w.mutex.Lock()
 	defer w.mutex.Unlock()
 
@@ -53,6 +49,7 @@ func (w *watch) Callback(path string) (block []rune) {
 		default:
 			path = strings.Join(split[:len(split)-1], "/")
 		}
+		debug.Log("path=" + path)
 	}
 
 	return
@@ -102,44 +99,16 @@ func (w *watch) Remove(path string) (err error) {
 	return
 }
 
-// Watch starts a new watch event loop
+// Init starts a new watch event loop
 func (w *watch) Init() {
 	defer w.watcher.Close()
-	type j struct {
-		Object      string
-		Event       fsnotify.Op
-		Description string
-	}
 
 	for {
 		select {
 		case event := <-w.watcher.Events:
 			debug.Log("Event:", event)
 
-			block := w.Callback(event.Name)
-			stdin := streams.NewStdin()
-			json, err := utils.JsonMarshal(&j{
-				Object:      event.Name,
-				Event:       event.Op,
-				Description: event.Op.String(),
-			}, false)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
-				continue
-			}
-
-			_, err = stdin.Write(json)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
-				continue
-			}
-			stdin.Close()
-
-			_, err = lang.ProcessNewBlock(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, proc.ShellProcess)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
-				continue
-			}
+			callback(event.Name, event.Op, event.String(), w.callback(event.Name))
 
 			//if Event.Op&fsnotify.Write == fsnotify.Write {
 			//	debug.Log("modified file:", Event.Name)

@@ -2,6 +2,7 @@ package lang
 
 import (
 	"errors"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -21,6 +22,12 @@ var ShellExitNum int
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
 func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+	debug.Log(string(block))
+
+	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
+	//	block = block[1 : len(block)-1]
+	//}
+
 	container := new(proc.Process)
 	container.State = state.MemAllocated
 	container.IsBackground = caller.IsBackground
