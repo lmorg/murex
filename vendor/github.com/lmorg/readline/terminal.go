@@ -181,7 +181,7 @@ func (t *Terminal) ioloop() {
 				break
 			}
 			isEscape = true
-		case CharInterrupt, CharEnter, CharCtrlJ, CharEOT:
+		case CharInterrupt, CharEnter, CharCtrlJ, CharDelete:
 			expectNextChar = false
 			fallthrough
 		default:

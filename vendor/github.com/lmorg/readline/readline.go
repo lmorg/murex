@@ -42,6 +42,9 @@ type Config struct {
 	// Complete line limit
 	MaxCompleteLines int
 
+	// NoEofOnEmptyDelete disables the ^D interrupt when del is pressed on an empty readline buffer
+	NoEofOnEmptyDelete bool
+
 	// Output will transform the input buffer for display i.e (highlighting)
 	Output func(string) string
 
