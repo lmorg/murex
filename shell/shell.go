@@ -2,7 +2,6 @@ package shell
 
 import (
 	"fmt"
-	"github.com/gohxs/readline"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -11,6 +10,7 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
+	"github.com/lmorg/readline"
 	"io"
 	"strings"
 )

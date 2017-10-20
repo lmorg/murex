@@ -1,12 +1,12 @@
 package shell
 
 import (
-	"github.com/gohxs/readline"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
+	"github.com/lmorg/readline"
 	"regexp"
 	"strings"
 	"time"
