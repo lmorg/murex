@@ -8,7 +8,8 @@ go:
 
 install:
 #  - go get github.com/chzyer/readline
-  - go get github.com/gohxs/readline
+#  - go get github.com/gohxs/readline
+  - go get github.com/lmorg/readline
   - go get github.com/Knetic/govaluate
   - go get github.com/fsnotify/fsnotify
   - go get github.com/phayes/permbits

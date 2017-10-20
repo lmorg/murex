@@ -138,7 +138,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			if v.(string)[0] == '{' && v.(string)[len(v.(string))-1] == '}' {
 				return v.(string)[1 : len(v.(string))-1], nil
 			}
-			return "out: '" + v.(string) + "'", errors.New("Not a valid code block: `" + v.(string) + "`")
+			return "out: '" + v.(string) + "'", nil //errors.New("Not a valid code block: `" + v.(string) + "`")
 		case String, Json:
 			return v, nil
 		//case Json:
@@ -170,7 +170,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			if str[0] == '{' && str[len(str)-1] == '}' {
 				return str[1 : len(str)-1], nil
 			}
-			return "out: '" + str + "'", errors.New("Not a valid code block: `" + str + "`")
+			return "out: '" + str + "'", nil //errors.New("Not a valid code block: `" + str + "`")
 		case String, Json:
 			return v, nil
 		//case Json:
@@ -202,7 +202,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			if str[0] == '{' && str[len(str)-1] == '}' {
 				return str[1 : len(str)-1], nil
 			}
-			return "out: '" + str + "'", errors.New("Not a valid code block: `" + str + "`")
+			return "out: '" + str + "'", nil //errors.New("Not a valid code block: `" + str + "`")
 		case String, Json:
 			return v, nil
 		//case Json:

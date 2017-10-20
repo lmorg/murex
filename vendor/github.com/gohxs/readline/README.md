@@ -14,7 +14,7 @@ Highlighter example:
 ![doc](doc/out2.gif)
 
 Snip of the sample gif shown above
-Highlighting with [chroma](github.com/alecthomas/chroma)
+Highlighting with [chroma](https://github.com/alecthomas/chroma)
 
 ```go
 package main
