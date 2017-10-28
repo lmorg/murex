@@ -24,6 +24,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 		escaped                  bool
 		quoteSingle, quoteDouble bool
 		braceCount               int
+		unclosedIndex            bool
 		ignoreWhitespace         bool = true
 		scanFuncName             bool = true
 
@@ -82,6 +83,20 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
+			case pToken.Type == parameters.TokenTypeIndex && r != ']':
+				*pop += string(r)
+				last = r
+				continue
+
+			case pToken.Type == parameters.TokenTypeIndex && r == ']':
+				*pop += string(r)
+				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+				pCount++
+				pToken = &node.ParamTokens[pCount][0]
+				pop = &pToken.Key
+				unclosedIndex = false
+				continue
+
 			case pToken.Type == parameters.TokenTypeTilde &&
 				(r == '_' || r == '-' || r == '.' ||
 					('a' <= r && r <= 'z') ||
@@ -131,6 +146,13 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			case r == '{':
 				braceCount++
 				*pop += string(r)
+				continue
+
+			case r == '[' && pToken.Type == parameters.TokenTypeString && last != '$':
+				pToken.Type = parameters.TokenTypeIndex
+				*pop += string(r)
+				last = r
+				unclosedIndex = true
 				continue
 
 			case braceCount > 0:
@@ -576,6 +598,8 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 	}
 
 	switch {
+	case unclosedIndex:
+		return nil, raiseErr(ErrUnclosedIndex, 0)
 	case escaped:
 		return nil, raiseErr(ErrUnterminatedEscape, 0)
 	case quoteSingle:

@@ -2,14 +2,18 @@ package lang
 
 import (
 	"fmt"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
-	"os"
+	"regexp"
 )
+
+var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Vars) {
@@ -36,7 +40,8 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
-					os.Stderr.WriteString(err.Error() + utils.NewLineString)
+					//os.Stderr.WriteString(err.Error() + utils.NewLineString)
+					ansi.Stderrln(ansi.FgRed, err.Error())
 				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {
@@ -89,6 +94,37 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 
 				tCount = true
 
+			case parameters.TokenTypeIndex:
+				debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
+				match := rxTokenIndex.FindStringSubmatch(p.Tokens[i][j].Key)
+				if len(match) != 3 {
+					p.Params[len(p.Params)-1] = p.Tokens[i][j].Key
+					tCount = true
+					continue
+				}
+
+				//params := strings.Split(match[2], " ")
+				block := []rune("$" + match[1] + "->[" + match[2] + "]")
+				stdout := streams.NewStdin()
+				ProcessNewBlock(block, nil, stdout, nil, prc)
+				stdout.Close()
+				b, err := stdout.ReadAll()
+				if err != nil {
+					ansi.Stderrln(ansi.FgRed, err.Error())
+					//os.Stderr.WriteString(err.Error() + utils.NewLineString)
+				}
+
+				if len(b) > 0 && b[len(b)-1] == '\n' {
+					b = b[:len(b)-1]
+				}
+
+				if len(b) > 0 && b[len(b)-1] == '\r' {
+					b = b[:len(b)-1]
+				}
+
+				p.Params[len(p.Params)-1] += string(b)
+				tCount = true
+
 			case parameters.TokenTypeTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
 					p.Params[len(p.Params)-1] += home.MyDir
@@ -98,7 +134,8 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 				tCount = true
 
 			default:
-				os.Stderr.WriteString(fmt.Sprintf(
+				//os.Stderr.WriteString(fmt.Sprintf(
+				ansi.Stderrln(ansi.FgRed, fmt.Sprintf(
 					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"%s`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
 					utils.NewLineString,
