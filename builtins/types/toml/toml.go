@@ -18,6 +18,7 @@ func init() {
 	streams.ReadArray[typeName] = readArray
 	streams.ReadMap[typeName] = readMap
 	define.ReadIndexes[typeName] = readIndex
+	define.ReadNotIndexes[typeName] = readIndex
 	define.Marshallers[typeName] = marshal
 	define.Unmarshallers[typeName] = unmarshal
 

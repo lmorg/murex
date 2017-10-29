@@ -14,6 +14,7 @@ type jsonInterface map[interface{}]interface{}
 
 func init() {
 	proc.GoFunctions["["] = index
+	proc.GoFunctions["!["] = index
 
 	proc.GlobalConf.Define("index", "silent", config.Properties{
 		Description: "Don't report error if an index in [ ] does not exist",
@@ -46,19 +47,28 @@ func index(p *proc.Process) (err error) {
 		return errors.New("Missing closing bracket, ` ]`")
 	}
 
-	if define.ReadIndexes[dt] != nil {
-		silent, err := proc.GlobalConf.Get("index", "silent", types.Boolean)
-		if err != nil {
-			silent = false
+	var f func(p *proc.Process, params []string) error
+	if p.IsNot {
+		f = define.ReadNotIndexes[dt]
+		if f == nil {
+			return errors.New("I don't know how to get an !index from this data type: `" + dt + "`")
 		}
-
-		err = define.ReadIndexes[dt](p, params)
-		if silent.(bool) {
-			return nil
+	} else {
+		f = define.ReadIndexes[dt]
+		if f == nil {
+			return errors.New("I don't know how to get an index from this data type: `" + dt + "`")
 		}
-		return err
-
 	}
 
-	return errors.New("I don't know how to get an index from this data type: `" + dt + "`")
+	silent, err := proc.GlobalConf.Get("index", "silent", types.Boolean)
+	if err != nil {
+		silent = false
+	}
+
+	err = f(p, params)
+	if silent.(bool) {
+		return nil
+	}
+
+	return err
 }

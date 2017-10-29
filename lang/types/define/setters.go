@@ -10,6 +10,9 @@ var (
 	// ReadIndexes defines the Go functions for the `[ Index ]` murex function
 	ReadIndexes map[string]func(p *proc.Process, params []string) error = make(map[string]func(*proc.Process, []string) error)
 
+	// ReadNotIndexes defines the Go functions for the `![ Index ]` murex function
+	ReadNotIndexes map[string]func(p *proc.Process, params []string) error = make(map[string]func(*proc.Process, []string) error)
+
 	// Unmarshallers defines the Go functions for converting a murex data type into a Go interface
 	Unmarshallers map[string]func(p *proc.Process) (interface{}, error) = make(map[string]func(*proc.Process) (interface{}, error))
 

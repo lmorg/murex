@@ -20,12 +20,14 @@ func init() {
 	streams.ReadArray[sexpr] = readArrayS
 	streams.ReadMap[sexpr] = readMapS
 	define.ReadIndexes[sexpr] = readIndexS
+	define.ReadNotIndexes[sexpr] = readIndexS
 	define.Marshallers[sexpr] = marshalS
 	define.Unmarshallers[sexpr] = unmarshal
 
 	streams.ReadArray[csexp] = readArrayC
 	streams.ReadMap[csexp] = readMapC
 	define.ReadIndexes[csexp] = readIndexC
+	define.ReadNotIndexes[csexp] = readIndexC
 	define.Marshallers[csexp] = marshalC
 	define.Unmarshallers[csexp] = unmarshal
 
