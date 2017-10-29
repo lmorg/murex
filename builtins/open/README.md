@@ -1,8 +1,8 @@
-# Builtins: previews
+# Builtins: open
 
-This provides preview support for various data formats
+This opens various data formats inside the command line interface.
 
-It is an optional builtin and has additional dependencies:
+It is a recommended builtin and has additional dependencies:
 
     go get -u golang.org/x/crypto/ssh/terminal
     go get -u github.com/disintegration/imaging

@@ -38,6 +38,7 @@ func Start() {
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
 		DisableAutoSaveHistory: true,
+		NoEofOnEmptyDelete:     true,
 	})
 
 	if err != nil {

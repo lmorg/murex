@@ -49,6 +49,9 @@ for your information below is a list of packages required by _murex_:
 * `github.com/Knetic/govaluate` evaluates the math formulas. This is
 exposed via `eval` / `=` and `let`
 
+* `github.com/fsnotify/fsnotify` monitors file system changes for the fs
+event system
+
 ## Optional dependencies
 
 * `labix.org/v2/mgo/bson`  adds support for BSON (binary JSON) (as used
