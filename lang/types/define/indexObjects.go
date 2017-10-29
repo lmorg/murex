@@ -11,90 +11,12 @@ import (
 // The point of this is to minimize code rewriting and standardising the behavior of the indexer.
 func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	if p.IsNot {
-		switch v := (*object).(type) {
-		case []interface{}:
-			var objArray []interface{}
-			not := make(map[int]bool)
-			for _, key := range params {
-				i, err := strconv.Atoi(key)
-				if err != nil {
-					return err
-				}
-				if i < 0 {
-					return errors.New("Cannot have negative keys in array.")
-				}
-				if i >= len(v) {
-					return errors.New("Key '" + key + "' greater than number of items in array.")
-				}
-
-				not[i] = true
-			}
-
-			for i := range v {
-				if !not[i] {
-					objArray = append(objArray, v[i])
-				}
-			}
-
-			if len(objArray) > 0 {
-				b, err := marshaller(objArray)
-				if err != nil {
-					return err
-				}
-				p.Stdout.Writeln(b)
-			}
-			return nil
-
-		case map[string]interface{}:
-			objMap := make(map[string]interface{})
-			not := make(map[string]bool)
-			for _, key := range params {
-				not[key] = true
-			}
-
-			for s := range v {
-				if !not[s] {
-					objMap[s] = v[s]
-				}
-			}
-
-			if len(objMap) > 0 {
-				b, err := marshaller(objMap)
-				if err != nil {
-					return err
-				}
-				p.Stdout.Writeln(b)
-			}
-			return nil
-
-		case map[interface{}]interface{}:
-			objMap := make(map[interface{}]interface{})
-			not := make(map[string]bool)
-			for _, key := range params {
-				not[key] = true
-			}
-
-			for iface := range v {
-				s := fmt.Sprint(iface)
-				if !not[s] {
-					objMap[iface] = v[iface]
-				}
-			}
-
-			if len(objMap) > 0 {
-				b, err := marshaller(objMap)
-				if err != nil {
-					return err
-				}
-				p.Stdout.Writeln(b)
-			}
-			return nil
-
-		default:
-			return errors.New("Object cannot be !indexed.")
-		}
+		return itoNot(p, params, object, marshaller)
 	}
+	return itoIndex(p, params, object, marshaller)
+}
 
+func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	var objArray []interface{}
 	switch v := (*object).(type) {
 	case []interface{}:
@@ -199,5 +121,90 @@ func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, 
 
 	default:
 		return errors.New("Object cannot be indexed.")
+	}
+}
+
+func itoNot(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
+	switch v := (*object).(type) {
+	case []interface{}:
+		var objArray []interface{}
+		not := make(map[int]bool)
+		for _, key := range params {
+			i, err := strconv.Atoi(key)
+			if err != nil {
+				return err
+			}
+			if i < 0 {
+				return errors.New("Cannot have negative keys in array.")
+			}
+			if i >= len(v) {
+				return errors.New("Key '" + key + "' greater than number of items in array.")
+			}
+
+			not[i] = true
+		}
+
+		for i := range v {
+			if !not[i] {
+				objArray = append(objArray, v[i])
+			}
+		}
+
+		if len(objArray) > 0 {
+			b, err := marshaller(objArray)
+			if err != nil {
+				return err
+			}
+			p.Stdout.Writeln(b)
+		}
+		return nil
+
+	case map[string]interface{}:
+		objMap := make(map[string]interface{})
+		not := make(map[string]bool)
+		for _, key := range params {
+			not[key] = true
+		}
+
+		for s := range v {
+			if !not[s] {
+				objMap[s] = v[s]
+			}
+		}
+
+		if len(objMap) > 0 {
+			b, err := marshaller(objMap)
+			if err != nil {
+				return err
+			}
+			p.Stdout.Writeln(b)
+		}
+		return nil
+
+	case map[interface{}]interface{}:
+		objMap := make(map[interface{}]interface{})
+		not := make(map[string]bool)
+		for _, key := range params {
+			not[key] = true
+		}
+
+		for iface := range v {
+			s := fmt.Sprint(iface)
+			if !not[s] {
+				objMap[iface] = v[iface]
+			}
+		}
+
+		if len(objMap) > 0 {
+			b, err := marshaller(objMap)
+			if err != nil {
+				return err
+			}
+			p.Stdout.Writeln(b)
+		}
+		return nil
+
+	default:
+		return errors.New("Object cannot be !indexed.")
 	}
 }
