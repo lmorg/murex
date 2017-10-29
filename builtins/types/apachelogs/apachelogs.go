@@ -13,7 +13,7 @@ const (
 func init() {
 	streams.ReadArray[typeAccess] = readArray
 	//streams.ReadMap[typeAccess] = readMap
-	//define.ReadIndexes[typeAccess] = readIndex
+	define.ReadIndexes[typeAccess] = index
 	//define.Marshallers[typeAccess] = marshal
 	define.Unmarshallers[typeAccess] = unmarshal
 }

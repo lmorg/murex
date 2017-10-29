@@ -2,6 +2,7 @@ package typemgmt
 
 import (
 	"errors"
+	"fmt"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -21,7 +22,13 @@ func init() {
 	})
 }
 
-func index(p *proc.Process) error {
+func index(p *proc.Process) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("Panic caught: %s", r)
+		}
+	}()
+
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

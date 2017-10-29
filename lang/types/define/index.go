@@ -1,28 +1,14 @@
-package json
+package define
 
 import (
-	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/utils"
 	"strconv"
 )
 
-func index(p *proc.Process, params []string) error {
-	var jInterface interface{}
-
-	b, err := p.Stdin.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	err = json.Unmarshal(b, &jInterface)
-	if err != nil {
-		return err
-	}
-
-	var jArray []interface{}
-	switch v := jInterface.(type) {
+func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
+	var objArray []interface{}
+	switch v := (*object).(type) {
 	case []interface{}:
 		for _, key := range params {
 			i, err := strconv.Atoi(key)
@@ -37,14 +23,14 @@ func index(p *proc.Process, params []string) error {
 			}
 
 			if len(params) > 1 {
-				jArray = append(jArray, v[i])
+				objArray = append(objArray, v[i])
 
 			} else {
 				switch v[i].(type) {
 				case string:
 					p.Stdout.Write([]byte(v[i].(string)))
 				default:
-					b, err := utils.JsonMarshal(v[i], p.Stdout.IsTTY())
+					b, err := marshaller(v[i])
 					if err != nil {
 						return err
 					}
@@ -52,8 +38,8 @@ func index(p *proc.Process, params []string) error {
 				}
 			}
 		}
-		if len(jArray) > 0 {
-			b, err := utils.JsonMarshal(jArray, p.Stdout.IsTTY())
+		if len(objArray) > 0 {
+			b, err := marshaller(objArray)
 			if err != nil {
 				return err
 			}
@@ -68,14 +54,14 @@ func index(p *proc.Process, params []string) error {
 			}
 
 			if len(params) > 1 {
-				jArray = append(jArray, v[key])
+				objArray = append(objArray, v[key])
 
 			} else {
 				switch v[key].(type) {
 				case string:
 					p.Stdout.Write([]byte(v[key].(string)))
 				default:
-					b, err := utils.JsonMarshal(v[key], p.Stdout.IsTTY())
+					b, err := marshaller(v[key])
 					if err != nil {
 						return err
 					}
@@ -83,8 +69,8 @@ func index(p *proc.Process, params []string) error {
 				}
 			}
 		}
-		if len(jArray) > 0 {
-			b, err := utils.JsonMarshal(jArray, p.Stdout.IsTTY())
+		if len(objArray) > 0 {
+			b, err := marshaller(objArray)
 			if err != nil {
 				return err
 			}
@@ -99,14 +85,14 @@ func index(p *proc.Process, params []string) error {
 			}
 
 			if len(params) > 1 {
-				jArray = append(jArray, v[key])
+				objArray = append(objArray, v[key])
 
 			} else {
 				switch v[key].(type) {
 				case string:
 					p.Stdout.Write([]byte(v[key].(string)))
 				default:
-					b, err := utils.JsonMarshal(v[key], p.Stdout.IsTTY())
+					b, err := marshaller(v[key])
 					if err != nil {
 						return err
 					}
@@ -114,8 +100,8 @@ func index(p *proc.Process, params []string) error {
 				}
 			}
 		}
-		if len(jArray) > 0 {
-			b, err := utils.JsonMarshal(jArray, p.Stdout.IsTTY())
+		if len(objArray) > 0 {
+			b, err := marshaller(objArray)
 			if err != nil {
 				return err
 			}
@@ -124,6 +110,6 @@ func index(p *proc.Process, params []string) error {
 		return nil
 
 	default:
-		return errors.New("JSON object cannot be indexed.")
+		return errors.New("Object cannot be indexed.")
 	}
 }

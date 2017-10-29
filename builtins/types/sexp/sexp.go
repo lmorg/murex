@@ -2,7 +2,6 @@ package sexp
 
 import (
 	"bytes"
-	"errors"
 	"github.com/abesto/sexp"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
@@ -105,18 +104,20 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 func readIndexC(p *proc.Process, params []string) error { return readIndex(p, params, true) }
 func readIndexS(p *proc.Process, params []string) error { return readIndex(p, params, false) }
 
-func readIndex(p *proc.Process, params []string, canonical bool) error {
+func readIndex(p *proc.Process, params []string, canonical bool) (err error) {
+	var se interface{}
+
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return err
 	}
 
-	se, err := sexp.Unmarshal(b)
+	se, err = sexp.Unmarshal(b)
 	if err != nil {
 		return err
 	}
 
-	var seArray []interface{}
+	/*var seArray []interface{}
 
 	for _, key := range params {
 		i, err := strconv.Atoi(key)
@@ -154,7 +155,13 @@ func readIndex(p *proc.Process, params []string, canonical bool) error {
 		}
 		p.Stdout.Writeln(b)
 	}
-	return nil
+	return nil*/
+
+	marshaller := func(iface interface{}) ([]byte, error) {
+		return sexp.Marshal(iface, canonical)
+	}
+
+	return define.IndexTemplateObject(p, params, &se, marshaller)
 }
 
 func marshalC(_ *proc.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, true) }
