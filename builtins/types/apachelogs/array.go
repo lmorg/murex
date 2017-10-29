@@ -11,9 +11,5 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 		callback(scanner.Bytes())
 	}
 
-	if err := scanner.Err(); err != nil {
-		return err
-	}
-
-	return nil
+	return scanner.Err()
 }

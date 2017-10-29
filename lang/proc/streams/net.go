@@ -140,11 +140,7 @@ func (n *Net) ReadLine(callback func([]byte)) error {
 		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
 
-	if err := scanner.Err(); err != nil {
-		return err
-	}
-
-	return nil
+	return scanner.Err()
 }
 
 // ReadAll data from net Io interface

@@ -16,9 +16,5 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 		callback(strconv.Itoa(i), strings.TrimSpace(string(scanner.Bytes())), false)
 	}
 
-	if err := scanner.Err(); err != nil {
-		return err
-	}
-
-	return nil
+	return scanner.Err()
 }

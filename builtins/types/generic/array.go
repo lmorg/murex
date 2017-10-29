@@ -12,9 +12,6 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 		callback(bytes.TrimSpace(scanner.Bytes()))
 	}
 
-	if err := scanner.Err(); err != nil {
-		return err
-	}
-
-	return nil
+	err := scanner.Err()
+	return err
 }
