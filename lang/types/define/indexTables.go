@@ -3,9 +3,14 @@ package define
 import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/utils/ansi"
 	"regexp"
 	"strconv"
+)
+
+const (
+	byRowNumber = iota + 1
+	byColumnNumber
+	byColumnName
 )
 
 var (
@@ -15,14 +20,14 @@ var (
 
 // IndexTemplateTable is a handy standard indexer you can use in your custom data types for tabulated / streamed data.
 // The point of this is to minimize code rewriting and standardising the behavior of the indexer.
-func IndexTemplateTable(p *proc.Process, params []string, unmarshaller func([]byte) ([]string, error), marshaller func([]string) []byte) error {
+func IndexTemplateTable(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	if p.IsNot {
-		return ittNot(p, params, unmarshaller, marshaller)
+		return ittNot(p, params, cRecords, marshaller)
 	}
-	return ittIndex(p, params, unmarshaller, marshaller)
+	return ittIndex(p, params, cRecords, marshaller)
 }
 
-func ittIndex(p *proc.Process, params []string, unmarshaller func([]byte) ([]string, error), marshaller func([]string) []byte) error {
+func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	var (
 		mode     int
 		matchStr []string
@@ -32,43 +37,42 @@ func ittIndex(p *proc.Process, params []string, unmarshaller func([]byte) ([]str
 	for i := range params {
 		switch {
 		case rxRowSuffix.MatchString(params[i]):
-			if mode != 0 && mode != 1 {
+			if mode != 0 && mode != byRowNumber {
 				return errors.New("You cannot mix and match matching modes.")
 			}
-			mode = 1
+			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
 			matchInt = append(matchInt, num)
 
 		case rxColumnPrefix.MatchString(params[i]):
-			if mode != 0 && mode != 2 {
+			if mode != 0 && mode != byColumnNumber {
 				return errors.New("You cannot mix and match matching modes.")
 			}
-			mode = 2
+			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
 			matchInt = append(matchInt, num)
 
 		default:
-			if mode != 0 && mode != 3 {
+			if mode != 0 && mode != byColumnName {
 				return errors.New("You cannot mix and match matching modes.")
 			}
 			matchStr = append(matchStr, params[i])
-			mode = 3
+			mode = byColumnName
 
 		}
 	}
 
 	switch mode {
-	case 1:
-		// Match row numbers
+	case byRowNumber:
 		var (
-			unordered bool
-			last      int
-			max       int
+			ordered bool = true
+			last    int
+			max     int
 		)
 		// check order
 		for _, i := range matchInt {
 			if i < last {
-				unordered = true
+				ordered = false
 			}
 			if i > max {
 				max = i
@@ -76,55 +80,56 @@ func ittIndex(p *proc.Process, params []string, unmarshaller func([]byte) ([]str
 			last = i
 		}
 
-		if !unordered {
+		if ordered {
 			// ordered matching - for this we can just read in the records we want sequentially. Low memory overhead
 			var i int
-			err := p.Stdin.ReadLine(func(b []byte) {
+			for {
+				recs, ok := <-cRecords
+				if !ok {
+					return nil
+				}
 				if i == matchInt[0] {
-					_, err := p.Stdout.Write(b)
+					_, err := p.Stdout.Writeln(marshaller(recs))
 					if err != nil {
 						p.Stderr.Writeln([]byte(err.Error()))
 					}
 					if len(matchInt) == 1 {
 						matchInt[0] = -1
-						return
+						return nil
 					}
 					matchInt = matchInt[1:]
 				}
 				i++
-			})
-			if err != nil {
-				return err
 			}
 
 		} else {
 			// unordered matching - for this we load the entire data set into memory - up until the maximum value
 			var (
-				i    int
-				recs map[int][]byte = make(map[int][]byte)
+				i     int
+				lines [][]string = make([][]string, max+1)
 			)
-			err := p.Stdin.ReadLine(func(b []byte) {
+			for {
+				recs, ok := <-cRecords
+				if !ok {
+					break
+				}
 				if i <= max {
-					recs[i] = b
+					lines[i] = recs
 				}
 				i++
-			})
-			if err != nil {
-				return err
 			}
-			for _, i = range matchInt {
-				p.Stdout.Write(recs[i])
+
+			for _, j := range matchInt {
+				p.Stdout.Writeln(marshaller(lines[j]))
 			}
 
 		}
 
-	case 2:
-		// Match column numbers
-		p.Stdin.ReadLine(func(b []byte) {
-			recs, err := unmarshaller(b)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, err.Error())
-				return
+	case byColumnNumber:
+		for {
+			recs, ok := <-cRecords
+			if !ok {
+				return nil
 			}
 
 			var line []string
@@ -138,29 +143,35 @@ func ittIndex(p *proc.Process, params []string, unmarshaller func([]byte) ([]str
 			if len(line) != 0 {
 				p.Stdout.Writeln(marshaller(line))
 			}
-		})
+		}
 
-	case 3:
-		// Match column names
+	case byColumnName:
 		var (
 			lineNum  int
 			headings map[string]int = make(map[string]int)
 		)
 
-		p.Stdin.ReadLine(func(b []byte) {
-			recs, err := unmarshaller(b)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, err.Error())
-				return
+		for {
+			var line []string
+			recs, ok := <-cRecords
+			if !ok {
+				return nil
 			}
 
 			if lineNum == 0 {
 				for i := range recs {
 					headings[recs[i]] = i + 1
 				}
+				for i := range matchStr {
+					if headings[matchStr[i]] != 0 {
+						line = append(line, matchStr[i])
+					}
+				}
+				if len(line) != 0 {
+					p.Stdout.Writeln(marshaller(line))
+				}
 
 			} else {
-				var line []string
 				for i := range matchStr {
 					col := headings[matchStr[i]]
 					if col != 0 && col < len(recs) {
@@ -174,7 +185,7 @@ func ittIndex(p *proc.Process, params []string, unmarshaller func([]byte) ([]str
 				}
 			}
 			lineNum++
-		})
+		}
 
 	default:
 		return errors.New("You haven't selected any rows / columns.")
@@ -183,7 +194,7 @@ func ittIndex(p *proc.Process, params []string, unmarshaller func([]byte) ([]str
 	return nil
 }
 
-func ittNot(p *proc.Process, params []string, unmarshaller func([]byte) ([]string, error), marshaller func([]string) []byte) error {
+func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	var (
 		mode     int
 		matchStr map[string]bool = make(map[string]bool)
@@ -193,54 +204,54 @@ func ittNot(p *proc.Process, params []string, unmarshaller func([]byte) ([]strin
 	for i := range params {
 		switch {
 		case rxRowSuffix.MatchString(params[i]):
-			if mode != 0 && mode != 1 {
+			if mode != 0 && mode != byRowNumber {
 				return errors.New("You cannot mix and match matching modes.")
 			}
-			mode = 1
+			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
 			matchInt[num] = true
 
 		case rxColumnPrefix.MatchString(params[i]):
-			if mode != 0 && mode != 2 {
+			if mode != 0 && mode != byColumnNumber {
 				return errors.New("You cannot mix and match matching modes.")
 			}
-			mode = 2
+			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
 			matchInt[num] = true
 
 		default:
-			if mode != 0 && mode != 3 {
+			if mode != 0 && mode != byColumnName {
 				return errors.New("You cannot mix and match matching modes.")
 			}
 			matchStr[params[i]] = true
-			mode = 3
+			mode = byColumnName
 
 		}
 	}
 
 	switch mode {
-	case 1:
-		var i int
-		err := p.Stdin.ReadLine(func(b []byte) {
+	case byRowNumber:
+		i := -1
+		for {
+			recs, ok := <-cRecords
+			if !ok {
+				return nil
+			}
+
 			if !matchInt[i] {
-				_, err := p.Stdout.Write(b)
+				_, err := p.Stdout.Writeln(marshaller(recs))
 				if err != nil {
 					p.Stderr.Writeln([]byte(err.Error()))
 				}
 			}
 			i++
-		})
-		if err != nil {
-			return err
 		}
 
-	case 2:
-		// Match column numbers
-		p.Stdin.ReadLine(func(b []byte) {
-			recs, err := unmarshaller(b)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, err.Error())
-				return
+	case byColumnNumber:
+		for {
+			recs, ok := <-cRecords
+			if !ok {
+				return nil
 			}
 
 			var line []string
@@ -252,29 +263,33 @@ func ittNot(p *proc.Process, params []string, unmarshaller func([]byte) ([]strin
 			if len(line) != 0 {
 				p.Stdout.Writeln(marshaller(line))
 			}
-		})
+		}
 
-	case 3:
-		// Match column names
+	case byColumnName:
 		var (
 			lineNum  int
 			headings map[int]string = make(map[int]string)
 		)
 
-		p.Stdin.ReadLine(func(b []byte) {
-			recs, err := unmarshaller(b)
-			if err != nil {
-				ansi.Stderrln(ansi.FgRed, err.Error())
-				return
+		for {
+			var line []string
+			recs, ok := <-cRecords
+			if !ok {
+				return nil
 			}
 
 			if lineNum == 0 {
 				for i := range recs {
 					headings[i] = recs[i]
+					if !matchStr[headings[i]] {
+						line = append(line, recs[i])
+					}
+				}
+				if len(line) != 0 {
+					p.Stdout.Writeln(marshaller(line))
 				}
 
 			} else {
-				var line []string
 				for i := range recs {
 					if !matchStr[headings[i]] {
 						line = append(line, recs[i])
@@ -286,7 +301,7 @@ func ittNot(p *proc.Process, params []string, unmarshaller func([]byte) ([]strin
 				}
 			}
 			lineNum++
-		})
+		}
 
 	default:
 		return errors.New("You haven't selected any rows / columns.")
