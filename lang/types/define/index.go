@@ -2,12 +2,14 @@ package define
 
 import (
 	"errors"
+	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"strconv"
 )
 
+// IndexTemplateObject is a handy standard indexer you can use in your custom data types for structured object types.
+// The point of this is to minimize code rewriting and standardising the behavior of the indexer.
 func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
-
 	if p.IsNot {
 		switch v := (*object).(type) {
 		case []interface{}:
@@ -53,6 +55,29 @@ func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, 
 			for s := range v {
 				if !not[s] {
 					objMap[s] = v[s]
+				}
+			}
+
+			if len(objMap) > 0 {
+				b, err := marshaller(objMap)
+				if err != nil {
+					return err
+				}
+				p.Stdout.Writeln(b)
+			}
+			return nil
+
+		case map[interface{}]interface{}:
+			objMap := make(map[interface{}]interface{})
+			not := make(map[string]bool)
+			for _, key := range params {
+				not[key] = true
+			}
+
+			for iface := range v {
+				s := fmt.Sprint(iface)
+				if !not[s] {
+					objMap[iface] = v[iface]
 				}
 			}
 

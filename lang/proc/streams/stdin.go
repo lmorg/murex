@@ -138,11 +138,7 @@ func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
 
-	if err := scanner.Err(); err != nil {
-		return err
-	}
-
-	return nil
+	return scanner.Err()
 }
 
 // ReadAll reads everything and dump it into one byte slice.
