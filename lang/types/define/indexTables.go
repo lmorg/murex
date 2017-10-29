@@ -123,6 +123,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 				p.Stdout.Writeln(marshaller(lines[j]))
 			}
 
+			return nil
 		}
 
 	case byColumnNumber:
@@ -190,8 +191,6 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 	default:
 		return errors.New("You haven't selected any rows / columns.")
 	}
-
-	return nil
 }
 
 func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
@@ -306,6 +305,4 @@ func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller
 	default:
 		return errors.New("You haven't selected any rows / columns.")
 	}
-
-	return nil
 }
