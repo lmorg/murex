@@ -2,33 +2,32 @@ package csv
 
 import (
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types/define"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 func readIndex(p *proc.Process, params []string) error {
-	match := make(map[string]int)
-	for i := range params {
-		match[params[i]] = i + 1
-	}
+	cRecords := make(chan []string, 1)
 
-	csvParser, err := NewParser(nil, &proc.GlobalConf)
+	csvParser, err := NewParser(p.Stdin, &proc.GlobalConf)
 	if err != nil {
 		return err
 	}
-	records := make([]string, len(params)+1)
-	var matched bool
 
-	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
-		if match[key] != 0 {
-			matched = true
-			records[match[key]] = value
+	go func() {
+		var headingsPrinted bool
+		err := csvParser.ReadLine(func(recs []string, headings []string) {
+			if !headingsPrinted {
+				cRecords <- headings
+				headingsPrinted = true
+			}
+			cRecords <- recs
+		})
+		if err != nil {
+			ansi.Stderrln(ansi.FgRed, err.Error())
 		}
+		close(cRecords)
+	}()
 
-		if last && matched {
-			p.Stdout.Writeln(csvParser.ArrayToCsv(records[1:]))
-			matched = false
-			records = make([]string, len(params)+1)
-		}
-	})
-
-	return err
+	return define.IndexTemplateTable(p, params, cRecords, csvParser.ArrayToCsv)
 }

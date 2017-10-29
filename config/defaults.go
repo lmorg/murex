@@ -88,7 +88,7 @@ func Defaults(config *Config, isInteractive bool) {
 	})
 
 	config.Define("csv", "headings", Properties{
-		Description: "CSV files include headings in their first line.",
+		Description: "CSV files include headings when queried in formap.",
 		Default:     true,
 		DataType:    types.Boolean,
 	})

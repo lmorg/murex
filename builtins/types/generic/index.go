@@ -8,21 +8,19 @@ import (
 	"strings"
 )
 
-var (
-	rxWhitespace *regexp.Regexp = regexp.MustCompile(`\s+`)
-)
+var rxWhitespace *regexp.Regexp = regexp.MustCompile(`\s+`)
 
 func index(p *proc.Process, params []string) error {
-	recs := make(chan []string, 1)
+	cRecords := make(chan []string, 1)
 
 	go func() {
 		err := p.Stdin.ReadLine(func(b []byte) {
-			recs <- rxWhitespace.Split(string(b), -1)
+			cRecords <- rxWhitespace.Split(string(b), -1)
 		})
 		if err != nil {
 			ansi.Stderrln(ansi.FgRed, err.Error())
 		}
-		close(recs)
+		close(cRecords)
 	}()
 
 	marshaller := func(s []string) (b []byte) {
@@ -30,5 +28,5 @@ func index(p *proc.Process, params []string) error {
 		return
 	}
 
-	return define.IndexTemplateTable(p, params, recs, marshaller)
+	return define.IndexTemplateTable(p, params, cRecords, marshaller)
 }
