@@ -11,13 +11,13 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
-			b = append(b, []byte(v[i]+utils.NewLineString)...)
+			b = append(b, []byte(v[i])...) //+utils.NewLineString)...)
 		}
 		return
 
 	case []interface{}:
 		for i := range v {
-			b = append(b, []byte(fmt.Sprintln(v[i]))...)
+			b = append(b, iface2str(&v[i])...)
 		}
 		return
 
@@ -51,6 +51,19 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 	default:
 		err = errors.New("I don't know how to marshal that data into a `*`. Data possibly too complex?")
 		return
+	}
+}
+
+func iface2str(v *interface{}) (b []byte) {
+	switch t := (*v).(type) {
+	case string:
+		return []byte((*v).(string))
+	case int, uint, float64:
+		s := fmt.Sprintln(*v)
+		return []byte(s)
+	default:
+		s := fmt.Sprintf("%s: %s%s", t, *v, utils.NewLineString)
+		return []byte(s)
 	}
 }
 
