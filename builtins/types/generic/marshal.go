@@ -13,7 +13,7 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
-			b = append(b, []byte(v[i])...) //+utils.NewLineString)...)
+			b = append(b, []byte(v[i]+utils.NewLineString)...)
 		}
 		return
 
