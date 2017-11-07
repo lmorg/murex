@@ -25,14 +25,14 @@ var args *parameters.Arguments = &parameters.Arguments{
 	AllowAdditional: true,
 	Flags: map[string]string{
 		"-f": "--filesystem",
-		"-c": "--command",
+		//"-c": "--command",
 		"-s": "--interval",
 		"-i": "--interrupt",
 
 		"--filesystem": types.Boolean,
-		"--command":    types.Boolean,
-		"--interval":   types.Boolean,
-		"--interrupt":  types.Boolean,
+		//"--command":    types.Boolean,
+		"--interval":  types.Boolean,
+		"--interrupt": types.Boolean,
 	},
 }
 

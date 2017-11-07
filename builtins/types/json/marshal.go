@@ -7,9 +7,6 @@ import (
 )
 
 func marshal(p *proc.Process, v interface{}) ([]byte, error) {
-	//newV := deinterface(v)
-	//fmt.Printf("--> %T\n", v)
-	//fmt.Printf("==> %T\n", newV)
 	return utils.JsonMarshal(v, p.Stdout.IsTTY())
 }
 

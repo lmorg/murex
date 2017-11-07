@@ -166,23 +166,27 @@ func cmdVersion(p *proc.Process) error {
 func cmdRuntime(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	runtime := make(map[string]interface{})
-	runtime["Vars"] = proc.GlobalVars.Dump()
-	runtime["Aliases"] = proc.GlobalAliases.Dump()
-	runtime["Config"] = proc.GlobalConf.Dump()
-	runtime["Pipes"] = proc.GlobalPipes.Dump()
-	runtime["Funcs"] = proc.MxFunctions.Dump()
-	runtime["Fids"] = proc.GlobalFIDs.Dump()
-	runtime["Arrays"] = streams.DumpArray()
-	runtime["Maps"] = streams.DumpMap()
-	runtime["Indexes"] = define.DumpIndex()
-	runtime["Marshallers"] = define.DumpMarshaller()
-	runtime["Unmarshallers"] = define.DumpUnmarshaller()
-	runtime["Mimes"] = define.DumpMime()
-	runtime["FileExts"] = define.DumpFileExts()
-	runtime["Events"] = events.DumpEvents()
+	rt := make(map[string]interface{})
+	rt["Vars"] = proc.GlobalVars.Dump()
+	rt["Aliases"] = proc.GlobalAliases.Dump()
+	rt["Config"] = proc.GlobalConf.Dump()
+	rt["Pipes"] = proc.GlobalPipes.Dump()
+	rt["Funcs"] = proc.MxFunctions.Dump()
+	rt["Fids"] = proc.GlobalFIDs.Dump()
+	rt["Arrays"] = streams.DumpArray()
+	rt["Maps"] = streams.DumpMap()
+	rt["Indexes"] = define.DumpIndex()
+	rt["Marshallers"] = define.DumpMarshaller()
+	rt["Unmarshallers"] = define.DumpUnmarshaller()
+	rt["Mimes"] = define.DumpMime()
+	rt["FileExts"] = define.DumpFileExts()
+	rt["Events"] = events.DumpEvents()
 
-	b, err := utils.JsonMarshal(runtime, p.Stdout.IsTTY())
+	//var mem runtime.MemStats
+	//runtime.ReadMemStats(&mem)
+	//rt["MemStats"] = mem
+
+	b, err := utils.JsonMarshal(rt, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
