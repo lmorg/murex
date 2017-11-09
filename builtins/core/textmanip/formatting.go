@@ -7,11 +7,14 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
+	"net/url"
 )
 
 func init() {
 	proc.GoFunctions["pretty"] = cmdPretty
 	proc.GoFunctions["sprintf"] = cmdSprintf
+	proc.GoFunctions["qs2json"] = cmdQs2Json
 }
 
 func cmdPretty(p *proc.Process) error {
@@ -56,4 +59,33 @@ func cmdSprintf(p *proc.Process) error {
 
 	_, err = p.Stdout.Write([]byte(fmt.Sprintf(s, a...)))
 	return err
+}
+
+func cmdQs2Json(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Json)
+
+	var b []byte
+
+	if p.IsMethod {
+		b, err = p.Stdin.ReadAll()
+		if err != nil {
+			return
+		}
+
+	} else {
+		b = p.Parameters.ByteAll()
+	}
+
+	qs, err := url.ParseQuery(string(b))
+	if err != nil {
+		return
+	}
+
+	b, err = utils.JsonMarshal(qs, p.Stdout.IsTTY())
+	if err != nil {
+		return
+	}
+
+	_, err = p.Stdout.Write(b)
+	return
 }

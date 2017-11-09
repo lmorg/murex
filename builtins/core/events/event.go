@@ -24,15 +24,15 @@ func init() {
 var args *parameters.Arguments = &parameters.Arguments{
 	AllowAdditional: true,
 	Flags: map[string]string{
+		"-t": "--timer",
 		"-f": "--filesystem",
 		//"-c": "--command",
-		"-s": "--interval",
-		"-i": "--interrupt",
+		//"-i": "--interrupt",
 
+		"--timer":      types.Boolean,
 		"--filesystem": types.Boolean,
 		//"--command":    types.Boolean,
-		"--interval":  types.Boolean,
-		"--interrupt": types.Boolean,
+		//"--interrupt": types.Boolean,
 	},
 }
 
@@ -40,11 +40,12 @@ type eventType interface {
 	Init()
 	Add(interrupt string, block []rune) (err error)
 	Remove(interrupt string) (err error)
-	Dump() (dump map[string]string)
+	Dump() (dump interface{})
 }
 
 var events map[string]eventType = map[string]eventType{
 	"--filesystem": newWatch(),
+	"--timer":      newTimer(),
 }
 
 func cmdEvent(p *proc.Process) error {
@@ -145,49 +146,51 @@ type j struct {
 }
 
 func callback(evtName string, evtOp interface{}, evtDesc string, block []rune) {
-	json, err := utils.JsonMarshal(&j{
-		Interrupt:   evtName,
-		Event:       evtOp,
-		Description: evtDesc,
-	}, false)
-	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
-		return
-	}
-
-	stdin := streams.NewStdin()
-	_, err = stdin.Write(json)
-	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
-		return
-	}
-	stdin.Close()
-
-	/*stdout := streams.NewStdin()
 	go func() {
-		b, _ := stdout.ReadAll()
-		os.Stdout.Write(b)
-		stdout.Close()
+		json, err := utils.JsonMarshal(&j{
+			Interrupt:   evtName,
+			Event:       evtOp,
+			Description: evtDesc,
+		}, false)
+		if err != nil {
+			ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
+			return
+		}
+
+		stdin := streams.NewStdin()
+		_, err = stdin.Write(json)
+		if err != nil {
+			ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
+			return
+		}
+		stdin.Close()
+
+		/*stdout := streams.NewStdin()
+		go func() {
+			b, _ := stdout.ReadAll()
+			os.Stdout.Write(b)
+			stdout.Close()
+		}()
+
+		stderr := streams.NewStdin()
+		go func() {
+			b, _ := stderr.ReadAll()
+			os.Stderr.Write(b)
+			stderr.Close()
+		}()*/
+
+		debug.Log("Event callback:", string(json), string(block))
+		_, err = lang.ProcessNewBlock(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, proc.ShellProcess)
+		if err != nil {
+			ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
+			return
+		}
 	}()
-
-	stderr := streams.NewStdin()
-	go func() {
-		b, _ := stderr.ReadAll()
-		os.Stderr.Write(b)
-		stderr.Close()
-	}()*/
-
-	debug.Log("Event callback:", string(json), string(block))
-	_, err = lang.ProcessNewBlock(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, proc.ShellProcess)
-	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
-		return
-	}
 }
 
 // DumpEvents is used for `runtime` to output all the saved events
-func DumpEvents() (dump map[string]map[string]string) {
-	dump = make(map[string]map[string]string)
+func DumpEvents() (dump map[string]interface{}) {
+	dump = make(map[string]interface{})
 
 	for et := range events {
 		dump[et] = events[et].Dump()

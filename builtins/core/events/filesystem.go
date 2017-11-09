@@ -121,12 +121,14 @@ func (w *watch) Init() {
 }
 
 // Dump returns all the events in w
-func (w *watch) Dump() (dump map[string]string) {
-	dump = make(map[string]string)
+func (w *watch) Dump() interface{} {
+	dump := make(map[string]string)
+
 	w.mutex.Lock()
-	defer w.mutex.Unlock()
 	for s := range w.cbBlocks {
 		dump[s] = string(w.cbBlocks[s])
 	}
-	return
+	defer w.mutex.Unlock()
+
+	return dump
 }

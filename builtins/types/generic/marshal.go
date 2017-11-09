@@ -59,7 +59,7 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 func iface2str(v *interface{}) (b []byte) {
 	switch t := (*v).(type) {
 	case string:
-		return []byte((*v).(string)+utils.NewLineString)
+		return []byte((*v).(string) + utils.NewLineString)
 	case int, uint, float64:
 		s := fmt.Sprintln(*v)
 		return []byte(s)
