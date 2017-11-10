@@ -4,12 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 	"net/url"
 	"strconv"
 )
 
 func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
-	var qs url.Values
+	qs := make(url.Values)
 
 	switch v := iface.(type) {
 	case []string:
@@ -20,7 +21,11 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 
 	case []interface{}:
 		for i := range v {
-			qs.Add(strconv.Itoa(i), fmt.Sprint(v[i]))
+			t, err := types.ConvertGoType(v[i], types.String)
+			if err != nil {
+				t = fmt.Sprint(v[i])
+			}
+			qs.Add(strconv.Itoa(i), t.(string))
 		}
 		b = []byte(qs.Encode())
 
@@ -32,19 +37,35 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 
 	case map[string]interface{}:
 		for s := range v {
-			qs.Add(s, fmt.Sprint(v[s]))
+			t, err := types.ConvertGoType(v[s], types.String)
+			if err != nil {
+				t = fmt.Sprint(v[s])
+			}
+			qs.Add(s, t.(string))
 		}
 		b = []byte(qs.Encode())
 
 	case map[interface{}]interface{}:
 		for s := range v {
-			qs.Add(fmt.Sprint(s), fmt.Sprint(v[s]))
+			t1, err := types.ConvertGoType(s, types.String)
+			if err != nil {
+				t1 = fmt.Sprint(s)
+			}
+			t2, err := types.ConvertGoType(v[s], types.String)
+			if err != nil {
+				t1 = fmt.Sprint(v[s])
+			}
+			qs.Add(t1.(string), t2.(string))
 		}
 		b = []byte(qs.Encode())
 
 	case map[interface{}]string:
 		for s := range v {
-			qs.Add(fmt.Sprint(s), v[s])
+			t, err := types.ConvertGoType(s, types.String)
+			if err != nil {
+				t = fmt.Sprint(s)
+			}
+			qs.Add(t.(string), v[s])
 		}
 		b = []byte(qs.Encode())
 
