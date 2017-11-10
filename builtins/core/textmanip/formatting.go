@@ -17,6 +17,10 @@ func init() {
 func cmdPretty(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return err
@@ -35,8 +39,8 @@ func cmdPretty(p *proc.Process) error {
 func cmdSprintf(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
 
-	if !p.IsMethod {
-		return errors.New("I must be called as a method.")
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
 	}
 
 	if p.Parameters.Len() == 0 {

@@ -20,6 +20,10 @@ func cmdMatch(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
 	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")
 	}
@@ -45,6 +49,10 @@ func cmdMatch(p *proc.Process) error {
 func cmdRegexp(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
+
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
 
 	if p.Parameters.StringAll() == "" {
 		return errors.New("No parameters supplied.")

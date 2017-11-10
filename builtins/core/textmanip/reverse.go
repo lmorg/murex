@@ -14,6 +14,10 @@ func cmdMtac(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
 	v, err := define.UnmarshalData(p, dt)
 	if err != nil {
 		return err

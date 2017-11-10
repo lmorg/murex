@@ -33,6 +33,10 @@ func index(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
 	params := p.Parameters.StringArray()
 	l := len(params) - 1
 	if l < 0 {

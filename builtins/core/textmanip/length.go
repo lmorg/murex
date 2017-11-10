@@ -16,6 +16,10 @@ func cmdLeft(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
 	left, err := p.Parameters.Int(0)
 	if err != nil {
 		return err
@@ -42,6 +46,10 @@ func cmdLeft(p *proc.Process) error {
 func cmdRight(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
+
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
 
 	right, err := p.Parameters.Int(0)
 	if err != nil {
@@ -70,6 +78,10 @@ func cmdSprepend(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
+
 	prepend := p.Parameters.StringAll()
 
 	var output []string
@@ -89,6 +101,10 @@ func cmdSprepend(p *proc.Process) (err error) {
 func cmdSappend(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
+
+	if err := p.ErrIfNotAMethod(); err != nil {
+		return err
+	}
 
 	s := p.Parameters.StringAll()
 
