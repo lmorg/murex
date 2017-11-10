@@ -6,16 +6,16 @@ package builtins
 //
 // My recommendation is to keep everything in this file included, but disable any of the files marked `optional`.
 import (
-	_ "github.com/lmorg/murex/builtins/core/events"
-	_ "github.com/lmorg/murex/builtins/core/httpclient"
-	_ "github.com/lmorg/murex/builtins/core/io"
-	_ "github.com/lmorg/murex/builtins/core/management"
-	_ "github.com/lmorg/murex/builtins/core/mkarray"
-	_ "github.com/lmorg/murex/builtins/core/structs"
-	_ "github.com/lmorg/murex/builtins/core/textmanip"
-	_ "github.com/lmorg/murex/builtins/core/typemgmt"
-	_ "github.com/lmorg/murex/builtins/types/binary"
-	_ "github.com/lmorg/murex/builtins/types/generic"
-	_ "github.com/lmorg/murex/builtins/types/json"
-	_ "github.com/lmorg/murex/builtins/types/string"
+	_ "github.com/lmorg/murex/builtins/core/events"     // rudimentary event system
+	_ "github.com/lmorg/murex/builtins/core/httpclient" // builtins for http
+	_ "github.com/lmorg/murex/builtins/core/io"         // OS IO builtins
+	_ "github.com/lmorg/murex/builtins/core/management" // murex management builtins
+	_ "github.com/lmorg/murex/builtins/core/mkarray"    // array management builtins
+	_ "github.com/lmorg/murex/builtins/core/structs"    // control structures
+	_ "github.com/lmorg/murex/builtins/core/textmanip"  // text manipulation builtins
+	_ "github.com/lmorg/murex/builtins/core/typemgmt"   // type handling and management builtins
+	_ "github.com/lmorg/murex/builtins/types/binary"    // basic data type for handing binary data
+	_ "github.com/lmorg/murex/builtins/types/generic"   // generic (string) data type
+	_ "github.com/lmorg/murex/builtins/types/json"      // JSON data type
+	_ "github.com/lmorg/murex/builtins/types/string"    // string data type (soon to be depreciated)
 )
