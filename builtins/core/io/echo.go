@@ -9,6 +9,7 @@ import (
 func init() {
 	proc.GoFunctions["echo"] = cmdOut
 	proc.GoFunctions["out"] = cmdOut
+	proc.GoFunctions["tout"] = cmdTout
 	proc.GoFunctions["err"] = cmdErr
 	proc.GoFunctions["print"] = cmdPrint
 }
@@ -16,10 +17,26 @@ func init() {
 func cmdOut(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 	if f, _ := p.Parameters.String(0); f == "-n" {
-		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(0, -1))
+		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(1, -1))
 		return
 	}
 	_, err = p.Stdout.Writeln(p.Parameters.ByteAll())
+	return
+}
+
+func cmdTout(p *proc.Process) (err error) {
+	dt, err := p.Parameters.String(0)
+	if err != nil {
+		return
+	}
+
+	p.Stdout.SetDataType(dt)
+	if f, _ := p.Parameters.String(1); f == "-n" {
+		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(2, -1))
+		return
+	}
+	//_, err = p.Stdout.Writeln(p.Parameters.ByteAll())
+	_, err = p.Stdout.Write(p.Parameters.ByteAllRange(1, -1))
 	return
 }
 
@@ -27,7 +44,7 @@ func cmdErr(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 	p.ExitNum = 1
 	if f, _ := p.Parameters.String(0); f == "-n" {
-		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(0, -1))
+		_, err = p.Stdout.Write(p.Parameters.ByteAllRange(1, -1))
 		return
 	}
 	_, err = p.Stderr.Writeln(p.Parameters.ByteAll())

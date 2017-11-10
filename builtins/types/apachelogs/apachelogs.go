@@ -7,7 +7,7 @@ import (
 
 const (
 	typeAccess = "commonlog"
-	typeError  = "commonlog"
+	typeError  = "errorlog"
 )
 
 func init() {

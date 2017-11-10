@@ -11,4 +11,4 @@ package builtins
 // [1] https://msdn.microsoft.com/en-gb/commandline/wsl/install_guide
 // [2] https://www.cygwin.com/
 // [3] http://www.mingw.org/
-import _ "github.com/lmorg/murex/builtins/optional/coreutils"
+import _ "github.com/lmorg/murex/builtins/optional/coreutils" // compile optional builtins
