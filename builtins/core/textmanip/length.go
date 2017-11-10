@@ -8,8 +8,8 @@ import (
 func init() {
 	proc.GoFunctions["left"] = cmdLeft
 	proc.GoFunctions["right"] = cmdRight
-	proc.GoFunctions["append"] = cmdAppend
-	proc.GoFunctions["prepend"] = cmdPrepend
+	proc.GoFunctions["sappend"] = cmdSappend
+	proc.GoFunctions["sprepend"] = cmdSprepend
 }
 
 func cmdLeft(p *proc.Process) error {
@@ -66,7 +66,7 @@ func cmdRight(p *proc.Process) error {
 	return err
 }
 
-func cmdPrepend(p *proc.Process) (err error) {
+func cmdSprepend(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -86,7 +86,7 @@ func cmdPrepend(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdAppend(p *proc.Process) (err error) {
+func cmdSappend(p *proc.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

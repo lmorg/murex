@@ -1,6 +1,7 @@
 package proc
 
 import (
+	"errors"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
@@ -40,26 +41,6 @@ type Process struct {
 	ColNumber          int
 }
 
-// HasTerminated checks if process has terminated.
-// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
-// thread safe.
-func (p *Process) HasTerminated() (state bool) {
-	p.hasTerminatedM.Lock()
-	state = p.hasTerminatedV
-	p.hasTerminatedM.Unlock()
-	return
-}
-
-// SetTerminatedState sets the process terminated state.
-// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
-// thread safe.
-func (p *Process) SetTerminatedState(state bool) {
-	p.hasTerminatedM.Lock()
-	p.hasTerminatedV = state
-	p.hasTerminatedM.Unlock()
-	return
-}
-
 var (
 	// ShellProcess is the root murex process
 	ShellProcess *Process = &Process{}
@@ -91,3 +72,31 @@ var (
 	// ForegroundProc is the murex FID which currently has "focus"  Em3w
 	ForegroundProc *Process = ShellProcess
 )
+
+// HasTerminated checks if process has terminated.
+// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
+// thread safe.
+func (p *Process) HasTerminated() (state bool) {
+	p.hasTerminatedM.Lock()
+	state = p.hasTerminatedV
+	p.hasTerminatedM.Unlock()
+	return
+}
+
+// SetTerminatedState sets the process terminated state.
+// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
+// thread safe.
+func (p *Process) SetTerminatedState(state bool) {
+	p.hasTerminatedM.Lock()
+	p.hasTerminatedV = state
+	p.hasTerminatedM.Unlock()
+	return
+}
+
+// ErrIfNotAMethod returns a standard error message for builtins not run as methods
+func (p *Process) ErrIfNotAMethod() (err error) {
+	if !p.IsMethod {
+		err = errors.New("`" + p.Name + "` must be run as a method.")
+	}
+	return
+}
