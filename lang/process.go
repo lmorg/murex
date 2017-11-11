@@ -116,11 +116,10 @@ executeProcess:
 		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
 	}
 
+	// execution mode:
 	switch {
 	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && parsedAlias == false:
-		//r := append(proc.GlobalAliases.Get(p.Name), []rune(" "+p.Parameters.StringAll())...)
-		//p.Name = "alias"
-		//p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
+		// murex aliases
 		alias := proc.GlobalAliases.Get(p.Name)
 		p.Name = alias[0]
 		p.Parameters.Params = append(alias[1:], p.Parameters.Params...)
@@ -128,6 +127,7 @@ executeProcess:
 		goto executeProcess
 
 	case proc.MxFunctions.Exists(p.Name):
+		// murex functions
 		var r []rune
 		p.Scope = p
 		r, err = proc.MxFunctions.Block(p.Name)
@@ -136,22 +136,20 @@ executeProcess:
 		}
 
 	case p.Name[0] == '$' && len(p.Name) > 1:
+		// variables as functions
 		s := proc.GlobalVars.GetString(p.Name[1:])
 		p.Stdout.SetDataType(proc.GlobalVars.GetType(p.Name[1:]))
 		_, err = p.Stdout.Write([]byte(s))
 
 	case proc.GoFunctions[p.Name] != nil:
+		// murex builtins
 		err = proc.GoFunctions[p.Name](p)
 
 	default:
-		//err = errors.New("Function not found (" + p.Name + ")! This is likely due to a bad alias.")
+		// shell execute
 		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
 
-		// Make a special case of excluding `printf` from running inside a PTY as it hangs murex.
-		// Obviously this shouldn't happen and in an ideal world I would fix murex instead of implementing this
-		// horrible kludge. But I can live without `printf` being inside a PTY so I will class this bug as a low
-		// priority.
-		if !p.IsMethod && p.Stdout.IsTTY() && p.Name != "printf" {
+		if !p.IsMethod && p.Stdout.IsTTY() {
 			p.Name = consts.CmdPty
 		} else {
 			p.Name = consts.CmdExec
