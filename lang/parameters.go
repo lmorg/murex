@@ -103,7 +103,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 					continue
 				}
 
-				//params := strings.Split(match[2], " ")
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
 				stdout := streams.NewStdin()
 				ProcessNewBlock(block, nil, stdout, nil, prc)
@@ -111,7 +110,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 				b, err := stdout.ReadAll()
 				if err != nil {
 					ansi.Stderrln(ansi.FgRed, err.Error())
-					//os.Stderr.WriteString(err.Error() + utils.NewLineString)
 				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {

@@ -1,6 +1,8 @@
 package lang
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
@@ -14,7 +16,10 @@ import (
 	"strings"
 )
 
-var rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
+var (
+	rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
+	rxVariables          *regexp.Regexp = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
+)
 
 func createProcess(p *proc.Process, isMethod bool) {
 	// Create empty function so we don't have to check nil state when invoking kill, ie you try to kill a process
@@ -135,11 +140,24 @@ executeProcess:
 			p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
-	case p.Name[0] == '$' && len(p.Name) > 1:
+	case p.Name[0] == '$':
 		// variables as functions
-		s := proc.GlobalVars.GetString(p.Name[1:])
-		p.Stdout.SetDataType(proc.GlobalVars.GetType(p.Name[1:]))
-		_, err = p.Stdout.Write([]byte(s))
+		match := rxVariables.FindAllStringSubmatch(p.Name+p.Parameters.StringAll(), -1)
+		switch {
+		case len(p.Name) == 1:
+			err = errors.New("Variable token, `$`, used without specifying variable name.")
+		case len(match) == 0 || len(match[0]) == 0:
+			b, _ := json.MarshalIndent(match, "", "\t")
+			fmt.Println(p.Name, p.Parameters.StringArray(), string(b))
+			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name.")
+		case match[0][2] == "":
+			s := proc.GlobalVars.GetString(match[0][1])
+			p.Stdout.SetDataType(proc.GlobalVars.GetType(match[0][1]))
+			_, err = p.Stdout.Write([]byte(s))
+		default:
+			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
+			ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stderr, p)
+		}
 
 	case proc.GoFunctions[p.Name] != nil:
 		// murex builtins
