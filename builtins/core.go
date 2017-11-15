@@ -11,6 +11,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/io"         // OS IO builtins
 	_ "github.com/lmorg/murex/builtins/core/management" // murex management builtins
 	_ "github.com/lmorg/murex/builtins/core/mkarray"    // array management builtins
+	_ "github.com/lmorg/murex/builtins/core/random"     // random data builtin
 	_ "github.com/lmorg/murex/builtins/core/structs"    // control structures
 	_ "github.com/lmorg/murex/builtins/core/textmanip"  // text manipulation builtins
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"   // type handling and management builtins

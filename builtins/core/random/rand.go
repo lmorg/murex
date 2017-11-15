@@ -24,7 +24,7 @@ func cmdRand(p *proc.Process) error {
 	case types.Integer, types.Number:
 		max, _ := p.Parameters.Int(1)
 		if max > 0 {
-			v = rand.Intn(max)
+			v = rand.Intn(max + 1)
 		} else {
 			v = rand.Int()
 		}
