@@ -98,6 +98,31 @@ func compile(tree *astNodes, parent *proc.Process) {
 	}
 }
 
+// `evil` - Only use this if you are not concerned about STDERR nor exit number.
+func runModeEvil(tree *astNodes) int {
+	if len(*tree) == 0 {
+		return 1
+	}
+
+	(*tree)[0].Process.Previous.SetTerminatedState(true)
+
+	for i := range *tree {
+		if i > 0 {
+			if (*tree)[i].NewChain {
+				waitProcess(&(*tree)[i-1].Process)
+			} else {
+				go waitProcess(&(*tree)[i-1].Process)
+			}
+		}
+
+		(*tree)[i].Process.Stderr = new(streams.Null)
+		go executeProcess(&(*tree)[i].Process)
+	}
+
+	waitProcess(&(*tree).Last().Process)
+	return 0
+}
+
 func runModeNormal(tree *astNodes) (exitNum int) {
 	if len(*tree) == 0 {
 		return 1
@@ -122,9 +147,53 @@ func runModeNormal(tree *astNodes) (exitNum int) {
 	return
 }
 
-// `try`
+// `try` - Last process in each pipe is checked.
 func runModeTry(tree *astNodes) (exitNum int) {
-	debug.Log("Entering run mode `try`")
+	if len(*tree) == 0 {
+		return 1
+	}
+
+	(*tree)[0].Process.Previous.SetTerminatedState(true)
+
+	for i := range *tree {
+		if i > 0 {
+			if (*tree)[i].NewChain {
+				waitProcess(&(*tree)[i-1].Process)
+				exitNum = (*tree)[i-1].Process.ExitNum
+				outSize, _ := (*tree)[i-1].Process.Stdout.Stats()
+				errSize, _ := (*tree)[i-1].Process.Stderr.Stats()
+
+				if exitNum == 0 && errSize > outSize {
+					exitNum = 1
+				}
+
+				if exitNum != 0 {
+					return
+				}
+
+			} else {
+				go waitProcess(&(*tree)[i-1].Process)
+			}
+		}
+
+		go executeProcess(&(*tree)[i].Process)
+	}
+
+	waitProcess(&(*tree).Last().Process)
+	exitNum = (*tree).Last().Process.ExitNum
+	outSize, _ := (*tree).Last().Process.Stdout.Stats()
+	errSize, _ := (*tree).Last().Process.Stderr.Stats()
+
+	if exitNum == 0 && errSize > outSize {
+		exitNum = 1
+	}
+
+	return
+}
+
+// `tryeach` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
+func runModeTryEach(tree *astNodes) (exitNum int) {
+	debug.Log("Entering run mode `tryeach`")
 	if len(*tree) == 0 {
 		return 1
 	}

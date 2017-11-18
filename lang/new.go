@@ -41,6 +41,10 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		container.ExitNum = ShellExitNum
 	}
 
+	if caller.Name == "try" || caller.TryBlock {
+		container.TryBlock = true
+	}
+
 	if stdin != nil {
 		container.Stdin = stdin
 	} else {
@@ -75,7 +79,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 
 	// Support for different run modes:
 	switch {
-	case container.Name == "try":
+	case caller.TryBlock:
 		exitNum = runModeTry(&tree)
 	default:
 		exitNum = runModeNormal(&tree)

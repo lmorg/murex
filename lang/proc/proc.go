@@ -39,6 +39,7 @@ type Process struct {
 	IsBackground       bool
 	LineNumber         int
 	ColNumber          int
+	TryBlock           bool
 }
 
 var (

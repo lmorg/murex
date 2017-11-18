@@ -12,18 +12,18 @@ func init() {
 }
 
 func cmdRead(p *proc.Process) error {
-	return read(p, types.Generic, 1)
+	return read(p, types.Generic, 0)
 }
 
 func cmdTread(p *proc.Process) error {
-	dt, err := p.Parameters.String(1)
+	dt, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
-	return read(p, dt, 2)
+	return read(p, dt, 1)
 }
 
-func read(p *proc.Process, dt string, paramStart int) error {
+func read(p *proc.Process, dt string, paramAdjust int) error {
 	p.Stdout.SetDataType(types.Null)
 
 	var prompt string
@@ -34,10 +34,10 @@ func read(p *proc.Process, dt string, paramStart int) error {
 		}
 		prompt = string(b)
 	} else {
-		prompt = p.Parameters.StringAllRange(paramStart, -1)
+		prompt = p.Parameters.StringAllRange(1+paramAdjust, -1)
 	}
 
-	varName, err := p.Parameters.String(0)
+	varName, err := p.Parameters.String(0 + paramAdjust)
 	if err != nil {
 		return err
 	}

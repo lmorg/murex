@@ -479,7 +479,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 
 func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
 	typed := time.Now().After(keyPressTimer)
-	keyPressTimer = time.Now().Add(5 * time.Millisecond)
+	keyPressTimer = time.Now().Add(20 * time.Millisecond)
 
 	switch {
 	/*case key == 77:
