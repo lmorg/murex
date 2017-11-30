@@ -1,7 +1,6 @@
 package yaml
 
 import (
-	"bytes"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
@@ -32,7 +31,7 @@ func init() {
 	define.SetFileExtensions(typeName, "yaml", "yml")
 }
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+/*func readArray(read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -59,6 +58,10 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	}
 
 	return nil
+}*/
+
+func readArray(read stdio.Io, callback func([]byte)) error {
+	return define.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {

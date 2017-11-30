@@ -1,28 +1,19 @@
-package json
+package define
 
 import (
-	"encoding/json"
+	"bytes"
+	"fmt"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
-	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/utils"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
-	marshaller := func(v interface{}) ([]byte, error) {
-		return utils.JsonMarshal(v, read.IsTTY())
-	}
-
-	return define.ArrayTemplate(marshaller, json.Unmarshal, read, callback)
-}
-
-/*func readArray(read stdio.Io, callback func([]byte)) error {
+func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
 	}
 
 	var v interface{}
-	err = json.Unmarshal(b, &v)
+	err = unmarshal(b, &v)
 
 	if err != nil {
 		return err
@@ -30,13 +21,13 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 
 	switch v.(type) {
 	case []interface{}:
-		return readArrayBySliceInterface(v.([]interface{}), callback)
+		return readArrayBySliceInterface(marshal, v.([]interface{}), callback)
 
 	case []string:
 		return readArrayBySliceString(v.([]string), callback)
 
 	case map[string]interface{}:
-		return readArrayByMapStrIface(v.(map[string]interface{}), callback)
+		return readArrayByMapStrIface(marshal, v.(map[string]interface{}), callback)
 
 	case map[string]string:
 		return readArrayByMapStrStr(v.(map[string]string), callback)
@@ -45,10 +36,10 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 		return readArrayByMapIfaceStr(v.(map[interface{}]string), callback)
 
 	case map[interface{}]interface{}:
-		return readArrayByMapIfaceIface(v.(map[interface{}]interface{}), callback)
+		return readArrayByMapIfaceIface(marshal, v.(map[interface{}]interface{}), callback)
 
 	default:
-		jBytes, err := json.Marshal(v)
+		jBytes, err := marshal(v)
 		if err != nil {
 			return err
 		}
@@ -66,10 +57,10 @@ func readArrayBySliceString(v []string, callback func([]byte)) error {
 	return nil
 }
 
-func readArrayBySliceInterface(v []interface{}, callback func([]byte)) error {
+func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
 	for i := range v {
 
-		jBytes, err := json.Marshal(v[i])
+		jBytes, err := marshal(v[i])
 		if err != nil {
 			return err
 		}
@@ -80,11 +71,11 @@ func readArrayBySliceInterface(v []interface{}, callback func([]byte)) error {
 	return nil
 }
 
-func readArrayByMapIfaceIface(v map[interface{}]interface{}, callback func([]byte)) error {
+func readArrayByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte)) error {
 	for key, val := range v {
 
 		bKey := []byte(fmt.Sprint(key) + ": ")
-		b, err := json.Marshal(val)
+		b, err := marshal(val)
 		if err != nil {
 			return err
 		}
@@ -104,11 +95,11 @@ func readArrayByMapStrStr(v map[string]string, callback func([]byte)) error {
 	return nil
 }
 
-func readArrayByMapStrIface(v map[string]interface{}, callback func([]byte)) error {
+func readArrayByMapStrIface(marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte)) error {
 	for key, val := range v {
 
 		bKey := []byte(key + ": ")
-		b, err := json.Marshal(val)
+		b, err := marshal(val)
 		if err != nil {
 			return err
 		}
@@ -127,4 +118,3 @@ func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) err
 
 	return nil
 }
-*/
