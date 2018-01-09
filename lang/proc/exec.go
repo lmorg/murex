@@ -73,5 +73,7 @@ func execute(p *Process) error {
 		}
 	}
 
+	//debug.Log("exec env:",cmd.Env)
+
 	return nil
 }
