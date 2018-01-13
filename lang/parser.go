@@ -518,7 +518,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			}
 
 		case '@':
-			if !scanFuncName && braceCount == 0 && !quoteSingle && !quoteDouble && !escaped {
+			if !scanFuncName && braceCount == 0 && !quoteSingle && !quoteDouble && !escaped && (last == ' ' || last == '\t') {
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]

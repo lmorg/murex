@@ -329,7 +329,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				//ansiReset(line[i])
 			}
 
-		case '$', '@':
+		case '$':
 			//pt.loc = i
 			pt.vloc = i
 			switch {
@@ -348,6 +348,32 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				*pt.__pop += string(line[i])
 				pt.variable = string(line[i])
 				ansiColour(hlVariable, line[i])
+			}
+
+		case '@':
+			//pt.loc = i
+			pt.vloc = i
+			switch {
+			case pt.escaped:
+				pt.escaped = false
+				//if readFunc {
+				*pt.__pop += string(line[i])
+				//}
+				ansiReset(line[i])
+			case pt.qSingle:
+				//if readFunc {
+				*pt.__pop += string(line[i])
+				//}
+				syntaxHighlighted += string(line[i])
+			default:
+				*pt.__pop += string(line[i])
+
+				if i > 0 && (line[i-1] == ' ' || line[i-1] == '\t') {
+					pt.variable = string(line[i])
+					ansiColour(hlVariable, line[i])
+				} else {
+					syntaxHighlighted += string(line[i])
+				}
 			}
 
 		case ':':
