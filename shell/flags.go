@@ -2,6 +2,8 @@ package shell
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -15,28 +17,29 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	NoFiles    bool               // `true` to disable file name completion
-	NoDirs     bool               // `true` to disable directory navigation completion
-	NoFlags    bool               // `true` to disable Flags[] slice and man page parsing
-	IncExePath bool               // `true` to include binaries in $PATH
-	Flags      []string           // known supported command line flags for executable
-	Dynamic    string             // Use murex script to generate auto-complete options
-	FlagValues map[string][]Flags // Auto-complete possible values for known flags
-	Optional   bool
+	IncFiles      bool               // `true` to disable file name completion
+	IncDirs       bool               // `true` to disable directory navigation completion
+	NoFlags       bool               // `true` to disable Flags[] slice and man page parsing
+	IncExePath    bool               // `true` to include binaries in $PATH
+	Flags         []string           // known supported command line flags for executable
+	Dynamic       string             // Use murex script to generate auto-complete options
+	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
+	Optional      bool               // This nest of flags is optional
+	AllowMultiple bool               // Allow multiple flags in this nest
 }
 
 // ExesFlags is map of executables and their supported auto-complete options.
 // We might as well pre-populate the structure with a few base commands we might expect.
 var ExesFlags map[string][]Flags = map[string][]Flags{
-	"cd":      {{Flags: []string{}, NoFiles: true}},
-	"mkdir":   {{Flags: []string{}, NoFiles: true}},
-	"rmdir":   {{Flags: []string{}, NoFiles: true}},
-	"man":     {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
-	"which":   {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
-	"whereis": {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
-	"sudo":    {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
-	"exec":    {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
-	"pty":     {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
+	"cd":      {{Flags: []string{}, IncDirs: true}},
+	"mkdir":   {{Flags: []string{}, IncDirs: true}},
+	"rmdir":   {{Flags: []string{}, IncDirs: true}},
+	"man":     {{Flags: []string{}, IncExePath: true}},
+	"which":   {{Flags: []string{}, IncExePath: true}},
+	"whereis": {{Flags: []string{}, IncExePath: true}},
+	"sudo":    {{Flags: []string{}, IncFiles: true, IncDirs: true, IncExePath: true}},
+	"exec":    {{Flags: []string{}, IncFiles: true, IncDirs: true, IncExePath: true}},
+	"pty":     {{Flags: []string{}, IncFiles: true, IncDirs: true, IncExePath: true}},
 }
 
 // globalExes is a pre-populated list of all executables in $PATH.
@@ -89,9 +92,9 @@ func match(f *Flags, partial, exe string, params []string) (items []string) {
 	}
 
 	switch {
-	case !f.NoFiles:
+	case f.IncFiles:
 		items = append(items, matchFilesAndDirs(partial)...)
-	case !f.NoDirs:
+	case f.IncDirs && !f.IncFiles:
 		items = append(items, matchDirs(partial)...)
 	}
 
@@ -101,6 +104,15 @@ func match(f *Flags, partial, exe string, params []string) (items []string) {
 func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int) (items []string) {
 	var nest int
 
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Panic caught:", r)
+			fmt.Println("Debug information (partial, exe, params, pIndex, nest):", partial, exe, params, *pIndex, nest)
+			b, _ := json.MarshalIndent(flags, "", "\t")
+			fmt.Println(string(b))
+		}
+	}()
+
 	if len(flags) > 0 {
 		for ; *pIndex <= len(params); *pIndex++ {
 		next:
@@ -108,22 +120,22 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 				break
 			}
 
-			//fmt.Println(flags, nest, *pIndex, params)
-
-			if *pIndex > 0 && len(flags[nest].FlagValues[params[*pIndex-1]]) > 0 {
-				items = matchFlags(flags[nest].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex)
+			if *pIndex > 0 && nest > 0 && len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
+				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex)
 				if len(items) > 0 {
 					return
 				}
-				continue
+				//continue
 			}
 
-			//fmt.Println(*pIndex, params)
+			if nest >= len(flags) {
+				return
+			}
 
-			if len(match(&flags[nest],
-				params[*pIndex],
-				exe,
-				params[:*pIndex])) > 0 {
+			if len(match(&flags[nest], params[*pIndex], exe, params[:*pIndex])) > 0 {
+				if !flags[nest].AllowMultiple {
+					nest++
+				}
 				continue
 			}
 
@@ -132,6 +144,9 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		}
 	}
 
+	if nest > 0 {
+		nest--
+	}
 	for ; nest <= len(flags); nest++ {
 		items = append(items, match(&flags[nest], partial, exe, params)...)
 		if !flags[nest].Optional {
@@ -204,19 +219,22 @@ func matchDynamic(f *Flags, partial, exe string, params []string) (items []strin
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
-	exitNum, err := lang.ProcessNewBlock(block, nil, stdout, stderr, p)
+	_, err := lang.ProcessNewBlock(block, nil, stdout, stderr, p)
 	stdout.Close()
 	stderr.Close()
 
 	b, _ := stderr.ReadAll()
-	ansi.Stderrln(ansi.FgRed, string(b))
+	s := strings.TrimSpace(string(b))
+	if len(s) > 0 {
+		ansi.Stderrln(ansi.FgRed, s)
+	}
 
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "Error in dynamic autocomplete code: "+err.Error())
 	}
-	if exitNum != 0 {
-		ansi.Stderrln(ansi.FgRed, "None zero exit number!")
-	}
+	//if exitNum != 0 {
+	//	ansi.Stderrln(ansi.FgRed, "None zero exit number!")
+	//}
 
 	stdout.ReadArray(func(b []byte) {
 		s := string(bytes.TrimSpace(b))

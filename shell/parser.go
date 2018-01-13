@@ -457,7 +457,9 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 
 		if len(ExesFlags[pt.funcName]) == 0 {
 			ExesFlags[pt.funcName] = []Flags{{
-				Flags: man.ScanManPages(pt.funcName),
+				Flags:         man.ScanManPages(pt.funcName),
+				IncFiles:      true,
+				AllowMultiple: true,
 			}}
 		}
 
