@@ -136,7 +136,7 @@ autocomplete set config { [{
         "set": [
             { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
             { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==`bool` } { a [true,false] } }" }
+            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==`bool` } { a [true,false] } { a ${config -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Default ]} } }" }
         ]
     }
 }] }
