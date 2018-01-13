@@ -357,11 +357,11 @@ NextDoc:
 		drevno := revno[dkey]
 		switch {
 		case op.Insert != nil && drevno < 0:
-			revno[dkey] = -drevno + 1
+			revno[dkey] = -drevno+1
 		case op.Update != nil && drevno >= 0:
-			revno[dkey] = drevno + 1
+			revno[dkey] = drevno+1
 		case op.Remove && drevno >= 0:
-			revno[dkey] = -drevno - 1
+			revno[dkey] = -drevno-1
 		}
 	}
 	if !prereqs {
@@ -745,7 +745,7 @@ func (f *flusher) apply(t *transaction, pull map[bson.ObjectId]*transaction) err
 		case op.Update != nil:
 			if revno < 0 {
 				err = mgo.ErrNotFound
-				f.debugf("Won't try to apply update op; negative revision means the document is missing or stashed")
+				f.debugf("Won't try to apply update op; negative revision means the document is missing or stashed");
 			} else {
 				newRevno := revno + 1
 				logRevnos[i] = newRevno

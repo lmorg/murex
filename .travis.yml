@@ -19,6 +19,7 @@ install:
   - go get golang.org/x/crypto/ssh/terminal
   - go get github.com/disintegration/imaging
   - go get github.com/eliukblau/pixterm/ansimage
+  - go get github.com/lucasb-eyer/go-colorful
   - go get golang.org/x/image/bmp
   - go get golang.org/x/image/tiff
   - go get golang.org/x/image/webp

@@ -31,7 +31,7 @@ func ExampleUnmarshal_embedded() {
 
 	err := yaml.Unmarshal([]byte(data), &b)
 	if err != nil {
-		log.Fatal("cannot unmarshal data: %v", err)
+		log.Fatalf("cannot unmarshal data: %v", err)
 	}
 	fmt.Println(b.A)
 	fmt.Println(b.B)

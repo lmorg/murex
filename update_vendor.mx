@@ -28,6 +28,7 @@ pull github.com/lmorg/apachelogs
 
 # terminal imaging:
 pull github.com/eliukblau/pixterm
+pull github.com/lucasb-eyer/go-colorful
 pull github.com/disintegration/imaging
 pull golang.org/x/crypto/ssh/terminal
 pull golang.org/x/image/bmp

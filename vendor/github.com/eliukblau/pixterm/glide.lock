@@ -1,16 +1,16 @@
 hash: f53d4d0c85eb26497520c0ae209936a320e6503ccbc174ebfa29efcec12b2da0
-updated: 2017-02-10T20:18:00.178950102-03:00
+updated: 2017-12-15T23:19:10.682776667-03:00
 imports:
 - name: github.com/disintegration/imaging
-  version: 243d2d8673c1225a6afceeb9b3b4423d485dc8df
+  version: 1884593a19ddc6f2ea050403430d02c1d0fc1283
 - name: github.com/lucasb-eyer/go-colorful
-  version: 9c2852a141bf4711e4276f8f119c90d0f20a556c
+  version: 231272389856c976b7500c4fffcc52ddf06ff4eb
 - name: golang.org/x/crypto
-  version: 453249f01cfeb54c3d549ddb75ff152ca243f9d8
+  version: 94eea52f7b742c7cbe0b03b22f0c4c8631ece122
   subpackages:
   - ssh/terminal
 - name: golang.org/x/image
-  version: df2aa51d4407e30b309afc8c4d6fdca045d97fb0
+  version: 83686c547965220f8b5d75e83ddc67d73420a89f
   subpackages:
   - bmp
   - riff
@@ -20,7 +20,8 @@ imports:
   - vp8l
   - webp
 - name: golang.org/x/sys
-  version: aaabbdc969c3935a2a7f61efac801e7163c73a2a
+  version: d5840adf789d732bc8b00f37b26ca956a7cc8e79
   subpackages:
   - unix
+  - windows
 testImports: []

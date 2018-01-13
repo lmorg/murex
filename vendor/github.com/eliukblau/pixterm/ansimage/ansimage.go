@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/disintegration/imaging"
+	"github.com/lucasb-eyer/go-colorful"
 	_ "golang.org/x/image/bmp"  // initialize decoder
 	_ "golang.org/x/image/tiff" // initialize decoder
 	_ "golang.org/x/image/webp" // initialize decoder
@@ -34,55 +35,143 @@ import (
 // INFO: http://en.wikipedia.org/wiki/Block_Elements
 const lowerHalfBlock = "\u2584"
 
+// Unicode Block Element characters used to represent dithering in terminal row.
+// INFO: http://en.wikipedia.org/wiki/Block_Elements
+const fullBlock = "\u2588"
+const darkShadeBlock = "\u2593"
+const mediumShadeBlock = "\u2592"
+const lightShadeBlock = "\u2591"
+
 // ANSImage scale modes:
 // resize (full scaled to area),
 // fill (resize and crop the image with a center anchor point to fill area),
 // fit (resize the image to fit area, preserving the aspect ratio).
 const (
-	ScaleModeResize = scaleMode(iota)
+	ScaleModeResize = ScaleMode(iota)
 	ScaleModeFill
 	ScaleModeFit
 )
 
-var (
-	// ErrOddHeight happens when ANSImage height is not even value.
-	ErrOddHeight = errors.New("ANSImage: height must be even value")
+// ANSImage dithering modes:
+// no dithering (classic mode: half block based),
+// chars (use characters to represent brightness),
+// blocks (use character blocks to represent brightness).
+const (
+	NoDithering = DitheringMode(iota)
+	DitheringWithBlocks
+	DitheringWithChars
+)
 
-	// ErrInvalidBounds happens when ANSImage height or width are invalid values.
-	ErrInvalidBounds = errors.New("ANSImage: height or width must be >=2")
+// ANSImage block size in pixels (dithering mode)
+const (
+	BlockSizeY = 8
+	BlockSizeX = 4
+)
+
+var (
+	// ErrHeightNonMoT happens when ANSImage height is not a Multiple of Two value.
+	ErrHeightNonMoT = errors.New("ANSImage: height must be a Multiple of Two value")
+
+	// ErrInvalidBoundsMoT happens when ANSImage height or width are invalid values (Multiple of Two).
+	ErrInvalidBoundsMoT = errors.New("ANSImage: height or width must be >=2")
 
 	// ErrOutOfBounds happens when ANSI-pixel coordinates are out of ANSImage bounds.
 	ErrOutOfBounds = errors.New("ANSImage: out of bounds")
+
+	// errUnknownScaleMode happens when scale mode is invalid.
+	errUnknownScaleMode = errors.New("ANSImage: unknown scale mode")
+
+	// errUnknownDitheringMode happens when dithering mode is invalid.
+	errUnknownDitheringMode = errors.New("ANSImage: unknown dithering mode")
 )
 
-// scaleMode type is used for image scale mode constants.
-type scaleMode uint8
+// ScaleMode type is used for image scale mode constants.
+type ScaleMode uint8
+
+// DitheringMode type is used for image scale dithering mode constants.
+type DitheringMode uint8
 
 // ANSIpixel represents a pixel of an ANSImage.
 type ANSIpixel struct {
-	R, G, B uint8
-	upper   bool
+	Brightness uint8
+	R, G, B    uint8
+	upper      bool
+	source     *ANSImage
 }
 
 // ANSImage represents an image encoded in ANSI escape codes.
 type ANSImage struct {
-	h, w     int
-	maxprocs int
-	pixmap   [][]*ANSIpixel
+	h, w      int
+	maxprocs  int
+	bgR       uint8
+	bgG       uint8
+	bgB       uint8
+	dithering DitheringMode
+	pixmap    [][]*ANSIpixel
 }
 
 // Render returns the ANSI-compatible string form of ANSI-pixel.
 func (ap *ANSIpixel) Render() string {
-	if ap.upper {
+	// WITHOUT DITHERING
+	if ap.source.dithering == NoDithering {
+		if ap.upper {
+			return fmt.Sprintf(
+				"\033[48;2;%d;%d;%dm",
+				ap.R, ap.G, ap.B,
+			)
+		}
 		return fmt.Sprintf(
-			"\033[48;2;%d;%d;%dm",
+			"\033[38;2;%d;%d;%dm%s",
 			ap.R, ap.G, ap.B,
+			lowerHalfBlock,
 		)
 	}
+
+	// WITH DITHERING
+	block := " "
+	if ap.source.dithering == DitheringWithBlocks {
+		switch bri := ap.Brightness; {
+		case bri > 204:
+			block = fullBlock
+		case bri > 152:
+			block = darkShadeBlock
+		case bri > 100:
+			block = mediumShadeBlock
+		case bri > 48:
+			block = lightShadeBlock
+		}
+	} else if ap.source.dithering == DitheringWithChars {
+		switch bri := ap.Brightness; {
+		case bri > 230:
+			block = "#"
+		case bri > 207:
+			block = "&"
+		case bri > 184:
+			block = "$"
+		case bri > 161:
+			block = "X"
+		case bri > 138:
+			block = "x"
+		case bri > 115:
+			block = "="
+		case bri > 92:
+			block = "+"
+		case bri > 69:
+			block = ";"
+		case bri > 46:
+			block = ":"
+		case bri > 23:
+			block = "."
+		}
+	} else {
+		panic(errUnknownDitheringMode)
+	}
+
 	return fmt.Sprintf(
-		"\033[38;2;%d;%d;%dm%s",
+		"\033[48;2;%d;%d;%dm\033[38;2;%d;%d;%dm%s",
+		ap.source.bgR, ap.source.bgG, ap.source.bgB,
 		ap.R, ap.G, ap.B,
-		lowerHalfBlock,
+		block,
 	)
 }
 
@@ -96,6 +185,11 @@ func (ai *ANSImage) Width() int {
 	return ai.w
 }
 
+// DitheringMode gets the dithering mode of ANSImage.
+func (ai *ANSImage) DitheringMode() DitheringMode {
+	return ai.dithering
+}
+
 // SetMaxProcs sets the maximum number of parallel goroutines to render the ANSImage
 // (user should manually sets `runtime.GOMAXPROCS(max)` before to this change takes effect).
 func (ai *ANSImage) SetMaxProcs(max int) {
@@ -107,13 +201,14 @@ func (ai *ANSImage) GetMaxProcs() int {
 	return ai.maxprocs
 }
 
-// SetAt sets ANSI-pixel color (RBG) in coordinates (y,x).
-func (ai *ANSImage) SetAt(y, x int, r, g, b uint8) error {
+// SetAt sets ANSI-pixel color (RBG) and brightness in coordinates (y,x).
+func (ai *ANSImage) SetAt(y, x int, r, g, b, brightness uint8) error {
 	if y >= 0 && y < ai.h && x >= 0 && x < ai.w {
 		ai.pixmap[y][x].R = r
 		ai.pixmap[y][x].G = g
 		ai.pixmap[y][x].B = b
-		ai.pixmap[y][x].upper = (y%2 == 0)
+		ai.pixmap[y][x].Brightness = brightness
+		ai.pixmap[y][x].upper = ((ai.dithering == NoDithering) && (y%2 == 0))
 		return nil
 	}
 	return ErrOutOfBounds
@@ -123,10 +218,12 @@ func (ai *ANSImage) SetAt(y, x int, r, g, b uint8) error {
 func (ai *ANSImage) GetAt(y, x int) (*ANSIpixel, error) {
 	if y >= 0 && y < ai.h && x >= 0 && x < ai.w {
 		return &ANSIpixel{
-				R:     ai.pixmap[y][x].R,
-				G:     ai.pixmap[y][x].G,
-				B:     ai.pixmap[y][x].B,
-				upper: ai.pixmap[y][x].upper,
+				R:          ai.pixmap[y][x].R,
+				G:          ai.pixmap[y][x].G,
+				B:          ai.pixmap[y][x].B,
+				Brightness: ai.pixmap[y][x].Brightness,
+				upper:      ai.pixmap[y][x].upper,
+				source:     ai.pixmap[y][x].source,
 			},
 			nil
 	}
@@ -141,53 +238,57 @@ func (ai *ANSImage) Render() string {
 		render string
 	}
 
-	rows := make([]string, ai.h/2)
-
-	for y := 0; y < ai.h; y += ai.maxprocs {
-		ch := make(chan renderData, ai.maxprocs)
-
-		for n, r := 1, y+1; (n <= ai.maxprocs) && (2*r+1 < ai.h); n, r = n+1, y+n+1 {
-			go func(r, y int) {
-				var str string
-				for x := 0; x < ai.w; x++ {
-					str += ai.pixmap[y][x].Render()   // upper pixel
-					str += ai.pixmap[y+1][x].Render() // lower pixel
-				}
-				str += "\033[0m\n" // reset ansi style
-				ch <- renderData{row: r, render: str}
-			}(r, 2*r)
-
-			// DEBUG:
-			// fmt.Printf("y:%d | n:%d | r:%d | 2*r:%d\n", y, n, r, 2*r)
-			// time.Sleep(time.Millisecond * 100)
+	// WITHOUT DITHERING
+	if ai.dithering == NoDithering {
+		rows := make([]string, ai.h/2)
+		for y := 0; y < ai.h; y += ai.maxprocs {
+			ch := make(chan renderData, ai.maxprocs)
+			for n, r := 0, y+1; (n <= ai.maxprocs) && (2*r+1 < ai.h); n, r = n+1, y+n+1 {
+				go func(r, y int) {
+					var str string
+					for x := 0; x < ai.w; x++ {
+						str += ai.pixmap[y][x].Render()   // upper pixel
+						str += ai.pixmap[y+1][x].Render() // lower pixel
+					}
+					str += "\033[0m\n" // reset ansi style
+					ch <- renderData{row: r, render: str}
+				}(r, 2*r)
+				// DEBUG:
+				// fmt.Printf("y:%d | n:%d | r:%d | 2*r:%d\n", y, n, r, 2*r)
+				// time.Sleep(time.Millisecond * 100)
+			}
+			for n, r := 0, y+1; (n <= ai.maxprocs) && (2*r+1 < ai.h); n, r = n+1, y+n+1 {
+				data := <-ch
+				rows[data.row] = data.render
+				// DEBUG:
+				// fmt.Printf("data.row:%d\n", data.row)
+				// time.Sleep(time.Millisecond * 100)
+			}
 		}
-
-		for n, r := 1, y+1; (n <= ai.maxprocs) && (2*r+1 < ai.h); n, r = n+1, y+n+1 {
-			data := <-ch
-			rows[data.row] = data.render
-
-			// DEBUG:
-			// fmt.Printf("data.row:%d\n", data.row)
-			// time.Sleep(time.Millisecond * 100)
-		}
+		return strings.Join(rows, "")
 	}
 
+	// WITH DITHERING
+	rows := make([]string, ai.h)
+	for y := 0; y < ai.h; y += ai.maxprocs {
+		ch := make(chan renderData, ai.maxprocs)
+		for n, r := 0, y; (n <= ai.maxprocs) && (r+1 < ai.h); n, r = n+1, y+n+1 {
+			go func(y int) {
+				var str string
+				for x := 0; x < ai.w; x++ {
+					str += ai.pixmap[y][x].Render()
+				}
+				str += "\033[0m\n" // reset ansi style
+				ch <- renderData{row: y, render: str}
+			}(r)
+		}
+		for n, r := 0, y; (n <= ai.maxprocs) && (r+1 < ai.h); n, r = n+1, y+n+1 {
+			data := <-ch
+			rows[data.row] = data.render
+		}
+	}
 	return strings.Join(rows, "")
 }
-
-// RenderOLD returns the ANSI-compatible string form of ANSImage
-// func (ai *ANSImage) RenderOLD() string {
-// 	var str string
-// 	for y := 0; y < ai.h; y += 2 {
-// 		for x := 0; x < ai.w; x++ {
-// 			str += ai.pixmap[y][x].Render()   // upper pixel
-// 			str += ai.pixmap[y+1][x].Render() // lower pixel
-// 			//fmt.Printf("%d:%d\n", x, y)
-// 		}
-// 		str += "\x1b[m\n" // reset ansi style
-// 	}
-// 	return str
-// }
 
 // Draw writes the ANSImage to standard output (terminal).
 func (ai *ANSImage) Draw() {
@@ -195,49 +296,63 @@ func (ai *ANSImage) Draw() {
 }
 
 // New creates a new empty ANSImage ready to draw on it.
-func New(h, w int) (*ANSImage, error) {
-	if h%2 != 0 {
-		return nil, ErrOddHeight
-	}
-	if h < 2 || w < 2 {
-		return nil, ErrInvalidBounds
+func New(h, w int, bg color.Color, dm DitheringMode) (*ANSImage, error) {
+	if (dm == NoDithering) && (h%2 != 0) {
+		return nil, ErrHeightNonMoT
 	}
 
+	if h < 2 || w < 2 {
+		return nil, ErrInvalidBoundsMoT
+	}
+
+	r, g, b, _ := bg.RGBA()
 	ansimage := &ANSImage{
 		h: h, w: w,
-		maxprocs: 1,
-		pixmap: func() [][]*ANSIpixel {
-			v := make([][]*ANSIpixel, h)
-			for y := 0; y < h; y++ {
-				v[y] = make([]*ANSIpixel, w)
-				for x := 0; x < w; x++ {
-					v[y][x] = &ANSIpixel{
-						R: 0, G: 0, B: 0,
-						upper: (y%2 == 0),
-					}
+		maxprocs:  1,
+		bgR:       uint8(r),
+		bgG:       uint8(g),
+		bgB:       uint8(b),
+		dithering: dm,
+		pixmap:    nil,
+	}
+
+	ansimage.pixmap = func() [][]*ANSIpixel {
+		v := make([][]*ANSIpixel, h)
+		for y := 0; y < h; y++ {
+			v[y] = make([]*ANSIpixel, w)
+			for x := 0; x < w; x++ {
+				v[y][x] = &ANSIpixel{
+					R:          0,
+					G:          0,
+					B:          0,
+					Brightness: 0,
+					source:     ansimage,
+					upper:      ((dm == NoDithering) && (y%2 == 0)),
 				}
 			}
-			return v
-		}(),
-	}
+		}
+		return v
+	}()
 
 	return ansimage, nil
 }
 
 // NewFromReader creates a new ANSImage from an io.Reader.
-// Background color is used to fill when image has transparency.
-func NewFromReader(bg color.Color, reader io.Reader) (*ANSImage, error) {
+// Background color is used to fill when image has transparency or dithering mode is enabled
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func NewFromReader(reader io.Reader, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 	image, _, err := image.Decode(reader)
 	if err != nil {
 		return nil, err
 	}
 
-	return createANSImage(bg, image)
+	return createANSImage(image, bg, dm)
 }
 
 // NewScaledFromReader creates a new scaled ANSImage from an io.Reader.
-// Background color is used to fill when image has transparency.
-func NewScaledFromReader(y, x int, sm scaleMode, bg color.Color, reader io.Reader) (*ANSImage, error) {
+// Background color is used to fill when image has transparency or dithering mode is enabled
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func NewScaledFromReader(reader io.Reader, y, x int, bg color.Color, sm ScaleMode, dm DitheringMode) (*ANSImage, error) {
 	image, _, err := image.Decode(reader)
 	if err != nil {
 		return nil, err
@@ -250,31 +365,35 @@ func NewScaledFromReader(y, x int, sm scaleMode, bg color.Color, reader io.Reade
 		image = imaging.Fill(image, x, y, imaging.Center, imaging.Lanczos)
 	case ScaleModeFit:
 		image = imaging.Fit(image, x, y, imaging.Lanczos)
+	default:
+		panic(errUnknownScaleMode)
 	}
 
-	return createANSImage(bg, image)
+	return createANSImage(image, bg, dm)
 }
 
 // NewFromFile creates a new ANSImage from a file.
-// Background color is used to fill when image has transparency.
-func NewFromFile(bg color.Color, name string) (*ANSImage, error) {
+// Background color is used to fill when image has transparency or dithering mode is enabled
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func NewFromFile(name string, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 	reader, err := os.Open(name)
 	if err != nil {
 		return nil, err
 	}
 	defer reader.Close()
-	return NewFromReader(bg, reader)
+	return NewFromReader(reader, bg, dm)
 }
 
 // NewScaledFromFile creates a new scaled ANSImage from a file.
-// Background color is used to fill when image has transparency.
-func NewScaledFromFile(y, x int, sm scaleMode, bg color.Color, name string) (*ANSImage, error) {
+// Background color is used to fill when image has transparency or dithering mode is enabled
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func NewScaledFromFile(name string, y, x int, bg color.Color, sm ScaleMode, dm DitheringMode) (*ANSImage, error) {
 	reader, err := os.Open(name)
 	if err != nil {
 		return nil, err
 	}
 	defer reader.Close()
-	return NewScaledFromReader(y, x, sm, bg, reader)
+	return NewScaledFromReader(reader, y, x, bg, sm, dm)
 }
 
 // ClearTerminal clears current terminal buffer using ANSI escape code.
@@ -284,8 +403,9 @@ func ClearTerminal() {
 }
 
 // createANSImage loads data from an image and returns an ANSImage.
-// Background color is used to fill when image has transparency.
-func createANSImage(bg color.Color, img image.Image) (*ANSImage, error) {
+// Background color is used to fill when image has transparency or dithering mode is enabled
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func createANSImage(img image.Image, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 	var rgbaOut *image.RGBA
 	bounds := img.Bounds()
 
@@ -307,20 +427,59 @@ func createANSImage(bg color.Color, img image.Image) (*ANSImage, error) {
 	yMin, xMin := bounds.Min.Y, bounds.Min.X
 	yMax, xMax := bounds.Max.Y, bounds.Max.X
 
-	if yMax%2 != 0 {
-		yMax-- // always even value!
+	if dm == NoDithering {
+		// always sets an even number of ANSIPixel rows...
+		yMax = yMax - yMax%2 // one for upper pixel and another for lower pixel --> without dithering
+	} else {
+		yMax = yMax / BlockSizeY // always sets 1 ANSIPixel block...
+		xMax = xMax / BlockSizeX // per 8x4 real pixels --> with dithering
 	}
 
-	ansimage, err := New(yMax, xMax)
+	ansimage, err := New(yMax, xMax, bg, dm)
 	if err != nil {
 		return nil, err
 	}
 
-	for y := yMin; y < yMax; y++ {
-		for x := xMin; x < xMax; x++ {
-			v := rgbaOut.RGBAAt(x, y)
-			if err := ansimage.SetAt(y, x, v.R, v.G, v.B); err != nil {
-				return nil, err
+	if dm == NoDithering {
+		for y := yMin; y < yMax; y++ {
+			for x := xMin; x < xMax; x++ {
+				v := rgbaOut.RGBAAt(x, y)
+				if err := ansimage.SetAt(y, x, v.R, v.G, v.B, 0); err != nil {
+					return nil, err
+				}
+			}
+		}
+	} else {
+		pixelCount := BlockSizeY * BlockSizeX
+
+		for y := yMin; y < yMax; y++ {
+			for x := xMin; x < xMax; x++ {
+
+				var sumR, sumG, sumB, sumBri float64
+				for dy := 0; dy < BlockSizeY; dy++ {
+					py := BlockSizeY*y + dy
+
+					for dx := 0; dx < BlockSizeX; dx++ {
+						px := BlockSizeX*x + dx
+
+						pixel := rgbaOut.At(px, py)
+						_, _, v := colorful.MakeColor(pixel).Hsv()
+						color := colorful.MakeColor(pixel)
+						sumR += color.R
+						sumG += color.G
+						sumB += color.B
+						sumBri += v
+					}
+				}
+
+				r := uint8(sumR/float64(pixelCount)*255.0 + 0.5)
+				g := uint8(sumG/float64(pixelCount)*255.0 + 0.5)
+				b := uint8(sumB/float64(pixelCount)*255.0 + 0.5)
+				brightness := uint8(sumBri/float64(pixelCount)*255.0 + 0.5)
+
+				if err := ansimage.SetAt(y, x, r, g, b, brightness); err != nil {
+					return nil, err
+				}
 			}
 		}
 	}

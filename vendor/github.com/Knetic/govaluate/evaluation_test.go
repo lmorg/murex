@@ -709,6 +709,17 @@ func TestNoParameterEvaluation(test *testing.T) {
 
 			Expected: true,
 		},
+		EvaluationTest{
+			
+			Name:  "Ternary/Java EL ambiguity",
+			Input: "false ? foo:length()",
+			Functions: map[string]ExpressionFunction{
+				"length": func(arguments ...interface{}) (interface{}, error) {
+					return 1.0, nil
+				},
+			},
+			Expected: 1.0,
+		},
 	}
 
 	runEvaluationTests(evaluationTests, test)
@@ -879,7 +890,7 @@ func TestParameterizedEvaluation(test *testing.T) {
 		},
 		EvaluationTest{
 
-			Name:  "Not-regex against right-hand paramter",
+			Name:  "Not-regex against right-hand parameter",
 			Input: "'foobar' !~ foo",
 			Parameters: []EvaluationParameter{
 				EvaluationParameter{
@@ -891,7 +902,7 @@ func TestParameterizedEvaluation(test *testing.T) {
 		},
 		EvaluationTest{
 
-			Name:  "Regex against two parameter",
+			Name:  "Regex against two parameters",
 			Input: "foo =~ bar",
 			Parameters: []EvaluationParameter{
 				EvaluationParameter{
@@ -907,7 +918,7 @@ func TestParameterizedEvaluation(test *testing.T) {
 		},
 		EvaluationTest{
 
-			Name:  "Not-regex against two paramter",
+			Name:  "Not-regex against two parameters",
 			Input: "foo !~ bar",
 			Parameters: []EvaluationParameter{
 				EvaluationParameter{
@@ -1113,6 +1124,22 @@ func TestParameterizedEvaluation(test *testing.T) {
 				EvaluationParameter{
 					Name:  "int64",
 					Value: int64(0),
+				},
+			},
+			Expected: 0.0,
+		},
+		EvaluationTest{
+
+			Name:  "Floats",
+			Input: "float32 + float64",
+			Parameters: []EvaluationParameter{
+				EvaluationParameter{
+					Name:  "float32",
+					Value: float32(0.0),
+				},
+				EvaluationParameter{
+					Name:  "float64",
+					Value: float64(0.0),
 				},
 			},
 			Expected: 0.0,
@@ -1328,6 +1355,14 @@ func TestParameterizedEvaluation(test *testing.T) {
 			Parameters: []EvaluationParameter{fooParameter},
 			Expected:   "frink",
 		},
+		EvaluationTest{
+
+			Name:       "Parameter function call with all argument types",
+			Input:      "foo.TestArgs(\"hello\", 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1.0, 2.0, true)",
+			Parameters: []EvaluationParameter{fooParameter},
+			Expected:   "hello: 33",
+		},
+
 		EvaluationTest{
 
 			Name:       "Simple parameter function call, one arg",
