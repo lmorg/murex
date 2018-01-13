@@ -88,10 +88,12 @@ if { = os!=`windows` } {
     config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
     config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
 
-    autocomplete set go { [{
-        "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
-        "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
-    }] }
+    autocomplete set go {
+        [
+            { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
+            { "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }" }
+        ]
+    }
 
     func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
 
