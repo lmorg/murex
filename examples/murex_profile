@@ -65,6 +65,18 @@ autocomplete set docker { [ {
      } ]
 }
 
+autocomplete set terraform { [ {
+    "NoFiles": true,
+    "NoDirs" : true,
+    "Flags"  : [ "plan", "apply", "workspace" ],
+    "FlagValues": {
+        "workspace": [{
+            "Flags": [ "new", "delete", "select" ]
+        }]
+    }
+} ] }
+
+
 autocomplete set ssh { [ {
     "NoFiles": true,
     "NoDirs" : true,

@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
+	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/readline"
 	"regexp"
 	"strings"
@@ -452,7 +453,16 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		case !ExesFlags[pt.funcName].NoDirs:
 			items = append(items, matchDirs(s)...)
 		}*/
-		items = matchFlags(s, pt.funcName, pt.parameters)
+		//items = matchFlags(0, s, pt.funcName, pt.parameters)
+
+		if len(ExesFlags[pt.funcName]) == 0 {
+			ExesFlags[pt.funcName] = []Flags{{
+				Flags: man.ScanManPages(pt.funcName),
+			}}
+		}
+
+		pIndex := 0
+		items = matchFlags(ExesFlags[pt.funcName], s, pt.funcName, pt.parameters, &pIndex)
 	}
 
 	v, err := proc.GlobalConf.Get("shell", "max-suggestions", types.Integer)

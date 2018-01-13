@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/murex/utils/man"
 	"os"
 	"sort"
 	"strings"
@@ -16,14 +15,14 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	NoFiles    bool     // `true` to disable file name completion
-	NoDirs     bool     // `true` to disable directory navigation completion
-	NoFlags    bool     // `true` to disable Flags[] slice and man page parsing
-	IncExePath bool     // `true` to include binaries in $PATH
-	Flags      []string // known supported command line flags for executable
-	Dynamic    string   // Use murex script to generate auto-complete options
-	FlagValues map[string]Flags // Auto-complete possible values for known flags
-	Optional bool
+	NoFiles    bool               // `true` to disable file name completion
+	NoDirs     bool               // `true` to disable directory navigation completion
+	NoFlags    bool               // `true` to disable Flags[] slice and man page parsing
+	IncExePath bool               // `true` to include binaries in $PATH
+	Flags      []string           // known supported command line flags for executable
+	Dynamic    string             // Use murex script to generate auto-complete options
+	FlagValues map[string][]Flags // Auto-complete possible values for known flags
+	Optional   bool
 }
 
 // ExesFlags is map of executables and their supported auto-complete options.
@@ -80,114 +79,78 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func matchFlags( partial, exe string, params []string) (items []string) {
-	/*if len(ExesFlags[exe])==0 {
-		items = matchPartialFlags(partial, exe)
-		items = append(items, matchDynamic(partial, exe, params)...)
+func match(f *Flags, partial, exe string, params []string) (items []string) {
+	items = append(items, matchPartialFlags(f, partial, exe)...)
+	items = append(items, matchDynamic(f, partial, exe, params)...)
 
-		if ExesFlags[exe][i].IncExePath {
-			pathexes := allExecutables(false)
-			items = append(items, matchExes(partial, pathexes, false)...)
-		}
-
-		switch {
-		case !ExesFlags[exe][0].NoFiles:
-			items = append(items, matchFilesAndDirs(partial)...)
-		case !ExesFlags[exe][0].NoDirs:
-			items = append(items, matchDirs(partial)...)
-		}
-
-		return
-	}*/
-
-	match := func(nest int, partial, exe string, params []string) (items []string){
-		//fmt.Println(nest, partial,exe,params, ExesFlags[exe])
-
-		//if nest >= len(ExesFlags[exe]) {
-		//	return
-		//}
-
-
-
-		items = append(items, matchPartialFlags(nest, partial, exe)...)
-		items = append(items, matchDynamic(nest, partial, exe, params)...)
-
-		if ExesFlags[exe][nest].IncExePath {
-			pathexes := allExecutables(false)
-			items = append(items, matchExes(partial, pathexes, false)...)
-		}
-
-		switch {
-		case !ExesFlags[exe][nest].NoFiles:
-			items = append(items, matchFilesAndDirs(partial)...)
-		case !ExesFlags[exe][nest].NoDirs:
-			items = append(items, matchDirs(partial)...)
-		}
-
-		return
+	if f.IncExePath {
+		pathexes := allExecutables(false)
+		items = append(items, matchExes(partial, pathexes, false)...)
 	}
 
+	switch {
+	case !f.NoFiles:
+		items = append(items, matchFilesAndDirs(partial)...)
+	case !f.NoDirs:
+		items = append(items, matchDirs(partial)...)
+	}
+
+	return
+}
+
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int) (items []string) {
 	var nest int
 
-	if  len(ExesFlags[exe])==0 {
-
-		ExesFlags[exe]= []Flags{{
-				Flags: man.ScanManPages(exe),
-			}}
-
-	} else {
-
-		for param := range params {
-			//for ; nest<len(ExesFlags[exe] );nest++ { // we deliberately don't want `nest` to reset within each iteration of `range params`
+	if len(flags) > 0 {
+		for ; *pIndex <= len(params); *pIndex++ {
 		next:
-			if len(match(nest, params[param], exe, params[:param])) > 0 {
+			if *pIndex >= len(params) {
+				break
+			}
+
+			//fmt.Println(flags, nest, *pIndex, params)
+
+			if *pIndex > 0 && len(flags[nest].FlagValues[params[*pIndex-1]]) > 0 {
+				items = matchFlags(flags[nest].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex)
+				if len(items) > 0 {
+					return
+				}
+				continue
+			}
+
+			//fmt.Println(*pIndex, params)
+
+			if len(match(&flags[nest],
+				params[*pIndex],
+				exe,
+				params[:*pIndex])) > 0 {
 				continue
 			}
 
 			nest++
 			goto next
-
 		}
 	}
 
-		//items = match(nest,partial,exe,params)
-		for ;nest<=len(ExesFlags[exe] );nest++ {
-			items = append(items,match(nest,partial,exe,params)...)
-			if !ExesFlags[exe][nest].Optional {
-				break
-			}
-	}
-
-		//ExesFlags[exe][nest].Optional
-
-	/*
-	for i:=range ExesFlags[exe] {
-
-	}
-
-		for _,param:= range params {
-			var match bool
-			for j:= range ExesFlags[exe][i].Flags {
-				if param == ExesFlags[exe][i].Flags[j] {
-
-				}
-			}
+	for ; nest <= len(flags); nest++ {
+		items = append(items, match(&flags[nest], partial, exe, params)...)
+		if !flags[nest].Optional {
+			break
 		}
-		items = ExesFlags[exe][i].Flags
-		//items = matchPartialFlags(partial, exe)
-	}*/
+	}
+
 	return
 }
 
-func matchPartialFlags(nest int, partial, exe string) (items []string) {
+func matchPartialFlags(f *Flags, partial, exe string) (items []string) {
 	//if len(ExesFlags[exe][nest].Flags) == 0 && !ExesFlags[exe][nest].NoFlags {
 	//	f := ExesFlags[exe][nest]
 	//	f.Flags = man.ScanManPages(exe)
 	//	ExesFlags[exe] = append([]Flags{},f)
 	//}
 
-	for i := range ExesFlags[exe][nest].Flags {
-		flag := ExesFlags[exe][nest].Flags[i]
+	for i := range f.Flags {
+		flag := f.Flags[i]
 		if flag == "" {
 			continue
 		}
@@ -220,8 +183,9 @@ func matchVars(partial string) (items []string) {
 	return
 }
 
-func matchDynamic(nest int,partial, exe string, params []string) (items []string) {
-	if len(ExesFlags[exe][nest].Dynamic) == 0 {
+func matchDynamic(f *Flags, partial, exe string, params []string) (items []string) {
+	//if len(f.Dynamic) == 0 {
+	if f.Dynamic == "" {
 		return
 	}
 
@@ -232,11 +196,11 @@ func matchDynamic(nest int,partial, exe string, params []string) (items []string
 	}
 	p.Scope = p
 
-	if !types.IsBlock([]byte(ExesFlags[exe][nest].Dynamic)) {
+	if !types.IsBlock([]byte(f.Dynamic)) {
 		ansi.Stderrln(ansi.FgRed, "Dynamic autocompleter is not a code block!")
 		return
 	}
-	block := []rune(ExesFlags[exe][nest].Dynamic[1 : len(ExesFlags[exe][nest].Dynamic)-1])
+	block := []rune(f.Dynamic[1 : len(f.Dynamic)-1])
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
