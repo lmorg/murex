@@ -22,20 +22,22 @@ type Flags struct {
 	IncExePath bool     // `true` to include binaries in $PATH
 	Flags      []string // known supported command line flags for executable
 	Dynamic    string   // Use murex script to generate auto-complete options
+	FlagValues map[string]Flags // Auto-complete possible values for known flags
+	Optional bool
 }
 
 // ExesFlags is map of executables and their supported auto-complete options.
 // We might as well pre-populate the structure with a few base commands we might expect.
-var ExesFlags map[string]Flags = map[string]Flags{
-	"cd":      {Flags: []string{}, NoFiles: true},
-	"mkdir":   {Flags: []string{}, NoFiles: true},
-	"rmdir":   {Flags: []string{}, NoFiles: true},
-	"man":     {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"which":   {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"whereis": {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"sudo":    {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"exec":    {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
-	"pty":     {Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true},
+var ExesFlags map[string][]Flags = map[string][]Flags{
+	"cd":      {{Flags: []string{}, NoFiles: true}},
+	"mkdir":   {{Flags: []string{}, NoFiles: true}},
+	"rmdir":   {{Flags: []string{}, NoFiles: true}},
+	"man":     {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
+	"which":   {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
+	"whereis": {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
+	"sudo":    {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
+	"exec":    {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
+	"pty":     {{Flags: []string{}, NoFiles: true, NoDirs: true, IncExePath: true}},
 }
 
 // globalExes is a pre-populated list of all executables in $PATH.
@@ -78,15 +80,114 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func matchFlags(partial, exe string) (items []string) {
-	if len(ExesFlags[exe].Flags) == 0 && !ExesFlags[exe].NoFlags {
-		f := ExesFlags[exe]
-		f.Flags = man.ScanManPages(exe)
-		ExesFlags[exe] = f
+func matchFlags( partial, exe string, params []string) (items []string) {
+	/*if len(ExesFlags[exe])==0 {
+		items = matchPartialFlags(partial, exe)
+		items = append(items, matchDynamic(partial, exe, params)...)
+
+		if ExesFlags[exe][i].IncExePath {
+			pathexes := allExecutables(false)
+			items = append(items, matchExes(partial, pathexes, false)...)
+		}
+
+		switch {
+		case !ExesFlags[exe][0].NoFiles:
+			items = append(items, matchFilesAndDirs(partial)...)
+		case !ExesFlags[exe][0].NoDirs:
+			items = append(items, matchDirs(partial)...)
+		}
+
+		return
+	}*/
+
+	match := func(nest int, partial, exe string, params []string) (items []string){
+		//fmt.Println(nest, partial,exe,params, ExesFlags[exe])
+
+		//if nest >= len(ExesFlags[exe]) {
+		//	return
+		//}
+
+
+
+		items = append(items, matchPartialFlags(nest, partial, exe)...)
+		items = append(items, matchDynamic(nest, partial, exe, params)...)
+
+		if ExesFlags[exe][nest].IncExePath {
+			pathexes := allExecutables(false)
+			items = append(items, matchExes(partial, pathexes, false)...)
+		}
+
+		switch {
+		case !ExesFlags[exe][nest].NoFiles:
+			items = append(items, matchFilesAndDirs(partial)...)
+		case !ExesFlags[exe][nest].NoDirs:
+			items = append(items, matchDirs(partial)...)
+		}
+
+		return
 	}
 
-	for i := range ExesFlags[exe].Flags {
-		flag := ExesFlags[exe].Flags[i]
+	var nest int
+
+	if  len(ExesFlags[exe])==0 {
+
+		ExesFlags[exe]= []Flags{{
+				Flags: man.ScanManPages(exe),
+			}}
+
+	} else {
+
+		for param := range params {
+			//for ; nest<len(ExesFlags[exe] );nest++ { // we deliberately don't want `nest` to reset within each iteration of `range params`
+		next:
+			if len(match(nest, params[param], exe, params[:param])) > 0 {
+				continue
+			}
+
+			nest++
+			goto next
+
+		}
+	}
+
+		//items = match(nest,partial,exe,params)
+		for ;nest<=len(ExesFlags[exe] );nest++ {
+			items = append(items,match(nest,partial,exe,params)...)
+			if !ExesFlags[exe][nest].Optional {
+				break
+			}
+	}
+
+		//ExesFlags[exe][nest].Optional
+
+	/*
+	for i:=range ExesFlags[exe] {
+
+	}
+
+		for _,param:= range params {
+			var match bool
+			for j:= range ExesFlags[exe][i].Flags {
+				if param == ExesFlags[exe][i].Flags[j] {
+
+				}
+			}
+		}
+		items = ExesFlags[exe][i].Flags
+		//items = matchPartialFlags(partial, exe)
+	}*/
+	return
+}
+
+func matchPartialFlags(nest int, partial, exe string) (items []string) {
+	//if len(ExesFlags[exe][nest].Flags) == 0 && !ExesFlags[exe][nest].NoFlags {
+	//	f := ExesFlags[exe][nest]
+	//	f.Flags = man.ScanManPages(exe)
+	//	ExesFlags[exe] = append([]Flags{},f)
+	//}
+
+	for i := range ExesFlags[exe][nest].Flags {
+		flag := ExesFlags[exe][nest].Flags[i]
 		if flag == "" {
 			continue
 		}
@@ -119,8 +220,8 @@ func matchVars(partial string) (items []string) {
 	return
 }
 
-func matchDynamic(partial, exe string, params []string) (items []string) {
-	if len(ExesFlags[exe].Dynamic) == 0 {
+func matchDynamic(nest int,partial, exe string, params []string) (items []string) {
+	if len(ExesFlags[exe][nest].Dynamic) == 0 {
 		return
 	}
 
@@ -131,11 +232,11 @@ func matchDynamic(partial, exe string, params []string) (items []string) {
 	}
 	p.Scope = p
 
-	if !types.IsBlock([]byte(ExesFlags[exe].Dynamic)) {
+	if !types.IsBlock([]byte(ExesFlags[exe][nest].Dynamic)) {
 		ansi.Stderrln(ansi.FgRed, "Dynamic autocompleter is not a code block!")
 		return
 	}
-	block := []rune(ExesFlags[exe].Dynamic[1 : len(ExesFlags[exe].Dynamic)-1])
+	block := []rune(ExesFlags[exe][nest].Dynamic[1 : len(ExesFlags[exe][nest].Dynamic)-1])
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()

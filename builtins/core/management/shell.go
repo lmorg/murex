@@ -124,23 +124,37 @@ func cmdAutocomplete(p *proc.Process) error {
 		return err
 	}
 
-	jf, err := p.Parameters.Byte(2)
-	if err != nil {
-		return err
+	//jf, err := p.Parameters.Byte(2)
+	//if err != nil {
+	//	return err
+	//}
+
+	var jf []byte
+	jfr, err := p.Parameters.Block(2)
+	if err == nil {
+		jf = []byte(string(jfr))
+	} else {
+		jf, err = p.Parameters.Byte(2)
+		if err!= nil {
+			return err
+		}
 	}
 
-	var flags shell.Flags
+	var flags []shell.Flags
 	err = json.Unmarshal(jf, &flags)
 	if err != nil {
 		return err
 	}
 
-	// So we don't have nil values in JSON
-	if len(flags.Flags) == 0 {
-		flags.Flags = make([]string, 0)
+	for i := range flags {
+		// So we don't have nil values in JSON
+		if len(flags[i].Flags) == 0 {
+			flags[i].Flags = make([]string, 0)
+		}
+
+		sort.Strings(flags[i].Flags)
 	}
 
-	sort.Strings(flags.Flags)
 	shell.ExesFlags[exe] = flags
 	return nil
 }

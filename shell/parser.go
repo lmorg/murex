@@ -438,7 +438,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 		retPos = len(s)
 
-		items = matchFlags(s, pt.funcName)
+		/*items = matchFlags(s, pt.funcName)
 		items = append(items, matchDynamic(s, pt.funcName, pt.parameters)...)
 
 		if ExesFlags[pt.funcName].IncExePath {
@@ -451,7 +451,8 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 			items = append(items, matchFilesAndDirs(s)...)
 		case !ExesFlags[pt.funcName].NoDirs:
 			items = append(items, matchDirs(s)...)
-		}
+		}*/
+		items = matchFlags(s, pt.funcName, pt.parameters)
 	}
 
 	v, err := proc.GlobalConf.Get("shell", "max-suggestions", types.Integer)

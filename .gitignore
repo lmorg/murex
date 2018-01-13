@@ -10,5 +10,6 @@ murex.iml
 
 # vendor directories and surplus directories created during broken updates
 /vendor.old
+/vendor.new
 /pkg
 /src

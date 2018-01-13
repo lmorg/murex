@@ -15,58 +15,68 @@ func aliases {
     }
 }
 
-autocomplete set config {
+autocomplete set config { [ {
     "NoFiles": true,
     "NoDirs" : true,
     "Dynamic": "{ mxacConfig @{params} }"
+    } ]
 }
 
-autocomplete set autocomplete {
+autocomplete set autocomplete { [ {
     "NoFiles": true,
     "NoDirs" : true,
     "Flags"  : [ "get", "set" ]
+     } ]
 }
 
-autocomplete set pipe {
+autocomplete set pipe { [ {
     "NoFiles": true,
     "Flags"  : [ "--create", "-c", "--close", "-x", "--file", "-f", "--udp-dial", "--tcp-dial", "--udp-listen", "--tcp-listen" ]
+     } ]
 }
 
-autocomplete set dd {
+autocomplete set dd { [ {
     "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
+     } ]
 }
 
-autocomplete set go {
+autocomplete set go { [ {
     "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ]
+     } ]
 }
 
-autocomplete set git {
+autocomplete set git { [ {
     "NoFiles": true,
     "Flags"  : [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ]
+     } ]
 }
 
-autocomplete set systemctl {
+autocomplete set systemctl { [ {
     "NoFiles": true,
     "NoDirs" : true,
     "Flags"  : [ "list-units", "list-sockets", "list-timers", "start", "stop", "reload", "restart", "try-restart", "reload-or-restart", "try-reload-or-restart", "isolate", "kill", "is-active", "is-failed", "status", "show", "cat", "set-property", "help", "reset-failed", "list-dependencies", "list-unit-files", "enable", "disable", "reenable", "preset", "preset-all", "is-enabled", "mask", "unmask", "link", "revert", "add-wants", "add-requires", "edit", "get-default", "set-default", "list-machines", "list-jobs", "cancel", "show-environment", "set-environment", "unset-environment", "import-environment", "daemon-reload", "daemon-reexec", "is-system-running", "default", "rescue", "emergency", "halt", "poweroff", "reboot", "kexec", "exit", "switch-root", "suspend", "hibernate", "hybrid-sleep" ]
+     } ]
 }
 
-autocomplete set docker {
+autocomplete set docker { [ {
     "NoFiles": true,
     "NoDirs" : true,
     "Flags"  : [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
+     } ]
 }
 
-autocomplete set ssh {
+autocomplete set ssh { [ {
     "NoFiles": true,
     "NoDirs" : true,
     "Dynamic": "{ getHostsFile }"
+     } ]
 }
 
-autocomplete set ping {
+autocomplete set ping { [ {
     "NoFiles": true,
     "NoDirs" : true,
     "Dynamic": "{ getHostsFile }"
+     } ]
 }
 
 os -> set os
@@ -78,10 +88,10 @@ if { = os!=`windows` } {
     config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
     config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
 
-    autocomplete set go {
+    autocomplete set go { [ {
         "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
         "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }"
-    }
+    } ] }
 
     func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
 
