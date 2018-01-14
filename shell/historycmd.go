@@ -14,7 +14,7 @@ type history struct {
 	filename string
 	Last     string
 	List     []histItem
-	writer   stdio.Io
+	Writer   stdio.Io
 }
 
 type histItem struct {
@@ -26,7 +26,7 @@ type histItem struct {
 func newHist(filename string) (h history, err error) {
 	h.filename = filename
 	h.List, _ = openHist(filename)
-	h.writer, err = streams.NewFile(filename)
+	h.Writer, err = streams.NewFile(filename)
 	return h, err
 }
 
@@ -72,12 +72,12 @@ func (h *history) Write(block []rune) {
 	w.Block = item.Block
 	w.DateTime = item.DateTime
 	b, _ = json.Marshal(w)
-	h.writer.Writeln(b)
+	h.Writer.Writeln(b)
 }
 
 // Close history file
 func (h *history) Close() {
-	if h.writer != nil {
-		h.writer.Close()
+	if h.Writer != nil {
+		h.Writer.Close()
 	}
 }
