@@ -39,7 +39,7 @@ autocomplete set pipe { [
                     "FlagValues": {
                         "--file": [{
                             "IncFiles": true
-                        }],
+                        }]
                     }
                 }
             ],
