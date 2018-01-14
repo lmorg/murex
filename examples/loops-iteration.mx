@@ -1,5 +1,16 @@
 #!/usr/bin/env murex
 
+# Idiomatic way of iterating in murex
+
+out "Iteration over a foreach loop:"
+
+a: [0..4] -> foreach i {
+    out "Iteration $i...."
+}
+
+
+# While loop
+
 out "Iteration over a while loop:"
 
 let i=0
@@ -9,15 +20,10 @@ while { eval i < 5 } {
 }
 
 
+# Traditional for loop
+
 out "Iteration over a for loop:"
 
 for { i=0; i<5; i++ } {
-    out "Iteration $i...."
-}
-
-
-out "Iteration over a foreach loop:"
-
-a: [0..4] -> foreach i {
     out "Iteration $i...."
 }
