@@ -3,7 +3,6 @@ package streams
 import (
 	"bufio"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -48,7 +47,7 @@ func (stdin *Stdin) MakeParent() {
 func (stdin *Stdin) UnmakeParent() {
 	stdin.mutex.Lock()
 	if !stdin.isParent {
-		debug.Log("Trying to unmake parent on a non-parent pipe.")
+		//debug.Log("Trying to unmake parent on a non-parent pipe.")
 	}
 	stdin.isParent = false
 
@@ -225,9 +224,9 @@ func (stdin *Stdin) Close() {
 
 	if stdin.closed {
 		if stdin.isNamedPipe {
-			debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
+			//debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 		} else {
-			debug.Log("Trying to close an already closed stdin.")
+			//debug.Log("Trying to close an already closed stdin.")
 		}
 		return
 	}

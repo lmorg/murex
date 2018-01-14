@@ -10,12 +10,13 @@ import (
 )
 
 var (
-	rxHistIndex  *regexp.Regexp = regexp.MustCompile(`(\^[0-9]+)`)
-	rxHistRegex  *regexp.Regexp = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
-	rxHistPrefix *regexp.Regexp = regexp.MustCompile(`(\^[a-zA-Z]+)`)
-	rxHistTag    *regexp.Regexp = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
-	rxHistAllPs  *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
-	rxHistParam  *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
+	rxHistIndex   *regexp.Regexp = regexp.MustCompile(`(\^[0-9]+)`)
+	rxHistRegex   *regexp.Regexp = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
+	rxHistPrefix  *regexp.Regexp = regexp.MustCompile(`(\^[a-zA-Z]+)`)
+	rxHistTag     *regexp.Regexp = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
+	rxHistAllPs   *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistParam   *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
+	rxHistReplace *regexp.Regexp = regexp.MustCompile(`\^s/.*?[^\\]/.*?[^\\]/`)
 )
 
 func expandHistory(line []rune) []rune {
@@ -78,7 +79,7 @@ func expandHistory(line []rune) []rune {
 	if len(mhParam) > 0 {
 		nodes, pErr := lang.ParseBlock([]rune(History.Last))
 		if pErr.Code != lang.NoParsingErrors {
-			goto cannotParseLast
+			goto cannotParserxHistAllPs
 		}
 
 		for i := range mhParam {
@@ -108,13 +109,14 @@ func expandHistory(line []rune) []rune {
 
 		//return []rune(s)
 	}
+cannotParserxHistAllPs:
 
 	// Match last params (first command in block)
 	mhParam = rxHistParam.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
 		nodes, pErr := lang.ParseBlock([]rune(History.Last))
 		if pErr.Code != lang.NoParsingErrors {
-			goto cannotParseLast
+			goto cannotParserxHistParam
 		}
 		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
 		lang.ParseParameters(proc.ShellProcess, &p, &proc.GlobalVars)
@@ -135,9 +137,20 @@ func expandHistory(line []rune) []rune {
 
 		return []rune(s)
 	}
-cannotParseLast:
+cannotParserxHistParam:
 
+	// Match last command
 	s = strings.Replace(s, "^!!", noColon(History.Last), -1)
+
+	// Replace string from command buffer
+	/*rxList := rxHistReplace.FindAllString(s, -1)
+	for i := range rxList {
+		rx, err := regexp.Compile(rxList[i][1:])
+		if err != nil {
+			continue
+		}
+
+	}*/
 
 	return []rune(s)
 }

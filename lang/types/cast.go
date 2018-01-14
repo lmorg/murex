@@ -3,7 +3,6 @@ package types
 import (
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/debug"
 	"strconv"
 	"strings"
 )
@@ -21,7 +20,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	// First switch:  input data type
 	// Second switch: output data type
 
-	debug.Log("ConvertGoType:", fmt.Sprintf("%t %s %v", v, dataType, v))
+	//debug.Log("ConvertGoType:", fmt.Sprintf("%t %s %v", v, dataType, v))
 
 	switch v.(type) {
 	case nil:

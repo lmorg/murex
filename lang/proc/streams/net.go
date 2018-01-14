@@ -3,7 +3,6 @@ package streams
 import (
 	"bufio"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"io"
@@ -190,7 +189,7 @@ func (n *Net) Close() {
 	}
 
 	if n.closed {
-		debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
+		//debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 		return
 	}
 

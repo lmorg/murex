@@ -27,7 +27,6 @@ func pvImage(writer io.Writer, reader io.Reader) error {
 		return err
 	}
 
-	//img, err := ansimage.NewScaledFromReader(2*(ty-1), tx, ansimage.ScaleModeFit, color{}, reader)
 	img, err := ansimage.NewScaledFromReader(reader, 2*(ty-1), tx, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
 	if err != nil {
 		return err

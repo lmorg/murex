@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -196,7 +195,7 @@ executeProcess:
 }
 
 func waitProcess(p *proc.Process) {
-	debug.Log("Waiting for", p.Name)
+	//debug.Log("Waiting for", p.Name)
 	<-p.WaitForTermination
 }
 
@@ -210,7 +209,7 @@ func destroyProcess(p *proc.Process) {
 	if p.Name != "fork" { // make special case for `fork` because that doesn't wait
 		p.WaitForTermination <- false
 	}
-	debug.Log("Destroyed " + p.Name)
+	//debug.Log("Destroyed " + p.Name)
 
 	proc.GlobalFIDs.Deregister(p.Id)
 	p.State = state.AwaitingGC
