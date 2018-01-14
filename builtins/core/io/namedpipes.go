@@ -25,7 +25,6 @@ func cmdPipe(p *proc.Process) error {
 			"--close":      types.String,
 			"-x":           "--close",
 			"--file":       types.String,
-			"--f":          "--file",
 			"--tcp-dial":   types.String,
 			"--udp-dial":   types.String,
 			"--tcp-listen": types.String,
