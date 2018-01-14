@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -16,7 +17,7 @@ var (
 	rxHistTag     *regexp.Regexp = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
 	rxHistAllPs   *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
 	rxHistParam   *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
-	rxHistReplace *regexp.Regexp = regexp.MustCompile(`\^s/.*?[^\\]/.*?[^\\]/`)
+	rxHistReplace *regexp.Regexp = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
 )
 
 func expandHistory(line []rune) []rune {
@@ -27,6 +28,7 @@ func expandHistory(line []rune) []rune {
 	for i := range mhIndex {
 		val, _ := strconv.Atoi(mhIndex[i][1:])
 		if val > len(History.List) {
+			debug.Log("Value greater than history length.")
 			continue
 		}
 		s = rxHistIndex.ReplaceAllString(s, noColon(History.List[val].Block))
@@ -38,6 +40,7 @@ func expandHistory(line []rune) []rune {
 	for i := range mhRegexp {
 		rx, err := regexp.Compile(mhRegexp[i][1])
 		if err != nil {
+			debug.Log("Regexp err:", err)
 			continue
 		}
 
@@ -47,18 +50,6 @@ func expandHistory(line []rune) []rune {
 				return []rune(s)
 			}
 		}
-	}
-
-	// Match history prefix
-	mhPrefix := rxHistPrefix.FindAllString(s, -1)
-	for i := range mhPrefix {
-		for h := len(History.List) - 1; h > -1; h-- {
-			if strings.HasPrefix(History.List[h].Block, mhPrefix[i][1:]) {
-				s = strings.Replace(s, mhPrefix[i], noColon(History.List[h].Block), 1)
-				return []rune(s)
-			}
-		}
-		return []rune(s)
 	}
 
 	// Match history hashtag
@@ -143,14 +134,35 @@ cannotParserxHistParam:
 	s = strings.Replace(s, "^!!", noColon(History.Last), -1)
 
 	// Replace string from command buffer
-	/*rxList := rxHistReplace.FindAllString(s, -1)
-	for i := range rxList {
-		rx, err := regexp.Compile(rxList[i][1:])
-		if err != nil {
+	sList := rxHistReplace.FindAllStringSubmatch(s, -1)
+	var rxList []*regexp.Regexp
+	var replaceList []string
+	//debug.Json("^s/...", sList)
+	for i := range sList {
+		rx, err := regexp.Compile(sList[i][1])
+		if err != nil || len(sList[i]) != 3 {
+			debug.Log("Regexp error.", err)
 			continue
 		}
+		rxList = append(rxList, rx)
+		replaceList = append(replaceList, sList[i][2])
+		s = strings.Replace(s, sList[i][0], "", -1)
+	}
+	for i := range rxList {
+		s = rxList[i].ReplaceAllString(s, replaceList[i])
+	}
 
-	}*/
+	// Match history prefix
+	mhPrefix := rxHistPrefix.FindAllString(s, -1)
+	for i := range mhPrefix {
+		for h := len(History.List) - 1; h > -1; h-- {
+			if strings.HasPrefix(History.List[h].Block, mhPrefix[i][1:]) {
+				s = strings.Replace(s, mhPrefix[i], noColon(History.List[h].Block), 1)
+				return []rune(s)
+			}
+		}
+		return []rune(s)
+	}
 
 	return []rune(s)
 }
