@@ -56,7 +56,7 @@ casting the data type:
 
 This awareness of data structures is also utilised in `foreach` (which
 will cycle through each index in an array) and `formap` (key/value
-iteration against complex objects). See [GUIDE.control-structures.md](./GUIDE.control-structures.md)
+iteration against complex objects). See [GUIDE.control-structures.md](docs/GUIDE.control-structures.md)
 for more details on these and other control structures.
 
 ## More robust scripts / shell one liners
@@ -89,7 +89,7 @@ matching file system objects that follows the same idiomatic pattern:
     # Match only directories
     ls -l @{f +d}
 
-(more information on `g`, `rx` and `f` are available in [GUIDE.quick-start.md](./GUIDE.quick-start.md)).
+(more information on `g`, `rx` and `f` are available in [GUIDE.quick-start.md](docs/GUIDE.quick-start.md)).
 
 * Powerful autocompletion
 
@@ -125,27 +125,27 @@ As well as a saner `if` syntax:
 
 Please read the following guides:
 
-1. [GUIDE.syntax.md](GUIDE.syntax.md) is recommended first as it gives
+1. [GUIDE.syntax.md](docs/GUIDE.syntax.md) is recommended first as it gives
 an overview if the shell scripting languages syntax and data types.
 
-2. [GUIDE.variables-and-evaluation.md](GUIDE.variables-and-evaluation.md)
+2. [GUIDE.variables-and-evaluation.md](docs/GUIDE.variables-and-evaluation.md)
 describes how to define variables and how to use them.
 
-3. [GUIDE.control-structures.md](GUIDE.control-structures.md) will
+3. [GUIDE.control-structures.md](docs/GUIDE.control-structures.md) will
 list how to use if statements and iteration like for loops.
 
-4. [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md) demonstrates how
+4. [GUIDE.arrays-and-maps.md](docs/GUIDE.arrays-and-maps.md) demonstrates how
 to create arrays and return specific fields from an array or map.
 
-5. [GUIDE.type-system.md](GUIDE.type-system.md) describes _murex_'s type
+5. [GUIDE.type-system.md](docs/GUIDE.type-system.md) describes _murex_'s type
 system. Most of the time you will not need to worry about typing in
 _murex_ as the shell is designed around productivity.
 
-6. [GUIDE.builtin-functions.md](GUIDE.builtin-functions.md) lists some
+6. [GUIDE.builtin-functions.md](docs/GUIDE.builtin-functions.md) lists some
 of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick
-Start Guide, [GUIDE.quick-start.md](GUIDE.quick-start.md), to jump
+Start Guide, [GUIDE.quick-start.md](docs/GUIDE.quick-start.md), to jump
 straight into using _murex_.
 
 ## Known bugs / TODO
