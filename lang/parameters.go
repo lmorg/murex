@@ -36,12 +36,13 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, prc)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
 					//os.Stderr.WriteString(err.Error() + utils.NewLineString)
-					ansi.Stderrln(ansi.FgRed, err.Error())
+					//ansi.Stderrln(ansi.FgRed, err.Error())
+					prc.Stderr.Writeln([]byte(err.Error()))
 				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {
@@ -79,7 +80,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 				var array []string
 
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, nil, prc)
+				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				stdout.Close()
 
 				stdout.ReadArray(func(b []byte) {
