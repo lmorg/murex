@@ -15,12 +15,56 @@ func aliases {
     }
 }
 
+#autocomplete set config { [{
+#    "Dynamic": "{ mxacConfig @{params} }"
+#}] }
+
 autocomplete set config { [{
-    "Dynamic": "{ mxacConfig @{params} }"
+    "Flags": [ "get", "set" ],
+    "FlagValues": {
+        "get": [
+            { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
+            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" }
+        ],
+        "set": [
+            { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
+            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" },
+            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==`bool` } { a [true,false] } { a ${config -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Default ]} } }" }
+        ]
+    }
 }] }
 
+autocomplete set event { [
+    {
+        "Dynamic": "{ runtime: -> [ Events ] -> formap k v { out $k } }",
+        "FlagValues": {
+            "--filesystem": [{
+                "IncFiles": true,
+                "AllowMultiple": true
+            }],
+            "--timer": [{
+                "AnyValue": true,
+                "AllowMultiple": true
+            }]
+        }
+    },
+    {
+        "Flags": [ "{}" ]
+    }
+] }
+
+autocomplete set !event { [
+    {
+        "Dynamic": "{ runtime: -> [ Events ] -> formap k v { out $k } -> sort }"
+    },
+    {
+        "Dynamic": "{ runtime: -> [ Events ] -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }",
+        "AllowMultiple": true
+    }
+] }
+
 autocomplete set autocomplete { [{
-    "Flags"  : [ "get", "set" ]
+    "Flags" : [ "get", "set" ]
 }] }
 
 autocomplete set pipe { [
@@ -136,17 +180,5 @@ if { = os!=`windows` } {
 
 tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
 
-autocomplete set config { [{
-    "Flags": [ "get", "set" ],
-    "FlagValues": {
-        "get": [
-            { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" }
-        ],
-        "set": [
-            { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==`bool` } { a [true,false] } { a ${config -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Default ]} } }" }
-        ]
-    }
-}] }
+
+
