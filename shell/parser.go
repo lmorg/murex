@@ -454,38 +454,18 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 
 	default:
-		//items = []string{"{ ", "-> ", "| ", " ? ", "; "}
-		//var s string
-		//if pt.loc < len(line) {
-		//	s = strings.TrimSpace(string(line[pt.loc:]))
-		//}
 		var s string
 		if len(pt.parameters) > 0 {
 			s = pt.parameters[len(pt.parameters)-1]
 		}
 		retPos = len(s)
 
-		/*items = matchFlags(s, pt.funcName)
-		items = append(items, matchDynamic(s, pt.funcName, pt.parameters)...)
-
-		if ExesFlags[pt.funcName].IncExePath {
-			pathexes := allExecutables(false)
-			items = append(items, matchExes(s, pathexes, false)...)
-		}
-
-		switch {
-		case !ExesFlags[pt.funcName].NoFiles:
-			items = append(items, matchFilesAndDirs(s)...)
-		case !ExesFlags[pt.funcName].NoDirs:
-			items = append(items, matchDirs(s)...)
-		}*/
-		//items = matchFlags(0, s, pt.funcName, pt.parameters)
-
 		if len(ExesFlags[pt.funcName]) == 0 {
 			ExesFlags[pt.funcName] = []Flags{{
 				Flags:         man.ScanManPages(pt.funcName),
 				IncFiles:      true,
 				AllowMultiple: true,
+				AnyValue:      true,
 			}}
 		}
 
@@ -521,12 +501,6 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	keyPressTimer = time.Now().Add(20 * time.Millisecond)
 
 	switch {
-	/*case key == 77:
-	line = expandVariables(line)
-	line = expandHistory(line)
-	os.Stderr.WriteString(string(line) + utils.NewLineString)
-	return line, pos, ok*/
-
 	case key == readline.CharEnter:
 		return nil, 0, ok
 
@@ -664,8 +638,7 @@ func smooshLines(line []rune, pos int, injectedChar rune) []rune {
 	}
 
 	// It might seem odd converting this into a string only to convert back to []rune but Go does some pretty fucked
-	// up stuff with slices sometimes due to them literally just being pointers. I found this caused all kinds of
-	// annoying little glitches in this routine, as simple as it seems.
+	// up stuff with slices sometimes due to them literally just being pointers.
 	if i >= len(line) || line[i] == '}' || line[i] == '|' || line[i] == ';' {
 		before := string(line[:pos])
 		after := string(line[pos:])

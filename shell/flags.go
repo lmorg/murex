@@ -28,6 +28,8 @@ type Flags struct {
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
+	Alias         string             // Alias one []Flags to another
+	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
 }
 
 // ExesFlags is map of executables and their supported auto-complete options.
@@ -85,7 +87,7 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 }
 
 func match(f *Flags, partial, exe string, params []string) (items []string) {
-	items = append(items, matchPartialFlags(f, partial, exe)...)
+	items = append(items, matchPartialFlags(f, partial)...)
 	items = append(items, matchDynamic(f, partial, exe, params)...)
 
 	if f.IncExePath {
@@ -107,11 +109,14 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 	var nest int
 
 	defer func() {
+		if debug.Enable {
+			return
+		}
 		if r := recover(); r != nil {
-			fmt.Println("Panic caught:", r)
-			fmt.Println("Debug information (partial, exe, params, pIndex, nest):", partial, exe, params, *pIndex, nest)
+			ansi.Stderrln(ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
+			ansi.Stderrln(ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
 			b, _ := json.MarshalIndent(flags, "", "\t")
-			fmt.Println(string(b))
+			ansi.Stderrln(ansi.FgRed, string(b))
 		}
 	}()
 
@@ -123,18 +128,21 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			}
 
 			if *pIndex > 0 && nest > 0 && len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
+				alias := flags[nest-1].FlagValues[params[*pIndex-1]][0].Alias
+				if alias != "" {
+					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
+				}
 				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex)
 				if len(items) > 0 {
 					return
 				}
-				//continue
 			}
 
 			if nest >= len(flags) {
 				return
 			}
 
-			if len(match(&flags[nest], params[*pIndex], exe, params /*[:*pIndex]*/)) > 0 {
+			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], exe, params[:*pIndex] /*params*/)) > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}
@@ -159,13 +167,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 	return
 }
 
-func matchPartialFlags(f *Flags, partial, exe string) (items []string) {
-	//if len(ExesFlags[exe][nest].Flags) == 0 && !ExesFlags[exe][nest].NoFlags {
-	//	f := ExesFlags[exe][nest]
-	//	f.Flags = man.ScanManPages(exe)
-	//	ExesFlags[exe] = append([]Flags{},f)
-	//}
-
+func matchPartialFlags(f *Flags, partial string) (items []string) {
 	for i := range f.Flags {
 		flag := f.Flags[i]
 		if flag == "" {
