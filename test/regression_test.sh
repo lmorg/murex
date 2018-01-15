@@ -303,7 +303,7 @@ while true; do
         190)shell 'try { false }->!catch{out:catch}->catch {out:else}' 2>&1 | check "false\nelse";;
 
         # testing new regex function: find
-        191)shell 'text: fox_crlf.txt->regexp: f/fox/' | check "[[fox] [fox] [fox] [fox]]";;
+        191)shell 'text: fox_crlf.txt -> regexp: f/(fox)/' 2>/dev/null | check "fox\nfox\nfox\nfox";;
 
         # some more advanced testing of `try` and `catch`
         192)shell 'try{ out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1\n3";;
