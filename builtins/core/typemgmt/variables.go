@@ -15,6 +15,7 @@ func init() {
 	proc.GoFunctions["!set"] = cmdUnset
 	proc.GoFunctions["export"] = cmdExport
 	proc.GoFunctions["!export"] = cmdUnexport
+	proc.GoFunctions["unset"] = cmdUnexport
 }
 
 var (

@@ -15,9 +15,7 @@ func aliases {
     }
 }
 
-#autocomplete set config { [{
-#    "Dynamic": "{ mxacConfig @{params} }"
-#}] }
+alias unset=export 123
 
 autocomplete set config { [{
     "Flags": [ "get", "set" ],
@@ -114,7 +112,7 @@ autocomplete set docker { [{
 }] }
 
 autocomplete set terraform { [{
-    "Flags"  : [ "plan", "apply", "workspace" ],
+    "Flags"  : ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
     "FlagValues": {
         "workspace": [{
             "Flags": [ "new", "delete", "select" ]
@@ -128,6 +126,14 @@ autocomplete set ssh { [{
 }] }
 
 autocomplete set ping { [ {
+    "Dynamic": "{ getHostsFile }"
+}] }
+
+autocomplete set rsync { [ {
+    "Dynamic": "{ getHostsFile }"
+}] }
+
+autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
@@ -154,31 +160,7 @@ if { = os!=`windows` } {
     #func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
 }
 
-#func mxacConfig {
-#	params -> set p
-#	let len=${ $p -> format str -> wc -l }
-#
-#	if { = len==3} {
-#		a [get,set]
-#	}
-#
-#	if { = len==4} {
-#		config: -> formap k v { out $k } -> sort
-#	}
-#
-#	if { = len==5} {
-#		config: -> [ ${$p->[3]} ] -> formap k v { out $k } -> sort
-#	}
-#
-#	if { = len==6} {
-#    	config: -> [ ${$p->[3]} ] -> [ ${$p->[4]} ] -> [ Data-Type ] -> set dt
-#    	if { = dt==`bool` } {
-#    	    a [true,false]
-#    	}
-#    } { null }
-#}
-
 tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
 
-
+source: ~/.murex_custom
 

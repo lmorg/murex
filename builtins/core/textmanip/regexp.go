@@ -108,12 +108,12 @@ func cmdRegexp(p *proc.Process) (err error) {
 		return err
 
 	case 'f': // find
-		var output [][]string
+		var output []string
 
 		p.Stdin.ReadArray(func(b []byte) {
 			found := rx.FindStringSubmatch(string(b))
-			if len(found) > 0 {
-				output = append(output, found)
+			if len(found) > 1 {
+				output = append(output, found[1:]...)
 			}
 		})
 
