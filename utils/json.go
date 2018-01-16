@@ -3,6 +3,8 @@ package utils
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"strings"
 )
 
 // JsonNoData is a custom default error message when JSON marshaller returns nil
@@ -12,18 +14,24 @@ const JsonNoData = "No data returned."
 // or not. This is so that the output is human readable when output for a human but a single line machine readable
 // formatting for better support with iteration / concatenation when output to system functions.
 func JsonMarshal(v interface{}, isTTY bool) (b []byte, err error) {
-	//v := deinterface(obj)
-	if isTTY {
-		b, err = json.MarshalIndent(v, "", "    ")
-		if err != nil {
+
+	marshal := func(v interface{}) (b []byte, err error) {
+		if isTTY {
+			b, err = json.MarshalIndent(v, "", "    ")
 			return
 		}
 
-	} else {
 		b, err = json.Marshal(v)
-		if err != nil {
-			return
-		}
+		return
+	}
+
+	b, err = marshal(v)
+	if err != nil && strings.Contains(err.Error(), "unsupported type: map[interface {}]interface {}") {
+		b, err = marshal(deinterface(v))
+	}
+
+	if err != nil {
+		return
 	}
 
 	if string(b) == "null" {
@@ -35,30 +43,27 @@ func JsonMarshal(v interface{}, isTTY bool) (b []byte, err error) {
 }
 
 // deinterface is used to fudge around the lack of support for `map[interface{}]interface{}` in Go's JSON marshaller.
-/*func deinterface(v interface{}) interface{} {
+func deinterface(v interface{}) interface{} {
+	fmt.Println("######################")
+
 	switch t := v.(type) {
 	case map[interface{}]interface{}:
 		newV := make(map[string]interface{})
 		for key := range t {
 			newV[fmt.Sprint(key)] = deinterface(t[key])
 		}
-		fmt.Printf("--> %T\n", t)
+		//debug.Log(fmt.Sprintf("Deinterface: %T\n", t))
 		return newV
 
-	case []map[interface{}]interface{}:
-		newA := make([]map[string]interface{}, 0)
-		for m := range t {
-			newM := make(map[string]interface{})
-			for key := range t[m] {
-				newM[fmt.Sprint(key)] = deinterface(t[m])
-			}
-			newA = append(newA, newM)
+	case []interface{}:
+		newV := make([]interface{}, 0)
+		for i := range t {
+			newV = append(newV, deinterface(t[i]))
 		}
-		fmt.Printf("==> %T\n", t)
-		return newA
+		return newV
 
 	default:
 		//fmt.Printf("%T\n", t)
 		return v
 	}
-}*/
+}
