@@ -1,10 +1,10 @@
 package structs
 
 import (
+	"errors"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"errors"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 func cmdFork(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
-	if p.Parameters.Len() ==0 {
+	if p.Parameters.Len() == 0 {
 		return errors.New("Nothing to fork.")
 	}
 

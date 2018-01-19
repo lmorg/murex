@@ -135,7 +135,7 @@ func cmdAutocomplete(p *proc.Process) error {
 		jf = []byte(string(jfr))
 	} else {
 		jf, err = p.Parameters.Byte(2)
-		if err!= nil {
+		if err != nil {
 			return err
 		}
 	}

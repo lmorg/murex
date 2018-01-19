@@ -36,26 +36,26 @@ var (
 )
 
 type parseTokens struct {
-	loc        int
-	vloc       int
-	escaped    bool
-	qSingle    bool
-	qDouble    bool
-	bracket    int
-	expectFunc bool
-	__pop      *string
-	funcName   string
-	parameters []string
-	variable   string
+	Loc         int
+	VarLoc      int
+	Escaped     bool
+	QuoteSingle bool
+	QuoteDouble bool
+	Bracket     int
+	ExpectFunc  bool
+	pop         *string
+	FuncName    string
+	Parameters  []string
+	Variable    string
 }
 
 func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 	var readFunc bool
 	reset := []string{ansi.Reset, hlFunction}
 	syntaxHighlighted = hlFunction
-	pt.loc = -1
-	pt.expectFunc = true
-	pt.__pop = &pt.funcName
+	pt.Loc = -1
+	pt.ExpectFunc = true
+	pt.pop = &pt.FuncName
 
 	ansiColour := func(colour string, r rune) {
 		syntaxHighlighted += colour + string(r)
@@ -67,7 +67,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			reset = reset[:len(reset)-1]
 		}
 		syntaxHighlighted += string(r) + reset[len(reset)-1]
-		if len(reset) == 1 && pt.bracket > 0 {
+		if len(reset) == 1 && pt.Bracket > 0 {
 			syntaxHighlighted += hlBlock
 		}
 	}
@@ -77,39 +77,34 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			reset = reset[:len(reset)-1]
 		}
 		syntaxHighlighted += reset[len(reset)-1]
-		if len(reset) == 1 && pt.bracket > 0 {
+		if len(reset) == 1 && pt.Bracket > 0 {
 			syntaxHighlighted += hlBlock
 		}
 	}
 
 	ansiChar := func(colour string, r rune) {
 		syntaxHighlighted += colour + string(r) + reset[len(reset)-1]
-		if len(reset) == 1 && pt.bracket > 0 {
+		if len(reset) == 1 && pt.Bracket > 0 {
 			syntaxHighlighted += hlBlock
 		}
 	}
 
 	for i := range line {
-		if pt.variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
-			pt.variable = ""
+		if pt.Variable != "" && !rxAllowedVarChars.MatchString(string(line[i])) {
+			pt.Variable = ""
 			ansiResetNoChar()
 		}
 
 		switch line[i] {
 		case '#':
-			pt.loc = i
+			pt.Loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `#`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `#`
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `#`
-				//}
-				//pt.escaped = false
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += `#`
 				syntaxHighlighted += string(line[i])
 			default:
 				syntaxHighlighted += hlComment + string(line[i:]) + ansi.Reset
@@ -118,258 +113,206 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 
 		case '\\':
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `\`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `\`
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `\`
-				//}
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += `\`
 				syntaxHighlighted += string(line[i])
 			default:
-				pt.escaped = true
+				pt.Escaped = true
 				ansiColour(hlEscaped, line[i])
 			}
 
 		case '\'':
-			pt.loc = i
+			pt.Loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `'`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `'`
 				ansiReset(line[i])
-			case pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `'`
-				//}
+			case pt.QuoteDouble:
+				*pt.pop += `'`
 				syntaxHighlighted += string(line[i])
-			case pt.qSingle:
-				pt.qSingle = false
+			case pt.QuoteSingle:
+				pt.QuoteSingle = false
 				ansiReset(line[i])
 			default:
-				pt.qSingle = true
+				pt.QuoteSingle = true
 				ansiColour(hlSingleQuote, line[i])
 			}
 
 		case '"':
-			pt.loc = i
+			pt.Loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `"`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `"`
 				ansiReset(line[i])
-			case pt.qSingle:
-				//if readFunc {
-				*pt.__pop += `"`
-				//}
+			case pt.QuoteSingle:
+				*pt.pop += `"`
 				syntaxHighlighted += string(line[i])
-			case pt.qDouble:
-				pt.qDouble = false
+			case pt.QuoteDouble:
+				pt.QuoteDouble = false
 				ansiReset(line[i])
 			default:
-				pt.qDouble = true
+				pt.QuoteDouble = true
 				ansiColour(hlDoubleQuote, line[i])
 			}
 
 		case ' ':
-			//pt.loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += ` `
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += ` `
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += ` `
-				//}
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += ` `
 				syntaxHighlighted += string(line[i])
-			case pt.expectFunc && readFunc:
-				pt.loc = i
-				pt.expectFunc = false
+			case pt.ExpectFunc && readFunc:
+				pt.Loc = i
+				pt.ExpectFunc = false
 				readFunc = false
-				pt.parameters = append(pt.parameters, "")
-				pt.__pop = &pt.parameters[0]
-				//syntaxHighlighted += string(line[i])
+				pt.Parameters = append(pt.Parameters, "")
+				pt.pop = &pt.Parameters[0]
 				ansiReset(line[i])
 			default:
-				pt.loc = i
-				pt.parameters = append(pt.parameters, "")
-				pt.__pop = &pt.parameters[len(pt.parameters)-1]
+				pt.Loc = i
+				pt.Parameters = append(pt.Parameters, "")
+				pt.pop = &pt.Parameters[len(pt.Parameters)-1]
 				syntaxHighlighted += string(line[i])
 			}
 
 		case '>':
 			switch {
 			case i > 0 && line[i-1] == '-':
-				pt.loc = i
-				pt.expectFunc = true
-				pt.__pop = &pt.funcName
-				pt.parameters = make([]string, 0)
-				//syntaxHighlighted += string(line[i])
+				pt.Loc = i
+				pt.ExpectFunc = true
+				pt.pop = &pt.FuncName
+				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
 				ansiColour(hlPipe, '-')
 				ansiReset('>')
 				syntaxHighlighted += hlFunction
 
-			case pt.expectFunc, readFunc:
+			case pt.ExpectFunc, readFunc:
 				readFunc = true
-				*pt.__pop += `>`
+				*pt.pop += `>`
 				fallthrough
-			case pt.escaped:
-				pt.escaped = false
+			case pt.Escaped:
+				pt.Escaped = false
 				ansiReset(line[i])
 			default:
-				pt.loc = i
+				pt.Loc = i
 				syntaxHighlighted += string(line[i])
 			}
 
 		case ';', '|':
-			pt.loc = i
+			pt.Loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += string(line[i])
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += string(line[i])
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += string(line[i])
-				//}
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += string(line[i])
 				syntaxHighlighted += string(line[i])
 			default:
-				pt.expectFunc = true
-				pt.__pop = &pt.funcName
-				pt.parameters = make([]string, 0)
-				//syntaxHighlighted += string(line[i])
+				pt.ExpectFunc = true
+				pt.pop = &pt.FuncName
+				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, line[i])
 				syntaxHighlighted += hlFunction
 			}
 
 		case '?':
-			pt.loc = i
+			pt.Loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `?`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `?`
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `?`
-				//}
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += `?`
 				syntaxHighlighted += string(line[i])
 			case i > 0 && line[i-1] == ' ':
-				pt.expectFunc = true
-				pt.__pop = &pt.funcName
-				pt.parameters = make([]string, 0)
-				//syntaxHighlighted += string(line[i])
+				pt.ExpectFunc = true
+				pt.pop = &pt.FuncName
+				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, line[i])
 				syntaxHighlighted += hlFunction
 			default:
-				//if readFunc {
-				*pt.__pop += `?`
-				//}
+				*pt.pop += `?`
 				syntaxHighlighted += string(line[i])
 			}
 
 		case '{':
-			pt.loc = i
+			pt.Loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `{`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `{`
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `{`
-				//}
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += `{`
 				syntaxHighlighted += string(line[i])
 			default:
-				pt.bracket++
-				pt.expectFunc = true
-				pt.__pop = &pt.funcName
-				pt.parameters = make([]string, 0)
+				pt.Bracket++
+				pt.ExpectFunc = true
+				pt.pop = &pt.FuncName
+				pt.Parameters = make([]string, 0)
 				syntaxHighlighted += hlBlock + string(line[i])
-				//ansiColour(ansi.BgBlackBright, line[i])
 			}
 
 		case '}':
-			//loc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `}`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `}`
 				ansiReset(line[i])
-			case pt.escaped, pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `}`
-				//}
+			case pt.Escaped, pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += `}`
 				syntaxHighlighted += string(line[i])
 			default:
-				pt.bracket--
+				pt.Bracket--
 				syntaxHighlighted += string(line[i])
-				if pt.bracket == 0 {
+				if pt.Bracket == 0 {
 					syntaxHighlighted += ansi.Reset + reset[len(reset)-1]
 				}
-				//ansiReset(line[i])
 			}
 
 		case '$':
-			//pt.loc = i
-			pt.vloc = i
+			pt.VarLoc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += string(line[i])
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += string(line[i])
 				ansiReset(line[i])
-			case pt.qSingle:
-				//if readFunc {
-				*pt.__pop += string(line[i])
-				//}
+			case pt.QuoteSingle:
+				*pt.pop += string(line[i])
 				syntaxHighlighted += string(line[i])
 			default:
-				*pt.__pop += string(line[i])
-				pt.variable = string(line[i])
+				*pt.pop += string(line[i])
+				pt.Variable = string(line[i])
 				ansiColour(hlVariable, line[i])
 			}
 
 		case '@':
-			//pt.loc = i
-			pt.vloc = i
+			pt.VarLoc = i
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += string(line[i])
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += string(line[i])
 				ansiReset(line[i])
-			case pt.qSingle:
-				//if readFunc {
-				*pt.__pop += string(line[i])
-				//}
+			case pt.QuoteSingle:
+				*pt.pop += string(line[i])
 				syntaxHighlighted += string(line[i])
 			default:
-				*pt.__pop += string(line[i])
+				*pt.pop += string(line[i])
 
 				if i > 0 && (line[i-1] == ' ' || line[i-1] == '\t') {
-					pt.variable = string(line[i])
+					pt.Variable = string(line[i])
 					ansiColour(hlVariable, line[i])
 				} else {
 					syntaxHighlighted += string(line[i])
@@ -378,19 +321,15 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 
 		case ':':
 			switch {
-			case pt.escaped:
-				pt.escaped = false
-				//if readFunc {
-				*pt.__pop += `:`
-				//}
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `:`
 				ansiReset(line[i])
-			case pt.qSingle, pt.qDouble:
-				//if readFunc {
-				*pt.__pop += `:`
-				//}
+			case pt.QuoteSingle, pt.QuoteDouble:
+				*pt.pop += `:`
 				syntaxHighlighted += string(line[i])
-			case !pt.expectFunc:
-				*pt.__pop += `:`
+			case !pt.ExpectFunc:
+				*pt.pop += `:`
 				syntaxHighlighted += string(line[i])
 			default:
 				syntaxHighlighted += string(line[i])
@@ -398,24 +337,24 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 
 		default:
 			switch {
-			case pt.escaped:
-				pt.escaped = false
+			case pt.Escaped:
+				pt.Escaped = false
 				ansiReset(line[i])
 			case readFunc:
-				*pt.__pop += string(line[i])
+				*pt.pop += string(line[i])
 				syntaxHighlighted += string(line[i])
-			case pt.expectFunc:
-				*pt.__pop = string(line[i])
+			case pt.ExpectFunc:
+				*pt.pop = string(line[i])
 				readFunc = true
 				syntaxHighlighted += string(line[i])
 			default:
-				*pt.__pop += string(line[i])
+				*pt.pop += string(line[i])
 				syntaxHighlighted += string(line[i])
 			}
 		}
 	}
-	pt.loc++
-	pt.vloc++
+	pt.Loc++
+	pt.VarLoc++
 	syntaxHighlighted += ansi.Reset
 	return
 }
@@ -429,19 +368,19 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 	pt, _ := parse(line)
 
 	switch {
-	case pt.variable != "":
+	case pt.Variable != "":
 		var s string
-		if pt.vloc < len(line) {
-			s = strings.TrimSpace(string(line[pt.vloc:]))
+		if pt.VarLoc < len(line) {
+			s = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
-		s = pt.variable + s
+		s = pt.Variable + s
 		retPos = len(s)
 		items = matchVars(s)
 
-	case pt.expectFunc:
+	case pt.ExpectFunc:
 		var s string
-		if pt.loc < len(line) {
-			s = strings.TrimSpace(string(line[pt.loc:]))
+		if pt.Loc < len(line) {
+			s = strings.TrimSpace(string(line[pt.Loc:]))
 		}
 		retPos = len(s)
 		switch {
@@ -455,14 +394,14 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 
 	default:
 		var s string
-		if len(pt.parameters) > 0 {
-			s = pt.parameters[len(pt.parameters)-1]
+		if len(pt.Parameters) > 0 {
+			s = pt.Parameters[len(pt.Parameters)-1]
 		}
 		retPos = len(s)
 
-		if len(ExesFlags[pt.funcName]) == 0 {
-			ExesFlags[pt.funcName] = []Flags{{
-				Flags:         man.ScanManPages(pt.funcName),
+		if len(ExesFlags[pt.FuncName]) == 0 {
+			ExesFlags[pt.FuncName] = []Flags{{
+				Flags:         man.ScanManPages(pt.FuncName),
 				IncFiles:      true,
 				AllowMultiple: true,
 				AnyValue:      true,
@@ -470,7 +409,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 
 		pIndex := 0
-		items = matchFlags(ExesFlags[pt.funcName], s, pt.funcName, pt.parameters, &pIndex)
+		items = matchFlags(ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex)
 	}
 
 	v, err := proc.GlobalConf.Get("shell", "max-suggestions", types.Integer)
@@ -487,7 +426,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 
 	suggest = make([][]rune, len(items))
 	for i := range items {
-		if !pt.qSingle && !pt.qDouble && len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
+		if !pt.QuoteSingle && !pt.QuoteDouble && len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
 			items[i] = strings.Replace(items[i][:len(items[i])-1], " ", `\ `, -1) + items[i][len(items[i])-1:]
 		}
 		suggest[i] = []rune(items[i])
@@ -536,7 +475,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	case key == '{' && typed:
 		pt, _ := parse(line)
 		forward = 0
-		if !pt.escaped && !pt.qSingle && !pt.qDouble {
+		if !pt.Escaped && !pt.QuoteSingle && !pt.QuoteDouble {
 			//newLine = append(line, '}')
 			//newPos = len(newLine) - 1
 			newLine = smooshLines(line, pos, '}')
@@ -549,7 +488,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	case key == '[' && typed:
 		pt, _ := parse(line)
 		forward = 0
-		if !pt.escaped && !pt.qSingle && !pt.qDouble {
+		if !pt.Escaped && !pt.QuoteSingle && !pt.QuoteDouble {
 			newLine = smooshLines(line, pos, ']')
 			newPos = pos
 		} else {
@@ -560,7 +499,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	case key == '\'' && typed:
 		pt, _ := parse(line)
 		forward = 0
-		if !pt.escaped && pt.qSingle && !pt.qDouble {
+		if !pt.Escaped && pt.QuoteSingle && !pt.QuoteDouble {
 			newLine = smooshLines(line, pos, '\'')
 			newPos = pos
 		} else {
@@ -571,7 +510,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	case key == '"' && typed:
 		pt, _ := parse(line)
 		forward = 0
-		if !pt.escaped && !pt.qSingle && pt.qDouble {
+		if !pt.Escaped && !pt.QuoteSingle && pt.QuoteDouble {
 			newLine = smooshLines(line, pos, '"')
 			newPos = pos
 		} else {
@@ -586,7 +525,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 
 		pt, _ := parse(line)
 		switch {
-		case pt.bracket < 0:
+		case pt.Bracket < 0:
 			for i := pos; i < len(line); i++ {
 				if line[i] == '}' {
 					newLine = line[:i]
@@ -597,9 +536,9 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 					}
 				}
 			}
-		case pt.qSingle:
+		case pt.QuoteSingle:
 			newLine, newPos = unsmooshLines(line, pos, '\'')
-		case pt.qDouble:
+		case pt.QuoteDouble:
 			newLine, newPos = unsmooshLines(line, pos, '"')
 		}
 

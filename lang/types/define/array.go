@@ -20,7 +20,7 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 	}
 
 	switch v.(type) {
-case string:
+	case string:
 		return readArrayByString(v.(string), callback)
 
 	case []string:
@@ -53,7 +53,7 @@ case string:
 }
 
 func readArrayByString(v string, callback func([]byte)) error {
-		callback(bytes.TrimSpace([]byte(v)))
+	callback(bytes.TrimSpace([]byte(v)))
 
 	return nil
 }
@@ -79,20 +79,20 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 		//}
 		//callback(jBytes)
 
-	case string:
-		callback([]byte(v[i].(string)))
+		case string:
+			callback([]byte(v[i].(string)))
 
-	case []byte:
-		callback(v[i].([]byte))
+		case []byte:
+			callback(v[i].([]byte))
 
-	default:
-		//s:=fmt.Sprint(v[i])
-		//callback([]byte(s))
-				jBytes, err := marshal(v[i])
-		if err != nil {
-			return err
-		}
-		callback(jBytes)
+		default:
+			//s:=fmt.Sprint(v[i])
+			//callback([]byte(s))
+			jBytes, err := marshal(v[i])
+			if err != nil {
+				return err
+			}
+			callback(jBytes)
 		}
 	}
 
