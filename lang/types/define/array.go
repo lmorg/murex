@@ -20,17 +20,20 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 	}
 
 	switch v.(type) {
-	case []interface{}:
-		return readArrayBySliceInterface(marshal, v.([]interface{}), callback)
+case string:
+		return readArrayByString(v.(string), callback)
 
 	case []string:
 		return readArrayBySliceString(v.([]string), callback)
 
-	case map[string]interface{}:
-		return readArrayByMapStrIface(marshal, v.(map[string]interface{}), callback)
+	case []interface{}:
+		return readArrayBySliceInterface(marshal, v.([]interface{}), callback)
 
 	case map[string]string:
 		return readArrayByMapStrStr(v.(map[string]string), callback)
+
+	case map[string]interface{}:
+		return readArrayByMapStrIface(marshal, v.(map[string]interface{}), callback)
 
 	case map[interface{}]string:
 		return readArrayByMapIfaceStr(v.(map[interface{}]string), callback)
@@ -49,6 +52,12 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 	}
 }
 
+func readArrayByString(v string, callback func([]byte)) error {
+		callback(bytes.TrimSpace([]byte(v)))
+
+	return nil
+}
+
 func readArrayBySliceString(v []string, callback func([]byte)) error {
 	for i := range v {
 		callback(bytes.TrimSpace([]byte(v[i])))
@@ -60,12 +69,31 @@ func readArrayBySliceString(v []string, callback func([]byte)) error {
 func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
 	for i := range v {
 
-		jBytes, err := marshal(v[i])
+		switch v[i].(type) {
+
+		//case interface{}:
+		//panic(fmt.Sprintf("%T",v[i]))
+		//jBytes, err := marshal(v[i])
+		//if err != nil {
+		//	return err
+		//}
+		//callback(jBytes)
+
+	case string:
+		callback([]byte(v[i].(string)))
+
+	case []byte:
+		callback(v[i].([]byte))
+
+	default:
+		//s:=fmt.Sprint(v[i])
+		//callback([]byte(s))
+				jBytes, err := marshal(v[i])
 		if err != nil {
 			return err
 		}
 		callback(jBytes)
-		//}
+		}
 	}
 
 	return nil
