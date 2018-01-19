@@ -15,8 +15,6 @@ func aliases {
     }
 }
 
-alias unset=export 123
-
 autocomplete set config { [{
     "Flags": [ "get", "set" ],
     "FlagValues": {
@@ -100,25 +98,50 @@ autocomplete set go { [{
 }] }
 
 autocomplete set git { [{
-    "Flags"  : [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ]
+    "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ],
+    "FlagValues": {
+        "init": [{ "Flags": ["--bare"] }],
+        "add": [{ "IncFiles": true }],
+        "mv": [{ "IncFiles": true }],
+        "rm": [{ "IncFiles": true }]
+    }
 }] }
 
 autocomplete set systemctl { [{
-    "Flags"  : [ "list-units", "list-sockets", "list-timers", "start", "stop", "reload", "restart", "try-restart", "reload-or-restart", "try-reload-or-restart", "isolate", "kill", "is-active", "is-failed", "status", "show", "cat", "set-property", "help", "reset-failed", "list-dependencies", "list-unit-files", "enable", "disable", "reenable", "preset", "preset-all", "is-enabled", "mask", "unmask", "link", "revert", "add-wants", "add-requires", "edit", "get-default", "set-default", "list-machines", "list-jobs", "cancel", "show-environment", "set-environment", "unset-environment", "import-environment", "daemon-reload", "daemon-reexec", "is-system-running", "default", "rescue", "emergency", "halt", "poweroff", "reboot", "kexec", "exit", "switch-root", "suspend", "hibernate", "hybrid-sleep" ]
+    "Flags": [ "list-units", "list-sockets", "list-timers", "start", "stop", "reload", "restart", "try-restart", "reload-or-restart", "try-reload-or-restart", "isolate", "kill", "is-active", "is-failed", "status", "show", "cat", "set-property", "help", "reset-failed", "list-dependencies", "list-unit-files", "enable", "disable", "reenable", "preset", "preset-all", "is-enabled", "mask", "unmask", "link", "revert", "add-wants", "add-requires", "edit", "get-default", "set-default", "list-machines", "list-jobs", "cancel", "show-environment", "set-environment", "unset-environment", "import-environment", "daemon-reload", "daemon-reexec", "is-system-running", "default", "rescue", "emergency", "halt", "poweroff", "reboot", "kexec", "exit", "switch-root", "suspend", "hibernate", "hybrid-sleep" ]
 }] }
 
-autocomplete set docker { [{
-    "Flags"  : [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
-}] }
+autocomplete set docker { [
+    {
+        "Flags": [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
+    },
+    {
+        "Flags": [ "-t" ],
+        "Optional": true,
+        "AllowMultiple": true,
+        "AnyValue": true
+    },
+    {
+        "IncFiles": true
+    }
+] }
 
 autocomplete set terraform { [{
-    "Flags"  : ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
+    "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
     "FlagValues": {
         "workspace": [{
             "Flags": [ "new", "delete", "select" ]
         }]
     }
 }] }
+
+autocomplete set gopass { [
+    {
+        "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
+        "AllowMultiple": true,
+        "Dynamic": "{ exec: @{params} --generate-bash-completion }"
+    }
+] }
 
 
 autocomplete set ssh { [{
