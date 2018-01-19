@@ -32,7 +32,7 @@ func init() {
 		"text/x-hcl",
 	)
 
-	define.SetFileExtensions(typeName, "hcl")
+	define.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
 }
 
 func readArray(read stdio.Io, callback func([]byte)) error {
