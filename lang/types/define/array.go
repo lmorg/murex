@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
 
+// ArrayTemplate is a template function for reading arrays from marshalled data
 func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
