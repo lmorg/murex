@@ -6,8 +6,10 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"os"
+	"strings"
 )
 
 var (
@@ -31,6 +33,8 @@ func readFlags() {
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 	flag.BoolVar(&fSh, "murex", false, "")
 
+	dt := flag.String("print-data-type", "", "Called from external functions to set a data type")
+
 	flag.Parse()
 
 	if fHelp1 || fHelp2 || fHelp3 {
@@ -38,6 +42,13 @@ func readFlags() {
 		fmt.Println(config.Version)
 		flag.Usage()
 		os.Exit(1)
+	}
+
+	if *dt != "" {
+		if strings.HasSuffix(os.Getenv("SHELL"), config.AppName) {
+			fmt.Print(stdio.DataTypeHeader(*dt, true))
+		}
+		os.Exit(0)
 	}
 
 	proc.GlobalConf.Define("shell", "echo", config.Properties{

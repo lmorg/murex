@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
@@ -16,6 +17,7 @@ import (
 	"github.com/lmorg/murex/utils/home"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -27,7 +29,14 @@ func main() {
 	proc.ShellProcess.Scope = proc.ShellProcess
 	proc.ShellProcess.Parent = proc.ShellProcess
 
-	os.Setenv("SHELL", proc.ShellProcess.Name)
+	parentShell := os.Getenv("SHELL")
+
+	// Sets $SHELL to be murex
+	shellEnv, err := os.Executable()
+	if err != nil {
+		shellEnv = proc.ShellProcess.Name
+	}
+	os.Setenv("SHELL", shellEnv)
 
 	// Pre-populate $PWDHIST with current working directory
 	s, _ := os.Getwd()
@@ -38,10 +47,19 @@ func main() {
 
 	switch {
 	case fCommand != "":
+		// Checks if this script is being called from inside murex
+		if strings.HasSuffix(parentShell, config.AppName) {
+			stdio.StdoutDataType = true
+		}
+
 		config.Defaults(&proc.GlobalConf, false)
 		execSource([]rune(fCommand))
 
 	case len(fSource) > 0:
+		// Checks if this script is being called from inside murex
+		if strings.HasSuffix(parentShell, config.AppName) {
+			stdio.StdoutDataType = true
+		}
 		shell.SigHandler()
 		config.Defaults(&proc.GlobalConf, false)
 		execSource(diskSource(fSource[0]))
