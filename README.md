@@ -84,7 +84,7 @@ The advantage of _murex_'s method is that we can now offer other ways of
 matching file system objects that follows the same idiomatic pattern:
 
     # Match files by regexp pattern
-    ls -l @{rx '\.go$}
+    ls -l @{rx \.go$}
 
     # Match only directories
     ls -l @{f +d}
