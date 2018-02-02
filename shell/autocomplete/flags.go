@@ -62,6 +62,7 @@ func UpdateGlobalExeList() {
 	}
 }
 
+// InitExeFlags initialises empty []Flags based on sane defaults and a quick scan of the man pages (OS dependant)
 func InitExeFlags(exe string) {
 	if len(ExesFlags[exe]) == 0 {
 		ExesFlags[exe] = []Flags{{
@@ -112,7 +113,7 @@ func match(f *Flags, partial, exe string, params []string) (items []string) {
 	return
 }
 
-// matchFlags is the entry point for murex's complex system of flag matching
+// MatchFlags is the entry point for murex's complex system of flag matching
 func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int) (items []string) {
 	var nest int
 

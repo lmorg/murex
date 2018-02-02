@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// MatchFunction returns autocomplete suggestions for functions / executables based on a partial string
 func MatchFunction(partial string) (items []string) {
 	switch {
 	case pathIsLocal(partial):
@@ -19,6 +20,7 @@ func MatchFunction(partial string) (items []string) {
 	return
 }
 
+// MatchVars returns autocomplete suggestions for variables based on a partial string
 func MatchVars(partial string) (items []string) {
 	vars := proc.GlobalVars.DumpMap()
 
