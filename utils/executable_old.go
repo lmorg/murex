@@ -8,5 +8,5 @@ import (
 )
 
 func Executable() (string, error) {
-	return os.Args[0]
+	return os.Args[0], nil
 }
