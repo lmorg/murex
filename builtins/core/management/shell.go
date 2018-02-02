@@ -28,7 +28,7 @@ func init() {
 	proc.GoFunctions["autocomplete"] = cmdAutocomplete
 	proc.GoFunctions["version"] = cmdVersion
 	proc.GoFunctions["runtime"] = cmdRuntime
-	proc.GoFunctions["murex-runtime"] = cmdRuntimeNew
+	proc.GoFunctions["murex-runtime"] = cmdRuntime
 }
 
 func cmdArgs(p *proc.Process) (err error) {
@@ -183,38 +183,6 @@ func cmdVersion(p *proc.Process) error {
 }
 
 func cmdRuntime(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Json)
-
-	rt := make(map[string]interface{})
-	rt["Vars"] = proc.GlobalVars.Dump()
-	rt["Aliases"] = proc.GlobalAliases.Dump()
-	rt["Config"] = proc.GlobalConf.Dump()
-	rt["Pipes"] = proc.GlobalPipes.Dump()
-	rt["Funcs"] = proc.MxFunctions.Dump()
-	rt["Fids"] = proc.GlobalFIDs.Dump()
-	rt["Arrays"] = streams.DumpArray()
-	rt["Maps"] = streams.DumpMap()
-	rt["Indexes"] = define.DumpIndex()
-	rt["Marshallers"] = define.DumpMarshaller()
-	rt["Unmarshallers"] = define.DumpUnmarshaller()
-	rt["Mimes"] = define.DumpMime()
-	rt["FileExts"] = define.DumpFileExts()
-	rt["Events"] = events.DumpEvents()
-
-	//var mem runtime.MemStats
-	//runtime.ReadMemStats(&mem)
-	//rt["MemStats"] = mem
-
-	b, err := utils.JsonMarshal(rt, p.Stdout.IsTTY())
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write(b)
-	return err
-}
-
-func cmdRuntimeNew(p *proc.Process) error {
 	const (
 		fVars          = "--vars"
 		fAliases       = "--aliases"
