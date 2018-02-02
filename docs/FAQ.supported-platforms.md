@@ -1,35 +1,37 @@
-# Supported Platforms
+# Supported Operating Systems
 
 The following is a list of platforms _murex_ has been tested on and the
 level of support it had:
 
-## Linux (AMD64)
+## Linux
 
-* ArchLinux
+**ArchLinux:**
 
-Ths is the primary dev platform so all features will work.
+Ths is my primary dev platform so all features will work.
 
-* Debian
+**Debian:**
 
 There is a supported Docker container included in this project. All
 regression tests pass.
 
+**Ubuntu:**
+
+_murex_ has been tested and works well
+
 ## OS X / Darwin
 
-Untested but should compile and have similar support to FreeBSD, which
-is a tested platform. I don't currently have access to an Mac and don't
-have any plans on building a Darwin VM any time soon so I would be
-looking towards the community for any testing and bug fixes on OS X.
+Untested but I expect _murex_ to function. If you do encounter any
+problems then please raise an issue.
 
-## FreeBSD (AMD64)
+## FreeBSD
 
-_murex_ has been tested inside a 10.3-RELEASE jail. All regression tests
+_murex_ has been tested inside a 10.3-RELEASE AMD64 jail. All regression tests
 pass however there is a bug where some forked processes don't use the
 entire TTY screen while most others do (specifically `top`).
 
 Aside that, FreeBSD support is considered very good.
 
-## OpenBSD (AMD64)
+## OpenBSD
 
 Tested. Regression tests cannot be run because of `timeout` dependency
 however _murex_ does compile and run well - seems fully functional from
@@ -37,56 +39,50 @@ a functional test.
 
 ## NetBSD
 
-Untested but should compile. I will be creating a test environment for
-NetBSD soon.
+Untested but should compile.
 
-## Windows (AMD64)
+## Windows
 
-_murex_ does compile but a few features don't work which should:
-* forked processes don't grab user input
-* autocompleter doesn't pick up EXEs in %PATH%
-
-...and a few features are unsupported due to a lack of support on the OS
-platform itself:
-* Windows doesn't have `man` pages so _murex_ cannot automatically offer
-autocompletion suggestions for a commands supported flags
-
-For these reasons, Windows support will be classed as experimental until
-either I get POSIX support to a level that I am happy with, or other
-developers are happy to submit pull requests.
+Windows support should be there however I have not had access to a
+Windows environment for some time so there maybe some new bugs
+introduced since. The project may even fail to compile due to code
+refactoring that hasn't been correctly ported to the Windows _murex_
+source. If you do have any issues then please raise an issue and I will
+investigate.
 
 ## Plan 9
 
 Not currently supported. There are a few differences in the `syscall`
-package which would lead me to believe that _murex_ will not compile. I
-do eventually plan on supporting Plan 9 so if you do use that OS then
-keep checking back as support may be added soon.
+package which would lead me to believe that _murex_ will not compile.
+That's not to say that I wont ever support Plan 9 but it's not a feature
+I'm giving any priority to at present.
 
-## Other CPU architectures
+# Other CPU architectures
 
 While there isn't any CPU specific code in _murex_ below is a breakdown
 of state of support and testing on alternative architectures:
 
-* 386
+## 386
 
 Untested but should function the same as AMD64. 64 bit data types are
 rarely used so performance should be roughly equal. If you do still use
 32 bit platforms and notice any issues then please raise an issue ticket
 and I will investigate.
 
-* ARM
+## ARM
 
-Untested currently but Linux ARM testing is expected to be undertaken
-soon
+Only tested on Linux but full compatibility was present.
 
-* PPC
+## PPC
 
-Untested however the Go compiler does support various PPC architectures.
+Untested however the Go compiler does support various PPC architectures
+so _murex_ might work.
 
-* MIPS
+## MIPS
 
-Untested however the Go compiler does support various MIPS architectures.
+Untested however the Go compiler does support various MIPS architectures
+so _murex_ might work.
 
-* SPARC
+## SPARC
 
 Unsupported.
