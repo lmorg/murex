@@ -32,7 +32,7 @@ func main() {
 	parentShell := os.Getenv("SHELL")
 
 	// Sets $SHELL to be murex
-	shellEnv, err := os.Executable()
+	shellEnv, err := utils.Executable()
 	if err != nil {
 		shellEnv = proc.ShellProcess.Name
 	}
