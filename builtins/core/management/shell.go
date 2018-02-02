@@ -5,16 +5,18 @@ import (
 	"errors"
 	"github.com/lmorg/murex/builtins/core/events"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"sort"
 )
 
@@ -26,6 +28,7 @@ func init() {
 	proc.GoFunctions["autocomplete"] = cmdAutocomplete
 	proc.GoFunctions["version"] = cmdVersion
 	proc.GoFunctions["runtime"] = cmdRuntime
+	proc.GoFunctions["murex-runtime"] = cmdRuntimeNew
 }
 
 func cmdArgs(p *proc.Process) (err error) {
@@ -70,6 +73,8 @@ func cmdParams(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	params := append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
+
+	debug.Json("builtin.params:", params)
 
 	b, err := utils.JsonMarshal(&params, p.Stdout.IsTTY())
 	if err != nil {
@@ -140,7 +145,7 @@ func cmdAutocomplete(p *proc.Process) error {
 		}
 	}
 
-	var flags []shell.Flags
+	var flags []autocomplete.Flags
 	err = json.Unmarshal(jf, &flags)
 	if err != nil {
 		return err
@@ -155,14 +160,14 @@ func cmdAutocomplete(p *proc.Process) error {
 		sort.Strings(flags[i].Flags)
 	}
 
-	shell.ExesFlags[exe] = flags
+	autocomplete.ExesFlags[exe] = flags
 	return nil
 }
 
 func listAutocomplete(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	b, err := utils.JsonMarshal(shell.ExesFlags, p.Stdout.IsTTY())
+	b, err := utils.JsonMarshal(autocomplete.ExesFlags, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -203,6 +208,123 @@ func cmdRuntime(p *proc.Process) error {
 	b, err := utils.JsonMarshal(rt, p.Stdout.IsTTY())
 	if err != nil {
 		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func cmdRuntimeNew(p *proc.Process) error {
+	const (
+		fVars          = "--vars"
+		fAliases       = "--aliases"
+		fConfig        = "--config"
+		fPipes         = "--pipes"
+		fFuncs         = "--funcs"
+		fFids          = "--fids"
+		fArrays        = "--arrays"
+		fMaps          = "--maps"
+		fIndexes       = "--indexes"
+		fMarshallers   = "--marshallers"
+		fUnmarshallers = "--unmarshallers"
+		fMimes         = "--mimes"
+		fFileExts      = "--fileexts"
+		fEvents        = "--events"
+		fFlags         = "--flags"
+		fMemstats      = "--memstats"
+	)
+	p.Stdout.SetDataType(types.Json)
+
+	f, _, err := p.Parameters.ParseFlags(
+		&parameters.Arguments{
+			Flags: map[string]string{
+				//"all":           types.Boolean,
+				fVars:          types.Boolean,
+				fAliases:       types.Boolean,
+				fConfig:        types.Boolean,
+				fPipes:         types.Boolean,
+				fFuncs:         types.Boolean,
+				fFids:          types.Boolean,
+				fArrays:        types.Boolean,
+				fMaps:          types.Boolean,
+				fIndexes:       types.Boolean,
+				fMarshallers:   types.Boolean,
+				fUnmarshallers: types.Boolean,
+				fMimes:         types.Boolean,
+				fFileExts:      types.Boolean,
+				fEvents:        types.Boolean,
+				fFlags:         types.Boolean,
+				fMemstats:      types.Boolean,
+			},
+			AllowAdditional: false,
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if len(f) == 0 {
+		return errors.New("Please include one or more parameters.")
+	}
+
+	ret := make(map[string]interface{})
+	for flag := range f {
+		switch flag {
+		case fVars:
+			ret[fVars[2:]] = proc.GlobalVars.Dump()
+		case fAliases:
+			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
+		case fConfig:
+			ret[fConfig[2:]] = proc.GlobalConf.Dump()
+		case fPipes:
+			ret[fPipes[2:]] = proc.GlobalPipes.Dump()
+		case fFuncs:
+			ret[fFuncs[2:]] = proc.MxFunctions.Dump()
+		case fFids:
+			ret[fFids[2:]] = proc.GlobalFIDs.Dump()
+		case fArrays:
+			ret[fArrays[2:]] = streams.DumpArray()
+		case fMaps:
+			ret[fMaps[2:]] = streams.DumpMap()
+		case fIndexes:
+			ret[fIndexes[2:]] = define.DumpIndex()
+		case fMarshallers:
+			ret[fMarshallers[2:]] = define.DumpMarshaller()
+		case fUnmarshallers:
+			ret[fUnmarshallers[2:]] = define.DumpUnmarshaller()
+		case fMimes:
+			ret[fMimes[2:]] = define.DumpMime()
+		case fFileExts:
+			ret[fFileExts[2:]] = define.DumpFileExts()
+		case fEvents:
+			ret[fEvents[2:]] = events.DumpEvents()
+		case fFlags:
+			ret[fFlags[2:]] = autocomplete.ExesFlags
+		case fMemstats:
+			var mem runtime.MemStats
+			runtime.ReadMemStats(&mem)
+			ret[fMemstats[2:]] = mem
+		default:
+			return errors.New("Unrecognised parameter: " + flag)
+		}
+	}
+
+	var b []byte
+	if len(ret) == 1 {
+		var obj interface{}
+		for _, obj = range ret {
+		}
+		b, err = utils.JsonMarshal(obj, p.Stdout.IsTTY())
+		if err != nil {
+			return err
+		}
+
+	} else {
+		b, err = utils.JsonMarshal(ret, p.Stdout.IsTTY())
+		if err != nil {
+			return err
+		}
 	}
 
 	_, err = p.Stdout.Write(b)

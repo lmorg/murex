@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -53,7 +54,7 @@ func Start() {
 	Instance.Config.SetListener(listener)
 	defer Instance.Close()
 	SigHandler()
-	go UpdateGlobalExeList()
+	go autocomplete.UpdateGlobalExeList()
 
 	for {
 		highlight, err := proc.GlobalConf.Get("shell", "syntax-highlighting", types.Boolean)

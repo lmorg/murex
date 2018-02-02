@@ -3,10 +3,10 @@ package shell
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/vars"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/murex/utils/home"
-	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/readline"
 	"regexp"
 	"strings"
@@ -18,8 +18,6 @@ type murexCompleterIface struct{}
 var (
 	murexCompleter    *murexCompleterIface = new(murexCompleterIface)
 	rxAllowedVarChars *regexp.Regexp       = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
-	rxVars            *regexp.Regexp       = regexp.MustCompile(`(\$[_a-zA-Z0-9]+)`)
-	rxHome            *regexp.Regexp       = regexp.MustCompile(`(~[_\-.a-zA-Z0-9]+)`)
 	keyPressTimer     time.Time
 )
 
@@ -375,7 +373,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 		s = pt.Variable + s
 		retPos = len(s)
-		items = matchVars(s)
+		items = autocomplete.MatchVars(s)
 
 	case pt.ExpectFunc:
 		var s string
@@ -383,14 +381,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 			s = strings.TrimSpace(string(line[pt.Loc:]))
 		}
 		retPos = len(s)
-		switch {
-		case isLocal(s):
-			items = matchLocal(s, true)
-			items = append(items, matchDirs(s)...)
-		default:
-			exes := allExecutables(true)
-			items = matchExes(s, exes, true)
-		}
+		items = autocomplete.MatchFunction(s)
 
 	default:
 		var s string
@@ -399,17 +390,10 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		}
 		retPos = len(s)
 
-		if len(ExesFlags[pt.FuncName]) == 0 {
-			ExesFlags[pt.FuncName] = []Flags{{
-				Flags:         man.ScanManPages(pt.FuncName),
-				IncFiles:      true,
-				AllowMultiple: true,
-				AnyValue:      true,
-			}}
-		}
+		autocomplete.InitExeFlags(pt.FuncName)
 
 		pIndex := 0
-		items = matchFlags(ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex)
+		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex)
 	}
 
 	v, err := proc.GlobalConf.Get("shell", "max-suggestions", types.Integer)
@@ -421,15 +405,23 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 	if len(items) < limitSuggestions || limitSuggestions < 0 {
 		limitSuggestions = len(items)
 	}
-
 	Instance.Config.MaxCompleteLines = limitSuggestions
 
 	suggest = make([][]rune, len(items))
 	for i := range items {
-		if !pt.QuoteSingle && !pt.QuoteDouble && len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
-			items[i] = strings.Replace(items[i][:len(items[i])-1], " ", `\ `, -1) + items[i][len(items[i])-1:]
+		if len(items[i]) == 0 {
+			continue
 		}
-		suggest[i] = []rune(items[i])
+
+		if !pt.QuoteSingle && !pt.QuoteDouble && len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
+			items[i] = strings.Replace(items[i], " ", `\ `, -1)
+		}
+
+		if items[i][len(items[i])-1] == '/' || items[i][len(items[i])-1] == '=' {
+			suggest[i] = []rune(items[i])
+		} else {
+			suggest[i] = []rune(items[i] + " ")
+		}
 	}
 
 	return
@@ -447,7 +439,7 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		//newLine = expandVariables(line)
 		//newLine = expandHistory(newLine)
 		//newPos = len(newLine)
-		ansi.Stderrln(ansi.FgBlue, utils.NewLineString+string(expandVariables(expandHistory(line))))
+		ansi.Stderrln(ansi.FgBlue, utils.NewLineString+string(vars.ExpandVariables(expandHistory(line))))
 		newLine = line
 		newPos = pos
 		forward = 0
@@ -624,23 +616,4 @@ func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 	}
 
 	return line, pos
-}
-
-func expandVariablesString(line string) string {
-	match := rxVars.FindAllString(line, -1)
-	for i := range match {
-		line = strings.Replace(line, match[i], proc.GlobalVars.GetString(match[i][1:]), -1)
-	}
-
-	match = rxHome.FindAllString(line, -1)
-	for i := range match {
-		line = rxHome.ReplaceAllString(line, home.UserDir(match[i][1:]))
-	}
-
-	line = strings.Replace(line, "~", home.MyDir, -1)
-	return line
-}
-
-func expandVariables(line []rune) []rune {
-	return []rune(expandVariablesString(string(line)))
 }

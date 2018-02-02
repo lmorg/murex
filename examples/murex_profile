@@ -30,9 +30,14 @@ autocomplete set config { [{
     }
 }] }
 
+autocomplete set murex-runtime { [{
+    "Flags": ["--vars", "--aliases" ,"--config" ,"--pipes" ,"--funcs" ,"--fids" ,"--arrays" ,"--maps" ,"--indexes" ,"--marshallers" ,"--unmarshallers" ,"--mimes" ,"--fileexts" ,"--events" ,"--flags" ,"--memstats" ],
+    "AllowMultiple": true
+}] }
+
 autocomplete set event { [
     {
-        "Dynamic": "{ runtime: -> [ Events ] -> formap k v { out $k } }",
+        "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } }",
         "FlagValues": {
             "--filesystem": [{
                 "IncFiles": true,
@@ -51,10 +56,10 @@ autocomplete set event { [
 
 autocomplete set !event { [
     {
-        "Dynamic": "{ runtime: -> [ Events ] -> formap k v { out $k } -> sort }"
+        "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } -> sort }"
     },
     {
-        "Dynamic": "{ runtime: -> [ Events ] -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }",
+        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }",
         "AllowMultiple": true
     }
 ] }
@@ -68,7 +73,7 @@ autocomplete set pipe { [
         "Flags": [ "--create", "-c", "--close", "-x" ],
         "FlagValues": {
             "--close": [{
-                "Dynamic": "{ runtime -> [ Pipes ] -> formap k v { echo $k } }"
+                "Dynamic": "{ murex-runtime: --pipes -> formap k v { if { = k!=`null` } { $k } } }"
             }],
             "--create": [
                 {
@@ -129,9 +134,14 @@ autocomplete set docker { [
 autocomplete set terraform { [{
     "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
     "FlagValues": {
-        "workspace": [{
-            "Flags": [ "new", "delete", "select" ]
-        }]
+        "workspace": [
+            {
+                "Flags": [ "new", "delete", "select", "list", "show" ]
+            },
+            {
+                "Dynamic": "{ terraform: workspace list -> [ :1 ] -> regexp: m/.+/ -> sort }"
+            }
+        ]
     }
 }] }
 

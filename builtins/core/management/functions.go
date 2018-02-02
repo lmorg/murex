@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"os"
 	"runtime"
@@ -214,6 +214,6 @@ func cmdCpuCount(p *proc.Process) (err error) {
 
 func cmdUpdateExeList(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
-	shell.UpdateGlobalExeList()
+	autocomplete.UpdateGlobalExeList()
 	return nil
 }
