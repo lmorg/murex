@@ -30,11 +30,11 @@ Bash + jq:
 
 Elvish:
 
-    curl https://api.github.com/repos/lmorg/murex/issues | from-json | each explode | each [issue]{ echo $issue[number]: $issue[title] }
+    curl -s https://api.github.com/repos/lmorg/murex/issues | from-json | each explode | each [issue]{ echo $issue[number]: $issue[title] }
 
 Murex:
 
-    get https://api.github.com/repos/lmorg/murex/issues -> [ Body ] -> foreach { -> [ number title ] -> sprintf "%2s: %s\n" }
+    getfile https://api.github.com/repos/lmorg/murex/issues -> foreach { -> [ number title ] -> sprintf "%2s: %s\n" }
 
 ## Git format
 
@@ -73,7 +73,7 @@ Murex:
 This can be done in one line but I'll split it for readability:
 
     2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc } -> foreach rec {
-        out "<tr> <td>${ $rec->[1] }</td> <td>${ $rec->[0] }</td> <tr>"
+        out "<tr> <td>$rec[1]</td> <td>$rec[0]</td> <tr>"
     }
 
 What this does is create a two dimensional JSON array using the two
@@ -95,7 +95,7 @@ string with clean escaping. A longer version of the code might read:
     # For each grouped record create a HTML row.
     # Use the $row variable defined above as a template.
     $gitlog -> foreach rec {
-        printf "$row" ${$rec->[1]} ${$rec->[1]} ${$rec->[0]}
+        printf "$row" $rec[1] $rec[1] $rec[0]
     } -> set rows
 
     # Merge the rows into the HTML template

@@ -50,6 +50,9 @@ refactoring that hasn't been correctly ported to the Windows _murex_
 source. If you do have any issues then please raise an issue and I will
 investigate.
 
+Personally though, I would recommend running inside WSL anyway if just
+for the GNU Coreutils support.
+
 ## Plan 9
 
 Not currently supported. There are a few differences in the `syscall`
