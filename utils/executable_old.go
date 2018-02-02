@@ -3,7 +3,6 @@
 package utils
 
 import (
-	"github.com/lmorg/murex/config"
 	"os"
 )
 
