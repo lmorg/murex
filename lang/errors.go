@@ -7,6 +7,7 @@ type ParserError struct {
 	EndByte int // this is sometimes useful to know
 }
 
+// murex script parsing error codes:
 const (
 	NoParsingErrors = 0 + iota
 	ErrUnexpectedColon

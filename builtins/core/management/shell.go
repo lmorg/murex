@@ -129,19 +129,25 @@ func cmdAutocomplete(p *proc.Process) error {
 		return err
 	}
 
-	//jf, err := p.Parameters.Byte(2)
-	//if err != nil {
-	//	return err
-	//}
-
 	var jf []byte
-	jfr, err := p.Parameters.Block(2)
-	if err == nil {
-		jf = []byte(string(jfr))
-	} else {
-		jf, err = p.Parameters.Byte(2)
+
+	if p.IsMethod {
+
+		jf, err = p.Stdin.ReadAll()
 		if err != nil {
 			return err
+		}
+
+	} else {
+
+		jfr, err := p.Parameters.Block(2)
+		if err == nil {
+			jf = []byte(string(jfr))
+		} else {
+			jf, err = p.Parameters.Byte(2)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
