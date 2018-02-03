@@ -2,6 +2,7 @@ package utils
 
 import "fmt"
 
+// Exportable byte denominations
 const (
 	KB uint64 = 1024
 	MB uint64 = KB * 1024
@@ -11,6 +12,7 @@ const (
 	EB uint64 = PB * 1024
 )
 
+// Byte denominations as floats to make division cheaper (less casting at runtime)
 const (
 	fKB float64 = 1024
 	fMB float64 = fKB * 1024
