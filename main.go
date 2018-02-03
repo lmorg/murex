@@ -66,6 +66,7 @@ func main() {
 
 	default:
 		config.Defaults(&proc.GlobalConf, true)
+		execSource([]rune(config.DefaultMurexProfile))
 		execProfile()
 		shell.Start()
 	}

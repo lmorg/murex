@@ -1,6 +1,12 @@
+package config
+
+// DefaultMurexProfile is basically just the contents of the example murex_profile but wrapped up in Go code so it can
+// be compiled into the portable executable. This is also done to make things a little more user friendly out of the box
+// ie people don't need to create their own ~/.murex_profile nor `source` the file in /examples.
+var DefaultMurexProfile string = `
 # This is an example murex profile.
 #
-# This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via `source`:
+# This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via ` + "`source`" + `:
 # » source examples/murex_profile
 # or installed to auto start with murex:
 # » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
@@ -15,6 +21,64 @@ func aliases {
     }
 }
 
+autocomplete set cd { [{
+	"IncDirs": true
+}] }
+
+autocomplete set mkdir { [{
+	"IncDirs": true
+}] }
+
+autocomplete set rmdir { [{
+	"IncDirs": true
+}] }
+
+autocomplete set man { [{
+	"IncExePath": true
+}] }
+
+autocomplete set which { [{
+	"IncExePath": true
+}] }
+
+autocomplete set whereis { [{
+	"IncExePath": true
+}] }
+
+autocomplete set sudo { [
+	{
+		"IncFiles": true,
+		"IncDirs": true,
+		"IncExePath": true
+	},
+	{
+		"NestedCommand": true
+	}
+] }
+
+autocomplete set exec { [
+	{
+		"IncFiles": true,
+		"IncDirs": true,
+		"IncExePath": true
+	},
+	{
+		"NestedCommand": true
+	}
+] }
+
+autocomplete set pty { [
+	{
+		"IncFiles": true,
+		"IncDirs": true,
+		"IncExePath": true
+	},
+	{
+		"NestedCommand": true
+	}
+] }
+
+
 autocomplete set config { [{
     "Flags": [ "get", "set" ],
     "FlagValues": {
@@ -25,7 +89,7 @@ autocomplete set config { [{
         "set": [
             { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
             { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==`bool` } { a [true,false] } { a ${config -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Default ]} } }" }
+            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==` + "`bool`" + ` } { a [true,false] } { a ${config -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Default ]} } }" }
         ]
     }
 }] }
@@ -75,7 +139,7 @@ autocomplete set pipe { [
         "Flags": [ "--create", "-c", "--close", "-x" ],
         "FlagValues": {
             "--close": [{
-                "Dynamic": "{ murex-runtime: --pipes -> formap k v { if { = k!=`null` } { $k } } }"
+                "Dynamic": "{ murex-runtime: --pipes -> formap k v { if { = k!=` + "`null`" + ` } { $k } } }"
             }],
             "--create": [
                 {
@@ -177,7 +241,7 @@ autocomplete set sftp { [ {
 
 os -> set os
 
-if { = os!=`windows` } {
+if { = os!=` + "`windows`" + ` } {
     alias ls=ls --color=auto
     alias grep=grep --color=auto
 
@@ -199,4 +263,4 @@ if { = os!=`windows` } {
 }
 
 tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
-
+`

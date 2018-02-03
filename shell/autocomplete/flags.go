@@ -29,18 +29,7 @@ type Flags struct {
 }
 
 // ExesFlags is map of executables and their supported auto-complete options.
-// We might as well pre-populate the structure with a few base commands we might expect.
-var ExesFlags map[string][]Flags = map[string][]Flags{
-	"cd":      {{Flags: []string{}, IncDirs: true}},
-	"mkdir":   {{Flags: []string{}, IncDirs: true}},
-	"rmdir":   {{Flags: []string{}, IncDirs: true}},
-	"man":     {{Flags: []string{}, IncExePath: true}},
-	"which":   {{Flags: []string{}, IncExePath: true}},
-	"whereis": {{Flags: []string{}, IncExePath: true}},
-	"sudo":    {{Flags: []string{}, IncFiles: true, IncDirs: true, IncExePath: true}, {NestedCommand: true}},
-	"exec":    {{Flags: []string{}, IncFiles: true, IncDirs: true, IncExePath: true}, {NestedCommand: true}},
-	"pty":     {{Flags: []string{}, IncFiles: true, IncDirs: true, IncExePath: true}, {NestedCommand: true}},
-}
+var ExesFlags map[string][]Flags = make(map[string][]Flags)
 
 // globalExes is a pre-populated list of all executables in $PATH.
 // The point of this is to speed up exe auto-completion.
@@ -138,13 +127,11 @@ func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 
 			if *pIndex > 0 && nest > 0 && flags[nest-1].NestedCommand {
 				debug.Log("params:", params[*pIndex-1])
-				//panic("##############")
 				InitExeFlags(params[*pIndex-1])
 				if len(flags[nest-1].FlagValues) == 0 {
 					flags[nest-1].FlagValues = make(map[string][]Flags)
 				}
 				flags[nest-1].FlagValues[params[*pIndex-1]] = ExesFlags[params[*pIndex-1]]
-				//flags[nest-1].Flags = MatchFlags(ExesFlags[params[*pIndex-1]], partial, params[*pIndex-1], params[*pIndex-1:], pIndex)
 			}
 
 			if *pIndex > 0 && nest > 0 && len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
