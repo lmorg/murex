@@ -83,9 +83,9 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func match(f *Flags, partial, exe string, params []string) (items []string) {
+func match(f *Flags, partial string, args dynamicArgs) (items []string) {
 	items = append(items, matchPartialFlags(f, partial)...)
-	items = append(items, matchDynamic(f, partial, exe, params)...)
+	items = append(items, matchDynamic(f, partial, args)...)
 
 	if f.IncExePath {
 		pathexes := allExecutables(false)
@@ -102,8 +102,7 @@ func match(f *Flags, partial, exe string, params []string) (items []string) {
 	return
 }
 
-// MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int) (items []string) {
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs) (items []string) {
 	var nest int
 
 	defer func() {
@@ -142,8 +141,12 @@ func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 				}
 
 				if !doNotNest {
-					flags[nest-1].FlagValues[params[*pIndex-1]] = ExesFlags[params[*pIndex-1]]
+					args.exe = params[*pIndex-1]
+					args.params = params[*pIndex:]
+					args.float = *pIndex
+					flags[nest-1].FlagValues[args.exe] = ExesFlags[args.exe]
 				}
+
 			}
 
 			if *pIndex > 0 && nest > 0 && len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
@@ -152,7 +155,7 @@ func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				items = MatchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex)
+				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args)
 				if len(items) > 0 {
 					return
 				}
@@ -162,7 +165,7 @@ func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 				return
 			}
 
-			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], exe, params[:*pIndex] /*params*/)) > 0 {
+			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]})) > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}
@@ -180,7 +183,7 @@ func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 	for ; nest <= len(flags); nest++ {
 		debug.Log("nest", nest, "partial", partial, "exe", exe, "params", params)
 		debug.Json("&flags", &flags)
-		items = append(items, match(&flags[nest], partial, exe, params)...)
+		items = append(items, match(&flags[nest], partial, args)...)
 		if !flags[nest].Optional {
 			break
 		}

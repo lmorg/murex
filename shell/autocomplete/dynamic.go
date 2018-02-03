@@ -13,15 +13,21 @@ import (
 	"strings"
 )
 
-func matchDynamic(f *Flags, partial, exe string, params []string) (items []string) {
+type dynamicArgs struct {
+	exe    string
+	params []string
+	float  int
+}
+
+func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	//if len(f.Dynamic) == 0 {
 	if f.Dynamic == "" {
 		return
 	}
 
 	p := &proc.Process{
-		Name:       exe,
-		Parameters: parameters.Parameters{Params: params},
+		Name:       args.exe,
+		Parameters: parameters.Parameters{Params: args.params},
 		Parent:     proc.ShellProcess,
 	}
 	p.Scope = p
