@@ -131,7 +131,19 @@ func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 				if len(flags[nest-1].FlagValues) == 0 {
 					flags[nest-1].FlagValues = make(map[string][]Flags)
 				}
-				flags[nest-1].FlagValues[params[*pIndex-1]] = ExesFlags[params[*pIndex-1]]
+
+				// Only nest command if the command isn't present in Flags.Flags[]. Otherwise we then assume that flag
+				// has already been defined by `autocomplete`.
+				var doNotNest bool
+				for i := range flags[nest-1].Flags {
+					if flags[nest-1].Flags[i] == params[*pIndex-1] {
+						doNotNest = true
+					}
+				}
+
+				if !doNotNest {
+					flags[nest-1].FlagValues[params[*pIndex-1]] = ExesFlags[params[*pIndex-1]]
+				}
 			}
 
 			if *pIndex > 0 && nest > 0 && len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
