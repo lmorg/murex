@@ -11,8 +11,8 @@ func init() {
 	define.Marshallers[types.String] = marshal
 	define.Unmarshallers[types.String] = unmarshal
 	define.ReadIndexes[types.String] = index
-	streams.ReadArray[types.Generic] = readArray
-	streams.ReadMap[types.Generic] = readMap
+	streams.ReadArray[types.String] = readArray
+	streams.ReadMap[types.String] = readMap
 
 	define.SetMime(types.String,
 		"application/x-latex",

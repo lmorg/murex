@@ -40,7 +40,7 @@ func cmdDebug(p *proc.Process) (err error) {
 		obj, err := define.UnmarshalData(p, dt)
 
 		json["Process"] = *p.Previous
-		json["DataTypes"] = map[string]string{
+		json["DataType"] = map[string]string{
 			"Murex": dt,
 			"Go":    fmt.Sprintf("%T", obj),
 		}

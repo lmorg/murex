@@ -4,11 +4,8 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/ansi"
-	"regexp"
 	"strings"
 )
-
-var rxWhitespace *regexp.Regexp = regexp.MustCompile(`\s+`)
 
 func index(p *proc.Process, params []string) error {
 	cRecords := make(chan []string, 1)

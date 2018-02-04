@@ -4,6 +4,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
+	"regexp"
 )
 
 func init() {
@@ -15,3 +16,5 @@ func init() {
 	streams.ReadArray[types.Generic] = readArray
 	streams.ReadMap[types.Generic] = readMap
 }
+
+var rxWhitespace *regexp.Regexp = regexp.MustCompile(`\s+`)

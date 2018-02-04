@@ -151,10 +151,14 @@ func cmdForMap(p *proc.Process) error {
 	}
 
 	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+		/*debug.Json("formap", map[string]string{
+			"key":   key,
+			"value": value,
+			"dt":    dt,
+		})*/
 		if p.HasTerminated() {
 			return
 		}
-
 		proc.GlobalVars.Set(varKey, key, types.String)
 		proc.GlobalVars.Set(varVal, value, dt)
 
