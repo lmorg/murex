@@ -53,25 +53,25 @@ func cmdDebug(p *proc.Process) (err error) {
 		_, err = p.Stdout.Writeln(b)
 		return err
 
-	} else {
-		var v bool
-		v, err = p.Parameters.Bool(0)
-
-		if err != nil {
-			p.Stdout.Writeln(types.FalseByte)
-			p.ExitNum = 1
-			return nil
-		}
-		debug.Enable = v
-		if v == false {
-			p.Stdout.Writeln(types.FalseByte)
-			p.ExitNum = 1
-			return nil
-		}
-
-		_, err = p.Stdout.Writeln(types.TrueByte)
-		return
 	}
+
+	var v bool
+	v, err = p.Parameters.Bool(0)
+
+	if err != nil {
+		p.Stdout.Writeln(types.FalseByte)
+		p.ExitNum = 1
+		return nil
+	}
+	debug.Enable = v
+	if v == false {
+		p.Stdout.Writeln(types.FalseByte)
+		p.ExitNum = 1
+		return nil
+	}
+
+	_, err = p.Stdout.Writeln(types.TrueByte)
+	return
 }
 
 func cmdExitNum(p *proc.Process) error {
