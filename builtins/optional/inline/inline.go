@@ -46,5 +46,5 @@ func inline(p *proc.Process) error {
 
 	cmd := exec.Command(code)
 	err = cmd.Start()
-	return nil
+	return err
 }

@@ -26,6 +26,14 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 		}
 		return
 
+	case [][]string:
+		for i := range v {
+			//s := strings.TrimSpace(v[i])
+			b = append(b, w.ArrayToCsv(v[i])...)
+			b = append(b, utils.NewLineByte...)
+		}
+		return
+
 	case []interface{}:
 		for i := range v {
 			j, err := json.Marshal(v[i])

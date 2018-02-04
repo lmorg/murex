@@ -3,9 +3,11 @@ package management
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"os"
@@ -30,11 +32,25 @@ func cmdDebug(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	if p.IsMethod {
 		var (
-			obj proc.Process = *p.Previous
-			b   []byte
+			json map[string]interface{} = make(map[string]interface{})
+			b    []byte
 		)
 
-		b, err = utils.JsonMarshal(obj, p.Stdout.IsTTY())
+		dt := p.Stdin.GetDataType()
+		obj, err := define.UnmarshalData(p, dt)
+		/*var goDt string
+		switch obj.(type) {
+		default:
+			goDt=fmt.Sprintf("%T",obj)
+		}*/
+
+		json["Process"] = *p.Previous
+		json["DataTypes"] = map[string]string{
+			"Murex": dt,
+			"Go":    fmt.Sprintf("%T", obj),
+		}
+
+		b, err = utils.JsonMarshal(json, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}

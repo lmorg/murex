@@ -17,6 +17,12 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 		}
 		return
 
+	case [][]string:
+		for i := range v {
+			b = append(b, []byte(strings.Join(v[i], "\t")+utils.NewLineString)...)
+		}
+		return
+
 	case []interface{}:
 		for i := range v {
 			b = append(b, iface2str(&v[i])...)
@@ -70,17 +76,17 @@ func iface2str(v *interface{}) (b []byte) {
 }
 
 func unmarshal(p *proc.Process) (interface{}, error) {
-	s := make([]string, 0)
-	/*err := p.Stdin.ReadLine(func(b []byte) {
-		s = append(s, string(b))
-	})
+	table := make([][]string, 1)
 
-	return s, err*/
 	scanner := bufio.NewScanner(p.Stdin)
 	for scanner.Scan() {
-		s = append(s, strings.TrimSpace(scanner.Text()))
+		table = append(table, rxWhitespace.Split(scanner.Text(), -1))
+	}
+
+	if len(table) > 1 {
+		table = table[1:]
 	}
 
 	err := scanner.Err()
-	return s, err
+	return table, err
 }
