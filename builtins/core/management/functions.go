@@ -38,11 +38,6 @@ func cmdDebug(p *proc.Process) (err error) {
 
 		dt := p.Stdin.GetDataType()
 		obj, err := define.UnmarshalData(p, dt)
-		/*var goDt string
-		switch obj.(type) {
-		default:
-			goDt=fmt.Sprintf("%T",obj)
-		}*/
 
 		json["Process"] = *p.Previous
 		json["DataTypes"] = map[string]string{
@@ -56,6 +51,7 @@ func cmdDebug(p *proc.Process) (err error) {
 		}
 
 		_, err = p.Stdout.Writeln(b)
+		return err
 
 	} else {
 		var v bool
@@ -74,9 +70,8 @@ func cmdDebug(p *proc.Process) (err error) {
 		}
 
 		_, err = p.Stdout.Writeln(types.TrueByte)
+		return
 	}
-
-	return
 }
 
 func cmdExitNum(p *proc.Process) error {
