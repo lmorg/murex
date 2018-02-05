@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"sort"
 	"strings"
 )
 
@@ -68,5 +69,38 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 		}
 	})
 
+	if f.AutoBranch {
+		autoBranch(items)
+		items = dedup(items)
+	}
+
 	return
+}
+
+func autoBranch(tree []string) {
+	for branch := range tree {
+		i := 0
+
+		for ; i < len(tree[branch])-1; i++ {
+			if tree[branch][i] == '/' {
+				tree[branch] = tree[branch][:i+1]
+			}
+		}
+
+	}
+}
+
+func dedup(items []string) []string {
+	m := make(map[string]bool)
+	for i := range items {
+		m[items[i]] = true
+	}
+
+	new := []string{}
+	for s := range m {
+		new = append(new, s)
+	}
+
+	sort.Strings(new)
+	return new
 }

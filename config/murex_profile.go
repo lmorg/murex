@@ -215,7 +215,8 @@ autocomplete set gopass { [
     {
         "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
         "AllowMultiple": true,
-        "Dynamic": "{ exec: @{params} --generate-bash-completion }"
+        "Dynamic": "{ exec: @{params} --generate-bash-completion }",
+		"AutoBranch": true
     }
 ] }
 
@@ -251,7 +252,10 @@ if { = os!=` + "`windows`" + ` } {
     autocomplete set go {
         [
             { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
-            { "Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }" }
+            {
+				"Dynamic": "{ find <!null> $GOPATH/src/ -type d -maxdepth 3 -not -path */.* -> sed -r s:$GOPATH/src/:: }",
+				"AutoBranch": true
+			}
         ]
     }
 

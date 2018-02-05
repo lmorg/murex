@@ -25,6 +25,7 @@ type Flags struct {
 	Alias         string             // Alias one []Flags to another
 	NestedCommand bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
 	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
+	AutoBranch    bool               // Autocomplete trees (eg directory structures) one branch at a time
 	//NoFlags       bool               // `true` to disable Flags[] slice and man page parsing
 }
 
