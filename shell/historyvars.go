@@ -156,7 +156,7 @@ cannotParserxHistParam:
 	mhPrefix := rxHistPrefix.FindAllString(s, -1)
 	for i := range mhPrefix {
 		for h := len(History.List) - 1; h > -1; h-- {
-			if strings.HasPrefix(History.List[h].Block, mhPrefix[i][1:]) {
+			if strings.HasPrefix(History.List[h].Block, mhPrefix[i][2:]) {
 				s = strings.Replace(s, mhPrefix[i], noColon(History.List[h].Block), 1)
 				return []rune(s)
 			}
