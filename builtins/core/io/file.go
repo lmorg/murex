@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["text"] = cmdText
+	//proc.GoFunctions["text"] = cmdText
 	proc.GoFunctions["pt"] = cmdPipeTelemetry
 	proc.GoFunctions[">"] = cmdWriteFile
 	proc.GoFunctions[">>"] = cmdAppendFile
@@ -24,7 +24,7 @@ func init() {
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
 
-func cmdText(p *proc.Process) error {
+/*func cmdText(p *proc.Process) error {
 	filename, err := p.Parameters.String(0)
 	if err != nil {
 		return err
@@ -72,7 +72,7 @@ func cmdText(p *proc.Process) error {
 	}
 
 	return nil
-}
+}*/
 
 func cmdPipeTelemetry(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
