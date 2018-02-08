@@ -1,6 +1,6 @@
 package runmode
 
-//go:generate stringer -type=FunctionStates
+//go:generate stringer -type=RunMode
 
 // RunMode is the type for defining the murex interpreters run mode
 type RunMode int
