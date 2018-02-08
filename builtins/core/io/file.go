@@ -1,16 +1,13 @@
 package io
 
 import (
-	"compress/gzip"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
 	"regexp"
-	"strings"
 	"time"
 )
 
