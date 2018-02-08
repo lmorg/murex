@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
@@ -41,9 +42,9 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		container.ExitNum = ShellExitNum
 	}
 
-	if caller.Name == "try" || caller.TryBlock {
-		container.TryBlock = true
-	}
+	//if caller.Name == "try" || caller.RunMode {
+	container.RunMode = caller.RunMode
+	//}
 
 	if stdin != nil {
 		container.Stdin = stdin
@@ -78,11 +79,17 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	compile(&tree, container)
 
 	// Support for different run modes:
-	switch {
-	case caller.TryBlock:
-		exitNum = runModeTry(&tree)
-	default:
+	switch container.RunMode {
+	case runmode.Normal:
 		exitNum = runModeNormal(&tree)
+	case runmode.Try:
+		exitNum = runModeTry(&tree)
+	case runmode.TryPipe:
+		exitNum = runModeTryPipe(&tree)
+	case runmode.Evil:
+		panic("Not yet implimented")
+	default:
+		panic("Unknown run mode")
 	}
 
 	// This will just unlock the parent lock. Stdxxx.Close() will still have to be called.

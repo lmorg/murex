@@ -5,6 +5,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
+	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -39,7 +40,7 @@ type Process struct {
 	IsBackground       bool
 	LineNumber         int
 	ColNumber          int
-	TryBlock           bool
+	RunMode            runmode.RunMode
 }
 
 var (

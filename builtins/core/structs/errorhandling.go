@@ -3,12 +3,14 @@ package structs
 import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/types"
 	"io"
 )
 
 func init() {
 	proc.GoFunctions["try"] = cmdTry
+	proc.GoFunctions["trypipe"] = cmdTryPipe
 	proc.GoFunctions["catch"] = cmdCatch
 	proc.GoFunctions["!catch"] = cmdCatch
 }
@@ -21,11 +23,23 @@ func cmdTry(p *proc.Process) (err error) {
 		return err
 	}
 
+	p.RunMode = runmode.Try
+
 	p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+	return
+}
+
+func cmdTryPipe(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.Generic)
+
+	block, err := p.Parameters.Block(0)
 	if err != nil {
 		return err
 	}
 
+	p.RunMode = runmode.TryPipe
+
+	p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 	return
 }
 

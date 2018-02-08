@@ -191,8 +191,8 @@ func runModeTry(tree *astNodes) (exitNum int) {
 	return
 }
 
-// `tryeach` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
-func runModeTryEach(tree *astNodes) (exitNum int) {
+// `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
+func runModeTryPipe(tree *astNodes) (exitNum int) {
 	debug.Log("Entering run mode `tryeach`")
 	if len(*tree) == 0 {
 		return 1
