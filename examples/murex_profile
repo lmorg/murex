@@ -199,7 +199,7 @@ if { = os!=`windows` } {
 
 } {
     #config set shell prompt { out "${pwd -> regexp 'f#[^\\]+$#'} » " }
-    #func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
+    #func getHostsFile { open C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
 }
 
 tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C

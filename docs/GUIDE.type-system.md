@@ -42,7 +42,7 @@ The following inbuilts autodetect data types using the following methods
 
 * `getfile` will look at the 'Content-Type' HTTP header
 
-* `text` will look at the file extension (ignoring the .gz suffix)
+* `open` will look at the file extension (ignoring the .gz suffix)
 
 # Supported types
 

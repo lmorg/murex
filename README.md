@@ -40,19 +40,19 @@ goes a long way. For example _murex_ supports complex data objects from
 various formats including JSON and CSV files and you can query their
 properties directly:
 
-    text: file.csv -> [ $column_name ] # return specific columns in CSV file
-    text: file.json -> [ $index ]      # return specific items from JSON
+    open: file.csv -> [ $column_name ] # return specific columns in CSV file
+    open: file.json -> [ $index ]      # return specific items from JSON
 
 The index function (`[`) alters its matching algorithm depending on the
-piped data type and `text` sets the data type depending on the file
+piped data type and `open` sets the data type depending on the file
 extension.
 
 Sometimes you will want fewer guesswork or just the robustness a forced
 behavior. On those occasions you can remove one layer of magic by
 casting the data type:
 
-    text: file.txt -> cast csv -> [ $column_name ]
-    text: file.txt -> cast json -> [ $index ]
+    open: file.txt -> cast csv -> [ $column_name ]
+    open: file.txt -> cast json -> [ $index ]
 
 This awareness of data structures is also utilised in `foreach` (which
 will cycle through each index in an array) and `formap` (key/value

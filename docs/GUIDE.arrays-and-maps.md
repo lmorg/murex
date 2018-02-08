@@ -21,7 +21,7 @@ natively within _murex_. For example a `days.json` file might look like
 
 To iterate through the array and print each element and print the value:
 
-    » text: days.json -> foreach: day { $day }
+    » open: days.json -> foreach: day { $day }
 
     monday
     tuesday
@@ -33,7 +33,7 @@ To iterate through the array and print each element and print the value:
 
 To iterate through the map or array and print each index and its value:
 
-    » text: days.json -> formap: key value { echo: "$key: $value" }
+    » open: days.json -> formap: key value { echo: "$key: $value" }
 
     0: "monday"
     1: "tuesday"
@@ -46,13 +46,13 @@ To iterate through the map or array and print each index and its value:
 To return a specific element within an array or map you can query it
 directly by its key using the `index` builtin:
 
-    » text: days.json -> [ 0 ]
+    » open: days.json -> [ 0 ]
 
     monday
 
 Or multiple elements in the data set:
 
-    » text: days.json -> [ 0 2 5 6 ]
+    » open: days.json -> [ 0 2 5 6 ]
 
     ["monday","wednesday","saturday","sunday"]
 
