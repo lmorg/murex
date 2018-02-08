@@ -306,8 +306,8 @@ while true; do
         191)shell 'text: fox_crlf.txt -> regexp: f/(fox)/' 2>/dev/null | check "fox\nfox\nfox\nfox";;
 
         # some more advanced testing of `try` and `catch`
-        192)shell 'try{ out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1\n3";;
-        193)shell 'try{out:1;out:2|grep:no; out:3}->catch{out:failed}' 2>&1 | check "1\n3";;
+        192)shell 'try{ out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
+        193)shell 'try{out:1;out:2|grep:no; out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
         194)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
         195)shell 'try {out 1;out 2|grep 2;out 3}->catch{out failed}' 2>&1 | check "1\n2\n3";;
         196)shell 'try {out 1;out 2|grep 2;out 3}->!catch{out failed}' 2>&1 | check "1\n2\n3\nfailed";;
