@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -19,7 +20,7 @@ var (
 	Instance *readline.Instance
 
 	// History is an object of data read and written to the .murex_history file
-	History history
+	History *history.History
 
 	forward int
 )
@@ -47,7 +48,7 @@ func Start() {
 		panic(err)
 	}
 
-	History, err = newHist(home.MyDir + consts.PathSlash + ".murex_history")
+	History, err = history.New(home.MyDir+consts.PathSlash+".murex_history", Instance)
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())
 	}
@@ -82,20 +83,20 @@ func Start() {
 			block = []rune(line)
 		}
 
-		expanded := expandHistory(block)
+		expanded, err := history.ExpandVariables(block, History)
+		if err != nil {
+			ansi.Stderrln(ansi.FgRed, err.Error())
+			merged = ""
+			nLines = 1
+			continue
+		}
+
 		if string(expanded) != string(block) {
 			ansi.Stderrln(ansi.FgGreen, string(expanded))
 		}
 
 		pt, _ := parse(block)
 		switch {
-		/*case pt.Bracket > 0 && pt.ExpectFunc:
-			nLines++
-			merged += line
-		case pt.Bracket > 0:
-			nLines++
-			merged += line + "; "*/
-
 		case pt.Bracket > 0:
 			nLines++
 			merged += line + `^\n`

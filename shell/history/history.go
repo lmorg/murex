@@ -1,20 +1,22 @@
-package shell
+package history
 
 import (
 	"bufio"
 	"encoding/json"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/readline"
 	"os"
 	"strings"
 	"time"
 )
 
-type history struct {
+type History struct {
 	filename string
 	Last     string
 	List     []histItem
 	Writer   stdio.Io
+	shell    *readline.Instance
 }
 
 type histItem struct {
@@ -23,14 +25,15 @@ type histItem struct {
 	Block    string
 }
 
-func newHist(filename string) (h history, err error) {
+func New(filename string, shell *readline.Instance) (h *History, err error) {
+	h = new(History)
 	h.filename = filename
-	h.List, _ = openHist(filename)
+	h.List, _ = openHist(filename, shell)
 	h.Writer, err = streams.NewFile(filename)
 	return h, err
 }
 
-func openHist(filename string) (list []histItem, err error) {
+func openHist(filename string, shell *readline.Instance) (list []histItem, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return list, err
@@ -47,15 +50,15 @@ func openHist(filename string) (list []histItem, err error) {
 		item.Index = len(list)
 		list = append(list, item)
 
-		if Instance != nil {
-			Instance.SaveHistory(strings.Replace(item.Block, "\n", " ", -1))
+		if shell != nil {
+			shell.SaveHistory(strings.Replace(item.Block, "\n", " ", -1))
 		}
 	}
 	return list, nil
 }
 
 // Write item to history file. eg ~/.murex_history
-func (h *history) Write(block string) {
+func (h *History) Write(block string) {
 	item := histItem{
 		DateTime: time.Now(),
 		Block:    block,
@@ -76,7 +79,7 @@ func (h *history) Write(block string) {
 }
 
 // Close history file
-func (h *history) Close() {
+func (h *History) Close() {
 	if h.Writer != nil {
 		h.Writer.Close()
 	}

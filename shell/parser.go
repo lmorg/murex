@@ -4,6 +4,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/vars"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -439,7 +440,12 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		//newLine = expandVariables(line)
 		//newLine = expandHistory(newLine)
 		//newPos = len(newLine)
-		ansi.Stderrln(ansi.FgBlue, utils.NewLineString+string(vars.ExpandVariables(expandHistory(line))))
+		expanded, err := history.ExpandVariables(line, History)
+		if err != nil {
+			ansi.Stderrln(ansi.FgRed, utils.NewLineString+err.Error())
+		} else {
+			ansi.Stderrln(ansi.FgBlue, utils.NewLineString+string(vars.ExpandVariables(expanded)))
+		}
 		newLine = line
 		newPos = pos
 		forward = 0
