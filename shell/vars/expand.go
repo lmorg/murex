@@ -12,7 +12,7 @@ var (
 	rxHome *regexp.Regexp = regexp.MustCompile(`(~[_\-.a-zA-Z0-9]+)`)
 )
 
-// ExpandVariablesString replaces variables in a string and replaces it with the value of the variable
+// ExpandVariablesString finds variables in a string and replaces it with the value of the variable
 func ExpandVariablesString(line string) string {
 	match := rxVars.FindAllString(line, -1)
 	for i := range match {
@@ -28,7 +28,7 @@ func ExpandVariablesString(line string) string {
 	return line
 }
 
-// ExpandVariables replaces variables in a line and replaces it with the value of the variable
+// ExpandVariables finds variables in a line and replaces it with the value of the variable
 func ExpandVariables(line []rune) []rune {
 	return []rune(ExpandVariablesString(string(line)))
 }

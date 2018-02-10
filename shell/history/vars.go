@@ -24,6 +24,7 @@ const (
 	errCannotParsePrevCmd = "Cannot parse previous command line to extract parameters for history variable."
 )
 
+// ExpandVariables finds history variables in a line and replaces it with the value of the variable
 func ExpandVariables(line []rune, hist *History) ([]rune, error) {
 	s := string(line)
 
