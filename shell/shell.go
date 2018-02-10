@@ -27,14 +27,7 @@ var (
 
 // Start the interactive shell
 func Start() {
-	var (
-		err error
-		//multiline bool
-		//lines     []string
-		nLines int = 1
-		merged string
-		block  []rune
-	)
+	var err error
 
 	Instance, err = readline.NewEx(&readline.Config{
 		InterruptPrompt:        interruptPrompt,
@@ -57,6 +50,14 @@ func Start() {
 	defer Instance.Close()
 	SigHandler()
 	go autocomplete.UpdateGlobalExeList()
+
+	prompt()
+}
+
+func prompt() {
+	nLines := 1
+	var merged string
+	var block []rune
 
 	for {
 		getSyntaxHighlighting()
