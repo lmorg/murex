@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// History exports common functions needed for shell history
 type History struct {
 	filename string
 	Last     string
@@ -25,6 +26,7 @@ type histItem struct {
 	Block    string
 }
 
+// New creates a History object
 func New(filename string, shell *readline.Instance) (h *History, err error) {
 	h = new(History)
 	h.filename = filename

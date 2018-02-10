@@ -87,7 +87,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	case runmode.TryPipe:
 		exitNum = runModeTryPipe(&tree)
 	case runmode.Evil:
-		panic("Not yet implimented")
+		panic("Not yet implemented")
 	default:
 		panic("Unknown run mode")
 	}
