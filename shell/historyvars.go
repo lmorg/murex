@@ -23,6 +23,10 @@ var (
 func expandHistory(line []rune) []rune {
 	s := string(line)
 
+	// Match new line
+	s = strings.Replace(s, `^\n`, "\n", -1)
+	s = strings.Replace(s, `^\t`, "\t", -1)
+
 	// Match history index
 	mhIndex := rxHistIndex.FindAllString(s, -1)
 	for i := range mhIndex {

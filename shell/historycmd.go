@@ -55,10 +55,10 @@ func openHist(filename string) (list []histItem, err error) {
 }
 
 // Write item to history file. eg ~/.murex_history
-func (h *history) Write(block []rune) {
+func (h *history) Write(block string) {
 	item := histItem{
 		DateTime: time.Now(),
-		Block:    string(block),
+		Block:    block,
 		Index:    len(h.List),
 	}
 	b, _ := json.Marshal(item)

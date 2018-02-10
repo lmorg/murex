@@ -1,7 +1,6 @@
 package shell
 
 import (
-	"fmt"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -13,7 +12,6 @@ import (
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/readline"
 	"io"
-	"strings"
 )
 
 var (
@@ -29,9 +27,12 @@ var (
 // Start the interactive shell
 func Start() {
 	var (
-		err       error
-		multiline bool
-		lines     []string
+		err error
+		//multiline bool
+		//lines     []string
+		nLines int = 1
+		merged string
+		block  []rune
 	)
 
 	Instance, err = readline.NewEx(&readline.Config{
@@ -57,119 +58,71 @@ func Start() {
 	go autocomplete.UpdateGlobalExeList()
 
 	for {
-		highlight, err := proc.GlobalConf.Get("shell", "syntax-highlighting", types.Boolean)
-		if err != nil {
-			highlight = false
-		}
-		if highlight.(bool) == true {
-			Instance.Config.Output = display
+		getSyntaxHighlighting()
+
+		if nLines > 1 {
+			getMultilinePrompt(nLines)
 		} else {
-			Instance.Config.Output = nil
-		}
-
-		if !multiline {
-			var (
-				err, err2 error
-				exitNum   int
-				b         []byte
-			)
-
-			proc.GlobalVars.Set("linenum", 1, types.Number)
-			prompt, err := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
-			if err == nil {
-				out := streams.NewStdin()
-				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
-				out.Close()
-
-				b, err2 = out.ReadAll()
-				if len(b) > 1 && b[len(b)-1] == '\n' {
-					b = b[:len(b)-1]
-				}
-
-				if len(b) > 1 && b[len(b)-1] == '\r' {
-					b = b[:len(b)-1]
-				}
-			}
-
-			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-				ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
-				b = []byte("murex » ")
-			}
-
-			Instance.SetPrompt(string(b))
-		} else {
-			var (
-				err, err2 error
-				exitNum   int
-				b         []byte
-			)
-
-			proc.GlobalVars.Set("linenum", len(lines)+1, types.Number)
-			prompt, err := proc.GlobalConf.Get("shell", "prompt-multiline", types.CodeBlock)
-			if err == nil {
-				out := streams.NewStdin()
-				exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
-				out.Close()
-
-				b, err2 = out.ReadAll()
-				if len(b) > 1 && b[len(b)-1] == '\n' {
-					b = b[:len(b)-1]
-				}
-
-				if len(b) > 1 && b[len(b)-1] == '\r' {
-					b = b[:len(b)-1]
-				}
-			}
-
-			if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-				ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
-				b = []byte(fmt.Sprintf("%5d » ", len(lines)+1))
-			}
-
-			Instance.SetPrompt(string(b))
+			getPrompt()
 		}
 
 		line, err := Instance.Readline()
 		if err == readline.ErrInterrupt {
-			if multiline {
-				multiline = false
-				lines = make([]string, 0)
-			}
+			merged = ""
+			nLines = 1
 			continue
 
 		} else if err == io.EOF {
 			break
 		}
 
-		lines = append(lines, line)
-		block := []rune(strings.Join(lines, utils.NewLineString))
+		if nLines > 1 {
+			block = append(block, []rune(utils.NewLineString+line)...)
+		} else {
+			block = []rune(line)
+		}
+
 		expanded := expandHistory(block)
 		if string(expanded) != string(block) {
 			ansi.Stderrln(ansi.FgGreen, string(expanded))
-			block = expanded
 		}
 
-		_, pErr := lang.ParseBlock(block)
+		pt, _ := parse(block)
 		switch {
-		case pErr.Code == lang.ErrUnterminatedBrace,
-			pErr.Code == lang.ErrUnterminatedEscape,
-			pErr.Code == lang.ErrUnterminatedQuotesSingle:
-			multiline = true
+		/*case pt.Bracket > 0 && pt.ExpectFunc:
+			nLines++
+			merged += line
+		case pt.Bracket > 0:
+			nLines++
+			merged += line + "; "*/
+
+		case pt.Bracket > 0:
+			nLines++
+			merged += line + `^\n`
+
+		case pt.Escaped:
+			nLines++
+			merged += line[:len(line)-1] + `^\n`
+
+		//case pt.QuoteSingle:
+		//	nLines++
+		//	merged += line + `\n`
+
 		case len(block) == 0:
 			continue
-		default:
-			hist := strings.Replace(string(block), "\n", " ", -1)
 
-			Instance.SaveHistory(hist)
-			if History.Last != hist {
-				History.Last = hist
-				History.Write(block)
+		default:
+			merged += line
+			Instance.SaveHistory(merged)
+			if History.Last != merged {
+				History.Last = merged
+				History.Write(merged)
 			}
 
-			multiline = false
-			lines = make([]string, 0)
+			nLines = 1
+			merged = ""
 
-			lang.ShellExitNum, _ = lang.ProcessNewBlock(block, nil, nil, nil, proc.ShellProcess)
+			lang.ShellExitNum, _ = lang.ProcessNewBlock(expanded, nil, nil, nil, proc.ShellProcess)
 			streams.CrLf.Write()
 		}
 	}
@@ -188,7 +141,19 @@ func filterInput(r rune) (rune, bool) {
 	return r, true
 }
 
-func display(input string) (output string) {
+func getSyntaxHighlighting() {
+	highlight, err := proc.GlobalConf.Get("shell", "syntax-highlighting", types.Boolean)
+	if err != nil {
+		highlight = false
+	}
+	if highlight.(bool) == true {
+		Instance.Config.Output = syntaxHighlight
+	} else {
+		Instance.Config.Output = nil
+	}
+}
+
+func syntaxHighlight(input string) (output string) {
 	_, output = parse([]rune(input))
 	return
 }
