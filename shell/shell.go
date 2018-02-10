@@ -104,9 +104,13 @@ func Start() {
 			nLines++
 			merged += line[:len(line)-1] + `^\n`
 
-		//case pt.QuoteSingle:
-		//	nLines++
-		//	merged += line + `\n`
+		case pt.QuoteSingle:
+			nLines++
+			merged += line + `^\n`
+
+		case pt.QuoteDouble:
+			nLines++
+			merged += line + `\n`
 
 		case len(block) == 0:
 			continue
