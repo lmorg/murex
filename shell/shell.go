@@ -1,6 +1,8 @@
 package shell
 
 import (
+	"io"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -12,7 +14,6 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/readline"
-	"io"
 )
 
 var (
@@ -119,6 +120,10 @@ func prompt() {
 
 		default:
 			merged += line
+			mergedExp, err := history.ExpandVariables([]rune(merged), History)
+			if err == nil {
+				merged = string(mergedExp)
+			}
 			Instance.SaveHistory(merged)
 			if History.Last != merged {
 				History.Last = merged
