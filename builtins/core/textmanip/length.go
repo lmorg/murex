@@ -8,10 +8,10 @@ import (
 func init() {
 	proc.GoFunctions["left"] = cmdLeft
 	proc.GoFunctions["right"] = cmdRight
-	proc.GoFunctions["prefix"] = cmdSappend
-	proc.GoFunctions["suffix"] = cmdSprepend
-	proc.GoFunctions["sappend"] = cmdSappend
+	proc.GoFunctions["prefix"] = cmdSprepend
+	proc.GoFunctions["suffix"] = cmdSappend
 	proc.GoFunctions["sprepend"] = cmdSprepend
+	proc.GoFunctions["sappend"] = cmdSappend
 }
 
 func cmdLeft(p *proc.Process) error {
