@@ -17,6 +17,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 		(*tree)[i].Process.Parent = parent
 		(*tree)[i].Process.Scope = parent.Scope
 		(*tree)[i].Process.WaitForTermination = make(chan bool)
+		(*tree)[i].Process.Config = parent.Config
 
 		if (*tree)[i].LineNumber == 0 {
 			(*tree)[i].Process.ColNumber = (*tree)[i].ColNumber + parent.ColNumber

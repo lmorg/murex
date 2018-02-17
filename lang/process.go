@@ -4,15 +4,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
+	"regexp"
+	"strings"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
-	"os"
-	"regexp"
-	"strings"
 )
 
 var (
@@ -49,7 +50,7 @@ func executeProcess(p *proc.Process) {
 
 	p.State = state.Starting
 
-	echo, err := proc.GlobalConf.Get("shell", "echo", types.Boolean)
+	echo, err := p.Config.Get("shell", "echo", types.Boolean)
 	if err != nil {
 		echo = false
 	}

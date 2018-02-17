@@ -22,7 +22,7 @@ func cmdSwivelDataType(p *proc.Process) error {
 	table := make(map[string][]string)
 	var row int
 
-	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key string, val string, eol bool) {
+	err = p.Stdin.ReadMap(p.Config, func(key string, val string, eol bool) {
 		if len(table[key]) == 0 {
 			table[key] = make([]string, 0)
 		}
@@ -56,7 +56,7 @@ func cmdSwivelTable(p *proc.Process) error {
 	table := make([][]string, 2)
 	row := 1
 
-	err := p.Stdin.ReadMap(&proc.GlobalConf, func(key string, val string, eol bool) {
+	err := p.Stdin.ReadMap(p.Config, func(key string, val string, eol bool) {
 		table[row] = append(table[row], val)
 		if len(table[row]) > len(table[0]) {
 			table[0] = append(table[0], key)

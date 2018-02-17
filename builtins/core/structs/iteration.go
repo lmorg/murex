@@ -2,11 +2,12 @@ package structs
 
 import (
 	"errors"
+	"strings"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"strings"
 )
 
 func init() {
@@ -150,7 +151,7 @@ func cmdForMap(p *proc.Process) error {
 		return err
 	}
 
-	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+	err = p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
 		/*debug.Json("formap", map[string]string{
 			"key":   key,
 			"value": value,

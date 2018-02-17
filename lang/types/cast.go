@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/utils"
 )
 
 const (
@@ -118,35 +120,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		}
 
 	case string:
-		switch dataType {
-		case Generic:
-			return v, nil
-		case Integer:
-			if v.(string) == "" {
-				v = "0"
-			}
-			return strconv.Atoi(strings.TrimSpace(v.(string)))
-		case Float, Number:
-			if v.(string) == "" {
-				v = "0"
-			}
-			return strconv.ParseFloat(v.(string), 64)
-		case Boolean:
-			return IsTrue([]byte(v.(string)), 0), nil
-		case CodeBlock:
-			if v.(string)[0] == '{' && v.(string)[len(v.(string))-1] == '}' {
-				return v.(string)[1 : len(v.(string))-1], nil
-			}
-			return "out: '" + v.(string) + "'", nil //errors.New("Not a valid code block: `" + v.(string) + "`")
-		case String, Json:
-			return v, nil
-		//case Json:
-		//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
-		case Null:
-			return "", nil
-		default:
-			return nil, errors.New(ErrDataTypeDefaulted)
-		}
+		return goStringRecast(v.(string), dataType)
 
 	case []byte:
 		str := string(v.([]byte))
@@ -212,9 +186,58 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 			return nil, errors.New(ErrDataTypeDefaulted)
 		}
 
+	default:
+		switch dataType {
+		//case Generic, String, Integer, Float, Number, Boolean, CodeBlock, Null:
+		//	return nil, errors.New(ErrUnexpectedGoType)
+		case String, Json:
+			b, err := utils.JsonMarshal(v, false)
+			return string(b), err
+		default:
+			return nil, errors.New(ErrUnexpectedGoType)
+		}
 	}
 
 	return nil, errors.New(ErrUnexpectedGoType)
+}
+
+func goStringRecast(v string, dataType string) (interface{}, error) {
+	switch dataType {
+	case Generic:
+		return v, nil
+
+	case Integer:
+		if v == "" {
+			v = "0"
+		}
+		return strconv.Atoi(strings.TrimSpace(v))
+
+	case Float, Number:
+		if v == "" {
+			v = "0"
+		}
+		return strconv.ParseFloat(v, 64)
+
+	case Boolean:
+		return IsTrue([]byte(v), 0), nil
+
+	case CodeBlock:
+		if v[0] == '{' && v[len(v)-1] == '}' {
+			return v[1 : len(v)-1], nil
+		}
+		return "out: '" + v + "'", nil //errors.New("Not a valid code block: `" + v.(string) + "`")
+
+	case String, Json:
+		return v, nil
+	//case Json:
+	//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
+
+	case Null:
+		return "", nil
+
+	default:
+		return nil, errors.New(ErrDataTypeDefaulted)
+	}
 }
 
 // FloatToString convert a Float64 (what murex numbers are stored as) into a string. Typically for outputting to Stdout/Stderr.

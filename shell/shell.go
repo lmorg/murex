@@ -153,7 +153,7 @@ func filterInput(r rune) (rune, bool) {
 }
 
 func getSyntaxHighlighting() {
-	highlight, err := proc.GlobalConf.Get("shell", "syntax-highlighting", types.Boolean)
+	highlight, err := proc.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
 	if err != nil {
 		highlight = false
 	}

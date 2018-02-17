@@ -3,11 +3,12 @@ package typemgmt
 import (
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
-	"strings"
 )
 
 type jsonInterface map[interface{}]interface{}
@@ -16,7 +17,7 @@ func init() {
 	proc.GoFunctions["["] = index
 	proc.GoFunctions["!["] = index
 
-	proc.GlobalConf.Define("index", "silent", config.Properties{
+	proc.InitConf.Define("index", "silent", config.Properties{
 		Description: "Don't report error if an index in [ ] does not exist",
 		Default:     false,
 		DataType:    types.Boolean,
@@ -64,7 +65,7 @@ func index(p *proc.Process) (err error) {
 		}
 	}
 
-	silent, err := proc.GlobalConf.Get("index", "silent", types.Boolean)
+	silent, err := p.Config.Get("index", "silent", types.Boolean)
 	if err != nil {
 		silent = false
 	}

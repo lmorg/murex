@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"os"
 )
 
 var (
@@ -40,7 +41,7 @@ func readFlags() {
 		os.Exit(1)
 	}
 
-	proc.GlobalConf.Define("shell", "echo", config.Properties{
+	proc.InitConf.Define("shell", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
 		DataType:    types.Boolean,

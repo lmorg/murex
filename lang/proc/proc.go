@@ -2,6 +2,8 @@ package proc
 
 import (
 	"errors"
+	"sync"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
@@ -9,7 +11,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"sync"
 )
 
 // Process - Each process running inside the murex shell will be one of these objects.
@@ -41,6 +42,7 @@ type Process struct {
 	LineNumber         int
 	ColNumber          int
 	RunMode            runmode.RunMode
+	Config             *config.Config
 }
 
 var (
@@ -56,8 +58,8 @@ var (
 	// GlobalVars is a table of global variables
 	GlobalVars types.Vars = types.NewVariableGroup()
 
-	// GlobalConf is a table of global config options
-	GlobalConf config.Config = config.NewConfiguration()
+	// InitConf is a table of global config options
+	InitConf *config.Config = config.NewConfiguration()
 
 	// GlobalAliases is a table of global aliases
 	GlobalAliases Aliases = NewAliases()

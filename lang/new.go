@@ -2,6 +2,7 @@ package lang
 
 import (
 	"errors"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
@@ -38,13 +39,14 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Id = caller.Id
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
+	container.RunMode = caller.RunMode
+	container.Config = caller.Config.Copy()
+
+	//debug.Json("container config:", container.Config.Dump())
+
 	if caller.Name == proc.ShellProcess.Name {
 		container.ExitNum = ShellExitNum
 	}
-
-	//if caller.Name == "try" || caller.RunMode {
-	container.RunMode = caller.RunMode
-	//}
 
 	if stdin != nil {
 		container.Stdin = stdin

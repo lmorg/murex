@@ -3,14 +3,15 @@ package open
 import (
 	"bytes"
 	"compress/gzip"
-	"github.com/lmorg/murex/builtins/core/httpclient"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/lmorg/murex/builtins/core/httpclient"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types/define"
+	"github.com/lmorg/murex/utils"
 )
 
 var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
@@ -53,7 +54,7 @@ func open(p *proc.Process) error {
 	}
 
 	if utils.IsURL(filename) {
-		resp, err := httpclient.Request("GET", filename, nil, true)
+		resp, err := httpclient.Request("GET", filename, nil, p.Config, true)
 		if err != nil {
 			return err
 		}

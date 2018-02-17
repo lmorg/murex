@@ -1,8 +1,9 @@
 package define
 
 import (
-	"github.com/lmorg/murex/lang/types"
 	"strings"
+
+	"github.com/lmorg/murex/lang/types"
 )
 
 // MimeToMurex gets the murex data type for a corresponding MIME
@@ -45,4 +46,14 @@ func GetExtType(extension string) (dt string) {
 		return types.Generic
 	}
 	return
+}
+
+// GetMimePtr returns the pointer for MIME lookup table
+func GetMimes() map[string]string {
+	return mimes
+}
+
+// GetFileExtsPtr returns the pointer for file extension lookup table
+func GetFileExts() map[string]string {
+	return fileExts
 }

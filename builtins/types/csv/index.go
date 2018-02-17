@@ -9,7 +9,7 @@ import (
 func readIndex(p *proc.Process, params []string) error {
 	cRecords := make(chan []string, 1)
 
-	csvParser, err := NewParser(p.Stdin, &proc.GlobalConf)
+	csvParser, err := NewParser(p.Stdin, p.Config)
 	if err != nil {
 		return err
 	}

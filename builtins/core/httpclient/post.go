@@ -2,12 +2,13 @@ package httpclient
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
 	"strconv"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 func cmdPost(p *proc.Process) (err error) {
@@ -23,7 +24,7 @@ func cmdPost(p *proc.Process) (err error) {
 	if err != nil {
 		return err
 	}
-	validateURL(&url)
+	validateURL(&url, p.Config)
 
 	var body io.Reader
 	if p.IsMethod {
@@ -32,7 +33,7 @@ func cmdPost(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := Request("POST", url, body, enableTimeout)
+	resp, err := Request("POST", url, body, p.Config, enableTimeout)
 	if err != nil {
 		return err
 	}
@@ -53,7 +54,7 @@ func cmdPost(p *proc.Process) (err error) {
 		return err
 	}
 
-	p.Stdout.Write(b)
+	_, err = p.Stdout.Write(b)
 
-	return nil
+	return err
 }
