@@ -22,7 +22,8 @@ func MatchFunction(partial string) (items []string) {
 
 // MatchVars returns autocomplete suggestions for variables based on a partial string
 func MatchVars(partial string) (items []string) {
-	vars := proc.GlobalVars.DumpMap()
+	//vars := proc.GlobalVars.DumpMap()
+	vars := proc.ShellProcess.VarDumpMap()
 
 	envVars := os.Environ()
 	for i := range envVars {

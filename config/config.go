@@ -127,6 +127,8 @@ func (config *Config) Define(app string, key string, properties Properties) {
 func (conf *Config) Copy() *Config {
 	clone := NewConfiguration()
 
+	conf.mutex.Lock()
+
 	for app := range conf.properties {
 
 		if clone.properties[app] == nil {
@@ -139,6 +141,8 @@ func (conf *Config) Copy() *Config {
 			clone.values[app][key] = conf.values[app][key]
 		}
 	}
+
+	conf.mutex.Unlock()
 
 	return clone
 }

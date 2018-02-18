@@ -66,7 +66,7 @@ func cmdArgs(p *proc.Process) (err error) {
 		return err
 	}
 
-	err = proc.GlobalVars.Set("ARGS", string(b), types.Json)
+	err = p.ScopedVars.Set("ARGS", string(b), types.Json)
 	return err
 }
 
@@ -243,7 +243,7 @@ func cmdRuntime(p *proc.Process) error {
 	for flag := range f {
 		switch flag {
 		case fVars:
-			ret[fVars[2:]] = proc.GlobalVars.Dump()
+			ret[fVars[2:]] = proc.ShellProcess.ScopedVars.Dump()
 		case fAliases:
 			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
 		case fConfig:

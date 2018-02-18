@@ -77,7 +77,7 @@ func cmdLet(p *proc.Process) (err error) {
 		return err
 	}
 
-	err = proc.GlobalVars.Set(variable, value, types.Number)
+	err = p.ScopedVars.Set(variable, value, types.Number)
 
 	return err
 }
@@ -97,7 +97,7 @@ func evaluate(p *proc.Process, expression string) (value string, err error) {
 		return
 	}
 
-	result, err := eval.Evaluate(proc.GlobalVars.DumpMap())
+	result, err := eval.Evaluate(p.VarDumpMap())
 	if err != nil {
 		return
 	}

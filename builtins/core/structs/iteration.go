@@ -117,7 +117,8 @@ func cmdForEach(p *proc.Process) (err error) {
 		}
 
 		if varName != "" {
-			proc.GlobalVars.Set(varName, string(b), dt)
+			p.ScopedVars = p.ScopedVars.Copy()
+			p.ScopedVars.Set(varName, string(b), dt)
 		}
 
 		stdin := streams.NewStdin()
@@ -160,8 +161,10 @@ func cmdForMap(p *proc.Process) error {
 		if p.HasTerminated() {
 			return
 		}
-		proc.GlobalVars.Set(varKey, key, types.String)
-		proc.GlobalVars.Set(varVal, value, dt)
+
+		p.ScopedVars = p.ScopedVars.Copy()
+		p.ScopedVars.Set(varKey, key, types.String)
+		p.ScopedVars.Set(varVal, value, dt)
 
 		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 	})

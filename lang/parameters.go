@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
@@ -16,7 +15,7 @@ import (
 var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
 // ParseParameters is an internal function to parse parameters
-func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Vars) {
+func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")
 
@@ -31,7 +30,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 				tCount = true
 
 			case parameters.TokenTypeString:
-				p.Params[len(p.Params)-1] += vars.GetString(p.Tokens[i][j].Key)
+				p.Params[len(p.Params)-1] += prc.VarGetString(p.Tokens[i][j].Key)
 				tCount = true
 
 			case parameters.TokenTypeBlockString:
@@ -60,8 +59,8 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters, vars *types.Va
 				var array []string
 
 				variable := streams.NewStdin()
-				variable.SetDataType(vars.GetType(p.Tokens[i][j].Key))
-				variable.Write([]byte(vars.GetString(p.Tokens[i][j].Key)))
+				variable.SetDataType(prc.VarGetType(p.Tokens[i][j].Key))
+				variable.Write([]byte(prc.VarGetString(p.Tokens[i][j].Key)))
 				variable.Close()
 
 				variable.ReadArray(func(b []byte) {

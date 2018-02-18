@@ -41,6 +41,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.ColNumber = caller.ColNumber
 	container.RunMode = caller.RunMode
 	container.Config = caller.Config.Copy()
+	container.ScopedVars = caller.ScopedVars.Copy()
 
 	//debug.Json("container config:", container.Config.Dump())
 

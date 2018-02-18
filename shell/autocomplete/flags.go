@@ -3,13 +3,13 @@ package autocomplete
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
+	"strings"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
-	"os"
-	"sort"
-	"strings"
 )
 
 // Flags is a struct to store auto-complete options
@@ -40,10 +40,11 @@ var globalExes map[string]bool = make(map[string]bool)
 // slight but highly annoying pause if murex had been sat idle for a while. So now it's an exported function so it can
 // be run as a background job or upon user request.
 func UpdateGlobalExeList() {
-	envPath := proc.GlobalVars.GetString("PATH")
-	if envPath == "" {
-		envPath = os.Getenv("PATH")
-	}
+	//envPath := proc.GlobalVars.GetString("PATH")
+	//if envPath == "" {
+	//	envPath = os.Getenv("PATH")
+	//}
+	envPath := proc.ShellProcess.VarGetString("PATH")
 
 	dirs := splitPath(envPath)
 
