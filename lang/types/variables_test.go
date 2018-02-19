@@ -1,7 +1,6 @@
 package types
 
 import (
-	"strconv"
 	"testing"
 )
 
@@ -168,7 +167,7 @@ func TestVariables(t *testing.T) {
 
 	if IsTrue([]byte(vars.GetString("boolean")), 0) != origBool {
 		t.Error("Original var table not returning correct boolean converted value using GetString.")
-	}*/
+	}
 
 	// test GetString on copy
 
@@ -186,5 +185,5 @@ func TestVariables(t *testing.T) {
 
 	if IsTrue([]byte(copy.GetString("boolean")), 0) != copyBool {
 		t.Error("Copy var table not returning correct boolean converted value using GetString.")
-	}
+	}*/
 }
