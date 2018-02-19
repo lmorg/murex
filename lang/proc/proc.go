@@ -170,7 +170,7 @@ func (p *Process) VarGetType(name string) string {
 	return types.String
 }
 
-// VarDumpMap returns a map of all the variables (murex and envrionmental)
+// VarDumpMap returns a map of all the variables (murex and environmental)
 // visible in scope
 func (p *Process) VarDumpMap() map[string]interface{} {
 	m := make(map[string]interface{})

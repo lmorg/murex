@@ -88,7 +88,7 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 //     app == tooling name
 //     key == name of setting
 //     dataType == what `types.dataType` to cast the return value into
-func (conf Config) Get(app, key, dataType string) (value interface{}, err error) {
+func (conf *Config) Get(app, key, dataType string) (value interface{}, err error) {
 	conf.mutex.Lock()
 	defer conf.mutex.Unlock()
 
@@ -112,15 +112,15 @@ func (conf *Config) DataType(app, key string) string {
 }
 
 // Define allows new properties to be created in the Config object
-func (config *Config) Define(app string, key string, properties Properties) {
-	config.mutex.Lock()
-	if config.properties[app] == nil {
-		config.properties[app] = make(map[string]Properties)
-		config.values[app] = make(map[string]interface{})
+func (conf *Config) Define(app string, key string, properties Properties) {
+	conf.mutex.Lock()
+	if conf.properties[app] == nil {
+		conf.properties[app] = make(map[string]Properties)
+		conf.values[app] = make(map[string]interface{})
 	}
-	config.properties[app][key] = properties
-	config.values[app][key] = properties.Default
-	config.mutex.Unlock()
+	conf.properties[app][key] = properties
+	conf.values[app][key] = properties.Default
+	conf.mutex.Unlock()
 }
 
 // Copy clones the structure
