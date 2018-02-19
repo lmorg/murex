@@ -48,7 +48,7 @@ func GetExtType(extension string) (dt string) {
 	return
 }
 
-// GetMime returns MIME lookup table
+// GetMimes returns MIME lookup table
 func GetMimes() map[string]string {
 	return mimes
 }

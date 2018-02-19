@@ -117,14 +117,14 @@ func (p *Process) VarGetValue(name string) interface{} {
 
 	if p.Id != ShellProcess.Id {
 		return ShellProcess.VarGetValue(name)
-
-	} else {
-		s, b := os.LookupEnv(name)
-		if !b {
-			return nil
-		}
-		return s
 	}
+
+	s, b := os.LookupEnv(name)
+	if !b {
+		return nil
+	}
+	return s
+
 }
 
 // VarGetString returns a string value for the variable with the requested name.
@@ -160,12 +160,11 @@ func (p *Process) VarGetType(name string) string {
 
 	if p.Id != ShellProcess.Id {
 		return ShellProcess.VarGetType(name)
+	}
 
-	} else {
-		_, b := os.LookupEnv(name)
-		if !b {
-			return types.Null
-		}
+	_, b := os.LookupEnv(name)
+	if !b {
+		return types.Null
 	}
 	return types.String
 }

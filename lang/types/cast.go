@@ -58,7 +58,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		}
 	}
 
-	return nil, errors.New(ErrUnexpectedGoType)
+	//return nil, errors.New(ErrUnexpectedGoType)
 }
 
 func goNilRecast(dataType string) (interface{}, error) {
