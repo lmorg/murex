@@ -48,12 +48,12 @@ func GetExtType(extension string) (dt string) {
 	return
 }
 
-// GetMimePtr returns the pointer for MIME lookup table
+// GetMime returns MIME lookup table
 func GetMimes() map[string]string {
 	return mimes
 }
 
-// GetFileExtsPtr returns the pointer for file extension lookup table
+// GetFileExts returns the file extension lookup table
 func GetFileExts() map[string]string {
 	return fileExts
 }

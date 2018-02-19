@@ -152,7 +152,7 @@ func TestVariables(t *testing.T) {
 		t.Error("Copy var table not returning correct boolean using GetValue.")
 	}
 
-	// test GetString on original
+	/*// test GetString on original
 
 	if vars.GetString("number") != FloatToString(origNum) {
 		t.Error("Original var table not returning correct numeric converted value using GetString.")
@@ -168,7 +168,7 @@ func TestVariables(t *testing.T) {
 
 	if IsTrue([]byte(vars.GetString("boolean")), 0) != origBool {
 		t.Error("Original var table not returning correct boolean converted value using GetString.")
-	}
+	}*/
 
 	// test GetString on copy
 

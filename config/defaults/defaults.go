@@ -61,14 +61,14 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	// Add config hooks for mime types
 	c.Define("shell", "mime", config.Properties{
-		Description: "Supported MIME types and their corrosponding Murex data types.",
+		Description: "Supported MIME types and their corresponding Murex data types.",
 		Default:     define.GetMimes(),
 		DataType:    types.Json,
 	})
 
 	// Add config hooks for mime types
 	c.Define("shell", "extensions", config.Properties{
-		Description: "Supported file extentions and their corrosponding Murex data types.",
+		Description: "Supported file extensions and their corresponding Murex data types.",
 		Default:     define.GetFileExts(),
 		DataType:    types.Json,
 	})

@@ -58,9 +58,6 @@ var (
 	// GoFunctions is a table of available builtin functions
 	GoFunctions map[string]func(*Process) error = make(map[string]func(*Process) error)
 
-	// GlobalVars is a table of global variables
-	InitVars *types.Vars = types.NewVariableGroup()
-
 	// InitConf is a table of global config options
 	InitConf *config.Config = config.NewConfiguration()
 
@@ -169,8 +166,8 @@ func (p *Process) VarGetType(name string) string {
 		if !b {
 			return types.Null
 		}
-		return types.String
 	}
+	return types.String
 }
 
 // VarDumpMap returns a map of all the variables (murex and envrionmental)

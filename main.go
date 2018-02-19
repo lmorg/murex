@@ -51,7 +51,8 @@ func initEnv() {
 	proc.ShellProcess.Scope = proc.ShellProcess
 	proc.ShellProcess.Parent = proc.ShellProcess
 	proc.ShellProcess.Config = proc.InitConf.Copy()
-	proc.ShellProcess.ScopedVars = proc.InitVars.Copy()
+	//proc.ShellProcess.ScopedVars = proc.InitVars.Copy()
+	proc.ShellProcess.ScopedVars = types.NewVariableGroup()
 
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
