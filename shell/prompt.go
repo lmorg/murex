@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -16,8 +17,8 @@ func getPrompt() {
 		b         []byte
 	)
 
-	proc.GlobalVars.Set("linenum", 1, types.Number)
-	prompt, err := proc.GlobalConf.Get("shell", "prompt", types.CodeBlock)
+	proc.ShellProcess.ScopedVars.Set("linenum", 1, types.Number)
+	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
 		exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
@@ -48,8 +49,8 @@ func getMultilinePrompt(nLines int) {
 		b         []byte
 	)
 
-	proc.GlobalVars.Set("linenum", nLines, types.Number)
-	prompt, err := proc.GlobalConf.Get("shell", "prompt-multiline", types.CodeBlock)
+	proc.ShellProcess.ScopedVars.Set("linenum", nLines, types.Number)
+	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
 		exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)

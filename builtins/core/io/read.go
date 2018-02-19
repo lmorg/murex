@@ -58,6 +58,6 @@ func read(p *proc.Process, dt string, paramAdjust int) error {
 		return err
 	}
 
-	err = proc.GlobalVars.Set(varName, s, dt)
+	err = p.ScopedVars.Set(varName, s, dt)
 	return err
 }

@@ -4,21 +4,21 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
+	"runtime"
+	"strconv"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
-	"os"
-	"runtime"
-	"strconv"
 )
 
 func init() {
 	proc.GoFunctions["debug"] = cmdDebug
 	proc.GoFunctions["exitnum"] = cmdExitNum
-	proc.GoFunctions["config"] = cmdConfig
 	proc.GoFunctions["builtins"] = cmdListBuiltins
 	proc.GoFunctions["bexists"] = cmdBuiltinExists
 	proc.GoFunctions["cd"] = cmdCd
@@ -123,50 +123,6 @@ func cmdBuiltinExists(p *proc.Process) error {
 	return err
 }
 
-func cmdConfig(p *proc.Process) error {
-	if p.Parameters.Len() == 0 {
-		p.Stdout.SetDataType(types.Json)
-
-		b, err := utils.JsonMarshal(proc.GlobalConf.Dump(), p.Stdout.IsTTY())
-		if err != nil {
-			return err
-		}
-
-		_, err = p.Stdout.Writeln(b)
-		return err
-	}
-
-	option, _ := p.Parameters.String(0)
-	switch option {
-	case "get":
-		app, _ := p.Parameters.String(1)
-		key, _ := p.Parameters.String(2)
-		val, err := proc.GlobalConf.Get(app, key, types.String)
-		if err != nil {
-			return err
-		}
-		p.Stdout.SetDataType(proc.GlobalConf.DataType(app, key))
-		p.Stdout.Writeln([]byte(val.(string)))
-
-	case "set":
-		p.Stdout.SetDataType(types.Null)
-		app, _ := p.Parameters.String(1)
-		key, _ := p.Parameters.String(2)
-		val, _ := p.Parameters.String(3)
-		err := proc.GlobalConf.Set(app, key, val)
-		return err
-
-		/*case "stdin":
-		err := proc.GlobalConf.Set(p.Parameters.String(1), p.Parameters.String(2), p.Stdin.ReadAll())
-		return err*/
-	default:
-		p.Stdout.SetDataType(types.Null)
-		return errors.New("Unknown option. Please get or set.")
-	}
-
-	return nil
-}
-
 func cmdCd(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	s, err := p.Parameters.String(0)
@@ -179,7 +135,7 @@ func cmdCd(p *proc.Process) error {
 		return err
 	}
 
-	hist := proc.GlobalVars.GetString("PWDHIST")
+	hist := proc.ShellProcess.VarGetString("PWDHIST")
 	if hist == "" {
 		hist = "[]"
 	}
@@ -201,7 +157,7 @@ func cmdCd(p *proc.Process) error {
 		return errors.New("Unable to repack $PWDHIST: " + err.Error())
 	}
 
-	err = proc.GlobalVars.Set("PWDHIST", string(b), types.Json)
+	err = proc.ShellProcess.ScopedVars.Set("PWDHIST", string(b), types.Json)
 	return err
 }
 

@@ -2,14 +2,15 @@ package httpclient
 
 import (
 	"crypto/tls"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
 	"io"
 	"net"
 	"net/http"
 	net_url "net/url"
 	"regexp"
 	"time"
+
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/types"
 )
 
 const (
@@ -20,8 +21,8 @@ const (
 var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
 
 // Request generates a HTTP request
-func Request(method, url string, body io.Reader, setTimeout bool) (response *http.Response, err error) {
-	toStr, err := proc.GlobalConf.Get("http", "timeout", types.String)
+func Request(method, url string, body io.Reader, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
+	toStr, err := conf.Get("http", "timeout", types.String)
 	if err != nil {
 		return
 	}
@@ -30,7 +31,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 		return
 	}
 
-	insecure, err := proc.GlobalConf.Get("http", "insecure", types.Boolean)
+	insecure, err := conf.Get("http", "insecure", types.Boolean)
 	if err != nil {
 		return
 	}
@@ -38,7 +39,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 	client := &http.Client{}
 	if setTimeout {
 		tr := http.Transport{
-			Dial:            dialTimeout(toDur, toDur),
+			Dial:            dialTimeout(toDur, toDur, conf),
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: insecure.(bool)},
 		}
 
@@ -57,7 +58,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 		}
 	}
 
-	userAgent, err := proc.GlobalConf.Get("http", "user-agent", types.String)
+	userAgent, err := conf.Get("http", "user-agent", types.String)
 	if err != nil {
 		return
 	}
@@ -75,7 +76,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 
 	request.Header.Set("Host", urlParsed.Host)
 
-	redirects, err := proc.GlobalConf.Get("http", "redirect", types.Boolean)
+	redirects, err := conf.Get("http", "redirect", types.Boolean)
 	if err != nil {
 		return
 	}
@@ -91,7 +92,7 @@ func Request(method, url string, body io.Reader, setTimeout bool) (response *htt
 
 // Code unashamedly copy and pasted from:
 // https://stackoverflow.com/questions/16895294/how-to-set-timeout-for-http-get-requests-in-golang#16930649
-func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error) {
+func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration, conf *config.Config) func(net, addr string) (c net.Conn, err error) {
 	return func(netw, addr string) (net.Conn, error) {
 		conn, err := net.DialTimeout(netw, addr, cTimeout)
 		if err != nil {
@@ -102,9 +103,9 @@ func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr
 	}
 }
 
-func validateURL(url *string) {
+func validateURL(url *string, conf *config.Config) {
 	if !rxHttpProto.MatchString(*url) {
-		v, err := proc.GlobalConf.Get("http", "default-https", types.Boolean)
+		v, err := conf.Get("http", "default-https", types.Boolean)
 		if err != nil {
 			v = false
 		}

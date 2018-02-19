@@ -3,8 +3,11 @@ package main
 import (
 	"compress/gzip"
 	"encoding/json"
+	"io/ioutil"
+	"os"
+
 	_ "github.com/lmorg/murex/builtins"
-	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -14,18 +17,42 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
-	"io/ioutil"
-	"os"
 )
 
 func main() {
 	readFlags()
 
+	initEnv()
+
+	switch {
+	case fCommand != "":
+		defaults.Defaults(proc.ShellProcess.Config, false)
+		execSource([]rune(fCommand))
+
+	case len(fSource) > 0:
+		shell.SigHandler()
+		defaults.Defaults(proc.ShellProcess.Config, false)
+		execSource(diskSource(fSource[0]))
+
+	default:
+		defaults.Defaults(proc.ShellProcess.Config, true)
+		execSource([]rune(defaults.DefaultMurexProfile))
+		execProfile()
+		shell.Start()
+	}
+
+	debug.Log("[FIN]")
+}
+
+func initEnv() {
 	proc.ShellProcess.State = state.Executing
 	proc.ShellProcess.Name = os.Args[0]
 	proc.ShellProcess.Parameters.Params = os.Args[1:]
 	proc.ShellProcess.Scope = proc.ShellProcess
 	proc.ShellProcess.Parent = proc.ShellProcess
+	proc.ShellProcess.Config = proc.InitConf.Copy()
+	//proc.ShellProcess.ScopedVars = proc.InitVars.Copy()
+	proc.ShellProcess.ScopedVars = types.NewVariableGroup()
 
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
@@ -38,27 +65,8 @@ func main() {
 	s, _ := os.Getwd()
 	pwd := []string{s}
 	if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
-		proc.GlobalVars.Set("PWDHIST", string(b), types.Json)
+		proc.ShellProcess.ScopedVars.Set("PWDHIST", string(b), types.Json)
 	}
-
-	switch {
-	case fCommand != "":
-		config.Defaults(&proc.GlobalConf, false)
-		execSource([]rune(fCommand))
-
-	case len(fSource) > 0:
-		shell.SigHandler()
-		config.Defaults(&proc.GlobalConf, false)
-		execSource(diskSource(fSource[0]))
-
-	default:
-		config.Defaults(&proc.GlobalConf, true)
-		execSource([]rune(config.DefaultMurexProfile))
-		execProfile()
-		shell.Start()
-	}
-
-	debug.Log("[FIN]")
 }
 
 func diskSource(filename string) []rune {

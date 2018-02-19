@@ -1,6 +1,10 @@
 package shell
 
 import (
+	"regexp"
+	"strings"
+	"time"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -9,9 +13,6 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/readline"
-	"regexp"
-	"strings"
-	"time"
 )
 
 type murexCompleterIface struct{}
@@ -397,7 +398,7 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex)
 	}
 
-	v, err := proc.GlobalConf.Get("shell", "max-suggestions", types.Integer)
+	v, err := proc.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = -1
 	}

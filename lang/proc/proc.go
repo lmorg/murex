@@ -1,7 +1,6 @@
 package proc
 
 import (
-	"errors"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
@@ -9,6 +8,10 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
+
+	"errors"
+	"os"
+	"strings"
 	"sync"
 )
 
@@ -41,6 +44,8 @@ type Process struct {
 	LineNumber         int
 	ColNumber          int
 	RunMode            runmode.RunMode
+	Config             *config.Config
+	ScopedVars         *types.Vars
 }
 
 var (
@@ -53,11 +58,8 @@ var (
 	// GoFunctions is a table of available builtin functions
 	GoFunctions map[string]func(*Process) error = make(map[string]func(*Process) error)
 
-	// GlobalVars is a table of global variables
-	GlobalVars types.Vars = types.NewVariableGroup()
-
-	// GlobalConf is a table of global config options
-	GlobalConf config.Config = config.NewConfiguration()
+	// InitConf is a table of global config options
+	InitConf *config.Config = config.NewConfiguration()
 
 	// GlobalAliases is a table of global aliases
 	GlobalAliases Aliases = NewAliases()
@@ -101,4 +103,88 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 		err = errors.New("`" + p.Name + "` must be run as a method.")
 	}
 	return
+}
+
+// VarGetValue returns a Go-typed value for the variable with the requested name.
+// If no local scoped variable exists, then value is taken from globals
+// (ShellProcess) and if no variables exist from there then value is taken from
+// the OS environmental variables
+func (p *Process) VarGetValue(name string) interface{} {
+	v := p.ScopedVars.GetValue(name)
+	if v != nil {
+		return v
+	}
+
+	if p.Id != ShellProcess.Id {
+		return ShellProcess.VarGetValue(name)
+
+	} else {
+		s, b := os.LookupEnv(name)
+		if !b {
+			return nil
+		}
+		return s
+	}
+}
+
+// VarGetString returns a string value for the variable with the requested name.
+// If no local scoped variable exists, then value is taken from globals
+// (ShellProcess) and if no variables exist from there then value is taken from
+// the OS environmental variables
+func (p *Process) VarGetString(name string) string {
+	//defer func() {
+	//r := recover()
+	//if r != nil {
+	//	p.Stderr.Writeln([]byte("Error converting `" + name + "` to string: " + err.Error()))
+	//}
+	//v.mutex.Unlock()
+	//}()
+	v := p.VarGetValue(name)
+	str, err := types.ConvertGoType(v, types.String)
+	if err != nil {
+		//ansi.Stderrln(ansi.FgRed, "Error converting `"+name+"` to string: "+err.Error())
+		p.Stderr.Writeln([]byte("Error converting `" + name + "` to string: " + err.Error()))
+	}
+	return str.(string)
+}
+
+// VarGetType returns the murex type for the variable with the requested name.
+// If no local scoped variable exists, then value is taken from globals
+// (ShellProcess) and if no variables exist from there then value is assumed a
+// string (if an OS environmental variable exists) or null (if no env var exists)
+func (p *Process) VarGetType(name string) string {
+	v := p.ScopedVars.GetValue(name)
+	if v != nil {
+		return p.ScopedVars.GetType(name)
+	}
+
+	if p.Id != ShellProcess.Id {
+		return ShellProcess.VarGetType(name)
+
+	} else {
+		_, b := os.LookupEnv(name)
+		if !b {
+			return types.Null
+		}
+	}
+	return types.String
+}
+
+// VarDumpMap returns a map of all the variables (murex and environmental)
+// visible in scope
+func (p *Process) VarDumpMap() map[string]interface{} {
+	m := make(map[string]interface{})
+
+	for _, e := range os.Environ() {
+		pair := strings.Split(e, "=")
+		m[pair[0]] = pair[1]
+	}
+
+	if p.Id != ShellProcess.Id {
+		ShellProcess.ScopedVars.DumpMap(m)
+	}
+
+	p.ScopedVars.DumpMap(m)
+
+	return m
 }

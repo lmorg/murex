@@ -2,11 +2,12 @@ package structs
 
 import (
 	"errors"
+	"strings"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"strings"
 )
 
 func init() {
@@ -116,7 +117,8 @@ func cmdForEach(p *proc.Process) (err error) {
 		}
 
 		if varName != "" {
-			proc.GlobalVars.Set(varName, string(b), dt)
+			p.ScopedVars = p.ScopedVars.Copy()
+			p.ScopedVars.Set(varName, string(b), dt)
 		}
 
 		stdin := streams.NewStdin()
@@ -150,7 +152,7 @@ func cmdForMap(p *proc.Process) error {
 		return err
 	}
 
-	err = p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+	err = p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
 		/*debug.Json("formap", map[string]string{
 			"key":   key,
 			"value": value,
@@ -159,8 +161,10 @@ func cmdForMap(p *proc.Process) error {
 		if p.HasTerminated() {
 			return
 		}
-		proc.GlobalVars.Set(varKey, key, types.String)
-		proc.GlobalVars.Set(varVal, value, dt)
+
+		p.ScopedVars = p.ScopedVars.Copy()
+		p.ScopedVars.Set(varKey, key, types.String)
+		p.ScopedVars.Set(varVal, value, dt)
 
 		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
 	})

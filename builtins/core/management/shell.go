@@ -3,6 +3,11 @@ package management
 import (
 	"encoding/json"
 	"errors"
+	"io/ioutil"
+	"os"
+	"runtime"
+	"sort"
+
 	"github.com/lmorg/murex/builtins/core/events"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
@@ -14,10 +19,6 @@ import (
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
-	"io/ioutil"
-	"os"
-	"runtime"
-	"sort"
 )
 
 func init() {
@@ -65,7 +66,7 @@ func cmdArgs(p *proc.Process) (err error) {
 		return err
 	}
 
-	err = proc.GlobalVars.Set("ARGS", string(b), types.Json)
+	err = p.ScopedVars.Set("ARGS", string(b), types.Json)
 	return err
 }
 
@@ -201,8 +202,6 @@ func cmdRuntime(p *proc.Process) error {
 		fIndexes       = "--indexes"
 		fMarshallers   = "--marshallers"
 		fUnmarshallers = "--unmarshallers"
-		fMimes         = "--mimes"
-		fFileExts      = "--fileexts"
 		fEvents        = "--events"
 		fFlags         = "--flags"
 		fMemstats      = "--memstats"
@@ -224,8 +223,6 @@ func cmdRuntime(p *proc.Process) error {
 				fIndexes:       types.Boolean,
 				fMarshallers:   types.Boolean,
 				fUnmarshallers: types.Boolean,
-				fMimes:         types.Boolean,
-				fFileExts:      types.Boolean,
 				fEvents:        types.Boolean,
 				fFlags:         types.Boolean,
 				fMemstats:      types.Boolean,
@@ -246,11 +243,11 @@ func cmdRuntime(p *proc.Process) error {
 	for flag := range f {
 		switch flag {
 		case fVars:
-			ret[fVars[2:]] = proc.GlobalVars.Dump()
+			ret[fVars[2:]] = proc.ShellProcess.ScopedVars.Dump()
 		case fAliases:
 			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
 		case fConfig:
-			ret[fConfig[2:]] = proc.GlobalConf.Dump()
+			ret[fConfig[2:]] = proc.ShellProcess.Config.Dump()
 		case fPipes:
 			ret[fPipes[2:]] = proc.GlobalPipes.Dump()
 		case fFuncs:
@@ -267,10 +264,6 @@ func cmdRuntime(p *proc.Process) error {
 			ret[fMarshallers[2:]] = define.DumpMarshaller()
 		case fUnmarshallers:
 			ret[fUnmarshallers[2:]] = define.DumpUnmarshaller()
-		case fMimes:
-			ret[fMimes[2:]] = define.DumpMime()
-		case fFileExts:
-			ret[fFileExts[2:]] = define.DumpFileExts()
 		case fEvents:
 			ret[fEvents[2:]] = events.DumpEvents()
 		case fFlags:

@@ -16,7 +16,7 @@ var (
 func ExpandVariablesString(line string) string {
 	match := rxVars.FindAllString(line, -1)
 	for i := range match {
-		line = strings.Replace(line, match[i], proc.GlobalVars.GetString(match[i][1:]), -1)
+		line = strings.Replace(line, match[i], proc.ShellProcess.VarGetString(match[i][1:]), -1)
 	}
 
 	match = rxHome.FindAllString(line, -1)

@@ -1,4 +1,4 @@
-package config
+package defaults
 
 // DefaultMurexProfile is basically just the contents of the example murex_profile but wrapped up in Go code so it can
 // be compiled into the portable executable. This is also done to make things a little more user friendly out of the box
@@ -95,7 +95,7 @@ autocomplete set config { [{
 }] }
 
 autocomplete set murex-runtime { [{
-    "Flags": ["--vars", "--aliases" ,"--config" ,"--pipes" ,"--funcs" ,"--fids" ,"--arrays" ,"--maps" ,"--indexes" ,"--marshallers" ,"--unmarshallers" ,"--mimes" ,"--fileexts" ,"--events" ,"--flags" ,"--memstats" ],
+    "Flags": ["--vars", "--aliases" ,"--config" ,"--pipes" ,"--funcs" ,"--fids" ,"--arrays" ,"--maps" ,"--indexes" ,"--marshallers" ,"--unmarshallers" ,"--events" ,"--flags" ,"--memstats" ],
     "AllowMultiple": true
 }] }
 

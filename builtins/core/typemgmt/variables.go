@@ -4,15 +4,15 @@ import (
 	"errors"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"os"
 	"regexp"
 )
 
 func init() {
-	proc.GoFunctions["globals"] = cmdGlobals
 	proc.GoFunctions["set"] = cmdSet
 	proc.GoFunctions["!set"] = cmdUnset
+	//proc.GoFunctions["global"] = cmdGlobal
+	//proc.GoFunctions["!global"] = cmdUnblobal
 	proc.GoFunctions["export"] = cmdExport
 	proc.GoFunctions["!export"] = cmdUnexport
 	proc.GoFunctions["unset"] = cmdUnexport
@@ -22,19 +22,6 @@ var (
 	rxSet     *regexp.Regexp = regexp.MustCompile(`(?sm)^([_a-zA-Z0-9]+)\s*=(.*$)`)
 	rxVarName *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
 )
-
-func cmdGlobals(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Json)
-
-	b, err := utils.JsonMarshal(proc.GlobalVars.Dump(), p.Stdout.IsTTY())
-	if err != nil {
-		return err
-	}
-
-	p.Stdout.Writeln(b)
-
-	return nil
-}
 
 func cmdSet(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
@@ -55,19 +42,19 @@ func cmdSet(p *proc.Process) error {
 			return err
 		}
 		dt := p.Stdin.GetDataType()
-		return proc.GlobalVars.Set(params, string(b), dt)
+		return p.ScopedVars.Set(params, string(b), dt)
 	}
 
 	// Only one parameter, so unset variable:
 	if rxVarName.MatchString(params) {
-		proc.GlobalVars.Unset(params)
+		p.ScopedVars.Unset(params)
 		return nil
 	}
 
 	// Set variable as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
 
-	return proc.GlobalVars.Set(match[0][1], match[0][2], types.String)
+	return p.ScopedVars.Set(match[0][1], match[0][2], types.String)
 }
 
 func cmdUnset(p *proc.Process) error {
@@ -82,7 +69,7 @@ func cmdUnset(p *proc.Process) error {
 		return err
 	}
 
-	proc.GlobalVars.Unset(varName)
+	p.ScopedVars.Unset(varName)
 	return nil
 }
 

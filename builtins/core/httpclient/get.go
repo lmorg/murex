@@ -2,15 +2,16 @@ package httpclient
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/lang/types/define"
+	"github.com/lmorg/murex/utils"
 )
 
 func cmdGet(p *proc.Process) (err error) {
@@ -26,7 +27,7 @@ func cmdGet(p *proc.Process) (err error) {
 	if err != nil {
 		return err
 	}
-	validateURL(&url)
+	validateURL(&url, p.Config)
 
 	var body io.Reader
 	if p.IsMethod {
@@ -35,7 +36,7 @@ func cmdGet(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := Request("GET", url, body, enableTimeout)
+	resp, err := Request("GET", url, body, p.Config, enableTimeout)
 	if err != nil {
 		return err
 	}
@@ -56,9 +57,8 @@ func cmdGet(p *proc.Process) (err error) {
 		return err
 	}
 
-	p.Stdout.Write(b)
-
-	return nil
+	_, err = p.Stdout.Write(b)
+	return err
 }
 
 func cmdGetFile(p *proc.Process) (err error) {
@@ -70,7 +70,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 	if err != nil {
 		return err
 	}
-	validateURL(&url)
+	validateURL(&url, p.Config)
 
 	var body io.Reader
 	if p.IsMethod {
@@ -79,7 +79,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := Request("GET", url, body, disableTimeout)
+	resp, err := Request("GET", url, body, p.Config, disableTimeout)
 	if err != nil {
 		return err
 	}
@@ -122,9 +122,5 @@ func cmdGetFile(p *proc.Process) (err error) {
 	}()
 
 	_, err = io.Copy(p.Stdout, resp.Body)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }

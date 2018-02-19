@@ -133,7 +133,7 @@ func expandHistAllPs(s string, hist *History) (string, error) {
 			}
 
 			p := parameters.Parameters{Tokens: nodes[cmd].ParamTokens}
-			lang.ParseParameters(proc.ShellProcess, &p, &proc.GlobalVars)
+			lang.ParseParameters(proc.ShellProcess, &p)
 			if val < 0 {
 				val += p.Len() + 1
 			}
@@ -162,7 +162,7 @@ func expandHistParam(s string, hist *History) (string, error) {
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
 		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
-		lang.ParseParameters(proc.ShellProcess, &p, &proc.GlobalVars)
+		lang.ParseParameters(proc.ShellProcess, &p)
 
 		for i := range mhParam {
 			val, _ := strconv.Atoi(mhParam[i][1])

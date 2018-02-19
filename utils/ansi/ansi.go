@@ -1,15 +1,16 @@
 package ansi
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"os"
 )
 
 func allowAnsi() bool {
-	v, err := proc.GlobalConf.Get("shell", "add-colour", types.Boolean)
+	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
 	if err != nil {
 		return false
 	}

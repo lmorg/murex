@@ -1,9 +1,11 @@
 package config
 
 import (
+	"encoding/json"
 	"errors"
-	"github.com/lmorg/murex/lang/types"
 	"sync"
+
+	"github.com/lmorg/murex/lang/types"
 )
 
 // Properties is the Config defaults and descriptions
@@ -11,20 +13,23 @@ type Properties struct {
 	Description string
 	Default     interface{}
 	DataType    string
+	//GetValue    func() interface{}      // Getter to override murex default
+	//SetValue    func(interface{}) error // Setter to override murex default
+	//IsGlobal bool // If set it means configuration settings are global and thus not thread safe
 }
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
 type Config struct {
 	mutex      sync.Mutex
-	properties map[string]map[string]Properties
-	values     map[string]map[string]interface{}
+	properties map[string]map[string]Properties  // This will be the main configuration metadata for each configuration option
+	values     map[string]map[string]interface{} // This stores the values when no custom getter and setter have been defined
 }
 
 // NewConfiguration creates an new Config object (see above)
-func NewConfiguration() (config Config) {
-	config.properties = make(map[string]map[string]Properties)
-	config.values = make(map[string]map[string]interface{})
-	//defaults(&config)
+func NewConfiguration() (conf *Config) {
+	conf = new(Config)
+	conf.properties = make(map[string]map[string]Properties)
+	conf.values = make(map[string]map[string]interface{})
 	return
 }
 
@@ -33,15 +38,48 @@ func NewConfiguration() (config Config) {
 //     app == tooling name
 //     key == name of setting
 //     value == the setting itself
-func (config *Config) Set(app string, key string, value interface{}) error {
-	config.mutex.Lock()
-	defer config.mutex.Unlock()
+func (conf *Config) Set(app string, key string, value interface{}) error {
+	conf.mutex.Lock()
+	defer conf.mutex.Unlock()
 
-	if config.properties[app] == nil || config.properties[app][key].DataType == "" || config.properties[app][key].Description == "" {
+	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 		return errors.New("Cannot Get() `" + app + "`:`" + key + "` when no config properties have been defined for that app and key.")
 	}
 
-	config.values[app][key] = value
+	switch conf.values[app][key].(type) {
+	case []string:
+		//if config.properties[app][key].DataType == types.Json {
+		var iface interface{}
+		err := json.Unmarshal([]byte(value.(string)), &iface)
+		if err != nil {
+			return errors.New("Unable to set config with that data: " + err.Error())
+		}
+
+		for i := range iface.([]string) {
+			conf.values[app][key].([]string)[i] = iface.([]string)[i]
+		}
+	//}
+
+	case map[string]string:
+		//if config.properties[app][key].DataType == types.Json {
+		var iface interface{}
+		err := json.Unmarshal([]byte(value.(string)), &iface)
+		if err != nil {
+			return errors.New("Unable to set config with that data: " + err.Error())
+		}
+
+		for k := range conf.values[app][key].(map[string]string) {
+			delete(conf.values[app][key].(map[string]string), k)
+		}
+
+		for k := range iface.(map[string]string) {
+			conf.values[app][key].(map[string]string)[k] = iface.(map[string]string)[k]
+		}
+
+	default:
+		conf.values[app][key] = value
+	}
+
 	return nil
 }
 
@@ -50,18 +88,18 @@ func (config *Config) Set(app string, key string, value interface{}) error {
 //     app == tooling name
 //     key == name of setting
 //     dataType == what `types.dataType` to cast the return value into
-func (config *Config) Get(app, key, dataType string) (value interface{}, err error) {
-	config.mutex.Lock()
-	defer config.mutex.Unlock()
+func (conf *Config) Get(app, key, dataType string) (value interface{}, err error) {
+	conf.mutex.Lock()
+	defer conf.mutex.Unlock()
 
-	if config.properties[app] == nil || config.properties[app][key].DataType == "" || config.properties[app][key].Description == "" {
+	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 		return nil, errors.New("Cannot Get() `" + app + "`:`" + key + "` when no config properties have been defined for that app and key.")
 	}
 
 	var v interface{}
-	v = config.values[app][key]
+	v = conf.values[app][key]
 	if v == nil {
-		v = config.properties[app][key].Default
+		v = conf.properties[app][key].Default
 	}
 
 	value, err = types.ConvertGoType(v, dataType)
@@ -69,36 +107,60 @@ func (config *Config) Get(app, key, dataType string) (value interface{}, err err
 }
 
 // DataType retrieves the murex data type for a given Config property
-func (config *Config) DataType(app, key string) string {
-	return config.properties[app][key].DataType
+func (conf *Config) DataType(app, key string) string {
+	return conf.properties[app][key].DataType
 }
 
 // Define allows new properties to be created in the Config object
-func (config *Config) Define(app string, key string, properties Properties) {
-	config.mutex.Lock()
-	if config.properties[app] == nil {
-		config.properties[app] = make(map[string]Properties)
-		config.values[app] = make(map[string]interface{})
+func (conf *Config) Define(app string, key string, properties Properties) {
+	conf.mutex.Lock()
+	if conf.properties[app] == nil {
+		conf.properties[app] = make(map[string]Properties)
+		conf.values[app] = make(map[string]interface{})
 	}
-	config.properties[app][key] = properties
-	config.values[app][key] = properties.Default
-	config.mutex.Unlock()
+	conf.properties[app][key] = properties
+	conf.values[app][key] = properties.Default
+	conf.mutex.Unlock()
+}
+
+// Copy clones the structure
+func (conf *Config) Copy() *Config {
+	clone := NewConfiguration()
+
+	conf.mutex.Lock()
+
+	for app := range conf.properties {
+
+		if clone.properties[app] == nil {
+			clone.properties[app] = make(map[string]Properties)
+			clone.values[app] = make(map[string]interface{})
+		}
+
+		for key := range conf.properties[app] {
+			clone.properties[app][key] = conf.properties[app][key]
+			clone.values[app][key] = conf.values[app][key]
+		}
+	}
+
+	conf.mutex.Unlock()
+
+	return clone
 }
 
 // Dump returns an object based on Config which is optimised for JSON serialisation
-func (config *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
-	config.mutex.Lock()
+func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
+	conf.mutex.Lock()
 	obj = make(map[string]map[string]map[string]interface{})
-	for app := range config.properties {
+	for app := range conf.properties {
 		obj[app] = make(map[string]map[string]interface{})
-		for key := range config.properties[app] {
+		for key := range conf.properties[app] {
 			obj[app][key] = make(map[string]interface{})
-			obj[app][key]["Description"] = config.properties[app][key].Description
-			obj[app][key]["Data-Type"] = config.properties[app][key].DataType
-			obj[app][key]["Default"] = config.properties[app][key].Default
-			obj[app][key]["Value"] = config.values[app][key]
+			obj[app][key]["Description"] = conf.properties[app][key].Description
+			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
+			obj[app][key]["Default"] = conf.properties[app][key].Default
+			obj[app][key]["Value"] = conf.values[app][key]
 		}
 	}
-	config.mutex.Unlock()
+	conf.mutex.Unlock()
 	return
 }

@@ -8,7 +8,7 @@ func index(p *proc.Process, params []string) error {
 		match[params[i]] = true
 	}
 
-	err := p.Stdin.ReadMap(&proc.GlobalConf, func(key, value string, last bool) {
+	err := p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
 		if match[key] {
 			p.Stdout.Writeln([]byte(value))
 		}

@@ -1,11 +1,12 @@
 package structs
 
 import (
+	"io"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/types"
-	"io"
 )
 
 func init() {
