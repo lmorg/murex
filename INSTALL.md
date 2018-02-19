@@ -5,9 +5,16 @@ source just by running the following from the command line
 
     go get -u github.com/lmorg/murex
     cd $GOPATH/src/github.com/lmorg/murex
+
+Test the code (optional stage; Travis below):
+
+    go test ./...
+
+Compile the code:
+
     go build github.com/lmorg/murex
 
-Test the binary (requires Bash and `timeout`):
+Test the binary (optional stage; requires Bash and `timeout`):
 
     test/regression_test.sh
 
@@ -22,7 +29,7 @@ viewed at [https://travis-ci.org/lmorg/murex](https://travis-ci.org/lmorg/murex)
 
 ## Docker
 
-A `Dockerfile` is also included should you want to run an local tests in
+A `Dockerfile` is also included should you want to run any local tests in
 a sandboxed environment.
 
 The file is located in `test/docker` and includes a [README.md](test/docker/README.md)
@@ -34,7 +41,7 @@ As of Go v1.6 the language compiler supports a `vendors` directory to
 manage dependencies. _murex_ uses this to consolidate all of the required
 and optional packages so you only need to compile the program. However
 if you - for whatever reason - prefer to compile _murex_ on an earlier
-version of Go then you will need to manage them manually using `go get`.
+version of Go then you may need to manage them manually using `go get`.
 
 If you are unsure which version of Go you are running, then it is likely
 to be greater than 1.6 (as that is pretty old now) however you can check
