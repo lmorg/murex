@@ -15,7 +15,11 @@ import (
 // ShellExitNum is for when running murex in interactive shell mode
 var ShellExitNum int
 
-// ProcessNewBlock parses new block and execute the code.
+func NewFunctionBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+	processNewBlock(block, stdin, stdout, stderr, caller)
+}
+
+// processNewBlock parses new block and execute the code.
 // Inputs are:
 //     * the code block ([]rune),
 //     * Stdin, stdout and stderr streams; or nil to black hole those data streams,
@@ -23,7 +27,7 @@ var ShellExitNum int
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *types.Vars) (exitNum int, err error) {
 	debug.Log(string(block))
 
 	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
