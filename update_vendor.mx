@@ -34,12 +34,13 @@ pull golang.org/x/crypto/ssh/terminal
 pull golang.org/x/image/bmp
 pull golang.org/x/image/tiff
 pull golang.org/x/image/webp
+pull github.com/boombuler/barcode
 
 out Purging surplus git directories....
-find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \; 
+find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \;
 
 out Purging surplus bzr directories....
-find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \; 
+find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
 
 out Purging pkg (no longer needed)....
 rm <!null> -rf $GOPATH/pkg

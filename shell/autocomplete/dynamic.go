@@ -30,6 +30,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 		Name:       args.exe,
 		Parameters: parameters.Parameters{Params: args.params},
 		Parent:     proc.ShellProcess,
+		Config:     proc.ShellProcess.Config.Copy(),
+		ScopedVars: proc.ShellProcess.ScopedVars.Copy(),
 	}
 	p.Scope = p
 

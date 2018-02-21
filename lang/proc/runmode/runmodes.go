@@ -10,5 +10,5 @@ const (
 	Normal RunMode = iota
 	Try
 	TryPipe
-	Evil
+	Shell
 )

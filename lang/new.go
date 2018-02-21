@@ -39,9 +39,16 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Id = caller.Id
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
-	container.RunMode = caller.RunMode
-	container.Config = caller.Config.Copy()
-	container.ScopedVars = caller.ScopedVars.Copy()
+
+	if caller.RunMode == runmode.Shell {
+		container.RunMode = runmode.Normal
+		container.Config = caller.Config
+		container.ScopedVars = caller.ScopedVars
+	} else {
+		container.RunMode = caller.RunMode
+		container.Config = caller.Config.Copy()
+		container.ScopedVars = caller.ScopedVars.Copy()
+	}
 
 	//debug.Json("container config:", container.Config.Dump())
 
@@ -83,14 +90,14 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 
 	// Support for different run modes:
 	switch container.RunMode {
-	case runmode.Normal:
+	case runmode.Normal, runmode.Shell:
 		exitNum = runModeNormal(&tree)
 	case runmode.Try:
 		exitNum = runModeTry(&tree)
 	case runmode.TryPipe:
 		exitNum = runModeTryPipe(&tree)
-	case runmode.Evil:
-		panic("Not yet implemented")
+	//case runmode.Evil:
+	//	panic("Not yet implemented")
 	default:
 		panic("Unknown run mode")
 	}

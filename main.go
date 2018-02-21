@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
@@ -51,9 +52,8 @@ func initEnv() {
 	proc.ShellProcess.Scope = proc.ShellProcess
 	proc.ShellProcess.Parent = proc.ShellProcess
 	proc.ShellProcess.Config = proc.InitConf.Copy()
-	//proc.ShellProcess.ScopedVars = proc.InitVars.Copy()
 	proc.ShellProcess.ScopedVars = types.NewVariableGroup()
-
+	proc.ShellProcess.RunMode = runmode.Shell
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
 	if err != nil {
