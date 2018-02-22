@@ -35,7 +35,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
+				RunBlockExistingNamespace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
@@ -79,7 +79,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				var array []string
 
 				stdout := streams.NewStdin()
-				ProcessNewBlock([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
+				RunBlockExistingNamespace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				stdout.Close()
 
 				stdout.ReadArray(func(b []byte) {
@@ -105,7 +105,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
 				stdout := streams.NewStdin()
-				ProcessNewBlock(block, nil, stdout, nil, prc)
+				RunBlockExistingNamespace(block, nil, stdout, nil, prc)
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {

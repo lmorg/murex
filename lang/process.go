@@ -137,7 +137,7 @@ executeProcess:
 		p.Scope = p
 		r, err = proc.MxFunctions.Block(p.Name)
 		if err == nil {
-			p.ExitNum, err = ProcessNewBlock(r, p.Stdin, p.Stdout, p.Stderr, p)
+			p.ExitNum, err = RunBlockNewNamespace(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
 	case p.Name[0] == '$':
@@ -156,7 +156,7 @@ executeProcess:
 			_, err = p.Stdout.Write([]byte(s))
 		default:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
-			ProcessNewBlock(block, p.Stdin, p.Stdout, p.Stderr, p)
+			RunBlockExistingNamespace(block, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
 	case proc.GoFunctions[p.Name] != nil:

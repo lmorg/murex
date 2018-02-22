@@ -26,7 +26,7 @@ func cmdTry(p *proc.Process) (err error) {
 
 	p.RunMode = runmode.Try
 
-	p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 	return
 }
 
@@ -40,7 +40,7 @@ func cmdTryPipe(p *proc.Process) (err error) {
 
 	p.RunMode = runmode.TryPipe
 
-	p.ExitNum, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 	return
 }
 
@@ -60,13 +60,13 @@ func cmdCatch(p *proc.Process) error {
 	p.ExitNum = p.Previous.ExitNum
 
 	if p.Previous.ExitNum != 0 && !p.IsNot {
-		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+		_, err = lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 		if err != nil {
 			return err
 		}
 
 	} else if p.Previous.ExitNum == 0 && p.IsNot {
-		_, err = lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+		_, err = lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 		if err != nil {
 			return err
 		}

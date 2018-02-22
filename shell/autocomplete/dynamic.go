@@ -43,7 +43,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
-	exitNum, err := lang.ProcessNewBlock(block, nil, stdout, stderr, p)
+	exitNum, err := lang.RunBlockExistingNamespace(block, nil, stdout, stderr, p)
 	stdout.Close()
 	stderr.Close()
 

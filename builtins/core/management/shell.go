@@ -105,7 +105,7 @@ func cmdSource(p *proc.Process) error {
 
 	p.RunMode = runmode.Shell
 
-	p.ExitNum, err = lang.ProcessNewBlock([]rune(string(b)), nil, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = lang.RunBlockShellNamespace([]rune(string(b)), nil, p.Stdout, p.Stderr)
 	return err
 }
 

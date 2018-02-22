@@ -2,6 +2,7 @@ package proc
 
 import (
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/runmode"
@@ -179,11 +180,17 @@ func (p *Process) VarDumpMap() map[string]interface{} {
 		m[pair[0]] = pair[1]
 	}
 
+	debug.Json("VarDumpMap()->envvars", m)
+
 	if p.Id != ShellProcess.Id {
 		ShellProcess.ScopedVars.DumpMap(m)
 	}
 
+	debug.Json("VarDumpMap()->ShellProcess", m)
+
 	p.ScopedVars.DumpMap(m)
+
+	debug.Json("VarDumpMap()->Proc", m)
 
 	return m
 }

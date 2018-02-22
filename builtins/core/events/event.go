@@ -180,7 +180,7 @@ func callback(evtName string, evtOp interface{}, evtDesc string, block []rune) {
 		}()*/
 
 		debug.Log("Event callback:", string(json), string(block))
-		_, err = lang.ProcessNewBlock(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, proc.ShellProcess)
+		_, err = lang.RunBlockShellNamespace(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr)
 		if err != nil {
 			ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
 			return

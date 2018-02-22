@@ -44,7 +44,7 @@ func (v *Vars) Dump() (obj jsonableVars) {
 
 // DumpMap exists so we can dump variables natively into `eval` and `let`.
 func (v *Vars) DumpMap(m map[string]interface{}) {
-	m = make(map[string]interface{})
+	//m = make(map[string]interface{})
 
 	for k, v := range v.values {
 		m[k] = v

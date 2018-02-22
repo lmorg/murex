@@ -133,7 +133,7 @@ func prompt() {
 			nLines = 1
 			merged = ""
 
-			lang.ShellExitNum, _ = lang.ProcessNewBlock(expanded, nil, nil, nil, proc.ShellProcess)
+			lang.ShellExitNum, _ = lang.RunBlockShellNamespace(expanded, nil, nil, nil)
 			streams.CrLf.Write()
 		}
 	}

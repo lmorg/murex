@@ -21,7 +21,7 @@ func getPrompt() {
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
-		exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
+		exitNum, err = lang.RunBlockShellNamespace([]rune(prompt.(string)), nil, out, nil)
 		out.Close()
 
 		b, err2 = out.ReadAll()
@@ -53,7 +53,7 @@ func getMultilinePrompt(nLines int) {
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
-		exitNum, err = lang.ProcessNewBlock([]rune(prompt.(string)), nil, out, nil, proc.ShellProcess)
+		exitNum, err = lang.RunBlockShellNamespace([]rune(prompt.(string)), nil, out, nil)
 		out.Close()
 
 		b, err2 = out.ReadAll()

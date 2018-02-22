@@ -42,7 +42,7 @@ func cmdFor(p *proc.Process) (err error) {
 	conditional := "eval " + parameters[1]
 	incremental := "let " + parameters[2]
 
-	_, err = lang.ProcessNewBlock([]rune(variable), nil, nil, p.Stderr, p)
+	_, err = lang.RunBlockExistingNamespace([]rune(variable), nil, nil, p.Stderr, p)
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func cmdFor(p *proc.Process) (err error) {
 		}
 
 		stdout := streams.NewStdin()
-		i, err := lang.ProcessNewBlock([]rune(conditional), nil, stdout, p.Stderr, p)
+		i, err := lang.RunBlockExistingNamespace([]rune(conditional), nil, stdout, p.Stderr, p)
 		stdout.Close()
 		if err != nil {
 			return err
@@ -68,10 +68,10 @@ func cmdFor(p *proc.Process) (err error) {
 		}
 
 		// Execute block.
-		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+		lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 
 		// Increment counter.
-		_, err = lang.ProcessNewBlock([]rune(incremental), nil, nil, p.Stderr, p)
+		_, err = lang.RunBlockExistingNamespace([]rune(incremental), nil, nil, p.Stderr, p)
 		if err != nil {
 			return err
 		}
@@ -126,7 +126,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		stdin.Writeln(b)
 		stdin.Close()
 
-		lang.ProcessNewBlock(block, stdin, p.Stdout, p.Stderr, p)
+		lang.RunBlockExistingNamespace(block, stdin, p.Stdout, p.Stderr, p)
 	})
 
 	return err
@@ -166,7 +166,7 @@ func cmdForMap(p *proc.Process) error {
 		p.ScopedVars.Set(varKey, key, types.String)
 		p.ScopedVars.Set(varVal, value, dt)
 
-		lang.ProcessNewBlock(block, nil, p.Stdout, p.Stderr, p)
+		lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 	})
 
 	return err
@@ -189,7 +189,7 @@ func cmdWhile(p *proc.Process) error {
 			}
 
 			stdout := streams.NewStdin()
-			i, err := lang.ProcessNewBlock(block, nil, stdout, p.Stderr, p)
+			i, err := lang.RunBlockExistingNamespace(block, nil, stdout, p.Stderr, p)
 			stdout.Close()
 			if err != nil {
 				return err
@@ -231,7 +231,7 @@ func cmdWhile(p *proc.Process) error {
 			}
 
 			stdout := streams.NewStdin()
-			i, err := lang.ProcessNewBlock(ifBlock, nil, stdout, nil, p)
+			i, err := lang.RunBlockExistingNamespace(ifBlock, nil, stdout, nil, p)
 			stdout.Close()
 			if err != nil {
 				return err
@@ -247,7 +247,7 @@ func cmdWhile(p *proc.Process) error {
 				return nil
 			}
 
-			lang.ProcessNewBlock(whileBlock, nil, p.Stdout, p.Stderr, p)
+			lang.RunBlockExistingNamespace(whileBlock, nil, p.Stdout, p.Stderr, p)
 		}
 
 	default:

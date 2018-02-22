@@ -3,6 +3,7 @@ package lang
 import (
 	"errors"
 
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
@@ -15,13 +16,31 @@ import (
 // ShellExitNum is for when running murex in interactive shell mode
 var ShellExitNum int
 
-/*func NewFunctionScope(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
-	return processNewBlock(block, stdin, stdout, stderr, caller)
+// RunBlockShellNamespace is used for calling code blocks using the shell's
+// namespace. eg `source` or commands initiated inside the interactive shell
+func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
+	return processNewBlock(
+		block, stdin, stdout, stderr,
+		proc.ShellProcess, proc.ShellProcess.ScopedVars, proc.ShellProcess.Config,
+	)
 }
 
-func NewCodeBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
-	processNewBlock(block, stdin, stdout, stderr, caller)
-}*/
+// RunBlockNewNamespace is for spawning new murex functions. eg `func {}`
+func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+	return processNewBlock(
+		block, stdin, stdout, stderr,
+		caller, caller.ScopedVars.Copy(), caller.Config.Copy(),
+	)
+}
+
+// RunBlockExistingNamespace is for code blocks as parameters (eg `if {}`,
+// `try {}` etc) or inlining code blocks (eg `out @{g *}`)
+func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+	return processNewBlock(
+		block, stdin, stdout, stderr,
+		caller, caller.ScopedVars.Copy(), caller.Config,
+	)
+}
 
 // processNewBlock parses new block and execute the code.
 // Inputs are:
@@ -32,7 +51,7 @@ func NewCodeBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Pro
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
 //func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *types.Vars) (exitNum int, err error) {
-func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *types.Vars, conf *config.Config) (exitNum int, err error) {
 	debug.Log(string(block))
 
 	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
@@ -49,7 +68,14 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
 
+	container.ScopedVars = vars
+	container.Config = conf
+
 	if caller.RunMode == runmode.Shell {
+		container.RunMode = runmode.Normal
+	}
+
+	/*if caller.RunMode == runmode.Shell {
 		container.RunMode = runmode.Normal
 		container.Config = caller.Config
 		container.ScopedVars = caller.ScopedVars
@@ -57,7 +83,7 @@ func ProcessNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		container.RunMode = caller.RunMode
 		container.Config = caller.Config.Copy()
 		container.ScopedVars = caller.ScopedVars.Copy()
-	}
+	}*/
 
 	//debug.Json("container config:", container.Config.Dump())
 
