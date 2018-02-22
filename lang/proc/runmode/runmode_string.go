@@ -4,9 +4,9 @@ package runmode
 
 import "strconv"
 
-const _RunMode_name = "ShellNormalTryTryPipeEvil"
+const _RunMode_name = "NormalShellTryTryPipeEvil"
 
-var _RunMode_index = [...]uint8{0, 5, 11, 14, 21, 25}
+var _RunMode_index = [...]uint8{0, 6, 11, 14, 21, 25}
 
 func (i RunMode) String() string {
 	if i < 0 || i >= RunMode(len(_RunMode_index)-1) {

@@ -17,11 +17,20 @@ import (
 var ShellExitNum int
 
 // RunBlockShellNamespace is used for calling code blocks using the shell's
-// namespace. eg `source` or commands initiated inside the interactive shell
+// namespace. eg commands initiated inside the interactive shell
 func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		proc.ShellProcess, proc.ShellProcess.ScopedVars, proc.ShellProcess.Config,
+	)
+}
+
+// RunBlockParentNamespace is used for calling code blocks using the parent's
+// namespace. eg `source`
+func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+	return processNewBlock(
+		block, stdin, stdout, stderr,
+		proc.ShellProcess, caller.ScopedVars, caller.Config,
 	)
 }
 
@@ -67,13 +76,15 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Id = caller.Id
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
-
+	container.RunMode = caller.RunMode
 	container.ScopedVars = vars
 	container.Config = conf
 
-	if caller.RunMode == runmode.Shell {
+	/*if caller.RunMode == runmode.Shell {
 		container.RunMode = runmode.Normal
-	}
+	} else {
+		container.RunMode = caller.RunMode
+	}*/
 
 	/*if caller.RunMode == runmode.Shell {
 		container.RunMode = runmode.Normal
