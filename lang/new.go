@@ -80,24 +80,6 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.ScopedVars = vars
 	container.Config = conf
 
-	/*if caller.RunMode == runmode.Shell {
-		container.RunMode = runmode.Normal
-	} else {
-		container.RunMode = caller.RunMode
-	}*/
-
-	/*if caller.RunMode == runmode.Shell {
-		container.RunMode = runmode.Normal
-		container.Config = caller.Config
-		container.ScopedVars = caller.ScopedVars
-	} else {
-		container.RunMode = caller.RunMode
-		container.Config = caller.Config.Copy()
-		container.ScopedVars = caller.ScopedVars.Copy()
-	}*/
-
-	//debug.Json("container config:", container.Config.Dump())
-
 	if caller.Name == proc.ShellProcess.Name {
 		container.ExitNum = ShellExitNum
 	}

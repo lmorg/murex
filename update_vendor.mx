@@ -8,51 +8,59 @@ func pull {
 	go get $src
 }
 
-# required
-#pull github.com/chzyer/readline
-#pull github.com/gohxs/readline
-pull github.com/lmorg/readline
-pull github.com/Knetic/govaluate
-pull github.com/phayes/permbits
+try {
+	# required
+	#pull github.com/chzyer/readline
+	#pull github.com/gohxs/readline
+	pull github.com/lmorg/readline
+	pull github.com/Knetic/govaluate
+	pull github.com/phayes/permbits
 
-# events
-pull github.com/fsnotify/fsnotify
+	# events
+	pull github.com/fsnotify/fsnotify
 
-# custom types:
-pull labix.org/v2/mgo/bson
-pull github.com/abesto/sexp
-pull gopkg.in/yaml.v2
-pull github.com/BurntSushi/toml
-pull github.com/hashicorp/hcl
-pull github.com/lmorg/apachelogs
+	# custom types:
+	pull labix.org/v2/mgo/bson
+	pull github.com/abesto/sexp
+	pull gopkg.in/yaml.v2
+	pull github.com/BurntSushi/toml
+	pull github.com/hashicorp/hcl
+	pull github.com/lmorg/apachelogs
 
-# terminal imaging:
-pull github.com/eliukblau/pixterm
-pull github.com/lucasb-eyer/go-colorful
-pull github.com/disintegration/imaging
-pull golang.org/x/crypto/ssh/terminal
-pull golang.org/x/image/bmp
-pull golang.org/x/image/tiff
-pull golang.org/x/image/webp
-pull github.com/boombuler/barcode
+	# terminal imaging:
+	pull github.com/eliukblau/pixterm
+	pull github.com/lucasb-eyer/go-colorful
+	pull github.com/disintegration/imaging
+	pull golang.org/x/crypto/ssh/terminal
+	pull golang.org/x/image/bmp
+	pull golang.org/x/image/tiff
+	pull golang.org/x/image/webp
+	pull github.com/boombuler/barcode
 
-out Purging surplus git directories....
-find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \;
+	out Purging surplus git directories....
+	find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \;
 
-out Purging surplus bzr directories....
-find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
+	out Purging surplus bzr directories....
+	find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
 
-out Purging pkg (no longer needed)....
-rm <!null> -rf $GOPATH/pkg
-rm <!null> -rf $GOPATH/bin
+	out Purging pkg (no longer needed)....
+	rm <!null> -rf $GOPATH/pkg
+	rm <!null> -rf $GOPATH/bin
 
-out Purging historic vendor.old....
-rm <!null> -rf $GOPATH/vendor.old
+	out Purging historic vendor.old....
+	rm <!null> -rf $GOPATH/vendor.old
 
-out Applying change....
-mv <!null> $GOPATH/vendor $GOPATH/vendor.old
-mv $GOPATH/src $GOPATH/vendor
-cd $GOPATH/vendor; find <!null> . -name "vendor" -exec rm -rf {} \;
-git <!null> add $GOPATH/vendor
+	out Applying change....
+	mv <!null> $GOPATH/vendor $GOPATH/vendor.old
+	mv $GOPATH/src $GOPATH/vendor
+	cd $GOPATH/vendor; find <!null> . -name "vendor" -exec rm -rf {} \;
+	git <!null> add $GOPATH/vendor
 
-git status $GOPATH/vendor
+	git status $GOPATH/vendor
+
+} -> catch {
+	out "Update failed. Rolling back changes...."
+	rm -rf $GOPATH/pkg
+	rm -rf $GOPATH/bin
+	git status
+}
