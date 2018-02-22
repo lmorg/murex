@@ -7,8 +7,8 @@ import (
 	"testing"
 )
 
-// TestMan tests the builtins package
-func TestMan(t *testing.T) {
+// TestHome tests the home directories can be derived
+func TestHome(t *testing.T) {
 	if MyDir == "" {
 		t.Log("MyDir not set (murex will still function)")
 	}

@@ -1,10 +1,8 @@
 package main
 
 import (
-	"testing"
-
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
+	"testing"
 )
 
 // TestMurex tests murex runtime environment can be initialised and and simple
@@ -12,13 +10,9 @@ import (
 func TestMurex(t *testing.T) {
 	initEnv()
 
-	_, err := lang.ProcessNewBlock(
-		[]rune("a [Mon..Fri]->regexp <null> m/^T/"),
-		nil,
-		nil,
-		nil,
-		proc.ShellProcess,
-	)
+	block := []rune("a [Mon..Fri]->regexp <null> m/^T/")
+
+	_, err := lang.RunBlockShellNamespace(block, nil, nil, nil)
 
 	if err != nil {
 		t.Error(err.Error())

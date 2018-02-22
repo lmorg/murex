@@ -40,7 +40,7 @@ type Process struct {
 	NamedPipeErr       string
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
-	State              state.FunctionStates
+	State              state.FunctionState
 	IsBackground       bool
 	LineNumber         int
 	ColNumber          int

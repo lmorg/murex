@@ -1,13 +1,13 @@
 package state
 
-//go:generate stringer -type=FunctionStates
+//go:generate stringer -type=FunctionState
 
 // FunctionStates is what the point along the murex pipeline a proc.Process is at
-type FunctionStates int
+type FunctionState int
 
-// The different states available to FunctionStates:
+// The different states available to FunctionState:
 const (
-	Undefined FunctionStates = iota
+	Undefined FunctionState = iota
 	MemAllocated
 	Assigned
 	Starting
