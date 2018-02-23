@@ -1,21 +1,22 @@
 # _murex_ reference documents
 
-## builtin function: trypipe
+## Builtin function: trypipe
 
 > Checks state of each function in a pipeline and exits block on error
 
 ### Description
 
-`trypipe` checked the state of each function and exits the pipe if any of them
-fail. Where `trypipe` differs from a regular `try` block is that `trypipe` will
-check every process along the pipeline as well as the terminating function. The
-downside to this is that the piped functions can no longer run in parallel.
+`trypipe` checks the state of each function and exits the block if any of them
+fail. Where `trypipe` differs from regular `try` blocks is `trypipe` will check
+every process along the pipeline as well as the terminating function (which
+`try` only validates against). The downside to this is that piped functions can
+no longer run in parallel.
 
 ### Example
 
     trypipe {
         out: "Hello, World!" -> grep: "non-existent string" -> cat
-        out: "This process will be ignored"
+        out: "This command will be ignored"
     }
 
 ### Detail
@@ -30,7 +31,7 @@ command.
 
 ### See also
 
-* [trypipe](trypipe.md): Checks state of each function in a pipeline and exits block on error
+* [try](try.md): Handles errors inside a block of code
 * evil
-* catch
+* [catch](catch.md): Handles the exception code raised by `try` or `trypipe`
 * fid-list
