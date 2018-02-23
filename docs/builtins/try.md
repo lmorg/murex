@@ -25,7 +25,8 @@ command:
 
 ### See also
 
-* trypipe
+* [trypipe](trypipe): Checks state of each function in a pipeline and exits block on error
+
 * evil
 * catch
 * fid-list

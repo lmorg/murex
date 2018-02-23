@@ -55,7 +55,7 @@ func write(filename, funcname string) {
 				cmd = "[" + rel + "](" + rel + ")"
 			}
 
-			out("* " + rel + digest + "\n")
+			out("* " + cmd + digest + "\n")
 		}
 	}
 }
