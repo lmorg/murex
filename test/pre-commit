@@ -16,13 +16,13 @@ ctrl_c() {
 }
 
 echo "Updating auto-generated code...."
-go generate ./... || (echo "go generate failed"; exit 1)
+go generate ./... || exit 1
 
 echo "Compiling gen-murex-docs...."
-go install github.com/lmorg/murex/utils/gen-murex-docs || (echo "go install failed"; exit 1)
+go install github.com/lmorg/murex/utils/gen-murex-docs || exit 1
 
 echo "Compiling Murex docs...."
-gen-murex-docs -v -src builtins -dest $docs || (echo "Failed to write docs"; exit 1)
+gen-murex-docs -v -src builtins -dest $docs || exit 1
 
 echo "Updating git...."
 find -name "*_string.go" -exec git add -v {} \;

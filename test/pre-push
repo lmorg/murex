@@ -13,12 +13,12 @@ ctrl_c() {
 }
 
 echo "Starting Go tests...."
-go test ./...  || (echo "go test failed"; exit 1)
+go test ./...  || exit 1
 
 echo "Compiling Murex...."
-go build github.com/lmorg/murex || (echo "go build failed"; exit 1)
+go build github.com/lmorg/murex || exit 1
 
 echo "Starting Murex tests...."
-test/regression_test.sh || (echo "Please manually run test/regression_test.sh for details"; exit 1)
+test/regression_test.sh || exit 1
 
 echo "Allowing git push to proceed...."
