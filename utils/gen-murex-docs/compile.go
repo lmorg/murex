@@ -52,7 +52,7 @@ func write(filename, funcname string) {
 			cmd := rel
 			if Digest[rel] != "" {
 				digest = ": " + Digest[rel]
-				cmd = "[" + rel + "](" + rel + ")"
+				cmd = "[" + rel + "](" + rel + ".md)"
 			}
 
 			out("* " + cmd + digest + "\n")

@@ -4,7 +4,6 @@
 
 > Exit block when error found. Similar in function to Bash's `set -e`
 
-
 `try` forces a different execution behaviour where a failed process at the end
 of a pipeline will cause the block to terminate regardless of any functions that
 might follow.
@@ -22,11 +21,9 @@ A failure is determined by:
 You can see which run mode your functions are executing under via the `fid-list`
 command:
 
-
 ### See also
 
-* [trypipe](trypipe): Checks state of each function in a pipeline and exits block on error
-
+* [trypipe](trypipe.md): Checks state of each function in a pipeline and exits block on error
 * evil
 * catch
 * fid-list

@@ -18,8 +18,6 @@ func init() {
 	proc.GoFunctions["ttyfd"] = cmdTtyFd
 }
 
-//var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
-
 func cmdPipeTelemetry(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)

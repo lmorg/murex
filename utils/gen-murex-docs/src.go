@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func scanSrc(src string) {
@@ -37,14 +38,14 @@ func walkCallback(path string, f os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		Define[name] = string(b)
+		Define[name] = strings.TrimSpace(string(b))
 
 	case ".dig":
 		b, err := ioutil.ReadFile(path)
 		if err != nil {
 			return err
 		}
-		Digest[name] = string(b)
+		Digest[name] = strings.TrimSpace(string(b))
 
 	case ".rel":
 		s, err := readLines(path)
@@ -68,7 +69,7 @@ func readLines(filename string) ([]string, error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		s = append(s, scanner.Text())
+		s = append(s, strings.TrimSpace(scanner.Text()))
 	}
 
 	if err := scanner.Err(); err != nil {

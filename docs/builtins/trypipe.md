@@ -4,7 +4,6 @@
 
 > Checks state of each function in a pipeline and exits block on error
 
-
 `trypipe` checked the state of each function and exits the pipe if any of them
 fail. Where `trypipe` differs from a regular `try` block is that `trypipe` will
 check every process along the pipeline as well as the terminating function. The
@@ -23,11 +22,9 @@ A failure is determined by:
 You can see which run mode your functions are executing under via the `fid-list`
 command.
 
-
 ### See also
 
-* [trypipe](trypipe): Checks state of each function in a pipeline and exits block on error
-
+* [trypipe](trypipe.md): Checks state of each function in a pipeline and exits block on error
 * evil
 * catch
 * fid-list
