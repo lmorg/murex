@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# To install:
+# ln -sv $GOPATH/src/github.com/lmorg/murex/test/pre-push .git/hooks/
+
+cd $GOPATH/src/github.com/lmorg/murex
+
+trap ctrl_c INT
+
+ctrl_c() {
+  printf "\n\033[0;31m[PUSH CANCELLED]\033[0m\n"
+  exit 1
+}
+
+echo "Updating auto-generated code...."
+go generate ./... || (echo "go generate failed"; exit 1)
+
+echo "Starting Go tests...."
+go test ./...  || (echo "go test failed"; exit 1)
+
+echo "Compiling Murex...."
+go build github.com/lmorg/murex || (echo "go build failed"; exit 1)
+
+echo "Starting Murex tests...."
+test/regression_test.sh || (echo "Please manually run test/regression_test.sh for details"; exit 1)
+
+echo "Allowing git push to proceed...."

@@ -9,7 +9,8 @@ repstimeout="20"
 
 i=1
 failed=0
-TTY=$(tty)
+TTY=/dev/null
+tty && TTY=$(tty)
 
 NC='\033[0m'
 PASSED="\033[0;32m[PASSED]$NC"
@@ -26,8 +27,8 @@ if [[ $(which timeout >/dev/null 2>&1; echo $?) != 0 ]]; then
 fi
 
 ctrl_c() {
-        printf "\n\033[0;31m[TESTS TERMINATED BY USER]$NC\n"
-        exit 1
+    printf "\n\033[0;31m[TESTS TERMINATED BY USER]$NC\n"
+    exit 1
 }
 
 shell() {
@@ -40,12 +41,13 @@ shell() {
 }
 
 check() {
+    [ "$TTY" == "/dev/null" ] && printf "[%3d] " $i
     in=$(cat)
     comp="$(echo -e "$1")"
     if [[ "$in" == "$comp" ]]; then
-        printf "$PASSED\n"
+        printf "${PASSED}\n"
     else
-        printf "$UNEXPECTED\n"
+        printf "${UNEXPECTED}\n"
         return 1
     fi
 }
@@ -59,17 +61,15 @@ reps() {
 }
 
 checkreps() {
+    [ "$TTY" == "/dev/null" ] && printf "[%3d] " $i
     in=$(cat)
     if [[ "$in" == "$1" ]]; then
-        printf "$PASSED\n"
+        printf "${PASSED}\n"
     else
-        printf "$ONLYMANAGED $in]$NC\n"
+        printf "${ONLYMANAGED} $in]$NC\n"
         return 1
     fi
 }
-
-#cat /etc/*-release
-#sleep 2
 
 while true; do
     case $i in
