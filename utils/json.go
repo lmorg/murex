@@ -14,20 +14,9 @@ const JsonNoData = "No data returned."
 // or not. This is so that the output is human readable when output for a human but a single line machine readable
 // formatting for better support with iteration / concatenation when output to system functions.
 func JsonMarshal(v interface{}, isTTY bool) (b []byte, err error) {
-
-	marshal := func(v interface{}) (b []byte, err error) {
-		if isTTY {
-			b, err = json.MarshalIndent(v, "", "    ")
-			return
-		}
-
-		b, err = json.Marshal(v)
-		return
-	}
-
-	b, err = marshal(v)
+	b, err = marshal(v, isTTY)
 	if err != nil && strings.Contains(err.Error(), "unsupported type: map[interface {}]interface {}") {
-		b, err = marshal(deinterface(v))
+		b, err = marshal(deinterface(v), isTTY)
 	}
 
 	if err != nil {
@@ -42,10 +31,19 @@ func JsonMarshal(v interface{}, isTTY bool) (b []byte, err error) {
 	return
 }
 
+// marshal is a JSON marshaller which auto indents if output is a TTY
+func marshal(v interface{}, isTTY bool) (b []byte, err error) {
+	if isTTY {
+		b, err = json.MarshalIndent(v, "", "    ")
+		return
+	}
+
+	b, err = json.Marshal(v)
+	return
+}
+
 // deinterface is used to fudge around the lack of support for `map[interface{}]interface{}` in Go's JSON marshaller.
 func deinterface(v interface{}) interface{} {
-	fmt.Println("######################")
-
 	switch t := v.(type) {
 	case map[interface{}]interface{}:
 		newV := make(map[string]interface{})

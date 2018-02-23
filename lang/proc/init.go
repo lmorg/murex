@@ -31,7 +31,7 @@ func InitEnv() {
 	s, _ := os.Getwd()
 	pwd := []string{s}
 	//if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
-	if b, err := utils.JsonMarshal(&pwd, true); err == nil {
+	if b, err := utils.JsonMarshal(&pwd, false); err == nil {
 		ShellProcess.ScopedVars.Set("PWDHIST", string(b), types.Json)
 	}
 }
