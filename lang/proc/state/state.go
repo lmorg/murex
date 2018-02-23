@@ -2,7 +2,7 @@ package state
 
 //go:generate stringer -type=FunctionState
 
-// FunctionStates is what the point along the murex pipeline a proc.Process is at
+// FunctionState is what the point along the murex pipeline a proc.Process is at
 type FunctionState int
 
 // The different states available to FunctionState:

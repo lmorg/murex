@@ -12,7 +12,6 @@ import (
 func allowAnsi() bool {
 	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
 	if err != nil {
-		panic(err)
 		return false
 	}
 	return v.(bool)

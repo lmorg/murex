@@ -180,17 +180,17 @@ func (p *Process) VarDumpMap() map[string]interface{} {
 		m[pair[0]] = pair[1]
 	}
 
-	debug.Json("VarDumpMap()->envvars", m)
+	//debug.Json("VarDumpMap()->envvars", m)
 
 	if p.Id != ShellProcess.Id {
 		ShellProcess.ScopedVars.DumpMap(m)
 	}
 
-	debug.Json("VarDumpMap()->ShellProcess", m)
+	//debug.Json("VarDumpMap()->ShellProcess", m)
 
 	p.ScopedVars.DumpMap(m)
 
-	debug.Json("VarDumpMap()->Proc", m)
+	//debug.Json("VarDumpMap()->Proc", m)
 
 	return m
 }
