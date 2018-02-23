@@ -7,7 +7,6 @@ import (
 	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
-	"regexp"
 	"time"
 )
 
