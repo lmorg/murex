@@ -56,7 +56,7 @@ for examples.
 
 ## try
 
-This will force a different execution behavior. All pipelined processes
+This will force a different execution behaviour. All pipelined processes
 will become sequential (unlike normally when they run in parallel) and
 any exit numbers not equal to zero (0) will terminate the code block.
 This also includes `if` statements so be very careful to include an else

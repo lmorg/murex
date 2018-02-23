@@ -2,6 +2,9 @@
 murex
 murex.exe
 murex.upx
+gen-murex-docs
+gen-murex-docs.exe
+gen-murex-docs.upx
 
 # IntelliJ env
 .idea/

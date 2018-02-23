@@ -19,57 +19,7 @@ func init() {
 	proc.GoFunctions["ttyfd"] = cmdTtyFd
 }
 
-var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
-
-/*func cmdText(p *proc.Process) error {
-	filename, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-
-	var ext string
-	match := rxExt.FindAllStringSubmatch(filename, -1)
-	if len(match) > 0 && len(match[0]) > 1 {
-		ext = strings.ToLower(match[0][1])
-	}
-
-	dt := define.GetExtType(ext)
-	//if dt == "" {
-	//	p.Stdout.SetDataType(types.String)
-	//} else {
-	p.Stdout.SetDataType(dt)
-	//}
-
-	for _, filename := range p.Parameters.StringArray() {
-		file, err := os.Open(filename)
-		if err != nil {
-			return err
-		}
-
-		if len(filename) > 3 && strings.ToLower(filename[len(filename)-3:]) == ".gz" {
-			gz, err := gzip.NewReader(file)
-			if err != nil {
-				file.Close()
-				return err
-			}
-			_, err = io.Copy(p.Stdout, gz)
-			file.Close()
-			if err != nil {
-				return err
-			}
-
-		} else {
-			_, err = io.Copy(p.Stdout, file)
-			file.Close()
-			if err != nil {
-				return err
-			}
-
-		}
-	}
-
-	return nil
-}*/
+//var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
 
 func cmdPipeTelemetry(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()

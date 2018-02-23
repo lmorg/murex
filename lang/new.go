@@ -76,12 +76,14 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Id = caller.Id
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
-	container.RunMode = caller.RunMode
 	container.ScopedVars = vars
 	container.Config = conf
 
-	if caller.Name == proc.ShellProcess.Name {
+	//if caller.Name == proc.ShellProcess.Name {
+	if caller.Id == proc.ShellProcess.Id {
 		container.ExitNum = ShellExitNum
+	} else {
+		container.RunMode = caller.RunMode
 	}
 
 	if stdin != nil {

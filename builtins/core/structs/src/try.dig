@@ -1,0 +1,1 @@
+Exit block when error found. Similar in function to Bash's `set -e`

@@ -3,6 +3,9 @@
 # To install:
 # ln -sv $GOPATH/src/github.com/lmorg/murex/test/pre-push .git/hooks/
 
+PATH=$PATH:$GOPATH/bin
+docs=docs/builtins
+
 cd $GOPATH/src/github.com/lmorg/murex
 
 trap ctrl_c INT
@@ -23,5 +26,14 @@ go build github.com/lmorg/murex || (echo "go build failed"; exit 1)
 
 echo "Starting Murex tests...."
 test/regression_test.sh || (echo "Please manually run test/regression_test.sh for details"; exit 1)
+
+echo "Compiling gen-murex-docs...."
+go install github.com/lmorg/murex/utils/gen-murex-docs || (echo "go install failed"; exit 1)
+
+echo "Compiling Murex docs...."
+gen-murex-docs -v -src builtins -dest $docs || (echo "Failed to write docs"; exit 1)
+
+echo "Updating git...."
+git add $docs || (echo "git failed to add $docs"; exit 1)
 
 echo "Allowing git push to proceed...."

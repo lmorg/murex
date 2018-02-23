@@ -1,0 +1,1 @@
+Checks state of each function in a pipeline and exits block on error
