@@ -1,0 +1,26 @@
+### Description
+
+`catch` is designed to be used in conjunction with `try` and `trypipe` as it
+handles the exceptions raised by the aforementioned.
+
+### example
+
+    try {
+        out: "Hello, World!" -> grep: "non-existent string"
+        out: "This command will be ignored"
+    }
+
+    catch {
+        out: "An error was caught"
+    }
+
+    !catch {
+        out: "No errors were raised"
+    }
+
+### Detail
+
+`catch` can be used with a bang prefix to check for a lack of errors.
+
+`catch` forwards on the STDIN and exit number of the calling function. Thus it
+can be used as part of a pipeline: `try { command } -> catch { command }`.
