@@ -3,7 +3,7 @@ package defaults
 // DefaultMurexProfile is basically just the contents of the example murex_profile but wrapped up in Go code so it can
 // be compiled into the portable executable. This is also done to make things a little more user friendly out of the box
 // ie people don't need to create their own ~/.murex_profile nor `source` the file in /examples.
-var DefaultMurexProfile string = `
+const DefaultMurexProfile string = `
 # This is an example murex profile.
 #
 # This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via ` + "`source`" + `:

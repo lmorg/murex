@@ -2,7 +2,6 @@ package main
 
 import (
 	"compress/gzip"
-	"encoding/json"
 	"io/ioutil"
 	"os"
 
@@ -11,9 +10,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/runmode"
-	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -23,7 +19,7 @@ import (
 func main() {
 	readFlags()
 
-	initEnv()
+	proc.InitEnv()
 
 	switch {
 	case fCommand != "":
@@ -43,30 +39,6 @@ func main() {
 	}
 
 	debug.Log("[FIN]")
-}
-
-func initEnv() {
-	proc.ShellProcess.State = state.Executing
-	proc.ShellProcess.Name = os.Args[0]
-	proc.ShellProcess.Parameters.Params = os.Args[1:]
-	proc.ShellProcess.Scope = proc.ShellProcess
-	proc.ShellProcess.Parent = proc.ShellProcess
-	proc.ShellProcess.Config = proc.InitConf.Copy()
-	proc.ShellProcess.ScopedVars = types.NewVariableGroup()
-	proc.ShellProcess.RunMode = runmode.Shell
-	// Sets $SHELL to be murex
-	shellEnv, err := utils.Executable()
-	if err != nil {
-		shellEnv = proc.ShellProcess.Name
-	}
-	os.Setenv("SHELL", shellEnv)
-
-	// Pre-populate $PWDHIST with current working directory
-	s, _ := os.Getwd()
-	pwd := []string{s}
-	if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
-		proc.ShellProcess.ScopedVars.Set("PWDHIST", string(b), types.Json)
-	}
 }
 
 func diskSource(filename string) []rune {

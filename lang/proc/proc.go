@@ -2,7 +2,6 @@ package proc
 
 import (
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/runmode"
