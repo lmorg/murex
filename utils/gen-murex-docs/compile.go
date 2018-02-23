@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-const heading = "# _murex_ command reference\n\n"
+const heading = "# _murex_ reference documents\n\n"
 
 func compile(dest string) error {
 	for name := range Define {
@@ -36,7 +36,7 @@ func write(filename, funcname string) {
 	}
 
 	out(heading)
-	out("## " + funcname + "\n\n")
+	out("## builtin function: " + funcname + "\n\n")
 
 	if Digest[funcname] != "" {
 		out("> " + Digest[funcname] + "\n\n")

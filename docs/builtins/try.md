@@ -1,17 +1,23 @@
-# _murex_ command reference
+# _murex_ reference documents
 
-## try
+## builtin function: try
 
 > Exit block when error found. Similar in function to Bash's `set -e`
+
+### Description
 
 `try` forces a different execution behaviour where a failed process at the end
 of a pipeline will cause the block to terminate regardless of any functions that
 might follow.
 
+### example
+
     try {
         out: "Hello, World!" -> grep: "non-existent string"
         out: "This process will be ignored"
     }
+
+### Detail
 
 A failure is determined by:
 

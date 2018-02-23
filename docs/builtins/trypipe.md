@@ -1,18 +1,24 @@
-# _murex_ command reference
+# _murex_ reference documents
 
-## trypipe
+## builtin function: trypipe
 
 > Checks state of each function in a pipeline and exits block on error
+
+### Description
 
 `trypipe` checked the state of each function and exits the pipe if any of them
 fail. Where `trypipe` differs from a regular `try` block is that `trypipe` will
 check every process along the pipeline as well as the terminating function. The
 downside to this is that the piped functions can no longer run in parallel.
 
+### Example
+
     trypipe {
         out: "Hello, World!" -> grep: "non-existent string" -> cat
         out: "This process will be ignored"
     }
+
+### Detail
 
 A failure is determined by:
 
