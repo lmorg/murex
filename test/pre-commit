@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# To install:
+# ln -sv $GOPATH/src/github.com/lmorg/murex/test/pre-commit .git/hooks/
+
+PATH=$PATH:$GOPATH/bin
+docs=docs/builtins
+
+cd $GOPATH/src/github.com/lmorg/murex
+
+trap ctrl_c INT
+
+ctrl_c() {
+  printf "\n\033[0;31m[COMMIT CANCELLED]\033[0m\n"
+  exit 1
+}
+
+echo "Updating auto-generated code...."
+go generate ./... || (echo "go generate failed"; exit 1)
+
+echo "Compiling gen-murex-docs...."
+go install github.com/lmorg/murex/utils/gen-murex-docs || (echo "go install failed"; exit 1)
+
+echo "Compiling Murex docs...."
+gen-murex-docs -v -src builtins -dest $docs || (echo "Failed to write docs"; exit 1)
+
+echo "Updating git...."
+find -name "*_string.go" -exec git add -v {} \;
+git add -v $docs
+
+echo "Allowing git commit to proceed...."
