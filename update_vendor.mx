@@ -36,33 +36,32 @@ try {
 	pull golang.org/x/image/tiff
 	pull golang.org/x/image/webp
 	pull github.com/boombuler/barcode
+
+}; catch {
+	out "Update failed. Rolling back changes...."
+	rm -rf $GOPATH/pkg
+	rm -rf $GOPATH/bin
+	git status
+
+}; !catch {
+	out Purging surplus git directories....
+	find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \;
+
+	out Purging surplus bzr directories....
+	find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
+
+	out Purging pkg (no longer needed)....
+	rm <!null> -rf $GOPATH/pkg
+	rm <!null> -rf $GOPATH/bin
+
+	out Purging historic vendor.old....
+	rm <!null> -rf $GOPATH/vendor.old
+
+	out Applying change....
+	mv <!null> $GOPATH/vendor $GOPATH/vendor.old
+	mv $GOPATH/src $GOPATH/vendor
+	cd $GOPATH/vendor; find <!null> . -name "vendor" -exec rm -rf {} \;
+	git <!null> add $GOPATH/vendor
+
+	git status $GOPATH/vendor
 }
-
-out Purging surplus git directories....
-find <!null> $GOPATH/src -type d -name *.git -exec rm -rf {} \;
-
-out Purging surplus bzr directories....
-find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
-
-out Purging pkg (no longer needed)....
-rm <!null> -rf $GOPATH/pkg
-rm <!null> -rf $GOPATH/bin
-
-out Purging historic vendor.old....
-rm <!null> -rf $GOPATH/vendor.old
-
-out Applying change....
-mv <!null> $GOPATH/vendor $GOPATH/vendor.old
-mv $GOPATH/src $GOPATH/vendor
-cd $GOPATH/vendor; find <!null> . -name "vendor" -exec rm -rf {} \;
-git <!null> add $GOPATH/vendor
-
-git status $GOPATH/vendor
-
-
-#!if { exitnum }{
-#	out "Update failed. Rolling back changes...."
-#	rm -rf $GOPATH/pkg
-#	rm -rf $GOPATH/bin
-#	git status
-#}
