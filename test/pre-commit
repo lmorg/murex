@@ -22,6 +22,7 @@ echo "Compiling gen-murex-docs...."
 go install github.com/lmorg/murex/utils/gen-murex-docs || exit 1
 
 echo "Compiling Murex docs...."
+rm $docs/*
 gen-murex-docs -v -src builtins -dest $docs || exit 1
 
 echo "Updating git...."

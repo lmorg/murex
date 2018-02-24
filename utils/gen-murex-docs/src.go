@@ -38,21 +38,21 @@ func walkCallback(path string, f os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		Define[name] = strings.TrimSpace(string(b))
+		define[name] = strings.TrimSpace(string(b))
 
 	case ".dig":
 		b, err := ioutil.ReadFile(path)
 		if err != nil {
 			return err
 		}
-		Digest[name] = strings.TrimSpace(string(b))
+		digest[name] = strings.TrimSpace(string(b))
 
 	case ".rel":
 		s, err := readLines(path)
 		if err != nil {
 			return err
 		}
-		Related[name] = s
+		related[name] = s
 	}
 
 	return nil

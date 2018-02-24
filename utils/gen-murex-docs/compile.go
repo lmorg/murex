@@ -8,7 +8,7 @@ import (
 const heading = "# _murex_ reference documents\n\n"
 
 func compile(dest string) error {
-	for name := range Define {
+	for name := range define {
 		write(dest+"/"+name+".md", name)
 	}
 
@@ -16,7 +16,7 @@ func compile(dest string) error {
 }
 
 func write(filename, funcname string) {
-	if Verbose {
+	if verbose {
 		fmt.Println("Writing " + filename)
 	}
 
@@ -38,24 +38,24 @@ func write(filename, funcname string) {
 	out(heading)
 	out("## Builtin function: " + funcname + "\n\n")
 
-	if Digest[funcname] != "" {
-		out("> " + Digest[funcname] + "\n\n")
+	if digest[funcname] != "" {
+		out("> " + digest[funcname] + "\n\n")
 	}
 
-	out(Define[funcname] + "\n\n")
+	out(define[funcname] + "\n\n")
 
-	if len(Related[funcname]) > 0 {
+	if len(related[funcname]) > 0 {
 		out("### See also\n\n")
 
-		for _, rel := range Related[funcname] {
-			var digest string
+		for _, rel := range related[funcname] {
+			var dig string
 			cmd := rel
-			if Digest[rel] != "" {
-				digest = ": " + Digest[rel]
+			if digest[rel] != "" {
+				dig = ": " + digest[rel]
 				cmd = "[" + rel + "](" + rel + ".md)"
 			}
 
-			out("* " + cmd + digest + "\n")
+			out("* " + cmd + dig + "\n")
 		}
 	}
 }
