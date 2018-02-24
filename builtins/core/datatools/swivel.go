@@ -47,8 +47,8 @@ func cmdSwivelDataType(p *proc.Process) error {
 	return err
 }
 
-// This function is ripe for optimisation. However given it's infrequent nature and small datasets, I'm not in any great
-// rush.
+// This function is ripe for optimisation. However given it's infrequent nature
+// and small datasets, I'm not in any great rush.
 func cmdSwivelTable(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)

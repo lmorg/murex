@@ -1,4 +1,4 @@
-# _murex_ reference documents
+# _murex_ Language Guide
 
 ## Builtin function: if
 

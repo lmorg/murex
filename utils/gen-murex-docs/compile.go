@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-const heading = "# _murex_ reference documents\n\n"
+const heading = "# _murex_ Language Guide\n\n"
 
 func compile(dest string) error {
 	for name := range define {
