@@ -26,8 +26,8 @@
 
 ### See also
 
-* [[]([.md)
-* [a](a.md)
-* [cast](cast.md)
+* [
+* a
+* cast
 * [prepend](prepend.md): Add data to the start of an array
-* [update](update.md)
+* update

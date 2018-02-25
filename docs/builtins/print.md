@@ -29,6 +29,6 @@ solvable using `out` or _murex_ named pipes (`pipe`).
 
 * [err](err.md): `echo` a string to the STDERR
 * [print](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
-* [sprintf](sprintf.md)
+* sprintf
 * [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
-* [ttyfd](ttyfd.md)
+* ttyfd

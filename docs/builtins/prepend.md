@@ -31,8 +31,8 @@
 
 ### See also
 
-* [[]([.md)
-* [a](a.md)
+* [
+* a
 * [append](append.md): Add data to the end of an array
-* [cast](cast.md)
-* [update](update.md)
+* cast
+* update
