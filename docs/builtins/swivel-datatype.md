@@ -125,7 +125,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 ### See also
 
 * [
-* [alter](alter.md): Change a value within a structured data-type and pass that change along then
+* [alter](alter.md): Change a value within a structured data-type and pass that change along the
 pipeline without altering the original source input
 * [append](append.md): Add data to the end of an array
 * cast

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strings"
 )
 
 const heading = "# _murex_ Language Guide\n\n"
@@ -95,17 +96,17 @@ func writeIndex(filename string) {
 	}
 	sort.Strings(definitions)
 
-	out("| Command | Description |\n")
-	out("| ------- | ----------- |\n")
+	out("| Command              | Description |\n")
+	out("| -------------------- | ----------- |\n")
 
 	for _, name := range definitions {
 		//var dig string
-		cmd := "[" + name + "](" + name + ".md)"
+		cmd := fmt.Sprintf("%20s", "["+name+"]("+name+".md)")
 		if digest[name] != "" {
 			//dig = ": " + digest[name]
 		}
 
 		//out("* " + cmd + dig + "\n")
-		out("| " + cmd + " | " + digest[name] + " |\n")
+		out("| " + cmd + " | " + strings.Replace(digest[name], "\n", " ", -1) + " |\n")
 	}
 }

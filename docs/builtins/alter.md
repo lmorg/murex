@@ -2,7 +2,7 @@
 
 ## Command reference: alter
 
-> Change a value within a structured data-type and pass that change along then
+> Change a value within a structured data-type and pass that change along the
 pipeline without altering the original source input
 
 ### Description
