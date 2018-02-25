@@ -96,12 +96,12 @@ func writeIndex(filename string) {
 	}
 	sort.Strings(definitions)
 
-	out("| Command              | Description |\n")
-	out("| -------------------- | ----------- |\n")
+	out("| Command                   | Description |\n")
+	out("| ------------------------- | ----------- |\n")
 
 	for _, name := range definitions {
 		//var dig string
-		cmd := fmt.Sprintf("%20s", "["+name+"]("+name+".md)")
+		cmd := fmt.Sprintf("%25s", "["+name+"]("+name+".md)")
 		if digest[name] != "" {
 			//dig = ": " + digest[name]
 		}
