@@ -14,15 +14,15 @@
 
 ### Examples
 
-  » a: [Monday..Sunday] -> append: Funday
-  Monday
-  Tuesday
-  Wednesday
-  Thursday
-  Friday
-  Saturday
-  Sunday
-  Funday
+    » a: [Monday..Sunday] -> append: Funday
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+    Sunday
+    Funday
 
 ### See also
 

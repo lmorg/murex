@@ -1,0 +1,20 @@
+### Description
+
+Write parameters to the OS STDOUT (bypassing STDOUT along the _murex_ pipeline).
+
+### Usage
+
+    print: string to write
+
+### Examples
+
+    » print Hello, World!
+    Hello, World!
+
+### Detail
+
+This is a throwaway function for edge cases. Generally all problems should be
+solvable using `out` or _murex_ named pipes (`pipe`).
+
+> Please note: because this function writes directly to the OS's STDOUT,
+  redirection will not work with `print`.

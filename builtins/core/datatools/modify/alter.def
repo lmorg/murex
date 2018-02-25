@@ -17,8 +17,8 @@
     }
 
 > Please note: `alter` did not change the shell prompt value held inside `config`
-but instead took the STDOUT from `config`, altered a value and then passed that
-new complete value through it's STDOUT.
+  but instead took the STDOUT from `config`, altered a value and then passed that
+  new complete structure through it's STDOUT.
 
 The above example can also be performed without the index functions (`[`):
 
