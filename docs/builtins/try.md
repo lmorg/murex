@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: try
+## Command reference: try
 
 > Handles errors inside a block of code
 

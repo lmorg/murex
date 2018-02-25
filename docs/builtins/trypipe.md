@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: trypipe
+## Command reference: trypipe
 
 > Checks state of each function in a pipeline and exits block on error
 

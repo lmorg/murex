@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: if
+## Command reference: if
 
 > Conditional statement to execute different blocks of code depending on the
 result of the condition

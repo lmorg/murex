@@ -36,7 +36,7 @@ func write(filename, funcname string) {
 	}
 
 	out(heading)
-	out("## Builtin function: " + funcname + "\n\n")
+	out("## Command reference: " + funcname + "\n\n")
 
 	if digest[funcname] != "" {
 		out("> " + digest[funcname] + "\n\n")

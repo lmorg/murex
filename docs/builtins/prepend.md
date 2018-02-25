@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: prepend
+## Command reference: prepend
 
 > Add data to the start of an array
 

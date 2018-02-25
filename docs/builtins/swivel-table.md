@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: swivel-table
+## Command reference: swivel-table
 
 > Rotates a table by 90 degrees
 

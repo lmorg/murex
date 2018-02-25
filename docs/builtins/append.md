@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: append
+## Command reference: append
 
 > Add data to the end of an array
 

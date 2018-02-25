@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: alter
+## Command reference: alter
 
 > Change a value within a structured data-type and pass that change along then
 pipeline without altering the original source input

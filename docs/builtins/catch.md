@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Builtin function: catch
+## Command reference: catch
 
 > Handles the exception code raised by `try` or `trypipe`
 
