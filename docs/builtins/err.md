@@ -41,14 +41,14 @@ a new _murex_ named pipe.
 
 ### See also
 
-* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [>](>.md)
+* [>>](>>.md)
+* [cast](cast.md)
 * [err](err.md): `echo` a string to the STDERR
+* [fork](fork.md)
+* [pipe](pipe.md)
+* [pretty](pretty.md)
 * [print](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
-* sprintf
-* cast
-* fork
-* pipe
-* pretty
-* >
-* >>
-* ttyfd
+* [sprintf](sprintf.md)
+* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [ttyfd](ttyfd.md)

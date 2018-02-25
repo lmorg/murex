@@ -56,9 +56,9 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See also
 
-* [
-* format
+* [[]([.md)
 * [append](append.md): Add data to the end of an array
+* [cast](cast.md)
+* [format](format.md)
 * [prepend](prepend.md): Add data to the start of an array
-* runtime
-* cast
+* [runtime](runtime.md)

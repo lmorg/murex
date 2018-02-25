@@ -27,8 +27,8 @@ solvable using `out` or _murex_ named pipes (`pipe`).
 
 ### See also
 
-* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
 * [err](err.md): `echo` a string to the STDERR
 * [print](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
-* sprintf
-* ttyfd
+* [sprintf](sprintf.md)
+* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [ttyfd](ttyfd.md)

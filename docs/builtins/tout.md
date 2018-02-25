@@ -22,11 +22,11 @@ Write parameters to STDOUT and cast the output's data-type.
 
 ### See also
 
-* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [cast](cast.md)
 * [err](err.md): `echo` a string to the STDERR
+* [format](format.md)
+* [pretty](pretty.md)
 * [print](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
-* sprintf
-* cast
-* pretty
-* format
-* ttyfd
+* [sprintf](sprintf.md)
+* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [ttyfd](ttyfd.md)

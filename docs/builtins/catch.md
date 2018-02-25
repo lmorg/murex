@@ -40,7 +40,7 @@ handles the exceptions raised by the aforementioned.
 
 ### See also
 
-* [trypipe](trypipe.md): Checks state of each function in a pipeline and exits block on error
-* [try](try.md): Handles errors inside a block of code
 * [if](if.md): Conditional statement to execute different blocks of code depending on the
 result of the condition
+* [try](try.md): Handles errors inside a block of code
+* [trypipe](trypipe.md): Checks state of each function in a pipeline and exits block on error
