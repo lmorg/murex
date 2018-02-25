@@ -41,8 +41,8 @@ a new _murex_ named pipe.
 
 ### See also
 
-* >
-* >>
+* \>
+* \>\>
 * cast
 * [err](err.md): `echo` a string to the STDERR
 * fork
