@@ -95,6 +95,9 @@ func writeIndex(filename string) {
 	}
 	sort.Strings(definitions)
 
+	out("| Command | Description |\n")
+	out("| ------- | ----------- |\n")
+
 	for _, name := range definitions {
 		//var dig string
 		cmd := "[" + name + "](" + name + ".md)"

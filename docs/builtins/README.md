@@ -2,6 +2,8 @@
 
 ## Command reference
 
+| Command | Description |
+| ------- | ----------- |
 | [alter](alter.md) | Change a value within a structured data-type and pass that change along then
 pipeline without altering the original source input |
 | [append](append.md) | Add data to the end of an array |
