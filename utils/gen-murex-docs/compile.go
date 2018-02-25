@@ -57,7 +57,7 @@ func writeDefinitions(filename, funcname string) {
 			if digest[rel] != "" {
 				dig = ": " + digest[rel]
 			}
-			if define[funcname] != "" {
+			if len(define[funcname]) > 0 {
 				cmd = "[" + rel + "](" + rel + ".md)"
 			}
 
