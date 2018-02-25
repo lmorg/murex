@@ -96,12 +96,13 @@ func writeIndex(filename string) {
 	sort.Strings(definitions)
 
 	for _, name := range definitions {
-		var dig string
+		//var dig string
 		cmd := "[" + name + "](" + name + ".md)"
 		if digest[name] != "" {
-			dig = ": " + digest[name]
+			//dig = ": " + digest[name]
 		}
 
-		out("* " + cmd + dig + "\n")
+		//out("* " + cmd + dig + "\n")
+		out("| " + cmd + " | " + digest[name] + " |\n")
 	}
 }
