@@ -9,6 +9,14 @@
 `catch` is designed to be used in conjunction with `try` and `trypipe` as it
 handles the exceptions raised by the aforementioned.
 
+### Usage
+
+    [ try | trypipe ] { code-block } -> <stdout>
+
+    catch { code-block } -> <stdout>
+    
+    !catch { code-block } -> <stdout>
+
 ### example
 
     try {
@@ -28,8 +36,7 @@ handles the exceptions raised by the aforementioned.
 
 `catch` can be used with a bang prefix to check for a lack of errors.
 
-`catch` forwards on the STDIN and exit number of the calling function. Thus it
-can be used as part of a pipeline: `try { command } -> catch { command }`.
+`catch` forwards on the STDIN and exit number of the calling function.
 
 ### See also
 

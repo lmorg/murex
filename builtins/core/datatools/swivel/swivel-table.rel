@@ -1,6 +1,7 @@
 swivel-datatype
-index
+[
 format
 append
 prepend
-update
+alter
+cast

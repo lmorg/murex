@@ -12,7 +12,7 @@ series of maps to be marshalled by a serialised datatype such as JSON or YAML.
 
 ### Usage
 
-    <stdin> -> swivel-datatype <datatype> -> <stdout>
+    <stdin> -> swivel-datatype: data-type -> <stdout>
 
 ### Examples
 
@@ -114,11 +114,22 @@ the `generic` datatype), the map keys are defaulted to column numbers:
     - "0.0"
     ...
 
+### Detail
+
+You can check what output data-types are available via the `runtime` command:
+
+    runtime --marshallers
+
+Marshallers are enabled at compile time from the `builtins/data-types` directory.
+
 ### See also
 
 * [swivel-table](swivel-table.md): Rotates a table by 90 degrees
-* index
+* [
 * format
-* append
-* prepend
-* update
+* [append](append.md): Add data to the end of an array
+* [prepend](prepend.md): Add data to the start of an array
+* [alter](alter.md): Change a value within a structured data-type and pass that change along then
+pipeline without altering the original source input
+* runtime
+* cast

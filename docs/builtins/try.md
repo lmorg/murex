@@ -17,6 +17,10 @@ To maintain concurrency within the pipeline, `try` will only check the last
 function in any given pipeline (ie series of functions joined via `|`, `->`, or
 similar operators). If you need the entire pipeline checked then use `trypipe`.
 
+### Usage
+
+    try { code-block } -> <stdout>
+
 ### example
 
     try {

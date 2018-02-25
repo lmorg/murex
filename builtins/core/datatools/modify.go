@@ -13,7 +13,7 @@ import (
 func init() {
 	proc.GoFunctions["append"] = cmdAppend
 	proc.GoFunctions["prepend"] = cmdPrepend
-	proc.GoFunctions["update"] = cmdUpdate
+	proc.GoFunctions["alter"] = cmdAlter
 }
 
 func cmdPrepend(p *proc.Process) error {
@@ -74,7 +74,7 @@ func cmdAppend(p *proc.Process) error {
 	return err
 }
 
-func cmdUpdate(p *proc.Process) error {
+func cmdAlter(p *proc.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

@@ -2,7 +2,11 @@
 
 `swivel-table` rotates a table by 90 degrees so the _x_ axis becomes the _y_.
 
-For example, take the first 5 entries from `ps`:
+### Usage
+
+    <stdin> -> swivel-table -> <stdout>
+
+### Examples
 
     » ps: aux -> head: -n5
     USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND

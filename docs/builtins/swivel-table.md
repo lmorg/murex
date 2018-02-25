@@ -8,7 +8,11 @@
 
 `swivel-table` rotates a table by 90 degrees so the _x_ axis becomes the _y_.
 
-For example, take the first 5 entries from `ps`:
+### Usage
+
+    <stdin> -> swivel-table -> <stdout>
+
+### Examples
 
     » ps: aux -> head: -n5
     USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
@@ -61,8 +65,10 @@ format that as a CSV, which by default does have a title row (configurable via
 
 * [swivel-datatype](swivel-datatype.md): Converts tabulated data into a map of values for serialised data-types such as
 JSON and YAML
-* index
+* [
 * format
-* append
-* prepend
-* update
+* [append](append.md): Add data to the end of an array
+* [prepend](prepend.md): Add data to the start of an array
+* [alter](alter.md): Change a value within a structured data-type and pass that change along then
+pipeline without altering the original source input
+* cast

@@ -6,6 +6,10 @@ every process along the pipeline as well as the terminating function (which
 `try` only validates against). The downside to this is that piped functions can
 no longer run in parallel.
 
+### Usage
+
+    trypipe { code-block } -> <stdout>
+
 ### Example
 
     trypipe {

@@ -12,7 +12,7 @@ var rangeWeekdayLong map[string]int = map[string]int{
 	"monday":    1,
 	"tuesday":   2,
 	"wednesday": 3,
-	"thurday":   4,
+	"thursday":  4,
 	"friday":    5,
 	"saturday":  6,
 	"sunday":    7,
