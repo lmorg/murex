@@ -54,7 +54,7 @@ func writeDefinitions(filename, funcname string) {
 
 		for _, rel := range related[funcname] {
 			var dig string
-			cmd := "`" + rel + "``"
+			cmd := "`" + rel + "`"
 			if digest[rel] != "" {
 				dig = ": " + digest[rel]
 			}
