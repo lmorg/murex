@@ -29,12 +29,12 @@ using the `tout` function.
 
 ### See also
 
-* >
-* >>
-* cast
-* [err](err.md): `echo` a string to the STDERR
-* [print](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
-* [pt](pt.md): Pipe telemetry. Writes data-types and bytes written
-* sprintf
-* [tout](tout.md): `echo` a string to the STDOUT and set it's data-type
-* ttyfd
+* `>``
+* `>>``
+* `cast``
+* [`err`](err.md): `echo` a string to the STDERR
+* [`print`](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
+* [`pt`](pt.md): Pipe telemetry. Writes data-types and bytes written
+* `sprintf``
+* [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
+* `ttyfd``

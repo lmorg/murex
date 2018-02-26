@@ -35,7 +35,7 @@ command.
 
 ### See also
 
-* [catch](catch.md): Handles the exception code raised by `try` or `trypipe`
-* evil
-* fid-list
-* [try](try.md): Handles errors inside a block of code
+* [`catch`](catch.md): Handles the exception code raised by `try` or `trypipe`
+* `evil``
+* `fid-list``
+* [`try`](try.md): Handles errors inside a block of code
