@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/variables"
 	"github.com/lmorg/murex/lang/types"
 
 	"errors"
@@ -46,6 +47,7 @@ type Process struct {
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	ScopedVars         *types.Vars
+	Variables          *variables.VarTable
 }
 
 var (
