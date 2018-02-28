@@ -54,12 +54,12 @@ func writeDefinitions(filename, funcname string) {
 
 		for _, rel := range related[funcname] {
 			var dig string
-			cmd := rel
+			cmd := "`" + rel + "`"
 			if digest[rel] != "" {
 				dig = ": " + digest[rel]
 			}
 			if define[rel] != "" {
-				cmd = "[" + rel + "](" + rel + ".md)"
+				cmd = "[`" + rel + "`](" + rel + ".md)"
 			}
 
 			out("* " + cmd + dig + "\n")
@@ -96,12 +96,12 @@ func writeIndex(filename string) {
 	}
 	sort.Strings(definitions)
 
-	out("| Command              | Description |\n")
-	out("| -------------------- | ----------- |\n")
+	out("| Command                   | Description |\n")
+	out("| ------------------------- | ----------- |\n")
 
 	for _, name := range definitions {
 		//var dig string
-		cmd := fmt.Sprintf("%20s", "["+name+"]("+name+".md)")
+		cmd := fmt.Sprintf("%25s", "[`"+name+"`]("+name+".md)")
 		if digest[name] != "" {
 			//dig = ": " + digest[name]
 		}

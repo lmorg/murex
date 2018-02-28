@@ -54,6 +54,6 @@ last parameter is optional.
 
 ### See also
 
-* [catch](catch.md): Handles the exception code raised by `try` or `trypipe`
-* [try](try.md): Handles errors inside a block of code
-* [trypipe](trypipe.md): Checks state of each function in a pipeline and exits block on error
+* [`catch`](catch.md): Handles the exception code raised by `try` or `trypipe`
+* [`try`](try.md): Handles errors inside a block of code
+* [`trypipe`](trypipe.md): Checks state of each function in a pipeline and exits block on error
