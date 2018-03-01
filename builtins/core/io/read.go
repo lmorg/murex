@@ -9,7 +9,6 @@ import (
 func init() {
 	proc.GoFunctions["read"] = cmdRead
 	proc.GoFunctions["tread"] = cmdTread
-	proc.GoFunctions["read-all"] = cmdReadAll
 }
 
 func cmdRead(p *proc.Process) error {
@@ -60,18 +59,5 @@ func read(p *proc.Process, dt string, paramAdjust int) error {
 	}
 
 	err = p.Variables.Set(varName, s, dt)
-	return err
-}
-
-func cmdReadAll(p *proc.Process) error {
-	dt := p.Stdin.GetDataType()
-	p.Stdout.SetDataType(dt)
-
-	b, err := p.Stdin.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write(b)
 	return err
 }
