@@ -117,8 +117,9 @@ func cmdForEach(p *proc.Process) (err error) {
 		}
 
 		if varName != "" {
-			p.ScopedVars = p.ScopedVars.Copy()
-			p.ScopedVars.Set(varName, string(b), dt)
+			//p.ScopedVars = p.ScopedVars.Copy()
+			//p.ScopedVars.Set(varName, string(b), dt)
+			p.Variables.Set(varName, string(b), dt)
 		}
 
 		stdin := streams.NewStdin()
@@ -162,9 +163,11 @@ func cmdForMap(p *proc.Process) error {
 			return
 		}
 
-		p.ScopedVars = p.ScopedVars.Copy()
-		p.ScopedVars.Set(varKey, key, types.String)
-		p.ScopedVars.Set(varVal, value, dt)
+		//p.ScopedVars = p.ScopedVars.Copy()
+		//p.ScopedVars.Set(varKey, key, types.String)
+		//p.ScopedVars.Set(varVal, value, dt)
+		p.Variables.Set(varKey, key, types.String)
+		p.Variables.Set(varVal, value, dt)
 
 		lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
 	})

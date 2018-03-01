@@ -21,7 +21,7 @@ var ShellExitNum int
 func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.ScopedVars, proc.ShellProcess.Config,
+		proc.ShellProcess, proc.ShellProcess.Config,
 	)
 }
 
@@ -30,7 +30,7 @@ func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitN
 func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, caller.ScopedVars, caller.Config,
+		caller.Parent, caller.Config,
 	)
 }
 
@@ -38,7 +38,7 @@ func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, calle
 func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.ScopedVars.Copy(), caller.Config.Copy(),
+		caller, caller.Config.Copy(),
 	)
 }
 
@@ -47,7 +47,7 @@ func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *
 func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.ScopedVars.Copy(), caller.Config,
+		caller, caller.Config,
 	)
 }
 
@@ -60,7 +60,7 @@ func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, cal
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
 //func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *types.Vars) (exitNum int, err error) {
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *types.Vars, conf *config.Config) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config) (exitNum int, err error) {
 	debug.Log(string(block))
 
 	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
@@ -76,7 +76,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Id = caller.Id
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
-	container.ScopedVars = vars
+	//container.ScopedVars = vars
 	container.Config = conf
 
 	//if caller.Name == proc.ShellProcess.Name {

@@ -2,7 +2,7 @@
 
 package state
 
-import "strconv"
+import "fmt"
 
 const _FunctionState_name = "UndefinedMemAllocatedAssignedStartingExecutingExecutedTerminatingAwaitingGC"
 
@@ -10,7 +10,7 @@ var _FunctionState_index = [...]uint8{0, 9, 21, 29, 37, 46, 54, 65, 75}
 
 func (i FunctionState) String() string {
 	if i < 0 || i >= FunctionState(len(_FunctionState_index)-1) {
-		return "FunctionState(" + strconv.FormatInt(int64(i), 10) + ")"
+		return fmt.Sprintf("FunctionState(%d)", i)
 	}
 	return _FunctionState_name[_FunctionState_index[i]:_FunctionState_index[i+1]]
 }

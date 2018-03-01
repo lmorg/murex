@@ -17,8 +17,9 @@ func InitEnv() {
 	ShellProcess.Scope = ShellProcess
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
-	ShellProcess.ScopedVars = types.NewVariableGroup()
+	ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
 	ShellProcess.RunMode = runmode.Shell
+	ShellProcess.FidTree = []int{0}
 
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
@@ -32,6 +33,6 @@ func InitEnv() {
 	pwd := []string{s}
 	//if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
 	if b, err := utils.JsonMarshal(&pwd, false); err == nil {
-		ShellProcess.ScopedVars.Set("PWDHIST", string(b), types.Json)
+		ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 	}
 }

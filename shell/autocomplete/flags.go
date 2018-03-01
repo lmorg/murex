@@ -44,7 +44,7 @@ func UpdateGlobalExeList() {
 	//if envPath == "" {
 	//	envPath = os.Getenv("PATH")
 	//}
-	envPath := proc.ShellProcess.VarGetString("PATH")
+	envPath := proc.ShellProcess.Variables.GetString("PATH")
 
 	dirs := splitPath(envPath)
 

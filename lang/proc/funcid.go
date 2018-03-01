@@ -42,6 +42,7 @@ func (f *funcID) Register(p *Process) (fid int) {
 	fid = f.latest
 	f.mutex.Unlock()
 	p.Id = fid
+	p.FidTree = append(p.FidTree, fid)
 	return
 }
 

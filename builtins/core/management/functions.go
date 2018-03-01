@@ -135,7 +135,8 @@ func cmdCd(p *proc.Process) error {
 		return err
 	}
 
-	hist := proc.ShellProcess.VarGetString("PWDHIST")
+	//hist := proc.ShellProcess.Variables.GetString("PWDHIST")
+	hist := p.Variables.GetString("PWDHIST")
 	if hist == "" {
 		hist = "[]"
 	}
@@ -157,7 +158,8 @@ func cmdCd(p *proc.Process) error {
 		return errors.New("Unable to repack $PWDHIST: " + err.Error())
 	}
 
-	err = proc.ShellProcess.ScopedVars.Set("PWDHIST", string(b), types.Json)
+	//err = proc.ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
+	err = p.Variables.Set("PWDHIST", string(b), types.Json)
 	return err
 }
 

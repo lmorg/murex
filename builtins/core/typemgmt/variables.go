@@ -42,19 +42,19 @@ func cmdSet(p *proc.Process) error {
 			return err
 		}
 		dt := p.Stdin.GetDataType()
-		return p.ScopedVars.Set(params, string(b), dt)
+		return p.Variables.Set(params, string(b), dt)
 	}
 
 	// Only one parameter, so unset variable:
 	if rxVarName.MatchString(params) {
-		p.ScopedVars.Unset(params)
-		return nil
+		err := p.Variables.Unset(params)
+		return err
 	}
 
 	// Set variable as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
 
-	return p.ScopedVars.Set(match[0][1], match[0][2], types.String)
+	return p.Variables.Set(match[0][1], match[0][2], types.String)
 }
 
 func cmdUnset(p *proc.Process) error {
@@ -69,8 +69,8 @@ func cmdUnset(p *proc.Process) error {
 		return err
 	}
 
-	p.ScopedVars.Unset(varName)
-	return nil
+	err = p.Variables.Unset(varName)
+	return err
 }
 
 func cmdExport(p *proc.Process) error {

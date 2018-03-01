@@ -2,7 +2,7 @@ package autocomplete
 
 import (
 	"github.com/lmorg/murex/lang/proc"
-	"os"
+
 	"sort"
 	"strings"
 )
@@ -23,13 +23,13 @@ func MatchFunction(partial string) (items []string) {
 // MatchVars returns autocomplete suggestions for variables based on a partial string
 func MatchVars(partial string) (items []string) {
 	//vars := proc.GlobalVars.DumpMap()
-	vars := proc.ShellProcess.VarDumpMap()
+	vars := proc.ShellProcess.Variables.DumpMap()
 
-	envVars := os.Environ()
+	/*envVars := os.Environ()
 	for i := range envVars {
 		v := strings.Split(envVars[i], "=")
 		vars[v[0]] = true
-	}
+	}*/
 
 	for name := range vars {
 		if strings.HasPrefix(name, partial[1:]) {

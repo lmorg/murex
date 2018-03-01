@@ -5,6 +5,7 @@ package autocomplete
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
 	"sort"
@@ -21,7 +22,7 @@ func pathIsLocal(s string) bool {
 }
 
 func matchDirs(s string) (items []string) {
-	s = vars.ExpandVariablesString(s)
+	s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
 	var dirs []string

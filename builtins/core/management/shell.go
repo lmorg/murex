@@ -10,7 +10,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/events"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -67,7 +66,7 @@ func cmdArgs(p *proc.Process) (err error) {
 		return err
 	}
 
-	err = p.ScopedVars.Set("ARGS", string(b), types.Json)
+	err = p.Variables.Set("ARGS", string(b), types.Json)
 	return err
 }
 
@@ -76,7 +75,7 @@ func cmdParams(p *proc.Process) error {
 
 	params := append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
 
-	debug.Json("builtin.params:", params)
+	//debug.Json("builtin.params:", params)
 
 	b, err := utils.JsonMarshal(&params, p.Stdout.IsTTY())
 	if err != nil {
@@ -194,7 +193,8 @@ func cmdVersion(p *proc.Process) error {
 
 func cmdRuntime(p *proc.Process) error {
 	const (
-		fVars          = "--vars"
+		fVars = "--vars"
+		//fAllVars       = "--all-vars"
 		fAliases       = "--aliases"
 		fConfig        = "--config"
 		fPipes         = "--pipes"
@@ -215,7 +215,8 @@ func cmdRuntime(p *proc.Process) error {
 		&parameters.Arguments{
 			Flags: map[string]string{
 				//"all":           types.Boolean,
-				fVars:          types.Boolean,
+				fVars: types.Boolean,
+				//fAllVars:       types.Boolean,
 				fAliases:       types.Boolean,
 				fConfig:        types.Boolean,
 				fPipes:         types.Boolean,
@@ -246,7 +247,9 @@ func cmdRuntime(p *proc.Process) error {
 	for flag := range f {
 		switch flag {
 		case fVars:
-			ret[fVars[2:]] = proc.ShellProcess.ScopedVars.Dump()
+			ret[fVars[2:]] = p.Variables.Dump()
+		//case fAllVars:
+		//	ret[fAllVars[2:]] = p.Variables.DumpEntireTable()
 		case fAliases:
 			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
 		case fConfig:

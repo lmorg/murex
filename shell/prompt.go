@@ -17,7 +17,7 @@ func getPrompt() {
 		b         []byte
 	)
 
-	proc.ShellProcess.ScopedVars.Set("linenum", 1, types.Number)
+	proc.ShellProcess.Variables.Set("linenum", 1, types.Number)
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
@@ -49,7 +49,7 @@ func getMultilinePrompt(nLines int) {
 		b         []byte
 	)
 
-	proc.ShellProcess.ScopedVars.Set("linenum", nLines, types.Number)
+	proc.ShellProcess.Variables.Set("linenum", nLines, types.Number)
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()

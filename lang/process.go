@@ -151,8 +151,8 @@ executeProcess:
 			fmt.Println(p.Name, p.Parameters.StringArray(), string(b))
 			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name.")
 		case match[0][2] == "":
-			s := p.VarGetString(match[0][1])
-			p.Stdout.SetDataType(p.VarGetType(match[0][1]))
+			s := p.Variables.GetString(match[0][1])
+			p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))
 			_, err = p.Stdout.Write([]byte(s))
 		default:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")

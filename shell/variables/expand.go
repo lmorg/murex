@@ -1,4 +1,4 @@
-package vars
+package variables
 
 import (
 	"github.com/lmorg/murex/lang/proc"
@@ -12,11 +12,11 @@ var (
 	rxHome *regexp.Regexp = regexp.MustCompile(`(~[_\-.a-zA-Z0-9]+)`)
 )
 
-// ExpandVariablesString finds variables in a string and replaces it with the value of the variable
-func ExpandVariablesString(line string) string {
+// ExpandString finds variables in a string and replaces it with the value of the variable
+func ExpandString(line string) string {
 	match := rxVars.FindAllString(line, -1)
 	for i := range match {
-		line = strings.Replace(line, match[i], proc.ShellProcess.VarGetString(match[i][1:]), -1)
+		line = strings.Replace(line, match[i], proc.ShellProcess.Variables.GetString(match[i][1:]), -1)
 	}
 
 	match = rxHome.FindAllString(line, -1)
@@ -28,7 +28,7 @@ func ExpandVariablesString(line string) string {
 	return line
 }
 
-// ExpandVariables finds variables in a line and replaces it with the value of the variable
-func ExpandVariables(line []rune) []rune {
-	return []rune(ExpandVariablesString(string(line)))
+// Expand finds variables in a line and replaces it with the value of the variable
+func Expand(line []rune) []rune {
+	return []rune(ExpandString(string(line)))
 }

@@ -31,7 +31,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 		Parameters: parameters.Parameters{Params: args.params},
 		Parent:     proc.ShellProcess,
 		Config:     proc.ShellProcess.Config.Copy(),
-		ScopedVars: proc.ShellProcess.ScopedVars.Copy(),
+		//ScopedVars: proc.ShellProcess.ScopedVars.Copy(),
 	}
 	p.Scope = p
 
@@ -80,12 +80,13 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 }
 
 func autoBranch(tree []string) {
+	debug.Json("tree", tree)
 	for branch := range tree {
-		i := 0
 
-		for ; i < len(tree[branch])-1; i++ {
+		for i := 0; i < len(tree[branch])-1; i++ {
 			if tree[branch][i] == '/' {
 				tree[branch] = tree[branch][:i+1]
+				break
 			}
 		}
 

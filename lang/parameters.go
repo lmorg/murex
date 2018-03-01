@@ -30,7 +30,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				tCount = true
 
 			case parameters.TokenTypeString:
-				p.Params[len(p.Params)-1] += prc.VarGetString(p.Tokens[i][j].Key)
+				p.Params[len(p.Params)-1] += prc.Variables.GetString(p.Tokens[i][j].Key)
 				tCount = true
 
 			case parameters.TokenTypeBlockString:
@@ -59,8 +59,8 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				var array []string
 
 				variable := streams.NewStdin()
-				variable.SetDataType(prc.VarGetType(p.Tokens[i][j].Key))
-				variable.Write([]byte(prc.VarGetString(p.Tokens[i][j].Key)))
+				variable.SetDataType(prc.Variables.GetDataType(p.Tokens[i][j].Key))
+				variable.Write([]byte(prc.Variables.GetString(p.Tokens[i][j].Key)))
 				variable.Close()
 
 				variable.ReadArray(func(b []byte) {
