@@ -1,10 +1,11 @@
 package streams
 
 import (
-	"bufio"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+
+  "bufio"
 	"io"
 	"sync"
 )
@@ -20,12 +21,14 @@ type Stdtest struct {
 	isNamedPipe bool
 	dataType    string
 	dtLock      sync.Mutex
+  max         int
 }
 
 // NewStdtest creates a new stream.Io interface for piping data between processes.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 func NewStdtest() (stdtest *Stdtest) {
 	stdtest = new(Stdtest)
+  stdtest.max = DefaultMaxBufferSize
 	return
 }
 
@@ -181,12 +184,13 @@ func (stdtest *Stdtest) Write(b []byte) (int, error) {
 		return 0, io.ErrClosedPipe
 	}
 
-	for {
+  for {
 		stdtest.mutex.Lock()
 		buffSize := len(stdtest.buffer)
+		maxBufferSize := stdtest.max
 		stdtest.mutex.Unlock()
 
-		if buffSize < MaxBufferSize {
+		if buffSize < maxBufferSize {
 			break
 		}
 	}
