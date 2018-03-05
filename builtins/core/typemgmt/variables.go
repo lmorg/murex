@@ -11,8 +11,8 @@ import (
 func init() {
 	proc.GoFunctions["set"] = cmdSet
 	proc.GoFunctions["!set"] = cmdUnset
-	//proc.GoFunctions["global"] = cmdGlobal
-	//proc.GoFunctions["!global"] = cmdUnblobal
+	proc.GoFunctions["global"] = cmdGlobal
+	proc.GoFunctions["!global"] = cmdUnglobal
 	proc.GoFunctions["export"] = cmdExport
 	proc.GoFunctions["!export"] = cmdUnexport
 	proc.GoFunctions["unset"] = cmdUnexport
@@ -23,7 +23,13 @@ var (
 	rxVarName *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
 )
 
-func cmdSet(p *proc.Process) error {
+func cmdSet(p *proc.Process) error    { return set(p, p) }
+func cmdGlobal(p *proc.Process) error { return set(p, proc.ShellProcess) }
+
+func cmdUnset(p *proc.Process) error    { return unset(p, p) }
+func cmdUnglobal(p *proc.Process) error { return unset(p, proc.ShellProcess) }
+
+func set(p *proc.Process, scope *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -35,7 +41,7 @@ func cmdSet(p *proc.Process) error {
 	// Set variable as method:
 	if p.IsMethod {
 		if !rxVarName.MatchString(params) {
-			return errors.New("Invalid variable name; unexpected parameters for calling `set` as method.")
+			return errors.New("Invalid variable name; unexpected parameters for calling `set` / `global` as method.")
 		}
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
@@ -54,10 +60,10 @@ func cmdSet(p *proc.Process) error {
 	// Set variable as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
 
-	return p.Variables.Set(match[0][1], match[0][2], types.String)
+	return scope.Variables.Set(match[0][1], match[0][2], types.String)
 }
 
-func cmdUnset(p *proc.Process) error {
+func unset(p *proc.Process, scope *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -69,7 +75,7 @@ func cmdUnset(p *proc.Process) error {
 		return err
 	}
 
-	err = p.Variables.Unset(varName)
+	err = scope.Variables.Unset(varName)
 	return err
 }
 

@@ -13,6 +13,7 @@
 |   [`prepend`](prepend.md) | Add data to the start of an array |
 |       [`print`](print.md) | Write a string to the OS STDOUT (bypassing _murex_ pipelines) |
 |             [`pt`](pt.md) | Pipe telemetry. Writes data-types and bytes written |
+|           [`set`](set.md) | Define a variable and set it's value |
 | [`swivel-datatype`](swivel-datatype.md) | Converts tabulated data into a map of values for serialised data-types such as JSON and YAML |
 | [`swivel-table`](swivel-table.md) | Rotates a table by 90 degrees |
 |         [`tout`](tout.md) | `echo` a string to the STDOUT and set it's data-type |
