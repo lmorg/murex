@@ -309,8 +309,8 @@ while true; do
         192)shell 'try{ out: 1; out: 2 | grep: false; out: 3 }' 2>&1 | check "1";;
         193)shell 'try{out:1;out:2|grep:no; out:3}->catch{out:failed}' 2>&1 | check "1\nfailed";;
         194)shell 'try: { out: 1; out: 2 | grep: 2; out: 3 }' 2>&1 | check "1\n2\n3";;
-        195)shell 'try {out 1;out 2|grep 2;out 3}->catch{out failed}' 2>&1 | check "1\n2\n3";;
-        196)shell 'try {out 1;out 2|grep 2;out 3}->!catch{out failed}' 2>&1 | check "1\n2\n3\nfailed";;
+        195)shell 'try {out 1;out 2|grep 2;out 3};catch{out failed}' 2>&1 | check "1\n2\n3";;
+        196)shell 'try {out 1;out 2|grep 3;out 3};catch{out failed}' 2>&1 | check "1\nfailed";;
         197)shell 'out:1;out:2|grep:false->catch{out:failed}' 2>&1 | check '1\nfailed';;
         198)shell 'out:1;out:2|grep:2->catch{out:failed}' 2>&1 | check '1\n2';;
         199)shell 'out:1;out:2|grep:false->!catch{out:success}' 2>&1 | check '1';;

@@ -27,19 +27,19 @@ type Stdin struct {
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
 var DefaultMaxBufferSize int = 1024 * 1024 * 1 // 1 meg
 
-/*func appendByte(slice []byte, data ...byte) []byte {
-    m := len(slice)
-    n := m + len(data)
-    if n > cap(slice) { // if necessary, reallocate
-        // allocate double what's needed, for future growth.
-        newSlice := make([]byte, (n+1)*2)
-        copy(newSlice, slice)
-        slice = newSlice
-    }
-    slice = slice[0:n]
-    copy(slice[m:n], data)
-    return slice
-}*/
+func appendBytes(slice []byte, data ...byte) []byte {
+	m := len(slice)
+	n := m + len(data)
+	if n > cap(slice) { // if necessary, reallocate
+		// allocate double what's needed, for future growth.
+		newSlice := make([]byte, (n+1)*2)
+		copy(newSlice, slice)
+		slice = newSlice
+	}
+	slice = slice[0:n]
+	copy(slice[m:n], data)
+	return slice
+}
 
 // NewStdin creates a new stream.Io interface for piping data between processes.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
@@ -212,11 +212,13 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 	}
 
 	stdin.mutex.Lock()
-	if cap(stdin.buffer) > len(stdin.buffer)+len(p) {
+	/*if cap(stdin.buffer) > len(stdin.buffer)+len(p) {
 		copy(stdin.buffer[len(stdin.buffer):], p)
 	} else {
-		stdin.buffer = append(stdin.buffer, p...)
-	}
+		//stdin.buffer = append(stdin.buffer, p...)
+		appendBytes(stdin.buffer, p...)
+	}*/
+	stdin.buffer = appendBytes(stdin.buffer, p...)
 	stdin.bWritten += uint64(len(p))
 	stdin.mutex.Unlock()
 
