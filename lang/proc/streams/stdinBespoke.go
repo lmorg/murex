@@ -1,5 +1,3 @@
-//// +build ingnore
-
 package streams
 
 import (
