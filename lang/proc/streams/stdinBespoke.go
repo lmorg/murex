@@ -25,7 +25,21 @@ type Stdin struct {
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
-var DefaultMaxBufferSize int = 1024 * 1024 * 10 // 10 meg
+var DefaultMaxBufferSize int = 1024 * 1024 * 1 // 1 meg
+
+/*func appendByte(slice []byte, data ...byte) []byte {
+    m := len(slice)
+    n := m + len(data)
+    if n > cap(slice) { // if necessary, reallocate
+        // allocate double what's needed, for future growth.
+        newSlice := make([]byte, (n+1)*2)
+        copy(newSlice, slice)
+        slice = newSlice
+    }
+    slice = slice[0:n]
+    copy(slice[m:n], data)
+    return slice
+}*/
 
 // NewStdin creates a new stream.Io interface for piping data between processes.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
@@ -99,8 +113,8 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 
 	} else {
 		i = len(p)
-		copy(p[:i], stdin.buffer[:i])
-		stdin.buffer = stdin.buffer[i+1:]
+		copy(p, stdin.buffer[:i])
+		stdin.buffer = stdin.buffer[i:]
 	}
 
 	stdin.bRead += uint64(i)
@@ -108,8 +122,7 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 	return i, err
 }
 
-// readerFunc is a callback function for reading raw data.
-func (stdin *Stdin) readerFunc(callback func([]byte)) {
+/*func (stdin *Stdin) readerFunc(callback func([]byte)) {
 	for {
 		stdin.mutex.Lock()
 		if len(stdin.buffer) == 0 {
@@ -130,7 +143,7 @@ func (stdin *Stdin) readerFunc(callback func([]byte)) {
 
 		callback(b)
 	}
-}
+}*/
 
 // ReadLine returns each line in the stream as a callback function
 func (stdin *Stdin) ReadLine(callback func([]byte)) error {
@@ -155,11 +168,11 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 	}
 
 	stdin.mutex.Lock()
-	b := stdin.buffer
-	stdin.buffer = make([]byte, 0)
-	stdin.bRead = uint64(len(b))
+	//b := stdin.buffer
+	//stdin.buffer = make([]byte, 0)
+	stdin.bRead = uint64(len(stdin.buffer))
 	stdin.mutex.Unlock()
-	return b, nil
+	return stdin.buffer, nil
 }
 
 // ReadArray returns a data type-specific array returned via a callback function
@@ -173,8 +186,8 @@ func (stdin *Stdin) ReadMap(config *config.Config, callback func(key, value stri
 }
 
 // Write is the standard Writer interface Write() method.
-func (stdin *Stdin) Write(b []byte) (int, error) {
-	if len(b) == 0 {
+func (stdin *Stdin) Write(p []byte) (int, error) {
+	if len(p) == 0 {
 		return 0, nil
 	}
 
@@ -199,11 +212,15 @@ func (stdin *Stdin) Write(b []byte) (int, error) {
 	}
 
 	stdin.mutex.Lock()
-	stdin.buffer = append(stdin.buffer, b...)
-	stdin.bWritten += uint64(len(b))
+	if cap(stdin.buffer) > len(stdin.buffer)+len(p) {
+		copy(stdin.buffer[len(stdin.buffer):], p)
+	} else {
+		stdin.buffer = append(stdin.buffer, p...)
+	}
+	stdin.bWritten += uint64(len(p))
 	stdin.mutex.Unlock()
 
-	return len(b), nil
+	return len(p), nil
 }
 
 // Writeln just calls Write() but with an appended, OS specific, new line.
@@ -238,8 +255,8 @@ func (stdin *Stdin) Close() {
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface
-func (stdin *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
-	var i int
+func (stdin *Stdin) WriteTo(w io.Writer) (n int64, err error) {
+	/*var i int
 	stdin.readerFunc(func(b []byte) {
 		i, err = dst.Write(b)
 		n += int64(i)
@@ -250,7 +267,14 @@ func (stdin *Stdin) WriteTo(dst io.Writer) (n int64, err error) {
 			return
 		}
 	})
-	return
+	return*/
+	p, err := stdin.ReadAll()
+	if err != nil {
+		return 0, err
+	}
+
+	i, err := w.Write(p)
+	return int64(i), err
 }
 
 // GetDataType returns the murex data type for the stream.Io interface
