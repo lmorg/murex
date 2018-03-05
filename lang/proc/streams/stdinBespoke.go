@@ -25,7 +25,7 @@ type Stdin struct {
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
-var DefaultMaxBufferSize int = 1024 * 1024 * 1 // 1 meg
+var DefaultMaxBufferSize int = 1024 * 1024 * 10 // 10 meg
 
 func appendBytes(slice []byte, data ...byte) []byte {
 	m := len(slice)
@@ -122,29 +122,6 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 	return i, err
 }
 
-/*func (stdin *Stdin) readerFunc(callback func([]byte)) {
-	for {
-		stdin.mutex.Lock()
-		if len(stdin.buffer) == 0 {
-			if stdin.closed {
-				stdin.mutex.Unlock()
-				return
-			}
-			stdin.mutex.Unlock()
-			continue
-		}
-
-		b := stdin.buffer
-		stdin.buffer = make([]byte, 0)
-
-		stdin.bRead += uint64(len(b))
-
-		stdin.mutex.Unlock()
-
-		callback(b)
-	}
-}*/
-
 // ReadLine returns each line in the stream as a callback function
 func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(stdin)
@@ -168,8 +145,6 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 	}
 
 	stdin.mutex.Lock()
-	//b := stdin.buffer
-	//stdin.buffer = make([]byte, 0)
 	stdin.bRead = uint64(len(stdin.buffer))
 	stdin.mutex.Unlock()
 	return stdin.buffer, nil
@@ -196,7 +171,6 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 	stdin.mutex.Unlock()
 
 	if isClosed {
-		//return 0, errors.New("Writing to closed pipe.")
 		return 0, io.ErrClosedPipe
 	}
 
@@ -212,12 +186,6 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 	}
 
 	stdin.mutex.Lock()
-	/*if cap(stdin.buffer) > len(stdin.buffer)+len(p) {
-		copy(stdin.buffer[len(stdin.buffer):], p)
-	} else {
-		//stdin.buffer = append(stdin.buffer, p...)
-		appendBytes(stdin.buffer, p...)
-	}*/
 	stdin.buffer = appendBytes(stdin.buffer, p...)
 	stdin.bWritten += uint64(len(p))
 	stdin.mutex.Unlock()
