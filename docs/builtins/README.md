@@ -19,3 +19,4 @@
 |         [`tout`](tout.md) | `echo` a string to the STDOUT and set it's data-type |
 |           [`try`](try.md) | Handles errors inside a block of code |
 |   [`trypipe`](trypipe.md) | Checks state of each function in a pipeline and exits block on error |
+|       [`unset`](unset.md) | Deallocates an environmental variable (aliased to `!export`) |
