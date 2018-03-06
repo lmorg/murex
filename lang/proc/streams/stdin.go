@@ -1,14 +1,10 @@
-// +build ingnore
-
 package streams
 
 import (
+	"bufio"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-
-	"bufio"
-	"bytes"
 	"io"
 	"sync"
 )
@@ -17,8 +13,7 @@ import (
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 type Stdin struct {
 	mutex       sync.Mutex
-	buffer      *bytes.Buffer
-	b           []byte
+	buffer      []byte
 	closed      bool
 	bRead       uint64
 	bWritten    uint64
@@ -29,17 +24,30 @@ type Stdin struct {
 	max         int
 }
 
-// DefaultMaxBufferSize is the maximum size of buffer for stdin. Hwever this will
-// get automatically overriden by ReadAll
+// DefaultMaxBufferSize is the maximum size of buffer for stdin
 var DefaultMaxBufferSize int = 1024 * 1024 * 10 // 10 meg
+
+// Shamelessly stolen from https://blog.golang.org/go-slices-usage-and-internals
+// (it works well so why reinvent the wheel?)
+func appendBytes(slice []byte, data ...byte) []byte {
+	m := len(slice)
+	n := m + len(data)
+	if n > cap(slice) { // if necessary, reallocate
+		// allocate double what's needed, for future growth.
+		newSlice := make([]byte, (n+1)*2)
+		copy(newSlice, slice)
+		slice = newSlice
+	}
+	slice = slice[0:n]
+	copy(slice[m:n], data)
+	return slice
+}
 
 // NewStdin creates a new stream.Io interface for piping data between processes.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	stdin.max = DefaultMaxBufferSize
-	//stdin.b = make([]byte, stdin.max)
-	stdin.buffer = bytes.NewBuffer(stdin.b)
 	return
 }
 
@@ -83,16 +91,36 @@ func (stdin *Stdin) Stats() (bytesWritten, bytesRead uint64) {
 }
 
 // Read is the standard Reader interface Read() method.
-func (stdin *Stdin) Read(p []byte) (int, error) {
-	stdin.mutex.Lock()
+func (stdin *Stdin) Read(p []byte) (i int, err error) {
 	defer stdin.mutex.Unlock()
+	for {
+		stdin.mutex.Lock()
 
-	/*if stdin.buffer.Len() == 0 && stdin.closed {
-		return 0, io.EOF
-	}*/
+		if len(stdin.buffer) == 0 && stdin.closed {
+			return 0, io.EOF
+		}
 
-	i, err := stdin.buffer.Read(p)
+		if len(stdin.buffer) == 0 && !stdin.closed {
+			stdin.mutex.Unlock()
+			continue
+		}
+
+		break
+	}
+
+	if len(p) >= len(stdin.buffer) {
+		i = len(stdin.buffer)
+		copy(p, stdin.buffer)
+		stdin.buffer = make([]byte, 0)
+
+	} else {
+		i = len(p)
+		copy(p, stdin.buffer[:i])
+		stdin.buffer = stdin.buffer[i:]
+	}
+
 	stdin.bRead += uint64(i)
+
 	return i, err
 }
 
@@ -108,10 +136,6 @@ func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 
 // ReadAll reads everything and dump it into one byte slice.
 func (stdin *Stdin) ReadAll() ([]byte, error) {
-	stdin.mutex.Lock()
-	stdin.max = int((^uint(0)) >> 1)
-	stdin.mutex.Unlock()
-
 	for {
 		stdin.mutex.Lock()
 		closed := stdin.closed
@@ -123,10 +147,9 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 	}
 
 	stdin.mutex.Lock()
-	defer stdin.mutex.Unlock()
-
-	stdin.bRead = uint64(stdin.buffer.Len())
-	return stdin.buffer.Bytes(), nil
+	stdin.bRead = uint64(len(stdin.buffer))
+	stdin.mutex.Unlock()
+	return stdin.buffer, nil
 }
 
 // ReadArray returns a data type-specific array returned via a callback function
@@ -141,32 +164,35 @@ func (stdin *Stdin) ReadMap(config *config.Config, callback func(key, value stri
 
 // Write is the standard Writer interface Write() method.
 func (stdin *Stdin) Write(p []byte) (int, error) {
-	/*stdin.mutex.Lock()
+	if len(p) == 0 {
+		return 0, nil
+	}
+
+	stdin.mutex.Lock()
 	isClosed := stdin.closed
 	stdin.mutex.Unlock()
 
 	if isClosed {
 		return 0, io.ErrClosedPipe
-	}*/
+	}
 
-	/*for {
+	for {
 		stdin.mutex.Lock()
-		buffSize := stdin.buffer.Len()
+		buffSize := len(stdin.buffer)
 		maxBufferSize := stdin.max
-
 		stdin.mutex.Unlock()
 
 		if buffSize < maxBufferSize {
 			break
 		}
-	}*/
+	}
 
 	stdin.mutex.Lock()
-	i, err := stdin.buffer.Write(p)
-	stdin.bWritten += uint64(i)
+	stdin.buffer = appendBytes(stdin.buffer, p...)
+	stdin.bWritten += uint64(len(p))
 	stdin.mutex.Unlock()
 
-	return i, err
+	return len(p), nil
 }
 
 // Writeln just calls Write() but with an appended, OS specific, new line.
@@ -201,14 +227,26 @@ func (stdin *Stdin) Close() {
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface
-func (stdin *Stdin) WriteTo(dst io.Writer) (int64, error) {
-	stdin.mutex.Lock()
-	defer stdin.mutex.Unlock()
+func (stdin *Stdin) WriteTo(w io.Writer) (n int64, err error) {
+	/*var i int
+	stdin.readerFunc(func(b []byte) {
+		i, err = dst.Write(b)
+		n += int64(i)
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			}
+			return
+		}
+	})
+	return*/
+	p, err := stdin.ReadAll()
+	if err != nil {
+		return 0, err
+	}
 
-	i, err := stdin.buffer.WriteTo(dst)
-	stdin.bRead += uint64(i)
-
-	return i, err
+	i, err := w.Write(p)
+	return int64(i), err
 }
 
 // GetDataType returns the murex data type for the stream.Io interface
