@@ -1,4 +1,4 @@
-package arange
+package ranges
 
 type rfString struct {
 	sStart string

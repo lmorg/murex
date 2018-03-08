@@ -6,7 +6,6 @@ package builtins
 //
 // My recommendation is to keep everything in this file included, but disable any of the files marked `optional`.
 import (
-	_ "github.com/lmorg/murex/builtins/core/arange"     // working with ranges within arrays (`@[..]`)
 	_ "github.com/lmorg/murex/builtins/core/datatools"  // utilities for manipulating structured data
 	_ "github.com/lmorg/murex/builtins/core/events"     // rudimentary event system
 	_ "github.com/lmorg/murex/builtins/core/httpclient" // builtins for http
@@ -14,6 +13,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/management" // murex management builtins
 	_ "github.com/lmorg/murex/builtins/core/mkarray"    // array management builtins
 	_ "github.com/lmorg/murex/builtins/core/random"     // random data builtin
+	_ "github.com/lmorg/murex/builtins/core/ranges"     // working with ranges within arrays (`@[..]`)
 	_ "github.com/lmorg/murex/builtins/core/structs"    // control structures
 	_ "github.com/lmorg/murex/builtins/core/textmanip"  // text manipulation builtins
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"   // type handling and management builtins

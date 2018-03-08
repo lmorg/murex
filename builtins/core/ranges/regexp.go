@@ -1,4 +1,4 @@
-package arange
+package ranges
 
 import (
 	"regexp"
