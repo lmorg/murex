@@ -12,13 +12,14 @@ import (
 	"time"
 )
 
-// This is an object that methods out lookups against the varTable.
+// Variables is an object that methods out lookups against the varTable.
 // This will need to be created on each proc.Process.
 type Variables struct {
 	varTable *varTable
 	process  *Process
 }
 
+// NewVariables creates a new Variables object
 func NewVariables(p *Process) *Variables {
 	vars := new(Variables)
 	vars.process = p
@@ -254,7 +255,7 @@ func (vars *Variables) Dump() map[string]*variable {
 	return m
 }
 
-// Dump returns a map of the variables and values for all variables in scope.
+// DumpMap returns a map of the variables and values for all variables in scope.
 // This isn't recommended for general consumption but is needed for the `eval`
 // function.
 func (vars *Variables) DumpMap() map[string]interface{} {

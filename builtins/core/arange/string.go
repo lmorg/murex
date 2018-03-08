@@ -8,7 +8,7 @@ type rfString struct {
 func (rf *rfString) Start(b []byte) bool { return string(b) == rf.sStart }
 func (rf *rfString) End(b []byte) bool   { return string(b) == rf.sEnd }
 
-func NewString(r *rangeParameters) error {
+func newString(r *rangeParameters) error {
 	rf := new(rfString)
 
 	rf.sStart = r.Start

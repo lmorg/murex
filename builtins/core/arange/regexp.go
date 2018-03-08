@@ -12,7 +12,7 @@ type rfRegexp struct {
 func (rf *rfRegexp) Start(b []byte) bool { return rf.rxStart.Match(b) }
 func (rf *rfRegexp) End(b []byte) bool   { return rf.rxEnd.Match(b) }
 
-func NewRegexp(r *rangeParameters) (err error) {
+func newRegexp(r *rangeParameters) (err error) {
 	rf := new(rfRegexp)
 
 	rf.rxStart, err = regexp.Compile(r.Start)
