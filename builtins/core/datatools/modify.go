@@ -1,11 +1,12 @@
 package datatools
 
 import (
-	"errors"
-	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
+
+	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
