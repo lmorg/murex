@@ -65,13 +65,13 @@ func cmdRange(p *proc.Process) (err error) {
 
 	switch split[3] {
 	case "r":
-		newRegexp(r)
+		err = newRegexp(r)
 
 	case "s":
 		fallthrough
 
 	default:
-		newString(r)
+		err = newString(r)
 	}
 
 	if err != nil {

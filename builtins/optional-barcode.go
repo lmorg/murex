@@ -1,5 +1,3 @@
-// +build ingore
-
 package builtins
 
 // This is an optional package that covers some barcode encodigs

@@ -2,7 +2,7 @@
 
 package runmode
 
-import "fmt"
+import "strconv"
 
 const _RunMode_name = "NormalShellTryTryPipeEvil"
 
@@ -10,7 +10,7 @@ var _RunMode_index = [...]uint8{0, 6, 11, 14, 21, 25}
 
 func (i RunMode) String() string {
 	if i < 0 || i >= RunMode(len(_RunMode_index)-1) {
-		return fmt.Sprintf("RunMode(%d)", i)
+		return "RunMode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
 	return _RunMode_name[_RunMode_index[i]:_RunMode_index[i+1]]
 }

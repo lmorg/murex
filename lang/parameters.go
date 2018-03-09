@@ -123,6 +123,9 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				p.Params[len(p.Params)-1] += string(b)
 				tCount = true
 
+			case parameters.TokenTypeRange:
+				debug.Log("parameters.TokenTypeRange:", p.Tokens[i][j].Key)
+
 			case parameters.TokenTypeTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
 					p.Params[len(p.Params)-1] += home.MyDir
