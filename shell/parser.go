@@ -49,6 +49,11 @@ type parseTokens struct {
 	Variable    string
 }
 
+func Highlight(s string) string {
+	_, highlighted := parse([]rune(s))
+	return highlighted
+}
+
 func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 	var readFunc bool
 	reset := []string{ansi.Reset, hlFunction}

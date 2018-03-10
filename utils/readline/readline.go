@@ -10,14 +10,17 @@ import (
 )
 
 var (
-	Prompt       string
-	Echo         bool
-	PasswordMask string
+	Prompt          string
+	Echo            bool
+	PasswordMask    string
+	SyntaxHighlight func(string) string
 )
 
 var (
-	line string
-	pos  int
+	line    string
+	pos     int
+	history []string
+	histPos int
 )
 
 func Readline() (string, error) {
@@ -28,7 +31,7 @@ func Readline() (string, error) {
 	}
 	defer terminal.Restore(fd, state)
 
-	fmt.Print("\r" + Prompt)
+	fmt.Print(Prompt)
 
 	line = ""
 	pos = 0
@@ -45,17 +48,13 @@ func Readline() (string, error) {
 		case CtrlC:
 			return "", errors.New(ErrCtrlC)
 		case CtrlU:
-			//fmt.Print(ansi.ClearLine)
-			fmt.Printf("\x1b[%dD", len(line))
-			fmt.Print(strings.Repeat(" ", len(line)))
-			fmt.Printf("\x1b[%dD", len(line))
-			line = ""
-			pos = 0
+			clearLine()
 		case '\r':
 			fallthrough
-			//fmt.Println("|")
 		case '\n':
-			fmt.Print("\r\n") // + ansi.ClearLine)
+			fmt.Print("\r\n")
+			history = append(history, line)
+			histPos = len(history)
 			return line, nil
 		case Backspace:
 			backspace()
@@ -67,24 +66,20 @@ func Readline() (string, error) {
 	}
 }
 
-func insert(b []byte) {
-	switch {
-	case len(line) == 0:
-		fmt.Print(string(b))
-		line = string(b)
-	case pos == 0:
-		fmt.Print(string(b) + line)
-		fmt.Printf("\x1b[%dD", len(line))
-		line = string(b) + line
-	case pos < len(line):
-		fmt.Print(string(b) + line[pos:])
-		fmt.Printf("\x1b[%dD", len(line[pos:]))
-		line = line[:pos] + string(b) + line[pos:]
-	default:
-		fmt.Print(string(b))
-		line += string(b)
+func echo() {
+	if pos > 0 {
+		fmt.Printf("\x1b[%dD", pos)
 	}
-	pos++
+
+	if SyntaxHighlight == nil {
+		fmt.Print(line + " ")
+	} else {
+		fmt.Print(SyntaxHighlight(line) + " ")
+	}
+
+	if pos < len(line) {
+		fmt.Printf("\x1b[%dD", len(line)-pos)
+	}
 }
 
 func escapeSequ(b []byte) {
@@ -92,7 +87,23 @@ func escapeSequ(b []byte) {
 	case seqDelete:
 		delete()
 	case seqUp:
+		if histPos > 0 {
+			histPos--
+		}
+		clearLine()
+		line = history[histPos]
+		echo()
+		pos = len(line)
+		fmt.Printf("\x1b[%dC", pos-1)
 	case seqDown:
+		if histPos < len(history)-1 {
+			histPos++
+		}
+		clearLine()
+		line = history[histPos]
+		echo()
+		pos = len(line)
+		fmt.Printf("\x1b[%dC", pos-1)
 	case seqBackwards:
 		if pos > 0 {
 			fmt.Print(ansi.Backwards)
@@ -116,26 +127,56 @@ func backspace() {
 	delete()
 }
 
+func insert(b []byte) {
+	switch {
+	case len(line) == 0:
+		line = string(b)
+		echo()
+	case pos == 0:
+		line = string(b) + line
+		echo()
+	case pos < len(line):
+		line = line[:pos] + string(b) + line[pos:]
+		echo()
+	default:
+		line += string(b)
+		echo()
+	}
+	pos++
+}
+
 func delete() {
 	switch {
-	/*if len(line) > 0 {
-		fmt.Print(ansi.Backwards + " " + ansi.Backwards)
-		line = line[:len(line)-1]
-	}*/
 	case len(line) == 0:
 		return
 	case pos == 0:
 		line = line[1:]
-		fmt.Print(line + " ")
-		fmt.Printf("\x1b[%dD", len(line)+1)
+		echo()
+		fmt.Print(ansi.Backwards)
 	case pos > len(line):
 		backspace()
 	case pos == len(line):
 		line = line[:pos]
-		fmt.Print(" " + ansi.Backwards)
+		echo()
+		fmt.Print(ansi.Backwards)
 	default:
-		fmt.Print(line[pos+1:] + " ")
-		fmt.Printf("\x1b[%dD", len(line[pos:]))
 		line = line[:pos] + line[pos+1:]
+		echo()
+		fmt.Print(ansi.Backwards)
 	}
+}
+
+func clearLine() {
+	if len(line) == 0 {
+		return
+	}
+
+	if pos > 0 {
+		fmt.Printf("\x1b[%dD", pos)
+	}
+
+	fmt.Print(strings.Repeat(" ", len(line)))
+	fmt.Printf("\x1b[%dD", len(line))
+	line = ""
+	pos = 0
 }
