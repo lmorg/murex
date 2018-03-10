@@ -55,3 +55,11 @@ const (
 	ClearScrean = "\x1b[2J"
 	ClearLine   = "\x1b[K"
 )
+
+// CarotMovement
+const (
+	Up        = "\x1b[1A"
+	Down      = "\x1b[1B"
+	Forwards  = "\x1b[1C"
+	Backwards = "\x1b[1D"
+)
