@@ -9,8 +9,9 @@ const (
 )
 
 var (
-	up        = string([]byte{27, 91, 65})
-	down      = string([]byte{27, 91, 66})
-	forwards  = string([]byte{27, 91, 67})
-	backwards = string([]byte{27, 91, 68})
+	seqUp        = string([]byte{27, 91, 65})
+	seqDown      = string([]byte{27, 91, 66})
+	seqForwards  = string([]byte{27, 91, 67})
+	seqBackwards = string([]byte{27, 91, 68})
+	seqDelete    = string([]byte{27, 91, 51, 126})
 )

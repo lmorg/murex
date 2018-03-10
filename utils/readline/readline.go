@@ -87,6 +87,25 @@ func insert(b []byte) {
 	pos++
 }
 
+func escapeSequ(b []byte) {
+	switch string(b) {
+	case seqDelete:
+		delete()
+	case seqUp:
+	case seqDown:
+	case seqBackwards:
+		if pos > 0 {
+			fmt.Print(ansi.Backwards)
+			pos--
+		}
+	case seqForwards:
+		if pos < len(line) {
+			fmt.Print(ansi.Forwards)
+			pos++
+		}
+	}
+}
+
 func backspace() {
 	if len(line) == 0 || pos == 0 {
 		return
@@ -118,22 +137,5 @@ func delete() {
 		fmt.Print(line[pos+1:] + " ")
 		fmt.Printf("\x1b[%dD", len(line[pos:]))
 		line = line[:pos] + line[pos+1:]
-	}
-}
-
-func escapeSequ(b []byte) {
-	switch string(b) {
-	case up:
-	case down:
-	case backwards:
-		if pos > 0 {
-			fmt.Print(ansi.Backwards)
-			pos--
-		}
-	case forwards:
-		if pos < len(line) {
-			fmt.Print(ansi.Forwards)
-			pos++
-		}
 	}
 }
