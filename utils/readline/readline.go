@@ -42,6 +42,7 @@ var (
 	lineBuf []rune
 	pos     int
 	histPos int
+	mode    int
 )
 
 func init() {

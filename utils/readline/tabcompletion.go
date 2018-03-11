@@ -7,73 +7,98 @@ import (
 	"strconv"
 )
 
+const modeTabCompletion = 1
+
+var (
+	tcSuggestions []string
+	tcPosX        int
+	tcPosY        int
+	tcMaxX        int
+	tcMaxY        int
+	tcMaxLength   int
+	termWidth     int
+)
+
 func tabCompletion() {
 	if TabCompleter == nil {
 		return
 	}
 
-	suggestions := TabCompleter(line, pos)
-	if len(suggestions) == 0 {
+	tcSuggestions = TabCompleter(line, pos)
+	if len(tcSuggestions) == 0 {
 		return
 	}
 
-	if len(suggestions) == 1 {
-		if len(suggestions[0]) == 0 {
+	if len(tcSuggestions) == 1 {
+		if len(tcSuggestions[0]) == 0 {
 			return
 		}
-		insert([]byte(suggestions[0]))
+		insert([]byte(tcSuggestions[0]))
 		return
 	}
 
-	//fmt.Print("\r\n")
-	//fmt.Print(suggestions)
-	//fmt.Print("\r\n" + Prompt + string(line))
-
-	renderSuggestions(suggestions)
+	initTabGrid()
+	renderSuggestions()
 }
 
-func renderSuggestions(suggestions []string) {
+func initTabGrid() {
+	var err error
 	fd := int(os.Stdout.Fd())
-	width, _, err := terminal.GetSize(fd)
+	termWidth, _, err = terminal.GetSize(fd)
 	if err != nil {
 		panic(err)
 	}
 
-	//fmt.Print(seqPosSave + "\r\n")
 	fmt.Print("\r\n")
 
 	s := string(line)
-	maxLength := 1
-	for i := range suggestions {
-		suggestions[i] = s + suggestions[i]
-		if len(suggestions[i]) > maxLength {
-			maxLength = len(suggestions[i])
+	tcMaxLength := 1
+	for i := range tcSuggestions {
+		tcSuggestions[i] = s + tcSuggestions[i]
+		if len(tcSuggestions[i]) > tcMaxLength {
+			tcMaxLength = len(tcSuggestions[i])
 		}
 	}
 
-	xCells := int(width / (maxLength + 2))
-	cellWidth := strconv.Itoa((width / xCells) - 2)
+	mode = modeTabCompletion
+	tcPosX = 1
+	tcPosY = 1
+	tcMaxX = termWidth / (tcMaxLength + 2)
+	tcMaxY = 4
+}
 
-	yCells := 4
+func moveHighlight(x, y int) {
+	//switch x {
+	//case -1:
+	//}
+	tcPosX += x
+	tcPosY += y
+}
+
+func renderSuggestions() {
+	cellWidth := strconv.Itoa((termWidth / tcMaxX) - 2)
 	x := 0
 	y := 1
-	for i := range suggestions {
+	for i := range tcSuggestions {
 		x++
-		if x > xCells {
+		if x > tcMaxX {
 			x = 1
 			y++
-			if y > yCells {
+			if y > tcMaxY {
 				break
 			} else {
 				fmt.Print("\r\n")
 			}
 		}
 
-		fmt.Printf(" %-"+cellWidth+"s ", suggestions[i])
+		if x == tcPosX && y == tcPosY {
+			fmt.Print(seqBgWhite + seqFgBlack)
+		}
+		fmt.Printf(" %-"+cellWidth+"s %s", tcSuggestions[i], seqReset)
 	}
 
 	//fmt.Print(seqPosRestore)
 	moveCursorUp(y)
-	moveCursorBackwards(width)
+	moveCursorBackwards(termWidth)
 	moveCursorForwards(len(Prompt) + pos)
 }
