@@ -10,10 +10,23 @@ import (
 )
 
 var (
-	Prompt          string = ">>> "
-	PasswordMask    rune
+	// Prompt is the readline prompt
+	Prompt string = ">>> "
+
+	// PasswordMask is what character to hide password entry behind.
+	// Once enabled, set to 0 (zero) to disable the mask again.
+	PasswordMask rune
+
+	// SyntaxHighlight is a helper function to provide syntax highlighting.
+	// Once enabled, set to nil to disable again.
 	SyntaxHighlight func([]rune) string
-	History         LineHistory
+
+	// History is an interface for querying the readline history.
+	// This is exposed as an interface to allow you the flexibility to define how
+	// you want your history managed (eg file on disk, database, cloud, or even no
+	// history at all). By default it uses a dummy interface that only stores
+	// historic items in memory.
+	History LineHistory
 )
 
 // While it might normally seem bad practice to have global variables, you canot
@@ -31,6 +44,8 @@ func init() {
 	History = new(dummyLineHistory)
 }
 
+// Readline displays the readline prompt.
+// It will return a string (user entered data) or an error.
 func Readline() (string, error) {
 	fd := int(os.Stdin.Fd())
 	state, err := terminal.MakeRaw(fd)
