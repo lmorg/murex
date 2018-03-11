@@ -10,18 +10,26 @@ import (
 )
 
 var (
-	Prompt          string
-	Echo            bool
-	PasswordMask    string
-	SyntaxHighlight func(string) string
+	Prompt          string = ">>> "
+	PasswordMask    rune
+	SyntaxHighlight func([]rune) string
+	History         LineHistory
 )
 
+// While it might normally seem bad practice to have global variables, you canot
+// have two concurrent readline prompts anyway due to limitations in the way
+// terminal emulators work. So storing these values as globals simplifies the
+// API design immencely without sacricing functionality.
 var (
-	line    string
+	line    []rune
+	lineBuf []rune
 	pos     int
-	history []string
 	histPos int
 )
+
+func init() {
+	History = new(dummyLineHistory)
+}
 
 func Readline() (string, error) {
 	fd := int(os.Stdin.Fd())
@@ -33,7 +41,7 @@ func Readline() (string, error) {
 
 	fmt.Print(Prompt)
 
-	line = ""
+	line = []rune{}
 	pos = 0
 
 	for {
@@ -53,9 +61,11 @@ func Readline() (string, error) {
 			fallthrough
 		case '\n':
 			fmt.Print("\r\n")
-			history = append(history, line)
-			histPos = len(history)
-			return line, nil
+			histPos, err = History.Append(string(line))
+			if err != nil {
+				fmt.Print(err.Error() + "\r\n")
+			}
+			return string(line), nil
 		case Backspace:
 			backspace()
 		case Escape:
@@ -71,9 +81,14 @@ func echo() {
 		fmt.Printf("\x1b[%dD", pos)
 	}
 
-	if SyntaxHighlight == nil {
-		fmt.Print(line + " ")
-	} else {
+	switch {
+	case PasswordMask > 0:
+		fmt.Print(strings.Repeat(string(PasswordMask), len(line)) + " ")
+
+	case SyntaxHighlight == nil:
+		fmt.Print(string(line) + " ")
+
+	default:
 		fmt.Print(SyntaxHighlight(line) + " ")
 	}
 
@@ -87,23 +102,9 @@ func escapeSequ(b []byte) {
 	case seqDelete:
 		delete()
 	case seqUp:
-		if histPos > 0 {
-			histPos--
-		}
-		clearLine()
-		line = history[histPos]
-		echo()
-		pos = len(line)
-		fmt.Printf("\x1b[%dC", pos-1)
+		walkHistory(-1)
 	case seqDown:
-		if histPos < len(history)-1 {
-			histPos++
-		}
-		clearLine()
-		line = history[histPos]
-		echo()
-		pos = len(line)
-		fmt.Printf("\x1b[%dC", pos-1)
+		walkHistory(1)
 	case seqBackwards:
 		if pos > 0 {
 			fmt.Print(ansi.Backwards)
@@ -128,20 +129,19 @@ func backspace() {
 }
 
 func insert(b []byte) {
+	r := []rune(string(b))
 	switch {
 	case len(line) == 0:
-		line = string(b)
-		echo()
+		line = r
 	case pos == 0:
-		line = string(b) + line
-		echo()
+		line = append(r, line...)
 	case pos < len(line):
-		line = line[:pos] + string(b) + line[pos:]
-		echo()
+		r := append(r, line[pos:]...)
+		line = append(line[:pos], r...)
 	default:
-		line += string(b)
-		echo()
+		line = append(line, r...)
 	}
+	echo()
 	pos++
 }
 
@@ -160,7 +160,7 @@ func delete() {
 		echo()
 		fmt.Print(ansi.Backwards)
 	default:
-		line = line[:pos] + line[pos+1:]
+		line = append(line[:pos], line[pos+1:]...)
 		echo()
 		fmt.Print(ansi.Backwards)
 	}
@@ -177,6 +177,43 @@ func clearLine() {
 
 	fmt.Print(strings.Repeat(" ", len(line)))
 	fmt.Printf("\x1b[%dD", len(line))
-	line = ""
+
+	line = []rune{}
 	pos = 0
+}
+
+func walkHistory(i int) {
+	switch histPos + i {
+	case -1, History.Len() + 1:
+		return
+
+	case History.Len():
+		clearLine()
+		histPos += i
+		line = lineBuf
+
+	default:
+		s, err := History.GetLine(histPos + i)
+		if err != nil {
+			fmt.Print("\r\n" + err.Error() + "\r\n")
+			fmt.Print(Prompt)
+			return
+		}
+
+		if histPos == History.Len() {
+			lineBuf = append(line, []rune{}...)
+		}
+
+		clearLine()
+		histPos += i
+		line = []rune(s)
+	}
+
+	echo()
+	pos = len(line)
+	if pos > 1 {
+		fmt.Printf("\x1b[%dC", pos-1)
+	} else if pos == 0 {
+		fmt.Print("\x1b[1D")
+	}
 }

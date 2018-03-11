@@ -1,11 +1,12 @@
 package history
 
 import (
-	"bufio"
-	"encoding/json"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/readline"
+
+	"bufio"
+	"encoding/json"
 	"os"
 	"strings"
 	"time"

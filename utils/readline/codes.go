@@ -1,13 +1,15 @@
 package readline
 
+// Character codes
 const (
-	CtrlC     = 3
-	CtrlU     = 21
-	EOF       = 4
-	Backspace = 127
-	Escape    = 27
+	charCtrlC     = 3
+	charCtrlU     = 21
+	charEOF       = 4
+	charBackspace = 127
+	charEscape    = 27
 )
 
+// Escape sequences
 var (
 	seqUp        = string([]byte{27, 91, 65})
 	seqDown      = string([]byte{27, 91, 66})

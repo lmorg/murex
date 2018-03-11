@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	readline.Prompt = ">> "
 	readline.SyntaxHighlight = shell.Highlight
 
 	for {

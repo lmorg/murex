@@ -49,8 +49,8 @@ type parseTokens struct {
 	Variable    string
 }
 
-func Highlight(s string) string {
-	_, highlighted := parse([]rune(s))
+func Highlight(r []rune) string {
+	_, highlighted := parse(r)
 	return highlighted
 }
 
