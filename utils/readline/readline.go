@@ -3,7 +3,7 @@ package readline
 import (
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/utils/ansi"
+	//"github.com/lmorg/murex/utils/ansi"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
@@ -68,9 +68,11 @@ func Readline() (string, error) {
 
 		//fmt.Print(b[:i])
 		switch b[0] {
-		case CtrlC:
+		case charCtrlC:
 			return "", errors.New(ErrCtrlC)
-		case CtrlU:
+		case charEOF:
+			return "", errors.New(ErrEOF)
+		case charCtrlU:
 			clearLine()
 		case '\r':
 			fallthrough
@@ -81,10 +83,10 @@ func Readline() (string, error) {
 				fmt.Print(err.Error() + "\r\n")
 			}
 			return string(line), nil
-		case Backspace:
+		case charBackspace:
 			backspace()
-		case Escape:
-			escapeSequ(b[:i])
+		case charEscape:
+			escapeSeq(b[:i])
 		default:
 			insert(b[:i])
 		}
@@ -92,9 +94,10 @@ func Readline() (string, error) {
 }
 
 func echo() {
-	if pos > 0 {
-		fmt.Printf("\x1b[%dD", pos)
-	}
+	//if pos > 0 {
+	//	fmt.Printf("\x1b[%dD", pos)
+	//}
+	moveCursorBackwards(pos)
 
 	switch {
 	case PasswordMask > 0:
@@ -107,12 +110,13 @@ func echo() {
 		fmt.Print(SyntaxHighlight(line) + " ")
 	}
 
-	if pos < len(line) {
-		fmt.Printf("\x1b[%dD", len(line)-pos)
-	}
+	//if pos < len(line) {
+	//	fmt.Printf("\x1b[%dD", len(line)-pos)
+	//}
+	moveCursorBackwards(len(line) - pos)
 }
 
-func escapeSequ(b []byte) {
+func escapeSeq(b []byte) {
 	switch string(b) {
 	case seqDelete:
 		delete()
@@ -122,15 +126,33 @@ func escapeSequ(b []byte) {
 		walkHistory(1)
 	case seqBackwards:
 		if pos > 0 {
-			fmt.Print(ansi.Backwards)
+			//fmt.Print(ansi.Backwards)
+			moveCursorBackwards(1)
 			pos--
 		}
 	case seqForwards:
 		if pos < len(line) {
-			fmt.Print(ansi.Forwards)
+			//fmt.Print(ansi.Forwards)
+			moveCursorForwards(1)
 			pos++
 		}
 	}
+}
+
+func moveCursorForwards(i int) {
+	if i < 1 {
+		return
+	}
+
+	fmt.Printf("\x1b[%dC", i)
+}
+
+func moveCursorBackwards(i int) {
+	if i < 1 {
+		return
+	}
+
+	fmt.Printf("\x1b[%dD", i)
 }
 
 func backspace() {
@@ -138,7 +160,8 @@ func backspace() {
 		return
 	}
 
-	fmt.Print(ansi.Backwards)
+	//fmt.Print(ansi.Backwards)
+	moveCursorBackwards(1)
 	pos--
 	delete()
 }
@@ -157,7 +180,9 @@ func insert(b []byte) {
 		line = append(line, r...)
 	}
 	echo()
-	pos++
+
+	moveCursorForwards(len(r) - 1)
+	pos += len(r)
 }
 
 func delete() {
@@ -167,17 +192,20 @@ func delete() {
 	case pos == 0:
 		line = line[1:]
 		echo()
-		fmt.Print(ansi.Backwards)
+		//fmt.Print(ansi.Backwards)
+		moveCursorBackwards(1)
 	case pos > len(line):
 		backspace()
 	case pos == len(line):
 		line = line[:pos]
 		echo()
-		fmt.Print(ansi.Backwards)
+		//fmt.Print(ansi.Backwards)
+		moveCursorBackwards(1)
 	default:
 		line = append(line[:pos], line[pos+1:]...)
 		echo()
-		fmt.Print(ansi.Backwards)
+		//fmt.Print(ansi.Backwards)
+		moveCursorBackwards(1)
 	}
 }
 
@@ -186,12 +214,14 @@ func clearLine() {
 		return
 	}
 
-	if pos > 0 {
-		fmt.Printf("\x1b[%dD", pos)
-	}
+	//if pos > 0 {
+	//	fmt.Printf("\x1b[%dD", pos)
+	//}
+	moveCursorBackwards(pos)
 
 	fmt.Print(strings.Repeat(" ", len(line)))
-	fmt.Printf("\x1b[%dD", len(line))
+	//fmt.Printf("\x1b[%dD", len(line))
+	moveCursorBackwards(len(line))
 
 	line = []rune{}
 	pos = 0
@@ -227,8 +257,10 @@ func walkHistory(i int) {
 	echo()
 	pos = len(line)
 	if pos > 1 {
-		fmt.Printf("\x1b[%dC", pos-1)
+		//fmt.Printf("\x1b[%dC", pos-1)
+		moveCursorForwards(pos - 1)
 	} else if pos == 0 {
-		fmt.Print("\x1b[1D")
+		//fmt.Print("\x1b[1D")
+		moveCursorBackwards(1)
 	}
 }

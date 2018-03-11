@@ -2,9 +2,35 @@ package readline
 
 // Character codes
 const (
-	charCtrlC     = 3
-	charCtrlU     = 21
-	charEOF       = 4
+	charCtrlA = iota + 1
+	charCtrlB
+	charCtrlC
+	charEOF
+	charCtrlE
+	charCtrlF
+	charCtrlG
+	charCtrlH
+	charCtrlI
+	charCtrlJ
+	charCtrlK
+	charCtrlL
+	charCtrlM
+	charCtrlN
+	charCtrlO
+	charCtrlP
+	charCtrlQ
+	charCtrlR
+	charCtrlS
+	charCtrlT
+	charCtrlU
+	charCtrlV
+	charCtrlW
+	charCtrlX
+	charCtrlY
+	charCtrlZ
+)
+
+const (
 	charBackspace = 127
 	charEscape    = 27
 )
