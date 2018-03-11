@@ -3,7 +3,6 @@ package readline
 import (
 	"errors"
 	"fmt"
-	//"github.com/lmorg/murex/utils/ansi"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
@@ -27,6 +26,11 @@ var (
 	// history at all). By default it uses a dummy interface that only stores
 	// historic items in memory.
 	History LineHistory
+
+	// TabCompleter is a simple function that offers completion suggestions.
+	// It takes the readline line ([]rune) and cursor pos. Returns an array of
+	// suggestions.
+	TabCompleter func([]rune, int) []string
 )
 
 // While it might normally seem bad practice to have global variables, you canot
@@ -66,12 +70,13 @@ func Readline() (string, error) {
 			return "", err
 		}
 
-		//fmt.Print(b[:i])
 		switch b[0] {
 		case charCtrlC:
 			return "", errors.New(ErrCtrlC)
 		case charEOF:
 			return "", errors.New(ErrEOF)
+		case charTab:
+			tabCompletion()
 		case charCtrlU:
 			clearLine()
 		case '\r':
@@ -93,10 +98,28 @@ func Readline() (string, error) {
 	}
 }
 
+func escapeSeq(b []byte) {
+	switch string(b) {
+	case seqDelete:
+		delete()
+	case seqUp:
+		walkHistory(-1)
+	case seqDown:
+		walkHistory(1)
+	case seqBackwards:
+		if pos > 0 {
+			moveCursorBackwards(1)
+			pos--
+		}
+	case seqForwards:
+		if pos < len(line) {
+			moveCursorForwards(1)
+			pos++
+		}
+	}
+}
+
 func echo() {
-	//if pos > 0 {
-	//	fmt.Printf("\x1b[%dD", pos)
-	//}
 	moveCursorBackwards(pos)
 
 	switch {
@@ -110,157 +133,5 @@ func echo() {
 		fmt.Print(SyntaxHighlight(line) + " ")
 	}
 
-	//if pos < len(line) {
-	//	fmt.Printf("\x1b[%dD", len(line)-pos)
-	//}
 	moveCursorBackwards(len(line) - pos)
-}
-
-func escapeSeq(b []byte) {
-	switch string(b) {
-	case seqDelete:
-		delete()
-	case seqUp:
-		walkHistory(-1)
-	case seqDown:
-		walkHistory(1)
-	case seqBackwards:
-		if pos > 0 {
-			//fmt.Print(ansi.Backwards)
-			moveCursorBackwards(1)
-			pos--
-		}
-	case seqForwards:
-		if pos < len(line) {
-			//fmt.Print(ansi.Forwards)
-			moveCursorForwards(1)
-			pos++
-		}
-	}
-}
-
-func moveCursorForwards(i int) {
-	if i < 1 {
-		return
-	}
-
-	fmt.Printf("\x1b[%dC", i)
-}
-
-func moveCursorBackwards(i int) {
-	if i < 1 {
-		return
-	}
-
-	fmt.Printf("\x1b[%dD", i)
-}
-
-func backspace() {
-	if len(line) == 0 || pos == 0 {
-		return
-	}
-
-	//fmt.Print(ansi.Backwards)
-	moveCursorBackwards(1)
-	pos--
-	delete()
-}
-
-func insert(b []byte) {
-	r := []rune(string(b))
-	switch {
-	case len(line) == 0:
-		line = r
-	case pos == 0:
-		line = append(r, line...)
-	case pos < len(line):
-		r := append(r, line[pos:]...)
-		line = append(line[:pos], r...)
-	default:
-		line = append(line, r...)
-	}
-	echo()
-
-	moveCursorForwards(len(r) - 1)
-	pos += len(r)
-}
-
-func delete() {
-	switch {
-	case len(line) == 0:
-		return
-	case pos == 0:
-		line = line[1:]
-		echo()
-		//fmt.Print(ansi.Backwards)
-		moveCursorBackwards(1)
-	case pos > len(line):
-		backspace()
-	case pos == len(line):
-		line = line[:pos]
-		echo()
-		//fmt.Print(ansi.Backwards)
-		moveCursorBackwards(1)
-	default:
-		line = append(line[:pos], line[pos+1:]...)
-		echo()
-		//fmt.Print(ansi.Backwards)
-		moveCursorBackwards(1)
-	}
-}
-
-func clearLine() {
-	if len(line) == 0 {
-		return
-	}
-
-	//if pos > 0 {
-	//	fmt.Printf("\x1b[%dD", pos)
-	//}
-	moveCursorBackwards(pos)
-
-	fmt.Print(strings.Repeat(" ", len(line)))
-	//fmt.Printf("\x1b[%dD", len(line))
-	moveCursorBackwards(len(line))
-
-	line = []rune{}
-	pos = 0
-}
-
-func walkHistory(i int) {
-	switch histPos + i {
-	case -1, History.Len() + 1:
-		return
-
-	case History.Len():
-		clearLine()
-		histPos += i
-		line = lineBuf
-
-	default:
-		s, err := History.GetLine(histPos + i)
-		if err != nil {
-			fmt.Print("\r\n" + err.Error() + "\r\n")
-			fmt.Print(Prompt)
-			return
-		}
-
-		if histPos == History.Len() {
-			lineBuf = append(line, []rune{}...)
-		}
-
-		clearLine()
-		histPos += i
-		line = []rune(s)
-	}
-
-	echo()
-	pos = len(line)
-	if pos > 1 {
-		//fmt.Printf("\x1b[%dC", pos-1)
-		moveCursorForwards(pos - 1)
-	} else if pos == 0 {
-		//fmt.Print("\x1b[1D")
-		moveCursorBackwards(1)
-	}
 }

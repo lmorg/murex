@@ -10,7 +10,7 @@ const (
 	charCtrlF
 	charCtrlG
 	charCtrlH
-	charCtrlI
+	charTab
 	charCtrlJ
 	charCtrlK
 	charCtrlL
@@ -42,4 +42,9 @@ var (
 	seqForwards  = string([]byte{27, 91, 67})
 	seqBackwards = string([]byte{27, 91, 68})
 	seqDelete    = string([]byte{27, 91, 51, 126})
+)
+
+const (
+	seqPosSave    = "\x1b[s"
+	seqPosRestore = "\x1b[u"
 )

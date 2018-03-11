@@ -1,5 +1,9 @@
 package readline
 
+import (
+	"fmt"
+)
+
 // LineHistory is an interface to allow you to write your own history logging
 // tools. eg sqlite backend instead of a file system.
 // By default readline will just use the dummyLineHistory interface which only
@@ -13,7 +17,7 @@ type LineHistory interface {
 	Len() int
 }
 
-// Example LineHistory interface.
+// Example LineHistory interface:
 
 type dummyLineHistory struct {
 	items []string
@@ -30,4 +34,42 @@ func (h *dummyLineHistory) GetLine(i int) (string, error) {
 
 func (h *dummyLineHistory) Len() int {
 	return len(h.items)
+}
+
+// Browse historic lines:
+
+func walkHistory(i int) {
+	switch histPos + i {
+	case -1, History.Len() + 1:
+		return
+
+	case History.Len():
+		clearLine()
+		histPos += i
+		line = lineBuf
+
+	default:
+		s, err := History.GetLine(histPos + i)
+		if err != nil {
+			fmt.Print("\r\n" + err.Error() + "\r\n")
+			fmt.Print(Prompt)
+			return
+		}
+
+		if histPos == History.Len() {
+			lineBuf = append(line, []rune{}...)
+		}
+
+		clearLine()
+		histPos += i
+		line = []rune(s)
+	}
+
+	echo()
+	pos = len(line)
+	if pos > 1 {
+		moveCursorForwards(pos - 1)
+	} else if pos == 0 {
+		moveCursorBackwards(1)
+	}
 }
