@@ -41,6 +41,8 @@ var (
 	seqDown      = string([]byte{27, 91, 66})
 	seqForwards  = string([]byte{27, 91, 67})
 	seqBackwards = string([]byte{27, 91, 68})
+	seqHome      = string([]byte{27, 91, 72})
+	seqEnd       = string([]byte{27, 91, 70})
 	seqDelete    = string([]byte{27, 91, 51, 126})
 )
 

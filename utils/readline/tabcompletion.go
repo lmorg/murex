@@ -5,12 +5,17 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strconv"
+	"strings"
 )
 
-const modeTabCompletion = 1
+const (
+	modeNormal = iota
+	modeTabCompletion
+)
 
 var (
 	tcSuggestions []string
+	tcGrid        [][]string
 	tcPosX        int
 	tcPosY        int
 	tcMaxX        int
@@ -21,6 +26,11 @@ var (
 
 func tabCompletion() {
 	if TabCompleter == nil {
+		return
+	}
+
+	if mode == modeTabCompletion {
+		moveTabHighlight(1, 0)
 		return
 	}
 
@@ -49,14 +59,11 @@ func initTabGrid() {
 		panic(err)
 	}
 
-	fmt.Print("\r\n")
-
 	s := string(line)
 	tcMaxLength := 1
 	for i := range tcSuggestions {
-		tcSuggestions[i] = s + tcSuggestions[i]
-		if len(tcSuggestions[i]) > tcMaxLength {
-			tcMaxLength = len(tcSuggestions[i])
+		if len(s+tcSuggestions[i]) > tcMaxLength {
+			tcMaxLength = len(s + tcSuggestions[i])
 		}
 	}
 
@@ -67,24 +74,47 @@ func initTabGrid() {
 	tcMaxY = 4
 }
 
-func moveHighlight(x, y int) {
+func moveTabHighlight(x, y int) {
 	//switch x {
 	//case -1:
 	//}
 	tcPosX += x
 	tcPosY += y
+
+	if tcPosX < 1 {
+		tcPosX = tcMaxX
+		tcPosY--
+	}
+
+	if tcPosX > tcMaxX {
+		tcPosX = 1
+		tcPosY++
+	}
+
+	if tcPosY < 1 {
+		tcPosY = tcMaxY
+	}
+
+	if tcPosY > tcMaxY {
+		tcPosY = 1
+	}
+	renderSuggestions()
 }
 
 func renderSuggestions() {
+	fmt.Print("\r\n")
+
 	cellWidth := strconv.Itoa((termWidth / tcMaxX) - 2)
 	x := 0
 	y := 1
+	s := string(line)
 	for i := range tcSuggestions {
 		x++
 		if x > tcMaxX {
 			x = 1
 			y++
 			if y > tcMaxY {
+				y--
 				break
 			} else {
 				fmt.Print("\r\n")
@@ -94,11 +124,18 @@ func renderSuggestions() {
 		if x == tcPosX && y == tcPosY {
 			fmt.Print(seqBgWhite + seqFgBlack)
 		}
-		fmt.Printf(" %-"+cellWidth+"s %s", tcSuggestions[i], seqReset)
+		fmt.Printf(" %-"+cellWidth+"s %s", s+tcSuggestions[i], seqReset)
 	}
 
 	//fmt.Print(seqPosRestore)
 	moveCursorUp(y)
 	moveCursorBackwards(termWidth)
 	moveCursorForwards(len(Prompt) + pos)
+}
+
+func clearTabSuggestions() {
+	blank := strings.Repeat(" ", termWidth*tcMaxY)
+
+	fmt.Print(seqPosSave + "\r\n" + blank + seqPosRestore)
+	mode = modeNormal
 }

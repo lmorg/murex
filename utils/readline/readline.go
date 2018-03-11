@@ -83,6 +83,12 @@ func Readline() (string, error) {
 		case '\r':
 			fallthrough
 		case '\n':
+			if mode == modeTabCompletion {
+				cell := (tcMaxX * (tcPosY - 1)) + tcPosX - 1
+				insert([]byte(tcSuggestions[cell]))
+				clearTabSuggestions()
+				continue
+			}
 			fmt.Print("\r\n")
 			histPos, err = History.Append(string(line))
 			if err != nil {
@@ -101,22 +107,61 @@ func Readline() (string, error) {
 
 func escapeSeq(b []byte) {
 	switch string(b) {
+	case string(charEscape):
+		if mode == modeTabCompletion {
+			clearTabSuggestions()
+		}
+
 	case seqDelete:
 		delete()
+
 	case seqUp:
+		if mode == modeTabCompletion {
+			moveTabHighlight(0, -1)
+			return
+		}
 		walkHistory(-1)
+
 	case seqDown:
+		if mode == modeTabCompletion {
+			moveTabHighlight(0, 1)
+			return
+		}
 		walkHistory(1)
+
 	case seqBackwards:
+		if mode == modeTabCompletion {
+			moveTabHighlight(-1, 0)
+			return
+		}
 		if pos > 0 {
 			moveCursorBackwards(1)
 			pos--
 		}
+
 	case seqForwards:
+		if mode == modeTabCompletion {
+			moveTabHighlight(1, 0)
+			return
+		}
 		if pos < len(line) {
 			moveCursorForwards(1)
 			pos++
 		}
+
+	case seqHome:
+		if mode == modeTabCompletion {
+			return
+		}
+		moveCursorBackwards(pos)
+		pos = 0
+
+	case seqEnd:
+		if mode == modeTabCompletion {
+			return
+		}
+		moveCursorForwards(len(line) - pos)
+		pos = len(line)
 	}
 }
 
