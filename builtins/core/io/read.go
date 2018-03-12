@@ -1,9 +1,11 @@
+// +build ignore
+
 package io
 
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func init() {

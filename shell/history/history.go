@@ -3,22 +3,19 @@ package history
 import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
-	"github.com/lmorg/readline"
 
 	"bufio"
 	"encoding/json"
 	"os"
-	"strings"
 	"time"
 )
 
 // History exports common functions needed for shell history
 type History struct {
 	filename string
-	Last     string
-	List     []histItem
-	Writer   stdio.Io
-	shell    *readline.Instance
+	//Last     string
+	list   []histItem
+	writer stdio.Io
 }
 
 type histItem struct {
@@ -28,15 +25,15 @@ type histItem struct {
 }
 
 // New creates a History object
-func New(filename string, shell *readline.Instance) (h *History, err error) {
+func New(filename string) (h *History, err error) {
 	h = new(History)
 	h.filename = filename
-	h.List, _ = openHist(filename, shell)
-	h.Writer, err = streams.NewFile(filename)
+	h.list, _ = openHist(filename)
+	h.writer, err = streams.NewFile(filename)
 	return h, err
 }
 
-func openHist(filename string, shell *readline.Instance) (list []histItem, err error) {
+func openHist(filename string) (list []histItem, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return list, err
@@ -53,22 +50,25 @@ func openHist(filename string, shell *readline.Instance) (list []histItem, err e
 		item.Index = len(list)
 		list = append(list, item)
 
-		if shell != nil {
+		/*if shell != nil {
 			shell.SaveHistory(strings.Replace(item.Block, "\n", " ", -1))
-		}
+		}*/
 	}
 	return list, nil
 }
 
 // Write item to history file. eg ~/.murex_history
-func (h *History) Write(block string) {
+func (h *History) Write(block string) (int, error) {
 	item := histItem{
 		DateTime: time.Now(),
 		Block:    block,
-		Index:    len(h.List),
+		Index:    len(h.list),
 	}
-	b, _ := json.Marshal(item)
-	h.List = append(h.List, item)
+	b, err := json.Marshal(item)
+	if err != nil {
+		return len(h.list), err
+	}
+	h.list = append(h.list, item)
 
 	type ws struct {
 		DateTime time.Time
@@ -77,13 +77,26 @@ func (h *History) Write(block string) {
 	var w ws
 	w.Block = item.Block
 	w.DateTime = item.DateTime
-	b, _ = json.Marshal(w)
-	h.Writer.Writeln(b)
+	b, err = json.Marshal(w)
+	if err != nil {
+		return len(h.list), err
+	}
+
+	_, err = h.writer.Writeln(b)
+	return len(h.list), err
 }
 
-// Close history file
+/*// Close history file
 func (h *History) Close() {
 	if h.Writer != nil {
 		h.Writer.Close()
 	}
+}*/
+
+func (h *History) GetLine(i int) (string, error) {
+	return h.list[i].Block, nil
+}
+
+func (h *History) Len() int {
+	return len(h.list)
 }

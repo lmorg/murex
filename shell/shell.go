@@ -1,11 +1,9 @@
 package shell
 
 import (
-	"io"
-
+	"fmt"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
@@ -13,24 +11,16 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
-var (
-	// Instance is the active readline instance
-	Instance *readline.Instance
-
-	// History is an object of data read and written to the .murex_history file
-	History *history.History
-
-	forward int
-)
+var Interactive bool
 
 // Start the interactive shell
 func Start() {
 	var err error
 
-	Instance, err = readline.NewEx(&readline.Config{
+	/*Instance, err = readline.NewEx(&readline.Config{
 		InterruptPrompt:        interruptPrompt,
 		AutoComplete:           murexCompleter,
 		FuncFilterInputRune:    filterInput,
@@ -40,16 +30,22 @@ func Start() {
 
 	if err != nil {
 		panic(err)
-	}
+	}*/
 
-	History, err = history.New(home.MyDir+consts.PathSlash+".murex_history", Instance)
+	Interactive = true
+	readline.TabCompleter = tabCompleter
+	readline.HistoryAutoWrite = false
+
+	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())
 	}
 
-	Instance.Config.SetListener(listener)
+	readline.History = h
+
+	/*Instance.Config.SetListener(listener)
 	defer Instance.Close()
-	SigHandler()
+	SigHandler()*/
 	go autocomplete.UpdateGlobalExeList()
 
 	prompt()
@@ -69,7 +65,7 @@ func prompt() {
 			getPrompt()
 		}
 
-		line, err := Instance.Readline()
+		/*line, err := Instance.Readline()
 		if err == readline.ErrInterrupt {
 			merged = ""
 			nLines = 1
@@ -77,6 +73,21 @@ func prompt() {
 
 		} else if err == io.EOF {
 			break
+		}*/
+
+		line, err := readline.Readline()
+		if err != nil {
+			switch err.Error() {
+			case readline.ErrCtrlC:
+				merged = ""
+				nLines = 1
+				fmt.Println("^C")
+				continue
+			case readline.ErrEOF:
+				return
+			default:
+				panic(err)
+			}
 		}
 
 		if nLines > 1 {
@@ -85,7 +96,7 @@ func prompt() {
 			block = []rune(line)
 		}
 
-		expanded, err := history.ExpandVariables(block, History)
+		expanded, err := history.ExpandVariables(block)
 		if err != nil {
 			ansi.Stderrln(ansi.FgRed, err.Error())
 			merged = ""
@@ -120,26 +131,27 @@ func prompt() {
 
 		default:
 			merged += line
-			mergedExp, err := history.ExpandVariables([]rune(merged), History)
+			mergedExp, err := history.ExpandVariables([]rune(merged))
 			if err == nil {
 				merged = string(mergedExp)
 			}
-			Instance.SaveHistory(merged)
+			/*Instance.SaveHistory(merged)
 			if History.Last != merged {
 				History.Last = merged
 				History.Write(merged)
-			}
+			}*/
+			readline.History.Write(merged)
 
 			nLines = 1
 			merged = ""
 
 			lang.ShellExitNum, _ = lang.RunBlockShellNamespace(expanded, nil, nil, nil)
-			streams.CrLf.Write()
+			//streams.CrLf.Write()
 		}
 	}
 }
 
-func filterInput(r rune) (rune, bool) {
+/*func filterInput(r rune) (rune, bool) {
 	switch r {
 	// block CtrlZ feature
 	case readline.CharCtrlZ:
@@ -150,7 +162,7 @@ func filterInput(r rune) (rune, bool) {
 	}
 	forward = 0
 	return r, true
-}
+}*/
 
 func getSyntaxHighlighting() {
 	highlight, err := proc.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
@@ -158,13 +170,13 @@ func getSyntaxHighlighting() {
 		highlight = false
 	}
 	if highlight.(bool) == true {
-		Instance.Config.Output = syntaxHighlight
+		readline.SyntaxHighlight = syntaxHighlight
 	} else {
-		Instance.Config.Output = nil
+		readline.SyntaxHighlight = nil
 	}
 }
 
-func syntaxHighlight(input string) (output string) {
+/*func syntaxHighlight(input string) (output string) {
 	_, output = parse([]rune(input))
 	return
-}
+}*/

@@ -2,17 +2,9 @@ package shell
 
 import (
 	"regexp"
-	"strings"
 	"time"
 
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/shell/history"
-	"github.com/lmorg/murex/shell/variables"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/readline"
 )
 
 type murexCompleterIface struct{}
@@ -49,7 +41,7 @@ type parseTokens struct {
 	Variable    string
 }
 
-func Highlight(r []rune) string {
+func syntaxHighlight(r []rune) string {
 	_, highlighted := parse(r)
 	return highlighted
 }
@@ -364,7 +356,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 	return
 }
 
-func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
+/*func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos int) {
 	var items []string
 	if len(line) > pos-1 {
 		line = line[:pos]
@@ -432,9 +424,9 @@ func (mc murexCompleterIface) Do(line []rune, pos int) (suggest [][]rune, retPos
 	}
 
 	return
-}
+}*/
 
-func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
+/*func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
 	typed := time.Now().After(keyPressTimer)
 	keyPressTimer = time.Now().Add(20 * time.Millisecond)
 
@@ -457,19 +449,19 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 		forward = 0
 
 	case forward == 1 && pos == len(line):
-		/*s := string(line)
-		if len(rxVars.FindAllString(s, -1)) > 0 || strings.Contains(s, "~") ||
-			len(rxHistIndex.FindAllString(s, -1)) > 0 ||
-			len(rxHistRegex.FindAllString(s, -1)) > 0 ||
-			len(rxHistPrefix.FindAllString(s, -1)) > 0 ||
-			len(rxHistTag.FindAllString(s, -1)) > 0 ||
-			len(rxHistAllPs.FindAllString(s, -1)) > 0 ||
-			len(rxHistParam.FindAllString(s, -1)) > 0 ||
-			strings.Contains(s, "^!!") {
-			//os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS, ~HOME and ^HISTORY." + utils.NewLineString)
-		} else {
-			forward = 0
-		}*/
+		//s := string(line)
+		//if len(rxVars.FindAllString(s, -1)) > 0 || strings.Contains(s, "~") ||
+		//	len(rxHistIndex.FindAllString(s, -1)) > 0 ||
+		//	len(rxHistRegex.FindAllString(s, -1)) > 0 ||
+		//	len(rxHistPrefix.FindAllString(s, -1)) > 0 ||
+		//	len(rxHistTag.FindAllString(s, -1)) > 0 ||
+		//	len(rxHistAllPs.FindAllString(s, -1)) > 0 ||
+		//	len(rxHistParam.FindAllString(s, -1)) > 0 ||
+		//	strings.Contains(s, "^!!") {
+		//	//os.Stderr.WriteString(utils.NewLineString + "Tap forward again to expand $VARS, ~HOME and ^HISTORY." + utils.NewLineString)
+		//} else {
+		//	forward = 0
+		//}
 		if len(line) == 0 {
 			forward = 0
 		}
@@ -559,9 +551,9 @@ func listener(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bo
 	}
 
 	return newLine, newPos, true
-}
+}*/
 
-func smooshLines(line []rune, pos int, injectedChar rune) []rune {
+/*func smooshLines(line []rune, pos int, injectedChar rune) []rune {
 	if pos == len(line) {
 		return append(line, injectedChar)
 	}
@@ -590,9 +582,9 @@ func smooshLines(line []rune, pos int, injectedChar rune) []rune {
 	}
 
 	return line
-}
+}*/
 
-func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
+/*func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 	if pos > len(line) {
 		return line, pos
 	}
@@ -628,4 +620,4 @@ func unsmooshLines(line []rune, pos int, injectedChar rune) ([]rune, int) {
 	}
 
 	return line, pos
-}
+}*/

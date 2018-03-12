@@ -6,21 +6,30 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func init() {
 	proc.GoFunctions["history"] = cmdHistory
 	proc.GoFunctions["^"] = cmdHistCmd
-	proc.GoFunctions["history-set-write-pipe"] = cmdHistPipe
+	//proc.GoFunctions["history-set-write-pipe"] = cmdHistPipe
 }
 
 func cmdHistory(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
-	if shell.Instance == nil {
+	if !shell.Interactive {
 		return errors.New("This is only designed to be run when the shell is in interactive mode.")
 	}
 
-	b, err := utils.JsonMarshal(shell.History.List, p.Stdout.IsTTY())
+	var list []string
+	for i := 0; i < readline.History.Len(); i++ {
+		line, err := readline.History.GetLine(i)
+		if err == nil {
+			return err
+		}
+		list = append(list, line)
+	}
+	b, err := utils.JsonMarshal(list, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -34,8 +43,8 @@ func cmdHistCmd(p *proc.Process) error {
 	return errors.New("Invalid usage of history variable!")
 }
 
-func cmdHistPipe(p *proc.Process) error {
-	if shell.Instance == nil {
+/*func cmdHistPipe(p *proc.Process) error {
+	if !shell.Interactive {
 		return errors.New("This is only designed to be run when the shell is in interactive mode.")
 	}
 
@@ -58,4 +67,4 @@ func cmdHistPipe(p *proc.Process) error {
 	shell.History.Writer = pipe
 
 	return nil
-}
+}*/

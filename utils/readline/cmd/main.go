@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/utils/readline"
 	"strings"
+	//"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func main() {
-	readline.SyntaxHighlight = shell.Highlight
+	//readline.SyntaxHighlight = shell.Highlight
 	readline.TabCompleter = Tab
 
 	for {
@@ -22,7 +22,7 @@ func main() {
 	}
 }
 
-func Tab(line []rune, pos int) (suggestions []string) {
+func Tab(line []rune, pos int) (string, []string) {
 	items := []string{
 		"qwerty",
 		"12345",
@@ -79,11 +79,13 @@ func Tab(line []rune, pos int) (suggestions []string) {
 		"bumbo",
 	}
 
+	var suggestions []string
+
 	for i := range items {
 		if strings.HasPrefix(items[i], string(line)) {
 			suggestions = append(suggestions, items[i][pos:])
 		}
 	}
 
-	return
+	return string(line[:pos]), suggestions
 }

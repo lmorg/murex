@@ -14,6 +14,7 @@ const (
 )
 
 var (
+	tcPrefix      string
 	tcSuggestions []string
 	tcGrid        [][]string
 	tcPosX        int
@@ -34,13 +35,13 @@ func tabCompletion() {
 		return
 	}
 
-	tcSuggestions = TabCompleter(line, pos)
+	tcPrefix, tcSuggestions = TabCompleter(line, pos)
 	if len(tcSuggestions) == 0 {
 		return
 	}
 
 	if len(tcSuggestions) == 1 {
-		if len(tcSuggestions[0]) == 0 {
+		if len(tcSuggestions[0]) == 0 || tcSuggestions[0] == " " || tcSuggestions[0] == "\t" {
 			return
 		}
 		insert([]byte(tcSuggestions[0]))
@@ -59,11 +60,10 @@ func initTabGrid() {
 		panic(err)
 	}
 
-	s := string(line)
 	tcMaxLength := 1
 	for i := range tcSuggestions {
-		if len(s+tcSuggestions[i]) > tcMaxLength {
-			tcMaxLength = len(s + tcSuggestions[i])
+		if len(tcPrefix+tcSuggestions[i]) > tcMaxLength {
+			tcMaxLength = len(tcPrefix + tcSuggestions[i])
 		}
 	}
 
@@ -107,7 +107,7 @@ func renderSuggestions() {
 	cellWidth := strconv.Itoa((termWidth / tcMaxX) - 2)
 	x := 0
 	y := 1
-	s := string(line)
+
 	for i := range tcSuggestions {
 		x++
 		if x > tcMaxX {
@@ -124,7 +124,7 @@ func renderSuggestions() {
 		if x == tcPosX && y == tcPosY {
 			fmt.Print(seqBgWhite + seqFgBlack)
 		}
-		fmt.Printf(" %-"+cellWidth+"s %s", s+tcSuggestions[i], seqReset)
+		fmt.Printf(" %-"+cellWidth+"s %s", tcPrefix+tcSuggestions[i], seqReset)
 	}
 
 	//fmt.Print(seqPosRestore)
@@ -134,7 +134,8 @@ func renderSuggestions() {
 }
 
 func clearTabSuggestions() {
-	blank := strings.Repeat(" ", termWidth*tcMaxY)
+	move := termWidth * tcMaxY
+	blank := strings.Repeat(" ", move)
 
 	fmt.Print(seqPosSave + "\r\n" + blank + seqPosRestore)
 	mode = modeNormal

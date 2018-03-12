@@ -27,10 +27,14 @@ var (
 	// historic items in memory.
 	History LineHistory
 
+	// HistoryAutoWrite defines whether items automatically get written to history.
+	// Enabled by default. Set to false to disable.
+	HistoryAutoWrite bool = true
+
 	// TabCompleter is a simple function that offers completion suggestions.
-	// It takes the readline line ([]rune) and cursor pos. Returns an array of
-	// suggestions.
-	TabCompleter func([]rune, int) []string
+	// It takes the readline line ([]rune) and cursor pos. Returns a prefix string
+	// and an array of suggestions.
+	TabCompleter func([]rune, int) (string, []string)
 )
 
 // While it might normally seem bad practice to have global variables, you canot
@@ -73,8 +77,14 @@ func Readline() (string, error) {
 
 		switch b[0] {
 		case charCtrlC:
+			if mode == modeTabCompletion {
+				clearTabSuggestions()
+			}
 			return "", errors.New(ErrCtrlC)
 		case charEOF:
+			if mode == modeTabCompletion {
+				clearTabSuggestions()
+			}
 			return "", errors.New(ErrEOF)
 		case charTab:
 			tabCompletion()
@@ -90,9 +100,11 @@ func Readline() (string, error) {
 				continue
 			}
 			fmt.Print("\r\n")
-			histPos, err = History.Append(string(line))
-			if err != nil {
-				fmt.Print(err.Error() + "\r\n")
+			if HistoryAutoWrite {
+				histPos, err = History.Write(string(line))
+				if err != nil {
+					fmt.Print(err.Error() + "\r\n")
+				}
 			}
 			return string(line), nil
 		case charBackspace:

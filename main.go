@@ -27,7 +27,7 @@ func main() {
 		execSource([]rune(fCommand))
 
 	case len(fSource) > 0:
-		shell.SigHandler()
+		//shell.SigHandler()
 		defaults.Defaults(proc.ShellProcess.Config, false)
 		execSource(diskSource(fSource[0]))
 
