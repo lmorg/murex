@@ -46,6 +46,7 @@ func Start() {
 	/*Instance.Config.SetListener(listener)
 	defer Instance.Close()
 	SigHandler()*/
+
 	go autocomplete.UpdateGlobalExeList()
 
 	prompt()
@@ -135,11 +136,11 @@ func prompt() {
 			if err == nil {
 				merged = string(mergedExp)
 			}
-			/*Instance.SaveHistory(merged)
-			if History.Last != merged {
-				History.Last = merged
-				History.Write(merged)
-			}*/
+			//Instance.SaveHistory(merged)
+			//if History.Last != merged {
+			//	History.Last = merged
+			//	History.Write(merged)
+			//}
 			readline.History.Write(merged)
 
 			nLines = 1
@@ -175,8 +176,3 @@ func getSyntaxHighlighting() {
 		readline.SyntaxHighlight = nil
 	}
 }
-
-/*func syntaxHighlight(input string) (output string) {
-	_, output = parse([]rune(input))
-	return
-}*/

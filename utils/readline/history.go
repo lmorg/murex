@@ -52,7 +52,7 @@ func walkHistory(i int) {
 		s, err := History.GetLine(histPos + i)
 		if err != nil {
 			fmt.Print("\r\n" + err.Error() + "\r\n")
-			fmt.Print(Prompt)
+			fmt.Print(prompt)
 			return
 		}
 

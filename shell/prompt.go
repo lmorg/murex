@@ -33,15 +33,15 @@ func getPrompt() {
 		if len(b) > 1 && b[len(b)-1] == '\r' {
 			b = b[:len(b)-1]
 		}
+
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
 		ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
 		b = []byte("murex » ")
 	}
-
 	//Instance.SetPrompt(string(b))
-	readline.Prompt = string(b)
+	readline.SetPrompt(string(b))
 }
 
 func getMultilinePrompt(nLines int) {
@@ -74,5 +74,5 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	//Instance.SetPrompt(string(b))
-	readline.Prompt = string(b)
+	readline.SetPrompt(string(b))
 }

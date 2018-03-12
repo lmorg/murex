@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
+	"regexp"
 	"strings"
+	"unicode/utf8"
 )
 
 var (
-	// Prompt is the readline prompt
-	Prompt string = ">>> "
-
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
 	PasswordMask rune
@@ -42,11 +41,14 @@ var (
 // terminal emulators work. So storing these values as globals simplifies the
 // API design immencely without sacricing functionality.
 var (
-	line    []rune
-	lineBuf []rune
-	pos     int
-	histPos int
-	mode    int
+	prompt       string         = ">>> "
+	promptLen    int            = 4
+	rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
+	line         []rune
+	lineBuf      []rune
+	pos          int
+	histPos      int
+	mode         int
 )
 
 func init() {
@@ -63,10 +65,11 @@ func Readline() (string, error) {
 	}
 	defer terminal.Restore(fd, state)
 
-	fmt.Print(Prompt)
+	fmt.Print(prompt)
 
 	line = []rune{}
 	pos = 0
+	histPos = History.Len()
 
 	for {
 		b := make([]byte, 1024)
@@ -87,6 +90,10 @@ func Readline() (string, error) {
 			}
 			return "", errors.New(ErrEOF)
 		case charTab:
+			if mode == modeTabCompletion {
+				moveTabHighlight(1, 0)
+				continue
+			}
 			tabCompletion()
 		case charCtrlU:
 			clearLine()
@@ -95,8 +102,8 @@ func Readline() (string, error) {
 		case '\n':
 			if mode == modeTabCompletion {
 				cell := (tcMaxX * (tcPosY - 1)) + tcPosX - 1
-				insert([]byte(tcSuggestions[cell]))
 				clearTabSuggestions()
+				insert([]byte(tcSuggestions[cell]))
 				continue
 			}
 			fmt.Print("\r\n")
@@ -192,4 +199,11 @@ func echo() {
 	}
 
 	moveCursorBackwards(len(line) - pos)
+}
+
+func SetPrompt(s string) {
+	prompt = s
+
+	s = rxAnsiEscSeq.ReplaceAllString(s, "")
+	promptLen = utf8.RuneCountInString(s)
 }

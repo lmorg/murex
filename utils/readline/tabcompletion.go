@@ -16,22 +16,17 @@ const (
 var (
 	tcPrefix      string
 	tcSuggestions []string
-	tcGrid        [][]string
 	tcPosX        int
 	tcPosY        int
 	tcMaxX        int
 	tcMaxY        int
+	tcUsedY       int
 	tcMaxLength   int
 	termWidth     int
 )
 
 func tabCompletion() {
 	if TabCompleter == nil {
-		return
-	}
-
-	if mode == modeTabCompletion {
-		moveTabHighlight(1, 0)
 		return
 	}
 
@@ -63,7 +58,7 @@ func initTabGrid() {
 	tcMaxLength := 1
 	for i := range tcSuggestions {
 		if len(tcPrefix+tcSuggestions[i]) > tcMaxLength {
-			tcMaxLength = len(tcPrefix + tcSuggestions[i])
+			tcMaxLength = len([]rune(tcPrefix + tcSuggestions[i]))
 		}
 	}
 
@@ -75,9 +70,6 @@ func initTabGrid() {
 }
 
 func moveTabHighlight(x, y int) {
-	//switch x {
-	//case -1:
-	//}
 	tcPosX += x
 	tcPosY += y
 
@@ -92,10 +84,14 @@ func moveTabHighlight(x, y int) {
 	}
 
 	if tcPosY < 1 {
-		tcPosY = tcMaxY
+		tcPosY = tcUsedY
 	}
 
-	if tcPosY > tcMaxY {
+	if tcPosY > tcUsedY {
+		tcPosY = 1
+	}
+
+	if tcPosY == tcUsedY && (tcMaxX*(tcPosY-1))+tcPosX > len(tcSuggestions) {
 		tcPosY = 1
 	}
 	renderSuggestions()
@@ -127,16 +123,20 @@ func renderSuggestions() {
 		fmt.Printf(" %-"+cellWidth+"s %s", tcPrefix+tcSuggestions[i], seqReset)
 	}
 
-	//fmt.Print(seqPosRestore)
+	tcUsedY = y
 	moveCursorUp(y)
 	moveCursorBackwards(termWidth)
-	moveCursorForwards(len(Prompt) + pos)
+	moveCursorForwards(promptLen + pos)
 }
 
 func clearTabSuggestions() {
-	move := termWidth * tcMaxY
+	move := termWidth * tcUsedY
 	blank := strings.Repeat(" ", move)
 
 	fmt.Print(seqPosSave + "\r\n" + blank + seqPosRestore)
+	//fmt.Print("\r\n" + blank)
+	//moveCursorBackwards(termWidth)
+	//moveCursorUp(tcMaxY)
+	//moveCursorForwards(len(Prompt) + len(line))
 	mode = modeNormal
 }

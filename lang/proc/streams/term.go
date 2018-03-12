@@ -95,7 +95,7 @@ func (t *TermOut) Write(b []byte) (i int, err error) {
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
 	} else if len(b) > 0 {
-		CrLf.set(b[len(b)-1])
+		//CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
 	return
@@ -122,7 +122,7 @@ func (t *TermErr) Write(b []byte) (i int, err error) {
 	if err != nil {
 		os.Stdout.WriteString(err.Error())
 	} else if len(b) > 0 {
-		CrLf.set(b[len(b)-1])
+		//CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
 	return
