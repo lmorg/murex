@@ -64,11 +64,15 @@ func (h *History) Write(block string) (int, error) {
 		Block:    block,
 		Index:    len(h.list),
 	}
+
+	if h.list[len(h.list)-1].Block != block {
+		h.list = append(h.list, item)
+	}
+
 	b, err := json.Marshal(item)
 	if err != nil {
 		return len(h.list), err
 	}
-	h.list = append(h.list, item)
 
 	type ws struct {
 		DateTime time.Time

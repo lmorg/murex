@@ -136,11 +136,7 @@ func prompt() {
 			if err == nil {
 				merged = string(mergedExp)
 			}
-			//Instance.SaveHistory(merged)
-			//if History.Last != merged {
-			//	History.Last = merged
-			//	History.Write(merged)
-			//}
+
 			readline.History.Write(merged)
 
 			nLines = 1
