@@ -92,8 +92,24 @@ func moveTabHighlight(x, y int) {
 	}
 
 	if tcPosY == tcUsedY && (tcMaxX*(tcPosY-1))+tcPosX > len(tcSuggestions) {
-		tcPosY = 1
+		if x < 0 {
+			tcPosX = len(tcSuggestions) - (tcMaxX * (tcPosY - 1))
+		}
+
+		if x > 0 {
+			tcPosX = 1
+			tcPosY = 1
+		}
+
+		if y < 0 {
+			tcPosY--
+		}
+
+		if y > 0 {
+			tcPosY = 1
+		}
 	}
+
 	renderSuggestions()
 }
 
