@@ -76,7 +76,10 @@ func tabCompleter(line []rune, pos int) (prefix string, items []string) {
 	}*/
 
 	for i := range items {
-		if items[i][len(items[i])-1] != '/' && items[i][len(items[i])-1] != '=' {
+		if len(items[i]) == 0 {
+			items[i] = " "
+		}
+		if items[i][len(items[i])-1] != ' ' && items[i][len(items[i])-1] != '=' && items[i][len(items[i])-1] != ' ' {
 			items[i] += " "
 		}
 	}
