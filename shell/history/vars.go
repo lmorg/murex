@@ -169,7 +169,7 @@ func expandHistAllPs(s string) (string, error) {
 func expandHistParam(s string) (string, error) {
 	mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
-		last := getLine(readline.History.Len())
+		last := getLine(readline.History.Len() - 1)
 		nodes, pErr := lang.ParseBlock([]rune(last))
 		if pErr.Code != lang.NoParsingErrors {
 			//goto cannotParserxHistParam

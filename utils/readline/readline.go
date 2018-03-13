@@ -33,7 +33,20 @@ var (
 	// TabCompleter is a simple function that offers completion suggestions.
 	// It takes the readline line ([]rune) and cursor pos. Returns a prefix string
 	// and an array of suggestions.
-	TabCompleter func([]rune, int) (string, []string)
+	TabCompletion func([]rune, int) (string, []string)
+
+	// MaxTabCompletionRows is the maximum number of rows to display in the tab
+	// completion grid.
+	MaxTabCompletionRows int = 4
+
+	// SyntaxCompletion is used to autocomplete code syntax (like braces and
+	// quotation marks). If you want to complete words or phrases then you might
+	// be better off using the TabCompletion function.
+	// SyntaxCompletion takes the line ([]rune) and cursor position, and returns
+	// the new line and cursor position.
+	SyntaxCompletion func([]rune, int) ([]rune, int)
+
+	HintText func([]rune) []rune
 )
 
 // While it might normally seem bad practice to have global variables, you canot
@@ -107,12 +120,14 @@ func Readline() (string, error) {
 				continue
 			}
 			fmt.Print("\r\n")
+			moveCursorDown(hintY)
 			if HistoryAutoWrite {
 				histPos, err = History.Write(string(line))
 				if err != nil {
 					fmt.Print(err.Error() + "\r\n")
 				}
 			}
+			hintY = 0
 			return string(line), nil
 		case charBackspace:
 			backspace()
@@ -120,6 +135,7 @@ func Readline() (string, error) {
 			escapeSeq(b[:i])
 		default:
 			insert(b[:i])
+			syntaxCompletion()
 		}
 	}
 }
@@ -199,6 +215,7 @@ func echo() {
 	}
 
 	moveCursorBackwards(len(line) - pos)
+	renderHintText()
 }
 
 func SetPrompt(s string) {

@@ -13,6 +13,14 @@ func moveCursorUp(i int) {
 	fmt.Printf("\x1b[%dA", i)
 }
 
+func moveCursorDown(i int) {
+	if i < 1 {
+		return
+	}
+
+	fmt.Printf("\x1b[%dB", i)
+}
+
 func moveCursorForwards(i int) {
 	if i < 1 {
 		return
@@ -52,6 +60,7 @@ func insert(b []byte) {
 	default:
 		line = append(line, r...)
 	}
+
 	echo()
 
 	moveCursorForwards(len(r) - 1)

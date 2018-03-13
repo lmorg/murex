@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
@@ -33,8 +34,10 @@ func Start() {
 	}*/
 
 	Interactive = true
-	readline.TabCompleter = tabCompleter
+	readline.TabCompletion = tabCompletion
+	readline.SyntaxCompletion = syntaxCompletion
 	readline.HistoryAutoWrite = false
+	readline.HintText = hintText
 
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
@@ -143,7 +146,7 @@ func prompt() {
 			merged = ""
 
 			lang.ShellExitNum, _ = lang.RunBlockShellNamespace(expanded, nil, nil, nil)
-			//streams.CrLf.Write()
+			streams.CrLf.Write()
 		}
 	}
 }

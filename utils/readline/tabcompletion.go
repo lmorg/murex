@@ -2,8 +2,6 @@ package readline
 
 import (
 	"fmt"
-	"golang.org/x/crypto/ssh/terminal"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -22,15 +20,14 @@ var (
 	tcMaxY        int
 	tcUsedY       int
 	tcMaxLength   int
-	termWidth     int
 )
 
 func tabCompletion() {
-	if TabCompleter == nil {
+	if TabCompletion == nil {
 		return
 	}
 
-	tcPrefix, tcSuggestions = TabCompleter(line, pos)
+	tcPrefix, tcSuggestions = TabCompletion(line, pos)
 	if len(tcSuggestions) == 0 {
 		return
 	}
@@ -48,12 +45,7 @@ func tabCompletion() {
 }
 
 func initTabGrid() {
-	var err error
-	fd := int(os.Stdout.Fd())
-	termWidth, _, err = terminal.GetSize(fd)
-	if err != nil {
-		panic(err)
-	}
+	getTermWidth()
 
 	tcMaxLength := 1
 	for i := range tcSuggestions {
@@ -66,7 +58,7 @@ func initTabGrid() {
 	tcPosX = 1
 	tcPosY = 1
 	tcMaxX = termWidth / (tcMaxLength + 2)
-	tcMaxY = 4
+	tcMaxY = MaxTabCompletionRows
 }
 
 func moveTabHighlight(x, y int) {
@@ -115,6 +107,7 @@ func moveTabHighlight(x, y int) {
 
 func renderSuggestions() {
 	fmt.Print("\r\n")
+	moveCursorDown(hintY)
 
 	cellWidth := strconv.Itoa((termWidth / tcMaxX) - 2)
 	x := 0
@@ -140,7 +133,7 @@ func renderSuggestions() {
 	}
 
 	tcUsedY = y
-	moveCursorUp(y)
+	moveCursorUp(y + hintY)
 	moveCursorBackwards(termWidth)
 	moveCursorForwards(promptLen + pos)
 }
@@ -149,10 +142,18 @@ func clearTabSuggestions() {
 	move := termWidth * tcUsedY
 	blank := strings.Repeat(" ", move)
 
+	// It's a bit ugly this code but it helps minimize the likelihood of the console
+	// bug for becoming visible.
+	//if hintY > 0 {
 	fmt.Print(seqPosSave + "\r\n" + blank + seqPosRestore)
-	//fmt.Print("\r\n" + blank)
-	//moveCursorBackwards(termWidth)
-	//moveCursorUp(tcMaxY)
-	//moveCursorForwards(len(Prompt) + len(line))
+	/*} else {
+		fmt.Print("\r\n")
+		moveCursorDown(hintY)
+		fmt.Print(blank)
+		moveCursorBackwards(termWidth)
+		moveCursorUp(hintY + tcUsedY)
+		moveCursorForwards(promptLen + pos + 1)
+	}*/
+
 	mode = modeNormal
 }
