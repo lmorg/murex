@@ -17,7 +17,7 @@ var (
 
 	// SyntaxHighlight is a helper function to provide syntax highlighting.
 	// Once enabled, set to nil to disable again.
-	SyntaxHighlight func([]rune) string
+	SyntaxHighlighter func([]rune) string
 
 	// History is an interface for querying the readline history.
 	// This is exposed as an interface to allow you the flexibility to define how
@@ -33,18 +33,18 @@ var (
 	// TabCompleter is a simple function that offers completion suggestions.
 	// It takes the readline line ([]rune) and cursor pos. Returns a prefix string
 	// and an array of suggestions.
-	TabCompletion func([]rune, int) (string, []string)
+	TabCompleter func([]rune, int) (string, []string)
 
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
-	MaxTabCompletionRows int = 4
+	MaxTabCompleterRows int = 4
 
 	// SyntaxCompletion is used to autocomplete code syntax (like braces and
 	// quotation marks). If you want to complete words or phrases then you might
 	// be better off using the TabCompletion function.
 	// SyntaxCompletion takes the line ([]rune) and cursor position, and returns
 	// the new line and cursor position.
-	SyntaxCompletion func([]rune, int) ([]rune, int)
+	SyntaxCompleter func([]rune, int) ([]rune, int)
 
 	HintText func([]rune) []rune
 )
@@ -207,11 +207,11 @@ func echo() {
 	case PasswordMask > 0:
 		fmt.Print(strings.Repeat(string(PasswordMask), len(line)) + " ")
 
-	case SyntaxHighlight == nil:
+	case SyntaxHighlighter == nil:
 		fmt.Print(string(line) + " ")
 
 	default:
-		fmt.Print(SyntaxHighlight(line) + " ")
+		fmt.Print(SyntaxHighlighter(line) + " ")
 	}
 
 	moveCursorBackwards(len(line) - pos)

@@ -24,10 +24,6 @@ func main() {
 
 func Tab(line []rune, pos int) (string, []string) {
 	items := []string{
-		"qwerty",
-		"12345",
-		"qwertyuiop",
-		"qwa1234",
 		"aa",
 		"abaya",
 		"abomasum",

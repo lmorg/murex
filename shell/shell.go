@@ -34,8 +34,8 @@ func Start() {
 	}*/
 
 	Interactive = true
-	readline.TabCompletion = tabCompletion
-	readline.SyntaxCompletion = syntaxCompletion
+	readline.TabCompleter = tabCompletion
+	readline.SyntaxCompleter = syntaxCompletion
 	readline.HistoryAutoWrite = false
 	readline.HintText = hintText
 
@@ -151,27 +151,14 @@ func prompt() {
 	}
 }
 
-/*func filterInput(r rune) (rune, bool) {
-	switch r {
-	// block CtrlZ feature
-	case readline.CharCtrlZ:
-		return r, true
-	case readline.CharForward:
-		forward++
-		return r, true
-	}
-	forward = 0
-	return r, true
-}*/
-
 func getSyntaxHighlighting() {
 	highlight, err := proc.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
 	if err != nil {
 		highlight = false
 	}
 	if highlight.(bool) == true {
-		readline.SyntaxHighlight = syntaxHighlight
+		readline.SyntaxHighlighter = syntaxHighlight
 	} else {
-		readline.SyntaxHighlight = nil
+		readline.SyntaxHighlighter = nil
 	}
 }

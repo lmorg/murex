@@ -63,7 +63,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 		limitSuggestions = len(items)
 	}
 	//Instance.Config.MaxCompleteLines = limitSuggestions
-	readline.MaxTabCompletionRows = limitSuggestions
+	readline.MaxTabCompleterRows = limitSuggestions
 
 	/*suggest = make([][]rune, len(items))
 	for i := range items {

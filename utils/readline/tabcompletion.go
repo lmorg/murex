@@ -23,11 +23,11 @@ var (
 )
 
 func tabCompletion() {
-	if TabCompletion == nil {
+	if TabCompleter == nil {
 		return
 	}
 
-	tcPrefix, tcSuggestions = TabCompletion(line, pos)
+	tcPrefix, tcSuggestions = TabCompleter(line, pos)
 	if len(tcSuggestions) == 0 {
 		return
 	}
@@ -58,7 +58,7 @@ func initTabGrid() {
 	tcPosX = 1
 	tcPosY = 1
 	tcMaxX = termWidth / (tcMaxLength + 2)
-	tcMaxY = MaxTabCompletionRows
+	tcMaxY = MaxTabCompleterRows
 }
 
 func moveTabHighlight(x, y int) {

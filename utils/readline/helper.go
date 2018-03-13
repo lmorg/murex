@@ -21,16 +21,16 @@ func getTermWidth() {
 	fd := int(os.Stdout.Fd())
 	termWidth, _, err = terminal.GetSize(fd)
 	if err != nil {
-		panic(err)
+		termWidth = 100
 	}
 }
 
 func syntaxCompletion() {
-	if SyntaxCompletion == nil {
+	if SyntaxCompleter == nil {
 		return
 	}
 
-	newLine, newPos := SyntaxCompletion(line, pos)
+	newLine, newPos := SyntaxCompleter(line, pos)
 	if string(newLine) == string(line) {
 		return
 	}
