@@ -159,13 +159,16 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			case pt.QuoteSingle, pt.QuoteDouble:
 				*pt.pop += ` `
 				syntaxHighlighted += string(line[i])
-			case pt.ExpectFunc && readFunc:
+			case readFunc:
 				pt.Loc = i
 				pt.ExpectFunc = false
 				readFunc = false
 				pt.Parameters = append(pt.Parameters, "")
 				pt.pop = &pt.Parameters[0]
 				ansiReset(line[i])
+			case pt.ExpectFunc:
+				pt.Loc = i
+				syntaxHighlighted += string(line[i])
 			default:
 				pt.Loc = i
 				pt.Parameters = append(pt.Parameters, "")
@@ -179,6 +182,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 				pt.Loc = i
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
 				ansiColour(hlPipe, '-')
@@ -210,6 +214,7 @@ func parse(line []rune) (pt parseTokens, syntaxHighlighted string) {
 			default:
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, line[i])
 				syntaxHighlighted += hlFunction

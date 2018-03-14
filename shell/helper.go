@@ -134,9 +134,10 @@ func hintText(line []rune) []rune {
 	if string(line) == string(r) {
 		r = []rune{}
 	}
-
+	return r
 	if len(r) == 0 {
 		pt, _ := parse(line)
+		//r = []rune("'" + pt.FuncName + "'")
 		f := man.GetManPages(pt.FuncName)
 		r = []rune(man.ParseDescription(f))
 	}
