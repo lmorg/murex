@@ -49,8 +49,8 @@ MANUAL SECTIONS (Linux)
 	9	Kernel internals.
 */
 
-// ScanManPages executes `man -w` to locate the manual files then runs the parser to locate any flags with hyphen prefixes
-func ScanManPages(exe string) (flags []string) {
+// GetManPages executes `man -w` to locate the manual files
+func GetManPages(exe string) (paths []string) {
 	// Get paths
 	cmd := exec.Command("man", "-w", exe)
 	b, err := cmd.Output()
@@ -59,12 +59,16 @@ func ScanManPages(exe string) (flags []string) {
 	}
 
 	s := strings.TrimSpace(string(b))
-	paths := strings.Split(s, ":")
+	paths = strings.Split(s, ":")
+	return
+}
 
+// ParseForFlags runs the parser to locate any flags with hyphen prefixes
+func ParseFlags(paths []string) (flags []string) {
 	// Parse man pages
 	fMap := make(map[string]bool)
 	for i := range paths {
-		parseManPage(&fMap, paths[i])
+		parseFlags(&fMap, paths[i])
 	}
 
 	for f := range fMap {
@@ -74,7 +78,7 @@ func ScanManPages(exe string) (flags []string) {
 	return
 }
 
-func parseManPage(flags *map[string]bool, filename string) {
+func parseFlags(flags *map[string]bool, filename string) {
 	file, err := os.Open(filename)
 	defer file.Close()
 	if err != nil {
@@ -145,4 +149,53 @@ func parseManPage(flags *map[string]bool, filename string) {
 	}
 
 	return
+}
+
+// ParseDescription runs the parser to locate a description
+func ParseDescription(paths []string) string {
+	for i := range paths {
+		desc := parseDescription(paths[i])
+		if desc != "" {
+			return desc
+		}
+	}
+
+	return ""
+}
+
+func parseDescription(filename string) string {
+	file, err := os.Open(filename)
+	defer file.Close()
+	if err != nil {
+		return ""
+	}
+
+	var scanner *bufio.Scanner
+
+	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
+		gz, err := gzip.NewReader(file)
+		defer gz.Close()
+		if err != nil {
+			return ""
+		}
+
+		scanner = bufio.NewScanner(gz)
+	} else {
+		scanner = bufio.NewScanner(file)
+	}
+
+	var nextLine bool
+	for scanner.Scan() {
+		s := scanner.Text()
+		if nextLine {
+			s = strings.Replace(s, "\\", "", -1)
+			s = strings.TrimSpace(s)
+			return s
+		}
+		if strings.Contains(s, "NAME") {
+			nextLine = true
+		}
+	}
+
+	return ""
 }

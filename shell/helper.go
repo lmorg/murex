@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -98,24 +99,24 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 	pt, _ := parse(line)
 	switch {
 	case pt.QuoteSingle:
-		if pos < len(line) || line[pos-1] != '\'' {
+		if pos < len(line)-1 || line[pos] != '\'' {
 			return append(line, '\''), pos
 		}
 
 	case pt.QuoteDouble:
-		if pos < len(line) || line[pos-1] != '"' {
+		if pos < len(line)-1 || line[pos] != '"' {
 			return append(line, '"'), pos
 		}
 
 	case pt.Bracket > 0:
-		if pos < len(line) || line[pos-1] != '{' {
+		if pos < len(line)-1 || line[pos] != '{' {
 			return append(line, '}'), pos
 		}
 
-	case line[pos-1] == '[':
-		if pos < len(line) {
-			r := append(line[:pos], ']')
-			return append(r, line[pos+1:]...), pos
+	case pos > 0 && line[pos-1] == '[':
+		if pos < len(line)-1 {
+			r := append(line[:pos+1], ']')
+			return append(r, line[pos+2:]...), pos
 		}
 		return append(line, ']'), pos
 
@@ -131,7 +132,13 @@ func hintText(line []rune) []rune {
 
 	r = variables.Expand(r)
 	if string(line) == string(r) {
-		return []rune{}
+		r = []rune{}
+	}
+
+	if len(r) == 0 {
+		pt, _ := parse(line)
+		f := man.GetManPages(pt.FuncName)
+		r = []rune(man.ParseDescription(f))
 	}
 
 	return r

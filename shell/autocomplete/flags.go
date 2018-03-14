@@ -57,12 +57,17 @@ func UpdateGlobalExeList() {
 func InitExeFlags(exe string) {
 	if len(ExesFlags[exe]) == 0 {
 		ExesFlags[exe] = []Flags{{
-			Flags:         man.ScanManPages(exe),
+			Flags:         scanManPages(exe),
 			IncFiles:      true,
 			AllowMultiple: true,
 			AnyValue:      true,
 		}}
 	}
+}
+
+func scanManPages(exe string) []string {
+	f := man.GetManPages(exe)
+	return man.ParseFlags(f)
 }
 
 func allExecutables(includeBuiltins bool) map[string]bool {

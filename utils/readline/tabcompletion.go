@@ -6,11 +6,6 @@ import (
 	"strings"
 )
 
-const (
-	modeNormal = iota
-	modeTabCompletion
-)
-
 var (
 	tcPrefix      string
 	tcSuggestions []string
@@ -54,7 +49,7 @@ func initTabGrid() {
 		}
 	}
 
-	mode = modeTabCompletion
+	modeTabGrid = true
 	tcPosX = 1
 	tcPosY = 1
 	tcMaxX = termWidth / (tcMaxLength + 2)
@@ -155,5 +150,5 @@ func clearTabSuggestions() {
 		moveCursorForwards(promptLen + pos + 1)
 	}*/
 
-	mode = modeNormal
+	modeTabGrid = false
 }

@@ -61,7 +61,8 @@ var (
 	lineBuf      []rune
 	pos          int
 	histPos      int
-	mode         int
+	modeTabGrid  bool
+	modeViKeys   bool
 )
 
 func init() {
@@ -93,17 +94,17 @@ func Readline() (string, error) {
 
 		switch b[0] {
 		case charCtrlC:
-			if mode == modeTabCompletion {
+			if modeTabGrid {
 				clearTabSuggestions()
 			}
 			return "", errors.New(ErrCtrlC)
 		case charEOF:
-			if mode == modeTabCompletion {
+			if modeTabGrid {
 				clearTabSuggestions()
 			}
 			return "", errors.New(ErrEOF)
 		case charTab:
-			if mode == modeTabCompletion {
+			if modeTabGrid {
 				moveTabHighlight(1, 0)
 				continue
 			}
@@ -113,7 +114,7 @@ func Readline() (string, error) {
 		case '\r':
 			fallthrough
 		case '\n':
-			if mode == modeTabCompletion {
+			if modeTabGrid {
 				cell := (tcMaxX * (tcPosY - 1)) + tcPosX - 1
 				clearTabSuggestions()
 				insert([]byte(tcSuggestions[cell]))
@@ -128,13 +129,18 @@ func Readline() (string, error) {
 				}
 			}
 			hintY = 0
+			modeViKeys = false
 			return string(line), nil
 		case charBackspace:
 			backspace()
 		case charEscape:
 			escapeSeq(b[:i])
 		default:
-			insert(b[:i])
+			if modeViKeys {
+				vi(b[0])
+			} else {
+				insert(b[:i])
+			}
 			syntaxCompletion()
 		}
 	}
@@ -143,29 +149,39 @@ func Readline() (string, error) {
 func escapeSeq(b []byte) {
 	switch string(b) {
 	case string(charEscape):
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			clearTabSuggestions()
+		} else {
+			fmt.Print("\r\nvi mode enabled\r\n")
+			if pos == len(line) {
+				pos--
+			}
+			fmt.Print(string(prompt))
+			moveCursorForwards(pos)
+			echo()
+			moveCursorBackwards(1)
+			modeViKeys = true
 		}
 
 	case seqDelete:
 		delete()
 
 	case seqUp:
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			moveTabHighlight(0, -1)
 			return
 		}
 		walkHistory(-1)
 
 	case seqDown:
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			moveTabHighlight(0, 1)
 			return
 		}
 		walkHistory(1)
 
 	case seqBackwards:
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			moveTabHighlight(-1, 0)
 			return
 		}
@@ -175,24 +191,25 @@ func escapeSeq(b []byte) {
 		}
 
 	case seqForwards:
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			moveTabHighlight(1, 0)
 			return
 		}
-		if pos < len(line) {
+		if (!modeViKeys && pos < len(line)) ||
+			(modeViKeys && pos < len(line)-1) {
 			moveCursorForwards(1)
 			pos++
 		}
 
 	case seqHome:
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			return
 		}
 		moveCursorBackwards(pos)
 		pos = 0
 
 	case seqEnd:
-		if mode == modeTabCompletion {
+		if modeTabGrid {
 			return
 		}
 		moveCursorForwards(len(line) - pos)

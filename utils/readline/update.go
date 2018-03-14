@@ -66,7 +66,7 @@ func insert(b []byte) {
 	moveCursorForwards(len(r) - 1)
 	pos += len(r)
 
-	if mode == modeTabCompletion {
+	if modeTabGrid {
 		clearTabSuggestions()
 		tabCompletion()
 	}
@@ -92,7 +92,7 @@ func delete() {
 		moveCursorBackwards(1)
 	}
 
-	if mode == modeTabCompletion {
+	if modeTabGrid {
 		clearTabSuggestions()
 		tabCompletion()
 	}
@@ -110,7 +110,7 @@ func clearLine() {
 	line = []rune{}
 	pos = 0
 
-	if mode == modeTabCompletion {
+	if modeTabGrid {
 		clearTabSuggestions()
 		tabCompletion()
 	}

@@ -30,10 +30,16 @@ func syntaxCompletion() {
 		return
 	}
 
-	newLine, newPos := SyntaxCompleter(line, pos)
+	x := pos
+	if !modeViKeys && pos > 0 {
+		x--
+	}
+	newLine, newPos := SyntaxCompleter(line, x)
 	if string(newLine) == string(line) {
 		return
 	}
+
+	newPos++
 
 	line = newLine
 	echo()
