@@ -8,7 +8,7 @@ import (
 
 // TestMan tests the builtins package
 func TestMan(t *testing.T) {
-	files := ScanManPages("cat")
+	files := GetManPages("cat")
 	if len(files) == 0 {
 		t.Error("Could not find any man pages")
 	}
