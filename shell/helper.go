@@ -12,6 +12,8 @@ import (
 	"github.com/lmorg/murex/utils/readline"
 )
 
+var manDescript map[string]string = make(map[string]string)
+
 func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 	if len(line) > pos-1 {
 		line = line[:pos]
@@ -130,17 +132,34 @@ func hintText(line []rune) []rune {
 		return []rune("Error: " + err.Error())
 	}
 
-	r = variables.Expand(r)
+	r2 := variables.Expand(r)
+	appendR := []rune{}
+	if string(r) != string(r2) {
+		appendR = []rune("(example only) ")
+	}
+	r = append(appendR, r2...)
 	if string(line) == string(r) {
 		r = []rune{}
 	}
-	return r
-	if len(r) == 0 {
-		pt, _ := parse(line)
-		//r = []rune("'" + pt.FuncName + "'")
-		f := man.GetManPages(pt.FuncName)
-		r = []rune(man.ParseDescription(f))
+
+	if len(r) > 0 {
+		return r
 	}
 
+	pt, _ := parse(line)
+	s := manDescript[pt.FuncName]
+	if s != "" && s != "!" {
+		return []rune(manDescript[pt.FuncName])
+	}
+	if s == "!" {
+		return []rune{}
+	}
+	f := man.GetManPages(pt.FuncName)
+	r = []rune(man.ParseDescription(f))
+	if len(r) == 0 {
+		manDescript[pt.FuncName] = "!"
+	} else {
+		manDescript[pt.FuncName] = string(r)
+	}
 	return r
 }

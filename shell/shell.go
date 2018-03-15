@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -42,9 +43,9 @@ func Start() {
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())
+	} else {
+		readline.History = h
 	}
-
-	readline.History = h
 
 	/*Instance.Config.SetListener(listener)
 	defer Instance.Close()

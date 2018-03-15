@@ -11,29 +11,39 @@ import (
 type LineHistory interface {
 	// Append takes the line and returns an updated number of lines or an error
 	Write(string) (int, error)
+
 	// GetLine takes the historic line number and returns the line or an error
 	GetLine(int) (string, error)
+
 	// Len returns the number of history lines
 	Len() int
+
+	// Dump returns everything in readline. The return is an interface because{} not all
+	// LineHistory implementations might want to structure the history the same
+	Dump() interface{}
 }
 
-// Example LineHistory interface:
+// An example of a LineHistory interface:
 
-type dummyLineHistory struct {
+type ExampleLineHistory struct {
 	items []string
 }
 
-func (h *dummyLineHistory) Write(s string) (int, error) {
+func (h *ExampleLineHistory) Write(s string) (int, error) {
 	h.items = append(h.items, s)
 	return len(h.items), nil
 }
 
-func (h *dummyLineHistory) GetLine(i int) (string, error) {
+func (h *ExampleLineHistory) GetLine(i int) (string, error) {
 	return h.items[i], nil
 }
 
-func (h *dummyLineHistory) Len() int {
+func (h *ExampleLineHistory) Len() int {
 	return len(h.items)
+}
+
+func (h *ExampleLineHistory) Dump() interface{} {
+	return h.items
 }
 
 // Browse historic lines:

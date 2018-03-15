@@ -85,3 +85,19 @@ func renderHintText() {
 	moveCursorUp(moveY)
 	moveCursorForwards(promptLen + pos + 1)
 }
+
+func clearHintText() {
+	if hintY == 0 {
+		return
+	}
+
+	move := termWidth * hintY
+	blank := strings.Repeat(" ", move)
+
+	fmt.Print("\r\n" + blank)
+	moveCursorUp(hintY)
+	moveCursorBackwards(termWidth)
+	moveCursorForwards(promptLen + pos)
+
+	hintY = 0
+}

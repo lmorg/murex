@@ -104,3 +104,7 @@ func (h *History) GetLine(i int) (string, error) {
 func (h *History) Len() int {
 	return len(h.list)
 }
+
+func (h *History) Dump() interface{} {
+	return h.list
+}

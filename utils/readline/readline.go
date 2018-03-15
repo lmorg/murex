@@ -66,7 +66,7 @@ var (
 )
 
 func init() {
-	History = new(dummyLineHistory)
+	History = new(ExampleLineHistory)
 }
 
 // Readline displays the readline prompt.
@@ -102,6 +102,7 @@ func Readline() (string, error) {
 			if modeTabGrid {
 				clearTabSuggestions()
 			}
+			clearHintText()
 			return "", errors.New(ErrEOF)
 		case charTab:
 			if modeTabGrid {
@@ -110,6 +111,7 @@ func Readline() (string, error) {
 			}
 			tabCompletion()
 		case charCtrlU:
+			clearHintText()
 			clearLine()
 		case '\r':
 			fallthrough
@@ -120,15 +122,14 @@ func Readline() (string, error) {
 				insert([]byte(tcSuggestions[cell]))
 				continue
 			}
+			clearHintText()
 			fmt.Print("\r\n")
-			moveCursorDown(hintY)
 			if HistoryAutoWrite {
 				histPos, err = History.Write(string(line))
 				if err != nil {
 					fmt.Print(err.Error() + "\r\n")
 				}
 			}
-			hintY = 0
 			modeViKeys = false
 			return string(line), nil
 		case charBackspace:

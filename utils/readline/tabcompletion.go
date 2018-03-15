@@ -101,8 +101,10 @@ func moveTabHighlight(x, y int) {
 }
 
 func renderSuggestions() {
-	fmt.Print("\r\n")
-	moveCursorDown(hintY)
+	newlines := strings.Repeat("\r\n", hintY+1)
+	//fmt.Print("\r\n")
+	//moveCursorDown(hintY )
+	fmt.Print(newlines)
 
 	cellWidth := strconv.Itoa((termWidth / tcMaxX) - 2)
 	x := 0
@@ -137,18 +139,13 @@ func clearTabSuggestions() {
 	move := termWidth * tcUsedY
 	blank := strings.Repeat(" ", move)
 
-	// It's a bit ugly this code but it helps minimize the likelihood of the console
-	// bug for becoming visible.
-	//if hintY > 0 {
-	fmt.Print(seqPosSave + "\r\n" + blank + seqPosRestore)
-	/*} else {
-		fmt.Print("\r\n")
-		moveCursorDown(hintY)
-		fmt.Print(blank)
-		moveCursorBackwards(termWidth)
-		moveCursorUp(hintY + tcUsedY)
-		moveCursorForwards(promptLen + pos + 1)
-	}*/
+	// It's ugly but required as we don't know the absolute position of the cursor
+	fmt.Print("\r\n")
+	moveCursorDown(hintY)
+	fmt.Print(blank)
+	moveCursorBackwards(termWidth)
+	moveCursorUp(hintY + tcUsedY)
+	moveCursorForwards(promptLen + pos)
 
 	modeTabGrid = false
 }
