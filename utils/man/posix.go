@@ -50,17 +50,20 @@ MANUAL SECTIONS (Linux)
 */
 
 // GetManPages executes `man -w` to locate the manual files
-func GetManPages(exe string) (paths []string) {
+func GetManPages(exe string) []string {
 	// Get paths
 	cmd := exec.Command("man", "-w", exe)
 	b, err := cmd.Output()
 	if err != nil {
-		return
+		return nil
 	}
 
 	s := strings.TrimSpace(string(b))
-	paths = strings.Split(s, ":")
-	return
+	if s == exe {
+		return nil
+	}
+
+	return strings.Split(s, ":")
 }
 
 // ParseForFlags runs the parser to locate any flags with hyphen prefixes

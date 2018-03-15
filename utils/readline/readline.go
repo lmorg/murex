@@ -46,7 +46,10 @@ var (
 	// the new line and cursor position.
 	SyntaxCompleter func([]rune, int) ([]rune, int)
 
-	HintText func([]rune) []rune
+	// HintText is a helper function which displays hint text the prompt.
+	// HintText takes the line input from the promt and the cursor position.
+	// It returns the hint text to display.
+	HintText func([]rune, int) []rune
 )
 
 // While it might normally seem bad practice to have global variables, you canot
@@ -91,6 +94,8 @@ func Readline() (string, error) {
 		if err != nil {
 			return "", err
 		}
+
+		//renderHintText()
 
 		switch b[0] {
 		case charCtrlC:
@@ -190,6 +195,7 @@ func escapeSeq(b []byte) {
 			moveCursorBackwards(1)
 			pos--
 		}
+		renderHintText()
 
 	case seqForwards:
 		if modeTabGrid {
@@ -201,6 +207,7 @@ func escapeSeq(b []byte) {
 			moveCursorForwards(1)
 			pos++
 		}
+		renderHintText()
 
 	case seqHome:
 		if modeTabGrid {

@@ -54,7 +54,7 @@ func renderHintText() {
 		return
 	}
 
-	r := HintText(line)
+	r := HintText(line, pos)
 	if len(r) == 0 && hintY == 0 {
 		return
 	}

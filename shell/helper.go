@@ -126,18 +126,18 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 	return line, pos
 }
 
-func hintText(line []rune) []rune {
+func hintText(line []rune, pos int) []rune {
 	r, err := history.ExpandVariables(line)
 	if err != nil {
 		return []rune("Error: " + err.Error())
 	}
 
-	r2 := variables.Expand(r)
-	appendR := []rune{}
-	if string(r) != string(r2) {
-		appendR = []rune("(example only) ")
+	vars := variables.Expand(r)
+	disclaimer := []rune{}
+	if string(r) != string(vars) {
+		disclaimer = []rune("(example only) ")
 	}
-	r = append(appendR, r2...)
+	r = append(disclaimer, vars...)
 	if string(line) == string(r) {
 		r = []rune{}
 	}
