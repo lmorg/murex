@@ -13,6 +13,7 @@ import (
 )
 
 var (
+	rxMatchManSection   *regexp.Regexp = regexp.MustCompile(`/man[1678]/`)
 	rxMatchFlagsEscaped *regexp.Regexp = regexp.MustCompile(`\\f[BI]((\\-|-)[a-zA-Z0-9]|(\\-\\-|--)[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
 	rxMatchFlagsQuoted  *regexp.Regexp = regexp.MustCompile(`\.IP "(.*?)"`)
 	rxMatchFlagsOther   *regexp.Regexp = regexp.MustCompile(`\.B (.*?)\\fR`)
@@ -71,6 +72,9 @@ func ParseFlags(paths []string) (flags []string) {
 	// Parse man pages
 	fMap := make(map[string]bool)
 	for i := range paths {
+		if !rxMatchManSection.MatchString(paths[i]) {
+			continue
+		}
 		parseFlags(&fMap, paths[i])
 	}
 
@@ -157,6 +161,9 @@ func parseFlags(flags *map[string]bool, filename string) {
 // ParseDescription runs the parser to locate a description
 func ParseDescription(paths []string) string {
 	for i := range paths {
+		if !rxMatchManSection.MatchString(paths[i]) {
+			continue
+		}
 		desc := parseDescription(paths[i])
 		if desc != "" {
 			return desc
