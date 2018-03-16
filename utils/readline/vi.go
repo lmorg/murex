@@ -1,17 +1,36 @@
 package readline
 
+type viMode int
+
+const (
+	vimInsert viMode = iota
+	vimReplaceOnce
+	vimReplaceMany
+	vimKeys
+)
+
+var modeViMode viMode = vimInsert
+
 func vi(b byte) {
 	switch b {
 	case 'a':
-		moveCursorForwards(len(line) - pos)
-		pos = len(line)
-		modeViKeys = false
+		moveCursorForwards(1)
+		pos++
+		modeViMode = vimInsert
 	case 'A':
 		moveCursorForwards(len(line) - pos)
 		pos = len(line)
-		modeViKeys = false
+		modeViMode = vimInsert
 	case 'i':
-		modeViKeys = false
+		//moveCursorForwards(1)
+		//pos++
+		modeViMode = vimInsert
+	case 'r':
+		//pos++
+		modeViMode = vimReplaceOnce
+	case 'R':
+		//pos++
+		modeViMode = vimReplaceMany
 	case 'x':
 		delete()
 	}

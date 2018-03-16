@@ -30,11 +30,11 @@ func syntaxCompletion() {
 		return
 	}
 
-	x := pos
-	if !modeViKeys && pos > 0 {
-		x--
-	}
-	newLine, newPos := SyntaxCompleter(line, x)
+	//x := pos
+	//if modeViMode == vimInsert && pos > 0 {
+	//	x--
+	//}
+	newLine, newPos := SyntaxCompleter(line, pos-1)
 	if string(newLine) == string(line) {
 		return
 	}

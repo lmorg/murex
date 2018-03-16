@@ -65,7 +65,6 @@ var (
 	pos          int
 	histPos      int
 	modeTabGrid  bool
-	modeViKeys   bool
 )
 
 func init() {
@@ -135,16 +134,29 @@ func Readline() (string, error) {
 					fmt.Print(err.Error() + "\r\n")
 				}
 			}
-			modeViKeys = false
+			modeViMode = vimInsert
 			return string(line), nil
 		case charBackspace:
 			backspace()
 		case charEscape:
 			escapeSeq(b[:i])
 		default:
-			if modeViKeys {
+			switch modeViMode {
+			case vimKeys:
 				vi(b[0])
-			} else {
+			case vimReplaceOnce:
+				modeViMode = vimKeys
+				pos--
+				//fallthrough
+				delete()
+				insert([]byte{b[0]})
+			case vimReplaceMany:
+				x := utf8.RuneCount(b)
+				for n := 1; n < x; n++ {
+					delete()
+				}
+				fallthrough
+			default:
 				insert(b[:i])
 			}
 			syntaxCompletion()
@@ -158,15 +170,16 @@ func escapeSeq(b []byte) {
 		if modeTabGrid {
 			clearTabSuggestions()
 		} else {
-			fmt.Print("\r\nvi mode enabled\r\n")
-			if pos == len(line) {
+			//fmt.Print(pos, len(line))
+			if pos == len(line) && len(line) > 0 {
 				pos--
+				moveCursorBackwards(1)
 			}
-			fmt.Print(string(prompt))
-			moveCursorForwards(pos)
-			echo()
-			moveCursorBackwards(1)
-			modeViKeys = true
+			//fmt.Print(string(prompt))
+			//moveCursorForwards(pos)
+			//echo()
+			//moveCursorBackwards(1)
+			modeViMode = vimKeys
 		}
 
 	case seqDelete:
@@ -202,8 +215,9 @@ func escapeSeq(b []byte) {
 			moveTabHighlight(1, 0)
 			return
 		}
-		if (!modeViKeys && pos < len(line)) ||
-			(modeViKeys && pos < len(line)-1) {
+		//if (modeViMode != vimInsert && pos < len(line)) ||
+		//	(modeViMode == vimInsert && pos < len(line)-1) {
+		if pos < len(line)-1 {
 			moveCursorForwards(1)
 			pos++
 		}
