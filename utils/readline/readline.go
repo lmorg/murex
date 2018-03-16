@@ -86,6 +86,7 @@ func Readline() (string, error) {
 	line = []rune{}
 	pos = 0
 	histPos = History.Len()
+	modeViMode = vimInsert
 
 	for {
 		b := make([]byte, 1024)
@@ -102,21 +103,25 @@ func Readline() (string, error) {
 				clearTabSuggestions()
 			}
 			return "", errors.New(ErrCtrlC)
+
 		case charEOF:
 			if modeTabGrid {
 				clearTabSuggestions()
 			}
 			clearHintText()
 			return "", errors.New(ErrEOF)
+
 		case charTab:
 			if modeTabGrid {
 				moveTabHighlight(1, 0)
 				continue
 			}
 			tabCompletion()
+
 		case charCtrlU:
 			clearHintText()
 			clearLine()
+
 		case '\r':
 			fallthrough
 		case '\n':
@@ -134,32 +139,16 @@ func Readline() (string, error) {
 					fmt.Print(err.Error() + "\r\n")
 				}
 			}
-			modeViMode = vimInsert
 			return string(line), nil
+
 		case charBackspace:
 			backspace()
+
 		case charEscape:
 			escapeSeq(b[:i])
+
 		default:
-			switch modeViMode {
-			case vimKeys:
-				vi(b[0])
-			case vimReplaceOnce:
-				modeViMode = vimKeys
-				pos--
-				//fallthrough
-				delete()
-				insert([]byte{b[0]})
-			case vimReplaceMany:
-				x := utf8.RuneCount(b)
-				for n := 1; n < x; n++ {
-					delete()
-				}
-				fallthrough
-			default:
-				insert(b[:i])
-			}
-			syntaxCompletion()
+			editorInput(b[:i])
 		}
 	}
 }
@@ -208,20 +197,20 @@ func escapeSeq(b []byte) {
 			moveCursorBackwards(1)
 			pos--
 		}
-		renderHintText()
+		//renderHintText()
 
 	case seqForwards:
 		if modeTabGrid {
 			moveTabHighlight(1, 0)
 			return
 		}
-		//if (modeViMode != vimInsert && pos < len(line)) ||
-		//	(modeViMode == vimInsert && pos < len(line)-1) {
-		if pos < len(line)-1 {
+		if (modeViMode == vimInsert && pos < len(line)) ||
+			(modeViMode != vimInsert && pos < len(line)-1) {
+			//if pos < len(line) {
 			moveCursorForwards(1)
 			pos++
 		}
-		renderHintText()
+		//renderHintText()
 
 	case seqHome:
 		if modeTabGrid {
@@ -237,6 +226,30 @@ func escapeSeq(b []byte) {
 		moveCursorForwards(len(line) - pos)
 		pos = len(line)
 	}
+}
+
+func editorInput(b []byte) {
+	switch modeViMode {
+	case vimKeys:
+		vi(b[0])
+
+	case vimReplaceOnce:
+		modeViMode = vimKeys
+		delete()
+		r := []rune(string(b))
+		insert([]byte(string(r[0])))
+
+	case vimReplaceMany:
+		for _, r := range []rune(string(b)) {
+			delete()
+			insert([]byte(string(r)))
+		}
+
+	default:
+		insert(b)
+	}
+
+	syntaxCompletion()
 }
 
 func echo() {

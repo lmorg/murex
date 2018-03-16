@@ -26,10 +26,8 @@ func vi(b byte) {
 		//pos++
 		modeViMode = vimInsert
 	case 'r':
-		//pos++
 		modeViMode = vimReplaceOnce
 	case 'R':
-		//pos++
 		modeViMode = vimReplaceMany
 	case 'x':
 		delete()
