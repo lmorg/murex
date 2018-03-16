@@ -159,15 +159,10 @@ func escapeSeq(b []byte) {
 		if modeTabGrid {
 			clearTabSuggestions()
 		} else {
-			//fmt.Print(pos, len(line))
 			if pos == len(line) && len(line) > 0 {
 				pos--
 				moveCursorBackwards(1)
 			}
-			//fmt.Print(string(prompt))
-			//moveCursorForwards(pos)
-			//echo()
-			//moveCursorBackwards(1)
 			modeViMode = vimKeys
 		}
 

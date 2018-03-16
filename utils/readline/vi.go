@@ -1,5 +1,10 @@
 package readline
 
+import (
+	"fmt"
+	"strings"
+)
+
 type viMode int
 
 const (
@@ -21,9 +26,18 @@ func vi(b byte) {
 		moveCursorForwards(len(line) - pos)
 		pos = len(line)
 		modeViMode = vimInsert
+	case 'D':
+		moveCursorBackwards(pos)
+		fmt.Print(strings.Repeat(" ", len(line)))
+		//moveCursorBackwards(len(line))
+
+		moveCursorBackwards(len(line) - pos)
+		line = line[:pos]
+		echo()
+
+		moveCursorBackwards(2)
+		pos--
 	case 'i':
-		//moveCursorForwards(1)
-		//pos++
 		modeViMode = vimInsert
 	case 'r':
 		modeViMode = vimReplaceOnce
