@@ -204,15 +204,14 @@ func parseDescription(filename string) string {
 		s := scanner.Text()
 
 		if strings.Contains(s, "SYNOPSIS") {
-			return desc
+			return strings.TrimSpace(desc)
 		}
 
 		if read {
-			s = strings.Replace(s, "\\", "", -1)
-			s = strings.Replace(s, ".Nm", " - ", -1)
-			s = strings.Replace(s, "(em ", ": ", -1)
+			s = strings.Replace(s, ".Nd ", " - ", -1)
+			s = strings.Replace(s, "\\(em ", " - ", -1)
 			s = rxReplaceMarkup.ReplaceAllString(s, "")
-			s = strings.TrimSpace(s)
+			s = strings.Replace(s, "\\", "", -1)
 			desc += s
 		}
 
