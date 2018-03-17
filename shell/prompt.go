@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 func getPrompt() {
@@ -41,7 +40,7 @@ func getPrompt() {
 		b = []byte("murex » ")
 	}
 	//Instance.SetPrompt(string(b))
-	readline.SetPrompt(string(b))
+	Prompt.SetPrompt(string(b))
 }
 
 func getMultilinePrompt(nLines int) {
@@ -74,5 +73,5 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	//Instance.SetPrompt(string(b))
-	readline.SetPrompt(string(b))
+	Prompt.SetPrompt(string(b))
 }

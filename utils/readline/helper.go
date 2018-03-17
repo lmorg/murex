@@ -16,7 +16,7 @@ func getTermWidth() {
 	}
 }
 
-func (rl *instance) syntaxCompletion() {
+func (rl *Instance) syntaxCompletion() {
 	if rl.SyntaxCompleter == nil {
 		return
 	}
@@ -39,7 +39,7 @@ func (rl *instance) syntaxCompletion() {
 	rl.pos = newPos
 }
 
-func (rl *instance) renderHintText() {
+func (rl *Instance) renderHintText() {
 	if rl.HintText == nil {
 		rl.hintY = 0
 		return
@@ -77,7 +77,7 @@ func (rl *instance) renderHintText() {
 	moveCursorForwards(rl.promptLen + rl.pos + 1)
 }
 
-func (rl *instance) clearHintText() {
+func (rl *Instance) clearHintText() {
 	if rl.hintY == 0 {
 		return
 	}

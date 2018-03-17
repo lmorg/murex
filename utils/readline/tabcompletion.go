@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func (rl *instance) tabCompletion() {
+func (rl *Instance) tabCompletion() {
 	if rl.TabCompleter == nil {
 		return
 	}
@@ -20,7 +20,7 @@ func (rl *instance) tabCompletion() {
 		if len(rl.tcSuggestions[0]) == 0 || rl.tcSuggestions[0] == " " || rl.tcSuggestions[0] == "\t" {
 			return
 		}
-		insert([]byte(rl.tcSuggestions[0]))
+		rl.insert([]byte(rl.tcSuggestions[0]))
 		return
 	}
 
@@ -28,8 +28,8 @@ func (rl *instance) tabCompletion() {
 	rl.renderSuggestions()
 }
 
-func (rl *instance) initTabGrid() {
-	rl.getTermWidth()
+func (rl *Instance) initTabGrid() {
+	getTermWidth()
 
 	tcMaxLength := 1
 	for i := range rl.tcSuggestions {
@@ -45,7 +45,7 @@ func (rl *instance) initTabGrid() {
 	rl.tcMaxY = rl.MaxTabCompleterRows
 }
 
-func (rl *instance) moveTabHighlight(x, y int) {
+func (rl *Instance) moveTabHighlight(x, y int) {
 	rl.tcPosX += x
 	rl.tcPosY += y
 
@@ -89,13 +89,13 @@ func (rl *instance) moveTabHighlight(x, y int) {
 	rl.renderSuggestions()
 }
 
-func (rl *interface)renderSuggestions() {
+func (rl *Instance) renderSuggestions() {
 	newlines := strings.Repeat("\r\n", rl.hintY+1)
 	//fmt.Print("\r\n")
 	//moveCursorDown(hintY )
 	fmt.Print(newlines)
 
-	cellWidth := strconv.Itoa((rl.termWidth / rl.tcMaxX) - 2)
+	cellWidth := strconv.Itoa((termWidth / rl.tcMaxX) - 2)
 	x := 0
 	y := 1
 
@@ -124,15 +124,15 @@ func (rl *interface)renderSuggestions() {
 	moveCursorForwards(rl.promptLen + rl.pos)
 }
 
-func (rl *instance)clearTabSuggestions() {
-	move := rl.termWidth * rl.tcUsedY
+func (rl *Instance) clearTabSuggestions() {
+	move := termWidth * rl.tcUsedY
 	blank := strings.Repeat(" ", move)
 
 	// It's ugly but required as we don't know the absolute position of the cursor
 	fmt.Print("\r\n")
 	moveCursorDown(rl.hintY)
 	fmt.Print(blank)
-	moveCursorBackwards(rl.termWidth)
+	moveCursorBackwards(termWidth)
 	moveCursorUp(rl.hintY + rl.tcUsedY)
 	moveCursorForwards(rl.promptLen + rl.pos)
 

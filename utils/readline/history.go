@@ -4,11 +4,11 @@ import (
 	"fmt"
 )
 
-// LineHistory is an interface to allow you to write your own history logging
+// History is an interface to allow you to write your own history logging
 // tools. eg sqlite backend instead of a file system.
 // By default readline will just use the dummyLineHistory interface which only
 // logs the history to memory ([]string to be precise).
-type LineHistory interface {
+type History interface {
 	// Append takes the line and returns an updated number of lines or an error
 	Write(string) (int, error)
 
@@ -25,30 +25,51 @@ type LineHistory interface {
 
 // An example of a LineHistory interface:
 
-type ExampleLineHistory struct {
+type ExampleHistory struct {
 	items []string
 }
 
-func (h *ExampleLineHistory) Write(s string) (int, error) {
+func (h *ExampleHistory) Write(s string) (int, error) {
 	h.items = append(h.items, s)
 	return len(h.items), nil
 }
 
-func (h *ExampleLineHistory) GetLine(i int) (string, error) {
+func (h *ExampleHistory) GetLine(i int) (string, error) {
 	return h.items[i], nil
 }
 
-func (h *ExampleLineHistory) Len() int {
+func (h *ExampleHistory) Len() int {
 	return len(h.items)
 }
 
-func (h *ExampleLineHistory) Dump() interface{} {
+func (h *ExampleHistory) Dump() interface{} {
 	return h.items
+}
+
+// A null History interface for when you don't want to line entries remembered
+// eg password input.
+
+type NullHistory struct{}
+
+func (h *NullHistory) Write(s string) (int, error) {
+	return 0, nil
+}
+
+func (h *NullHistory) GetLine(i int) (string, error) {
+	return "", nil
+}
+
+func (h *NullHistory) Len() int {
+	return 0
+}
+
+func (h *NullHistory) Dump() interface{} {
+	return []string{}
 }
 
 // Browse historic lines:
 
-func (rl *instance) walkHistory(i int) {
+func (rl *Instance) walkHistory(i int) {
 	switch rl.histPos + i {
 	case -1, rl.History.Len() + 1:
 		return

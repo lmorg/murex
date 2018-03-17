@@ -67,7 +67,7 @@ import (
 
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
-func (rl *instance) Readline() (string, error) {
+func (rl *Instance) Readline() (string, error) {
 	fd := int(os.Stdin.Fd())
 	state, err := terminal.MakeRaw(fd)
 	if err != nil {
@@ -115,12 +115,12 @@ func (rl *instance) Readline() (string, error) {
 		case charCtrlU:
 			//clearHintText()
 			//clearLine()
-			moveCursorBackwards(pos)
+			moveCursorBackwards(rl.pos)
 			fmt.Print(strings.Repeat(" ", len(rl.line)))
 			//moveCursorBackwards(len(line))
 
 			moveCursorBackwards(len(rl.line))
-			rl.line = rl.line[pos:]
+			rl.line = rl.line[rl.pos:]
 			rl.pos = 0
 			rl.echo()
 
@@ -138,7 +138,7 @@ func (rl *instance) Readline() (string, error) {
 			rl.clearHintText()
 			fmt.Print("\r\n")
 			if rl.HistoryAutoWrite {
-				rl.histPos, err = rl.History.Write(string(line))
+				rl.histPos, err = rl.History.Write(string(rl.line))
 				if err != nil {
 					fmt.Print(err.Error() + "\r\n")
 				}
@@ -157,7 +157,7 @@ func (rl *instance) Readline() (string, error) {
 	}
 }
 
-func (rl *instance) escapeSeq(b []byte) {
+func (rl *Instance) escapeSeq(b []byte) {
 	switch string(b) {
 	case string(charEscape):
 		if rl.modeTabGrid {
@@ -228,7 +228,7 @@ func (rl *instance) escapeSeq(b []byte) {
 	}
 }
 
-func (rl *instance) editorInput(b []byte) {
+func (rl *Instance) editorInput(b []byte) {
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(b[0])
@@ -252,8 +252,8 @@ func (rl *instance) editorInput(b []byte) {
 	rl.syntaxCompletion()
 }
 
-func (rl *instance) echo() {
-	moveCursorBackwards(pos)
+func (rl *Instance) echo() {
+	moveCursorBackwards(rl.pos)
 
 	switch {
 	case rl.PasswordMask > 0:
@@ -270,7 +270,7 @@ func (rl *instance) echo() {
 	rl.renderHintText()
 }
 
-func (rl *instance) SetPrompt(s string) {
+func (rl *Instance) SetPrompt(s string) {
 	rl.prompt = s
 
 	s = rxAnsiEscSeq.ReplaceAllString(s, "")

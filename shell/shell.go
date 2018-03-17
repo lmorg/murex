@@ -16,35 +16,27 @@ import (
 	"github.com/lmorg/murex/utils/readline"
 )
 
-var Interactive bool
+var (
+	Interactive bool
+	Prompt      *readline.Instance
+)
 
 // Start the interactive shell
 func Start() {
 	var err error
 
-	/*Instance, err = readline.NewEx(&readline.Config{
-		InterruptPrompt:        interruptPrompt,
-		AutoComplete:           murexCompleter,
-		FuncFilterInputRune:    filterInput,
-		DisableAutoSaveHistory: true,
-		NoEofOnEmptyDelete:     true,
-	})
-
-	if err != nil {
-		panic(err)
-	}*/
-
 	Interactive = true
-	readline.TabCompleter = tabCompletion
-	readline.SyntaxCompleter = syntaxCompletion
-	readline.HistoryAutoWrite = false
-	readline.HintText = hintText
+	Prompt = readline.NewInstance()
+	Prompt.TabCompleter = tabCompletion
+	Prompt.SyntaxCompleter = syntaxCompletion
+	Prompt.HistoryAutoWrite = false
+	Prompt.HintText = hintText
 
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())
 	} else {
-		readline.History = h
+		Prompt.History = h
 	}
 
 	/*Instance.Config.SetListener(listener)
@@ -80,7 +72,7 @@ func prompt() {
 			break
 		}*/
 
-		line, err := readline.Readline()
+		line, err := Prompt.Readline()
 		if err != nil {
 			switch err.Error() {
 			case readline.ErrCtrlC:
@@ -101,7 +93,7 @@ func prompt() {
 			block = []rune(line)
 		}
 
-		expanded, err := history.ExpandVariables(block)
+		expanded, err := history.ExpandVariables(block, Prompt)
 		if err != nil {
 			ansi.Stderrln(ansi.FgRed, err.Error())
 			merged = ""
@@ -136,12 +128,12 @@ func prompt() {
 
 		default:
 			merged += line
-			mergedExp, err := history.ExpandVariables([]rune(merged))
+			mergedExp, err := history.ExpandVariables([]rune(merged), Prompt)
 			if err == nil {
 				merged = string(mergedExp)
 			}
 
-			readline.History.Write(merged)
+			Prompt.History.Write(merged)
 
 			nLines = 1
 			merged = ""
@@ -158,8 +150,8 @@ func getSyntaxHighlighting() {
 		highlight = false
 	}
 	if highlight.(bool) == true {
-		readline.SyntaxHighlighter = syntaxHighlight
+		Prompt.SyntaxHighlighter = syntaxHighlight
 	} else {
-		readline.SyntaxHighlighter = nil
+		Prompt.SyntaxHighlighter = nil
 	}
 }

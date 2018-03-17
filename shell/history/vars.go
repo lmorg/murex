@@ -26,24 +26,24 @@ const (
 	errCannotParsePrevCmd = "Cannot parse previous command line to extract parameters for history variable."
 )
 
-var last string
+//var last string
 
-func getLine(i int) (s string) {
-	s, _ = readline.History.GetLine(i)
+func getLine(i int, rl *readline.Instance) (s string) {
+	s, _ = rl.History.GetLine(i)
 	return
 }
 
 // ExpandVariables finds history variables in a line and replaces it with the value of the variable
-func ExpandVariables(line []rune) ([]rune, error) {
+func ExpandVariables(line []rune, rl *readline.Instance) ([]rune, error) {
 	s := string(line)
 
-	last := getLine(readline.History.Len() - 1)
+	last := getLine(rl.History.Len()-1, rl)
 
 	s = strings.Replace(s, `^\n`, "\n", -1)          // Match new line
 	s = strings.Replace(s, `^\t`, "\t", -1)          // Match tab
 	s = strings.Replace(s, "^!!", noColon(last), -1) // Match last command
 
-	funcs := []func(string) (string, error){
+	funcs := []func(string, *readline.Instance) (string, error){
 		expandHistPrefix,
 		expandHistIndex,
 		expandHistRegex,
@@ -55,7 +55,7 @@ func ExpandVariables(line []rune) ([]rune, error) {
 
 	for f := range funcs {
 		var err error
-		s, err = funcs[f](s)
+		s, err = funcs[f](s, rl)
 		if err != nil {
 			return nil, err
 		}
@@ -65,21 +65,21 @@ func ExpandVariables(line []rune) ([]rune, error) {
 }
 
 // Match history index
-func expandHistIndex(s string) (string, error) {
+func expandHistIndex(s string, rl *readline.Instance) (string, error) {
 	mhIndex := rxHistIndex.FindAllString(s, -1)
 	for i := range mhIndex {
 		val, _ := strconv.Atoi(mhIndex[i][1:])
-		if val > readline.History.Len() {
+		if val > rl.History.Len() {
 			return "", fmt.Errorf("Value greater than history length in ^%d", val)
 		}
-		s = rxHistIndex.ReplaceAllString(s, noColon(getLine(val)))
+		s = rxHistIndex.ReplaceAllString(s, noColon(getLine(val, rl)))
 		//return s, nil
 	}
 	return s, nil
 }
 
 // Match history by regexp
-func expandHistRegex(s string) (string, error) {
+func expandHistRegex(s string, rl *readline.Instance) (string, error) {
 	mhRegexp := rxHistRegex.FindAllStringSubmatch(s, -1)
 	for i := range mhRegexp {
 		rx, err := regexp.Compile(mhRegexp[i][1])
@@ -87,9 +87,9 @@ func expandHistRegex(s string) (string, error) {
 			return "", fmt.Errorf("Regexp error in history variable `^m/%s/`: %s", mhRegexp[i][1], err.Error())
 		}
 
-		for h := readline.History.Len() - 1; h > -1; h-- {
-			if rx.MatchString(getLine(h)) {
-				s = rxHistRegex.ReplaceAllString(s, noColon(getLine(h)))
+		for h := rl.History.Len() - 1; h > -1; h-- {
+			if rx.MatchString(getLine(h, rl)) {
+				s = rxHistRegex.ReplaceAllString(s, noColon(getLine(h, rl)))
 				//return []rune(s)
 				goto next
 			}
@@ -101,12 +101,12 @@ func expandHistRegex(s string) (string, error) {
 }
 
 // Match history hashtag
-func expandHistHashtag(s string) (string, error) {
+func expandHistHashtag(s string, rl *readline.Instance) (string, error) {
 	mhTag := rxHistTag.FindAllString(s, -1)
 
 	for i := range mhTag {
-		for h := readline.History.Len() - 1; h > -1; h-- {
-			line := getLine(h)
+		for h := rl.History.Len() - 1; h > -1; h-- {
+			line := getLine(h, rl)
 			if strings.HasSuffix(line, mhTag[i][1:]) {
 				block := line[:len(line)-len(mhTag[i][1:])]
 				s = strings.Replace(s, mhTag[i], noColon(block), 1)
@@ -124,10 +124,10 @@ func expandHistHashtag(s string) (string, error) {
 }
 
 // Match last params (all of block)
-func expandHistAllPs(s string) (string, error) {
+func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 	mhParam := rxHistAllPs.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
-		last := getLine(readline.History.Len())
+		last := getLine(rl.History.Len(), rl)
 		nodes, pErr := lang.ParseBlock([]rune(last))
 		if pErr.Code != lang.NoParsingErrors {
 			//goto cannotParserxHistAllPs
@@ -166,10 +166,10 @@ func expandHistAllPs(s string) (string, error) {
 }
 
 // Match last params (first command in block)
-func expandHistParam(s string) (string, error) {
+func expandHistParam(s string, rl *readline.Instance) (string, error) {
 	mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
-		last := getLine(readline.History.Len() - 1)
+		last := getLine(rl.History.Len()-1, rl)
 		nodes, pErr := lang.ParseBlock([]rune(last))
 		if pErr.Code != lang.NoParsingErrors {
 			//goto cannotParserxHistParam
@@ -198,7 +198,7 @@ func expandHistParam(s string) (string, error) {
 }
 
 // Replace string from command buffer
-func expandHistReplace(s string) (string, error) {
+func expandHistReplace(s string, rl *readline.Instance) (string, error) {
 	sList := rxHistReplace.FindAllStringSubmatch(s, -1)
 	var rxList []*regexp.Regexp
 	var replaceList []string
@@ -222,12 +222,12 @@ func expandHistReplace(s string) (string, error) {
 }
 
 // Match history prefix
-func expandHistPrefix(s string) (string, error) {
+func expandHistPrefix(s string, rl *readline.Instance) (string, error) {
 	mhPrefix := rxHistPrefix.FindAllString(s, -1)
 	for i := range mhPrefix {
-		for h := readline.History.Len() - 1; h > -1; h-- {
-			if strings.HasPrefix(getLine(h), mhPrefix[i][2:]) {
-				s = strings.Replace(s, mhPrefix[i], noColon(getLine(h)), 1)
+		for h := rl.History.Len() - 1; h > -1; h-- {
+			if strings.HasPrefix(getLine(h, rl), mhPrefix[i][2:]) {
+				s = strings.Replace(s, mhPrefix[i], noColon(getLine(h, rl)), 1)
 				//return s, nil //[]rune(s)
 				goto next
 			}

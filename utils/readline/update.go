@@ -37,7 +37,7 @@ func moveCursorBackwards(i int) {
 	fmt.Printf("\x1b[%dD", i)
 }
 
-func (rl *instance) backspace() {
+func (rl *Instance) backspace() {
 	if len(rl.line) == 0 || rl.pos == 0 {
 		return
 	}
@@ -47,13 +47,13 @@ func (rl *instance) backspace() {
 	rl.delete()
 }
 
-func (rl *instance) insert(b []byte) {
+func (rl *Instance) insert(b []byte) {
 	r := []rune(string(b))
 	switch {
 	case len(rl.line) == 0:
 		rl.line = r
 	case rl.pos == 0:
-		line = append(r, rl.line...)
+		rl.line = append(r, rl.line...)
 	case rl.pos < len(rl.line):
 		r := append(r, rl.line[rl.pos:]...)
 		rl.line = append(rl.line[:rl.pos], r...)
@@ -72,7 +72,7 @@ func (rl *instance) insert(b []byte) {
 	}
 }
 
-func (rl *instance) delete() {
+func (rl *Instance) delete() {
 	switch {
 	case len(rl.line) == 0:
 		return
@@ -81,7 +81,7 @@ func (rl *instance) delete() {
 		rl.echo()
 		moveCursorBackwards(1)
 	case rl.pos > len(rl.line):
-		backspace()
+		rl.backspace()
 	case rl.pos == len(rl.line):
 		rl.line = rl.line[:rl.pos]
 		rl.echo()
@@ -98,7 +98,7 @@ func (rl *instance) delete() {
 	}
 }
 
-func rl.clearLine() {
+func (rl *Instance) clearLine() {
 	if len(rl.line) == 0 {
 		return
 	}

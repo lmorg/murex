@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/man"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 var manDescript map[string]string = make(map[string]string)
@@ -66,7 +65,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 		limitSuggestions = len(items)
 	}
 	//Instance.Config.MaxCompleteLines = limitSuggestions
-	readline.MaxTabCompleterRows = limitSuggestions
+	Prompt.MaxTabCompleterRows = limitSuggestions
 
 	/*suggest = make([][]rune, len(items))
 	for i := range items {
@@ -127,7 +126,7 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 }
 
 func hintText(line []rune, pos int) []rune {
-	r, err := history.ExpandVariables(line)
+	r, err := history.ExpandVariables(line, Prompt)
 	if err != nil {
 		return []rune("Error: " + err.Error())
 	}

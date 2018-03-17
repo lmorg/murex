@@ -42,25 +42,12 @@ func read(p *proc.Process, dt string, paramAdjust int) error {
 		return err
 	}
 
-	/*rl, err := readline.NewEx(&readline.Config{
-		InterruptPrompt:        " ",
-		DisableAutoSaveHistory: true,
-		NoEofOnEmptyDelete:     false,
-		Prompt:                 prompt,
-	})
+	rl := readline.NewInstance()
 
-	if err != nil {
-		return err
-	}
+	rl.SetPrompt(prompt)
+	rl.History = new(readline.NullHistory)
 
 	s, err := rl.Readline()
-	if err != nil {
-		return err
-	}*/
-
-	readline.SetPrompt(prompt)
-
-	s, err := readline.Readline()
 	if err != nil {
 		return err
 	}

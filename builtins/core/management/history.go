@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 func init() {
@@ -21,7 +20,7 @@ func cmdHistory(p *proc.Process) (err error) {
 		return errors.New("This is only designed to be run when the shell is in interactive mode.")
 	}
 
-	list := readline.History.Dump()
+	list := shell.Prompt.History.Dump()
 
 	b, err := utils.JsonMarshal(list, p.Stdout.IsTTY())
 	if err != nil {

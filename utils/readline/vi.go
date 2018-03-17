@@ -15,7 +15,7 @@ const (
 	vimKeys
 )
 
-func (rl *instance) vi(b byte) {
+func (rl *Instance) vi(b byte) {
 	switch b {
 	case 'a':
 		moveCursorForwards(1)
@@ -24,11 +24,11 @@ func (rl *instance) vi(b byte) {
 		rl.viIteration = ""
 	case 'A':
 		moveCursorForwards(len(rl.line) - rl.pos)
-		rl.pos = len(line)
+		rl.pos = len(rl.line)
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
 	case 'D':
-		moveCursorBackwards(pos)
+		moveCursorBackwards(rl.pos)
 		fmt.Print(strings.Repeat(" ", len(rl.line)))
 		//moveCursorBackwards(len(line))
 
@@ -60,7 +60,7 @@ func (rl *instance) vi(b byte) {
 	}
 }
 
-func (rl *instance) getViIterations() int {
+func (rl *Instance) getViIterations() int {
 	i, _ := strconv.Atoi(rl.viIteration)
 	if i < 1 {
 		i = 1
