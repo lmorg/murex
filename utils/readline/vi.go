@@ -2,6 +2,7 @@ package readline
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -15,6 +16,7 @@ const (
 )
 
 var modeViMode viMode = vimInsert
+var viIteration string
 
 func vi(b byte) {
 	switch b {
@@ -22,10 +24,12 @@ func vi(b byte) {
 		moveCursorForwards(1)
 		pos++
 		modeViMode = vimInsert
+		viIteration = ""
 	case 'A':
 		moveCursorForwards(len(line) - pos)
 		pos = len(line)
 		modeViMode = vimInsert
+		viIteration = ""
 	case 'D':
 		moveCursorBackwards(pos)
 		fmt.Print(strings.Repeat(" ", len(line)))
@@ -37,13 +41,33 @@ func vi(b byte) {
 
 		moveCursorBackwards(2)
 		pos--
+		viIteration = ""
 	case 'i':
 		modeViMode = vimInsert
+		viIteration = ""
 	case 'r':
 		modeViMode = vimReplaceOnce
+		viIteration = ""
 	case 'R':
 		modeViMode = vimReplaceMany
+		viIteration = ""
 	case 'x':
-		delete()
+		vii := getViIterations()
+		for i := 1; i <= vii; i++ {
+			delete()
+		}
+	default:
+		if b <= '9' && '0' <= b {
+			viIteration += string(b)
+		}
 	}
+}
+
+func getViIterations() int {
+	i, _ := strconv.Atoi(viIteration)
+	if i < 1 {
+		i = 1
+	}
+	viIteration = ""
+	return i
 }

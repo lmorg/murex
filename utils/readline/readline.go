@@ -174,6 +174,7 @@ func escapeSeq(b []byte) {
 				moveCursorBackwards(1)
 			}
 			modeViMode = vimKeys
+			viIteration = ""
 		}
 
 	case seqDelete:
