@@ -119,8 +119,18 @@ func Readline() (string, error) {
 			tabCompletion()
 
 		case charCtrlU:
-			clearHintText()
-			clearLine()
+			//clearHintText()
+			//clearLine()
+			moveCursorBackwards(pos)
+			fmt.Print(strings.Repeat(" ", len(line)))
+			//moveCursorBackwards(len(line))
+
+			moveCursorBackwards(len(line))
+			line = line[pos:]
+			pos = 0
+			echo()
+
+			moveCursorBackwards(1)
 
 		case '\r':
 			fallthrough
