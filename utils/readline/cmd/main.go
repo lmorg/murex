@@ -2,17 +2,16 @@ package main
 
 import (
 	"fmt"
-	"strings"
-	//"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/readline"
+	"strings"
 )
 
 func main() {
-	//readline.SyntaxHighlight = shell.Highlight
-	readline.TabCompleter = Tab
+	rl := readline.NewInstance()
+	rl.TabCompleter = Tab
 
 	for {
-		s, err := readline.Readline()
+		s, err := rl.Readline()
 		if err != nil {
 			fmt.Println("Error:", err)
 			return
