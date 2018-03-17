@@ -37,81 +37,81 @@ func moveCursorBackwards(i int) {
 	fmt.Printf("\x1b[%dD", i)
 }
 
-func backspace() {
-	if len(line) == 0 || pos == 0 {
+func (rl *instance) backspace() {
+	if len(rl.line) == 0 || rl.pos == 0 {
 		return
 	}
 
 	moveCursorBackwards(1)
-	pos--
-	delete()
+	rl.pos--
+	rl.delete()
 }
 
-func insert(b []byte) {
+func (rl *instance) insert(b []byte) {
 	r := []rune(string(b))
 	switch {
-	case len(line) == 0:
-		line = r
-	case pos == 0:
-		line = append(r, line...)
-	case pos < len(line):
-		r := append(r, line[pos:]...)
-		line = append(line[:pos], r...)
+	case len(rl.line) == 0:
+		rl.line = r
+	case rl.pos == 0:
+		line = append(r, rl.line...)
+	case rl.pos < len(rl.line):
+		r := append(r, rl.line[rl.pos:]...)
+		rl.line = append(rl.line[:rl.pos], r...)
 	default:
-		line = append(line, r...)
+		rl.line = append(rl.line, r...)
 	}
 
-	echo()
+	rl.echo()
 
 	moveCursorForwards(len(r) - 1)
-	pos += len(r)
+	rl.pos += len(r)
 
-	if modeTabGrid {
-		clearTabSuggestions()
-		tabCompletion()
+	if rl.modeTabGrid {
+		rl.clearTabSuggestions()
+		rl.tabCompletion()
 	}
 }
 
-func delete() {
+func (rl *instance) delete() {
 	switch {
-	case len(line) == 0:
+	case len(rl.line) == 0:
 		return
-	case pos == 0:
-		line = line[1:]
-		echo()
+	case rl.pos == 0:
+		rl.line = rl.line[1:]
+		rl.echo()
 		moveCursorBackwards(1)
-	case pos > len(line):
+	case rl.pos > len(rl.line):
 		backspace()
-	case pos == len(line):
-		line = line[:pos]
-		echo()
+	case rl.pos == len(rl.line):
+		rl.line = rl.line[:rl.pos]
+		rl.echo()
 		moveCursorBackwards(1)
 	default:
-		line = append(line[:pos], line[pos+1:]...)
-		echo()
+		rl.line = append(rl.line[:rl.pos], rl.line[rl.pos+1:]...)
+		rl.echo()
 		moveCursorBackwards(1)
 	}
 
-	if modeTabGrid {
-		clearTabSuggestions()
-		tabCompletion()
+	if rl.modeTabGrid {
+		rl.clearTabSuggestions()
+		rl.tabCompletion()
 	}
 }
 
-func clearLine() {
-	if len(line) == 0 {
+func rl.clearLine() {
+	if len(rl.line) == 0 {
 		return
 	}
 
-	moveCursorBackwards(pos)
-	fmt.Print(strings.Repeat(" ", len(line)))
-	moveCursorBackwards(len(line))
+	moveCursorBackwards(rl.pos)
+	fmt.Print(strings.Repeat(" ", len(rl.line)))
+	moveCursorBackwards(len(rl.line))
 
-	line = []rune{}
-	pos = 0
+	rl.line = []rune{}
+	rl.pos = 0
 
-	if modeTabGrid {
-		clearTabSuggestions()
-		tabCompletion()
+	if rl.modeTabGrid {
+		rl.clearTabSuggestions()
+		rl.tabCompletion()
 	}
 }

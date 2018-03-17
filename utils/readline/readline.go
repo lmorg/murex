@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
-	"regexp"
 	"strings"
 	"unicode/utf8"
 )
 
-var (
+/*var (
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
 	PasswordMask rune
@@ -50,30 +49,25 @@ var (
 	// HintText takes the line input from the promt and the cursor position.
 	// It returns the hint text to display.
 	HintText func([]rune, int) []rune
-)
+)*/
 
 // While it might normally seem bad practice to have global variables, you canot
 // have two concurrent readline prompts anyway due to limitations in the way
 // terminal emulators work. So storing these values as globals simplifies the
 // API design immencely without sacricing functionality.
-var (
-	prompt       string         = ">>> "
-	promptLen    int            = 4
-	rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
-	line         []rune
-	lineBuf      []rune
-	pos          int
-	histPos      int
-	modeTabGrid  bool
-)
-
-func init() {
-	History = new(ExampleLineHistory)
-}
+/*var (
+	prompt      string = ">>> "
+	promptLen   int    = 4
+	line        []rune
+	lineBuf     []rune
+	pos         int
+	histPos     int
+	modeTabGrid bool
+)*/
 
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
-func Readline() (string, error) {
+func (rl *instance) Readline() (string, error) {
 	fd := int(os.Stdin.Fd())
 	state, err := terminal.MakeRaw(fd)
 	if err != nil {
@@ -81,12 +75,12 @@ func Readline() (string, error) {
 	}
 	defer terminal.Restore(fd, state)
 
-	fmt.Print(prompt)
+	fmt.Print(rl.prompt)
 
-	line = []rune{}
-	pos = 0
-	histPos = History.Len()
-	modeViMode = vimInsert
+	rl.line = []rune{}
+	rl.pos = 0
+	rl.histPos = rl.History.Len()
+	rl.modeViMode = vimInsert
 
 	for {
 		b := make([]byte, 1024)
@@ -99,186 +93,186 @@ func Readline() (string, error) {
 
 		switch b[0] {
 		case charCtrlC:
-			if modeTabGrid {
-				clearTabSuggestions()
+			if rl.modeTabGrid {
+				rl.clearTabSuggestions()
 			}
 			return "", errors.New(ErrCtrlC)
 
 		case charEOF:
-			if modeTabGrid {
-				clearTabSuggestions()
+			if rl.modeTabGrid {
+				rl.clearTabSuggestions()
 			}
-			clearHintText()
+			rl.clearHintText()
 			return "", errors.New(ErrEOF)
 
 		case charTab:
-			if modeTabGrid {
-				moveTabHighlight(1, 0)
+			if rl.modeTabGrid {
+				rl.moveTabHighlight(1, 0)
 				continue
 			}
-			tabCompletion()
+			rl.tabCompletion()
 
 		case charCtrlU:
 			//clearHintText()
 			//clearLine()
 			moveCursorBackwards(pos)
-			fmt.Print(strings.Repeat(" ", len(line)))
+			fmt.Print(strings.Repeat(" ", len(rl.line)))
 			//moveCursorBackwards(len(line))
 
-			moveCursorBackwards(len(line))
-			line = line[pos:]
-			pos = 0
-			echo()
+			moveCursorBackwards(len(rl.line))
+			rl.line = rl.line[pos:]
+			rl.pos = 0
+			rl.echo()
 
 			moveCursorBackwards(1)
 
 		case '\r':
 			fallthrough
 		case '\n':
-			if modeTabGrid {
-				cell := (tcMaxX * (tcPosY - 1)) + tcPosX - 1
-				clearTabSuggestions()
-				insert([]byte(tcSuggestions[cell]))
+			if rl.modeTabGrid {
+				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcPosX - 1
+				rl.clearTabSuggestions()
+				rl.insert([]byte(rl.tcSuggestions[cell]))
 				continue
 			}
-			clearHintText()
+			rl.clearHintText()
 			fmt.Print("\r\n")
-			if HistoryAutoWrite {
-				histPos, err = History.Write(string(line))
+			if rl.HistoryAutoWrite {
+				rl.histPos, err = rl.History.Write(string(line))
 				if err != nil {
 					fmt.Print(err.Error() + "\r\n")
 				}
 			}
-			return string(line), nil
+			return string(rl.line), nil
 
 		case charBackspace:
-			backspace()
+			rl.backspace()
 
 		case charEscape:
-			escapeSeq(b[:i])
+			rl.escapeSeq(b[:i])
 
 		default:
-			editorInput(b[:i])
+			rl.editorInput(b[:i])
 		}
 	}
 }
 
-func escapeSeq(b []byte) {
+func (rl *instance) escapeSeq(b []byte) {
 	switch string(b) {
 	case string(charEscape):
-		if modeTabGrid {
-			clearTabSuggestions()
+		if rl.modeTabGrid {
+			rl.clearTabSuggestions()
 		} else {
-			if pos == len(line) && len(line) > 0 {
-				pos--
+			if rl.pos == len(rl.line) && len(rl.line) > 0 {
+				rl.pos--
 				moveCursorBackwards(1)
 			}
-			modeViMode = vimKeys
-			viIteration = ""
+			rl.modeViMode = vimKeys
+			rl.viIteration = ""
 		}
 
 	case seqDelete:
-		delete()
+		rl.delete()
 
 	case seqUp:
-		if modeTabGrid {
-			moveTabHighlight(0, -1)
+		if rl.modeTabGrid {
+			rl.moveTabHighlight(0, -1)
 			return
 		}
-		walkHistory(-1)
+		rl.walkHistory(-1)
 
 	case seqDown:
-		if modeTabGrid {
-			moveTabHighlight(0, 1)
+		if rl.modeTabGrid {
+			rl.moveTabHighlight(0, 1)
 			return
 		}
-		walkHistory(1)
+		rl.walkHistory(1)
 
 	case seqBackwards:
-		if modeTabGrid {
-			moveTabHighlight(-1, 0)
+		if rl.modeTabGrid {
+			rl.moveTabHighlight(-1, 0)
 			return
 		}
-		if pos > 0 {
+		if rl.pos > 0 {
 			moveCursorBackwards(1)
-			pos--
+			rl.pos--
 		}
 		//renderHintText()
 
 	case seqForwards:
-		if modeTabGrid {
-			moveTabHighlight(1, 0)
+		if rl.modeTabGrid {
+			rl.moveTabHighlight(1, 0)
 			return
 		}
-		if (modeViMode == vimInsert && pos < len(line)) ||
-			(modeViMode != vimInsert && pos < len(line)-1) {
+		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
+			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
 			//if pos < len(line) {
 			moveCursorForwards(1)
-			pos++
+			rl.pos++
 		}
 		//renderHintText()
 
 	case seqHome:
-		if modeTabGrid {
+		if rl.modeTabGrid {
 			return
 		}
-		moveCursorBackwards(pos)
-		pos = 0
+		moveCursorBackwards(rl.pos)
+		rl.pos = 0
 
 	case seqEnd:
-		if modeTabGrid {
+		if rl.modeTabGrid {
 			return
 		}
-		moveCursorForwards(len(line) - pos)
-		pos = len(line)
+		moveCursorForwards(len(rl.line) - rl.pos)
+		rl.pos = len(rl.line)
 	}
 }
 
-func editorInput(b []byte) {
-	switch modeViMode {
+func (rl *instance) editorInput(b []byte) {
+	switch rl.modeViMode {
 	case vimKeys:
-		vi(b[0])
+		rl.vi(b[0])
 
 	case vimReplaceOnce:
-		modeViMode = vimKeys
-		delete()
+		rl.modeViMode = vimKeys
+		rl.delete()
 		r := []rune(string(b))
-		insert([]byte(string(r[0])))
+		rl.insert([]byte(string(r[0])))
 
 	case vimReplaceMany:
 		for _, r := range []rune(string(b)) {
-			delete()
-			insert([]byte(string(r)))
+			rl.delete()
+			rl.insert([]byte(string(r)))
 		}
 
 	default:
-		insert(b)
+		rl.insert(b)
 	}
 
-	syntaxCompletion()
+	rl.syntaxCompletion()
 }
 
-func echo() {
+func (rl *instance) echo() {
 	moveCursorBackwards(pos)
 
 	switch {
-	case PasswordMask > 0:
-		fmt.Print(strings.Repeat(string(PasswordMask), len(line)) + " ")
+	case rl.PasswordMask > 0:
+		fmt.Print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " ")
 
-	case SyntaxHighlighter == nil:
-		fmt.Print(string(line) + " ")
+	case rl.SyntaxHighlighter == nil:
+		fmt.Print(string(rl.line) + " ")
 
 	default:
-		fmt.Print(SyntaxHighlighter(line) + " ")
+		fmt.Print(rl.SyntaxHighlighter(rl.line) + " ")
 	}
 
-	moveCursorBackwards(len(line) - pos)
-	renderHintText()
+	moveCursorBackwards(len(rl.line) - rl.pos)
+	rl.renderHintText()
 }
 
-func SetPrompt(s string) {
-	prompt = s
+func (rl *instance) SetPrompt(s string) {
+	rl.prompt = s
 
 	s = rxAnsiEscSeq.ReplaceAllString(s, "")
-	promptLen = utf8.RuneCountInString(s)
+	rl.promptLen = utf8.RuneCountInString(s)
 }

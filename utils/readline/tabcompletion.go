@@ -6,116 +6,105 @@ import (
 	"strings"
 )
 
-var (
-	tcPrefix      string
-	tcSuggestions []string
-	tcPosX        int
-	tcPosY        int
-	tcMaxX        int
-	tcMaxY        int
-	tcUsedY       int
-	tcMaxLength   int
-)
-
-func tabCompletion() {
-	if TabCompleter == nil {
+func (rl *instance) tabCompletion() {
+	if rl.TabCompleter == nil {
 		return
 	}
 
-	tcPrefix, tcSuggestions = TabCompleter(line, pos)
-	if len(tcSuggestions) == 0 {
+	rl.tcPrefix, rl.tcSuggestions = rl.TabCompleter(rl.line, rl.pos)
+	if len(rl.tcSuggestions) == 0 {
 		return
 	}
 
-	if len(tcSuggestions) == 1 {
-		if len(tcSuggestions[0]) == 0 || tcSuggestions[0] == " " || tcSuggestions[0] == "\t" {
+	if len(rl.tcSuggestions) == 1 {
+		if len(rl.tcSuggestions[0]) == 0 || rl.tcSuggestions[0] == " " || rl.tcSuggestions[0] == "\t" {
 			return
 		}
-		insert([]byte(tcSuggestions[0]))
+		insert([]byte(rl.tcSuggestions[0]))
 		return
 	}
 
-	initTabGrid()
-	renderSuggestions()
+	rl.initTabGrid()
+	rl.renderSuggestions()
 }
 
-func initTabGrid() {
-	getTermWidth()
+func (rl *instance) initTabGrid() {
+	rl.getTermWidth()
 
 	tcMaxLength := 1
-	for i := range tcSuggestions {
-		if len(tcPrefix+tcSuggestions[i]) > tcMaxLength {
-			tcMaxLength = len([]rune(tcPrefix + tcSuggestions[i]))
+	for i := range rl.tcSuggestions {
+		if len(rl.tcPrefix+rl.tcSuggestions[i]) > tcMaxLength {
+			tcMaxLength = len([]rune(rl.tcPrefix + rl.tcSuggestions[i]))
 		}
 	}
 
-	modeTabGrid = true
-	tcPosX = 1
-	tcPosY = 1
-	tcMaxX = termWidth / (tcMaxLength + 2)
-	tcMaxY = MaxTabCompleterRows
+	rl.modeTabGrid = true
+	rl.tcPosX = 1
+	rl.tcPosY = 1
+	rl.tcMaxX = termWidth / (tcMaxLength + 2)
+	rl.tcMaxY = rl.MaxTabCompleterRows
 }
 
-func moveTabHighlight(x, y int) {
-	tcPosX += x
-	tcPosY += y
+func (rl *instance) moveTabHighlight(x, y int) {
+	rl.tcPosX += x
+	rl.tcPosY += y
 
-	if tcPosX < 1 {
-		tcPosX = tcMaxX
-		tcPosY--
+	if rl.tcPosX < 1 {
+		rl.tcPosX = rl.tcMaxX
+		rl.tcPosY--
 	}
 
-	if tcPosX > tcMaxX {
-		tcPosX = 1
-		tcPosY++
+	if rl.tcPosX > rl.tcMaxX {
+		rl.tcPosX = 1
+		rl.tcPosY++
 	}
 
-	if tcPosY < 1 {
-		tcPosY = tcUsedY
+	if rl.tcPosY < 1 {
+		rl.tcPosY = rl.tcUsedY
 	}
 
-	if tcPosY > tcUsedY {
-		tcPosY = 1
+	if rl.tcPosY > rl.tcUsedY {
+		rl.tcPosY = 1
 	}
 
-	if tcPosY == tcUsedY && (tcMaxX*(tcPosY-1))+tcPosX > len(tcSuggestions) {
+	if rl.tcPosY == rl.tcUsedY && (rl.tcMaxX*(rl.tcPosY-1))+rl.tcPosX > len(rl.tcSuggestions) {
 		if x < 0 {
-			tcPosX = len(tcSuggestions) - (tcMaxX * (tcPosY - 1))
+			rl.tcPosX = len(rl.tcSuggestions) - (rl.tcMaxX * (rl.tcPosY - 1))
 		}
 
 		if x > 0 {
-			tcPosX = 1
-			tcPosY = 1
+			rl.tcPosX = 1
+			rl.tcPosY = 1
 		}
 
 		if y < 0 {
-			tcPosY--
+			rl.tcPosY--
 		}
 
 		if y > 0 {
-			tcPosY = 1
+			rl.tcPosY = 1
 		}
 	}
 
-	renderSuggestions()
+	rl.renderSuggestions()
 }
 
-func renderSuggestions() {
-	newlines := strings.Repeat("\r\n", hintY+1)
+func (rl *interface)renderSuggestions() {
+	newlines := strings.Repeat("\r\n", rl.hintY+1)
 	//fmt.Print("\r\n")
 	//moveCursorDown(hintY )
 	fmt.Print(newlines)
 
-	cellWidth := strconv.Itoa((termWidth / tcMaxX) - 2)
+	cellWidth := strconv.Itoa((rl.termWidth / rl.tcMaxX) - 2)
 	x := 0
 	y := 1
 
-	for i := range tcSuggestions {
+	for i := range rl.tcSuggestions {
 		x++
-		if x > tcMaxX {
+		if x > rl.tcMaxX {
 			x = 1
 			y++
-			if y > tcMaxY {
+			if y > rl.tcMaxY {
 				y--
 				break
 			} else {
@@ -123,29 +112,29 @@ func renderSuggestions() {
 			}
 		}
 
-		if x == tcPosX && y == tcPosY {
+		if x == rl.tcPosX && y == rl.tcPosY {
 			fmt.Print(seqBgWhite + seqFgBlack)
 		}
-		fmt.Printf(" %-"+cellWidth+"s %s", tcPrefix+tcSuggestions[i], seqReset)
+		fmt.Printf(" %-"+cellWidth+"s %s", rl.tcPrefix+rl.tcSuggestions[i], seqReset)
 	}
 
-	tcUsedY = y
-	moveCursorUp(y + hintY)
+	rl.tcUsedY = y
+	moveCursorUp(y + rl.hintY)
 	moveCursorBackwards(termWidth)
-	moveCursorForwards(promptLen + pos)
+	moveCursorForwards(rl.promptLen + rl.pos)
 }
 
-func clearTabSuggestions() {
-	move := termWidth * tcUsedY
+func (rl *instance)clearTabSuggestions() {
+	move := rl.termWidth * rl.tcUsedY
 	blank := strings.Repeat(" ", move)
 
 	// It's ugly but required as we don't know the absolute position of the cursor
 	fmt.Print("\r\n")
-	moveCursorDown(hintY)
+	moveCursorDown(rl.hintY)
 	fmt.Print(blank)
-	moveCursorBackwards(termWidth)
-	moveCursorUp(hintY + tcUsedY)
-	moveCursorForwards(promptLen + pos)
+	moveCursorBackwards(rl.termWidth)
+	moveCursorUp(rl.hintY + rl.tcUsedY)
+	moveCursorForwards(rl.promptLen + rl.pos)
 
-	modeTabGrid = false
+	rl.modeTabGrid = false
 }

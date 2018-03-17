@@ -7,15 +7,6 @@ import (
 	"strings"
 )
 
-var (
-	termWidth int
-	hintY     int = 0
-)
-
-func init() {
-	getTermWidth()
-}
-
 func getTermWidth() {
 	var err error
 	fd := int(os.Stdout.Fd())
@@ -25,8 +16,8 @@ func getTermWidth() {
 	}
 }
 
-func syntaxCompletion() {
-	if SyntaxCompleter == nil {
+func (rl *instance) syntaxCompletion() {
+	if rl.SyntaxCompleter == nil {
 		return
 	}
 
@@ -34,32 +25,32 @@ func syntaxCompletion() {
 	//if modeViMode == vimInsert && pos > 0 {
 	//	x--
 	//}
-	newLine, newPos := SyntaxCompleter(line, pos-1)
-	if string(newLine) == string(line) {
+	newLine, newPos := rl.SyntaxCompleter(rl.line, rl.pos-1)
+	if string(newLine) == string(rl.line) {
 		return
 	}
 
 	newPos++
 
-	line = newLine
-	echo()
-	moveCursorForwards(newPos - pos - 1)
-	moveCursorBackwards(pos - newPos + 1)
-	pos = newPos
+	rl.line = newLine
+	rl.echo()
+	moveCursorForwards(newPos - rl.pos - 1)
+	moveCursorBackwards(rl.pos - newPos + 1)
+	rl.pos = newPos
 }
 
-func renderHintText() {
-	if HintText == nil {
-		hintY = 0
+func (rl *instance) renderHintText() {
+	if rl.HintText == nil {
+		rl.hintY = 0
 		return
 	}
 
-	r := HintText(line, pos)
-	if len(r) == 0 && hintY == 0 {
+	r := rl.HintText(rl.line, rl.pos)
+	if len(r) == 0 && rl.hintY == 0 {
 		return
 	}
 
-	moveY := hintY
+	moveY := rl.hintY
 	if moveY == 0 {
 		moveY = 1
 	}
@@ -72,32 +63,32 @@ func renderHintText() {
 	blank := strings.Repeat(" ", blankChars)
 
 	if len(r) > 0 {
-		hintY = (len(r) / termWidth) + 1
-		if hintY > moveY {
-			moveY = hintY
+		rl.hintY = (len(r) / termWidth) + 1
+		if rl.hintY > moveY {
+			moveY = rl.hintY
 		}
 	} else {
-		hintY = 0
+		rl.hintY = 0
 	}
 
 	fmt.Print("\r\n" + seqFgBlue + string(r) + seqReset + blank)
 	moveCursorBackwards(termWidth)
 	moveCursorUp(moveY)
-	moveCursorForwards(promptLen + pos + 1)
+	moveCursorForwards(rl.promptLen + rl.pos + 1)
 }
 
-func clearHintText() {
-	if hintY == 0 {
+func (rl *instance) clearHintText() {
+	if rl.hintY == 0 {
 		return
 	}
 
-	move := termWidth * hintY
+	move := termWidth * rl.hintY
 	blank := strings.Repeat(" ", move)
 
 	fmt.Print("\r\n" + blank)
-	moveCursorUp(hintY)
+	moveCursorUp(rl.hintY)
 	moveCursorBackwards(termWidth)
-	moveCursorForwards(promptLen + pos)
+	moveCursorForwards(rl.promptLen + rl.pos)
 
-	hintY = 0
+	rl.hintY = 0
 }

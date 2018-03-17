@@ -48,38 +48,38 @@ func (h *ExampleLineHistory) Dump() interface{} {
 
 // Browse historic lines:
 
-func walkHistory(i int) {
-	switch histPos + i {
-	case -1, History.Len() + 1:
+func (rl *instance) walkHistory(i int) {
+	switch rl.histPos + i {
+	case -1, rl.History.Len() + 1:
 		return
 
-	case History.Len():
-		clearLine()
-		histPos += i
-		line = lineBuf
+	case rl.History.Len():
+		rl.clearLine()
+		rl.histPos += i
+		rl.line = rl.lineBuf
 
 	default:
-		s, err := History.GetLine(histPos + i)
+		s, err := rl.History.GetLine(rl.histPos + i)
 		if err != nil {
 			fmt.Print("\r\n" + err.Error() + "\r\n")
-			fmt.Print(prompt)
+			fmt.Print(rl.prompt)
 			return
 		}
 
-		if histPos == History.Len() {
-			lineBuf = append(line, []rune{}...)
+		if rl.histPos == rl.History.Len() {
+			rl.lineBuf = append(rl.line, []rune{}...)
 		}
 
-		clearLine()
-		histPos += i
-		line = []rune(s)
+		rl.clearLine()
+		rl.histPos += i
+		rl.line = []rune(s)
 	}
 
-	echo()
-	pos = len(line)
-	if pos > 1 {
-		moveCursorForwards(pos - 1)
-	} else if pos == 0 {
+	rl.echo()
+	rl.pos = len(rl.line)
+	if rl.pos > 1 {
+		moveCursorForwards(rl.pos - 1)
+	} else if rl.pos == 0 {
 		moveCursorBackwards(1)
 	}
 }
