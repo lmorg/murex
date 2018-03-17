@@ -210,6 +210,7 @@ func parseDescription(filename string) string {
 		if read {
 			s = strings.Replace(s, ".Nd ", " - ", -1)
 			s = strings.Replace(s, "\\(em ", " - ", -1)
+			s = strings.Replace(s, " , ", ",", -1)
 			s = rxReplaceMarkup.ReplaceAllString(s, "")
 			s = strings.Replace(s, "\\", "", -1)
 			desc += s
