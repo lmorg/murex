@@ -18,6 +18,7 @@ var (
 	rxMatchFlagsQuoted  *regexp.Regexp = regexp.MustCompile(`\.IP "(.*?)"`)
 	rxMatchFlagsOther   *regexp.Regexp = regexp.MustCompile(`\.B (.*?)\\fR`)
 	rxMatchFlagsFlag    *regexp.Regexp = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
+	rxReplaceMarkup     *regexp.Regexp = regexp.MustCompile(`\.[a-zA-Z]+`)
 )
 
 /*
@@ -194,16 +195,27 @@ func parseDescription(filename string) string {
 		scanner = bufio.NewScanner(file)
 	}
 
-	var nextLine bool
+	var (
+		read bool
+		desc string
+	)
+
 	for scanner.Scan() {
 		s := scanner.Text()
-		if nextLine {
-			s = strings.Replace(s, "\\", "", -1)
-			s = strings.TrimSpace(s)
-			return s
+
+		if strings.Contains(s, "SYNOPSIS") {
+			return desc
 		}
+
+		if read {
+			s = strings.Replace(s, "\\", "", -1)
+			s = rxReplaceMarkup.ReplaceAllString(s, "")
+			s = strings.TrimSpace(s)
+			desc += s
+		}
+
 		if strings.Contains(s, "NAME") {
-			nextLine = true
+			read = true
 		}
 	}
 
