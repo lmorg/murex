@@ -7,6 +7,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -58,7 +59,9 @@ func openHist(filename string) (list []histItem, err error) {
 }
 
 // Write item to history file. eg ~/.murex_history
-func (h *History) Write(block string) (int, error) {
+func (h *History) Write(s string) (int, error) {
+	block := strings.TrimSpace(s)
+
 	item := histItem{
 		DateTime: time.Now(),
 		Block:    block,

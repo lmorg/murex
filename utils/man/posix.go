@@ -18,7 +18,7 @@ var (
 	rxMatchFlagsQuoted  *regexp.Regexp = regexp.MustCompile(`\.IP "(.*?)"`)
 	rxMatchFlagsOther   *regexp.Regexp = regexp.MustCompile(`\.B (.*?)\\fR`)
 	rxMatchFlagsFlag    *regexp.Regexp = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
-	rxReplaceMarkup     *regexp.Regexp = regexp.MustCompile(`\.[a-zA-Z]+`)
+	rxReplaceMarkup     *regexp.Regexp = regexp.MustCompile(`\.[a-zA-Z]+(\s|)`)
 )
 
 /*
@@ -209,6 +209,8 @@ func parseDescription(filename string) string {
 
 		if read {
 			s = strings.Replace(s, "\\", "", -1)
+			s = strings.Replace(s, ".Nm", " - ", -1)
+			s = strings.Replace(s, "(em ", ": ", -1)
 			s = rxReplaceMarkup.ReplaceAllString(s, "")
 			s = strings.TrimSpace(s)
 			desc += s
