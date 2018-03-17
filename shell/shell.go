@@ -40,8 +40,8 @@ func Start() {
 	}
 
 	/*Instance.Config.SetListener(listener)
-	defer Instance.Close()
-	SigHandler()*/
+	defer Instance.Close()*/
+	SigHandler()
 
 	go autocomplete.UpdateGlobalExeList()
 

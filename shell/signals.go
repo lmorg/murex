@@ -1,5 +1,3 @@
-// +build ignore
-
 package shell
 
 import (
@@ -30,11 +28,11 @@ func SigHandler() {
 			sig := <-c
 			switch sig.String() {
 			case syscall.SIGTERM.String():
-				Instance.Terminal.ExitRawMode()
+				//Instance.Terminal.ExitRawMode()
 				os.Stderr.WriteString("Shell received SIGTERM!" + utils.NewLineString)
 				os.Exit(1)
 			case os.Interrupt.String():
-				if Instance == nil {
+				if Prompt == nil {
 					go proc.KillForeground()
 					os.Stderr.WriteString(interruptPrompt)
 				} else {
