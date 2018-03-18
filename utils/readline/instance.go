@@ -72,6 +72,9 @@ type Instance struct {
 	// vim
 	modeViMode  viMode //= vimInsert
 	viIteration string
+
+	// event
+	evtKeyPress map[string]func(string, []rune, int) (bool, bool)
 }
 
 var (
@@ -88,6 +91,7 @@ func NewInstance() *Instance {
 	rl.MaxTabCompleterRows = 4
 	rl.prompt = ">>> "
 	rl.promptLen = 4
+	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool))
 
 	return rl
 }

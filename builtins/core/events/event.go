@@ -26,11 +26,13 @@ var args *parameters.Arguments = &parameters.Arguments{
 	Flags: map[string]string{
 		"-t": "--timer",
 		"-f": "--filesystem",
+		"-k": "--key-press",
 		//"-c": "--command",
 		//"-i": "--interrupt",
 
 		"--timer":      types.Boolean,
 		"--filesystem": types.Boolean,
+		"--key-press":  types.Boolean,
 		//"--command":    types.Boolean,
 		//"--interrupt": types.Boolean,
 	},
@@ -46,6 +48,7 @@ type eventType interface {
 var events map[string]eventType = map[string]eventType{
 	"--filesystem": newWatch(),
 	"--timer":      newTimer(),
+	"--key-press":  newKeyPress(),
 }
 
 func cmdEvent(p *proc.Process) error {
