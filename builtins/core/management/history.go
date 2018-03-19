@@ -10,7 +10,7 @@ import (
 
 func init() {
 	proc.GoFunctions["history"] = cmdHistory
-	proc.GoFunctions["^"] = cmdHistCmd
+	//proc.GoFunctions["^"] = cmdHistCmd
 	//proc.GoFunctions["history-set-write-pipe"] = cmdHistPipe
 }
 

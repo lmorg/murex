@@ -1,11 +1,13 @@
 package docs
 
 import (
+	"bytes"
 	"compress/gzip"
 	"encoding/base64"
 	"fmt"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"io"
 )
 
 func init() {
@@ -37,6 +39,6 @@ func cmdMurexDocs(p *proc.Process) error {
 		return err
 	}
 
-	_, err := io.copy(p.Stdout, gz)
+	io.Copy(p.Stdout, gz)
 	return err
 }

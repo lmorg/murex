@@ -82,11 +82,6 @@ func writeGoCode(filename string, funcname string, code []byte) {
 		os.Exit(1)
 	}
 
-	/*b, err := ioutil.ReadAll(buf)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}*/
 	err = gz.Flush()
 	if err != nil {
 		fmt.Println(err)
