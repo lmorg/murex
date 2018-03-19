@@ -5,6 +5,7 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"sort"
 	"strings"
@@ -68,10 +69,9 @@ func writeGoCode(filename string, funcname string, code []byte) {
 		os.Exit(1)
 	}
 
-	var b []byte
-	buf := bytes.NewBuffer(b)
-	b64 := base64.NewEncoder(base64.StdEncoding, buf)
-	gz := gzip.NewWriter(b64)
+	buf := bytes.NewBuffer(make([]byte, 1024*1024))
+	gz := gzip.NewWriter(buf)
+	defer gz.Close()
 
 	i, err := gz.Write(code)
 	if err != nil {
@@ -83,10 +83,20 @@ func writeGoCode(filename string, funcname string, code []byte) {
 		os.Exit(1)
 	}
 
-	gz.Close()
-	b64.Close()
-	s := fmt.Sprintf(goLang, funcname, string(b))
-	f.WriteString(s)
+	b, err := ioutil.ReadAll(buf)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	b64 := base64.StdEncoding.EncodeToString(b)
+
+	s := fmt.Sprintf(goLang, funcname, b64)
+	_, err = f.WriteString(s)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
 
 func writeDefinitions(filename string, b []byte) {

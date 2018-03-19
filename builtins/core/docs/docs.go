@@ -1,4 +1,4 @@
-package io
+package docs
 
 import (
 	"compress/gzip"
