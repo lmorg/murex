@@ -19,6 +19,7 @@ import (
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/parser"
 )
 
 func init() {
@@ -30,6 +31,7 @@ func init() {
 	proc.GoFunctions["version"] = cmdVersion
 	proc.GoFunctions["runtime"] = cmdRuntime
 	proc.GoFunctions["murex-runtime"] = cmdRuntime
+	proc.GoFunctions["murex-parser"] = cmdParser
 }
 
 func cmdArgs(p *proc.Process) (err error) {
@@ -298,6 +300,41 @@ func cmdRuntime(p *proc.Process) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func cmdParser(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
+	var (
+		block []rune
+		pos   int
+	)
+
+	if p.IsMethod {
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		block = []rune(string(b))
+
+	} else {
+		r, err := p.Parameters.Block(0)
+		if err != nil {
+			return err
+		}
+		block = r
+		pos, _ = p.Parameters.Int(1)
+	}
+
+	pt, _ := parser.Parse(block, pos)
+
+	b, err := utils.JsonMarshal(pt, p.Stdout.IsTTY())
+	if err != nil {
+		return err
 	}
 
 	_, err = p.Stdout.Write(b)
