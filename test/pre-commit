@@ -5,6 +5,7 @@
 
 PATH=$PATH:$GOPATH/bin
 docs=docs/builtins
+cdocs=builtins/core/docs
 
 cd $GOPATH/src/github.com/lmorg/murex
 
@@ -23,7 +24,7 @@ go install github.com/lmorg/murex/utils/gen-murex-docs || exit 1
 
 echo "Compiling Murex docs...."
 rm $docs/*
-gen-murex-docs -v -src builtins -dest $docs || exit 1
+gen-murex-docs -v -src builtins -dest $docs -gocode $cdocs || exit 1
 
 echo "Updating git...."
 find -name "*_string.go" -exec git add -v {} \;

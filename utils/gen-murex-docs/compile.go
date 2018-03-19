@@ -1,6 +1,9 @@
 package main
 
 import (
+	"bytes"
+	"compress/gzip"
+	"encoding/base64"
 	"fmt"
 	"os"
 	"sort"
@@ -9,46 +12,30 @@ import (
 
 const heading = "# _murex_ Language Guide\n\n"
 const subHeading = "## Command reference"
+const goLang = "package docs\n\nfunc init() {\n\tdocs[`%s`] = `%s`\n}"
 
-func compile(dest string) {
+func compile(dest string, gocode string) {
 	for name := range define {
-		writeDefinitions(dest+"/"+name+".md", name)
+		b := compilePage(name)
+		writeDefinitions(dest+"/"+name+".md", b)
+		writeGoCode(gocode+"/"+name+".go", name, b)
 	}
 
 	writeIndex(dest + "/README.md")
 }
 
-func writeDefinitions(filename, funcname string) {
-	if verbose {
-		fmt.Println("Writing " + filename)
-	}
-
-	f, err := os.Create(filename)
-	defer f.Close()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	out := func(s string) {
-		_, err := f.WriteString(s)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-	}
-
-	out(heading)
-	out(subHeading + ": " + funcname + "\n\n")
+func compilePage(funcname string) []byte {
+	s := heading
+	s += subHeading + ": " + funcname + "\n\n"
 
 	if digest[funcname] != "" {
-		out("> " + digest[funcname] + "\n\n")
+		s += "> " + digest[funcname] + "\n\n"
 	}
 
-	out(define[funcname] + "\n\n")
+	s += define[funcname] + "\n\n"
 
 	if len(related[funcname]) > 0 {
-		out("### See also\n\n")
+		s += "### See also\n\n"
 
 		sort.Strings(related[funcname])
 
@@ -62,8 +49,66 @@ func writeDefinitions(filename, funcname string) {
 				cmd = "[`" + rel + "`](" + rel + ".md)"
 			}
 
-			out("* " + cmd + dig + "\n")
+			s += "* " + cmd + dig + "\n"
 		}
+	}
+
+	return []byte(s)
+}
+
+func writeGoCode(filename string, funcname string, code []byte) {
+	if verbose {
+		fmt.Println("Writing " + filename)
+	}
+
+	f, err := os.Create(filename)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	var b []byte
+	buf := bytes.NewBuffer(b)
+	b64 := base64.NewEncoder(base64.StdEncoding, buf)
+	gz := gzip.NewWriter(f)
+
+	i, err := gz.Write(code)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	if i != len(code) {
+		fmt.Println("Amount written to gzip writer differs from size of markdown doc.")
+		os.Exit(1)
+	}
+
+	gz.Close()
+	b64.Close()
+	s := fmt.Sprintf(goLang, funcname, string(b))
+	f.WriteString(s)
+}
+
+func writeDefinitions(filename string, b []byte) {
+	if verbose {
+		fmt.Println("Writing " + filename)
+	}
+
+	f, err := os.Create(filename)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	i, err := f.Write(b)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	if i != len(b) {
+		fmt.Println("Amount written to file writer differs from size of markdown doc.")
+		os.Exit(1)
 	}
 }
 

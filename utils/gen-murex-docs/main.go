@@ -15,26 +15,27 @@ var (
 )
 
 func main() {
-	src, dest := readFlags()
+	src, dest, gocode := readFlags()
 
 	scanSrc(src)
 	debug.Json("Definitions", define)
 	debug.Json("Digests", digest)
 	debug.Json("Related", related)
 
-	compile(dest)
+	compile(dest, gocode)
 }
 
-func readFlags() (src, dest string) {
+func readFlags() (src, dest, gocode string) {
 	flag.StringVar(&src, "src", "", "Location of definition files")
 	flag.StringVar(&dest, "dest", "", "Destination to write docs")
+	flag.StringVar(&gocode, "gocode", "", "Destination to Go code")
 	flag.BoolVar(&debug.Enable, "debug", false, "Debug messages")
 	flag.BoolVar(&verbose, "v", false, "Verbose")
 
 	flag.Parse()
 
-	if src == "" || dest == "" {
-		fmt.Println("Missing required flag. Need both -src and -dest")
+	if src == "" || dest == "" || gocode == "" {
+		fmt.Println("Missing required flag. Need -src, -dest and -gocode")
 		flag.Usage()
 		os.Exit(1)
 	}
