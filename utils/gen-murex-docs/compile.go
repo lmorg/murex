@@ -70,7 +70,7 @@ func writeGoCode(filename string, funcname string, code []byte) {
 
 	var buf bytes.Buffer
 	gz := gzip.NewWriter(&buf)
-	defer gz.Close()
+	//defer gz.Close()
 
 	i, err := gz.Write(code)
 	if err != nil {
@@ -87,6 +87,11 @@ func writeGoCode(filename string, funcname string, code []byte) {
 		fmt.Println(err)
 		os.Exit(1)
 	}*/
+	err = gz.Flush()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	b64 := base64.StdEncoding.EncodeToString(buf.Bytes())
 

@@ -1,5 +1,5 @@
 package docs
 
 func init() {
-	docs[`pt`] = `H4sIAAAAAAAA/w==`
+	docs[`pt`] = `H4sIAAAAAAAA/4SRwWrcMBCG73qKH/aQTSB+gFB8aUovhS3xhh5KiLTWrHfAlsTMuK3fvshmaUIPuXhgPN+nX5odXqdZ6M8rvoU0zGEgfJ05knO7HT7naQopQuhMQqmnBxRzrsV3LgSjkSYyWRr8EDZSxGDh3pZCioqdltr8LWxGqQp3eCTthYtxTs69t6yDpFALxmrcK8Ipzwa7EAoXGjlRg+PlLcP//JGFehsXWF6RQ3ej6I6PX56e3ikqU4SU5BfFZov1rGEg5wDgk1rk1OK+RbH6rY08W7tNdkQIo2bn7vDTk4h/2ZNIM8XbB3jqL9kjQE04DdckW4gVKMLJ/Mt+rRu0vt1/zKGr2OH5iP1pKUG1/ruu6noVvXV38LrKzn49wPJc/bV8lKnK65qUDGw3b9ZXrWbLOXr3FwAA//8=`
 }

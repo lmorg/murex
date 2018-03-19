@@ -1,5 +1,5 @@
 package docs
 
 func init() {
-	docs[`append`] = `H4sIAAAAAAAA/w==`
+	docs[`append`] = `H4sIAAAAAAAA/3yQT2rzMBDF9zrFA2++L1AfwBRDaZtu2lVSugghGjKTxGBLQn9KcrbuerIi2UlaCt2M3ozm9yRehc2QvBw3eCazT7QXPKWORamqwr0dBjIMLzvxYrbSgJwTw0q1uGMGUyREi3gQiGHYHciAvKdTNqjwIGHrOxc7a5TSI6xBf4H1SL4G2otSAHAbInemxU07Pd/gnfokeZDvbIrtCD0eaXC9hJH7/AA1WL1Yw3Sq60XK5/q7zbyMyvK4VeQySTjrN2Fz7ZaH5C/N3HdnuaCY/KW5mk7+5W8LEVAfrFIz6JXOlUrdUohZrLTzUgJa/5tUPfD/5lfSIZKPP7KeQSfHFEWrLwAAAP//`
 }
