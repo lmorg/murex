@@ -18,7 +18,7 @@ func compile(dest string, gocode string) {
 	for name := range define {
 		b := compilePage(name)
 		writeDefinitions(dest+"/"+name+".md", b)
-		writeGoCode(gocode+"/"+name+".go", name, b)
+		writeGoCode(gocode+"/autogen-func-"+name+".go", name, b)
 	}
 
 	writeIndex(dest + "/README.md")
@@ -71,7 +71,7 @@ func writeGoCode(filename string, funcname string, code []byte) {
 	var b []byte
 	buf := bytes.NewBuffer(b)
 	b64 := base64.NewEncoder(base64.StdEncoding, buf)
-	gz := gzip.NewWriter(f)
+	gz := gzip.NewWriter(b64)
 
 	i, err := gz.Write(code)
 	if err != nil {
