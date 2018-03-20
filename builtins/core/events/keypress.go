@@ -19,8 +19,8 @@ func (evt *keyPressEvents) Init() {
 
 // Add a key to the event list
 func (evt *keyPressEvents) Add(keyPress string, block []rune) error {
-	if !shell.Interactive || shell.Prompt == nil {
-		return errors.New("Key press events can only be created in an interactive shell.")
+	if /*!shell.Interactive ||*/ shell.Prompt == nil {
+		return errors.New("Unable to register event with readline API.")
 	}
 
 	shell.Prompt.AddEvent(keyPress, evt.callback)
@@ -29,8 +29,8 @@ func (evt *keyPressEvents) Add(keyPress string, block []rune) error {
 }
 
 func (evt *keyPressEvents) Remove(keyPress string) error {
-	if !shell.Interactive || shell.Prompt == nil {
-		return errors.New("Key press events can only be created in an interactive shell.")
+	if /*!shell.Interactive ||*/ shell.Prompt == nil {
+		return errors.New("Unable to de-register event with readline API.")
 	}
 
 	shell.Prompt.DelEvent(keyPress)

@@ -18,7 +18,7 @@ import (
 
 var (
 	Interactive bool
-	Prompt      *readline.Instance
+	Prompt      *readline.Instance = readline.NewInstance()
 )
 
 // Start the interactive shell
@@ -26,7 +26,6 @@ func Start() {
 	var err error
 
 	Interactive = true
-	Prompt = readline.NewInstance()
 	Prompt.TabCompleter = tabCompletion
 	Prompt.SyntaxCompleter = syntaxCompletion
 	Prompt.HistoryAutoWrite = false

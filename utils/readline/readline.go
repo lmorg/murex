@@ -68,6 +68,7 @@ func (rl *Instance) Readline() (string, error) {
 		case charCtrlU:
 			//clearHintText()
 			//clearLine()
+			rl.clearTabSuggestions()
 			moveCursorBackwards(rl.pos)
 			fmt.Print(strings.Repeat(" ", len(rl.line)))
 			//moveCursorBackwards(len(line))

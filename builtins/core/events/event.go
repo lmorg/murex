@@ -161,26 +161,13 @@ func callback(evtName string, evtOp interface{}, evtDesc string, block []rune) {
 		}
 
 		stdin := streams.NewStdin()
+		stdin.SetDataType(types.Json)
 		_, err = stdin.Write(json)
 		if err != nil {
 			ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
 			return
 		}
 		stdin.Close()
-
-		/*stdout := streams.NewStdin()
-		go func() {
-			b, _ := stdout.ReadAll()
-			os.Stdout.Write(b)
-			stdout.Close()
-		}()
-
-		stderr := streams.NewStdin()
-		go func() {
-			b, _ := stderr.ReadAll()
-			os.Stderr.Write(b)
-			stderr.Close()
-		}()*/
 
 		debug.Log("Event callback:", string(json), string(block))
 		_, err = lang.RunBlockShellNamespace(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr)
