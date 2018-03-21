@@ -211,6 +211,8 @@ func parseDescription(filename string) string {
 			s = strings.Replace(s, ".Nd ", " - ", -1)
 			s = strings.Replace(s, "\\(em ", " - ", -1)
 			s = strings.Replace(s, " , ", ", ", -1)
+			s = strings.Replace(s, "\\fB", "", -1)
+			s = strings.Replace(s, "\\fR", "", -1)
 			if strings.HasSuffix(s, " ,") {
 				s = s[:len(s)-2] + ", "
 			}
