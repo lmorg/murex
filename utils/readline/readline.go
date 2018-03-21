@@ -3,10 +3,11 @@ package readline
 import (
 	"errors"
 	"fmt"
-	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
 	"unicode/utf8"
+
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 // Readline displays the readline prompt.
@@ -36,6 +37,9 @@ func (rl *Instance) Readline() (string, error) {
 		s := string(b[:i])
 		if rl.evtKeyPress[s] != nil {
 			ignoreKey, closeReadline := rl.evtKeyPress[s](s, rl.line, rl.pos)
+			//getTermWidth()
+			//rl.renderHintText()
+			//rl.renderSuggestions()
 			if ignoreKey {
 				continue
 			}

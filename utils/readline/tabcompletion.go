@@ -125,15 +125,16 @@ func (rl *Instance) renderSuggestions() {
 }
 
 func (rl *Instance) clearTabSuggestions() {
-	move := termWidth * rl.tcUsedY
-	blank := strings.Repeat(" ", move)
+	//move := termWidth * rl.tcUsedY
+	//blank := strings.Repeat(" ", move)
 
 	// It's ugly but required as we don't know the absolute position of the cursor
 	fmt.Print("\r\n")
 	moveCursorDown(rl.hintY)
-	fmt.Print(blank)
-	moveCursorBackwards(termWidth)
-	moveCursorUp(rl.hintY + rl.tcUsedY)
+	fmt.Print("\x1b[0J")
+	//moveCursorBackwards(termWidth)
+	//moveCursorUp(rl.hintY + rl.tcUsedY)
+	moveCursorUp(rl.hintY + 1)
 	moveCursorForwards(rl.promptLen + rl.pos)
 
 	rl.modeTabGrid = false
