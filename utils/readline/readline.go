@@ -170,14 +170,14 @@ func (rl *Instance) escapeSeq(b []byte) {
 		}
 		//renderHintText()
 
-	case seqHome:
+	case seqHome, seqHomeSc:
 		if rl.modeTabGrid {
 			return
 		}
 		moveCursorBackwards(rl.pos)
 		rl.pos = 0
 
-	case seqEnd:
+	case seqEnd, seqEndSc:
 		if rl.modeTabGrid {
 			return
 		}

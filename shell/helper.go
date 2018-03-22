@@ -114,6 +114,11 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 			return append(line, '}'), pos
 		}
 
+	case pt.Bracket < 0:
+		if line[pos] == '}' && line[len(line)-1] == '}' && pos != len(line)-1 {
+			return line[:len(line)-1], pos
+		}
+
 	case pos > 0 && line[pos-1] == '[':
 		if pos < len(line)-1 {
 			r := append(line[:pos+1], ']')
