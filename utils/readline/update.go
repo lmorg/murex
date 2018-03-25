@@ -115,3 +115,10 @@ func (rl *Instance) clearLine() {
 		rl.tabCompletion()
 	}
 }
+
+func (rl *Instance) clearHelpers() {
+	if rl.modeTabGrid {
+		rl.clearTabSuggestions()
+	}
+	rl.clearHintText()
+}

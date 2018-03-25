@@ -12,7 +12,7 @@ try {
 	# required
 	#pull github.com/chzyer/readline
 	#pull github.com/gohxs/readline
-	pull github.com/lmorg/readline
+	#pull github.com/lmorg/readline
 	pull github.com/Knetic/govaluate
 	pull github.com/phayes/permbits
 

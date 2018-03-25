@@ -16,13 +16,16 @@ func (rl *Instance) tabCompletion() {
 		return
 	}
 
-	if len(rl.tcSuggestions) == 1 {
+	// Auto-fills the suggetion into the command line if there is only 1 suggestion.
+	// Cool feature but a little counter inturative at times. Which is why I've
+	// commented it out.
+	/*if len(rl.tcSuggestions) == 1 {
 		if len(rl.tcSuggestions[0]) == 0 || rl.tcSuggestions[0] == " " || rl.tcSuggestions[0] == "\t" {
 			return
 		}
 		rl.insert([]byte(rl.tcSuggestions[0]))
 		return
-	}
+	}*/
 
 	rl.initTabGrid()
 	rl.renderSuggestions()

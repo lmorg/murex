@@ -50,16 +50,11 @@ func (rl *Instance) Readline() (string, error) {
 
 		switch b[0] {
 		case charCtrlC:
-			if rl.modeTabGrid {
-				rl.clearTabSuggestions()
-			}
+			rl.clearHelpers()
 			return "", errors.New(ErrCtrlC)
 
 		case charEOF:
-			if rl.modeTabGrid {
-				rl.clearTabSuggestions()
-			}
-			rl.clearHintText()
+			rl.clearHelpers()
 			return "", errors.New(ErrEOF)
 
 		case charTab:
