@@ -131,6 +131,10 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 }
 
 func hintText(line []rune, pos int) []rune {
+	//deleteme1, _ := parse(line)
+	//deleteme2, _ := utils.JsonMarshal(deleteme1, false)
+	//return []rune(string(deleteme2))
+
 	r, err := history.ExpandVariables(line, Prompt)
 	if err != nil {
 		return []rune("Error: " + err.Error())

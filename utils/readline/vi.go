@@ -22,11 +22,15 @@ func (rl *Instance) vi(b byte) {
 		rl.pos++
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
+		rl.viUndoSkipAppend = true
+
 	case 'A':
 		moveCursorForwards(len(rl.line) - rl.pos)
 		rl.pos = len(rl.line)
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
+		rl.viUndoSkipAppend = true
+
 	case 'D':
 		moveCursorBackwards(rl.pos)
 		fmt.Print(strings.Repeat(" ", len(rl.line)))
@@ -39,24 +43,46 @@ func (rl *Instance) vi(b byte) {
 		moveCursorBackwards(2)
 		rl.pos--
 		rl.viIteration = ""
+
 	case 'i':
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
+		rl.viUndoSkipAppend = true
+
 	case 'r':
 		rl.modeViMode = vimReplaceOnce
 		rl.viIteration = ""
+		rl.viUndoSkipAppend = true
+
 	case 'R':
 		rl.modeViMode = vimReplaceMany
 		rl.viIteration = ""
+		rl.viUndoSkipAppend = true
+
+	case 'u':
+		if len(rl.viUndoHistory) > 0 {
+			newline := append(rl.viUndoHistory[len(rl.viUndoHistory)-1], []rune{}...)
+			rl.viUndoHistory = rl.viUndoHistory[:len(rl.viUndoHistory)-1]
+			rl.clearHelpers()
+			fmt.Print("\r\n" + rl.prompt)
+			rl.line = newline
+			rl.pos = -1
+			rl.echo()
+		}
+		rl.viUndoSkipAppend = true
+
 	case 'x':
 		vii := rl.getViIterations()
 		for i := 1; i <= vii; i++ {
 			rl.delete()
 		}
+
 	default:
 		if b <= '9' && '0' <= b {
 			rl.viIteration += string(b)
 		}
+		rl.viUndoSkipAppend = true
+
 	}
 }
 

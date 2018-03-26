@@ -18,7 +18,6 @@ import (
 
 func main() {
 	readFlags()
-
 	proc.InitEnv()
 
 	switch {

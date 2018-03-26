@@ -23,11 +23,13 @@ func (rl *Instance) Readline() (string, error) {
 	fmt.Print(rl.prompt)
 
 	rl.line = []rune{}
+	rl.viUndoHistory = make([][]rune, 1)
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 
 	for {
+		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024)
 		i, err := os.Stdin.Read(b)
 		if err != nil {
@@ -63,6 +65,7 @@ func (rl *Instance) Readline() (string, error) {
 				continue
 			}
 			rl.tabCompletion()
+			rl.viUndoSkipAppend = true
 
 		case charCtrlU:
 			//clearHintText()
@@ -107,6 +110,10 @@ func (rl *Instance) Readline() (string, error) {
 		default:
 			rl.editorInput(b[:i])
 		}
+
+		if !rl.viUndoSkipAppend {
+			rl.viUndoHistory = append(rl.viUndoHistory, rl.line)
+		}
 	}
 }
 
@@ -123,6 +130,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 			rl.modeViMode = vimKeys
 			rl.viIteration = ""
 		}
+		rl.viUndoSkipAppend = true
 
 	case seqDelete:
 		rl.delete()
@@ -150,7 +158,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 			moveCursorBackwards(1)
 			rl.pos--
 		}
-		//renderHintText()
+		rl.viUndoSkipAppend = true
 
 	case seqForwards:
 		if rl.modeTabGrid {
@@ -163,7 +171,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 			moveCursorForwards(1)
 			rl.pos++
 		}
-		//renderHintText()
+		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
 		if rl.modeTabGrid {
@@ -171,6 +179,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 		}
 		moveCursorBackwards(rl.pos)
 		rl.pos = 0
+		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
 		if rl.modeTabGrid {
@@ -178,9 +187,13 @@ func (rl *Instance) escapeSeq(b []byte) {
 		}
 		moveCursorForwards(len(rl.line) - rl.pos)
 		rl.pos = len(rl.line)
+		rl.viUndoSkipAppend = true
 	}
 }
 
+// editorInput is an unexported function used to determine what mode
+// of text entry readline is currently configured for and then update
+// the line entries accordingly.
 func (rl *Instance) editorInput(b []byte) {
 	switch rl.modeViMode {
 	case vimKeys:
@@ -223,6 +236,8 @@ func (rl *Instance) echo() {
 	rl.renderHintText()
 }
 
+// SetPrompt will define the readline prompt string.
+// It also calculates the runes in the string as well as any non-printable escape codes.
 func (rl *Instance) SetPrompt(s string) {
 	rl.prompt = s
 

@@ -4,7 +4,11 @@ import (
 	"regexp"
 )
 
+// Instance is used to encapsulate the parameter group and run time of any given
+// readline instance so that you can reuse the readline API for multiple entry
+// captures without having to repeatedly unload configuration.
 type Instance struct {
+
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
 	PasswordMask rune
@@ -70,8 +74,10 @@ type Instance struct {
 	tcMaxLength   int
 
 	// vim
-	modeViMode  viMode //= vimInsert
-	viIteration string
+	modeViMode       viMode //= vimInsert
+	viIteration      string
+	viUndoHistory    [][]rune
+	viUndoSkipAppend bool
 
 	// event
 	evtKeyPress map[string]func(string, []rune, int) (bool, bool)
@@ -82,6 +88,8 @@ var (
 	rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
 )
 
+// NewInstance is used to create a readline instance and initialise it with sane
+// defaults.
 func NewInstance() *Instance {
 	rl := new(Instance)
 	getTermWidth()

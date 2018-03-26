@@ -22,60 +22,60 @@ func aliases {
 }
 
 autocomplete set cd { [{
-	"IncDirs": true
+    "IncDirs": true
 }] }
 
 autocomplete set mkdir { [{
-	"IncDirs": true
+    "IncDirs": true
 }] }
 
 autocomplete set rmdir { [{
-	"IncDirs": true
+    "IncDirs": true
 }] }
 
 autocomplete set man { [{
-	"IncExePath": true
+    "IncExePath": true
 }] }
 
 autocomplete set which { [{
-	"IncExePath": true
+    "IncExePath": true
 }] }
 
 autocomplete set whereis { [{
-	"IncExePath": true
+    "IncExePath": true
 }] }
 
 autocomplete set sudo { [
-	{
-		"IncFiles": true,
-		"IncDirs": true,
-		"IncExePath": true
-	},
-	{
-		"NestedCommand": true
-	}
+    {
+        "IncFiles": true,
+        "IncDirs": true,
+        "IncExePath": true
+    },
+    {
+        "NestedCommand": true
+    }
 ] }
 
 autocomplete set exec { [
-	{
-		"IncFiles": true,
-		"IncDirs": true,
-		"IncExePath": true
-	},
-	{
-		"NestedCommand": true
-	}
+    {
+        "IncFiles": true,
+        "IncDirs": true,
+        "IncExePath": true
+    },
+    {
+        "NestedCommand": true
+    }
 ] }
 
 autocomplete set pty { [
-	{
-		"IncFiles": true,
-		"IncDirs": true,
-		"IncExePath": true
-	},
-	{
-		"NestedCommand": true
-	}
+    {
+        "IncFiles": true,
+        "IncDirs": true,
+        "IncExePath": true
+    },
+    {
+        "NestedCommand": true
+    }
 ] }
 
 
@@ -125,7 +125,7 @@ autocomplete set !event { [
         "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } -> sort }"
     },
     {
-        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }",
+        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[0] } ] -> formap k v { out $k } -> sort }",
         "AllowMultiple": true
     }
 ] }
@@ -216,7 +216,7 @@ autocomplete set gopass { [
         "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
         "AllowMultiple": true,
         "Dynamic": "{ exec: @{params} --generate-bash-completion }",
-		"AutoBranch": true
+        "AutoBranch": true
     }
 ] }
 
@@ -253,9 +253,9 @@ if { = os!=` + "`windows`" + ` } {
         [
             { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
             {
-				"Dynamic": "{ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }",
-				"AutoBranch": true
-			}
+                "Dynamic": "{ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }",
+                "AutoBranch": true
+            }
         ]
     }
 
