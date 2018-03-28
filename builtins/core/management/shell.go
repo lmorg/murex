@@ -195,8 +195,8 @@ func cmdVersion(p *proc.Process) error {
 
 func cmdRuntime(p *proc.Process) error {
 	const (
-		fVars = "--vars"
-		//fAllVars       = "--all-vars"
+		fVars          = "--vars"
+		fAllVars       = "--all-vars"
 		fAliases       = "--aliases"
 		fConfig        = "--config"
 		fPipes         = "--pipes"
@@ -217,8 +217,8 @@ func cmdRuntime(p *proc.Process) error {
 		&parameters.Arguments{
 			Flags: map[string]string{
 				//"all":           types.Boolean,
-				fVars: types.Boolean,
-				//fAllVars:       types.Boolean,
+				fVars:          types.Boolean,
+				fAllVars:       types.Boolean,
 				fAliases:       types.Boolean,
 				fConfig:        types.Boolean,
 				fPipes:         types.Boolean,
@@ -250,8 +250,8 @@ func cmdRuntime(p *proc.Process) error {
 		switch flag {
 		case fVars:
 			ret[fVars[2:]] = p.Variables.Dump()
-		//case fAllVars:
-		//	ret[fAllVars[2:]] = p.Variables.DumpEntireTable()
+		case fAllVars:
+			ret[fAllVars[2:]] = p.Variables.DumpEntireTable()
 		case fAliases:
 			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
 		case fConfig:

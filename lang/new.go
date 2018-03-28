@@ -17,37 +17,52 @@ import (
 var ShellExitNum int
 
 // RunBlockShellNamespace is used for calling code blocks using the shell's
-// namespace. eg commands initiated inside the interactive shell
+// namespace. eg commands initiated inside the interactive shell.
+// This shouldn't be used under normal conditions.
 func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.Config,
+		proc.ShellProcess, proc.ShellProcess.Config, nil,
 	)
 }
 
 // RunBlockParentNamespace is used for calling code blocks using the parent's
 // namespace. eg `source`
+// This shouldn't be used under normal conditions.
 func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller.Parent, caller.Config,
+		caller.Parent, caller.Config, nil,
 	)
 }
 
 // RunBlockNewNamespace is for spawning new murex functions. eg `func {}`
+// This shouldn't be used under normal conditions.
 func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config.Copy(),
+		caller, caller.Config.Copy(), nil,
 	)
 }
 
 // RunBlockExistingNamespace is for code blocks as parameters (eg `if {}`,
 // `try {}` etc) or inlining code blocks (eg `out @{g *}`)
+// This should be the default way to call code blocks.
 func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config,
+		caller, caller.Config, nil,
+	)
+}
+
+// RunBlockExistingNamespace is for code blocks as parameters (eg `formap {}`)
+// where you additionally need to set variables inside the new running block.
+// This is sometimes nessisary but is a discurraged as it breaks the functional
+// paradigm.
+func RunBlockExistingNamespacePlusVars(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *proc.Variables) (exitNum int, err error) {
+	return processNewBlock(
+		block, stdin, stdout, stderr,
+		caller, caller.Config, vars,
 	)
 }
 
@@ -59,8 +74,7 @@ func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, cal
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-//func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *types.Vars) (exitNum int, err error) {
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *proc.Variables) (exitNum int, err error) {
 	debug.Log(string(block))
 
 	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
@@ -116,7 +130,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		return 1, err
 	}
 
-	compile(&tree, container)
+	compile(&tree, container, vars)
 
 	// Support for different run modes:
 	switch container.RunMode {

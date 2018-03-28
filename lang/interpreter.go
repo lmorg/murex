@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 )
 
-func compile(tree *astNodes, parent *proc.Process) {
+func compile(tree *astNodes, parent *proc.Process, vars *proc.Variables) {
 	for i := range *tree {
 		(*tree)[i].Process.State = state.MemAllocated
 		(*tree)[i].Process.Name = (*tree)[i].Name
@@ -102,7 +102,7 @@ func compile(tree *astNodes, parent *proc.Process) {
 	}
 
 	for i := range *tree {
-		createProcess(&(*tree)[i].Process, !(*tree)[i].NewChain)
+		createProcess(&(*tree)[i].Process, !(*tree)[i].NewChain, vars)
 	}
 }
 

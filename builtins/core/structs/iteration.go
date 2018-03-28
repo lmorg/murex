@@ -116,10 +116,11 @@ func cmdForEach(p *proc.Process) (err error) {
 			return
 		}
 
+		var vars *proc.Variables
+		vars = nil // TODO: I don't think this is required but should be tested
 		if varName != "" {
-			//p.ScopedVars = p.ScopedVars.Copy()
-			//p.ScopedVars.Set(varName, string(b), dt)
-			p.Variables.Set(varName, string(b), dt)
+			vars = proc.NewVariables(p)
+			vars.Set(varName, string(b), dt)
 		}
 
 		stdin := streams.NewStdin()
@@ -127,7 +128,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		stdin.Writeln(b)
 		stdin.Close()
 
-		lang.RunBlockExistingNamespace(block, stdin, p.Stdout, p.Stderr, p)
+		lang.RunBlockExistingNamespacePlusVars(block, stdin, p.Stdout, p.Stderr, p, vars)
 	})
 
 	return err
@@ -154,22 +155,15 @@ func cmdForMap(p *proc.Process) error {
 	}
 
 	err = p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
-		/*debug.Json("formap", map[string]string{
-			"key":   key,
-			"value": value,
-			"dt":    dt,
-		})*/
 		if p.HasTerminated() {
 			return
 		}
 
-		//p.ScopedVars = p.ScopedVars.Copy()
-		//p.ScopedVars.Set(varKey, key, types.String)
-		//p.ScopedVars.Set(varVal, value, dt)
-		p.Variables.Set(varKey, key, types.String)
-		p.Variables.Set(varVal, value, dt)
+		vars := proc.NewVariables(p)
+		vars.Set(varKey, key, types.String)
+		vars.Set(varVal, value, dt)
 
-		lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
+		lang.RunBlockExistingNamespacePlusVars(block, nil, p.Stdout, p.Stderr, p, vars)
 	})
 
 	return err

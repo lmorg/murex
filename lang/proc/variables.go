@@ -9,7 +9,6 @@ import (
 	"os"
 	"strings"
 	"sync"
-	"time"
 )
 
 // Variables is an object that methods out lookups against the varTable.
@@ -35,11 +34,11 @@ type varTable struct {
 
 func newVarTable() *varTable {
 	vt := new(varTable)
-	go garbageCollection(vt)
+	//go garbageCollection(vt)
 	return vt
 }
 
-func garbageCollection(vt *varTable) {
+/*func garbageCollection(vt *varTable) {
 	for {
 		time.Sleep(3 * time.Second)
 		vt.mutex.Lock()
@@ -63,7 +62,7 @@ func garbageCollection(vt *varTable) {
 
 		vt.mutex.Unlock()
 	}
-}
+}*/
 
 // GetVariable is a single API that handles the logic parsing the varTable
 // `readOnly` defines whether to return new variable struct with the same settings
@@ -77,25 +76,26 @@ func (vt *varTable) GetVariable(p *Process, name string, copy bool) *variable {
 		defer vt.mutex.Unlock()
 	}
 
-	for i := range vt.vars {
+	//for i := range vt.vars {
+	for i := len(vt.vars) - 1; i > -1; i-- {
 
 		vt.vars[i].mutex.Lock()
 		if !vt.vars[i].disabled && vt.vars[i].name == name {
 
 			// variable exists. Check permissions (ie is it in scope?)
-			for _, proc := range p.FidTree {
-				if proc == vt.vars[i].owner {
+			//for _, proc := range p.FidTree {
+			//if proc == vt.vars[i].owner {
 
-					// return variable
-					if copy {
-						vcopy := &vt.vars[i]
-						vt.vars[i].mutex.Unlock()
-						return *vcopy
-					}
-					return vt.vars[i]
-
-				}
+			// return variable
+			if copy {
+				vcopy := &vt.vars[i]
+				vt.vars[i].mutex.Unlock()
+				return *vcopy
 			}
+			return vt.vars[i]
+
+			//}
+			//}
 		}
 
 		vt.vars[i].mutex.Unlock()
@@ -160,35 +160,42 @@ func (vars *Variables) GetString(name string) string {
 	return s.(string)
 }
 
-// Set checks if a variable already exists, if it does it updates the value, if
-// it doesn't it creates a new one.
-func (vars *Variables) Set(name string, value interface{}, dataType string) (err error) {
-	var val interface{}
-
+func convDataType(value interface{}, dataType string) (val interface{}, err error) {
 	switch dataType {
 	case types.Integer:
 		val, err = types.ConvertGoType(value, dataType)
-		if err != nil {
-			return err
-		}
+		//if err != nil {
+		//	return err
+		//}
 
 	case types.Float, types.Number:
 		val, err = types.ConvertGoType(value, dataType)
-		if err != nil {
-			return err
-		}
+		//if err != nil {
+		//	return err
+		//}
 
 	case types.Boolean:
 		val, err = types.ConvertGoType(value, types.Boolean)
-		if err != nil {
-			return err
-		}
+		//if err != nil {
+		//	return err
+		//}
 
 	default:
 		val, err = types.ConvertGoType(value, types.String)
-		if err != nil {
-			return err
-		}
+		//if err != nil {
+		//	return err
+		//}
+	}
+
+	return
+}
+
+// Set checks if a variable already exists, if it does it updates the value, if
+// it doesn't it creates a new one.
+func (vars *Variables) Set(name string, value interface{}, dataType string) error {
+	val, err := convDataType(value, dataType)
+	if err != nil {
+		return err
 	}
 
 	v := vars.varTable.GetVariable(vars.process, name, false)
@@ -198,6 +205,24 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) (err
 		v.mutex.Unlock()
 		vars.varTable.mutex.Unlock()
 		return nil
+	}
+
+	vars.varTable.vars = append(vars.varTable.vars, &variable{
+		name:     name,
+		Value:    val,
+		DataType: dataType,
+		owner:    vars.process.Parent.Id,
+	})
+
+	vars.varTable.mutex.Unlock()
+
+	return nil
+}
+
+func (vars *Variables) ForceNewScope(name string, value interface{}, dataType string) error {
+	val, err := convDataType(value, dataType)
+	if err != nil {
+		return err
 	}
 
 	vars.varTable.vars = append(vars.varTable.vars, &variable{
@@ -274,7 +299,7 @@ func (vars *Variables) DumpMap() map[string]interface{} {
 	return m
 }
 
-/*// DumpEntireTable is a temporary function which is used for debugging. It still be Killed soon
+// DumpEntireTable is a temporary function which is used for debugging. It still be Killed soon
 func (vars *Variables) DumpEntireTable() interface{} {
 	m := make([]map[string]interface{}, 0)
 
@@ -290,4 +315,4 @@ func (vars *Variables) DumpEntireTable() interface{} {
 		m = append(m, mv)
 	}
 	return m
-}*/
+}

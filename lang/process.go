@@ -21,7 +21,7 @@ var (
 	rxVariables          *regexp.Regexp = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
 
-func createProcess(p *proc.Process, isMethod bool) {
+func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 	// Create empty function so we don't have to check nil state when invoking kill, ie you try to kill a process
 	// before it's fully started
 	p.Kill = func() {}
@@ -39,6 +39,13 @@ func createProcess(p *proc.Process, isMethod bool) {
 	}
 
 	p.IsMethod = isMethod
+
+	if vars != nil {
+		dump := vars.Dump()
+		for name := range dump {
+			p.Variables.ForceNewScope(name, dump[name].Value, dump[name].DataType)
+		}
+	}
 
 	p.State = state.Assigned
 
