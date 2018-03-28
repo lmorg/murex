@@ -2,10 +2,11 @@ package json
 
 import (
 	"encoding/json"
+	"strconv"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
-	"strconv"
 )
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
@@ -28,14 +29,20 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 				callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
 			}
 
-		case map[string]interface{}, map[interface{}]interface{}:
+		case map[string]interface{} /*, map[interface{}]interface{}*/ :
 			i := 1
 			for key := range jObj.(map[string]interface{}) {
-				j, err := json.Marshal(jObj.(map[string]interface{})[key])
-				if err != nil {
-					return err
+				switch jObj.(map[string]interface{})[key].(type) {
+				case string:
+					callback(key, jObj.(map[string]interface{})[key].(string), i != len(jObj.(map[string]interface{})))
+
+				default:
+					j, err := json.Marshal(jObj.(map[string]interface{})[key])
+					if err != nil {
+						return err
+					}
+					callback(key, string(j), i != len(jObj.(map[string]interface{})))
 				}
-				callback(key, string(j), i != len(jObj.(map[string]interface{})))
 				i++
 			}
 			return nil

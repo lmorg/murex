@@ -2,6 +2,7 @@ package json
 
 import (
 	"encoding/json"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils"
 )
@@ -17,5 +18,6 @@ func unmarshal(p *proc.Process) (v interface{}, err error) {
 	}
 
 	err = json.Unmarshal(b, &v)
+
 	return
 }

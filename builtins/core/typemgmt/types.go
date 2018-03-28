@@ -2,11 +2,12 @@ package typemgmt
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
 	"io"
 	"os"
 	"strings"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
@@ -24,6 +25,8 @@ func init() {
 
 func cmdSetDt(p *proc.Process) error {
 	dt := p.Parameters.StringAll()
+	//p.Scope.Stdout.SetDataType(dt)
+	//p.Parent.Stdout.SetDataType(dt)
 	p.Stdout.SetDataType(dt)
 	return nil
 }

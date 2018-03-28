@@ -2,6 +2,7 @@ package define
 
 import (
 	"errors"
+
 	"github.com/lmorg/murex/lang/proc"
 )
 
