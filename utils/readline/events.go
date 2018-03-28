@@ -1,6 +1,6 @@
 package readline
 
-func (rl *Instance) AddEvent(keyPress string, callback func(string, []rune, int) (bool, bool)) {
+func (rl *Instance) AddEvent(keyPress string, callback func(string, []rune, int) (bool, bool, []rune)) {
 	rl.evtKeyPress[keyPress] = callback
 }
 

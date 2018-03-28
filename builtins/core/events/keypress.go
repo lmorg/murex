@@ -2,6 +2,10 @@ package events
 
 import (
 	"errors"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 )
 
@@ -38,10 +42,35 @@ func (evt *keyPressEvents) Remove(keyPress string) error {
 	return nil
 }
 
-func (evt keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool) {
+func (evt keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool, []rune) {
 	block := evt.events[keyPress]
-	callback(keyPress, pos, string(line), block)
-	return false, false
+	stdout := streams.NewStdin()
+	callback(keyPress, pos, string(line), block, stdout)
+	defer stdout.Close()
+
+	//fmt.Print(stdout.GetDataType(), "<--\r\n")
+
+	ret := make(map[string]string)
+	err := stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
+		ret[key] = value
+	})
+	if err != nil {
+		return false, false, []rune("Callback error: " + err.Error())
+	}
+
+	//fmt.Print(ret, stdout.GetDataType(), "<-\r\n")
+
+	ignoreKey, err := types.ConvertGoType(ret["IgnoreKey"], types.Boolean)
+	if err != nil {
+		return false, false, []rune("Callback error: " + err.Error())
+	}
+
+	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
+	if err != nil {
+		return false, false, []rune("Callback error: " + err.Error())
+	}
+
+	return ignoreKey.(bool), closeReadline.(bool), []rune(ret["HintText"])
 }
 
 func (evt *keyPressEvents) Dump() interface{} {

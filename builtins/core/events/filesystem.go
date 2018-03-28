@@ -1,12 +1,14 @@
 package events
 
 import (
-	"github.com/fsnotify/fsnotify"
-	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/utils/ansi"
 	"os"
 	"strings"
 	"sync"
+
+	"github.com/fsnotify/fsnotify"
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 type watch struct {
@@ -108,7 +110,13 @@ func (w *watch) Init() {
 		case event := <-w.watcher.Events:
 			debug.Log("Event:", event)
 
-			callback(event.Name, event.Op, event.String(), w.callback(event.Name))
+			go callback(
+				event.Name,
+				event.Op,
+				event.String(),
+				w.callback(event.Name),
+				proc.ShellProcess.Stdout,
+			)
 
 			//if Event.Op&fsnotify.Write == fsnotify.Write {
 			//	debug.Log("modified file:", Event.Name)

@@ -2,9 +2,10 @@ package readline
 
 import (
 	"fmt"
-	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
+
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func getTermWidth() {
@@ -40,8 +41,8 @@ func (rl *Instance) syntaxCompletion() {
 }
 
 func (rl *Instance) renderHintText() {
-	if rl.HintText == nil {
-		rl.hintY = 0
+	if rl.HintText == nil && rl.hintY == 0 {
+		//rl.hintY = 0
 		return
 	}
 
@@ -50,6 +51,10 @@ func (rl *Instance) renderHintText() {
 		return
 	}
 
+	rl.writeHintText(r)
+}
+
+func (rl *Instance) writeHintText(r []rune) {
 	moveY := rl.hintY
 	if moveY == 0 {
 		moveY = 1

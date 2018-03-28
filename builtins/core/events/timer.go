@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/lmorg/murex/lang/proc"
 )
 
 type timer struct {
@@ -98,7 +100,13 @@ func (t *timer) Init() {
 			t.events[i].state++
 			if t.events[i].state == t.events[i].Interval {
 				t.events[i].state = 0
-				callback(t.events[i].Name, t.events[i].Interval, fmt.Sprintf("%s=%d", t.events[i].Name, t.events[i].Interval), t.events[i].Block)
+				go callback(
+					t.events[i].Name,
+					t.events[i].Interval,
+					fmt.Sprintf("%s=%d", t.events[i].Name, t.events[i].Interval),
+					t.events[i].Block,
+					proc.ShellProcess.Stdout,
+				)
 			}
 		}
 		t.mutex.Unlock()

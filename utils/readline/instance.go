@@ -80,7 +80,7 @@ type Instance struct {
 	viUndoSkipAppend bool
 
 	// event
-	evtKeyPress map[string]func(string, []rune, int) (bool, bool)
+	evtKeyPress map[string]func(string, []rune, int) (bool, bool, []rune)
 }
 
 var (
@@ -99,7 +99,7 @@ func NewInstance() *Instance {
 	rl.MaxTabCompleterRows = 4
 	rl.prompt = ">>> "
 	rl.promptLen = 4
-	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool))
+	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, []rune))
 
 	return rl
 }

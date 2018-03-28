@@ -2,11 +2,13 @@ package events
 
 import (
 	"errors"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -148,34 +150,35 @@ type j struct {
 	Description string
 }
 
-func callback(evtName string, evtOp interface{}, evtDesc string, block []rune) {
-	go func() {
-		json, err := utils.JsonMarshal(&j{
-			Interrupt:   evtName,
-			Event:       evtOp,
-			Description: evtDesc,
-		}, false)
-		if err != nil {
-			ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
-			return
-		}
+func callback(evtName string, evtOp interface{}, evtDesc string, block []rune, stdout stdio.Io) {
+	//go func() {
+	json, err := utils.JsonMarshal(&j{
+		Interrupt:   evtName,
+		Event:       evtOp,
+		Description: evtDesc,
+	}, false)
+	if err != nil {
+		ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
+		return
+	}
 
-		stdin := streams.NewStdin()
-		stdin.SetDataType(types.Json)
-		_, err = stdin.Write(json)
-		if err != nil {
-			ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
-			return
-		}
-		stdin.Close()
+	stdin := streams.NewStdin()
+	stdin.SetDataType(types.Json)
+	_, err = stdin.Write(json)
+	if err != nil {
+		ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
+		return
+	}
+	stdin.Close()
 
-		debug.Log("Event callback:", string(json), string(block))
-		_, err = lang.RunBlockShellNamespace(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr)
-		if err != nil {
-			ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
-			return
-		}
-	}()
+	debug.Log("Event callback:", string(json), string(block))
+	_, err = lang.RunBlockShellNamespace(block, stdin, stdout, proc.ShellProcess.Stderr)
+	if err != nil {
+		ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
+	}
+
+	return
+	//}()
 }
 
 // DumpEvents is used for `runtime` to output all the saved events

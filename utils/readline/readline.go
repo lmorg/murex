@@ -38,14 +38,20 @@ func (rl *Instance) Readline() (string, error) {
 
 		s := string(b[:i])
 		if rl.evtKeyPress[s] != nil {
-			ignoreKey, closeReadline := rl.evtKeyPress[s](s, rl.line, rl.pos)
+			ignoreKey, closeReadline, hintText := rl.evtKeyPress[s](s, rl.line, rl.pos)
 			//getTermWidth()
 			//rl.renderHintText()
 			//rl.renderSuggestions()
+			if len(hintText) > 0 {
+				rl.pos--
+				rl.writeHintText(hintText)
+				rl.pos++
+			}
 			if ignoreKey {
 				continue
 			}
 			if closeReadline {
+				rl.clearHelpers()
 				return string(rl.line), nil
 			}
 		}

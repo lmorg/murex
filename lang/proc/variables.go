@@ -1,6 +1,8 @@
 package proc
 
 import (
+	"sync"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 
@@ -8,7 +10,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"sync"
 )
 
 // Variables is an object that methods out lookups against the varTable.
@@ -29,7 +30,7 @@ func NewVariables(p *Process) *Variables {
 // This is the core variable table that will be used for all vars
 type varTable struct {
 	vars  []*variable
-	mutex sync.Mutex
+	mutex debug.BadMutex
 }
 
 func newVarTable() *varTable {
