@@ -162,6 +162,7 @@ func hintText(line []rune, pos int) []rune {
 	if s == "!" {
 		return []rune{}
 	}
+
 	f := man.GetManPages(pt.FuncName)
 	r = []rune(man.ParseDescription(f))
 	if len(r) == 0 {

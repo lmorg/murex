@@ -15,7 +15,7 @@ func init() {
 	proc.GoFunctions["murex-docs"] = cmdMurexDocs
 }
 
-var docs map[string]string = make(map[string]string)
+var Definition map[string]string = make(map[string]string)
 
 func cmdMurexDocs(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
@@ -30,21 +30,21 @@ func cmdMurexDocs(p *proc.Process) error {
 			return err
 		}
 
-		syn := synonyms[cmd]
-		if digests[syn] == "" {
+		syn := Synonym[cmd]
+		if Digest[syn] == "" {
 			return fmt.Errorf("No digests found on command `%s`.", cmd)
 		}
 
-		_, err = p.Stdout.Write([]byte(digests[syn]))
+		_, err = p.Stdout.Write([]byte(Digest[syn]))
 		return err
 	}
 
-	syn := synonyms[cmd]
-	if docs[syn] == "" {
+	syn := Synonym[cmd]
+	if Definition[syn] == "" {
 		return fmt.Errorf("No documentation found on command `%s`.", cmd)
 	}
 
-	b, err := base64.StdEncoding.DecodeString(docs[syn])
+	b, err := base64.StdEncoding.DecodeString(Definition[syn])
 	if err != nil {
 		return err
 	}

@@ -12,7 +12,7 @@ import (
 
 const heading = "# _murex_ Language Guide\n\n"
 const subHeading = "## Command reference"
-const goLang = "package docs\n\nfunc init() {\n\tdocs[`%s`] = `%s`\n}"
+const goLang = "package docs\n\nfunc init() {\nDefinition[`%s`] = `%s`\n}"
 
 func compile(dest string, gocode string) {
 	for name := range define {
@@ -122,7 +122,7 @@ func writeGoDigests(filename string) {
 		os.Exit(1)
 	}
 
-	_, err = f.WriteString("package docs\n\nvar digests map[string]string = map[string]string{\n")
+	_, err = f.WriteString("package docs\n\nvar Digest map[string]string = map[string]string{\n")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -158,7 +158,7 @@ func writeGoSynonyms(filename string) {
 		os.Exit(1)
 	}
 
-	_, err = f.WriteString("package docs\n\nvar synonyms map[string]string = map[string]string{\n")
+	_, err = f.WriteString("package docs\n\nvar Synonym map[string]string = map[string]string{\n")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
