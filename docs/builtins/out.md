@@ -30,6 +30,7 @@ using the `tout` function.
 ### Synonyms
 
 * echo
+
 ### See also
 
 * `>`

@@ -42,6 +42,8 @@ func compilePage(funcname string) []byte {
 		for _, syn := range synonym[funcname] {
 			s += "* " + syn + "\n"
 		}
+
+		s += "\n"
 	}
 
 	if len(related[funcname]) > 0 {
@@ -170,6 +172,15 @@ func writeGoSynonyms(filename string) {
 				fmt.Println(err)
 				os.Exit(1)
 			}
+		}
+	}
+
+	for name := range define {
+		name := strings.Replace(name, "`", "'", -1)
+		_, err := f.WriteString(fmt.Sprintf("\t`%s`: `%s`,\n", name, name))
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	}
 

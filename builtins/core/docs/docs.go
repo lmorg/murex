@@ -5,9 +5,10 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"fmt"
+	"io"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"io"
 )
 
 func init() {
@@ -23,11 +24,27 @@ func cmdMurexDocs(p *proc.Process) error {
 		return err
 	}
 
-	if docs[cmd] == "" {
+	if cmd == "--digest" {
+		cmd, err := p.Parameters.String(1)
+		if err != nil {
+			return err
+		}
+
+		syn := synonyms[cmd]
+		if digests[syn] == "" {
+			return fmt.Errorf("No digests found on command `%s`.", cmd)
+		}
+
+		_, err = p.Stdout.Write([]byte(digests[syn]))
+		return err
+	}
+
+	syn := synonyms[cmd]
+	if docs[syn] == "" {
 		return fmt.Errorf("No documentation found on command `%s`.", cmd)
 	}
 
-	b, err := base64.StdEncoding.DecodeString(docs[cmd])
+	b, err := base64.StdEncoding.DecodeString(docs[syn])
 	if err != nil {
 		return err
 	}
