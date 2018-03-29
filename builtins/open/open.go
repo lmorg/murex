@@ -43,7 +43,7 @@ func open(p *proc.Process) error {
 	}
 
 	if utils.IsURL(filename) {
-		resp, err := httpclient.Request("GET", filename, nil, p.Config, true)
+		resp, err := httpclient.Request("GET", filename, nil, p.Config, true, "")
 		if err != nil {
 			return err
 		}

@@ -152,7 +152,10 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if len(r) > 0 {
-		return r
+		s := strings.Replace(string(r), "\r", `\r`, -1)
+		s = strings.Replace(s, "\n", `\n`, -1)
+		s = strings.Replace(s, "\t", `\t`, -1)
+		return []rune(s)
 	}
 
 	var cmd string
@@ -167,7 +170,9 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if proc.MxFunctions.Exists(cmd) {
-		return append(r, []rune("(murex function - preview not developed yet)")...)
+		dig, _ := proc.MxFunctions.Digest(cmd)
+		//return append(r, []rune("(murex function - preview not developed yet)")...)
+		return append(r, []rune("(murex function) "+dig)...)
 	}
 
 	if proc.GoFunctions[cmd] != nil {

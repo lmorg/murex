@@ -1,9 +1,12 @@
+// +build ignore
+
 package proc
 
 import (
-	"github.com/lmorg/murex/lang/types"
 	"strconv"
 	"testing"
+
+	"github.com/lmorg/murex/lang/types"
 )
 
 // TestVariables tests the Vars structure
