@@ -128,7 +128,9 @@ func writeGoDigests(filename string) {
 
 	for name, dig := range digest {
 		dig = strings.Replace(dig, "`", "'", -1)
-		_, err := f.WriteString(fmt.Sprintf("`%s`: `%s`,\n", name, dig))
+		dig = strings.Replace(dig, "\r", "", -1)
+		dig = strings.Replace(dig, "\n", " ", -1)
+		_, err := f.WriteString(fmt.Sprintf("\t`%s`: `%s`,\n", name, dig))
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
