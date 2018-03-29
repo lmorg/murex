@@ -165,7 +165,7 @@ func writeGoSynonyms(filename string) {
 	for name, syns := range synonym {
 		for i := range syns {
 			syn := strings.Replace(syns[i], "`", "'", -1)
-			_, err := f.WriteString(fmt.Sprintf("`%s`: `%s`,\n", syn, name))
+			_, err := f.WriteString(fmt.Sprintf("\t`%s`: `%s`,\n", syn, name))
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(1)
