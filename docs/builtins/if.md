@@ -52,6 +52,9 @@ last parameter is optional.
     if / else
     !if: { out: hello world | grep: world } { out: world missing }
 
+### Synonyms
+
+* !if
 ### See also
 
 * [`catch`](catch.md): Handles the exception code raised by `try` or `trypipe`

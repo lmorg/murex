@@ -38,6 +38,9 @@ handles the exceptions raised by the aforementioned.
 
 `catch` forwards on the STDIN and exit number of the calling function.
 
+### Synonyms
+
+* !catch
 ### See also
 
 * [`if`](if.md): Conditional statement to execute different blocks of code depending on the

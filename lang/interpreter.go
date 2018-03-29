@@ -115,6 +115,7 @@ func runModeEvil(tree *astNodes) int {
 	(*tree)[0].Process.Previous.SetTerminatedState(true)
 
 	for i := range *tree {
+
 		if i > 0 {
 			if (*tree)[i].NewChain {
 				waitProcess(&(*tree)[i-1].Process)
@@ -139,6 +140,7 @@ func runModeNormal(tree *astNodes) (exitNum int) {
 	(*tree)[0].Process.Previous.SetTerminatedState(true)
 
 	for i := range *tree {
+
 		if i > 0 {
 			if (*tree)[i].NewChain {
 				waitProcess(&(*tree)[i-1].Process)

@@ -3,14 +3,16 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/lmorg/murex/debug"
 	"os"
+
+	"github.com/lmorg/murex/debug"
 )
 
 var (
 	define  map[string]string   = make(map[string]string)
 	digest  map[string]string   = make(map[string]string)
 	related map[string][]string = make(map[string][]string)
+	synonym map[string][]string = make(map[string][]string)
 	verbose bool
 )
 
@@ -21,6 +23,7 @@ func main() {
 	debug.Json("Definitions", define)
 	debug.Json("Digests", digest)
 	debug.Json("Related", related)
+	debug.Json("Synonyms", synonym)
 
 	compile(dest, gocode)
 }
@@ -35,7 +38,7 @@ func readFlags() (src, dest, gocode string) {
 	flag.Parse()
 
 	if src == "" || dest == "" || gocode == "" {
-		fmt.Println("Missing required flag. Need -src, -dest and -gocode")
+		fmt.Println("Missing required flags. Need -src, -dest and -gocode")
 		flag.Usage()
 		os.Exit(1)
 	}

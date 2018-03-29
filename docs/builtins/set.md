@@ -90,6 +90,9 @@ quotes:
     » out '$foo'
     $foo
 
+### Synonyms
+
+* !set
 ### See also
 
 * `[`

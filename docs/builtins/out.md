@@ -27,6 +27,9 @@ Write parameters to STDOUT.
 `out` / `echo` output as `string` data-type. This can be changed by casting or
 using the `tout` function.
 
+### Synonyms
+
+* echo
 ### See also
 
 * `>`

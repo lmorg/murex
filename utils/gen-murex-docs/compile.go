@@ -21,6 +21,8 @@ func compile(dest string, gocode string) {
 		writeGoCode(gocode+"/autogen-func-"+name+".go", name, b)
 	}
 
+	writeGoDigests(gocode + "/autogen-digests.go")
+	writeGoSynonyms(gocode + "/autogen-synonyms.go")
 	writeIndex(dest + "/README.md")
 }
 
@@ -33,6 +35,14 @@ func compilePage(funcname string) []byte {
 	}
 
 	s += define[funcname] + "\n\n"
+
+	if len(synonym[funcname]) > 0 {
+		s += "### Synonyms\n\n"
+
+		for _, syn := range synonym[funcname] {
+			s += "* " + syn + "\n"
+		}
+	}
 
 	if len(related[funcname]) > 0 {
 		s += "### See also\n\n"
@@ -92,6 +102,76 @@ func writeGoCode(filename string, funcname string, code []byte) {
 
 	s := fmt.Sprintf(goLang, funcname, b64)
 	_, err = f.WriteString(s)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func writeGoDigests(filename string) {
+	if verbose {
+		fmt.Println("Writing " + filename)
+	}
+
+	f, err := os.Create(filename)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	_, err = f.WriteString("package docs\n\nvar digests map[string]string = map[string]string{\n")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	for name, dig := range digest {
+		dig = strings.Replace(dig, "`", "'", -1)
+		_, err := f.WriteString(fmt.Sprintf("`%s`: `%s`,\n", name, dig))
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
+
+	_, err = f.WriteString("}\n")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func writeGoSynonyms(filename string) {
+	if verbose {
+		fmt.Println("Writing " + filename)
+	}
+
+	f, err := os.Create(filename)
+	defer f.Close()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	_, err = f.WriteString("package docs\n\nvar synonyms map[string]string = map[string]string{\n")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	for name, syns := range synonym {
+		for i := range syns {
+			syn := strings.Replace(syns[i], "`", "'", -1)
+			_, err := f.WriteString(fmt.Sprintf("`%s`: `%s`,\n", syn, name))
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
+	}
+
+	_, err = f.WriteString("}\n")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

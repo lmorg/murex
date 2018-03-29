@@ -53,6 +53,14 @@ func walkCallback(path string, f os.FileInfo, err error) error {
 			return err
 		}
 		related[name] = s
+
+	case ".syn":
+		s, err := readLines(path)
+		if err != nil {
+			return err
+		}
+		synonym[name] = s
+
 	}
 
 	return nil
