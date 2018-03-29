@@ -1,0 +1,1 @@
+Writes STDIN to disk - overwriting contents if file already exists

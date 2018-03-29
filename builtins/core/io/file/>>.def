@@ -1,0 +1,12 @@
+### Description
+
+Redirects output to file.
+
+### Usage
+
+    <stdin> -> >> filename
+
+### Details
+
+* If a file doesn't exist, a new file will be created
+* If a file does exist, it's STDIN will be appended to the existing contents

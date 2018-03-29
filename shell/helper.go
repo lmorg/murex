@@ -3,6 +3,7 @@ package shell
 import (
 	"strings"
 
+	"github.com/lmorg/murex/builtins/core/docs"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -154,21 +155,49 @@ func hintText(line []rune, pos int) []rune {
 		return r
 	}
 
+	var cmd string
+
 	pt, _ := parse(line)
-	s := manDescript[pt.FuncName]
-	if s != "" && s != "!" {
-		return []rune(manDescript[pt.FuncName])
-	}
-	if s == "!" {
-		return []rune{}
+	cmd = pt.FuncName
+
+	if proc.GlobalAliases.Exists(cmd) {
+		s := proc.GlobalAliases.Get(cmd)
+		r = []rune("(alias: '" + strings.Join(s, "' '") + "') => ")
+		cmd = s[0]
 	}
 
-	f := man.GetManPages(pt.FuncName)
-	r = []rune(man.ParseDescription(f))
-	if len(r) == 0 {
-		manDescript[pt.FuncName] = "!"
-	} else {
-		manDescript[pt.FuncName] = string(r)
+	if proc.MxFunctions.Exists(cmd) {
+		return append(r, []rune("(murex function - preview not developed yet)")...)
 	}
+
+	if proc.GoFunctions[cmd] != nil {
+		syn := docs.Synonym[cmd]
+		r = append(r, []rune(docs.Digest[syn])...)
+		return r
+	}
+
+	var manPage []rune
+
+	s := manDescript[cmd]
+	if s != "" && s != "!" {
+		manPage = []rune(manDescript[cmd])
+	}
+
+	if s != "!" && len(manPage) == 0 {
+		f := man.GetManPages(cmd)
+		manPage = []rune(man.ParseDescription(f))
+		if len(manPage) == 0 {
+			manDescript[cmd] = "!"
+		} else {
+			manDescript[cmd] = string(manPage)
+		}
+
+	}
+
+	if len(manPage) == 0 && len(r) > 0 {
+		manPage = []rune("(no man page for `" + cmd + "` installed)")
+	}
+
+	r = append(r, manPage...)
 	return r
 }

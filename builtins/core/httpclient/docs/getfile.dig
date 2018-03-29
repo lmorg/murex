@@ -1,0 +1,2 @@
+Makes a standard HTTP request and return the contents as _murex_-aware data type
+for passing along _murex_ pipelines.

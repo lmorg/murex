@@ -30,13 +30,19 @@ func cmdGet(p *proc.Process) (err error) {
 	validateURL(&url, p.Config)
 
 	var body io.Reader
+	var contentType string
 	if p.IsMethod {
 		body = p.Stdin
+
+		contentType, err = p.Parameters.String(1)
+		if err != nil {
+			return err
+		}
 	} else {
 		body = nil
 	}
 
-	resp, err := Request("GET", url, body, p.Config, enableTimeout)
+	resp, err := Request("GET", url, body, p.Config, enableTimeout, contentType)
 	if err != nil {
 		return err
 	}
@@ -79,7 +85,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := Request("GET", url, body, p.Config, disableTimeout)
+	resp, err := Request("GET", url, body, p.Config, disableTimeout, "")
 	if err != nil {
 		return err
 	}

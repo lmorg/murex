@@ -1,0 +1,11 @@
+### Description
+
+Redirects output to file.
+
+### Usage
+
+   ttyfd
+
+### Details
+
+Returns the TTY device of the parent.

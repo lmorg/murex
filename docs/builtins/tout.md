@@ -29,4 +29,4 @@ Write parameters to STDOUT and cast the output's data-type.
 * [`print`](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
 * `sprintf`
 * [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
-* `ttyfd`
+* [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

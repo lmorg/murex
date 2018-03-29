@@ -1,0 +1,20 @@
+### Description
+
+Returns a list of files and directories that match a glob pattern.
+
+Output is a JSON list.
+
+### Usage
+
+    g: pattern -> <stdout>
+
+### Examples
+
+    cat @{ g: *.txt }
+
+    g: *.go -> > filelist.txt
+
+### Details
+
+* `*` matches any number of (including zero) characters
+* `?` matches any single character 
