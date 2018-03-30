@@ -74,5 +74,9 @@ func (evt keyPressEvents) callback(keyPress string, line []rune, pos int) (bool,
 }
 
 func (evt *keyPressEvents) Dump() interface{} {
-	return evt.events
+	dump := make(map[string]string)
+	for e := range evt.events {
+		dump[e] = string(evt.events[e])
+	}
+	return dump
 }

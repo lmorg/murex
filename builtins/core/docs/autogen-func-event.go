@@ -1,0 +1,5 @@
+package docs
+
+func init() {
+Definition[`event`] = `H4sIAAAAAAAA/3xQPW8iMRDt/SvescVJJ3HiGgqkuwbQNWmiKEUqcHaHxcrasxmPESvEf4+8BiIRKa7efLw3z6/Cxieh4wYPNrTJtoT/yTVkTFVhyd7b0EBoR0KhpgXoQEGN+Yd1BmjEHSigF27Feu9Cix0L4p66DrEW12vMUhVWVErHwZilkFUCCxqKKjzAhiINF5REUq+F9hxtS8YAKPMFptMRTHXo6XMbJ9TcEF47rt9wLowf31LKgfXR+r6jeDN1dbK4u6rOk8Am5ffk9O98htO4kB8nxeSF008hzGeIVHMKDTIlj/Y2gjrbR2p+4zE51RzUmPvkpkFHp/gzlmdjVhSVZbh3U370xc01YrWuK/hpCBwGH435dSFd+kSwXeTc344OthlJCllxaz4AAAD//w==`
+}

@@ -12,10 +12,12 @@ const DefaultMurexProfile string = `
 # » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
 
 func h {
+    # Output the murex history log in a human readable format
     history -> foreach { -> [ Index Block ] -> sprintf: "%6s: %s\n" }
 }
 
 func aliases {
+    # Output the aliases in human readable format
     alias -> formap: key val {
         $key -> sprintf: "%-10s { ${ $val -> sprintf: %s %s } }\n"
     }
@@ -259,7 +261,10 @@ if { = os!=` + "`windows`" + ` } {
         ]
     }
 
-    func getHostsFile { sed -r 's/#.*$//g; s/\s+/\n/g' /etc/hosts -> sort -> uniq }
+    func getHostsFile {
+        # Parse the hosts file and return uniq host names and IPs
+        egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
+    }
 
 } {
     #config set shell prompt { out "${pwd -> regexp 'f#[^\\]+$#'} » " }
