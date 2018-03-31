@@ -2,11 +2,12 @@ package events
 
 import (
 	"errors"
+	"fmt"
+	"regexp"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -16,95 +17,65 @@ import (
 
 func init() {
 	proc.GoFunctions["event"] = cmdEvent
-	proc.GoFunctions["!event"] = cmdUnevent
+	//proc.GoFunctions["!event"] = cmdUnevent
 
 	for e := range events {
 		go events[e].Init()
 	}
 }
 
-var args *parameters.Arguments = &parameters.Arguments{
-	AllowAdditional: true,
-	Flags: map[string]string{
-		"-t": "--timer",
-		"-f": "--filesystem",
-		"-k": "--key-press",
-		//"-c": "--command",
-		//"-i": "--interrupt",
-
-		"--timer":      types.Boolean,
-		"--filesystem": types.Boolean,
-		"--key-press":  types.Boolean,
-		//"--command":    types.Boolean,
-		//"--interrupt": types.Boolean,
-	},
-}
+var rxNameInterruptSyntax *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*)$`)
 
 type eventType interface {
 	Init()
-	Add(interrupt string, block []rune) (err error)
+	Add(name, interrupt string, block []rune) (err error)
 	Remove(interrupt string) (err error)
 	Dump() (dump interface{})
 }
 
-var events map[string]eventType = map[string]eventType{
-	"--filesystem": newWatch(),
-	"--timer":      newTimer(),
-	"--key-press":  newKeyPress(),
+var events map[string]eventType = make(map[string]eventType)
+
+//"onFilesystemChange":  newWatch(),
+
+func AddEventType(eventTypeName string, handlerInterface eventType) {
+	events[eventTypeName] = handlerInterface
 }
 
 func cmdEvent(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	flags, params, err := p.Parameters.ParseFlags(args)
+	et, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	if len(flags) == 0 {
-		return errors.New("Missing flag defining event type")
+	if events[et] == nil {
+		return fmt.Errorf("No event-type known for `%s`.\nRun `runtime --events` to view which events are compiled in.", et)
 	}
 
-	if len(flags) > 1 {
-		return errors.New("Only 1 (one) event type flag can be used per command")
+	nameInterrupt, err := p.Parameters.String(1)
+	if err != nil {
+		return err
 	}
 
-	var et string
-	for s := range flags {
-		et = s
+	split := rxNameInterruptSyntax.FindAllStringSubmatch(nameInterrupt, 1)
+	if len(split) != 1 || len(split[0]) != 3 {
+		return errors.New("Invalid syntax: " + nameInterrupt + ". Expected: `name=interrupt`.")
 	}
 
-	if len(params) < 2 {
-		return errors.New("Too few parameters. You need to include interrupts to listen for and a callback code block")
+	name := split[0][1]
+	interrupt := split[0][2]
+
+	block, err := p.Parameters.Block(2)
+	if err != nil {
+		return err
 	}
 
-	//block := []rune(params[len(params)-1])
-	block, _ := types.ConvertGoType(params[len(params)-1], types.CodeBlock)
-	//if err != nil {
-	//	return err
-	//}
-
-	params = params[:len(params)-1]
-	//if !types.IsBlock([]byte(string(block))) {
-	//	return errors.New("Callback parameter is not a code block")
-	//}
-
-	var errs string
-	for _, a := range params {
-		err := events[et].Add(a, []rune(block.(string)))
-		if err != nil {
-			errs += " {interrupt: " + a + ", err: " + err.Error() + "}"
-		}
-	}
-
-	if errs != "" {
-		err = errors.New(errs)
-	}
-
+	err = events[et].Add(name, interrupt, block)
 	return err
 }
 
-func cmdUnevent(p *proc.Process) error {
+/*func cmdUnevent(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	flags, params, err := p.Parameters.ParseFlags(args)
@@ -142,7 +113,7 @@ func cmdUnevent(p *proc.Process) error {
 	}
 
 	return err
-}
+}*/
 
 type j struct {
 	Interrupt   string
@@ -150,7 +121,7 @@ type j struct {
 	Description string
 }
 
-func callback(evtName string, evtOp interface{}, evtDesc string, block []rune, stdout stdio.Io) {
+func Callback(evtName string, evtOp interface{}, evtDesc string, block []rune, stdout stdio.Io) {
 	//go func() {
 	json, err := utils.JsonMarshal(&j{
 		Interrupt:   evtName,

@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"sort"
 
-	"github.com/lmorg/murex/builtins/core/events"
+	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"

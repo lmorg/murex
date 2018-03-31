@@ -1,15 +1,21 @@
-package events
+package onSecondsElapsed
 
 import (
 	"errors"
 	"fmt"
-	"regexp"
 	"strconv"
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang/proc"
 )
+
+func init() {
+	events.AddEventType(eventType, newTimer())
+}
+
+const eventType = "onSecondsElapsed"
 
 type timer struct {
 	error  error
@@ -30,17 +36,12 @@ func newTimer() (t *timer) {
 	return
 }
 
-var rxTimerSyntax *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=([0-9]+)$`)
-
 // Add a path to the watch event list
-func (t *timer) Add(param string, block []rune) (err error) {
-	split := rxTimerSyntax.FindAllStringSubmatch(param, 1)
-	if len(split) != 1 || len(split[0]) != 3 {
-		return errors.New("Invalid syntax: " + param + ". Expected: `name=duration` where duration is an integer.")
+func (t *timer) Add(name, interrupt string, block []rune) (err error) {
+	interval, err := strconv.Atoi(interrupt)
+	if err != nil {
+		return errors.New("Interrupt should be an integer for `" + eventType + "` events.")
 	}
-
-	name := split[0][1]
-	interval, _ := strconv.Atoi(split[0][2])
 
 	t.mutex.Lock()
 	defer t.mutex.Unlock()
@@ -100,7 +101,7 @@ func (t *timer) Init() {
 			t.events[i].state++
 			if t.events[i].state == t.events[i].Interval {
 				t.events[i].state = 0
-				go callback(
+				go events.Callback(
 					t.events[i].Name,
 					t.events[i].Interval,
 					fmt.Sprintf("%s=%d", t.events[i].Name, t.events[i].Interval),
