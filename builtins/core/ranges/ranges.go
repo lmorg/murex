@@ -1,13 +1,12 @@
 package ranges
 
 import (
-	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types/define"
-
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -29,7 +28,7 @@ type rangeFuncs interface {
 }
 
 func cmdRange(p *proc.Process) (err error) {
-	const usage = "\nUsage: @[start..end] /  @[start..end]e\n(start or end can be omitted)"
+	const usage = "\nUsage: @[start..end] /  @[start..end]se\n(start or end can be omitted)"
 
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
@@ -56,10 +55,10 @@ func cmdRange(p *proc.Process) (err error) {
 	}
 
 	if len(split[3]) > 1 {
-		return fmt.Errorf("Invalid syntax: you cannot combile the following flags: %s.%s", split[3], usage)
+		return fmt.Errorf("Invalid syntax: you cannot combine the following flags: %s.%s", split[3], usage)
 	}
 
-	debug.Json("split", split)
+	//debug.Json("split", split)
 
 	var array []string
 
@@ -68,19 +67,24 @@ func cmdRange(p *proc.Process) (err error) {
 		err = newRegexp(r)
 
 	case "s":
+		err = newString(r)
+
+	case "n":
 		fallthrough
 
 	default:
-		err = newString(r)
+		err = newNumber(r)
 	}
 
 	if err != nil {
 		return err
 	}
 
-	array, err = readArray(p, r)
-	if err != nil {
-		return err
+	if len(array) == 0 {
+		array, err = readArray(p, r)
+		if err != nil {
+			return err
+		}
 	}
 
 	b, err := define.MarshalData(p, dt, array)
