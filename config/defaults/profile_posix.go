@@ -1,16 +1,11 @@
+// +build !windows
+
 package defaults
 
 // DefaultMurexProfile is basically just the contents of the example murex_profile but wrapped up in Go code so it can
 // be compiled into the portable executable. This is also done to make things a little more user friendly out of the box
 // ie people don't need to create their own ~/.murex_profile nor `source` the file in /examples.
 const DefaultMurexProfile string = `
-# This is an example murex profile.
-#
-# This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via ` + "`source`" + `:
-# » source examples/murex_profile
-# or installed to auto start with murex:
-# » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
-
 func h {
     # Output the murex history log in a human readable format
     history -> foreach { -> [ Index Block ] -> sprintf: "%6s: %s\n" }
@@ -22,6 +17,12 @@ func aliases {
         $key -> sprintf: "%-10s { ${ $val -> sprintf: %s %s } }\n"
     }
 }
+
+alias ls=ls --color=auto
+alias grep=grep --color=auto
+
+config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
+config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
 
 autocomplete set cd { [{
     "IncDirs": true
@@ -105,20 +106,7 @@ autocomplete get -> [ murex-runtime ] -> autocomplete set runtime
 
 autocomplete set event { [
     {
-        "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } }",
-        "FlagValues": {
-            "--filesystem": [{
-                "IncFiles": true,
-                "AllowMultiple": true
-            }],
-            "--timer": [{
-                "AnyValue": true,
-                "AllowMultiple": true
-            }]
-        }
-    },
-    {
-        "Flags": [ "{}" ]
+        "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } }"
     }
 ] }
 
@@ -127,8 +115,7 @@ autocomplete set !event { [
         "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } -> sort }"
     },
     {
-        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[0] } ] -> formap k v { out $k } -> sort }",
-        "AllowMultiple": true
+        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }"
     }
 ] }
 
@@ -166,9 +153,13 @@ autocomplete set dd { [{
     "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
 }] }
 
-autocomplete set go { [{
-    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ]
-}] }
+autocomplete set go { [
+    { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
+    {
+        "Dynamic": "{ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }",
+        "AutoBranch": true
+    }
+] }
 
 autocomplete set git { [{
     "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ],
@@ -242,33 +233,9 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
-os -> set os
-
-if { = os!=` + "`windows`" + ` } {
-    alias ls=ls --color=auto
-    alias grep=grep --color=auto
-
-    config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
-    config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
-
-    autocomplete set go {
-        [
-            { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
-            {
-                "Dynamic": "{ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }",
-                "AutoBranch": true
-            }
-        ]
-    }
-
-    func getHostsFile {
-        # Parse the hosts file and return uniq host names and IPs
-        egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
-    }
-
-} {
-    #config set shell prompt { out "${pwd -> regexp 'f#[^\\]+$#'} » " }
-    #func getHostsFile { text C:/WINDOWS/system32/drivers/etc/hosts -> !regex "m/^#/" -> regex "s/[\s\t]+/\n/" -> sort }
+func getHostsFile {
+    # Parse the hosts file and return uniq host names and IPs
+    egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
 }
 
 tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
