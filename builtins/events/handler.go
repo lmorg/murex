@@ -11,14 +11,7 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 )
 
-func init() {
-	for e := range events {
-		go events[e].Init()
-	}
-}
-
 type eventType interface {
-	Init()
 	Add(name, interrupt string, block []rune) (err error)
 	Remove(interrupt string) (err error)
 	Dump() (dump interface{})
@@ -32,18 +25,16 @@ func AddEventType(eventTypeName string, handlerInterface eventType) {
 }
 
 type j struct {
-	Interrupt   string
-	Event       interface{}
-	Description string
+	Name      string
+	Interrupt interface{}
 }
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistant.
-func Callback(evtName string, evtOp interface{}, evtDesc string, block []rune, stdout stdio.Io) {
+func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io) {
 	json, err := utils.JsonMarshal(&j{
-		Interrupt:   evtName,
-		Event:       evtOp,
-		Description: evtDesc,
+		Name:      name,
+		Interrupt: interrupt,
 	}, false)
 	if err != nil {
 		ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())

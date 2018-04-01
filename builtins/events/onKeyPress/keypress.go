@@ -17,6 +17,12 @@ func init() {
 	events.AddEventType(eventType, newKeyPress())
 }
 
+type Interrupt struct {
+	Line        string
+	Pos         int
+	KeySequence string
+}
+
 type keyPressEvent struct {
 	name   string
 	keySeq string
@@ -29,10 +35,6 @@ type keyPressEvents struct {
 
 func newKeyPress() *keyPressEvents {
 	return new(keyPressEvents)
-}
-
-func (evt *keyPressEvents) Init() {
-	// Nothing to do
 }
 
 // Add a key to the event list
@@ -93,11 +95,15 @@ func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool
 eventFound:
 	block := evt.events[i].block
 
-	stdout := streams.NewStdin()
-	events.Callback(keyPress, pos, string(line), block, stdout)
-	defer stdout.Close()
+	interrupt := Interrupt{
+		Line:        string(line),
+		Pos:         pos,
+		KeySequence: keyPress,
+	}
 
-	//fmt.Print(stdout.GetDataType(), "<--\r\n")
+	stdout := streams.NewStdin()
+	events.Callback(evt.events[i].name, interrupt, block, stdout)
+	defer stdout.Close()
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
@@ -106,8 +112,6 @@ eventFound:
 	if err != nil {
 		return false, false, []rune("Callback error: " + err.Error())
 	}
-
-	//fmt.Print(ret, stdout.GetDataType(), "<-\r\n")
 
 	ignoreKey, err := types.ConvertGoType(ret["IgnoreKey"], types.Boolean)
 	if err != nil {

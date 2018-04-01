@@ -2,7 +2,6 @@ package onSecondsElapsed
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"sync"
 	"time"
@@ -11,11 +10,13 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 )
 
-func init() {
-	events.AddEventType(eventType, newTimer())
-}
-
 const eventType = "onSecondsElapsed"
+
+func init() {
+	t := newTimer()
+	events.AddEventType(eventType, t)
+	go t.init()
+}
 
 type timer struct {
 	error  error
@@ -34,6 +35,27 @@ func newTimer() (t *timer) {
 	t = new(timer)
 	t.events = make([]timeEvent, 0)
 	return
+}
+
+func (t *timer) init() {
+	for {
+		time.Sleep(1 * time.Second)
+
+		t.mutex.Lock()
+		for i := range t.events {
+			t.events[i].state++
+			if t.events[i].state == t.events[i].Interval {
+				t.events[i].state = 0
+				go events.Callback(
+					t.events[i].Name,
+					t.events[i].Interval,
+					t.events[i].Block,
+					proc.ShellProcess.Stdout,
+				)
+			}
+		}
+		t.mutex.Unlock()
+	}
 }
 
 // Add a path to the watch event list
@@ -91,43 +113,18 @@ func (t *timer) Remove(name string) (err error) {
 	return errors.New("No event found for this listener with the name `" + name + "`.")
 }
 
-// Init starts a new watch event loop
-func (t *timer) Init() {
-	for {
-		time.Sleep(1 * time.Second)
-
-		t.mutex.Lock()
-		for i := range t.events {
-			t.events[i].state++
-			if t.events[i].state == t.events[i].Interval {
-				t.events[i].state = 0
-				go events.Callback(
-					t.events[i].Name,
-					t.events[i].Interval,
-					fmt.Sprintf("%s=%d", t.events[i].Name, t.events[i].Interval),
-					t.events[i].Block,
-					proc.ShellProcess.Stdout,
-				)
-			}
-		}
-		t.mutex.Unlock()
-	}
-}
-
 // Dump returns all the events in w
 func (t *timer) Dump() interface{} {
 	type te struct {
-		Name     string
 		Interval int
 		Block    string
 	}
 
 	t.mutex.Lock()
-	dump := make([]te, len(t.events))
+	dump := make(map[string]te)
 
 	for i := range t.events {
-		dump[i] = te{
-			Name:     t.events[i].Name,
+		dump[t.events[i].Name] = te{
 			Interval: t.events[i].Interval,
 			Block:    string(t.events[i].Block),
 		}

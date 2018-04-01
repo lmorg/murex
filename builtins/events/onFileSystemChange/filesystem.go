@@ -1,4 +1,4 @@
-package event-fs
+package onFileSystemChange
 
 import (
 	"os"
@@ -6,10 +6,18 @@ import (
 	"sync"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils/ansi"
 )
+
+const eventType = "onFileSystemChange"
+
+func init() {
+	w := newWatch()
+	events.AddEventType(eventType, w)
+	w.init()
+}
 
 type watch struct {
 	watcher  *fsnotify.Watcher
@@ -51,10 +59,38 @@ func (w *watch) callback(path string) (block []rune) {
 		default:
 			path = strings.Join(split[:len(split)-1], "/")
 		}
-		debug.Log("path=" + path)
 	}
 
 	return
+}
+
+// Init starts a new watch event loop
+func (w *watch) init() {
+	defer w.watcher.Close()
+
+type Interrupt struct {
+	Object: string
+	Operation: string
+}
+
+	for {
+		select {
+		case event := <-w.watcher.Events:
+
+			go callback(
+				"bob",
+				Interrupt{
+					Object: event.Name,
+					Operation:event.Op.String(),
+				},
+				w.callback(event.Name),
+				proc.ShellProcess.Stdout,
+			)
+
+		case err := <-w.watcher.Errors:
+			ansi.Stderrln(ansi.FgRed, "error in watcher: "+err.Error())
+		}
+	}
 }
 
 // Add a path to the watch event list
@@ -99,33 +135,6 @@ func (w *watch) Remove(path string) (err error) {
 	}
 
 	return
-}
-
-// Init starts a new watch event loop
-func (w *watch) Init() {
-	defer w.watcher.Close()
-
-	for {
-		select {
-		case event := <-w.watcher.Events:
-			debug.Log("Event:", event)
-
-			go callback(
-				event.Name,
-				event.Op,
-				event.String(),
-				w.callback(event.Name),
-				proc.ShellProcess.Stdout,
-			)
-
-			//if Event.Op&fsnotify.Write == fsnotify.Write {
-			//	debug.Log("modified file:", Event.Name)
-			//}
-
-		case err := <-w.watcher.Errors:
-			ansi.Stderrln(ansi.FgRed, "error in watcher: "+err.Error())
-		}
-	}
 }
 
 // Dump returns all the events in w
