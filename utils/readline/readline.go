@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"github.com/lmorg/murex/utils/readline/terminal"
 )
 
 // Readline displays the readline prompt.

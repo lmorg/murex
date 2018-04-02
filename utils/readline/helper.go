@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"github.com/lmorg/murex/utils/readline/terminal"
 )
 
 func getTermWidth() {
