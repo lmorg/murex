@@ -50,10 +50,12 @@ type Instance struct {
 	HintText func([]rune, int) []rune
 
 	// readline operating parameters
-	prompt    string //  = ">>> "
-	promptLen int    //= 4
-	line      []rune
-	pos       int
+	prompt     string //  = ">>> "
+	promptLen  int    //= 4
+	line       []rune
+	pos        int
+	multiline  []byte
+	multisplit []string
 
 	// history
 	lineBuf []rune

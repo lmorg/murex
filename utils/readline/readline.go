@@ -4,9 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 	"unicode/utf8"
 )
+
+var rxMultiline *regexp.Regexp = regexp.MustCompile(`[\r\n]+`)
 
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
@@ -26,15 +29,50 @@ func (rl *Instance) Readline() (string, error) {
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 
+	if len(rl.multisplit) > 0 {
+		b := []byte(rl.multisplit[0])
+		rl.editorInput(b)
+		rl.carridgeReturn()
+		if len(rl.multisplit) > 1 {
+			rl.multisplit = rl.multisplit[1:]
+		} else {
+			rl.multisplit = []string{}
+		}
+		return string(rl.line), nil
+	}
+
 	for {
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024)
+
 		i, err := os.Stdin.Read(b)
 		if err != nil {
 			return "", err
 		}
 
+		if isMultiline(b[:i]) || len(rl.multiline) > 0 {
+			rl.multiline = append(rl.multiline, b[:i]...)
+			if i == len(b) {
+				continue
+			}
+
+			s := string(rl.multiline)
+			rl.multisplit = rxMultiline.Split(s, -1)
+
+			b = []byte(rl.multisplit[0])
+			rl.editorInput(b)
+			rl.carridgeReturn()
+			rl.multiline = []byte{}
+			if len(rl.multisplit) > 1 {
+				rl.multisplit = rl.multisplit[1:]
+			} else {
+				rl.multisplit = []string{}
+			}
+			return string(rl.line), nil
+		}
+
 		s := string(b[:i])
+
 		if rl.evtKeyPress[s] != nil {
 			ignoreKey, closeReadline, hintText := rl.evtKeyPress[s](s, rl.line, rl.pos)
 			//getTermWidth()
@@ -95,14 +133,7 @@ func (rl *Instance) Readline() (string, error) {
 				rl.insert([]byte(rl.tcSuggestions[cell]))
 				continue
 			}
-			rl.clearHintText()
-			fmt.Print("\r\n")
-			if rl.HistoryAutoWrite {
-				rl.histPos, err = rl.History.Write(string(rl.line))
-				if err != nil {
-					fmt.Print(err.Error() + "\r\n")
-				}
-			}
+			rl.carridgeReturn()
 			return string(rl.line), nil
 
 		case charBackspace:
@@ -192,6 +223,9 @@ func (rl *Instance) escapeSeq(b []byte) {
 		moveCursorForwards(len(rl.line) - rl.pos)
 		rl.pos = len(rl.line)
 		rl.viUndoSkipAppend = true
+
+	default:
+		rl.viUndoSkipAppend = true
 	}
 }
 
@@ -247,4 +281,25 @@ func (rl *Instance) SetPrompt(s string) {
 
 	s = rxAnsiEscSeq.ReplaceAllString(s, "")
 	rl.promptLen = utf8.RuneCountInString(s)
+}
+
+func (rl *Instance) carridgeReturn() {
+	rl.clearHintText()
+	fmt.Print("\r\n")
+	if rl.HistoryAutoWrite {
+		var err error
+		rl.histPos, err = rl.History.Write(string(rl.line))
+		if err != nil {
+			fmt.Print(err.Error() + "\r\n")
+		}
+	}
+}
+
+func isMultiline(b []byte) bool {
+	for i := range b {
+		if (b[i] == '\r' || b[i] == '\n') && i != len(b)-1 {
+			return true
+		}
+	}
+	return false
 }
