@@ -56,6 +56,11 @@ func (rl *Instance) Readline() (string, error) {
 				continue
 			}
 
+			if !rl.allowMultiline(len(rl.multiline)) {
+				rl.multiline = []byte{}
+				continue
+			}
+
 			s := string(rl.multiline)
 			rl.multisplit = rxMultiline.Split(s, -1)
 
@@ -302,4 +307,34 @@ func isMultiline(b []byte) bool {
 		}
 	}
 	return false
+}
+
+func (rl *Instance) allowMultiline(size int) bool {
+	fmt.Printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", size)
+	for {
+		fmt.Print("\r\nDo you wish to proceed? [y/n] ")
+
+		b := make([]byte, 1024)
+
+		i, err := os.Stdin.Read(b)
+		if err != nil {
+			return false
+		}
+
+		s := string(b[:i])
+		fmt.Print(s)
+
+		switch s {
+		case "y", "Y":
+			fmt.Print("\r\n" + rl.prompt)
+			return true
+
+		case "n", "N":
+			fmt.Print("\r\n" + rl.prompt)
+			return false
+
+		default:
+			fmt.Print("\r\nInvalid responce. Please answer `y` (yes) or `n` (no).")
+		}
+	}
 }
