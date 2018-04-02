@@ -6,19 +6,17 @@ import (
 	"os"
 	"strings"
 	"unicode/utf8"
-
-	"github.com/lmorg/murex/utils/readline/terminal"
 )
 
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
 func (rl *Instance) Readline() (string, error) {
 	fd := int(os.Stdin.Fd())
-	state, err := terminal.MakeRaw(fd)
+	state, err := MakeRaw(fd)
 	if err != nil {
 		return "", err
 	}
-	defer terminal.Restore(fd, state)
+	defer Restore(fd, state)
 
 	fmt.Print(rl.prompt)
 

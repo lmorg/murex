@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/lmorg/murex/utils/readline/terminal"
 )
 
 func getTermWidth() {
 	var err error
 	fd := int(os.Stdout.Fd())
-	termWidth, _, err = terminal.GetSize(fd)
+	termWidth, _, err = GetSize(fd)
 	if err != nil {
 		termWidth = 100
 	}
