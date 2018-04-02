@@ -3,13 +3,11 @@
 package autocomplete
 
 import (
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
+	"io/ioutil"
+	"strings"
+
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
-	"io/ioutil"
-	"sort"
-	"strings"
 )
 
 func splitPath(envPath string) []string {

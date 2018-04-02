@@ -10,11 +10,10 @@ func pull {
 
 try {
 	# required
-	#pull github.com/chzyer/readline
-	#pull github.com/gohxs/readline
 	#pull github.com/lmorg/readline
 	pull github.com/Knetic/govaluate
 	pull github.com/phayes/permbits
+	pull golang.org/x/sys/unix
 
 	# events
 	pull github.com/fsnotify/fsnotify

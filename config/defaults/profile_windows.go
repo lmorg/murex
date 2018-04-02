@@ -86,7 +86,7 @@ autocomplete set !event { [
         "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } -> sort }"
     },
     {
-        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[0] } ] -> formap k v { out $k } -> sort }",
+        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[0] } ] -> formap k v { out $k } -> sort }"
     }
 ] }
 

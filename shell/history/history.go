@@ -1,6 +1,8 @@
 package history
 
 import (
+	"errors"
+
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 
@@ -68,7 +70,7 @@ func (h *History) Write(s string) (int, error) {
 		Index:    len(h.list),
 	}
 
-	if h.list[len(h.list)-1].Block != block {
+	if len(h.list) > 0 && h.list[len(h.list)-1].Block != block {
 		h.list = append(h.list, item)
 	}
 
@@ -101,7 +103,13 @@ func (h *History) Close() {
 }*/
 
 func (h *History) GetLine(i int) (string, error) {
-	return h.list[i].Block, nil
+	if i < 0 {
+		return "", errors.New("Cannot use a negative index when requsting historic commands")
+	}
+	if i < len(h.list) {
+		return h.list[i].Block, nil
+	}
+	return "", errors.New("Index requested greater than number of items in history")
 }
 
 func (h *History) Len() int {

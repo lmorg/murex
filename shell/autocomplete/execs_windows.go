@@ -3,17 +3,19 @@
 package autocomplete
 
 import (
-	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
-	"os"
 	"sort"
 	"strings"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 func listExes(path string, exes map[string]bool) {
 	var showExts bool
 
-	v, err := proc.GlobalConf.Get("shell", "show-exts", types.Boolean)
+	v, err := proc.ShellProcess.Config.Get("shell", "show-exts", types.Boolean)
 	if err != nil {
 		showExts = false
 	} else {
