@@ -2,6 +2,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
@@ -17,16 +18,18 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 
 	var (
 		// Current state
-		lineNumber               int
-		colNumber                int
-		last                     rune
-		commentLine              bool
-		escaped                  bool
-		quoteSingle, quoteDouble bool
-		braceCount               int
-		unclosedIndex            bool
-		ignoreWhitespace         bool = true
-		scanFuncName             bool = true
+		lineNumber       int
+		colNumber        int
+		last             rune
+		commentLine      bool
+		escaped          bool
+		quoteSingle      bool
+		quoteDouble      bool
+		braceCount       int
+		unclosedIndex    bool
+		ignoreWhitespace bool = true
+		scanFuncName     bool = true
+		ansiConstant     string
 
 		// Parsed thus far
 		node   astNode                = astNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
@@ -252,6 +255,11 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case quoteDouble:
 				quoteDouble = false
+				if len(ansiConstant) > 0 {
+					pop = &pToken.Key
+					*pop += ansiConstant
+					ansiConstant = ""
+				}
 			default:
 				pToken.Type = parameters.TokenTypeValue
 				quoteDouble = true
@@ -338,6 +346,9 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+			case quoteDouble && !scanFuncName:
+				pop = &ansiConstant
+				pUpdate(r)
 			case quoteSingle, quoteDouble:
 				pUpdate(r)
 			case scanFuncName:
@@ -355,6 +366,16 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+			case quoteDouble && len(ansiConstant) > 0:
+				pUpdate(r)
+				pop = &pToken.Key
+				b := ansi.Constants[ansiConstant[1:len(ansiConstant)-1]]
+				if len(b) > 0 {
+					*pop += string(b)
+				} else {
+					*pop += ansiConstant
+				}
+				ansiConstant = ""
 			case quoteSingle, quoteDouble:
 				pUpdate(r)
 			case scanFuncName:
