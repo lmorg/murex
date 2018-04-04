@@ -27,7 +27,7 @@ type History interface {
 	Dump() interface{}
 }
 
-// An example of a LineHistory interface:
+// ExampleHistory is an example of a LineHistory interface:
 type ExampleHistory struct {
 	items []string
 }
@@ -53,8 +53,8 @@ func (h *ExampleHistory) Dump() interface{} {
 	return h.items
 }
 
-// A null History interface for when you don't want to line entries remembered
-// eg password input.
+// NullHistory is a null History interface for when you don't want to line
+// entries remembered eg password input.
 type NullHistory struct{}
 
 // Write to history
@@ -78,7 +78,6 @@ func (h *NullHistory) Dump() interface{} {
 }
 
 // Browse historic lines:
-
 func (rl *Instance) walkHistory(i int) {
 	switch rl.histPos + i {
 	case -1, rl.History.Len() + 1:
