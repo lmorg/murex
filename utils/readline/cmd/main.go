@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/lmorg/murex/utils/readline"
 	"strings"
+
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func main() {
@@ -21,6 +22,7 @@ func main() {
 	}
 }
 
+// Tab is the tab-completion handler for this readline example program
 func Tab(line []rune, pos int) (string, []string) {
 	items := []string{
 		"aa",

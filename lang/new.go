@@ -55,7 +55,7 @@ func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, cal
 	)
 }
 
-// RunBlockExistingNamespace is for code blocks as parameters (eg `formap {}`)
+// RunBlockExistingNamespacePlusVars is for code blocks as parameters (eg `formap {}`)
 // where you additionally need to set variables inside the new running block.
 // This is sometimes nessisary but is a discurraged as it breaks the functional
 // paradigm.

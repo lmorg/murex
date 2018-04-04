@@ -17,8 +17,11 @@ import (
 )
 
 var (
+	// Interactive describes whether murex is running as an interactive shell or not
 	Interactive bool
-	Prompt      *readline.Instance = readline.NewInstance()
+
+	// Prompt is the readline instance
+	Prompt *readline.Instance = readline.NewInstance()
 )
 
 // Start the interactive shell

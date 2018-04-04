@@ -68,7 +68,7 @@ func GetManPages(exe string) []string {
 	return strings.Split(s, ":")
 }
 
-// ParseForFlags runs the parser to locate any flags with hyphen prefixes
+// ParseFlags runs the parser to locate any flags with hyphen prefixes
 func ParseFlags(paths []string) (flags []string) {
 	// Parse man pages
 	fMap := make(map[string]bool)

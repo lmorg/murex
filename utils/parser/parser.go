@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"github.com/lmorg/murex/utils/ansi"
 	"regexp"
+
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 // syntax highlighting
@@ -19,6 +20,7 @@ var (
 	rxAllowedVarChars *regexp.Regexp = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 )
 
+// ParsedTokens is a struct that returns a tokenized version of the selected command
 type ParsedTokens struct {
 	Loc         int
 	VarLoc      int
@@ -33,6 +35,7 @@ type ParsedTokens struct {
 	Variable    string
 }
 
+// Parse a single line of code and return the tokens for a selected command
 func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	var readFunc bool
 	reset := []string{ansi.Reset, hlFunction}

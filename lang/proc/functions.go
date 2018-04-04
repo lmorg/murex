@@ -84,7 +84,7 @@ func (fn *MurexFuncs) Block(name string) (block []rune, err error) {
 	return block, err
 }
 
-// Block returns functions digest
+// Digest returns functions digest
 func (fn *MurexFuncs) Digest(name string) (digest string, err error) {
 	fn.mutex.Lock()
 	defer fn.mutex.Unlock()

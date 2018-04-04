@@ -15,6 +15,7 @@ func init() {
 	proc.GoFunctions["murex-docs"] = cmdMurexDocs
 }
 
+// Definition stores the definitions for builtins
 var Definition map[string]string = make(map[string]string)
 
 func cmdMurexDocs(p *proc.Process) error {

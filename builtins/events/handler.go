@@ -30,7 +30,7 @@ type j struct {
 }
 
 // Callback is a generic function your event handlers types should hook into so
-// murex functions can remain consistant.
+// murex functions can remain consistent.
 func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io) {
 	json, err := utils.JsonMarshal(&j{
 		Name:      name,

@@ -122,7 +122,7 @@ func writeGoDigests(filename string) {
 		os.Exit(1)
 	}
 
-	_, err = f.WriteString("package docs\n\nvar Digest map[string]string = map[string]string{\n")
+	_, err = f.WriteString("package docs\n\n// Digest stores a 1 line summary of each builtins\nvar Digest map[string]string = map[string]string{\n")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -158,7 +158,7 @@ func writeGoSynonyms(filename string) {
 		os.Exit(1)
 	}
 
-	_, err = f.WriteString("package docs\n\nvar Synonym map[string]string = map[string]string{\n")
+	_, err = f.WriteString("package docs\n\n//Synonym is used for builtins that might have more than one internal alias\nvar Synonym map[string]string = map[string]string{\n")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
