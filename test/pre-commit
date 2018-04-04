@@ -27,7 +27,7 @@ rm $docs/*
 gen-murex-docs -v -src builtins -dest $docs -gocode $cdocs || exit 1
 
 echo "Formatting autogen docs...."
-go fmt $cdocs/*
+go fmt $cdocs/*.go
 
 echo "Updating git...."
 find -name "*_string.go" -exec git add -v {} \;

@@ -1,5 +1,5 @@
 package docs
 
 func init() {
-Definition[`>`] = `H4sIAAAAAAAA/4yQQUvDQBSE7/srBnKoFtsfUGQvFqQgHqziQaRZs5PwMNkNuy+m/nuJIXgQwfN733zMFDh1Q+L5hDsXmsE1xO0gnsYUBW5i17ngkVgzMVTcwRpj8ZxEmXF83B/uoRFe8js2iB9MYxKV0KCKQRk0Q2rU0hKuTXT+EzxL1jzFF9gzV0l6lRiMeaCXxEoz4qD9oFPwRG7n36fsGhoDANdZvQSLjYX9fgmu45KoTtpszBqHGm5W+8gcVjqrr+AQOM6XUdoWb0SV6JT+F7Ugoqv8U2mhlr7KMNuPnHrmOOlfSmvL1wtrt52/3P01met7Bv+fwdYoe+lZmi8AAAD//w==`
+	Definition[`>`] = `H4sIAAAAAAAA/4yQQUvDQBSE7/srBnKoFtsfUGQvFqQgHqziQaRZs5PwMNkNuy+m/nuJIXgQwfN733zMFDh1Q+L5hDsXmsE1xO0gnsYUBW5i17ngkVgzMVTcwRpj8ZxEmXF83B/uoRFe8js2iB9MYxKV0KCKQRk0Q2rU0hKuTXT+EzxL1jzFF9gzV0l6lRiMeaCXxEoz4qD9oFPwRG7n36fsGhoDANdZvQSLjYX9fgmu45KoTtpszBqHGm5W+8gcVjqrr+AQOM6XUdoWb0SV6JT+F7Ugoqv8U2mhlr7KMNuPnHrmOOlfSmvL1wtrt52/3P01met7Bv+fwdYoe+lZmi8AAAD//w==`
 }
