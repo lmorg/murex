@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"os"
@@ -56,7 +57,7 @@ func (rl *Instance) Readline() (string, error) {
 				continue
 			}
 
-			if !rl.allowMultiline(len(rl.multiline)) {
+			if !rl.allowMultiline(rl.multiline) {
 				rl.multiline = []byte{}
 				continue
 			}
@@ -309,10 +310,10 @@ func isMultiline(b []byte) bool {
 	return false
 }
 
-func (rl *Instance) allowMultiline(size int) bool {
-	fmt.Printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", size)
+func (rl *Instance) allowMultiline(data []byte) bool {
+	fmt.Printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", len(data))
 	for {
-		fmt.Print("\r\nDo you wish to proceed? [y/n] ")
+		fmt.Print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
 
 		b := make([]byte, 1024)
 
@@ -333,8 +334,12 @@ func (rl *Instance) allowMultiline(size int) bool {
 			fmt.Print("\r\n" + rl.prompt)
 			return false
 
+		case "p", "P":
+			preview := bytes.Replace(data, []byte{'\r'}, []byte{'\r', '\n'}, -1)
+			fmt.Print("\r\n" + string(preview))
+
 		default:
-			fmt.Print("\r\nInvalid responce. Please answer `y` (yes) or `n` (no).")
+			fmt.Print("\r\nInvalid response. Please answer `y` (yes), `n` (no) or `p` (preview)")
 		}
 	}
 }
