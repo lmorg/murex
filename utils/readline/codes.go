@@ -9,7 +9,7 @@ const (
 	charCtrlE
 	charCtrlF
 	charCtrlG
-	charCtrlH
+	charBackspace // ISO 646
 	charTab
 	charCtrlJ
 	charCtrlK
@@ -28,11 +28,8 @@ const (
 	charCtrlX
 	charCtrlY
 	charCtrlZ
-)
-
-const (
-	charBackspace = 127
-	charEscape    = 27
+	charEscape
+	charBackspace2 = 127 // ASCII 1963
 )
 
 // Escape sequences

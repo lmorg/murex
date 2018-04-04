@@ -142,7 +142,7 @@ func (rl *Instance) Readline() (string, error) {
 			rl.carridgeReturn()
 			return string(rl.line), nil
 
-		case charBackspace:
+		case charBackspace, charBackspace2:
 			rl.backspace()
 
 		case charEscape:
