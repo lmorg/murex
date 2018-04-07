@@ -16,13 +16,13 @@ func (rl *Instance) tabCompletion() {
 		return
 	}
 
-	if len(rl.tcSuggestions) == 1 && !rl.modeTabGrid {
+	/*if len(rl.tcSuggestions) == 1 && !rl.modeTabGrid {
 		if len(rl.tcSuggestions[0]) == 0 || rl.tcSuggestions[0] == " " || rl.tcSuggestions[0] == "\t" {
 			return
 		}
 		rl.insert([]byte(rl.tcSuggestions[0]))
 		return
-	}
+	}*/
 
 	rl.initTabGrid()
 	rl.renderSuggestions()

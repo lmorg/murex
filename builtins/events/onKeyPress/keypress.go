@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/builtins/events"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
@@ -84,6 +85,9 @@ func (evt *keyPressEvents) Remove(name string) error {
 }
 
 func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool, []rune) {
+	debug.Log("EVENTS: -----> callback")
+	defer debug.Log("EVENTS: callback ----->")
+
 	var i int
 
 	for i = range evt.events {
@@ -94,6 +98,7 @@ func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool
 	return false, false, nil
 
 eventFound:
+	debug.Json("event found", evt.events[i])
 	block := evt.events[i].block
 
 	interrupt := Interrupt{
@@ -104,7 +109,7 @@ eventFound:
 
 	stdout := streams.NewStdin()
 	events.Callback(evt.events[i].name, interrupt, block, stdout)
-	defer stdout.Close()
+	stdout.Close()
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
