@@ -281,6 +281,8 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 
 		case '(':
 			switch {
+			case braceCount > 0:
+				pUpdate(r)
 			case escaped:
 				pUpdate(r)
 				escaped = false
@@ -289,12 +291,18 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			case quoteBrace > 0:
 				pUpdate(r)
 				quoteBrace++
+			case scanFuncName:
+				pUpdate(r)
+				startParameters()
+				quoteBrace++
 			default:
 				quoteBrace++
 			}
 
 		case ')':
 			switch {
+			case braceCount > 0:
+				pUpdate(r)
 			case escaped:
 				pUpdate(r)
 				escaped = false

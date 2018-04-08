@@ -110,12 +110,22 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 			return append(line, '"'), pos
 		}
 
-	case pt.Bracket > 0:
+	case pt.QuoteBrace > 0:
+		if pos < len(line)-1 || line[pos] != '(' {
+			return append(line, ')'), pos
+		}
+
+	case pt.QuoteBrace < 0:
+		if line[pos] == ')' && line[len(line)-1] == ')' && pos != len(line)-1 {
+			return line[:len(line)-1], pos
+		}
+
+	case pt.NestedBlock > 0:
 		if pos < len(line)-1 || line[pos] != '{' {
 			return append(line, '}'), pos
 		}
 
-	case pt.Bracket < 0:
+	case pt.NestedBlock < 0:
 		if line[pos] == '}' && line[len(line)-1] == '}' && pos != len(line)-1 {
 			return line[:len(line)-1], pos
 		}

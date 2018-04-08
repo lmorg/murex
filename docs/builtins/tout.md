@@ -20,6 +20,10 @@ Write parameters to STDOUT and cast the output's data-type.
         "Message": "Page not found"
     }
 
+### Details
+
+`tout` supports ANSI constants.
+
 ### See also
 
 * `cast`

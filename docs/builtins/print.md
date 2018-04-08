@@ -25,6 +25,10 @@ solvable using `out` or _murex_ named pipes (`pipe`).
 > Please note: because this function writes directly to the OS's STDOUT,
   redirection will not work with `print`.
 
+#### ANSI Constants
+
+`print` supports ANSI constants.
+
 ### See also
 
 * [`err`](err.md): `echo` a string to the STDERR

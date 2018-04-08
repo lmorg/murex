@@ -32,3 +32,7 @@ a new _murex_ named pipe.
         "Code": 404,
         "Message": "Page not found"
     }
+
+#### ANSI Constants
+
+`err` supports ANSI constants.

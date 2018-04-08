@@ -11,6 +11,7 @@ import (
 func init() {
 	proc.GoFunctions["echo"] = cmdOut
 	proc.GoFunctions["out"] = cmdOut
+	proc.GoFunctions["("] = cmdOutNoCR
 	proc.GoFunctions["tout"] = cmdTout
 	proc.GoFunctions["err"] = cmdErr
 	proc.GoFunctions["print"] = cmdPrint
@@ -23,6 +24,16 @@ func cmdOut(p *proc.Process) (err error) {
 	s = ansi.ExpandConsts(s)
 
 	_, err = p.Stdout.Writeln([]byte(s))
+	return
+}
+
+func cmdOutNoCR(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
+	s := p.Parameters.StringAll()
+	s = ansi.ExpandConsts(s)
+
+	_, err = p.Stdout.Write([]byte(s))
 	return
 }
 

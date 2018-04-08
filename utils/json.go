@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/debug"
 )
 
 // JsonNoData is a custom default error message when JSON marshaller returns nil
@@ -64,4 +67,99 @@ func deinterface(v interface{}) interface{} {
 		//fmt.Printf("%T\n", t)
 		return v
 	}
+}
+
+func JsonUnmarshal(data []byte, v interface{}) error {
+	var (
+		escape  bool
+		single  bool
+		double  bool
+		brace   int
+		replace []string
+		pop     []byte
+	)
+
+	for i := range data {
+		if brace > 0 {
+			pop = append(pop, data[i])
+		}
+
+		switch data[i] {
+		case '\\':
+			escape = !escape
+
+		case '\'':
+			switch {
+			case escape:
+				escape = false
+			case double, brace > 0:
+				// do nothing
+			case single:
+				single = false
+			default:
+				single = true
+			}
+
+		case '"':
+			switch {
+			case escape:
+				escape = false
+			case single:
+				// do nothing
+			case double:
+				double = false
+			default:
+				double = true
+			}
+
+		case '(':
+			switch {
+			case escape:
+				escape = false
+			case single, double:
+				// do nothing
+			case brace == 0:
+				//pop = append(pop, data[i])
+				brace++
+			default:
+				brace++
+			}
+
+		case ')':
+			switch {
+			case escape:
+				escape = false
+			case single, double:
+				// do nothing
+			case brace == 1:
+				replace = append(replace, string(pop[:len(pop)-1]))
+				pop = []byte{}
+				brace--
+			default:
+				brace--
+			}
+
+		default:
+			// do nothing
+		}
+
+	}
+
+	// nothing to do so might as well just forward the params on without editing
+	if len(replace) == 0 {
+		return json.Unmarshal(data, v)
+	}
+
+	s := string(data)
+	for i := range replace {
+		if len(replace[i]) > 0 {
+			s = strings.Replace(s, "("+replace[i]+")", strconv.Quote(replace[i]), 1)
+		}
+	}
+
+	debug.Json("Murex JSON parser", replace)
+	debug.Log(string(data))
+	debug.Log(s)
+
+	return json.Unmarshal([]byte(s), v)
 }

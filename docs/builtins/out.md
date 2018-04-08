@@ -27,6 +27,10 @@ Write parameters to STDOUT.
 `out` / `echo` output as `string` data-type. This can be changed by casting or
 using the `tout` function.
 
+#### ANSI Constants
+
+`out` supports ANSI constants.
+
 ### Synonyms
 
 * echo

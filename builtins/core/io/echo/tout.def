@@ -13,3 +13,7 @@ Write parameters to STDOUT and cast the output's data-type.
         "Code": 404,
         "Message": "Page not found"
     }
+
+### Details
+
+`tout` supports ANSI constants.

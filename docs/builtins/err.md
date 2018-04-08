@@ -39,6 +39,10 @@ a new _murex_ named pipe.
         "Message": "Page not found"
     }
 
+#### ANSI Constants
+
+`err` supports ANSI constants.
+
 ### See also
 
 * [`>`](>.md): Writes STDIN to disk - overwriting contents if file already exists

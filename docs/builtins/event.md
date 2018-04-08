@@ -23,11 +23,17 @@ Create an event:
         exit 1
     }
 
-Destory an event:
+Destroy an event:
 
     !event afterSecondsElapsed autoquit
 
-### Detail
+### details
+
+The `interrupt` field in the CLI supports ANSI constants. eg
+
+    event: onKeyPress f1={F1-VT100} {
+        tout: qs HintText="Key F1 Pressed"
+    }
 
 ### Synonyms
 

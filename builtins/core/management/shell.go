@@ -157,7 +157,7 @@ func cmdAutocomplete(p *proc.Process) error {
 	}
 
 	var flags []autocomplete.Flags
-	err = json.Unmarshal(jf, &flags)
+	err = utils.JsonUnmarshal(jf, &flags)
 	if err != nil {
 		return err
 	}

@@ -65,16 +65,6 @@ func prompt() {
 			getPrompt()
 		}
 
-		/*line, err := Instance.Readline()
-		if err == readline.ErrInterrupt {
-			merged = ""
-			nLines = 1
-			continue
-
-		} else if err == io.EOF {
-			break
-		}*/
-
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err.Error() {
@@ -111,7 +101,7 @@ func prompt() {
 
 		pt, _ := parse(block)
 		switch {
-		case pt.Bracket > 0:
+		case pt.NestedBlock > 0:
 			nLines++
 			merged += line + `^\n`
 
@@ -119,7 +109,7 @@ func prompt() {
 			nLines++
 			merged += line[:len(line)-1] + `^\n`
 
-		case pt.QuoteSingle:
+		case pt.QuoteSingle, pt.QuoteBrace > 0:
 			nLines++
 			merged += line + `^\n`
 
