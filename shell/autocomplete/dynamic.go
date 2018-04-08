@@ -2,6 +2,9 @@ package autocomplete
 
 import (
 	"bytes"
+	"sort"
+	"strings"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -10,8 +13,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
-	"sort"
-	"strings"
 )
 
 type dynamicArgs struct {
@@ -36,7 +37,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	p.Scope = p
 
 	if !types.IsBlock([]byte(f.Dynamic)) {
-		ansi.Stderrln(ansi.FgRed, "Dynamic autocompleter is not a code block.")
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocompleter is not a code block.")
 		return
 	}
 	block := []rune(f.Dynamic[1 : len(f.Dynamic)-1])
@@ -51,14 +52,14 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	s := strings.TrimSpace(string(b))
 
 	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())
 	}
 	if exitNum != 0 && debug.Enable {
-		ansi.Stderrln(ansi.FgRed, "Dynamic autocomplete returned a none zero exit number.")
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number.")
 	}
 
 	if len(s) > 0 && debug.Enable {
-		ansi.Stderrln(ansi.FgRed, utils.NewLineString+s)
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, utils.NewLineString+s)
 	}
 
 	stdout.ReadArray(func(b []byte) {

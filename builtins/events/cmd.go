@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 func init() {
@@ -39,7 +40,7 @@ func cmdEvent(p *proc.Process) error {
 	}
 
 	name := split[0][1]
-	interrupt := split[0][2]
+	interrupt := ansi.ExpandConsts(split[0][2])
 
 	block, err := p.Parameters.Block(2)
 	if err != nil {

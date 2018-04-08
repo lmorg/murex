@@ -1,6 +1,6 @@
 package ansi
 
-var Constants map[string][]byte = map[string][]byte{
+var constants map[string][]byte = map[string][]byte{
 	// ascii control codes
 	"^@": []byte{0},
 	"^A": []byte{1},

@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -20,6 +21,8 @@ func InitEnv() {
 	ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []int{0}
+	ShellProcess.Stdout = new(streams.TermOut)
+	ShellProcess.Stderr = new(streams.TermErr)
 
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()

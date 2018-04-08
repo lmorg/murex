@@ -1,10 +1,11 @@
 package generic
 
 import (
+	"strings"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/ansi"
-	"strings"
 )
 
 func index(p *proc.Process, params []string) error {
@@ -15,7 +16,7 @@ func index(p *proc.Process, params []string) error {
 			cRecords <- rxWhitespace.Split(string(b), -1)
 		})
 		if err != nil {
-			ansi.Stderrln(ansi.FgRed, err.Error())
+			ansi.Stderrln(p, ansi.FgRed, err.Error())
 		}
 		close(cRecords)
 	}()

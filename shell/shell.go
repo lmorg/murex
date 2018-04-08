@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -36,7 +37,7 @@ func Start() {
 
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "Error opening history file: "+err.Error())
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Error opening history file: "+err.Error())
 	} else {
 		Prompt.History = h
 	}
@@ -97,14 +98,15 @@ func prompt() {
 
 		expanded, err := history.ExpandVariables(block, Prompt)
 		if err != nil {
-			ansi.Stderrln(ansi.FgRed, err.Error())
+			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, err.Error())
 			merged = ""
 			nLines = 1
 			continue
 		}
 
 		if string(expanded) != string(block) {
-			ansi.Stderrln(ansi.FgGreen, string(expanded))
+			//ansi.Stderrln(proc.ShellProcess, ansi.FgGreen, string(expanded))
+			os.Stderr.WriteString(ansi.FgGreen + string(expanded) + ansi.Reset + utils.NewLineString)
 		}
 
 		pt, _ := parse(block)

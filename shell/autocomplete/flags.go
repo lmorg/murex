@@ -117,10 +117,10 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			return
 		}
 		if r := recover(); r != nil {
-			ansi.Stderrln(ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
-			ansi.Stderrln(ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
+			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
+			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
 			b, _ := json.MarshalIndent(flags, "", "\t")
-			ansi.Stderrln(ansi.FgRed, string(b))
+			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
 		}
 	}()
 

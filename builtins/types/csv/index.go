@@ -24,7 +24,7 @@ func readIndex(p *proc.Process, params []string) error {
 			cRecords <- recs
 		})
 		if err != nil {
-			ansi.Stderrln(ansi.FgRed, err.Error())
+			ansi.Stderrln(p, ansi.FgRed, err.Error())
 		}
 		close(cRecords)
 	}()

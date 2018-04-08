@@ -36,7 +36,7 @@ func getPrompt() {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
 		b = []byte("murex » ")
 	}
 	//Instance.SetPrompt(string(b))
@@ -68,7 +68,7 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		ansi.Stderrln(ansi.FgRed, "Invalid prompt. Block returned false.")
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
 		b = []byte(fmt.Sprintf("%5d » ", nLines))
 	}
 

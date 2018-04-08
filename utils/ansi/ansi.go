@@ -1,13 +1,16 @@
 package ansi
 
 import (
-	"os"
+	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
+
+var rxAnsiConsts *regexp.Regexp = regexp.MustCompile(`\{([-A-Z0-9]+)\}`)
 
 func allowAnsi() bool {
 	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
@@ -39,22 +42,37 @@ func Streamln(std stdio.Io, ansiCode, message string) (err error) {
 	return
 }
 
-// Stderr writes colourised output to os.Stderr
-func Stderr(ansiCode, message string) (err error) {
+// Stderr writes colourised output to p.Stderr
+func Stderr(p *proc.Process, ansiCode, message string) (err error) {
 	if allowAnsi() {
-		_, err = os.Stderr.WriteString(ansiCode + message + Reset)
+		_, err = p.Stderr.Write([]byte(ansiCode + message + Reset))
 		return
 	}
-	_, err = os.Stderr.WriteString(message + utils.NewLineString)
+	_, err = p.Stderr.Write([]byte(message + utils.NewLineString))
 	return
 }
 
-// Stderrln writes colourised output to os.Stderr with an OS specific carriage return
-func Stderrln(ansiCode, message string) (err error) {
+// Stderrln writes colourised output to p.Stderr with an OS specific carriage return
+func Stderrln(p *proc.Process, ansiCode, message string) (err error) {
 	if allowAnsi() {
-		_, err = os.Stderr.WriteString(ansiCode + message + utils.NewLineString + Reset)
+		_, err = p.Stderr.Write([]byte(ansiCode + message + utils.NewLineString + Reset))
 		return
 	}
-	_, err = os.Stderr.WriteString(message + utils.NewLineString)
+	_, err = p.Stderr.Write([]byte(message + utils.NewLineString))
 	return
+}
+
+// ExpandConsts writes a new string with the {CONST} values replaced
+func ExpandConsts(s string) string {
+	match := rxAnsiConsts.FindAllStringSubmatch(s, -1)
+	for i := range match {
+		b := constants[match[i][1]]
+		if len(b) == 0 {
+			continue
+		}
+
+		s = strings.Replace(s, match[i][0], string(b), -1)
+	}
+
+	return s
 }

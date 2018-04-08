@@ -37,7 +37,7 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 		Interrupt: interrupt,
 	}, false)
 	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "error building event input: "+err.Error())
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error building event input: "+err.Error())
 		return
 	}
 
@@ -45,7 +45,7 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 	stdin.SetDataType(types.Json)
 	_, err = stdin.Write(json)
 	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "error writing event input: "+err.Error())
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error writing event input: "+err.Error())
 		return
 	}
 	stdin.Close()
@@ -53,7 +53,7 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 	debug.Log("Event callback:", string(json), string(block))
 	_, err = lang.RunBlockShellNamespace(block, stdin, stdout, proc.ShellProcess.Stderr)
 	if err != nil {
-		ansi.Stderrln(ansi.FgRed, "error compiling event callback: "+err.Error())
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error compiling event callback: "+err.Error())
 	}
 
 	return

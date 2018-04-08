@@ -19,9 +19,9 @@ event onKeyPress F1="{F1-VT100}" {
 				tmux split -h "less $tmp; rm $tmp"
 			} {
 				if { bexists: $func } {
-					tmux split -h "trypipe { murex-docs $func -> less}; catch { out 'That murex builtin doesn't yet include a help document.$quit' -> less }"
+					tmux split -h ($SHELL -c "trypipe { murex-docs $func -> less}; catch { out (That murex builtin doesn't yet include a help document.$quit) -> less }")
 				} {
-					tmux split -h "try { man $func }; catch { out 'No man page exists for that command.$quit' -> less }"
+					tmux split -h ($SHELL -c "try { man $func }; catch { out (No man page exists for that command.$quit) -> less }")
 				}
 			}
 		}

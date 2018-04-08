@@ -2,6 +2,8 @@ package lang
 
 import (
 	"fmt"
+	"regexp"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -9,7 +11,6 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/home"
-	"regexp"
 )
 
 var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
@@ -40,8 +41,8 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				b, err := stdout.ReadAll()
 				if err != nil {
 					//os.Stderr.WriteString(err.Error() + utils.NewLineString)
-					//ansi.Stderrln(ansi.FgRed, err.Error())
-					prc.Stderr.Writeln([]byte(err.Error()))
+					ansi.Stderrln(prc, ansi.FgRed, err.Error())
+					//prc.Stderr.Writeln([]byte(err.Error()))
 				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {
@@ -109,7 +110,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
-					ansi.Stderrln(ansi.FgRed, err.Error())
+					ansi.Stderrln(prc, ansi.FgRed, err.Error())
 				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {
@@ -136,7 +137,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 
 			default:
 				//os.Stderr.WriteString(fmt.Sprintf(
-				ansi.Stderrln(ansi.FgRed, fmt.Sprintf(
+				ansi.Stderrln(prc, ansi.FgRed, fmt.Sprintf(
 					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"%s`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
 					utils.NewLineString,
