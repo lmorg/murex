@@ -2,10 +2,11 @@ package structs
 
 import (
 	"errors"
+	"regexp"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"regexp"
 )
 
 func init() {
@@ -15,7 +16,7 @@ func init() {
 	proc.GoFunctions["!func"] = cmdUnfunc
 }
 
-var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)[\s$]`)
+var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)[\s]*$`)
 
 func cmdAlias(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
