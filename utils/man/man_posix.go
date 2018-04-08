@@ -204,10 +204,22 @@ func parseDescription(filename string) string {
 		s := scanner.Text()
 
 		if strings.Contains(s, "SYNOPSIS") {
+			if len(desc) > 0 && desc[len(desc)-1] == '-' {
+				desc = desc[:len(desc)-1]
+			}
 			return strings.TrimSpace(desc)
 		}
 
 		if read {
+			// Tidy up man pages generated from reStructuredText
+			if strings.HasPrefix(s, `.`) ||
+				strings.HasPrefix(s, `\\n[rst2man-indent`) ||
+				strings.HasPrefix(s, `\\$1 \\n`) ||
+				strings.HasPrefix(s, `level \\n`) ||
+				strings.HasPrefix(s, `level margin: \\n`) {
+				continue
+			}
+
 			s = strings.Replace(s, ".Nd ", " - ", -1)
 			s = strings.Replace(s, "\\(em ", " - ", -1)
 			s = strings.Replace(s, " , ", ", ", -1)
@@ -218,6 +230,7 @@ func parseDescription(filename string) string {
 			}
 			s = rxReplaceMarkup.ReplaceAllString(s, "")
 			s = strings.Replace(s, "\\", "", -1)
+
 			desc += s
 		}
 
