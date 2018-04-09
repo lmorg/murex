@@ -16,7 +16,7 @@ func init() {
 	proc.GoFunctions["!func"] = cmdUnfunc
 }
 
-var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)[\s]*$`)
+var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
 
 func cmdAlias(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
@@ -32,7 +32,7 @@ func cmdAlias(p *proc.Process) error {
 
 	p.Stdout.SetDataType(types.Null)
 
-	s := p.Parameters.StringAll()
+	s, _ := p.Parameters.String(0)
 
 	if !rxAlias.MatchString(s) {
 		return errors.New("Invalid syntax. Expecting `alias new_name=original_name parameter1 parameter2 ...`")
