@@ -42,6 +42,9 @@ func (rl *Instance) Readline() (string, error) {
 		return string(rl.line), nil
 	}
 
+	rl.renderHintText()
+	moveCursorBackwards(1)
+
 	for {
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024)

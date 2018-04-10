@@ -31,7 +31,17 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				tCount = true
 
 			case parameters.TokenTypeString:
-				p.Params[len(p.Params)-1] += prc.Variables.GetString(p.Tokens[i][j].Key)
+				s := prc.Variables.GetString(p.Tokens[i][j].Key)
+
+				if len(s) > 0 && s[len(s)-1] == '\n' {
+					s = s[:len(s)-1]
+				}
+
+				if len(s) > 0 && s[len(s)-1] == '\r' {
+					s = s[:len(s)-1]
+				}
+
+				p.Params[len(p.Params)-1] += s
 				tCount = true
 
 			case parameters.TokenTypeBlockString:
