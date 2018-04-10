@@ -212,8 +212,7 @@ func parseDescription(filename string) string {
 
 		if read {
 			// Tidy up man pages generated from reStructuredText
-			if strings.HasPrefix(s, `.`) ||
-				strings.HasPrefix(s, `\\n[rst2man-indent`) ||
+			if strings.HasPrefix(s, `\\n[rst2man-indent`) ||
 				strings.HasPrefix(s, `\\$1 \\n`) ||
 				strings.HasPrefix(s, `level \\n`) ||
 				strings.HasPrefix(s, `level margin: \\n`) {
@@ -230,6 +229,10 @@ func parseDescription(filename string) string {
 			}
 			s = rxReplaceMarkup.ReplaceAllString(s, "")
 			s = strings.Replace(s, "\\", "", -1)
+
+			if strings.HasPrefix(s, `.`) {
+				continue
+			}
 
 			desc += s
 		}
