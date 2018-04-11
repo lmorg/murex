@@ -19,9 +19,9 @@ var ShellExitNum int
 // RunBlockShellNamespace is used for calling code blocks using the shell's
 // namespace. eg commands initiated inside the interactive shell.
 // This shouldn't be used under normal conditions.
-func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io, autoclose bool) (exitNum int, err error) {
+func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
-		block, stdin, stdout, stderr, autoclose,
+		block, stdin, stdout, stderr,
 		proc.ShellProcess, proc.ShellProcess.Config, nil,
 	)
 }
@@ -29,18 +29,18 @@ func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io, autocl
 // RunBlockParentNamespace is used for calling code blocks using the parent's
 // namespace. eg `source`
 // This shouldn't be used under normal conditions.
-func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, autoclose bool, caller *proc.Process) (exitNum int, err error) {
+func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
-		block, stdin, stdout, stderr, autoclose,
+		block, stdin, stdout, stderr,
 		caller.Parent, caller.Config, nil,
 	)
 }
 
 // RunBlockNewNamespace is for spawning new murex functions. eg `func {}`
 // This shouldn't be used under normal conditions.
-func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, autoclose bool, caller *proc.Process) (exitNum int, err error) {
+func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
-		block, stdin, stdout, stderr, autoclose,
+		block, stdin, stdout, stderr,
 		caller, caller.Config.Copy(), nil,
 	)
 }
@@ -48,9 +48,9 @@ func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, autoclos
 // RunBlockExistingNamespace is for code blocks as parameters (eg `if {}`,
 // `try {}` etc) or inlining code blocks (eg `out @{g *}`)
 // This should be the default way to call code blocks.
-func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, autoclose bool, caller *proc.Process) (exitNum int, err error) {
+func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
-		block, stdin, stdout, stderr, autoclose,
+		block, stdin, stdout, stderr,
 		caller, caller.Config, nil,
 	)
 }
@@ -59,7 +59,7 @@ func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, aut
 // where you additionally need to set variables inside the new running block.
 // This is sometimes nessisary but is a discurraged as it breaks the functional
 // paradigm.
-func RunBlockExistingNamespacePlusVars(block []rune, stdin, stdout, stderr stdio.Io, autoclose bool, caller *proc.Process, vars *proc.Variables) (exitNum int, err error) {
+func RunBlockExistingNamespacePlusVars(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *proc.Variables) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config, vars,
@@ -146,9 +146,12 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		panic("Unknown run mode")
 	}
 
-	if autoclose {
+	if container.Stdout != caller.Stdout {
 		container.Stdout.UnmakeParent()
 		container.Stdout.Close()
+	}
+
+	if container.Stderr != caller.Stderr {
 		container.Stderr.UnmakeParent()
 		container.Stderr.Close()
 	}
