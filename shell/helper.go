@@ -230,7 +230,6 @@ func hintText(line []rune, pos int) []rune {
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
 	/*exitNum, err := */ lang.RunBlockShellNamespace([]rune(ht.(string)), nil, stdout, stderr)
-	lang.CloseParentStreams(stdout, stderr)
 	//stdout.Close()
 	//stderr.Close()
 

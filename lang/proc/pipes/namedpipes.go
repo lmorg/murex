@@ -2,10 +2,11 @@ package pipes
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"sync"
 	"time"
+
+	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
 
 // Named is a table of created named pipes
@@ -113,7 +114,7 @@ func (n *Named) Close(name string) error {
 		return errors.New("I will not close the `null` device!")
 	}
 
-	n.pipes[name].UnmakeParent()
+	//n.pipes[name].UnmakeParent()
 	n.pipes[name].Close()
 
 	switch n.types[name] {

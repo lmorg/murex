@@ -105,22 +105,28 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	} else {
 		container.Stdin = streams.NewStdin()
 		container.Stdin.SetDataType(types.Null)
-		container.Stdin.Close()
+		//container.Stdin.Close()
 	}
 
 	if stdout != nil {
 		container.Stdout = stdout
+		//container.Stdout.Open()
 	} else {
 		container.Stdout = new(streams.TermOut)
 	}
-	container.Stdout.MakeParent()
+	//container.Stdout.MakeParent()
+	container.Stdout.Open()
+	defer container.Stdout.Close()
 
 	if stderr != nil {
 		container.Stderr = stderr
+		//container.Stderr.Open()
 	} else {
 		container.Stderr = new(streams.TermErr)
 	}
-	container.Stderr.MakeParent()
+	//container.Stderr.MakeParent()
+	container.Stderr.Open()
+	defer container.Stderr.Close()
 
 	tree, pErr := ParseBlock(block)
 	if pErr.Code != 0 {
@@ -146,23 +152,21 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		panic("Unknown run mode")
 	}
 
-	if container.Stdout != caller.Stdout {
-		container.Stdout.UnmakeParent()
+	/*if container.Stdout != caller.Stdout {
+		//os.Stdout.WriteString("closing stdout on container for " + caller.Name + "....")
+		//container.Stdout.UnmakeParent()
 		container.Stdout.Close()
-	}
+	}*/
 
-	if container.Stderr != caller.Stderr {
-		container.Stderr.UnmakeParent()
+	/*if container.Stderr != caller.Stderr {
+		//os.Stdout.WriteString("closing stdout on container for " + caller.Name + "....")
+		//container.Stderr.UnmakeParent()
 		container.Stderr.Close()
-	}
+	}*/
+
+	//container.Stdout.Close()
+	//container.Stderr.Close()
 
 	//debug.Json("Finished running &tree", tree)
 	return
-}
-
-func CloseParentStreams(std ...stdio.Io) {
-	for _, io := range std {
-		io.UnmakeParent()
-		io.Close()
-	}
 }

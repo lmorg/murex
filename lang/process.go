@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -47,6 +48,9 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 		}
 	}
 
+	//p.Stdout.Open()
+	//p.Stderr.Open()
+
 	p.State = state.Assigned
 
 	return
@@ -62,7 +66,7 @@ func executeProcess(p *proc.Process) {
 		echo = false
 	}
 
-	//debug.Json("Executing:", p)
+	debug.Json("Executing:", p)
 
 	// Create a kill switch
 	if p.Name != consts.CmdExec && p.Name != consts.CmdPty {
@@ -78,19 +82,22 @@ func executeProcess(p *proc.Process) {
 
 	switch p.NamedPipeOut {
 	case "":
-		//p.NamedPipeOut = "out"
+		p.NamedPipeOut = "out"
 	case "err":
 		p.Stdout.SetDataType(types.Null)
 		p.Stdout.Close()
 		p.Stdout = p.Next.Stderr
+		p.Stdout.Open()
 	case "out":
-		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
+		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
 		p.Stdout.SetDataType(types.Null)
-		p.Stdout.Close()
+		//p.Stdout.Close()
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
+			p.Stdout.Close()
 			p.Stdout = pipe
+			p.Stdout.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}
@@ -98,25 +105,33 @@ func executeProcess(p *proc.Process) {
 
 	switch p.NamedPipeErr {
 	case "":
-		//p.NamedPipeErr = "err"
+		p.NamedPipeErr = "err"
 	case "err":
-		p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
+		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
 		p.Stderr.SetDataType(types.String)
 		p.Stderr.Close()
 		p.Stderr = p.Next.Stdout
+		p.Stderr.Open()
 	default:
 		p.Stderr.SetDataType(types.String)
 		p.Stderr.Close()
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
+			p.Stderr.Close()
 			p.Stderr = pipe
+			p.Stderr.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
 	p.Stderr.SetDataType(types.String)
+
+	/*p.Stdout.Open()
+	defer p.Stdout.Close()
+	p.Stderr.Open()
+	defer p.Stderr.Close()*/
 
 	// Execute function.
 	var parsedAlias bool
@@ -208,8 +223,10 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
+	debug.Json("Destroying:", p)
+
 	p.State = state.Terminating
-	//debug.Json("Destroying:", p)
+
 	p.Stdout.Close()
 	p.Stderr.Close()
 

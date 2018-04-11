@@ -2,26 +2,27 @@ package streams
 
 import (
 	"bufio"
+	"io"
+	"sync"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"io"
-	"sync"
 )
 
 // Stdin is the default stdio.Io interface.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 type Stdin struct {
-	mutex       sync.Mutex
-	buffer      []byte
-	closed      bool
-	bRead       uint64
-	bWritten    uint64
-	isParent    bool
-	isNamedPipe bool
-	dataType    string
-	dtLock      sync.Mutex
-	max         int
+	mutex  sync.Mutex
+	buffer []byte
+	//closed      bool
+	bRead      uint64
+	bWritten   uint64
+	dependants int
+	//isNamedPipe bool
+	dataType string
+	dtLock   sync.Mutex
+	max      int
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
@@ -48,36 +49,20 @@ func appendBytes(slice []byte, data ...byte) []byte {
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	stdin.max = DefaultMaxBufferSize
+	//stdin.dependants++
 	return
 }
 
 // IsTTY returns false because the Stdin stream is not a pseudo-TTY
 func (stdin *Stdin) IsTTY() bool { return false }
 
-// MakeParent is used for subshells so they don't accidentally close the parent stream.
-func (stdin *Stdin) MakeParent() {
-	stdin.mutex.Lock()
-	stdin.isParent = true
-	stdin.mutex.Unlock()
-}
-
-// UnmakeParent is used when the subshell has terminated, now we allow the stream to be closable again.
-func (stdin *Stdin) UnmakeParent() {
-	stdin.mutex.Lock()
-	if !stdin.isParent {
-		//debug.Log("Trying to unmake parent on a non-parent pipe.")
-	}
-	stdin.isParent = false
-
-	stdin.mutex.Unlock()
-}
-
 // MakePipe is used for named pipes. Basically just used to relax the exception handling since we can make fewer
 // guarantees about the state of named pipes.
 func (stdin *Stdin) MakePipe() {
 	stdin.mutex.Lock()
-	stdin.isParent = true
-	stdin.isNamedPipe = true
+	//stdin.isParent = true
+	//stdin.isNamedPipe = true
+	stdin.dependants++
 	stdin.mutex.Unlock()
 }
 
@@ -96,11 +81,11 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 	for {
 		stdin.mutex.Lock()
 
-		if len(stdin.buffer) == 0 && stdin.closed {
+		if len(stdin.buffer) == 0 && stdin.dependants < 1 {
 			return 0, io.EOF
 		}
 
-		if len(stdin.buffer) == 0 && !stdin.closed {
+		if len(stdin.buffer) == 0 && stdin.dependants > 0 {
 			stdin.mutex.Unlock()
 			continue
 		}
@@ -138,7 +123,7 @@ func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 func (stdin *Stdin) ReadAll() ([]byte, error) {
 	for {
 		stdin.mutex.Lock()
-		closed := stdin.closed
+		closed := stdin.dependants < 1
 		stdin.mutex.Unlock()
 
 		if closed {
@@ -147,8 +132,8 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 	}
 
 	stdin.mutex.Lock()
+	defer stdin.mutex.Unlock()
 	stdin.bRead = uint64(len(stdin.buffer))
-	stdin.mutex.Unlock()
 	return stdin.buffer, nil
 }
 
@@ -168,13 +153,13 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 		return 0, nil
 	}
 
-	stdin.mutex.Lock()
-	isClosed := stdin.closed
+	/*stdin.mutex.Lock()
+	closed := stdin.dependants < 1
 	stdin.mutex.Unlock()
 
-	if isClosed {
+	if closed {
 		return 0, io.ErrClosedPipe
-	}
+	}*/
 
 	for {
 		stdin.mutex.Lock()
@@ -202,28 +187,40 @@ func (stdin *Stdin) Writeln(b []byte) (int, error) {
 	return len(b), nil
 }
 
+// Open the stream.Io interface for another dependant
+func (stdin *Stdin) Open() {
+	stdin.mutex.Lock()
+	defer stdin.mutex.Unlock()
+
+	stdin.dependants++
+}
+
 // Close the stream.Io interface
 func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
 	defer stdin.mutex.Unlock()
 
-	if stdin.isParent {
+	stdin.dependants--
+
+	/*if stdin.dependants > 0 {
 		// This will legitimately happen a lot since the reason we mark a stream as parent is to prevent
 		// accidental closing. However it's worth pushing a message out in debug mode during this alpha build.
 		//debug.Log("Cannot Close() stdin marked as parent. We don't want to EOT parent streams multiple times")
 		return
-	}
+	}*/
 
-	if stdin.closed {
+	/*if stdin.closed {
 		if stdin.isNamedPipe {
 			//debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 		} else {
 			//debug.Log("Trying to close an already closed stdin.")
 		}
 		return
-	}
+	}*/
 
-	stdin.closed = true
+	if stdin.dependants < 0 {
+		panic("More closed dependants than open")
+	}
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface

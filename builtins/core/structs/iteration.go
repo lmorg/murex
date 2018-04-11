@@ -54,7 +54,7 @@ func cmdFor(p *proc.Process) (err error) {
 
 		stdout := streams.NewStdin()
 		i, err := lang.RunBlockExistingNamespace([]rune(conditional), nil, stdout, p.Stderr, p)
-		stdout.Close()
+		//stdout.Close()
 		if err != nil {
 			return err
 		}
@@ -126,7 +126,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		stdin := streams.NewStdin()
 		stdin.SetDataType(dt)
 		stdin.Writeln(b)
-		stdin.Close()
+		//stdin.Close()
 
 		lang.RunBlockExistingNamespacePlusVars(block, stdin, p.Stdout, p.Stderr, p, vars)
 	})
@@ -187,7 +187,7 @@ func cmdWhile(p *proc.Process) error {
 
 			stdout := streams.NewStdin()
 			i, err := lang.RunBlockExistingNamespace(block, nil, stdout, p.Stderr, p)
-			stdout.Close()
+			//stdout.Close()
 			if err != nil {
 				return err
 			}
@@ -229,7 +229,7 @@ func cmdWhile(p *proc.Process) error {
 
 			stdout := streams.NewStdin()
 			i, err := lang.RunBlockExistingNamespace(ifBlock, nil, stdout, nil, p)
-			stdout.Close()
+			//stdout.Close()
 			if err != nil {
 				return err
 			}

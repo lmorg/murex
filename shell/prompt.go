@@ -23,7 +23,6 @@ func getPrompt() {
 		out := streams.NewStdin()
 		exitNum, err = lang.RunBlockShellNamespace([]rune(prompt.(string)), nil, out, nil)
 		//out.Close()
-		lang.CloseParentStreams(out)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {
@@ -57,7 +56,6 @@ func getMultilinePrompt(nLines int) {
 		out := streams.NewStdin()
 		exitNum, err = lang.RunBlockShellNamespace([]rune(prompt.(string)), nil, out, nil)
 		//out.Close()
-		lang.CloseParentStreams(out)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {

@@ -2,26 +2,27 @@ package streams
 
 import (
 	"bufio"
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"io"
 	"io/ioutil"
 	"net"
 	"os"
 	"sync"
+
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 // Net Io interface
 type Net struct {
-	mutex    sync.Mutex
-	closed   bool
-	bRead    uint64
-	bWritten uint64
-	isParent bool
-	conn     net.Conn
-	dataType string
-	protocol string
+	mutex sync.Mutex
+	//closed     bool
+	bRead      uint64
+	bWritten   uint64
+	dependants int
+	conn       net.Conn
+	dataType   string
+	protocol   string
 }
 
 // DefaultDataType is unavailable for net Io interfaces
@@ -45,6 +46,8 @@ func NewDialer(protocol, address string) (n *Net, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	n.dependants++
 
 	return
 }
@@ -71,6 +74,8 @@ func NewListener(protocol, address string) (n *Net, err error) {
 		return nil, err
 	}
 
+	n.dependants++
+
 	return
 }
 
@@ -79,7 +84,8 @@ func (n *Net) MakePipe() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	n.isParent = true
+	//n.isParent = true
+	n.dependants++
 }
 
 // SetDataType assigns a data type to the stream.Io interface
@@ -88,22 +94,6 @@ func (n *Net) SetDataType(dt string) {
 	defer n.mutex.Unlock()
 
 	n.dataType = dt
-}
-
-// MakeParent prevents the stream.Io interface from being casually closed
-func (n *Net) MakeParent() {
-	n.mutex.Lock()
-	defer n.mutex.Unlock()
-
-	n.isParent = true
-}
-
-// UnmakeParent allows the stream.Io interface to be closed
-func (n *Net) UnmakeParent() {
-	n.mutex.Lock()
-	defer n.mutex.Unlock()
-
-	n.isParent = false
 }
 
 // GetDataType read the stream.Io interface's data type
@@ -178,12 +168,20 @@ func (n *Net) WriteTo(dst io.Writer) (i int64, err error) {
 	return
 }
 
+// Open net Io interface
+func (n *Net) Open() {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	n.dependants++
+}
+
 // Close net Io interface
 func (n *Net) Close() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	if n.isParent {
+	/*if n.isParent {
 		//debug.Log("Cannot Close() net marked as parent. We don't want to EOT parent streams multiple times")
 		return
 	}
@@ -191,12 +189,21 @@ func (n *Net) Close() {
 	if n.closed {
 		//debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
 		return
+	}*/
+
+	//n.closed = true
+
+	n.dependants--
+
+	if n.dependants == 0 {
+		err := n.conn.Close()
+		if err != nil {
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		}
 	}
 
-	n.closed = true
-	err := n.conn.Close()
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+	if n.dependants < 0 {
+		panic("more closed dependants than open")
 	}
 }
 

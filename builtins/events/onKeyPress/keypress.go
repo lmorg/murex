@@ -109,7 +109,7 @@ eventFound:
 
 	stdout := streams.NewStdin()
 	events.Callback(evt.events[i].name, interrupt, block, stdout)
-	stdout.Close()
+	//stdout.Close()
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {

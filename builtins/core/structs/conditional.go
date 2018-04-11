@@ -2,6 +2,7 @@ package structs
 
 import (
 	"errors"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -94,7 +95,7 @@ func cmdIf(p *proc.Process) (err error) {
 		if err != nil {
 			return err
 		}
-		stdout.Close()
+		//stdout.Close()
 		b, err := stdout.ReadAll()
 		if err != nil {
 			return err
