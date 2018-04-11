@@ -80,6 +80,29 @@ func executeProcess(p *proc.Process) {
 
 	ParseParameters(p, &p.Parameters)
 
+	switch p.NamedPipeErr {
+	case "":
+		p.NamedPipeErr = "err"
+	case "err":
+		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
+	case "out":
+		p.Stderr.SetDataType(types.String)
+		p.Stderr.Close()
+		p.Stderr = p.Next.Stdout
+		p.Stderr.Open()
+	default:
+		p.Stderr.SetDataType(types.String)
+		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
+		if err == nil {
+			p.Stderr.Close()
+			p.Stderr = pipe
+			p.Stderr.Open()
+		} else {
+			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+		}
+	}
+
+	// We do stderr first so we can log errors in the stdout pipe to stderr
 	switch p.NamedPipeOut {
 	case "":
 		p.NamedPipeOut = "out"
@@ -98,29 +121,6 @@ func executeProcess(p *proc.Process) {
 			p.Stdout.Close()
 			p.Stdout = pipe
 			p.Stdout.Open()
-		} else {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
-		}
-	}
-
-	switch p.NamedPipeErr {
-	case "":
-		p.NamedPipeErr = "err"
-	case "err":
-		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
-	case "out":
-		p.Stderr.SetDataType(types.String)
-		p.Stderr.Close()
-		p.Stderr = p.Next.Stdout
-		p.Stderr.Open()
-	default:
-		p.Stderr.SetDataType(types.String)
-		p.Stderr.Close()
-		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
-		if err == nil {
-			p.Stderr.Close()
-			p.Stderr = pipe
-			p.Stderr.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}

@@ -181,6 +181,10 @@ func runModeTry(tree *astNodes) (exitNum int) {
 				}
 
 				if exitNum != 0 {
+					for ; i < len(*tree); i++ {
+						(*tree)[i].Process.Stdout.Close()
+						(*tree)[i].Process.Stderr.Close()
+					}
 					return
 				}
 
@@ -226,6 +230,10 @@ func runModeTryPipe(tree *astNodes) (exitNum int) {
 		}
 
 		if exitNum != 0 {
+			for i++; i < len(*tree); i++ {
+				(*tree)[i].Process.Stdout.Close()
+				(*tree)[i].Process.Stderr.Close()
+			}
 			return
 		}
 	}
