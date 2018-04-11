@@ -233,6 +233,11 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
+#func autocomplete-ssh {
+#    # Autocompleter for 'ssh'
+#    if
+#}
+
 func getHostsFile {
     # Parse the hosts file and return uniq host names and IPs
     egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq

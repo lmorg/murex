@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/docs"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -222,15 +223,18 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	ht, err := proc.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
-	if err != nil {
+	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
 		return []rune{}
 	}
 
-	out := streams.NewStdin()
-	exitNum, err := lang.RunBlockShellNamespace([]rune(ht.(string)), nil, out, nil)
-	out.Close()
+	stdout := streams.NewStdin()
+	stderr := streams.NewStdin()
+	/*exitNum, err := */ lang.RunBlockShellNamespace([]rune(ht.(string)), nil, stdout, stderr)
+	lang.CloseParentStreams(stdout, stderr)
+	//stdout.Close()
+	//stderr.Close()
 
-	b, err2 := out.ReadAll()
+	b, _ /*err2*/ := stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
 		b = b[:len(b)-1]
 	}
@@ -239,9 +243,14 @@ func hintText(line []rune, pos int) []rune {
 		b = b[:len(b)-1]
 	}
 
-	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Block returned false.")
+	if debug.Enable {
+		b, _ := stderr.ReadAll()
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
 	}
+
+	/*if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Block returned false.")
+	}*/
 
 	return []rune(string(b))
 }

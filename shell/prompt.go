@@ -22,7 +22,8 @@ func getPrompt() {
 	if err == nil {
 		out := streams.NewStdin()
 		exitNum, err = lang.RunBlockShellNamespace([]rune(prompt.(string)), nil, out, nil)
-		out.Close()
+		//out.Close()
+		lang.CloseParentStreams(out)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {
@@ -39,7 +40,7 @@ func getPrompt() {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
 		b = []byte("murex » ")
 	}
-	//Instance.SetPrompt(string(b))
+
 	Prompt.SetPrompt(string(b))
 }
 
@@ -55,7 +56,8 @@ func getMultilinePrompt(nLines int) {
 	if err == nil {
 		out := streams.NewStdin()
 		exitNum, err = lang.RunBlockShellNamespace([]rune(prompt.(string)), nil, out, nil)
-		out.Close()
+		//out.Close()
+		lang.CloseParentStreams(out)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {

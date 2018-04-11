@@ -43,7 +43,10 @@ func (rl *Instance) Readline() (string, error) {
 	}
 
 	rl.renderHintText()
-	moveCursorBackwards(1)
+	// fix a weird but where output will move the cursor along one pos
+	if rl.hintY > 0 {
+		moveCursorBackwards(1)
+	}
 
 	for {
 		rl.viUndoSkipAppend = false
