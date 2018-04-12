@@ -184,6 +184,9 @@ func runModeTry(tree *astNodes) (exitNum int) {
 					for ; i < len(*tree); i++ {
 						(*tree)[i].Process.Stdout.Close()
 						(*tree)[i].Process.Stderr.Close()
+						//destroyProcess(&(*tree)[i].Process)
+						proc.GlobalFIDs.Deregister((*tree)[i].Process.Id)
+						(*tree)[i].Process.State = state.AwaitingGC
 					}
 					return
 				}
@@ -233,6 +236,9 @@ func runModeTryPipe(tree *astNodes) (exitNum int) {
 			for i++; i < len(*tree); i++ {
 				(*tree)[i].Process.Stdout.Close()
 				(*tree)[i].Process.Stderr.Close()
+				//destroyProcess(&(*tree)[i].Process)
+				proc.GlobalFIDs.Deregister((*tree)[i].Process.Id)
+				(*tree)[i].Process.State = state.AwaitingGC
 			}
 			return
 		}
