@@ -94,8 +94,8 @@ func compile(tree *astNodes, parent *proc.Process, vars *proc.Variables) {
 			(*tree)[i].Process.Stderr = (*tree)[i].Process.Parent.Stderr
 		}
 
-		(*tree)[i].Process.Stdout.Open()
-		(*tree)[i].Process.Stderr.Open()
+		//(*tree)[i].Process.Stdout.Open()
+		//(*tree)[i].Process.Stderr.Open()
 
 		// Not required for a single pass interpreter,
 		// but I keep this code hanging about just in case I decide to expand the parser.

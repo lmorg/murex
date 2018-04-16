@@ -47,7 +47,7 @@ func NewDialer(protocol, address string) (n *Net, err error) {
 		return nil, err
 	}
 
-	n.dependants++
+	//n.dependants++
 
 	return
 }
@@ -74,7 +74,7 @@ func NewListener(protocol, address string) (n *Net, err error) {
 		return nil, err
 	}
 
-	n.dependants++
+	//n.dependants++
 
 	return
 }

@@ -42,8 +42,6 @@ func Start() {
 		Prompt.History = h
 	}
 
-	/*Instance.Config.SetListener(listener)
-	defer Instance.Close()*/
 	SigHandler()
 
 	go autocomplete.UpdateGlobalExeList()
