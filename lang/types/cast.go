@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/lmorg/murex/utils"
 )
@@ -194,7 +193,9 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		if v == "" {
 			v = "0"
 		}
-		return strconv.Atoi(strings.TrimSpace(v))
+		//return strconv.Atoi(strings.TrimSpace(v))
+		f, err := strconv.ParseFloat(v, 64)
+		return int(f), err
 
 	case Float, Number:
 		if v == "" {
