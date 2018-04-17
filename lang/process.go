@@ -8,7 +8,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -119,7 +118,7 @@ func executeProcess(p *proc.Process) {
 		echo = false
 	}
 
-	debug.Json("Executing:", p)
+	//debug.Json("Executing:", p)
 
 	// Create a kill switch
 	if p.Name != consts.CmdExec && p.Name != consts.CmdPty {
@@ -276,7 +275,7 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
-	debug.Json("Destroying:", p)
+	//debug.Json("Destroying:", p)
 
 	p.State = state.Terminating
 

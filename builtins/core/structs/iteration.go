@@ -23,7 +23,7 @@ func init() {
 func cmdFor(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
-	cblock, err := p.Parameters.Block(0)
+	cblock, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}

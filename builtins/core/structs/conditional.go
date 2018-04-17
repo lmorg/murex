@@ -14,88 +14,87 @@ func init() {
 	proc.GoFunctions["!if"] = cmdIf
 }
 
-func cmdIf(p *proc.Process) (err error) {
-	var ifBlock, thenBlock, elseBlock []rune
+const (
+	fOr  = iota - 2 // Keeping this here in case I choose to support `or` statements
+	fAnd            // Keeping this here in case I choose to support `and` statements
+	fIf
+	fThen
+	fElse
+	fDone
+)
 
+func cmdIf(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
-	switch {
-	case p.Parameters.Len() == 1 && p.IsMethod:
-		// "if" taken from stdin, "then" from 1st parameter.
-		thenBlock, err = p.Parameters.Block(0)
-		if err != nil {
-			return err
-		}
-
-	case p.Parameters.Len() == 2 && p.IsMethod:
-		// "if" taken from stdin, "then" and "else" from 1st and 2nd parameter.
-		thenBlock, err = p.Parameters.Block(0)
-		if err != nil {
-			return err
-		}
-
-		elseBlock, err = p.Parameters.Block(1)
-		if err != nil {
-			return err
-		}
-
-	case p.Parameters.Len() == 2 && !p.IsMethod:
-		// "if" taken from 1st parameter, "then" from 2nd parameter.
-		ifBlock, err = p.Parameters.Block(0)
-		if err != nil {
-			return err
-		}
-
-		thenBlock, err = p.Parameters.Block(1)
-		if err != nil {
-			return err
-		}
-
-	case p.Parameters.Len() == 3 && !p.IsMethod:
-		// "if" taken from 1st parameter, "then" from 2nd, "else" from 3rd.
-		ifBlock, err = p.Parameters.Block(0)
-		if err != nil {
-			return err
-		}
-
-		thenBlock, err = p.Parameters.Block(1)
-		if err != nil {
-			return err
-		}
-
-		elseBlock, err = p.Parameters.Block(2)
-		if err != nil {
-			return err
-		}
-
-	default:
-		if !p.IsNot {
-			return errors.New(`Not a valid if statement. Usage:
-  $conditional -> if: { $then }            # conditional result read from stdin or previous process exit number
-  $conditional -> if: { $then } { $else }  # conditional result read from stdin or previous process exit number
-  if: { $conditional } { $then }           # if / then
-  if: { $conditional } { $then } { $else } # if / then / else
-`)
-		} //else {
-		return errors.New(`Not a valid if statement. Usage:
-  $conditional -> !if: { $else }            # conditional result read from stdin or previous process exit number
-  $conditional -> !if: { $else } { $then }  # conditional result read from stdin or previous process exit number
-  !if: { $conditional } { $else }           # if / then
-  !if: { $conditional } { $else } { $then } # if / then / else
-`)
-		//}
+	if p.Parameters.Len() == 0 {
+		return errors.New("No arguments made. `if` requires parameters.")
 	}
 
+	var (
+		blocks [3][]rune
+		flag   int
+	)
+
+	if p.IsMethod {
+		// We derive the conditional state from stdin
+		flag++
+	}
+
+	for i := 0; i < p.Parameters.Len(); i++ {
+		switch {
+		case i == 0 && !p.IsMethod:
+			r, err := p.Parameters.Block(0)
+			if err != nil {
+				return err
+			}
+
+			blocks[0] = r
+			flag++
+
+		default:
+			if flag == fDone {
+				return errors.New("Parameters past end of `then` block.")
+			}
+
+			s, err := p.Parameters.String(i)
+			if err != nil {
+				return err
+			}
+
+			matched, err := setFlag(&s, &flag)
+			if err != nil {
+				return err
+			}
+
+			if matched == true {
+				continue
+			}
+
+			r, err := p.Parameters.Block(i)
+			if err != nil {
+				return err
+			}
+
+			blocks[flag] = r
+			flag++
+		}
+	}
+
+	//debug.Log("if  :", string(blocks[fIf]))
+	//debug.Log("then:", string(blocks[fThen]))
+	//debug.Log("else:", string(blocks[fElse]))
+
 	var conditional bool
-	if len(ifBlock) != 0 {
-		// --- IF ---
+
+	if len(blocks[fIf]) > 0 {
+		// --- IF --- (function)
 		stdout := streams.NewStdin()
 		stderr := new(streams.Null)
-		i, err := lang.RunBlockExistingNamespace(ifBlock, nil, stdout, stderr, p)
+		i, err := lang.RunBlockExistingNamespace(blocks[fIf], nil, stdout, stderr, p)
 		if err != nil {
 			return err
 		}
-		//stdout.Close()
+
 		b, err := stdout.ReadAll()
 		if err != nil {
 			return err
@@ -103,7 +102,7 @@ func cmdIf(p *proc.Process) (err error) {
 		conditional = types.IsTrue(b, i)
 
 	} else {
-		// --- IF ---
+		// --- IF --- (method)
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
 			return err
@@ -113,22 +112,46 @@ func cmdIf(p *proc.Process) (err error) {
 
 	if (conditional && !p.IsNot) || (!conditional && p.IsNot) {
 		// --- THEN ---
-		_, err = lang.RunBlockExistingNamespace(thenBlock, nil, p.Stdout, p.Stderr, p)
-		if err != nil {
-			return
+		if len(blocks[fThen]) > 0 {
+			_, err := lang.RunBlockExistingNamespace(blocks[fThen], nil, p.Stdout, p.Stderr, p)
+			if err != nil {
+				return err
+			}
 		}
 
 	} else {
 		// --- ELSE ---
-		if len(elseBlock) != 0 {
-			_, err = lang.RunBlockExistingNamespace(elseBlock, nil, p.Stdout, p.Stderr, p)
+		if len(blocks[fElse]) > 0 {
+			_, err := lang.RunBlockExistingNamespace(blocks[fElse], nil, p.Stdout, p.Stderr, p)
 			if err != nil {
-				return
+				return err
 			}
 		} else {
 			p.ExitNum = 1
 		}
 	}
 
-	return
+	return nil
+}
+
+func setFlag(s *string, flag *int) (bool, error) {
+	switch *s {
+	case "then":
+		if *flag > fThen {
+			return false, errors.New("`then` appears too late in parameters.")
+		}
+		*flag = fThen
+		return true, nil
+
+	case "else":
+		if *flag > fElse {
+			return false, errors.New("`else` appears too late in parameters.")
+		}
+		*flag = fElse
+		return true, nil
+
+	default:
+		return false, nil
+
+	}
 }
