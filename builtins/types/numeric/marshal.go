@@ -1,20 +1,22 @@
 package numeric
 
 import (
-	"strconv"
-
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 )
 
-func marshalInt(_ *proc.Process, i interface{}) (b []byte, err error) {
-	s := strconv.Itoa(i.(int))
-	return []byte(s), nil
-}
+func marshalInt(p *proc.Process, v interface{}) ([]byte, error)    { return marshal(v, types.Integer) }
+func marshalFloat(p *proc.Process, v interface{}) ([]byte, error)  { return marshal(v, types.Float) }
+func marshalNumber(p *proc.Process, v interface{}) ([]byte, error) { return marshal(v, types.Number) }
 
-func marshalFloat(_ *proc.Process, f interface{}) (b []byte, err error) {
-	s := types.FloatToString(f.(float64))
-	return []byte(s), nil
+func marshal(v interface{}, dataType string) ([]byte, error) {
+	i, err := types.ConvertGoType(v, dataType)
+	if err != nil {
+		return []byte{'0'}, err
+	}
+
+	s, err := types.ConvertGoType(i, types.String)
+	return []byte(s.(string)), err
 }
 
 func unmarshalInt(p *proc.Process) (interface{}, error)    { return unmarshal(p, types.Integer) }

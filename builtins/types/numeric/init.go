@@ -13,6 +13,6 @@ func init() {
 	define.Marshallers[types.Float] = marshalFloat
 	define.Unmarshallers[types.Float] = unmarshalFloat
 
-	define.Marshallers[types.Number] = marshalFloat
+	define.Marshallers[types.Number] = marshalNumber
 	define.Unmarshallers[types.Number] = unmarshalNumber
 }
