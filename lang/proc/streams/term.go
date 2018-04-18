@@ -1,12 +1,13 @@
 package streams
 
 import (
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
 	"sync"
+
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 // term structure exists as a wrapper around os.Stdout and os.Stderr so they can be easily interchanged with this
@@ -16,7 +17,6 @@ type term struct {
 	//debug.Mutex
 	bWritten uint64
 	bRead    uint64
-	isParent bool
 }
 
 // Read is a null method because the term interface is write-only
@@ -46,29 +46,19 @@ func (t *term) SetDataType(string) {}
 // DefaultDataType is a null method because the term interface is write-only
 func (t *term) DefaultDataType(bool) {}
 
+// Open is a null method because the OS standard streams shouldn't be closed
+// thus we don't need to track how many times they've been opened
+func (t *term) Open() {}
+
 // Close is a null method because the OS standard streams shouldn't be closed
 func (t *term) Close() {}
 
 // IsTTY always returns `true` because you are writing to a TTY. All over stream.Io interfaces should return `false`.
 func (t *term) IsTTY() bool { return true }
 
-// MakeParent sets the isParent flag but probably isn't needed since terminals cannot be closed
-func (t *term) MakeParent() {
-	t.mutex.Lock()
-	t.isParent = true
-	t.mutex.Unlock()
-}
-
-// MakeParent unsets the isParent flag but probably isn't needed since terminals cannot be closed
-func (t *term) UnmakeParent() {
-	t.mutex.Lock()
-	t.isParent = false
-	t.mutex.Unlock()
-}
-
 // MakePipe sets the isParent flag but probably isn't needed since terminals cannot be closed
 func (t *term) MakePipe() {
-	t.MakeParent()
+	//t.MakeParent()
 }
 
 // Stats returns the bytes written and bytes read from the term interface

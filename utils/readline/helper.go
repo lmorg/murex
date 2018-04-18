@@ -67,6 +67,7 @@ func (rl *Instance) writeHintText(r []rune) {
 
 	if len(r) > 0 {
 		rl.hintY = (len(r) / termWidth) + 1
+		rl.hintY += strings.Count(string(r), "\n")
 		if rl.hintY > moveY {
 			moveY = rl.hintY
 		}

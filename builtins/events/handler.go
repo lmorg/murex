@@ -48,7 +48,7 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error writing event input: "+err.Error())
 		return
 	}
-	stdin.Close()
+	//stdin.Close()
 
 	debug.Log("Event callback:", string(json), string(block))
 	_, err = lang.RunBlockShellNamespace(block, stdin, stdout, proc.ShellProcess.Stderr)

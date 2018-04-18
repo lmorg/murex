@@ -1,11 +1,12 @@
 package ansi
 
 import (
+	"testing"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"testing"
 )
 
 // TestAnsiColoured tests writing colours via the ansi package
@@ -25,7 +26,7 @@ func TestAnsiColoured(t *testing.T) {
 		t.Error(err.Error())
 	}
 
-	stdtest.Close()
+	//stdtest.Close()
 
 	b, err := stdtest.ReadAll()
 	if err != nil {
@@ -54,7 +55,7 @@ func TestAnsiNoColour(t *testing.T) {
 		t.Error(err.Error())
 	}
 
-	stdtest.Close()
+	//stdtest.Close()
 
 	b, err := stdtest.ReadAll()
 	if err != nil {

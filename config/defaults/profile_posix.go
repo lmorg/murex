@@ -233,10 +233,15 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
+#func autocomplete-ssh {
+#    # Autocompleter for 'ssh'
+#    if
+#}
+
 func getHostsFile {
     # Parse the hosts file and return uniq host names and IPs
     egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
 }
 
-tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
+#tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
 `

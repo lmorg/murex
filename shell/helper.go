@@ -4,11 +4,15 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/docs"
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
 )
 
@@ -214,5 +218,38 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	r = append(r, manPage...)
-	return r
+	if len(r) > 0 {
+		return r
+	}
+
+	ht, err := proc.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
+	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
+		return []rune{}
+	}
+
+	stdout := streams.NewStdin()
+	stderr := streams.NewStdin()
+	/*exitNum, err := */ lang.RunBlockShellNamespace([]rune(ht.(string)), nil, stdout, stderr)
+	//stdout.Close()
+	//stderr.Close()
+
+	b, _ /*err2*/ := stdout.ReadAll()
+	if len(b) > 1 && b[len(b)-1] == '\n' {
+		b = b[:len(b)-1]
+	}
+
+	if len(b) > 1 && b[len(b)-1] == '\r' {
+		b = b[:len(b)-1]
+	}
+
+	if debug.Enable {
+		b, _ := stderr.ReadAll()
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
+	}
+
+	/*if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
+		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Block returned false.")
+	}*/
+
+	return []rune(string(b))
 }

@@ -80,8 +80,8 @@ var (
 )
 
 // HasTerminated checks if process has terminated.
-// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
-// thread safe.
+// This is a function because terminated state can be subject to race conditions
+// so we need a mutex to make the state thread safe.
 func (p *Process) HasTerminated() (state bool) {
 	p.hasTerminatedM.Lock()
 	state = p.hasTerminatedV
@@ -90,8 +90,8 @@ func (p *Process) HasTerminated() (state bool) {
 }
 
 // SetTerminatedState sets the process terminated state.
-// This is a function because terminated state can be subject to race conditions so we need a mutex to make the state
-// thread safe.
+// This is a function because terminated state can be subject to race conditions
+// so we need a mutex to make the state thread safe.
 func (p *Process) SetTerminatedState(state bool) {
 	p.hasTerminatedM.Lock()
 	p.hasTerminatedV = state

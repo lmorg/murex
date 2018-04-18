@@ -53,6 +53,18 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
+	/*c.Define("shell", "show-hint-text", config.Properties{
+		Description: "Display the blue hint text helper. //TODO: implement this!",
+		Default:     true,
+		DataType:    types.Boolean,
+	})*/
+
+	c.Define("shell", "hint-text-func", config.Properties{
+		Description: "Murex function to call if the helper hint text is otherwise blank.",
+		Default:     `{}`,
+		DataType:    types.CodeBlock,
+	})
+
 	//c.Define("shell", "strip-colour", config.Properties{
 	//	Description: "Strips the colour codes (ANSI escape sequences) from all output destined for the terminal.",
 	//	Default:     false,

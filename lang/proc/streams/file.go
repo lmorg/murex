@@ -2,21 +2,22 @@ package streams
 
 import (
 	"errors"
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"io"
 	"os"
 	"sync"
+
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 // File Io interface
 type File struct {
-	mutex    sync.Mutex
-	closed   bool
-	bWritten uint64
-	isParent bool
-	file     *os.File
+	mutex sync.Mutex
+	//closed     bool
+	bWritten   uint64
+	dependants int
+	file       *os.File
 }
 
 // Read is an empty method because file devices are write only
@@ -54,23 +55,8 @@ func (f *File) MakePipe() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 
-	f.isParent = true
-}
-
-// MakeParent prevents the stream.Io interface from being casually closed
-func (f *File) MakeParent() {
-	f.mutex.Lock()
-	defer f.mutex.Unlock()
-
-	f.isParent = true
-}
-
-// UnmakeParent allows the stream.Io interface to be closed
-func (f *File) UnmakeParent() {
-	f.mutex.Lock()
-	defer f.mutex.Unlock()
-
-	f.isParent = false
+	//f.isParent = true
+	f.dependants++
 }
 
 // Write is the io.Writer interface
@@ -82,7 +68,7 @@ func (f *File) Write(b []byte) (int, error) {
 		return 0, errors.New("No file open.")
 	}
 
-	if f.closed {
+	if f.dependants < 1 {
 		return 0, io.ErrClosedPipe
 	}
 
@@ -104,7 +90,7 @@ func (f *File) Writeln(b []byte) (int, error) {
 		return 0, errors.New("No file open.")
 	}
 
-	if f.closed {
+	if f.dependants < 1 {
 		return 0, io.ErrClosedPipe
 	}
 
@@ -133,7 +119,15 @@ func NewFile(name string) (f *File, err error) {
 	if err != nil {
 		return nil, err
 	}
+	f.dependants++
 	return
+}
+
+// Opoen file writer
+func (f *File) Open() {
+	f.mutex.Lock()
+	defer f.mutex.Unlock()
+	f.dependants++
 }
 
 // Close file writer
@@ -141,9 +135,12 @@ func (f *File) Close() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 
-	if f.isParent {
-		return
+	f.dependants--
+	if f.dependants == 0 {
+		f.file.Close()
 	}
 
-	f.file.Close()
+	if f.dependants < 0 {
+		panic("more closed dependants than open")
+	}
 }

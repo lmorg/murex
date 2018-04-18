@@ -104,7 +104,7 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 			switch {
 			case escape:
 				escape = false
-			case single:
+			case single, brace > 0:
 				// do nothing
 			case double:
 				double = false
@@ -140,9 +140,20 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 			}
 
 		default:
-			// do nothing
+			escape = false
 		}
 
+	}
+
+	switch {
+	case single:
+		return errors.New("Unterminated single quotes")
+	case double:
+		return errors.New("Unterminated double quotes")
+	case brace > 0:
+		return errors.New("More open braces than closed")
+	case brace < 0:
+		return errors.New("More closed braces than opened")
 	}
 
 	// nothing to do so might as well just forward the params on without editing

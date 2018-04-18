@@ -3,8 +3,8 @@ package types
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
-	"strings"
 
 	"github.com/lmorg/murex/utils"
 )
@@ -15,6 +15,15 @@ const (
 
 	// ErrUnexpectedGoType is returned if the Go data type is unhandled
 	ErrUnexpectedGoType = "Unexpected Go type."
+
+	// ErrCannotConvertGoType is returned if the Go data type cannot be converted
+	// to the murex data type (eg there is no numeric data in a string of characters)
+	ErrCannotConvertGoType = "Cannot convert Go type into murex data type (eg no numeric data in a string)."
+)
+
+var (
+	rxFirstInt   *regexp.Regexp = regexp.MustCompile(`([0-9]+)`)
+	rxFirstFloat *regexp.Regexp = regexp.MustCompile(`([0-9]+)(\.[0-9]+|)`)
 )
 
 // ConvertGoType converts a Go lang variable into a murex variable
@@ -47,15 +56,7 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 		return goStringRecast(string(v.([]rune)), dataType)
 
 	default:
-		switch dataType {
-		//case Generic, String, Integer, Float, Number, Boolean, CodeBlock, Null:
-		//	return nil, errors.New(ErrUnexpectedGoType)
-		case String, Json:
-			b, err := utils.JsonMarshal(v, false)
-			return string(b), err
-		default:
-			return nil, errors.New(ErrUnexpectedGoType)
-		}
+		return goDefaultRecast(v, dataType)
 	}
 
 	//return nil, errors.New(ErrUnexpectedGoType)
@@ -194,7 +195,9 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		if v == "" {
 			v = "0"
 		}
-		return strconv.Atoi(strings.TrimSpace(v))
+		//return strconv.Atoi(strings.TrimSpace(v))
+		f, err := strconv.ParseFloat(v, 64)
+		return int(f), err
 
 	case Float, Number:
 		if v == "" {
@@ -224,87 +227,45 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 	}
 }
 
-/*func goBytesRecast(v []byte, dataType string) (interface{}, error) {
-	str := string(v)
+func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 	switch dataType {
-	case Generic:
-		return str, nil
-
 	case Integer:
-		if str == "" {
-			str = "0"
+		s := fmt.Sprint(v)
+		i := rxFirstInt.FindStringSubmatch(s)
+		if len(i) > 0 {
+			return i[0], nil
 		}
-		return strconv.Atoi(strings.TrimSpace(str))
+		return 0, errors.New(ErrCannotConvertGoType)
 
 	case Float, Number:
-		if str == "" {
-			str = "0"
+		s := fmt.Sprint(v)
+		f := rxFirstFloat.FindStringSubmatch(s)
+		if len(f) > 0 {
+			return f[0], nil
 		}
-		return strconv.ParseFloat(str, 64)
+		return 0, errors.New(ErrCannotConvertGoType)
 
 	case Boolean:
-		return IsTrue(v, 0), nil
-
-	case CodeBlock:
-		if str[0] == '{' && str[len(str)-1] == '}' {
-			return str[1 : len(str)-1], nil
+		s := fmt.Sprint(v)
+		if s == "{}" || s == "[]" || s == "[[]]" || s == "" {
+			return false, nil
 		}
-		return "out: '" + str + "'", nil //errors.New("Not a valid code block: `" + str + "`")
-
-	case String, Json:
-		return v, nil
-
-	//case Json:
-	//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
+		if !IsTrue([]byte(s), 0) {
+			return false, nil
+		}
+		return true, nil
 
 	case Null:
-		return "", nil
+		return nil, nil
+
+	case String, Json:
+		b, err := utils.JsonMarshal(v, false)
+		return string(b), err
 
 	default:
-		return nil, errors.New(ErrDataTypeDefaulted)
+		return nil, errors.New(ErrUnexpectedGoType)
 	}
 }
-
-func goRunesRecast(v []rune, dataType string) (interface{}, error) {
-	str := string(v)
-	switch dataType {
-	case Generic:
-		return str, nil
-
-	case Integer:
-		if str == "" {
-			str = "0"
-		}
-		return strconv.Atoi(strings.TrimSpace(str))
-
-	case Float, Number:
-		if str == "" {
-			str = "0"
-		}
-		return strconv.ParseFloat(str, 64)
-
-	case Boolean:
-		return IsTrue([]byte(str), 0), nil
-
-	case CodeBlock:
-		if str[0] == '{' && str[len(str)-1] == '}' {
-			return str[1 : len(str)-1], nil
-		}
-		return "out: '" + str + "'", nil //errors.New("Not a valid code block: `" + str + "`")
-
-	case String, Json:
-		return v, nil
-
-	//case Json:
-	//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
-
-	case Null:
-		return "", nil
-
-	default:
-		return nil, errors.New(ErrDataTypeDefaulted)
-	}
-}*/
 
 // FloatToString convert a Float64 (what murex numbers are stored as) into a string. Typically for outputting to Stdout/Stderr.
 func FloatToString(f float64) string {

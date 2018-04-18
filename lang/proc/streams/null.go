@@ -1,19 +1,14 @@
 package streams
 
 import (
+	"io"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
-	"io"
 )
 
 // Null is null interface for named pipes
 type Null struct{}
-
-// MakeParent - null interface
-func (t *Null) MakeParent() {}
-
-// UnmakeParent - null interface
-func (t *Null) UnmakeParent() {}
 
 // MakePipe - null interface
 func (t *Null) MakePipe() {}
@@ -56,6 +51,9 @@ func (t *Null) DefaultDataType(bool) {}
 
 // IsTTY - null interface
 func (t *Null) IsTTY() bool { return false }
+
+// Open - null interface
+func (t *Null) Open() {}
 
 // Close - null interface
 func (t *Null) Close() {}

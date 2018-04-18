@@ -74,7 +74,7 @@ func compile(tree *astNodes, parent *proc.Process, vars *proc.Variables) {
 		case (*tree)[i].NewChain:
 			// new chain
 			(*tree)[i].Process.Stdin = streams.NewStdin()
-			(*tree)[i].Process.Stdin.Close()
+			//(*tree)[i].Process.Stdin.Close()
 		}
 
 		// Define stdout / stderr interfaces:
@@ -93,6 +93,9 @@ func compile(tree *astNodes, parent *proc.Process, vars *proc.Variables) {
 			(*tree)[i].Process.Stdout = (*tree)[i].Process.Parent.Stdout
 			(*tree)[i].Process.Stderr = (*tree)[i].Process.Parent.Stderr
 		}
+
+		//(*tree)[i].Process.Stdout.Open()
+		//(*tree)[i].Process.Stderr.Open()
 
 		// Not required for a single pass interpreter,
 		// but I keep this code hanging about just in case I decide to expand the parser.
@@ -178,6 +181,13 @@ func runModeTry(tree *astNodes) (exitNum int) {
 				}
 
 				if exitNum != 0 {
+					for ; i < len(*tree); i++ {
+						(*tree)[i].Process.Stdout.Close()
+						(*tree)[i].Process.Stderr.Close()
+						//destroyProcess(&(*tree)[i].Process)
+						proc.GlobalFIDs.Deregister((*tree)[i].Process.Id)
+						(*tree)[i].Process.State = state.AwaitingGC
+					}
 					return
 				}
 
@@ -203,7 +213,7 @@ func runModeTry(tree *astNodes) (exitNum int) {
 
 // `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
 func runModeTryPipe(tree *astNodes) (exitNum int) {
-	debug.Log("Entering run mode `tryeach`")
+	debug.Log("Entering run mode `trypipe`")
 	if len(*tree) == 0 {
 		return 1
 	}
@@ -223,6 +233,13 @@ func runModeTryPipe(tree *astNodes) (exitNum int) {
 		}
 
 		if exitNum != 0 {
+			for i++; i < len(*tree); i++ {
+				(*tree)[i].Process.Stdout.Close()
+				(*tree)[i].Process.Stderr.Close()
+				//destroyProcess(&(*tree)[i].Process)
+				proc.GlobalFIDs.Deregister((*tree)[i].Process.Id)
+				(*tree)[i].Process.State = state.AwaitingGC
+			}
 			return
 		}
 	}
