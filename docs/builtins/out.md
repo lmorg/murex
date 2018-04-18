@@ -2,7 +2,7 @@
 
 ## Command reference: out
 
-> `echo` a string to the STDOUT
+> `echo` a string to the STDOUT with a trailing new line character
 
 ### Description
 
@@ -37,11 +37,11 @@ using the `tout` function.
 
 ### See also
 
+* [`(`]((.md): Write a string to the STDOUT without new line
 * [`>`](>.md): Writes STDIN to disk - overwriting contents if file already exists
 * [`>>`](>>.md): Writes STDIN to disk - appending contents if file already exists
 * `cast`
 * [`err`](err.md): `echo` a string to the STDERR
-* [`print`](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
 * [`pt`](pt.md): Pipe telemetry. Writes data-types and bytes written
 * `sprintf`
 * [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type

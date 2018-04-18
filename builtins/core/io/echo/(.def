@@ -1,0 +1,26 @@
+### Description
+
+Write parameters to STDOUT (does not include a new line)
+
+### Usage
+
+    (string to write) -> <stdout>
+
+### Examples
+
+    » (Hello, World!)
+    Hello, World!
+
+    » (Hello, World!)
+    Hello, World!
+
+### Detail
+
+The `(` function performs exactly like the `(` token for quoting so you do not
+need to escape other tokens (eg single / double quotes, `'`/`"`, nor curly
+braces, `{}`). However the braces are nestable so you will need to escape those
+characters if you don't want them nested.
+
+#### ANSI Constants
+
+`(` supports ANSI constants.

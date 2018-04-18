@@ -1,8 +1,6 @@
 package io
 
 import (
-	"fmt"
-
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
@@ -14,7 +12,6 @@ func init() {
 	proc.GoFunctions["("] = cmdOutNoCR
 	proc.GoFunctions["tout"] = cmdTout
 	proc.GoFunctions["err"] = cmdErr
-	proc.GoFunctions["print"] = cmdPrint
 }
 
 func cmdOut(p *proc.Process) (err error) {
@@ -60,16 +57,6 @@ func cmdErr(p *proc.Process) (err error) {
 	s = ansi.ExpandConsts(s)
 
 	_, err = p.Stderr.Writeln([]byte(s))
-	return
-}
-
-func cmdPrint(p *proc.Process) (err error) {
-	p.Stdout.SetDataType(types.Null)
-
-	s := p.Parameters.StringAll()
-	s = ansi.ExpandConsts(s)
-
-	_, err = fmt.Println([]byte(s))
 	return
 }
 
