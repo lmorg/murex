@@ -43,6 +43,8 @@ using the `tout` function.
 * `cast`
 * [`err`](err.md): `echo` a string to the STDERR
 * [`pt`](pt.md): Pipe telemetry. Writes data-types and bytes written
+* [`read`](read.md): `read` a line of input from the user and store as a variable
 * `sprintf`
 * [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [`tread`](tread.md): `read` a line of input from the user and store as a user defined typed variable
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

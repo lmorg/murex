@@ -3,9 +3,8 @@ err
 (
 sprintf
 cast
->
->>
+pretty
+format
 ttyfd
-pt
+out
 read
-tread

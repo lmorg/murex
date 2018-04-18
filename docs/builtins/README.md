@@ -22,11 +22,13 @@
 |         [`post`](post.md) | HTTP POST request with a JSON-parsable return |
 |   [`prepend`](prepend.md) | Add data to the start of an array |
 |             [`pt`](pt.md) | Pipe telemetry. Writes data-types and bytes written |
+|         [`read`](read.md) | `read` a line of input from the user and store as a variable |
 |             [`rx`](rx.md) | Regexp pattern matching for file system objects (eg '.*\.txt') |
 |           [`set`](set.md) | Define a variable and set it's value |
 | [`swivel-datatype`](swivel-datatype.md) | Converts tabulated data into a map of values for serialised data-types such as JSON and YAML |
 | [`swivel-table`](swivel-table.md) | Rotates a table by 90 degrees |
 |         [`tout`](tout.md) | `echo` a string to the STDOUT and set it's data-type |
+|       [`tread`](tread.md) | `read` a line of input from the user and store as a user defined typed variable |
 |           [`try`](try.md) | Handles errors inside a block of code |
 |   [`trypipe`](trypipe.md) | Checks state of each function in a pipeline and exits block on error |
 |       [`ttyfd`](ttyfd.md) | Returns the TTY device of the parent. |

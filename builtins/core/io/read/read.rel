@@ -6,6 +6,5 @@ cast
 >
 >>
 ttyfd
-pt
-read
+out
 tread

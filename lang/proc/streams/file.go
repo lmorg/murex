@@ -123,7 +123,7 @@ func NewFile(name string) (f *File, err error) {
 	return
 }
 
-// Opoen file writer
+// Open file writer
 func (f *File) Open() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()

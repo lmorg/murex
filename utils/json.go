@@ -13,9 +13,11 @@ import (
 // JsonNoData is a custom default error message when JSON marshaller returns nil
 const JsonNoData = "No data returned."
 
-// JsonMarshal is a wrapper around Go's JSON marshaller to prettify output depending on whether the target is a terminal
-// or not. This is so that the output is human readable when output for a human but a single line machine readable
-// formatting for better support with iteration / concatenation when output to system functions.
+// JsonMarshal is a wrapper around Go's JSON marshaller to prettify output
+// depending on whether the target is a terminal or not. This is so that the
+// output is human readable when output for a human but a single line machine
+// readable formatting for better support with iteration / concatenation when
+// output to system functions.
 func JsonMarshal(v interface{}, isTTY bool) (b []byte, err error) {
 	b, err = marshal(v, isTTY)
 	if err != nil && strings.Contains(err.Error(), "unsupported type: map[interface {}]interface {}") {
@@ -45,7 +47,8 @@ func marshal(v interface{}, isTTY bool) (b []byte, err error) {
 	return
 }
 
-// deinterface is used to fudge around the lack of support for `map[interface{}]interface{}` in Go's JSON marshaller.
+// deinterface is used to fudge around the lack of support for
+// `map[interface{}]interface{}` in Go's JSON marshaller.
 func deinterface(v interface{}) interface{} {
 	switch t := v.(type) {
 	case map[interface{}]interface{}:
@@ -69,14 +72,19 @@ func deinterface(v interface{}) interface{} {
 	}
 }
 
+// JsonUnmarshal is a wrapper around Go's JSON unmarshaller to support nested
+// brace quotes (which allows for a cleaner syntax when embedding Murex code as
+// JSON strings) and line comments via the hash, `#`, prefix.
 func JsonUnmarshal(data []byte, v interface{}) error {
 	var (
-		escape  bool
-		single  bool
-		double  bool
-		brace   int
-		replace []string
-		pop     []byte
+		escape   bool
+		comment  bool
+		comments []string = make([]string, 1)
+		single   bool
+		double   bool
+		brace    int
+		replace  []string
+		pop      []byte
 	)
 
 	for i := range data {
@@ -86,10 +94,28 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 
 		switch data[i] {
 		case '\\':
-			escape = !escape
+			switch {
+			case comment:
+				comments[len(comments)-1] += string(data[i])
+			default:
+				escape = !escape
+			}
+
+		case '#':
+			switch {
+			case escape:
+				escape = false
+			case single, double, brace > 0:
+				// do nothing
+			default:
+				comment = true
+				comments[len(comments)-1] += string(data[i])
+			}
 
 		case '\'':
 			switch {
+			case comment:
+				comments[len(comments)-1] += string(data[i])
 			case escape:
 				escape = false
 			case double, brace > 0:
@@ -102,6 +128,8 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 
 		case '"':
 			switch {
+			case comment:
+				comments[len(comments)-1] += string(data[i])
 			case escape:
 				escape = false
 			case single, brace > 0:
@@ -114,6 +142,8 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 
 		case '(':
 			switch {
+			case comment:
+				comments[len(comments)-1] += string(data[i])
 			case escape:
 				escape = false
 			case single, double:
@@ -127,6 +157,8 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 
 		case ')':
 			switch {
+			case comment:
+				comments[len(comments)-1] += string(data[i])
 			case escape:
 				escape = false
 			case single, double:
@@ -139,13 +171,29 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 				brace--
 			}
 
+		case '\n':
+			switch {
+			case comment:
+				comment = false
+				comments = append(comments, "")
+			case escape:
+				escape = false
+			}
+
 		default:
-			escape = false
+			switch {
+			case comment:
+				comments[len(comments)-1] += string(data[i])
+			default:
+				escape = false
+			}
 		}
 
 	}
 
 	switch {
+	case comment:
+		comments = append(comments, "")
 	case single:
 		return errors.New("Unterminated single quotes")
 	case double:
@@ -157,18 +205,24 @@ func JsonUnmarshal(data []byte, v interface{}) error {
 	}
 
 	// nothing to do so might as well just forward the params on without editing
-	if len(replace) == 0 {
+	if len(replace) == 0 && len(comments) == 1 {
 		return json.Unmarshal(data, v)
 	}
 
 	s := string(data)
+
+	for i := range comments {
+		s = strings.Replace(s, comments[i], "", 1)
+	}
+
 	for i := range replace {
 		if len(replace[i]) > 0 {
 			s = strings.Replace(s, "("+replace[i]+")", strconv.Quote(replace[i]), 1)
 		}
 	}
 
-	debug.Json("Murex JSON parser", replace)
+	debug.Json("Murex JSON comments", comments)
+	debug.Json("Murex JSON braces", replace)
 	debug.Log(string(data))
 	debug.Log(s)
 

@@ -90,7 +90,7 @@ var constants map[string][]byte = map[string][]byte{
 	"CYAN-BRIGHT":    []byte{27, 91, 49, 59, 51, 48, 109},
 	"WHITE-BRIGHT":   []byte{27, 91, 49, 59, 51, 48, 109},
 
-	// backgroud colours
+	// background colours
 	"BG-BLACK":   []byte{27, 91, 52, 48, 109},
 	"BG-RED":     []byte{27, 91, 52, 49, 109},
 	"BG-GREEN":   []byte{27, 91, 52, 50, 109},
