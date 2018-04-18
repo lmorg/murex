@@ -1,5 +1,9 @@
 tout
 err
-print
+out
 sprintf
+cast
+>
+>>
 ttyfd
+pt

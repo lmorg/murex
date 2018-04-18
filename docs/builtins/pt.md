@@ -16,7 +16,6 @@ directly to the OS's STDERR the pipeline is preserved.
 ### See also
 
 * [`err`](err.md): `echo` a string to the STDERR
-* [`print`](print.md): Write a string to the OS STDOUT (bypassing _murex_ pipelines)
 * `sprintf`
 * [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

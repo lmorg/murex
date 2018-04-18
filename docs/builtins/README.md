@@ -4,6 +4,7 @@
 
 | Command                   | Description |
 | ------------------------- | ----------- |
+|               [`(`]((.md) | Write a string to the STDOUT without new line |
 |               [`>`](>.md) | Writes STDIN to disk - overwriting contents if file already exists |
 |             [`>>`](>>.md) | Writes STDIN to disk - appending contents if file already exists |
 |       [`alter`](alter.md) | Change a value within a structured data-type and pass that change along the pipeline without altering the original source input |
@@ -17,10 +18,9 @@
 |   [`getfile`](getfile.md) | Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines. |
 |             [`if`](if.md) | Conditional statement to execute different blocks of code depending on the result of the condition |
 | [`murex-docs`](murex-docs.md) | Displays the man pages for _murex_ builtins |
-|           [`out`](out.md) | `echo` a string to the STDOUT |
+|           [`out`](out.md) | `echo` a string to the STDOUT with a trailing new line character |
 |         [`post`](post.md) | HTTP POST request with a JSON-parsable return |
 |   [`prepend`](prepend.md) | Add data to the start of an array |
-|       [`print`](print.md) | Write a string to the OS STDOUT (bypassing _murex_ pipelines) |
 |             [`pt`](pt.md) | Pipe telemetry. Writes data-types and bytes written |
 |             [`rx`](rx.md) | Regexp pattern matching for file system objects (eg '.*\.txt') |
 |           [`set`](set.md) | Define a variable and set it's value |
