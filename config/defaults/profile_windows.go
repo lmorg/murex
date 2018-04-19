@@ -155,9 +155,6 @@ autocomplete set terraform { [{
         "workspace": [
             {
                 "Flags": [ "new", "delete", "select", "list", "show" ]
-            },
-            {
-                "Dynamic": "{ terraform: workspace list -> [ :1 ] -> regexp: m/.+/ -> sort }"
             }
         ]
     }
