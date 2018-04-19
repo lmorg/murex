@@ -121,6 +121,10 @@ func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 
 // ReadAll reads everything and dump it into one byte slice.
 func (stdin *Stdin) ReadAll() ([]byte, error) {
+	stdin.mutex.Lock()
+	stdin.max = 0
+	stdin.mutex.Unlock()
+
 	for {
 		stdin.mutex.Lock()
 		closed := stdin.dependants < 1
@@ -167,7 +171,7 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 		maxBufferSize := stdin.max
 		stdin.mutex.Unlock()
 
-		if buffSize < maxBufferSize {
+		if buffSize < maxBufferSize || maxBufferSize == 0 {
 			break
 		}
 	}
