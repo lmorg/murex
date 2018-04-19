@@ -1,21 +1,26 @@
 package io
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
+	"io"
+	"os"
+	"strconv"
+	"time"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"io"
-	"os"
-	"time"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 func init() {
-	//proc.GoFunctions["text"] = cmdText
 	proc.GoFunctions["pt"] = cmdPipeTelemetry
 	proc.GoFunctions[">"] = cmdWriteFile
 	proc.GoFunctions[">>"] = cmdAppendFile
 	proc.GoFunctions["ttyfd"] = cmdTtyFd
+	proc.GoFunctions["tmp"] = cmdTempFile
 }
 
 func cmdPipeTelemetry(p *proc.Process) error {
@@ -93,4 +98,33 @@ func cmdTtyFd(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Integer)
 	_, err = p.Stdout.Write([]byte(fmt.Sprint(os.Stdout.Fd())))
 	return
+}
+
+func cmdTempFile(p *proc.Process) error {
+	p.Stdout.SetDataType(types.String)
+
+	fileId := strconv.Itoa(time.Now().Nanosecond()) + ":" + strconv.Itoa(p.Id)
+
+	h := md5.New()
+	_, err := h.Write([]byte(fileId))
+	if err != nil {
+		return err
+	}
+
+	name := consts.TempDir + hex.EncodeToString(h.Sum(nil)) + "." + strconv.Itoa(os.Getpid())
+
+	file, err := os.Create(name)
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	_, err = io.Copy(file, p.Stdin)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write([]byte(name))
+	return err
 }

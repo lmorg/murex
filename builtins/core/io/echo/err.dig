@@ -1,1 +1,1 @@
-`echo` a string to the STDERR
+Print a line to the STDERR

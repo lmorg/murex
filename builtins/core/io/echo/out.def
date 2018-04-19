@@ -1,6 +1,6 @@
 ### Description
 
-Write parameters to STDOUT.
+Write parameters to STDOUT with a trailing new line character.
 
 ### Usage
 

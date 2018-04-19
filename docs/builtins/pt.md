@@ -15,7 +15,7 @@ directly to the OS's STDERR the pipeline is preserved.
 
 ### See also
 
-* [`err`](err.md): `echo` a string to the STDERR
+* [`err`](err.md): Print a line to the STDERR
 * `sprintf`
-* [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [`tout`](tout.md): Print a string to the STDOUT and set it's data-type
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

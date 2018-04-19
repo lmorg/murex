@@ -40,9 +40,9 @@ characters if you don't want them nested.
 * [`>`](>.md): Writes STDIN to disk - overwriting contents if file already exists
 * [`>>`](>>.md): Writes STDIN to disk - appending contents if file already exists
 * `cast`
-* [`err`](err.md): `echo` a string to the STDERR
+* [`err`](err.md): Print a line to the STDERR
 * [`out`](out.md): `echo` a string to the STDOUT with a trailing new line character
 * [`pt`](pt.md): Pipe telemetry. Writes data-types and bytes written
 * `sprintf`
-* [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [`tout`](tout.md): Print a string to the STDOUT and set it's data-type
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

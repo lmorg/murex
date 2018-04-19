@@ -10,7 +10,7 @@
 |     [`append`](append.md) | Add data to the end of an array |
 | [`brace-quote`](brace-quote.md) | Write a string to the STDOUT without new line |
 |       [`catch`](catch.md) | Handles the exception code raised by `try` or `trypipe` |
-|           [`err`](err.md) | `echo` a string to the STDERR |
+|           [`err`](err.md) | Print a line to the STDERR |
 |       [`event`](event.md) | Event driven programming for shell scripts |
 |               [`f`](f.md) | Lists objects (eg files) in the current working directory |
 |               [`g`](g.md) | Glob pattern matching for file system objects (eg *.txt) |
@@ -27,7 +27,7 @@
 |           [`set`](set.md) | Define a variable and set it's value |
 | [`swivel-datatype`](swivel-datatype.md) | Converts tabulated data into a map of values for serialised data-types such as JSON and YAML |
 | [`swivel-table`](swivel-table.md) | Rotates a table by 90 degrees |
-|         [`tout`](tout.md) | `echo` a string to the STDOUT and set it's data-type |
+|         [`tout`](tout.md) | Print a string to the STDOUT and set it's data-type |
 |       [`tread`](tread.md) | `read` a line of input from the user and store as a user defined typed variable |
 |           [`try`](try.md) | Handles errors inside a block of code |
 |   [`trypipe`](trypipe.md) | Checks state of each function in a pipeline and exits block on error |

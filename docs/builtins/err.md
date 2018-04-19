@@ -2,11 +2,11 @@
 
 ## Command reference: err
 
-> `echo` a string to the STDERR
+> Print a line to the STDERR
 
 ### Description
 
-Write parameters to STDERR.
+Write parameters to STDERR with a trailing new line character.
 
 ### Usage
 
@@ -54,5 +54,5 @@ a new _murex_ named pipe.
 * `pipe`
 * `pretty`
 * `sprintf`
-* [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [`tout`](tout.md): Print a string to the STDOUT and set it's data-type
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

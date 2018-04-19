@@ -40,11 +40,11 @@ variable.
 
 * [`brace-quote`](brace-quote.md): Write a string to the STDOUT without new line
 * `cast`
-* [`err`](err.md): `echo` a string to the STDERR
+* [`err`](err.md): Print a line to the STDERR
 * `format`
 * [`out`](out.md): `echo` a string to the STDOUT with a trailing new line character
 * `pretty`
 * [`read`](read.md): `read` a line of input from the user and store as a variable
 * `sprintf`
-* [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
+* [`tout`](tout.md): Print a string to the STDOUT and set it's data-type
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.
