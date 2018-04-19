@@ -38,7 +38,7 @@ variable.
 
 ### See also
 
-* [`(`]((.md): Write a string to the STDOUT without new line
+* [`brace-quote`](brace-quote.md): Write a string to the STDOUT without new line
 * `cast`
 * [`err`](err.md): `echo` a string to the STDERR
 * `format`

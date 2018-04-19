@@ -26,11 +26,11 @@ Write parameters to STDOUT and cast the output's data-type.
 
 ### See also
 
-* [`(`]((.md): Write a string to the STDOUT without new line
+* [`brace-quote`](brace-quote.md): Write a string to the STDOUT without new line
 * `cast`
 * [`err`](err.md): `echo` a string to the STDERR
 * `format`
+* [`out`](out.md): `echo` a string to the STDOUT with a trailing new line character
 * `pretty`
 * `sprintf`
-* [`tout`](tout.md): `echo` a string to the STDOUT and set it's data-type
 * [`ttyfd`](ttyfd.md): Returns the TTY device of the parent.

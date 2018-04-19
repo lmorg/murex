@@ -38,9 +38,9 @@ require this to be different then please use `tread` (typed read).
 
 ### See also
 
-* [`(`]((.md): Write a string to the STDOUT without new line
 * [`>`](>.md): Writes STDIN to disk - overwriting contents if file already exists
 * [`>>`](>>.md): Writes STDIN to disk - appending contents if file already exists
+* [`brace-quote`](brace-quote.md): Write a string to the STDOUT without new line
 * `cast`
 * [`err`](err.md): `echo` a string to the STDERR
 * [`out`](out.md): `echo` a string to the STDOUT with a trailing new line character

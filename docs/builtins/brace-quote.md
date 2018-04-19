@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Command reference: (
+## Command reference: brace-quote
 
 > Write a string to the STDOUT without new line
 
@@ -30,6 +30,10 @@ characters if you don't want them nested.
 #### ANSI Constants
 
 `(` supports ANSI constants.
+
+### Synonyms
+
+* (
 
 ### See also
 
