@@ -53,6 +53,8 @@ func (rl *Instance) renderHintText() {
 }
 
 func (rl *Instance) writeHintText(r []rune) {
+	getTermWidth()
+
 	moveY := rl.hintY
 	if moveY == 0 {
 		moveY = 1

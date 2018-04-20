@@ -16,7 +16,10 @@ import (
 	"github.com/lmorg/murex/utils/man"
 )
 
-var manDescript map[string]string = make(map[string]string)
+var (
+	manDescript    map[string]string = make(map[string]string)
+	cachedHintText []rune
+)
 
 func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 	if len(line) > pos-1 {
@@ -222,6 +225,9 @@ func hintText(line []rune, pos int) []rune {
 		return r
 	}
 
+	if len(cachedHintText) > 0 {
+		return cachedHintText
+	}
 	ht, err := proc.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
 	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
 		return []rune{}
@@ -230,8 +236,6 @@ func hintText(line []rune, pos int) []rune {
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
 	/*exitNum, err := */ lang.RunBlockShellNamespace([]rune(ht.(string)), nil, stdout, stderr)
-	//stdout.Close()
-	//stderr.Close()
 
 	b, _ /*err2*/ := stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
@@ -251,5 +255,7 @@ func hintText(line []rune, pos int) []rune {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Block returned false.")
 	}*/
 
-	return []rune(string(b))
+	cachedHintText = []rune(string(b))
+
+	return cachedHintText
 }

@@ -56,6 +56,7 @@ func prompt() {
 
 	for {
 		getSyntaxHighlighting()
+		cachedHintText = []rune{}
 
 		if nLines > 1 {
 			getMultilinePrompt(nLines)
