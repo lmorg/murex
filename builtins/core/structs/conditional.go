@@ -15,9 +15,7 @@ func init() {
 }
 
 const (
-	fOr  = iota - 2 // Keeping this here in case I choose to support `or` statements
-	fAnd            // Keeping this here in case I choose to support `and` statements
-	fIf
+	fIf = iota
 	fThen
 	fElse
 	fDone

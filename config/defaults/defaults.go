@@ -25,7 +25,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "max-suggestions", config.Properties{
 		Description: "Maximum number of lines with auto-completion suggestions to display.",
-		Default:     10,
+		Default:     4,
 		DataType:    types.Integer,
 	})
 
