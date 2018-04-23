@@ -7,22 +7,53 @@ result of the condition
 
 ### Description
 
-`if` can be called in two different ways:
+Conditional control flow
 
-1. Method If: `conditional -> if: { true } { false }`
-2. Function If: `if: { conditional } { true } { false }`
+`if` can be utilised both as a method as well as a standalone function. As a
+method, the conditional state is derived from the calling function (eg if the
+previous function succeeds then the condition is `true`).
 
-The conditional is evaluated based on the output produced by the
-function and the exit number. Any non-zero exit numbers are an automatic
-"false". Any functions returning no data are also classed as a "false".
-For a full list of conditions that are evaluated to determine a true or
-false state of a function, please read the documentation on the `boolean`
-data type in [GUIDE.syntax.md](../GUIDE.syntax.md#boolean).
+### Usage
 
-Please also note that while the last parameter is optional, if it is
-left off and `if` or `!if` would have otherwise called it, then `if` /
-`!if` will return a non-zero exit number. The significance of this is
-important when using `if` or `!if` inside a `try` block.
+    # function if
+    if { code-block } then {
+        # true
+    } else {
+        # false
+    }
+
+    # method if
+    command -> if {
+        # true
+    } else {
+        # false
+    }
+
+    # negative function if
+    !if { code-block } else {
+        # false
+    }
+
+    # negative method if
+    command -> if {
+        # false
+    }
+
+Note: the `then` and `else` statements are optional. So the first usage could
+also be written as:
+
+    if { code-block } {
+        # true
+    } {
+        # false
+    }
+
+However the practice of omitting those statements isn't recommended beyond
+writing short one liners in the command line.
+
+### example
+
+    if { }
 
 #### Method If
 
@@ -58,6 +89,11 @@ last parameter is optional.
 
 ### See also
 
+* `and`
 * [`catch`](catch.md): Handles the exception code raised by `try` or `trypipe`
+* `false`
+* `not`
+* `or`
+* `true`
 * [`try`](try.md): Handles errors inside a block of code
 * [`trypipe`](trypipe.md): Checks state of each function in a pipeline and exits block on error

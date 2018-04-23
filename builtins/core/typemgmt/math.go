@@ -3,11 +3,13 @@ package typemgmt
 import (
 	"errors"
 	"fmt"
+	"regexp"
+	"strconv"
+
 	"github.com/Knetic/govaluate"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"regexp"
 )
 
 func init() {
@@ -22,19 +24,62 @@ var (
 	rxPlus  *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
 )
 
-func cmdEval(p *proc.Process) (err error) {
+func cmdEval(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing expression.")
 	}
-	value, err := evaluate(p, p.Parameters.StringAll())
+
+	var leftSide string
+
+	if p.IsMethod {
+		if debug.Enable == false {
+			defer func() {
+				if r := recover(); r != nil {
+					p.ExitNum = 2
+					err = errors.New(fmt.Sprint("Panic caught: ", r))
+				}
+			}()
+		}
+
+		dt := p.Stdin.GetDataType()
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+
+		v, err := types.ConvertGoType(b, dt)
+		if err != nil {
+			return err
+		}
+
+		switch dt {
+		case types.Integer:
+			leftSide = strconv.Itoa(v.(int))
+
+		case types.Float, types.Number:
+			leftSide = types.FloatToString(v.(float64))
+
+		case types.Boolean:
+			if v.(bool) {
+				leftSide = "true"
+			} else {
+				leftSide = "false"
+			}
+
+		default:
+			leftSide = `"` + v.(string) + `"`
+		}
+	}
+
+	value, err := evaluate(p, leftSide+p.Parameters.StringAll())
 	if err != nil {
-		return
+		return err
 	}
 
 	_, err = p.Stdout.Write([]byte(value))
-	return
+	return err
 }
 
 func cmdLet(p *proc.Process) (err error) {
