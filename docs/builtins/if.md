@@ -30,12 +30,12 @@ previous function succeeds then the condition is `true`).
     }
 
     # negative function if
-    !if { code-block } else {
+    !if { code-block } then {
         # false
     }
 
     # negative method if
-    command -> if {
+    command -> !if {
         # false
     }
 
@@ -53,35 +53,24 @@ writing short one liners in the command line.
 
 ### example
 
-    if { }
+    # Check if a file exists
+    if { g somefile.txt } then {
+        out "File exists"
+    }
 
-#### Method If
+    # ...or does not exist
+    !if { g somefile.txt } then {
+        out "File does not exist"
+    }
 
-This is where the conditional is evaluated from the result of the piped
-function. The last parameter is optional.
 
-    # if / then
-    out: hello world | grep: world -> if: { out: world found }
+### Detail
 
-    # if / then / else
-    out: hello world | grep: world -> if: { out: world found } { out: world missing }
-
-    if / else
-    out: hello world | grep: world -> !if: { out: world missing }
-
-#### Function If
-
-This is where the conditional is evaluated from the first parameter. The
-last parameter is optional.
-
-    # if / then / else
-    if: { out: hello world | grep: world } { out: world found }
-
-    # if / then / else
-    if: { out: hello world | grep: world } { out: world found } { out: world missing }
-
-    if / else
-    !if: { out: hello world | grep: world } { out: world missing }
+The conditional block can contain entire pipelines - even multiple lines of code
+let alone a single pipeline - as well as solitary commands as demonstrated in
+the examples above. However the conditional block does not output STDOUT nor
+STDERR to the rest of the pipeline so you don't have to worry about redirecting
+the output streams to `null`.
 
 ### Synonyms
 

@@ -24,8 +24,8 @@ var (
 	rxPlus  *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
 )
 
-func cmdEval(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Generic)
+func cmdEval(p *proc.Process) (err error) {
+	//p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing expression.")
@@ -73,11 +73,12 @@ func cmdEval(p *proc.Process) error {
 		}
 	}
 
-	value, err := evaluate(p, leftSide+p.Parameters.StringAll())
+	value, dt, err := evaluate(p, leftSide+p.Parameters.StringAll())
 	if err != nil {
 		return err
 	}
 
+	p.Stdout.SetDataType(dt)
 	_, err = p.Stdout.Write([]byte(value))
 	return err
 }
@@ -117,17 +118,17 @@ func cmdLet(p *proc.Process) (err error) {
 		return errors.New("Invalid syntax for `let`. Should be `let variable-name = expression`.")
 	}
 
-	value, err := evaluate(p, expression)
+	value, dt, err := evaluate(p, expression)
 	if err != nil {
 		return err
 	}
 
-	err = p.Variables.Set(variable, value, types.Number)
+	err = p.Variables.Set(variable, value, dt /*types.Number*/)
 
 	return err
 }
 
-func evaluate(p *proc.Process, expression string) (value string, err error) {
+func evaluate(p *proc.Process, expression string) (value, dataType string, err error) {
 	if debug.Enable == false {
 		defer func() {
 			if r := recover(); r != nil {
@@ -151,5 +152,11 @@ func evaluate(p *proc.Process, expression string) (value string, err error) {
 	if err == nil {
 		value = s.(string)
 	}
+	if err != nil {
+		return
+	}
+
+	dataType = types.DataTypeFromInterface(result)
+
 	return
 }
