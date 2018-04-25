@@ -6,7 +6,7 @@
 
 ### Description
 
-`try` forces a different execution behaviour where a failed process at the end
+`try` forces a different execution behavior where a failed process at the end
 of a pipeline will cause the block to terminate regardless of any functions that
 might follow.
 

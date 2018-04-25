@@ -2,7 +2,7 @@
 
 Conditional control flow
 
-`if` can be utilised both as a method as well as a standalone function. As a
+`if` can be utilized both as a method as well as a standalone function. As a
 method, the conditional state is derived from the calling function (eg if the
 previous function succeeds then the condition is `true`).
 

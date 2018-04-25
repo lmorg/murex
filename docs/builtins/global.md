@@ -6,7 +6,7 @@
 
 ### Description
 
-Defines, updates or deallocates a gobal variable.
+Defines, updates or deallocates a global variable.
 
 ### Usage
 

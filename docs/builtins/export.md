@@ -32,9 +32,9 @@ You can unset variable names with the bang prefix:
 
     !export var_name
 
-For compatability with other shells, `unset` is also supported but it's really
+For compatibility with other shells, `unset` is also supported but it's really
 not an idiomatic method of deallocation since it's name is misleading and
-suggests it is a deallocator for local murex variables defined via `set`.
+suggests it is a deallocator for local _murex_ variables defined via `set`.
 
 #### Scoping
 

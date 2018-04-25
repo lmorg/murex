@@ -13,7 +13,7 @@ Create or destroy an event interrupt
 Create an event:
 
     event: afterSecondsElapsed autoquit=60 {
-        out "You're 60 secound timeout has elapsed. Quitting murex"
+        out "You're 60 second timeout has elapsed. Quitting murex"
         exit 1
     }
 
