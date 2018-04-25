@@ -49,9 +49,7 @@ this in the command line: `go version`
 
 ## Required dependencies
 
-for your information below is a list of packages required by _murex_:
-
-* `github.com/gohxs/readline` used for interactive mode (REPL)
+For your information below is a list of packages required by _murex_:
 
 * `github.com/Knetic/govaluate` evaluates the math formulas. This is
 exposed via `eval` / `=` and `let`
@@ -72,9 +70,7 @@ s-expressions
 
 * `github.com/BurntSushi/toml` adds support for TOML
 
-* `github.com/hashicorp/hcl` adds support for HCL. Disabled by default
-because of converting from JSON to HCL and back to JSON fails to produce
-consistent output and there is likely very little demand for HCL anyway
+* `github.com/hashicorp/hcl` adds support for HCL (eg Terraform scripts)
 
 * Image previewing requires a few dependencies:
 

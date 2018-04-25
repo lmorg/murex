@@ -1,0 +1,34 @@
+### Description
+
+Returns a boolean results (`true` or `false`) depending on whether all of the
+code-blocks included as parameters are successful or not.
+
+### Usage
+
+    and: { code-block } { code-block } -> <stdout>
+
+    !and: { code-block } { code-block } -> <stdout>
+
+`and` supports as many or as few code-blocks as you wish.
+
+### Examples
+
+    if { and { = 1+1==2 } { = 2+2==4 } } then {
+        out: The laws of mathmatics still exist in this universe.
+    }
+
+### Details
+
+`and` does not set the exit number on failure so it is safe to use inside a `try`
+or `trypipe` block.
+
+If `and` is prefixed by a bang then it returns `true` only when all code-blocks
+are unsuccessful.
+
+#### Code-Block Testing
+
+* `and` tests all code-blocks up until one of the code-blocks is unsuccessful,
+  then `and` exits and returns `false`.
+
+* `!and` tests all code-blocks up until one of the code-blocks is successful,
+  then `!and` exits and returns `false` (ie `!and` is `not`ing every code-block).

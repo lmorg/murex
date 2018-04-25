@@ -1,10 +1,3 @@
-# _murex_ Language Guide
-
-## Command reference: if
-
-> Conditional statement to execute different blocks of code depending on the
-result of the condition
-
 ### Description
 
 Conditional control flow
@@ -71,19 +64,4 @@ let alone a single pipeline - as well as solitary commands as demonstrated in
 the examples above. However the conditional block does not output STDOUT nor
 STDERR to the rest of the pipeline so you don't have to worry about redirecting
 the output streams to `null`.
-
-### Synonyms
-
-* !if
-
-### See also
-
-* [`and`](and.md): Returns `true` or `false` depending on whether multiple conditions are met
-* [`catch`](catch.md): Handles the exception code raised by `try` or `trypipe`
-* `false`
-* `not`
-* [`or`](or.md): Returns `true` or `false` depending on whether one code-block out of multiple
-ones supplied is successful or unsuccessful.
-* `true`
-* [`try`](try.md): Handles errors inside a block of code
-* [`trypipe`](trypipe.md): Checks state of each function in a pipeline and exits block on error
+ 

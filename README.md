@@ -40,8 +40,8 @@ goes a long way. For example _murex_ supports complex data objects from
 various formats including JSON and CSV files and you can query their
 properties directly:
 
-    open: file.csv -> [ $column_name ] # return specific columns in CSV file
-    open: file.json -> [ $index ]      # return specific items from JSON
+    open: file.csv -> [ column_name ] # return specific columns in CSV file
+    open: file.json -> [ index ]      # return specific items from JSON
 
 The index function (`[`) alters its matching algorithm depending on the
 piped data type and `open` sets the data type depending on the file
@@ -51,8 +51,8 @@ Sometimes you will want fewer guesswork or just the robustness a forced
 behavior. On those occasions you can remove one layer of magic by
 casting the data type:
 
-    open: file.txt -> cast csv -> [ $column_name ]
-    open: file.txt -> cast json -> [ $index ]
+    open: file.txt -> cast csv -> [ column_name ]
+    open: file.txt -> cast json -> [ index ]
 
 This awareness of data structures is also utilised in `foreach` (which
 will cycle through each index in an array) and `formap` (key/value
@@ -107,23 +107,26 @@ structures for working with processes you want errors captured:
 
     try {
         # do soemthing
-    } -> catch {
+    }
+    catch {
         err: "Could not perform action"
     }
 
 As well as a saner `if` syntax:
 
-    if { = `foo`==`bar` } {
+    if { = `foo`==`bar` } then {
         out: "`foo` matched `bar`"
     }
 
-    !if { foobar } {
+    !if { foobar } else {
         err: "`foobar` could not be run"
     }
 
 ## Language guides
 
-Please read the following guides:
+The following guides are historic and the language has been refined a little
+since their creation. They are in the process of being rewritten in a format
+that allows for auto-generation, however I retain these guides for reference.
 
 1. [GUIDE.syntax.md](docs/GUIDE.syntax.md) is recommended first as it gives
 an overview if the shell scripting languages syntax and data types.
@@ -150,4 +153,4 @@ straight into using _murex_.
 
 ## Known bugs / TODO
 
-These have now been moved into Github's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
+Please see Github's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
