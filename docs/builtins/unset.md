@@ -17,6 +17,10 @@ for compatability with other shells (eg Bash).
 
 Please read the docs on `export` (link below).
 
+### Synonyms
+
+* !export
+
 ### See also
 
-* `export`
+* [`export`](export.md): Define an environmental variable and set it's value

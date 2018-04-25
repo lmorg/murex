@@ -13,10 +13,12 @@
 |       [`catch`](catch.md) | Handles the exception code raised by `try` or `trypipe` |
 |           [`err`](err.md) | Print a line to the STDERR |
 |       [`event`](event.md) | Event driven programming for shell scripts |
+|     [`export`](export.md) | Define an environmental variable and set it's value |
 |               [`f`](f.md) | Lists objects (eg files) in the current working directory |
 |               [`g`](g.md) | Glob pattern matching for file system objects (eg *.txt) |
 |           [`get`](get.md) | Makes a standard HTTP request and returns the result as a JSON object |
 |   [`getfile`](getfile.md) | Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines. |
+|     [`global`](global.md) | Define a global variable and set it's value |
 |             [`if`](if.md) | Conditional statement to execute different blocks of code depending on the result of the condition |
 | [`murex-docs`](murex-docs.md) | Displays the man pages for _murex_ builtins |
 |             [`or`](or.md) | Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful. |
@@ -26,7 +28,7 @@
 |             [`pt`](pt.md) | Pipe telemetry. Writes data-types and bytes written |
 |         [`read`](read.md) | `read` a line of input from the user and store as a variable |
 |             [`rx`](rx.md) | Regexp pattern matching for file system objects (eg '.*\.txt') |
-|           [`set`](set.md) | Define a variable and set it's value |
+|           [`set`](set.md) | Define a local variable and set it's value |
 | [`swivel-datatype`](swivel-datatype.md) | Converts tabulated data into a map of values for serialised data-types such as JSON and YAML |
 | [`swivel-table`](swivel-table.md) | Rotates a table by 90 degrees |
 |         [`tout`](tout.md) | Print a string to the STDOUT and set it's data-type |

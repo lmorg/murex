@@ -2,11 +2,11 @@
 
 ## Command reference: set
 
-> Define a variable and set it's value
+> Define a local variable and set it's value
 
 ### Description
 
-Defines, updates or deallocates a variable
+Defines, updates or deallocates a local variable
 
 ### Usage
 
@@ -45,7 +45,6 @@ outside of the `try` block:
     » out "foo: $foo"
     foo:
 
-
 However if we define `$foo` above the `try` block then it's value will be changed
 even though it's being set inside the `try` block:
 
@@ -57,6 +56,10 @@ even though it's being set inside the `try` block:
     foo: bar
 
 So unlike the previous example, this will return `bar`.
+
+It's also worth remembering that any variable defined in the shell's FID (ie
+naked in the interactive shell or otherwise outside of a function or method) is
+literally the same as using `global`
 
 #### Function names
 
@@ -99,8 +102,8 @@ quotes:
 * `[`
 * `eval`
 * `exec`
-* `export`
-* `global`
+* [`export`](export.md): Define an environmental variable and set it's value
+* [`global`](global.md): Define a global variable and set it's value
 * `let`
 * `pty`
 * [`unset`](unset.md): Deallocates an environmental variable (aliased to `!export`)

@@ -1,20 +1,26 @@
+# _murex_ Language Guide
+
+## Command reference: global
+
+> Define a global variable and set it's value
+
 ### Description
 
-Defines, updates or deallocates a local variable
+Defines, updates or deallocates a gobal variable.
 
 ### Usage
 
-    <stdin> -> set var_name
+    <stdin> -> global var_name
 
-    set var_name=data
+    global var_name=data
 
 ### Examples
 
-    » out "Hello, world!" -> set hw
+    » out "Hello, world!" -> global hw
     » out "$hw"
     Hello, World!
 
-    » set hw="Hello, world!"
+    » global hw="Hello, world!"
     » out "$hw"
     Hello, World!
 
@@ -24,12 +30,12 @@ Defines, updates or deallocates a local variable
 
 You can unset variable names with the bang prefix:
 
-    !set var_name
+    !global var_name
 
 #### Scoping
 
-Variables are only scoped inside the code block they're defined in (or any
-children of that code block). For example `$foo` will return an empty string in
+Variables are generally only scoped inside the code block they're defined in
+(ie when defined via `set`). For example `$foo` will return an empty string in
 the following code because it's defined within a `try` block then being queried
 outside of the `try` block:
 
@@ -38,6 +44,7 @@ outside of the `try` block:
     » }
     » out "foo: $foo"
     foo:
+
 
 However if we define `$foo` above the `try` block then it's value will be changed
 even though it's being set inside the `try` block:
@@ -51,9 +58,10 @@ even though it's being set inside the `try` block:
 
 So unlike the previous example, this will return `bar`.
 
-It's also worth remembering that any variable defined in the shell's FID (ie
-naked in the interactive shell or otherwise outside of a function or method) is
-literally the same as using `global`
+Where `global` differs from `set` is that the variables defined with `global`
+will scoped at the global shell level (please note this is not the same as
+environmental variables!) so will cascade down through all scoped code-blocks
+including those running in other threads.
 
 #### Function names
 
@@ -63,7 +71,7 @@ behind variable names.
 
 Instead _murex_ will assume you want the output of the variable printed:
 
-    » out "Hello, world!" -> set hw
+    » out "Hello, world!" -> export hw
     » $hw
     Hello, world!
 
@@ -71,7 +79,7 @@ On the rare occasions you want to force variables to be expanded inside a
 function name, then call that function via `exec` (or `pty` if your called
 function needs to be TTY aware):
 
-    » set cmd=grep
+    » export cmd=grep
     » ls -> exec: $cmd main.go
     main.go
 
@@ -86,3 +94,14 @@ quotes:
 
     » out '$foo'
     $foo
+
+### Synonyms
+
+* !global
+
+### See also
+
+* `eval`
+* [`export`](export.md): Define an environmental variable and set it's value
+* `let`
+* [`set`](set.md): Define a local variable and set it's value
