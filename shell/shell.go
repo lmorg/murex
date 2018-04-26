@@ -121,7 +121,7 @@ func prompt() {
 
 		default:
 			merged += line
-			mergedExp, err := history.ExpandVariables([]rune(merged), Prompt)
+			mergedExp, err := history.ExpandVariablesInLine([]rune(merged), Prompt)
 			if err == nil {
 				merged = string(mergedExp)
 			}

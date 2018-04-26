@@ -93,7 +93,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.Escaped = false
 				*pt.pop += `#`
 				ansiReset(block[i])
-			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0, pt.NestedBlock > 0:
 				*pt.pop += `#`
 				syntaxHighlighted += string(block[i])
 			default:
@@ -183,6 +183,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.QuoteBrace--
 			case pt.QuoteBrace == 0:
 				ansiColour(hlError, block[i])
+				pt.QuoteBrace--
 			default:
 				pt.QuoteBrace--
 			}

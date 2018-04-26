@@ -33,14 +33,28 @@ func getLine(i int, rl *readline.Instance) (s string) {
 	return
 }
 
-// ExpandVariables finds history variables in a line and replaces it with the value of the variable
+// ExpandVariables finds all history variables and replaces them with the value
+//of the variable
 func ExpandVariables(line []rune, rl *readline.Instance) ([]rune, error) {
+	return expandVariables(line, rl, false)
+}
+
+// ExpandVariablesInLine finds history variables in a line and replaces it with
+// the value of the variable. It does not replace the line formatting variables.
+func ExpandVariablesInLine(line []rune, rl *readline.Instance) ([]rune, error) {
+	return expandVariables(line, rl, true)
+}
+
+func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([]rune, error) {
 	s := string(line)
 
 	last := getLine(rl.History.Len()-1, rl)
 
-	s = strings.Replace(s, `^\n`, "\n", -1)          // Match new line
-	s = strings.Replace(s, `^\t`, "\t", -1)          // Match tab
+	if !skipFormatting {
+		s = strings.Replace(s, `^\n`, "\n", -1) // Match new line
+		s = strings.Replace(s, `^\t`, "\t", -1) // Match tab
+	}
+
 	s = strings.Replace(s, "^!!", noColon(last), -1) // Match last command
 
 	funcs := []func(string, *readline.Instance) (string, error){
