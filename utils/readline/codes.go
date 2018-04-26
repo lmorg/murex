@@ -43,6 +43,7 @@ var (
 	seqEnd       = string([]byte{27, 91, 70})
 	seqEndSc     = string([]byte{27, 91, 52, 126})
 	seqDelete    = string([]byte{27, 91, 51, 126})
+	seqShiftTab  = string([]byte{27, 91, 90})
 )
 
 const (

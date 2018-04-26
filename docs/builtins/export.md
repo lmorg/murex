@@ -69,4 +69,4 @@ quotes:
 * [`global`](global.md): Define a global variable and set it's value
 * `let`
 * [`set`](set.md): Define a local variable and set it's value
-* [`unset`](unset.md): Deallocates an environmental variable (aliased to `!export`)
+* `unset`

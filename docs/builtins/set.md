@@ -106,4 +106,4 @@ quotes:
 * [`global`](global.md): Define a global variable and set it's value
 * `let`
 * `pty`
-* [`unset`](unset.md): Deallocates an environmental variable (aliased to `!export`)
+* `unset`

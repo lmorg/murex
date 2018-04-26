@@ -36,4 +36,3 @@
 |           [`try`](try.md) | Handles errors inside a block of code |
 |   [`trypipe`](trypipe.md) | Checks state of each function in a pipeline and exits block on error |
 |       [`ttyfd`](ttyfd.md) | Returns the TTY device of the parent. |
-|       [`unset`](unset.md) | Deallocates an environmental variable (aliased to `!export`) |

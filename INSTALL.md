@@ -84,3 +84,12 @@ If you wish do disable any of these then delete the appropriate files in
 the `builtins` directory of this project or append `// +build ignore` to
 the `.go` file if you wish to preserve the change in subsequent updates
 from git.
+
+## Recommended terminal font
+
+This is obviously just a subjective matter and everyone will have their own
+personal preference. However if I was asked what my preference was then that
+would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean type-face
+based off Source Code Pro but with a few added ligatures - albeit subtle ones
+deisgned to make Haskell more readable. Those ligatures also suite _murex_
+pretty well. So the overall experience is a clean and readable terminal.
