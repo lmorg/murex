@@ -2,10 +2,11 @@ package typemgmt
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
 	"os"
 	"regexp"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
@@ -100,10 +101,10 @@ func cmdExport(p *proc.Process) error {
 		return os.Setenv(params, string(b))
 	}
 
-	// Only one parameter, so unset env:
+	/*// Only one parameter, so unset env:
 	if rxVarName.MatchString(params) {
 		return os.Unsetenv(params)
-	}
+	}*/
 
 	// Set env as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
