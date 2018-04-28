@@ -142,10 +142,13 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	switch container.RunMode {
 	case runmode.Normal, runmode.Shell:
 		exitNum = runModeNormal(&tree)
+
 	case runmode.Try:
 		exitNum = runModeTry(&tree)
+
 	case runmode.TryPipe:
 		exitNum = runModeTryPipe(&tree)
+
 	//case runmode.Evil:
 	//	panic("Not yet implemented")
 	default:
