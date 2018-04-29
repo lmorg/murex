@@ -30,6 +30,7 @@ func Start() {
 	var err error
 
 	Interactive = true
+	Prompt.TempDirectory = consts.TempDir
 	Prompt.TabCompleter = tabCompletion
 	Prompt.SyntaxCompleter = syntaxCompletion
 	Prompt.HistoryAutoWrite = false
@@ -53,6 +54,12 @@ func prompt() {
 	nLines := 1
 	var merged string
 	var block []rune
+	Prompt.GetMultiLine = func() []rune {
+		if len(block) == 0 {
+			return []rune{}
+		}
+		return append(block, '\n')
+	}
 
 	for {
 		getSyntaxHighlighting()
@@ -61,6 +68,7 @@ func prompt() {
 		if nLines > 1 {
 			getMultilinePrompt(nLines)
 		} else {
+			block = []rune{}
 			getPrompt()
 		}
 

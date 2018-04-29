@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"os"
 	"regexp"
 )
 
@@ -49,13 +50,24 @@ type Instance struct {
 	// It returns the hint text to display.
 	HintText func([]rune, int) []rune
 
+	// TempDirectory is the path to write temporary files when editing a line in
+	// $EDITOR
+	TempDirectory string
+
+	// GetMultiLine is a callback to your host program. Since multiline support
+	// is handled by the application rather than readline itself, this callback
+	// is required when calling $EDITOR. However if this function is not set
+	// then readline will just use the current line.
+	GetMultiLine func() []rune
+
 	// readline operating parameters
-	prompt     string //  = ">>> "
-	promptLen  int    //= 4
-	line       []rune
-	pos        int
-	multiline  []byte
-	multisplit []string
+	prompt        string //  = ">>> "
+	promptLen     int    //= 4
+	line          []rune
+	pos           int
+	multiline     []byte
+	multisplit    []string
+	skipStdinRead bool
 
 	// history
 	lineBuf []rune
@@ -102,6 +114,11 @@ func NewInstance() *Instance {
 	rl.prompt = ">>> "
 	rl.promptLen = 4
 	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, []rune))
+
+	rl.TempDirectory = tempDirectory()
+	if _, err := os.Stat(rl.TempDirectory); os.IsNotExist(err) {
+		os.MkdirAll(rl.TempDirectory, 0755)
+	}
 
 	return rl
 }

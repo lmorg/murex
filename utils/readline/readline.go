@@ -51,11 +51,17 @@ func (rl *Instance) Readline() (string, error) {
 	for {
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024)
+		var i int
 
-		i, err := os.Stdin.Read(b)
-		if err != nil {
-			return "", err
+		if !rl.skipStdinRead {
+			var err error
+			i, err = os.Stdin.Read(b)
+			if err != nil {
+				return "", err
+			}
 		}
+
+		rl.skipStdinRead = false
 
 		if isMultiline(b[:i]) || len(rl.multiline) > 0 {
 			rl.multiline = append(rl.multiline, b[:i]...)
@@ -72,6 +78,7 @@ func (rl *Instance) Readline() (string, error) {
 			rl.multisplit = rxMultiline.Split(s, -1)
 
 			b = []byte(rl.multisplit[0])
+			rl.modeViMode = vimInsert
 			rl.editorInput(b)
 			rl.carridgeReturn()
 			rl.multiline = []byte{}
@@ -156,6 +163,9 @@ func (rl *Instance) Readline() (string, error) {
 
 		default:
 			rl.editorInput(b[:i])
+			if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
+				rl.skipStdinRead = true
+			}
 		}
 
 		if !rl.viUndoSkipAppend {
@@ -271,7 +281,9 @@ func (rl *Instance) editorInput(b []byte) {
 		rl.insert(b)
 	}
 
-	rl.syntaxCompletion()
+	if len(rl.multisplit) == 0 {
+		rl.syntaxCompletion()
+	}
 }
 
 func (rl *Instance) echo() {

@@ -71,6 +71,23 @@ func (rl *Instance) vi(b byte) {
 		}
 		rl.viUndoSkipAppend = true
 
+	case 'v':
+		rl.clearHelpers()
+		var multiline []rune
+		if rl.GetMultiLine == nil {
+			multiline = rl.line
+		} else {
+			multiline = append(rl.GetMultiLine(), rl.line...)
+		}
+
+		new, err := rl.launchEditor(multiline)
+		if err != nil || len(new) == 0 || string(new) == string(multiline) {
+			rl.viUndoSkipAppend = true
+			return
+		}
+		rl.clearLine()
+		rl.multiline = []byte(string(new))
+
 	case 'x':
 		vii := rl.getViIterations()
 		for i := 1; i <= vii; i++ {
