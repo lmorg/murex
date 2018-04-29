@@ -103,6 +103,11 @@ func cmdTtyFd(p *proc.Process) (err error) {
 func cmdTempFile(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
 
+	ext, _ := p.Parameters.String(0)
+	if ext != "" {
+		ext = "." + ext
+	}
+
 	fileId := strconv.Itoa(time.Now().Nanosecond()) + ":" + strconv.Itoa(p.Id)
 
 	h := md5.New()
@@ -111,7 +116,7 @@ func cmdTempFile(p *proc.Process) error {
 		return err
 	}
 
-	name := consts.TempDir + hex.EncodeToString(h.Sum(nil)) + "." + strconv.Itoa(os.Getpid())
+	name := consts.TempDir + hex.EncodeToString(h.Sum(nil)) + "-" + strconv.Itoa(os.Getpid()) + ext
 
 	file, err := os.Create(name)
 	if err != nil {
