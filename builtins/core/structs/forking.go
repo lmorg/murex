@@ -1,27 +1,33 @@
 package structs
 
 import (
-	"errors"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["fork"] = cmdFork
+	proc.GoFunctions["fork"] = cmdBackground
+	proc.GoFunctions["bg"] = cmdBackground
 }
 
-func cmdFork(p *proc.Process) (err error) {
+func cmdBackground(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
-	if p.Parameters.Len() == 0 {
-		return errors.New("Nothing to fork.")
-	}
+	var block []rune
 
-	block, err := p.Parameters.Block(0)
-	if err != nil {
-		s := p.Parameters.StringAll()
-		block = []rune(s)
+	if p.IsMethod {
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		block = []rune(string(b))
+
+	} else {
+		block, err = p.Parameters.Block(0)
+		if err != nil {
+			return err
+		}
 	}
 
 	p.IsBackground = true

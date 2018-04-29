@@ -8,7 +8,7 @@ package defaults
 const DefaultMurexProfile string = `
 func h {
     # Output the murex history log in a human readable format
-    history -> foreach { -> [ Index Block ] -> sprintf: "%6s: %s\n" }
+    history -> foreach { -> [ Index Block ] -> sprintf: "%6s => %s\n" }
 }
 
 func aliases {

@@ -207,6 +207,12 @@ func (rl *Instance) escapeSeq(b []byte) {
 		}
 		rl.viUndoSkipAppend = true
 
+	case seqShiftTab:
+		if rl.modeTabGrid {
+			rl.moveTabHighlight(-1, 0)
+			return
+		}
+
 	case seqForwards:
 		if rl.modeTabGrid {
 			rl.moveTabHighlight(1, 0)

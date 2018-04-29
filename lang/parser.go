@@ -435,7 +435,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				braceCount--
 			}
 
-		case ' ', '\t', '\r':
+		case ' ', '\t': //, '\r':
 			switch {
 			case escaped:
 				pUpdate(r)
@@ -455,6 +455,9 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				// do nothing
 			}
 
+		case '\r':
+			// do nothing
+
 		case '\n':
 			lineNumber++
 			colNumber = 0
@@ -466,15 +469,18 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case braceCount > 0:
 				pUpdate(r)
-			case !scanFuncName:
+			case scanFuncName && ignoreWhitespace:
+				// do nothing
+				//case !scanFuncName:
+			default:
 				appendNode()
 				node = astNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
-			case scanFuncName && !ignoreWhitespace:
-				startParameters()
-			default:
-				// do nothing
+				//case scanFuncName && !ignoreWhitespace:
+				//	startParameters()
+				//default:
+				//	// do nothing
 			}
 
 		case '|':
