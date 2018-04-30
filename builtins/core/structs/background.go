@@ -7,7 +7,6 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["fork"] = cmdBackground
 	proc.GoFunctions["bg"] = cmdBackground
 }
 
