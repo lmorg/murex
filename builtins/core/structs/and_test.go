@@ -4,62 +4,63 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"
+	"github.com/lmorg/murex/test"
 )
 
 // TestAnd tests the `and` builtin
 func TestAnd(t *testing.T) {
-	tests := []test{
+	tests := []test.BooleanTest{
 		// --- and ---
 		{
-			block:  "and { true } { true } { true }",
-			result: true,
+			Block:  "and { true } { true } { true }",
+			Result: true,
 		},
 		{
-			block:  "and { false } { true } { true }",
-			result: false,
+			Block:  "and { false } { true } { true }",
+			Result: false,
 		},
 		{
-			block:  "and { true } { false } { true }",
-			result: false,
+			Block:  "and { true } { false } { true }",
+			Result: false,
 		},
 		{
-			block:  "and { true } { true } { false }",
-			result: false,
+			Block:  "and { true } { true } { false }",
+			Result: false,
 		},
 		{
-			block:  "and { false } { true } { false }",
-			result: false,
+			Block:  "and { false } { true } { false }",
+			Result: false,
 		},
 		{
-			block:  "and { false } { false } { false }",
-			result: false,
+			Block:  "and { false } { false } { false }",
+			Result: false,
 		},
 		// --- !and ---
 		{
-			block:  "!and { true } { true } { true }",
-			result: false,
+			Block:  "!and { true } { true } { true }",
+			Result: false,
 		},
 		{
-			block:  "!and { false } { true } { true }",
-			result: false,
+			Block:  "!and { false } { true } { true }",
+			Result: false,
 		},
 		{
-			block:  "!and { true } { false } { true }",
-			result: false,
+			Block:  "!and { true } { false } { true }",
+			Result: false,
 		},
 		{
-			block:  "!and { true } { true } { false }",
-			result: false,
+			Block:  "!and { true } { true } { false }",
+			Result: false,
 		},
 		{
-			block:  "!and { false } { true } { false }",
-			result: false,
+			Block:  "!and { false } { true } { false }",
+			Result: false,
 		},
 		{
-			block:  "!and { false } { false } { false }",
-			result: true,
+			Block:  "!and { false } { false } { false }",
+			Result: true,
 		},
 	}
 
-	runTests(tests, t)
+	test.RunBooleanTests(tests, t)
 }

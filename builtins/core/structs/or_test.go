@@ -2,62 +2,64 @@ package structs
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test"
 )
 
 // TestOr tests the `or` builtin
 func TestOr(t *testing.T) {
-	tests := []test{
+	tests := []test.BooleanTest{
 		// --- or ---
 		{
-			block:  "or { true } { true } { true }",
-			result: true,
+			Block:  "or { true } { true } { true }",
+			Result: true,
 		},
 		{
-			block:  "or { false } { true } { true }",
-			result: true,
+			Block:  "or { false } { true } { true }",
+			Result: true,
 		},
 		{
-			block:  "or { true } { false } { true }",
-			result: true,
+			Block:  "or { true } { false } { true }",
+			Result: true,
 		},
 		{
-			block:  "or { true } { true } { false }",
-			result: true,
+			Block:  "or { true } { true } { false }",
+			Result: true,
 		},
 		{
-			block:  "or { false } { true } { false }",
-			result: true,
+			Block:  "or { false } { true } { false }",
+			Result: true,
 		},
 		{
-			block:  "or { false } { false } { false }",
-			result: false,
+			Block:  "or { false } { false } { false }",
+			Result: false,
 		},
 		// --- !or ---
 		{
-			block:  "!or { true } { true } { true }",
-			result: false,
+			Block:  "!or { true } { true } { true }",
+			Result: false,
 		},
 		{
-			block:  "!or { false } { true } { true }",
-			result: true,
+			Block:  "!or { false } { true } { true }",
+			Result: true,
 		},
 		{
-			block:  "!or { true } { false } { true }",
-			result: true,
+			Block:  "!or { true } { false } { true }",
+			Result: true,
 		},
 		{
-			block:  "!or { true } { true } { false }",
-			result: true,
+			Block:  "!or { true } { true } { false }",
+			Result: true,
 		},
 		{
-			block:  "!or { false } { true } { false }",
-			result: true,
+			Block:  "!or { false } { true } { false }",
+			Result: true,
 		},
 		{
-			block:  "!or { false } { false } { false }",
-			result: true,
+			Block:  "!or { false } { false } { false }",
+			Result: true,
 		},
 	}
 
-	runTests(tests, t)
+	test.RunBooleanTests(tests, t)
 }

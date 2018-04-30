@@ -1,4 +1,4 @@
-package structs
+package test
 
 import (
 	"testing"
@@ -11,12 +11,14 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-type test struct {
-	block  string
-	result bool
+// BooleanTest is a basic framework for each boolean test of murex code
+type BooleanTest struct {
+	Block  string
+	Result bool
 }
 
-func runTests(tests []test, t *testing.T) {
+// RunBooleanTests runs through all the test cases for BooleanTest
+func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 	defaults.Defaults(proc.InitConf, false)
 	proc.InitEnv()
 
@@ -24,7 +26,7 @@ func runTests(tests []test, t *testing.T) {
 		stdout := streams.NewStdin()
 		stderr := streams.NewStdin()
 
-		exitNum, err := lang.RunBlockShellNamespace([]rune(tests[i].block), nil, stdout, stderr)
+		exitNum, err := lang.RunBlockShellNamespace([]rune(tests[i].Block), nil, stdout, stderr)
 		if err != nil {
 			t.Error(err.Error())
 		}
@@ -44,8 +46,8 @@ func runTests(tests []test, t *testing.T) {
 		}
 
 		boolean := types.IsTrue(b, exitNum)
-		if boolean != tests[i].result {
-			t.Error(tests[i].block, "returned", boolean)
+		if boolean != tests[i].Result {
+			t.Error(tests[i].Block, "returned", boolean)
 		}
 	}
 }

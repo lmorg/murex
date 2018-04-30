@@ -4,232 +4,225 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"
-	"github.com/lmorg/murex/config/defaults"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/test"
 )
 
 // TestIf tests the `if` builtin
 func TestIf(t *testing.T) {
-	defaults.Defaults(proc.InitConf, false)
-	proc.InitEnv()
-
-	tests := []test{
+	tests := []test.BooleanTest{
 		// --- if / then---
 		{
-			block:  "if { true } then { true }",
-			result: true,
+			Block:  "if { true } then { true }",
+			Result: true,
 		},
 		{
-			block:  "if { true } then { false }",
-			result: false,
+			Block:  "if { true } then { false }",
+			Result: false,
 		},
 		{
-			block:  "if { false } then { true }",
-			result: false,
+			Block:  "if { false } then { true }",
+			Result: false,
 		},
 		{
-			block:  "if { false } then { false }",
-			result: false,
+			Block:  "if { false } then { false }",
+			Result: false,
 		},
 
 		{
-			block:  "if { true }  { true }",
-			result: true,
+			Block:  "if { true }  { true }",
+			Result: true,
 		},
 		{
-			block:  "if { true }  { false }",
-			result: false,
+			Block:  "if { true }  { false }",
+			Result: false,
 		},
 		{
-			block:  "if { false }  { true }",
-			result: false,
+			Block:  "if { false }  { true }",
+			Result: false,
 		},
 		{
-			block:  "if { false }  { false }",
-			result: false,
+			Block:  "if { false }  { false }",
+			Result: false,
 		},
 		// --- if / then / else ---
 		{
-			block:  "if { true } then { true } else { false }",
-			result: true,
+			Block:  "if { true } then { true } else { false }",
+			Result: true,
 		},
 		{
-			block:  "if { true } then { false } else { false }",
-			result: false,
+			Block:  "if { true } then { false } else { false }",
+			Result: false,
 		},
 		{
-			block:  "if { false } then { true } else { false }",
-			result: false,
+			Block:  "if { false } then { true } else { false }",
+			Result: false,
 		},
 		{
-			block:  "if { false } then { false } else { false }",
-			result: false,
+			Block:  "if { false } then { false } else { false }",
+			Result: false,
 		},
 
 		{
-			block:  "if { true }  { true }  { false }",
-			result: true,
+			Block:  "if { true }  { true }  { false }",
+			Result: true,
 		},
 		{
-			block:  "if { true }  { false }  { false }",
-			result: false,
+			Block:  "if { true }  { false }  { false }",
+			Result: false,
 		},
 		{
-			block:  "if { false }  { true }  { false }",
-			result: false,
+			Block:  "if { false }  { true }  { false }",
+			Result: false,
 		},
 		{
-			block:  "if { false }  { false }  { false }",
-			result: false,
+			Block:  "if { false }  { false }  { false }",
+			Result: false,
 		},
 		// ---
 		{
-			block:  "if { true } then { true } else { true }",
-			result: true,
+			Block:  "if { true } then { true } else { true }",
+			Result: true,
 		},
 		{
-			block:  "if { true } then { false } else { true }",
-			result: false,
+			Block:  "if { true } then { false } else { true }",
+			Result: false,
 		},
 		{
-			block:  "if { false } then { true } else { true }",
-			result: true,
+			Block:  "if { false } then { true } else { true }",
+			Result: true,
 		},
 		{
-			block:  "if { false } then { false } else { true }",
-			result: true,
+			Block:  "if { false } then { false } else { true }",
+			Result: true,
 		},
 
 		{
-			block:  "if { true }  { true }  { true }",
-			result: true,
+			Block:  "if { true }  { true }  { true }",
+			Result: true,
 		},
 		{
-			block:  "if { true }  { false }  { true }",
-			result: false,
+			Block:  "if { true }  { false }  { true }",
+			Result: false,
 		},
 		{
-			block:  "if { false }  { true }  { true }",
-			result: true,
+			Block:  "if { false }  { true }  { true }",
+			Result: true,
 		},
 		{
-			block:  "if { false }  { false }  { true }",
-			result: true,
+			Block:  "if { false }  { false }  { true }",
+			Result: true,
 		},
 	}
 
-	runTests(tests, t)
+	test.RunBooleanTests(tests, t)
 }
 
 // TestNotIf tests the `!if` builtin
 func TestNotIf(t *testing.T) {
-	defaults.Defaults(proc.InitConf, false)
-	proc.InitEnv()
-
-	tests := []test{
+	tests := []test.BooleanTest{
 		// --- !if / then---
 		{
-			block:  "!if { true } then { true }",
-			result: false,
+			Block:  "!if { true } then { true }",
+			Result: false,
 		},
 		{
-			block:  "!if { true } then { false }",
-			result: false,
+			Block:  "!if { true } then { false }",
+			Result: false,
 		},
 		{
-			block:  "!if { false } then { true }",
-			result: true,
+			Block:  "!if { false } then { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { false } then { false }",
-			result: false,
+			Block:  "!if { false } then { false }",
+			Result: false,
 		},
 
 		{
-			block:  "!if { true }  { true }",
-			result: false,
+			Block:  "!if { true }  { true }",
+			Result: false,
 		},
 		{
-			block:  "!if { true }  { false }",
-			result: false,
+			Block:  "!if { true }  { false }",
+			Result: false,
 		},
 		{
-			block:  "!if { false }  { true }",
-			result: true,
+			Block:  "!if { false }  { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { false }  { false }",
-			result: false,
+			Block:  "!if { false }  { false }",
+			Result: false,
 		},
 		// --- !if / then / else ---
 		{
-			block:  "!if { true } then { true } else { false }",
-			result: false,
+			Block:  "!if { true } then { true } else { false }",
+			Result: false,
 		},
 		{
-			block:  "!if { true } then { false } else { false }",
-			result: false,
+			Block:  "!if { true } then { false } else { false }",
+			Result: false,
 		},
 		{
-			block:  "!if { false } then { true } else { false }",
-			result: true,
+			Block:  "!if { false } then { true } else { false }",
+			Result: true,
 		},
 		{
-			block:  "!if { false } then { false } else { false }",
-			result: false,
+			Block:  "!if { false } then { false } else { false }",
+			Result: false,
 		},
 
 		{
-			block:  "!if { true }  { true }  { false }",
-			result: false,
+			Block:  "!if { true }  { true }  { false }",
+			Result: false,
 		},
 		{
-			block:  "!if { true }  { false }  { false }",
-			result: false,
+			Block:  "!if { true }  { false }  { false }",
+			Result: false,
 		},
 		{
-			block:  "!if { false }  { true }  { false }",
-			result: true,
+			Block:  "!if { false }  { true }  { false }",
+			Result: true,
 		},
 		{
-			block:  "!if { false }  { false }  { false }",
-			result: false,
+			Block:  "!if { false }  { false }  { false }",
+			Result: false,
 		},
 		// ---
 		{
-			block:  "!if { true } then { true } else { true }",
-			result: true,
+			Block:  "!if { true } then { true } else { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { true } then { false } else { true }",
-			result: true,
+			Block:  "!if { true } then { false } else { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { false } then { true } else { true }",
-			result: true,
+			Block:  "!if { false } then { true } else { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { false } then { false } else { true }",
-			result: false,
+			Block:  "!if { false } then { false } else { true }",
+			Result: false,
 		},
 
 		{
-			block:  "!if { true }  { true }  { true }",
-			result: true,
+			Block:  "!if { true }  { true }  { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { true }  { false }  { true }",
-			result: true,
+			Block:  "!if { true }  { false }  { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { false }  { true }  { true }",
-			result: true,
+			Block:  "!if { false }  { true }  { true }",
+			Result: true,
 		},
 		{
-			block:  "!if { false }  { false }  { true }",
-			result: false,
+			Block:  "!if { false }  { false }  { true }",
+			Result: false,
 		},
 	}
 
-	runTests(tests, t)
+	test.RunBooleanTests(tests, t)
 }
