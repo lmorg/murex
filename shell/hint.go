@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
 )
@@ -47,10 +48,13 @@ func hintText(line []rune, pos int) []rune {
 		return []rune(s)
 	}
 
-	var cmd string
-
 	pt, _ := parse(line)
-	cmd = pt.FuncName
+	cmd := pt.FuncName
+
+	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
+		path := utils.NormalisePath(pt.Parameters[0])
+		return []rune("Change directory: " + path)
+	}
 
 	if proc.GlobalAliases.Exists(cmd) {
 		s := proc.GlobalAliases.Get(cmd)
