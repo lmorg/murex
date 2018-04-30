@@ -1,9 +1,10 @@
 package main
 
 import (
+	"testing"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"testing"
 )
 
 // TestMurex tests murex runtime environment can be initialised and and simple
