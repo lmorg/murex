@@ -1,6 +1,8 @@
 package proc
 
 import (
+	"time"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
@@ -44,6 +46,8 @@ type Process struct {
 	Config             *config.Config
 	Variables          *Variables
 	FidTree            []int
+	CreationTime       time.Time
+	StartTime          time.Time
 	//ScopedVars         *types.Vars
 }
 

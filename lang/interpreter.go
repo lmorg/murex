@@ -19,7 +19,7 @@ func compile(tree *astNodes, parent *proc.Process, vars *proc.Variables) {
 		(*tree)[i].Process.WaitForTermination = make(chan bool)
 		(*tree)[i].Process.RunMode = parent.RunMode
 		(*tree)[i].Process.Config = parent.Config
-		(*tree)[i].Process.Variables = proc.NewVariables(&(*tree)[i].Process)
+		(*tree)[i].Process.Variables = proc.NewVariables()
 
 		(*tree)[i].Process.FidTree = make([]int, len(parent.Parent.FidTree))
 		copy((*tree)[i].Process.FidTree, parent.Parent.FidTree)

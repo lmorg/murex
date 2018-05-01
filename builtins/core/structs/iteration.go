@@ -119,7 +119,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		var vars *proc.Variables
 		vars = nil // TODO: I don't think this is required but should be tested
 		if varName != "" {
-			vars = proc.NewVariables(p)
+			vars = proc.NewVariables()
 			vars.Set(varName, string(b), dt)
 		}
 
@@ -159,7 +159,7 @@ func cmdForMap(p *proc.Process) error {
 			return
 		}
 
-		vars := proc.NewVariables(p)
+		vars := proc.NewVariables()
 		vars.Set(varKey, key, types.String)
 		vars.Set(varVal, value, dt)
 
