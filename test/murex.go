@@ -38,7 +38,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 		}
 
 		if string(b) != tests[i].Stderr {
-			t.Error(tests[i].Block, "- stderr doesn't match exected error message")
+			t.Error(tests[i].Block, "- stderr doesn't match exected error message:", b)
 		}
 
 		b, err = stdout.ReadAll()
@@ -47,7 +47,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 		}
 
 		if string(b) != tests[i].Stdout {
-			t.Error(tests[i].Block, "- stdout doesn't match exected output")
+			t.Error(tests[i].Block, "- stdout doesn't match exected output:", b)
 		}
 
 		if exitNum != tests[i].ExitNum {
