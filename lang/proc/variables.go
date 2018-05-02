@@ -29,16 +29,28 @@ type Variables struct {
 // NewVariables creates a new Variables object
 func NewVariables() *Variables {
 	vars := new(Variables)
-	//vars.process = p
-	vars.varTable = masterVarTable
+	vars.varTable = new(varTable)
+	vars.process = ShellProcess
 	return vars
 }
 
+// ReferenceVariables creates a new Variables object linked to an existing varTable
+func ReferenceVariables(ref *Variables) *Variables {
+	vars := new(Variables)
+	vars.varTable = ref.varTable
+	return vars
+}
+
+/*// Pointer creates a new Variables object which points to the existing one
+func (vars *Variables) Fork() *Variables {
+	fork := *vars
+	return &fork
+}*/
+
 // This is the core variable table that will be used for all vars
 type varTable struct {
-	vars    []*variable
-	process *Process
-	mutex   sync.Mutex
+	vars  []*variable
+	mutex sync.Mutex
 }
 
 func newVarTable() *varTable {
@@ -84,7 +96,7 @@ func (vt *varTable) getVariable(p *Process, name string) *variable {
 		v.mutex.Lock()
 		disabled := v.disabled
 		v.mutex.Unlock()
-		if disabled || v.name != name || v.creationTime.After(p.StartTime) {
+		if disabled || v.name != name /*|| v.creationTime.After(p.StartTime)*/ {
 			continue
 		}
 
@@ -200,6 +212,7 @@ func convDataType(value interface{}, dataType string) (val interface{}, err erro
 // Set checks if a variable already exists, if it does it updates the value, if
 // it doesn't it creates a new one.
 func (vars *Variables) Set(name string, value interface{}, dataType string) error {
+	debug.Json("vars set", vars.process)
 	val, err := convDataType(value, dataType)
 	if err != nil {
 		return err
@@ -242,7 +255,7 @@ func (vars *Variables) ImportVariables(importVars *Variables) {
 	defer vars.varTable.mutex.Unlock()
 
 	for _, v := range importVars.varTable.vars {
-		//v.creationTime=time.Now()
+		v.creationTime = time.Now()
 		v.owner = vars.process.Id
 		vars.varTable.vars = append(vars.varTable.vars, v)
 	}

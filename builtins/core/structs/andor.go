@@ -28,7 +28,7 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 
 		stdout := streams.NewStdin()
 		stderr := new(streams.Null)
-		i, err := lang.RunBlockExistingNamespace(block, nil, stdout, stderr, p)
+		i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, stderr, p)
 		if err != nil {
 			return err
 		}

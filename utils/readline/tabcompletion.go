@@ -42,7 +42,16 @@ func (rl *Instance) initTabGrid() {
 	rl.tcPosX = 1
 	rl.tcPosY = 1
 	rl.tcMaxX = termWidth / (tcMaxLength + 2)
+	// avoid a divide by zero error
+	if rl.tcMaxX < 1 {
+		rl.tcMaxX = 1
+	}
+
 	rl.tcMaxY = rl.MaxTabCompleterRows
+	//if rl.tcMaxY < 1 {
+	//	rl.tcMaxY = 1
+	//}
+
 }
 
 func (rl *Instance) moveTabHighlight(x, y int) {

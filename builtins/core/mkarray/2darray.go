@@ -63,7 +63,7 @@ func twoDArray(p *proc.Process) (err error) {
 		out := streams.NewStdin()
 
 		go func() {
-			_, err := lang.RunBlockExistingNamespace(block[index], nil, out, p.Stderr, p)
+			_, err := lang.RunBlockExistingConfigSpace(block[index], nil, out, p.Stderr, p)
 			if err != nil {
 				p.Stderr.Write([]byte(err.Error()))
 			}

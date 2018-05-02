@@ -116,8 +116,7 @@ func cmdSource(p *proc.Process) (err error) {
 	}
 
 	p.RunMode = runmode.Shell
-	//p.ExitNum, err = lang.RunBlockParentNamespace([]rune(string(b)), nil, p.Stdout, p.Stderr, p)
-	p.ExitNum, err = lang.RunBlockShellNamespace([]rune(string(b)), nil, p.Stdout, p.Stderr)
+	p.ExitNum, err = lang.RunBlockShellConfigSpace([]rune(string(b)), nil, p.Stdout, p.Stderr)
 	return
 }
 

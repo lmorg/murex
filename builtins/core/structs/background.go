@@ -31,7 +31,7 @@ func cmdBackground(p *proc.Process) (err error) {
 
 	p.IsBackground = true
 	p.WaitForTermination <- false
-	lang.RunBlockExistingNamespace(block, p.Stdin, p.Stdout, p.Stderr, p)
+	lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 
 	return nil
 }

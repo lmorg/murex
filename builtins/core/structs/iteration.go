@@ -42,7 +42,7 @@ func cmdFor(p *proc.Process) (err error) {
 	conditional := "eval " + parameters[1]
 	incremental := "let " + parameters[2]
 
-	_, err = lang.RunBlockExistingNamespace([]rune(variable), nil, nil, p.Stderr, p)
+	_, err = lang.RunBlockExistingConfigSpace([]rune(variable), nil, nil, p.Stderr, p)
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func cmdFor(p *proc.Process) (err error) {
 		}
 
 		stdout := streams.NewStdin()
-		i, err := lang.RunBlockExistingNamespace([]rune(conditional), nil, stdout, p.Stderr, p)
+		i, err := lang.RunBlockExistingConfigSpace([]rune(conditional), nil, stdout, p.Stderr, p)
 		//stdout.Close()
 		if err != nil {
 			return err
@@ -68,10 +68,10 @@ func cmdFor(p *proc.Process) (err error) {
 		}
 
 		// Execute block.
-		lang.RunBlockExistingNamespace(block, nil, p.Stdout, p.Stderr, p)
+		lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
 
 		// Increment counter.
-		_, err = lang.RunBlockExistingNamespace([]rune(incremental), nil, nil, p.Stderr, p)
+		_, err = lang.RunBlockExistingConfigSpace([]rune(incremental), nil, nil, p.Stderr, p)
 		if err != nil {
 			return err
 		}
@@ -117,7 +117,6 @@ func cmdForEach(p *proc.Process) (err error) {
 		}
 
 		var vars *proc.Variables
-		vars = nil // TODO: I don't think this is required but should be tested
 		if varName != "" {
 			vars = proc.NewVariables()
 			vars.Set(varName, string(b), dt)
@@ -128,7 +127,7 @@ func cmdForEach(p *proc.Process) (err error) {
 		stdin.Writeln(b)
 		//stdin.Close()
 
-		lang.RunBlockExistingNamespacePlusVars(block, stdin, p.Stdout, p.Stderr, p, vars)
+		lang.RunBlockExistingConfigSpacePlusVars(block, stdin, p.Stdout, p.Stderr, p, vars)
 	})
 
 	return err
@@ -163,7 +162,7 @@ func cmdForMap(p *proc.Process) error {
 		vars.Set(varKey, key, types.String)
 		vars.Set(varVal, value, dt)
 
-		lang.RunBlockExistingNamespacePlusVars(block, nil, p.Stdout, p.Stderr, p, vars)
+		lang.RunBlockExistingConfigSpacePlusVars(block, nil, p.Stdout, p.Stderr, p, vars)
 	})
 
 	return err
@@ -186,7 +185,7 @@ func cmdWhile(p *proc.Process) error {
 			}
 
 			stdout := streams.NewStdin()
-			i, err := lang.RunBlockExistingNamespace(block, nil, stdout, p.Stderr, p)
+			i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, p.Stderr, p)
 			//stdout.Close()
 			if err != nil {
 				return err
@@ -228,7 +227,7 @@ func cmdWhile(p *proc.Process) error {
 			}
 
 			stdout := streams.NewStdin()
-			i, err := lang.RunBlockExistingNamespace(ifBlock, nil, stdout, nil, p)
+			i, err := lang.RunBlockExistingConfigSpace(ifBlock, nil, stdout, nil, p)
 			//stdout.Close()
 			if err != nil {
 				return err
@@ -244,7 +243,7 @@ func cmdWhile(p *proc.Process) error {
 				return nil
 			}
 
-			lang.RunBlockExistingNamespace(whileBlock, nil, p.Stdout, p.Stderr, p)
+			lang.RunBlockExistingConfigSpace(whileBlock, nil, p.Stdout, p.Stderr, p)
 		}
 
 	default:

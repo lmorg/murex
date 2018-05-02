@@ -27,15 +27,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 		return
 	}
 
-	p := &proc.Process{
-		Name:       args.exe,
-		Parameters: parameters.Parameters{Params: args.params},
-		Parent:     proc.ShellProcess,
-		Config:     proc.ShellProcess.Config.Copy(),
-		//ScopedVars: proc.ShellProcess.ScopedVars.Copy(),
-	}
-	p.Scope = p
-
 	if !types.IsBlock([]byte(f.Dynamic)) {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocompleter is not a code block.")
 		return
@@ -44,9 +35,13 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
-	exitNum, err := lang.RunBlockExistingNamespace(block, nil, stdout, stderr, p)
-	//stdout.Close()
-	//stderr.Close()
+
+	p := proc.ShellProcess.BranchFID()
+	p.Scope = p
+	p.Parent = p
+	p.Name = args.exe
+	p.Parameters = parameters.Parameters{Params: args.params}
+	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, stderr, p)
 
 	b, _ := stderr.ReadAll()
 	s := strings.TrimSpace(string(b))

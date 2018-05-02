@@ -29,6 +29,8 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 
 	proc.GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
+	p.Variables.ImportVariables(vars)
+
 	parseRedirection(p)
 
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
@@ -42,11 +44,6 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 
 	p.IsMethod = isMethod
 
-	p.Variables.ImportVariables(vars)
-
-	//p.Stdout.Open()
-	//p.Stderr.Open()
-
 	switch p.NamedPipeErr {
 	case "":
 		p.NamedPipeErr = "err"
@@ -54,16 +51,12 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
 		p.Stderr.SetDataType(types.String)
-		//p.Stderr.Close()
 		p.Stderr = p.Next.Stdout
-		//p.Stderr.Open()
 	default:
 		p.Stderr.SetDataType(types.String)
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
-			//p.Stderr.Close()
 			p.Stderr = pipe
-			//p.Stderr.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}
@@ -75,28 +68,21 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 		p.NamedPipeOut = "out"
 	case "err":
 		p.Stdout.SetDataType(types.Null)
-		//p.Stdout.Close()
 		p.Stdout = p.Next.Stderr
-		//p.Stdout.Open()
 	case "out":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
 		p.Stdout.SetDataType(types.Null)
-		//p.Stdout.Close()
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
-			//p.Stdout.Close()
 			p.Stdout = pipe
-			//p.Stdout.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
 	p.Stdout.Open()
-	//defer p.Stdout.Close()
 	p.Stderr.Open()
-	//defer p.Stderr.Close()
 
 	p.Stderr.SetDataType(types.String)
 
@@ -156,7 +142,7 @@ executeProcess:
 		p.Scope = p
 		r, err = proc.MxFunctions.Block(p.Name)
 		if err == nil {
-			p.ExitNum, err = RunBlockNewNamespace(r, p.Stdin, p.Stdout, p.Stderr, p)
+			p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
 	case p.Name[0] == '$':
@@ -175,7 +161,7 @@ executeProcess:
 			_, err = p.Stdout.Write([]byte(s))
 		default:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
-			RunBlockExistingNamespace(block, p.Stdin, p.Stdout, p.Stderr, p)
+			RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
 	case proc.GoFunctions[p.Name] != nil:

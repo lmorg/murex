@@ -27,7 +27,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 		stdout := streams.NewStdin()
 		stderr := streams.NewStdin()
 
-		exitNum, err := lang.RunBlockShellNamespace([]rune(tests[i].Block), nil, stdout, stderr)
+		exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
 		if err != nil {
 			t.Error(err.Error())
 		}

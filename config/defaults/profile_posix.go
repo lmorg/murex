@@ -18,8 +18,10 @@ func aliases {
     }
 }
 
-alias ls=ls --color=auto
-alias grep=grep --color=auto
+if { = ` + "`${os}`==`linux`" + ` } then {
+    alias ls=ls --color=auto
+    alias grep=grep --color=auto
+}
 
 config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
 config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }

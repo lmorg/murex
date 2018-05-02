@@ -88,7 +88,7 @@ func cmdIf(p *proc.Process) error {
 		// --- IF --- (function)
 		stdout := streams.NewStdin()
 		stderr := new(streams.Null)
-		i, err := lang.RunBlockExistingNamespace(blocks[fIf], nil, stdout, stderr, p)
+		i, err := lang.RunBlockExistingConfigSpace(blocks[fIf], nil, stdout, stderr, p)
 		if err != nil {
 			return err
 		}
@@ -111,7 +111,7 @@ func cmdIf(p *proc.Process) error {
 	if (conditional && !p.IsNot) || (!conditional && p.IsNot) {
 		// --- THEN ---
 		if len(blocks[fThen]) > 0 {
-			_, err := lang.RunBlockExistingNamespace(blocks[fThen], nil, p.Stdout, p.Stderr, p)
+			_, err := lang.RunBlockExistingConfigSpace(blocks[fThen], nil, p.Stdout, p.Stderr, p)
 			if err != nil {
 				return err
 			}
@@ -120,7 +120,7 @@ func cmdIf(p *proc.Process) error {
 	} else {
 		// --- ELSE ---
 		if len(blocks[fElse]) > 0 {
-			_, err := lang.RunBlockExistingNamespace(blocks[fElse], nil, p.Stdout, p.Stderr, p)
+			_, err := lang.RunBlockExistingConfigSpace(blocks[fElse], nil, p.Stdout, p.Stderr, p)
 			if err != nil {
 				return err
 			}

@@ -110,3 +110,11 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 	}
 	return
 }
+
+func (p *Process) BranchFID() *Process {
+	branch := *p
+	branch.Name += " (branch)"
+	branch.Config = p.Config.Copy()
+	GlobalFIDs.Register(&branch)
+	return &branch
+}

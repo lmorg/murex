@@ -79,7 +79,7 @@ func diskSource(filename string) []rune {
 }
 
 func execSource(source []rune) {
-	exitNum, err := lang.RunBlockShellNamespace(source, nil, nil, nil)
+	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, nil, nil)
 
 	if err != nil {
 		if exitNum == 0 {
@@ -111,5 +111,5 @@ func execProfile() {
 		return
 	}
 
-	lang.RunBlockShellNamespace([]rune(string(b)), nil, nil, nil)
+	lang.RunBlockShellConfigSpace([]rune(string(b)), nil, nil, nil)
 }

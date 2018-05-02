@@ -16,50 +16,45 @@ import (
 // ShellExitNum is for when running murex in interactive shell mode
 var ShellExitNum int
 
-// RunBlockShellNamespace is used for calling code blocks using the shell's
+// RunBlockShellConfigSpace is used for calling code blocks using the shell's
 // namespace. eg commands initiated inside the interactive shell.
-// This shouldn't be used under normal conditions.
-func RunBlockShellNamespace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
+// This shouldn't be used under normal conditions; however if you do need to
+// spawn a process alongside the shells config space then please first branch it:
+//
+//     `branch := proc.ShellProcess.Fork()`
+//
+// Then call `RunBlockExistingConfigSpace` with that branch process.
+func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		proc.ShellProcess, proc.ShellProcess.Config, nil,
 	)
 }
 
-// RunBlockParentNamespace is used for calling code blocks using the parent's
-// namespace. eg `source`
+// RunBlockNewConfigSpace is for spawning new murex functions. eg `func {}`
 // This shouldn't be used under normal conditions.
-func RunBlockParentNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
-	return processNewBlock(
-		block, stdin, stdout, stderr,
-		caller.Parent, caller.Config, nil,
-	)
-}
-
-// RunBlockNewNamespace is for spawning new murex functions. eg `func {}`
-// This shouldn't be used under normal conditions.
-func RunBlockNewNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config.Copy(), nil,
 	)
 }
 
-// RunBlockExistingNamespace is for code blocks as parameters (eg `if {}`,
+// RunBlockExistingConfigSpace is for code blocks as parameters (eg `if {}`,
 // `try {}` etc) or inlining code blocks (eg `out @{g *}`)
 // This should be the default way to call code blocks.
-func RunBlockExistingNamespace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config, nil,
 	)
 }
 
-// RunBlockExistingNamespacePlusVars is for code blocks as parameters (eg `formap {}`)
+// RunBlockExistingConfigSpacePlusVars is for code blocks as parameters (eg `formap {}`)
 // where you additionally need to set variables inside the new running block.
 // This is sometimes nessisary but is a discurraged as it breaks the functional
 // paradigm.
-func RunBlockExistingNamespacePlusVars(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *proc.Variables) (exitNum int, err error) {
+func RunBlockExistingConfigSpacePlusVars(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *proc.Variables) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config, vars,
@@ -92,6 +87,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.ColNumber = caller.ColNumber
 	//container.ScopedVars = vars
 	container.Config = conf
+	container.Variables = caller.Variables
 
 	//if caller.Name == proc.ShellProcess.Name {
 	if caller.Id == proc.ShellProcess.Id {
@@ -154,21 +150,6 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	default:
 		panic("Unknown run mode")
 	}
-
-	/*if container.Stdout != caller.Stdout {
-		//os.Stdout.WriteString("closing stdout on container for " + caller.Name + "....")
-		//container.Stdout.UnmakeParent()
-		container.Stdout.Close()
-	}*/
-
-	/*if container.Stderr != caller.Stderr {
-		//os.Stdout.WriteString("closing stdout on container for " + caller.Name + "....")
-		//container.Stderr.UnmakeParent()
-		container.Stderr.Close()
-	}*/
-
-	//container.Stdout.Close()
-	//container.Stderr.Close()
 
 	//debug.Json("Finished running &tree", tree)
 	return

@@ -111,7 +111,8 @@ func hintText(line []rune, pos int) []rune {
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
-	/*exitNum, err := */ lang.RunBlockShellNamespace([]rune(ht.(string)), nil, stdout, stderr)
+	p := proc.ShellProcess.BranchFID()
+	/*exitNum, err := */ lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, stderr, p)
 
 	b, _ /*err2*/ := stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
