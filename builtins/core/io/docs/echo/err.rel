@@ -3,7 +3,7 @@ out
 brace-quote
 sprintf
 cast
-fork
+bg
 pipe
 pretty
 >

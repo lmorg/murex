@@ -90,9 +90,9 @@ might not otherwise sit on the same code pipeline.
     # then pipes that into a regexp matcher.
     # <foobar> will stay running until it is closed.
 
-    fork {
+    bg {
         <foobar> -> regex: m/00$/
-        out: "pipe closed, exiting `fork`"
+        out: "pipe closed, exiting `bg`"
     }
 
     # Lets send some data to our named pipe, then close it.
@@ -131,7 +131,7 @@ and causing unexpected behaviour. Alternatively you can use <pipe> as a
 function:
 
     pipe: --create foobar
-    fork: { <foobar> -> cat }
+    bg: { <foobar> -> cat }
     out: "writing to foobar..." -> <foobar>
     pipe: --close foobar
 

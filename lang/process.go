@@ -214,7 +214,7 @@ func destroyProcess(p *proc.Process) {
 	p.Stderr.Close()
 
 	p.SetTerminatedState(true)
-	if p.Name != "fork" { // make special case for `fork` because that doesn't wait
+	if p.Name != "bg" { // make special case for `bg` because that doesn't wait
 		p.WaitForTermination <- false
 	}
 	//debug.Log("Destroyed " + p.Name)

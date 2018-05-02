@@ -51,8 +51,9 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 	//stdin.Close()
 
 	debug.Log("Event callback:", string(json), string(block))
-	p := proc.ShellProcess.BranchFID()
-	_, err = lang.RunBlockExistingConfigSpace(block, stdin, stdout, proc.ShellProcess.Stderr, p)
+	branch := proc.ShellProcess.BranchFID()
+	defer branch.Close()
+	_, err = lang.RunBlockExistingConfigSpace(block, stdin, stdout, proc.ShellProcess.Stderr, branch.Process)
 	if err != nil {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error compiling event callback: "+err.Error())
 	}

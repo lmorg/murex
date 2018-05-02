@@ -17,13 +17,16 @@ func getPrompt() {
 		b         []byte
 	)
 
-	proc.ShellProcess.Variables.Set("linenum", 1, types.Number)
+	//proc.ShellProcess.Variables.Set("linenum", 1, types.Number)
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
-		p := proc.ShellProcess.BranchFID()
-		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, p)
-		//out.Close()
+		branch := proc.ShellProcess.BranchFID()
+		defer branch.Close()
+		//exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, p)
+		vars := proc.NewVariables()
+		vars.Set("linenum", 1, types.Integer)
+		exitNum, err = lang.RunBlockExistingConfigSpacePlusVars([]rune(prompt.(string)), nil, out, nil, branch.Process, vars)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {
@@ -51,13 +54,16 @@ func getMultilinePrompt(nLines int) {
 		b         []byte
 	)
 
-	proc.ShellProcess.Variables.Set("linenum", nLines, types.Number)
+	//proc.ShellProcess.Variables.Set("linenum", nLines, types.Number)
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
-		p := proc.ShellProcess.BranchFID()
-		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, p)
-		//out.Close()
+		branch := proc.ShellProcess.BranchFID()
+		defer branch.Close()
+		//exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, p)
+		vars := proc.NewVariables()
+		vars.Set("linenum", nLines, types.Integer)
+		exitNum, err = lang.RunBlockExistingConfigSpacePlusVars([]rune(prompt.(string)), nil, out, nil, branch.Process, vars)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {

@@ -25,7 +25,7 @@ messages like these which you want separate from your STDOUT stream is to create
 a new _murex_ named pipe.
 
     » pipe: --create messages
-    » fork { <messages> -> pretty }
+    » bg { <messages> -> pretty }
     » tout: <messages> json { "Code": 404, "Message": "Page not found" }
     » pipe: --close messages
     {

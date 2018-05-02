@@ -36,12 +36,13 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
 
-	p := proc.ShellProcess.BranchFID()
-	p.Scope = p
-	p.Parent = p
-	p.Name = args.exe
-	p.Parameters = parameters.Parameters{Params: args.params}
-	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, stderr, p)
+	branch := proc.ShellProcess.BranchFID()
+	defer branch.Close()
+	branch.Process.Scope = branch.Process
+	branch.Process.Parent = branch.Process
+	branch.Process.Name = args.exe
+	branch.Process.Parameters = parameters.Parameters{Params: args.params}
+	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, stderr, branch.Process)
 
 	b, _ := stderr.ReadAll()
 	s := strings.TrimSpace(string(b))

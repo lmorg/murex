@@ -21,9 +21,10 @@ var ShellExitNum int
 // This shouldn't be used under normal conditions; however if you do need to
 // spawn a process alongside the shells config space then please first branch it:
 //
-//     `branch := proc.ShellProcess.Fork()`
+//     branch := proc.ShellProcess.BranchFID()
+//     defer branch.Close()
 //
-// Then call `RunBlockExistingConfigSpace` with that branch process.
+// Then call `RunBlockExistingConfigSpace` with `branch.Process`.
 func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,

@@ -111,10 +111,33 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 	return
 }
 
-func (p *Process) BranchFID() *Process {
-	branch := *p
-	branch.Name += " (branch)"
-	branch.Config = p.Config.Copy()
-	GlobalFIDs.Register(&branch)
-	return &branch
+func (p *Process) BranchFID() *Branch {
+	process := *p
+	process.Name += " (branch)"
+	process.Config = process.Config.Copy()
+	process.Stdout.Open()
+	process.Stderr.Open()
+
+	branch := new(Branch)
+	branch.Process = &process
+
+	GlobalFIDs.Register(branch.Process)
+
+	return branch
+}
+
+type Branch struct {
+	Process *Process
+}
+
+func (branch Branch) Close() {
+	branch.Process.State = state.Terminating
+
+	branch.Process.Stdout.Close()
+	branch.Process.Stderr.Close()
+
+	branch.Process.SetTerminatedState(true)
+
+	GlobalFIDs.Deregister(branch.Process.Id)
+	branch.Process.State = state.AwaitingGC
 }
