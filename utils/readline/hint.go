@@ -2,41 +2,8 @@ package readline
 
 import (
 	"fmt"
-	"os"
 	"strings"
 )
-
-func getTermWidth() {
-	var err error
-	fd := int(os.Stdout.Fd())
-	termWidth, _, err = GetSize(fd)
-	if err != nil {
-		termWidth = 100
-	}
-}
-
-func (rl *Instance) syntaxCompletion() {
-	if rl.SyntaxCompleter == nil {
-		return
-	}
-
-	//x := pos
-	//if modeViMode == vimInsert && pos > 0 {
-	//	x--
-	//}
-	newLine, newPos := rl.SyntaxCompleter(rl.line, rl.pos-1)
-	if string(newLine) == string(rl.line) {
-		return
-	}
-
-	newPos++
-
-	rl.line = newLine
-	rl.echo()
-	moveCursorForwards(newPos - rl.pos - 1)
-	moveCursorBackwards(rl.pos - newPos + 1)
-	rl.pos = newPos
-}
 
 func (rl *Instance) renderHintText() {
 	if rl.HintText == nil && rl.hintY == 0 {

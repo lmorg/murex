@@ -2,8 +2,18 @@ package readline
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
+
+func getTermWidth() {
+	var err error
+	fd := int(os.Stdout.Fd())
+	termWidth, _, err = GetSize(fd)
+	if err != nil {
+		termWidth = 100
+	}
+}
 
 func moveCursorUp(i int) {
 	if i < 1 {
