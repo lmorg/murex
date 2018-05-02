@@ -206,7 +206,7 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
-	//debug.Json("Destroying:", p)
+	/*//debug.Json("Destroying:", p)
 
 	p.State = state.Terminating
 
@@ -219,6 +219,13 @@ func destroyProcess(p *proc.Process) {
 	}
 	//debug.Log("Destroyed " + p.Name)
 
-	proc.GlobalFIDs.Deregister(p.Id)
 	p.State = state.AwaitingGC
+	proc.CloseScopedVariables(p)
+	proc.GlobalFIDs.Deregister(p.Id)*/
+
+	if p.Name != "bg" { // make special case for `bg` because that doesn't wait
+		p.WaitForTermination <- false
+	}
+
+	proc.DeregisterProcess(p)
 }

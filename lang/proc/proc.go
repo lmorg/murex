@@ -131,13 +131,22 @@ type Branch struct {
 }
 
 func (branch Branch) Close() {
-	branch.Process.State = state.Terminating
+	DeregisterProcess(branch.Process)
+}
 
-	branch.Process.Stdout.Close()
-	branch.Process.Stderr.Close()
+func DeregisterProcess(p *Process) {
+	p.State = state.Terminating
 
-	branch.Process.SetTerminatedState(true)
+	p.Stdout.Close()
+	p.Stderr.Close()
 
-	GlobalFIDs.Deregister(branch.Process.Id)
-	branch.Process.State = state.AwaitingGC
+	p.SetTerminatedState(true)
+
+	go deregister(p)
+}
+
+func deregister(p *Process) {
+	p.State = state.AwaitingGC
+	CloseScopedVariables(p)
+	GlobalFIDs.Deregister(p.Id)
 }

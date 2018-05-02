@@ -41,12 +41,6 @@ func ReferenceVariables(ref *Variables) *Variables {
 	return vars
 }
 
-/*// Pointer creates a new Variables object which points to the existing one
-func (vars *Variables) Fork() *Variables {
-	fork := *vars
-	return &fork
-}*/
-
 // This is the core variable table that will be used for all vars
 type varTable struct {
 	vars  []*variable
@@ -55,19 +49,21 @@ type varTable struct {
 
 func newVarTable() *varTable {
 	vt := new(varTable)
-	//go garbageCollection(vt)
+	go garbageCollection(vt)
 	return vt
 }
 
-/*
 func garbageCollection(vt *varTable) {
 	for {
-		time.Sleep(3 * time.Second)
-		vt.mutex.Lock()
+		time.Sleep(10 * time.Second)
 
+		vt.mutex.Lock()
 		for i := 0; i < len(vt.vars); i++ {
 			vt.vars[i].mutex.Lock()
-			if vt.vars[i].disabled {
+			disabled := vt.vars[i].disabled
+			vt.vars[i].mutex.Unlock()
+
+			if disabled {
 				switch i {
 				case 0:
 					vt.vars = vt.vars[1:]
@@ -77,15 +73,23 @@ func garbageCollection(vt *varTable) {
 					vt.vars = append(vt.vars[:i], vt.vars[i+1:]...)
 				}
 				i--
-				continue
 			}
-			vt.vars[i].mutex.Unlock()
 		}
-
 		vt.mutex.Unlock()
 	}
 }
-*/
+
+func CloseScopedVariables(p *Process) {
+	p.Variables.varTable.mutex.Lock()
+	for _, v := range p.Variables.varTable.vars {
+		if v.owner == p.Id {
+			v.mutex.Lock()
+			v.disabled = true
+			v.mutex.Unlock()
+		}
+	}
+	p.Variables.varTable.mutex.Unlock()
+}
 
 func (vt *varTable) getVariable(p *Process, name string) *variable {
 	var candidate *variable
