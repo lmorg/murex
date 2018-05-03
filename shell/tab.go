@@ -80,6 +80,11 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 	}*/
 
 	for i := range items {
+		if len(items[i]) == 0 {
+			items[i] = " "
+			continue
+		}
+
 		if !pt.QuoteSingle && !pt.QuoteDouble && pt.QuoteBrace == 0 {
 			items[i] = strings.Replace(items[i], ` `, `\ `, -1)
 			items[i] = strings.Replace(items[i], `'`, `\'`, -1)
@@ -92,13 +97,9 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 			if items[i][len(items[i])-1] != ' ' &&
 				items[i][len(items[i])-1] != '=' &&
 				items[i][len(items[i])-1] != '/' &&
-				items[i][0] != '$' {
+				len(pt.Variable) == 0 {
 				items[i] += " "
 			}
-		}
-
-		if len(items[i]) == 0 {
-			items[i] = " "
 		}
 
 	}
