@@ -1,52 +1,69 @@
 package proc
 
 import (
-	"sync"
-
-	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/types"
-
 	"errors"
 	"fmt"
 	"os"
 	"strings"
+	"sync"
+	"time"
+
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/types"
 )
 
-// Variables is an object that methods out lookups against the varTable.
-// This will need to be created on each proc.Process.
+// `Variables` is an object that methods out lookups against the `varTable`.
+// This will need to be created on each `proc.Process`.
+//
+// While it might seem odd wrapping `varTable` struct up inside another struct,
+// the idea behind this is `Variables` would be per process and `varTable` would
+// be global. `Variables` then references the `varTable`. This allows us to do
+// some clever things with variables such as have scopes that don't have any
+// visibility of even the shell's global vars.
 type Variables struct {
 	varTable *varTable
 	process  *Process
+	time     time.Time
 }
 
 // NewVariables creates a new Variables object
-func NewVariables(p *Process) *Variables {
+func NewVariables() *Variables {
 	vars := new(Variables)
-	vars.process = p
-	vars.varTable = masterVarTable
+	vars.varTable = new(varTable)
+	vars.process = ShellProcess
+	return vars
+}
+
+// ReferenceVariables creates a new Variables object linked to an existing varTable
+func ReferenceVariables(ref *Variables) *Variables {
+	vars := new(Variables)
+	vars.varTable = ref.varTable
 	return vars
 }
 
 // This is the core variable table that will be used for all vars
 type varTable struct {
 	vars  []*variable
-	mutex debug.BadMutex
+	mutex sync.Mutex
 }
 
 func newVarTable() *varTable {
 	vt := new(varTable)
-	//go garbageCollection(vt)
+	go garbageCollection(vt)
 	return vt
 }
 
-/*func garbageCollection(vt *varTable) {
+func garbageCollection(vt *varTable) {
 	for {
-		time.Sleep(3 * time.Second)
-		vt.mutex.Lock()
+		time.Sleep(10 * time.Second)
 
+		vt.mutex.Lock()
 		for i := 0; i < len(vt.vars); i++ {
 			vt.vars[i].mutex.Lock()
-			if vt.vars[i].disabled {
+			disabled := vt.vars[i].disabled
+			vt.vars[i].mutex.Unlock()
+
+			if disabled {
 				switch i {
 				case 0:
 					vt.vars = vt.vars[1:]
@@ -56,136 +73,141 @@ func newVarTable() *varTable {
 					vt.vars = append(vt.vars[:i], vt.vars[i+1:]...)
 				}
 				i--
-				continue
 			}
-			vt.vars[i].mutex.Unlock()
 		}
-
 		vt.mutex.Unlock()
 	}
-}*/
+}
 
-// GetVariable is a single API that handles the logic parsing the varTable
-// `readOnly` defines whether to return new variable struct with the same settings
-// as the original (true) or the original but mutex locked (false). By default
-// you should always return a readOnly copy (true) as that is better for concurrency.
-// Also environmental variables only get checked when readOnly == true
-// `nil` gets returned if no variable matches the name or owner.
-func (vt *varTable) GetVariable(p *Process, name string, copy bool) *variable {
-	vt.mutex.Lock()
-	if copy {
-		defer vt.mutex.Unlock()
+func CloseScopedVariables(p *Process) {
+	p.Variables.varTable.mutex.Lock()
+	for _, v := range p.Variables.varTable.vars {
+		if v.owner == p.Id {
+			v.mutex.Lock()
+			v.disabled = true
+			v.mutex.Unlock()
+		}
 	}
+	p.Variables.varTable.mutex.Unlock()
+}
 
-	//for i := range vt.vars {
-	for i := len(vt.vars) - 1; i > -1; i-- {
+func (vt *varTable) getVariable(p *Process, name string) *variable {
+	var candidate *variable
 
-		vt.vars[i].mutex.Lock()
-		if !vt.vars[i].disabled && vt.vars[i].name == name {
+	vt.mutex.Lock()
 
-			// variable exists. Check permissions (ie is it in scope?)
-			//for _, proc := range p.FidTree {
-			//if proc == vt.vars[i].owner {
-
-			// return variable
-			if copy {
-				vcopy := &vt.vars[i]
-				vt.vars[i].mutex.Unlock()
-				return *vcopy
-			}
-			return vt.vars[i]
-
-			//}
-			//}
+	for _, v := range vt.vars {
+		v.mutex.Lock()
+		disabled := v.disabled
+		v.mutex.Unlock()
+		if disabled || v.name != name /*|| v.creationTime.After(p.StartTime)*/ {
+			continue
 		}
 
-		vt.vars[i].mutex.Unlock()
+		for i := range p.FidTree {
+			if p.FidTree[i] == v.owner && (candidate == nil || v.owner > candidate.owner) {
+				candidate = v
+				break
+			}
+		}
 	}
 
-	s, exists := os.LookupEnv(name)
-	if !exists {
-		return nil
-	}
+	vt.mutex.Unlock()
 
-	return &variable{
-		name:     name,
-		Value:    s,
-		DataType: types.String,
-	}
+	return candidate
 }
 
 // This is a struct for each variable
 type variable struct {
-	name     string
-	Value    interface{}
-	DataType string
-	owner    int
-	disabled bool
-	mutex    sync.Mutex
+	name         string
+	Value        interface{}
+	DataType     string
+	owner        int
+	disabled     bool
+	creationTime time.Time
+	mutex        sync.Mutex
 }
 
 // GetValue return the value of a variable stored in the referenced VarTable
 func (vars *Variables) GetValue(name string) interface{} {
-	v := vars.varTable.GetVariable(vars.process, name, true)
-	if v == nil {
-		return v
+	v := vars.varTable.getVariable(vars.process, name)
+	if v != nil {
+		v.mutex.Lock()
+		value := v.Value
+		v.mutex.Unlock()
+
+		return value
 	}
 
-	return v.Value
+	// variable not found so lets fallback to the environmental variables
+	value := os.Getenv(name)
+	if value != "" {
+		return value
+	}
+
+	return nil
 }
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (vars *Variables) GetDataType(name string) string {
-	v := vars.varTable.GetVariable(vars.process, name, true)
-	if v == nil {
-		return ""
+	v := vars.varTable.getVariable(vars.process, name)
+	if v != nil {
+		v.mutex.Lock()
+		dt := v.DataType
+		v.mutex.Unlock()
+
+		return dt
 	}
 
-	return v.DataType
+	// variable not found so lets fallback to the environmental variables
+	value := os.Getenv(name)
+	if value != "" {
+		return types.String
+	}
+
+	return ""
 }
 
 // GetString returns a string representation of the data stored in the requested variable
 func (vars *Variables) GetString(name string) string {
-	v := vars.varTable.GetVariable(vars.process, name, true)
-	if v == nil {
-		return ""
+	v := vars.varTable.getVariable(vars.process, name)
+	if v != nil {
+		v.mutex.Lock()
+		value := v.Value
+		v.mutex.Unlock()
+
+		s, err := types.ConvertGoType(value, types.String)
+		if err != nil {
+			if debug.Enable {
+				panic(err.Error())
+			}
+			return fmt.Sprint(value) // silent fallback for stability
+		}
+
+		return s.(string)
 	}
 
-	s, err := types.ConvertGoType(v.Value, types.String)
-	if err != nil {
-		if debug.Enable {
-			panic(err.Error())
-		}
-		return fmt.Sprint(v.Value)
-	}
-	return s.(string)
+	// variable not found so lets fallback to the environmental variables
+	value := os.Getenv(name)
+	return value
 }
 
+// this is rather pointless!!!
 func convDataType(value interface{}, dataType string) (val interface{}, err error) {
 	switch dataType {
+	case types.Number, types.Float:
+		val, err = types.ConvertGoType(value, dataType)
+
 	case types.Integer:
 		val, err = types.ConvertGoType(value, dataType)
-		//if err != nil {
-		//	return err
-		//}
-
-	case types.Float, types.Number:
-		val, err = types.ConvertGoType(value, dataType)
-		//if err != nil {
-		//	return err
-		//}
 
 	case types.Boolean:
-		val, err = types.ConvertGoType(value, types.Boolean)
-		//if err != nil {
-		//	return err
-		//}
+		val, err = types.ConvertGoType(value, dataType)
 
 	default:
+		// this is literally the only time we are overriding the default for
+		// ConvertGoType!!
 		val, err = types.ConvertGoType(value, types.String)
-		//if err != nil {
-		//	return err
-		//}
 	}
 
 	return
@@ -194,60 +216,65 @@ func convDataType(value interface{}, dataType string) (val interface{}, err erro
 // Set checks if a variable already exists, if it does it updates the value, if
 // it doesn't it creates a new one.
 func (vars *Variables) Set(name string, value interface{}, dataType string) error {
+	debug.Json("vars set", vars.process)
 	val, err := convDataType(value, dataType)
 	if err != nil {
 		return err
 	}
 
-	v := vars.varTable.GetVariable(vars.process, name, false)
+	v := vars.varTable.getVariable(vars.process, name)
 	if v != nil {
+		v.mutex.Lock()
 		v.Value = val
 		v.DataType = dataType
 		v.mutex.Unlock()
-		vars.varTable.mutex.Unlock()
+
 		return nil
 	}
 
+	vars.varTable.mutex.Lock()
 	vars.varTable.vars = append(vars.varTable.vars, &variable{
-		name:     name,
-		Value:    val,
-		DataType: dataType,
-		owner:    vars.process.Parent.Id,
+		name:         name,
+		Value:        val,
+		DataType:     dataType,
+		owner:        vars.process.Parent.Id,
+		creationTime: time.Now(),
 	})
-
 	vars.varTable.mutex.Unlock()
 
 	return nil
 }
 
-func (vars *Variables) ForceNewScope(name string, value interface{}, dataType string) error {
-	val, err := convDataType(value, dataType)
-	if err != nil {
-		return err
+// ImportVariables is a way of merging varTables (useful for processes changing
+// scopes when the child processes haven't yet been created).
+//
+// Due to the typical usage for importing variables, the vars creation time will
+// be reset to the current date and time.
+func (vars *Variables) ImportVariables(importVars *Variables) {
+	if importVars == nil {
+		return
 	}
 
-	vars.varTable.vars = append(vars.varTable.vars, &variable{
-		name:     name,
-		Value:    val,
-		DataType: dataType,
-		owner:    vars.process.Parent.Id,
-	})
+	vars.varTable.mutex.Lock()
+	defer vars.varTable.mutex.Unlock()
 
-	vars.varTable.mutex.Unlock()
-
-	return nil
+	for _, v := range importVars.varTable.vars {
+		v.creationTime = time.Now()
+		v.owner = vars.process.Id
+		vars.varTable.vars = append(vars.varTable.vars, v)
+	}
 }
 
 // Unset removes a variable from the table
 func (vars *Variables) Unset(name string) error {
-	v := vars.varTable.GetVariable(vars.process, name, false)
+	v := vars.varTable.getVariable(vars.process, name)
 	if v == nil {
 		return errors.New("No variables match the name.")
 	}
 
+	v.mutex.Lock()
 	v.disabled = true
 	v.mutex.Unlock()
-	vars.varTable.mutex.Unlock()
 	return nil
 }
 
@@ -311,6 +338,7 @@ func (vars *Variables) DumpEntireTable() interface{} {
 			"datatype": v.DataType,
 			"owner":    v.owner,
 			"enabled":  !v.disabled,
+			"created":  v.creationTime,
 		}
 
 		m = append(m, mv)

@@ -1,6 +1,8 @@
 package proc
 
 import (
+	"time"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
@@ -44,6 +46,8 @@ type Process struct {
 	Config             *config.Config
 	Variables          *Variables
 	FidTree            []int
+	CreationTime       time.Time
+	StartTime          time.Time
 	//ScopedVars         *types.Vars
 }
 
@@ -105,4 +109,44 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 		err = errors.New("`" + p.Name + "` expects to be pipelined.")
 	}
 	return
+}
+
+func (p *Process) BranchFID() *Branch {
+	process := *p
+	process.Name += " (branch)"
+	process.Config = process.Config.Copy()
+	process.Stdout.Open()
+	process.Stderr.Open()
+
+	branch := new(Branch)
+	branch.Process = &process
+
+	GlobalFIDs.Register(branch.Process)
+
+	return branch
+}
+
+type Branch struct {
+	Process *Process
+}
+
+func (branch Branch) Close() {
+	DeregisterProcess(branch.Process)
+}
+
+func DeregisterProcess(p *Process) {
+	p.State = state.Terminating
+
+	p.Stdout.Close()
+	p.Stderr.Close()
+
+	p.SetTerminatedState(true)
+
+	go deregister(p)
+}
+
+func deregister(p *Process) {
+	p.State = state.AwaitingGC
+	CloseScopedVariables(p)
+	GlobalFIDs.Deregister(p.Id)
 }

@@ -6,8 +6,8 @@
 
 ### Description
 
-Write parameters to STDOUT with a trailing new line character. Cast the output's
-data-type to the value of the first parameter.
+Write parameters to STDOUT without a trailing new line character. Cast the
+output's data-type to the value of the first parameter.
 
 ### Usage
 
@@ -24,6 +24,8 @@ data-type to the value of the first parameter.
 ### Details
 
 `tout` supports ANSI constants.
+
+Unlike `out`, `tout` does not append a carriage return / line feed.
 
 ### See also
 

@@ -18,8 +18,10 @@ func aliases {
     }
 }
 
-alias ls=ls --color=auto
-alias grep=grep --color=auto
+if { = ` + "`${os}`==`linux`" + ` } then {
+    alias ls=ls --color=auto
+    alias grep=grep --color=auto
+}
 
 config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
 config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
@@ -97,25 +99,23 @@ autocomplete set config { [{
     }
 }] }
 
-autocomplete set murex-runtime { [{
+autocomplete set runtime { [{
     "Flags": ["--vars", "--aliases" ,"--config" ,"--pipes" ,"--funcs" ,"--fids" ,"--arrays" ,"--maps" ,"--indexes" ,"--marshallers" ,"--unmarshallers" ,"--events" ,"--flags" ,"--memstats" ],
     "AllowMultiple": true
 }] }
 
-autocomplete get -> [ murex-runtime ] -> autocomplete set runtime
-
 autocomplete set event { [
     {
-        "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } }"
+        "Dynamic": "{ runtime: --events -> formap k v { out $k } }"
     }
 ] }
 
 autocomplete set !event { [
     {
-        "Dynamic": "{ murex-runtime: --events -> formap k v { out $k } -> sort }"
+        "Dynamic": "{ runtime: --events -> formap k v { out $k } -> sort }"
     },
     {
-        "Dynamic": "{ murex-runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }"
+        "Dynamic": "{ runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }"
     }
 ] }
 
@@ -128,7 +128,7 @@ autocomplete set pipe { [
         "Flags": [ "--create", "-c", "--close", "-x" ],
         "FlagValues": {
             "--close": [{
-                "Dynamic": "{ murex-runtime: --pipes -> formap k v { if { = k!=` + "`null`" + ` } { $k } } }"
+                "Dynamic": "{ runtime: --pipes -> formap k v { if { = k!=` + "`null`" + ` } { $k } } }"
             }],
             "--create": [
                 {
@@ -167,7 +167,11 @@ autocomplete set git { [{
         "init": [{ "Flags": ["--bare"] }],
         "add": [{ "IncFiles": true }],
         "mv": [{ "IncFiles": true }],
-        "rm": [{ "IncFiles": true }]
+        "rm": [{ "IncFiles": true }],
+        "checkout": [{
+            "Dynamic": ({ git branch -> [ :1 ] }),
+            "Flags": [ "-b" ]
+        }]
     }
 }] }
 

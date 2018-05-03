@@ -22,10 +22,6 @@ var (
 )
 
 func hintText(line []rune, pos int) []rune {
-	//deleteme1, _ := parse(line)
-	//deleteme2, _ := utils.JsonMarshal(deleteme1, false)
-	//return []rune(string(deleteme2))
-
 	r, err := history.ExpandVariables(line, Prompt)
 	if err != nil {
 		return []rune("Error: " + err.Error())
@@ -111,7 +107,9 @@ func hintText(line []rune, pos int) []rune {
 
 	stdout := streams.NewStdin()
 	stderr := streams.NewStdin()
-	/*exitNum, err := */ lang.RunBlockShellNamespace([]rune(ht.(string)), nil, stdout, stderr)
+	branch := proc.ShellProcess.BranchFID()
+	defer branch.Close()
+	/*exitNum, err := */ lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, stderr, branch.Process)
 
 	b, _ /*err2*/ := stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {

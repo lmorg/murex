@@ -31,7 +31,7 @@ messages like these which you want separate from your STDOUT stream is to create
 a new _murex_ named pipe.
 
     » pipe: --create messages
-    » fork { <messages> -> pretty }
+    » bg { <messages> -> pretty }
     » tout: <messages> json { "Code": 404, "Message": "Page not found" }
     » pipe: --close messages
     {
@@ -47,9 +47,9 @@ a new _murex_ named pipe.
 
 * [`>`](>.md): Writes STDIN to disk - overwriting contents if file already exists
 * [`>>`](>>.md): Writes STDIN to disk - appending contents if file already exists
+* `bg`
 * [`brace-quote`](brace-quote.md): Write a string to the STDOUT without new line
 * `cast`
-* `fork`
 * [`out`](out.md): `echo` a string to the STDOUT with a trailing new line character
 * `pipe`
 * `pretty`

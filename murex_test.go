@@ -14,7 +14,7 @@ func TestMurex(t *testing.T) {
 
 	block := []rune("a [Mon..Fri]->regexp <null> m/^T/")
 
-	_, err := lang.RunBlockShellNamespace(block, nil, nil, nil)
+	_, err := lang.RunBlockShellConfigSpace(block, nil, nil, nil)
 
 	if err != nil {
 		t.Error(err.Error())

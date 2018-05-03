@@ -3,7 +3,6 @@ package readline
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"os"
 	"regexp"
 	"strings"
@@ -22,13 +21,15 @@ func (rl *Instance) Readline() (string, error) {
 	}
 	defer Restore(fd, state)
 
-	fmt.Print(rl.prompt)
+	print(rl.prompt)
 
 	rl.line = []rune{}
 	rl.viUndoHistory = make([][]rune, 1)
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
+	rl.resetHintText()
+	rl.resetTabCompletion()
 
 	if len(rl.multisplit) > 0 {
 		b := []byte(rl.multisplit[0])
@@ -42,11 +43,8 @@ func (rl *Instance) Readline() (string, error) {
 		return string(rl.line), nil
 	}
 
-	rl.renderHintText()
-	// fix a weird but where output will move the cursor along one pos
-	if rl.hintY > 0 {
-		moveCursorBackwards(1)
-	}
+	rl.getHintText()
+	rl.renderHelpers()
 
 	for {
 		rl.viUndoSkipAppend = false
@@ -94,13 +92,11 @@ func (rl *Instance) Readline() (string, error) {
 
 		if rl.evtKeyPress[s] != nil {
 			ignoreKey, closeReadline, hintText := rl.evtKeyPress[s](s, rl.line, rl.pos)
-			//getTermWidth()
-			//rl.renderHintText()
-			//rl.renderSuggestions()
+
 			if len(hintText) > 0 {
-				rl.pos--
-				rl.writeHintText(hintText)
-				rl.pos++
+				rl.hintText = hintText
+				rl.clearHelpers()
+				rl.renderHelpers()
 			}
 			if ignoreKey {
 				continue
@@ -123,32 +119,34 @@ func (rl *Instance) Readline() (string, error) {
 		case charTab:
 			if rl.modeTabGrid {
 				rl.moveTabHighlight(1, 0)
-				continue
+			} else {
+				rl.getTabCompletion()
 			}
-			rl.tabCompletion()
+
+			rl.renderHelpers()
 			rl.viUndoSkipAppend = true
 
 		case charCtrlU:
-			//clearHintText()
-			//clearLine()
-			rl.clearTabSuggestions()
 			moveCursorBackwards(rl.pos)
-			fmt.Print(strings.Repeat(" ", len(rl.line)))
-			//moveCursorBackwards(len(line))
-
+			print(strings.Repeat(" ", len(rl.line)))
 			moveCursorBackwards(len(rl.line))
+
 			rl.line = rl.line[rl.pos:]
 			rl.pos = 0
 			rl.echo()
 
 			moveCursorBackwards(1)
 
+			rl.updateHelpers()
+
 		case '\r':
 			fallthrough
 		case '\n':
 			if rl.modeTabGrid {
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcPosX - 1
-				rl.clearTabSuggestions()
+				rl.clearHelpers()
+				rl.resetTabCompletion()
+				rl.renderHelpers()
 				rl.insert([]byte(rl.tcSuggestions[cell]))
 				continue
 			}
@@ -157,6 +155,7 @@ func (rl *Instance) Readline() (string, error) {
 
 		case charBackspace, charBackspace2:
 			rl.backspace()
+			rl.renderHelpers()
 
 		case charEscape:
 			rl.escapeSeq(b[:i])
@@ -178,7 +177,9 @@ func (rl *Instance) escapeSeq(b []byte) {
 	switch string(b) {
 	case string(charEscape):
 		if rl.modeTabGrid {
-			rl.clearTabSuggestions()
+			rl.clearHelpers()
+			rl.resetTabCompletion()
+			rl.renderHelpers()
 		} else {
 			if rl.pos == len(rl.line) && len(rl.line) > 0 {
 				rl.pos--
@@ -195,6 +196,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 	case seqUp:
 		if rl.modeTabGrid {
 			rl.moveTabHighlight(0, -1)
+			rl.renderHelpers()
 			return
 		}
 		rl.walkHistory(-1)
@@ -202,6 +204,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 	case seqDown:
 		if rl.modeTabGrid {
 			rl.moveTabHighlight(0, 1)
+			rl.renderHelpers()
 			return
 		}
 		rl.walkHistory(1)
@@ -209,6 +212,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 	case seqBackwards:
 		if rl.modeTabGrid {
 			rl.moveTabHighlight(-1, 0)
+			rl.renderHelpers()
 			return
 		}
 		if rl.pos > 0 {
@@ -220,12 +224,14 @@ func (rl *Instance) escapeSeq(b []byte) {
 	case seqShiftTab:
 		if rl.modeTabGrid {
 			rl.moveTabHighlight(-1, 0)
+			rl.renderHelpers()
 			return
 		}
 
 	case seqForwards:
 		if rl.modeTabGrid {
 			rl.moveTabHighlight(1, 0)
+			rl.renderHelpers()
 			return
 		}
 		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
@@ -257,9 +263,9 @@ func (rl *Instance) escapeSeq(b []byte) {
 	}
 }
 
-// editorInput is an unexported function used to determine what mode
-// of text entry readline is currently configured for and then update
-// the line entries accordingly.
+// editorInput is an unexported function used to determine what mode of text
+// entry readline is currently configured for and then update the line entries
+// accordingly.
 func (rl *Instance) editorInput(b []byte) {
 	switch rl.modeViMode {
 	case vimKeys:
@@ -286,24 +292,6 @@ func (rl *Instance) editorInput(b []byte) {
 	}
 }
 
-func (rl *Instance) echo() {
-	moveCursorBackwards(rl.pos)
-
-	switch {
-	case rl.PasswordMask > 0:
-		fmt.Print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " ")
-
-	case rl.SyntaxHighlighter == nil:
-		fmt.Print(string(rl.line) + " ")
-
-	default:
-		fmt.Print(rl.SyntaxHighlighter(rl.line) + " ")
-	}
-
-	moveCursorBackwards(len(rl.line) - rl.pos)
-	rl.renderHintText()
-}
-
 // SetPrompt will define the readline prompt string.
 // It also calculates the runes in the string as well as any non-printable escape codes.
 func (rl *Instance) SetPrompt(s string) {
@@ -314,13 +302,13 @@ func (rl *Instance) SetPrompt(s string) {
 }
 
 func (rl *Instance) carridgeReturn() {
-	rl.clearHintText()
-	fmt.Print("\r\n")
+	rl.clearHelpers()
+	print("\r\n")
 	if rl.HistoryAutoWrite {
 		var err error
 		rl.histPos, err = rl.History.Write(string(rl.line))
 		if err != nil {
-			fmt.Print(err.Error() + "\r\n")
+			print(err.Error() + "\r\n")
 		}
 	}
 }
@@ -335,9 +323,9 @@ func isMultiline(b []byte) bool {
 }
 
 func (rl *Instance) allowMultiline(data []byte) bool {
-	fmt.Printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", len(data))
+	printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", len(data))
 	for {
-		fmt.Print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
+		print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
 
 		b := make([]byte, 1024)
 
@@ -347,23 +335,23 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 		}
 
 		s := string(b[:i])
-		fmt.Print(s)
+		print(s)
 
 		switch s {
 		case "y", "Y":
-			fmt.Print("\r\n" + rl.prompt)
+			print("\r\n" + rl.prompt)
 			return true
 
 		case "n", "N":
-			fmt.Print("\r\n" + rl.prompt)
+			print("\r\n" + rl.prompt)
 			return false
 
 		case "p", "P":
 			preview := bytes.Replace(data, []byte{'\r'}, []byte{'\r', '\n'}, -1)
-			fmt.Print("\r\n" + string(preview))
+			print("\r\n" + string(preview))
 
 		default:
-			fmt.Print("\r\nInvalid response. Please answer `y` (yes), `n` (no) or `p` (preview)")
+			print("\r\nInvalid response. Please answer `y` (yes), `n` (no) or `p` (preview)")
 		}
 	}
 }

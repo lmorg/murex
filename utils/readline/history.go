@@ -1,9 +1,5 @@
 package readline
 
-import (
-	"fmt"
-)
-
 // History is an interface to allow you to write your own history logging
 // tools. eg sqlite backend instead of a file system.
 // By default readline will just use the dummyLineHistory interface which only
@@ -91,8 +87,9 @@ func (rl *Instance) walkHistory(i int) {
 	default:
 		s, err := rl.History.GetLine(rl.histPos + i)
 		if err != nil {
-			fmt.Print("\r\n" + err.Error() + "\r\n")
-			fmt.Print(rl.prompt)
+			rl.resetHelpers()
+			print("\r\n" + err.Error() + "\r\n")
+			print(rl.prompt)
 			return
 		}
 
@@ -112,4 +109,6 @@ func (rl *Instance) walkHistory(i int) {
 	} else if rl.pos == 0 {
 		moveCursorBackwards(1)
 	}
+
+	rl.updateHelpers()
 }

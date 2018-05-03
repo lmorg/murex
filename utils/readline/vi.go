@@ -1,7 +1,6 @@
 package readline
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -33,7 +32,7 @@ func (rl *Instance) vi(b byte) {
 
 	case 'D':
 		moveCursorBackwards(rl.pos)
-		fmt.Print(strings.Repeat(" ", len(rl.line)))
+		print(strings.Repeat(" ", len(rl.line)))
 		//moveCursorBackwards(len(line))
 
 		moveCursorBackwards(len(rl.line) - rl.pos)
@@ -64,7 +63,7 @@ func (rl *Instance) vi(b byte) {
 			newline := append(rl.viUndoHistory[len(rl.viUndoHistory)-1], []rune{}...)
 			rl.viUndoHistory = rl.viUndoHistory[:len(rl.viUndoHistory)-1]
 			rl.clearHelpers()
-			fmt.Print("\r\n" + rl.prompt)
+			print("\r\n" + rl.prompt)
 			rl.line = newline
 			rl.pos = -1
 			rl.echo()

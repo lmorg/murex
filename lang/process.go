@@ -7,6 +7,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
@@ -26,7 +27,10 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 	// before it's fully started
 	p.Kill = func() {}
 
-	proc.GlobalFIDs.Register(p)
+	proc.GlobalFIDs.Register(p) // This also registers the variables process
+	p.CreationTime = time.Now()
+	p.Variables.ImportVariables(vars)
+
 	parseRedirection(p)
 
 	if rxNamedPipeStdinOnly.MatchString(p.Name) {
@@ -40,16 +44,6 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 
 	p.IsMethod = isMethod
 
-	if vars != nil {
-		dump := vars.Dump()
-		for name := range dump {
-			p.Variables.ForceNewScope(name, dump[name].Value, dump[name].DataType)
-		}
-	}
-
-	//p.Stdout.Open()
-	//p.Stderr.Open()
-
 	switch p.NamedPipeErr {
 	case "":
 		p.NamedPipeErr = "err"
@@ -57,16 +51,12 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
 		p.Stderr.SetDataType(types.String)
-		//p.Stderr.Close()
 		p.Stderr = p.Next.Stdout
-		//p.Stderr.Open()
 	default:
 		p.Stderr.SetDataType(types.String)
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
-			//p.Stderr.Close()
 			p.Stderr = pipe
-			//p.Stderr.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}
@@ -78,28 +68,21 @@ func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
 		p.NamedPipeOut = "out"
 	case "err":
 		p.Stdout.SetDataType(types.Null)
-		//p.Stdout.Close()
 		p.Stdout = p.Next.Stderr
-		//p.Stdout.Open()
 	case "out":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
 		p.Stdout.SetDataType(types.Null)
-		//p.Stdout.Close()
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
-			//p.Stdout.Close()
 			p.Stdout = pipe
-			//p.Stdout.Open()
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
 	p.Stdout.Open()
-	//defer p.Stdout.Close()
 	p.Stderr.Open()
-	//defer p.Stderr.Close()
 
 	p.Stderr.SetDataType(types.String)
 
@@ -132,62 +115,10 @@ func executeProcess(p *proc.Process) {
 
 	ParseParameters(p, &p.Parameters)
 
-	/*switch p.NamedPipeErr {
-	case "":
-		p.NamedPipeErr = "err"
-	case "err":
-		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
-	case "out":
-		p.Stderr.SetDataType(types.String)
-		p.Stderr.Close()
-		p.Stderr = p.Next.Stdout
-		p.Stderr.Open()
-	default:
-		p.Stderr.SetDataType(types.String)
-		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
-		if err == nil {
-			p.Stderr.Close()
-			p.Stderr = pipe
-			p.Stderr.Open()
-		} else {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
-		}
-	}
-
-	// We do stderr first so we can log errors in the stdout pipe to stderr
-	switch p.NamedPipeOut {
-	case "":
-		p.NamedPipeOut = "out"
-	case "err":
-		p.Stdout.SetDataType(types.Null)
-		p.Stdout.Close()
-		p.Stdout = p.Next.Stderr
-		p.Stdout.Open()
-	case "out":
-		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
-	default:
-		p.Stdout.SetDataType(types.Null)
-		//p.Stdout.Close()
-		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
-		if err == nil {
-			p.Stdout.Close()
-			p.Stdout = pipe
-			p.Stdout.Open()
-		} else {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
-		}
-	}
-
-	p.Stderr.SetDataType(types.String)
-
-	/*p.Stdout.Open()
-	defer p.Stdout.Close()
-	p.Stderr.Open()
-	defer p.Stderr.Close()*/
-
 	// Execute function.
 	var parsedAlias bool
 	p.State = state.Executing
+	p.StartTime = time.Now()
 
 executeProcess:
 	if echo.(bool) {
@@ -211,7 +142,7 @@ executeProcess:
 		p.Scope = p
 		r, err = proc.MxFunctions.Block(p.Name)
 		if err == nil {
-			p.ExitNum, err = RunBlockNewNamespace(r, p.Stdin, p.Stdout, p.Stderr, p)
+			p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
 	case p.Name[0] == '$':
@@ -230,7 +161,7 @@ executeProcess:
 			_, err = p.Stdout.Write([]byte(s))
 		default:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
-			RunBlockExistingNamespace(block, p.Stdin, p.Stdout, p.Stderr, p)
+			RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
 	case proc.GoFunctions[p.Name] != nil:
@@ -275,7 +206,7 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
-	//debug.Json("Destroying:", p)
+	/*//debug.Json("Destroying:", p)
 
 	p.State = state.Terminating
 
@@ -283,11 +214,18 @@ func destroyProcess(p *proc.Process) {
 	p.Stderr.Close()
 
 	p.SetTerminatedState(true)
-	if p.Name != "fork" { // make special case for `fork` because that doesn't wait
+	if p.Name != "bg" { // make special case for `bg` because that doesn't wait
 		p.WaitForTermination <- false
 	}
 	//debug.Log("Destroyed " + p.Name)
 
-	proc.GlobalFIDs.Deregister(p.Id)
 	p.State = state.AwaitingGC
+	proc.CloseScopedVariables(p)
+	proc.GlobalFIDs.Deregister(p.Id)*/
+
+	if p.Name != "bg" { // make special case for `bg` because that doesn't wait
+		p.WaitForTermination <- false
+	}
+
+	proc.DeregisterProcess(p)
 }

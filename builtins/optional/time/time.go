@@ -36,7 +36,7 @@ func cmdTime(p *proc.Process) error {
 
 		start := time.Now()
 
-		p.ExitNum, err = lang.RunBlockExistingNamespace(block, p.Stdin, p.Stdout, p.Stdout, p)
+		p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stdout, p)
 		if err != nil {
 			return err
 		}
