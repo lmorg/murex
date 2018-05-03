@@ -30,7 +30,6 @@ func init() {
 	proc.GoFunctions["autocomplete"] = cmdAutocomplete
 	proc.GoFunctions["version"] = cmdVersion
 	proc.GoFunctions["runtime"] = cmdRuntime
-	proc.GoFunctions["murex-runtime"] = cmdRuntime
 	proc.GoFunctions["murex-parser"] = cmdParser
 }
 
