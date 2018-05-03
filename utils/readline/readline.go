@@ -142,7 +142,7 @@ func (rl *Instance) Readline() (string, error) {
 		case '\r':
 			fallthrough
 		case '\n':
-			if rl.modeTabGrid {
+			if rl.modeTabGrid && len(rl.tcSuggestions) > 0 {
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
@@ -347,8 +347,11 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 			return false
 
 		case "p", "P":
-			preview := bytes.Replace(data, []byte{'\r'}, []byte{'\r', '\n'}, -1)
-			print("\r\n" + string(preview))
+			preview := string(bytes.Replace(data, []byte{'\r'}, []byte{'\r', '\n'}, -1))
+			if rl.SyntaxHighlighter != nil {
+				preview = rl.SyntaxHighlighter([]rune(preview))
+			}
+			print("\r\n" + preview)
 
 		default:
 			print("\r\nInvalid response. Please answer `y` (yes), `n` (no) or `p` (preview)")
