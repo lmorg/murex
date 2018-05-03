@@ -111,6 +111,9 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 }
 
 // BranchFID is used to branch a process to create a sandboxed function ID.
+// This function produces a `go vet` error due to copying mutexes. However this
+// is expected behaviour in here and accounted for so the code should still be
+// thread safe.
 func (p *Process) BranchFID() *Branch {
 	p.hasTerminatedM.Lock()
 
@@ -142,7 +145,7 @@ func (branch Branch) Close() {
 	DeregisterProcess(branch.Process)
 }
 
-// Deregister a murex process
+// DeregisterProcess deregisters a murex process
 func DeregisterProcess(p *Process) {
 	p.State = state.Terminating
 
