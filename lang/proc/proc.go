@@ -48,7 +48,6 @@ type Process struct {
 	FidTree            []int
 	CreationTime       time.Time
 	StartTime          time.Time
-	//ScopedVars         *types.Vars
 }
 
 var (
@@ -111,8 +110,15 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 	return
 }
 
+// BranchFID is used to branch a process to create a sandboxed function ID.
 func (p *Process) BranchFID() *Branch {
+	p.hasTerminatedM.Lock()
+
 	process := *p
+
+	p.hasTerminatedM.Unlock()
+	process.hasTerminatedM.Unlock()
+
 	process.Name += " (branch)"
 	process.Config = process.Config.Copy()
 	process.Stdout.Open()
@@ -126,14 +132,17 @@ func (p *Process) BranchFID() *Branch {
 	return branch
 }
 
+// Branch is the structure returned from BranchFID. Use this to close a branch.
 type Branch struct {
 	Process *Process
 }
 
+// Close the branch
 func (branch Branch) Close() {
 	DeregisterProcess(branch.Process)
 }
 
+// Deregister a murex process
 func DeregisterProcess(p *Process) {
 	p.State = state.Terminating
 
@@ -145,6 +154,7 @@ func DeregisterProcess(p *Process) {
 	go deregister(p)
 }
 
+// deregister FID and mark variables for garbage collection.
 func deregister(p *Process) {
 	p.State = state.AwaitingGC
 	CloseScopedVariables(p)

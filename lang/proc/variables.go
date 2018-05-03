@@ -12,7 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// `Variables` is an object that methods out lookups against the `varTable`.
+// Variables is an object that methods out lookups against the `varTable`.
 // This will need to be created on each `proc.Process`.
 //
 // While it might seem odd wrapping `varTable` struct up inside another struct,
@@ -79,6 +79,7 @@ func garbageCollection(vt *varTable) {
 	}
 }
 
+// CloseScopedVariables marks variables ready for garbage collection
 func CloseScopedVariables(p *Process) {
 	p.Variables.varTable.mutex.Lock()
 	for _, v := range p.Variables.varTable.vars {
@@ -327,7 +328,8 @@ func (vars *Variables) DumpMap() map[string]interface{} {
 	return m
 }
 
-// DumpEntireTable is a temporary function which is used for debugging. It still be Killed soon
+// DumpEntireTable is a temporary function which is used for debugging.
+// It should be killed soon
 func (vars *Variables) DumpEntireTable() interface{} {
 	m := make([]map[string]interface{}, 0)
 

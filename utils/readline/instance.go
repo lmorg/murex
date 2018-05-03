@@ -21,8 +21,8 @@ type Instance struct {
 
 	// History is an interface for querying the readline history.
 	// This is exposed as an interface to allow you the flexibility to define how
-	// you want your history managed (eg file on disk, database, cloud, or even no
-	// history at all). By default it uses a dummy interface that only stores
+	// you want your history managed (eg file on disk, database, cloud, or even
+	// no history at all). By default it uses a dummy interface that only stores
 	// historic items in memory.
 	History History
 

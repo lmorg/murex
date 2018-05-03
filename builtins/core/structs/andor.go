@@ -58,9 +58,9 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 		// --- and ---
 		_, err := p.Stdout.Write(types.TrueByte)
 		return err
-	} else {
-		// --- or ---
-		_, err := p.Stdout.Write(types.FalseByte)
-		return err
 	}
+
+	// --- or ---
+	_, err := p.Stdout.Write(types.FalseByte)
+	return err
 }

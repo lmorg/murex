@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/core/typemgmt"
+	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import murex builtins
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
