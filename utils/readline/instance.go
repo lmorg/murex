@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"io"
 	"os"
 	"regexp"
 )
@@ -60,6 +61,8 @@ type Instance struct {
 	// then readline will just use the current line.
 	GetMultiLine func() []rune
 
+	writer io.Writer
+
 	// readline operating parameters
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
@@ -73,8 +76,9 @@ type Instance struct {
 	lineBuf []rune
 	histPos int
 
-	// helper
-	hintY int //= 0
+	// hint text
+	hintY    int //= 0
+	hintText []rune
 
 	// tab completer
 	modeTabGrid   bool
@@ -97,15 +101,14 @@ type Instance struct {
 	evtKeyPress map[string]func(string, []rune, int) (bool, bool, []rune)
 }
 
-var (
-	termWidth    int
-	rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
-)
+var rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
 
 // NewInstance is used to create a readline instance and initialise it with sane
 // defaults.
 func NewInstance() *Instance {
 	rl := new(Instance)
+	rl.writer = os.Stdout
+
 	getTermWidth()
 
 	rl.History = new(ExampleHistory)
@@ -115,10 +118,7 @@ func NewInstance() *Instance {
 	rl.promptLen = 4
 	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, []rune))
 
-	rl.TempDirectory = tempDirectory()
-	if _, err := os.Stat(rl.TempDirectory); os.IsNotExist(err) {
-		os.MkdirAll(rl.TempDirectory, 0755)
-	}
+	rl.TempDirectory = os.TempDir()
 
 	return rl
 }

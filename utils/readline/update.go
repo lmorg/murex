@@ -1,26 +1,13 @@
 package readline
 
-import (
-	"fmt"
-	"os"
-	"strings"
-)
-
-func getTermWidth() {
-	var err error
-	fd := int(os.Stdout.Fd())
-	termWidth, _, err = GetSize(fd)
-	if err != nil {
-		termWidth = 100
-	}
-}
+import "strings"
 
 func moveCursorUp(i int) {
 	if i < 1 {
 		return
 	}
 
-	fmt.Printf("\x1b[%dA", i)
+	printf("\x1b[%dA", i)
 }
 
 func moveCursorDown(i int) {
@@ -28,7 +15,7 @@ func moveCursorDown(i int) {
 		return
 	}
 
-	fmt.Printf("\x1b[%dB", i)
+	printf("\x1b[%dB", i)
 }
 
 func moveCursorForwards(i int) {
@@ -36,7 +23,7 @@ func moveCursorForwards(i int) {
 		return
 	}
 
-	fmt.Printf("\x1b[%dC", i)
+	printf("\x1b[%dC", i)
 }
 
 func moveCursorBackwards(i int) {
@@ -44,17 +31,11 @@ func moveCursorBackwards(i int) {
 		return
 	}
 
-	fmt.Printf("\x1b[%dD", i)
+	printf("\x1b[%dD", i)
 }
 
-func (rl *Instance) backspace() {
-	if len(rl.line) == 0 || rl.pos == 0 {
-		return
-	}
-
-	moveCursorBackwards(1)
-	rl.pos--
-	rl.delete()
+func moveCursorToLinePos(rl *Instance) {
+	moveCursorForwards(rl.promptLen + rl.pos)
 }
 
 func (rl *Instance) insert(b []byte) {
@@ -76,10 +57,17 @@ func (rl *Instance) insert(b []byte) {
 	moveCursorForwards(len(r) - 1)
 	rl.pos += len(r)
 
-	if rl.modeTabGrid {
-		rl.clearTabSuggestions()
-		rl.tabCompletion()
+	rl.updateHelpers()
+}
+
+func (rl *Instance) backspace() {
+	if len(rl.line) == 0 || rl.pos == 0 {
+		return
 	}
+
+	moveCursorBackwards(1)
+	rl.pos--
+	rl.delete()
 }
 
 func (rl *Instance) delete() {
@@ -102,10 +90,24 @@ func (rl *Instance) delete() {
 		moveCursorBackwards(1)
 	}
 
-	if rl.modeTabGrid {
-		rl.clearTabSuggestions()
-		rl.tabCompletion()
+	rl.updateHelpers()
+}
+
+func (rl *Instance) echo() {
+	moveCursorBackwards(rl.pos)
+
+	switch {
+	case rl.PasswordMask > 0:
+		print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " ")
+
+	case rl.SyntaxHighlighter == nil:
+		print(string(rl.line) + " ")
+
+	default:
+		print(rl.SyntaxHighlighter(rl.line) + " ")
 	}
+
+	moveCursorBackwards(len(rl.line) - rl.pos)
 }
 
 func (rl *Instance) clearLine() {
@@ -114,21 +116,39 @@ func (rl *Instance) clearLine() {
 	}
 
 	moveCursorBackwards(rl.pos)
-	fmt.Print(strings.Repeat(" ", len(rl.line)))
+	print(strings.Repeat(" ", len(rl.line)))
 	moveCursorBackwards(len(rl.line))
 
 	rl.line = []rune{}
 	rl.pos = 0
+}
 
-	if rl.modeTabGrid {
-		rl.clearTabSuggestions()
-		rl.tabCompletion()
-	}
+func (rl *Instance) resetHelpers() {
+	rl.clearHelpers()
+	rl.resetHintText()
+	rl.resetTabCompletion()
 }
 
 func (rl *Instance) clearHelpers() {
+	print("\r\n" + seqClearScreenBelow)
+	moveCursorUp(1)
+	moveCursorToLinePos(rl)
+}
+
+func (rl *Instance) renderHelpers() {
+	rl.writeHintText()
+	rl.writeTabGrid()
+
+	moveCursorUp(rl.hintY + rl.tcUsedY)
+	moveCursorBackwards(getTermWidth())
+	moveCursorToLinePos(rl)
+}
+
+func (rl *Instance) updateHelpers() {
+	rl.getHintText()
 	if rl.modeTabGrid {
-		rl.clearTabSuggestions()
+		rl.getTabCompletion()
 	}
-	rl.clearHintText()
+	rl.clearHelpers()
+	rl.renderHelpers()
 }

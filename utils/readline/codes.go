@@ -49,6 +49,13 @@ var (
 const (
 	seqPosSave    = "\x1b[s"
 	seqPosRestore = "\x1b[u"
+
+	seqClearLineAfer    = "\x1b[0k"
+	seqClearLineBefore  = "\x1b[1k"
+	seqClearLine        = "\x1b[2k"
+	seqClearScreenBelow = "\x1b[0J"
+
+	seqGetCursorPos = "\x1b6n" // response: "\x1b{Line};{Column}R"
 )
 
 // Text effects
