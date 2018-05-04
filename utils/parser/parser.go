@@ -270,6 +270,28 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				syntaxHighlighted += hlFunction
 			}
 
+		case '\n':
+			pt.Loc = i
+			switch {
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += string(block[i])
+				ansiReset(block[i])
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+			default:
+				if pos != 0 && pt.Loc >= pos {
+					return
+				}
+				pt.ExpectFunc = true
+				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
+				pt.Parameters = make([]string, 0)
+				ansiChar(hlPipe, block[i])
+				syntaxHighlighted += hlFunction
+			}
+
 		case '?':
 			pt.Loc = i
 			switch {

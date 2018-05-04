@@ -89,7 +89,7 @@ func TestVariables(t *testing.T) {
 
 	// test copy values
 
-	/*if copy.varTable.vars[0].Value.(float64) != copyNum {
+	if copy.varTable.vars[0].Value.(float64) != copyNum {
 		t.Error("Copy number not same as expected value.")
 	}
 
@@ -103,7 +103,7 @@ func TestVariables(t *testing.T) {
 
 	if copy.varTable.vars[3].Value.(bool) != copyBool {
 		t.Error("Copy boolean not same as expected value.")
-	}*/
+	}
 
 	// test GetValue on copy
 
