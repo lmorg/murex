@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
@@ -71,7 +70,7 @@ func RunBlockExistingConfigSpacePlusVars(block []rune, stdin, stdout, stderr std
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
 func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *proc.Variables) (exitNum int, err error) {
-	debug.Log(string(block))
+	//debug.Log(string(block))
 
 	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
 	//	block = block[1 : len(block)-1]
@@ -102,26 +101,33 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	} else {
 		container.Stdin = streams.NewStdin()
 		container.Stdin.SetDataType(types.Null)
-		//container.Stdin.Close()
 	}
 
 	if stdout != nil {
 		container.Stdout = stdout
-		//container.Stdout.Open()
 	} else {
+		//if debug.Enable {
+		//  // This is TermErr despite being a Stdout stream because it is a debug
+		//  // stream so we don't want to taint stdout with unexpected output.
+		//	container.Stdout = new(streams.TermErr)
+		//} else {
+		//	container.Stdout = new(streams.Null)
+		//}
 		container.Stdout = new(streams.TermOut)
 	}
-	//container.Stdout.MakeParent()
 	container.Stdout.Open()
 	defer container.Stdout.Close()
 
 	if stderr != nil {
 		container.Stderr = stderr
-		//container.Stderr.Open()
 	} else {
+		//if debug.Enable {
+		//	container.Stdout = new(streams.TermErr)
+		//} else {
+		//	container.Stdout = new(streams.Null)
+		//}
 		container.Stderr = new(streams.TermErr)
 	}
-	//container.Stderr.MakeParent()
 	container.Stderr.Open()
 	defer container.Stderr.Close()
 

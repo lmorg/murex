@@ -217,7 +217,7 @@ func convDataType(value interface{}, dataType string) (val interface{}, err erro
 // Set checks if a variable already exists, if it does it updates the value, if
 // it doesn't it creates a new one.
 func (vars *Variables) Set(name string, value interface{}, dataType string) error {
-	debug.Json("vars set", vars.process)
+	//debug.Json("vars set", vars.process)
 	val, err := convDataType(value, dataType)
 	if err != nil {
 		return err

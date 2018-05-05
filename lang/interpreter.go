@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -212,7 +211,7 @@ func runModeTry(tree *astNodes) (exitNum int) {
 
 // `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
 func runModeTryPipe(tree *astNodes) (exitNum int) {
-	debug.Log("Entering run mode `trypipe`")
+	//debug.Log("Entering run mode `trypipe`")
 	if len(*tree) == 0 {
 		return 1
 	}
