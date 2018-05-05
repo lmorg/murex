@@ -47,12 +47,9 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 			case parameters.TokenTypeBlockString:
 				stdout := streams.NewStdin()
 				RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
-				//stdout.Close()
 				b, err := stdout.ReadAll()
 				if err != nil {
-					//os.Stderr.WriteString(err.Error() + utils.NewLineString)
 					ansi.Stderrln(prc, ansi.FgRed, err.Error())
-					//prc.Stderr.Writeln([]byte(err.Error()))
 				}
 
 				if len(b) > 0 && b[len(b)-1] == '\n' {
@@ -72,7 +69,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				variable := streams.NewStdin()
 				variable.SetDataType(prc.Variables.GetDataType(p.Tokens[i][j].Key))
 				variable.Write([]byte(prc.Variables.GetString(p.Tokens[i][j].Key)))
-				//variable.Close()
 
 				variable.ReadArray(func(b []byte) {
 					array = append(array, string(b))
@@ -91,7 +87,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 
 				stdout := streams.NewStdin()
 				RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
-				//stdout.Close()
 
 				stdout.ReadArray(func(b []byte) {
 					array = append(array, string(b))
@@ -116,8 +111,8 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
 				stdout := streams.NewStdin()
-				RunBlockExistingConfigSpace(block, nil, stdout, nil, prc)
-				//stdout.Close()
+				RunBlockExistingConfigSpace(block, nil, stdout, prc.Stderr, prc)
+
 				b, err := stdout.ReadAll()
 				if err != nil {
 					ansi.Stderrln(prc, ansi.FgRed, err.Error())

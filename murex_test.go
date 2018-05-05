@@ -12,7 +12,7 @@ import (
 func TestMurex(t *testing.T) {
 	proc.InitEnv()
 
-	block := []rune("a [Mon..Fri]->regexp <null> m/^T/")
+	block := []rune("a [Mon..Fri]->regexp m/^T/")
 
 	_, err := lang.RunBlockShellConfigSpace(block, nil, nil, nil)
 

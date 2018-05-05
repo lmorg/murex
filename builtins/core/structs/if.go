@@ -87,8 +87,7 @@ func cmdIf(p *proc.Process) error {
 	if len(blocks[fIf]) > 0 {
 		// --- IF --- (function)
 		stdout := streams.NewStdin()
-		stderr := new(streams.Null)
-		i, err := lang.RunBlockExistingConfigSpace(blocks[fIf], nil, stdout, stderr, p)
+		i, err := lang.RunBlockExistingConfigSpace(blocks[fIf], nil, stdout, nil, p)
 		if err != nil {
 			return err
 		}

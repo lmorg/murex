@@ -23,7 +23,6 @@ func getPrompt() {
 		out := streams.NewStdin()
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		//exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, p)
 		vars := proc.NewVariables()
 		vars.Set("linenum", 1, types.Integer)
 		exitNum, err = lang.RunBlockExistingConfigSpacePlusVars([]rune(prompt.(string)), nil, out, nil, branch.Process, vars)
@@ -60,7 +59,6 @@ func getMultilinePrompt(nLines int) {
 		out := streams.NewStdin()
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		//exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, p)
 		vars := proc.NewVariables()
 		vars.Set("linenum", nLines, types.Integer)
 		exitNum, err = lang.RunBlockExistingConfigSpacePlusVars([]rune(prompt.(string)), nil, out, nil, branch.Process, vars)
@@ -80,6 +78,5 @@ func getMultilinePrompt(nLines int) {
 		b = []byte(fmt.Sprintf("%5d » ", nLines))
 	}
 
-	//Instance.SetPrompt(string(b))
 	Prompt.SetPrompt(string(b))
 }

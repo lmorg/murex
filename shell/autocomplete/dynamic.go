@@ -11,7 +11,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
@@ -33,30 +32,21 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	}
 	block := []rune(f.Dynamic[1 : len(f.Dynamic)-1])
 
-	stdout := streams.NewStdin()
-	stderr := streams.NewStdin()
-
 	branch := proc.ShellProcess.BranchFID()
 	defer branch.Close()
 	branch.Process.Scope = branch.Process
 	branch.Process.Parent = branch.Process
 	branch.Process.Name = args.exe
 	branch.Process.Parameters = parameters.Parameters{Params: args.params}
-	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, stderr, branch.Process)
-
-	b, _ := stderr.ReadAll()
-	s := strings.TrimSpace(string(b))
+	stdout := streams.NewStdin()
+	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, branch.Process)
 
 	if err != nil {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())
 	}
-	if exitNum != 0 && debug.Enable {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number.")
-	}
-
-	if len(s) > 0 && debug.Enable {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, utils.NewLineString+s)
-	}
+	//if exitNum != 0 && debug.Enable {
+	//	ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number.")
+	//}
 
 	stdout.ReadArray(func(b []byte) {
 		s := string(bytes.TrimSpace(b))

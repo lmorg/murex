@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/docs"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -12,7 +11,6 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
 )
 
@@ -106,10 +104,9 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	stdout := streams.NewStdin()
-	stderr := streams.NewStdin()
 	branch := proc.ShellProcess.BranchFID()
 	defer branch.Close()
-	/*exitNum, err := */ lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, stderr, branch.Process)
+	/*exitNum, err := */ lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
 
 	b, _ /*err2*/ := stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
@@ -118,11 +115,6 @@ func hintText(line []rune, pos int) []rune {
 
 	if len(b) > 1 && b[len(b)-1] == '\r' {
 		b = b[:len(b)-1]
-	}
-
-	if debug.Enable {
-		b, _ := stderr.ReadAll()
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
 	}
 
 	/*if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {

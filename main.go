@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -79,7 +80,7 @@ func diskSource(filename string) []rune {
 }
 
 func execSource(source []rune) {
-	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, nil, nil)
+	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(streams.TermOut), new(streams.TermErr))
 
 	if err != nil {
 		if exitNum == 0 {
@@ -111,5 +112,5 @@ func execProfile() {
 		return
 	}
 
-	lang.RunBlockShellConfigSpace([]rune(string(b)), nil, nil, nil)
+	lang.RunBlockShellConfigSpace([]rune(string(b)), nil, new(streams.TermOut), new(streams.TermErr))
 }

@@ -83,6 +83,21 @@ autocomplete set pty { [
     }
 ] }
 
+autocomplete set format { [{
+    "Dynamic": ({ runtime: --marshallers })
+}] }
+
+autocomplete set cast { [{
+    "Dynamic": ({ runtime: --unmarshallers })
+}] }
+
+autocomplete set tout { [{
+    "Dynamic": ({ runtime: --marshallers })
+}] }
+
+autocomplete set swivel-datatype { [{
+    "Dynamic": ({ runtime: --marshallers })
+}] }
 
 autocomplete set config { [{
     "Flags": [ "get", "set" ],

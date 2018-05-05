@@ -54,7 +54,6 @@ func cmdFor(p *proc.Process) (err error) {
 
 		stdout := streams.NewStdin()
 		i, err := lang.RunBlockExistingConfigSpace([]rune(conditional), nil, stdout, p.Stderr, p)
-		//stdout.Close()
 		if err != nil {
 			return err
 		}
@@ -186,7 +185,6 @@ func cmdWhile(p *proc.Process) error {
 
 			stdout := streams.NewStdin()
 			i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, p.Stderr, p)
-			//stdout.Close()
 			if err != nil {
 				return err
 			}
@@ -228,7 +226,6 @@ func cmdWhile(p *proc.Process) error {
 
 			stdout := streams.NewStdin()
 			i, err := lang.RunBlockExistingConfigSpace(ifBlock, nil, stdout, nil, p)
-			//stdout.Close()
 			if err != nil {
 				return err
 			}
@@ -250,6 +247,4 @@ func cmdWhile(p *proc.Process) error {
 		// Error
 		return errors.New("Invalid number of parameters. Please read usage notes.")
 	}
-
-	//return errors.New("cmdWhile(p *proc.Process) unexpected escaped a switch with default case.")
 }

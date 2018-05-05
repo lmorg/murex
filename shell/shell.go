@@ -139,7 +139,7 @@ func prompt() {
 			nLines = 1
 			merged = ""
 
-			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, nil, nil)
+			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), new(streams.TermErr))
 			streams.CrLf.Write()
 		}
 	}

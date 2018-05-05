@@ -150,7 +150,7 @@ func switchCompByBlock(p *proc.Process, params *parameters.Parameters) (bool, er
 	}
 
 	stdout := streams.NewStdin()
-	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, new(streams.Null), p)
+	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, p)
 	if err != nil {
 		return false, err
 	}
