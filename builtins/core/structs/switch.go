@@ -69,7 +69,7 @@ func cmdSwitch(p *proc.Process) error {
 		if ast[i].Name == "case" || ast[i].Name == "catch" {
 			return err
 		} else if err != nil {
-			message := fmt.Sprintln("Error in block %d: %s", i+1, err.Error())
+			message := fmt.Sprintf("Error in block %d: %s", i+1, err.Error())
 			ansi.Stderrln(p, ansi.FgRed, message)
 		}
 	}
