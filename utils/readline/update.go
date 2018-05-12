@@ -65,7 +65,6 @@ func (rl *Instance) insert(r []rune) {
 
 	rl.echo()
 
-	//fmt.Println(r)
 	rl.pos += len(r)
 	moveCursorForwards(len(r) - 1)
 

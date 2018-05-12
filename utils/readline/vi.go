@@ -121,6 +121,40 @@ func (rl *Instance) getViIterations() int {
 	return i
 }
 
+func (rl *Instance) vimDelete(r rune) {
+	switch r {
+	case 'd':
+		rl.clearLine()
+		rl.resetHelpers()
+		rl.getHintText()
+
+	case 'w':
+		split, index, pos := rl.tokeniseLine()
+		//fmt.Println("|", split, index, pos, "|")
+		var before, partial, after string
+		if index > 0 {
+			before = strings.Join(split[:index], "")
+		}
+
+		partial = split[index][:pos]
+
+		if index < len(split)-1 {
+			after = strings.Join(split[index+1:], "")
+		}
+
+		moveCursorBackwards(rl.pos)
+		print(strings.Repeat(" ", len(rl.line)))
+		moveCursorBackwards(len(rl.line) - rl.pos)
+
+		rl.line = []rune(before + partial + after)
+		rl.echo()
+		rl.getHintText()
+	}
+
+	rl.modeViMode = vimKeys
+	rl.renderHelpers()
+}
+
 func (rl *Instance) viHintVimKeys() {
 	rl.viHintMessage([]rune("-- VIM KEYS -- (press `i` to return to normal editing mode)"))
 }

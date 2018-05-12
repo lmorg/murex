@@ -5,10 +5,6 @@ func (rl *Instance) syntaxCompletion() {
 		return
 	}
 
-	//x := pos
-	//if modeViMode == vimInsert && pos > 0 {
-	//	x--
-	//}
 	newLine, newPos := rl.SyntaxCompleter(rl.line, rl.pos-1)
 	if string(newLine) == string(rl.line) {
 		return

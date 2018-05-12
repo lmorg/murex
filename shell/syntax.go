@@ -39,7 +39,7 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 			return line[:len(line)-1], pos
 		}
 
-	case pos > 0 && line[pos-1] == '[':
+	case pos > 0 && len(line) > pos && line[pos-1] == '[':
 		if pos < len(line)-1 {
 			r := append(line[:pos+1], ']')
 			return append(r, line[pos+2:]...), pos

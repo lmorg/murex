@@ -5,7 +5,6 @@ import (
 	"errors"
 	"os"
 	"regexp"
-	"strings"
 	"unicode/utf8"
 )
 
@@ -128,17 +127,8 @@ func (rl *Instance) Readline() (string, error) {
 			rl.viUndoSkipAppend = true
 
 		case charCtrlU:
-			moveCursorBackwards(rl.pos)
-			print(strings.Repeat(" ", len(rl.line)))
-			moveCursorBackwards(len(rl.line))
-
-			rl.line = rl.line[rl.pos:]
-			rl.pos = 0
-			rl.echo()
-
-			moveCursorBackwards(1)
-
-			rl.updateHelpers()
+			rl.clearLine()
+			rl.resetHelpers()
 
 		case '\r':
 			fallthrough
@@ -273,13 +263,12 @@ func (rl *Instance) editorInput(r []rune) {
 	case vimKeys:
 		rl.vi(r[0])
 
-	//case vimDelete:
-	//rl.vimDelete(r[0])
+	case vimDelete:
+		rl.vimDelete(r[0])
 
 	case vimReplaceOnce:
 		rl.modeViMode = vimKeys
 		rl.delete()
-		//r := []rune(string(b))
 		rl.insert([]rune{r[0]})
 
 	case vimReplaceMany:
