@@ -1,6 +1,8 @@
 package readline
 
-import "strings"
+import (
+	"strings"
+)
 
 func moveCursorUp(i int) {
 	if i < 1 {
@@ -38,8 +40,17 @@ func moveCursorToLinePos(rl *Instance) {
 	moveCursorForwards(rl.promptLen + rl.pos)
 }
 
-func (rl *Instance) insert(b []byte) {
-	r := []rune(string(b))
+func (rl *Instance) insert(r []rune) {
+	for {
+		// I don't really understand why `0` is creaping in at the end of the
+		// array but it only happens with unicode characters.
+		if len(r) > 1 && r[len(r)-1] == 0 {
+			r = r[:len(r)-1]
+			continue
+		}
+		break
+	}
+
 	switch {
 	case len(rl.line) == 0:
 		rl.line = r
@@ -54,8 +65,9 @@ func (rl *Instance) insert(b []byte) {
 
 	rl.echo()
 
-	moveCursorForwards(len(r) - 1)
+	//fmt.Println(r)
 	rl.pos += len(r)
+	moveCursorForwards(len(r) - 1)
 
 	rl.updateHelpers()
 }

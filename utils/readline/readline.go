@@ -32,8 +32,8 @@ func (rl *Instance) Readline() (string, error) {
 	rl.resetTabCompletion()
 
 	if len(rl.multisplit) > 0 {
-		b := []byte(rl.multisplit[0])
-		rl.editorInput(b)
+		r := []rune(rl.multisplit[0])
+		rl.editorInput(r)
 		rl.carridgeReturn()
 		if len(rl.multisplit) > 1 {
 			rl.multisplit = rl.multisplit[1:]
@@ -60,8 +60,9 @@ func (rl *Instance) Readline() (string, error) {
 		}
 
 		rl.skipStdinRead = false
+		r := []rune(string(b))
 
-		if isMultiline(b[:i]) || len(rl.multiline) > 0 {
+		if isMultiline(r[:i]) || len(rl.multiline) > 0 {
 			rl.multiline = append(rl.multiline, b[:i]...)
 			if i == len(b) {
 				continue
@@ -75,9 +76,9 @@ func (rl *Instance) Readline() (string, error) {
 			s := string(rl.multiline)
 			rl.multisplit = rxMultiline.Split(s, -1)
 
-			b = []byte(rl.multisplit[0])
+			r = []rune(rl.multisplit[0])
 			rl.modeViMode = vimInsert
-			rl.editorInput(b)
+			rl.editorInput(r)
 			rl.carridgeReturn()
 			rl.multiline = []byte{}
 			if len(rl.multisplit) > 1 {
@@ -88,7 +89,7 @@ func (rl *Instance) Readline() (string, error) {
 			return string(rl.line), nil
 		}
 
-		s := string(b[:i])
+		s := string(r[:i])
 
 		if rl.evtKeyPress[s] != nil {
 			ignoreKey, closeReadline, hintText := rl.evtKeyPress[s](s, rl.line, rl.pos)
@@ -147,7 +148,7 @@ func (rl *Instance) Readline() (string, error) {
 				rl.clearHelpers()
 				rl.resetTabCompletion()
 				rl.renderHelpers()
-				rl.insert([]byte(rl.tcSuggestions[cell]))
+				rl.insert([]rune(rl.tcSuggestions[cell]))
 				continue
 			}
 			rl.carridgeReturn()
@@ -158,10 +159,10 @@ func (rl *Instance) Readline() (string, error) {
 			rl.renderHelpers()
 
 		case charEscape:
-			rl.escapeSeq(b[:i])
+			rl.escapeSeq(r[:i])
 
 		default:
-			rl.editorInput(b[:i])
+			rl.editorInput(r[:i])
 			if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
 				rl.skipStdinRead = true
 			}
@@ -173,8 +174,8 @@ func (rl *Instance) Readline() (string, error) {
 	}
 }
 
-func (rl *Instance) escapeSeq(b []byte) {
-	switch string(b) {
+func (rl *Instance) escapeSeq(r []rune) {
+	switch string(r) {
 	case string(charEscape):
 		if rl.modeTabGrid {
 			rl.clearHelpers()
@@ -187,6 +188,7 @@ func (rl *Instance) escapeSeq(b []byte) {
 			}
 			rl.modeViMode = vimKeys
 			rl.viIteration = ""
+			rl.viHintVimKeys()
 		}
 		rl.viUndoSkipAppend = true
 
@@ -266,25 +268,28 @@ func (rl *Instance) escapeSeq(b []byte) {
 // editorInput is an unexported function used to determine what mode of text
 // entry readline is currently configured for and then update the line entries
 // accordingly.
-func (rl *Instance) editorInput(b []byte) {
+func (rl *Instance) editorInput(r []rune) {
 	switch rl.modeViMode {
 	case vimKeys:
-		rl.vi(b[0])
+		rl.vi(r[0])
+
+	//case vimDelete:
+	//rl.vimDelete(r[0])
 
 	case vimReplaceOnce:
 		rl.modeViMode = vimKeys
 		rl.delete()
-		r := []rune(string(b))
-		rl.insert([]byte(string(r[0])))
+		//r := []rune(string(b))
+		rl.insert([]rune{r[0]})
 
 	case vimReplaceMany:
-		for _, r := range []rune(string(b)) {
+		for _, char := range r {
 			rl.delete()
-			rl.insert([]byte(string(r)))
+			rl.insert([]rune{char})
 		}
 
 	default:
-		rl.insert(b)
+		rl.insert(r)
 	}
 
 	if len(rl.multisplit) == 0 {
@@ -313,9 +318,9 @@ func (rl *Instance) carridgeReturn() {
 	}
 }
 
-func isMultiline(b []byte) bool {
-	for i := range b {
-		if (b[i] == '\r' || b[i] == '\n') && i != len(b)-1 {
+func isMultiline(r []rune) bool {
+	for i := range r {
+		if (r[i] == '\r' || r[i] == '\n') && i != len(r)-1 {
 			return true
 		}
 	}

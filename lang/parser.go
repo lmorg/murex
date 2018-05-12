@@ -573,7 +573,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 			}
 
 		case '~':
-			if braceCount == 0 && !quoteSingle && !escaped {
+			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeTilde})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key

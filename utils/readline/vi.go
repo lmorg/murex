@@ -11,17 +11,19 @@ const (
 	vimInsert viMode = iota
 	vimReplaceOnce
 	vimReplaceMany
+	vimDelete
 	vimKeys
 )
 
-func (rl *Instance) vi(b byte) {
-	switch b {
+func (rl *Instance) vi(r rune) {
+	switch r {
 	case 'a':
 		moveCursorForwards(1)
 		rl.pos++
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
 		rl.viUndoSkipAppend = true
+		rl.viHintInsert()
 
 	case 'A':
 		moveCursorForwards(len(rl.line) - rl.pos)
@@ -29,6 +31,12 @@ func (rl *Instance) vi(b byte) {
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
 		rl.viUndoSkipAppend = true
+		rl.viHintInsert()
+
+	case 'd':
+		rl.modeViMode = vimDelete
+		rl.viUndoSkipAppend = true
+		rl.viHintDelete()
 
 	case 'D':
 		moveCursorBackwards(rl.pos)
@@ -47,6 +55,7 @@ func (rl *Instance) vi(b byte) {
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
 		rl.viUndoSkipAppend = true
+		rl.viHintInsert()
 
 	case 'r':
 		rl.modeViMode = vimReplaceOnce
@@ -57,6 +66,7 @@ func (rl *Instance) vi(b byte) {
 		rl.modeViMode = vimReplaceMany
 		rl.viIteration = ""
 		rl.viUndoSkipAppend = true
+		rl.viHintReplace()
 
 	case 'u':
 		if len(rl.viUndoHistory) > 0 {
@@ -94,8 +104,8 @@ func (rl *Instance) vi(b byte) {
 		}
 
 	default:
-		if b <= '9' && '0' <= b {
-			rl.viIteration += string(b)
+		if r <= '9' && '0' <= r {
+			rl.viIteration += string(r)
 		}
 		rl.viUndoSkipAppend = true
 
@@ -109,4 +119,17 @@ func (rl *Instance) getViIterations() int {
 	}
 	rl.viIteration = ""
 	return i
+}
+
+func (rl *Instance) viHintVimKeys() {
+	rl.viHintMessage([]rune("-- VIM KEYS -- (press `i` to return to normal editing mode)"))
+}
+func (rl *Instance) viHintInsert()  { rl.viHintMessage([]rune("-- INSERT --")) }
+func (rl *Instance) viHintReplace() { rl.viHintMessage([]rune("-- REPLACE --")) }
+func (rl *Instance) viHintDelete()  { rl.viHintMessage([]rune("-- DELETE --")) }
+
+func (rl *Instance) viHintMessage(message []rune) {
+	rl.hintText = message
+	rl.clearHelpers()
+	rl.renderHelpers()
 }
