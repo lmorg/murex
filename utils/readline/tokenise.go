@@ -16,7 +16,8 @@ func tokeniseLine(rl *Instance) ([]string, int, int) {
 		switch {
 		case (r >= 33 && 47 >= r) ||
 			(r >= 58 && 64 >= r) ||
-			(r >= 91 && 96 >= r) ||
+			(r >= 91 && 94 >= r) ||
+			r == 96 ||
 			(r >= 123 && 126 >= r):
 
 			if i > 0 && rl.line[i-1] != r {
@@ -73,6 +74,82 @@ func tokeniseSplitSpaces(rl *Instance) ([]string, int, int) {
 	}
 
 	return split, index, pos
+}
+
+func tokeniseBrackets(rl *Instance) ([]string, int, int) {
+	var (
+		open, close    rune
+		split          []string
+		count          int
+		pos            map[int]int = make(map[int]int)
+		match          int
+		single, double bool
+	)
+
+	switch rl.line[rl.pos] {
+	case '(', ')':
+		open = '('
+		close = ')'
+
+	case '{', '[':
+		open = rl.line[rl.pos]
+		close = rl.line[rl.pos] + 2
+
+	case '}', ']':
+		open = rl.line[rl.pos] - 2
+		close = rl.line[rl.pos]
+
+	default:
+		return nil, 0, 0
+	}
+
+	for i := range rl.line {
+		switch rl.line[i] {
+		case '\'':
+			if !single {
+				double = !double
+			}
+
+		case '"':
+			if !double {
+				single = !single
+			}
+
+		case open:
+			if !single && !double {
+				count++
+				pos[count] = i
+				if i == rl.pos {
+					match = count
+					split = []string{string(rl.line[:i-1])}
+				}
+
+			} else if i == rl.pos {
+				return nil, 0, 0
+			}
+
+		case close:
+			if !single && !double {
+				if match == count {
+					split = append(split, string(rl.line[pos[count]:i]))
+					return split, 1, 0
+				}
+				if i == rl.pos {
+					split = []string{
+						string(rl.line[:pos[count]-1]),
+						string(rl.line[pos[count]:i]),
+					}
+					return split, 1, len(split[1])
+				}
+				count--
+
+			} else if i == rl.pos {
+				return nil, 0, 0
+			}
+		}
+	}
+
+	return nil, 0, 0
 }
 
 func rTrimWhiteSpace(oldString string) (newString string) {

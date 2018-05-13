@@ -70,7 +70,7 @@ type Instance struct {
 	skipStdinRead bool
 
 	// history
-	lineBuf []rune
+	lineBuf string
 	histPos int
 
 	// hint text
@@ -93,6 +93,7 @@ type Instance struct {
 	viIteration      string
 	viUndoHistory    []undoItem
 	viUndoSkipAppend bool
+	viYankBuffer     string
 
 	// event
 	evtKeyPress map[string]func(string, []rune, int) (bool, bool, []rune)

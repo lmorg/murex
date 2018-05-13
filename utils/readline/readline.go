@@ -230,7 +230,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
 			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
-			//if pos < len(line) {
 			moveCursorForwards(1)
 			rl.pos++
 		}

@@ -27,6 +27,9 @@ func (rl *Instance) vimDelete(r rune) {
 	case 'W':
 		rl.viDeleteByAdjust(rl.viJumpW(tokeniseSplitSpaces))
 
+	case '%':
+		rl.viDeleteByAdjust(rl.viJumpBracket())
+
 	default:
 		rl.viUndoSkipAppend = true
 	}

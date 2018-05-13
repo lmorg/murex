@@ -79,6 +79,13 @@ func (rl *Instance) vi(r rune) {
 			rl.moveCursorByAdjust(rl.viJumpE(tokeniseSplitSpaces))
 		}
 
+	case 'h':
+		if rl.pos > 0 {
+			moveCursorBackwards(1)
+			rl.pos--
+		}
+		rl.viUndoSkipAppend = true
+
 	case 'i':
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
@@ -90,6 +97,34 @@ func (rl *Instance) vi(r rune) {
 		rl.viUndoSkipAppend = true
 		moveCursorBackwards(rl.pos)
 		rl.pos = 0
+
+	case 'l':
+		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
+			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
+			moveCursorForwards(1)
+			rl.pos++
+		}
+		rl.viUndoSkipAppend = true
+
+	case 'p':
+		// paste after
+		rl.viUndoSkipAppend = true
+		rl.pos++
+		moveCursorForwards(1)
+		vii := rl.getViIterations()
+		for i := 1; i <= vii; i++ {
+			rl.insert([]rune(rl.viYankBuffer))
+		}
+		rl.pos--
+		moveCursorBackwards(1)
+
+	case 'P':
+		// paste before
+		rl.viUndoSkipAppend = true
+		vii := rl.getViIterations()
+		for i := 1; i <= vii; i++ {
+			rl.insert([]rune(rl.viYankBuffer))
+		}
 
 	case 'r':
 		rl.modeViMode = vimReplaceOnce
@@ -145,6 +180,16 @@ func (rl *Instance) vi(r rune) {
 			moveCursorBackwards(1)
 			rl.pos--
 		}
+
+	case 'y', 'Y':
+		rl.viYankBuffer = string(rl.line)
+		rl.viUndoSkipAppend = true
+		//rl.hintText = []rune("-- LINE YANKED --")
+		//rl.renderHelpers()
+
+	case '%':
+		rl.viUndoSkipAppend = true
+		rl.moveCursorByAdjust(rl.viJumpBracket())
 
 	default:
 		if r <= '9' && '0' <= r {
@@ -231,6 +276,19 @@ func (rl *Instance) viJumpW(tokeniser func(*Instance) ([]string, int, int)) (adj
 		adjust = len(rl.line) - 1 - rl.pos
 	default:
 		adjust = len(split[index]) - pos
+	}
+	return
+}
+
+func (rl *Instance) viJumpBracket() (adjust int) {
+	split, index, pos := tokeniseBrackets(rl)
+	switch {
+	case len(split) == 0:
+		return
+	case pos == 0:
+		adjust = len(split[index])
+	default:
+		adjust = pos * -1
 	}
 	return
 }
