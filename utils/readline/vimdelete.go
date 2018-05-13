@@ -35,13 +35,18 @@ func (rl *Instance) vimDelete(r rune) {
 }
 
 func (rl *Instance) viDeleteByAdjust(adjust int) {
-	var newLine []rune
+	var (
+		newLine []rune
+		backOne bool
+	)
+
 	switch {
 	case adjust == 0:
 		rl.viUndoSkipAppend = true
 		return
 	case rl.pos+adjust == len(rl.line)-1:
 		newLine = rl.line[:rl.pos]
+		backOne = true
 	case rl.pos+adjust == 0:
 		newLine = rl.line[rl.pos:]
 	case adjust < 0:
@@ -62,31 +67,8 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 		rl.moveCursorByAdjust(adjust)
 	}
 
-}
-
-func (rl *Instance) viDeleteW(tokeniser func(*Instance) ([]string, int, int)) {
-	split, index, pos := tokeniser(rl)
-	var before, partial, after string
-	if index > 0 {
-		before = strings.Join(split[:index], "")
-	}
-
-	partial = split[index][:pos]
-
-	if index < len(split)-1 {
-		after = strings.Join(split[index+1:], "")
-	}
-
-	moveCursorBackwards(rl.pos)
-	print(strings.Repeat(" ", len(rl.line)))
-	moveCursorBackwards(len(rl.line) - rl.pos)
-
-	rl.line = []rune(before + partial + after)
-
-	rl.echo()
-	rl.getHintText()
-
-	if rl.pos == len(rl.line)-1 {
+	if backOne {
 		moveCursorBackwards(1)
+		rl.pos--
 	}
 }
