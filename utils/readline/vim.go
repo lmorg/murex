@@ -187,6 +187,19 @@ func (rl *Instance) vi(r rune) {
 		//rl.hintText = []rune("-- LINE YANKED --")
 		//rl.renderHelpers()
 
+	case '[':
+		rl.viUndoSkipAppend = true
+		rl.moveCursorByAdjust(rl.viJumpPreviousBrace())
+
+	case ']':
+		rl.viUndoSkipAppend = true
+		rl.moveCursorByAdjust(rl.viJumpNextBrace())
+
+	case '$':
+		moveCursorForwards(len(rl.line) - rl.pos)
+		rl.pos = len(rl.line)
+		rl.viUndoSkipAppend = true
+
 	case '%':
 		rl.viUndoSkipAppend = true
 		rl.moveCursorByAdjust(rl.viJumpBracket())
@@ -278,6 +291,34 @@ func (rl *Instance) viJumpW(tokeniser func(*Instance) ([]string, int, int)) (adj
 		adjust = len(split[index]) - pos
 	}
 	return
+}
+
+func (rl *Instance) viJumpPreviousBrace() (adjust int) {
+	if rl.pos == 0 {
+		return 0
+	}
+
+	for i := rl.pos - 1; i != 0; i-- {
+		if rl.line[i] == '{' {
+			return i - rl.pos
+		}
+	}
+
+	return 0
+}
+
+func (rl *Instance) viJumpNextBrace() (adjust int) {
+	if rl.pos >= len(rl.line)-1 {
+		return 0
+	}
+
+	for i := rl.pos + 1; i < len(rl.line); i++ {
+		if rl.line[i] == '{' {
+			return i - rl.pos
+		}
+	}
+
+	return 0
 }
 
 func (rl *Instance) viJumpBracket() (adjust int) {
