@@ -23,7 +23,7 @@ func (rl *Instance) Readline() (string, error) {
 	print(rl.prompt)
 
 	rl.line = []rune{}
-	rl.viUndoHistory = make([][]rune, 1)
+	rl.viUndoHistory = []undoItem{{line: "", pos: 0}}
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
@@ -158,9 +158,10 @@ func (rl *Instance) Readline() (string, error) {
 			}
 		}
 
-		if !rl.viUndoSkipAppend {
-			rl.viUndoHistory = append(rl.viUndoHistory, rl.line)
-		}
+		//if !rl.viUndoSkipAppend {
+		//	rl.viUndoHistory = append(rl.viUndoHistory, rl.line)
+		//}
+		rl.undoAppendHistory()
 	}
 }
 
@@ -178,7 +179,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 			}
 			rl.modeViMode = vimKeys
 			rl.viIteration = ""
-			rl.viHintVimKeys()
+			//rl.viHintVimKeys()
+			rl.viHintMessage()
 		}
 		rl.viUndoSkipAppend = true
 
@@ -262,20 +264,24 @@ func (rl *Instance) editorInput(r []rune) {
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(r[0])
+		rl.viHintMessage()
 
 	case vimDelete:
 		rl.vimDelete(r[0])
+		rl.viHintMessage()
 
 	case vimReplaceOnce:
 		rl.modeViMode = vimKeys
 		rl.delete()
 		rl.insert([]rune{r[0]})
+		rl.viHintMessage()
 
 	case vimReplaceMany:
 		for _, char := range r {
 			rl.delete()
 			rl.insert([]rune{char})
 		}
+		rl.viHintMessage()
 
 	default:
 		rl.insert(r)

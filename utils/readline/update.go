@@ -40,6 +40,22 @@ func moveCursorToLinePos(rl *Instance) {
 	moveCursorForwards(rl.promptLen + rl.pos)
 }
 
+func (rl *Instance) moveCursorByAdjust(adjust int) {
+	switch {
+	case adjust > 0:
+		moveCursorForwards(adjust)
+		rl.pos += adjust
+	case adjust < 0:
+		moveCursorBackwards(adjust * -1)
+		rl.pos += adjust
+	}
+
+	if rl.modeViMode != vimInsert && rl.pos == len(rl.line) {
+		moveCursorBackwards(1)
+		rl.pos--
+	}
+}
+
 func (rl *Instance) insert(r []rune) {
 	for {
 		// I don't really understand why `0` is creaping in at the end of the
@@ -68,7 +84,9 @@ func (rl *Instance) insert(r []rune) {
 	rl.pos += len(r)
 	moveCursorForwards(len(r) - 1)
 
-	rl.updateHelpers()
+	if rl.modeViMode == vimInsert {
+		rl.updateHelpers()
+	}
 }
 
 func (rl *Instance) backspace() {
