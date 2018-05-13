@@ -1,6 +1,18 @@
 package shell
 
-func syntaxCompletion(line []rune, pos int) ([]rune, int) {
+import "github.com/lmorg/murex/debug"
+
+func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
+	defer func() {
+		if debug.Enable {
+			return
+		}
+		if r := recover(); r != nil {
+			newLine = line
+			newPos = pos
+		}
+	}()
+
 	pt, _ := parse(line)
 	switch {
 	case pt.QuoteSingle && pt.QuoteBrace == 0 && pt.NestedBlock == 0:
