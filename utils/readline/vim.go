@@ -84,6 +84,13 @@ func (rl *Instance) vi(r rune) {
 		rl.viIteration = ""
 		rl.viUndoSkipAppend = true
 
+	case 'I':
+		rl.modeViMode = vimInsert
+		rl.viIteration = ""
+		rl.viUndoSkipAppend = true
+		moveCursorBackwards(rl.pos)
+		rl.pos = 0
+
 	case 'r':
 		rl.modeViMode = vimReplaceOnce
 		rl.viIteration = ""

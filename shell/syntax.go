@@ -3,6 +3,8 @@ package shell
 import "github.com/lmorg/murex/debug"
 
 func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
+	// This is lazy I know, but it's faster and less error prone than checking
+	// the size of every array. Plus produces more readable code.
 	defer func() {
 		if debug.Enable {
 			return
