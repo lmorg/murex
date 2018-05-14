@@ -82,7 +82,7 @@ func (rl *Instance) walkHistory(i int) {
 	case rl.History.Len():
 		rl.clearLine()
 		rl.histPos += i
-		rl.line = rl.lineBuf
+		rl.line = []rune(rl.lineBuf)
 
 	default:
 		s, err := rl.History.GetLine(rl.histPos + i)
@@ -94,7 +94,7 @@ func (rl *Instance) walkHistory(i int) {
 		}
 
 		if rl.histPos == rl.History.Len() {
-			rl.lineBuf = append(rl.line, []rune{}...)
+			rl.lineBuf = string(rl.line)
 		}
 
 		rl.clearLine()

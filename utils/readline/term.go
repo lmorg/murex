@@ -3,6 +3,7 @@ package readline
 import (
 	"fmt"
 	"os"
+	"unicode/utf8"
 )
 
 func getTermWidth() (termWidth int) {
@@ -23,4 +24,11 @@ func printf(format string, a ...interface{}) {
 
 func print(s string) {
 	os.Stdout.WriteString(s)
+}
+
+func rLen(r []rune) (length int) {
+	for _, i := range r {
+		length += utf8.RuneLen(i)
+	}
+	return
 }

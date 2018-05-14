@@ -1,7 +1,6 @@
 package readline
 
 import (
-	"io"
 	"os"
 	"regexp"
 )
@@ -52,7 +51,7 @@ type Instance struct {
 	HintText func([]rune, int) []rune
 
 	// TempDirectory is the path to write temporary files when editing a line in
-	// $EDITOR
+	// $EDITOR. This will default to os.TempDir()
 	TempDirectory string
 
 	// GetMultiLine is a callback to your host program. Since multiline support
@@ -60,8 +59,6 @@ type Instance struct {
 	// is required when calling $EDITOR. However if this function is not set
 	// then readline will just use the current line.
 	GetMultiLine func() []rune
-
-	writer io.Writer
 
 	// readline operating parameters
 	prompt        string //  = ">>> "
@@ -73,7 +70,7 @@ type Instance struct {
 	skipStdinRead bool
 
 	// history
-	lineBuf []rune
+	lineBuf string
 	histPos int
 
 	// hint text
@@ -94,8 +91,9 @@ type Instance struct {
 	// vim
 	modeViMode       viMode //= vimInsert
 	viIteration      string
-	viUndoHistory    [][]rune
+	viUndoHistory    []undoItem
 	viUndoSkipAppend bool
+	viYankBuffer     string
 
 	// event
 	evtKeyPress map[string]func(string, []rune, int) (bool, bool, bool, []rune)
@@ -107,7 +105,6 @@ var rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
 // defaults.
 func NewInstance() *Instance {
 	rl := new(Instance)
-	rl.writer = os.Stdout
 
 	getTermWidth()
 

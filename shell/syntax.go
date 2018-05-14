@@ -1,6 +1,20 @@
 package shell
 
-func syntaxCompletion(line []rune, pos int) ([]rune, int) {
+import "github.com/lmorg/murex/debug"
+
+func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
+	// This is lazy I know, but it's faster and less error prone than checking
+	// the size of every array. Plus produces more readable code.
+	defer func() {
+		if debug.Enable {
+			return
+		}
+		if r := recover(); r != nil {
+			newLine = line
+			newPos = pos
+		}
+	}()
+
 	pt, _ := parse(line)
 	switch {
 	case pt.QuoteSingle && pt.QuoteBrace == 0 && pt.NestedBlock == 0:
@@ -39,7 +53,7 @@ func syntaxCompletion(line []rune, pos int) ([]rune, int) {
 			return line[:len(line)-1], pos
 		}
 
-	case pos > 0 && line[pos-1] == '[':
+	case pos > 0 && len(line) > pos && line[pos-1] == '[':
 		if pos < len(line)-1 {
 			r := append(line[:pos+1], ']')
 			return append(r, line[pos+2:]...), pos
