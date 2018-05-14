@@ -321,6 +321,7 @@ func cmdParser(p *proc.Process) error {
 	var (
 		block []rune
 		pos   int
+		//syntaxHighlight bool
 	)
 
 	if p.IsMethod {
@@ -329,6 +330,8 @@ func cmdParser(p *proc.Process) error {
 			return err
 		}
 		block = []rune(string(b))
+
+		//syntaxHighlight, _ = p.Parameters.Bool(0)
 
 	} else {
 		r, err := p.Parameters.Block(0)
@@ -339,7 +342,12 @@ func cmdParser(p *proc.Process) error {
 		pos, _ = p.Parameters.Int(1)
 	}
 
-	pt, _ := parser.Parse(block, pos)
+	pt, _ /*ansiHighlighted*/ := parser.Parse(block, pos)
+
+	/*if syntaxHighlight {
+		_, err := p.Stdout.Write([]byte(ansiHighlighted))
+		return err
+	}*/
 
 	b, err := utils.JsonMarshal(pt, p.Stdout.IsTTY())
 	if err != nil {

@@ -435,7 +435,7 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				braceCount--
 			}
 
-		case ' ', '\t': //, '\r':
+		case ' ', '\t', '\r':
 			switch {
 			case escaped:
 				pUpdate(r)
@@ -455,8 +455,8 @@ func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 				// do nothing
 			}
 
-		case '\r':
-			// do nothing
+		//case '\r':
+		//	// do nothing
 
 		case '\n':
 			lineNumber++

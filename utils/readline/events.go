@@ -1,7 +1,7 @@
 package readline
 
 // AddEvent registers a new keypress handler
-func (rl *Instance) AddEvent(keyPress string, callback func(string, []rune, int) (bool, bool, []rune)) {
+func (rl *Instance) AddEvent(keyPress string, callback func(string, []rune, int) (bool, bool, bool, []rune)) {
 	rl.evtKeyPress[keyPress] = callback
 }
 

@@ -98,7 +98,7 @@ type Instance struct {
 	viUndoSkipAppend bool
 
 	// event
-	evtKeyPress map[string]func(string, []rune, int) (bool, bool, []rune)
+	evtKeyPress map[string]func(string, []rune, int) (bool, bool, bool, []rune)
 }
 
 var rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
@@ -116,7 +116,7 @@ func NewInstance() *Instance {
 	rl.MaxTabCompleterRows = 4
 	rl.prompt = ">>> "
 	rl.promptLen = 4
-	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, []rune))
+	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, bool, []rune))
 
 	rl.TempDirectory = os.TempDir()
 

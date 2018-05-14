@@ -27,7 +27,7 @@ func cmdSwitch(p *proc.Process) error {
 		return errors.New(pErr.Message)
 	}
 
-	paramLen := 2
+	minParamLen := 2
 
 	for i := range ast {
 		if ast[i].Name != "case" && ast[i].Name != "if" && ast[i].Name != "catch" {
@@ -35,16 +35,22 @@ func cmdSwitch(p *proc.Process) error {
 		}
 
 		if ast[i].Name == "catch" {
-			paramLen--
+			minParamLen = 1
 		}
 
 		params := &parameters.Parameters{Tokens: ast[i].ParamTokens}
 		lang.ParseParameters(p, params)
 
-		if params.Len() < paramLen {
+		if params.Len() > 1 {
+			if then, _ := params.String(params.Len() - 2); then == "then" {
+				minParamLen++
+			}
+		}
+
+		if params.Len() < minParamLen {
 			return fmt.Errorf("`%s` %d is missing a comparison or execution block.", ast[i].Name, i+1)
 		}
-		if params.Len() > paramLen {
+		if params.Len() > minParamLen {
 			return fmt.Errorf("`%s` %d has too many parameters.", ast[i].Name, i+1)
 		}
 

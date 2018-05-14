@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
@@ -84,9 +83,9 @@ func (evt *keyPressEvents) Remove(name string) error {
 	return fmt.Errorf("Unable to delete event as no event found with the name `%s` for event type `%s`.", name, eventType)
 }
 
-func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool, []rune) {
-	debug.Log("EVENTS: -----> callback")
-	defer debug.Log("EVENTS: callback ----->")
+func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool, bool, []rune) {
+	//debug.Log("EVENTS: -----> callback")
+	//defer debug.Log("EVENTS: callback ----->")
 
 	var i int
 
@@ -95,10 +94,10 @@ func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool
 			goto eventFound
 		}
 	}
-	return false, false, nil
+	return false, false, false, nil
 
 eventFound:
-	debug.Json("event found", evt.events[i])
+	//debug.Json("event found", evt.events[i])
 	block := evt.events[i].block
 
 	interrupt := Interrupt{
@@ -109,27 +108,31 @@ eventFound:
 
 	stdout := streams.NewStdin()
 	events.Callback(evt.events[i].name, interrupt, block, stdout)
-	//stdout.Close()
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
 		ret[key] = value
 	})
 	if err != nil {
-		return false, false, []rune("Callback error: " + err.Error())
+		return false, false, false, []rune("Callback error: " + err.Error())
 	}
 
 	ignoreKey, err := types.ConvertGoType(ret["IgnoreKey"], types.Boolean)
 	if err != nil {
-		return false, false, []rune("Callback error: " + err.Error())
+		return false, false, false, []rune("Callback error: " + err.Error())
+	}
+
+	clearHelpers, err := types.ConvertGoType(ret["ClearHelpers"], types.Boolean)
+	if err != nil {
+		return false, false, false, []rune("Callback error: " + err.Error())
 	}
 
 	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
 	if err != nil {
-		return false, false, []rune("Callback error: " + err.Error())
+		return false, false, false, []rune("Callback error: " + err.Error())
 	}
 
-	return ignoreKey.(bool), closeReadline.(bool), []rune(ret["HintText"])
+	return ignoreKey.(bool), clearHelpers.(bool), closeReadline.(bool), []rune(ret["HintText"])
 }
 
 func (evt *keyPressEvents) Dump() interface{} {

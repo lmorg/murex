@@ -2,9 +2,10 @@ package parameters
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/types"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/lang/types"
 )
 
 // Byte gets a single parameter as a []byte slice
