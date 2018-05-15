@@ -115,18 +115,15 @@ func cmdForEach(p *proc.Process) (err error) {
 			return
 		}
 
-		var vars *proc.Variables
 		if varName != "" {
-			vars = proc.NewVariables()
-			vars.Set(varName, string(b), dt)
+			p.Variables.Set(varName, string(b), dt)
 		}
 
 		stdin := streams.NewStdin()
 		stdin.SetDataType(dt)
 		stdin.Writeln(b)
-		//stdin.Close()
 
-		lang.RunBlockExistingConfigSpacePlusVars(block, stdin, p.Stdout, p.Stderr, p, vars)
+		lang.RunBlockExistingConfigSpace(block, stdin, p.Stdout, p.Stderr, p)
 	})
 
 	return err
@@ -157,11 +154,10 @@ func cmdForMap(p *proc.Process) error {
 			return
 		}
 
-		vars := proc.NewVariables()
-		vars.Set(varKey, key, types.String)
-		vars.Set(varVal, value, dt)
+		p.Variables.Set(varKey, key, types.String)
+		p.Variables.Set(varVal, value, dt)
 
-		lang.RunBlockExistingConfigSpacePlusVars(block, nil, p.Stdout, p.Stderr, p, vars)
+		lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
 	})
 
 	return err

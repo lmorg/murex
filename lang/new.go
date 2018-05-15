@@ -28,7 +28,7 @@ var ShellExitNum int
 func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.Config, nil,
+		proc.ShellProcess, proc.ShellProcess.Config,
 	)
 }
 
@@ -37,7 +37,7 @@ func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exi
 func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config.Copy(), nil,
+		caller, caller.Config.Copy(),
 	)
 }
 
@@ -47,18 +47,7 @@ func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller
 func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config, nil,
-	)
-}
-
-// RunBlockExistingConfigSpacePlusVars is for code blocks as parameters (eg `formap {}`)
-// where you additionally need to set variables inside the new running block.
-// This is sometimes nessisary but is a discurraged as it breaks the functional
-// paradigm.
-func RunBlockExistingConfigSpacePlusVars(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, vars *proc.Variables) (exitNum int, err error) {
-	return processNewBlock(
-		block, stdin, stdout, stderr,
-		caller, caller.Config, vars,
+		caller, caller.Config,
 	)
 }
 
@@ -66,11 +55,12 @@ func RunBlockExistingConfigSpacePlusVars(block []rune, stdin, stdout, stderr std
 // Inputs are:
 //     * the code block ([]rune),
 //     * Stdin, stdout and stderr streams; or nil to black hole those data streams,
-//     * caller proc.Process to determine scope and any inherited properties.
+//     * caller proc.Process to determine scope and any inherited properties,
+//     * config namespace.
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, vars *proc.Variables) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config) (exitNum int, err error) {
 	//debug.Log(string(block))
 
 	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
@@ -86,11 +76,10 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Id = caller.Id
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
-	//container.ScopedVars = vars
 	container.Config = conf
 	container.Variables = caller.Variables
+	//container.Variables = proc.ReferenceVariables(caller.Variables)
 
-	//if caller.Name == proc.ShellProcess.Name {
 	if caller.Id == proc.ShellProcess.Id {
 		container.ExitNum = ShellExitNum
 	} else {
@@ -140,7 +129,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		return 1, err
 	}
 
-	compile(&tree, container, vars)
+	compile(&tree, container)
 
 	// Support for different run modes:
 	switch container.RunMode {

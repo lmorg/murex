@@ -23,9 +23,8 @@ func getPrompt() {
 		out := streams.NewStdin()
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		vars := proc.NewVariables()
-		vars.Set("linenum", 1, types.Integer)
-		exitNum, err = lang.RunBlockExistingConfigSpacePlusVars([]rune(prompt.(string)), nil, out, nil, branch.Process, vars)
+		branch.Process.Variables.Set("linenum", 1, types.Integer)
+		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {
@@ -59,9 +58,8 @@ func getMultilinePrompt(nLines int) {
 		out := streams.NewStdin()
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		vars := proc.NewVariables()
-		vars.Set("linenum", nLines, types.Integer)
-		exitNum, err = lang.RunBlockExistingConfigSpacePlusVars([]rune(prompt.(string)), nil, out, nil, branch.Process, vars)
+		branch.Process.Variables.Set("linenum", nLines, types.Integer)
+		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
 		b, err2 = out.ReadAll()
 		if len(b) > 1 && b[len(b)-1] == '\n' {

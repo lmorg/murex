@@ -124,6 +124,7 @@ func (p *Process) BranchFID() *Branch {
 
 	process.Name += " (branch)"
 	process.Config = process.Config.Copy()
+	process.Variables = ReferenceVariables(p.Variables)
 	process.Stdout.Open()
 	process.Stderr.Open()
 

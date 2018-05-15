@@ -22,14 +22,13 @@ var (
 	rxVariables          *regexp.Regexp = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
 
-func createProcess(p *proc.Process, isMethod bool, vars *proc.Variables) {
+func createProcess(p *proc.Process, isMethod bool) {
 	// Create empty function so we don't have to check nil state when invoking kill, ie you try to kill a process
 	// before it's fully started
 	p.Kill = func() {}
 
 	proc.GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
-	p.Variables.ImportVariables(vars)
 
 	parseRedirection(p)
 

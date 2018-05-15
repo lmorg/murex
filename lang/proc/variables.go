@@ -36,9 +36,10 @@ func NewVariables() *Variables {
 
 // ReferenceVariables creates a new Variables object linked to an existing varTable
 func ReferenceVariables(ref *Variables) *Variables {
-	vars := new(Variables)
-	vars.varTable = ref.varTable
-	return vars
+	//vars := new(Variables)
+	//vars.varTable = ref.varTable
+	//return vars
+	return &Variables{varTable: ref.varTable}
 }
 
 // This is the core variable table that will be used for all vars
@@ -238,32 +239,12 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 		name:         name,
 		Value:        val,
 		DataType:     dataType,
-		owner:        vars.process.Parent.Id,
+		owner:        vars.process.Id,
 		creationTime: time.Now(),
 	})
 	vars.varTable.mutex.Unlock()
 
 	return nil
-}
-
-// ImportVariables is a way of merging varTables (useful for processes changing
-// scopes when the child processes haven't yet been created).
-//
-// Due to the typical usage for importing variables, the vars creation time will
-// be reset to the current date and time.
-func (vars *Variables) ImportVariables(importVars *Variables) {
-	if importVars == nil {
-		return
-	}
-
-	vars.varTable.mutex.Lock()
-	defer vars.varTable.mutex.Unlock()
-
-	for _, v := range importVars.varTable.vars {
-		v.creationTime = time.Now()
-		v.owner = vars.process.Id
-		vars.varTable.vars = append(vars.varTable.vars, v)
-	}
 }
 
 // Unset removes a variable from the table

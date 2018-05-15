@@ -24,10 +24,9 @@ var (
 	rxVarName *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
 )
 
-func cmdSet(p *proc.Process) error    { return set(p, p) }
-func cmdGlobal(p *proc.Process) error { return set(p, proc.ShellProcess) }
-
+func cmdSet(p *proc.Process) error      { return set(p, p) }
 func cmdUnset(p *proc.Process) error    { return unset(p, p) }
+func cmdGlobal(p *proc.Process) error   { return set(p, proc.ShellProcess) }
 func cmdUnglobal(p *proc.Process) error { return unset(p, proc.ShellProcess) }
 
 func set(p *proc.Process, scope *proc.Process) error {
@@ -49,19 +48,19 @@ func set(p *proc.Process, scope *proc.Process) error {
 			return err
 		}
 		dt := p.Stdin.GetDataType()
-		return p.Variables.Set(params, string(b), dt)
+		return scope.Parent.Variables.Set(params, string(b), dt)
 	}
 
-	// Only one parameter, so unset variable:
+	/*// Only one parameter, so unset variable:
 	if rxVarName.MatchString(params) {
-		err := p.Variables.Unset(params)
+		err := scope.Parent.Variables.Unset(params)
 		return err
-	}
+	}*/
 
 	// Set variable as parameters:
 	match := rxSet.FindAllStringSubmatch(params, -1)
 
-	return scope.Variables.Set(match[0][1], match[0][2], types.String)
+	return scope.Parent.Variables.Set(match[0][1], match[0][2], types.String)
 }
 
 func unset(p *proc.Process, scope *proc.Process) error {
