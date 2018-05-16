@@ -2,6 +2,8 @@
 
 package readline
 
-func (rl *Instance) launchEditor() []rune {
-	return rl.line
+import "errors"
+
+func (rl *Instance) launchEditor(multiline []rune) ([]rune, error) {
+	return rl.line, errors.New("Not currently supported on Windows")
 }

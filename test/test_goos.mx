@@ -1,0 +1,37 @@
+#!/usr/bin/env murex
+
+set project=github.com/lmorg/murex
+
+cd $GOPATH/src/$project/test
+mkdir build-tests
+cd build-tests
+
+set targets=(
+    linux
+    freebsd
+    openbsd
+    netbsd
+    darwin
+    solaris
+    windows
+)
+
+let status=0
+
+$targets -> foreach target {
+    try {
+        (Building $target....)
+        export GOOS=$target
+        go build $project
+        out "SUCCESSFUL"
+    }
+    catch {
+        out "FAILED"
+	let status++
+    }
+}
+
+cd ..
+rm -rf build-tests
+
+exit $status

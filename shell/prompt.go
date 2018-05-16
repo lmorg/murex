@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
@@ -27,14 +28,7 @@ func getPrompt() {
 		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
 		b, err2 = out.ReadAll()
-		if len(b) > 1 && b[len(b)-1] == '\n' {
-			b = b[:len(b)-1]
-		}
-
-		if len(b) > 1 && b[len(b)-1] == '\r' {
-			b = b[:len(b)-1]
-		}
-
+		b = utils.CrLfTrim(b)
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
@@ -62,13 +56,7 @@ func getMultilinePrompt(nLines int) {
 		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
 		b, err2 = out.ReadAll()
-		if len(b) > 1 && b[len(b)-1] == '\n' {
-			b = b[:len(b)-1]
-		}
-
-		if len(b) > 1 && b[len(b)-1] == '\r' {
-			b = b[:len(b)-1]
-		}
+		b = utils.CrLfTrim(b)
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {

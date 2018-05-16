@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 func init() {
@@ -47,6 +48,7 @@ func set(p *proc.Process, scope *proc.Process) error {
 		if err != nil {
 			return err
 		}
+		b = utils.CrLfTrim(b)
 		dt := p.Stdin.GetDataType()
 		return scope.Parent.Variables.Set(params, string(b), dt)
 	}

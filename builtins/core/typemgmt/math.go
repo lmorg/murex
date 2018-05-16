@@ -123,7 +123,7 @@ func cmdLet(p *proc.Process) (err error) {
 		return err
 	}
 
-	err = p.Variables.Set(variable, value, dt /*types.Number*/)
+	err = p.Parent.Variables.Set(variable, value, dt /*types.Number*/)
 
 	return err
 }

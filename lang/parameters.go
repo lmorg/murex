@@ -33,13 +33,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 			case parameters.TokenTypeString:
 				s := prc.Variables.GetString(p.Tokens[i][j].Key)
 
-				if len(s) > 0 && s[len(s)-1] == '\n' {
-					s = s[:len(s)-1]
-				}
-
-				if len(s) > 0 && s[len(s)-1] == '\r' {
-					s = s[:len(s)-1]
-				}
+				s = utils.CrLfTrimString(s)
 
 				p.Params[len(p.Params)-1] += s
 				tCount = true
@@ -52,13 +46,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 					ansi.Stderrln(prc, ansi.FgRed, err.Error())
 				}
 
-				if len(b) > 0 && b[len(b)-1] == '\n' {
-					b = b[:len(b)-1]
-				}
-
-				if len(b) > 0 && b[len(b)-1] == '\r' {
-					b = b[:len(b)-1]
-				}
+				b = utils.CrLfTrim(b)
 
 				p.Params[len(p.Params)-1] += string(b)
 				tCount = true
@@ -118,13 +106,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 					ansi.Stderrln(prc, ansi.FgRed, err.Error())
 				}
 
-				if len(b) > 0 && b[len(b)-1] == '\n' {
-					b = b[:len(b)-1]
-				}
-
-				if len(b) > 0 && b[len(b)-1] == '\r' {
-					b = b[:len(b)-1]
-				}
+				b = utils.CrLfTrim(b)
 
 				p.Params[len(p.Params)-1] += string(b)
 				tCount = true

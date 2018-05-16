@@ -43,6 +43,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 
 	p.IsMethod = isMethod
 
+	// We do stderr first so we can log errors in the stdout pipe to stderr
 	switch p.NamedPipeErr {
 	case "":
 		p.NamedPipeErr = "err"
@@ -61,7 +62,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 		}
 	}
 
-	// We do stderr first so we can log errors in the stdout pipe to stderr
+	// We do stdout last so we can log errors in the stdout pipe to stderr
 	switch p.NamedPipeOut {
 	case "":
 		p.NamedPipeOut = "out"
