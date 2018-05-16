@@ -20,13 +20,13 @@ let status=0
 
 $targets -> foreach target {
     try {
-        (Building $target....)
+        ({BLUE}Building $target....{RESET})
         export GOOS=$target
         go build $project
-        out "SUCCESSFUL"
+        out "{GREEN}SUCCESSFUL{RESET}"
     }
     catch {
-        out "FAILED"
+        out "{RED}FAILED{RESET}"
 	let status++
     }
 }
