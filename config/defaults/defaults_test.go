@@ -29,7 +29,7 @@ func TestProfile(t *testing.T) {
 
 	stderr := streams.NewStdin()
 
-	exitNum, err := lang.RunBlockShellConfigSpace([]rune(DefaultMurexProfile), nil, nil, stderr)
+	exitNum, err := lang.RunBlockShellConfigSpace(DefaultMurexProfile(), nil, nil, stderr)
 
 	if err != nil {
 		t.Error("Error compiling murex_profile: " + err.Error())
