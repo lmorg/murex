@@ -3,18 +3,10 @@
 package defaults
 
 func init() {
-    murexProfile = append(murexProfile, `
+	murexProfile = append(murexProfile, `
 
 config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
 config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
-
-autocomplete set cd { [{
-    "IncDirs": true
-}] }
-
-autocomplete set rmdir { [{
-    "IncDirs": true
-}] }
 
 autocomplete set man { [{
     "IncExePath": true
