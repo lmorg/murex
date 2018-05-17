@@ -331,6 +331,7 @@ func isMultiline(r []rune) bool {
 }
 
 func (rl *Instance) allowMultiline(data []byte) bool {
+	rl.clearHelpers()
 	printf("\r\nWARNING: %d bytes of multiline data was dumped into the shell!", len(data))
 	for {
 		print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
