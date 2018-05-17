@@ -45,7 +45,6 @@ func Start() {
 	Prompt.TabCompleter = tabCompletion
 	Prompt.SyntaxCompleter = syntaxCompletion
 	Prompt.HistoryAutoWrite = false
-	Prompt.HintText = hintText
 
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
@@ -74,6 +73,7 @@ func prompt() {
 
 	for {
 		getSyntaxHighlighting()
+		getShowHintText()
 		cachedHintText = []rune{}
 
 		if nLines > 1 {
@@ -165,5 +165,17 @@ func getSyntaxHighlighting() {
 		Prompt.SyntaxHighlighter = syntaxHighlight
 	} else {
 		Prompt.SyntaxHighlighter = nil
+	}
+}
+
+func getShowHintText() {
+	showHintText, err := proc.ShellProcess.Config.Get("shell", "show-hint-text", types.Boolean)
+	if err != nil {
+		showHintText = false
+	}
+	if showHintText.(bool) == true {
+		Prompt.HintText = hintText
+	} else {
+		Prompt.HintText = nil
 	}
 }

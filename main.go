@@ -33,7 +33,7 @@ func main() {
 
 	default:
 		defaults.Defaults(proc.ShellProcess.Config, true)
-		execSource([]rune(defaults.DefaultMurexProfile))
+		execSource(defaults.DefaultMurexProfile())
 		execProfile()
 		shell.Start()
 	}

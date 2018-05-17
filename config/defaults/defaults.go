@@ -2,6 +2,7 @@ package defaults
 
 import (
 	"runtime"
+	"strings"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
@@ -12,9 +13,8 @@ import (
 func Defaults(c *config.Config, isInteractive bool) {
 	c.Define("shell", "prompt", config.Properties{
 		Description: "Interactive shell prompt.",
-		//Default:     "{ exitnum->set: x; if { = x!=`0` } { set: prompt='\033[31m»\033[0m' } { set: prompt='\033[31m»\033[0m' }; out: murex $prompt }",
-		Default:  "{ out 'murex » ' }",
-		DataType: types.CodeBlock,
+		Default:     "{ out 'murex » ' }",
+		DataType:    types.CodeBlock,
 	})
 
 	c.Define("shell", "prompt-multiline", config.Properties{
@@ -53,11 +53,11 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
-	/*c.Define("shell", "show-hint-text", config.Properties{
+	c.Define("shell", "show-hint-text", config.Properties{
 		Description: "Display the blue hint text helper. //TODO: implement this!",
 		Default:     true,
 		DataType:    types.Boolean,
-	})*/
+	})
 
 	c.Define("shell", "hint-text-func", config.Properties{
 		Description: "Murex function to call if the helper hint text is otherwise blank.",
@@ -84,4 +84,15 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Default:     define.GetFileExts(),
 		DataType:    types.Json,
 	})
+}
+
+var murexProfile []string
+
+// DefaultMurexProfile is what was formally the example murex_profile but
+// this has now been converted into a this format so it can not only be
+// auto-loaded as part of the default murex binary ship (ie more user
+// friendly), but it also allows me to write a tailored murex profile per
+// target platform.
+func DefaultMurexProfile() []rune {
+	return []rune(strings.Join(murexProfile, "\r\n\r\n"))
 }

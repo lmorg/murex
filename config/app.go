@@ -4,4 +4,4 @@ package config
 const AppName = "murex"
 
 // Version number of $SHELL
-const Version = "0.14.0000 BETA"
+const Version = "0.14.0100 BETA"
