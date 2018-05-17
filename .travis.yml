@@ -30,4 +30,7 @@ install:
   - $GOPATH/src/github.com/lmorg/murex/test/regression_test.sh
   - docker build -t murex -f $GOPATH/src/github.com/lmorg/murex/test/docker/Dockerfile $GOPATH/src/github.com/lmorg/murex
   - docker run --rm --name murex -it murex /bin/sh -c 'cd $GOPATH/src/github.com/lmorg/murex; test/regression_test.sh'
+  - docker run --rm --name murex -it murex /go/src/github.com/lmorg/murex/murex /go/src/github.com/lmorg/murex/test/test_goos.mx
+  - docker build -t murex-centos -f $GOPATH/src/github.com/lmorg/murex/test/docker-centos/Dockerfile $GOPATH/src/github.com/lmorg/murex
+  - docker run --rm --name murex-centos -it murex-centos /bin/sh -c 'cd $GOPATH/src/github.com/lmorg/murex; test/regression_test.sh'
   - rm -Rv $GOPATH/src/github.com/lmorg/murex/vendor
