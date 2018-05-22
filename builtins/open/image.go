@@ -1,11 +1,12 @@
 package open
 
 import (
+	"io"
+	"os"
+
 	"github.com/eliukblau/pixterm/ansimage"
 	"github.com/lmorg/murex/lang/types/define"
 	"golang.org/x/crypto/ssh/terminal"
-	"io"
-	"os"
 )
 
 func init() {
@@ -22,6 +23,31 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 }
 
 func pvImage(writer io.Writer, reader io.Reader) error {
+	/*b, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return err
+	}
+
+	s := base64.StdEncoding.EncodeToString(b)
+
+	if _, err := writer.Write([]byte{27}); err != nil {
+		return err
+	}
+
+	if _, err := writer.Write([]byte("_Gf=100,t=d,i=1;")); err != nil {
+		return err
+	}
+
+	if _, err := writer.Write([]byte(s)); err != nil {
+		return err
+	}
+
+	if _, err := writer.Write([]byte{27, '\\'}); err != nil {
+		return err
+	}
+
+	return nil*/
+
 	tx, ty, err := terminal.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return err
