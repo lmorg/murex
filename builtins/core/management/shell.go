@@ -87,36 +87,45 @@ func cmdParams(p *proc.Process) error {
 	return err
 }
 
-func cmdSource(p *proc.Process) (err error) {
-	var b []byte
+func cmdSource(p *proc.Process) error {
+	var block []rune
 
 	if p.IsMethod {
-		b, err = p.Stdin.ReadAll()
+		b, err := p.Stdin.ReadAll()
 		if err != nil {
 			return err
 		}
+		block = []rune(string(b))
 
 	} else {
-		name, err := p.Parameters.String(0)
-		if err != nil {
-			return err
-		}
+		var err error
+		block, err = p.Parameters.Block(0)
 
-		file, err := os.Open(name)
 		if err != nil {
-			return err
-		}
+			// get block from file
+			name, err := p.Parameters.String(0)
+			if err != nil {
+				return err
+			}
 
-		b, err = ioutil.ReadAll(file)
-		if err != nil {
-			return err
+			file, err := os.Open(name)
+			if err != nil {
+				return err
+			}
+
+			b, err := ioutil.ReadAll(file)
+			if err != nil {
+				return err
+			}
+			block = []rune(string(b))
 		}
 
 	}
 
+	var err error
 	p.RunMode = runmode.Shell
-	p.ExitNum, err = lang.RunBlockShellConfigSpace([]rune(string(b)), nil, p.Stdout, p.Stderr)
-	return
+	p.ExitNum, err = lang.RunBlockShellConfigSpace(block, nil, p.Stdout, p.Stderr)
+	return err
 }
 
 func cmdAutocomplete(p *proc.Process) error {
