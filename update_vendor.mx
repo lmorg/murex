@@ -14,8 +14,8 @@ try {
 	pull github.com/Knetic/govaluate
 	pull github.com/phayes/permbits
 	pull golang.org/x/sys/unix
-	pull golang.org/x/text/encoding/charmap
-	pull context
+	#pull golang.org/x/text/encoding/charmap
+	#pull context
 
 	# events
 	pull github.com/fsnotify/fsnotify
