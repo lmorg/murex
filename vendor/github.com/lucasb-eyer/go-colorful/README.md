@@ -308,7 +308,7 @@ second is the fast one.
 ![Warm, fast warm, happy and fast happy random colors, respectively.](doc/colorgens/colorgens.png)
 
 Don't forget to initialize the random seed! You can see the code used for
-generating this picture in `doc/colorgens/golorgens.go`.
+generating this picture in `doc/colorgens/colorgens.go`.
 
 ### Getting random palettes
 As soon as you need to generate more than one random color, you probably want

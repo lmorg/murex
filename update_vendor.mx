@@ -14,6 +14,8 @@ try {
 	pull github.com/Knetic/govaluate
 	pull github.com/phayes/permbits
 	pull golang.org/x/sys/unix
+	pull golang.org/x/text/encoding/charmap
+	pull context
 
 	# events
 	pull github.com/fsnotify/fsnotify
@@ -49,7 +51,7 @@ try {
 	out Purging surplus bzr directories....
 	find <!null> $GOPATH/src -type d -name *.bzr -exec rm -rf {} \;
 
-	out Purging pkg (no longer needed)....
+	out Purging pkg \(no longer needed\)....
 	rm <!null> -rf $GOPATH/pkg
 	rm <!null> -rf $GOPATH/bin
 

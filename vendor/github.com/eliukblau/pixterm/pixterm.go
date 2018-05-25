@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	pxtVersion = "1.2.2"
+	pxtVersion = "1.2.3"
 	pxtLogo    = `
 
    ___  _____  ____
@@ -198,10 +198,14 @@ func runPixterm() {
 	}
 
 	// draw ANSImage to terminal
-	ansimage.ClearTerminal()
+	if isTerminal() {
+		ansimage.ClearTerminal()
+	}
 	pix.SetMaxProcs(runtime.NumCPU()) // maximum number of parallel goroutines!
 	pix.Draw()
-	fmt.Println()
+	if isTerminal() {
+		fmt.Println()
+	}
 }
 
 func init() {
