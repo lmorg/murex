@@ -15,8 +15,7 @@ import (
 
 // Net Io interface
 type Net struct {
-	mutex sync.Mutex
-	//closed     bool
+	mutex      sync.Mutex
 	bRead      uint64
 	bWritten   uint64
 	dependants int
@@ -126,6 +125,10 @@ func (n *Net) Read(p []byte) (i int, err error) {
 func (n *Net) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(n)
 	for scanner.Scan() {
+		b := scanner.Bytes()
+		n.mutex.Lock()
+		n.bRead += uint64(len(b))
+		n.mutex.Unlock()
 		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
 

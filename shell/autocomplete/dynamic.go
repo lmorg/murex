@@ -39,7 +39,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	branch.Process.Name = args.exe
 	branch.Process.Parameters = parameters.Parameters{Params: args.params}
 	stdout := streams.NewStdin()
-	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, branch.Process)
+	_, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
 
 	if err != nil {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())

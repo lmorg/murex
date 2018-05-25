@@ -1,10 +1,12 @@
 package open
 
 import (
+	"errors"
 	"io"
 	"os"
 
 	"github.com/eliukblau/pixterm/ansimage"
+	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
 	"golang.org/x/crypto/ssh/terminal"
 )
@@ -12,6 +14,7 @@ import (
 func init() {
 	define.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
 	define.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
+	proc.GoFunctions["open-image"] = pvImage
 }
 
 // color implements the Go color.Color interface.
@@ -22,7 +25,7 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 }
 
-func pvImage(writer io.Writer, reader io.Reader) error {
+func pvImage(p *proc.Process) error {
 	/*b, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return err
@@ -48,6 +51,26 @@ func pvImage(writer io.Writer, reader io.Reader) error {
 
 	return nil*/
 
+	var reader io.Reader
+
+	switch {
+	case !p.Stdout.IsTTY():
+		return errors.New("This function is expecting to output to the terminal.")
+
+	case p.IsMethod:
+		reader = p.Stdin
+
+	default:
+		name, err := p.Parameters.String(0)
+		if err != nil {
+			return err
+		}
+		reader, err = os.Open(name)
+		if err != nil {
+			return err
+		}
+	}
+
 	tx, ty, err := terminal.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return err
@@ -58,6 +81,6 @@ func pvImage(writer io.Writer, reader io.Reader) error {
 		return err
 	}
 
-	_, err = writer.Write([]byte(img.Render()))
+	_, err = p.Stdout.Write([]byte(img.Render()))
 	return err
 }

@@ -1,4 +1,3 @@
 # Builtins: `httpclient`
 
-Useful HTTP functions. You can disable if you're only likely to use
-`curl` and `wget`.
+Useful HTTP functions. This is a dependency for other functions within _murex_

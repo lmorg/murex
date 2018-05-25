@@ -12,8 +12,11 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/io"                 // OS IO builtins
 	_ "github.com/lmorg/murex/builtins/core/management"         // murex management builtins
 	_ "github.com/lmorg/murex/builtins/core/mkarray"            // array management builtins
+	_ "github.com/lmorg/murex/builtins/core/open"               // `open` and default handlers
 	_ "github.com/lmorg/murex/builtins/core/random"             // random data builtin
 	_ "github.com/lmorg/murex/builtins/core/ranges"             // working with ranges within arrays (`@[..]`)
+	_ "github.com/lmorg/murex/builtins/core/shellautocomplete"  // shell autocompleter tools
+	_ "github.com/lmorg/murex/builtins/core/shellconfig"        // shell configer tools
 	_ "github.com/lmorg/murex/builtins/core/structs"            // control structures
 	_ "github.com/lmorg/murex/builtins/core/textmanip"          // text manipulation builtins
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"           // type handling and management builtins

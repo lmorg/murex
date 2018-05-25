@@ -2,7 +2,6 @@
 //
 // The builtins are split into several categories:
 //     * core - builtin functions required by murex
-//     * open - interfaces for rendering various document types within the CLI
 //     * optional - builtin functions that might add value to murex but are not required
 //     * types - murex data types (marshallers et al)
 //

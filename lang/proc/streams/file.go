@@ -13,8 +13,7 @@ import (
 
 // File Io interface
 type File struct {
-	mutex sync.Mutex
-	//closed     bool
+	mutex      sync.Mutex
 	bWritten   uint64
 	dependants int
 	file       *os.File

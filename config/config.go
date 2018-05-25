@@ -13,9 +13,6 @@ type Properties struct {
 	Description string
 	Default     interface{}
 	DataType    string
-	//GetValue    func() interface{}      // Getter to override murex default
-	//SetValue    func(interface{}) error // Setter to override murex default
-	//IsGlobal bool // If set it means configuration settings are global and thus not thread safe
 }
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API

@@ -13,16 +13,14 @@ import (
 // Stdin is the default stdio.Io interface.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 type Stdin struct {
-	mutex  sync.Mutex
-	buffer []byte
-	//closed      bool
+	mutex      sync.Mutex
+	buffer     []byte
 	bRead      uint64
 	bWritten   uint64
 	dependants int
-	//isNamedPipe bool
-	dataType string
-	dtLock   sync.Mutex
-	max      int
+	dataType   string
+	dtLock     sync.Mutex
+	max        int
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
@@ -113,7 +111,11 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(stdin)
 	for scanner.Scan() {
-		callback(append(scanner.Bytes(), utils.NewLineByte...))
+		b := scanner.Bytes()
+		stdin.mutex.Lock()
+		stdin.bRead += uint64(len(b))
+		stdin.mutex.Unlock()
+		callback(append(b, utils.NewLineByte...))
 	}
 
 	return scanner.Err()
