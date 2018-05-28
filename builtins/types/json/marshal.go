@@ -1,14 +1,12 @@
 package json
 
 import (
-	"encoding/json"
-
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func marshal(p *proc.Process, v interface{}) ([]byte, error) {
-	return utils.JsonMarshal(v, p.Stdout.IsTTY())
+	return json.Marshal(v, p.Stdout.IsTTY())
 }
 
 func unmarshal(p *proc.Process) (v interface{}, err error) {

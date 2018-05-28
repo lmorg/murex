@@ -1,10 +1,11 @@
 package mkarray
 
 import (
+	"regexp"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
-	"regexp"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -26,7 +27,7 @@ func cmdJsplit(p *proc.Process) error {
 	}
 
 	split := rx.Split(string(b), -1)
-	json, err := utils.JsonMarshal(split, p.Stdout.IsTTY())
+	json, err := json.Marshal(split, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

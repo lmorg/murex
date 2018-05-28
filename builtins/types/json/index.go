@@ -1,10 +1,9 @@
 package json
 
 import (
-	"encoding/json"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func index(p *proc.Process, params []string) error {
@@ -21,7 +20,7 @@ func index(p *proc.Process, params []string) error {
 	}
 
 	marshaller := func(iface interface{}) ([]byte, error) {
-		return utils.JsonMarshal(iface, p.Stdout.IsTTY())
+		return json.Marshal(iface, p.Stdout.IsTTY())
 	}
 
 	return define.IndexTemplateObject(p, params, &jInterface, marshaller)

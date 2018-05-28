@@ -2,10 +2,11 @@ package mkarray
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
-	"strings"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // This code is ugly. Read at your own risk.
@@ -238,7 +239,7 @@ func mkArray(p *proc.Process) error {
 	}
 
 	if jsonArray {
-		b, err := utils.JsonMarshal(array, p.Stdout.IsTTY())
+		b, err := json.Marshal(array, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}

@@ -2,10 +2,11 @@ package management
 
 import (
 	"errors"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -22,7 +23,7 @@ func cmdHistory(p *proc.Process) (err error) {
 
 	list := shell.Prompt.History.Dump()
 
-	b, err := utils.JsonMarshal(list, p.Stdout.IsTTY())
+	b, err := json.Marshal(list, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

@@ -1,12 +1,12 @@
 package json
 
 import (
-	"encoding/json"
 	"strconv"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
@@ -22,7 +22,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 		switch v := jObj.(type) {
 		case []interface{}:
 			for i := range jObj.([]interface{}) {
-				j, err := json.Marshal(jObj.([]interface{})[i])
+				j, err := json.Marshal(jObj.([]interface{})[i], false)
 				if err != nil {
 					return err
 				}
@@ -37,7 +37,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 					callback(key, jObj.(map[string]interface{})[key].(string), i != len(jObj.(map[string]interface{})))
 
 				default:
-					j, err := json.Marshal(jObj.(map[string]interface{})[key])
+					j, err := json.Marshal(jObj.(map[string]interface{})[key], false)
 					if err != nil {
 						return err
 					}

@@ -1,4 +1,4 @@
-package utils
+package json
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ func TestJsonMap(t *testing.T) {
 	obj["a"] = "b"
 	obj[1] = 2
 
-	b, err := JsonMarshal(obj, false)
+	b, err := Marshal(obj, false)
 	if err != nil {
 		t.Error("Error marshalling: " + err.Error())
 	}

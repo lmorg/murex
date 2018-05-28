@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func cmdGet(p *proc.Process) (err error) {
@@ -58,7 +59,7 @@ func cmdGet(p *proc.Process) (err error) {
 		return err
 	}
 
-	b, err = utils.JsonMarshal(jhttp, p.Stdout.IsTTY())
+	b, err = json.Marshal(jhttp, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

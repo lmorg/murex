@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -17,7 +17,7 @@ func cmdConfig(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
 		p.Stdout.SetDataType(types.Json)
 
-		b, err := utils.JsonMarshal(p.Config.Dump(), p.Stdout.IsTTY())
+		b, err := json.Marshal(p.Config.Dump(), p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -106,7 +106,7 @@ func define(p *proc.Process) error {
 	}
 
 	var properties config.Properties
-	err = utils.JsonUnmarshal(b, &properties)
+	err = json.UnmarshalMurex(b, &properties)
 	if err != nil {
 		return err
 	}

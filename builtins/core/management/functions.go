@@ -1,7 +1,7 @@
 package management
 
 import (
-	"encoding/json"
+	corejson "encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -13,7 +13,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -32,20 +32,20 @@ func cmdDebug(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	if p.IsMethod {
 		var (
-			json map[string]interface{} = make(map[string]interface{})
-			b    []byte
+			j map[string]interface{} = make(map[string]interface{})
+			b []byte
 		)
 
 		dt := p.Stdin.GetDataType()
 		obj, err := define.UnmarshalData(p, dt)
 
-		json["Process"] = *p.Previous
-		json["DataType"] = map[string]string{
+		j["Process"] = *p.Previous
+		j["DataType"] = map[string]string{
 			"Murex": dt,
 			"Go":    fmt.Sprintf("%T", obj),
 		}
 
-		b, err = utils.JsonMarshal(json, p.Stdout.IsTTY())
+		b, err = json.Marshal(j, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -88,7 +88,7 @@ func cmdListBuiltins(p *proc.Process) error {
 		s = append(s, name)
 	}
 
-	b, err := utils.JsonMarshal(s, p.Stdout.IsTTY())
+	b, err := json.Marshal(s, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -117,7 +117,7 @@ func cmdBuiltinExists(p *proc.Process) error {
 		}
 	}
 
-	b, err := utils.JsonMarshal(j, p.Stdout.IsTTY())
+	b, err := json.Marshal(j, p.Stdout.IsTTY())
 	p.Stdout.Writeln(b)
 
 	return err
@@ -153,7 +153,7 @@ func cmdCd(p *proc.Process) error {
 	}
 
 	v = append(v, pwd)
-	b, err := json.MarshalIndent(v, "", "    ")
+	b, err := corejson.MarshalIndent(v, "", "    ")
 	if err != nil {
 		return errors.New("Unable to repack $PWDHIST: " + err.Error())
 	}

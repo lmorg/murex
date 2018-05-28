@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // InitEnv initialises murex. Exported function to enable unit tests.
@@ -35,7 +36,7 @@ func InitEnv() {
 	s, _ := os.Getwd()
 	pwd := []string{s}
 	//if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
-	if b, err := utils.JsonMarshal(&pwd, false); err == nil {
+	if b, err := json.Marshal(&pwd, false); err == nil {
 		ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 	}
 }

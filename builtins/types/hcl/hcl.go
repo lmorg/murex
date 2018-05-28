@@ -2,7 +2,8 @@ package hcl
 
 import (
 	"bytes"
-	"encoding/json"
+	"strconv"
+
 	"github.com/hashicorp/hcl"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
@@ -10,8 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/utils"
-	"strconv"
+	"github.com/lmorg/murex/utils/json"
 )
 
 const typeName = "hcl"
@@ -53,7 +53,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 			callback(bytes.TrimSpace([]byte(j[i].(string))))
 
 		default:
-			jBytes, err := json.Marshal(j[i])
+			jBytes, err := json.Marshal(j[i], false)
 			if err != nil {
 				return err
 			}
@@ -77,7 +77,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 		switch v := jObj.(type) {
 		case []interface{}:
 			for i := range jObj.([]interface{}) {
-				j, err := json.Marshal(jObj.([]interface{})[i])
+				j, err := json.Marshal(jObj.([]interface{})[i], false)
 				if err != nil {
 					return err
 				}
@@ -87,7 +87,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 		case map[string]interface{}, map[interface{}]interface{}:
 			i := 1
 			for key := range jObj.(map[string]interface{}) {
-				j, err := json.Marshal(jObj.(map[string]interface{})[key])
+				j, err := json.Marshal(jObj.(map[string]interface{})[key], false)
 				if err != nil {
 					return err
 				}
@@ -107,6 +107,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 }
 
 func readIndex(p *proc.Process, params []string) error {
+
 	var jInterface interface{}
 
 	b, err := p.Stdin.ReadAll()
@@ -119,11 +120,15 @@ func readIndex(p *proc.Process, params []string) error {
 		return err
 	}
 
-	return define.IndexTemplateObject(p, params, &jInterface, json.Marshal)
+	marshaller := func(iface interface{}) ([]byte, error) {
+		return json.Marshal(iface, p.Stdout.IsTTY())
+	}
+
+	return define.IndexTemplateObject(p, params, &jInterface, marshaller)
 }
 
 func marshal(p *proc.Process, v interface{}) ([]byte, error) {
-	return utils.JsonMarshal(v, p.Stdout.IsTTY())
+	return json.Marshal(v, p.Stdout.IsTTY())
 }
 
 func unmarshal(p *proc.Process) (v interface{}, err error) {

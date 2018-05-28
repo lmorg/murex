@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 const (
@@ -259,7 +259,7 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 		return nil, nil
 
 	case String, Json:
-		b, err := utils.JsonMarshal(v, false)
+		b, err := json.Marshal(v, false)
 		return string(b), err
 
 	default:

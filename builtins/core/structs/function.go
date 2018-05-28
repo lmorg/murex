@@ -6,7 +6,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -21,7 +21,7 @@ var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
 func cmdAlias(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {
 		p.Stdout.SetDataType(types.Json)
-		b, err := utils.JsonMarshal(proc.GlobalAliases.Dump(), p.Stdout.IsTTY())
+		b, err := json.Marshal(proc.GlobalAliases.Dump(), p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}

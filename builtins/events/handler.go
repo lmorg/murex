@@ -7,8 +7,8 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/json"
 )
 
 type eventType interface {
@@ -32,7 +32,7 @@ type j struct {
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
 func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io) {
-	json, err := utils.JsonMarshal(&j{
+	json, err := json.Marshal(&j{
 		Name:      name,
 		Interrupt: interrupt,
 	}, false)

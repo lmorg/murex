@@ -1,7 +1,6 @@
 package management
 
 import (
-	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"os"
@@ -17,7 +16,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/parser"
 )
 
@@ -60,7 +59,7 @@ func cmdArgs(p *proc.Process) (err error) {
 
 	jObj.Self = p.Scope.Name
 
-	b, err := utils.JsonMarshal(jObj, p.Stdout.IsTTY())
+	b, err := json.Marshal(jObj, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -76,7 +75,7 @@ func cmdParams(p *proc.Process) error {
 
 	//debug.Json("builtin.params:", params)
 
-	b, err := utils.JsonMarshal(&params, p.Stdout.IsTTY())
+	b, err := json.Marshal(&params, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -229,13 +228,13 @@ func cmdRuntime(p *proc.Process) error {
 		var obj interface{}
 		for _, obj = range ret {
 		}
-		b, err = utils.JsonMarshal(obj, p.Stdout.IsTTY())
+		b, err = json.Marshal(obj, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
 
 	} else {
-		b, err = utils.JsonMarshal(ret, p.Stdout.IsTTY())
+		b, err = json.Marshal(ret, p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -279,7 +278,7 @@ func cmdParser(p *proc.Process) error {
 		return err
 	}*/
 
-	b, err := utils.JsonMarshal(pt, p.Stdout.IsTTY())
+	b, err := json.Marshal(pt, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

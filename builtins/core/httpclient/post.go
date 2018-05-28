@@ -8,7 +8,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func cmdPost(p *proc.Process) (err error) {
@@ -55,7 +55,7 @@ func cmdPost(p *proc.Process) (err error) {
 		return err
 	}
 
-	b, err = utils.JsonMarshal(jhttp, p.Stdout.IsTTY())
+	b, err = json.Marshal(jhttp, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

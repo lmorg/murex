@@ -2,12 +2,13 @@ package mkarray
 
 import (
 	"errors"
+	"sync"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
-	"sync"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -80,7 +81,7 @@ func twoDArray(p *proc.Process) (err error) {
 
 	wg.Wait()
 
-	b, err := utils.JsonMarshal(array.array, p.Stdout.IsTTY())
+	b, err := json.Marshal(array.array, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

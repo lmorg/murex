@@ -2,13 +2,14 @@ package io
 
 import (
 	"errors"
-	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"os"
 	"path/filepath"
 	"regexp"
+
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -26,7 +27,7 @@ func cmdLsG(p *proc.Process) (err error) {
 		return
 	}
 
-	j, err := utils.JsonMarshal(files, p.Stdout.IsTTY())
+	j, err := json.Marshal(files, p.Stdout.IsTTY())
 	if err != nil {
 		return
 	}
@@ -54,7 +55,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 		}
 	}
 
-	j, err := utils.JsonMarshal(matched, p.Stdout.IsTTY())
+	j, err := json.Marshal(matched, p.Stdout.IsTTY())
 	if err != nil {
 		return
 	}
@@ -126,7 +127,7 @@ func cmdLsF(p *proc.Process) (err error) {
 	}
 
 	var b []byte
-	b, err = utils.JsonMarshal(matched, p.Stdout.IsTTY())
+	b, err = json.Marshal(matched, p.Stdout.IsTTY())
 	if err == nil {
 		_, err = p.Stdout.Writeln(b)
 	}

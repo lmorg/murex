@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -37,7 +37,7 @@ func cmdAutocomplete(p *proc.Process) error {
 func get(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	b, err := utils.JsonMarshal(autocomplete.ExesFlags, p.Stdout.IsTTY())
+	b, err := json.Marshal(autocomplete.ExesFlags, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
@@ -77,7 +77,7 @@ func set(p *proc.Process) error {
 	}
 
 	var flags []autocomplete.Flags
-	err = utils.JsonUnmarshal(jf, &flags)
+	err = json.UnmarshalMurex(jf, &flags)
 	if err != nil {
 		return err
 	}
