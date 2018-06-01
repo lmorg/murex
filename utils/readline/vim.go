@@ -242,8 +242,8 @@ func (rl *Instance) viHintMessage() {
 	rl.renderHelpers()
 }
 
-func (rl *Instance) viJumpB(tokeniser func(*Instance) ([]string, int, int)) (adjust int) {
-	split, index, pos := tokeniser(rl)
+func (rl *Instance) viJumpB(tokeniser func([]rune, int) ([]string, int, int)) (adjust int) {
+	split, index, pos := tokeniser(rl.line, rl.pos)
 	switch {
 	case len(split) == 0:
 		return
@@ -257,8 +257,8 @@ func (rl *Instance) viJumpB(tokeniser func(*Instance) ([]string, int, int)) (adj
 	return adjust * -1
 }
 
-func (rl *Instance) viJumpE(tokeniser func(*Instance) ([]string, int, int)) (adjust int) {
-	split, index, pos := tokeniser(rl)
+func (rl *Instance) viJumpE(tokeniser func([]rune, int) ([]string, int, int)) (adjust int) {
+	split, index, pos := tokeniser(rl.line, rl.pos)
 	if len(split) == 0 {
 		return
 	}
@@ -280,8 +280,8 @@ func (rl *Instance) viJumpE(tokeniser func(*Instance) ([]string, int, int)) (adj
 	return
 }
 
-func (rl *Instance) viJumpW(tokeniser func(*Instance) ([]string, int, int)) (adjust int) {
-	split, index, pos := tokeniser(rl)
+func (rl *Instance) viJumpW(tokeniser func([]rune, int) ([]string, int, int)) (adjust int) {
+	split, index, pos := tokeniser(rl.line, rl.pos)
 	switch {
 	case len(split) == 0:
 		return
@@ -322,7 +322,7 @@ func (rl *Instance) viJumpNextBrace() (adjust int) {
 }
 
 func (rl *Instance) viJumpBracket() (adjust int) {
-	split, index, pos := tokeniseBrackets(rl)
+	split, index, pos := tokeniseBrackets(rl.line, rl.pos)
 	switch {
 	case len(split) == 0:
 		return

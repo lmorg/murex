@@ -2,8 +2,8 @@ package readline
 
 import "strings"
 
-func tokeniseLine(rl *Instance) ([]string, int, int) {
-	if len(rl.line) == 0 {
+func tokeniseLine(line []rune, linePos int) ([]string, int, int) {
+	if len(line) == 0 {
 		return nil, 0, 0
 	}
 
@@ -12,7 +12,7 @@ func tokeniseLine(rl *Instance) ([]string, int, int) {
 
 	split := make([]string, 1)
 
-	for i, r := range rl.line {
+	for i, r := range line {
 		switch {
 		case (r >= 33 && 47 >= r) ||
 			(r >= 58 && 64 >= r) ||
@@ -20,7 +20,7 @@ func tokeniseLine(rl *Instance) ([]string, int, int) {
 			r == 96 ||
 			(r >= 123 && 126 >= r):
 
-			if i > 0 && rl.line[i-1] != r {
+			if i > 0 && line[i-1] != r {
 				split = append(split, "")
 			}
 			split[len(split)-1] += string(r)
@@ -38,7 +38,7 @@ func tokeniseLine(rl *Instance) ([]string, int, int) {
 			punc = false
 		}
 
-		if i == rl.pos {
+		if i == linePos {
 			index = len(split) - 1
 			pos = len(split[index]) - 1
 		}
@@ -47,27 +47,27 @@ func tokeniseLine(rl *Instance) ([]string, int, int) {
 	return split, index, pos
 }
 
-func tokeniseSplitSpaces(rl *Instance) ([]string, int, int) {
-	if len(rl.line) == 0 {
+func tokeniseSplitSpaces(line []rune, linePos int) ([]string, int, int) {
+	if len(line) == 0 {
 		return nil, 0, 0
 	}
 
 	var index, pos int
 	split := make([]string, 1)
 
-	for i, r := range rl.line {
+	for i, r := range line {
 		switch {
 		case r == ' ' || r == '\t':
 			split[len(split)-1] += string(r)
 
 		default:
-			if i > 0 && (rl.line[i-1] == ' ' || rl.line[i-1] == '\t') {
+			if i > 0 && (line[i-1] == ' ' || line[i-1] == '\t') {
 				split = append(split, "")
 			}
 			split[len(split)-1] += string(r)
 		}
 
-		if i == rl.pos {
+		if i == linePos {
 			index = len(split) - 1
 			pos = len(split[index]) - 1
 		}
@@ -76,7 +76,7 @@ func tokeniseSplitSpaces(rl *Instance) ([]string, int, int) {
 	return split, index, pos
 }
 
-func tokeniseBrackets(rl *Instance) ([]string, int, int) {
+func tokeniseBrackets(line []rune, linePos int) ([]string, int, int) {
 	var (
 		open, close    rune
 		split          []string
@@ -86,25 +86,25 @@ func tokeniseBrackets(rl *Instance) ([]string, int, int) {
 		single, double bool
 	)
 
-	switch rl.line[rl.pos] {
+	switch line[linePos] {
 	case '(', ')':
 		open = '('
 		close = ')'
 
 	case '{', '[':
-		open = rl.line[rl.pos]
-		close = rl.line[rl.pos] + 2
+		open = line[linePos]
+		close = line[linePos] + 2
 
 	case '}', ']':
-		open = rl.line[rl.pos] - 2
-		close = rl.line[rl.pos]
+		open = line[linePos] - 2
+		close = line[linePos]
 
 	default:
 		return nil, 0, 0
 	}
 
-	for i := range rl.line {
-		switch rl.line[i] {
+	for i := range line {
+		switch line[i] {
 		case '\'':
 			if !single {
 				double = !double
@@ -119,31 +119,31 @@ func tokeniseBrackets(rl *Instance) ([]string, int, int) {
 			if !single && !double {
 				count++
 				pos[count] = i
-				if i == rl.pos {
+				if i == linePos {
 					match = count
-					split = []string{string(rl.line[:i-1])}
+					split = []string{string(line[:i-1])}
 				}
 
-			} else if i == rl.pos {
+			} else if i == linePos {
 				return nil, 0, 0
 			}
 
 		case close:
 			if !single && !double {
 				if match == count {
-					split = append(split, string(rl.line[pos[count]:i]))
+					split = append(split, string(line[pos[count]:i]))
 					return split, 1, 0
 				}
-				if i == rl.pos {
+				if i == linePos {
 					split = []string{
-						string(rl.line[:pos[count]-1]),
-						string(rl.line[pos[count]:i]),
+						string(line[:pos[count]-1]),
+						string(line[pos[count]:i]),
 					}
 					return split, 1, len(split[1])
 				}
 				count--
 
-			} else if i == rl.pos {
+			} else if i == linePos {
 				return nil, 0, 0
 			}
 		}

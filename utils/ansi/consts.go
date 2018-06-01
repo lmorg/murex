@@ -126,4 +126,16 @@ var constants map[string][]byte = map[string][]byte{
 	"F10":      []byte{27, 91, 50, 49, 126},
 	"F11":      []byte{27, 91, 50, 51, 126},
 	"F12":      []byte{27, 91, 50, 52, 126},
+
+	// alt-num
+	"ALT-0": []byte{27, 48},
+	"ALT-1": []byte{27, 49},
+	"ALT-2": []byte{27, 50},
+	"ALT-3": []byte{27, 51},
+	"ALT-4": []byte{27, 52},
+	"ALT-5": []byte{27, 53},
+	"ALT-6": []byte{27, 54},
+	"ALT-7": []byte{27, 55},
+	"ALT-8": []byte{27, 56},
+	"ALT-9": []byte{27, 57},
 }

@@ -16,10 +16,10 @@ func (rl *Instance) vimDelete(r rune) {
 		rl.getHintText()
 
 	case 'e':
-		rl.viDeleteByAdjust(rl.viJumpE(tokeniseLine))
+		rl.viDeleteByAdjust(rl.viJumpE(tokeniseLine) + 1)
 
 	case 'E':
-		rl.viDeleteByAdjust(rl.viJumpE(tokeniseSplitSpaces))
+		rl.viDeleteByAdjust(rl.viJumpE(tokeniseSplitSpaces) + 1)
 
 	case 'w':
 		rl.viDeleteByAdjust(rl.viJumpW(tokeniseLine))
@@ -53,9 +53,9 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 	case rl.pos+adjust == 0:
 		newLine = rl.line[rl.pos:]
 	case adjust < 0:
-		newLine = append(rl.line[:rl.pos+adjust], rl.line[rl.pos+1:]...)
+		newLine = append(rl.line[:rl.pos+adjust], rl.line[rl.pos:]...)
 	default:
-		newLine = append(rl.line[:rl.pos], rl.line[rl.pos+adjust+1:]...)
+		newLine = append(rl.line[:rl.pos], rl.line[rl.pos+adjust:]...)
 	}
 
 	moveCursorBackwards(rl.pos)
