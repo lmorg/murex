@@ -132,7 +132,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			}
 
 			if *pIndex > 0 && nest > 0 && flags[nest-1].NestedCommand {
-				debug.Log("params:", params[*pIndex-1])
+				//debug.Log("params:", params[*pIndex-1])
 				InitExeFlags(params[*pIndex-1])
 				if len(flags[nest-1].FlagValues) == 0 {
 					flags[nest-1].FlagValues = make(map[string][]Flags)
@@ -188,8 +188,8 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		debug.Log("nest", nest, "partial", partial, "exe", exe, "params", params)
-		debug.Json("&flags", &flags)
+		//debug.Log("nest", nest, "partial", partial, "exe", exe, "params", params)
+		//debug.Json("&flags", &flags)
 		items = append(items, match(&flags[nest], partial, args)...)
 		if !flags[nest].Optional {
 			break

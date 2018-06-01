@@ -9,8 +9,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -24,16 +23,24 @@ func init() {
 
 func open(p *proc.Process) (err error) {
 	var (
-		dt         string
+		ext        string
+		dataType   string
 		readCloser io.ReadCloser
-		stdin      stdio.Io
 	)
 
 	if p.IsMethod {
-		dt = p.Stdin.GetDataType()
-		p.Stdout.SetDataType(dt)
+		dataType = p.Stdin.GetDataType()
+		p.Stdout.SetDataType(dataType)
 
-		return preview(p, p.Stdin)
+		ext = getExt("", dataType)
+		tmp, err := utils.NewTempFile(p.Stdin, ext)
+		defer tmp.Close()
+
+		if err != nil {
+			return err
+		}
+
+		return preview(p, tmp.FileName, dataType)
 	}
 
 	path, err := p.Parameters.String(0)
@@ -43,54 +50,78 @@ func open(p *proc.Process) (err error) {
 
 	switch {
 	case utils.IsURL(path):
-		readCloser, dt, err = http(p, path)
+		readCloser, dataType, err = http(p, path)
+		ext = getExt("", dataType)
 
 	default:
-		dt = define.GetExtType(getExt(path))
+		ext = getExt(path, "")
+		dataType = define.GetExtType(ext)
 		readCloser, err = os.Open(path)
 	}
+
+	defer readCloser.Close()
 
 	if err != nil {
 		return err
 	}
 
-	if dt == "gz" || (len(path) > 3 && strings.ToLower(path[len(path)-3:]) == ".gz") {
+	if dataType == "gz" || (len(path) > 3 && strings.ToLower(path[len(path)-3:]) == ".gz") {
 		gz, err := gzip.NewReader(readCloser)
 		if err != nil {
 			return err
 		}
 
-		// would this break things?
-		defer readCloser.Close()
+		defer gz.Close()
 
-		dt = define.GetExtType(getExt(path))
-		stdin := streams.NewReadCloser(gz)
-		stdin.SetDataType(dt)
+		ext = getExt(path, "")
+		dataType = define.GetExtType(ext)
+		tmp, err := utils.NewTempFile(gz, ext)
+		defer tmp.Close()
 
-	} else {
-		stdin = streams.NewReadCloser(readCloser)
-		stdin.SetDataType(dt)
+		if err != nil {
+			return err
+		}
+
+		path = tmp.FileName
 	}
 
-	return preview(p, stdin)
+	return preview(p, path, dataType)
 }
 
-func getExt(path string) string {
+func getExt(path, dataType string) string {
 	match := rxExt.FindAllStringSubmatch(path, -1)
 	if len(match) > 0 && len(match[0]) > 1 {
 		return strings.ToLower(match[0][1])
 	}
+
+	m := define.GetFileExts()
+	for ext := range m {
+		if m[ext] == dataType {
+			return ext
+		}
+	}
+
 	return ""
 }
 
-func preview(p *proc.Process, stdin stdio.Io) error {
-	dataType := stdin.GetDataType()
+func preview(p *proc.Process, path, dataType string) error {
+	if dataType == "" {
+		dataType = types.Generic
+	}
 
+	p.Stdout.SetDataType(dataType)
 	block, _ := OpenAgents.Get(dataType)
 
 	if !p.Stdout.IsTTY() || len(block) == 0 {
 		// Not a TTY or no open agent exists so fallback to passing []bytes along
-		_, err := io.Copy(p.Stdout, stdin)
+		file, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+
+		defer file.Close()
+
+		_, err = io.Copy(p.Stdout, file)
 		return err
 	}
 
@@ -98,7 +129,9 @@ func preview(p *proc.Process, stdin stdio.Io) error {
 	defer branch.Close()
 	branch.Process.Scope = branch.Process
 	branch.Process.Parent = branch.Process
-	_, err := lang.RunBlockNewConfigSpace(block, stdin, p.Stdout, p.Stderr, branch.Process)
+	branch.Process.Name = "open"
+	branch.Process.Parameters.Params = []string{path}
+	_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
 
 	if err != nil {
 		ansi.Stderrln(p, ansi.FgRed, "`open` code could not compile: "+err.Error())

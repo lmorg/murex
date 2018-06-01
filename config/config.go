@@ -13,6 +13,7 @@ type Properties struct {
 	Description string
 	Default     interface{}
 	DataType    string
+	Options     []string
 }
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
@@ -156,6 +157,10 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 			obj[app][key]["Value"] = conf.values[app][key]
+
+			if len(conf.properties[app][key].Options) > 0 {
+				obj[app][key]["Options"] = conf.properties[app][key].Options
+			}
 		}
 	}
 	conf.mutex.Unlock()

@@ -68,13 +68,30 @@ autocomplete set config { [{
     "Flags": [ "get", "set" ],
     "FlagValues": {
         "get": [
-            { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" }
+            { "Dynamic": ({ config: -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) }
         ],
         "set": [
-            { "Dynamic": "{ config: -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }" },
-            { "Dynamic": "{ config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Data-Type ] -> set dt; if { = dt==`+"`bool`"+` } { a [true,false] } { a ${config -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ Default ]} } }" }
+            { "Dynamic": ({ config: -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) },
+            { "Dynamic":
+				({
+					params -> set params
+					switch {
+						case { = `+"`${ config: -> [ $params[2] ] -> [ $params[3] ] -> [ Data-Type ] }`==`bool`"+` } {
+							ja [true,false]
+						}
+
+						case { config: -> [ $params[2] ] -> [ $params[3] ] -> [ Options ] } {
+							config: -> [ $params[2] ] -> [ $params[3] ] -> [ Options ]
+						}
+
+						catch {
+							out ${config -> [ $params[2] ] -> [ $params[3] ] -> [ Default ]}
+						}
+					}
+				})
+			}
         ]
     }
 }] }
