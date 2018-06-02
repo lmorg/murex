@@ -261,7 +261,26 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.viUndoSkipAppend = true
 
 	default:
-		rl.viUndoSkipAppend = true
+		if len(r) == 2 && '1' <= r[1] && r[1] <= '9' {
+			if rl.modeViMode == vimDelete {
+				rl.vimDelete(r)
+				return
+			}
+
+			line, err := rl.History.GetLine(rl.History.Len() - 1)
+			if err != nil {
+				return
+			}
+
+			tokens, _, _ := tokeniseSplitSpaces([]rune(line), 0)
+			pos := int(r[1]) - 48 // convert ASCII to integer
+			if pos > len(tokens) {
+				return
+			}
+			rl.insert([]rune(tokens[pos-1]))
+		} else {
+			rl.viUndoSkipAppend = true
+		}
 	}
 }
 
@@ -275,7 +294,7 @@ func (rl *Instance) editorInput(r []rune) {
 		rl.viHintMessage()
 
 	case vimDelete:
-		rl.vimDelete(r[0])
+		rl.vimDelete(r)
 		rl.viHintMessage()
 
 	case vimReplaceOnce:

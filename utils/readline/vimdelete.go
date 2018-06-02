@@ -2,8 +2,10 @@ package readline
 
 import "strings"
 
-func (rl *Instance) vimDelete(r rune) {
-	switch r {
+func (rl *Instance) vimDelete(r []rune) {
+	defer func() { rl.modeViMode = vimKeys }()
+
+	switch r[0] {
 	case 'b':
 		rl.viDeleteByAdjust(rl.viJumpB(tokeniseLine))
 
@@ -30,11 +32,17 @@ func (rl *Instance) vimDelete(r rune) {
 	case '%':
 		rl.viDeleteByAdjust(rl.viJumpBracket())
 
+	case 27:
+		if len(r) > 1 && '1' <= r[1] && r[1] <= '9' {
+			if rl.vimDeleteToken(r[1]) {
+				return
+			}
+		}
+		fallthrough
+
 	default:
 		rl.viUndoSkipAppend = true
 	}
-
-	rl.modeViMode = vimKeys
 }
 
 func (rl *Instance) viDeleteByAdjust(adjust int) {
@@ -74,4 +82,41 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 		moveCursorBackwards(1)
 		rl.pos--
 	}
+}
+
+func (rl *Instance) vimDeleteToken(r rune) bool {
+	/*line, err := rl.History.GetLine(rl.History.Len() - 1)
+	if err != nil {
+		return false
+	}*/
+
+	//tokens, _, _ := tokeniseSplitSpaces([]rune(line), 0)
+	tokens, _, _ := tokeniseSplitSpaces(rl.line, 0)
+	pos := int(r) - 48 // convert ASCII to integer
+	if pos > len(tokens) {
+		return false
+	}
+
+	s := string(rl.line)
+	newLine := strings.Replace(s, tokens[pos-1], "", -1)
+	if newLine == s {
+		return false
+	}
+
+	moveCursorBackwards(rl.pos)
+	print(strings.Repeat(" ", len(rl.line)))
+	moveCursorBackwards(len(rl.line) - rl.pos)
+
+	rl.line = []rune(newLine)
+
+	rl.echo()
+
+	if rl.pos > len(rl.line) {
+		moveCursorBackwards(getTermWidth())
+		moveCursorForwards(rl.promptLen + len(rl.line) - 1)
+		// ^ this is lazy
+		rl.pos = len(rl.line) - 1
+	}
+
+	return true
 }
