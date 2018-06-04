@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
@@ -12,9 +11,9 @@ type astNode struct {
 	Method      bool
 	PipeOut     bool
 	PipeErr     bool
-	Process     proc.Process
-	LineNumber  int
-	ColNumber   int
+	//Process     proc.Process
+	LineNumber int
+	ColNumber  int
 	//Children   Nodes
 }
 

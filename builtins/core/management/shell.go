@@ -148,6 +148,7 @@ func cmdRuntime(p *proc.Process) error {
 		fEvents        = "--events"
 		fFlags         = "--flags"
 		fMemstats      = "--memstats"
+		fAstCache      = "--astcache"
 	)
 	p.Stdout.SetDataType(types.Json)
 
@@ -170,6 +171,7 @@ func cmdRuntime(p *proc.Process) error {
 				fEvents:        types.Boolean,
 				fFlags:         types.Boolean,
 				fMemstats:      types.Boolean,
+				fAstCache:      types.Boolean,
 			},
 			AllowAdditional: false,
 		},
@@ -218,6 +220,8 @@ func cmdRuntime(p *proc.Process) error {
 			var mem runtime.MemStats
 			runtime.ReadMemStats(&mem)
 			ret[fMemstats[2:]] = mem
+		case fAstCache:
+			ret[fAstCache[2:]] = lang.AstCache.Dump()
 		default:
 			return errors.New("Unrecognised parameter: " + flag)
 		}

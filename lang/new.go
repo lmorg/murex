@@ -129,18 +129,18 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		return 1, err
 	}
 
-	compile(&tree, container)
+	procs := compile(&tree, container)
 
 	// Support for different run modes:
 	switch container.RunMode {
 	case runmode.Normal, runmode.Shell:
-		exitNum = runModeNormal(&tree)
+		exitNum = runModeNormal(procs)
 
 	case runmode.Try:
-		exitNum = runModeTry(&tree)
+		exitNum = runModeTry(procs)
 
 	case runmode.TryPipe:
-		exitNum = runModeTryPipe(&tree)
+		exitNum = runModeTryPipe(procs)
 
 	//case runmode.Evil:
 	//	panic("Not yet implemented")

@@ -6,56 +6,58 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 )
 
-func compile(tree *astNodes, parent *proc.Process) {
-	for i := range *tree {
-		(*tree)[i].Process.State = state.MemAllocated
-		(*tree)[i].Process.Name = (*tree)[i].Name
-		(*tree)[i].Process.Parameters.SetTokens((*tree)[i].ParamTokens)
-		(*tree)[i].Process.IsMethod = (*tree)[i].Method
-		(*tree)[i].Process.IsBackground = parent.IsBackground
-		(*tree)[i].Process.Parent = parent
-		(*tree)[i].Process.Scope = parent.Scope
-		(*tree)[i].Process.WaitForTermination = make(chan bool)
-		(*tree)[i].Process.RunMode = parent.RunMode
-		(*tree)[i].Process.Config = parent.Config
-		(*tree)[i].Process.Variables = proc.ReferenceVariables(parent.Variables)
-		//(*tree)[i].Process.Variables = parent.Variables
+func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
+	procs = make([]proc.Process, len(*tree))
 
-		(*tree)[i].Process.FidTree = make([]int, len(parent.Parent.FidTree))
-		copy((*tree)[i].Process.FidTree, parent.Parent.FidTree)
+	for i := range *tree {
+		procs[i].State = state.MemAllocated
+		procs[i].Name = (*tree)[i].Name
+		procs[i].IsMethod = (*tree)[i].Method
+		procs[i].IsBackground = parent.IsBackground
+		procs[i].Parent = parent
+		procs[i].Scope = parent.Scope
+		procs[i].WaitForTermination = make(chan bool)
+		procs[i].RunMode = parent.RunMode
+		procs[i].Config = parent.Config
+		procs[i].Variables = proc.ReferenceVariables(parent.Variables)
+
+		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
+
+		procs[i].FidTree = make([]int, len(parent.Parent.FidTree))
+		copy(procs[i].FidTree, parent.Parent.FidTree)
 
 		if (*tree)[i].LineNumber == 0 {
-			(*tree)[i].Process.ColNumber = (*tree)[i].ColNumber + parent.ColNumber
+			procs[i].ColNumber = (*tree)[i].ColNumber + parent.ColNumber
 		} else {
-			(*tree)[i].Process.ColNumber = (*tree)[i].ColNumber
+			procs[i].ColNumber = (*tree)[i].ColNumber
 		}
 
 		if parent.Id == 0 {
-			(*tree)[i].Process.LineNumber = (*tree)[i].LineNumber + parent.LineNumber + 1
+			procs[i].LineNumber = (*tree)[i].LineNumber + parent.LineNumber + 1
 		} else {
-			(*tree)[i].Process.LineNumber = (*tree)[i].LineNumber + parent.LineNumber
+			procs[i].LineNumber = (*tree)[i].LineNumber + parent.LineNumber
 		}
 
 		// Define previous and next processes:
 		switch {
 		case i == 0:
 			// first
-			(*tree)[0].Process.Previous = parent
+			procs[0].Previous = parent
 			if i == len(*tree)-1 {
-				(*tree)[0].Process.Next = parent
+				procs[0].Next = parent
 			} else {
-				(*tree)[0].Process.Next = &(*tree)[1].Process
+				procs[0].Next = &procs[1]
 			}
 
 		case i == len(*tree)-1:
 			// last
-			(*tree)[i].Process.Previous = &(*tree)[i-1].Process
-			(*tree)[i].Process.Next = parent
+			procs[i].Previous = &procs[i-1]
+			procs[i].Next = parent
 
 		case i > 0:
 			// everything in the middle
-			(*tree)[i].Process.Previous = &(*tree)[i-1].Process
-			(*tree)[i].Process.Next = &(*tree)[i+1].Process
+			procs[i].Previous = &procs[i-1]
+			procs[i].Next = &procs[i+1]
 
 		default:
 			// This condition should never happen,
@@ -67,43 +69,40 @@ func compile(tree *astNodes, parent *proc.Process) {
 		switch {
 		case i == 0:
 			// first
-			(*tree)[0].Process.Stdin = parent.Stdin
+			procs[0].Stdin = parent.Stdin
 
 		case (*tree)[i].NewChain:
 			// new chain
-			(*tree)[i].Process.Stdin = streams.NewStdin()
+			procs[i].Stdin = streams.NewStdin()
 		}
 
 		// Define stdout / stderr interfaces:
 		switch {
 		case (*tree)[i].PipeOut:
-			(*tree)[i+1].Process.Stdin = streams.NewStdin()
-			(*tree)[i].Process.Stdout = (*tree)[i].Process.Next.Stdin
-			(*tree)[i].Process.Stderr = (*tree)[i].Process.Parent.Stderr
+			procs[i+1].Stdin = streams.NewStdin()
+			procs[i].Stdout = procs[i].Next.Stdin
+			procs[i].Stderr = procs[i].Parent.Stderr
 
 		case (*tree)[i].PipeErr:
-			(*tree)[i+1].Process.Stdin = streams.NewStdin()
-			(*tree)[i].Process.Stdout = (*tree)[i].Process.Parent.Stdout
-			(*tree)[i].Process.Stderr = (*tree)[i].Process.Next.Stdin
+			procs[i+1].Stdin = streams.NewStdin()
+			procs[i].Stdout = procs[i].Parent.Stdout
+			procs[i].Stderr = procs[i].Next.Stdin
 
 		default:
-			(*tree)[i].Process.Stdout = (*tree)[i].Process.Parent.Stdout
-			(*tree)[i].Process.Stderr = (*tree)[i].Process.Parent.Stderr
+			procs[i].Stdout = procs[i].Parent.Stdout
+			procs[i].Stderr = procs[i].Parent.Stderr
 		}
 
-		// Not required for a single pass interpreter,
-		// but I keep this code hanging about just in case I decide to expand the parser.
-		//if len((*tree)[i].Children) > 0 {
-		//	compile(&(*tree)[i].Children, &(*tree)[i].Process)
-		//}
 	}
 
 	for i := range *tree {
-		createProcess(&(*tree)[i].Process, !(*tree)[i].NewChain)
+		createProcess(&procs[i], !(*tree)[i].NewChain)
 	}
+
+	return
 }
 
-// `evil` - Only use this if you are not concerned about STDERR nor exit number.
+/*// `evil` - Only use this if you are not concerned about STDERR nor exit number.
 func runModeEvil(tree *astNodes) int {
 	if len(*tree) == 0 {
 		return 1
@@ -127,76 +126,79 @@ func runModeEvil(tree *astNodes) int {
 
 	waitProcess(&(*tree).Last().Process)
 	return 0
-}
+}*/
 
-func runModeNormal(tree *astNodes) (exitNum int) {
-	if len(*tree) == 0 {
+func runModeNormal(procs []proc.Process) (exitNum int) {
+	if len(procs) == 0 {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.SetTerminatedState(true)
+	procs[0].Previous.SetTerminatedState(true)
 
-	for i := range *tree {
+	for i := range procs {
 
 		if i > 0 {
-			if (*tree)[i].NewChain {
-				waitProcess(&(*tree)[i-1].Process)
+			//if (*tree)[i].NewChain {
+			if !procs[i].IsMethod {
+				waitProcess(&procs[i-1])
 			} else {
-				go waitProcess(&(*tree)[i-1].Process)
+				go waitProcess(&procs[i-1])
 			}
 		}
 
-		go executeProcess(&(*tree)[i].Process)
+		go executeProcess(&procs[i])
 	}
 
-	waitProcess(&(*tree).Last().Process)
-	exitNum = (*tree).Last().Process.ExitNum
+	waitProcess(&procs[len(procs)-1])
+	exitNum = procs[len(procs)-1].ExitNum
 	return
 }
 
 // `try` - Last process in each pipe is checked.
-func runModeTry(tree *astNodes) (exitNum int) {
-	if len(*tree) == 0 {
+func runModeTry(procs []proc.Process) (exitNum int) {
+	if len(procs) == 0 {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.SetTerminatedState(true)
+	procs[0].Previous.SetTerminatedState(true)
 
-	for i := range *tree {
+	for i := range procs {
 		if i > 0 {
-			if (*tree)[i].NewChain {
-				waitProcess(&(*tree)[i-1].Process)
-				exitNum = (*tree)[i-1].Process.ExitNum
-				outSize, _ := (*tree)[i-1].Process.Stdout.Stats()
-				errSize, _ := (*tree)[i-1].Process.Stderr.Stats()
+			//if (*tree)[i].NewChain {
+			if !procs[i].IsMethod {
+				waitProcess(&procs[i-1])
+				exitNum = procs[i-1].ExitNum
+				outSize, _ := procs[i-1].Stdout.Stats()
+				errSize, _ := procs[i-1].Stderr.Stats()
 
 				if exitNum == 0 && errSize > outSize {
 					exitNum = 1
 				}
 
 				if exitNum != 0 {
-					for ; i < len(*tree); i++ {
-						(*tree)[i].Process.Stdout.Close()
-						(*tree)[i].Process.Stderr.Close()
+					for ; i < len(procs); i++ {
+						procs[i].Stdout.Close()
+						procs[i].Stderr.Close()
 						//destroyProcess(&(*tree)[i].Process)
-						proc.GlobalFIDs.Deregister((*tree)[i].Process.Id)
-						(*tree)[i].Process.State = state.AwaitingGC
+						proc.GlobalFIDs.Deregister(procs[i].Id)
+						procs[i].State = state.AwaitingGC
 					}
 					return
 				}
 
 			} else {
-				go waitProcess(&(*tree)[i-1].Process)
+				go waitProcess(&procs[i-1])
 			}
 		}
 
-		go executeProcess(&(*tree)[i].Process)
+		go executeProcess(&procs[i])
 	}
 
-	waitProcess(&(*tree).Last().Process)
-	exitNum = (*tree).Last().Process.ExitNum
-	outSize, _ := (*tree).Last().Process.Stdout.Stats()
-	errSize, _ := (*tree).Last().Process.Stderr.Stats()
+	last := len(procs) - 1
+	waitProcess(&procs[last])
+	exitNum = procs[last].ExitNum
+	outSize, _ := procs[last].Stdout.Stats()
+	errSize, _ := procs[last].Stderr.Stats()
 
 	if exitNum == 0 && errSize > outSize {
 		exitNum = 1
@@ -206,33 +208,33 @@ func runModeTry(tree *astNodes) (exitNum int) {
 }
 
 // `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
-func runModeTryPipe(tree *astNodes) (exitNum int) {
+func runModeTryPipe(procs []proc.Process) (exitNum int) {
 	//debug.Log("Entering run mode `trypipe`")
-	if len(*tree) == 0 {
+	if len(procs) == 0 {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.SetTerminatedState(true)
+	procs[0].Previous.SetTerminatedState(true)
 
-	for i := range *tree {
-		go executeProcess(&(*tree)[i].Process)
-		waitProcess(&(*tree)[i].Process)
+	for i := range procs {
+		go executeProcess(&procs[i])
+		waitProcess(&procs[i])
 
-		exitNum = (*tree)[i].Process.ExitNum
-		outSize, _ := (*tree)[i].Process.Stdout.Stats()
-		errSize, _ := (*tree)[i].Process.Stderr.Stats()
+		exitNum = procs[i].ExitNum
+		outSize, _ := procs[i].Stdout.Stats()
+		errSize, _ := procs[i].Stderr.Stats()
 
 		if exitNum == 0 && errSize > outSize {
 			exitNum = 1
 		}
 
 		if exitNum != 0 {
-			for i++; i < len(*tree); i++ {
-				(*tree)[i].Process.Stdout.Close()
-				(*tree)[i].Process.Stderr.Close()
+			for i++; i < len(procs); i++ {
+				procs[i].Stdout.Close()
+				procs[i].Stderr.Close()
 				//destroyProcess(&(*tree)[i].Process)
-				proc.GlobalFIDs.Deregister((*tree)[i].Process.Id)
-				(*tree)[i].Process.State = state.AwaitingGC
+				proc.GlobalFIDs.Deregister(procs[i].Id)
+				procs[i].State = state.AwaitingGC
 			}
 			return
 		}

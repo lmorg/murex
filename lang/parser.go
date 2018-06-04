@@ -13,6 +13,11 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 // ParseBlock parses a murex code block.
 // Returns the abstract syntax tree (astNodes) or any syntax errors preventing a successful parse (ParserError)
 func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
+	return AstCache.ParseCache(block)
+	//return parser(block)
+}
+
+func parser(block []rune) (nodes astNodes, pErr ParserError) {
 	//defer debug.Json("Parser", nodes)
 
 	var (
