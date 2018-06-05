@@ -96,11 +96,6 @@ autocomplete set config { [{
     }
 }] }
 
-autocomplete set runtime { [{
-    "Flags": ["--vars", "--aliases" ,"--config" ,"--pipes" ,"--funcs" ,"--fids" ,"--arrays" ,"--maps" ,"--indexes" ,"--marshallers" ,"--unmarshallers" ,"--events" ,"--flags" ,"--memstats" ],
-    "AllowMultiple": true
-}] }
-
 autocomplete set event { [
     {
         "Dynamic": "{ runtime: --events -> formap k v { out $k } }"
@@ -119,32 +114,6 @@ autocomplete set !event { [
 autocomplete set autocomplete { [{
     "Flags" : [ "get", "set" ]
 }] }
-
-autocomplete set pipe { [
-    {
-        "Flags": [ "--create", "-c", "--close", "-x" ],
-        "FlagValues": {
-            "--close": [{
-                "Dynamic": "{ runtime: --pipes -> formap k v { if { = k!=`+"`null`"+` } { $k } } }"
-            }],
-            "--create": [
-                {
-                    "AnyValue": true
-                },
-                {
-                    "Flags": [ "--file", "--udp-dial", "--tcp-dial", "--udp-listen", "--tcp-listen" ],
-                    "FlagValues": {
-                        "--file": [{
-                            "IncFiles": true
-                        }]
-                    }
-                }
-            ],
-            "-x": [{ "Alias": "--close" }],
-            "-c": [{ "Alias": "--create" }]
-        }
-    }
-] }
 
 autocomplete set git { [{
     "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ],

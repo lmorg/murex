@@ -88,6 +88,10 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 var murexProfile []string
 
+func AppendProfile(block string) {
+	murexProfile = append(murexProfile, "\n"+block+"\n")
+}
+
 // DefaultMurexProfile is what was formally the example murex_profile but
 // this has now been converted into a this format so it can not only be
 // auto-loaded as part of the default murex binary ship (ie more user

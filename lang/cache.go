@@ -21,7 +21,21 @@ type astCache struct {
 func newAstCache() *astCache {
 	c := new(astCache)
 	c.cache = make(map[string]*cacheItem)
+	go astGarbageCollector(c)
 	return c
+}
+
+func astGarbageCollector(c *astCache) {
+	for {
+		time.Sleep(60 * time.Second)
+		c.mutex.Lock()
+		for key := range c.cache {
+			if c.cache[key].lastUsed.Add(60 * time.Second).Before(time.Now()) {
+				delete(c.cache, key)
+			}
+		}
+		c.mutex.Unlock()
+	}
 }
 
 func (c *astCache) ParseCache(block []rune) (astNodes, ParserError) {

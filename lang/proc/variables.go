@@ -308,23 +308,3 @@ func (vars *Variables) DumpMap() map[string]interface{} {
 
 	return m
 }
-
-// DumpEntireTable is a temporary function which is used for debugging.
-// It should be killed soon
-func (vars *Variables) DumpEntireTable() interface{} {
-	m := make([]map[string]interface{}, 0)
-
-	for _, v := range vars.varTable.vars {
-		mv := map[string]interface{}{
-			"name":     v.name,
-			"value":    v.Value,
-			"datatype": v.DataType,
-			"owner":    v.owner,
-			"enabled":  !v.disabled,
-			"created":  v.creationTime,
-		}
-
-		m = append(m, mv)
-	}
-	return m
-}
