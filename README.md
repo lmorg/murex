@@ -1,6 +1,5 @@
 # murex
 
-[![Build Status on Travis](https://travis-ci.org/lmorg/murex.svg?branch=master)](https://travis-ci.org/lmorg/murex)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
 [![GoDoc](http://godoc.org/github.com/lmorg/murex?status.svg)](http://godoc.org/github.com/lmorg/murex)
 
