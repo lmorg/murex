@@ -23,9 +23,9 @@ func init() {
 
 func open(p *proc.Process) (err error) {
 	var (
-		ext        string
-		dataType   string
-		readCloser io.ReadCloser
+		ext      string
+		dataType string
+		//readCloser io.ReadCloser
 	)
 
 	if p.IsMethod {
@@ -50,27 +50,36 @@ func open(p *proc.Process) (err error) {
 
 	switch {
 	case utils.IsURL(path):
-		readCloser, dataType, err = http(p, path)
-		ext = getExt("", dataType)
-
-	default:
-		ext = getExt(path, "")
-		dataType = define.GetExtType(ext)
-		readCloser, err = os.Open(path)
-	}
-
-	defer readCloser.Close()
-
-	if err != nil {
-		return err
-	}
-
-	if dataType == "gz" || (len(path) > 3 && strings.ToLower(path[len(path)-3:]) == ".gz") {
-		gz, err := gzip.NewReader(readCloser)
+		var body io.ReadCloser
+		body, dataType, err = http(p, path)
 		if err != nil {
 			return err
 		}
 
+		ext = getExt("", dataType)
+		tmp, err := utils.NewTempFile(body, ext)
+		if err != nil {
+			return err
+		}
+
+		path = tmp.FileName
+
+	default:
+		ext = getExt(path, "")
+		dataType = define.GetExtType(ext)
+	}
+
+	if dataType == "gz" || (len(path) > 3 && strings.ToLower(path[len(path)-3:]) == ".gz") {
+		file, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+
+		gz, err := gzip.NewReader(file)
+		if err != nil {
+			return err
+		}
 		defer gz.Close()
 
 		ext = getExt(path, "")
@@ -89,9 +98,11 @@ func open(p *proc.Process) (err error) {
 }
 
 func getExt(path, dataType string) string {
-	match := rxExt.FindAllStringSubmatch(path, -1)
-	if len(match) > 0 && len(match[0]) > 1 {
-		return strings.ToLower(match[0][1])
+	if path != "" {
+		match := rxExt.FindAllStringSubmatch(path, -1)
+		if len(match) > 0 && len(match[0]) > 1 {
+			return strings.ToLower(match[0][1])
+		}
 	}
 
 	m := define.GetFileExts()

@@ -59,7 +59,7 @@ func getHostsFile {
 autocomplete set go { [
     { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
     {
-        "Dynamic": "{ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }",
+        "Dynamic": ({ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }),
         "AutoBranch": true
     }
 ] }
