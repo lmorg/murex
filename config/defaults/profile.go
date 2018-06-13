@@ -8,10 +8,10 @@ func h {
 }
 
 func aliases {
-    # Output the aliases in human readable format
-    alias -> formap: key val {
-        $key -> sprintf: "%-10s { ${ $val -> sprintf: %s %s } }\n"
-    }
+	# Output the aliases in human readable format
+	runtime: --aliases -> formap name alias {
+		$name -> sprintf: "%10s => ${out @alias}\n"
+	}
 }
 
 autocomplete set cd { [{

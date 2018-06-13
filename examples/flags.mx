@@ -18,9 +18,9 @@ args {
         "--bool": "bool",
         "-b": "--bool"
     }
-} -> catch {
+}; catch {
 # Lets check for errors in the command line parameters. If they exist then print the error and then exit.
-    $ARGS->[ Error ]
+    $ARGS -> [ Error ]
     exit 1
 }
 

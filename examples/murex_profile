@@ -6,38 +6,80 @@
 # » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
 
 event onKeyPress F1="{F1-VT100}" {
-	-> [ Interrupt ] -> set: evt
+    -> [ Interrupt ] -> set: evt
+    set quit="\n\nPress q to quit."
 
-	set quit="\n\nPress q to quit."
-
-	if { $TMUX } {
-
-		$evt[ Line ] -> murex-parser: $evt[Pos] -> [ FuncName ] -> set: func
-		if { $func } {
-			if { runtime: --funcs -> [ $func ] } {
-				runtime: --funcs -> [ $func ] -> [ Block ] -> write_tmp_file -> set tmp
-				tmux split -h "less $tmp; rm $tmp"
-			} {
-				if { bexists: $func } {
-					tmux split -h ($SHELL -c "trypipe { murex-docs $func -> less}; catch { out (That murex builtin doesn't yet include a help document.$quit) -> less }")
-				} {
-					tmux split -h ($SHELL -c "try { man $func }; catch { out (No man page exists for that command.$quit) -> less }")
-				}
-			}
-		}
-
-	} {
-		tout json { "HintText": "tmux doesn't appear to be running. Please start tmux to take advantage of the F1 feature." }
-	}
+    if { $TMUX } then {
+        $evt[ Line ] -> murex-parser: $evt[Pos] -> [ FuncName ] -> set: func
+    
+        if { $func } then {
+  
+            switch {
+                case { runtime: --funcs -> [ $func ] } {
+                    runtime: --funcs -> [ $func ] -> [ Block ] -> tmp -> set tmp
+                    tmux split -h "less $tmp; rm $tmp"
+                }
+                case { bexists: $func } {
+                    tmux split -h ($SHELL -c "trypipe { murex-docs $func -> less}; catch { out (That murex builtin doesn't yet include a help document.$quit) -> less }")
+                }
+                catch {
+                    tmux split -h ($SHELL -c "try { man $func }; catch { out (No man page exists for that command.$quit) -> less }")
+                }
+            }
+      
+        }
+  
+    } else {
+        tout json { "HintText": "tmux doesn't appear to be running. Please start tmux to take advantage of the F1 feature." }
+    }
 }
 
-func write_tmp_file {
-	# Writes a temporary file in the murex namespace
-	-> set data
-	set tmpfile=/tmp/murex/${rand int}
-	mkdir <!null> /tmp/murex/
-	$data -> > $tmpfile
-	$tmpfile
+config define open image {
+    "Description":  "Which mode to render images to the terminal.",
+    "DataType":     "str",
+    "Default":      "auto",
+    "Options":      [ "auto", "compatible", "kitty", "iterm", "terminology", "sixel" ]
 }
+
+openagent set image {
+    params -> [ 1 ] -> set file
+    config get open image -> set mode
+
+    if { = mode==`auto` } {
+        switch {
+            case { $KITTY_WINDOW_ID }       { set mode=kitty }
+            case { = TERM==`xterm-kitty` }  { set mode=kitty }
+            case { $TERMINOLOGY }           { set mode=terminology }
+            catch                           { set mode=compatible }
+        }
+    }
+
+    switch $mode {
+        case compatible {
+            $stdin -> open-image
+        }
+
+        case kitty {
+            kitty icat $file
+        }
+
+        case iterm {
+            out "Not currently supported"
+        }
+
+        case terminology {
+            tycat -c $file    
+        }
+
+        case sixel {
+            open-image $file
+        }
+
+        catch {
+            out "Invalid rendering method. Please define in `config set open image` - 'auto' is recommended."
+        }
+    }
+}
+
 
 tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C

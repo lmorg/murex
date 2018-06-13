@@ -34,7 +34,7 @@ func getLine(i int, rl *readline.Instance) (s string) {
 }
 
 // ExpandVariables finds all history variables and replaces them with the value
-//of the variable
+// of the variable
 func ExpandVariables(line []rune, rl *readline.Instance) ([]rune, error) {
 	return expandVariables(line, rl, false)
 }

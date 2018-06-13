@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -27,7 +28,7 @@ var (
 
 // Start the interactive shell
 func Start() {
-	/*defer func() {
+	defer func() {
 		if debug.Enable {
 			return
 		}
@@ -35,7 +36,7 @@ func Start() {
 			os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
 			Start()
 		}
-	}()*/
+	}()
 
 	var err error
 
@@ -67,6 +68,11 @@ func prompt() {
 		if len(block) == 0 {
 			return []rune{}
 		}
+		/*expanded, err := history.ExpandVariables(block, Prompt)
+		if err != nil {
+			expanded = block
+		}
+		return append(expanded, '\n')*/
 		return append(block, '\n')
 	}
 
