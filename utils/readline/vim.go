@@ -146,7 +146,7 @@ func (rl *Instance) vi(r rune) {
 		if rl.GetMultiLine == nil {
 			multiline = rl.line
 		} else {
-			multiline = append(rl.GetMultiLine(), rl.line...)
+			multiline = rl.GetMultiLine(rl.line)
 		}
 
 		new, err := rl.launchEditor(multiline)

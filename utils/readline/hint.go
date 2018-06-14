@@ -1,5 +1,7 @@
 package readline
 
+import "unicode/utf8"
+
 func (rl *Instance) getHintText() {
 	if rl.HintText == nil {
 		rl.resetHintText()
@@ -19,7 +21,9 @@ func (rl *Instance) writeHintText() {
 
 	// Determine how many lines hintText spans over
 	// (Currently there is no support for carridge returns / new lines)
-	n := float64(len(rl.hintText)) / float64(width)
+	hint := rxAnsiEscSeq.ReplaceAllString(string(rl.hintText), "")
+	hintLength := utf8.RuneCountInString(hint)
+	n := float64(hintLength) / float64(width)
 	if float64(int(n)) != n {
 		n++
 	}

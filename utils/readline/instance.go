@@ -58,7 +58,7 @@ type Instance struct {
 	// is handled by the application rather than readline itself, this callback
 	// is required when calling $EDITOR. However if this function is not set
 	// then readline will just use the current line.
-	GetMultiLine func() []rune
+	GetMultiLine func([]rune) []rune
 
 	// readline operating parameters
 	prompt        string //  = ">>> "

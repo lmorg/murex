@@ -64,16 +64,19 @@ func prompt() {
 	nLines := 1
 	var merged string
 	var block []rune
-	Prompt.GetMultiLine = func() []rune {
+	Prompt.GetMultiLine = func(r []rune) []rune {
+		var multiLine []rune
 		if len(block) == 0 {
-			return []rune{}
+			multiLine = r
+		} else {
+			multiLine = append(append(block, []rune(utils.NewLineString)...), r...)
 		}
-		/*expanded, err := history.ExpandVariables(block, Prompt)
+
+		expanded, err := history.ExpandVariables(multiLine, Prompt)
 		if err != nil {
-			expanded = block
+			expanded = multiLine
 		}
-		return append(expanded, '\n')*/
-		return append(block, '\n')
+		return expanded
 	}
 
 	for {
