@@ -102,31 +102,35 @@ func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
 	return
 }
 
-/*// `evil` - Only use this if you are not concerned about STDERR nor exit number.
-func runModeEvil(tree *astNodes) int {
-	if len(*tree) == 0 {
+// `evil` - Only use this if you are not concerned about STDERR nor exit number.
+func runModeEvil(procs []proc.Process) int {
+	if len(procs) == 0 {
 		return 1
 	}
 
-	(*tree)[0].Process.Previous.SetTerminatedState(true)
+	procs[0].Previous.SetTerminatedState(true)
 
-	for i := range *tree {
+	for i := range procs {
 
 		if i > 0 {
-			if (*tree)[i].NewChain {
-				waitProcess(&(*tree)[i-1].Process)
+			if !procs[i].IsMethod {
+				waitProcess(&procs[i-1])
 			} else {
-				go waitProcess(&(*tree)[i-1].Process)
+				go waitProcess(&procs[i-1])
 			}
 		}
 
-		(*tree)[i].Process.Stderr = new(streams.Null)
-		go executeProcess(&(*tree)[i].Process)
+		if procs[i].Name == "return" {
+			exitNum, _ := procs[i].Parameters.Int(0)
+			return exitNum
+		}
+		procs[i].Stderr = new(streams.Null)
+		go executeProcess(&procs[i])
 	}
 
-	waitProcess(&(*tree).Last().Process)
+	waitProcess(&procs[len(procs)-1])
 	return 0
-}*/
+}
 
 func runModeNormal(procs []proc.Process) (exitNum int) {
 	if len(procs) == 0 {
@@ -138,7 +142,6 @@ func runModeNormal(procs []proc.Process) (exitNum int) {
 	for i := range procs {
 
 		if i > 0 {
-			//if (*tree)[i].NewChain {
 			if !procs[i].IsMethod {
 				waitProcess(&procs[i-1])
 			} else {
@@ -146,6 +149,10 @@ func runModeNormal(procs []proc.Process) (exitNum int) {
 			}
 		}
 
+		if procs[i].Name == "return" {
+			exitNum, _ = procs[i].Parameters.Int(0)
+			return
+		}
 		go executeProcess(&procs[i])
 	}
 
@@ -175,11 +182,10 @@ func runModeTry(procs []proc.Process) (exitNum int) {
 					exitNum = 1
 				}
 
-				if exitNum != 0 {
+				if exitNum > 0 {
 					for ; i < len(procs); i++ {
 						procs[i].Stdout.Close()
 						procs[i].Stderr.Close()
-						//destroyProcess(&(*tree)[i].Process)
 						proc.GlobalFIDs.Deregister(procs[i].Id)
 						procs[i].State = state.AwaitingGC
 					}
@@ -191,6 +197,10 @@ func runModeTry(procs []proc.Process) (exitNum int) {
 			}
 		}
 
+		if procs[i].Name == "return" {
+			exitNum, _ = procs[i].Parameters.Int(0)
+			return
+		}
 		go executeProcess(&procs[i])
 	}
 
@@ -217,6 +227,10 @@ func runModeTryPipe(procs []proc.Process) (exitNum int) {
 	procs[0].Previous.SetTerminatedState(true)
 
 	for i := range procs {
+		if procs[i].Name == "return" {
+			exitNum, _ = procs[i].Parameters.Int(0)
+			return
+		}
 		go executeProcess(&procs[i])
 		waitProcess(&procs[i])
 
@@ -228,11 +242,10 @@ func runModeTryPipe(procs []proc.Process) (exitNum int) {
 			exitNum = 1
 		}
 
-		if exitNum != 0 {
+		if exitNum > 0 {
 			for i++; i < len(procs); i++ {
 				procs[i].Stdout.Close()
 				procs[i].Stderr.Close()
-				//destroyProcess(&(*tree)[i].Process)
 				proc.GlobalFIDs.Deregister(procs[i].Id)
 				procs[i].State = state.AwaitingGC
 			}

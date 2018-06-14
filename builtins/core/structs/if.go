@@ -128,6 +128,7 @@ func cmdIf(p *proc.Process) error {
 		}
 	}
 
+	//p.ExitNum = -1
 	return nil
 }
 

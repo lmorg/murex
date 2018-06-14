@@ -38,14 +38,24 @@ func cmdNull(p *proc.Process) error {
 }
 
 func cmdTrue(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Boolean)
-	p.Stdout.Writeln(types.TrueByte)
+	if s, _ := p.Parameters.String(0); s != "-s" {
+		p.Stdout.SetDataType(types.Boolean)
+		p.Stdout.Writeln(types.TrueByte)
+	} else {
+		p.Stdout.SetDataType(types.Null)
+	}
+
 	return nil
 }
 
 func cmdFalse(p *proc.Process) error {
-	p.Stdout.SetDataType(types.Boolean)
-	p.Stdout.Writeln(types.FalseByte)
+	if s, _ := p.Parameters.String(0); s != "-s" {
+		p.Stdout.SetDataType(types.Boolean)
+		p.Stdout.Writeln(types.FalseByte)
+	} else {
+		p.Stdout.SetDataType(types.Null)
+	}
+
 	p.ExitNum = 1
 	return nil
 }

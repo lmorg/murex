@@ -41,25 +41,33 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 		if isAnd {
 			// --- and ---
 			if (!conditional && !p.IsNot) || (conditional && p.IsNot) {
-				_, err = p.Stdout.Write(types.FalseByte)
-				return err
+				//_, err = p.Stdout.Write(types.FalseByte)
+				//return err
+				p.ExitNum = 1
+				return nil
 			}
 		} else {
 			// --- or ---
 			if (conditional && !p.IsNot) || (!conditional && p.IsNot) {
-				_, err = p.Stdout.Write(types.TrueByte)
-				return err
+				//_, err = p.Stdout.Write(types.TrueByte)
+				//return err
+				p.ExitNum = -1
+				return nil
 			}
 		}
 	}
 
 	if isAnd {
 		// --- and ---
-		_, err := p.Stdout.Write(types.TrueByte)
-		return err
+		//_, err := p.Stdout.Write(types.TrueByte)
+		//return err
+		p.ExitNum = -1
+		return nil
 	}
 
 	// --- or ---
-	_, err := p.Stdout.Write(types.FalseByte)
-	return err
+	//_, err := p.Stdout.Write(types.FalseByte)
+	//return err
+	p.ExitNum = 1
+	return nil
 }
