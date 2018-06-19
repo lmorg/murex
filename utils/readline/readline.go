@@ -5,7 +5,6 @@ import (
 	"errors"
 	"os"
 	"regexp"
-	"unicode/utf8"
 )
 
 var rxMultiline *regexp.Regexp = regexp.MustCompile(`[\r\n]+`)
@@ -323,9 +322,7 @@ func (rl *Instance) editorInput(r []rune) {
 // It also calculates the runes in the string as well as any non-printable escape codes.
 func (rl *Instance) SetPrompt(s string) {
 	rl.prompt = s
-
-	s = rxAnsiEscSeq.ReplaceAllString(s, "")
-	rl.promptLen = utf8.RuneCountInString(s)
+	rl.promptLen = strLen(s)
 }
 
 func (rl *Instance) carridgeReturn() {

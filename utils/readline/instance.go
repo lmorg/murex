@@ -2,7 +2,6 @@ package readline
 
 import (
 	"os"
-	"regexp"
 )
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -98,8 +97,6 @@ type Instance struct {
 	// event
 	evtKeyPress map[string]func(string, []rune, int) (bool, bool, bool, []rune)
 }
-
-var rxAnsiEscSeq *regexp.Regexp = regexp.MustCompile("\x1b\\[[0-9]+[a-zA-Z]")
 
 // NewInstance is used to create a readline instance and initialise it with sane
 // defaults.
