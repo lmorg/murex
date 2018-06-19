@@ -120,10 +120,10 @@ func runModeEvil(procs []proc.Process) int {
 			}
 		}
 
-		if procs[i].Name == "return" {
+		/*if procs[i].Name == "break" {
 			exitNum, _ := procs[i].Parameters.Int(0)
 			return exitNum
-		}
+		}*/
 		procs[i].Stderr = new(streams.Null)
 		go executeProcess(&procs[i])
 	}
@@ -149,10 +149,10 @@ func runModeNormal(procs []proc.Process) (exitNum int) {
 			}
 		}
 
-		if procs[i].Name == "return" {
+		/*if procs[i].Name == "break" {
 			exitNum, _ = procs[i].Parameters.Int(0)
 			return
-		}
+		}*/
 		go executeProcess(&procs[i])
 	}
 
@@ -171,7 +171,6 @@ func runModeTry(procs []proc.Process) (exitNum int) {
 
 	for i := range procs {
 		if i > 0 {
-			//if (*tree)[i].NewChain {
 			if !procs[i].IsMethod {
 				waitProcess(&procs[i-1])
 				exitNum = procs[i-1].ExitNum
@@ -197,10 +196,10 @@ func runModeTry(procs []proc.Process) (exitNum int) {
 			}
 		}
 
-		if procs[i].Name == "return" {
+		/*if procs[i].Name == "break" {
 			exitNum, _ = procs[i].Parameters.Int(0)
 			return
-		}
+		}*/
 		go executeProcess(&procs[i])
 	}
 
@@ -227,10 +226,10 @@ func runModeTryPipe(procs []proc.Process) (exitNum int) {
 	procs[0].Previous.SetTerminatedState(true)
 
 	for i := range procs {
-		if procs[i].Name == "return" {
+		/*if procs[i].Name == "break" {
 			exitNum, _ = procs[i].Parameters.Int(0)
 			return
-		}
+		}*/
 		go executeProcess(&procs[i])
 		waitProcess(&procs[i])
 
