@@ -608,53 +608,41 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 		case 's':
 			switch {
-			case braceCount > 0:
-				pUpdate(r)
-			case quoteSingle:
-				pUpdate(r)
 			case escaped:
 				pUpdate(' ')
 				escaped = false
 			default:
+				ignoreWhitespace = false
 				pUpdate(r)
 			}
 
 		case 't':
 			switch {
-			case braceCount > 0:
-				pUpdate(r)
-			case quoteSingle:
-				pUpdate(r)
 			case escaped:
 				pUpdate('\t')
 				escaped = false
 			default:
+				ignoreWhitespace = false
 				pUpdate(r)
 			}
 
 		case 'r':
 			switch {
-			case braceCount > 0:
-				pUpdate(r)
-			case quoteSingle:
-				pUpdate(r)
 			case escaped:
 				pUpdate('\r')
 				escaped = false
 			default:
+				ignoreWhitespace = false
 				pUpdate(r)
 			}
 
 		case 'n':
 			switch {
-			case braceCount > 0:
-				pUpdate(r)
-			case quoteSingle:
-				pUpdate(r)
 			case escaped:
 				pUpdate('\n')
 				escaped = false
 			default:
+				ignoreWhitespace = false
 				pUpdate(r)
 			}
 

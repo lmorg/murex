@@ -5,6 +5,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -45,12 +46,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 	if err != nil {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())
 	}
-	//if exitNum != 0 && debug.Enable {
-	//	ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number.")
-	//}
-	if exitNum != 0 {
+	if exitNum != 0 && debug.Enable {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number."+utils.NewLineString)
-		return
 	}
 
 	stdout.ReadArray(func(b []byte) {
