@@ -116,7 +116,7 @@ autocomplete set autocomplete { [{
 }] }
 
 autocomplete set git { [{
-    "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push" ],
+    "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
     "FlagValues": {
         "init": [{ "Flags": ["--bare"] }],
         "add": [{ "IncFiles": true }],
