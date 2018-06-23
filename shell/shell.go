@@ -100,6 +100,7 @@ func prompt() {
 				fmt.Println("^C")
 				continue
 			case readline.ErrEOF:
+				fmt.Println(utils.NewLineString)
 				return
 			default:
 				panic(err)

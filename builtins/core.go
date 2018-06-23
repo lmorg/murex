@@ -6,27 +6,28 @@ package builtins
 //
 // My recommendation is to keep everything in this file included, but disable any of the files marked `optional`.
 import (
-	_ "github.com/lmorg/murex/builtins/core/datatools"          // utilities for manipulating structured data
-	_ "github.com/lmorg/murex/builtins/core/docs"               // docs for builtin murex functions
-	_ "github.com/lmorg/murex/builtins/core/httpclient"         // builtins for http
-	_ "github.com/lmorg/murex/builtins/core/io"                 // OS IO builtins
-	_ "github.com/lmorg/murex/builtins/core/management"         // murex management builtins
-	_ "github.com/lmorg/murex/builtins/core/mkarray"            // array management builtins
-	_ "github.com/lmorg/murex/builtins/core/open"               // `open` and default handlers
-	_ "github.com/lmorg/murex/builtins/core/random"             // random data builtin
-	_ "github.com/lmorg/murex/builtins/core/ranges"             // working with ranges within arrays (`@[..]`)
-	_ "github.com/lmorg/murex/builtins/core/shellautocomplete"  // shell autocompleter tools
-	_ "github.com/lmorg/murex/builtins/core/shellconfig"        // shell configer tools
-	_ "github.com/lmorg/murex/builtins/core/shellpipe"          // shell tools for named pipes
-	_ "github.com/lmorg/murex/builtins/core/shellruntime"       // shell runtime inspection
-	_ "github.com/lmorg/murex/builtins/core/structs"            // control structures
-	_ "github.com/lmorg/murex/builtins/core/textmanip"          // text manipulation builtins
-	_ "github.com/lmorg/murex/builtins/core/typemgmt"           // type handling and management builtins
-	_ "github.com/lmorg/murex/builtins/events/onKeyPress"       // readline key-press event type
-	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed" // timer-based event type
-	_ "github.com/lmorg/murex/builtins/types/binary"            // basic data type for handing binary data
-	_ "github.com/lmorg/murex/builtins/types/generic"           // generic (string) data type
-	_ "github.com/lmorg/murex/builtins/types/json"              // JSON data type
-	_ "github.com/lmorg/murex/builtins/types/numeric"           // formatting numeric data types (int, float, number)
-	_ "github.com/lmorg/murex/builtins/types/string"            // string data type (soon to be depreciated)
+	_ "github.com/lmorg/murex/builtins/core/datatools"            // utilities for manipulating structured data
+	_ "github.com/lmorg/murex/builtins/core/docs"                 // docs for builtin murex functions
+	_ "github.com/lmorg/murex/builtins/core/httpclient"           // builtins for http
+	_ "github.com/lmorg/murex/builtins/core/io"                   // OS IO builtins
+	_ "github.com/lmorg/murex/builtins/core/management"           // murex management builtins
+	_ "github.com/lmorg/murex/builtins/core/mkarray"              // array management builtins
+	_ "github.com/lmorg/murex/builtins/core/open"                 // `open` and default handlers
+	_ "github.com/lmorg/murex/builtins/core/random"               // random data builtin
+	_ "github.com/lmorg/murex/builtins/core/ranges"               // working with ranges within arrays (`@[..]`)
+	_ "github.com/lmorg/murex/builtins/core/shellautocomplete"    // shell autocompleter tools
+	_ "github.com/lmorg/murex/builtins/core/shellconfig"          // shell configer tools
+	_ "github.com/lmorg/murex/builtins/core/shellpipe"            // shell tools for named pipes
+	_ "github.com/lmorg/murex/builtins/core/shellruntime"         // shell runtime inspection
+	_ "github.com/lmorg/murex/builtins/core/structs"              // control structures
+	_ "github.com/lmorg/murex/builtins/core/textmanip"            // text manipulation builtins
+	_ "github.com/lmorg/murex/builtins/core/typemgmt"             // type handling and management builtins
+	_ "github.com/lmorg/murex/builtins/events/onFileSystemChange" // file system watcher event type
+	_ "github.com/lmorg/murex/builtins/events/onKeyPress"         // readline key-press event type
+	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"   // timer-based event type
+	_ "github.com/lmorg/murex/builtins/types/binary"              // basic data type for handing binary data
+	_ "github.com/lmorg/murex/builtins/types/generic"             // generic (string) data type
+	_ "github.com/lmorg/murex/builtins/types/json"                // JSON data type
+	_ "github.com/lmorg/murex/builtins/types/numeric"             // formatting numeric data types (int, float, number)
+	_ "github.com/lmorg/murex/builtins/types/string"              // string data type (soon to be depreciated)
 )

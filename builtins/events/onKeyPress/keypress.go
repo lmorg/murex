@@ -3,6 +3,7 @@ package onKeyPress
 import (
 	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang/proc"
@@ -32,6 +33,7 @@ type keyPressEvent struct {
 
 type keyPressEvents struct {
 	events []keyPressEvent
+	mutex  sync.Mutex
 }
 
 func newKeyPress() *keyPressEvents {
@@ -40,18 +42,22 @@ func newKeyPress() *keyPressEvents {
 
 // Add a key to the event list
 func (evt *keyPressEvents) Add(name, keySeq string, block []rune) error {
-	if /*!shell.Interactive ||*/ shell.Prompt == nil {
+	if shell.Prompt == nil {
 		return errors.New("Unable to register event with readline API.")
 	}
 
+	evt.mutex.Lock()
 	for i := range evt.events {
 		if evt.events[i].name == name {
+			evt.mutex.Unlock()
 			return fmt.Errorf("Event already exists with the name `%s` for event type `%s`.", name, eventType)
 		}
 		if evt.events[i].keySeq == keySeq {
+			evt.mutex.Unlock()
 			return fmt.Errorf("Event already exists with that  key sequence for event type `%s`.", eventType)
 		}
 	}
+	evt.mutex.Unlock()
 
 	shell.Prompt.AddEvent(keySeq, evt.callback)
 	evt.events = append(evt.events, keyPressEvent{
@@ -68,9 +74,12 @@ func (evt *keyPressEvents) Remove(name string) error {
 		return s[:len(s)-1]
 	}
 
-	if /*!shell.Interactive ||*/ shell.Prompt == nil {
+	if shell.Prompt == nil {
 		return errors.New("Unable to de-register event with readline API.")
 	}
+
+	evt.mutex.Lock()
+	defer evt.mutex.Unlock()
 
 	for i := range evt.events {
 		if evt.events[i].name == name {
@@ -84,10 +93,10 @@ func (evt *keyPressEvents) Remove(name string) error {
 }
 
 func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool, bool, []rune) {
-	//debug.Log("EVENTS: -----> callback")
-	//defer debug.Log("EVENTS: callback ----->")
-
 	var i int
+
+	evt.mutex.Lock()
+	defer evt.mutex.Unlock()
 
 	for i = range evt.events {
 		if evt.events[i].keySeq == keyPress {
@@ -97,7 +106,6 @@ func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool
 	return false, false, false, nil
 
 eventFound:
-	//debug.Json("event found", evt.events[i])
 	block := evt.events[i].block
 
 	interrupt := Interrupt{
@@ -142,6 +150,10 @@ func (evt *keyPressEvents) Dump() interface{} {
 	}
 
 	dump := make(map[string]kp)
+
+	evt.mutex.Lock()
+	defer evt.mutex.Unlock()
+
 	for i := range evt.events {
 		dump[evt.events[i].name] = kp{
 			KeySequence: evt.events[i].keySeq,

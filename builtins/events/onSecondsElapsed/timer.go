@@ -120,8 +120,9 @@ func (t *timer) Dump() interface{} {
 		Block    string
 	}
 
-	t.mutex.Lock()
 	dump := make(map[string]te)
+
+	t.mutex.Lock()
 
 	for i := range t.events {
 		dump[t.events[i].Name] = te{
