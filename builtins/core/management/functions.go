@@ -37,7 +37,7 @@ func cmdDebug(p *proc.Process) (err error) {
 		)
 
 		dt := p.Stdin.GetDataType()
-		obj, err := define.UnmarshalData(p, dt)
+		obj, _ := define.UnmarshalData(p, dt) // For once we don't care about the error
 
 		j["Process"] = *p.Previous
 		j["DataType"] = map[string]string{
