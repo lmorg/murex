@@ -37,6 +37,9 @@ func cmdSwivelDataType(p *proc.Process) error {
 			row++
 		}
 	})
+	if err != nil {
+		return err
+	}
 
 	b, err := define.MarshalData(p, dt, table)
 	if err != nil {
