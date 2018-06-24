@@ -5,6 +5,9 @@ file_extensions: [mx, murex_profile]
 scope: source.mx
 contexts:
   main:
+    - match: '\\.'
+      scope: constant.escaped.mx
+
     # Strings begin and end with single quotes
     - match: "'"
       scope: punctuation.definition.string.begin.mx
@@ -17,7 +20,7 @@ contexts:
       push: double_quoted_string
 
     # Code blocks inside parentheses strings
-    - match: '\(\{$'
+    - match: '\(\{\s*$'
       #push: braces
       pop: true
       set: main
