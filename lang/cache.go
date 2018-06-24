@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// AstCache is an exported AST cache
 var AstCache *astCache = newAstCache()
 
 type cacheItem struct {
@@ -38,6 +39,8 @@ func astGarbageCollector(c *astCache) {
 	}
 }
 
+// ParseCache scans through the AST cache looking for a match. If none found
+// then it runs the parser itself.
 func (c *astCache) ParseCache(block []rune) (astNodes, ParserError) {
 	key := string(block)
 
@@ -68,6 +71,7 @@ func (c *astCache) ParseCache(block []rune) (astNodes, ParserError) {
 	return nodes, pErr
 }
 
+// Dump returns the items in AST cache
 func (c *astCache) Dump() (dump []string) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()

@@ -5,6 +5,7 @@ import (
 	"sync"
 )
 
+// OpenAgents is the exported table of `open`'s helper functions
 var OpenAgents *openAgents = newOpenAgents()
 
 func newOpenAgents() *openAgents {
@@ -18,6 +19,7 @@ type openAgents struct {
 	agents map[string][]rune
 }
 
+// Get the murex code block for a particular murex data type
 func (oa *openAgents) Get(dataType string) ([]rune, error) {
 	oa.mutex.Lock()
 	r := oa.agents[dataType]
@@ -30,6 +32,7 @@ func (oa *openAgents) Get(dataType string) ([]rune, error) {
 	return r, nil
 }
 
+// Set the murex code block for a particular murex data type
 func (oa *openAgents) Set(dataType string, block []rune) {
 	oa.mutex.Lock()
 	defer oa.mutex.Unlock()
@@ -37,6 +40,7 @@ func (oa *openAgents) Set(dataType string, block []rune) {
 	oa.agents[dataType] = block
 }
 
+// Unset removes an associated code block for a particular data type
 func (oa *openAgents) Unset(dataType string) error {
 	oa.mutex.Lock()
 	defer oa.mutex.Unlock()
@@ -49,6 +53,7 @@ func (oa *openAgents) Unset(dataType string) error {
 	return nil
 }
 
+// Dump returns the entire OpenAgent table
 func (oa *openAgents) Dump() map[string]string {
 	oa.mutex.Lock()
 	defer oa.mutex.Unlock()

@@ -11,11 +11,16 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
+// TempFle is a struct returned by the NewTempFile function. It allows the
+// reciever to us the temp file by filename wrapped inside an io.ReadCloser
+// interface.
 type TempFile struct {
 	FileName string
 	reader   *os.File
 }
 
+// NewTempFile creates a temporary file and returns an io.Reader interface or
+// error if the temporary file cannot be created.
 func NewTempFile(reader io.Reader, ext string) (*TempFile, error) {
 	if ext != "" {
 		ext = "." + ext
@@ -49,6 +54,7 @@ func NewTempFile(reader io.Reader, ext string) (*TempFile, error) {
 	return tmp, nil
 }
 
+// Close the temporary file
 func (tmp *TempFile) Close() {
 	if tmp.reader != nil {
 		tmp.reader.Close()
@@ -57,6 +63,7 @@ func (tmp *TempFile) Close() {
 	os.Remove(tmp.FileName)
 }
 
+// Read is standard io.Reader method
 func (tmp *TempFile) Read(p []byte) (int, error) {
 	if tmp.reader == nil {
 		file, err := os.Open(tmp.FileName)

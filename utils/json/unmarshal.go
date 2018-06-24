@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+// Unmarshal is a wrapper around the standard json.Unmarshal function. This is
+// done this way so that murex can swap out the JSON unmarshaller from the
+// standard libraries with a 3rd party decoder that might run more efficiently.
 func Unmarshal(data []byte, v interface{}) (err error) {
 	//err = gojay.Unmarshal(data, v)
 	//if err == nil {
