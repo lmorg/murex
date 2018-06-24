@@ -42,7 +42,6 @@ func cmdConfig(p *proc.Process) error {
 		return errors.New("Unknown option. Please get, set or define.")
 	}
 
-	return nil
 }
 
 func get(p *proc.Process) error {

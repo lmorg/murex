@@ -16,9 +16,8 @@ import (
 // History exports common functions needed for shell history
 type History struct {
 	filename string
-	//Last     string
-	list   []histItem
-	writer stdio.Io
+	list     []histItem
+	writer   stdio.Io
 }
 
 type histItem struct {
@@ -52,10 +51,6 @@ func openHist(filename string) (list []histItem, err error) {
 		}
 		item.Index = len(list)
 		list = append(list, item)
-
-		/*if shell != nil {
-			shell.SaveHistory(strings.Replace(item.Block, "\n", " ", -1))
-		}*/
 	}
 	return list, nil
 }
@@ -63,6 +58,11 @@ func openHist(filename string) (list []histItem, err error) {
 // Write item to history file. eg ~/.murex_history
 func (h *History) Write(s string) (int, error) {
 	block := strings.TrimSpace(s)
+
+	type jsonline struct {
+		DateTime time.Time
+		Block    string
+	}
 
 	item := histItem{
 		DateTime: time.Now(),
@@ -74,25 +74,18 @@ func (h *History) Write(s string) (int, error) {
 		h.list = append(h.list, item)
 	}
 
-	b, err := json.Marshal(item)
-	if err != nil {
-		return len(h.list), err
+	line := jsonline{
+		Block:    block,
+		DateTime: item.DateTime,
 	}
 
-	type ws struct {
-		DateTime time.Time
-		Block    string
-	}
-	var w ws
-	w.Block = item.Block
-	w.DateTime = item.DateTime
-	b, err = json.Marshal(w)
+	b, err := json.Marshal(line)
 	if err != nil {
-		return len(h.list), err
+		return h.Len(), err
 	}
 
 	_, err = h.writer.Writeln(b)
-	return len(h.list), err
+	return h.Len(), err
 }
 
 /*// Close history file
