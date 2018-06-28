@@ -22,11 +22,6 @@ Then to start the shell:
 
     ./murex
 
-## Travis
-
-A `.travis.yml` file has been included and the automated tests can be
-viewed at [https://travis-ci.org/lmorg/murex](https://travis-ci.org/lmorg/murex).
-
 ## Docker
 
 A `Dockerfile` is also included should you want to run any local tests in
