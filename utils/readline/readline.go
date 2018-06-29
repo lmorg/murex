@@ -124,6 +124,17 @@ func (rl *Instance) Readline() (string, error) {
 			rl.clearHelpers()
 			return "", errors.New(ErrEOF)
 
+		case charCtrlF:
+			if rl.modeTabGrid {
+				rl.modeTabFind = true
+				rl.updateTabFind([]rune{})
+				rl.viUndoSkipAppend = true
+			}
+
+		case charCtrlU:
+			rl.clearLine()
+			rl.resetHelpers()
+
 		case charTab:
 			if rl.modeTabGrid {
 				rl.moveTabHighlight(1, 0)
@@ -134,35 +145,48 @@ func (rl *Instance) Readline() (string, error) {
 			rl.renderHelpers()
 			rl.viUndoSkipAppend = true
 
-		case charCtrlU:
-			rl.clearLine()
-			rl.resetHelpers()
-
 		case '\r':
 			fallthrough
 		case '\n':
-			if rl.modeTabGrid && len(rl.tcSuggestions) > 0 {
+			var suggestions []string
+			if rl.modeTabFind {
+				suggestions = rl.tfSuggestions
+			} else {
+				suggestions = rl.tcSuggestions
+			}
+
+			if rl.modeTabGrid && len(suggestions) > 0 {
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
 				rl.renderHelpers()
-				rl.insert([]rune(rl.tcSuggestions[cell]))
+				rl.insert([]rune(suggestions[cell]))
 				continue
 			}
 			rl.carridgeReturn()
 			return string(rl.line), nil
 
 		case charBackspace, charBackspace2:
-			rl.backspace()
-			rl.renderHelpers()
+			if rl.modeTabFind {
+				rl.backspaceTabFind()
+				rl.viUndoSkipAppend = true
+			} else {
+				rl.backspace()
+				rl.renderHelpers()
+			}
 
 		case charEscape:
 			rl.escapeSeq(r[:i])
 
 		default:
-			rl.editorInput(r[:i])
-			if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
-				rl.skipStdinRead = true
+			if rl.modeTabFind {
+				rl.updateTabFind(r[:i])
+				rl.viUndoSkipAppend = true
+			} else {
+				rl.editorInput(r[:i])
+				if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
+					rl.skipStdinRead = true
+				}
 			}
 		}
 
@@ -176,11 +200,16 @@ func (rl *Instance) Readline() (string, error) {
 func (rl *Instance) escapeSeq(r []rune) {
 	switch string(r) {
 	case string(charEscape):
-		if rl.modeTabGrid {
+		switch {
+		case rl.modeTabFind:
+			rl.resetTabFind()
+
+		case rl.modeTabGrid:
 			rl.clearHelpers()
 			rl.resetTabCompletion()
 			rl.renderHelpers()
-		} else {
+
+		default:
 			if rl.pos == len(rl.line) && len(rl.line) > 0 {
 				rl.pos--
 				moveCursorBackwards(1)
@@ -193,7 +222,11 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.viUndoSkipAppend = true
 
 	case seqDelete:
-		rl.delete()
+		if rl.modeTabFind {
+			rl.backspaceTabFind()
+		} else {
+			rl.delete()
+		}
 
 	case seqUp:
 		if rl.modeTabGrid {
@@ -260,6 +293,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.viUndoSkipAppend = true
 
 	default:
+		if rl.modeTabFind {
+			return
+		}
+		// alt+numeric append / delete
 		if len(r) == 2 && '1' <= r[1] && r[1] <= '9' {
 			if rl.modeViMode == vimDelete {
 				rl.vimDelete(r)
@@ -319,7 +356,8 @@ func (rl *Instance) editorInput(r []rune) {
 }
 
 // SetPrompt will define the readline prompt string.
-// It also calculates the runes in the string as well as any non-printable escape codes.
+// It also calculates the runes in the string as well as any non-printable
+// escape codes.
 func (rl *Instance) SetPrompt(s string) {
 	rl.prompt = s
 	rl.promptLen = strLen(s)

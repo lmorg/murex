@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"regexp"
 	"strconv"
 )
 
@@ -28,10 +29,17 @@ func (rl *Instance) getTabCompletion() {
 func (rl *Instance) initTabGrid() {
 	width := getTermWidth()
 
+	var suggestions []string
+	if rl.modeTabFind {
+		suggestions = rl.tfSuggestions
+	} else {
+		suggestions = rl.tcSuggestions
+	}
+
 	tcMaxLength := 1
-	for i := range rl.tcSuggestions {
-		if len(rl.tcPrefix+rl.tcSuggestions[i]) > tcMaxLength {
-			tcMaxLength = len([]rune(rl.tcPrefix + rl.tcSuggestions[i]))
+	for i := range suggestions {
+		if len(rl.tcPrefix+suggestions[i]) > tcMaxLength {
+			tcMaxLength = len([]rune(rl.tcPrefix + suggestions[i]))
 		}
 	}
 
@@ -52,6 +60,13 @@ func (rl *Instance) initTabGrid() {
 }
 
 func (rl *Instance) moveTabHighlight(x, y int) {
+	var suggestions []string
+	if rl.modeTabFind {
+		suggestions = rl.tfSuggestions
+	} else {
+		suggestions = rl.tcSuggestions
+	}
+
 	rl.tcPosX += x
 	rl.tcPosY += y
 
@@ -73,9 +88,9 @@ func (rl *Instance) moveTabHighlight(x, y int) {
 		rl.tcPosY = 1
 	}
 
-	if rl.tcPosY == rl.tcUsedY && (rl.tcMaxX*(rl.tcPosY-1))+rl.tcPosX > len(rl.tcSuggestions) {
+	if rl.tcPosY == rl.tcUsedY && (rl.tcMaxX*(rl.tcPosY-1))+rl.tcPosX > len(suggestions) {
 		if x < 0 {
-			rl.tcPosX = len(rl.tcSuggestions) - (rl.tcMaxX * (rl.tcPosY - 1))
+			rl.tcPosX = len(suggestions) - (rl.tcMaxX * (rl.tcPosY - 1))
 		}
 
 		if x > 0 {
@@ -98,13 +113,20 @@ func (rl *Instance) writeTabGrid() {
 		return
 	}
 
+	var suggestions []string
+	if rl.modeTabFind {
+		suggestions = rl.tfSuggestions
+	} else {
+		suggestions = rl.tcSuggestions
+	}
+
 	print("\r\n")
 
 	cellWidth := strconv.Itoa((getTermWidth() / rl.tcMaxX) - 2)
 	x := 0
 	y := 1
 
-	for i := range rl.tcSuggestions {
+	for i := range suggestions {
 		x++
 		if x > rl.tcMaxX {
 			x = 1
@@ -120,7 +142,7 @@ func (rl *Instance) writeTabGrid() {
 		if x == rl.tcPosX && y == rl.tcPosY {
 			print(seqBgWhite + seqFgBlack)
 		}
-		printf(" %-"+cellWidth+"s %s", rl.tcPrefix+rl.tcSuggestions[i], seqReset)
+		printf(" %-"+cellWidth+"s %s", rl.tcPrefix+suggestions[i], seqReset)
 	}
 
 	rl.tcUsedY = y
@@ -129,4 +151,52 @@ func (rl *Instance) writeTabGrid() {
 func (rl *Instance) resetTabCompletion() {
 	rl.modeTabGrid = false
 	rl.tcUsedY = 0
+	rl.modeTabFind = false
+	rl.tfLine = []rune{}
+}
+
+func (rl *Instance) backspaceTabFind() {
+	if len(rl.tfLine) > 0 {
+		rl.tfLine = rl.tfLine[:len(rl.tfLine)-1]
+	}
+	rl.updateTabFind([]rune{})
+}
+
+func (rl *Instance) updateTabFind(r []rune) {
+	rl.tfLine = append(rl.tfLine, r...)
+	rl.hintText = append([]rune("regexp find: "), rl.tfLine...)
+
+	defer func() {
+		rl.clearHelpers()
+		rl.initTabGrid()
+		rl.renderHelpers()
+	}()
+
+	if len(rl.tfLine) == 0 {
+		rl.tfSuggestions = append(rl.tcSuggestions, []string{}...)
+		return
+	}
+
+	rx, err := regexp.Compile(string(rl.tfLine))
+	if err != nil {
+		rl.tfSuggestions = []string{err.Error()}
+		return
+	}
+
+	rl.tfSuggestions = make([]string, 0)
+	for i := range rl.tcSuggestions {
+		if rx.MatchString(rl.tcSuggestions[i]) {
+			rl.tfSuggestions = append(rl.tfSuggestions, rl.tcSuggestions[i])
+		}
+	}
+}
+
+func (rl *Instance) resetTabFind() {
+	rl.modeTabFind = false
+	rl.tfLine = []rune{}
+	rl.hintText = []rune("Cancelled regexp suggestion find.")
+
+	rl.clearHelpers()
+	rl.initTabGrid()
+	rl.renderHelpers()
 }

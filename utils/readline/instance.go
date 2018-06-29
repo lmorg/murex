@@ -87,6 +87,11 @@ type Instance struct {
 	tcUsedY       int
 	tcMaxLength   int
 
+	// tab find
+	modeTabFind   bool
+	tfLine        []rune
+	tfSuggestions []string
+
 	// vim
 	modeViMode       viMode //= vimInsert
 	viIteration      string
