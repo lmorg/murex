@@ -1,10 +1,11 @@
 package autocomplete
 
 import (
-	"github.com/lmorg/murex/shell/variables"
-	"github.com/lmorg/murex/utils/consts"
 	"io/ioutil"
 	"strings"
+
+	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 func partialPath(s string) (path, partial string) {
@@ -39,6 +40,12 @@ func matchFilesAndDirs(s string) (items []string) {
 
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
+		if f.Name()[0] == '.' && (len(partial) == 0 || partial[0] != '.') {
+			// hide hidden files and directories unless you press dot / period.
+			// (this behavior will also hide files and directories in Windows if
+			// those file system objects are prefixed with a dot / period).
+			continue
+		}
 		if f.IsDir() {
 			item = append(item, f.Name()+consts.PathSlash)
 		} else {

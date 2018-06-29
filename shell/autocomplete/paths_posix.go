@@ -3,12 +3,13 @@
 package autocomplete
 
 import (
-	"github.com/lmorg/murex/shell/variables"
-	"github.com/lmorg/murex/utils/consts"
-	"github.com/phayes/permbits"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/consts"
+	"github.com/phayes/permbits"
 )
 
 func pathIsLocal(s string) bool {
@@ -25,7 +26,8 @@ func matchDirs(s string) (items []string) {
 
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
-		if f.IsDir() {
+		if f.IsDir() && (f.Name()[0] != '.' ||
+			(len(partial) > 0 && partial[0] == '.')) {
 			dirs = append(dirs, f.Name()+consts.PathSlash)
 			continue
 		}

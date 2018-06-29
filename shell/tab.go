@@ -22,7 +22,6 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 			s = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
 		s = pt.Variable + s
-		//retPos = len(s)
 		prefix = s
 
 		items = autocomplete.MatchVars(s)
@@ -32,7 +31,6 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 		if pt.Loc < len(line) {
 			s = strings.TrimSpace(string(line[pt.Loc:]))
 		}
-		//retPos = len(s)
 		prefix = s
 		items = autocomplete.MatchFunction(s)
 
@@ -41,7 +39,6 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 		if len(pt.Parameters) > 0 {
 			s = pt.Parameters[len(pt.Parameters)-1]
 		}
-		//retPos = len(s)
 		prefix = s
 
 		autocomplete.InitExeFlags(pt.FuncName)
@@ -59,25 +56,8 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 	if len(items) < limitSuggestions || limitSuggestions < 0 {
 		limitSuggestions = len(items)
 	}
-	//Instance.Config.MaxCompleteLines = limitSuggestions
+
 	Prompt.MaxTabCompleterRows = limitSuggestions
-
-	/*suggest = make([][]rune, len(items))
-	for i := range items {
-		if len(items[i]) == 0 {
-			continue
-		}
-
-		if !pt.QuoteSingle && !pt.QuoteDouble && len(items[i]) > 1 && strings.Contains(items[i][:len(items[i])-1], " ") {
-			items[i] = strings.Replace(items[i], " ", `\ `, -1)
-		}
-
-		if items[i][len(items[i])-1] == '/' || items[i][len(items[i])-1] == '=' {
-			suggest[i] = []rune(items[i])
-		} else {
-			suggest[i] = []rune(items[i] + " ")
-		}
-	}*/
 
 	for i := range items {
 		if len(items[i]) == 0 {

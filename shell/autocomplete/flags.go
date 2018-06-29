@@ -14,11 +14,11 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	IncFiles      bool               // `true` to disable file name completion
-	IncDirs       bool               // `true` to disable directory navigation completion
+	IncFiles      bool               // `true` to include file name completion
+	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
 	Flags         []string           // known supported command line flags for executable
-	Dynamic       string             // Use murex script to generate auto-complete options
+	Dynamic       string             // Use murex script to generate auto-complete suggestions
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
