@@ -125,11 +125,13 @@ func (rl *Instance) Readline() (string, error) {
 			return "", errors.New(ErrEOF)
 
 		case charCtrlF:
-			if rl.modeTabGrid {
-				rl.modeTabFind = true
-				rl.updateTabFind([]rune{})
-				rl.viUndoSkipAppend = true
+			if !rl.modeTabGrid {
+				rl.getTabCompletion()
 			}
+
+			rl.modeTabFind = true
+			rl.updateTabFind([]rune{})
+			rl.viUndoSkipAppend = true
 
 		case charCtrlU:
 			rl.clearLine()
