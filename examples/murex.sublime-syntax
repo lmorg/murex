@@ -64,6 +64,10 @@ contexts:
     - match: '\$[0-9a-zA-Z_]+'
       scope: variable.other.mx
 
+    # Arrays
+    - match: '\s@[0-9a-zA-Z_]+'
+      scope: variable.other.mx
+
     # Operators
     - match: '(->|\|\;)'
       scope: constant.operators.mx
@@ -91,8 +95,8 @@ contexts:
     - meta_scope: string.quoted.double.mx
     - match: '\\.'
       scope: constant.escaped.mx
-    # Variables
-    - match: '\$[0-9a-zA-Z_]+'
+    # Variables and arrays
+    - match: '[\$@][0-9a-zA-Z_]+'
       scope: variable.other.mx
     # Start of code block
     - match: '(\$|@)\{'
@@ -111,8 +115,8 @@ contexts:
       push: parentheses_string
     - match: '\\.'
       scope: constant.escaped.mx
-    # Variables
-    - match: '\$[0-9a-zA-Z_]+'
+    # Variables and arrays
+    - match: '[\$@][0-9a-zA-Z_]+'
       scope: variable.other.mx
     - match: '\)'
       scope: punctuation.definition.string.end.mx
