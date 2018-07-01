@@ -166,7 +166,7 @@ func (rl *Instance) clearHelpers() {
 
 func (rl *Instance) renderHelpers() {
 	rl.writeHintText()
-	rl.writeTabGrid()
+	rl.writeTabCompletion()
 
 	moveCursorUp(rl.hintY + rl.tcUsedY)
 	moveCursorBackwards(getTermWidth())
@@ -175,7 +175,7 @@ func (rl *Instance) renderHelpers() {
 
 func (rl *Instance) updateHelpers() {
 	rl.getHintText()
-	if rl.modeTabGrid {
+	if rl.modeTabCompletion {
 		rl.getTabCompletion()
 	}
 	rl.clearHelpers()

@@ -19,6 +19,7 @@ type Flags struct {
 	IncExePath    bool               // `true` to include binaries in $PATH
 	Flags         []string           // known supported command line flags for executable
 	Dynamic       string             // Use murex script to generate auto-complete suggestions
+	DynamicDefs   string             // Use murex script to generate auto-complete suggestions with definitions
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
@@ -90,9 +91,9 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func match(f *Flags, partial string, args dynamicArgs) (items []string) {
+func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string) (items []string) {
 	items = append(items, matchPartialFlags(f, partial)...)
-	items = append(items, matchDynamic(f, partial, args)...)
+	items = append(items, matchDynamic(f, partial, args, defs)...)
 
 	if f.IncExePath {
 		pathexes := allExecutables(false)
@@ -109,7 +110,7 @@ func match(f *Flags, partial string, args dynamicArgs) (items []string) {
 	return
 }
 
-func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs) (items []string) {
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string) (items []string) {
 	var nest int
 
 	defer func() {
@@ -162,7 +163,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args)
+				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs)
 				if len(items) > 0 {
 					return
 				}
@@ -172,7 +173,8 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 				return
 			}
 
-			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]})) > 0 {
+			disposableMap := make(map[string]string)
+			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap)) > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}
@@ -188,9 +190,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		//debug.Log("nest", nest, "partial", partial, "exe", exe, "params", params)
-		//debug.Json("&flags", &flags)
-		items = append(items, match(&flags[nest], partial, args)...)
+		items = append(items, match(&flags[nest], partial, args, defs)...)
 		if !flags[nest].Optional {
 			break
 		}

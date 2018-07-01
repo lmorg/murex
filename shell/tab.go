@@ -8,7 +8,9 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 )
 
-func tabCompletion(line []rune, pos int) (prefix string, items []string) {
+func tabCompletion(line []rune, pos int) (prefix string, items []string, definitions map[string]string) {
+	definitions = make(map[string]string)
+
 	if len(line) > pos-1 {
 		line = line[:pos]
 	}
@@ -44,7 +46,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string) {
 		autocomplete.InitExeFlags(pt.FuncName)
 
 		pIndex := 0
-		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex)
+		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &definitions)
 	}
 
 	v, err := proc.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)

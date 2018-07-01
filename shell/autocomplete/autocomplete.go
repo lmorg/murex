@@ -37,11 +37,11 @@ func MatchVars(partial string) (items []string) {
 }
 
 // MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int) (items []string) {
+func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, defs *map[string]string) (items []string) {
 	args := dynamicArgs{
 		exe:    exe,
 		params: params,
 	}
 
-	return matchFlags(flags, partial, exe, params, pIndex, args)
+	return matchFlags(flags, partial, exe, params, pIndex, args, defs)
 }

@@ -125,7 +125,7 @@ func (rl *Instance) Readline() (string, error) {
 			return "", errors.New(ErrEOF)
 
 		case charCtrlF:
-			if !rl.modeTabGrid {
+			if !rl.modeTabCompletion {
 				rl.getTabCompletion()
 			}
 
@@ -138,8 +138,8 @@ func (rl *Instance) Readline() (string, error) {
 			rl.resetHelpers()
 
 		case charTab:
-			if rl.modeTabGrid {
-				rl.moveTabHighlight(1, 0)
+			if rl.modeTabCompletion {
+				rl.moveTabCompletionHighlight(1, 0)
 			} else {
 				rl.getTabCompletion()
 			}
@@ -157,7 +157,7 @@ func (rl *Instance) Readline() (string, error) {
 				suggestions = rl.tcSuggestions
 			}
 
-			if rl.modeTabGrid && len(suggestions) > 0 {
+			if rl.modeTabCompletion && len(suggestions) > 0 {
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
@@ -206,7 +206,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 		case rl.modeTabFind:
 			rl.resetTabFind()
 
-		case rl.modeTabGrid:
+		case rl.modeTabCompletion:
 			rl.clearHelpers()
 			rl.resetTabCompletion()
 			rl.renderHelpers()
@@ -231,24 +231,24 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 	case seqUp:
-		if rl.modeTabGrid {
-			rl.moveTabHighlight(0, -1)
+		if rl.modeTabCompletion {
+			rl.moveTabCompletionHighlight(0, -1)
 			rl.renderHelpers()
 			return
 		}
 		rl.walkHistory(-1)
 
 	case seqDown:
-		if rl.modeTabGrid {
-			rl.moveTabHighlight(0, 1)
+		if rl.modeTabCompletion {
+			rl.moveTabCompletionHighlight(0, 1)
 			rl.renderHelpers()
 			return
 		}
 		rl.walkHistory(1)
 
 	case seqBackwards:
-		if rl.modeTabGrid {
-			rl.moveTabHighlight(-1, 0)
+		if rl.modeTabCompletion {
+			rl.moveTabCompletionHighlight(-1, 0)
 			rl.renderHelpers()
 			return
 		}
@@ -258,16 +258,9 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 		rl.viUndoSkipAppend = true
 
-	case seqShiftTab:
-		if rl.modeTabGrid {
-			rl.moveTabHighlight(-1, 0)
-			rl.renderHelpers()
-			return
-		}
-
 	case seqForwards:
-		if rl.modeTabGrid {
-			rl.moveTabHighlight(1, 0)
+		if rl.modeTabCompletion {
+			rl.moveTabCompletionHighlight(1, 0)
 			rl.renderHelpers()
 			return
 		}
@@ -279,7 +272,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
-		if rl.modeTabGrid {
+		if rl.modeTabCompletion {
 			return
 		}
 		moveCursorBackwards(rl.pos)
@@ -287,12 +280,19 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
-		if rl.modeTabGrid {
+		if rl.modeTabCompletion {
 			return
 		}
 		moveCursorForwards(len(rl.line) - rl.pos)
 		rl.pos = len(rl.line)
 		rl.viUndoSkipAppend = true
+
+	case seqShiftTab:
+		if rl.modeTabCompletion {
+			rl.moveTabCompletionHighlight(-1, 0)
+			rl.renderHelpers()
+			return
+		}
 
 	default:
 		if rl.modeTabFind {

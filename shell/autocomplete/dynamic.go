@@ -21,17 +21,21 @@ type dynamicArgs struct {
 	float  int
 }
 
-func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
-	//if len(f.Dynamic) == 0 {
+func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]string) (items []string) {
+	// Default to building up from Dynamic field. Fall back to DynamicDefs
+	dynamic := f.Dynamic
 	if f.Dynamic == "" {
+		dynamic = f.DynamicDefs
+	}
+	if dynamic == "" {
 		return
 	}
 
-	if !types.IsBlock([]byte(f.Dynamic)) {
+	if !types.IsBlock([]byte(dynamic)) {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocompleter is not a code block.")
 		return
 	}
-	block := []rune(f.Dynamic[1 : len(f.Dynamic)-1])
+	block := []rune(dynamic[1 : len(dynamic)-1])
 
 	branch := proc.ShellProcess.BranchFID()
 	branch.Process.Scope = branch.Process
@@ -50,15 +54,25 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs) (items []string) {
 		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number."+utils.NewLineString)
 	}
 
-	stdout.ReadArray(func(b []byte) {
-		s := string(bytes.TrimSpace(b))
-		if len(s) == 0 {
-			return
-		}
-		if strings.HasPrefix(s, partial) {
-			items = append(items, s[len(partial):])
-		}
-	})
+	if f.Dynamic != "" {
+		stdout.ReadArray(func(b []byte) {
+			s := string(bytes.TrimSpace(b))
+			if len(s) == 0 {
+				return
+			}
+			if strings.HasPrefix(s, partial) {
+				items = append(items, s[len(partial):])
+			}
+		})
+	} else {
+		stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
+			if strings.HasPrefix(key, partial) {
+				items = append(items, key[len(partial):])
+				(*defs)[key[len(partial):]+" "] = value
+				sort.Strings(items)
+			}
+		})
+	}
 
 	if f.AutoBranch {
 		autoBranch(items)

@@ -24,14 +24,15 @@ type Instance struct {
 	// historic items in memory.
 	History History
 
-	// HistoryAutoWrite defines whether items automatically get written to history.
+	// HistoryAutoWrite defines whether items automatically get written to
+	// history.
 	// Enabled by default. Set to false to disable.
 	HistoryAutoWrite bool // = true
 
 	// TabCompleter is a simple function that offers completion suggestions.
-	// It takes the readline line ([]rune) and cursor pos. Returns a prefix string
-	// and an array of suggestions.
-	TabCompleter func([]rune, int) (string, []string)
+	// It takes the readline line ([]rune) and cursor pos. Returns a prefix
+	// string, an array of suggestions and a map of definitions (optional).
+	TabCompleter func([]rune, int) (string, []string, map[string]string)
 
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
@@ -76,16 +77,17 @@ type Instance struct {
 	hintY    int //= 0
 	hintText []rune
 
-	// tab completer
-	modeTabGrid   bool
-	tcPrefix      string
-	tcSuggestions []string
-	tcPosX        int
-	tcPosY        int
-	tcMaxX        int
-	tcMaxY        int
-	tcUsedY       int
-	tcMaxLength   int
+	// tab completion
+	modeTabCompletion bool
+	tcPrefix          string
+	tcSuggestions     []string
+	tcDefinitions     map[string]string
+	tcPosX            int
+	tcPosY            int
+	tcMaxX            int
+	tcMaxY            int
+	tcUsedY           int
+	tcMaxLength       int
 
 	// tab find
 	modeTabFind   bool
@@ -116,6 +118,8 @@ func NewInstance() *Instance {
 	rl.prompt = ">>> "
 	rl.promptLen = 4
 	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, bool, []rune))
+	//rl.tcDefinitions = make(map[string]string)
+	//rl.tcMaxX = 1
 
 	rl.TempDirectory = os.TempDir()
 

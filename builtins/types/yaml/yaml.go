@@ -1,6 +1,9 @@
 package yaml
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
@@ -8,7 +11,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"gopkg.in/yaml.v2"
-	"strconv"
 )
 
 const typeName = "yaml"
@@ -84,7 +86,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 				callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
 			}
 
-		case map[string]interface{}, map[interface{}]interface{}:
+		case map[string]interface{}:
 			i := 1
 			for key := range jObj.(map[string]interface{}) {
 				j, err := yaml.Marshal(jObj.(map[string]interface{})[key])
@@ -92,6 +94,18 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 					return err
 				}
 				callback(key, string(j), i != len(jObj.(map[string]interface{})))
+				i++
+			}
+			return nil
+
+		case map[interface{}]interface{}:
+			i := 1
+			for key := range jObj.(map[interface{}]interface{}) {
+				j, err := yaml.Marshal(jObj.(map[interface{}]interface{})[key])
+				if err != nil {
+					return err
+				}
+				callback(fmt.Sprint(key), string(j), i != len(jObj.(map[interface{}]interface{})))
 				i++
 			}
 			return nil
