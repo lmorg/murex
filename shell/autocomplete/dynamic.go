@@ -68,6 +68,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 		stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
 			if strings.HasPrefix(key, partial) {
 				items = append(items, key[len(partial):])
+				value = strings.Replace(value, "\r", "", -1)
+				value = strings.Replace(value, "\n", " ", -1)
 				(*defs)[key[len(partial):]+" "] = value
 				sort.Strings(items)
 			}

@@ -25,6 +25,7 @@ func (rl *Instance) initTabGrid() {
 	rl.tcPosX = 1
 	rl.tcPosY = 1
 	rl.tcMaxX = width / (tcMaxLength + 2)
+	rl.tcOffset = 0
 
 	// avoid a divide by zero error
 	if rl.tcMaxX < 1 {

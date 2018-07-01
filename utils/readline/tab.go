@@ -51,6 +51,7 @@ func (rl *Instance) writeTabCompletion() {
 
 func (rl *Instance) resetTabCompletion() {
 	rl.modeTabCompletion = false
+	rl.tcOffset = 0
 	rl.tcUsedY = 0
 	rl.modeTabFind = false
 	rl.tfLine = []rune{}

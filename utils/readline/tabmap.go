@@ -2,7 +2,6 @@ package readline
 
 import (
 	"strconv"
-	"strings"
 )
 
 func (rl *Instance) initTabMap() {
@@ -25,33 +24,49 @@ func (rl *Instance) initTabMap() {
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
-
+	rl.tcOffset = 0
 	rl.tcMaxX = 1
 
 	if len(suggestions) > rl.MaxTabCompleterRows {
 		rl.tcMaxY = rl.MaxTabCompleterRows
 	} else {
-		rl.tcMaxY = len(suggestions) - 1
+		rl.tcMaxY = len(suggestions)
 	}
 }
 
 func (rl *Instance) moveTabMapHighlight(x, y int) {
-	/*var suggestions []string
+	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
 	} else {
 		suggestions = rl.tcSuggestions
-	}*/
+	}
 
 	rl.tcPosY += x
 	rl.tcPosY += y
 
 	if rl.tcPosY < 1 {
-		rl.tcPosY = rl.tcMaxY
+		rl.tcPosY = 1
+		rl.tcOffset--
 	}
 
 	if rl.tcPosY > rl.tcMaxY {
+		rl.tcPosY--
+		rl.tcOffset++
+	}
+
+	if rl.tcOffset+rl.tcPosY < 1 && len(suggestions) > 0 {
+		rl.tcPosY = rl.tcMaxY
+		rl.tcOffset = len(suggestions) - rl.tcMaxY
+	}
+
+	if rl.tcOffset < 0 {
+		rl.tcOffset = 0
+	}
+
+	if rl.tcOffset+rl.tcPosY > len(suggestions) {
 		rl.tcPosY = 1
+		rl.tcOffset = 0
 	}
 }
 
@@ -67,7 +82,9 @@ func (rl *Instance) writeTabMap() {
 	cellWidth := strconv.Itoa(rl.tcMaxLength)
 	y := 0
 
-	for _, item := range suggestions {
+	print(seqClearScreenBelow)
+
+	for i := rl.tcOffset; i < len(suggestions)+1; i++ {
 		y++
 		if y > rl.tcMaxY {
 			break
@@ -77,12 +94,13 @@ func (rl *Instance) writeTabMap() {
 			print(seqBgWhite + seqFgBlack)
 		}
 
-		definition := strings.TrimSpace(rl.tcDefinitions[item])
+		definition := rl.tcDefinitions[suggestions[i]]
 		if len(definition) > maxDefinitionWidth {
 			definition = definition[:maxDefinitionWidth-3] + "..."
 		}
 
-		printf("\r\n %-"+cellWidth+"s %s %s", rl.tcPrefix+item, seqReset, definition)
+		printf("\r\n %-"+cellWidth+"s %s %s",
+			rl.tcPrefix+suggestions[i], seqReset, definition)
 	}
 
 	rl.tcUsedY = y - 1

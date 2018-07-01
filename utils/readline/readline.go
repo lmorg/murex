@@ -158,7 +158,7 @@ func (rl *Instance) Readline() (string, error) {
 			}
 
 			if rl.modeTabCompletion && len(suggestions) > 0 {
-				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcPosX - 1
+				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
 				rl.renderHelpers()

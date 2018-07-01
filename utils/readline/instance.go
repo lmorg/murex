@@ -82,6 +82,7 @@ type Instance struct {
 	tcPrefix          string
 	tcSuggestions     []string
 	tcDefinitions     map[string]string
+	tcOffset          int
 	tcPosX            int
 	tcPosY            int
 	tcMaxX            int
