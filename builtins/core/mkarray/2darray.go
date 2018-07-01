@@ -69,7 +69,6 @@ func twoDArray(p *proc.Process) (err error) {
 				p.Stderr.Write([]byte(err.Error()))
 			}
 
-			out.Close()
 			out.ReadArray(func(b []byte) {
 				count++
 				array.Append(index, count, string(b))
