@@ -23,7 +23,7 @@ func main() {
 }
 
 // Tab is the tab-completion handler for this readline example program
-func Tab(line []rune, pos int) (string, []string) {
+func Tab(line []rune, pos int) (string, []string, map[string]string) {
 	items := []string{
 		"aa",
 		"abaya",
@@ -84,5 +84,7 @@ func Tab(line []rune, pos int) (string, []string) {
 		}
 	}
 
-	return string(line[:pos]), suggestions
+	definitions := make(map[string]string)
+
+	return string(line[:pos]), suggestions, definitions
 }
