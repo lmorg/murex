@@ -26,6 +26,12 @@ func (rl *Instance) writeHintText() {
 	}
 	rl.hintY = int(n)
 
+	if rl.hintY > 3 {
+		rl.hintY = 3
+		rl.hintText = rl.hintText[:(width*3)-4]
+		rl.hintText = append(rl.hintText, '.', '.', '.')
+	}
+
 	print("\r\n" + seqFgBlue + string(rl.hintText) + seqReset)
 }
 

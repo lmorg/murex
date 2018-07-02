@@ -78,7 +78,7 @@ func (rl *Instance) writeTabMap() {
 		suggestions = rl.tcSuggestions
 	}
 
-	maxDefinitionWidth := (getTermWidth() - rl.tcMaxLength) - 4
+	maxDescWidth := (getTermWidth() - rl.tcMaxLength) - 4
 	cellWidth := strconv.Itoa(rl.tcMaxLength)
 	y := 0
 
@@ -94,13 +94,13 @@ func (rl *Instance) writeTabMap() {
 			print(seqBgWhite + seqFgBlack)
 		}
 
-		definition := rl.tcDefinitions[suggestions[i]]
-		if len(definition) > maxDefinitionWidth {
-			definition = definition[:maxDefinitionWidth-3] + "..."
+		description := rl.tcDescriptions[suggestions[i]]
+		if len(description) > maxDescWidth {
+			description = description[:maxDescWidth-3] + "..."
 		}
 
 		printf("\r\n %-"+cellWidth+"s %s %s",
-			rl.tcPrefix+suggestions[i], seqReset, definition)
+			rl.tcPrefix+suggestions[i], seqReset, description)
 	}
 
 	rl.tcUsedY = y - 1

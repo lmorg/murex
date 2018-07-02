@@ -32,7 +32,7 @@ type Instance struct {
 	// TabCompleter is a simple function that offers completion suggestions.
 	// It takes the readline line ([]rune) and cursor pos. Returns a prefix
 	// string, an array of suggestions and a map of definitions (optional).
-	TabCompleter func([]rune, int) (string, []string, map[string]string)
+	TabCompleter func([]rune, int) (string, []string, map[string]string, TabDisplayType)
 
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
@@ -81,7 +81,8 @@ type Instance struct {
 	modeTabCompletion bool
 	tcPrefix          string
 	tcSuggestions     []string
-	tcDefinitions     map[string]string
+	tcDescriptions    map[string]string
+	tcDisplayType     TabDisplayType
 	tcOffset          int
 	tcPosX            int
 	tcPosY            int

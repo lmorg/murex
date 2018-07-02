@@ -2,6 +2,7 @@ package autocomplete
 
 import (
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/utils/readline"
 
 	"sort"
 	"strings"
@@ -37,11 +38,11 @@ func MatchVars(partial string) (items []string) {
 }
 
 // MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, defs *map[string]string) (items []string) {
+func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
 	args := dynamicArgs{
 		exe:    exe,
 		params: params,
 	}
 
-	return matchFlags(flags, partial, exe, params, pIndex, args, defs)
+	return matchFlags(flags, partial, exe, params, pIndex, args, defs, tdt)
 }

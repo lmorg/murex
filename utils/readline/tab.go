@@ -1,13 +1,26 @@
 package readline
 
+type TabDisplayType int
+
+const (
+	TabDisplayGrid = iota
+	TabDisplayList
+)
+
 func (rl *Instance) getTabCompletion() {
 	if rl.TabCompleter == nil {
 		return
 	}
 
-	rl.tcPrefix, rl.tcSuggestions, rl.tcDefinitions = rl.TabCompleter(rl.line, rl.pos)
+	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = rl.TabCompleter(rl.line, rl.pos)
 	if len(rl.tcSuggestions) == 0 {
 		return
+	}
+
+	if len(rl.tcDescriptions) == 0 {
+		// probably not needed, but just in case someone doesn't initialise the
+		// map in their API call.
+		rl.tcDescriptions = make(map[string]string)
 	}
 
 	/*if len(rl.tcSuggestions) == 1 && !rl.modeTabCompletion {
@@ -22,7 +35,7 @@ func (rl *Instance) getTabCompletion() {
 }
 
 func (rl *Instance) initTabCompletion() {
-	if len(rl.tcDefinitions) == 0 {
+	if rl.tcDisplayType == TabDisplayGrid {
 		rl.initTabGrid()
 	} else {
 		rl.initTabMap()
@@ -30,7 +43,7 @@ func (rl *Instance) initTabCompletion() {
 }
 
 func (rl *Instance) moveTabCompletionHighlight(x, y int) {
-	if len(rl.tcDefinitions) == 0 {
+	if rl.tcDisplayType == TabDisplayGrid {
 		rl.moveTabGridHighlight(x, y)
 	} else {
 		rl.moveTabMapHighlight(x, y)
@@ -42,7 +55,7 @@ func (rl *Instance) writeTabCompletion() {
 		return
 	}
 
-	if len(rl.tcDefinitions) == 0 {
+	if rl.tcDisplayType == TabDisplayGrid {
 		rl.writeTabGrid()
 	} else {
 		rl.writeTabMap()

@@ -6,10 +6,11 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/readline"
 )
 
-func tabCompletion(line []rune, pos int) (prefix string, items []string, definitions map[string]string) {
-	definitions = make(map[string]string)
+func tabCompletion(line []rune, pos int) (prefix string, items []string, descriptions map[string]string, tdt readline.TabDisplayType) {
+	descriptions = make(map[string]string)
 
 	if len(line) > pos-1 {
 		line = line[:pos]
@@ -46,7 +47,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, definit
 		autocomplete.InitExeFlags(pt.FuncName)
 
 		pIndex := 0
-		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &definitions)
+		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt)
 	}
 
 	v, err := proc.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)

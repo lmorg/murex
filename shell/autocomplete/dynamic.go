@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 type dynamicArgs struct {
@@ -21,11 +22,11 @@ type dynamicArgs struct {
 	float  int
 }
 
-func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]string) (items []string) {
+func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
 	// Default to building up from Dynamic field. Fall back to DynamicDefs
 	dynamic := f.Dynamic
 	if f.Dynamic == "" {
-		dynamic = f.DynamicDefs
+		dynamic = f.Descriptions
 	}
 	if dynamic == "" {
 		return
@@ -65,6 +66,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 			}
 		})
 	} else {
+		if f.ListView {
+			*tdt = readline.TabDisplayList
+		}
+
 		stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
 			if strings.HasPrefix(key, partial) {
 				items = append(items, key[len(partial):])

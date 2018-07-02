@@ -82,6 +82,16 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 			rl.tcPosY = 1
 		}
 	}
+
+	if !rl.modeTabFind && len(suggestions) > 0 {
+		cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
+		description := rl.tcDescriptions[suggestions[cell]]
+		if description != "" {
+			rl.hintText = []rune(description)
+		} else {
+			rl.getHintText()
+		}
+	}
 }
 
 func (rl *Instance) writeTabGrid() {
@@ -92,7 +102,7 @@ func (rl *Instance) writeTabGrid() {
 		suggestions = rl.tcSuggestions
 	}
 
-	print("\r\n")
+	print(seqClearScreenBelow + "\r\n")
 
 	cellWidth := strconv.Itoa((getTermWidth() / rl.tcMaxX) - 2)
 	x := 0

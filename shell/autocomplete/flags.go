@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 // Flags is a struct to store auto-complete options
@@ -19,7 +20,8 @@ type Flags struct {
 	IncExePath    bool               // `true` to include binaries in $PATH
 	Flags         []string           // known supported command line flags for executable
 	Dynamic       string             // Use murex script to generate auto-complete suggestions
-	DynamicDefs   string             // Use murex script to generate auto-complete suggestions with definitions
+	Descriptions  string             // Use murex script to generate auto-complete suggestions with descriptions
+	ListView      bool               // Display the helps as a "popup menu-like" list rather than grid
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
@@ -91,9 +93,9 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string) (items []string) {
+func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
 	items = append(items, matchPartialFlags(f, partial)...)
-	items = append(items, matchDynamic(f, partial, args, defs)...)
+	items = append(items, matchDynamic(f, partial, args, defs, tdt)...)
 
 	if f.IncExePath {
 		pathexes := allExecutables(false)
@@ -110,7 +112,7 @@ func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string) 
 	return
 }
 
-func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string) (items []string) {
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
 	var nest int
 
 	defer func() {
@@ -163,7 +165,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs)
+				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs, tdt)
 				if len(items) > 0 {
 					return
 				}
@@ -174,7 +176,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			}
 
 			disposableMap := make(map[string]string)
-			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap)) > 0 {
+			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap, tdt)) > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}
@@ -190,7 +192,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		items = append(items, match(&flags[nest], partial, args, defs)...)
+		items = append(items, match(&flags[nest], partial, args, defs, tdt)...)
 		if !flags[nest].Optional {
 			break
 		}
