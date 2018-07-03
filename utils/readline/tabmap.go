@@ -84,7 +84,7 @@ func (rl *Instance) writeTabMap() {
 
 	print(seqClearScreenBelow)
 
-	for i := rl.tcOffset; i < len(suggestions)+1; i++ {
+	for i := rl.tcOffset; i < len(suggestions); i++ {
 		y++
 		if y > rl.tcMaxY {
 			break
@@ -103,8 +103,9 @@ func (rl *Instance) writeTabMap() {
 			rl.tcPrefix+suggestions[i], seqReset, description)
 	}
 
-	rl.tcUsedY = y - 1
-	if rl.tcUsedY < 0 {
-		rl.tcUsedY = 0
+	if len(suggestions) < rl.tcMaxX {
+		rl.tcUsedY = len(suggestions)
+	} else {
+		rl.tcUsedY = rl.tcMaxY
 	}
 }

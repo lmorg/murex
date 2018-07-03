@@ -8,6 +8,7 @@ const (
 )
 
 func (rl *Instance) getTabCompletion() {
+	rl.tcOffset = 0
 	if rl.TabCompleter == nil {
 		return
 	}

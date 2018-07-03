@@ -174,6 +174,7 @@ func (rl *Instance) renderHelpers() {
 }
 
 func (rl *Instance) updateHelpers() {
+	rl.tcOffset = 0
 	rl.getHintText()
 	if rl.modeTabCompletion {
 		rl.getTabCompletion()

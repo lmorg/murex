@@ -83,7 +83,7 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 		}
 	}
 
-	if !rl.modeTabFind && len(suggestions) > 0 {
+	/*if !rl.modeTabFind && len(suggestions) > 0 {
 		cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 		description := rl.tcDescriptions[suggestions[cell]]
 		if description != "" {
@@ -91,7 +91,7 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 		} else {
 			rl.getHintText()
 		}
-	}
+	}*/
 }
 
 func (rl *Instance) writeTabGrid() {
