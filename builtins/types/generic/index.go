@@ -1,6 +1,7 @@
 package generic
 
 import (
+	"bytes"
 	"strings"
 
 	"github.com/lmorg/murex/lang/proc"
@@ -13,7 +14,7 @@ func index(p *proc.Process, params []string) error {
 
 	go func() {
 		err := p.Stdin.ReadLine(func(b []byte) {
-			cRecords <- rxWhitespace.Split(string(b), -1)
+			cRecords <- rxWhitespace.Split(string(bytes.TrimSpace(b)), -1)
 		})
 		if err != nil {
 			ansi.Stderrln(p, ansi.FgRed, err.Error())

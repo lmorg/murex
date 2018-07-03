@@ -123,7 +123,7 @@ autocomplete set git { [{
         "mv": [{ "IncFiles": true }],
         "rm": [{ "IncFiles": true }],
         "checkout": [{
-            "Dynamic": ({ git branch -> [ :1 ] }),
+            "Dynamic": ({ git branch -> [ :0 ] -> grep -v * }),
             "Flags": [ "-b" ]
         }]
     }
