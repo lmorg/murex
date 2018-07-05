@@ -19,8 +19,9 @@ type Flags struct {
 	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
 	Flags         []string           // known supported command line flags for executable
+	FlagsDesc     map[string]string  // known supported command line flags for executable with descriptions (TODO: this needs to be implemented!)
 	Dynamic       string             // Use murex script to generate auto-complete suggestions
-	Descriptions  string             // Use murex script to generate auto-complete suggestions with descriptions
+	DynamicDesc   string             // Use murex script to generate auto-complete suggestions with descriptions
 	ListView      bool               // Display the helps as a "popup menu-like" list rather than grid
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
@@ -143,6 +144,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 
 				// Only nest command if the command isn't present in Flags.Flags[]. Otherwise we then assume that flag
 				// has already been defined by `autocomplete`.
+				// NOTE TO SELF: I can't remember what this does? And is it required for FlagsDesc?
 				var doNotNest bool
 				for i := range flags[nest-1].Flags {
 					if flags[nest-1].Flags[i] == params[*pIndex-1] {

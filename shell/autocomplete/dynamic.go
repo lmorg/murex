@@ -26,7 +26,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	// Default to building up from Dynamic field. Fall back to DynamicDefs
 	dynamic := f.Dynamic
 	if f.Dynamic == "" {
-		dynamic = f.Descriptions
+		dynamic = f.DynamicDesc
 	}
 	if dynamic == "" {
 		return
