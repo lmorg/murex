@@ -104,7 +104,7 @@ type Instance struct {
 	viYankBuffer     string
 
 	// event
-	evtKeyPress map[string]func(string, []rune, int) (bool, bool, bool, []rune)
+	evtKeyPress map[string]func(string, []rune, int) *EventReturn
 }
 
 // NewInstance is used to create a readline instance and initialise it with sane
@@ -119,9 +119,7 @@ func NewInstance() *Instance {
 	rl.MaxTabCompleterRows = 4
 	rl.prompt = ">>> "
 	rl.promptLen = 4
-	rl.evtKeyPress = make(map[string]func(string, []rune, int) (bool, bool, bool, []rune))
-	//rl.tcDefinitions = make(map[string]string)
-	//rl.tcMaxX = 1
+	rl.evtKeyPress = make(map[string]func(string, []rune, int) *EventReturn)
 
 	rl.TempDirectory = os.TempDir()
 

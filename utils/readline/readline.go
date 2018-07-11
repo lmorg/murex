@@ -92,24 +92,29 @@ func (rl *Instance) Readline() (string, error) {
 		if rl.evtKeyPress[s] != nil {
 			rl.clearHelpers()
 
-			ignoreKey, clearHelpers, closeReadline, hintText := rl.evtKeyPress[s](s, rl.line, rl.pos)
+			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
 
-			if clearHelpers {
+			rl.clearLine()
+			rl.line = append(ret.NewLine, []rune{}...)
+			rl.echo()
+			rl.pos = ret.NewPos
+
+			if ret.ClearHelpers {
 				rl.resetHelpers()
 			} else {
 				rl.updateHelpers()
 				rl.renderHelpers()
 			}
 
-			if len(hintText) > 0 {
-				rl.hintText = hintText
+			if len(ret.HintText) > 0 {
+				rl.hintText = ret.HintText
 				rl.clearHelpers()
 				rl.renderHelpers()
 			}
-			if ignoreKey {
+			if ret.IgnoreKeyPress {
 				continue
 			}
-			if closeReadline {
+			if ret.CloseReadline {
 				rl.clearHelpers()
 				return string(rl.line), nil
 			}

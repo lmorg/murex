@@ -1,8 +1,6 @@
 package textmanip
 
 import (
-	"errors"
-
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
 )
@@ -27,13 +25,10 @@ func cmdLeft(p *proc.Process) error {
 		return err
 	}
 
-	if left == 0 {
-		return errors.New("Cannot have zero characters.")
-	}
-
 	var output []string
 
-	if left > 0 {
+	switch {
+	case left > 0:
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < left {
 				output = append(output, string(b))
@@ -41,14 +36,20 @@ func cmdLeft(p *proc.Process) error {
 				output = append(output, string(b[:left]))
 			}
 		})
-	} else {
+
+	case left < 0:
 		left = left * -1
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < left {
-				output = append(output, string(b))
+				output = append(output, "")
 			} else {
 				output = append(output, string(b[:len(b)-left]))
 			}
+		})
+
+	default:
+		p.Stdin.ReadArray(func([]byte) {
+			output = append(output, "")
 		})
 	}
 
@@ -74,13 +75,10 @@ func cmdRight(p *proc.Process) error {
 		return err
 	}
 
-	if right == 0 {
-		return errors.New("Cannot have zero characters.")
-	}
-
 	var output []string
 
-	if right > 0 {
+	switch {
+	case right > 0:
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < right {
 				output = append(output, string(b))
@@ -88,14 +86,20 @@ func cmdRight(p *proc.Process) error {
 				output = append(output, string(b[len(b)-right:]))
 			}
 		})
-	} else {
+
+	case right < 0:
 		right = right * -1
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < right {
-				output = append(output, string(b))
+				output = append(output, "")
 			} else {
 				output = append(output, string(b[right:]))
 			}
+		})
+
+	default:
+		p.Stdin.ReadArray(func([]byte) {
+			output = append(output, "")
 		})
 	}
 

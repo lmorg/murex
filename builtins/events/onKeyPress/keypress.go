@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 const eventType = "onKeyPress"
@@ -92,7 +93,7 @@ func (evt *keyPressEvents) Remove(name string) error {
 	return fmt.Errorf("Unable to delete event as no event found with the name `%s` for event type `%s`.", name, eventType)
 }
 
-func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool, bool, bool, []rune) {
+func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) *readline.EventReturn {
 	var i int
 
 	evt.mutex.Lock()
@@ -103,7 +104,10 @@ func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) (bool
 			goto eventFound
 		}
 	}
-	return false, false, false, nil
+	return &readline.EventReturn{
+		NewLine: line,
+		NewPos:  pos,
+	}
 
 eventFound:
 	block := evt.events[i].block
@@ -122,25 +126,70 @@ eventFound:
 		ret[key] = value
 	})
 	if err != nil {
-		return false, false, false, []rune("Callback error: " + err.Error())
+		return &readline.EventReturn{
+			HintText: []rune("Callback error: " + err.Error()),
+			NewLine:  line,
+			NewPos:   pos,
+		}
 	}
 
 	ignoreKey, err := types.ConvertGoType(ret["IgnoreKey"], types.Boolean)
 	if err != nil {
-		return false, false, false, []rune("Callback error: " + err.Error())
+		return &readline.EventReturn{
+			HintText: []rune("Callback error: " + err.Error()),
+			NewLine:  line,
+			NewPos:   pos,
+		}
 	}
 
 	clearHelpers, err := types.ConvertGoType(ret["ClearHelpers"], types.Boolean)
 	if err != nil {
-		return false, false, false, []rune("Callback error: " + err.Error())
+		return &readline.EventReturn{
+			HintText: []rune("Callback error: " + err.Error()),
+			NewLine:  line,
+			NewPos:   pos,
+		}
 	}
 
 	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
 	if err != nil {
-		return false, false, false, []rune("Callback error: " + err.Error())
+		return &readline.EventReturn{
+			HintText: []rune("Callback error: " + err.Error()),
+			NewLine:  line,
+			NewPos:   pos,
+		}
 	}
 
-	return ignoreKey.(bool), clearHelpers.(bool), closeReadline.(bool), []rune(ret["HintText"])
+	var newLine []rune
+	if ret["NewLine"] != "" {
+		newLine = []rune(ret["NewLine"])
+	} else {
+		newLine = line
+	}
+
+	var newPos int
+	if ret["NewPos"] != "" {
+		i, err := types.ConvertGoType(ret["NewPos"], types.Integer)
+		if err != nil {
+			return &readline.EventReturn{
+				HintText: []rune("Callback error: " + err.Error()),
+				NewLine:  line,
+				NewPos:   pos,
+			}
+		}
+		newPos = i.(int)
+	} else {
+		newPos = pos
+	}
+
+	return &readline.EventReturn{
+		IgnoreKeyPress: ignoreKey.(bool),
+		ClearHelpers:   clearHelpers.(bool),
+		CloseReadline:  closeReadline.(bool),
+		HintText:       []rune(ret["HintText"]),
+		NewLine:        newLine,
+		NewPos:         newPos,
+	}
 }
 
 func (evt *keyPressEvents) Dump() interface{} {
