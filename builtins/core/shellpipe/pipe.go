@@ -39,6 +39,10 @@ func init() {
 func cmdPipe(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing parameters.")
+	}
+
 	flags, additional, err := p.Parameters.ParseFlags(&parameters.Arguments{
 		AllowAdditional: true,
 		Flags: map[string]string{

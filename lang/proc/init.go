@@ -19,6 +19,7 @@ func InitEnv() {
 	ShellProcess.Scope = ShellProcess
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
+	ShellProcess.Tests = NewTests()
 	ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []int{0}

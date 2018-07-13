@@ -19,6 +19,7 @@ func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
 		procs[i].WaitForTermination = make(chan bool)
 		procs[i].RunMode = parent.RunMode
 		procs[i].Config = parent.Config
+		procs[i].Tests = parent.Tests
 		procs[i].Variables = proc.ReferenceVariables(parent.Variables)
 
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)

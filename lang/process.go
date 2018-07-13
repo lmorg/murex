@@ -11,6 +11,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -81,6 +82,22 @@ func createProcess(p *proc.Process, isMethod bool) {
 		}
 	}
 
+	// Test cases
+	testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
+	if err != nil {
+		testEnabled = false
+	}
+
+	if p.NamedPipeTest != "" && testEnabled.(bool) {
+		var stdout2, stderr2 *streams.Stdin
+		p.Stdout, stdout2 = streams.NewTee(p.Stdout)
+		p.Stderr, stderr2 = streams.NewTee(p.Stderr)
+		err := p.Tests.SetStreams(p.NamedPipeTest, stdout2, stderr2, &p.ExitNum)
+		if err != nil {
+			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+		}
+	}
+
 	p.Stdout.Open()
 	p.Stderr.Open()
 
@@ -88,10 +105,29 @@ func createProcess(p *proc.Process, isMethod bool) {
 
 	p.State = state.Assigned
 
+	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
+	if p.Name == "pipe" || p.Name == "test" {
+		ParseParameters(p, &p.Parameters)
+		err := proc.GoFunctions[p.Name](p)
+		if err != nil {
+			ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error()))
+			if p.ExitNum == 0 {
+				p.ExitNum = 1
+			}
+		}
+		p.SetTerminatedState(true)
+		p.State = state.Executed
+	}
+
 	return
 }
 
 func executeProcess(p *proc.Process) {
+	if p.HasTerminated() {
+		destroyProcess(p)
+		return
+	}
+
 	var err error
 
 	p.State = state.Starting
@@ -180,7 +216,6 @@ executeProcess:
 
 		err = proc.GoFunctions[p.Name](p)
 	}
-	p.State = state.Executed
 
 	p.Stdout.DefaultDataType(err != nil)
 
@@ -190,6 +225,13 @@ executeProcess:
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
+	}
+
+	p.State = state.Executed
+
+	if p.NamedPipeTest != "" {
+		//p.Tests.CloseTest(p.NamedPipeTest)
+		p.Tests.Compare(p.NamedPipeTest, p)
 	}
 
 	for !p.Previous.HasTerminated() {
@@ -206,24 +248,9 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
-	/*//debug.Json("Destroying:", p)
-
-	p.State = state.Terminating
-
-	p.Stdout.Close()
-	p.Stderr.Close()
-
-	p.SetTerminatedState(true)
-	if p.Name != "bg" { // make special case for `bg` because that doesn't wait
-		p.WaitForTermination <- false
-	}
-	//debug.Log("Destroyed " + p.Name)
-
-	p.State = state.AwaitingGC
-	proc.CloseScopedVariables(p)
-	proc.GlobalFIDs.Deregister(p.Id)*/
-
-	if p.Name != "bg" { // make special case for `bg` because that doesn't wait
+	// Make special case for `bg` because that doesn't wait. Also make a special
+	// case for `pipe` and `test` because they run out-of-band
+	if p.Name != "bg" {
 		p.WaitForTermination <- false
 	}
 

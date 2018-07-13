@@ -47,7 +47,6 @@ func appendBytes(slice []byte, data ...byte) []byte {
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	stdin.max = DefaultMaxBufferSize
-	//stdin.dependants++
 	return
 }
 
@@ -58,8 +57,6 @@ func (stdin *Stdin) IsTTY() bool { return false }
 // guarantees about the state of named pipes.
 func (stdin *Stdin) MakePipe() {
 	stdin.mutex.Lock()
-	//stdin.isParent = true
-	//stdin.isNamedPipe = true
 	stdin.dependants++
 	stdin.mutex.Unlock()
 }
@@ -159,14 +156,6 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 		return 0, nil
 	}
 
-	/*stdin.mutex.Lock()
-	closed := stdin.dependants < 1
-	stdin.mutex.Unlock()
-
-	if closed {
-		return 0, io.ErrClosedPipe
-	}*/
-
 	for {
 		stdin.mutex.Lock()
 		buffSize := len(stdin.buffer)
@@ -208,22 +197,6 @@ func (stdin *Stdin) Close() {
 
 	stdin.dependants--
 
-	/*if stdin.dependants > 0 {
-		// This will legitimately happen a lot since the reason we mark a stream as parent is to prevent
-		// accidental closing. However it's worth pushing a message out in debug mode during this alpha build.
-		//debug.Log("Cannot Close() stdin marked as parent. We don't want to EOT parent streams multiple times")
-		return
-	}*/
-
-	/*if stdin.closed {
-		if stdin.isNamedPipe {
-			//debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
-		} else {
-			//debug.Log("Trying to close an already closed stdin.")
-		}
-		return
-	}*/
-
 	if stdin.dependants < 0 {
 		panic("More closed dependants than open")
 	}
@@ -231,18 +204,6 @@ func (stdin *Stdin) Close() {
 
 // WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface
 func (stdin *Stdin) WriteTo(w io.Writer) (n int64, err error) {
-	/*var i int
-	stdin.readerFunc(func(b []byte) {
-		i, err = dst.Write(b)
-		n += int64(i)
-		if err != nil {
-			if err == io.EOF {
-				err = nil
-			}
-			return
-		}
-	})
-	return*/
 	p, err := stdin.ReadAll()
 	if err != nil {
 		return 0, err

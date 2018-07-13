@@ -36,7 +36,8 @@ func init() {
                 "--events",
                 "--flags",
                 "--memstats",
-                "--astcache"
+                "--astcache",
+				"--tests"
             ],
             "AllowMultiple": true
         }] }
@@ -60,6 +61,7 @@ func cmdRuntime(p *proc.Process) error {
 		fFlags         = "--flags"
 		fMemstats      = "--memstats"
 		fAstCache      = "--astcache"
+		fTests         = "--tests"
 	)
 	p.Stdout.SetDataType(types.Json)
 
@@ -81,6 +83,7 @@ func cmdRuntime(p *proc.Process) error {
 				fFlags:         types.Boolean,
 				fMemstats:      types.Boolean,
 				fAstCache:      types.Boolean,
+				fTests:         types.Boolean,
 			},
 			AllowAdditional: false,
 		},
@@ -102,7 +105,8 @@ func cmdRuntime(p *proc.Process) error {
 		case fAliases:
 			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
 		case fConfig:
-			ret[fConfig[2:]] = proc.ShellProcess.Config.Dump()
+			//ret[fConfig[2:]] = proc.ShellProcess.Config.Dump()
+			ret[fConfig[2:]] = p.Config.Dump()
 		case fPipes:
 			ret[fPipes[2:]] = proc.GlobalPipes.Dump()
 		case fFuncs:
@@ -129,6 +133,8 @@ func cmdRuntime(p *proc.Process) error {
 			ret[fMemstats[2:]] = mem
 		case fAstCache:
 			ret[fAstCache[2:]] = lang.AstCache.Dump()
+		case fTests:
+			ret[fTests[2:]] = p.Tests.Dump()
 		default:
 			return errors.New("Unrecognised parameter: " + flag)
 		}

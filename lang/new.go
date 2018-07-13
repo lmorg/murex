@@ -2,6 +2,7 @@ package lang
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
@@ -11,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 // ShellExitNum is for when running murex in interactive shell mode
@@ -28,7 +30,7 @@ var ShellExitNum int
 func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.Config,
+		proc.ShellProcess, proc.ShellProcess.Config, proc.NewTests(),
 	)
 }
 
@@ -37,7 +39,7 @@ func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exi
 func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config.Copy(),
+		caller, caller.Config.Copy(), proc.NewTests(),
 	)
 }
 
@@ -47,7 +49,7 @@ func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller
 func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config,
+		caller, caller.Config, caller.Tests,
 	)
 }
 
@@ -60,12 +62,12 @@ func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, c
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, test *proc.Tests) (exitNum int, err error) {
 	//debug.Log(string(block))
 
-	//if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
-	//	block = block[1 : len(block)-1]
-	//}
+	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
+		block = block[1 : len(block)-1]
+	}
 
 	container := new(proc.Process)
 	container.State = state.MemAllocated
@@ -77,8 +79,8 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
 	container.Config = conf
+	container.Tests = test
 	container.Variables = caller.Variables
-	//container.Variables = proc.ReferenceVariables(caller.Variables)
 
 	if caller.Id == proc.ShellProcess.Id {
 		container.ExitNum = ShellExitNum
@@ -146,6 +148,14 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	//	panic("Not yet implemented")
 	default:
 		panic("Unknown run mode")
+	}
+
+	testAutoReport, err := container.Config.Get("test", "auto-report", types.Boolean)
+	if err == nil && testAutoReport.(bool) {
+		err = test.WriteResults(container.Config, proc.ShellProcess.Stderr)
+		if err != nil {
+			ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error generating test results: %s.", err.Error()))
+		}
 	}
 
 	//debug.Json("Finished running &tree", tree)

@@ -84,6 +84,25 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Default:     define.GetFileExts(),
 		DataType:    types.Json,
 	})
+
+	c.Define("test", "enabled", config.Properties{
+		Description: "Run test cases.",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("test", "auto-report", config.Properties{
+		Description: "Automatically report the results from test cases ran.",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("test", "report-format", config.Properties{
+		Description: "Output format of the report.",
+		Default:     "table",
+		Options:     []string{"table", "json"},
+		DataType:    types.String,
+	})
 }
 
 var murexProfile []string

@@ -36,6 +36,7 @@ type Process struct {
 	IsNot              bool
 	NamedPipeOut       string
 	NamedPipeErr       string
+	NamedPipeTest      string
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.FunctionState
@@ -44,6 +45,7 @@ type Process struct {
 	ColNumber          int
 	RunMode            runmode.RunMode
 	Config             *config.Config
+	Tests              *Tests
 	Variables          *Variables
 	FidTree            []int
 	CreationTime       time.Time

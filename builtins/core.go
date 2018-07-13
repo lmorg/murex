@@ -19,6 +19,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/shellconfig"          // shell configer tools
 	_ "github.com/lmorg/murex/builtins/core/shellpipe"            // shell tools for named pipes
 	_ "github.com/lmorg/murex/builtins/core/shellruntime"         // shell runtime inspection
+	_ "github.com/lmorg/murex/builtins/core/shelltest"            // testing framework for murex shell scripts
 	_ "github.com/lmorg/murex/builtins/core/structs"              // control structures
 	_ "github.com/lmorg/murex/builtins/core/textmanip"            // text manipulation builtins
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"             // type handling and management builtins

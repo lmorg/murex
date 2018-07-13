@@ -1,12 +1,13 @@
 package lang
 
 import (
+	"regexp"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"regexp"
 )
 
-var rxNamedPipe *regexp.Regexp = regexp.MustCompile(`^<[\!]?[a-zA-Z0-9]+>$`)
+var rxNamedPipe *regexp.Regexp = regexp.MustCompile(`^<(test_|\!)?[a-zA-Z0-9]+>$`)
 
 func parseRedirection(p *proc.Process) {
 	//p.NamedPipeOut = "out"
@@ -30,14 +31,23 @@ func parseRedirection(p *proc.Process) {
 
 			if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeValue && rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) {
 				name := p.Parameters.Tokens[i][0].Key[1 : len(p.Parameters.Tokens[i][0].Key)-1]
-				if name[0] == '!' {
+
+				switch {
+				case len(name) > 5 && name[:5] == "test_":
+					if p.NamedPipeTest == "" {
+						p.NamedPipeTest = name[5:]
+					} else {
+						p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined test multiple times."))
+					}
+
+				case name[0] == '!':
 					if p.NamedPipeErr == "" {
 						p.NamedPipeErr = name[1:]
 					} else {
 						p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stderr multiple times."))
 					}
 
-				} else {
+				default:
 					if p.NamedPipeOut == "" {
 						p.NamedPipeOut = name
 					} else {
