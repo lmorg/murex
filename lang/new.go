@@ -150,8 +150,8 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		panic("Unknown run mode")
 	}
 
-	testAutoReport, err := container.Config.Get("test", "auto-report", types.Boolean)
-	if err == nil && testAutoReport.(bool) {
+	testAutoReport, configErr := container.Config.Get("test", "auto-report", types.Boolean)
+	if configErr == nil && testAutoReport.(bool) {
 		err = test.WriteResults(container.Config, proc.ShellProcess.Stderr)
 		if err != nil {
 			ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error generating test results: %s.", err.Error()))
