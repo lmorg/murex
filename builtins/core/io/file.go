@@ -108,7 +108,7 @@ func cmdTempFile(p *proc.Process) error {
 		ext = "." + ext
 	}
 
-	fileId := strconv.Itoa(time.Now().Nanosecond()) + ":" + strconv.Itoa(p.Id)
+	fileId := time.Now().String() + ":" + strconv.Itoa(p.Id)
 
 	h := md5.New()
 	_, err := h.Write([]byte(fileId))

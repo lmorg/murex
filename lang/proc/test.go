@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/lmorg/murex/config"
@@ -144,6 +145,18 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return err
 	}
 
+	reportPipe, err := config.Get("test", "report-pipe", types.String)
+	if err != nil {
+		reportPipe = ""
+	}
+
+	if reportPipe.(string) != "" {
+		pipe, err = GlobalPipes.Get(reportPipe.(string))
+		if err != nil {
+			return err
+		}
+	}
+
 	switch reportType.(string) {
 	case "json":
 		b, err := json.Marshal(tests.Results, pipe.IsTTY())
@@ -157,13 +170,15 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return err
 
 	case "table":
-		s := "[STATUS] Line Col. Function   Message"
-		pipe.Writeln([]byte(s))
+		if reportPipe.(string) == "" {
+			s := "[STATUS] Line Col. Function                                           Message"
+			pipe.Writeln([]byte(s))
+		}
 		for i := range tests.Results {
-			s = fmt.Sprintf(" %-4d %-4d %-10s %s\n",
+			s := fmt.Sprintf(" %-4d %-4d %-50s %s\n",
 				tests.Results[i].LineNumber,
 				tests.Results[i].ColNumber,
-				tests.Results[i].Exec,
+				params(tests.Results[i].Exec, tests.Results[i].Params),
 				tests.Results[i].Message,
 			)
 
@@ -191,6 +206,14 @@ func passFail(passed bool) string {
 		return "[PASSED]"
 	}
 	return "[FAILED]"
+}
+
+func params(exec string, params []string) (s string) {
+	s = exec + " '" + strings.Join(params, "' '") + "'"
+	if len(s) > 50 {
+		s = s[:47] + "..."
+	}
+	return
 }
 
 func allowAnsi() bool {

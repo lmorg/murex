@@ -103,6 +103,12 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Options:     []string{"table", "json"},
 		DataType:    types.String,
 	})
+
+	c.Define("test", "report-pipe", config.Properties{
+		Description: "Redirect the test reports to a named pipe. Empty string send to terminal's STDERR",
+		Default:     "",
+		DataType:    types.String,
+	})
 }
 
 var murexProfile []string

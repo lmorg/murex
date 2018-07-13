@@ -1,7 +1,13 @@
 package shelltest
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"errors"
+	"io"
 	"regexp"
+	"strconv"
+	"time"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -38,69 +44,25 @@ type testArgs struct {
 func cmdTest(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing parameters.")
+	}
+
 	if p.Parameters.Len() == 1 {
 		return testConfig(p)
 	}
 
-	enabled, err := p.Config.Get("test", "enabled", types.Boolean)
-	if err != nil || !enabled.(bool) {
-		return err
-	}
+	option, _ := p.Parameters.String(0)
+	switch option {
+	case "define":
+		return testDefine(p)
 
-	name, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
+	case "run":
+		return testRun(p)
 
-	b, err := p.Parameters.Byte(1)
-	if err != nil {
-		return err
+	default:
+		return errors.New("Invalid paramter: " + option)
 	}
-
-	var args testArgs
-	err = json.UnmarshalMurex(b, &args)
-	if err != nil {
-		return err
-	}
-
-	// stdout
-	rx, err := regexp.Compile(args.OutRegexp)
-	if err != nil {
-		return err
-	}
-	stdout := &proc.TestChecks{
-		Regexp:   rx,
-		Block:    []rune(args.OutBlock),
-		RunBlock: runTest,
-	}
-
-	// stderr
-	rx, err = regexp.Compile(args.ErrRegexp)
-	if err != nil {
-		return err
-	}
-	stderr := &proc.TestChecks{
-		Regexp:   rx,
-		Block:    []rune(args.ErrBlock),
-		RunBlock: runTest,
-	}
-
-	err = p.Tests.Define(name, stdout, stderr, args.ExitNum)
-	return err
-}
-
-func runTest(p *proc.Process, block []rune) ([]byte, error) {
-	stdout := streams.NewStdin()
-	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, proc.ShellProcess.Stderr, p)
-	if err != nil {
-		return nil, err
-	}
-
-	b, err := stdout.ReadAll()
-	if err != nil {
-		return nil, err
-	}
-	return utils.CrLfTrim(b), nil
 }
 
 func testConfig(p *proc.Process) (err error) {
@@ -124,4 +86,130 @@ func testConfig(p *proc.Process) (err error) {
 	}
 
 	return
+}
+
+func testDefine(p *proc.Process) error {
+	enabled, err := p.Config.Get("test", "enabled", types.Boolean)
+	if err != nil || !enabled.(bool) {
+		return err
+	}
+
+	name, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	b, err := p.Parameters.Byte(2)
+	if err != nil {
+		return err
+	}
+
+	var args testArgs
+	err = json.UnmarshalMurex(b, &args)
+	if err != nil {
+		return err
+	}
+
+	// stdout
+	rx, err := regexp.Compile(args.OutRegexp)
+	if err != nil {
+		return err
+	}
+	stdout := &proc.TestChecks{
+		Regexp:   rx,
+		Block:    []rune(args.OutBlock),
+		RunBlock: runBlock,
+	}
+
+	// stderr
+	rx, err = regexp.Compile(args.ErrRegexp)
+	if err != nil {
+		return err
+	}
+	stderr := &proc.TestChecks{
+		Regexp:   rx,
+		Block:    []rune(args.ErrBlock),
+		RunBlock: runBlock,
+	}
+
+	err = p.Tests.Define(name, stdout, stderr, args.ExitNum)
+	return err
+}
+
+func runBlock(p *proc.Process, block []rune) ([]byte, error) {
+	stdout := streams.NewStdin()
+	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, proc.ShellProcess.Stderr, p)
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := stdout.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+	return utils.CrLfTrim(b), nil
+}
+
+func testRun(p *proc.Process) error {
+	block, err := p.Parameters.Block(1)
+	if err != nil {
+		return err
+	}
+
+	branch := p.BranchFID()
+	defer branch.Close()
+
+	err = branch.Process.Config.Set("test", "enabled", true)
+	if err != nil {
+		return err
+	}
+
+	err = branch.Process.Config.Set("test", "auto-report", true)
+	if err != nil {
+		return err
+	}
+
+	h := md5.New()
+	_, err = h.Write([]byte(time.Now().String() + ":" + strconv.Itoa(p.Id)))
+	if err != nil {
+		return err
+	}
+
+	pipeName := "system_test_" + hex.EncodeToString(h.Sum(nil))
+
+	err = proc.GlobalPipes.CreatePipe(pipeName)
+	if err != nil {
+		return err
+	}
+
+	pipe, err := proc.GlobalPipes.Get(pipeName)
+	if err != nil {
+		return err
+	}
+
+	err = branch.Process.Config.Set("test", "report-pipe", pipeName)
+	if err != nil {
+		return err
+	}
+
+	_, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, branch.Process)
+	if err != nil {
+		return err
+	}
+
+	err = proc.GlobalPipes.Close(pipeName)
+	if err != nil {
+		return err
+	}
+
+	reportType, err := p.Config.Get("test", "report-format", types.String)
+	if err != nil {
+		return err
+	}
+	if reportType.(string) == "table" {
+		p.Stderr.Writeln([]byte("[STATUS] Line Col. Function                                           Message"))
+	}
+
+	_, err = io.Copy(p.Stderr, pipe)
+	return err
 }
