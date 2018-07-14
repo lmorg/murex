@@ -58,21 +58,25 @@ func cmdPipe(p *proc.Process) error {
 		return err
 	}
 
+	if len(additional) == 0 {
+		return errors.New("No name specified for named pipe.")
+	}
+
 	switch {
 	case flags["--file"] != "":
-		err = proc.GlobalPipes.CreateFile(flags["--create"], flags["--file"])
+		err = proc.GlobalPipes.CreateFile(additional[0], flags["--file"])
 
 	case flags["--udp-dial"] != "":
-		err = proc.GlobalPipes.CreateDialer(flags["--create"], "udp", flags["--udp-dial"])
+		err = proc.GlobalPipes.CreateDialer(additional[0], "udp", flags["--udp-dial"])
 
 	case flags["--tcp-dial"] != "":
-		err = proc.GlobalPipes.CreateDialer(flags["--create"], "tcp", flags["--tcp-dial"])
+		err = proc.GlobalPipes.CreateDialer(additional[0], "tcp", flags["--tcp-dial"])
 
 	case flags["--udp-listen"] != "":
-		err = proc.GlobalPipes.CreateListener(flags["--create"], "udp", flags["--udp-listen"])
+		err = proc.GlobalPipes.CreateListener(additional[0], "udp", flags["--udp-listen"])
 
 	case flags["--tcp-listen"] != "":
-		err = proc.GlobalPipes.CreateListener(flags["--create"], "tcp", flags["--tcp-listen"])
+		err = proc.GlobalPipes.CreateListener(additional[0], "tcp", flags["--tcp-listen"])
 
 	case len(additional) > 0:
 		for _, name := range additional {
