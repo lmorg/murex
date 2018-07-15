@@ -13,5 +13,5 @@ const (
 	CmdPty = "pty"
 
 	// TestTableHeadings is the header line for the `table` test report format
-	TestTableHeadings = " Status  Line Col. Function                                           Message"
+	TestTableHeadings = " Status  Definition Function                                           Line Col. Message"
 )

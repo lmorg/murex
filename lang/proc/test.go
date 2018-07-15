@@ -153,7 +153,11 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	}
 
 	params := func(exec string, params []string) (s string) {
-		s = exec + " '" + strings.Join(params, "' '") + "'"
+		if len(params) > 1 {
+			s = exec + " '" + strings.Join(params, "' '") + "'"
+		} else {
+			s = exec
+		}
 		if len(s) > 50 {
 			s = s[:49] + "…"
 		}
@@ -204,19 +208,20 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 			if allowAnsi() {
 				switch tests.Results[i].Status {
 				case TestPassed:
-					pipe.Write([]byte("[\x1b[32m"))
+					pipe.Write([]byte{91, 27, 91, 51, 50, 109})
 				case TestFailed, TestError:
-					pipe.Write([]byte("[\x1b[31m"))
+					pipe.Write([]byte{91, 27, 91, 51, 49, 109})
 				case TestMissed:
-					pipe.Write([]byte("[\x1b[34m"))
+					pipe.Write([]byte{91, 27, 91, 51, 52, 109})
 				}
 			}
 
-			s := fmt.Sprintf("%s\x1b[0m] %-4d %-4d %-50s %s\n",
+			s := fmt.Sprintf("%s\x1b[0m] %-10s %-50s %-4d %-4d %s\n",
 				tests.Results[i].Status,
+				tests.Results[i].TestName,
+				params(tests.Results[i].Exec, tests.Results[i].Params),
 				tests.Results[i].LineNumber,
 				tests.Results[i].ColNumber,
-				params(tests.Results[i].Exec, tests.Results[i].Params),
 				tests.Results[i].Message,
 			)
 
