@@ -30,7 +30,7 @@ var ShellExitNum int
 func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.Config, proc.NewTests(),
+		proc.ShellProcess, proc.ShellProcess.Config, nil,
 	)
 }
 
@@ -39,7 +39,7 @@ func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exi
 func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		caller, caller.Config.Copy(), proc.NewTests(),
+		caller, caller.Config.Copy(), nil,
 	)
 }
 
@@ -62,7 +62,7 @@ func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, c
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, test *proc.Tests) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, tests *proc.Tests) (exitNum int, err error) {
 	//debug.Log(string(block))
 
 	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
@@ -79,8 +79,13 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
 	container.Config = conf
-	container.Tests = test
 	container.Variables = caller.Variables
+
+	if tests != nil {
+		container.Tests = tests
+	} else {
+		container.Tests = proc.NewTests()
+	}
 
 	if caller.Id == proc.ShellProcess.Id {
 		container.ExitNum = ShellExitNum
@@ -150,11 +155,14 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		panic("Unknown run mode")
 	}
 
-	testAutoReport, configErr := container.Config.Get("test", "auto-report", types.Boolean)
-	if configErr == nil && testAutoReport.(bool) {
-		err = test.WriteResults(container.Config, proc.ShellProcess.Stderr)
-		if err != nil {
-			ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error generating test results: %s.", err.Error()))
+	if tests == nil {
+		testAutoReport, configErr := container.Config.Get("test", "auto-report", types.Boolean)
+		if configErr == nil && testAutoReport.(bool) {
+			container.Tests.ReportMissedTests(container)
+			err = container.Tests.WriteResults(container.Config, proc.ShellProcess.Stderr)
+			if err != nil {
+				ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error generating test results: %s.", err.Error()))
+			}
 		}
 	}
 

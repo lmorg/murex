@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -207,7 +208,7 @@ func testRun(p *proc.Process) error {
 		return err
 	}
 	if reportType.(string) == "table" {
-		p.Stderr.Writeln([]byte("[STATUS] Line Col. Function                                           Message"))
+		p.Stderr.Writeln([]byte(consts.TestTableHeadings))
 	}
 
 	_, err = io.Copy(p.Stderr, pipe)

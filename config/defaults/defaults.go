@@ -109,6 +109,12 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Default:     "",
 		DataType:    types.String,
 	})
+
+	c.Define("test", "crop-message", config.Properties{
+		Description: "This is the character limit for STDOUT and STDERR fields inside the report message. Set to zero, `0`, to disable message cropping.",
+		Default:     30,
+		DataType:    types.Integer,
+	})
 }
 
 var murexProfile []string

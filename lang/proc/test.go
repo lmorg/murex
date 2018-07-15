@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -21,6 +22,7 @@ type TestProperties struct {
 	err        *TestChecks
 	exitNumPtr *int
 	exitNum    int
+	HasRan     bool
 }
 
 type TestChecks struct {
@@ -31,7 +33,7 @@ type TestChecks struct {
 }
 
 type TestResults struct {
-	Passed     bool
+	Status     TestStatus
 	TestName   string
 	Message    string
 	Exec       string
@@ -39,6 +41,15 @@ type TestResults struct {
 	LineNumber int
 	ColNumber  int
 }
+
+type TestStatus string
+
+const (
+	TestPassed TestStatus = "PASSED"
+	TestFailed TestStatus = "FAILED"
+	TestError  TestStatus = "ERROR"
+	TestMissed TestStatus = "MISSED"
+)
 
 type Tests struct {
 	mutex   sync.Mutex
@@ -118,7 +129,7 @@ set:
 	return //nil
 }
 
-func (tests *Tests) AddResult(test *TestProperties, p *Process, passed bool, message string) {
+func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatus, message string) {
 	//tests.Results.murex.Lock()
 	tests.Results = append(tests.Results, TestResults{
 		TestName:   test.Name,
@@ -126,13 +137,29 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, passed bool, mes
 		Params:     p.Parameters.StringArray(),
 		LineNumber: p.LineNumber,
 		ColNumber:  p.ColNumber,
-		Passed:     passed,
+		Status:     status,
 		Message:    message,
 	})
 	//tests.Results.murex.Unlock()
 }
 
 func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
+	allowAnsi := func() bool {
+		v, err := ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
+		if err != nil {
+			return false
+		}
+		return v.(bool)
+	}
+
+	params := func(exec string, params []string) (s string) {
+		s = exec + " '" + strings.Join(params, "' '") + "'"
+		if len(s) > 50 {
+			s = s[:49] + "…"
+		}
+		return
+	}
+
 	tests.mutex.Lock()
 	defer tests.mutex.Unlock()
 
@@ -171,26 +198,28 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 
 	case "table":
 		if reportPipe.(string) == "" {
-			s := "[STATUS] Line Col. Function                                           Message"
-			pipe.Writeln([]byte(s))
+			pipe.Writeln([]byte(consts.TestTableHeadings))
 		}
 		for i := range tests.Results {
-			s := fmt.Sprintf(" %-4d %-4d %-50s %s\n",
+			if allowAnsi() {
+				switch tests.Results[i].Status {
+				case TestPassed:
+					pipe.Write([]byte("[\x1b[32m"))
+				case TestFailed, TestError:
+					pipe.Write([]byte("[\x1b[31m"))
+				case TestMissed:
+					pipe.Write([]byte("[\x1b[34m"))
+				}
+			}
+
+			s := fmt.Sprintf("%s\x1b[0m] %-4d %-4d %-50s %s\n",
+				tests.Results[i].Status,
 				tests.Results[i].LineNumber,
 				tests.Results[i].ColNumber,
 				params(tests.Results[i].Exec, tests.Results[i].Params),
 				tests.Results[i].Message,
 			)
 
-			if allowAnsi() {
-				if tests.Results[i].Passed {
-					pipe.Write([]byte("\x1b[32m" + passFail(tests.Results[i].Passed) + "\x1b[0m"))
-				} else {
-					pipe.Write([]byte("\x1b[31m" + passFail(tests.Results[i].Passed) + "\x1b[0m"))
-				}
-			} else {
-				pipe.Write([]byte(passFail(tests.Results[i].Passed)))
-			}
 			pipe.Write([]byte(s))
 
 		}
@@ -199,29 +228,6 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	default:
 		return errors.New("Invalid report type requested via `config set test report-format`.")
 	}
-}
-
-func passFail(passed bool) string {
-	if passed {
-		return "[PASSED]"
-	}
-	return "[FAILED]"
-}
-
-func params(exec string, params []string) (s string) {
-	s = exec + " '" + strings.Join(params, "' '") + "'"
-	if len(s) > 50 {
-		s = s[:47] + "..."
-	}
-	return
-}
-
-func allowAnsi() bool {
-	v, err := ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
-	if err != nil {
-		return false
-	}
-	return v.(bool)
 }
 
 func (tests *Tests) Dump() []string {
@@ -248,19 +254,34 @@ func (tests *Tests) Compare(name string, p *Process) {
 	}
 
 	tests.mutex.Unlock()
+	tests.AddResult(tests.test[i], p, TestError, "Test named but there is no test defined.")
 	return //errors.New("Test named but there is no test defined for '" + name + "'.")
 
 compare:
 
 	var failed bool
 	test := tests.test[i]
+	test.HasRan = true
 	tests.mutex.Unlock()
+
+	left := func(b []byte) []byte {
+		crop, err := p.Config.Get("test", "crop-message", types.Integer)
+		if err != nil || crop.(int) == 0 {
+			return b
+		}
+
+		if len(b) < crop.(int) {
+			return b
+		}
+
+		return append(b[:crop.(int)-1], []byte(string([]rune{'…'}))...)
+	}
 
 	// read stdout
 	stdout, err := test.out.stdio.ReadAll()
 	if err != nil {
 		failed = true
-		tests.AddResult(test, p, !failed, "Cannot read from stdout.")
+		tests.AddResult(test, p, TestError, "Cannot read from stdout.")
 	}
 	stdout = utils.CrLfTrim(stdout)
 
@@ -268,7 +289,7 @@ compare:
 	stderr, err := test.err.stdio.ReadAll()
 	if err != nil {
 		failed = true
-		tests.AddResult(test, p, !failed, "Cannot read from stderr.")
+		tests.AddResult(test, p, TestError, "Cannot read from stderr.")
 	}
 	stderr = utils.CrLfTrim(stderr)
 
@@ -277,21 +298,21 @@ compare:
 		b, err := test.out.RunBlock(p, test.out.Block)
 		if err != nil {
 			failed = true
-			tests.AddResult(test, p, !failed, err.Error())
+			tests.AddResult(test, p, TestError, err.Error())
 		}
 		if string(b) != string(stdout) {
 			failed = true
-			tests.AddResult(test, p, !failed,
+			tests.AddResult(test, p, TestFailed,
 				fmt.Sprintf("stdout: wanted '%s' got '%s'.",
-					b, stdout))
+					left(b), left(stdout)))
 		}
 
 	} else if test.out.Regexp != nil {
 		if !test.out.Regexp.Match(stdout) {
 			failed = true
-			tests.AddResult(test, p, !failed,
+			tests.AddResult(test, p, TestFailed,
 				fmt.Sprintf("stdout: regexp did not match '%s'.",
-					stdout))
+					left(stdout)))
 		}
 	}
 
@@ -300,34 +321,48 @@ compare:
 		b, err := test.err.RunBlock(p, test.err.Block)
 		if err != nil {
 			failed = true
-			tests.AddResult(test, p, !failed, err.Error())
+			tests.AddResult(test, p, TestError, err.Error())
 		}
 		if string(b) != string(stderr) {
 			failed = true
-			tests.AddResult(test, p, !failed,
+			tests.AddResult(test, p, TestFailed,
 				fmt.Sprintf("stderr: wanted '%s' got '%s'.",
-					b, stderr))
+					left(b), left(stderr)))
 		}
 
 	} else if test.err.Regexp != nil {
 		if !test.err.Regexp.Match(stderr) {
 			failed = true
-			tests.AddResult(test, p, !failed,
+			tests.AddResult(test, p, TestFailed,
 				fmt.Sprintf("stderr: regexp did not match '%s'.",
-					stderr))
+					left(stderr)))
 		}
 	}
 
 	// test exit number
 	if test.exitNum != *test.exitNumPtr {
 		failed = true
-		tests.AddResult(test, p, !failed,
+		tests.AddResult(test, p, TestFailed,
 			fmt.Sprintf("exit number: wanted %d got %d.",
 				test.exitNum, *test.exitNumPtr))
 	}
 
 	// if not failed, log a success result
 	if !failed {
-		tests.AddResult(test, p, true, "")
+		tests.AddResult(test, p, TestPassed, "All test conditions were met.")
 	}
+}
+
+func (tests *Tests) ReportMissedTests(p *Process) {
+	tests.mutex.Lock()
+
+	for _, test := range tests.test {
+		if test.HasRan {
+			continue
+		}
+
+		tests.AddResult(test, p, TestMissed, "Test was defined but no function ran against that test pipe.")
+	}
+
+	tests.mutex.Unlock()
 }

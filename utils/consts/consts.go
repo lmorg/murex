@@ -11,4 +11,7 @@ const (
 
 	// CmdPty is the GoFunction name used for murex builtin that executes external processes with a TTY
 	CmdPty = "pty"
+
+	// TestTableHeadings is the header line for the `table` test report format
+	TestTableHeadings = " Status  Line Col. Function                                           Message"
 )
