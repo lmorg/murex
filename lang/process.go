@@ -83,12 +83,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 	}
 
 	// Test cases
-	testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
-	if err != nil {
-		testEnabled = false
-	}
-
-	if p.NamedPipeTest != "" && testEnabled.(bool) {
+	if p.NamedPipeTest != "" {
 		var stdout2, stderr2 *streams.Stdin
 		p.Stdout, stdout2 = streams.NewTee(p.Stdout)
 		p.Stderr, stderr2 = streams.NewTee(p.Stderr)
@@ -230,8 +225,10 @@ executeProcess:
 	p.State = state.Executed
 
 	if p.NamedPipeTest != "" {
-		//p.Tests.CloseTest(p.NamedPipeTest)
-		p.Tests.Compare(p.NamedPipeTest, p)
+		testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
+		if err == nil && testEnabled.(bool) {
+			p.Tests.Compare(p.NamedPipeTest, p)
+		}
 	}
 
 	for !p.Previous.HasTerminated() {

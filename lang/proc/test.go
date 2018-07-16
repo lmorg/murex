@@ -109,26 +109,6 @@ set:
 	return nil
 }
 
-func (tests *Tests) CloseTest(name string) {
-	tests.mutex.Lock()
-
-	var i int
-	for ; i < len(tests.test); i++ {
-		if tests.test[i].Name == name {
-			goto set
-		}
-	}
-
-	tests.mutex.Unlock()
-	return //errors.New("Test named but there is no test defined for '" + name + "'.")
-
-set:
-	tests.test[i].out.stdio.Close()
-	tests.test[i].err.stdio.Close()
-	tests.mutex.Unlock()
-	return //nil
-}
-
 func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatus, message string) {
 	//tests.Results.murex.Lock()
 	tests.Results = append(tests.Results, TestResults{
@@ -366,7 +346,7 @@ func (tests *Tests) ReportMissedTests(p *Process) {
 			continue
 		}
 
-		tests.AddResult(test, p, TestMissed, "Test was defined but no function ran against that test pipe.")
+		tests.AddResult(test, &Process{}, TestMissed, "Test was defined but no function ran against that test pipe.")
 	}
 
 	tests.mutex.Unlock()
