@@ -1,5 +1,10 @@
 package readline
 
+import (
+	"strconv"
+	"strings"
+)
+
 // History is an interface to allow you to write your own history logging
 // tools. eg sqlite backend instead of a file system.
 // By default readline will just use the dummyLineHistory interface which only
@@ -111,4 +116,41 @@ func (rl *Instance) walkHistory(i int) {
 	}
 
 	rl.updateHelpers()
+}
+
+func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
+	var (
+		items []string
+		descs map[string]string = make(map[string]string)
+
+		line string
+		num  string
+		err  error
+	)
+
+	rl.tcPrefix = string(rl.line)
+	//for i := 0; i < rl.History.Len(); i++ {
+	for i := rl.History.Len() - 1; i >= 0; i-- {
+		line, err = rl.History.GetLine(i)
+		if err != nil {
+			continue
+		}
+
+		if !strings.HasPrefix(line, rl.tcPrefix) {
+			continue
+		}
+
+		line = strings.Replace(line, "\n", ` `, -1)[len(rl.line):]
+
+		if descs[line] != "" {
+			continue
+		}
+
+		items = append(items, line)
+		num = strconv.Itoa(i)
+
+		descs[line] = num
+	}
+
+	return items, descs
 }

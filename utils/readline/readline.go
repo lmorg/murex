@@ -185,6 +185,17 @@ func (rl *Instance) Readline() (string, error) {
 		case charEscape:
 			rl.escapeSeq(r[:i])
 
+		case charCtrlHat:
+			rl.tcOffset = 0
+			rl.modeTabCompletion = true
+			rl.tcDisplayType = TabDisplayList
+			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
+			rl.initTabCompletion()
+
+			rl.modeTabFind = true
+			rl.updateTabFind([]rune{})
+			rl.viUndoSkipAppend = true
+
 		default:
 			if rl.modeTabFind {
 				rl.updateTabFind(r[:i])

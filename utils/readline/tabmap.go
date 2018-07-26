@@ -78,8 +78,18 @@ func (rl *Instance) writeTabMap() {
 		suggestions = rl.tcSuggestions
 	}
 
-	maxDescWidth := (getTermWidth() - rl.tcMaxLength) - 4
-	cellWidth := strconv.Itoa(rl.tcMaxLength)
+	termWidth := getTermWidth()
+	if termWidth < 10 {
+		// terminal too small. Probably better we do nothing instead of crash
+		return
+	}
+
+	maxLength := rl.tcMaxLength
+	if maxLength > termWidth-9 {
+		maxLength = termWidth - 9
+	}
+	maxDescWidth := (termWidth - maxLength) - 4
+	cellWidth := strconv.Itoa(maxLength)
 	y := 0
 
 	print(seqClearScreenBelow)
@@ -94,13 +104,17 @@ func (rl *Instance) writeTabMap() {
 			print(seqBgWhite + seqFgBlack)
 		}
 
+		item := rl.tcPrefix + suggestions[i]
+		if len(item) > maxLength {
+			item = item[:maxLength-3] + "..."
+		}
+
 		description := rl.tcDescriptions[suggestions[i]]
 		if len(description) > maxDescWidth {
 			description = description[:maxDescWidth-3] + "..."
 		}
 
-		printf("\r\n %-"+cellWidth+"s %s %s",
-			rl.tcPrefix+suggestions[i], seqReset, description)
+		printf("\r\n %-"+cellWidth+"s %s %s", item, seqReset, description)
 	}
 
 	if len(suggestions) < rl.tcMaxX {

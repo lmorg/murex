@@ -29,7 +29,11 @@ const (
 	charCtrlY
 	charCtrlZ
 	charEscape
-	charBackspace2 = 127 // ASCII 1963
+	charCtrlSlash             // ^\
+	charCtrlCloseSquare       // ^]
+	charCtrlHat               // ^_
+	charCtrlUnderscore        // ^^
+	charBackspace2      = 127 // ASCII 1963
 )
 
 // Escape sequences
