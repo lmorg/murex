@@ -56,6 +56,12 @@ func Start() {
 
 	go autocomplete.UpdateGlobalExeList()
 
+	v, err := proc.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	if err != nil {
+		v = 4
+	}
+	Prompt.MaxTabCompleterRows = v.(int)
+
 	prompt()
 }
 

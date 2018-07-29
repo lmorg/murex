@@ -185,10 +185,10 @@ func (rl *Instance) Readline() (string, error) {
 		case charEscape:
 			rl.escapeSeq(r[:i])
 
-		case charCtrlHat:
+		case charCtrlA, charCtrlHat:
 			rl.tcOffset = 0
 			rl.modeTabCompletion = true
-			rl.tcDisplayType = TabDisplayList
+			rl.tcDisplayType = TabDisplayMap
 			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
 			rl.initTabCompletion()
 

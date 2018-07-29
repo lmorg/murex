@@ -5,6 +5,7 @@ type TabDisplayType int
 const (
 	TabDisplayGrid = iota
 	TabDisplayList
+	TabDisplayMap
 )
 
 func (rl *Instance) getTabCompletion() {
@@ -56,10 +57,18 @@ func (rl *Instance) writeTabCompletion() {
 		return
 	}
 
-	if rl.tcDisplayType == TabDisplayGrid {
+	switch rl.tcDisplayType {
+	case TabDisplayGrid:
 		rl.writeTabGrid()
-	} else {
+
+	case TabDisplayMap:
 		rl.writeTabMap()
+
+	case TabDisplayList:
+		rl.writeTabMap()
+
+	default:
+		rl.writeTabGrid()
 	}
 }
 

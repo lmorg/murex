@@ -16,8 +16,15 @@ func (rl *Instance) initTabMap() {
 
 	rl.tcMaxLength = 1
 	for i := range suggestions {
-		if len(rl.tcPrefix+suggestions[i]) > rl.tcMaxLength {
-			rl.tcMaxLength = len([]rune(rl.tcPrefix + suggestions[i]))
+		if rl.tcDisplayType == TabDisplayList {
+			if len(rl.tcPrefix+suggestions[i]) > rl.tcMaxLength {
+				rl.tcMaxLength = len([]rune(rl.tcPrefix + suggestions[i]))
+			}
+
+		} else {
+			if len(rl.tcDescriptions[suggestions[i]]) > rl.tcMaxLength {
+				rl.tcMaxLength = len(rl.tcDescriptions[suggestions[i]])
+			}
 		}
 	}
 
@@ -88,33 +95,58 @@ func (rl *Instance) writeTabMap() {
 	if maxLength > termWidth-9 {
 		maxLength = termWidth - 9
 	}
-	maxDescWidth := (termWidth - maxLength) - 4
-	cellWidth := strconv.Itoa(maxLength)
-	y := 0
+	maxDescWidth := termWidth - maxLength - 4
 
+	cellWidth := strconv.Itoa(maxLength)
+	itemWidth := strconv.Itoa(maxDescWidth)
+
+	y := 0
 	print(seqClearScreenBelow)
 
+	highlight := func(y int) string {
+		if y == rl.tcPosY {
+			return seqBgWhite + seqFgBlack
+		}
+		return ""
+	}
+
+	var item, description string
 	for i := rl.tcOffset; i < len(suggestions); i++ {
 		y++
 		if y > rl.tcMaxY {
 			break
 		}
 
-		if y == rl.tcPosY {
-			print(seqBgWhite + seqFgBlack)
+		if rl.tcDisplayType == TabDisplayList {
+			item = rl.tcPrefix + suggestions[i]
+			if len(item) > maxLength {
+				item = item[:maxLength-3] + "..."
+			}
+
+			description = rl.tcDescriptions[suggestions[i]]
+			if len(description) > maxDescWidth {
+				description = description[:maxDescWidth-3] + "..."
+			}
+
+		} else {
+			item = rl.tcPrefix + suggestions[i]
+			if len(item) > maxDescWidth {
+				item = item[:maxDescWidth-3] + "..."
+			}
+
+			description = rl.tcDescriptions[suggestions[i]]
+			if len(description) > maxLength {
+				description = description[:maxLength-3] + "..."
+			}
 		}
 
-		item := rl.tcPrefix + suggestions[i]
-		if len(item) > maxLength {
-			item = item[:maxLength-3] + "..."
+		if rl.tcDisplayType == TabDisplayList {
+			printf("\r\n%s %-"+cellWidth+"s %s %s",
+				highlight(y), item, seqReset, description)
+		} else {
+			printf("\r\n %-"+cellWidth+"s %s %-"+itemWidth+"s %s",
+				description, highlight(y), item, seqReset)
 		}
-
-		description := rl.tcDescriptions[suggestions[i]]
-		if len(description) > maxDescWidth {
-			description = description[:maxDescWidth-3] + "..."
-		}
-
-		printf("\r\n %-"+cellWidth+"s %s %s", item, seqReset, description)
 	}
 
 	if len(suggestions) < rl.tcMaxX {
