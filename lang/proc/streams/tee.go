@@ -1,8 +1,6 @@
 package streams
 
 import (
-	"io"
-
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
@@ -57,9 +55,9 @@ func (tee *Tee) Close() {
 
 // WriteTo reads from the stream.Io interface and writes to a destination
 // io.Writer interface
-func (tee *Tee) WriteTo(w io.Writer) (n int64, err error) {
-	return tee.primary.WriteTo(w)
-}
+//func (tee *Tee) WriteTo(w io.Writer) (n int64, err error) {
+//	return tee.primary.WriteTo(w)
+//}
 
 // GetDataType returns the murex data type for the stream.Io interface
 func (tee *Tee) GetDataType() (dt string) {
