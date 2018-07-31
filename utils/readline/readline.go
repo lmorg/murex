@@ -138,6 +138,18 @@ func (rl *Instance) Readline() (string, error) {
 			rl.updateTabFind([]rune{})
 			rl.viUndoSkipAppend = true
 
+		case charCtrlR:
+			rl.modeHistoryRegexp = true
+			rl.tcOffset = 0
+			rl.modeTabCompletion = true
+			rl.tcDisplayType = TabDisplayMap
+			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
+			rl.initTabCompletion()
+
+			rl.modeTabFind = true
+			rl.updateTabFind([]rune{})
+			rl.viUndoSkipAppend = true
+
 		case charCtrlU:
 			rl.clearLine()
 			rl.resetHelpers()
@@ -185,17 +197,6 @@ func (rl *Instance) Readline() (string, error) {
 		case charEscape:
 			rl.escapeSeq(r[:i])
 
-		case charCtrlA, charCtrlHat:
-			rl.tcOffset = 0
-			rl.modeTabCompletion = true
-			rl.tcDisplayType = TabDisplayMap
-			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
-			rl.initTabCompletion()
-
-			rl.modeTabFind = true
-			rl.updateTabFind([]rune{})
-			rl.viUndoSkipAppend = true
-
 		default:
 			if rl.modeTabFind {
 				rl.updateTabFind(r[:i])
@@ -219,6 +220,12 @@ func (rl *Instance) escapeSeq(r []rune) {
 	switch string(r) {
 	case string(charEscape):
 		switch {
+		case rl.modeHistoryRegexp:
+			rl.resetTabFind()
+			rl.clearHelpers()
+			rl.resetTabCompletion()
+			rl.renderHelpers()
+
 		case rl.modeTabFind:
 			rl.resetTabFind()
 

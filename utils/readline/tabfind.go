@@ -45,7 +45,11 @@ func (rl *Instance) updateTabFind(r []rune) {
 func (rl *Instance) resetTabFind() {
 	rl.modeTabFind = false
 	rl.tfLine = []rune{}
-	rl.hintText = []rune("Cancelled regexp suggestion find.")
+	if rl.modeHistoryRegexp {
+		rl.hintText = []rune{}
+	} else {
+		rl.hintText = []rune("Cancelled regexp suggestion find.")
+	}
 
 	rl.clearHelpers()
 	rl.initTabCompletion()

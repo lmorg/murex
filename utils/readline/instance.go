@@ -92,9 +92,10 @@ type Instance struct {
 	tcMaxLength       int
 
 	// tab find
-	modeTabFind   bool
-	tfLine        []rune
-	tfSuggestions []string
+	modeTabFind       bool
+	tfLine            []rune
+	tfSuggestions     []string
+	modeHistoryRegexp bool
 
 	// vim
 	modeViMode       viMode //= vimInsert
