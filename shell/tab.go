@@ -54,13 +54,14 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, descrip
 	if err != nil {
 		v = 4
 	}
+	Prompt.MaxTabCompleterRows = v.(int)
 
-	limitSuggestions := v.(int)
+	/*limitSuggestions := v.(int)
 	if len(items) < limitSuggestions || limitSuggestions < 0 {
 		limitSuggestions = len(items)
 	}
 
-	Prompt.MaxTabCompleterRows = limitSuggestions
+	Prompt.MaxTabCompleterRows = limitSuggestions*/
 
 	for i := range items {
 		if len(items[i]) == 0 {

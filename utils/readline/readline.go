@@ -131,6 +131,7 @@ func (rl *Instance) Readline() (string, error) {
 
 		case charCtrlF:
 			if !rl.modeTabCompletion {
+				rl.modeAutoFind = true
 				rl.getTabCompletion()
 			}
 
@@ -139,7 +140,7 @@ func (rl *Instance) Readline() (string, error) {
 			rl.viUndoSkipAppend = true
 
 		case charCtrlR:
-			rl.modeHistoryRegexp = true
+			rl.modeAutoFind = true
 			rl.tcOffset = 0
 			rl.modeTabCompletion = true
 			rl.tcDisplayType = TabDisplayMap
@@ -220,7 +221,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 	switch string(r) {
 	case string(charEscape):
 		switch {
-		case rl.modeHistoryRegexp:
+		case rl.modeAutoFind:
 			rl.resetTabFind()
 			rl.clearHelpers()
 			rl.resetTabCompletion()

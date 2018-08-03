@@ -153,7 +153,7 @@ func (rl *Instance) clearLine() {
 }
 
 func (rl *Instance) resetHelpers() {
-	rl.modeHistoryRegexp = false
+	rl.modeAutoFind = false
 	rl.clearHelpers()
 	rl.resetHintText()
 	rl.resetTabCompletion()
