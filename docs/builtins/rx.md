@@ -22,8 +22,8 @@ Output is a JSON list.
 
 ### Details
 
-Unlink globbing (`g`) which can traverse directories, `rx` is only designed to
-match file system objects in the current working directory.
+Unlike globbing (`g`) which can traverse directories (eg `g: /path/*`), `rx` is
+only designed to match file system objects in the current working directory.
 
 `rx` uses Go (lang)'s standard regexp engine.
 
