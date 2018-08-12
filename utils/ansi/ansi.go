@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-var rxAnsiConsts *regexp.Regexp = regexp.MustCompile(`\{([-A-Z0-9]+)\}`)
+var rxAnsiConsts *regexp.Regexp = regexp.MustCompile(`\{([-\^A-Z0-9]+)\}`)
 
 func allowAnsi() bool {
 	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)

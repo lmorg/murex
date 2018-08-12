@@ -88,7 +88,6 @@ func (rl *Instance) Readline() (string, error) {
 		}
 
 		s := string(r[:i])
-
 		if rl.evtKeyPress[s] != nil {
 			rl.clearHelpers()
 

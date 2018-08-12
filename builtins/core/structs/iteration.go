@@ -19,7 +19,7 @@ func init() {
 }
 
 // Example usage:
-// for { i=1; i<6; i++ } { echo $i }
+// for ( i=1; i<6; i++ ) { echo $i }
 func cmdFor(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
@@ -35,7 +35,7 @@ func cmdFor(p *proc.Process) (err error) {
 
 	parameters := strings.Split(string(cblock), ";")
 	if len(parameters) != 3 {
-		return errors.New("Invalid syntax. Must be { variable; conditional; incremental }")
+		return errors.New("Invalid syntax. Must be ( variable; conditional; incremental )")
 	}
 
 	variable := "let " + parameters[0]

@@ -14,7 +14,27 @@ var (
 	related map[string][]string = make(map[string][]string)
 	synonym map[string][]string = make(map[string][]string)
 	verbose bool
+
+	murexDocs docs
 )
+
+type doc struct {
+	Name       string
+	IsFunction bool
+	Category   string
+	Definition string
+	Digest     string
+	Related    []string
+	Synonyms   []string
+}
+
+type docs []doc
+
+// Get returns a doc object based on the documentPath (period seperated, eg
+// "Category.Name"). If no object found doc returns an error
+func (d docs) Get(documentPath string) (document doc, err error) {
+	return
+}
 
 func main() {
 	src, dest, gocode := readFlags()

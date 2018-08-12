@@ -46,7 +46,13 @@ func cmdTest(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters.")
+		//return errors.New("Missing parameters.")
+		s, err := p.Config.Get("test", "enabled", types.String)
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Write([]byte(s.(string)))
+		return err
 	}
 
 	if p.Parameters.Len() == 1 {
