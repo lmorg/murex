@@ -137,14 +137,8 @@ func (r *Reader) Close() {
 
 // WriteTo reads from the stream.Io interface and writes to a destination
 // io.Writer interface
-func (r *Reader) WriteTo(w io.Writer) (n int64, err error) {
-	p, err := r.ReadAll()
-	if err != nil {
-		return 0, err
-	}
-
-	i, err := w.Write(p)
-	return int64(i), err
+func (r *Reader) WriteTo(w io.Writer) (int64, error) {
+	return writeTo(r, w)
 }
 
 // GetDataType returns the murex data type for the stream.Io interface

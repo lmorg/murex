@@ -202,15 +202,10 @@ func (stdin *Stdin) Close() {
 	}
 }
 
-// WriteTo reads from the stream.Io interface and writes to a destination io.Writer interface
-func (stdin *Stdin) WriteTo(w io.Writer) (n int64, err error) {
-	p, err := stdin.ReadAll()
-	if err != nil {
-		return 0, err
-	}
-
-	i, err := w.Write(p)
-	return int64(i), err
+// WriteTo reads from the stream.Io interface and writes to a destination
+// io.Writer interface
+func (stdin *Stdin) WriteTo(w io.Writer) (int64, error) {
+	return writeTo(stdin, w)
 }
 
 // GetDataType returns the murex data type for the stream.Io interface

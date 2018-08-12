@@ -1,6 +1,8 @@
 package stdio
 
 import (
+	"io"
+
 	"github.com/lmorg/murex/config"
 )
 
@@ -27,7 +29,7 @@ type Io interface {
 	Writeln([]byte) (int, error)
 
 	//ReadFrom(r io.Reader) (n int64, err error)
-	//WriteTo(io.Writer) (int64, error)
+	WriteTo(io.Writer) (int64, error)
 
 	Open()
 	Close()

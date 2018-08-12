@@ -46,8 +46,6 @@ func NewDialer(protocol, address string) (n *Net, err error) {
 		return nil, err
 	}
 
-	//n.dependants++
-
 	return
 }
 
@@ -72,8 +70,6 @@ func NewListener(protocol, address string) (n *Net, err error) {
 	if err != nil {
 		return nil, err
 	}
-
-	//n.dependants++
 
 	return
 }
@@ -183,18 +179,6 @@ func (n *Net) Open() {
 func (n *Net) Close() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
-
-	/*if n.isParent {
-		//debug.Log("Cannot Close() net marked as parent. We don't want to EOT parent streams multiple times")
-		return
-	}
-
-	if n.closed {
-		//debug.Log("Error with murex named pipes: Trying to close an already closed named pipe.")
-		return
-	}*/
-
-	//n.closed = true
 
 	n.dependants--
 
