@@ -11,11 +11,30 @@ type rfIndex struct {
 	i     int
 }
 
-func (rf *rfIndex) Start(_ []byte) bool { rf.i++; return rf.i > rf.start }
-func (rf *rfIndex) End(_ []byte) bool   { rf.i++; return rf.i > rf.end+1 }
+func (rf *rfIndex) Start(_ []byte) bool {
+	rf.i++
+	return rf.i > rf.start
+}
+
+func (rf *rfIndex) End(_ []byte) bool {
+	if rf.end > -1 {
+		rf.i++
+		return rf.i > rf.end+1
+	} else {
+		return false
+	}
+}
 
 func newNumber(r *rangeParameters) (err error) {
 	rf := new(rfIndex)
+
+	if r.Start == "" {
+		r.Start = "0"
+	}
+
+	if r.End == "" {
+		r.End = "-1"
+	}
 
 	rf.start, err = strconv.Atoi(r.Start)
 	if err != nil {
