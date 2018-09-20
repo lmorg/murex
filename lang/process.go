@@ -51,10 +51,10 @@ func createProcess(p *proc.Process, isMethod bool) {
 	case "err":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
-		p.Stderr.SetDataType(types.String)
+		p.Stderr.SetDataType(types.Generic)
 		p.Stderr = p.Next.Stdout
 	default:
-		p.Stderr.SetDataType(types.String)
+		p.Stderr.SetDataType(types.Generic)
 		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
 			p.Stderr = pipe
@@ -96,7 +96,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 	p.Stdout.Open()
 	p.Stderr.Open()
 
-	p.Stderr.SetDataType(types.String)
+	p.Stderr.SetDataType(types.Generic)
 
 	p.State = state.Assigned
 

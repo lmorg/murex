@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/lmorg/murex/shell/variables"
+
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -22,6 +24,7 @@ func init() {
 // Interrupt is a JSONable structure passed to the murex function
 type Interrupt struct {
 	Line        string
+	Raw         string
 	Pos         int
 	KeySequence string
 }
@@ -113,7 +116,8 @@ eventFound:
 	block := evt.events[i].block
 
 	interrupt := Interrupt{
-		Line:        string(line),
+		Line:        variables.ExpandString(string(line)),
+		Raw:         string(line),
 		Pos:         pos,
 		KeySequence: keyPress,
 	}
