@@ -53,15 +53,12 @@ func set(p *proc.Process, scope *proc.Process) error {
 		return scope.Parent.Variables.Set(params, string(b), dt)
 	}
 
-	/*// Only one parameter, so unset variable:
-	if rxVarName.MatchString(params) {
-		err := scope.Parent.Variables.Unset(params)
-		return err
-	}*/
-
 	// Set variable as parameters:
-	match := rxSet.FindAllStringSubmatch(params, -1)
+	if rxVarName.MatchString(params) {
+		return scope.Parent.Variables.Set(params, "", types.String)
+	}
 
+	match := rxSet.FindAllStringSubmatch(params, -1)
 	return scope.Parent.Variables.Set(match[0][1], match[0][2], types.String)
 }
 
@@ -102,12 +99,11 @@ func cmdExport(p *proc.Process) error {
 		return os.Setenv(params, string(b))
 	}
 
-	/*// Only one parameter, so unset env:
-	if rxVarName.MatchString(params) {
-		return os.Unsetenv(params)
-	}*/
-
 	// Set env as parameters:
+	if rxVarName.MatchString(params) {
+		return os.Setenv(params, "")
+	}
+
 	match := rxSet.FindAllStringSubmatch(params, -1)
 	return os.Setenv(match[0][1], match[0][2])
 }
