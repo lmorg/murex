@@ -1,8 +1,6 @@
 package httpclient
 
 import (
-	"net/http"
-
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -42,15 +40,22 @@ func init() {
 		Default:     false,
 		DataType:    types.Boolean,
 	})
-}
 
-type httpStatus struct {
-	Code    int
-	Message string
-}
+	proc.InitConf.Define("http", "cookies", config.Properties{
+		Description: "Defined cookies to send, ordered by domain.",
+		Default: metaDomains{
+			"example.com":     metaValues{"name": "value"},
+			"www.example.com": metaValues{"name": "value"},
+		},
+		DataType: types.Json,
+	})
 
-type jsonHttp struct {
-	Status  httpStatus
-	Headers http.Header
-	Body    string
+	proc.InitConf.Define("http", "headers", config.Properties{
+		Description: "Defined HTTP request headers to send, ordered by domain.",
+		Default: metaDomains{
+			"example.com":     metaValues{"name": "value"},
+			"www.example.com": metaValues{"name": "value"},
+		},
+		DataType: types.Json,
+	})
 }

@@ -59,7 +59,7 @@ func set(p *proc.Process, scope *proc.Process) error {
 	}
 
 	match := rxSet.FindAllStringSubmatch(params, -1)
-	return scope.Parent.Variables.Set(match[0][1], match[0][2], types.String)
+	return scope.Parent.Variables.Set(match[0][1], match[0][2], types.Null)
 }
 
 func unset(p *proc.Process, scope *proc.Process) error {

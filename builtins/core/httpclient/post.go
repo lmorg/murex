@@ -18,7 +18,7 @@ func cmdPost(p *proc.Process) (err error) {
 		return errors.New("URL required.")
 	}
 
-	var jhttp jsonHttp
+	var jHttp jsonHttp
 
 	url, err := p.Parameters.String(0)
 	if err != nil {
@@ -44,18 +44,18 @@ func cmdPost(p *proc.Process) (err error) {
 		return err
 	}
 
-	jhttp.Status.Code, _ = strconv.Atoi(resp.Status[:3])
-	jhttp.Status.Message = resp.Status[4:]
+	jHttp.Status.Code, _ = strconv.Atoi(resp.Status[:3])
+	jHttp.Status.Message = resp.Status[4:]
 
-	jhttp.Headers = resp.Header
+	jHttp.Headers = resp.Header
 	b, err := ioutil.ReadAll(resp.Body)
 	resp.Body.Close()
-	jhttp.Body = string(b)
+	jHttp.Body = string(b)
 	if err != nil {
 		return err
 	}
 
-	b, err = json.Marshal(jhttp, p.Stdout.IsTTY())
+	b, err = json.Marshal(jHttp, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

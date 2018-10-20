@@ -5,12 +5,13 @@ import (
 	"io"
 	"net"
 	"net/http"
-	net_url "net/url"
+	neturl "net/url"
 	"regexp"
 	"time"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/json"
 )
 
 const (
@@ -67,18 +68,23 @@ func Request(method, url string, body io.Reader, conf *config.Config, setTimeout
 	if err != nil {
 		return
 	}
-	request.Header.Set("User-Agent", userAgent.(string))
 
 	if contentType != "" {
 		request.Header.Set("Content-Type", contentType)
 	}
 
-	urlParsed, err := net_url.Parse(url)
+	urlParsed, err := neturl.Parse(url)
 	if err != nil {
 		return
 	}
 
+	// code in meta functions
+	setHeaders(request, conf, &urlParsed.Host)
+	setCookies(request, conf, &urlParsed.Host)
+
+	// Set important headers (these will override anything set in the 'headers' config)
 	request.Header.Set("Host", urlParsed.Host)
+	request.Header.Set("User-Agent", userAgent.(string))
 
 	redirects, err := conf.Get("http", "redirect", types.Boolean)
 	if err != nil {
@@ -94,7 +100,7 @@ func Request(method, url string, body io.Reader, conf *config.Config, setTimeout
 	return
 }
 
-// Code unashamedly copy and pasted from:
+// dialTimeout function unashamedly copy and pasted from:
 // https://stackoverflow.com/questions/16895294/how-to-set-timeout-for-http-get-requests-in-golang#16930649
 func dialTimeout(cTimeout time.Duration, rwTimeout time.Duration, conf *config.Config) func(net, addr string) (c net.Conn, err error) {
 	return func(netw, addr string) (net.Conn, error) {
@@ -121,4 +127,52 @@ func validateURL(url *string, conf *config.Config) {
 
 		*url = "http://" + *url
 	}
+}
+
+func getMeta(conf *config.Config, meta string, domain *string) (metaValues, error) {
+	s, err := conf.Get("http", meta, "json")
+	if err != nil {
+		return nil, err
+	}
+
+	var domains metaDomains
+	err = json.UnmarshalMurex([]byte(s.(string)), &domains)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(domains) > 0 && len(domains[*domain]) > 0 {
+		return domains[*domain], nil
+	}
+
+	return nil, err
+}
+
+func setHeaders(request *http.Request, conf *config.Config, domain *string) error {
+	headers, err := getMeta(conf, "headers", domain)
+	if err != nil {
+		return err
+	}
+
+	for name := range headers {
+		request.Header.Add(name, headers[name])
+	}
+
+	return nil
+}
+
+func setCookies(request *http.Request, conf *config.Config, domain *string) error {
+	cookies, err := getMeta(conf, "cookies", domain)
+	if err != nil {
+		return err
+	}
+
+	for name := range cookies {
+		request.AddCookie(&http.Cookie{
+			Name:  name,
+			Value: cookies[name],
+		})
+	}
+
+	return nil
 }
