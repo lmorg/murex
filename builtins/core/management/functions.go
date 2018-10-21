@@ -152,13 +152,19 @@ func cmdCd(p *proc.Process) error {
 		pwd = s
 	}
 
+	// Update $PWD environmental variable for compatability reasons
+	err = os.Setenv("PWD", pwd)
+	if err != nil {
+		p.Stderr.Writeln([]byte(err.Error()))
+	}
+
+	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
 	v = append(v, pwd)
 	b, err := corejson.MarshalIndent(v, "", "    ")
 	if err != nil {
 		return errors.New("Unable to repack $PWDHIST: " + err.Error())
 	}
 
-	//err = proc.ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 	err = p.Variables.Set("PWDHIST", string(b), types.Json)
 	return err
 }
