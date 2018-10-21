@@ -33,11 +33,25 @@ func cmdUnglobal(p *proc.Process) error { return unset(p, proc.ShellProcess) }
 func set(p *proc.Process, scope *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name.")
-	}
+	//var overrideDataType bool
+	dataType, _ := p.Parameters.String(0)
+	var params string
 
-	params := p.Parameters.StringAll()
+	switch p.Parameters.Len() {
+	case 0:
+		return errors.New("Missing variable name.")
+	case 1:
+		if p.IsMethod {
+			dataType = p.Stdin.GetDataType()
+		} else {
+			dataType = types.String
+		}
+		params, _ = p.Parameters.String(0)
+	case 2:
+		params, _ = p.Parameters.String(1)
+	case 3:
+		return errors.New("Too many parameters. Have you quoted the variable data using either single quotes, double quotes, or parentheses?")
+	}
 
 	// Set variable as method:
 	if p.IsMethod {
@@ -49,17 +63,17 @@ func set(p *proc.Process, scope *proc.Process) error {
 			return err
 		}
 		b = utils.CrLfTrim(b)
-		dt := p.Stdin.GetDataType()
-		return scope.Parent.Variables.Set(params, string(b), dt)
+		return scope.Parent.Variables.Set(params, string(b), dataType)
 	}
 
 	// Set variable as parameters:
 	if rxVarName.MatchString(params) {
-		return scope.Parent.Variables.Set(params, "", types.String)
+		return scope.Parent.Variables.Set(params, "", dataType)
 	}
 
+	// Define an empty variable
 	match := rxSet.FindAllStringSubmatch(params, -1)
-	return scope.Parent.Variables.Set(match[0][1], match[0][2], types.Null)
+	return scope.Parent.Variables.Set(match[0][1], match[0][2], dataType)
 }
 
 func unset(p *proc.Process, scope *proc.Process) error {

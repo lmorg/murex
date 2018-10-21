@@ -12,7 +12,18 @@ Defines, updates or deallocates a local variable
 
     <stdin> -> set var_name
 
+    # Assume value from STDIN, define the data type manually
+    <stdin> -> set datatype var_name
+
+    # Define value manually (data type defaults to string; `str`)
     set var_name=data
+
+    # Define value and data type manually
+    set datatype var_name=data
+
+    # Define a variable but don't set any value
+    set var_name
+    set datatype var_name
 
 ### Examples
 
@@ -92,6 +103,9 @@ quotes:
 
     » out '$foo'
     $foo
+
+    » out ($foo)
+    bar
 
 ### Synonyms
 

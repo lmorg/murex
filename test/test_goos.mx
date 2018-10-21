@@ -6,7 +6,7 @@ cd $GOPATH/src/$project/test
 mkdir build-tests
 cd build-tests
 
-([
+set json targets=([
     "linux",
     "freebsd",
     "openbsd",
@@ -14,7 +14,7 @@ cd build-tests
     "darwin",
     "solaris",
     "windows"
-]) -> cast json -> set targets
+])
 
 let status=0
 

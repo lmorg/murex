@@ -10,9 +10,21 @@ Defines, updates or deallocates a global variable.
 
 ### Usage
 
+    # Assume data type and value from STDIN
     <stdin> -> global var_name
 
+    # Assume value from STDIN, define the data type manually
+    <stdin> -> global datatype var_name
+
+    # Define value manually (data type defaults to string; `str`)
     global var_name=data
+
+    # Define value and data type manually
+    global datatype var_name=data
+
+    # Define a variable but don't set any value
+    global var_name
+    global datatype var_name
 
 ### Examples
 
@@ -94,6 +106,13 @@ quotes:
 
     » out '$foo'
     $foo
+
+    » out ($foo)
+    bar
+
+#### Declaration without values
+
+You can
 
 ### Synonyms
 
