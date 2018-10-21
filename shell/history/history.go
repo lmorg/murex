@@ -32,6 +32,7 @@ func New(filename string) (h *History, err error) {
 	h.filename = filename
 	h.list, _ = openHist(filename)
 	h.writer, err = streams.NewFile(filename)
+
 	return h, err
 }
 
@@ -70,7 +71,7 @@ func (h *History) Write(s string) (int, error) {
 		Index:    len(h.list),
 	}
 
-	if len(h.list) > 0 && h.list[len(h.list)-1].Block != block {
+	if len(h.list) == 0 || h.list[len(h.list)-1].Block != block {
 		h.list = append(h.list, item)
 	}
 
@@ -98,7 +99,7 @@ func (h *History) Close() {
 // GetLine returns a specific line from the history file
 func (h *History) GetLine(i int) (string, error) {
 	if i < 0 {
-		return "", errors.New("Cannot use a negative index when requsting historic commands")
+		return "", errors.New("Cannot use a negative index when requesting historic commands")
 	}
 	if i < len(h.list) {
 		return h.list[i].Block, nil

@@ -54,7 +54,7 @@ func (h *ExampleHistory) Dump() interface{} {
 	return h.items
 }
 
-// NullHistory is a null History interface for when you don't want to line
+// NullHistory is a null History interface for when you don't want line
 // entries remembered eg password input.
 type NullHistory struct{}
 
