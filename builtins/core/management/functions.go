@@ -135,7 +135,19 @@ func cmdCd(p *proc.Process) error {
 		return err
 	}
 
-	//hist := proc.ShellProcess.Variables.GetString("PWDHIST")
+	pwd, err := os.Getwd()
+	if err != nil {
+		p.Stderr.Writeln([]byte(err.Error()))
+		pwd = s
+	}
+
+	// Update $PWD environmental variable for compatability reasons
+	err = os.Setenv("PWD", pwd)
+	if err != nil {
+		p.Stderr.Writeln([]byte(err.Error()))
+	}
+
+	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
 	hist := p.Variables.GetString("PWDHIST")
 	if hist == "" {
 		hist = "[]"
@@ -147,18 +159,6 @@ func cmdCd(p *proc.Process) error {
 		return errors.New("Unable to unpack $PWDHIST: " + err.Error())
 	}
 
-	pwd, err := os.Getwd()
-	if err != nil {
-		pwd = s
-	}
-
-	// Update $PWD environmental variable for compatability reasons
-	err = os.Setenv("PWD", pwd)
-	if err != nil {
-		p.Stderr.Writeln([]byte(err.Error()))
-	}
-
-	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
 	v = append(v, pwd)
 	b, err := corejson.MarshalIndent(v, "", "    ")
 	if err != nil {
