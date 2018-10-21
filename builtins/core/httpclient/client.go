@@ -22,7 +22,7 @@ const (
 var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
 
 // Request generates a HTTP request
-func Request(method, url string, body io.Reader, conf *config.Config, setTimeout bool, contentType string) (response *http.Response, err error) {
+func Request(method, url string, body io.Reader, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
 	toStr, err := conf.Get("http", "timeout", types.String)
 	if err != nil {
 		return
@@ -69,9 +69,9 @@ func Request(method, url string, body io.Reader, conf *config.Config, setTimeout
 		return
 	}
 
-	if contentType != "" {
-		request.Header.Set("Content-Type", contentType)
-	}
+	//if contentType != "" {
+	//	request.Header.Set("Content-Type", contentType)
+	//}
 
 	urlParsed, err := neturl.Parse(url)
 	if err != nil {
