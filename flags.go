@@ -22,7 +22,7 @@ var (
 )
 
 func readFlags() {
-	flag.StringVar(&fCommand, "c", "", "Run command block - read from parameters")
+	flag.StringVar(&fCommand, "c", "", "Run code block - read from parameters")
 
 	flag.BoolVar(&fHelp1, "?", false, "Help")
 	flag.BoolVar(&fHelp2, "h", false, "Help")
