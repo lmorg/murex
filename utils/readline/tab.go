@@ -3,8 +3,18 @@ package readline
 type TabDisplayType int
 
 const (
+	// TabDisplayGrid is the default. It's where the screen below the prompt is
+	// divided into a grid with each suggestion occupying an individual cell.
 	TabDisplayGrid = iota
+
+	// TabDisplayList is where suggestions are displayed as a list with a
+	// description. The suggestion gets highlighted but both are searchable (ctrl+f)
 	TabDisplayList
+
+	// TabDisplayMap is where suggestions are displayed as a list with a
+	// description however the description is what gets highlighted and only
+	// that is searchable (ctrl+f). The benefit of TabDisplayMap is when your
+	// autocomplete suggestions are IDs rather than human terms.
 	TabDisplayMap
 )
 

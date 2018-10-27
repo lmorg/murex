@@ -119,6 +119,8 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 var murexProfile []string
 
+// AppendProfile is used as a way of creating a platform specific default
+// profile generated at compile time
 func AppendProfile(block string) {
 	murexProfile = append(murexProfile, "\n"+block+"\n")
 }

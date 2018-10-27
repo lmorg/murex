@@ -20,17 +20,31 @@ func NewTee(primary stdio.Io) (tee *Tee, secondary *Stdin) {
 	return
 }
 
-func (tee *Tee) IsTTY() bool                           { return tee.primary.IsTTY() }
-func (tee *Tee) MakePipe()                             { tee.primary.MakePipe() }
-func (tee *Tee) Stats() (uint64, uint64)               { return tee.primary.Stats() }
-func (tee *Tee) Read(p []byte) (int, error)            { return tee.primary.Read(p) }
-func (tee *Tee) ReadLine(callback func([]byte)) error  { return tee.primary.ReadLine(callback) }
-func (tee *Tee) ReadArray(callback func([]byte)) error { return tee.primary.ReadArray(callback) }
-func (tee *Tee) ReadAll() ([]byte, error)              { return tee.primary.ReadAll() }
+// IsTTY calls the primary STDOUT stream in tee to see if it's a TTY
+func (tee *Tee) IsTTY() bool { return tee.primary.IsTTY() }
 
+// MakePipe calls the primary STDOUT stream in tee to make it a pipe
+func (tee *Tee) MakePipe() { tee.primary.MakePipe() }
+
+// Stats is stored against the primary STDOUT stream in tee
+func (tee *Tee) Stats() (uint64, uint64) { return tee.primary.Stats() }
+
+// Read from STDIN (uses primary tee stream)
+func (tee *Tee) Read(p []byte) (int, error) { return tee.primary.Read(p) }
+
+// ReadLine reads a line from STDIN (uses the primary tee stream)
+func (tee *Tee) ReadLine(callback func([]byte)) error { return tee.primary.ReadLine(callback) }
+
+// ReadArray reads an array from STDIN (uses the primary tee stream)
+func (tee *Tee) ReadArray(callback func([]byte)) error { return tee.primary.ReadArray(callback) }
+
+// ReadMap reads a hash table from STDIN (uses the primary tee stream)
 func (tee *Tee) ReadMap(config *config.Config, callback func(string, string, bool)) error {
 	return tee.primary.ReadMap(config, callback)
 }
+
+// ReadAll from STDIN (uses the primary tee stream)
+func (tee *Tee) ReadAll() ([]byte, error) { return tee.primary.ReadAll() }
 
 // Write is the standard Writer interface Write() method.
 func (tee *Tee) Write(p []byte) (int, error) {

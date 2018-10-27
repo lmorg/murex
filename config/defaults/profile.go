@@ -37,17 +37,6 @@ autocomplete set exec { [
     }
 ] }
 
-autocomplete set pty { [
-    {
-        "IncFiles": true,
-        "IncDirs": true,
-        "IncExePath": true
-    },
-    {
-        "NestedCommand": true
-    }
-] }
-
 autocomplete set format { [{
     "Dynamic": ({ runtime: --marshallers })
 }] }
