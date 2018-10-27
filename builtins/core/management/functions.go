@@ -141,7 +141,7 @@ func cmdCd(p *proc.Process) error {
 		pwd = s
 	}
 
-	// Update $PWD environmental variable for compatability reasons
+	// Update $PWD environmental variable for compatibility reasons
 	err = os.Setenv("PWD", pwd)
 	if err != nil {
 		p.Stderr.Writeln([]byte(err.Error()))

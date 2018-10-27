@@ -30,7 +30,7 @@ type doc struct {
 
 type docs []doc
 
-// Get returns a doc object based on the documentPath (period seperated, eg
+// Get returns a doc object based on the documentPath (period separated, eg
 // "Category.Name"). If no object found doc returns an error
 func (d docs) Get(documentPath string) (document doc, err error) {
 	return

@@ -7,11 +7,14 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
 
+// Tee is a stream interface with two output streams
+// (like the `tee` command on UNIX/Linux)
 type Tee struct {
 	primary   stdio.Io
 	secondary Stdin
 }
 
+// NewTee creates a new tee stdio interface
 func NewTee(primary stdio.Io) (tee *Tee, secondary *Stdin) {
 	tee = new(Tee)
 	tee.primary = primary

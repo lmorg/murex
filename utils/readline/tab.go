@@ -1,5 +1,6 @@
 package readline
 
+// TabDisplayType defines how the autocomplete suggestions display
 type TabDisplayType int
 
 const (

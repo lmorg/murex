@@ -68,7 +68,7 @@ func cmdTest(p *proc.Process) error {
 		return testRun(p)
 
 	default:
-		return errors.New("Invalid paramter: " + option)
+		return errors.New("Invalid parameter: " + option)
 	}
 }
 

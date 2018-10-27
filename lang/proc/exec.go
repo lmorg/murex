@@ -47,7 +47,7 @@ func execute(p *Process) error {
 	}
 
 	if p.Stdout.IsTTY() {
-		// If Stdout is a TTY then set the appropiate syscalls to allow the calling program to own the TTY....
+		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
 		osSyscalls(cmd)
 		cmd.Stdout = os.Stdout
 	} else {
