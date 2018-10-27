@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-// TempFle is a struct returned by the NewTempFile function. It allows the
+// TempFile is a struct returned by the NewTempFile function. It allows the
 // reciever to us the temp file by filename wrapped inside an io.ReadCloser
 // interface.
 type TempFile struct {

@@ -15,6 +15,12 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
+/*
+	This test library relates to the testing framework within the
+	murex language itself rather than Go's test framework within
+	the murex project.
+*/
+
 // TestProperties are the values prescribed to an individual test case
 type TestProperties struct {
 	Name       string
@@ -25,6 +31,7 @@ type TestProperties struct {
 	HasRan     bool
 }
 
+// TestChecks are the pipe streams and what test case to check against
 type TestChecks struct {
 	stdio    stdio.Io
 	Regexp   *regexp.Regexp
@@ -32,6 +39,7 @@ type TestChecks struct {
 	RunBlock func(*Process, []rune) ([]byte, error)
 }
 
+// TestResults is a record for each test result
 type TestResults struct {
 	Status     TestStatus
 	TestName   string
@@ -42,15 +50,32 @@ type TestResults struct {
 	ColNumber  int
 }
 
+// TestStatus is a summarised stamp for a particular result
 type TestStatus string
 
 const (
+	// TestPassed means the test has passed
 	TestPassed TestStatus = "PASSED"
+
+	// TestFailed means the test has failed
 	TestFailed TestStatus = "FAILED"
-	TestError  TestStatus = "ERROR"
+
+	// TestError means there was an error running that test case
+	TestError TestStatus = "ERROR"
+
+	// TestMissed means that test was not run (this is usually because
+	// it was inside a parent control block - eg if / switch / etc -
+	// which flowed down a different pathway. eg:
+	//
+	//     if { true } else { out <test_example> "example" }
+	//
+	// `test_example` would not run because `if` would not run the
+	// `else` block.
 	TestMissed TestStatus = "MISSED"
 )
 
+// Tests is a class of all the tests that needs to run inside a
+// particlar scope, plus all of it's results.
 type Tests struct {
 	mutex   sync.Mutex
 	test    []*TestProperties
@@ -63,6 +88,7 @@ func NewTests() (tests *Tests) {
 	return
 }
 
+// Define is the method used to define a new test case
 func (tests *Tests) Define(name string, out *TestChecks, err *TestChecks, exitNum int) error {
 	tests.mutex.Lock()
 
@@ -88,6 +114,9 @@ define:
 	return errors.New("Test already defined for '" + name + "' in this scope.")
 }
 
+// SetStreams is called when a particular test case is run. eg
+//
+//     out <test_example> "Run this test"
 func (tests *Tests) SetStreams(name string, stdout, stderr stdio.Io, exitNumPtr *int) error {
 	tests.mutex.Lock()
 
@@ -109,6 +138,7 @@ set:
 	return nil
 }
 
+// AddResult is called after the test has run so the result can be recorded
 func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatus, message string) {
 	//tests.Results.murex.Lock()
 	tests.Results = append(tests.Results, TestResults{
@@ -123,6 +153,7 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 	//tests.Results.murex.Unlock()
 }
 
+// WriteResults is the reporting tool
 func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	allowAnsi := func() bool {
 		v, err := ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
@@ -215,6 +246,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	}
 }
 
+// Dump is used for `runtime --tests`
 func (tests *Tests) Dump() []string {
 	tests.mutex.Lock()
 
@@ -228,6 +260,8 @@ func (tests *Tests) Dump() []string {
 	return names
 }
 
+// Compare is the method which actually runs the individual test cases
+// to see if they pass or fail.
 func (tests *Tests) Compare(name string, p *Process) {
 	tests.mutex.Lock()
 
@@ -338,6 +372,7 @@ compare:
 	}
 }
 
+// ReportMissedTests is used so we have a result of tests that didn't run
 func (tests *Tests) ReportMissedTests(p *Process) {
 	tests.mutex.Lock()
 
