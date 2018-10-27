@@ -33,7 +33,7 @@ to override the env vars at a local level if needed.
 
 Please note that because the _murex_ variables are only local, they will
 not affect the `PATH` lookup, `LD_LIBRARY_PATH` et al, nor be forwarded
-to any external processes (eg invoked via `exec` or `pty`).
+to any external processes (eg invoked via `exec`).
 
 ## Defining a variable
 

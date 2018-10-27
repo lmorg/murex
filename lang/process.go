@@ -135,7 +135,7 @@ func executeProcess(p *proc.Process) {
 	//debug.Json("Executing:", p)
 
 	// Create a kill switch
-	if p.Name != consts.CmdExec && p.Name != consts.CmdPty {
+	if p.Name != "exec" {
 		p.Kill = func() { destroyProcess(p) }
 	}
 
@@ -202,13 +202,7 @@ executeProcess:
 	default:
 		// shell execute
 		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
-
-		if !p.IsMethod && p.Stdout.IsTTY() {
-			p.Name = consts.CmdPty
-		} else {
-			p.Name = consts.CmdExec
-		}
-
+		p.Name = "exec"
 		err = proc.GoFunctions[p.Name](p)
 	}
 

@@ -13,7 +13,7 @@ import (
 func init() {
 	proc.GoFunctions["datatype"] = cmdSetDt
 	proc.GoFunctions["exec"] = proc.External
-	proc.GoFunctions["pty"] = proc.External
+	//proc.GoFunctions["pty"] = proc.External - Deprecated because this is now covered with a smarter `exec`
 	proc.GoFunctions["die"] = cmdDie
 	proc.GoFunctions["exit"] = cmdExit
 	proc.GoFunctions["null"] = cmdNull
