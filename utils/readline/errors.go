@@ -1,7 +1,9 @@
 package readline
 
-// The following are error strings returned by readline:
 const (
+	// ErrCtrlC is returned when ctrl+c is pressed
 	ErrCtrlC = "Ctrl+C"
-	ErrEOF   = "EOF"
+
+	// ErrEOF is returned when ctrl+d is pressed
+	ErrEOF = "EOF"
 )
