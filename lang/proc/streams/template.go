@@ -37,7 +37,7 @@ func writeTo(std stdio.Io, w io.Writer) (int64, error) {
 	var (
 		total int64
 		i, n  int
-		p     []byte = make([]byte, 1024*10)
+		p     = make([]byte, 1024*10)
 		err   error
 	)
 

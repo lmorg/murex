@@ -30,7 +30,7 @@ type ast struct {
 }
 
 // echo @{a: abc[1,2,3],[1..3]}
-//a: [1..10] -> ...
+// a: [1..10] -> ...
 func mkArray(p *proc.Process) error {
 	jsonArray := p.Name == "ja"
 
@@ -166,6 +166,10 @@ func mkArray(p *proc.Process) error {
 		)
 
 		for n := range groups[g] {
+			if p.HasCancelled() {
+				goto cancelled
+			}
+
 			switch groups[g][n].Type {
 			case astTypeString:
 				if open {
@@ -197,6 +201,10 @@ func mkArray(p *proc.Process) error {
 
 		for {
 		nextIndex:
+			if p.HasCancelled() {
+				goto cancelled
+			}
+
 			s := template
 			for t := 0; t < len(counter); t++ {
 				c := counter[t]
@@ -238,6 +246,7 @@ func mkArray(p *proc.Process) error {
 	nextGroup:
 	}
 
+cancelled:
 	if jsonArray {
 		b, err := json.Marshal(array, p.Stdout.IsTTY())
 		if err != nil {

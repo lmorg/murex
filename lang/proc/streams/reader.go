@@ -2,6 +2,7 @@ package streams
 
 import (
 	"bufio"
+	"context"
 	"errors"
 	"io"
 	"io/ioutil"
@@ -15,6 +16,8 @@ import (
 // Reader is a wrapper around an io.Reader interface
 type Reader struct {
 	mutex      sync.Mutex
+	ctx        context.Context
+	forceClose func()
 	reader     io.Reader
 	readCloser io.ReadCloser
 	bRead      uint64
@@ -32,6 +35,7 @@ func NewReader(reader io.Reader) (r *Reader) {
 
 	r = new(Reader)
 	r.reader = reader
+	r.ctx, r.forceClose = context.WithCancel(context.Background())
 	return
 }
 
@@ -57,6 +61,12 @@ func (r *Reader) Stats() (bytesWritten, bytesRead uint64) {
 
 // Read is the reader interface Read() method.
 func (r *Reader) Read(p []byte) (int, error) {
+	select {
+	case <-r.ctx.Done():
+		return 0, io.EOF
+	default:
+	}
+
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
@@ -133,6 +143,11 @@ func (r *Reader) Close() {
 	if r.dependants == 0 && r.readCloser != nil {
 		r.readCloser.Close()
 	}
+}
+
+// ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
+func (r *Reader) ForceClose() {
+	r.forceClose()
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination

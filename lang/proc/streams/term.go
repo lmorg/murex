@@ -13,8 +13,7 @@ import (
 // term structure exists as a wrapper around os.Stdout and os.Stderr so they can be easily interchanged with this
 // shells streams (which has a larger array of methods to enable easier writing of builtin shell functions.
 type term struct {
-	mutex sync.Mutex
-	//debug.Mutex
+	mutex    sync.Mutex
 	bWritten uint64
 	bRead    uint64
 }
@@ -52,6 +51,9 @@ func (t *term) Open() {}
 
 // Close is a null method because the OS standard streams shouldn't be closed
 func (t *term) Close() {}
+
+// ForceClose is a null method because the OS standard streams shouldn't be closed
+func (t *term) ForceClose() {}
 
 // IsTTY always returns `true` because you are writing to a TTY. All over stream.Io interfaces should return `false`.
 func (t *term) IsTTY() bool { return true }

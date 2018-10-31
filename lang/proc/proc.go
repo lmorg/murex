@@ -1,6 +1,9 @@
 package proc
 
 import (
+	"context"
+	"errors"
+	"sync"
 	"time"
 
 	"github.com/lmorg/murex/config"
@@ -9,15 +12,13 @@ import (
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
-
-	"errors"
-	"sync"
 )
 
 // Process - Each process running inside the murex shell will be one of these objects.
 // It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
 // External processes will also appear in the host OS's process list.
 type Process struct {
+	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io
 	Stderr             stdio.Io
@@ -54,34 +55,31 @@ type Process struct {
 
 var (
 	// ShellProcess is the root murex process
-	ShellProcess *Process = &Process{}
+	ShellProcess = &Process{}
 
 	// MxFunctions is a table of global murex functions
-	MxFunctions MurexFuncs = NewMurexFuncs()
+	MxFunctions = NewMurexFuncs()
 
 	// GoFunctions is a table of available builtin functions
-	GoFunctions map[string]func(*Process) error = make(map[string]func(*Process) error)
+	GoFunctions = make(map[string]func(*Process) error)
 
 	// This will hold all variables
 	masterVarTable = newVarTable()
 
 	// InitConf is a table of global config options
-	InitConf *config.Config = config.NewConfiguration()
+	InitConf = config.NewConfiguration()
 
 	// GlobalAliases is a table of global aliases
-	GlobalAliases Aliases = NewAliases()
+	GlobalAliases = NewAliases()
 
 	// GlobalPipes is a table of  named pipes
-	GlobalPipes pipes.Named = pipes.NewNamed()
+	GlobalPipes = pipes.NewNamed()
 
 	// GlobalFIDs is a table of running murex processes
-	GlobalFIDs funcID = *newFuncID()
-
-	// KillForeground is the `kill` function for whichever FID currently has "focus"
-	KillForeground func() = func() {}
+	GlobalFIDs = *newFuncID()
 
 	// ForegroundProc is the murex FID which currently has "focus"  Em3w
-	ForegroundProc *Process = ShellProcess
+	ForegroundProc = ShellProcess
 )
 
 // HasTerminated checks if process has terminated.
@@ -92,6 +90,20 @@ func (p *Process) HasTerminated() (state bool) {
 	state = p.hasTerminatedV
 	p.hasTerminatedM.Unlock()
 	return
+}
+
+// HasCancelled is a wrapper function around context because it's a pretty ugly API
+func (p *Process) HasCancelled() (state bool) {
+	if p.Context == nil {
+		return false
+	}
+
+	select {
+	case <-p.Context.Done():
+		return true
+	default:
+		return false
+	}
 }
 
 // SetTerminatedState sets the process terminated state.

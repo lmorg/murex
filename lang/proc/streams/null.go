@@ -57,3 +57,6 @@ func (t *Null) Open() {}
 
 // Close - null interface
 func (t *Null) Close() {}
+
+// ForceClose - null interface
+func (t *Null) ForceClose() {}

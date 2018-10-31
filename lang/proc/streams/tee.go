@@ -71,6 +71,11 @@ func (tee *Tee) Close() {
 	tee.primary.Close()
 }
 
+// ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
+func (tee *Tee) ForceClose() {
+	tee.primary.ForceClose()
+}
+
 // WriteTo reads from the stream.Io interface and writes to a destination
 // io.Writer interface
 func (tee *Tee) WriteTo(w io.Writer) (n int64, err error) {

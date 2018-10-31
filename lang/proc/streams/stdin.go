@@ -2,6 +2,7 @@ package streams
 
 import (
 	"bufio"
+	"context"
 	"io"
 	"sync"
 
@@ -14,6 +15,8 @@ import (
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 type Stdin struct {
 	mutex      sync.Mutex
+	ctx        context.Context
+	forceClose func()
 	buffer     []byte
 	bRead      uint64
 	bWritten   uint64
@@ -24,7 +27,7 @@ type Stdin struct {
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
-var DefaultMaxBufferSize int = 1024 * 1024 * 10 // 10 meg
+var DefaultMaxBufferSize = 1024 * 1024 * 10 // 10 meg
 
 // Shamelessly stolen from https://blog.golang.org/go-slices-usage-and-internals
 // (it works well so why reinvent the wheel?)
@@ -47,6 +50,7 @@ func appendBytes(slice []byte, data ...byte) []byte {
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	stdin.max = DefaultMaxBufferSize
+	stdin.ctx, stdin.forceClose = context.WithCancel(context.Background())
 	return
 }
 
@@ -72,21 +76,30 @@ func (stdin *Stdin) Stats() (bytesWritten, bytesRead uint64) {
 
 // Read is the standard Reader interface Read() method.
 func (stdin *Stdin) Read(p []byte) (i int, err error) {
-	defer stdin.mutex.Unlock()
 	for {
-		stdin.mutex.Lock()
-
-		if len(stdin.buffer) == 0 && stdin.dependants < 1 {
+		select {
+		case <-stdin.ctx.Done():
 			return 0, io.EOF
+		default:
 		}
 
-		if len(stdin.buffer) == 0 && stdin.dependants > 0 {
-			stdin.mutex.Unlock()
+		stdin.mutex.Lock()
+		l := len(stdin.buffer)
+		deps := stdin.dependants
+		stdin.mutex.Unlock()
+
+		if l == 0 {
+			if deps < 1 {
+				return 0, io.EOF
+			}
+
 			continue
 		}
 
 		break
 	}
+
+	stdin.mutex.Lock()
 
 	if len(p) >= len(stdin.buffer) {
 		i = len(stdin.buffer)
@@ -100,6 +113,8 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 	}
 
 	stdin.bRead += uint64(i)
+
+	stdin.mutex.Unlock()
 
 	return i, err
 }
@@ -125,6 +140,12 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 	stdin.mutex.Unlock()
 
 	for {
+		select {
+		case <-stdin.ctx.Done():
+			break
+		default:
+		}
+
 		stdin.mutex.Lock()
 		closed := stdin.dependants < 1
 		stdin.mutex.Unlock()
@@ -157,6 +178,15 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 	}
 
 	for {
+		select {
+		case <-stdin.ctx.Done():
+			stdin.mutex.Lock()
+			stdin.buffer = []byte{}
+			stdin.mutex.Unlock()
+			return 0, io.ErrClosedPipe
+		default:
+		}
+
 		stdin.mutex.Lock()
 		buffSize := len(stdin.buffer)
 		maxBufferSize := stdin.max
@@ -200,6 +230,11 @@ func (stdin *Stdin) Close() {
 	if stdin.dependants < 0 {
 		panic("More closed dependants than open")
 	}
+}
+
+// ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
+func (stdin *Stdin) ForceClose() {
+	stdin.forceClose()
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination

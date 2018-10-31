@@ -60,6 +60,12 @@ func (f *File) MakePipe() {
 
 // Write is the io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
+	/*select {
+	case <-f.ctx.Done():
+		return 0, io.ErrClosedPipe
+	default:
+	}*/
+
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 
@@ -142,4 +148,9 @@ func (f *File) Close() {
 	if f.dependants < 0 {
 		panic("more closed dependants than open")
 	}
+}
+
+// ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
+func (f *File) ForceClose() {
+	// Nothing to do because File is a write-only interface
 }

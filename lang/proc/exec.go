@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -34,11 +35,17 @@ func execute(p *Process) error {
 	}
 	cmd := exec.Command(exeName, parameters...)
 
+	if p.HasCancelled() {
+		return nil
+	}
+
 	p.Kill = func() {
-		defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
+		if !debug.Enable {
+			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
+		}
+		p.Stdin.ForceClose()
 		cmd.Process.Kill()
 	}
-	KillForeground = p.Kill
 
 	if p.IsMethod {
 		cmd.Stdin = p.Stdin

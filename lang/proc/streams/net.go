@@ -2,6 +2,7 @@ package streams
 
 import (
 	"bufio"
+	"context"
 	"io"
 	"io/ioutil"
 	"net"
@@ -16,6 +17,8 @@ import (
 // Net Io interface
 type Net struct {
 	mutex      sync.Mutex
+	ctx        context.Context
+	forceClose func()
 	bRead      uint64
 	bWritten   uint64
 	dependants int
@@ -46,6 +49,8 @@ func NewDialer(protocol, address string) (n *Net, err error) {
 		return nil, err
 	}
 
+	n.ctx, n.forceClose = context.WithCancel(context.Background())
+
 	return
 }
 
@@ -70,6 +75,8 @@ func NewListener(protocol, address string) (n *Net, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	n.ctx, n.forceClose = context.WithCancel(context.Background())
 
 	return
 }
@@ -110,6 +117,12 @@ func (n *Net) Stats() (bytesWritten, bytesRead uint64) {
 
 // Read bytes from net Io interface
 func (n *Net) Read(p []byte) (i int, err error) {
+	select {
+	case <-n.ctx.Done():
+		return 0, io.EOF
+	default:
+	}
+
 	i, err = n.conn.Read(p)
 	n.mutex.Lock()
 	n.bRead += uint64(i)
@@ -142,6 +155,11 @@ func (n *Net) ReadAll() (b []byte, err error) {
 
 // Write bytes to net Io interface
 func (n *Net) Write(b []byte) (i int, err error) {
+	/*select {
+	case <-n.ctx.Done():
+		return 0, io.EOF
+	}*/
+
 	i, err = n.conn.Write(b)
 	n.mutex.Lock()
 	n.bWritten += uint64(i)
@@ -192,6 +210,11 @@ func (n *Net) Close() {
 	if n.dependants < 0 {
 		panic("more closed dependants than open")
 	}
+}
+
+// ForceClose forces the net Io interface to close. This should only be called on reader interfaces
+func (n *Net) ForceClose() {
+	n.forceClose()
 }
 
 // ReadArray treats net Io interface as an array of data
