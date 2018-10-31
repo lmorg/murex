@@ -9,11 +9,11 @@ import (
 
 // ReadArray is where custom data formats can define how to iterate through arrays (eg `foreach`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
-var ReadArray map[string]func(read stdio.Io, callback func([]byte)) error = make(map[string]func(read stdio.Io, callback func([]byte)) error)
+var ReadArray = make(map[string]func(read stdio.Io, callback func([]byte)) error)
 
 // ReadMap is where custom data formats can define how to iterate through structured data (eg `formap`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
-var ReadMap map[string]func(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error = make(map[string]func(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error)
+var ReadMap = make(map[string]func(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error)
 
 // DumpArray returns an array of compiled builtins supporting deserialization as an array
 func DumpArray() (dump []string) {

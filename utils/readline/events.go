@@ -1,5 +1,8 @@
 package readline
 
+// EventReturn is a structure returned by the callback event function.
+// This is used by readline to determine what state the API should
+// return to after the readline event.
 type EventReturn struct {
 	IgnoreKeyPress bool
 	ClearHelpers   bool

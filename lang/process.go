@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -135,14 +136,28 @@ func executeProcess(p *proc.Process) {
 	//debug.Json("Executing:", p)
 
 	// Create a kill switch
-	if p.Name != consts.CmdExec && p.Name != consts.CmdPty {
-		p.Kill = func() { destroyProcess(p) }
+	//if p.IsMethod {
+	//	p.Context = p.Previous.Context
+	//	p.Kill = p.Previous.Kill
+	//} else {
+	//p.Context, p.Kill = context.WithCancel(context.Background())
+	//}
+
+	//if p.Name != "exec" {
+	//p.Kill = cancel
+	//}
+
+	ctx, kill := context.WithCancel(context.Background())
+
+	p.Context = ctx
+	p.Kill = func() {
+		p.Stdin.ForceClose()
+		kill()
 	}
 
-	//if !p.IsBackground {
-	//	proc.KillForeground = p.Kill
-	//	proc.ForegroundProc = p
-	//}
+	if !p.IsBackground {
+		proc.ForegroundProc = p
+	}
 
 	ParseParameters(p, &p.Parameters)
 
@@ -202,13 +217,7 @@ executeProcess:
 	default:
 		// shell execute
 		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
-
-		if !p.IsMethod && p.Stdout.IsTTY() {
-			p.Name = consts.CmdPty
-		} else {
-			p.Name = consts.CmdExec
-		}
-
+		p.Name = "exec"
 		err = proc.GoFunctions[p.Name](p)
 	}
 
@@ -245,6 +254,9 @@ func waitProcess(p *proc.Process) {
 }
 
 func destroyProcess(p *proc.Process) {
+	// Clean up any context goroutines
+	go p.Kill()
+
 	// Make special case for `bg` because that doesn't wait. Also make a special
 	// case for `pipe` and `test` because they run out-of-band
 	if p.Name != "bg" {

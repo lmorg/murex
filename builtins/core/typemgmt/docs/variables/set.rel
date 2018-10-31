@@ -4,5 +4,4 @@ let
 eval
 export
 exec
-pty
 unset

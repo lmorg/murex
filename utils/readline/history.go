@@ -23,8 +23,8 @@ type History interface {
 	// not all LineHistory implementations will want to structure the history in
 	// the same way. And since Dump() is not actually used by the readline API
 	// internally, this methods return can be structured in whichever way is most
-	// convinant for your own applications (or even just create an empty function
-	// which returns `nil` if you don't require Dump() either)
+	// convenient for your own applications (or even just create an empty
+	//function which returns `nil` if you don't require Dump() either)
 	Dump() interface{}
 }
 

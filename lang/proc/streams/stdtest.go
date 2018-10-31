@@ -1,5 +1,7 @@
 package streams
 
+import "context"
+
 // Stdtest is a testing Io interface user to workaround writing to the terminal
 type Stdtest struct {
 	Stdin
@@ -10,6 +12,7 @@ type Stdtest struct {
 func NewStdtest() (stdtest *Stdtest) {
 	stdtest = new(Stdtest)
 	stdtest.max = DefaultMaxBufferSize
+	stdtest.ctx, stdtest.forceClose = context.WithCancel(context.Background())
 	return
 }
 

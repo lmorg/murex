@@ -33,4 +33,5 @@ type Io interface {
 
 	Open()
 	Close()
+	ForceClose()
 }

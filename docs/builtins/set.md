@@ -85,8 +85,7 @@ Instead _murex_ will assume you want the output of the variable printed:
     Hello, world!
 
 On the rare occasions you want to force variables to be expanded inside a
-function name, then call that function via `exec` (or `pty` if your called
-function needs to be TTY aware):
+function name, then call that function via `exec`:
 
     » set cmd=grep
     » ls -> exec: $cmd main.go
@@ -119,5 +118,4 @@ quotes:
 * [`export`](export.md): Define an environmental variable and set it's value
 * [`global`](global.md): Define a global variable and set it's value
 * `let`
-* `pty`
 * `unset`

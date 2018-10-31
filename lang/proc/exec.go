@@ -1,12 +1,13 @@
 package proc
 
 import (
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/consts"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/types"
 )
 
 // External executes an external process.
@@ -34,24 +35,30 @@ func execute(p *Process) error {
 	}
 	cmd := exec.Command(exeName, parameters...)
 
+	if p.HasCancelled() {
+		return nil
+	}
+
 	p.Kill = func() {
-		defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
+		if !debug.Enable {
+			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
+		}
+		p.Stdin.ForceClose()
 		cmd.Process.Kill()
 	}
-	KillForeground = p.Kill
 
-	if p.Name == consts.CmdPty {
-		// If cmd is `pty` then assign function a TTY (on POSIX) and allow it to read directly from STDIN
-		osSyscalls(cmd)
-		cmd.Stdin = os.Stdin
-	} else {
-		// If cmd is `exec` then the input stream is stdio.Io rather than os.Stdin
+	if p.IsMethod {
 		cmd.Stdin = p.Stdin
+	} else {
+		cmd.Stdin = os.Stdin
 	}
 
 	if p.Stdout.IsTTY() {
+		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
+		osSyscalls(cmd)
 		cmd.Stdout = os.Stdout
 	} else {
+		// ....othwise we just treat the program as a regular piped util
 		cmd.Stdout = p.Stdout
 	}
 

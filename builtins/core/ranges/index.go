@@ -20,9 +20,8 @@ func (rf *rfIndex) End(_ []byte) bool {
 	if rf.end > -1 {
 		rf.i++
 		return rf.i > rf.end+1
-	} else {
-		return false
 	}
+	return false
 }
 
 func newNumber(r *rangeParameters) (err error) {

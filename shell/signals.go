@@ -2,11 +2,12 @@ package shell
 
 import (
 	"fmt"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/utils"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/utils"
 )
 
 const interruptPrompt = "^C"
@@ -28,14 +29,18 @@ func SigHandler() {
 			sig := <-c
 			switch sig.String() {
 			case syscall.SIGTERM.String():
-				//Instance.Terminal.ExitRawMode()
 				os.Stderr.WriteString("Shell received SIGTERM!" + utils.NewLineString)
 				os.Exit(1)
+
 			case os.Interrupt.String():
 				if Prompt == nil {
-					go proc.KillForeground()
-					os.Stderr.WriteString(interruptPrompt)
+					go proc.ForegroundProc.Kill()
+					//os.Stderr.WriteString(interruptPrompt)
+
 				} else {
+					//proc.ForegroundProc.Kill()
+					//fmt.Println("else")
+					//os.Exit(1)
 					p := proc.ForegroundProc
 					for p.Id != 0 {
 						parent := p.Parent
@@ -44,11 +49,13 @@ func SigHandler() {
 						}
 						p = parent
 					}
-					os.Stderr.WriteString(interruptPrompt)
+					//os.Stderr.WriteString(interruptPrompt)
 				}
+
 			case syscall.SIGQUIT.String():
 				os.Stderr.WriteString("Shell received SIGQUIT!" + utils.NewLineString)
 				os.Exit(2)
+
 			default:
 				os.Stderr.WriteString("Unhandled signal: " + sig.String())
 			}

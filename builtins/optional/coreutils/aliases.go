@@ -3,7 +3,6 @@ package coreutils
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 // These are really lazy aliases from POSIX to Windows. Since they don't intend to emulate the behavior of their POSIX
@@ -21,11 +20,7 @@ func alias(cmd string) func(p *proc.Process) error {
 	return func(p *proc.Process) error {
 		p.Stdout.SetDataType(types.String)
 
-		if !p.IsMethod && p.Stdout.IsTTY() {
-			p.Name = consts.CmdPty
-		} else {
-			p.Name = consts.CmdExec
-		}
+		p.Name = "exec"
 
 		p.Parameters.Params = append([]string{cmd}, p.Parameters.Params...)
 
