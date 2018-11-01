@@ -48,8 +48,8 @@ func cmdFor(p *proc.Process) (err error) {
 	}
 
 	for {
-		if p.HasTerminated() {
-			return nil
+		if p.HasCancelled() {
+			return errors.New(errCancelled)
 		}
 
 		stdout := streams.NewStdin()
@@ -175,8 +175,8 @@ func cmdWhile(p *proc.Process) error {
 		}
 
 		for {
-			if p.HasTerminated() {
-				return nil
+			if p.HasCancelled() {
+				return errors.New(errCancelled)
 			}
 
 			stdout := streams.NewStdin()

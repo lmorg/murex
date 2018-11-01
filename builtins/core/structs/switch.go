@@ -30,6 +30,10 @@ func cmdSwitch(p *proc.Process) error {
 	minParamLen := 2
 
 	for i := range ast {
+		if p.HasCancelled() {
+			return errors.New(errCancelled)
+		}
+
 		if ast[i].Name != "case" && ast[i].Name != "if" && ast[i].Name != "catch" {
 			return fmt.Errorf("Missing `if`, `case` or `catch` statement after statement %d", i)
 		}

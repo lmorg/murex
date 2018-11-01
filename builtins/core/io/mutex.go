@@ -43,7 +43,7 @@ func cmdMutex(p *proc.Process) (err error) {
 		mutexes[name].Unlock()
 
 	default:
-		return errors.New("That isn't a valid method of mutex.")
+		return errors.New("That isn't a valid parameter for mutex.")
 	}
 
 	return nil

@@ -108,6 +108,10 @@ func cmdLsF(p *proc.Process) (err error) {
 		debug.Log("f->", f)
 	}
 	for i := range files {
+		if p.HasCancelled() {
+			break
+		}
+
 		info, err := os.Stat(files[i])
 		if err != nil {
 			continue

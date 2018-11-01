@@ -16,7 +16,7 @@ func init() {
 	proc.GoFunctions["!func"] = cmdUnfunc
 }
 
-var rxAlias *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
+var rxAlias = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
 
 func cmdAlias(p *proc.Process) error {
 	if p.Parameters.Len() == 0 {

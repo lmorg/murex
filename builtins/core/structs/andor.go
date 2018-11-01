@@ -1,6 +1,8 @@
 package structs
 
 import (
+	"errors"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
@@ -14,6 +16,8 @@ func init() {
 	proc.GoFunctions["!or"] = cmdOr
 }
 
+const errCancelled = "User has cancelled processing mid-way through the execution of this control flow structure."
+
 func cmdAnd(p *proc.Process) error { return cmdAndOr(p, true) }
 func cmdOr(p *proc.Process) error  { return cmdAndOr(p, false) }
 
@@ -21,6 +25,10 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 	p.Stdout.SetDataType(types.Boolean)
 
 	for i := 0; i < p.Parameters.Len(); i++ {
+		if p.HasCancelled() {
+			return errors.New(errCancelled)
+		}
+
 		block, err := p.Parameters.Block(i)
 		if err != nil {
 			return err
@@ -32,6 +40,10 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 			return err
 		}
 
+		if p.HasCancelled() {
+			return errors.New(errCancelled)
+		}
+
 		b, err := stdout.ReadAll()
 		if err != nil {
 			return err
@@ -41,16 +53,12 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 		if isAnd {
 			// --- and ---
 			if (!conditional && !p.IsNot) || (conditional && p.IsNot) {
-				//_, err = p.Stdout.Write(types.FalseByte)
-				//return err
 				p.ExitNum = 1
 				return nil
 			}
 		} else {
 			// --- or ---
 			if (conditional && !p.IsNot) || (!conditional && p.IsNot) {
-				//_, err = p.Stdout.Write(types.TrueByte)
-				//return err
 				p.ExitNum = -1
 				return nil
 			}
@@ -59,15 +67,11 @@ func cmdAndOr(p *proc.Process, isAnd bool) error {
 
 	if isAnd {
 		// --- and ---
-		//_, err := p.Stdout.Write(types.TrueByte)
-		//return err
 		p.ExitNum = -1
 		return nil
 	}
 
 	// --- or ---
-	//_, err := p.Stdout.Write(types.FalseByte)
-	//return err
 	p.ExitNum = 1
 	return nil
 }
