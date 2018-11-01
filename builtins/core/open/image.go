@@ -26,31 +26,6 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 }
 
 func pvImage(p *proc.Process) error {
-	/*b, err := ioutil.ReadAll(reader)
-	if err != nil {
-		return err
-	}
-
-	s := base64.StdEncoding.EncodeToString(b)
-
-	if _, err := writer.Write([]byte{27}); err != nil {
-		return err
-	}
-
-	if _, err := writer.Write([]byte("_Gf=100,t=d,i=1;")); err != nil {
-		return err
-	}
-
-	if _, err := writer.Write([]byte(s)); err != nil {
-		return err
-	}
-
-	if _, err := writer.Write([]byte{27, '\\'}); err != nil {
-		return err
-	}
-
-	return nil*/
-
 	var reader io.Reader
 
 	switch {

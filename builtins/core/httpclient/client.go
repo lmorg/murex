@@ -1,6 +1,7 @@
 package httpclient
 
 import (
+	"context"
 	"crypto/tls"
 	"io"
 	"net"
@@ -22,7 +23,7 @@ const (
 var rxHttpProto = regexp.MustCompile(`(?i)^http(s)?://`)
 
 // Request generates a HTTP request
-func Request(method, url string, body io.Reader, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
+func Request(ctx context.Context, method, url string, body io.Reader, conf *config.Config, setTimeout bool) (response *http.Response, err error) {
 	toStr, err := conf.Get("http", "timeout", types.String)
 	if err != nil {
 		return
@@ -69,9 +70,7 @@ func Request(method, url string, body io.Reader, conf *config.Config, setTimeout
 		return
 	}
 
-	//if contentType != "" {
-	//	request.Header.Set("Content-Type", contentType)
-	//}
+	request = request.WithContext(ctx)
 
 	urlParsed, err := neturl.Parse(url)
 	if err != nil {

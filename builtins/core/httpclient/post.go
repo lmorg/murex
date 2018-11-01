@@ -3,12 +3,12 @@ package httpclient
 import (
 	"errors"
 	"io"
-	"io/ioutil"
 	"strconv"
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/readall"
 )
 
 func cmdPost(p *proc.Process) (err error) {
@@ -39,7 +39,7 @@ func cmdPost(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := Request("POST", url, body, p.Config, enableTimeout)
+	resp, err := Request(p.Context, "POST", url, body, p.Config, enableTimeout)
 	if err != nil {
 		return err
 	}
@@ -48,7 +48,7 @@ func cmdPost(p *proc.Process) (err error) {
 	jHttp.Status.Message = resp.Status[4:]
 
 	jHttp.Headers = resp.Header
-	b, err := ioutil.ReadAll(resp.Body)
+	b, err := readall.ReadAll(p.Context, resp.Body)
 	resp.Body.Close()
 	jHttp.Body = string(b)
 	if err != nil {

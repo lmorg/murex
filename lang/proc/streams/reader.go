@@ -5,7 +5,6 @@ import (
 	"context"
 	"errors"
 	"io"
-	"io/ioutil"
 	"sync"
 
 	"github.com/lmorg/murex/config"
@@ -91,8 +90,15 @@ func (r *Reader) ReadLine(callback func([]byte)) error {
 }
 
 // ReadAll reads everything and dump it into one byte slice.
-func (r *Reader) ReadAll() ([]byte, error) {
-	b, err := ioutil.ReadAll(r)
+func (r *Reader) ReadAll() (b []byte, err error) {
+	w := NewStdinWithContext(r.ctx, r.forceClose)
+
+	_, err = w.ReadFrom(r.reader)
+	if err != nil {
+		return
+	}
+
+	b, err = w.ReadAll()
 
 	r.mutex.Lock()
 	r.bRead = uint64(len(b))
@@ -159,6 +165,12 @@ func (r *Reader) WriteTo(w io.Writer) (int64, error) {
 // GetDataType returns the murex data type for the stream.Io interface
 func (r *Reader) GetDataType() (dt string) {
 	for {
+		select {
+		case <-r.ctx.Done():
+			return types.Generic
+		default:
+		}
+
 		r.dtLock.Lock()
 		dt = r.dataType
 		r.dtLock.Unlock()

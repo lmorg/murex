@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"context"
 	"io"
-	"io/ioutil"
 	"net"
 	"os"
 	"sync"
@@ -146,19 +145,28 @@ func (n *Net) ReadLine(callback func([]byte)) error {
 
 // ReadAll data from net Io interface
 func (n *Net) ReadAll() (b []byte, err error) {
-	b, err = ioutil.ReadAll(n.conn)
+	w := NewStdinWithContext(n.ctx, n.forceClose)
+
+	_, err = w.ReadFrom(n.conn)
+	if err != nil {
+		return
+	}
+
+	b, err = w.ReadAll()
+
 	n.mutex.Lock()
 	n.bRead += uint64(len(b))
 	n.mutex.Unlock()
+
 	return
 }
 
 // Write bytes to net Io interface
 func (n *Net) Write(b []byte) (i int, err error) {
-	/*select {
+	select {
 	case <-n.ctx.Done():
-		return 0, io.EOF
-	}*/
+		return 0, io.ErrClosedPipe
+	}
 
 	i, err = n.conn.Write(b)
 	n.mutex.Lock()

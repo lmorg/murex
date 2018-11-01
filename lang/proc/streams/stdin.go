@@ -54,6 +54,17 @@ func NewStdin() (stdin *Stdin) {
 	return
 }
 
+// NewStdinWithContext creates a new stream.Io interface for piping data between processes.
+// Despite it's name, this interface can and is used for Stdout and Stderr streams too.
+// This function is also useful as a context aware version of ioutil.ReadAll
+func NewStdinWithContext(ctx context.Context, forceClose context.CancelFunc) (stdin *Stdin) {
+	stdin = new(Stdin)
+	stdin.max = DefaultMaxBufferSize
+	stdin.ctx = ctx
+	stdin.forceClose = forceClose
+	return
+}
+
 // IsTTY returns false because the Stdin stream is not a pseudo-TTY
 func (stdin *Stdin) IsTTY() bool { return false }
 
@@ -234,7 +245,44 @@ func (stdin *Stdin) Close() {
 
 // ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
 func (stdin *Stdin) ForceClose() {
-	stdin.forceClose()
+	if stdin.forceClose != nil {
+		stdin.forceClose()
+	}
+}
+
+// ReadFrom reads data from r until EOF and appends it to the buffer.
+func (stdin *Stdin) ReadFrom(r io.Reader) (n int64, err error) {
+	var total int64
+
+	stdin.mutex.Lock()
+	stdin.max = 0
+	stdin.mutex.Unlock()
+
+	for {
+		select {
+		case <-stdin.ctx.Done():
+			return total, io.ErrClosedPipe
+		default:
+		}
+
+		p := make([]byte, 1024)
+		i, err := r.Read(p)
+
+		if err == io.EOF {
+			return total, nil
+		}
+
+		if err != nil {
+			return total, err
+		}
+
+		i, err = stdin.Write(p[:i])
+		if err != nil {
+			return total, err
+		}
+
+		total += int64(i)
+	}
 }
 
 // WriteTo reads from the stream.Io interface and writes to a destination
@@ -246,6 +294,12 @@ func (stdin *Stdin) WriteTo(w io.Writer) (int64, error) {
 // GetDataType returns the murex data type for the stream.Io interface
 func (stdin *Stdin) GetDataType() (dt string) {
 	for {
+		select {
+		case <-stdin.ctx.Done():
+			return types.Generic
+		default:
+		}
+
 		stdin.dtLock.Lock()
 		dt = stdin.dataType
 		stdin.dtLock.Unlock()

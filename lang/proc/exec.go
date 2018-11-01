@@ -39,11 +39,13 @@ func execute(p *Process) error {
 		return nil
 	}
 
+	ctxCancel := p.Kill
 	p.Kill = func() {
 		if !debug.Enable {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
 		}
-		p.Stdin.ForceClose()
+		//p.Stdin.ForceClose()
+		ctxCancel()
 		cmd.Process.Kill()
 	}
 
@@ -58,7 +60,7 @@ func execute(p *Process) error {
 		osSyscalls(cmd)
 		cmd.Stdout = os.Stdout
 	} else {
-		// ....othwise we just treat the program as a regular piped util
+		// ....otherwise we just treat the program as a regular piped util
 		cmd.Stdout = p.Stdout
 	}
 

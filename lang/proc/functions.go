@@ -36,7 +36,7 @@ func (fn *MurexFuncs) Define(name string, block []rune) {
 		case r == '\n' && !line1:
 			line1 = true
 
-		case r == '\n' && comment:
+		case r == '\n':
 			goto exitLoop
 
 		case !line1:

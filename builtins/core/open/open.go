@@ -25,7 +25,6 @@ func open(p *proc.Process) (err error) {
 	var (
 		ext      string
 		dataType string
-		//readCloser io.ReadCloser
 	)
 
 	if p.IsMethod {

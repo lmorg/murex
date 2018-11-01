@@ -9,7 +9,7 @@ import (
 )
 
 func http(p *proc.Process, url string) (io.ReadCloser, string, error) {
-	resp, err := httpclient.Request("GET", url, nil, p.Config, true)
+	resp, err := httpclient.Request(p.Context, "GET", url, nil, p.Config, true)
 
 	if err != nil {
 		return nil, "", err

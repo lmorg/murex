@@ -3,7 +3,6 @@ package httpclient
 import (
 	"errors"
 	"io"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"time"
@@ -13,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/readall"
 )
 
 func cmdGet(p *proc.Process) (err error) {
@@ -31,19 +31,13 @@ func cmdGet(p *proc.Process) (err error) {
 	validateURL(&url, p.Config)
 
 	var body io.Reader
-	//var contentType string
 	if p.IsMethod {
 		body = p.Stdin
-
-		//contentType, err = p.Parameters.String(1)
-		//if err != nil {
-		//	return err
-		//}
 	} else {
 		body = nil
 	}
 
-	resp, err := Request("GET", url, body, p.Config, enableTimeout)
+	resp, err := Request(p.Context, "GET", url, body, p.Config, enableTimeout)
 	if err != nil {
 		return err
 	}
@@ -52,7 +46,8 @@ func cmdGet(p *proc.Process) (err error) {
 	jHttp.Status.Message = resp.Status[4:]
 
 	jHttp.Headers = resp.Header
-	b, err := ioutil.ReadAll(resp.Body)
+
+	b, err := readall.ReadAll(p.Context, resp.Body)
 	resp.Body.Close()
 	jHttp.Body = string(b)
 	if err != nil {
@@ -86,7 +81,7 @@ func cmdGetFile(p *proc.Process) (err error) {
 		body = nil
 	}
 
-	resp, err := Request("GET", url, body, p.Config, disableTimeout)
+	resp, err := Request(p.Context, "GET", url, body, p.Config, disableTimeout)
 	if err != nil {
 		return err
 	}
