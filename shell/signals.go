@@ -38,16 +38,17 @@ func SigHandler() {
 					//os.Stderr.WriteString(interruptPrompt)
 
 				} else {
-					//proc.ForegroundProc.Kill()
-					//fmt.Println("else")
-					//os.Exit(1)
+					kill := make([]func(), 0)
 					p := proc.ForegroundProc
 					for p.Id != 0 {
 						parent := p.Parent
 						if p.Kill != nil {
-							p.Kill()
+							kill = append(kill, p.Kill)
 						}
 						p = parent
+					}
+					for i := len(kill) - 1; i > -1; i-- {
+						kill[i]()
 					}
 					//os.Stderr.WriteString(interruptPrompt)
 				}

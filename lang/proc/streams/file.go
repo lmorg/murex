@@ -54,7 +54,6 @@ func (f *File) MakePipe() {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 
-	//f.isParent = true
 	f.dependants++
 }
 
@@ -150,7 +149,5 @@ func (f *File) Close() {
 	}
 }
 
-// ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader
-func (f *File) ForceClose() {
-	// Nothing to do because File is a write-only interface
-}
+// ForceClose forces the stream.Io interface to close.
+func (f *File) ForceClose() {}

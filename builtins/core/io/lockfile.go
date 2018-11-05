@@ -63,7 +63,7 @@ func cmdLockfile(p *proc.Process) (err error) {
 		return err
 
 	default:
-		return errors.New("That isn't a valid method: " + method)
+		return errors.New("That isn't a valid parameter: " + method)
 	}
 
 	return nil
