@@ -64,11 +64,15 @@ func execute(p *Process) error {
 		cmd.Stdout = p.Stdout
 	}
 
-	if p.Stderr.IsTTY() {
-		cmd.Stderr = os.Stderr
-	} else {
-		cmd.Stderr = p.Stderr
-	}
+	//if p.Stderr.IsTTY() {
+	//if allowAnsi() {
+	//	cmd.Stderr = new(streams.TermErrRed)
+	//} else {
+	//	cmd.Stderr = os.Stderr
+	//}
+	//} else {
+	cmd.Stderr = p.Stderr
+	//}
 
 	if err := cmd.Start(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
@@ -86,3 +90,11 @@ func execute(p *Process) error {
 
 	return nil
 }
+
+/*func allowAnsi() bool {
+	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
+	if err != nil {
+		return false
+	}
+	return v.(bool)
+}*/

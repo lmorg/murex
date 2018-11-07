@@ -106,11 +106,10 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		if debug.Enable {
 			// This is TermErr despite being a Stdout stream because it is a debug
 			// stream so we don't want to taint stdout with unexpected output.
-			container.Stdout = new(streams.TermErr)
+			container.Stdout = streams.NewTermErr(true)
 		} else {
 			container.Stdout = new(streams.Null)
 		}
-		//container.Stdout = new(streams.TermOut)
 	}
 	container.Stdout.Open()
 	defer container.Stdout.Close()
@@ -119,11 +118,10 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		container.Stderr = stderr
 	} else {
 		if debug.Enable {
-			container.Stderr = new(streams.TermErr)
+			container.Stderr = streams.NewTermErr(true)
 		} else {
 			container.Stderr = new(streams.Null)
 		}
-		//container.Stderr = new(streams.TermErr)
 	}
 	container.Stderr.Open()
 	defer container.Stderr.Close()
