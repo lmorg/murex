@@ -127,7 +127,6 @@ func prompt() {
 		}
 
 		if string(expanded) != string(block) {
-			//ansi.Stderrln(proc.ShellProcess, ansi.FgGreen, string(expanded))
 			os.Stderr.WriteString(ansi.FgGreen + string(expanded) + ansi.Reset + utils.NewLineString)
 		}
 
@@ -164,19 +163,10 @@ func prompt() {
 			nLines = 1
 			merged = ""
 
-			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), new(streams.TermErr))
-			//lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), streams.NewTermErr(allowAnsi()))
+			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), streams.NewTermErr(ansi.IsAllowed()))
 			streams.CrLf.Write()
 		}
 	}
-}
-
-func allowAnsi() bool {
-	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
-	if err != nil {
-		return false
-	}
-	return v.(bool)
 }
 
 func getSyntaxHighlighting() {

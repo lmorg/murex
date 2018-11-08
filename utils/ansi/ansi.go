@@ -12,7 +12,8 @@ import (
 
 var rxAnsiConsts *regexp.Regexp = regexp.MustCompile(`\{([-\^A-Z0-9]+)\}`)
 
-func allowAnsi() bool {
+// IsAllowed returns a boolean value depending on whether the shell is configured to allow ANSI colours
+func IsAllowed() bool {
 	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
 	if err != nil {
 		return false
@@ -22,7 +23,7 @@ func allowAnsi() bool {
 
 // Stream writes colourised output to a stdio.Io interface
 func Stream(std stdio.Io, ansiCode, message string) (err error) {
-	if std.IsTTY() && allowAnsi() {
+	if std.IsTTY() && IsAllowed() {
 		_, err = std.Write([]byte(ansiCode + message + Reset))
 		return
 	}
@@ -33,7 +34,7 @@ func Stream(std stdio.Io, ansiCode, message string) (err error) {
 
 // Streamln writes colourised output to a stdio.Io interface with an OS specific carriage return
 func Streamln(std stdio.Io, ansiCode, message string) (err error) {
-	if std.IsTTY() && allowAnsi() {
+	if std.IsTTY() && IsAllowed() {
 		_, err = std.Writeln([]byte(ansiCode + message + Reset))
 		return
 	}
@@ -44,7 +45,7 @@ func Streamln(std stdio.Io, ansiCode, message string) (err error) {
 
 // Stderr writes colourised output to p.Stderr
 func Stderr(p *proc.Process, ansiCode, message string) (err error) {
-	if allowAnsi() {
+	if IsAllowed() {
 		_, err = p.Stderr.Write([]byte(ansiCode + message + Reset))
 		return
 	}
@@ -54,7 +55,7 @@ func Stderr(p *proc.Process, ansiCode, message string) (err error) {
 
 // Stderrln writes colourised output to p.Stderr with an OS specific carriage return
 func Stderrln(p *proc.Process, ansiCode, message string) (err error) {
-	if allowAnsi() {
+	if IsAllowed() {
 		_, err = p.Stderr.Write([]byte(ansiCode + message + utils.NewLineString + Reset))
 		return
 	}

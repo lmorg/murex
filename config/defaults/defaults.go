@@ -11,6 +11,9 @@ import (
 
 // Defaults defines the default config
 func Defaults(c *config.Config, isInteractive bool) {
+
+	// --- shell ---
+
 	c.Define("shell", "prompt", config.Properties{
 		Description: "Interactive shell prompt.",
 		Default:     "{ out 'murex » ' }",
@@ -71,19 +74,29 @@ func Defaults(c *config.Config, isInteractive bool) {
 	//	DataType:    types.Boolean,
 	//})
 
-	// Add config hooks for mime types
+	// TODO: Add config hooks for mime types
 	c.Define("shell", "mime", config.Properties{
 		Description: "Supported MIME types and their corresponding Murex data types.",
 		Default:     define.GetMimes(),
 		DataType:    types.Json,
 	})
 
-	// Add config hooks for mime types
+	// TODO: Add config hooks for mime types
 	c.Define("shell", "extensions", config.Properties{
 		Description: "Supported file extensions and their corresponding Murex data types.",
 		Default:     define.GetFileExts(),
 		DataType:    types.Json,
 	})
+
+	// --- proc ---
+
+	c.Define("proc", "force-tty", config.Properties{
+		Description: "This is used to override the red highlighting on STDERR on a per-process level.",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
+	// --- test ---
 
 	c.Define("test", "enabled", config.Properties{
 		Description: "Run test cases.",

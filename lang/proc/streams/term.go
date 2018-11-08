@@ -158,7 +158,7 @@ func (t *TermErrRed) Write(b []byte) (i int, err error) {
 		CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
-	return
+	return i - 9, err
 }
 
 // Writeln writes an OS-specific terminated line to the stderr

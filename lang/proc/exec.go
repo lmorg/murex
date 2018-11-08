@@ -64,15 +64,17 @@ func execute(p *Process) error {
 		cmd.Stdout = p.Stdout
 	}
 
-	//if p.Stderr.IsTTY() {
-	//if allowAnsi() {
-	//	cmd.Stderr = new(streams.TermErrRed)
-	//} else {
-	//	cmd.Stderr = os.Stderr
-	//}
-	//} else {
-	cmd.Stderr = p.Stderr
-	//}
+	// Pipe STDERR irrispective of whether the exec process is execting a TTY or not.
+	// The reason for this is so that we can do some post-processing on the error stream (namely add colour to it),
+	// however this might cause some bugs. If so please raise on github: https://github.com/lmorg/murex
+	// In the meantime, you can force exec processes to write STDERR to the TTY via the `config` command in the shell:
+	//
+	//     config set proc force-tty true
+	if p.Stderr.IsTTY() && forceTTY(p) {
+		cmd.Stderr = os.Stderr
+	} else {
+		cmd.Stderr = p.Stderr
+	}
 
 	if err := cmd.Start(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
@@ -91,10 +93,10 @@ func execute(p *Process) error {
 	return nil
 }
 
-/*func allowAnsi() bool {
-	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
+func forceTTY(p *Process) bool {
+	v, err := p.Config.Get("proc", "force-tty", types.Boolean)
 	if err != nil {
 		return false
 	}
 	return v.(bool)
-}*/
+}
