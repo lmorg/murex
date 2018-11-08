@@ -578,32 +578,46 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			}
 
 		case '~':
-			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+			case scanFuncName || braceCount > 0 || quoteSingle:
+				pUpdate(r)
+			default:
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeTilde})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
-			} else {
-				pUpdate(r)
 			}
 
 		case '$':
-			if !scanFuncName && braceCount == 0 && !quoteSingle && !escaped {
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+			case scanFuncName || braceCount > 0 || quoteSingle:
+				pUpdate(r)
+			default:
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeString})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
-			} else {
-				pUpdate(r)
 			}
 
 		case '@':
-			if !scanFuncName && braceCount == 0 && !quoteSingle && !quoteDouble && quoteBrace == 0 && !escaped && (last == ' ' || last == '\t') {
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+			case scanFuncName || braceCount > 0 || quoteSingle:
+				pUpdate(r)
+			case last != ' ' && last != '\t':
+				pUpdate(r)
+			default:
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]
 				pToken.Type = parameters.TokenTypeArray
 				pop = &pToken.Key
-			} else {
-				pUpdate(r)
 			}
 
 		case 's':

@@ -164,8 +164,8 @@ func prompt() {
 			nLines = 1
 			merged = ""
 
-			//lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), new(streams.TermErr))
-			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), streams.NewTermErr(allowAnsi()))
+			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), new(streams.TermErr))
+			//lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), streams.NewTermErr(allowAnsi()))
 			streams.CrLf.Write()
 		}
 	}
