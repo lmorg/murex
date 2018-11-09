@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 )
 
 func getPrompt() {
@@ -32,7 +31,8 @@ func getPrompt() {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
+		proc.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
 		b = []byte("murex » ")
 	}
 
@@ -60,7 +60,8 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
+		proc.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
 		b = []byte(fmt.Sprintf("%5d » ", nLines))
 	}
 

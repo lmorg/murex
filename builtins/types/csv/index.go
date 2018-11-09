@@ -3,7 +3,6 @@ package csv
 import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
-	"github.com/lmorg/murex/utils/ansi"
 )
 
 func readIndex(p *proc.Process, params []string) error {
@@ -24,7 +23,8 @@ func readIndex(p *proc.Process, params []string) error {
 			cRecords <- recs
 		})
 		if err != nil {
-			ansi.Stderrln(p, ansi.FgRed, err.Error())
+			//ansi.Stderrln(p, ansi.FgRed, err.Error())
+			p.Stderr.Writeln([]byte(err.Error()))
 		}
 		close(cRecords)
 	}()

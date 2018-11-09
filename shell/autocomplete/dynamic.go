@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -33,7 +32,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 
 	if !types.IsBlock([]byte(dynamic)) {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocompleter is not a code block.")
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocompleter is not a code block.")
+		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocompleter is not a code block."))
 		return
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
@@ -49,10 +49,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
 
 	if err != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete code could not compile: "+err.Error())
+		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete code could not compile: " + err.Error()))
 	}
 	if exitNum != 0 && debug.Enable {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number."+utils.NewLineString)
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Dynamic autocomplete returned a none zero exit number."+utils.NewLineString)
+		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
 	}
 
 	if f.Dynamic != "" {

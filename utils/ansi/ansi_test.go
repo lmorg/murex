@@ -26,8 +26,6 @@ func TestAnsiColoured(t *testing.T) {
 		t.Error(err.Error())
 	}
 
-	//stdtest.Close()
-
 	b, err := stdtest.ReadAll()
 	if err != nil {
 		t.Error(err.Error())
@@ -54,8 +52,6 @@ func TestAnsiNoColour(t *testing.T) {
 	if err != nil {
 		t.Error(err.Error())
 	}
-
-	//stdtest.Close()
 
 	b, err := stdtest.ReadAll()
 	if err != nil {

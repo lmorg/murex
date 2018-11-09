@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/ansi"
 )
 
 func init() {
@@ -80,7 +79,8 @@ func cmdSwitch(p *proc.Process) error {
 			return err
 		} else if err != nil {
 			message := fmt.Sprintf("Error in block %d: %s", i+1, err.Error())
-			ansi.Stderrln(p, ansi.FgRed, message)
+			//ansi.Stderrln(p, ansi.FgRed, message)
+			p.Stderr.Writeln([]byte(message))
 		}
 	}
 

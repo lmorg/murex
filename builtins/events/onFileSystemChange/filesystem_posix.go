@@ -11,7 +11,6 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/utils/ansi"
 )
 
 const eventType = "onFileSystemChange"
@@ -150,7 +149,8 @@ func (evt *watch) init() {
 			)
 
 		case err := <-evt.watcher.Errors:
-			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error in watcher: "+err.Error())
+			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error in watcher: "+err.Error())
+			proc.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error with watcher: " + err.Error()))
 		}
 	}
 }

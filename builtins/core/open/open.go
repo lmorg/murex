@@ -12,10 +12,9 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 )
 
-var rxExt *regexp.Regexp = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
+var rxExt = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
 
 func init() {
 	proc.GoFunctions["open"] = open
@@ -144,7 +143,8 @@ func preview(p *proc.Process, path, dataType string) error {
 	_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
 
 	if err != nil {
-		ansi.Stderrln(p, ansi.FgRed, "`open` code could not compile: "+err.Error())
+		//ansi.Stderrln(p, ansi.FgRed, "`open` code could not compile: "+err.Error())
+		p.Stderr.Writeln([]byte("`open` code could not compile: " + err.Error()))
 	}
 
 	return err

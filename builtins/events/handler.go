@@ -7,7 +7,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -37,7 +36,9 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 		Interrupt: interrupt,
 	}, false)
 	if err != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error building event input: "+err.Error())
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error building event input: "+err.Error())
+		proc.ShellProcess.Stderr.Writeln([]byte("error building event input: " + err.Error()))
+
 		return
 	}
 
@@ -45,17 +46,18 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 	stdin.SetDataType(types.Json)
 	_, err = stdin.Write(json)
 	if err != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error writing event input: "+err.Error())
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error writing event input: "+err.Error())
+		proc.ShellProcess.Stderr.Writeln([]byte("error writing event input: " + err.Error()))
 		return
 	}
-	//stdin.Close()
 
 	debug.Log("Event callback:", string(json), string(block))
 	branch := proc.ShellProcess.BranchFID()
 	defer branch.Close()
 	_, err = lang.RunBlockExistingConfigSpace(block, stdin, stdout, proc.ShellProcess.Stderr, branch.Process)
 	if err != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error compiling event callback: "+err.Error())
+		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error compiling event callback: "+err.Error())
+		proc.ShellProcess.Stderr.Writeln([]byte("error compiling event callback: " + err.Error()))
 	}
 
 	return

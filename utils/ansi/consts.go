@@ -1,6 +1,6 @@
 package ansi
 
-var constants map[string][]byte = map[string][]byte{
+var constants = map[string][]byte{
 	// ascii control codes
 	"^@": []byte{0},
 	"^A": []byte{1},
@@ -64,6 +64,38 @@ var constants map[string][]byte = map[string][]byte{
 	"DEL":    []byte{27, 91, 51, 126},
 	"DELETE": []byte{27, 91, 51, 126},
 
+	// function keys
+	"F1-VT100": []byte{27, 79, 80},
+	"F2-VT100": []byte{27, 79, 81},
+	"F3-VT100": []byte{27, 79, 82},
+	"F4-VT100": []byte{27, 79, 83},
+	"F1":       []byte{27, 91, 49, 49, 126},
+	"F2":       []byte{27, 91, 49, 50, 126},
+	"F3":       []byte{27, 91, 49, 51, 126},
+	"F4":       []byte{27, 91, 49, 52, 126},
+	"F5":       []byte{27, 91, 49, 53, 126},
+	"F6":       []byte{27, 91, 49, 55, 126},
+	"F7":       []byte{27, 91, 49, 56, 126},
+	"F8":       []byte{27, 91, 49, 57, 126},
+	"F9":       []byte{27, 91, 50, 48, 126},
+	"F10":      []byte{27, 91, 50, 49, 126},
+	"F11":      []byte{27, 91, 50, 51, 126},
+	"F12":      []byte{27, 91, 50, 52, 126},
+
+	// alt-num
+	"ALT-0": []byte{27, 48},
+	"ALT-1": []byte{27, 49},
+	"ALT-2": []byte{27, 50},
+	"ALT-3": []byte{27, 51},
+	"ALT-4": []byte{27, 52},
+	"ALT-5": []byte{27, 53},
+	"ALT-6": []byte{27, 54},
+	"ALT-7": []byte{27, 55},
+	"ALT-8": []byte{27, 56},
+	"ALT-9": []byte{27, 57},
+}
+
+var sgr = map[string][]byte{
 	// text effects
 	"RESET":      []byte{27, 91, 48, 109},
 	"BOLD":       []byte{27, 91, 49, 109},
@@ -108,34 +140,4 @@ var constants map[string][]byte = map[string][]byte{
 	"BG-MAGENTA-BRIGHT": []byte{27, 91, 49, 59, 52, 48, 109},
 	"BG-CYAN-BRIGHT":    []byte{27, 91, 49, 59, 52, 48, 109},
 	"BG-WHITE-BRIGHT":   []byte{27, 91, 49, 59, 52, 48, 109},
-
-	// function keys
-	"F1-VT100": []byte{27, 79, 80},
-	"F2-VT100": []byte{27, 79, 81},
-	"F3-VT100": []byte{27, 79, 82},
-	"F4-VT100": []byte{27, 79, 83},
-	"F1":       []byte{27, 91, 49, 49, 126},
-	"F2":       []byte{27, 91, 49, 50, 126},
-	"F3":       []byte{27, 91, 49, 51, 126},
-	"F4":       []byte{27, 91, 49, 52, 126},
-	"F5":       []byte{27, 91, 49, 53, 126},
-	"F6":       []byte{27, 91, 49, 55, 126},
-	"F7":       []byte{27, 91, 49, 56, 126},
-	"F8":       []byte{27, 91, 49, 57, 126},
-	"F9":       []byte{27, 91, 50, 48, 126},
-	"F10":      []byte{27, 91, 50, 49, 126},
-	"F11":      []byte{27, 91, 50, 51, 126},
-	"F12":      []byte{27, 91, 50, 52, 126},
-
-	// alt-num
-	"ALT-0": []byte{27, 48},
-	"ALT-1": []byte{27, 49},
-	"ALT-2": []byte{27, 50},
-	"ALT-3": []byte{27, 51},
-	"ALT-4": []byte{27, 52},
-	"ALT-5": []byte{27, 53},
-	"ALT-6": []byte{27, 54},
-	"ALT-7": []byte{27, 55},
-	"ALT-8": []byte{27, 56},
-	"ALT-9": []byte{27, 57},
 }

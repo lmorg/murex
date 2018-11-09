@@ -8,7 +8,6 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -121,10 +120,15 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			return
 		}
 		if r := recover(); r != nil {
-			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
-			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
+			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
+			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
+			//b, _ := json.MarshalIndent(flags, "", "\t")
+			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
+			proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
+			proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest)))
 			b, _ := json.MarshalIndent(flags, "", "\t")
-			ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
+			proc.ShellProcess.Stderr.Writeln([]byte(string(b)))
+
 		}
 	}()
 

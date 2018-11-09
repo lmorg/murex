@@ -24,8 +24,7 @@ func InitEnv() {
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []int{0}
 	ShellProcess.Stdout = new(streams.TermOut)
-	ShellProcess.Stderr = new(streams.TermErr)
-
+	ShellProcess.Stderr = streams.NewTermErr(true) // TODO: check this is overridden by `config set ...`
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
 	if err != nil {
