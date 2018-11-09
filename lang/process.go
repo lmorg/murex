@@ -15,7 +15,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -106,7 +105,8 @@ func createProcess(p *proc.Process, isMethod bool) {
 		ParseParameters(p, &p.Parameters)
 		err := proc.GoFunctions[p.Name](p)
 		if err != nil {
-			ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error()))
+			message := fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error())
+			proc.ShellProcess.Stderr.Writeln([]byte(message))
 			if p.ExitNum == 0 {
 				p.ExitNum = 1
 			}
@@ -224,8 +224,7 @@ executeProcess:
 	p.Stdout.DefaultDataType(err != nil)
 
 	if err != nil {
-		//ansi.Streamln(p.Stderr, ansi.FgRed, "Error in `"+p.Name+"`: "+err.Error())
-		ansi.Streamln(p.Stderr, ansi.FgRed, fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error()))
+		p.Stderr.Writeln([]byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error())))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}

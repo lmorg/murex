@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/ansi"
 )
 
 // ShellExitNum is for when running murex in interactive shell mode
@@ -159,7 +158,8 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 			container.Tests.ReportMissedTests(container)
 			err = container.Tests.WriteResults(container.Config, proc.ShellProcess.Stderr)
 			if err != nil {
-				ansi.Streamln(proc.ShellProcess.Stderr, ansi.FgRed, fmt.Sprintf("Error generating test results: %s.", err.Error()))
+				message := fmt.Sprintf("Error generating test results: %s.", err.Error())
+				proc.ShellProcess.Stderr.Writeln([]byte(message))
 			}
 		}
 	}

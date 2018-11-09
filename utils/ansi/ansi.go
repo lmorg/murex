@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -18,28 +17,6 @@ func IsAllowed() bool {
 		return false
 	}
 	return v.(bool)
-}
-
-// Stream writes colourised output to a stdio.Io interface
-func Stream(std stdio.Io, ansiCode, message string) (err error) {
-	if std.IsTTY() && IsAllowed() {
-		_, err = std.Write([]byte(ansiCode + message + Reset))
-		return
-	}
-
-	_, err = std.Write([]byte(message))
-	return
-}
-
-// Streamln writes colourised output to a stdio.Io interface with an OS specific carriage return
-func Streamln(std stdio.Io, ansiCode, message string) (err error) {
-	if std.IsTTY() && IsAllowed() {
-		_, err = std.Writeln([]byte(ansiCode + message + Reset))
-		return
-	}
-
-	_, err = std.Writeln([]byte(message))
-	return
 }
 
 // ExpandConsts writes a new string with the {CONST} values replaced
