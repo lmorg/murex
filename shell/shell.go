@@ -129,7 +129,7 @@ func prompt() {
 		}
 
 		if string(expanded) != string(block) {
-			os.Stderr.WriteString(ansi.FgGreen + string(expanded) + ansi.Reset + utils.NewLineString)
+			os.Stdout.WriteString(ansi.ExpandConsts("{GREEN}") + string(expanded) + ansi.ExpandConsts("{RESET}") + utils.NewLineString)
 		}
 
 		pt, _ := parse(block)

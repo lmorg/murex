@@ -52,11 +52,11 @@ const (
 
 // Clear terminal
 const (
-	ClearScrean = "\x1b[2J"
+	ClearScreen = "\x1b[2J"
 	ClearLine   = "\x1b[K"
 )
 
-// CarotMovement
+// Cursor Movement
 const (
 	Up        = "\x1b[1A"
 	Down      = "\x1b[1B"

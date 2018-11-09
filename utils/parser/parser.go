@@ -8,18 +8,18 @@ import (
 
 // syntax highlighting
 var (
-	hlFunction    string = ansi.Bold
-	hlVariable    string = ansi.FgGreen
-	hlEscaped     string = ansi.FgYellow
-	hlSingleQuote string = ansi.FgBlue
-	hlDoubleQuote string = ansi.FgBlue
-	hlBraceQuote  string = ansi.FgBlue
-	hlBlock       string = ansi.BgBlackBright
-	hlPipe        string = ansi.FgMagenta
-	hlComment     string = ansi.BgGreenBright
-	hlError       string = ansi.BgRed
+	hlFunction    = ansi.Bold
+	hlVariable    = ansi.FgGreen
+	hlEscaped     = ansi.FgYellow
+	hlSingleQuote = ansi.FgBlue
+	hlDoubleQuote = ansi.FgBlue
+	hlBraceQuote  = ansi.FgBlue
+	hlBlock       = ansi.BgBlackBright
+	hlPipe        = ansi.FgMagenta
+	hlComment     = ansi.BgGreenBright
+	hlError       = ansi.BgRed
 
-	rxAllowedVarChars *regexp.Regexp = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
+	rxAllowedVarChars = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 )
 
 // ParsedTokens is a struct that returns a tokenized version of the selected command
