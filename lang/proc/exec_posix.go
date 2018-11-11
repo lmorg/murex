@@ -13,7 +13,9 @@ func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
 	if err != nil {
 		return
 	}
+
 	parameters = p.Parameters.StringArray()[1:]
+
 	return
 }
 
@@ -21,5 +23,6 @@ func osSyscalls(cmd *exec.Cmd) {
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Ctty: int(os.Stdout.Fd()),
 	}
+
 	return
 }

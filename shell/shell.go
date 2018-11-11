@@ -103,7 +103,7 @@ func prompt() {
 			case readline.ErrCtrlC:
 				merged = ""
 				nLines = 1
-				fmt.Println(interruptPrompt)
+				fmt.Println(promptInterrupt)
 				continue
 			case readline.ErrEOF:
 				fmt.Println(utils.NewLineString)
