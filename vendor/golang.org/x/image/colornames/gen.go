@@ -5,7 +5,7 @@
 // +build ignore
 
 // This program generates table.go from
-// http://www.w3.org/TR/SVG/types.html#ColorKeywords
+// https://www.w3.org/TR/SVG11/types.html#ColorKeywords
 package main
 
 import (
@@ -165,7 +165,7 @@ func writeColorNames(w io.Writer, m map[string]color.RGBA) {
 	fmt.Fprintln(w, ")")
 }
 
-const url = "http://www.w3.org/TR/SVG/types.html"
+const url = "https://www.w3.org/TR/SVG11/types.html"
 
 func main() {
 	res, err := http.Get(url)

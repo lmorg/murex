@@ -2,7 +2,7 @@
    ___  _____  ____
   / _ \/  _/ |/_/ /____ ______ _    Made with love by Eliuk Blau
  / ___// /_>  </ __/ -_) __/  ' \   github.com/eliukblau/pixterm
-/_/  /___/_/|_|\__/\__/_/ /_/_/_/   v1.2.3
+/_/  /___/_/|_|\__/\__/_/ /_/_/_/   v1.2.4
 
 ```
 
@@ -13,6 +13,8 @@
 The conversion process runs fast because it is parallelized in all CPUs.
 
 Supported image formats: JPEG, PNG, GIF, BMP, TIFF, WebP.
+
+Fetching images from HTTP/HTTPS is supported too.
 
 #### Cool Screenshots
 
@@ -68,7 +70,7 @@ All dependencies are directly included in the project via [Go's Vendor Directori
 
 #### Installation
 
-*You need the [Go compiler](http://golang.org) version 1.6 or superior installed in your system.*
+*You need the [Go compiler](http://golang.org) version 1.7 or superior installed in your system.*
 
 Run this command to automatically download sources and install **`PIXterm`** binary in your `$GOPATH/bin` directory:
 
@@ -94,3 +96,4 @@ If you use Arch Linux, `eigengrau` has kindly created an AUR package for **`PIXt
 
 - [@disq](http://github.com/disq) - Original code for image transparency support.
 - [@timob](http://github.com/timob) - Fix for `ANSIpixel` type: use 8bit color component for output.
+- [@HongjiangHuang](http://github.com/HongjiangHuang) - Original code for image download support.

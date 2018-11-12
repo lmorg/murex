@@ -430,18 +430,19 @@ var dists = []struct {
 	c2  Color
 	d76 float64 // That's also dLab
 	d94 float64
+	d00 float64
 }{
-	{Color{1.0, 1.0, 1.0}, Color{1.0, 1.0, 1.0}, 0.0, 0.0},
-	{Color{0.0, 0.0, 0.0}, Color{0.0, 0.0, 0.0}, 0.0, 0.0},
+	{Color{1.0, 1.0, 1.0}, Color{1.0, 1.0, 1.0}, 0.0, 0.0, 0.0},
+	{Color{0.0, 0.0, 0.0}, Color{0.0, 0.0, 0.0}, 0.0, 0.0, 0.0},
 
 	// Just pairs of values of the table way above.
-	{Lab(1.000000, 0.000000, 0.000000), Lab(0.931390, -0.353319, -0.108946), 0.37604638, 0.37604638},
-	{Lab(0.720892, 0.651673, -0.422133), Lab(0.977637, -0.165795, 0.602017), 1.33531088, 0.65466377},
-	{Lab(0.590453, 0.332846, -0.637099), Lab(0.681085, 0.483884, 0.228328), 0.88317072, 0.42541075},
-	{Lab(0.906026, -0.600870, 0.498993), Lab(0.533890, 0.000000, 0.000000), 0.86517280, 0.41038323},
-	{Lab(0.911132, -0.480875, -0.141312), Lab(0.603242, 0.982343, -0.608249), 1.56647162, 0.87431457},
-	{Lab(0.971393, -0.215537, 0.944780), Lab(0.322970, 0.791875, -1.078602), 2.35146891, 1.11858192},
-	{Lab(0.877347, -0.861827, 0.831793), Lab(0.532408, 0.800925, 0.672032), 1.70565338, 0.68800270},
+	{Lab(1.000000, 0.000000, 0.000000), Lab(0.931390, -0.353319, -0.108946), 0.37604638, 0.37604638, 0.23528129},
+	{Lab(0.720892, 0.651673, -0.422133), Lab(0.977637, -0.165795, 0.602017), 1.33531088, 0.65466377, 0.75175896},
+	{Lab(0.590453, 0.332846, -0.637099), Lab(0.681085, 0.483884, 0.228328), 0.88317072, 0.42541075, 0.37688153},
+	{Lab(0.906026, -0.600870, 0.498993), Lab(0.533890, 0.000000, 0.000000), 0.86517280, 0.41038323, 0.39960503},
+	{Lab(0.911132, -0.480875, -0.141312), Lab(0.603242, 0.982343, -0.608249), 1.56647162, 0.87431457, 0.57983482},
+	{Lab(0.971393, -0.215537, 0.944780), Lab(0.322970, 0.791875, -1.078602), 2.35146891, 1.11858192, 1.03426977},
+	{Lab(0.877347, -0.861827, 0.831793), Lab(0.532408, 0.800925, 0.672032), 1.70565338, 0.68800270, 0.86608245},
 }
 
 func TestLabDistance(t *testing.T) {
@@ -462,6 +463,15 @@ func TestCIE94Distance(t *testing.T) {
 	}
 }
 
+func TestCIEDE2000Distance(t *testing.T) {
+	for i, tt := range dists {
+		d := tt.c1.DistanceCIEDE2000(tt.c2)
+		if !almosteq(d, tt.d00) {
+			t.Errorf("%v. %v.DistanceCIEDE2000(%v) => (%v), want %v (delta %v)", i, tt.c1, tt.c2, d, tt.d00, delta)
+		}
+	}
+}
+
 /// Test utilities ///
 //////////////////////
 
@@ -475,31 +485,38 @@ func TestClamp(t *testing.T) {
 
 func TestMakeColor(t *testing.T) {
 	c_orig_nrgba := color.NRGBA{123, 45, 67, 255}
-	c_ours := MakeColor(c_orig_nrgba)
+	c_ours, ok := MakeColor(c_orig_nrgba)
 	r, g, b := c_ours.RGB255()
-	if r != 123 || g != 45 || b != 67 {
-		t.Errorf("NRGBA->Colorful->RGB255 error: %v became (%v, %v, %v)", c_orig_nrgba, r, g, b)
+	if r != 123 || g != 45 || b != 67 || !ok {
+		t.Errorf("NRGBA->Colorful->RGB255 error: %v became (%v, %v, %v, %t)", c_orig_nrgba, r, g, b, ok)
 	}
 
 	c_orig_nrgba64 := color.NRGBA64{123 << 8, 45 << 8, 67 << 8, 0xffff}
-	c_ours = MakeColor(c_orig_nrgba64)
+	c_ours, ok = MakeColor(c_orig_nrgba64)
 	r, g, b = c_ours.RGB255()
-	if r != 123 || g != 45 || b != 67 {
-		t.Errorf("NRGBA64->Colorful->RGB255 error: %v became (%v, %v, %v)", c_orig_nrgba64, r, g, b)
+	if r != 123 || g != 45 || b != 67 || !ok {
+		t.Errorf("NRGBA64->Colorful->RGB255 error: %v became (%v, %v, %v, %t)", c_orig_nrgba64, r, g, b, ok)
 	}
 
 	c_orig_gray := color.Gray{123}
-	c_ours = MakeColor(c_orig_gray)
+	c_ours, ok = MakeColor(c_orig_gray)
 	r, g, b = c_ours.RGB255()
-	if r != 123 || g != 123 || b != 123 {
-		t.Errorf("Gray->Colorful->RGB255 error: %v became (%v, %v, %v)", c_orig_gray, r, g, b)
+	if r != 123 || g != 123 || b != 123 || !ok {
+		t.Errorf("Gray->Colorful->RGB255 error: %v became (%v, %v, %v, %t)", c_orig_gray, r, g, b, ok)
 	}
 
 	c_orig_gray16 := color.Gray16{123 << 8}
-	c_ours = MakeColor(c_orig_gray16)
+	c_ours, ok = MakeColor(c_orig_gray16)
 	r, g, b = c_ours.RGB255()
-	if r != 123 || g != 123 || b != 123 {
-		t.Errorf("Gray16->Colorful->RGB255 error: %v became (%v, %v, %v)", c_orig_gray16, r, g, b)
+	if r != 123 || g != 123 || b != 123 || !ok {
+		t.Errorf("Gray16->Colorful->RGB255 error: %v became (%v, %v, %v, %t)", c_orig_gray16, r, g, b, ok)
+	}
+
+	c_orig_rgba := color.RGBA{255, 255, 255, 0}
+	c_ours, ok = MakeColor(c_orig_rgba)
+	r, g, b = c_ours.RGB255()
+	if r != 0 || g != 0 || b != 0 || ok {
+		t.Errorf("RGBA->Colorful->RGB255 error: %v became (%v, %v, %v, %t)", c_orig_rgba, r, g, b, ok)
 	}
 }
 

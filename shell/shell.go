@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/signals"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -53,7 +54,7 @@ func Start() {
 		Prompt.History = h
 	}
 
-	SigHandler()
+	signals.Handler(true)
 
 	go autocomplete.UpdateGlobalExeList()
 
@@ -103,7 +104,7 @@ func prompt() {
 			case readline.ErrCtrlC:
 				merged = ""
 				nLines = 1
-				fmt.Println(promptInterrupt)
+				fmt.Println(signals.PromptSIGINT)
 				continue
 			case readline.ErrEOF:
 				fmt.Println(utils.NewLineString)

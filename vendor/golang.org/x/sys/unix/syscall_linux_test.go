@@ -7,6 +7,7 @@
 package unix_test
 
 import (
+	"io/ioutil"
 	"os"
 	"runtime"
 	"runtime/debug"
@@ -140,11 +141,16 @@ func TestUtimesNanoAt(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Lstat: %v", err)
 	}
-	if st.Atim != ts[0] {
-		t.Errorf("UtimesNanoAt: wrong atime: %v", st.Atim)
+
+	// Only check Mtim, Atim might not be supported by the underlying filesystem
+	expected := ts[1]
+	if st.Mtim.Nsec == 0 {
+		// Some filesystems only support 1-second time stamp resolution
+		// and will always set Nsec to 0.
+		expected.Nsec = 0
 	}
-	if st.Mtim != ts[1] {
-		t.Errorf("UtimesNanoAt: wrong mtime: %v", st.Mtim)
+	if st.Mtim != expected {
+		t.Errorf("UtimesNanoAt: wrong mtime: expected %v, got %v", expected, st.Mtim)
 	}
 }
 
@@ -172,7 +178,7 @@ func TestRlimitAs(t *testing.T) {
 	// should fail. See 'man 2 getrlimit'.
 	_, err = unix.Mmap(-1, 0, 2*unix.Getpagesize(), unix.PROT_NONE, unix.MAP_ANON|unix.MAP_PRIVATE)
 	if err == nil {
-		t.Fatal("Mmap: unexpectedly suceeded after setting RLIMIT_AS")
+		t.Fatal("Mmap: unexpectedly succeeded after setting RLIMIT_AS")
 	}
 
 	err = unix.Setrlimit(unix.RLIMIT_AS, &rlim)
@@ -267,6 +273,23 @@ func TestSchedSetaffinity(t *testing.T) {
 		t.Skip("skipping setaffinity tests on android")
 	}
 
+	// On a system like ppc64x where some cores can be disabled using ppc64_cpu,
+	// setaffinity should only be called with enabled cores. The valid cores
+	// are found from the oldMask, but if none are found then the setaffinity
+	// tests are skipped. Issue #27875.
+	if !oldMask.IsSet(cpu) {
+		newMask.Zero()
+		for i := 0; i < len(oldMask); i++ {
+			if oldMask.IsSet(i) {
+				newMask.Set(i)
+				break
+			}
+		}
+		if newMask.Count() == 0 {
+			t.Skip("skipping setaffinity tests if CPU not available")
+		}
+	}
+
 	err = unix.SchedSetaffinity(0, &newMask)
 	if err != nil {
 		t.Fatalf("SchedSetaffinity: %v", err)
@@ -317,13 +340,9 @@ func TestStatx(t *testing.T) {
 		t.Errorf("Statx: returned stat mode does not match Stat")
 	}
 
-	atime := unix.StatxTimestamp{Sec: int64(st.Atim.Sec), Nsec: uint32(st.Atim.Nsec)}
 	ctime := unix.StatxTimestamp{Sec: int64(st.Ctim.Sec), Nsec: uint32(st.Ctim.Nsec)}
 	mtime := unix.StatxTimestamp{Sec: int64(st.Mtim.Sec), Nsec: uint32(st.Mtim.Nsec)}
 
-	if stx.Atime != atime {
-		t.Errorf("Statx: returned stat atime does not match Stat")
-	}
 	if stx.Ctime != ctime {
 		t.Errorf("Statx: returned stat ctime does not match Stat")
 	}
@@ -364,13 +383,9 @@ func TestStatx(t *testing.T) {
 		t.Errorf("Statx: returned stat mode does not match Lstat")
 	}
 
-	atime = unix.StatxTimestamp{Sec: int64(st.Atim.Sec), Nsec: uint32(st.Atim.Nsec)}
 	ctime = unix.StatxTimestamp{Sec: int64(st.Ctim.Sec), Nsec: uint32(st.Ctim.Nsec)}
 	mtime = unix.StatxTimestamp{Sec: int64(st.Mtim.Sec), Nsec: uint32(st.Mtim.Nsec)}
 
-	if stx.Atime != atime {
-		t.Errorf("Statx: returned stat atime does not match Lstat")
-	}
 	if stx.Ctime != ctime {
 		t.Errorf("Statx: returned stat ctime does not match Lstat")
 	}
@@ -391,4 +406,79 @@ func stringsFromByteSlice(buf []byte) []string {
 		}
 	}
 	return result
+}
+
+func TestFaccessat(t *testing.T) {
+	defer chtmpdir(t)()
+	touch(t, "file1")
+
+	err := unix.Faccessat(unix.AT_FDCWD, "file1", unix.R_OK, 0)
+	if err != nil {
+		t.Errorf("Faccessat: unexpected error: %v", err)
+	}
+
+	err = unix.Faccessat(unix.AT_FDCWD, "file1", unix.R_OK, 2)
+	if err != unix.EINVAL {
+		t.Errorf("Faccessat: unexpected error: %v, want EINVAL", err)
+	}
+
+	err = unix.Faccessat(unix.AT_FDCWD, "file1", unix.R_OK, unix.AT_EACCESS)
+	if err != nil {
+		t.Errorf("Faccessat: unexpected error: %v", err)
+	}
+
+	err = os.Symlink("file1", "symlink1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = unix.Faccessat(unix.AT_FDCWD, "symlink1", unix.R_OK, unix.AT_SYMLINK_NOFOLLOW)
+	if err != nil {
+		t.Errorf("Faccessat SYMLINK_NOFOLLOW: unexpected error %v", err)
+	}
+
+	// We can't really test AT_SYMLINK_NOFOLLOW, because there
+	// doesn't seem to be any way to change the mode of a symlink.
+	// We don't test AT_EACCESS because such tests are only
+	// meaningful if run as root.
+
+	err = unix.Fchmodat(unix.AT_FDCWD, "file1", 0, 0)
+	if err != nil {
+		t.Errorf("Fchmodat: unexpected error %v", err)
+	}
+
+	err = unix.Faccessat(unix.AT_FDCWD, "file1", unix.F_OK, unix.AT_SYMLINK_NOFOLLOW)
+	if err != nil {
+		t.Errorf("Faccessat: unexpected error: %v", err)
+	}
+
+	err = unix.Faccessat(unix.AT_FDCWD, "file1", unix.R_OK, unix.AT_SYMLINK_NOFOLLOW)
+	if err != unix.EACCES {
+		if unix.Getuid() != 0 {
+			t.Errorf("Faccessat: unexpected error: %v, want EACCES", err)
+		}
+	}
+}
+
+func TestSyncFileRange(t *testing.T) {
+	file, err := ioutil.TempFile("", "TestSyncFileRange")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+	defer file.Close()
+
+	err = unix.SyncFileRange(int(file.Fd()), 0, 0, 0)
+	if err == unix.ENOSYS || err == unix.EPERM {
+		t.Skip("sync_file_range syscall is not available, skipping test")
+	} else if err != nil {
+		t.Fatalf("SyncFileRange: %v", err)
+	}
+
+	// invalid flags
+	flags := 0xf00
+	err = unix.SyncFileRange(int(file.Fd()), 0, 0, flags)
+	if err != unix.EINVAL {
+		t.Fatalf("SyncFileRange: unexpected error: %v, want EINVAL", err)
+	}
 }

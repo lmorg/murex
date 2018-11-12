@@ -18,6 +18,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 
@@ -27,7 +28,7 @@ import (
 )
 
 const (
-	pxtVersion = "1.2.3"
+	pxtVersion = "1.2.4"
 	pxtLogo    = `
 
    ___  _____  ____
@@ -68,6 +69,10 @@ func printCredits() {
 	fmt.Print("      Fix for ANSIpixel type: use 8bit color component for output.\n")
 	fmt.Println()
 
+	fmt.Print("  > @HongjiangHuang - http://github.com/HongjiangHuang\n")
+	fmt.Print("      Original code for image download support.\n")
+	fmt.Println()
+
 	fmt.Print("  > @danirod - http://github.com/danirod\n")
 	fmt.Print("  > @Xpktro - http://github.com/Xpktro\n")
 	fmt.Print("      Moral support.\n")
@@ -86,7 +91,10 @@ func configureFlags() {
 
 		_, file := filepath.Split(os.Args[0])
 		fmt.Print("USAGE:\n\n")
-		fmt.Printf("  %s [options] image (JPEG, PNG, GIF, BMP, TIFF, WebP)\n\n", file)
+		fmt.Printf("  %s [options] image/url\n\n", file)
+
+		fmt.Print("  Supported image formats: JPEG, PNG, GIF, BMP, TIFF, WebP.\n")
+		fmt.Print("  Supported URL protocols: HTTP, HTTPS.\n\n")
 
 		fmt.Print("OPTIONS:\n\n")
 		flag.CommandLine.SetOutput(os.Stdout)
@@ -100,9 +108,9 @@ func configureFlags() {
 	flag.CommandLine.Init(os.Args[0], flag.ExitOnError)
 
 	flag.CommandLine.BoolVar(&flagCredits, "credits", false, "shows some love to contributors <3")
-	flag.CommandLine.UintVar(&flagDither, "d", 0, "dithering `mode`:\n\t  0 - no dithering (default)\n\t  1 - with blocks\n\t  2 - with chars")
-	flag.CommandLine.StringVar(&flagMatte, "m", "", "matte `color` for transparency or background\n\t(optional, hex format, default: 000000)")
-	flag.CommandLine.UintVar(&flagScale, "s", 0, "scale `method`:\n\t  0 - resize (default)\n\t  1 - fill\n\t  2 - fit")
+	flag.CommandLine.UintVar(&flagDither, "d", 0, "dithering `mode`:\n   0 - no dithering (default)\n   1 - with blocks\n   2 - with chars")
+	flag.CommandLine.StringVar(&flagMatte, "m", "", "matte `color` for transparency or background\n(optional, hex format, default: 000000)")
+	flag.CommandLine.UintVar(&flagScale, "s", 0, "scale `method`:\n   0 - resize (default)\n   1 - fill\n   2 - fit")
 	flag.CommandLine.UintVar(&flagRows, "tr", 0, "terminal `rows` (optional, >=2; when piping, default: 24)")
 	flag.CommandLine.UintVar(&flagCols, "tc", 0, "terminal `columns` (optional, >=2; when piping, default: 80)")
 
@@ -192,7 +200,11 @@ func runPixterm() {
 
 	// create new ANSImage from file
 	file := flag.CommandLine.Arg(0)
-	pix, err = ansimage.NewScaledFromFile(file, sfy*ty, sfx*tx, mc, sm, dm)
+	if matched, _ := regexp.MatchString(`^https?://`, file); matched {
+		pix, err = ansimage.NewScaledFromURL(file, sfy*ty, sfx*tx, mc, sm, dm)
+	} else {
+		pix, err = ansimage.NewScaledFromFile(file, sfy*ty, sfx*tx, mc, sm, dm)
+	}
 	if err != nil {
 		throwError(1, err)
 	}

@@ -17,10 +17,12 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-	_ "image/gif"  // initialize decoder
+	_ "image/gif" // initialize decoder
+
 	_ "image/jpeg" // initialize decoder
 	_ "image/png"  // initialize decoder
 	"io"
+	"net/http"
 	"os"
 	"strings"
 
@@ -69,19 +71,22 @@ const (
 )
 
 var (
-	// ErrHeightNonMoT happens when ANSImage height is not a Multiple of Two value.
+	// ErrImageDownloadFailed occurs in the attempt to download an image and the status code of the response is not "200 OK".
+	ErrImageDownloadFailed = errors.New("ANSImage: image download failed")
+
+	// ErrHeightNonMoT occurs when ANSImage height is not a Multiple of Two value.
 	ErrHeightNonMoT = errors.New("ANSImage: height must be a Multiple of Two value")
 
-	// ErrInvalidBoundsMoT happens when ANSImage height or width are invalid values (Multiple of Two).
+	// ErrInvalidBoundsMoT occurs when ANSImage height or width are invalid values (Multiple of Two).
 	ErrInvalidBoundsMoT = errors.New("ANSImage: height or width must be >=2")
 
-	// ErrOutOfBounds happens when ANSI-pixel coordinates are out of ANSImage bounds.
+	// ErrOutOfBounds occurs when ANSI-pixel coordinates are out of ANSImage bounds.
 	ErrOutOfBounds = errors.New("ANSImage: out of bounds")
 
-	// errUnknownScaleMode happens when scale mode is invalid.
+	// errUnknownScaleMode occurs when scale mode is invalid.
 	errUnknownScaleMode = errors.New("ANSImage: unknown scale mode")
 
-	// errUnknownDitheringMode happens when dithering mode is invalid.
+	// errUnknownDitheringMode occurs when dithering mode is invalid.
 	errUnknownDitheringMode = errors.New("ANSImage: unknown dithering mode")
 )
 
@@ -338,7 +343,7 @@ func New(h, w int, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 }
 
 // NewFromReader creates a new ANSImage from an io.Reader.
-// Background color is used to fill when image has transparency or dithering mode is enabled
+// Background color is used to fill when image has transparency or dithering mode is enabled.
 // Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
 func NewFromReader(reader io.Reader, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 	image, _, err := image.Decode(reader)
@@ -350,7 +355,7 @@ func NewFromReader(reader io.Reader, bg color.Color, dm DitheringMode) (*ANSImag
 }
 
 // NewScaledFromReader creates a new scaled ANSImage from an io.Reader.
-// Background color is used to fill when image has transparency or dithering mode is enabled
+// Background color is used to fill when image has transparency or dithering mode is enabled.
 // Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
 func NewScaledFromReader(reader io.Reader, y, x int, bg color.Color, sm ScaleMode, dm DitheringMode) (*ANSImage, error) {
 	image, _, err := image.Decode(reader)
@@ -373,7 +378,7 @@ func NewScaledFromReader(reader io.Reader, y, x int, bg color.Color, sm ScaleMod
 }
 
 // NewFromFile creates a new ANSImage from a file.
-// Background color is used to fill when image has transparency or dithering mode is enabled
+// Background color is used to fill when image has transparency or dithering mode is enabled.
 // Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
 func NewFromFile(name string, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 	reader, err := os.Open(name)
@@ -384,8 +389,23 @@ func NewFromFile(name string, bg color.Color, dm DitheringMode) (*ANSImage, erro
 	return NewFromReader(reader, bg, dm)
 }
 
+// NewFromURL creates a new ANSImage from an image URL.
+// Background color is used to fill when image has transparency or dithering mode is enabled.
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func NewFromURL(url string, bg color.Color, dm DitheringMode) (*ANSImage, error) {
+	res, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	if res.StatusCode != http.StatusOK {
+		return nil, ErrImageDownloadFailed
+	}
+	defer res.Body.Close()
+	return NewFromReader(res.Body, bg, dm)
+}
+
 // NewScaledFromFile creates a new scaled ANSImage from a file.
-// Background color is used to fill when image has transparency or dithering mode is enabled
+// Background color is used to fill when image has transparency or dithering mode is enabled.
 // Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
 func NewScaledFromFile(name string, y, x int, bg color.Color, sm ScaleMode, dm DitheringMode) (*ANSImage, error) {
 	reader, err := os.Open(name)
@@ -396,6 +416,21 @@ func NewScaledFromFile(name string, y, x int, bg color.Color, sm ScaleMode, dm D
 	return NewScaledFromReader(reader, y, x, bg, sm, dm)
 }
 
+// NewScaledFromURL creates a new scaled ANSImage from an image URL.
+// Background color is used to fill when image has transparency or dithering mode is enabled.
+// Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
+func NewScaledFromURL(url string, y, x int, bg color.Color, sm ScaleMode, dm DitheringMode) (*ANSImage, error) {
+	res, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	if res.StatusCode != http.StatusOK {
+		return nil, ErrImageDownloadFailed
+	}
+	defer res.Body.Close()
+	return NewScaledFromReader(res.Body, y, x, bg, sm, dm)
+}
+
 // ClearTerminal clears current terminal buffer using ANSI escape code.
 // (Nice info for ANSI escape codes - http://unix.stackexchange.com/questions/124762/how-does-clear-command-work)
 func ClearTerminal() {
@@ -403,7 +438,7 @@ func ClearTerminal() {
 }
 
 // createANSImage loads data from an image and returns an ANSImage.
-// Background color is used to fill when image has transparency or dithering mode is enabled
+// Background color is used to fill when image has transparency or dithering mode is enabled.
 // Dithering mode is used to specify the way that ANSImage render ANSI-pixels (char/block elements).
 func createANSImage(img image.Image, bg color.Color, dm DitheringMode) (*ANSImage, error) {
 	var rgbaOut *image.RGBA
@@ -463,8 +498,8 @@ func createANSImage(img image.Image, bg color.Color, dm DitheringMode) (*ANSImag
 						px := BlockSizeX*x + dx
 
 						pixel := rgbaOut.At(px, py)
-						_, _, v := colorful.MakeColor(pixel).Hsv()
-						color := colorful.MakeColor(pixel)
+						color, _ := colorful.MakeColor(pixel)
+						_, _, v := color.Hsv()
 						sumR += color.R
 						sumG += color.G
 						sumB += color.B
