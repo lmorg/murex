@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// TestMurex prooves the murex test framework works
+// TestMurex proves the murex test framework works
 func TestMurex(t *testing.T) {
 	tests := []MurexTest{
 		{

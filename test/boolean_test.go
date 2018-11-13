@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// TestBool prooves the boolean test framework works
+// TestBool proves the boolean test framework works
 func TestBool(t *testing.T) {
 	tests := []BooleanTest{
 		{
