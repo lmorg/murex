@@ -1,6 +1,7 @@
 package signals
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/lmorg/murex/lang/proc"
@@ -23,13 +24,15 @@ func sigtstp() {
 }
 
 func sigint(interactive bool) {
-	os.Stderr.WriteString(PromptSIGINT)
+	//os.Stderr.WriteString(PromptSIGINT)
 	sigterm(interactive)
 }
 
 func sigterm(interactive bool) {
 	if interactive {
-		proc.ForegroundProc.Kill()
+		if proc.ForegroundProc != nil && proc.ForegroundProc.Kill != nil {
+			proc.ForegroundProc.Kill()
+		}
 
 	} else {
 		os.Exit(0)
@@ -38,19 +41,24 @@ func sigterm(interactive bool) {
 
 func sigquit(interactive bool) {
 	if interactive {
-		os.Stderr.WriteString(PromptSIGQUIT)
+		//os.Stderr.WriteString(PromptSIGQUIT)
+		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
 
-		kill := make([]func(), 0)
-		p := proc.ForegroundProc
-		for p.Id != 0 {
-			parent := p.Parent
+		fids := proc.GlobalFIDs.ListAll()
+		for _, p := range fids {
 			if p.Kill != nil {
-				kill = append(kill, p.Kill)
+				procName := p.Name
+				procParam, _ := p.Parameters.String(0)
+				if p.Name == "exec" {
+					procName = procParam
+					procParam, _ = p.Parameters.String(1)
+				}
+				if len(procParam) > 10 {
+					procParam = procParam[:10]
+				}
+				proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!\n", p.Id, procName, procParam)))
+				p.Kill()
 			}
-			p = parent
-		}
-		for i := len(kill) - 1; i > -1; i-- {
-			kill[i]()
 		}
 
 	} else {

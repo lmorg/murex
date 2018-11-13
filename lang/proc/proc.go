@@ -78,8 +78,9 @@ var (
 	// GlobalFIDs is a table of running murex processes
 	GlobalFIDs = *newFuncID()
 
-	// ForegroundProc is the murex FID which currently has "focus"  Em3w
+	// ForegroundProc is the murex FID which currently has "focus"
 	ForegroundProc = ShellProcess
+	//ForegroundProc = new(fgStack)
 )
 
 // HasTerminated checks if process has terminated.
@@ -168,6 +169,9 @@ func DeregisterProcess(p *Process) {
 	p.Stderr.Close()
 
 	p.SetTerminatedState(true)
+	if !p.IsBackground {
+		ForegroundProc = p.Next
+	}
 
 	go deregister(p)
 }

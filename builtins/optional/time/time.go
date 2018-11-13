@@ -1,10 +1,11 @@
 package time
 
 import (
+	"time"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"time"
 )
 
 func init() {
@@ -14,14 +15,18 @@ func init() {
 
 func cmdSleep(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
+
 	i, err := p.Parameters.Int(0)
 	if err != nil {
 		return err
 	}
 
-	time.Sleep(time.Duration(int64(i)) * time.Second)
-
-	return nil
+	select {
+	case <-p.Context.Done():
+		return nil
+	case <-time.After(time.Duration(int64(i)) * time.Second):
+		return nil
+	}
 }
 
 func cmdTime(p *proc.Process) error {

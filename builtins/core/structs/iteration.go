@@ -111,7 +111,7 @@ func cmdForEach(p *proc.Process) (err error) {
 	}
 
 	err = p.Stdin.ReadArray(func(b []byte) {
-		if len(b) == 0 || p.HasTerminated() {
+		if len(b) == 0 || p.HasCancelled() {
 			return
 		}
 
@@ -150,7 +150,7 @@ func cmdForMap(p *proc.Process) error {
 	}
 
 	err = p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
-		if p.HasTerminated() {
+		if p.HasCancelled() {
 			return
 		}
 

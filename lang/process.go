@@ -147,17 +147,20 @@ func executeProcess(p *proc.Process) {
 	//p.Kill = cancel
 	//}
 
-	ctx, kill := context.WithCancel(context.Background())
+	ctx, ctxKill := context.WithCancel(context.Background())
 
 	p.Context = ctx
 	p.Kill = func() {
 		p.Stdin.ForceClose()
-		kill()
+		p.Stdout.ForceClose()
+		p.Stderr.ForceClose()
+		ctxKill()
 	}
 
-	if !p.IsBackground {
-		proc.ForegroundProc = p
-	}
+	//if !p.IsBackground {
+	//proc.ForegroundProc.Add(p)
+	//}
+	//proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("%-000000d: %s\n", proc.ForegroundProc.Id, proc.ForegroundProc.Name)))
 
 	ParseParameters(p, &p.Parameters)
 

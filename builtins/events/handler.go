@@ -53,6 +53,7 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 
 	debug.Log("Event callback:", string(json), string(block))
 	branch := proc.ShellProcess.BranchFID()
+	branch.Process.IsBackground = true
 	defer branch.Close()
 	_, err = lang.RunBlockExistingConfigSpace(block, stdin, stdout, proc.ShellProcess.Stderr, branch.Process)
 	if err != nil {

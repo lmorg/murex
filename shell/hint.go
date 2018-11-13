@@ -105,6 +105,7 @@ func hintText(line []rune, pos int) []rune {
 
 	stdout := streams.NewStdin()
 	branch := proc.ShellProcess.BranchFID()
+	branch.Process.IsBackground = true
 	defer branch.Close()
 	/*exitNum, err := */ lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
 

@@ -41,6 +41,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	branch := proc.ShellProcess.BranchFID()
 	branch.Process.Scope = branch.Process
 	branch.Process.Parent = branch.Process
+	branch.Process.IsBackground = true
 	branch.Process.Name = args.exe
 	branch.Process.Parameters = parameters.Parameters{Params: args.params}
 	defer branch.Close()

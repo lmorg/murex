@@ -134,6 +134,10 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	}
 
 	procs := compile(&tree, container)
+	if len(procs) == 0 {
+		return
+	}
+	proc.ForegroundProc = &procs[0]
 
 	// Support for different run modes:
 	switch container.RunMode {
