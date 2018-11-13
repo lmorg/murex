@@ -19,15 +19,11 @@ import (
 )
 
 var (
-	rxNamedPipeStdinOnly *regexp.Regexp = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
-	rxVariables          *regexp.Regexp = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
+	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
+	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
 
 func createProcess(p *proc.Process, isMethod bool) {
-	// Create empty function so we don't have to check nil state when invoking kill, ie you try to kill a process
-	// before it's fully started
-	p.Kill = func() {}
-
 	proc.GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
 
@@ -133,33 +129,15 @@ func executeProcess(p *proc.Process) {
 		echo = false
 	}
 
-	//debug.Json("Executing:", p)
+	p.Context, p.Done = context.WithCancel(context.Background())
 
-	// Create a kill switch
-	//if p.IsMethod {
-	//	p.Context = p.Previous.Context
-	//	p.Kill = p.Previous.Kill
-	//} else {
-	//p.Context, p.Kill = context.WithCancel(context.Background())
-	//}
-
-	//if p.Name != "exec" {
-	//p.Kill = cancel
-	//}
-
-	ctx, ctxKill := context.WithCancel(context.Background())
-
-	p.Context = ctx
 	p.Kill = func() {
 		p.Stdin.ForceClose()
 		p.Stdout.ForceClose()
 		p.Stderr.ForceClose()
-		ctxKill()
+		p.Done()
 	}
 
-	//if !p.IsBackground {
-	//proc.ForegroundProc.Add(p)
-	//}
 	//proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("%-000000d: %s\n", proc.ForegroundProc.Id, proc.ForegroundProc.Name)))
 
 	ParseParameters(p, &p.Parameters)
@@ -257,7 +235,7 @@ func waitProcess(p *proc.Process) {
 
 func destroyProcess(p *proc.Process) {
 	// Clean up any context goroutines
-	go p.Kill()
+	go p.Done()
 
 	// Make special case for `bg` because that doesn't wait. Also make a special
 	// case for `pipe` and `test` because they run out-of-band

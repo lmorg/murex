@@ -33,6 +33,7 @@ type Process struct {
 	Previous           *Process  `json:"-"`
 	Next               *Process  `json:"-"`
 	WaitForTermination chan bool `json:"-"`
+	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
 	IsNot              bool
 	NamedPipeOut       string
@@ -80,7 +81,6 @@ var (
 
 	// ForegroundProc is the murex FID which currently has "focus"
 	ForegroundProc = ShellProcess
-	//ForegroundProc = new(fgStack)
 )
 
 // HasTerminated checks if process has terminated.
@@ -123,42 +123,6 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 		err = errors.New("`" + p.Name + "` expects to be pipelined.")
 	}
 	return
-}
-
-// BranchFID is used to branch a process to create a sandboxed function ID.
-// This function produces a `go vet` error due to copying mutexes. However this
-// is expected behaviour in here and accounted for so the code should still be
-// thread safe.
-func (p *Process) BranchFID() *Branch {
-	p.hasTerminatedM.Lock()
-
-	process := *p
-
-	p.hasTerminatedM.Unlock()
-	process.hasTerminatedM.Unlock()
-
-	process.Name += " (branch)"
-	process.Config = process.Config.Copy()
-	process.Variables = ReferenceVariables(p.Variables)
-	process.Stdout.Open()
-	process.Stderr.Open()
-
-	branch := new(Branch)
-	branch.Process = &process
-
-	GlobalFIDs.Register(branch.Process)
-
-	return branch
-}
-
-// Branch is the structure returned from BranchFID. Use this to close a branch.
-type Branch struct {
-	Process *Process
-}
-
-// Close the branch
-func (branch Branch) Close() {
-	DeregisterProcess(branch.Process)
 }
 
 // DeregisterProcess deregisters a murex process

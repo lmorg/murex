@@ -21,11 +21,10 @@ func TestTry(t *testing.T) {
 			Block:  "try { true -> false }",
 			Result: false,
 		},
-		/*{ // this works in the actual shell but has randomly stopped working in the tests
-			// TODO: find out why.
+		{
 			Block:  "try { true; true }",
 			Result: true,
-		},*/
+		},
 		{
 			Block:  "try { false; true }",
 			Result: false,
@@ -54,11 +53,10 @@ func TestTryPipe(t *testing.T) {
 			Block:  "trypipe { true -> false }",
 			Result: false,
 		},
-		/*{ // this works in the actual shell but has randomly stopped working in the tests
-			// TODO: find out why.
+		{
 			Block:  "trypipe { true; true }",
 			Result: true,
-		},*/
+		},
 		{
 			Block:  "trypipe { false; true }",
 			Result: false,

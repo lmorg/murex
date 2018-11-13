@@ -21,8 +21,9 @@ func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = proc.ReferenceVariables(parent.Variables)
-
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
+		procs[i].Done = func() {}
+		procs[i].Kill = func() {}
 
 		procs[i].FidTree = make([]int, len(parent.Parent.FidTree))
 		copy(procs[i].FidTree, parent.Parent.FidTree)
