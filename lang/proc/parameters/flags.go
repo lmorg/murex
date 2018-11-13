@@ -2,8 +2,9 @@ package parameters
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/types"
 	"strings"
+
+	"github.com/lmorg/murex/lang/types"
 )
 
 // Arguments is a struct which holds the allowed flags supported when parsing the flags (with ParseFlags)

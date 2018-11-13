@@ -70,45 +70,44 @@ func TestTryPipe(t *testing.T) {
 	test.RunBooleanTests(tests, t)
 }
 
-/*
 // TestCatch tests the `catch` builtin
 func TestCatch(t *testing.T) {
-	tests := []test{
+	tests := []test.BooleanTest{
 		// --- catch ---
 		{
-			Block:  "= ${ try <null> { true }; catch { true } }",
+			Block:  "try <null> { true }; catch { true }",
 			Result: false,
 		},
 		{
-			Block:  "= ${ try <null> { false }; catch { true } }",
-			Result: true,
-		},
-		{
-			Block:  "= ${ try <null> { true }; catch { false } }",
+			Block:  "try <null> { false }; catch { true }",
 			Result: false,
 		},
 		{
-			Block:  "= ${ try <null> { false }; catch { false } }",
+			Block:  "try <null> { true }; catch { false }",
+			Result: false,
+		},
+		{
+			Block:  "try <null> { false }; catch { false }",
 			Result: false,
 		},
 		// --- !catch ---
 		{
-			Block:  "= ${ try <null> { true }; !catch { true } }",
+			Block:  "try <null> { true }; !catch { true }",
 			Result: true,
 		},
 		{
-			Block:  "= ${ try <null> { false }; !catch { true } }",
+			Block:  "try <null> { false }; !catch { true }",
 			Result: false,
 		},
 		{
-			Block:  "= ${ try <null> { true }; !catch { false } }",
+			Block:  "try <null> { true }; !catch { false }",
 			Result: false,
 		},
 		{
-			Block:  "= ${ try <null> { false }; !catch { false } }",
+			Block:  "try <null> { false }; !catch { false }",
 			Result: false,
 		},
 	}
 
-	runTests(tests, t)
-}*/
+	test.RunBooleanTests(tests, t)
+}

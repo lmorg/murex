@@ -1,11 +1,118 @@
-# This is an example murex profile.
-#
-# This would normally be stored in your home directory and prefixed with a dot, but it can also be loaded via `source`:
-# » source examples/murex_profile
-# or installed to auto start with murex:
-# » getfile: https://raw.githubusercontent.com/lmorg/murex/master/examples/murex_profile ->> ~/.murex_profile
+export EDITOR=vi
 
-event onKeyPress F1="{F1-VT100}" {
+if { which vim } then {
+    alias vi=vim
+}
+
+config set shell max-suggestions 6
+
+func chdir {
+    # make a directory then change to that new dir (assumes `-p` flag where supported)
+    try {
+        params -> [ 1 ] -> set dir
+
+        switch ${os} {
+            case windows { tout json {} }
+            case linux   { tout json {[ "-p", "--" ]} }
+            catch        { tout json {[ "-p" ]} }
+        } -> set flags
+
+        mkdir @flags $dir
+        cd $dir
+    }
+}
+
+func pwd_short {
+    pwd -> regexp (s#^$HOME#)'~'(#)
+}
+
+config: set shell prompt {
+    exitnum -> !if {
+        out "{RESET}{YELLOW}${pwd_short} {GREEN}»{RESET} "
+    } else {
+        out "{RESET}{YELLOW}${pwd_short} {RED}»{RESET} "
+    }
+}
+
+config: set shell prompt-multiline {
+    let len = ${pwd_short -> wc -c} - 1
+    printf "%${$len}s » " $linenum
+}
+
+func funcs {
+    # Returns a human readable list of murex functions
+    runtime: --funcs -> formap k v { printf "%20s => %s\n" $k $v[Digest] }
+}
+
+# So I can use the same murex profile on FreeBSD without creating unsupported
+# functions nor aliases
+if { = `${os}`==`linux` } then {
+
+    # ip -brief -color address
+    alias ipip=ip -br -c a
+
+    # ip -brief -color link
+    alias ipmac=ip -br -c l
+}
+
+autocomplete set kill {
+    [{
+        "DynamicDesc": ({
+            test define ps {
+                "ExitNum": 0
+            }
+            test define map {
+                "OutRegexp": (\{(".*?":".*?",?)+\})
+            }
+
+            ps <test_ps> -A -o pid,cmd --no-headers -> set ps
+            map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+        }),
+        "ListView": true,
+        "AllowMultiple": true
+    }]
+}
+
+autocomplete set zfs {
+    [{
+        "Dynamic": ({
+             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+        })
+    }]
+}
+
+autocomplete set zpool {
+    [{
+        "Dynamic": ({
+             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+        })
+    }]
+}
+
+#########
+## IDE ##
+#########
+
+func agent {
+    # Launch ssh-agent
+    ssh-agent -> head -n2 -> [ :0 ] -> prefix "export " -> source
+    ssh-add: @{g <!null> ~/.ssh/*.key} @{g <!null> ~/.ssh/*.pem}
+}
+
+func tsplit {
+    # Splits the current tmux session horizontally and runs a murex code block
+    if { $TMUX } then {
+        trypipe {
+            params -> [ 1 ] -> set cmd
+            pwd -> set PWD
+            tmux split -h ($SHELL -c "source ~/.murex_profile; cd $PWD; source $cmd")
+        }
+    } else {
+        err "tmux is not running."
+    }
+}
+
+event onKeyPress help={F1-VT100} {
     -> [ Interrupt ] -> set: evt
     set quit="\n\nPress q to quit."
 
@@ -16,14 +123,38 @@ event onKeyPress F1="{F1-VT100}" {
   
             switch {
                 case { runtime: --funcs -> [ $func ] } {
-                    runtime: --funcs -> [ $func ] -> [ Block ] -> tmp -> set tmp
-                    tmux split -h "less $tmp; rm $tmp"
+                    runtime: --funcs -> [ $func ] -> [ Block ] -> set code
+                    out "func $func {$code\n}" -> tmp -> set tmp
+                    tmux split -h (less -N $tmp; rm $tmp)
                 }
+
                 case { bexists: $func } {
-                    tmux split -h ($SHELL -c "trypipe { murex-docs $func -> less}; catch { out (That murex builtin doesn't yet include a help document.$quit) -> less }")
+                    tmux split -h ($SHELL -c "
+                        trypipe {
+                            murex-docs $func -> less
+                        };
+                        catch {
+                            out (That murex builtin doesn't yet include a help document.$quit) -> less
+                        }
+                    ")
                 }
+
                 catch {
-                    tmux split -h ($SHELL -c "try { man $func }; catch { out (No man page exists for that command.$quit) -> less }")
+                    tmux split -h ($SHELL -c "
+                        try { man $func };
+                        catch {
+                            out (No man page exists for that command.$quit) -> less
+                        }
+                    ")
+                    
+                    tmux split -v -p 30 ($SHELL -c "
+                        config: set http user-agent curl/1.0;
+                        config: set http timeout 2;
+                        trypipe {
+                            get: https://cheat.sh/$func -> [ Body ] -> less -RN
+                        };
+                        catch { exit 1 }
+                    ")
                 }
             }
       
@@ -33,6 +164,127 @@ event onKeyPress F1="{F1-VT100}" {
         tout json { "HintText": "tmux doesn't appear to be running. Please start tmux to take advantage of the F1 feature." }
     }
 }
+
+event onKeyPress edit={^E} {
+    -> [ Interrupt ] -> set: evt
+
+    test define hasfunc {
+        "OutRegexp": "^[_a-zA-Z0-9]+$"
+    }
+
+    test define funcblock {
+        "OutRegexp": "[a-zA-Z0-9]+"
+    }
+
+    if { $TMUX } then {
+        $evt[ Line ] -> murex-parser: $evt[Pos] -> set parsed
+
+        if { $parsed[FuncName] } then {
+            set edit=true
+
+            switch {
+                if { $parsed[Parameters] -> len } {
+                    $parsed[Parameters] -> len -> set len
+
+                    for ( i=len-1; i>=0; i-- ) {
+                        $parsed[Parameters] -> [ $i ] -> set file
+                        
+                        if { and {$edit} {g: $file} } {
+                            lockfile path EDITOR -> set lockfile
+                            lockfile lock EDITOR
+                            tmux new-window (cd ${pwd}; $EDITOR $file; rm $lockfile)
+                            lockfile wait EDITOR
+                            set edit=false
+                        }
+                    }
+                }
+
+                case { and {$edit} {runtime: --funcs -> [ $parsed[FuncName] ]} } {
+                    $parsed -> [ <test_hasfunc> FuncName ] -> set func
+                    runtime: --funcs -> [ $func ] -> [ <test_funcblock> Block ] -> set code
+                    out "func $func {$code\n}" -> tmp -> set tmp
+                    
+                    lockfile path EDITOR -> set lockfile
+                    lockfile lock EDITOR
+                    tmux new-window ($EDITOR $tmp; rm $lockfile)
+                    lockfile wait EDITOR
+                    source $tmp
+                    rm $tmp
+                    tout json {
+                        "HintText": "Function updated.",
+                        "IgnoreKey": true
+                    }
+                }
+      
+                case {$edit} {
+                    tout json {
+                        "HintText": "Nothing to edit.",
+                        "IgnoreKey": true
+                    }
+                }
+
+                catch {
+                    tout json { "IgnoreKey": true }
+                }
+            }
+
+        } else {
+            tout json { "IgnoreKey": true }
+        }
+
+    } else {
+        tout json { "HintText": "tmux doesn't appear to be running. Please start tmux to take advantage of the edit feature." }
+    }
+}
+
+event onKeyPress glob={^G} {
+    -> [ Interrupt ] -> set: evt
+    $evt[Line] -> set str line
+    $evt[Pos]  -> set int pos
+
+    $line -> left ${=pos+1} -> suffix ' @{g: }' -> suffix ${ $line -> right -${=pos+1} } -> set newLine
+    let newPos=pos+6
+
+    tout json ({
+        "NewLine":   "$newLine",
+        "NewPos":    $newPos,
+        "IgnoreKey": true
+    })
+}
+
+config set shell hint-text-func {
+    trypipe <!null> {
+        git status --porcelain -b -> set gitstatus
+        $gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
+        out $gitstatus -> sed 1d -> wc -l -> set gitchanges
+        !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
+        (Git{BLUE}: $gitbranch ($gitchanges unstaged). )
+    }
+    catch {
+        ({YELLOW}Git{BLUE}: Not a git repository. )
+    }
+
+    if { $SSH_AGENT_PID} {
+        ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
+    } else {
+        ({RED}ssh-agent{BLUE}: No env set. ) 
+    }
+}
+
+#############
+## KEYBASE ##
+#############
+
+autocomplete set keybase { [{
+    "DynamicDesc": ({
+        keybase: -> @[ ^COMMANDS:\$..^\$ ]re -> sort -> set keybase
+        map { $keybase[ :0 ] -> regexp s/,// } { $keybase -> regexp 'f/\t+(.*?)$' }
+    })
+}] }
+
+###################
+## OPEN HANDLERS ##
+###################
 
 config define open image {
     "Description":  "Which mode to render images to the terminal.",
@@ -47,32 +299,53 @@ openagent set image {
 
     if { = mode==`auto` } {
         switch {
-            case { $KITTY_WINDOW_ID }       { set mode=kitty }
-            case { = TERM==`xterm-kitty` }  { set mode=kitty }
-            case { $TERMINOLOGY }           { set mode=terminology }
-            catch                           { set mode=compatible }
+            case { $KITTY_WINDOW_ID }      { set mode=kitty }
+            case { = TERM==`xterm-kitty` } { set mode=kitty }
+            case { $TERMINOLOGY }          { set mode=terminology }
+            catch                          { set mode=compatible }
         }
+    }
+
+    # If Kitty but running inside a screen / tmux session, fallback to compatible.
+    # We do this because tmux doesn't support reporting screen sizes via the TIOCGWINSZ ioctl.
+    if { and { = mode==`kitty` } { = TERM==`screen` } } {
+        set mode=compatible
     }
 
     switch $mode {
         case compatible {
-            $stdin -> open-image
+            open-image $file
         }
 
         case kitty {
-            kitty icat $file
+            try {
+                kitty icat $file
+            }
+            catch {
+                err "Error running `kitty`. Please check `kitty` is installed."
+            }
         }
 
         case iterm {
-            out "Not currently supported"
+            err "Not currently supported."
         }
 
         case terminology {
-            tycat -c $file    
+            try {
+                tycat -c $file
+            }
+            catch {
+                err "Error running `tycat`. Please check `terminology` is installed."
+            }
         }
 
         case sixel {
-            open-image $file
+            try {
+                img2sixel $file
+            }
+            catch {
+                err "Error running `img2sixel`. Please check `libsixel` is installed."
+            }
         }
 
         catch {
@@ -81,5 +354,32 @@ openagent set image {
     }
 }
 
+###############
+## CONCOURSE ##
+###############
 
-tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
+autocomplete set fly {
+    [
+        {
+            "DynamicDesc": ({
+                fly -> match: -- -> set fly
+                map {
+                    $fly: -> regexp: (f/(--.*?)[\s\t])
+                } {
+                    $fly: -> regexp: (m/--/) -> regexp: (f/--.*? +(.*))
+                }
+            }),
+            "Optional": true,
+            "AllowMultiple": true
+
+        },
+        {
+            "DynamicDesc": ({
+                fly -> @[Available commands:..]se -> set fly
+                map { $fly[:0] } { $fly -> regexp 'f/^ +.*? +(.*?)$/' -> regexp 's/\(.*?\)//'}
+            }),
+            "AllowMultiple": true,
+            "AllowOther": true
+        }
+    ]
+}

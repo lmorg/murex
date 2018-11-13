@@ -45,20 +45,30 @@ func cmdArgs(p *proc.Process) (err error) {
 	}
 	var jObj flags
 
-	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(p.Scope.Parameters.Params, &args)
+	params := p.Scope.Parameters.Params
+	if p.Scope.Id == 0 && len(params) > 0 {
+		jObj.Self = params[0]
+		if len(params) == 1 {
+			params = []string{}
+		} else {
+			params = params[1:]
+		}
+	} else {
+		jObj.Self = p.Scope.Name
+	}
+
+	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(params, &args)
 	if err != nil {
 		jObj.Error = err.Error()
 		p.ExitNum = 1
 	}
-
-	jObj.Self = p.Scope.Name
 
 	b, err := json.Marshal(jObj, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}
 
-	err = p.Variables.Set("ARGS", string(b), types.Json)
+	err = p.Scope.Variables.Set("ARGS", string(b), types.Json)
 	return err
 }
 

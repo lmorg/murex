@@ -7,6 +7,7 @@ try {
     # which: $name -> set path
     # ls -lh $path -> regexp f/[0-9.]+M/ -> set size
     out: "The $name executable is $size big!"
-}; catch {
+}
+catch {
     out: "`$name` not found in \$PATH"
 }

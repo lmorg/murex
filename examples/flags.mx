@@ -18,9 +18,10 @@ args {
         "--bool": "bool",
         "-b": "--bool"
     }
-}; catch {
+}
+catch {
 # Lets check for errors in the command line parameters. If they exist then print the error and then exit.
-    $ARGS -> [ Error ]
+    err $ARGS[Error]
     exit 1
 }
 
@@ -40,13 +41,13 @@ try <!null> {
     $ARGS -> [ Flags ] -> [ --str ] -> set fStr
     $ARGS -> [ Flags ] -> [ --num ] -> set fNum
 
-} -> catch {
-    out "Missing `--str` and/or `--num` flags."
-
-} -> !catch {
     out "Defined Flags:"
     out "  --str == $fStr"
     out "  --num == $fNum"
+}
+
+catch {
+    err "Missing `--str` and/or `--num` flags."
 }
 
 $ARGS -> [ Additional ] -> foreach arg {
