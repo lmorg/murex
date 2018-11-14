@@ -2,7 +2,7 @@
 
 set: name=murex
 try {
-    ls -lh ${which: $name} -> regexp: f/[0-9.]+[A-Z]/ -> set: size
+    ls -lh ${which: $name} -> regexp: (f/([0-9.]+[A-Z])/) -> set: size
     # The above line is equivalent to the follow:
     # which: $name -> set path
     # ls -lh $path -> regexp f/[0-9.]+M/ -> set size
