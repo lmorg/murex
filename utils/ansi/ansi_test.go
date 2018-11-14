@@ -11,7 +11,7 @@ import (
 // TestAnsiColoured tests writing colours via the ansi package
 func TestAnsiColoured(t *testing.T) {
 	proc.ShellProcess.Config = config.NewConfiguration()
-	proc.ShellProcess.Config.Define("shell", "add-colour", config.Properties{
+	proc.ShellProcess.Config.Define("shell", "color", config.Properties{
 		DataType:    types.Boolean,
 		Default:     true,
 		Description: "test data",
@@ -33,10 +33,10 @@ func TestAnsiColoured(t *testing.T) {
 
 }
 
-// TestAnsiNoColour tests the add-colour override disables the ansi package
+// TestAnsiNoColour tests the color override disables the ansi package
 func TestAnsiNoColour(t *testing.T) {
 	proc.ShellProcess.Config = config.NewConfiguration()
-	proc.ShellProcess.Config.Define("shell", "add-colour", config.Properties{
+	proc.ShellProcess.Config.Define("shell", "color", config.Properties{
 		DataType:    types.Boolean,
 		Default:     false,
 		Description: "test data",

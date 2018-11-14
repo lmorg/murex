@@ -44,7 +44,7 @@ func execute(p *Process) error {
 		if !debug.Enable {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
 		}
-		//p.Stdin.ForceClose()
+
 		ctxCancel()
 		cmd.Process.Kill()
 	}
@@ -64,7 +64,7 @@ func execute(p *Process) error {
 		cmd.Stdout = p.Stdout
 	}
 
-	// Pipe STDERR irrispective of whether the exec process is execting a TTY or not.
+	// Pipe STDERR irrespective of whether the exec process is execting a TTY or not.
 	// The reason for this is so that we can do some post-processing on the error stream (namely add colour to it),
 	// however this might cause some bugs. If so please raise on github: https://github.com/lmorg/murex
 	// In the meantime, you can force exec processes to write STDERR to the TTY via the `config` command in the shell:
@@ -81,6 +81,8 @@ func execute(p *Process) error {
 			return err
 		}
 	}
+
+	p.ExecPid = cmd.Process.Pid
 
 	if err := cmd.Wait(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {

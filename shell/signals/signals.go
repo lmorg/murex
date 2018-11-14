@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -20,7 +23,51 @@ const (
 )
 
 func sigtstp() {
-	os.Stderr.WriteString("TODO: background")
+	os.Stderr.WriteString("(murex functions don't currently support being suspended)")
+
+	show, err := proc.ShellProcess.Config.Get("shell", "show-suspend-status", types.Boolean)
+	if err != nil {
+		show = false
+	}
+	if !show.(bool) {
+		return
+	}
+
+	defer func() {
+		if debug.Enable {
+			return
+		}
+		if r := recover(); r != nil {
+			return
+		}
+	}()
+
+	stdinR, stdinW := proc.ForegroundProc.Stdin.Stats()
+	stdoutR, stdoutW := proc.ForegroundProc.Stdout.Stats()
+	stderrR, stderrW := proc.ForegroundProc.Stderr.Stats()
+	pipeStatus := fmt.Sprintf(
+		"\nSTDIN:  %s/%s bytes r/w\nSTDOUT: %s/%s bytes r/w\nSTDERR: %s/%s bytes r/w\n",
+		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
+		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
+		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
+	)
+	proc.ShellProcess.Stderr.Write([]byte(pipeStatus))
+
+	if proc.ForegroundProc.ExecPid != 0 {
+		block, err := proc.ShellProcess.Config.Get("shell", "suspend-status-func", types.CodeBlock)
+		if err != nil {
+			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+			return
+		}
+
+		branch := proc.ShellProcess.BranchFID()
+		defer branch.Close()
+		branch.Process.Variables.Set("PID", proc.ForegroundProc.ExecPid, types.Integer)
+		_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, branch.Process)
+		if err != nil {
+			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+		}
+	}
 }
 
 func sigint(interactive bool) {

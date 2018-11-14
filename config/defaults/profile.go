@@ -157,6 +157,34 @@ autocomplete set debug { [{
     "Flags": ["on", "off"]
 }] }
 
-#tout: qs KB=1024&MB=${= 1024*1024}&GB=${= 1024*1024*1024}&TB=${= 1024*1024*1024*1024}&PB=${= 1024*1024*1024*1024*1024}&EB=${= 1024*1024*1024*1024*1024*1024}&min=60&hour=${= 60*60}&day=${= 60*60*24}&week=${= 60*60*24*7} -> format json -> set C
+func progress {
+    # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
+
+    if { = `+"`${os}`==`linux`"+` } then {
+        params -> [ 1 ] -> set pid
+        
+        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
+            trypipe <!null> {
+                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
+                readlink: /proc/$pid/fd/$fd -> set file
+                du -b $file -> [ :0 ] -> set int size
+                if { = size > 0 } then {
+                    = ($pos/$size)*100 -> set int percent
+                    out "$percent% ($pos/$size) $file"
+                }
+            }
+        }
+    }
+}
+
+autocomplete set progress {
+    [{
+        "DynamicDesc": ({
+            ps -A -o pid,cmd --no-headers -> set ps
+            map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+        }),
+        "ListView": true
+    }]
+}
 `)
 }

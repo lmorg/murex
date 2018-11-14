@@ -38,8 +38,8 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
-	c.Define("shell", "add-colour", config.Properties{
-		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, etc.",
+	c.Define("shell", "color", config.Properties{
+		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, {SGR} variables, etc",
 		Default:     (runtime.GOOS != "windows" && isInteractive),
 		DataType:    types.Boolean,
 	})
@@ -68,11 +68,17 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.CodeBlock,
 	})
 
-	//c.Define("shell", "strip-colour", config.Properties{
-	//	Description: "Strips the colour codes (ANSI escape sequences) from all output destined for the terminal.",
-	//	Default:     false,
-	//	DataType:    types.Boolean,
-	//})
+	c.Define("shell", "show-suspend-status", config.Properties{
+		Description: "Display some status information about the suspended process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs).",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("shell", "suspend-status-func", config.Properties{
+		Description: "Murex function to execute when an `exec` process is suspended.",
+		Default:     `{ progress $PID }`,
+		DataType:    types.CodeBlock,
+	})
 
 	// TODO: Add config hooks for mime types
 	c.Define("shell", "mime", config.Properties{

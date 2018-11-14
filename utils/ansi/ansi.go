@@ -12,7 +12,7 @@ var rxAnsiConsts = regexp.MustCompile(`\{([-\^A-Z0-9]+)\}`)
 
 // IsAllowed returns a boolean value depending on whether the shell is configured to allow ANSI colours
 func IsAllowed() bool {
-	v, err := proc.ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
+	v, err := proc.ShellProcess.Config.Get("shell", "color", types.Boolean)
 	if err != nil {
 		return false
 	}

@@ -26,6 +26,7 @@ type Process struct {
 	ExitNum            int
 	Name               string
 	Id                 int
+	ExecPid            int
 	Path               string
 	IsMethod           bool
 	Scope              *Process  `json:"-"`

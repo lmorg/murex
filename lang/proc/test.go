@@ -156,7 +156,7 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 // WriteResults is the reporting tool
 func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	allowAnsi := func() bool {
-		v, err := ShellProcess.Config.Get("shell", "add-colour", types.Boolean)
+		v, err := ShellProcess.Config.Get("shell", "color", types.Boolean)
 		if err != nil {
 			return false
 		}
