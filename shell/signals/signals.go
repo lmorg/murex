@@ -46,7 +46,7 @@ func sigtstp() {
 	stdoutR, stdoutW := proc.ForegroundProc.Stdout.Stats()
 	stderrR, stderrW := proc.ForegroundProc.Stderr.Stats()
 	pipeStatus := fmt.Sprintf(
-		"\nSTDIN:  %s/%s bytes r/w\nSTDOUT: %s/%s bytes r/w\nSTDERR: %s/%s bytes r/w\n",
+		"\nSTDIN:  %s read /%s written\nSTDOUT: %s read /%s written\nSTDERR: %s read /%s written",
 		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
 		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
 		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
