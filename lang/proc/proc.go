@@ -3,6 +3,7 @@ package proc
 import (
 	"context"
 	"errors"
+	"os/exec"
 	"sync"
 	"time"
 
@@ -27,6 +28,8 @@ type Process struct {
 	Name               string
 	Id                 int
 	ExecPid            int
+	ExecCmd            *exec.Cmd
+	PromptGoProc       int
 	Path               string
 	IsMethod           bool
 	Scope              *Process  `json:"-"`

@@ -3,6 +3,7 @@ package shell
 import (
 	"fmt"
 	"os"
+	"sync"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -10,7 +11,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
-	"github.com/lmorg/murex/shell/signals"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -24,6 +24,9 @@ var (
 
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
+
+	// PromptGoProc is an custom defined ID for each prompt Goprocess so we don't accidentally end up with multiple prompts running
+	PromptGoProc = new(mutexCounter)
 )
 
 // Start the interactive shell
@@ -54,7 +57,7 @@ func Start() {
 		Prompt.History = h
 	}
 
-	signals.Handler(true)
+	SignalHandler(true)
 
 	go autocomplete.UpdateGlobalExeList()
 
@@ -65,9 +68,14 @@ func Start() {
 	Prompt.MaxTabCompleterRows = v.(int)
 
 	prompt()
+
+	noQuit := make(chan bool)
+	<-noQuit
 }
 
 func prompt() {
+	thisProc := PromptGoProc.Add()
+
 	nLines := 1
 	var merged string
 	var block []rune
@@ -104,11 +112,12 @@ func prompt() {
 			case readline.ErrCtrlC:
 				merged = ""
 				nLines = 1
-				fmt.Println(signals.PromptSIGINT)
+				fmt.Println(PromptSIGINT)
 				continue
 			case readline.ErrEOF:
 				fmt.Println(utils.NewLineString)
-				return
+				//return
+				os.Exit(0)
 			default:
 				panic(err)
 			}
@@ -166,8 +175,12 @@ func prompt() {
 			nLines = 1
 			merged = ""
 
-			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpace(expanded, nil, new(streams.TermOut), streams.NewTermErr(ansi.IsAllowed()))
+			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpaceWithPrompt(expanded, nil, new(streams.TermOut), streams.NewTermErr(ansi.IsAllowed()), thisProc)
 			streams.CrLf.Write()
+
+			if PromptGoProc.NotEqual(thisProc) {
+				return
+			}
 		}
 	}
 }
@@ -194,4 +207,36 @@ func getShowHintText() {
 	} else {
 		Prompt.HintText = nil
 	}
+}
+
+type mutexCounter struct {
+	i int
+	m sync.Mutex
+}
+
+func (mc *mutexCounter) Add() int {
+	mc.m.Lock()
+	defer mc.m.Unlock()
+
+	mc.i++
+	return mc.i
+}
+
+func (mc *mutexCounter) Set(i int) {
+	mc.m.Lock()
+	mc.i = i
+	mc.m.Unlock()
+}
+
+func (mc *mutexCounter) NotEqual(i int) bool {
+	mc.m.Lock()
+	defer mc.m.Unlock()
+
+	//debug.Log(mc.i, i)
+
+	if mc.i != i {
+		return true
+	}
+
+	return false
 }

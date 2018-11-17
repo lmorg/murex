@@ -30,6 +30,7 @@ func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exi
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		proc.ShellProcess, proc.ShellProcess.Config, nil,
+		0,
 	)
 }
 
@@ -39,6 +40,7 @@ func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config.Copy(), nil,
+		caller.PromptGoProc,
 	)
 }
 
@@ -49,6 +51,17 @@ func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, c
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config, caller.Tests,
+		caller.PromptGoProc,
+	)
+}
+
+// RunBlockShellConfigSpaceWithPrompt is specifically for code being executed directly from the readline.
+// This function should not be called by any other process aside shell.prompt()
+func RunBlockShellConfigSpaceWithPrompt(block []rune, stdin, stdout, stderr stdio.Io, promptGoProc int) (exitNum int, err error) {
+	return processNewBlock(
+		block, stdin, stdout, stderr,
+		proc.ShellProcess, proc.ShellProcess.Config, nil,
+		promptGoProc,
 	)
 }
 
@@ -61,7 +74,7 @@ func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, c
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, tests *proc.Tests) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, tests *proc.Tests, promptGoProc int) (exitNum int, err error) {
 	//debug.Log(string(block))
 
 	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
@@ -75,6 +88,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	container.Scope = caller.Scope
 	container.Parent = caller
 	container.Id = caller.Id
+	container.PromptGoProc = promptGoProc
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
 	container.Config = conf

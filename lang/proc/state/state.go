@@ -15,4 +15,5 @@ const (
 	Executed
 	Terminating
 	AwaitingGC
+	Suspended
 )

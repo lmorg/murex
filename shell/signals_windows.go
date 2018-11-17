@@ -1,6 +1,6 @@
 // +build windows
 
-package signals
+package shell
 
 import (
 	"os"
@@ -9,7 +9,7 @@ import (
 )
 
 // Handler is an internal function to capture and handle OS signals (eg SIGTERM).
-func Handler(interactive bool) {
+func SignalHandler(interactive bool) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	go func() {

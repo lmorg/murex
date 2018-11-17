@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/shell/signals"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -26,12 +25,12 @@ func main() {
 	switch {
 	case fCommand != "":
 		defaults.Defaults(proc.ShellProcess.Config, false)
-		signals.Handler(false)
+		shell.SignalHandler(false)
 		execSource([]rune(fCommand))
 
 	case len(fSource) > 0:
 		defaults.Defaults(proc.ShellProcess.Config, false)
-		signals.Handler(false)
+		shell.SignalHandler(false)
 		execSource(diskSource(fSource[0]))
 
 	default:

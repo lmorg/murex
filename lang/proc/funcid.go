@@ -4,6 +4,8 @@ import (
 	"errors"
 	"sort"
 	"sync"
+
+	"github.com/lmorg/murex/debug"
 )
 
 // FID (Function ID) table: ie table of murex `proc.Process` processes
@@ -49,6 +51,10 @@ func (f *funcID) Register(p *Process) (fid int) {
 
 // Deregister removes function from the FID table
 func (f *funcID) Deregister(fid int) {
+	if debug.Enable {
+		return
+	}
+
 	f.mutex.Lock()
 	if f.procs[fid] != nil {
 		delete(f.procs, fid)

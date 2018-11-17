@@ -1,4 +1,4 @@
-package signals
+package shell
 
 import (
 	"fmt"
@@ -42,18 +42,19 @@ func sigtstp() {
 		}
 	}()
 
-	stdinR, stdinW := proc.ForegroundProc.Stdin.Stats()
-	stdoutR, stdoutW := proc.ForegroundProc.Stdout.Stats()
-	stderrR, stderrW := proc.ForegroundProc.Stderr.Stats()
+	p := proc.ForegroundProc
+	stdinR, stdinW := p.Stdin.Stats()
+	stdoutR, stdoutW := p.Stdout.Stats()
+	stderrR, stderrW := p.Stderr.Stats()
 	pipeStatus := fmt.Sprintf(
-		"\nSTDIN:  %s read /%s written\nSTDOUT: %s read /%s written\nSTDERR: %s read /%s written",
+		"\nSTDIN:  %s read /%s written\nSTDOUT: %s read /%s written\nSTDERR: %s read /%s written\n",
 		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
 		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
 		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
 	)
 	proc.ShellProcess.Stderr.Write([]byte(pipeStatus))
 
-	if proc.ForegroundProc.ExecPid != 0 {
+	if p.ExecPid != 0 {
 		block, err := proc.ShellProcess.Config.Get("shell", "suspend-status-func", types.CodeBlock)
 		if err != nil {
 			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
@@ -67,7 +68,17 @@ func sigtstp() {
 		if err != nil {
 			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 		}
+
+		proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
+			"FID %d has been suspended. Use `fg %d` / `bg %d` to manage the FID or `fid-list` to see a list of processes running on this shell.\n`",
+			p.Id, p.Id, p.Id,
+		)))
+
+		p.State = state.Suspended
+
+		go prompt()
 	}
+
 }
 
 func sigint(interactive bool) {
@@ -93,7 +104,7 @@ func sigquit(interactive bool) {
 
 		fids := proc.GlobalFIDs.ListAll()
 		for _, p := range fids {
-			if p.Kill != nil {
+			if p.Kill != nil /*&& !p.HasTerminated()*/ {
 				procName := p.Name
 				procParam, _ := p.Parameters.String(0)
 				if p.Name == "exec" {

@@ -72,13 +72,23 @@ func cmdFidKill(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdKillAll(*proc.Process) (err error) {
+func cmdKillAll(*proc.Process) error {
 	fids := proc.GlobalFIDs.ListAll()
-	for _, f := range fids {
-		if f.Kill != nil {
-			go f.Kill()
+	for _, p := range fids {
+		if p.Kill != nil /*&& !p.HasTerminated()*/ {
+			procName := p.Name
+			procParam, _ := p.Parameters.String(0)
+			if p.Name == "exec" {
+				procName = procParam
+				procParam, _ = p.Parameters.String(1)
+			}
+			if len(procParam) > 10 {
+				procParam = procParam[:10]
+			}
+			proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!\n", p.Id, procName, procParam)))
+			p.Kill()
 		}
 	}
 
-	return err
+	return nil
 }

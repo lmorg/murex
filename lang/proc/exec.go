@@ -83,6 +83,7 @@ func execute(p *Process) error {
 	}
 
 	p.ExecPid = cmd.Process.Pid
+	p.ExecCmd = cmd
 
 	if err := cmd.Wait(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
