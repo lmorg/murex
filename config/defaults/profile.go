@@ -1,5 +1,11 @@
 package defaults
 
+import (
+	"strconv"
+
+	"github.com/lmorg/murex/lang/proc/state"
+)
+
 func init() {
 	murexProfile = append(murexProfile, `
 func h {
@@ -182,6 +188,28 @@ autocomplete set progress {
         "DynamicDesc": ({
             ps -A -o pid,cmd --no-headers -> set ps
             map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+        }),
+        "ListView": true
+    }]
+}
+
+func jobs {
+    out "FID - Process"
+    runtime: --fids -> formap k v {
+        `+"if { = `$v[State]`==`"+strconv.Itoa(int(state.Suspended))+"` } {"+`
+            out $k - $v[Name] @{$v[Parameters]->[Params]}
+        }
+    }
+}
+
+autocomplete: set fg {
+    [{
+        "DynamicDesc": ({
+            runtime: --fids -> formap k v {
+                `+"if { = `$v[State]`==`"+strconv.Itoa(int(state.Suspended))+"` } {"+`
+                    out $k: $v[Name] @{$v[Parameters]->[Params]}
+                }
+            } -> cast yaml
         }),
         "ListView": true
     }]

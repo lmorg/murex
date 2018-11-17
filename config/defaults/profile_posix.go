@@ -64,5 +64,22 @@ autocomplete set go { [
     }
 ] }
 
+autocomplete set kill {
+    [{
+        "DynamicDesc": ({
+            test define ps {
+                "ExitNum": 0
+            }
+            test define map {
+                "OutRegexp": (\{(".*?":".*?",?)+\})
+            }
+
+            ps <test_ps> -A -o pid,cmd --no-headers -> set ps
+            map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+        }),
+        "ListView": true,
+        "AllowMultiple": true
+    }]
+}
 `)
 }
