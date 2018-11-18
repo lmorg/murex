@@ -53,20 +53,22 @@ func cmdFidList(p *proc.Process) error {
 func cmdFidKill(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
-	fid, err := p.Parameters.Int(0)
-	if err != nil {
-		return err
-	}
+	for i := 0; i < p.Parameters.Len(); i++ {
+		fid, err := p.Parameters.Int(i)
+		if err != nil {
+			return err
+		}
 
-	process, err := proc.GlobalFIDs.Proc(fid)
-	if err != nil {
-		return err
-	}
+		process, err := proc.GlobalFIDs.Proc(fid)
+		if err != nil {
+			return err
+		}
 
-	if process.Kill != nil {
-		process.Kill()
-	} else {
-		err = fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid)
+		if process.Kill != nil {
+			process.Kill()
+		} else {
+			err = fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid)
+		}
 	}
 
 	return err

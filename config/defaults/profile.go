@@ -202,6 +202,19 @@ func jobs {
     }
 }
 
+autocomplete: set bg {
+    [{
+        "DynamicDesc": ({
+            runtime: --fids -> formap k v {
+                `+"if { = `$v[State]`==`"+strconv.Itoa(int(state.Suspended))+"` } {"+`
+                    out $k: $v[Name] @{$v[Parameters]->[Params]}
+                }
+            } -> cast yaml
+        }),
+        "ListView": true
+    }]
+}
+
 autocomplete: set fg {
     [{
         "DynamicDesc": ({
@@ -212,6 +225,18 @@ autocomplete: set fg {
             } -> cast yaml
         }),
         "ListView": true
+    }]
+}
+
+autocomplete: set fid-kill {
+    [{
+        "DynamicDesc": ({
+            runtime: --fids -> formap k v {
+                out $k: $v[Name] @{$v[Parameters]->[Params]}
+            } -> cast yaml
+        }),
+        "ListView": true,
+        "AllowMultiple": true
     }]
 }
 `)
