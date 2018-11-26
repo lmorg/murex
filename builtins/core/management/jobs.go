@@ -38,21 +38,21 @@ func cmdBackground(p *proc.Process) (err error) {
 }
 
 func updateTree(p *proc.Process, isBackground bool) {
-	pTree := p.Parent
+	pTree := p
 	for {
-		pTree.IsBackground = isBackground
-		if pTree.Parent.Id == 0 || pTree.Name == `bg` {
+		if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name == `bg` {
 			break
 		}
 		pTree = pTree.Parent
+		pTree.IsBackground = isBackground
 	}
 
-	pTree = p.Next
+	pTree = p
 	for {
-		pTree.IsBackground = isBackground
-		if pTree.Next.Id == p.Parent.Id {
+		if pTree.Next == nil || pTree.Next.Id == p.Parent.Id {
 			break
 		}
 		pTree = pTree.Next
+		pTree.IsBackground = isBackground
 	}
 }

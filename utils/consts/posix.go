@@ -5,5 +5,5 @@ package consts
 // PathSlash is an OS specific directory separator
 const PathSlash = "/"
 
-// TempDir is the location of temp directory
-const TempDir = "/tmp/murex/"
+// tempDir is the location of temp directory if it cannot be automatically determinded
+const tempDir = "/tmp/murex/"

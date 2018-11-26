@@ -27,27 +27,29 @@ func mkbg(p *proc.Process) error {
 		return errors.New("FID is not a suspended process. Run `jobs` or `fid-list` to see a list of suspended processes.")
 	}
 
-	if f.ExecPid == 0 {
+	if f.Exec.Pid == 0 {
 		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `bg`.")
 	}
 
-	if f.ExecCmd == nil {
+	if f.Exec.Cmd == nil {
 		return errors.New("Something went wrong trying to communicate back to the OS process.")
-	}
-
-	err = f.ExecCmd.Process.Signal(syscall.SIGCONT)
-	if err != nil {
-		return err
 	}
 
 	updateTree(f, true)
 
-	err = f.ExecCmd.Process.Signal(syscall.SIGCONT)
+	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)
+	if err != nil {
+		return err
+	}
+
+	err = f.Exec.Cmd.Process.Signal(syscall.SIGTTIN)
 	if err != nil {
 		return err
 	}
 
 	f.State = state.Executing
+
+	shell.StartPrompt()
 	return nil
 }
 
@@ -64,11 +66,11 @@ func cmdForeground(p *proc.Process) error {
 		return err
 	}
 
-	if f.ExecPid == 0 {
+	if f.Exec.Pid == 0 {
 		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `fg`.")
 	}
 
-	if f.ExecCmd == nil {
+	if f.Exec.Cmd == nil {
 		return errors.New("Something went wrong trying to communicate back to the OS process.")
 	}
 
@@ -76,7 +78,7 @@ func cmdForeground(p *proc.Process) error {
 
 	proc.ForegroundProc = f
 
-	err = f.ExecCmd.Process.Signal(syscall.SIGCONT)
+	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)
 	if err != nil {
 		return err
 	}

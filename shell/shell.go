@@ -69,8 +69,12 @@ func Start() {
 
 	prompt()
 
-	noQuit := make(chan bool)
+	noQuit := make(chan int)
 	<-noQuit
+}
+
+func StartPrompt() {
+	prompt()
 }
 
 func prompt() {

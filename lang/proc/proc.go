@@ -27,8 +27,7 @@ type Process struct {
 	ExitNum            int
 	Name               string
 	Id                 int
-	ExecPid            int
-	ExecCmd            *exec.Cmd
+	Exec               shellExec
 	PromptGoProc       int
 	Path               string
 	IsMethod           bool
@@ -56,6 +55,12 @@ type Process struct {
 	FidTree            []int
 	CreationTime       time.Time
 	StartTime          time.Time
+}
+
+type shellExec struct {
+	Pid   int
+	Cmd   *exec.Cmd
+	Stdin *StdinPipe
 }
 
 var (
