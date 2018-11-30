@@ -3,6 +3,7 @@ package proc
 import (
 	"context"
 	"errors"
+	"os"
 	"os/exec"
 	"sync"
 	"time"
@@ -61,6 +62,8 @@ type shellExec struct {
 	Pid int
 	Cmd *exec.Cmd
 	//Stdin *StdinPipe
+	PipeR *os.File
+	PipeW *os.File
 }
 
 var (
