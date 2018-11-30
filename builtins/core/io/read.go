@@ -1,6 +1,8 @@
 package io
 
 import (
+	"errors"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/readline"
@@ -25,6 +27,10 @@ func cmdTread(p *proc.Process) error {
 
 func read(p *proc.Process, dt string, paramAdjust int) error {
 	p.Stdout.SetDataType(types.Null)
+
+	if p.IsBackground {
+		return errors.New("Background processes cannot read from stdin.")
+	}
 
 	var prompt string
 	if p.IsMethod {
