@@ -8,10 +8,18 @@ import (
 	"syscall"
 )
 
-// Handler is an internal function to capture and handle OS signals (eg SIGTERM).
+// SignalHandler is an internal function to capture and handle OS signals (eg SIGTERM).
 func SignalHandler(interactive bool) {
 	c := make(chan os.Signal, 1)
-	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
+
+	if Interactive {
+		// Interactive, so we will handle suspend
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
+	} else {
+		// Non-interactive, so lets ignore the suspend signal and let the OS / calling shell manage that for us
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+	}
+
 	go func() {
 		for {
 			sig := <-c

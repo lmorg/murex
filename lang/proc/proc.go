@@ -58,9 +58,9 @@ type Process struct {
 }
 
 type shellExec struct {
-	Pid   int
-	Cmd   *exec.Cmd
-	Stdin *StdinPipe
+	Pid int
+	Cmd *exec.Cmd
+	//Stdin *StdinPipe
 }
 
 var (

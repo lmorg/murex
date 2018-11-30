@@ -45,12 +45,12 @@ func sigtstp() {
 	stdoutR, stdoutW := p.Stdout.Stats()
 	stderrR, stderrW := p.Stderr.Stats()
 	pipeStatus := fmt.Sprintf(
-		"\nSTDIN:  %s read /%s written\nSTDOUT: %s read /%s written\nSTDERR: %s read /%s written\n",
+		"\nSTDIN:  %s read /%s written\nSTDOUT: %s read /%s written\nSTDERR: %s read /%s written",
 		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
 		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
 		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
 	)
-	proc.ShellProcess.Stderr.Write([]byte(pipeStatus))
+	proc.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
 	if p.Exec.Pid != 0 {
 		block, err := proc.ShellProcess.Config.Get("shell", "suspend-status-func", types.CodeBlock)
@@ -67,8 +67,8 @@ func sigtstp() {
 			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 		}
 
-		proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
-			"FID %d has been suspended. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.\n",
+		proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+			"FID %d has been suspended. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.",
 			p.Id, p.Id, p.Id,
 		)))
 
@@ -77,7 +77,7 @@ func sigtstp() {
 		go prompt()
 
 	} else {
-		os.Stderr.WriteString("(murex functions don't currently support being suspended)")
+		proc.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being suspended)"))
 	}
 
 }
@@ -115,10 +115,13 @@ func sigquit(interactive bool) {
 				if len(procParam) > 10 {
 					procParam = procParam[:10]
 				}
-				proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!\n", p.Id, procName, procParam)))
+				proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!", p.Id, procName, procParam)))
 				p.Kill()
 			}
 		}
+
+		proc.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
+		go prompt()
 
 	} else {
 		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)

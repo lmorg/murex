@@ -37,15 +37,21 @@ func mkbg(p *proc.Process) error {
 
 	updateTree(f, true)
 
+	if !f.IsMethod {
+		// This doesn't work. But we would need something clever like this:
+		//f.Exec.Cmd.Stdin = streams.NewStdin()
+	}
+
 	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)
 	if err != nil {
 		return err
 	}
 
-	err = f.Exec.Cmd.Process.Signal(syscall.SIGTTIN)
+	// This doesn't belong here. It should only be called if the requesting program tries to access STDIN while backgrounded:
+	/*err = f.Exec.Cmd.Process.Signal(syscall.SIGTTIN)
 	if err != nil {
 		return err
-	}
+	}*/
 
 	f.State = state.Executing
 
