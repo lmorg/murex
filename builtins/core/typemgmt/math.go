@@ -19,16 +19,16 @@ func init() {
 }
 
 var (
-	rxLet   *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\s*=(.*)$`)
-	rxMinus *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)--$`)
-	rxPlus  *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
+	rxLet   = regexp.MustCompile(`^([_a-zA-Z0-9]+)\s*=(.*)$`)
+	rxMinus = regexp.MustCompile(`^([_a-zA-Z0-9]+)--$`)
+	rxPlus  = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
 )
 
 func cmdEval(p *proc.Process) (err error) {
 	//p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing expression.")
+		return errors.New("Missing expression")
 	}
 
 	var leftSide string
@@ -115,7 +115,7 @@ func cmdLet(p *proc.Process) (err error) {
 		expression = variable + "-1"
 
 	default:
-		return errors.New("Invalid syntax for `let`. Should be `let variable-name = expression`.")
+		return errors.New("Invalid syntax for `let`. Should be `let variable-name = expression`")
 	}
 
 	value, dt, err := evaluate(p, expression)

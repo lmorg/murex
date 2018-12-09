@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -44,7 +45,7 @@ func cmdSprintf(p *proc.Process) error {
 	}
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Parameters missing.")
+		return errors.New("Parameters missing")
 	}
 
 	s := p.Parameters.StringAll()

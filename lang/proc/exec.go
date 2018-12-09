@@ -58,12 +58,6 @@ func execute(p *Process) error {
 		cmd.Stdin = new(streams.Null)
 	default:
 		cmd.Stdin = os.Stdin
-
-		/*p.Exec.Stdin, err = newStdinPipe(p, cmd)
-		if err != nil {
-			return err
-		}
-		p.Exec.Stdin.Foreground()*/
 	}
 
 	if p.Stdout.IsTTY() {

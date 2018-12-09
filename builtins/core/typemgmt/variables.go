@@ -21,8 +21,8 @@ func init() {
 }
 
 var (
-	rxSet     *regexp.Regexp = regexp.MustCompile(`(?sm)^([_a-zA-Z0-9]+)\s*=(.*$)`)
-	rxVarName *regexp.Regexp = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
+	rxSet     = regexp.MustCompile(`(?sm)^([_a-zA-Z0-9]+)\s*=(.*$)`)
+	rxVarName = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
 )
 
 func cmdSet(p *proc.Process) error      { return set(p, p) }
@@ -39,7 +39,7 @@ func set(p *proc.Process, scope *proc.Process) error {
 
 	switch p.Parameters.Len() {
 	case 0:
-		return errors.New("Missing variable name.")
+		return errors.New("Missing variable name")
 	case 1:
 		if p.IsMethod {
 			dataType = p.Stdin.GetDataType()
@@ -56,7 +56,7 @@ func set(p *proc.Process, scope *proc.Process) error {
 	// Set variable as method:
 	if p.IsMethod {
 		if !rxVarName.MatchString(params) {
-			return errors.New("Invalid variable name; unexpected parameters for calling `set` / `global` as method.")
+			return errors.New("Invalid variable name; unexpected parameters for calling `set` / `global` as method")
 		}
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
@@ -80,7 +80,7 @@ func unset(p *proc.Process, scope *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name.")
+		return errors.New("Missing variable name")
 	}
 
 	varName, err := p.Parameters.String(0)
@@ -96,7 +96,7 @@ func cmdExport(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name.")
+		return errors.New("Missing variable name")
 	}
 
 	params := p.Parameters.StringAll()
@@ -104,7 +104,7 @@ func cmdExport(p *proc.Process) error {
 	// Set env as method:
 	if p.IsMethod {
 		if !rxVarName.MatchString(params) {
-			return errors.New("Invalid variable name; unexpected parameters for calling `export` as method.")
+			return errors.New("Invalid variable name; unexpected parameters for calling `export` as method")
 		}
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
@@ -126,7 +126,7 @@ func cmdUnexport(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name.")
+		return errors.New("Missing variable name")
 	}
 
 	varName, err := p.Parameters.String(0)

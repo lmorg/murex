@@ -23,7 +23,7 @@ func getPrompt() {
 		out := streams.NewStdin()
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		branch.Process.Variables.Set("linenum", 1, types.Integer)
+		branch.Variables.Set("linenum", 1, types.Integer)
 		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
 		b, err2 = out.ReadAll()

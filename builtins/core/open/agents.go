@@ -6,7 +6,7 @@ import (
 )
 
 // OpenAgents is the exported table of `open`'s helper functions
-var OpenAgents *openAgents = newOpenAgents()
+var OpenAgents = newOpenAgents()
 
 func newOpenAgents() *openAgents {
 	oa := new(openAgents)

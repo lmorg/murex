@@ -30,7 +30,7 @@ func pvImage(p *proc.Process) error {
 
 	switch {
 	case !p.Stdout.IsTTY():
-		return errors.New("This function is expecting to output to the terminal.")
+		return errors.New("This function is expecting to output to the terminal")
 
 	case p.IsMethod:
 		reader = p.Stdin

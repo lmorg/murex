@@ -74,7 +74,7 @@ func sigtstp() {
 
 		p.State = state.Suspended
 
-		go prompt()
+		go ShowPrompt()
 
 	} else {
 		proc.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being suspended)"))
@@ -121,7 +121,7 @@ func sigquit(interactive bool) {
 		}
 
 		proc.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
-		go prompt()
+		go ShowPrompt()
 
 	} else {
 		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)

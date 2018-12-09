@@ -15,7 +15,7 @@ import (
 func mkbg(p *proc.Process) error {
 	fid, err := p.Parameters.Int(0)
 	if err != nil {
-		return errors.New("Invalid parameters. Expecting either a code block or FID of a suspended process.")
+		return errors.New("Invalid parameters. Expecting either a code block or FID of a suspended process")
 	}
 
 	f, err := proc.GlobalFIDs.Proc(fid)
@@ -24,15 +24,15 @@ func mkbg(p *proc.Process) error {
 	}
 
 	if f.State != state.Suspended {
-		return errors.New("FID is not a suspended process. Run `jobs` or `fid-list` to see a list of suspended processes.")
+		return errors.New("FID is not a suspended process. Run `jobs` or `fid-list` to see a list of suspended processes")
 	}
 
 	if f.Exec.Pid == 0 {
-		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `bg`.")
+		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `bg`")
 	}
 
 	if f.Exec.Cmd == nil {
-		return errors.New("Something went wrong trying to communicate back to the OS process.")
+		return errors.New("Something went wrong trying to communicate back to the OS process")
 	}
 
 	updateTree(f, true)
@@ -73,7 +73,7 @@ func mkbg(p *proc.Process) error {
 
 	f.State = state.Executing
 
-	shell.StartPrompt()
+	shell.ShowPrompt()
 	return nil
 }
 
@@ -91,11 +91,11 @@ func cmdForeground(p *proc.Process) error {
 	}
 
 	if f.Exec.Pid == 0 {
-		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `fg`.")
+		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `fg`")
 	}
 
 	if f.Exec.Cmd == nil {
-		return errors.New("Something went wrong trying to communicate back to the OS process.")
+		return errors.New("Something went wrong trying to communicate back to the OS process")
 	}
 
 	updateTree(f, false)

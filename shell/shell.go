@@ -3,7 +3,6 @@ package shell
 import (
 	"fmt"
 	"os"
-	"sync"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
@@ -51,7 +50,6 @@ func Start() {
 
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
-		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Error opening history file: "+err.Error())
 		proc.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
 	} else {
 		Prompt.History = h
@@ -67,17 +65,18 @@ func Start() {
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
 
-	prompt()
+	ShowPrompt()
 
 	noQuit := make(chan int)
 	<-noQuit
 }
 
-func StartPrompt() {
-	prompt()
-}
+// ShowPrompt display's the shell command line prompt
+func ShowPrompt() {
+	if !Interactive {
+		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
+	}
 
-func prompt() {
 	thisProc := PromptGoProc.Add()
 
 	nLines := 1
@@ -211,36 +210,4 @@ func getShowHintText() {
 	} else {
 		Prompt.HintText = nil
 	}
-}
-
-type mutexCounter struct {
-	i int
-	m sync.Mutex
-}
-
-func (mc *mutexCounter) Add() int {
-	mc.m.Lock()
-	defer mc.m.Unlock()
-
-	mc.i++
-	return mc.i
-}
-
-func (mc *mutexCounter) Set(i int) {
-	mc.m.Lock()
-	mc.i = i
-	mc.m.Unlock()
-}
-
-func (mc *mutexCounter) NotEqual(i int) bool {
-	mc.m.Lock()
-	defer mc.m.Unlock()
-
-	//debug.Log(mc.i, i)
-
-	if mc.i != i {
-		return true
-	}
-
-	return false
 }

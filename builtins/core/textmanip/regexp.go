@@ -3,10 +3,13 @@ package textmanip
 import (
 	"bytes"
 	"errors"
+	"fmt"
+	"regexp"
+
+	"github.com/lmorg/murex/debug"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types/define"
-	"regexp"
-	"strings"
 )
 
 func init() {
@@ -25,7 +28,7 @@ func cmdMatch(p *proc.Process) error {
 	}
 
 	if p.Parameters.StringAll() == "" {
-		return errors.New("No parameters supplied.")
+		return errors.New("No parameters supplied")
 	}
 
 	var output []string
@@ -55,97 +58,171 @@ func cmdRegexp(p *proc.Process) (err error) {
 	}
 
 	if p.Parameters.StringAll() == "" {
-		return errors.New("No parameters supplied.")
+		return errors.New("No parameters supplied")
 	}
 
 	var sRegex []string
 	if p.Parameters.Len() == 1 {
-		sRegex = splitRegexParams(p.Parameters.StringAll())
+		sRegex, err = splitRegexParams(p.Parameters.ByteAll())
+		if err != nil {
+			return err
+		}
+
 	} else {
+		// No need to get clever with the regex parser because the parameters are already split by murex's parser
 		sRegex = p.Parameters.StringArray()
 	}
 
-	var rx *regexp.Regexp
-	if len(sRegex) < 2 || len(sRegex) > 4 {
-		return errors.New("Invalid regexp.")
+	if len(sRegex) < 2 {
+		return fmt.Errorf("Invalid regexp (too few parameters) in: `%s`", p.Parameters.StringAll())
 	}
+	if len(sRegex) > 4 {
+		return fmt.Errorf("Invalid regexp (too many parameters) in: `%s`", p.Parameters.StringAll())
+	}
+
+	var rx *regexp.Regexp
 	if rx, err = regexp.Compile(sRegex[1]); err != nil {
 		return
 	}
 
 	switch sRegex[0][0] {
-	case 'm': // match
-		var output []string
+	case 'm':
+		return regexMatch(p, rx, dt)
 
-		p.Stdin.ReadArray(func(b []byte) {
-			matched := rx.Match(b)
-			if (matched && !p.IsNot) || (!matched && p.IsNot) {
-				output = append(output, string(b))
-			}
-		})
+	case 's':
+		return regexSubstitute(p, rx, sRegex, dt)
 
-		b, err := define.MarshalData(p, dt, output)
-		if err != nil {
-			return err
-		}
-
-		_, err = p.Stdout.Write(b)
-		return err
-
-	case 's': // substitute
-		var output []string
-
-		p.Stdin.ReadArray(func(b []byte) {
-			output = append(output, rx.ReplaceAllString(string(b), sRegex[2]))
-		})
-
-		b, err := define.MarshalData(p, dt, output)
-		if err != nil {
-			return err
-		}
-
-		_, err = p.Stdout.Write(b)
-		return err
-
-	case 'f': // find
-		var output []string
-
-		p.Stdin.ReadArray(func(b []byte) {
-			found := rx.FindStringSubmatch(string(b))
-			if len(found) > 1 {
-				output = append(output, found[1:]...)
-			}
-		})
-
-		b, err := define.MarshalData(p, dt, output)
-		if err != nil {
-			return err
-		}
-
-		_, err = p.Stdout.Write(b)
-		return err
+	case 'f':
+		return regexFind(p, rx, dt)
 
 	default:
-		return errors.New("Invalid regexp. Please use either match (m), substitute (s) or find (f).")
+		return errors.New("Invalid regexp. Please use either match (m), substitute (s) or find (f)")
 	}
 }
 
-func splitRegexParams(s string) (regex []string) {
-	if len(s) < 2 {
-		return
+func splitRegexParams(regex []byte) ([]string, error) {
+	if len(regex) < 2 {
+		return nil, fmt.Errorf("Invalid regexp (too few characters) in: `%s`", string(regex))
 	}
-	switch s[1] {
-	case '/':
-		regex = strings.Split(s, "/")
-	case '#':
-		regex = strings.Split(s, "#")
-	case ',':
-		regex = strings.Split(s, ",")
 
-		//case '{':
-		//	b = append([]byte{'}'}, b...)
-		//	b = append(b, '{')
-		//	b = bytes.Split(b, []byte{'}', '{'})
+	switch regex[1] {
+	default:
+		return splitRegexDefault(regex)
+
+	case '{':
+		return nil, fmt.Errorf("The `{` character is not yet supported for separating regex parameters in: `%s`. (feature in development)", string(regex))
+		//return splitRegexBraces(regex)
+
+	case '\\':
+		return nil, fmt.Errorf("The `\\` character is not valid for separating regex parameters in: `%s`", string(regex))
 	}
+}
+
+func splitRegexDefault(regex []byte) (s []string, _ error) {
+	var (
+		param   []byte
+		escaped bool
+		token   = regex[1]
+	)
+
+	for _, c := range regex {
+		switch c {
+		default:
+			if escaped {
+				param = append(param, '\\', c)
+				escaped = false
+				continue
+			}
+			param = append(param, c)
+
+		case '\\':
+			if escaped {
+				param = append(param, '\\', c)
+				escaped = false
+				continue
+			}
+			escaped = true
+
+		case token:
+			if escaped {
+				escaped = false
+				param = append(param, c)
+				continue
+			}
+
+			s = append(s, string(param))
+			param = []byte{}
+		}
+	}
+	s = append(s, string(param))
+
 	return
+}
+
+var rxCurlyBraceSplit = regexp.MustCompile(`\{(.*?)\}`)
+
+func splitRegexBraces(regex []byte) ([]string, error) {
+	s := rxCurlyBraceSplit.FindAllString(string(regex), -1)
+	s = append([]string{string(regex[0])}, s...)
+	debug.Json("s", s)
+	return s, nil
+}
+
+// -------- regex functons --------
+
+func regexMatch(p *proc.Process, rx *regexp.Regexp, dt string) error {
+	var output []string
+
+	p.Stdin.ReadArray(func(b []byte) {
+		matched := rx.Match(b)
+		if (matched && !p.IsNot) || (!matched && p.IsNot) {
+			output = append(output, string(b))
+		}
+	})
+
+	b, err := define.MarshalData(p, dt, output)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func regexSubstitute(p *proc.Process, rx *regexp.Regexp, sRegex []string, dt string) error {
+	if len(sRegex) < 3 {
+		return fmt.Errorf("Invalid regex (too few parameters - expecting s/find/substitute/) in: `%s`", p.Parameters.StringAll())
+	}
+	var output []string
+
+	p.Stdin.ReadArray(func(b []byte) {
+		output = append(output, rx.ReplaceAllString(string(b), sRegex[2]))
+	})
+
+	b, err := define.MarshalData(p, dt, output)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func regexFind(p *proc.Process, rx *regexp.Regexp, dt string) error {
+	var output []string
+
+	p.Stdin.ReadArray(func(b []byte) {
+		found := rx.FindStringSubmatch(string(b))
+		if len(found) > 1 {
+			output = append(output, found[1:]...)
+		}
+	})
+
+	b, err := define.MarshalData(p, dt, output)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
 }

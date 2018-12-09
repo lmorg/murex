@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	manDescript    map[string]string = make(map[string]string)
+	manDescript    = make(map[string]string)
 	cachedHintText []rune
 )
 

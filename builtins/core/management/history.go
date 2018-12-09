@@ -18,7 +18,7 @@ func init() {
 func cmdHistory(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	if !shell.Interactive {
-		return errors.New("This is only designed to be run when the shell is in interactive mode.")
+		return errors.New("This is only designed to be run when the shell is in interactive mode")
 	}
 
 	list := shell.Prompt.History.Dump()
@@ -34,7 +34,7 @@ func cmdHistory(p *proc.Process) (err error) {
 
 func cmdHistCmd(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
-	return errors.New("Invalid usage of history variable!")
+	return errors.New("Invalid usage of history variable")
 }
 
 /*func cmdHistPipe(p *proc.Process) error {

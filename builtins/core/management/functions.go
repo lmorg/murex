@@ -32,14 +32,14 @@ func cmdDebug(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	if p.IsMethod {
 		var (
-			j map[string]interface{} = make(map[string]interface{})
+			j = make(map[string]interface{})
 			b []byte
 		)
 
 		dt := p.Stdin.GetDataType()
 		obj, _ := define.UnmarshalData(p, dt) // For once we don't care about the error
 
-		j["Process"] = *p.Previous
+		j["Process"] = *p.Previous // only making a readonly so the sync.Mutex is irrelevent here
 		j["DataType"] = map[string]string{
 			"Murex": dt,
 			"Go":    fmt.Sprintf("%T", obj),
@@ -100,7 +100,7 @@ func cmdListBuiltins(p *proc.Process) error {
 func cmdBuiltinExists(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Json)
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters. Please name builtins you want to check.")
+		return errors.New("Missing parameters. Please name builtins you want to check")
 	}
 
 	var j struct {

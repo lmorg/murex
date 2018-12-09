@@ -67,7 +67,7 @@ func cmdFidKill(p *proc.Process) (err error) {
 		if process.Kill != nil {
 			process.Kill()
 		} else {
-			err = fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`.", fid)
+			err = fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`", fid)
 		}
 	}
 

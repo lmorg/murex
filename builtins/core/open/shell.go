@@ -51,6 +51,6 @@ func shell(p *proc.Process) error {
 		return nil
 
 	default:
-		return errors.New("Invalid option. Please use `get` or `set`; or use the bang (!) to unset.")
+		return errors.New("Invalid option. Please use `get` or `set`; or use the bang (!) to unset")
 	}
 }

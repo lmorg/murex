@@ -28,7 +28,7 @@ func cmdArgs(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Boolean)
 
 	if p.Parameters.Len() != 1 {
-		return errors.New("Invalid parameters! Expecting JSON input.")
+		return errors.New("Invalid parameters. Expecting JSON input")
 	}
 
 	var args parameters.Arguments

@@ -7,6 +7,7 @@ package proc
 func (p *Process) BranchFID() *Branch {
 	p.hasTerminatedM.Lock()
 
+	// This copies a sync.Mutex value, but on this occasion it is perfectly safe.
 	process := *p
 
 	p.hasTerminatedM.Unlock()
@@ -28,7 +29,7 @@ func (p *Process) BranchFID() *Branch {
 
 // Branch is the structure returned from BranchFID. Use this to close a branch.
 type Branch struct {
-	Process *Process
+	*Process
 }
 
 // Close the branch

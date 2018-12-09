@@ -2,9 +2,10 @@ package random
 
 import (
 	"errors"
+	"math/rand"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"math/rand"
 )
 
 func init() {
@@ -33,7 +34,7 @@ func cmdRand(p *proc.Process) error {
 		v = rand.Float64()
 
 	default:
-		return errors.New("I don't know how to generate random data for the data type `" + dt + "`.")
+		return errors.New("I don't know how to generate random data for the data type `" + dt + "`")
 	}
 
 	s, err := types.ConvertGoType(v, types.String)
