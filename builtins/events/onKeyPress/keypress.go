@@ -9,7 +9,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/readline"

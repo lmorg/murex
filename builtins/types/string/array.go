@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 func readArray(read stdio.Io, callback func([]byte)) error {

@@ -1,19 +1,21 @@
 package string
 
 import (
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
 	// Register data type
+	stdio.RegesterReadArray(types.String, readArray)
+	stdio.RegesterReadMap(types.String, readMap)
+	stdio.RegesterWriteArray(types.String, newArrayWriter)
+
+	define.ReadIndexes[types.String] = index
+	define.ReadNotIndexes[types.String] = index
 	define.Marshallers[types.String] = marshal
 	define.Unmarshallers[types.String] = unmarshal
-	define.ReadIndexes[types.String] = index
-	streams.ReadArray[types.String] = readArray
-	streams.ReadMap[types.String] = readMap
-	streams.WriteArray[types.String] = newArrayWriter
 
 	define.SetMime(types.String,
 		"application/x-latex",

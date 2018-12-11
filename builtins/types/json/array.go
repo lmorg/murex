@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/json"
 )

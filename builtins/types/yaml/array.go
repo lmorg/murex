@@ -1,7 +1,7 @@
 package yaml
 
 import (
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 type arrayWriter struct {

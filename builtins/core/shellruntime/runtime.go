@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -21,24 +21,7 @@ func init() {
 
 	defaults.AppendProfile(`
         autocomplete set runtime { [{
-            "Flags": [
-                "--vars",
-                "--aliases",
-                "--config",
-                "--pipes",
-                "--funcs",
-                "--fids",
-                "--arrays",
-                "--maps",
-                "--indexes",
-                "--marshallers",
-                "--unmarshallers",
-                "--events",
-                "--flags",
-                "--memstats",
-                "--astcache",
-				"--tests"
-            ],
+            "Dynamic": ({ runtime --help }),
             "AllowMultiple": true
         }] }
     `)
@@ -49,11 +32,13 @@ func cmdRuntime(p *proc.Process) error {
 		fVars          = "--vars"
 		fAliases       = "--aliases"
 		fConfig        = "--config"
+		fNamedPipes    = "--named-pipes"
 		fPipes         = "--pipes"
 		fFuncs         = "--funcs"
 		fFids          = "--fids"
-		fArrays        = "--arrays"
-		fMaps          = "--maps"
+		fReadArrays    = "--readarray"
+		fReadMaps      = "--readmap"
+		fWriteArrays   = "--writearray"
 		fIndexes       = "--indexes"
 		fMarshallers   = "--marshallers"
 		fUnmarshallers = "--unmarshallers"
@@ -62,29 +47,43 @@ func cmdRuntime(p *proc.Process) error {
 		fMemstats      = "--memstats"
 		fAstCache      = "--astcache"
 		fTests         = "--tests"
+		fHelp          = "--help"
 	)
+
+	flags := map[string]string{
+		fVars:          types.Boolean,
+		fAliases:       types.Boolean,
+		fConfig:        types.Boolean,
+		fPipes:         types.Boolean,
+		fNamedPipes:    types.Boolean,
+		fFuncs:         types.Boolean,
+		fFids:          types.Boolean,
+		fReadArrays:    types.Boolean,
+		fReadMaps:      types.Boolean,
+		fWriteArrays:   types.Boolean,
+		fIndexes:       types.Boolean,
+		fMarshallers:   types.Boolean,
+		fUnmarshallers: types.Boolean,
+		fEvents:        types.Boolean,
+		fFlags:         types.Boolean,
+		fMemstats:      types.Boolean,
+		fAstCache:      types.Boolean,
+		fTests:         types.Boolean,
+		fHelp:          types.Boolean,
+	}
+
+	help := func() (s []string) {
+		for f := range flags {
+			s = append(s, f)
+		}
+		return
+	}
+
 	p.Stdout.SetDataType(types.Json)
 
 	f, _, err := p.Parameters.ParseFlags(
 		&parameters.Arguments{
-			Flags: map[string]string{
-				fVars:          types.Boolean,
-				fAliases:       types.Boolean,
-				fConfig:        types.Boolean,
-				fPipes:         types.Boolean,
-				fFuncs:         types.Boolean,
-				fFids:          types.Boolean,
-				fArrays:        types.Boolean,
-				fMaps:          types.Boolean,
-				fIndexes:       types.Boolean,
-				fMarshallers:   types.Boolean,
-				fUnmarshallers: types.Boolean,
-				fEvents:        types.Boolean,
-				fFlags:         types.Boolean,
-				fMemstats:      types.Boolean,
-				fAstCache:      types.Boolean,
-				fTests:         types.Boolean,
-			},
+			Flags:           flags,
 			AllowAdditional: false,
 		},
 	)
@@ -94,7 +93,7 @@ func cmdRuntime(p *proc.Process) error {
 	}
 
 	if len(f) == 0 {
-		return errors.New("Please include one or more parameters.")
+		return errors.New("Please include one or more parameters")
 	}
 
 	ret := make(map[string]interface{})
@@ -107,16 +106,20 @@ func cmdRuntime(p *proc.Process) error {
 		case fConfig:
 			//ret[fConfig[2:]] = proc.ShellProcess.Config.Dump()
 			ret[fConfig[2:]] = p.Config.Dump()
+		case fNamedPipes:
+			ret[fNamedPipes[2:]] = proc.GlobalPipes.Dump()
 		case fPipes:
-			ret[fPipes[2:]] = proc.GlobalPipes.Dump()
+			ret[fPipes[2:]] = stdio.DumpPipes()
 		case fFuncs:
 			ret[fFuncs[2:]] = proc.MxFunctions.Dump()
 		case fFids:
 			ret[fFids[2:]] = proc.GlobalFIDs.Dump()
-		case fArrays:
-			ret[fArrays[2:]] = streams.DumpArray()
-		case fMaps:
-			ret[fMaps[2:]] = streams.DumpMap()
+		case fReadArrays:
+			ret[fReadArrays[2:]] = stdio.DumpArray()
+		case fReadMaps:
+			ret[fReadMaps[2:]] = stdio.DumpMap()
+		case fWriteArrays:
+			ret[fWriteArrays[2:]] = stdio.DumpArray()
 		case fIndexes:
 			ret[fIndexes[2:]] = define.DumpIndex()
 		case fMarshallers:
@@ -135,6 +138,8 @@ func cmdRuntime(p *proc.Process) error {
 			ret[fAstCache[2:]] = lang.AstCache.Dump()
 		case fTests:
 			ret[fTests[2:]] = p.Tests.Dump()
+		case fHelp:
+			ret[fHelp[2:]] = help()
 		default:
 			return errors.New("Unrecognised parameter: " + flag)
 		}

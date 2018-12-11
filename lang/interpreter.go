@@ -1,9 +1,10 @@
 package lang
 
 import (
+	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 )
 
 func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
@@ -127,7 +128,7 @@ func runModeEvil(procs []proc.Process) int {
 			exitNum, _ := procs[i].Parameters.Int(0)
 			return exitNum
 		}*/
-		procs[i].Stderr = new(streams.Null)
+		procs[i].Stderr = new(null.Null)
 		go executeProcess(&procs[i])
 	}
 

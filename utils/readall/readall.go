@@ -4,7 +4,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 )
 
 // ReadAll is a context aware equivalent to ioutils.ReadAll

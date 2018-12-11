@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -184,7 +184,7 @@ func testRun(p *proc.Process) error {
 
 	pipeName := "system_test_" + hex.EncodeToString(h.Sum(nil))
 
-	err = proc.GlobalPipes.CreatePipe(pipeName)
+	err = proc.GlobalPipes.CreatePipe(pipeName, "std", "")
 	if err != nil {
 		return err
 	}

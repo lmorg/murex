@@ -6,7 +6,7 @@ import (
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
 )

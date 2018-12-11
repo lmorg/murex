@@ -7,8 +7,7 @@ import (
 	"github.com/abesto/sexp"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
@@ -18,17 +17,17 @@ const (
 )
 
 func init() {
-	streams.ReadArray[sexpr] = readArrayS
-	streams.ReadMap[sexpr] = readMapS
-	streams.WriteArray[sexpr] = newArrayWriterS
+	stdio.RegesterReadArray(sexpr, readArrayS)
+	stdio.RegesterReadMap(sexpr, readMapS)
+	stdio.RegesterWriteArray(sexpr, newArrayWriterS)
 	define.ReadIndexes[sexpr] = readIndexS
 	define.ReadNotIndexes[sexpr] = readIndexS
 	define.Marshallers[sexpr] = marshalS
 	define.Unmarshallers[sexpr] = unmarshal
 
-	streams.ReadArray[csexp] = readArrayC
-	streams.ReadMap[csexp] = readMapC
-	streams.WriteArray[csexp] = newArrayWriterC
+	stdio.RegesterReadArray(csexp, readArrayC)
+	stdio.RegesterReadMap(csexp, readMapC)
+	stdio.RegesterWriteArray(csexp, newArrayWriterC)
 	define.ReadIndexes[csexp] = readIndexC
 	define.ReadNotIndexes[csexp] = readIndexC
 	define.Marshallers[csexp] = marshalC

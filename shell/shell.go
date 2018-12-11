@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
@@ -178,8 +178,8 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpaceWithPrompt(expanded, nil, new(streams.TermOut), streams.NewTermErr(ansi.IsAllowed()), thisProc)
-			streams.CrLf.Write()
+			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpaceWithPrompt(expanded, nil, new(term.Out), term.NewErr(ansi.IsAllowed()), thisProc)
+			term.CrLf.Write()
 
 			if PromptGoProc.NotEqual(thisProc) {
 				return

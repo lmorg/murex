@@ -4,8 +4,14 @@ import (
 	"io"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
+
+/*func init() {
+	stdio.RegesterPipe("tee", func(string) (stdio.Io, error) {
+		return nil, errors.New("`tee` is a system device used for `test`. It's user creation isn't yet supported but might be included in a future release")
+	})
+}*/
 
 // Tee is a stream interface with two output streams
 // (like the `tee` command on UNIX/Linux)
@@ -63,7 +69,7 @@ func (tee *Tee) Writeln(p []byte) (int, error) {
 
 // WriteArray performs data type specific buffered writes to an stdio.Io interface
 func (tee *Tee) WriteArray(dataType string) (stdio.ArrayWriter, error) {
-	return writeArray(tee, dataType)
+	return stdio.WriteArray(tee, dataType)
 }
 
 // Open the stream.Io interface for another dependant

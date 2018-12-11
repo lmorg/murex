@@ -1,7 +1,7 @@
 package string
 
 import (
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
@@ -12,6 +12,7 @@ func init() {
 	define.Marshallers[dataType] = marshal
 	define.Unmarshallers[dataType] = unmarshal
 	define.ReadIndexes[dataType] = index
-	streams.ReadArray[dataType] = readArray
-	streams.ReadMap[dataType] = readMap
+
+	stdio.RegesterReadArray(dataType, readArray)
+	stdio.RegesterReadMap(dataType, readMap)
 }

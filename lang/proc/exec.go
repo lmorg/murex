@@ -6,8 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc/streams"
-
+	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -55,7 +54,7 @@ func execute(p *Process) error {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
 	case p.IsBackground:
-		cmd.Stdin = new(streams.Null)
+		cmd.Stdin = new(null.Null)
 	default:
 		cmd.Stdin = os.Stdin
 	}

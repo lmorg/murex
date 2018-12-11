@@ -3,7 +3,7 @@ package string
 import (
 	"bufio"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"strconv"
 	"strings"
 )

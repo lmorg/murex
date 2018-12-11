@@ -1,12 +1,14 @@
-package streams
+package term
 
 import (
-	"github.com/lmorg/murex/utils"
 	"os"
 	"sync"
+
+	"github.com/lmorg/murex/utils"
 )
 
 // This function is just a way for readline to guarantee that it will always start on a new line.
+// (it actually only works for murex builtins so i'll need to get clevererer with readline at some point)
 
 type appendCrLf struct {
 	mutex sync.Mutex
@@ -30,4 +32,4 @@ func (lf *appendCrLf) Write() {
 }
 
 // CrLf function to append a line feed character at the end of text piped to the terminal to aid readability.
-var CrLf appendCrLf = appendCrLf{char: '\n'}
+var CrLf = appendCrLf{char: '\n'}

@@ -4,13 +4,15 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/builtins/pipes/null"
+	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -119,9 +121,9 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		if debug.Enable {
 			// This is TermErr despite being a Stdout stream because it is a debug
 			// stream so we don't want to taint stdout with unexpected output.
-			container.Stdout = streams.NewTermErr(true)
+			container.Stdout = term.NewErr(true)
 		} else {
-			container.Stdout = new(streams.Null)
+			container.Stdout = new(null.Null)
 		}
 	}
 	container.Stdout.Open()
@@ -131,9 +133,9 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		container.Stderr = stderr
 	} else {
 		if debug.Enable {
-			container.Stderr = streams.NewTermErr(true)
+			container.Stderr = term.NewErr(true)
 		} else {
-			container.Stderr = new(streams.Null)
+			container.Stderr = new(null.Null)
 		}
 	}
 	container.Stderr.Open()
@@ -182,6 +184,5 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		}
 	}
 
-	//debug.Json("Finished running &tree", tree)
 	return
 }

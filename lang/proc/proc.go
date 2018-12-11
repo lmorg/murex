@@ -13,7 +13,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 // Process - Each process running inside the murex shell will be one of these objects.

@@ -3,7 +3,7 @@ package csv
 import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
@@ -11,8 +11,9 @@ import (
 const typeName = "csv"
 
 func init() {
-	//streams.ReadArray[typeName] = readArray
-	streams.ReadMap[typeName] = readMap
+	//stdio.RegesterReadArray(typeName, readArray)
+	stdio.RegesterReadMap(typeName, readMap)
+
 	define.ReadIndexes[typeName] = readIndex
 	define.ReadNotIndexes[typeName] = readIndex
 

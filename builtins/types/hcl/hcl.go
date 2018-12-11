@@ -8,8 +8,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -20,9 +19,9 @@ func init() {
 	define.ReadIndexes[typeName] = readIndex
 	define.ReadNotIndexes[typeName] = readIndex
 
-	streams.ReadArray[typeName] = readArray
-	streams.ReadMap[typeName] = readMap
-	streams.WriteArray[typeName] = newArrayWriter
+	stdio.RegesterReadArray(typeName, readArray)
+	stdio.RegesterReadMap(typeName, readMap)
+	stdio.RegesterWriteArray(typeName, newArrayWriter)
 
 	define.Marshallers[typeName] = marshal
 	define.Unmarshallers[typeName] = unmarshal

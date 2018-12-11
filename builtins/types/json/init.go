@@ -1,7 +1,7 @@
 package json
 
 import (
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
@@ -13,9 +13,9 @@ func init() {
 	define.ReadIndexes[types.Json] = index
 	define.ReadNotIndexes[types.Json] = index
 
-	streams.ReadArray[types.Json] = readArray
-	streams.ReadMap[types.Json] = readMap
-	streams.WriteArray[types.Json] = newArrayWriter
+	stdio.RegesterReadArray(types.Json, readArray)
+	stdio.RegesterReadMap(types.Json, readMap)
+	stdio.RegesterWriteArray(types.Json, newArrayWriter)
 
 	define.SetMime(types.Json, "application/json")
 

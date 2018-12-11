@@ -1,12 +1,19 @@
-package streams
+package null
 
 import (
 	"io"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
+
+// Since I don't want you to create null pipes, lets not regester it
+/*func init() {
+	stdio.RegesterPipe("null", func(string) (stdio.Io, error) {
+		return nil, errors.New("null pipes cannot be created. Use `null` if you require a null pipe")
+	})
+}*/
 
 // Null is null interface for named pipes
 type Null struct{}
@@ -39,7 +46,9 @@ func (t *Null) Write(b []byte) (int, error) { return len(b), nil }
 func (t *Null) Writeln(b []byte) (int, error) { return len(b), nil }
 
 // WriteArray - null interface
-func (t *Null) WriteArray(dataType string) (stdio.ArrayWriter, error) { return writeArray(t, dataType) }
+func (t *Null) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return stdio.WriteArray(t, dataType)
+}
 
 // Stats - null interface
 func (t *Null) Stats() (uint64, uint64) { return 0, 0 }

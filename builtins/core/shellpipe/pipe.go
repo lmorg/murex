@@ -4,6 +4,8 @@ import (
 	"errors"
 	"io"
 
+	"github.com/lmorg/murex/lang/proc/stdio"
+
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -18,7 +20,9 @@ func init() {
 	defaults.AppendProfile(`
 		autocomplete set pipe { [
 		    {
-		        "Flags": [ "--file", "--udp-dial", "--tcp-dial", "--udp-listen", "--tcp-listen" ],
+		        "Dynamic": ({
+					runtime --pipes -> !match std
+				}),
 		        "FlagValues": {
 		         	"--file": [{
 		        		"IncFiles": true
@@ -40,18 +44,20 @@ func cmdPipe(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters.")
+		return errors.New("Missing parameters")
 	}
 
+	// import the registered pipes
+	supportedFlags := make(map[string]string)
+	pipes := stdio.DumpPipes()
+	for i := range pipes {
+		supportedFlags["--"+pipes[i]] = types.String
+	}
+
+	// define cli flags
 	flags, additional, err := p.Parameters.ParseFlags(&parameters.Arguments{
 		AllowAdditional: true,
-		Flags: map[string]string{
-			"--file":       types.String,
-			"--tcp-dial":   types.String,
-			"--udp-dial":   types.String,
-			"--tcp-listen": types.String,
-			"--udp-listen": types.String,
-		},
+		Flags:           supportedFlags,
 	})
 
 	if err != nil {
@@ -59,36 +65,25 @@ func cmdPipe(p *proc.Process) error {
 	}
 
 	if len(additional) == 0 {
-		return errors.New("No name specified for named pipe.")
+		return errors.New("No name specified for named pipe. Usage: `pipe name [ --pipe-type creation-data ]")
 	}
 
-	switch {
-	case flags["--file"] != "":
-		err = proc.GlobalPipes.CreateFile(additional[0], flags["--file"])
+	if len(flags) > 1 {
+		return errors.New("Too many types of pipe specified. Please use only one flag per")
+	}
 
-	case flags["--udp-dial"] != "":
-		err = proc.GlobalPipes.CreateDialer(additional[0], "udp", flags["--udp-dial"])
+	for flag := range flags {
+		return proc.GlobalPipes.CreatePipe(additional[0], flag[2:], flags[flag])
+	}
 
-	case flags["--tcp-dial"] != "":
-		err = proc.GlobalPipes.CreateDialer(additional[0], "tcp", flags["--tcp-dial"])
-
-	case flags["--udp-listen"] != "":
-		err = proc.GlobalPipes.CreateListener(additional[0], "udp", flags["--udp-listen"])
-
-	case flags["--tcp-listen"] != "":
-		err = proc.GlobalPipes.CreateListener(additional[0], "tcp", flags["--tcp-listen"])
-
-	case len(additional) > 0:
-		for _, name := range additional {
-			err := proc.GlobalPipes.CreatePipe(name)
-			if err != nil {
-				return err
-			}
+	for _, name := range additional {
+		err := proc.GlobalPipes.CreatePipe(name, "std", "")
+		if err != nil {
+			return err
 		}
-
 	}
 
-	return err
+	return nil
 }
 
 func cmdClosePipe(p *proc.Process) error {

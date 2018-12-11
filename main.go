@@ -5,12 +5,13 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/lmorg/murex/builtins/pipes/term"
+
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -82,7 +83,7 @@ func diskSource(filename string) []rune {
 }
 
 func execSource(source []rune) {
-	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(streams.TermOut), streams.NewTermErr(ansi.IsAllowed()))
+	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
 
 	if err != nil {
 		if exitNum == 0 {
@@ -114,5 +115,5 @@ func execProfile() {
 		return
 	}
 
-	lang.RunBlockShellConfigSpace([]rune(string(b)), nil, new(streams.TermOut), streams.NewTermErr(ansi.IsAllowed()))
+	lang.RunBlockShellConfigSpace([]rune(string(b)), nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
 }

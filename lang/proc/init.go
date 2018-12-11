@@ -3,9 +3,9 @@ package proc
 import (
 	"os"
 
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
@@ -23,8 +23,8 @@ func InitEnv() {
 	ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []int{0}
-	ShellProcess.Stdout = new(streams.TermOut)
-	ShellProcess.Stderr = streams.NewTermErr(true) // TODO: check this is overridden by `config set ...`
+	ShellProcess.Stdout = new(term.Out)
+	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
 	if err != nil {
@@ -35,7 +35,6 @@ func InitEnv() {
 	// Pre-populate $PWDHIST with current working directory
 	s, _ := os.Getwd()
 	pwd := []string{s}
-	//if b, err := json.MarshalIndent(&pwd, "", "    "); err == nil {
 	if b, err := json.Marshal(&pwd, false); err == nil {
 		ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 	}

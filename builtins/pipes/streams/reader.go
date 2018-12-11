@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -110,12 +110,12 @@ func (r *Reader) ReadAll() (b []byte, err error) {
 
 // ReadArray returns a data type-specific array returned via a callback function
 func (r *Reader) ReadArray(callback func([]byte)) error {
-	return readArray(r, callback)
+	return stdio.ReadArray(r, callback)
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function
 func (r *Reader) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
-	return readMap(r, config, callback)
+	return stdio.ReadMap(r, config, callback)
 }
 
 // Write is a dummy function because it's a reader interface
@@ -165,7 +165,7 @@ func (r *Reader) ForceClose() {
 // WriteTo reads from the stream.Io interface and writes to a destination
 // io.Writer interface
 func (r *Reader) WriteTo(w io.Writer) (int64, error) {
-	return writeTo(r, w)
+	return stdio.WriteTo(r, w)
 }
 
 // GetDataType returns the murex data type for the stream.Io interface

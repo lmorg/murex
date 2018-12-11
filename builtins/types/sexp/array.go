@@ -2,7 +2,7 @@ package sexp
 
 import (
 	"github.com/abesto/sexp"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 type arrayWriter struct {

@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 )
 
 // MurexTest is a basic framework to test murex code

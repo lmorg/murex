@@ -1,16 +1,15 @@
 package history
 
 import (
-	"errors"
-
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
-
 	"bufio"
 	"encoding/json"
+	"errors"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/lmorg/murex/builtins/pipes/file"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 // History exports common functions needed for shell history
@@ -31,7 +30,7 @@ func New(filename string) (h *History, err error) {
 	h = new(History)
 	h.filename = filename
 	h.list, _ = openHist(filename)
-	h.writer, err = streams.NewFile(filename)
+	h.writer, err = file.NewFile(filename)
 
 	return h, err
 }

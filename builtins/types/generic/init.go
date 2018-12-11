@@ -3,7 +3,7 @@ package generic
 import (
 	"regexp"
 
-	"github.com/lmorg/murex/lang/proc/streams"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
@@ -15,9 +15,9 @@ func init() {
 	define.Marshallers[types.Generic] = marshal
 	define.Unmarshallers[types.Generic] = unmarshal
 
-	streams.ReadArray[types.Generic] = readArray
-	streams.ReadMap[types.Generic] = readMap
-	streams.WriteArray[types.Generic] = newArrayWriter
+	stdio.RegesterReadArray(types.Generic, readArray)
+	stdio.RegesterReadMap(types.Generic, readMap)
+	stdio.RegesterWriteArray(types.Generic, newArrayWriter)
 }
 
 var rxWhitespace = regexp.MustCompile(`\s+`)

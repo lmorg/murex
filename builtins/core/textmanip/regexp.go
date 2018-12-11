@@ -7,7 +7,6 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/debug"
-
 	"github.com/lmorg/murex/lang/proc"
 )
 

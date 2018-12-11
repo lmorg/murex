@@ -2,102 +2,57 @@ package pipes
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
-	"github.com/lmorg/murex/lang/proc/streams"
-	"github.com/lmorg/murex/lang/proc/streams/stdio"
+	"github.com/lmorg/murex/builtins/pipes/null"
+	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 // Named is a table of created named pipes
 type Named struct {
-	pipes map[string]stdio.Io
-	types map[string]PipeTypes
+	pipes map[string]pipe
 	mutex sync.Mutex
+}
+
+type pipe struct {
+	Pipe stdio.Io
+	Type string
 }
 
 // NewNamed creates a new table of named pipes
 func NewNamed() (n Named) {
-	n.pipes = make(map[string]stdio.Io)
-	n.types = make(map[string]PipeTypes)
+	n.pipes = make(map[string]pipe)
 
-	n.pipes["null"] = new(streams.Null)
-	n.types["null"] = pipeNull
+	n.pipes["null"] = pipe{
+		Pipe: new(null.Null),
+		Type: "null",
+	}
+
 	return
 }
 
 // CreatePipe creates a named pipe using the stdin interface
-func (n *Named) CreatePipe(name string) error {
+func (n *Named) CreatePipe(name, pipeType, arguements string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	if n.pipes[name] != nil {
-		return errors.New("Named pipe `" + name + "`already exists.")
+	if n.pipes[name].Pipe != nil {
+		return fmt.Errorf("Named pipe `%s`already exists", name)
 	}
 
-	n.pipes[name] = streams.NewStdin()
-	n.pipes[name].MakePipe()
-	n.types[name] = pipeStream
-	return nil
-}
-
-// CreateFile creates a named pipe using the file interface
-func (n *Named) CreateFile(pipename string, filename string) error {
-	n.mutex.Lock()
-	defer n.mutex.Unlock()
-
-	if n.pipes[pipename] != nil {
-		return errors.New("Named pipe `" + pipename + "`already exists.")
-	}
-
-	file, err := streams.NewFile(filename)
+	io, err := stdio.CreatePipe(pipeType, arguements)
 	if err != nil {
 		return err
 	}
 
-	n.pipes[pipename] = file
-	n.pipes[pipename].MakePipe()
-	n.types[pipename] = pipeFileWriter
-	return nil
-}
-
-// CreateDialer creates a named pipe using the net dialer interface
-func (n *Named) CreateDialer(pipename, protocol, address string) error {
-	n.mutex.Lock()
-	defer n.mutex.Unlock()
-
-	if n.pipes[pipename] != nil {
-		return errors.New("Named pipe `" + pipename + "`already exists.")
+	n.pipes[name] = pipe{
+		Pipe: io,
+		Type: pipeType,
 	}
 
-	file, err := streams.NewDialer(protocol, address)
-	if err != nil {
-		return err
-	}
-
-	n.pipes[pipename] = file
-	n.pipes[pipename].MakePipe()
-	n.types[pipename] = pipeNetDialer
-	return nil
-}
-
-// CreateListener creates a named pipe using the net listener interface
-func (n *Named) CreateListener(pipename, protocol, address string) error {
-	n.mutex.Lock()
-	defer n.mutex.Unlock()
-
-	if n.pipes[pipename] != nil {
-		return errors.New("Named pipe `" + pipename + "`already exists.")
-	}
-
-	file, err := streams.NewListener(protocol, address)
-	if err != nil {
-		return err
-	}
-
-	n.pipes[pipename] = file
-	n.pipes[pipename].MakePipe()
-	n.types[pipename] = pipeNetListener
+	io.MakePipe()
 	return nil
 }
 
@@ -106,30 +61,22 @@ func (n *Named) Close(name string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	if n.pipes[name] == nil {
-		return errors.New("No pipe with the name `" + name + "` exists.")
+	if n.pipes[name].Pipe == nil {
+		return fmt.Errorf("No pipe with the name `%s` exists", name)
 	}
 
 	if name == "null" {
-		return errors.New("I will not close the `null` device!")
+		return errors.New("null pipe must not be closed")
 	}
 
-	//n.pipes[name].UnmakeParent()
-	n.pipes[name].Close()
+	n.pipes[name].Pipe.Close()
 
-	switch n.types[name] {
-	case pipeStream:
-		go func() {
-			time.Sleep(10 * time.Second)
-			delete(n.pipes, name)
-			delete(n.types, name)
-		}()
-	case pipeNull, pipeFileWriter, pipeNetDialer, pipeNetListener:
+	go func() {
+		// 3 second grace period before garbage collection - just to give any buffers chance to flush within murex code
+		// (really this is only needed for the standard streamer but it doesn't do any damage to have all pipes behave the same)
+		time.Sleep(3 * time.Second)
 		delete(n.pipes, name)
-		delete(n.types, name)
-	default:
-		return errors.New("Invalid pipe ID!")
-	}
+	}()
 
 	return nil
 }
@@ -139,19 +86,19 @@ func (n *Named) Get(name string) (stdio.Io, error) {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	if n.pipes[name] == nil {
-		return nil, errors.New("No pipe with the name `" + name + "` exists.")
+	if n.pipes[name].Pipe == nil {
+		return nil, fmt.Errorf("No pipe with the name `%s` exists", name)
 	}
 
-	return n.pipes[name], nil
+	return n.pipes[name].Pipe, nil
 }
 
 // Dump returns the named pipe table in a format that can be serialised into JSON
 func (n *Named) Dump() (dump map[string]string) {
 	dump = make(map[string]string)
 	n.mutex.Lock()
-	for name := range n.types {
-		dump[name] = n.types[name].String()
+	for name := range n.pipes {
+		dump[name] = n.pipes[name].Type
 	}
 	n.mutex.Unlock()
 	return
