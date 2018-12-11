@@ -2,6 +2,7 @@ package string
 
 import (
 	"bytes"
+
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
 

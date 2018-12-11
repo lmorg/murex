@@ -13,6 +13,7 @@ func init() {
 	define.ReadIndexes[types.String] = index
 	streams.ReadArray[types.String] = readArray
 	streams.ReadMap[types.String] = readMap
+	streams.WriteArray[types.String] = newArrayWriter
 
 	define.SetMime(types.String,
 		"application/x-latex",

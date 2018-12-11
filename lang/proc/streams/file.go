@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -59,17 +60,11 @@ func (f *File) MakePipe() {
 
 // Write is the io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
-	/*select {
-	case <-f.ctx.Done():
-		return 0, io.ErrClosedPipe
-	default:
-	}*/
-
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
 
 	if f == nil || f.file == nil {
-		return 0, errors.New("No file open.")
+		return 0, errors.New("No file open")
 	}
 
 	if f.dependants < 1 {
@@ -91,7 +86,7 @@ func (f *File) Writeln(b []byte) (int, error) {
 	defer f.mutex.Unlock()
 
 	if f == nil || f.file == nil {
-		return 0, errors.New("No file open.")
+		return 0, errors.New("No file open")
 	}
 
 	if f.dependants < 1 {
@@ -105,6 +100,11 @@ func (f *File) Writeln(b []byte) (int, error) {
 	f.bWritten += uint64(i)
 
 	return i, err
+}
+
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (f *File) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(f, dataType)
 }
 
 // Stats returns bytes written and read. As File is a write-only interface bytes read will always equal 0

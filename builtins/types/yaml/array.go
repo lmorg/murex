@@ -1,20 +1,8 @@
-package string
+package yaml
 
 import (
-	"bufio"
-	"bytes"
-
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 )
-
-func readArray(read stdio.Io, callback func([]byte)) error {
-	scanner := bufio.NewScanner(read)
-	for scanner.Scan() {
-		callback(bytes.TrimSpace(scanner.Bytes()))
-	}
-
-	return scanner.Err()
-}
 
 type arrayWriter struct {
 	writer stdio.Io
@@ -26,12 +14,12 @@ func newArrayWriter(writer stdio.Io) (stdio.ArrayWriter, error) {
 }
 
 func (w *arrayWriter) Write(b []byte) error {
-	_, err := w.writer.Writeln(b)
+	_, err := w.writer.Writeln(append([]byte{'-', ' '}, b...))
 	return err
 }
 
 func (w *arrayWriter) WriteString(s string) error {
-	_, err := w.writer.Writeln([]byte(s))
+	_, err := w.writer.Writeln([]byte("- " + s))
 	return err
 }
 

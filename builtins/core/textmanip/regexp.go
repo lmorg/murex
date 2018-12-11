@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/debug"
 
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -31,22 +30,23 @@ func cmdMatch(p *proc.Process) error {
 		return errors.New("No parameters supplied")
 	}
 
-	var output []string
-
-	p.Stdin.ReadArray(func(b []byte) {
-		matched := bytes.Contains(b, p.Parameters.ByteAll())
-		if (matched && !p.IsNot) || (!matched && p.IsNot) {
-			output = append(output, string(b))
-		}
-	})
-
-	b, err := define.MarshalData(p, dt, output)
+	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	p.Stdin.ReadArray(func(b []byte) {
+		matched := bytes.Contains(b, p.Parameters.ByteAll())
+		if (matched && !p.IsNot) || (!matched && p.IsNot) {
+			err = aw.Write(b)
+			if err != nil {
+				p.Stderr.Writeln([]byte(err.Error()))
+				p.Stdin.ForceClose()
+			}
+		}
+	})
+
+	return aw.Close()
 }
 
 func cmdRegexp(p *proc.Process) (err error) {
@@ -171,58 +171,71 @@ func splitRegexBraces(regex []byte) ([]string, error) {
 // -------- regex functons --------
 
 func regexMatch(p *proc.Process, rx *regexp.Regexp, dt string) error {
-	var output []string
-
-	p.Stdin.ReadArray(func(b []byte) {
-		matched := rx.Match(b)
-		if (matched && !p.IsNot) || (!matched && p.IsNot) {
-			output = append(output, string(b))
-		}
-	})
-
-	b, err := define.MarshalData(p, dt, output)
+	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	p.Stdin.ReadArray(func(b []byte) {
+		matched := rx.Match(b)
+		if (matched && !p.IsNot) || (!matched && p.IsNot) {
+
+			err = aw.Write(b)
+			if err != nil {
+				p.Stderr.Writeln([]byte(err.Error()))
+				p.Stdin.ForceClose()
+			}
+
+		}
+	})
+
+	return aw.Close()
 }
 
 func regexSubstitute(p *proc.Process, rx *regexp.Regexp, sRegex []string, dt string) error {
 	if len(sRegex) < 3 {
 		return fmt.Errorf("Invalid regex (too few parameters - expecting s/find/substitute/) in: `%s`", p.Parameters.StringAll())
 	}
-	var output []string
 
-	p.Stdin.ReadArray(func(b []byte) {
-		output = append(output, rx.ReplaceAllString(string(b), sRegex[2]))
-	})
-
-	b, err := define.MarshalData(p, dt, output)
+	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	sub := []byte(sRegex[2])
+
+	p.Stdin.ReadArray(func(b []byte) {
+		err = aw.Write(rx.ReplaceAll(b, sub))
+		if err != nil {
+			p.Stderr.Writeln([]byte(err.Error()))
+			p.Stdin.ForceClose()
+		}
+	})
+
+	return aw.Close()
 }
 
 func regexFind(p *proc.Process, rx *regexp.Regexp, dt string) error {
-	var output []string
+	aw, err := p.Stdout.WriteArray(dt)
+	if err != nil {
+		return err
+	}
 
 	p.Stdin.ReadArray(func(b []byte) {
 		found := rx.FindStringSubmatch(string(b))
 		if len(found) > 1 {
-			output = append(output, found[1:]...)
+
+			for i := 1; i < len(found); i++ {
+				err = aw.WriteString(found[i])
+				if err != nil {
+					p.Stderr.Writeln([]byte(err.Error()))
+					p.Stdin.ForceClose()
+				}
+
+			}
+
 		}
 	})
 
-	b, err := define.MarshalData(p, dt, output)
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write(b)
-	return err
+	return aw.Close()
 }

@@ -27,6 +27,7 @@ type Io interface {
 
 	Write([]byte) (int, error)
 	Writeln([]byte) (int, error)
+	WriteArray(string) (ArrayWriter, error)
 
 	//ReadFrom(r io.Reader) (n int64, err error)
 	WriteTo(io.Writer) (int64, error)
@@ -34,4 +35,11 @@ type Io interface {
 	Open()
 	Close()
 	ForceClose()
+}
+
+// ArrayWriter is a simple interface types can adopt for buffered writes of formatted arrays in structured types (eg JSON)
+type ArrayWriter interface {
+	Write([]byte) error
+	WriteString(string) error
+	Close() error
 }

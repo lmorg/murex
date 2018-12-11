@@ -61,6 +61,11 @@ func (tee *Tee) Writeln(p []byte) (int, error) {
 	return tee.primary.Writeln(p)
 }
 
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (tee *Tee) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(tee, dataType)
+}
+
 // Open the stream.Io interface for another dependant
 func (tee *Tee) Open() {
 	tee.primary.Open()

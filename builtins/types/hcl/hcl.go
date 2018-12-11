@@ -17,10 +17,13 @@ import (
 const typeName = "hcl"
 
 func init() {
-	streams.ReadArray[typeName] = readArray
-	streams.ReadMap[typeName] = readMap
 	define.ReadIndexes[typeName] = readIndex
 	define.ReadNotIndexes[typeName] = readIndex
+
+	streams.ReadArray[typeName] = readArray
+	streams.ReadMap[typeName] = readMap
+	streams.WriteArray[typeName] = newArrayWriter
+
 	define.Marshallers[typeName] = marshal
 	define.Unmarshallers[typeName] = unmarshal
 
@@ -107,7 +110,6 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 }
 
 func readIndex(p *proc.Process, params []string) error {
-
 	var jInterface interface{}
 
 	b, err := p.Stdin.ReadAll()

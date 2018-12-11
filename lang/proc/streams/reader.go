@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -125,6 +126,11 @@ func (r *Reader) Write(p []byte) (int, error) {
 // Writeln is a dummy function because it's a reader interface
 func (r *Reader) Writeln(b []byte) (int, error) {
 	return 0, errors.New("Cannot write to a reader interface")
+}
+
+// WriteArray is a dummy function because it's a reader interface
+func (r *Reader) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return nil, errors.New("Cannot write to a reader interface")
 }
 
 // Open the stream.Io interface for another dependant

@@ -12,8 +12,10 @@ func init() {
 	define.Unmarshallers[types.Json] = unmarshal
 	define.ReadIndexes[types.Json] = index
 	define.ReadNotIndexes[types.Json] = index
+
 	streams.ReadArray[types.Json] = readArray
 	streams.ReadMap[types.Json] = readMap
+	streams.WriteArray[types.Json] = newArrayWriter
 
 	define.SetMime(types.Json, "application/json")
 

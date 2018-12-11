@@ -4,6 +4,7 @@ package streams
 // (saves reinventing the wheel lots of times)
 
 import (
+	"fmt"
 	"io"
 
 	"github.com/lmorg/murex/config"
@@ -29,6 +30,14 @@ func readMap(read stdio.Io, config *config.Config, callback func(key, value stri
 	}
 
 	return ReadMap[types.Generic](read, config, callback)
+}
+
+func writeArray(writer stdio.Io, dt string) (stdio.ArrayWriter, error) {
+	if WriteArray[dt] != nil {
+		return WriteArray[dt](writer)
+	}
+
+	return nil, fmt.Errorf("murex data type `%s` has not implimented WriteArray() method", dt)
 }
 
 // writeTo reads from the stream.Io interface and writes to a destination

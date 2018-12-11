@@ -2,13 +2,14 @@ package sexp
 
 import (
 	"bytes"
+	"strconv"
+
 	"github.com/abesto/sexp"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/streams"
 	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types/define"
-	"strconv"
 )
 
 const (
@@ -19,6 +20,7 @@ const (
 func init() {
 	streams.ReadArray[sexpr] = readArrayS
 	streams.ReadMap[sexpr] = readMapS
+	streams.WriteArray[sexpr] = newArrayWriterS
 	define.ReadIndexes[sexpr] = readIndexS
 	define.ReadNotIndexes[sexpr] = readIndexS
 	define.Marshallers[sexpr] = marshalS
@@ -26,6 +28,7 @@ func init() {
 
 	streams.ReadArray[csexp] = readArrayC
 	streams.ReadMap[csexp] = readMapC
+	streams.WriteArray[csexp] = newArrayWriterC
 	define.ReadIndexes[csexp] = readIndexC
 	define.ReadNotIndexes[csexp] = readIndexC
 	define.Marshallers[csexp] = marshalC

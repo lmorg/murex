@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -221,6 +222,11 @@ func (stdin *Stdin) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	stdin.Write(line)
 	return len(b), nil
+}
+
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (stdin *Stdin) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(stdin, dataType)
 }
 
 // Open the stream.Io interface for another dependant

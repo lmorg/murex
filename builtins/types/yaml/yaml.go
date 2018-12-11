@@ -18,6 +18,7 @@ const typeName = "yaml"
 func init() {
 	streams.ReadArray[typeName] = readArray
 	streams.ReadMap[typeName] = readMap
+	streams.WriteArray[typeName] = newArrayWriter
 	define.ReadIndexes[typeName] = readIndex
 	define.ReadNotIndexes[typeName] = readIndex
 	define.Marshallers[typeName] = marshal
@@ -32,35 +33,6 @@ func init() {
 
 	define.SetFileExtensions(typeName, "yaml", "yml")
 }
-
-/*func readArray(read stdio.Io, callback func([]byte)) error {
-	b, err := read.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	j := make([]interface{}, 0)
-	err = yaml.Unmarshal(b, &j)
-	if err != nil {
-		return err
-	}
-
-	for i := range j {
-		switch j[i].(type) {
-		case string:
-			callback(bytes.TrimSpace([]byte(j[i].(string))))
-
-		default:
-			jBytes, err := yaml.Marshal(j[i])
-			if err != nil {
-				return err
-			}
-			callback(jBytes)
-		}
-	}
-
-	return nil
-}*/
 
 func readArray(read stdio.Io, callback func([]byte)) error {
 	return define.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)

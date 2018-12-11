@@ -92,13 +92,15 @@ type TermOut struct {
 func (t *TermOut) Write(b []byte) (i int, err error) {
 	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
+	t.mutex.Unlock()
+
 	i, err = os.Stdout.Write(b)
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
 	} else if len(b) > 0 {
 		CrLf.set(b[len(b)-1])
 	}
-	t.mutex.Unlock()
+
 	return
 }
 
@@ -106,6 +108,11 @@ func (t *TermOut) Write(b []byte) (i int, err error) {
 func (t *TermOut) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	return t.Write(line)
+}
+
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (t *TermOut) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(t, dataType)
 }
 
 // Terminal: Standard Error
@@ -133,6 +140,11 @@ func (t *TermErr) Write(b []byte) (i int, err error) {
 func (t *TermErr) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	return t.Write(line)
+}
+
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (t *TermErr) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(t, dataType)
 }
 
 // Terminal: Standard Error - Coloured Red
@@ -165,4 +177,9 @@ func (t *TermErrRed) Write(b []byte) (i int, err error) {
 func (t *TermErrRed) Writeln(b []byte) (int, error) {
 	line := append(b, utils.NewLineByte...)
 	return t.Write(line)
+}
+
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (t *TermErrRed) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(t, dataType)
 }

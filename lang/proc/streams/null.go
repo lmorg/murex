@@ -4,6 +4,7 @@ import (
 	"io"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -36,6 +37,9 @@ func (t *Null) Write(b []byte) (int, error) { return len(b), nil }
 
 // Writeln - null interface
 func (t *Null) Writeln(b []byte) (int, error) { return len(b), nil }
+
+// WriteArray - null interface
+func (t *Null) WriteArray(dataType string) (stdio.ArrayWriter, error) { return writeArray(t, dataType) }
 
 // Stats - null interface
 func (t *Null) Stats() (uint64, uint64) { return 0, 0 }

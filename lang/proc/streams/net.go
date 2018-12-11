@@ -9,6 +9,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/streams/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -182,6 +183,11 @@ func (n *Net) Writeln(b []byte) (i int, err error) {
 	n.bWritten += uint64(i)
 	n.mutex.Unlock()
 	return
+}
+
+// WriteArray performs data type specific buffered writes to an stdio.Io interface
+func (n *Net) WriteArray(dataType string) (stdio.ArrayWriter, error) {
+	return writeArray(n, dataType)
 }
 
 // WriteTo reads from net Io interface and then writes that to foreign Writer interface
