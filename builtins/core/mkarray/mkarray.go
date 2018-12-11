@@ -42,8 +42,8 @@ func mkArray(p *proc.Process) error {
 
 	var (
 		escaped, open, dots bool
-		nodes               []ast = make([]ast, 1)
-		node                *ast  = &nodes[0]
+		nodes               = make([]ast, 1)
+		node                = &nodes[0]
 	)
 
 	// Parse the parameters
@@ -155,14 +155,14 @@ func mkArray(p *proc.Process) error {
 	// Now do your magic
 	var (
 		array  []string
-		marker string = string([]byte{0})
+		marker = string([]byte{0})
 	)
 
 	for g := range groups {
 		var (
 			template string
-			variable map[int][]string = make(map[int][]string)
-			l        int              = -1
+			variable = make(map[int][]string)
+			l        = -1
 		)
 
 		for n := range groups[g] {

@@ -132,7 +132,7 @@ func (p *Process) SetTerminatedState(state bool) {
 // ErrIfNotAMethod returns a standard error message for builtins not run as methods
 func (p *Process) ErrIfNotAMethod() (err error) {
 	if !p.IsMethod {
-		err = errors.New("`" + p.Name + "` expects to be pipelined.")
+		err = errors.New("`" + p.Name + "` expects to be pipelined")
 	}
 	return
 }

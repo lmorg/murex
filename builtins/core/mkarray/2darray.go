@@ -4,9 +4,9 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -41,7 +41,7 @@ func twoDArray(p *proc.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters. Expecting code blocks to populate array.")
+		return errors.New("Missing parameters. Expecting code blocks to populate array")
 	}
 
 	block := make(map[int][]rune)

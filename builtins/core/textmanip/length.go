@@ -2,7 +2,6 @@ package textmanip
 
 import (
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -25,15 +24,23 @@ func cmdLeft(p *proc.Process) error {
 		return err
 	}
 
-	var output []string
+	aw, err := p.Stdout.WriteArray(dt)
+	if err != nil {
+		return err
+	}
 
 	switch {
 	case left > 0:
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < left {
-				output = append(output, string(b))
+				err = aw.Write(b)
 			} else {
-				output = append(output, string(b[:left]))
+				err = aw.Write(b[:left])
+			}
+
+			if err != nil {
+				p.Stdin.ForceClose()
+				p.Done()
 			}
 		})
 
@@ -41,25 +48,32 @@ func cmdLeft(p *proc.Process) error {
 		left = left * -1
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < left {
-				output = append(output, "")
+				err = aw.WriteString("")
 			} else {
-				output = append(output, string(b[:len(b)-left]))
+				err = aw.Write(b[:len(b)-left])
+			}
+
+			if err != nil {
+				p.Stdin.ForceClose()
+				p.Done()
 			}
 		})
 
 	default:
 		p.Stdin.ReadArray(func([]byte) {
-			output = append(output, "")
+			err = aw.WriteString("")
+			if err != nil {
+				p.Stdin.ForceClose()
+				p.Done()
+			}
 		})
 	}
 
-	b, err := define.MarshalData(p, dt, output)
-	if err != nil {
+	if p.HasCancelled() {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	return aw.Close()
 }
 
 func cmdRight(p *proc.Process) error {
@@ -75,15 +89,23 @@ func cmdRight(p *proc.Process) error {
 		return err
 	}
 
-	var output []string
+	aw, err := p.Stdout.WriteArray(dt)
+	if err != nil {
+		return err
+	}
 
 	switch {
 	case right > 0:
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < right {
-				output = append(output, string(b))
+				err = aw.Write(b)
 			} else {
-				output = append(output, string(b[len(b)-right:]))
+				err = aw.Write(b[len(b)-right:])
+			}
+
+			if err != nil {
+				p.Stdin.ForceClose()
+				p.Done()
 			}
 		})
 
@@ -91,25 +113,33 @@ func cmdRight(p *proc.Process) error {
 		right = right * -1
 		p.Stdin.ReadArray(func(b []byte) {
 			if len(b) < right {
-				output = append(output, "")
+				err = aw.WriteString("")
 			} else {
-				output = append(output, string(b[right:]))
+				err = aw.Write(b[right:])
+			}
+
+			if err != nil {
+				p.Stdin.ForceClose()
+				p.Done()
 			}
 		})
 
 	default:
 		p.Stdin.ReadArray(func([]byte) {
-			output = append(output, "")
+			err = aw.WriteString("")
+
+			if err != nil {
+				p.Stdin.ForceClose()
+				p.Done()
+			}
 		})
 	}
 
-	b, err := define.MarshalData(p, dt, output)
-	if err != nil {
+	if p.HasCancelled() {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	return aw.Close()
 }
 
 func cmdPrefix(p *proc.Process) (err error) {
@@ -120,20 +150,26 @@ func cmdPrefix(p *proc.Process) (err error) {
 		return err
 	}
 
-	prepend := p.Parameters.StringAll()
+	prepend := p.Parameters.ByteAll()
 
-	var output []string
-	p.Stdin.ReadArray(func(b []byte) {
-		output = append(output, prepend+string(b))
-	})
-
-	b, err := define.MarshalData(p, dt, output)
+	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	p.Stdin.ReadArray(func(b []byte) {
+		err = aw.Write(append(prepend, b...))
+		if err != nil {
+			p.Stdin.ForceClose()
+			p.Done()
+		}
+	})
+
+	if p.HasCancelled() {
+		return err
+	}
+
+	return aw.Close()
 }
 
 func cmdSuffix(p *proc.Process) (err error) {
@@ -144,18 +180,24 @@ func cmdSuffix(p *proc.Process) (err error) {
 		return err
 	}
 
-	s := p.Parameters.StringAll()
+	suffix := p.Parameters.ByteAll()
 
-	var output []string
-	p.Stdin.ReadArray(func(b []byte) {
-		output = append(output, string(b)+s)
-	})
-
-	b, err := define.MarshalData(p, dt, output)
+	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	p.Stdin.ReadArray(func(b []byte) {
+		err = aw.Write(append(b, suffix...))
+		if err != nil {
+			p.Stdin.ForceClose()
+			p.Done()
+		}
+	})
+
+	if p.HasCancelled() {
+		return err
+	}
+
+	return aw.Close()
 }

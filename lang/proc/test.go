@@ -242,7 +242,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return nil
 
 	default:
-		return errors.New("Invalid report type requested via `config set test report-format`.")
+		return errors.New("Invalid report type requested via `config set test report-format`")
 	}
 }
 

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -177,11 +177,11 @@ executeProcess:
 		match := rxVariables.FindAllStringSubmatch(p.Name+p.Parameters.StringAll(), -1)
 		switch {
 		case len(p.Name) == 1:
-			err = errors.New("Variable token, `$`, used without specifying variable name.")
+			err = errors.New("Variable token, `$`, used without specifying variable name")
 		case len(match) == 0 || len(match[0]) == 0:
 			b, _ := json.MarshalIndent(match, "", "\t")
 			fmt.Println(p.Name, p.Parameters.StringArray(), string(b))
-			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name.")
+			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name")
 		case match[0][2] == "":
 			s := p.Variables.GetString(match[0][1])
 			p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))

@@ -66,7 +66,7 @@ func (f *funcID) Deregister(fid int) {
 // Proc gets process by FID
 func (f *funcID) Proc(fid int) (*Process, error) {
 	if fid == 0 {
-		return nil, errors.New("FID 0 is reserved for the shell.")
+		return nil, errors.New("FID 0 is reserved for the shell")
 	}
 
 	f.mutex.Lock()
@@ -76,7 +76,7 @@ func (f *funcID) Proc(fid int) (*Process, error) {
 		return f.procs[fid], nil
 	}
 
-	return nil, errors.New("Function ID does not exist.")
+	return nil, errors.New("Function ID does not exist")
 }
 
 // ListAll processes registered in the FID (Function ID) table - return as a ordered list

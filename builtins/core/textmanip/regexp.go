@@ -39,11 +39,15 @@ func cmdMatch(p *proc.Process) error {
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 			err = aw.Write(b)
 			if err != nil {
-				p.Stderr.Writeln([]byte(err.Error()))
 				p.Stdin.ForceClose()
+				p.Done()
 			}
 		}
 	})
+
+	if p.HasCancelled() {
+		return err
+	}
 
 	return aw.Close()
 }
@@ -167,7 +171,7 @@ func splitRegexBraces(regex []byte) ([]string, error) {
 	return s, nil
 }
 
-// -------- regex functons --------
+// -------- regex functions --------
 
 func regexMatch(p *proc.Process, rx *regexp.Regexp, dt string) error {
 	aw, err := p.Stdout.WriteArray(dt)
@@ -181,12 +185,16 @@ func regexMatch(p *proc.Process, rx *regexp.Regexp, dt string) error {
 
 			err = aw.Write(b)
 			if err != nil {
-				p.Stderr.Writeln([]byte(err.Error()))
 				p.Stdin.ForceClose()
+				p.Done()
 			}
 
 		}
 	})
+
+	if p.HasCancelled() {
+		return err
+	}
 
 	return aw.Close()
 }
@@ -206,10 +214,14 @@ func regexSubstitute(p *proc.Process, rx *regexp.Regexp, sRegex []string, dt str
 	p.Stdin.ReadArray(func(b []byte) {
 		err = aw.Write(rx.ReplaceAll(b, sub))
 		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
 			p.Stdin.ForceClose()
+			p.Done()
 		}
 	})
+
+	if p.HasCancelled() {
+		return err
+	}
 
 	return aw.Close()
 }
@@ -227,14 +239,18 @@ func regexFind(p *proc.Process, rx *regexp.Regexp, dt string) error {
 			for i := 1; i < len(found); i++ {
 				err = aw.WriteString(found[i])
 				if err != nil {
-					p.Stderr.Writeln([]byte(err.Error()))
 					p.Stdin.ForceClose()
+					p.Done()
 				}
 
 			}
 
 		}
 	})
+
+	if p.HasCancelled() {
+		return err
+	}
 
 	return aw.Close()
 }

@@ -12,9 +12,9 @@ const (
 )
 
 var (
-	rxCaseLower *regexp.Regexp = regexp.MustCompile(`^[a-z]+$`)
-	rxCaseTitle *regexp.Regexp = regexp.MustCompile(`^[A-Z][a-z]+$`)
-	rxCaseUpper *regexp.Regexp = regexp.MustCompile(`^[A-Z]+$`)
+	rxCaseLower = regexp.MustCompile(`^[a-z]+$`)
+	rxCaseTitle = regexp.MustCompile(`^[A-Z][a-z]+$`)
+	rxCaseUpper = regexp.MustCompile(`^[A-Z]+$`)
 )
 
 func getCase(s string) int {

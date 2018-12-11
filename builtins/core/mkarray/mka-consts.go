@@ -1,6 +1,6 @@
 package mkarray
 
-var mapRanges []map[string]int = []map[string]int{
+var mapRanges = []map[string]int{
 	rangeWeekdayLong,
 	rangeWeekdayShort,
 	rangeMonthLong,
@@ -8,7 +8,7 @@ var mapRanges []map[string]int = []map[string]int{
 	rangeSeason,
 }
 
-var rangeWeekdayLong map[string]int = map[string]int{
+var rangeWeekdayLong = map[string]int{
 	"monday":    1,
 	"tuesday":   2,
 	"wednesday": 3,
@@ -18,7 +18,7 @@ var rangeWeekdayLong map[string]int = map[string]int{
 	"sunday":    7,
 }
 
-var rangeWeekdayShort map[string]int = map[string]int{
+var rangeWeekdayShort = map[string]int{
 	"mon": 1,
 	"tue": 2,
 	"wed": 3,
@@ -28,7 +28,7 @@ var rangeWeekdayShort map[string]int = map[string]int{
 	"sun": 7,
 }
 
-var rangeMonthLong map[string]int = map[string]int{
+var rangeMonthLong = map[string]int{
 	"january":   1,
 	"february":  2,
 	"march":     3,
@@ -43,7 +43,7 @@ var rangeMonthLong map[string]int = map[string]int{
 	"december":  12,
 }
 
-var rangeMonthShort map[string]int = map[string]int{
+var rangeMonthShort = map[string]int{
 	"jan": 1,
 	"feb": 2,
 	"mar": 3,
@@ -58,7 +58,7 @@ var rangeMonthShort map[string]int = map[string]int{
 	"dec": 12,
 }
 
-var rangeSeason map[string]int = map[string]int{
+var rangeSeason = map[string]int{
 	"spring": 1,
 	"summer": 2,
 	"autum":  3,

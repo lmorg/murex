@@ -9,19 +9,19 @@ import (
 )
 
 var (
-	rxEngAlphaLower *regexp.Regexp = regexp.MustCompile(`^[a-z]$`)
-	rxEngAlphaUpper *regexp.Regexp = regexp.MustCompile(`^[A-Z]$`)
-	rxAltNumberBase *regexp.Regexp = regexp.MustCompile(`^([a-zA-Z0-9]+)\.\.([a-zA-Z0-9]+)[\.x]([0-9]+)$`)
+	rxEngAlphaLower = regexp.MustCompile(`^[a-z]$`)
+	rxEngAlphaUpper = regexp.MustCompile(`^[A-Z]$`)
+	rxAltNumberBase = regexp.MustCompile(`^([a-zA-Z0-9]+)\.\.([a-zA-Z0-9]+)[\.x]([0-9]+)$`)
 )
 
 func rangeToArray(b []byte) ([]string, error) {
 	split := strings.Split(string(b), "..")
 	if len(split) > 2 {
-		return nil, errors.New("Invalid syntax. Too many double periods, `..`, in range`" + string(b) + "`. Please escape periods, `\\.`, if you wish to include period in your range.")
+		return nil, fmt.Errorf("Invalid syntax. Too many double periods, `..`, in range`%s`. Please escape periods, `\\.`, if you wish to include period in your range", string(b))
 	}
 
 	if len(split) < 2 {
-		return nil, errors.New("Invalid syntax. Range periods, `..`, found but cannot determine start and end range in `" + string(b) + "`.")
+		return nil, fmt.Errorf("Invalid syntax. Range periods, `..`, found but cannot determine start and end range in `%s`", string(b))
 	}
 
 	i1, e1 := strconv.Atoi(split[0])
@@ -60,7 +60,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			return a, nil
 
 		default:
-			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
+			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
 		}
 	}
 
@@ -79,7 +79,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
+			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
 		}
 	}
 
@@ -98,7 +98,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
+			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
 		}
 
 	}
@@ -110,7 +110,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			return nil, errors.New("Unable to determin number base: " + err.Error())
 		}
 		if base < 2 || base > 36 {
-			return nil, errors.New("Number base must be between 2 and 36 (inclusive).")
+			return nil, errors.New("Number base must be between 2 and 36 (inclusive)")
 		}
 
 		i1, err := strconv.ParseInt(split[1], base, 64)
@@ -154,7 +154,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, errors.New("Invalid range. Start and end of range are the same in `" + string(b) + "`.")
+			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
 		}
 	}
 
@@ -169,7 +169,7 @@ func rangeToArray(b []byte) ([]string, error) {
 		}
 	}
 
-	return nil, errors.New("Unable to auto-detect range in `" + string(b) + "`.")
+	return nil, fmt.Errorf("Unable to auto-detect range in `%s`", string(b))
 }
 
 func mapArray(start, end int, constMap map[string]int, c int) (matched bool, array []string) {

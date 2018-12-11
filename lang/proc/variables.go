@@ -251,7 +251,7 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 func (vars *Variables) Unset(name string) error {
 	v := vars.varTable.getVariable(vars.process, name)
 	if v == nil {
-		return errors.New("No variables match the name.")
+		return errors.New("No variables match the name")
 	}
 
 	v.mutex.Lock()

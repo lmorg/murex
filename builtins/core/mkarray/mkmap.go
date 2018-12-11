@@ -4,10 +4,10 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -86,11 +86,11 @@ func mkmap(p *proc.Process) error {
 	debug.Json("a values", aValues)
 
 	if len(aKeys) > len(aValues) {
-		return errors.New("There are more keys than values.")
+		return errors.New("There are more keys than values (k > v)")
 	}
 
 	if len(aKeys) < len(aValues) {
-		return errors.New("There are more values than keys.")
+		return errors.New("There are more values than keys (v > k)")
 	}
 
 	m := make(map[string]string)
