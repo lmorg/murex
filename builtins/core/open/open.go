@@ -136,14 +136,13 @@ func preview(p *proc.Process, path, dataType string) error {
 
 	branch := proc.ShellProcess.BranchFID()
 	defer branch.Close()
-	branch.Process.Scope = branch.Process
-	branch.Process.Parent = branch.Process
-	branch.Process.Name = "open"
-	branch.Process.Parameters.Params = []string{path}
+	branch.Scope = branch.Process
+	branch.Parent = branch.Process
+	branch.Name = "open"
+	branch.Parameters.Params = []string{path}
 	_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
 
 	if err != nil {
-		//ansi.Stderrln(p, ansi.FgRed, "`open` code could not compile: "+err.Error())
 		p.Stderr.Writeln([]byte("`open` code could not compile: " + err.Error()))
 	}
 

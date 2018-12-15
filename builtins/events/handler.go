@@ -46,18 +46,16 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 	stdin.SetDataType(types.Json)
 	_, err = stdin.Write(json)
 	if err != nil {
-		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error writing event input: "+err.Error())
 		proc.ShellProcess.Stderr.Writeln([]byte("error writing event input: " + err.Error()))
 		return
 	}
 
 	debug.Log("Event callback:", string(json), string(block))
 	branch := proc.ShellProcess.BranchFID()
-	branch.Process.IsBackground = true
+	branch.IsBackground = true
 	defer branch.Close()
 	_, err = lang.RunBlockExistingConfigSpace(block, stdin, stdout, proc.ShellProcess.Stderr, branch.Process)
 	if err != nil {
-		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "error compiling event callback: "+err.Error())
 		proc.ShellProcess.Stderr.Writeln([]byte("error compiling event callback: " + err.Error()))
 	}
 

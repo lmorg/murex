@@ -17,7 +17,6 @@ func getPrompt() {
 		b         []byte
 	)
 
-	//proc.ShellProcess.Variables.Set("linenum", 1, types.Number)
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
@@ -31,7 +30,6 @@ func getPrompt() {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
 		proc.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
 		b = []byte("murex » ")
 	}
@@ -46,13 +44,12 @@ func getMultilinePrompt(nLines int) {
 		b         []byte
 	)
 
-	//proc.ShellProcess.Variables.Set("linenum", nLines, types.Number)
 	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		branch.Process.Variables.Set("linenum", nLines, types.Integer)
+		branch.Variables.Set("linenum", nLines, types.Integer)
 		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
 		b, err2 = out.ReadAll()
@@ -60,7 +57,6 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Invalid prompt. Block returned false.")
 		proc.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
 		b = []byte(fmt.Sprintf("%5d » ", nLines))
 	}

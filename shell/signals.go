@@ -61,7 +61,7 @@ func sigtstp() {
 
 		branch := proc.ShellProcess.BranchFID()
 		defer branch.Close()
-		branch.Process.Variables.Set("PID", proc.ForegroundProc.Exec.Pid, types.Integer)
+		branch.Variables.Set("PID", proc.ForegroundProc.Exec.Pid, types.Integer)
 		_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, branch.Process)
 		if err != nil {
 			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))

@@ -1,12 +1,14 @@
 package shell
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/docs"
+	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
@@ -15,7 +17,7 @@ import (
 )
 
 var (
-	manDescript    = make(map[string]string)
+	manDesc        = make(map[string]string)
 	cachedHintText []rune
 )
 
@@ -58,7 +60,6 @@ func hintText(line []rune, pos int) []rune {
 
 	if proc.MxFunctions.Exists(cmd) {
 		dig, _ := proc.MxFunctions.Digest(cmd)
-		//return append(r, []rune("(murex function - preview not developed yet)")...)
 		return append(r, []rune("(murex function) "+dig)...)
 	}
 
@@ -70,18 +71,18 @@ func hintText(line []rune, pos int) []rune {
 
 	var manPage []rune
 
-	s := manDescript[cmd]
+	s := manDesc[cmd]
 	if s != "" && s != "!" {
-		manPage = []rune(manDescript[cmd])
+		manPage = []rune(manDesc[cmd])
 	}
 
 	if s != "!" && len(manPage) == 0 {
 		f := man.GetManPages(cmd)
 		manPage = []rune(man.ParseDescription(f))
 		if len(manPage) == 0 {
-			manDescript[cmd] = "!"
+			manDesc[cmd] = "!"
 		} else {
-			manDescript[cmd] = string(manPage)
+			manDesc[cmd] = string(manPage)
 		}
 
 	}
@@ -105,11 +106,11 @@ func hintText(line []rune, pos int) []rune {
 
 	stdout := streams.NewStdin()
 	branch := proc.ShellProcess.BranchFID()
-	branch.Process.IsBackground = true
+	branch.IsBackground = true
 	defer branch.Close()
-	/*exitNum, err := */ lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
+	exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
 
-	b, _ /*err2*/ := stdout.ReadAll()
+	b, err2 := stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
 		b = b[:len(b)-1]
 	}
@@ -118,9 +119,15 @@ func hintText(line []rune, pos int) []rune {
 		b = b[:len(b)-1]
 	}
 
-	/*if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		ansi.Stderrln(proc.ShellProcess, ansi.FgRed, "Block returned false.")
-	}*/
+	if debug.Enable && (exitNum != 0 || err != nil || len(b) == 0 || err2 != nil) {
+		proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
+			"Block returned false:\nExit Num: %d\nStdout length: %d\nStdout read error: %s\nStderr: %s\n",
+			exitNum,
+			len(b),
+			err2,
+			err,
+		)))
+	}
 
 	cachedHintText = []rune(string(b))
 

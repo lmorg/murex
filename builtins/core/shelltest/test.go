@@ -166,12 +166,12 @@ func testRun(p *proc.Process) error {
 	branch := p.BranchFID()
 	defer branch.Close()
 
-	err = branch.Process.Config.Set("test", "enabled", true)
+	err = branch.Config.Set("test", "enabled", true)
 	if err != nil {
 		return err
 	}
 
-	err = branch.Process.Config.Set("test", "auto-report", true)
+	err = branch.Config.Set("test", "auto-report", true)
 	if err != nil {
 		return err
 	}
@@ -194,7 +194,7 @@ func testRun(p *proc.Process) error {
 		return err
 	}
 
-	err = branch.Process.Config.Set("test", "report-pipe", pipeName)
+	err = branch.Config.Set("test", "report-pipe", pipeName)
 	if err != nil {
 		return err
 	}
