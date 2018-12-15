@@ -1,8 +1,8 @@
-# Builtins: open
+# Builtins: open-image
 
-This opens various data formats inside the command line interface.
+This rendering images inside the terminal
 
-It is a recommended builtin and has additional dependencies:
+It is a optional builtin and has additional dependencies:
 
     go get -u golang.org/x/crypto/ssh/terminal
     go get -u github.com/disintegration/imaging

@@ -105,7 +105,7 @@ options to mute them. However _murex_ also support cleaner decision
 structures for working with processes you want errors captured:
 
     try {
-        # do soemthing
+        # do something
     }
     catch {
         err: "Could not perform action"
