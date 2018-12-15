@@ -69,7 +69,7 @@ func cmdLsF(p *proc.Process) (err error) {
 	var (
 		file      bool
 		directory bool
-		symlink   bool = true
+		symlink   = true
 	)
 
 	for _, flag := range p.Parameters.StringArray() {
@@ -86,7 +86,7 @@ func cmdLsF(p *proc.Process) (err error) {
 			p.Stderr.Writeln(usage)
 			return nil
 		default:
-			return errors.New("Invalid flag. `f -h` for usage.")
+			return errors.New("Invalid flag. `f -h` for usage")
 		}
 	}
 

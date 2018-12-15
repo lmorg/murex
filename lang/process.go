@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -22,6 +23,11 @@ var (
 	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
+
+func init() {
+	// add to auto globbing to autocomplete
+	proc.GoFunctions["@g"] = nil
+}
 
 func createProcess(p *proc.Process, isMethod bool) {
 	proc.GlobalFIDs.Register(p) // This also registers the variables process
@@ -191,6 +197,13 @@ executeProcess:
 			RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
+	case p.Name == "@g":
+		// auto globbing
+		err = autoGlob(p)
+		if err == nil {
+			goto executeProcess
+		}
+
 	case proc.GoFunctions[p.Name] != nil:
 		// murex builtins
 		err = proc.GoFunctions[p.Name](p)
@@ -244,4 +257,35 @@ func destroyProcess(p *proc.Process) {
 	}
 
 	proc.DeregisterProcess(p)
+}
+
+func autoGlob(p *proc.Process) error {
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+	if name[len(name)-1] == ':' {
+		p.Name = name[:len(name)-1]
+	} else {
+		p.Name = name
+	}
+
+	params := p.Parameters.Params[1:]
+	p.Parameters.Params = []string{}
+	var globbed []string
+
+	for i := range params {
+		if strings.ContainsAny(params[i], "?*") {
+			globbed, err = filepath.Glob(params[i])
+			if err != nil {
+				return err
+			}
+			p.Parameters.Params = append(p.Parameters.Params, globbed...)
+		} else {
+			p.Parameters.Params = append(p.Parameters.Params, params[i])
+		}
+
+	}
+
+	return err
 }

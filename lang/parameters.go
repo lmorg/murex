@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
 )
@@ -41,7 +41,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				b, err := stdout.ReadAll()
 				if err != nil {
-					//ansi.Stderrln(prc, ansi.FgRed, err.Error())
 					prc.Stderr.Writeln([]byte(err.Error()))
 				}
 
@@ -102,7 +101,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 
 				b, err := stdout.ReadAll()
 				if err != nil {
-					//ansi.Stderrln(prc, ansi.FgRed, err.Error())
 					prc.Stderr.Writeln([]byte(err.Error()))
 				}
 
@@ -112,6 +110,7 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				tCount = true
 
 			case parameters.TokenTypeRange:
+				// TODO: write me!
 				//debug.Log("parameters.TokenTypeRange:", p.Tokens[i][j].Key)
 
 			case parameters.TokenTypeTilde:
@@ -123,7 +122,6 @@ func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
 				tCount = true
 
 			default:
-				//ansi.Stderrln(prc, ansi.FgRed, fmt.Sprintf(
 				prc.Stderr.Writeln([]byte(fmt.Sprintf(
 					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"%s`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
