@@ -2,13 +2,8 @@ package datatools
 
 import (
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
-
-	"errors"
-	"fmt"
-	"strconv"
-	"strings"
+	"github.com/lmorg/murex/utils/alter"
 )
 
 func init() {
@@ -98,79 +93,12 @@ func cmdAlter(p *proc.Process) error {
 		return err
 	}
 
-	path := strings.Split(s, string(s[0]))
-	if len(path) == 0 || (len(path) == 1 && path[0] == "") {
-		return errors.New("Empty path.")
+	path, err := alter.SplitPath(s)
+	if err != nil {
+		return err
 	}
 
-	if path[0] == "" {
-		path = path[1:]
-	}
-
-	var loop func(interface{}, int) (interface{}, error)
-	loop = func(v interface{}, i int) (retIface interface{}, retErr error) {
-		switch {
-		case i < len(path):
-			switch t := v.(type) {
-			case map[interface{}]interface{}:
-				retIface, retErr = loop(v.(map[interface{}]interface{})[path[i]], i+1)
-				if err == nil {
-					v.(map[interface{}]interface{})[path[i]] = retIface
-					retIface = v
-				}
-
-			case map[string]interface{}:
-				retIface, retErr = loop(v.(map[string]interface{})[path[i]], i+1)
-				if err == nil {
-					v.(map[string]interface{})[path[i]] = retIface
-					retIface = v
-				}
-
-			case map[interface{}]string:
-				retIface, retErr = loop(v.(map[interface{}]string)[path[i]], i+1)
-				if err == nil {
-					v.(map[interface{}]string)[path[i]] = retIface.(string)
-					retIface = v
-				}
-
-			default:
-				return nil, fmt.Errorf("murex code error: No condition is made for `%T`.", t)
-			}
-
-		case i == len(path):
-			switch t := v.(type) {
-			case string:
-				retIface = new
-
-			case int:
-				num, err := strconv.Atoi(new)
-				if err != nil {
-					return nil, err
-				}
-				retIface = num
-
-			case float64:
-				num, err := strconv.ParseFloat(new, 64)
-				if err != nil {
-					return nil, err
-				}
-				retIface = num
-
-			case bool:
-				retIface = types.IsTrue([]byte(new), 0)
-
-			default:
-				return nil, fmt.Errorf("Cannot locate `%s` in object path or no condition is made for `%T`.", path[i-1], t)
-			}
-
-		default:
-			return nil, errors.New("I don't know how I got here!")
-		}
-
-		return retIface, retErr
-	}
-
-	v, err = loop(v, 0)
+	v, err = alter.Alter(p.Context, v, path, new)
 	if err != nil {
 		return err
 	}
