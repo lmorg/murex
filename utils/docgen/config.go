@@ -10,27 +10,11 @@ type config struct {
 	// (anything with this extension will be read by docgen)
 	SourceExt string `yaml:"SourceExt"`
 
-	// Path to write the rendered documents
-	OutputPath string `yaml:"OutputPath"`
+	// Categories, templates, etc
+	Categories []category `yaml:"Categories"`
 
-	// File extension of the rendered documents
-	OutputExt string `yaml:"OutputExt"`
-
-	// Categories
-	Categories map[string]category `yaml:"Categories"`
-
-	// OutputFormat, applied to the fields before rendering
-	//   * markdown (replace ``` with indents)
-	//   * html (replace markdown with HTML tags)
-	//   * any other value (no format conversion)
-	OutputFormat string `yaml:"OutputFormat"`
-
-	// PostProcessing, to the entire document after it has been rendered
-	//   * gzip (base64 gzipped archive)
-	//   * base64 (converted to base64 with no additional compression)
-	//   * thing1+thing2 (chain thing1 (eg markdown) wth thing2 (eg gzip))
-	//   * any other value (no post processing)
-	PostProcessing string `yaml:"PostProcessing"`
+	renderedCategories map[string][]string
+	renderedDocuments  map[string]map[string][]string
 }
 
 // Config is the global configuration for docgen
@@ -38,9 +22,24 @@ var Config = new(config)
 
 func readConfig(path string) {
 	parseSourceFile(path, Config)
-	if !strings.HasSuffix(Config.OutputPath, "/") {
-		Config.OutputPath += "/"
+
+	for cat := range Config.Categories {
+		for i := range Config.Categories[cat].Templates {
+			updateConfig(&Config.Categories[cat].Templates[i], cat, i)
+		}
 	}
 
-	formatCategories()
+	Config.renderedCategories = make(map[string][]string)
+	Config.renderedDocuments = make(map[string]map[string][]string)
+}
+
+func updateConfig(t *templates, cat int, i int) {
+	t.ref = &Config.Categories[cat]
+
+	if !strings.HasSuffix(t.OutputPath, "/") {
+		t.OutputPath += "/"
+	}
+
+	t.docTemplate = readTemplate(t.DocumentTemplate)
+	t.catTemplate = readTemplate(t.CategoryTemplate)
 }

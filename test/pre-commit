@@ -24,7 +24,7 @@ go install github.com/lmorg/murex/utils/docgen || exit 1
 
 echo "Compiling Murex docs...."
 #rm $docs/*
-docgen -verbose -config gen/docgen.yaml || exit 1
+#docgen -verbose -config gen/docgen.yaml || exit 1
 
 echo "Formatting autogen docs...."
 go fmt $cdocs/*.go

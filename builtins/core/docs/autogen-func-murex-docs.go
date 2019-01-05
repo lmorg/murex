@@ -1,5 +1,0 @@
-package docs
-
-func init() {
-	Definition[`murex-docs`] = `H4sIAAAAAAAA/5SQvWorMRCFez3Fge0urB/AXNxc36QJpEmqEOzxalY7oJWEZgTO24ddx44hVdphznd+OhzmVvl8wBOl0CgwHpt4dq7r8C/PMyWPyiNXTgNvsT73Pg/q3A570RLpQ2ETY6aEQoEVY6437KlJNEm6ADvsWYcqxSQn536h3lzkr0qBnQNwF2SLN4yRAt4xfAXud/ir5nOz3UX4/0xziawXbYfnZqUZbBK9Of/A3nddIA+Rgjr3B8e+9xJY7bhFZWs1KSiBTlV8YA//3RJ5XOtdk1WyiStsorTcV09OJpUxcSxrkM11KyOJzr1MrPf7UF1xRSJ7SLK8GlwX4zMPzegUF8wnAAAA//8=`
-}

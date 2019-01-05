@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"bytes"
+	"io"
 	"os"
-	"text/template"
 )
 
 func fileWriter(path string) *os.File {
@@ -14,36 +14,74 @@ func fileWriter(path string) *os.File {
 	return f
 }
 
-func renderAll() {
-	for i := range Documents {
-		renderDocument(documentTemplates[Documents[i].CategoryID], &Documents[i])
+func renderAll(docs documents) {
+	for cat := range Config.Categories {
+		for i := range Config.Categories[cat].Templates {
+			renderInnerLoop(&Config.Categories[cat].Templates[i], docs)
+		}
 	}
 
-	for cat := range Config.Categories {
-		renderCategory(categoryTemplates[cat], cat, Config.Categories[cat])
-	}
 }
 
-func renderDocument(t *template.Template, d *document) {
-	if t == nil {
-		if Config.Categories[d.CategoryID].DocumentTemplate == "" {
-			panic(fmt.Sprintf("no document template for CategoryID `%s`", d.CategoryID))
-		}
-		panic(structuredMessage("nil template for unknown reasons (this is likely a software bug).", *d))
-	}
+func renderInnerLoop(t *templates, docs documents) {
+	makePath(t.OutputPath)
 
-	f := fileWriter(d.Path())
+	for d := range docs {
+		if docs[d].CategoryID == t.ref.ID {
+			renderDocument(t, &docs[d], docs)
+		}
+	}
+	renderCategory(t, docs)
+}
+
+func renderDocument(t *templates, d *document, docs documents) {
+	f := fileWriter(t.DocumentPath(d))
+	b := new(bytes.Buffer)
+
 	log("Rendering document", d.DocumentID)
-	err := t.Execute(f, d.TemplateValues(Documents, true))
+
+	err := t.docTemplate.Execute(b, t.DocumentValues(d, docs, true))
 	if err != nil {
 		panic(err.Error())
 	}
+
+	if len(Config.renderedDocuments[t.ref.ID]) == 0 {
+		Config.renderedDocuments[t.ref.ID] = make(map[string][]string)
+	}
+	Config.renderedDocuments[t.ref.ID][d.DocumentID] = append(
+		Config.renderedDocuments[t.ref.ID][d.DocumentID],
+		b.String(),
+	)
+
+	write(f, b)
 }
 
-func renderCategory(t *template.Template, id string, c category) {
-	f := fileWriter(Config.OutputPath + id + Config.OutputExt)
-	log("Rendering category", id)
-	err := t.Execute(f, c.TemplateValues(id, Documents))
+func renderCategory(t *templates, docs documents) {
+	f := fileWriter(t.CategoryFilePath())
+	b := new(bytes.Buffer)
+
+	log("Rendering category", t.ref.ID)
+
+	err := t.catTemplate.Execute(b, t.CategoryValues(docs))
+	if err != nil {
+		panic(err.Error())
+	}
+
+	Config.renderedCategories[t.ref.ID] = append(
+		Config.renderedCategories[t.ref.ID],
+		b.String(),
+	)
+
+	write(f, b)
+}
+
+func write(f io.WriteCloser, b io.Reader) {
+	_, err := io.Copy(f, b)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = f.Close()
 	if err != nil {
 		panic(err.Error())
 	}

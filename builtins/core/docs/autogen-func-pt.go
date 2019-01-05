@@ -1,5 +1,0 @@
-package docs
-
-func init() {
-	Definition[`pt`] = `H4sIAAAAAAAA/1SQQWvbQBCF7/srHviQNBD9gFB8aUovhQRboZQSoo322RmwVsvMyK3+fVmpUPuigdF83z7eBm/DpPzzhu8xH6d4JL5NkhjCZoMv4zDEnKA8UJl7PqB4CFs8SyGcJw50nRv8UHEaUvR473OhoWLvc13+VnFnrsINHmm9SnEZcwjXluWQBvPoYi69Ib6Pk8M/iCKFJ8ls0H5cMvLfn0TZ+2mGjwvytL8x7NvHr7vdlaIyRWnUM1OzxnqxeGQIAPDZPEne4n6L4vVbF+Pk2/VyTyKebAzhDr86qnavt1RthvTpAc8q2RGxPPMvxpog3KGzUn8fuoX0cfLu9baOa9ZcJR8v6KeXdmnT6BC/uWh5Ffl8SNVU56ra0SfNtgja9icSz9IT42HtISqzN+EvAAAA//8=`
-}

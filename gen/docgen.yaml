@@ -1,13 +1,8 @@
 SourcePath: .
 SourceExt: _doc.yaml
-OutputPath: gen/docs-test
-OutputExt: .md
-OutputFormat: markdown
-PostProcessing: none
 
 Categories:
-  commands:
-    OutputDirName: commands
+  - ID: commands
     Title: Command Reference
     Description: |-
       This section is a catalogue of _murex_ functions (builtin commands). Because
@@ -18,8 +13,21 @@ Categories:
       However any executable command can also be called from within _murex_; be
       that either via the `exec` builtin or natively like you would from any Linux,
       UNIX, or even Windows command prompt.
-    DocumentTemplate: gen/commands-doc-md.tmpl
-    CategoryTemplate: gen/commands-cat-md.tmpl
+
+    Templates:
+    - OutputPath: docs/commands
+      CategoryFile: ../commands.md
+      OutputFormat: markdown
+      OutputExt: .md
+      CategoryTemplate: gen/commands-md-cat.tmpl
+      DocumentTemplate: gen/commands-md-doc.tmpl
+
+    - OutputPath: builtins/core/docs
+      CategoryFile: 000_summaries_commands_docgen.go
+      OutputFormat: markdown
+      OutputExt: commands_docgen.go
+      CategoryTemplate: gen/commands-go-cat.tmpl
+      DocumentTemplate: gen/commands-go-doc.tmpl
 
   # events:
   #   OutputDirName: events

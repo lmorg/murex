@@ -29,9 +29,8 @@ func main() {
 
 	readFlags()
 	readConfig(fConfigFile)
-	readCategoryTemplates()
 	walkSourcePath(Config.SourcePath)
-	renderAll()
+	renderAll(Documents)
 }
 
 func readFlags() error {
@@ -52,13 +51,6 @@ func readFlags() error {
 	}
 
 	return nil
-}
-
-func makePath(path string) {
-	err := os.MkdirAll(path, 0755)
-	if err != nil {
-		panic(err)
-	}
 }
 
 func log(v ...interface{}) {

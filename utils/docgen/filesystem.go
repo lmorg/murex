@@ -6,6 +6,13 @@ import (
 	"strings"
 )
 
+func makePath(path string) {
+	err := os.MkdirAll(path, 0755)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func walkSourcePath(path string) {
 	err := filepath.Walk(path, walkCallback)
 	if err != nil {
@@ -27,7 +34,6 @@ func walkCallback(path string, f os.FileInfo, err error) error {
 
 	var src []document
 	parseSourceFile(path, &src)
-	formatDocuments(src)
 	Documents = append(Documents, src...)
 
 	return nil

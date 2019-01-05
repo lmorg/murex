@@ -1,0 +1,9 @@
+package docs{{ $doc := quote (doc .CategoryID .ID 0) }}
+
+func init() {
+{{ if .Synonyms }}{{ range .Synonyms }}
+	Definition[{{ quote . }}] = {{ $doc }}
+{{ end }}{{ else }}
+    Definition[{{ quote .ID }}] = {{ $doc }}
+{{ end }}
+}

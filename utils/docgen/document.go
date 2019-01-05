@@ -42,33 +42,29 @@ type document struct {
 	Related []string `yaml:"Related"`
 }
 
-// Path is the path to write documents to
-func (d document) Path() string {
-	file := d.DocumentID + Config.OutputExt
-	path := Config.OutputPath + Config.Categories[d.CategoryID].OutputDirName
-	if !strings.HasSuffix(path, "/") {
-		path += "/"
-	}
-
-	return path + file
+// DocumentPath is the path to write documents to
+func (t templates) DocumentPath(d *document) string {
+	return t.OutputPath + d.DocumentID + t.OutputExt
 }
 
-func (d document) TemplateValues(documents documents, nest bool) *documentValues {
-	t := &documentValues{
-		Title:         d.Title,
-		Path:          Config.Categories[d.CategoryID].OutputDirName + "/" + d.DocumentID + Config.OutputExt,
-		CategoryID:    d.CategoryID,
-		CategoryTitle: Config.Categories[d.CategoryID].Title,
-		Summary:       d.Summary,
-		Description:   d.Description,
-		Usage:         d.Usage,
-		Examples:      d.Examples,
-		Detail:        d.Detail,
-		Synonyms:      d.Synonyms,
+func (t templates) DocumentValues(d *document, docs documents, nest bool) *documentValues {
+	dv := &documentValues{
+		ID:                  d.DocumentID,
+		Title:               d.Title,
+		Path:                t.DocumentPath(d),
+		CategoryID:          d.CategoryID,
+		CategoryTitle:       t.ref.Title,
+		CategoryDescription: t.ref.Description,
+		Summary:             d.Summary,
+		Description:         d.Description,
+		Usage:               d.Usage,
+		Examples:            d.Examples,
+		Detail:              d.Detail,
+		Synonyms:            d.Synonyms,
 	}
 
 	if !nest {
-		return t
+		return dv
 	}
 
 	for _, val := range d.Related {
@@ -88,36 +84,40 @@ func (d document) TemplateValues(documents documents, nest bool) *documentValues
 			relDocID = val
 		}
 
-		t.Related = append(t.Related, documents.ByID(relCatID, relDocID).TemplateValues(documents, false))
-		//sort.Sort(t.Related)
+		dv.Related = append(
+			dv.Related,
+			t.DocumentValues(docs.ByID(relCatID, relDocID), docs, false),
+		)
 	}
 
 	for flag, desc := range d.Flags {
-		t.Flags = append(t.Flags, &flagValues{
+		dv.Flags = append(dv.Flags, &flagValues{
 			Flag:        flag,
 			Description: desc,
 		})
 	}
 
-	sort.Sort(t.Flags)
-	sort.Sort(t.Related)
+	sort.Sort(dv.Flags)
+	sort.Sort(dv.Related)
 
-	return t
+	return dv
 }
 
 type documentValues struct {
-	Title         string
-	Path          string
-	CategoryID    string
-	CategoryTitle string
-	Summary       string
-	Description   string
-	Usage         string
-	Examples      string
-	Flags         sortableFlagValues
-	Detail        string
-	Synonyms      []string
-	Related       sortableDocumentValues
+	ID                  string
+	Title               string
+	Path                string
+	CategoryID          string
+	CategoryTitle       string
+	CategoryDescription string
+	Summary             string
+	Description         string
+	Usage               string
+	Examples            string
+	Flags               sortableFlagValues
+	Detail              string
+	Synonyms            []string
+	Related             sortableDocumentValues
 }
 
 type sortableDocumentValues []*documentValues
@@ -139,19 +139,7 @@ func (v sortableFlagValues) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 
 type documents []document
 
-// GetTitle returns the title of a document from it's CategoryID and DocumentID
-func (d documents) GetTitle(categoryID, documentID string) string {
-	for i := range d {
-		if d[i].DocumentID == documentID && d[i].CategoryID == categoryID {
-			return d[i].Title
-		}
-	}
-
-	warning(fmt.Sprintf("Cannot find document with the ID `%s/%s`", categoryID, documentID))
-	return documentID
-}
-
-// GetTitle returns the title of a document from it's CategoryID and DocumentID
+// ByID returns the from it's CategoryID and DocumentID
 func (d documents) ByID(categoryID, documentID string) *document {
 	for i := range d {
 		if d[i].DocumentID == documentID && d[i].CategoryID == categoryID {

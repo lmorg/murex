@@ -1,68 +1,26 @@
 package main
 
-import "strings"
+import (
+	"errors"
+	"strconv"
+	"strings"
+	"text/template"
+)
 
-func formatDocuments(d []document) {
-	var fn func(*string)
-
-	switch Config.OutputFormat {
-	case "markdown":
-		fn = formatMarkdown
-
-	case "html":
-		fn = formatHTML
-
-	default:
-		return
-	}
-
-	for i := range d {
-		fn(&d[i].Examples)
-		fn(&d[i].Description)
-		fn(&d[i].Detail)
-		fn(&d[i].Summary)
-		fn(&d[i].Title)
-		d[i].Title = strings.TrimSpace(d[i].Title)
-		fn(&d[i].Usage)
-	}
-}
-
-func formatCategories() {
-	var fn func(*string)
-
-	format := func(s string) string {
-		fn(&s)
-		return s
-	}
-
-	switch Config.OutputFormat {
-	case "markdown":
-		fn = formatMarkdown
-
-	case "html":
-		fn = formatHTML
-
-	default:
-		return
-	}
-
-	for name := range Config.Categories {
-		Config.Categories[name] = category{
-			CategoryTemplate: Config.Categories[name].CategoryTemplate,
-			DocumentTemplate: Config.Categories[name].DocumentTemplate,
-			OutputDirName:    Config.Categories[name].OutputDirName,
-
-			Title:       format(Config.Categories[name].Title),
-			Description: format(Config.Categories[name].Description),
-		}
-	}
+var funcMap = template.FuncMap{
+	"quote": formatQuote,
+	"html":  formatHTML,
+	"md":    formatMarkdown,
+	"trim":  strings.TrimSpace,
+	"doc":   formatRenderedDocuments,
+	"cat":   formatRenderedCategories,
 }
 
 /************
  * MARKDOWN *
  ************/
 
-func formatMarkdown(s *string) {
+func formatMarkdown(s string) string {
 	var (
 		new          []rune
 		backtick     int
@@ -70,7 +28,7 @@ func formatMarkdown(s *string) {
 		skipNextCrLf bool
 	)
 
-	for _, c := range *s {
+	for _, c := range s {
 		switch c {
 		case '`':
 			backtick++
@@ -111,13 +69,45 @@ func formatMarkdown(s *string) {
 		new = new[:len(new)-5]
 	}
 
-	*s = string(new)
+	return strings.TrimSpace(string(new))
+}
+
+/************
+ *  Quote   *
+ ************/
+
+func formatQuote(s string) string {
+	return strconv.Quote(formatMarkdown(s))
 }
 
 /************
  *   HTML   *
  ************/
 
-func formatHTML(s *string) {
+func formatHTML(s string) string {
 	panic("HTML output not yet written")
+}
+
+func formatRenderedDocuments(cat, doc string, index int) (string, error) {
+	if len(Config.renderedDocuments[cat]) == 0 {
+		return "", errors.New("Category does not exist, doesn't have any documents, or hasn't yet been parsed")
+	}
+
+	if len(Config.renderedDocuments[cat][doc]) <= index {
+		return "", errors.New("index greater than number of templates currently parsed for that document")
+	}
+
+	return Config.renderedDocuments[cat][doc][index], nil
+}
+
+func formatRenderedCategories(cat string, index int) (string, error) {
+	if len(Config.renderedCategories[cat]) == 0 {
+		return "", errors.New("Category does not exist or hasn't yet been parsed")
+	}
+
+	if len(Config.renderedCategories[cat]) <= index {
+		return "", errors.New("index greater than number of templates currently parsed for that category")
+	}
+
+	return Config.renderedCategories[cat][index], nil
 }
