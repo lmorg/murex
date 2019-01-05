@@ -1,0 +1,85 @@
+- DocumentID: greater-than
+  Title: >+
+    `>` (write to new or truncated file)
+  CategoryID: commands
+  Summary: >-
+    Writes STDIN to disk - overwriting contents if file already exists    
+  Description: |-
+    Redirects output to file.
+
+    If a file already exists, the contents will be truncated (overwritten).
+    Otherwise a new file is created.
+  Usage: |-
+    ```
+    <stdin> -> > filename
+    ```
+  Examples: |-
+    ```
+    g * -> > files.txt
+    ```
+  Detail: |-
+  Synonyms:
+  - ">"
+  Related:
+  - greater-than-greater-than
+  - pipe
+  - g
+  - tmp
+
+
+- DocumentID: greater-than-greater-than
+  Title: >+
+    `>>` (write to new or appended file)
+  CategoryID: commands
+  Summary: >-
+    Writes STDIN to disk - appending contents if file already exists
+  Description: |-
+    Redirects output to file.
+
+    If a file already exists, the contents will be appended to existing contents.
+    Otherwise a new file is created.
+  Usage: |-
+    ```
+    <stdin> -> >> filename
+    ```
+  Examples: |-
+    ```
+    g * -> >> files.txt
+    ```
+  Detail: |-
+  Synonyms:
+  - ">>"
+  Related:
+  - greater-than
+  - pipe
+  - g
+  - tmp
+
+
+- DocumentID: pt
+  Title: >+
+    `pt`
+  CategoryID: commands
+  Summary: >-
+    Pipe telemetry. Writes data-types and bytes written
+  Description: |-
+    Pipe telemetry, `pt`, writes statistics about the pipeline. The telemetry is written
+    directly to the OS's STDERR so to preserved the pipeline.
+  Usage: |-
+    ```
+    <stdin> -> pt -> <stdout>
+    ```
+  Examples: |-
+    ```
+    curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
+    ```
+    (though _murex_ does also have it's own HTTP clients, `get`, `post` and
+    `getfile`)
+  Detail: |-
+  Synonyms:
+  Related:
+    - greater-than
+    - greater-than-greater-than
+    - get
+    - post
+    - getfile

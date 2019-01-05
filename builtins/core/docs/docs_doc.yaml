@@ -1,0 +1,35 @@
+- DocumentID: murex-docs
+  Title: >+
+    `murex-docs`
+  CategoryID: commands
+  Summary: >-
+    Displays the man pages for _murex_ builtins
+  Description: |-
+    Displays the man pages for _murex_ builtins.
+  Usage: |-
+    ```
+    murex-docs: [ flag ] command -> <stdout>
+    ```
+  Examples: |-
+    ```
+    # Output this man page
+    murex-docs: murex-docs
+    ```
+  Flags:
+    --digest: >-
+      returns an abridged description of the command rather than the entire
+      help page.
+  Detail: |-
+    These man pages are compiled into the _murex_ executable.
+  Synonyms:
+  Related:
+  - tout
+  - err
+  - brace-quote
+  - sprintf
+  - cast
+  - greater-than
+  - greater-than-greater-than
+  - out
+  - tread
+

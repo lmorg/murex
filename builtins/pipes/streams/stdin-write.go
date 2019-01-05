@@ -54,7 +54,7 @@ func (stdin *Stdin) WriteArray(dataType string) (stdio.ArrayWriter, error) {
 }
 
 // ReadFrom reads data from r until EOF and appends it to the buffer.
-func (stdin *Stdin) ReadFrom(r io.Reader) (n int64, err error) {
+func (stdin *Stdin) ReadFrom(r io.Reader) (int64, error) {
 	var total int64
 
 	stdin.mutex.Lock()
@@ -65,25 +65,25 @@ func (stdin *Stdin) ReadFrom(r io.Reader) (n int64, err error) {
 		select {
 		case <-stdin.ctx.Done():
 			return total, io.ErrClosedPipe
+
 		default:
+			p := make([]byte, 1024)
+			i, err := r.Read(p)
+
+			if err == io.EOF {
+				return total, nil
+			}
+
+			if err != nil {
+				return total, err
+			}
+
+			i, err = stdin.Write(p[:i])
+			if err != nil {
+				return total, err
+			}
+
+			total += int64(i)
 		}
-
-		p := make([]byte, 1024)
-		i, err := r.Read(p)
-
-		if err == io.EOF {
-			return total, nil
-		}
-
-		if err != nil {
-			return total, err
-		}
-
-		i, err = stdin.Write(p[:i])
-		if err != nil {
-			return total, err
-		}
-
-		total += int64(i)
 	}
 }

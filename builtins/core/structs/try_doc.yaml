@@ -1,0 +1,131 @@
+- DocumentID: try
+  Title: >+
+    `try`
+  CategoryID: commands
+  Summary: >-
+    Handles errors inside a block of code
+  Description: |-
+    `try` forces a different execution behavior where a failed process at the end
+    of a pipeline will cause the block to terminate regardless of any functions that
+    might follow.
+
+    It's usage is similar to try blocks in other languages (eg Java) but a closer
+    functional example would be `set -e` in Bash.
+
+    To maintain concurrency within the pipeline, `try` will only check the last
+    function in any given pipeline (ie series of functions joined via `|`, `->`, or
+    similar operators). If you need the entire pipeline checked then use `trypipe`.
+  Usage: |-
+    ```
+    try { code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    try {
+        out: "Hello, World!" -> grep: "non-existent string"
+        out: "This command will be ignored"
+    }
+    ```
+  Flags:
+  Detail: |-
+    A failure is determined by:
+
+    * Any process that returns a non-zero exit number
+    * Any process that returns more output via STDERR than it does via STDOUT
+
+    You can see which run mode your functions are executing under via the `fid-list`
+    command.
+  Synonyms:
+  Related:
+  - trypipe
+  - evil
+  - catch
+  - fid-list
+  - if
+
+
+- DocumentID: trypipe
+  Title: >+
+    `trypipe`
+  CategoryID: commands 
+  Summary: >-
+    Checks state of each function in a pipeline and exits block on error
+  Description: |-
+    `trypipe` checks the state of each function and exits the block if any of them
+    fail. Where `trypipe` differs from regular `try` blocks is `trypipe` will check
+    every process along the pipeline as well as the terminating function (which
+    `try` only validates against). The downside to this is that piped functions can
+    no longer run in parallel.
+  Usage: |-
+    ```
+    trypipe { code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    trypipe {
+        out: "Hello, World!" -> grep: "non-existent string" -> cat
+        out: "This command will be ignored"
+    }
+    ```
+  Flags:
+  Detail: |-
+    A failure is determined by:
+
+    * Any process that returns a non-zero exit number
+    * Any process that returns more output via STDERR than it does via STDOUT
+
+    You can see which run mode your functions are executing under via the `fid-list`
+    command.
+  Synonyms:
+  Related:
+  - try
+  - evil
+  - catch
+  - fid-list
+  - if
+
+- DocumentID: catch
+  Title: >+
+    `catch`
+  CategoryID: commands
+  Summary: >-
+    Handles the exception code raised by `try` or `trypipe`
+  Description: |-
+    `catch` is designed to be used in conjunction with `try` and `trypipe` as it
+    handles the exceptions raised by the aforementioned.
+  Usage: |-
+    ```
+    [ try | trypipe ] { code-block } -> <stdout>
+
+    catch { code-block } -> <stdout>
+    
+    !catch { code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    try {
+        out: "Hello, World!" -> grep: "non-existent string"
+        out: "This command will be ignored"
+    }
+
+    catch {
+        out: "An error was caught"
+    }
+
+    !catch {
+        out: "No errors were raised"
+    }
+    ```
+  Flags:
+  Detail: |-
+    `catch` can be used with a bang prefix to check for a lack of errors.
+
+    `catch` forwards on the STDIN and exit number of the calling function.
+  Synonyms:
+  - catch
+  - "!catch"
+  Related:
+  - trypipe
+  - try
+  - if
+  - evil

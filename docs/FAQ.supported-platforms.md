@@ -51,7 +51,7 @@ However no functional testing has been conducted on that particular platform.
 
 ## Windows
 
-Windows is support and part of the automated build tests so will _murex_ will
+Windows is support and part of the automated build tests so _murex_ will
 compile for that platform. However I have not had access to a Windows machine
 for some time so there maybe some new bugs introduced in recent versions. There
 is also the caveat that without a broad range of command line utilities (eg GNU
@@ -59,12 +59,12 @@ coreutils) the usefulness of _murex_ is seriously diminished. There is some work
 underway to replicate some of the basics of coreutils as _murex_ builtins but
 that level of work is massive, thankless, and so obviously a low priority. Thus
 my recommendation is to run _murex_ inside WSL (Windows Subsystem for Linux) on
-Windows 10. However if native Windows really is your preference then _murex_
+Windows 10. However if native Windows is your preference then _murex_
 *should* function.
 
 ## Plan 9
 
-Not currently supported. There are a few differences in the `syscall` package
+Not currently supported. There are a few differences in Go's `syscall` package
 which would lead me to believe that _murex_ will not even compile. That's not to
 say that I wont ever support Plan 9 in the future however it's not a feature I'm
 giving any priority to at present.

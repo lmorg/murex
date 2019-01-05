@@ -1,8 +1,0 @@
-### Description
-
-Pipe telemetry writes statistics about the pipeline. The telemetry is written
-directly to the OS's STDERR the pipeline is preserved.
-
-### Usage
-
-    <stdin> -> pt -> <stdout>

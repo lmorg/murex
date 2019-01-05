@@ -1,0 +1,55 @@
+SourcePath: .
+SourceExt: _doc.yaml
+OutputPath: gen/docs-test
+OutputExt: .md
+OutputFormat: markdown
+PostProcessing: none
+
+Categories:
+  commands:
+    OutputDirName: commands
+    Title: Command Reference
+    Description: |-
+      This section is a catalogue of _murex_ functions (builtin commands). Because
+      _murex_ is loosely modelled on the functional paradigm, it means all language
+      constructs are exposed via functions and those are typically builtins since
+      they can share the _murex_ runtime virtual machine.
+
+      However any executable command can also be called from within _murex_; be
+      that either via the `exec` builtin or natively like you would from any Linux,
+      UNIX, or even Windows command prompt.
+    DocumentTemplate: gen/commands-doc-md.tmpl
+    CategoryTemplate: gen/commands-cat-md.tmpl
+
+  # events:
+  #   OutputDirName: events
+  #   Title: Event System
+  #   Description: |-
+  #     murex events
+  #   DocumentTemplate: gen/events-doc.tmpl
+  #   CategoryTemplate: gen/events-cat.tmpl
+
+  # types:
+  #   OutputDirName: types
+  #   Title: Data Types
+  #   Description: |-
+  #     murex data types
+  #   DocumentTemplate: gen/types-doc.tmpl
+  #   CategoryTemplate: gen/types-cat.tmpl
+  
+  # pipes:
+  #   OutputDirName: pipes
+  #   Title: Special Pipes
+  #   Description: |-
+  #     murex pipes
+  #   DocumentTemplate: gen/pipes-doc.tmpl
+  #   CategoryTemplate: gen/pipes-cat.tmpl
+
+  # api:
+  #   OutputDirName: api
+  #   Title: Go API reference
+  #   Description: |-
+  #     Guide to writing builtins for murex
+  #   DocumentTemplate: gen/api-doc.tmpl
+  #   CategoryTemplate: gen/api-cat.tmpl
+

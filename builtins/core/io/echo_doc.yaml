@@ -1,0 +1,186 @@
+- DocumentID: out
+  Title: >+
+    `out`
+  CategoryID: commands
+  Summary: >-
+    `echo` a string to the STDOUT with a trailing new line character
+  Description: |-
+    Write parameters to STDOUT with a trailing new line character.
+  Usage: |-
+    ```
+    out: string to write -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » out Hello, World!
+    Hello, World!
+
+    # For compatibility with other shells, `echo` is also supported:
+    » echo Hello, World!
+    Hello, World!
+    ```
+  Detail: |-
+    `out` / `echo` output as `string` data-type. This can be changed by casting or
+    using the `tout` function.
+
+    #### ANSI Constants
+
+    `out` supports ANSI constants.
+  Synonyms:
+    - out
+    - echo
+  Related:
+  - tout
+  - err
+  - brace-quote
+  - sprintf
+  - cast
+  - greater-than
+  - greater-than-greater-than
+  - pt
+  - read
+  - tread
+
+- DocumentID: tout
+  Title: >+
+    `tout`
+  CategoryID: commands
+  Summary: >-
+    Print a string to the STDOUT and set it's data-type
+  Description: |-
+    Write parameters to STDOUT without a trailing new line character. Cast the
+    output's data-type to the value of the first parameter.
+  Usage: |-
+    ```
+    tout: data-type "string to write" -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » tout: json { "Code": 404, "Message": "Page not found" } -> pretty
+    {
+        "Code": 404,
+        "Message": "Page not found"
+    }
+    ```
+  Detail: |-
+    `tout` supports ANSI constants.
+
+    Unlike `out`, `tout` does not append a carriage return / line feed.
+  Synonyms:
+  Related:
+  - out
+  - err
+  - brace-quote
+  - sprintf
+  - cast
+  - pretty
+  - format
+
+
+- DocumentID: brace-quote
+  Title: >+
+    `(` (brace quote)
+  CategoryID: commands
+  Summary: >-
+    Write a string to the STDOUT without new line
+  Description: |-
+    Write parameters to STDOUT (does not include a new line)
+  Usage: |-
+    ```
+    (string to write) -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » (Hello, World!)
+    Hello, World!
+
+    » (Hello,\nWorld!)
+    Hello,
+    World!
+
+    » ((Hello,) (World!))
+    (Hello,) (World!)
+
+    # Print "Hello, World!" in red text
+    » {RED}Hello, World!{RESET}
+    Hello, World!
+    ```
+  Detail: |-
+    The `(` function performs exactly like the `(` token for quoting so you do not
+    need to escape other tokens (eg single / double quotes, `'`/`"`, nor curly
+    braces, `{}`). However the braces are nestable so you will need to escape those
+    characters if you don't want them nested.
+
+    #### ANSI Constants
+
+    `(` supports ANSI constants.
+  Synonyms:
+  - (
+  Related:
+  - tout
+  - err
+  - out
+  - sprintf
+  - cast
+  - greater-than
+  - greater-than-greater-than
+  - pt
+
+- DocumentID: err
+  Title: >+
+    `err`
+  CategoryID: commands
+  Summary: >-
+    Print a line to the STDERR
+  Description: |-
+    Write parameters to STDERR with a trailing new line character.
+  Usage: |-
+    ```
+    err: string to write -> <stderr>
+    ```
+  Examples: |-
+    ```
+    » err Hello, World!
+    Hello, World!
+    ```
+  Detail: |-
+    `err` outputs as `string` data-type. This can be changed by casting
+
+    ```
+    err { "Code": 404, "Message": "Page not found" } ? cast json
+    ```
+
+    However passing structured data-types along the STDERR stream is not recommended
+    as any other function within your code might also pass error messages along the
+    same stream and thus taint your structured data. This is why _murex_ does not
+    supply a `tout` function for STDERR. The recommended solution for passing
+    messages like these which you want separate from your STDOUT stream is to create
+    a new _murex_ named pipe.
+
+    ```
+    » pipe: --create messages
+    » bg { <messages> -> pretty }
+    » tout: <messages> json { "Code": 404, "Message": "Page not found" }
+    » pipe: --close messages
+    {
+        "Code": 404,
+        "Message": "Page not found"
+    }
+    ```
+
+    #### ANSI Constants
+
+    `err` supports ANSI constants.
+  Synonyms:
+  Related:
+  - tout
+  - out
+  - brace-quote
+  - sprintf
+  - cast
+  - bg
+  - pipe
+  - pretty
+  - greater-than
+  - greater-than-greater-than
+  - pt

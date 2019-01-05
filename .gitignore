@@ -5,6 +5,8 @@ murex.exe
 murex.upx
 /gen-murex-docs
 /gen-murex-docs.exe
+/docgen
+/docgen.exe
 
 # IntelliJ env
 .idea/
@@ -16,3 +18,4 @@ murex.iml
 /vendor.new
 /pkg
 /src
+/gen/docs-test/

@@ -19,12 +19,12 @@ ctrl_c() {
 echo "Updating auto-generated code...."
 go generate ./... || exit 1
 
-echo "Compiling gen-murex-docs...."
-go install github.com/lmorg/murex/utils/gen-murex-docs || exit 1
+echo "Compiling docgen...."
+go install github.com/lmorg/murex/utils/docgen || exit 1
 
 echo "Compiling Murex docs...."
-rm $docs/*
-gen-murex-docs -v -src builtins -dest $docs -gocode $cdocs || exit 1
+#rm $docs/*
+docgen -verbose -config gen/docgen.yaml || exit 1
 
 echo "Formatting autogen docs...."
 go fmt $cdocs/*.go
