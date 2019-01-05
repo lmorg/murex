@@ -4,7 +4,7 @@ package docs
 var Summary = map[string]string{
 {{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}
 	{{ quote (index .Synonyms 0) }}: {{ quote .Summary }},{{ end }}{{ else }}
-	{{ quote .ID }}: {{ quote .Summary }},{{ end }}{{ end }}{{ end }}
+	{{ quote .ID }}: {{ quote .Summary }},{{ end }}{{ end }}
 }
 
 //Synonym is used for builtins that might have more than one internal alias

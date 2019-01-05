@@ -69,7 +69,8 @@ func formatMarkdown(s string) string {
 		new = new[:len(new)-5]
 	}
 
-	return strings.TrimSpace(string(new))
+	s = strings.TrimSuffix(string(new), "\n")
+	return strings.TrimSuffix(s, "\r")
 }
 
 /************
