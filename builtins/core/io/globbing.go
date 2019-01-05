@@ -104,9 +104,12 @@ func cmdLsF(p *proc.Process) (err error) {
 		}
 	}
 
-	for _, f := range files {
-		debug.Log("f->", f)
+	if debug.Enable {
+		for _, f := range files {
+			debug.Log("f->", f)
+		}
 	}
+
 	for i := range files {
 		if p.HasCancelled() {
 			break
