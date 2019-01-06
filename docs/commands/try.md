@@ -40,13 +40,13 @@ command.
 
 ### See Also
 
-* [`catch`](../docs/commands/catch.md):
+* [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe
-* [`if`](../docs/commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`trypipe`](../docs/commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [evil](../docs/commands/commands/evil.md):
+* [evil](../commands/evil.md):
   
-* [fid-list](../docs/commands/commands/fid-list.md):
+* [fid-list](../commands/fid-list.md):
   

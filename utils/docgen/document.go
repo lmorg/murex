@@ -42,6 +42,14 @@ type document struct {
 	Related []string `yaml:"Related"`
 }
 
+// Hierarchy is the ID path
+func (d document) Hierarchy() string {
+	if strings.HasPrefix(d.DocumentID, d.CategoryID+"/") {
+		return d.DocumentID
+	}
+	return d.CategoryID + "/" + d.DocumentID
+}
+
 // DocumentPath is the path to write documents to
 func (t templates) DocumentPath(d *document) string {
 	return t.OutputPath + d.DocumentID + t.OutputExt
@@ -52,6 +60,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		ID:                  d.DocumentID,
 		Title:               d.Title,
 		Path:                t.DocumentPath(d),
+		Hierarchy:           d.Hierarchy(),
 		CategoryID:          d.CategoryID,
 		CategoryTitle:       t.ref.Title,
 		CategoryDescription: t.ref.Description,
@@ -107,6 +116,7 @@ type documentValues struct {
 	ID                  string
 	Title               string
 	Path                string
+	Hierarchy           string
 	CategoryID          string
 	CategoryTitle       string
 	CategoryDescription string

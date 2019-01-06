@@ -74,13 +74,13 @@ quotes:
 
 ### See Also
 
-* [`(` (brace quote)](../docs/commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`global`](../docs/commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [`set`](../docs/commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [eval](../docs/commands/commands/eval.md):
+* [eval](../commands/eval.md):
   
-* [let](../docs/commands/commands/let.md):
+* [let](../commands/let.md):
   

@@ -31,13 +31,13 @@
 
 ### See Also
 
-* [`append`](../docs/commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [a](../docs/commands/commands/a.md):
+* [a](../commands/a.md):
   
-* [cast](../docs/commands/commands/cast.md):
+* [cast](../commands/cast.md):
   
-* [square-bracket-open](../docs/commands/commands/square-bracket-open.md):
+* [square-bracket-open](../commands/square-bracket-open.md):
   
-* [update](../docs/commands/commands/update.md):
+* [update](../commands/update.md):
   

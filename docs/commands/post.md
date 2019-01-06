@@ -67,11 +67,11 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ### See Also
 
-* [`get`](../docs/commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../docs/commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [config](../docs/commands/commands/config.md):
+* [config](../commands/config.md):
   
-* [square-bracket-open](../docs/commands/commands/square-bracket-open.md):
+* [square-bracket-open](../commands/square-bracket-open.md):
   

@@ -28,21 +28,21 @@ These man pages are compiled into the _murex_ executable.
 
 ### See Also
 
-* [`(` (brace quote)](../docs/commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (write to new or appended file)](../docs/commands/greater-than-greater-than.md):
+* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (write to new or truncated file)](../docs/commands/greater-than.md):
+* [`>` (write to new or truncated file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
-* [`err`](../docs/commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [`out`](../docs/commands/out.md):
+* [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [`tout`](../docs/commands/tout.md):
+* [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [`tread`](../docs/commands/tread.md):
+* [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable    
-* [cast](../docs/commands/commands/cast.md):
+* [cast](../commands/cast.md):
   
-* [sprintf](../docs/commands/commands/sprintf.md):
+* [sprintf](../commands/sprintf.md):
   

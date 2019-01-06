@@ -51,15 +51,15 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
-* [`append`](../docs/commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [`prepend` ](../docs/commands/prepend.md):
+* [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [cast](../docs/commands/commands/cast.md):
+* [cast](../commands/cast.md):
   
-* [format](../docs/commands/commands/format.md):
+* [format](../commands/format.md):
   
-* [runtime](../docs/commands/commands/runtime.md):
+* [runtime](../commands/runtime.md):
   
-* [square-bracket-open](../docs/commands/commands/square-bracket-open.md):
+* [square-bracket-open](../commands/square-bracket-open.md):
   

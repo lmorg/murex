@@ -29,17 +29,17 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 
 ### See Also
 
-* [`(` (brace quote)](../docs/commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`err`](../docs/commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [`out`](../docs/commands/out.md):
+* [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [cast](../docs/commands/commands/cast.md):
+* [cast](../commands/cast.md):
   
-* [format](../docs/commands/commands/format.md):
+* [format](../commands/format.md):
   
-* [pretty](../docs/commands/commands/pretty.md):
+* [pretty](../commands/pretty.md):
   
-* [sprintf](../docs/commands/commands/sprintf.md):
+* [sprintf](../commands/sprintf.md):
   

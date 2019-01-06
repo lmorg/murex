@@ -26,13 +26,13 @@
 
 ### See Also
 
-* [`prepend` ](../docs/commands/prepend.md):
+* [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [a](../docs/commands/commands/a.md):
+* [a](../commands/a.md):
   
-* [cast](../docs/commands/commands/cast.md):
+* [cast](../commands/cast.md):
   
-* [square-bracket-open](../docs/commands/commands/square-bracket-open.md):
+* [square-bracket-open](../commands/square-bracket-open.md):
   
-* [update](../docs/commands/commands/update.md):
+* [update](../commands/update.md):
   

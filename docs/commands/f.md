@@ -36,7 +36,7 @@ which types of objects to be included or excluded from the results.
 
 ### See Also
 
-* [`g`](../docs/commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* [`rx`](../docs/commands/rx.md):
+* [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg '.*\.txt')

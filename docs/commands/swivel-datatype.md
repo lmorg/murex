@@ -123,19 +123,19 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
-* [`alter`](../docs/commands/alter.md):
+* [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../docs/commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [`prepend` ](../docs/commands/prepend.md):
+* [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [`swivel-table`](../docs/commands/swivel-table.md):
+* [`swivel-table`](../commands/swivel-table.md):
   Rotates a table by 90 degrees
-* [cast](../docs/commands/commands/cast.md):
+* [cast](../commands/cast.md):
   
-* [format](../docs/commands/commands/format.md):
+* [format](../commands/format.md):
   
-* [runtime](../docs/commands/commands/runtime.md):
+* [runtime](../commands/runtime.md):
   
-* [square-bracket-open](../docs/commands/commands/square-bracket-open.md):
+* [square-bracket-open](../commands/square-bracket-open.md):
   

@@ -44,11 +44,11 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ### See Also
 
-* [`get`](../docs/commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [`post`](../docs/commands/post.md):
+* [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [config](../docs/commands/commands/config.md):
+* [config](../commands/config.md):
   
-* [open](../docs/commands/commands/open.md):
+* [open](../commands/open.md):
   

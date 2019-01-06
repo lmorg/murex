@@ -21,13 +21,13 @@ directly to the OS's STDERR so to preserved the pipeline.
 
 ### See Also
 
-* [`>>` (write to new or appended file)](../docs/commands/greater-than-greater-than.md):
+* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (write to new or truncated file)](../docs/commands/greater-than.md):
+* [`>` (write to new or truncated file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
-* [`get`](../docs/commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../docs/commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [`post`](../docs/commands/post.md):
+* [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return

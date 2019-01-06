@@ -67,11 +67,11 @@ get: google.com
 
 ### See Also
 
-* [`getfile`](../docs/commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [`post`](../docs/commands/post.md):
+* [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [config](../docs/commands/commands/config.md):
+* [config](../commands/config.md):
   
-* [square-brace-open](../docs/commands/commands/square-brace-open.md):
+* [square-brace-open](../commands/square-brace-open.md):
   

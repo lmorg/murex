@@ -41,7 +41,7 @@ only designed to match file system objects in the current working directory.
 
 ### See Also
 
-* [`f`](../docs/commands/f.md):
+* [`f`](../commands/f.md):
   Lists objects (eg files) in the current working directory
-* [`g`](../docs/commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)

@@ -47,19 +47,19 @@ are unsuccessful.
 
 ### See Also
 
-* [`catch`](../docs/commands/catch.md):
+* [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe
-* [`if`](../docs/commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`or`](../docs/commands/or.md):
+* [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`try`](../docs/commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [`trypipe`](../docs/commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [false](../docs/commands/commands/false.md):
+* [false](../commands/false.md):
   
-* [not](../docs/commands/commands/not.md):
+* [not](../commands/not.md):
   
-* [true](../docs/commands/commands/true.md):
+* [true](../commands/true.md):
   

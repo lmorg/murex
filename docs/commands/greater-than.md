@@ -26,11 +26,11 @@ Otherwise a new file is created.
 
 ### See Also
 
-* [`>>` (write to new or appended file)](../docs/commands/greater-than-greater-than.md):
+* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`g`](../docs/commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* [pipe](../docs/commands/commands/pipe.md):
+* [pipe](../commands/pipe.md):
   
-* [tmp](../docs/commands/commands/tmp.md):
+* [tmp](../commands/tmp.md):
   

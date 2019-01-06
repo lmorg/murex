@@ -124,17 +124,17 @@ you want to overide the scoping of a variable inside a nested code-block.
 
 ### See Also
 
-* [`(` (brace quote)](../docs/commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`export`](../docs/commands/export.md):
+* [`export`](../commands/export.md):
   Define a local variable and set it's value
-* [`global`](../docs/commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [eval](../docs/commands/commands/eval.md):
+* [eval](../commands/eval.md):
   
-* [exec](../docs/commands/commands/exec.md):
+* [exec](../commands/exec.md):
   
-* [let](../docs/commands/commands/let.md):
+* [let](../commands/let.md):
   
-* [square-bracket-open](../docs/commands/commands/square-bracket-open.md):
+* [square-bracket-open](../commands/square-bracket-open.md):
   
