@@ -1,0 +1,33 @@
+# _murex_ Language Guide
+
+## Command Reference: `pt`
+
+> Pipe telemetry. Writes data-types and bytes written
+
+### Description
+
+Pipe telemetry, `pt`, writes statistics about the pipeline. The telemetry is written
+directly to the OS's STDERR so to preserved the pipeline.
+
+### Usage
+
+    <stdin> -> pt -> <stdout>
+
+### Examples
+
+    curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
+    (though _murex_ does also have it's own HTTP clients, `get`, `post` and
+`getfile`)
+
+### See Also
+
+* [`>>` (write to new or appended file)](../docs/commands/greater-than-greater-than.md):
+  Writes STDIN to disk - appending contents if file already exists
+* [`>` (write to new or truncated file)](../docs/commands/greater-than.md):
+  Writes STDIN to disk - overwriting contents if file already exists    
+* [`get`](../docs/commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [`getfile`](../docs/commands/getfile.md):
+  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+* [`post`](../docs/commands/post.md):
+  HTTP POST request with a JSON-parsable return

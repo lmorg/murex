@@ -1,0 +1,61 @@
+package docs
+
+// Summary stores a one line summary of each builtins
+var Summary = map[string]string{
+
+	"(":      "Write a string to the STDOUT without new line",
+	">>":     "Writes STDIN to disk - appending contents if file already exists",
+	">":      "Writes STDIN to disk - overwriting contents if file already exists    ",
+	"and":    "Returns `true` or `false` depending on whether multiple conditions are met",
+	"catch":  "Handles the exception code raised by `try` or `trypipe",
+	"export": "Define a local variable and set it's value",
+	"global": "Define a global variable and set it's value",
+	"if":     "Conditional statement to execute different blocks of code depending on the result of the condition",
+	"or":     "Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.",
+	"out":    "`echo` a string to the STDOUT with a trailing new line character",
+	"set":    "Define a local variable and set it's value",
+}
+
+//Synonym is used for builtins that might have more than one internal alias
+var Synonym = map[string]string{
+
+	"(":               "(",
+	">>":              ">>",
+	">":               ">",
+	"alter":           "alter",
+	"and":             "and",
+	"!and":            "and",
+	"append":          "append",
+	"catch":           "catch",
+	"!catch":          "catch",
+	"err":             "err",
+	"export":          "export",
+	"!export":         "export",
+	"unset":           "export",
+	"f":               "f",
+	"g":               "g",
+	"get":             "get",
+	"getfile":         "getfile",
+	"global":          "global",
+	"!global":         "global",
+	"if":              "if",
+	"!if":             "if",
+	"murex-docs":      "murex-docs",
+	"or":              "or",
+	"!or":             "or",
+	"out":             "out",
+	"echo":            "out",
+	"post":            "post",
+	"prepend":         "prepend",
+	"pt":              "pt",
+	"read":            "read",
+	"rx":              "rx",
+	"set":             "set",
+	"!set":            "set",
+	"swivel-datatype": "swivel-datatype",
+	"swivel-table":    "swivel-table",
+	"tout":            "tout",
+	"tread":           "tread",
+	"try":             "try",
+	"trypipe":         "trypipe",
+}

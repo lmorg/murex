@@ -4,7 +4,7 @@
 # ln -sv $GOPATH/src/github.com/lmorg/murex/test/pre-commit .git/hooks/
 
 PATH=$PATH:$GOPATH/bin
-docs=docs/builtins
+docs=docs/commands
 cdocs=builtins/core/docs
 
 cd $GOPATH/src/github.com/lmorg/murex
@@ -31,6 +31,6 @@ go fmt $cdocs/*.go
 
 echo "Updating git...."
 find -name "*_string.go" -exec git add -v {} \;
-git add -v $docs $cdocs
+git add -v docs $docs $cdocs
 
 echo "Allowing git commit to proceed...."
