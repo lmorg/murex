@@ -65,7 +65,7 @@ func hintText(line []rune, pos int) []rune {
 
 	if proc.GoFunctions[cmd] != nil {
 		syn := docs.Synonym[cmd]
-		r = append(r, []rune(docs.Digest[syn])...)
+		r = append(r, []rune(docs.Summary[syn])...)
 		return r
 	}
 

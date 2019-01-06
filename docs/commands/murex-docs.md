@@ -10,7 +10,7 @@ Displays the man pages for _murex_ builtins.
 
 ### Usage
 
-    murex-docs: [ flag ] command -> <stdout>
+    murex-docs: [ flags ] command -> <stdout>
 
 ### Examples
 
@@ -19,7 +19,7 @@ Displays the man pages for _murex_ builtins.
 
 ### Flags
 
-* `--digest`
+* `--summary`
     returns an abridged description of the command rather than the entire help page.
 
 ### Detail

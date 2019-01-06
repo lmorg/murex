@@ -1,11 +1,7 @@
 package docs
 
 import (
-	"bytes"
-	"compress/gzip"
-	"encoding/base64"
 	"fmt"
-	"io"
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -16,7 +12,7 @@ func init() {
 }
 
 // Definition stores the definitions for builtins
-var Definition map[string]string = make(map[string]string)
+var Definition = make(map[string]string)
 
 func cmdMurexDocs(p *proc.Process) error {
 	p.Stdout.SetDataType(types.String)
@@ -25,38 +21,26 @@ func cmdMurexDocs(p *proc.Process) error {
 		return err
 	}
 
-	if cmd == "--digest" {
+	if cmd == "--digest" || cmd == "--summary" {
 		cmd, err := p.Parameters.String(1)
 		if err != nil {
 			return err
 		}
 
 		syn := Synonym[cmd]
-		if Digest[syn] == "" {
-			return fmt.Errorf("No digests found on command `%s`.", cmd)
+		if Summary[syn] == "" {
+			return fmt.Errorf("No summary found for command `%s`", cmd)
 		}
 
-		_, err = p.Stdout.Write([]byte(Digest[syn]))
+		_, err = p.Stdout.Write([]byte(Summary[syn]))
 		return err
 	}
 
 	syn := Synonym[cmd]
 	if Definition[syn] == "" {
-		return fmt.Errorf("No documentation found on command `%s`.", cmd)
+		return fmt.Errorf("No documentation found for command `%s`", cmd)
 	}
 
-	b, err := base64.StdEncoding.DecodeString(Definition[syn])
-	if err != nil {
-		return err
-	}
-
-	buf := bytes.NewReader(b)
-	gz, err := gzip.NewReader(buf)
-	defer gz.Close()
-	if err != nil {
-		return err
-	}
-
-	io.Copy(p.Stdout, gz)
+	_, err = p.Stdout.Writeln([]byte(Definition[syn]))
 	return err
 }

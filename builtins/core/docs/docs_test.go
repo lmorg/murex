@@ -28,11 +28,10 @@ func TestDocs(t *testing.T) {
 
 	docs := GOPATH + consts.PathSlash + strings.Join(path, consts.PathSlash) + consts.PathSlash
 
-	exists(t, docs+"autogen-digests.go")
-	exists(t, docs+"autogen-synonyms.go")
+	exists(t, docs+"000_summaries_commands_docgen.go")
 
 	for name := range proc.GoFunctions {
-		exists(t, docs+"autogen-func-"+name+".go")
+		exists(t, docs+name+"_commands_docgen.go")
 	}
 }
 
