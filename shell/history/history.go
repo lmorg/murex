@@ -60,8 +60,8 @@ func (h *History) Write(s string) (int, error) {
 	block := strings.TrimSpace(s)
 
 	type jsonline struct {
-		DateTime time.Time
-		Block    string
+		DateTime time.Time `json:"datetime"`
+		Block    string    `json:"block"`
 	}
 
 	item := histItem{

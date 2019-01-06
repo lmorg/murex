@@ -47,9 +47,9 @@ a new _murex_ named pipe.
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (write to new or truncated file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character

@@ -22,7 +22,7 @@ type Null struct{}
 func (t *Null) MakePipe() {}
 
 // Read - null interface
-func (t *Null) Read([]byte) (int, error) { return 0, io.EOF }
+func (t *Null) Read([]byte) (int, error) { return 0, nil }
 
 // ReadLine - null interface
 func (t *Null) ReadLine(func([]byte)) error { return nil }
@@ -37,7 +37,7 @@ func (t *Null) ReadMap(*config.Config, func(string, string, bool)) error { retur
 func (t *Null) ReadAll() ([]byte, error) { return []byte{}, nil }
 
 // WriteTo - null interface
-func (t *Null) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
+func (t *Null) WriteTo(io.Writer) (int64, error) { return 0, nil }
 
 // Write - null interface
 func (t *Null) Write(b []byte) (int, error) { return len(b), nil }

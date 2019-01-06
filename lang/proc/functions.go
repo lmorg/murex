@@ -10,13 +10,13 @@ import (
 type MurexFuncs struct {
 	mutex   sync.Mutex
 	funcs   map[string][]rune
-	digests map[string]string
+	summary map[string]string
 }
 
 // NewMurexFuncs creates a new table of murex functions
 func NewMurexFuncs() (fn MurexFuncs) {
 	fn.funcs = make(map[string][]rune)
-	fn.digests = make(map[string]string)
+	fn.summary = make(map[string]string)
 	return
 }
 
@@ -28,7 +28,7 @@ func (fn *MurexFuncs) Define(name string, block []rune) {
 	var (
 		line1   bool
 		comment bool
-		digest  []rune
+		summary []rune
 	)
 
 	for _, r := range block {
@@ -49,18 +49,18 @@ func (fn *MurexFuncs) Define(name string, block []rune) {
 			continue
 
 		case r == '\t':
-			digest = append(digest, ' ', ' ', ' ', ' ')
+			summary = append(summary, ' ', ' ', ' ', ' ')
 
 		case r == '\r':
 			continue
 
 		case comment:
-			digest = append(digest, r)
+			summary = append(summary, r)
 		}
 	}
 
 exitLoop:
-	fn.digests[name] = strings.TrimSpace(string(digest))
+	fn.summary[name] = strings.TrimSpace(string(summary))
 
 	fn.mutex.Unlock()
 }
@@ -84,16 +84,16 @@ func (fn *MurexFuncs) Block(name string) (block []rune, err error) {
 	return block, err
 }
 
-// Digest returns functions digest
-func (fn *MurexFuncs) Digest(name string) (digest string, err error) {
+// Summary returns functions summary
+func (fn *MurexFuncs) Summary(name string) (summary string, err error) {
 	fn.mutex.Lock()
 	defer fn.mutex.Unlock()
 	if len(fn.funcs[name]) == 0 {
 		return "", errors.New("Cannot locate function named `" + name + "`")
 	}
 
-	digest = fn.digests[name]
-	return digest, err
+	summary = fn.summary[name]
+	return summary, err
 }
 
 // Undefine deletes function from table
@@ -110,8 +110,8 @@ func (fn *MurexFuncs) Undefine(name string) error {
 // Dump list all murex functions in table
 func (fn *MurexFuncs) Dump() interface{} {
 	type t struct {
-		Digest string
-		Block  string
+		Summary string
+		Block   string
 	}
 
 	dump := make(map[string]t)
@@ -120,8 +120,8 @@ func (fn *MurexFuncs) Dump() interface{} {
 
 	for name := range fn.funcs {
 		dump[name] = t{
-			Block:  string(fn.funcs[name]),
-			Digest: fn.digests[name],
+			Block:   string(fn.funcs[name]),
+			Summary: fn.summary[name],
 		}
 	}
 

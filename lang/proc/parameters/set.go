@@ -11,8 +11,6 @@ func (p *Parameters) SetPrepend(value string) {
 
 // SetTokens - internal function to define a parameter token when parsing
 func (p *Parameters) SetTokens(tokens [][]ParamToken) {
-	//p.Tokens = tokens
-
 	p.Tokens = make([][]ParamToken, len(tokens))
 
 	for i := range tokens {

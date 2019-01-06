@@ -17,47 +17,87 @@ Categories:
     Templates:
     - OutputPath: docs/commands
       CategoryFile: ../commands.md
-      OutputFormat: markdown
       OutputExt: .md
       CategoryTemplate: gen/commands-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
 
     - OutputPath: builtins/core/docs
       CategoryFile: 000_summaries_commands_docgen.go
-      OutputFormat: markdown
       OutputExt: _commands_docgen.go
       CategoryTemplate: gen/commands-go-cat.tmpl
       DocumentTemplate: gen/commands-go-doc.tmpl
 
   # events:
-  #   OutputDirName: events
-  #   Title: Event System
-  #   Description: |-
-  #     murex events
-  #   DocumentTemplate: gen/events-doc.tmpl
-  #   CategoryTemplate: gen/events-cat.tmpl
 
   # types:
-  #   OutputDirName: types
-  #   Title: Data Types
-  #   Description: |-
-  #     murex data types
-  #   DocumentTemplate: gen/types-doc.tmpl
-  #   CategoryTemplate: gen/types-cat.tmpl
   
   # pipes:
-  #   OutputDirName: pipes
-  #   Title: Special Pipes
-  #   Description: |-
-  #     murex pipes
-  #   DocumentTemplate: gen/pipes-doc.tmpl
-  #   CategoryTemplate: gen/pipes-cat.tmpl
 
   # api:
-  #   OutputDirName: api
-  #   Title: Go API reference
-  #   Description: |-
-  #     Guide to writing builtins for murex
-  #   DocumentTemplate: gen/api-doc.tmpl
-  #   CategoryTemplate: gen/api-cat.tmpl
 
+# Compile the default profiles
+
+  - ID: default-profile-all
+    Title: all
+    Description: |-
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_all.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
+  - ID: default-profile-posix
+    Title: posix
+    Description: |-
+      // +build !windows
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_posix.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
+  - ID: default-profile-linux
+    Title: linux
+    Description: |-
+      // +build linux
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_linux.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+        
+  - ID: default-profile-windows
+    Title: windows
+    Description: |-
+      // +build windows
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_windows.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+        
+  - ID: default-profile-osx
+    Title: osx
+    Description: |-
+      // +build darwin
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_darwin.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+        
+  - ID: default-profile-freebsd
+    Title: freebsd
+    Description: |-
+      // +build freebsd
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_freebsd.go.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 

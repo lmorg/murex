@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Command Reference: `>>` (write to new or appended file)
+## Command Reference: `>>` (append file)
 
 > Writes STDIN to disk - appending contents if file already exists
 
@@ -26,7 +26,7 @@ Otherwise a new file is created.
 
 ### See Also
 
-* [`>` (write to new or truncated file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)

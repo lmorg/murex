@@ -59,8 +59,8 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if proc.MxFunctions.Exists(cmd) {
-		dig, _ := proc.MxFunctions.Digest(cmd)
-		return append(r, []rune("(murex function) "+dig)...)
+		summary, _ := proc.MxFunctions.Summary(cmd)
+		return append(r, []rune("(murex function) "+summary)...)
 	}
 
 	if proc.GoFunctions[cmd] != nil {

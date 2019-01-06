@@ -1,25 +1,25 @@
 package history
 
 import (
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/utils/readline"
-
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 var (
-	rxHistIndex   *regexp.Regexp = regexp.MustCompile(`(\^[0-9]+)`)
-	rxHistRegex   *regexp.Regexp = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
-	rxHistPrefix  *regexp.Regexp = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
-	rxHistTag     *regexp.Regexp = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
-	rxHistAllPs   *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
-	rxHistParam   *regexp.Regexp = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
-	rxHistReplace *regexp.Regexp = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
+	rxHistIndex   = regexp.MustCompile(`(\^[0-9]+)`)
+	rxHistRegex   = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
+	rxHistPrefix  = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
+	rxHistTag     = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
+	rxHistAllPs   = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistParam   = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
+	rxHistReplace = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
 )
 
 const (

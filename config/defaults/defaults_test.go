@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 )
 
 // TestDefaults tests the Default() function populates *config.Config

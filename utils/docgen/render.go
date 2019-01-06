@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"os"
 )
@@ -35,6 +36,10 @@ func renderInnerLoop(t *templates, docs documents) {
 }
 
 func renderDocument(t *templates, d *document, docs documents) {
+	if t.docTemplate == nil {
+		panic(fmt.Sprintf("No document template loaded for %s[%d]/*", t.ref.ID, t.index))
+	}
+
 	f := fileWriter(t.DocumentPath(d))
 	b := new(bytes.Buffer)
 
@@ -57,6 +62,10 @@ func renderDocument(t *templates, d *document, docs documents) {
 }
 
 func renderCategory(t *templates, docs documents) {
+	if t.catTemplate == nil {
+		panic(fmt.Sprintf("No category template loaded for %s[%d]", t.ref.ID, t.index))
+	}
+
 	f := fileWriter(t.CategoryFilePath())
 	b := new(bytes.Buffer)
 

@@ -34,7 +34,7 @@ func NewNamed() (n Named) {
 }
 
 // CreatePipe creates a named pipe using the stdin interface
-func (n *Named) CreatePipe(name, pipeType, arguements string) error {
+func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
@@ -42,7 +42,7 @@ func (n *Named) CreatePipe(name, pipeType, arguements string) error {
 		return fmt.Errorf("Named pipe `%s`already exists", name)
 	}
 
-	io, err := stdio.CreatePipe(pipeType, arguements)
+	io, err := stdio.CreatePipe(pipeType, arguments)
 	if err != nil {
 		return err
 	}

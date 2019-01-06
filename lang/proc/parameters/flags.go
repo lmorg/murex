@@ -17,8 +17,8 @@ type Arguments struct {
 // `Arguments` is a list of supported flags taken as a struct to enable easy querying from within murex shell scripts.
 //
 // 	   args {
-// 	   	   "AllowAdditional": true,
-// 	   	   "Flags": {
+// 	   	   "allowadditional": true,
+// 	   	   "flags": {
 // 	 	     "--str": "str",
 // 	 	     "--num": "num",
 // 	 	     "--bool": "bool",

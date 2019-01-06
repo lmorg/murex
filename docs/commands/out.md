@@ -17,14 +17,15 @@ Write parameters to STDOUT with a trailing new line character.
     » out Hello, World!
     Hello, World!
     
-    # For compatibility with other shells, `echo` is also supported:
+For compatibility with other shells, `echo` is also supported:
+
     » echo Hello, World!
     Hello, World!
 
 ### Detail
 
-`out` / `echo` output as `string` data-type. This can be changed by casting or
-using the `tout` function.
+`out` / `echo` output as `string` data-type. This can be changed by casting
+(`cast`) or using the `tout` function.
 
 #### ANSI Constants
 
@@ -40,9 +41,9 @@ using the `tout` function.
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (write to new or truncated file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
 * [`err`](../commands/err.md):
   Print a line to the STDERR

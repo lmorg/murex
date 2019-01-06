@@ -28,9 +28,10 @@ docgen -verbose -config gen/docgen.yaml || exit 1
 
 echo "Formatting autogen docs...."
 go fmt $cdocs/*.go
+go fmt config/defaults/*.go
 
 echo "Updating git...."
 find -name "*_string.go" -exec git add -v {} \;
-git add -v docs $docs $cdocs
+git add -v docs config/defaults $docs $cdocs
 
 echo "Allowing git commit to proceed...."

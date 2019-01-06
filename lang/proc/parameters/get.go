@@ -11,7 +11,7 @@ import (
 // Byte gets a single parameter as a []byte slice
 func (p Parameters) Byte(pos int) ([]byte, error) {
 	if p.Len() <= pos {
-		return []byte{}, errors.New("Too few parameters.")
+		return []byte{}, errors.New("Too few parameters")
 	}
 	return []byte(p.Params[pos]), nil
 }
@@ -33,7 +33,7 @@ func (p Parameters) ByteAllRange(start, end int) []byte {
 // String gets a single parameter as string
 func (p Parameters) String(pos int) (string, error) {
 	if p.Len() <= pos {
-		return "", errors.New("Too few parameters.")
+		return "", errors.New("Too few parameters")
 	}
 	return p.Params[pos], nil
 }
@@ -60,7 +60,7 @@ func (p Parameters) StringAllRange(start, end int) string {
 // Int gets parameter as integer
 func (p Parameters) Int(pos int) (int, error) {
 	if p.Len() <= pos {
-		return 0, errors.New("Too few parameters.")
+		return 0, errors.New("Too few parameters")
 	}
 	return strconv.Atoi(p.Params[pos])
 }
@@ -68,7 +68,7 @@ func (p Parameters) Int(pos int) (int, error) {
 // Bool gets parameter as boolean
 func (p Parameters) Bool(pos int) (bool, error) {
 	if p.Len() <= pos {
-		return false, errors.New("Too few parameters.")
+		return false, errors.New("Too few parameters")
 	}
 	return types.IsTrue([]byte(p.Params[pos]), 0), nil
 }
@@ -77,10 +77,10 @@ func (p Parameters) Bool(pos int) (bool, error) {
 func (p Parameters) Block(pos int) ([]rune, error) {
 	switch {
 	case p.Len() <= pos:
-		return []rune{}, errors.New("Too few parameters.")
+		return []rune{}, errors.New("Too few parameters")
 
 	case len(p.Params[pos]) < 2:
-		return []rune{}, errors.New("Not a valid code block. Too few characters.")
+		return []rune{}, errors.New("Not a valid code block. Too few characters")
 
 	case p.Params[pos][0] != '{':
 		return []rune{}, errors.New("Not a valid code block. Missing opening curly brace. Found `" + string([]byte{p.Params[pos][0]}) + "` instead.")

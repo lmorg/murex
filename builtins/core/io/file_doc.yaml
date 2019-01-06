@@ -1,6 +1,6 @@
 - DocumentID: greater-than
   Title: >+
-    `>` (write to new or truncated file)
+    `>` (truncate file)
   CategoryID: commands
   Summary: >-
     Writes STDIN to disk - overwriting contents if file already exists    
@@ -29,7 +29,7 @@
 
 - DocumentID: greater-than-greater-than
   Title: >+
-    `>>` (write to new or appended file)
+    `>>` (append file)
   CategoryID: commands
   Summary: >-
     Writes STDIN to disk - appending contents if file already exists

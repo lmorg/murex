@@ -8,19 +8,20 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"quote": formatQuote,
-	"html":  formatHTML,
-	"md":    formatMarkdown,
+	"quote": funcQuote,
+	"html":  funcHTML,
+	"md":    funcMarkdown,
 	"trim":  strings.TrimSpace,
-	"doc":   formatRenderedDocuments,
-	"cat":   formatRenderedCategories,
+	"doc":   funcRenderedDocuments,
+	"cat":   funcRenderedCategories,
+	"file":  funcFile,
 }
 
 /************
  * MARKDOWN *
  ************/
 
-func formatMarkdown(s string) string {
+func funcMarkdown(s string) string {
 	var (
 		new          []rune
 		backtick     int
@@ -77,19 +78,19 @@ func formatMarkdown(s string) string {
  *  Quote   *
  ************/
 
-func formatQuote(s string) string {
-	return strconv.Quote(formatMarkdown(s))
+func funcQuote(s string) string {
+	return strconv.Quote(funcMarkdown(s))
 }
 
 /************
  *   HTML   *
  ************/
 
-func formatHTML(s string) string {
+func funcHTML(s string) string {
 	panic("HTML output not yet written")
 }
 
-func formatRenderedDocuments(cat, doc string, index int) (string, error) {
+func funcRenderedDocuments(cat, doc string, index int) (string, error) {
 	if len(Config.renderedDocuments[cat]) == 0 {
 		return "", errors.New("Category does not exist, doesn't have any documents, or hasn't yet been parsed")
 	}
@@ -101,7 +102,7 @@ func formatRenderedDocuments(cat, doc string, index int) (string, error) {
 	return Config.renderedDocuments[cat][doc][index], nil
 }
 
-func formatRenderedCategories(cat string, index int) (string, error) {
+func funcRenderedCategories(cat string, index int) (string, error) {
 	if len(Config.renderedCategories[cat]) == 0 {
 		return "", errors.New("Category does not exist or hasn't yet been parsed")
 	}
@@ -111,4 +112,10 @@ func formatRenderedCategories(cat string, index int) (string, error) {
 	}
 
 	return Config.renderedCategories[cat][index], nil
+}
+
+func funcFile(path ...string) string {
+	f := fileReader(strings.Join(path, ""))
+	b := readAll(f)
+	return string(b)
 }

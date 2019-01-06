@@ -30,13 +30,6 @@ type templates struct {
 	// (this is not applied to the category file)
 	OutputExt string `yaml:"OutputExt"`
 
-	// OutputFormat, applied to the fields before rendering
-	//   * markdown (replace ``` with indents)
-	//   * quote (markdown + escaped and quoted chars for embedding in JS/Go source)
-	//   * html (replace markdown with HTML tags)
-	//   * any other value (no format conversion)
-	OutputFormat string `yaml:"OutputFormat"`
-
 	// Document template for the documents
 	DocumentTemplate string `yaml:"DocumentTemplate"`
 
@@ -46,6 +39,7 @@ type templates struct {
 	docTemplate *template.Template
 	catTemplate *template.Template
 	ref         *category
+	index       int
 }
 
 // CategoryPath is the file name and path to write the category index file to

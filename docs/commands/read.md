@@ -40,9 +40,9 @@ require this to be different then please use `tread` (typed read).
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (write to new or truncated file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
 * [`err`](../commands/err.md):
   Print a line to the STDERR

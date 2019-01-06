@@ -21,9 +21,9 @@ directly to the OS's STDERR so to preserved the pipeline.
 
 ### See Also
 
-* [`>>` (write to new or appended file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (write to new or truncated file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists    
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object

@@ -35,6 +35,7 @@ func readConfig(path string) {
 
 func updateConfig(t *templates, cat int, i int) {
 	t.ref = &Config.Categories[cat]
+	t.index = i
 
 	if !strings.HasSuffix(t.OutputPath, "/") {
 		t.OutputPath += "/"

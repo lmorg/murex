@@ -14,14 +14,17 @@
     ```
     » out Hello, World!
     Hello, World!
+    ```
 
-    # For compatibility with other shells, `echo` is also supported:
+    For compatibility with other shells, `echo` is also supported:
+    
+    ```
     » echo Hello, World!
     Hello, World!
     ```
   Detail: |-
-    `out` / `echo` output as `string` data-type. This can be changed by casting or
-    using the `tout` function.
+    `out` / `echo` output as `string` data-type. This can be changed by casting
+    (`cast`) or using the `tout` function.
 
     #### ANSI Constants
 
