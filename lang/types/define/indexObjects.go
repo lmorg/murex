@@ -3,8 +3,10 @@ package define
 import (
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/lang/proc"
 	"strconv"
+	"strings"
+
+	"github.com/lmorg/murex/lang/proc"
 )
 
 // IndexTemplateObject is a handy standard indexer you can use in your custom data types for structured object types.
@@ -16,6 +18,7 @@ func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, 
 	return itoIndex(p, params, object, marshaller)
 }
 
+// itoIndex allow
 func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	var objArray []interface{}
 	switch v := (*object).(type) {
@@ -26,10 +29,10 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 				return err
 			}
 			if i < 0 {
-				return errors.New("Cannot have negative keys in array.")
+				return errors.New("Cannot have negative keys in array")
 			}
 			if i >= len(v) {
-				return errors.New("Key '" + key + "' greater than number of items in array.")
+				return errors.New("Key '" + key + "' greater than number of items in array")
 			}
 
 			if len(params) > 1 {
@@ -58,20 +61,30 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 		return nil
 
 	case map[string]interface{}:
-		for _, key := range params {
-			if v[key] == nil {
-				return errors.New("Key '" + key + "' not found.")
+		for i := range params {
+			switch {
+			case v[params[i]] != nil:
+			case v[strings.Title(params[i])] != nil:
+				params[i] = strings.Title(params[i])
+			case v[strings.ToLower(params[i])] != nil:
+				params[i] = strings.ToLower(params[i])
+			case v[strings.ToUpper(params[i])] != nil:
+				params[i] = strings.ToUpper(params[i])
+			case v[strings.ToTitle(params[i])] != nil:
+				params[i] = strings.ToTitle(params[i])
+			default:
+				return errors.New("Key '" + params[i] + "' not found")
 			}
 
 			if len(params) > 1 {
-				objArray = append(objArray, v[key])
+				objArray = append(objArray, v[params[i]])
 
 			} else {
-				switch v[key].(type) {
+				switch v[params[i]].(type) {
 				case string:
-					p.Stdout.Write([]byte(v[key].(string)))
+					p.Stdout.Write([]byte(v[params[i]].(string)))
 				default:
-					b, err := marshaller(v[key])
+					b, err := marshaller(v[params[i]])
 					if err != nil {
 						return err
 					}
@@ -89,20 +102,33 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 		return nil
 
 	case map[interface{}]interface{}:
-		for _, key := range params {
-			if v[key] == nil {
-				return errors.New("Key '" + key + "' not found.")
+		for i := range params {
+			//if v[key] == nil {
+			//	return errors.New("Key '" + key + "' not found.")
+			//}
+			switch {
+			case v[params[i]] != nil:
+			case v[strings.Title(params[i])] != nil:
+				params[i] = strings.Title(params[i])
+			case v[strings.ToLower(params[i])] != nil:
+				params[i] = strings.ToLower(params[i])
+			case v[strings.ToUpper(params[i])] != nil:
+				params[i] = strings.ToUpper(params[i])
+			case v[strings.ToTitle(params[i])] != nil:
+				params[i] = strings.ToTitle(params[i])
+			default:
+				return errors.New("Key '" + params[i] + "' not found")
 			}
 
 			if len(params) > 1 {
-				objArray = append(objArray, v[key])
+				objArray = append(objArray, v[params[i]])
 
 			} else {
-				switch v[key].(type) {
+				switch v[params[i]].(type) {
 				case string:
-					p.Stdout.Write([]byte(v[key].(string)))
+					p.Stdout.Write([]byte(v[params[i]].(string)))
 				default:
-					b, err := marshaller(v[key])
+					b, err := marshaller(v[params[i]])
 					if err != nil {
 						return err
 					}
@@ -120,10 +146,11 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 		return nil
 
 	default:
-		return errors.New("Object cannot be indexed.")
+		return errors.New("Object cannot be indexed")
 	}
 }
 
+// itoNot requires the indexes to be explicit
 func itoNot(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	switch v := (*object).(type) {
 	case []interface{}:
@@ -135,10 +162,10 @@ func itoNot(p *proc.Process, params []string, object *interface{}, marshaller fu
 				return err
 			}
 			if i < 0 {
-				return errors.New("Cannot have negative keys in array.")
+				return errors.New("Cannot have negative keys in array")
 			}
 			if i >= len(v) {
-				return errors.New("Key '" + key + "' greater than number of items in array.")
+				return errors.New("Key '" + key + "' greater than number of items in array")
 			}
 
 			not[i] = true
@@ -164,6 +191,10 @@ func itoNot(p *proc.Process, params []string, object *interface{}, marshaller fu
 		not := make(map[string]bool)
 		for _, key := range params {
 			not[key] = true
+			not[strings.Title(key)] = true
+			not[strings.ToLower(key)] = true
+			not[strings.ToUpper(key)] = true
+			not[strings.ToTitle(key)] = true
 		}
 
 		for s := range v {
@@ -186,6 +217,10 @@ func itoNot(p *proc.Process, params []string, object *interface{}, marshaller fu
 		not := make(map[string]bool)
 		for _, key := range params {
 			not[key] = true
+			not[strings.Title(key)] = true
+			not[strings.ToLower(key)] = true
+			not[strings.ToUpper(key)] = true
+			not[strings.ToTitle(key)] = true
 		}
 
 		for iface := range v {
@@ -205,6 +240,6 @@ func itoNot(p *proc.Process, params []string, object *interface{}, marshaller fu
 		return nil
 
 	default:
-		return errors.New("Object cannot be !indexed.")
+		return errors.New("Object cannot be !indexed")
 	}
 }
