@@ -61,6 +61,9 @@ func (stdin *Stdin) ReadFrom(r io.Reader) (int64, error) {
 	stdin.max = 0
 	stdin.mutex.Unlock()
 
+	var rErr, wErr error
+	i := 0
+
 	for {
 		select {
 		case <-stdin.ctx.Done():
@@ -68,22 +71,21 @@ func (stdin *Stdin) ReadFrom(r io.Reader) (int64, error) {
 
 		default:
 			p := make([]byte, 1024)
-			i, err := r.Read(p)
+			i, rErr = r.Read(p)
 
-			if err == io.EOF {
-				return total, nil
+			if rErr != nil && rErr != io.EOF {
+				return total, rErr
 			}
 
-			if err != nil {
-				return total, err
-			}
-
-			i, err = stdin.Write(p[:i])
-			if err != nil {
-				return total, err
+			i, wErr = stdin.Write(p[:i])
+			if wErr != nil {
+				return total, wErr
 			}
 
 			total += int64(i)
+			if rErr == io.EOF {
+				return total, nil
+			}
 		}
 	}
 }
