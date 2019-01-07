@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/docs"
@@ -10,9 +11,11 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/man"
 )
 
@@ -69,31 +72,23 @@ func hintText(line []rune, pos int) []rune {
 		return r
 	}
 
-	var manPage []rune
+	if autocomplete.GlobalExes[cmd] {
+		manPage := manDesc[cmd]
 
-	s := manDesc[cmd]
-	if s != "" && s != "!" {
-		manPage = []rune(manDesc[cmd])
-	}
-
-	if s != "!" && len(manPage) == 0 {
-		f := man.GetManPages(cmd)
-		manPage = []rune(man.ParseDescription(f))
-		if len(manPage) == 0 {
-			manDesc[cmd] = "!"
-		} else {
-			manDesc[cmd] = string(manPage)
+		if manPage == "" {
+			manPage = man.ParseDescription(man.GetManPages(cmd))
 		}
 
-	}
+		if manPage == "" {
+			manPage = "(no man page found) " + hintWhich(cmd)
+		}
 
-	if len(manPage) == 0 && len(r) > 0 {
-		manPage = []rune("(no man page for `" + cmd + "` installed)")
-	}
+		manDesc[cmd] = manPage
 
-	r = append(r, manPage...)
-	if len(r) > 0 {
-		return r
+		r = append(r, []rune(manPage)...)
+		if len(r) > 0 {
+			return r
+		}
 	}
 
 	if len(cachedHintText) > 0 {
@@ -132,4 +127,18 @@ func hintText(line []rune, pos int) []rune {
 	cachedHintText = []rune(string(b))
 
 	return cachedHintText
+}
+
+func hintWhich(cmd string) string {
+	envPath := proc.ShellProcess.Variables.GetString("PATH")
+
+	for _, path := range autocomplete.SplitPath(envPath) {
+		filepath := path + consts.PathSlash + cmd
+		_, err := os.Stat(filepath)
+		if !os.IsNotExist(err) {
+			return filepath
+		}
+	}
+
+	return ""
 }

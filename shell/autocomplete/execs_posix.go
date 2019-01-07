@@ -12,7 +12,7 @@ import (
 	"github.com/phayes/permbits"
 )
 
-func splitPath(envPath string) []string {
+func SplitPath(envPath string) []string {
 	split := strings.Split(envPath, ":")
 	return split
 }

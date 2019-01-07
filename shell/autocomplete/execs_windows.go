@@ -12,6 +12,11 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
+func SplitPath(envPath string) []string {
+	split := strings.Split(envPath, ";")
+	return split
+}
+
 func listExes(path string, exes map[string]bool) {
 	var showExts bool
 

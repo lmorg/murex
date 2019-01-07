@@ -10,11 +10,6 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func splitPath(envPath string) []string {
-	split := strings.Split(envPath, ";")
-	return split
-}
-
 func pathIsLocal(s string) bool {
 	return strings.HasPrefix(s, "."+consts.PathSlash) || strings.HasPrefix(s, ".."+consts.PathSlash) || strings.HasPrefix(s, consts.PathSlash) || (len(s) > 2 && strings.HasPrefix(s[1:], ":"+consts.PathSlash))
 }
