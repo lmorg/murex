@@ -73,6 +73,9 @@ var (
 	// MxFunctions is a table of global murex functions
 	MxFunctions = NewMurexFuncs()
 
+	// PrivateFunctions is a table of private murex functions
+	PrivateFunctions = NewMurexFuncs()
+
 	// GoFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 

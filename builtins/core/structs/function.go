@@ -14,6 +14,8 @@ func init() {
 	proc.GoFunctions["!alias"] = cmdUnalias
 	proc.GoFunctions["func"] = cmdFunc
 	proc.GoFunctions["!func"] = cmdUnfunc
+	proc.GoFunctions["private"] = cmdPrivate
+	proc.GoFunctions["!private"] = cmdUnprivate
 }
 
 var rxAlias = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
@@ -80,4 +82,28 @@ func cmdUnfunc(p *proc.Process) error {
 	}
 
 	return proc.MxFunctions.Undefine(name)
+}
+
+func cmdPrivate(p *proc.Process) error {
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	block, err := p.Parameters.Block(1)
+	if err != nil {
+		return err
+	}
+
+	proc.PrivateFunctions.Define(name, block)
+	return nil
+}
+
+func cmdUnprivate(p *proc.Process) error {
+	name, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	return proc.PrivateFunctions.Undefine(name)
 }

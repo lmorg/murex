@@ -197,6 +197,15 @@ executeProcess:
 			RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
+	case p.Scope.Id != proc.ShellProcess.Id && proc.PrivateFunctions.Exists(p.Name):
+		// murex functions
+		var r []rune
+		p.Scope = p
+		r, err = proc.PrivateFunctions.Block(p.Name)
+		if err == nil {
+			p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
+		}
+
 	case p.Name == "@g":
 		// auto globbing
 		err = autoGlob(p)

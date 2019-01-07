@@ -10,6 +10,7 @@ murex.upx
 
 # IntelliJ env
 .idea/
+.vscode/
 projectFilesBackup
 murex.iml
 

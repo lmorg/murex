@@ -35,6 +35,7 @@ func cmdRuntime(p *proc.Process) error {
 		fNamedPipes    = "--named-pipes"
 		fPipes         = "--pipes"
 		fFuncs         = "--funcs"
+		fPrivates      = "--privates"
 		fFids          = "--fids"
 		fReadArrays    = "--readarray"
 		fReadMaps      = "--readmap"
@@ -57,6 +58,7 @@ func cmdRuntime(p *proc.Process) error {
 		fPipes:         types.Boolean,
 		fNamedPipes:    types.Boolean,
 		fFuncs:         types.Boolean,
+		fPrivates:      types.Boolean,
 		fFids:          types.Boolean,
 		fReadArrays:    types.Boolean,
 		fReadMaps:      types.Boolean,
@@ -112,6 +114,8 @@ func cmdRuntime(p *proc.Process) error {
 			ret[fPipes[2:]] = stdio.DumpPipes()
 		case fFuncs:
 			ret[fFuncs[2:]] = proc.MxFunctions.Dump()
+		case fPrivates:
+			ret[fPrivates[2:]] = proc.PrivateFunctions.Dump()
 		case fFids:
 			ret[fFids[2:]] = proc.GlobalFIDs.Dump()
 		case fReadArrays:
