@@ -1,13 +1,13 @@
 func h {
     # Output the murex history log in a human readable format
-    history -> foreach { -> [ Index Block ] -> sprintf: "%6s => %s\n" }
+    history -> foreach { -> [ Index Block ] -> sprintf: "%6s => %s\n" } -> cast string
 }
 
 func aliases {
 	# Output the aliases in human readable format
 	runtime: --aliases -> formap name alias {
 		$name -> sprintf: "%10s => ${out @alias}\n"
-	}
+	} -> cast string
 }
 
 autocomplete set cd { [{
@@ -100,15 +100,30 @@ autocomplete set autocomplete { [{
     "Flags" : [ "get", "set" ]
 }] }
 
+private git-branch {
+    git branch -> [ :0 ] -> !match *
+}
+
 autocomplete set git { [{
     "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
     "FlagValues": {
-        "init": [{ "Flags": ["--bare"] }],
-        "add": [{ "IncFiles": true }],
-        "mv": [{ "IncFiles": true }],
-        "rm": [{ "IncFiles": true }],
+        "init": [{
+            "Flags": ["--bare"]
+        }],
+        "add": [{
+            "IncFiles": true,
+            "AllowMultiple": true
+        }],
+        "mv": [
+            { "IncFiles": true },
+            { "IncFiles": true }
+        ],
+        "rm": [{
+            "IncFiles": true,
+            "AllowMultiple": true
+        }],
         "checkout": [{
-            "Dynamic": ({ git branch -> [ :0 ] -> grep -v * }),
+            "Dynamic": ({ git-branch }),
             "Flags": [ "-b" ]
         }]
     }

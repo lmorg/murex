@@ -28,6 +28,11 @@ autocomplete set dd { [{
     "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
 }] }
 
+private getHostsFile {
+    # Parse the hosts file and return uniq host names and IPs
+    egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
+}
+
 autocomplete set ssh { [{
     "Dynamic": "{ getHostsFile }"
 }] }
@@ -43,11 +48,6 @@ autocomplete set rsync { [ {
 autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
-
-func getHostsFile {
-    # Parse the hosts file and return uniq host names and IPs
-    egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
-}
 
 autocomplete set go { [
     { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
