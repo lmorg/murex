@@ -161,6 +161,13 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteSingle, pt.QuoteDouble:
 				*pt.pop += `(`
 				syntaxHighlighted += string(block[i])
+			case pt.ExpectFunc:
+				pt.ExpectFunc = false
+				ansiColour(hlBraceQuote, block[i])
+				pt.FuncName = "("
+				pt.Parameters = append(pt.Parameters, "")
+				pt.pop = &pt.Parameters[0]
+				pt.QuoteBrace++
 			case pt.QuoteBrace == 0:
 				ansiColour(hlBraceQuote, block[i])
 				pt.QuoteBrace++
