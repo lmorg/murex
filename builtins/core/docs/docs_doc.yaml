@@ -17,7 +17,7 @@
     ```
   Flags:
     --summary: >-
-      returns an abridged description of the command rather than the entire
+      Returns an abridged description of the command rather than the entire
       help page.
   Detail: |-
     These man pages are compiled into the _murex_ executable.

@@ -8,6 +8,11 @@
 
 `alter` a value within a structured data-type.
 
+The path separater is defined by the first character in the path. For example
+`/path/to/key`, `,path,to,key`, `|path|to|key` and `#path#to#key` are all valid
+however you should remember to quote or escape any special characters (tokens)
+used by the shell (such as pipe, `|`, and hash, `#`).
+
 ### Usage
 
     <stdin> -> alter: /path value -> <stdout>
@@ -22,9 +27,44 @@
         "Value": "moo"
     }
     
-> Please note: `alter` did not change the shell prompt value held inside `config`
-> but instead took the STDOUT from `config`, altered a value and then passed that
-> new complete structure through it's STDOUT.'
+`alter` also accepts JSON as a parameter for adding structured data:
+
+    config: -> [ shell ] -> [ prompt ] -> alter: /Example { "Foo": "Bar" }
+    {
+        "Data-Type": "block",
+        "Default": "{ out 'murex » ' }",
+        "Description": "Interactive shell prompt.",
+        "Example": {
+            "Foo": "Bar"
+        },
+        "Value": "{ out 'murex » ' }"
+    }
+    
+However it is also data type aware so if they key you're updating holds a string
+(for example) then the JSON data a will be stored as a string:
+
+    » config: -> [ shell ] -> [ prompt ] -> alter: /Value { "Foo": "Bar" }
+    {
+        "Data-Type": "block",
+        "Default": "{ out 'murex » ' }",
+        "Description": "Interactive shell prompt.",
+        "Value": "{ \"Foo\": \"Bar\" }"
+    }
+    
+Numbers will also follow the same transparent convertion treatment:
+
+    » tout json { "one": 1, "two": 2 } -> alter /two "3"
+    {
+        "one": 1,
+        "two": 3
+    }
+    
+> Please note: `alter` is not changing the value held inside `config` but
+> instead took the STDOUT from `config`, altered a value and then passed that
+> new complete structure through it's STDOUT.
+>
+> If you require modifying a structure inside _murex_ config (such as http
+> headers) then you can use `config alter`. Read the config docs for reference.
 
 ### Detail
 
@@ -56,6 +96,8 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [cast](../commands/cast.md):
+  
+* [config](../commands/config.md):
   
 * [format](../commands/format.md):
   

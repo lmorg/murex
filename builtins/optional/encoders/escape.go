@@ -1,10 +1,12 @@
 package encoders
 
 import (
+	"html"
+	"net/url"
+	"strconv"
+
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
-	"html"
-	"strconv"
 )
 
 func init() {
@@ -12,6 +14,8 @@ func init() {
 	proc.GoFunctions["!escape"] = cmdEscape
 	proc.GoFunctions["htmlesc"] = cmdHtmlEscape
 	proc.GoFunctions["!htmlesc"] = cmdHtmlEscape
+	proc.GoFunctions["urlesc"] = cmdUrlEscape
+	proc.GoFunctions["!urlesc"] = cmdUrlEscape
 }
 
 func cmdEscape(p *proc.Process) error {
@@ -41,9 +45,8 @@ func cmdEscape(p *proc.Process) error {
 		str = strconv.Quote(str)
 	}
 
-	p.Stdout.Write([]byte(str))
-
-	return nil
+	_, err := p.Stdout.Write([]byte(str))
+	return err
 }
 
 func cmdHtmlEscape(p *proc.Process) error {
@@ -69,7 +72,36 @@ func cmdHtmlEscape(p *proc.Process) error {
 		str = html.EscapeString(str)
 	}
 
-	p.Stdout.Write([]byte(str))
+	_, err := p.Stdout.Write([]byte(str))
+	return err
+}
 
-	return nil
+func cmdUrlEscape(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
+	var str string
+	if p.Parameters.Len() == 0 {
+		b, err := p.Stdin.ReadAll()
+		if err != nil {
+			return err
+		}
+		str = string(b)
+
+	} else {
+		str = p.Parameters.StringAll()
+
+	}
+
+	if p.IsNot {
+		str, err = url.PathUnescape(str)
+		if err != nil {
+			return err
+		}
+
+	} else {
+		str = url.PathEscape(str)
+	}
+
+	_, err = p.Stdout.Write([]byte(str))
+	return err
 }

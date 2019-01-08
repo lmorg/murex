@@ -20,7 +20,7 @@ Displays the man pages for _murex_ builtins.
 ### Flags
 
 * `--summary`
-    returns an abridged description of the command rather than the entire help page.
+    Returns an abridged description of the command rather than the entire help page.
 
 ### Detail
 

@@ -57,18 +57,25 @@ func hintText(line []rune, pos int) []rune {
 
 	if proc.GlobalAliases.Exists(cmd) {
 		s := proc.GlobalAliases.Get(cmd)
-		r = []rune("(alias: '" + strings.Join(s, "' '") + "') => ")
+		r = []rune("(alias) '" + strings.Join(s, "' '") + "' => ")
 		cmd = s[0]
 	}
 
 	if proc.MxFunctions.Exists(cmd) {
 		summary, _ := proc.MxFunctions.Summary(cmd)
+		if summary == "" {
+			summary = "no summary written"
+		}
 		return append(r, []rune("(murex function) "+summary)...)
 	}
 
 	if proc.GoFunctions[cmd] != nil {
 		syn := docs.Synonym[cmd]
-		r = append(r, []rune(docs.Summary[syn])...)
+		summary := docs.Summary[syn]
+		if summary == "" {
+			summary = "no doc written"
+		}
+		r = append(r, []rune("(builtin) "+summary)...)
 		return r
 	}
 
@@ -80,12 +87,12 @@ func hintText(line []rune, pos int) []rune {
 		}
 
 		if manPage == "" {
-			manPage = "(no man page found) " + hintWhich(cmd)
+			manPage = "no man page found"
 		}
 
 		manDesc[cmd] = manPage
-
-		r = append(r, []rune(manPage)...)
+		which := hintWhich(cmd)
+		r = append(r, []rune("("+which+") "+manPage)...)
 		if len(r) > 0 {
 			return r
 		}
