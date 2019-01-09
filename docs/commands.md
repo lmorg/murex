@@ -18,7 +18,7 @@ UNIX, or even Windows command prompt.
 * [`>>` (append file)](commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists    
+  Writes STDIN to disk - overwriting contents if file already exists
 * [`alter`](commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`and`](commands/and.md):
@@ -68,7 +68,7 @@ UNIX, or even Windows command prompt.
 * [`tout`](commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [`tread`](commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable    
+  `read` a line of input from the user and store as a user defined *typed* variable
 * [`try`](commands/try.md):
   Handles errors inside a block of code
 * [`trypipe`](commands/trypipe.md):

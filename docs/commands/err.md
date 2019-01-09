@@ -50,7 +50,7 @@ a new _murex_ named pipe.
 * [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists    
+  Writes STDIN to disk - overwriting contents if file already exists
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [`pt`](../commands/pt.md):

@@ -2,7 +2,7 @@
 
 ## Command Reference: `>` (truncate file)
 
-> Writes STDIN to disk - overwriting contents if file already exists    
+> Writes STDIN to disk - overwriting contents if file already exists
 
 ### Description
 

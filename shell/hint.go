@@ -70,8 +70,8 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if proc.GoFunctions[cmd] != nil {
-		syn := docs.Synonym[cmd]
-		summary := docs.Summary[syn]
+		synonym := docs.Synonym[cmd]
+		summary := docs.Summary[synonym]
 		if summary == "" {
 			summary = "no doc written"
 		}

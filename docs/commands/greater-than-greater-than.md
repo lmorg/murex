@@ -27,7 +27,7 @@ Otherwise a new file is created.
 ### See Also
 
 * [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists    
+  Writes STDIN to disk - overwriting contents if file already exists
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
 * [pipe](../commands/pipe.md):

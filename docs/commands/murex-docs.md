@@ -33,7 +33,7 @@ These man pages are compiled into the _murex_ executable.
 * [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):
-  Writes STDIN to disk - overwriting contents if file already exists    
+  Writes STDIN to disk - overwriting contents if file already exists
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
@@ -41,7 +41,7 @@ These man pages are compiled into the _murex_ executable.
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable    
+  `read` a line of input from the user and store as a user defined *typed* variable
 * [cast](../commands/cast.md):
   
 * [sprintf](../commands/sprintf.md):
