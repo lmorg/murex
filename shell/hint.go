@@ -25,26 +25,9 @@ var (
 )
 
 func hintText(line []rune, pos int) []rune {
-	r, err := history.ExpandVariables(line, Prompt)
-	if err != nil {
-		return []rune("Error: " + err.Error())
-	}
-
-	vars := variables.Expand(r)
-	disclaimer := []rune{}
-	if string(r) != string(vars) {
-		disclaimer = []rune("(example only) ")
-	}
-	r = append(disclaimer, vars...)
-	if string(line) == string(r) {
-		r = []rune{}
-	}
-
+	r := hintExpandVariables(line)
 	if len(r) > 0 {
-		s := strings.Replace(string(r), "\r", `\r`, -1)
-		s = strings.Replace(s, "\n", `\n`, -1)
-		s = strings.Replace(s, "\t", `\t`, -1)
-		return []rune(s)
+		return r
 	}
 
 	pt, _ := parse(line)
@@ -91,13 +74,78 @@ func hintText(line []rune, pos int) []rune {
 		}
 
 		manDesc[cmd] = manPage
-		which := hintWhich(cmd)
+		which := readlink(which(cmd))
+
 		r = append(r, []rune("("+which+") "+manPage)...)
 		if len(r) > 0 {
 			return r
 		}
 	}
 
+	return hintCodeBlock()
+}
+
+func hintExpandVariables(line []rune) []rune {
+	r, err := history.ExpandVariables(line, Prompt)
+	if err != nil {
+		return []rune("Error: " + err.Error())
+	}
+
+	vars := variables.Expand(r)
+	disclaimer := []rune{}
+	if string(r) != string(vars) {
+		disclaimer = []rune("(example only) ")
+	}
+	r = append(disclaimer, vars...)
+	if string(line) == string(r) {
+		r = []rune{}
+	}
+
+	if len(r) > 0 {
+		s := strings.Replace(string(r), "\r", `\r`, -1)
+		s = strings.Replace(s, "\n", `\n`, -1)
+		s = strings.Replace(s, "\t", `\t`, -1)
+		return []rune(s)
+	}
+
+	return []rune{}
+}
+
+func which(cmd string) string {
+	envPath := proc.ShellProcess.Variables.GetString("PATH")
+
+	for _, path := range autocomplete.SplitPath(envPath) {
+		filepath := path + consts.PathSlash + cmd
+		_, err := os.Stat(filepath)
+		if !os.IsNotExist(err) {
+			return filepath
+		}
+	}
+
+	return ""
+}
+
+func readlink(path string) string {
+	/*f, err := os.Stat(path)
+	if err != nil {
+		return err.Error()
+	}
+
+	if f.Mode()&os.ModeSymlink != 0 {
+		return path
+	}*/
+
+	ln, err := os.Readlink(path)
+	if err != nil {
+		return path
+	}
+
+	//if ln[0] != consts.PathSlash[0] {
+	return ln //path + " => " + ln
+	//}
+}
+
+func hintCodeBlock() []rune {
 	if len(cachedHintText) > 0 {
 		return cachedHintText
 	}
@@ -134,18 +182,4 @@ func hintText(line []rune, pos int) []rune {
 	cachedHintText = []rune(string(b))
 
 	return cachedHintText
-}
-
-func hintWhich(cmd string) string {
-	envPath := proc.ShellProcess.Variables.GetString("PATH")
-
-	for _, path := range autocomplete.SplitPath(envPath) {
-		filepath := path + consts.PathSlash + cmd
-		_, err := os.Stat(filepath)
-		if !os.IsNotExist(err) {
-			return filepath
-		}
-	}
-
-	return ""
 }
