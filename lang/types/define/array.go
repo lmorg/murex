@@ -3,6 +3,7 @@ package define
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
@@ -109,7 +110,6 @@ func readArrayByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[i
 			return err
 		}
 		callback(append(bKey, b...))
-		//callback([]byte(fmt.Sprint(key) + ": " + fmt.Sprint(val)))
 	}
 
 	return nil
@@ -133,7 +133,6 @@ func readArrayByMapStrIface(marshal func(interface{}) ([]byte, error), v map[str
 			return err
 		}
 		callback(append(bKey, b...))
-		//callback([]byte(key + ": " + fmt.Sprint(val)))
 	}
 
 	return nil

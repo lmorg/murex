@@ -2,9 +2,10 @@ package define
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc"
 	"regexp"
 	"strconv"
+
+	"github.com/lmorg/murex/lang/proc"
 )
 
 const (
@@ -14,8 +15,8 @@ const (
 )
 
 var (
-	rxColumnPrefix *regexp.Regexp = regexp.MustCompile(`^:[0-9]+$`)
-	rxRowSuffix    *regexp.Regexp = regexp.MustCompile(`^[0-9]+:$`)
+	rxColumnPrefix = regexp.MustCompile(`^:[0-9]+$`)
+	rxRowSuffix    = regexp.MustCompile(`^[0-9]+:$`)
 )
 
 // IndexTemplateTable is a handy standard indexer you can use in your custom data types for tabulated / streamed data.
@@ -38,7 +39,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 		switch {
 		case rxRowSuffix.MatchString(params[i]):
 			if mode != 0 && mode != byRowNumber {
-				return errors.New("You cannot mix and match matching modes.")
+				return errors.New("You cannot mix and match matching modes")
 			}
 			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
@@ -46,7 +47,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 
 		case rxColumnPrefix.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
-				return errors.New("You cannot mix and match matching modes.")
+				return errors.New("You cannot mix and match matching modes")
 			}
 			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
@@ -54,7 +55,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 
 		default:
 			if mode != 0 && mode != byColumnName {
-				return errors.New("You cannot mix and match matching modes.")
+				return errors.New("You cannot mix and match matching modes")
 			}
 			matchStr = append(matchStr, params[i])
 			mode = byColumnName
@@ -65,7 +66,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 	switch mode {
 	case byRowNumber:
 		var (
-			ordered bool = true
+			ordered = true
 			last    int
 			max     int
 		)
@@ -106,7 +107,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 			// unordered matching - for this we load the entire data set into memory - up until the maximum value
 			var (
 				i     int
-				lines [][]string = make([][]string, max+1)
+				lines = make([][]string, max+1)
 			)
 			for {
 				recs, ok := <-cRecords
@@ -149,7 +150,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 	case byColumnName:
 		var (
 			lineNum  int
-			headings map[string]int = make(map[string]int)
+			headings = make(map[string]int)
 		)
 
 		for {
@@ -189,22 +190,22 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 		}
 
 	default:
-		return errors.New("You haven't selected any rows / columns.")
+		return errors.New("You haven't selected any rows / columns")
 	}
 }
 
 func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	var (
 		mode     int
-		matchStr map[string]bool = make(map[string]bool)
-		matchInt map[int]bool    = make(map[int]bool)
+		matchStr = make(map[string]bool)
+		matchInt = make(map[int]bool)
 	)
 
 	for i := range params {
 		switch {
 		case rxRowSuffix.MatchString(params[i]):
 			if mode != 0 && mode != byRowNumber {
-				return errors.New("You cannot mix and match matching modes.")
+				return errors.New("You cannot mix and match matching modes")
 			}
 			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
@@ -212,7 +213,7 @@ func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller
 
 		case rxColumnPrefix.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
-				return errors.New("You cannot mix and match matching modes.")
+				return errors.New("You cannot mix and match matching modes")
 			}
 			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
@@ -220,7 +221,7 @@ func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller
 
 		default:
 			if mode != 0 && mode != byColumnName {
-				return errors.New("You cannot mix and match matching modes.")
+				return errors.New("You cannot mix and match matching modes")
 			}
 			matchStr[params[i]] = true
 			mode = byColumnName
@@ -267,7 +268,7 @@ func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller
 	case byColumnName:
 		var (
 			lineNum  int
-			headings map[int]string = make(map[int]string)
+			headings = make(map[int]string)
 		)
 
 		for {
@@ -303,6 +304,6 @@ func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller
 		}
 
 	default:
-		return errors.New("You haven't selected any rows / columns.")
+		return errors.New("You haven't selected any rows / columns")
 	}
 }

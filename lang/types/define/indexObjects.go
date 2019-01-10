@@ -70,8 +70,8 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 				params[i] = strings.ToLower(params[i])
 			case v[strings.ToUpper(params[i])] != nil:
 				params[i] = strings.ToUpper(params[i])
-			case v[strings.ToTitle(params[i])] != nil:
-				params[i] = strings.ToTitle(params[i])
+			//case v[strings.ToTitle(params[i])] != nil:
+			//	params[i] = strings.ToTitle(params[i])
 			default:
 				return errors.New("Key '" + params[i] + "' not found")
 			}
@@ -114,8 +114,8 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 				params[i] = strings.ToLower(params[i])
 			case v[strings.ToUpper(params[i])] != nil:
 				params[i] = strings.ToUpper(params[i])
-			case v[strings.ToTitle(params[i])] != nil:
-				params[i] = strings.ToTitle(params[i])
+			//case v[strings.ToTitle(params[i])] != nil:
+			//	params[i] = strings.ToTitle(params[i])
 			default:
 				return errors.New("Key '" + params[i] + "' not found")
 			}
@@ -194,7 +194,7 @@ func itoNot(p *proc.Process, params []string, object *interface{}, marshaller fu
 			not[strings.Title(key)] = true
 			not[strings.ToLower(key)] = true
 			not[strings.ToUpper(key)] = true
-			not[strings.ToTitle(key)] = true
+			//not[strings.ToTitle(key)] = true
 		}
 
 		for s := range v {
@@ -220,7 +220,7 @@ func itoNot(p *proc.Process, params []string, object *interface{}, marshaller fu
 			not[strings.Title(key)] = true
 			not[strings.ToLower(key)] = true
 			not[strings.ToUpper(key)] = true
-			not[strings.ToTitle(key)] = true
+			//not[strings.ToTitle(key)] = true
 		}
 
 		for iface := range v {

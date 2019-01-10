@@ -49,34 +49,44 @@ autocomplete set swivel-datatype { [{
     "Dynamic": ({ runtime: --marshallers })
 }] }
 
+private config.get.apps {
+    config: -> formap k v { out $k } -> sort
+}
+
+#private config.get.keys {
+#    config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort
+#}
+#
+#private config.get.meta {
+#    config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ ${params->[4]} ]
+#}
+
 autocomplete set config { [{
     "Flags": [ "get", "set" ],
     "FlagValues": {
         "get": [
-            { "Dynamic": ({ config: -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ config.get.apps }) },
             { "Dynamic": ({ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) }
-        ],
+        ],               
         "set": [
-            { "Dynamic": ({ config: -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ config.get.apps }) },
             { "Dynamic": ({ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) },
-            { "Dynamic":
-				({
-					params -> set params
-					switch {
-						case { = `+"`${ config: -> [ $params[2] ] -> [ $params[3] ] -> [ Data-Type ] }`==`bool`"+` } {
-							ja [true,false]
-						}
-
-						case { config: -> [ $params[2] ] -> [ $params[3] ] -> [ Options ] } {
-							config: -> [ $params[2] ] -> [ $params[3] ] -> [ Options ]
-						}
-
-						catch {
-							out ${config -> [ $params[2] ] -> [ $params[3] ] -> [ Default ]}
-						}
+            { "Dynamic": ({
+				params -> set params
+				switch {
+					case { = `${config: -> [ $params[2] ] -> [ $params[3] ] -> [ Data-Type ]}`==`bool` } {
+						ja [true,false]
 					}
-				})
-			}
+
+					case { config: -> [ $params[2] ] -> [ $params[3] ] -> [ <!null> Options ] } {
+						config: -> [ $params[2] ] -> [ $params[3] ] -> [ Options ]
+					}
+					
+                	catch {
+						out ${config: -> [ $params[2] ] -> [ $params[3] ] -> [ Default ]}
+					}
+				}
+			}) }
         ]
     }
 }] }
@@ -95,6 +105,18 @@ autocomplete set !event { [
         "Dynamic": "{ runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }"
     }
 ] }
+
+autocomplete set !alias { [
+    {
+        "Dynamic": "{ runtime: --aliases -> formap k v { out $k } }"
+    }
+]}
+
+autocomplete set !func { [
+    {
+        "Dynamic": "{ runtime: --funcs -> formap k v { out $k } }"
+    }
+]}
 
 autocomplete set autocomplete { [{
     "Flags" : [ "get", "set" ]
