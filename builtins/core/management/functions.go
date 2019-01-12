@@ -8,6 +8,8 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/lmorg/murex/utils/man"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
@@ -26,6 +28,7 @@ func init() {
 	proc.GoFunctions["cpuarch"] = cmdCpuArch
 	proc.GoFunctions["cpucount"] = cmdCpuCount
 	proc.GoFunctions["murex-update-exe-list"] = cmdUpdateExeList
+	proc.GoFunctions["man-summary"] = cmdManSummary
 }
 
 func cmdDebug(p *proc.Process) (err error) {
@@ -190,5 +193,36 @@ func cmdCpuCount(p *proc.Process) (err error) {
 func cmdUpdateExeList(p *proc.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	autocomplete.UpdateGlobalExeList()
+	return nil
+}
+
+func cmdManSummary(p *proc.Process) (err error) {
+	p.Stdout.SetDataType(types.String)
+
+	if p.Parameters.Len() == 0 {
+		return errors.New("Parameter expected - name of executable")
+	}
+
+	exes := p.Parameters.StringArray()
+
+	for _, exe := range exes {
+		paths := man.GetManPages(exe)
+		if len(paths) == 0 {
+			p.Stderr.Writeln([]byte(exe + " - No man page exists"))
+			continue
+		}
+
+		s := man.ParseSummary(paths)
+		if s == "" {
+			p.Stderr.Writeln([]byte(exe + " - Unable to parse summary"))
+			continue
+		}
+
+		_, err := p.Stdout.Writeln([]byte(s))
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

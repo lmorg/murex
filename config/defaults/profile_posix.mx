@@ -5,6 +5,12 @@ autocomplete set man { [{
     "IncExePath": true
 }] }
 
+autocomplete set man-summary { [{
+    "IncExePath": true,
+    "AllowMultiple": true
+}] }
+
+
 autocomplete set which { [{
     "IncExePath": true
 }] }

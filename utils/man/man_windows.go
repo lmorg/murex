@@ -15,4 +15,4 @@ func ParseFlags(paths []string) (flags []string) { return []string{} }
 // ParseDescription - windows doesn't have man pages so lets just create an empty
 // function that returns a zero-lengthed string so murex can compile on Windows
 // but without support for flag auto-detection.
-func ParseDescription(paths []string) string { return "" }
+func ParseSummary(paths []string) string { return "" }

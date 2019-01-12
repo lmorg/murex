@@ -18,7 +18,7 @@ func TestMan(t *testing.T) {
 		t.Error("No flags returned for `cat`")
 	}
 
-	s := ParseDescription(files)
+	s := ParseSummary(files)
 	if s == "" {
 		t.Error("No description returned for `cat`")
 	}

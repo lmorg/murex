@@ -20,6 +20,9 @@ import (
 )
 
 var (
+	// Summary is an overriding summary for readline hints
+	Summary = make(map[string]string)
+
 	manDesc        = make(map[string]string)
 	cachedHintText []rune
 )
@@ -32,10 +35,15 @@ func hintText(line []rune, pos int) []rune {
 
 	pt, _ := parse(line)
 	cmd := pt.FuncName
+	var summary string
 
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
 		path := utils.NormalisePath(pt.Parameters[0])
 		return []rune("Change directory: " + path)
+	}
+
+	if Summary[cmd] != "" {
+		summary = Summary[cmd]
 	}
 
 	if proc.GlobalAliases.Exists(cmd) {
@@ -45,7 +53,10 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if proc.MxFunctions.Exists(cmd) {
-		summary, _ := proc.MxFunctions.Summary(cmd)
+		if summary == "" {
+			summary, _ = proc.MxFunctions.Summary(cmd)
+		}
+
 		if summary == "" {
 			summary = "no summary written"
 		}
@@ -53,8 +64,11 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if proc.GoFunctions[cmd] != nil {
-		synonym := docs.Synonym[cmd]
-		summary := docs.Summary[synonym]
+		if summary == "" {
+			synonym := docs.Synonym[cmd]
+			summary = docs.Summary[synonym]
+		}
+
 		if summary == "" {
 			summary = "no doc written"
 		}
@@ -63,20 +77,22 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if autocomplete.GlobalExes[cmd] {
-		manPage := manDesc[cmd]
-
-		if manPage == "" {
-			manPage = man.ParseDescription(man.GetManPages(cmd))
+		if summary == "" {
+			summary = manDesc[cmd]
 		}
 
-		if manPage == "" {
-			manPage = "no man page found"
+		if summary == "" {
+			summary = man.ParseSummary(man.GetManPages(cmd))
 		}
 
-		manDesc[cmd] = manPage
+		if summary == "" {
+			summary = "no man page found"
+		}
+
+		manDesc[cmd] = summary
 		which := readlink(which(cmd))
 
-		r = append(r, []rune("("+which+") "+manPage)...)
+		r = append(r, []rune("("+which+") "+summary)...)
 		if len(r) > 0 {
 			return r
 		}

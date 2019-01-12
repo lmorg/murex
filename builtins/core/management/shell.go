@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/parser"
 )
@@ -22,6 +23,7 @@ func init() {
 	proc.GoFunctions["."] = cmdSource
 	proc.GoFunctions["version"] = cmdVersion
 	proc.GoFunctions["murex-parser"] = cmdParser
+	proc.GoFunctions["summary"] = cmdSummary
 }
 
 func cmdArgs(p *proc.Process) (err error) {
@@ -176,4 +178,22 @@ func cmdParser(p *proc.Process) error {
 
 	_, err = p.Stdout.Write(b)
 	return err
+}
+
+func cmdSummary(p *proc.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	exe, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	summary, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	shell.Summary[exe] = summary
+
+	return nil
 }

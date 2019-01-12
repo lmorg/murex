@@ -159,13 +159,13 @@ func parseFlags(flags *map[string]bool, filename string) {
 	return
 }
 
-// ParseDescription runs the parser to locate a description
-func ParseDescription(paths []string) string {
+// ParseSummary runs the parser to locate a summary
+func ParseSummary(paths []string) string {
 	for i := range paths {
 		if !rxMatchManSection.MatchString(paths[i]) {
 			continue
 		}
-		desc := parseDescription(paths[i])
+		desc := parseSummary(paths[i])
 		if desc != "" {
 			return desc
 		}
@@ -174,7 +174,7 @@ func ParseDescription(paths []string) string {
 	return ""
 }
 
-func parseDescription(filename string) string {
+func parseSummary(filename string) string {
 	file, err := os.Open(filename)
 	defer file.Close()
 	if err != nil {
