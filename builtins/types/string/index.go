@@ -9,8 +9,14 @@ func index(p *proc.Process, params []string) error {
 	}
 
 	err := p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
-		if match[key] {
-			p.Stdout.Writeln([]byte(value))
+		if p.IsNot {
+			if !match[key] {
+				p.Stdout.Writeln([]byte(value))
+			}
+		} else {
+			if match[key] {
+				p.Stdout.Writeln([]byte(value))
+			}
 		}
 	})
 

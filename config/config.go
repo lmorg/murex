@@ -14,6 +14,13 @@ type Properties struct {
 	Default     interface{}
 	DataType    string
 	Options     []string
+	//Dynamic     DynamicProperties
+}
+
+// DynamicProperties is used for dynamic values
+type DynamicProperties struct {
+	Read  string
+	Write string
 }
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
@@ -158,9 +165,10 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 			obj[app][key]["Value"] = conf.values[app][key]
 
-			if len(conf.properties[app][key].Options) > 0 {
+			if len(conf.properties[app][key].Options) != 0 {
 				obj[app][key]["Options"] = conf.properties[app][key].Options
 			}
+
 		}
 	}
 	conf.mutex.Unlock()

@@ -220,51 +220,58 @@ autocomplete set progress {
     }]
 }
 
+private fid.list.all {
+    set json fids=([])
+    set json procs=([])
+    fid-list -> foreach f {
+        if { = $f[Scope]!=$self[Scope] && $f[FID]!=$self[Parent] && $f[FID]!=0 } then {
+            $fids -> append $f[FID] -> set fids
+            $procs -> append "$f[Command] $f[Parameters]" -> set procs
+        }
+    }
+    map { $fids } { $procs }
+}
+
+private fid.list.stopped {
+    set json fids=([])
+    set json procs=([])
+    fid-list -> foreach f {
+        if { = `$f[State]`==`Stopped` && $f[Scope]!=$self[Scope] && $f[FID]!=$self[Parent] && $f[FID]!=0 } then {
+            $fids -> append $f[FID] -> set fids
+            $procs -> append "$f[Command] $f[Parameters]" -> set procs
+        }
+    }
+    map { $fids } { $procs }
+}
+
 func jobs {
-    # List any suspended jobs
+    # List any stopped jobs
     out "FID - Process"
-    runtime: --fids -> formap k v {
-        if { = `$v[State]`==`8` } {
-            out $k - $v[Name] @{$v[Parameters]->[Params]}
+    fid-list -> foreach f {
+        if { = `$f[State]`==`Stopped` } {
+            out "$f[Id] - $f[Command] $f[Parameters]"
         }
     }
 }
 
 autocomplete: set bg {
     [{
-        "DynamicDesc": ({
-            runtime: --fids -> formap k v {
-                if { = `$v[State]`==`8` } {
-                    out $k: $v[Name] @{$v[Parameters]->[Params]}
-                }
-            } -> cast yaml
-        }),
+        "DynamicDesc": ({ fid.list.stopped }),
         "ListView": true
     }]
 }
 
 autocomplete: set fg {
     [{
-        "DynamicDesc": ({
-            runtime: --fids -> formap k v {
-                if { = `$v[State]`==`8` } {
-                    out $k: $v[Name] @{$v[Parameters]->[Params]}
-                }
-            } -> cast yaml
-        }),
+        "DynamicDesc": ({ fid.list.stopped }),
         "ListView": true
     }]
 }
 
 autocomplete: set fid-kill {
     [{
-        "DynamicDesc": ({
-            runtime: --fids -> formap k v {
-                out $k: $v[Name] @{$v[Parameters]->[Params]}
-            } -> cast yaml
-        }),
+        "DynamicDesc": ({ fid.list.all }),
         "ListView": true,
         "AllowMultiple": true
     }]
 }
-

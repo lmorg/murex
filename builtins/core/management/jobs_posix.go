@@ -15,7 +15,7 @@ import (
 func mkbg(p *proc.Process) error {
 	fid, err := p.Parameters.Int(0)
 	if err != nil {
-		return errors.New("Invalid parameters. Expecting either a code block or FID of a suspended process")
+		return errors.New("Invalid parameters. Expecting either a code block or FID of a stopped process")
 	}
 
 	f, err := proc.GlobalFIDs.Proc(fid)
@@ -23,8 +23,8 @@ func mkbg(p *proc.Process) error {
 		return err
 	}
 
-	if f.State != state.Suspended {
-		return errors.New("FID is not a suspended process. Run `jobs` or `fid-list` to see a list of suspended processes")
+	if f.State != state.Stopped {
+		return errors.New("FID is not a stopped process. Run `jobs` or `fid-list` to see a list of stopped processes")
 	}
 
 	if f.Exec.Pid == 0 {

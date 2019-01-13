@@ -23,7 +23,7 @@ const (
 )
 
 func sigtstp() {
-	show, err := proc.ShellProcess.Config.Get("shell", "show-suspend-status", types.Boolean)
+	show, err := proc.ShellProcess.Config.Get("shell", "show-stop-status", types.Boolean)
 	if err != nil {
 		show = false
 	}
@@ -53,7 +53,7 @@ func sigtstp() {
 	proc.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
 	if p.Exec.Pid != 0 {
-		block, err := proc.ShellProcess.Config.Get("shell", "suspend-status-func", types.CodeBlock)
+		block, err := proc.ShellProcess.Config.Get("shell", "stop-status-func", types.CodeBlock)
 		if err != nil {
 			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 			return
@@ -72,12 +72,12 @@ func sigtstp() {
 			p.Id, p.Id, p.Id,
 		)))
 
-		p.State = state.Suspended
+		p.State = state.Stopped
 
 		go ShowPrompt()
 
 	} else {
-		proc.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being suspended)"))
+		proc.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
 	}
 
 }

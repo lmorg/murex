@@ -1,11 +1,11 @@
 package management
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -15,6 +15,13 @@ func init() {
 }
 
 func cmdFidList(p *proc.Process) error {
+	if p.Stdout.IsTTY() {
+		return cmdFidListTTY(p)
+	}
+	return cmdFidListPipe(p)
+}
+
+func cmdFidListTTY(p *proc.Process) error {
 	yn := func(state bool) (s string) {
 		if state {
 			return "yes"
@@ -30,7 +37,7 @@ func cmdFidList(p *proc.Process) error {
 	for i := range procs {
 		params := procs[i].Parameters.StringAll()
 		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
-			b, _ := json.Marshal(procs[i].Parameters.Tokens)
+			b, _ := json.Marshal(procs[i].Parameters.Tokens, false)
 			params = "Unparsed: " + string(b)
 		}
 		s := fmt.Sprintf("%7d  %7d  %7d  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
@@ -45,9 +52,60 @@ func cmdFidList(p *proc.Process) error {
 			procs[i].Name,
 			params,
 		)
-		p.Stdout.Writeln([]byte(s))
+		_, err := p.Stdout.Writeln([]byte(s))
+		if err != nil {
+			return err
+		}
 	}
 	return nil
+}
+
+type fidList struct {
+	FID        int
+	Parent     int
+	Scope      int
+	State      string
+	RunMode    string `json:"Run Mode"`
+	BG         bool
+	OutPipe    string `json:"Out Pipe"`
+	ErrPipe    string `json:"Err Pipe"`
+	Command    string
+	Parameters string
+}
+
+func cmdFidListPipe(p *proc.Process) error {
+	var fids []fidList
+
+	p.Stdout.SetDataType(types.Json)
+
+	procs := proc.GlobalFIDs.ListAll()
+	for i := range procs {
+		params := procs[i].Parameters.StringAll()
+		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
+			b, _ := json.Marshal(procs[i].Parameters.Tokens, false)
+			params = "Unparsed: " + string(b)
+		}
+		fids = append(fids, fidList{
+			FID:        procs[i].Id,
+			Parent:     procs[i].Parent.Id,
+			Scope:      procs[i].Scope.Id,
+			State:      procs[i].State.String(),
+			RunMode:    procs[i].RunMode.String(),
+			BG:         procs[i].IsBackground,
+			OutPipe:    procs[i].NamedPipeOut,
+			ErrPipe:    procs[i].NamedPipeErr,
+			Command:    procs[i].Name,
+			Parameters: params,
+		})
+	}
+
+	b, err := json.Marshal(fids, false)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
 }
 
 func cmdFidKill(p *proc.Process) (err error) {

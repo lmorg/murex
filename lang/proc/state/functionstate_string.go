@@ -4,9 +4,9 @@ package state
 
 import "strconv"
 
-const _FunctionState_name = "UndefinedMemAllocatedAssignedStartingExecutingExecutedTerminatingAwaitingGCSuspended"
+const _FunctionState_name = "UndefinedMemAllocatedAssignedStartingExecutingExecutedTerminatingAwaitingGCStopped"
 
-var _FunctionState_index = [...]uint8{0, 9, 21, 29, 37, 46, 54, 65, 75, 84}
+var _FunctionState_index = [...]uint8{0, 9, 21, 29, 37, 46, 54, 65, 75, 82}
 
 func (i FunctionState) String() string {
 	if i < 0 || i >= FunctionState(len(_FunctionState_index)-1) {

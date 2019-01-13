@@ -10,6 +10,7 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // Variables is an object that methods out lookups against the `varTable`.
@@ -132,6 +133,14 @@ type variable struct {
 
 // GetValue return the value of a variable stored in the referenced VarTable
 func (vars *Variables) GetValue(name string) interface{} {
+	switch name {
+	case "self":
+		return getVarSelf(vars.process)
+
+	case "params":
+		return getVarParams(vars.process)
+	}
+
 	v := vars.varTable.getVariable(vars.process, name)
 	if v != nil {
 		v.mutex.Lock()
@@ -150,8 +159,42 @@ func (vars *Variables) GetValue(name string) interface{} {
 	return nil
 }
 
+type self struct {
+	//Id         int
+	Parent     int
+	Scope      int
+	TTY        bool
+	Method     bool
+	Not        bool
+	Background bool
+}
+
+func getVarSelf(p *Process) string {
+	v := self{
+		//Id:         p.Scope.Id,
+		Parent:     p.Scope.Parent.Id,
+		Scope:      p.Scope.Id,
+		TTY:        p.Scope.Stdout.IsTTY(),
+		Method:     p.Scope.IsMethod,
+		Not:        p.Scope.IsNot,
+		Background: p.Scope.IsBackground,
+	}
+	b, _ := json.Marshal(&v, p.Stdout.IsTTY())
+	return string(b)
+}
+
+func getVarParams(p *Process) string {
+	b, _ := json.Marshal(append([]string{p.Scope.Name}, p.Scope.Parameters.Params...), p.Stdout.IsTTY())
+	return string(b)
+}
+
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (vars *Variables) GetDataType(name string) string {
+	switch name {
+	case "self", "params":
+		return types.Json
+	}
+
 	v := vars.varTable.getVariable(vars.process, name)
 	if v != nil {
 		v.mutex.Lock()
@@ -172,6 +215,14 @@ func (vars *Variables) GetDataType(name string) string {
 
 // GetString returns a string representation of the data stored in the requested variable
 func (vars *Variables) GetString(name string) string {
+	switch name {
+	case "self":
+		return getVarSelf(vars.process)
+
+	case "params":
+		return getVarParams(vars.process)
+	}
+
 	v := vars.varTable.getVariable(vars.process, name)
 	if v != nil {
 		v.mutex.Lock()
@@ -219,6 +270,12 @@ func convDataType(value interface{}, dataType string) (val interface{}, err erro
 // it doesn't it creates a new one.
 func (vars *Variables) Set(name string, value interface{}, dataType string) error {
 	//debug.Json("vars set", vars.process)
+
+	switch name {
+	case "self", "params":
+		return errors.New("Cannot set a reserved variable")
+	}
+
 	val, err := convDataType(value, dataType)
 	if err != nil {
 		return err
