@@ -5,11 +5,11 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/readline"
@@ -32,7 +32,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 
 	if !types.IsBlock([]byte(dynamic)) {
-		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocompleter is not a code block."))
+		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocompleter is not a code block"))
 		return
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])

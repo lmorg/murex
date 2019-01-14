@@ -18,66 +18,77 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Description: "Interactive shell prompt.",
 		Default:     "{ out 'murex » ' }",
 		DataType:    types.CodeBlock,
+		Global:      true,
 	})
 
 	c.Define("shell", "prompt-multiline", config.Properties{
 		Description: "Shell prompt when command line string spans multiple lines.",
 		Default:     `{ out "$linenum » " }`,
 		DataType:    types.CodeBlock,
+		Global:      true,
 	})
 
 	c.Define("shell", "max-suggestions", config.Properties{
 		Description: "Maximum number of lines with auto-completion suggestions to display.",
 		Default:     4,
 		DataType:    types.Integer,
+		Global:      true,
 	})
 
 	c.Define("shell", "history", config.Properties{
 		Description: "Write shell history (interactive shell) to disk.",
 		Default:     true,
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	c.Define("shell", "color", config.Properties{
 		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, {SGR} variables, etc",
 		Default:     (runtime.GOOS != "windows" && isInteractive),
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	c.Define("shell", "syntax-highlighting", config.Properties{
 		Description: "Syntax highlighting of murex code when in the interactive shell.",
 		Default:     true,
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	c.Define("shell", "show-exts", config.Properties{
 		Description: "Windows only! Auto-completes file extensions. This also affects the auto-completion parameters.",
 		Default:     false,
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	c.Define("shell", "show-hint-text", config.Properties{
 		Description: "Display the blue hint text helper. //TODO: implement this!",
 		Default:     true,
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	c.Define("shell", "hint-text-func", config.Properties{
 		Description: "Murex function to call if the helper hint text is otherwise blank.",
 		Default:     `{}`,
 		DataType:    types.CodeBlock,
+		Global:      true,
 	})
 
-	c.Define("shell", "show-suspend-status", config.Properties{
-		Description: "Display some status information about the suspended process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs).",
+	c.Define("shell", "show-stop-status", config.Properties{
+		Description: "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs).",
 		Default:     true,
 		DataType:    types.Boolean,
+		Global:      true,
 	})
 
-	c.Define("shell", "suspend-status-func", config.Properties{
-		Description: "Murex function to execute when an `exec` process is suspended.",
+	c.Define("shell", "stop-status-func", config.Properties{
+		Description: "Murex function to execute when an `exec` process is stopped.",
 		Default:     `{ progress $PID }`,
 		DataType:    types.CodeBlock,
+		Global:      true,
 	})
 
 	// TODO: Add config hooks for mime types
@@ -85,6 +96,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Description: "Supported MIME types and their corresponding Murex data types.",
 		Default:     define.GetMimes(),
 		DataType:    types.Json,
+		Global:      true,
 	})
 
 	// TODO: Add config hooks for mime types
@@ -92,6 +104,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Description: "Supported file extensions and their corresponding Murex data types.",
 		Default:     define.GetFileExts(),
 		DataType:    types.Json,
+		Global:      true,
 	})
 
 	// --- proc ---

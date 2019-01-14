@@ -68,7 +68,7 @@ func sigtstp() {
 		}
 
 		proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
-			"FID %d has been suspended. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.",
+			"FID %d has been stopped. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.",
 			p.Id, p.Id, p.Id,
 		)))
 

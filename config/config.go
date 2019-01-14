@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/lmorg/murex/lang/types"
@@ -14,13 +15,16 @@ type Properties struct {
 	Default     interface{}
 	DataType    string
 	Options     []string
-	//Dynamic     DynamicProperties
+	Global      bool
+	Dynamic     DynamicProperties
 }
 
 // DynamicProperties is used for dynamic values
 type DynamicProperties struct {
-	Read  string
-	Write string
+	Read       string
+	Write      string
+	GetDynamic func() (interface{}, error) `json:"-"`
+	SetDynamic func(interface{}) error     `json:"-"`
 }
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
@@ -45,11 +49,20 @@ func NewConfiguration() (conf *Config) {
 //     value == the setting itself
 func (conf *Config) Set(app string, key string, value interface{}) error {
 	conf.mutex.Lock()
-	defer conf.mutex.Unlock()
+	//defer conf.mutex.Unlock()
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
-		return errors.New("Cannot Get() `" + app + "`:`" + key + "` when no config properties have been defined for that app and key.")
+		conf.mutex.Unlock()
+		return fmt.Errorf("Cannot set config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
+
+	if conf.properties[app][key].Dynamic.SetDynamic != nil {
+		conf.mutex.Unlock()
+		return conf.properties[app][key].Dynamic.SetDynamic(value)
+
+	}
+
+	defer conf.mutex.Unlock()
 
 	switch conf.values[app][key].(type) {
 	case []string:
@@ -88,6 +101,19 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 	return nil
 }
 
+func (conf *Config) Default(app string, key string) error {
+	conf.mutex.Lock()
+
+	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
+		conf.mutex.Unlock()
+		return fmt.Errorf("Cannot default config. No config has been defined for app `%s`, key `%s`", app, key)
+	}
+
+	v := conf.properties[app][key].Default
+	conf.mutex.Unlock()
+	return conf.Set(app, key, v)
+}
+
 // Get retrieves a setting from the Config. Returns an interface{} for the value and err for conversion failures.
 //
 //     app == tooling name
@@ -95,16 +121,28 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 //     dataType == what `types.dataType` to cast the return value into
 func (conf *Config) Get(app, key, dataType string) (value interface{}, err error) {
 	conf.mutex.Lock()
-	defer conf.mutex.Unlock()
+	//defer conf.mutex.Unlock()
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
-		return nil, errors.New("Cannot Get() `" + app + "`:`" + key + "` when no config properties have been defined for that app and key.")
+		conf.mutex.Unlock()
+		return nil, fmt.Errorf("Cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
 	var v interface{}
-	v = conf.values[app][key]
-	if v == nil {
-		v = conf.properties[app][key].Default
+
+	if conf.properties[app][key].Dynamic.GetDynamic != nil {
+		conf.mutex.Unlock()
+		v, err = conf.properties[app][key].Dynamic.GetDynamic()
+		if err != nil {
+			return
+		}
+
+	} else {
+		v = conf.values[app][key]
+		if v == nil {
+			v = conf.properties[app][key].Default
+		}
+		conf.mutex.Unlock()
 	}
 
 	value, err = types.ConvertGoType(v, dataType)
@@ -123,8 +161,12 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 		conf.properties[app] = make(map[string]Properties)
 		conf.values[app] = make(map[string]interface{})
 	}
+
 	conf.properties[app][key] = properties
-	conf.values[app][key] = properties.Default
+	if properties.Dynamic.Read == "" {
+		conf.values[app][key] = properties.Default
+	}
+
 	conf.mutex.Unlock()
 }
 
@@ -142,6 +184,9 @@ func (conf *Config) Copy() *Config {
 		}
 
 		for key := range conf.properties[app] {
+			if conf.properties[app][key].Global {
+				continue
+			}
 			clone.properties[app][key] = conf.properties[app][key]
 			clone.values[app][key] = conf.values[app][key]
 		}
@@ -165,8 +210,16 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 			obj[app][key]["Value"] = conf.values[app][key]
 
+			if conf.properties[app][key].Global {
+				obj[app][key]["Global"] = conf.properties[app][key].Global
+			}
+
 			if len(conf.properties[app][key].Options) != 0 {
 				obj[app][key]["Options"] = conf.properties[app][key].Options
+			}
+
+			if len(conf.properties[app][key].Dynamic.Read) != 0 {
+				obj[app][key]["Dynamic"] = conf.properties[app][key].Dynamic
 			}
 
 		}

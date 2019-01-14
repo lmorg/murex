@@ -62,28 +62,28 @@ private config.get.apps {
 #}
 
 autocomplete set config { [{
-    "Flags": [ "get", "set" ],
+    "Flags": [ "get", "set", "alter", "define", "Default" ],
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) }
+            { "Dynamic": ({ source { config } -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) }
         ],               
         "set": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ source { config } -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) },
             { "Dynamic": ({
 				params -> set params
 				switch {
-					case { = `${config: -> [ $params[2] ] -> [ $params[3] ] -> [ Data-Type ]}`==`bool` } {
+					case { = `${source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ Data-Type ]}`==`bool` } {
 						ja [true,false]
 					}
 
-					case { config: -> [ $params[2] ] -> [ $params[3] ] -> [ <!null> Options ] } {
-						config: -> [ $params[2] ] -> [ $params[3] ] -> [ Options ]
+					case { source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ <!null> Options ] } {
+						source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ Options ]
 					}
 					
                 	catch {
-						out ${config: -> [ $params[2] ] -> [ $params[3] ] -> [ Default ]}
+						out ${source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ Default ]}
 					}
 				}
 			}) }

@@ -26,7 +26,7 @@ func UnmarshalMurex(data []byte, v interface{}) error {
 	var (
 		escape   bool
 		comment  bool
-		comments []string = make([]string, 1)
+		comments = make([]string, 1)
 		single   bool
 		double   bool
 		brace    int

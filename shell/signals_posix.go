@@ -13,10 +13,10 @@ func SignalHandler(interactive bool) {
 	c := make(chan os.Signal, 1)
 
 	if Interactive {
-		// Interactive, so we will handle suspend
+		// Interactive, so we will handle stop
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
 	} else {
-		// Non-interactive, so lets ignore the suspend signal and let the OS / calling shell manage that for us
+		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	}
 

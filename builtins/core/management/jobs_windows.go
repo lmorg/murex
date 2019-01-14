@@ -10,7 +10,7 @@ import (
 )
 
 func mkbg(p *proc.Process) error {
-	return errors.New("Invalid parameters. `bg` only supports a code block on Windows because backgrounding a suspended process is not currently supported on Windows.")
+	return errors.New("Invalid parameters. `bg` only supports a code block on Windows because backgrounding a stopped process is not currently supported on Windows.")
 }
 
 func cmdForeground(p *proc.Process) error {

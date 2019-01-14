@@ -4,6 +4,9 @@ import (
 	"errors"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc"
@@ -15,6 +18,7 @@ import (
 
 func init() {
 	proc.GoFunctions["config"] = cmdConfig
+	proc.GoFunctions["!config"] = bangConfig
 }
 
 func cmdConfig(p *proc.Process) error {
@@ -43,6 +47,9 @@ func cmdConfig(p *proc.Process) error {
 
 	case "define":
 		return defineConfig(p)
+
+	case "default":
+		return defaultConfig(p)
 
 	default:
 		p.Stdout.SetDataType(types.Null)
@@ -177,13 +184,108 @@ func defineConfig(p *proc.Process) error {
 		return err
 	}
 
-	if properties.DataType == "" {
+	switch {
+	case properties.DataType == "":
 		return errors.New("`DataType` not defined")
-	}
-	if properties.Description == "" {
+
+	case properties.Description == "":
 		return errors.New("`Description` not defined")
+
+	case (properties.Dynamic.Read == "" && properties.Dynamic.Write != "") ||
+		(properties.Dynamic.Read != "" && properties.Dynamic.Write == ""):
+		return errors.New("When using dynamic values, both the `read` and `write` need to contain code blocks")
+
+	case properties.Dynamic.Read != "" && !types.IsBlock([]byte(properties.Dynamic.Read)):
+		return errors.New("Dynamic `read` is not a valid code block")
+
+	case properties.Dynamic.Write != "" && !types.IsBlock([]byte(properties.Dynamic.Write)):
+		return errors.New("Dynamic `write` is not a valid code block")
 	}
+
+	properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read))
+	properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write))
 
 	proc.ShellProcess.Config.Define(app, key, properties)
 	return nil
+}
+
+func bangConfig(p *proc.Process) error {
+	app, _ := p.Parameters.String(0)
+	key, _ := p.Parameters.String(1)
+	err := p.Config.Default(app, key)
+	return err
+}
+
+func defaultConfig(p *proc.Process) error {
+	app, _ := p.Parameters.String(1)
+	key, _ := p.Parameters.String(2)
+	err := p.Config.Default(app, key)
+	return err
+}
+
+func getDynamic(block []rune) func() (interface{}, error) {
+	return func() (interface{}, error) {
+		block = block[1 : len(block)-1]
+
+		branch := proc.ShellProcess.BranchFID()
+		branch.Scope = branch.Process
+		branch.Parent = branch.Process
+		branch.IsBackground = true
+
+		stdout := streams.NewStdin()
+		exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, proc.ShellProcess.Stderr, branch.Process)
+		branch.Close()
+
+		if err != nil {
+			return nil, errors.New("Dynamic config code could not compile: " + err.Error())
+		}
+		if exitNum != 0 && debug.Enable {
+			proc.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
+		}
+
+		b, err := stdout.ReadAll()
+		if err != nil {
+			return nil, err
+		}
+
+		return string(b), nil
+	}
+}
+
+func setDynamic(block []rune) func(interface{}) error {
+	return func(value interface{}) error {
+		//if !types.IsBlock([]byte(stringblock)) {
+		//	return nil, errors.New("Dynamic config reader is not a code block")
+		//}
+		block = block[1 : len(block)-1]
+
+		branch := proc.ShellProcess.BranchFID()
+		branch.Scope = branch.Process
+		branch.Parent = branch.Process
+		branch.IsBackground = true
+
+		s, err := types.ConvertGoType(value, types.String)
+		if err != nil {
+			return err
+		}
+
+		stdin := streams.NewStdin()
+		_, err = stdin.Write([]byte(s.(string)))
+		if err != nil {
+			return err
+		}
+		//stdin.Close()
+
+		exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, branch.Process)
+		branch.Close()
+
+		if err != nil {
+			return errors.New("Dynamic config code could not compile: " + err.Error())
+		}
+		if exitNum != 0 && debug.Enable {
+			proc.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
+		}
+
+		return nil
+	}
 }
