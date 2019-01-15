@@ -20,6 +20,8 @@ similar operators). If you need the entire pipeline checked then use `trypipe`.
 ### Usage
 
     try { code-block } -> <stdout>
+    
+    <stdin> -> try { -> code-block } -> <stdout>
 
 ### Examples
 

@@ -62,7 +62,7 @@ private config.get.apps {
 #}
 
 autocomplete set config { [{
-    "Flags": [ "get", "set", "alter", "define", "Default" ],
+    "Flags": [ "get", "set", "alter", "define", "default" ],
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },

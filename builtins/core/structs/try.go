@@ -26,7 +26,7 @@ func cmdTry(p *proc.Process) (err error) {
 
 	p.RunMode = runmode.Try
 
-	p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 	return
 }
 
@@ -40,7 +40,7 @@ func cmdTryPipe(p *proc.Process) (err error) {
 
 	p.RunMode = runmode.TryPipe
 
-	p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 	return
 }
 

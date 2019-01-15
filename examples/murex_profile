@@ -1,29 +1,52 @@
+export PATH=$PATH:$GOPATH/bin:~/bin:~/.cargo/bin
+
 export EDITOR=vi
 
-if { which vim } then {
-    alias vi=vim
+# Improve readability of `ls`
+export TIME_STYLE=long-iso
+export BLOCK_SIZE="'1"
+
+
+if { which vim } then { alias vi=vim }
+
+# https://github.com/sharkdp/bat
+if { which bat } then {
+    alias cat=bat
+    summary cat ${man-summary cat}
 }
+
+# https://github.com/sharkdp/lsd
+# https://github.com/ryanoasis/nerd-fonts/
+if { which lsd } then { 
+    alias ls=lsd
+    summary ls ${man-summary ls}
+}
+
+!if { man-summary } then {
+    summary go "Go is a tool for managing Go source code"
+}
+summary atom "Github Atom - Text editor / IDE"
+summary code "Microsoft Visual Studio Code - Text editor / IDE"
 
 config set shell max-suggestions 6
 
 func chdir {
     # make a directory then change to that new dir (assumes `-p` flag where supported)
     try {
-        params -> [ 1 ] -> set dir
-
         switch ${os} {
             case windows { tout json {} }
             case linux   { tout json {[ "-p", "--" ]} }
             catch        { tout json {[ "-p" ]} }
         } -> set flags
 
-        mkdir @flags $dir
-        cd $dir
+        mkdir @flags $params[1]
+        cd $params[1]
     }
 }
 
 func pwd_short {
-    pwd -> regexp (s#^$HOME#)'~'(#)
+    # Normalise path to it's short form
+    pwd -> regexp "s#^$HOME#\~#"
 }
 
 config: set shell prompt {
@@ -41,7 +64,7 @@ config: set shell prompt-multiline {
 
 func funcs {
     # Returns a human readable list of murex functions
-    runtime: --funcs -> formap k v { printf "%20s => %s\n" $k $v[Digest] }
+    runtime: --funcs -> formap k v { printf "%20s => %s\n" $k $v[Summary] } -> sort
 }
 
 # So I can use the same murex profile on FreeBSD without creating unsupported
@@ -53,24 +76,11 @@ if { = `${os}`==`linux` } then {
 
     # ip -brief -color link
     alias ipmac=ip -br -c l
-}
 
-autocomplete set kill {
-    [{
-        "DynamicDesc": ({
-            test define ps {
-                "ExitNum": 0
-            }
-            test define map {
-                "OutRegexp": (\{(".*?":".*?",?)+\})
-            }
-
-            ps <test_ps> -A -o pid,cmd --no-headers -> set ps
-            map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
-        }),
-        "ListView": true,
-        "AllowMultiple": true
-    }]
+    #func fix_keyboard {
+    #    # Corrects the function keys on some MacBooks running Linux
+    #    echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode
+    #}
 }
 
 autocomplete set zfs {
@@ -88,10 +98,6 @@ autocomplete set zpool {
         })
     }]
 }
-
-#########
-## IDE ##
-#########
 
 func agent {
     # Launch ssh-agent
@@ -237,38 +243,80 @@ event onKeyPress edit={^E} {
     }
 }
 
-event onKeyPress glob={^G} {
-    -> [ Interrupt ] -> set: evt
-    $evt[Line] -> set str line
-    $evt[Pos]  -> set int pos
+func murex-dev {
+    # Sets murex up so I can dev it easier
+    source {
+        cd $GOPATH/src/github.com/lmorg/murex
+        config: set shell prompt (murex >>)
+        agent
+        
+        func mxbuild {
+            # Builds murex then launches it
+            try {
+                out: "Running docgen...."
+                docgen <!out> -debug -config gen/docgen.yaml
+                out: "Formatting generated source...."
+                go <null> fmt @{g: builtins/core/docs/*.go}
+                go <null> fmt @{g: config/defaults/*.go}
+                out: "Compiling murex...."
+                go build github.com/lmorg/murex
+                out: "Starting...."
+                ./murex
+            }
+        }
 
-    $line -> left ${=pos+1} -> suffix ' @{g: }' -> suffix ${ $line -> right -${=pos+1} } -> set newLine
-    let newPos=pos+6
+        func mxtest {
+            # Builds murex then runs the testing frameworks against the compiled binary
+            try {
+                out: "Running docgen...."
+                docgen <!out> -verbose -debug -config gen/docgen.yaml
+                out: "Formatting generated source...."
+                go <null> fmt @{g: builtins/core/docs/*.go}
+                go <null> fmt @{g: config/defaults/*.go}
+                out: "Compiling murex...."
+                go build github.com/lmorg/murex
+                out: "Running test suites...."
+                go test ./...
+                ./test/regression_test.sh
+                ./test/test_goos.mx
+            }
+            catch {
+                out "{RED}Testing failed :({RESET}"
+            }
+        }
 
-    tout json ({
-        "NewLine":   "$newLine",
-        "NewPos":    $newPos,
-        "IgnoreKey": true
-    })
+        alias mxinstall=go install github.com/lmorg/murex
+    }
 }
 
-config set shell hint-text-func {
-    trypipe <!null> {
-        git status --porcelain -b -> set gitstatus
-        $gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
-        out $gitstatus -> sed 1d -> wc -l -> set gitchanges
-        !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
-        (Git{BLUE}: $gitbranch ($gitchanges unstaged). )
-    }
-    catch {
-        ({YELLOW}Git{BLUE}: Not a git repository. )
-    }
+###########
+## VAULT ##
+###########
 
-    if { $SSH_AGENT_PID} {
-        ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
-    } else {
-        ({RED}ssh-agent{BLUE}: No env set. ) 
-    }
+autocomplete set vault { [{
+    "Flags": ["audit-disable","audit-enable","audit-list","auth","auth-disable","auth-enable","capabilities","delete","generate-root","init","key-status","list","mount","mounts","mount-tune","path-help","policies","policy-delete","policy-write","read","rekey","remount","renew","revoke","rotate","seal","server","ssh","status","step-down","token-create","token-lookup","token-renew","token-revoke","unmount","unseal","unwrap","version","write"]
+}] }
+
+################
+## TERRRAFORM ##
+################
+
+autocomplete set terraform {
+    [
+        {
+            "Dynamic": ({
+                terraform -> @[Common commands:..]se -> !regexp 'm/^(All other commands:|)$' -> [ :0 ]
+            }),
+            "FlagValues": {
+                "state": [{
+                    "Dynamic": ({ terraform: state -> @[Subcommands:...]se -> [ :0 ] })
+                }],
+                "workspace": [{
+                    "Flags": [ "delete", "list", "new", "select", "show" ]
+                }]
+            }
+        }
+    ]
 }
 
 #############

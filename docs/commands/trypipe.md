@@ -15,12 +15,20 @@ no longer run in parallel.
 ### Usage
 
     trypipe { code-block } -> <stdout>
+    
+    <stdin> -> trypipe { -> code-block } -> <stdout>
 
 ### Examples
 
     trypipe {
         out: "Hello, World!" -> grep: "non-existent string" -> cat
         out: "This command will be ignored"
+    }
+    
+Formated pager (`less`) where the pager isn't called if the formatter (`pretty`) fails (eg input isn't valid JSON):
+
+    func pless {
+        -> trypipe { -> pretty -> less }
     }
 
 ### Detail
