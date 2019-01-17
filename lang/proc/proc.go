@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/pipes"
@@ -97,6 +98,21 @@ var (
 	// ForegroundProc is the murex FID which currently has "focus"
 	ForegroundProc = ShellProcess
 )
+
+// NewTestProcess creates a dummy process for testing in Go (ie `go test`)
+func NewTestProcess() (p *Process) {
+	p = new(Process)
+	p.Stdin = new(null.Null)
+	p.Stdout = new(null.Null)
+	p.Stderr = new(null.Null)
+	p.Config = config.NewConfiguration()
+	p.Variables = newVariables(p)
+	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
+
+	GlobalFIDs.Register(p)
+
+	return
+}
 
 // HasTerminated checks if process has terminated.
 // This is a function because terminated state can be subject to race conditions

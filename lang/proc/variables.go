@@ -13,6 +13,8 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
+var errVariableReserved = errors.New("Cannot set a reserved variable")
+
 // Variables is an object that methods out lookups against the `varTable`.
 // This will need to be created on each `proc.Process`.
 //
@@ -27,19 +29,16 @@ type Variables struct {
 	time     time.Time
 }
 
-// NewVariables creates a new Variables object
-func NewVariables() *Variables {
+// newVariables creates a new Variables object
+func newVariables(p *Process) *Variables {
 	vars := new(Variables)
 	vars.varTable = new(varTable)
-	vars.process = ShellProcess
+	vars.process = p
 	return vars
 }
 
 // ReferenceVariables creates a new Variables object linked to an existing varTable
 func ReferenceVariables(ref *Variables) *Variables {
-	//vars := new(Variables)
-	//vars.varTable = ref.varTable
-	//return vars
 	return &Variables{varTable: ref.varTable}
 }
 
@@ -273,7 +272,7 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 
 	switch name {
 	case "self", "params":
-		return errors.New("Cannot set a reserved variable")
+		return errVariableReserved
 	}
 
 	val, err := convDataType(value, dataType)

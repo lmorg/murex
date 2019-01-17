@@ -1,5 +1,3 @@
-// +build ignore
-
 package proc
 
 import (
@@ -22,8 +20,8 @@ func TestVariables(t *testing.T) {
 		copyBool = false
 	)
 
-	InitEnv()
-	orig := NewVariables(ShellProcess)
+	p := NewTestProcess()
+	orig := p.Variables
 
 	err := orig.Set("number", origNum, types.Number)
 	if err != nil {
@@ -45,9 +43,10 @@ func TestVariables(t *testing.T) {
 		t.Error("Unable to set boolean in original. " + err.Error())
 	}
 
-	p := &Process{Id: 1, FidTree: []int{0, 1}}
-	p.Parent = p
-	copy := NewVariables(p)
+	// Create a referenced variable table
+	b := p.BranchFID()
+	defer b.Close()
+	copy := b.Variables
 
 	err = copy.Set("number", copyNum, types.Number)
 	if err != nil {
@@ -156,5 +155,22 @@ func TestVariables(t *testing.T) {
 
 	if copy.GetString("new") != "string" {
 		t.Error("New string on copy not retriving correctly: '" + copy.GetString("new") + "'")
+	}
+}
+
+// TestReservedVariables tests the Vars structure
+func TestReservedVarables(t *testing.T) {
+	p := NewTestProcess()
+
+	reserved := []string{
+		"self",
+		"params",
+	}
+
+	for _, name := range reserved {
+		err := p.Variables.Set(name, "foobar", types.String)
+		if err != errVariableReserved {
+			t.Errorf("`%s` is not a reserved variable", name)
+		}
 	}
 }

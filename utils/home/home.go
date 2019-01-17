@@ -1,13 +1,15 @@
 package home
 
 import (
-	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/consts"
 	"os"
 	"os/user"
+
+	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 )
 
-// MyDir is the $USER directory. Typically /home/$USER/ on non-Windows systems, or \users\$USER on Windows.
+// MyDir is the $USER directory.
+// Typically /home/$USER/ on non-Windows systems, or \users\$USER on Windows.
 var MyDir string
 
 func init() {

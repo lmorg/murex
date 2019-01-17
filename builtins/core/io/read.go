@@ -29,7 +29,7 @@ func read(p *proc.Process, dt string, paramAdjust int) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.IsBackground {
-		return errors.New("Background processes cannot read from stdin.")
+		return errors.New("Background processes cannot read from stdin")
 	}
 
 	var prompt string

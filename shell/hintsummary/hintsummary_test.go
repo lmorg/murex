@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// TestConfig tests the config structure
+// TestHintSummary tests the HintSummary structure
 func TestHintSummary(t *testing.T) {
 	summary := New()
 

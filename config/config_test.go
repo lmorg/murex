@@ -39,5 +39,4 @@ func TestConfig(t *testing.T) {
 	if v.(string) != "copy" {
 		t.Error("config.Get returns invalid string: " + v.(string))
 	}
-
 }

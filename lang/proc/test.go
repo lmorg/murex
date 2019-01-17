@@ -75,14 +75,15 @@ const (
 )
 
 // Tests is a class of all the tests that needs to run inside a
-// particlar scope, plus all of it's results.
+// particular scope, plus all of it's results.
 type Tests struct {
 	mutex   sync.Mutex
 	test    []*TestProperties
 	Results []TestResults
 }
 
-// NewTests creates a new testing scope
+// NewTests creates a new testing scope for Murex's test suite.NewTests.
+// Please note this should NOT be confused with Go tests (go test)!
 func NewTests() (tests *Tests) {
 	tests = new(Tests)
 	return

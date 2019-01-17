@@ -36,7 +36,7 @@ func init() {
 	})
 
 	proc.InitConf.Define("http", "default-https", config.Properties{
-		Description: "If true then when no protocol is specified (`http://` not `https://`) then default to `https://`.",
+		Description: "If true then when no protocol is specified (`http://` nor `https://`) then default to `https://`.",
 		Default:     false,
 		DataType:    types.Boolean,
 	})

@@ -107,3 +107,7 @@ func cmdUnprivate(p *proc.Process) error {
 
 	return proc.PrivateFunctions.Undefine(name)
 }
+
+/*func aliasTable {
+
+}*/
