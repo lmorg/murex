@@ -1,6 +1,6 @@
 func h {
     # Output the murex history log in a human readable format
-    history -> foreach { -> [ Index Block ] -> sprintf: "%6s => %s\n" } -> cast string
+    history -> foreach { -> [ Index Block ] -> sprintf: "%6s => %s\n" } -> cast str
 }
 
 func aliases {
@@ -93,28 +93,28 @@ autocomplete set config { [{
 
 autocomplete set event { [
     {
-        "Dynamic": "{ runtime: --events -> formap k v { out $k } }"
+        "Dynamic": ({ runtime: --events -> formap k v { out $k } })
     }
 ] }
 
 autocomplete set !event { [
     {
-        "Dynamic": "{ runtime: --events -> formap k v { out $k } -> sort }"
+        "Dynamic": ({ runtime: --events -> formap k v { out $k } -> sort })
     },
     {
-        "Dynamic": "{ runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort }"
+        "Dynamic": ({ runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort })
     }
 ] }
 
 autocomplete set !alias { [
     {
-        "Dynamic": "{ runtime: --aliases -> formap k v { out $k } }"
+        "Dynamic": ({ runtime: --aliases -> formap k v { out $k } })
     }
 ]}
 
 autocomplete set !func { [
     {
-        "Dynamic": "{ runtime: --funcs -> formap k v { out $k } }"
+        "Dynamic": ({ runtime: --funcs -> formap k v { out $k } })
     }
 ]}
 

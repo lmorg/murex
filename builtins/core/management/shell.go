@@ -193,7 +193,7 @@ func cmdSummary(p *proc.Process) error {
 		return err
 	}
 
-	shell.Summary[exe] = summary
+	shell.Summary.Set(exe, summary)
 
 	return nil
 }

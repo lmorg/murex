@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
@@ -21,7 +22,7 @@ import (
 
 var (
 	// Summary is an overriding summary for readline hints
-	Summary = make(map[string]string)
+	Summary = hintsummary.New()
 
 	manDesc        = make(map[string]string)
 	cachedHintText []rune
@@ -42,8 +43,9 @@ func hintText(line []rune, pos int) []rune {
 		return []rune("Change directory: " + path)
 	}
 
-	if Summary[cmd] != "" {
-		summary = Summary[cmd]
+	s := Summary.Get(cmd)
+	if s != "" {
+		summary = s
 	}
 
 	if proc.GlobalAliases.Exists(cmd) {
