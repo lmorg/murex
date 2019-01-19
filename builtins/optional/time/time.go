@@ -4,16 +4,15 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["sleep"] = cmdSleep
-	proc.GoFunctions["time"] = cmdTime
+	lang.GoFunctions["sleep"] = cmdSleep
+	lang.GoFunctions["time"] = cmdTime
 }
 
-func cmdSleep(p *proc.Process) error {
+func cmdSleep(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	i, err := p.Parameters.Int(0)
@@ -29,7 +28,7 @@ func cmdSleep(p *proc.Process) error {
 	}
 }
 
-func cmdTime(p *proc.Process) error {
+func cmdTime(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Integer)
 	block := p.Parameters.ByteAll()
 
@@ -52,6 +51,6 @@ func cmdTime(p *proc.Process) error {
 	}
 
 	p.Parameters.Params = append([]string{"time"}, p.Parameters.Params...)
-	err := proc.External(p)
+	err := lang.External(p)
 	return err
 }

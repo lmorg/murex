@@ -3,11 +3,11 @@ package define
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 // MarshalData is a global marshaller
-func MarshalData(p *proc.Process, dataType string, data interface{}) (b []byte, err error) {
+func MarshalData(p *lang.Process, dataType string, data interface{}) (b []byte, err error) {
 
 	if Marshallers[dataType] == nil {
 		return nil, errors.New("I don't know how to marshal `" + dataType + "`.")
@@ -22,7 +22,7 @@ func MarshalData(p *proc.Process, dataType string, data interface{}) (b []byte, 
 }
 
 // UnmarshalData is a global unmarshaller
-func UnmarshalData(p *proc.Process, dataType string) (v interface{}, err error) {
+func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) {
 
 	if Unmarshallers[dataType] == nil {
 		return nil, errors.New("I don't know how to unmarshal `" + dataType + "`.")

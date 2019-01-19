@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -32,12 +31,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 
 	if !types.IsBlock([]byte(dynamic)) {
-		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocompleter is not a code block"))
+		lang.ShellProcess.Stderr.Writeln([]byte("Dynamic autocompleter is not a code block"))
 		return
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	branch := proc.ShellProcess.BranchFID()
+	branch := lang.ShellProcess.BranchFID()
 	branch.Scope = branch.Process
 	branch.Parent = branch.Process
 	branch.IsBackground = true
@@ -49,10 +48,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
 
 	if err != nil {
-		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete code could not compile: " + err.Error()))
+		lang.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete code could not compile: " + err.Error()))
 	}
-	if exitNum != 0 && debug.Enable {
-		proc.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
+	if exitNum != 0 && debug.Enabled {
+		lang.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
 	}
 
 	if f.Dynamic != "" {
@@ -70,7 +69,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 			*tdt = readline.TabDisplayList
 		}
 
-		stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
+		stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
 			if strings.HasPrefix(key, partial) {
 				items = append(items, key[len(partial):])
 				value = strings.Replace(value, "\r", "", -1)

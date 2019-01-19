@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
-	proc.GoFunctions["len"] = cmdLen
+	lang.GoFunctions["len"] = cmdLen
 }
 
-func cmdLen(p *proc.Process) error {
+func cmdLen(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Integer)
 
 	v, err := define.UnmarshalData(p, p.Stdin.GetDataType())

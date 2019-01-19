@@ -2,16 +2,16 @@ package typemgmt
 
 import (
 	"errors"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
-	proc.GoFunctions["format"] = cmdFormat
+	lang.GoFunctions["format"] = cmdFormat
 }
 
-func cmdFormat(p *proc.Process) (err error) {
+func cmdFormat(p *lang.Process) (err error) {
 	format, err := p.Parameters.String(0)
 	if err != nil {
 		return

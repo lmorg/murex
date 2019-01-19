@@ -3,15 +3,15 @@ package httpclient
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 // TestGet tests the get function
 func TestGet(t *testing.T) {
-	proc.InitEnv()
+	lang.InitEnv()
 
-	p := proc.NewTestProcess()
-	p.Config = proc.ShellProcess.Config
+	p := lang.NewTestProcess()
+	p.Config = lang.ShellProcess.Config
 	p.Parameters.Params = []string{"https://github.com"}
 
 	err := cmdGet(p)
@@ -22,10 +22,10 @@ func TestGet(t *testing.T) {
 
 // TestGetFile tests the getfile function
 func TestGetFile(t *testing.T) {
-	proc.InitEnv()
+	lang.InitEnv()
 
-	p := proc.NewTestProcess()
-	p.Config = proc.ShellProcess.Config
+	p := lang.NewTestProcess()
+	p.Config = lang.ShellProcess.Config
 	p.Parameters.Params = []string{"https://github.com"}
 
 	err := cmdGetFile(p)

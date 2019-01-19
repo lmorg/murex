@@ -3,14 +3,13 @@ package lang
 import (
 	"regexp"
 
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
 
 var rxNamedPipe *regexp.Regexp = regexp.MustCompile(`^<(test_|\!)?[a-zA-Z0-9]+>$`)
 
-func parseRedirection(p *proc.Process) {
+func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
 	//p.NamedPipeErr = "err"
 

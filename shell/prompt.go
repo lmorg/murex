@@ -3,9 +3,8 @@ package shell
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -17,10 +16,10 @@ func getPrompt() {
 		b         []byte
 	)
 
-	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
+	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
-		branch := proc.ShellProcess.BranchFID()
+		branch := lang.ShellProcess.BranchFID()
 		defer branch.Close()
 		branch.Variables.Set("linenum", 1, types.Integer)
 		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
@@ -30,7 +29,7 @@ func getPrompt() {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		proc.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
+		lang.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
 		b = []byte("murex » ")
 	}
 
@@ -44,10 +43,10 @@ func getMultilinePrompt(nLines int) {
 		b         []byte
 	)
 
-	prompt, err := proc.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
+	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
 		out := streams.NewStdin()
-		branch := proc.ShellProcess.BranchFID()
+		branch := lang.ShellProcess.BranchFID()
 		defer branch.Close()
 		branch.Variables.Set("linenum", nLines, types.Integer)
 		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
@@ -57,7 +56,7 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		proc.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
+		lang.ShellProcess.Stderr.Writeln([]byte("Invalid prompt. Block returned false."))
 		b = []byte(fmt.Sprintf("%5d » ", nLines))
 	}
 

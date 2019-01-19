@@ -7,7 +7,6 @@ import (
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -17,7 +16,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["runtime"] = cmdRuntime
+	lang.GoFunctions["runtime"] = cmdRuntime
 
 	defaults.AppendProfile(`
         autocomplete set runtime { [{
@@ -27,7 +26,7 @@ func init() {
     `)
 }
 
-func cmdRuntime(p *proc.Process) error {
+func cmdRuntime(p *lang.Process) error {
 	const (
 		fVars          = "--vars"
 		fAliases       = "--aliases"
@@ -104,20 +103,20 @@ func cmdRuntime(p *proc.Process) error {
 		case fVars:
 			ret[fVars[2:]] = p.Variables.Dump()
 		case fAliases:
-			ret[fAliases[2:]] = proc.GlobalAliases.Dump()
+			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
 		case fConfig:
-			//ret[fConfig[2:]] = proc.ShellProcess.Config.Dump()
+			//ret[fConfig[2:]] = lang.ShellProcess.Config.Dump()
 			ret[fConfig[2:]] = p.Config.Dump()
 		case fNamedPipes:
-			ret[fNamedPipes[2:]] = proc.GlobalPipes.Dump()
+			ret[fNamedPipes[2:]] = lang.GlobalPipes.Dump()
 		case fPipes:
 			ret[fPipes[2:]] = stdio.DumpPipes()
 		case fFuncs:
-			ret[fFuncs[2:]] = proc.MxFunctions.Dump()
+			ret[fFuncs[2:]] = lang.MxFunctions.Dump()
 		case fPrivates:
-			ret[fPrivates[2:]] = proc.PrivateFunctions.Dump()
+			ret[fPrivates[2:]] = lang.PrivateFunctions.Dump()
 		case fFids:
-			ret[fFids[2:]] = proc.GlobalFIDs.Dump()
+			ret[fFids[2:]] = lang.GlobalFIDs.Dump()
 		case fReadArrays:
 			ret[fReadArrays[2:]] = stdio.DumpArray()
 		case fReadMaps:

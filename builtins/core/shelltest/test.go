@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
@@ -20,7 +19,7 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["test"] = cmdTest
+	lang.GoFunctions["test"] = cmdTest
 
 	defaults.AppendProfile(`
 		autocomplete set test { [{
@@ -42,7 +41,7 @@ type testArgs struct {
 	ExitNum   int
 }
 
-func cmdTest(p *proc.Process) error {
+func cmdTest(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -72,7 +71,7 @@ func cmdTest(p *proc.Process) error {
 	}
 }
 
-func testConfig(p *proc.Process) (err error) {
+func testConfig(p *lang.Process) (err error) {
 	option, _ := p.Parameters.String(0)
 
 	switch option {
@@ -95,7 +94,7 @@ func testConfig(p *proc.Process) (err error) {
 	return
 }
 
-func testDefine(p *proc.Process) error {
+func testDefine(p *lang.Process) error {
 	enabled, err := p.Config.Get("test", "enabled", types.Boolean)
 	if err != nil || !enabled.(bool) {
 		return err
@@ -122,7 +121,7 @@ func testDefine(p *proc.Process) error {
 	if err != nil {
 		return err
 	}
-	stdout := &proc.TestChecks{
+	stdout := &lang.TestChecks{
 		Regexp:   rx,
 		Block:    []rune(args.OutBlock),
 		RunBlock: runBlock,
@@ -133,7 +132,7 @@ func testDefine(p *proc.Process) error {
 	if err != nil {
 		return err
 	}
-	stderr := &proc.TestChecks{
+	stderr := &lang.TestChecks{
 		Regexp:   rx,
 		Block:    []rune(args.ErrBlock),
 		RunBlock: runBlock,
@@ -143,9 +142,9 @@ func testDefine(p *proc.Process) error {
 	return err
 }
 
-func runBlock(p *proc.Process, block []rune) ([]byte, error) {
+func runBlock(p *lang.Process, block []rune) ([]byte, error) {
 	stdout := streams.NewStdin()
-	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, proc.ShellProcess.Stderr, p)
+	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, p)
 	if err != nil {
 		return nil, err
 	}
@@ -157,7 +156,7 @@ func runBlock(p *proc.Process, block []rune) ([]byte, error) {
 	return utils.CrLfTrim(b), nil
 }
 
-func testRun(p *proc.Process) error {
+func testRun(p *lang.Process) error {
 	block, err := p.Parameters.Block(1)
 	if err != nil {
 		return err
@@ -184,12 +183,12 @@ func testRun(p *proc.Process) error {
 
 	pipeName := "system_test_" + hex.EncodeToString(h.Sum(nil))
 
-	err = proc.GlobalPipes.CreatePipe(pipeName, "std", "")
+	err = lang.GlobalPipes.CreatePipe(pipeName, "std", "")
 	if err != nil {
 		return err
 	}
 
-	pipe, err := proc.GlobalPipes.Get(pipeName)
+	pipe, err := lang.GlobalPipes.Get(pipeName)
 	if err != nil {
 		return err
 	}
@@ -204,7 +203,7 @@ func testRun(p *proc.Process) error {
 		return err
 	}
 
-	err = proc.GlobalPipes.Close(pipeName)
+	err = lang.GlobalPipes.Close(pipeName)
 	if err != nil {
 		return err
 	}

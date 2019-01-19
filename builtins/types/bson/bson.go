@@ -6,7 +6,7 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"labix.org/v2/mgo/bson"
@@ -96,7 +96,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 			return nil
 
 		default:
-			if debug.Enable {
+			if debug.Enabled {
 				panic(v)
 			}
 		}
@@ -105,11 +105,11 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 	return err
 }
 
-func marshal(_ *proc.Process, v interface{}) ([]byte, error) {
+func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
 	return bson.Marshal(v)
 }
 
-func unmarshal(p *proc.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v interface{}, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

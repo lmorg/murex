@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -20,7 +20,7 @@ func SplitPath(envPath string) []string {
 func listExes(path string, exes map[string]bool) {
 	var showExts bool
 
-	v, err := proc.ShellProcess.Config.Get("shell", "show-exts", types.Boolean)
+	v, err := lang.ShellProcess.Config.Get("shell", "show-exts", types.Boolean)
 	if err != nil {
 		showExts = false
 	} else {

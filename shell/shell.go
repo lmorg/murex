@@ -6,7 +6,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
@@ -31,7 +30,7 @@ var (
 // Start the interactive shell
 func Start() {
 	/*defer func() {
-		if debug.Enable {
+		if debug.Enabled {
 			return
 		}
 		if r := recover(); r != nil {
@@ -50,7 +49,7 @@ func Start() {
 
 	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
 	if err != nil {
-		proc.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
+		lang.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
 	} else {
 		Prompt.History = h
 	}
@@ -59,7 +58,7 @@ func Start() {
 
 	go autocomplete.UpdateGlobalExeList()
 
-	v, err := proc.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = 4
 	}
@@ -134,8 +133,8 @@ func ShowPrompt() {
 
 		expanded, err := history.ExpandVariables(block, Prompt)
 		if err != nil {
-			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, err.Error())
-			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, err.Error())
+			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 			merged = ""
 			nLines = 1
 			continue
@@ -189,7 +188,7 @@ func ShowPrompt() {
 }
 
 func getSyntaxHighlighting() {
-	highlight, err := proc.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
+	highlight, err := lang.ShellProcess.Config.Get("shell", "syntax-highlighting", types.Boolean)
 	if err != nil {
 		highlight = false
 	}
@@ -201,7 +200,7 @@ func getSyntaxHighlighting() {
 }
 
 func getShowHintText() {
-	showHintText, err := proc.ShellProcess.Config.Get("shell", "show-hint-text", types.Boolean)
+	showHintText, err := lang.ShellProcess.Config.Get("shell", "show-hint-text", types.Boolean)
 	if err != nil {
 		showHintText = false
 	}

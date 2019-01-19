@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import murex builtins
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 )
 
-// MurexTest is a basic framework to test murex code
+// MurexTest is a basic framework to test murex code.
+// Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 type MurexTest struct {
 	Block   string
 	Stdout  string
@@ -20,8 +20,8 @@ type MurexTest struct {
 
 // RunMurexTests runs through all the test cases for MurexTest
 func RunMurexTests(tests []MurexTest, t *testing.T) {
-	defaults.Defaults(proc.InitConf, false)
-	proc.InitEnv()
+	defaults.Defaults(lang.InitConf, false)
+	lang.InitEnv()
 
 	for i := range tests {
 		stdout := streams.NewStdin()

@@ -2,16 +2,15 @@ package management
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["bg"] = cmdBackground
-	proc.GoFunctions["fg"] = cmdForeground
+	lang.GoFunctions["bg"] = cmdBackground
+	lang.GoFunctions["fg"] = cmdForeground
 }
 
-func cmdBackground(p *proc.Process) (err error) {
+func cmdBackground(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
 	var block []rune
@@ -37,7 +36,7 @@ func cmdBackground(p *proc.Process) (err error) {
 	return nil
 }
 
-func updateTree(p *proc.Process, isBackground bool) {
+func updateTree(p *lang.Process, isBackground bool) {
 	pTree := p
 	for {
 		if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name == `bg` {

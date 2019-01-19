@@ -1,20 +1,20 @@
 package io
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
 func init() {
-	proc.GoFunctions["echo"] = cmdOut
-	proc.GoFunctions["out"] = cmdOut
-	proc.GoFunctions["("] = cmdOutNoCR
-	proc.GoFunctions["tout"] = cmdTout
-	proc.GoFunctions["err"] = cmdErr
+	lang.GoFunctions["echo"] = cmdOut
+	lang.GoFunctions["out"] = cmdOut
+	lang.GoFunctions["("] = cmdOutNoCR
+	lang.GoFunctions["tout"] = cmdTout
+	lang.GoFunctions["err"] = cmdErr
 }
 
-func cmdOut(p *proc.Process) (err error) {
+func cmdOut(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	s := p.Parameters.StringAll()
@@ -24,7 +24,7 @@ func cmdOut(p *proc.Process) (err error) {
 	return
 }
 
-func cmdOutNoCR(p *proc.Process) (err error) {
+func cmdOutNoCR(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	s := p.Parameters.StringAll()
@@ -34,7 +34,7 @@ func cmdOutNoCR(p *proc.Process) (err error) {
 	return
 }
 
-func cmdTout(p *proc.Process) (err error) {
+func cmdTout(p *lang.Process) (err error) {
 	dt, err := p.Parameters.String(0)
 	if err != nil {
 		return
@@ -49,7 +49,7 @@ func cmdTout(p *proc.Process) (err error) {
 	return
 }
 
-func cmdErr(p *proc.Process) (err error) {
+func cmdErr(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 	p.ExitNum = 1
 

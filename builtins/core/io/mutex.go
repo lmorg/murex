@@ -6,19 +6,19 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 var mutexes map[string]sync.Mutex
 
 func init() {
-	proc.GoFunctions["mutex"] = cmdMutex
+	lang.GoFunctions["mutex"] = cmdMutex
 
 	mutexes = make(map[string]murexMutex)
 }
 
-func cmdMutex(p *proc.Process) (err error) {
+func cmdMutex(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
 	method, err := p.Parameters.String(0)

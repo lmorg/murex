@@ -4,17 +4,17 @@ import (
 	"errors"
 	"sort"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["autocomplete"] = cmdAutocomplete
+	lang.GoFunctions["autocomplete"] = cmdAutocomplete
 }
 
-func cmdAutocomplete(p *proc.Process) error {
+func cmdAutocomplete(p *lang.Process) error {
 	mode, err := p.Parameters.String(0)
 	if err != nil {
 		p.Stdout.SetDataType(types.Null)
@@ -34,7 +34,7 @@ func cmdAutocomplete(p *proc.Process) error {
 	}
 }
 
-func get(p *proc.Process) error {
+func get(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	b, err := json.Marshal(autocomplete.ExesFlags, p.Stdout.IsTTY())
@@ -46,7 +46,7 @@ func get(p *proc.Process) error {
 	return err
 }
 
-func set(p *proc.Process) error {
+func set(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	exe, err := p.Parameters.String(1)

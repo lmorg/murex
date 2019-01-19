@@ -6,16 +6,16 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["pretty"] = cmdPretty
-	proc.GoFunctions["sprintf"] = cmdSprintf
+	lang.GoFunctions["pretty"] = cmdPretty
+	lang.GoFunctions["sprintf"] = cmdSprintf
 }
 
-func cmdPretty(p *proc.Process) error {
+func cmdPretty(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	if err := p.ErrIfNotAMethod(); err != nil {
@@ -37,7 +37,7 @@ func cmdPretty(p *proc.Process) error {
 	return err
 }
 
-func cmdSprintf(p *proc.Process) error {
+func cmdSprintf(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	if err := p.ErrIfNotAMethod(); err != nil {

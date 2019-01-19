@@ -6,12 +6,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 // IndexTemplateObject is a handy standard indexer you can use in your custom data types for structured object types.
 // The point of this is to minimize code rewriting and standardising the behavior of the indexer.
-func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
+func IndexTemplateObject(p *lang.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	if p.IsNot {
 		return itoNot(p, params, object, marshaller)
 	}
@@ -19,7 +19,7 @@ func IndexTemplateObject(p *proc.Process, params []string, object *interface{}, 
 }
 
 // itoIndex allow
-func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
+func itoIndex(p *lang.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	var objArray []interface{}
 	switch v := (*object).(type) {
 	case []interface{}:
@@ -151,7 +151,7 @@ func itoIndex(p *proc.Process, params []string, object *interface{}, marshaller 
 }
 
 // itoNot requires the indexes to be explicit
-func itoNot(p *proc.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
+func itoNot(p *lang.Process, params []string, object *interface{}, marshaller func(interface{}) ([]byte, error)) error {
 	switch v := (*object).(type) {
 	case []interface{}:
 		var objArray []interface{}

@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 	"strings"
 )
 
-func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
+func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
@@ -75,7 +75,7 @@ func iface2str(v *interface{}) (b []byte) {
 	}
 }
 
-func unmarshal(p *proc.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (interface{}, error) {
 	table := make([][]string, 1)
 
 	scanner := bufio.NewScanner(p.Stdin)

@@ -3,15 +3,15 @@ package httpclient
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 // TestPost tests the post function
 func TestPost(t *testing.T) {
-	proc.InitEnv()
+	lang.InitEnv()
 
-	p := proc.NewTestProcess()
-	p.Config = proc.ShellProcess.Config
+	p := lang.NewTestProcess()
+	p.Config = lang.ShellProcess.Config
 	p.Parameters.Params = []string{"https://github.com"}
 
 	err := cmdPost(p)

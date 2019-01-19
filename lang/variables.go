@@ -1,4 +1,4 @@
-package proc
+package lang
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ import (
 var errVariableReserved = errors.New("Cannot set a reserved variable")
 
 // Variables is an object that methods out lookups against the `varTable`.
-// This will need to be created on each `proc.Process`.
+// This will need to be created on each `Process`.
 //
 // While it might seem odd wrapping `varTable` struct up inside another struct,
 // the idea behind this is `Variables` would be per process and `varTable` would
@@ -230,7 +230,7 @@ func (vars *Variables) GetString(name string) string {
 
 		s, err := types.ConvertGoType(value, types.String)
 		if err != nil {
-			if debug.Enable {
+			if debug.Enabled {
 				panic(err.Error())
 			}
 			return fmt.Sprint(value) // silent fallback for stability

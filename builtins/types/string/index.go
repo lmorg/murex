@@ -1,8 +1,8 @@
 package string
 
-import "github.com/lmorg/murex/lang/proc"
+import "github.com/lmorg/murex/lang"
 
-func index(p *proc.Process, params []string) error {
+func index(p *lang.Process, params []string) error {
 	match := make(map[string]bool)
 	for i := range params {
 		match[params[i]] = true

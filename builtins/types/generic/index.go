@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
-func index(p *proc.Process, params []string) error {
+func index(p *lang.Process, params []string) error {
 	cRecords := make(chan []string, 1)
 
 	go func() {

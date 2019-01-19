@@ -1,18 +1,18 @@
 package datatools
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/alter"
 )
 
 func init() {
-	proc.GoFunctions["append"] = cmdAppend
-	proc.GoFunctions["prepend"] = cmdPrepend
-	proc.GoFunctions["alter"] = cmdAlter
+	lang.GoFunctions["append"] = cmdAppend
+	lang.GoFunctions["prepend"] = cmdPrepend
+	lang.GoFunctions["alter"] = cmdAlter
 }
 
-func cmdPrepend(p *proc.Process) error {
+func cmdPrepend(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -41,7 +41,7 @@ func cmdPrepend(p *proc.Process) error {
 	return err
 }
 
-func cmdAppend(p *proc.Process) error {
+func cmdAppend(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -70,7 +70,7 @@ func cmdAppend(p *proc.Process) error {
 	return err
 }
 
-func cmdAlter(p *proc.Process) error {
+func cmdAlter(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

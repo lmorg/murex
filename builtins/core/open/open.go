@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
@@ -17,10 +16,10 @@ import (
 var rxExt = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
 
 func init() {
-	proc.GoFunctions["open"] = open
+	lang.GoFunctions["open"] = open
 }
 
-func open(p *proc.Process) (err error) {
+func open(p *lang.Process) (err error) {
 	var (
 		ext      string
 		dataType string
@@ -113,7 +112,7 @@ func getExt(path, dataType string) string {
 	return ""
 }
 
-func preview(p *proc.Process, path, dataType string) error {
+func preview(p *lang.Process, path, dataType string) error {
 	if dataType == "" {
 		dataType = types.Generic
 	}
@@ -134,7 +133,7 @@ func preview(p *proc.Process, path, dataType string) error {
 		return err
 	}
 
-	branch := proc.ShellProcess.BranchFID()
+	branch := lang.ShellProcess.BranchFID()
 	defer branch.Close()
 	branch.Scope = branch.Process
 	branch.Parent = branch.Process

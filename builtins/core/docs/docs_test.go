@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -30,7 +30,7 @@ func TestDocs(t *testing.T) {
 
 	exists(t, docs+"000_summaries_commands_docgen.go")
 
-	for name := range proc.GoFunctions {
+	for name := range lang.GoFunctions {
 		exists(t, docs+name+"_commands_docgen.go")
 	}
 }

@@ -3,18 +3,18 @@ package docs
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["murex-docs"] = cmdMurexDocs
+	lang.GoFunctions["murex-docs"] = cmdMurexDocs
 }
 
 // Definition stores the definitions for builtins
 var Definition = make(map[string]string)
 
-func cmdMurexDocs(p *proc.Process) error {
+func cmdMurexDocs(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 	cmd, err := p.Parameters.String(0)
 	if err != nil {

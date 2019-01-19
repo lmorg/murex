@@ -3,15 +3,15 @@ package string
 import (
 	"github.com/boombuler/barcode"
 	"github.com/boombuler/barcode/qr"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"image/png"
 )
 
 func init() {
-	proc.GoFunctions["qr"] = cmdQr
+	lang.GoFunctions["qr"] = cmdQr
 }
 
-func cmdQr(p *proc.Process) error {
+func cmdQr(p *lang.Process) error {
 	p.Stdout.SetDataType("image")
 
 	b, err := p.Stdin.ReadAll()

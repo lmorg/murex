@@ -249,7 +249,7 @@ func jobs {
     out "FID - Process"
     fid-list -> foreach f {
         if { = `$f[State]`==`Stopped` } {
-            out "$f[Id] - $f[Command] $f[Parameters]"
+            out "$f[FID] - $f[Command] $f[Parameters]"
         }
     }
 }

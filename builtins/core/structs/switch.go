@@ -4,18 +4,17 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["switch"] = cmdSwitch
+	lang.GoFunctions["switch"] = cmdSwitch
 }
 
-func cmdSwitch(p *proc.Process) error {
+func cmdSwitch(p *lang.Process) error {
 	compLeft, block, err := getParameters(p)
 	if err != nil {
 		return err
@@ -88,7 +87,7 @@ func cmdSwitch(p *proc.Process) error {
 	return nil
 }
 
-func getParameters(p *proc.Process) (compLeft string, block []rune, err error) {
+func getParameters(p *lang.Process) (compLeft string, block []rune, err error) {
 	switch p.Parameters.Len() {
 	case 0:
 		err = errors.New("Too few parameters.")
@@ -126,7 +125,7 @@ func getParameters(p *proc.Process) (compLeft string, block []rune, err error) {
 	return
 }
 
-func getCompLeftFromBlock(p *proc.Process) (string, error) {
+func getCompLeftFromBlock(p *lang.Process) (string, error) {
 	compBlock, err := p.Parameters.Block(0)
 	if err != nil {
 		return "", err
@@ -140,7 +139,7 @@ func getCompLeftFromBlock(p *proc.Process) (string, error) {
 	return string(b), err
 }
 
-func switchCompByVal(p *proc.Process, params *parameters.Parameters, compLeft string) (bool, error) {
+func switchCompByVal(p *lang.Process, params *parameters.Parameters, compLeft string) (bool, error) {
 	compRight, err := params.String(0)
 	if err != nil {
 		return false, err
@@ -153,7 +152,7 @@ func switchCompByVal(p *proc.Process, params *parameters.Parameters, compLeft st
 	return compLeft == compRight, nil
 }
 
-func switchCompByBlock(p *proc.Process, params *parameters.Parameters) (bool, error) {
+func switchCompByBlock(p *lang.Process, params *parameters.Parameters) (bool, error) {
 	block, err := params.Block(0)
 	if err != nil {
 		return false, err
@@ -174,7 +173,7 @@ func switchCompByBlock(p *proc.Process, params *parameters.Parameters) (bool, er
 	return result, nil
 }
 
-func switchBlock(p *proc.Process, params *parameters.Parameters) error {
+func switchBlock(p *lang.Process, params *parameters.Parameters) error {
 	block, err := params.Block(params.Len() - 1)
 	if err != nil {
 		return err

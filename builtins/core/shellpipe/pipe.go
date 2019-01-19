@@ -7,16 +7,16 @@ import (
 	"github.com/lmorg/murex/lang/proc/stdio"
 
 	"github.com/lmorg/murex/config/defaults"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
 
 func init() {
-	proc.GoFunctions["pipe"] = cmdPipe
-	proc.GoFunctions["!pipe"] = cmdClosePipe
-	proc.GoFunctions[consts.NamedPipeProcName] = cmdReadPipe
+	lang.GoFunctions["pipe"] = cmdPipe
+	lang.GoFunctions["!pipe"] = cmdClosePipe
+	lang.GoFunctions[consts.NamedPipeProcName] = cmdReadPipe
 	defaults.AppendProfile(`
 		autocomplete set pipe { [
 		    {
@@ -40,7 +40,7 @@ func init() {
 	`)
 }
 
-func cmdPipe(p *proc.Process) error {
+func cmdPipe(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -73,11 +73,11 @@ func cmdPipe(p *proc.Process) error {
 	}
 
 	for flag := range flags {
-		return proc.GlobalPipes.CreatePipe(additional[0], flag[2:], flags[flag])
+		return lang.GlobalPipes.CreatePipe(additional[0], flag[2:], flags[flag])
 	}
 
 	for _, name := range additional {
-		err := proc.GlobalPipes.CreatePipe(name, "std", "")
+		err := lang.GlobalPipes.CreatePipe(name, "std", "")
 		if err != nil {
 			return err
 		}
@@ -86,7 +86,7 @@ func cmdPipe(p *proc.Process) error {
 	return nil
 }
 
-func cmdClosePipe(p *proc.Process) error {
+func cmdClosePipe(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	var names []string
@@ -109,7 +109,7 @@ func cmdClosePipe(p *proc.Process) error {
 	}
 
 	for _, name := range names {
-		if err := proc.GlobalPipes.Close(name); err != nil {
+		if err := lang.GlobalPipes.Close(name); err != nil {
 			return err
 		}
 	}
@@ -117,13 +117,13 @@ func cmdClosePipe(p *proc.Process) error {
 	return nil
 }
 
-func cmdReadPipe(p *proc.Process) error {
+func cmdReadPipe(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	pipe, err := proc.GlobalPipes.Get(name)
+	pipe, err := lang.GlobalPipes.Get(name)
 	if err != nil {
 		return err
 	}

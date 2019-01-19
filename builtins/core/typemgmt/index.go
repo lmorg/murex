@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
@@ -14,17 +14,17 @@ import (
 type jsonInterface map[interface{}]interface{}
 
 func init() {
-	proc.GoFunctions["["] = index
-	proc.GoFunctions["!["] = index
+	lang.GoFunctions["["] = index
+	lang.GoFunctions["!["] = index
 
-	proc.InitConf.Define("index", "silent", config.Properties{
+	lang.InitConf.Define("index", "silent", config.Properties{
 		Description: "Don't report error if an index in [ ] does not exist",
 		Default:     false,
 		DataType:    types.Boolean,
 	})
 }
 
-func index(p *proc.Process) (err error) {
+func index(p *lang.Process) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("Panic caught: %s", r)
@@ -52,7 +52,7 @@ func index(p *proc.Process) (err error) {
 		return errors.New("Missing closing bracket, ` ]`")
 	}
 
-	var f func(p *proc.Process, params []string) error
+	var f func(p *lang.Process, params []string) error
 	if p.IsNot {
 		f = define.ReadNotIndexes[dt]
 		if f == nil {

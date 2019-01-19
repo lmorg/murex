@@ -3,15 +3,14 @@ package structs
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["if"] = cmdIf
-	proc.GoFunctions["!if"] = cmdIf
+	lang.GoFunctions["if"] = cmdIf
+	lang.GoFunctions["!if"] = cmdIf
 }
 
 const (
@@ -21,7 +20,7 @@ const (
 	fDone
 )
 
-func cmdIf(p *proc.Process) error {
+func cmdIf(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {

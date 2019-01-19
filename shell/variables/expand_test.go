@@ -3,7 +3,7 @@ package variables
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/home"
 )
@@ -15,14 +15,14 @@ var (
 
 // TestExpand tests the ExpandString function
 func TestExpand(t *testing.T) {
-	proc.InitEnv()
+	lang.InitEnv()
 
-	err := proc.ShellProcess.Variables.Set("foo", "oof", types.String)
+	err := lang.ShellProcess.Variables.Set("foo", "oof", types.String)
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = proc.ShellProcess.Variables.Set("bar", "rab", types.String)
+	err = lang.ShellProcess.Variables.Set("bar", "rab", types.String)
 	if err != nil {
 		t.Error(err)
 	}
@@ -38,14 +38,14 @@ func TestExpand(t *testing.T) {
 
 // TestExpandString tests the ExpandString function
 func TestExpandString(t *testing.T) {
-	proc.InitEnv()
+	lang.InitEnv()
 
-	err := proc.ShellProcess.Variables.Set("foo", "oof", types.String)
+	err := lang.ShellProcess.Variables.Set("foo", "oof", types.String)
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = proc.ShellProcess.Variables.Set("bar", "rab", types.String)
+	err = lang.ShellProcess.Variables.Set("bar", "rab", types.String)
 	if err != nil {
 		t.Error(err)
 	}

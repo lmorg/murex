@@ -4,15 +4,15 @@ import (
 	"errors"
 	"math/rand"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["rand"] = cmdRand
+	lang.GoFunctions["rand"] = cmdRand
 }
 
-func cmdRand(p *proc.Process) error {
+func cmdRand(p *lang.Process) error {
 	dt, err := p.Parameters.String(0)
 	if err != nil {
 		return err

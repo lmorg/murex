@@ -1,4 +1,4 @@
-package proc
+package lang
 
 // BranchFID is used to branch a process to create a sandboxed function ID.
 // This function produces a `go vet` error due to copying mutexes. However this

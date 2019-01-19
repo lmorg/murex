@@ -4,23 +4,22 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["for"] = cmdFor
-	proc.GoFunctions["foreach"] = cmdForEach
-	proc.GoFunctions["formap"] = cmdForMap
-	proc.GoFunctions["while"] = cmdWhile
-	proc.GoFunctions["!while"] = cmdWhile
+	lang.GoFunctions["for"] = cmdFor
+	lang.GoFunctions["foreach"] = cmdForEach
+	lang.GoFunctions["formap"] = cmdForMap
+	lang.GoFunctions["while"] = cmdWhile
+	lang.GoFunctions["!while"] = cmdWhile
 }
 
 // Example usage:
 // for ( i=1; i<6; i++ ) { echo $i }
-func cmdFor(p *proc.Process) (err error) {
+func cmdFor(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
 	cblock, err := p.Parameters.String(0)
@@ -79,7 +78,7 @@ func cmdFor(p *proc.Process) (err error) {
 	//return nil
 }
 
-func cmdForEach(p *proc.Process) (err error) {
+func cmdForEach(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -129,7 +128,7 @@ func cmdForEach(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdForMap(p *proc.Process) error {
+func cmdForMap(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 	dt := p.Stdin.GetDataType()
 	//p.Stdout.SetDataType(dt)
@@ -163,7 +162,7 @@ func cmdForMap(p *proc.Process) error {
 	return err
 }
 
-func cmdWhile(p *proc.Process) error {
+func cmdWhile(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	switch p.Parameters.Len() {

@@ -1,4 +1,4 @@
-package proc
+package lang
 
 import (
 	"errors"
@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/debug"
 )
 
-// FID (Function ID) table: ie table of murex `proc.Process` processes
+// FID (Function ID) table: ie table of murex `Process` processes
 type funcID struct {
 	procs  map[int]*Process
 	mutex  sync.Mutex
@@ -27,7 +27,7 @@ func (f fidList) Less(i, j int) bool { return f[i].Id < f[j].Id }
 // Swap alters the order of the exported FIDs - used purely for sorting FIDs
 func (f fidList) Swap(i, j int) { f[i], f[j] = f[j], f[i] }
 
-// newFuncID creates new FID (Function ID) table of `proc.Process`es
+// newFuncID creates new FID (Function ID) table of `Process`es
 func newFuncID() *funcID {
 	f := new(funcID)
 	f.procs = make(map[int]*Process)
@@ -51,7 +51,7 @@ func (f *funcID) Register(p *Process) (fid int) {
 
 // Deregister removes function from the FID table
 func (f *funcID) Deregister(fid int) {
-	if debug.Enable {
+	if debug.Enabled {
 		return
 	}
 

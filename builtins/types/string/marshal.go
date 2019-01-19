@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 	"strings"
 )
 
-func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
+func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
@@ -56,7 +56,7 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 	}
 }
 
-func unmarshal(p *proc.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (interface{}, error) {
 	s := make([]string, 0)
 	/*err := p.Stdin.ReadLine(func(b []byte) {
 		s = append(s, string(b))

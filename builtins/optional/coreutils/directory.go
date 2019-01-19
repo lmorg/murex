@@ -1,17 +1,17 @@
 package coreutils
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"os"
 )
 
 func init() {
-	//proc.GoFunctions["ls"] = cmdLs
-	proc.GoFunctions["pwd"] = pwd
+	//lang.GoFunctions["ls"] = cmdLs
+	lang.GoFunctions["pwd"] = pwd
 }
 
-func pwd(p *proc.Process) error {
+func pwd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	dir, err := os.Getwd()

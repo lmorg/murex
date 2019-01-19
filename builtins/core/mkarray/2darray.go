@@ -6,13 +6,12 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["2darray"] = twoDArray
+	lang.GoFunctions["2darray"] = twoDArray
 }
 
 type mdarray struct {
@@ -37,7 +36,7 @@ func (a *mdarray) Append(index int, count int, value string) {
 	a.mutex.Unlock()
 }
 
-func twoDArray(p *proc.Process) (err error) {
+func twoDArray(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {

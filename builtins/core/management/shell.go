@@ -7,7 +7,6 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/types"
@@ -17,16 +16,16 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["args"] = cmdArgs
-	proc.GoFunctions["params"] = cmdParams
-	proc.GoFunctions["source"] = cmdSource
-	proc.GoFunctions["."] = cmdSource
-	proc.GoFunctions["version"] = cmdVersion
-	proc.GoFunctions["murex-parser"] = cmdParser
-	proc.GoFunctions["summary"] = cmdSummary
+	lang.GoFunctions["args"] = cmdArgs
+	lang.GoFunctions["params"] = cmdParams
+	lang.GoFunctions["source"] = cmdSource
+	lang.GoFunctions["."] = cmdSource
+	lang.GoFunctions["version"] = cmdVersion
+	lang.GoFunctions["murex-parser"] = cmdParser
+	lang.GoFunctions["summary"] = cmdSummary
 }
 
-func cmdArgs(p *proc.Process) (err error) {
+func cmdArgs(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Boolean)
 
 	if p.Parameters.Len() != 1 {
@@ -74,7 +73,7 @@ func cmdArgs(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdParams(p *proc.Process) error {
+func cmdParams(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	params := append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
@@ -90,7 +89,7 @@ func cmdParams(p *proc.Process) error {
 	return err
 }
 
-func cmdSource(p *proc.Process) error {
+func cmdSource(p *lang.Process) error {
 	var block []rune
 
 	if p.IsMethod {
@@ -131,13 +130,13 @@ func cmdSource(p *proc.Process) error {
 	return err
 }
 
-func cmdVersion(p *proc.Process) error {
+func cmdVersion(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 	_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
 	return err
 }
 
-func cmdParser(p *proc.Process) error {
+func cmdParser(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	var (
@@ -180,7 +179,7 @@ func cmdParser(p *proc.Process) error {
 	return err
 }
 
-func cmdSummary(p *proc.Process) error {
+func cmdSummary(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	exe, err := p.Parameters.String(0)

@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -12,7 +12,7 @@ var rxAnsiConsts = regexp.MustCompile(`\{([-\^A-Z0-9]+)\}`)
 
 // IsAllowed returns a boolean value depending on whether the shell is configured to allow ANSI colours
 func IsAllowed() bool {
-	v, err := proc.ShellProcess.Config.Get("shell", "color", types.Boolean)
+	v, err := lang.ShellProcess.Config.Get("shell", "color", types.Boolean)
 	if err != nil {
 		return false
 	}

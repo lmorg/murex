@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
@@ -48,15 +47,15 @@ func hintText(line []rune, pos int) []rune {
 		summary = s
 	}
 
-	if proc.GlobalAliases.Exists(cmd) {
-		s := proc.GlobalAliases.Get(cmd)
+	if lang.GlobalAliases.Exists(cmd) {
+		s := lang.GlobalAliases.Get(cmd)
 		r = []rune("(alias) '" + strings.Join(s, "' '") + "' => ")
 		cmd = s[0]
 	}
 
-	if proc.MxFunctions.Exists(cmd) {
+	if lang.MxFunctions.Exists(cmd) {
 		if summary == "" {
-			summary, _ = proc.MxFunctions.Summary(cmd)
+			summary, _ = lang.MxFunctions.Summary(cmd)
 		}
 
 		if summary == "" {
@@ -65,7 +64,7 @@ func hintText(line []rune, pos int) []rune {
 		return append(r, []rune("(murex function) "+summary)...)
 	}
 
-	if proc.GoFunctions[cmd] != nil {
+	if lang.GoFunctions[cmd] != nil {
 		if summary == "" {
 			synonym := docs.Synonym[cmd]
 			summary = docs.Summary[synonym]
@@ -130,7 +129,7 @@ func hintExpandVariables(line []rune) []rune {
 }
 
 func which(cmd string) string {
-	envPath := proc.ShellProcess.Variables.GetString("PATH")
+	envPath := lang.ShellProcess.Variables.GetString("PATH")
 
 	for _, path := range autocomplete.SplitPath(envPath) {
 		filepath := path + consts.PathSlash + cmd
@@ -167,13 +166,13 @@ func hintCodeBlock() []rune {
 	if len(cachedHintText) > 0 {
 		return cachedHintText
 	}
-	ht, err := proc.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
+	ht, err := lang.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
 	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
 		return []rune{}
 	}
 
 	stdout := streams.NewStdin()
-	branch := proc.ShellProcess.BranchFID()
+	branch := lang.ShellProcess.BranchFID()
 	branch.IsBackground = true
 	defer branch.Close()
 	exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
@@ -187,8 +186,8 @@ func hintCodeBlock() []rune {
 		b = b[:len(b)-1]
 	}
 
-	if debug.Enable && (exitNum != 0 || err != nil || len(b) == 0 || err2 != nil) {
-		proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
+	if debug.Enabled && (exitNum != 0 || err != nil || len(b) == 0 || err2 != nil) {
+		lang.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
 			"Block returned false:\nExit Num: %d\nStdout length: %d\nStdout read error: %s\nStderr: %s\n",
 			exitNum,
 			len(b),

@@ -7,7 +7,7 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -28,7 +28,7 @@ func readFlags() {
 	flag.BoolVar(&fHelp2, "h", false, "Help")
 	flag.BoolVar(&fHelp3, "help", false, "Help")
 
-	flag.BoolVar(&debug.Enable, "debug", false, "Debug")
+	flag.BoolVar(&debug.Enabled, "debug", false, "Debug")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 	flag.BoolVar(&fSh, "murex", false, "")
 
@@ -41,7 +41,7 @@ func readFlags() {
 		os.Exit(1)
 	}
 
-	proc.InitConf.Define("shell", "echo", config.Properties{
+	lang.InitConf.Define("shell", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
 		DataType:    types.Boolean,

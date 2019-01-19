@@ -2,13 +2,12 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang/proc/state"
 )
 
-func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
-	procs = make([]proc.Process, len(*tree))
+func compile(tree *astNodes, parent *Process) (procs []Process) {
+	procs = make([]Process, len(*tree))
 
 	for i := range *tree {
 		procs[i].State = state.MemAllocated
@@ -21,7 +20,7 @@ func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
 		procs[i].RunMode = parent.RunMode
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
-		procs[i].Variables = proc.ReferenceVariables(parent.Variables)
+		procs[i].Variables = ReferenceVariables(parent.Variables)
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
 		procs[i].Done = func() {}
 		procs[i].Kill = func() {}
@@ -107,7 +106,7 @@ func compile(tree *astNodes, parent *proc.Process) (procs []proc.Process) {
 }
 
 // `evil` - Only use this if you are not concerned about STDERR nor exit number.
-func runModeEvil(procs []proc.Process) int {
+func runModeEvil(procs []Process) int {
 	if len(procs) == 0 {
 		return 1
 	}
@@ -136,7 +135,7 @@ func runModeEvil(procs []proc.Process) int {
 	return 0
 }
 
-func runModeNormal(procs []proc.Process) (exitNum int) {
+func runModeNormal(procs []Process) (exitNum int) {
 	if len(procs) == 0 {
 		return 1
 	}
@@ -166,7 +165,7 @@ func runModeNormal(procs []proc.Process) (exitNum int) {
 }
 
 // `try` - Last process in each pipe is checked.
-func runModeTry(procs []proc.Process) (exitNum int) {
+func runModeTry(procs []Process) (exitNum int) {
 	if len(procs) == 0 {
 		return 1
 	}
@@ -189,7 +188,7 @@ func runModeTry(procs []proc.Process) (exitNum int) {
 					for ; i < len(procs); i++ {
 						procs[i].Stdout.Close()
 						procs[i].Stderr.Close()
-						proc.GlobalFIDs.Deregister(procs[i].Id)
+						GlobalFIDs.Deregister(procs[i].Id)
 						procs[i].State = state.AwaitingGC
 					}
 					return
@@ -221,7 +220,7 @@ func runModeTry(procs []proc.Process) (exitNum int) {
 }
 
 // `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
-func runModeTryPipe(procs []proc.Process) (exitNum int) {
+func runModeTryPipe(procs []Process) (exitNum int) {
 	//debug.Log("Entering run mode `trypipe`")
 	if len(procs) == 0 {
 		return 1
@@ -249,7 +248,7 @@ func runModeTryPipe(procs []proc.Process) (exitNum int) {
 			for i++; i < len(procs); i++ {
 				procs[i].Stdout.Close()
 				procs[i].Stderr.Close()
-				proc.GlobalFIDs.Deregister(procs[i].Id)
+				GlobalFIDs.Deregister(procs[i].Id)
 				procs[i].State = state.AwaitingGC
 			}
 			return

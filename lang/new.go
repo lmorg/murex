@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -24,21 +23,21 @@ var ShellExitNum int
 // This shouldn't be used under normal conditions; however if you do need to
 // spawn a process alongside the shells config space then please first branch it:
 //
-//     branch := proc.ShellProcess.BranchFID()
+//     branch := ShellProcess.BranchFID()
 //     defer branch.Close()
 //
 // Then call `RunBlockExistingConfigSpace` with `branch.Process`.
 func RunBlockShellConfigSpace(block []rune, stdin, stdout, stderr stdio.Io) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.Config, nil,
+		ShellProcess, ShellProcess.Config, nil,
 		0,
 	)
 }
 
 // RunBlockNewConfigSpace is for spawning new murex functions. eg `func {}`
 // This shouldn't be used under normal conditions.
-func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config.Copy(), nil,
@@ -49,7 +48,7 @@ func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller
 // RunBlockExistingConfigSpace is for code blocks as parameters (eg `if {}`,
 // `try {}` etc) or inlining code blocks (eg `out @{g *}`)
 // This should be the default way to call code blocks.
-func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process) (exitNum int, err error) {
+func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller *Process) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config, caller.Tests,
@@ -62,7 +61,7 @@ func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, c
 func RunBlockShellConfigSpaceWithPrompt(block []rune, stdin, stdout, stderr stdio.Io, promptGoProc int) (exitNum int, err error) {
 	return processNewBlock(
 		block, stdin, stdout, stderr,
-		proc.ShellProcess, proc.ShellProcess.Config, nil,
+		ShellProcess, ShellProcess.Config, nil,
 		promptGoProc,
 	)
 }
@@ -71,19 +70,19 @@ func RunBlockShellConfigSpaceWithPrompt(block []rune, stdin, stdout, stderr stdi
 // Inputs are:
 //     * the code block ([]rune),
 //     * Stdin, stdout and stderr streams; or nil to black hole those data streams,
-//     * caller proc.Process to determine scope and any inherited properties,
+//     * caller Process to determine scope and any inherited properties,
 //     * config namespace.
 // Outputs are:
 //     * exit number of the last process in the block,
 //     * any errors raised during the parse.
-func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.Process, conf *config.Config, tests *proc.Tests, promptGoProc int) (exitNum int, err error) {
+func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *Process, conf *config.Config, tests *Tests, promptGoProc int) (exitNum int, err error) {
 	//debug.Log(string(block))
 
 	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
 		block = block[1 : len(block)-1]
 	}
 
-	container := new(proc.Process)
+	container := new(Process)
 	container.State = state.MemAllocated
 	container.IsBackground = caller.IsBackground
 	container.Name = caller.Name
@@ -99,10 +98,10 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	if tests != nil {
 		container.Tests = tests
 	} else {
-		container.Tests = proc.NewTests()
+		container.Tests = NewTests()
 	}
 
-	if caller.Id == proc.ShellProcess.Id {
+	if caller.Id == ShellProcess.Id {
 		container.ExitNum = ShellExitNum
 	} else {
 		container.RunMode = caller.RunMode
@@ -118,7 +117,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	if stdout != nil {
 		container.Stdout = stdout
 	} else {
-		if debug.Enable {
+		if debug.Enabled {
 			// This is TermErr despite being a Stdout stream because it is a debug
 			// stream so we don't want to taint stdout with unexpected output.
 			container.Stdout = term.NewErr(true)
@@ -132,7 +131,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	if stderr != nil {
 		container.Stderr = stderr
 	} else {
-		if debug.Enable {
+		if debug.Enabled {
 			container.Stderr = term.NewErr(true)
 		} else {
 			container.Stderr = new(null.Null)
@@ -153,7 +152,7 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 	if len(procs) == 0 {
 		return
 	}
-	proc.ForegroundProc = &procs[0]
+	ForegroundProc = &procs[0]
 
 	// Support for different run modes:
 	switch container.RunMode {
@@ -176,10 +175,10 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *proc.
 		testAutoReport, configErr := container.Config.Get("test", "auto-report", types.Boolean)
 		if configErr == nil && testAutoReport.(bool) {
 			container.Tests.ReportMissedTests(container)
-			err = container.Tests.WriteResults(container.Config, proc.ShellProcess.Stderr)
+			err = container.Tests.WriteResults(container.Config, ShellProcess.Stderr)
 			if err != nil {
 				message := fmt.Sprintf("Error generating test results: %s.", err.Error())
-				proc.ShellProcess.Stderr.Writeln([]byte(message))
+				ShellProcess.Stderr.Writeln([]byte(message))
 			}
 		}
 	}

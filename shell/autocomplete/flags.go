@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -43,7 +43,7 @@ var GlobalExes map[string]bool = make(map[string]bool)
 // slight but highly annoying pause if murex had been sat idle for a while. So now it's an exported function so it can
 // be run as a background job or upon user request.
 func UpdateGlobalExeList() {
-	envPath := proc.ShellProcess.Variables.GetString("PATH")
+	envPath := lang.ShellProcess.Variables.GetString("PATH")
 
 	dirs := SplitPath(envPath)
 
@@ -79,12 +79,12 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 		return exes
 	}
 
-	for name := range proc.GoFunctions {
+	for name := range lang.GoFunctions {
 		exes[name] = true
 	}
 
-	proc.MxFunctions.UpdateMap(exes)
-	proc.GlobalAliases.UpdateMap(exes)
+	lang.MxFunctions.UpdateMap(exes)
+	lang.GlobalAliases.UpdateMap(exes)
 
 	return exes
 }
@@ -112,18 +112,18 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 	var nest int
 
 	defer func() {
-		if debug.Enable {
+		if debug.Enabled {
 			return
 		}
 		if r := recover(); r != nil {
-			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
-			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
+			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
+			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
 			//b, _ := json.MarshalIndent(flags, "", "\t")
-			//ansi.Stderrln(proc.ShellProcess, ansi.FgRed, string(b))
-			proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
-			proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest)))
+			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, string(b))
+			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
+			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest)))
 			b, _ := json.MarshalIndent(flags, "", "\t")
-			proc.ShellProcess.Stderr.Writeln([]byte(string(b)))
+			lang.ShellProcess.Stderr.Writeln([]byte(string(b)))
 
 		}
 	}()

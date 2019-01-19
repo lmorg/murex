@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/home"
 )
 
@@ -17,7 +17,7 @@ var (
 func ExpandString(line string) string {
 	match := rxVars.FindAllString(line, -1)
 	for i := range match {
-		line = strings.Replace(line, match[i], proc.ShellProcess.Variables.GetString(match[i][1:]), -1)
+		line = strings.Replace(line, match[i], lang.ShellProcess.Variables.GetString(match[i][1:]), -1)
 	}
 
 	match = rxHome.FindAllString(line, -1)

@@ -2,7 +2,7 @@ package csv
 
 import (
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
@@ -31,19 +31,19 @@ func init() {
 
 	define.SetFileExtensions(typeName, "csv")
 
-	proc.InitConf.Define("csv", "separator", config.Properties{
+	lang.InitConf.Define("csv", "separator", config.Properties{
 		Description: "The delimiter for records in a CSV file.",
 		Default:     `,`,
 		DataType:    types.String,
 	})
 
-	proc.InitConf.Define("csv", "comment", config.Properties{
+	lang.InitConf.Define("csv", "comment", config.Properties{
 		Description: "The prefix token for comments in a CSV table.",
 		Default:     `#`,
 		DataType:    types.String,
 	})
 
-	proc.InitConf.Define("csv", "headings", config.Properties{
+	lang.InitConf.Define("csv", "headings", config.Properties{
 		Description: "CSV files include headings when queried in formap.",
 		Default:     true,
 		DataType:    types.Boolean,

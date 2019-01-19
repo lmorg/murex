@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 const eventType = "onSecondsElapsed"
@@ -50,7 +50,7 @@ func (t *timer) init() {
 					t.events[i].Name,
 					t.events[i].Interval,
 					t.events[i].Block,
-					proc.ShellProcess.Stdout,
+					lang.ShellProcess.Stdout,
 				)
 			}
 		}

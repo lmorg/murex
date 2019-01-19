@@ -8,8 +8,8 @@ import (
 	"github.com/lmorg/murex/shell/variables"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/readline"
@@ -126,7 +126,7 @@ eventFound:
 	events.Callback(evt.events[i].name, interrupt, block, stdout)
 
 	ret := make(map[string]string)
-	err := stdout.ReadMap(proc.ShellProcess.Config, func(key string, value string, last bool) {
+	err := stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
 		ret[key] = value
 	})
 	if err != nil {

@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -23,7 +22,7 @@ const (
 )
 
 func sigtstp() {
-	show, err := proc.ShellProcess.Config.Get("shell", "show-stop-status", types.Boolean)
+	show, err := lang.ShellProcess.Config.Get("shell", "show-stop-status", types.Boolean)
 	if err != nil {
 		show = false
 	}
@@ -32,7 +31,7 @@ func sigtstp() {
 	}
 
 	/*defer func() {
-		if debug.Enable {
+		if debug.Enabled {
 			return
 		}
 		if r := recover(); r != nil {
@@ -40,7 +39,7 @@ func sigtstp() {
 		}
 	}()*/
 
-	p := proc.ForegroundProc
+	p := lang.ForegroundProc
 	stdinR, stdinW := p.Stdin.Stats()
 	stdoutR, stdoutW := p.Stdout.Stats()
 	stderrR, stderrW := p.Stderr.Stats()
@@ -50,24 +49,24 @@ func sigtstp() {
 		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
 		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
 	)
-	proc.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
+	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
 	if p.Exec.Pid != 0 {
-		block, err := proc.ShellProcess.Config.Get("shell", "stop-status-func", types.CodeBlock)
+		block, err := lang.ShellProcess.Config.Get("shell", "stop-status-func", types.CodeBlock)
 		if err != nil {
-			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 			return
 		}
 
-		branch := proc.ShellProcess.BranchFID()
+		branch := lang.ShellProcess.BranchFID()
 		defer branch.Close()
-		branch.Variables.Set("PID", proc.ForegroundProc.Exec.Pid, types.Integer)
-		_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, branch.Process)
+		branch.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
+		_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
 		if err != nil {
-			proc.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 		}
 
-		proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
+		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf(
 			"FID %d has been stopped. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.",
 			p.Id, p.Id, p.Id,
 		)))
@@ -77,7 +76,7 @@ func sigtstp() {
 		go ShowPrompt()
 
 	} else {
-		proc.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
+		lang.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
 	}
 
 }
@@ -89,8 +88,8 @@ func sigint(interactive bool) {
 
 func sigterm(interactive bool) {
 	if interactive {
-		if proc.ForegroundProc != nil && proc.ForegroundProc.Kill != nil {
-			proc.ForegroundProc.Kill()
+		if lang.ForegroundProc != nil && lang.ForegroundProc.Kill != nil {
+			lang.ForegroundProc.Kill()
 		}
 
 	} else {
@@ -103,7 +102,7 @@ func sigquit(interactive bool) {
 		//os.Stderr.WriteString(PromptSIGQUIT)
 		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
 
-		fids := proc.GlobalFIDs.ListAll()
+		fids := lang.GlobalFIDs.ListAll()
 		for _, p := range fids {
 			if p.Kill != nil /*&& !p.HasTerminated()*/ {
 				procName := p.Name
@@ -115,12 +114,12 @@ func sigquit(interactive bool) {
 				if len(procParam) > 10 {
 					procParam = procParam[:10]
 				}
-				proc.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!", p.Id, procName, procParam)))
+				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!", p.Id, procName, procParam)))
 				p.Kill()
 			}
 		}
 
-		proc.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
+		lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
 		go ShowPrompt()
 
 	} else {

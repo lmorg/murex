@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 const (
@@ -21,14 +21,14 @@ var (
 
 // IndexTemplateTable is a handy standard indexer you can use in your custom data types for tabulated / streamed data.
 // The point of this is to minimize code rewriting and standardising the behavior of the indexer.
-func IndexTemplateTable(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
+func IndexTemplateTable(p *lang.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	if p.IsNot {
 		return ittNot(p, params, cRecords, marshaller)
 	}
 	return ittIndex(p, params, cRecords, marshaller)
 }
 
-func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
+func ittIndex(p *lang.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	var (
 		mode     int
 		matchStr []string
@@ -194,7 +194,7 @@ func ittIndex(p *proc.Process, params []string, cRecords chan []string, marshall
 	}
 }
 
-func ittNot(p *proc.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
+func ittNot(p *lang.Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
 	var (
 		mode     int
 		matchStr = make(map[string]bool)

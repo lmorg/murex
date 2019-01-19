@@ -3,25 +3,24 @@ package structs
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["and"] = cmdAnd
-	proc.GoFunctions["!and"] = cmdAnd
-	proc.GoFunctions["or"] = cmdOr
-	proc.GoFunctions["!or"] = cmdOr
+	lang.GoFunctions["and"] = cmdAnd
+	lang.GoFunctions["!and"] = cmdAnd
+	lang.GoFunctions["or"] = cmdOr
+	lang.GoFunctions["!or"] = cmdOr
 }
 
 const errCancelled = "User has cancelled processing mid-way through the execution of this control flow structure."
 
-func cmdAnd(p *proc.Process) error { return cmdAndOr(p, true) }
-func cmdOr(p *proc.Process) error  { return cmdAndOr(p, false) }
+func cmdAnd(p *lang.Process) error { return cmdAndOr(p, true) }
+func cmdOr(p *lang.Process) error  { return cmdAndOr(p, false) }
 
-func cmdAndOr(p *proc.Process, isAnd bool) error {
+func cmdAndOr(p *lang.Process, isAnd bool) error {
 	p.Stdout.SetDataType(types.Boolean)
 
 	for i := 0; i < p.Parameters.Len(); i++ {

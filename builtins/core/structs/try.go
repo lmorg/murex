@@ -4,19 +4,18 @@ import (
 	"io"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["try"] = cmdTry
-	proc.GoFunctions["trypipe"] = cmdTryPipe
-	proc.GoFunctions["catch"] = cmdCatch
-	proc.GoFunctions["!catch"] = cmdCatch
+	lang.GoFunctions["try"] = cmdTry
+	lang.GoFunctions["trypipe"] = cmdTryPipe
+	lang.GoFunctions["catch"] = cmdCatch
+	lang.GoFunctions["!catch"] = cmdCatch
 }
 
-func cmdTry(p *proc.Process) (err error) {
+func cmdTry(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
 	block, err := p.Parameters.Block(0)
@@ -30,7 +29,7 @@ func cmdTry(p *proc.Process) (err error) {
 	return
 }
 
-func cmdTryPipe(p *proc.Process) (err error) {
+func cmdTryPipe(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
 	block, err := p.Parameters.Block(0)
@@ -44,7 +43,7 @@ func cmdTryPipe(p *proc.Process) (err error) {
 	return
 }
 
-func cmdCatch(p *proc.Process) error {
+func cmdCatch(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	block, err := p.Parameters.Block(0)

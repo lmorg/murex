@@ -8,11 +8,11 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 )
 
-func marshal(p *proc.Process, iface interface{}) (b []byte, err error) {
+func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 	w, err := NewParser(nil, p.Config)
 	if err != nil {
 		return
@@ -240,7 +240,7 @@ func marshal(p *proc.Process, iface interface{}) (b []byte, err error) {
 	}
 }
 
-func unmarshal(p *proc.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (interface{}, error) {
 	csvReader, err := NewParser(p.Stdin, p.Config)
 	if err != nil {
 		return nil, err

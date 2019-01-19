@@ -9,20 +9,20 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 )
 
 func init() {
-	proc.GoFunctions["pt"] = cmdPipeTelemetry
-	proc.GoFunctions[">"] = cmdWriteFile
-	proc.GoFunctions[">>"] = cmdAppendFile
-	proc.GoFunctions["tmp"] = cmdTempFile
+	lang.GoFunctions["pt"] = cmdPipeTelemetry
+	lang.GoFunctions[">"] = cmdWriteFile
+	lang.GoFunctions[">>"] = cmdAppendFile
+	lang.GoFunctions["tmp"] = cmdTempFile
 }
 
-func cmdPipeTelemetry(p *proc.Process) error {
+func cmdPipeTelemetry(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 	quit := false
@@ -55,7 +55,7 @@ func cmdPipeTelemetry(p *proc.Process) error {
 	return err
 }
 
-func cmdWriteFile(p *proc.Process) error {
+func cmdWriteFile(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	name, err := p.Parameters.String(0)
@@ -74,7 +74,7 @@ func cmdWriteFile(p *proc.Process) error {
 	return err
 }
 
-func cmdAppendFile(p *proc.Process) error {
+func cmdAppendFile(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	name, err := p.Parameters.String(0)
@@ -93,7 +93,7 @@ func cmdAppendFile(p *proc.Process) error {
 	return err
 }
 
-func cmdTempFile(p *proc.Process) error {
+func cmdTempFile(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	ext, _ := p.Parameters.String(0)

@@ -1,12 +1,12 @@
 package json
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func index(p *proc.Process, params []string) error {
+func index(p *lang.Process, params []string) error {
 	var jInterface interface{}
 
 	b, err := p.Stdin.ReadAll()

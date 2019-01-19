@@ -3,25 +3,25 @@ package management
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["fid-list"] = cmdFidList
-	proc.GoFunctions["fid-kill"] = cmdFidKill
-	proc.GoFunctions["fid-killall"] = cmdKillAll
+	lang.GoFunctions["fid-list"] = cmdFidList
+	lang.GoFunctions["fid-kill"] = cmdFidKill
+	lang.GoFunctions["fid-killall"] = cmdKillAll
 }
 
-func cmdFidList(p *proc.Process) error {
+func cmdFidList(p *lang.Process) error {
 	if p.Stdout.IsTTY() {
 		return cmdFidListTTY(p)
 	}
 	return cmdFidListPipe(p)
 }
 
-func cmdFidListTTY(p *proc.Process) error {
+func cmdFidListTTY(p *lang.Process) error {
 	yn := func(state bool) (s string) {
 		if state {
 			return "yes"
@@ -33,7 +33,7 @@ func cmdFidListTTY(p *proc.Process) error {
 	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %7s  %7s  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
 		"FID", "Parent", "Scope", "State", "Run Mode", "BG", "Out Pipe", "Err Pipe", "Command", "Parameters")))
 
-	procs := proc.GlobalFIDs.ListAll()
+	procs := lang.GlobalFIDs.ListAll()
 	for i := range procs {
 		params := procs[i].Parameters.StringAll()
 		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
@@ -73,12 +73,12 @@ type fidList struct {
 	Parameters string
 }
 
-func cmdFidListPipe(p *proc.Process) error {
+func cmdFidListPipe(p *lang.Process) error {
 	var fids []fidList
 
 	p.Stdout.SetDataType(types.Json)
 
-	procs := proc.GlobalFIDs.ListAll()
+	procs := lang.GlobalFIDs.ListAll()
 	for i := range procs {
 		params := procs[i].Parameters.StringAll()
 		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
@@ -108,7 +108,7 @@ func cmdFidListPipe(p *proc.Process) error {
 	return err
 }
 
-func cmdFidKill(p *proc.Process) (err error) {
+func cmdFidKill(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
 	for i := 0; i < p.Parameters.Len(); i++ {
@@ -117,7 +117,7 @@ func cmdFidKill(p *proc.Process) (err error) {
 			return err
 		}
 
-		process, err := proc.GlobalFIDs.Proc(fid)
+		process, err := lang.GlobalFIDs.Proc(fid)
 		if err != nil {
 			return err
 		}
@@ -132,8 +132,8 @@ func cmdFidKill(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdKillAll(*proc.Process) error {
-	fids := proc.GlobalFIDs.ListAll()
+func cmdKillAll(*lang.Process) error {
+	fids := lang.GlobalFIDs.ListAll()
 	for _, p := range fids {
 		if p.Kill != nil /*&& !p.HasTerminated()*/ {
 			procName := p.Name
@@ -145,7 +145,7 @@ func cmdKillAll(*proc.Process) error {
 			if len(procParam) > 10 {
 				procParam = procParam[:10]
 			}
-			proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!\n", p.Id, procName, procParam)))
+			lang.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!\n", p.Id, procName, procParam)))
 			p.Kill()
 		}
 	}

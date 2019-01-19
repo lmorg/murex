@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -160,7 +159,7 @@ func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 			}
 
 			p := parameters.Parameters{Tokens: nodes[cmd].ParamTokens}
-			lang.ParseParameters(proc.ShellProcess, &p)
+			lang.ParseParameters(lang.ShellProcess, &p)
 			if val < 0 {
 				val += p.Len() + 1
 			}
@@ -190,7 +189,7 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
 		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
-		lang.ParseParameters(proc.ShellProcess, &p)
+		lang.ParseParameters(lang.ShellProcess, &p)
 
 		for i := range mhParam {
 			val, _ := strconv.Atoi(mhParam[i][1])

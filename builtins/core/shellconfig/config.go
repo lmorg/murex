@@ -4,24 +4,22 @@ import (
 	"errors"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/utils"
-
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["config"] = cmdConfig
-	proc.GoFunctions["!config"] = bangConfig
+	lang.GoFunctions["config"] = cmdConfig
+	lang.GoFunctions["!config"] = bangConfig
 }
 
-func cmdConfig(p *proc.Process) error {
+func cmdConfig(p *lang.Process) error {
 	if p.Parameters.Len() == 0 {
 		p.Stdout.SetDataType(types.Json)
 
@@ -58,7 +56,7 @@ func cmdConfig(p *proc.Process) error {
 
 }
 
-func getConfig(p *proc.Process) error {
+func getConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(1)
 	key, _ := p.Parameters.String(2)
 	val, err := p.Config.Get(app, key, types.String)
@@ -70,7 +68,7 @@ func getConfig(p *proc.Process) error {
 	return nil
 }
 
-func setConfig(p *proc.Process) error {
+func setConfig(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	app, _ := p.Parameters.String(1)
 	key, _ := p.Parameters.String(2)
@@ -91,7 +89,7 @@ func setConfig(p *proc.Process) error {
 	return err
 }
 
-func alterConfig(p *proc.Process) error {
+func alterConfig(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	app, err := p.Parameters.String(1)
@@ -151,7 +149,7 @@ func alterConfig(p *proc.Process) error {
 	return p.Config.Set(app, key, val)
 }
 
-func defineConfig(p *proc.Process) error {
+func defineConfig(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	app, err := p.Parameters.String(1)
 	if err != nil {
@@ -205,18 +203,18 @@ func defineConfig(p *proc.Process) error {
 	properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read))
 	properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write))
 
-	proc.ShellProcess.Config.Define(app, key, properties)
+	lang.ShellProcess.Config.Define(app, key, properties)
 	return nil
 }
 
-func bangConfig(p *proc.Process) error {
+func bangConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(0)
 	key, _ := p.Parameters.String(1)
 	err := p.Config.Default(app, key)
 	return err
 }
 
-func defaultConfig(p *proc.Process) error {
+func defaultConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(1)
 	key, _ := p.Parameters.String(2)
 	err := p.Config.Default(app, key)
@@ -227,20 +225,20 @@ func getDynamic(block []rune) func() (interface{}, error) {
 	return func() (interface{}, error) {
 		block = block[1 : len(block)-1]
 
-		branch := proc.ShellProcess.BranchFID()
+		branch := lang.ShellProcess.BranchFID()
 		branch.Scope = branch.Process
 		branch.Parent = branch.Process
 		branch.IsBackground = true
 
 		stdout := streams.NewStdin()
-		exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, proc.ShellProcess.Stderr, branch.Process)
+		exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, branch.Process)
 		branch.Close()
 
 		if err != nil {
 			return nil, errors.New("Dynamic config code could not compile: " + err.Error())
 		}
-		if exitNum != 0 && debug.Enable {
-			proc.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
+		if exitNum != 0 && debug.Enabled {
+			lang.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
 		}
 
 		b, err := stdout.ReadAll()
@@ -259,7 +257,7 @@ func setDynamic(block []rune) func(interface{}) error {
 		//}
 		block = block[1 : len(block)-1]
 
-		branch := proc.ShellProcess.BranchFID()
+		branch := lang.ShellProcess.BranchFID()
 		branch.Scope = branch.Process
 		branch.Parent = branch.Process
 		branch.IsBackground = true
@@ -276,14 +274,14 @@ func setDynamic(block []rune) func(interface{}) error {
 		}
 		//stdin.Close()
 
-		exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, proc.ShellProcess.Stdout, proc.ShellProcess.Stderr, branch.Process)
+		exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
 		branch.Close()
 
 		if err != nil {
 			return errors.New("Dynamic config code could not compile: " + err.Error())
 		}
-		if exitNum != 0 && debug.Enable {
-			proc.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
+		if exitNum != 0 && debug.Enabled {
+			lang.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
 		}
 
 		return nil

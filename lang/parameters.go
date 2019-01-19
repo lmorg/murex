@@ -5,7 +5,6 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
@@ -14,7 +13,7 @@ import (
 var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
 // ParseParameters is an internal function to parse parameters
-func ParseParameters(prc *proc.Process, p *parameters.Parameters) {
+func ParseParameters(prc *Process, p *parameters.Parameters) {
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")
 

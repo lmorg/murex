@@ -48,7 +48,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 			return nil
 
 		default:
-			if debug.Enable {
+			if debug.Enabled {
 				panic(v)
 			}
 		}

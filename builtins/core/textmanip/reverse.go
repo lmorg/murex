@@ -2,15 +2,15 @@ package textmanip
 
 import (
 	"fmt"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
-	proc.GoFunctions["mtac"] = cmdMtac
+	lang.GoFunctions["mtac"] = cmdMtac
 }
 
-func cmdMtac(p *proc.Process) error {
+func cmdMtac(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

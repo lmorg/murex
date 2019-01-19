@@ -4,7 +4,8 @@ import (
 	"testing"
 )
 
-// TestMurex proves the murex test framework works
+// TestMurex proves the murex's scripting wrapper for Go's test framework works.
+// Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 func TestMurex(t *testing.T) {
 	tests := []MurexTest{
 		{

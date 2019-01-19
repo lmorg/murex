@@ -3,13 +3,13 @@ package string
 import (
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"net/url"
 	"strconv"
 )
 
-func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
+func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	qs := make(url.Values)
 
 	switch v := iface.(type) {
@@ -79,7 +79,7 @@ func marshal(_ *proc.Process, iface interface{}) (b []byte, err error) {
 	return
 }
 
-func unmarshal(p *proc.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (interface{}, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err

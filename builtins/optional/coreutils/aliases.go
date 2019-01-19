@@ -1,7 +1,7 @@
 package coreutils
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -9,22 +9,22 @@ import (
 // counterparts we will always return a non-zero exit number so sensitive scripts can fail gracefully.
 
 func init() {
-	proc.GoFunctions["ps"] = alias("tasklist")
-	proc.GoFunctions["ls"] = alias("dir")
-	proc.GoFunctions["rm"] = alias("del")
-	proc.GoFunctions["clear"] = alias("cls")
-	proc.GoFunctions["cat"] = alias("type")
+	lang.GoFunctions["ps"] = alias("tasklist")
+	lang.GoFunctions["ls"] = alias("dir")
+	lang.GoFunctions["rm"] = alias("del")
+	lang.GoFunctions["clear"] = alias("cls")
+	lang.GoFunctions["cat"] = alias("type")
 }
 
-func alias(cmd string) func(p *proc.Process) error {
-	return func(p *proc.Process) error {
+func alias(cmd string) func(p *lang.Process) error {
+	return func(p *lang.Process) error {
 		p.Stdout.SetDataType(types.String)
 
 		p.Name = "exec"
 
 		p.Parameters.Params = append([]string{cmd}, p.Parameters.Params...)
 
-		err := proc.External(p)
+		err := lang.External(p)
 
 		p.ExitNum = 13
 

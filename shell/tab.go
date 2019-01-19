@@ -3,7 +3,7 @@ package shell
 import (
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/readline"
@@ -50,7 +50,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, descrip
 		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt)
 	}
 
-	v, err := proc.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = 4
 	}

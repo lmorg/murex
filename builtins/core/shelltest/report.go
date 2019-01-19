@@ -1,13 +1,13 @@
 package shelltest
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 func init() {
-	proc.GoFunctions["test-report"] = cmdTestReport
+	lang.GoFunctions["test-report"] = cmdTestReport
 }
 
-func cmdTestReport(p *proc.Process) error {
+func cmdTestReport(p *lang.Process) error {
 	return p.Tests.WriteResults(p.Config, p.Stdout)
 }

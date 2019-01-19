@@ -3,16 +3,16 @@ package open
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["openagent"] = shell
-	proc.GoFunctions["!openagent"] = shell
+	lang.GoFunctions["openagent"] = shell
+	lang.GoFunctions["!openagent"] = shell
 }
 
-func shell(p *proc.Process) error {
+func shell(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	if p.IsNot {

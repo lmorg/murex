@@ -6,16 +6,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
 
 func init() {
-	proc.GoFunctions["lockfile"] = cmdLockfile
+	lang.GoFunctions["lockfile"] = cmdLockfile
 }
 
-func cmdLockfile(p *proc.Process) (err error) {
+func cmdLockfile(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Generic)
 
 	method, err := p.Parameters.String(0)

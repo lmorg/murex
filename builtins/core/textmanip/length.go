@@ -1,17 +1,17 @@
 package textmanip
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 func init() {
-	proc.GoFunctions["left"] = cmdLeft
-	proc.GoFunctions["right"] = cmdRight
-	proc.GoFunctions["prefix"] = cmdPrefix
-	proc.GoFunctions["suffix"] = cmdSuffix
+	lang.GoFunctions["left"] = cmdLeft
+	lang.GoFunctions["right"] = cmdRight
+	lang.GoFunctions["prefix"] = cmdPrefix
+	lang.GoFunctions["suffix"] = cmdSuffix
 }
 
-func cmdLeft(p *proc.Process) error {
+func cmdLeft(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -76,7 +76,7 @@ func cmdLeft(p *proc.Process) error {
 	return aw.Close()
 }
 
-func cmdRight(p *proc.Process) error {
+func cmdRight(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -142,7 +142,7 @@ func cmdRight(p *proc.Process) error {
 	return aw.Close()
 }
 
-func cmdPrefix(p *proc.Process) (err error) {
+func cmdPrefix(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -172,7 +172,7 @@ func cmdPrefix(p *proc.Process) (err error) {
 	return aw.Close()
 }
 
-func cmdSuffix(p *proc.Process) (err error) {
+func cmdSuffix(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

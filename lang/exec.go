@@ -1,4 +1,4 @@
-package proc
+package lang
 
 import (
 	"os"
@@ -42,7 +42,7 @@ func execute(p *Process) error {
 
 	ctxCancel := p.Kill
 	p.Kill = func() {
-		if !debug.Enable {
+		if !debug.Enabled {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
 		}
 

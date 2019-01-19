@@ -2,10 +2,10 @@ package apachelogs
 
 import (
 	"github.com/lmorg/apachelogs"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
-func unmarshal(p *proc.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (interface{}, error) {
 	var log []apachelogs.AccessLine
 
 	p.Stdin.ReadLine(func(b []byte) {

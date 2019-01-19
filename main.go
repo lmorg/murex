@@ -11,7 +11,6 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -21,21 +20,21 @@ import (
 
 func main() {
 	readFlags()
-	proc.InitEnv()
+	lang.InitEnv()
 
 	switch {
 	case fCommand != "":
-		defaults.Defaults(proc.ShellProcess.Config, false)
+		defaults.Defaults(lang.ShellProcess.Config, false)
 		shell.SignalHandler(false)
 		execSource([]rune(fCommand))
 
 	case len(fSource) > 0:
-		defaults.Defaults(proc.ShellProcess.Config, false)
+		defaults.Defaults(lang.ShellProcess.Config, false)
 		shell.SignalHandler(false)
 		execSource(diskSource(fSource[0]))
 
 	default:
-		defaults.Defaults(proc.ShellProcess.Config, true)
+		defaults.Defaults(lang.ShellProcess.Config, true)
 		execSource(defaults.DefaultMurexProfile())
 		execProfile()
 		shell.Start()

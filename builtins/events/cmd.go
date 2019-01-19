@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
 func init() {
-	proc.GoFunctions["event"] = cmdEvent
-	proc.GoFunctions["!event"] = cmdUnevent
+	lang.GoFunctions["event"] = cmdEvent
+	lang.GoFunctions["!event"] = cmdUnevent
 }
 
 var rxNameInterruptSyntax *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*)$`)
 
-func cmdEvent(p *proc.Process) error {
+func cmdEvent(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	et, err := p.Parameters.String(0)
@@ -51,7 +51,7 @@ func cmdEvent(p *proc.Process) error {
 	return err
 }
 
-func cmdUnevent(p *proc.Process) error {
+func cmdUnevent(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	et, err := p.Parameters.String(0)

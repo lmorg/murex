@@ -5,13 +5,13 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
 )
 
-func cmdPost(p *proc.Process) (err error) {
+func cmdPost(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {

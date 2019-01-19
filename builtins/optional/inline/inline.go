@@ -6,22 +6,22 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"os/exec"
 )
 
 func init() {
-	proc.GoFunctions["inline"] = inline
+	lang.GoFunctions["inline"] = inline
 
-	proc.GlobalConf.Define("inline", "languages", config.Properties{
+	lang.GlobalConf.Define("inline", "languages", config.Properties{
 		Description: "Map of supported languages and how to invoke their compilers.",
 		Default:     "{}",
 		DataType:    types.Json,
 	})
 }
 
-func inline(p *proc.Process) error {
+func inline(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	lang, err := p.Parameters.String(0)
@@ -31,7 +31,7 @@ func inline(p *proc.Process) error {
 
 	code := p.Parameters.StringAllRange(1, -1)
 
-	conf, err := proc.GlobalConf.Get("inline", "languages", types.Json)
+	conf, err := lang.GlobalConf.Get("inline", "languages", types.Json)
 	if err != nil {
 		return err
 	}

@@ -7,18 +7,18 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["g"] = cmdLsG
-	proc.GoFunctions["rx"] = cmdLsRx
-	proc.GoFunctions["f"] = cmdLsF
+	lang.GoFunctions["g"] = cmdLsG
+	lang.GoFunctions["rx"] = cmdLsRx
+	lang.GoFunctions["f"] = cmdLsF
 }
 
-func cmdLsG(p *proc.Process) (err error) {
+func cmdLsG(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	glob := p.Parameters.StringAll()
 
@@ -36,7 +36,7 @@ func cmdLsG(p *proc.Process) (err error) {
 	return
 }
 
-func cmdLsRx(p *proc.Process) (err error) {
+func cmdLsRx(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	rx, err := regexp.Compile(p.Parameters.StringAll())
 	if err != nil {
@@ -64,7 +64,7 @@ func cmdLsRx(p *proc.Process) (err error) {
 	return
 }
 
-func cmdLsF(p *proc.Process) (err error) {
+func cmdLsF(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	var (
 		file      bool
@@ -104,7 +104,7 @@ func cmdLsF(p *proc.Process) (err error) {
 		}
 	}
 
-	if debug.Enable {
+	if debug.Enabled {
 		for _, f := range files {
 			debug.Log("f->", f)
 		}

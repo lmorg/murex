@@ -6,23 +6,23 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["datatype"] = cmdSetDt
-	proc.GoFunctions["exec"] = proc.External
-	proc.GoFunctions["die"] = cmdDie
-	proc.GoFunctions["exit"] = cmdExit
-	proc.GoFunctions["null"] = cmdNull
-	proc.GoFunctions["true"] = cmdTrue
-	proc.GoFunctions["false"] = cmdFalse
-	proc.GoFunctions["!"] = cmdNot
-	proc.GoFunctions["cast"] = cmdCast
+	lang.GoFunctions["datatype"] = cmdSetDt
+	lang.GoFunctions["exec"] = lang.External
+	lang.GoFunctions["die"] = cmdDie
+	lang.GoFunctions["exit"] = cmdExit
+	lang.GoFunctions["null"] = cmdNull
+	lang.GoFunctions["true"] = cmdTrue
+	lang.GoFunctions["false"] = cmdFalse
+	lang.GoFunctions["!"] = cmdNot
+	lang.GoFunctions["cast"] = cmdCast
 }
 
-func cmdSetDt(p *proc.Process) error {
+func cmdSetDt(p *lang.Process) error {
 	dt := p.Parameters.StringAll()
 	//p.Scope.Stdout.SetDataType(dt)
 	//p.Parent.Stdout.SetDataType(dt)
@@ -30,13 +30,13 @@ func cmdSetDt(p *proc.Process) error {
 	return nil
 }
 
-func cmdNull(p *proc.Process) error {
+func cmdNull(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	p.Stdin.ReadAll()
 	return nil
 }
 
-func cmdTrue(p *proc.Process) error {
+func cmdTrue(p *lang.Process) error {
 	if s, _ := p.Parameters.String(0); s != "-s" {
 		p.Stdout.SetDataType(types.Boolean)
 		p.Stdout.Writeln(types.TrueByte)
@@ -47,7 +47,7 @@ func cmdTrue(p *proc.Process) error {
 	return nil
 }
 
-func cmdFalse(p *proc.Process) error {
+func cmdFalse(p *lang.Process) error {
 	if s, _ := p.Parameters.String(0); s != "-s" {
 		p.Stdout.SetDataType(types.Boolean)
 		p.Stdout.Writeln(types.FalseByte)
@@ -59,7 +59,7 @@ func cmdFalse(p *proc.Process) error {
 	return nil
 }
 
-func cmdNot(p *proc.Process) error {
+func cmdNot(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Boolean)
 
 	b, err := p.Stdin.ReadAll()
@@ -76,14 +76,14 @@ func cmdNot(p *proc.Process) error {
 	return nil
 }
 
-func cmdDie(p *proc.Process) error {
+func cmdDie(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Die)
 
 	os.Exit(1)
 	return nil
 }
 
-func cmdExit(p *proc.Process) error {
+func cmdExit(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	i, _ := p.Parameters.Int(0)
@@ -92,7 +92,7 @@ func cmdExit(p *proc.Process) error {
 	return nil
 }
 
-func cmdCast(p *proc.Process) error {
+func cmdCast(p *lang.Process) error {
 	s, err := p.Parameters.String(0)
 	if err != nil {
 		return err

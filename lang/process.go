@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -26,11 +25,11 @@ var (
 
 func init() {
 	// add to auto globbing to autocomplete
-	proc.GoFunctions["@g"] = nil
+	GoFunctions["@g"] = nil
 }
 
-func createProcess(p *proc.Process, isMethod bool) {
-	proc.GlobalFIDs.Register(p) // This also registers the variables process
+func createProcess(p *Process, isMethod bool) {
+	GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
 
 	parseRedirection(p)
@@ -57,7 +56,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 		p.Stderr = p.Next.Stdout
 	default:
 		p.Stderr.SetDataType(types.Generic)
-		pipe, err := proc.GlobalPipes.Get(p.NamedPipeErr)
+		pipe, err := GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
 			p.Stderr = pipe
 		} else {
@@ -76,7 +75,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
 		p.Stdout.SetDataType(types.Null)
-		pipe, err := proc.GlobalPipes.Get(p.NamedPipeOut)
+		pipe, err := GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
 			p.Stdout = pipe
 		} else {
@@ -105,10 +104,10 @@ func createProcess(p *proc.Process, isMethod bool) {
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
 	if p.Name == "pipe" || p.Name == "test" {
 		ParseParameters(p, &p.Parameters)
-		err := proc.GoFunctions[p.Name](p)
+		err := GoFunctions[p.Name](p)
 		if err != nil {
 			message := fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error())
-			proc.ShellProcess.Stderr.Writeln([]byte(message))
+			ShellProcess.Stderr.Writeln([]byte(message))
 			if p.ExitNum == 0 {
 				p.ExitNum = 1
 			}
@@ -120,7 +119,7 @@ func createProcess(p *proc.Process, isMethod bool) {
 	return
 }
 
-func executeProcess(p *proc.Process) {
+func executeProcess(p *Process) {
 	if p.HasTerminated() {
 		destroyProcess(p)
 		return
@@ -144,7 +143,7 @@ func executeProcess(p *proc.Process) {
 		p.Done()
 	}
 
-	//proc.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("%-000000d: %s\n", proc.ForegroundProc.Id, proc.ForegroundProc.Name)))
+	//ShellProcess.Stderr.Write([]byte(fmt.Sprintf("%-000000d: %s\n", ForegroundProc.Id, ForegroundProc.Name)))
 
 	ParseParameters(p, &p.Parameters)
 
@@ -161,19 +160,19 @@ executeProcess:
 
 	// execution mode:
 	switch {
-	case proc.GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && parsedAlias == false:
+	case GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && parsedAlias == false:
 		// murex aliases
-		alias := proc.GlobalAliases.Get(p.Name)
+		alias := GlobalAliases.Get(p.Name)
 		p.Name = alias[0]
 		p.Parameters.Params = append(alias[1:], p.Parameters.Params...)
 		parsedAlias = true
 		goto executeProcess
 
-	case proc.MxFunctions.Exists(p.Name):
+	case MxFunctions.Exists(p.Name):
 		// murex functions
 		var r []rune
 		p.Scope = p
-		r, err = proc.MxFunctions.Block(p.Name)
+		r, err = MxFunctions.Block(p.Name)
 		if err == nil {
 			p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
@@ -197,11 +196,11 @@ executeProcess:
 			RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 		}
 
-	case p.Scope.Id != proc.ShellProcess.Id && proc.PrivateFunctions.Exists(p.Name):
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name):
 		// murex functions
 		var r []rune
 		p.Scope = p
-		r, err = proc.PrivateFunctions.Block(p.Name)
+		r, err = PrivateFunctions.Block(p.Name)
 		if err == nil {
 			p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
 		}
@@ -213,15 +212,15 @@ executeProcess:
 			goto executeProcess
 		}
 
-	case proc.GoFunctions[p.Name] != nil:
+	case GoFunctions[p.Name] != nil:
 		// murex builtins
-		err = proc.GoFunctions[p.Name](p)
+		err = GoFunctions[p.Name](p)
 
 	default:
 		// shell execute
 		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
 		p.Name = "exec"
-		err = proc.GoFunctions[p.Name](p)
+		err = GoFunctions[p.Name](p)
 	}
 
 	p.Stdout.DefaultDataType(err != nil)
@@ -250,12 +249,12 @@ executeProcess:
 	destroyProcess(p)
 }
 
-func waitProcess(p *proc.Process) {
+func waitProcess(p *Process) {
 	//debug.Log("Waiting for", p.Name)
 	<-p.WaitForTermination
 }
 
-func destroyProcess(p *proc.Process) {
+func destroyProcess(p *Process) {
 	// Clean up any context goroutines
 	go p.Done()
 
@@ -265,10 +264,10 @@ func destroyProcess(p *proc.Process) {
 		p.WaitForTermination <- false
 	}
 
-	proc.DeregisterProcess(p)
+	DeregisterProcess(p)
 }
 
-func autoGlob(p *proc.Process) error {
+func autoGlob(p *Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err

@@ -6,7 +6,7 @@ import (
 
 	"github.com/abesto/sexp"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 )
@@ -105,10 +105,10 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 	return err
 }
 
-func readIndexC(p *proc.Process, params []string) error { return readIndex(p, params, true) }
-func readIndexS(p *proc.Process, params []string) error { return readIndex(p, params, false) }
+func readIndexC(p *lang.Process, params []string) error { return readIndex(p, params, true) }
+func readIndexS(p *lang.Process, params []string) error { return readIndex(p, params, false) }
 
-func readIndex(p *proc.Process, params []string, canonical bool) (err error) {
+func readIndex(p *lang.Process, params []string, canonical bool) (err error) {
 	var se interface{}
 
 	b, err := p.Stdin.ReadAll()
@@ -168,10 +168,10 @@ func readIndex(p *proc.Process, params []string, canonical bool) (err error) {
 	return define.IndexTemplateObject(p, params, &se, marshaller)
 }
 
-func marshalC(_ *proc.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, true) }
-func marshalS(_ *proc.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, false) }
+func marshalC(_ *lang.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, true) }
+func marshalS(_ *lang.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, false) }
 
-func unmarshal(p *proc.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v interface{}, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

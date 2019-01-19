@@ -4,13 +4,12 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 )
 
 // TestMurex tests murex runtime environment can be initialised and and simple
-// command line can exexute
+// command line can execute
 func TestMurex(t *testing.T) {
-	proc.InitEnv()
+	lang.InitEnv()
 
 	block := []rune("a [Mon..Fri]->regexp m/^T/")
 

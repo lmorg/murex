@@ -11,10 +11,8 @@ type astNode struct {
 	Method      bool
 	PipeOut     bool
 	PipeErr     bool
-	//Process     proc.Process
-	LineNumber int
-	ColNumber  int
-	//Children   Nodes
+	LineNumber  int
+	ColNumber   int
 }
 
 type astNodes []astNode

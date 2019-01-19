@@ -1,7 +1,7 @@
 package autocomplete
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/readline"
 
 	"sort"
@@ -25,7 +25,7 @@ func MatchFunction(partial string) (items []string) {
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string
 func MatchVars(partial string) (items []string) {
-	vars := proc.ShellProcess.Variables.DumpMap()
+	vars := lang.ShellProcess.Variables.DumpMap()
 
 	for name := range vars {
 		if strings.HasPrefix(name, partial[1:]) {

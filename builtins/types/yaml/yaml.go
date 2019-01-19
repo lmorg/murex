@@ -6,7 +6,7 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
 	"gopkg.in/yaml.v2"
@@ -82,7 +82,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 			return nil
 
 		default:
-			if debug.Enable {
+			if debug.Enabled {
 				panic(v)
 			}
 		}
@@ -91,7 +91,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 	return err
 }
 
-func readIndex(p *proc.Process, params []string) error {
+func readIndex(p *lang.Process, params []string) error {
 	var jInterface interface{}
 
 	b, err := p.Stdin.ReadAll()
@@ -107,11 +107,11 @@ func readIndex(p *proc.Process, params []string) error {
 	return define.IndexTemplateObject(p, params, &jInterface, yaml.Marshal)
 }
 
-func marshal(_ *proc.Process, v interface{}) ([]byte, error) {
+func marshal(_ *lang.Process, v interface{}) ([]byte, error) {
 	return yaml.Marshal(v)
 }
 
-func unmarshal(p *proc.Process) (v interface{}, err error) {
+func unmarshal(p *lang.Process) (v interface{}, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return

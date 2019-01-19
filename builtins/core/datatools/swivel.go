@@ -1,16 +1,16 @@
 package datatools
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
-	proc.GoFunctions["swivel-table"] = cmdSwivelTable
-	proc.GoFunctions["swivel-datatype"] = cmdSwivelDataType
+	lang.GoFunctions["swivel-table"] = cmdSwivelTable
+	lang.GoFunctions["swivel-datatype"] = cmdSwivelDataType
 }
 
-func cmdSwivelDataType(p *proc.Process) error {
+func cmdSwivelDataType(p *lang.Process) error {
 	//dt := p.Stdin.GetDataType()
 	dt, err := p.Parameters.String(0)
 	if err != nil {
@@ -52,7 +52,7 @@ func cmdSwivelDataType(p *proc.Process) error {
 
 // This function is ripe for optimisation. However given it's infrequent nature
 // and small datasets, I'm not in any great rush.
-func cmdSwivelTable(p *proc.Process) error {
+func cmdSwivelTable(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

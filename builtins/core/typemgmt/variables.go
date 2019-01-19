@@ -5,19 +5,19 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
 
 func init() {
-	proc.GoFunctions["set"] = cmdSet
-	proc.GoFunctions["!set"] = cmdUnset
-	proc.GoFunctions["global"] = cmdGlobal
-	proc.GoFunctions["!global"] = cmdUnglobal
-	proc.GoFunctions["export"] = cmdExport
-	proc.GoFunctions["!export"] = cmdUnexport
-	proc.GoFunctions["unset"] = cmdUnexport
+	lang.GoFunctions["set"] = cmdSet
+	lang.GoFunctions["!set"] = cmdUnset
+	lang.GoFunctions["global"] = cmdGlobal
+	lang.GoFunctions["!global"] = cmdUnglobal
+	lang.GoFunctions["export"] = cmdExport
+	lang.GoFunctions["!export"] = cmdUnexport
+	lang.GoFunctions["unset"] = cmdUnexport
 }
 
 var (
@@ -25,12 +25,12 @@ var (
 	rxVarName = regexp.MustCompile(`^([_a-zA-Z0-9]+)$`)
 )
 
-func cmdSet(p *proc.Process) error      { return set(p, p) }
-func cmdUnset(p *proc.Process) error    { return unset(p, p) }
-func cmdGlobal(p *proc.Process) error   { return set(p, proc.ShellProcess) }
-func cmdUnglobal(p *proc.Process) error { return unset(p, proc.ShellProcess) }
+func cmdSet(p *lang.Process) error      { return set(p, p) }
+func cmdUnset(p *lang.Process) error    { return unset(p, p) }
+func cmdGlobal(p *lang.Process) error   { return set(p, lang.ShellProcess) }
+func cmdUnglobal(p *lang.Process) error { return unset(p, lang.ShellProcess) }
 
-func set(p *proc.Process, scope *proc.Process) error {
+func set(p *lang.Process, scope *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	//var overrideDataType bool
@@ -76,7 +76,7 @@ func set(p *proc.Process, scope *proc.Process) error {
 	return scope.Parent.Variables.Set(match[0][1], match[0][2], dataType)
 }
 
-func unset(p *proc.Process, scope *proc.Process) error {
+func unset(p *lang.Process, scope *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -92,7 +92,7 @@ func unset(p *proc.Process, scope *proc.Process) error {
 	return err
 }
 
-func cmdExport(p *proc.Process) error {
+func cmdExport(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -122,7 +122,7 @@ func cmdExport(p *proc.Process) error {
 	return os.Setenv(match[0][1], match[0][2])
 }
 
-func cmdUnexport(p *proc.Process) error {
+func cmdUnexport(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {

@@ -3,19 +3,19 @@ package management
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["history"] = cmdHistory
-	//proc.GoFunctions["^"] = cmdHistCmd
-	//proc.GoFunctions["history-set-write-pipe"] = cmdHistPipe
+	lang.GoFunctions["history"] = cmdHistory
+	//lang.GoFunctions["^"] = cmdHistCmd
+	//lang.GoFunctions["history-set-write-pipe"] = cmdHistPipe
 }
 
-func cmdHistory(p *proc.Process) (err error) {
+func cmdHistory(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	if !shell.Interactive {
 		return errors.New("This is only designed to be run when the shell is in interactive mode")
@@ -32,12 +32,12 @@ func cmdHistory(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdHistCmd(p *proc.Process) error {
+func cmdHistCmd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	return errors.New("Invalid usage of history variable")
 }
 
-/*func cmdHistPipe(p *proc.Process) error {
+/*func cmdHistPipe(p *lang.Process) error {
 	if !shell.Interactive {
 		return errors.New("This is only designed to be run when the shell is in interactive mode.")
 	}
@@ -49,11 +49,11 @@ func cmdHistCmd(p *proc.Process) error {
 		return err
 	}
 
-	if proc.GlobalPipes.Dump()[name] == "" {
+	if lang.GlobalPipes.Dump()[name] == "" {
 		return errors.New("No pipe exists named: " + name)
 	}
 
-	pipe, err := proc.GlobalPipes.Get(name)
+	pipe, err := lang.GlobalPipes.Get(name)
 	if err != nil {
 		return err
 	}

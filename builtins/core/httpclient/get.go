@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/readall"
 )
 
-func cmdGet(p *proc.Process) (err error) {
+func cmdGet(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {
@@ -63,7 +63,7 @@ func cmdGet(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdGetFile(p *proc.Process) (err error) {
+func cmdGetFile(p *lang.Process) (err error) {
 	if p.Parameters.Len() == 0 {
 		return errors.New("URL required.")
 	}

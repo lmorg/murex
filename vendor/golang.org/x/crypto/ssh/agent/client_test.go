@@ -72,7 +72,7 @@ func startOpenSSHAgent(t *testing.T) (client ExtendedAgent, socket string, clean
 	return ac, socket, func() {
 		proc, _ := os.FindProcess(pid)
 		if proc != nil {
-			proc.Kill()
+			lang.Kill()
 		}
 		conn.Close()
 		os.RemoveAll(filepath.Dir(socket))

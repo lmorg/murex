@@ -6,19 +6,19 @@ import (
 	"errors"
 	"syscall"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 )
 
-func mkbg(p *proc.Process) error {
+func mkbg(p *lang.Process) error {
 	fid, err := p.Parameters.Int(0)
 	if err != nil {
 		return errors.New("Invalid parameters. Expecting either a code block or FID of a stopped process")
 	}
 
-	f, err := proc.GlobalFIDs.Proc(fid)
+	f, err := lang.GlobalFIDs.Proc(fid)
 	if err != nil {
 		return err
 	}
@@ -77,7 +77,7 @@ func mkbg(p *proc.Process) error {
 	return nil
 }
 
-func cmdForeground(p *proc.Process) error {
+func cmdForeground(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	fid, err := p.Parameters.Int(0)
@@ -85,7 +85,7 @@ func cmdForeground(p *proc.Process) error {
 		return err
 	}
 
-	f, err := proc.GlobalFIDs.Proc(fid)
+	f, err := lang.GlobalFIDs.Proc(fid)
 	if err != nil {
 		return err
 	}
@@ -100,7 +100,7 @@ func cmdForeground(p *proc.Process) error {
 
 	updateTree(f, false)
 
-	proc.ForegroundProc = f
+	lang.ForegroundProc = f
 
 	//if !f.Exec.Cmd.ProcessState.Exited() {
 	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)

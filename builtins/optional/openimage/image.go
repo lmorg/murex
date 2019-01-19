@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/eliukblau/pixterm/ansimage"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 	"golang.org/x/crypto/ssh/terminal"
 )
@@ -14,7 +14,7 @@ import (
 func init() {
 	define.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
 	define.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
-	proc.GoFunctions["open-image"] = pvImage
+	lang.GoFunctions["open-image"] = pvImage
 }
 
 // color implements the Go color.Color interface.
@@ -25,7 +25,7 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 }
 
-func pvImage(p *proc.Process) error {
+func pvImage(p *lang.Process) error {
 	var reader io.Reader
 
 	switch {

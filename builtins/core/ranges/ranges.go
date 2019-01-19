@@ -5,12 +5,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
-	proc.GoFunctions["@["] = cmdRange
+	lang.GoFunctions["@["] = cmdRange
 }
 
 var rxSplitRange *regexp.Regexp = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([erns]*)\s*$`)
@@ -27,7 +27,7 @@ type rangeFuncs interface {
 	End([]byte) bool
 }
 
-func cmdRange(p *proc.Process) (err error) {
+func cmdRange(p *lang.Process) (err error) {
 	const usage = "\nUsage: @[start..end] /  @[start..end]se\n(start or end can be omitted)"
 
 	dt := p.Stdin.GetDataType()
@@ -96,7 +96,7 @@ func cmdRange(p *proc.Process) (err error) {
 	return err
 }
 
-func readArray(p *proc.Process, r *rangeParameters) ([]string, error) {
+func readArray(p *lang.Process, r *rangeParameters) ([]string, error) {
 	var (
 		array   []string
 		err     error

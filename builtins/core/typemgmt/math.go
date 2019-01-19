@@ -8,14 +8,14 @@ import (
 
 	"github.com/Knetic/govaluate"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["eval"] = cmdEval
-	proc.GoFunctions["="] = cmdEval
-	proc.GoFunctions["let"] = cmdLet
+	lang.GoFunctions["eval"] = cmdEval
+	lang.GoFunctions["="] = cmdEval
+	lang.GoFunctions["let"] = cmdLet
 }
 
 var (
@@ -24,7 +24,7 @@ var (
 	rxPlus  = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
 )
 
-func cmdEval(p *proc.Process) (err error) {
+func cmdEval(p *lang.Process) (err error) {
 	//p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {
@@ -34,7 +34,7 @@ func cmdEval(p *proc.Process) (err error) {
 	var leftSide string
 
 	if p.IsMethod {
-		if debug.Enable == false {
+		if debug.Enabled == false {
 			defer func() {
 				if r := recover(); r != nil {
 					p.ExitNum = 2
@@ -83,10 +83,10 @@ func cmdEval(p *proc.Process) (err error) {
 	return err
 }
 
-func cmdLet(p *proc.Process) (err error) {
+func cmdLet(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
-	if debug.Enable == false {
+	if debug.Enabled == false {
 		defer func() {
 			if r := recover(); r != nil {
 				p.ExitNum = 2
@@ -128,8 +128,8 @@ func cmdLet(p *proc.Process) (err error) {
 	return err
 }
 
-func evaluate(p *proc.Process, expression string) (value, dataType string, err error) {
-	if debug.Enable == false {
+func evaluate(p *lang.Process, expression string) (value, dataType string, err error) {
+	if debug.Enabled == false {
 		defer func() {
 			if r := recover(); r != nil {
 				p.ExitNum = 2

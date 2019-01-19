@@ -4,23 +4,24 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import boolean builtins
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
 )
 
-// BooleanTest is a basic framework for each boolean test of murex code
+// BooleanTest is a basic framework for each boolean test of murex code.
+// Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 type BooleanTest struct {
 	Block  string
 	Result bool
 }
 
-// RunBooleanTests runs through all the test cases for BooleanTest
+// RunBooleanTests runs through all the test cases for BooleanTest.
+// Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 func RunBooleanTests(tests []BooleanTest, t *testing.T) {
-	defaults.Defaults(proc.InitConf, false)
-	proc.InitEnv()
+	defaults.Defaults(lang.InitConf, false)
+	lang.InitEnv()
 
 	for i := range tests {
 		stdout := streams.NewStdin()

@@ -3,21 +3,21 @@ package io
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 func init() {
-	proc.GoFunctions["read"] = cmdRead
-	proc.GoFunctions["tread"] = cmdTread
+	lang.GoFunctions["read"] = cmdRead
+	lang.GoFunctions["tread"] = cmdTread
 }
 
-func cmdRead(p *proc.Process) error {
+func cmdRead(p *lang.Process) error {
 	return read(p, types.String, 0)
 }
 
-func cmdTread(p *proc.Process) error {
+func cmdTread(p *lang.Process) error {
 	dt, err := p.Parameters.String(0)
 	if err != nil {
 		return err
@@ -25,7 +25,7 @@ func cmdTread(p *proc.Process) error {
 	return read(p, dt, 1)
 }
 
-func read(p *proc.Process, dt string, paramAdjust int) error {
+func read(p *lang.Process, dt string, paramAdjust int) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.IsBackground {

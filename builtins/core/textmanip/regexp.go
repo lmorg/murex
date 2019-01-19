@@ -7,17 +7,17 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 )
 
 func init() {
-	proc.GoFunctions["match"] = cmdMatch
-	proc.GoFunctions["!match"] = cmdMatch
-	proc.GoFunctions["regexp"] = cmdRegexp
-	proc.GoFunctions["!regexp"] = cmdRegexp
+	lang.GoFunctions["match"] = cmdMatch
+	lang.GoFunctions["!match"] = cmdMatch
+	lang.GoFunctions["regexp"] = cmdRegexp
+	lang.GoFunctions["!regexp"] = cmdRegexp
 }
 
-func cmdMatch(p *proc.Process) error {
+func cmdMatch(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -52,7 +52,7 @@ func cmdMatch(p *proc.Process) error {
 	return aw.Close()
 }
 
-func cmdRegexp(p *proc.Process) (err error) {
+func cmdRegexp(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -173,7 +173,7 @@ func splitRegexBraces(regex []byte) ([]string, error) {
 
 // -------- regex functions --------
 
-func regexMatch(p *proc.Process, rx *regexp.Regexp, dt string) error {
+func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
@@ -199,7 +199,7 @@ func regexMatch(p *proc.Process, rx *regexp.Regexp, dt string) error {
 	return aw.Close()
 }
 
-func regexSubstitute(p *proc.Process, rx *regexp.Regexp, sRegex []string, dt string) error {
+func regexSubstitute(p *lang.Process, rx *regexp.Regexp, sRegex []string, dt string) error {
 	if len(sRegex) < 3 {
 		return fmt.Errorf("Invalid regex (too few parameters - expecting s/find/substitute/) in: `%s`", p.Parameters.StringAll())
 	}
@@ -226,7 +226,7 @@ func regexSubstitute(p *proc.Process, rx *regexp.Regexp, sRegex []string, dt str
 	return aw.Close()
 }
 
-func regexFind(p *proc.Process, rx *regexp.Regexp, dt string) error {
+func regexFind(p *lang.Process, rx *regexp.Regexp, dt string) error {
 	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err

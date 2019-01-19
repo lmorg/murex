@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 )
 
 // TestDefaultConfigExists tests the Default() function populates *config.Config
@@ -25,9 +24,9 @@ func TestDefaultConfigExists(t *testing.T) {
 
 // TestDefaultProfileCompiles test the builtin murex_profile compiles
 func TestDefaultProfileCompiles(t *testing.T) {
-	defaults.Defaults(proc.InitConf, false)
-	proc.InitEnv()
-	proc.ShellProcess.Config = proc.InitConf
+	defaults.Defaults(lang.InitConf, false)
+	lang.InitEnv()
+	lang.ShellProcess.Config = lang.InitConf
 
 	stderr := streams.NewStdin()
 

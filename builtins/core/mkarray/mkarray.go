@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -12,8 +12,8 @@ import (
 // This code is ugly. Read at your own risk.
 
 func init() {
-	proc.GoFunctions["a"] = mkArray
-	proc.GoFunctions["ja"] = mkArray
+	lang.GoFunctions["a"] = mkArray
+	lang.GoFunctions["ja"] = mkArray
 }
 
 const (
@@ -31,7 +31,7 @@ type ast struct {
 
 // echo @{a: abc[1,2,3],[1..3]}
 // a: [1..10] -> ...
-func mkArray(p *proc.Process) error {
+func mkArray(p *lang.Process) error {
 	jsonArray := p.Name == "ja"
 
 	if jsonArray {

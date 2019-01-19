@@ -5,20 +5,20 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	proc.GoFunctions["escape"] = cmdEscape
-	proc.GoFunctions["!escape"] = cmdEscape
-	proc.GoFunctions["htmlesc"] = cmdHtmlEscape
-	proc.GoFunctions["!htmlesc"] = cmdHtmlEscape
-	proc.GoFunctions["urlesc"] = cmdUrlEscape
-	proc.GoFunctions["!urlesc"] = cmdUrlEscape
+	lang.GoFunctions["escape"] = cmdEscape
+	lang.GoFunctions["!escape"] = cmdEscape
+	lang.GoFunctions["htmlesc"] = cmdHtmlEscape
+	lang.GoFunctions["!htmlesc"] = cmdHtmlEscape
+	lang.GoFunctions["urlesc"] = cmdUrlEscape
+	lang.GoFunctions["!urlesc"] = cmdUrlEscape
 }
 
-func cmdEscape(p *proc.Process) error {
+func cmdEscape(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	var str string
@@ -49,7 +49,7 @@ func cmdEscape(p *proc.Process) error {
 	return err
 }
 
-func cmdHtmlEscape(p *proc.Process) error {
+func cmdHtmlEscape(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	var str string
@@ -76,7 +76,7 @@ func cmdHtmlEscape(p *proc.Process) error {
 	return err
 }
 
-func cmdUrlEscape(p *proc.Process) (err error) {
+func cmdUrlEscape(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	var str string

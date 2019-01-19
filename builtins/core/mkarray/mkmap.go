@@ -7,16 +7,15 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["map"] = mkmap
+	lang.GoFunctions["map"] = mkmap
 }
 
-func mkmap(p *proc.Process) error {
+func mkmap(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	blockKey, err := p.Parameters.Block(0)

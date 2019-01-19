@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/utils/man"
 
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -19,19 +19,19 @@ import (
 )
 
 func init() {
-	proc.GoFunctions["debug"] = cmdDebug
-	proc.GoFunctions["exitnum"] = cmdExitNum
-	proc.GoFunctions["builtins"] = cmdListBuiltins
-	proc.GoFunctions["bexists"] = cmdBuiltinExists
-	proc.GoFunctions["cd"] = cmdCd
-	proc.GoFunctions["os"] = cmdOs
-	proc.GoFunctions["cpuarch"] = cmdCpuArch
-	proc.GoFunctions["cpucount"] = cmdCpuCount
-	proc.GoFunctions["murex-update-exe-list"] = cmdUpdateExeList
-	proc.GoFunctions["man-summary"] = cmdManSummary
+	lang.GoFunctions["debug"] = cmdDebug
+	lang.GoFunctions["exitnum"] = cmdExitNum
+	lang.GoFunctions["builtins"] = cmdListBuiltins
+	lang.GoFunctions["bexists"] = cmdBuiltinExists
+	lang.GoFunctions["cd"] = cmdCd
+	lang.GoFunctions["os"] = cmdOs
+	lang.GoFunctions["cpuarch"] = cmdCpuArch
+	lang.GoFunctions["cpucount"] = cmdCpuCount
+	lang.GoFunctions["murex-update-exe-list"] = cmdUpdateExeList
+	lang.GoFunctions["man-summary"] = cmdManSummary
 }
 
-func cmdDebug(p *proc.Process) (err error) {
+func cmdDebug(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	if p.IsMethod {
 		var (
@@ -66,7 +66,7 @@ func cmdDebug(p *proc.Process) (err error) {
 		p.ExitNum = 1
 		return nil
 	}
-	debug.Enable = v
+	debug.Enabled = v
 	if v == false {
 		p.Stdout.Writeln(types.FalseByte)
 		p.ExitNum = 1
@@ -77,17 +77,17 @@ func cmdDebug(p *proc.Process) (err error) {
 	return
 }
 
-func cmdExitNum(p *proc.Process) error {
+func cmdExitNum(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Integer)
 	p.Stdout.Writeln([]byte(strconv.Itoa(p.Previous.ExitNum)))
 	return nil
 }
 
-func cmdListBuiltins(p *proc.Process) error {
+func cmdListBuiltins(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	var s []string
-	for name := range proc.GoFunctions {
+	for name := range lang.GoFunctions {
 		s = append(s, name)
 	}
 
@@ -100,7 +100,7 @@ func cmdListBuiltins(p *proc.Process) error {
 	return err
 }
 
-func cmdBuiltinExists(p *proc.Process) error {
+func cmdBuiltinExists(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing parameters. Please name builtins you want to check")
@@ -112,7 +112,7 @@ func cmdBuiltinExists(p *proc.Process) error {
 	}
 
 	for _, name := range p.Parameters.StringArray() {
-		if proc.GoFunctions[name] != nil {
+		if lang.GoFunctions[name] != nil {
 			j.Installed = append(j.Installed, name)
 		} else {
 			j.Missing = append(j.Missing, name)
@@ -126,7 +126,7 @@ func cmdBuiltinExists(p *proc.Process) error {
 	return err
 }
 
-func cmdCd(p *proc.Process) error {
+func cmdCd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	s, err := p.Parameters.String(0)
 	if err != nil {
@@ -172,31 +172,31 @@ func cmdCd(p *proc.Process) error {
 	return err
 }
 
-func cmdOs(p *proc.Process) (err error) {
+func cmdOs(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 	_, err = p.Stdout.Write([]byte(runtime.GOOS))
 	return
 }
 
-func cmdCpuArch(p *proc.Process) (err error) {
+func cmdCpuArch(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 	_, err = p.Stdout.Write([]byte(runtime.GOARCH))
 	return
 }
 
-func cmdCpuCount(p *proc.Process) (err error) {
+func cmdCpuCount(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Integer)
 	_, err = p.Stdout.Write([]byte(strconv.Itoa(runtime.NumCPU())))
 	return
 }
 
-func cmdUpdateExeList(p *proc.Process) error {
+func cmdUpdateExeList(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	autocomplete.UpdateGlobalExeList()
 	return nil
 }
 
-func cmdManSummary(p *proc.Process) (err error) {
+func cmdManSummary(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	if p.Parameters.Len() == 0 {

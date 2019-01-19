@@ -3,16 +3,16 @@ package mkarray
 import (
 	"regexp"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["jsplit"] = cmdJsplit
+	lang.GoFunctions["jsplit"] = cmdJsplit
 }
 
-func cmdJsplit(p *proc.Process) error {
+func cmdJsplit(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	b, err := p.Stdin.ReadAll()

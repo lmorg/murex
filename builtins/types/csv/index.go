@@ -1,11 +1,11 @@
 package csv
 
 import (
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
-func readIndex(p *proc.Process, params []string) error {
+func readIndex(p *lang.Process, params []string) error {
 	cRecords := make(chan []string, 1)
 
 	csvParser, err := NewParser(p.Stdin, p.Config)

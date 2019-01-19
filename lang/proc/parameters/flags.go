@@ -67,7 +67,7 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 }
 
 // ParseFlags - this instance of ParseFlags is a wrapper function for ParseFlags (above) so you can use inside your
-// proc.Process.Parameters object
+// lang.Process.Parameters object
 func (p *Parameters) ParseFlags(args *Arguments) (flags map[string]string, additional []string, err error) {
 	return ParseFlags(p.Params, args)
 }

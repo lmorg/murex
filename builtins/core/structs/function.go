@@ -4,26 +4,26 @@ import (
 	"errors"
 	"regexp"
 
-	"github.com/lmorg/murex/lang/proc"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	proc.GoFunctions["alias"] = cmdAlias
-	proc.GoFunctions["!alias"] = cmdUnalias
-	proc.GoFunctions["func"] = cmdFunc
-	proc.GoFunctions["!func"] = cmdUnfunc
-	proc.GoFunctions["private"] = cmdPrivate
-	proc.GoFunctions["!private"] = cmdUnprivate
+	lang.GoFunctions["alias"] = cmdAlias
+	lang.GoFunctions["!alias"] = cmdUnalias
+	lang.GoFunctions["func"] = cmdFunc
+	lang.GoFunctions["!func"] = cmdUnfunc
+	lang.GoFunctions["private"] = cmdPrivate
+	lang.GoFunctions["!private"] = cmdUnprivate
 }
 
 var rxAlias = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
 
-func cmdAlias(p *proc.Process) error {
+func cmdAlias(p *lang.Process) error {
 	if p.Parameters.Len() == 0 {
 		p.Stdout.SetDataType(types.Json)
-		b, err := json.Marshal(proc.GlobalAliases.Dump(), p.Stdout.IsTTY())
+		b, err := json.Marshal(lang.GlobalAliases.Dump(), p.Stdout.IsTTY())
 		if err != nil {
 			return err
 		}
@@ -44,15 +44,15 @@ func cmdAlias(p *proc.Process) error {
 	name := split[1]
 	params := append([]string{split[2]}, p.Parameters.StringArray()[1:]...)
 
-	proc.GlobalAliases.Add(name, params)
+	lang.GlobalAliases.Add(name, params)
 	return nil
 }
 
-func cmdUnalias(p *proc.Process) error {
+func cmdUnalias(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	for _, name := range p.Parameters.StringArray() {
-		err := proc.GlobalAliases.Delete(name)
+		err := lang.GlobalAliases.Delete(name)
 		if err != nil {
 			return err
 		}
@@ -60,7 +60,7 @@ func cmdUnalias(p *proc.Process) error {
 	return nil
 }
 
-func cmdFunc(p *proc.Process) error {
+func cmdFunc(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
@@ -71,20 +71,20 @@ func cmdFunc(p *proc.Process) error {
 		return err
 	}
 
-	proc.MxFunctions.Define(name, block)
+	lang.MxFunctions.Define(name, block)
 	return nil
 }
 
-func cmdUnfunc(p *proc.Process) error {
+func cmdUnfunc(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	return proc.MxFunctions.Undefine(name)
+	return lang.MxFunctions.Undefine(name)
 }
 
-func cmdPrivate(p *proc.Process) error {
+func cmdPrivate(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
@@ -95,17 +95,17 @@ func cmdPrivate(p *proc.Process) error {
 		return err
 	}
 
-	proc.PrivateFunctions.Define(name, block)
+	lang.PrivateFunctions.Define(name, block)
 	return nil
 }
 
-func cmdUnprivate(p *proc.Process) error {
+func cmdUnprivate(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	return proc.PrivateFunctions.Undefine(name)
+	return lang.PrivateFunctions.Undefine(name)
 }
 
 /*func aliasTable {
