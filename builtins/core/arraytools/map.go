@@ -1,11 +1,9 @@
-package mkarray
+package arraytools
 
 import (
 	"errors"
-	"sync"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -28,10 +26,10 @@ func mkmap(p *lang.Process) error {
 		return err
 	}
 
-	debug.Log("block key:", string(blockKey))
-	debug.Log("block value:", string(blockValue))
+	//debug.Log("block key:", string(blockKey))
+	//debug.Log("block value:", string(blockValue))
 
-	var wg sync.WaitGroup
+	//var wg sync.WaitGroup
 	var errKeys, errValues error
 	outKeys := streams.NewStdin()
 	outValues := streams.NewStdin()
@@ -79,10 +77,10 @@ func mkmap(p *lang.Process) error {
 	if errValues != nil {
 		return errValues
 	}
-	wg.Wait()
+	//wg.Wait()
 
-	debug.Json("a keys", aKeys)
-	debug.Json("a values", aValues)
+	//debug.Json("a keys", aKeys)
+	//debug.Json("a values", aValues)
 
 	if len(aKeys) > len(aValues) {
 		return errors.New("There are more keys than values (k > v)")
@@ -96,7 +94,7 @@ func mkmap(p *lang.Process) error {
 	for i := range aKeys {
 		m[aKeys[i]] = aValues[i]
 	}
-	debug.Json("m", m)
+	//debug.Json("m", m)
 
 	b, err := json.Marshal(m, p.Stdout.IsTTY())
 	if err != nil {

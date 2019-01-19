@@ -1,4 +1,4 @@
-package mkarray
+package arraytools
 
 import (
 	"fmt"

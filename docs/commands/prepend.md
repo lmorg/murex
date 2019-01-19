@@ -29,13 +29,30 @@
     November
     December
 
+### Detail
+
+It's worth noting that `prepend` and `append` are not data type aware. So 
+any integers in data type aware structures will be converted into strings:
+
+    » tout: json [1,2,3] -> prepend: new 
+    [
+        "new",
+        "1",
+        "2",
+        "3"
+    ]
+
 ### See Also
 
 * [`append`](../commands/append.md):
   Add data to the end of an array
+* [`len` ](../commands/len.md):
+  Outputs the length of an array
 * [a](../commands/a.md):
   
 * [cast](../commands/cast.md):
+  
+* [ja](../commands/ja.md):
   
 * [square-bracket-open](../commands/square-bracket-open.md):
   

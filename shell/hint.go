@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/builtins/core/docs"
+	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"

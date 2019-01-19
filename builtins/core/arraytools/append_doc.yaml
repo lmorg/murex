@@ -1,0 +1,99 @@
+- DocumentID: prepend
+  Title: >-
+    `prepend` 
+  CategoryID: commands
+  Summary: >-
+    Add data to the start of an array
+  Description: |-
+    `prepend` a data to the start of an array.
+  Usage: |-
+    ```
+    <stdin> -> prepend: value -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » a: [January..December] -> prepend: 'New Year'
+    New Year
+    January
+    February
+    March
+    April
+    May
+    June
+    July
+    August
+    September
+    October
+    November
+    December
+    ```
+  Detail: |-
+    It's worth noting that `prepend` and `append` are not data type aware. So 
+    any integers in data type aware structures will be converted into strings:
+
+    ```
+    » tout: json [1,2,3] -> prepend: new 
+    [
+        "new",
+        "1",
+        "2",
+        "3"
+    ]
+    ```
+  Synonyms:
+  Related:
+  - square-bracket-open
+  - cast
+  - append
+  - update
+  - a
+  - ja
+  - len
+
+
+- DocumentID: append
+  Title: >+
+    `append`
+  CategoryID: commands
+  Summary: >-
+    Add data to the end of an array
+  Description: |-
+    `append` data to the end of an array.
+  Usage: |-
+    ```
+    <stdin> -> append: value -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » a: [Monday..Sunday] -> append: Funday
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+    Sunday
+    Funday
+    ```
+  Detail: |-
+    It's worth noting that `prepend` and `append` are not data type aware. So 
+    any integers in data type aware structures will be converted into strings:
+
+    ```
+    » tout: json [1,2,3] -> append: new 
+    [
+        "1",
+        "2",
+        "3",
+        "new"
+    ]
+    ```
+  Synonyms:
+  Related:
+  - square-bracket-open
+  - cast
+  - prepend
+  - update
+  - a
+  - ja
+  - len

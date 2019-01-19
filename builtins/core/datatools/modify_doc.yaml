@@ -58,7 +58,7 @@
     Numbers will also follow the same transparent convertion treatment:
 
     ```
-    » tout json { "one": 1, "two": 2 } -> alter /two "3"
+    » tout: json { "one": 1, "two": 2 } -> alter: /two "3"
     {
         "one": 1,
         "two": 3
@@ -107,76 +107,3 @@
   - runtime
   - cast
   - config
-
-
-- DocumentID: prepend
-  Title: >-
-    `prepend` 
-  CategoryID: commands
-  Summary: >-
-    Add data to the start of an array
-  Description: |-
-    `prepend` a data to the start of an array.
-  Usage: |-
-    ```
-    <stdin> -> prepend: value -> <stdout>
-    ```
-  Examples: |-
-    ```
-    » a: [January..December] -> prepend: 'New Year'
-    New Year
-    January
-    February
-    March
-    April
-    May
-    June
-    July
-    August
-    September
-    October
-    November
-    December
-    ```
-  Detail: |-
-  Synonyms:
-  Related:
-  - square-bracket-open
-  - cast
-  - append
-  - update
-  - a
-
-
-- DocumentID: append
-  Title: >+
-    `append`
-  CategoryID: commands
-  Summary: >-
-    Add data to the end of an array
-  Description: |-
-    `append` data to the end of an array.
-  Usage: |-
-    ```
-    <stdin> -> append: value -> <stdout>
-    ```
-  Examples: |-
-    ```
-    » a: [Monday..Sunday] -> append: Funday
-    Monday
-    Tuesday
-    Wednesday
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    Funday
-    ```
-  Detail: |-
-  Synonyms:
-  Related:
-  - square-bracket-open
-  - cast
-  - prepend
-  - update
-  - a

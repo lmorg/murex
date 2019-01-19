@@ -61,6 +61,6 @@ var rangeMonthShort = map[string]int{
 var rangeSeason = map[string]int{
 	"spring": 1,
 	"summer": 2,
-	"autum":  3,
+	"autumn": 3,
 	"winter": 4,
 }

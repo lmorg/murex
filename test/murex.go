@@ -1,9 +1,10 @@
 package test
 
 import (
+	"strings"
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import murex builtins
+	//_ "github.com/lmorg/murex/builtins/core/typemgmt" // import murex builtins
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -26,32 +27,57 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 	for i := range tests {
 		stdout := streams.NewStdin()
 		stderr := streams.NewStdin()
+		hasError := false
 
 		exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
 		if err != nil {
-			t.Error(err.Error())
+			t.Errorf("Cannot execute script on test %d", i)
+			t.Log(err)
+			continue
 		}
 
-		b, err := stderr.ReadAll()
+		bErr, err := stderr.ReadAll()
 		if err != nil {
-			t.Error(tests[i].Block, "- unable to read from stderr: "+err.Error())
+			t.Errorf("Cannot ReadAll() from Stderr on test %d", i)
+			t.Log(err)
+			continue
 		}
 
-		if string(b) != tests[i].Stderr {
-			t.Error(tests[i].Block, "- stderr doesn't match exected error message:", b)
+		if string(bErr) != tests[i].Stderr {
+			hasError = true
 		}
 
-		b, err = stdout.ReadAll()
+		bOut, err := stdout.ReadAll()
 		if err != nil {
-			t.Error(tests[i].Block, "- unable to read from stdout: "+err.Error())
+			t.Errorf("Cannot ReadAll() from Stdout on test %d", i)
+			t.Log(err)
+			continue
 		}
 
-		if string(b) != tests[i].Stdout {
-			t.Error(tests[i].Block, "- stdout doesn't match exected output:", b)
+		if string(bOut) != tests[i].Stdout {
+			hasError = true
 		}
 
 		if exitNum != tests[i].ExitNum {
-			t.Error(tests[i].Block, "- exit number doesn't match expected exit number")
+			hasError = true
+		}
+
+		if hasError {
+			t.Errorf("Code block doesn't return expected values in test %d", i)
+			t.Log("Code block:      ", tests[i].Block)
+
+			t.Log("Expected Stdout: ", strings.Replace(tests[i].Stdout, "\n", `\n`, -1))
+			t.Log("Actual Stdout:   ", strings.Replace(string(bOut), "\n", `\n`, -1))
+			t.Log("eo bytes:        ", []byte(tests[i].Stdout))
+			t.Log("ao bytes:        ", bOut)
+
+			t.Log("Expected Stderr: ", strings.Replace(tests[i].Stderr, "\n", `\n`, -1))
+			t.Log("Actual Stderr:   ", strings.Replace(string(bErr), "\n", `\n`, -1))
+			t.Log("eo bytes:        ", []byte(tests[i].Stderr))
+			t.Log("ao bytes:        ", bErr)
+
+			t.Log("Expected exitnum:", tests[i].ExitNum)
+			t.Log("Actual exitnum:  ", exitNum)
 		}
 	}
 }

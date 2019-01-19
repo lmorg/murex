@@ -1,0 +1,31 @@
+- DocumentID: jsplit
+  Title: >-
+    `jsplit` 
+  CategoryID: commands
+  Summary: >-
+    Splits STDIN into a JSON array based on a regex parameter
+  Description: |-
+    `jsplit` will read from STDIN and split it based on a regex parameter. It outputs a JSON array.
+  Usage: |-
+    ```
+    <STDIN> -> jsplit: regex -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » (hello, world) -> jsplit: l+ 
+    [
+        "he",
+        "o, wor",
+        "d"
+    ]
+    ```
+  Detail: |-
+  Synonyms:
+  Related:
+  - prepend
+  - append
+  - map
+  - a
+  - ja
+  - 2darray
+  - len

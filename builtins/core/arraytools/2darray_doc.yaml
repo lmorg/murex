@@ -1,0 +1,96 @@
+- DocumentID: 2darray
+  Title: >-
+    `2darray` 
+  CategoryID: commands
+  Summary: >-
+    Create a 2D JSON array from multiple input sources
+  Description: |-
+    `2darray` merges multiple input sources to create a two dimentional array in JSON
+  Usage: |-
+    ```
+    2darray: { code-block } { code-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » ps: -fe -> head: -n 10 -> set: ps 
+    » 2darray { $ps[UID] } { $ps[PID] } { $ps[TTY] } { $ps[TIME] }
+    [
+        [
+            "",
+            "",
+            "",
+            ""
+        ],
+        [
+            "UID",
+            "PID",
+            "TTY",
+            "TIME"
+        ],
+        [
+            "root",
+            "1",
+            "?",
+            "00:00:02"
+        ],
+        [
+            "root",
+            "2",
+            "?",
+            "00:00:00"
+        ],
+        [
+            "root",
+            "3",
+            "?",
+            "00:00:00"
+        ],
+        [
+            "root",
+            "4",
+            "?",
+            "00:00:00"
+        ],
+        [
+            "root",
+            "6",
+            "?",
+            "00:00:00"
+        ],
+        [
+            "root",
+            "8",
+            "?",
+            "00:00:00"
+        ],
+        [
+            "root",
+            "9",
+            "?",
+            "00:00:03"
+        ],
+        [
+            "root",
+            "10",
+            "?",
+            "00:00:19"
+        ],
+        [
+            "root",
+            "11",
+            "?",
+            "00:00:01"
+        ]
+    ]
+    ```
+  Detail: |-
+    `2darray` can have as many or as few code blocks as you wish.
+  Synonyms:
+  Related:
+  - prepend
+  - append
+  - map
+  - a
+  - ja
+  - jsplit
+  - len

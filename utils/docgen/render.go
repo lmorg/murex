@@ -37,10 +37,11 @@ func renderInnerLoop(t *templates, docs documents) {
 
 func renderDocument(t *templates, d *document, docs documents) {
 	if t.docTemplate == nil {
-		panic(fmt.Sprintf("No document template loaded for %s[%d]/*", t.ref.ID, t.index))
+		//panic(fmt.Sprintf("No document template loaded for %s[%d]/*", t.ref.ID, t.index))
+		return
 	}
 
-	f := fileWriter(t.DocumentPath(d))
+	f := fileWriter(t.DocumentFilePath(d))
 	b := new(bytes.Buffer)
 
 	log("Rendering document", d.DocumentID)

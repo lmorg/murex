@@ -15,6 +15,8 @@ UNIX, or even Windows command prompt.
 
 * [`(` (brace quote)](commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [`2darray` ](commands/2darray.md):
+  Create a 2D JSON array from multiple input sources
 * [`>>` (append file)](commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
@@ -43,6 +45,12 @@ UNIX, or even Windows command prompt.
   Define a global variable and set it's value
 * [`if`](commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [`jsplit` ](commands/jsplit.md):
+  Splits STDIN into a JSON array based on a regex parameter
+* [`len` ](commands/len.md):
+  Outputs the length of an array
+* [`map` ](commands/map.md):
+  Creates a map from two data sources
 * [`murex-docs`](commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
 * [`or`](commands/or.md):

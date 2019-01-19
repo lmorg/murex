@@ -11,8 +11,18 @@ func init() {
 	lang.GoFunctions["murex-docs"] = cmdMurexDocs
 }
 
-// Definition stores the definitions for builtins
-var Definition = make(map[string]string)
+var (
+	// Definition stores the definitions for builtins.
+	Definition = make(map[string]string)
+
+	// Summary stores a one line summary of each builtins.
+	// This will be auto-populated by docgen
+	Summary map[string]string
+
+	// Synonym is used for builtins that might have more than one internal alias.
+	//This will be auto-populated by docgen
+	Synonym map[string]string
+)
 
 func cmdMurexDocs(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)

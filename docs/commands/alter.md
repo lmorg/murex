@@ -53,7 +53,7 @@ However it is also data type aware so if they key you're updating holds a string
     
 Numbers will also follow the same transparent convertion treatment:
 
-    » tout json { "one": 1, "two": 2 } -> alter /two "3"
+    » tout: json { "one": 1, "two": 2 } -> alter: /two "3"
     {
         "one": 1,
         "two": 3

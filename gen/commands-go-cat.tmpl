@@ -1,15 +1,15 @@
 package docs
 
-// Summary stores a one line summary of each builtins
-var Summary = map[string]string{
-{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}
-	{{ quote (index .Synonyms 0) }}: {{ quote (trim .Summary) }},{{ else }}
-	{{ quote .ID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}{{ end }}
-}
+func init() {
+	Summary = map[string]string{
+	{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}
+		{{ quote (index .Synonyms 0) }}: {{ quote (trim .Summary) }},{{ else }}
+		{{ quote .ID }}: {{ quote (trim .Summary) }},{{ end }}{{ end }}{{ end }}
+	}
 
-// Synonym is used for builtins that might have more than one internal alias
-var Synonym = map[string]string{
-{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}{{ $ID := quote (index .Synonyms 0) }}{{ range .Synonyms }}
-	{{ quote . }}: {{ $ID }},{{ end }}{{ else }}
-	{{ quote .ID }}: {{ quote .ID }},{{ end }}{{ end }}{{ end }}
+	Synonym = map[string]string{
+	{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}{{ $ID := quote (index .Synonyms 0) }}{{ range .Synonyms }}
+		{{ quote . }}: {{ $ID }},{{ end }}{{ else }}
+		{{ quote .ID }}: {{ quote .ID }},{{ end }}{{ end }}{{ end }}
+	}
 }

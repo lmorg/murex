@@ -33,7 +33,7 @@ func cmdLockfile(p *lang.Process) (err error) {
 	switch method {
 	case "lock":
 		if fileExists(lockfile) {
-			return errors.New("Lockfile already exists.")
+			return errors.New("Lockfile already exists")
 		}
 
 		file, err := os.Create(lockfile)
@@ -46,7 +46,7 @@ func cmdLockfile(p *lang.Process) (err error) {
 
 	case "unlock":
 		if !fileExists(lockfile) {
-			return errors.New("Lockfile does not exist.")
+			return errors.New("Lockfile does not exist")
 		}
 		return os.Remove(lockfile)
 

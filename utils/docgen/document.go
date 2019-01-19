@@ -50,16 +50,22 @@ func (d document) Hierarchy() string {
 	return d.CategoryID + "/" + d.DocumentID
 }
 
-// DocumentPath is the path to write documents to
-func (t templates) DocumentPath(d *document) string {
-	return t.OutputPath + d.DocumentID + t.OutputExt
+// DocumentFileName is the file name of the written documents
+func (t templates) DocumentFileName(d *document) string {
+	return d.DocumentID + t.OutputExt
+}
+
+// DocumentFilePath is the file name and path to write documents to
+func (t templates) DocumentFilePath(d *document) string {
+	return t.OutputPath + t.DocumentFileName(d)
 }
 
 func (t templates) DocumentValues(d *document, docs documents, nest bool) *documentValues {
 	dv := &documentValues{
 		ID:                  d.DocumentID,
 		Title:               d.Title,
-		Path:                t.DocumentPath(d),
+		FileName:            t.DocumentFileName(d),
+		FilePath:            t.DocumentFilePath(d),
 		Hierarchy:           d.Hierarchy(),
 		CategoryID:          d.CategoryID,
 		CategoryTitle:       t.ref.Title,
@@ -115,7 +121,8 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 type documentValues struct {
 	ID                  string
 	Title               string
-	Path                string
+	FileName            string
+	FilePath            string
 	Hierarchy           string
 	CategoryID          string
 	CategoryTitle       string

@@ -39,7 +39,7 @@ func WriteArray(writer Io, dt string) (ArrayWriter, error) {
 		return writeArray[dt](writer)
 	}
 
-	return nil, fmt.Errorf("murex data type `%s` has not implimented WriteArray() method", dt)
+	return nil, fmt.Errorf("murex data type `%s` has not implemented WriteArray() method", dt)
 }
 
 // WriteTo is a template function for stdio.Io

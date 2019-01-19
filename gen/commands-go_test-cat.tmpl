@@ -1,0 +1,9 @@
+package builtins
+
+func init() {
+	sourceFile = map[string]string{
+	{{ if .Documents }}{{ range .Documents }}{{ if .Synonyms }}
+		{{ quote (index .Synonyms 0) }}: {{ quote .FileName }},{{ else }}
+		{{ quote .ID }}: {{ quote .FileName }},{{ end }}{{ end }}{{ end }}
+	}
+}

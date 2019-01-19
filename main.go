@@ -5,9 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/lmorg/murex/builtins/pipes/term"
-
 	_ "github.com/lmorg/murex/builtins"
+	_ "github.com/lmorg/murex/builtins/docs"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"

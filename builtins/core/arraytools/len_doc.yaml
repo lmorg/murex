@@ -1,0 +1,26 @@
+- DocumentID: len
+  Title: >-
+    `len` 
+  CategoryID: commands
+  Summary: >-
+    Outputs the length of an array
+  Description: |-
+    This will read an array from STDIN and outputs the length for that array
+  Usage: |-
+    ```
+    <STDIN> -> len -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » tout: json (["a", "b", "c"]) -> len 
+    3
+    ```
+  Detail: |-
+  Synonyms:
+  Related:
+  - prepend
+  - append
+  - map
+  - a
+  - ja
+  - jsplit
