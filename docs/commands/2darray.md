@@ -103,5 +103,9 @@
   Add data to the start of an array
 * [a](../commands/a.md):
   
+* [index](../commands/index.md):
+  
 * [ja](../commands/ja.md):
+  
+* [range](../commands/range.md):
   

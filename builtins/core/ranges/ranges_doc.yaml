@@ -1,0 +1,61 @@
+- DocumentID: ranges
+  Title: >-
+    `@[` (range) 
+  CategoryID: commands
+  Summary: >-
+    Outputs a ranged subset of data from STDIN
+  Description: |-
+    This will read from STDIN and output a subset of data in a defined range.
+    
+    The range can be defined as a number of different range types - such as the
+    content of the array or it's index / row number. You can also omit either
+    the start or the end of the search criteria to cover all items before or
+    after the remaining search criteria.
+  Usage: |-
+    ```
+    <stdin> -> @[start..end]flags -> <stdout>
+    ```
+  Examples: |-
+    Range over all months after March:
+
+    ```
+    » a: [January..December] -> @[March..]se
+    March
+    April
+    May
+    June
+    July
+    August
+    September
+    October
+    November
+    December
+    ```
+
+    Range from the 6th to the 10th month (indexes start from zero, `0`):
+
+    ```
+    » a: [January..December] -> @[5..9]
+    June
+    July
+    August
+    September
+    October
+    ```
+  Flags:
+    n: array index
+    s: exact string match
+    r: regexp match
+    e: exclude the start and end search criteria from the range
+  Detail: |-
+  Synonyms:
+  - "@["
+  Related:
+  - prepend
+  - append
+  - index
+  - a
+  - ja
+  - jsplit
+  - len
+  - alter

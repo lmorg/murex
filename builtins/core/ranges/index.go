@@ -19,7 +19,7 @@ func (rf *rfIndex) Start(_ []byte) bool {
 func (rf *rfIndex) End(_ []byte) bool {
 	if rf.end > -1 {
 		rf.i++
-		return rf.i > rf.end+1
+		return rf.i > rf.end
 	}
 	return false
 }
@@ -27,22 +27,29 @@ func (rf *rfIndex) End(_ []byte) bool {
 func newNumber(r *rangeParameters) (err error) {
 	rf := new(rfIndex)
 
-	if r.Start == "" {
-		r.Start = "0"
+	sStart := r.Start
+	sEnd := r.End
+
+	if sStart == "" {
+		sStart = "0"
 	}
 
-	if r.End == "" {
-		r.End = "-1"
+	if sEnd == "" {
+		sEnd = "-1"
 	}
 
-	rf.start, err = strconv.Atoi(r.Start)
+	rf.start, err = strconv.Atoi(sStart)
 	if err != nil {
 		return errors.New("Cannot convert start value to integer: " + err.Error())
 	}
 
-	rf.end, err = strconv.Atoi(r.End)
+	rf.end, err = strconv.Atoi(sEnd)
 	if err != nil {
 		return errors.New("Cannot convert end value to integer: " + err.Error())
+	}
+
+	if rf.start > 0 && !r.Exclude {
+		rf.end++
 	}
 
 	r.Match = rf

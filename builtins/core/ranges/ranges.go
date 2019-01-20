@@ -13,7 +13,7 @@ func init() {
 	lang.GoFunctions["@["] = cmdRange
 }
 
-var rxSplitRange *regexp.Regexp = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([erns]*)\s*$`)
+var rxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([erns]*)\s*$`)
 
 type rangeParameters struct {
 	Exclude bool

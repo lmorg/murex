@@ -21,6 +21,8 @@ UNIX, or even Windows command prompt.
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
+* [`@[` (range) ](commands/ranges.md):
+  Outputs a ranged subset of data from STDIN
 * [`alter`](commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`and`](commands/and.md):
@@ -29,8 +31,18 @@ UNIX, or even Windows command prompt.
   Add data to the end of an array
 * [`catch`](commands/catch.md):
   Handles the exception code raised by `try` or `trypipe
+* [`cd`](commands/cd.md):
+  Change (working) directory
+* [`cpuarch`](commands/cpucount.md):
+  Output the number of CPU cores available on your host
+* [`cpuarch`](commands/cpuarch.md):
+  Output the hosts CPU architecture
+* [`debug`](commands/debug.md):
+  Debugging information
 * [`err`](commands/err.md):
   Print a line to the STDERR
+* [`exitnum`](commands/exitnum.md):
+  Output the exit number of the previous process
 * [`export`](commands/export.md):
   Define a local variable and set it's value
 * [`f`](commands/f.md):
@@ -43,18 +55,26 @@ UNIX, or even Windows command prompt.
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 * [`global`](commands/global.md):
   Define a global variable and set it's value
+* [`history`](commands/history.md):
+  Outputs murex's command history
 * [`if`](commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`jsplit` ](commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [`len` ](commands/len.md):
   Outputs the length of an array
+* [`man-summary`](commands/man-summary.md):
+  Outputs a man page summary of a command
 * [`map` ](commands/map.md):
   Creates a map from two data sources
 * [`murex-docs`](commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
+* [`murex-update-exe-list`](commands/murex-update-exe-list.md):
+  Forces _murex_ to rescan $PATH looking for exectables
 * [`or`](commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
+* [`os`](commands/os.md):
+  Output the auto-detected OS name
 * [`out`](commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [`post`](commands/post.md):

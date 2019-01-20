@@ -47,7 +47,11 @@ any integers in data type aware structures will be converted into strings:
   
 * [cast](../commands/cast.md):
   
+* [index](../commands/index.md):
+  
 * [ja](../commands/ja.md):
+  
+* [range](../commands/range.md):
   
 * [square-bracket-open](../commands/square-bracket-open.md):
   

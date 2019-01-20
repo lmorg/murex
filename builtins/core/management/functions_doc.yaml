@@ -1,0 +1,329 @@
+- DocumentID: debug
+  Title: >+
+    `debug`
+  CategoryID: commands
+  Summary: >-
+    Debugging information
+  Description: |-
+    `debug` has two modes: as a function and as a method.
+
+    #### Debug Method
+
+    This usage will return debug information about the previous function ran.
+
+    #### Debug Function:
+
+    This will enable or disable debugging mode.
+
+  Usage: |-
+    ```
+    <stdin> -> debug -> <stdout>
+    
+    debug: boolean -> <stdout>
+    
+    debug -> <stdout>
+    ```
+  Examples: |-
+    Return debugging information on the previous function:
+
+    ```
+    » echo: "hello, world!" -> debug 
+    {
+        "DataType": {
+            "Go": "[]string",
+            "Murex": "str"
+        },
+        "Process": {
+            "Context": {
+                "Context": 0
+            },
+            "Stdin": {},
+            "Stdout": {},
+            "Stderr": {},
+            "Parameters": {
+                "Params": [
+                    "hello, world!"
+                ],
+                "Tokens": [
+                    [
+                        {
+                            "Type": 0,
+                            "Key": ""
+                        }
+                    ],
+                    [
+                        {
+                            "Type": 1,
+                            "Key": "hello, world!"
+                        }
+                    ],
+                    [
+                        {
+                            "Type": 0,
+                            "Key": ""
+                        }
+                    ]
+                ]
+            },
+            "ExitNum": 0,
+            "Name": "echo",
+            "Id": 3750,
+            "Exec": {
+                "Pid": 0,
+                "Cmd": null,
+                "PipeR": null,
+                "PipeW": null
+            },
+            "PromptGoProc": 1,
+            "Path": "",
+            "IsMethod": false,
+            "IsNot": false,
+            "NamedPipeOut": "out",
+            "NamedPipeErr": "err",
+            "NamedPipeTest": "",
+            "State": 7,
+            "IsBackground": false,
+            "LineNumber": 1,
+            "ColNumber": 1,
+            "RunMode": 0,
+            "Config": {},
+            "Tests": {
+                "Results": null
+            },
+            "Variables": {},
+            "FidTree": [
+                0,
+                3750
+            ],
+            "CreationTime": "2019-01-20T00:00:52.167127131Z",
+            "StartTime": "2019-01-20T00:00:52.167776212Z"
+        }
+    }
+    ```
+
+    Enable or disable debug mode:
+
+    ```
+    » debug: on
+    true
+
+    » debug: off
+    false
+    ```
+
+    Output whether debug mode is enabled or disabled:
+    
+    ```
+    » debug
+    false
+    ```
+  Flags:
+  Detail: |-
+    When enabling or disabling debug mode, because the parameter is a murex
+    boolean type, it means you can use other boolean terms. eg
+
+    ```
+    # enable debugging
+    » debug 1
+    » debug on
+    » debug yes
+    » debug true
+
+    # disable debugging
+    » debug 0
+    » debug off
+    » debug no
+    » debug false
+    ```
+
+    It is also worth noting that the debugging information needs to be written
+    into the Go source code rather than in _murex_'s shell scripting languague.
+    If you require debugging those processes then please use _murex_'s `test`
+    framework
+  Synonyms:
+  Related:
+  - runtime
+  - test
+
+
+- DocumentID: exitnum
+  Title: >+
+    `exitnum`
+  CategoryID: commands
+  Summary: >-
+    Output the exit number of the previous process
+  Description: |-
+    Output the exit number of the previous process.
+  Usage: |-
+    exitnum -> <stdout>
+  Examples: |-
+    ```
+    » exitnum
+    0
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - runtime
+  - test
+
+
+- DocumentID: os
+  Title: >+
+    `os`
+  CategoryID: commands
+  Summary: >-
+    Output the auto-detected OS name
+  Description: |-
+    Output the auto-detected OS name.
+  Usage: |-
+    os -> <stdout>
+  Examples: |-
+    ```
+    » os
+    linux
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - cpuarch
+  - cpucount
+
+
+- DocumentID: cpuarch
+  Title: >+
+    `cpuarch`
+  CategoryID: commands
+  Summary: >-
+    Output the hosts CPU architecture
+  Description: |-
+    Output the hosts CPU architecture.
+  Usage: |-
+    cpuarch -> <stdout>
+  Examples: |-
+    ```
+    » cpuarch
+    amd64
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - os
+  - cpucount
+
+
+- DocumentID: cpucount
+  Title: >+
+    `cpuarch`
+  CategoryID: commands
+  Summary: >-
+    Output the number of CPU cores available on your host
+  Description: |-
+    Output the number of CPU cores available on your host.
+  Usage: |-
+    cpucount -> <stdout>
+  Examples: |-
+    ```
+    » cpucount
+    4
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - os
+  - cpuarch
+
+
+- DocumentID: murex-update-exe-list
+  Title: >+
+    `murex-update-exe-list`
+  CategoryID: commands
+  Summary: >-
+    Forces _murex_ to rescan $PATH looking for exectables
+  Description: |-
+    On application lauch, _murex_ scans and caches all the executables found in
+    $PATH on your host. _murex_ then does regular scans there after. However if
+    you want to force a new scan (for example you've just installed a new
+    program and you want it to appear in tab completion) then you can run `murex-update-exe-list`.
+  Usage: |-
+    murex-update-exe-list
+  Examples: |-
+    ```
+    » murex-update-exe-list
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - os
+  - cpuarch
+  - cpucount
+
+
+- DocumentID: man-summary
+  Title: >+
+    `man-summary`
+  CategoryID: commands
+  Summary: >-
+    Outputs a man page summary of a command
+  Description: |-
+    `man-summary` reads the man pages for a given command and outputs it's
+    summary (if one exists).
+  Usage: |-
+    man-summary command
+  Examples: |-
+    ```
+    » man-summary: man 
+    man - an interface to the on-line reference manuals
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - summary
+  - config
+  - murex-docs
+
+
+- DocumentID: cd
+  Title: >+
+    `cd`
+  CategoryID: commands
+  Summary: >-
+    Change (working) directory
+  Description: |-
+    Changes current working directory.
+  Usage: |-
+    cd path
+  Examples: |-
+    ```
+    # Home directory
+    » cd: ~ 
+
+    # Absolute path
+    » cd: /etc/
+
+    # Relative path
+    » cd: Documents
+    » cd: ./Documents
+    ```
+  Flags:
+  Detail: |-
+    `cd` updates an environmental variable, `$PWDHIST` with an array of paths.
+    You can then use that to change to a previous directory
+
+    ```
+    # View the working directory history
+    » $PWDHIST
+
+    # Change to a previous directory
+    » cd $PWDHIST[0]
+    ```
+  Synonyms:
+  Related:
+  - pwd
+  - source

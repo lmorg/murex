@@ -25,6 +25,8 @@ The first block is the key and the second is the value.
 
 ### See Also
 
+* [`alter`](../commands/alter.md):
+  Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`jsplit` ](../commands/jsplit.md):
@@ -36,4 +38,6 @@ The first block is the key and the second is the value.
 * [a](../commands/a.md):
   
 * [ja](../commands/ja.md):
+  
+* [range](../commands/range.md):
   

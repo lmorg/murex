@@ -1,0 +1,7 @@
+package docs
+
+func init() {
+
+	Definition["exitnum"] = "# _murex_ Language Guide\n\n## Command Reference: `exitnum`\n\n> Output the exit number of the previous process\n\n### Description\n\nOutput the exit number of the previous process.\n\n### Usage\n\nexitnum -> <stdout>\n\n### Examples\n\n    » exitnum\n    0\n\n### See Also\n\n* [runtime](../commands/runtime.md):\n  \n* [test](../commands/test.md):\n  "
+
+}

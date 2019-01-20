@@ -94,3 +94,5 @@
   - ja
   - jsplit
   - len
+  - index
+  - range

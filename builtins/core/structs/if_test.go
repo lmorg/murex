@@ -3,7 +3,6 @@ package structs
 import (
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/core/typemgmt"
 	"github.com/lmorg/murex/test"
 )
 
