@@ -46,6 +46,9 @@ func renderDocument(t *templates, d *document, docs documents) {
 
 	log("Rendering document", d.DocumentID)
 
+	//y, _ := yaml.Marshal(t.DocumentValues(d, docs, true))
+	//log(string(y))
+
 	err := t.docTemplate.Execute(b, t.DocumentValues(d, docs, true))
 	if err != nil {
 		panic(err.Error())

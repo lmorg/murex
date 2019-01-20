@@ -10,7 +10,7 @@ Changes current working directory.
 
 ### Usage
 
-cd path
+    cd path
 
 ### Examples
 

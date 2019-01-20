@@ -11,7 +11,7 @@ summary (if one exists).
 
 ### Usage
 
-man-summary command
+    man-summary command -> <stdout>
 
 ### Examples
 

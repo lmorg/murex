@@ -127,12 +127,12 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):
   Add data to the end of an array
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [`swivel-table`](../commands/swivel-table.md):
   Rotates a table by 90 degrees
-* [cast](../commands/cast.md):
-  
 * [format](../commands/format.md):
   
 * [runtime](../commands/runtime.md):

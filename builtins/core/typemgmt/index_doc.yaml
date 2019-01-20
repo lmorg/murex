@@ -1,0 +1,27 @@
+- DocumentID: index
+  Title: >+
+    `[` (index)
+  CategoryID: commands
+  Summary: >-
+    Outputs an element from an array, map or table
+  Description: |-
+    Outputs an element from an array, map or table.
+  Usage: |-
+    ```
+    <stdin> -> [ element ] -> <stdout>
+    $variable[ element ] -> <stdout>
+
+    <stdin> -> ![ element ] -> <stdout>
+    ```
+  Examples: |-
+  Flags:
+  Detail: |-
+  Synonyms:
+  - "["
+  - "!["
+  Related:
+  - range
+  - len
+  - a
+  - ja
+  - mtac

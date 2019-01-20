@@ -92,8 +92,8 @@
   - trypipe
   - try
   - catch
-  - true
-  - false
-  - not
+  - "true"
+  - "false"
+  - "not"
   - and
   - or

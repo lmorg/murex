@@ -1,6 +1,6 @@
 # _murex_ Language Guide
 
-## Command Reference: `cpuarch`
+## Command Reference: `cpucount`
 
 > Output the number of CPU cores available on your host
 
@@ -10,7 +10,7 @@ Output the number of CPU cores available on your host.
 
 ### Usage
 
-cpucount -> <stdout>
+    cpucount -> <stdout>
 
 ### Examples
 

@@ -1,9 +1,9 @@
 package docs{{ $doc := quote (doc .CategoryID .ID 0) }}
 
 func init() {
-{{ if .Synonyms }}{{ range .Synonyms }}
-	Definition[{{ quote . }}] = {{ $doc }}
-{{ end }}{{ else }}
+{{ if .Synonyms }}
+	Definition[{{ quote (index .Synonyms 0) }}] = {{ $doc }}
+{{ else }}
     Definition[{{ quote .ID }}] = {{ $doc }}
 {{ end }}
 }

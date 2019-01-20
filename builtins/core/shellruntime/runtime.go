@@ -28,7 +28,7 @@ func init() {
 
 func cmdRuntime(p *lang.Process) error {
 	const (
-		fVars          = "--vars"
+		fVars          = "--variables"
 		fAliases       = "--aliases"
 		fConfig        = "--config"
 		fNamedPipes    = "--named-pipes"

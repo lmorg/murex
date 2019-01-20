@@ -10,7 +10,7 @@ Output the hosts CPU architecture.
 
 ### Usage
 
-cpuarch -> <stdout>
+    cpuarch -> <stdout>
 
 ### Examples
 
@@ -19,7 +19,7 @@ cpuarch -> <stdout>
 
 ### See Also
 
-* [`cpuarch`](../commands/cpucount.md):
+* [`cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
 * [`os`](../commands/os.md):
   Output the auto-detected OS name

@@ -10,7 +10,7 @@ Outputs _mutex_'s command history.
 
 ### Usage
 
-man-summary command
+    history -> <stdout>
 
 ### Examples
 

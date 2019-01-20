@@ -13,5 +13,5 @@ package defaults
 */
 
 func init() {
-	murexProfile = append(murexProfile, "autocomplete set go { [{\n    \"Flags\": [ \"build\", \"clean\", \"doc\", \"env\", \"bug\", \"fix\", \"fmt\", \"generate\", \"get\", \"install\", \"list\", \"run\", \"test\", \"tool\", \"version\", \"vet\", \"help\" ]\n}] }")
+	murexProfile = append(murexProfile, "autocomplete set go { [{\n    \"Flags\": [ \"build\", \"clean\", \"doc\", \"env\", \"bug\", \"fix\", \"fmt\", \"generate\", \"get\", \"install\", \"list\", \"run\", \"test\", \"tool\", \"version\", \"vet\", \"help\" ]\n}] }\n\n\nautocomplete set cast { [{\n    \"Dynamic\": ({ runtime: --unmarshallers })\n}] }\n\nautocomplete set tout { [{\n    \"Dynamic\": ({ runtime: --marshallers })\n}] }")
 }

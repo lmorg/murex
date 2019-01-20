@@ -93,10 +93,10 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 * [`append`](../commands/append.md):
   Add data to the end of an array
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [cast](../commands/cast.md):
-  
 * [config](../commands/config.md):
   
 * [format](../commands/format.md):

@@ -31,15 +31,15 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [cast](../commands/cast.md):
-  
+* [`pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 * [format](../commands/format.md):
-  
-* [pretty](../commands/pretty.md):
   
 * [sprintf](../commands/sprintf.md):
   

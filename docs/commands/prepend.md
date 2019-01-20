@@ -44,15 +44,17 @@ any integers in data type aware structures will be converted into strings:
 
 ### See Also
 
+* [`a`](../commands/a.md):
+  A sophisticated yet simply way to build an array or list
 * [`append`](../commands/append.md):
   Add data to the end of an array
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
+* [`ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
-* [a](../commands/a.md):
-  
-* [cast](../commands/cast.md):
-  
-* [ja](../commands/ja.md):
+* [mtac](../commands/mtac.md):
   
 * [square-bracket-open](../commands/square-bracket-open.md):
   

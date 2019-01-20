@@ -39,17 +39,19 @@ any integers in data type aware structures will be converted into strings:
 
 ### See Also
 
+* [`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
+* [`a`](../commands/a.md):
+  A sophisticated yet simply way to build an array or list
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
+* [`ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [a](../commands/a.md):
-  
-* [cast](../commands/cast.md):
-  
-* [index](../commands/index.md):
-  
-* [ja](../commands/ja.md):
+* [mtac](../commands/mtac.md):
   
 * [range](../commands/range.md):
   

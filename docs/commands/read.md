@@ -44,6 +44,8 @@ require this to be different then please use `tread` (typed read).
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
@@ -52,7 +54,5 @@ require this to be different then please use `tread` (typed read).
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable
-* [cast](../commands/cast.md):
-  
 * [sprintf](../commands/sprintf.md):
   

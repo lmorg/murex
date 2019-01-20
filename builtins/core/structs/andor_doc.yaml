@@ -45,9 +45,9 @@
   - try
   - trypipe
   - catch
-  - not
-  - true
-  - false
+  - "not"
+  - "true"
+  - "false"
 
 
 - DocumentID: or
@@ -98,6 +98,6 @@
   - try
   - trypipe
   - catch
-  - not
-  - true
-  - false
+  - "not"
+  - "true"
+  - "false"

@@ -13,6 +13,8 @@ UNIX, or even Windows command prompt.
 
 ### Pages
 
+* [`!` (not)](commands/not.md):
+  Reads the STDIN and exit number from previous process and not's it's condition
 * [`(` (brace quote)](commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`2darray` ](commands/2darray.md):
@@ -23,30 +25,44 @@ UNIX, or even Windows command prompt.
   Writes STDIN to disk - overwriting contents if file already exists
 * [`@[` (range) ](commands/ranges.md):
   Outputs a ranged subset of data from STDIN
+* [`[` (index)](commands/index.md):
+  Outputs an element from an array, map or table
+* [`a`](commands/a.md):
+  A sophisticated yet simply way to build an array or list
 * [`alter`](commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`and`](commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`append`](commands/append.md):
   Add data to the end of an array
+* [`cast`](commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`catch`](commands/catch.md):
   Handles the exception code raised by `try` or `trypipe
 * [`cd`](commands/cd.md):
   Change (working) directory
-* [`cpuarch`](commands/cpucount.md):
-  Output the number of CPU cores available on your host
 * [`cpuarch`](commands/cpuarch.md):
   Output the hosts CPU architecture
+* [`cpucount`](commands/cpucount.md):
+  Output the number of CPU cores available on your host
 * [`debug`](commands/debug.md):
   Debugging information
+* [`die`](commands/die.md):
+  Terminate murex with an exit number of 1
 * [`err`](commands/err.md):
   Print a line to the STDERR
+* [`exec`](commands/exec.md):
+  Runs an executable
+* [`exit`](commands/exit.md):
+  Exit murex
 * [`exitnum`](commands/exitnum.md):
   Output the exit number of the previous process
 * [`export`](commands/export.md):
   Define a local variable and set it's value
 * [`f`](commands/f.md):
   Lists objects (eg files) in the current working directory
+* [`false`](commands/false.md):
+  Returns a `false` value
 * [`g`](commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
 * [`get`](commands/get.md):
@@ -59,6 +75,8 @@ UNIX, or even Windows command prompt.
   Outputs murex's command history
 * [`if`](commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [`ja`](commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [`len` ](commands/len.md):
@@ -71,6 +89,8 @@ UNIX, or even Windows command prompt.
   Displays the man pages for _murex_ builtins
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
+* [`null`](commands/devnull.md):
+  null function. Similar to /dev/null
 * [`or`](commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`os`](commands/os.md):
@@ -81,6 +101,8 @@ UNIX, or even Windows command prompt.
   HTTP POST request with a JSON-parsable return
 * [`prepend` ](commands/prepend.md):
   Add data to the start of an array
+* [`pretty`](commands/pretty.md):
+  Prettifies JSON to make it human readable
 * [`pt`](commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
 * [`read`](commands/read.md):
@@ -97,6 +119,8 @@ UNIX, or even Windows command prompt.
   Print a string to the STDOUT and set it's data-type
 * [`tread`](commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable
+* [`true`](commands/true.md):
+  Returns a `true` value
 * [`try`](commands/try.md):
   Handles errors inside a block of code
 * [`trypipe`](commands/trypipe.md):

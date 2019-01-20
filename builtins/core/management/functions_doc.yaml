@@ -155,7 +155,9 @@
   Description: |-
     Output the exit number of the previous process.
   Usage: |-
+    ```
     exitnum -> <stdout>
+    ```
   Examples: |-
     ```
     » exitnum
@@ -178,7 +180,9 @@
   Description: |-
     Output the auto-detected OS name.
   Usage: |-
+    ```
     os -> <stdout>
+    ```
   Examples: |-
     ```
     » os
@@ -201,7 +205,9 @@
   Description: |-
     Output the hosts CPU architecture.
   Usage: |-
+    ```
     cpuarch -> <stdout>
+    ```
   Examples: |-
     ```
     » cpuarch
@@ -217,14 +223,16 @@
 
 - DocumentID: cpucount
   Title: >+
-    `cpuarch`
+    `cpucount`
   CategoryID: commands
   Summary: >-
     Output the number of CPU cores available on your host
   Description: |-
     Output the number of CPU cores available on your host.
   Usage: |-
+    ```
     cpucount -> <stdout>
+    ```
   Examples: |-
     ```
     » cpucount
@@ -250,7 +258,9 @@
     you want to force a new scan (for example you've just installed a new
     program and you want it to appear in tab completion) then you can run `murex-update-exe-list`.
   Usage: |-
+    ```
     murex-update-exe-list
+    ```
   Examples: |-
     ```
     » murex-update-exe-list
@@ -274,7 +284,9 @@
     `man-summary` reads the man pages for a given command and outputs it's
     summary (if one exists).
   Usage: |-
-    man-summary command
+    ```
+    man-summary command -> <stdout>
+    ```
   Examples: |-
     ```
     » man-summary: man 
@@ -298,7 +310,9 @@
   Description: |-
     Changes current working directory.
   Usage: |-
+    ```
     cd path
+    ```
   Examples: |-
     ```
     # Home directory

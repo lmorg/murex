@@ -40,19 +40,19 @@ variable.
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
+* [`pretty`](../commands/pretty.md):
+  Prettifies JSON to make it human readable
 * [`read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [cast](../commands/cast.md):
-  
 * [format](../commands/format.md):
-  
-* [pretty](../commands/pretty.md):
   
 * [sprintf](../commands/sprintf.md):
   

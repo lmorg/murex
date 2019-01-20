@@ -126,13 +126,13 @@ you want to overide the scoping of a variable inside a nested code-block.
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [`exec`](../commands/exec.md):
+  Runs an executable
 * [`export`](../commands/export.md):
   Define a local variable and set it's value
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
 * [eval](../commands/eval.md):
-  
-* [exec](../commands/exec.md):
   
 * [let](../commands/let.md):
   

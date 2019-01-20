@@ -80,3 +80,25 @@ autocomplete set kill {
         "AllowMultiple": true
     }]
 }
+
+
+private get.datatypes {
+	pipe privategetdatatypes
+	runtime: --readarray -> format: <privategetdatatypes> str
+	runtime: --writearray -> format: <privategetdatatypes> str
+	runtime: --readmap -> format: <privategetdatatypes> str
+	runtime: --marshallers -> format: <privategetdatatypes> str
+	runtime: --unmarshallers -> format: <privategetdatatypes> str
+
+	!pipe privategetdatatypes
+	<privategetdatatypes> -> set datatypes
+	$datatypes -> sort -> uniq
+}
+
+autocomplete set cast { [{
+    "Dynamic": ({ get.datatypes })
+}] }
+
+autocomplete set tout { [{
+    "Dynamic": ({ get.datatypes })
+}] }

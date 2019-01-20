@@ -27,6 +27,7 @@ echo "Compiling Murex docs...."
 docgen -config gen/docgen.yaml || exit 1
 
 echo "Formatting autogen docs...."
+go fmt builtins/docgen_test.go
 go fmt $cdocs/*.go
 go fmt config/defaults/*.go
 

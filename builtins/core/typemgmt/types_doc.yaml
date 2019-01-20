@@ -1,0 +1,269 @@
+- DocumentID: exec
+  Title: >+
+    `exec`
+  CategoryID: commands
+  Summary: >-
+    Runs an executable
+  Description: |-
+    With _murex_, like most other shells, you launch a process by calling the
+    name of that executable directly. While this is suitable 99% of the time,
+    occasionally you might run into an edge case where that wouldn't work. The
+    primary reason being if you needed to launch a process from a variable, eg
+
+    ```
+    » set exe=uname
+    » $exe
+    uname
+    ```
+
+    As you can see here, _murex_'s behavior here is to output the contents of
+    the variable rather then executing the contents of the variable. This is
+    done for safety reasons, however if you wanted to override that behavior
+    then you could prefix the variable with exec:
+
+    ```
+    » set exe=uname
+    » exec $exe
+    Linux
+    ```
+  Usage: |-
+    ```
+    <stdin> -> exec
+    <stdin> -> exec -> <stdout>
+               exec -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » exec printf "Hello, world!"
+    Hello, world!
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - set
+  - let
+  - eval
+
+
+- DocumentID: die
+  Title: >+
+    `die`
+  CategoryID: commands
+  Summary: >-
+    Terminate murex with an exit number of 1
+  Description: |-
+    Terminate _murex_ with an exit number of 1.
+  Usage: |-
+    ```
+    die
+    ```
+  Examples: |-
+    ```
+    » die
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - exit
+  - devnull
+
+
+- DocumentID: exit
+  Title: >+
+    `exit`
+  CategoryID: commands
+  Summary: >-
+    Exit murex
+  Description: |-
+    Exit's _murex_ with either a exit number of 0 (by default if no parameters
+    supplied) or a custom value specified by the first parameter.
+  Usage: |-
+    ```
+    exit
+    exit number
+    ```
+  Examples: |-
+    ```
+    » exit
+    ```
+
+    ```
+    » exit 42
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - die
+  - devnull
+
+
+- DocumentID: devnull
+  Title: >+
+    `null`
+  CategoryID: commands
+  Summary: >-
+    null function. Similar to /dev/null
+  Description: |-
+    `null` is a function that acts a little like the `null` data type and the
+    UNIX /dev/null device.
+  Usage: |-
+    ```
+    <stdin> -> null
+    ```
+  Examples: |-
+    ```
+    » out: "Hello, world!" -> null
+    ```
+  Flags:
+  Detail: |-
+    While this method does exist, a more idiomatic way to surpress STDOUT is to
+    use the named pipe property rather than piping to null:
+
+    ```
+    » out: <null> "Hello, world!"
+    ```
+  Synonyms:
+  - "null"
+  Related:
+  - die
+  - exit
+
+
+- DocumentID: "true"
+  Title: >+
+    `true`
+  CategoryID: commands
+  Summary: >-
+    Returns a `true` value
+  Description: |-
+    Returns a `true` value.
+  Usage: |-
+    ```
+    true -> <stdout>
+    ```
+  Examples: |-
+    By default, `true` also outputs the term "true":
+
+    ```
+    » true
+    true
+    ```
+
+    However you can surpress that with the silent flag:
+
+    ```
+    » true -s
+    ```
+  Flags:
+    -t: silent - don't output the term "true"
+  Detail: |-
+  Synonyms:
+  Related:
+  - "false"
+  - and
+  - or
+  - if
+  - "not"
+
+
+- DocumentID: "false"
+  Title: >+
+    `false`
+  CategoryID: commands
+  Summary: >-
+    Returns a `false` value
+  Description: |-
+    Returns a `false` value.
+  Usage: |-
+    ```
+    false -> <stdout>
+    ```
+  Examples: |-
+    By default, `false` also outputs the term "false":
+
+    ```
+    » false
+    false
+    ```
+
+    However you can surpress that with the silent flag:
+
+    ```
+    » false -s
+    ```
+  Flags:
+    -s: silent - don't output the term "false"
+  Detail: |-
+  Synonyms:
+  Related:
+  - "true"
+  - and
+  - or
+  - if
+  - "not"
+
+
+- DocumentID: "not"
+  Title: >+
+    `!` (not)
+  CategoryID: commands
+  Summary: >-
+    Reads the STDIN and exit number from previous process and not's it's condition
+  Description: |-
+    Reads the STDIN and exit number from previous process and not's it's condition.
+  Usage: |-
+    ```
+    <stdin> -> ! -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » echo "Hello, world!" -> !
+    false
+    ```
+
+    ```
+    » false -> !
+    true
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  Related:
+  - "true"
+  - and
+  - or
+  - if
+  - "false"
+
+
+- DocumentID: cast
+  Title: >+
+    `cast`
+  CategoryID: commands
+  Summary: >-
+    Alters the data type of the previous function without altering it's output
+  Description: |-
+    `cast` works a little like when you case variables in lower level languages
+    where the value of the variable is unchanged. In _murex_ the contents in
+    the pipeline are preserved however the reported data type is altered.
+  Usage: |-
+    ```
+    <stdin> -> cast data-type -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+    {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+    ```
+  Flags:
+  Detail: |-
+    If you want to reformat the STDIN into the new data type then use `format`
+    instead.
+  Synonyms:
+  Related:
+  - out
+  - tout
+  - format

@@ -50,6 +50,8 @@ characters if you don't want them nested.
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
+* [`cast`](../commands/cast.md):
+  Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):
@@ -58,7 +60,5 @@ characters if you don't want them nested.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [cast](../commands/cast.md):
-  
 * [sprintf](../commands/sprintf.md):
   

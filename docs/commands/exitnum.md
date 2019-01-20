@@ -10,7 +10,7 @@ Output the exit number of the previous process.
 
 ### Usage
 
-exitnum -> <stdout>
+    exitnum -> <stdout>
 
 ### Examples
 
