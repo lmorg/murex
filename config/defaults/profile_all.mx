@@ -58,24 +58,23 @@ autocomplete set config { [{
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) }
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
         ],               
         "set": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ ${params->[2]} ] -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) },
             { "Dynamic": ({
-				params -> set params
 				switch {
-					case { = `${source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ Data-Type ]}`==`bool` } {
+					case { = `${source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Data-Type ]}`==`bool` } {
 						ja [true,false]
 					}
 
-					case { source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ <!null> Options ] } {
-						source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ Options ]
+					case { source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ <!null> Options ] } {
+						source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Options ]
 					}
 					
                 	catch {
-						out ${source { config } -> [ $params[2] ] -> [ $params[3] ] -> [ Default ]}
+						out ${source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Default ]}
 					}
 				}
 			}) }
@@ -94,7 +93,7 @@ autocomplete set !event { [
         "Dynamic": ({ runtime: --events -> formap k v { out $k } -> sort })
     },
     {
-        "Dynamic": ({ runtime: --events -> [ ${ params->[1] } ] -> formap k v { out $k } -> sort })
+        "Dynamic": ({ runtime: --events -> [ $ARGS[1] ] -> formap k v { out $k } -> sort })
     }
 ] }
 
@@ -216,7 +215,7 @@ private fid.list.all {
     set json fids=([])
     set json procs=([])
     fid-list -> foreach f {
-        if { = $f[Scope]!=$self[Scope] && $f[FID]!=$self[Parent] && $f[FID]!=0 } then {
+        if { = $f[Scope]!=$SELF[Scope] && $f[FID]!=$SELF[Parent] && $f[FID]!=0 } then {
             $fids -> append $f[FID] -> set fids
             $procs -> append "$f[Command] $f[Parameters]" -> set procs
         }
@@ -228,7 +227,7 @@ private fid.list.stopped {
     set json fids=([])
     set json procs=([])
     fid-list -> foreach f {
-        if { = `$f[State]`==`Stopped` && $f[Scope]!=$self[Scope] && $f[FID]!=$self[Parent] && $f[FID]!=0 } then {
+        if { = `$f[State]`==`Stopped` && $f[Scope]!=$SELF[Scope] && $f[FID]!=$SELF[Parent] && $f[FID]!=0 } then {
             $fids -> append $f[FID] -> set fids
             $procs -> append "$f[Command] $f[Parameters]" -> set procs
         }

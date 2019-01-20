@@ -163,8 +163,8 @@ func TestReservedVarables(t *testing.T) {
 	p := NewTestProcess()
 
 	reserved := []string{
-		"self",
-		"params",
+		"SELF",
+		"ARGS",
 	}
 
 	for _, name := range reserved {

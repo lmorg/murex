@@ -133,10 +133,10 @@ type variable struct {
 // GetValue return the value of a variable stored in the referenced VarTable
 func (vars *Variables) GetValue(name string) interface{} {
 	switch name {
-	case "self":
+	case "SELF":
 		return getVarSelf(vars.process)
 
-	case "params":
+	case "ARGS":
 		return getVarParams(vars.process)
 	}
 
@@ -190,7 +190,7 @@ func getVarParams(p *Process) string {
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (vars *Variables) GetDataType(name string) string {
 	switch name {
-	case "self", "params":
+	case "SELF", "ARGS":
 		return types.Json
 	}
 
@@ -215,10 +215,10 @@ func (vars *Variables) GetDataType(name string) string {
 // GetString returns a string representation of the data stored in the requested variable
 func (vars *Variables) GetString(name string) string {
 	switch name {
-	case "self":
+	case "SELF":
 		return getVarSelf(vars.process)
 
-	case "params":
+	case "ARGS":
 		return getVarParams(vars.process)
 	}
 
@@ -271,7 +271,7 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 	//debug.Json("vars set", vars.process)
 
 	switch name {
-	case "self", "params":
+	case "SELF", "ARGS":
 		return errVariableReserved
 	}
 

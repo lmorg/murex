@@ -200,8 +200,10 @@ func defineConfig(p *lang.Process) error {
 		return errors.New("Dynamic `write` is not a valid code block")
 	}
 
-	properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read))
-	properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write))
+	if properties.Dynamic.Read != "" {
+		properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read))
+		properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write))
+	}
 
 	lang.ShellProcess.Config.Define(app, key, properties)
 	return nil
