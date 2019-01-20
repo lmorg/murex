@@ -14,6 +14,7 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
+	//HintText      string             // readline hint text override
 	IncFiles      bool               // `true` to include file name completion
 	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
@@ -33,11 +34,11 @@ type Flags struct {
 }
 
 // ExesFlags is map of executables and their supported auto-complete options.
-var ExesFlags map[string][]Flags = make(map[string][]Flags)
+var ExesFlags = make(map[string][]Flags)
 
 // GlobalExes is a pre-populated list of all executables in $PATH.
 // The point of this is to speed up exe auto-completion.
-var GlobalExes map[string]bool = make(map[string]bool)
+var GlobalExes = make(map[string]bool)
 
 // UpdateGlobalExeList generates a list of executables in $PATH. This used to be called upon demand but it caused a
 // slight but highly annoying pause if murex had been sat idle for a while. So now it's an exported function so it can

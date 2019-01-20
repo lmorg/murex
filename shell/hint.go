@@ -37,6 +37,10 @@ func hintText(line []rune, pos int) []rune {
 	cmd := pt.FuncName
 	var summary string
 
+	/*if pt.ExpectFunc == false {
+		// autocomplete hint
+	}*/
+
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
 		path := utils.NormalisePath(pt.Parameters[0])
 		return []rune("Change directory: " + path)

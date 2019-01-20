@@ -78,9 +78,22 @@ autocomplete set config { [{
 					}
 				}
 			}) }
+        ],
+        "default": [
+            { "Dynamic": ({ config.get.apps }) },
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
+        ],
+        "alter": [
+            { "Dynamic": ({ config.get.apps }) },
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
         ]
     }
 }] }
+
+autocomplete set !config { [
+    { "Dynamic": ({ config.get.apps }) },
+    { "Dynamic": ({ source { config } -> [ $ARGS[1] ] -> formap k v { out $k } -> sort }) }
+] }
 
 autocomplete set event { [
     {
