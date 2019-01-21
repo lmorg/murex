@@ -80,6 +80,8 @@ var supportedCmapFormat = func(format, pid, psid uint16) bool {
 		return pid == pidMacintosh && psid == psidMacintoshRoman
 	case 4:
 		return true
+	case 6:
+		return true
 	case 12:
 		return true
 	}
@@ -92,6 +94,8 @@ func (f *Font) makeCachedGlyphIndex(buf []byte, offset, length uint32, format ui
 		return f.makeCachedGlyphIndexFormat0(buf, offset, length)
 	case 4:
 		return f.makeCachedGlyphIndexFormat4(buf, offset, length)
+	case 6:
+		return f.makeCachedGlyphIndexFormat6(buf, offset, length)
 	case 12:
 		return f.makeCachedGlyphIndexFormat12(buf, offset, length)
 	}
@@ -190,6 +194,52 @@ func (f *Font) makeCachedGlyphIndexFormat4(buf []byte, offset, length uint32) ([
 			}
 		}
 		return 0, nil
+	}, nil
+}
+
+func (f *Font) makeCachedGlyphIndexFormat6(buf []byte, offset, length uint32) ([]byte, glyphIndexFunc, error) {
+	const headerSize = 10
+	if offset+headerSize > f.cmap.length {
+		return nil, nil, errInvalidCmapTable
+	}
+	var err error
+	buf, err = f.src.view(buf, int(f.cmap.offset+offset), headerSize)
+	if err != nil {
+		return nil, nil, err
+	}
+	offset += headerSize
+
+	firstCode := u16(buf[6:])
+	entryCount := u16(buf[8:])
+
+	eLength := 2 * uint32(entryCount)
+	if offset+eLength > f.cmap.length {
+		return nil, nil, errInvalidCmapTable
+	}
+
+	if entryCount != 0 {
+		buf, err = f.src.view(buf, int(f.cmap.offset+offset), int(eLength))
+		if err != nil {
+			return nil, nil, err
+		}
+		offset += eLength
+	}
+
+	entries := make([]uint16, entryCount)
+	for i := range entries {
+		entries[i] = u16(buf[2*i:])
+	}
+
+	return buf, func(f *Font, b *Buffer, r rune) (GlyphIndex, error) {
+		if uint16(r) < firstCode {
+			return 0, nil
+		}
+
+		c := int(uint16(r) - firstCode)
+		if c >= len(entries) {
+			return 0, nil
+		}
+		return GlyphIndex(entries[c]), nil
 	}, nil
 }
 

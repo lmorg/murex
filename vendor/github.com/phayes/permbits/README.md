@@ -1,4 +1,8 @@
-[![GoDoc](https://godoc.org/github.com/phayes/permbits?status.svg)](https://godoc.org/github.com/phayes/permbits)  [![Build Status](https://travis-ci.org/phayes/permbits.svg?branch=master)](https://travis-ci.org/phayes/permbits)  [![Coverage Status](https://coveralls.io/repos/phayes/permbits/badge.svg?branch=master&service=github)](https://coveralls.io/github/phayes/permbits?branch=master) 
+[![GoDoc](https://godoc.org/github.com/phayes/permbits?status.svg)](https://godoc.org/github.com/phayes/permbits)
+[![CircleCI](https://circleci.com/gh/phayes/permbits.svg?style=svg)](https://circleci.com/gh/phayes/permbits)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4066ed1d4e9e3c9fc1de/maintainability)](https://codeclimate.com/github/phayes/permbits/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/4066ed1d4e9e3c9fc1de/test_coverage)](https://codeclimate.com/github/phayes/permbits/test_coverage)
+
 
 # PermBits
 

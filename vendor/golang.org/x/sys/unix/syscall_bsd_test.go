@@ -71,10 +71,10 @@ func TestSelect(t *testing.T) {
 
 func TestSysctlRaw(t *testing.T) {
 	if runtime.GOOS == "openbsd" {
-		t.Skip("kern.lang.pid does not exist on OpenBSD")
+		t.Skip("kern.proc.pid does not exist on OpenBSD")
 	}
 
-	_, err := unix.SysctlRaw("kern.lang.pid", unix.Getpid())
+	_, err := unix.SysctlRaw("kern.proc.pid", unix.Getpid())
 	if err != nil {
 		t.Fatal(err)
 	}

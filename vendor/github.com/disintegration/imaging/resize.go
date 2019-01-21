@@ -259,9 +259,8 @@ func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA
 	return Resize(img, newW, newH, filter)
 }
 
-// Fill scales the image to the smallest possible size that will cover the specified dimensions,
-// crops the resized image to the specified dimensions using the given anchor point and returns
-// the transformed image.
+// Fill creates an image with the specified dimensions and fills it with the scaled source image.
+// To achieve the correct aspect ratio without stretching, the source image will be cropped.
 //
 // Supported resample filters: NearestNeighbor, Box, Linear, Hermite, MitchellNetravali,
 // CatmullRom, BSpline, Gaussian, Lanczos, Hann, Hamming, Blackman, Bartlett, Welch, Cosine.
@@ -271,9 +270,9 @@ func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA
 //	dstImage := imaging.Fill(srcImage, 800, 600, imaging.Center, imaging.Lanczos)
 //
 func Fill(img image.Image, width, height int, anchor Anchor, filter ResampleFilter) *image.NRGBA {
-	minW, minH := width, height
+	dstW, dstH := width, height
 
-	if minW <= 0 || minH <= 0 {
+	if dstW <= 0 || dstH <= 0 {
 		return &image.NRGBA{}
 	}
 
@@ -285,21 +284,61 @@ func Fill(img image.Image, width, height int, anchor Anchor, filter ResampleFilt
 		return &image.NRGBA{}
 	}
 
-	if srcW == minW && srcH == minH {
+	if srcW == dstW && srcH == dstH {
 		return Clone(img)
 	}
 
+	if srcW >= 100 && srcH >= 100 {
+		return cropAndResize(img, dstW, dstH, anchor, filter)
+	}
+	return resizeAndCrop(img, dstW, dstH, anchor, filter)
+}
+
+// cropAndResize crops the image to the smallest possible size that has the required aspect ratio using
+// the given anchor point, then scales it to the specified dimensions and returns the transformed image.
+//
+// This is generally faster than resizing first, but may result in inaccuracies when used on small source images.
+func cropAndResize(img image.Image, width, height int, anchor Anchor, filter ResampleFilter) *image.NRGBA {
+	dstW, dstH := width, height
+
+	srcBounds := img.Bounds()
+	srcW := srcBounds.Dx()
+	srcH := srcBounds.Dy()
 	srcAspectRatio := float64(srcW) / float64(srcH)
-	minAspectRatio := float64(minW) / float64(minH)
+	dstAspectRatio := float64(dstW) / float64(dstH)
 
 	var tmp *image.NRGBA
-	if srcAspectRatio < minAspectRatio {
-		tmp = Resize(img, minW, 0, filter)
+	if srcAspectRatio < dstAspectRatio {
+		cropH := float64(srcW) * float64(dstH) / float64(dstW)
+		tmp = CropAnchor(img, srcW, int(math.Max(1, cropH)+0.5), anchor)
 	} else {
-		tmp = Resize(img, 0, minH, filter)
+		cropW := float64(srcH) * float64(dstW) / float64(dstH)
+		tmp = CropAnchor(img, int(math.Max(1, cropW)+0.5), srcH, anchor)
 	}
 
-	return CropAnchor(tmp, minW, minH, anchor)
+	return Resize(tmp, dstW, dstH, filter)
+}
+
+// resizeAndCrop resizes the image to the smallest possible size that will cover the specified dimensions,
+// crops the resized image to the specified dimensions using the given anchor point and returns
+// the transformed image.
+func resizeAndCrop(img image.Image, width, height int, anchor Anchor, filter ResampleFilter) *image.NRGBA {
+	dstW, dstH := width, height
+
+	srcBounds := img.Bounds()
+	srcW := srcBounds.Dx()
+	srcH := srcBounds.Dy()
+	srcAspectRatio := float64(srcW) / float64(srcH)
+	dstAspectRatio := float64(dstW) / float64(dstH)
+
+	var tmp *image.NRGBA
+	if srcAspectRatio < dstAspectRatio {
+		tmp = Resize(img, dstW, 0, filter)
+	} else {
+		tmp = Resize(img, 0, dstH, filter)
+	}
+
+	return CropAnchor(tmp, dstW, dstH, anchor)
 }
 
 // Thumbnail scales the image up or down using the specified resample filter, crops it

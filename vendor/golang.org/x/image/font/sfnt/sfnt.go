@@ -333,7 +333,7 @@ func (c *Collection) initialize() error {
 		return errInvalidFontCollection
 	case dfontResourceDataOffset:
 		return c.parseDfont(buf, u32(buf[4:]), u32(buf[12:]))
-	case 0x00010000, 0x4f54544f:
+	case 0x00010000, 0x4f54544f, 0x74727565: // 0x10000, "OTTO", "true"
 		// Try parsing it as a single font instead of a collection.
 		c.offsets = []uint32{0}
 	case 0x74746366: // "ttcf".
@@ -579,7 +579,7 @@ type Font struct {
 		kernOffset       int32
 		lineGap          int32
 		numHMetrics      int32
-		postTableVersion uint32
+		post             *PostTable
 		slope            [2]int32
 		unitsPerEm       Units
 		xHeight          int32
@@ -637,11 +637,11 @@ func (f *Font) initialize(offset int, isDfont bool) error {
 	if err != nil {
 		return err
 	}
-	buf, os2Vers, xHeight, capHeight, err := f.parseOS2(buf)
+	buf, hasXHeightCapHeight, xHeight, capHeight, err := f.parseOS2(buf)
 	if err != nil {
 		return err
 	}
-	buf, postTableVersion, err := f.parsePost(buf, numGlyphs)
+	buf, post, err := f.parsePost(buf, numGlyphs)
 	if err != nil {
 		return err
 	}
@@ -659,12 +659,12 @@ func (f *Font) initialize(offset int, isDfont bool) error {
 	f.cached.kernOffset = kernOffset
 	f.cached.lineGap = lineGap
 	f.cached.numHMetrics = numHMetrics
-	f.cached.postTableVersion = postTableVersion
+	f.cached.post = post
 	f.cached.slope = [2]int32{run, rise}
 	f.cached.unitsPerEm = unitsPerEm
 	f.cached.xHeight = xHeight
 
-	if os2Vers <= 1 {
+	if !hasXHeightCapHeight {
 		xh, ch, err := f.initOS2Version1()
 		if err != nil {
 			return err
@@ -695,6 +695,8 @@ func (f *Font) initializeTables(offset int, isDfont bool) (buf1 []byte, isPostSc
 		// No-op.
 	case 0x4f54544f: // "OTTO".
 		isPostScript = true
+	case 0x74727565: // "true"
+		// No-op.
 	case 0x74746366: // "ttcf".
 		return nil, false, errInvalidSingleFont
 	}
@@ -1121,62 +1123,116 @@ func (f *Font) initOS2Version1() (xHeight, capHeight int32, err error) {
 	return int32(xh), int32(ch), nil
 }
 
-func (f *Font) parseOS2(buf []byte) (buf1 []byte, version uint16, xHeight, capHeight int32, err error) {
+func (f *Font) parseOS2(buf []byte) (buf1 []byte, hasXHeightCapHeight bool, xHeight, capHeight int32, err error) {
 	// https://docs.microsoft.com/da-dk/typography/opentype/spec/os2
-	if f.os2.length < 2 {
-		return nil, 0, 0, 0, errInvalidOS2Table
+
+	if f.os2.length == 0 {
+		// Apple TrueType fonts might omit the OS/2 table.
+		return buf, false, 0, 0, nil
+	} else if f.os2.length < 2 {
+		return nil, false, 0, 0, errInvalidOS2Table
 	}
 	vers, err := f.src.u16(buf, f.os2, 0)
 	if err != nil {
-		return nil, 0, 0, 0, err
+		return nil, false, 0, 0, err
 	}
 	if vers <= 1 {
 		const headerSize = 86
 		if f.os2.length < headerSize {
-			return nil, 0, 0, 0, errInvalidOS2Table
+			return nil, false, 0, 0, errInvalidOS2Table
 		}
 		// Will resolve xHeight and capHeight later, see initOS2Version1.
-		return buf, vers, 0, 0, nil
+		return buf, false, 0, 0, nil
 	}
 	const headerSize = 96
 	if f.os2.length < headerSize {
-		return nil, 0, 0, 0, errInvalidOS2Table
+		return nil, false, 0, 0, errInvalidOS2Table
 	}
 	xh, err := f.src.u16(buf, f.os2, 86)
 	if err != nil {
-		return nil, 0, 0, 0, err
+		return nil, false, 0, 0, err
 	}
 	ch, err := f.src.u16(buf, f.os2, 88)
 	if err != nil {
-		return nil, 0, 0, 0, err
+		return nil, false, 0, 0, err
 	}
-	return buf, vers, int32(int16(xh)), int32(int16(ch)), nil
+	return buf, true, int32(int16(xh)), int32(int16(ch)), nil
 }
 
-func (f *Font) parsePost(buf []byte, numGlyphs int32) (buf1 []byte, postTableVersion uint32, err error) {
+// PostTable represents an information stored in the PostScript font section.
+type PostTable struct {
+	// Version of the version tag of the "post" table.
+	Version uint32
+	// ItalicAngle in counter-clockwise degrees from the vertical. Zero for
+	// upright text, negative for text that leans to the right (forward).
+	ItalicAngle float64
+	// UnderlinePosition is the suggested distance of the top of the
+	// underline from the baseline (negative values indicate below baseline).
+	UnderlinePosition int16
+	// Suggested values for the underline thickness.
+	UnderlineThickness int16
+	// IsFixedPitch indicates that the font is not proportionally spaced
+	// (i.e. monospaced).
+	IsFixedPitch bool
+}
+
+// PostTable returns the information from the font's "post" table. It can
+// return nil, if the font doesn't have such a table.
+//
+// See https://docs.microsoft.com/en-us/typography/opentype/spec/post
+func (f *Font) PostTable() *PostTable {
+	return f.cached.post
+}
+
+func (f *Font) parsePost(buf []byte, numGlyphs int32) (buf1 []byte, post *PostTable, err error) {
 	// https://www.microsoft.com/typography/otspec/post.htm
 
 	const headerSize = 32
 	if f.post.length < headerSize {
-		return nil, 0, errInvalidPostTable
+		return nil, nil, errInvalidPostTable
 	}
 	u, err := f.src.u32(buf, f.post, 0)
 	if err != nil {
-		return nil, 0, err
+		return nil, nil, err
 	}
+
 	switch u {
 	case 0x10000:
 		// No-op.
 	case 0x20000:
 		if f.post.length < headerSize+2+2*uint32(numGlyphs) {
-			return nil, 0, errInvalidPostTable
+			return nil, nil, errInvalidPostTable
 		}
 	case 0x30000:
 		// No-op.
 	default:
-		return nil, 0, errUnsupportedPostTable
+		return nil, nil, errUnsupportedPostTable
 	}
-	return buf, u, nil
+
+	ang, err := f.src.u32(buf, f.post, 4)
+	if err != nil {
+		return nil, nil, err
+	}
+	up, err := f.src.u16(buf, f.post, 8)
+	if err != nil {
+		return nil, nil, err
+	}
+	ut, err := f.src.u16(buf, f.post, 10)
+	if err != nil {
+		return nil, nil, err
+	}
+	fp, err := f.src.u32(buf, f.post, 12)
+	if err != nil {
+		return nil, nil, err
+	}
+	post = &PostTable{
+		Version:            u,
+		ItalicAngle:        float64(int32(ang)) / 0x10000,
+		UnderlinePosition:  int16(up),
+		UnderlineThickness: int16(ut),
+		IsFixedPitch:       fp != 0,
+	}
+	return buf, post, nil
 }
 
 // Bounds returns the union of a Font's glyphs' bounds.
@@ -1380,7 +1436,10 @@ func (f *Font) GlyphName(b *Buffer, x GlyphIndex) (string, error) {
 	if int(x) >= f.NumGlyphs() {
 		return "", ErrNotFound
 	}
-	switch f.cached.postTableVersion {
+	if f.cached.post == nil {
+		return "", nil
+	}
+	switch f.cached.post.Version {
 	case 0x10000:
 		return f.glyphNameFormat10(x)
 	case 0x20000:

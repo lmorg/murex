@@ -292,7 +292,7 @@ func (p *LazyProc) mustFind() {
 // It will panic if the procedure cannot be found.
 func (p *LazyProc) Addr() uintptr {
 	p.mustFind()
-	return p.lang.Addr()
+	return p.proc.Addr()
 }
 
 //go:uintptrescapes
@@ -306,7 +306,7 @@ func (p *LazyProc) Addr() uintptr {
 // the error. The error will be guaranteed to contain windows.Errno.
 func (p *LazyProc) Call(a ...uintptr) (r1, r2 uintptr, lastErr error) {
 	p.mustFind()
-	return p.lang.Call(a...)
+	return p.proc.Call(a...)
 }
 
 var canDoSearchSystem32Once struct {

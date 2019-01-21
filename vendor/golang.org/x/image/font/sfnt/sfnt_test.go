@@ -767,6 +767,30 @@ func TestPPEM(t *testing.T) {
 	}
 }
 
+func TestPostInfo(t *testing.T) {
+	data, err := ioutil.ReadFile(filepath.FromSlash("../testdata/glyfTest.ttf"))
+	if err != nil {
+		t.Fatalf("ReadFile: %v", err)
+	}
+	f, err := Parse(data)
+	if err != nil {
+		t.Fatalf("Parse: %v", err)
+	}
+	post := f.PostTable()
+	if post.ItalicAngle != -11.25 {
+		t.Error("ItalicAngle:", post.ItalicAngle)
+	}
+	if post.UnderlinePosition != -255 {
+		t.Error("UnderlinePosition:", post.UnderlinePosition)
+	}
+	if post.UnderlineThickness != 102 {
+		t.Error("UnderlineThickness:", post.UnderlineThickness)
+	}
+	if post.IsFixedPitch {
+		t.Error("IsFixedPitch:", post.IsFixedPitch)
+	}
+}
+
 func TestGlyphName(t *testing.T) {
 	f, err := Parse(goregular.TTF)
 	if err != nil {
