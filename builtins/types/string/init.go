@@ -29,6 +29,6 @@ func init() {
 		"model/vrml", "x-world/x-vrml", "application/x-vrml",
 		"image/svg+xml",
 		"application/javascript", "application/x-javascript",
-		"application/xml")
-
+		"application/xml",
+	)
 }

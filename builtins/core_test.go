@@ -14,7 +14,7 @@ import (
 var sourceFile map[string]string
 
 // TestCoreDocs tests documentation has been written for core builtins
-func TestCoreDocs(t *testing.T) {
+func __TestCoreDocs(t *testing.T) {
 	test.Exists(t, gopath.Source([]string{"builtins"})+"docgen_test.go")
 
 	path := gopath.Source([]string{"builtins", "docs"})
