@@ -51,7 +51,7 @@ However it is also data type aware so if they key you're updating holds a string
         "Value": "{ \"Foo\": \"Bar\" }"
     }
     
-Numbers will also follow the same transparent convertion treatment:
+Numbers will also follow the same transparent conversion treatment:
 
     » tout: json { "one": 1, "two": 2 } -> alter: /two "3"
     {

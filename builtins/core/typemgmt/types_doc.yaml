@@ -119,7 +119,7 @@
     ```
   Flags:
   Detail: |-
-    While this method does exist, a more idiomatic way to surpress STDOUT is to
+    While this method does exist, a more idiomatic way to suppress STDOUT is to
     use the named pipe property rather than piping to null:
 
     ```
@@ -152,7 +152,7 @@
     true
     ```
 
-    However you can surpress that with the silent flag:
+    However you can suppress that with the silent flag:
 
     ```
     » true -s
@@ -189,7 +189,7 @@
     false
     ```
 
-    However you can surpress that with the silent flag:
+    However you can suppress that with the silent flag:
 
     ```
     » false -s

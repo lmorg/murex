@@ -192,7 +192,7 @@ func getSyntaxHighlighting() {
 	if err != nil {
 		highlight = false
 	}
-	if highlight.(bool) == true {
+	if highlight.(bool) {
 		Prompt.SyntaxHighlighter = syntaxHighlight
 	} else {
 		Prompt.SyntaxHighlighter = nil
@@ -204,7 +204,7 @@ func getShowHintText() {
 	if err != nil {
 		showHintText = false
 	}
-	if showHintText.(bool) == true {
+	if showHintText.(bool) {
 		Prompt.HintText = hintText
 	} else {
 		Prompt.HintText = nil

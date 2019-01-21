@@ -65,6 +65,6 @@ func TestCompare(t *testing.T) {
 	s := ExpandString(testString)
 
 	if string(r) != s {
-		t.Error("Expand and ExpandString are not the same after data type convertion")
+		t.Error("Expand and ExpandString are not the same after data type conversion")
 	}
 }

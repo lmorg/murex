@@ -55,7 +55,6 @@ func (stdin *Stdin) SetDataType(dt string) {
 	stdin.dtLock.Lock()
 	stdin.dataType = dt
 	stdin.dtLock.Unlock()
-	return
 }
 
 // DefaultDataType defines the murex data type for the stream.Io interface if it's not already set

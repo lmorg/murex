@@ -15,7 +15,7 @@ type eventType interface {
 	Dump() (dump interface{})
 }
 
-var events map[string]eventType = make(map[string]eventType)
+var events = make(map[string]eventType)
 
 // AddEventType registers your event type handlers
 func AddEventType(eventTypeName string, handlerInterface eventType) {
@@ -57,8 +57,6 @@ func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io)
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("error compiling event callback: " + err.Error()))
 	}
-
-	return
 }
 
 // DumpEvents is used for `runtime` to output all the saved events

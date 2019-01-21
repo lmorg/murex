@@ -12,6 +12,7 @@ func (n *Net) Write(b []byte) (i int, err error) {
 	select {
 	case <-n.ctx.Done():
 		return 0, io.ErrClosedPipe
+	default:
 	}
 
 	i, err = n.conn.Write(b)

@@ -67,7 +67,7 @@ func cmdDebug(p *lang.Process) (err error) {
 		return nil
 	}
 	debug.Enabled = v
-	if v == false {
+	if !v {
 		p.Stdout.Writeln(types.FalseByte)
 		p.ExitNum = 1
 		return nil

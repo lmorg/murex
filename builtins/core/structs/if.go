@@ -63,7 +63,7 @@ func cmdIf(p *lang.Process) error {
 				return err
 			}
 
-			if matched == true {
+			if matched {
 				continue
 			}
 

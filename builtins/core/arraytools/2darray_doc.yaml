@@ -5,7 +5,7 @@
   Summary: >-
     Create a 2D JSON array from multiple input sources
   Description: |-
-    `2darray` merges multiple input sources to create a two dimentional array in JSON
+    `2darray` merges multiple input sources to create a two dimensional array in JSON
   Usage: |-
     ```
     2darray: { code-block } { code-block } -> <stdout>

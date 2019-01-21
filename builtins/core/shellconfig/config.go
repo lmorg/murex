@@ -74,7 +74,7 @@ func setConfig(p *lang.Process) error {
 	key, _ := p.Parameters.String(2)
 	var val string
 
-	if p.IsMethod == true {
+	if p.IsMethod {
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
 			return err
@@ -274,7 +274,6 @@ func setDynamic(block []rune) func(interface{}) error {
 		if err != nil {
 			return err
 		}
-		//stdin.Close()
 
 		exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
 		branch.Close()

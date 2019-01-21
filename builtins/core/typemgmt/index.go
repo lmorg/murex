@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/types/define"
 )
 
-type jsonInterface map[interface{}]interface{}
+//type jsonInterface map[interface{}]interface{}
 
 func init() {
 	lang.GoFunctions["["] = index

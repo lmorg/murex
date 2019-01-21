@@ -191,7 +191,6 @@ func (r *Reader) SetDataType(dt string) {
 	r.dtLock.Lock()
 	r.dataType = dt
 	r.dtLock.Unlock()
-	return
 }
 
 // DefaultDataType defines the murex data type for the stream.Io interface if

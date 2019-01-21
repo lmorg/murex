@@ -23,13 +23,7 @@ func (mc *mutexCounter) Set(i int) {
 
 func (mc *mutexCounter) NotEqual(i int) bool {
 	mc.m.Lock()
-	defer mc.m.Unlock()
-
-	//debug.Log(mc.i, i)
-
-	if mc.i != i {
-		return true
-	}
-
-	return false
+	r := mc.i != i
+	mc.m.Unlock()
+	return r
 }

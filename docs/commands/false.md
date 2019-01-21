@@ -19,7 +19,7 @@ By default, `false` also outputs the term "false":
     » false
     false
     
-However you can surpress that with the silent flag:
+However you can suppress that with the silent flag:
 
     » false -s
 

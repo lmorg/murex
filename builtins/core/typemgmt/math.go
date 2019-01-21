@@ -34,7 +34,7 @@ func cmdEval(p *lang.Process) (err error) {
 	var leftSide string
 
 	if p.IsMethod {
-		if debug.Enabled == false {
+		if !debug.Enabled {
 			defer func() {
 				if r := recover(); r != nil {
 					p.ExitNum = 2
@@ -86,7 +86,7 @@ func cmdEval(p *lang.Process) (err error) {
 func cmdLet(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Null)
 
-	if debug.Enabled == false {
+	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
 				p.ExitNum = 2
@@ -129,7 +129,7 @@ func cmdLet(p *lang.Process) (err error) {
 }
 
 func evaluate(p *lang.Process, expression string) (value, dataType string, err error) {
-	if debug.Enabled == false {
+	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
 				p.ExitNum = 2

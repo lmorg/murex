@@ -161,19 +161,19 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 		return v, nil
 
 	case CodeBlock:
-		if v == true {
+		if v {
 			return "true", nil
 		}
 		return "false", nil
 
 	case String:
-		if v == true {
+		if v {
 			return string(TrueByte), nil
 		}
 		return string(FalseByte), nil
 
 	case Json:
-		if v == true {
+		if v {
 			return `{"Value": true;}`, nil
 		}
 		return `{"Value": false;}`, nil

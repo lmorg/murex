@@ -101,6 +101,7 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 	return nil
 }
 
+// Default resets a config option back to its default
 func (conf *Config) Default(app string, key string) error {
 	conf.mutex.Lock()
 

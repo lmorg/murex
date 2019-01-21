@@ -132,7 +132,7 @@ boolean type, it means you can use other boolean terms. eg
     » debug false
     
 It is also worth noting that the debugging information needs to be written
-into the Go source code rather than in _murex_'s shell scripting languague.
+into the Go source code rather than in _murex_'s shell scripting language.
 If you require debugging those processes then please use _murex_'s `test`
 framework
 

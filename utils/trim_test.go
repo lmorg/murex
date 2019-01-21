@@ -74,9 +74,8 @@ func TestCrLfTrimRune(t *testing.T) {
 
 // TestCrLfTrimString tests the CrLfTrimString function
 func TestCrLfTrimString(t *testing.T) {
-	var s string
+	s := CrLfTrimString("test")
 
-	s = CrLfTrimString("test")
 	if s != "test" {
 		t.Error("CrLfTrimString test 1 didn't return the correct string:", []byte(s))
 	}

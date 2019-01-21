@@ -94,6 +94,7 @@ func (f *funcID) ListAll() (procs fidList) {
 // Dump lists all processes registered in the FID (Function ID) table - return as an unsorted list (faster but less useful)
 func (f *funcID) Dump() map[int]*Process {
 	f.mutex.Lock()
+	r := f.procs
 	f.mutex.Unlock()
-	return f.procs
+	return r
 }

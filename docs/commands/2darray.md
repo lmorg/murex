@@ -6,7 +6,7 @@
 
 ### Description
 
-`2darray` merges multiple input sources to create a two dimentional array in JSON
+`2darray` merges multiple input sources to create a two dimensional array in JSON
 
 ### Usage
 

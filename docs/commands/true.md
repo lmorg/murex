@@ -19,7 +19,7 @@ By default, `true` also outputs the term "true":
     » true
     true
     
-However you can surpress that with the silent flag:
+However you can suppress that with the silent flag:
 
     » true -s
 

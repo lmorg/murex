@@ -9,9 +9,7 @@ import (
 
 // TestNormalisePath tests NormalisePath function
 func TestNormalisePath(t *testing.T) {
-	var path string
-
-	path = NormalisePath(consts.PathSlash)
+	path := NormalisePath(consts.PathSlash)
 	if path != consts.PathSlash {
 		t.Error("Root slash, /, (absolute path) not returning itself in NormalisePath")
 	}

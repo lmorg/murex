@@ -19,7 +19,7 @@ UNIX /dev/null device.
 
 ### Detail
 
-While this method does exist, a more idiomatic way to surpress STDOUT is to
+While this method does exist, a more idiomatic way to suppress STDOUT is to
 use the named pipe property rather than piping to null:
 
     » out: <null> "Hello, world!"

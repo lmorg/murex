@@ -160,7 +160,7 @@ executeProcess:
 
 	// execution mode:
 	switch {
-	case GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && parsedAlias == false:
+	case GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && !parsedAlias:
 		// murex aliases
 		alias := GlobalAliases.Get(p.Name)
 		p.Name = alias[0]
