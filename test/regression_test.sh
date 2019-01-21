@@ -121,9 +121,9 @@ while true; do
         38)shell 'out: out->match: out; err: err' 2>/dev/null    | check "out";;
         39)shell 'out: out->match: out; err: err' 2>&1 >/dev/null | check "err";;
         40)shell 'out: out->match: out; err: err->match: out' 2>/dev/null | check "out";;
-        #41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "Methodable function \`match\` does not exist for \`err.(null)\`\nout\nerr";;
         #41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "out\nerr\nError in \`match\` (1,33): I don't know how to marshal \`null\`";;
-        41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "out\nerr\nError in \`match\` (1,33): murex data type \`null\` has not implimented WriteArray() method";;
+        #41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "out\nerr\nError in \`match\` (1,33): murex data type \`null\` has not implimented WriteArray() method";;
+        41)shell 'out: out->match: out; err: err->match: out' 2>&1 | check "out\nerr\n";;
         42)shell 'out: out->match: out; err: err' 2>&1            | check "out\nerr";;
         43)shell 'out: out1->match: out1; out: out2->match: out2' 2>&1 | check "out1\nout2";;
         44)shell 'out: out->match: noout' 2>&1                   | check "";;
