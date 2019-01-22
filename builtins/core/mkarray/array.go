@@ -6,14 +6,14 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/json"
 )
 
 // This code is ugly. Read at your own risk.
 
 func init() {
-	lang.GoFunctions["a"] = mkArray
-	lang.GoFunctions["ja"] = mkArray
+	lang.GoFunctions["a"] = cmdA
+	lang.GoFunctions["ja"] = cmdJa
+	lang.GoFunctions["ta"] = cmdTa
 }
 
 const (
@@ -29,22 +29,40 @@ type ast struct {
 	Type int
 }
 
+func cmdA(p *lang.Process) error {
+	return mkArray(p, types.String)
+}
+
+func cmdJa(p *lang.Process) error {
+	return mkArray(p, types.Json)
+}
+
+func cmdTa(p *lang.Process) error {
+	dataType, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	p.Parameters.Params = p.Parameters.Params[1:]
+
+	return mkArray(p, dataType)
+}
+
 // echo @{a: abc[1,2,3],[1..3]}
 // a: [1..10] -> ...
-func mkArray(p *lang.Process) error {
-	jsonArray := p.Name == "ja"
-
-	if jsonArray {
-		p.Stdout.SetDataType(types.Json)
-	} else {
-		p.Stdout.SetDataType(types.String)
-	}
+func mkArray(p *lang.Process, dataType string) error {
+	p.Stdout.SetDataType(dataType)
 
 	var (
 		escaped, open, dots bool
 		nodes               = make([]ast, 1)
 		node                = &nodes[0]
 	)
+
+	writer, err := p.Stdout.WriteArray(dataType)
+	if err != nil {
+		return err
+	}
 
 	// Parse the parameters
 	for i, b := range p.Parameters.ByteAll() {
@@ -154,7 +172,7 @@ func mkArray(p *lang.Process) error {
 
 	// Now do your magic
 	var (
-		array  []string
+		//array  []string
 		marker = string([]byte{0})
 	)
 
@@ -210,14 +228,15 @@ func mkArray(p *lang.Process) error {
 				c := counter[t]
 				s = strings.Replace(s, marker, variable[t][c], 1)
 			}
-			if jsonArray {
+			writer.WriteString(s)
+			/*if jsonArray {
 				array = append(array, s)
 			} else {
 				_, err := p.Stdout.Writeln([]byte(s))
 				if err != nil {
 					return err
 				}
-			}
+			}*/
 
 			i := len(counter) - 1
 			if i < 0 {
@@ -247,7 +266,7 @@ func mkArray(p *lang.Process) error {
 	}
 
 cancelled:
-	if jsonArray {
+	/*if jsonArray {
 		b, err := json.Marshal(array, p.Stdout.IsTTY())
 		if err != nil {
 			return err
@@ -255,7 +274,7 @@ cancelled:
 
 		_, err = p.Stdout.Writeln(b)
 		return err
-	}
+	}*/
 
-	return nil
+	return writer.Close()
 }

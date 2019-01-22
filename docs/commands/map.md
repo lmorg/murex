@@ -25,6 +25,8 @@ The first block is the key and the second is the value.
 
 ### See Also
 
+* [`@[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`a`](../commands/a.md):
   A sophisticated yet simply way to build an array or list
 * [`alter`](../commands/alter.md):
@@ -39,5 +41,3 @@ The first block is the key and the second is the value.
   Outputs the length of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [range](../commands/range.md):
-  

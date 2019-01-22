@@ -14,7 +14,24 @@ func init() {
 	lang.GoFunctions["fid-killall"] = cmdKillAll
 }
 
+func yn(state bool) (s string) {
+	if state {
+		return "yes"
+	}
+	return "no"
+}
+
 func cmdFidList(p *lang.Process) error {
+	flag, _ := p.Parameters.String(0)
+	switch flag {
+	case "--csv":
+		return cmdFidListCSV(p)
+	case "--json":
+		return cmdFidListPipe(p)
+	case "--tty":
+		return cmdFidListTTY(p)
+	}
+
 	if p.Stdout.IsTTY() {
 		return cmdFidListTTY(p)
 	}
@@ -22,13 +39,6 @@ func cmdFidList(p *lang.Process) error {
 }
 
 func cmdFidListTTY(p *lang.Process) error {
-	yn := func(state bool) (s string) {
-		if state {
-			return "yes"
-		}
-		return "no"
-	}
-
 	p.Stdout.SetDataType(types.Generic)
 	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s  %7s  %7s  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
 		"FID", "Parent", "Scope", "State", "Run Mode", "BG", "Out Pipe", "Err Pipe", "Command", "Parameters")))
@@ -41,6 +51,38 @@ func cmdFidListTTY(p *lang.Process) error {
 			params = "Unparsed: " + string(b)
 		}
 		s := fmt.Sprintf("%7d  %7d  %7d  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
+			procs[i].Id,
+			procs[i].Parent.Id,
+			procs[i].Scope.Id,
+			procs[i].State,
+			procs[i].RunMode,
+			yn(procs[i].IsBackground),
+			procs[i].NamedPipeOut,
+			procs[i].NamedPipeErr,
+			procs[i].Name,
+			params,
+		)
+		_, err := p.Stdout.Writeln([]byte(s))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func cmdFidListCSV(p *lang.Process) error {
+	p.Stdout.SetDataType("csv")
+	p.Stdout.Writeln([]byte(fmt.Sprintf("%7s,  %7s,  %7s,  %-12s,  %-8s,  %-3s,  %-10s,  %-10s,  %-10s,  %s",
+		"FID", "Parent", "Scope", "State", "Run Mode", "BG", "Out Pipe", "Err Pipe", "Command", "Parameters")))
+
+	procs := lang.GlobalFIDs.ListAll()
+	for i := range procs {
+		params := procs[i].Parameters.StringAll()
+		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
+			b, _ := json.Marshal(procs[i].Parameters.Tokens, false)
+			params = "Unparsed: " + string(b)
+		}
+		s := fmt.Sprintf("%7d,  %7d,  %7d,  %-12s,  %-8s,  %-3s,  %-10s,  %-10s,  %-10s,  %s",
 			procs[i].Id,
 			procs[i].Parent.Id,
 			procs[i].Scope.Id,
@@ -108,7 +150,7 @@ func cmdFidListPipe(p *lang.Process) error {
 	return err
 }
 
-func cmdFidKill(p *lang.Process) (err error) {
+func cmdFidKill(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	for i := 0; i < p.Parameters.Len(); i++ {
@@ -125,11 +167,11 @@ func cmdFidKill(p *lang.Process) (err error) {
 		if process.Kill != nil {
 			process.Kill()
 		} else {
-			err = fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`", fid)
+			return fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`", fid)
 		}
 	}
 
-	return err
+	return nil
 }
 
 func cmdKillAll(*lang.Process) error {

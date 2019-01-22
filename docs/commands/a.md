@@ -205,6 +205,8 @@ under `a`'s formatting (which uses the `str` data type).
 
 ### See Also
 
+* [`@[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`ja`](../commands/ja.md):
@@ -212,6 +214,4 @@ under `a`'s formatting (which uses the `str` data type).
 * [`len` ](../commands/len.md):
   Outputs the length of an array
 * [mtac](../commands/mtac.md):
-  
-* [range](../commands/range.md):
   

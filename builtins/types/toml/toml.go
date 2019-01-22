@@ -2,6 +2,7 @@ package toml
 
 import (
 	"bytes"
+	"errors"
 	"strconv"
 
 	"github.com/BurntSushi/toml"
@@ -18,6 +19,9 @@ const typeName = "toml"
 func init() {
 	stdio.RegesterReadArray(typeName, readArray)
 	stdio.RegesterReadMap(typeName, readMap)
+	stdio.RegesterWriteArray(typeName, func(_ stdio.Io) (stdio.ArrayWriter, error) {
+		return nil, errors.New("The TOML specification doesn't support naked arrays")
+	})
 
 	define.ReadIndexes[typeName] = readIndex
 	define.ReadNotIndexes[typeName] = readIndex

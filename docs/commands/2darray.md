@@ -91,6 +91,8 @@
 
 ### See Also
 
+* [`@[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`a`](../commands/a.md):
@@ -108,6 +110,4 @@
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [mtac](../commands/mtac.md):
-  
-* [range](../commands/range.md):
   

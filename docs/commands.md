@@ -23,7 +23,7 @@ UNIX, or even Windows command prompt.
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`@[` (range) ](commands/ranges.md):
+* [`@[` (range) ](commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](commands/index.md):
   Outputs an element from an array, map or table
@@ -81,6 +81,8 @@ UNIX, or even Windows command prompt.
   Splits STDIN into a JSON array based on a regex parameter
 * [`len` ](commands/len.md):
   Outputs the length of an array
+* [`lockfile`](commands/lockfile.md):
+  Create and manage lock files
 * [`man-summary`](commands/man-summary.md):
   Outputs a man page summary of a command
 * [`map` ](commands/map.md):

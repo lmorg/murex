@@ -23,6 +23,8 @@ Outputs an element from an array, map or table.
 
 ### See Also
 
+* [`@[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`a`](../commands/a.md):
   A sophisticated yet simply way to build an array or list
 * [`ja`](../commands/ja.md):
@@ -30,6 +32,4 @@ Outputs an element from an array, map or table.
 * [`len` ](../commands/len.md):
   Outputs the length of an array
 * [mtac](../commands/mtac.md):
-  
-* [range](../commands/range.md):
   

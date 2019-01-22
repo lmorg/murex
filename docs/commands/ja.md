@@ -49,6 +49,8 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ### See Also
 
+* [`@[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`a`](../commands/a.md):
@@ -56,6 +58,4 @@ Please read the documentation on `a` for a more detailed breakdown on of
 * [`len` ](../commands/len.md):
   Outputs the length of an array
 * [mtac](../commands/mtac.md):
-  
-* [range](../commands/range.md):
   
