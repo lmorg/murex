@@ -4,9 +4,10 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
-	"strings"
 )
 
 func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
@@ -58,11 +59,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 
 func unmarshal(p *lang.Process) (interface{}, error) {
 	s := make([]string, 0)
-	/*err := p.Stdin.ReadLine(func(b []byte) {
-		s = append(s, string(b))
-	})
 
-	return s, err*/
 	scanner := bufio.NewScanner(p.Stdin)
 	for scanner.Scan() {
 		s = append(s, strings.TrimSpace(scanner.Text()))

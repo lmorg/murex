@@ -13,7 +13,7 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-var rxExt = regexp.MustCompile(`(?i)\.([a-z]+)(\.gz|)$`)
+var rxExt = regexp.MustCompile(`(?i)\.([a-z0-9]+)(\.gz)?$`)
 
 func init() {
 	lang.GoFunctions["open"] = open

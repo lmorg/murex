@@ -40,10 +40,11 @@ import (
 	_ "github.com/lmorg/murex/builtins/pipes/term"    // writing to the terminal / TTY (required!)
 
 	// Data types:
-	_ "github.com/lmorg/murex/builtins/types/binary"  // basic data type for handing binary data
-	_ "github.com/lmorg/murex/builtins/types/generic" // generic (string) data type
-	_ "github.com/lmorg/murex/builtins/types/json"    // JSON data type
-	_ "github.com/lmorg/murex/builtins/types/null"    // null data type
-	_ "github.com/lmorg/murex/builtins/types/numeric" // formatting numeric data types (int, float, number)
-	_ "github.com/lmorg/murex/builtins/types/string"  // string data type
+	_ "github.com/lmorg/murex/builtins/types/binary"    // basic data type for handing binary data
+	_ "github.com/lmorg/murex/builtins/types/generic"   // generic data type
+	_ "github.com/lmorg/murex/builtins/types/json"      // JSON data type
+	_ "github.com/lmorg/murex/builtins/types/jsonlines" // jsonlines data type
+	_ "github.com/lmorg/murex/builtins/types/null"      // null data type
+	_ "github.com/lmorg/murex/builtins/types/numeric"   // formatting numeric data types (int, float, number)
+	_ "github.com/lmorg/murex/builtins/types/string"    // string data type
 )
