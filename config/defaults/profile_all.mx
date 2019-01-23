@@ -151,6 +151,9 @@ autocomplete set git { [{
         "checkout": [{
             "Dynamic": ({ git-branch }),
             "Flags": [ "-b" ]
+        }],
+        "merge": [{
+            "Dynamic": ({ git-branch })
         }]
     }
 }] }
