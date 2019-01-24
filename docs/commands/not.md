@@ -20,6 +20,11 @@ Reads the STDIN and exit number from previous process and not's it's condition.
     » false -> !
     true
 
+### Synonyms
+
+* `!`
+
+
 ### See Also
 
 * [`and`](../commands/and.md):

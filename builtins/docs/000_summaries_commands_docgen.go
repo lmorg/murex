@@ -3,7 +3,7 @@ package docs
 func init() {
 	Summary = map[string]string{
 
-		"not":                   "Reads the STDIN and exit number from previous process and not's it's condition",
+		"!":                     "Reads the STDIN and exit number from previous process and not's it's condition",
 		"(":                     "Write a string to the STDOUT without new line",
 		"2darray":               "Create a 2D JSON array from multiple input sources",
 		">>":                    "Writes STDIN to disk - appending contents if file already exists",
@@ -64,7 +64,7 @@ func init() {
 
 	Synonym = map[string]string{
 
-		"not":                   "not",
+		"!":                     "!",
 		"(":                     "(",
 		"2darray":               "2darray",
 		">>":                    ">>",

@@ -3,7 +3,7 @@ package builtins
 func init() {
 	sourceFile = map[string]string{
 
-		"not":                   "not_commands_docgen.go",
+		"!":                     "not_commands_docgen.go",
 		"(":                     "brace-quote_commands_docgen.go",
 		"2darray":               "2darray_commands_docgen.go",
 		">>":                    "greater-than-greater-than_commands_docgen.go",
