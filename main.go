@@ -9,13 +9,12 @@ import (
 	_ "github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/home"
 )
 
 func main() {
@@ -36,7 +35,7 @@ func main() {
 	default:
 		defaults.Defaults(lang.ShellProcess.Config, true)
 		execSource(defaults.DefaultMurexProfile())
-		execProfile()
+		profile.Execute()
 		shell.Start()
 	}
 
@@ -95,24 +94,4 @@ func execSource(source []rune) {
 	if exitNum != 0 {
 		os.Exit(exitNum)
 	}
-}
-
-func execProfile() {
-	profile := home.MyDir + consts.PathSlash + ".murex_profile"
-
-	file, err := os.OpenFile(profile, os.O_RDONLY|os.O_CREATE, 0644)
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-		return
-	}
-
-	defer file.Close()
-
-	b, err := ioutil.ReadAll(file)
-	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-		return
-	}
-
-	lang.RunBlockShellConfigSpace([]rune(string(b)), nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
 }

@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -47,6 +48,7 @@ func cmdRuntime(p *lang.Process) error {
 		fMemstats      = "--memstats"
 		fAstCache      = "--astcache"
 		fTests         = "--tests"
+		fModules       = "--modules"
 		fHelp          = "--help"
 	)
 
@@ -70,6 +72,7 @@ func cmdRuntime(p *lang.Process) error {
 		fMemstats:      types.Boolean,
 		fAstCache:      types.Boolean,
 		fTests:         types.Boolean,
+		fModules:       types.Boolean,
 		fHelp:          types.Boolean,
 	}
 
@@ -141,6 +144,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fAstCache[2:]] = lang.AstCache.Dump()
 		case fTests:
 			ret[fTests[2:]] = p.Tests.Dump()
+		case fModules:
+			ret[fModules[2:]] = profile.Modules
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:
