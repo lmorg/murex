@@ -113,6 +113,9 @@ func readDir(path string) error {
 				utils.NewLineString,
 			)
 			manifest[i].Disabled = true
+		}
+
+		if manifest[i].Disabled {
 			continue
 		}
 
