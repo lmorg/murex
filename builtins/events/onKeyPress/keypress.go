@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/lmorg/murex/shell/variables"
-
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -47,18 +46,18 @@ func newKeyPress() *keyPressEvents {
 // Add a key to the event list
 func (evt *keyPressEvents) Add(name, keySeq string, block []rune) error {
 	if shell.Prompt == nil {
-		return errors.New("Unable to register event with readline API.")
+		return errors.New("Unable to register event with readline API")
 	}
 
 	evt.mutex.Lock()
 	for i := range evt.events {
 		if evt.events[i].name == name {
 			evt.mutex.Unlock()
-			return fmt.Errorf("Event already exists with the name `%s` for event type `%s`.", name, eventType)
+			return fmt.Errorf("Event already exists with the name `%s` for event type `%s`", name, eventType)
 		}
 		if evt.events[i].keySeq == keySeq {
 			evt.mutex.Unlock()
-			return fmt.Errorf("Event already exists with that  key sequence for event type `%s`.", eventType)
+			return fmt.Errorf("Event already exists with that  key sequence for event type `%s`", eventType)
 		}
 	}
 	evt.mutex.Unlock()
@@ -79,7 +78,7 @@ func (evt *keyPressEvents) Remove(name string) error {
 	}
 
 	if shell.Prompt == nil {
-		return errors.New("Unable to de-register event with readline API.")
+		return errors.New("Unable to de-register event with readline API")
 	}
 
 	evt.mutex.Lock()
@@ -93,7 +92,7 @@ func (evt *keyPressEvents) Remove(name string) error {
 		}
 	}
 
-	return fmt.Errorf("Unable to delete event as no event found with the name `%s` for event type `%s`.", name, eventType)
+	return fmt.Errorf("Unable to delete event as no event found with the name `%s` for event type `%s`", name, eventType)
 }
 
 func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) *readline.EventReturn {
@@ -137,7 +136,7 @@ eventFound:
 		}
 	}
 
-	ignoreKey, err := types.ConvertGoType(ret["IgnoreKey"], types.Boolean)
+	forwardKey, err := types.ConvertGoType(ret["ForwardKey"], types.Boolean)
 	if err != nil {
 		return &readline.EventReturn{
 			HintText: []rune("Callback error: " + err.Error()),
@@ -187,12 +186,12 @@ eventFound:
 	}
 
 	return &readline.EventReturn{
-		IgnoreKeyPress: ignoreKey.(bool),
-		ClearHelpers:   clearHelpers.(bool),
-		CloseReadline:  closeReadline.(bool),
-		HintText:       []rune(ret["HintText"]),
-		NewLine:        newLine,
-		NewPos:         newPos,
+		ForwardKey:    forwardKey.(bool),
+		ClearHelpers:  clearHelpers.(bool),
+		CloseReadline: closeReadline.(bool),
+		HintText:      []rune(ret["HintText"]),
+		NewLine:       newLine,
+		NewPos:        newPos,
 	}
 }
 

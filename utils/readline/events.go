@@ -4,12 +4,12 @@ package readline
 // This is used by readline to determine what state the API should
 // return to after the readline event.
 type EventReturn struct {
-	IgnoreKeyPress bool
-	ClearHelpers   bool
-	CloseReadline  bool
-	HintText       []rune
-	NewLine        []rune
-	NewPos         int
+	ForwardKey    bool
+	ClearHelpers  bool
+	CloseReadline bool
+	HintText      []rune
+	NewLine       []rune
+	NewPos        int
 }
 
 // AddEvent registers a new keypress handler

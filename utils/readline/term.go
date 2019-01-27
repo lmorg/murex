@@ -34,7 +34,7 @@ func print(s string) {
 	return
 }*/
 
-var rxAnsiSgr *regexp.Regexp = regexp.MustCompile("\x1b\\[[:;0-9]+m")
+var rxAnsiSgr = regexp.MustCompile("\x1b\\[[:;0-9]+m")
 
 // Gets the number of runes in a string and
 func strLen(s string) int {

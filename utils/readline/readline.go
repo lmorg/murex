@@ -110,7 +110,7 @@ func (rl *Instance) Readline() (string, error) {
 				rl.clearHelpers()
 				rl.renderHelpers()
 			}
-			if ret.IgnoreKeyPress {
+			if !ret.ForwardKey {
 				continue
 			}
 			if ret.CloseReadline {
