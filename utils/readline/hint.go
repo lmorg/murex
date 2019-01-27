@@ -15,7 +15,7 @@ func (rl *Instance) writeHintText() {
 		return
 	}
 
-	width := getTermWidth()
+	width := GetTermWidth()
 
 	// Determine how many lines hintText spans over
 	// (Currently there is no support for carridge returns / new lines)

@@ -113,7 +113,7 @@ type Instance struct {
 func NewInstance() *Instance {
 	rl := new(Instance)
 
-	getTermWidth()
+	//GetTermWidth()
 
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true

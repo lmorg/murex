@@ -112,7 +112,7 @@ func (rl *Instance) vimDeleteToken(r rune) bool {
 	rl.echo()
 
 	if rl.pos > len(rl.line) {
-		moveCursorBackwards(getTermWidth())
+		moveCursorBackwards(GetTermWidth())
 		moveCursorForwards(rl.promptLen + len(rl.line) - 1)
 		// ^ this is lazy
 		rl.pos = len(rl.line) - 1

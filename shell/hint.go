@@ -15,8 +15,8 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/man"
+	"github.com/lmorg/murex/utils/which"
 )
 
 var (
@@ -95,9 +95,9 @@ func hintText(line []rune, pos int) []rune {
 		}
 
 		manDesc[cmd] = summary
-		which := readlink(which(cmd))
+		w := readlink(which.Which(cmd))
 
-		r = append(r, []rune("("+which+") "+summary)...)
+		r = append(r, []rune("("+w+") "+summary)...)
 		if len(r) > 0 {
 			return r
 		}
@@ -130,20 +130,6 @@ func hintExpandVariables(line []rune) []rune {
 	}
 
 	return []rune{}
-}
-
-func which(cmd string) string {
-	envPath := lang.ShellProcess.Variables.GetString("PATH")
-
-	for _, path := range autocomplete.SplitPath(envPath) {
-		filepath := path + consts.PathSlash + cmd
-		_, err := os.Stat(filepath)
-		if !os.IsNotExist(err) {
-			return filepath
-		}
-	}
-
-	return ""
 }
 
 func readlink(path string) string {

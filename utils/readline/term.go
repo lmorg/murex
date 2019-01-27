@@ -7,12 +7,13 @@ import (
 	"unicode/utf8"
 )
 
-func getTermWidth() (termWidth int) {
+// GetTermWidth returns the width of Stdout or 80 if the width cannot be established
+func GetTermWidth() (termWidth int) {
 	var err error
 	fd := int(os.Stdout.Fd())
 	termWidth, _, err = GetSize(fd)
 	if err != nil {
-		termWidth = 100
+		termWidth = 80
 	}
 
 	return

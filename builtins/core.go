@@ -16,6 +16,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/io"                // OS IO builtins
 	_ "github.com/lmorg/murex/builtins/core/management"        // murex management builtins
 	_ "github.com/lmorg/murex/builtins/core/mkarray"           // rapidly makes arrays
+	_ "github.com/lmorg/murex/builtins/core/modules"           // `mpac`: Module PACkage management
 	_ "github.com/lmorg/murex/builtins/core/open"              // `open` and default handlers
 	_ "github.com/lmorg/murex/builtins/core/random"            // random data builtin
 	_ "github.com/lmorg/murex/builtins/core/ranges"            // working with ranges within arrays (`@[..]`)

@@ -64,20 +64,20 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 
 		if hasError {
 			t.Errorf("Code block doesn't return expected values in test %d", i)
-			t.Log("Code block:      ", tests[i].Block)
+			t.Log("  Code block:      ", tests[i].Block)
 
-			t.Log("Expected Stdout: ", strings.Replace(tests[i].Stdout, "\n", `\n`, -1))
-			t.Log("Actual Stdout:   ", strings.Replace(string(bOut), "\n", `\n`, -1))
-			t.Log("eo bytes:        ", []byte(tests[i].Stdout))
-			t.Log("ao bytes:        ", bOut)
+			t.Log("  Expected Stdout: ", strings.Replace(tests[i].Stdout, "\n", `\n`, -1))
+			t.Log("  Actual Stdout:   ", strings.Replace(string(bOut), "\n", `\n`, -1))
+			t.Log("  eo bytes:        ", []byte(tests[i].Stdout))
+			t.Log("  ao bytes:        ", bOut)
 
-			t.Log("Expected Stderr: ", strings.Replace(tests[i].Stderr, "\n", `\n`, -1))
-			t.Log("Actual Stderr:   ", strings.Replace(string(bErr), "\n", `\n`, -1))
-			t.Log("eo bytes:        ", []byte(tests[i].Stderr))
-			t.Log("ao bytes:        ", bErr)
+			t.Log("  Expected Stderr: ", strings.Replace(tests[i].Stderr, "\n", `\n`, -1))
+			t.Log("  Actual Stderr:   ", strings.Replace(string(bErr), "\n", `\n`, -1))
+			t.Log("  eo bytes:        ", []byte(tests[i].Stderr))
+			t.Log("  ao bytes:        ", bErr)
 
-			t.Log("Expected exitnum:", tests[i].ExitNum)
-			t.Log("Actual exitnum:  ", exitNum)
+			t.Log("  Expected exitnum:", tests[i].ExitNum)
+			t.Log("  Actual exitnum:  ", exitNum)
 		}
 	}
 }

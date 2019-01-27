@@ -11,6 +11,14 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
+const (
+	// DisabledFile is an array of disabled modules
+	DisabledFile = "disabled.json"
+
+	// PackagesFile is used by the package manager, `mpac`, but we auto-create it here for consistency
+	PackagesFile = "packages.json"
+)
+
 func modules() error {
 	if !strings.HasSuffix(ModulePath, consts.PathSlash) {
 		ModulePath += consts.PathSlash
@@ -33,23 +41,47 @@ func modules() error {
 		return errors.New(err.Error() + utils.NewLineString + "Skipping module loading for safety reasons")
 	}
 
+	// Check package management file
+	if err = packageFile(); err != nil {
+		return errors.New(err.Error() + utils.NewLineString + "This will break murex's package manager, `mpac`, however modules will continue to work without it")
+	}
+
 	paths, err := filepath.Glob(ModulePath + "*")
 	if err != nil {
 		return err
 	}
 
+	var message string
+
 	for i := range paths {
-		err = readDir(paths[i])
+		err = LoadPackage(paths[i])
 		if err != nil {
-			return err
+			message += err.Error() + utils.NewLineString
 		}
+	}
+
+	if message != "" {
+		return errors.New(strings.TrimSpace(message))
 	}
 
 	return nil
 }
 
 func disabledFile() error {
-	filename := ModulePath + "disabled.json"
+	err := autoFile(DisabledFile)
+	if err != nil {
+		return err
+	}
+
+	return readJson(ModulePath+DisabledFile, &disabled)
+}
+
+func packageFile() error {
+	return autoFile(PackagesFile)
+}
+
+func autoFile(name string) error {
+	filename := ModulePath + name
 
 	fi, err := os.Stat(filename)
 	switch {
@@ -63,18 +95,20 @@ func disabledFile() error {
 		return err
 
 	case fi.IsDir():
-		return errors.New("disabled.json is a directory - it should be an ordinary file")
+		return errors.New(name + " is a directory - it should be an ordinary file")
 
 	case err != nil:
 		return err
 
 	default:
-		return readJson(filename, &disabled)
-
+		return nil
 	}
 }
 
-func readDir(path string) error {
+// LoadPackage reads in the contents of the package and then validates and sources each module within
+func LoadPackage(path string) error {
+	//path := ModulePath + pack
+
 	f, err := os.Stat(path)
 	if err != nil {
 		return err
@@ -91,31 +125,31 @@ func readDir(path string) error {
 		return nil
 	}
 
-	var manifest []Manifest
-	err = readJson(path+consts.PathSlash+"module.json", &manifest)
+	var module []Module
+	err = readJson(path+consts.PathSlash+"module.json", &module)
 	if err != nil {
 		return err
 	}
 
 	var message string
 
-	for i := range manifest {
-		manifest[i].path = f.Name()
-		manifest[i].Disabled = manifest[i].Disabled || isDisabled(manifest[i].Name)
-		err = manifest[i].validate()
+	for i := range module {
+		module[i].Package = f.Name()
+		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Name)
+		err = module[i].validate()
 		if err != nil {
 			message += fmt.Sprintf(
 				"Error loading module `%s` in path `%s`:%s%s%s",
-				manifest[i].Name,
-				manifest[i].Path(),
+				module[i].Name,
+				module[i].Path(),
 				utils.NewLineString,
 				err.Error(),
 				utils.NewLineString,
 			)
-			manifest[i].Disabled = true
+			module[i].Disabled = true
 		}
 
-		if manifest[i].Disabled {
+		if module[i].Disabled {
 			continue
 		}
 
@@ -124,9 +158,19 @@ func readDir(path string) error {
 			os.Stderr.WriteString(err.Error())
 		}
 
-		manifest[i].execute()
+		err = module[i].execute()
+		if err != nil {
+			message += fmt.Sprintf(
+				"Error sourcing module `%s` in path `%s`:%s%s%s",
+				module[i].Name,
+				module[i].Path(),
+				utils.NewLineString,
+				err.Error(),
+				utils.NewLineString,
+			)
+		}
 	}
-	Modules[f.Name()] = manifest
+	Packages[f.Name()] = module
 
 	if message != "" {
 		return errors.New(strings.TrimSpace(message))

@@ -39,14 +39,14 @@ func RunMethodTest(t *testing.T, cmd func(*lang.Process) error, methodName strin
 
 	if string(b) != output || expectedError != nil {
 		t.Errorf("Unexpected `%s` return", methodName)
-		t.Log("input:          ", strings.Replace(input, "\n", `\n`, -1))
-		t.Log("input data type:", dataType)
-		t.Log("parameters      ", params)
-		t.Log("expected output:", strings.Replace(output, "\n", `\n`, -1))
-		t.Log("actual output:  ", strings.Replace(string(b), "\n", `\n`, -1))
-		t.Log("expected error: ", expectedError)
-		t.Log("actual error:   ", err)
-		t.Log("eo bytes:       ", []byte(output))
-		t.Log("ao bytes:       ", b)
+		t.Log("  input:          ", strings.Replace(input, "\n", `\n`, -1))
+		t.Log("  input data type:", dataType)
+		t.Log("  parameters      ", params)
+		t.Log("  expected output:", strings.Replace(output, "\n", `\n`, -1))
+		t.Log("  actual output:  ", strings.Replace(string(b), "\n", `\n`, -1))
+		t.Log("  expected error: ", expectedError)
+		t.Log("  actual error:   ", err)
+		t.Log("  eo bytes:       ", []byte(output))
+		t.Log("  ao bytes:       ", b)
 	}
 }

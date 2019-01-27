@@ -5,7 +5,7 @@ import (
 )
 
 func (rl *Instance) initTabMap() {
-	//width := getTermWidth()
+	//width := GetTermWidth()
 
 	var suggestions []string
 	if rl.modeTabFind {
@@ -85,7 +85,7 @@ func (rl *Instance) writeTabMap() {
 		suggestions = rl.tcSuggestions
 	}
 
-	termWidth := getTermWidth()
+	termWidth := GetTermWidth()
 	if termWidth < 10 {
 		// terminal too small. Probably better we do nothing instead of crash
 		return

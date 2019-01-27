@@ -5,7 +5,7 @@ import (
 )
 
 func (rl *Instance) initTabGrid() {
-	width := getTermWidth()
+	width := GetTermWidth()
 
 	var suggestions []string
 	if rl.modeTabFind {
@@ -104,7 +104,7 @@ func (rl *Instance) writeTabGrid() {
 
 	print(seqClearScreenBelow + "\r\n")
 
-	cellWidth := strconv.Itoa((getTermWidth() / rl.tcMaxX) - 2)
+	cellWidth := strconv.Itoa((GetTermWidth() / rl.tcMaxX) - 2)
 	x := 0
 	y := 1
 

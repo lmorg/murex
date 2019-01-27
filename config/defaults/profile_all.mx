@@ -282,3 +282,17 @@ autocomplete: set fid-kill {
         "AllowMultiple": true
     }]
 }
+
+autocomplete: set mpac {
+    [{
+        "Flags": [ "get", "update", "import" ],
+        "FlagValues": {
+            "get": [{
+                "Flags": [ "git" ]
+            }],
+            "import": [{
+                "IncFiles": true
+            }]
+        }
+    }]
+}

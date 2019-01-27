@@ -170,7 +170,7 @@ func (rl *Instance) renderHelpers() {
 	rl.writeTabCompletion()
 
 	moveCursorUp(rl.hintY + rl.tcUsedY)
-	moveCursorBackwards(getTermWidth())
+	moveCursorBackwards(GetTermWidth())
 	moveCursorToLinePos(rl)
 }
 

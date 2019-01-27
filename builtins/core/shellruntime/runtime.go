@@ -145,7 +145,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fTests:
 			ret[fTests[2:]] = p.Tests.Dump()
 		case fModules:
-			ret[fModules[2:]] = profile.Modules
+			ret[fModules[2:]] = profile.Packages
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:

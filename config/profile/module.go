@@ -7,30 +7,29 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/utils/consts"
-
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/consts"
 )
 
-// Manifest is the structure for each module within a module's directory.
+// Module is the structure for each module within a module's directory.
 // Each directory can have multiple modules - this is done so you can separate
 // functionality into different logical modules but still keep them inside one
 // git repository (or other source control). However I expect the typical usage
 // would be one module per repository.
-type Manifest struct {
+type Module struct {
 	Name     string
 	Summary  string
 	Version  string
 	Source   string
-	path     string
+	Package  string
 	Disabled bool
 }
 
-// Modules is a struct of all the modules
-var Modules = make(map[string][]Manifest)
+// Packages is a struct of all the modules
+var Packages = make(map[string][]Module)
 
 var disabled []string
 
@@ -46,11 +45,11 @@ func isDisabled(name string) bool {
 }
 
 // Path returns the full path to the murex script that is sourced into your running shell
-func (m *Manifest) Path() string {
-	return ModulePath + m.path + consts.PathSlash + m.Source
+func (m *Module) Path() string {
+	return ModulePath + m.Package + consts.PathSlash + m.Source
 }
 
-func (m *Manifest) validate() error {
+func (m *Module) validate() error {
 	var message string
 	if strings.TrimSpace(m.Name) == "" {
 		message += `    Property "Name" is empty. This should contain the name of the module` + utils.NewLineString
@@ -85,7 +84,7 @@ func (m *Manifest) validate() error {
 	return nil
 }
 
-func (m *Manifest) execute() error {
+func (m *Module) execute() error {
 	file, err := os.OpenFile(m.Path(), os.O_RDONLY, 0640)
 	if err != nil {
 		return err
