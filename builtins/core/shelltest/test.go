@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
 	"regexp"
 	"strconv"
@@ -20,14 +21,17 @@ import (
 
 func init() {
 	lang.GoFunctions["test"] = cmdTest
+	lang.GoFunctions["!test"] = cmdTestDisable
 
 	defaults.AppendProfile(`
 		autocomplete set test { [{
 			"Flags": [
-				"on",
-				"off",
+				"enable",
+				"!enable",
 				"auto-report",
-				"!auto-report"
+				"!auto-report",
+				"run",
+				"define"
 			]
 		}] }
     `)
@@ -71,27 +75,41 @@ func cmdTest(p *lang.Process) error {
 	}
 }
 
-func testConfig(p *lang.Process) (err error) {
+func testConfig(p *lang.Process) error {
 	option, _ := p.Parameters.String(0)
 
 	switch option {
 	case "enable":
-		err = p.Config.Set("test", "enabled", true)
+		return p.Config.Set("test", "enabled", true)
 
 	case "!enable", "disable":
-		err = p.Config.Set("test", "enabled", false)
+		return p.Config.Set("test", "enabled", false)
 
 	case "auto-report":
-		err = p.Config.Set("test", "auto-report", true)
+		return p.Config.Set("test", "auto-report", true)
 
 	case "!auto-report":
-		err = p.Config.Set("test", "auto-report", false)
+		return p.Config.Set("test", "auto-report", false)
 
 	default:
-		err = p.Config.Set("test", "enabled", types.IsTrue([]byte(option), 0))
+		v := types.IsTrue([]byte(option), 0)
+		p.Stderr.Writeln([]byte(fmt.Sprintf(
+			"Invalid parameter. Assuming `test %t`%sExpected usage: test [ enable | !enable ]%s                test [ auto-report | !auto-report ]%s                test define { json-properties }%s                test run { code-block }",
+			v,
+			utils.NewLineString,
+			utils.NewLineString,
+			utils.NewLineString,
+			utils.NewLineString,
+		)))
+		return p.Config.Set("test", "enabled", v)
 	}
+}
 
-	return
+func cmdTestDisable(p *lang.Process) error {
+	if p.Parameters.Len() > 0 {
+		return errors.New("Too many parameters! Usage: `!test` to disable testing")
+	}
+	return p.Config.Set("test", "enabled", false)
 }
 
 func testDefine(p *lang.Process) error {

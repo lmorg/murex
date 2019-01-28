@@ -105,7 +105,8 @@ func autoFile(name string) error {
 	}
 }
 
-// LoadPackage reads in the contents of the package and then validates and sources each module within
+// LoadPackage reads in the contents of the package and then validates and
+// sources each module within
 func LoadPackage(path string) error {
 	//path := ModulePath + pack
 
@@ -119,8 +120,14 @@ func LoadPackage(path string) error {
 		return nil
 	}
 
-	// ignore directory (this goes further than disabling because it prevents
-	// the manifest from even being read)
+	// ignore hidden directories. eg version control (.git), IDE workspace
+	// settings, OS X metadirectories and other guff.
+	if strings.HasPrefix(f.Name(), ".") {
+		return nil
+	}
+
+	// disable package directory (this goes further than disabling the module
+	// because it prevents the modules from even being read)
 	if strings.HasSuffix(f.Name(), ".ignore") {
 		return nil
 	}
