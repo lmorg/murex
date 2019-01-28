@@ -1,6 +1,7 @@
 package streams
 
 import (
+	"context"
 	"io"
 
 	"github.com/lmorg/murex/config"
@@ -25,6 +26,7 @@ func NewTee(primary stdio.Io) (tee *Tee, secondary *Stdin) {
 	tee = new(Tee)
 	tee.primary = primary
 	tee.secondary.max = 0
+	tee.secondary.ctx = context.Background()
 	secondary = &tee.secondary
 	return
 }
