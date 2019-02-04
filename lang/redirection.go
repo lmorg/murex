@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-var rxNamedPipe *regexp.Regexp = regexp.MustCompile(`^<(test_|\!)?[a-zA-Z0-9]+>$`)
+var rxNamedPipe = regexp.MustCompile(`^<(test_|\!)?[a-zA-Z0-9]+>$`)
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"

@@ -12,17 +12,19 @@ import (
 )
 
 var (
-	fCommand string
-	fSource  []string
-	fEcho    bool
-	fHelp1   bool
-	fHelp2   bool
-	fHelp3   bool
-	fSh      bool
+	fCommand  string
+	fSource   []string
+	fLoadMods bool
+	fEcho     bool
+	fHelp1    bool
+	fHelp2    bool
+	fHelp3    bool
+	fSh       bool
 )
 
 func readFlags() {
 	flag.StringVar(&fCommand, "c", "", "Run code block - read from parameters")
+	flag.BoolVar(&fLoadMods, "load-modules", false, "Load modules and profile when in non-interactive mode ")
 
 	flag.BoolVar(&fHelp1, "?", false, "Help")
 	flag.BoolVar(&fHelp2, "h", false, "Help")

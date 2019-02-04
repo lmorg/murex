@@ -88,7 +88,7 @@ func unset(p *lang.Process, scope *lang.Process) error {
 		return err
 	}
 
-	err = scope.Variables.Unset(varName)
+	err = scope.Parent.Variables.Unset(varName)
 	return err
 }
 

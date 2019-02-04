@@ -33,6 +33,7 @@ type watch struct {
 	mutex   sync.Mutex
 	paths   map[string]string // map of paths indexed by event name
 	blocks  map[string][]rune // map of blocks indexed by path
+	modules map[string]string
 }
 
 func newWatch() (w *watch) {
@@ -40,6 +41,7 @@ func newWatch() (w *watch) {
 	w.watcher, w.error = fsnotify.NewWatcher()
 	w.paths = make(map[string]string)
 	w.blocks = make(map[string][]rune)
+	w.modules = make(map[string]string)
 
 	return
 }
@@ -76,7 +78,7 @@ func (evt *watch) findCallbackBlock(path string) (block []rune) {
 }
 
 // Add a path to the watch event list
-func (evt *watch) Add(name, path string, block []rune) error {
+func (evt *watch) Add(name, path string, block []rune, module string) error {
 	for len(path) > 1 && path[len(path)-1] == '/' {
 		path = path[:len(path)-1]
 	}
@@ -91,6 +93,7 @@ func (evt *watch) Add(name, path string, block []rune) error {
 		evt.mutex.Lock()
 		evt.paths[name] = path
 		evt.blocks[path] = block
+		evt.modules[name] = module
 		evt.mutex.Unlock()
 	}
 
@@ -109,6 +112,7 @@ func (evt *watch) Remove(name string) error {
 		evt.mutex.Lock()
 		delete(evt.paths, name)
 		delete(evt.blocks, path)
+		delete(evt.modules, name)
 		evt.mutex.Unlock()
 	}
 

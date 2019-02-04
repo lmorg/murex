@@ -1,9 +1,13 @@
 package lang
 
 import (
+	"context"
 	"os"
+	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -17,10 +21,12 @@ func InitEnv() {
 	ShellProcess.Name = os.Args[0]
 	ShellProcess.Parameters.Params = os.Args[1:]
 	ShellProcess.Scope = ShellProcess
+	ShellProcess.Module = config.AppName
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
 	ShellProcess.Tests = NewTests()
-	ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
+	//ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
+	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []int{0}
 	ShellProcess.Stdout = new(term.Out)
@@ -38,4 +44,19 @@ func InitEnv() {
 	if b, err := json.Marshal(&pwd, false); err == nil {
 		ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 	}
+}
+
+// NewTestProcess creates a dummy process for testing in Go (ie `go test`)
+func NewTestProcess() (p *Process) {
+	p = new(Process)
+	p.Stdin = new(null.Null)
+	p.Stdout = new(null.Null)
+	p.Stderr = new(null.Null)
+	p.Config = config.NewConfiguration()
+	p.Variables = newVariables(p, masterVarTable)
+	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
+
+	GlobalFIDs.Register(p)
+
+	return
 }

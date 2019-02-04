@@ -49,7 +49,6 @@ func NewConfiguration() (conf *Config) {
 //     value == the setting itself
 func (conf *Config) Set(app string, key string, value interface{}) error {
 	conf.mutex.Lock()
-	//defer conf.mutex.Unlock()
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 		conf.mutex.Unlock()

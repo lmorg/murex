@@ -26,13 +26,13 @@ var errVariableReserved = errors.New("Cannot set a reserved variable")
 type Variables struct {
 	varTable *varTable
 	process  *Process
-	time     time.Time
+	//time     time.Time
 }
 
 // newVariables creates a new Variables object
-func newVariables(p *Process) *Variables {
+func newVariables(p *Process, vt *varTable) *Variables {
 	vars := new(Variables)
-	vars.varTable = new(varTable)
+	vars.varTable = vt
 	vars.process = p
 	return vars
 }

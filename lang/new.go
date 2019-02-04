@@ -41,7 +41,7 @@ func RunBlockNewConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, caller
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config.Copy(), nil,
-		caller.PromptGoProc,
+		caller.PromptId,
 	)
 }
 
@@ -52,7 +52,7 @@ func RunBlockExistingConfigSpace(block []rune, stdin, stdout, stderr stdio.Io, c
 	return processNewBlock(
 		block, stdin, stdout, stderr,
 		caller, caller.Config, caller.Tests,
-		caller.PromptGoProc,
+		caller.PromptId,
 	)
 }
 
@@ -89,11 +89,12 @@ func processNewBlock(block []rune, stdin, stdout, stderr stdio.Io, caller *Proce
 	container.Scope = caller.Scope
 	container.Parent = caller
 	container.Id = caller.Id
-	container.PromptGoProc = promptGoProc
+	container.PromptId = promptGoProc
 	container.LineNumber = caller.LineNumber
 	container.ColNumber = caller.ColNumber
 	container.Config = conf
 	container.Variables = caller.Variables
+	container.Module = caller.Module
 
 	if tests != nil {
 		container.Tests = tests

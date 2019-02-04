@@ -23,19 +23,42 @@ func main() {
 
 	switch {
 	case fCommand != "":
+		// default config
 		defaults.Defaults(lang.ShellProcess.Config, false)
 		shell.SignalHandler(false)
+
+		// load modules a profile
+		if fLoadMods {
+			profile.Execute()
+		}
+
+		// read block from command line parameters
 		execSource([]rune(fCommand))
 
 	case len(fSource) > 0:
+		// default config
 		defaults.Defaults(lang.ShellProcess.Config, false)
 		shell.SignalHandler(false)
+
+		// load modules a profile
+		if fLoadMods {
+			profile.Execute()
+		}
+
+		// read block from disk
 		execSource(diskSource(fSource[0]))
 
 	default:
+		// default config
 		defaults.Defaults(lang.ShellProcess.Config, true)
+
+		// compiled profile
 		execSource(defaults.DefaultMurexProfile())
+
+		// load modules and profile
 		profile.Execute()
+
+		// start interactive shell
 		shell.Start()
 	}
 

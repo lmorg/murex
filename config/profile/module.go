@@ -8,9 +8,10 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/utils/ansi"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -97,8 +98,20 @@ func (m *Module) execute() error {
 		return err
 	}
 
-	os.Stderr.WriteString("Loading module `" + m.Name + "`" + utils.NewLineString)
+	block := []rune(string(b))
+
+	os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
 	// lets redirect all output to STDERR just in case this thing gets piped for any strange reason
-	_, err = lang.RunBlockShellConfigSpace([]rune(string(b)), nil, term.NewErr(false), term.NewErr(ansi.IsAllowed()))
+
+	/*branch := lang.ShellProcess.BranchFID()
+	defer branch.Close()
+	branch.Module = m.Package + "/" + m.Name
+	_, err = lang.RunBlockExistingConfigSpace(block, nil, term.NewErr(false), term.NewErr(ansi.IsAllowed()), branch.Process)*/
+
+	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)
+	fork.Stdout = term.NewErr(false)
+	fork.Stderr = term.NewErr(ansi.IsAllowed())
+	fork.Module = m.Package + "/" + m.Name
+	_, err = fork.Execute(block)
 	return err
 }

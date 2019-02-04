@@ -10,7 +10,7 @@ import (
 )
 
 type eventType interface {
-	Add(name, interrupt string, block []rune) (err error)
+	Add(name, interrupt string, block []rune, module string) (err error)
 	Remove(interrupt string) (err error)
 	Dump() (dump interface{})
 }

@@ -110,6 +110,6 @@ func cmdForeground(p *lang.Process) error {
 	//}
 
 	f.State = state.Executing
-	shell.PromptGoProc.Set(f.PromptGoProc)
+	shell.PromptId.Set(f.PromptId)
 	return nil
 }

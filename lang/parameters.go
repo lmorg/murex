@@ -28,17 +28,17 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				tCount = true
 
 			case parameters.TokenTypeString:
-				s := prc.Variables.GetString(p.Tokens[i][j].Key)
-
+				s := prc.Parent.Variables.GetString(p.Tokens[i][j].Key)
 				s = utils.CrLfTrimString(s)
-
 				p.Params[len(p.Params)-1] += s
 				tCount = true
 
 			case parameters.TokenTypeBlockString:
-				stdout := streams.NewStdin()
-				RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
-				b, err := stdout.ReadAll()
+				//stdout := streams.NewStdin()
+				//RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT)
+				fork.Execute([]rune(p.Tokens[i][j].Key))
+				b, err := fork.Stdout.ReadAll()
 				if err != nil {
 					prc.Stderr.Writeln([]byte(err.Error()))
 				}
@@ -70,10 +70,11 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 			case parameters.TokenTypeBlockArray:
 				var array []string
 
-				stdout := streams.NewStdin()
-				RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
-
-				stdout.ReadArray(func(b []byte) {
+				//stdout := streams.NewStdin()
+				//RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT)
+				fork.Execute([]rune(p.Tokens[i][j].Key))
+				fork.Stdout.ReadArray(func(b []byte) {
 					array = append(array, string(b))
 				})
 
@@ -95,10 +96,11 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				}
 
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
-				stdout := streams.NewStdin()
-				RunBlockExistingConfigSpace(block, nil, stdout, prc.Stderr, prc)
-
-				b, err := stdout.ReadAll()
+				//stdout := streams.NewStdin()
+				//RunBlockExistingConfigSpace(block, nil, stdout, prc.Stderr, prc)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT)
+				fork.Execute(block)
+				b, err := fork.Stdout.ReadAll()
 				if err != nil {
 					prc.Stderr.Writeln([]byte(err.Error()))
 				}

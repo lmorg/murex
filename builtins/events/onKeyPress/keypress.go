@@ -32,6 +32,7 @@ type keyPressEvent struct {
 	name   string
 	keySeq string
 	block  []rune
+	module string
 }
 
 type keyPressEvents struct {
@@ -44,7 +45,7 @@ func newKeyPress() *keyPressEvents {
 }
 
 // Add a key to the event list
-func (evt *keyPressEvents) Add(name, keySeq string, block []rune) error {
+func (evt *keyPressEvents) Add(name, keySeq string, block []rune, module string) error {
 	if shell.Prompt == nil {
 		return errors.New("Unable to register event with readline API")
 	}
@@ -67,6 +68,7 @@ func (evt *keyPressEvents) Add(name, keySeq string, block []rune) error {
 		name:   name,
 		keySeq: keySeq,
 		block:  block,
+		module: module,
 	})
 	return nil
 }
@@ -199,6 +201,7 @@ func (evt *keyPressEvents) Dump() interface{} {
 	type kp struct {
 		KeySequence string
 		Block       string
+		Module      string
 	}
 
 	dump := make(map[string]kp)
@@ -210,6 +213,7 @@ func (evt *keyPressEvents) Dump() interface{} {
 		dump[evt.events[i].name] = kp{
 			KeySequence: evt.events[i].keySeq,
 			Block:       string(evt.events[i].block),
+			Module:      evt.events[i].module,
 		}
 	}
 	return dump

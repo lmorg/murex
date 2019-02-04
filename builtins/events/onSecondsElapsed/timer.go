@@ -29,6 +29,7 @@ type timeEvent struct {
 	Interval int
 	Block    []rune
 	state    int
+	Module   string
 }
 
 func newTimer() (t *timer) {
@@ -59,7 +60,7 @@ func (t *timer) init() {
 }
 
 // Add a path to the watch event list
-func (t *timer) Add(name, interrupt string, block []rune) (err error) {
+func (t *timer) Add(name, interrupt string, block []rune, module string) (err error) {
 	interval, err := strconv.Atoi(interrupt)
 	if err != nil {
 		return errors.New("Interrupt should be an integer for `" + eventType + "` events.")
@@ -80,6 +81,7 @@ func (t *timer) Add(name, interrupt string, block []rune) (err error) {
 		Name:     name,
 		Interval: interval,
 		Block:    block,
+		Module:   module,
 	})
 
 	return
@@ -118,6 +120,7 @@ func (t *timer) Dump() interface{} {
 	type te struct {
 		Interval int
 		Block    string
+		Module   string
 	}
 
 	dump := make(map[string]te)
@@ -128,6 +131,7 @@ func (t *timer) Dump() interface{} {
 		dump[t.events[i].Name] = te{
 			Interval: t.events[i].Interval,
 			Block:    string(t.events[i].Block),
+			Module:   t.events[i].Module,
 		}
 	}
 

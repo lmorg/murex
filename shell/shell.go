@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -23,8 +24,8 @@ var (
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// PromptGoProc is an custom defined ID for each prompt Goprocess so we don't accidentally end up with multiple prompts running
-	PromptGoProc = new(mutexCounter)
+	// PromptId is an custom defined ID for each prompt Goprocess so we don't accidentally end up with multiple prompts running
+	PromptId = new(counter.MutexCounter)
 )
 
 // Start the interactive shell
@@ -76,7 +77,7 @@ func ShowPrompt() {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
-	thisProc := PromptGoProc.Add()
+	thisProc := PromptId.Add()
 
 	nLines := 1
 	var merged string
@@ -180,7 +181,7 @@ func ShowPrompt() {
 			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpaceWithPrompt(expanded, nil, new(term.Out), term.NewErr(ansi.IsAllowed()), thisProc)
 			term.CrLf.Write()
 
-			if PromptGoProc.NotEqual(thisProc) {
+			if PromptId.NotEqual(thisProc) {
 				return
 			}
 		}
