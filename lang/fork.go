@@ -123,13 +123,15 @@ func (p *Process) Fork(flags int) *Fork {
 	if flags&F_FUNCTION != 0 {
 		fork.Scope = p
 		fork.Parent = p
-		fork.Variables = ReferenceVariables(p.Variables)
-		fork.Config = p.Config.Copy()
 		fork.newTestScope = true
 		fork.Tests = NewTests()
-		fork.Name += " (fork)"
-		GlobalFIDs.Register(fork.Process)
-		fork.fidRegistered = true
+		fork.Config = p.Config.Copy()
+		fork.Variables = p.Variables
+		fork.Id = p.Id
+		//fork.Variables = ReferenceVariables(p.Variables)
+		//fork.Name += " (fork)"
+		//GlobalFIDs.Register(fork.Process)
+		//fork.fidRegistered = true
 
 	} else {
 		fork.Scope = p.Scope

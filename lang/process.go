@@ -175,7 +175,7 @@ executeProcess:
 		r, err = MxFunctions.Block(p.Name)
 		if err == nil {
 			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_PARENT_VARTABLE | F_CONFIG | F_NEW_TESTS).Execute(r)
+			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
 		}
 
 	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name):
@@ -185,7 +185,7 @@ executeProcess:
 		r, err = PrivateFunctions.Block(p.Name)
 		if err == nil {
 			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_PARENT_VARTABLE | F_CONFIG | F_NEW_TESTS).Execute(r)
+			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
 		}
 
 	case p.Name[0] == '$':
