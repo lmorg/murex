@@ -101,17 +101,12 @@ func (m *Module) execute() error {
 	block := []rune(string(b))
 
 	os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
+
 	// lets redirect all output to STDERR just in case this thing gets piped for any strange reason
-
-	branch := lang.ShellProcess.BranchFID()
-	defer branch.Close()
-	branch.Module = m.Package + "/" + m.Name
-	_, err = lang.RunBlockExistingConfigSpace(block, nil, term.NewErr(false), term.NewErr(ansi.IsAllowed()), branch.Process)
-
-	/*fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)
+	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_FUNCTION | lang.F_NO_STDIN)
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
 	fork.Module = m.Package + "/" + m.Name
-	_, err = fork.Execute(block)*/
+	_, err = fork.Execute(block)
 	return err
 }
