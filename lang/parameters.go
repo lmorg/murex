@@ -37,7 +37,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				//stdout := streams.NewStdin()
 				//RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				//b, err := stdout.ReadAll()
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute([]rune(p.Tokens[i][j].Key))
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
@@ -74,7 +74,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				//stdout := streams.NewStdin()
 				//RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
 				//stdout.ReadArray(func(b []byte) {
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute([]rune(p.Tokens[i][j].Key))
 				fork.Stdout.ReadArray(func(b []byte) {
 					array = append(array, string(b))
@@ -101,7 +101,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				//stdout := streams.NewStdin()
 				//RunBlockExistingConfigSpace(block, nil, stdout, prc.Stderr, prc)
 				//b, err := stdout.ReadAll()
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
