@@ -8,23 +8,26 @@ import (
 
 // MurexFuncs is a table of murex functions
 type MurexFuncs struct {
-	mutex   sync.Mutex
-	funcs   map[string][]rune
-	summary map[string]string
+	mutex sync.Mutex
+	fn    map[string]*MurexFuncDetails
+}
+
+// MurexFuncDetails is the properties for any given murex function
+type MurexFuncDetails struct {
+	Block   []rune
+	Module  string
+	Summary string
 }
 
 // NewMurexFuncs creates a new table of murex functions
-func NewMurexFuncs() (fn MurexFuncs) {
-	fn.funcs = make(map[string][]rune)
-	fn.summary = make(map[string]string)
+func NewMurexFuncs() (mf MurexFuncs) {
+	mf.fn = make(map[string]*MurexFuncDetails)
+
 	return
 }
 
 // Define creates a function
-func (fn *MurexFuncs) Define(name string, block []rune) {
-	fn.mutex.Lock()
-	fn.funcs[name] = block
-
+func (mf *MurexFuncs) Define(name, module string, block []rune) {
 	var (
 		line1   bool
 		comment bool
@@ -60,78 +63,89 @@ func (fn *MurexFuncs) Define(name string, block []rune) {
 	}
 
 exitLoop:
-	fn.summary[name] = strings.TrimSpace(string(summary))
+	mf.mutex.Lock()
+	mf.fn[name] = &MurexFuncDetails{
+		Block:   block,
+		Module:  module,
+		Summary: strings.TrimSpace(string(summary)),
+	}
 
-	fn.mutex.Unlock()
+	mf.mutex.Unlock()
 }
 
 // Exists checks if function already created
-func (fn *MurexFuncs) Exists(name string) bool {
-	fn.mutex.Lock()
-	exists := len(fn.funcs[name]) > 0
-	fn.mutex.Unlock()
+func (mf *MurexFuncs) Exists(name string) bool {
+	mf.mutex.Lock()
+	exists := mf.fn[name] != nil
+	mf.mutex.Unlock()
 	return exists
 }
 
 // Block returns function code
-func (fn *MurexFuncs) Block(name string) (block []rune, err error) {
-	fn.mutex.Lock()
-	defer fn.mutex.Unlock()
-	if len(fn.funcs[name]) == 0 {
+func (mf *MurexFuncs) Block(name string) ([]rune, error) {
+	mf.mutex.Lock()
+	fn := mf.fn[name]
+	mf.mutex.Unlock()
+
+	if fn == nil {
 		return nil, errors.New("Cannot locate function named `" + name + "`")
 	}
-	block = fn.funcs[name]
-	return block, err
+
+	return fn.Block, nil
 }
 
 // Summary returns functions summary
-func (fn *MurexFuncs) Summary(name string) (summary string, err error) {
-	fn.mutex.Lock()
-	defer fn.mutex.Unlock()
-	if len(fn.funcs[name]) == 0 {
+func (mf *MurexFuncs) Summary(name string) (string, error) {
+	mf.mutex.Lock()
+	fn := mf.fn[name]
+	mf.mutex.Unlock()
+
+	if fn == nil {
 		return "", errors.New("Cannot locate function named `" + name + "`")
 	}
 
-	summary = fn.summary[name]
-	return summary, err
+	return fn.Summary, nil
 }
 
 // Undefine deletes function from table
-func (fn *MurexFuncs) Undefine(name string) error {
-	fn.mutex.Lock()
-	defer fn.mutex.Unlock()
-	if len(fn.funcs[name]) == 0 {
+func (mf *MurexFuncs) Undefine(name string) error {
+	mf.mutex.Lock()
+	defer mf.mutex.Unlock()
+
+	if mf.fn[name] == nil {
 		return errors.New("Cannot locate function named `" + name + "`")
 	}
-	delete(fn.funcs, name)
+
+	delete(mf.fn, name)
 	return nil
 }
 
 // Dump list all murex functions in table
-func (fn *MurexFuncs) Dump() interface{} {
-	type t struct {
+func (mf *MurexFuncs) Dump() interface{} {
+	type funcs struct {
 		Summary string
+		Module  string
 		Block   string
 	}
 
-	dump := make(map[string]t)
+	dump := make(map[string]funcs)
 
-	fn.mutex.Lock()
-
-	for name := range fn.funcs {
-		dump[name] = t{
-			Block:   string(fn.funcs[name]),
-			Summary: fn.summary[name],
+	mf.mutex.Lock()
+	for name, fn := range mf.fn {
+		dump[name] = funcs{
+			Summary: fn.Summary,
+			Module:  fn.Module,
+			Block:   string(fn.Block),
 		}
 	}
+	mf.mutex.Unlock()
 
-	fn.mutex.Unlock()
 	return dump
 }
 
 // UpdateMap is used for auto-completions. It takes an existing map and updates it's values rather than copying data
-func (fn *MurexFuncs) UpdateMap(m map[string]bool) {
-	for name := range fn.funcs {
+func (mf *MurexFuncs) UpdateMap(m map[string]bool) {
+	for name := range mf.fn {
 		m[name] = true
 	}
 }

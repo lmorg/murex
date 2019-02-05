@@ -71,7 +71,7 @@ func cmdFunc(p *lang.Process) error {
 		return err
 	}
 
-	lang.MxFunctions.Define(name, block)
+	lang.MxFunctions.Define(name, p.Module, block)
 	return nil
 }
 
@@ -95,7 +95,7 @@ func cmdPrivate(p *lang.Process) error {
 		return err
 	}
 
-	lang.PrivateFunctions.Define(name, block)
+	lang.PrivateFunctions.Define(name, p.Module, block)
 	return nil
 }
 
