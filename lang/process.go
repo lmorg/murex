@@ -178,6 +178,16 @@ executeProcess:
 			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
 		}
 
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name):
+		// murex privates
+		var r []rune
+		p.Scope = p
+		r, err = PrivateFunctions.Block(p.Name)
+		if err == nil {
+			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
+			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
+		}
+
 	case p.Name[0] == '$':
 		// variables as functions
 		match := rxVariables.FindAllStringSubmatch(p.Name+p.Parameters.StringAll(), -1)
@@ -196,16 +206,6 @@ executeProcess:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
 			//RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 			p.Fork(F_PARENT_VARTABLE).Execute(block)
-		}
-
-	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name):
-		// murex functions
-		var r []rune
-		p.Scope = p
-		r, err = PrivateFunctions.Block(p.Name)
-		if err == nil {
-			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
 		}
 
 	case p.Name == "@g":
