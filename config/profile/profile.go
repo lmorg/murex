@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -24,6 +25,8 @@ var (
 
 // Execute runs the murex modules followed by .murex_profile
 func Execute() {
+	autocomplete.UpdateGlobalExeList()
+
 	pwd, err := os.Getwd()
 	if err != nil {
 		os.Stderr.WriteString(err.Error())

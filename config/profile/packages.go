@@ -128,7 +128,7 @@ func LoadPackage(path string) error {
 
 	// disable package directory (this goes further than disabling the module
 	// because it prevents the modules from even being read)
-	if strings.HasSuffix(f.Name(), ".ignore") {
+	if strings.HasSuffix(f.Name(), ".disable") {
 		return nil
 	}
 

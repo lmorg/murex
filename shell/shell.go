@@ -7,7 +7,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -57,7 +56,7 @@ func Start() {
 
 	SignalHandler(true)
 
-	go autocomplete.UpdateGlobalExeList()
+	//go autocomplete.UpdateGlobalExeList()
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
