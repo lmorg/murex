@@ -285,7 +285,7 @@ autocomplete: set fid-kill {
 
 autocomplete: set mpac {
     [{
-        "Flags": [ "get", "update", "import" ],
+        "Flags": [ "get", "update", "import", "enable", "disable" ],
         "FlagValues": {
             "get": [{
                 "Flags": [ "git" ]

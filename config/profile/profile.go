@@ -74,7 +74,7 @@ func profile() error {
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	fork.Module = "profile/" + profileFileName
+	fork.Module = ".murex_profile/" + profileFileName
 	_, err = fork.Execute(block)
 	return err
 }

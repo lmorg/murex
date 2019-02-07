@@ -47,9 +47,8 @@ var (
 )
 
 func isDisabled(name string) bool {
-	name = strings.ToLower(name)
 	for i := range disabled {
-		if strings.ToLower(disabled[i]) == name {
+		if disabled[i] == name {
 			return true
 		}
 	}

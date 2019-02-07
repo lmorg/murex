@@ -7,16 +7,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/utils"
-
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 func init() {
 	lang.GoFunctions["mpac"] = cmdModuleAdmin
-
 }
 
 func cmdModuleAdmin(p *lang.Process) error {
@@ -30,6 +28,12 @@ func cmdModuleAdmin(p *lang.Process) error {
 
 	case "import":
 		return importModules(p)
+
+	case "enable":
+		return enableModules(p)
+
+	case "disable":
+		return disableModules(p)
 
 	default:
 		return errors.New("Missing or invalid parameters. Please use `get`, `update` or `import`")

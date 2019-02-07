@@ -73,7 +73,7 @@ func disabledFile() error {
 		return err
 	}
 
-	return readJson(ModulePath+DisabledFile, &disabled)
+	return ReadJson(ModulePath+DisabledFile, &disabled)
 }
 
 func packageFile() error {
@@ -128,12 +128,12 @@ func LoadPackage(path string) error {
 
 	// disable package directory (this goes further than disabling the module
 	// because it prevents the modules from even being read)
-	if strings.HasSuffix(f.Name(), ".disable") {
+	if strings.HasSuffix(f.Name(), ".disabled") {
 		return nil
 	}
 
 	var module []Module
-	err = readJson(path+consts.PathSlash+"module.json", &module)
+	err = ReadJson(path+consts.PathSlash+"module.json", &module)
 	if err != nil {
 		return err
 	}
@@ -142,7 +142,7 @@ func LoadPackage(path string) error {
 
 	for i := range module {
 		module[i].Package = f.Name()
-		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Name)
+		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Package+"/"+module[i].Name)
 		err = module[i].validate()
 		if err != nil {
 			message += fmt.Sprintf(
