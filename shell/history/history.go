@@ -15,11 +15,12 @@ import (
 // History exports common functions needed for shell history
 type History struct {
 	filename string
-	list     []histItem
+	list     []Item
 	writer   stdio.Io
 }
 
-type histItem struct {
+// Item is the structure of an individual item in the History.list slice
+type Item struct {
 	Index    int
 	DateTime time.Time
 	Block    string
@@ -35,7 +36,7 @@ func New(filename string) (h *History, err error) {
 	return h, err
 }
 
-func openHist(filename string) (list []histItem, err error) {
+func openHist(filename string) (list []Item, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return list, err
@@ -44,7 +45,7 @@ func openHist(filename string) (list []histItem, err error) {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		var item histItem
+		var item Item
 		err := json.Unmarshal(scanner.Bytes(), &item)
 		if err != nil || len(item.Block) == 0 {
 			continue
@@ -64,7 +65,7 @@ func (h *History) Write(s string) (int, error) {
 		Block    string    `json:"block"`
 	}
 
-	item := histItem{
+	item := Item{
 		DateTime: time.Now(),
 		Block:    block,
 		Index:    len(h.list),

@@ -16,6 +16,7 @@ const (
 	Binary    = "bin"
 	CodeBlock = "block"
 	Json      = "json"
+	JsonLines = "jsonl"
 	Number    = "num"
 	Integer   = "int"
 	Float     = "float"

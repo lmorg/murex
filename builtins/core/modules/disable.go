@@ -44,7 +44,7 @@ func disableModules(p *lang.Process) error {
 }
 
 func disablePack(pack string) error {
-	return os.Rename(profile.ModulePath+pack, profile.ModulePath+pack+".disabled")
+	return os.Rename(profile.ModulePath+pack, profile.ModulePath+pack+profile.IgnoredExt)
 }
 
 func disableMod(mod string, disabled *[]string) error {

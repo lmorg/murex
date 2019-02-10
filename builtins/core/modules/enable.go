@@ -42,7 +42,7 @@ func enableModules(p *lang.Process) error {
 }
 
 func enablePack(pack string) error {
-	return os.Rename(profile.ModulePath+pack+".disabled", profile.ModulePath+pack)
+	return os.Rename(profile.ModulePath+pack+profile.IgnoredExt, profile.ModulePath+pack)
 }
 
 func enableMod(mod string, disabled []string) ([]string, error) {

@@ -8,7 +8,7 @@ import (
 
 func TestGitInstalled(t *testing.T) {
 	if which.Which("git") == "" {
-		t.Error("`git` isn't installed or not in $PATH")
+		t.Log("`git` isn't installed or not in $PATH")
 	}
 }
 

@@ -15,8 +15,13 @@ const (
 	// DisabledFile is an array of disabled modules
 	DisabledFile = "disabled.json"
 
-	// PackagesFile is used by the package manager, `mpac`, but we auto-create it here for consistency
+	// PackagesFile is used by the package manager, `mpac`, but we auto-create
+	// it here for consistency
 	PackagesFile = "packages.json"
+
+	// IgnoredExt is an file extension which can be used on package directories
+	// to have them ignored during start up
+	IgnoredExt = ".ignore"
 )
 
 func modules() error {
@@ -128,7 +133,7 @@ func LoadPackage(path string) error {
 
 	// disable package directory (this goes further than disabling the module
 	// because it prevents the modules from even being read)
-	if strings.HasSuffix(f.Name(), ".disabled") {
+	if strings.HasSuffix(f.Name(), IgnoredExt) {
 		return nil
 	}
 
