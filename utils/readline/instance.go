@@ -50,6 +50,10 @@ type Instance struct {
 	// It returns the hint text to display.
 	HintText func([]rune, int) []rune
 
+	// HintColor any ANSI escape codes you wish to use for hint formatting. By
+	// default this will just be blue.
+	HintFormatting string
+
 	// TempDirectory is the path to write temporary files when editing a line in
 	// $EDITOR. This will default to os.TempDir()
 	TempDirectory string
@@ -120,6 +124,7 @@ func NewInstance() *Instance {
 	rl.MaxTabCompleterRows = 4
 	rl.prompt = ">>> "
 	rl.promptLen = 4
+	rl.HintFormatting = seqFgBlue
 	rl.evtKeyPress = make(map[string]func(string, []rune, int) *EventReturn)
 
 	rl.TempDirectory = os.TempDir()

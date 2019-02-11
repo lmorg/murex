@@ -43,7 +43,7 @@ func (rl *Instance) writeHintText() {
 		}
 	}
 
-	print("\r\n" + seqFgBlue + string(hintText) + seqReset)
+	print("\r\n" + rl.HintFormatting + string(hintText) + seqReset)
 }
 
 func (rl *Instance) resetHintText() {
