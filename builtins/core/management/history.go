@@ -12,7 +12,6 @@ import (
 
 func init() {
 	lang.GoFunctions["history"] = cmdHistory
-	//lang.GoFunctions["^"] = cmdHistCmd
 	//lang.GoFunctions["history-set-write-pipe"] = cmdHistPipe
 }
 
@@ -58,11 +57,6 @@ func cmdHistory(p *lang.Process) (err error) {
 	}
 
 	return nil
-}
-
-func cmdHistCmd(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Null)
-	return errors.New("Invalid usage of history variable")
 }
 
 /*func cmdHistPipe(p *lang.Process) error {
