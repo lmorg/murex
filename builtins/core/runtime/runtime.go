@@ -1,4 +1,4 @@
-package shellruntime
+package cmdruntime
 
 import (
 	"errors"

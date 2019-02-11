@@ -1,4 +1,4 @@
-package shellconfig
+package cmdconfig
 
 import (
 	"errors"

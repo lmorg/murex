@@ -1,4 +1,4 @@
-package shelltest
+package cmdtest
 
 import (
 	"crypto/md5"

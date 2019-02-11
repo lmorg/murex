@@ -1,4 +1,4 @@
-package shelltest
+package cmdtest
 
 import (
 	"github.com/lmorg/murex/lang"

@@ -1,4 +1,4 @@
-package shellautocomplete
+package cmdautocomplete
 
 import (
 	"errors"
@@ -30,7 +30,7 @@ func cmdAutocomplete(p *lang.Process) error {
 
 	default:
 		p.Stdout.SetDataType(types.Null)
-		return errors.New("Not a valid mode. Please use `get` or `set`.")
+		return errors.New("Not a valid mode. Please use `get` or `set`")
 	}
 }
 

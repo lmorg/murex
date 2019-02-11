@@ -1,4 +1,4 @@
-package shellpipe
+package cmdpipe
 
 import (
 	"errors"
