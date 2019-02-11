@@ -3,6 +3,7 @@ package shellruntime
 import (
 	"errors"
 	"runtime"
+	"sort"
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
@@ -80,6 +81,8 @@ func cmdRuntime(p *lang.Process) error {
 		for f := range flags {
 			s = append(s, f)
 		}
+
+		sort.Strings(s)
 		return
 	}
 
