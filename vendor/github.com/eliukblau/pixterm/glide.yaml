@@ -1,6 +1,0 @@
-package: github.com/eliukblau/pixterm
-import:
-- package: golang.org/x/crypto
-  subpackages:
-  - ssh/terminal
-- package: github.com/lucasb-eyer/go-colorful
