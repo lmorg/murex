@@ -25,12 +25,17 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 			return append(line, '\''), pos
 		}
 
-	case pt.QuoteDouble && pt.QuoteBrace == 0 && pt.NestedBlock == 0:
-		if pos < len(line)-1 && line[pos] == '"' && line[len(line)-1] == '"' {
-			return line[:len(line)-1], pos
-		}
-		if pos < len(line)-1 || line[pos] != '"' {
-			return append(line, '"'), pos
+	case pt.QuoteDouble && pt.QuoteBrace == 0:
+		if pt.NestedBlock == 0 {
+			if pos < len(line)-1 && line[pos] == '"' && line[len(line)-1] == '"' {
+				return line[:len(line)-1], pos
+			}
+			if pos < len(line)-1 || line[pos] != '"' {
+				return append(line, '"'), pos
+			}
+		} else {
+			// dont do anything
+			return line, pos
 		}
 
 	case pt.QuoteBrace > 0 && pt.NestedBlock == 0:
