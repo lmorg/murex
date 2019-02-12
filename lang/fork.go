@@ -14,9 +14,6 @@ import (
 )
 
 const (
-	// F_SHELL will fork from the shell process rather than the calling process
-	//F_SHELL = 1 << iota
-
 	// F_NEW_MODULE will skip the stage of inheriting the module name from the
 	// calling function. You will still then need to specify that module name
 	// yourself. eg
@@ -61,29 +58,12 @@ const (
 
 	// F_NO_STDERR will ensure stderr will be a nil interface
 	F_NO_STDERR
-
-	/*// F_NEW_PROMPT_ID is used exclusively by the interactive shell to ensure
-	// we have readline support even when proceses are shifted from the
-	// background and forground (POSIX jobs)
-	F_NEW_PROMPT_ID*/
 )
 
 type Fork struct {
 	*Process
 	fidRegistered bool
 	newTestScope  bool
-	/*Module      string
-	Stdin       stdio.Io
-	Stdout      stdio.Io
-	Stderr      stdio.Io
-	Variables   *Variables
-	Config      *config.Config
-	tests       *Tests
-	parent      *Process
-	Scope       *Process
-	background  bool
-	PromptId    int
-	registerFid bool*/
 }
 
 // Fork will create a new handle for executing a code block
@@ -105,7 +85,6 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.ColNumber = p.ColNumber
 	fork.IsBackground = flags&F_BACKGROUND != 0
 	fork.PromptId = p.PromptId
-	//fork.Id = p.Id
 
 	fork.FidTree = make([]int, len(p.FidTree))
 	copy(fork.FidTree, p.FidTree)
