@@ -59,12 +59,13 @@ func gitGet(p *lang.Process, uri string) (string, error) {
 		return "", err
 	}
 
-	return path, nil
+	return mvPackagePath(path)
 }
 
 func gitExec(p *lang.Process, args ...string) error {
 	cmd := exec.Command("git", args...)
-	cmd.Stdout = p.Stderr
+	//cmd.Stdin = new(null.Null)
+	//cmd.Stdout = new(null.Null)
 	cmd.Stderr = p.Stderr
 
 	if err := cmd.Start(); err != nil {

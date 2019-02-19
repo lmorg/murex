@@ -15,7 +15,7 @@ const (
 	// DisabledFile is an array of disabled modules
 	DisabledFile = "disabled.json"
 
-	// PackagesFile is used by the package manager, `mpac`, but we auto-create
+	// PackagesFile is used by the package manager, `murex-package`, but we auto-create
 	// it here for consistency
 	PackagesFile = "packages.json"
 
@@ -48,7 +48,7 @@ func modules() error {
 
 	// Check package management file
 	if err = packageFile(); err != nil {
-		return errors.New(err.Error() + utils.NewLineString + "This will break murex's package manager, `mpac`, however modules will continue to work without it")
+		return errors.New(err.Error() + utils.NewLineString + "This will break murex's package manager, `murex-package`, however modules will continue to work without it")
 	}
 
 	paths, err := filepath.Glob(ModulePath + "*")

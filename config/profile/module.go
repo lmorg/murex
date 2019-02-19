@@ -21,6 +21,9 @@ import (
 // functionality into different logical modules but still keep them inside one
 // git repository (or other source control). However I expect the typical usage
 // would be one module per repository.
+//
+// This structure is loaded from module.json file located inside the root of
+// the package.
 type Module struct {
 	Name         string
 	Summary      string
@@ -37,6 +40,13 @@ type Dependencies struct {
 	Optional []string
 	Required []string
 	Platform []string
+}
+
+// Package is some basic details about the package itself as seen in the
+// package.json file located at the rood directory inside the package itself
+type Package struct {
+	Name    string
+	Version string
 }
 
 var (

@@ -2,7 +2,6 @@ package modules
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 
 	"github.com/lmorg/murex/config/profile"
@@ -19,22 +18,8 @@ type packageDb struct {
 func readPackagesFile(path string) ([]packageDb, error) {
 	var db []packageDb
 
-	file, err := os.OpenFile(path, os.O_RDONLY, 0640)
-	if err != nil {
-		return nil, fmt.Errorf("Cannot open `%s` for read: %s", path, err.Error())
-	}
-
-	b, err := ioutil.ReadAll(file)
-	if err != nil {
-		return nil, fmt.Errorf("Cannot read contents of  `%s`: %s", path, err.Error())
-	}
-
-	err = json.UnmarshalMurex(b, &db)
-	if err != nil {
-		return nil, fmt.Errorf("Cannot unmarshal `%s`: %s", path, err.Error())
-	}
-
-	return db, nil
+	err := profile.ReadJson(path, &db)
+	return db, err
 }
 
 func writePackagesFile(db *[]packageDb) error {
@@ -53,4 +38,25 @@ func writePackagesFile(db *[]packageDb) error {
 
 	_, err = file.Write(b)
 	return err
+}
+
+func readPackageFile(path string) (profile.Package, error) {
+	var pack profile.Package
+
+	err := profile.ReadJson(path, &pack)
+	return pack, err
+}
+
+func mvPackagePath(path string) (string, error) {
+	pack, err := readPackageFile(path + "/package.json")
+	if err != nil {
+		return path, err
+	}
+
+	err = os.Rename(path, pack.Name)
+	if err != nil {
+		return path, fmt.Errorf("Unable to do post-install tidy up: %s", err)
+	}
+
+	return pack.Name, nil
 }

@@ -283,13 +283,10 @@ autocomplete: set fid-kill {
     }]
 }
 
-autocomplete: set mpac {
+autocomplete: set murex-package {
     [{
-        "Flags": [ "get", "update", "import", "enable", "disable" ],
+        "Flags": [ "install", "update", "import", "enable", "disable" ],
         "FlagValues": {
-            "get": [{
-                "Flags": [ "git" ]
-            }],
             "import": [{
                 "IncFiles": true
             }]
