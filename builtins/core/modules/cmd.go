@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/lmorg/murex/builtins/core/httpclient"
+
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
@@ -194,6 +196,22 @@ func importModules(p *lang.Process) error {
 
 	if path == profile.ModulePath+profile.PackagesFile {
 		return errors.New("You cannot import the same file as the master packages.json file")
+	}
+
+	if utils.IsURL(path) {
+		resp, err := httpclient.Request(p.Context, "GET", path, nil, p.Config, true)
+		if err != nil {
+			return err
+		}
+
+		f, err := utils.NewTempFile(resp.Body, "_package.json")
+		if err != nil {
+			return err
+		}
+
+		path = f.FileName
+
+		defer f.Close()
 	}
 
 	importDb, err := readPackagesFile(path)
