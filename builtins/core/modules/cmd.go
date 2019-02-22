@@ -50,11 +50,6 @@ func cmdModuleAdmin(p *lang.Process) error {
 }
 
 func getModule(p *lang.Process) error {
-	pwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
 	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
 	if err != nil {
 		return err
@@ -88,12 +83,7 @@ func getModule(p *lang.Process) error {
 		message += err.Error() + utils.NewLineString
 	}
 
-	err = profile.LoadPackage(pack)
-	if err != nil {
-		message += err.Error() + utils.NewLineString
-	}
-
-	err = os.Chdir(pwd)
+	err = profile.LoadPackage(profile.ModulePath + pack)
 	if err != nil {
 		message += err.Error() + utils.NewLineString
 	}
@@ -147,11 +137,6 @@ func getPackage(p *lang.Process, uri string) (pack, protocol string, err error) 
 }
 
 func updateModules(p *lang.Process) error {
-	pwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
 	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
 	if err != nil {
 		return err
@@ -160,14 +145,6 @@ func updateModules(p *lang.Process) error {
 	for i := range db {
 		//p.Stderr.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
 		p.Stderr.Writeln([]byte("Updating package " + db[i].Package + "...."))
-
-		err = os.Chdir(profile.ModulePath + db[i].Package)
-		if err != nil {
-			p.Stderr.Writeln([]byte(fmt.Sprintf(
-				"Unable to update package `%s`: %s", db[i].Package, err.Error(),
-			)))
-			continue
-		}
 
 		switch db[i].Protocol {
 		case "git":
@@ -185,7 +162,7 @@ func updateModules(p *lang.Process) error {
 		}
 	}
 
-	return os.Chdir(pwd)
+	return nil
 }
 
 func importModules(p *lang.Process) error {
@@ -224,11 +201,6 @@ func importModules(p *lang.Process) error {
 		return err
 	}
 
-	pwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
 	for i := range importDb {
 		err = os.Chdir(profile.ModulePath)
 		if err != nil {
@@ -258,19 +230,9 @@ func importModules(p *lang.Process) error {
 		}
 	}
 
-	err = os.Chdir(pwd)
-	if err != nil {
-		p.Stderr.Writeln([]byte(err.Error()))
-	}
-
 	var message string
 
 	err = writePackagesFile(&db)
-	if err != nil {
-		message += err.Error() + utils.NewLineString
-	}
-
-	err = os.Chdir(pwd)
 	if err != nil {
 		message += err.Error() + utils.NewLineString
 	}

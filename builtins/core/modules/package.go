@@ -3,6 +3,7 @@ package modules
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/utils/json"
@@ -48,12 +49,16 @@ func readPackageFile(path string) (profile.Package, error) {
 }
 
 func mvPackagePath(path string) (string, error) {
+	if !filepath.IsAbs(path) {
+		panic("path should be absolute")
+	}
+
 	pack, err := readPackageFile(path + "/package.json")
 	if err != nil {
 		return path, err
 	}
 
-	err = os.Rename(path, pack.Name)
+	err = os.Rename(path, profile.ModulePath+pack.Name)
 	if err != nil {
 		return path, fmt.Errorf("Unable to do post-install tidy up: %s", err)
 	}

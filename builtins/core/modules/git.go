@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/which"
 )
@@ -18,12 +19,12 @@ func gitSupported() error {
 	return nil
 }
 
-func gitUpdate(p *lang.Process, _ *packageDb) error {
+func gitUpdate(p *lang.Process, pack *packageDb) error {
 	if err := gitSupported(); err != nil {
 		return err
 	}
 
-	return gitExec(p, "pull")
+	return gitExec(p, "-C", profile.ModulePath+pack.Package, "pull", "-q")
 }
 
 var (
@@ -54,18 +55,17 @@ func gitGet(p *lang.Process, uri string) (string, error) {
 		return "", err
 	}
 
-	err = gitExec(p, "clone", uri)
+	err = gitExec(p, "clone", uri, profile.ModulePath+path)
 	if err != nil {
 		return "", err
 	}
 
-	return mvPackagePath(path)
+	return mvPackagePath(profile.ModulePath + path)
 }
 
 func gitExec(p *lang.Process, args ...string) error {
 	cmd := exec.Command("git", args...)
-	//cmd.Stdin = new(null.Null)
-	//cmd.Stdout = new(null.Null)
+	cmd.Stdout = p.Stdout
 	cmd.Stderr = p.Stderr
 
 	if err := cmd.Start(); err != nil {

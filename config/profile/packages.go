@@ -111,9 +111,15 @@ func autoFile(name string) error {
 }
 
 // LoadPackage reads in the contents of the package and then validates and
-// sources each module within
+// sources each module within. The path value should be an absolute path.
 func LoadPackage(path string) error {
-	//path := ModulePath + pack
+	// Because we are expecting an absolute path and any errors with it being
+	// relative will have been compiled into the Go code, we want to raise a
+	// panic here so those errors get caught during testing rather than buggy
+	// code getting pushed back to the master branch and thus released.
+	if !filepath.IsAbs(path) {
+		panic("relative path used in LoadPackage")
+	}
 
 	f, err := os.Stat(path)
 	if err != nil {
@@ -139,6 +145,11 @@ func LoadPackage(path string) error {
 
 	var module []Module
 	err = ReadJson(path+consts.PathSlash+"module.json", &module)
+	if err != nil {
+		return err
+	}
+
+	pwd, err := os.Getwd()
 	if err != nil {
 		return err
 	}
@@ -183,6 +194,11 @@ func LoadPackage(path string) error {
 		}
 	}
 	Packages[f.Name()] = module
+
+	err = os.Chdir(pwd)
+	if err != nil {
+		message += err.Error() + utils.NewLineString
+	}
 
 	if message != "" {
 		return errors.New(strings.TrimSpace(message))
