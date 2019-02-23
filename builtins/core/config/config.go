@@ -3,7 +3,6 @@ package cmdconfig
 import (
 	"errors"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -123,15 +122,16 @@ func alterConfig(p *lang.Process) error {
 	}
 
 	dt := p.Config.DataType(app, key)
-	branch := p.BranchFID()
-	defer branch.Close()
-	branch.Stdin = streams.NewStdin()
-	_, err = branch.Stdin.Write([]byte(v.(string)))
+	//branch := p.BranchFID()
+	//defer branch.Close()
+	//branch.Stdin = streams.NewStdin()
+	fork := p.Fork(lang.F_CREATE_STDIN)
+	_, err = fork.Stdin.Write([]byte(v.(string)))
 	if err != nil {
 		return errors.New("Couldn't write to unmarshaller's buffer: " + err.Error())
 	}
 
-	v, err = define.UnmarshalData(branch.Process, dt)
+	v, err = define.UnmarshalData(fork.Process, dt)
 	if err != nil {
 		return errors.New("Couldn't unmarshal existing config: " + err.Error())
 	}
@@ -141,7 +141,7 @@ func alterConfig(p *lang.Process) error {
 		return err
 	}
 
-	val, err := define.MarshalData(branch.Process, dt, v)
+	val, err := define.MarshalData(fork.Process, dt, v)
 	if err != nil {
 		return errors.New("Couldn't remarshal altered data structure: " + err.Error())
 	}
@@ -227,14 +227,17 @@ func getDynamic(block []rune) func() (interface{}, error) {
 	return func() (interface{}, error) {
 		block = block[1 : len(block)-1]
 
-		branch := lang.ShellProcess.BranchFID()
-		branch.Scope = branch.Process
-		branch.Parent = branch.Process
-		branch.IsBackground = true
+		//branch := lang.ShellProcess.BranchFID()
+		//branch.Scope = branch.Process
+		//branch.Parent = branch.Process
+		//branch.IsBackground = true
 
-		stdout := streams.NewStdin()
-		exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, branch.Process)
-		branch.Close()
+		//stdout := streams.NewStdin()
+		//exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, branch.Process)
+		//branch.Close()
+
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+		exitNum, err := fork.Execute(block)
 
 		if err != nil {
 			return nil, errors.New("Dynamic config code could not compile: " + err.Error())
@@ -243,7 +246,7 @@ func getDynamic(block []rune) func() (interface{}, error) {
 			lang.ShellProcess.Stderr.Writeln([]byte("Dynamic config returned a none zero exit number." + utils.NewLineString))
 		}
 
-		b, err := stdout.ReadAll()
+		b, err := fork.Stdout.ReadAll()
 		if err != nil {
 			return nil, err
 		}
@@ -259,24 +262,24 @@ func setDynamic(block []rune) func(interface{}) error {
 		//}
 		block = block[1 : len(block)-1]
 
-		branch := lang.ShellProcess.BranchFID()
-		branch.Scope = branch.Process
-		branch.Parent = branch.Process
-		branch.IsBackground = true
+		//branch := lang.ShellProcess.BranchFID()
+		//branch.Scope = branch.Process
+		//branch.Parent = branch.Process
+		//branch.IsBackground = true
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_CREATE_STDIN)
 
 		s, err := types.ConvertGoType(value, types.String)
 		if err != nil {
 			return err
 		}
 
-		stdin := streams.NewStdin()
-		_, err = stdin.Write([]byte(s.(string)))
+		_, err = fork.Stdin.Write([]byte(s.(string)))
 		if err != nil {
 			return err
 		}
 
-		exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
-		branch.Close()
+		//exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
+		exitNum, err := fork.Execute(block)
 
 		if err != nil {
 			return errors.New("Dynamic config code could not compile: " + err.Error())
