@@ -126,7 +126,8 @@ func cmdSource(p *lang.Process) error {
 
 	var err error
 	p.RunMode = runmode.Shell
-	p.ExitNum, err = lang.RunBlockShellConfigSpace(block, nil, p.Stdout, p.Stderr)
+	//p.ExitNum, err = lang.RunBlockShellConfigSpace(block, nil, p.Stdout, p.Stderr)
+	p.ExitNum, err = lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 	return err
 }
 
