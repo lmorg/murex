@@ -4,7 +4,6 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -41,23 +40,29 @@ func cmdFor(p *lang.Process) (err error) {
 	conditional := "eval " + parameters[1]
 	incremental := "let " + parameters[2]
 
-	_, err = lang.RunBlockExistingConfigSpace([]rune(variable), nil, nil, p.Stderr, p)
+	//_, err = lang.RunBlockExistingConfigSpace([]rune(variable), nil, nil, p.Stderr, p)
+	_, err = p.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute([]rune(variable))
 	if err != nil {
 		return err
 	}
+
+	rConditional := []rune(conditional)
+	rIncremental := []rune(incremental)
 
 	for {
 		if p.HasCancelled() {
 			return errors.New(errCancelled)
 		}
 
-		stdout := streams.NewStdin()
-		i, err := lang.RunBlockExistingConfigSpace([]rune(conditional), nil, stdout, p.Stderr, p)
+		//stdout := streams.NewStdin()
+		//i, err := lang.RunBlockExistingConfigSpace([]rune(conditional), nil, stdout, p.Stderr, p)
+		fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+		i, err := fork.Execute(rConditional)
 		if err != nil {
 			return err
 		}
 
-		b, err := stdout.ReadAll()
+		b, err := fork.Stdout.ReadAll()
 		if err != nil {
 			return err
 		}
@@ -66,10 +71,12 @@ func cmdFor(p *lang.Process) (err error) {
 		}
 
 		// Execute block.
-		lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		//lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		p.Fork(lang.F_NO_STDIN).Execute(block)
 
 		// Increment counter.
-		_, err = lang.RunBlockExistingConfigSpace([]rune(incremental), nil, nil, p.Stderr, p)
+		//_, err = lang.RunBlockExistingConfigSpace([]rune(incremental), nil, nil, p.Stderr, p)
+		_, err = p.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute(rIncremental)
 		if err != nil {
 			return err
 		}
@@ -106,7 +113,7 @@ func cmdForEach(p *lang.Process) (err error) {
 		}
 
 	default:
-		return errors.New("Invalid number of parameters.")
+		return errors.New("Invalid number of parameters")
 	}
 
 	err = p.Stdin.ReadArray(func(b []byte) {
@@ -118,20 +125,24 @@ func cmdForEach(p *lang.Process) (err error) {
 			p.Variables.Set(varName, string(b), dt)
 		}
 
-		stdin := streams.NewStdin()
-		stdin.SetDataType(dt)
-		stdin.Writeln(b)
+		//stdin := streams.NewStdin()
+		//stdin.SetDataType(dt)
+		//stdin.Writeln(b)
 
-		lang.RunBlockExistingConfigSpace(block, stdin, p.Stdout, p.Stderr, p)
+		//lang.RunBlockExistingConfigSpace(block, stdin, p.Stdout, p.Stderr, p)
+
+		fork := p.Fork(lang.F_CREATE_STDIN)
+		fork.Stdin.SetDataType(dt)
+		fork.Stdin.Writeln(b)
+		fork.Execute(block)
 	})
 
 	return err
 }
 
 func cmdForMap(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Generic)
 	dt := p.Stdin.GetDataType()
-	//p.Stdout.SetDataType(dt)
+	p.Stdout.SetDataType(types.Generic)
 
 	block, err := p.Parameters.Block(2)
 	if err != nil {
@@ -153,10 +164,15 @@ func cmdForMap(p *lang.Process) error {
 			return
 		}
 
-		p.Variables.Set(varKey, key, types.String)
-		p.Variables.Set(varVal, value, dt)
+		//p.Variables.Set(varKey, key, types.String)
+		//p.Variables.Set(varVal, value, dt)
 
-		lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		//lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+
+		fork := p.Fork(lang.F_NO_STDIN)
+		fork.Variables.Set(varKey, key, types.String)
+		fork.Variables.Set(varVal, value, dt)
+		fork.Execute(block)
 	})
 
 	return err
@@ -178,12 +194,14 @@ func cmdWhile(p *lang.Process) error {
 				return errors.New(errCancelled)
 			}
 
-			stdout := streams.NewStdin()
-			i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, p.Stderr, p)
+			//stdout := streams.NewStdin()
+			//i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, p.Stderr, p)
+			fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+			i, err := fork.Execute(block)
 			if err != nil {
 				return err
 			}
-			b, err := stdout.ReadAll()
+			b, err := fork.Stdout.ReadAll()
 			if err != nil {
 				return err
 			}
@@ -219,12 +237,14 @@ func cmdWhile(p *lang.Process) error {
 				return nil
 			}
 
-			stdout := streams.NewStdin()
-			i, err := lang.RunBlockExistingConfigSpace(ifBlock, nil, stdout, nil, p)
+			//stdout := streams.NewStdin()
+			//i, err := lang.RunBlockExistingConfigSpace(ifBlock, nil, stdout, nil, p)
+			fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+			i, err := fork.Execute(ifBlock)
 			if err != nil {
 				return err
 			}
-			b, err := stdout.ReadAll()
+			b, err := fork.Stdout.ReadAll()
 			if err != nil {
 				return err
 			}
@@ -235,11 +255,12 @@ func cmdWhile(p *lang.Process) error {
 				return nil
 			}
 
-			lang.RunBlockExistingConfigSpace(whileBlock, nil, p.Stdout, p.Stderr, p)
+			//lang.RunBlockExistingConfigSpace(whileBlock, nil, p.Stdout, p.Stderr, p)
+			p.Fork(lang.F_NO_STDIN).Execute(whileBlock)
 		}
 
 	default:
 		// Error
-		return errors.New("Invalid number of parameters. Please read usage notes.")
+		return errors.New("Invalid number of parameters. Please read usage notes")
 	}
 }

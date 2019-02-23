@@ -10,7 +10,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -161,13 +160,15 @@ func testDefine(p *lang.Process) error {
 }
 
 func runBlock(p *lang.Process, block []rune) ([]byte, error) {
-	stdout := streams.NewStdin()
-	_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, p)
+	//stdout := streams.NewStdin()
+	//_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, p)
+	fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+	_, err := fork.Execute(block)
 	if err != nil {
 		return nil, err
 	}
 
-	b, err := stdout.ReadAll()
+	b, err := fork.Stdout.ReadAll()
 	if err != nil {
 		return nil, err
 	}
@@ -180,15 +181,16 @@ func testRun(p *lang.Process) error {
 		return err
 	}
 
-	branch := p.BranchFID()
-	defer branch.Close()
+	//branch := p.BranchFID()
+	//defer branch.Close()
+	fork := p.Fork(lang.F_FUNCTION)
 
-	err = branch.Config.Set("test", "enabled", true)
+	err = fork.Config.Set("test", "enabled", true)
 	if err != nil {
 		return err
 	}
 
-	err = branch.Config.Set("test", "auto-report", true)
+	err = fork.Config.Set("test", "auto-report", true)
 	if err != nil {
 		return err
 	}
@@ -211,12 +213,13 @@ func testRun(p *lang.Process) error {
 		return err
 	}
 
-	err = branch.Config.Set("test", "report-pipe", pipeName)
+	err = fork.Config.Set("test", "report-pipe", pipeName)
 	if err != nil {
 		return err
 	}
 
-	_, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, branch.Process)
+	//_, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, branch.Process)
+	_, err = fork.Execute(block)
 	if err != nil {
 		return err
 	}

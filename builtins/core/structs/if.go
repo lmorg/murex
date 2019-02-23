@@ -3,7 +3,6 @@ package structs
 import (
 	"errors"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -24,7 +23,7 @@ func cmdIf(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("No arguments made. `if` requires parameters.")
+		return errors.New("No arguments made. `if` requires parameters")
 	}
 
 	var (
@@ -50,7 +49,7 @@ func cmdIf(p *lang.Process) error {
 
 		default:
 			if flag == fDone {
-				return errors.New("Parameters past end of `then` block.")
+				return errors.New("Parameters past end of `then` block")
 			}
 
 			s, err := p.Parameters.String(i)
@@ -85,13 +84,15 @@ func cmdIf(p *lang.Process) error {
 
 	if len(blocks[fIf]) > 0 {
 		// --- IF --- (function)
-		stdout := streams.NewStdin()
-		i, err := lang.RunBlockExistingConfigSpace(blocks[fIf], nil, stdout, nil, p)
+		//stdout := streams.NewStdin()
+		//i, err := lang.RunBlockExistingConfigSpace(blocks[fIf], nil, stdout, nil, p)
+		fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		i, err := fork.Execute(blocks[fIf])
 		if err != nil {
 			return err
 		}
 
-		b, err := stdout.ReadAll()
+		b, err := fork.Stdout.ReadAll()
 		if err != nil {
 			return err
 		}
@@ -109,7 +110,8 @@ func cmdIf(p *lang.Process) error {
 	if (conditional && !p.IsNot) || (!conditional && p.IsNot) {
 		// --- THEN ---
 		if len(blocks[fThen]) > 0 {
-			_, err := lang.RunBlockExistingConfigSpace(blocks[fThen], nil, p.Stdout, p.Stderr, p)
+			//_, err := lang.RunBlockExistingConfigSpace(blocks[fThen], nil, p.Stdout, p.Stderr, p)
+			_, err := p.Fork(lang.F_NO_STDIN).Execute(blocks[fThen])
 			if err != nil {
 				return err
 			}
@@ -118,7 +120,8 @@ func cmdIf(p *lang.Process) error {
 	} else {
 		// --- ELSE ---
 		if len(blocks[fElse]) > 0 {
-			_, err := lang.RunBlockExistingConfigSpace(blocks[fElse], nil, p.Stdout, p.Stderr, p)
+			//_, err := lang.RunBlockExistingConfigSpace(blocks[fElse], nil, p.Stdout, p.Stderr, p)
+			_, err := p.Fork(lang.F_NO_STDIN).Execute(blocks[fElse])
 			if err != nil {
 				return err
 			}
@@ -135,14 +138,14 @@ func setFlag(s *string, flag *int) (bool, error) {
 	switch *s {
 	case "then":
 		if *flag > fThen {
-			return false, errors.New("`then` appears too late in parameters.")
+			return false, errors.New("`then` appears too late in parameters")
 		}
 		*flag = fThen
 		return true, nil
 
 	case "else":
 		if *flag > fElse {
-			return false, errors.New("`else` appears too late in parameters.")
+			return false, errors.New("`else` appears too late in parameters")
 		}
 		*flag = fElse
 		return true, nil

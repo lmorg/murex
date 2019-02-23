@@ -14,6 +14,9 @@ import (
 )
 
 const (
+	// F_DEFAULTS is forking with within the existing function
+	F_DEFAULTS = 0
+
 	// F_NEW_MODULE will skip the stage of inheriting the module name from the
 	// calling function. You will still then need to specify that module name
 	// yourself. eg
@@ -32,8 +35,8 @@ const (
 	// pattern of scoped variables
 	F_PARENT_VARTABLE
 
-	// F_CONFIG will fork the config table - eg when calling a new function
-	F_CONFIG
+	// F_NEW_CONFIG will fork the config table - eg when calling a new function
+	F_NEW_CONFIG
 
 	// F_NEW_TESTS will start a new scope for the testing framework
 	F_NEW_TESTS
@@ -128,7 +131,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Parent = p
 		}
 
-		if flags&F_CONFIG != 0 {
+		if flags&F_NEW_CONFIG != 0 {
 			fork.Config = p.Config.Copy()
 		} else {
 			fork.Config = p.Config
