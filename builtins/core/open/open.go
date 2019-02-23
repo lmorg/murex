@@ -133,13 +133,17 @@ func preview(p *lang.Process, path, dataType string) error {
 		return err
 	}
 
-	branch := lang.ShellProcess.BranchFID()
-	defer branch.Close()
-	branch.Scope = branch.Process
-	branch.Parent = branch.Process
-	branch.Name = "open"
-	branch.Parameters.Params = []string{path}
-	_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
+	//branch := lang.ShellProcess.BranchFID()
+	//defer branch.Close()
+	//branch.Scope = branch.Process
+	//branch.Parent = branch.Process
+	//branch.Name = "open"
+	//branch.Parameters.Params = []string{path}
+	//_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
+
+	fork := p.Fork(lang.F_FUNCTION | lang.F_NO_STDIN)
+	fork.Parameters.Params = []string{path}
+	_, err := fork.Execute(block)
 
 	if err != nil {
 		p.Stderr.Writeln([]byte("`open` code could not compile: " + err.Error()))
