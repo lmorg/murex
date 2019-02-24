@@ -44,9 +44,8 @@ func TestVariables(t *testing.T) {
 	}
 
 	// Create a referenced variable table
-	b := p.BranchFID()
-	defer b.Close()
-	copy := b.Variables
+	fork := p.Fork(F_DEFAULTS)
+	copy := fork.Variables
 
 	err = copy.Set("number", copyNum, types.Number)
 	if err != nil {

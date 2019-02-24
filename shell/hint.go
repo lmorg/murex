@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/docs"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -161,13 +160,15 @@ func hintCodeBlock() []rune {
 		return []rune{}
 	}
 
-	stdout := streams.NewStdin()
-	branch := lang.ShellProcess.BranchFID()
-	branch.IsBackground = true
-	defer branch.Close()
-	exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
+	//stdout := streams.NewStdin()
+	//branch := lang.ShellProcess.BranchFID()
+	//branch.IsBackground = true
+	//defer branch.Close()
+	//exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	exitNum, err := fork.Execute([]rune(ht.(string)))
 
-	b, err2 := stdout.ReadAll()
+	b, err2 := fork.Stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
 		b = b[:len(b)-1]
 	}

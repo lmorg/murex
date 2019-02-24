@@ -5,7 +5,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -36,16 +35,21 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	branch := lang.ShellProcess.BranchFID()
-	branch.Scope = branch.Process
-	branch.Parent = branch.Process
-	branch.IsBackground = true
-	branch.Name = args.exe
-	branch.Parameters = parameters.Parameters{Params: args.params}
-	defer branch.Close()
+	//branch := lang.ShellProcess.BranchFID()
+	//branch.Scope = branch.Process
+	//branch.Parent = branch.Process
+	//branch.IsBackground = true
+	//branch.Name = args.exe
+	//branch.Parameters = parameters.Parameters{Params: args.params}
+	//defer branch.Close()
 
-	stdout := streams.NewStdin()
-	exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
+	//stdout := streams.NewStdin()
+	//exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
+
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork.Name = args.exe
+	fork.Parameters = parameters.Parameters{Params: args.params}
+	exitNum, err := fork.Execute(block)
 
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete code could not compile: " + err.Error()))
@@ -55,7 +59,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 
 	if f.Dynamic != "" {
-		stdout.ReadArray(func(b []byte) {
+		fork.Stdout.ReadArray(func(b []byte) {
 			s := string(bytes.TrimSpace(b))
 			if len(s) == 0 {
 				return
@@ -64,12 +68,13 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 				items = append(items, s[len(partial):])
 			}
 		})
+
 	} else {
 		if f.ListView {
 			*tdt = readline.TabDisplayList
 		}
 
-		stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
+		fork.Stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
 			if strings.HasPrefix(key, partial) {
 				items = append(items, key[len(partial):])
 				value = strings.Replace(value, "\r", "", -1)

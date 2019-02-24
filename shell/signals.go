@@ -58,10 +58,15 @@ func sigtstp() {
 			return
 		}
 
-		branch := lang.ShellProcess.BranchFID()
-		defer branch.Close()
-		branch.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
-		_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
+		//branch := lang.ShellProcess.BranchFID()
+		//defer branch.Close()
+		//branch.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
+		//_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
+
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
+		fork.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
+		fork.Execute([]rune(block.(string)))
+
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 		}

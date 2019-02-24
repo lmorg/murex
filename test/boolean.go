@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import boolean builtins
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -24,15 +23,15 @@ func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 	lang.InitEnv()
 
 	for i := range tests {
-		stdout := streams.NewStdin()
-		stderr := streams.NewStdin()
 
-		exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
+		//exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Error(err.Error())
 		}
 
-		b, err := stderr.ReadAll()
+		b, err := fork.Stderr.ReadAll()
 		if err != nil {
 			t.Error("unable to read from stderr: " + err.Error())
 		}
@@ -41,7 +40,7 @@ func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 			t.Error("stderr returned: " + string(b))
 		}
 
-		b, err = stdout.ReadAll()
+		b, err = fork.Stdout.ReadAll()
 		if err != nil {
 			t.Error("unable to read from stdout: " + err.Error())
 		}

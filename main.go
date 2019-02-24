@@ -104,7 +104,11 @@ func diskSource(filename string) []rune {
 }
 
 func execSource(source []rune) {
-	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
+	//exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
+	fork.Stdout = new(term.Out)
+	fork.Stderr = term.NewErr(ansi.IsAllowed())
+	exitNum, err := fork.Execute(source)
 
 	if err != nil {
 		if exitNum == 0 {

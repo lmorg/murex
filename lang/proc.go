@@ -96,6 +96,9 @@ var (
 
 	// ForegroundProc is the murex FID which currently has "focus"
 	ForegroundProc = ShellProcess
+
+	// ShellExitNum is for when running murex in interactive shell mode
+	ShellExitNum int
 )
 
 // HasTerminated checks if process has terminated.
