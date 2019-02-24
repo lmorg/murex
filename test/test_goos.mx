@@ -13,7 +13,8 @@ set json targets=([
     "netbsd",
     "darwin",
     "solaris",
-    "windows"
+    "windows",
+    "plan9"
 ])
 
 let status=0
