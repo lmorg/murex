@@ -59,15 +59,15 @@
 
 [[constraint]]
   branch = "master"
+  name = "github.com/lmorg/readline"
+
+[[constraint]]
+  branch = "master"
   name = "github.com/phayes/permbits"
 
 [[constraint]]
   branch = "master"
   name = "golang.org/x/crypto"
-
-[[constraint]]
-  branch = "master"
-  name = "golang.org/x/sys"
 
 [[constraint]]
   name = "gopkg.in/yaml.v2"

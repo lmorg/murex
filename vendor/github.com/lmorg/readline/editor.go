@@ -47,10 +47,10 @@ func (rl *Instance) launchEditor(multiline []rune) ([]rune, error) {
 }
 
 func (rl *Instance) writeTempFile(content []byte) (string, error) {
-	fileId := strconv.Itoa(time.Now().Nanosecond()) + ":" + string(rl.line)
+	fileID := strconv.Itoa(time.Now().Nanosecond()) + ":" + string(rl.line)
 
 	h := md5.New()
-	_, err := h.Write([]byte(fileId))
+	_, err := h.Write([]byte(fileID))
 	if err != nil {
 		return "", err
 	}

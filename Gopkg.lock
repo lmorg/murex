@@ -88,6 +88,14 @@
   revision = "e5f3eae677adf15fb41b7ddcb29d0330d740d7a8"
 
 [[projects]]
+  branch = "master"
+  digest = "1:5031db68dbe30cda231198f50ed01a6cd54ad33a3c78b148f8e3f32a1cb6705c"
+  name = "github.com/lmorg/readline"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "7dcdd3004688f65fad4e6d26c86aff8aacb26008"
+
+[[projects]]
   digest = "1:10db7f693cab6783acbb4d77329f015ade98e0466474e3c01fb2f2820266766e"
   name = "github.com/lucasb-eyer/go-colorful"
   packages = ["."]
@@ -108,7 +116,7 @@
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "193df9c0f06f8bb35fba505183eaf0acc0136505"
+  revision = "ffb98f73852f696ea2bb21a617a5c4b3e067a439"
 
 [[projects]]
   digest = "1:70719a5fae6bdae5b2826b9be15c9f01508c58aa387b3b0301024a729109ed34"
@@ -127,14 +135,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8975c6b66d95adc1cd08820aba7ad6b60b165725a401c4177c0eaa866170bb10"
+  digest = "1:80200f57d482f61334a482a046ddedbad77c04dbec6ab81a4e1b3c6adbdfadef"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "3b5209105503162ded1863c307ac66fec31120dd"
+  revision = "cd391775e71e684db52b63df9affd58269495083"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
@@ -165,10 +173,9 @@
     "github.com/fsnotify/fsnotify",
     "github.com/hashicorp/hcl",
     "github.com/lmorg/apachelogs",
+    "github.com/lmorg/readline",
     "github.com/phayes/permbits",
     "golang.org/x/crypto/ssh/terminal",
-    "golang.org/x/sys/unix",
-    "golang.org/x/sys/windows",
     "gopkg.in/yaml.v2",
     "labix.org/v2/mgo/bson",
   ]

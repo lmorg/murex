@@ -121,7 +121,7 @@ func (rl *Instance) walkHistory(i int) {
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 	var (
 		items []string
-		descs map[string]string = make(map[string]string)
+		descs = make(map[string]string)
 
 		line string
 		num  string

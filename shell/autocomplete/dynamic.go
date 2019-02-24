@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline"
 )
 
 type dynamicArgs struct {

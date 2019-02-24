@@ -2,7 +2,7 @@ package autocomplete
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline"
 
 	"sort"
 	"strings"

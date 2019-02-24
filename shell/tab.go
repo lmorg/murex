@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline"
 )
 
 func tabCompletion(line []rune, pos int) (prefix string, items []string, descriptions map[string]string, tdt readline.TabDisplayType) {

@@ -81,7 +81,7 @@ func tokeniseBrackets(line []rune, linePos int) ([]string, int, int) {
 		open, close    rune
 		split          []string
 		count          int
-		pos            map[int]int = make(map[int]int)
+		pos            = make(map[int]int)
 		match          int
 		single, double bool
 	)

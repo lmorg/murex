@@ -7,7 +7,7 @@ import (
 	"regexp"
 )
 
-var rxMultiline *regexp.Regexp = regexp.MustCompile(`[\r\n]+`)
+var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
