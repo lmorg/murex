@@ -166,17 +166,18 @@ type self struct {
 	Method     bool
 	Not        bool
 	Background bool
+	Module     string
 }
 
 func getVarSelf(p *Process) string {
 	v := self{
-		//Id:         p.Scope.Id,
 		Parent:     p.Scope.Parent.Id,
 		Scope:      p.Scope.Id,
 		TTY:        p.Scope.Stdout.IsTTY(),
 		Method:     p.Scope.IsMethod,
 		Not:        p.Scope.IsNot,
 		Background: p.Scope.IsBackground,
+		Module:     p.Scope.Module,
 	}
 	b, _ := json.Marshal(&v, p.Stdout.IsTTY())
 	return string(b)

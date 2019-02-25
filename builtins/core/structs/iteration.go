@@ -170,8 +170,8 @@ func cmdForMap(p *lang.Process) error {
 		//lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
 
 		fork := p.Fork(lang.F_NO_STDIN)
-		fork.Variables.Set(varKey, key, types.String)
-		fork.Variables.Set(varVal, value, dt)
+		p.Variables.Set(varKey, key, types.String)
+		p.Variables.Set(varVal, value, dt)
 		fork.Execute(block)
 	})
 

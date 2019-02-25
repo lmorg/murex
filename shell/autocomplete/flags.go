@@ -35,6 +35,7 @@ type Flags struct {
 
 // ExesFlags is map of executables and their supported auto-complete options.
 var ExesFlags = make(map[string][]Flags)
+var ExesFlagsMod = make(map[string]string)
 
 // GlobalExes is a pre-populated list of all executables in $PATH.
 // The point of this is to speed up exe auto-completion.

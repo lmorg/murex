@@ -128,6 +128,7 @@ func (m *Module) execute() error {
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
 	fork.Module = m.Package + "/" + m.Name
+	fork.Name = fork.Module
 	_, err = fork.Execute(block)
 	return err
 }

@@ -171,21 +171,21 @@ executeProcess:
 	case MxFunctions.Exists(p.Name):
 		// murex functions
 		var r []rune
-		p.Scope = p
+		//p.Scope = p
 		r, err = MxFunctions.Block(p.Name)
 		if err == nil {
 			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
+			p.ExitNum, err = p.Fork(F_NEW_SCOPE | F_NEW_CONFIG | F_NEW_TESTS).Execute(r)
 		}
 
 	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name):
 		// murex privates
 		var r []rune
-		p.Scope = p
+		//p.Scope = p
 		r, err = PrivateFunctions.Block(p.Name)
 		if err == nil {
 			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_FUNCTION).Execute(r)
+			p.ExitNum, err = p.Fork(F_NEW_SCOPE | F_NEW_CONFIG | F_NEW_TESTS).Execute(r)
 		}
 
 	case p.Name[0] == '$':

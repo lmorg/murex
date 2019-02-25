@@ -41,6 +41,9 @@ const (
 	// F_NEW_TESTS will start a new scope for the testing framework
 	F_NEW_TESTS
 
+	// F_NEW_SCOPE will start a new scope for the testing framework
+	F_NEW_SCOPE
+
 	// F_BACKGROUND this process will run in the background
 	F_BACKGROUND
 
@@ -73,14 +76,6 @@ type Fork struct {
 func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
-	//p.hasTerminatedM.Lock()
-
-	// This copies a sync.Mutex value, but on this occasion it is perfectly safe.
-	//process := *p
-
-	//p.hasTerminatedM.Unlock()
-	//process.hasTerminatedM.Unlock()
-	//fork.Process = &process
 
 	fork.State = state.MemAllocated
 	fork.PromptId = p.PromptId
@@ -103,20 +98,22 @@ func (p *Process) Fork(flags int) *Fork {
 	}
 
 	if flags&F_FUNCTION != 0 {
-		fork.Scope = p
+		fork.Variables = ReferenceVariables(p.Variables)
+		//fork.Name += " (fork)"
+		GlobalFIDs.Register(fork.Process)
+		fork.fidRegistered = true
+
+		fork.Scope = fork.Process
 		fork.Parent = p
 		fork.newTestScope = true
 		fork.Tests = NewTests()
 		fork.Config = p.Config.Copy()
 		fork.Variables = p.Variables
-		fork.Id = p.Id
-		//fork.Variables = ReferenceVariables(p.Variables)
-		//fork.Name += " (fork)"
-		//GlobalFIDs.Register(fork.Process)
-		//fork.fidRegistered = true
 
 	} else {
 		fork.Scope = p.Scope
+		fork.Name = p.Name
+		fork.Parameters = p.Parameters
 
 		if flags&F_PARENT_VARTABLE != 0 {
 			fork.Variables = p.Variables
@@ -144,10 +141,6 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Tests = p.Tests
 		}
 	}
-
-	//fork.Name += " (fork)"
-	//GlobalFIDs.Register(fork.Process)
-	//fork.fidRegistered = true
 
 	switch {
 	case flags&F_CREATE_STDIN != 0:
@@ -199,6 +192,10 @@ func (p *Process) Fork(flags int) *Fork {
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	if fork.Module == "" {
 		panic("missing module name")
+	}
+
+	if fork.Name == "" {
+		panic("missing function name")
 	}
 
 	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {

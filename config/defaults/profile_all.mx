@@ -58,8 +58,8 @@ autocomplete set config { [{
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },
-            #{ "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
-            { "Dynamic": ({ err $SELF\n$ARGS }) }
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
+            #{ "Dynamic": ({ err $SELF\n$ARGS }) }
         ],               
         "set": [
             { "Dynamic": ({ config.get.apps }) },
