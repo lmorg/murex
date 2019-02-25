@@ -46,7 +46,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	//stdout := streams.NewStdin()
 	//exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
 
-	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork := lang.ShellProcess.Fork(lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name = args.exe
 	fork.Parameters = parameters.Parameters{Params: args.params}
 	exitNum, err := fork.Execute(block)

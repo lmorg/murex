@@ -177,7 +177,7 @@ func hintCodeBlock() []rune {
 		b = b[:len(b)-1]
 	}
 
-	if debug.Enabled && (exitNum != 0 || err != nil || err2 != nil) {
+	if debug.Enabled && ( /*exitNum != 0 ||*/ err != nil || err2 != nil) {
 		lang.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
 			"Block returned false:\nExit Num: %d\nStdout length: %d\nStdout read error: %s\nStderr: %s\n",
 			exitNum,
