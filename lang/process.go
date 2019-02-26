@@ -6,12 +6,13 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -19,14 +20,44 @@ import (
 )
 
 var (
+	// ShellProcess is the root murex process
+	ShellProcess = &Process{}
+
+	// MxFunctions is a table of global murex functions
+	MxFunctions = NewMurexFuncs()
+
+	// PrivateFunctions is a table of private murex functions
+	PrivateFunctions = NewMurexPrivs()
+
+	// GoFunctions is a table of available builtin functions
+	GoFunctions = make(map[string]func(*Process) error)
+
+	// This will hold all variables
+	masterVarTable = newVarTable()
+
+	// InitConf is a table of global config options
+	InitConf = config.NewConfiguration()
+
+	// GlobalAliases is a table of global aliases
+	GlobalAliases = NewAliases()
+
+	// GlobalPipes is a table of  named pipes
+	GlobalPipes = pipes.NewNamed()
+
+	// GlobalFIDs is a table of running murex processes
+	GlobalFIDs = *newFuncID()
+
+	// ForegroundProc is the murex FID which currently has "focus"
+	ForegroundProc = ShellProcess
+
+	// ShellExitNum is for when running murex in interactive shell mode
+	ShellExitNum int
+)
+
+var (
 	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
-
-func init() {
-	// add to auto globbing to autocomplete
-	GoFunctions["@g"] = nil
-}
 
 func createProcess(p *Process, isMethod bool) {
 	GlobalFIDs.Register(p) // This also registers the variables process
@@ -170,22 +201,30 @@ executeProcess:
 
 	case MxFunctions.Exists(p.Name):
 		// murex functions
-		var r []rune
-		//p.Scope = p
-		r, err = MxFunctions.Block(p.Name)
-		if err == nil {
-			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_NEW_SCOPE | F_NEW_CONFIG | F_NEW_TESTS).Execute(r)
+		fn := MxFunctions.get(p.Name)
+		if fn != nil {
+			fork := p.Fork(F_FUNCTION)
+			fork.Name = p.Name
+			fork.Parameters = p.Parameters
+			fork.Module = fn.Module
+			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
-	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name):
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name, p.Module):
 		// murex privates
-		var r []rune
+		//var r []rune
 		//p.Scope = p
-		r, err = PrivateFunctions.Block(p.Name)
-		if err == nil {
-			//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-			p.ExitNum, err = p.Fork(F_NEW_SCOPE | F_NEW_CONFIG | F_NEW_TESTS).Execute(r)
+		//r, err = PrivateFunctions.Block(p.Name, p.Module)
+		//if err == nil {
+		//	//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
+		//	p.ExitNum, err = p.Fork(F_NEW_SCOPE | F_NEW_CONFIG | F_NEW_TESTS).Execute(r)
+		fn := PrivateFunctions.get(p.Name, p.Module)
+		if fn != nil {
+			fork := p.Fork(F_FUNCTION)
+			fork.Name = p.Name
+			fork.Parameters = p.Parameters
+			fork.Module = fn.Module
+			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
 	case p.Name[0] == '$':
@@ -268,35 +307,4 @@ func destroyProcess(p *Process) {
 	}
 
 	DeregisterProcess(p)
-}
-
-func autoGlob(p *Process) error {
-	name, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-	if name[len(name)-1] == ':' {
-		p.Name = name[:len(name)-1]
-	} else {
-		p.Name = name
-	}
-
-	params := p.Parameters.Params[1:]
-	p.Parameters.Params = []string{}
-	var globbed []string
-
-	for i := range params {
-		if strings.ContainsAny(params[i], "?*") {
-			globbed, err = filepath.Glob(params[i])
-			if err != nil {
-				return err
-			}
-			p.Parameters.Params = append(p.Parameters.Params, globbed...)
-		} else {
-			p.Parameters.Params = append(p.Parameters.Params, params[i])
-		}
-
-	}
-
-	return err
 }

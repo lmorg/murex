@@ -9,11 +9,11 @@ import (
 // MurexFuncs is a table of murex functions
 type MurexFuncs struct {
 	mutex sync.Mutex
-	fn    map[string]*MurexFuncDetails
+	fn    map[string]*murexFuncDetails
 }
 
 // MurexFuncDetails is the properties for any given murex function
-type MurexFuncDetails struct {
+type murexFuncDetails struct {
 	Block   []rune
 	Module  string
 	Summary string
@@ -21,13 +21,12 @@ type MurexFuncDetails struct {
 
 // NewMurexFuncs creates a new table of murex functions
 func NewMurexFuncs() (mf MurexFuncs) {
-	mf.fn = make(map[string]*MurexFuncDetails)
+	mf.fn = make(map[string]*murexFuncDetails)
 
 	return
 }
 
-// Define creates a function
-func (mf *MurexFuncs) Define(name, module string, block []rune) {
+func funcPrivSummary(block []rune) string {
 	var (
 		line1   bool
 		comment bool
@@ -63,14 +62,29 @@ func (mf *MurexFuncs) Define(name, module string, block []rune) {
 	}
 
 exitLoop:
+	return strings.TrimSpace(string(summary))
+}
+
+// Define creates a function
+func (mf *MurexFuncs) Define(name, module string, block []rune) {
+	summary := funcPrivSummary(block)
+
 	mf.mutex.Lock()
-	mf.fn[name] = &MurexFuncDetails{
+	mf.fn[name] = &murexFuncDetails{
 		Block:   block,
 		Module:  module,
-		Summary: strings.TrimSpace(string(summary)),
+		Summary: summary,
 	}
 
 	mf.mutex.Unlock()
+}
+
+// get returns the function's details
+func (mf *MurexFuncs) get(name string) *murexFuncDetails {
+	mf.mutex.Lock()
+	fn := mf.fn[name]
+	mf.mutex.Unlock()
+	return fn
 }
 
 // Exists checks if function already created

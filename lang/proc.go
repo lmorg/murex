@@ -9,7 +9,6 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -65,41 +64,6 @@ type shellExec struct {
 	//PipeR *os.File
 	//PipeW *os.File
 }
-
-var (
-	// ShellProcess is the root murex process
-	ShellProcess = &Process{}
-
-	// MxFunctions is a table of global murex functions
-	MxFunctions = NewMurexFuncs()
-
-	// PrivateFunctions is a table of private murex functions
-	PrivateFunctions = NewMurexFuncs()
-
-	// GoFunctions is a table of available builtin functions
-	GoFunctions = make(map[string]func(*Process) error)
-
-	// This will hold all variables
-	masterVarTable = newVarTable()
-
-	// InitConf is a table of global config options
-	InitConf = config.NewConfiguration()
-
-	// GlobalAliases is a table of global aliases
-	GlobalAliases = NewAliases()
-
-	// GlobalPipes is a table of  named pipes
-	GlobalPipes = pipes.NewNamed()
-
-	// GlobalFIDs is a table of running murex processes
-	GlobalFIDs = *newFuncID()
-
-	// ForegroundProc is the murex FID which currently has "focus"
-	ForegroundProc = ShellProcess
-
-	// ShellExitNum is for when running murex in interactive shell mode
-	ShellExitNum int
-)
 
 // HasTerminated checks if process has terminated.
 // This is a function because terminated state can be subject to race conditions
