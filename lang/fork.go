@@ -182,8 +182,8 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Stderr = p.Stderr
 	}
 
-	fork.Stdout.Open()
-	fork.Stderr.Open()
+	//fork.Stdout.Open()
+	//fork.Stderr.Open()
 
 	return fork
 }
@@ -197,6 +197,9 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	if fork.Name == "" {
 		panic("missing function name")
 	}
+
+	fork.Stdout.Open()
+	fork.Stderr.Open()
 
 	if len(block) > 2 && block[0] == '{' && block[len(block)-1] == '}' {
 		block = block[1 : len(block)-1]
