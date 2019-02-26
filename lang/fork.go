@@ -66,10 +66,19 @@ const (
 	F_NO_STDERR
 )
 
+// Fork is a forked process
 type Fork struct {
 	*Process
 	fidRegistered bool
 	newTestScope  bool
+}
+
+// ShellFork will fork against the shell process but without leaking variables
+// into the global namespace.
+// flags must include F_FUNCTION
+func ShellFork(flags int) *Fork {
+	container := ShellProcess.Fork(F_DEFAULTS)
+	return container.Fork(flags)
 }
 
 // Fork will create a new handle for executing a code block
