@@ -29,6 +29,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 
 		//exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		fork.Name = "RunMurexTests()"
 		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Errorf("Cannot execute script on test %d", i)

@@ -26,6 +26,7 @@ func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 
 		//exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		fork.Name = "RunBooleanTests()"
 		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Error(err.Error())
