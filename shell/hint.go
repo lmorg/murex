@@ -165,7 +165,10 @@ func hintCodeBlock() []rune {
 	//branch.IsBackground = true
 	//defer branch.Close()
 	//exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
-	fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	//fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+
+	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork.Name = "shell (hint-text-func)"
 	exitNum, err := fork.Execute([]rune(ht.(string)))
 
 	b, err2 := fork.Stdout.ReadAll()

@@ -41,9 +41,6 @@ const (
 	// F_NEW_TESTS will start a new scope for the testing framework
 	F_NEW_TESTS
 
-	// F_NEW_SCOPE will start a new scope for the testing framework
-	F_NEW_SCOPE
-
 	// F_BACKGROUND this process will run in the background
 	F_BACKGROUND
 
@@ -74,11 +71,12 @@ type Fork struct {
 }
 
 // ShellFork will fork against the shell process but without leaking variables
-// into the global namespace.
-// flags must include F_FUNCTION
+// into the global namespace. `flags` must include F_FUNCTION
 func ShellFork(flags int) *Fork {
 	container := ShellProcess.Fork(F_DEFAULTS)
-	return container.Fork(flags)
+	fork := container.Fork(flags)
+	DeregisterProcess(container.Process) // it shouldn't matter that we dereigster the container before the fork has executed. We just do this for garbage collection
+	return fork
 }
 
 // Fork will create a new handle for executing a code block

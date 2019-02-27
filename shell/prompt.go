@@ -23,8 +23,11 @@ func getPrompt() {
 		//branch.Variables.Set("linenum", 1, types.Integer)
 		//exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
-		fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		//fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+
+		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set("linenum", 1, types.Integer)
+		fork.Name = "shell (prompt)"
 		fork.Execute([]rune(prompt.(string)))
 
 		b, err2 = fork.Stdout.ReadAll()
@@ -54,8 +57,11 @@ func getMultilinePrompt(nLines int) {
 		//branch.Variables.Set("linenum", nLines, types.Integer)
 		//exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
 
-		fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		//fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+
+		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set("linenum", nLines, types.Integer)
+		fork.Name = "shell (prompt-multiline)"
 		fork.Execute([]rune(prompt.(string)))
 
 		b, err2 = fork.Stdout.ReadAll()
