@@ -118,9 +118,9 @@ func preview(p *lang.Process, path, dataType string) error {
 	}
 
 	p.Stdout.SetDataType(dataType)
-	block, _ := OpenAgents.Get(dataType)
+	agent, err := OpenAgents.Get(dataType)
 
-	if !p.Stdout.IsTTY() || len(block) == 0 {
+	if !p.Stdout.IsTTY() || err != nil {
 		// Not a TTY or no open agent exists so fallback to passing []bytes along
 		file, err := os.Open(path)
 		if err != nil {
@@ -141,9 +141,11 @@ func preview(p *lang.Process, path, dataType string) error {
 	//branch.Parameters.Params = []string{path}
 	//_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
 
-	fork := p.Fork(lang.F_FUNCTION | lang.F_NO_STDIN)
+	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
+	fork.Name = "open"
 	fork.Parameters.Params = []string{path}
-	_, err := fork.Execute(block)
+	fork.Module = agent.Module
+	_, err = fork.Execute(agent.Block)
 
 	if err != nil {
 		p.Stderr.Writeln([]byte("`open` code could not compile: " + err.Error()))

@@ -35,11 +35,11 @@ func shell(p *lang.Process) error {
 
 	switch flag {
 	case "get":
-		r, err := OpenAgents.Get(dataType)
+		agent, err := OpenAgents.Get(dataType)
 		if err != nil {
 			return err
 		}
-		_, err = p.Stdout.Write([]byte(string(r)))
+		_, err = p.Stdout.Write([]byte(string(agent.Block)))
 		return err
 
 	case "set":
@@ -47,7 +47,7 @@ func shell(p *lang.Process) error {
 		if err != nil {
 			return err
 		}
-		OpenAgents.Set(dataType, block)
+		OpenAgents.Set(dataType, p.Module, block)
 		return nil
 
 	default:

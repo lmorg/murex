@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	// add to auto globbing to autocomplete
+	// add auto globbing to autocomplete
 	GoFunctions["@g"] = nil
 }
 
