@@ -28,12 +28,15 @@ func init() {
 func cmdArgs(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Boolean)
 
-	if p.Parameters.Len() != 1 {
-		return errors.New("Invalid parameters. Expecting JSON input")
+	if p.Parameters.Len() != 2 {
+		return errors.New("Invalid parameters. Usage: args var_name { json }")
 	}
 
+	varName, _ := p.Parameters.String(0)
+
 	var args parameters.Arguments
-	err = json.Unmarshal(p.Parameters.ByteAll(), &args)
+	b, _ := p.Parameters.Byte(1)
+	err = json.UnmarshalMurex(b, &args)
 	if err != nil {
 		return err
 	}
@@ -64,13 +67,12 @@ func cmdArgs(p *lang.Process) (err error) {
 		p.ExitNum = 1
 	}
 
-	b, err := json.Marshal(jObj, p.Stdout.IsTTY())
+	b, err = json.Marshal(jObj, false)
 	if err != nil {
 		return err
 	}
 
-	err = p.Scope.Variables.Set("ARGS", string(b), types.Json)
-	return err
+	return p.Scope.Variables.Set(varName, b, types.Json)
 }
 
 func cmdParams(p *lang.Process) error {

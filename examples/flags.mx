@@ -4,13 +4,11 @@
 # Pass the `args` function a JSON string (because JSON objects share the same braces as murex block, you can enter JSON
 # directly as unescaped values as parameters in murex).
 #
-# `args` will create a murex variable called $ARGS.
-#
 # --str: str == string data type
 # --num: num == numeric data type
 # --bool: bool == flag used == true, missing == false
 # -b: --bool == alias of --bool flag
-args {
+args args {
     "AllowAdditional": true,
     "Flags": {
         "--str": "str",
@@ -20,26 +18,27 @@ args {
     }
 }
 catch {
-# Lets check for errors in the command line parameters. If they exist then print the error and then exit.
-    err $ARGS[Error]
+    # Lets check for errors in the command line parameters. If they exist then
+    # print the error and then exit.
+    err $args[Error]
     exit 1
 }
 
-out "The structure of \$ARGS is: ${$ARGS->pretty}\n\n"
+out "The structure of \$args is: ${$args->pretty}\n\n"
 
 
 # Some example usage:
 # -------------------
 
-!if { $ARGS->[ Flags ]->[ --bool ] } {
+!if { $args->[ Flags ]->[ --bool ] } {
     out "Flag `--bool` was not set."
 }
 
 # `<!null>` redirects the STDERR to a named pipe. In this instance it's the 'null' pipe so equivalent to 2>/dev/null
 # thus we are just suppressing any error messages.
 try <!null> {
-    $ARGS -> [ Flags ] -> [ --str ] -> set fStr
-    $ARGS -> [ Flags ] -> [ --num ] -> set fNum
+    $args -> [ Flags ] -> [ --str ] -> set fStr
+    $args -> [ Flags ] -> [ --num ] -> set fNum
 
     out "Defined Flags:"
     out "  --str == $fStr"
@@ -50,6 +49,6 @@ catch {
     err "Missing `--str` and/or `--num` flags."
 }
 
-$ARGS -> [ Additional ] -> foreach arg {
-    out "Additional argument (ie not assigned to a flag): `$arg`."
+$args -> [ Additional ] -> foreach flag {
+    out "Additional argument (ie not assigned to a flag): `$flag`."
 }
