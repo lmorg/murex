@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -50,7 +51,11 @@ func cmdRuntime(p *lang.Process) error {
 		fAstCache      = "--astcache"
 		fTests         = "--tests"
 		fModules       = "--modules"
+		fDebug         = "--debug"
 		fHelp          = "--help"
+
+		// inspect
+		inspVariables = "--inspect-variables"
 	)
 
 	flags := map[string]string{
@@ -74,7 +79,13 @@ func cmdRuntime(p *lang.Process) error {
 		fAstCache:      types.Boolean,
 		fTests:         types.Boolean,
 		fModules:       types.Boolean,
+		fDebug:         types.Boolean,
 		fHelp:          types.Boolean,
+	}
+
+	// inspect
+	if debug.Inspect {
+		flags[inspVariables] = types.Boolean
 	}
 
 	help := func() (s []string) {
@@ -149,10 +160,23 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fTests[2:]] = p.Tests.Dump()
 		case fModules:
 			ret[fModules[2:]] = profile.Packages
+		case fDebug:
+			ret[fDebug[2:]] = debug.Dump()
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:
-			return errors.New("Unrecognised parameter: " + flag)
+			if !debug.Inspect {
+				return errors.New("Unrecognised parameter: " + flag)
+			}
+
+			// inspect
+			switch flag {
+			case inspVariables:
+				ret[inspVariables[2:]] = p.Variables.Inspect()
+			default:
+				return errors.New("Unrecognised parameter: " + flag)
+			}
+
 		}
 	}
 

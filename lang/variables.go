@@ -57,6 +57,10 @@ func newVarTable() *varTable {
 func garbageCollection(vt *varTable) {
 	for {
 		time.Sleep(10 * time.Second)
+		if debug.Enabled {
+			// don't garbage collect when in debug mode
+			continue
+		}
 
 		vt.mutex.Lock()
 		for i := 0; i < len(vt.vars); i++ {
@@ -127,6 +131,7 @@ type variable struct {
 	owner        int
 	disabled     bool
 	creationTime time.Time
+	Module       string
 	mutex        sync.Mutex
 }
 
@@ -159,7 +164,6 @@ func (vars *Variables) GetValue(name string) interface{} {
 }
 
 type self struct {
-	//Id         int
 	Parent     int
 	Scope      int
 	TTY        bool
@@ -298,6 +302,7 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 		DataType:     dataType,
 		owner:        vars.process.Id,
 		creationTime: time.Now(),
+		Module:       vars.process.Module,
 	})
 	vars.varTable.mutex.Unlock()
 
@@ -364,4 +369,42 @@ func (vars *Variables) DumpMap() map[string]interface{} {
 	}
 
 	return m
+}
+
+// Inspect is an insecure method for inspecting the entire variable table
+// regardless of scope nor ownership. This should only be run if `--inspect`
+// flag has been set and murex's startup.
+func (vars *Variables) Inspect() interface{} {
+	type inspect struct {
+		Name         string
+		Value        interface{}
+		DataType     string
+		Module       string
+		Owner        int
+		CreationTime time.Time
+		Disabled     bool
+	}
+
+	var dump []inspect
+
+	vars.varTable.mutex.Lock()
+
+	for _, v := range vars.varTable.vars {
+		v.mutex.Lock()
+
+		dump = append(dump, inspect{
+			Name:         v.name,
+			Value:        v.Value,
+			DataType:     v.DataType,
+			Module:       v.Module,
+			Owner:        v.owner,
+			CreationTime: v.creationTime,
+			Disabled:     v.disabled,
+		})
+
+		v.mutex.Unlock()
+	}
+
+	vars.varTable.mutex.Unlock()
+	return dump
 }
