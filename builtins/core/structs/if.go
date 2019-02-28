@@ -86,7 +86,7 @@ func cmdIf(p *lang.Process) error {
 		// --- IF --- (function)
 		//stdout := streams.NewStdin()
 		//i, err := lang.RunBlockExistingConfigSpace(blocks[fIf], nil, stdout, nil, p)
-		fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		i, err := fork.Execute(blocks[fIf])
 		if err != nil {
 			return err
@@ -111,7 +111,7 @@ func cmdIf(p *lang.Process) error {
 		// --- THEN ---
 		if len(blocks[fThen]) > 0 {
 			//_, err := lang.RunBlockExistingConfigSpace(blocks[fThen], nil, p.Stdout, p.Stderr, p)
-			_, err := p.Fork(lang.F_NO_STDIN).Execute(blocks[fThen])
+			_, err := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(blocks[fThen])
 			if err != nil {
 				return err
 			}
@@ -121,7 +121,7 @@ func cmdIf(p *lang.Process) error {
 		// --- ELSE ---
 		if len(blocks[fElse]) > 0 {
 			//_, err := lang.RunBlockExistingConfigSpace(blocks[fElse], nil, p.Stdout, p.Stderr, p)
-			_, err := p.Fork(lang.F_NO_STDIN).Execute(blocks[fElse])
+			_, err := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(blocks[fElse])
 			if err != nil {
 				return err
 			}

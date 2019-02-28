@@ -130,13 +130,13 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Name = p.Name
 		fork.Parameters = p.Parameters
 
-		//switch {
-		//case flags&F_PARENT_VARTABLE != 0:
-		fork.Parent = p
-		fork.Variables = p.Variables
-		fork.Id = p.Id
+		switch {
+		case flags&F_PARENT_VARTABLE != 0:
+			fork.Parent = p
+			fork.Variables = p.Variables
+			fork.Id = p.Id
 
-		/*case flags&F_NEW_VARTABLE != 0:
+		case flags&F_NEW_VARTABLE != 0:
 			fork.Parent = p
 			fork.Variables = ReferenceVariables(p.Variables)
 			fork.Name += " (fork)"
@@ -144,8 +144,13 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.fidRegistered = true
 
 		default:
-			panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
-		}*/
+			//	panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
+			fork.Parent = p
+			fork.Variables = ReferenceVariables(p.Variables)
+			fork.Name += " (fork)"
+			GlobalFIDs.Register(fork.Process)
+			fork.fidRegistered = true
+		}
 
 		if flags&F_NEW_CONFIG != 0 {
 			fork.Config = p.Config.Copy()
