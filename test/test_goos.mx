@@ -11,6 +11,7 @@ set json targets=([
     "freebsd",
     "openbsd",
     "netbsd",
+    "dragonfly",
     "darwin",
     "solaris",
     "windows"

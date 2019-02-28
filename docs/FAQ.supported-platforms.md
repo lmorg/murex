@@ -37,9 +37,9 @@ FreeBSD support is considered very good.
 
 ## OpenBSD
 
-Tested on an earlier release of _murex_. Regression tests cannot be run because
-of `timeout` dependency however OpenBSD is included as part of the automated
-build tests.
+Tested on an earlier release of _murex_. `regression_test.sh` cannot be run
+because of `timeout` dependency however `go test` should still work and OpenBSD
+is included as part of the automated build tests.
 
 OpenBSD support is expected to be good but, as always, please log an issue via
 Github if you do encounter problems.
@@ -48,6 +48,12 @@ Github if you do encounter problems.
 
 NetBSD is part of the automated build tests so _murex_ will compile on NetBSD.
 However no functional testing has been conducted on that particular platform.
+
+## DragonflyBSD
+
+DragonflyBSD is part of the automated build tests so _murex_ will compile on
+DragonflyBSD. However no functional testing has been conducted on that
+particular platform.
 
 ## Windows
 
