@@ -34,7 +34,7 @@ func cmdAndOr(p *lang.Process, isAnd bool) error {
 
 		//stdout := streams.NewStdin()
 		//i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, p)
-		fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		i, err := fork.Execute(block)
 		if err != nil {
 			return err

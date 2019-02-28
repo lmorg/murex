@@ -62,14 +62,14 @@ func cmdCatch(p *lang.Process) error {
 
 	if p.Previous.ExitNum != 0 && !p.IsNot {
 		//_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
-		_, err = p.Fork(lang.F_NO_STDIN).Execute(block)
+		_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 		if err != nil {
 			return err
 		}
 
 	} else if p.Previous.ExitNum == 0 && p.IsNot {
 		//_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
-		_, err = p.Fork(lang.F_NO_STDIN).Execute(block)
+		_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 		if err != nil {
 			return err
 		}

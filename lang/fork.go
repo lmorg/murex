@@ -31,14 +31,22 @@ const (
 	F_FUNCTION
 
 	// F_PARENT_VARTABLE will bypass the automatic forking of the var table.
-	// You will almost never want to enable this as it breaks the expected
-	// pattern of scoped variables
+	// The plan is to make this the default because it's what you'd expect to
+	// use inside builtins
 	F_PARENT_VARTABLE
 
+	// F_NEW_VARTABLE will fork the variable table (not needed when using
+	// F_FUNCTION)
+	// For reasons I haven't got to the bottom of yet, this is rather glitchy
+	// inside builtins.
+	F_NEW_VARTABLE
+
 	// F_NEW_CONFIG will fork the config table - eg when calling a new function
+	// (not needed when calling F_FUNCTION)
 	F_NEW_CONFIG
 
-	// F_NEW_TESTS will start a new scope for the testing framework
+	// F_NEW_TESTS will start a new scope for the testing framework (not needed
+	// when calling F_FUNCTION)
 	F_NEW_TESTS
 
 	// F_BACKGROUND this process will run in the background
@@ -122,18 +130,22 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Name = p.Name
 		fork.Parameters = p.Parameters
 
-		if flags&F_PARENT_VARTABLE != 0 {
-			fork.Variables = p.Variables
-			fork.Id = p.Id
-			fork.Parent = p
+		//switch {
+		//case flags&F_PARENT_VARTABLE != 0:
+		fork.Parent = p
+		fork.Variables = p.Variables
+		fork.Id = p.Id
 
-		} else {
+		/*case flags&F_NEW_VARTABLE != 0:
+			fork.Parent = p
 			fork.Variables = ReferenceVariables(p.Variables)
 			fork.Name += " (fork)"
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
-			fork.Parent = p
-		}
+
+		default:
+			panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
+		}*/
 
 		if flags&F_NEW_CONFIG != 0 {
 			fork.Config = p.Config.Copy()
