@@ -9,6 +9,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -30,7 +32,12 @@ func matchFilesystem(s string, filesToo bool) []string {
 
 	wg.Add(1)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
+	timeout, err := lang.ShellProcess.Config.Get("shell", "recursive-timeout", types.Integer)
+	if err != nil {
+		timeout = 200
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(int64(timeout.(int)))*time.Millisecond)
 	defer cancel()
 
 	done := make(chan bool)
@@ -116,6 +123,11 @@ func matchFilesAndDirsOnce(s string) (items []string) {
 func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []string) {
 	s = variables.ExpandString(s)
 
+	maxDepth, err := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
+	if err != nil {
+		maxDepth = 5
+	}
+
 	//expanded := variables.Expand([]rune(s))
 	split := strings.Split(s, consts.PathSlash)
 	path := strings.Join(split[:len(split)-1], consts.PathSlash)
@@ -146,7 +158,7 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 
 		dirs := strings.Split(walkedPath, consts.PathSlash)
 
-		if len(dirs)-len(split) > 5 {
+		if len(dirs)-len(split) > maxDepth.(int) {
 			return filepath.SkipDir
 		}
 
