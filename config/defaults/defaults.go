@@ -37,7 +37,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "recursive-timeout", config.Properties{
 		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list for auto-completion. When timeout is reached results fallback to the faster non-recursive list",
-		Default:     200,
+		Default:     150,
 		DataType:    types.Integer,
 		Global:      true,
 	})

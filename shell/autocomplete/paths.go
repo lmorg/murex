@@ -34,7 +34,7 @@ func matchFilesystem(s string, filesToo bool) []string {
 
 	timeout, err := lang.ShellProcess.Config.Get("shell", "recursive-timeout", types.Integer)
 	if err != nil {
-		timeout = 200
+		timeout = 150
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(int64(timeout.(int)))*time.Millisecond)
@@ -66,8 +66,8 @@ func matchFilesystem(s string, filesToo bool) []string {
 }
 
 func partialPath(s string) (path, partial string) {
-	expanded := variables.Expand([]rune(s))
-	split := strings.Split(string(expanded), consts.PathSlash)
+	expanded := variables.ExpandString(s)
+	split := strings.Split(expanded, consts.PathSlash)
 	path = strings.Join(split[:len(split)-1], consts.PathSlash)
 	partial = split[len(split)-1]
 
@@ -128,7 +128,6 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 		maxDepth = 5
 	}
 
-	//expanded := variables.Expand([]rune(s))
 	split := strings.Split(s, consts.PathSlash)
 	path := strings.Join(split[:len(split)-1], consts.PathSlash)
 	//partial = split[len(split)-1]
