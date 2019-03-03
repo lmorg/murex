@@ -1,18 +1,61 @@
 package autocomplete
 
 import (
+	"context"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
+	"time"
 
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
 )
 
 func matchDirs(s string) []string {
-	return matchRecursiveDirs(s)
+	return matchFilesystem(s, false)
+}
+
+func matchFilesAndDirs(s string) []string {
+	return matchFilesystem(s, true)
+}
+
+func matchFilesystem(s string, filesToo bool) []string {
+	var (
+		once      []string
+		recursive []string
+		wg        sync.WaitGroup
+	)
+
+	wg.Add(1)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
+	defer cancel()
+
+	done := make(chan bool)
+	go func() {
+		recursive = matchRecursive(ctx, s, filesToo)
+		done <- true
+	}()
+
+	go func() {
+		if filesToo {
+			once = matchFilesAndDirsOnce(s)
+		} else {
+			once = matchDirsOnce(s)
+		}
+		wg.Done()
+	}()
+
+	select {
+	case <-done:
+		return recursive
+
+	case <-ctx.Done():
+		wg.Wait() // make sure the once search has done. We might be working on a slow storage media
+		return once
+	}
 }
 
 func partialPath(s string) (path, partial string) {
@@ -39,7 +82,7 @@ func matchLocal(s string, includeColon bool) (items []string) {
 	return
 }
 
-func matchFilesAndDirs(s string) (items []string) {
+func matchFilesAndDirsOnce(s string) (items []string) {
 	s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
@@ -70,7 +113,7 @@ func matchFilesAndDirs(s string) (items []string) {
 	return
 }
 
-func matchRecursiveDirs(s string) (hierarchy []string) {
+func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []string) {
 	s = variables.ExpandString(s)
 
 	//expanded := variables.Expand([]rune(s))
@@ -83,11 +126,17 @@ func matchRecursiveDirs(s string) (hierarchy []string) {
 	}
 
 	walker := func(walkedPath string, info os.FileInfo, err error) error {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
+
 		if err != nil {
 			return nil
 		}
 
-		if !info.IsDir() {
+		if !info.IsDir() && !filesToo {
 			return nil
 		}
 
@@ -121,7 +170,11 @@ func matchRecursiveDirs(s string) (hierarchy []string) {
 		}
 
 		if strings.HasPrefix(walkedPath, s) {
-			hierarchy = append(hierarchy, walkedPath[len(s):]+consts.PathSlash)
+			if info.IsDir() {
+				hierarchy = append(hierarchy, walkedPath[len(s):]+consts.PathSlash)
+			} else {
+				hierarchy = append(hierarchy, walkedPath[len(s):])
+			}
 		}
 
 		return nil
@@ -134,10 +187,11 @@ func matchRecursiveDirs(s string) (hierarchy []string) {
 		pwd = path
 	}
 
-	err := filepath.Walk(pwd, walker)
-	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
-	}
+	/*err :=*/
+	filepath.Walk(pwd, walker)
+	//if err != nil {
+	//	lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+	//}
 
 	/*if path != consts.PathSlash {
 		if len(s) < 3 { // TODO: there is a better way of doing this
