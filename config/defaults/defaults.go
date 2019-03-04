@@ -15,28 +15,42 @@ func Defaults(c *config.Config, isInteractive bool) {
 	// --- shell ---
 
 	c.Define("shell", "prompt", config.Properties{
-		Description: "Interactive shell prompt.",
+		Description: "Interactive shell prompt",
 		Default:     "{ out 'murex » ' }",
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})
 
 	c.Define("shell", "prompt-multiline", config.Properties{
-		Description: "Shell prompt when command line string spans multiple lines.",
+		Description: "Shell prompt when command line string spans multiple lines",
 		Default:     `{ out "$linenum » " }`,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})
 
 	c.Define("shell", "max-suggestions", config.Properties{
-		Description: "Maximum number of lines with auto-completion suggestions to display.",
+		Description: "Maximum number of lines with auto-completion suggestions to display",
 		Default:     4,
 		DataType:    types.Integer,
 		Global:      true,
 	})
 
+	c.Define("shell", "recursive-timeout", config.Properties{
+		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list for auto-completion. When timeout is reached results fallback to the faster non-recursive list",
+		Default:     150,
+		DataType:    types.Integer,
+		Global:      true,
+	})
+
+	c.Define("shell", "recursive-max-depth", config.Properties{
+		Description: "Maximum depth to scan through when compiling the recursive list for auto-completion",
+		Default:     5,
+		DataType:    types.Integer,
+		Global:      true,
+	})
+
 	c.Define("shell", "history", config.Properties{
-		Description: "Write shell history (interactive shell) to disk.",
+		Description: "Write shell history (interactive shell) to disk",
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
@@ -50,14 +64,14 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "syntax-highlighting", config.Properties{
-		Description: "Syntax highlighting of murex code when in the interactive shell.",
+		Description: "Syntax highlighting of murex code when in the interactive shell",
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})
 
 	c.Define("shell", "show-exts", config.Properties{
-		Description: "Windows only! Auto-completes file extensions. This also affects the auto-completion parameters.",
+		Description: "Windows only! Auto-completes file extensions. This also affects the auto-completion parameters",
 		Default:     false,
 		DataType:    types.Boolean,
 		Global:      true,
@@ -71,21 +85,21 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "hint-text-func", config.Properties{
-		Description: "Murex function to call if the helper hint text is otherwise blank.",
+		Description: "Murex function to call if the helper hint text is otherwise blank",
 		Default:     `{}`,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})
 
 	c.Define("shell", "show-stop-status", config.Properties{
-		Description: "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs).",
+		Description: "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs)",
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})
 
 	c.Define("shell", "stop-status-func", config.Properties{
-		Description: "Murex function to execute when an `exec` process is stopped.",
+		Description: "Murex function to execute when an `exec` process is stopped",
 		Default:     `{ progress $PID }`,
 		DataType:    types.CodeBlock,
 		Global:      true,
@@ -93,7 +107,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	// TODO: Add config hooks for mime types
 	c.Define("shell", "mime", config.Properties{
-		Description: "Supported MIME types and their corresponding Murex data types.",
+		Description: "Supported MIME types and their corresponding Murex data types",
 		Default:     define.GetMimes(),
 		DataType:    types.Json,
 		Global:      true,
@@ -101,7 +115,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	// TODO: Add config hooks for mime types
 	c.Define("shell", "extensions", config.Properties{
-		Description: "Supported file extensions and their corresponding Murex data types.",
+		Description: "Supported file extensions and their corresponding Murex data types",
 		Default:     define.GetFileExts(),
 		DataType:    types.Json,
 		Global:      true,
@@ -110,7 +124,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{
-		Description: "This is used to override the red highlighting on STDERR on a per-process level.",
+		Description: "This is used to override the red highlighting on STDERR on a per-process level",
 		Default:     false,
 		DataType:    types.Boolean,
 	})
@@ -124,13 +138,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("test", "auto-report", config.Properties{
-		Description: "Automatically report the results from test cases ran.",
+		Description: "Automatically report the results from test cases ran",
 		Default:     true,
 		DataType:    types.Boolean,
 	})
 
 	c.Define("test", "report-format", config.Properties{
-		Description: "Output format of the report.",
+		Description: "Output format of the report",
 		Default:     "table",
 		Options:     []string{"table", "json"},
 		DataType:    types.String,
@@ -143,7 +157,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("test", "crop-message", config.Properties{
-		Description: "This is the character limit for STDOUT and STDERR fields inside the report message. Set to zero, `0`, to disable message cropping.",
+		Description: "This is the character limit for STDOUT and STDERR fields inside the report message. Set to zero, `0`, to disable message cropping",
 		Default:     30,
 		DataType:    types.Integer,
 	})
