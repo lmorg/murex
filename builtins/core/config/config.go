@@ -82,6 +82,7 @@ func setConfig(p *lang.Process) error {
 
 	} else {
 		val, _ = p.Parameters.String(3)
+		//val = ansi.ExpandConsts(val)
 	}
 
 	err := p.Config.Set(app, key, val)

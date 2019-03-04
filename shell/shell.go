@@ -98,7 +98,8 @@ func ShowPrompt() {
 
 	for {
 		getSyntaxHighlighting()
-		getShowHintText()
+		getHintTextEnabled()
+		getHintTextFormatting()
 		cachedHintText = []rune{}
 
 		if nLines > 1 {
@@ -204,8 +205,8 @@ func getSyntaxHighlighting() {
 	}
 }
 
-func getShowHintText() {
-	showHintText, err := lang.ShellProcess.Config.Get("shell", "show-hint-text", types.Boolean)
+func getHintTextEnabled() {
+	showHintText, err := lang.ShellProcess.Config.Get("shell", "hint-text-enabled", types.Boolean)
 	if err != nil {
 		showHintText = false
 	}
@@ -214,4 +215,12 @@ func getShowHintText() {
 	} else {
 		Prompt.HintText = nil
 	}
+}
+
+func getHintTextFormatting() {
+	formatting, err := lang.ShellProcess.Config.Get("shell", "hint-text-formatting", types.String)
+	if err != nil {
+		formatting = ""
+	}
+	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
 }

@@ -77,8 +77,8 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "show-hint-text", config.Properties{
-		Description: "Display the blue hint text helper. //TODO: implement this!",
+	c.Define("shell", "hint-text-enabled", config.Properties{
+		Description: "Display the interactive shell's hint text helper. Please note, even when this is disabled, it will still appear when used for regexp searches and other readline-specific functions",
 		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
@@ -88,6 +88,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Description: "Murex function to call if the helper hint text is otherwise blank",
 		Default:     `{}`,
 		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
+	c.Define("shell", "hint-text-formatting", config.Properties{
+		Description: "Any additional ANSI formatting for the hint text (typically color)",
+		Default:     "{BLUE}",
+		DataType:    types.String,
 		Global:      true,
 	})
 
