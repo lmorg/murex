@@ -165,14 +165,18 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 			return nil
 		}
 
-		if len(split) == 1 {
+		switch {
+		case strings.HasSuffix(s, consts.PathSlash):
+			// skip
+
+		case len(split) == 1:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") &&
 				!strings.HasPrefix(s, ".") && !strings.HasPrefix(s, "..") {
 				//panic(fmt.Sprint(dirs, len(split), split))
 				return filepath.SkipDir
 			}
 
-		} else {
+		default:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") && !strings.HasPrefix(dirs[len(dirs)-2], "..") &&
 				!strings.HasPrefix(split[len(split)-1], ".") && !strings.HasPrefix(split[len(split)-1], "..") {
 				//panic(fmt.Sprint(dirs, len(split), split))
