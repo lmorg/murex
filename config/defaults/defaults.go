@@ -70,7 +70,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "show-exts", config.Properties{
+	c.Define("shell", "extensions-enabled", config.Properties{
 		Description: "Windows only! Auto-completes file extensions. This also affects the auto-completion parameters",
 		Default:     false,
 		DataType:    types.Boolean,
@@ -98,7 +98,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "show-stop-status", config.Properties{
+	c.Define("shell", "stop-status-enabled", config.Properties{
 		Description: "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs)",
 		Default:     true,
 		DataType:    types.Boolean,
@@ -113,7 +113,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	// TODO: Add config hooks for mime types
-	c.Define("shell", "mime", config.Properties{
+	c.Define("shell", "mime-types", config.Properties{
 		Description: "Supported MIME types and their corresponding Murex data types",
 		Default:     define.GetMimes(),
 		DataType:    types.Json,

@@ -20,7 +20,7 @@ func SplitPath(envPath string) []string {
 func listExes(path string, exes map[string]bool) {
 	var showExts bool
 
-	v, err := lang.ShellProcess.Config.Get("shell", "show-exts", types.Boolean)
+	v, err := lang.ShellProcess.Config.Get("shell", "extensions-enabled", types.Boolean)
 	if err != nil {
 		showExts = false
 	} else {

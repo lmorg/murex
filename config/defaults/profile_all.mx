@@ -54,7 +54,7 @@ private config.get.apps {
 #}
 
 autocomplete set config { [{
-    "Flags": [ "get", "set", "alter", "define", "default" ],
+    "Flags": [ "get", "set", "eval", "define", "default" ],
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },
@@ -80,11 +80,11 @@ autocomplete set config { [{
 				}
 			}) }
         ],
-        "default": [
+        "eval": [
             { "Dynamic": ({ config.get.apps }) },
             { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
         ],
-        "alter": [
+        "default": [
             { "Dynamic": ({ config.get.apps }) },
             { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
         ]

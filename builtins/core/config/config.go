@@ -181,8 +181,10 @@ func defineConfig(p *lang.Process) error {
 	}
 
 	if properties.Dynamic.Read != "" {
-		properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read), p.Module)
-		properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write), p.Module, properties.DataType)
+		properties.Dynamic.GetDynamic = getDynamic(
+			[]rune(properties.Dynamic.Read), p.Parameters.Params, p.Module)
+		properties.Dynamic.SetDynamic = setDynamic(
+			[]rune(properties.Dynamic.Write), p.Parameters.Params, p.Module, properties.DataType)
 	}
 
 	lang.ShellProcess.Config.Define(app, key, properties)
@@ -203,11 +205,13 @@ func defaultConfig(p *lang.Process) error {
 	return err
 }
 
-func getDynamic(block []rune, module string) func() (interface{}, error) {
+func getDynamic(block []rune, args []string, module string) func() (interface{}, error) {
 	return func() (interface{}, error) {
 		block = block[1 : len(block)-1]
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+		fork.Name = "config"
+		fork.Parameters.Params = args
 		fork.Module = module
 		exitNum, err := fork.Execute(block)
 
@@ -227,14 +231,15 @@ func getDynamic(block []rune, module string) func() (interface{}, error) {
 	}
 }
 
-func setDynamic(block []rune, module, dataType string) func(interface{}) error {
+func setDynamic(block []rune, args []string, module, dataType string) func(interface{}) error {
 	return func(value interface{}) error {
 		//if !types.IsBlock([]byte(stringblock)) {
 		//	return nil, errors.New("Dynamic config reader is not a code block")
 		//}
 		block = block[1 : len(block)-1]
-
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_CREATE_STDIN)
+		fork.Name = "config"
+		fork.Parameters.Params = args
 		fork.Module = module
 		s, err := types.ConvertGoType(value, types.String)
 		if err != nil {
