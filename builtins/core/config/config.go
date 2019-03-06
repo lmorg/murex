@@ -7,9 +7,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -39,8 +37,8 @@ func cmdConfig(p *lang.Process) error {
 	case "set":
 		return setConfig(p)
 
-	case "alter":
-		return alterConfig(p)
+	case "eval":
+		return evalConfig(p)
 
 	case "define":
 		return defineConfig(p)
@@ -50,7 +48,7 @@ func cmdConfig(p *lang.Process) error {
 
 	default:
 		p.Stdout.SetDataType(types.Null)
-		return errors.New("Unknown option. Please get, set, alter or define")
+		return errors.New("Unknown option. Please get, set, eval or define")
 	}
 
 }
@@ -82,14 +80,13 @@ func setConfig(p *lang.Process) error {
 
 	} else {
 		val, _ = p.Parameters.String(3)
-		//val = ansi.ExpandConsts(val)
 	}
 
 	err := p.Config.Set(app, key, val)
 	return err
 }
 
-func alterConfig(p *lang.Process) error {
+func evalConfig(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	app, err := p.Parameters.String(1)
@@ -102,17 +99,7 @@ func alterConfig(p *lang.Process) error {
 		return err
 	}
 
-	path, err := p.Parameters.String(3)
-	if err != nil {
-		return err
-	}
-
-	new, err := p.Parameters.String(4)
-	if err != nil {
-		return err
-	}
-
-	splitPath, err := alter.SplitPath(path)
+	block, err := p.Parameters.Block(3)
 	if err != nil {
 		return err
 	}
@@ -122,32 +109,24 @@ func alterConfig(p *lang.Process) error {
 		return err
 	}
 
-	dt := p.Config.DataType(app, key)
-	//branch := p.BranchFID()
-	//defer branch.Close()
-	//branch.Stdin = streams.NewStdin()
-	fork := p.Fork(lang.F_CREATE_STDIN)
+	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT)
+	fork.Stdin.SetDataType(p.Config.DataType(app, key))
 	_, err = fork.Stdin.Write([]byte(v.(string)))
 	if err != nil {
-		return errors.New("Couldn't write to unmarshaller's buffer: " + err.Error())
+		return errors.New("Couldn't write to eval's stdin: " + err.Error())
 	}
 
-	v, err = define.UnmarshalData(fork.Process, dt)
-	if err != nil {
-		return errors.New("Couldn't unmarshal existing config: " + err.Error())
-	}
-
-	v, err = alter.Alter(p.Context, v, splitPath, new)
+	p.ExitNum, err = fork.Execute(block)
 	if err != nil {
 		return err
 	}
 
-	val, err := define.MarshalData(fork.Process, dt, v)
+	b, err := fork.Stdout.ReadAll()
 	if err != nil {
-		return errors.New("Couldn't remarshal altered data structure: " + err.Error())
+		return err
 	}
 
-	return p.Config.Set(app, key, val)
+	return p.Config.Set(app, key, string(b))
 }
 
 func defineConfig(p *lang.Process) error {
@@ -202,8 +181,8 @@ func defineConfig(p *lang.Process) error {
 	}
 
 	if properties.Dynamic.Read != "" {
-		properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read))
-		properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write))
+		properties.Dynamic.GetDynamic = getDynamic([]rune(properties.Dynamic.Read), p.Module)
+		properties.Dynamic.SetDynamic = setDynamic([]rune(properties.Dynamic.Write), p.Module, properties.DataType)
 	}
 
 	lang.ShellProcess.Config.Define(app, key, properties)
@@ -224,20 +203,12 @@ func defaultConfig(p *lang.Process) error {
 	return err
 }
 
-func getDynamic(block []rune) func() (interface{}, error) {
+func getDynamic(block []rune, module string) func() (interface{}, error) {
 	return func() (interface{}, error) {
 		block = block[1 : len(block)-1]
 
-		//branch := lang.ShellProcess.BranchFID()
-		//branch.Scope = branch.Process
-		//branch.Parent = branch.Process
-		//branch.IsBackground = true
-
-		//stdout := streams.NewStdin()
-		//exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, branch.Process)
-		//branch.Close()
-
-		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+		fork.Module = module
 		exitNum, err := fork.Execute(block)
 
 		if err != nil {
@@ -256,30 +227,26 @@ func getDynamic(block []rune) func() (interface{}, error) {
 	}
 }
 
-func setDynamic(block []rune) func(interface{}) error {
+func setDynamic(block []rune, module, dataType string) func(interface{}) error {
 	return func(value interface{}) error {
 		//if !types.IsBlock([]byte(stringblock)) {
 		//	return nil, errors.New("Dynamic config reader is not a code block")
 		//}
 		block = block[1 : len(block)-1]
 
-		//branch := lang.ShellProcess.BranchFID()
-		//branch.Scope = branch.Process
-		//branch.Parent = branch.Process
-		//branch.IsBackground = true
-		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_CREATE_STDIN)
-
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_CREATE_STDIN)
+		fork.Module = module
 		s, err := types.ConvertGoType(value, types.String)
 		if err != nil {
 			return err
 		}
 
+		fork.Stdin.SetDataType(dataType)
 		_, err = fork.Stdin.Write([]byte(s.(string)))
 		if err != nil {
 			return err
 		}
 
-		//exitNum, err := lang.RunBlockNewConfigSpace(block, stdin, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
 		exitNum, err := fork.Execute(block)
 
 		if err != nil {

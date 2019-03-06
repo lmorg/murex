@@ -1,8 +1,6 @@
 package config
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
 	"sync"
 
@@ -16,6 +14,7 @@ type Properties struct {
 	DataType    string
 	Options     []string
 	Global      bool
+	Module      string
 	Dynamic     DynamicProperties
 }
 
@@ -63,39 +62,7 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 
 	defer conf.mutex.Unlock()
 
-	switch conf.values[app][key].(type) {
-	case []string:
-		//if config.properties[app][key].DataType == types.Json {
-		var iface interface{}
-		err := json.Unmarshal([]byte(value.(string)), &iface)
-		if err != nil {
-			return errors.New("Unable to set config with that data: " + err.Error())
-		}
-
-		for i := range iface.([]string) {
-			conf.values[app][key].([]string)[i] = iface.([]string)[i]
-		}
-	//}
-
-	case map[string]string:
-		//if config.properties[app][key].DataType == types.Json {
-		var iface interface{}
-		err := json.Unmarshal([]byte(value.(string)), &iface)
-		if err != nil {
-			return errors.New("Unable to set config with that data: " + err.Error())
-		}
-
-		for k := range conf.values[app][key].(map[string]string) {
-			delete(conf.values[app][key].(map[string]string), k)
-		}
-
-		for k := range iface.(map[string]string) {
-			conf.values[app][key].(map[string]string)[k] = iface.(map[string]string)[k]
-		}
-
-	default:
-		conf.values[app][key] = value
-	}
+	conf.values[app][key] = value
 
 	return nil
 }
@@ -209,6 +176,7 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 			obj[app][key]["Value"] = conf.values[app][key]
+			obj[app][key]["Module"] = conf.properties[app][key].Module
 
 			if conf.properties[app][key].Global {
 				obj[app][key]["Global"] = conf.properties[app][key].Global
