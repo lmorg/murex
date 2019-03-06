@@ -18,7 +18,7 @@ func init() {
 	//lang.GoFunctions["!private"] = cmdUnprivate
 }
 
-var rxAlias = regexp.MustCompile(`^([_a-zA-Z0-9]+)=(.*?)$`)
+var rxAlias = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*?)$`)
 
 func cmdAlias(p *lang.Process) error {
 	if p.Parameters.Len() == 0 {
