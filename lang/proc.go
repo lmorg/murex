@@ -60,9 +60,6 @@ type Process struct {
 type shellExec struct {
 	Pid int
 	Cmd *exec.Cmd
-	//Stdin *StdinPipe
-	//PipeR *os.File
-	//PipeW *os.File
 }
 
 // HasTerminated checks if process has terminated.

@@ -50,6 +50,7 @@
   - ja
   - len
   - mtac
+  - msort
 
 
 - DocumentID: append
@@ -101,3 +102,4 @@
   - index
   - range
   - mtac
+  - msort

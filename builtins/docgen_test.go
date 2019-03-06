@@ -40,6 +40,7 @@ func init() {
 		"lockfile":              "lockfile_commands_docgen.go",
 		"man-summary":           "man-summary_commands_docgen.go",
 		"map":                   "map_commands_docgen.go",
+		"msort":                 "msort_commands_docgen.go",
 		"murex-docs":            "murex-docs_commands_docgen.go",
 		"murex-update-exe-list": "murex-update-exe-list_commands_docgen.go",
 		"null":                  "devnull_commands_docgen.go",

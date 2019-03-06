@@ -107,6 +107,8 @@
   Outputs the length of an array
 * [`map` ](../commands/map.md):
   Creates a map from two data sources
+* [`msort` ](../commands/msort.md):
+  Sorts an array - data type agnostic
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [mtac](../commands/mtac.md):
