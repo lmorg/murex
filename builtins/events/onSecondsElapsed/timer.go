@@ -51,6 +51,7 @@ func (t *timer) init() {
 					t.events[i].Name,
 					t.events[i].Interval,
 					t.events[i].Block,
+					t.events[i].Module,
 					lang.ShellProcess.Stdout,
 				)
 			}

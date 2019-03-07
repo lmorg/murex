@@ -119,41 +119,43 @@ func (evt *watch) Remove(name string) error {
 	return err
 }
 
-// Init starts a new watch event loop
-func (evt *watch) init() {
-	getName := func(path string) (name string) {
-		var evtPath string
-		evt.mutex.Lock()
+func getName(evt *watch, path string) (name, module string) {
+	var evtPath string
+	evt.mutex.Lock()
 
-		for name, evtPath = range evt.paths {
-			if path == evtPath {
-				evt.mutex.Unlock()
-				return
-			}
+	for name, evtPath = range evt.paths {
+		if path == evtPath {
+			module = evt.modules[name]
+			evt.mutex.Unlock()
+			return
 		}
-
-		// code shouldn't hit this point anyway
-		evt.mutex.Unlock()
-		return
 	}
 
+	// code shouldn't hit this point anyway
+	evt.mutex.Unlock()
+	return
+}
+
+// Init starts a new watch event loop
+func (evt *watch) init() {
 	defer evt.watcher.Close()
 
 	for {
 		select {
 		case event := <-evt.watcher.Events:
+			name, module := getName(evt, event.Name)
 			events.Callback(
-				getName(event.Name),
+				name,
 				Interrupt{
 					Path:      event.Name,
 					Operation: event.Op.String(),
 				},
 				evt.findCallbackBlock(event.Name),
+				module,
 				lang.ShellProcess.Stdout,
 			)
 
 		case err := <-evt.watcher.Errors:
-			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, "error in watcher: "+err.Error())
 			lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error with watcher: " + err.Error()))
 		}
 	}

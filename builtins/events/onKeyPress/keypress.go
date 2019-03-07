@@ -124,7 +124,8 @@ eventFound:
 	}
 
 	stdout := streams.NewStdin()
-	events.Callback(evt.events[i].name, interrupt, block, stdout)
+	events.Callback(
+		evt.events[i].name, interrupt, block, evt.events[i].module, stdout)
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
