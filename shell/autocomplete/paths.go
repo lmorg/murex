@@ -188,25 +188,21 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 
 		switch {
 		case strings.HasSuffix(s, consts.PathSlash):
-		//	if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") {
-		//		//panic(fmt.Sprint(dirs, len(split), split))
-		//		return filepath.SkipDir
-		//	}
-		// do nothing (this creates a bug where hidden directories become
-		// visible but I haven't yet found a way to quash that bug. However
-		// removing this case causes a more serious bug where directories
-		// do not appear at all (even the non-hidden ones)!
+			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") {
+				//panic(fmt.Sprint(dirs, len(split), split))
+				return filepath.SkipDir
+			}
 
 		case len(split) == 1:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") &&
-				!strings.HasPrefix(s, ".") && !strings.HasPrefix(s, "..") {
+				(!strings.HasPrefix(s, ".") || strings.HasPrefix(s, "..")) {
 				//panic(fmt.Sprint(dirs, len(split), split))
 				return filepath.SkipDir
 			}
 
 		default:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") && !strings.HasPrefix(dirs[len(dirs)-2], "..") &&
-				!strings.HasPrefix(partial, ".") && !strings.HasPrefix(partial, "..") {
+				(!strings.HasPrefix(partial, ".") || strings.HasPrefix(partial, "..")) {
 				//panic(fmt.Sprint(dirs, len(split), split))
 				return filepath.SkipDir
 			}
