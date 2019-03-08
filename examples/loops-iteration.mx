@@ -5,7 +5,7 @@
 out "Iteration over a foreach loop:"
 
 a: [0..4] -> foreach i {
-    out "Iteration $i...."
+    out "  a: [0..4] -> foreach i { $i -> ... }"
 }
 
 
@@ -14,8 +14,8 @@ a: [0..4] -> foreach i {
 out "Iteration over a while loop:"
 
 let i=0
-while { eval i < 5 } {
-    out "Iteration $i...."
+while { = i < 5 } {
+    out "  while { = $i < 5 } { ... }"
     let i++
 }
 
@@ -24,6 +24,6 @@ while { eval i < 5 } {
 
 out "Iteration over a for loop:"
 
-for { i=0; i<5; i++ } {
-    out "Iteration $i...."
+for ( i=0; i<5; i++ ) {
+    out "  for ( i=0; $i<5; i++ ) { ... }"
 }
