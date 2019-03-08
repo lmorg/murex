@@ -35,6 +35,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "recursive-enabled", config.Properties{
+		Description: "Enable a recursive scan through the directory hierarchy when using tab-complete against a file or directory parameter",
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
 	c.Define("shell", "recursive-timeout", config.Properties{
 		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list for auto-completion. When timeout is reached results fallback to the faster non-recursive list",
 		Default:     150,

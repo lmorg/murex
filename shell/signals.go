@@ -22,6 +22,9 @@ const (
 )
 
 func sigtstp() {
+	// This doesn't get called in Windows however I'm still keeping this
+	// function here with the rest of the signal functions for the sake of
+	// consistency.
 	p := lang.ForegroundProc
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)

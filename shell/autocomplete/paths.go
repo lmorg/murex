@@ -24,6 +24,22 @@ func matchFilesAndDirs(s string) []string {
 }
 
 func matchFilesystem(s string, filesToo bool) []string {
+	// Is recursive search enabled?
+	enabled, err := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
+	if err != nil {
+		enabled = false
+	}
+
+	// If not, fallback to the faster surface level scan
+	if !enabled.(bool) {
+		if filesToo {
+			return matchFilesAndDirsOnce(s)
+		} else {
+			return matchDirsOnce(s)
+		}
+	}
+
+	// If so, get timeout and depth, then start the scans in parallel
 	var (
 		once      []string
 		recursive []string
@@ -57,10 +73,11 @@ func matchFilesystem(s string, filesToo bool) []string {
 
 	select {
 	case <-done:
-		return recursive
+		wg.Wait()
+		return append(once, recursive...)
 
 	case <-ctx.Done():
-		wg.Wait() // make sure the once search has done. We might be working on a slow storage media
+		wg.Wait() // make sure the surface search has done. We might be working on a slow storage media
 		return once
 	}
 }
@@ -130,7 +147,7 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 
 	split := strings.Split(s, consts.PathSlash)
 	path := strings.Join(split[:len(split)-1], consts.PathSlash)
-	//partial = split[len(split)-1]
+	partial := split[len(split)-1]
 
 	if len(s) > 0 && s[0] == consts.PathSlash[0] {
 		path = consts.PathSlash + path
@@ -151,11 +168,15 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 			return nil
 		}
 
-		if info.Name()[0] == '.' {
+		if info.Name()[0] == '.' && (len(partial) == 0 || partial[0] != '.') {
 			return nil
 		}
 
 		dirs := strings.Split(walkedPath, consts.PathSlash)
+
+		if len(dirs) == len(split) {
+			return nil
+		}
 
 		if len(dirs)-len(split) > maxDepth.(int) {
 			return filepath.SkipDir
@@ -167,7 +188,14 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 
 		switch {
 		case strings.HasSuffix(s, consts.PathSlash):
-			// skip
+		//	if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") {
+		//		//panic(fmt.Sprint(dirs, len(split), split))
+		//		return filepath.SkipDir
+		//	}
+		// do nothing (this creates a bug where hidden directories become
+		// visible but I haven't yet found a way to quash that bug. However
+		// removing this case causes a more serious bug where directories
+		// do not appear at all (even the non-hidden ones)!
 
 		case len(split) == 1:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") &&
@@ -178,7 +206,7 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 
 		default:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") && !strings.HasPrefix(dirs[len(dirs)-2], "..") &&
-				!strings.HasPrefix(split[len(split)-1], ".") && !strings.HasPrefix(split[len(split)-1], "..") {
+				!strings.HasPrefix(partial, ".") && !strings.HasPrefix(partial, "..") {
 				//panic(fmt.Sprint(dirs, len(split), split))
 				return filepath.SkipDir
 			}
@@ -202,16 +230,10 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 		pwd = path
 	}
 
-	/*err :=*/
 	filepath.Walk(pwd, walker)
-	//if err != nil {
-	//	lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
-	//}
-
-	/*if path != consts.PathSlash {
-		if len(s) < 3 { // TODO: there is a better way of doing this
-			hierarchy = append(hierarchy, ".."[len(s):]+consts.PathSlash)
-		}
+	/*err = filepath.Walk(pwd, walker)
+	if err != nil {
+		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 	}*/
 
 	return
