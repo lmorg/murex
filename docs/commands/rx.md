@@ -28,7 +28,7 @@ Output is a JSON list.
     }
     
     # checking if no files exist
-    !if { g: somefiles.* } then {
+    !if { rx: somefiles.* } then {
         # files do not exist
     }
 

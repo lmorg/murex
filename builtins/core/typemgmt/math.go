@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["eval"] = cmdEval
+	//lang.GoFunctions["eval"] = cmdEval
 	lang.GoFunctions["="] = cmdEval
 	lang.GoFunctions["let"] = cmdLet
 }
