@@ -73,11 +73,16 @@ func matchFilesystem(s string, filesToo bool) []string {
 
 	select {
 	case <-done:
+		// the surface search should have already been completed but lets wait
+		// for it regardless because the last thing we need is a completely
+		// avoidable race condition
 		wg.Wait()
 		return append(once, recursive...)
 
 	case <-ctx.Done():
-		wg.Wait() // make sure the surface search has done. We might be working on a slow storage media
+		// make sure the surface search has done. It should have, but we might
+		// be working on impossibly slow storage media
+		wg.Wait()
 		return once
 	}
 }

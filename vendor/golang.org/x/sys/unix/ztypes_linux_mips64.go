@@ -1421,6 +1421,9 @@ const (
 	SizeofTpacketHdr  = 0x20
 	SizeofTpacket2Hdr = 0x20
 	SizeofTpacket3Hdr = 0x30
+
+	SizeofTpacketStats   = 0x8
+	SizeofTpacketStatsV3 = 0xc
 )
 
 const (
@@ -2036,4 +2039,19 @@ type SockExtendedErr struct {
 	Pad    uint8
 	Info   uint32
 	Data   uint32
+}
+
+type FanotifyEventMetadata struct {
+	Event_len    uint32
+	Vers         uint8
+	Reserved     uint8
+	Metadata_len uint16
+	Mask         uint64
+	Fd           int32
+	Pid          int32
+}
+
+type FanotifyResponse struct {
+	Fd       int32
+	Response uint32
 }
