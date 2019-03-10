@@ -88,12 +88,12 @@
   revision = "e5f3eae677adf15fb41b7ddcb29d0330d740d7a8"
 
 [[projects]]
-  digest = "1:893b99c369d7680f7cac41b9915e8bcc49c5d3ad2e172e01d3a2bacc674e4881"
+  digest = "1:2832665108f2ba414831fa4130df36c7c061fcb38c041c27fab8b24a620972af"
   name = "github.com/lmorg/readline"
   packages = ["."]
   pruneopts = "UT"
-  revision = "f2d7b6c8c7bce273d4fbcbcea0e44f09e8f49cb7"
-  version = "v2.0.1"
+  revision = "4c2862fb661be7c99ae63a84a7e1fcb34890aec0"
+  version = "v2.1.0"
 
 [[projects]]
   digest = "1:10db7f693cab6783acbb4d77329f015ade98e0466474e3c01fb2f2820266766e"
@@ -135,14 +135,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:84634db3c6385a120c926d800106c52269a084b849c1c25e276284c9232ad641"
+  digest = "1:85cd5224b89829559e8327ba2e52e0df72638d33cf3082b066ea9dea34391e2f"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "584f3b12f43e1e55248c90e84804777009eed0a4"
+  revision = "10058d7d4faa7dd5ef860cbd31af00903076e7b8"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"

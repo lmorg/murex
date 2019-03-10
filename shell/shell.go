@@ -58,8 +58,6 @@ func Start() {
 
 	SignalHandler(true)
 
-	//go autocomplete.UpdateGlobalExeList()
-
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = 4
@@ -113,16 +111,18 @@ func ShowPrompt() {
 
 		line, err := Prompt.Readline()
 		if err != nil {
-			switch err.Error() {
-			case readline.ErrCtrlC:
+			switch err {
+			case readline.CtrlC:
 				merged = ""
 				nLines = 1
 				fmt.Println(PromptSIGINT)
 				continue
-			case readline.ErrEOF:
+
+			case readline.EOF:
 				fmt.Println(utils.NewLineString)
 				//return
 				os.Exit(0)
+
 			default:
 				panic(err)
 			}

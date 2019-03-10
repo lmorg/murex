@@ -2,7 +2,6 @@ package readline
 
 import (
 	"bytes"
-	"errors"
 	"os"
 	"regexp"
 )
@@ -122,11 +121,11 @@ func (rl *Instance) Readline() (string, error) {
 		switch b[0] {
 		case charCtrlC:
 			rl.clearHelpers()
-			return "", errors.New(ErrCtrlC)
+			return "", CtrlC
 
 		case charEOF:
 			rl.clearHelpers()
-			return "", errors.New(ErrEOF)
+			return "", EOF
 
 		case charCtrlF:
 			if !rl.modeTabCompletion {

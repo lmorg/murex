@@ -31,8 +31,8 @@ const (
 	charEscape
 	charCtrlSlash             // ^\
 	charCtrlCloseSquare       // ^]
-	charCtrlHat               // ^_
-	charCtrlUnderscore        // ^^
+	charCtrlHat               // ^^
+	charCtrlUnderscore        // ^_
 	charBackspace2      = 127 // ASCII 1963
 )
 
