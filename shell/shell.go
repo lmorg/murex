@@ -17,13 +17,15 @@ import (
 )
 
 var (
-	// Interactive describes whether murex is running as an interactive shell or not
+	// Interactive describes whether murex is running as an interactive shell
+	// or not
 	Interactive bool
 
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// PromptId is an custom defined ID for each prompt Goprocess so we don't accidentally end up with multiple prompts running
+	// PromptId is an custom defined ID for each prompt Goprocess so we don't
+	// accidentally end up with multiple prompts running
 	PromptId = new(counter.MutexCounter)
 )
 

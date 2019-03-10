@@ -88,12 +88,12 @@
   revision = "e5f3eae677adf15fb41b7ddcb29d0330d740d7a8"
 
 [[projects]]
-  branch = "master"
-  digest = "1:d52c8492753f31738a4e0277706598dc003bc1292075da16cc23eae063c5823e"
+  digest = "1:893b99c369d7680f7cac41b9915e8bcc49c5d3ad2e172e01d3a2bacc674e4881"
   name = "github.com/lmorg/readline"
   packages = ["."]
   pruneopts = "UT"
-  revision = "81e2a50aa944b1abd8bb31e2d9115ff1f3b39c54"
+  revision = "f2d7b6c8c7bce273d4fbcbcea0e44f09e8f49cb7"
+  version = "v2.0.1"
 
 [[projects]]
   digest = "1:10db7f693cab6783acbb4d77329f015ade98e0466474e3c01fb2f2820266766e"

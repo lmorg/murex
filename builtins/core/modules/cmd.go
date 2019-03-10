@@ -17,7 +17,8 @@ import (
 
 const usage = `
 Usage: murex-package install         url
-                     update
+					 update
+					 reload
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
 `
@@ -34,6 +35,9 @@ func cmdModuleAdmin(p *lang.Process) error {
 
 	case "update":
 		return updateModules(p)
+
+	case "reload":
+		return reloadModules(p)
 
 	case "import":
 		return importModules(p)
@@ -162,6 +166,11 @@ func updateModules(p *lang.Process) error {
 		}
 	}
 
+	return nil
+}
+
+func reloadModules(p *lang.Process) error {
+	profile.Execute()
 	return nil
 }
 
