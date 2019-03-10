@@ -110,6 +110,10 @@ func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, 
 		items = append(items, matchDirs(partial)...)
 	}
 
+	if len(f.FlagsDesc) > 0 && f.ListView {
+		*tdt = readline.TabDisplayList
+	}
+
 	return
 }
 
