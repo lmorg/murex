@@ -58,8 +58,8 @@
   name = "github.com/lmorg/apachelogs"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/lmorg/readline"
+  version = "2.1.0"
 
 [[constraint]]
   branch = "master"

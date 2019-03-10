@@ -88,12 +88,12 @@
   revision = "e5f3eae677adf15fb41b7ddcb29d0330d740d7a8"
 
 [[projects]]
-  branch = "master"
-  digest = "1:5031db68dbe30cda231198f50ed01a6cd54ad33a3c78b148f8e3f32a1cb6705c"
+  digest = "1:2832665108f2ba414831fa4130df36c7c061fcb38c041c27fab8b24a620972af"
   name = "github.com/lmorg/readline"
   packages = ["."]
   pruneopts = "UT"
-  revision = "7dcdd3004688f65fad4e6d26c86aff8aacb26008"
+  revision = "4c2862fb661be7c99ae63a84a7e1fcb34890aec0"
+  version = "v2.1.0"
 
 [[projects]]
   digest = "1:10db7f693cab6783acbb4d77329f015ade98e0466474e3c01fb2f2820266766e"
@@ -112,11 +112,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:fde12c4da6237363bf36b81b59aa36a43d28061167ec4acb0d41fc49464e28b9"
+  digest = "1:058e9504b9a79bfe86092974d05bb3298d2aa0c312d266d43148de289a5065d9"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "ffb98f73852f696ea2bb21a617a5c4b3e067a439"
+  revision = "c2843e01d9a2bc60bb26ad24e09734fdc2d9ec58"
 
 [[projects]]
   digest = "1:70719a5fae6bdae5b2826b9be15c9f01508c58aa387b3b0301024a729109ed34"
@@ -135,14 +135,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:80200f57d482f61334a482a046ddedbad77c04dbec6ab81a4e1b3c6adbdfadef"
+  digest = "1:85cd5224b89829559e8327ba2e52e0df72638d33cf3082b066ea9dea34391e2f"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "cd391775e71e684db52b63df9affd58269495083"
+  revision = "10058d7d4faa7dd5ef860cbd31af00903076e7b8"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"

@@ -1,11 +1,11 @@
 package autocomplete
 
 import (
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/readline"
-
 	"sort"
 	"strings"
+
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/readline"
 )
 
 // MatchFunction returns autocomplete suggestions for functions / executables

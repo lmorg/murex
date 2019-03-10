@@ -35,17 +35,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	//branch := lang.ShellProcess.BranchFID()
-	//branch.Scope = branch.Process
-	//branch.Parent = branch.Process
-	//branch.IsBackground = true
-	//branch.Name = args.exe
-	//branch.Parameters = parameters.Parameters{Params: args.params}
-	//defer branch.Close()
-
-	//stdout := streams.NewStdin()
-	//exitNum, err := lang.RunBlockNewConfigSpace(block, nil, stdout, nil, branch.Process)
-
 	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name = args.exe
 	fork.Parameters = parameters.Parameters{Params: args.params}
