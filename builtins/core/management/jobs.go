@@ -31,8 +31,10 @@ func cmdBackground(p *lang.Process) (err error) {
 
 	p.IsBackground = true
 	p.WaitForTermination <- false
-	//lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
-	p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND).Execute(block)
+	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND)
+	fork.Name = p.Name
+	fork.Parameters = p.Parameters
+	fork.Execute(block)
 
 	return nil
 }
