@@ -2,6 +2,7 @@ package autocomplete
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -15,15 +16,15 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func matchDirs(s string) []string {
-	return matchFilesystem(s, false)
+func matchDirs(s string, errCallback func(error)) []string {
+	return matchFilesystem(s, false, errCallback)
 }
 
-func matchFilesAndDirs(s string) []string {
-	return matchFilesystem(s, true)
+func matchFilesAndDirs(s string, errCallback func(error)) []string {
+	return matchFilesystem(s, true, errCallback)
 }
 
-func matchFilesystem(s string, filesToo bool) []string {
+func matchFilesystem(s string, filesToo bool, errCallback func(error)) []string {
 	// Is recursive search enabled?
 	enabled, err := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
 	if err != nil {
@@ -82,6 +83,14 @@ func matchFilesystem(s string, filesToo bool) []string {
 	case <-ctx.Done():
 		// make sure the surface search has done. It should have, but we might
 		// be working on impossibly slow storage media
+		var s string
+		if filesToo {
+			s = "file"
+		} else {
+			s = "directory"
+		}
+		errCallback(fmt.Errorf("Recursive %s listing timed out. You can configure this in `config set shell recursive-timeout`", s))
+
 		wg.Wait()
 		return once
 	}

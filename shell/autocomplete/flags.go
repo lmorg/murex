@@ -94,7 +94,7 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
+func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error)) (items []string) {
 	items = append(items, matchPartialFlags(f, partial, defs)...)
 	items = append(items, matchDynamic(f, partial, args, defs, tdt)...)
 
@@ -105,9 +105,9 @@ func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, 
 
 	switch {
 	case f.IncFiles:
-		items = append(items, matchFilesAndDirs(partial)...)
+		items = append(items, matchFilesAndDirs(partial, errCallback)...)
 	case f.IncDirs && !f.IncFiles:
-		items = append(items, matchDirs(partial)...)
+		items = append(items, matchDirs(partial, errCallback)...)
 	}
 
 	if len(f.FlagsDesc) > 0 && f.ListView {
@@ -117,7 +117,7 @@ func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, 
 	return
 }
 
-func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error)) (items []string) {
 	var nest int
 
 	defer func() {
@@ -177,7 +177,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs, tdt)
+				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs, tdt, errCallback)
 				if len(items) > 0 || len(*defs) > 0 {
 					return
 				}
@@ -188,7 +188,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			}
 
 			disposableMap := make(map[string]string)
-			length := len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap, tdt))
+			length := len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap, tdt, errCallback))
 			if flags[nest].AnyValue || length > 0 || len(disposableMap) > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
@@ -205,7 +205,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		items = append(items, match(&flags[nest], partial, args, defs, tdt)...)
+		items = append(items, match(&flags[nest], partial, args, defs, tdt, errCallback)...)
 		if !flags[nest].Optional {
 			break
 		}

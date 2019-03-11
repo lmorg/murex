@@ -50,3 +50,8 @@ func (rl *Instance) resetHintText() {
 	rl.hintY = 0
 	rl.hintText = []rune{}
 }
+
+func (rl *Instance) SetHintText(s string) {
+	rl.hintText = []rune(s)
+	//rl.writeHintText()
+}

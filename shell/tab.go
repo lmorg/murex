@@ -3,11 +3,21 @@ package shell
 import (
 	"strings"
 
+	"github.com/lmorg/murex/utils/ansi"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/readline"
 )
+
+func errCallback(err error) {
+	s := err.Error()
+	if ansi.IsAllowed() {
+		s = ansi.Reset + ansi.FgRed + s
+	}
+	Prompt.SetHintText(s)
+}
 
 func tabCompletion(line []rune, pos int) (prefix string, items []string, descriptions map[string]string, tdt readline.TabDisplayType) {
 	descriptions = make(map[string]string)
@@ -35,7 +45,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, descrip
 			s = strings.TrimSpace(string(line[pt.Loc:]))
 		}
 		prefix = s
-		items = autocomplete.MatchFunction(s)
+		items = autocomplete.MatchFunction(s, errCallback)
 
 	default:
 		var s string
@@ -47,7 +57,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, descrip
 		autocomplete.InitExeFlags(pt.FuncName)
 
 		pIndex := 0
-		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt)
+		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt, errCallback)
 	}
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
