@@ -128,8 +128,8 @@ func parseFlags(flags *map[string]bool, filename string) {
 				continue
 			}
 
-			// Fix \^ seen on some OSX man pages
-			match[i][1] = strings.Replace(match[i][1], `\^`, "", -1)
+			//// Fix \^ seen on some OSX man pages
+			//match[i][1] = strings.Replace(match[i][1], `\^`, "", -1)
 
 			flag := rxMatchGetFlag.FindAllStringSubmatch(match[i][1], -1)
 			for j := range flag {
