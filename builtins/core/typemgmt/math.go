@@ -13,8 +13,7 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["eval"] = cmdEval
-	lang.GoFunctions["="] = cmdEval
+	lang.GoFunctions["="] = cmdEqu
 	lang.GoFunctions["let"] = cmdLet
 }
 
@@ -24,7 +23,7 @@ var (
 	rxPlus  = regexp.MustCompile(`^([_a-zA-Z0-9]+)\+\+$`)
 )
 
-func cmdEval(p *lang.Process) (err error) {
+func cmdEqu(p *lang.Process) (err error) {
 	//p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {

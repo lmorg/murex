@@ -37,7 +37,7 @@ func cmdFor(p *lang.Process) (err error) {
 	}
 
 	variable := "let " + parameters[0]
-	conditional := "eval " + parameters[1]
+	conditional := "= " + parameters[1]
 	incremental := "let " + parameters[2]
 
 	//_, err = lang.RunBlockExistingConfigSpace([]rune(variable), nil, nil, p.Stderr, p)

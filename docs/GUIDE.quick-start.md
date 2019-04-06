@@ -95,6 +95,6 @@ for more on using the `array` builtin.
 
 In _murex_ back ticks do not spawn subshells. Back ticks are treated
 like a regular, printable, character. Their only "special" function is
-quoting strings in `eval`, eg:
+quoting strings in `=`, eg:
 
-    if { eval: `quoted string`==variable } { out "do something" }
+    if { = `quoted string`==variable } { out "do something" }

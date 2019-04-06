@@ -137,7 +137,7 @@ bar
   Define a local variable and set it's value
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [eval](../commands/eval.md):
+* [equ](../commands/equ.md):
   
 * [let](../commands/let.md):
   

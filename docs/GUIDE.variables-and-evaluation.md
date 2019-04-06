@@ -12,7 +12,7 @@ the same way:
     command "$varname"
 
     # evaluated
-    eval varname==`value`
+    = varname==`value`
 
 If a _murex_ variable shares the same name as an OS env var, then the
 _murex_ variable will take precedence. eg
@@ -98,6 +98,6 @@ prefix. eg
 Currently this is only supported in function parameters (ie you cannot
 use variables as function names).
 
-## Variable usage in `let` and `eval`
+## Variable usage in `let` and `=`
 
 TODO: write me

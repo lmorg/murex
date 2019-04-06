@@ -353,7 +353,7 @@ func (vars *Variables) Dump() map[string]*variable {
 }
 
 // DumpMap returns a map of the variables and values for all variables in scope.
-// This isn't recommended for general consumption but is needed for the `eval`
+// This isn't recommended for general consumption but is needed for the `=`
 // function.
 func (vars *Variables) DumpMap() map[string]interface{} {
 	m := make(map[string]interface{})
