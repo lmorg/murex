@@ -76,38 +76,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 
 	if f.AutoBranch {
-		autoBranch(items)
-		items = dedup(items)
+		autoBranch(&items)
 	}
 
 	return
-}
-
-func autoBranch(tree []string) {
-	//debug.Json("tree", tree)
-	for branch := range tree {
-
-		for i := 0; i < len(tree[branch])-1; i++ {
-			if tree[branch][i] == '/' {
-				tree[branch] = tree[branch][:i+1]
-				break
-			}
-		}
-
-	}
-}
-
-func dedup(items []string) []string {
-	m := make(map[string]bool)
-	for i := range items {
-		m[items[i]] = true
-	}
-
-	new := []string{}
-	for s := range m {
-		new = append(new, s)
-	}
-
-	sort.Strings(new)
-	return new
 }
