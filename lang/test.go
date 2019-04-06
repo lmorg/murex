@@ -274,7 +274,7 @@ func (tests *Tests) Compare(name string, p *Process) {
 	}
 
 	tests.mutex.Unlock()
-	tests.AddResult(tests.test[i], p, TestError, "Test named but there is no test defined.")
+	tests.AddResult(nil, p, TestError, "Test named but there is no test defined.")
 	return //errors.New("Test named but there is no test defined for '" + name + "'.")
 
 compare:
