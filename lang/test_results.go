@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/utils"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -137,9 +139,12 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return err
 
 	case "table":
+		pipe.SetDataType(types.Generic)
+
 		if reportPipe.(string) == "" {
 			pipe.Writeln([]byte(consts.TestTableHeadings))
 		}
+
 		for _, r := range tests.Results.results {
 			var prefix string
 			if allowAnsi {
@@ -156,16 +161,44 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 				prefix = "["
 			}
 
-			s := fmt.Sprintf("%s%s\x1b[0m] %-10s %-50s %-4d %-4d %s\n",
+			s := fmt.Sprintf("%s%s\x1b[0m] %-10s %-50s %-4d %-4d %s",
 				prefix, r.Status,
 				r.TestName,
 				params(r.Exec, r.Params),
 				r.LineNumber,
 				r.ColNumber,
 				left(escape(r.Message)),
+				utils.NewLineString,
 			)
 
-			pipe.Write([]byte(s))
+			pipe.Writeln([]byte(s))
+
+		}
+		return nil
+
+	case "csv":
+		pipe.SetDataType("csv")
+		s := fmt.Sprintf(`%s %-13s %-53s %-7s %-7s %s`,
+			`"Status",`,
+			`"Test Name",`,
+			`"Process",`,
+			`"Line",`,
+			`"Col.",`,
+			`"Message"`,
+		)
+		pipe.Writeln([]byte(s))
+
+		for _, r := range tests.Results.results {
+			s = fmt.Sprintf(`%s %-13s %-53s %6d, %6d, %s`,
+				`"`+r.Status+`",`,
+				`"`+r.TestName+`",`,
+				`"`+params(r.Exec, r.Params)+`",`,
+				r.LineNumber,
+				r.ColNumber,
+				`"`+strings.ReplaceAll(escape(r.Message), `"`, `""`)+`"`,
+			)
+
+			pipe.Writeln([]byte(s))
 
 		}
 		return nil

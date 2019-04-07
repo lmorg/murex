@@ -166,7 +166,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 	c.Define("test", "report-format", config.Properties{
 		Description: "Output format of the report",
 		Default:     "table",
-		Options:     []string{"table", "json"},
+		Options:     []string{"table", "json", "csv"},
 		DataType:    types.String,
 	})
 
