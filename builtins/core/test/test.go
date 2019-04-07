@@ -23,16 +23,19 @@ func init() {
 	lang.GoFunctions["!test"] = cmdTestDisable
 
 	defaults.AppendProfile(`
-		autocomplete set test { [{
-			"Flags": [
-				"enable",
-				"!enable",
-				"auto-report",
-				"!auto-report",
-				"run",
-				"define"
-			]
-		}] }
+        autocomplete set test { [{
+            "Flags": [
+                "enable",
+                "!enable",
+                "auto-report",
+                "!auto-report",
+                "verbose",
+                "!verbose",
+                "run",
+                "define"
+						],
+						"AllowMultiple": true
+        }] }
     `)
 }
 
@@ -48,17 +51,12 @@ func cmdTest(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		//return errors.New("Missing parameters.")
 		s, err := p.Config.Get("test", "enabled", types.String)
 		if err != nil {
 			return err
 		}
 		_, err = p.Stdout.Write([]byte(s.(string)))
 		return err
-	}
-
-	if p.Parameters.Len() == 1 {
-		return testConfig(p)
 	}
 
 	option, _ := p.Parameters.String(0)
@@ -70,18 +68,26 @@ func cmdTest(p *lang.Process) error {
 		return testRun(p)
 
 	default:
-		return errors.New("Invalid parameter: " + option)
+		for i := range p.Parameters.StringArray() {
+			err := testConfig(p, i)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
 	}
 }
 
-func testConfig(p *lang.Process) error {
-	option, _ := p.Parameters.String(0)
+func testConfig(p *lang.Process, i int) error {
+	option, _ := p.Parameters.String(i)
 
 	switch option {
 	case "enable", "on":
+		p.Stdout.Writeln([]byte("Enabling test mode...."))
 		return p.Config.Set("test", "enabled", true)
 
 	case "!enable", "disable", "off":
+		p.Stdout.Writeln([]byte("Disabling test mode...."))
 		return p.Config.Set("test", "enabled", false)
 
 	case "auto-report":
@@ -92,17 +98,22 @@ func testConfig(p *lang.Process) error {
 		p.Stdout.Writeln([]byte("Disabling auto-report...."))
 		return p.Config.Set("test", "auto-report", false)
 
+	case "verbose":
+		p.Stdout.Writeln([]byte("Enabling verbose reporting...."))
+		return p.Config.Set("test", "verbose", true)
+
+	case "!verbose":
+		p.Stdout.Writeln([]byte("Disabling verbose reporting...."))
+		return p.Config.Set("test", "verbose", false)
+
 	default:
-		v := types.IsTrue([]byte(option), 0)
-		p.Stderr.Writeln([]byte(fmt.Sprintf(
-			"Invalid parameter. Assuming `test %t`%sExpected usage: test [ enable | !enable ]%s                test [ auto-report | !auto-report ]%s                test define { json-properties }%s                test run { code-block }",
-			v,
+		return fmt.Errorf(
+			"Invalid parameter: `%s`%sExpected usage: test [ enable | !enable ] [ verbose | !verbose ] [ auto-report | !auto-report ]%s                test define { json-properties }%s                test run { code-block }",
+			option,
 			utils.NewLineString,
 			utils.NewLineString,
 			utils.NewLineString,
-			utils.NewLineString,
-		)))
-		return p.Config.Set("test", "enabled", v)
+		)
 	}
 }
 
@@ -161,20 +172,31 @@ func testDefine(p *lang.Process) error {
 	return err
 }
 
-func runBlock(p *lang.Process, block []rune) ([]byte, error) {
-	//stdout := streams.NewStdin()
-	//_, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, lang.ShellProcess.Stderr, p)
-	fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
-	_, err := fork.Execute(block)
+func runBlock(p *lang.Process, block []rune, expected []byte) ([]byte, []byte, error) {
+	fork := p.Fork(lang.F_CREATE_STDIN | lang.F_CREATE_STDERR | lang.F_CREATE_STDOUT)
+
+	fork.Stdin.SetDataType(types.Generic)
+	_, err := fork.Stdin.Write(expected)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	b, err := fork.Stdout.ReadAll()
+	_, err = fork.Execute(block)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return utils.CrLfTrim(b), nil
+
+	stdout, err := fork.Stdout.ReadAll()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	stderr, err := fork.Stderr.ReadAll()
+	if err != nil {
+		return utils.CrLfTrim(stdout), nil, err
+	}
+
+	return utils.CrLfTrim(stdout), utils.CrLfTrim(stderr), nil
 }
 
 func testRun(p *lang.Process) error {

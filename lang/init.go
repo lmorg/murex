@@ -24,7 +24,7 @@ func InitEnv() {
 	ShellProcess.Module = config.AppName
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
-	ShellProcess.Tests = NewTests()
+	ShellProcess.Tests = NewTests(ShellProcess)
 	//ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
 	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
 	ShellProcess.RunMode = runmode.Shell

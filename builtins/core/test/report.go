@@ -9,5 +9,5 @@ func init() {
 }
 
 func cmdTestReport(p *lang.Process) error {
-	return p.Tests.WriteResults(p.Config, p.Stdout)
+	return lang.ShellProcess.Tests.WriteResults(p.Config, p.Stdout)
 }

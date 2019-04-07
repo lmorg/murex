@@ -1,9 +1,5 @@
 package lang
 
-import (
-	"testing"
-)
-
 // TestMurexTestingFramework tests murex's testing framework using Go's testing
 // framework (confused? Essentially murex shell scripts have a testing framework
 // leveredged via the `test` builtin. This can be used for testing and debugging
@@ -14,6 +10,11 @@ import (
 //
 // This Go source file tests that murex's test builtins and report functions
 // work by testing the Go code that resides behind them.
+
+import (
+	"testing"
+)
+
 func TestMurexTestingFramework(t *testing.T) {
 
 }

@@ -146,7 +146,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 	// --- test ---
 
 	c.Define("test", "enabled", config.Properties{
-		Description: "Run test cases.",
+		Description: "Run test cases",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("test", "verbose", config.Properties{
+		Description: "Report all pass conditions for a defined test rather than just the pass summary",
 		Default:     false,
 		DataType:    types.Boolean,
 	})
@@ -171,8 +177,8 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("test", "crop-message", config.Properties{
-		Description: "This is the character limit for STDOUT and STDERR fields inside the report message. Set to zero, `0`, to disable message cropping",
-		Default:     30,
+		Description: "This is the character limit for the report message when the report is set to `table`. Set to zero, `0`, to disable message cropping",
+		Default:     100,
 		DataType:    types.Integer,
 	})
 }

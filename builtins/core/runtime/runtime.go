@@ -50,6 +50,7 @@ func cmdRuntime(p *lang.Process) error {
 		fMemstats      = "--memstats"
 		fAstCache      = "--astcache"
 		fTests         = "--tests"
+		fTestResults   = "--test-results"
 		fModules       = "--modules"
 		fDebug         = "--debug"
 		fHelp          = "--help"
@@ -78,6 +79,7 @@ func cmdRuntime(p *lang.Process) error {
 		fMemstats:      types.Boolean,
 		fAstCache:      types.Boolean,
 		fTests:         types.Boolean,
+		fTestResults:   types.Boolean,
 		fModules:       types.Boolean,
 		fDebug:         types.Boolean,
 		fHelp:          types.Boolean,
@@ -158,6 +160,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fAstCache[2:]] = lang.AstCache.Dump()
 		case fTests:
 			ret[fTests[2:]] = p.Tests.Dump()
+		case fTestResults:
+			ret[fTestResults[2:]] = dumpTestResults(p)
 		case fModules:
 			ret[fModules[2:]] = profile.Packages
 		case fDebug:
@@ -199,4 +203,11 @@ func cmdRuntime(p *lang.Process) error {
 
 	_, err = p.Stdout.Write(b)
 	return err
+}
+
+func dumpTestResults(p *lang.Process) interface{} {
+	return map[string]interface{}{
+		"shell":   lang.ShellProcess.Tests.Results.Dump(),
+		"process": p.Tests.Results.Dump(),
+	}
 }

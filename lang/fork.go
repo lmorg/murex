@@ -121,7 +121,7 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Scope = fork.Process
 		fork.Parent = p
 		fork.newTestScope = true
-		fork.Tests = NewTests()
+		fork.Tests = NewTests(fork.Process)
 		fork.Config = p.Config.Copy()
 		fork.Variables = p.Variables
 
@@ -160,7 +160,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 		if flags&F_NEW_TESTS != 0 {
 			fork.newTestScope = true
-			fork.Tests = NewTests()
+			fork.Tests = NewTests(fork.Process)
 		} else {
 			fork.Tests = p.Tests
 		}
@@ -205,9 +205,6 @@ func (p *Process) Fork(flags int) *Fork {
 	default:
 		fork.Stderr = p.Stderr
 	}
-
-	//fork.Stdout.Open()
-	//fork.Stderr.Open()
 
 	return fork
 }
@@ -268,9 +265,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	}
 
 	if fork.newTestScope {
+		fork.Tests.ReportMissedTests(fork.Process)
+
 		testAutoReport, configErr := fork.Config.Get("test", "auto-report", types.Boolean)
 		if configErr == nil && testAutoReport.(bool) {
-			fork.Tests.ReportMissedTests(fork.Process)
 			err = fork.Tests.WriteResults(fork.Config, ShellProcess.Stderr)
 			if err != nil {
 				message := fmt.Sprintf("Error generating test results: %s.", err.Error())
