@@ -139,7 +139,7 @@ func getCompLeftFromBlock(p *lang.Process) (string, error) {
 	}
 	//stdout := streams.NewStdin()
 	//_, err = lang.RunBlockExistingConfigSpace(compBlock, nil, stdout, nil, p)
-	fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	_, err = fork.Execute(compBlock)
 	if err != nil {
 		return "", err
@@ -169,7 +169,7 @@ func switchCompByBlock(p *lang.Process, params *parameters.Parameters) (bool, er
 
 	//stdout := streams.NewStdin()
 	//exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, p)
-	fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	exitNum, err := fork.Execute(block)
 	if err != nil {
 		return false, err
@@ -191,6 +191,6 @@ func switchBlock(p *lang.Process, params *parameters.Parameters) error {
 	}
 
 	//_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
-	_, err = p.Fork(lang.F_NO_STDIN).Execute(block)
+	_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 	return err
 }

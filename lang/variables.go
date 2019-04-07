@@ -21,8 +21,8 @@ var errVariableReserved = errors.New("Cannot set a reserved variable")
 // While it might seem odd wrapping `varTable` struct up inside another struct,
 // the idea behind this is `Variables` would be per process and `varTable` would
 // be global. `Variables` then references the `varTable`. This allows us to do
-// some clever things with variables such as have scopes that don't have any
-// visibility of even the shell's global vars.
+// some clever things with variables such as have scopes that can cascade
+// ownership even when code is running concurrently of not in sequential order.
 type Variables struct {
 	varTable *varTable
 	process  *Process
