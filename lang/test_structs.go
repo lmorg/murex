@@ -7,7 +7,7 @@ package lang
 */
 
 import (
-	"errors"
+	"fmt"
 	"regexp"
 	"sync"
 
@@ -83,6 +83,9 @@ const (
 	// TestError means there was an error running that test case
 	TestError TestStatus = "ERROR"
 
+	// TestState is reporting the output from test state blocks
+	TestState TestStatus = "STATE"
+
 	// TestInfo is for any additional information on a test that might help
 	// debug. This is only provided when `verbose` is enabled: `test verbose`
 	TestInfo TestStatus = "INFORM"
@@ -101,15 +104,17 @@ const (
 // Tests is a class of all the tests that needs to run inside a
 // particular scope, plus all of it's results.
 type Tests struct {
-	mutex   sync.Mutex
-	test    []*TestProperties
-	Results *TestResults
+	mutex       sync.Mutex
+	test        []*TestProperties
+	Results     *TestResults
+	stateBlocks map[string][]rune
 }
 
 // NewTests creates a new testing scope for Murex's test suite.NewTests.
 // Please note this should NOT be confused with Go tests (go test)!
 func NewTests(p *Process) (tests *Tests) {
 	tests = new(Tests)
+	tests.stateBlocks = make(map[string][]rune)
 
 	if p.Id == ShellProcess.Id {
 		tests.Results = new(TestResults)
@@ -153,19 +158,46 @@ func (tests *Tests) Define(name string, out *TestChecks, err *TestChecks, exitNu
 
 define:
 	tests.mutex.Unlock()
-	return errors.New("Test already defined for '" + name + "' in this scope.")
+	return fmt.Errorf("Test already defined for '%s' in this scope", name)
+}
+
+// State creates a new test state
+func (tests *Tests) State(name string, block []rune) error {
+	tests.mutex.Lock()
+
+	if len(tests.stateBlocks[name]) != 0 {
+		tests.mutex.Unlock()
+		return fmt.Errorf("Test state already defined for '%s' in this scope", name)
+	}
+
+	if len(block) == 0 {
+		tests.mutex.Unlock()
+		return fmt.Errorf("Test state for '%s' is an empty code block", name)
+	}
+
+	tests.stateBlocks[name] = block
+	tests.mutex.Unlock()
+	return nil
 }
 
 // Dump is used for `runtime --tests`
-func (tests *Tests) Dump() []string {
+func (tests *Tests) Dump() interface{} {
 	tests.mutex.Lock()
 
 	names := make([]string, 0)
-
 	for _, ptr := range tests.test {
 		names = append(names, ptr.Name)
 	}
 
+	states := make(map[string]string)
+	for name, state := range tests.stateBlocks {
+		states[name] = string(state)
+	}
+
 	tests.mutex.Unlock()
-	return names
+
+	return map[string]interface{}{
+		"test":  names,
+		"state": states,
+	}
 }

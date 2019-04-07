@@ -11,8 +11,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/utils"
-
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -156,19 +154,20 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 					prefix += string([]byte{27, 91, 51, 49, 109})
 				case TestMissed, TestInfo:
 					prefix += string([]byte{27, 91, 51, 52, 109})
+				case TestState:
+					prefix += string([]byte{27, 91, 51, 51, 109})
 				}
 			} else {
 				prefix = "["
 			}
 
-			s := fmt.Sprintf("%s%s\x1b[0m] %-10s %-50s %-4d %-4d %s",
+			s := fmt.Sprintf("%s%-6s\x1b[0m] %-10s %-50s %-4d %-4d %s",
 				prefix, r.Status,
 				r.TestName,
 				params(r.Exec, r.Params),
 				r.LineNumber,
 				r.ColNumber,
 				left(escape(r.Message)),
-				utils.NewLineString,
 			)
 
 			pipe.Writeln([]byte(s))
@@ -189,7 +188,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		pipe.Writeln([]byte(s))
 
 		for _, r := range tests.Results.results {
-			s = fmt.Sprintf(`%s %-13s %-53s %6d, %6d, %s`,
+			s = fmt.Sprintf(`%-9s %-13s %-53s %6d, %6d, %s`,
 				`"`+r.Status+`",`,
 				`"`+r.TestName+`",`,
 				`"`+params(r.Exec, r.Params)+`",`,

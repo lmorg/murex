@@ -51,6 +51,7 @@ type Process struct {
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
+	testState          []string
 	Variables          *Variables
 	FidTree            []int
 	CreationTime       time.Time

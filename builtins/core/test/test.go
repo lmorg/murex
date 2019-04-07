@@ -23,18 +23,19 @@ func init() {
 	lang.GoFunctions["!test"] = cmdTestDisable
 
 	defaults.AppendProfile(`
-        autocomplete set test { [{
-            "Flags": [
-                "enable",
-                "!enable",
-                "auto-report",
-                "!auto-report",
-                "verbose",
-                "!verbose",
-                "run",
-                "define"
-						],
-						"AllowMultiple": true
+		autocomplete set test { [{
+			"Flags": [
+				"enable",
+				"!enable",
+				"auto-report",
+				"!auto-report",
+				"verbose",
+				"!verbose",
+				"run",
+				"define",
+				"var"
+			],
+			"AllowMultiple": true
         }] }
     `)
 }
@@ -63,6 +64,9 @@ func cmdTest(p *lang.Process) error {
 	switch option {
 	case "define":
 		return testDefine(p)
+
+	case "state":
+		return testState(p)
 
 	case "run":
 		return testRun(p)
@@ -108,8 +112,9 @@ func testConfig(p *lang.Process, i int) error {
 
 	default:
 		return fmt.Errorf(
-			"Invalid parameter: `%s`%sExpected usage: test [ enable | !enable ] [ verbose | !verbose ] [ auto-report | !auto-report ]%s                test define { json-properties }%s                test run { code-block }",
+			"Invalid parameter: `%s`%sExpected usage: test [ enable | !enable ] [ verbose | !verbose ] [ auto-report | !auto-report ]%s                test define { json-properties }%s                test state { code block }%s                test run { code-block }",
 			option,
+			utils.NewLineString,
 			utils.NewLineString,
 			utils.NewLineString,
 			utils.NewLineString,
@@ -199,14 +204,26 @@ func runBlock(p *lang.Process, block []rune, expected []byte) ([]byte, []byte, e
 	return utils.CrLfTrim(stdout), utils.CrLfTrim(stderr), nil
 }
 
+func testState(p *lang.Process) error {
+	name, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	block, err := p.Parameters.Block(2)
+	if err != nil {
+		return err
+	}
+
+	return p.Tests.State(name, block)
+}
+
 func testRun(p *lang.Process) error {
 	block, err := p.Parameters.Block(1)
 	if err != nil {
 		return err
 	}
 
-	//branch := p.BranchFID()
-	//defer branch.Close()
 	fork := p.Fork(lang.F_FUNCTION)
 
 	err = fork.Config.Set("test", "enabled", true)
