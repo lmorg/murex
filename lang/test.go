@@ -142,7 +142,18 @@ set:
 // AddResult is called after the test has run so the result can be recorded
 func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatus, message string) {
 	//tests.Results.murex.Lock()
-	tests.Results = append(tests.Results, TestResults{
+
+	autoReport, err := p.Config.Get("test", "auto-report", types.Boolean)
+	if err != nil {
+		autoReport = true
+	}
+
+	reportTo := tests
+	if !autoReport.(bool) {
+		reportTo = ShellProcess.Tests
+	}
+
+	reportTo.Results = append(tests.Results, TestResults{
 		TestName:   test.Name,
 		Exec:       p.Name,
 		Params:     p.Parameters.StringArray(),
@@ -274,8 +285,9 @@ func (tests *Tests) Compare(name string, p *Process) {
 	}
 
 	tests.mutex.Unlock()
-	tests.AddResult(nil, p, TestError, "Test named but there is no test defined.")
-	return //errors.New("Test named but there is no test defined for '" + name + "'.")
+
+	tests.AddResult(&TestProperties{Name: name}, p, TestError, "Test named but there is no test defined.")
+	return
 
 compare:
 

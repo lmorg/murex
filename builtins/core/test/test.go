@@ -78,16 +78,18 @@ func testConfig(p *lang.Process) error {
 	option, _ := p.Parameters.String(0)
 
 	switch option {
-	case "enable":
+	case "enable", "on":
 		return p.Config.Set("test", "enabled", true)
 
-	case "!enable", "disable":
+	case "!enable", "disable", "off":
 		return p.Config.Set("test", "enabled", false)
 
 	case "auto-report":
+		p.Stdout.Writeln([]byte("Enabling auto-report...."))
 		return p.Config.Set("test", "auto-report", true)
 
 	case "!auto-report":
+		p.Stdout.Writeln([]byte("Disabling auto-report...."))
 		return p.Config.Set("test", "auto-report", false)
 
 	default:

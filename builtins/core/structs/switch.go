@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/utils"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -49,10 +51,16 @@ func cmdSwitch(p *lang.Process) error {
 		}
 
 		if params.Len() < minParamLen {
-			return fmt.Errorf("`%s` %d is missing a comparison or execution block", ast[i].Name, i+1)
+			return fmt.Errorf("`%s` %d is missing a comparison or execution block:%s %s %s%s(Parameters found %d/expected %d)",
+				ast[i].Name, i+1, utils.NewLineString,
+				ast[i].Name, params.StringAll(), utils.NewLineString,
+				params.Len(), minParamLen)
 		}
 		if params.Len() > minParamLen {
-			return fmt.Errorf("`%s` %d has too many parameters", ast[i].Name, i+1)
+			return fmt.Errorf("`%s` %d has too many parameters:%s %s %s%s(Parameters found %d/expected %d)",
+				ast[i].Name, i+1, utils.NewLineString,
+				ast[i].Name, params.StringAll(), utils.NewLineString,
+				params.Len(), minParamLen)
 		}
 
 		var result bool
