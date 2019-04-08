@@ -8,6 +8,8 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/lmorg/murex/utils/posix"
+
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -123,18 +125,13 @@ func (m *Module) execute() error {
 
 	os.Stderr.WriteString(fmt.Sprintf("Loading module `%s/%s`%s", m.Package, m.Name, utils.NewLineString))
 
-	//// creating a container first is a bit of a fudge to ensure that variables
-	//// created inside modules are sandboxed unless specified as globals
-	//container := lang.ShellProcess.Fork(lang.F_DEFAULTS)
-	//fork := container.Fork(lang.F_NEW_MODULE | lang.F_FUNCTION | lang.F_NO_STDIN)
-
 	fork := lang.ShellFork(lang.F_NEW_MODULE | lang.F_FUNCTION | lang.F_NO_STDIN)
 	// lets redirect all output to STDERR just in case this thing gets piped
 	// for any strange reason
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
 	fork.Module = m.Package + "/" + m.Name
-	fork.Name = fork.Module
+	fork.Name = "(module)"
 	_, err = fork.Execute(block)
 	return err
 }
@@ -147,7 +144,7 @@ func (m *Module) checkDependencies() error {
 	}
 
 	goos = []string{runtime.GOOS, "any"}
-	if runtime.GOOS != "windows" && runtime.GOOS != "plan9" {
+	if posix.IsPosix() {
 		goos = append(goos, "posix")
 	}
 

@@ -3,6 +3,7 @@ package management
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -12,6 +13,12 @@ func init() {
 	lang.GoFunctions["fid-list"] = cmdFidList
 	lang.GoFunctions["fid-kill"] = cmdFidKill
 	lang.GoFunctions["fid-killall"] = cmdKillAll
+
+	defaults.AppendProfile(`
+	autocomplete set fid-list { [{
+		"DynamicDesc": ({ fid-list --help })
+	}] }
+`)
 }
 
 func yn(state bool) (s string) {
@@ -26,16 +33,35 @@ func cmdFidList(p *lang.Process) error {
 	switch flag {
 	case "--csv":
 		return cmdFidListCSV(p)
-	case "--json":
+	case "--jsonl":
 		return cmdFidListPipe(p)
 	case "--tty":
 		return cmdFidListTTY(p)
+	case "--help":
+		return cmdFidListHelp(p)
 	}
 
 	if p.Stdout.IsTTY() {
 		return cmdFidListTTY(p)
 	}
 	return cmdFidListPipe(p)
+}
+
+func cmdFidListHelp(p *lang.Process) error {
+	flags := map[string]string{
+		"--csv":   "Outputs as CSV table",
+		"--jsonl": "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
+		"--tty":   "Outputs as a human readable table. This is the default mode when outputting to a TTY",
+		"--help":  "Displays a list of parameters",
+	}
+	p.Stdout.SetDataType(types.Json)
+	b, err := json.Marshal(flags, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
 }
 
 func cmdFidListTTY(p *lang.Process) error {
@@ -118,7 +144,7 @@ type fidList struct {
 func cmdFidListPipe(p *lang.Process) error {
 	var fids []fidList
 
-	p.Stdout.SetDataType(types.Json)
+	p.Stdout.SetDataType(types.JsonLines)
 
 	procs := lang.GlobalFIDs.ListAll()
 	for i := range procs {
