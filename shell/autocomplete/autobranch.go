@@ -48,9 +48,8 @@ func abstractSize(s string) int {
 	case count == 1:
 		if s[len(s)-1] != '/' {
 			return 1
-		} else {
-			return 2
 		}
+		return 2
 	default:
 		return 3
 	}

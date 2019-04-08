@@ -35,9 +35,8 @@ func matchFilesystem(s string, filesToo bool, errCallback func(error)) []string 
 	if !enabled.(bool) {
 		if filesToo {
 			return matchFilesAndDirsOnce(s)
-		} else {
-			return matchDirsOnce(s)
 		}
+		return matchDirsOnce(s)
 	}
 
 	// If so, get timeout and depth, then start the scans in parallel

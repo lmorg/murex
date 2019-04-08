@@ -111,7 +111,7 @@ func detectProtocol(uri string) (string, error) {
 		return "https", nil
 
 	default:
-		return "", errors.New("Unable to get package: Unable to auto-detect a suitable protocol for transfering the package")
+		return "", errors.New("Unable to get package: Unable to auto-detect a suitable protocol for transferring the package")
 	}
 }
 
@@ -131,7 +131,7 @@ func getPackage(p *lang.Process, uri string) (pack, protocol string, err error) 
 		}
 
 	case "https":
-		return "", protocol, errors.New("Protocol handler for HTTPS has not yet been written. Please use git in the mean time (you can do this by specifying a git extention in the uri)")
+		return "", protocol, errors.New("Protocol handler for HTTPS has not yet been written. Please use git in the mean time (you can do this by specifying a git extension in the uri)")
 
 	default:
 		return "", "", fmt.Errorf("This is weird, protocol detected as `%s` but no handler has been written", protocol)
