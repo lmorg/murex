@@ -67,7 +67,7 @@ address as many of them as I can without taking the flexibility or power
 away from the command line. This is achieved through a couple of key
 concepts:
 
-* Everything is a function
+### Everything is a function
 
 The biggest breaking change from regular shells (or introduced annoyance
 as I'm sure some might see it) is how globbing isn't auto-expanded by
@@ -90,7 +90,7 @@ matching file system objects that follows the same idiomatic pattern:
 
 (more information on `g`, `rx` and `f` are available in [GUIDE.quick-start.md](docs/GUIDE.quick-start.md)).
 
-* Powerful autocompletion
+### Powerful autocompletion
 
 I've modelled _murex_'s autocompletion after what I would expect if I
 were to use an IDE. While _murex_'s autocompletion is a long way from
@@ -98,7 +98,7 @@ the power of, for example, IntelliJ or Visual Studio, _murex_ does go a
 long way further than your traditional shells, for example it imports
 command line flags from their man page.
 
-* Error handling
+### Error handling
 
 Like traditional shells, _murex_ is verbose with errors by default with
 options to mute them. However _murex_ also support cleaner decision
@@ -120,6 +120,41 @@ As well as a saner `if` syntax:
     !if { foobar } else {
         err: "`foobar` could not be run"
     }
+
+### Test and debugging frameworks
+
+Unlike traditional shells, _murex_ is designed with a test and debugging modes
+baked into the shell langauge. This means you can write tests against your
+shell scripts as part of the shell scripts itself.
+
+For example:
+
+    func hello-world {
+        test define example {
+            "OutRegexp": (^Hello World$)
+        }
+
+        out <test_example> "Hello Earth"
+    }
+
+    test run { hello-world }
+
+...will output:
+
+    Hello Earth
+     Status  Definition Function                                           Line Col. Message
+    [FAILED] example    out                                                5    9    stdout: regexp did not match 'Hello Earth'
+
+If test mode isn't enabled then any `test` commands are skipped without being
+executed so you can liberally include test cases throughout your functions
+without worrying about any performance impact.
+
+## Interactive shell
+
+Aside the language being designed to offer more robust shell scripting, the
+interactive shell itself is also designed around productivity.
+
+[![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
 
 ## Language guides
 
