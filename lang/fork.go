@@ -81,10 +81,11 @@ type Fork struct {
 // ShellFork will fork against the shell process but without leaking variables
 // into the global namespace. `flags` must include F_FUNCTION
 func ShellFork(flags int) *Fork {
-	container := ShellProcess.Fork(F_DEFAULTS)
-	fork := container.Fork(flags)
-	DeregisterProcess(container.Process) // it shouldn't matter that we dereigster the container before the fork has executed. We just do this for garbage collection
-	return fork
+	//container := ShellProcess.Fork(F_DEFAULTS)
+	//fork := container.Fork(flags)
+	//DeregisterProcess(container.Process) // it shouldn't matter that we dereigster the container before the fork has executed. We just do this for garbage collection
+	//return fork
+	return ShellProcess.Fork(flags)
 }
 
 // Fork will create a new handle for executing a code block
@@ -113,7 +114,7 @@ func (p *Process) Fork(flags int) *Fork {
 	}
 
 	if flags&F_FUNCTION != 0 {
-		fork.Variables = ReferenceVariables(p.Variables)
+		/*fork.Variables = ReferenceVariables(p.Variables)
 		//fork.Name += " (fork)"
 		GlobalFIDs.Register(fork.Process)
 		fork.fidRegistered = true
@@ -123,7 +124,20 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.newTestScope = true
 		fork.Tests = NewTests(fork.Process)
 		fork.Config = p.Config.Copy()
-		fork.Variables = p.Variables
+		fork.Variables = p.Variables*/
+
+		fork.Scope = fork.Process
+		fork.Parent = fork.Process
+
+		//fork.Parent = p
+		fork.Variables = ReferenceVariables(p.Variables)
+		GlobalFIDs.Register(fork.Process)
+		fork.fidRegistered = true
+
+		fork.Config = p.Config.Copy()
+
+		fork.newTestScope = true
+		fork.Tests = NewTests(fork.Process)
 
 	} else {
 		fork.Scope = p.Scope
@@ -137,6 +151,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
+			fork.Parent = fork.Process
 			fork.Parent = p
 			fork.Variables = ReferenceVariables(p.Variables)
 			fork.Name += " (fork)"
