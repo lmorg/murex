@@ -225,6 +225,7 @@ func testRun(p *lang.Process) error {
 	}
 
 	fork := p.Fork(lang.F_FUNCTION)
+	fork.Name = "(test run)"
 
 	err = fork.Config.Set("test", "enabled", true)
 	if err != nil {
@@ -259,7 +260,6 @@ func testRun(p *lang.Process) error {
 		return err
 	}
 
-	//_, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, branch.Process)
 	_, err = fork.Execute(block)
 	if err != nil {
 		return err

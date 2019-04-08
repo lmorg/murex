@@ -1,4 +1,4 @@
-// +build !windows,!plan9
+// +build plan9
 
 package shell
 
@@ -14,10 +14,10 @@ func SignalHandler(interactive bool) {
 
 	if Interactive {
 		// Interactive, so we will handle stop
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 	} else {
 		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 	}
 
 	go func() {
@@ -30,12 +30,6 @@ func SignalHandler(interactive bool) {
 
 			case syscall.SIGTERM.String():
 				sigterm(interactive)
-
-			case syscall.SIGQUIT.String():
-				sigquit(interactive)
-
-			case syscall.SIGTSTP.String():
-				sigtstp()
 
 			default:
 				os.Stderr.WriteString("Unhandled signal: " + sig.String())

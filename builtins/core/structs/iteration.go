@@ -164,11 +164,6 @@ func cmdForMap(p *lang.Process) error {
 			return
 		}
 
-		//p.Variables.Set(varKey, key, types.String)
-		//p.Variables.Set(varVal, value, dt)
-
-		//lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
-
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
 		p.Variables.Set(varKey, key, types.String)
 		p.Variables.Set(varVal, value, dt)

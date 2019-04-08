@@ -8,7 +8,7 @@ murex.upx
 /docgen
 /docgen.exe
 
-# IntelliJ env
+# IDE
 .idea/
 .vscode/
 projectFilesBackup
@@ -20,3 +20,6 @@ murex.iml
 /pkg
 /src
 /gen/docs-test/
+
+# Misc
+.DS_Store

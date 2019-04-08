@@ -1,7 +1,6 @@
 package defaults
 
 import (
-	"runtime"
 	"strings"
 
 	"github.com/lmorg/murex/config"
@@ -65,9 +64,10 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "color", config.Properties{
 		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, {SGR} variables, etc",
-		Default:     (runtime.GOOS != "windows" && isInteractive),
-		DataType:    types.Boolean,
-		Global:      true,
+		//Default:     (runtime.GOOS != "windows" && isInteractive),
+		Default:  true,
+		DataType: types.Boolean,
+		Global:   true,
 	})
 
 	c.Define("shell", "syntax-highlighting", config.Properties{
