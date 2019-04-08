@@ -81,24 +81,26 @@ autocomplete set kill {
     }]
 }
 
-
 private get.datatypes {
-	pipe privategetdatatypes
-	runtime: --readarray -> format: <privategetdatatypes> str
-	runtime: --writearray -> format: <privategetdatatypes> str
-	runtime: --readmap -> format: <privategetdatatypes> str
-	runtime: --marshallers -> format: <privategetdatatypes> str
-	runtime: --unmarshallers -> format: <privategetdatatypes> str
+    runtime: --readarray -> format: str
+    runtime: --writearray -> format: str
+    runtime: --readmap -> format: str
+    runtime: --marshallers -> format: str
+    runtime: --unmarshallers -> format: str
+}
 
-	!pipe privategetdatatypes
-	<privategetdatatypes> -> set datatypes
-	$datatypes -> sort -> uniq
+private datatypes {
+    get.datatypes -> sort -> uniq -> cast str
 }
 
 autocomplete set cast { [{
-    "Dynamic": ({ get.datatypes })
+    "Dynamic": ({ datatypes })
 }] }
 
 autocomplete set tout { [{
-    "Dynamic": ({ get.datatypes })
+    "Dynamic": ({ datatypes })
+}] }
+
+autocomplete set set { [{
+    "Dynamic": ({ datatypes })
 }] }
