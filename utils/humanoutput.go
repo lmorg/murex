@@ -24,19 +24,23 @@ const (
 	fTB
 	fPB
 	fEB
-	fZB
-	fYB
+	//fZB
+	//fYB
 )
 
 // HumanBytes converts n bytes into a human readable format
 func HumanBytes(size uint64) (human string) {
 	switch {
+	//case size > YB*2:
+	//	human = fmt.Sprintf("%.8f YB", float64(size)/fYB)
+	//case size > ZB*2:
+	//	human = fmt.Sprintf("%.8f ZB", float64(size)/fZB)
 	case size > EB*2:
-		human = fmt.Sprintf("%.8f EB", float64(size)/fEB)
+		human = fmt.Sprintf("%.6f EB", float64(size)/fEB)
 	case size > PB*2:
-		human = fmt.Sprintf("%.8f PB", float64(size)/fPB)
+		human = fmt.Sprintf("%.6f PB", float64(size)/fPB)
 	case size > TB*2:
-		human = fmt.Sprintf("%.6f TB", float64(size)/fTB)
+		human = fmt.Sprintf("%.4f TB", float64(size)/fTB)
 	case size > GB*2:
 		human = fmt.Sprintf("%.4f GB", float64(size)/fGB)
 	case size > MB*2:
