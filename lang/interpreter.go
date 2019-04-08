@@ -16,6 +16,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].IsBackground = parent.IsBackground
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
+		procs[i].Module = parent.Module
 		procs[i].WaitForTermination = make(chan bool)
 		procs[i].RunMode = parent.RunMode
 		procs[i].Config = parent.Config
@@ -24,7 +25,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
 		procs[i].Done = func() {}
 		procs[i].Kill = func() {}
-		procs[i].PromptGoProc = parent.PromptGoProc
+		procs[i].PromptId = parent.PromptId
 
 		procs[i].FidTree = make([]int, len(parent.Parent.FidTree))
 		copy(procs[i].FidTree, parent.Parent.FidTree)

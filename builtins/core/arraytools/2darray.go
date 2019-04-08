@@ -4,7 +4,6 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -60,15 +59,17 @@ func twoDArray(p *lang.Process) (err error) {
 
 		index := i
 		count := 0
-		out := streams.NewStdin()
 
 		go func() {
-			_, err := lang.RunBlockExistingConfigSpace(block[index], nil, out, p.Stderr, p)
+			//_, err := lang.RunBlockExistingConfigSpace(block[index], nil, out, p.Stderr, p)
+			fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+			_, err := fork.Execute(block[index])
+
 			if err != nil {
-				p.Stderr.Write([]byte(err.Error()))
+				fork.Stderr.Write([]byte(err.Error()))
 			}
 
-			out.ReadArray(func(b []byte) {
+			fork.Stdout.ReadArray(func(b []byte) {
 				count++
 				array.Append(index, count, string(b))
 			})

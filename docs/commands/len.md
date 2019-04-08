@@ -33,6 +33,8 @@ This will read an array from STDIN and outputs the length for that array
   Splits STDIN into a JSON array based on a regex parameter
 * [`map` ](../commands/map.md):
   Creates a map from two data sources
+* [`msort` ](../commands/msort.md):
+  Sorts an array - data type agnostic
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [mtac](../commands/mtac.md):

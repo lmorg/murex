@@ -2,23 +2,22 @@ package jsonlines
 
 import (
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
-const name = "jsonl"
-
 func init() {
 	// Register data type
-	define.Marshallers[name] = marshal
-	define.Unmarshallers[name] = unmarshal
-	define.ReadIndexes[name] = index
-	define.ReadNotIndexes[name] = index
+	define.Marshallers[types.JsonLines] = marshal
+	define.Unmarshallers[types.JsonLines] = unmarshal
+	define.ReadIndexes[types.JsonLines] = index
+	define.ReadNotIndexes[types.JsonLines] = index
 
-	stdio.RegesterReadArray(name, readArray)
+	stdio.RegesterReadArray(types.JsonLines, readArray)
 	//stdio.RegesterReadMap(name, readMap)
-	stdio.RegesterWriteArray(name, newArrayWriter)
+	stdio.RegesterWriteArray(types.JsonLines, newArrayWriter)
 
-	define.SetMime(name, "application/jsonl", "application/jsonlines")
+	define.SetMime(types.JsonLines, "application/jsonl", "application/jsonlines")
 
-	define.SetFileExtensions(name, "jsonl", "jsonlines", "murex_history")
+	define.SetFileExtensions(types.JsonLines, "jsonl", "jsonlines", "murex_history")
 }

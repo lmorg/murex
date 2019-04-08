@@ -87,6 +87,8 @@ UNIX, or even Windows command prompt.
   Outputs a man page summary of a command
 * [`map` ](commands/map.md):
   Creates a map from two data sources
+* [`msort` ](commands/msort.md):
+  Sorts an array - data type agnostic
 * [`murex-docs`](commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):

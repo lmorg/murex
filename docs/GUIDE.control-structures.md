@@ -113,13 +113,13 @@ the semi-colon character, `;`, and processed as 3 separate blocks.
 
 Usage:
 
-    for { i=1; i<6; i++ } { echo $i }
+    for ( i=1; i<6; i++ ) { echo $i }
 
-The parameter is: `{ i=1; i<6; i++ }`, but it is then converted into the
+The parameter is: `( i=1; i<6; i++ )`, but it is then converted into the
 following code:
 
 1. `let i=0` - declare the loop iteration variable
-2. `eval i<0` - if the condition is true then proceed to run the code in
+2. `= i<0` - if the condition is true then proceed to run the code in
 the second parameter - `{ echo $i }`
 3. `let i++` - increment the loop iteration variable
 

@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/docs"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -161,13 +160,18 @@ func hintCodeBlock() []rune {
 		return []rune{}
 	}
 
-	stdout := streams.NewStdin()
-	branch := lang.ShellProcess.BranchFID()
-	branch.IsBackground = true
-	defer branch.Close()
-	exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
+	//stdout := streams.NewStdin()
+	//branch := lang.ShellProcess.BranchFID()
+	//branch.IsBackground = true
+	//defer branch.Close()
+	//exitNum, err := lang.RunBlockExistingConfigSpace([]rune(ht.(string)), nil, stdout, nil, branch.Process)
+	//fork := lang.ShellProcess.Fork(lang.F_NEW_SCOPE | lang.F_NEW_CONFIG | lang.F_NEW_TESTS | lang.F_BACKGROUND | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 
-	b, err2 := stdout.ReadAll()
+	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork.Name = "shell (hint-text-func)"
+	exitNum, err := fork.Execute([]rune(ht.(string)))
+
+	b, err2 := fork.Stdout.ReadAll()
 	if len(b) > 1 && b[len(b)-1] == '\n' {
 		b = b[:len(b)-1]
 	}
@@ -176,7 +180,7 @@ func hintCodeBlock() []rune {
 		b = b[:len(b)-1]
 	}
 
-	if debug.Enabled && (exitNum != 0 || err != nil || err2 != nil) {
+	if debug.Enabled && ( /*exitNum != 0 ||*/ err != nil || err2 != nil) {
 		lang.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
 			"Block returned false:\nExit Num: %d\nStdout length: %d\nStdout read error: %s\nStderr: %s\n",
 			exitNum,

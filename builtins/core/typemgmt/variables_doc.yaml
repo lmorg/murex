@@ -134,7 +134,7 @@
   - square-bracket-open
   - global
   - let
-  - eval
+  - equ
   - export
   - exec
   - brace-quote
@@ -281,7 +281,7 @@
   Related:
   - set
   - let
-  - eval
+  - equ
   - export
   - brace-quote
 
@@ -365,7 +365,7 @@
   Related:
   - set
   - let
-  - eval
+  - equ
   - global
   - brace-quote
 

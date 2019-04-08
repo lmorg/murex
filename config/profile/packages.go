@@ -15,8 +15,13 @@ const (
 	// DisabledFile is an array of disabled modules
 	DisabledFile = "disabled.json"
 
-	// PackagesFile is used by the package manager, `mpac`, but we auto-create it here for consistency
+	// PackagesFile is used by the package manager, `murex-package`, but we auto-create
+	// it here for consistency
 	PackagesFile = "packages.json"
+
+	// IgnoredExt is an file extension which can be used on package directories
+	// to have them ignored during start up
+	IgnoredExt = ".ignore"
 )
 
 func modules() error {
@@ -43,7 +48,7 @@ func modules() error {
 
 	// Check package management file
 	if err = packageFile(); err != nil {
-		return errors.New(err.Error() + utils.NewLineString + "This will break murex's package manager, `mpac`, however modules will continue to work without it")
+		return errors.New(err.Error() + utils.NewLineString + "This will break murex's package manager, `murex-package`, however modules will continue to work without it")
 	}
 
 	paths, err := filepath.Glob(ModulePath + "*")
@@ -73,7 +78,7 @@ func disabledFile() error {
 		return err
 	}
 
-	return readJson(ModulePath+DisabledFile, &disabled)
+	return ReadJson(ModulePath+DisabledFile, &disabled)
 }
 
 func packageFile() error {
@@ -106,9 +111,15 @@ func autoFile(name string) error {
 }
 
 // LoadPackage reads in the contents of the package and then validates and
-// sources each module within
+// sources each module within. The path value should be an absolute path.
 func LoadPackage(path string) error {
-	//path := ModulePath + pack
+	// Because we are expecting an absolute path and any errors with it being
+	// relative will have been compiled into the Go code, we want to raise a
+	// panic here so those errors get caught during testing rather than buggy
+	// code getting pushed back to the master branch and thus released.
+	if !filepath.IsAbs(path) {
+		panic("relative path used in LoadPackage")
+	}
 
 	f, err := os.Stat(path)
 	if err != nil {
@@ -128,12 +139,17 @@ func LoadPackage(path string) error {
 
 	// disable package directory (this goes further than disabling the module
 	// because it prevents the modules from even being read)
-	if strings.HasSuffix(f.Name(), ".ignore") {
+	if strings.HasSuffix(f.Name(), IgnoredExt) {
 		return nil
 	}
 
 	var module []Module
-	err = readJson(path+consts.PathSlash+"module.json", &module)
+	err = ReadJson(path+consts.PathSlash+"module.json", &module)
+	if err != nil {
+		return err
+	}
+
+	pwd, err := os.Getwd()
 	if err != nil {
 		return err
 	}
@@ -142,7 +158,7 @@ func LoadPackage(path string) error {
 
 	for i := range module {
 		module[i].Package = f.Name()
-		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Name)
+		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Package+"/"+module[i].Name)
 		err = module[i].validate()
 		if err != nil {
 			message += fmt.Sprintf(
@@ -178,6 +194,11 @@ func LoadPackage(path string) error {
 		}
 	}
 	Packages[f.Name()] = module
+
+	err = os.Chdir(pwd)
+	if err != nil {
+		message += err.Error() + utils.NewLineString
+	}
 
 	if message != "" {
 		return errors.New(strings.TrimSpace(message))

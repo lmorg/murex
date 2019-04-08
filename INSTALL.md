@@ -47,7 +47,7 @@ this in the command line: `go version`
 For your information below is a list of packages required by _murex_:
 
 * `github.com/Knetic/govaluate` evaluates the math formulas. This is
-exposed via `eval` / `=` and `let`
+exposed via `=` and `let`
 
 * `github.com/fsnotify/fsnotify` monitors file system changes for the fs
 event system

@@ -1,7 +1,6 @@
 package events
 
 import (
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -10,7 +9,7 @@ import (
 )
 
 type eventType interface {
-	Add(name, interrupt string, block []rune) (err error)
+	Add(name, interrupt string, block []rune, module string) (err error)
 	Remove(interrupt string) (err error)
 	Dump() (dump interface{})
 }
@@ -29,31 +28,31 @@ type j struct {
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
-func Callback(name string, interrupt interface{}, block []rune, stdout stdio.Io) {
+func Callback(name string, interrupt interface{}, block []rune, module string, stdout stdio.Io) {
 	json, err := json.Marshal(&j{
 		Name:      name,
 		Interrupt: interrupt,
 	}, false)
 	if err != nil {
-		//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, "error building event input: "+err.Error())
 		lang.ShellProcess.Stderr.Writeln([]byte("error building event input: " + err.Error()))
-
 		return
 	}
 
-	stdin := streams.NewStdin()
-	stdin.SetDataType(types.Json)
-	_, err = stdin.Write(json)
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	fork.Stdin.SetDataType(types.Json)
+	fork.Name = "(event)"
+	fork.Module = module
+	_, err = fork.Stdin.Write(json)
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("error writing event input: " + err.Error()))
 		return
 	}
 
 	debug.Log("Event callback:", string(json), string(block))
-	branch := lang.ShellProcess.BranchFID()
-	branch.IsBackground = true
-	defer branch.Close()
-	_, err = lang.RunBlockExistingConfigSpace(block, stdin, stdout, lang.ShellProcess.Stderr, branch.Process)
+
+	fork.Stdout = stdout
+
+	_, err = fork.Execute(block)
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("error compiling event callback: " + err.Error()))
 	}

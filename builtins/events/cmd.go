@@ -1,7 +1,6 @@
 package events
 
 import (
-	"errors"
 	"fmt"
 	"regexp"
 
@@ -15,7 +14,7 @@ func init() {
 	lang.GoFunctions["!event"] = cmdUnevent
 }
 
-var rxNameInterruptSyntax *regexp.Regexp = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*)$`)
+var rxNameInterruptSyntax = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*)$`)
 
 func cmdEvent(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
@@ -26,7 +25,7 @@ func cmdEvent(p *lang.Process) error {
 	}
 
 	if events[et] == nil {
-		return fmt.Errorf("No event-type known for `%s`.\nRun `runtime --events` to view which events are compiled in.", et)
+		return fmt.Errorf("No event-type known for `%s`.\nRun `runtime --events` to view which events are compiled in", et)
 	}
 
 	nameInterrupt, err := p.Parameters.String(1)
@@ -36,7 +35,7 @@ func cmdEvent(p *lang.Process) error {
 
 	split := rxNameInterruptSyntax.FindAllStringSubmatch(nameInterrupt, 1)
 	if len(split) != 1 || len(split[0]) != 3 {
-		return errors.New("Invalid syntax: " + nameInterrupt + ". Expected: `name=interrupt`.")
+		return fmt.Errorf("Invalid syntax: `%s`. Expected: `name=interrupt`", nameInterrupt)
 	}
 
 	name := split[0][1]
@@ -47,7 +46,7 @@ func cmdEvent(p *lang.Process) error {
 		return err
 	}
 
-	err = events[et].Add(name, interrupt, block)
+	err = events[et].Add(name, interrupt, block, p.Module)
 	return err
 }
 
@@ -60,7 +59,7 @@ func cmdUnevent(p *lang.Process) error {
 	}
 
 	if events[et] == nil {
-		return fmt.Errorf("No event-type known for `%s`.\nRun `runtime --events` to view which events are compiled in.", et)
+		return fmt.Errorf("No event-type known for `%s`.\nRun `runtime --events` to view which events are compiled in", et)
 	}
 
 	name, err := p.Parameters.String(1)

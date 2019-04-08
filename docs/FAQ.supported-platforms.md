@@ -37,9 +37,9 @@ FreeBSD support is considered very good.
 
 ## OpenBSD
 
-Tested on an earlier release of _murex_. Regression tests cannot be run because
-of `timeout` dependency however OpenBSD is included as part of the automated
-build tests.
+Tested on an earlier release of _murex_. `regression_test.sh` cannot be run
+because of `timeout` dependency however `go test` should still work and OpenBSD
+is included as part of the automated build tests.
 
 OpenBSD support is expected to be good but, as always, please log an issue via
 Github if you do encounter problems.
@@ -49,9 +49,15 @@ Github if you do encounter problems.
 NetBSD is part of the automated build tests so _murex_ will compile on NetBSD.
 However no functional testing has been conducted on that particular platform.
 
+## DragonflyBSD
+
+DragonflyBSD is part of the automated build tests so _murex_ will compile on
+DragonflyBSD. However no functional testing has been conducted on that
+particular platform.
+
 ## Windows
 
-Windows is support and part of the automated build tests so _murex_ will
+Windows is supported and part of the automated build tests so _murex_ will
 compile for that platform. However I have not had access to a Windows machine
 for some time so there maybe some new bugs introduced in recent versions. There
 is also the caveat that without a broad range of command line utilities (eg GNU
@@ -64,10 +70,13 @@ Windows 10. However if native Windows is your preference then _murex_
 
 ## Plan 9
 
-Not currently supported. There are a few differences in Go's `syscall` package
-which would lead me to believe that _murex_ will not even compile. That's not to
-say that I wont ever support Plan 9 in the future however it's not a feature I'm
-giving any priority to at present.
+Plan 9 is included as part of the automated built tests however, due to the
+differences in Plan 9's syscalls, there may be a few edge case where bugs exist
+in the Plan 9 build which don't with the Linux / UNIX counterparts. I don't
+personally perform any functional testing for Plan 9 beyond what is already
+included as part of the build and unit tests.
+
+If you do happen to run into any such bugs then I do welcome pull requests.
 
 # Other CPU architectures
 

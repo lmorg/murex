@@ -1,6 +1,6 @@
 func h {
     # Output the murex history log in a human readable format
-    history -> foreach { -> [ Index Block ] -> sprintf: "%6s => %s\n" } -> cast str
+    history ->  foreach { -> set json line; out "$line[Index]: $line[Block]" } -> cast *
 }
 
 func aliases {
@@ -42,11 +42,11 @@ autocomplete set swivel-datatype { [{
 }] }
 
 private config.get.apps {
-    config: -> formap k v { out $k } -> sort
+    config: -> formap k v { out $k } -> msort
 }
 
 #private config.get.keys {
-#    config: -> [ ${params->[2]} ] -> formap k v { out $k } -> sort
+#    config: -> [ ${params->[2]} ] -> formap k v { out $k } -> msort
 #}
 #
 #private config.get.meta {
@@ -54,15 +54,16 @@ private config.get.apps {
 #}
 
 autocomplete set config { [{
-    "Flags": [ "get", "set", "alter", "define", "default" ],
+    "Flags": [ "get", "set", "eval", "define", "default" ],
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+            #{ "Dynamic": ({ err $SELF\n$ARGS }) }
         ],               
         "set": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) },
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) },
             { "Dynamic": ({
 				switch {
 					case { = `${source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Data-Type ]}`==`bool` } {
@@ -79,20 +80,20 @@ autocomplete set config { [{
 				}
 			}) }
         ],
+        "eval": [
+            { "Dynamic": ({ config.get.apps }) },
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+        ],
         "default": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
-        ],
-        "alter": [
-            { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> sort }) }
+            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
         ]
     }
 }] }
 
 autocomplete set !config { [
     { "Dynamic": ({ config.get.apps }) },
-    { "Dynamic": ({ source { config } -> [ $ARGS[1] ] -> formap k v { out $k } -> sort }) }
+    { "Dynamic": ({ source { config } -> [ $ARGS[1] ] -> formap k v { out $k } -> msort }) }
 ] }
 
 autocomplete set event { [
@@ -103,10 +104,10 @@ autocomplete set event { [
 
 autocomplete set !event { [
     {
-        "Dynamic": ({ runtime: --events -> formap k v { out $k } -> sort })
+        "Dynamic": ({ runtime: --events -> formap k v { out $k } -> msort })
     },
     {
-        "Dynamic": ({ runtime: --events -> [ $ARGS[1] ] -> formap k v { out $k } -> sort })
+        "Dynamic": ({ runtime: --events -> [ $ARGS[1] ] -> formap k v { out $k } -> msort })
     }
 ] }
 
@@ -283,13 +284,10 @@ autocomplete: set fid-kill {
     }]
 }
 
-autocomplete: set mpac {
+autocomplete: set murex-package {
     [{
-        "Flags": [ "get", "update", "import" ],
+        "Flags": [ "install", "update", "import", "enable", "disable" ],
         "FlagValues": {
-            "get": [{
-                "Flags": [ "git" ]
-            }],
             "import": [{
                 "IncFiles": true
             }]

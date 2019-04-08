@@ -3,15 +3,12 @@ package lang
 import (
 	"context"
 	"errors"
-	"os"
 	"os/exec"
 	"sync"
 	"time"
 
-	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -30,9 +27,10 @@ type Process struct {
 	Name               string
 	Id                 int
 	Exec               shellExec
-	PromptGoProc       int
+	PromptId           int
 	Path               string
 	IsMethod           bool
+	Module             string
 	Scope              *Process  `json:"-"`
 	Parent             *Process  `json:"-"`
 	Previous           *Process  `json:"-"`
@@ -53,6 +51,7 @@ type Process struct {
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
+	testState          []string
 	Variables          *Variables
 	FidTree            []int
 	CreationTime       time.Time
@@ -62,56 +61,6 @@ type Process struct {
 type shellExec struct {
 	Pid int
 	Cmd *exec.Cmd
-	//Stdin *StdinPipe
-	PipeR *os.File
-	PipeW *os.File
-}
-
-var (
-	// ShellProcess is the root murex process
-	ShellProcess = &Process{}
-
-	// MxFunctions is a table of global murex functions
-	MxFunctions = NewMurexFuncs()
-
-	// PrivateFunctions is a table of private murex functions
-	PrivateFunctions = NewMurexFuncs()
-
-	// GoFunctions is a table of available builtin functions
-	GoFunctions = make(map[string]func(*Process) error)
-
-	// This will hold all variables
-	masterVarTable = newVarTable()
-
-	// InitConf is a table of global config options
-	InitConf = config.NewConfiguration()
-
-	// GlobalAliases is a table of global aliases
-	GlobalAliases = NewAliases()
-
-	// GlobalPipes is a table of  named pipes
-	GlobalPipes = pipes.NewNamed()
-
-	// GlobalFIDs is a table of running murex processes
-	GlobalFIDs = *newFuncID()
-
-	// ForegroundProc is the murex FID which currently has "focus"
-	ForegroundProc = ShellProcess
-)
-
-// NewTestProcess creates a dummy process for testing in Go (ie `go test`)
-func NewTestProcess() (p *Process) {
-	p = new(Process)
-	p.Stdin = new(null.Null)
-	p.Stdout = new(null.Null)
-	p.Stderr = new(null.Null)
-	p.Config = config.NewConfiguration()
-	p.Variables = newVariables(p)
-	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
-
-	GlobalFIDs.Register(p)
-
-	return
 }
 
 // HasTerminated checks if process has terminated.

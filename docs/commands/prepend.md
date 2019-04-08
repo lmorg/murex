@@ -54,6 +54,8 @@ any integers in data type aware structures will be converted into strings:
   A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
+* [`msort` ](../commands/msort.md):
+  Sorts an array - data type agnostic
 * [mtac](../commands/mtac.md):
   
 * [square-bracket-open](../commands/square-bracket-open.md):

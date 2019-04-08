@@ -7,15 +7,15 @@ follows:
 
 * Variables when outputted are automatically converted to strings
 
-* `eval` and `let` functions evaluate the data type as well as the value.
-An example of strict typing in `eval` can be seen with these 2 blocks:
+* `=` and `let` functions evaluate the data type as well as the value.
+An example of strict typing in `=` can be seen with these 2 blocks:
 
     1. adding numbers:
 
         ```
         let a=1  # define 'a' as number
         let b=1  # define 'b' as number
-        eval a+b # returns '2' as both 'a' and 'b' are numbers
+        = a+b # returns '2' as both 'a' and 'b' are numbers
         ```
 
     2. adding strings:
@@ -23,10 +23,10 @@ An example of strict typing in `eval` can be seen with these 2 blocks:
         ```
         set a=1  # define 'a' as string
         let b=1  # define 'b' as number
-        eval a+b # returns '11' as 'a' is string so values are concatenated
+        = a+b # returns '11' as 'a' is string so values are concatenated
         ```
 
-For more on the `set`, `let` and `eval` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
+For more on the `set`, `let` and `=` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
 
 * Data can be cast into other data types using the `cast` process:
 

@@ -18,8 +18,8 @@ go test ./...  || exit 1
 echo "Compiling Murex...."
 go build github.com/lmorg/murex || exit 1
 
-echo "Starting Murex tests...."
-test/regression_test.sh || exit 1
+#echo "Starting Murex tests...."
+#test/regression_test.sh || exit 1
 
 echo "Checking alternative OS builds...."
 test/test_goos.mx || exit 1

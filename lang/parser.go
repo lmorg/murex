@@ -32,14 +32,14 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 		quoteBrace       int
 		braceCount       int
 		unclosedIndex    bool
-		ignoreWhitespace bool = true
-		scanFuncName     bool = true
+		ignoreWhitespace = true
+		scanFuncName     = true
 
 		// Parsed thus far
-		node   astNode                = astNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
-		pop    *string                = &node.Name
-		pCount int                    // parameter count
-		pToken *parameters.ParamToken = &node.ParamTokens[0][0]
+		node   = astNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
+		pop    = &node.Name
+		pCount int // parameter count
+		pToken = &node.ParamTokens[0][0]
 	)
 	//defer debug.Json("Last node", node)
 

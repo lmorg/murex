@@ -3,7 +3,6 @@ package shell
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -18,13 +17,12 @@ func getPrompt() {
 
 	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
-		out := streams.NewStdin()
-		branch := lang.ShellProcess.BranchFID()
-		defer branch.Close()
-		branch.Variables.Set("linenum", 1, types.Integer)
-		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
+		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork.Variables.Set("linenum", 1, types.Integer)
+		fork.Name = "shell (prompt)"
+		fork.Execute([]rune(prompt.(string)))
 
-		b, err2 = out.ReadAll()
+		b, err2 = fork.Stdout.ReadAll()
 		b = utils.CrLfTrim(b)
 	}
 
@@ -45,13 +43,12 @@ func getMultilinePrompt(nLines int) {
 
 	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
-		out := streams.NewStdin()
-		branch := lang.ShellProcess.BranchFID()
-		defer branch.Close()
-		branch.Variables.Set("linenum", nLines, types.Integer)
-		exitNum, err = lang.RunBlockExistingConfigSpace([]rune(prompt.(string)), nil, out, nil, branch.Process)
+		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork.Variables.Set("linenum", nLines, types.Integer)
+		fork.Name = "shell (prompt-multiline)"
+		fork.Execute([]rune(prompt.(string)))
 
-		b, err2 = out.ReadAll()
+		b, err2 = fork.Stdout.ReadAll()
 		b = utils.CrLfTrim(b)
 	}
 

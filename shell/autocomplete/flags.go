@@ -3,13 +3,12 @@ package autocomplete
 import (
 	"encoding/json"
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/man"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline"
 )
 
 // Flags is a struct to store auto-complete options
@@ -19,7 +18,7 @@ type Flags struct {
 	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
 	Flags         []string           // known supported command line flags for executable
-	FlagsDesc     map[string]string  // known supported command line flags for executable with descriptions (TODO: this needs to be implemented!)
+	FlagsDesc     map[string]string  // known supported command line flags for executable with descriptions
 	Dynamic       string             // Use murex script to generate auto-complete suggestions
 	DynamicDesc   string             // Use murex script to generate auto-complete suggestions with descriptions
 	ListView      bool               // Display the helps as a "popup menu-like" list rather than grid
@@ -33,12 +32,17 @@ type Flags struct {
 	//NoFlags       bool               // `true` to disable Flags[] slice and man page parsing
 }
 
-// ExesFlags is map of executables and their supported auto-complete options.
-var ExesFlags = make(map[string][]Flags)
+var (
+	// ExesFlags is map of executables and their supported auto-complete options.
+	ExesFlags = make(map[string][]Flags)
 
-// GlobalExes is a pre-populated list of all executables in $PATH.
-// The point of this is to speed up exe auto-completion.
-var GlobalExes = make(map[string]bool)
+	// ExesFlagsMod is a map of which module defined ExesFlags
+	ExesFlagsMod = make(map[string]string)
+
+	// GlobalExes is a pre-populated list of all executables in $PATH.
+	// The point of this is to speed up exe auto-completion.
+	GlobalExes = make(map[string]bool)
+)
 
 // UpdateGlobalExeList generates a list of executables in $PATH. This used to be called upon demand but it caused a
 // slight but highly annoying pause if murex had been sat idle for a while. So now it's an exported function so it can
@@ -90,8 +94,8 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
-	items = append(items, matchPartialFlags(f, partial)...)
+func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error)) (items []string) {
+	items = append(items, matchPartialFlags(f, partial, defs)...)
 	items = append(items, matchDynamic(f, partial, args, defs, tdt)...)
 
 	if f.IncExePath {
@@ -101,15 +105,19 @@ func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, 
 
 	switch {
 	case f.IncFiles:
-		items = append(items, matchFilesAndDirs(partial)...)
+		items = append(items, matchFilesAndDirs(partial, errCallback)...)
 	case f.IncDirs && !f.IncFiles:
-		items = append(items, matchDirs(partial)...)
+		items = append(items, matchDirs(partial, errCallback)...)
+	}
+
+	if len(f.FlagsDesc) > 0 && f.ListView {
+		*tdt = readline.TabDisplayList
 	}
 
 	return
 }
 
-func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error)) (items []string) {
 	var nest int
 
 	defer func() {
@@ -117,10 +125,6 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			return
 		}
 		if r := recover(); r != nil {
-			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, fmt.Sprint("\nPanic caught:", r))
-			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest))
-			//b, _ := json.MarshalIndent(flags, "", "\t")
-			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, string(b))
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest)))
 			b, _ := json.MarshalIndent(flags, "", "\t")
@@ -147,9 +151,14 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 				// has already been defined by `autocomplete`.
 				// NOTE TO SELF: I can't remember what this does? And is it required for FlagsDesc?
 				var doNotNest bool
+
+				if flags[nest-1].FlagsDesc[params[*pIndex-1]] != "" {
+					doNotNest = true
+				}
 				for i := range flags[nest-1].Flags {
 					if flags[nest-1].Flags[i] == params[*pIndex-1] {
 						doNotNest = true
+						break
 					}
 				}
 
@@ -168,8 +177,8 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs, tdt)
-				if len(items) > 0 {
+				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs, tdt, errCallback)
+				if len(items) > 0 || len(*defs) > 0 {
 					return
 				}
 			}
@@ -179,7 +188,8 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			}
 
 			disposableMap := make(map[string]string)
-			if flags[nest].AnyValue || len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap, tdt)) > 0 {
+			length := len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap, tdt, errCallback))
+			if flags[nest].AnyValue || length > 0 || len(disposableMap) > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}
@@ -195,7 +205,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		items = append(items, match(&flags[nest], partial, args, defs, tdt)...)
+		items = append(items, match(&flags[nest], partial, args, defs, tdt, errCallback)...)
 		if !flags[nest].Optional {
 			break
 		}
@@ -204,9 +214,11 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 	return
 }
 
-func matchPartialFlags(f *Flags, partial string) (items []string) {
+func matchPartialFlags(f *Flags, partial string, defs *map[string]string) (items []string) {
+	var flag string
+
 	for i := range f.Flags {
-		flag := f.Flags[i]
+		flag = f.Flags[i]
 		if flag == "" {
 			continue
 		}
@@ -217,6 +229,12 @@ func matchPartialFlags(f *Flags, partial string) (items []string) {
 			items = append(items, flag[len(partial):])
 		}
 	}
-	sort.Strings(items)
+
+	//sort.Strings(items)
+
+	for flag := range f.FlagsDesc {
+		(*defs)[flag[len(partial):]+" "] = f.FlagsDesc[flag]
+		items = append(items, flag[len(partial):])
+	}
 	return
 }

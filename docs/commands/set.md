@@ -132,7 +132,7 @@ you want to overide the scoping of a variable inside a nested code-block.
   Define a local variable and set it's value
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [eval](../commands/eval.md):
+* [equ](../commands/equ.md):
   
 * [let](../commands/let.md):
   

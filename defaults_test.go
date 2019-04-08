@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -28,16 +27,18 @@ func TestDefaultProfileCompiles(t *testing.T) {
 	lang.InitEnv()
 	lang.ShellProcess.Config = lang.InitConf
 
-	stderr := streams.NewStdin()
+	//stderr := streams.NewStdin()
+	//exitNum, err := lang.RunBlockShellConfigSpace(defaults.DefaultMurexProfile(), nil, nil, stderr)
 
-	exitNum, err := lang.RunBlockShellConfigSpace(defaults.DefaultMurexProfile(), nil, nil, stderr)
+	fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
+	exitNum, err := fork.Execute(defaults.DefaultMurexProfile())
 
 	if err != nil {
 		t.Error("Error compiling murex_profile:")
 		t.Log(err)
 	}
 
-	b, err := stderr.ReadAll()
+	b, err := fork.Stderr.ReadAll()
 	if err != nil {
 		t.Error("Error reading from streams.Stdin (stderr):")
 		t.Log(err)

@@ -5,7 +5,12 @@ import (
 )
 
 // TestConsts tests the projects constants package
-func TestConsts(t *testing.T) {
-	// Essentially all we need to do is prove this compiles so no need to add
-	// additional code here
+func TestTempDir(t *testing.T) {
+	if TempDir == "" {
+		t.Error("No temp directory specified")
+	}
+
+	if TempDir != tempDir {
+		t.Log("ioutil.TempDir() failed so using fallback path:", tempDir)
+	}
 }

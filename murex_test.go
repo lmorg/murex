@@ -13,7 +13,8 @@ func TestMurex(t *testing.T) {
 
 	block := []rune("a [Mon..Fri]->regexp m/^T/")
 
-	_, err := lang.RunBlockShellConfigSpace(block, nil, nil, nil)
+	//_, err := lang.RunBlockShellConfigSpace(block, nil, nil, nil)
+	_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute(block)
 
 	if err != nil {
 		t.Error(err.Error())

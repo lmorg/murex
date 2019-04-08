@@ -25,7 +25,8 @@ func cmdTry(p *lang.Process) (err error) {
 
 	p.RunMode = runmode.Try
 
-	p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
+	//p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE).Execute(block)
 	return
 }
 
@@ -39,7 +40,8 @@ func cmdTryPipe(p *lang.Process) (err error) {
 
 	p.RunMode = runmode.TryPipe
 
-	p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
+	//p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
+	p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_DEFAULTS).Execute(block)
 	return
 }
 
@@ -59,13 +61,15 @@ func cmdCatch(p *lang.Process) error {
 	p.ExitNum = p.Previous.ExitNum
 
 	if p.Previous.ExitNum != 0 && !p.IsNot {
-		_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		//_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 		if err != nil {
 			return err
 		}
 
 	} else if p.Previous.ExitNum == 0 && p.IsNot {
-		_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		//_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+		_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 		if err != nil {
 			return err
 		}

@@ -3,7 +3,6 @@ package arraytools
 import (
 	"errors"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -30,20 +29,19 @@ func mkmap(p *lang.Process) error {
 	//debug.Log("block value:", string(blockValue))
 
 	//var wg sync.WaitGroup
-	var errKeys, errValues error
-	outKeys := streams.NewStdin()
-	outValues := streams.NewStdin()
 	var aKeys, aValues []string
 
 	//go func() {
 	//	wg.Add(1)
-	_, errKeys = lang.RunBlockExistingConfigSpace(blockKey, nil, outKeys, p.Stderr, p)
+	forkKeys := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+	_, errKeys := forkKeys.Execute(blockKey)
 	//	wg.Done()
 	//}()
 
 	//go func() {
 	//	wg.Add(1)
-	_, errValues = lang.RunBlockExistingConfigSpace(blockValue, nil, outValues, p.Stderr, p)
+	forkValues := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+	_, errValues := forkValues.Execute(blockValue)
 	//	wg.Done()
 	//}()
 
@@ -57,7 +55,7 @@ func mkmap(p *lang.Process) error {
 
 	//go func() {
 	//	wg.Add(1)
-	errKeys = outKeys.ReadArray(func(b []byte) {
+	errKeys = forkKeys.Stdout.ReadArray(func(b []byte) {
 		aKeys = append(aKeys, string(b))
 	})
 	//	wg.Done()
@@ -65,7 +63,7 @@ func mkmap(p *lang.Process) error {
 
 	//go func() {
 	//	wg.Add(1)
-	errValues = outValues.ReadArray(func(b []byte) {
+	errValues = forkValues.Stdout.ReadArray(func(b []byte) {
 		aValues = append(aValues, string(b))
 	})
 	//	wg.Done()

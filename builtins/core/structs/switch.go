@@ -4,7 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/utils"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -50,10 +51,16 @@ func cmdSwitch(p *lang.Process) error {
 		}
 
 		if params.Len() < minParamLen {
-			return fmt.Errorf("`%s` %d is missing a comparison or execution block.", ast[i].Name, i+1)
+			return fmt.Errorf("`%s` %d is missing a comparison or execution block:%s %s %s%s(Parameters found %d/expected %d)",
+				ast[i].Name, i+1, utils.NewLineString,
+				ast[i].Name, params.StringAll(), utils.NewLineString,
+				params.Len(), minParamLen)
 		}
 		if params.Len() > minParamLen {
-			return fmt.Errorf("`%s` %d has too many parameters.", ast[i].Name, i+1)
+			return fmt.Errorf("`%s` %d has too many parameters:%s %s %s%s(Parameters found %d/expected %d)",
+				ast[i].Name, i+1, utils.NewLineString,
+				ast[i].Name, params.StringAll(), utils.NewLineString,
+				params.Len(), minParamLen)
 		}
 
 		var result bool
@@ -90,7 +97,7 @@ func cmdSwitch(p *lang.Process) error {
 func getParameters(p *lang.Process) (compLeft string, block []rune, err error) {
 	switch p.Parameters.Len() {
 	case 0:
-		err = errors.New("Too few parameters.")
+		err = errors.New("Too few parameters")
 		return
 
 	case 1:
@@ -118,7 +125,7 @@ func getParameters(p *lang.Process) (compLeft string, block []rune, err error) {
 		}
 
 	default:
-		err = errors.New("Too many parameters.")
+		err = errors.New("Too many parameters")
 		return
 	}
 
@@ -130,12 +137,14 @@ func getCompLeftFromBlock(p *lang.Process) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	stdout := streams.NewStdin()
-	_, err = lang.RunBlockExistingConfigSpace(compBlock, nil, stdout, nil, p)
+	//stdout := streams.NewStdin()
+	//_, err = lang.RunBlockExistingConfigSpace(compBlock, nil, stdout, nil, p)
+	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	_, err = fork.Execute(compBlock)
 	if err != nil {
 		return "", err
 	}
-	b, err := stdout.ReadAll()
+	b, err := fork.Stdout.ReadAll()
 	return string(b), err
 }
 
@@ -158,13 +167,15 @@ func switchCompByBlock(p *lang.Process, params *parameters.Parameters) (bool, er
 		return false, err
 	}
 
-	stdout := streams.NewStdin()
-	exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, p)
+	//stdout := streams.NewStdin()
+	//exitNum, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, nil, p)
+	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	exitNum, err := fork.Execute(block)
 	if err != nil {
 		return false, err
 	}
 
-	b, err := stdout.ReadAll()
+	b, err := fork.Stdout.ReadAll()
 	if err != nil {
 		return false, err
 	}
@@ -179,6 +190,7 @@ func switchBlock(p *lang.Process, params *parameters.Parameters) error {
 		return err
 	}
 
-	_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+	//_, err = lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
+	_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 	return err
 }

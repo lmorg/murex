@@ -22,29 +22,35 @@ const (
 )
 
 func sigtstp() {
-	show, err := lang.ShellProcess.Config.Get("shell", "show-stop-status", types.Boolean)
+	// This doesn't get called in Windows however I'm still keeping this
+	// function here with the rest of the signal functions for the sake of
+	// consistency.
+	p := lang.ForegroundProc
+
+	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
 		show = false
 	}
-	if !show.(bool) {
-		return
+
+	if show.(bool) {
+		stopStatus(p)
 	}
 
-	/*defer func() {
-		if debug.Enabled {
-			return
-		}
-		if r := recover(); r != nil {
-			return
-		}
-	}()*/
+	if p.Exec.Pid != 0 {
+		p.State = state.Stopped
+		go ShowPrompt()
 
-	p := lang.ForegroundProc
+	} else {
+		lang.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
+	}
+}
+
+func stopStatus(p *lang.Process) {
 	stdinR, stdinW := p.Stdin.Stats()
 	stdoutR, stdoutW := p.Stdout.Stats()
 	stderrR, stderrW := p.Stderr.Stats()
 	pipeStatus := fmt.Sprintf(
-		"\nSTDIN:  %s read /%s written\nSTDOUT: %s read / %s written\nSTDERR: %s read /%s written",
+		"\nSTDIN:  %s read / %s written\nSTDOUT: %s read / %s written\nSTDERR: %s read / %s written",
 		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
 		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
 		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
@@ -58,10 +64,11 @@ func sigtstp() {
 			return
 		}
 
-		branch := lang.ShellProcess.BranchFID()
-		defer branch.Close()
-		branch.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
-		_, err = lang.RunBlockExistingConfigSpace([]rune(block.(string)), nil, lang.ShellProcess.Stdout, lang.ShellProcess.Stderr, branch.Process)
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
+		fork.Name = "(SIGTSTP)"
+		fork.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
+		fork.Execute([]rune(block.(string)))
+
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 		}
@@ -70,15 +77,7 @@ func sigtstp() {
 			"FID %d has been stopped. Use `fg %d` / `bg %d` to manage the FID or `jobs` or `fid-list` to see a list of processes running on this shell.",
 			p.Id, p.Id, p.Id,
 		)))
-
-		p.State = state.Stopped
-
-		go ShowPrompt()
-
-	} else {
-		lang.ShellProcess.Stderr.Write([]byte("(murex functions don't currently support being stopped)"))
 	}
-
 }
 
 func sigint(interactive bool) {

@@ -14,7 +14,7 @@ func pathIsLocal(s string) bool {
 	return strings.HasPrefix(s, "."+consts.PathSlash) || strings.HasPrefix(s, ".."+consts.PathSlash) || strings.HasPrefix(s, consts.PathSlash) || (len(s) > 2 && strings.HasPrefix(s[1:], ":"+consts.PathSlash))
 }
 
-func matchDirs(s string) (items []string) {
+func matchDirsOnce(s string) (items []string) {
 	s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 

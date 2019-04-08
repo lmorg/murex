@@ -7,8 +7,25 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// TestVariables tests the Vars structure
-func TestVariables(t *testing.T) {
+// TestVariablesDefault tests with the F_DEFAULTS fork flag set
+func TestVariablesDefaults(t *testing.T) {
+	testVariables(t, F_DEFAULTS, "F_DEFAULTS")
+}
+
+// TestVariablesDefault tests with the F_FUNCTION fork flag set
+func TestVariablesFunction(t *testing.T) {
+	testVariables(t, F_FUNCTION, "F_FUNCTION")
+}
+
+// TestVariablesDefault tests with the F_NEW_VARTABLE fork flag set
+func TestVariablesNewVartable(t *testing.T) {
+	testVariables(t, F_NEW_VARTABLE, "F_NEW_VARTABLE")
+}
+
+// testVariables is the main testing function for variables under different
+// fork scenarios
+func testVariables(t *testing.T, flags int, details string) {
+	t.Log("Testing with flags: " + details)
 	const (
 		origNum  = 123.123
 		origInt  = 45678
@@ -44,9 +61,8 @@ func TestVariables(t *testing.T) {
 	}
 
 	// Create a referenced variable table
-	b := p.BranchFID()
-	defer b.Close()
-	copy := b.Variables
+	fork := p.Fork(flags)
+	copy := fork.Variables
 
 	err = copy.Set("number", copyNum, types.Number)
 	if err != nil {

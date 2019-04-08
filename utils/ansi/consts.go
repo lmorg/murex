@@ -99,9 +99,22 @@ var sgr = map[string][]byte{
 	// text effects
 	"RESET":      {27, 91, 48, 109},
 	"BOLD":       {27, 91, 49, 109},
+	"ITALIC":     {27, 91, 51, 109}, // Not commonly supported in terminals
 	"UNDERSCORE": {27, 91, 52, 109},
 	"UNDERLINE":  {27, 91, 52, 109},
 	"BLINK":      {27, 91, 53, 109},
+	"INVERT":     {27, 91, 55, 109},
+
+	"ALT-FONT-1": {27, 91, 49, 49, 109}, // Not commonly supported in terminals
+	"ALT-FONT-2": {27, 91, 49, 50, 109}, // Not commonly supported in terminals
+	"ALT-FONT-3": {27, 91, 49, 51, 109}, // Not commonly supported in terminals
+	"ALT-FONT-4": {27, 91, 49, 52, 109}, // Not commonly supported in terminals
+	"ALT-FONT-5": {27, 91, 49, 53, 109}, // Not commonly supported in terminals
+	"ALT-FONT-6": {27, 91, 49, 54, 109}, // Not commonly supported in terminals
+	"ALT-FONT-7": {27, 91, 49, 55, 109}, // Not commonly supported in terminals
+	"ALT-FONT-8": {27, 91, 49, 56, 109}, // Not commonly supported in terminals
+	"ALT-FONT-9": {27, 91, 49, 57, 109}, // Not commonly supported in terminals
+	"FRAKTUR":    {27, 91, 50, 48, 109}, // Not commonly supported in terminals
 
 	// text colours
 	"BLACK":   {27, 91, 51, 48, 109},

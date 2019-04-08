@@ -23,19 +23,42 @@ func main() {
 
 	switch {
 	case fCommand != "":
+		// default config
 		defaults.Defaults(lang.ShellProcess.Config, false)
 		shell.SignalHandler(false)
+
+		// load modules a profile
+		if fLoadMods {
+			profile.Execute()
+		}
+
+		// read block from command line parameters
 		execSource([]rune(fCommand))
 
 	case len(fSource) > 0:
+		// default config
 		defaults.Defaults(lang.ShellProcess.Config, false)
 		shell.SignalHandler(false)
+
+		// load modules a profile
+		if fLoadMods {
+			profile.Execute()
+		}
+
+		// read block from disk
 		execSource(diskSource(fSource[0]))
 
 	default:
+		// default config
 		defaults.Defaults(lang.ShellProcess.Config, true)
+
+		// compiled profile
 		execSource(defaults.DefaultMurexProfile())
+
+		// load modules and profile
 		profile.Execute()
+
+		// start interactive shell
 		shell.Start()
 	}
 
@@ -81,7 +104,11 @@ func diskSource(filename string) []rune {
 }
 
 func execSource(source []rune) {
-	exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
+	//exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
+	fork.Stdout = new(term.Out)
+	fork.Stderr = term.NewErr(ansi.IsAllowed())
+	exitNum, err := fork.Execute(source)
 
 	if err != nil {
 		if exitNum == 0 {

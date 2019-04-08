@@ -7,24 +7,26 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/home"
-	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/readline"
 )
 
 var (
-	// Interactive describes whether murex is running as an interactive shell or not
+	// Interactive describes whether murex is running as an interactive shell
+	// or not
 	Interactive bool
 
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
-	// PromptGoProc is an custom defined ID for each prompt Goprocess so we don't accidentally end up with multiple prompts running
-	PromptGoProc = new(mutexCounter)
+	// PromptId is an custom defined ID for each prompt Goprocess so we don't
+	// accidentally end up with multiple prompts running
+	PromptId = new(counter.MutexCounter)
 )
 
 // Start the interactive shell
@@ -56,8 +58,6 @@ func Start() {
 
 	SignalHandler(true)
 
-	go autocomplete.UpdateGlobalExeList()
-
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = 4
@@ -76,7 +76,7 @@ func ShowPrompt() {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
-	thisProc := PromptGoProc.Add()
+	thisProc := PromptId.Add()
 
 	nLines := 1
 	var merged string
@@ -98,7 +98,8 @@ func ShowPrompt() {
 
 	for {
 		getSyntaxHighlighting()
-		getShowHintText()
+		getHintTextEnabled()
+		getHintTextFormatting()
 		cachedHintText = []rune{}
 
 		if nLines > 1 {
@@ -110,16 +111,18 @@ func ShowPrompt() {
 
 		line, err := Prompt.Readline()
 		if err != nil {
-			switch err.Error() {
-			case readline.ErrCtrlC:
+			switch err {
+			case readline.CtrlC:
 				merged = ""
 				nLines = 1
 				fmt.Println(PromptSIGINT)
 				continue
-			case readline.ErrEOF:
+
+			case readline.EOF:
 				fmt.Println(utils.NewLineString)
 				//return
 				os.Exit(0)
+
 			default:
 				panic(err)
 			}
@@ -177,10 +180,15 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			lang.ShellExitNum, _ = lang.RunBlockShellConfigSpaceWithPrompt(expanded, nil, new(term.Out), term.NewErr(ansi.IsAllowed()), thisProc)
+			//lang.ShellExitNum, _ = lang.RunBlockShellConfigSpaceWithPrompt(expanded, nil, new(term.Out), term.NewErr(ansi.IsAllowed()), thisProc)
+			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
+			fork.Stderr = term.NewErr(ansi.IsAllowed())
+			fork.PromptId = thisProc
+			lang.ShellExitNum, _ = fork.Execute(expanded)
+
 			term.CrLf.Write()
 
-			if PromptGoProc.NotEqual(thisProc) {
+			if PromptId.NotEqual(thisProc) {
 				return
 			}
 		}
@@ -199,8 +207,8 @@ func getSyntaxHighlighting() {
 	}
 }
 
-func getShowHintText() {
-	showHintText, err := lang.ShellProcess.Config.Get("shell", "show-hint-text", types.Boolean)
+func getHintTextEnabled() {
+	showHintText, err := lang.ShellProcess.Config.Get("shell", "hint-text-enabled", types.Boolean)
 	if err != nil {
 		showHintText = false
 	}
@@ -209,4 +217,12 @@ func getShowHintText() {
 	} else {
 		Prompt.HintText = nil
 	}
+}
+
+func getHintTextFormatting() {
+	formatting, err := lang.ShellProcess.Config.Get("shell", "hint-text-formatting", types.String)
+	if err != nil {
+		formatting = ""
+	}
+	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
 }

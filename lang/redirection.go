@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-var rxNamedPipe *regexp.Regexp = regexp.MustCompile(`^<(test_|\!)?[a-zA-Z0-9]+>$`)
+var rxNamedPipe = regexp.MustCompile(`^<(state_|test_|\!)?[a-zA-Z0-9]+>$`)
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
@@ -41,6 +41,14 @@ func parseRedirection(p *Process) {
 						}
 					} else {
 						p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined test multiple times."))
+					}
+
+				case len(name) > 6 && name[:6] == "state_":
+					if p.NamedPipeTest == "" {
+						testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
+						if err == nil && testEnabled.(bool) {
+							p.testState = append(p.testState, name[6:])
+						}
 					}
 
 				case name[0] == '!':

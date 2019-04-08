@@ -1,0 +1,82 @@
+# Gopkg.toml example
+#
+# Refer to https://golang.github.io/dep/docs/Gopkg.toml.html
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
+
+
+[[constraint]]
+  name = "github.com/BurntSushi/toml"
+  version = "0.3.1"
+
+[[constraint]]
+  name = "github.com/Knetic/govaluate"
+  version = "3.0.0"
+
+[[constraint]]
+  name = "github.com/abesto/sexp"
+  version = "0.0.1"
+
+[[constraint]]
+  name = "github.com/boombuler/barcode"
+  version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/eliukblau/pixterm"
+  version = "1.2.4"
+
+[[constraint]]
+  name = "github.com/fsnotify/fsnotify"
+  version = "1.4.7"
+
+[[constraint]]
+  name = "github.com/hashicorp/hcl"
+  version = "1.0.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/lmorg/apachelogs"
+
+[[constraint]]
+  name = "github.com/lmorg/readline"
+  version = "2.1.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/phayes/permbits"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+
+[[constraint]]
+  name = "gopkg.in/yaml.v2"
+  version = "2.2.2"
+
+[[constraint]]
+  branch = "(default)"
+  name = "labix.org/v2/mgo"
+
+[prune]
+  go-tests = true
+  unused-packages = true

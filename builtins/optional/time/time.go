@@ -1,6 +1,7 @@
 package time
 
 import (
+	"errors"
 	"time"
 
 	"github.com/lmorg/murex/lang"
@@ -28,29 +29,24 @@ func cmdSleep(p *lang.Process) error {
 	}
 }
 
-func cmdTime(p *lang.Process) error {
+func cmdTime(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Integer)
-	block := p.Parameters.ByteAll()
 
-	if types.IsBlock(block) {
-		block, err := p.Parameters.Block(0)
-		if err != nil {
-			return err
-		}
-
-		start := time.Now()
-
-		p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stdout, p)
-		if err != nil {
-			return err
-		}
-
-		s := types.FloatToString(time.Now().Sub(start).Seconds())
-		_, err = p.Stderr.Write([]byte(s))
-		return err
+	if p.Parameters.Len() == 0 {
+		return errors.New("Missing parameters")
 	}
 
-	p.Parameters.Params = append([]string{"time"}, p.Parameters.Params...)
-	err := lang.External(p)
-	return err
+	block := p.Parameters.StringAll()
+
+	start := time.Now()
+
+	//p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stdout, p)
+	p.ExitNum, err = p.Fork(lang.F_DEFAULTS).Execute([]rune(block))
+	if err != nil {
+		return
+	}
+
+	s := types.FloatToString(time.Now().Sub(start).Seconds())
+	_, err = p.Stderr.Write([]byte(s))
+	return
 }

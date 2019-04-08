@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -88,7 +89,7 @@ func unset(p *lang.Process, scope *lang.Process) error {
 		return err
 	}
 
-	err = scope.Variables.Unset(varName)
+	err = scope.Parent.Variables.Unset(varName)
 	return err
 }
 
@@ -119,7 +120,16 @@ func cmdExport(p *lang.Process) error {
 	}
 
 	match := rxSet.FindAllStringSubmatch(params, -1)
-	return os.Setenv(match[0][1], match[0][2])
+	err := os.Setenv(match[0][1], match[0][2])
+	if err != nil {
+		return err
+	}
+
+	if match[0][1] == "PATH" {
+		autocomplete.UpdateGlobalExeList()
+	}
+
+	return nil
 }
 
 func cmdUnexport(p *lang.Process) error {

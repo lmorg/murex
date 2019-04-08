@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	//_ "github.com/lmorg/murex/builtins/core/typemgmt" // import murex builtins
-	"github.com/lmorg/murex/builtins/pipes/streams"
+
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 )
@@ -25,18 +25,19 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 	lang.InitEnv()
 
 	for i := range tests {
-		stdout := streams.NewStdin()
-		stderr := streams.NewStdin()
 		hasError := false
 
-		exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
+		//exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		fork.Name = "RunMurexTests()"
+		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Errorf("Cannot execute script on test %d", i)
 			t.Log(err)
 			continue
 		}
 
-		bErr, err := stderr.ReadAll()
+		bErr, err := fork.Stderr.ReadAll()
 		if err != nil {
 			t.Errorf("Cannot ReadAll() from Stderr on test %d", i)
 			t.Log(err)
@@ -47,7 +48,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 			hasError = true
 		}
 
-		bOut, err := stdout.ReadAll()
+		bOut, err := fork.Stdout.ReadAll()
 		if err != nil {
 			t.Errorf("Cannot ReadAll() from Stdout on test %d", i)
 			t.Log(err)
