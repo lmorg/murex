@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/lmorg/murex/utils/ansi"
+
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -108,7 +110,7 @@ func hintText(line []rune, pos int) []rune {
 func hintExpandVariables(line []rune) []rune {
 	r, err := history.ExpandVariables(line, Prompt)
 	if err != nil {
-		return []rune("Error: " + err.Error())
+		return []rune(ansi.ExpandConsts("{RED}") + err.Error())
 	}
 
 	vars := variables.Expand(r)

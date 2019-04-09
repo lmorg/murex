@@ -1,6 +1,7 @@
 package history
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -12,13 +13,14 @@ import (
 )
 
 var (
-	rxHistIndex   = regexp.MustCompile(`(\^[0-9]+)`)
-	rxHistRegex   = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
-	rxHistPrefix  = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
-	rxHistTag     = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
-	rxHistAllPs   = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
-	rxHistParam   = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
-	rxHistReplace = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
+	rxHistIndex    = regexp.MustCompile(`(\^[0-9]+)`)
+	rxHistRegex    = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
+	rxHistPrefix   = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
+	rxHistTag      = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
+	rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistParam    = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
+	rxHistReplace  = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
+	rxHistRepParam = regexp.MustCompile(`\^s([-]?[0-9]+)/(.*?[^\\])/(.*?[^\\])/`)
 )
 
 const (
@@ -64,6 +66,7 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 		expandHistAllPs,
 		expandHistParam,
 		expandHistReplace,
+		expandHistRepParam,
 	}
 
 	for f := range funcs {
@@ -83,7 +86,7 @@ func expandHistIndex(s string, rl *readline.Instance) (string, error) {
 	for i := range mhIndex {
 		val, _ := strconv.Atoi(mhIndex[i][1:])
 		if val > rl.History.Len() {
-			return "", fmt.Errorf("Value greater than history length in ^%d", val)
+			return "", fmt.Errorf("(%s) Value greater than history length in ^%d", mhIndex[i], val)
 		}
 		s = rxHistIndex.ReplaceAllString(s, noColon(getLine(val, rl)))
 		//return s, nil
@@ -97,17 +100,16 @@ func expandHistRegex(s string, rl *readline.Instance) (string, error) {
 	for i := range mhRegexp {
 		rx, err := regexp.Compile(mhRegexp[i][1])
 		if err != nil {
-			return "", fmt.Errorf("Regexp error in history variable `^m/%s/`: %s", mhRegexp[i][1], err.Error())
+			return "", fmt.Errorf("(%s) Regexp error in history variable `^m/%s/`: %s", mhRegexp[i][0], mhRegexp[i][1], err.Error())
 		}
 
 		for h := rl.History.Len() - 1; h > -1; h-- {
 			if rx.MatchString(getLine(h, rl)) {
 				s = rxHistRegex.ReplaceAllString(s, noColon(getLine(h, rl)))
-				//return []rune(s)
 				goto next
 			}
 		}
-		return "", fmt.Errorf("Cannot find a history item to match regexp: %s", mhRegexp[i][1])
+		return "", fmt.Errorf("(%s) Cannot find a history item to match regexp: %s", mhRegexp[i][0], mhRegexp[i][1])
 	next:
 	}
 	return s, nil
@@ -124,12 +126,11 @@ func expandHistHashtag(s string, rl *readline.Instance) (string, error) {
 				block := line[:len(line)-len(mhTag[i][1:])]
 				s = strings.Replace(s, mhTag[i], noColon(block), 1)
 
-				//return s, nil
 				goto next
 			}
 		}
 
-		return "", fmt.Errorf("Hashtag not found: %s", mhTag[i])
+		return "", fmt.Errorf("(%s) Hashtag not found", mhTag[i])
 	next:
 	}
 
@@ -155,7 +156,7 @@ func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 			val, _ := strconv.Atoi(mhParam[i][2])
 
 			if cmd < 0 || cmd+1 > len(nodes) {
-				return "", fmt.Errorf("Cannot extract parameter for %s", mhParam[i][0])
+				return "", fmt.Errorf("(%s) Cannot extract parameter", mhParam[i][0])
 			}
 
 			p := parameters.Parameters{Tokens: nodes[cmd].ParamTokens}
@@ -185,7 +186,6 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 		last := getLine(rl.History.Len()-1, rl)
 		nodes, pErr := lang.ParseBlock([]rune(last))
 		if pErr.Code != lang.NoParsingErrors {
-			//goto cannotParserxHistParam
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
 		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
@@ -215,13 +215,11 @@ func expandHistReplace(s string, rl *readline.Instance) (string, error) {
 	sList := rxHistReplace.FindAllStringSubmatch(s, -1)
 	var rxList []*regexp.Regexp
 	var replaceList []string
-	//debug.Json("^s/...", sList)
+
 	for i := range sList {
 		rx, err := regexp.Compile(sList[i][1])
 		if err != nil || len(sList[i]) != 3 {
-			//debug.Log("Regexp error.", err)
-			//continue
-			return "", fmt.Errorf("Regexp error in history variable `^s/%s/%s`: %s", sList[i][1], sList[i][2], err.Error())
+			return "", fmt.Errorf("(%s) Regexp error in history variable `^s/%s/%s`: %s", sList[i][0], sList[i][1], sList[i][2], err.Error())
 		}
 		rxList = append(rxList, rx)
 		replaceList = append(replaceList, sList[i][2])
@@ -234,6 +232,51 @@ func expandHistReplace(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
+// Replace string from a parameter in the last command
+func expandHistRepParam(s string, rl *readline.Instance) (string, error) {
+	mhRepParam := rxHistRepParam.FindAllStringSubmatch(s, -1)
+	if len(mhRepParam) > 0 {
+		last := getLine(rl.History.Len()-1, rl)
+		nodes, pErr := lang.ParseBlock([]rune(last))
+		if pErr.Code != lang.NoParsingErrors {
+			return "", errors.New(errCannotParsePrevCmd)
+		}
+		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
+		lang.ParseParameters(lang.ShellProcess, &p)
+
+		for i := range mhRepParam {
+			param, err := strconv.Atoi(mhRepParam[i][1])
+			if err != nil {
+				return "", fmt.Errorf("(%s) Unable to convert '%s' to int", mhRepParam[i][0], mhRepParam[i][1])
+			}
+			if param < 0 {
+				param += p.Len() + 1
+			}
+
+			rx, err := regexp.Compile(mhRepParam[i][2])
+			if err != nil {
+				return "", fmt.Errorf("(%s) Error compiling regexp '%s': %s", mhRepParam[i][0], mhRepParam[i][2], err.Error())
+			}
+			var old string
+			switch {
+			case param == 0:
+				old = nodes.Last().Name
+			case param > 0 && param-1 < p.Len():
+				old, err = p.String(param - 1)
+				if err != nil {
+					return "", fmt.Errorf("(%s) Parameter error for %d (derived from '%s'): %s", mhRepParam[i][0], param, mhRepParam[i][1], err.Error())
+				}
+			default:
+				return "", fmt.Errorf("(%s) Parameter index out of bounds: %d (derived from '%s')", mhRepParam[i][0], param, mhRepParam[i][1])
+			}
+			new := rx.ReplaceAllString(old, mhRepParam[i][3])
+			s = strings.ReplaceAll(s, mhRepParam[i][0], new)
+		}
+
+	}
+	return s, nil
+}
+
 // Match history prefix
 func expandHistPrefix(s string, rl *readline.Instance) (string, error) {
 	mhPrefix := rxHistPrefix.FindAllString(s, -1)
@@ -241,14 +284,14 @@ func expandHistPrefix(s string, rl *readline.Instance) (string, error) {
 		for h := rl.History.Len() - 1; h > -1; h-- {
 			if strings.HasPrefix(getLine(h, rl), mhPrefix[i][2:]) {
 				s = strings.Replace(s, mhPrefix[i], noColon(getLine(h, rl)), 1)
-				//return s, nil //[]rune(s)
+
 				goto next
 			}
 		}
-		//return s, nil //[]rune(s)
-		return "", fmt.Errorf("Cannot find a history item to match prefix: %s", mhPrefix[i])
+
+		return "", fmt.Errorf("(%s) Cannot find a history item to match prefix", mhPrefix[i])
 	next:
 	}
 
-	return s, nil //[]rune(s)
+	return s, nil
 }
