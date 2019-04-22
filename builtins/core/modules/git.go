@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/lmorg/murex/utils/ansi"
+
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/which"
@@ -25,6 +27,20 @@ func gitUpdate(p *lang.Process, pack *packageDb) error {
 	}
 
 	return gitExec(p, "-C", profile.ModulePath+pack.Package, "pull", "-q")
+}
+
+func gitStatus(p *lang.Process, pack *packageDb) error {
+	if err := gitSupported(); err != nil {
+		return err
+	}
+
+	params := []string{"-C", profile.ModulePath + pack.Package, "status", "-sb"}
+
+	if ansi.IsAllowed() {
+		params = append([]string{"-c", "color.status=always"}, params...)
+	}
+
+	return gitExec(p, params...)
 }
 
 var (
