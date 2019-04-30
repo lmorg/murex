@@ -22,14 +22,15 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 	var (
 		// Current state
-		lineNumber       int
-		colNumber        int
-		last             rune
-		commentLine      bool
-		escaped          bool
-		quoteSingle      bool
-		quoteDouble      bool
-		quoteBrace       int
+		lineNumber  int
+		colNumber   int
+		last        rune
+		commentLine bool
+		escaped     bool
+		quoteSingle bool
+		quoteDouble bool
+		quoteBrace  int
+		//quotePipe        bool
 		braceCount       int
 		unclosedIndex    bool
 		ignoreWhitespace = true

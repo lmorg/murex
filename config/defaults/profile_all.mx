@@ -286,7 +286,7 @@ autocomplete: set fid-kill {
 
 autocomplete: set murex-package {
     [{
-        "Flags": [ "install", "update", "import", "enable", "disable" ],
+        "Flags": [ "install", "update", "import", "enable", "disable", "reload" ],
         "FlagValues": {
             "import": [{
                 "IncFiles": true

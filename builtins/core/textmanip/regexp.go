@@ -233,18 +233,20 @@ func regexFind(p *lang.Process, rx *regexp.Regexp, dt string) error {
 	}
 
 	p.Stdin.ReadArray(func(b []byte) {
-		found := rx.FindStringSubmatch(string(b))
-		if len(found) > 1 {
+		match := rx.FindAllStringSubmatch(string(b), -1)
+		for _, found := range match {
+			if len(found) > 1 {
 
-			for i := 1; i < len(found); i++ {
-				err = aw.WriteString(found[i])
-				if err != nil {
-					p.Stdin.ForceClose()
-					p.Done()
+				for i := 1; i < len(found); i++ {
+					err = aw.WriteString(found[i])
+					if err != nil {
+						p.Stdin.ForceClose()
+						p.Done()
+					}
+
 				}
 
 			}
-
 		}
 	})
 

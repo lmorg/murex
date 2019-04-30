@@ -182,6 +182,17 @@ func cmdParser(p *lang.Process) error {
 	}
 
 	_, err = p.Stdout.Write(b)
+
+	/*// start new parser
+	nodes, _ := lang.ParseBlock(block)
+	b, err = json.Marshal(nodes, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+	// end new parser*/
+
+	_, err = p.Stdout.Write(b)
+
 	return err
 }
 

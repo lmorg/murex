@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/httpclient"
-
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
@@ -17,11 +16,11 @@ import (
 
 const usage = `
 Usage: murex-package install         url
-					 update
-					 reload
+                     update
+                     reload
                      enable|disable  package[/module]
 					 import          [uri|local path]packages.json
-					 status
+                     status
 `
 
 func init() {
