@@ -15,11 +15,13 @@ autocomplete set cd { [{
 }] }
 
 autocomplete set mkdir { [{
-    "IncDirs": true
+    "IncDirs": true,
+    "AllowMultiple": true
 }] }
 
 autocomplete set rmdir { [{
-    "IncDirs": true
+    "IncDirs": true,
+    "AllowMultiple": true
 }] }
 
 autocomplete set exec { [
