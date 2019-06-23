@@ -1,17 +1,14 @@
-package csv
+package csvbad
 
 import (
-	enc "encoding/csv"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"os"
 	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -244,34 +241,19 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {
-	csvReader := enc.NewReader(p.Stdin)
-	csvReader.TrimLeadingSpace = true
-
-	v, err := p.Config.Get("csv", "separator", types.String)
+	csvReader, err := NewParser(p.Stdin, p.Config)
 	if err != nil {
 		return nil, err
 	}
-	if len(v.(string)) != 0 {
-		csvReader.Comma = rune(v.(string)[0])
-	}
 
-	v, err = p.Config.Get("csv", "comment", types.String)
-	if err != nil {
-		return nil, err
-	}
-	if len(v.(string)) != 0 {
-		csvReader.Comment = rune(v.(string)[0])
-	}
-
-	var table [][]string
-
-	for {
-		record, err := csvReader.Read()
-		if record == nil && err == io.EOF {
-			break
+	table := make([]map[string]string, 0)
+	csvReader.ReadLine(func(recs []string, heads []string) {
+		record := make(map[string]string)
+		for i := range recs {
+			record[heads[i]] = recs[i]
 		}
 		table = append(table, record)
-	}
+	})
 
 	return table, nil
 }
