@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/test"
 )
 
-func TestNullArrayWriter(t *testing.T) {
-	test.ArrayWriterTest(t, types.Null, "")
+func TestArrayWriter(t *testing.T) {
+	input := []string{"foo", "bar"}
+	test.ArrayWriterTest(t, types.Null, input, "")
 }

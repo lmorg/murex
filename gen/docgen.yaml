@@ -103,7 +103,7 @@ Categories:
       // +build freebsd
     Templates:
     - OutputPath: config/defaults
-      CategoryFile: auto_generated_freebsd.go.go
+      CategoryFile: auto_generated_freebsd.go
       OutputExt:
       CategoryTemplate: gen/profile-platform.tmpl
       DocumentTemplate: 
