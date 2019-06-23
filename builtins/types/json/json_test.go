@@ -36,12 +36,12 @@ func TestReadMap(t *testing.T) {
 		{
 			Key:   "foo",
 			Value: "oof",
-			Last:  false,
+			Last:  true,
 		},
 		{
 			Key:   "bar",
 			Value: "rab",
-			Last:  true,
+			Last:  false,
 		},
 	}
 

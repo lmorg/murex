@@ -37,6 +37,18 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	return define.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
+func noCrLf(b []byte) []byte {
+	if len(b) > 0 && b[len(b)-1] == '\n' {
+		b = b[:len(b)-1]
+	}
+
+	if len(b) > 0 && b[len(b)-1] == '\r' {
+		b = b[:len(b)-1]
+	}
+
+	return b
+}
+
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
 	b, err := read.ReadAll()
 	if err != nil {
@@ -54,7 +66,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 				if err != nil {
 					return err
 				}
-				callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
+				callback(strconv.Itoa(i), string(noCrLf(j)), i != len(jObj.([]interface{}))-1)
 			}
 
 		case map[string]interface{}:
@@ -64,7 +76,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 				if err != nil {
 					return err
 				}
-				callback(key, string(j), i != len(jObj.(map[string]interface{})))
+				callback(key, string(noCrLf(j)), i != len(jObj.(map[string]interface{})))
 				i++
 			}
 			return nil
@@ -76,7 +88,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 				if err != nil {
 					return err
 				}
-				callback(fmt.Sprint(key), string(j), i != len(jObj.(map[interface{}]interface{})))
+				callback(fmt.Sprint(key), string(noCrLf(j)), i != len(jObj.(map[interface{}]interface{})))
 				i++
 			}
 			return nil
