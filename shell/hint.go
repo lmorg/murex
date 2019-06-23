@@ -5,8 +5,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/utils/ansi"
-
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -16,6 +14,7 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/which"
 )
