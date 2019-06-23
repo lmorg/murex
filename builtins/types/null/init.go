@@ -1,4 +1,4 @@
-package string
+package null
 
 import (
 	"github.com/lmorg/murex/lang/proc/stdio"
