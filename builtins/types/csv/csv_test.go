@@ -56,7 +56,7 @@ func TestReadMap(t *testing.T) {
 		},
 	}
 
-	test.ReadMapTest(t, typeName, input, expected, lang.InitConf)
+	test.ReadMapOrderedTest(t, typeName, input, expected, lang.InitConf)
 }
 
 /*func TestArrayWriter(t *testing.T) {

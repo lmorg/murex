@@ -36,7 +36,7 @@ func TestReadMap(t *testing.T) {
 		},
 	}
 
-	test.ReadMapTest(t, typeName, input, expected, config)
+	test.ReadMapOrderedTest(t, typeName, input, expected, config)
 }
 
 func TestArrayWriter(t *testing.T) {

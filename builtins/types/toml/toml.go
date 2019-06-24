@@ -3,12 +3,9 @@ package toml
 import (
 	"bytes"
 	"errors"
-	"strconv"
 
 	"github.com/BurntSushi/toml"
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types/define"
@@ -16,11 +13,13 @@ import (
 
 const typeName = "toml"
 
+var errNakedArrays = errors.New("The TOML specification doesn't support naked arrays")
+
 func init() {
 	stdio.RegesterReadArray(typeName, readArray)
-	stdio.RegesterReadMap(typeName, readMap)
+	//stdio.RegesterReadMap(typeName, readMap)
 	stdio.RegesterWriteArray(typeName, func(_ stdio.Io) (stdio.ArrayWriter, error) {
-		return nil, errors.New("The TOML specification doesn't support naked arrays")
+		return nil, errNakedArrays
 	})
 
 	define.ReadIndexes[typeName] = readIndex
@@ -45,7 +44,7 @@ func tomlMarshal(v interface{}) (b []byte, err error) {
 	if err != nil {
 		return nil, err
 	}
-	w.Close()
+
 	b, err = w.ReadAll()
 	return b, err
 }
@@ -79,7 +78,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	return nil
 }
 
-func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
+/*func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -87,39 +86,39 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 
 	var jObj interface{}
 	err = toml.Unmarshal(b, &jObj)
-	if err == nil {
+	if err != nil {
+		return err
+	}
 
-		switch v := jObj.(type) {
-		case []interface{}:
-			for i := range jObj.([]interface{}) {
-				j, err := tomlMarshal(jObj.([]interface{})[i])
-				if err != nil {
-					return err
-				}
-				callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
+	switch v := jObj.(type) {
+	case []interface{}:
+		for i := range jObj.([]interface{}) {
+			j, err := tomlMarshal(jObj.([]interface{})[i])
+			if err != nil {
+				return err
 			}
+			callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
+		}
 
-		case map[string]interface{}, map[interface{}]interface{}:
-			i := 1
-			for key := range jObj.(map[string]interface{}) {
-				j, err := tomlMarshal(jObj.(map[string]interface{})[key])
-				if err != nil {
-					return err
-				}
-				callback(key, string(j), i != len(jObj.(map[string]interface{})))
-				i++
+	case map[string]interface{}, map[interface{}]interface{}:
+		i := 1
+		for key := range jObj.(map[string]interface{}) {
+			j, err := tomlMarshal(jObj.(map[string]interface{})[key])
+			if err != nil {
+				return err
 			}
-			return nil
-
-		default:
-			if debug.Enabled {
-				panic(v)
-			}
+			callback(key, string(j), i != len(jObj.(map[string]interface{})))
+			i++
 		}
 		return nil
+
+	default:
+		if debug.Enabled {
+			panic(v)
+		}
 	}
-	return err
-}
+	return nil
+}*/
 
 func readIndex(p *lang.Process, params []string) error {
 	var jInterface interface{}

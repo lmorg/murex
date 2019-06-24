@@ -92,8 +92,8 @@ func (m ReadMapExpected) String() string {
 	return fmt.Sprintf("`%s`: `%s` (%t)", esc(m.Key), esc(m.Value), m.Last)
 }
 
-// ReadMapTest is an easy template for testing stdio.ReadMap methods in murex types
-func ReadMapTest(t *testing.T, dataType string, input []byte, expected []ReadMapExpected, config *config.Config) {
+// ReadMapOrderedTest is an easy template for testing stdio.ReadMap methods in murex types with ordered maps
+func ReadMapOrderedTest(t *testing.T, dataType string, input []byte, expected []ReadMapExpected, config *config.Config) {
 	stdout := streams.NewStdin()
 	stdout.SetDataType(dataType)
 	_, err := stdout.Write(input)
@@ -118,9 +118,47 @@ func ReadMapTest(t *testing.T, dataType string, input []byte, expected []ReadMap
 
 	for i := range actual {
 		if actual[i] != expected[i] {
-			t.Errorf("Unexpected output in ReadMap index: %d", i)
+			t.Errorf("Unexpected output in unordered ReadMap index: %d", i)
 			t.Logf("  Expected: %s", expected[i])
 			t.Logf("  Actual:   %s", actual[i])
+		}
+	}
+}
+
+// ReadMapUnorderedTest is an easy template for testing stdio.ReadMap methods in murex types with unordered maps
+func ReadMapUnorderedTest(t *testing.T, dataType string, input []byte, expected []ReadMapExpected, config *config.Config) {
+	stdout := streams.NewStdin()
+	stdout.SetDataType(dataType)
+	_, err := stdout.Write(input)
+
+	if err != nil {
+		t.Fatalf("Unable to Write to stdout: %s", err)
+	}
+
+	actual := make(map[string]ReadMapExpected)
+	err = stdout.ReadMap(config, func(key, value string, last bool) {
+		actual[key] = ReadMapExpected{key, value, last}
+	})
+	if err != nil {
+		t.Fatalf("Unable to ReadMap from stdout: %s", err)
+	}
+
+	if len(expected) != len(actual) {
+		t.Error("Unexpected output in ReadMap:")
+		t.Logf("  Expected records: %d", len(expected))
+		t.Logf("  Actual records:   %d", len(actual))
+	}
+
+	m := make(map[string]ReadMapExpected)
+	for i := range expected {
+		m[expected[i].Key] = expected[i]
+	}
+
+	for key := range m {
+		if m[key].Value != actual[key].Value {
+			t.Error("Unexpected output in ReadMap (unordered)")
+			t.Logf("  Expected: `%s`: `%s`", m[key], m[key].Value)
+			t.Logf("  Actual:   `%s`: `%s`", actual[key], actual[key].Value)
 		}
 	}
 }
