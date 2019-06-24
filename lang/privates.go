@@ -2,7 +2,6 @@ package lang
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 )
 
@@ -27,9 +26,9 @@ func NewMurexPrivs() (mf MurexPrivs) {
 
 // Define creates a private
 func (mf *MurexPrivs) Define(name, module string, block []rune) error {
-	if mf.Exists(name, module) {
-		return fmt.Errorf("private with the name `%s` already exists in module `%s`", name, module)
-	}
+	//if mf.Exists(name, module) {
+	//	return fmt.Errorf("private with the name `%s` already exists in module `%s`", name, module)
+	//}
 
 	summary := funcPrivSummary(block)
 
