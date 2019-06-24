@@ -45,7 +45,7 @@ func TestReadMap(t *testing.T) {
 		},
 	}
 
-	test.ReadMapTest(t, types.Json, input, expected, config)
+	test.ReadMapUnorderedTest(t, types.Json, input, expected, config)
 }
 
 func TestArrayWriter(t *testing.T) {
