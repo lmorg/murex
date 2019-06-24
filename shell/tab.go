@@ -3,11 +3,10 @@ package shell
 import (
 	"strings"
 
-	"github.com/lmorg/murex/utils/ansi"
-
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/readline"
 )
 
