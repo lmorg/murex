@@ -45,7 +45,7 @@ func tomlMarshal(v interface{}) (b []byte, err error) {
 	if err != nil {
 		return nil, err
 	}
-	w.Close()
+	//w.Close()
 	b, err = w.ReadAll()
 	return b, err
 }
