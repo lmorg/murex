@@ -3,6 +3,7 @@ package csvbad
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins/types/csv"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test"
 )
@@ -56,7 +57,9 @@ func TestReadMap(t *testing.T) {
 		},
 	}
 
-	test.ReadMapTest(t, typeName, input, expected, lang.InitConf)
+	lang.InitConf.Set("csv", "headings", true)
+
+	test.ReadMapUnorderedTest(t, typeName, input, expected, lang.InitConf)
 }
 
 /*func TestArrayWriter(t *testing.T) {

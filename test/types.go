@@ -111,7 +111,7 @@ func ReadMapOrderedTest(t *testing.T, dataType string, input []byte, expected []
 	}
 
 	if len(expected) != len(actual) {
-		t.Error("Unexpected output in ReadMap:")
+		t.Error("Unexpected number of records in ReadMap:")
 		t.Logf("  Expected records: %d", len(expected))
 		t.Logf("  Actual records:   %d", len(actual))
 	}
@@ -144,7 +144,7 @@ func ReadMapUnorderedTest(t *testing.T, dataType string, input []byte, expected 
 	}
 
 	if len(expected) != len(actual) {
-		t.Error("Unexpected output in ReadMap:")
+		t.Error("Unexpected number of records in ReadMap:")
 		t.Logf("  Expected records: %d", len(expected))
 		t.Logf("  Actual records:   %d", len(actual))
 	}
@@ -157,8 +157,8 @@ func ReadMapUnorderedTest(t *testing.T, dataType string, input []byte, expected 
 	for key := range m {
 		if m[key].Value != actual[key].Value {
 			t.Error("Unexpected output in ReadMap (unordered)")
-			t.Logf("  Expected: `%s`: `%s`", m[key], m[key].Value)
-			t.Logf("  Actual:   `%s`: `%s`", actual[key], actual[key].Value)
+			t.Logf("  Expected: `%s`: `%s`", m[key].Key, m[key].Value)
+			t.Logf("  Actual:   `%s`: `%s`", actual[key].Key, actual[key].Value)
 		}
 	}
 }

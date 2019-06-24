@@ -13,7 +13,7 @@ ctrl_c() {
 }
 
 echo "Starting Go tests...."
-go test ./...  || exit 1
+go test ./... -count 10 || exit 1
 
 echo "Compiling Murex...."
 go build github.com/lmorg/murex || exit 1
