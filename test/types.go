@@ -155,10 +155,10 @@ func ReadMapUnorderedTest(t *testing.T, dataType string, input []byte, expected 
 	}
 
 	for key := range m {
-		if m[key] != actual[key] {
+		if m[key].Value != actual[key].Value {
 			t.Error("Unexpected output in ReadMap (unordered)")
-			t.Logf("  Expected: %s", m[key])
-			t.Logf("  Actual:   %s", actual[key])
+			t.Logf("  Expected: `%s`: `%s`", m[key], m[key].Value)
+			t.Logf("  Actual:   `%s`: `%s`", actual[key], actual[key].Value)
 		}
 	}
 }
