@@ -31,9 +31,9 @@ func init() {
 				"!auto-report",
 				"verbose",
 				"!verbose",
-				"run",
 				"define",
-				"var"
+				"state",
+				"run"
 			],
 			"AllowMultiple": true
         }] }
