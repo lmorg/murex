@@ -181,7 +181,7 @@ func cmdParser(p *lang.Process) error {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
+	//_, err = p.Stdout.Write(b)
 
 	/*// start new parser
 	nodes, _ := lang.ParseBlock(block)

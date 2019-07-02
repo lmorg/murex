@@ -38,7 +38,7 @@ func Callback(name string, interrupt interface{}, block []rune, module string, s
 		return
 	}
 
-	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
 	fork.Stdin.SetDataType(types.Json)
 	fork.Name = "(event)"
 	fork.Module = module
