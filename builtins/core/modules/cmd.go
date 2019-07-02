@@ -19,7 +19,7 @@ Usage: murex-package install         url
                      update
                      reload
                      enable|disable  package[/module]
-					 import          [uri|local path]packages.json
+                     import          [uri|local path]packages.json
                      status
 `
 
