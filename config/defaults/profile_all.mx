@@ -7,7 +7,7 @@ func aliases {
 	# Output the aliases in human readable format
 	runtime: --aliases -> formap name alias {
 		$name -> sprintf: "%10s => ${out @alias}\n"
-	} -> cast string
+	} -> cast str
 }
 
 autocomplete set cd { [{

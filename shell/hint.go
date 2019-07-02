@@ -46,9 +46,10 @@ func hintText(line []rune, pos int) []rune {
 		return []rune("Change directory: " + path)
 	}
 
-	s := Summary.Get(cmd)
-	if s != "" {
-		summary = s
+	// check if a custom summary has been set
+	custom := Summary.Get(cmd)
+	if custom != "" {
+		summary = custom
 	}
 
 	if lang.GlobalAliases.Exists(cmd) {
@@ -101,6 +102,11 @@ func hintText(line []rune, pos int) []rune {
 		if len(r) > 0 {
 			return r
 		}
+	}
+
+	if len(r) > 0 {
+		r = append(r, []rune("`"+cmd+"` was not found")...)
+		return r
 	}
 
 	return hintCodeBlock()
