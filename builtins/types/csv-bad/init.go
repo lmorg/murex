@@ -5,7 +5,7 @@ import (
 	"github.com/lmorg/murex/lang/types/define"
 )
 
-const typeName = "csv-bad"
+const typeName = "csvbad"
 
 func init() {
 	//stdio.RegesterReadArray(typeName, readArray)

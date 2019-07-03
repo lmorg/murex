@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/which"
 )
@@ -53,9 +54,11 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if lang.GlobalAliases.Exists(cmd) {
-		s := lang.GlobalAliases.Get(cmd)
-		r = []rune("(alias) '" + strings.Join(s, "' '") + "' => ")
-		cmd = s[0]
+		alias := lang.GlobalAliases.Get(cmd)
+		escape.CommandLine(alias)
+		s := strings.Join(alias, " ")
+		r = []rune("(alias) " + s + " => ")
+		cmd = alias[0]
 	}
 
 	if lang.MxFunctions.Exists(cmd) {
@@ -105,7 +108,7 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if len(r) > 0 {
-		r = append(r, []rune("`"+cmd+"` was not found")...)
+		r = append(r, []rune("target `"+cmd+"` was not found")...)
 		return r
 	}
 
