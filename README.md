@@ -29,6 +29,14 @@ CSV, S-Expressions, CSV and even loosely tabulated terminal output (eg
 parsing output easier when dealing with more complex arrangements of
 data than a simple byte stream in traditional shells like Bash.
 
+## Interactive shell
+
+Aside the _murex_ being carefully designed with scripting in mind, the
+interactive shell itself is also built around productivity. To achieve this,
+we wrote our own readline library. Below is an example of that library in use:
+
+[![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
+
 ## Concise yet predictable
 
 Despite the amount of features added to shell, we have tried to keep the
@@ -97,15 +105,15 @@ command prefix:
 ### Powerful autocompletion
 
 _murex_ takes a slightly different approach to command line autocompletion,
-both from a usability perspective as well as defining autocompletions.
+both from a usability perspective as well as defining completion rules.
 
 Inspired by IDEs, _murex_ queries man pages directly for flags as well as
 "tooltip" descriptions. Custom completions are defined via JSON meaning
 simple commands are much easier to define and complex commands can still
 fallback to using dynamic shell code just like they are in other shells.
 
-This makes it easier to write autocompletions as well as making the code
-more readable. An example of `git`s autocompletion definiton:
+This makes it easier to write completion rules as well as making the code
+more readable. An example of `git`s autocompletion definition:
 
     private git-branch {
         # returns git branches and removes the current one from the list
@@ -147,8 +155,8 @@ more readable. An example of `git`s autocompletion definiton:
     }] }
 
 _murex_ also supports several different styles of completion suggestion
-"popups" to cater for different scenarios (demo below) as well as built in
-support for jumping to files within nested directories quickly and easely:
+"popups" to cater for different scenarios (demo above) as well as built in
+support for jumping to files within nested directories quickly and easily:
 
     cat [ctrl+f]app.g[return]
     # same as typing: cat config/app.go
@@ -179,7 +187,7 @@ As well as a saner `if` syntax:
 ### Test and debugging frameworks
 
 Unlike traditional shells, _murex_ is designed with a test and debugging modes
-baked into the shell langauge. This means you can write tests against your
+baked into the shell language. This means you can write tests against your
 shell scripts as part of the shell scripts itself.
 
 For example:
@@ -203,15 +211,6 @@ For example:
 If test mode isn't enabled then any `test` commands are skipped without being
 executed so you can liberally include test cases throughout your functions
 without worrying about any performance impact.
-
-## Interactive shell
-
-Aside the language being designed to offer readability and more robust shell
-scripting, the interactive shell itself is also designed around productivity.
-To do this, we wrote our own readline library. Below is an example of that
-library in use:
-
-[![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
 
 ## Language guides
 
