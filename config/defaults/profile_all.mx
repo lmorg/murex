@@ -144,7 +144,6 @@ autocomplete set git { [{
             "AllowMultiple": true
         }],
         "mv": [
-            { "IncFiles": true },
             { "IncFiles": true }
         ],
         "rm": [{

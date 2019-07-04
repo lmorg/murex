@@ -20,33 +20,32 @@ For example, a program structure could look like the following:
 
     command -> command -> [ index ] -> if { command }
 
-The language supports multiple data types, with JSON, CSV, S-Expressions,
-etc support as a native data type. This makes passing data through the
-pipeline easier when dealing with more complex arrangements of data than
-a simple byte stream when compared to standard shells like Bash.
+(for compatibility _murex_ does also support the traditional pipe token:
+eg `command | command`)
 
-However for compatibility _murex_ does also support the traditional pipe
-token, `|`, and can stream typed data to traditional command line
-programs. This means you can use _murex_ with minimal relearning nor
-retooling.
+The language supports multiple data types natively; such as JSON, YAML,
+CSV, S-Expressions, CSV and even loosely tabulated terminal output (eg
+`ps`, `ls -l`, etc). This makes passing data through the pipeline and
+parsing output easier when dealing with more complex arrangements of
+data than a simple byte stream in traditional shells like Bash.
 
 ## Concise yet predictable
 
-Despite the amount of features added to shell, I have tried to keep the
+Despite the amount of features added to shell, we have tried to keep the
 amount of "magic" to a minimum and follow a pretty standard structure so
 the language is predictable. However there are times when a little magic
-goes a long way. For example _murex_ supports complex data objects from
-various formats including JSON and CSV files and you can query their
-properties directly:
+goes a long way. For example _murex_'s support for complex data objects
+of differing formats is managed in the pipeline so you don't need to think
+about the data format when querying data from them.
 
-    open: file.csv -> [ column_name ] # return specific columns in CSV file
-    open: file.json -> [ index ]      # return specific items from JSON
+    open: file.csv -> [ column_name ] # returns specific columns (or rows) in CSV file
+    open: file.json -> [ index ]      # returns specific items from JSON
 
 The index function (`[`) alters its matching algorithm depending on the
 piped data type and `open` sets the data type depending on the file
-extension.
+extension or MIME type.
 
-Sometimes you will want fewer guesswork or just the robustness a forced
+Sometimes you will want fewer guesswork or just the robustness of a forced
 behavior. On those occasions you can remove one layer of magic by
 casting the data type:
 
@@ -62,16 +61,15 @@ for more details on these and other control structures.
 
 _murex_ employs a few methods to make shell scripting more robust:
 
-Bash, for all it's power, is littered with hidden traps. I'm aiming to
-address as many of them as I can without taking the flexibility or power
-away from the command line. This is achieved through a couple of key
-concepts:
+Bash, for all it's power, is littered with hidden traps. We aim to
+address as many of them as we can without taking the flexibility nor power
+away from the intereactive command line. This is achieved through a couple
+of key concepts:
 
 ### Everything is a function
 
-The biggest breaking change from regular shells (or introduced annoyance
-as I'm sure some might see it) is how globbing isn't auto-expanded by
-the shell. This is instead done by inlining functions as arrays:
+The biggest breaking change from regular shells is how globbing isn't expanded
+by the shell by default. This is instead done by inlining functions as arrays:
 
     # Bash
     ls -l *.go
@@ -90,19 +88,76 @@ matching file system objects that follows the same idiomatic pattern:
 
 (more information on `g`, `rx` and `f` are available in [GUIDE.quick-start.md](docs/GUIDE.quick-start.md)).
 
+However there will be occasions when you just want an inlined expansion
+(eg when using an interactive shell) and that can be achieved via the `@g`
+command prefix:
+
+    @g ls -l *.go
+
 ### Powerful autocompletion
 
-I've modelled _murex_'s autocompletion after what I would expect if I
-were to use an IDE. While _murex_'s autocompletion is a long way from
-the power of, for example, IntelliJ or Visual Studio, _murex_ does go a
-long way further than your traditional shells, for example it imports
-command line flags from their man page.
+_murex_ takes a slightly different approach to command line autocompletion,
+both from a usability perspective as well as defining autocompletions.
+
+Inspired by IDEs, _murex_ queries man pages directly for flags as well as
+"tooltip" descriptions. Custom completions are defined via JSON meaning
+simple commands are much easier to define and complex commands can still
+fallback to using dynamic shell code just like they are in other shells.
+
+This makes it easier to write autocompletions as well as making the code
+more readable. An example of `git`s autocompletion definiton:
+
+    private git-branch {
+        # returns git branches and removes the current one from the list
+        git branch -> [ :0 ] -> !match *
+    }
+
+    autocomplete set git { [{
+        # define the top level flags
+        "Flags": [
+            "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep",
+            "log", "show", "status", "branch", "checkout", "commit", "diff",
+            "merge", "rebase", "tag", "fetch", "pull", "push", "stash"
+        ],
+
+        # specify what values those flags support
+        "FlagValues": {
+            "init": [{
+                "Flags": [ "--bare" ]
+            }],
+            "add": [{
+                "IncFiles": true,
+                "AllowMultiple": true
+            }],
+            "mv": [{
+                "IncFiles": true
+            }],
+            "rm": [{
+                "IncFiles": true,
+                "AllowMultiple": true
+            }],
+            "checkout": [{
+                "Dynamic": ({ git-branch }),
+                "Flags": [ "-b" ]
+            }],
+            "merge": [{
+                "Dynamic": ({ git-branch })
+            }]
+        }
+    }] }
+
+_murex_ also supports several different styles of completion suggestion
+"popups" to cater for different scenarios (demo below) as well as built in
+support for jumping to files within nested directories quickly and easely:
+
+    cat [ctrl+f]app.g[return]
+    # same as typing: cat config/app.go
 
 ### Error handling
 
 Like traditional shells, _murex_ is verbose with errors by default with
-options to mute them. However _murex_ also support cleaner decision
-structures for working with processes you want errors captured:
+options to mute them. However _murex_ also supports cleaner decision
+structures for when you want you want errors captured in a useful way:
 
     try {
         # do something
@@ -151,8 +206,10 @@ without worrying about any performance impact.
 
 ## Interactive shell
 
-Aside the language being designed to offer more robust shell scripting, the
-interactive shell itself is also designed around productivity.
+Aside the language being designed to offer readability and more robust shell
+scripting, the interactive shell itself is also designed around productivity.
+To do this, we wrote our own readline library. Below is an example of that
+library in use:
 
 [![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
 
@@ -160,7 +217,8 @@ interactive shell itself is also designed around productivity.
 
 The following guides are historic and the language has been refined a little
 since their creation. They are in the process of being rewritten in a format
-that allows for auto-generation, however I retain these guides for reference.
+that allows for auto-generation, however we have retain these guides for
+reference in the interim.
 
 1. [GUIDE.syntax.md](docs/GUIDE.syntax.md) is recommended first as it gives
 an overview if the shell scripting languages syntax and data types.
