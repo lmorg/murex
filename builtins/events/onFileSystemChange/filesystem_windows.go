@@ -6,4 +6,4 @@
 // to test the code works so I think it's better to disable the feature entirely
 // rather than ship a broken builtin.
 
-package onFileSystemChange
+package onfilesystemchange

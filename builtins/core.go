@@ -25,6 +25,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/ranges"       // working with ranges within arrays (`@[..]`)
 	_ "github.com/lmorg/murex/builtins/core/runtime"      // runtime inspection
 	_ "github.com/lmorg/murex/builtins/core/structs"      // control structures
+	_ "github.com/lmorg/murex/builtins/core/table"        // function to auto-tabulise data
 	_ "github.com/lmorg/murex/builtins/core/test"         // testing framework for murex shell scripts
 	_ "github.com/lmorg/murex/builtins/core/textmanip"    // text manipulation builtins
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"     // type handling and management builtins

@@ -1,4 +1,4 @@
-package onKeyPress
+package onkeypress
 
 import (
 	"errors"

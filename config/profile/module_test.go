@@ -98,7 +98,7 @@ func TestPath(t *testing.T) {
 
 	if strings.Contains(path, `\`) {
 		t.Errorf("`\\` found if path (this could break Windows compatibility): %s", path)
-		t.Log("(for the sake of standardization, all paths in Murex should be seperated by `/` - even on Windows)")
+		t.Log("(for the sake of standardization, all paths in Murex should be separated by `/` - even on Windows)")
 	}
 
 	if strings.Contains(path, "//") {

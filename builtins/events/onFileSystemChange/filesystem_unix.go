@@ -1,6 +1,6 @@
 // +build !windows,!plan9
 
-package onFileSystemChange
+package onfilesystemchange
 
 import (
 	"errors"

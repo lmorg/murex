@@ -23,3 +23,18 @@ func CommandLine(s []string) {
 		s[i] = strings.ReplaceAll(s[i], "\n", `\n`)
 	}
 }
+
+// Table takes in terminal-rendered tables cells and escapes the contents
+func Table(s []string) {
+	for i := range s {
+		s[i] = strings.ReplaceAll(s[i], `\`, `\\`)
+		s[i] = strings.ReplaceAll(s[i], `$`, `\$`)
+		s[i] = strings.ReplaceAll(s[i], `@`, `\@`)
+		s[i] = strings.ReplaceAll(s[i], `"`, `\"`)
+		s[i] = strings.ReplaceAll(s[i], `<`, `\<`)
+		s[i] = strings.ReplaceAll(s[i], `>`, `\>`)
+		s[i] = strings.ReplaceAll(s[i], "\t", `\t`)
+		s[i] = strings.ReplaceAll(s[i], "\r", `\r`)
+		s[i] = strings.ReplaceAll(s[i], "\n", `\n`)
+	}
+}

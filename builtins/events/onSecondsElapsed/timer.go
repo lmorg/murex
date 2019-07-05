@@ -1,4 +1,4 @@
-package onSecondsElapsed
+package onsecondselapsed
 
 import (
 	"errors"
