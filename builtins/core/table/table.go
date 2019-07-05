@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -15,12 +14,12 @@ import (
 func init() {
 	lang.GoFunctions["tabulate"] = cmdTabulate
 
-	defaults.AppendProfile(`
-	autocomplete set tabulate { [{
-		"Flags": ({ tabulate --help }),
-		"AllowMultiple": true
-	}] }
-`)
+	/*defaults.AppendProfile(`
+		autocomplete set tabulate { [{
+			"Flags": ({ tabulate --help }),
+			"AllowMultiple": true
+		}] }
+	`)*/
 }
 
 func cmdTabulate(p *lang.Process) error {

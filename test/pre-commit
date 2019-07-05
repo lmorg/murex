@@ -32,7 +32,7 @@ go fmt $cdocs/*.go
 go fmt config/defaults/*.go
 
 echo "Updating git...."
-find -name "*_string.go" -exec git add -v {} \;
+find . -name "*_string.go" -exec git add -v {} \;
 git add -v docs config/defaults builtins/docgen_test.go $docs $cdocs
 
 echo "Allowing git commit to proceed...."
