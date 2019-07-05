@@ -10,8 +10,6 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-// +build plan9
-
 func pathIsLocal(s string) bool {
 	return strings.HasPrefix(s, consts.PathSlash) ||
 		strings.HasPrefix(s, "."+consts.PathSlash) ||
