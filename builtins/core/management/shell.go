@@ -1,9 +1,12 @@
 package management
 
 import (
+	"crypto/md5"
+	"encoding/base64"
 	"errors"
 	"io/ioutil"
 	"os"
+	"time"
 
 	"github.com/lmorg/murex/lang/ref"
 
@@ -93,6 +96,12 @@ func cmdParams(p *lang.Process) error {
 	return err
 }
 
+func quickHash(s string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(s))
+	return base64.RawURLEncoding.EncodeToString(hasher.Sum(nil))
+}
+
 func cmdSource(p *lang.Process) error {
 	var block []rune
 
@@ -127,7 +136,9 @@ func cmdSource(p *lang.Process) error {
 			}
 			block = []rune(string(b))
 
-			fileRef = &ref.File{Source: ref.History.AddSource(name, "source:"+name, b)}
+			module := quickHash(name + time.Now().String())
+
+			fileRef = &ref.File{Source: ref.History.AddSource(name, "source/"+module, b)}
 		}
 
 	}
