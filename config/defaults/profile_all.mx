@@ -35,6 +35,22 @@ autocomplete set exec { [
     }
 ] }
 
+private datatypes {
+    get.datatypes -> sort -> uniq -> cast str
+}
+
+autocomplete set cast { [{
+    "Dynamic": ({ datatypes })
+}] }
+
+autocomplete set tout { [{
+    "Dynamic": ({ datatypes })
+}] }
+
+autocomplete set set { [{
+    "Dynamic": ({ datatypes })
+}] }
+
 autocomplete set format { [{
     "Dynamic": ({ runtime: --marshallers })
 }] }

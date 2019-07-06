@@ -48,8 +48,8 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 		TestName:   test.Name,
 		Exec:       p.Name,
 		Params:     p.Parameters.StringArray(),
-		LineNumber: p.LineNumber,
-		ColNumber:  p.ColNumber,
+		LineNumber: p.FileRef.Line,
+		ColNumber:  p.FileRef.Column,
 		Status:     status,
 		Message:    message,
 	})

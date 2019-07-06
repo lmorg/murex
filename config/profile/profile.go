@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -110,7 +112,8 @@ func profile(name, path string) error {
 	fork := lang.ShellProcess.Fork(lang.F_NEW_MODULE | lang.F_NEW_TESTS | lang.F_NO_STDIN)
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	fork.Module = "profile/" + name
+	fork.FileRef.Source = ref.History.AddSource(path, "profile:"+name, b)
+
 	_, err = fork.Execute(block)
 	return err
 }

@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/readline"
 )
@@ -36,8 +37,8 @@ var (
 	// ExesFlags is map of executables and their supported auto-complete options.
 	ExesFlags = make(map[string][]Flags)
 
-	// ExesFlagsMod is a map of which module defined ExesFlags
-	ExesFlagsMod = make(map[string]string)
+	// ExesFlagsFileRef is a map of which module defined ExesFlags
+	ExesFlagsFileRef = make(map[string]*ref.File)
 
 	// GlobalExes is a pre-populated list of all executables in $PATH.
 	// The point of this is to speed up exe auto-completion.

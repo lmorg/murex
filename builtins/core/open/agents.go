@@ -3,14 +3,16 @@ package open
 import (
 	"errors"
 	"sync"
+
+	"github.com/lmorg/murex/lang/ref"
 )
 
 // OpenAgents is the exported table of `open`'s helper functions
 var OpenAgents = newOpenAgents()
 
 type openBlocks struct {
-	Block  []rune
-	Module string
+	Block   []rune
+	FileRef *ref.File
 }
 
 func newOpenAgents() *openAgents {
@@ -38,13 +40,13 @@ func (oa *openAgents) Get(dataType string) (*openBlocks, error) {
 }
 
 // Set the murex code block for a particular murex data type
-func (oa *openAgents) Set(dataType, module string, block []rune) {
+func (oa *openAgents) Set(dataType string, block []rune, fileRef *ref.File) {
 	oa.mutex.Lock()
 	defer oa.mutex.Unlock()
 
 	oa.agents[dataType] = &openBlocks{
-		Module: module,
-		Block:  block,
+		Block:   block,
+		FileRef: fileRef,
 	}
 }
 
@@ -67,15 +69,15 @@ func (oa *openAgents) Dump() interface{} {
 	defer oa.mutex.Unlock()
 
 	type dumpedBlocks struct {
-		Module string
-		Block  string
+		Block   string
+		FileRef *ref.File
 	}
 
 	dump := make(map[string]dumpedBlocks)
 	for dt, ob := range oa.agents {
 		dump[dt] = dumpedBlocks{
-			Module: ob.Module,
-			Block:  string(ob.Block),
+			Block:   string(ob.Block),
+			FileRef: ob.FileRef,
 		}
 	}
 

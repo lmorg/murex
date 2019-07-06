@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -95,8 +97,8 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State = state.MemAllocated
 	fork.PromptId = p.PromptId
-	fork.LineNumber = p.LineNumber
-	fork.ColNumber = p.ColNumber
+	//fork.LineNumber = p.LineNumber
+	//fork.ColNumber = p.ColNumber
 	fork.IsBackground = flags&F_BACKGROUND != 0
 	fork.PromptId = p.PromptId
 
@@ -110,7 +112,10 @@ func (p *Process) Fork(flags int) *Fork {
 	}
 
 	if flags&F_NEW_MODULE == 0 {
-		fork.Module = p.Module
+		//fork.Module = p.Module
+		fork.FileRef = p.FileRef
+	} else {
+		fork.FileRef = &ref.File{Source: new(ref.Source)}
 	}
 
 	if flags&F_FUNCTION != 0 {
@@ -226,7 +231,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
-	if fork.Module == "" {
+	if fork.FileRef.Source.Module == "" {
 		panic("missing module name")
 	}
 
@@ -242,7 +247,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	}
 
 	if fork.fidRegistered {
-		defer DeregisterProcess(fork.Process)
+		defer deregisterProcess(fork.Process)
 	} else {
 		defer fork.Stdout.Close()
 		defer fork.Stderr.Close()

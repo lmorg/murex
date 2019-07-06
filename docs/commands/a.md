@@ -124,8 +124,8 @@ If you did want to reverse then just pipe the output into another tool:
     Tuesday
     Monday
     
-(however there are other UNIX tools which aren't data type aware but would
-work in this specific scenario:
+There are other UNIX tools which aren't data type aware but would work in
+this specific scenario:
 * `tac` (Linux),
 * `tail -r` (BSD / OS X)
 * `perl -e "print reverse <>"` (Multiplatform but requires Perl installed)

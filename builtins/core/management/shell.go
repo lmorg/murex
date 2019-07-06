@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -94,6 +96,8 @@ func cmdParams(p *lang.Process) error {
 func cmdSource(p *lang.Process) error {
 	var block []rune
 
+	fileRef := p.FileRef
+
 	if p.IsMethod {
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
@@ -122,16 +126,18 @@ func cmdSource(p *lang.Process) error {
 				return err
 			}
 			block = []rune(string(b))
+
+			fileRef = &ref.File{Source: ref.History.AddSource(name, "source:"+name, b)}
 		}
 
 	}
 
 	var err error
 	p.RunMode = runmode.Shell
-	//p.ExitNum, err = lang.RunBlockShellConfigSpace(block, nil, p.Stdout, p.Stderr)
 	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
 	fork.Stdout = p.Stdout
 	fork.Stderr = p.Stderr
+	fork.FileRef = fileRef
 	p.ExitNum, err = fork.Execute(block)
 	return err
 }

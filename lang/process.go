@@ -59,6 +59,13 @@ var (
 	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
 
+func writeError(p *Process, err error) []byte {
+	if p.FileRef.Source.Module == config.AppName {
+		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.FileRef.Line, p.FileRef.Column, err.Error()))
+	}
+	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", p.Name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
+}
+
 func createProcess(p *Process, isMethod bool) {
 	GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
@@ -137,8 +144,7 @@ func createProcess(p *Process, isMethod bool) {
 		ParseParameters(p, &p.Parameters)
 		err := GoFunctions[p.Name](p)
 		if err != nil {
-			message := fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error())
-			ShellProcess.Stderr.Writeln([]byte(message))
+			ShellProcess.Stderr.Writeln(writeError(p, err))
 			if p.ExitNum == 0 {
 				p.ExitNum = 1
 			}
@@ -192,13 +198,12 @@ func executeProcess(p *Process) {
 		return
 	}
 
-	var err error
-
 	p.State = state.Starting
 
 	echo, err := p.Config.Get("shell", "echo", types.Boolean)
 	if err != nil {
 		echo = false
+		err = nil
 	}
 
 	p.Context, p.Done = context.WithCancel(context.Background())
@@ -242,24 +247,20 @@ executeProcess:
 			fork := p.Fork(F_FUNCTION)
 			fork.Name = p.Name
 			fork.Parameters = p.Parameters
-			fork.Module = fn.Module
+			//fork.Module = fn.Module
+			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
-	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name, p.Module):
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name, p.FileRef.Source.Module):
 		// murex privates
-		//var r []rune
-		//p.Scope = p
-		//r, err = PrivateFunctions.Block(p.Name, p.Module)
-		//if err == nil {
-		//	//p.ExitNum, err = RunBlockNewConfigSpace(r, p.Stdin, p.Stdout, p.Stderr, p)
-		//	p.ExitNum, err = p.Fork(F_NEW_SCOPE | F_NEW_CONFIG | F_NEW_TESTS).Execute(r)
-		fn := PrivateFunctions.get(p.Name, p.Module)
+		fn := PrivateFunctions.get(p.Name, p.FileRef.Source.Module)
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
 			fork.Name = p.Name
 			fork.Parameters = p.Parameters
-			fork.Module = fn.Module
+			//fork.Module = fn.Module
+			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
@@ -304,7 +305,7 @@ executeProcess:
 	p.Stdout.DefaultDataType(err != nil)
 
 	if err != nil {
-		p.Stderr.Writeln([]byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.LineNumber, p.ColNumber, err.Error())))
+		p.Stderr.Writeln(writeError(p, err))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
@@ -336,11 +337,30 @@ func destroyProcess(p *Process) {
 	// Clean up any context goroutines
 	go p.Done()
 
-	// Make special case for `bg` because that doesn't wait. Also make a special
-	// case for `pipe` and `test` because they run out-of-band
+	// Make special case for `bg` because that doesn't wait.
 	if p.Name != "bg" {
 		p.WaitForTermination <- false
 	}
 
-	DeregisterProcess(p)
+	deregisterProcess(p)
+}
+
+// deregisterProcess deregisters a murex process, FID and mark variables for
+// garbage collection.
+func deregisterProcess(p *Process) {
+	p.State = state.Terminating
+
+	p.Stdout.Close()
+	p.Stderr.Close()
+
+	p.SetTerminatedState(true)
+	if !p.IsBackground {
+		ForegroundProc = p.Next
+	}
+
+	go func() {
+		p.State = state.AwaitingGC
+		CloseScopedVariables(p)
+		GlobalFIDs.Deregister(p.Id)
+	}()
 }

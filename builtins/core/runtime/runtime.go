@@ -1,6 +1,7 @@
 package cmdruntime
 
 import (
+	"github.com/lmorg/murex/lang/ref"
 	"errors"
 	"runtime"
 	"sort"
@@ -53,6 +54,7 @@ func cmdRuntime(p *lang.Process) error {
 		fTestResults   = "--test-results"
 		fModules       = "--modules"
 		fDebug         = "--debug"
+		fSources       = "--sources"
 		fHelp          = "--help"
 
 		// inspect
@@ -82,6 +84,7 @@ func cmdRuntime(p *lang.Process) error {
 		fTestResults:   types.Boolean,
 		fModules:       types.Boolean,
 		fDebug:         types.Boolean,
+		fSources:       types.Boolean,
 		fHelp:          types.Boolean,
 	}
 
@@ -166,6 +169,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fModules[2:]] = profile.Packages
 		case fDebug:
 			ret[fDebug[2:]] = debug.Dump()
+		case fSources:
+			ret[fSources[2:]] = ref.History.Dump()
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:

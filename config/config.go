@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -14,8 +15,8 @@ type Properties struct {
 	DataType    string
 	Options     []string
 	Global      bool
-	Module      string
 	Dynamic     DynamicProperties
+	FileRef     *ref.File
 }
 
 // DynamicProperties is used for dynamic values
@@ -176,7 +177,7 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 			obj[app][key]["Value"] = conf.values[app][key]
-			obj[app][key]["Module"] = conf.properties[app][key].Module
+			obj[app][key]["FileRef"] = conf.properties[app][key].FileRef
 
 			if conf.properties[app][key].Global {
 				obj[app][key]["Global"] = conf.properties[app][key].Global

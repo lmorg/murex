@@ -8,6 +8,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 )
 
 const eventType = "onSecondsElapsed"
@@ -29,7 +30,7 @@ type timeEvent struct {
 	Interval int
 	Block    []rune
 	state    int
-	Module   string
+	FileRef  *ref.File
 }
 
 func newTimer() (t *timer) {
@@ -51,7 +52,7 @@ func (t *timer) init() {
 					t.events[i].Name,
 					t.events[i].Interval,
 					t.events[i].Block,
-					t.events[i].Module,
+					t.events[i].FileRef,
 					lang.ShellProcess.Stdout,
 				)
 			}
@@ -61,10 +62,10 @@ func (t *timer) init() {
 }
 
 // Add a path to the watch event list
-func (t *timer) Add(name, interrupt string, block []rune, module string) (err error) {
+func (t *timer) Add(name, interrupt string, block []rune, fileRef *ref.File) (err error) {
 	interval, err := strconv.Atoi(interrupt)
 	if err != nil {
-		return errors.New("Interrupt should be an integer for `" + eventType + "` events.")
+		return errors.New("Interrupt should be an integer for `" + eventType + "` events")
 	}
 
 	t.mutex.Lock()
@@ -82,7 +83,7 @@ func (t *timer) Add(name, interrupt string, block []rune, module string) (err er
 		Name:     name,
 		Interval: interval,
 		Block:    block,
-		Module:   module,
+		FileRef:  fileRef,
 	})
 
 	return
@@ -94,7 +95,7 @@ func (t *timer) Remove(name string) (err error) {
 	defer t.mutex.Unlock()
 
 	if len(t.events) == 0 {
-		return errors.New("No events have been created for this listener.")
+		return errors.New("No events have been created for this listener")
 	}
 
 	for i := range t.events {
@@ -121,7 +122,7 @@ func (t *timer) Dump() interface{} {
 	type te struct {
 		Interval int
 		Block    string
-		Module   string
+		FileRef  *ref.File
 	}
 
 	dump := make(map[string]te)
@@ -132,7 +133,7 @@ func (t *timer) Dump() interface{} {
 		dump[t.events[i].Name] = te{
 			Interval: t.events[i].Interval,
 			Block:    string(t.events[i].Block),
-			Module:   t.events[i].Module,
+			FileRef:  t.events[i].FileRef,
 		}
 	}
 

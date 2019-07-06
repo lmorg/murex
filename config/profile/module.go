@@ -8,6 +8,8 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -129,7 +131,12 @@ func (m *Module) execute() error {
 	// for any strange reason
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	fork.Module = m.Package + "/" + m.Name
+	fork.FileRef.Source = ref.History.AddSource(
+		m.Path(),
+		m.Package+"/"+m.Name,
+		b,
+	)
+
 	fork.Name = "(module)"
 	_, err = fork.Execute(block)
 	return err

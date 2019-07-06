@@ -55,13 +55,23 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
-autocomplete set go { [
-    { "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ] },
-    {
-        "Dynamic": ({ find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/:: }),
-        "AutoBranch": true
+private go-package {
+    # returns all the packages in $GOPATH
+    find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/::
+}
+
+autocomplete set go { [{
+    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
+    "FlagValues": {
+        "run": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
+        "test": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
+        "build": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
+        "install": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
+        "fmt": [{ "IncFiles": true }],
+        "vet": [{ "IncFiles": true }],
+        "generate": [{ "IncFiles": true }]
     }
-] }
+}] }
 
 private get.datatypes {
     runtime: --readarray -> format: str
@@ -70,19 +80,3 @@ private get.datatypes {
     runtime: --marshallers -> format: str
     runtime: --unmarshallers -> format: str
 }
-
-private datatypes {
-    get.datatypes -> sort -> uniq -> cast str
-}
-
-autocomplete set cast { [{
-    "Dynamic": ({ datatypes })
-}] }
-
-autocomplete set tout { [{
-    "Dynamic": ({ datatypes })
-}] }
-
-autocomplete set set { [{
-    "Dynamic": ({ datatypes })
-}] }

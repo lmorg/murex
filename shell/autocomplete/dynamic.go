@@ -38,7 +38,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name = args.exe
 	fork.Parameters = parameters.Parameters{Params: args.params}
-	fork.Module = ExesFlagsMod[args.exe]
+	fork.FileRef = ExesFlagsFileRef[args.exe]
 	exitNum, err := fork.Execute(block)
 
 	if err != nil {

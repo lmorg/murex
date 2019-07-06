@@ -3,6 +3,8 @@ package lang
 import (
 	"errors"
 	"sync"
+
+	"github.com/lmorg/murex/lang/ref"
 )
 
 // MurexPrivs is a table of private murex functions
@@ -15,8 +17,8 @@ type MurexPrivs struct {
 type murexPrivDetails struct {
 	Name    string
 	Block   []rune
-	Module  string
 	Summary string
+	FileRef *ref.File
 }
 
 // NewMurexPrivs creates a new table of private murex functions
@@ -25,7 +27,7 @@ func NewMurexPrivs() (mf MurexPrivs) {
 }
 
 // Define creates a private
-func (mf *MurexPrivs) Define(name, module string, block []rune) error {
+func (mf *MurexPrivs) Define(name string, block []rune, fileRef *ref.File) error {
 	//if mf.Exists(name, module) {
 	//	return fmt.Errorf("private with the name `%s` already exists in module `%s`", name, module)
 	//}
@@ -36,8 +38,8 @@ func (mf *MurexPrivs) Define(name, module string, block []rune) error {
 	mf.fn = append(mf.fn, &murexPrivDetails{
 		Name:    name,
 		Block:   block,
-		Module:  module,
 		Summary: summary,
+		FileRef: fileRef,
 	})
 	mf.mutex.Unlock()
 
@@ -47,7 +49,7 @@ func (mf *MurexPrivs) Define(name, module string, block []rune) error {
 func (mf *MurexPrivs) get(name, module string) *murexPrivDetails {
 	mf.mutex.Lock()
 	for i := range mf.fn {
-		if mf.fn[i].Name == name && mf.fn[i].Module == module {
+		if mf.fn[i].Name == name && mf.fn[i].FileRef.Source.Module == module {
 			priv := mf.fn[i]
 			mf.mutex.Unlock()
 			return priv
@@ -101,9 +103,9 @@ func (mf *MurexPrivs) Undefine(name string) error {
 func (mf *MurexPrivs) Dump() interface{} {
 	type funcs struct {
 		Name    string
-		Module  string
 		Summary string
 		Block   string
+		FileRef *ref.File
 	}
 
 	var dump []funcs
@@ -112,9 +114,9 @@ func (mf *MurexPrivs) Dump() interface{} {
 	for _, priv := range mf.fn {
 		dump = append(dump, funcs{
 			Name:    priv.Name,
-			Module:  priv.Module,
 			Summary: priv.Summary,
 			Block:   string(priv.Block),
+			FileRef: priv.FileRef,
 		})
 	}
 	mf.mutex.Unlock()

@@ -4,6 +4,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/ref"
 )
 
 func compile(tree *astNodes, parent *Process) (procs []Process) {
@@ -16,7 +17,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].IsBackground = parent.IsBackground
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
-		procs[i].Module = parent.Module
+		//procs[i].Module = parent.Module
 		procs[i].WaitForTermination = make(chan bool)
 		procs[i].RunMode = parent.RunMode
 		procs[i].Config = parent.Config
@@ -30,16 +31,18 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].FidTree = make([]int, len(parent.Parent.FidTree))
 		copy(procs[i].FidTree, parent.Parent.FidTree)
 
+		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
+
 		if (*tree)[i].LineNumber == 0 {
-			procs[i].ColNumber = (*tree)[i].ColNumber + parent.ColNumber
+			procs[i].FileRef.Column = (*tree)[i].ColNumber + parent.FileRef.Column
 		} else {
-			procs[i].ColNumber = (*tree)[i].ColNumber
+			procs[i].FileRef.Column = (*tree)[i].ColNumber
 		}
 
 		if parent.Id == 0 {
-			procs[i].LineNumber = (*tree)[i].LineNumber + parent.LineNumber + 1
+			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line + 1
 		} else {
-			procs[i].LineNumber = (*tree)[i].LineNumber + parent.LineNumber
+			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line
 		}
 
 		// Define previous and next processes:

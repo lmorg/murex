@@ -92,6 +92,6 @@ func set(p *lang.Process) error {
 	}
 
 	autocomplete.ExesFlags[exe] = flags
-	autocomplete.ExesFlagsMod[exe] = p.Module
+	autocomplete.ExesFlagsFileRef[exe] = p.FileRef
 	return nil
 }

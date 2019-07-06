@@ -6,7 +6,7 @@ import (
 )
 
 // AstCache is an exported AST cache
-var AstCache *astCache = newAstCache()
+var AstCache = newAstCache()
 
 type cacheItem struct {
 	lastUsed time.Time

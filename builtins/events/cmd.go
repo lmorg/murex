@@ -46,7 +46,7 @@ func cmdEvent(p *lang.Process) error {
 		return err
 	}
 
-	err = events[et].Add(name, interrupt, block, p.Module)
+	err = events[et].Add(name, interrupt, block, p.FileRef)
 	return err
 }
 

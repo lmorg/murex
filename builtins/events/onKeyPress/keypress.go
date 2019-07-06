@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
@@ -29,10 +31,10 @@ type Interrupt struct {
 }
 
 type keyPressEvent struct {
-	name   string
-	keySeq string
-	block  []rune
-	module string
+	name    string
+	keySeq  string
+	block   []rune
+	fileRef *ref.File
 }
 
 type keyPressEvents struct {
@@ -45,7 +47,7 @@ func newKeyPress() *keyPressEvents {
 }
 
 // Add a key to the event list
-func (evt *keyPressEvents) Add(name, keySeq string, block []rune, module string) error {
+func (evt *keyPressEvents) Add(name, keySeq string, block []rune, fileRef *ref.File) error {
 	if shell.Prompt == nil {
 		return errors.New("Unable to register event with readline API")
 	}
@@ -65,10 +67,10 @@ func (evt *keyPressEvents) Add(name, keySeq string, block []rune, module string)
 
 	shell.Prompt.AddEvent(keySeq, evt.callback)
 	evt.events = append(evt.events, keyPressEvent{
-		name:   name,
-		keySeq: keySeq,
-		block:  block,
-		module: module,
+		name:    name,
+		keySeq:  keySeq,
+		block:   block,
+		fileRef: fileRef,
 	})
 	return nil
 }
@@ -125,7 +127,7 @@ eventFound:
 
 	stdout := streams.NewStdin()
 	events.Callback(
-		evt.events[i].name, interrupt, block, evt.events[i].module, stdout)
+		evt.events[i].name, interrupt, block, evt.events[i].fileRef, stdout)
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
@@ -202,7 +204,7 @@ func (evt *keyPressEvents) Dump() interface{} {
 	type kp struct {
 		KeySequence string
 		Block       string
-		Module      string
+		FileRef     *ref.File
 	}
 
 	dump := make(map[string]kp)
@@ -214,7 +216,7 @@ func (evt *keyPressEvents) Dump() interface{} {
 		dump[evt.events[i].name] = kp{
 			KeySequence: evt.events[i].keySeq,
 			Block:       string(evt.events[i].block),
-			Module:      evt.events[i].module,
+			FileRef:     evt.events[i].fileRef,
 		}
 	}
 	return dump

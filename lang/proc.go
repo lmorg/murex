@@ -7,6 +7,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
@@ -30,7 +32,6 @@ type Process struct {
 	PromptId           int
 	Path               string
 	IsMethod           bool
-	Module             string
 	Scope              *Process  `json:"-"`
 	Parent             *Process  `json:"-"`
 	Previous           *Process  `json:"-"`
@@ -46,8 +47,6 @@ type Process struct {
 	hasTerminatedV     bool
 	State              state.FunctionState
 	IsBackground       bool
-	LineNumber         int
-	ColNumber          int
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
@@ -56,6 +55,7 @@ type Process struct {
 	FidTree            []int
 	CreationTime       time.Time
 	StartTime          time.Time
+	FileRef            *ref.File
 }
 
 type shellExec struct {
@@ -103,26 +103,4 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 		err = errors.New("`" + p.Name + "` expects to be pipelined")
 	}
 	return
-}
-
-// DeregisterProcess deregisters a murex process
-func DeregisterProcess(p *Process) {
-	p.State = state.Terminating
-
-	p.Stdout.Close()
-	p.Stderr.Close()
-
-	p.SetTerminatedState(true)
-	if !p.IsBackground {
-		ForegroundProc = p.Next
-	}
-
-	go deregister(p)
-}
-
-// deregister FID and mark variables for garbage collection.
-func deregister(p *Process) {
-	p.State = state.AwaitingGC
-	CloseScopedVariables(p)
-	GlobalFIDs.Deregister(p.Id)
 }

@@ -5,6 +5,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
@@ -21,16 +23,17 @@ func InitEnv() {
 	ShellProcess.Name = os.Args[0]
 	ShellProcess.Parameters.Params = os.Args[1:]
 	ShellProcess.Scope = ShellProcess
-	ShellProcess.Module = config.AppName
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
 	ShellProcess.Tests = NewTests(ShellProcess)
-	//ShellProcess.Variables = &Variables{varTable: masterVarTable, process: ShellProcess}
 	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []int{0}
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
+
+	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: config.AppName}}
+
 	// Sets $SHELL to be murex
 	shellEnv, err := utils.Executable()
 	if err != nil {

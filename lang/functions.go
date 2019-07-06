@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strings"
 	"sync"
+
+	"github.com/lmorg/murex/lang/ref"
 )
 
 // MurexFuncs is a table of murex functions
@@ -15,8 +17,8 @@ type MurexFuncs struct {
 // MurexFuncDetails is the properties for any given murex function
 type murexFuncDetails struct {
 	Block   []rune
-	Module  string
 	Summary string
+	FileRef *ref.File
 }
 
 // NewMurexFuncs creates a new table of murex functions
@@ -66,13 +68,13 @@ exitLoop:
 }
 
 // Define creates a function
-func (mf *MurexFuncs) Define(name, module string, block []rune) {
+func (mf *MurexFuncs) Define(name string, block []rune, fileRef *ref.File) {
 	summary := funcPrivSummary(block)
 
 	mf.mutex.Lock()
 	mf.fn[name] = &murexFuncDetails{
 		Block:   block,
-		Module:  module,
+		FileRef: fileRef,
 		Summary: summary,
 	}
 
@@ -138,8 +140,8 @@ func (mf *MurexFuncs) Undefine(name string) error {
 func (mf *MurexFuncs) Dump() interface{} {
 	type funcs struct {
 		Summary string
-		Module  string
 		Block   string
+		FileRef *ref.File
 	}
 
 	dump := make(map[string]funcs)
@@ -148,8 +150,8 @@ func (mf *MurexFuncs) Dump() interface{} {
 	for name, fn := range mf.fn {
 		dump[name] = funcs{
 			Summary: fn.Summary,
-			Module:  fn.Module,
 			Block:   string(fn.Block),
+			FileRef: fn.FileRef,
 		}
 	}
 	mf.mutex.Unlock()

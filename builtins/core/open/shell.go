@@ -47,7 +47,7 @@ func shell(p *lang.Process) error {
 		if err != nil {
 			return err
 		}
-		OpenAgents.Set(dataType, p.Module, block)
+		OpenAgents.Set(dataType, block, p.FileRef)
 		return nil
 
 	default:

@@ -3,6 +3,8 @@ package cmdconfig
 import (
 	"errors"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -50,7 +52,6 @@ func cmdConfig(p *lang.Process) error {
 		p.Stdout.SetDataType(types.Null)
 		return errors.New("Unknown option. Please get, set, eval or define")
 	}
-
 }
 
 func getConfig(p *lang.Process) error {
@@ -162,6 +163,8 @@ func defineConfig(p *lang.Process) error {
 		return err
 	}
 
+	properties.FileRef = p.FileRef
+
 	switch {
 	case properties.DataType == "":
 		return errors.New("`DataType` not defined")
@@ -182,9 +185,9 @@ func defineConfig(p *lang.Process) error {
 
 	if properties.Dynamic.Read != "" {
 		properties.Dynamic.GetDynamic = getDynamic(
-			[]rune(properties.Dynamic.Read), p.Parameters.Params, p.Module)
+			[]rune(properties.Dynamic.Read), p.Parameters.Params, p.FileRef)
 		properties.Dynamic.SetDynamic = setDynamic(
-			[]rune(properties.Dynamic.Write), p.Parameters.Params, p.Module, properties.DataType)
+			[]rune(properties.Dynamic.Write), p.Parameters.Params, p.FileRef, properties.DataType)
 	}
 
 	lang.ShellProcess.Config.Define(app, key, properties)
@@ -205,14 +208,14 @@ func defaultConfig(p *lang.Process) error {
 	return err
 }
 
-func getDynamic(block []rune, args []string, module string) func() (interface{}, error) {
+func getDynamic(block []rune, args []string, fileRef *ref.File) func() (interface{}, error) {
 	return func() (interface{}, error) {
 		block = block[1 : len(block)-1]
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 		fork.Name = "config"
 		fork.Parameters.Params = args
-		fork.Module = module
+		fork.FileRef = fileRef
 		exitNum, err := fork.Execute(block)
 
 		if err != nil {
@@ -231,7 +234,7 @@ func getDynamic(block []rune, args []string, module string) func() (interface{},
 	}
 }
 
-func setDynamic(block []rune, args []string, module, dataType string) func(interface{}) error {
+func setDynamic(block []rune, args []string, fileRef *ref.File, dataType string) func(interface{}) error {
 	return func(value interface{}) error {
 		//if !types.IsBlock([]byte(stringblock)) {
 		//	return nil, errors.New("Dynamic config reader is not a code block")
@@ -240,7 +243,7 @@ func setDynamic(block []rune, args []string, module, dataType string) func(inter
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_CREATE_STDIN)
 		fork.Name = "config"
 		fork.Parameters.Params = args
-		fork.Module = module
+		fork.FileRef = fileRef
 		s, err := types.ConvertGoType(value, types.String)
 		if err != nil {
 			return err

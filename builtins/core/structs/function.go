@@ -73,7 +73,7 @@ func cmdFunc(p *lang.Process) error {
 		return err
 	}
 
-	lang.MxFunctions.Define(name, p.Module, block)
+	lang.MxFunctions.Define(name, block, p.FileRef)
 	return nil
 }
 
@@ -97,7 +97,7 @@ func cmdPrivate(p *lang.Process) error {
 		return err
 	}
 
-	return lang.PrivateFunctions.Define(name, p.Module, block)
+	return lang.PrivateFunctions.Define(name, block, p.FileRef)
 }
 
 /*func cmdUnprivate(p *lang.Process) error {

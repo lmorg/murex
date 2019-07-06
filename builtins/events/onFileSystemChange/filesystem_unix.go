@@ -3,6 +3,7 @@
 package onfilesystemchange
 
 import (
+	"github.com/lmorg/murex/lang/ref"
 	"errors"
 	"os"
 	"strings"
@@ -33,7 +34,7 @@ type watch struct {
 	mutex   sync.Mutex
 	paths   map[string]string // map of paths indexed by event name
 	blocks  map[string][]rune // map of blocks indexed by path
-	modules map[string]string
+	refFiles map[string]*ref.File
 }
 
 func newWatch() (w *watch) {
@@ -41,7 +42,7 @@ func newWatch() (w *watch) {
 	w.watcher, w.error = fsnotify.NewWatcher()
 	w.paths = make(map[string]string)
 	w.blocks = make(map[string][]rune)
-	w.modules = make(map[string]string)
+	w.refFiles = make(map[string]*ref.File)
 
 	return
 }
@@ -78,7 +79,7 @@ func (evt *watch) findCallbackBlock(path string) (block []rune) {
 }
 
 // Add a path to the watch event list
-func (evt *watch) Add(name, path string, block []rune, module string) error {
+func (evt *watch) Add(name, path string, block []rune, fileRef *ref.File ) error {
 	for len(path) > 1 && path[len(path)-1] == '/' {
 		path = path[:len(path)-1]
 	}
@@ -93,7 +94,7 @@ func (evt *watch) Add(name, path string, block []rune, module string) error {
 		evt.mutex.Lock()
 		evt.paths[name] = path
 		evt.blocks[path] = block
-		evt.modules[name] = module
+		evt.refFiles[name] = fileRef
 		evt.mutex.Unlock()
 	}
 
@@ -112,20 +113,20 @@ func (evt *watch) Remove(name string) error {
 		evt.mutex.Lock()
 		delete(evt.paths, name)
 		delete(evt.blocks, path)
-		delete(evt.modules, name)
+		delete(evt.refFiles, name)
 		evt.mutex.Unlock()
 	}
 
 	return err
 }
 
-func getName(evt *watch, path string) (name, module string) {
+func getName(evt *watch, path string) (name string, fileRef *ref.File) {
 	var evtPath string
 	evt.mutex.Lock()
 
 	for name, evtPath = range evt.paths {
 		if path == evtPath {
-			module = evt.modules[name]
+			fileRef = evt.refFiles[name]
 			evt.mutex.Unlock()
 			return
 		}
@@ -166,6 +167,7 @@ func (evt *watch) Dump() interface{} {
 	type jsonable struct {
 		Path  string
 		Block string
+		FileRef *ref.File
 	}
 
 	dump := make(map[string]jsonable)
@@ -176,6 +178,7 @@ func (evt *watch) Dump() interface{} {
 		dump[name] = jsonable{
 			Path:  path,
 			Block: string(evt.blocks[path]),
+			FileRef: evt.refFiles[name],
 		}
 	}
 

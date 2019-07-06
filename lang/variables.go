@@ -8,6 +8,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -131,7 +133,7 @@ type variable struct {
 	owner        int
 	disabled     bool
 	creationTime time.Time
-	Module       string
+	FileRef      *ref.File
 	mutex        sync.Mutex
 }
 
@@ -181,7 +183,7 @@ func getVarSelf(p *Process) string {
 		Method:     p.Scope.IsMethod,
 		Not:        p.Scope.IsNot,
 		Background: p.Scope.IsBackground,
-		Module:     p.Scope.Module,
+		Module:     p.Scope.FileRef.Source.Module,
 	}
 	b, _ := json.Marshal(&v, p.Stdout.IsTTY())
 	return string(b)
@@ -302,7 +304,8 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 		DataType:     dataType,
 		owner:        vars.process.Id,
 		creationTime: time.Now(),
-		Module:       vars.process.Module,
+		FileRef:      vars.process.FileRef,
+		//Module:       vars.process.Module,
 	})
 	vars.varTable.mutex.Unlock()
 
@@ -379,10 +382,10 @@ func (vars *Variables) Inspect() interface{} {
 		Name         string
 		Value        interface{}
 		DataType     string
-		Module       string
 		Owner        int
 		CreationTime time.Time
 		Disabled     bool
+		FileRef      *ref.File
 	}
 
 	var dump []inspect
@@ -396,10 +399,10 @@ func (vars *Variables) Inspect() interface{} {
 			Name:         v.name,
 			Value:        v.Value,
 			DataType:     v.DataType,
-			Module:       v.Module,
 			Owner:        v.owner,
 			CreationTime: v.creationTime,
 			Disabled:     v.disabled,
+			FileRef:      v.FileRef,
 		})
 
 		v.mutex.Unlock()

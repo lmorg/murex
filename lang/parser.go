@@ -11,10 +11,10 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 }
 
 // ParseBlock parses a murex code block.
-// Returns the abstract syntax tree (astNodes) or any syntax errors preventing a successful parse (ParserError)
+// Returns the abstract syntax tree (astNodes) or any syntax errors preventing
+// a successful parse (ParserError)
 func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
 	return AstCache.ParseCache(block)
-	//return parser(block)
 }
 
 func parser(block []rune) (nodes astNodes, pErr ParserError) {
@@ -22,15 +22,14 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 	var (
 		// Current state
-		lineNumber  int
-		colNumber   int
-		last        rune
-		commentLine bool
-		escaped     bool
-		quoteSingle bool
-		quoteDouble bool
-		quoteBrace  int
-		//quotePipe        bool
+		lineNumber       int
+		colNumber        int
+		last             rune
+		commentLine      bool
+		escaped          bool
+		quoteSingle      bool
+		quoteDouble      bool
+		quoteBrace       int
 		braceCount       int
 		unclosedIndex    bool
 		ignoreWhitespace = true
@@ -262,11 +261,6 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case quoteDouble:
 				quoteDouble = false
-				/*if len(ansiConstant) > 0 {
-					pop = &pToken.Key
-					*pop += ansiConstant
-					ansiConstant = ""
-				}*/
 			default:
 				pToken.Type = parameters.TokenTypeValue
 				quoteDouble = true
@@ -395,11 +389,6 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
-			//case quoteDouble && !scanFuncName:
-			//	fallthrough
-			//case quoteBrace > 0 && !scanFuncName:
-			//	pop = &ansiConstant
-			//	pUpdate(r)
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 			case scanFuncName:
@@ -416,18 +405,6 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
-			/*case quoteDouble && len(ansiConstant) > 0:
-				fallthrough
-			case quoteBrace > 0 && len(ansiConstant) > 0:
-				pUpdate(r)
-				pop = &pToken.Key
-				b := ansi.Constants[ansiConstant[1:len(ansiConstant)-1]]
-				if len(b) > 0 {
-					*pop += string(b)
-				} else {
-					*pop += ansiConstant
-				}
-				ansiConstant = ""*/
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 			case scanFuncName:
@@ -461,9 +438,6 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				// do nothing
 			}
 
-		//case '\r':
-		//	// do nothing
-
 		case '\n':
 			lineNumber++
 			colNumber = 0
@@ -477,16 +451,11 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case scanFuncName && ignoreWhitespace:
 				// do nothing
-				//case !scanFuncName:
 			default:
 				appendNode()
 				node = astNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
-				//case scanFuncName && !ignoreWhitespace:
-				//	startParameters()
-				//default:
-				//	// do nothing
 			}
 
 		case '|':
@@ -541,10 +510,6 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case braceCount > 0:
 				pUpdate(r)
 			case last == '-':
-				/*if len(node.Name) == 0 {
-					pErr = raiseErr(ErrUnexpectedPipeToken, i)
-					return
-				}*/
 				*pop = (*pop)[:len(*pop)-1]
 				if len(*pop) == 0 {
 					pToken.Type = parameters.TokenTypeNil
@@ -568,14 +533,11 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case braceCount > 0:
 				pUpdate(r)
-				//case !scanFuncName:
 			default:
 				appendNode()
 				node = astNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
-				//default:
-				// do nothing
 			}
 
 		case '~':

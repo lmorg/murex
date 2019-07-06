@@ -56,7 +56,7 @@ Categories:
   - ID: default-profile-posix
     Title: posix
     Description: |-
-      // +build !windows
+      // +build !windows,!plan9
     Templates:
     - OutputPath: config/defaults
       CategoryFile: auto_generated_posix.go
@@ -104,6 +104,17 @@ Categories:
     Templates:
     - OutputPath: config/defaults
       CategoryFile: auto_generated_freebsd.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
+  - ID: default-profile-plan9
+    Title: freebsd
+    Description: |-
+      // +build plan9
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_plan9.go
       OutputExt:
       CategoryTemplate: gen/profile-platform.tmpl
       DocumentTemplate: 

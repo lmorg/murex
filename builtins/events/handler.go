@@ -4,12 +4,13 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 type eventType interface {
-	Add(name, interrupt string, block []rune, module string) (err error)
+	Add(name, interrupt string, block []rune, fileRef *ref.File) (err error)
 	Remove(interrupt string) (err error)
 	Dump() (dump interface{})
 }
@@ -28,7 +29,7 @@ type j struct {
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
-func Callback(name string, interrupt interface{}, block []rune, module string, stdout stdio.Io) {
+func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout stdio.Io) {
 	json, err := json.Marshal(&j{
 		Name:      name,
 		Interrupt: interrupt,
@@ -41,7 +42,7 @@ func Callback(name string, interrupt interface{}, block []rune, module string, s
 	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
 	fork.Stdin.SetDataType(types.Json)
 	fork.Name = "(event)"
-	fork.Module = module
+	fork.FileRef = fileRef
 	_, err = fork.Stdin.Write(json)
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("error writing event input: " + err.Error()))
