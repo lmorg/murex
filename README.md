@@ -3,25 +3,35 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
 [![GoDoc](https://godoc.org/github.com/lmorg/murex?status.svg)](https://godoc.org/github.com/lmorg/murex)
 
-## Install instructions
-
-Install instructions have been moved into its own file: [INSTALL.md](INSTALL.md)
-
 ## About _murex_
 
-_murex_ is a cross-platform shell like Bash but with greater emphasis on
-writing safe shell scripts and powerful one-liners while maintaining
-readability.
+_murex_ follows a similar syntax to POSIX shells like Bash however supports
+more advanced features than you'd typically expect from a $SHELL. A
+non-exhaustive list would include:
 
-To achieve this the language employs a relatively simple syntax modelled
-loosely on functional and stack-based programming paradigms (albeit
-without the LISP-style nested parentheses that scare a lot of developers).
-For example, a program structure could look like the following:
+* Testing frameworks baked right into the language itself
+* Smarter handling of errors (for example try/catch blocks, line numbers
+  included in error messages, errors optionally highlighted in red, etc)
+* Support for typed pipelines - which can be used to work with complex data
+  formats like JSON natively. But also the ability to override or even ignore
+  typed data entirely.
+* Parses man pages for a richer user experience
+* Optional support for event-driven programming
+* Plus every aspect of the shell is easily extendable
+
+The language employs a relatively simple syntax modelled loosely on functional
+and stack-based programming paradigms (albeit without the LISP-style nested
+parentheses that scare a lot of developers) while maintaining compatibility
+with POSIX-like shells (eg Bash) wherever sensible. For example, a program
+structure could look like the following:
+
+    command | command | [ index ] | if { command }
+
+However where _murex_ differs is that, while the pipe token, `|` is supported
+for compatibility with existing shells, _murex_ idioms prefer `->` used for
+readability as it clearly demonstrates the direction of the data flow. eg
 
     command -> command -> [ index ] -> if { command }
-
-(for compatibility _murex_ does also support the traditional pipe token:
-eg `command | command`)
 
 The language supports multiple data types natively; such as JSON, YAML,
 CSV, S-Expressions, CSV and even loosely tabulated terminal output (eg
@@ -36,6 +46,23 @@ interactive shell itself is also built around productivity. To achieve this,
 we wrote our own readline library. Below is an example of that library in use:
 
 [![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
+
+The above demo includes the following features of _murex_'s bespoke readline
+library:
+* hint text - blue status text below the prompt (the colour is configurable)
+* syntax highlighting (albeit there isn’t much syntax to highlight in the
+  example). This can also be turned off if your preference is to have colours
+  disabled
+* tab-completion in gridded mode (seen when typing `cd`)
+* tab-completion in list view (seen when selecting a process name to `kill`
+  where the process ID was substituted when selected)
+* regex searching through the tab-completion suggestions (seen in both `cd` and
+  `kill` - enabled by pressing `[CTRL+f]`)
+* line editing using $EDITOR (`vi` in the example - enabled by pressing `[ESC]`
+  followed by `[v]`)
+* readline’s warning before pasting multiple lines of data into the buffer and
+  the preview option that’s available as part of the aforementioned warning
+* and VIM keys (enabled by pressing `[ESC]`)
 
 ## Concise yet predictable
 
@@ -241,6 +268,10 @@ of the builtin functions available for this shell.
 Or if you're already a seasoned Bash developer then you read the Quick
 Start Guide, [GUIDE.quick-start.md](docs/GUIDE.quick-start.md), to jump
 straight into using _murex_.
+
+## Install instructions
+
+Install instructions have been moved into its own file: [INSTALL.md](INSTALL.md)
 
 ## Known bugs / TODO
 
