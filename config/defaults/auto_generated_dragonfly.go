@@ -1,4 +1,4 @@
-// +build plan9
+// +build dragonfly
 
 package defaults
 
@@ -7,7 +7,7 @@ package defaults
    --------
 
    This Go source file has been automatically generated from
-   profile_plan9.mx using docgen.
+   profile_dragonfly.mx using docgen.
 
    Please do not manually edit this file because it will be overwritten.
 */

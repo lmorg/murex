@@ -108,8 +108,52 @@ Categories:
       CategoryTemplate: gen/profile-platform.tmpl
       DocumentTemplate: 
 
+  - ID: default-profile-openbsd
+    Title: openbsd
+    Description: |-
+      // +build openbsd
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_openbsd.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
+  - ID: default-profile-netbsd
+    Title: netbsd
+    Description: |-
+      // +build netbsd
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_netbsd.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
+  - ID: default-profile-dragonfly
+    Title: dragonfly
+    Description: |-
+      // +build dragonfly
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_dragonfly.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
+  - ID: default-profile-solaris
+    Title: solaris
+    Description: |-
+      // +build solaris
+    Templates:
+    - OutputPath: config/defaults
+      CategoryFile: auto_generated_solaris.go
+      OutputExt:
+      CategoryTemplate: gen/profile-platform.tmpl
+      DocumentTemplate: 
+
   - ID: default-profile-plan9
-    Title: freebsd
+    Title: plan9
     Description: |-
       // +build plan9
     Templates:
