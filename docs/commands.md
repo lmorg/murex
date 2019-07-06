@@ -53,6 +53,8 @@ UNIX, or even Windows command prompt.
   Print a line to the STDERR
 * [`esccli`](commands/esccli.md):
   Escapes an array so output is valid shell code
+* [`event`](commands/event.md):
+  Event driven programming for shell scripts
 * [`exec`](commands/exec.md):
   Runs an executable
 * [`exit`](commands/exit.md):

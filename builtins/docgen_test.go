@@ -23,6 +23,7 @@ func init() {
 		"die":                   "die_commands_docgen.go",
 		"err":                   "err_commands_docgen.go",
 		"esccli":                "esccli_commands_docgen.go",
+		"event":                 "event_commands_docgen.go",
 		"exec":                  "exec_commands_docgen.go",
 		"exit":                  "exit_commands_docgen.go",
 		"exitnum":               "exitnum_commands_docgen.go",

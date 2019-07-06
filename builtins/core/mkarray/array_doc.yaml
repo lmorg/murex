@@ -100,7 +100,6 @@
     Sunday
     ```
 
-    ```
     Where the special ranges differ from a regular range is they cannot
     cannot down. eg `a: [3..1]` would output
 
@@ -131,6 +130,7 @@
 
     If you did want to reverse then just pipe the output into another tool:
 
+    ```
     » a: [Monday..Friday] -> mtac
     Friday
     Thurday
@@ -140,8 +140,10 @@
     ```
 
     (however there are other UNIX tools which aren't data type aware but would
-    work in this specific scenario: `tac` (Linux), `tail -r` (BSD / OS X) and
-    `perl -e "print reverse <>"` (Multiplatform but requires Perl installed)
+    work in this specific scenario:
+    * `tac` (Linux),
+    * `tail -r` (BSD / OS X)
+    * `perl -e "print reverse <>"` (Multiplatform but requires Perl installed)
 
     #### Advanced Array Syntax
 

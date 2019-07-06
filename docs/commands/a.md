@@ -91,32 +91,32 @@ the return will be in title case:
     Saturday
     Sunday
     
-    Where the special ranges differ from a regular range is they cannot
-    cannot down. eg `a: [3..1]` would output
-    
+Where the special ranges differ from a regular range is they cannot
+cannot down. eg `a: [3..1]` would output
+
     » a: [3..1]
-3
-2
-1
+    3
+    2
+    1
     
-    however a negative range in special ranges will cycle through to the end
-    of the range and then loop back from the start:
-    
+however a negative range in special ranges will cycle through to the end
+of the range and then loop back from the start:
+
     » a: [Thursday..Wednesday]
-Thursday
-Friday
-Saturday
-Sunday
-Monday
-Tuesday
-Wednesday
+    Thursday
+    Friday
+    Saturday
+    Sunday
+    Monday
+    Tuesday
+    Wednesday
     
-    This decision was made because generally with ranges of this type, you
-    would more often prefer to cycle through values rather than iterate
-    backwards through the list.
-    
-    If you did want to reverse then just pipe the output into another tool:
-    
+This decision was made because generally with ranges of this type, you
+would more often prefer to cycle through values rather than iterate
+backwards through the list.
+
+If you did want to reverse then just pipe the output into another tool:
+
     » a: [Monday..Friday] -> mtac
     Friday
     Thurday
@@ -125,8 +125,10 @@ Wednesday
     Monday
     
 (however there are other UNIX tools which aren't data type aware but would
-work in this specific scenario: `tac` (Linux), `tail -r` (BSD / OS X) and
-`perl -e "print reverse <>"` (Multiplatform but requires Perl installed)
+work in this specific scenario:
+* `tac` (Linux),
+* `tail -r` (BSD / OS X)
+* `perl -e "print reverse <>"` (Multiplatform but requires Perl installed)
 
 #### Advanced Array Syntax
 
