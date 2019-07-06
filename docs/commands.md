@@ -51,6 +51,8 @@ UNIX, or even Windows command prompt.
   Terminate murex with an exit number of 1
 * [`err`](commands/err.md):
   Print a line to the STDERR
+* [`esccli`](commands/esccli.md):
+  Escapes an array so output is valid shell code
 * [`exec`](commands/exec.md):
   Runs an executable
 * [`exit`](commands/exit.md):

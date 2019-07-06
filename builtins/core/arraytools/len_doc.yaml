@@ -16,6 +16,31 @@
     3
     ```
   Detail: |-
+    Please note that this returns the length of the _array_ rather than string.
+    For example `out "foobar" -> len` would return `1` because an array in the
+    `str` data type would be new line separated (eg `out "foo\nbar" -> len`
+    would return `2`). If you need to count characters in a string and are
+    running POSIX (eg Linux / BSD / OSX) then it is recommended to use `wc`
+    instead. But be mindful that `wc` will also count new line characters
+
+    ```
+    » out: "foobar" -> len
+    1
+
+    » out: "foo\nbar" -> len
+    2
+
+    » out: "foobar" -> wc: -c
+    7
+
+    » out: "foo\nbar" -> wc: -c
+    8
+
+    » printf: "foobar" -> wc: -c
+    6
+    # (printf does not print a trailing new line)
+    ```
+
   Synonyms:
   Related:
   - prepend

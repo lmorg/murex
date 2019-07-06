@@ -84,7 +84,7 @@ func (mf *MurexPrivs) Summary(name, module string) (string, error) {
 	return priv.Summary, nil
 }
 
-/*// Undefine deletes private from table
+// Undefine deletes private from table
 func (mf *MurexPrivs) Undefine(name string) error {
 	mf.mutex.Lock()
 	defer mf.mutex.Unlock()
@@ -95,7 +95,7 @@ func (mf *MurexPrivs) Undefine(name string) error {
 
 	delete(mf.fn, name)
 	return nil
-}*/
+}
 
 // Dump list all private murex functions in table
 func (mf *MurexPrivs) Dump() interface{} {
