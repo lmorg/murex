@@ -303,7 +303,7 @@ autocomplete: set fid-kill {
 
 autocomplete: set murex-package {
     [{
-        "Flags": [ "install", "update", "import", "enable", "disable", "reload" ],
+        "Flags": [ "install", "update", "import", "enable", "disable", "reload", "status" ],
         "FlagValues": {
             "import": [{
                 "IncFiles": true
