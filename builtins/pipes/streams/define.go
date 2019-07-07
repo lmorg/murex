@@ -65,21 +65,21 @@ func (stdin *Stdin) MakePipe() {
 // Open the stream.Io interface for another dependant
 func (stdin *Stdin) Open() {
 	stdin.mutex.Lock()
-	defer stdin.mutex.Unlock()
-
 	stdin.dependants++
+	stdin.mutex.Unlock()
 }
 
 // Close the stream.Io interface
 func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
-	defer stdin.mutex.Unlock()
 
 	stdin.dependants--
 
 	if stdin.dependants < 0 {
 		panic("More closed dependants than open")
 	}
+
+	stdin.mutex.Unlock()
 }
 
 // ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader

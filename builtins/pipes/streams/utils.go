@@ -25,9 +25,11 @@ func (stdin *Stdin) IsTTY() bool { return false }
 
 // Stats provides real time stream stats. Useful for progress bars etc.
 func (stdin *Stdin) Stats() (bytesWritten, bytesRead uint64) {
+	//stdin.mutex.RLock()
 	stdin.mutex.Lock()
 	bytesWritten = stdin.bWritten
 	bytesRead = stdin.bRead
+	//stdin.mutex.RUnlock()
 	stdin.mutex.Unlock()
 	return
 }
@@ -41,8 +43,10 @@ func (stdin *Stdin) GetDataType() (dt string) {
 		default:
 		}
 
+		//stdin.dtLock.RLock()
 		stdin.dtLock.Lock()
 		dt = stdin.dataType
+		//stdin.dtLock.RUnlock()
 		stdin.dtLock.Unlock()
 		if dt != "" {
 			return
@@ -59,8 +63,10 @@ func (stdin *Stdin) SetDataType(dt string) {
 
 // DefaultDataType defines the murex data type for the stream.Io interface if it's not already set
 func (stdin *Stdin) DefaultDataType(err bool) {
+	//stdin.dtLock.RLock()
 	stdin.dtLock.Lock()
 	dt := stdin.dataType
+	//stdin.dtLock.RUnlock()
 	stdin.dtLock.Unlock()
 
 	if dt == "" {

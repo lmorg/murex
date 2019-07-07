@@ -238,7 +238,7 @@ func testRun(p *lang.Process) error {
 	}
 
 	h := md5.New()
-	_, err = h.Write([]byte(time.Now().String() + ":" + strconv.Itoa(p.Id)))
+	_, err = h.Write([]byte(time.Now().String() + ":" + strconv.Itoa(int(p.Id))))
 	if err != nil {
 		return err
 	}

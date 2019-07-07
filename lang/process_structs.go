@@ -26,7 +26,7 @@ type Process struct {
 	Parameters         parameters.Parameters
 	ExitNum            int
 	Name               string
-	Id                 int
+	Id                 uint32
 	Exec               shellExec
 	PromptId           int
 	Path               string
@@ -51,7 +51,7 @@ type Process struct {
 	Tests              *Tests
 	testState          []string
 	Variables          *Variables
-	FidTree            []int
+	FidTree            []uint32
 	CreationTime       time.Time
 	StartTime          time.Time
 	FileRef            *ref.File

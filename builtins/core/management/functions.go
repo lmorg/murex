@@ -9,13 +9,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/lmorg/murex/utils/escape"
-
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/posix"

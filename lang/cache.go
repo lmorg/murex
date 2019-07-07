@@ -9,33 +9,30 @@ import (
 var AstCache = newAstCache()
 
 type cacheItem struct {
-	lastUsed time.Time
-	nodes    astNodes
-	pErr     ParserError
+	created time.Time
+	nodes   astNodes
+	pErr    ParserError
 }
 
 type astCache struct {
-	mutex sync.Mutex
-	cache map[string]*cacheItem
+	cache sync.Map
 }
 
 func newAstCache() *astCache {
 	c := new(astCache)
-	c.cache = make(map[string]*cacheItem)
 	go astGarbageCollector(c)
 	return c
 }
 
 func astGarbageCollector(c *astCache) {
 	for {
-		time.Sleep(60 * time.Second)
-		c.mutex.Lock()
-		for key := range c.cache {
-			if c.cache[key].lastUsed.Add(60 * time.Second).Before(time.Now()) {
-				delete(c.cache, key)
+		time.Sleep(5 * time.Minute)
+		c.cache.Range(func(k interface{}, v interface{}) bool {
+			if v.(*cacheItem).created.Add(5 * time.Minute).Before(time.Now()) {
+				c.cache.Delete(k)
 			}
-		}
-		c.mutex.Unlock()
+			return true
+		})
 	}
 }
 
@@ -43,41 +40,28 @@ func astGarbageCollector(c *astCache) {
 // then it runs the parser itself.
 func (c *astCache) ParseCache(block []rune) (astNodes, ParserError) {
 	key := string(block)
-
-	c.mutex.Lock()
-	cache := c.cache[key]
-	c.mutex.Unlock()
-
-	if cache != nil {
-		c.mutex.Lock()
-		cache.lastUsed = time.Now()
-		c.mutex.Unlock()
-
+	v, ok := c.cache.Load(key)
+	if ok {
+		cache := v.(*cacheItem)
 		return cache.nodes, cache.pErr
 	}
 
 	nodes, pErr := parser(block)
-	//if pErr.Code > 0 {
-	//	return nil, pErr
-	//}
 
-	c.mutex.Lock()
-	c.cache[key] = &cacheItem{
-		lastUsed: time.Now(),
-		nodes:    nodes,
-		pErr:     pErr,
+	cache := &cacheItem{
+		created: time.Now(),
+		nodes:   nodes,
+		pErr:    pErr,
 	}
-	c.mutex.Unlock()
+	c.cache.Store(key, cache)
 	return nodes, pErr
 }
 
 // Dump returns the items in AST cache
 func (c *astCache) Dump() (dump []string) {
-	c.mutex.Lock()
-	defer c.mutex.Unlock()
-
-	for key := range c.cache {
-		dump = append(dump, c.cache[key].lastUsed.String())
-	}
+	c.cache.Range(func(k interface{}, v interface{}) bool {
+		dump = append(dump, v.(*cacheItem).created.String())
+		return true
+	})
 	return dump
 }

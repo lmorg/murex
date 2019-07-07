@@ -28,7 +28,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].Kill = func() {}
 		procs[i].PromptId = parent.PromptId
 
-		procs[i].FidTree = make([]int, len(parent.Parent.FidTree))
+		procs[i].FidTree = make([]uint32, len(parent.Parent.FidTree))
 		copy(procs[i].FidTree, parent.Parent.FidTree)
 
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}

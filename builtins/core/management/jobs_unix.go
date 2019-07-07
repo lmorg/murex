@@ -13,7 +13,7 @@ import (
 )
 
 func mkbg(p *lang.Process) error {
-	fid, err := p.Parameters.Int(0)
+	fid, err := p.Parameters.Uint32(0)
 	if err != nil {
 		return errors.New("Invalid parameters. Expecting either a code block or FID of a stopped process")
 	}
@@ -80,7 +80,7 @@ func mkbg(p *lang.Process) error {
 func cmdForeground(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	fid, err := p.Parameters.Int(0)
+	fid, err := p.Parameters.Uint32(0)
 	if err != nil {
 		return err
 	}

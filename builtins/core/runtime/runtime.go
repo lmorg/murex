@@ -138,7 +138,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fPrivates:
 			ret[fPrivates[2:]] = lang.PrivateFunctions.Dump()
 		case fFids:
-			ret[fFids[2:]] = lang.GlobalFIDs.Dump()
+			ret[fFids[2:]] = lang.GlobalFIDs.ListAll()
 		case fReadArrays:
 			ret[fReadArrays[2:]] = stdio.DumpArray()
 		case fReadMaps:

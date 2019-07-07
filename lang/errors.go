@@ -25,7 +25,7 @@ const (
 	ErrUnexpectedParsingError
 )
 
-var errMessages map[int]string = map[int]string{
+var errMessages = map[int]string{
 	0:  "No errors. Block successfully parsed.",
 	1:  "Unquoted or unescaped colon located in function parameters.",
 	2:  "Pipe token preceding function name.",

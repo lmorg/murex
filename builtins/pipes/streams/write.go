@@ -23,9 +23,11 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 		default:
 		}
 
+		//stdin.mutex.RLock()
 		stdin.mutex.Lock()
 		buffSize := len(stdin.buffer)
 		maxBufferSize := stdin.max
+		//stdin.mutex.RUnlock()
 		stdin.mutex.Unlock()
 
 		if buffSize < maxBufferSize || maxBufferSize == 0 {

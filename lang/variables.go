@@ -8,9 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -130,7 +129,7 @@ type variable struct {
 	name         string
 	Value        interface{}
 	DataType     string
-	owner        int
+	owner        uint32
 	disabled     bool
 	creationTime time.Time
 	FileRef      *ref.File
@@ -166,8 +165,8 @@ func (vars *Variables) GetValue(name string) interface{} {
 }
 
 type self struct {
-	Parent     int
-	Scope      int
+	Parent     uint32
+	Scope      uint32
 	TTY        bool
 	Method     bool
 	Not        bool
@@ -382,7 +381,7 @@ func (vars *Variables) Inspect() interface{} {
 		Name         string
 		Value        interface{}
 		DataType     string
-		Owner        int
+		Owner        uint32
 		CreationTime time.Time
 		Disabled     bool
 		FileRef      *ref.File

@@ -129,9 +129,9 @@ func cmdFidListCSV(p *lang.Process) error {
 }
 
 type fidList struct {
-	FID        int
-	Parent     int
-	Scope      int
+	FID        uint32
+	Parent     uint32
+	Scope      uint32
 	State      string
 	RunMode    string `json:"Run Mode"`
 	BG         bool
@@ -180,7 +180,7 @@ func cmdFidKill(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	for i := 0; i < p.Parameters.Len(); i++ {
-		fid, err := p.Parameters.Int(i)
+		fid, err := p.Parameters.Uint32(i)
 		if err != nil {
 			return err
 		}

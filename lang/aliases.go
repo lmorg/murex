@@ -25,10 +25,11 @@ func (a *Aliases) Add(name string, alias []string) {
 }
 
 // Exists checks if alias exists in table
-func (a *Aliases) Exists(name string) bool {
+func (a *Aliases) Exists(name string) (exists bool) {
 	a.mutex.Lock()
-	defer a.mutex.Unlock()
-	return len(a.aliases[name]) > 0
+	exists = len(a.aliases[name]) > 0
+	a.mutex.Unlock()
+	return exists
 }
 
 // Get the aliased code

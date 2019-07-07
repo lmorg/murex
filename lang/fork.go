@@ -102,7 +102,7 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.IsBackground = flags&F_BACKGROUND != 0
 	fork.PromptId = p.PromptId
 
-	fork.FidTree = make([]int, len(p.FidTree))
+	fork.FidTree = make([]uint32, len(p.FidTree))
 	copy(fork.FidTree, p.FidTree)
 
 	if p.Id == ShellProcess.Id {

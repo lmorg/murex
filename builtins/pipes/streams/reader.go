@@ -52,9 +52,11 @@ func (r *Reader) MakePipe() {
 
 // Stats provides real time stream stats. Useful for progress bars etc.
 func (r *Reader) Stats() (bytesWritten, bytesRead uint64) {
+	//r.mutex.RLock()
 	r.mutex.Lock()
 	bytesWritten = r.bWritten
 	bytesRead = r.bRead
+	//r.mutex.RUnlock()
 	r.mutex.Unlock()
 	return
 }
@@ -68,11 +70,10 @@ func (r *Reader) Read(p []byte) (int, error) {
 	}
 
 	r.mutex.Lock()
-	defer r.mutex.Unlock()
-
 	i, err := r.reader.Read(p)
-
 	r.bRead += uint64(i)
+	r.mutex.Unlock()
+
 	return i, err
 }
 
@@ -81,9 +82,9 @@ func (r *Reader) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		b := scanner.Bytes()
-		r.mutex.Lock()
-		r.bRead += uint64(len(b))
-		r.mutex.Unlock()
+		//r.mutex.Lock()
+		//r.bRead += uint64(len(b))
+		//r.mutex.Unlock()
 		callback(append(b, utils.NewLineByte...))
 	}
 

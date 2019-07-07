@@ -83,9 +83,11 @@ func (t *term) MakePipe() {
 
 // Stats returns the bytes written and bytes read from the term interface
 func (t *term) Stats() (bytesWritten, bytesRead uint64) {
+	//t.mutex.RLock()
 	t.mutex.Lock()
 	bytesWritten = t.bWritten
 	bytesRead = t.bRead
+	//t.mutex.RUnlock()
 	t.mutex.Unlock()
 	return
 }

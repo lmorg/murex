@@ -65,6 +65,15 @@ func (p Parameters) Int(pos int) (int, error) {
 	return strconv.Atoi(p.Params[pos])
 }
 
+// Uint32 gets parameter as Uint32
+func (p Parameters) Uint32(pos int) (uint32, error) {
+	if p.Len() <= pos {
+		return 0, errors.New("Too few parameters")
+	}
+	i, err := strconv.ParseUint(p.Params[pos], 10, 32)
+	return uint32(i), err
+}
+
 // Bool gets parameter as boolean
 func (p Parameters) Bool(pos int) (bool, error) {
 	if p.Len() <= pos {
