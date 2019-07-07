@@ -7,13 +7,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/ref"
 )
 
 // Process - Each process running inside the murex shell will be one of these objects.

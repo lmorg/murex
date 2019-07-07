@@ -34,9 +34,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				tCount = true
 
 			case parameters.TokenTypeBlockString:
-				//stdout := streams.NewStdin()
-				//RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
-				//b, err := stdout.ReadAll()
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute([]rune(p.Tokens[i][j].Key))
 				b, err := fork.Stdout.ReadAll()
@@ -71,9 +68,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 			case parameters.TokenTypeBlockArray:
 				var array []string
 
-				//stdout := streams.NewStdin()
-				//RunBlockExistingConfigSpace([]rune(p.Tokens[i][j].Key), nil, stdout, prc.Stderr, prc)
-				//stdout.ReadArray(func(b []byte) {
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute([]rune(p.Tokens[i][j].Key))
 				fork.Stdout.ReadArray(func(b []byte) {
@@ -98,9 +92,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				}
 
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
-				//stdout := streams.NewStdin()
-				//RunBlockExistingConfigSpace(block, nil, stdout, prc.Stderr, prc)
-				//b, err := stdout.ReadAll()
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()

@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	_ "github.com/lmorg/murex/builtins"
 	_ "github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -33,7 +35,7 @@ func main() {
 		}
 
 		// read block from command line parameters
-		execSource([]rune(fCommand))
+		execSource([]rune(fCommand), nil)
 
 	case len(fSource) > 0:
 		// default config
@@ -46,14 +48,16 @@ func main() {
 		}
 
 		// read block from disk
-		execSource(diskSource(fSource[0]))
+		execSource(diskSource(fSource[0]), nil)
 
 	default:
 		// default config
 		defaults.Defaults(lang.ShellProcess.Config, true)
 
 		// compiled profile
-		execSource(defaults.DefaultMurexProfile())
+		source := defaults.DefaultMurexProfile()
+		ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
+		execSource(defaults.DefaultMurexProfile(), ref)
 
 		// load modules and profile
 		profile.Execute()
@@ -103,11 +107,14 @@ func diskSource(filename string) []rune {
 	return []rune(string(b))
 }
 
-func execSource(source []rune) {
+func execSource(source []rune, sourceRef *ref.Source) {
 	//exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
 	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
 	fork.Stdout = new(term.Out)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
+	if sourceRef != nil {
+		fork.FileRef.Source = sourceRef
+	}
 	exitNum, err := fork.Execute(source)
 
 	if err != nil {

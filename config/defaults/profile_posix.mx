@@ -1,5 +1,11 @@
-config set shell prompt           { out "${pwd -> egrep -o '[^/]+$'} » " }
-config set shell prompt-multiline { $linenum -> sprintf "%${eval ${pwd -> egrep -o '[^/]+$' -> wc -c}-1}s » " }
+config set shell prompt {
+    out "${pwd -> egrep -o '[^/]+$'} » "
+}
+
+config set shell prompt-multiline {
+    let len = ${pwd_short -> wc -c} - 1
+    printf "%${$len}s » " $linenum
+}
 
 #autocomplete set man { [{
 #    "IncExePath": true
@@ -64,7 +70,11 @@ autocomplete set go { [{
     "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
     "FlagValues": {
         "run": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
-        "test": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
+        "test": [{
+            "Dynamic": ({ go-package }),
+            "AutoBranch": true,
+            "Flags": [ "./..." ]
+        }],
         "build": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
         "install": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
         "fmt": [{ "IncFiles": true }],
