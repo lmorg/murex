@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	_ "github.com/lmorg/murex/builtins"
 	_ "github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -14,9 +12,15 @@ import (
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+)
+
+const (
+	interactive    bool = true
+	nonInteractive bool = false
 )
 
 func main() {
@@ -26,8 +30,8 @@ func main() {
 	switch {
 	case fCommand != "":
 		// default config
-		defaults.Defaults(lang.ShellProcess.Config, false)
-		shell.SignalHandler(false)
+		defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+		shell.SignalHandler(nonInteractive)
 
 		// load modules a profile
 		if fLoadMods {
@@ -39,8 +43,8 @@ func main() {
 
 	case len(fSource) > 0:
 		// default config
-		defaults.Defaults(lang.ShellProcess.Config, false)
-		shell.SignalHandler(false)
+		defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+		shell.SignalHandler(nonInteractive)
 
 		// load modules a profile
 		if fLoadMods {
@@ -52,7 +56,7 @@ func main() {
 
 	default:
 		// default config
-		defaults.Defaults(lang.ShellProcess.Config, true)
+		defaults.Defaults(lang.ShellProcess.Config, interactive)
 
 		// compiled profile
 		source := defaults.DefaultMurexProfile()
