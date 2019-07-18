@@ -1,11 +1,11 @@
 package cmdruntime
 
 import (
-	"github.com/lmorg/murex/lang/ref"
 	"errors"
 	"runtime"
 	"sort"
-
+	
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
@@ -127,8 +127,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fAliases:
 			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
 		case fConfig:
-			//ret[fConfig[2:]] = lang.ShellProcess.Config.Dump()
-			ret[fConfig[2:]] = p.Config.Dump()
+			ret[fConfig[2:]] = p.Config.DumpRuntime()
 		case fNamedPipes:
 			ret[fNamedPipes[2:]] = lang.GlobalPipes.Dump()
 		case fPipes:

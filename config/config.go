@@ -168,8 +168,9 @@ func (conf *Config) Copy() *Config {
 	return clone
 }
 
-// Dump returns an object based on Config which is optimised for JSON serialisation
-func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
+// DumpRuntime returns an object based on Config which is optimised for JSON
+// serialisation for the `runtime --config` CLI command
+func (conf *Config) DumpRuntime() (obj map[string]map[string]map[string]interface{}) {
 	conf.mutex.RLock()
 	obj = make(map[string]map[string]map[string]interface{})
 	for app := range conf.properties {
@@ -193,6 +194,42 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 			if len(conf.properties[app][key].Dynamic.Read) != 0 {
 				obj[app][key]["Dynamic"] = conf.properties[app][key].Dynamic
 			}
+
+		}
+	}
+	conf.mutex.RUnlock()
+	return
+}
+
+// DumpConfig returns an object based on Config which is optimised for JSON
+// serialisation for the `config` CLI command
+func (conf *Config) DumpConfig() (obj map[string]map[string]map[string]interface{}) {
+	conf.mutex.RLock()
+	obj = make(map[string]map[string]map[string]interface{})
+	for app := range conf.properties {
+		obj[app] = make(map[string]map[string]interface{})
+		for key := range conf.properties[app] {
+			obj[app][key] = make(map[string]interface{})
+			obj[app][key]["Description"] = conf.properties[app][key].Description
+			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
+			obj[app][key]["Default"] = conf.properties[app][key].Default
+
+			if len(conf.properties[app][key].Dynamic.Read) == 0 {
+				obj[app][key]["Value"] = conf.values[app][key]
+			}
+
+			//if conf.properties[app][key].Global {
+			obj[app][key]["Global"] = conf.properties[app][key].Global
+			//}
+
+			if len(conf.properties[app][key].Options) != 0 {
+				obj[app][key]["Options"] = conf.properties[app][key].Options
+			}
+
+			//if len(conf.properties[app][key].Dynamic.Read) != 0 {
+			//	obj[app][key]["Dynamic"] = true
+			//}
+			obj[app][key]["Dynamic"] = len(conf.properties[app][key].Dynamic.Read) != 0
 
 		}
 	}
