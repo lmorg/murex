@@ -21,9 +21,11 @@ func (lf *appendCrLf) set(b byte) {
 	// is pretty mild however the performance improvement is in the range of 2 to 5 seconds on jobs
 	// which use the terminal output heavily for around 20 seconds. So the risk is, in my opinion,
 	// worth the reward.
-	go func() {
-		atomic.StoreInt32(&lf.r, int32(b))
-	}()
+	//
+	// Update: maybe not. Seeing far more crlf glitches than I previous testing had suggested.
+	//go func() {
+	atomic.StoreInt32(&lf.r, int32(b))
+	//}()
 }
 
 func (lf *appendCrLf) Write() {
