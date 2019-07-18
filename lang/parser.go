@@ -400,7 +400,9 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case scanFuncName:
 				pUpdate(r)
-				startParameters()
+				if i < len(block) && block[i+1] != '[' {
+					startParameters()
+				}
 			default:
 				pUpdate(r)
 			}
