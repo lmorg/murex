@@ -2,7 +2,9 @@ package arraytools
 
 import (
 	"errors"
+	"fmt"
 	"sync"
+	"sync/atomic"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -51,10 +53,14 @@ func twoDArray(p *lang.Process) (err error) {
 		}
 	}
 
-	var wg sync.WaitGroup
-	array := newMultiArray(p.Parameters.Len())
+	var (
+		wg       sync.WaitGroup
+		array    = newMultiArray(p.Parameters.Len())
+		errCount int32
+		i        int
+	)
 
-	for i := 0; i < p.Parameters.Len(); i++ {
+	for i = 0; i < p.Parameters.Len(); i++ {
 		wg.Add(1)
 
 		index := i
@@ -66,23 +72,28 @@ func twoDArray(p *lang.Process) (err error) {
 			_, err := fork.Execute(block[index])
 
 			if err != nil {
-				fork.Stderr.Write([]byte(err.Error()))
+				fork.Stderr.Write([]byte(fmt.Sprintf("Error executing fork (block %s): %s", index, err.Error())))
 			}
 
-			/*err =*/ fork.Stdout.ReadArray(func(b []byte) {
+			err = fork.Stdout.ReadArray(func(b []byte) {
 				count++
 				array.Append(index, count, string(b))
 			})
-                        // this will likely need to be done via a channel and selects
-			//if err != nil {
-			//	return err
-			//}
+
+			if err != nil {
+				p.Stderr.Writeln([]byte(fmt.Sprintf("Error in ReadArray() (block %s): %s: ", index, err.Error())))
+				atomic.AddInt32(&errCount, 1)
+			}
 
 			wg.Done()
 		}()
 	}
 
 	wg.Wait()
+
+	if errCount > 0 {
+		return fmt.Errorf("%d/%d blocks contained errors. Please read STDERR for details", errCount, i+1)
+	}
 
 	b, err := json.Marshal(array.array, p.Stdout.IsTTY())
 	if err != nil {

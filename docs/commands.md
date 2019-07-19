@@ -123,6 +123,8 @@ UNIX, or even Windows command prompt.
   Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
 * [`swivel-table`](commands/swivel-table.md):
   Rotates a table by 90 degrees
+* [`ta`](commands/ta.md):
+  A sophisticated yet simply way to build an array of a user defined data type
 * [`tout`](commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [`tread`](commands/tread.md):

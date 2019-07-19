@@ -4,8 +4,8 @@ import (
 	"errors"
 	"runtime"
 	"sort"
-	
-	"github.com/lmorg/murex/lang/ref"
+
+	"github.com/lmorg/murex/builtins/core/open"
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -39,6 +40,7 @@ func cmdRuntime(p *lang.Process) error {
 		fPipes         = "--pipes"
 		fFuncs         = "--funcs"
 		fPrivates      = "--privates"
+		fOpenAgents    = "--open-agents"
 		fFids          = "--fids"
 		fReadArrays    = "--readarray"
 		fReadMaps      = "--readmap"
@@ -69,6 +71,7 @@ func cmdRuntime(p *lang.Process) error {
 		fNamedPipes:    types.Boolean,
 		fFuncs:         types.Boolean,
 		fPrivates:      types.Boolean,
+		fOpenAgents:    types.Boolean,
 		fFids:          types.Boolean,
 		fReadArrays:    types.Boolean,
 		fReadMaps:      types.Boolean,
@@ -136,6 +139,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fFuncs[2:]] = lang.MxFunctions.Dump()
 		case fPrivates:
 			ret[fPrivates[2:]] = lang.PrivateFunctions.Dump()
+		case fOpenAgents:
+			ret[fOpenAgents[2:]] = open.OpenAgents.Dump()
 		case fFids:
 			ret[fFids[2:]] = lang.GlobalFIDs.ListAll()
 		case fReadArrays:

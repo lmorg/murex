@@ -18,9 +18,10 @@ like bash's `{1..9}` syntax:
     a: [start..end,start..end] -> <stdout>
     a: [start..end][start..end] -> <stdout>
     
-All usages also work with `ja` as well:
+All usages also work with `ja` and `ta` as well:
 
     ja: [start..end] -> <stdout>
+    ta: data-type [start..end] -> <stdout>
 
 ### Examples
 
@@ -215,5 +216,7 @@ under `a`'s formatting (which uses the `str` data type).
   A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
+* [`ta`](../commands/ta.md):
+  A sophisticated yet simply way to build an array of a user defined data type
 * [mtac](../commands/mtac.md):
   

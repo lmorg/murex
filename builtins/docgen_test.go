@@ -58,6 +58,7 @@ func init() {
 		"set":                   "set_commands_docgen.go",
 		"swivel-datatype":       "swivel-datatype_commands_docgen.go",
 		"swivel-table":          "swivel-table_commands_docgen.go",
+		"ta":                    "ta_commands_docgen.go",
 		"tout":                  "tout_commands_docgen.go",
 		"tread":                 "tread_commands_docgen.go",
 		"true":                  "true_commands_docgen.go",
