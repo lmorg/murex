@@ -29,7 +29,7 @@ type DynamicProperties struct {
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
 type Config struct {
-	mutex      sync.Mutex
+	mutex      sync.RWMutex
 	properties map[string]map[string]Properties  // This will be the main configuration metadata for each configuration option
 	values     map[string]map[string]interface{} // This stores the values when no custom getter and setter have been defined
 }
@@ -88,29 +88,28 @@ func (conf *Config) Default(app string, key string) error {
 //     key == name of setting
 //     dataType == what `types.dataType` to cast the return value into
 func (conf *Config) Get(app, key, dataType string) (value interface{}, err error) {
-	conf.mutex.Lock()
-	//defer conf.mutex.Unlock()
+	conf.mutex.RLock()
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
-		conf.mutex.Unlock()
+		conf.mutex.RUnlock()
 		return nil, fmt.Errorf("Cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
 	var v interface{}
 
 	if conf.properties[app][key].Dynamic.GetDynamic != nil {
-		conf.mutex.Unlock()
 		v, err = conf.properties[app][key].Dynamic.GetDynamic()
 		if err != nil {
 			return
 		}
+		conf.mutex.RUnlock()
 
 	} else {
 		v = conf.values[app][key]
 		if v == nil {
 			v = conf.properties[app][key].Default
 		}
-		conf.mutex.Unlock()
+		conf.mutex.RUnlock()
 	}
 
 	value, err = types.ConvertGoType(v, dataType)
@@ -119,7 +118,11 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 
 // DataType retrieves the murex data type for a given Config property
 func (conf *Config) DataType(app, key string) string {
-	return conf.properties[app][key].DataType
+	conf.mutex.RLock()
+	dt := conf.properties[app][key].DataType
+	conf.mutex.RUnlock()
+	return dt
+
 }
 
 // Define allows new properties to be created in the Config object
@@ -142,7 +145,7 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 func (conf *Config) Copy() *Config {
 	clone := NewConfiguration()
 
-	conf.mutex.Lock()
+	conf.mutex.RLock()
 
 	for app := range conf.properties {
 
@@ -160,14 +163,15 @@ func (conf *Config) Copy() *Config {
 		}
 	}
 
-	conf.mutex.Unlock()
+	conf.mutex.RUnlock()
 
 	return clone
 }
 
-// Dump returns an object based on Config which is optimised for JSON serialisation
-func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
-	conf.mutex.Lock()
+// DumpRuntime returns an object based on Config which is optimised for JSON
+// serialisation for the `runtime --config` CLI command
+func (conf *Config) DumpRuntime() (obj map[string]map[string]map[string]interface{}) {
+	conf.mutex.RLock()
 	obj = make(map[string]map[string]map[string]interface{})
 	for app := range conf.properties {
 		obj[app] = make(map[string]map[string]interface{})
@@ -193,6 +197,42 @@ func (conf *Config) Dump() (obj map[string]map[string]map[string]interface{}) {
 
 		}
 	}
-	conf.mutex.Unlock()
+	conf.mutex.RUnlock()
+	return
+}
+
+// DumpConfig returns an object based on Config which is optimised for JSON
+// serialisation for the `config` CLI command
+func (conf *Config) DumpConfig() (obj map[string]map[string]map[string]interface{}) {
+	conf.mutex.RLock()
+	obj = make(map[string]map[string]map[string]interface{})
+	for app := range conf.properties {
+		obj[app] = make(map[string]map[string]interface{})
+		for key := range conf.properties[app] {
+			obj[app][key] = make(map[string]interface{})
+			obj[app][key]["Description"] = conf.properties[app][key].Description
+			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
+			obj[app][key]["Default"] = conf.properties[app][key].Default
+
+			if len(conf.properties[app][key].Dynamic.Read) == 0 {
+				obj[app][key]["Value"] = conf.values[app][key]
+			}
+
+			//if conf.properties[app][key].Global {
+			obj[app][key]["Global"] = conf.properties[app][key].Global
+			//}
+
+			if len(conf.properties[app][key].Options) != 0 {
+				obj[app][key]["Options"] = conf.properties[app][key].Options
+			}
+
+			//if len(conf.properties[app][key].Dynamic.Read) != 0 {
+			//	obj[app][key]["Dynamic"] = true
+			//}
+			obj[app][key]["Dynamic"] = len(conf.properties[app][key].Dynamic.Read) != 0
+
+		}
+	}
+	conf.mutex.RUnlock()
 	return
 }

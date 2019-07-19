@@ -32,8 +32,8 @@ func (t *Out) Write(b []byte) (i int, err error) {
 
 // Writeln writes an OS-specific terminated line to the stdout
 func (t *Out) Writeln(b []byte) (int, error) {
-	line := append(b, utils.NewLineByte...)
-	return t.Write(line)
+	//line := append(b, utils.NewLineByte...)
+	return t.Write(appendBytes(b, utils.NewLineByte...))
 }
 
 // WriteArray performs data type specific buffered writes to an stdio.Io interface

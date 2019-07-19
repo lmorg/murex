@@ -15,7 +15,7 @@ func TestDefaultConfigExists(t *testing.T) {
 
 	defaults.Defaults(conf, false)
 
-	m := conf.Dump()
+	m := conf.DumpConfig()
 	if len(m) == 0 {
 		t.Error("Defaults() not populating *config.Config.")
 	}

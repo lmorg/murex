@@ -1,8 +1,6 @@
 package management
 
 import (
-	"errors"
-
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
@@ -16,9 +14,9 @@ func init() {
 }
 
 func cmdHistory(p *lang.Process) (err error) {
-	if !shell.Interactive {
-		return errors.New("This is only designed to be run when the shell is in interactive mode")
-	}
+	//if !shell.Interactive {
+	//	return errors.New("This is only designed to be run when the shell is in interactive mode")
+	//}
 
 	list := shell.Prompt.History.Dump().([]history.Item)
 

@@ -58,6 +58,27 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 		if node.Name != "" {
 			nodes = append(nodes, node)
+			// The below code is faster but much less readable and parsed
+			// source should be cached so we don't really see a performance
+			// improvement in the benchmarks thus cannot justify the code
+			// complexity this brings. However more complex murex scripts with
+			// fewer iteration blocks (ie fewer cacheable blocks) might see
+			// a subtle performance improvement but the one might argue such
+			// a shell script was poorly written from the outset. For now, I
+			// shall leave this code here as an example of where not to
+			// optimise so a future maintainer doesn't get gunghoe.
+			/*m := len(nodes)
+			//n := m + len(data)
+			n := m + 1
+			if n > cap(nodes) { // if necessary, reallocate
+				// allocate double what's needed, for future growth.
+				newSlice := make([]astNode, (m+2)*2)
+				copy(newSlice, nodes)
+				nodes = newSlice
+			}
+			nodes = nodes[0:n]
+			//copy(nodes[m:n], node)
+			nodes[m] = node*/
 		}
 
 		ignoreWhitespace = true
@@ -379,7 +400,9 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case scanFuncName:
 				pUpdate(r)
-				startParameters()
+				if i < len(block) && block[i+1] != '[' {
+					startParameters()
+				}
 			default:
 				pUpdate(r)
 			}
