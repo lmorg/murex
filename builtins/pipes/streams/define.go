@@ -3,6 +3,7 @@ package streams
 import (
 	"context"
 	"sync"
+	"sync/atomic"
 
 	"github.com/lmorg/murex/lang/proc/stdio"
 )
@@ -20,7 +21,7 @@ type Stdin struct {
 	buffer     []byte
 	bRead      uint64
 	bWritten   uint64
-	dependants int
+	dependants int32
 	dataType   string
 	dtLock     sync.Mutex
 	max        int
@@ -57,21 +58,23 @@ func NewStdinWithContext(ctx context.Context, forceClose context.CancelFunc) (st
 // MakePipe is used for named pipes. Basically just used to relax the exception handling since we can make fewer
 // guarantees about the state of named pipes.
 func (stdin *Stdin) MakePipe() {
-	stdin.mutex.Lock()
-	stdin.dependants++
-	stdin.mutex.Unlock()
+	//stdin.mutex.Lock()
+	//stdin.dependants++
+	//stdin.mutex.Unlock()
+	atomic.AddInt32(&stdin.dependants, 1)
 }
 
 // Open the stream.Io interface for another dependant
 func (stdin *Stdin) Open() {
-	stdin.mutex.Lock()
-	stdin.dependants++
-	stdin.mutex.Unlock()
+	//stdin.mutex.Lock()
+	//stdin.dependants++
+	//stdin.mutex.Unlock()
+	atomic.AddInt32(&stdin.dependants, 1)
 }
 
 // Close the stream.Io interface
 func (stdin *Stdin) Close() {
-	stdin.mutex.Lock()
+	/*stdin.mutex.Lock()
 
 	stdin.dependants--
 
@@ -79,7 +82,12 @@ func (stdin *Stdin) Close() {
 		panic("More closed dependants than open")
 	}
 
-	stdin.mutex.Unlock()
+	stdin.mutex.Unlock()*/
+
+	i := atomic.AddInt32(&stdin.dependants, -1)
+	if i < 0 {
+		panic("More closed dependants than open")
+	}
 }
 
 // ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader

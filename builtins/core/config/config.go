@@ -3,11 +3,10 @@ package cmdconfig
 import (
 	"errors"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
@@ -62,8 +61,8 @@ func getConfig(p *lang.Process) error {
 		return err
 	}
 	p.Stdout.SetDataType(p.Config.DataType(app, key))
-	p.Stdout.Writeln([]byte(val.(string)))
-	return nil
+	_, err := p.Stdout.Writeln([]byte(val.(string)))
+	return err
 }
 
 func setConfig(p *lang.Process) error {
@@ -144,7 +143,7 @@ func defineConfig(p *lang.Process) error {
 
 	var b []byte
 
-	if p.IsMethod == true {
+	if p.IsMethod {
 		b, err = p.Stdin.ReadAll()
 		if err != nil {
 			return err
