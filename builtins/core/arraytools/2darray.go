@@ -69,13 +69,14 @@ func twoDArray(p *lang.Process) (err error) {
 				fork.Stderr.Write([]byte(err.Error()))
 			}
 
-			err = fork.Stdout.ReadArray(func(b []byte) {
+			/*err =*/ fork.Stdout.ReadArray(func(b []byte) {
 				count++
 				array.Append(index, count, string(b))
 			})
-			if err != nil {
-				return err
-			}
+                        // this will likely need to be done via a channel and selects
+			//if err != nil {
+			//	return err
+			//}
 
 			wg.Done()
 		}()
