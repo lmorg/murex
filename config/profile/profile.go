@@ -85,7 +85,7 @@ func profile(name, path string) error {
 	}
 
 	if len(b) == 0 && path == PreloadPath {
-		file.Close()
+		err := file.Close()
 		if err != nil {
 			return err
 		}

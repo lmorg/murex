@@ -67,7 +67,7 @@ func stopStatus(p *lang.Process) {
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
 		fork.Name = "(SIGTSTP)"
 		fork.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
-		fork.Execute([]rune(block.(string)))
+		_, err = fork.Execute([]rune(block.(string)))
 
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))

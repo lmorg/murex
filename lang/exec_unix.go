@@ -23,6 +23,4 @@ func osSyscalls(cmd *exec.Cmd) {
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Ctty: int(os.Stdout.Fd()),
 	}
-
-	return
 }
