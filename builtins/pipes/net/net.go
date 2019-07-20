@@ -28,15 +28,6 @@ func (n *Net) DefaultDataType(bool) {}
 // IsTTY always returns false because net Io interfaces are not a pseudo-TTY
 func (n *Net) IsTTY() bool { return false }
 
-// MakePipe turns the stream.Io interface into a named pipe
-func (n *Net) MakePipe() {
-	n.mutex.Lock()
-	defer n.mutex.Unlock()
-
-	//n.isParent = true
-	n.dependants++
-}
-
 // SetDataType assigns a data type to the stream.Io interface
 func (n *Net) SetDataType(dt string) {
 	n.mutex.Lock()

@@ -42,14 +42,6 @@ func NewReader(reader io.Reader) (r *Reader) {
 // IsTTY returns false because the reader interface is not a pseudo-TTY
 func (r *Reader) IsTTY() bool { return false }
 
-// MakePipe is used for named pipes. Basically just used to relax the exception
-// handling since we can make fewer guarantees about the state of named pipes.
-func (r *Reader) MakePipe() {
-	r.mutex.Lock()
-	r.dependants++
-	r.mutex.Unlock()
-}
-
 // Stats provides real time stream stats. Useful for progress bars etc.
 func (r *Reader) Stats() (bytesWritten, bytesRead uint64) {
 	//r.mutex.RLock()

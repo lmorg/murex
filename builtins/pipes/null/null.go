@@ -18,9 +18,6 @@ import (
 // Null is null interface for named pipes
 type Null struct{}
 
-// MakePipe - null interface
-func (t *Null) MakePipe() {}
-
 // Read - null interface
 func (t *Null) Read([]byte) (int, error) { return 0, nil }
 

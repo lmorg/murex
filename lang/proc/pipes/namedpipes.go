@@ -52,7 +52,7 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 		Type: pipeType,
 	}
 
-	io.MakePipe()
+	io.Open()
 	return nil
 }
 

@@ -127,5 +127,9 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		return nestedErr
 	}
 
+	if err != nil {
+		return err
+	}
+
 	return array.Close()
 }

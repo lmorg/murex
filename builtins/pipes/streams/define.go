@@ -12,6 +12,11 @@ func init() {
 	stdio.RegesterPipe("std", newStream)
 }
 
+func newStream(_ string) (io stdio.Io, err error) {
+	io = NewStdin()
+	return
+}
+
 // Stdin is the default stdio.Io interface.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
 type Stdin struct {
@@ -28,12 +33,8 @@ type Stdin struct {
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
-var DefaultMaxBufferSize = 1024 * 1024 * 10 // 10 meg
-
-func newStream(_ string) (io stdio.Io, err error) {
-	io = NewStdin()
-	return
-}
+//var DefaultMaxBufferSize = 1024 * 1024 * 10 // 10 meg
+var DefaultMaxBufferSize = 1024 * 1024 * 1 // 1 meg
 
 // NewStdin creates a new stream.Io interface for piping data between processes.
 // Despite it's name, this interface can and is used for Stdout and Stderr streams too.
@@ -55,39 +56,30 @@ func NewStdinWithContext(ctx context.Context, forceClose context.CancelFunc) (st
 	return
 }
 
-// MakePipe is used for named pipes. Basically just used to relax the exception handling since we can make fewer
-// guarantees about the state of named pipes.
-func (stdin *Stdin) MakePipe() {
-	//stdin.mutex.Lock()
-	//stdin.dependants++
-	//stdin.mutex.Unlock()
-	atomic.AddInt32(&stdin.dependants, 1)
-}
-
 // Open the stream.Io interface for another dependant
 func (stdin *Stdin) Open() {
-	//stdin.mutex.Lock()
+	stdin.mutex.Lock()
 	//stdin.dependants++
-	//stdin.mutex.Unlock()
 	atomic.AddInt32(&stdin.dependants, 1)
+	stdin.mutex.Unlock()
 }
 
 // Close the stream.Io interface
 func (stdin *Stdin) Close() {
-	/*stdin.mutex.Lock()
+	stdin.mutex.Lock()
 
-	stdin.dependants--
+	/*stdin.dependants--
 
 	if stdin.dependants < 0 {
 		panic("More closed dependants than open")
-	}
-
-	stdin.mutex.Unlock()*/
+	}*/
 
 	i := atomic.AddInt32(&stdin.dependants, -1)
 	if i < 0 {
 		panic("More closed dependants than open")
 	}
+
+	stdin.mutex.Unlock()
 }
 
 // ForceClose forces the stream.Io interface to close. This should only be called by a STDIN reader

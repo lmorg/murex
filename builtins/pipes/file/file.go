@@ -10,14 +10,6 @@ func init() {
 	stdio.RegesterPipe("file", NewFile)
 }
 
-// MakePipe turns the stream.Io interface into a named pipe
-func (f *File) MakePipe() {
-	f.mutex.Lock()
-	defer f.mutex.Unlock()
-
-	f.dependants++
-}
-
 // Stats returns bytes written and read. As File is a write-only interface bytes read will always equal 0
 func (f *File) Stats() (bytesWritten, bytesRead uint64) {
 	f.mutex.Lock()
