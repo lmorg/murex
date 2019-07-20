@@ -22,7 +22,7 @@ func (lf *appendCrLf) set(b byte) {
 	// which use the terminal output heavily for around 20 seconds. So the risk is, in my opinion,
 	// worth the reward.
 	//
-	// Update: maybe not. Seeing far more crlf glitches than I previous testing had suggested.
+	// Update: maybe not. Seeing far more crlf glitches than previous testing had suggested.
 	//go func() {
 	atomic.StoreInt32(&lf.r, int32(b))
 	//}()
