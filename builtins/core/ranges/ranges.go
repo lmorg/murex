@@ -6,12 +6,13 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
 	lang.GoFunctions["@["] = cmdRange
 }
+
+const usage = "\nUsage: @[start..end] / @[start..end]se\n(start or end can be omitted)"
 
 var rxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([erns]*)\s*$`)
 
@@ -28,8 +29,6 @@ type rangeFuncs interface {
 }
 
 func cmdRange(p *lang.Process) (err error) {
-	const usage = "\nUsage: @[start..end] /  @[start..end]se\n(start or end can be omitted)"
-
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -58,10 +57,6 @@ func cmdRange(p *lang.Process) (err error) {
 		return fmt.Errorf("Invalid syntax: you cannot combine the following flags: %s.%s", split[3], usage)
 	}
 
-	//debug.Json("split", split)
-
-	var array []string
-
 	switch split[3] {
 	case "r":
 		err = newRegexp(r)
@@ -80,32 +75,22 @@ func cmdRange(p *lang.Process) (err error) {
 		return err
 	}
 
-	if len(array) == 0 {
-		array, err = readArray(p, r)
-		if err != nil {
-			return err
-		}
-	}
-
-	b, err := define.MarshalData(p, dt, array)
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write(b)
-	return err
+	return readArray(p, r, dt)
 }
 
-func readArray(p *lang.Process, r *rangeParameters) ([]string, error) {
+func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 	var (
-		array   []string
-		err     error
-		started bool
-		ended   bool
+		nestedErr      error
+		started, ended bool
 	)
 
 	if r.Start == "" {
 		started = true
+	}
+
+	array, err := p.Stdout.WriteArray(dt)
+	if err != nil {
+		return err
 	}
 
 	err = p.Stdin.ReadArray(func(b []byte) {
@@ -132,8 +117,15 @@ func readArray(p *lang.Process, r *rangeParameters) ([]string, error) {
 			}
 		}
 
-		array = append(array, string(b))
+		nestedErr = array.Write(b)
+		if nestedErr != nil {
+			return
+		}
 	})
 
-	return array, err
+	if nestedErr != nil {
+		return nestedErr
+	}
+
+	return array.Close()
 }
