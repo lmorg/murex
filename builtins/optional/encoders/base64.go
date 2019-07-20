@@ -2,9 +2,10 @@ package encoders
 
 import (
 	"encoding/base64"
+	"io"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"io"
 )
 
 func init() {
@@ -13,6 +14,11 @@ func init() {
 }
 
 func cmdBase64(p *lang.Process) (err error) {
+	if err = p.ErrIfNotAMethod(); err != nil {
+		p.Stdout.SetDataType(types.Null)
+		return err
+	}
+
 	p.Stdout.SetDataType(types.String)
 	encoder := base64.NewEncoder(base64.StdEncoding, p.Stdout)
 	_, err = io.Copy(encoder, p.Stdin)
@@ -23,6 +29,11 @@ func cmdBase64(p *lang.Process) (err error) {
 }
 
 func cmdUnbase64(p *lang.Process) (err error) {
+	if err = p.ErrIfNotAMethod(); err != nil {
+		p.Stdout.SetDataType(types.Null)
+		return err
+	}
+
 	p.Stdout.SetDataType(types.Generic)
 	decoder := base64.NewDecoder(base64.StdEncoding, p.Stdin)
 	_, err = io.Copy(p.Stdout, decoder)

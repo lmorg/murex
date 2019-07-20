@@ -43,8 +43,8 @@ any integers in data type aware structures will be converted into strings:
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a`](../commands/a.md):
-  A sophisticated yet simply way to build an array or list
+* [`a` (make array)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`ja`](../commands/ja.md):

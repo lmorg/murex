@@ -1,0 +1,33 @@
+- DocumentID: qr
+  Title: >-
+    `qr` (optional)
+  CategoryID: commands
+  Summary: >-
+    Creates a QR code from STDIN
+  Description: |-
+    `qr` is an optional builtin which generates a PNG format image based on the
+    input from STDIN. `qr` must be run as a method.
+  Usage: |-
+    ```
+    <stdin> -> qr -> <stdout>
+    ```
+  Examples: |-
+    Write the PNG to disk
+
+    ```
+    » out "Hello, World!" -> qr -> > qr.png
+    ```
+
+    Display PNG in the terminal
+
+    ```
+    » out "Hello, World!" -> qr -> open-image
+    ```
+  Detail: |-
+    `qr` sets stdout's data-type to be "image", which is defined in with the
+    `open-image` optional builtin. So if you have that disabled then you may
+    have to `cast` the output in some circumstances.
+  Synonyms:
+  Related:
+  - open-image
+  - cast

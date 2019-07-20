@@ -25,8 +25,8 @@ Outputs an element from an array, map or table.
 
 * [`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`a`](../commands/a.md):
-  A sophisticated yet simply way to build an array or list
+* [`a` (make array)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
 * [`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
