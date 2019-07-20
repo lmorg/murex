@@ -1,34 +1,33 @@
 # _murex_ Language Guide
 
-## Command Reference: `!bz2` (optional)
+## Command Reference: `gz` (optional)
 
-> Decompress a bz2 file
+> Compress or decompress a gzip file
 
 ### Description
 
-`!bz2` is an optional builtin for decompressing a bz2 stream from STDIN.
+An optional builtin for compressing or decompressing a gzip stream from STDIN.
 
 ### Usage
 
-    <stdin> -> !bz2 -> <stdout>
-
-### Detail
-
-Currently there is no support for compressing a stream using bz2.
+    <stdin> -> gz -> <stdout>
+    
+    <stdin> -> !gz -> <stdout>
 
 ### Synonyms
 
-* `!bz2`
+* `gz`
+* `!gz`
 
 
 ### See Also
 
+* [`!bz2` (optional)](../commands/bz2.md):
+  Decompress a bz2 file
 * [`base64` (optional)](../commands/base64.md):
   Encode or decode a base64 string
 * [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [`gz` (optional)](../commands/gz.md):
-  Compress or decompress a gzip file
 * [escape](../commands/escape.md):
   
 * [eschtml](../commands/eschtml.md):

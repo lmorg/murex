@@ -31,12 +31,16 @@ UNIX, or even Windows command prompt.
   Outputs an element from an array, map or table
 * [`a` (make array)](commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [`alias`](commands/alias.md):
+  Create an alias for a command
 * [`alter`](commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`and`](commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`append`](commands/append.md):
   Add data to the end of an array
+* [`autocomplete](commands/autocomplete.md):
+  Set definitions for tab-completion in the command line
 * [`base64` (optional)](commands/base64.md):
   Encode or decode a base64 string
 * [`cast`](commands/cast.md):
@@ -71,6 +75,8 @@ UNIX, or even Windows command prompt.
   Lists objects (eg files) in the current working directory
 * [`false`](commands/false.md):
   Returns a `false` value
+* [`function`](commands/function.md):
+  Define a function block
 * [`g`](commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
 * [`get`](commands/get.md):
@@ -79,8 +85,8 @@ UNIX, or even Windows command prompt.
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 * [`global`](commands/global.md):
   Define a global variable and set it's value
-* [`gz` (optional)](commands/bz2.md):
-  Compress or decompress a bz2 file
+* [`gz` (optional)](commands/gz.md):
+  Compress or decompress a gzip file
 * [`history`](commands/history.md):
   Outputs murex's command history
 * [`if`](commands/if.md):
@@ -119,6 +125,8 @@ UNIX, or even Windows command prompt.
   Add data to the start of an array
 * [`pretty`](commands/pretty.md):
   Prettifies JSON to make it human readable
+* [`private`](commands/private.md):
+  Define a private function block
 * [`pt`](commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
 * [`qr` (optional)](commands/qr.md):

@@ -1,0 +1,229 @@
+- DocumentID: alias
+  Title: >+
+    `alias`
+  CategoryID: commands
+  Summary: >-
+    Create an alias for a command
+  Description: |-
+    `alias` defines an alias for global usage
+  Usage: |-
+    ```
+    alias: alias=command parameter parameter
+
+    !alias: command
+    ```
+  Examples: |-
+    Because aliases are parsed into an array of parameters, you cannot put the
+    entire alias within quotes. For example:
+
+    ```
+    # bad :(
+    » alias hw="out Hello, World!"
+    » hw
+    exec: "out\\ Hello,\\ World!": executable file not found in $PATH
+    
+    # good :)
+    » alias hw=out "Hello, World!"
+    » hw
+    Hello, World!
+    ```
+
+    Notice how only the command `out "Hello, World!"` is quoted in `alias` the
+    same way you would have done if you'd run that command "naked" in the command
+    line? This is how `alias` expects it's parameters and where `alias` on _murex_
+    differs from `alias` in POSIX shells.
+
+    In some ways this makes `alias` a little less flexible than it might
+    otherwise be. However the design of this is to keep `alias` focused on it's
+    core objective. For any more advanced requirements you can use a `function`
+    instead.
+  Flags:
+  Detail: |-
+    #### Allowed characters
+
+    Alias names can only include alpha-numeric characters, hyphen and underscore.
+    The following regex is used to validate the `alias`'s parameters:
+    `^([-_a-zA-Z0-9]+)=(.*?)$`
+
+    #### Undefining an alias
+
+    Like all other definable states in _murex_, you can delete an alias with the
+    bang prefix:
+
+    ```
+    » alias hw=out "Hello, World!"
+    » hw
+    Hello, World!
+
+    » !alias hw
+    » hw
+    exec: "hw": executable file not found in $PATH
+    ```
+
+    #### Order of preferece
+
+    There is an order of preference for which commands are looked up:
+    1. aliases (all aliases are global)
+    2. murex functions (all `functions`s are global)
+    3. private functions (`privates` cannot be global and are scoped only to
+       the module or source that defined them. You cannot call a private
+       function from the interactive command line)
+    4. variables (dollar prefixed)
+    5. auto-globbing prefix: `@g`
+    6. murex builtins
+    7. external executables
+  Synonyms:
+  - alias
+  - "!alias"
+  Related:
+  - function
+  - private
+  - source
+  - g
+  - set
+  - global
+  - export
+
+
+- DocumentID: function
+  Title: >+
+    `function`
+  CategoryID: commands
+  Summary: >-
+    Define a function block
+  Description: |-
+    `function` defines a block of code as a function
+  Usage: |-
+    ```
+    function: name { code-block }
+
+    !function: command
+    ```
+  Examples: |-
+    ```
+    » function hw { out "Hello, World!" }
+    » hw
+    Hello, World!
+
+    » !function hw
+    » hw
+    exec: "hw": executable file not found in $PATH
+    ```
+  Flags:
+  Detail: |-
+    #### Allowed characters
+
+    Function names can only include any characters apart from dollar (`$`).
+    This is to prevent functions from overwriting variables (see the order of
+    preference below).
+
+    #### Undefining a function
+
+    Like all other definable states in _murex_, you can delete a function with
+    the bang prefix (see the example above).
+
+    #### Order of preferece
+
+    There is an order of preference for which commands are looked up:
+    1. aliases (all aliases are global)
+    2. murex functions (all `functions`s are global)
+    3. private functions (`privates` cannot be global and are scoped only to
+       the module or source that defined them. You cannot call a private
+       function from the interactive command line)
+    4. variables (dollar prefixed)
+    5. auto-globbing prefix: `@g`
+    6. murex builtins
+    7. external executables
+  Synonyms:
+  - function
+  - "!function"
+  - func
+  - "!func"
+  Related:
+  - alias
+  - private
+  - source
+  - g
+  - set
+  - global
+  - export
+
+
+- DocumentID: private
+  Title: >+
+    `private`
+  CategoryID: commands
+  Summary: >-
+    Define a private function block
+  Description: |-
+    `private` defines a function who's scope is limited to that module or source
+    file.
+    
+    Privates cannot be called from one module to another (unless they're wrapped
+    around a global `function`) and nor can they be called from the interactive
+    command line. The purpose of a `private` is to reduce repeated code inside
+    a module or source file without cluttering up the global namespace.
+  Usage: |-
+    ```
+    private: name { code-block }
+    ```
+  Examples: |-
+    ```
+    # The following cannot be entered via the command line. You need to write
+    # it to a file and execute it from there.
+
+    private hw {
+        out "Hello, World!"
+    }
+    
+    function tom {
+        hw
+        out "My name is Tom."
+    }
+
+    function dick {
+        hw
+        out "My name is Dick."
+    }
+
+    function harry {
+        hw
+        out "My name is Harry."
+    }
+    ```
+  Flags:
+  Detail: |-
+    #### Allowed characters
+
+    Private names can only include any characters apart from dollar (`$`).
+    This is to prevent functions from overwriting variables (see the order of
+    preference below).
+
+    #### Undefining a private
+
+    Because private functions are fixed to the source file that declares them,
+    there isn't much point in undefining them. Thus at this point in time, it
+    is not possible to do so.
+
+    #### Order of preferece
+
+    There is an order of preference for which commands are looked up:
+    1. aliases (all aliases are global)
+    2. murex functions (all `functions`s are global)
+    3. private functions (`privates` cannot be global and are scoped only to
+       the module or source that defined them. You cannot call a private
+       function from the interactive command line)
+    4. variables (dollar prefixed)
+    5. auto-globbing prefix: `@g`
+    6. murex builtins
+    7. external executables
+  Synonyms:
+  Related:
+  - function
+  - alias
+  - private
+  - source
+  - g
+  - set
+  - global
+  - export

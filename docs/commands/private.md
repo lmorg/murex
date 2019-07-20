@@ -1,0 +1,89 @@
+# _murex_ Language Guide
+
+## Command Reference: `private`
+
+> Define a private function block
+
+### Description
+
+`private` defines a function who's scope is limited to that module or source
+file.
+
+Privates cannot be called from one module to another (unless they're wrapped
+around a global `function`) and nor can they be called from the interactive
+command line. The purpose of a `private` is to reduce repeated code inside
+a module or source file without cluttering up the global namespace.
+
+### Usage
+
+    private: name { code-block }
+
+### Examples
+
+    # The following cannot be entered via the command line. You need to write
+    # it to a file and execute it from there.
+    
+    private hw {
+        out "Hello, World!"
+    }
+    
+    function tom {
+        hw
+        out "My name is Tom."
+    }
+    
+    function dick {
+        hw
+        out "My name is Dick."
+    }
+    
+    function harry {
+        hw
+        out "My name is Harry."
+    }
+
+### Detail
+
+#### Allowed characters
+
+Private names can only include any characters apart from dollar (`$`).
+This is to prevent functions from overwriting variables (see the order of
+preference below).
+
+#### Undefining a private
+
+Because private functions are fixed to the source file that declares them,
+there isn't much point in undefining them. Thus at this point in time, it
+is not possible to do so.
+
+#### Order of preferece
+
+There is an order of preference for which commands are looked up:
+1. aliases (all aliases are global)
+2. murex functions (all `functions`s are global)
+3. private functions (`privates` cannot be global and are scoped only to
+   the module or source that defined them. You cannot call a private
+   function from the interactive command line)
+4. variables (dollar prefixed)
+5. auto-globbing prefix: `@g`
+6. murex builtins
+7. external executables
+
+### See Also
+
+* [`alias`](../commands/alias.md):
+  Create an alias for a command
+* [`export`](../commands/export.md):
+  Define a local variable and set it's value
+* [`function`](../commands/function.md):
+  Define a function block
+* [`g`](../commands/g.md):
+  Glob pattern matching for file system objects (eg *.txt)
+* [`global`](../commands/global.md):
+  Define a global variable and set it's value
+* [`private`](../commands/private.md):
+  Define a private function block
+* [`set`](../commands/set.md):
+  Define a local variable and set it's value
+* [source](../commands/source.md):
+  

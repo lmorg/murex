@@ -53,11 +53,11 @@ it doesn't require the OS fork processes.
   Decompress a bz2 file
 * [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
+* [`gz` (optional)](../commands/gz.md):
+  Compress or decompress a gzip file
 * [escape](../commands/escape.md):
   
 * [eschtml](../commands/eschtml.md):
   
 * [escurl](../commands/escurl.md):
-  
-* [gz](../commands/gz.md):
   

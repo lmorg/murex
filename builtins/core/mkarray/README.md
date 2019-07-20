@@ -1,6 +1,6 @@
 # Builtins: make array
 
-This provides the array builtin, `a` and `ja` (returns array in JSON):
+This provides the array builtins, `a`, `ja` and `ta`:
 
     a: [monday..friday]
     a: [Jan..Dec]
