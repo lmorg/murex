@@ -6,6 +6,7 @@ var mapRanges = []map[string]int{
 	rangeMonthLong,
 	rangeMonthShort,
 	rangeSeason,
+	rangeMoon,
 }
 
 var rangeWeekdayLong = map[string]int{
@@ -63,4 +64,15 @@ var rangeSeason = map[string]int{
 	"summer": 2,
 	"autumn": 3,
 	"winter": 4,
+}
+
+var rangeMoon = map[string]int{
+	"new moon":        1,
+	"waxing crescent": 2,
+	"first quarter":   3,
+	"waxing gibbous":  4,
+	"full moon":       5,
+	"waning gibbous":  6,
+	"third quarter":   7,
+	"waning crescent": 8,
 }

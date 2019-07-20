@@ -7,12 +7,16 @@ func TestGetCase(t *testing.T) {
 		t.Error("`foobar` not being detected as lower case")
 	}
 
-	if getCase("Foobar") != caseTitle {
-		t.Error("`Foobar` not being detected as title case")
+	if getCase("Foobar") != caseFirst {
+		t.Error("`Foobar` not being detected as first case")
 	}
 
 	if getCase("FOOBAR") != caseUpper {
 		t.Error("`FOOBAR` not being detected as upper case")
+	}
+
+	if getCase("Foo Bar") != caseTitle {
+		t.Error("`Foo Bar` not being detected as title case")
 	}
 }
 
