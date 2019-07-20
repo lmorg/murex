@@ -39,14 +39,14 @@ UNIX, or even Windows command prompt.
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`append`](commands/append.md):
   Add data to the end of an array
-* [`autocomplete](commands/autocomplete.md):
+* [`autocomplete` ](commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`base64` (optional)](commands/base64.md):
   Encode or decode a base64 string
 * [`cast`](commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`catch`](commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe
+  Handles the exception code raised by `try` or `trypipe` 
 * [`cd`](commands/cd.md):
   Change (working) directory
 * [`cpuarch`](commands/cpuarch.md):
