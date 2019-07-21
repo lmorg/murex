@@ -19,10 +19,11 @@
     a: [start..end][start..end] -> <stdout>
     ```
 
-    All usages also work with `ja` as well:
+    All usages also work with `ja` and `ta` as well:
 
     ```
     ja: [start..end] -> <stdout>
+    ta: json [start..end] -> <stdout>
     ```
   Examples: |-
     ```
@@ -260,7 +261,7 @@
     ```
   Examples: |-
     ```
-    ja: [1..5] 
+    » ja: [1..5] 
     [
         "1",
         "2",
@@ -318,7 +319,7 @@
     ```
   Examples: |-
     ```
-    ta: json [1..5] 
+    » ta: json [1..5] 
     [
         "1",
         "2",

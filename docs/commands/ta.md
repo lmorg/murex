@@ -19,7 +19,7 @@ features and the output format is user defined.
 
 ### Examples
 
-    ta: json [1..5] 
+    » ta: json [1..5] 
     [
         "1",
         "2",

@@ -1,0 +1,292 @@
+- DocumentID: runtime
+  Title: >+
+    `runtime`
+  CategoryID: commands
+  Summary: >-
+    Returns runtime information on the internal state of _murex_
+  Description: |-
+    `runtime` is a tool for quering the internal state of _murex_. It's output
+    will be JSON dumps.
+  Usage: |-
+    ```
+    runtime: flags -> <stdout>
+    ```
+  Examples: |-
+    List all the builtin data-types that support WriteArray()
+    
+    ```
+    » runtime: --writearray
+    [
+        "*",
+        "commonlog",
+        "csexp",
+        "hcl",
+        "json",
+        "jsonl",
+        "qs",
+        "sexp",
+        "str",
+        "toml",
+        "yaml"
+    ]
+    ```
+
+    List all the functions
+
+    ```
+    » runtime: --funcs -> [ agent aliases ]
+    [
+        {
+            "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
+            "FileRef": {
+                "Column": 1,
+                "Line": 149,
+                "Source": {
+                    "DateTime": "2019-07-07T14:06:11.05581+01:00",
+                    "Filename": "/home/lau/.murex_profile",
+                    "Module": "profile/.murex_profile"
+                }
+            },
+            "Summary": "Launch ssh-agent"
+        },
+        {
+            "Block": "\n\t# Output the aliases in human readable format\n\truntime: --aliases -\u003e formap name alias {\n        $name -\u003e sprintf: \"%10s =\u003e ${esccli @alias}\\n\"\n\t} -\u003e cast str\n",
+            "FileRef": {
+                "Column": 1,
+                "Line": 6,
+                "Source": {
+                    "DateTime": "2019-07-07T14:06:10.886706796+01:00",
+                    "Filename": "(builtin)",
+                    "Module": "source/builtin"
+                }
+            },
+            "Summary": "Output the aliases in human readable format"
+        }
+    ]
+    ```
+
+    To get a list of every flag supported by `runtime`
+    ```
+    » runtime: --help
+    [
+        "--aliases",
+        "--astcache",
+        "--config",
+        "--debug",
+        "--events",
+        "--fids",
+        "--flags",
+        "--funcs",
+        "--help",
+        "--indexes",
+        "--marshallers",
+        "--memstats",
+        "--modules",
+        "--named-pipes",
+        "--pipes",
+        "--privates",
+        "--readarray",
+        "--readmap",
+        "--sources",
+        "--test-results",
+        "--tests",
+        "--unmarshallers",
+        "--variables",
+        "--writearray"
+    ]
+    ```
+
+    Please also note that you can supply more than one flag. However when you
+    do use multiple flags the top level of the JSON output will be a map of the
+    flag names. eg
+
+    ```
+    » runtime: --pipes --tests
+    {
+        "pipes": [
+            "file",
+            "std",
+            "tcp-dial",
+            "tcp-listen",
+            "udp-dial",
+            "udp-listen"
+        ],
+        "tests": {
+            "state": {},
+            "test": []
+        }
+    }
+
+    » runtime: --pipes
+    [
+        "file",
+        "std",
+        "tcp-dial",
+        "tcp-listen",
+        "udp-dial",
+        "udp-listen"
+    ]
+
+    » runtime: --tests
+    {
+        "state": {},
+        "test": []
+    }
+    ```
+  Flags:
+    --variables: >-
+      Lists all the murex variables which haven't already been garbage collected. Doesn't include environmental variables
+    --aliases: >-
+      Lists all aliases
+    --config: >-
+      Lists all properties available to `config`
+    --named-pipes: >-
+      Lists all the named pipes defined
+    --pipes: >-
+      Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
+    --funcs: >-
+      Lists all _murex_ global functions
+    --privates: >-
+      Lists all _murex_ private functions
+    --fids: >-
+      Lists all running processes / functions
+    --readarray: >-
+      Lists all builtin data-types which support ReadArray()
+    --readmap: >-
+      Lists all builtin data-types which support ReadMap()
+    --writearray: >-
+      Lists all builtin data-types which support WriteArray()
+    --indexes: >-
+      Lists all builtin data-types which are supported by index (`[`)
+    --marshallers: >-
+      Lists all builtin data-types with marshallers (eg required for `format`)
+    --unmarshallers: >-
+      Lists all builtin data-types with unmarshallers (eg required for `format`)
+    --events: >-
+      Lists all builtin event types and any defined events
+    --flags: >-
+      Lists all `autocomplete` schemas - both user defined and automatically generated one
+    --memstats: >-
+      Outputs the running state of Go's runtime
+    --astcache: >-
+      Lists some data about cached ASTs 
+    --tests: >-
+      Lists defined tests
+    --test-results: >-
+      A dump of any unreported test results
+    --modules: >-
+      Lists all installed modules
+    --debug: >-
+      Outputs the state of debug and inspect mode
+    --sources: >-
+      Lists all loaded murex sources
+    --help: >-
+      Outputs a list of `runtimes`'s flags
+
+    --inspect-variables: >-
+      List all variables - including those outside your normal scope
+  Detail: |-
+    #### Usage in scripts
+
+    `runtime` should not be used in scripts because the output of `runtime` may
+    be subject to change as and when the internal mechanics of _murex_ change.
+    The purpose behind `runtime` is not to provide an API but rather to provide
+    a verbose "dump" of the internal running state of _murex_.
+
+    If you require a stable API to script against then please use the respective
+    command line tool. For example `fid-list` instead of `runtime --fids`. Some
+    tools will provide a human readable output when STDOUT is a TTY but output
+    a script parsable version when STDOUT is not a terminal.
+
+    ```
+    » fid-list
+        FID   Parent    Scope  State         Run Mode  BG   Out Pipe    Err Pipe    Command     Parameters
+          0        0        0  Executing     Shell     no                           -murex
+     265499        0        0  Executing     Normal    no   out         err         fid-list
+    
+    » fid-list -> pretty
+    [
+        {
+            "FID": 0,
+            "Parent": 0,
+            "Scope": 0,
+            "State": "Executing",
+            "Run Mode": "Shell",
+            "BG": false,
+            "Out Pipe": "",
+            "Err Pipe": "",
+            "Command": "-murex",
+            "Parameters": ""
+        },
+        {
+            "FID": 265540,
+            "Parent": 0,
+            "Scope": 0,
+            "State": "Executing",
+            "Run Mode": "Normal",
+            "BG": false,
+            "Out Pipe": "out",
+            "Err Pipe": "err",
+            "Command": "fid-list",
+            "Parameters": ""
+        },
+        {
+            "FID": 265541,
+            "Parent": 0,
+            "Scope": 0,
+            "State": "Executing",
+            "Run Mode": "Normal",
+            "BG": false,
+            "Out Pipe": "out",
+            "Err Pipe": "err",
+            "Command": "pretty",
+            "Parameters": ""
+        }
+    ]
+    ```
+    #### File reference
+
+    Some of the JSON dumps produced from `runtime` will include a map called
+    `FileRef`. This is a trace of the source file that defined it. It is used
+    by _murex_ to help provide meaningful errors (eg with line and character
+    positions) however it is also useful for manually debugging user-defined
+    properties such as which module or script defined an `autocomplete` schema.
+    
+    #### Debug mode
+
+    When `debug` is enabled garbage collection is disabled for variables and
+    FIDs. This means the output of `runtime --variables` and `runtime --fids`
+    will contain more than just the currently defined variables and running
+    functions.
+
+    #### Inspection mode
+
+    Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
+
+    ```
+    $ murex -inspect
+    ```
+
+    This is to prevent code from inspecting potentially sensitive data under
+    normal operation.
+  Synonyms:
+  Related:
+  - set
+  - global
+  - config
+  - pipe
+  - function
+  - private
+  - fid-list
+  - foreach
+  - formap
+  - index
+  - format
+  - event
+  - autocomplete
+  - test
+  - debug
+  - source
+  - pretty
+
+

@@ -63,6 +63,7 @@ func init() {
 		"pt":                    "pt_commands_docgen.go",
 		"qr":                    "qr_commands_docgen.go",
 		"read":                  "read_commands_docgen.go",
+		"runtime":               "runtime_commands_docgen.go",
 		"rx":                    "rx_commands_docgen.go",
 		"set":                   "set_commands_docgen.go",
 		"sleep":                 "sleep_commands_docgen.go",

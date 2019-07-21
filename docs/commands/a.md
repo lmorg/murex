@@ -18,9 +18,10 @@ like bash's `{1..9}` syntax:
     a: [start..end,start..end] -> <stdout>
     a: [start..end][start..end] -> <stdout>
     
-All usages also work with `ja` as well:
+All usages also work with `ja` and `ta` as well:
 
     ja: [start..end] -> <stdout>
+    ta: json [start..end] -> <stdout>
 
 ### Examples
 

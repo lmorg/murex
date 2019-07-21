@@ -19,7 +19,7 @@ additional nifty features.
 
 ### Examples
 
-    ja: [1..5] 
+    » ja: [1..5] 
     [
         "1",
         "2",

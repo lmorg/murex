@@ -39,7 +39,7 @@ UNIX, or even Windows command prompt.
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`append`](commands/append.md):
   Add data to the end of an array
-* [`autocomplete` ](commands/autocomplete.md):
+* [`autocomplete`](commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`base64` (optional)](commands/base64.md):
   Encode or decode a base64 string
@@ -133,6 +133,8 @@ UNIX, or even Windows command prompt.
   Creates a QR code from STDIN
 * [`read`](commands/read.md):
   `read` a line of input from the user and store as a variable
+* [`runtime`](commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):
   Regexp pattern matching for file system objects (eg '.*\.txt')
 * [`set`](commands/set.md):
