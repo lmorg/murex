@@ -65,6 +65,7 @@ List all the functions
     ]
     
 To get a list of every flag supported by `runtime`
+
     » runtime: --help
     [
         "--aliases",
@@ -240,7 +241,8 @@ a script parsable version when STDOUT is not a terminal.
             "Parameters": ""
         }
     ]
-    #### File reference
+    
+#### File reference
 
 Some of the JSON dumps produced from `runtime` will include a map called
 `FileRef`. This is a trace of the source file that defined it. It is used
