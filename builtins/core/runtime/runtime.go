@@ -26,8 +26,9 @@ const (
 	fConfig        = "--config"
 	fNamedPipes    = "--named-pipes"
 	fPipes         = "--pipes"
-	fFuncs         = "--funcs"
+	fFunctions     = "--functions"
 	fPrivates      = "--privates"
+	fOpenAgents    = "=--open-agents"
 	fFids          = "--fids"
 	fReadArrays    = "--readarray"
 	fReadMaps      = "--readmap"
@@ -36,7 +37,7 @@ const (
 	fMarshallers   = "--marshallers"
 	fUnmarshallers = "--unmarshallers"
 	fEvents        = "--events"
-	fFlags         = "--flags"
+	fAutocomplete  = "--autocomplete"
 	fMemstats      = "--memstats"
 	fAstCache      = "--astcache"
 	fTests         = "--tests"
@@ -56,8 +57,9 @@ var flags = map[string]string{
 	fConfig:        types.Boolean,
 	fPipes:         types.Boolean,
 	fNamedPipes:    types.Boolean,
-	fFuncs:         types.Boolean,
+	fFunctions:     types.Boolean,
 	fPrivates:      types.Boolean,
+	fOpenAgents:    types.Boolean,
 	fFids:          types.Boolean,
 	fReadArrays:    types.Boolean,
 	fReadMaps:      types.Boolean,
@@ -66,7 +68,7 @@ var flags = map[string]string{
 	fMarshallers:   types.Boolean,
 	fUnmarshallers: types.Boolean,
 	fEvents:        types.Boolean,
-	fFlags:         types.Boolean,
+	fAutocomplete:  types.Boolean,
 	fMemstats:      types.Boolean,
 	fAstCache:      types.Boolean,
 	fTests:         types.Boolean,
@@ -135,8 +137,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fNamedPipes[2:]] = lang.GlobalPipes.Dump()
 		case fPipes:
 			ret[fPipes[2:]] = stdio.DumpPipes()
-		case fFuncs:
-			ret[fFuncs[2:]] = lang.MxFunctions.Dump()
+		case fFunctions:
+			ret[fFunctions[2:]] = lang.MxFunctions.Dump()
 		case fPrivates:
 			ret[fPrivates[2:]] = lang.PrivateFunctions.Dump()
 		case fOpenAgents:
@@ -157,8 +159,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fUnmarshallers[2:]] = define.DumpUnmarshaller()
 		case fEvents:
 			ret[fEvents[2:]] = events.DumpEvents()
-		case fFlags:
-			ret[fFlags[2:]] = autocomplete.ExesFlags
+		case fAutocomplete:
+			ret[fAutocomplete[2:]] = autocomplete.ExesFlags
 		case fMemstats:
 			var mem runtime.MemStats
 			runtime.ReadMemStats(&mem)

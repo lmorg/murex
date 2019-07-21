@@ -34,7 +34,7 @@ List all the builtin data-types that support WriteArray()
     
 List all the functions
 
-    » runtime: --funcs -> [ agent aliases ]
+    » runtime: --functions -> [ agent aliases ]
     [
         {
             "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
@@ -74,13 +74,14 @@ To get a list of every flag supported by `runtime`
         "--events",
         "--fids",
         "--flags",
-        "--funcs",
+        "--functions",
         "--help",
         "--indexes",
         "--marshallers",
         "--memstats",
         "--modules",
         "--named-pipes",
+        "--open-agents",
         "--pipes",
         "--privates",
         "--readarray",
@@ -145,7 +146,7 @@ flag names. eg
     Lists all running processes / functions
 * `--flags`
     Lists all `autocomplete` schemas - both user defined and automatically generated one
-* `--funcs`
+* `--functions`
     Lists all _murex_ global functions
 * `--help`
     Outputs a list of `runtimes`'s flags
@@ -161,6 +162,8 @@ flag names. eg
     Lists all installed modules
 * `--named-pipes`
     Lists all the named pipes defined
+* `--open-agents`
+    Lists all the registered `open` handlers 
 * `--pipes`
     Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
 * `--privates`
@@ -293,6 +296,10 @@ normal operation.
 * [formap](../commands/formap.md):
   
 * [format](../commands/format.md):
+  
+* [open](../commands/open.md):
+  
+* [openagent](../commands/openagent.md):
   
 * [pipe](../commands/pipe.md):
   
