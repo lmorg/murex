@@ -19,7 +19,7 @@ additional nifty features.
 
 ### Examples
 
-    » ja: [1..5] 
+    » ja: [1..5]
     [
         "1",
         "2",
@@ -58,6 +58,6 @@ Please read the documentation on `a` for a more detailed breakdown on of
 * [`len` ](../commands/len.md):
   Outputs the length of an array
 * [`ta`](../commands/ta.md):
-  A sophisticated yet simply way to build an array of a user defined data-type
+  A sophisticated yet simple way to build an array of a user defined data-type
 * [mtac](../commands/mtac.md):
   

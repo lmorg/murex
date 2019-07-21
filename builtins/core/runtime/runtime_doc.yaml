@@ -34,7 +34,7 @@
     List all the functions
 
     ```
-    » runtime: --funcs -> [ agent aliases ]
+    » runtime: --functions -> [ agent aliases ]
     [
         {
             "Block": "\n    # Launch ssh-agent\n    ssh-agent -\u003e head -n2 -\u003e [ :0 ] -\u003e prefix \"export \" -\u003e source\n    ssh-add: @{g \u003c!null\u003e ~/.ssh/*.key} @{g \u003c!null\u003e ~/.ssh/*.pem}\n",
@@ -77,13 +77,14 @@
         "--events",
         "--fids",
         "--flags",
-        "--funcs",
+        "--functions",
         "--help",
         "--indexes",
         "--marshallers",
         "--memstats",
         "--modules",
         "--named-pipes",
+        "--open-agents",
         "--pipes",
         "--privates",
         "--readarray",
@@ -145,10 +146,12 @@
       Lists all the named pipes defined
     --pipes: >-
       Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
-    --funcs: >-
+    --functions: >-
       Lists all _murex_ global functions
     --privates: >-
       Lists all _murex_ private functions
+    --open-agents: >-
+      Lists all the registered `open` handlers 
     --fids: >-
       Lists all running processes / functions
     --readarray: >-
@@ -290,5 +293,7 @@
   - debug
   - source
   - pretty
+  - open
+  - openagent
 
 

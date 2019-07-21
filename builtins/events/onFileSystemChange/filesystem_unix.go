@@ -3,7 +3,6 @@
 package onfilesystemchange
 
 import (
-	"github.com/lmorg/murex/lang/ref"
 	"errors"
 	"os"
 	"strings"
@@ -12,11 +11,12 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 )
 
 const eventType = "onFileSystemChange"
 
-// Interrupt is a JSONable structure passed to the murex function
+// Interrupt is a JSON structure passed to the murex function
 type Interrupt struct {
 	Path      string
 	Operation string
@@ -29,11 +29,11 @@ func init() {
 }
 
 type watch struct {
-	watcher *fsnotify.Watcher
-	error   error
-	mutex   sync.Mutex
-	paths   map[string]string // map of paths indexed by event name
-	blocks  map[string][]rune // map of blocks indexed by path
+	watcher  *fsnotify.Watcher
+	error    error
+	mutex    sync.Mutex
+	paths    map[string]string // map of paths indexed by event name
+	blocks   map[string][]rune // map of blocks indexed by path
 	refFiles map[string]*ref.File
 }
 
@@ -79,7 +79,7 @@ func (evt *watch) findCallbackBlock(path string) (block []rune) {
 }
 
 // Add a path to the watch event list
-func (evt *watch) Add(name, path string, block []rune, fileRef *ref.File ) error {
+func (evt *watch) Add(name, path string, block []rune, fileRef *ref.File) error {
 	for len(path) > 1 && path[len(path)-1] == '/' {
 		path = path[:len(path)-1]
 	}
@@ -165,8 +165,8 @@ func (evt *watch) init() {
 // Dump returns all the events in fsWatch
 func (evt *watch) Dump() interface{} {
 	type jsonable struct {
-		Path  string
-		Block string
+		Path    string
+		Block   string
 		FileRef *ref.File
 	}
 
@@ -176,8 +176,8 @@ func (evt *watch) Dump() interface{} {
 
 	for name, path := range evt.paths {
 		dump[name] = jsonable{
-			Path:  path,
-			Block: string(evt.blocks[path]),
+			Path:    path,
+			Block:   string(evt.blocks[path]),
 			FileRef: evt.refFiles[name],
 		}
 	}

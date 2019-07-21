@@ -23,7 +23,7 @@
 
     ```
     ja: [start..end] -> <stdout>
-    ta: json [start..end] -> <stdout>
+    ta: data-type [start..end] -> <stdout>
     ```
   Examples: |-
     ```
@@ -82,7 +82,7 @@
     » a: [mon..sun]
     » a: [monday..sunday]
     » a: [jan..dec]
-    » a: [janurary..december]
+    » a: [january..december]
     » a: [spring..winter]
     ```
 
@@ -134,7 +134,7 @@
     ```
     » a: [Monday..Friday] -> mtac
     Friday
-    Thurday
+    Thursday
     Wednesday
     Tuesday
     Monday
@@ -144,7 +144,7 @@
     this specific scenario:
     * `tac` (Linux),
     * `tail -r` (BSD / OS X)
-    * `perl -e "print reverse <>"` (Multiplatform but requires Perl installed)
+    * `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
     #### Advanced Array Syntax
 
@@ -261,7 +261,7 @@
     ```
   Examples: |-
     ```
-    » ja: [1..5] 
+    » ja: [1..5]
     [
         "1",
         "2",
@@ -305,7 +305,7 @@
     `ta`
   CategoryID: commands
   Summary: >-
-    A sophisticated yet simply way to build an array of a user defined data-type
+    A sophisticated yet simple way to build an array of a user defined data-type
   Description: |-
     _murex_ has a pretty sophisticated builtin for generating arrays. It works
     a little bit like Bash's `{1..9}` syntax but includes a few additional nifty
@@ -319,7 +319,7 @@
     ```
   Examples: |-
     ```
-    » ta: json [1..5] 
+    » ta: json [1..5]
     [
         "1",
         "2",

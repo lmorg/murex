@@ -2,7 +2,7 @@
 
 ## Command Reference: `ta`
 
-> A sophisticated yet simply way to build an array of a user defined data-type
+> A sophisticated yet simple way to build an array of a user defined data-type
 
 ### Description
 
@@ -19,7 +19,7 @@ features and the output format is user defined.
 
 ### Examples
 
-    » ta: json [1..5] 
+    » ta: json [1..5]
     [
         "1",
         "2",

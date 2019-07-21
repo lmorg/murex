@@ -69,7 +69,7 @@ func init() {
 		"sleep":                 "Suspends the shell for a number of seconds",
 		"swivel-datatype":       "Converts tabulated data into a map of values for serialised data-types such as JSON and YAML",
 		"swivel-table":          "Rotates a table by 90 degrees",
-		"ta":                    "A sophisticated yet simply way to build an array of a user defined data-type",
+		"ta":                    "A sophisticated yet simple way to build an array of a user defined data-type",
 		"time":                  "Returns the execution run time of a command or block",
 		"tout":                  "Print a string to the STDOUT and set it's data-type",
 		"tread":                 "`read` a line of input from the user and store as a user defined *typed* variable",

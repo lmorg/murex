@@ -146,7 +146,7 @@ UNIX, or even Windows command prompt.
 * [`swivel-table`](commands/swivel-table.md):
   Rotates a table by 90 degrees
 * [`ta`](commands/ta.md):
-  A sophisticated yet simply way to build an array of a user defined data-type
+  A sophisticated yet simple way to build an array of a user defined data-type
 * [`time` (optional)](commands/time.md):
   Returns the execution run time of a command or block
 * [`tout`](commands/tout.md):

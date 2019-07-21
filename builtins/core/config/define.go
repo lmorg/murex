@@ -23,7 +23,7 @@ func defineConfig(p *lang.Process) error {
 
 	var b []byte
 
-	if p.IsMethod == true {
+	if p.IsMethod {
 		b, err = p.Stdin.ReadAll()
 		if err != nil {
 			return err
