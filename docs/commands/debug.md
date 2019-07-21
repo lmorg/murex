@@ -138,7 +138,7 @@ framework
 
 ### See Also
 
-* [runtime](../commands/runtime.md):
-  
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [test](../commands/test.md):
   

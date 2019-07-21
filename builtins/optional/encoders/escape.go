@@ -12,10 +12,10 @@ import (
 func init() {
 	lang.GoFunctions["escape"] = cmdEscape
 	lang.GoFunctions["!escape"] = cmdEscape
-	lang.GoFunctions["htmlesc"] = cmdHtmlEscape
-	lang.GoFunctions["!htmlesc"] = cmdHtmlEscape
-	lang.GoFunctions["urlesc"] = cmdUrlEscape
-	lang.GoFunctions["!urlesc"] = cmdUrlEscape
+	lang.GoFunctions["eschtml"] = cmdHtml
+	lang.GoFunctions["!eschtml"] = cmdHtml
+	lang.GoFunctions["escurl"] = cmdUrl
+	lang.GoFunctions["!escurl"] = cmdUrl
 }
 
 func cmdEscape(p *lang.Process) error {
@@ -49,7 +49,7 @@ func cmdEscape(p *lang.Process) error {
 	return err
 }
 
-func cmdHtmlEscape(p *lang.Process) error {
+func cmdHtml(p *lang.Process) error {
 	p.Stdout.SetDataType(types.String)
 
 	var str string
@@ -76,7 +76,7 @@ func cmdHtmlEscape(p *lang.Process) error {
 	return err
 }
 
-func cmdUrlEscape(p *lang.Process) (err error) {
+func cmdUrl(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	var str string

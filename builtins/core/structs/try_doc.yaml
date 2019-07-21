@@ -101,7 +101,7 @@
     `catch`
   CategoryID: commands
   Summary: >-
-    Handles the exception code raised by `try` or `trypipe`
+    Handles the exception code raised by `try` or `trypipe` 
   Description: |-
     `catch` is designed to be used in conjunction with `try` and `trypipe` as it
     handles the exceptions raised by the aforementioned.

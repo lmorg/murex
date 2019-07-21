@@ -14,6 +14,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	}
 
 	return scanner.Err()
+	//return read.ReadLine(callback)
 }
 
 type arrayWriter struct {

@@ -27,8 +27,8 @@ The first block is the key and the second is the value.
 
 * [`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`a`](../commands/a.md):
-  A sophisticated yet simply way to build an array or list
+* [`a` (make array)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):

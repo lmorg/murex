@@ -12,6 +12,8 @@ func init() {
 	lang.GoFunctions["!openagent"] = shell
 }
 
+const usage = "Please use `get` or `set` (or use the bang (!) to unset) followed by a murex data-type"
+
 func shell(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
@@ -25,12 +27,12 @@ func shell(p *lang.Process) error {
 
 	flag, err := p.Parameters.String(0)
 	if err != nil {
-		return err
+		return errors.New(err.Error() + ". " + usage)
 	}
 
 	dataType, err := p.Parameters.String(1)
 	if err != nil {
-		return err
+		return errors.New(err.Error() + ". " + usage)
 	}
 
 	switch flag {
@@ -51,6 +53,6 @@ func shell(p *lang.Process) error {
 		return nil
 
 	default:
-		return errors.New("Invalid option. Please use `get` or `set`; or use the bang (!) to unset")
+		return errors.New("Invalid option. " + usage)
 	}
 }

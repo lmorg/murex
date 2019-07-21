@@ -1,0 +1,66 @@
+- DocumentID: sleep
+  Title: >-
+    `sleep` (optional)
+  CategoryID: commands
+  Summary: >-
+    Suspends the shell for a number of seconds
+  Description: |-
+    `sleep` is an optional builtin which suspends the shell for a defined number
+    of seconds.
+  Usage: |-
+    ```
+    sleep: integer
+    ```
+  Examples: |-
+    ```
+    » sleep 5
+    # murex sleeps for 5 seconds
+    ```
+  Detail: |-
+    `sleep` is very simplistic - particularly when compared to its GNU coreutil
+    (for example) counterpart. If you want to use the `sleep` binary on Linux
+    or similar platforms then you will need to launch with the `exec` builtin:
+
+    ```
+    » exec: sleep 5
+    ```
+  Synonyms:
+  Related:
+  - time
+  - source
+  - exec
+
+- DocumentID: time
+  Title: >-
+    `time` (optional)
+  CategoryID: commands
+  Summary: >-
+    Returns the execution run time of a command or block
+  Description: |-
+    `time` is an optional builtin which runs a command or block of code and
+    returns it's running time.
+  Usage: |-
+    ```
+    time: command parameters -> <stderr>
+
+    time: { code-block } -> <stderr>
+    ```
+  Examples: |-
+    ```
+    » time: sleep 5
+    5.000151513
+
+    » time { out "Going to sleep"; sleep 5; out "Waking up" }
+    Going to sleep
+    Waking up
+    5.000240977
+    ```
+  Detail: |-
+    `time`'s output is written to STDERR. However any output and errors written
+    by the commands executed by time will also be written to `time`'s STDOUT
+    and STDERR as usual.
+  Synonyms:
+  Related:
+  - sleep
+  - source
+  - exec

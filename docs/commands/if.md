@@ -90,7 +90,7 @@ the output streams to `null`.
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe
+  Handles the exception code raised by `try` or `trypipe` 
 * [`false`](../commands/false.md):
   Returns a `false` value
 * [`or`](../commands/or.md):

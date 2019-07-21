@@ -131,11 +131,11 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Alters the data type of the previous function without altering it's output
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [`swivel-table`](../commands/swivel-table.md):
   Rotates a table by 90 degrees
 * [format](../commands/format.md):
-  
-* [runtime](../commands/runtime.md):
   
 * [square-bracket-open](../commands/square-bracket-open.md):
   

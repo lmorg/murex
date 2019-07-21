@@ -4,8 +4,6 @@ import (
 	"strings"
 	"testing"
 
-	//_ "github.com/lmorg/murex/builtins/core/typemgmt" // import murex builtins
-
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 )
@@ -27,8 +25,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 	for i := range tests {
 		hasError := false
 
-		//exitNum, err := lang.RunBlockShellConfigSpace([]rune(tests[i].Block), nil, stdout, stderr)
-		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 		fork.Name = "RunMurexTests()"
 		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
@@ -69,13 +66,13 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 
 			t.Log("  Expected Stdout: ", strings.Replace(tests[i].Stdout, "\n", `\n`, -1))
 			t.Log("  Actual Stdout:   ", strings.Replace(string(bOut), "\n", `\n`, -1))
-			t.Log("  eo bytes:        ", []byte(tests[i].Stdout))
-			t.Log("  ao bytes:        ", bOut)
+			t.Log("  Exp. out bytes:  ", []byte(tests[i].Stdout))
+			t.Log("  Act. out bytes:  ", bOut)
 
 			t.Log("  Expected Stderr: ", strings.Replace(tests[i].Stderr, "\n", `\n`, -1))
 			t.Log("  Actual Stderr:   ", strings.Replace(string(bErr), "\n", `\n`, -1))
-			t.Log("  eo bytes:        ", []byte(tests[i].Stderr))
-			t.Log("  ao bytes:        ", bErr)
+			t.Log("  Exp. err bytes:  ", []byte(tests[i].Stderr))
+			t.Log("  Act. err bytes:  ", bErr)
 
 			t.Log("  Expected exitnum:", tests[i].ExitNum)
 			t.Log("  Actual exitnum:  ", exitNum)

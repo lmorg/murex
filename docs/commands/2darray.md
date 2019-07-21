@@ -95,8 +95,8 @@
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a`](../commands/a.md):
-  A sophisticated yet simply way to build an array or list
+* [`a` (make array)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`ja`](../commands/ja.md):

@@ -3,6 +3,7 @@ package structs
 import (
 	"errors"
 	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -73,8 +74,17 @@ func cmdFunc(p *lang.Process) error {
 		return err
 	}
 
-	lang.MxFunctions.Define(name, block, p.FileRef)
-	return nil
+	switch {
+	case len(name) == 0:
+		return errors.New("Function name is an empty (zero length) string")
+
+	case strings.Contains(name, "$"):
+		return errors.New("Function name cannot contain a dollar, '$', character")
+
+	default:
+		lang.MxFunctions.Define(name, block, p.FileRef)
+		return nil
+	}
 }
 
 func cmdUnfunc(p *lang.Process) error {
@@ -97,7 +107,16 @@ func cmdPrivate(p *lang.Process) error {
 		return err
 	}
 
-	return lang.PrivateFunctions.Define(name, block, p.FileRef)
+	switch {
+	case len(name) == 0:
+		return errors.New("Private name is an empty (zero length) string")
+
+	case strings.Contains(name, "$"):
+		return errors.New("Private name cannot contain a dollar, '$', character")
+
+	default:
+		return lang.PrivateFunctions.Define(name, block, p.FileRef)
+	}
 }
 
 /*func cmdUnprivate(p *lang.Process) error {

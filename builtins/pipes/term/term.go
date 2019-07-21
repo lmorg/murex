@@ -76,11 +76,6 @@ func (t *term) ForceClose() {}
 // IsTTY always returns `true` because you are writing to a TTY. All over stream.Io interfaces should return `false`.
 func (t *term) IsTTY() bool { return true }
 
-// MakePipe sets the isParent flag but probably isn't needed since terminals cannot be closed
-func (t *term) MakePipe() {
-	//t.MakeParent()
-}
-
 // Stats returns the bytes written and bytes read from the term interface
 func (t *term) Stats() (bytesWritten, bytesRead uint64) {
 	//t.mutex.RLock()

@@ -50,13 +50,13 @@ To list compiled event types:
 
 ### See Also
 
+* [`function`](../commands/function.md):
+  Define a function block
+* [`private`](../commands/private.md):
+  Define a private function block
+* [`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [formap](../commands/formap.md):
   
-* [function](../commands/function.md):
-  
 * [open](../commands/open.md):
-  
-* [private](../commands/private.md):
-  
-* [runtime](../commands/runtime.md):
   

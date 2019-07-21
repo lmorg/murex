@@ -3,7 +3,6 @@ package streams
 import (
 	"bufio"
 	"io"
-	"sync/atomic"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -22,12 +21,12 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 		//stdin.mutex.RLock()
 		stdin.mutex.Lock()
 		l := len(stdin.buffer)
-		//deps := stdin.dependants
+		deps := stdin.dependants
 		//stdin.mutex.RUnlock()
 		stdin.mutex.Unlock()
 
 		if l == 0 {
-			if /*deps*/ atomic.LoadInt32(&stdin.dependants) < 1 {
+			if deps /*atomic.LoadInt32(&stdin.dependants)*/ < 1 {
 				return 0, io.EOF
 			}
 
@@ -89,21 +88,22 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 		default:
 		}
 
-		/*//stdin.mutex.RLock()
+		//stdin.mutex.RLock()
 		stdin.mutex.Lock()
 		closed := stdin.dependants < 1
 		//stdin.mutex.RUnlock()
-		stdin.mutex.Unlock()*/
+		stdin.mutex.Unlock()
 
-		if /*closed*/ atomic.LoadInt32(&stdin.dependants) < 1 {
+		if closed /*atomic.LoadInt32(&stdin.dependants) < 1 */ {
 			break
 		}
 	}
 
 	stdin.mutex.Lock()
-	defer stdin.mutex.Unlock()
 	stdin.bRead = uint64(len(stdin.buffer))
-	return stdin.buffer, nil
+	b := stdin.buffer
+	stdin.mutex.Unlock()
+	return b, nil
 }
 
 // ReadArray returns a data type-specific array returned via a callback function

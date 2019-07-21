@@ -20,6 +20,65 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
+const (
+	fVars          = "--variables"
+	fAliases       = "--aliases"
+	fConfig        = "--config"
+	fNamedPipes    = "--named-pipes"
+	fPipes         = "--pipes"
+	fFuncs         = "--funcs"
+	fPrivates      = "--privates"
+	fFids          = "--fids"
+	fReadArrays    = "--readarray"
+	fReadMaps      = "--readmap"
+	fWriteArrays   = "--writearray"
+	fIndexes       = "--indexes"
+	fMarshallers   = "--marshallers"
+	fUnmarshallers = "--unmarshallers"
+	fEvents        = "--events"
+	fFlags         = "--flags"
+	fMemstats      = "--memstats"
+	fAstCache      = "--astcache"
+	fTests         = "--tests"
+	fTestResults   = "--test-results"
+	fModules       = "--modules"
+	fDebug         = "--debug"
+	fSources       = "--sources"
+	fHelp          = "--help"
+
+	// inspect
+	inspVariables = "--inspect-variables"
+)
+
+var flags = map[string]string{
+	fVars:          types.Boolean,
+	fAliases:       types.Boolean,
+	fConfig:        types.Boolean,
+	fPipes:         types.Boolean,
+	fNamedPipes:    types.Boolean,
+	fFuncs:         types.Boolean,
+	fPrivates:      types.Boolean,
+	fFids:          types.Boolean,
+	fReadArrays:    types.Boolean,
+	fReadMaps:      types.Boolean,
+	fWriteArrays:   types.Boolean,
+	fIndexes:       types.Boolean,
+	fMarshallers:   types.Boolean,
+	fUnmarshallers: types.Boolean,
+	fEvents:        types.Boolean,
+	fFlags:         types.Boolean,
+	fMemstats:      types.Boolean,
+	fAstCache:      types.Boolean,
+	fTests:         types.Boolean,
+	fTestResults:   types.Boolean,
+	fModules:       types.Boolean,
+	fDebug:         types.Boolean,
+	fSources:       types.Boolean,
+	fHelp:          types.Boolean,
+
+	// inspect flags are defined in cmdRuntime() below
+}
+
 func init() {
 	lang.GoFunctions["runtime"] = cmdRuntime
 
@@ -31,78 +90,19 @@ func init() {
     `)
 }
 
-func cmdRuntime(p *lang.Process) error {
-	const (
-		fVars          = "--variables"
-		fAliases       = "--aliases"
-		fConfig        = "--config"
-		fNamedPipes    = "--named-pipes"
-		fPipes         = "--pipes"
-		fFuncs         = "--funcs"
-		fPrivates      = "--privates"
-		fOpenAgents    = "--open-agents"
-		fFids          = "--fids"
-		fReadArrays    = "--readarray"
-		fReadMaps      = "--readmap"
-		fWriteArrays   = "--writearray"
-		fIndexes       = "--indexes"
-		fMarshallers   = "--marshallers"
-		fUnmarshallers = "--unmarshallers"
-		fEvents        = "--events"
-		fFlags         = "--flags"
-		fMemstats      = "--memstats"
-		fAstCache      = "--astcache"
-		fTests         = "--tests"
-		fTestResults   = "--test-results"
-		fModules       = "--modules"
-		fDebug         = "--debug"
-		fSources       = "--sources"
-		fHelp          = "--help"
-
-		// inspect
-		inspVariables = "--inspect-variables"
-	)
-
-	flags := map[string]string{
-		fVars:          types.Boolean,
-		fAliases:       types.Boolean,
-		fConfig:        types.Boolean,
-		fPipes:         types.Boolean,
-		fNamedPipes:    types.Boolean,
-		fFuncs:         types.Boolean,
-		fPrivates:      types.Boolean,
-		fOpenAgents:    types.Boolean,
-		fFids:          types.Boolean,
-		fReadArrays:    types.Boolean,
-		fReadMaps:      types.Boolean,
-		fWriteArrays:   types.Boolean,
-		fIndexes:       types.Boolean,
-		fMarshallers:   types.Boolean,
-		fUnmarshallers: types.Boolean,
-		fEvents:        types.Boolean,
-		fFlags:         types.Boolean,
-		fMemstats:      types.Boolean,
-		fAstCache:      types.Boolean,
-		fTests:         types.Boolean,
-		fTestResults:   types.Boolean,
-		fModules:       types.Boolean,
-		fDebug:         types.Boolean,
-		fSources:       types.Boolean,
-		fHelp:          types.Boolean,
+func help() (s []string) {
+	for f := range flags {
+		s = append(s, f)
 	}
 
+	sort.Strings(s)
+	return
+}
+
+func cmdRuntime(p *lang.Process) error {
 	// inspect
 	if debug.Inspect {
 		flags[inspVariables] = types.Boolean
-	}
-
-	help := func() (s []string) {
-		for f := range flags {
-			s = append(s, f)
-		}
-
-		sort.Strings(s)
-		return
 	}
 
 	p.Stdout.SetDataType(types.Json)

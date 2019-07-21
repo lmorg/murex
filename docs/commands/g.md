@@ -47,8 +47,11 @@ Output is a JSON list.
 Any command prefixed with `@g` will be auto-globbed. For example, the two
 following commands will produce the same output:
 
-    ls @{g: *.txt} -> cat
-    @g ls *  -> cat
+    » ls @{g: *.go}
+    benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
+    
+    » @g ls *.go
+    benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
     
 The rational behind the ugly `@g` syntax is simply to make one-liners a bit
 less painful when coming from more traditional POSIX-like shells (eg Bash)
@@ -57,6 +60,12 @@ then realise you've forgotten to subshell, you can just recall the last command
 with auto-globbing enabled:
 
     @g ^!!
+
+### Synonyms
+
+* `g`
+* `@g`
+
 
 ### See Also
 

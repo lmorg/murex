@@ -44,8 +44,8 @@ any integers in data type aware structures will be converted into strings:
 
 ### See Also
 
-* [`a`](../commands/a.md):
-  A sophisticated yet simply way to build an array or list
+* [`a` (make array)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`cast`](../commands/cast.md):

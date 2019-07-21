@@ -34,9 +34,6 @@ func NewTee(primary stdio.Io) (tee *Tee, secondary *Stdin) {
 // IsTTY calls the primary STDOUT stream in tee to see if it's a TTY
 func (tee *Tee) IsTTY() bool { return tee.primary.IsTTY() }
 
-// MakePipe calls the primary STDOUT stream in tee to make it a pipe
-func (tee *Tee) MakePipe() { tee.primary.MakePipe() }
-
 // Stats is stored against the primary STDOUT stream in tee
 func (tee *Tee) Stats() (uint64, uint64) { return tee.primary.Stats() }
 

@@ -10,8 +10,6 @@ import (
 // It is written to be compatible with Go Reader and Writer interfaces however does expand upon them with additional
 // helper methods to enable easier writing of builtin shell functions.
 type Io interface {
-	MakePipe()
-
 	Stats() (uint64, uint64)
 
 	GetDataType() string

@@ -1,0 +1,24 @@
+- DocumentID: "bz2"
+  Title: >-
+    `!bz2` (optional)
+  CategoryID: commands
+  Summary: >-
+    Decompress a bz2 file
+  Description: |-
+    `!bz2` is an optional builtin for decompressing a bz2 stream from STDIN.
+  Usage: |-
+    ```
+    <stdin> -> !bz2 -> <stdout>
+    ```
+  Examples: |-
+  Detail: |-
+    Currently there is no support for compressing a stream using bz2.
+  Synonyms:
+  - "!bz2"
+  Related:
+  - base64
+  - gz
+  - escape
+  - eschtml
+  - escurl
+  - esccli

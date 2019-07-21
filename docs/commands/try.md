@@ -43,7 +43,7 @@ command.
 ### See Also
 
 * [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe
+  Handles the exception code raised by `try` or `trypipe` 
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`trypipe`](../commands/trypipe.md):

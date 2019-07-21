@@ -1,10 +1,12 @@
-package string
+package qrimage
 
 import (
+	"image/png"
+
 	"github.com/boombuler/barcode"
 	"github.com/boombuler/barcode/qr"
 	"github.com/lmorg/murex/lang"
-	"image/png"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
@@ -12,6 +14,11 @@ func init() {
 }
 
 func cmdQr(p *lang.Process) error {
+	if err := p.ErrIfNotAMethod(); err != nil {
+		p.Stdout.SetDataType(types.Null)
+		return err
+	}
+
 	p.Stdout.SetDataType("image")
 
 	b, err := p.Stdin.ReadAll()
@@ -27,10 +34,6 @@ func cmdQr(p *lang.Process) error {
 
 	// Scale the barcode to 200x200 pixels
 	qrCode, _ = barcode.Scale(qrCode, 200, 200)
-
-	//// create the output file
-	//file, _ := os.Create("qrcode.png")
-	//defer file.Close()
 
 	// encode the barcode as png
 	return png.Encode(p.Stdout, qrCode)

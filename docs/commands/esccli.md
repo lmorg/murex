@@ -41,7 +41,7 @@ As a function
 
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [`alias`](../commands/alias.md):
+  Create an alias for a command
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [alias](../commands/alias.md):
-  

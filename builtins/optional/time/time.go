@@ -37,10 +37,8 @@ func cmdTime(p *lang.Process) (err error) {
 	}
 
 	block := p.Parameters.StringAll()
-
 	start := time.Now()
 
-	//p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stdout, p)
 	p.ExitNum, err = p.Fork(lang.F_DEFAULTS).Execute([]rune(block))
 	if err != nil {
 		return

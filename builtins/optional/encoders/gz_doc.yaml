@@ -1,0 +1,26 @@
+- DocumentID: "gz"
+  Title: >-
+    `gz` (optional)
+  CategoryID: commands
+  Summary: >-
+    Compress or decompress a gzip file
+  Description: |-
+    An optional builtin for compressing or decompressing a gzip stream from STDIN.
+  Usage: |-
+    ```
+    <stdin> -> gz -> <stdout>
+    
+    <stdin> -> !gz -> <stdout>
+    ```
+  Examples: |-
+  Detail: |-
+  Synonyms:
+  - "gz"
+  - "!gz"
+  Related:
+  - base64
+  - bz2
+  - escape
+  - eschtml
+  - escurl
+  - esccli

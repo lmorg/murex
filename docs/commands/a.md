@@ -1,8 +1,8 @@
 # _murex_ Language Guide
 
-## Command Reference: `a`
+## Command Reference: `a` (make array)
 
-> A sophisticated yet simply way to build an array or list
+> A sophisticated yet simple way to build an array or list
 
 ### Description
 
@@ -76,7 +76,7 @@ Unlike bash, _murex_ also supports some special ranges:
     » a: [mon..sun]
     » a: [monday..sunday]
     » a: [jan..dec]
-    » a: [janurary..december]
+    » a: [january..december]
     » a: [spring..winter]
     
 It is also case aware. If the ranges are uppercase then the return will
@@ -120,7 +120,7 @@ If you did want to reverse then just pipe the output into another tool:
 
     » a: [Monday..Friday] -> mtac
     Friday
-    Thurday
+    Thursday
     Wednesday
     Tuesday
     Monday
@@ -129,7 +129,7 @@ There are other UNIX tools which aren't data type aware but would work in
 this specific scenario:
 * `tac` (Linux),
 * `tail -r` (BSD / OS X)
-* `perl -e "print reverse <>"` (Multiplatform but requires Perl installed)
+* `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
 #### Advanced Array Syntax
 
@@ -217,6 +217,6 @@ under `a`'s formatting (which uses the `str` data type).
 * [`len` ](../commands/len.md):
   Outputs the length of an array
 * [`ta`](../commands/ta.md):
-  A sophisticated yet simply way to build an array of a user defined data type
+  A sophisticated yet simple way to build an array of a user defined data-type
 * [mtac](../commands/mtac.md):
   
