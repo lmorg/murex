@@ -55,7 +55,7 @@ the following code because it's defined within a `try` block then being queried
 outside of the `try` block:
 
     » try {
-    »     set foo=bar
+    » set foo=bar
     » }
     » out "foo: $foo"
     foo:
@@ -65,17 +65,30 @@ even though it is being set inside the `try` block:
 
     » set foo
     » try {
-    »     set foo=bar
+    » set foo=bar
     » }
     » out "foo: $foo"
     foo: bar
     
 So unlike the previous example, this will return `bar`.
 
-It's also worth remembering that any variable defined in the shell's FID (ie
-naked in the interactive shell or otherwise outside of a function or method) is
-literally the same as using `global`
+Where `global` differs from `set` is that the variables defined with `global`
+will scoped at the global shell level (please note this is not the same as
+environmental variables!) so will cascade down through all scoped code-blocks
+including those running in other threads.
 
+It's also worth remembering that any variable defined using `set` in the shell's
+FID (ie in the interactive shell) is literally the same as using `global`
+
+Exported variables (defined via `export`) are system environmental variables.
+Inside _murex_ environmental variables behave much like `global` variables
+however their real purpose is passing data to external processes. For example
+`env` is an external process on Linux (eg `/usr/bin/env` on ArchLinux):
+
+    » export foo=bar
+    » env -> grep foo
+    foo=bar
+    
 #### Function Names
 
 As a security feature function names cannot include variables. This is done to
@@ -95,6 +108,10 @@ function name, then call that function via `exec`:
     » ls -> exec: $cmd main.go
     main.go
     
+This only works for external executables. There is currently no way to call
+aliases, functions nor builtins from a variable and even the above `exec` trick
+is considered bad form because it reduces the readability of your shell scripts.
+
 #### Usage Inside Quotation Marks
 
 Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
