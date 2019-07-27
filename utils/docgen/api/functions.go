@@ -1,26 +1,30 @@
-package main
+package docgen
 
 import (
 	"errors"
+	"regexp"
 	"strconv"
 	"strings"
 	"text/template"
 )
 
 var funcMap = template.FuncMap{
-	"quote": funcQuote,
-	"html":  funcHTML,
-	"md":    funcMarkdown,
-	"trim":  strings.TrimSpace,
-	"doc":   funcRenderedDocuments,
-	"cat":   funcRenderedCategories,
-	"file":  funcFile,
+	"quote":   funcQuote,
+	"html":    funcHTML,
+	"md":      funcMarkdown,
+	"trim":    strings.TrimSpace,
+	"doc":     funcRenderedDocuments,
+	"cat":     funcRenderedCategories,
+	"file":    funcFile,
+	"include": funcInclude,
 }
 
 /************
- * MARKDOWN *
+ * Markdown *
  ************/
 
+// Takes: string (contents as read from YAML in a machine readable subset of markdown)
+// Returns: markdown contents cleaned up for printing
 func funcMarkdown(s string) string {
 	var (
 		new          []rune
@@ -75,9 +79,11 @@ func funcMarkdown(s string) string {
 }
 
 /************
- *  Quote   *
+ *   Quote  *
  ************/
 
+// Takes: strings (contents)
+// Returns: contents with some characters escaped for printing in source code (eg \")
 func funcQuote(s string) string {
 	return strconv.Quote(funcMarkdown(s))
 }
@@ -86,10 +92,18 @@ func funcQuote(s string) string {
  *   HTML   *
  ************/
 
+// Takes: string (contents in markdown)
+// Returns: HTML rendered contents
 func funcHTML(s string) string {
 	panic("HTML output not yet written")
 }
 
+/************
+ *    Doc   *
+ ************/
+
+// Takes: string (category name), string (document name), int (index of rendered document template)
+// Returns: contents of rendered document template
 func funcRenderedDocuments(cat, doc string, index int) (string, error) {
 	if len(Config.renderedDocuments[cat]) == 0 {
 		return "", errors.New("Category does not exist, doesn't have any documents, or hasn't yet been parsed")
@@ -102,6 +116,12 @@ func funcRenderedDocuments(cat, doc string, index int) (string, error) {
 	return Config.renderedDocuments[cat][doc][index], nil
 }
 
+/************
+ *    Cat   *
+ ************/
+
+// Takes: string (category name) and int (index of rendered category template)
+// Returns: contents of rendered category template
 func funcRenderedCategories(cat string, index int) (string, error) {
 	if len(Config.renderedCategories[cat]) == 0 {
 		return "", errors.New("Category does not exist or hasn't yet been parsed")
@@ -114,8 +134,37 @@ func funcRenderedCategories(cat string, index int) (string, error) {
 	return Config.renderedCategories[cat][index], nil
 }
 
+/************
+ *   File   *
+ ************/
+
+// Takes: slice of strings (file path)
+// Returns: contents of file based on a concatenation of the slice
 func funcFile(path ...string) string {
 	f := fileReader(strings.Join(path, ""))
 	b := readAll(f)
 	return string(b)
+}
+
+/************
+ *  Include *
+ ************/
+
+// Takes: string (contents)
+// Looks for: {{ include "filename" }}
+// Returns: document with search string replaced with contents of filename
+func funcInclude(s string) string {
+	rx := regexp.MustCompile(`\{\{ include "([-_/.a-zA-Z0-9]+)" \}\}`)
+	if !rx.MatchString(s) {
+		return s
+	}
+
+	match := rx.FindAllStringSubmatch(s, -1)
+	for i := range match {
+		f := fileReader(match[i][1])
+		b := readAll(f)
+		s = strings.ReplaceAll(s, match[i][0], string(b))
+	}
+
+	return s
 }

@@ -1,6 +1,9 @@
-package main
+package docgen
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type config struct {
 	// Path to scan for documentation to render
@@ -20,7 +23,17 @@ type config struct {
 // Config is the global configuration for docgen
 var Config = new(config)
 
-func readConfig(path string) {
+// ReadConfig loads a config file from disk
+func ReadConfig(path string) (err error) {
+	defer func() {
+		// Write a stack trace on error
+		if !Panic {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("%s", r)
+			}
+		}
+	}()
+
 	parseSourceFile(path, Config)
 
 	for cat := range Config.Categories {
@@ -31,6 +44,8 @@ func readConfig(path string) {
 
 	Config.renderedCategories = make(map[string][]string)
 	Config.renderedDocuments = make(map[string]map[string][]string)
+
+	return
 }
 
 func updateConfig(t *templates, cat int, i int) {

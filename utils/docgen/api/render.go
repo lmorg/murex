@@ -1,4 +1,4 @@
-package main
+package docgen
 
 import (
 	"bytes"
@@ -7,7 +7,38 @@ import (
 	"os"
 )
 
+var (
+	// ReadOnly defined whether docgen should write rendered documents to disk.
+	// This option is useful for testing config
+	ReadOnly bool
+
+	// Panic defined whether errors should raise a panic. This is useful for
+	// debugging because a stack trace gets raised.
+	Panic bool
+)
+
+// Render runs docgen
+func Render() (err error) {
+	defer func() {
+		// Write a stack trace on error
+		if !Panic {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("%s", r)
+			}
+		}
+	}()
+
+	walkSourcePath(Config.SourcePath)
+	renderAll(Documents)
+
+	return
+}
+
 func fileWriter(path string) *os.File {
+	if ReadOnly {
+		return nil
+	}
+
 	f, err := os.OpenFile(path, os.O_TRUNC|os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err.Error())
@@ -88,7 +119,11 @@ func renderCategory(t *templates, docs documents) {
 	write(f, b)
 }
 
-func write(f io.WriteCloser, b io.Reader) {
+func write(f *os.File, b io.Reader) {
+	if ReadOnly {
+		return
+	}
+
 	_, err := io.Copy(f, b)
 	if err != nil {
 		panic(err.Error())
