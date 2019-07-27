@@ -24,7 +24,7 @@
 
 ### Detail
 
-{{ md .Detail }}{{ end }}{{ if .Synonyms }}
+{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
 
 ### Synonyms
 

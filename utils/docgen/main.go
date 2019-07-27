@@ -7,8 +7,8 @@ import (
 	"os"
 )
 
-// VERSION is the release ID of docgen
-const VERSION = "1.0.0"
+// Version is the release ID of docgen
+const Version = "1.1.10"
 
 // flags
 var (
@@ -42,7 +42,7 @@ func readFlags() error {
 	flag.Parse()
 
 	if *version {
-		fmt.Printf("docgen version %s\nLicence GPL v2, (C) 2018 Laurence Morgan", VERSION)
+		fmt.Printf("docgen version %s\nLicence GPL v2, (C) 2018 Laurence Morgan", Version)
 		os.Exit(0)
 	}
 

@@ -20,9 +20,9 @@ All config if defined in YAML files and template files
 
 ## Flags
 
-    -config   - takes a string parameter for a path to a YAML file
-    -verbose  - optional flag to enable log messages
-    -debug    - optional flag to enable stack a trace on error
+    -config   takes a string parameter for a path to a YAML file
+    -verbose  optional flag to enable log messages
+    -debug    optional flag to enable stack a trace on error
 
 ## Don't Panic!
 
