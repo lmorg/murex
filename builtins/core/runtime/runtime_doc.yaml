@@ -66,6 +66,7 @@
     ```
 
     To get a list of every flag supported by `runtime`
+
     ```
     » runtime: --help
     [
@@ -247,6 +248,7 @@
         }
     ]
     ```
+    
     #### File reference
 
     Some of the JSON dumps produced from `runtime` will include a map called
