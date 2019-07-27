@@ -30,9 +30,9 @@ func TestExpand(t *testing.T) {
 	r := Expand([]rune(testString))
 	if string(r) != expString {
 		t.Error("String didn't expand as expected")
-		t.Log("testString:", testString)
-		t.Log("expString:", expString)
-		t.Log("string(r):", string(r))
+		t.Log("  testString:", testString)
+		t.Log("  expString: ", expString)
+		t.Log("  string(r): ", string(r))
 	}
 }
 
@@ -53,9 +53,9 @@ func TestExpandString(t *testing.T) {
 	s := ExpandString(testString)
 	if s != expString {
 		t.Error("String didn't expand as expected")
-		t.Log("testString:", testString)
-		t.Log("expString:", expString)
-		t.Log("s:", s)
+		t.Log("  testString:", testString)
+		t.Log("  expString :", expString)
+		t.Log("  s:         ", s)
 	}
 }
 

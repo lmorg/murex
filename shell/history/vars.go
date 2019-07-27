@@ -1,7 +1,6 @@
 package history
 
 import (
-	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -13,21 +12,19 @@ import (
 )
 
 var (
-	rxHistIndex    = regexp.MustCompile(`(\^[0-9]+)`)
-	rxHistRegex    = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
-	rxHistPrefix   = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
-	rxHistTag      = regexp.MustCompile(`(\^#[_a-zA-Z0-9]+)`)
-	rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
-	rxHistParam    = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
-	rxHistReplace  = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
-	rxHistRepParam = regexp.MustCompile(`\^s([-]?[0-9]+)/(.*?[^\\])/(.*?[^\\])/`)
+	rxHistIndex  = regexp.MustCompile(`(\^[0-9]+)`)
+	rxHistRegex  = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
+	rxHistPrefix = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
+	rxHistTag    = regexp.MustCompile(`(\^#[-_a-zA-Z0-9]+)`)
+	//rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistParam   = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
+	rxHistReplace = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
+	//rxHistRepParam = regexp.MustCompile(`\^s([-]?[0-9]+)/(.*?[^\\])/(.*?[^\\])/`)
 )
 
 const (
-	errCannotParsePrevCmd = "Cannot parse previous command line to extract parameters for history variable."
+	errCannotParsePrevCmd = "Cannot parse previous command line to extract parameters for history variable"
 )
-
-//var last string
 
 func getLine(i int, rl *readline.Instance) (s string) {
 	s, _ = rl.History.GetLine(i)
@@ -49,24 +46,21 @@ func ExpandVariablesInLine(line []rune, rl *readline.Instance) ([]rune, error) {
 func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([]rune, error) {
 	s := string(line)
 
-	last := getLine(rl.History.Len()-1, rl)
-
 	if !skipFormatting {
 		s = strings.Replace(s, `^\n`, "\n", -1) // Match new line
 		s = strings.Replace(s, `^\t`, "\t", -1) // Match tab
 	}
 
-	s = strings.Replace(s, "^!!", noColon(last), -1) // Match last command
-
 	funcs := []func(string, *readline.Instance) (string, error){
+		expandHistBangBang,
 		expandHistPrefix,
 		expandHistIndex,
 		expandHistRegex,
 		expandHistHashtag,
-		expandHistAllPs,
+		//expandHistAllPs,
 		expandHistParam,
 		expandHistReplace,
-		expandHistRepParam,
+		//expandHistRepParam,
 	}
 
 	for f := range funcs {
@@ -78,6 +72,12 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 	}
 
 	return []rune(s), nil
+}
+
+// Match last command
+func expandHistBangBang(s string, rl *readline.Instance) (string, error) {
+	last := getLine(rl.History.Len()-1, rl)
+	return strings.Replace(s, "^!!", noColon(last), -1), nil
 }
 
 // Match history index
@@ -137,7 +137,7 @@ func expandHistHashtag(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Match last params (all of block)
+/*// Match last params (all of block)
 func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 	mhParam := rxHistAllPs.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
@@ -177,7 +177,7 @@ func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 	}
 
 	return s, nil
-}
+}*/
 
 // Match last params (first command in block)
 func expandHistParam(s string, rl *readline.Instance) (string, error) {
@@ -197,10 +197,14 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 				val += p.Len() + 1
 			}
 
-			if val == 0 {
+			switch {
+			case val == 0:
 				s = strings.Replace(s, mhParam[i][0], nodes.Last().Name, -1)
-			} else if val > 0 && val-1 < p.Len() {
+			case val > 0 && val-1 < p.Len():
 				s = strings.Replace(s, mhParam[i][0], p.Params[val-1], -1)
+			default:
+				s = strings.Replace(s, mhParam[i][0], "", -1)
+				return s, fmt.Errorf("(%s) No parameter with index %s", mhParam[i][0], mhParam[i][1])
 			}
 
 		}
@@ -232,7 +236,7 @@ func expandHistReplace(s string, rl *readline.Instance) (string, error) {
 	return s, nil
 }
 
-// Replace string from a parameter in the last command
+/*// Replace string from a parameter in the last command
 func expandHistRepParam(s string, rl *readline.Instance) (string, error) {
 	mhRepParam := rxHistRepParam.FindAllStringSubmatch(s, -1)
 	if len(mhRepParam) > 0 {
@@ -275,7 +279,7 @@ func expandHistRepParam(s string, rl *readline.Instance) (string, error) {
 
 	}
 	return s, nil
-}
+}*/
 
 // Match history prefix
 func expandHistPrefix(s string, rl *readline.Instance) (string, error) {

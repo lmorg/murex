@@ -1,7 +1,7 @@
 package history
 
 func noColon(line string) string {
-	var escape, qSingle, qDouble bool
+	var escape, qSingle, qDouble, funcStart bool
 
 	for i := range line {
 		switch line[i] {
@@ -40,8 +40,22 @@ func noColon(line string) string {
 			}
 		case ':':
 			if !escape && !qSingle && !qDouble {
-				return line[:i] + line[i+1:]
+				switch {
+				case !funcStart:
+					line = line[i+1:]
+					i--
+					continue
+
+				// colon mid command - must split
+				case i < len(line)-1 && line[i+1] != ' ':
+					return line[:i] + " " + line[i+1:]
+
+				default:
+					return line[:i] + line[i+1:]
+				}
 			}
+		default:
+			funcStart = true
 		}
 	}
 
