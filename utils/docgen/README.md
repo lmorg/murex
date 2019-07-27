@@ -21,18 +21,20 @@ All config if defined in YAML files and template files
 ## Flags
 
     -config   takes a string parameter for a path to a YAML file
-    -verbose  optional flag to enable log messages
-    -debug    optional flag to enable stack a trace on error
+    -verbose  optional flag to enable log and warning messages
+    -warning  optional flag to enable warning messages
+    -panic    optional flag to enable stack a trace on error
+    -readonly optional flag to prevent files getting written to disk
+              (use -readonly to test your config, templates, etc)
 
 ## Don't Panic!
 
 You may notice there are a lot of `panic()`'s in the codebase.
 This is deliberate because by we want any errors to fail the
-utility (essentially raising all errors as exceptions).
-However the panics are caught in `main()` if by default if
-`-debug` isn't set (see "flags" section above) so you get
-friendly error messages as standard but a stack trace on all
-errors for debugging.
+utility (essentially raising all errors as exceptions). However
+the panics are caught in `main()` by default (ie if `-panic`
+isn't set) so you get friendly error messages as standard but a
+stack trace on all errors for debugging if needed.
 
 I get this isn't the typical Go idiom but it makes more sense
 for this particular application given it serves one function
