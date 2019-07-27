@@ -26,7 +26,6 @@ func TestDocgenConfigTemplates(t *testing.T) {
 	l := logger{t: t}
 	docgen.SetLogger(l)
 
-	docgen.Warning = true
 	docgen.ReadOnly = true
 	err := docgen.ReadConfig("gen/docgen.yaml")
 	if err != nil {

@@ -62,7 +62,7 @@
 
     #### Order of preference
 
-    {{ include "gen/includes/orderofpreference.inc" }}
+    {{ include "gen/includes/order-of-preference.inc" }}
   Synonyms:
   - alias
   - "!alias"
@@ -116,7 +116,7 @@
 
     #### Order of preference
 
-    {{ include "gen/includes/orderofpreference.inc" }}
+    {{ include "gen/includes/order-of-preference.inc" }}
   Synonyms:
   - function
   - "!function"
@@ -191,7 +191,7 @@
 
     #### Order of preference
 
-    {{ include "gen/includes/orderofpreference.inc" }}
+    {{ include "gen/includes/order-of-preference.inc" }}
   Synonyms:
   Related:
   - function
