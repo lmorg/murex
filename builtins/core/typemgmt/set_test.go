@@ -209,3 +209,111 @@ func TestSetMethodNegative(t *testing.T) {
 
 	VariableTests(tests, t)
 }
+
+func TestSetFunctionDataTypes(t *testing.T) {
+	tests := []Test{
+		{
+			Block:    "set: foobar=123",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "str",
+		},
+		{
+			Block:    "set: foobar=123.456",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "str",
+		},
+		{
+			Block:    "set: foobar=true",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "str",
+		}, {
+			Block:    "set: foobar=false",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "str",
+		},
+		{
+			Block:    "set: int foobar=123",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "int",
+		},
+		{
+			Block:    "set: num foobar=123.456",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "num",
+		},
+		{
+			Block:    "set: bool foobar=true",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "bool",
+		},
+		{
+			Block:    "set: bool foobar=false",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "bool",
+		},
+	}
+
+	VariableTests(tests, t)
+}
+
+func TestSetMethodDataTypes(t *testing.T) {
+	tests := []Test{
+		{
+			Block:    "tout: int 123 -> set: foobar",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "int",
+		},
+		{
+			Block:    "tout: num 123.456 -> set: foobar",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "num",
+		},
+		{
+			Block:    "tout: bool true -> set: foobar",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "bool",
+		}, {
+			Block:    "tout: bool false -> set: foobar",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "bool",
+		},
+		{
+			Block:    "out: 123 -> set: int foobar",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "int",
+		},
+		{
+			Block:    "out: 123.456 -> set: num foobar",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "num",
+		},
+		{
+			Block:    "tout: int true -> set: bool foobar",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "bool",
+		},
+		{
+			Block:    "out: false -> set: bool foobar",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "bool",
+		},
+	}
+
+	VariableTests(tests, t)
+}

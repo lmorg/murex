@@ -45,7 +45,7 @@ func VariableTests(tests []Test, t *testing.T) {
 			t.Logf("  variable name:  %s", tests[i].Name)
 			t.Logf("  expected value: %s", tests[i].Value)
 			t.Logf("  actual value:   %s", value)
-			t.Log("  expected bytes:  ", []byte(tests[i].Value))
+			t.Log("  expected bytes: ", []byte(tests[i].Value))
 			t.Log("  actual bytes:   ", []byte(value))
 			t.Logf("  expected type:  %s", tests[i].DataType)
 			t.Logf("  actual type:    %s", dataType)

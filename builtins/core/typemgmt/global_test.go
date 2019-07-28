@@ -209,3 +209,111 @@ func TestGlobalMethodNegative(t *testing.T) {
 
 	VariableTests(tests, t)
 }
+
+func TestGlobalFunctionDataTypes(t *testing.T) {
+	tests := []Test{
+		{
+			Block:    "global: foobar=123",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "str",
+		},
+		{
+			Block:    "global: foobar=123.456",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "str",
+		},
+		{
+			Block:    "global: foobar=true",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "str",
+		}, {
+			Block:    "global: foobar=false",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "str",
+		},
+		{
+			Block:    "global: int foobar=123",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "int",
+		},
+		{
+			Block:    "global: num foobar=123.456",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "num",
+		},
+		{
+			Block:    "global: bool foobar=true",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "bool",
+		},
+		{
+			Block:    "global: bool foobar=false",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "bool",
+		},
+	}
+
+	VariableTests(tests, t)
+}
+
+func TestGlobalMethodDataTypes(t *testing.T) {
+	tests := []Test{
+		{
+			Block:    "tout: int 123 -> global: foobar",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "int",
+		},
+		{
+			Block:    "tout: num 123.456 -> global: foobar",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "num",
+		},
+		{
+			Block:    "tout: bool true -> global: foobar",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "bool",
+		}, {
+			Block:    "tout: bool false -> global: foobar",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "bool",
+		},
+		{
+			Block:    "out: 123 -> global: int foobar",
+			Name:     "foobar",
+			Value:    "123",
+			DataType: "int",
+		},
+		{
+			Block:    "out: 123.456 -> global: num foobar",
+			Name:     "foobar",
+			Value:    "123.456",
+			DataType: "num",
+		},
+		{
+			Block:    "tout: int true -> global: bool foobar",
+			Name:     "foobar",
+			Value:    "true",
+			DataType: "bool",
+		},
+		{
+			Block:    "out: false -> global: bool foobar",
+			Name:     "foobar",
+			Value:    "false",
+			DataType: "bool",
+		},
+	}
+
+	VariableTests(tests, t)
+}
