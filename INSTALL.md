@@ -1,12 +1,16 @@
 # Install Instructions
 
+## From source
+
+> Go 1.11 or higher is required
+
 Assuming you already have Go (Golang) installed, you can download the
 source just by running the following from the command line
 
     go get -u github.com/lmorg/murex
     cd $GOPATH/src/github.com/lmorg/murex
 
-Test the code (optional stage; Travis below):
+Test the code (optional stage):
 
     go test ./...
 
@@ -14,33 +18,19 @@ Compile the code:
 
     go build github.com/lmorg/murex
 
-Test the binary (optional stage; requires Bash and `timeout`):
-
-    test/regression_test.sh
-
 Then to start the shell:
 
     ./murex
 
-## Docker
+## Inside Docker
 
-A `Dockerfile` is also included should you want to run any local tests in
-a sandboxed environment.
+If you don't have nor want to install Go and already have `docker` and
+`docker-compose` installed, then you can install _murex_ using the CI/CD
+pipeline scripts.
 
-The file is located in `test/docker` and includes a [README.md](test/docker/README.md)
-with more information.
+From the project root (the location of this INSTALL.md file) run the following:
 
-## Managing dependencies
-
-As of Go v1.6 the language compiler supports a `vendors` directory to
-manage dependencies. _murex_ uses this to consolidate all of the required
-and optional packages so you only need to compile the program. However
-if you - for whatever reason - prefer to compile _murex_ on an earlier
-version of Go then you may need to manage them manually using `go get`.
-
-If you are unsure which version of Go you are running, then it is likely
-to be greater than 1.6 (as that is pretty old now) however you can check
-this in the command line: `go version`
+    docker-compose up --build murex-build
 
 ## Required dependencies
 
@@ -80,11 +70,11 @@ the `builtins` directory of this project or append `// +build ignore` to
 the `.go` file if you wish to preserve the change in subsequent updates
 from git.
 
-## Recommended terminal font
+## Recommended terminal typeface
 
 This is obviously just a subjective matter and everyone will have their own
 personal preference. However if I was asked what my preference was then that
-would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean type-face
+would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean typeface
 based off Source Code Pro but with a few added ligatures - albeit subtle ones
-deisgned to make Haskell more readable. Those ligatures also suite _murex_
+designed to make Haskell more readable. Those ligatures also suite _murex_
 pretty well. So the overall experience is a clean and readable terminal.

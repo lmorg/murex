@@ -35,4 +35,4 @@ echo "Updating git...."
 find . -name "*_string.go" -exec git add -v {} \;
 git add -v docs config/defaults builtins/docgen_test.go $docs $cdocs
 
-echo "Allowing git commit to proceed...."
+#echo "Allowing git commit to proceed...."

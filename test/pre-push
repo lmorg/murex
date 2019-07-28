@@ -12,11 +12,11 @@ ctrl_c() {
   exit 1
 }
 
-echo "Starting Go tests...."
-go test ./... -count 10 || exit 1
+#echo "Compiling Murex...."
+#go build github.com/lmorg/murex || exit 1
 
-echo "Compiling Murex...."
-go build github.com/lmorg/murex || exit 1
+echo "Running Go tests...."
+go test ./... -count 10 || exit 1
 
 #echo "Starting Murex tests...."
 #test/regression_test.sh || exit 1
@@ -24,4 +24,4 @@ go build github.com/lmorg/murex || exit 1
 echo "Checking alternative OS builds...."
 test/test_goos.mx || exit 1
 
-echo "Allowing git push to proceed...."
+#echo "Allowing git push to proceed...."

@@ -1,0 +1,12 @@
+FROM murex/buildserver
+
+ENV GOPATH=/go
+VOLUME /go/bin
+
+WORKDIR  /go
+
+ENTRYPOINT \
+    murex -c version && \
+    echo "Running tests...." && \
+    go test github.com/lmorg/murex/... -count 10 && \
+    /go/src/github.com/lmorg/murex/test/build_all_platforms.mx

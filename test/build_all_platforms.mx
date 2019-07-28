@@ -1,0 +1,47 @@
+#!/usr/bin/env murex
+
+set project=github.com/lmorg/murex
+
+mkdir -p bin
+
+# Platforms supported by the go compiler.
+# All 32bit ARM targets will be for ARMv7.
+set json targets=({
+    "linux":     [ "386", "amd64", "arm", "arm64" ],
+    "freebsd":   [ "386", "amd64", "arm"          ],
+    "openbsd":   [ "386", "amd64", "arm"          ],
+    "netbsd":    [ "386", "amd64", "arm"          ],
+    "dragonfly": [        "amd64"                 ],
+    "darwin":    [ "386", "amd64"                 ],
+    "solaris":   [        "amd64"                 ],
+    "plan9":     [ "386", "amd64", "arm"          ],
+    "windows":   [ "386", "amd64", "arm"          ]
+})
+
+let status=0
+
+$targets -> formap os cpus {
+    $cpus -> foreach arch {
+        set ext
+        if { =os==`windows` } then { set ext=.exe }
+
+        try {
+            ({BLUE}Building $os/$arch....{RESET})
+            export GOOS=$os
+            export GOARCH=$arch
+            export GOARM=7
+            go build -o ./bin/murex-$os-$arch$ext $project
+            out "{GREEN}SUCCESSFUL{RESET}"
+        }
+        catch {
+            out "{RED}FAILED{RESET}"
+            let status++
+        }
+
+        pwd
+        ls -l
+        ls -l ./bin
+    }
+}
+
+exit $status

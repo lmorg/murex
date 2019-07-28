@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  murex-build:
+    container_name: murex-build
+    image: murex/buildserver
+    build:
+      args:
+        - VERSION=1.12.7
+        - GOOS=linux
+        - GOARCH=amd64
+      context: .
+      dockerfile: ./test/buildserver/build
+    volumes:
+      - ./test/buildserver/bin:/go/bin:rw
+    restart: "no"
+
+  murex-test:
+    container_name: murex-test
+    image: murex/buildserver
+    build:
+      context: .
+      dockerfile: ./test/buildserver/test
+    volumes:
+      - ./test/buildserver/bin:/go/bin:rw
+    restart: "no"
