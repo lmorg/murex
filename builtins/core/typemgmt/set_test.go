@@ -317,3 +317,20 @@ func TestSetMethodDataTypes(t *testing.T) {
 
 	VariableTests(tests, t)
 }
+
+func testUnSet(t *testing.T) {
+	tests := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!set", tests, t)
+}

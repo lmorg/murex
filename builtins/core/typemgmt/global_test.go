@@ -317,3 +317,20 @@ func TestGlobalMethodDataTypes(t *testing.T) {
 
 	VariableTests(tests, t)
 }
+
+func TestUnGlobal(t *testing.T) {
+	tests := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!global", tests, t)
+}
