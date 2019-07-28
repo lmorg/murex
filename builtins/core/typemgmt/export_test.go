@@ -1,0 +1,211 @@
+package typemgmt
+
+import (
+	"testing"
+
+	_ "github.com/lmorg/murex/builtins/core/io"
+)
+
+func TestExportFunctionPositive(t *testing.T) {
+	tests := []Test{
+		{
+			Block:    "export: f=b",
+			Name:     "f",
+			Value:    "b",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foo=b",
+			Name:     "foo",
+			Value:    "b",
+			DataType: "str",
+		},
+		{
+			Block:    "export: f=bar",
+			Name:     "f",
+			Value:    "bar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foo=bar",
+			Name:     "foo",
+			Value:    "bar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: _=foobar",
+			Name:     "_",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: _b=foobar",
+			Name:     "_b",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: f_=foobar",
+			Name:     "f_",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: f_b=foobar",
+			Name:     "f_b",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foo_b=foobar",
+			Name:     "foo_b",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: f_bar=foobar",
+			Name:     "f_bar",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "export: foo_bar=foobar",
+			Name:     "foo_bar",
+			Value:    "foobar",
+			DataType: "str",
+		},
+	}
+
+	VariableTests(tests, t)
+}
+
+func TestExportMethodPositive(t *testing.T) {
+	tests := []Test{
+		{
+			Block:    "out: b -> export: f",
+			Name:     "f",
+			Value:    "b",
+			DataType: "str",
+		},
+		{
+			Block:    "out: b -> export: foo",
+			Name:     "foo",
+			Value:    "b",
+			DataType: "str",
+		},
+		{
+			Block:    "out: bar -> export: f",
+			Name:     "f",
+			Value:    "bar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: bar -> export: foo",
+			Name:     "foo",
+			Value:    "bar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: _",
+			Name:     "_",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: _b",
+			Name:     "_b",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: f_",
+			Name:     "f_",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: f_b",
+			Name:     "f_b",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: foo_b",
+			Name:     "foo_b",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: f_bar",
+			Name:     "f_bar",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "out: foobar -> export: foo_bar",
+			Name:     "foo_bar",
+			Value:    "foobar",
+			DataType: "str",
+		},
+	}
+
+	VariableTests(tests, t)
+}
+
+func TestExportFunctionNegative(t *testing.T) {
+	tests := []Test{
+		{
+			Block: "global: =foobar",
+			Fail:  true,
+		},
+		{
+			Block: "global: -=foobar",
+			Fail:  true,
+		},
+		{
+			Block: "global: foo-bar=foobar",
+			Fail:  true,
+		},
+		{
+			Block: "global: foo\\-bar=foobar",
+			Fail:  true,
+		},
+	}
+
+	VariableTests(tests, t)
+}
+
+func TestExportMethodNegative(t *testing.T) {
+	tests := []Test{
+		{
+			Block: "out: foobar -> set",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: =",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: -",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: foo-bar",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: foo\\-bar",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: foo=",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: foo=bar",
+			Fail:  true,
+		},
+	}
+
+	VariableTests(tests, t)
+}

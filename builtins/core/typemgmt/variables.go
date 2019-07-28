@@ -34,7 +34,6 @@ func cmdUnglobal(p *lang.Process) error { return unset(p, lang.ShellProcess) }
 func set(p *lang.Process, scope *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
-	//var overrideDataType bool
 	dataType, _ := p.Parameters.String(0)
 	var params string
 
@@ -74,6 +73,9 @@ func set(p *lang.Process, scope *lang.Process) error {
 
 	// Define an empty variable
 	match := rxSet.FindAllStringSubmatch(params, -1)
+	if len(match) == 0 || len(match[0]) != 3 {
+		return errors.New("Invalid parameters. Possibly missing variable name?")
+	}
 	return scope.Parent.Variables.Set(match[0][1], match[0][2], dataType)
 }
 
@@ -111,6 +113,7 @@ func cmdExport(p *lang.Process) error {
 		if err != nil {
 			return err
 		}
+		b = utils.CrLfTrim(b)
 		return os.Setenv(params, string(b))
 	}
 
