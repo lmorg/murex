@@ -49,7 +49,7 @@
     !set var_name
     ```
 
-    {{ include "gen/includes/variables.inc" }}
+    {{ include "gen/includes/variables.inc.md" }}
 
     #### Declaration Without Values
 
@@ -67,6 +67,8 @@
   - export
   - exec
   - brace-quote
+  - index
+  - element
 
 
 - DocumentID: global
@@ -121,7 +123,7 @@
     !global var_name
     ```
 
-    {{ include "gen/includes/variables.inc" }}
+    {{ include "gen/includes/variables.inc.md" }}
 
     #### Declaration Without Values
 
@@ -138,6 +140,8 @@
   - equ
   - export
   - brace-quote
+  - index
+  - element
 
 
 - DocumentID: export
@@ -184,7 +188,7 @@
     not an idiomatic method of deallocation since it's name is misleading and
     suggests it is a deallocator for local _murex_ variables defined via `set`.
 
-    {{ include "gen/includes/variables.inc" }}
+    {{ include "gen/includes/variables.inc.md" }}
   Synonyms:
   - export
   - "!export"
@@ -195,4 +199,3 @@
   - equ
   - global
   - brace-quote
-

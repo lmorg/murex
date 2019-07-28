@@ -37,9 +37,9 @@ then you could prefix the variable with exec:
 
 ### See Also
 
+* [`=` (artithmetic evaluation)](../commands/equ.md):
+  Evaluate a mathmatical function
+* [`let`](../commands/let.md):
+  Evaluate a mathmatical function and assign to variable
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [equ](../commands/equ.md):
-  
-* [let](../commands/let.md):
-  

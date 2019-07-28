@@ -56,7 +56,7 @@ the following code because it's defined within a `try` block then being queried
 outside of the `try` block:
 
     » try {
-    » set foo=bar
+    »     set foo=bar
     » }
     » out "foo: $foo"
     foo:
@@ -66,7 +66,7 @@ even though it is being set inside the `try` block:
 
     » set foo
     » try {
-    » set foo=bar
+    »     set foo=bar
     » }
     » out "foo: $foo"
     foo: bar
@@ -145,11 +145,15 @@ and thus maintains consistency with `set`.
 
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [`=` (artithmetic evaluation)](../commands/equ.md):
+  Evaluate a mathmatical function
+* [`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
 * [`export`](../commands/export.md):
   Define a local variable and set it's value
+* [`let`](../commands/let.md):
+  Evaluate a mathmatical function and assign to variable
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [equ](../commands/equ.md):
-  
-* [let](../commands/let.md):
+* [element](../commands/element.md):
   

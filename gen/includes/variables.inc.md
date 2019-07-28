@@ -7,7 +7,7 @@ outside of the `try` block:
 
 ```
 » try {
-» set foo=bar
+»     set foo=bar
 » }
 » out "foo: $foo"
 foo:
@@ -19,7 +19,7 @@ even though it is being set inside the `try` block:
 ```
 » set foo
 » try {
-» set foo=bar
+»     set foo=bar
 » }
 » out "foo: $foo"
 foo: bar

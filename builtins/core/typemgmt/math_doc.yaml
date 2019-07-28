@@ -1,0 +1,112 @@
+- DocumentID: equ
+  Title: >+
+    `=` (artithmetic evaluation)
+  CategoryID: commands
+  Summary: >-
+    Evaluate a mathmatical function
+  Description: |-
+    `=` evaluates a mathmatical function and returns it's output
+  Usage: |-
+    ```
+    <stdin> -> = evaluation -> <stdout>
+
+    = evaluation -> <stdout>
+    ```
+  Examples: |-
+    As a method:
+    
+    ```
+    » let: age=18
+    » $age -> = < 21
+    true
+
+    » $age -> = < 21 -> if { out: "Under 21" } else { out: "Over 21" }
+    Under 21
+    ```
+    
+    As a function:
+    
+    ```
+    » let: age=18
+    » = age < 21
+    true
+
+    » = age < 21 -> if { out: "Under 21" } else { out: "Over 21" }
+    Under 21
+    ```
+
+    Inlining as a function:
+    » let: age=18
+    » if { = age < 21 } then { out: "Under 21" } else { out: "Over 21" }
+    Under 21
+    ```
+  Flags:
+  Detail: |-
+    {{ include "gen/includes/math.inc.md" }}
+  Synonyms:
+  - "="
+  Related:
+  - index
+  - element
+  - global
+  - let
+  - set
+  - global
+  - export
+  - equ
+  - brace-quote
+  - if
+
+
+- DocumentID: let
+  Title: >+
+    `let`
+  CategoryID: commands
+  Summary: >-
+    Evaluate a mathmatical function and assign to variable
+  Description: |-
+    `let` evaluates a mathmatical function and then assigns it to a locally
+    scoped variable (like `set`)
+  Usage: |-
+    ```
+    let var_name=evaluation
+    
+    let var_name++
+
+    let var_name--
+    ```
+  Examples: |-
+    ```
+    » let: age=18
+    » $age
+    18
+
+    » let: age++
+    » $age
+    19
+
+    » let: under18=age<18
+    » $under18
+    false
+
+    » let: under21 = age < 21
+    » $under21
+    true
+    ```
+  Flags:
+  Detail: |-
+    {{ include "gen/includes/math.inc.md" }}
+
+    {{ include "gen/includes/variables.inc.md" }}
+  Synonyms:
+  Related:
+  - index
+  - element
+  - global
+  - equ
+  - set
+  - global
+  - export
+  - equ
+  - brace-quote
+  - if

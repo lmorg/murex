@@ -68,11 +68,11 @@ There is an order of preference for which commands are looked up:
   Glob pattern matching for file system objects (eg *.txt)
 * [`global`](../commands/global.md):
   Define a global variable and set it's value
+* [`let`](../commands/let.md):
+  Evaluate a mathmatical function and assign to variable
 * [`private`](../commands/private.md):
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [let](../commands/let.md):
-  
 * [source](../commands/source.md):
   
