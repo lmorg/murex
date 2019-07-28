@@ -20,6 +20,8 @@ set json targets=({
 
 let status=0
 
+set version=${version --short}
+
 $targets -> formap os cpus {
     $cpus -> foreach arch {
         set ext
@@ -30,17 +32,13 @@ $targets -> formap os cpus {
             export GOOS=$os
             export GOARCH=$arch
             export GOARM=7
-            go build -o ./bin/murex-$os-$arch$ext $project
+            go build -o ./bin/murex-$version-$os-$arch$ext $project
             out "{GREEN}SUCCESSFUL{RESET}"
         }
         catch {
             out "{RED}FAILED{RESET}"
             let status++
         }
-
-        pwd
-        ls -l
-        ls -l ./bin
     }
 }
 

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/lmorg/murex/lang/ref"
@@ -153,7 +154,20 @@ func cmdSource(p *lang.Process) error {
 	return err
 }
 
+var rxVersionNum = regexp.MustCompile(`^[0-9]+\.[0-9]+`)
+
 func cmdVersion(p *lang.Process) error {
+	s, _ := p.Parameters.String(0)
+	if s == "--short" {
+		p.Stdout.SetDataType(types.Number)
+		num := rxVersionNum.FindStringSubmatch(config.Version)
+		if len(num) != 1 {
+			return errors.New("Unable to extract version number from string")
+		}
+		_, err := p.Stdout.Write([]byte(num[0]))
+		return err
+	}
+
 	p.Stdout.SetDataType(types.String)
 	_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
 	return err
