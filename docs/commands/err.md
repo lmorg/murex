@@ -51,6 +51,8 @@ a new _murex_ named pipe.
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
+* [`bg`](../commands/bg.md):
+  Run processes in the background
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`out`](../commands/out.md):
@@ -61,8 +63,6 @@ a new _murex_ named pipe.
   Pipe telemetry. Writes data-types and bytes written
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [bg](../commands/bg.md):
-  
 * [pipe](../commands/pipe.md):
   
 * [sprintf](../commands/sprintf.md):

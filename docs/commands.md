@@ -45,6 +45,8 @@ UNIX, or even Windows command prompt.
   Set definitions for tab-completion in the command line
 * [`base64` (optional)](commands/base64.md):
   Encode or decode a base64 string
+* [`bg`](commands/bg.md):
+  Run processes in the background
 * [`cast`](commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`catch`](commands/catch.md):
@@ -77,6 +79,8 @@ UNIX, or even Windows command prompt.
   Lists objects (eg files) in the current working directory
 * [`false`](commands/false.md):
   Returns a `false` value
+* [`fg`](commands/fg.md):
+  Sends a background process into the foreground
 * [`function`](commands/function.md):
   Define a function block
 * [`g`](commands/g.md):
