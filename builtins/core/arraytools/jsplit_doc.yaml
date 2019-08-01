@@ -30,6 +30,7 @@
   - 2darray
   - len
   - index
+  - element
   - range
   - mtac
   - msort

@@ -54,6 +54,7 @@
   - prepend
   - append
   - index
+  - element
   - a
   - ja
   - jsplit

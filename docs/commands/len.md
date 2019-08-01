@@ -64,3 +64,5 @@ instead. But be mindful that `wc` will also count new line characters
   Reverse the order of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [element](../commands/element.md):
+  

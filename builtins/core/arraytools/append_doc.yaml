@@ -42,7 +42,8 @@
     ```
   Synonyms:
   Related:
-  - square-bracket-open
+  - index
+  - element
   - cast
   - append
   - update
@@ -51,6 +52,8 @@
   - len
   - mtac
   - msort
+  - match
+  - regexp
 
 
 - DocumentID: append
@@ -92,7 +95,8 @@
     ```
   Synonyms:
   Related:
-  - square-bracket-open
+  - index
+  - element
   - cast
   - prepend
   - update
@@ -103,3 +107,5 @@
   - range
   - mtac
   - msort
+  - match
+  - regexp

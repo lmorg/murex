@@ -157,5 +157,3 @@ you want to overide the scoping of a variable inside a nested code-block.
   Evaluate a mathmatical function and assign to variable
 * [element](../commands/element.md):
   
-* [square-bracket-open](../commands/square-bracket-open.md):
-  

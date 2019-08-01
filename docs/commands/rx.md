@@ -45,3 +45,7 @@ only designed to match file system objects in the current working directory.
   Lists objects (eg files) in the current working directory
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
+* [`match`](../commands/match.md):
+  Match an exact value in an array
+* [`regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings

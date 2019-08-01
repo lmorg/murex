@@ -76,3 +76,5 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
   Outputs the length of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [element](../commands/element.md):
+  

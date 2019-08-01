@@ -67,11 +67,13 @@ get: google.com
 
 ### See Also
 
+* [`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
 * [config](../commands/config.md):
   
-* [square-brace-open](../commands/square-brace-open.md):
+* [element](../commands/element.md):
   

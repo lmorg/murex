@@ -43,6 +43,8 @@ any integers in data type aware structures will be converted into strings:
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
 * [`a` (make array)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`cast`](../commands/cast.md):
@@ -51,13 +53,17 @@ any integers in data type aware structures will be converted into strings:
   A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
+* [`match`](../commands/match.md):
+  Match an exact value in an array
 * [`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [square-bracket-open](../commands/square-bracket-open.md):
+* [`regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
+* [element](../commands/element.md):
   
 * [update](../commands/update.md):
   

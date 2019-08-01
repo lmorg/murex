@@ -60,7 +60,6 @@
   - set
   - "!set"
   Related:
-  - square-bracket-open
   - global
   - let
   - equ

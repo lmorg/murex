@@ -70,7 +70,8 @@
   Synonyms:
   Related:
   - get
-  - square-bracket-open
+  - index
+  - element
   - getfile
   - config
 

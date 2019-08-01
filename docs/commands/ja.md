@@ -61,3 +61,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Reverse the order of an array
 * [`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [element](../commands/element.md):
+  

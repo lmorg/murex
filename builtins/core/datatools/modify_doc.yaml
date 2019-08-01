@@ -100,7 +100,8 @@
     Marshallers are enabled at compile time from the `builtins/data-types` directory.
   Synonyms:
   Related:
-  - square-bracket-open
+  - index
+  - element
   - format
   - append
   - prepend

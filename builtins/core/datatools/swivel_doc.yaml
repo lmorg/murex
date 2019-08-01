@@ -127,7 +127,8 @@
   Synonyms:
   Related:
   - swivel-table
-  - square-bracket-open
+  - index
+  - element
   - format
   - append
   - prepend
@@ -204,7 +205,8 @@
   Synonyms:
   Related:
   - swivel-datatype
-  - square-bracket-open
+  - index
+  - element
   - format
   - append
   - prepend

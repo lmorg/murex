@@ -91,6 +91,8 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
+* [`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`cast`](../commands/cast.md):
@@ -101,7 +103,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Returns runtime information on the internal state of _murex_
 * [config](../commands/config.md):
   
-* [format](../commands/format.md):
+* [element](../commands/element.md):
   
-* [square-bracket-open](../commands/square-bracket-open.md):
+* [format](../commands/format.md):
   

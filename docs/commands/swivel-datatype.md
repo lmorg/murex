@@ -123,6 +123,8 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
+* [`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):
@@ -135,7 +137,7 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Returns runtime information on the internal state of _murex_
 * [`swivel-table`](../commands/swivel-table.md):
   Rotates a table by 90 degrees
-* [format](../commands/format.md):
+* [element](../commands/element.md):
   
-* [square-bracket-open](../commands/square-bracket-open.md):
+* [format](../commands/format.md):
   

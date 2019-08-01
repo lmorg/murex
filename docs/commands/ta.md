@@ -62,3 +62,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs the length of an array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [element](../commands/element.md):
+  
