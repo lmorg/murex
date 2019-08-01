@@ -60,5 +60,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
-* [mtac](../commands/mtac.md):
-  
+* [`mtac`](../commands/mtac.md):
+  Reverse the order of an array

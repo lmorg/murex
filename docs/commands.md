@@ -111,8 +111,12 @@ UNIX, or even Windows command prompt.
   Outputs a man page summary of a command
 * [`map` ](commands/map.md):
   Creates a map from two data sources
+* [`match`](commands/match.md):
+  Match an exact value in an array
 * [`msort` ](commands/msort.md):
   Sorts an array - data type agnostic
+* [`mtac`](commands/mtac.md):
+  Reverse the order of an array
 * [`murex-docs`](commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):
@@ -141,6 +145,8 @@ UNIX, or even Windows command prompt.
   Creates a QR code from STDIN
 * [`read`](commands/read.md):
   `read` a line of input from the user and store as a variable
+* [`regexp`](commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 * [`runtime`](commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):

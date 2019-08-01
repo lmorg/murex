@@ -57,7 +57,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simple way to build an array or list
 * [`len` ](../commands/len.md):
   Outputs the length of an array
+* [`mtac`](../commands/mtac.md):
+  Reverse the order of an array
 * [`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [mtac](../commands/mtac.md):
-  

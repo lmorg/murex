@@ -95,9 +95,9 @@ you can disable this behavior in `config`
   A sophisticated yet simply way to build a JSON array
 * [`len` ](../commands/len.md):
   Outputs the length of an array
+* [`mtac`](../commands/mtac.md):
+  Reverse the order of an array
 * [config](../commands/config.md):
   
 * [element](../commands/element.md):
-  
-* [mtac](../commands/mtac.md):
   

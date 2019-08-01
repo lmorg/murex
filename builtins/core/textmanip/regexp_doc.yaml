@@ -1,0 +1,129 @@
+- DocumentID: match
+  Title: >+
+    `match`
+  CategoryID: commands
+  Summary: >-
+    Match an exact value in an array
+  Description: |-
+    `match` takes input from STDIN and returns any array items / lines which
+    contain an exact match of the parameters supplied.
+
+    When multiple parameters are supplied they are concatenated into the search
+    string and white space delimited. eg all three of the below are the same:
+    ```
+    match "a b c"
+    match a\sb\sc
+    match a b c
+    match a    b    c
+    ```
+  Usage: |-
+    ```
+    <stdin> -> match search string -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » ja: [Monday..Friday] -> match Wed
+    [
+        "Wednesday"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    `match` is data-type aware so will work against lists or arrays of whichever
+    _murex_ data-type is passed to it via STDIN and return the output in the
+    same data-type.
+  Synonyms:
+  Related:
+  - a
+  - ja
+  - ta
+  - len
+  - 2darray
+  - append
+  - prepend
+  - suffix
+  - prefix
+  - jsplit
+  - msort
+  - pretty
+  - map
+  - regexp
+
+- DocumentID: regexp
+  Title: >+
+    `regexp`
+  CategoryID: commands
+  Summary: >-
+    Regexp tools for arrays / lists of strings
+  Description: |-
+    `regexp` provides a few tools for text matching and manipulation against an
+    array or list of strings - thus `regexp` is _murex_ data-type aware.
+  Usage: |-
+    ```
+    <stdin> -> regexp expression -> <stdout>
+    ```
+  Examples: |-
+    #### Find elements:
+
+    ```
+    » ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
+    [
+        "mon",
+        "fri",
+        "sun"
+    ]
+    ```
+    
+    This returns only 3 days because only 3 days match the expression (where
+    the days have to be 6 characters long) and then it only returns the first 3
+    characters because those are inside the parenthesis.
+
+    #### Match elements:
+
+    ```
+    » ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
+    [
+        "monday",
+        "friday",
+        "sunday"
+    ]
+    ```
+
+    #### Substitute expression:
+
+    ```
+    » ja: [monday..sunday] -> regexp 's/day/night/'
+    [
+        "monnight",
+        "tuesnight",
+        "wednesnight",
+        "thursnight",
+        "frinight",
+        "saturnight",
+        "sunnight"
+    ]
+    ```
+  Flags:
+    f/: output found expressions
+    m/: output elements that match expression
+    s/: output all elements - substituting elements that match expression
+  Detail: |-
+    `regexp` is data-type aware so will work against lists or arrays of whichever
+    _murex_ data-type is passed to it via STDIN and return the output in the
+    same data-type.
+  Synonyms:
+  Related:
+  - a
+  - ja
+  - ta
+  - len
+  - 2darray
+  - append
+  - prepend
+  - suffix
+  - prefix
+  - jsplit
+  - msort
+  - pretty
+  - map
+  - match

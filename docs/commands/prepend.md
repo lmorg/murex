@@ -56,8 +56,8 @@ any integers in data type aware structures will be converted into strings:
   Outputs the length of an array
 * [`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
-* [mtac](../commands/mtac.md):
-  
+* [`mtac`](../commands/mtac.md):
+  Reverse the order of an array
 * [square-bracket-open](../commands/square-bracket-open.md):
   
 * [update](../commands/update.md):

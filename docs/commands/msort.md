@@ -58,7 +58,7 @@ output of `msort` into another builtin:
   Splits STDIN into a JSON array based on a regex parameter
 * [`len` ](../commands/len.md):
   Outputs the length of an array
+* [`mtac`](../commands/mtac.md):
+  Reverse the order of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [mtac](../commands/mtac.md):
-  

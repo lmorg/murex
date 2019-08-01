@@ -109,7 +109,7 @@
   Creates a map from two data sources
 * [`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
+* [`mtac`](../commands/mtac.md):
+  Reverse the order of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [mtac](../commands/mtac.md):
-  
