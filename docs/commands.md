@@ -119,6 +119,8 @@ UNIX, or even Windows command prompt.
   Reverse the order of an array
 * [`murex-docs`](commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
+* [`murex-package`](commands/murex-package.md):
+  _murex_'s package manager
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
 * [`null`](commands/devnull.md):

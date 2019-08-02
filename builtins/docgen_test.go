@@ -56,6 +56,7 @@ func init() {
 		"msort":                 "msort_commands_docgen.go",
 		"mtac":                  "mtac_commands_docgen.go",
 		"murex-docs":            "murex-docs_commands_docgen.go",
+		"murex-package":         "murex-package_commands_docgen.go",
 		"murex-update-exe-list": "murex-update-exe-list_commands_docgen.go",
 		"null":                  "devnull_commands_docgen.go",
 		"open-image":            "open-image_commands_docgen.go",

@@ -15,7 +15,7 @@ import (
 )
 
 const usage = `
-Usage: murex-package install         url
+Usage: murex-package install         uri
                      update
                      reload
                      enable|disable  package[/module]
