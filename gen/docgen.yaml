@@ -5,14 +5,14 @@ Categories:
   - ID: commands
     Title: Command Reference
     Description: |-
-      This section is a catalogue of _murex_ functions (builtin commands). Because
-      _murex_ is loosely modelled on the functional paradigm, it means all language
-      constructs are exposed via functions and those are typically builtins since
-      they can share the _murex_ runtime virtual machine.
+      This section is a catalogue of _murex_ builtin commands. Because _murex_
+      is loosely modelled on the functional paradigm, it means all language
+      constructs are exposed via functions and those are typically builtins
+      because they can share the _murex_ runtime virtual machine.
 
-      However any executable command can also be called from within _murex_; be
-      that either via the `exec` builtin or natively like you would from any Linux,
-      UNIX, or even Windows command prompt.
+      However any executable command can also be called from within _murex_;
+      be that either via the `exec` builtin or natively like you would from any
+      Linux, UNIX, or even Windows command prompt.
 
     Templates:
     - OutputPath: docs/commands
@@ -36,7 +36,35 @@ Categories:
   # events:
 
   # types:
-  
+  - ID: types
+    Title: Data-Type Reference
+    Description: |-
+      This section is a catalogue of data-types which _murex_ is natively aware.
+
+      Since not all date-types are equal, you may find some features missing in
+      some data-types which are present in others. If in doubt then refer to
+      the manual here or check the API manual for more details about specific
+      hooks.
+
+    Templates:
+    - OutputPath: docs/types
+      CategoryFile: ../types.md
+      OutputExt: .md
+      CategoryTemplate: gen/types-md-cat.tmpl
+      DocumentTemplate: gen/types-md-doc.tmpl
+
+    #- OutputPath: builtins/docs
+    #  CategoryFile: 000_summaries_commands_docgen.go
+    #  OutputExt: _commands_docgen.go
+    #  CategoryTemplate: gen/commands-go-cat.tmpl
+    #  DocumentTemplate: gen/commands-go-doc.tmpl
+
+    #- OutputPath: builtins
+    #  CategoryFile: docgen_test.go
+    #  OutputExt: _commands_docgen.go
+    #  CategoryTemplate: gen/commands-go_test-cat.tmpl
+    #  DocumentTemplate: 
+
   # pipes:
 
   # api:

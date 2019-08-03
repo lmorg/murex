@@ -16,21 +16,21 @@
 
 {{ md .Examples }}{{ end }}{{ if .Flags }}
 
-### Flags
+### Default File Extensions And MIME Types
 
-{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
-{{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Detail }}
+{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
+{{ end }}* {{ md . }}`{{ end }}
+{{ end }}{{ if .Detail }}
 
 ### Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+{{ md (include .Detail) }}{{ end }}{{ if .Flags }}
 
-### Synonyms
+### Supported Hooks
 
-{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
-{{ end }}* `{{ md . }}`{{ end }}
-{{ end }}{{ if .Related }}
+{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
+{{ end }}* `{{ md .Flag }}`
+    {{ md .Description }}{{ end }}{{ end }}{{ if .Related }}
 
 ### See Also
 
