@@ -14,7 +14,7 @@ external source packages for the shell to compile.
 
 
 
-### Default File Extensions And MIME Types
+### Default Associations
 
 * MIME: `application/yaml`
 * MIME: `application/x-yaml`

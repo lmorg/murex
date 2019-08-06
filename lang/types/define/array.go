@@ -69,25 +69,34 @@ func readArrayBySliceString(v []string, callback func([]byte)) error {
 }
 
 func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
-	for i := range v {
+	if len(v) == 0 {
+		return nil
+	}
 
-		switch v[i].(type) {
+	//for i := range v {
 
-		//case interface{}:
-		//panic(fmt.Sprintf("%T",v[i]))
-		//jBytes, err := marshal(v[i])
-		//if err != nil {
-		//	return err
-		//}
-		//callback(jBytes)
+	switch v[0].(type) {
 
-		case string:
+	//case interface{}:
+	//panic(fmt.Sprintf("%T",v[i]))
+	//jBytes, err := marshal(v[i])
+	//if err != nil {
+	//	return err
+	//}
+	//callback(jBytes)
+
+	case string:
+		for i := range v {
 			callback([]byte(v[i].(string)))
+		}
 
-		case []byte:
+	case []byte:
+		for i := range v {
 			callback(v[i].([]byte))
+		}
 
-		default:
+	default:
+		for i := range v {
 			//s:=fmt.Sprint(v[i])
 			//callback([]byte(s))
 			jBytes, err := marshal(v[i])
@@ -97,6 +106,7 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 			callback(jBytes)
 		}
 	}
+	//}
 
 	return nil
 }
