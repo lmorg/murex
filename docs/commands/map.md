@@ -29,7 +29,7 @@ The first block is the key and the second is the value.
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a` (make array)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input

@@ -53,7 +53,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a` (make array)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`len` ](../commands/len.md):
   Outputs the length of an array

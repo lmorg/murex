@@ -2,7 +2,7 @@
 
 ## Data-Type Reference: `yaml` (YAML)
 
-> YAML Ain't Markup Language
+> YAML Ain't Markup Language (YAML)
 
 ### Description
 
@@ -47,13 +47,13 @@ external source packages for the shell to compile.
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [`json` (JSON)](../types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [element](../commands/element.md):
   
 * [format](../commands/format.md):
-  
-* [json](../types/json.md):
   
 * [jsonl](../types/jsonl.md):
   

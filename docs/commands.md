@@ -31,7 +31,7 @@ Linux, UNIX, or even Windows command prompt.
   Outputs a ranged subset of data from STDIN
 * [`[` (index)](commands/index.md):
   Outputs an element from an array, map or table
-* [`a` (make array)](commands/a.md):
+* [`a` (mkarray)](commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`alias`](commands/alias.md):
   Create an alias for a command

@@ -12,7 +12,7 @@ exampled.
 
 Further to that point it is worth remembering that some of the other
 shells described will have different goals to _murex_, such as POSIX
-compatibility, or a different approach to syntax. Or they might be a
+compatibility or a different approach to syntax. Or they might be a
 single domain utility like `jq`.
 
 Lastly in all of examples provided there will be a multitude of ways of
@@ -34,7 +34,7 @@ Elvish:
 
 Murex:
 
-    getfile https://api.github.com/repos/lmorg/murex/issues -> foreach { -> [ number title ] -> sprintf "%2s: %s\n" }
+    open https://api.github.com/repos/lmorg/murex/issues -> foreach { -> [ number title ] -> sprintf "%2s: %s\n" }
 
 ## Git format
 

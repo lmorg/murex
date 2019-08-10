@@ -1,13 +1,13 @@
 # _murex_ Language Guide
 
-## Command Reference: `a` (make array)
+## Command Reference: `a` (mkarray)
 
 > A sophisticated yet simple way to build an array or list
 
 ### Description
 
-_murex_ has a pretty sophisticated builtin for generating arrays. Think
-like bash's `{1..9}` syntax:
+Pronounced "make array", like `mkdir` (etc), _murex_ has a pretty sophisticated
+builtin for generating arrays. Think like bash's `{1..9}` syntax:
 
     a: [1..9]
 

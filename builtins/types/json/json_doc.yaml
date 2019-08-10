@@ -1,0 +1,65 @@
+- DocumentID: json
+  Title: >-
+    `json` (JSON)
+  CategoryID: types
+  Summary: >-
+    JavaScript Object Notation (JSON) (primitive)
+  Description: |-
+    JSON is a primitive data-type within _murex_.
+  Usage: |-
+  Examples: |-
+    Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
+    
+    ```
+    {
+      "firstName": "John",
+      "lastName": "Smith",
+      "isAlive": true,
+      "age": 27,
+      "address": {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10021-3100"
+      },
+      "phoneNumbers": [
+        {
+          "type": "home",
+          "number": "212 555-1234"
+        },
+        {
+          "type": "office",
+          "number": "646 555-4567"
+        },
+        {
+          "type": "mobile",
+          "number": "123 456-7890"
+        }
+      ],
+      "children": [],
+      "spouse": null
+    }
+    ```
+  Flags:
+    ReadArray(): Works with JSON arrays. Maps are converted into arrays
+    ReadMap(): Works with JSON maps
+    WriteArray(): Works with JSON arrays
+    ReadIndex(): Works against all properties in JSON
+    ReadNotIndex(): Works against all properties in JSON
+    Marshaller(): Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
+    Unmashaller(): Supported
+  Detail: |-
+  Synonyms:
+  - "MIME: `application/json`"
+  - "Extension: `json`"
+  Related:
+  - yaml
+  - toml
+  - hcl
+  - commands/open
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - commands/runtime
+  - commands/pretty

@@ -3,7 +3,7 @@
     `yaml` (YAML)
   CategoryID: types
   Summary: >-
-    YAML Ain't Markup Language
+    YAML Ain't Markup Language (YAML)
   Description: |-
     YAML support within _murex_ is pretty mature however it is not considered a
     primitive. Which means, while it is a recommended builtin which you should

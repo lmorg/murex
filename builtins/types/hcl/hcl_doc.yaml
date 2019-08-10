@@ -1,0 +1,82 @@
+- DocumentID: hcl
+  Title: >-
+    `hcl` (HCL)
+  CategoryID: types
+  Summary: >-
+    HashiCorp Configuration Language (HCL)
+  Description: |-
+    The description below is taken from the HCL git repository's [README](https://github.com/hashicorp/hcl):
+    
+    > HCL (HashiCorp Configuration Language) is a configuration language built by
+    > HashiCorp. The goal of HCL is to build a structured configuration language
+    > that is both human and machine friendly for use with command-line tools, but
+    > specifically targeted towards DevOps tools, servers, etc.
+    >
+    > HCL is also fully JSON compatible. That is, JSON can be used as completely
+    > valid input to a system expecting HCL. This helps makes systems interoperable
+    > with other systems.
+
+    HCL support within _murex_ is pretty mature however it is not considered a
+    primitive. Which means, while it is a recommended builtin which you should
+    expect in most deployments of _murex_, it's still an optional package and
+    thus may not be present in some edge cases. This is because it relies on
+    external source packages for the shell to compile.
+  Usage: |-
+  Examples: |-
+    ```
+    terraform {
+      required_version = "~> 0.11.5"
+    }
+
+    data "aws_availability_zones" "available" {}
+
+    data "aws_vpc" "vpc" {
+      id = "${var.vpc_id}"
+    }
+
+    data "aws_route53_zone" "external" {
+      zone_id = "${var.external_hosted_zone_id}"
+    }
+
+    data "aws_iam_policy_document" "assume_role_policy" {
+      statement {
+        actions = ["sts:AssumeRole"]
+        effect  = "Allow"
+
+        principals {
+          identifiers = ["ec2.amazonaws.com"]
+          type        = "Service"
+        }
+      }
+    }
+    ```
+
+    See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
+  Flags:
+    ReadArray(): Works with HCL arrays. Maps are converted into arrays
+    ReadMap(): Works with HCL maps
+    WriteArray(): Works with HCL arrays
+    ReadIndex(): Works against all properties in HCL
+    ReadNotIndex(): Works against all properties in HCL
+    Marshaller(): Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
+    Unmashaller(): Supported
+  Detail: |-
+  Synonyms:
+  - "MIME: `application/hcl`"
+  - "MIME: `application/x-hcl`"
+  - "MIME: `text/hcl`"
+  - "MIME: `text/x-hcl`"
+  - "Extension: `hcl`"
+  - "Extension: `tf`"
+  - "Extension: `tfvars`"
+  Related:
+  - yaml
+  - json
+  - jsonl
+  - commands/open
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - commands/runtime
+  - commands/pretty

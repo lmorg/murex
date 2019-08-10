@@ -11,5 +11,11 @@ hooks.
 
 ### Pages
 
+* [`hcl` (HCL)](types/hcl.md):
+  HashiCorp Configuration Language (HCL)
+* [`json` (JSON)](types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
+* [`toml` (TOML)](types/toml.md):
+  Tom's Obvious, Minimal Language (TOML)
 * [`yaml` (YAML)](types/yaml.md):
-  YAML Ain't Markup Language
+  YAML Ain't Markup Language (YAML)

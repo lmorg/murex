@@ -54,7 +54,7 @@ STDIN is a long running process or non-standard stream (eg network pipe).
 
 * [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`a` (make array)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`append`](../commands/append.md):
   Add data to the end of an array

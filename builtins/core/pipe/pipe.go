@@ -19,9 +19,12 @@ func init() {
 	lang.GoFunctions[consts.NamedPipeProcName] = cmdReadPipe
 	defaults.AppendProfile(`
 		autocomplete set pipe { [
+			{
+				"AnyValue": true
+			},
 		    {
 		        "Dynamic": ({
-					runtime --pipes -> !match std
+					runtime: --pipes -> !match: std -> prefix: "--"
 				}),
 		        "FlagValues": {
 		         	"--file": [{
@@ -33,7 +36,7 @@ func init() {
 
 		autocomplete set !pipe { [
 		    {
-		        "Dynamic": "{ runtime: --pipes -> formap k v { if { = k!=` + "`null`" + ` } { $k } } }",
+		        "Dynamic": "{ runtime: --pipes -> formap: k v { if { = k!=` + "`null`" + ` } { $k } } }",
 				"AllowMultiple": true
 		    }
 		] }

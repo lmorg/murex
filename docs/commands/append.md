@@ -45,7 +45,7 @@ any integers in data type aware structures will be converted into strings:
   Outputs an element from an array, map or table
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a` (make array)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
