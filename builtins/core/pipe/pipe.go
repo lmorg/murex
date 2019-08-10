@@ -36,7 +36,7 @@ func init() {
 
 		autocomplete set !pipe { [
 		    {
-		        "Dynamic": "{ runtime: --pipes -> formap: k v { if { = k!=` + "`null`" + ` } { $k } } }",
+		        "Dynamic": "{ runtime: --named-pipes -> formap: k v { if { = v!=` + "`null`" + ` } { $k } } }",
 				"AllowMultiple": true
 		    }
 		] }
