@@ -137,11 +137,10 @@ This is a security design to protect against a $variable containing `<>` and
 causing unexpected behaviour. Alternatively you can use <pipe> as a function:
 
     pipe: foobar
-    bg { <foobar> -> cat }
+    bg { <foobar> -> prefix "Hello, I am " }
     out: "writing to foobar..." -> <foobar>
+    out: "closing foobar..." -> <foobar>
     !pipe: foobar
-
-(this example includes a redundant usage of `cat` to demonstrate named-pipes writing to a function)
 
 #### Networking pipes
 

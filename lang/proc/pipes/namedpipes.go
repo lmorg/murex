@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -59,38 +58,37 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 // Close a named pipe
 func (n *Named) Close(name string) error {
 	n.mutex.Lock()
-	defer n.mutex.Unlock()
 
 	if n.pipes[name].Pipe == nil {
+		n.mutex.Unlock()
 		return fmt.Errorf("No pipe with the name `%s` exists", name)
 	}
 
 	if name == "null" {
+		n.mutex.Unlock()
 		return errors.New("null pipe must not be closed")
 	}
 
 	n.pipes[name].Pipe.Close()
 
-	go func() {
-		// 3 second grace period before garbage collection - just to give any buffers chance to flush within murex code
-		// (really this is only needed for the standard streamer but it doesn't do any damage to have all pipes behave the same)
-		time.Sleep(3 * time.Second)
-		delete(n.pipes, name)
-	}()
+	delete(n.pipes, name)
 
+	n.mutex.Unlock()
 	return nil
 }
 
 // Get a named pipe interface from the named pipe table
 func (n *Named) Get(name string) (stdio.Io, error) {
 	n.mutex.Lock()
-	defer n.mutex.Unlock()
 
 	if n.pipes[name].Pipe == nil {
+		n.mutex.Unlock()
 		return nil, fmt.Errorf("No pipe with the name `%s` exists", name)
 	}
 
-	return n.pipes[name].Pipe, nil
+	p := n.pipes[name].Pipe
+	n.mutex.Unlock()
+	return p, nil
 }
 
 // Dump returns the named pipe table in a format that can be serialised into JSON
