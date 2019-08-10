@@ -466,7 +466,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			colNumber = 0
 			switch {
 			case escaped:
-				pUpdate(r)
+				//pUpdate(r)
+				pUpdate(' ')
 				escaped = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)

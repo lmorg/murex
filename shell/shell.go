@@ -3,6 +3,7 @@ package shell
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
@@ -76,11 +77,13 @@ func ShowPrompt() {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
-	thisProc := PromptId.Add()
+	var (
+		thisProc = PromptId.Add()
+		nLines   = 1
+		merged   string
+		block    []rune
+	)
 
-	nLines := 1
-	var merged string
-	var block []rune
 	Prompt.GetMultiLine = func(r []rune) []rune {
 		var multiLine []rune
 		if len(block) == 0 {
@@ -128,9 +131,12 @@ func ShowPrompt() {
 			}
 		}
 
-		if nLines > 1 {
+		switch {
+		//case len(block) > 0 && block[len(block)-1] == '\\':
+		//		block = append(block, []rune(" "+line)...)
+		case nLines > 1:
 			block = append(block, []rune(utils.NewLineString+line)...)
-		} else {
+		default:
 			block = []rune(line)
 		}
 
@@ -155,7 +161,7 @@ func ShowPrompt() {
 
 		case pt.Escaped:
 			nLines++
-			merged += line[:len(line)-1] + `^\n`
+			merged += strings.TrimSpace(line[:len(line)-1]) + " "
 
 		case pt.QuoteSingle, pt.QuoteBrace > 0:
 			nLines++

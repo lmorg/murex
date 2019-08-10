@@ -12,7 +12,7 @@ set json targets=({
     "openbsd":   [ "386", "amd64", "arm"          ],
     "netbsd":    [ "386", "amd64", "arm"          ],
     "dragonfly": [        "amd64"                 ],
-    "darwin":    [ "386", "amd64"                 ],
+    "darwin":    [        "amd64"                 ],
     "solaris":   [        "amd64"                 ],
     "plan9":     [ "386", "amd64", "arm"          ],
     "windows":   [ "386", "amd64", "arm"          ]
@@ -20,6 +20,9 @@ set json targets=({
 
 let status=0
 
+# Assumes the same version is running this script as the source.
+# This is a bad assumption to make and ideally there should be a pre-compiled
+# version.
 set version=${version --short}
 
 $targets -> formap os cpus {
