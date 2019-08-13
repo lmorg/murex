@@ -9,10 +9,11 @@ import (
 // TestGet tests the get function
 func TestGet(t *testing.T) {
 	lang.InitEnv()
+	addr := StartHTTPServer(t)
 
 	p := lang.NewTestProcess()
 	p.Config = lang.ShellProcess.Config
-	p.Parameters.Params = []string{"https://github.com"}
+	p.Parameters.Params = []string{addr}
 
 	err := cmdGet(p)
 	if err != nil {
@@ -23,10 +24,11 @@ func TestGet(t *testing.T) {
 // TestGetFile tests the getfile function
 func TestGetFile(t *testing.T) {
 	lang.InitEnv()
+	addr := StartHTTPServer(t)
 
 	p := lang.NewTestProcess()
 	p.Config = lang.ShellProcess.Config
-	p.Parameters.Params = []string{"https://github.com"}
+	p.Parameters.Params = []string{addr}
 
 	err := cmdGetFile(p)
 	if err != nil {

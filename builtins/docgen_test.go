@@ -23,6 +23,7 @@ func init() {
 		"cast":                  "cast_commands_docgen.go",
 		"catch":                 "catch_commands_docgen.go",
 		"cd":                    "cd_commands_docgen.go",
+		"config":                "config_commands_docgen.go",
 		"cpuarch":               "cpuarch_commands_docgen.go",
 		"cpucount":              "cpucount_commands_docgen.go",
 		"debug":                 "debug_commands_docgen.go",

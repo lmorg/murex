@@ -97,12 +97,12 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Add data to the end of an array
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [`config`](../commands/config.md):
+  Query or define _murex_ runtime settings
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [config](../commands/config.md):
-  
 * [element](../commands/element.md):
   
 * [format](../commands/format.md):

@@ -69,11 +69,11 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [`config`](../commands/config.md):
+  Query or define _murex_ runtime settings
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [config](../commands/config.md):
-  
 * [element](../commands/element.md):
   

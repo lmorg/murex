@@ -275,6 +275,8 @@ normal operation.
   Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
+* [`config`](../commands/config.md):
+  Query or define _murex_ runtime settings
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`event`](../commands/event.md):
@@ -289,8 +291,6 @@ normal operation.
   Define a private function block
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [config](../commands/config.md):
-  
 * [fid-list](../commands/fid-list.md):
   
 * [foreach](../commands/foreach.md):

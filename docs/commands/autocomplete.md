@@ -13,7 +13,7 @@ completion rules for suggestions in the interactive command line.
 
     autocomplete get command -> <stdout>
     
-    autocomplete set command { json-block }
+    autocomplete set command { mxjson }
 
 ### Flags
 
@@ -180,11 +180,11 @@ flags.
 
 * [`alias`](../commands/alias.md):
   Create an alias for a command
+* [`config`](../commands/config.md):
+  Query or define _murex_ runtime settings
 * [`function`](../commands/function.md):
   Define a function block
 * [`private`](../commands/private.md):
   Define a private function block
-* [config](../commands/config.md):
-  
 * [summary](../commands/summary.md):
   

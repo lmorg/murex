@@ -86,5 +86,9 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
   
 * [format](../commands/format.md):
   
+* [jsonl](../types/jsonl.md):
+  
+* [mxjson](../types/mxjson.md):
+  Murex-flavoured JSON (primitive)
 * [open](../commands/open.md):
   

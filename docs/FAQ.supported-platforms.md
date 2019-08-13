@@ -7,39 +7,34 @@ level of support it had:
 
 **ArchLinux:**
 
-This is my primary development platform so all features should work.
+This is one of the primary development platforms; all features should work.
 
 **Debian:**
 
-Debian is automatically tested via Docker as part of the build tests.
+Extensively tested
 
 **Ubuntu:**
 
-_murex_ has been tested and works well.
+Extensively tested
 
 **CentOS:**
 
-CentOS is automatically tested via Docker as part of the build tests.
+Extensively tested
 
 ## OS X / Darwin
 
-Darwin is included as part of the automatic build tests however there has been
-no formal usability tests. This means _murex_ will compile and execute however I
-cannot make any guarantees about if all the features will function.
-
-If you do encounter any problems then please raise an issue on Github.
+This is one of the primary development platforms; all features work aside alt-
+hotkeys.
 
 ## FreeBSD
 
-_murex_ has been tested inside a 10.3-RELEASE AMD64 jail
+Extensively tested inside a 10.3-RELEASE AMD64 jail
 
 FreeBSD support is considered very good.
 
 ## OpenBSD
 
-Tested on an earlier release of _murex_. `regression_test.sh` cannot be run
-because of `timeout` dependency however `go test` should still work and OpenBSD
-is included as part of the automated build tests.
+Tested on an earlier version of _murex_.
 
 OpenBSD support is expected to be good but, as always, please log an issue via
 Github if you do encounter problems.
@@ -58,52 +53,34 @@ particular platform.
 ## Windows
 
 Windows is supported and part of the automated build tests so _murex_ will
-compile for that platform. However I have not had access to a Windows machine
-for some time so there maybe some new bugs introduced in recent versions. There
-is also the caveat that without a broad range of command line utilities (eg GNU
-coreutils) the usefulness of _murex_ is seriously diminished. There is some work
-underway to replicate some of the basics of coreutils as _murex_ builtins but
-that level of work is massive, thankless, and so obviously a low priority. Thus
-my recommendation is to run _murex_ inside WSL (Windows Subsystem for Linux) on
-Windows 10. However if native Windows is your preference then _murex_
-*should* function.
+compile for that platform however very little functional test on recent
+versions. There is also the caveat that without a broad range of command line
+utilities (eg GNU coreutils) the usefulness of _murex_ is seriously diminished.
+There is some work underway to replicate some of the basics of coreutils as
+_murex_ builtins but that level of work is massive, thankless, and so obviously
+a low priority. Thus the recommendation is to run _murex_ inside WSL (Windows
+Subsystem for Linux) on Windows 10. However if native Windows is your preference
+then _murex_ *should* function.
+
+Feature wise, job control isn't supported in Windows because Windows doesn't
+support the SIGSTSP etc signals to stop processes.
 
 ## Plan 9
 
-Plan 9 is included as part of the automated built tests however, due to the
-differences in Plan 9's syscalls, there may be a few edge case where bugs exist
-in the Plan 9 build which don't with the Linux / UNIX counterparts. I don't
-personally perform any functional testing for Plan 9 beyond what is already
-included as part of the build and unit tests.
+Plan 9 is included as part of the automated built tests however no functional
+tests have been run.
 
 If you do happen to run into any such bugs then I do welcome pull requests.
 
+Feature wise, job control isn't supported in Plan 9 because Plan 9 doesn't
+support all of the required etc signals.
+
 # Other CPU architectures
 
-While there isn't any CPU specific code in _murex_ below is a breakdown
-of state of support and testing on alternative architectures:
+_murex_ I developed on AMD64 and that is also the architecture which runs all
+of the unit tests; however there is nothing CPU specific in _murex_'s source
+and the CI pipeline does spit out binaries for 386, AMD64, ARMv7 (32bit) and
+ARMv8 (64bit) so the shell should compile for those architectures.
 
-## 386
-
-Untested but should function the same as AMD64. 64 bit data types are rarely
-used so performance should be roughly equal. If you do still use 32 bit
-platforms and notice any issues then please raise an issue ticket and I will
-investigate.
-
-## ARM
-
-Only tested on Linux but full compatibility was present.
-
-## PPC
-
-Untested however the Go compiler does support various PPC architectures so
-_murex_ might work.
-
-## MIPS
-
-Untested however the Go compiler does support various MIPS architectures so
-_murex_ might work.
-
-## SPARC
-
-Unsupported.
+If you do happen to run into any issues then please report them on the Github
+issue tracker.

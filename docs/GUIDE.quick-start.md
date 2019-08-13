@@ -94,7 +94,7 @@ for more on using the `array` builtin.
 ## Back ticks
 
 In _murex_ back ticks do not spawn subshells. Back ticks are treated
-like a regular, printable, character. Their only "special" function is
+like a regular, printable, character. Their only special function is
 quoting strings in `=`, eg:
 
     if { = `quoted string`==variable } { out "do something" }
