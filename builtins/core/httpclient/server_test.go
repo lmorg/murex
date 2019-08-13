@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"sync/atomic"
 	"testing"
+	"time"
 )
 
 /*
@@ -36,6 +37,7 @@ func StartHTTPServer(t *testing.T) (addr string) {
 	port := atomic.AddInt32(&testPort, 1)
 	addr = fmt.Sprintf("%s:%d", testHost, port)
 	go testHTTPServer(t, addr)
+	time.Sleep(100 * time.Millisecond)
 	return
 }
 

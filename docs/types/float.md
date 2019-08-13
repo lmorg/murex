@@ -14,11 +14,6 @@ numbers.
 
 
 
-### Default Associations
-
-
-
-
 ### Supported Hooks
 
 * `Marshaller()`

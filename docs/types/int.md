@@ -23,11 +23,6 @@ AMD64 or other 64bit built of _murex_ would see the range from
 
 
 
-### Default Associations
-
-
-
-
 ### Supported Hooks
 
 * `Marshaller()`
