@@ -11,7 +11,7 @@
     ```
     autocomplete get command -> <stdout>
 
-    autocomplete set command { json-block }
+    autocomplete set command { mxjson }
     ```
   Examples: |-
   Detail: |-

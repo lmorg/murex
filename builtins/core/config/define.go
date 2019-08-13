@@ -51,6 +51,9 @@ func defineConfig(p *lang.Process) error {
 	case properties.Description == "":
 		return errors.New("`Description` not defined")
 
+	case properties.Default == nil:
+		return errors.New("`Default` not defined on non-dynamic config")
+
 	case (properties.Dynamic.Read == "" && properties.Dynamic.Write != "") ||
 		(properties.Dynamic.Read != "" && properties.Dynamic.Write == ""):
 		return errors.New("When using dynamic values, both the `read` and `write` need to contain code blocks")

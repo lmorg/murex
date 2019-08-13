@@ -5,7 +5,7 @@ Categories:
   - ID: commands
     Title: Command Reference
     Description: |-
-      This section is a catalogue of _murex_ builtin commands. Because _murex_
+      This section is a glossary of _murex_ builtin commands. Because _murex_
       is loosely modelled on the functional paradigm, it means all language
       constructs are exposed via functions and those are typically builtins
       because they can share the _murex_ runtime virtual machine.
@@ -14,9 +14,37 @@ Categories:
       be that either via the `exec` builtin or natively like you would from any
       Linux, UNIX, or even Windows command prompt.
 
+      ### Other Reference Material
+
+      #### Language Guides
+
+      1. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
+      contains builtins required for building logic.
+
+      #### _murex_'s Source Code
+
+      In _murex_'s source under the `lang/builtins` path of the project files
+      is several directories, each hosting different categories of _murex_
+      builtins. From core commands through to data-types and methods.
+      
+      Each package will include a README.md file with a basic summary of what
+      that package is used for and all you to enable or disable builtins, should
+      you decide to compile the shell from source.
+
+      #### Shell Commands For Querying Builtins
+
+      From the shell itself: run `builtins` to list the builtin command.
+
+      If you require a manual on any of those commands, you can run `murex-docs`
+      to return the same markdown-formatted document as those listed below. eg
+
+      ```
+      murex-docs trypipe
+      ```
+  
     Templates:
     - OutputPath: docs/commands
-      CategoryFile: ../commands.md
+      CategoryFile: ../GUIDE.builtin-functions.md
       OutputExt: .md
       CategoryTemplate: gen/commands-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
@@ -39,12 +67,34 @@ Categories:
   - ID: types
     Title: Data-Type Reference
     Description: |-
-      This section is a catalogue of data-types which _murex_ is natively aware.
+      This section is a glossary of data-types which _murex_ is natively aware.
 
-      Since not all date-types are equal, you may find some features missing in
-      some data-types which are present in others. If in doubt then refer to
-      the manual here or check the API manual for more details about specific
-      hooks.
+      ### Definitions
+      
+      For clarity, it is worth explaining a couple of terms:
+      
+      1. "Data-types" in _murex_ are a description of the format of data. This
+      means that while any stdio stream in UNIX will by "bytes", _murex_ might
+      label that data as being a JSON string or CSV file (for example) which
+      means any builtins that parse that stdio stream, for example to return
+      the first 8 items, would need to parse those types differently. Thus a
+      "data-type" in _murex_ is actually more than just a description of a data
+      structure; it is a series of APIs to marshall and unmarshall data from
+      complex file formats. This enables you to use the same command line tools
+      to query any type of output.
+
+      2. "Primitive" data-types refer to types that are the required by _murex_
+      to function. These will be `int`, `float` / `number`, `bool`, `string`,
+      `generic`, `json`, and `null`. All other data-types are optional albeit
+      still recommended (unless described otherwise).
+
+      ### Feature Sets
+      
+      Since not all data formats are equal (for example the TOML file format
+      doesn't support naked arrays where as JSON does), you may find some
+      features missing in some data-types which are present in others. If in
+      doubt then refer to the manual here or check the API manual for more
+      details about specific hooks.
 
     Templates:
     - OutputPath: docs/types

@@ -56,6 +56,8 @@
   - yaml
   - toml
   - hcl
+  - jsonl
+  - mxjson
   - commands/open
   - commands/index
   - commands/element
