@@ -186,5 +186,7 @@ flags.
   Define a function block
 * [`private`](../commands/private.md):
   Define a private function block
+* [mxjson](../types/mxjson.md):
+  Murex-flavoured JSON (primitive)
 * [summary](../commands/summary.md):
   

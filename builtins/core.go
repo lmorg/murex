@@ -14,7 +14,9 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/autocomplete" // autocompleter cli tools
 	_ "github.com/lmorg/murex/builtins/core/config"       // config cli tools
 	_ "github.com/lmorg/murex/builtins/core/datatools"    // utilities for manipulating structured data
+	_ "github.com/lmorg/murex/builtins/core/element"      // element function: [[ /element ]]
 	_ "github.com/lmorg/murex/builtins/core/httpclient"   // builtins for http
+	_ "github.com/lmorg/murex/builtins/core/index"        // index function: [ index ]
 	_ "github.com/lmorg/murex/builtins/core/io"           // OS IO builtins
 	_ "github.com/lmorg/murex/builtins/core/management"   // murex management builtins
 	_ "github.com/lmorg/murex/builtins/core/mkarray"      // rapidly makes arrays

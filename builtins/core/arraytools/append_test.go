@@ -3,11 +3,10 @@ package arraytools
 import (
 	"testing"
 
-	"github.com/lmorg/murex/test"
-
 	_ "github.com/lmorg/murex/builtins/types/generic"
 	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test"
 )
 
 /*

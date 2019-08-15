@@ -1,4 +1,4 @@
-package typemgmt
+package index
 
 import (
 	"errors"

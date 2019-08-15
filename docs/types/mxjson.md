@@ -26,7 +26,7 @@ code.
 
 #### Block Quotation
 
-Code blocks are quoted with `({`, `})`. For example, below "ExampleFunction"
+Code blocks are quoted with `(`, `)`. For example, below "ExampleFunction"
 uses the `({ block quote })` method.
 
     {

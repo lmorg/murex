@@ -1,4 +1,4 @@
-package typemgmt
+package element
 
 import (
 	"errors"
@@ -29,7 +29,6 @@ func element(p *lang.Process) (err error) {
 	}
 
 	params := p.Parameters.StringArray()
-	//var path []string
 
 	switch len(params) {
 	case 0:
@@ -38,7 +37,6 @@ func element(p *lang.Process) (err error) {
 	case 1:
 		if strings.HasSuffix(params[0], "]]") {
 			params[0] = params[0][0 : len(params[0])-2]
-			//path = strings.Split(params[0], params[0][0:1])
 		} else {
 			return errors.New("Missing closing brackets, ` ]]`")
 		}
@@ -46,12 +44,7 @@ func element(p *lang.Process) (err error) {
 	case 2:
 		last := len(params) - 1
 		if strings.HasSuffix(params[last], "]]") {
-			if len(params[last]) == 2 {
-				//path = params[0:last]
-				//path = strings.Split(params[0], params[0][0:1])
-			} else {
-				//params[last] = params[last][0 : len(params[last])-2]
-				//path = params
+			if len(params[last]) != 2 {
 				return errors.New("Too many parameters")
 			}
 		} else {
@@ -86,13 +79,13 @@ func element(p *lang.Process) (err error) {
 
 	switch v := obj.(type) {
 	case string:
-		_, err = p.Stdout.Writeln([]byte(v))
+		_, err = p.Stdout.Write([]byte(v))
 	case []byte:
-		_, err = p.Stdout.Writeln(v)
+		_, err = p.Stdout.Write(v)
 	case int:
-		_, err = p.Stdout.Writeln([]byte(strconv.Itoa(v)))
+		_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
 	case int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64:
-		_, err = fmt.Fprintln(p.Stdout, v)
+		_, err = fmt.Fprint(p.Stdout, v)
 	default:
 		b, err := define.MarshalData(p, dt, obj)
 		if err != nil {
@@ -109,6 +102,13 @@ func element(p *lang.Process) (err error) {
 
 func recursiveLookup(path []string, i int, obj interface{}) (interface{}, error) {
 	switch v := obj.(type) {
+	case []string:
+		i, err := isValidIndex(path[i], len(v))
+		if err != nil {
+			return nil, err
+		}
+		return v[i], nil
+
 	case []interface{}:
 		i, err := isValidIndex(path[i], len(v))
 		if err != nil {

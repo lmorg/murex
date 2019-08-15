@@ -128,7 +128,7 @@ block defined from the `Read` and `Write` mapped values. eg
     # Create the example config file
     (this is the default value) -> > example.conf
     
-    # mxjson format, so we can have comments and `({` quotes
+    # mxjson format, so we can have comments and block quotes: #, (, )
     config define example test ({
         "Description": "This is only an example",
         "DataType": "str",
@@ -145,6 +145,18 @@ block defined from the `Read` and `Write` mapped values. eg
         "Default": "${open example.conf}"
     })
     
+It's also worth noting the different syntax between **Read** and **Default**.
+The **Read** code block is being executed when the **Read** directive is being
+requested, whereas the **Default** code block is being executed when the JSON
+is being read.
+
+In technical terms, the **Default** code block is being executed by _murex_ 
+when `config define` is getting executed where as the **Read** and **Write**
+code blocks are getting stored as a JSON string and then executed only when
+those hooks are getting triggered.
+
+See the `mxjson` data-type for more details.
+
 #### "Dynamic": { "Read": string ("") }
 
 This is executed when `autocomplete get app key` is ran. The STDOUT of the code
@@ -161,5 +173,7 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Returns runtime information on the internal state of _murex_
 * [events](../commands/events.md):
   
+* [mxjson](../types/mxjson.md):
+  Murex-flavoured JSON (primitive)
 * [open](../commands/open.md):
   
