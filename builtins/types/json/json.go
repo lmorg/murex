@@ -18,6 +18,5 @@ func init() {
 	stdio.RegesterWriteArray(types.Json, newArrayWriter)
 
 	define.SetMime(types.Json, "application/json")
-
 	define.SetFileExtensions(types.Json, "json")
 }

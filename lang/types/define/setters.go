@@ -1,29 +1,30 @@
 package define
 
 import (
-	"github.com/lmorg/murex/lang"
 	"regexp"
 	"strings"
+
+	"github.com/lmorg/murex/lang"
 )
 
 var (
 	// ReadIndexes defines the Go functions for the `[ Index ]` murex function
-	ReadIndexes map[string]func(p *lang.Process, params []string) error = make(map[string]func(*lang.Process, []string) error)
+	ReadIndexes = make(map[string]func(*lang.Process, []string) error)
 
 	// ReadNotIndexes defines the Go functions for the `![ Index ]` murex function
-	ReadNotIndexes map[string]func(p *lang.Process, params []string) error = make(map[string]func(*lang.Process, []string) error)
+	ReadNotIndexes = make(map[string]func(*lang.Process, []string) error)
 
 	// Unmarshallers defines the Go functions for converting a murex data type into a Go interface
-	Unmarshallers map[string]func(p *lang.Process) (interface{}, error) = make(map[string]func(*lang.Process) (interface{}, error))
+	Unmarshallers = make(map[string]func(*lang.Process) (interface{}, error))
 
 	// Marshallers defines the Go functions for converting a Go interface into a murex data type
-	Marshallers map[string]func(p *lang.Process, v interface{}) ([]byte, error) = make(map[string]func(*lang.Process, interface{}) ([]byte, error))
+	Marshallers = make(map[string]func(*lang.Process, interface{}) ([]byte, error))
 )
 
 var (
-	mimes        map[string]string = make(map[string]string)
-	fileExts     map[string]string = make(map[string]string)
-	rxMimePrefix *regexp.Regexp    = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+	mimes        = make(map[string]string)
+	fileExts     = make(map[string]string)
+	rxMimePrefix = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
 )
 
 // SetMime defines MIME(s) and assign it a murex data type
