@@ -49,19 +49,21 @@
       "omega"
     ]
     ```
-  Flags:
+  Hooks:
     ReadMap(): Works with TOML maps
     ReadIndex(): Works against all properties in TOML
     ReadNotIndex(): Works against all properties in TOML
     Marshal(): Supported
     Unmashal(): Supported
   Detail: |-
-  Synonyms:
-  - "MIME: `application/toml`"
-  - "MIME: `application/x-toml`"
-  - "MIME: `text/toml`"
-  - "MIME: `text/x-toml`"
-  - "Extension: `toml`"
+  Associations:
+    Mimes:
+    - application/toml
+    - application/x-toml
+    - text/toml
+    - text/x-toml
+    Extensions:
+    - toml
   Related:
   - yaml
   - json

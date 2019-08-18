@@ -1,132 +1,82 @@
-# Language Guide: _murex_ Type System
+# _murex_ Language Guide
 
-Most of the time you will not need to worry about typing in_murex_ as
-the shell is designed around productivity as opposed to strictness
-despite generally being a strictly typed design. Examples of this are as
-follows:
+## Data-Type Reference
+
+This section is a glossary of data-types which _murex_ is natively aware.
+
+Most of the time you will not need to worry about typing in_murex_ as the
+shell is designed around productivity as opposed to strictness despite
+generally following a strictly typed design. Examples of this are:
 
 * Variables when outputted are automatically converted to strings
 
 * `=` and `let` functions evaluate the data type as well as the value.
-An example of strict typing in `=` can be seen with these 2 blocks:
+  An example of strict typing in `=` can be seen with these 2 blocks:
 
-    1. adding numbers:
+  1. adding numbers:
 
-        ```
-        let a=1  # define 'a' as number
-        let b=1  # define 'b' as number
-        = a+b # returns '2' as both 'a' and 'b' are numbers
-        ```
+          » let a=1  # define 'a' as number
+          » let b=1  # define 'b' as number
+          » = a+b
+          2
+              
+      (returns '2' as both `$a` and `$b` are numbers)
 
-    2. adding strings:
+  2. adding strings:
 
-        ```
-        set a=1  # define 'a' as string
-        let b=1  # define 'b' as number
-        = a+b # returns '11' as 'a' is string so values are concatenated
-        ```
+          » set a=1  # define 'a' as string
+          » let b=1  # define 'b' as number
+          » = a+b
+          11
+          
+      (returns '11' as `$a` is string so values are concatenated)
 
-For more on the `set`, `let` and `=` functions see [GUIDE.variables-and-evaluation.md](./GUIDE.variables-and-evaluation.md).
+* Data can be case into other data-types using the `cast` command:
 
-* Data can be cast into other data types using the `cast` process:
+      » echo '{ "key": "value" }' -> cast json 
+      
+### Definitions
 
-    echo "{ echo 'this is a string' }" -> cast block
+For clarity, it is worth explaining a couple of terms:
 
-This is usually handy if you have some data that should be processed as
-a JSON or CSV (for example) but was pulled from a source that couldn't
-disclose a data type.
+1. "Data-types" in _murex_ are a description of the format of data. This
+means that while any stdio stream in UNIX will by "bytes", _murex_ might
+label that data as being a JSON string or CSV file (for example) which
+means any builtins that parse that stdio stream, for example to return
+the first 8 items, would need to parse those types differently. Thus a
+"data-type" in _murex_ is actually more than just a description of a data
+structure; it is a series of APIs to marshall and unmarshall data from
+complex file formats. This enables you to use the same command line tools
+to query any type of output.
 
-# Data type auto-detection
+2. "Primitive" data-types refer to types that are the required by _murex_
+to function. These will be `int`, `float` / `number`, `bool`, `string`,
+`generic`, `json`, and `null`. All other data-types are optional albeit
+still recommended (unless described otherwise).
 
-The following inbuilts autodetect data types using the following methods
+### Feature Sets
 
-* `getfile` will look at the 'Content-Type' HTTP header
+Since not all data formats are equal (for example the TOML file format
+doesn't support naked arrays where as JSON does), you may find some
+features missing in some data-types which are present in others. If in
+doubt then refer to the manual here or check the API manual for more
+details about specific hooks.
 
-* `open` will look at the file extension (ignoring the .gz suffix)
+### Pages
 
-# Supported types
-
-It's possible to name additional types and use them as you wish inside
-your own _murex_ scripts, however they will be processed by _murex_'s
-internals as a string.
-
-Below are the types natively supported by the shells internals:
-
-* Generic   (defined: *)
-* Null      (defined: null)
-* Die       (defined: die)
-* String    (defined: str)
-* Boolean   (defined: bool)
-* Number    (defined: num); this is the preferred type for numbers
-* Integer   (defined: int)
-* Float     (defined: float)
-* Code Block (defined: block)
-* JSON      (defined: json)
-* CSV       (defined: csv)
-
-Support for other mark ups such as XML and YAML will likely follow.
-However JSON will always be a first class citizen because it is the
-primary format for transmitting objects between methods (much like
-Javascript's relationship with JSON).
-
-#### Generic
-
-This is used by methods to state they can accept any data type or output
-any data type. Use of a `generic` input type can all define that a
-method call also operate as a function (ie with no STDIN).
-
-#### Null
-
-This states that no data expected. Use `null` input to define functions
-and/or `null` output to state the process doesn't write to STDOUT.
-
-#### Die
-
-If a `die` object is created it kills the shell.
-
-#### Boolean
-
-True or False. Generic input can be translated to boolean:
-
-* 0 == False, none zero numbers == True
-* "0" == False
-* "null" == False
-* "false" == False, "true" == True
-* "no" == False, "yes" == True
-* "off" == False, "on" == True
-* "fail" == False, "pass" == True
-* "failed" == False, "passed" == True
-* "" == False, all other strings == True
-
-Strings are not case sensitive when converted to boolean.
-
-#### Number
-
-This is the preferred (and default) method for storing numeric data. All
-numbers are stored as a floating point value (in fact `float` and `num`
-are one and the same data type internally).
-
-#### Integer
-
-As with normal programming languages, any number that doesn't have a
-decimal point.
-
-#### Float
-
-A number which does have a decimal point.
-
-This data type shouldn't ever be needed because its functionality is
-duplicated by the default numeric data type, number (`num`).
-
-#### Code Block
-
-A sub-shell. This is used to inline code. eg for loops. Blocks are
-encapsulated by curly brackets, `{}`.
-
-#### JSON
-
-A JSON object.
-
-#### CSV
-
-A comma separated list of records.
+* [`float` (floating point number)](types/float.md):
+  Floating point number (primitive)
+* [`hcl` (HCL)](types/hcl.md):
+  HashiCorp Configuration Language (HCL)
+* [`int` (integer)](types/int.md):
+  Whole number (primitive)
+* [`json` (JSON)](types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
+* [`num` (number)](types/num.md):
+  Floating point number (primitive)
+* [`toml` (TOML)](types/toml.md):
+  Tom's Obvious, Minimal Language (TOML)
+* [`yaml` (YAML)](types/yaml.md):
+  YAML Ain't Markup Language (YAML)
+* [mxjson](types/mxjson.md):
+  Murex-flavoured JSON (primitive)

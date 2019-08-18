@@ -18,12 +18,12 @@
 
 ### Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+{{ md (include .Detail) }}{{ end }}{{ if .Parameters }}
 
 ### Parameters
 
-{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
-{{ end }}* {{ md . }}{{ end }}{{ end }}{{ if .Related }}
+{{ range $i,$a := .Parameters }}{{ if gt $i 0 }}
+{{ end }}{{ notanindex $i }}. {{ md . }}{{ end }}{{ end }}{{ if .Related }}
 
 ### See Also
 

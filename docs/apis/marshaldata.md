@@ -1,18 +1,12 @@
 # _murex_ Development Guide
 
-## API Reference: `define.MarshalData()
+## API Reference: `define.MarshalData()` 
 
-> Converts structured memory into a structured file format (eg for stdio)
+> Converts structured memory into a _murex_ data-type (eg for stdio)
 
 ### Description
 
-This is a function you would write when programming a _murex_ data-type.
-The marshal function takes in a Go (golang) `type` or `struct` and returns
-a byte slice of a "string" representation of that format (eg in JSON) or an
-error.
 
-This marshaller is then registered to _murex_ inside an `init()` function
-and _murex_ builtins can use that marshaller via the `MarshalData()` API.
 
 ### Usage
 
@@ -20,7 +14,7 @@ and _murex_ builtins can use that marshaller via the `MarshalData()` API.
 
 ### Examples
 
-    func exampleCommand(p *lang.Process) error) {
+    func exampleCommand(p *lang.Process) error {
         data := map[string]string {
             "foo": "hello foo",
             "bar": "hello bar",
@@ -68,15 +62,15 @@ Go source file:
 
 ### Parameters
 
-* `*lang.Process`: Process's runtime state. Typically expressed as the variable `p
-* `string`: _murex_ data type
-* `interface{}`: data you wish to marshal
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p
+2. `string`: _murex_ data type
+3. `interface{}`: data you wish to marshal
 
 ### See Also
 
-* [`Marshal()](../apis/marshal.md):
+* [`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [unmarshal](../apis/unmarshal.md):
-  
-* [unmarshaldata](../apis/unmarshaldata.md):
-  
+* [`Unmarshal()` ](../apis/unmarshal.md):
+  Converts a structured file format into structured memory
+* [`define.UnmarshalData()` ](../apis/unmarshaldata.md):
+  Converts a _murex_ data-type into structured memory

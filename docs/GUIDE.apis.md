@@ -11,7 +11,11 @@ the internal logic of _murex_'s runtime.
 
 ### Pages
 
-* [`Marshal()](apis/marshal.md):
+* [`Marshal()` ](apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`define.MarshalData()](apis/marshaldata.md):
-  Converts structured memory into a structured file format (eg for stdio)
+* [`Unmarshal()` ](apis/unmarshal.md):
+  Converts a structured file format into structured memory
+* [`define.MarshalData()` ](apis/marshaldata.md):
+  Converts structured memory into a _murex_ data-type (eg for stdio)
+* [`define.UnmarshalData()` ](apis/unmarshaldata.md):
+  Converts a _murex_ data-type into structured memory

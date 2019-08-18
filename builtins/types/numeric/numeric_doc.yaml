@@ -21,11 +21,11 @@
     > that you use the default numeric data-type: `num`.
   Usage: |-
   Examples: |-
-  Flags:
+  Hooks:
     Marshal(): Supported
     Unmashal(): Supported
   Detail: |-
-  Synonyms:
+  Associations:
   Related:
   - str
   - num
@@ -53,11 +53,11 @@
     > that you use this as your default numeric data-type as opposed to `int`.
   Usage: |-
   Examples: |-
-  Flags:
+  Hooks:
     Marshal(): Supported
     Unmashal(): Supported
   Detail: |-
-  Synonyms:
+  Associations:
   Related:
   - str
   - int
@@ -85,11 +85,11 @@
     > literally the same underlying data-type anyway). Please do not use `float`
   Usage: |-
   Examples: |-
-  Flags:
+  Hooks:
     Marshal(): Supported
     Unmashal(): Supported
   Detail: |-
-  Synonyms:
+  Associations:
   Related:
   - num
   - int

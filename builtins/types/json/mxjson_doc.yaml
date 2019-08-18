@@ -48,9 +48,9 @@
     ```
   Usage: |-
   Examples: |-
-  Flags:
+  Hooks:
   Detail: |-
-  Synonyms:
+  Associations:
   Related:
   - yaml
   - toml

@@ -40,7 +40,7 @@
       "spouse": null
     }
     ```
-  Flags:
+  Hooks:
     ReadArray(): Works with JSON arrays. Maps are converted into arrays
     ReadMap(): Works with JSON maps
     WriteArray(): Works with JSON arrays
@@ -49,9 +49,11 @@
     Marshal(): Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
     Unmashal(): Supported
   Detail: |-
-  Synonyms:
-  - "MIME: `application/json`"
-  - "Extension: `json`"
+  Associations:
+    Mimes:
+    - application/json
+    Extensions:
+    - json
   Related:
   - yaml
   - toml

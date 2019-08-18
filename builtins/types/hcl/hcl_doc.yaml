@@ -52,7 +52,7 @@
     ```
 
     See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
-  Flags:
+  Hooks:
     ReadArray(): Works with HCL arrays. Maps are converted into arrays
     ReadMap(): Works with HCL maps
     WriteArray(): Works with HCL arrays
@@ -61,14 +61,16 @@
     Marshal(): Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
     Unmashal(): Supported
   Detail: |-
-  Synonyms:
-  - "MIME: `application/hcl`"
-  - "MIME: `application/x-hcl`"
-  - "MIME: `text/hcl`"
-  - "MIME: `text/x-hcl`"
-  - "Extension: `hcl`"
-  - "Extension: `tf`"
-  - "Extension: `tfvars`"
+  Associations:
+    Mimes:
+    - application/hcl
+    - application/x-hcl
+    - text/hcl
+    - text/x-hcl
+    Extensions:
+    - hcl
+    - tf
+    - tfvars
   Related:
   - yaml
   - json

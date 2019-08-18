@@ -1,6 +1,6 @@
 # _murex_ Development Guide
 
-## API Reference: `Marshal()
+## API Reference: `Marshal()` 
 
 > Converts structured memory into a structured file format (eg for stdio)
 
@@ -16,10 +16,10 @@ and _murex_ builtins can use that marshaller via the `MarshalData()` API.
 
 ### Usage
 
-Registering marshaller (for writing builtin data-types)
+Registering marshal (for writing builtin data-types)
 
     // To avoid data races, this should only happen inside func init()
-    define.Marshallers[types.Json] = marshal
+    define.Marshallers["json"] = marshal
     
 Using an existing marshaller (eg inside a builtin command)
 
@@ -32,7 +32,7 @@ Defining a marshaller for a murex data-type
 
     func init() {
         // Register data-type
-        define.Marshallers[types.Json] = marshal
+        define.Marshallers["json"] = marshal
     }
     
     // Describe marshaller
@@ -46,14 +46,14 @@ Defining a marshaller for a murex data-type
 
 ### Parameters
 
-* `*lang.Process`: Process's runtime state
-* `interface{}`: data you wish to marshal
+1. `*lang.Process`: Process's runtime state
+2. `interface{}`: data you wish to marshal
 
 ### See Also
 
-* [`define.MarshalData()](../apis/marshaldata.md):
-  Converts structured memory into a structured file format (eg for stdio)
-* [unmarshal](../apis/unmarshal.md):
-  
+* [`Unmarshal()` ](../apis/unmarshal.md):
+  Converts a structured file format into structured memory
+* [`define.MarshalData()` ](../apis/marshaldata.md):
+  Converts structured memory into a _murex_ data-type (eg for stdio)
 * [unmashaldata](../apis/unmashaldata.md):
   

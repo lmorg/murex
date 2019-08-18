@@ -45,8 +45,8 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 
 ### Default Associations
 
-* MIME: `application/json`
 * Extension: `json`
+* MIME: `application/json`
 
 
 ### Supported Hooks
@@ -68,8 +68,10 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 
 ### See Also
 
-* [`Marshal()](../apis/marshal.md):
+* [`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
+* [`Unmarshal()` ](../apis/unmarshal.md):
+  Converts a structured file format into structured memory
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -101,8 +103,6 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 * [readmap](../apis/readmap.md):
   
 * [readnotindex](../apis/readnotindex.md):
-  
-* [unmarshal](../apis/unmarshal.md):
   
 * [writearray](../apis/writearray.md):
   

@@ -14,23 +14,25 @@
 
 ### Examples
 
-{{ md .Examples }}{{ end }}{{ if .Synonyms }}
+{{ md .Examples }}{{ end }}{{ if .Associations }}
 
 ### Default Associations
 
-{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
-{{ end }}* {{ md . }}`{{ end }}
+{{ range $i,$a := .Associations.Extensions }}{{ if gt $i 0 }}
+{{ end }}* Extension: `{{ md . }}`{{ end }}
+{{ range $i,$a := .Associations.Mimes }}{{ if gt $i 0 }}
+{{ end }}* MIME: `{{ md . }}`{{ end }}
 {{ end }}{{ if .Detail }}
 
 ### Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Flags }}
+{{ md (include .Detail) }}{{ end }}{{ if .Hooks }}
 
 ### Supported Hooks
 
-{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
-{{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Related }}
+{{ range $i,$a := .Hooks }}{{ if gt $i 0 }}
+{{ end }}* `{{ md .Hook }}`
+    {{ md .Comment }}{{ end }}{{ end }}{{ if .Related }}
 
 ### See Also
 

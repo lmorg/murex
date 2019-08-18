@@ -16,12 +16,12 @@ external source packages for the shell to compile.
 
 ### Default Associations
 
-* MIME: `application/yaml`
-* MIME: `application/x-yaml`
-* MIME: `text/yaml`
-* MIME: `text/x-yaml`
 * Extension: `yaml`
 * Extension: `yml`
+* MIME: `application/x-yaml`
+* MIME: `application/yaml`
+* MIME: `text/x-yaml`
+* MIME: `text/yaml`
 
 
 ### Supported Hooks
@@ -43,8 +43,10 @@ external source packages for the shell to compile.
 
 ### See Also
 
-* [`Marshal()](../apis/marshal.md):
+* [`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
+* [`Unmarshal()` ](../apis/unmarshal.md):
+  Converts a structured file format into structured memory
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -68,8 +70,6 @@ external source packages for the shell to compile.
 * [readmap](../apis/readmap.md):
   
 * [readnotindex](../apis/readnotindex.md):
-  
-* [unmarshal](../apis/unmarshal.md):
   
 * [writearray](../apis/writearray.md):
   

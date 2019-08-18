@@ -57,13 +57,13 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ### Default Associations
 
+* Extension: `hcl`
+* Extension: `tf`
+* Extension: `tfvars`
 * MIME: `application/hcl`
 * MIME: `application/x-hcl`
 * MIME: `text/hcl`
 * MIME: `text/x-hcl`
-* Extension: `hcl`
-* Extension: `tf`
-* Extension: `tfvars`
 
 
 ### Supported Hooks
@@ -85,8 +85,10 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ### See Also
 
-* [`Marshal()](../apis/marshal.md):
+* [`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
+* [`Unmarshal()` ](../apis/unmarshal.md):
+  Converts a structured file format into structured memory
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -114,8 +116,6 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * [readmap](../apis/readmap.md):
   
 * [readnotindex](../apis/readnotindex.md):
-  
-* [unmarshal](../apis/unmarshal.md):
   
 * [writearray](../apis/writearray.md):
   

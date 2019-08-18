@@ -10,14 +10,15 @@ import (
 )
 
 var funcMap = template.FuncMap{
-	"quote":   funcQuote,
-	"html":    funcHTML,
-	"md":      funcMarkdown,
-	"trim":    strings.TrimSpace,
-	"doc":     funcRenderedDocuments,
-	"cat":     funcRenderedCategories,
-	"file":    funcFile,
-	"include": funcInclude,
+	"quote":      funcQuote,
+	"html":       funcHTML,
+	"md":         funcMarkdown,
+	"trim":       strings.TrimSpace,
+	"doc":        funcRenderedDocuments,
+	"cat":        funcRenderedCategories,
+	"file":       funcFile,
+	"include":    funcInclude,
+	"notanindex": funcNotAnIndex,
 }
 
 /************
@@ -168,4 +169,14 @@ func funcInclude(s string) string {
 	}
 
 	return s
+}
+
+/************
+ *NotAnIndex*
+ ************/
+
+// Takes: number (eg varable)
+// Returns: number incremented by 1
+func funcNotAnIndex(i int) int {
+	return i + 1
 }

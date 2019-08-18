@@ -32,6 +32,15 @@ type document struct {
 	// Flags is a map of supported flags
 	Flags map[string]string `yaml:"Flags"`
 
+	// Like flags but where parameters are numerically defined
+	Parameters []string `yaml:"Parameters"`
+
+	// Associations is for murex data-types
+	Associations AssociationValues `yaml:"Associations"`
+
+	// API hooks for murex data-types
+	Hooks map[string]string `yaml:"Hooks"`
+
 	// Detail is for misc details
 	Detail string `yaml:"Detail"`
 
@@ -40,6 +49,12 @@ type document struct {
 
 	// Related documents (these should be in the format of `Category/FileName`)
 	Related []string `yaml:"Related"`
+}
+
+// AssociationValues are associations registered by murex data-types
+type AssociationValues struct {
+	Extensions []string `yaml:"Extensions"`
+	Mimes      []string `yaml:"Mimes"`
 }
 
 // Hierarchy is the ID path
@@ -76,6 +91,8 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Examples:            d.Examples,
 		Detail:              d.Detail,
 		Synonyms:            d.Synonyms,
+		Parameters:          d.Parameters,
+		Associations:        d.Associations,
 	}
 
 	if !nest {
@@ -112,8 +129,18 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		})
 	}
 
+	for hook, comment := range d.Hooks {
+		dv.Hooks = append(dv.Hooks, &hookValues{
+			Hook:    hook,
+			Comment: comment,
+		})
+	}
+
 	sort.Sort(dv.Flags)
 	sort.Sort(dv.Related)
+	sort.Sort(dv.Hooks)
+	sort.Strings(dv.Associations.Extensions)
+	sort.Strings(dv.Associations.Mimes)
 
 	return dv
 }
@@ -132,6 +159,9 @@ type documentValues struct {
 	Usage               string
 	Examples            string
 	Flags               sortableFlagValues
+	Hooks               sortableHookValues
+	Parameters          []string
+	Associations        AssociationValues
 	Detail              string
 	Synonyms            []string
 	Related             sortableDocumentValues
@@ -153,6 +183,17 @@ type sortableFlagValues []*flagValues
 func (v sortableFlagValues) Len() int           { return len(v) }
 func (v sortableFlagValues) Less(i, j int) bool { return v[i].Flag < v[j].Flag }
 func (v sortableFlagValues) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
+
+type hookValues struct {
+	Hook    string
+	Comment string
+}
+
+type sortableHookValues []*hookValues
+
+func (v sortableHookValues) Len() int           { return len(v) }
+func (v sortableHookValues) Less(i, j int) bool { return v[i].Hook < v[j].Hook }
+func (v sortableHookValues) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 
 type documents []document
 
