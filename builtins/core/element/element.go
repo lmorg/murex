@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/lang/types/define"
 )
 
@@ -22,7 +23,7 @@ func element(p *lang.Process) (err error) {
 	}()
 
 	dt := p.Stdin.GetDataType()
-	p.Stdout.SetDataType(dt)
+	//p.Stdout.SetDataType(dt)
 
 	if err := p.ErrIfNotAMethod(); err != nil {
 		return err
@@ -79,14 +80,32 @@ func element(p *lang.Process) (err error) {
 
 	switch v := obj.(type) {
 	case string:
+		p.Stdout.SetDataType(types.String)
 		_, err = p.Stdout.Write([]byte(v))
 	case []byte:
+		p.Stdout.SetDataType(types.String)
 		_, err = p.Stdout.Write(v)
 	case int:
+		p.Stdout.SetDataType(types.Integer)
 		_, err = p.Stdout.Write([]byte(strconv.Itoa(v)))
-	case int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, float32, float64:
+	case int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+		p.Stdout.SetDataType(types.Integer)
 		_, err = fmt.Fprint(p.Stdout, v)
+	case float32:
+		p.Stdout.SetDataType(types.Float)
+		_, err = p.Stdout.Write([]byte(types.FloatToString(float64(v))))
+	case float64:
+		p.Stdout.SetDataType(types.Float)
+		_, err = p.Stdout.Write([]byte(types.FloatToString(v)))
+	case bool:
+		p.Stdout.SetDataType(types.Boolean)
+		if v {
+			_, err = p.Stdout.Write(types.TrueByte)
+		} else {
+			_, err = p.Stdout.Write(types.FalseByte)
+		}
 	default:
+		p.Stdout.SetDataType(dt)
 		b, err := define.MarshalData(p, dt, obj)
 		if err != nil {
 			return err

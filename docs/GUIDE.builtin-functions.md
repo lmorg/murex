@@ -2,11 +2,11 @@
 
 ## Command Reference
 
-This section is a glossary of _murex_ builtin commands. Because _murex_
-is loosely modelled on the functional paradigm, it means all language
-constructs are exposed via functions and those are typically builtins
-because they can share the _murex_ runtime virtual machine.
+This section is a glossary of _murex_ builtin commands.
 
+Because _murex_ is loosely modelled on the functional paradigm, it means
+all language constructs are exposed via functions and those are typically
+builtins because they can share the _murex_ runtime virtual machine.
 However any executable command can also be called from within _murex_;
 be that either via the `exec` builtin or natively like you would from any
 Linux, UNIX, or even Windows command prompt.
