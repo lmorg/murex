@@ -66,3 +66,5 @@
   - commands/pretty
   - commands/config
   - commands/autocomplete
+  - apis/marshal
+  - apis/unmarshal

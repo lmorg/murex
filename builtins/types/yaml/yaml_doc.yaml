@@ -18,8 +18,8 @@
     WriteArray(): Works with YAML arrays
     ReadIndex(): Works against all properties in YAML
     ReadNotIndex(): Works against all properties in YAML
-    Marshaller(): Supported
-    Unmashaller(): Supported
+    Marshal(): Supported
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   - "MIME: `application/yaml`"
@@ -37,3 +37,10 @@
   - commands/cast
   - commands/format
   - commands/runtime
+  - apis/readarray
+  - apis/readmap
+  - apis/writearray
+  - apis/readindex
+  - apis/readnotindex
+  - apis/marshal
+  - apis/unmarshal

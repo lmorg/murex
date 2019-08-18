@@ -1,6 +1,6 @@
 - DocumentID: marshal
   Title: >-
-    Marshal()
+    `Marshal()`
   CategoryID: apis
   Summary: >-
     Converts structured memory into a structured file format (eg for stdio)
@@ -56,7 +56,7 @@
 
 - DocumentID: marshaldata
   Title: >-
-    define.MarshalData()
+    `define.MarshalData()`
   CategoryID: apis
   Summary: >-
     Converts structured memory into a structured file format (eg for stdio)

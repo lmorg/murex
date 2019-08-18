@@ -46,8 +46,8 @@
     WriteArray(): Works with JSON arrays
     ReadIndex(): Works against all properties in JSON
     ReadNotIndex(): Works against all properties in JSON
-    Marshaller(): Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
-    Unmashaller(): Supported
+    Marshal(): Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   - "MIME: `application/json`"
@@ -65,3 +65,10 @@
   - commands/format
   - commands/runtime
   - commands/pretty
+  - apis/readarray
+  - apis/readmap
+  - apis/writearray
+  - apis/readindex
+  - apis/readnotindex
+  - apis/marshal
+  - apis/unmarshal

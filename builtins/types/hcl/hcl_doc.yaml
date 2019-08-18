@@ -58,8 +58,8 @@
     WriteArray(): Works with HCL arrays
     ReadIndex(): Works against all properties in HCL
     ReadNotIndex(): Works against all properties in HCL
-    Marshaller(): Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
-    Unmashaller(): Supported
+    Marshal(): Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   - "MIME: `application/hcl`"
@@ -80,3 +80,10 @@
   - commands/format
   - commands/runtime
   - commands/pretty
+  - apis/readarray
+  - apis/readmap
+  - apis/writearray
+  - apis/readindex
+  - apis/readnotindex
+  - apis/marshal
+  - apis/unmarshal

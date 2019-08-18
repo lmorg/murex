@@ -68,7 +68,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ### Supported Hooks
 
-* `Marshaller()`
+* `Marshal()`
     Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
 * `ReadArray()`
     Works with HCL arrays. Maps are converted into arrays
@@ -78,13 +78,15 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
     Works with HCL maps
 * `ReadNotIndex()`
     Works against all properties in HCL
-* `Unmashaller()`
+* `Unmashal()`
     Supported
 * `WriteArray()`
     Works with HCL arrays
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -104,4 +106,16 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * [jsonl](../types/jsonl.md):
   
 * [open](../commands/open.md):
+  
+* [readarray](../apis/readarray.md):
+  
+* [readindex](../apis/readindex.md):
+  
+* [readmap](../apis/readmap.md):
+  
+* [readnotindex](../apis/readnotindex.md):
+  
+* [unmarshal](../apis/unmarshal.md):
+  
+* [writearray](../apis/writearray.md):
   

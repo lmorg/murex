@@ -22,8 +22,8 @@
   Usage: |-
   Examples: |-
   Flags:
-    Marshaller(): Supported
-    Unmashaller(): Supported
+    Marshal(): Supported
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   Related:
@@ -35,6 +35,8 @@
   - commands/cast
   - commands/format
   - commands/runtime
+  - apis/marshal
+  - apis/unmarshal
 
 
 - DocumentID: num
@@ -52,8 +54,8 @@
   Usage: |-
   Examples: |-
   Flags:
-    Marshaller(): Supported
-    Unmashaller(): Supported
+    Marshal(): Supported
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   Related:
@@ -65,6 +67,8 @@
   - commands/cast
   - commands/format
   - commands/runtime
+  - apis/marshal
+  - apis/unmarshal
 
 
 - DocumentID: float
@@ -82,10 +86,12 @@
   Usage: |-
   Examples: |-
   Flags:
-    Marshaller(): Supported
-    Unmashaller(): Supported
+    Marshal(): Supported
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   Related:
   - num
   - int
+  - apis/marshal
+  - apis/unmarshal

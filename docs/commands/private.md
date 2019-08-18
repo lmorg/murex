@@ -67,7 +67,7 @@ There is an order of preference for which commands are looked up:
 4. variables (dollar prefixed) - declared via `set` or `let`
 5. auto-globbing prefix: `@g`
 6. murex builtins
-7. external executable files 
+7. external executable files
 
 ### See Also
 

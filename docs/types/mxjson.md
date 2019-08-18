@@ -48,6 +48,8 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
@@ -75,4 +77,6 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [jsonl](../types/jsonl.md):
   
 * [open](../commands/open.md):
+  
+* [unmarshal](../apis/unmarshal.md):
   

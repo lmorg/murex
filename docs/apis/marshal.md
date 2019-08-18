@@ -1,6 +1,6 @@
 # _murex_ Development Guide
 
-## API Reference: Marshal()
+## API Reference: `Marshal()
 
 > Converts structured memory into a structured file format (eg for stdio)
 
@@ -49,10 +49,9 @@ Defining a marshaller for a murex data-type
 * `*lang.Process`: Process's runtime state
 * `interface{}`: data you wish to marshal
 
-
 ### See Also
 
-* [define.MarshalData()](../apis/marshaldata.md):
+* [`define.MarshalData()](../apis/marshaldata.md):
   Converts structured memory into a structured file format (eg for stdio)
 * [unmarshal](../apis/unmarshal.md):
   

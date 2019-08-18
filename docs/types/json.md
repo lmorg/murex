@@ -51,7 +51,7 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 
 ### Supported Hooks
 
-* `Marshaller()`
+* `Marshal()`
     Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
 * `ReadArray()`
     Works with JSON arrays. Maps are converted into arrays
@@ -61,13 +61,15 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
     Works with JSON maps
 * `ReadNotIndex()`
     Works against all properties in JSON
-* `Unmashaller()`
+* `Unmashal()`
     Supported
 * `WriteArray()`
     Works with JSON arrays
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -91,4 +93,16 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
 * [open](../commands/open.md):
+  
+* [readarray](../apis/readarray.md):
+  
+* [readindex](../apis/readindex.md):
+  
+* [readmap](../apis/readmap.md):
+  
+* [readnotindex](../apis/readnotindex.md):
+  
+* [unmarshal](../apis/unmarshal.md):
+  
+* [writearray](../apis/writearray.md):
   

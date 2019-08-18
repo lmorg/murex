@@ -63,7 +63,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 
 ### Supported Hooks
 
-* `Marshaller()`
+* `Marshal()`
     Supported
 * `ReadIndex()`
     Works against all properties in TOML
@@ -71,11 +71,13 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
     Works with TOML maps
 * `ReadNotIndex()`
     Works against all properties in TOML
-* `Unmashaller()`
+* `Unmashal()`
     Supported
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -93,4 +95,16 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 * [jsonl](../types/jsonl.md):
   
 * [open](../commands/open.md):
+  
+* [readarray](../apis/readarray.md):
+  
+* [readindex](../apis/readindex.md):
+  
+* [readmap](../apis/readmap.md):
+  
+* [readnotindex](../apis/readnotindex.md):
+  
+* [unmarshal](../apis/unmarshal.md):
+  
+* [writearray](../apis/writearray.md):
   

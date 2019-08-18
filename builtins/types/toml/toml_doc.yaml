@@ -53,8 +53,8 @@
     ReadMap(): Works with TOML maps
     ReadIndex(): Works against all properties in TOML
     ReadNotIndex(): Works against all properties in TOML
-    Marshaller(): Supported
-    Unmashaller(): Supported
+    Marshal(): Supported
+    Unmashal(): Supported
   Detail: |-
   Synonyms:
   - "MIME: `application/toml`"
@@ -72,3 +72,10 @@
   - commands/cast
   - commands/format
   - commands/runtime
+  - apis/readarray
+  - apis/readmap
+  - apis/writearray
+  - apis/readindex
+  - apis/readnotindex
+  - apis/marshal
+  - apis/unmarshal

@@ -25,13 +25,15 @@ AMD64 or other 64bit built of _murex_ would see the range from
 
 ### Supported Hooks
 
-* `Marshaller()`
+* `Marshal()`
     Supported
-* `Unmashaller()`
+* `Unmashal()`
     Supported
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -47,4 +49,6 @@ AMD64 or other 64bit built of _murex_ would see the range from
 * [open](../commands/open.md):
   
 * [str](../types/str.md):
+  
+* [unmarshal](../apis/unmarshal.md):
   

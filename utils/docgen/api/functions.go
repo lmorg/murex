@@ -1,6 +1,7 @@
 package docgen
 
 import (
+	"bytes"
 	"errors"
 	"regexp"
 	"strconv"
@@ -162,7 +163,7 @@ func funcInclude(s string) string {
 	match := rx.FindAllStringSubmatch(s, -1)
 	for i := range match {
 		f := fileReader(match[i][1])
-		b := readAll(f)
+		b := bytes.TrimSpace(readAll(f))
 		s = strings.ReplaceAll(s, match[i][0], string(b))
 	}
 

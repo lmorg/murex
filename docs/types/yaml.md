@@ -26,7 +26,7 @@ external source packages for the shell to compile.
 
 ### Supported Hooks
 
-* `Marshaller()`
+* `Marshal()`
     Supported
 * `ReadArray()`
     Works with YAML arrays. Maps are converted into arrays
@@ -36,13 +36,15 @@ external source packages for the shell to compile.
     Works with YAML maps
 * `ReadNotIndex()`
     Works against all properties in YAML
-* `Unmashaller()`
+* `Unmashal()`
     Supported
 * `WriteArray()`
     Works with YAML arrays
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
@@ -58,4 +60,16 @@ external source packages for the shell to compile.
 * [jsonl](../types/jsonl.md):
   
 * [open](../commands/open.md):
+  
+* [readarray](../apis/readarray.md):
+  
+* [readindex](../apis/readindex.md):
+  
+* [readmap](../apis/readmap.md):
+  
+* [readnotindex](../apis/readnotindex.md):
+  
+* [unmarshal](../apis/unmarshal.md):
+  
+* [writearray](../apis/writearray.md):
   

@@ -1,6 +1,6 @@
 # _murex_ Development Guide
 
-## API Reference: define.MarshalData()
+## API Reference: `define.MarshalData()
 
 > Converts structured memory into a structured file format (eg for stdio)
 
@@ -65,7 +65,6 @@ Go source file:
     
     	return
     }
-    
 
 ### Parameters
 
@@ -73,10 +72,9 @@ Go source file:
 * `string`: _murex_ data type
 * `interface{}`: data you wish to marshal
 
-
 ### See Also
 
-* [Marshal()](../apis/marshal.md):
+* [`Marshal()](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
 * [unmarshal](../apis/unmarshal.md):
   

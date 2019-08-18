@@ -23,8 +23,7 @@
 ### Parameters
 
 {{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
-{{ end }}* {{ md . }}{{ end }}
-{{ end }}{{ if .Related }}
+{{ end }}* {{ md . }}{{ end }}{{ end }}{{ if .Related }}
 
 ### See Also
 

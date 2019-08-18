@@ -16,14 +16,18 @@ numbers.
 
 ### Supported Hooks
 
-* `Marshaller()`
+* `Marshal()`
     Supported
-* `Unmashaller()`
+* `Unmashal()`
     Supported
 
 ### See Also
 
+* [`Marshal()](../apis/marshal.md):
+  Converts structured memory into a structured file format (eg for stdio)
 * [`int` (integer)](../types/int.md):
   Whole number (primitive)
 * [`num` (number)](../types/num.md):
   Floating point number (primitive)
+* [unmarshal](../apis/unmarshal.md):
+  
