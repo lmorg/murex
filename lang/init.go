@@ -5,15 +5,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -35,7 +33,7 @@ func InitEnv() {
 	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: config.AppName}}
 
 	// Sets $SHELL to be murex
-	shellEnv, err := utils.Executable()
+	shellEnv, err := os.Executable()
 	if err != nil {
 		shellEnv = ShellProcess.Name
 	}

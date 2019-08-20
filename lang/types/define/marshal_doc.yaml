@@ -15,42 +15,30 @@
   Usage: |-
     Registering marshal (for writing builtin data-types)
     
-    ```
+    ```go
     // To avoid data races, this should only happen inside func init()
     define.Marshallers["json"] = marshal
     ```
 
     Using an existing marshaller (eg inside a builtin command)
 
-    ```
+    ```go
     // See documentation on define.MarshalData for more details
     b, err := define.MarshalData(p, dataType, data)
     ```
   Examples: |-
     Defining a marshaller for a murex data-type
 
-    ```
-    func init() {
-        // Register data-type
-        define.Marshallers["json"] = marshal
-    }
-
-    // Describe marshaller
-    func marshal(p *lang.Process, v interface{}) ([]byte, error) {
-        if p.Stdout.IsTTY() {
-            return json.MarshalIndent(v, "", "    ")
-        } else {
-            return json.Marshal(v)
-        }
-    }
+    ```go
+    {{ include "builtins/types/example/marshal.go" }}
     ```
   Detail: |-
   Parameters:
-  - "`*lang.Process`: Process's runtime state"
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p`"
   - "`interface{}`: data you wish to marshal"
   Related:
   - marshaldata
-  - unmashaldata
+  - unmarshaldata
   - unmarshal
 
 
@@ -62,11 +50,11 @@
     Converts structured memory into a _murex_ data-type (eg for stdio)
   Description: |-
   Usage: |-
-    ```
+    ```go
     b, err := define.MarshalData(p, dataType, data)
     ```
   Examples: |-
-    ```
+    ```go
     func exampleCommand(p *lang.Process) error {
         data := map[string]string {
             "foo": "hello foo",
@@ -87,7 +75,7 @@
   Detail: |-
     Go source file:
     
-    ```
+    ```go
     {{ include "lang/types/define/marshal.go" }}
     ```
   Parameters:

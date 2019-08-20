@@ -32,17 +32,27 @@ func funcMarkdown(s string) string {
 		new          []rune
 		backtick     int
 		code         bool
+		skipNextBt   bool
 		skipNextCrLf bool
 	)
 
-	for _, c := range s {
+	for pos, c := range s {
 		switch c {
 		case '`':
 			backtick++
 			if backtick == 3 {
 				backtick = 0
-				code = !code
-				skipNextCrLf = true
+				switch {
+				case skipNextBt:
+					new = append(new, '`', '`', '`')
+					skipNextBt = false
+				case pos != len(s)-1 && s[pos+1] != '\r' && s[pos+1] != '\n':
+					new = append(new, '`', '`', '`')
+					skipNextBt = true
+				default:
+					code = !code
+					skipNextCrLf = true
+				}
 			}
 
 		case '\r':

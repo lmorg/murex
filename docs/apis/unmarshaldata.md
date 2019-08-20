@@ -10,53 +10,59 @@
 
 ### Usage
 
-    data, err := define.UnmarshalData(p, dataType)
+```go
+data, err := define.UnmarshalData(p, dataType)
+```
 
 ### Examples
 
-    func exampleCommand(p *lang.Process) error {
-        data := string `{ "foo": "hello foo", "bar": "hello bar" }`
-    
-        dataType := "json"
-    
-        v, err := define.UnmarshalData(p, dataType)
-        if err != nil {
-            return err
-        }
-    
-        s := fmt.Sprint(v)
-        _, err := p.Stdout.Write([]byte(s))
+```go
+func exampleCommand(p *lang.Process) error {
+    data := string `{ "foo": "hello foo", "bar": "hello bar" }`
+
+    dataType := "json"
+
+    v, err := define.UnmarshalData(p, dataType)
+    if err != nil {
         return err
     }
+
+    s := fmt.Sprint(v)
+    _, err := p.Stdout.Write([]byte(s))
+    return err
+}
+```
 
 ### Detail
 
 Go source file:
 
-    package define
-    
-    import (
-    	"errors"
-    
-    	"github.com/lmorg/murex/lang"
-    )
-    
-    // UnmarshalData is a global unmarshaller which should be called from within
-    // murex builtin commands (etc).
-    // See docs/apis/marshaldata.md for more details
-    func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) {
-    
-    	if Unmarshallers[dataType] == nil {
-    		return nil, errors.New("I don't know how to unmarshal `" + dataType + "`.")
-    	}
-    
-    	v, err = Unmarshallers[dataType](p)
-    	if err != nil {
-    		return nil, errors.New("[" + dataType + " unmarshaller] " + err.Error())
-    	}
-    
-    	return v, nil
-    }
+```go
+package define
+
+import (
+	"errors"
+
+	"github.com/lmorg/murex/lang"
+)
+
+// UnmarshalData is a global unmarshaller which should be called from within
+// murex builtin commands (etc).
+// See docs/apis/marshaldata.md for more details
+func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) {
+
+	if Unmarshallers[dataType] == nil {
+		return nil, errors.New("I don't know how to unmarshal `" + dataType + "`.")
+	}
+
+	v, err = Unmarshallers[dataType](p)
+	if err != nil {
+		return nil, errors.New("[" + dataType + " unmarshaller] " + err.Error())
+	}
+
+	return v, nil
+}
+```
 
 ### Parameters
 

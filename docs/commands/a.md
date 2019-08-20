@@ -72,13 +72,14 @@ You can select a range of letters (a to z):
 
 Unlike bash, _murex_ also supports some special ranges:
 
-  
-    » a: [mon..sun]
-    » a: [monday..sunday]
-    » a: [jan..dec]
-    » a: [january..december]
-    » a: [spring..winter]
-    
+```  
+» a: [mon..sun]
+» a: [monday..sunday]
+» a: [jan..dec]
+» a: [january..december]
+» a: [spring..winter]
+```
+
 It is also case aware. If the ranges are uppercase then the return will
 be uppercase. If the ranges are title case (capital first letter) then
 the return will be in title case:

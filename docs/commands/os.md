@@ -13,7 +13,7 @@ Output the auto-detected OS name.
     os -> <stdout>
     
     os string -> <stdout>
-     
+    ``` 
 
 ### Examples
 

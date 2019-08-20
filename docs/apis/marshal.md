@@ -18,35 +18,50 @@ and _murex_ builtins can use that marshaller via the `MarshalData()` API.
 
 Registering marshal (for writing builtin data-types)
 
-    // To avoid data races, this should only happen inside func init()
-    define.Marshallers["json"] = marshal
-    
+```go
+// To avoid data races, this should only happen inside func init()
+define.Marshallers["json"] = marshal
+```
+
 Using an existing marshaller (eg inside a builtin command)
 
-    // See documentation on define.MarshalData for more details
-    b, err := define.MarshalData(p, dataType, data)
+```go
+// See documentation on define.MarshalData for more details
+b, err := define.MarshalData(p, dataType, data)
+```
 
 ### Examples
 
 Defining a marshaller for a murex data-type
 
-    func init() {
-        // Register data-type
-        define.Marshallers["json"] = marshal
-    }
-    
-    // Describe marshaller
-    func marshal(p *lang.Process, v interface{}) ([]byte, error) {
-        if p.Stdout.IsTTY() {
-            return json.MarshalIndent(v, "", "    ")
-        } else {
-            return json.Marshal(v)
-        }
-    }
+```go
+package example
+
+import (
+	"encoding/json"
+
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types/define"
+)
+
+func init() {
+	// Register data-type
+	define.Marshallers["json"] = marshal
+}
+
+// Describe marshaller
+func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+	if p.Stdout.IsTTY() {
+		return json.MarshalIndent(v, "", "    ")
+	} else {
+		return json.Marshal(v)
+	}
+}
+```
 
 ### Parameters
 
-1. `*lang.Process`: Process's runtime state
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p
 2. `interface{}`: data you wish to marshal
 
 ### See Also
@@ -55,5 +70,5 @@ Defining a marshaller for a murex data-type
   Converts a structured file format into structured memory
 * [`define.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* [unmashaldata](../apis/unmashaldata.md):
-  
+* [`define.UnmarshalData()` ](../apis/unmarshaldata.md):
+  Converts a _murex_ data-type into structured memory
