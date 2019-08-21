@@ -25,7 +25,7 @@ func jsonStr() string {
 	return s
 }
 
-func TestElement(t *testing.T) {
+func TestElementPositive(t *testing.T) {
 	params := [][]string{
 		{"/StrArray]]"},
 		{"/StrArray/]]"},
@@ -255,3 +255,22 @@ func TestElement(t *testing.T) {
 			t, element, "[[", jsonStr(), types.Json, params[i], expected[i], nil)
 	}
 }
+
+/*func TestElementNegative(t *testing.T) {
+	params := [][]string{
+		{"StrArray]]"},
+		{"/StrArray/]"},
+		{"/IntArray"},
+	}
+
+	expected := []string{
+		`Key 'trArray' not found`,
+		"Missing closing brackets, ` ]]`",
+		"Missing closing brackets, ` ]]`",
+	}
+
+	for i := range params {
+		test.RunMethodTest(
+			t, element, "[[", jsonStr(), types.Json, params[i], "", errors.New(expected[i]))
+	}
+}*/

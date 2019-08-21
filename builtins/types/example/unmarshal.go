@@ -14,7 +14,13 @@ func init() {
 
 // Describe unmarshaller
 func unmarshal(p *lang.Process) (interface{}, error) {
-	// Read data from stdio
+	// Read data from STDIN. Because JSON expects closing tokens, we should
+	// read the entire stream before unmarshalling it. For formats like CSV or
+	// jsonlines which are more line based, we might want to read STDIN line by
+	// line. However given there is just one data return, you still effectively
+	// head to read the entire file before returning the structure. There are
+	// other APIs for iterative returns for streaming data - more akin to the
+	// traditional way UNIX pipes would work.
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err
