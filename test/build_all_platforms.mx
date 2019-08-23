@@ -5,8 +5,9 @@ set project=github.com/lmorg/murex
 args: args {
     "AllowAdditional": false,
     "Flags": {
-        "--no-colour": "bool",
-        "--no-color": "--no-colour"
+        "--no-colour":  "bool",
+        "--no-color":   "--no-colour",
+        "--inc-latest": "bool"
     }
 }
 catch {
@@ -16,6 +17,7 @@ catch {
 
 if { $args->[[/Flags/--no-colour]] } then {
     config: set shell color false
+    config: set proc force-tty true
 }
 
 mkdir -p bin
@@ -59,6 +61,18 @@ $targets -> formap os cpus {
             let status++
         }
     }
+}
+
+if { and { $args->[[/Flags/--inc-latest]] } { os posix } } then {
+    cd bin
+    mkdir -p latest
+    g * -> foreach src {
+        if { = src!=`latest` } then {
+            $src -> sed s/-$version// -> set dest
+            cp -v $src latest/$dest
+        }
+    }
+    cd ..
 }
 
 exit $status
