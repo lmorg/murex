@@ -2,6 +2,22 @@
 
 set project=github.com/lmorg/murex
 
+args: args {
+    "AllowAdditional": false,
+    "Flags": {
+        "--no-colour": "bool",
+        "--no-color": "--no-colour"
+    }
+}
+catch {
+    err $args[Error]
+    exit 1
+}
+
+if { $args->[[/Flags/--no-colour]] } then {
+    config: set shell color false
+}
+
 mkdir -p bin
 
 # Platforms supported by the go compiler.
