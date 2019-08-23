@@ -3,11 +3,17 @@
 package man
 
 import (
+	"os"
 	"testing"
 )
 
 // TestMan tests the builtins package
 func TestMan(t *testing.T) {
+	if os.Getenv("MUREX_TEST_SKIP_MAN") != "" {
+		t.Skip("Environmental variable `MUREX_TEST_SKIP_MAN` set")
+		return
+	}
+
 	files := GetManPages("cat")
 	if len(files) == 0 {
 		t.Error("Could not find any man pages")
