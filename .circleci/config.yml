@@ -32,7 +32,7 @@ jobs: # basic units of work in a run
           name: Run Go tests
           environment:
             MUREX_TEST_SKIP_MAN: true
-          command: go ./...
+          command: go test ./...
 
       - run:
           name: Build murex
