@@ -7,6 +7,7 @@ args: args {
     "Flags": {
         "--no-colour":  "bool",
         "--no-color":   "--no-colour",
+        "--compress":   "bool",
         "--inc-latest": "bool"
     }
 }
@@ -18,6 +19,15 @@ catch {
 if { $args->[[/Flags/--no-colour]] } then {
     config: set shell color false
     config: set proc force-tty true
+}
+
+function compress {
+    if { os windows } then {
+        zip -q $ARGS[1].zip $ARGS[1]
+        rm $ARGS[1]
+    } else {
+        gzip $ARGS[1]
+    }
 }
 
 mkdir -p bin
@@ -53,7 +63,12 @@ $targets -> formap os cpus {
             export GOOS=$os
             export GOARCH=$arch
             export GOARM=7
-            go build -o ./bin/murex-$version-$os-$arch$ext $project
+
+            set bin=./bin/murex-$version-$os-$arch$ext
+            go build -o $bin $project
+            
+            if { $args->[[/Flags/--compress]] } then { compress $bin }
+            
             out "{GREEN}SUCCESSFUL{RESET}"
         }
         catch {
