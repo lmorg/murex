@@ -50,6 +50,7 @@ we wrote our own readline library. Below is an example of that library in use:
 
 The above demo includes the following features of _murex_'s bespoke readline
 library:
+
 * hint text - blue status text below the prompt (the colour is configurable)
 * syntax highlighting (albeit there isn’t much syntax to highlight in the
   example). This can also be turned off if your preference is to have colours
