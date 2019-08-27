@@ -19,9 +19,9 @@
 ### Default Associations
 
 {{ range $i,$a := .Associations.Extensions }}{{ if gt $i 0 }}
-{{ end }}* Extension: `{{ md . }}`{{ end }}
+{{ end }}* **Extension**: `{{ md . }}`{{ end }}
 {{ range $i,$a := .Associations.Mimes }}{{ if gt $i 0 }}
-{{ end }}* MIME: `{{ md . }}`{{ end }}
+{{ end }}* **MIME**: `{{ md . }}`{{ end }}
 {{ end }}{{ if .Detail }}
 
 ### Detail

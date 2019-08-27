@@ -1,4 +1,4 @@
-# Binaries
+# Compiled
 main
 murex
 murex.exe
@@ -8,6 +8,8 @@ murex.upx
 /docgen
 /docgen.exe
 bin/
+/docs/*.html
+/docs/*/*.html
 
 # IDE
 .idea/

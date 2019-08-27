@@ -45,8 +45,8 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 
 ### Default Associations
 
-* Extension: `json`
-* MIME: `application/json`
+* **Extension**: `json`
+* **MIME**: `application/json`
 
 
 ### Supported Hooks

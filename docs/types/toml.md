@@ -54,11 +54,11 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 
 ### Default Associations
 
-* Extension: `toml`
-* MIME: `application/toml`
-* MIME: `application/x-toml`
-* MIME: `text/toml`
-* MIME: `text/x-toml`
+* **Extension**: `toml`
+* **MIME**: `application/toml`
+* **MIME**: `application/x-toml`
+* **MIME**: `text/toml`
+* **MIME**: `text/x-toml`
 
 
 ### Supported Hooks
