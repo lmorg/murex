@@ -1,6 +1,11 @@
 # Install Instructions
 
-## From source
+## Pre-Compiled Binaries
+
+If you wish to download a pre-compiled binary then head to the [DOWNLOAD.md](DOWNLOAD.md)
+page to select your platform.
+
+## From Source
 
 > Go 1.11 or higher is required
 
@@ -32,7 +37,7 @@ From the project root (the location of this INSTALL.md file) run the following:
 
     docker-compose up --build murex-build
 
-## Required dependencies
+## Required Dependencies
 
 For your information below is a list of packages required by _murex_:
 
@@ -42,7 +47,7 @@ exposed via `=` and `let`
 * `github.com/fsnotify/fsnotify` monitors file system changes for the fs
 event system
 
-## Optional dependencies
+## Optional Dependencies
 
 * `labix.org/v2/mgo/bson`  adds support for BSON (binary JSON) (as used
 by MongoDB). This is disabled by default due to a requirement for `bzr`
@@ -70,7 +75,7 @@ the `builtins` directory of this project or append `// +build ignore` to
 the `.go` file if you wish to preserve the change in subsequent updates
 from git.
 
-## Recommended terminal typeface
+## Recommended Terminal Typeface
 
 This is obviously just a subjective matter and everyone will have their own
 personal preference. However if I was asked what my preference was then that
