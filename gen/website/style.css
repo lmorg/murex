@@ -2,18 +2,18 @@
 
 body {
     font-family: 'Comfortaa', sans-serif;
-    color: #503737;
+    /*color: #503737;*/
+    color: #000000;
     background-color: #f9f9f9;
     text-shadow: #ffffff 0em 0em 1px;
     line-height: 180%;
     font-size: 14px;
     letter-spacing: 0.1em;
-    padding-right: 20px;
 }
 
 p {
     font-family: 'Comfortaa', sans-serif;
-    color: #503737;
+    color: #000000;
     text-shadow: #ffffff 0em 0em 0.2em;
 }
 
@@ -42,25 +42,34 @@ a:hover {
 blockquote {
     border-width: 1px;
     border-style: solid;
-    border-color: #ffffff;
+    border-color: #4d69e6;
     padding-left: 20px;
     color: #001369;
-    background: #e9e3c1;
+    background: #d6dee9;
     border-radius: 10px;
+    border-right-width: 10px;
 }
 
-pre, code {
+code {
     font-family: 'Source Code Pro', monospace;
     color: #14700f;
 }
 
 pre {
+    font-family: 'Source Code Pro', monospace;
+    color: #14700f;
     border-width: 1px;
     border-style: solid;
-    border-color: #c5dfa4;
-    padding-left: 7px;
+    border-color: #74b971;
+    /* padding-left: 7px; */
     background: #ffffff;
     border-radius: 5px;
+    line-height: 130%;
+    border-right-width: 10px;
+    margin-right: 20px;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #side-bar {
@@ -69,13 +78,18 @@ pre {
     top: 0px;
     left: 0px;
     height: 100%;
-    background: #747474;
+    background: #303133;
 }
 
 #document {
     position: absolute;
     top: 0px;
     left: 200px;
+}
+
+@media screen and (max-width: 678px){
+    #side-bar { display: none; }
+    #document { left: 10px; }
 }
 
 .side-bar-title {
