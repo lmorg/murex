@@ -110,3 +110,19 @@ a.side-bar:link, a.side-bar:visited {
 a.side-bar:active, a.side-bar:hover {
     color: #ffe922; 
 }
+
+#build-spec {
+    margin-top: 50px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-width: 1px;
+    border-color: #9c9b9b;
+    border-style: solid;
+    border-right-width: 10px;
+    color: #9c9b9b;
+    background: #ffffff;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+    width: auto;
+}
