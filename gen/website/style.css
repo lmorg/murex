@@ -46,7 +46,7 @@ blockquote {
     padding-left: 20px;
     color: #001369;
     background: #d6dee9;
-    border-radius: 10px;
+    border-radius: 5px;
     border-right-width: 10px;
 }
 
@@ -85,6 +85,7 @@ pre {
     position: absolute;
     top: 0px;
     left: 200px;
+    width: auto;
 }
 
 @media screen and (max-width: 678px){
@@ -122,7 +123,7 @@ a.side-bar:active, a.side-bar:hover {
     color: #9c9b9b;
     background: #ffffff;
     padding: 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     width: auto;
 }
