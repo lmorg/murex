@@ -4,21 +4,6 @@ package state
 
 import "strconv"
 
-func _() {
-	// An "invalid array index" compiler error signifies that the constant values have changed.
-	// Re-run the stringer command to generate them again.
-	var x [1]struct{}
-	_ = x[Undefined-0]
-	_ = x[MemAllocated-1]
-	_ = x[Assigned-2]
-	_ = x[Starting-3]
-	_ = x[Executing-4]
-	_ = x[Executed-5]
-	_ = x[Terminating-6]
-	_ = x[AwaitingGC-7]
-	_ = x[Stopped-8]
-}
-
 const _FunctionState_name = "UndefinedMemAllocatedAssignedStartingExecutingExecutedTerminatingAwaitingGCStopped"
 
 var _FunctionState_index = [...]uint8{0, 9, 21, 29, 37, 46, 54, 65, 75, 82}

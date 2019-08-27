@@ -1,4 +1,4 @@
-# _murex_ Language Guide
+# _murex_ Shell Guide
 
 ## Data-Type Reference: `yaml` (YAML)
 
@@ -16,12 +16,12 @@ external source packages for the shell to compile.
 
 ### Default Associations
 
-* Extension: `yaml`
-* Extension: `yml`
-* MIME: `application/x-yaml`
-* MIME: `application/yaml`
-* MIME: `text/x-yaml`
-* MIME: `text/yaml`
+* **Extension**: `yaml`
+* **Extension**: `yml`
+* **MIME**: `application/x-yaml`
+* **MIME**: `application/yaml`
+* **MIME**: `text/x-yaml`
+* **MIME**: `text/yaml`
 
 
 ### Supported Hooks

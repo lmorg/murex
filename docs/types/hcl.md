@@ -1,4 +1,4 @@
-# _murex_ Language Guide
+# _murex_ Shell Guide
 
 ## Data-Type Reference: `hcl` (HCL)
 
@@ -57,13 +57,13 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ### Default Associations
 
-* Extension: `hcl`
-* Extension: `tf`
-* Extension: `tfvars`
-* MIME: `application/hcl`
-* MIME: `application/x-hcl`
-* MIME: `text/hcl`
-* MIME: `text/x-hcl`
+* **Extension**: `hcl`
+* **Extension**: `tf`
+* **Extension**: `tfvars`
+* **MIME**: `application/hcl`
+* **MIME**: `application/x-hcl`
+* **MIME**: `text/hcl`
+* **MIME**: `text/x-hcl`
 
 
 ### Supported Hooks

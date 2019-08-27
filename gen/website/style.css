@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+body {
+    font-family: 'Comfortaa', sans-serif;
+    /*color: #503737;*/
+    color: #000000;
+    background-color: #f9f9f9;
+    text-shadow: #ffffff 0em 0em 1px;
+    line-height: 180%;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+}
+
+p {
+    font-family: 'Comfortaa', sans-serif;
+    color: #000000;
+    text-shadow: #ffffff 0em 0em 0.2em;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Jura', sans-serif;
+    color: #000000;
+    text-shadow: #a0a0a0 0em 0em 0.1em;
+    font-weight: bold;
+}
+
+h1 { font-size: 26px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+
+a:link, a:visited, a:active {
+    color: #9b251b;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #9b251b;
+    text-decoration: underline;
+}
+
+blockquote {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #4d69e6;
+    padding-left: 20px;
+    color: #001369;
+    background: #d6dee9;
+    border-radius: 5px;
+    border-right-width: 10px;
+}
+
+code {
+    font-family: 'Source Code Pro', monospace;
+    color: #14700f;
+}
+
+pre {
+    font-family: 'Source Code Pro', monospace;
+    color: #14700f;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #74b971;
+    /* padding-left: 7px; */
+    background: #ffffff;
+    border-radius: 5px;
+    line-height: 130%;
+    border-right-width: 10px;
+    margin-right: 20px;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#side-bar {
+    position: fixed;
+    width: 180px;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    background: #303133;
+}
+
+#document {
+    position: absolute;
+    top: 0px;
+    left: 200px;
+    width: auto;
+}
+
+@media screen and (max-width: 678px){
+    #side-bar { display: none; }
+    #document { left: 10px; }
+}
+
+.side-bar-title {
+    text-align: center;
+    color: #a0a0a0;
+}
+
+.side-bar {
+    color: #f1f1f1;
+    padding-left: 10px;
+}
+
+a.side-bar:link, a.side-bar:visited {
+    color: #ff8e84;
+    text-shadow: none;
+}
+
+a.side-bar:active, a.side-bar:hover {
+    color: #ffe922; 
+}
+
+#build-spec {
+    margin-top: 50px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-width: 1px;
+    border-color: #9c9b9b;
+    border-style: solid;
+    border-right-width: 10px;
+    color: #9c9b9b;
+    background: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    width: auto;
+}

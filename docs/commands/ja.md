@@ -1,4 +1,4 @@
-# _murex_ Language Guide
+# _murex_ Shell Guide
 
 ## Command Reference: `ja`
 
