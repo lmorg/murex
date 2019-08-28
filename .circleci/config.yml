@@ -18,7 +18,8 @@ jobs: # basic units of work in a run
     steps: # steps that comprise the `build` job
       - checkout # check out source code to working directory
       #- run: mkdir -p $TEST_RESULTS # create the test results directory
-
+      - run mkdir src/github.com/lmorg/murex && \
+            cd src/github.com/lmorg/murex
       #- restore_cache: # restores saved cache if no changes are detected since last run
       #    keys:
       #      - go-mod-v4-{{ checksum "go.sum" }}

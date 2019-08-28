@@ -22,7 +22,7 @@ if { $args->[[/Flags/--no-colour]] } then {
 }
 
 function compress {
-    if { os windows } then {
+    if { $ARGS[2] } then {
         zip -q $ARGS[1].zip $ARGS[1]
         rm $ARGS[1]
     } else {
@@ -67,7 +67,7 @@ $targets -> formap os cpus {
             set bin=./bin/murex-$version-$os-$arch$ext
             go build -o $bin $project
             
-            if { $args->[[/Flags/--compress]] } then { compress $bin }
+            if { $args->[[/Flags/--compress]] } then { compress $bin $ext }
             
             out "{GREEN}SUCCESSFUL{RESET}"
         }
