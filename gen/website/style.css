@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+html {
+    /*overflow-Y: scroll;
+    overflow-wrap: break-word;
+    overflow-x: clip;*/
+}
+
 body {
     font-family: 'Comfortaa', sans-serif;
     /*color: #503737;*/
@@ -53,11 +59,12 @@ blockquote {
 code {
     font-family: 'Source Code Pro', monospace;
     color: #14700f;
+    font-weight: bold;
 }
 
 pre {
-    font-family: 'Source Code Pro', monospace;
-    color: #14700f;
+    /*font-family: 'Source Code Pro', monospace;
+    color: #14700f;*/
     border-width: 1px;
     border-style: solid;
     border-color: #74b971;
@@ -70,6 +77,9 @@ pre {
     padding-left: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
+    overflow: auto;
+    /*max-height: 500px;*/
+    text-shadow: none;
 }
 
 #side-bar {
@@ -85,12 +95,6 @@ pre {
     position: absolute;
     top: 0px;
     left: 200px;
-    width: auto;
-}
-
-@media screen and (max-width: 678px){
-    #side-bar { display: none; }
-    #document { left: 10px; }
 }
 
 .side-bar-title {
@@ -125,5 +129,12 @@ a.side-bar:active, a.side-bar:hover {
     padding: 5px;
     border-radius: 5px;
     text-align: center;
-    width: auto;
+}
+
+@media screen and (max-width: 678px){
+    #side-bar { display: none; }
+    #document { left: 10px; }
+    blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; max-width: 70%; }
+    pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; max-width: 70%; }
+    #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; max-width: 70%; }
 }

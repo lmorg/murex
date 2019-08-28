@@ -8,6 +8,7 @@ murex.upx
 /docgen
 /docgen.exe
 bin/
+/*.html
 /docs/*.html
 /docs/*/*.html
 
