@@ -67,6 +67,8 @@ get: google.com
 
 ### See Also
 
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`config`](../commands/config.md):
@@ -75,5 +77,3 @@ get: google.com
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [element](../commands/element.md):
-  

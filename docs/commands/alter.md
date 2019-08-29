@@ -91,6 +91,8 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`append`](../commands/append.md):
@@ -99,11 +101,9 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [element](../commands/element.md):
-  
-* [format](../commands/format.md):
-  

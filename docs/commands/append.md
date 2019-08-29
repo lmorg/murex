@@ -41,6 +41,8 @@ any integers in data type aware structures will be converted into strings:
 
 * [`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`[` (index)](../commands/index.md):
@@ -63,7 +65,5 @@ any integers in data type aware structures will be converted into strings:
   Add data to the start of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [element](../commands/element.md):
-  
 * [update](../commands/update.md):
   

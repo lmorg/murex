@@ -237,6 +237,8 @@ quotes:
   Evaluate a mathmatical function
 * [`=` (artithmetic evaluation)](../commands/equ.md):
   Evaluate a mathmatical function
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`export`](../commands/export.md):
@@ -249,5 +251,3 @@ quotes:
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [element](../commands/element.md):
-  

@@ -6,7 +6,9 @@
 
 ### Description
 
-Outputs an element from an array, map or table.
+Outputs an element or multiple elements from an array, map or table.
+
+Please note that indexes in _murex_ are counted from zero.
 
 ### Usage
 
@@ -26,7 +28,7 @@ Return the 2nd (1), 4th (3) and 6th (5) element in an array
         "5"
     ]
     
-Return the data-type and description of **config shell syntax-hilighting**
+Return the data-type and description of **config shell syntax-highlighting**
 
     » config -> [[ /shell/syntax-highlighting ]] -> [ Data-Type Description ]
     [
@@ -59,8 +61,8 @@ Return all elements except for the data-type and description
 
 #### Index counts from zero
 
-Index behaves like any other computer array in that all arrays start from
-zero (0).
+Indexes in _murex_ behave like any other computer array in that all arrays
+start from zero (`0`).
 
 #### Include vs exclude
 
@@ -69,7 +71,7 @@ where as `![` specifies elements to exclude.
 
 #### Don't error upon missing elements
 
-By default, index generates an error if an element doesn't exist. However
+By default, **index** generates an error if an element doesn't exist. However
 you can disable this behavior in `config`
 
     » config -> [ foobar ]
@@ -89,6 +91,8 @@ you can disable this behavior in `config`
 
 * [`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`config`](../commands/config.md):
@@ -99,5 +103,3 @@ you can disable this behavior in `config`
   Outputs the length of an array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [element](../commands/element.md):
-  

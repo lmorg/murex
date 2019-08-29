@@ -281,6 +281,10 @@ normal operation.
   Debugging information
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
+* [`foreach`](../commands/foreach.md):
+  Iterate through an array
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`function`](../commands/function.md):
   Define a function block
 * [`global`](../commands/global.md):
@@ -293,11 +297,7 @@ normal operation.
   Define a local variable and set it's value
 * [fid-list](../commands/fid-list.md):
   
-* [foreach](../commands/foreach.md):
-  
 * [formap](../commands/formap.md):
-  
-* [format](../commands/format.md):
   
 * [open](../commands/open.md):
   

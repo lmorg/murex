@@ -164,6 +164,8 @@ https://github.com/Knetic/govaluate/blob/master/MANUAL.md
   Write a string to the STDOUT without new line
 * [`=` (artithmetic evaluation)](../commands/equ.md):
   Evaluate a mathmatical function
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`export`](../commands/export.md):
@@ -178,5 +180,3 @@ https://github.com/Knetic/govaluate/blob/master/MANUAL.md
   Evaluate a mathmatical function and assign to variable
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [element](../commands/element.md):
-  

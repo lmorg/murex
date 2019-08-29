@@ -67,6 +67,8 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ### See Also
 
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`config`](../commands/config.md):
@@ -75,5 +77,3 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [element](../commands/element.md):
-  

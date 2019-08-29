@@ -60,6 +60,8 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
 
 ### See Also
 
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
@@ -76,5 +78,3 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
   Outputs the length of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [element](../commands/element.md):
-  

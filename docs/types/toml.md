@@ -80,20 +80,20 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
   Converts structured memory into a structured file format (eg for stdio)
 * [`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`json` (JSON)](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`yaml` (YAML)](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [element](../commands/element.md):
-  
-* [format](../commands/format.md):
-  
 * [jsonl](../types/jsonl.md):
   
 * [open](../commands/open.md):

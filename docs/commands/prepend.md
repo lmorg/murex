@@ -44,6 +44,8 @@ any integers in data type aware structures will be converted into strings:
 
 ### See Also
 
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
@@ -64,7 +66,5 @@ any integers in data type aware structures will be converted into strings:
   Reverse the order of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [element](../commands/element.md):
-  
 * [update](../commands/update.md):
   

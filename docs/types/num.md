@@ -33,18 +33,18 @@ numbers.
   Converts structured memory into a structured file format (eg for stdio)
 * [`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`int` (integer)](../types/int.md):
   Whole number (primitive)
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [element](../commands/element.md):
-  
-* [format](../commands/format.md):
-  
 * [open](../commands/open.md):
   
 * [str](../types/str.md):

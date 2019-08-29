@@ -35,11 +35,11 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
   Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [format](../commands/format.md):
-  
 * [sprintf](../commands/sprintf.md):
   

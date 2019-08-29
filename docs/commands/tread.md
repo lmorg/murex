@@ -44,6 +44,8 @@ variable.
   Alters the data type of the previous function without altering it's output
 * [`err`](../commands/err.md):
   Print a line to the STDERR
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [`pretty`](../commands/pretty.md):
@@ -52,7 +54,5 @@ variable.
   `read` a line of input from the user and store as a variable
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [format](../commands/format.md):
-  
 * [sprintf](../commands/sprintf.md):
   

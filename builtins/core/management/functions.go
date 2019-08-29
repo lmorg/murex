@@ -46,7 +46,7 @@ func cmdDebug(p *lang.Process) (err error) {
 		obj, _ := define.UnmarshalData(p, dt) // For once we don't care about the error
 
 		j["Process"] = *p.Previous // only making a readonly so the sync.Mutex is irrelevant here
-		j["DataType"] = map[string]string{
+		j["Data-Type"] = map[string]string{
 			"Murex": dt,
 			"Go":    fmt.Sprintf("%T", obj),
 		}

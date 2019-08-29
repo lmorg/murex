@@ -55,6 +55,8 @@ to return the same markdown-formatted document as those listed below. eg
   Writes STDIN to disk - overwriting contents if file already exists
 * [`@[` (range) ](commands/range.md):
   Outputs a ranged subset of data from STDIN
+* [`[[` (element)](commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](commands/index.md):
   Outputs an element from an array, map or table
 * [`a` (mkarray)](commands/a.md):
@@ -109,6 +111,10 @@ to return the same markdown-formatted document as those listed below. eg
   Returns a `false` value
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
+* [`foreach`](commands/foreach.md):
+  Iterate through an array
+* [`format`](commands/format.md):
+  Reformat one data-type into another data-type
 * [`function`](commands/function.md):
   Define a function block
 * [`g`](commands/g.md):

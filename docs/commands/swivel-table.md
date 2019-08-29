@@ -63,6 +63,8 @@ format that as a CSV, which by default does have a title row (configurable via
 
 ### See Also
 
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`alter`](../commands/alter.md):
@@ -71,11 +73,9 @@ format that as a CSV, which by default does have a title row (configurable via
   Add data to the end of an array
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [`swivel-datatype`](../commands/swivel-datatype.md):
   Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
-* [element](../commands/element.md):
-  
-* [format](../commands/format.md):
-  

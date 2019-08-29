@@ -58,6 +58,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   Converts structured memory into a structured file format (eg for stdio)
 * [`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
+* [`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
@@ -66,6 +68,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`hcl` (HCL)](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json` (JSON)](../types/json.md):
@@ -78,10 +82,6 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` (YAML)](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [element](../commands/element.md):
-  
-* [format](../commands/format.md):
-  
 * [jsonl](../types/jsonl.md):
   
 * [open](../commands/open.md):

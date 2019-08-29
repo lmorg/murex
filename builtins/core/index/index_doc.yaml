@@ -5,7 +5,9 @@
   Summary: >-
     Outputs an element from an array, map or table
   Description: |-
-    Outputs an element from an array, map or table.
+    Outputs an element or multiple elements from an array, map or table.
+
+    Please note that indexes in _murex_ are counted from zero.
   Usage: |-
     ```
     <stdin> -> [ element ] -> <stdout>
@@ -25,7 +27,7 @@
     ]
     ```
 
-    Return the data-type and description of **config shell syntax-hilighting**
+    Return the data-type and description of **config shell syntax-highlighting**
 
     ```
     » config -> [[ /shell/syntax-highlighting ]] -> [ Data-Type Description ]
@@ -64,8 +66,8 @@
   Detail: |-
     #### Index counts from zero
 
-    Index behaves like any other computer array in that all arrays start from
-    zero (0).
+    Indexes in _murex_ behave like any other computer array in that all arrays
+    start from zero (`0`).
     
     #### Include vs exclude
     
@@ -74,7 +76,7 @@
 
     #### Don't error upon missing elements
 
-    By default, index generates an error if an element doesn't exist. However
+    By default, **index** generates an error if an element doesn't exist. However
     you can disable this behavior in `config`
 
     ```

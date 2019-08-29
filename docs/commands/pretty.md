@@ -30,9 +30,9 @@ outputs that to STDOUT.
 
 ### See Also
 
+* [`format`](../commands/format.md):
+  Reformat one data-type into another data-type
 * [`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [format](../commands/format.md):
-  
