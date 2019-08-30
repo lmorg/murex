@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-html {
-    /*overflow-Y: scroll;
-    overflow-wrap: break-word;
-    overflow-x: clip;*/
-}
-
 body {
     font-family: 'Comfortaa', sans-serif;
     /*color: #503737;*/
@@ -54,6 +48,7 @@ blockquote {
     background: #d6dee9;
     border-radius: 5px;
     border-right-width: 10px;
+    width: calc(100%-10px);
 }
 
 code {
@@ -80,6 +75,11 @@ pre {
     overflow: auto;
     /*max-height: 500px;*/
     text-shadow: none;
+    width: calc(100%-10px);
+}
+
+ul {
+    width: auto;
 }
 
 #side-bar {
@@ -95,6 +95,7 @@ pre {
     position: absolute;
     top: 0px;
     left: 200px;
+    width: auto; /*calc(100%-200px);*/
 }
 
 .side-bar-title {
@@ -129,12 +130,13 @@ a.side-bar:active, a.side-bar:hover {
     padding: 5px;
     border-radius: 5px;
     text-align: center;
+    width: calc(100%-10px);
 }
 
 @media screen and (max-width: 678px){
     #side-bar { display: none; }
-    #document { left: 10px; }
-    blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; max-width: 70%; }
-    pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; max-width: 70%; }
-    #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; max-width: 70%; }
+    #document { position: relative; ; left: 10px; padding-right: 10px; }
+    blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
+    pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
+    #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
 }
