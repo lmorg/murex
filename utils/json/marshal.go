@@ -21,8 +21,6 @@ func Marshal(v interface{}, isTTY bool) (b []byte, err error) {
 		b, err = marshal(deinterface(v), isTTY)
 	}
 
-	b = append(b, '\n')
-
 	if err != nil {
 		return
 	}
