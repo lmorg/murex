@@ -28,9 +28,9 @@ or similar platforms then you will need to launch with the `exec` builtin:
 
 ### See Also
 
-* [`exec`](../commands/exec.md):
+* commands/[`exec`](../commands/exec.md):
   Runs an executable
-* [`time` (optional)](../commands/time.md):
+* commands/[`time` (optional)](../commands/time.md):
   Returns the execution run time of a command or block
-* [source](../commands/source.md):
+* commands/[source](../commands/source.md):
   

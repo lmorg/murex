@@ -81,19 +81,19 @@ There is an order of preference for which commands are looked up:
 
 ### See Also
 
-* [`export`](../commands/export.md):
+* commands/[`export`](../commands/export.md):
   Define a local variable and set it's value
-* [`function`](../commands/function.md):
+* commands/[`function`](../commands/function.md):
   Define a function block
-* [`g`](../commands/g.md):
+* commands/[`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* [`global`](../commands/global.md):
+* commands/[`global`](../commands/global.md):
   Define a global variable and set it's value
-* [`let`](../commands/let.md):
+* commands/[`let`](../commands/let.md):
   Evaluate a mathmatical function and assign to variable
-* [`private`](../commands/private.md):
+* commands/[`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
+* commands/[`set`](../commands/set.md):
   Define a local variable and set it's value
-* [source](../commands/source.md):
+* commands/[source](../commands/source.md):
   

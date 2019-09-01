@@ -89,17 +89,17 @@ you can disable this behavior in `config`
 
 ### See Also
 
-* [`@[` (range) ](../commands/range.md):
+* commands/[`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`a` (mkarray)](../commands/a.md):
+* commands/[`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`config`](../commands/config.md):
+* commands/[`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [`ja`](../commands/ja.md):
+* commands/[`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`len` ](../commands/len.md):
+* commands/[`len` ](../commands/len.md):
   Outputs the length of an array
-* [`mtac`](../commands/mtac.md):
+* commands/[`mtac`](../commands/mtac.md):
   Reverse the order of an array

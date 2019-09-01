@@ -75,15 +75,15 @@ func MarshalData(p *lang.Process, dataType string, data interface{}) (b []byte, 
 
 ### Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 2. `string`: _murex_ data type
 3. `interface{}`: data you wish to marshal
 
 ### See Also
 
-* [`Marshal()` ](../apis/marshal.md):
+* apis/[`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` ](../apis/unmarshal.md):
+* apis/[`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [`define.UnmarshalData()` ](../apis/unmarshaldata.md):
+* apis/[`define.UnmarshalData()` ](../apis/unmarshaldata.md):
   Converts a _murex_ data-type into structured memory

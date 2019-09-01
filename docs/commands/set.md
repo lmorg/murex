@@ -141,19 +141,19 @@ you want to overide the scoping of a variable inside a nested code-block.
 
 ### See Also
 
-* [`(` (brace quote)](../commands/brace-quote.md):
+* commands/[`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`=` (artithmetic evaluation)](../commands/equ.md):
+* commands/[`=` (artithmetic evaluation)](../commands/equ.md):
   Evaluate a mathmatical function
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`exec`](../commands/exec.md):
+* commands/[`exec`](../commands/exec.md):
   Runs an executable
-* [`export`](../commands/export.md):
+* commands/[`export`](../commands/export.md):
   Define a local variable and set it's value
-* [`global`](../commands/global.md):
+* commands/[`global`](../commands/global.md):
   Define a global variable and set it's value
-* [`let`](../commands/let.md):
+* commands/[`let`](../commands/let.md):
   Evaluate a mathmatical function and assign to variable

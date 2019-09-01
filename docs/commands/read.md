@@ -38,21 +38,21 @@ require this to be different then please use `tread` (typed read).
 
 ### See Also
 
-* [`(` (brace quote)](../commands/brace-quote.md):
+* commands/[`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+* commands/[`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+* commands/[`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`cast`](../commands/cast.md):
+* commands/[`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`err`](../commands/err.md):
+* commands/[`err`](../commands/err.md):
   Print a line to the STDERR
-* [`out`](../commands/out.md):
+* commands/[`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [`tout`](../commands/tout.md):
+* commands/[`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [`tread`](../commands/tread.md):
+* commands/[`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable
-* [sprintf](../commands/sprintf.md):
+* commands/[sprintf](../commands/sprintf.md):
   

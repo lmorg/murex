@@ -271,41 +271,41 @@ normal operation.
 
 ### See Also
 
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`autocomplete`](../commands/autocomplete.md):
+* commands/[`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
+* commands/[`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [`debug`](../commands/debug.md):
+* commands/[`debug`](../commands/debug.md):
   Debugging information
-* [`event`](../commands/event.md):
+* commands/[`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [`foreach`](../commands/foreach.md):
+* commands/[`foreach`](../commands/foreach.md):
   Iterate through an array
-* [`format`](../commands/format.md):
+* commands/[`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`function`](../commands/function.md):
+* commands/[`function`](../commands/function.md):
   Define a function block
-* [`global`](../commands/global.md):
+* commands/[`global`](../commands/global.md):
   Define a global variable and set it's value
-* [`pretty`](../commands/pretty.md):
+* commands/[`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [`private`](../commands/private.md):
+* commands/[`private`](../commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
+* commands/[`set`](../commands/set.md):
   Define a local variable and set it's value
-* [fid-list](../commands/fid-list.md):
+* commands/[fid-list](../commands/fid-list.md):
   
-* [formap](../commands/formap.md):
+* commands/[formap](../commands/formap.md):
   
-* [open](../commands/open.md):
+* commands/[open](../commands/open.md):
   
-* [openagent](../commands/openagent.md):
+* commands/[openagent](../commands/openagent.md):
   
-* [pipe](../commands/pipe.md):
+* commands/[pipe](../commands/pipe.md):
   
-* [source](../commands/source.md):
+* commands/[source](../commands/source.md):
   
-* [test](../commands/test.md):
+* commands/[test](../commands/test.md):
   

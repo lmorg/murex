@@ -123,6 +123,7 @@ to JSON
 The problem with building JSON structures from existing structures is that you
 can quickly end up with invalid JSON due to the specifications strict use of
 commas.
+
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar }
     {
         "Data-Type": "bool",
@@ -188,27 +189,27 @@ Luckily JSON also has it's own streaming format: jsonlines (`jsonl`)
 
 ### See Also
 
-* [`a` (mkarray)](../commands/a.md):
+* commands/[`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`cast`](../commands/cast.md):
+* commands/[`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`format`](../commands/format.md):
+* commands/[`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`if`](../commands/if.md):
+* commands/[`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`ja`](../commands/ja.md):
+* commands/[`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`json` (JSON)](../types/json.md):
+* types/[`json` (JSON)](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [`out`](../commands/out.md):
+* commands/[`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [`yaml` (YAML)](../types/yaml.md):
+* types/[`yaml` (YAML)](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [for](../commands/for.md):
+* commands/[for](../commands/for.md):
   
-* [formap](../commands/formap.md):
+* commands/[formap](../commands/formap.md):
   
-* [jsonl](../types/jsonl.md):
+* types/[jsonl](../types/jsonl.md):
   
-* [while](../commands/while.md):
+* commands/[while](../commands/while.md):
   

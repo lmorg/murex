@@ -54,35 +54,35 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ### See Also
 
-* [`Marshal()` ](../apis/marshal.md):
+* apis/[`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` ](../apis/unmarshal.md):
+* apis/[`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`autocomplete`](../commands/autocomplete.md):
+* commands/[`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`cast`](../commands/cast.md):
+* commands/[`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`config`](../commands/config.md):
+* commands/[`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [`format`](../commands/format.md):
+* commands/[`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` (HCL)](../types/hcl.md):
+* types/[`hcl` (HCL)](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` (JSON)](../types/json.md):
+* types/[`json` (JSON)](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [`pretty`](../commands/pretty.md):
+* commands/[`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
+* commands/[`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [`toml` (TOML)](../types/toml.md):
+* types/[`toml` (TOML)](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` (YAML)](../types/yaml.md):
+* types/[`yaml` (YAML)](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [jsonl](../types/jsonl.md):
+* types/[jsonl](../types/jsonl.md):
   
-* [open](../commands/open.md):
+* commands/[open](../commands/open.md):
   

@@ -73,14 +73,14 @@ func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) 
 
 ### Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 2. `string`: _murex_ data type
 
 ### See Also
 
-* [`Marshal()` ](../apis/marshal.md):
+* apis/[`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` ](../apis/unmarshal.md):
+* apis/[`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [`define.MarshalData()` ](../apis/marshaldata.md):
+* apis/[`define.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)

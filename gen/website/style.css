@@ -4,7 +4,7 @@ body {
     font-family: 'Comfortaa', sans-serif;
     /*color: #503737;*/
     color: #000000;
-    background-color: #f9f9f9;
+    background-color: #f0f0f0;
     text-shadow: #ffffff 0em 0em 1px;
     line-height: 180%;
     font-size: 14px;
@@ -35,7 +35,7 @@ a:link, a:visited, a:active {
 }
 
 a:hover {
-    color: #9b251b;
+    color: #f57d0d;
     text-decoration: underline;
 }
 
@@ -55,18 +55,28 @@ code {
     font-family: 'Source Code Pro', monospace;
     color: #14700f;
     font-weight: bold;
+
+    background: #ffffff;
+    border-radius: 5px;
+    line-height: 130%;
+
+    padding: 2px;
+}
+
+a code:hover {
+    color: #f57d0d;
 }
 
 pre {
     /*font-family: 'Source Code Pro', monospace;
     color: #14700f;*/
+    background: #ffffff;
+    border-radius: 5px;
+    line-height: 130%;
     border-width: 1px;
     border-style: solid;
     border-color: #74b971;
     /* padding-left: 7px; */
-    background: #ffffff;
-    border-radius: 5px;
-    line-height: 130%;
     border-right-width: 10px;
     margin-right: 20px;
     padding-left: 15px;
@@ -84,6 +94,8 @@ ul {
 
 #side-bar {
     position: fixed;
+    /*position: -webkit-sticky; /* Safari */
+    /*position: sticky;*/
     width: 180px;
     top: 0px;
     left: 0px;
@@ -93,6 +105,7 @@ ul {
 
 #document {
     position: absolute;
+    /*position: relative;*/
     top: 0px;
     left: 200px;
     width: auto; /*calc(100%-200px);*/

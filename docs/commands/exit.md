@@ -22,7 +22,7 @@ supplied) or a custom value specified by the first parameter.
 
 ### See Also
 
-* [`die`](../commands/die.md):
+* commands/[`die`](../commands/die.md):
   Terminate murex with an exit number of 1
-* [`null`](../commands/devnull.md):
+* commands/[`null`](../commands/devnull.md):
   null function. Similar to /dev/null

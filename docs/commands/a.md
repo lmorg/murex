@@ -209,17 +209,17 @@ under `a`'s formatting (which uses the `str` data type).
 
 ### See Also
 
-* [`@[` (range) ](../commands/range.md):
+* commands/[`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`ja`](../commands/ja.md):
+* commands/[`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`len` ](../commands/len.md):
+* commands/[`len` ](../commands/len.md):
   Outputs the length of an array
-* [`mtac`](../commands/mtac.md):
+* commands/[`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`ta`](../commands/ta.md):
+* commands/[`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

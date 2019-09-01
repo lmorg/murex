@@ -44,25 +44,25 @@ instead. But be mindful that `wc` will also count new line characters
 
 ### See Also
 
-* [`@[` (range) ](../commands/range.md):
+* commands/[`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a` (mkarray)](../commands/a.md):
+* commands/[`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`append`](../commands/append.md):
+* commands/[`append`](../commands/append.md):
   Add data to the end of an array
-* [`ja`](../commands/ja.md):
+* commands/[`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
+* commands/[`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+* commands/[`map` ](../commands/map.md):
   Creates a map from two data sources
-* [`msort` ](../commands/msort.md):
+* commands/[`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
-* [`mtac`](../commands/mtac.md):
+* commands/[`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`prepend` ](../commands/prepend.md):
+* commands/[`prepend` ](../commands/prepend.md):
   Add data to the start of an array

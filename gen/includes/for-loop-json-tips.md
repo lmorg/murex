@@ -42,6 +42,7 @@ to JSON
 The problem with building JSON structures from existing structures is that you
 can quickly end up with invalid JSON due to the specifications strict use of
 commas.
+
 ```
 » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar }
 {

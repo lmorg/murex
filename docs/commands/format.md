@@ -22,11 +22,11 @@ specified data-type
 
 ### See Also
 
-* [`Marshal()` ](../apis/marshal.md):
+* apis/[`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` ](../apis/unmarshal.md):
+* apis/[`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [`cast`](../commands/cast.md):
+* commands/[`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`tout`](../commands/tout.md):
+* commands/[`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

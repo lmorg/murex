@@ -67,31 +67,31 @@ same data-type.
 
 ### See Also
 
-* [`2darray` ](../commands/2darray.md):
+* commands/[`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`a` (mkarray)](../commands/a.md):
+* commands/[`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`append`](../commands/append.md):
+* commands/[`append`](../commands/append.md):
   Add data to the end of an array
-* [`ja`](../commands/ja.md):
+* commands/[`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
+* commands/[`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`len` ](../commands/len.md):
+* commands/[`len` ](../commands/len.md):
   Outputs the length of an array
-* [`map` ](../commands/map.md):
+* commands/[`map` ](../commands/map.md):
   Creates a map from two data sources
-* [`match`](../commands/match.md):
+* commands/[`match`](../commands/match.md):
   Match an exact value in an array
-* [`msort` ](../commands/msort.md):
+* commands/[`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
-* [`prepend` ](../commands/prepend.md):
+* commands/[`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [`pretty`](../commands/pretty.md):
+* commands/[`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [`ta`](../commands/ta.md):
+* commands/[`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [prefix](../commands/prefix.md):
+* commands/[prefix](../commands/prefix.md):
   
-* [suffix](../commands/suffix.md):
+* commands/[suffix](../commands/suffix.md):
   

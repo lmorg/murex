@@ -37,7 +37,7 @@ You can then use that to change to a previous directory
 
 ### See Also
 
-* [pwd](../commands/pwd.md):
+* commands/[pwd](../commands/pwd.md):
   
-* [source](../commands/source.md):
+* commands/[source](../commands/source.md):
   

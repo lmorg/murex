@@ -178,15 +178,15 @@ flags.
 
 ### See Also
 
-* [`alias`](../commands/alias.md):
+* commands/[`alias`](../commands/alias.md):
   Create an alias for a command
-* [`config`](../commands/config.md):
+* commands/[`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [`function`](../commands/function.md):
+* commands/[`function`](../commands/function.md):
   Define a function block
-* [`private`](../commands/private.md):
+* commands/[`private`](../commands/private.md):
   Define a private function block
-* [mxjson](../types/mxjson.md):
+* types/[mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [summary](../commands/summary.md):
+* commands/[summary](../commands/summary.md):
   

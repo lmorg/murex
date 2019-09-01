@@ -44,11 +44,11 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ### See Also
 
-* [`config`](../commands/config.md):
+* commands/[`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [`get`](../commands/get.md):
+* commands/[`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [`post`](../commands/post.md):
+* commands/[`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [open](../commands/open.md):
+* commands/[open](../commands/open.md):
   

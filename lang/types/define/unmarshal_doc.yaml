@@ -34,7 +34,7 @@
     ```
   Detail: |-
   Parameters:
-  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p`"
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   Related:
   - marshaldata
   - unmashaldata
@@ -76,7 +76,7 @@
     {{ include "lang/types/define/unmarshal.go" }}
     ```
   Parameters:
-  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p`"
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   - "`string`: _murex_ data type" 
   Related:
   - marshal

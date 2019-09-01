@@ -73,13 +73,13 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 
 ### Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 
 ### See Also
 
-* [`Unmarshal()` ](../apis/unmarshal.md):
+* apis/[`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [`define.MarshalData()` ](../apis/marshaldata.md):
+* apis/[`define.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* [unmashaldata](../apis/unmashaldata.md):
+* apis/[unmashaldata](../apis/unmashaldata.md):
   

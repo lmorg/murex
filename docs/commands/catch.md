@@ -46,11 +46,11 @@ handles the exceptions raised by the aforementioned.
 
 ### See Also
 
-* [`if`](../commands/if.md):
+* commands/[`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`try`](../commands/try.md):
+* commands/[`try`](../commands/try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+* commands/[`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [evil](../commands/evil.md):
+* commands/[evil](../commands/evil.md):
   

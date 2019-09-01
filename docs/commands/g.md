@@ -69,7 +69,7 @@ with auto-globbing enabled:
 
 ### See Also
 
-* [`f`](../commands/f.md):
+* commands/[`f`](../commands/f.md):
   Lists objects (eg files) in the current working directory
-* [`rx`](../commands/rx.md):
+* commands/[`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg '.*\.txt')

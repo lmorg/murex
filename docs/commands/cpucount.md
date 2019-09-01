@@ -19,7 +19,7 @@ Output the number of CPU cores available on your host.
 
 ### See Also
 
-* [`cpuarch`](../commands/cpuarch.md):
+* commands/[`cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [`os`](../commands/os.md):
+* commands/[`os`](../commands/os.md):
   Output the auto-detected OS name

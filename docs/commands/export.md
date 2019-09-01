@@ -129,13 +129,13 @@ quotes:
 
 ### See Also
 
-* [`(` (brace quote)](../commands/brace-quote.md):
+* commands/[`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`=` (artithmetic evaluation)](../commands/equ.md):
+* commands/[`=` (artithmetic evaluation)](../commands/equ.md):
   Evaluate a mathmatical function
-* [`global`](../commands/global.md):
+* commands/[`global`](../commands/global.md):
   Define a global variable and set it's value
-* [`let`](../commands/let.md):
+* commands/[`let`](../commands/let.md):
   Evaluate a mathmatical function and assign to variable
-* [`set`](../commands/set.md):
+* commands/[`set`](../commands/set.md):
   Define a local variable and set it's value

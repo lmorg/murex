@@ -63,19 +63,19 @@ format that as a CSV, which by default does have a title row (configurable via
 
 ### See Also
 
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`alter`](../commands/alter.md):
+* commands/[`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../commands/append.md):
+* commands/[`append`](../commands/append.md):
   Add data to the end of an array
-* [`cast`](../commands/cast.md):
+* commands/[`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`format`](../commands/format.md):
+* commands/[`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [`prepend` ](../commands/prepend.md):
+* commands/[`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [`swivel-datatype`](../commands/swivel-datatype.md):
+* commands/[`swivel-datatype`](../commands/swivel-datatype.md):
   Converts tabulated data into a map of values for serialised data-types such as JSON and YAML

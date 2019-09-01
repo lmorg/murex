@@ -44,25 +44,25 @@ output of `msort` into another builtin:
 
 ### See Also
 
-* [`@[` (range) ](../commands/range.md):
+* commands/[`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`[[` (element)](../commands/element.md):
+* commands/[`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+* commands/[`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [`a` (mkarray)](../commands/a.md):
+* commands/[`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`alter`](../commands/alter.md):
+* commands/[`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../commands/append.md):
+* commands/[`append`](../commands/append.md):
   Add data to the end of an array
-* [`ja`](../commands/ja.md):
+* commands/[`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
+* commands/[`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`len` ](../commands/len.md):
+* commands/[`len` ](../commands/len.md):
   Outputs the length of an array
-* [`mtac`](../commands/mtac.md):
+* commands/[`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [`prepend` ](../commands/prepend.md):
+* commands/[`prepend` ](../commands/prepend.md):
   Add data to the start of an array
