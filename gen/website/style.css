@@ -153,6 +153,10 @@ a.side-bar:active, a.side-bar:hover {
     width: calc(100%-10px);
 }
 
+#commit-hash-short {
+    display: none;
+}
+
 @media screen and (max-width: 678px) {
     #side-bar { display: none; }
     /*#document { position: relative; left: 10px; padding-right: 10px; }*/
@@ -160,4 +164,6 @@ a.side-bar:active, a.side-bar:hover {
     blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
     #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
+    #commit-hash-short { display: inline; }
+    #commit-hash-long { display: none; }
 }
