@@ -67,13 +67,13 @@ get: google.com
 
 ### See Also
 
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`config`](../commands/config.md):
+* [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* commands/[`getfile`](../commands/getfile.md):
+* [commands/`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* commands/[`post`](../commands/post.md):
+* [commands/`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return

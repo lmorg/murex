@@ -47,8 +47,8 @@ to return the same markdown-formatted document as those listed below. eg
   Write a string to the STDOUT without new line
 * [`2darray` ](commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`=` (artithmetic evaluation)](commands/equ.md):
-  Evaluate a mathmatical function
+* [`=` (arithmetic evaluation)](commands/equ.md):
+  Evaluate a mathematical function
 * [`>>` (append file)](commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
@@ -138,7 +138,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`len` ](commands/len.md):
   Outputs the length of an array
 * [`let`](commands/let.md):
-  Evaluate a mathmatical function and assign to variable
+  Evaluate a mathematical function and assign to variable
 * [`lockfile`](commands/lockfile.md):
   Create and manage lock files
 * [`man-summary`](commands/man-summary.md):

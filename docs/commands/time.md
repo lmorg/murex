@@ -33,9 +33,9 @@ and STDERR as usual.
 
 ### See Also
 
-* commands/[`exec`](../commands/exec.md):
+* [commands/`exec`](../commands/exec.md):
   Runs an executable
-* commands/[`sleep` (optional)](../commands/sleep.md):
+* [commands/`sleep` (optional)](../commands/sleep.md):
   Suspends the shell for a number of seconds
-* commands/[source](../commands/source.md):
+* [commands/source](../commands/source.md):
   

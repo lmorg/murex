@@ -71,21 +71,21 @@ There is an order of preference for which commands are looked up:
 
 ### See Also
 
-* commands/[`alias`](../commands/alias.md):
+* [commands/`alias`](../commands/alias.md):
   Create an alias for a command
-* commands/[`export`](../commands/export.md):
+* [commands/`export`](../commands/export.md):
   Define a local variable and set it's value
-* commands/[`function`](../commands/function.md):
+* [commands/`function`](../commands/function.md):
   Define a function block
-* commands/[`g`](../commands/g.md):
+* [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* commands/[`global`](../commands/global.md):
+* [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
-* commands/[`let`](../commands/let.md):
-  Evaluate a mathmatical function and assign to variable
-* commands/[`private`](../commands/private.md):
+* [commands/`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable
+* [commands/`private`](../commands/private.md):
   Define a private function block
-* commands/[`set`](../commands/set.md):
+* [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* commands/[source](../commands/source.md):
+* [commands/source](../commands/source.md):
   

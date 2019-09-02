@@ -18,7 +18,7 @@ Terminate _murex_ with an exit number of 1.
 
 ### See Also
 
-* commands/[`exit`](../commands/exit.md):
+* [commands/`exit`](../commands/exit.md):
   Exit murex
-* commands/[`null`](../commands/devnull.md):
+* [commands/`null`](../commands/devnull.md):
   null function. Similar to /dev/null

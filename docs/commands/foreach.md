@@ -189,27 +189,27 @@ Luckily JSON also has it's own streaming format: jsonlines (`jsonl`)
 
 ### See Also
 
-* commands/[`a` (mkarray)](../commands/a.md):
+* [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* commands/[`cast`](../commands/cast.md):
+* [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* commands/[`format`](../commands/format.md):
+* [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* commands/[`if`](../commands/if.md):
+* [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* commands/[`ja`](../commands/ja.md):
+* [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* types/[`json` (JSON)](../types/json.md):
+* [types/`json` (JSON)](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* commands/[`out`](../commands/out.md):
+* [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* types/[`yaml` (YAML)](../types/yaml.md):
+* [types/`yaml` (YAML)](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* commands/[for](../commands/for.md):
+* [commands/for](../commands/for.md):
   
-* commands/[formap](../commands/formap.md):
+* [commands/formap](../commands/formap.md):
   
-* types/[jsonl](../types/jsonl.md):
+* [types/jsonl](../types/jsonl.md):
   
-* commands/[while](../commands/while.md):
+* [commands/while](../commands/while.md):
   

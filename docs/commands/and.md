@@ -47,19 +47,19 @@ are unsuccessful.
 
 ### See Also
 
-* commands/[`!` (not)](../commands/not.md):
+* [commands/`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* commands/[`catch`](../commands/catch.md):
+* [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
-* commands/[`false`](../commands/false.md):
+* [commands/`false`](../commands/false.md):
   Returns a `false` value
-* commands/[`if`](../commands/if.md):
+* [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* commands/[`or`](../commands/or.md):
+* [commands/`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* commands/[`true`](../commands/true.md):
+* [commands/`true`](../commands/true.md):
   Returns a `true` value
-* commands/[`try`](../commands/try.md):
+* [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
-* commands/[`trypipe`](../commands/trypipe.md):
+* [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

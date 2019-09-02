@@ -77,9 +77,9 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 
 ### See Also
 
-* apis/[`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* apis/[`define.MarshalData()` ](../apis/marshaldata.md):
+* [apis/`define.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* apis/[unmashaldata](../apis/unmashaldata.md):
+* [apis/unmashaldata](../apis/unmashaldata.md):
   

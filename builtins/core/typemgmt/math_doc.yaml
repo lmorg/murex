@@ -1,11 +1,11 @@
 - DocumentID: equ
   Title: >+
-    `=` (artithmetic evaluation)
+    `=` (arithmetic evaluation)
   CategoryID: commands
   Summary: >-
-    Evaluate a mathmatical function
+    Evaluate a mathematical function
   Description: |-
-    `=` evaluates a mathmatical function and returns it's output
+    `=` evaluates a mathematical function and returns it's output
   Usage: |-
     ```
     <stdin> -> = evaluation -> <stdout>
@@ -63,9 +63,9 @@
     `let`
   CategoryID: commands
   Summary: >-
-    Evaluate a mathmatical function and assign to variable
+    Evaluate a mathematical function and assign to variable
   Description: |-
-    `let` evaluates a mathmatical function and then assigns it to a locally
+    `let` evaluates a mathematical function and then assigns it to a locally
     scoped variable (like `set`)
   Usage: |-
     ```

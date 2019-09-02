@@ -39,7 +39,7 @@ The history file is typically located on disk in a file called `~/.murex.history
 
 ### See Also
 
-* commands/[`config`](../commands/config.md):
+* [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

@@ -41,11 +41,11 @@ only designed to match file system objects in the current working directory.
 
 ### See Also
 
-* commands/[`f`](../commands/f.md):
+* [commands/`f`](../commands/f.md):
   Lists objects (eg files) in the current working directory
-* commands/[`g`](../commands/g.md):
+* [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* commands/[`match`](../commands/match.md):
+* [commands/`match`](../commands/match.md):
   Match an exact value in an array
-* commands/[`regexp`](../commands/regexp.md):
+* [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings

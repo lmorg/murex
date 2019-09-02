@@ -41,17 +41,17 @@ _murex_ comes with it's own package manager to make managing plugins easier.
 
 ### See Also
 
-* commands/[`alias`](../commands/alias.md):
+* [commands/`alias`](../commands/alias.md):
   Create an alias for a command
-* commands/[`config`](../commands/config.md):
+* [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* commands/[`function`](../commands/function.md):
+* [commands/`function`](../commands/function.md):
   Define a function block
-* commands/[`private`](../commands/private.md):
+* [commands/`private`](../commands/private.md):
   Define a private function block
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* commands/[murex-man](../commands/murex-man.md):
+* [commands/murex-man](../commands/murex-man.md):
   
-* commands/[status](../commands/status.md):
+* [commands/status](../commands/status.md):
   

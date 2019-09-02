@@ -78,9 +78,9 @@ func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) 
 
 ### See Also
 
-* apis/[`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* apis/[`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* apis/[`define.MarshalData()` ](../apis/marshaldata.md):
+* [apis/`define.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)

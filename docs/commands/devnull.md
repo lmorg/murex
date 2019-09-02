@@ -31,7 +31,7 @@ use the named pipe property rather than piping to null:
 
 ### See Also
 
-* commands/[`die`](../commands/die.md):
+* [commands/`die`](../commands/die.md):
   Terminate murex with an exit number of 1
-* commands/[`exit`](../commands/exit.md):
+* [commands/`exit`](../commands/exit.md):
   Exit murex

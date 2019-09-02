@@ -72,21 +72,23 @@
        readability reasons it is recommended not to use such characters even
        though it is technically possible to.
 
+    ```
+       # Would fail because the semi-colon is an unescaped / unquoted shell token
+       config -> [[ ;shell-syntax-highlighting;Data-Type ]]
+    ```
+
     3. Please also make sure you don't use a character that is also used inside
        key names because keys _cannot_ be escaped. For example both of the
        following would fail:
-
+    
     ```
-    # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
-    # the separator character
-    config -> [[ -shell-syntax-highlighting-Data-Type ]]
+       # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
+       # the separator character
+       config -> [[ -shell-syntax-highlighting-Data-Type ]]
 
-    # Would fail because you cannot escape key names (escaping happens at the
-    # shell parser level rather than command parameter level)
-    config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
-
-    # Would fail because the semi-colon is an unescaped / unquoted shell token
-    config -> [[ ;shell-syntax-highlighting;Data-Type ]]
+       # Would fail because you cannot escape key names (escaping happens at the
+       # shell parser level rather than command parameter level)
+       config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
     ```
 
     #### Quoting parameters

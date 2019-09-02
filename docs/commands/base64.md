@@ -49,15 +49,15 @@ it doesn't require the OS fork processes.
 
 ### See Also
 
-* commands/[`!bz2` (optional)](../commands/bz2.md):
+* [commands/`!bz2` (optional)](../commands/bz2.md):
   Decompress a bz2 file
-* commands/[`esccli`](../commands/esccli.md):
+* [commands/`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* commands/[`gz` (optional)](../commands/gz.md):
+* [commands/`gz` (optional)](../commands/gz.md):
   Compress or decompress a gzip file
-* commands/[escape](../commands/escape.md):
+* [commands/escape](../commands/escape.md):
   
-* commands/[eschtml](../commands/eschtml.md):
+* [commands/eschtml](../commands/eschtml.md):
   
-* commands/[escurl](../commands/escurl.md):
+* [commands/escurl](../commands/escurl.md):
   

@@ -23,15 +23,15 @@ Currently there is no support for compressing a stream using bz2.
 
 ### See Also
 
-* commands/[`base64` (optional)](../commands/base64.md):
+* [commands/`base64` (optional)](../commands/base64.md):
   Encode or decode a base64 string
-* commands/[`esccli`](../commands/esccli.md):
+* [commands/`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* commands/[`gz` (optional)](../commands/gz.md):
+* [commands/`gz` (optional)](../commands/gz.md):
   Compress or decompress a gzip file
-* commands/[escape](../commands/escape.md):
+* [commands/escape](../commands/escape.md):
   
-* commands/[eschtml](../commands/eschtml.md):
+* [commands/eschtml](../commands/eschtml.md):
   
-* commands/[escurl](../commands/escurl.md):
+* [commands/escurl](../commands/escurl.md):
   

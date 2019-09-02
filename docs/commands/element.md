@@ -70,20 +70,20 @@ However there are a few of caveats:
    readability reasons it is recommended not to use such characters even
    though it is technically possible to.
 
+       # Would fail because the semi-colon is an unescaped / unquoted shell token
+       config -> [[ ;shell-syntax-highlighting;Data-Type ]]
+    
 3. Please also make sure you don't use a character that is also used inside
    key names because keys _cannot_ be escaped. For example both of the
    following would fail:
 
-    # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
-    # the separator character
-    config -> [[ -shell-syntax-highlighting-Data-Type ]]
+       # Would fail because 'syntax-highlighting' and 'Data-Type' both also contain
+       # the separator character
+       config -> [[ -shell-syntax-highlighting-Data-Type ]]
     
-    # Would fail because you cannot escape key names (escaping happens at the
-    # shell parser level rather than command parameter level)
-    config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
-    
-    # Would fail because the semi-colon is an unescaped / unquoted shell token
-    config -> [[ ;shell-syntax-highlighting;Data-Type ]]
+       # Would fail because you cannot escape key names (escaping happens at the
+       # shell parser level rather than command parameter level)
+       config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
     
 #### Quoting parameters
 
@@ -107,17 +107,17 @@ If you did need to quote the entire
 
 ### See Also
 
-* commands/[`@[` (range) ](../commands/range.md):
+* [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`a` (mkarray)](../commands/a.md):
+* [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* commands/[`config`](../commands/config.md):
+* [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* commands/[`ja`](../commands/ja.md):
+* [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* commands/[`len` ](../commands/len.md):
+* [commands/`len` ](../commands/len.md):
   Outputs the length of an array
-* commands/[`mtac`](../commands/mtac.md):
+* [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array

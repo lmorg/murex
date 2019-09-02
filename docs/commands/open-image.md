@@ -32,7 +32,7 @@ As a function
 
 ### See Also
 
-* commands/[`qr` (optional)](../commands/qr.md):
+* [commands/`qr` (optional)](../commands/qr.md):
   Creates a QR code from STDIN
-* commands/[open](../commands/open.md):
+* [commands/open](../commands/open.md):
   

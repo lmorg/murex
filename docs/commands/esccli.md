@@ -39,9 +39,9 @@ As a function
 
 ### See Also
 
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`alias`](../commands/alias.md):
+* [commands/`alias`](../commands/alias.md):
   Create an alias for a command
-* commands/[`out`](../commands/out.md):
+* [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character

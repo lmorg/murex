@@ -49,17 +49,17 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ### See Also
 
-* commands/[`@[` (range) ](../commands/range.md):
+* [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`a` (mkarray)](../commands/a.md):
+* [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* commands/[`len` ](../commands/len.md):
+* [commands/`len` ](../commands/len.md):
   Outputs the length of an array
-* commands/[`mtac`](../commands/mtac.md):
+* [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* commands/[`ta`](../commands/ta.md):
+* [commands/`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

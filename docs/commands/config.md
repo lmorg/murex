@@ -169,11 +169,11 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 ### See Also
 
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* commands/[events](../commands/events.md):
+* [commands/events](../commands/events.md):
   
-* types/[mxjson](../types/mxjson.md):
+* [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* commands/[open](../commands/open.md):
+* [commands/open](../commands/open.md):
   

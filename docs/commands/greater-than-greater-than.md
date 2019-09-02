@@ -26,11 +26,11 @@ Otherwise a new file is created.
 
 ### See Also
 
-* commands/[`>` (truncate file)](../commands/greater-than.md):
+* [commands/`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* commands/[`g`](../commands/g.md):
+* [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* commands/[pipe](../commands/pipe.md):
+* [commands/pipe](../commands/pipe.md):
   
-* commands/[tmp](../commands/tmp.md):
+* [commands/tmp](../commands/tmp.md):
   

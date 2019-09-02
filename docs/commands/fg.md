@@ -21,11 +21,11 @@ for Windows (due to the kernel not supporting the right signals) nor Plan 9.
 
 ### See Also
 
-* commands/[`bg`](../commands/bg.md):
+* [commands/`bg`](../commands/bg.md):
   Run processes in the background
-* commands/[fid-kill](../commands/fid-kill.md):
+* [commands/fid-kill](../commands/fid-kill.md):
   
-* commands/[fid-killall](../commands/fid-killall.md):
+* [commands/fid-killall](../commands/fid-killall.md):
   
-* commands/[fid-list](../commands/fid-list.md):
+* [commands/fid-list](../commands/fid-list.md):
   

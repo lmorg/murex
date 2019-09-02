@@ -43,13 +43,13 @@ command.
 
 ### See Also
 
-* commands/[`catch`](../commands/catch.md):
+* [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
-* commands/[`if`](../commands/if.md):
+* [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* commands/[`try`](../commands/try.md):
+* [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
-* commands/[evil](../commands/evil.md):
+* [commands/evil](../commands/evil.md):
   
-* commands/[fid-list](../commands/fid-list.md):
+* [commands/fid-list](../commands/fid-list.md):
   

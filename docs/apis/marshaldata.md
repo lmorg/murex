@@ -81,9 +81,9 @@ func MarshalData(p *lang.Process, dataType string, data interface{}) (b []byte, 
 
 ### See Also
 
-* apis/[`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* apis/[`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* apis/[`define.UnmarshalData()` ](../apis/unmarshaldata.md):
+* [apis/`define.UnmarshalData()` ](../apis/unmarshaldata.md):
   Converts a _murex_ data-type into structured memory

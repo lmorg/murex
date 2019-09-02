@@ -1,12 +1,12 @@
 # _murex_ Shell Guide
 
-## Command Reference: `=` (artithmetic evaluation)
+## Command Reference: `=` (arithmetic evaluation)
 
-> Evaluate a mathmatical function
+> Evaluate a mathematical function
 
 ### Description
 
-`=` evaluates a mathmatical function and returns it's output
+`=` evaluates a mathematical function and returns it's output
 
 ### Usage
 
@@ -150,8 +150,7 @@ Thus far the examples given have been focused on comparisons however `=` and
     
 #### Read more
 
-_murex_ uses the govaluate package. More information can be found in it's manual:
-https://github.com/Knetic/govaluate/blob/master/MANUAL.md
+_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's [manual](https://github.com/Knetic/govaluate/blob/master/MANUAL.md).
 
 ### Synonyms
 
@@ -160,23 +159,23 @@ https://github.com/Knetic/govaluate/blob/master/MANUAL.md
 
 ### See Also
 
-* commands/[`(` (brace quote)](../commands/brace-quote.md):
+* [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* commands/[`=` (artithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathmatical function
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
+  Evaluate a mathematical function
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`export`](../commands/export.md):
+* [commands/`export`](../commands/export.md):
   Define a local variable and set it's value
-* commands/[`global`](../commands/global.md):
+* [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
-* commands/[`global`](../commands/global.md):
+* [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
-* commands/[`if`](../commands/if.md):
+* [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* commands/[`let`](../commands/let.md):
-  Evaluate a mathmatical function and assign to variable
-* commands/[`set`](../commands/set.md):
+* [commands/`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable
+* [commands/`set`](../commands/set.md):
   Define a local variable and set it's value

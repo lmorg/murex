@@ -38,21 +38,21 @@ variable.
 
 ### See Also
 
-* commands/[`(` (brace quote)](../commands/brace-quote.md):
+* [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* commands/[`cast`](../commands/cast.md):
+* [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* commands/[`err`](../commands/err.md):
+* [commands/`err`](../commands/err.md):
   Print a line to the STDERR
-* commands/[`format`](../commands/format.md):
+* [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* commands/[`out`](../commands/out.md):
+* [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* commands/[`pretty`](../commands/pretty.md):
+* [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* commands/[`read`](../commands/read.md):
+* [commands/`read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
-* commands/[`tout`](../commands/tout.md):
+* [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* commands/[sprintf](../commands/sprintf.md):
+* [commands/sprintf](../commands/sprintf.md):
   

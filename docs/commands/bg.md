@@ -46,11 +46,11 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
 
 ### See Also
 
-* commands/[`fg`](../commands/fg.md):
+* [commands/`fg`](../commands/fg.md):
   Sends a background process into the foreground
-* commands/[fid-kill](../commands/fid-kill.md):
+* [commands/fid-kill](../commands/fid-kill.md):
   
-* commands/[fid-killall](../commands/fid-killall.md):
+* [commands/fid-killall](../commands/fid-killall.md):
   
-* commands/[fid-list](../commands/fid-list.md):
+* [commands/fid-list](../commands/fid-list.md):
   

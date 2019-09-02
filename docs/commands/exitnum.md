@@ -19,7 +19,7 @@ Output the exit number of the previous process.
 
 ### See Also
 
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* commands/[test](../commands/test.md):
+* [commands/test](../commands/test.md):
   

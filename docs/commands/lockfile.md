@@ -42,9 +42,9 @@ Output the the file name and path of a lock file with the name `identifier`
 
 ### See Also
 
-* commands/[`bg`](../commands/bg.md):
+* [commands/`bg`](../commands/bg.md):
   Run processes in the background
-* commands/[`out`](../commands/out.md):
+* [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* commands/[`sleep` (optional)](../commands/sleep.md):
+* [commands/`sleep` (optional)](../commands/sleep.md):
   Suspends the shell for a number of seconds

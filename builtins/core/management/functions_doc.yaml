@@ -182,9 +182,7 @@
   Usage: |-
     ```
     os -> <stdout>
-    ```
 
-    ```
     os string -> <stdout>
     ``` 
   Examples: |-

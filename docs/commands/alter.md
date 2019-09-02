@@ -91,19 +91,19 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`append`](../commands/append.md):
+* [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* commands/[`cast`](../commands/cast.md):
+* [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* commands/[`config`](../commands/config.md):
+* [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* commands/[`format`](../commands/format.md):
+* [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* commands/[`prepend` ](../commands/prepend.md):
+* [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

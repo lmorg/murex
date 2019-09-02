@@ -123,21 +123,21 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 
 ### See Also
 
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`alter`](../commands/alter.md):
+* [commands/`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* commands/[`append`](../commands/append.md):
+* [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* commands/[`cast`](../commands/cast.md):
+* [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* commands/[`format`](../commands/format.md):
+* [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* commands/[`prepend` ](../commands/prepend.md):
+* [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* commands/[`swivel-table`](../commands/swivel-table.md):
+* [commands/`swivel-table`](../commands/swivel-table.md):
   Rotates a table by 90 degrees

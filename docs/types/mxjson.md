@@ -54,35 +54,35 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ### See Also
 
-* apis/[`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* apis/[`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`autocomplete`](../commands/autocomplete.md):
+* [commands/`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* commands/[`cast`](../commands/cast.md):
+* [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* commands/[`config`](../commands/config.md):
+* [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* commands/[`format`](../commands/format.md):
+* [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* types/[`hcl` (HCL)](../types/hcl.md):
+* [types/`hcl` (HCL)](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* types/[`json` (JSON)](../types/json.md):
+* [types/`json` (JSON)](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* commands/[`pretty`](../commands/pretty.md):
+* [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* commands/[`runtime`](../commands/runtime.md):
+* [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* types/[`toml` (TOML)](../types/toml.md):
+* [types/`toml` (TOML)](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* types/[`yaml` (YAML)](../types/yaml.md):
+* [types/`yaml` (YAML)](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* types/[jsonl](../types/jsonl.md):
+* [types/jsonl](../types/jsonl.md):
   
-* commands/[open](../commands/open.md):
+* [commands/open](../commands/open.md):
   

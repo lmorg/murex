@@ -141,19 +141,19 @@ you want to overide the scoping of a variable inside a nested code-block.
 
 ### See Also
 
-* commands/[`(` (brace quote)](../commands/brace-quote.md):
+* [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* commands/[`=` (artithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathmatical function
-* commands/[`[[` (element)](../commands/element.md):
+* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
+  Evaluate a mathematical function
+* [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* commands/[`[` (index)](../commands/index.md):
+* [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* commands/[`exec`](../commands/exec.md):
+* [commands/`exec`](../commands/exec.md):
   Runs an executable
-* commands/[`export`](../commands/export.md):
+* [commands/`export`](../commands/export.md):
   Define a local variable and set it's value
-* commands/[`global`](../commands/global.md):
+* [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
-* commands/[`let`](../commands/let.md):
-  Evaluate a mathmatical function and assign to variable
+* [commands/`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable
