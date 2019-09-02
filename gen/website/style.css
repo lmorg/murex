@@ -106,11 +106,13 @@ ul {
 }
 
 #document {
-    position: absolute;
-    /*position: relative;*/
-    top: 0px;
-    left: 200px;
+    position: relative;
+    /*position: absolute;*/
+    /*top: 0px;
+    left: 200px;*/
+    padding-left: 200px;
     width: auto; /*calc(100%-200px);*/
+    /*max-width: calc(100%-200px);*/
 }
 
 .side-bar-title {
@@ -148,10 +150,12 @@ a.side-bar:active, a.side-bar:hover {
     width: calc(100%-10px);
 }
 
-@media screen and (max-width: 678px){
+@media screen and (max-width: 678px) {
     #side-bar { display: none; }
-    #document { position: relative; left: 10px; padding-right: 10px; }
+    /*#document { position: relative; left: 10px; padding-right: 10px; }*/
+    #document { padding-left: 10px; padding-right: 10px; }
     blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
+    img { max-width: 100%; }
     #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
 }
