@@ -35,9 +35,10 @@ As a function:
     Under 21
     
 Inlining as a function:
-» let: age=18
-» if { = age < 21 } then { out: "Under 21" } else { out: "Over 21" }
-Unde
+
+    » let: age=18
+    » if { = age < 21 } then { out: "Under 21" } else { out: "Over 21" }
+    Under 21
 
 ### Detail
 
@@ -161,8 +162,6 @@ _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More 
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):

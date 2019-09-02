@@ -36,6 +36,8 @@
     ```
 
     Inlining as a function:
+
+    ```
     » let: age=18
     » if { = age < 21 } then { out: "Under 21" } else { out: "Over 21" }
     Under 21
@@ -53,7 +55,6 @@
   - set
   - global
   - export
-  - equ
   - brace-quote
   - if
 
@@ -102,8 +103,6 @@
   Related:
   - index
   - element
-  - global
-  - equ
   - set
   - global
   - export

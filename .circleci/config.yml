@@ -1,21 +1,28 @@
-version: 2 # use CircleCI 2.0
-jobs: # basic units of work in a run
-  build: # runs not using Workflows must have a `build` job as entry point
-    docker: # run the steps with Docker
+version: 2
+jobs:
+  build:
+    docker:
       # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
-      - image: circleci/golang:1.12
-      # CircleCI PostgreSQL images available at: https://hub.docker.com/r/circleci/postgres/
-      #- image: circleci/postgres:9.6-alpine
-      #  environment: # environment variables for primary container
-      #    POSTGRES_USER: circleci-demo-go
-      #    POSTGRES_DB: circle_test
-
+      - image: centos
+        environment:
+          GOPATH: /go
+    
     #parallelism: 2
 
     #environment: # environment variables for the build itself
     #  TEST_RESULTS: /tmp/test-results # path to where test results will be saved
 
+    environment:
+      VERSION: 1.12.7
+      GOOS: linux
+      GOARCH: amd64
+
     steps: # steps that comprise the `build` job
+      - run yum --setopt=tsflags='' reinstall -y shadow-utils coreutils
+      - run yum --setopt=tsflags='' install -y install which man man-pages wget gcc git
+      
+      - run mkdir -p /go && cd /go
+
       - checkout # check out source code to working directory
       #- run: mkdir -p $TEST_RESULTS # create the test results directory
       - run mkdir src/github.com/lmorg/murex && \

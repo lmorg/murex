@@ -29,7 +29,7 @@ $targets -> foreach target {
     }
     catch {
         out "{RED}FAILED{RESET}"
-	let status++
+	    let status++
     }
 }
 
