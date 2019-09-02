@@ -63,20 +63,22 @@ code {
     padding: 2px;
 }
 
+pre code {
+    padding: 0px;
+}
+
 a code:hover {
     color: #f57d0d;
 }
 
 pre {
-    /*font-family: 'Source Code Pro', monospace;
-    color: #14700f;*/
     background: #ffffff;
     border-radius: 5px;
     line-height: 130%;
+
     border-width: 1px;
     border-style: solid;
     border-color: #74b971;
-    /* padding-left: 7px; */
     border-right-width: 10px;
     margin-right: 20px;
     padding-left: 15px;
@@ -148,7 +150,7 @@ a.side-bar:active, a.side-bar:hover {
 
 @media screen and (max-width: 678px){
     #side-bar { display: none; }
-    #document { position: relative; ; left: 10px; padding-right: 10px; }
+    #document { position: relative; left: 10px; padding-right: 10px; }
     blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
     #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
