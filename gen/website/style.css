@@ -105,6 +105,7 @@ img { max-width: 100%; }
     left: 0px;
     height: 100%;
     background: #303133;
+    z-index: 999;
 }
 
 #document {
