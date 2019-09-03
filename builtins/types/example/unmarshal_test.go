@@ -4,9 +4,12 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 func TestUnmarshal(t *testing.T) {
+	count.Tests(t, 1, "TestUnmarshal")
+
 	lang.InitEnv()
 	fork := lang.ShellProcess.Fork(lang.F_CREATE_STDIN)
 

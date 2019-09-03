@@ -3,6 +3,8 @@ package test
 import (
 	"testing"
 
+	"github.com/lmorg/murex/test/count"
+
 	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import boolean builtins
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -19,6 +21,8 @@ type BooleanTest struct {
 // RunBooleanTests runs through all the test cases for BooleanTest.
 // Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 func RunBooleanTests(tests []BooleanTest, t *testing.T) {
+	count.Tests(t, len(tests), "RunBooleanTests")
+
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()
 

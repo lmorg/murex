@@ -2,10 +2,14 @@ package hintsummary
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestHintSummary tests the HintSummary structure
 func TestHintSummary(t *testing.T) {
+	count.Tests(t, 4, "TestHintSummary")
+
 	summary := New()
 
 	summary.Set("cmd1", "sum1")

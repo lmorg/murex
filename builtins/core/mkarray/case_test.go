@@ -1,8 +1,14 @@
 package mkarray
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
+)
 
 func TestGetCase(t *testing.T) {
+	count.Tests(t, 4, "TestGetCase")
+
 	if getCase("foobar") != caseLower {
 		t.Error("`foobar` not being detected as lower case")
 	}
@@ -21,6 +27,8 @@ func TestGetCase(t *testing.T) {
 }
 
 func TestSetCase(t *testing.T) {
+	count.Tests(t, 3, "TestSetCase")
+
 	input := "foobar"
 
 	expected := "foobar"
@@ -54,6 +62,8 @@ func TestSetCase(t *testing.T) {
 // TestOptimisedSetCase checks that nobody tries to "bug fix" the setCase()
 // function with lowercasing already lowercased elements
 func TestOptimisedSetCase(t *testing.T) {
+	count.Tests(t, 2, "TestOptimisedSetCase")
+
 	input := "fooBar"
 
 	expected := "foobar"

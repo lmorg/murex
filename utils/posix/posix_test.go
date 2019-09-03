@@ -2,6 +2,8 @@ package posix
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestPosix checks isPosix logic is correct
@@ -17,6 +19,8 @@ func TestPosix(t *testing.T) {
 		"windows":   false,
 		"plan9":     false,
 	}
+
+	count.Tests(t, len(platforms), "TestPosix")
 
 	for os, val := range platforms {
 		if val {

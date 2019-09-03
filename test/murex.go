@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 // MurexTest is a basic framework to test murex code.
@@ -19,6 +20,8 @@ type MurexTest struct {
 
 // RunMurexTests runs through all the test cases for MurexTest
 func RunMurexTests(tests []MurexTest, t *testing.T) {
+	count.Tests(t, len(tests), "RunMurexTests")
+
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()
 

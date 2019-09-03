@@ -5,13 +5,21 @@ package home
 import (
 	"os/user"
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
-// TestHome tests the home directories can be derived
-func TestHome(t *testing.T) {
+// TestMyHome tests your home directory can be derived
+func TestMyHome(t *testing.T) {
+	count.Tests(t, 1, "TestMyHome")
 	if MyDir == "" {
 		t.Error("MyDir not set (murex will still function)")
 	}
+}
+
+// TestUserHome tests a users home directory can be derived
+func TestUserHome(t *testing.T) {
+	count.Tests(t, 1, "TestUserHome")
 
 	u, err := user.Current()
 	if err != nil {

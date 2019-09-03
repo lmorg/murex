@@ -2,6 +2,8 @@ package escape
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestCommandLine checks the escape.CommandLine function escapes all values as expected
@@ -14,6 +16,8 @@ func TestCommandLine(t *testing.T) {
 		"`",
 		" \t\r\n",
 	}
+
+	count.Tests(t, len(s), "TestCommandLine")
 
 	CommandLine(s)
 
@@ -52,6 +56,8 @@ func TestTable(t *testing.T) {
 		"`",
 		" \t\r\n",
 	}
+
+	count.Tests(t, len(s), "TestCommandLine")
 
 	Table(s)
 

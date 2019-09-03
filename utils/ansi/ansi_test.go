@@ -6,10 +6,13 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestAnsiColoured tests writing colours via the ansi package
 func TestAnsiColoured(t *testing.T) {
+	count.Tests(t, 1, "TestAnsiColoured")
+
 	lang.ShellProcess.Config = config.NewConfiguration()
 	lang.ShellProcess.Config.Define("shell", "color", config.Properties{
 		DataType:    types.Boolean,
@@ -35,6 +38,8 @@ func TestAnsiColoured(t *testing.T) {
 
 // TestAnsiNoColour tests the color override disables the ansi package
 func TestAnsiNoColour(t *testing.T) {
+	count.Tests(t, 1, "TestAnsiNoColour")
+
 	lang.ShellProcess.Config = config.NewConfiguration()
 	lang.ShellProcess.Config.Define("shell", "color", config.Properties{
 		DataType:    types.Boolean,

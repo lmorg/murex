@@ -4,10 +4,13 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestConfig tests the config structure
 func TestConfig(t *testing.T) {
+	count.Tests(t, 2, "TestConfig")
+
 	conf := NewConfiguration()
 
 	conf.Define("shell", "prompt", Properties{

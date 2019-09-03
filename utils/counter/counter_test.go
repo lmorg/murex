@@ -1,8 +1,14 @@
 package counter
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
+)
 
 func TestCounter(t *testing.T) {
+	count.Tests(t, 2, "TestCounter")
+
 	mc := new(MutexCounter)
 	i := mc.Add()
 	if i != 1 {

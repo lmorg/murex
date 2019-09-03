@@ -2,11 +2,15 @@ package json
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestJsonMap tests the the JSON wrapper can marshal interface{} maps which the
 // core library cannot
 func TestJsonMap(t *testing.T) {
+	count.Tests(t, 1, "TestJsonMap")
+
 	obj := make(map[interface{}]interface{})
 	obj["a"] = "b"
 	obj[1] = 2

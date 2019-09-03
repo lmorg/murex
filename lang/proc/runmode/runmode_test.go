@@ -2,10 +2,14 @@ package runmode
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
-// TestRunmode tests stringer has ran
-func TestRunmode(t *testing.T) {
+// TestRunmodeStringer tests stringer has ran
+func TestRunmodeStringer(t *testing.T) {
+	count.Tests(t, 5, "TestRunmodeStringer")
+
 	defer func() {
 		if r := recover(); r != nil {
 			t.Log(r)

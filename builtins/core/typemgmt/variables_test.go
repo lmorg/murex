@@ -7,6 +7,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/io"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 type Test struct {
@@ -27,6 +28,8 @@ func VariableTests(tests []Test, t *testing.T) {
 	if err != nil {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
 	}
+
+	count.Tests(t, len(tests), "VariableTests")
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()
@@ -76,6 +79,8 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 	if err != nil {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
 	}
+
+	count.Tests(t, len(tests), "UnSetTests")
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()

@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test"
+	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/gopath"
 )
 
@@ -15,10 +16,12 @@ var sourceFile map[string]string
 
 // TestCoreDocs tests documentation has been written for core builtins
 func __TestCoreDocs(t *testing.T) {
+	count.Tests(t, 1, "TestCoreDocs")
 	test.Exists(t, gopath.Source([]string{"builtins"})+"docgen_test.go")
 
 	path := gopath.Source([]string{"builtins", "docs"})
 
+	count.Tests(t, len(lang.GoFunctions)*2, "TestCoreDocs")
 	for name := range lang.GoFunctions {
 		syn := docs.Synonym[name]
 		if syn == "" {

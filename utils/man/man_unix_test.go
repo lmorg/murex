@@ -5,6 +5,8 @@ package man
 import (
 	"os"
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestMan tests the builtins package
@@ -13,6 +15,8 @@ func TestMan(t *testing.T) {
 		t.Skip("Environmental variable `MUREX_TEST_SKIP_MAN` set")
 		return
 	}
+
+	count.Tests(t, 3, "TestMan")
 
 	files := GetManPages("cat")
 	if len(files) == 0 {

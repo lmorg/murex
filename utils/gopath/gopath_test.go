@@ -5,10 +5,13 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/test"
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestGoPath checks for the existence of GOPATH and warns the user if it is not present
 func TestGoPath(t *testing.T) {
+	count.Tests(t, 1, "TestGoPath")
+
 	GOPATH := os.Getenv("GOPATH")
 	if GOPATH == "" {
 		t.Error("GOPATH environmental variable is not set")
@@ -29,6 +32,8 @@ func TestGoPath(t *testing.T) {
 // TestSource just does a quick check that Source() does return the root of
 // murex's source tree
 func TestSource(t *testing.T) {
+	count.Tests(t, 1, "TestSource")
+
 	path := Source([]string{})
 	t.Log("Source returns:", path)
 	test.Exists(t, path+"main.go")

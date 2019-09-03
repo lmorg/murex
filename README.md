@@ -243,28 +243,14 @@ without worrying about any performance impact.
 
 ## Language guides
 
-The following guides are historic and the language has been refined a little
-since their creation. They are in the process of being rewritten in a format
-that allows for auto-generation, however we have retain these guides for
-reference in the interim.
-
 1. [GUIDE.syntax.md](docs/GUIDE.syntax.md) is recommended first as it gives
 an overview if the shell scripting languages syntax and data types.
 
-2. [GUIDE.variables-and-evaluation.md](docs/GUIDE.variables-and-evaluation.md)
-describes how to define variables and how to use them.
-
-3. [GUIDE.control-structures.md](docs/GUIDE.control-structures.md) will
-list how to use if statements and iteration like for loops.
-
-4. [GUIDE.arrays-and-maps.md](docs/GUIDE.arrays-and-maps.md) demonstrates how
-to create arrays and return specific fields from an array or map.
-
-5. [GUIDE.type-system.md](docs/GUIDE.type-system.md) describes _murex_'s type
+2. [GUIDE.type-system.md](docs/GUIDE.type-system.md) describes _murex_'s type
 system. Most of the time you will not need to worry about typing in
 _murex_ as the shell is designed around productivity.
 
-6. [GUIDE.builtin-functions.md](docs/GUIDE.builtin-functions.md) lists some
+3. [GUIDE.builtin-functions.md](docs/GUIDE.builtin-functions.md) lists some
 of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick
@@ -277,4 +263,4 @@ Install instructions have been moved into its own file: [INSTALL.md](INSTALL.md)
 
 ## Known bugs / TODO
 
-Please see Github's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
+Please see GitHub's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)

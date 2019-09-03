@@ -1,6 +1,10 @@
 package history
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
+)
 
 func TestNoColon(t *testing.T) {
 	tests := []string{
@@ -30,6 +34,8 @@ func TestNoColon(t *testing.T) {
 		"command param1 param2 param3",
 		"command param1 param2 param3",
 	}
+
+	count.Tests(t, len(tests), "TestNoColon")
 
 	for i := range tests {
 		actual := noColon(tests[i])

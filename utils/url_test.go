@@ -2,6 +2,8 @@ package utils
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestIsURL tests the IsURL function
@@ -23,6 +25,8 @@ func TestIsURL(t *testing.T) {
 		"http://domain",
 		"https://domain",
 	}
+
+	count.Tests(t, len(good)+len(bad), "TestCrLfTestIsURLTrimString")
 
 	for _, s := range bad {
 		if IsURL(s) {

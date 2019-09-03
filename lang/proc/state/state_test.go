@@ -2,10 +2,14 @@ package state
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
-// TestState tests stringer has ran
-func TestState(t *testing.T) {
+// TestStateStringer tests stringer has ran
+func TestStateStringer(t *testing.T) {
+	count.Tests(t, 9, "TestStateStringer")
+
 	defer func() {
 		if r := recover(); r != nil {
 			t.Log(r)

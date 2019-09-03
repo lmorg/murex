@@ -2,7 +2,16 @@ package history
 
 import (
 	"errors"
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
+
+var testHistoryItems = []string{
+	"out: the quick brown #fox",
+	"out: jumped over",
+	"out: the lazy dog",
+}
 
 // TestHistory is a dummy history struct for testing
 type TestHistory struct {
@@ -11,11 +20,7 @@ type TestHistory struct {
 
 func NewTestHistory() *TestHistory {
 	h := new(TestHistory)
-	h.list = []string{
-		"out: the quick brown #fox",
-		"out: jumped over",
-		"out: the lazy dog",
-	}
+	h.list = testHistoryItems
 	return h
 }
 
@@ -44,4 +49,13 @@ func (h *TestHistory) Len() int {
 // Dump returns the entire history file
 func (h *TestHistory) Dump() interface{} {
 	return h.list
+}
+
+func TestTestHistory(t *testing.T) {
+	count.Tests(t, 1, "TestTestHistory")
+
+	h := NewTestHistory()
+	if h.Len() != len(testHistoryItems) {
+		t.Error("Test history doesn't contain the number of items it is expecting")
+	}
 }

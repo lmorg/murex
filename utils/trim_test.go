@@ -2,10 +2,14 @@ package utils
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestCrLfTrim tests the CrLfTrim function
 func TestCrLfTrim(t *testing.T) {
+	count.Tests(t, 5, "TestCrLfTrim")
+
 	b := []byte("test")
 
 	b = CrLfTrim(b)
@@ -40,6 +44,8 @@ func TestCrLfTrim(t *testing.T) {
 
 // TestCrLfTrimRune tests the CrLfTrimRune function
 func TestCrLfTrimRune(t *testing.T) {
+	count.Tests(t, 5, "TestCrLfTrimRune")
+
 	r := []rune("test")
 
 	r = CrLfTrimRune(r)
@@ -74,6 +80,8 @@ func TestCrLfTrimRune(t *testing.T) {
 
 // TestCrLfTrimString tests the CrLfTrimString function
 func TestCrLfTrimString(t *testing.T) {
+	count.Tests(t, 5, "TestCrLfTrimString")
+
 	s := CrLfTrimString("test")
 
 	if s != "test" {

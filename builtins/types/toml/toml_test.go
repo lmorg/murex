@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/test/count"
 )
 
 /*func TestReadMap(t *testing.T) {
@@ -28,6 +29,8 @@ import (
 }*/
 
 func TestArrayWriter(t *testing.T) {
+	count.Tests(t, 1, "TestArrayWriter")
+
 	stdout := streams.NewStdin()
 
 	_, err := stdout.WriteArray(typeName)

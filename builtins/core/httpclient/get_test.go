@@ -4,10 +4,13 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestGet tests the get function
 func TestGet(t *testing.T) {
+	count.Tests(t, 1, "TestGet")
+
 	lang.InitEnv()
 	addr := StartHTTPServer(t)
 
@@ -23,6 +26,8 @@ func TestGet(t *testing.T) {
 
 // TestGetFile tests the getfile function
 func TestGetFile(t *testing.T) {
+	count.Tests(t, 1, "TestGetFile")
+
 	lang.InitEnv()
 	addr := StartHTTPServer(t)
 

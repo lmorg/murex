@@ -3,6 +3,7 @@ package history
 import (
 	"testing"
 
+	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/readline"
 )
 
@@ -15,6 +16,8 @@ func newReadlineInstance() *readline.Instance {
 
 func test(function func(string, *readline.Instance) (string, error),
 	t *testing.T, tests, expected []string, rl *readline.Instance) {
+
+	count.Tests(t, len(tests), "TestTestHistory")
 
 	for i := range tests {
 		actual, err := function(tests[i], rl)

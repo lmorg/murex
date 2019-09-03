@@ -3,10 +3,13 @@ package modules
 import (
 	"testing"
 
+	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/which"
 )
 
 func TestGitInstalled(t *testing.T) {
+	count.Tests(t, 1, "TestGitInstalled")
+
 	if which.Which("git") == "" {
 		t.Log("`git` isn't installed or not in $PATH")
 	}
@@ -19,6 +22,8 @@ func TestGitUriParser(t *testing.T) {
 		"https://github.com/lmorg/murex-module-murex-dev",
 		"https://github.com/lmorg/murex-module-murex-dev.git",
 	}
+
+	count.Tests(t, len(URIs), "TestGitUriParser")
 
 	expected := "murex-module-murex-dev"
 

@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/lmorg/murex/test/count"
 	docgen "github.com/lmorg/murex/utils/docgen/api"
 )
 
@@ -19,6 +20,8 @@ func (l logger) Write(b []byte) (int, error) {
 // TestDocgenConfigTemplates tests the config YAML and template files are all
 // valid and the project can render
 func TestDocgenConfigTemplates(t *testing.T) {
+	count.Tests(t, 1, "TestDocgenConfigTemplates")
+
 	if _, err := os.Stat("gen/docgen.yaml"); os.IsNotExist(err) {
 		os.Chdir("..")
 	}

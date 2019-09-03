@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/home"
 )
 
@@ -15,6 +16,8 @@ var (
 
 // TestExpand tests the ExpandString function
 func TestExpand(t *testing.T) {
+	count.Tests(t, 1, "TestExpand")
+
 	lang.InitEnv()
 
 	err := lang.ShellProcess.Variables.Set("foo", "oof", types.String)
@@ -38,6 +41,8 @@ func TestExpand(t *testing.T) {
 
 // TestExpandString tests the ExpandString function
 func TestExpandString(t *testing.T) {
+	count.Tests(t, 1, "TestExpandString")
+
 	lang.InitEnv()
 
 	err := lang.ShellProcess.Variables.Set("foo", "oof", types.String)
@@ -61,6 +66,8 @@ func TestExpandString(t *testing.T) {
 
 // TestCompare checks the Expand and ExpandString functions returns the same data (albeit in different data types)
 func TestCompare(t *testing.T) {
+	count.Tests(t, 1, "TestCompare")
+
 	r := Expand([]rune(testString))
 	s := ExpandString(testString)
 

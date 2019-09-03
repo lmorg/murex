@@ -4,10 +4,13 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestPost tests the post function
 func TestPost(t *testing.T) {
+	count.Tests(t, 1, "TestPost")
+
 	lang.InitEnv()
 	addr := StartHTTPServer(t)
 

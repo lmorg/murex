@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 // RunMethodTest is a template function for testing builtins run as methods.RunMethodTest.
@@ -14,6 +15,8 @@ import (
 //     _ "github.com/lmorg/murex/builtins/types/generic"
 //	   _ "github.com/lmorg/murex/builtins/types/json"
 func RunMethodTest(t *testing.T, cmd func(*lang.Process) error, methodName string, input string, dataType string, params []string, output string, expectedError error) {
+	count.Tests(t, 1, "RunMethodTest")
+
 	p := lang.NewTestProcess()
 	p.IsMethod = true
 	p.Parameters.Params = params

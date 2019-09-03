@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/test/count"
 )
 
 func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
@@ -70,6 +71,8 @@ func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
 }
 
 func TestIsDisabled(t *testing.T) {
+	count.Tests(t, 3, "TestIsDisabled")
+
 	disabled = []string{
 		"foo",
 		"bar",
@@ -93,6 +96,8 @@ func TestPath(t *testing.T) {
 	if err != nil {
 		t.Skipf("Unable to get current working directory: %s", err)
 	}
+
+	count.Tests(t, 2, "TestPath")
 
 	path := m.Path()
 
@@ -120,6 +125,8 @@ func TestValidate(t *testing.T) {
 	if err != nil {
 		t.Skip("Unable to stat path. Skipping this test until murex is run for the first time")
 	}
+
+	count.Tests(t, 6, "TestValidate")
 
 	autocomplete.GlobalExes = map[string]bool{
 		"sh":      true,

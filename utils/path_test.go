@@ -4,11 +4,14 @@ import (
 	"runtime"
 	"testing"
 
+	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/consts"
 )
 
 // TestNormalisePath tests NormalisePath function
 func TestNormalisePath(t *testing.T) {
+	count.Tests(t, 12, "TestNormalisePath")
+
 	path := NormalisePath(consts.PathSlash)
 	if path != consts.PathSlash {
 		t.Error("Root slash, /, (absolute path) not returning itself in NormalisePath")
