@@ -23,6 +23,9 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 			case parameters.TokenTypeNil:
 				// do nothing
 
+			case parameters.TokenTypeNamedPipe:
+				// do nothing
+
 			case parameters.TokenTypeValue:
 				p.Params[len(p.Params)-1] += p.Tokens[i][j].Key
 				tCount = true
