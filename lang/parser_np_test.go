@@ -149,3 +149,58 @@ func TestParserNamedPiped5(t *testing.T) {
 
 	testParser(t, tests)
 }
+
+func TestParserNamedPiped6(t *testing.T) {
+	params0 := [][]parameters.ParamToken{
+		{{Key: "<$notapipe>", Type: parameters.TokenTypeNamedPipe}},
+	}
+
+	nodes0 := astNodes{{
+		NewChain:    true,
+		Name:        "example",
+		ParamTokens: params0,
+	}}
+
+	params1 := [][]parameters.ParamToken{
+		{{Key: "<$notapipe>", Type: parameters.TokenTypeValue}},
+	}
+
+	nodes1 := astNodes{{
+		NewChain:    true,
+		Name:        "example",
+		ParamTokens: params1,
+	}}
+
+	params2 := [][]parameters.ParamToken{{
+		{Key: "<", Type: parameters.TokenTypeValue},
+		{Key: "notapipe", Type: parameters.TokenTypeString},
+		{Key: ">", Type: parameters.TokenTypeValue},
+	}}
+
+	nodes2 := astNodes{{
+		NewChain:    true,
+		Name:        "example",
+		ParamTokens: params2,
+	}}
+
+	params3 := [][]parameters.ParamToken{{
+		{Key: "<", Type: parameters.TokenTypeNamedPipe},
+		{Key: "notapipe", Type: parameters.TokenTypeString},
+		{Key: ">", Type: parameters.TokenTypeValue},
+	}}
+
+	nodes3 := astNodes{{
+		NewChain:    true,
+		Name:        "example",
+		ParamTokens: params3,
+	}}
+
+	var tests = []parserTestConditions{
+		{Expected: nodes0, Block: `example <\$notapipe>`},
+		{Expected: nodes1, Block: `example <'$notapipe'>`},
+		{Expected: nodes2, Block: `example <"$notapipe">`},
+		{Expected: nodes3, Block: `example <($notapipe)>`},
+	}
+
+	testParser(t, tests)
+}
