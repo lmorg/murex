@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/base64"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"regexp"
@@ -158,7 +159,10 @@ var rxVersionNum = regexp.MustCompile(`^[0-9]+\.[0-9]+`)
 
 func cmdVersion(p *lang.Process) error {
 	s, _ := p.Parameters.String(0)
-	if s == "--short" {
+
+	switch s {
+
+	case "--short":
 		p.Stdout.SetDataType(types.Number)
 		num := rxVersionNum.FindStringSubmatch(config.Version)
 		if len(num) != 1 {
@@ -166,11 +170,21 @@ func cmdVersion(p *lang.Process) error {
 		}
 		_, err := p.Stdout.Write([]byte(num[0]))
 		return err
+
+	case "--no-app-name":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(config.Version))
+		return err
+
+	case "":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
+		return err
+
+	default:
+		return fmt.Errorf("Not a valid parameter: %s", s)
 	}
 
-	p.Stdout.SetDataType(types.String)
-	_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
-	return err
 }
 
 func cmdParser(p *lang.Process) error {
