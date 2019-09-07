@@ -14,6 +14,12 @@ func parseRedirection(p *Process) {
 	//p.NamedPipeErr = "err"
 
 	for i := range p.Parameters.Tokens {
+		// nil tokens can sometimes get popped into the token array. This is really a "bug" of the parser where
+		// speed is valued over correctness. However it does mean we need to ignore them here
+		if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeNil {
+			continue
+		}
+
 		if p.Parameters.Tokens[i][0].Type != parameters.TokenTypeNamedPipe || !rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) {
 			break
 		}
