@@ -71,11 +71,14 @@ func cmdFidListTTY(p *lang.Process) error {
 
 	procs := lang.GlobalFIDs.ListAll()
 	for i := range procs {
-		params := procs[i].Parameters.StringAll()
-		if len(params) == 0 && len(procs[i].Parameters.Tokens) > 1 {
+		var params string
+		if procs[i].Parameters.Len() == 0 && procs[i].Parameters.TokenLen() > 0 {
 			b, _ := json.Marshal(procs[i].Parameters.Tokens, false)
 			params = "Unparsed: " + string(b)
+		} else {
+			params = procs[i].Parameters.StringAll()
 		}
+
 		s := fmt.Sprintf("%7d  %7d  %7d  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
 			procs[i].Id,
 			procs[i].Parent.Id,

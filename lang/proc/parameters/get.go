@@ -106,3 +106,22 @@ func (p Parameters) Block(pos int) ([]rune, error) {
 func (p Parameters) Len() int {
 	return len(p.Params)
 }
+
+// TokenLen returns the number of parameters from ParamTokens. This method is
+// not recommended for casual use - instead use Len() - however if you are
+// monitoring other processes and those processes might be in a state prior to
+// execution then you might want to check the parameter length before it has
+// been parsed. This is this methods _only_ use case.
+func (p Parameters) TokenLen() int {
+	var count int
+	for _, tokens := range p.Tokens {
+		for i := range tokens {
+			if tokens[i].Type != TokenTypeNil {
+				count++
+				break
+			}
+		}
+	}
+
+	return count
+}

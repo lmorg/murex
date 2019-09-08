@@ -67,7 +67,7 @@ $targets -> formap os cpus {
             set bin=./bin/murex-$version-$os-$arch$ext
             go build -o $bin $project
             
-            if { $args->[[/Flags/--compress]] } then { compress $bin $ext }
+            !if { $args->[[/Flags/--compress]] } else { compress $bin $ext }
             
             out "{GREEN}SUCCESSFUL{RESET}"
         }

@@ -1,6 +1,6 @@
 FROM centos
 
-ARG VERSION
+ARG VERSION=1.12
 ARG GOOS=linux
 ARG GOARCH=amd64
 VOLUME /go/bin
@@ -24,7 +24,6 @@ RUN mkdir -p /go && cd /go && \
 ADD . .
 
 ENTRYPOINT \
-    ./test/pre-commit && \
     echo "Compiling murex...." && \
     go install github.com/lmorg/murex && \
     murex -c version

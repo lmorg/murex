@@ -2,7 +2,8 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
 [![GoDoc](https://godoc.org/github.com/lmorg/murex?status.svg)](https://godoc.org/github.com/lmorg/murex)
-![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+[![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](https://murex.rocks/DOWNLOAD.html)
+[![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 
 ## About _murex_
 
@@ -260,6 +261,23 @@ straight into using _murex_.
 ## Install instructions
 
 Install instructions have been moved into its own file: [INSTALL.md](INSTALL.md)
+
+## CI/CD
+
+_murex_ makes heavy use of testing and CI/CD to ensure the latest builds are
+safe for use.
+
+1. Git `pre-commit` and `pre-push` files exist to help developers catch any
+   regression errors before they even hit the feature branches.
+
+2. Each and every git push is validated against more than a thousand distinct
+   unit tests in Circle CI. These tests are run 10 times to shake out any
+   possible timing related bugs.
+
+3. Weekly automated builds are then ran against the latest commit to the
+   `master` branch. These builds run in AWS CodeBuild and they generate the
+   [murex.rocks](https://murex.rocks) website as well a build pre-compiled
+   binaries for [download](https://murex.rocks/DOWNLOAD.html).
 
 ## Known bugs / TODO
 
