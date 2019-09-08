@@ -25,10 +25,6 @@ jobs:
       - checkout
 
       - run:
-          name: Get latest code
-          command: git pull
-
-      - run:
           name: Run Go tests
           #environment:
           #  MUREX_TEST_SKIP_MAN: true
