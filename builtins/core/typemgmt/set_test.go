@@ -7,7 +7,7 @@ import (
 )
 
 func TestSetFunctionPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "set: f=b",
 			Name:     "f",
@@ -76,11 +76,26 @@ func TestSetFunctionPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!set", unset, t)
 }
 
 func TestSetMethodPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "out: b -> set: f",
 			Name:     "f",
@@ -149,7 +164,22 @@ func TestSetMethodPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!set", unset, t)
 }
 
 func TestSetFunctionNegative(t *testing.T) {
@@ -211,7 +241,7 @@ func TestSetMethodNegative(t *testing.T) {
 }
 
 func TestSetFunctionDataTypes(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "set: foobar=123",
 			Name:     "foobar",
@@ -229,7 +259,8 @@ func TestSetFunctionDataTypes(t *testing.T) {
 			Name:     "foobar",
 			Value:    "true",
 			DataType: "str",
-		}, {
+		},
+		{
 			Block:    "set: foobar=false",
 			Name:     "foobar",
 			Value:    "false",
@@ -261,11 +292,17 @@ func TestSetFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"foobar",
+	}
+
+	UnSetTests("!set", unset, t)
 }
 
 func TestSetMethodDataTypes(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "tout: int 123 -> set: foobar",
 			Name:     "foobar",
@@ -283,7 +320,8 @@ func TestSetMethodDataTypes(t *testing.T) {
 			Name:     "foobar",
 			Value:    "true",
 			DataType: "bool",
-		}, {
+		},
+		{
 			Block:    "tout: bool false -> set: foobar",
 			Name:     "foobar",
 			Value:    "false",
@@ -315,22 +353,11 @@ func TestSetMethodDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
-}
+	VariableTests(set, t)
 
-func testUnSet(t *testing.T) {
-	tests := []string{
-		"f",
-		"foo",
-		"_",
-		"_b",
-		"f_",
-		"f_b",
-		"foo_b",
-		"f_bar",
-		"foo_bar",
+	unset := []string{
 		"foobar",
 	}
 
-	UnSetTests("!set", tests, t)
+	UnSetTests("!set", unset, t)
 }

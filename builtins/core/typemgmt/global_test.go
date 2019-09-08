@@ -7,7 +7,7 @@ import (
 )
 
 func TestGlobalFunctionPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "global: f=b",
 			Name:     "f",
@@ -76,11 +76,26 @@ func TestGlobalFunctionPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!global", unset, t)
 }
 
 func TestGlobalMethodPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "out: b -> global: f",
 			Name:     "f",
@@ -149,7 +164,22 @@ func TestGlobalMethodPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!global", unset, t)
 }
 
 func TestGlobalFunctionNegative(t *testing.T) {
@@ -211,7 +241,7 @@ func TestGlobalMethodNegative(t *testing.T) {
 }
 
 func TestGlobalFunctionDataTypes(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "global: foobar=123",
 			Name:     "foobar",
@@ -229,7 +259,8 @@ func TestGlobalFunctionDataTypes(t *testing.T) {
 			Name:     "foobar",
 			Value:    "true",
 			DataType: "str",
-		}, {
+		},
+		{
 			Block:    "global: foobar=false",
 			Name:     "foobar",
 			Value:    "false",
@@ -261,11 +292,17 @@ func TestGlobalFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"foobar",
+	}
+
+	UnSetTests("!global", unset, t)
 }
 
 func TestGlobalMethodDataTypes(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "tout: int 123 -> global: foobar",
 			Name:     "foobar",
@@ -283,7 +320,8 @@ func TestGlobalMethodDataTypes(t *testing.T) {
 			Name:     "foobar",
 			Value:    "true",
 			DataType: "bool",
-		}, {
+		},
+		{
 			Block:    "tout: bool false -> global: foobar",
 			Name:     "foobar",
 			Value:    "false",
@@ -315,22 +353,11 @@ func TestGlobalMethodDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
-}
+	VariableTests(set, t)
 
-func TestUnGlobal(t *testing.T) {
-	tests := []string{
-		"f",
-		"foo",
-		"_",
-		"_b",
-		"f_",
-		"f_b",
-		"foo_b",
-		"f_bar",
-		"foo_bar",
+	unset := []string{
 		"foobar",
 	}
 
-	UnSetTests("!global", tests, t)
+	UnSetTests("!global", unset, t)
 }

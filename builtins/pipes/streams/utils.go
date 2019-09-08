@@ -39,6 +39,17 @@ func (stdin *Stdin) GetDataType() (dt string) {
 	for {
 		select {
 		case <-stdin.ctx.Done():
+			// This should probably be locked to avoid a data race, but I'm also
+			// quite scared locking it might also cause deadlocks given processes
+			// can be terminated at random points by users. Thus I'm think those
+			// edge cases of a data race will have more desirable side effects
+			// than those edge case of deadlocks.
+			//stdin.dtLock.Lock()
+			dt = stdin.dataType
+			//stdin.dtLock.Unlock()
+			if dt != "" {
+				return dt
+			}
 			return types.Generic
 		default:
 		}
