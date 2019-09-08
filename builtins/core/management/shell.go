@@ -87,8 +87,6 @@ func cmdParams(p *lang.Process) error {
 
 	params := append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
 
-	//debug.Json("builtin.params:", params)
-
 	b, err := json.Marshal(&params, p.Stdout.IsTTY())
 	if err != nil {
 		return err
