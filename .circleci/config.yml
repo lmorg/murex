@@ -32,14 +32,14 @@ jobs:
 
       - run:
           name: Build murex
-          command: go build github.com/lmorg/murex
+          command: go install github.com/lmorg/murex
 
       #- run:
       #    name: Validating Pre-Commit
 
       - run:
           name: Build alt plarforms
-          command: ./murex ./test/build_all_platforms.mx --no-colour
+          command: ./test/build_all_platforms.mx --no-colour
 
 workflows:
   version: 2
