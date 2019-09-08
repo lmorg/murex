@@ -39,9 +39,8 @@ jobs:
 
       - run:
           name: Build alt plarforms
-          command: test/test_goos.mx
+          command: ./murex ./test/build_all_platforms.mx --no-colour
 
-      
 workflows:
   version: 2
   build-workflow:
