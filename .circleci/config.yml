@@ -1,9 +1,8 @@
 version: 2
 jobs:
   build:
+    working_directory: /go/src/github.com/lmorg/murex
     docker:
-      # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
-      - working_directory: /go/src/github.com/lmorg/murex
       - image: lmorg/murex
         environment:
           GOPATH: /go
@@ -22,7 +21,7 @@ jobs:
       - run:
           name: Get latest code
           command: git pull
-           
+
       - run:
           name: Run Go tests
           #environment:
