@@ -39,7 +39,7 @@ jobs:
 
       - run:
           name: Build alt plarforms
-          command: ./test/build_all_platforms.mx --no-colour
+          command: mkdir bin && ./test/build_all_platforms.mx --no-colour
 
 workflows:
   version: 2
