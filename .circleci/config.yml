@@ -19,6 +19,12 @@ jobs:
 
     steps:
       - run:
+          name: Nuke old code
+          command: rm -rf ./
+
+      - checkout
+
+      - run:
           name: Get latest code
           command: git pull
 
