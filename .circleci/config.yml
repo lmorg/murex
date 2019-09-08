@@ -20,7 +20,7 @@ jobs:
     steps:
       - run:
           name: Nuke old code
-          command: rm -rf ./
+          command: cd .. && rm -rf murex && mkdir murex
 
       - checkout
 
