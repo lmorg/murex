@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
-      - image: centos
+      - image: lmorg/murex
         environment:
           GOPATH: /go
     
@@ -13,79 +13,29 @@ jobs:
     #  TEST_RESULTS: /tmp/test-results # path to where test results will be saved
 
     environment:
-      VERSION: 1.12.7
-      GOOS: linux
-      GOARCH: amd64
+      #VERSION: 1.12.7
+      #GOOS: linux
+      #GOARCH: amd64
 
-    steps: # steps that comprise the `build` job
-      - run yum --setopt=tsflags='' reinstall -y shadow-utils coreutils
-      - run yum --setopt=tsflags='' install -y install which man man-pages wget gcc git
-      
-      - run mkdir -p /go && cd /go
-
-      - checkout # check out source code to working directory
-      #- run: mkdir -p $TEST_RESULTS # create the test results directory
-      - run mkdir src/github.com/lmorg/murex && \
-            cd src/github.com/lmorg/murex
-      #- restore_cache: # restores saved cache if no changes are detected since last run
-      #    keys:
-      #      - go-mod-v4-{{ checksum "go.sum" }}
-
-      #  Wait for Postgres to be ready before proceeding
-      #- run:
-      #    name: Waiting for Postgres to be ready
-      #    command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
+    steps: 
       - run:
           name: Run Go tests
-          environment:
-            MUREX_TEST_SKIP_MAN: true
-          command: go test ./...
+          #environment:
+          #  MUREX_TEST_SKIP_MAN: true
+          command: go test ./... -count 10
 
       - run:
           name: Build murex
           command: go build github.com/lmorg/murex
 
+      #- run:
+      #    name: Validating Pre-Commit
+
+      - run:
+          name: Build alt plarforms
+          command: test/test_goos.mx
+
       
-
-      #- run:
-      #    name: Run unit tests
-      #    environment: # environment variables for the database url and path to migration files
-      #      CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test?sslmode=disable"
-      #      CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
-
-          # store the results of our tests in the $TEST_RESULTS directory
-      #    command: |
-      #      PACKAGE_NAMES=$(go list ./... | circleci tests split --split-by=timings --timings-type=classname)
-      #      gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- $PACKAGE_NAMES
-
-      #- run: make # pull and build dependencies for the project
-
-      #- save_cache:
-      #    key: go-mod-v4-{{ checksum "go.sum" }}
-      #    paths:
-      #      - "/go/pkg/mod"
-
-      #- run:
-      #    name: Start service
-      #    environment:
-      #      CONTACTS_DB_URL: "postgres://circleci-demo-go@localhost:5432/circle_test?sslmode=disable"
-      #      CONTACTS_DB_MIGRATIONS: /home/circleci/project/db/migrations
-      #    command: ./workdir/contacts
-      #    background: true # keep service running and proceed to next step
-
-      #- run:
-      #    name: Validate service is working
-      #    command: |
-      #      sleep 5
-      #      curl --retry 10 --retry-delay 1 -X POST --header "Content-Type: application/json" -d '{"email":"test@example.com","name":"Test User"}' http://localhost:8080/contacts
-
-      #- store_artifacts: # upload test summary for display in Artifacts
-      #    path: /tmp/test-results
-      #    destination: raw-test-output
-
-      #- store_test_results: # upload test results for display in Test Summary
-      #    path: /tmp/test-results
 workflows:
   version: 2
   build-workflow:
