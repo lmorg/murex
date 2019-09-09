@@ -125,8 +125,8 @@ func cmdIf(p *lang.Process) error {
 			if err != nil {
 				return err
 			}
-		} else {
-			p.ExitNum = 1
+			//} else {
+			//	p.ExitNum = 1
 		}
 	}
 
