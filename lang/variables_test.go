@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test/count"
 )
 
 // TestVariablesDefault tests with the F_DEFAULTS fork flag set
@@ -61,6 +62,7 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 
 	// Create a referenced variable table
+	count.Tests(t, 4, "testVariables")
 	fork := p.Fork(flags)
 	copy := fork.Variables
 
@@ -85,6 +87,7 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 
 	// test values changed
+	count.Tests(t, 4, "testVariables")
 
 	if copy.varTable.vars[0].Value != orig.varTable.vars[0].Value {
 		t.Error("Copy and original shouldn't share same value for number.")
@@ -103,6 +106,7 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 
 	// test copy values
+	count.Tests(t, 4, "testVariables")
 
 	if copy.varTable.vars[0].Value.(float64) != copyNum {
 		t.Error("Copy number not same as expected value.")
@@ -121,6 +125,7 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 
 	// test GetValue on copy
+	count.Tests(t, 4, "testVariables")
 
 	if copy.GetValue("number").(float64) != copyNum {
 		t.Error("Copy var table not returning correct number using GetValue.")
@@ -139,6 +144,7 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 
 	// test GetString on copy
+	count.Tests(t, 4, "testVariables")
 
 	if copy.GetString("number") != types.FloatToString(copyNum) {
 		t.Error("Copy var table not returning correct numeric converted value using GetString.")
@@ -156,6 +162,7 @@ func testVariables(t *testing.T, flags int, details string) {
 		t.Error("Copy var table not returning correct boolean converted value using GetString.")
 	}
 
+	count.Tests(t, 4, "testVariables")
 	err = copy.Set("new", "string", types.String)
 	if err != nil {
 		t.Error("Unable to create new string. " + err.Error())
@@ -182,6 +189,8 @@ func TestReservedVarables(t *testing.T) {
 		"SELF",
 		"ARGS",
 	}
+
+	count.Tests(t, len(reserved), "TestReservedVarables")
 
 	for _, name := range reserved {
 		err := p.Variables.Set(name, "foobar", types.String)

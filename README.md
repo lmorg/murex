@@ -7,9 +7,9 @@
 
 ## About _murex_
 
-_murex_ follows a similar syntax to POSIX shells like Bash however supports
-more advanced features than you'd typically expect from a $SHELL. A
-non-exhaustive list would include:
+_murex_ is a shell, like bash / zsh / fish / etc. It follows a similar syntax
+to POSIX shells like Bash however supports more advanced features than you'd
+typically expect from a $SHELL. A non-exhaustive list would include:
 
 * Testing frameworks baked right into the language itself
 * Smarter handling of errors (for example try/catch blocks, line numbers

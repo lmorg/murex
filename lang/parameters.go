@@ -14,6 +14,8 @@ var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *Process, p *parameters.Parameters) {
+	var namedPipeIsParam bool
+
 	for i := range p.Tokens {
 		p.Params = append(p.Params, "")
 
@@ -23,15 +25,24 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 			case parameters.TokenTypeNil:
 				// do nothing
 
+			case parameters.TokenTypeNamedPipe:
+				if !namedPipeIsParam {
+					continue
+				}
+				p.Tokens[i][j].Type = parameters.TokenTypeValue
+				fallthrough
+
 			case parameters.TokenTypeValue:
 				p.Params[len(p.Params)-1] += p.Tokens[i][j].Key
 				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeString:
 				s := prc.Variables.GetString(p.Tokens[i][j].Key)
 				s = utils.CrLfTrimString(s)
 				p.Params[len(p.Params)-1] += s
 				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeBlockString:
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
@@ -45,6 +56,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 
 				p.Params[len(p.Params)-1] += string(b)
 				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeArray:
 				var array []string
@@ -64,6 +76,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				p.Params = append(p.Params, array...)
 
 				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeBlockArray:
 				var array []string
@@ -81,6 +94,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				p.Params = append(p.Params, array...)
 
 				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeIndex:
 				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
@@ -103,6 +117,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 
 				p.Params[len(p.Params)-1] += string(b)
 				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeRange:
 				// TODO: write me!
@@ -115,6 +130,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 					p.Params[len(p.Params)-1] += home.UserDir(p.Tokens[i][j].Key)
 				}
 				tCount = true
+				namedPipeIsParam = true
 
 			default:
 				prc.Stderr.Writeln([]byte(fmt.Sprintf(
