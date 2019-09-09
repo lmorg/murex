@@ -1,6 +1,6 @@
 - DocumentID: hcl
   Title: >-
-    `hcl` (HCL)
+    `hcl` 
   CategoryID: types
   Summary: >-
     HashiCorp Configuration Language (HCL)
@@ -59,7 +59,7 @@
     ReadIndex(): Works against all properties in HCL
     ReadNotIndex(): Works against all properties in HCL
     Marshal(): Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
-    Unmashal(): Supported
+    Unmarshal(): Supported
   Detail: |-
   Associations:
     Mimes:

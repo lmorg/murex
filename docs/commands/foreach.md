@@ -199,11 +199,11 @@ Luckily JSON also has it's own streaming format: jsonlines (`jsonl`)
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [types/`json` (JSON)](../types/json.md):
+* [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [types/`yaml` (YAML)](../types/yaml.md):
+* [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [commands/for](../commands/for.md):
   

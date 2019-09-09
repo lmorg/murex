@@ -1,6 +1,6 @@
 - DocumentID: int
   Title: >-
-    `int` (integer)
+    `int` 
   CategoryID: types
   Summary: >-
     Whole number (primitive)
@@ -23,7 +23,7 @@
   Examples: |-
   Hooks:
     Marshal(): Supported
-    Unmashal(): Supported
+    Unmarshal(): Supported
   Detail: |-
   Associations:
   Related:
@@ -87,7 +87,7 @@
   Examples: |-
   Hooks:
     Marshal(): Supported
-    Unmashal(): Supported
+    Unmarshal(): Supported
   Detail: |-
   Associations:
   Related:

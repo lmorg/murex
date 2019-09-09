@@ -1,6 +1,6 @@
 # _murex_ Shell Guide
 
-## Data-Type Reference: `int` (integer)
+## Data-Type Reference: `int` 
 
 > Whole number (primitive)
 
@@ -33,7 +33,7 @@ AMD64 or other 64bit built of _murex_ would see the range from
 
 * `Marshal()`
     Supported
-* `Unmashal()`
+* `Unmarshal()`
     Supported
 
 ### See Also

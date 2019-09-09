@@ -1,6 +1,6 @@
 # _murex_ Shell Guide
 
-## Data-Type Reference: `yaml` (YAML)
+## Data-Type Reference: `yaml` 
 
 > YAML Ain't Markup Language (YAML)
 
@@ -36,7 +36,7 @@ external source packages for the shell to compile.
     Works with YAML maps
 * `ReadNotIndex()`
     Works against all properties in YAML
-* `Unmashal()`
+* `Unmarshal()`
     Supported
 * `WriteArray()`
     Works with YAML arrays
@@ -55,7 +55,7 @@ external source packages for the shell to compile.
   Alters the data type of the previous function without altering it's output
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`json` (JSON)](../types/json.md):
+* [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

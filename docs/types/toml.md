@@ -1,6 +1,6 @@
 # _murex_ Shell Guide
 
-## Data-Type Reference: `toml` (TOML)
+## Data-Type Reference: `toml` 
 
 > Tom's Obvious, Minimal Language (TOML)
 
@@ -71,7 +71,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
     Works with TOML maps
 * `ReadNotIndex()`
     Works against all properties in TOML
-* `Unmashal()`
+* `Unmarshal()`
     Supported
 
 ### See Also
@@ -88,11 +88,11 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
   Alters the data type of the previous function without altering it's output
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`json` (JSON)](../types/json.md):
+* [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/`yaml` (YAML)](../types/yaml.md):
+* [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [types/jsonl](../types/jsonl.md):
   

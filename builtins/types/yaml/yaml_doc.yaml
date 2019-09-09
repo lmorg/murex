@@ -1,6 +1,6 @@
 - DocumentID: yaml
   Title: >-
-    `yaml` (YAML)
+    `yaml` 
   CategoryID: types
   Summary: >-
     YAML Ain't Markup Language (YAML)
@@ -19,7 +19,7 @@
     ReadIndex(): Works against all properties in YAML
     ReadNotIndex(): Works against all properties in YAML
     Marshal(): Supported
-    Unmashal(): Supported
+    Unmarshal(): Supported
   Detail: |-
   Associations:
     Mimes:

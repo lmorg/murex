@@ -17,7 +17,21 @@ func init() {
 	//stdio.RegesterReadMap(name, readMap)
 	stdio.RegesterWriteArray(types.JsonLines, newArrayWriter)
 
-	define.SetMime(types.JsonLines, "application/jsonl", "application/jsonlines")
+	define.SetMime(types.JsonLines,
+		"application/jsonl",
+		"application/x-jsonl",
+		"text/jsonl",
+		"text/x-jsonl",
 
-	define.SetFileExtensions(types.JsonLines, "jsonl", "jsonlines", "murex_history")
+		"application/jsonlines",
+		"application/x-jsonlines",
+		"text/jsonlines",
+		"text/x-jsonlines",
+	)
+
+	define.SetFileExtensions(types.JsonLines,
+		"jsonl",
+		"jsonlines",
+		"murex_history",
+	)
 }

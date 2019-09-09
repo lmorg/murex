@@ -1,0 +1,67 @@
+- DocumentID: jsonlines
+  Title: >-
+    `jsonl` 
+  CategoryID: types
+  Summary: >-
+    JSON Lines (primitive)
+  Description: |-
+    The following description is taken from [jsonlines.org](http://jsonlines.org/):
+
+    > JSON Lines is a convenient format for storing structured data that may be
+    > processed one record at a time. It works well with unix-style text
+    > processing tools and shell pipelines. It's a great format for log files.
+    > It's also a flexible format for passing messages between cooperating
+    > processes.
+  Usage: |-
+  Examples: |-
+    Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
+    
+    ```
+    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
+    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
+    {"name": "May", "wins": []}
+    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+    ```
+  Hooks:
+    ReadArray(): Works with JSON arrays. Maps are converted into arrays
+    ReadMap(): Not currently supported.
+    WriteArray(): Supported
+    ReadIndex(): Works against all properties in JSON
+    ReadNotIndex(): Works against all properties in JSON
+    Marshal(): Supported
+    Unmarshal(): Supported
+  Detail: |-
+  Associations:
+    Mimes:
+    - application/jsonl
+    - application/x-jsonl
+    - text/jsonl
+    - text/x-jsonl
+    - application/jsonlines
+    - application/x-jsonlines
+    - text/jsonlines
+    - text/x-jsonlines
+    Extensions:
+    - jsonl
+    - jsonlines
+    - murex_history
+  Related:
+  - yaml
+  - toml
+  - hcl
+  - jsonl
+  - mxjson
+  - commands/open
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - commands/runtime
+  - commands/pretty
+  - apis/readarray
+  - apis/readmap
+  - apis/writearray
+  - apis/readindex
+  - apis/readnotindex
+  - apis/marshal
+  - apis/unmarshal

@@ -24,7 +24,7 @@ numbers.
 
 * `Marshal()`
     Supported
-* `Unmashal()`
+* `Unmarshal()`
     Supported
 
 ### See Also
@@ -33,7 +33,7 @@ numbers.
   Converts structured memory into a structured file format (eg for stdio)
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [types/`int` (integer)](../types/int.md):
+* [types/`int` ](../types/int.md):
   Whole number (primitive)
 * [types/`num` (number)](../types/num.md):
   Floating point number (primitive)

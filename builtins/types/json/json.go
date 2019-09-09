@@ -17,6 +17,11 @@ func init() {
 	stdio.RegesterReadMap(types.Json, readMap)
 	stdio.RegesterWriteArray(types.Json, newArrayWriter)
 
-	define.SetMime(types.Json, "application/json")
+	define.SetMime(types.Json,
+		"application/json", // this is preferred, but we include the others incase a website sends a non-standard MIME time
+		"application/x-json",
+		"text/json",
+		"text/x-json",
+	)
 	define.SetFileExtensions(types.Json, "json")
 }

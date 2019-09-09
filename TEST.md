@@ -14,3 +14,5 @@ export MUREX_TEST_COUNT=http
 go test ./...
 curl localhost:38000/total
 ```
+
+(this document is a wip)
