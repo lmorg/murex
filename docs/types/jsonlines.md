@@ -109,7 +109,7 @@ This behavior is also described on GitHub in [issue #141](https://github.com/lmo
 This format is sometimes also referred to as LDJSON and NDJSON, as described
 on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
 
-_murex_'s [`json` data-type document](jsonlines.md) also describes some use
+_murex_'s [`json` data-type document](json.md) also describes some use
 cases for JSON lines.
 
 ### Supported Hooks
