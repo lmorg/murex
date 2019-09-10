@@ -6,9 +6,9 @@
 
 ### Description
 
-{{ md .Description }}
+{{ md .Description }}{{ if .Usage }}
 
-{{ if .Usage }}### Usage
+### Usage
 
 {{ md .Usage }}{{ end }}{{ if .Examples }}
 
@@ -18,7 +18,7 @@
 
 ### Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Associations }}
+{{ md (include .Detail) }}{{ end }}{{ if (or .Associations.Extensions .Associations.Mimes) }}
 
 ### Default Associations
 

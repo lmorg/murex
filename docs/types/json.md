@@ -8,8 +8,6 @@
 
 JSON is a primitive data-type within _murex_.
 
-
-
 ### Examples
 
 Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)

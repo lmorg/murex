@@ -14,8 +14,6 @@ The following description is taken from [jsonlines.org](http://jsonlines.org/):
 > It's also a flexible format for passing messages between cooperating
 > processes.
 
-
-
 ### Examples
 
 Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
