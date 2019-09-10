@@ -125,7 +125,7 @@ commas.
     }
     ...
     
-Luckily JSON also has it's own streaming format: jsonlines (`jsonl`)
+Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar } -> cast jsonl -> format json
     [
