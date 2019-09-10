@@ -14,7 +14,11 @@
 
 ### Examples
 
-{{ md .Examples }}{{ end }}{{ if .Associations }}
+{{ md .Examples }}{{ end }}{{ if .Detail }}
+
+### Detail
+
+{{ md (include .Detail) }}{{ end }}{{ if .Associations }}
 
 ### Default Associations
 
@@ -22,11 +26,7 @@
 {{ end }}* **Extension**: `{{ md . }}`{{ end }}
 {{ range $i,$a := .Associations.Mimes }}{{ if gt $i 0 }}
 {{ end }}* **MIME**: `{{ md . }}`{{ end }}
-{{ end }}{{ if .Detail }}
-
-### Detail
-
-{{ md (include .Detail) }}{{ end }}{{ if .Hooks }}
+{{ end }}{{ if .Hooks }}
 
 ### Supported Hooks
 

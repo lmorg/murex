@@ -43,15 +43,6 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
       "spouse": null
     }
 
-### Default Associations
-
-* **Extension**: `json`
-* **MIME**: `application/json`
-* **MIME**: `application/x-toml`
-* **MIME**: `text/toml`
-* **MIME**: `text/x-toml`
-
-
 ### Detail
 
 #### Tips when writing JSON inside for loops
@@ -157,6 +148,15 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
             "Value": true
         },
     ...
+
+### Default Associations
+
+* **Extension**: `json`
+* **MIME**: `application/json`
+* **MIME**: `application/x-toml`
+* **MIME**: `text/toml`
+* **MIME**: `text/x-toml`
+
 
 ### Supported Hooks
 

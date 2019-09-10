@@ -11,12 +11,6 @@ parsing the "common" log format.
 
 
 
-### Default Associations
-
-
-
-
-
 ### Detail
 
 The code here is very rudimentary. If you have large log files or need more complex
@@ -25,6 +19,12 @@ the following:
 
 * [Firesword](https://github.com/lmorg/firesword) - for command line analysis
 * [Plasmasword](https://github.com/lmorg/plasmasword) - exports fields to an sqlite3 or mysql database
+
+### Default Associations
+
+
+
+
 
 ### Supported Hooks
 

@@ -25,41 +25,6 @@ Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/exam
     {"name": "May", "wins": []}
     {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
 
-### Default Associations
-
-* **Extension**: `jsonl`
-* **Extension**: `jsonlines`
-* **Extension**: `murex_history`
-* **MIME**: `application/json-lines`
-* **MIME**: `application/json-seq`
-* **MIME**: `application/jsonl`
-* **MIME**: `application/jsonlines`
-* **MIME**: `application/jsonseq`
-* **MIME**: `application/ldjson`
-* **MIME**: `application/ndjson`
-* **MIME**: `application/x-json-lines`
-* **MIME**: `application/x-json-seq`
-* **MIME**: `application/x-jsonl`
-* **MIME**: `application/x-jsonlines`
-* **MIME**: `application/x-jsonseq`
-* **MIME**: `application/x-ldjson`
-* **MIME**: `application/x-ndjson`
-* **MIME**: `text/json-lines`
-* **MIME**: `text/json-seq`
-* **MIME**: `text/jsonl`
-* **MIME**: `text/jsonlines`
-* **MIME**: `text/jsonseq`
-* **MIME**: `text/ldjson`
-* **MIME**: `text/ndjson`
-* **MIME**: `text/x-json-lines`
-* **MIME**: `text/x-json-seq`
-* **MIME**: `text/x-jsonl`
-* **MIME**: `text/x-jsonlines`
-* **MIME**: `text/x-jsonseq`
-* **MIME**: `text/x-ldjson`
-* **MIME**: `text/x-ndjson`
-
-
 ### Detail
 
 #### Concatenated JSON
@@ -111,6 +76,41 @@ on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON)
 
 _murex_'s [`json` data-type document](json.md) also describes some use
 cases for JSON lines.
+
+### Default Associations
+
+* **Extension**: `jsonl`
+* **Extension**: `jsonlines`
+* **Extension**: `murex_history`
+* **MIME**: `application/json-lines`
+* **MIME**: `application/json-seq`
+* **MIME**: `application/jsonl`
+* **MIME**: `application/jsonlines`
+* **MIME**: `application/jsonseq`
+* **MIME**: `application/ldjson`
+* **MIME**: `application/ndjson`
+* **MIME**: `application/x-json-lines`
+* **MIME**: `application/x-json-seq`
+* **MIME**: `application/x-jsonl`
+* **MIME**: `application/x-jsonlines`
+* **MIME**: `application/x-jsonseq`
+* **MIME**: `application/x-ldjson`
+* **MIME**: `application/x-ndjson`
+* **MIME**: `text/json-lines`
+* **MIME**: `text/json-seq`
+* **MIME**: `text/jsonl`
+* **MIME**: `text/jsonlines`
+* **MIME**: `text/jsonseq`
+* **MIME**: `text/ldjson`
+* **MIME**: `text/ndjson`
+* **MIME**: `text/x-json-lines`
+* **MIME**: `text/x-json-seq`
+* **MIME**: `text/x-jsonl`
+* **MIME**: `text/x-jsonlines`
+* **MIME**: `text/x-jsonseq`
+* **MIME**: `text/x-ldjson`
+* **MIME**: `text/x-ndjson`
+
 
 ### Supported Hooks
 
