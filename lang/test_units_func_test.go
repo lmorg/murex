@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-func TestRunTestFuncVarScoping(t *testing.T) {
+func TestRunTestVarScoping(t *testing.T) {
 	plans := []testUTPs{
 		{
 			Function:  "foobar",
@@ -35,7 +35,7 @@ func TestRunTestFuncVarScoping(t *testing.T) {
 	testRunTest(t, plans)
 }
 
-func TestRunTestFuncParameters(t *testing.T) {
+func TestRunTestParameters(t *testing.T) {
 	plans := []testUTPs{
 		{
 			Function:  "foobar",
@@ -69,7 +69,7 @@ func TestRunTestFuncParameters(t *testing.T) {
 	testRunTest(t, plans)
 }
 
-func TestRunTestFuncDataTypes(t *testing.T) {
+func TestRunTestDataTypes(t *testing.T) {
 	plans := []testUTPs{
 		{
 			Function:  "foobar",
@@ -112,7 +112,7 @@ func TestRunTestFuncDataTypes(t *testing.T) {
 	testRunTest(t, plans)
 }
 
-func TestRunTestFuncStdin(t *testing.T) {
+func TestRunTestStdin(t *testing.T) {
 	plans := []testUTPs{
 		{
 			Function:  "foobar",

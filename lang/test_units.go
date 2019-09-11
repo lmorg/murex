@@ -108,7 +108,6 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 
 	fork := ShellProcess.Fork(F_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-	fork.Name = function
 	fork.Parameters.Params = plan.Parameters
 
 	if len(plan.Stdin) > 0 {
@@ -125,6 +124,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// Run any initializing code...if defined
 	if len(plan.PreBlock) > 0 {
+		fork.Name = "(unit test preblock)"
 		preExitNum, preForkErr = fork.Execute([]rune(plan.PreBlock))
 	}
 
@@ -133,6 +133,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// Run any clear down code...if defined
 	fork.IsMethod = false
 	if len(plan.PostBlock) > 0 {
+		fork.Name = "(unit test postblock)"
 		postExitNum, postForkErr = fork.Execute([]rune(plan.PostBlock))
 	}
 
@@ -305,16 +306,45 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 func runFunction(function string, isMethod bool, fork *Fork) (int, error) {
 	fork.IsMethod = isMethod
-	if strings.Contains(function, "/") {
-		return 0, errors.New("TODO: support me!")
 
+	if strings.Contains(function, "/") {
+		return runPrivate(function, fork)
 	}
+
+	fork.Name = function
 
 	if !MxFunctions.Exists(function) {
 		return 0, errors.New("Function does not exist")
 	}
 
 	block, err := MxFunctions.Block(function)
+	if err != nil {
+		return 0, err
+	}
+
+	return fork.Execute(block)
+}
+
+func runPrivate(path string, fork *Fork) (int, error) {
+	if path[0] == '/' {
+		path = path[1:]
+	}
+
+	split := strings.Split(path, "/")
+	if len(path) < 2 {
+		return 0, fmt.Errorf("Invalid module and private function path: `%s`", path)
+	}
+
+	function := split[len(split)-1]
+	module := strings.Join(split[:len(split)-1], "/")
+
+	fork.Name = function
+
+	if !PrivateFunctions.Exists(function, module) {
+		return 0, fmt.Errorf("Private (%s) does not exist or module name (%s) is wrong", function, module)
+	}
+
+	block, err := PrivateFunctions.Block(function, module)
 	if err != nil {
 		return 0, err
 	}

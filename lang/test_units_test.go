@@ -2,6 +2,8 @@ package lang_test
 
 import (
 	"encoding/json"
+	"strconv"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -9,6 +11,8 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/test/count"
 )
+
+var uniq int32
 
 type testUTPs struct {
 	Function  string
@@ -18,74 +22,50 @@ type testUTPs struct {
 }
 
 func testRunTest(t *testing.T, plans []testUTPs) {
-	count.Tests(t, len(plans), "testRunTest")
+	count.Tests(t, len(plans)*2, "testRunTest")
 
 	lang.InitEnv()
+
+	var pubpriv string
 
 	for i := range plans {
-		fileRef := &ref.File{
-			Source: &ref.Source{
-				Filename: "foobar.mx",
-				Module:   "foo/bar",
-				DateTime: time.Now(),
-			},
-		}
+		for j := 1; j < 3; j++ { // test public functions the private functions
 
-		lang.MxFunctions.Define(plans[i].Function, []rune(plans[i].TestBlock), fileRef)
-
-		ut := new(lang.UnitTests)
-		ut.Add(plans[i].Function, &plans[i].UTP, fileRef)
-
-		if ut.Run(lang.ShellProcess.Tests, plans[i].Function) != plans[i].Passed {
-			if plans[i].Passed {
-				t.Errorf("Unit test %d failed", i)
-				b, err := json.MarshalIndent(lang.ShellProcess.Tests.Results.Dump(), "", "    ")
-				if err != nil {
-					panic(err)
-				}
-				t.Logf("Test report:\n%s", b)
-
-			} else {
-				t.Errorf("Unit test %d passed when expected to fail", i)
+			fileRef := &ref.File{
+				Source: &ref.Source{
+					Filename: "foobar.mx",
+					Module:   "foobar/mod-" + strconv.Itoa(int(atomic.AddInt32(&uniq, 1))),
+					DateTime: time.Now(),
+				},
 			}
+
+			if j == 1 {
+				lang.MxFunctions.Define(plans[i].Function, []rune(plans[i].TestBlock), fileRef)
+				pubpriv = "public"
+			} else {
+				lang.PrivateFunctions.Define(plans[i].Function, []rune(plans[i].TestBlock), fileRef)
+				plans[i].Function = fileRef.Source.Module + "/" + plans[i].Function
+				pubpriv = "private"
+			}
+
+			ut := new(lang.UnitTests)
+			ut.Add(plans[i].Function, &plans[i].UTP, fileRef)
+
+			if ut.Run(lang.ShellProcess.Tests, plans[i].Function) != plans[i].Passed {
+				if plans[i].Passed {
+					t.Errorf("Unit test %s %d failed", pubpriv, i)
+					b, err := json.MarshalIndent(lang.ShellProcess.Tests.Results.Dump(), "", "    ")
+					if err != nil {
+						panic(err)
+					}
+
+					t.Logf("Test report:\n%s", b)
+
+				} else {
+					t.Errorf("Unit test %s %d passed when expected to fail", pubpriv, i)
+				}
+			}
+			lang.ShellProcess.Tests.Results = new(lang.TestResults)
 		}
-		lang.ShellProcess.Tests.Results = new(lang.TestResults)
 	}
 }
-
-/*func TestRunTestScopePrivate(t *testing.T) {
-	count.Tests(t, 1, "TestRunTestScopePrivate")
-
-	const (
-		preBlock  = `set foo=bar`
-		testBlock = `out $foo`
-		postBlock = `!set foo`
-		function  = `foobar`
-	)
-
-	lang.InitEnv()
-
-	fileRef := &ref.File{
-		Source: &ref.Source{
-			Filename: "foobar.mx",
-			Module:   "foo/bar",
-			DateTime: time.Now(),
-		},
-	}
-
-	lang.MxFunctions.Define(function, []rune(testBlock), fileRef)
-
-	test := &lang.UnitTestPlan{
-		Stdout:    "bar" + utils.NewLineString,
-		PreBlock:  preBlock,
-		PostBlock: postBlock,
-	}
-
-	ut := new(lang.UnitTests)
-	ut.Add(function, test, fileRef)
-
-	if !ut.Run(function) {
-		t.Error("ut.Run() == false")
-	}
-}
-*/

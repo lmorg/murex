@@ -31,6 +31,7 @@ func (mf *MurexPrivs) Define(name string, block []rune, fileRef *ref.File) error
 	//if mf.Exists(name, module) {
 	//	return fmt.Errorf("private with the name `%s` already exists in module `%s`", name, module)
 	//}
+	//mf.Undefine(name, fileRef.Source.Module)
 
 	summary := funcPrivSummary(block)
 
@@ -86,17 +87,19 @@ func (mf *MurexPrivs) Summary(name, module string) (string, error) {
 	return priv.Summary, nil
 }
 
-/*// Undefine deletes private from table
-func (mf *MurexPrivs) Undefine(name string) error {
+// Undefine undefined private from table (doesn't delete - which is lazy)
+/*func (mf *MurexPrivs) Undefine(name, module string) error {
 	mf.mutex.Lock()
-	defer mf.mutex.Unlock()
-
-	if mf.fn[name] == nil {
-		return errors.New("Cannot locate function named `" + name + "`")
+	for i := range mf.fn {
+		if mf.fn[i].Name == name && mf.fn[i].FileRef.Source.Module == module {
+			mf.fn[i].Name = "(undefined)"
+			mf.fn[i].FileRef.Source.Module = "(undefined)"
+			mf.mutex.Unlock()
+			return nil
+		}
 	}
-
-	delete(mf.fn, name)
-	return nil
+	mf.mutex.Unlock()
+	return errors.New("No private exists with that name and module")
 }*/
 
 // Dump list all private murex functions in table
