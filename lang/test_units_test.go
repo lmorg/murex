@@ -17,34 +17,6 @@ type testUTPs struct {
 	UTP       lang.UnitTestPlan
 }
 
-func TestRunTestPositive(t *testing.T) {
-	plans := []testUTPs{
-		{
-			Function:  "foobar",
-			TestBlock: `out $foo`,
-			Passed:    true,
-			UTP: lang.UnitTestPlan{
-				PreBlock:  "global foo=bar",
-				PostBlock: "!global foo",
-				Stdout:    "bar\n",
-			},
-		},
-		/*{
-			Function:  "foobar",
-			TestBlock: `<stdin> -> set foo; out $foo`,
-			Passed:    true,
-			UTP: lang.UnitTestPlan{
-				Stdin:     `barrr`,
-				PreBlock:  "set foo=bar",
-				PostBlock: "!set foo",
-				Stdout:    "barrr\n",
-			},
-		},*/
-	}
-
-	testRunTest(t, plans)
-}
-
 func testRunTest(t *testing.T, plans []testUTPs) {
 	count.Tests(t, len(plans), "testRunTest")
 
@@ -71,11 +43,13 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 				if err != nil {
 					panic(err)
 				}
-				t.Logf("%s", b)
+				t.Logf("Test report:\n%s", b)
+
 			} else {
 				t.Errorf("Unit test %d passed when expected to fail", i)
 			}
 		}
+		lang.ShellProcess.Tests.Results = new(lang.TestResults)
 	}
 }
 

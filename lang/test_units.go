@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/types"
 )
 
 // The naming convention here is basically the inverse of Go's test naming
@@ -42,6 +43,8 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 	ut.mutex.Unlock()
 }
 
+const testName = "unit test"
+
 // Run all unit tests against a specific murex function
 func (ut *UnitTests) Run(tests *Tests, function string) bool {
 	ut.mutex.Lock()
@@ -49,15 +52,29 @@ func (ut *UnitTests) Run(tests *Tests, function string) bool {
 	copy(utCopy, ut.units)
 	ut.mutex.Unlock()
 
-	passed := true
+	var (
+		passed = true
+		exists bool
+	)
 
 	for i := range utCopy {
 		if utCopy[i].Function == function {
 			passed = passed && runTest(tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, function)
+			exists = true
 		}
 	}
 
-	return passed
+	if exists {
+		return passed
+	}
+
+	tests.Results.Add(&TestResult{
+		Exec:     function,
+		TestName: testName,
+		Status:   TestFailed,
+		Message:  fmt.Sprintf("No unit tests exist for: `%s`", function),
+	})
+	return false
 }
 
 // UnitTestPlan is defined via JSON and specifies an individual test plan
@@ -66,6 +83,9 @@ type UnitTestPlan struct {
 	Stdin      string
 	Stdout     string
 	Stderr     string
+	StdinDT    string
+	StdoutDT   string
+	StderrDT   string
 	ExitNumber int // check this is the same as test define
 	PreBlock   string
 	PostBlock  string
@@ -73,7 +93,7 @@ type UnitTestPlan struct {
 
 func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, function string) bool {
 	var (
-		testName                             = "unit test"
+		//testName                             = "unit test"
 		preExitNum, testExitNum, postExitNum int
 		preForkErr, testForkErr, postForkErr error
 		F_STDIN                              int
@@ -89,7 +109,13 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	fork := ShellProcess.Fork(F_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
 	fork.Name = function
+	fork.Parameters.Params = plan.Parameters
+
 	if len(plan.Stdin) > 0 {
+		if plan.StdinDT == "" {
+			plan.StdinDT = types.Generic
+		}
+		fork.Stdin.SetDataType(plan.StdinDT)
 		_, err := fork.Stdin.Write([]byte(plan.Stdin))
 		if err != nil {
 			fmt.Println(err)
@@ -102,9 +128,10 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		preExitNum, preForkErr = fork.Execute([]rune(plan.PreBlock))
 	}
 
-	testExitNum, testForkErr = runFunction(function, fork)
+	testExitNum, testForkErr = runFunction(function, plan.Stdin != "", fork)
 
 	// Run any clear down code...if defined
+	fork.IsMethod = false
 	if len(plan.PostBlock) > 0 {
 		postExitNum, postForkErr = fork.Execute([]rune(plan.PostBlock))
 	}
@@ -123,15 +150,9 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 	stderr = string(b)
 
-	/*fmt.Println("unit test:",
-	preExitNum, testExitNum, postExitNum,
-	preForkErr, testForkErr, postForkErr,
-	F_STDIN)*/
-
 	// test fork errors
 
 	if preForkErr != nil {
-		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
 			LineNumber: fileRef.Line,
@@ -139,12 +160,12 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("PreBlock failed: %s", preForkErr),
+			Message:    fmt.Sprintf("PreBlock failed to compile: %s", preForkErr),
 		})
+		return false
 	}
 
 	if postForkErr != nil {
-		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
 			LineNumber: fileRef.Line,
@@ -152,12 +173,12 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("PostBlock failed: %s", postForkErr),
+			Message:    fmt.Sprintf("PostBlock failed to compile: %s", postForkErr),
 		})
+		return false
 	}
 
 	if testForkErr != nil {
-		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
 			LineNumber: fileRef.Line,
@@ -165,8 +186,9 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Block failed: %s", testForkErr),
+			Message:    fmt.Sprintf("Block failed to compile: %s", testForkErr),
 		})
+		return false
 	}
 
 	// test exit numbers
@@ -180,7 +202,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestInfo,
-			Message:    fmt.Sprintf("PreBlock exit num non-zero: %d", preExitNum),
+			Message:    fmt.Sprintf("PreBlock exit num non-zero: `%d`", preExitNum),
 		})
 	}
 
@@ -193,7 +215,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestInfo,
-			Message:    fmt.Sprintf("PostBlock exit num non-zero: %d", postExitNum),
+			Message:    fmt.Sprintf("PostBlock exit num non-zero: `%d`", postExitNum),
 		})
 	}
 
@@ -206,7 +228,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Exit num mismatch: exp %d act %d", plan.ExitNumber, testExitNum),
+			Message:    fmt.Sprintf("Exit num mismatch: exp `%d` act `%d`", plan.ExitNumber, testExitNum),
 		})
 	}
 
@@ -221,7 +243,20 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Unexpected stdout: %s", stdout),
+			Message:    fmt.Sprintf("Unexpected stdout: `%s`", stdout),
+		})
+	}
+
+	if plan.StdoutDT != "" && fork.Stdout.GetDataType() != plan.StdoutDT {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("Stdout data-type mismatch: exp `%s` act `%s`", plan.StdoutDT, fork.Stdout.GetDataType()),
 		})
 	}
 
@@ -234,7 +269,20 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Unexpected stderr: %s", stderr),
+			Message:    fmt.Sprintf("Unexpected stderr: `%s`", stderr),
+		})
+	}
+
+	if plan.StderrDT != "" && fork.Stderr.GetDataType() != plan.StderrDT {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("Stderr data-type mismatch: exp `%s` act `%s`", plan.StderrDT, fork.Stderr.GetDataType()),
 		})
 	}
 
@@ -247,7 +295,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Exec:       function,
 			Params:     plan.Parameters,
 			TestName:   testName,
-			Status:     TestFailed,
+			Status:     TestPassed,
 			//Message:    "",
 		})
 	}
@@ -255,15 +303,21 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	return passed
 }
 
-func runFunction(function string, fork *Fork) (int, error) {
+func runFunction(function string, isMethod bool, fork *Fork) (int, error) {
+	fork.IsMethod = isMethod
 	if strings.Contains(function, "/") {
 		return 0, errors.New("TODO: support me!")
-	} else {
-		block, err := MxFunctions.Block(function)
-		if err != nil {
-			return 0, err
-		}
 
-		return fork.Execute(block)
 	}
+
+	if !MxFunctions.Exists(function) {
+		return 0, errors.New("Function does not exist")
+	}
+
+	block, err := MxFunctions.Block(function)
+	if err != nil {
+		return 0, err
+	}
+
+	return fork.Execute(block)
 }
