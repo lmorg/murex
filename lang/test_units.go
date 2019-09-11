@@ -43,7 +43,7 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 }
 
 // Run all unit tests against a specific murex function
-func (ut *UnitTests) Run(function string) bool {
+func (ut *UnitTests) Run(tests *Tests, function string) bool {
 	ut.mutex.Lock()
 	utCopy := make([]*unitTest, len(ut.units))
 	copy(utCopy, ut.units)
@@ -53,7 +53,7 @@ func (ut *UnitTests) Run(function string) bool {
 
 	for i := range utCopy {
 		if utCopy[i].Function == function {
-			passed = passed && runTest(utCopy[i].TestPlan, function)
+			passed = passed && runTest(tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, function)
 		}
 	}
 
@@ -71,16 +71,17 @@ type UnitTestPlan struct {
 	PostBlock  string
 }
 
-func runTest(test *UnitTestPlan, function string) bool {
+func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, function string) bool {
 	var (
+		testName                             = "unit test"
 		preExitNum, testExitNum, postExitNum int
 		preForkErr, testForkErr, postForkErr error
 		F_STDIN                              int
-		passed                               bool
+		passed                               = true
 		stdout, stderr                       string
 	)
 
-	if len(test.Stdin) == 0 {
+	if len(plan.Stdin) == 0 {
 		F_STDIN = F_NO_STDIN
 	} else {
 		F_STDIN = F_CREATE_STDIN
@@ -88,9 +89,8 @@ func runTest(test *UnitTestPlan, function string) bool {
 
 	fork := ShellProcess.Fork(F_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
 	fork.Name = function
-	if len(test.Stdin) > 0 {
-		_, err := fork.Stdin.Write([]byte(test.Stdin))
-		//fork.Stdin.Close()
+	if len(plan.Stdin) > 0 {
+		_, err := fork.Stdin.Write([]byte(plan.Stdin))
 		if err != nil {
 			fmt.Println(err)
 			return false
@@ -98,15 +98,15 @@ func runTest(test *UnitTestPlan, function string) bool {
 	}
 
 	// Run any initializing code...if defined
-	if len(test.PreBlock) > 0 {
-		preExitNum, preForkErr = fork.Execute([]rune(test.PreBlock))
+	if len(plan.PreBlock) > 0 {
+		preExitNum, preForkErr = fork.Execute([]rune(plan.PreBlock))
 	}
 
 	testExitNum, testForkErr = runFunction(function, fork)
 
 	// Run any clear down code...if defined
-	if len(test.PostBlock) > 0 {
-		postExitNum, postForkErr = fork.Execute([]rune(test.PostBlock))
+	if len(plan.PostBlock) > 0 {
+		postExitNum, postForkErr = fork.Execute([]rune(plan.PostBlock))
 	}
 
 	b, err := fork.Stdout.ReadAll()
@@ -123,14 +123,134 @@ func runTest(test *UnitTestPlan, function string) bool {
 	}
 	stderr = string(b)
 
-	fmt.Println("unit test:",
-		preExitNum, testExitNum, postExitNum,
-		preForkErr, testForkErr, postForkErr,
-		F_STDIN)
+	/*fmt.Println("unit test:",
+	preExitNum, testExitNum, postExitNum,
+	preForkErr, testForkErr, postForkErr,
+	F_STDIN)*/
 
-	passed = testExitNum != test.ExitNumber || preExitNum != 0 || postExitNum != 0 ||
-		testForkErr != nil || preForkErr != nil || postForkErr != nil ||
-		stdout != test.Stdout || stderr != test.Stderr
+	// test fork errors
+
+	if preForkErr != nil {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("PreBlock failed: %s", preForkErr),
+		})
+	}
+
+	if postForkErr != nil {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("PostBlock failed: %s", postForkErr),
+		})
+	}
+
+	if testForkErr != nil {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("Block failed: %s", testForkErr),
+		})
+	}
+
+	// test exit numbers
+
+	if preExitNum != 0 {
+		//passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestInfo,
+			Message:    fmt.Sprintf("PreBlock exit num non-zero: %d", preExitNum),
+		})
+	}
+
+	if postExitNum != 0 {
+		//passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestInfo,
+			Message:    fmt.Sprintf("PostBlock exit num non-zero: %d", postExitNum),
+		})
+	}
+
+	if testExitNum != plan.ExitNumber {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("Exit num mismatch: exp %d act %d", plan.ExitNumber, testExitNum),
+		})
+	}
+
+	// test stdio streams
+
+	if stdout != plan.Stdout {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("Unexpected stdout: %s", stdout),
+		})
+	}
+
+	if stderr != plan.Stderr {
+		passed = false
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("Unexpected stderr: %s", stderr),
+		})
+	}
+
+	// lastly, a passed message if no errors
+
+	if passed {
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			//Message:    "",
+		})
+	}
 
 	return passed
 }
