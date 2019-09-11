@@ -33,6 +33,7 @@ func init() {
 				"!verbose",
 				"define",
 				"state",
+				"unit",
 				"run"
 			],
 			"AllowMultiple": true

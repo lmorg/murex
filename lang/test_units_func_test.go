@@ -159,3 +159,153 @@ func TestRunTestStdin(t *testing.T) {
 
 	testRunTest(t, plans)
 }
+
+func TestRunTestExitNumber(t *testing.T) {
+	plans := []testUTPs{
+		{
+			Function:  "foobar",
+			TestBlock: `err`,
+			Passed:    false,
+			UTP: lang.UnitTestPlan{
+				Stderr:     "\n",
+				ExitNumber: 0,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				Stderr:     "\n",
+				ExitNumber: 1,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err`,
+			Passed:    false,
+			UTP: lang.UnitTestPlan{
+				Stderr:     "\n",
+				ExitNumber: 2,
+			},
+		},
+	}
+
+	testRunTest(t, plans)
+}
+
+func TestRunTestRegexStdout(t *testing.T) {
+	plans := []testUTPs{
+		{
+			Function:  "foobar",
+			TestBlock: `out foo`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StdoutRx: "(foo|bar)",
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `out foo`,
+			Passed:    false,
+			UTP: lang.UnitTestPlan{
+				StdoutRx: "(FOO|BAR)",
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `out foobar`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StdoutRx: "foobar",
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `out foobar`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StdoutRx: "^foobar\n$",
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `out foobar`,
+			Passed:    false,
+			UTP: lang.UnitTestPlan{
+				StdoutRx: "^ob$",
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `out foobar`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StdoutRx: "ob",
+			},
+		},
+	}
+
+	testRunTest(t, plans)
+}
+
+func TestRunTestRegexStderr(t *testing.T) {
+	plans := []testUTPs{
+		{
+			Function:  "foobar",
+			TestBlock: `err foo`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StderrRx:   "(foo|bar)",
+				ExitNumber: 1,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err foo`,
+			Passed:    false,
+			UTP: lang.UnitTestPlan{
+				StderrRx:   "(FOO|BAR)",
+				ExitNumber: 1,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err foobar`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StderrRx:   "foobar",
+				ExitNumber: 1,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err foobar`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StderrRx:   "^foobar\n$",
+				ExitNumber: 1,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err foobar`,
+			Passed:    false,
+			UTP: lang.UnitTestPlan{
+				StderrRx:   "^ob$",
+				ExitNumber: 1,
+			},
+		},
+		{
+			Function:  "foobar",
+			TestBlock: `err foobar`,
+			Passed:    true,
+			UTP: lang.UnitTestPlan{
+				StderrRx:   "ob",
+				ExitNumber: 1,
+			},
+		},
+	}
+
+	testRunTest(t, plans)
+}

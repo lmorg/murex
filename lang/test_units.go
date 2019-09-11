@@ -3,6 +3,7 @@ package lang
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strings"
 	"sync"
 
@@ -86,7 +87,9 @@ type UnitTestPlan struct {
 	StdinDT    string
 	StdoutDT   string
 	StderrDT   string
-	ExitNumber int // check this is the same as test define
+	StdoutRx   string // check this is the same as test define
+	StderrRx   string // check this is the same as test define
+	ExitNumber int    // check this is the same as test define
 	PreBlock   string
 	PostBlock  string
 }
@@ -96,18 +99,18 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		//testName                             = "unit test"
 		preExitNum, testExitNum, postExitNum int
 		preForkErr, testForkErr, postForkErr error
-		F_STDIN                              int
+		fStdin                               int
 		passed                               = true
 		stdout, stderr                       string
 	)
 
 	if len(plan.Stdin) == 0 {
-		F_STDIN = F_NO_STDIN
+		fStdin = F_NO_STDIN
 	} else {
-		F_STDIN = F_CREATE_STDIN
+		fStdin = F_CREATE_STDIN
 	}
 
-	fork := ShellProcess.Fork(F_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+	fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
 	fork.Parameters.Params = plan.Parameters
 
 	if len(plan.Stdin) > 0 {
@@ -233,9 +236,9 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		})
 	}
 
-	// test stdio streams
+	// test stdout stream
 
-	if stdout != plan.Stdout {
+	if stdout != plan.Stdout && plan.StdoutRx == "" {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -246,6 +249,33 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Status:     TestFailed,
 			Message:    fmt.Sprintf("Unexpected stdout: `%s`", stdout),
 		})
+	}
+
+	if plan.StdoutRx != "" && plan.Stdout == "" {
+		rx, err := regexp.Compile(plan.StdoutRx)
+		if err != nil {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StdoutRx could not compile: %s", err),
+			})
+		} else if !rx.MatchString(stdout) {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StdoutRx did not match stdout: `%s`", stdout),
+			})
+		}
 	}
 
 	if plan.StdoutDT != "" && fork.Stdout.GetDataType() != plan.StdoutDT {
@@ -261,7 +291,9 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		})
 	}
 
-	if stderr != plan.Stderr {
+	// test stderr stream
+
+	if stderr != plan.Stderr && plan.StderrRx == "" {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -272,6 +304,33 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Status:     TestFailed,
 			Message:    fmt.Sprintf("Unexpected stderr: `%s`", stderr),
 		})
+	}
+
+	if plan.StderrRx != "" && plan.Stderr == "" {
+		rx, err := regexp.Compile(plan.StderrRx)
+		if err != nil {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StderrRx could not compile: %s", err),
+			})
+		} else if !rx.MatchString(stderr) {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StderrRx did not match stderr: `%s`", stderr),
+			})
+		}
 	}
 
 	if plan.StderrDT != "" && fork.Stderr.GetDataType() != plan.StderrDT {
