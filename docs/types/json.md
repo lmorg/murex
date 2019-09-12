@@ -8,8 +8,6 @@
 
 JSON is a primitive data-type within _murex_.
 
-
-
 ### Examples
 
 Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
@@ -42,15 +40,6 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
       "children": [],
       "spouse": null
     }
-
-### Default Associations
-
-* **Extension**: `json`
-* **MIME**: `application/json`
-* **MIME**: `application/x-toml`
-* **MIME**: `text/toml`
-* **MIME**: `text/x-toml`
-
 
 ### Detail
 
@@ -125,7 +114,7 @@ commas.
     }
     ...
     
-Luckily JSON also has it's own streaming format: jsonlines (`jsonl`)
+Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar } -> cast jsonl -> format json
     [
@@ -157,6 +146,15 @@ Luckily JSON also has it's own streaming format: jsonlines (`jsonl`)
             "Value": true
         },
     ...
+
+### Default Associations
+
+* **Extension**: `json`
+* **MIME**: `application/json`
+* **MIME**: `application/x-toml`
+* **MIME**: `text/toml`
+* **MIME**: `text/x-toml`
+
 
 ### Supported Hooks
 

@@ -12,8 +12,6 @@ expect in most deployments of _murex_, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
-
-
 ### Examples
 
 Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)

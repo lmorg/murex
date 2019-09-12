@@ -12,14 +12,6 @@ numbers.
 > Unless you specifically know you only want whole numbers, it is recommended
 > that you use this as your default numeric data-type as opposed to `int`.
 
-
-
-### Default Associations
-
-
-
-
-
 ### Supported Hooks
 
 * `Marshal()`

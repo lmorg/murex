@@ -103,8 +103,8 @@ Categories:
       * Data can be case into other data-types using the `cast` command:
 
       ```
-        » echo '{ "key": "value" }' -> cast json 
-        ```
+          » echo '{ "key": "value" }' -> cast json 
+          ```
 
       ### Definitions
       
