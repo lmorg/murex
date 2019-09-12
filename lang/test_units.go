@@ -151,6 +151,18 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// run function
 	testExitNum, testForkErr = runFunction(function, plan.Stdin != "", fork)
+	if testForkErr != nil {
+		results.Add(&TestResult{
+			ColNumber:  fileRef.Column,
+			LineNumber: fileRef.Line,
+			Exec:       function,
+			Params:     plan.Parameters,
+			TestName:   testName,
+			Status:     TestFailed,
+			Message:    fmt.Sprintf("testBlock failed to compile: %s", testForkErr),
+		})
+		return false
+	}
 
 	// run any clear down code...if defined
 	fork.IsMethod = false
@@ -182,21 +194,21 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// stdout block
 
 	if plan.StdoutBlock != "" {
-		fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-		fork.IsMethod = true
-		fork.Name = "(unit test StdoutBlock)"
-		fork.Stdin.SetDataType(stdoutType)
-		_, err = fork.Stdin.Write(bOut)
+		ofork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+		ofork.IsMethod = true
+		ofork.Name = "(unit test StdoutBlock)"
+		ofork.Stdin.SetDataType(stdoutType)
+		_, err = ofork.Stdin.Write(bOut)
 		if err != nil {
 			fmt.Println(err)
 			return false
 		}
-		oblkExitNum, oblkErr = fork.Execute([]rune(plan.StdoutBlock))
-		oblkStdout, err = fork.Stdout.ReadAll()
+		oblkExitNum, oblkErr = ofork.Execute([]rune(plan.StdoutBlock))
+		oblkStdout, err = ofork.Stdout.ReadAll()
 		if err != nil {
 			fmt.Println(err)
 		}
-		oblkStderr, err = fork.Stderr.ReadAll()
+		oblkStderr, err = ofork.Stderr.ReadAll()
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -205,21 +217,21 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// stderr block
 
 	if plan.StderrBlock != "" {
-		fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-		fork.IsMethod = true
-		fork.Name = "(unit test StderrBlock)"
-		fork.Stderr.SetDataType(stderrType)
-		_, err = fork.Stdin.Write(bErr)
+		efork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+		efork.IsMethod = true
+		efork.Name = "(unit test StderrBlock)"
+		efork.Stderr.SetDataType(stderrType)
+		_, err = efork.Stdin.Write(bErr)
 		if err != nil {
 			fmt.Println(err)
 			return false
 		}
-		eblkExitNum, eblkErr = fork.Execute([]rune(plan.StderrBlock))
-		eblkStdout, err = fork.Stdout.ReadAll()
+		eblkExitNum, eblkErr = efork.Execute([]rune(plan.StderrBlock))
+		eblkStdout, err = efork.Stdout.ReadAll()
 		if err != nil {
 			fmt.Println(err)
 		}
-		eblkStderr, err = fork.Stderr.ReadAll()
+		eblkStderr, err = efork.Stderr.ReadAll()
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -228,6 +240,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// test fork errors
 
 	if preForkErr != nil {
+		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
 			LineNumber: fileRef.Line,
@@ -237,7 +250,6 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Status:     TestFailed,
 			Message:    fmt.Sprintf("PreBlock failed to compile: %s", preForkErr),
 		})
-		return false
 	}
 
 	if postForkErr != nil {
@@ -250,19 +262,6 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			TestName:   testName,
 			Status:     TestFailed,
 			Message:    fmt.Sprintf("PostBlock failed to compile: %s", postForkErr),
-		})
-	}
-
-	if testForkErr != nil {
-		passed = false
-		results.Add(&TestResult{
-			ColNumber:  fileRef.Column,
-			LineNumber: fileRef.Line,
-			Exec:       function,
-			Params:     plan.Parameters,
-			TestName:   testName,
-			Status:     TestFailed,
-			Message:    fmt.Sprintf("PostBlock failed to compile: %s", testForkErr),
 		})
 	}
 
