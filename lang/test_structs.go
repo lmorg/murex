@@ -199,5 +199,6 @@ func (tests *Tests) Dump() interface{} {
 	return map[string]interface{}{
 		"test":  names,
 		"state": states,
+		"unit":  GlobalUnitTests.Dump(),
 	}
 }

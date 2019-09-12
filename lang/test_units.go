@@ -19,8 +19,8 @@ import (
 // convention is a little counterintuitive but it at least avoids naming
 // conflicts with `go test`.
 
-// UnitTests is an exportable class for all things murex unit tests
-type UnitTests struct {
+// unitTests is a class for all things murex unit tests
+type unitTests struct {
 	units []*unitTest
 	mutex sync.Mutex
 }
@@ -32,7 +32,7 @@ type unitTest struct {
 }
 
 // Add a new unit test
-func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File) {
+func (ut *unitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File) {
 	newUnitTest := &unitTest{
 		Function: function,
 		TestPlan: test,
@@ -47,7 +47,7 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 const testName = "unit test"
 
 // Run all unit tests against a specific murex function
-func (ut *UnitTests) Run(tests *Tests, function string) bool {
+func (ut *unitTests) Run(tests *Tests, function string) bool {
 	ut.mutex.Lock()
 	utCopy := make([]*unitTest, len(ut.units))
 	copy(utCopy, ut.units)
@@ -76,6 +76,14 @@ func (ut *UnitTests) Run(tests *Tests, function string) bool {
 		Message:  fmt.Sprintf("No unit tests exist for: `%s`", function),
 	})
 	return false
+}
+
+func (ut *unitTests) Dump() interface{} {
+	ut.mutex.Lock()
+	dump := ut.units
+	ut.mutex.Unlock()
+
+	return dump
 }
 
 // UnitTestPlan is defined via JSON and specifies an individual test plan
