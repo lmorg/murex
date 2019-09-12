@@ -59,8 +59,8 @@ func (ut *unitTests) Run(tests *Tests, function string) bool {
 	)
 
 	for i := range utCopy {
-		if utCopy[i].Function == function {
-			passed = passed && runTest(tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, function)
+		if function == "*" || utCopy[i].Function == function {
+			passed = passed && runTest(tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, utCopy[i].Function)
 			exists = true
 		}
 	}
