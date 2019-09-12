@@ -19,8 +19,8 @@ import (
 // convention is a little counterintuitive but it at least avoids naming
 // conflicts with `go test`.
 
-// unitTests is a class for all things murex unit tests
-type unitTests struct {
+// UnitTests is a class for all things murex unit tests
+type UnitTests struct {
 	units []*unitTest
 	mutex sync.Mutex
 }
@@ -32,7 +32,7 @@ type unitTest struct {
 }
 
 // Add a new unit test
-func (ut *unitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File) {
+func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File) {
 	newUnitTest := &unitTest{
 		Function: function,
 		TestPlan: test,
@@ -47,7 +47,7 @@ func (ut *unitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 const testName = "unit test"
 
 // Run all unit tests against a specific murex function
-func (ut *unitTests) Run(tests *Tests, function string) bool {
+func (ut *UnitTests) Run(tests *Tests, function string) bool {
 	ut.mutex.Lock()
 	utCopy := make([]*unitTest, len(ut.units))
 	copy(utCopy, ut.units)
@@ -78,7 +78,8 @@ func (ut *unitTests) Run(tests *Tests, function string) bool {
 	return false
 }
 
-func (ut *unitTests) Dump() interface{} {
+// Dump the defined unit tests in a JSONable structure
+func (ut *UnitTests) Dump() interface{} {
 	ut.mutex.Lock()
 	dump := ut.units
 	ut.mutex.Unlock()
@@ -88,28 +89,37 @@ func (ut *unitTests) Dump() interface{} {
 
 // UnitTestPlan is defined via JSON and specifies an individual test plan
 type UnitTestPlan struct {
-	Parameters []string
-	Stdin      string
-	Stdout     string
-	Stderr     string
-	StdinDT    string
-	StdoutDT   string
-	StderrDT   string
-	StdoutRx   string // check this is the same as test define
-	StderrRx   string // check this is the same as test define
-	ExitNumber int    // check this is the same as test define
-	PreBlock   string
-	PostBlock  string
+	Parameters  []string
+	Stdin       string
+	StdoutMatch string
+	StderrMatch string
+	StdinType   string
+	StdoutType  string
+	StderrType  string
+	StdoutRegex string // check this is the same as test define
+	StderrRegex string // check this is the same as test define
+	StdoutBlock string // check this is the same as test define
+	StderrBlock string // check this is the same as test define
+	ExitNum     int    // check this is the same as test define
+	PreBlock    string
+	PostBlock   string
 }
 
 func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, function string) bool {
 	var (
-		//testName                             = "unit test"
 		preExitNum, testExitNum, postExitNum int
 		preForkErr, testForkErr, postForkErr error
-		fStdin                               int
-		passed                               = true
-		stdout, stderr                       string
+		stdoutType, stderrType               string
+		bOut, bErr                           []byte
+
+		fStdin         int
+		passed         = true
+		stdout, stderr string
+
+		oblkStdout, eblkStdout   []byte // Std(out|err)Block; Stdout.ReadAll() []byte
+		oblkStderr, eblkStderr   []byte // Std(out|err)Block; Stderr.ReadAll() []byte
+		oblkExitNum, eblkExitNum int    // Std(out|err)Block; fork.Execute() int
+		oblkErr, eblkErr         error  // Std(out|err)Block; fork.Execute() error
 	)
 
 	if len(plan.Stdin) == 0 {
@@ -122,10 +132,10 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	fork.Parameters.Params = plan.Parameters
 
 	if len(plan.Stdin) > 0 {
-		if plan.StdinDT == "" {
-			plan.StdinDT = types.Generic
+		if plan.StdinType == "" {
+			plan.StdinType = types.Generic
 		}
-		fork.Stdin.SetDataType(plan.StdinDT)
+		fork.Stdin.SetDataType(plan.StdinType)
 		_, err := fork.Stdin.Write([]byte(plan.Stdin))
 		if err != nil {
 			fmt.Println(err)
@@ -133,34 +143,87 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		}
 	}
 
-	// Run any initializing code...if defined
+	// run any initializing code...if defined
 	if len(plan.PreBlock) > 0 {
-		fork.Name = "(unit test preblock)"
+		fork.Name = "(unit test PreBlock)"
 		preExitNum, preForkErr = fork.Execute([]rune(plan.PreBlock))
 	}
 
+	// run function
 	testExitNum, testForkErr = runFunction(function, plan.Stdin != "", fork)
 
-	// Run any clear down code...if defined
+	// run any clear down code...if defined
 	fork.IsMethod = false
 	if len(plan.PostBlock) > 0 {
-		fork.Name = "(unit test postblock)"
+		fork.Name = "(unit test PostBlock)"
 		postExitNum, postForkErr = fork.Execute([]rune(plan.PostBlock))
 	}
 
-	b, err := fork.Stdout.ReadAll()
-	if err != nil {
-		fmt.Println(err)
-		return false
-	}
-	stdout = string(b)
+	// stdout
 
-	b, err = fork.Stderr.ReadAll()
+	bOut, err := fork.Stdout.ReadAll()
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
-	stderr = string(b)
+	stdout = string(bOut)
+	stdoutType = fork.Stdout.GetDataType()
+
+	// stderr
+
+	bErr, err = fork.Stderr.ReadAll()
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	stderr = string(bErr)
+	stderrType = fork.Stderr.GetDataType()
+
+	// stdout block
+
+	if plan.StdoutBlock != "" {
+		fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+		fork.IsMethod = true
+		fork.Name = "(unit test StdoutBlock)"
+		fork.Stdin.SetDataType(stdoutType)
+		_, err = fork.Stdin.Write(bOut)
+		if err != nil {
+			fmt.Println(err)
+			return false
+		}
+		oblkExitNum, oblkErr = fork.Execute([]rune(plan.StdoutBlock))
+		oblkStdout, err = fork.Stdout.ReadAll()
+		if err != nil {
+			fmt.Println(err)
+		}
+		oblkStderr, err = fork.Stderr.ReadAll()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	// stderr block
+
+	if plan.StderrBlock != "" {
+		fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+		fork.IsMethod = true
+		fork.Name = "(unit test StderrBlock)"
+		fork.Stderr.SetDataType(stderrType)
+		_, err = fork.Stdin.Write(bErr)
+		if err != nil {
+			fmt.Println(err)
+			return false
+		}
+		eblkExitNum, eblkErr = fork.Execute([]rune(plan.StderrBlock))
+		eblkStdout, err = fork.Stdout.ReadAll()
+		if err != nil {
+			fmt.Println(err)
+		}
+		eblkStderr, err = fork.Stderr.ReadAll()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 
 	// test fork errors
 
@@ -178,6 +241,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 
 	if postForkErr != nil {
+		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
 			LineNumber: fileRef.Line,
@@ -187,10 +251,10 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Status:     TestFailed,
 			Message:    fmt.Sprintf("PostBlock failed to compile: %s", postForkErr),
 		})
-		return false
 	}
 
 	if testForkErr != nil {
+		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
 			LineNumber: fileRef.Line,
@@ -198,9 +262,8 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Block failed to compile: %s", testForkErr),
+			Message:    fmt.Sprintf("PostBlock failed to compile: %s", testForkErr),
 		})
-		return false
 	}
 
 	// test exit numbers
@@ -231,7 +294,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		})
 	}
 
-	if testExitNum != plan.ExitNumber {
+	if testExitNum != plan.ExitNum {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -240,13 +303,13 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Exit num mismatch: exp `%d` act `%d`", plan.ExitNumber, testExitNum),
+			Message:    fmt.Sprintf("ExitNum mismatch: exp `%d` act `%d`", plan.ExitNum, testExitNum),
 		})
 	}
 
 	// test stdout stream
 
-	if stdout != plan.Stdout && plan.StdoutRx == "" {
+	if stdout != plan.StdoutMatch && plan.StdoutRegex == "" && plan.StdoutBlock == "" {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -259,8 +322,8 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		})
 	}
 
-	if plan.StdoutRx != "" && plan.Stdout == "" {
-		rx, err := regexp.Compile(plan.StdoutRx)
+	if plan.StdoutRegex != "" {
+		rx, err := regexp.Compile(plan.StdoutRegex)
 		if err != nil {
 			passed = false
 			results.Add(&TestResult{
@@ -270,7 +333,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StdoutRx could not compile: %s", err),
+				Message:    fmt.Sprintf("StdoutRegex could not compile: %s", err),
 			})
 		} else if !rx.MatchString(stdout) {
 			passed = false
@@ -281,12 +344,62 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StdoutRx did not match stdout: `%s`", stdout),
+				Message:    fmt.Sprintf("StdoutRegex did not match stdout: `%s`", stdout),
 			})
 		}
 	}
 
-	if plan.StdoutDT != "" && fork.Stdout.GetDataType() != plan.StdoutDT {
+	if plan.StdoutBlock != "" {
+		if oblkExitNum != 0 {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StdoutBlock exit num non-zero: `%d`", oblkExitNum),
+			})
+		}
+		if oblkErr != nil {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StdoutBlock failed to compile: %s", oblkErr),
+			})
+		}
+		if len(oblkStderr) != 0 {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StdoutBlock returned an error: %s", oblkStderr),
+			})
+		}
+		if len(oblkStdout) != 0 {
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestInfo,
+				Message:    fmt.Sprintf("StdoutBlock comment: %s", oblkStdout),
+			})
+		}
+	}
+
+	if plan.StdoutType != "" && stdoutType != plan.StdoutType {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -295,13 +408,13 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Stdout data-type mismatch: exp `%s` act `%s`", plan.StdoutDT, fork.Stdout.GetDataType()),
+			Message:    fmt.Sprintf("Stdout data-type mismatch: exp `%s` act `%s`", plan.StdoutType, fork.Stdout.GetDataType()),
 		})
 	}
 
 	// test stderr stream
 
-	if stderr != plan.Stderr && plan.StderrRx == "" {
+	if stderr != plan.StderrMatch && plan.StderrRegex == "" && plan.StderrBlock == "" {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -314,8 +427,8 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		})
 	}
 
-	if plan.StderrRx != "" && plan.Stderr == "" {
-		rx, err := regexp.Compile(plan.StderrRx)
+	if plan.StderrRegex != "" {
+		rx, err := regexp.Compile(plan.StderrRegex)
 		if err != nil {
 			passed = false
 			results.Add(&TestResult{
@@ -325,7 +438,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StderrRx could not compile: %s", err),
+				Message:    fmt.Sprintf("StderrRegex could not compile: %s", err),
 			})
 		} else if !rx.MatchString(stderr) {
 			passed = false
@@ -336,12 +449,62 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StderrRx did not match stderr: `%s`", stderr),
+				Message:    fmt.Sprintf("StderrRegex did not match stderr: `%s`", stderr),
 			})
 		}
 	}
 
-	if plan.StderrDT != "" && fork.Stderr.GetDataType() != plan.StderrDT {
+	if plan.StderrBlock != "" {
+		if eblkExitNum != 0 {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StderrBlock exit num non-zero: `%d`", eblkExitNum),
+			})
+		}
+		if eblkErr != nil {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StderrBlock failed to compile: %s", eblkErr),
+			})
+		}
+		if len(eblkStderr) != 0 {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("StderrBlock returned an error: %s", eblkStderr),
+			})
+		}
+		if len(eblkStdout) != 0 {
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestInfo,
+				Message:    fmt.Sprintf("StderrBlock comment: %s", eblkStdout),
+			})
+		}
+	}
+
+	if plan.StderrType != "" && stderrType != plan.StderrType {
 		passed = false
 		results.Add(&TestResult{
 			ColNumber:  fileRef.Column,
@@ -350,7 +513,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Stderr data-type mismatch: exp `%s` act `%s`", plan.StderrDT, fork.Stderr.GetDataType()),
+			Message:    fmt.Sprintf("Stderr data-type mismatch: exp `%s` act `%s`", plan.StderrType, fork.Stderr.GetDataType()),
 		})
 	}
 

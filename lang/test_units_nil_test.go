@@ -24,7 +24,7 @@ func TestRunTestNotATest(t *testing.T) {
 	}
 
 	plan := &lang.UnitTestPlan{
-		Stdout: "foobar\n",
+		StdoutMatch: "foobar\n",
 	}
 
 	lang.MxFunctions.Define("foobar", []rune("out foobar"), fileRef)
@@ -57,7 +57,7 @@ func TestRunTestNotAFunction(t *testing.T) {
 	}
 
 	plan := &lang.UnitTestPlan{
-		Stdout: "foobar\n",
+		StdoutMatch: "foobar\n",
 	}
 
 	lang.MxFunctions.Define("foobar", []rune("out foobar"), fileRef)

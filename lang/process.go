@@ -48,7 +48,7 @@ var (
 	GlobalFIDs = *newFuncID()
 
 	// GlobalUnitTests is a class for all things murex unit tests
-	GlobalUnitTests = new(unitTests)
+	GlobalUnitTests = new(UnitTests)
 
 	// ForegroundProc is the murex FID which currently has "focus"
 	ForegroundProc = ShellProcess

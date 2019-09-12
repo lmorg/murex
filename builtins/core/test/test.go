@@ -25,9 +25,9 @@ func init() {
 				"!verbose",
 				"define",
 				"state",
-				"run"
+				"run",
 				"define-unit",
-				"run-unit",
+				"run-unit"
 			],
 			"AllowMultiple": true
         }] }

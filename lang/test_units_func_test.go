@@ -15,9 +15,9 @@ func TestRunTestVarScoping(t *testing.T) {
 			TestBlock: `out $foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				PreBlock:  "global foo=bar",
-				PostBlock: "!global foo",
-				Stdout:    "bar\n",
+				PreBlock:    "global foo=bar",
+				PostBlock:   "!global foo",
+				StdoutMatch: "bar\n",
 			},
 		},
 		{
@@ -25,9 +25,9 @@ func TestRunTestVarScoping(t *testing.T) {
 			TestBlock: `out $foo`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				PreBlock:  "set foo=bar",
-				PostBlock: "!set foo",
-				Stdout:    "bar\n",
+				PreBlock:    "set foo=bar",
+				PostBlock:   "!set foo",
+				StdoutMatch: "bar\n",
 			},
 		},
 	}
@@ -42,8 +42,8 @@ func TestRunTestParameters(t *testing.T) {
 			TestBlock: "out $ARGS",
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Parameters: []string{"a", "b", "c"},
-				Stdout:     `["foobar","a","b","c"]` + utils.NewLineString,
+				Parameters:  []string{"a", "b", "c"},
+				StdoutMatch: `["foobar","a","b","c"]` + utils.NewLineString,
 			},
 		},
 		{
@@ -51,8 +51,8 @@ func TestRunTestParameters(t *testing.T) {
 			TestBlock: "out $ARGS",
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Parameters: []string{"1", "2", "3"},
-				Stdout:     `["foobar","1","2","3"]` + utils.NewLineString,
+				Parameters:  []string{"1", "2", "3"},
+				StdoutMatch: `["foobar","1","2","3"]` + utils.NewLineString,
 			},
 		},
 		{
@@ -60,8 +60,8 @@ func TestRunTestParameters(t *testing.T) {
 			TestBlock: "out $ARGS",
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Parameters: []string{"foo bar"},
-				Stdout:     `["foobar","foo bar"]` + utils.NewLineString,
+				Parameters:  []string{"foo bar"},
+				StdoutMatch: `["foobar","foo bar"]` + utils.NewLineString,
 			},
 		},
 	}
@@ -76,8 +76,8 @@ func TestRunTestDataTypes(t *testing.T) {
 			TestBlock: "tout json {}",
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stdout:   `{}`,
-				StdoutDT: "json",
+				StdoutMatch: `{}`,
+				StdoutType:  "json",
 			},
 		},
 		{
@@ -85,8 +85,8 @@ func TestRunTestDataTypes(t *testing.T) {
 			TestBlock: "tout <err> json {}",
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stderr:   `{}`,
-				StderrDT: "json",
+				StderrMatch: `{}`,
+				StderrType:  "json",
 			},
 		},
 		{
@@ -94,8 +94,8 @@ func TestRunTestDataTypes(t *testing.T) {
 			TestBlock: "tout notjson {}",
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				Stdout:   `{}`,
-				StdoutDT: "json",
+				StdoutMatch: `{}`,
+				StdoutType:  "json",
 			},
 		},
 		{
@@ -103,8 +103,8 @@ func TestRunTestDataTypes(t *testing.T) {
 			TestBlock: "tout <err> notjson {}",
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				Stderr:   `{}`,
-				StderrDT: "json",
+				StderrMatch: `{}`,
+				StderrType:  "json",
 			},
 		},
 	}
@@ -119,8 +119,8 @@ func TestRunTestStdin(t *testing.T) {
 			TestBlock: `-> set foo; $foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stdin:  "bar",
-				Stdout: "bar",
+				Stdin:       "bar",
+				StdoutMatch: "bar",
 			},
 		},
 		{
@@ -128,9 +128,9 @@ func TestRunTestStdin(t *testing.T) {
 			TestBlock: `-> set foo; $foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stdin:    "bar",
-				Stdout:   "bar",
-				StdoutDT: types.Generic,
+				Stdin:       "bar",
+				StdoutMatch: "bar",
+				StdoutType:  types.Generic,
 			},
 		},
 		{
@@ -138,10 +138,10 @@ func TestRunTestStdin(t *testing.T) {
 			TestBlock: `-> set foo; $foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stdin:    "bar",
-				StdinDT:  "notjson",
-				Stdout:   "bar",
-				StdoutDT: "notjson",
+				Stdin:       "bar",
+				StdinType:   "notjson",
+				StdoutMatch: "bar",
+				StdoutType:  "notjson",
 			},
 		},
 		{
@@ -149,10 +149,10 @@ func TestRunTestStdin(t *testing.T) {
 			TestBlock: `-> set foo; out $foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stdin:    "bar",
-				StdinDT:  "notjson",
-				Stdout:   "bar\n",
-				StdoutDT: types.String,
+				Stdin:       "bar",
+				StdinType:   "notjson",
+				StdoutMatch: "bar\n",
+				StdoutType:  types.String,
 			},
 		},
 	}
@@ -167,8 +167,8 @@ func TestRunTestExitNumber(t *testing.T) {
 			TestBlock: `err`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				Stderr:     "\n",
-				ExitNumber: 0,
+				StderrMatch: "\n",
+				ExitNum:     0,
 			},
 		},
 		{
@@ -176,8 +176,8 @@ func TestRunTestExitNumber(t *testing.T) {
 			TestBlock: `err`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stderr:     "\n",
-				ExitNumber: 1,
+				StderrMatch: "\n",
+				ExitNum:     1,
 			},
 		},
 		{
@@ -185,8 +185,8 @@ func TestRunTestExitNumber(t *testing.T) {
 			TestBlock: `err`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				Stderr:     "\n",
-				ExitNumber: 2,
+				StderrMatch: "\n",
+				ExitNum:     2,
 			},
 		},
 	}
@@ -201,7 +201,7 @@ func TestRunTestRegexStdout(t *testing.T) {
 			TestBlock: `out foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StdoutRx: "(foo|bar)",
+				StdoutRegex: "(foo|bar)",
 			},
 		},
 		{
@@ -209,7 +209,7 @@ func TestRunTestRegexStdout(t *testing.T) {
 			TestBlock: `out foo`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				StdoutRx: "(FOO|BAR)",
+				StdoutRegex: "(FOO|BAR)",
 			},
 		},
 		{
@@ -217,7 +217,7 @@ func TestRunTestRegexStdout(t *testing.T) {
 			TestBlock: `out foobar`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StdoutRx: "foobar",
+				StdoutRegex: "foobar",
 			},
 		},
 		{
@@ -225,7 +225,7 @@ func TestRunTestRegexStdout(t *testing.T) {
 			TestBlock: `out foobar`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StdoutRx: "^foobar\n$",
+				StdoutRegex: "^foobar\n$",
 			},
 		},
 		{
@@ -233,7 +233,7 @@ func TestRunTestRegexStdout(t *testing.T) {
 			TestBlock: `out foobar`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				StdoutRx: "^ob$",
+				StdoutRegex: "^ob$",
 			},
 		},
 		{
@@ -241,7 +241,7 @@ func TestRunTestRegexStdout(t *testing.T) {
 			TestBlock: `out foobar`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StdoutRx: "ob",
+				StdoutRegex: "ob",
 			},
 		},
 	}
@@ -256,8 +256,8 @@ func TestRunTestRegexStderr(t *testing.T) {
 			TestBlock: `err foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StderrRx:   "(foo|bar)",
-				ExitNumber: 1,
+				StderrRegex: "(foo|bar)",
+				ExitNum:     1,
 			},
 		},
 		{
@@ -265,8 +265,8 @@ func TestRunTestRegexStderr(t *testing.T) {
 			TestBlock: `err foo`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				StderrRx:   "(FOO|BAR)",
-				ExitNumber: 1,
+				StderrRegex: "(FOO|BAR)",
+				ExitNum:     1,
 			},
 		},
 		{
@@ -274,8 +274,8 @@ func TestRunTestRegexStderr(t *testing.T) {
 			TestBlock: `err foobar`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StderrRx:   "foobar",
-				ExitNumber: 1,
+				StderrRegex: "foobar",
+				ExitNum:     1,
 			},
 		},
 		{
@@ -283,8 +283,8 @@ func TestRunTestRegexStderr(t *testing.T) {
 			TestBlock: `err foobar`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StderrRx:   "^foobar\n$",
-				ExitNumber: 1,
+				StderrRegex: "^foobar\n$",
+				ExitNum:     1,
 			},
 		},
 		{
@@ -292,8 +292,8 @@ func TestRunTestRegexStderr(t *testing.T) {
 			TestBlock: `err foobar`,
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
-				StderrRx:   "^ob$",
-				ExitNumber: 1,
+				StderrRegex: "^ob$",
+				ExitNum:     1,
 			},
 		},
 		{
@@ -301,8 +301,8 @@ func TestRunTestRegexStderr(t *testing.T) {
 			TestBlock: `err foobar`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				StderrRx:   "ob",
-				ExitNumber: 1,
+				StderrRegex: "ob",
+				ExitNum:     1,
 			},
 		},
 	}

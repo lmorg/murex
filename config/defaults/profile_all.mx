@@ -48,8 +48,9 @@ private datatypes {
 }
 
 test define-unit private datatypes {
-    "StdoutRx": "[a-z]+",
-    "StdoutDT": "str"
+    "StdoutRegex": "[a-z]+",
+    "StdoutType":  "str",
+    "StdoutBlock": ({ -> len })
 }
 
 autocomplete set cast { [{
