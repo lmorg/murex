@@ -20,6 +20,7 @@ var (
 	fHelp2    bool
 	fHelp3    bool
 	fSh       bool
+	fRunTests bool
 )
 
 func readFlags() {
@@ -32,6 +33,7 @@ func readFlags() {
 
 	flag.BoolVar(&debug.Enabled, "debug", false, "Debug mode (for debugging murex code. This can also be enabled from inside the shell.")
 	flag.BoolVar(&debug.Inspect, "inspect", false, "Enable inspection (for debugging the Go code - not recommended for normal shell usage as allows you to inspect data outside of your normal scoping)")
+	flag.BoolVar(&fRunTests, "run-tests", false, "Run all tests and exit")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 	flag.BoolVar(&fSh, "murex", false, "")
 

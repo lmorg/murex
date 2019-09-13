@@ -11,8 +11,15 @@ func aliases {
 }
 
 test define-unit public aliases {
+    "PreBlock": ({
+        global ALIAS_UNIT_TEST=${rand: int 9999999999}
+        alias $ALIAS_UNIT_TEST=example param1 param2 param3
+    }),
     "StdoutRegex": "([ a-z]{10} => .*?\n)+",
-    "StdoutType":  "str"
+    "StdoutType": "str",
+    "PostBlock": ({
+        !global ALIAS_UNIT_TEST
+    })
 }
 
 autocomplete set cd { [{
