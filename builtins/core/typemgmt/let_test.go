@@ -7,7 +7,7 @@ import (
 )
 
 func TestLetFunctionPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "let: f=`b`",
 			Name:     "f",
@@ -76,7 +76,22 @@ func TestLetFunctionPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!set", unset, t)
 }
 
 func TestLetFunctionNegative(t *testing.T) {
@@ -103,7 +118,7 @@ func TestLetFunctionNegative(t *testing.T) {
 }
 
 func TestLetFunctionDataTypes(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "let: foobar=123",
 			Name:     "foobar",
@@ -121,7 +136,8 @@ func TestLetFunctionDataTypes(t *testing.T) {
 			Name:     "foobar",
 			Value:    "true",
 			DataType: "bool",
-		}, {
+		},
+		{
 			Block:    "let: foobar=false",
 			Name:     "foobar",
 			Value:    "false",
@@ -129,11 +145,17 @@ func TestLetFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"foobar",
+	}
+
+	UnSetTests("!set", unset, t)
 }
 
 func TestLetFunctionEvaluation(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "let: foobar=2+2",
 			Name:     "foobar",
@@ -159,5 +181,11 @@ func TestLetFunctionEvaluation(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"foobar",
+	}
+
+	UnSetTests("!set", unset, t)
 }

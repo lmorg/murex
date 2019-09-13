@@ -1,6 +1,6 @@
 # _murex_ Shell Guide
 
-## Data-Type Reference: `hcl` (HCL)
+## Data-Type Reference: `hcl` 
 
 > HashiCorp Configuration Language (HCL)
 
@@ -22,8 +22,6 @@ primitive. Which means, while it is a recommended builtin which you should
 expect in most deployments of _murex_, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
-
-
 
 ### Examples
 
@@ -78,7 +76,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
     Works with HCL maps
 * `ReadNotIndex()`
     Works against all properties in HCL
-* `Unmashal()`
+* `Unmarshal()`
     Supported
 * `WriteArray()`
     Works with HCL arrays
@@ -97,13 +95,13 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   Alters the data type of the previous function without altering it's output
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`json` (JSON)](../types/json.md):
+* [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/`yaml` (YAML)](../types/yaml.md):
+* [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [types/jsonl](../types/jsonl.md):
   

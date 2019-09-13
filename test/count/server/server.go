@@ -13,7 +13,7 @@ import (
 var (
 	counter  int32
 	listen   = "localhost:38000"
-	responce = []byte{'O', 'K'}
+	response = []byte{'O', 'K'}
 	exit     chan bool
 )
 
@@ -70,9 +70,9 @@ func count(w http.ResponseWriter, r *http.Request) {
 
 	atomic.AddInt32(&counter, int32(i))
 
-	_, err = w.Write(responce)
+	_, err = w.Write(response)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing responce: %s\n", err)
+		fmt.Fprintf(os.Stderr, "Error writing response: %s\n", err)
 	}
 }
 
@@ -85,7 +85,7 @@ func total(w http.ResponseWriter, human bool) {
 
 	_, err := w.Write([]byte(s))
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing responce: %s\n", err)
+		fmt.Fprintf(os.Stderr, "Error writing response: %s\n", err)
 	}
 
 	exit <- true

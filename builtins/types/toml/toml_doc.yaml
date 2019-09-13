@@ -1,6 +1,6 @@
 - DocumentID: toml
   Title: >-
-    `toml` (TOML)
+    `toml` 
   CategoryID: types
   Summary: >-
     Tom's Obvious, Minimal Language (TOML)
@@ -54,7 +54,7 @@
     ReadIndex(): Works against all properties in TOML
     ReadNotIndex(): Works against all properties in TOML
     Marshal(): Supported
-    Unmashal(): Supported
+    Unmarshal(): Supported
   Detail: |-
   Associations:
     Mimes:

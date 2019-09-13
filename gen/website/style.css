@@ -48,7 +48,7 @@ blockquote {
     background: #d6dee9;
     border-radius: 5px;
     border-right-width: 10px;
-    width: calc(100%-10px);
+    /*width: calc(100%-10px);*/
 }
 
 code {
@@ -85,21 +85,14 @@ pre {
     padding-top: 10px;
     padding-bottom: 10px;
     overflow: auto;
-    /*max-height: 500px;*/
     text-shadow: none;
-    width: calc(100%-10px);
+    /*width: calc(100%-10px);*/
 }
-
-/*ul {
-    width: auto;
-}*/
 
 img { max-width: 100%; }
 
 #side-bar {
     position: fixed;
-    /*position: -webkit-sticky; /* Safari */
-    /*position: sticky;*/
     width: 180px;
     top: 0px;
     left: 0px;
@@ -110,12 +103,10 @@ img { max-width: 100%; }
 
 #document {
     position: relative;
-    /*position: absolute;*/
     /*top: 0px;
     left: 200px;*/
     padding-left: 200px;
-    width: auto; /*calc(100%-200px);*/
-    /*max-width: calc(100%-200px);*/
+    width: auto;
 }
 
 .side-bar-title {
@@ -150,7 +141,11 @@ a.side-bar:active, a.side-bar:hover {
     padding: 5px;
     border-radius: 5px;
     text-align: center;
-    width: calc(100%-10px);
+    /*width: calc(100%-10px);*/
+    
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: 0px;
 }
 
 #commit-hash-short {

@@ -13,64 +13,50 @@ func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
 	//p.NamedPipeErr = "err"
 
-	if len(p.Parameters.Tokens) > 0 {
-		var i int
-		end := 2
+	for i := range p.Parameters.Tokens {
+		// nil tokens can sometimes get popped into the token array. This is really a "bug" of the parser where
+		// speed is valued over correctness. However it does mean we need to ignore them here
+		if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeNil {
+			continue
+		}
 
-		for i < end {
+		if p.Parameters.Tokens[i][0].Type != parameters.TokenTypeNamedPipe || !rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) {
+			break
+		}
 
-			if i == len(p.Parameters.Tokens) {
-				break
-			}
+		name := p.Parameters.Tokens[i][0].Key[1 : len(p.Parameters.Tokens[i][0].Key)-1]
 
-			if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeNil {
-				i++
-				end++
-				continue
-			}
-
-			if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeValue && rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) {
-				name := p.Parameters.Tokens[i][0].Key[1 : len(p.Parameters.Tokens[i][0].Key)-1]
-
-				switch {
-				case len(name) > 5 && name[:5] == "test_":
-					if p.NamedPipeTest == "" {
-						testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
-						if err == nil && testEnabled.(bool) {
-							p.NamedPipeTest = name[5:]
-						}
-					} else {
-						p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined test multiple times."))
-					}
-
-				case len(name) > 6 && name[:6] == "state_":
-					if p.NamedPipeTest == "" {
-						testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
-						if err == nil && testEnabled.(bool) {
-							p.testState = append(p.testState, name[6:])
-						}
-					}
-
-				case name[0] == '!':
-					if p.NamedPipeErr == "" {
-						p.NamedPipeErr = name[1:]
-					} else {
-						p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stderr multiple times."))
-					}
-
-				default:
-					if p.NamedPipeOut == "" {
-						p.NamedPipeOut = name
-					} else {
-						p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stdout multiple times."))
-					}
+		switch {
+		case len(name) > 5 && name[:5] == "test_":
+			if p.NamedPipeTest == "" {
+				testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
+				if err == nil && testEnabled.(bool) {
+					p.NamedPipeTest = name[5:]
 				}
-
-				// Instead of deleting it, lets mark it as nil.
-				p.Parameters.Tokens[i][0].Type = parameters.TokenTypeNil
-				i++
 			} else {
-				break
+				p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined test multiple times."))
+			}
+
+		case len(name) > 6 && name[:6] == "state_":
+			if p.NamedPipeTest == "" {
+				testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
+				if err == nil && testEnabled.(bool) {
+					p.testState = append(p.testState, name[6:])
+				}
+			}
+
+		case name[0] == '!':
+			if p.NamedPipeErr == "" {
+				p.NamedPipeErr = name[1:]
+			} else {
+				p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stderr multiple times."))
+			}
+
+		default:
+			if p.NamedPipeOut == "" {
+				p.NamedPipeOut = name
+			} else {
+				p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stdout multiple times."))
 			}
 		}
 	}

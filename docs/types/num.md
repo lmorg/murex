@@ -12,14 +12,6 @@ numbers.
 > Unless you specifically know you only want whole numbers, it is recommended
 > that you use this as your default numeric data-type as opposed to `int`.
 
-
-
-### Default Associations
-
-
-
-
-
 ### Supported Hooks
 
 * `Marshal()`
@@ -41,7 +33,7 @@ numbers.
   Alters the data type of the previous function without altering it's output
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`int` (integer)](../types/int.md):
+* [types/`int` ](../types/int.md):
   Whole number (primitive)
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

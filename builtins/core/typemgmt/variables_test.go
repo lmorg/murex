@@ -18,18 +18,20 @@ type Test struct {
 	Fail     bool
 }
 
+const envVarPrefix = "MUREX_TEST_VAR_"
+
 func VariableTests(tests []Test, t *testing.T) {
 	// these tests don't support multiple counts
-	if os.Getenv("MUREX_TEST_"+t.Name()) == "1" {
+	if os.Getenv(envVarPrefix+t.Name()) == "1" {
 		return
 	}
 
-	err := os.Setenv("MUREX_TEST_"+t.Name(), "1")
+	err := os.Setenv(envVarPrefix+t.Name(), "1")
 	if err != nil {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
 	}
 
-	count.Tests(t, len(tests), "VariableTests")
+	count.Tests(t, len(tests)*2, "VariableTests")
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()
@@ -71,16 +73,16 @@ func VariableTests(tests []Test, t *testing.T) {
 
 func UnSetTests(unsetter string, tests []string, t *testing.T) {
 	// these tests don't support multiple counts
-	if os.Getenv("MUREX_TEST_"+t.Name()) == "1" {
+	if os.Getenv(envVarPrefix+t.Name()) == "1" {
 		return
 	}
 
-	err := os.Setenv("MUREX_TEST_"+t.Name(), "1")
+	err := os.Setenv(envVarPrefix+t.Name(), "1")
 	if err != nil {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
 	}
 
-	count.Tests(t, len(tests), "UnSetTests")
+	count.Tests(t, len(tests)*2, "UnSetTests")
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()
@@ -103,7 +105,6 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 		dataType := fork.Variables.GetDataType(tests[i])
 
 		if value != "" || dataType != "" || len(b) > 0 {
-
 			t.Errorf("Test %d failed:", i)
 			t.Logf("  unsetter block: %s", block)
 			t.Logf("  variable name:  %s", tests[i])

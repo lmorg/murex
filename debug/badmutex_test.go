@@ -21,7 +21,7 @@ func TestBadMutex(t *testing.T) {
 	m.Lock()
 
 	go func() {
-		time.Sleep(2 * time.Second)
+		time.Sleep(500 * time.Millisecond)
 		m.Unlock()
 		if !exited {
 			t.Error("BadMutex caused a locking condition. This should not happen")
@@ -44,7 +44,7 @@ func TestGoodMutex(t *testing.T) {
 	m.Lock()
 
 	go func() {
-		time.Sleep(2 * time.Second)
+		time.Sleep(500 * time.Millisecond)
 		m.Unlock()
 		if exited {
 			t.Error("Mutex did not cause a locking condition. The test logic has failed")

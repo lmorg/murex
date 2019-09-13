@@ -7,7 +7,7 @@ import (
 )
 
 func TestExportFunctionPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "export: f=b",
 			Name:     "f",
@@ -76,11 +76,26 @@ func TestExportFunctionPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!export", unset, t)
 }
 
 func TestExportMethodPositive(t *testing.T) {
-	tests := []Test{
+	set := []Test{
 		{
 			Block:    "out: b -> export: f",
 			Name:     "f",
@@ -149,7 +164,22 @@ func TestExportMethodPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(tests, t)
+	VariableTests(set, t)
+
+	unset := []string{
+		"f",
+		"foo",
+		"_",
+		"_b",
+		"f_",
+		"f_b",
+		"foo_b",
+		"f_bar",
+		"foo_bar",
+		"foobar",
+	}
+
+	UnSetTests("!export", unset, t)
 }
 
 func TestExportFunctionNegative(t *testing.T) {
@@ -208,21 +238,4 @@ func TestExportMethodNegative(t *testing.T) {
 	}
 
 	VariableTests(tests, t)
-}
-
-func TestUnExport(t *testing.T) {
-	tests := []string{
-		"f",
-		"foo",
-		"_",
-		"_b",
-		"f_",
-		"f_b",
-		"foo_b",
-		"f_bar",
-		"foo_bar",
-		"foobar",
-	}
-
-	UnSetTests("!export", tests, t)
 }

@@ -1,6 +1,6 @@
 # _murex_ Shell Guide
 
-## Data-Type Reference: `int` (integer)
+## Data-Type Reference: `int` 
 
 > Whole number (primitive)
 
@@ -21,19 +21,11 @@ AMD64 or other 64bit built of _murex_ would see the range from
 > Unless you specifically know you only want whole numbers, it is recommended
 > that you use the default numeric data-type: `num`.
 
-
-
-### Default Associations
-
-
-
-
-
 ### Supported Hooks
 
 * `Marshal()`
     Supported
-* `Unmashal()`
+* `Unmarshal()`
     Supported
 
 ### See Also
