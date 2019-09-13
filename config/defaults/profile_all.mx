@@ -10,6 +10,11 @@ func aliases {
 	} -> cast str
 }
 
+test define-unit public aliases {
+    "StdoutRegex": "([ a-z]{10} => .*?\n)+",
+    "StdoutType":  "str"
+}
+
 autocomplete set cd { [{
     "IncDirs": true
 }] }
@@ -50,7 +55,14 @@ private datatypes {
 test define-unit private datatypes {
     "StdoutRegex": "[a-z]+",
     "StdoutType":  "str",
-    "StdoutBlock": ({ -> len })
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    })
 }
 
 autocomplete set cast { [{
@@ -229,35 +241,35 @@ autocomplete set debug { [{
     "Flags": ["on", "off"]
 }] }
 
-func progress {
-    # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
+#func progress {
+#    # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
+#
+#    if { = `+"`${os}`==`linux`"+` } then {
+#        params -> [ 1 ] -> set pid
+#        
+#        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
+#            trypipe <!null> {
+#                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
+#                readlink: /proc/$pid/fd/$fd -> set file
+#                du -b $file -> [ :0 ] -> set int size
+#                if { = size > 0 } then {
+#                    = ($pos/$size)*100 -> set int percent
+#                    out "$percent% ($pos/$size) $file"
+#                }
+#            }
+#        }
+#    }
+#}
 
-    if { = `+"`${os}`==`linux`"+` } then {
-        params -> [ 1 ] -> set pid
-        
-        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
-            trypipe <!null> {
-                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
-                readlink: /proc/$pid/fd/$fd -> set file
-                du -b $file -> [ :0 ] -> set int size
-                if { = size > 0 } then {
-                    = ($pos/$size)*100 -> set int percent
-                    out "$percent% ($pos/$size) $file"
-                }
-            }
-        }
-    }
-}
-
-autocomplete set progress {
-    [{
-        "DynamicDesc": ({
-            ps -A -o pid,cmd --no-headers -> set ps
-            map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
-        }),
-        "ListView": true
-    }]
-}
+#autocomplete set progress {
+#    [{
+#        "DynamicDesc": ({
+#            ps -A -o pid,cmd --no-headers -> set ps
+#            map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+#        }),
+#        "ListView": true
+#    }]
+#}
 
 private fid.list.all {
     set json fids=([])

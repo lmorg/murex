@@ -2,7 +2,7 @@ package lang_test
 
 import (
 	"encoding/json"
-	"strconv"
+	"fmt"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -34,7 +34,7 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 			fileRef := &ref.File{
 				Source: &ref.Source{
 					Filename: "foobar.mx",
-					Module:   "foobar/mod-" + strconv.Itoa(int(atomic.AddInt32(&uniq, 1))),
+					Module:   fmt.Sprintf("foobar/mod-%d-%d-%d", atomic.AddInt32(&uniq, 1), i, j),
 					DateTime: time.Now(),
 				},
 			}

@@ -69,7 +69,10 @@ private go-package {
 autocomplete set go { [{
     "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
     "FlagValues": {
-        "run": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
+        "run": [{
+            "Dynamic": ({ go-package }),
+            "AutoBranch": true
+        }],
         "test": [{
             "Dynamic": ({ go-package }),
             "AutoBranch": true,
