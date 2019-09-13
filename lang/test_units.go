@@ -7,6 +7,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/lmorg/murex/utils"
+
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -153,8 +155,39 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// run any initializing code...if defined
 	if len(plan.PreBlock) > 0 {
-		fork.Name = "(unit test PreBlock)"
-		preExitNum, preForkErr = fork.Execute([]rune(plan.PreBlock))
+		preFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_CREATE_STDOUT | F_CREATE_STDERR)
+		preFork.FileRef = fileRef
+		preFork.Name = "(unit test PreBlock)"
+		preExitNum, preForkErr = preFork.Execute([]rune(plan.PreBlock))
+
+		if preForkErr != nil {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("PreBlock failed to compile: %s", preForkErr),
+			})
+		}
+
+		if preExitNum != 0 {
+			//passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestInfo,
+				Message:    fmt.Sprintf("PreBlock exit num non-zero: %d", preExitNum),
+			})
+		}
+
+		utReadAllOut(preFork.Stdout, results, plan, fileRef, "PreBlock", function, &passed)
+		utReadAllErr(preFork.Stderr, results, plan, fileRef, "PreBlock", function, &passed)
 	}
 
 	// run function
@@ -173,10 +206,40 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 
 	// run any clear down code...if defined
-	fork.IsMethod = false
 	if len(plan.PostBlock) > 0 {
-		fork.Name = "(unit test PostBlock)"
-		postExitNum, postForkErr = fork.Execute([]rune(plan.PostBlock))
+		postFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_CREATE_STDOUT | F_CREATE_STDERR)
+		postFork.Name = "(unit test PostBlock)"
+		postFork.FileRef = fileRef
+		postExitNum, postForkErr = postFork.Execute([]rune(plan.PostBlock))
+
+		if postForkErr != nil {
+			passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestFailed,
+				Message:    fmt.Sprintf("PostBlock failed to compile: %s", postForkErr),
+			})
+		}
+
+		if postExitNum != 0 {
+			//passed = false
+			results.Add(&TestResult{
+				ColNumber:  fileRef.Column,
+				LineNumber: fileRef.Line,
+				Exec:       function,
+				Params:     plan.Parameters,
+				TestName:   testName,
+				Status:     TestInfo,
+				Message:    fmt.Sprintf("PostBlock exit num non-zero: %d", postExitNum),
+			})
+		}
+
+		utReadAllOut(postFork.Stdout, results, plan, fileRef, "PostBlock", function, &passed)
+		utReadAllErr(postFork.Stderr, results, plan, fileRef, "PostBlock", function, &passed)
 	}
 
 	// stdout
@@ -202,104 +265,38 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// stdout block
 
 	if plan.StdoutBlock != "" {
-		ofork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-		ofork.IsMethod = true
-		ofork.Name = "(unit test StdoutBlock)"
-		ofork.Stdin.SetDataType(stdoutType)
-		_, err = ofork.Stdin.Write(bOut)
+		oFork := ShellProcess.Fork(fStdin | F_FUNCTION | F_CREATE_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
+		oFork.IsMethod = true
+		oFork.Name = "(unit test StdoutBlock)"
+		oFork.Stdin.SetDataType(stdoutType)
+		_, err = oFork.Stdin.Write(bOut)
 		if err != nil {
 			fmt.Println(err)
 			return false
 		}
-		oblkExitNum, oblkErr = ofork.Execute([]rune(plan.StdoutBlock))
-		oblkStdout, err = ofork.Stdout.ReadAll()
-		if err != nil {
-			fmt.Println(err)
-		}
-		oblkStderr, err = ofork.Stderr.ReadAll()
-		if err != nil {
-			fmt.Println(err)
-		}
+		oblkExitNum, oblkErr = oFork.Execute([]rune(plan.StdoutBlock))
+		utReadAllOut(oFork.Stdout, results, plan, fileRef, "StdoutBlock", function, &passed)
+		utReadAllErr(oFork.Stderr, results, plan, fileRef, "StdoutBlock", function, &passed)
 	}
 
 	// stderr block
 
 	if plan.StderrBlock != "" {
-		efork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-		efork.IsMethod = true
-		efork.Name = "(unit test StderrBlock)"
-		efork.Stderr.SetDataType(stderrType)
-		_, err = efork.Stdin.Write(bErr)
+		eFork := ShellProcess.Fork(F_FUNCTION | F_CREATE_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
+		eFork.IsMethod = true
+		eFork.Name = "(unit test StderrBlock)"
+		eFork.Stderr.SetDataType(stderrType)
+		_, err = eFork.Stdin.Write(bErr)
 		if err != nil {
 			fmt.Println(err)
 			return false
 		}
-		eblkExitNum, eblkErr = efork.Execute([]rune(plan.StderrBlock))
-		eblkStdout, err = efork.Stdout.ReadAll()
-		if err != nil {
-			fmt.Println(err)
-		}
-		eblkStderr, err = efork.Stderr.ReadAll()
-		if err != nil {
-			fmt.Println(err)
-		}
+		eblkExitNum, eblkErr = eFork.Execute([]rune(plan.StderrBlock))
+		utReadAllOut(eFork.Stdout, results, plan, fileRef, "StderrBlock", function, &passed)
+		utReadAllErr(eFork.Stderr, results, plan, fileRef, "StderrBlock", function, &passed)
 	}
 
-	// test fork errors
-
-	if preForkErr != nil {
-		passed = false
-		results.Add(&TestResult{
-			ColNumber:  fileRef.Column,
-			LineNumber: fileRef.Line,
-			Exec:       function,
-			Params:     plan.Parameters,
-			TestName:   testName,
-			Status:     TestFailed,
-			Message:    fmt.Sprintf("PreBlock failed to compile: %s", preForkErr),
-		})
-	}
-
-	if postForkErr != nil {
-		passed = false
-		results.Add(&TestResult{
-			ColNumber:  fileRef.Column,
-			LineNumber: fileRef.Line,
-			Exec:       function,
-			Params:     plan.Parameters,
-			TestName:   testName,
-			Status:     TestFailed,
-			Message:    fmt.Sprintf("PostBlock failed to compile: %s", postForkErr),
-		})
-	}
-
-	// test exit numbers
-
-	if preExitNum != 0 {
-		//passed = false
-		results.Add(&TestResult{
-			ColNumber:  fileRef.Column,
-			LineNumber: fileRef.Line,
-			Exec:       function,
-			Params:     plan.Parameters,
-			TestName:   testName,
-			Status:     TestInfo,
-			Message:    fmt.Sprintf("PreBlock exit num non-zero: `%d`", preExitNum),
-		})
-	}
-
-	if postExitNum != 0 {
-		//passed = false
-		results.Add(&TestResult{
-			ColNumber:  fileRef.Column,
-			LineNumber: fileRef.Line,
-			Exec:       function,
-			Params:     plan.Parameters,
-			TestName:   testName,
-			Status:     TestInfo,
-			Message:    fmt.Sprintf("PostBlock exit num non-zero: `%d`", postExitNum),
-		})
-	}
+	// test exit number
 
 	if testExitNum != plan.ExitNum {
 		passed = false
@@ -310,7 +307,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("ExitNum mismatch: exp `%d` act `%d`", plan.ExitNum, testExitNum),
+			Message:    fmt.Sprintf("ExitNum mismatch: exp %d act %d", plan.ExitNum, testExitNum),
 		})
 	}
 
@@ -325,7 +322,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Unexpected stdout: `%s`", stdout),
+			Message:    fmt.Sprintf("Unexpected stdout: '%s'", stdout),
 		})
 	}
 
@@ -351,7 +348,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StdoutRegex did not match stdout: `%s`", stdout),
+				Message:    fmt.Sprintf("StdoutRegex did not match stdout: '%s'", stdout),
 			})
 		}
 	}
@@ -366,7 +363,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StdoutBlock exit num non-zero: `%d`", oblkExitNum),
+				Message:    fmt.Sprintf("StdoutBlock exit num non-zero: %d", oblkExitNum),
 			})
 		}
 		if oblkErr != nil {
@@ -401,7 +398,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestInfo,
-				Message:    fmt.Sprintf("StdoutBlock comment: %s", oblkStdout),
+				Message:    fmt.Sprintf("StdoutBlock comment: %s", utils.CrLfTrim(oblkStdout)),
 			})
 		}
 	}
@@ -415,7 +412,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Stdout data-type mismatch: exp `%s` act `%s`", plan.StdoutType, fork.Stdout.GetDataType()),
+			Message:    fmt.Sprintf("Stdout data-type mismatch: exp '%s' act '%s'", plan.StdoutType, fork.Stdout.GetDataType()),
 		})
 	}
 
@@ -430,7 +427,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Unexpected stderr: `%s`", stderr),
+			Message:    fmt.Sprintf("Unexpected stderr: '%s'", stderr),
 		})
 	}
 
@@ -456,7 +453,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StderrRegex did not match stderr: `%s`", stderr),
+				Message:    fmt.Sprintf("StderrRegex did not match stderr: '%s'", stderr),
 			})
 		}
 	}
@@ -471,7 +468,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestFailed,
-				Message:    fmt.Sprintf("StderrBlock exit num non-zero: `%d`", eblkExitNum),
+				Message:    fmt.Sprintf("StderrBlock exit num non-zero: %d", eblkExitNum),
 			})
 		}
 		if eblkErr != nil {
@@ -506,7 +503,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 				Params:     plan.Parameters,
 				TestName:   testName,
 				Status:     TestInfo,
-				Message:    fmt.Sprintf("StderrBlock comment: %s", eblkStdout),
+				Message:    fmt.Sprintf("StderrBlock comment: %s", utils.CrLfTrim(eblkStdout)),
 			})
 		}
 	}
@@ -520,7 +517,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("Stderr data-type mismatch: exp `%s` act `%s`", plan.StderrType, fork.Stderr.GetDataType()),
+			Message:    fmt.Sprintf("Stderr data-type mismatch: exp '%s' act '%s'", plan.StderrType, fork.Stderr.GetDataType()),
 		})
 	}
 
@@ -534,7 +531,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestPassed,
-			//Message:    "",
+			Message:    testPassedMessage,
 		})
 	}
 

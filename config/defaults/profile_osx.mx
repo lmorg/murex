@@ -11,6 +11,7 @@ private kill-autocomplete {
     test define ps {
         "ExitNum": 0
     }
+    
     test define map {
         "OutRegexp": (\{(".*?":".*?",?)+\})
     }
