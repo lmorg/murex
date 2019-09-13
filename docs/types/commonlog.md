@@ -9,14 +9,6 @@
 Apache httpd supports a few different log formats. This _murex_ type is for
 parsing the "common" log format.
 
-
-
-### Default Associations
-
-
-
-
-
 ### Detail
 
 The code here is very rudimentary. If you have large log files or need more complex

@@ -14,8 +14,6 @@ The following description is taken from [jsonlines.org](http://jsonlines.org/):
 > It's also a flexible format for passing messages between cooperating
 > processes.
 
-
-
 ### Examples
 
 Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
@@ -25,19 +23,91 @@ Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/exam
     {"name": "May", "wins": []}
     {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
 
+### Detail
+
+#### Concatenated JSON
+
+Technically the `jsonl` Marshal() method supports Concatenated JSON, as
+described on [Wikipedia]():
+
+> Concatenated JSON streaming allows the sender to simply write each JSON
+> object into the stream with no delimiters. It relies on the receiver using
+> a parser that can recognize and emit each JSON object as the terminating
+> character is parsed. Concatenated JSON isn't a new format, it's simply a
+> name for streaming multiple JSON objects without any delimiters.
+>
+> The advantage of this format is that it can handle JSON objects that have
+> been formatted with embedded newline characters, e.g., pretty-printed for
+> human readability. For example, these two inputs are both valid and produce
+> the same output:
+>
+> **Single line concatenated JSON**
+>
+>     {"some":"thing\n"}{"may":{"include":"nested","objects":["and","arrays"]}}
+>
+> **Multi-line concatenated JSON**
+>
+>     {
+>       "some": "thing\n"
+>     }
+>     {
+>       "may": {
+>         "include": "nested",
+>         "objects": [
+>           "and",
+>           "arrays"
+>         ]
+>       }
+>     }
+
+...however in _murex_'s case, only single line concatenated JSON files
+(example 1) are supported; and that is only supported to cover some edge
+cases when writing JSON lines and a new line character isn't included. The
+primary example might be when generating JSON lines from inside a 'for' loop.
+
+This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
+
+#### More information
+
+This format is sometimes also referred to as LDJSON and NDJSON, as described
+on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
+
+_murex_'s [`json` data-type document](json.md) also describes some use
+cases for JSON lines.
+
 ### Default Associations
 
 * **Extension**: `jsonl`
 * **Extension**: `jsonlines`
 * **Extension**: `murex_history`
+* **MIME**: `application/json-lines`
+* **MIME**: `application/json-seq`
 * **MIME**: `application/jsonl`
 * **MIME**: `application/jsonlines`
+* **MIME**: `application/jsonseq`
+* **MIME**: `application/ldjson`
+* **MIME**: `application/ndjson`
+* **MIME**: `application/x-json-lines`
+* **MIME**: `application/x-json-seq`
 * **MIME**: `application/x-jsonl`
 * **MIME**: `application/x-jsonlines`
+* **MIME**: `application/x-jsonseq`
+* **MIME**: `application/x-ldjson`
+* **MIME**: `application/x-ndjson`
+* **MIME**: `text/json-lines`
+* **MIME**: `text/json-seq`
 * **MIME**: `text/jsonl`
 * **MIME**: `text/jsonlines`
+* **MIME**: `text/jsonseq`
+* **MIME**: `text/ldjson`
+* **MIME**: `text/ndjson`
+* **MIME**: `text/x-json-lines`
+* **MIME**: `text/x-json-seq`
 * **MIME**: `text/x-jsonl`
 * **MIME**: `text/x-jsonlines`
+* **MIME**: `text/x-jsonseq`
+* **MIME**: `text/x-ldjson`
+* **MIME**: `text/x-ndjson`
 
 
 ### Supported Hooks

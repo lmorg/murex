@@ -33,8 +33,8 @@ generally following a strictly typed design. Examples of this are:
 
 * Data can be case into other data-types using the `cast` command:
 
-      » echo '{ "key": "value" }' -> cast json 
-      
+        » echo '{ "key": "value" }' -> cast json 
+        
 ### Definitions
 
 For clarity, it is worth explaining a couple of terms:

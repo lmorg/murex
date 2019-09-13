@@ -44,14 +44,6 @@ Any block quoted by this method will be converted to the following valid JSON:
         "ExampleFunction": "\n    out: \"This is an example _murex_ function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
     }
 
-
-
-### Default Associations
-
-
-
-
-
 ### See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
