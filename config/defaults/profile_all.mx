@@ -15,9 +15,10 @@ test define-unit public aliases {
         global ALIAS_UNIT_TEST=${rand: int 9999999999}
         alias $ALIAS_UNIT_TEST=example param1 param2 param3
     }),
-    "StdoutRegex": "([ a-z]{10} => .*?\n)+",
+    "StdoutRegex": "([- _0-9a-zA-Z]+ => .*?\n)+",
     "StdoutType": "str",
     "PostBlock": ({
+        !alias $ALIAS_UNIT_TEST
         !global ALIAS_UNIT_TEST
     })
 }
@@ -205,6 +206,13 @@ autocomplete set git { [{
         }],
         "merge": [{
             "Dynamic": ({ git-branch })
+        }],
+        "commit": [{
+            "Flags": ["-a", "-m", "--amend"],
+            "FlagValues": {
+                "--amend": [{ "AnyValue": true }]
+            },
+            "AllowMultiple": true
         }]
     }
 }] }
@@ -235,14 +243,12 @@ autocomplete set terraform { [{
     }
 }] }
 
-autocomplete set gopass { [
-    {
-        "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
-        "AllowMultiple": true,
-        "Dynamic": "{ exec: @{params} --generate-bash-completion }",
-        "AutoBranch": true
-    }
-] }
+autocomplete set gopass { [{
+    "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
+    "AllowMultiple": true,
+    "Dynamic": "{ exec: @{params} --generate-bash-completion }",
+    "AutoBranch": true
+}] }
 
 autocomplete set debug { [{
     "Flags": ["on", "off"]

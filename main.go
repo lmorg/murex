@@ -40,7 +40,7 @@ func main() {
 		if err := lang.ShellProcess.Config.Set("test", "enabled", true); err != nil {
 			panic(err)
 		}
-		if err := lang.ShellProcess.Config.Set("test", "auto-report", true); err != nil {
+		if err := lang.ShellProcess.Config.Set("test", "auto-report", false); err != nil {
 			panic(err)
 		}
 		if err := lang.ShellProcess.Config.Set("test", "verbose", true); err != nil {
@@ -48,7 +48,10 @@ func main() {
 		}
 
 		// run unit tests
-		if !lang.GlobalUnitTests.Run(lang.ShellProcess, "*") {
+		passed := lang.GlobalUnitTests.Run(lang.ShellProcess, "*")
+		lang.ShellProcess.Tests.WriteResults(lang.ShellProcess.Config, lang.ShellProcess.Stdout)
+
+		if !passed {
 			os.Exit(1)
 		}
 

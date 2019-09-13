@@ -13,6 +13,8 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
+const testPassedMessage = "All test conditions were met"
+
 // Compare is the method which actually runs the individual test cases
 // to see if they pass or fail.
 func (tests *Tests) Compare(name string, p *Process) {
@@ -137,7 +139,7 @@ compare:
 
 	// if not failed, log a success result
 	if !failed {
-		tests.AddResult(test, p, TestPassed, "All test conditions were met")
+		tests.AddResult(test, p, TestPassed, testPassedMessage)
 	}
 }
 
