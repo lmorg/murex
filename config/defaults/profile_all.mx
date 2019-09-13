@@ -35,8 +35,22 @@ autocomplete set exec { [
     }
 ] }
 
+private get.datatypes {
+    runtime: --readarray -> format: str
+    runtime: --writearray -> format: str
+    runtime: --readmap -> format: str
+    runtime: --marshallers -> format: str
+    runtime: --unmarshallers -> format: str
+}
+
 private datatypes {
     get.datatypes -> sort -> uniq -> cast str
+}
+
+test define-unit private datatypes {
+    "StdoutRegex": "[a-z]+",
+    "StdoutType":  "str",
+    "StdoutBlock": ({ -> len })
 }
 
 autocomplete set cast { [{

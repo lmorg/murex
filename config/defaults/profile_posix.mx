@@ -82,11 +82,3 @@ autocomplete set go { [{
         "generate": [{ "IncFiles": true }]
     }
 }] }
-
-private get.datatypes {
-    runtime: --readarray -> format: str
-    runtime: --writearray -> format: str
-    runtime: --readmap -> format: str
-    runtime: --marshallers -> format: str
-    runtime: --unmarshallers -> format: str
-}

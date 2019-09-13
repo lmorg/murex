@@ -20,6 +20,13 @@ type Source struct {
 	source   []byte
 }
 
+// Equal checks two FileRef sources are the same
+func (s Source) Equal(source *Source) bool {
+	return s.Module == source.Module &&
+		s.Filename == source.Filename &&
+		s.DateTime.Equal(source.DateTime)
+}
+
 type history struct {
 	hist  []*Source
 	mutex sync.Mutex
