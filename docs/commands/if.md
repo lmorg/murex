@@ -63,9 +63,13 @@ Check if a file exists:
         out "File exists"
     }
     
-...or does not exist:
+...or does not exist (both ways are valid):
 
     !if { g somefile.txt } then {
+        out "File does not exist"
+    }
+    
+    if { g somefile.txt } else {
         out "File does not exist"
     }
 
@@ -76,6 +80,11 @@ let alone a single pipeline - as well as solitary commands as demonstrated in
 the examples above. However the conditional block does not output STDOUT nor
 STDERR to the rest of the pipeline so you don't have to worry about redirecting
 the output streams to `null`.
+
+If you require output from the conditional blocks STDOUT then you will need to
+use either a _murex_ named pipe to redirect the output, or test or debug flags
+(depending on your use case) if you only need to occasionally inspect the
+conditionals output.
 
 ### Synonyms
 
@@ -91,6 +100,8 @@ the output streams to `null`.
   Returns `true` or `false` depending on whether multiple conditions are met
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
+* [commands/`debug`](../commands/debug.md):
+  Debugging information
 * [commands/`false`](../commands/false.md):
   Returns a `false` value
 * [commands/`or`](../commands/or.md):
@@ -101,3 +112,5 @@ the output streams to `null`.
   Handles errors inside a block of code
 * [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+* [commands/test](../commands/test.md):
+  

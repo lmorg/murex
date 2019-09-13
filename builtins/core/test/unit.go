@@ -42,7 +42,7 @@ func testUnitRun(p *lang.Process) error {
 		return err
 	}
 
-	if !lang.GlobalUnitTests.Run(p.Tests, function) {
+	if !lang.GlobalUnitTests.Run(p, function) {
 		p.ExitNum = 1
 	}
 

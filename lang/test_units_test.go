@@ -25,6 +25,7 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 	count.Tests(t, len(plans)*2, "testRunTest")
 
 	lang.InitEnv()
+	lang.ShellProcess.Config.Set("test", "auto-report", false)
 
 	var pubPriv string
 
@@ -51,7 +52,7 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 			ut := new(lang.UnitTests)
 			ut.Add(plans[i].Function, &plans[i].UTP, fileRef)
 
-			if ut.Run(lang.ShellProcess.Tests, plans[i].Function) != plans[i].Passed {
+			if ut.Run(lang.ShellProcess, plans[i].Function) != plans[i].Passed {
 				if plans[i].Passed {
 					t.Errorf("Unit test %s %d failed", pubPriv, i)
 					b, err := json.MarshalIndent(lang.ShellProcess.Tests.Results.Dump(), "", "    ")

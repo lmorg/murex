@@ -14,6 +14,7 @@ func TestRunTestNotATest(t *testing.T) {
 	count.Tests(t, 1, "TestRunTestNotATest")
 
 	lang.InitEnv()
+	lang.ShellProcess.Config.Set("test", "auto-report", false)
 
 	fileRef := &ref.File{
 		Source: &ref.Source{
@@ -32,7 +33,7 @@ func TestRunTestNotATest(t *testing.T) {
 	ut := new(lang.UnitTests)
 	ut.Add("random_string_that_shouldnt_exist_kjhadgkjsdhgfksdahfgsadhjsdfjksadfhs", plan, fileRef)
 
-	if ut.Run(lang.ShellProcess.Tests, "foobar") {
+	if ut.Run(lang.ShellProcess, "foobar") {
 		t.Error("TestRunTestNotATest passed when expected to fail")
 	} else {
 		b, err := json.MarshalIndent(lang.ShellProcess.Tests.Results.Dump(), "", "    ")
@@ -47,6 +48,7 @@ func TestRunTestNotAFunction(t *testing.T) {
 	count.Tests(t, 1, "TestRunTestNotAFunction")
 
 	lang.InitEnv()
+	lang.ShellProcess.Config.Set("test", "auto-report", false)
 
 	fileRef := &ref.File{
 		Source: &ref.Source{
@@ -65,7 +67,7 @@ func TestRunTestNotAFunction(t *testing.T) {
 	ut := new(lang.UnitTests)
 	ut.Add("random_string_that_shouldnt_exist_kjhadgkjsdhgfksdahfgsadhjsdfjksadfhs", plan, fileRef)
 
-	if ut.Run(lang.ShellProcess.Tests, "random_string_that_shouldnt_exist_kjhadgkjsdhgfksdahfgsadhjsdfjksadfhs") {
+	if ut.Run(lang.ShellProcess, "random_string_that_shouldnt_exist_kjhadgkjsdhgfksdahfgsadhjsdfjksadfhs") {
 		t.Error("TestRunTestNotATest passed when expected to fail")
 	} else {
 		b, err := json.MarshalIndent(lang.ShellProcess.Tests.Results.Dump(), "", "    ")

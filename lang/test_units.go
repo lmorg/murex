@@ -47,7 +47,7 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 const testName = "unit test"
 
 // Run all unit tests against a specific murex function
-func (ut *UnitTests) Run(tests *Tests, function string) bool {
+func (ut *UnitTests) Run(p *Process, function string) bool {
 	ut.mutex.Lock()
 	utCopy := make([]*unitTest, len(ut.units))
 	copy(utCopy, ut.units)
@@ -60,22 +60,30 @@ func (ut *UnitTests) Run(tests *Tests, function string) bool {
 
 	for i := range utCopy {
 		if function == "*" || utCopy[i].Function == function {
-			passed = passed && runTest(tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, utCopy[i].Function)
+			passed = passed && runTest(p.Tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, utCopy[i].Function)
 			exists = true
 		}
 	}
 
-	if exists {
-		return passed
+	if !exists {
+		passed = false
+		p.Tests.Results.Add(&TestResult{
+			Exec:     function,
+			TestName: testName,
+			Status:   TestFailed,
+			Message:  fmt.Sprintf("No unit tests exist for: `%s`", function),
+		})
 	}
 
-	tests.Results.Add(&TestResult{
-		Exec:     function,
-		TestName: testName,
-		Status:   TestFailed,
-		Message:  fmt.Sprintf("No unit tests exist for: `%s`", function),
-	})
-	return false
+	v, err := p.Config.Get("test", "auto-report", "bool")
+	if err != nil {
+		v = true
+	}
+	if v.(bool) {
+		p.Tests.WriteResults(p.Config, p.Stdout)
+	}
+
+	return passed
 }
 
 // Dump the defined unit tests in a JSONable structure
