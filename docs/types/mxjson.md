@@ -44,14 +44,6 @@ Any block quoted by this method will be converted to the following valid JSON:
         "ExampleFunction": "\n    out: \"This is an example _murex_ function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
     }
 
-
-
-### Default Associations
-
-
-
-
-
 ### See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
@@ -70,17 +62,17 @@ Any block quoted by this method will be converted to the following valid JSON:
   Query or define _murex_ runtime settings
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`hcl` (HCL)](../types/hcl.md):
+* [types/`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [types/`json` (JSON)](../types/json.md):
+* [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/`toml` (TOML)](../types/toml.md):
+* [types/`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [types/`yaml` (YAML)](../types/yaml.md):
+* [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [types/jsonl](../types/jsonl.md):
   

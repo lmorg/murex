@@ -10,6 +10,19 @@ func aliases {
 	} -> cast str
 }
 
+test define-unit public aliases {
+    "PreBlock": ({
+        global ALIAS_UNIT_TEST=${rand: int 9999999999}
+        alias $ALIAS_UNIT_TEST=example param1 param2 param3
+    }),
+    "StdoutRegex": "([- _0-9a-zA-Z]+ => .*?\n)+",
+    "StdoutType": "str",
+    "PostBlock": ({
+        !alias $ALIAS_UNIT_TEST
+        !global ALIAS_UNIT_TEST
+    })
+}
+
 autocomplete set cd { [{
     "IncDirs": true
 }] }
@@ -35,8 +48,29 @@ autocomplete set exec { [
     }
 ] }
 
+private get.datatypes {
+    runtime: --readarray -> format: str
+    runtime: --writearray -> format: str
+    runtime: --readmap -> format: str
+    runtime: --marshallers -> format: str
+    runtime: --unmarshallers -> format: str
+}
+
 private datatypes {
     get.datatypes -> sort -> uniq -> cast str
+}
+
+test define-unit private datatypes {
+    "StdoutRegex": "[a-z]+",
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    })
 }
 
 autocomplete set cast { [{
@@ -172,6 +206,13 @@ autocomplete set git { [{
         }],
         "merge": [{
             "Dynamic": ({ git-branch })
+        }],
+        "commit": [{
+            "Flags": ["-a", "-m", "--amend"],
+            "FlagValues": {
+                "--amend": [{ "AnyValue": true }]
+            },
+            "AllowMultiple": true
         }]
     }
 }] }
@@ -202,48 +243,46 @@ autocomplete set terraform { [{
     }
 }] }
 
-autocomplete set gopass { [
-    {
-        "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
-        "AllowMultiple": true,
-        "Dynamic": "{ exec: @{params} --generate-bash-completion }",
-        "AutoBranch": true
-    }
-] }
+autocomplete set gopass { [{
+    "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
+    "AllowMultiple": true,
+    "Dynamic": "{ exec: @{params} --generate-bash-completion }",
+    "AutoBranch": true
+}] }
 
 autocomplete set debug { [{
     "Flags": ["on", "off"]
 }] }
 
-func progress {
-    # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
+#func progress {
+#    # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
+#
+#    if { = `+"`${os}`==`linux`"+` } then {
+#        params -> [ 1 ] -> set pid
+#        
+#        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
+#            trypipe <!null> {
+#                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
+#                readlink: /proc/$pid/fd/$fd -> set file
+#                du -b $file -> [ :0 ] -> set int size
+#                if { = size > 0 } then {
+#                    = ($pos/$size)*100 -> set int percent
+#                    out "$percent% ($pos/$size) $file"
+#                }
+#            }
+#        }
+#    }
+#}
 
-    if { = `+"`${os}`==`linux`"+` } then {
-        params -> [ 1 ] -> set pid
-        
-        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
-            trypipe <!null> {
-                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
-                readlink: /proc/$pid/fd/$fd -> set file
-                du -b $file -> [ :0 ] -> set int size
-                if { = size > 0 } then {
-                    = ($pos/$size)*100 -> set int percent
-                    out "$percent% ($pos/$size) $file"
-                }
-            }
-        }
-    }
-}
-
-autocomplete set progress {
-    [{
-        "DynamicDesc": ({
-            ps -A -o pid,cmd --no-headers -> set ps
-            map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
-        }),
-        "ListView": true
-    }]
-}
+#autocomplete set progress {
+#    [{
+#        "DynamicDesc": ({
+#            ps -A -o pid,cmd --no-headers -> set ps
+#            map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+#        }),
+#        "ListView": true
+#    }]
+#}
 
 private fid.list.all {
     set json fids=([])

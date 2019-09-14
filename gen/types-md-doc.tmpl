@@ -6,15 +6,19 @@
 
 ### Description
 
-{{ md .Description }}
+{{ md .Description }}{{ if .Usage }}
 
-{{ if .Usage }}### Usage
+### Usage
 
 {{ md .Usage }}{{ end }}{{ if .Examples }}
 
 ### Examples
 
-{{ md .Examples }}{{ end }}{{ if .Associations }}
+{{ md .Examples }}{{ end }}{{ if .Detail }}
+
+### Detail
+
+{{ md (include .Detail) }}{{ end }}{{ if (or .Associations.Extensions .Associations.Mimes) }}
 
 ### Default Associations
 
@@ -22,11 +26,7 @@
 {{ end }}* **Extension**: `{{ md . }}`{{ end }}
 {{ range $i,$a := .Associations.Mimes }}{{ if gt $i 0 }}
 {{ end }}* **MIME**: `{{ md . }}`{{ end }}
-{{ end }}{{ if .Detail }}
-
-### Detail
-
-{{ md (include .Detail) }}{{ end }}{{ if .Hooks }}
+{{ end }}{{ if .Hooks }}
 
 ### Supported Hooks
 

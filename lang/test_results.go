@@ -103,6 +103,8 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return nil
 	}
 
+	//count.Tests(nil, tests.Results.Len(), "*Tests.WriteResults")
+
 	reportType, err := config.Get("test", "report-format", types.String)
 	if err != nil {
 		return err

@@ -33,8 +33,8 @@ generally following a strictly typed design. Examples of this are:
 
 * Data can be case into other data-types using the `cast` command:
 
-      » echo '{ "key": "value" }' -> cast json 
-      
+        » echo '{ "key": "value" }' -> cast json 
+        
 ### Definitions
 
 For clarity, it is worth explaining a couple of terms:
@@ -64,19 +64,23 @@ details about specific hooks.
 
 ### Pages
 
+* [`commonlog` ](types/commonlog.md):
+  Apache httpd "common" log format
 * [`float` (floating point number)](types/float.md):
   Floating point number (primitive)
-* [`hcl` (HCL)](types/hcl.md):
+* [`hcl` ](types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`int` (integer)](types/int.md):
+* [`int` ](types/int.md):
   Whole number (primitive)
-* [`json` (JSON)](types/json.md):
+* [`json` ](types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [`jsonl` ](types/jsonlines.md):
+  JSON Lines (primitive)
 * [`num` (number)](types/num.md):
   Floating point number (primitive)
-* [`toml` (TOML)](types/toml.md):
+* [`toml` ](types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` (YAML)](types/yaml.md):
+* [`yaml` ](types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](types/mxjson.md):
   Murex-flavoured JSON (primitive)

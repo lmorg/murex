@@ -7,9 +7,9 @@
 
 ## About _murex_
 
-_murex_ follows a similar syntax to POSIX shells like Bash however supports
-more advanced features than you'd typically expect from a $SHELL. A
-non-exhaustive list would include:
+_murex_ is a shell, like bash / zsh / fish / etc. It follows a similar syntax
+to POSIX shells like Bash however supports more advanced features than you'd
+typically expect from a $SHELL. A non-exhaustive list would include:
 
 * Testing frameworks baked right into the language itself
 * Smarter handling of errors (for example try/catch blocks, line numbers
@@ -244,23 +244,24 @@ without worrying about any performance impact.
 
 ## Language guides
 
-1. [GUIDE.syntax.md](docs/GUIDE.syntax.md) is recommended first as it gives
-an overview if the shell scripting languages syntax and data types.
+1. [GUIDE.syntax.md](https://murex.rocks/GUIDE.syntax.md) is recommended first
+   as it gives an overview if the shell scripting languages syntax and data
+   types.
 
-2. [GUIDE.type-system.md](docs/GUIDE.type-system.md) describes _murex_'s type
-system. Most of the time you will not need to worry about typing in
-_murex_ as the shell is designed around productivity.
+2. [GUIDE.type-system.md](https://murex.rocks//GUIDE.type-system.md) describes
+   _murex_'s type system. Most of the time you will not need to worry about
+   typing in _murex_ as the shell is designed around productivity.
 
-3. [GUIDE.builtin-functions.md](docs/GUIDE.builtin-functions.md) lists some
-of the builtin functions available for this shell.
+3. [GUIDE.builtin-functions.md](https://murex.rocks//GUIDE.builtin-functions.md)
+   lists some of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick
-Start Guide, [GUIDE.quick-start.md](docs/GUIDE.quick-start.md), to jump
-straight into using _murex_.
+Start Guide, [GUIDE.quick-start.md](https://murex.rocks//GUIDE.quick-start.md),
+to jump straight into using _murex_.
 
 ## Install instructions
 
-Install instructions have been moved into its own file: [INSTALL.md](INSTALL.md)
+There are various ways you can load _murex_ on to your system. See [INSTALL](INSTALL.md) for details.
 
 ## CI/CD
 

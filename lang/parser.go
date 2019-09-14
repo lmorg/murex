@@ -86,7 +86,13 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 	pUpdate := func(r rune) {
 		if !scanFuncName && pToken.Type == parameters.TokenTypeNil {
-			pToken.Type = parameters.TokenTypeValue
+
+			if r == '<' && last != '\\' &&
+				!quoteSingle && !quoteDouble && quoteBrace == 0 {
+				pToken.Type = parameters.TokenTypeNamedPipe
+			} else {
+				pToken.Type = parameters.TokenTypeValue
+			}
 		}
 
 		if node.Name == "" {
@@ -520,6 +526,19 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				node = astNode{}
 				pop = &node.Name
 				scanFuncName = true
+			default:
+				pUpdate(r)
+			}
+
+		case '<':
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+			case quoteSingle, quoteDouble, quoteBrace > 0:
+				pUpdate(r)
+			case braceCount > 0:
+				pUpdate(r)
 			default:
 				pUpdate(r)
 			}

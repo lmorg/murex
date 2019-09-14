@@ -1,0 +1,38 @@
+- DocumentID: commonlog
+  Title: >-
+    `commonlog` 
+  CategoryID: types
+  Summary: >-
+    Apache httpd "common" log format
+  Description: |-
+    Apache httpd supports a few different log formats. This _murex_ type is for
+    parsing the "common" log format.
+  Usage: |-
+  Examples: |-
+  Hooks:
+    ReadArray(): Supported. Each line is considered an index (like with `str` data-type)
+    ReadMap(): Not supported, currently a work in progress
+    ReadIndex(): Entire log file is read and then the indexes are derived from there
+    ReadNotIndex(): Entire log file is read and then the indexes are derived from there
+    Marshal(): Supported though no unmarshalling is currently supported
+  Detail: |-
+    The code here is very rudimentary. If you have large log files or need more complex
+    data querying then this data-type is probably not the right tool. Maybe try one of
+    the following:
+    
+    * [Firesword](https://github.com/lmorg/firesword) - for command line analysis
+    * [Plasmasword](https://github.com/lmorg/plasmasword) - exports fields to an sqlite3 or mysql database
+  Associations:
+  Related:
+  - str
+  - generic
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - apis/readarray
+  - apis/readmap
+  - apis/readindex
+  - apis/readnotindex
+  - apis/marshal
+  - apis/unmarshal

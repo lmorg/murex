@@ -6,7 +6,6 @@ import (
 	"os"
 
 	_ "github.com/lmorg/murex/builtins"
-	_ "github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
@@ -28,13 +27,47 @@ func main() {
 	lang.InitEnv()
 
 	switch {
+	case fRunTests:
+		defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+		shell.SignalHandler(nonInteractive)
+
+		// compiled profile
+		source := defaults.DefaultMurexProfile()
+		ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
+		execSource(defaults.DefaultMurexProfile(), ref)
+
+		// enable tests
+		if err := lang.ShellProcess.Config.Set("test", "enabled", true); err != nil {
+			panic(err)
+		}
+		if err := lang.ShellProcess.Config.Set("test", "auto-report", false); err != nil {
+			panic(err)
+		}
+		if err := lang.ShellProcess.Config.Set("test", "verbose", true); err != nil {
+			panic(err)
+		}
+
+		// run unit tests
+		passed := lang.GlobalUnitTests.Run(lang.ShellProcess, "*")
+		lang.ShellProcess.Tests.WriteResults(lang.ShellProcess.Config, lang.ShellProcess.Stdout)
+
+		if !passed {
+			os.Exit(1)
+		}
+
 	case fCommand != "":
 		// default config
 		defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
 		shell.SignalHandler(nonInteractive)
 
-		// load modules a profile
+		// load modules and profile
 		if fLoadMods {
+			// compiled profile
+			source := defaults.DefaultMurexProfile()
+			ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
+			execSource(defaults.DefaultMurexProfile(), ref)
+
+			// local profile
 			profile.Execute()
 		}
 
@@ -48,6 +81,12 @@ func main() {
 
 		// load modules a profile
 		if fLoadMods {
+			// compiled profile
+			source := defaults.DefaultMurexProfile()
+			ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
+			execSource(defaults.DefaultMurexProfile(), ref)
+
+			// local profile
 			profile.Execute()
 		}
 
@@ -112,7 +151,6 @@ func diskSource(filename string) []rune {
 }
 
 func execSource(source []rune, sourceRef *ref.Source) {
-	//exitNum, err := lang.RunBlockShellConfigSpace(source, nil, new(term.Out), term.NewErr(ansi.IsAllowed()))
 	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
 	fork.Stdout = new(term.Out)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())

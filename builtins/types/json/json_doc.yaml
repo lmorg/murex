@@ -1,6 +1,6 @@
 - DocumentID: json
   Title: >-
-    `json` (JSON)
+    `json` 
   CategoryID: types
   Summary: >-
     JavaScript Object Notation (JSON) (primitive)
@@ -47,11 +47,15 @@
     ReadIndex(): Works against all properties in JSON
     ReadNotIndex(): Works against all properties in JSON
     Marshal(): Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
-    Unmashal(): Supported
+    Unmarshal(): Supported
   Detail: |-
+    {{ include "gen/includes/for-loop-json-tips.md" }}
   Associations:
     Mimes:
     - application/json
+    - application/x-toml
+    - text/toml
+    - text/x-toml
     Extensions:
     - json
   Related:

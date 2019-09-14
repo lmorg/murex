@@ -142,7 +142,6 @@ func ShowPrompt() {
 
 		expanded, err := history.ExpandVariables(block, Prompt)
 		if err != nil {
-			//ansi.Stderrln(lang.ShellProcess, ansi.FgRed, err.Error())
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 			merged = ""
 			nLines = 1

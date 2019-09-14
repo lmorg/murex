@@ -116,7 +116,7 @@ func (p Parameters) TokenLen() int {
 	var count int
 	for _, tokens := range p.Tokens {
 		for i := range tokens {
-			if tokens[i].Type != TokenTypeNil {
+			if tokens[i].Type != TokenTypeNil && tokens[i].Type != TokenTypeNamedPipe {
 				count++
 				break
 			}

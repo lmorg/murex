@@ -71,10 +71,16 @@
     }
     ```
 
-    ...or does not exist:
+    ...or does not exist (both ways are valid):
 
     ```
     !if { g somefile.txt } then {
+        out "File does not exist"
+    }
+    ```
+
+    ```
+    if { g somefile.txt } else {
         out "File does not exist"
     }
     ```
@@ -85,6 +91,11 @@
     the examples above. However the conditional block does not output STDOUT nor
     STDERR to the rest of the pipeline so you don't have to worry about redirecting
     the output streams to `null`.
+
+    If you require output from the conditional blocks STDOUT then you will need to
+    use either a _murex_ named pipe to redirect the output, or test or debug flags
+    (depending on your use case) if you only need to occasionally inspect the
+    conditionals output.
   Synonyms:
   - if
   - "!if"
@@ -97,3 +108,5 @@
   - "not"
   - and
   - or
+  - test
+  - debug

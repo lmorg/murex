@@ -7,16 +7,6 @@ jobs:
         environment:
           GOPATH: /go
     
-    #parallelism: 2
-
-    #environment: # environment variables for the build itself
-    #  TEST_RESULTS: /tmp/test-results # path to where test results will be saved
-
-    environment:
-      #VERSION: 1.12.7
-      #GOOS: linux
-      #GOARCH: amd64
-
     steps:
       - run:
           name: Nuke old code
@@ -33,6 +23,10 @@ jobs:
       - run:
           name: Build murex
           command: go install github.com/lmorg/murex
+
+      - run:
+          name: Run unit tests on builtin profiles
+          command: murex --run-tests
 
       #- run:
       #    name: Validating Pre-Commit
