@@ -28,7 +28,7 @@ const (
 	fPipes         = "--pipes"
 	fFunctions     = "--functions"
 	fPrivates      = "--privates"
-	fOpenAgents    = "=--open-agents"
+	fOpenAgents    = "--open-agents"
 	fFids          = "--fids"
 	fReadArrays    = "--readarray"
 	fReadMaps      = "--readmap"
