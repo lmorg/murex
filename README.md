@@ -224,7 +224,7 @@ For example:
 
     func hello-world {
         test define example {
-            "OutRegexp": (^Hello World$)
+            "StdoutRegex": (^Hello World$)
         }
 
         out <test_example> "Hello Earth"

@@ -35,11 +35,11 @@ func init() {
 }
 
 type testArgs struct {
-	OutBlock  string
-	OutRegexp string
-	ErrBlock  string
-	ErrRegexp string
-	ExitNum   int
+	StdoutBlock string //OutBlock  string
+	StdoutRegex string //OutRegexp string
+	StderrBlock string //ErrBlock  string
+	StderrRegex string //ErrRegexp string
+	ExitNum     int
 }
 
 func cmdTest(p *lang.Process) error {

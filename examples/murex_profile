@@ -175,11 +175,11 @@ event onKeyPress edit={^E} {
     -> [ Interrupt ] -> set: evt
 
     test define hasfunc {
-        "OutRegexp": "^[_a-zA-Z0-9]+$"
+        "StdoutRegex": "^[_a-zA-Z0-9]+$"
     }
 
     test define funcblock {
-        "OutRegexp": "[a-zA-Z0-9]+"
+        "StdoutRegex": "[a-zA-Z0-9]+"
     }
 
     if { $TMUX } then {

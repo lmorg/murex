@@ -32,24 +32,24 @@ func testDefine(p *lang.Process) error {
 	}
 
 	// stdout
-	rx, err := regexp.Compile(args.OutRegexp)
+	rx, err := regexp.Compile(args.StdoutRegex)
 	if err != nil {
 		return err
 	}
 	stdout := &lang.TestChecks{
 		Regexp:   rx,
-		Block:    []rune(args.OutBlock),
+		Block:    []rune(args.StdoutBlock),
 		RunBlock: runBlock,
 	}
 
 	// stderr
-	rx, err = regexp.Compile(args.ErrRegexp)
+	rx, err = regexp.Compile(args.StderrRegex)
 	if err != nil {
 		return err
 	}
 	stderr := &lang.TestChecks{
 		Regexp:   rx,
-		Block:    []rune(args.ErrBlock),
+		Block:    []rune(args.StderrBlock),
 		RunBlock: runBlock,
 	}
 
