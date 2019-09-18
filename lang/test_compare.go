@@ -1,9 +1,16 @@
 package lang
 
 /*
-	This test library relates to the testing framework within the
-	murex language itself rather than Go's test framework within
-	the murex project.
+	This test library relates to the testing framework within the murex
+	language itself rather than Go's test framework within the murex project.
+
+	The naming convention here is basically the inverse of Go's test naming
+	convention. ie Go source files will be named "test_unit.go" (because
+	calling it unit_test.go would mean it's a Go test rather than murex test)
+	and the code is named UnitTestPlans (etc) rather than TestUnitPlans (etc)
+	because the latter might suggest they would be used by `go test`. This
+	naming convention is a little counterintuitive but it at least avoids
+	naming conflicts with `go test`.
 */
 
 import (
@@ -29,15 +36,10 @@ func (tests *Tests) Compare(name string, p *Process) {
 
 compare:
 
-	var failed bool //, verbose bool
+	var failed bool
 	test := tests.test[i]
 	test.HasRan = true
 	tests.mutex.Unlock()
-
-	/*v, err := p.Config.Get("test", "verbose", types.Boolean)
-	if err == nil && v.(bool) {
-		verbose = true
-	}*/
 
 	// read stdout
 	stdout, err := test.out.stdio.ReadAll()
@@ -82,38 +84,6 @@ compare:
 			tests.AddResult(test, p, TestFailed, tMsgRegexMismatch("StderrRegex", stderr))
 		}
 	}
-
-	/*if len(test.err.Block) > 0 {
-		b, bErr, err := test.err.RunBlock(p, test.err.Block, stderr)
-		if err != nil {
-			failed = true
-			tests.AddResult(test, p, TestError, err.Error())
-
-		} else if string(b) != string(stderr) {
-			failed = true
-			tests.AddResult(test, p, TestFailed,
-				fmt.Sprintf("stderr: got '%s' returned '%s'",
-					stderr, b))
-
-		} else if verbose {
-			tests.AddResult(test, p, TestPassed, fmt.Sprintf("stderr: block passed '%s'", stderr))
-		}
-
-		if verbose {
-			tests.AddResult(test, p, TestInfo, fmt.Sprintf("stderr: stderr returned from block '%s'", bErr))
-		}
-
-	} else if test.err.Regexp != nil {
-		if !test.err.Regexp.Match(stderr) {
-			failed = true
-			tests.AddResult(test, p, TestFailed,
-				fmt.Sprintf("stderr: regexp did not match '%s'.",
-					stderr))
-
-		} else if verbose {
-			tests.AddResult(test, p, TestPassed, fmt.Sprintf("stderr: regexp matched '%s'", stderr))
-		}
-	}*/
 
 	// test exit number
 	if test.exitNum != *test.exitNumPtr {

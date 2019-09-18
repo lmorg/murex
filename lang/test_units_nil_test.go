@@ -1,5 +1,18 @@
 package lang_test
 
+/*
+	This test library relates to using the Go testing framework to test murex's
+	framework for unit testing shell scripts.
+
+	The naming convention here is basically the inverse of Go's test naming
+	convention. ie Go source files will be named "test_unit.go" (because
+	calling it unit_test.go would mean it's a Go test rather than murex test)
+	and the code is named UnitTestPlans (etc) rather than TestUnitPlans (etc)
+	because the latter might suggest they would be used by `go test`. This
+	naming convention is a little counterintuitive but it at least avoids
+	naming conflicts with `go test`.
+*/
+
 import (
 	"encoding/json"
 	"testing"
