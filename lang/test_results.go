@@ -122,6 +122,11 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		reportPipe = ""
 	}
 
+	verbose, err := config.Get("test", "verbose", types.Boolean)
+	if err != nil {
+		verbose = false
+	}
+
 	if reportPipe.(string) != "" {
 		pipe, err = GlobalPipes.Get(reportPipe.(string))
 		if err != nil {
@@ -153,6 +158,9 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		}
 
 		for _, r := range tests.Results.results {
+			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
+				continue
+			}
 			var prefix string
 			if allowAnsi {
 				prefix = "\x1b[0m["
@@ -197,6 +205,10 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		pipe.Writeln([]byte(s))
 
 		for _, r := range tests.Results.results {
+			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
+				continue
+			}
+
 			s = fmt.Sprintf(`%-9s %-13s %-53s %6d, %6d, %s`,
 				`"`+r.Status+`",`,
 				`"`+r.TestName+`",`,
