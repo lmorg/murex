@@ -67,7 +67,7 @@ func tMsgStringMatch(property string) string {
 }
 
 func tMsgRegexCompileErr(property string, err error) string {
-	return fmt.Sprintf("%s could not compile: %s", err)
+	return fmt.Sprintf("%s could not compile: %s", property, err)
 }
 func tMsgRegexMismatch(property string, std []byte) string {
 	return fmt.Sprintf("%s expression did not match. act: '%s'", property, std)
