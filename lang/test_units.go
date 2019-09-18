@@ -274,6 +274,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		if stdoutType == plan.StdoutType {
 			addReport(TestInfo, tMsgDataTypeMatch("stdout"))
 		} else {
+			passed = false
 			addReport(TestFailed, tMsgDataTypeMismatch("stdout", stdoutType))
 		}
 	}
@@ -296,7 +297,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			passed = false
 			addReport(TestError, tMsgRegexCompileErr("StderrRegex", err))
 
-		case !rx.Match(stdout):
+		case !rx.Match(stderr):
 			passed = false
 			addReport(TestFailed, tMsgRegexMismatch("StderrRegex", stdout))
 
@@ -313,6 +314,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		if stderrType == plan.StderrType {
 			addReport(TestInfo, tMsgDataTypeMatch("stdout"))
 		} else {
+			passed = false
 			addReport(TestFailed, tMsgDataTypeMismatch("stderr", stderrType))
 		}
 	}
