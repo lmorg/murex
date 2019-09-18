@@ -3,10 +3,9 @@ package lang
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/utils"
-
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/utils"
 )
 
 func utReadAllOut(std stdio.Io, results *TestResults, plan *UnitTestPlan, fileRef *ref.File, name string, function string, passed *bool) {
@@ -19,7 +18,7 @@ func utReadAllOut(std stdio.Io, results *TestResults, plan *UnitTestPlan, fileRe
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("%s description failed on Stdout.ReadAll: %s", name, err),
+			Message:    fmt.Sprintf("%s failed on Stdout.ReadAll: %s", name, err),
 		})
 		*passed = false
 	}
@@ -47,7 +46,7 @@ func utReadAllErr(std stdio.Io, results *TestResults, plan *UnitTestPlan, fileRe
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestFailed,
-			Message:    fmt.Sprintf("%s description failed on Stderr.ReadAll: %s", name, err),
+			Message:    fmt.Sprintf("%s failed on Stderr.ReadAll: %s", name, err),
 		})
 		*passed = false
 	}

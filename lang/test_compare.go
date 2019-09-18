@@ -7,13 +7,8 @@ package lang
 */
 
 import (
-	"fmt"
-
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
-
-const testPassedMessage = "All test conditions were met"
 
 // Compare is the method which actually runs the individual test cases
 // to see if they pass or fail.
@@ -34,15 +29,15 @@ func (tests *Tests) Compare(name string, p *Process) {
 
 compare:
 
-	var failed, verbose bool
+	var failed bool //, verbose bool
 	test := tests.test[i]
 	test.HasRan = true
 	tests.mutex.Unlock()
 
-	v, err := p.Config.Get("test", "verbose", types.Boolean)
+	/*v, err := p.Config.Get("test", "verbose", types.Boolean)
 	if err == nil && v.(bool) {
 		verbose = true
-	}
+	}*/
 
 	// read stdout
 	stdout, err := test.out.stdio.ReadAll()
@@ -61,40 +56,34 @@ compare:
 	stderr = utils.CrLfTrim(stderr)
 
 	// compare stdout
-	if len(test.out.Block) > 0 {
-		b, bErr, err := test.out.RunBlock(p, test.out.Block, stdout)
-		if err != nil {
+	if len(test.out.Block) != 0 {
+		testBlock(test, p, test.out.Block, stdout, test.out.stdio.GetDataType(), "StdoutBlock", &failed)
+	}
+
+	if test.out.Regexp != nil {
+		if test.out.Regexp.Match(stdout) {
+			tests.AddResult(test, p, TestInfo, tMsgRegexMatch("StdoutRegex"))
+		} else {
 			failed = true
-			tests.AddResult(test, p, TestError, err.Error())
-
-		} else if string(b) != string(stdout) {
-			failed = true
-			tests.AddResult(test, p, TestFailed,
-				fmt.Sprintf("stdout: got '%s' returned '%s'",
-					stdout, b))
-
-		} else if verbose {
-			tests.AddResult(test, p, TestPassed, fmt.Sprintf("stdout: block passed '%s'", stdout))
-		}
-
-		if verbose {
-			tests.AddResult(test, p, TestInfo, fmt.Sprintf("stdout: stderr returned from block '%s'", bErr))
-		}
-
-	} else if test.out.Regexp != nil {
-		if !test.out.Regexp.Match(stdout) {
-			failed = true
-			tests.AddResult(test, p, TestFailed,
-				fmt.Sprintf("stdout: regexp did not match '%s'",
-					stdout))
-
-		} else if verbose {
-			tests.AddResult(test, p, TestPassed, fmt.Sprintf("stdout: regexp matched '%s'", stdout))
+			tests.AddResult(test, p, TestFailed, tMsgRegexMismatch("StdoutRegex", stdout))
 		}
 	}
 
 	// compare stderr
-	if len(test.err.Block) > 0 {
+	if len(test.err.Block) != 0 {
+		testBlock(test, p, test.err.Block, stderr, test.err.stdio.GetDataType(), "StderrBlock", &failed)
+	}
+
+	if test.err.Regexp != nil {
+		if test.err.Regexp.Match(stderr) {
+			tests.AddResult(test, p, TestInfo, tMsgRegexMatch("StderrRegex"))
+		} else {
+			failed = true
+			tests.AddResult(test, p, TestFailed, tMsgRegexMismatch("StderrRegex", stderr))
+		}
+	}
+
+	/*if len(test.err.Block) > 0 {
 		b, bErr, err := test.err.RunBlock(p, test.err.Block, stderr)
 		if err != nil {
 			failed = true
@@ -124,22 +113,20 @@ compare:
 		} else if verbose {
 			tests.AddResult(test, p, TestPassed, fmt.Sprintf("stderr: regexp matched '%s'", stderr))
 		}
-	}
+	}*/
 
 	// test exit number
 	if test.exitNum != *test.exitNumPtr {
 		failed = true
-		tests.AddResult(test, p, TestFailed,
-			fmt.Sprintf("exit number: wanted %d got %d",
-				test.exitNum, *test.exitNumPtr))
+		tests.AddResult(test, p, TestFailed, tMsgExitNumMismatch(test.exitNum, *test.exitNumPtr))
 
-	} else if verbose {
-		tests.AddResult(test, p, TestPassed, fmt.Sprintf("exit number: returned '%d'", test.exitNum))
+	} else {
+		tests.AddResult(test, p, TestInfo, tMsgExitNumMatch())
 	}
 
 	// if not failed, log a success result
 	if !failed {
-		tests.AddResult(test, p, TestPassed, testPassedMessage)
+		tests.AddResult(test, p, TestPassed, tMsgPassed())
 	}
 }
 

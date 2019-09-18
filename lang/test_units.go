@@ -531,7 +531,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 			Params:     plan.Parameters,
 			TestName:   testName,
 			Status:     TestPassed,
-			Message:    testPassedMessage,
+			Message:    tMsgPassed(),
 		})
 	}
 

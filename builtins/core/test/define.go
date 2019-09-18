@@ -5,7 +5,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -37,9 +36,8 @@ func testDefine(p *lang.Process) error {
 		return err
 	}
 	stdout := &lang.TestChecks{
-		Regexp:   rx,
-		Block:    []rune(args.StdoutBlock),
-		RunBlock: runBlock,
+		Regexp: rx,
+		Block:  []rune(args.StdoutBlock),
 	}
 
 	// stderr
@@ -48,38 +46,10 @@ func testDefine(p *lang.Process) error {
 		return err
 	}
 	stderr := &lang.TestChecks{
-		Regexp:   rx,
-		Block:    []rune(args.StderrBlock),
-		RunBlock: runBlock,
+		Regexp: rx,
+		Block:  []rune(args.StderrBlock),
 	}
 
 	err = p.Tests.Define(name, stdout, stderr, args.ExitNum)
 	return err
-}
-
-func runBlock(p *lang.Process, block []rune, expected []byte) ([]byte, []byte, error) {
-	fork := p.Fork(lang.F_CREATE_STDIN | lang.F_CREATE_STDERR | lang.F_CREATE_STDOUT)
-
-	fork.Stdin.SetDataType(types.Generic)
-	_, err := fork.Stdin.Write(expected)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	_, err = fork.Execute(block)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	stdout, err := fork.Stdout.ReadAll()
-	if err != nil {
-		return nil, nil, err
-	}
-
-	stderr, err := fork.Stderr.ReadAll()
-	if err != nil {
-		return utils.CrLfTrim(stdout), nil, err
-	}
-
-	return utils.CrLfTrim(stdout), utils.CrLfTrim(stderr), nil
 }
