@@ -1,9 +1,16 @@
 package lang
 
 /*
-	This test library relates to the testing framework within the
-	murex language itself rather than Go's test framework within
-	the murex project.
+	This test library relates to the testing framework within the murex
+	language itself rather than Go's test framework within the murex project.
+
+	The naming convention here is basically the inverse of Go's test naming
+	convention. ie Go source files will be named "test_unit.go" (because
+	calling it unit_test.go would mean it's a Go test rather than murex test)
+	and the code is named UnitTestPlans (etc) rather than TestUnitPlans (etc)
+	because the latter might suggest they would be used by `go test`. This
+	naming convention is a little counterintuitive but it at least avoids
+	naming conflicts with `go test`.
 */
 
 import (
@@ -115,6 +122,11 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		reportPipe = ""
 	}
 
+	verbose, err := config.Get("test", "verbose", types.Boolean)
+	if err != nil {
+		verbose = false
+	}
+
 	if reportPipe.(string) != "" {
 		pipe, err = GlobalPipes.Get(reportPipe.(string))
 		if err != nil {
@@ -146,6 +158,9 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		}
 
 		for _, r := range tests.Results.results {
+			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
+				continue
+			}
 			var prefix string
 			if allowAnsi {
 				prefix = "\x1b[0m["
@@ -190,6 +205,10 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		pipe.Writeln([]byte(s))
 
 		for _, r := range tests.Results.results {
+			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
+				continue
+			}
+
 			s = fmt.Sprintf(`%-9s %-13s %-53s %6d, %6d, %s`,
 				`"`+r.Status+`",`,
 				`"`+r.TestName+`",`,

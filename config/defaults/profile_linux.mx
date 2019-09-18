@@ -34,7 +34,7 @@ private kill-autocomplete {
     }
 
     test define map {
-        "OutRegexp": (\{(".*?":".*?",?)+\})
+        "StdoutRegex": (\{(".*?":".*?",?)+\})
     }
 
     ps <test_ps> -A -o pid,cmd --no-headers -> set ps

@@ -13,7 +13,7 @@ private kill-autocomplete {
     }
     
     test define map {
-        "OutRegexp": (\{(".*?":".*?",?)+\})
+        "StdoutRegex": (\{(".*?":".*?",?)+\})
     }
 
     ps <test_ps> -A -o pid -o command -> sed 1d -> set ps

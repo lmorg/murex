@@ -1,9 +1,16 @@
 package lang
 
 /*
-	This test library relates to the testing framework within the
-	murex language itself rather than Go's test framework within
-	the murex project.
+	This test library relates to the testing framework within the murex
+	language itself rather than Go's test framework within the murex project.
+
+	The naming convention here is basically the inverse of Go's test naming
+	convention. ie Go source files will be named "test_unit.go" (because
+	calling it unit_test.go would mean it's a Go test rather than murex test)
+	and the code is named UnitTestPlans (etc) rather than TestUnitPlans (etc)
+	because the latter might suggest they would be used by `go test`. This
+	naming convention is a little counterintuitive but it at least avoids
+	naming conflicts with `go test`.
 */
 
 import (
@@ -88,7 +95,7 @@ const (
 
 	// TestInfo is for any additional information on a test that might help
 	// debug. This is only provided when `verbose` is enabled: `test verbose`
-	TestInfo TestStatus = "INFORM"
+	TestInfo TestStatus = "INFO"
 
 	// TestMissed means that test was not run (this is usually because
 	// it was inside a parent control block - eg if / switch / etc -
