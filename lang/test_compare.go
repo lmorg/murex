@@ -31,7 +31,7 @@ func (tests *Tests) Compare(name string, p *Process) {
 
 	tests.mutex.Unlock()
 
-	tests.AddResult(&TestProperties{Name: name}, p, TestError, "Test named but there is no test defined.")
+	tests.AddResult(&TestProperties{Name: name}, p, TestError, "Test named but there is no test defined")
 	return
 
 compare:
@@ -45,7 +45,7 @@ compare:
 	stdout, err := test.out.stdio.ReadAll()
 	if err != nil {
 		failed = true
-		tests.AddResult(test, p, TestError, "Cannot read from stdout")
+		tests.AddResult(test, p, TestError, tMsgReadErr("stdout", name, err))
 	}
 	stdout = utils.CrLfTrim(stdout)
 
@@ -53,7 +53,7 @@ compare:
 	stderr, err := test.err.stdio.ReadAll()
 	if err != nil {
 		failed = true
-		tests.AddResult(test, p, TestError, "Cannot read from stderr")
+		tests.AddResult(test, p, TestError, tMsgReadErr("stderr", name, err))
 	}
 	stderr = utils.CrLfTrim(stderr)
 

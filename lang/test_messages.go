@@ -52,13 +52,23 @@ func tMsgExitNumZero(property string) string {
 	return fmt.Sprintf("%s passed the test. Returned true", property)
 }
 
-func tMsgStringMismatch(property, std []byte) string {
+func tMsgDataTypeMismatch(stdType string, act string) string {
+	return fmt.Sprintf("Data-type mismatch on %s. act: '%s'", stdType, act)
+}
+func tMsgDataTypeMatch(stdType string) string {
+	return fmt.Sprintf("Expected data-type matched on %s", stdType)
+}
+
+func tMsgStringMismatch(property string, std []byte) string {
 	return fmt.Sprintf("%s string mismatch. act: '%s'", property, std)
 }
 func tMsgStringMatch(property string) string {
 	return fmt.Sprintf("%s matches expected string", property)
 }
 
+func tMsgRegexCompileErr(property string, err error) string {
+	return fmt.Sprintf("%s could not compile: %s", err)
+}
 func tMsgRegexMismatch(property string, std []byte) string {
 	return fmt.Sprintf("%s expression did not match. act: '%s'", property, std)
 }

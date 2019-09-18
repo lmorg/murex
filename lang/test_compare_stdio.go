@@ -18,19 +18,20 @@ import (
 )
 
 func testBlock(test *TestProperties, p *Process, block []rune, stdin []byte, dt string, property string, failed *bool) {
-	fork := p.Fork(F_CREATE_STDIN | F_CREATE_STDERR | F_CREATE_STDOUT)
-
+	fork := p.Fork(F_FUNCTION | F_CREATE_STDIN | F_CREATE_STDERR | F_CREATE_STDOUT)
+	fork.IsMethod = true
+	fork.Name = "(pipe test " + property + ")"
 	fork.Stdin.SetDataType(dt)
 	_, err := fork.Stdin.Write(stdin)
 	if err != nil {
-		p.Tests.AddResult(test, p, TestFailed, tMsgWriteErr(property, err))
+		p.Tests.AddResult(test, p, TestError, tMsgWriteErr(property, err))
 		*failed = true
 		return
 	}
 
 	exitNum, err := fork.Execute(block)
 	if err != nil {
-		p.Tests.AddResult(test, p, TestFailed, tMsgCompileErr(property, err))
+		p.Tests.AddResult(test, p, TestError, tMsgCompileErr(property, err))
 		return
 	}
 
@@ -48,7 +49,7 @@ func testBlock(test *TestProperties, p *Process, block []rune, stdin []byte, dt 
 func testReadAllOut(test *TestProperties, p *Process, std stdio.Io, property string, failed *bool) {
 	b, err := std.ReadAll()
 	if err != nil {
-		p.Tests.AddResult(test, p, TestFailed, tMsgReadErr("stdout", property, err))
+		p.Tests.AddResult(test, p, TestError, tMsgReadErr("stdout", property, err))
 		*failed = true
 	}
 
@@ -61,7 +62,7 @@ func testReadAllOut(test *TestProperties, p *Process, std stdio.Io, property str
 func testReadAllErr(test *TestProperties, p *Process, std stdio.Io, property string, failed *bool) {
 	b, err := std.ReadAll()
 	if err != nil {
-		p.Tests.AddResult(test, p, TestFailed, tMsgReadErr("stderr", property, err))
+		p.Tests.AddResult(test, p, TestError, tMsgReadErr("stderr", property, err))
 		*failed = true
 	}
 

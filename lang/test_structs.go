@@ -95,7 +95,7 @@ const (
 
 	// TestInfo is for any additional information on a test that might help
 	// debug. This is only provided when `verbose` is enabled: `test verbose`
-	TestInfo TestStatus = "INFORM"
+	TestInfo TestStatus = "INFO"
 
 	// TestMissed means that test was not run (this is usually because
 	// it was inside a parent control block - eg if / switch / etc -
