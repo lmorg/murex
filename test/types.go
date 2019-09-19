@@ -12,6 +12,7 @@ import (
 
 // ArrayWriterTest is an easy template for testing stdio.ArrayWriter methods in murex types
 func ArrayWriterTest(t *testing.T, dataType string, input []string, expected string) {
+	t.Helper()
 	count.Tests(t, 1, "ArrayWriterTest")
 
 	stdout := streams.NewStdin()

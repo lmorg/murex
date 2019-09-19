@@ -9,6 +9,8 @@ import (
 
 // Exists tests if a file exists
 func Exists(t *testing.T, path string) {
+	t.Helper()
+
 	if os.Getenv("MUREX_TEST_SKIP_EXISTS") != "" {
 		t.Skip("Environmental variable `MUREX_TEST_SKIP_EXISTS` set")
 		return
