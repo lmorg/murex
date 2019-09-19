@@ -244,19 +244,19 @@ without worrying about any performance impact.
 
 ## Language guides
 
-1. [GUIDE.syntax](https://murex.rocks/GUIDE.syntax.md) is recommended first
+1. [GUIDE.syntax](https://murex.rocks/GUIDE.syntax.html) is recommended first
    as it gives an overview if the shell scripting languages syntax and data
    types.
 
-2. [GUIDE.type-system](https://murex.rocks/GUIDE.type-system.md) describes
+2. [GUIDE.type-system](https://murex.rocks/GUIDE.type-system.html) describes
    _murex_'s type system. Most of the time you will not need to worry about
    typing in _murex_ as the shell is designed around productivity.
 
-3. [GUIDE.builtin-functions](https://murex.rocks/GUIDE.builtin-functions.md)
+3. [GUIDE.builtin-functions](https://murex.rocks/GUIDE.builtin-functions.html)
    lists some of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick
-Start Guide, [GUIDE.quick-start](https://murex.rocks/GUIDE.quick-start.md),
+Start Guide, [GUIDE.quick-start](https://murex.rocks/GUIDE.quick-start.html),
 to jump straight into using _murex_.
 
 ## Install instructions
