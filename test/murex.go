@@ -21,7 +21,7 @@ type MurexTest struct {
 // RunMurexTests runs through all the test cases for MurexTest
 func RunMurexTests(tests []MurexTest, t *testing.T) {
 	t.Helper()
-	count.Tests(t, len(tests), "RunMurexTests")
+	count.Tests(t, len(tests))
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()

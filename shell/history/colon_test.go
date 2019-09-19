@@ -35,7 +35,7 @@ func TestNoColon(t *testing.T) {
 		"command param1 param2 param3",
 	}
 
-	count.Tests(t, len(tests), "TestNoColon")
+	count.Tests(t, len(tests))
 
 	for i := range tests {
 		actual := noColon(tests[i])

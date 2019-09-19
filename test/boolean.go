@@ -22,7 +22,7 @@ type BooleanTest struct {
 // Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 	t.Helper()
-	count.Tests(t, len(tests), "RunBooleanTests")
+	count.Tests(t, len(tests))
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()

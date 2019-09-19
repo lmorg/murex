@@ -11,7 +11,7 @@ import (
 func TestConsts(t *testing.T) {
 	rx := regexp.MustCompile(`[0-9]+\.[0-9]+\.[0-9]+ ( (ALPHA|BETA|RC[0-9]))?`)
 
-	count.Tests(t, 2, "TestConsts")
+	count.Tests(t, 2)
 
 	if AppName == "" {
 		t.Error("AppName isn't valid")

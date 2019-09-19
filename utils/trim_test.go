@@ -8,7 +8,7 @@ import (
 
 // TestCrLfTrim tests the CrLfTrim function
 func TestCrLfTrim(t *testing.T) {
-	count.Tests(t, 5, "TestCrLfTrim")
+	count.Tests(t, 5)
 
 	b := []byte("test")
 
@@ -44,7 +44,7 @@ func TestCrLfTrim(t *testing.T) {
 
 // TestCrLfTrimRune tests the CrLfTrimRune function
 func TestCrLfTrimRune(t *testing.T) {
-	count.Tests(t, 5, "TestCrLfTrimRune")
+	count.Tests(t, 5)
 
 	r := []rune("test")
 
@@ -80,7 +80,7 @@ func TestCrLfTrimRune(t *testing.T) {
 
 // TestCrLfTrimString tests the CrLfTrimString function
 func TestCrLfTrimString(t *testing.T) {
-	count.Tests(t, 5, "TestCrLfTrimString")
+	count.Tests(t, 5)
 
 	s := CrLfTrimString("test")
 

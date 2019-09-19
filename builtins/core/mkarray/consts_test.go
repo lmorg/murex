@@ -11,7 +11,7 @@ func TestConsts(t *testing.T) {
 	for i, m := range mapRanges {
 		for element := range m {
 
-			count.Tests(t, len(m), "TestConsts")
+			count.Tests(t, len(m))
 
 			if element != strings.ToLower(element) {
 				t.Errorf("mapRange contains a non-lowercase element")

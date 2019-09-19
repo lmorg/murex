@@ -11,7 +11,7 @@ import (
 
 // TestAnsiColoured tests writing colours via the ansi package
 func TestAnsiColoured(t *testing.T) {
-	count.Tests(t, 1, "TestAnsiColoured")
+	count.Tests(t, 1)
 
 	lang.ShellProcess.Config = config.NewConfiguration()
 	lang.ShellProcess.Config.Define("shell", "color", config.Properties{
@@ -38,7 +38,7 @@ func TestAnsiColoured(t *testing.T) {
 
 // TestAnsiNoColour tests the color override disables the ansi package
 func TestAnsiNoColour(t *testing.T) {
-	count.Tests(t, 1, "TestAnsiNoColour")
+	count.Tests(t, 1)
 
 	lang.ShellProcess.Config = config.NewConfiguration()
 	lang.ShellProcess.Config.Define("shell", "color", config.Properties{

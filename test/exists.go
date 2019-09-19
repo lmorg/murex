@@ -16,7 +16,7 @@ func Exists(t *testing.T, path string) {
 		return
 	}
 
-	count.Tests(t, 1, "Exists")
+	count.Tests(t, 1)
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		t.Error("Missing file", path)

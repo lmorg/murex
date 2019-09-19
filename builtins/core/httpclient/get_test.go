@@ -9,7 +9,7 @@ import (
 
 // TestGet tests the get function
 func TestGet(t *testing.T) {
-	count.Tests(t, 1, "TestGet")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 	addr := StartHTTPServer(t)
@@ -26,7 +26,7 @@ func TestGet(t *testing.T) {
 
 // TestGetFile tests the getfile function
 func TestGetFile(t *testing.T) {
-	count.Tests(t, 1, "TestGetFile")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 	addr := StartHTTPServer(t)

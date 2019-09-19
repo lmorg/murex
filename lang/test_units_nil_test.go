@@ -24,7 +24,7 @@ import (
 )
 
 func TestRunTestNotATest(t *testing.T) {
-	count.Tests(t, 1, "TestRunTestNotATest")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 	lang.ShellProcess.Config.Set("test", "auto-report", false)
@@ -58,7 +58,7 @@ func TestRunTestNotATest(t *testing.T) {
 }
 
 func TestRunTestNotAFunction(t *testing.T) {
-	count.Tests(t, 1, "TestRunTestNotAFunction")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 	lang.ShellProcess.Config.Set("test", "auto-report", false)

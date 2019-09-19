@@ -14,10 +14,9 @@ func newReadlineInstance() *readline.Instance {
 	return rl
 }
 
-func test(function func(string, *readline.Instance) (string, error),
-	t *testing.T, tests, expected []string, rl *readline.Instance) {
-
-	count.Tests(t, len(tests), "TestTestHistory")
+func test(function func(string, *readline.Instance) (string, error), t *testing.T, tests, expected []string, rl *readline.Instance) {
+	t.Helper()
+	count.Tests(t, len(tests))
 
 	for i := range tests {
 		actual, err := function(tests[i], rl)

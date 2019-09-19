@@ -31,7 +31,7 @@ func VariableTests(tests []Test, t *testing.T) {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
 	}
 
-	count.Tests(t, len(tests)*2, "VariableTests")
+	count.Tests(t, len(tests)*2)
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()
@@ -82,7 +82,7 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
 	}
 
-	count.Tests(t, len(tests)*2, "UnSetTests")
+	count.Tests(t, len(tests)*2)
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()

@@ -35,7 +35,8 @@ type testUTPs struct {
 }
 
 func testRunTest(t *testing.T, plans []testUTPs) {
-	count.Tests(t, len(plans)*2, "testRunTest")
+	t.Helper()
+	count.Tests(t, len(plans)*2)
 
 	lang.InitEnv()
 	lang.ShellProcess.Config.Set("test", "auto-report", false)

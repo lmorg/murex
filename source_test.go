@@ -10,7 +10,7 @@ import (
 )
 
 func TestDiskSource(t *testing.T) {
-	count.Tests(t, 1, "TestDiskSource")
+	count.Tests(t, 1)
 
 	file := "test/source.mx"
 	test.Exists(t, file)
@@ -26,7 +26,7 @@ func TestDiskSource(t *testing.T) {
 }
 
 func TestDiskSourceGz(t *testing.T) {
-	count.Tests(t, 1, "TestDiskSourceGz")
+	count.Tests(t, 1)
 
 	file := "test/source.mx.gz"
 	test.Exists(t, file)
@@ -42,7 +42,7 @@ func TestDiskSourceGz(t *testing.T) {
 }
 
 func TestExecSource(t *testing.T) {
-	count.Tests(t, 1, "TestExecSource")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 

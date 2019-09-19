@@ -8,7 +8,7 @@ import (
 
 // TestRunmodeStringer tests stringer has ran
 func TestRunmodeStringer(t *testing.T) {
-	count.Tests(t, 5, "TestRunmodeStringer")
+	count.Tests(t, 5)
 
 	defer func() {
 		if r := recover(); r != nil {

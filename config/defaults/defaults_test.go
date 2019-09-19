@@ -9,7 +9,7 @@ import (
 
 // TestDefaultProfileNotEmpty tests the defaults exist
 func TestDefaultProfileNotEmpty(t *testing.T) {
-	count.Tests(t, 1, "TestDefaultProfileNotEmpty")
+	count.Tests(t, 1)
 
 	s := string(DefaultMurexProfile())
 	if strings.TrimSpace(s) == "" {

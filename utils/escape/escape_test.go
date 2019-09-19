@@ -17,7 +17,9 @@ func TestCommandLine(t *testing.T) {
 		" \t\r\n",
 	}
 
-	count.Tests(t, len(s), "TestCommandLine")
+	for i := range s {
+		count.Tests(t, len(s[i])) // we are testing every character in batches of strings
+	}
 
 	CommandLine(s)
 
@@ -57,7 +59,9 @@ func TestTable(t *testing.T) {
 		" \t\r\n",
 	}
 
-	count.Tests(t, len(s), "TestCommandLine")
+	for i := range s {
+		count.Tests(t, len(s[i])) // we are testing every character in batches of strings
+	}
 
 	Table(s)
 

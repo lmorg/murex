@@ -13,7 +13,7 @@ import (
 // ArrayWriterTest is an easy template for testing stdio.ArrayWriter methods in murex types
 func ArrayWriterTest(t *testing.T, dataType string, input []string, expected string) {
 	t.Helper()
-	count.Tests(t, 1, "ArrayWriterTest")
+	count.Tests(t, 1)
 
 	stdout := streams.NewStdin()
 
@@ -51,7 +51,7 @@ func ArrayWriterTest(t *testing.T, dataType string, input []string, expected str
 
 // ReadArrayTest is an easy template for testing stdio.ReadArray methods in murex types
 func ReadArrayTest(t *testing.T, dataType string, input []byte, expected []string) {
-	count.Tests(t, 1, "ReadArrayTest")
+	count.Tests(t, 1)
 
 	stdout := streams.NewStdin()
 	stdout.SetDataType(dataType)
@@ -100,7 +100,7 @@ func (m ReadMapExpected) String() string {
 
 // ReadMapOrderedTest is an easy template for testing stdio.ReadMap methods in murex types with ordered maps
 func ReadMapOrderedTest(t *testing.T, dataType string, input []byte, expected []ReadMapExpected, config *config.Config) {
-	count.Tests(t, 1, "ReadMapOrderedTest")
+	count.Tests(t, 1)
 
 	stdout := streams.NewStdin()
 	stdout.SetDataType(dataType)
@@ -135,7 +135,7 @@ func ReadMapOrderedTest(t *testing.T, dataType string, input []byte, expected []
 
 // ReadMapUnorderedTest is an easy template for testing stdio.ReadMap methods in murex types with unordered maps
 func ReadMapUnorderedTest(t *testing.T, dataType string, input []byte, expected []ReadMapExpected, config *config.Config) {
-	count.Tests(t, 1, "ReadMapUnorderedTest")
+	count.Tests(t, 1)
 
 	stdout := streams.NewStdin()
 	stdout.SetDataType(dataType)

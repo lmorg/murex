@@ -7,7 +7,7 @@ import (
 )
 
 func TestCounter(t *testing.T) {
-	count.Tests(t, 2, "TestCounter")
+	count.Tests(t, 2)
 
 	mc := new(MutexCounter)
 	i := mc.Add()

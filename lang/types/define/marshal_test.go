@@ -11,7 +11,7 @@ import (
 )
 
 func TestMarshalArrayJsonString(t *testing.T) {
-	count.Tests(t, 1, "TestMarshalArrayJsonString")
+	count.Tests(t, 1)
 
 	input := []string{"e", "d", "c", "b", "a"} // lets prove the output retains sorting
 	output := `["e","d","c","b","a"]`
@@ -34,7 +34,7 @@ func TestMarshalArrayJsonString(t *testing.T) {
 }
 
 func TestMarshalArrayJsonInt(t *testing.T) {
-	count.Tests(t, 1, "TestMarshalArrayJsonInt")
+	count.Tests(t, 1)
 
 	input := []int{5, 4, 3, 2, 1} // lets prove the output retains sorting
 	output := `[5,4,3,2,1]`

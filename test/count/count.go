@@ -23,10 +23,10 @@ const (
 )
 
 // Tests a function to count all the unit tests that have been run
-func Tests(t *testing.T, count int, funcName string) {
+func Tests(t *testing.T, count int) {
 	switch strings.ToLower(os.Getenv(Env)) {
 	case "log":
-		t.Logf("%s tests ran: %d", funcName, count)
+		t.Logf("%s tests ran: %d", t.Name(), count)
 
 	case "http":
 		httpReq(t, count)

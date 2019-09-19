@@ -8,7 +8,7 @@ import (
 
 // TestHintSummary tests the HintSummary structure
 func TestHintSummary(t *testing.T) {
-	count.Tests(t, 4, "TestHintSummary")
+	count.Tests(t, 4)
 
 	summary := New()
 

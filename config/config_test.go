@@ -9,7 +9,7 @@ import (
 
 // TestConfig tests the config structure
 func TestConfig(t *testing.T) {
-	count.Tests(t, 2, "TestConfig")
+	count.Tests(t, 2)
 
 	conf := NewConfiguration()
 

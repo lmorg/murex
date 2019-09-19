@@ -29,7 +29,7 @@ import (
 }*/
 
 func TestArrayWriter(t *testing.T) {
-	count.Tests(t, 1, "TestArrayWriter")
+	count.Tests(t, 1)
 
 	stdout := streams.NewStdin()
 

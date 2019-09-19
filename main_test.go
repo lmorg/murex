@@ -8,7 +8,7 @@ import (
 )
 
 func TestMainRunTests(t *testing.T) {
-	count.Tests(t, 1, "TestMainRunTests")
+	count.Tests(t, 1)
 
 	if err := os.Setenv(envRunTests, "1"); err != nil {
 		t.Error(err)
@@ -21,20 +21,20 @@ func TestMainRunTests(t *testing.T) {
 }
 
 func TestRunCommandLine(t *testing.T) {
-	count.Tests(t, 1, "TestRunCommandLine")
+	count.Tests(t, 1)
 
 	runCommandLine(`out: "testing" -> null`)
 }
 
 func TestRunSource(t *testing.T) {
-	count.Tests(t, 1, "TestRunSource")
+	count.Tests(t, 1)
 
 	file := "test/source.mx"
 	runSource(file)
 }
 
 func TestRunSourceGz(t *testing.T) {
-	count.Tests(t, 1, "TestRunSourceGz")
+	count.Tests(t, 1)
 
 	file := "test/source.mx.gz"
 	runSource(file)

@@ -8,7 +8,9 @@ import (
 )
 
 func testParser(t *testing.T, tests []parserTestConditions) {
-	count.Tests(t, len(tests), "testParser")
+	t.Helper()
+	count.Tests(t, len(tests))
+
 	for j := range tests {
 		exp := tests[j].Expected
 

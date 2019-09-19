@@ -12,7 +12,7 @@ import (
 )
 
 func TestUnmarshalArrayJsonString(t *testing.T) {
-	count.Tests(t, 1, "TestUnmarshalArrayJsonString")
+	count.Tests(t, 1)
 
 	input := `["e","d","c","b","a"]` // lets prove the output retains sorting
 	output := `[e d c b a]`
@@ -41,7 +41,7 @@ func TestUnmarshalArrayJsonString(t *testing.T) {
 }
 
 func TestUnmarshalArrayJsonInt(t *testing.T) {
-	count.Tests(t, 1, "TestUnmarshalArrayJsonInt")
+	count.Tests(t, 1)
 
 	input := `[5,4,3,2,1]` // lets prove the output retains sorting
 	output := `[5 4 3 2 1]`

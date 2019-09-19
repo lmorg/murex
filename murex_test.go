@@ -10,7 +10,7 @@ import (
 // TestMurex tests murex runtime environment can be initialised and and simple
 // command line can execute
 func TestMurex(t *testing.T) {
-	count.Tests(t, 1, "TestMurex")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 

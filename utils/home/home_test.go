@@ -11,7 +11,7 @@ import (
 
 // TestMyHome tests your home directory can be derived
 func TestMyHome(t *testing.T) {
-	count.Tests(t, 1, "TestMyHome")
+	count.Tests(t, 1)
 	if MyDir == "" {
 		t.Error("MyDir not set (murex will still function)")
 	}
@@ -19,7 +19,7 @@ func TestMyHome(t *testing.T) {
 
 // TestUserHome tests a users home directory can be derived
 func TestUserHome(t *testing.T) {
-	count.Tests(t, 1, "TestUserHome")
+	count.Tests(t, 1)
 
 	u, err := user.Current()
 	if err != nil {

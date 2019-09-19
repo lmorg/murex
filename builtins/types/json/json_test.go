@@ -57,7 +57,7 @@ func TestArrayWriter(t *testing.T) {
 }
 
 func TestMarshalArrayString(t *testing.T) {
-	count.Tests(t, 1, "TestMarshalArrayString")
+	count.Tests(t, 1)
 
 	input := []string{"e", "d", "c", "b", "a"} // lets prove the output retains sorting
 	output := `["e","d","c","b","a"]`
@@ -80,7 +80,7 @@ func TestMarshalArrayString(t *testing.T) {
 }
 
 func TestMarshalArrayInt(t *testing.T) {
-	count.Tests(t, 1, "TestMarshalArrayInt")
+	count.Tests(t, 1)
 
 	input := []int{5, 4, 3, 2, 1} // lets prove the output retains sorting
 	output := `[5,4,3,2,1]`

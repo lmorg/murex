@@ -16,7 +16,7 @@ func TestMan(t *testing.T) {
 		return
 	}
 
-	count.Tests(t, 3, "TestMan")
+	count.Tests(t, 3)
 
 	files := GetManPages("cat")
 	if len(files) == 0 {

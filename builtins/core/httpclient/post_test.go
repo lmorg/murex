@@ -9,7 +9,7 @@ import (
 
 // TestPost tests the post function
 func TestPost(t *testing.T) {
-	count.Tests(t, 1, "TestPost")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 	addr := StartHTTPServer(t)
