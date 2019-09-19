@@ -51,7 +51,8 @@ var (
 	GlobalUnitTests = new(UnitTests)
 
 	// ForegroundProc is the murex FID which currently has "focus"
-	ForegroundProc = ShellProcess
+	//ForegroundProc = ShellProcess
+	ForegroundProc = new(foregroundProc)
 
 	// ShellExitNum is for when running murex in interactive shell mode
 	ShellExitNum int
@@ -358,7 +359,8 @@ func deregisterProcess(p *Process) {
 
 	p.SetTerminatedState(true)
 	if !p.IsBackground {
-		ForegroundProc = p.Next
+		//ForegroundProc = p.Next
+		ForegroundProc.Set(p.Next)
 	}
 
 	go func() {

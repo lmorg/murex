@@ -264,7 +264,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	if len(procs) == 0 {
 		return
 	}
-	ForegroundProc = &procs[0]
+	//ForegroundProc = &procs[0]
+	if !fork.IsBackground {
+		ForegroundProc.Set(&procs[0])
+	}
 
 	// Support for different run modes:
 	switch fork.RunMode {

@@ -100,7 +100,8 @@ func cmdForeground(p *lang.Process) error {
 
 	updateTree(f, false)
 
-	lang.ForegroundProc = f
+	//lang.ForegroundProc = f
+	lang.ForegroundProc.Set(f)
 
 	//if !f.Exec.Cmd.ProcessState.Exited() {
 	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)

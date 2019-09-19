@@ -18,7 +18,11 @@ jobs:
           name: Run Go tests
           #environment:
           #  MUREX_TEST_SKIP_MAN: true
-          command: go test ./... -count 10
+          command: go test ./... -count 10 -race -coverprofile=coverage.txt -covermode=atomic
+
+      - run:
+          name: Code Coverage (codecov.io)
+          command: bash <(curl -s https://codecov.io/bash)
 
       - run:
           name: Build murex

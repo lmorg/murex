@@ -88,7 +88,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 
 	p.Stdout.SetDataType(define.MimeToMurex(resp.Header.Get("Content-Type")))
 
-	quit := false
+	quit := make(chan bool)
 	cl := resp.Header.Get("Content-Length")
 
 	if cl == "" {
@@ -100,7 +100,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 	}
 
 	defer func() {
-		quit = true
+		quit <- true
 		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
 		os.Stderr.WriteString("Downloaded " + utils.HumanBytes(written) + ".\n")
@@ -109,11 +109,21 @@ func cmdGetFile(p *lang.Process) (err error) {
 	go func() {
 		//gauge := render.NewGaugeBar("Downloading....")
 		var last uint64
-		for !quit {
+		select {
+		case <-quit:
+			return
+		default:
+		}
+
+		for {
 			time.Sleep(1 * time.Second)
-			if quit {
+
+			select {
+			case <-quit:
 				return
+			default:
 			}
+
 			written, _ := p.Stdout.Stats()
 			speed := written - last
 			last = written
