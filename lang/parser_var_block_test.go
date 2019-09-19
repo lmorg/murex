@@ -6,10 +6,10 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
-func TestParserVariable1(t *testing.T) {
+func TestParserVariableBlockString1(t *testing.T) {
 	params := [][]parameters.ParamToken{{
 		{Key: "-", Type: parameters.TokenTypeValue},
-		{Key: "var", Type: parameters.TokenTypeString},
+		{Key: "block", Type: parameters.TokenTypeBlockString},
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 
@@ -20,16 +20,16 @@ func TestParserVariable1(t *testing.T) {
 	}}
 
 	var tests = []parserTestConditions{
-		{Expected: nodes, Block: `example -$var-`},
-		{Expected: nodes, Block: `example "-$var-"`},
+		{Expected: nodes, Block: `example -${block}-`},
+		{Expected: nodes, Block: `example "-${block}-"`},
 	}
 
 	testParser(t, tests)
 }
 
-func TestParserVariable2(t *testing.T) {
+func TestParserVariableBlockString2(t *testing.T) {
 	params := [][]parameters.ParamToken{{
-		{Key: "-$var-", Type: parameters.TokenTypeValue},
+		{Key: "-${block}-", Type: parameters.TokenTypeValue},
 	}}
 
 	nodes := astNodes{{
@@ -39,17 +39,17 @@ func TestParserVariable2(t *testing.T) {
 	}}
 
 	var tests = []parserTestConditions{
-		{Expected: nodes, Block: `example '-$var-'`},
-		{Expected: nodes, Block: `example -\$var-`},
-		{Expected: nodes, Block: `example "-\$var-"`},
+		{Expected: nodes, Block: `example '-${block}-'`},
+		{Expected: nodes, Block: `example -\${block}-`},
+		{Expected: nodes, Block: `example "-\${block}-"`},
 	}
 
 	testParser(t, tests)
 }
 
-func TestParserVariable3(t *testing.T) {
+func TestParserVariableBlockString3(t *testing.T) {
 	params := [][]parameters.ParamToken{{
-		{Key: "-\\$var-", Type: parameters.TokenTypeValue},
+		{Key: "-\\${block}-", Type: parameters.TokenTypeValue},
 	}}
 
 	nodes := astNodes{{
@@ -59,7 +59,7 @@ func TestParserVariable3(t *testing.T) {
 	}}
 
 	var tests = []parserTestConditions{
-		{Expected: nodes, Block: `example '-\$var-'`},
+		{Expected: nodes, Block: `example '-\${block}-'`},
 	}
 
 	testParser(t, tests)
