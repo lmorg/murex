@@ -7,6 +7,11 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
+type parserTestConditions struct {
+	Block    string
+	Expected astNodes
+}
+
 func testParser(t *testing.T, tests []parserTestConditions) {
 	t.Helper()
 	count.Tests(t, len(tests))
