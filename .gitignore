@@ -27,3 +27,6 @@ murex.iml
 
 # Misc
 .DS_Store
+
+# Codecov.io
+coverage.txt
