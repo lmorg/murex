@@ -2,6 +2,7 @@ package debug
 
 import (
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -14,22 +15,24 @@ func TestBadMutex(t *testing.T) {
 	count.Tests(t, 1, "TestBadMutex")
 
 	var (
-		m      BadMutex // if we swap this for sync.Mutex the error should be raised
-		exited bool
+		m BadMutex // if we swap this for sync.Mutex the error should be raised
+		i int32
 	)
 
-	m.Lock()
-
 	go func() {
+		m.Lock()
 		time.Sleep(500 * time.Millisecond)
+		atomic.AddInt32(&i, 1)
 		m.Unlock()
-		if !exited {
-			t.Error("BadMutex caused a locking condition. This should not happen")
-		}
 	}()
 
+	time.Sleep(100 * time.Millisecond)
 	m.Lock()
-	exited = true
+	m.Unlock()
+
+	if atomic.LoadInt32(&i) != 0 {
+		t.Error("BadMutex caused a locking condition. This should not happen")
+	}
 }
 
 // TestGoodMutex proves our bad mutex test works
@@ -37,20 +40,22 @@ func TestGoodMutex(t *testing.T) {
 	count.Tests(t, 1, "TestGoodMutex")
 
 	var (
-		m      sync.Mutex
-		exited bool
+		m sync.Mutex // if we swap this for sync.Mutex the error should be raised
+		i int32
 	)
 
-	m.Lock()
-
 	go func() {
+		m.Lock()
 		time.Sleep(500 * time.Millisecond)
+		atomic.AddInt32(&i, 1)
 		m.Unlock()
-		if exited {
-			t.Error("Mutex did not cause a locking condition. The test logic has failed")
-		}
 	}()
 
+	time.Sleep(100 * time.Millisecond)
 	m.Lock()
-	exited = true
+	m.Unlock()
+
+	if atomic.LoadInt32(&i) == 0 {
+		t.Error("Mutex did not cause a locking condition. The test logic has failed")
+	}
 }

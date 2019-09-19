@@ -103,3 +103,22 @@ func (p *Process) ErrIfNotAMethod() (err error) {
 	}
 	return
 }
+
+type foregroundProc struct {
+	mutex sync.Mutex
+	p     *Process
+}
+
+func (fp foregroundProc) Get() *Process {
+	fp.mutex.Lock()
+	p := fp.p
+	fp.mutex.Unlock()
+
+	return p
+}
+
+func (fp foregroundProc) Set(p *Process) {
+	fp.mutex.Lock()
+	fp.p = p
+	fp.mutex.Unlock()
+}

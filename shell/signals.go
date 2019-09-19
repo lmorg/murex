@@ -25,7 +25,7 @@ func sigtstp() {
 	// This doesn't get called in Windows however I'm still keeping this
 	// function here with the rest of the signal functions for the sake of
 	// consistency.
-	p := lang.ForegroundProc
+	p := lang.ForegroundProc.Get()
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
@@ -66,7 +66,7 @@ func stopStatus(p *lang.Process) {
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
 		fork.Name = "(SIGTSTP)"
-		fork.Variables.Set("PID", lang.ForegroundProc.Exec.Pid, types.Integer)
+		fork.Variables.Set("PID", lang.ForegroundProc.Get().Exec.Pid, types.Integer)
 		_, err = fork.Execute([]rune(block.(string)))
 
 		if err != nil {
@@ -87,8 +87,9 @@ func sigint(interactive bool) {
 
 func sigterm(interactive bool) {
 	if interactive {
-		if lang.ForegroundProc != nil && lang.ForegroundProc.Kill != nil {
-			lang.ForegroundProc.Kill()
+		p := lang.ForegroundProc.Get()
+		if p != nil && p.Kill != nil {
+			p.Kill()
 		}
 
 	} else {
