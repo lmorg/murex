@@ -20,7 +20,7 @@ func TestPosix(t *testing.T) {
 		"plan9":     false,
 	}
 
-	count.Tests(t, len(platforms), "TestPosix")
+	count.Tests(t, len(platforms))
 
 	for os, val := range platforms {
 		if val {

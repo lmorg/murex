@@ -33,36 +33,6 @@ func (h testHTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-/*
-func StartHTTPServer(t *testing.T) (addr string) {
-	c := make(chan string)
-	go testHTTPServer(t, c)
-	addr = <-c
-	return
-}
-
-func testHTTPServer(t *testing.T, c chan string) {
-	var (
-		port int32
-		addr string
-		err  error
-	)
-
-	for i := 0; i < 10; i++ {
-		port = atomic.AddInt32(&testPort, 1)
-		addr = fmt.Sprintf("%s:%d", testHost, port)
-		go func() {
-			err = http.ListenAndServe(addr, testHTTPHandler{})
-		}()
-		time.Sleep(100 * time.Millisecond)
-		if err == nil {
-			c <- addr
-			return
-		}
-	}
-}
-*/
-
 func StartHTTPServer(t *testing.T) string {
 	var (
 		port int32

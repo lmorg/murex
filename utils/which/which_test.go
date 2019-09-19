@@ -8,7 +8,7 @@ import (
 )
 
 func TestPath(t *testing.T) {
-	count.Tests(t, 1, "TestPath")
+	count.Tests(t, 1)
 
 	path := os.Getenv("PATH")
 	if path == "" {
@@ -16,7 +16,7 @@ func TestPath(t *testing.T) {
 	}
 }
 func TestWhich(t *testing.T) {
-	count.Tests(t, 1, "TestWhich")
+	count.Tests(t, 1)
 
 	if Which("go") == "" {
 		t.Error("Which() couldn't find the `go` executable in your $PATH")

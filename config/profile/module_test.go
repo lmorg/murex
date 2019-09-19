@@ -71,7 +71,7 @@ func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
 }
 
 func TestIsDisabled(t *testing.T) {
-	count.Tests(t, 3, "TestIsDisabled")
+	count.Tests(t, 3)
 
 	disabled = []string{
 		"foo",
@@ -97,7 +97,7 @@ func TestPath(t *testing.T) {
 		t.Skipf("Unable to get current working directory: %s", err)
 	}
 
-	count.Tests(t, 2, "TestPath")
+	count.Tests(t, 2)
 
 	path := m.Path()
 
@@ -126,7 +126,7 @@ func TestValidate(t *testing.T) {
 		t.Skip("Unable to stat path. Skipping this test until murex is run for the first time")
 	}
 
-	count.Tests(t, 6, "TestValidate")
+	count.Tests(t, 6)
 
 	autocomplete.GlobalExes = map[string]bool{
 		"sh":      true,

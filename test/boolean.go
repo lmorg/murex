@@ -21,7 +21,8 @@ type BooleanTest struct {
 // RunBooleanTests runs through all the test cases for BooleanTest.
 // Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 func RunBooleanTests(tests []BooleanTest, t *testing.T) {
-	count.Tests(t, len(tests), "RunBooleanTests")
+	t.Helper()
+	count.Tests(t, len(tests))
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()

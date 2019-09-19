@@ -16,7 +16,7 @@ var (
 
 // TestExpand tests the ExpandString function
 func TestExpand(t *testing.T) {
-	count.Tests(t, 1, "TestExpand")
+	count.Tests(t, 3) // 3 tests in 1 string
 
 	lang.InitEnv()
 
@@ -41,7 +41,7 @@ func TestExpand(t *testing.T) {
 
 // TestExpandString tests the ExpandString function
 func TestExpandString(t *testing.T) {
-	count.Tests(t, 1, "TestExpandString")
+	count.Tests(t, 3) // 3 tests in 1 string
 
 	lang.InitEnv()
 
@@ -66,7 +66,7 @@ func TestExpandString(t *testing.T) {
 
 // TestCompare checks the Expand and ExpandString functions returns the same data (albeit in different data types)
 func TestCompare(t *testing.T) {
-	count.Tests(t, 1, "TestCompare")
+	count.Tests(t, 1) // test comparison
 
 	r := Expand([]rune(testString))
 	s := ExpandString(testString)

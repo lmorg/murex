@@ -52,7 +52,7 @@ func (h *TestHistory) Dump() interface{} {
 }
 
 func TestTestHistory(t *testing.T) {
-	count.Tests(t, 1, "TestTestHistory")
+	count.Tests(t, 1)
 
 	h := NewTestHistory()
 	if h.Len() != len(testHistoryItems) {

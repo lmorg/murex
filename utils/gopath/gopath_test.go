@@ -10,7 +10,7 @@ import (
 
 // TestGoPath checks for the existence of GOPATH and warns the user if it is not present
 func TestGoPath(t *testing.T) {
-	count.Tests(t, 1, "TestGoPath")
+	count.Tests(t, 1)
 
 	GOPATH := os.Getenv("GOPATH")
 	if GOPATH == "" {
@@ -32,7 +32,7 @@ func TestGoPath(t *testing.T) {
 // TestSource just does a quick check that Source() does return the root of
 // murex's source tree
 func TestSource(t *testing.T) {
-	count.Tests(t, 1, "TestSource")
+	count.Tests(t, 1)
 
 	path := Source([]string{})
 	t.Log("Source returns:", path)

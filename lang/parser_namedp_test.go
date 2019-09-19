@@ -6,11 +6,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
-type parserTestConditions struct {
-	Block    string
-	Expected astNodes
-}
-
 func TestParserNamedPiped1(t *testing.T) {
 	pipeParams := [][]parameters.ParamToken{{{
 		Key:  "<pipe>",

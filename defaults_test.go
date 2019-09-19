@@ -12,7 +12,7 @@ import (
 
 // TestDefaultConfigExists tests the Default() function populates *config.Config
 func TestDefaultConfigExists(t *testing.T) {
-	count.Tests(t, 1, "TestDefaultConfigExists")
+	count.Tests(t, 1)
 
 	conf := config.NewConfiguration()
 
@@ -26,7 +26,7 @@ func TestDefaultConfigExists(t *testing.T) {
 
 // TestDefaultProfileCompiles test the builtin murex_profile compiles
 func TestDefaultProfileCompiles(t *testing.T) {
-	count.Tests(t, 1, "TestDefaultProfileCompiles")
+	count.Tests(t, 1)
 
 	defaults.Defaults(lang.InitConf, false)
 	lang.InitEnv()

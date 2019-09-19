@@ -12,7 +12,7 @@ import (
 // TestBadMutex proves our test bad mutex (used to help diagnose locking faults)
 // does not lock
 func TestBadMutex(t *testing.T) {
-	count.Tests(t, 1, "TestBadMutex")
+	count.Tests(t, 1)
 
 	var (
 		m BadMutex // if we swap this for sync.Mutex the error should be raised
@@ -37,7 +37,7 @@ func TestBadMutex(t *testing.T) {
 
 // TestGoodMutex proves our bad mutex test works
 func TestGoodMutex(t *testing.T) {
-	count.Tests(t, 1, "TestGoodMutex")
+	count.Tests(t, 1)
 
 	var (
 		m sync.Mutex // if we swap this for sync.Mutex the error should be raised

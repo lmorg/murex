@@ -19,7 +19,7 @@ import (
 //    murex project hierarchy)
 // 2. Test the machine readable total API doesn't suffer a regression bug
 func TestServer(t *testing.T) {
-	client.Tests(t, 1, "TestServer")
+	client.Tests(t, 1)
 
 	port--
 
@@ -36,7 +36,7 @@ func TestServer(t *testing.T) {
 		t.SkipNow()
 	}
 
-	client.Tests(t, 2, "TestServer")
+	client.Tests(t, 2)
 
 	testCount(t)
 	//testT(t) //this test doesn't yet work

@@ -9,7 +9,7 @@ import (
 // TestJsonMap tests the the JSON wrapper can marshal interface{} maps which the
 // core library cannot
 func TestJsonMap(t *testing.T) {
-	count.Tests(t, 1, "TestJsonMap")
+	count.Tests(t, 1)
 
 	obj := make(map[interface{}]interface{})
 	obj["a"] = "b"

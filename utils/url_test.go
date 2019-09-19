@@ -26,7 +26,7 @@ func TestIsURL(t *testing.T) {
 		"https://domain",
 	}
 
-	count.Tests(t, len(good)+len(bad), "TestCrLfTestIsURLTrimString")
+	count.Tests(t, len(good)+len(bad))
 
 	for _, s := range bad {
 		if IsURL(s) {

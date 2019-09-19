@@ -19,6 +19,8 @@ func TestRangeByIndex(t *testing.T) {
 }
 
 func marshalHelp(t *testing.T) string {
+	t.Helper()
+
 	b, err := json.Marshal(help(), false)
 	if err != nil {
 		t.Errorf("Cannot marshal help(): %s", err)

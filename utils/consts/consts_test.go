@@ -8,7 +8,7 @@ import (
 
 // TestConsts tests the projects constants package
 func TestTempDir(t *testing.T) {
-	count.Tests(t, 1, "TestTempDir")
+	count.Tests(t, 1)
 
 	if TempDir == "" {
 		t.Error("No temp directory specified")

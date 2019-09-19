@@ -10,7 +10,7 @@ import (
 
 // TestNormalisePath tests NormalisePath function
 func TestNormalisePath(t *testing.T) {
-	count.Tests(t, 12, "TestNormalisePath")
+	count.Tests(t, 12)
 
 	path := NormalisePath(consts.PathSlash)
 	if path != consts.PathSlash {

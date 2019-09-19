@@ -8,7 +8,7 @@ import (
 )
 
 func TestUnmarshal(t *testing.T) {
-	count.Tests(t, 1, "TestUnmarshal")
+	count.Tests(t, 1)
 
 	lang.InitEnv()
 	fork := lang.ShellProcess.Fork(lang.F_CREATE_STDIN)

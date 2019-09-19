@@ -8,7 +8,7 @@ import (
 
 // TestStateStringer tests stringer has ran
 func TestStateStringer(t *testing.T) {
-	count.Tests(t, 9, "TestStateStringer")
+	count.Tests(t, 9)
 
 	defer func() {
 		if r := recover(); r != nil {
