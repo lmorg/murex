@@ -29,11 +29,8 @@ func main() {
 	case fCommand != "":
 		runCommandLine(fCommand)
 
-	case len(fSource) == 1:
-		runSource(fSource[0])
-
 	case len(fSource) > 1:
-		tooManyParams()
+		runSource(fSource[0])
 
 	default:
 		startMurex()
@@ -132,16 +129,6 @@ func runSource(filename string) {
 		os.Exit(1)
 	}
 	execSource([]rune(string(disk)), nil)
-}
-
-func tooManyParams() {
-	_, err := os.Stderr.WriteString("Too many parameters\n")
-	if err != nil {
-		// wouldn't really make any difference at this point because we
-		// cannot write to stderr anyway :(
-		panic(err)
-	}
-	os.Exit(1)
 }
 
 func startMurex() {
