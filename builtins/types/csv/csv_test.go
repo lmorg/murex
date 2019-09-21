@@ -24,33 +24,49 @@ func TestReadMap(t *testing.T) {
 
 	expected := []test.ReadMapExpected{
 		{
-			Key:   "England",
+			Key:   "0",
+			Value: "England",
+			Last:  false,
+		},
+		{
+			Key:   "1",
+			Value: "Scotland",
+			Last:  false,
+		},
+		{
+			Key:   "2",
+			Value: "Ireland",
+			Last:  true,
+		},
+		// -- next row
+		{
+			Key:   "0",
 			Value: "a",
 			Last:  false,
 		},
 		{
-			Key:   "Scotland",
+			Key:   "1",
 			Value: "b",
 			Last:  false,
 		},
 		{
-			Key:   "Ireland",
+			Key:   "2",
 			Value: "c",
 			Last:  true,
 		},
 		// -- next row
 		{
-			Key:   "England",
+			Key:   "0",
 			Value: "1",
 			Last:  false,
 		},
 		{
-			Key:   "Scotland",
+			Key:   "1",
 			Value: "2",
 			Last:  false,
 		},
 		{
-			Key:   "Ireland",
+			Key:   "2",
 			Value: "3",
 			Last:  true,
 		},
