@@ -42,10 +42,4 @@ func init() {
 		Default:     `#`,
 		DataType:    types.String,
 	})
-
-	lang.InitConf.Define("csv", "headings", config.Properties{
-		Description: "CSV files include headings when queried in formap.",
-		Default:     true,
-		DataType:    types.Boolean,
-	})
 }
