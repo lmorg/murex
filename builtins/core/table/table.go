@@ -22,21 +22,40 @@ func init() {
 	`)*/
 }
 
-func cmdTabulate(p *lang.Process) error {
-	p.Stdout.SetDataType("csv")
+const (
+	constSeparator = `(\t|\s[\s]+)+`
+)
 
+var (
+	rxWhitespaceLeft  = regexp.MustCompile(`^[\t\s]+`)
+	rxWhitespaceRight = regexp.MustCompile(`[\t\s]+$`)
+)
+
+func cmdTabulate(p *lang.Process) error {
 	const (
-		fNoTrim    = "--no-trim"
-		fSeparator = "--separator"
-		//fJoiner    = "--joiner"
-		fHelp = "--help"
+		//fNoTrim     = "--no-trim"
+		fSeparator  = "--separator"
+		fSplitComma = "--split-comma"
+		fMap        = "--map"
+		fJoiner     = "--joiner"
+		fHelp       = "--help"
 	)
 
 	flags := map[string]string{
-		fNoTrim:    types.Boolean,
-		fSeparator: types.String,
-		//fJoiner:    types.String,
+		//fNoTrim:     types.Boolean,
+		fSeparator:  types.String,
+		fSplitComma: types.Boolean,
+		fMap:        types.Boolean,
+		fJoiner:     types.String,
 	}
+
+	/*desc := map[string]string{
+		//fNoTrim:     "Disable ",
+		fSeparator:  "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
+		fSplitComma: "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
+		fMap: "Boolean, return JSON map instead of table",
+		fJoiner:    "String, used with --map to concatenate any trailing records in a given field",
+	}*/
 
 	/*help := func() (s []string) {
 		for f := range flags {
@@ -59,22 +78,40 @@ func cmdTabulate(p *lang.Process) error {
 	}
 
 	var (
-		trim      = true
-		separator = `\s[\s]+`
-		//joiner    = ","
+		//trim       = true
+		separator  = constSeparator
+		splitComma = false
+		joiner     = " "
+		w          writer
+
+		firstRec bool
+		offByOne bool
 	)
 
 	for flag, value := range f {
 		switch flag {
-		case fNoTrim:
-			trim = false
+		//case fNoTrim:
+		//	trim = false
 		case fSeparator:
 			separator = value
-		//case fJoiner:
-		//	joiner = value
+		case fSplitComma:
+			splitComma = true
+		case fJoiner:
+			joiner = value
+		case fMap:
+			// check this afterwards just in case fJoiner
+			// hasn't yet been processed
 		case fHelp:
 			// print help
 		}
+	}
+
+	if f[fMap] == "" {
+		p.Stdout.SetDataType("csv")
+		w = csv.NewWriter(p.Stdout)
+	} else {
+		p.Stdout.SetDataType(types.Json)
+		w = newMapWriter(p.Stdout, joiner)
 	}
 
 	rxTableSplit, err := regexp.Compile(separator)
@@ -86,24 +123,15 @@ func cmdTabulate(p *lang.Process) error {
 		return err
 	}
 
-	/*aw, err := p.Stdout.WriteArray(types.Generic)
-	if err != nil {
-		return err
-	}*/
-
-	var (
-		firstRec  bool
-		offByOne  bool
-		csvWriter = csv.NewWriter(p.Stdout)
-	)
-
 	scanner := bufio.NewScanner(p.Stdin)
 	for scanner.Scan() {
 		s := scanner.Text()
 
-		if trim {
+		/*if trim {
 			s = strings.TrimSpace(s)
-		}
+			//s = rxWhitespaceLeft.ReplaceAllString(s, "")
+			//s = rxWhitespaceRight.ReplaceAllString(s, "")
+		}*/
 
 		if !rxTableSplit.MatchString(s) {
 			continue
@@ -123,8 +151,25 @@ func cmdTabulate(p *lang.Process) error {
 			split = split[1:]
 		}
 
-		//aw.WriteString(strings.Join(split, joiner))
-		err := csvWriter.Write(split)
+		if splitComma && len(split) > 1 {
+			comma := strings.Split(split[0], ",")
+			if len(comma) == 1 {
+				goto noSplit
+			}
+
+			for i := range comma {
+				flag := strings.TrimSpace(comma[i])
+				new := append([]string{flag}, split[1:]...)
+				err := w.Write(new)
+				if err != nil {
+					return err
+				}
+			}
+			continue
+		}
+
+	noSplit:
+		err := w.Write(split)
 		if err != nil {
 			return err
 		}
@@ -133,7 +178,7 @@ func cmdTabulate(p *lang.Process) error {
 	if err := scanner.Err(); err != nil {
 		return err
 	}
-	//return aw.Close()
-	csvWriter.Flush()
-	return csvWriter.Error()
+
+	w.Flush()
+	return w.Error()
 }

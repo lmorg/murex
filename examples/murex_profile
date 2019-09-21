@@ -22,7 +22,7 @@ if { which lsd } then {
     summary ls ${man-summary ls}
 }
 
-!if { man-summary } then {
+!if { man-summary go } then {
     summary go "Go is a tool for managing Go source code"
 }
 summary atom "Github Atom - Text editor / IDE"
@@ -323,11 +323,20 @@ autocomplete set terraform {
 ## KEYBASE ##
 #############
 
+#autocomplete set keybase { [{
+#    "DynamicDesc": ({
+#        keybase: -> @[ ^COMMANDS:\$..^\$ ]re -> sort -> set keybase
+#        map { $keybase[ :0 ] -> regexp s/,// } { $keybase -> regexp 'f/\t+(.*?)$' }
+#    })
+#}] }
+
 autocomplete set keybase { [{
-    "DynamicDesc": ({
-        keybase: -> @[ ^COMMANDS:\$..^\$ ]re -> sort -> set keybase
-        map { $keybase[ :0 ] -> regexp s/,// } { $keybase -> regexp 'f/\t+(.*?)$' }
-    })
+    "DynamicDesc": ({ keybase: -> @[COMMANDS:..]es -> tabulate: --split-comma --map }),
+    "FlagValues": {
+        "pgp": [{
+                "DynamicDesc": ({ keybase: pgp -> @[COMMANDS:..]es -> tabulate: --split-comma --map })
+        }]
+    }
 }] }
 
 ###################
