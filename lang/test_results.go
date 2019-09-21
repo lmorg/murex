@@ -64,12 +64,6 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 
 // WriteResults is the reporting tool
 func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
-	v, err := ShellProcess.Config.Get("shell", "color", types.Boolean)
-	if err != nil {
-		v = false
-	}
-	allowAnsi := v.(bool)
-
 	params := func(exec string, params []string) (s string) {
 		if len(params) > 1 {
 			//s = exec + " '" + strings.Join(params, "' '") + "'"
@@ -110,8 +104,6 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return nil
 	}
 
-	//count.Tests(nil, tests.Results.Len(), "*Tests.WriteResults")
-
 	reportType, err := config.Get("test", "report-format", types.String)
 	if err != nil {
 		return err
@@ -125,6 +117,11 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	verbose, err := config.Get("test", "verbose", types.Boolean)
 	if err != nil {
 		verbose = false
+	}
+
+	ansiColour, err := config.Get("shell", "color", types.Boolean)
+	if err != nil {
+		ansiColour = false
 	}
 
 	if reportPipe.(string) != "" {
@@ -157,29 +154,30 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 			pipe.Writeln([]byte(consts.TestTableHeadings))
 		}
 
+		var colour, reset string
+		if ansiColour.(bool) {
+			reset = "\x1b[0m"
+		}
 		for _, r := range tests.Results.results {
 			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
 				continue
 			}
-			var prefix string
-			if allowAnsi {
-				prefix = "\x1b[0m["
+
+			if ansiColour.(bool) {
 				switch r.Status {
 				case TestPassed:
-					prefix += string([]byte{27, 91, 51, 50, 109})
+					colour = "\x1b[32m"
 				case TestFailed, TestError:
-					prefix += string([]byte{27, 91, 51, 49, 109})
+					colour = "\x1b[31m"
 				case TestMissed, TestInfo:
-					prefix += string([]byte{27, 91, 51, 52, 109})
+					colour = "\x1b[34m"
 				case TestState:
-					prefix += string([]byte{27, 91, 51, 51, 109})
+					colour = "\x1b[33m"
 				}
-			} else {
-				prefix = "["
 			}
 
-			s := fmt.Sprintf("%s%-6s\x1b[0m] %-10s %-50s %-4d %-4d %s",
-				prefix, r.Status,
+			s := fmt.Sprintf("[%s%-6s%s] %-10s %-50s %-4d %-4d %s",
+				colour, r.Status, reset,
 				r.TestName,
 				params(r.Exec, r.Params),
 				r.LineNumber,

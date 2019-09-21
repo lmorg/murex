@@ -29,7 +29,7 @@ func main() {
 	case fCommand != "":
 		runCommandLine(fCommand)
 
-	case len(fSource) > 1:
+	case len(fSource) > 0:
 		runSource(fSource[0])
 
 	default:
