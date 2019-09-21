@@ -9,32 +9,31 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/json"
 )
 
 const typeName = "hcl"
 
 func init() {
-	define.ReadIndexes[typeName] = readIndex
-	define.ReadNotIndexes[typeName] = readIndex
+	lang.ReadIndexes[typeName] = readIndex
+	lang.ReadNotIndexes[typeName] = readIndex
 
 	stdio.RegesterReadArray(typeName, readArray)
 	stdio.RegesterReadMap(typeName, readMap)
 	stdio.RegesterWriteArray(typeName, newArrayWriter)
 
-	define.Marshallers[typeName] = marshal
-	define.Unmarshallers[typeName] = unmarshal
+	lang.Marshallers[typeName] = marshal
+	lang.Unmarshallers[typeName] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
-	define.SetMime(typeName,
+	lang.SetMime(typeName,
 		"application/hcl",
 		"application/x-hcl",
 		"text/hcl",
 		"text/x-hcl",
 	)
 
-	define.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
+	lang.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
 }
 
 func readArray(read stdio.Io, callback func([]byte)) error {
@@ -125,7 +124,7 @@ func readIndex(p *lang.Process, params []string) error {
 		return json.Marshal(iface, p.Stdout.IsTTY())
 	}
 
-	return define.IndexTemplateObject(p, params, &jInterface, marshaller)
+	return lang.IndexTemplateObject(p, params, &jInterface, marshaller)
 }
 
 func marshal(p *lang.Process, v interface{}) ([]byte, error) {

@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 //type jsonInterface map[interface{}]interface{}
@@ -54,12 +53,12 @@ func index(p *lang.Process) (err error) {
 
 	var f func(p *lang.Process, params []string) error
 	if p.IsNot {
-		f = define.ReadNotIndexes[dt]
+		f = lang.ReadNotIndexes[dt]
 		if f == nil {
 			return errors.New("I don't know how to get an !index from this data type: `" + dt + "`")
 		}
 	} else {
-		f = define.ReadIndexes[dt]
+		f = lang.ReadIndexes[dt]
 		if f == nil {
 			return errors.New("I don't know how to get an index from this data type: `" + dt + "`")
 		}

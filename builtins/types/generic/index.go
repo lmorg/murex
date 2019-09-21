@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func index(p *lang.Process, params []string) error {
@@ -27,5 +26,5 @@ func index(p *lang.Process, params []string) error {
 		return
 	}
 
-	return define.IndexTemplateTable(p, params, cRecords, marshaller)
+	return lang.IndexTemplateTable(p, params, cRecords, marshaller)
 }

@@ -1,15 +1,13 @@
-package define
+package lang
 
 import (
 	"errors"
-
-	"github.com/lmorg/murex/lang"
 )
 
 // MarshalData is a global marshaller which should be called from within murex
 // builtin commands (etc).
 // See docs/apis/marshaldata.md for more details
-func MarshalData(p *lang.Process, dataType string, data interface{}) (b []byte, err error) {
+func MarshalData(p *Process, dataType string, data interface{}) (b []byte, err error) {
 	// This is one of the very few maps in Murex which isn't hidden behind a sync
 	// lock of one description or other. The rational is that even mutexes can
 	// add a noticeable overhead on the performance of tight loops and I expect

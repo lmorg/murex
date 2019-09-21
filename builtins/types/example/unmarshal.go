@@ -4,12 +4,11 @@ import (
 	"encoding/json"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
 	// Register data-type
-	define.Unmarshallers["example"] = unmarshal
+	lang.Unmarshallers["example"] = unmarshal
 }
 
 // Describe unmarshaller

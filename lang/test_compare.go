@@ -14,7 +14,6 @@ package lang
 */
 
 import (
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -116,7 +115,7 @@ func (tests *Tests) ReportMissedTests(p *Process) {
 	tests.mutex.Unlock()
 }
 
-func testIsMap(b []byte, dt string, property string) (int, string) {
+func testIsMap(b []byte, dt string, property string) (TestStatus, string) {
 	fork := ShellProcess.Fork(F_CREATE_STDIN)
 	fork.Stdin.SetDataType(dt)
 	_, err := fork.Stdin.Write(b)
@@ -124,7 +123,7 @@ func testIsMap(b []byte, dt string, property string) (int, string) {
 		return TestError, tMsgWriteErr(property, err)
 	}
 
-	v, err := define.UnmarshalData(p, dt)
+	v, err := UnmarshalData(fork.Process, dt)
 	if err != nil {
 		return TestFailed, tMsgUnmarshalErr(property, dt, err)
 	}
@@ -138,7 +137,7 @@ func testIsMap(b []byte, dt string, property string) (int, string) {
 	}
 }
 
-func testIsArray(b []byte, dt string, property string) (int, string) {
+func testIsArray(b []byte, dt string, property string) (TestStatus, string) {
 	fork := ShellProcess.Fork(F_CREATE_STDIN)
 	fork.Stdin.SetDataType(dt)
 	_, err := fork.Stdin.Write(b)
@@ -146,13 +145,13 @@ func testIsArray(b []byte, dt string, property string) (int, string) {
 		return TestError, tMsgWriteErr(property, err)
 	}
 
-	v, err := define.UnmarshalData(p, dt)
+	v, err := UnmarshalData(fork.Process, dt)
 	if err != nil {
 		return TestFailed, tMsgUnmarshalErr(property, dt, err)
 	}
 
 	switch v.(type) {
-	case []string, []]interface{}:
+	case []string, []interface{}:
 		return TestPassed, tMsgDataFormatValid(property, dt, v)
 
 	default:

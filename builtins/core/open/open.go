@@ -9,7 +9,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -63,7 +62,7 @@ func open(p *lang.Process) (err error) {
 
 	default:
 		ext = getExt(path, "")
-		dataType = define.GetExtType(ext)
+		dataType = lang.GetExtType(ext)
 	}
 
 	if dataType == "gz" || (len(path) > 3 && strings.ToLower(path[len(path)-3:]) == ".gz") {
@@ -80,7 +79,7 @@ func open(p *lang.Process) (err error) {
 		defer gz.Close()
 
 		ext = getExt(path, "")
-		dataType = define.GetExtType(ext)
+		dataType = lang.GetExtType(ext)
 		tmp, err := utils.NewTempFile(gz, ext)
 		defer tmp.Close()
 
@@ -102,7 +101,7 @@ func getExt(path, dataType string) string {
 		}
 	}
 
-	m := define.GetFileExts()
+	m := lang.GetFileExts()
 	for ext := range m {
 		if m[ext] == dataType {
 			return ext
@@ -132,14 +131,6 @@ func preview(p *lang.Process, path, dataType string) error {
 		_, err = io.Copy(p.Stdout, file)
 		return err
 	}
-
-	//branch := lang.ShellProcess.BranchFID()
-	//defer branch.Close()
-	//branch.Scope = branch.Process
-	//branch.Parent = branch.Process
-	//branch.Name = "open"
-	//branch.Parameters.Params = []string{path}
-	//_, err := lang.RunBlockNewConfigSpace(block, nil, p.Stdout, p.Stderr, branch.Process)
 
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 	fork.Name = "open"

@@ -4,7 +4,6 @@ import (
 	"sort"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -35,7 +34,7 @@ func cmdMSort(p *lang.Process) error {
 
 	sort.Strings(a)
 
-	b, err := define.MarshalData(p, dt, a)
+	b, err := lang.MarshalData(p, dt, a)
 	if err != nil {
 		return err
 	}

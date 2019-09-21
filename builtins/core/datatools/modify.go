@@ -2,7 +2,6 @@ package datatools
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils/alter"
 )
 
@@ -18,7 +17,7 @@ func cmdAlter(p *lang.Process) error {
 		return err
 	}
 
-	v, err := define.UnmarshalData(p, dt)
+	v, err := lang.UnmarshalData(p, dt)
 	if err != nil {
 		return err
 	}
@@ -43,7 +42,7 @@ func cmdAlter(p *lang.Process) error {
 		return err
 	}
 
-	b, err := define.MarshalData(p, dt, v)
+	b, err := lang.MarshalData(p, dt, v)
 	if err != nil {
 		return err
 	}

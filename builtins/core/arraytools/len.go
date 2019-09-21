@@ -6,7 +6,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -16,7 +15,7 @@ func init() {
 func cmdLen(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Integer)
 
-	v, err := define.UnmarshalData(p, p.Stdin.GetDataType())
+	v, err := lang.UnmarshalData(p, p.Stdin.GetDataType())
 	if err != nil {
 		return err
 	}

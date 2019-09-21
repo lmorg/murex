@@ -8,7 +8,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -58,7 +57,7 @@ func element(p *lang.Process) (err error) {
 
 	path := strings.Split(params[0], params[0][0:1])
 
-	obj, err := define.UnmarshalData(p, dt)
+	obj, err := lang.UnmarshalData(p, dt)
 	if err != nil {
 		return err
 	}
@@ -106,7 +105,7 @@ func element(p *lang.Process) (err error) {
 		}
 	default:
 		p.Stdout.SetDataType(dt)
-		b, err := define.MarshalData(p, dt, obj)
+		b, err := lang.MarshalData(p, dt, obj)
 		if err != nil {
 			return err
 		}

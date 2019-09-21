@@ -2,7 +2,6 @@ package datatools
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -41,7 +40,7 @@ func cmdSwivelDataType(p *lang.Process) error {
 		return err
 	}
 
-	b, err := define.MarshalData(p, dt, table)
+	b, err := lang.MarshalData(p, dt, table)
 	if err != nil {
 		return err
 	}
@@ -79,7 +78,7 @@ func cmdSwivelTable(p *lang.Process) error {
 		table = table[:len(table)-1]
 	}
 
-	b, err := define.MarshalData(p, dt, rotate(table))
+	b, err := lang.MarshalData(p, dt, rotate(table))
 	if err != nil {
 		return err
 	}

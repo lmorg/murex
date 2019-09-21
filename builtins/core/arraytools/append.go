@@ -2,7 +2,6 @@ package arraytools
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -30,7 +29,7 @@ func cmdPrepend(p *lang.Process) error {
 
 	array = append(p.Parameters.StringArray(), array...)
 
-	b, err := define.MarshalData(p, dt, array)
+	b, err := lang.MarshalData(p, dt, array)
 	if err != nil {
 		return err
 	}
@@ -59,7 +58,7 @@ func cmdAppend(p *lang.Process) error {
 
 	array = append(array, p.Parameters.StringArray()...)
 
-	b, err := define.MarshalData(p, dt, array)
+	b, err := lang.MarshalData(p, dt, array)
 	if err != nil {
 		return err
 	}

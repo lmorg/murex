@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/lang/types/define"
 	"gopkg.in/yaml.v2"
 )
 
@@ -18,23 +17,23 @@ func init() {
 	stdio.RegesterReadArray(typeName, readArray)
 	stdio.RegesterReadMap(typeName, readMap)
 	stdio.RegesterWriteArray(typeName, newArrayWriter)
-	define.ReadIndexes[typeName] = readIndex
-	define.ReadNotIndexes[typeName] = readIndex
-	define.Marshallers[typeName] = marshal
-	define.Unmarshallers[typeName] = unmarshal
+	lang.ReadIndexes[typeName] = readIndex
+	lang.ReadNotIndexes[typeName] = readIndex
+	lang.Marshallers[typeName] = marshal
+	lang.Unmarshallers[typeName] = unmarshal
 
-	define.SetMime(typeName,
+	lang.SetMime(typeName,
 		"application/yaml", // this is preferred but we will include others since not everyone follows standards.
 		"application/x-yaml",
 		"text/yaml",
 		"text/x-yaml",
 	)
 
-	define.SetFileExtensions(typeName, "yaml", "yml")
+	lang.SetFileExtensions(typeName, "yaml", "yml")
 }
 
 func readArray(read stdio.Io, callback func([]byte)) error {
-	return define.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)
+	return lang.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
 func noCrLf(b []byte) []byte {
@@ -116,7 +115,7 @@ func readIndex(p *lang.Process, params []string) error {
 		return err
 	}
 
-	return define.IndexTemplateObject(p, params, &jInterface, yaml.Marshal)
+	return lang.IndexTemplateObject(p, params, &jInterface, yaml.Marshal)
 }
 
 func marshal(_ *lang.Process, v interface{}) ([]byte, error) {

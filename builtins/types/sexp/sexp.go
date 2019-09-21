@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 const (
@@ -20,28 +19,28 @@ func init() {
 	stdio.RegesterReadArray(sexpr, readArrayS)
 	stdio.RegesterReadMap(sexpr, readMapS)
 	stdio.RegesterWriteArray(sexpr, newArrayWriterS)
-	define.ReadIndexes[sexpr] = readIndexS
-	define.ReadNotIndexes[sexpr] = readIndexS
-	define.Marshallers[sexpr] = marshalS
-	define.Unmarshallers[sexpr] = unmarshal
+	lang.ReadIndexes[sexpr] = readIndexS
+	lang.ReadNotIndexes[sexpr] = readIndexS
+	lang.Marshallers[sexpr] = marshalS
+	lang.Unmarshallers[sexpr] = unmarshal
 
 	stdio.RegesterReadArray(csexp, readArrayC)
 	stdio.RegesterReadMap(csexp, readMapC)
 	stdio.RegesterWriteArray(csexp, newArrayWriterC)
-	define.ReadIndexes[csexp] = readIndexC
-	define.ReadNotIndexes[csexp] = readIndexC
-	define.Marshallers[csexp] = marshalC
-	define.Unmarshallers[csexp] = unmarshal
+	lang.ReadIndexes[csexp] = readIndexC
+	lang.ReadNotIndexes[csexp] = readIndexC
+	lang.Marshallers[csexp] = marshalC
+	lang.Unmarshallers[csexp] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
-	define.SetMime(sexpr,
+	lang.SetMime(sexpr,
 		"application/sexp",
 		"application/x-sexp",
 		"text/sexp",
 		"text/x-sexp",
 	)
 
-	define.SetFileExtensions(sexpr, "sexp")
+	lang.SetFileExtensions(sexpr, "sexp")
 }
 
 func readArrayC(read stdio.Io, callback func([]byte)) error { return readArray(read, callback, true) }
@@ -165,7 +164,7 @@ func readIndex(p *lang.Process, params []string, canonical bool) (err error) {
 		return sexp.Marshal(iface, canonical)
 	}
 
-	return define.IndexTemplateObject(p, params, &se, marshaller)
+	return lang.IndexTemplateObject(p, params, &se, marshaller)
 }
 
 func marshalC(_ *lang.Process, v interface{}) ([]byte, error) { return sexp.Marshal(v, true) }

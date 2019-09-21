@@ -2,7 +2,6 @@ package csvbad
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func readIndex(p *lang.Process, params []string) error {
@@ -29,5 +28,5 @@ func readIndex(p *lang.Process, params []string) error {
 		close(cRecords)
 	}()
 
-	return define.IndexTemplateTable(p, params, cRecords, csvParser.ArrayToCsv)
+	return lang.IndexTemplateTable(p, params, cRecords, csvParser.ArrayToCsv)
 }

@@ -12,7 +12,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/json"
@@ -43,7 +42,7 @@ func cmdDebug(p *lang.Process) (err error) {
 		)
 
 		dt := p.Stdin.GetDataType()
-		obj, _ := define.UnmarshalData(p, dt) // For once we don't care about the error
+		obj, _ := lang.UnmarshalData(p, dt) // For once we don't care about the error
 
 		j["Process"] = *p.Previous // only making a readonly so the sync.Mutex is irrelevant here
 		j["Data-Type"] = map[string]string{

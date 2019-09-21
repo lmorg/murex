@@ -1,9 +1,9 @@
 package string
 
 import (
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -12,12 +12,12 @@ func init() {
 	stdio.RegesterReadMap(types.String, readMap)
 	stdio.RegesterWriteArray(types.String, newArrayWriter)
 
-	define.ReadIndexes[types.String] = index
-	define.ReadNotIndexes[types.String] = index
-	define.Marshallers[types.String] = marshal
-	define.Unmarshallers[types.String] = unmarshal
+	lang.ReadIndexes[types.String] = index
+	lang.ReadNotIndexes[types.String] = index
+	lang.Marshallers[types.String] = marshal
+	lang.Unmarshallers[types.String] = unmarshal
 
-	define.SetMime(types.String,
+	lang.SetMime(types.String,
 		"application/x-latex",
 		"www/mime",
 		"application/base64",

@@ -1,24 +1,22 @@
-package define
+package lang
 
 import (
 	"regexp"
 	"strings"
-
-	"github.com/lmorg/murex/lang"
 )
 
 var (
 	// ReadIndexes defines the Go functions for the `[ Index ]` murex function
-	ReadIndexes = make(map[string]func(*lang.Process, []string) error)
+	ReadIndexes = make(map[string]func(*Process, []string) error)
 
 	// ReadNotIndexes defines the Go functions for the `![ Index ]` murex function
-	ReadNotIndexes = make(map[string]func(*lang.Process, []string) error)
+	ReadNotIndexes = make(map[string]func(*Process, []string) error)
 
 	// Unmarshallers defines the Go functions for converting a murex data type into a Go interface
-	Unmarshallers = make(map[string]func(*lang.Process) (interface{}, error))
+	Unmarshallers = make(map[string]func(*Process) (interface{}, error))
 
 	// Marshallers defines the Go functions for converting a Go interface into a murex data type
-	Marshallers = make(map[string]func(*lang.Process, interface{}) ([]byte, error))
+	Marshallers = make(map[string]func(*Process, interface{}) ([]byte, error))
 )
 
 var (
