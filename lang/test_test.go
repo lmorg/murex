@@ -13,10 +13,6 @@ package lang
 	work by testing the Go code that resides behind them.
 */
 
-import (
-	"testing"
-)
-
-func TestMurexTestingFramework(t *testing.T) {
-
-}
+//func TestMurexTestingFramework(t *testing.T) {
+//
+//}

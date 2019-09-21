@@ -188,7 +188,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// run function
 	testExitNum, testForkErr = runFunction(function, plan.Stdin != "", fork)
 	if testForkErr != nil {
-		addReport(TestFailed, tMsgCompileErr(function, testForkErr))
+		addReport(TestError, tMsgCompileErr(function, testForkErr))
 		return false
 	}
 
