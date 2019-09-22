@@ -1,12 +1,14 @@
 package cmdtest
 
 import (
+	"fmt"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func testUnitDefine(p *lang.Process) error {
-	pubPriv, err := p.Parameters.String(1)
+	mod, err := p.Parameters.String(1)
 	if err != nil {
 		return err
 	}
@@ -27,8 +29,24 @@ func testUnitDefine(p *lang.Process) error {
 		return err
 	}
 
-	if pubPriv == "private" {
+	switch mod {
+	case "function":
+		// do nothing
+
+	case "private":
 		function = p.FileRef.Source.Module + "/" + function
+
+	case "autocomplete":
+		function = lang.UnitTestAutocomplete + "/" + function
+
+	case "open":
+		function = lang.UnitTestAutocomplete + "/" + function
+
+	case "event":
+		function = lang.UnitTestAutocomplete + "/" + function
+
+	default:
+		return fmt.Errorf("Unsupported block type (eg `function`, `private`, `autocomplete`): `%s`", mod)
 	}
 
 	lang.GlobalUnitTests.Add(function, plan, p.FileRef)

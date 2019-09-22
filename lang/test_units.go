@@ -51,6 +51,17 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 
 const testName = "unit test"
 
+const (
+	// UnitTestAutocomplete is the psuedo-module name for autocomplete blocks
+	UnitTestAutocomplete = "(autocomplete)"
+
+	// UnitTestOpen is the psuedo-module name for open handler blocks
+	UnitTestOpen = "(open)"
+
+	// UnitTestEvent is the psuedo-module name for event blocks
+	UnitTestEvent = "(event)"
+)
+
 // Run all unit tests against a specific murex function
 func (ut *UnitTests) Run(p *Process, function string) bool {
 	ut.mutex.Lock()
@@ -102,20 +113,24 @@ func (ut *UnitTests) Dump() interface{} {
 
 // UnitTestPlan is defined via JSON and specifies an individual test plan
 type UnitTestPlan struct {
-	Parameters  []string
-	Stdin       string
-	StdoutMatch string
-	StderrMatch string
-	StdinType   string
-	StdoutType  string
-	StderrType  string
-	StdoutRegex string // check this is the same as test define
-	StderrRegex string // check this is the same as test define
-	StdoutBlock string // check this is the same as test define
-	StderrBlock string // check this is the same as test define
-	ExitNum     int    // check this is the same as test define
-	PreBlock    string
-	PostBlock   string
+	Parameters    []string
+	Stdin         string
+	StdoutMatch   string
+	StderrMatch   string
+	StdinType     string
+	StdoutType    string
+	StderrType    string
+	StdoutRegex   string
+	StderrRegex   string
+	StdoutBlock   string
+	StderrBlock   string
+	StdoutIsArray bool
+	StderrIsArray bool
+	StdoutIsMap   bool
+	StderrIsMap   bool
+	ExitNum       int
+	PreBlock      string
+	PostBlock     string
 }
 
 func utAddReport(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, function string, status TestStatus, message string) {
@@ -241,7 +256,23 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// test stdout stream
 
-	if plan.StdoutRegex == "" && plan.StdoutBlock == "" {
+	if plan.StdoutIsArray {
+		status, message := testIsArray(stdout, stdoutType, "StdoutIsArray")
+		addReport(status, message)
+		if status != TestPassed {
+			passed = false
+		}
+	}
+
+	if plan.StdoutIsMap {
+		status, message := testIsMap(stdout, stdoutType, "StdoutIsMap")
+		addReport(status, message)
+		if status != TestPassed {
+			passed = false
+		}
+	}
+
+	if plan.StdoutMatch != "" {
 		if string(stdout) == plan.StdoutMatch {
 			addReport(TestInfo, tMsgStringMatch("StdoutMatch"))
 		} else {
@@ -281,7 +312,23 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// test stderr stream
 
-	if plan.StderrRegex == "" && plan.StderrBlock == "" {
+	if plan.StderrIsArray {
+		status, message := testIsArray(stderr, stderrType, "StderrIsArray")
+		addReport(status, message)
+		if status != TestPassed {
+			passed = false
+		}
+	}
+
+	if plan.StderrIsMap {
+		status, message := testIsMap(stderr, stderrType, "StderrIsMap")
+		addReport(status, message)
+		if status != TestPassed {
+			passed = false
+		}
+	}
+
+	if plan.StderrMatch != "" {
 		if string(stderr) == plan.StderrMatch {
 			addReport(TestInfo, tMsgStringMatch("StderrMatch"))
 		} else {
@@ -331,8 +378,12 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 func runFunction(function string, isMethod bool, fork *Fork) (int, error) {
 	fork.IsMethod = isMethod
 
+	if function[0] == '/' {
+		function = function[1:]
+	}
+
 	if strings.Contains(function, "/") {
-		return runPrivate(function, fork)
+		return altFunc(function, fork)
 	}
 
 	fork.Name = function
@@ -349,13 +400,36 @@ func runFunction(function string, isMethod bool, fork *Fork) (int, error) {
 	return fork.Execute(block)
 }
 
-func runPrivate(path string, fork *Fork) (int, error) {
-	if path[0] == '/' {
-		path = path[1:]
-	}
-
+func altFunc(path string, fork *Fork) (int, error) {
 	split := strings.Split(path, "/")
-	if len(path) < 2 {
+
+	switch split[0] {
+	case UnitTestAutocomplete:
+		return runAutocomplete(path, split, fork)
+	case UnitTestOpen:
+		return runOpen(path, split, fork)
+	case UnitTestEven:
+		return runEvent(path, split, fork)
+	default:
+		return runPrivate(path, split, fork)
+	}
+}
+
+func runAutocomplete(path string, split []string, fork *Fork) (int, error) {
+	return 0, errors.New("Not currently supported")
+	//autocomplete.MatchFlags()
+}
+
+func runOpen(path string, split []string, fork *Fork) (int, error) {
+	return 0, errors.New("TODO: not currently supported")
+}
+
+func runEvent(path string, split []string, fork *Fork) (int, error) {
+	return 0, errors.New("TODO: not currently supported")
+}
+
+func runPrivate(path string, split []string, fork *Fork) (int, error) {
+	if len(split) < 2 {
 		return 0, fmt.Errorf("Invalid module and private function path: `%s`", path)
 	}
 
