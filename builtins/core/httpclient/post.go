@@ -15,7 +15,7 @@ func cmdPost(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("URL required.")
+		return errors.New("URL required")
 	}
 
 	var jHttp jsonHttp

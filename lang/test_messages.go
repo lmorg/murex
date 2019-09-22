@@ -31,6 +31,16 @@ func tMsgWriteErr(property string, err error) string {
 	return fmt.Sprintf("Error writing to stdin for %s: %s", property, err)
 }
 
+func tMsgUnmarshalErr(property string, dt string, err error) string {
+	return fmt.Sprintf("Error unmarshalling `%s` for %s: %s", dt, property, err)
+}
+func tMsgDataFormatValid(property string, dt string, v interface{}) string {
+	return fmt.Sprintf("%s data format valid. Data-type `%s` unmarshalled as `%T`", property, dt, v)
+}
+func tMsgDataFormatInvalid(property string, dt string, v interface{}) string {
+	return fmt.Sprintf("%s data format invalid. Data-type `%s` unmarshalled as `%T`", property, dt, v)
+}
+
 func tMsgCompileErr(property string, err error) string {
 	return fmt.Sprintf("%s failed to compile: %s", property, err)
 }

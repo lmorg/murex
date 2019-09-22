@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 const typeName = "toml"
@@ -22,19 +21,19 @@ func init() {
 		return nil, errNakedArrays
 	})
 
-	define.ReadIndexes[typeName] = readIndex
-	define.ReadNotIndexes[typeName] = readIndex
-	define.Marshallers[typeName] = marshal
-	define.Unmarshallers[typeName] = unmarshal
+	lang.ReadIndexes[typeName] = readIndex
+	lang.ReadNotIndexes[typeName] = readIndex
+	lang.Marshallers[typeName] = marshal
+	lang.Unmarshallers[typeName] = unmarshal
 
-	define.SetMime(typeName,
+	lang.SetMime(typeName,
 		"application/toml", // this is preferred but we will include others since not everyone follows standards.
 		"application/x-toml",
 		"text/toml",
 		"text/x-toml",
 	)
 
-	define.SetFileExtensions(typeName, "toml")
+	lang.SetFileExtensions(typeName, "toml")
 }
 
 func tomlMarshal(v interface{}) (b []byte, err error) {
@@ -133,7 +132,7 @@ func readIndex(p *lang.Process, params []string) error {
 		return err
 	}
 
-	return define.IndexTemplateObject(p, params, &jInterface, tomlMarshal)
+	return lang.IndexTemplateObject(p, params, &jInterface, tomlMarshal)
 }
 
 func marshal(_ *lang.Process, v interface{}) ([]byte, error) {

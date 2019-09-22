@@ -1,6 +1,6 @@
 # _murex_ Shell Guide
 
-## API Reference: `define.UnmarshalData()` 
+## API Reference: `lang.UnmarshalData()` 
 
 > Converts a _murex_ data-type into structured memory
 
@@ -11,7 +11,7 @@
 ### Usage
 
 ```go
-data, err := define.UnmarshalData(p, dataType)
+data, err := lang.UnmarshalData(p, dataType)
 ```
 
 ### Examples
@@ -22,7 +22,7 @@ func exampleCommand(p *lang.Process) error {
 
     dataType := "json"
 
-    v, err := define.UnmarshalData(p, dataType)
+    v, err := lang.UnmarshalData(p, dataType)
     if err != nil {
         return err
     }
@@ -38,18 +38,16 @@ func exampleCommand(p *lang.Process) error {
 Go source file:
 
 ```go
-package define
+package lang
 
 import (
 	"errors"
-
-	"github.com/lmorg/murex/lang"
 )
 
 // UnmarshalData is a global unmarshaller which should be called from within
 // murex builtin commands (etc).
 // See docs/apis/marshaldata.md for more details
-func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) {
+func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 	// This is one of the very few maps in Murex which isn't hidden behind a sync
 	// lock of one description or other. The rational is that even mutexes can
 	// add a noticeable overhead on the performance of tight loops and I expect
@@ -82,5 +80,5 @@ func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) 
   Converts structured memory into a structured file format (eg for stdio)
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`define.MarshalData()` ](../apis/marshaldata.md):
+* [apis/`lang.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)

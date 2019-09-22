@@ -1,15 +1,13 @@
-package define
+package lang
 
 import (
 	"errors"
-
-	"github.com/lmorg/murex/lang"
 )
 
 // UnmarshalData is a global unmarshaller which should be called from within
 // murex builtin commands (etc).
 // See docs/apis/marshaldata.md for more details
-func UnmarshalData(p *lang.Process, dataType string) (v interface{}, err error) {
+func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 	// This is one of the very few maps in Murex which isn't hidden behind a sync
 	// lock of one description or other. The rational is that even mutexes can
 	// add a noticeable overhead on the performance of tight loops and I expect

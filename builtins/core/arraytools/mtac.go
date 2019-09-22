@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
@@ -19,7 +18,7 @@ func cmdMtac(p *lang.Process) error {
 		return err
 	}
 
-	v, err := define.UnmarshalData(p, dt)
+	v, err := lang.UnmarshalData(p, dt)
 	if err != nil {
 		return err
 	}
@@ -67,7 +66,7 @@ func cmdMtac(p *lang.Process) error {
 		return fmt.Errorf("I don't know how to read %T as an array", v)
 	}
 
-	b, err = define.MarshalData(p, dt, v)
+	b, err = lang.MarshalData(p, dt, v)
 	if err != nil {
 		return err
 	}

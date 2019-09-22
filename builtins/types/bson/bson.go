@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/lang/types/define"
 	"labix.org/v2/mgo/bson"
 )
 
@@ -18,20 +17,20 @@ func init() {
 	stdio.RegesterReadArray(typeName, readArray)
 	stdio.RegesterReadMap(typeName, readMap)
 
-	define.ReadIndexes[typeName] = readIndex
-	define.ReadNotIndexes[typeName] = readIndex
-	define.Marshallers[typeName] = marshal
-	define.Unmarshallers[typeName] = unmarshal
+	lang.ReadIndexes[typeName] = readIndex
+	lang.ReadNotIndexes[typeName] = readIndex
+	lang.Marshallers[typeName] = marshal
+	lang.Unmarshallers[typeName] = unmarshal
 
 	// These are just guessed at as I couldn't find any formally named MIMEs
-	define.SetMime(typeName,
+	lang.SetMime(typeName,
 		"application/bson",
 		"application/x-bson",
 		"text/bson",
 		"text/x-bson",
 	)
 
-	define.SetFileExtensions(typeName, "bson")
+	lang.SetFileExtensions(typeName, "bson")
 }
 
 func readArray(read stdio.Io, callback func([]byte)) error {

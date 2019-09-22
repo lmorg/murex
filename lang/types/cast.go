@@ -64,13 +64,16 @@ func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 
 func goNilRecast(dataType string) (interface{}, error) {
 	switch dataType {
-	case Integer, Float, Number:
+	case Integer:
 		return 0, nil
+
+	case Float, Number:
+		return float64(0), nil
 
 	case Boolean:
 		return false, nil
 
-	case CodeBlock:
+	case CodeBlock, Json:
 		return "{}", nil
 
 	default:
@@ -91,9 +94,9 @@ func goIntegerRecast(v int, dataType string) (interface{}, error) {
 
 	case Boolean:
 		if v == 0 {
-			return true, nil
+			return false, nil
 		}
-		return false, nil
+		return true, nil
 
 	case CodeBlock:
 		return fmt.Sprintf("out: %d", v), nil
@@ -102,7 +105,7 @@ func goIntegerRecast(v int, dataType string) (interface{}, error) {
 		return strconv.Itoa(v), nil
 
 	case Json:
-		return fmt.Sprintf(`{"Value": %d;}`, v), nil
+		return fmt.Sprintf(`{ "Value": %d }`, v), nil
 
 	case Null:
 		return "", nil
@@ -125,9 +128,9 @@ func goFloatRecast(v float64, dataType string) (interface{}, error) {
 
 	case Boolean:
 		if v == 0 {
-			return true, nil
+			return false, nil
 		}
-		return false, nil
+		return true, nil
 
 	case CodeBlock:
 		return "out: " + FloatToString(v), nil
@@ -136,7 +139,7 @@ func goFloatRecast(v float64, dataType string) (interface{}, error) {
 		return FloatToString(v), nil
 
 	case Json:
-		return fmt.Sprintf(`{"Value": %s;}`, FloatToString(v)), nil
+		return fmt.Sprintf(`{ "Value": %s }`, FloatToString(v)), nil
 
 	case Null:
 		return "", nil
@@ -151,11 +154,17 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 	case Generic:
 		return v, nil
 
-	case Integer, Float, Number:
-		if v == true {
-			return 0, nil
+	case Integer:
+		if v {
+			return 1, nil
 		}
-		return 1, nil
+		return 0, nil
+
+	case Float, Number:
+		if v {
+			return float64(1), nil
+		}
+		return float64(0), nil
 
 	case Boolean:
 		return v, nil
@@ -174,9 +183,9 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 
 	case Json:
 		if v {
-			return `{"Value": true;}`, nil
+			return `{ "Value": true }`, nil
 		}
-		return `{"Value": false;}`, nil
+		return `{ "Value": false }`, nil
 
 	case Null:
 		return "", nil
@@ -209,15 +218,16 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		return IsTrue([]byte(v), 0), nil
 
 	case CodeBlock:
-		if v[0] == '{' && v[len(v)-1] == '}' {
+		if len(v) > 1 && v[0] == '{' && v[len(v)-1] == '}' {
 			return v[1 : len(v)-1], nil
 		}
 		return "out: '" + v + "'", nil //errors.New("Not a valid code block: `" + v.(string) + "`")
 
-	case String, Json:
+	case String:
 		return v, nil
-	//case Json:
-	//	return fmt.Sprintf(`{"Value": "%s";}`, v), nil
+
+	case Json:
+		return fmt.Sprintf(`{ "Value": %s }`, strconv.Quote(v)), nil
 
 	case Null:
 		return "", nil

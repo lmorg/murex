@@ -1,4 +1,4 @@
-package define_test
+package lang_test
 
 import (
 	"fmt"
@@ -7,7 +7,6 @@ import (
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -26,7 +25,7 @@ func TestUnmarshalArrayJsonString(t *testing.T) {
 		return
 	}
 
-	v, err := define.UnmarshalData(fork.Process, types.Json)
+	v, err := lang.UnmarshalData(fork.Process, types.Json)
 	if err != nil {
 		t.Error(err)
 		return
@@ -55,7 +54,7 @@ func TestUnmarshalArrayJsonInt(t *testing.T) {
 		return
 	}
 
-	v, err := define.UnmarshalData(fork.Process, types.Json)
+	v, err := lang.UnmarshalData(fork.Process, types.Json)
 	if err != nil {
 		t.Error(err)
 		return

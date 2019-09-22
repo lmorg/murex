@@ -20,14 +20,14 @@ Registering unmarshal (for writing builtin data-types)
 
 ```go
 // To avoid data races, this should only happen inside func init()
-define.Unmarshallers["json"] = unmarshal
+lang.Unmarshallers["json"] = unmarshal
 ```
 
 Using an existing unmarshaller (eg inside a builtin command)
 
 ```go
-// See documentation on define.UnmarshalData for more details
-v, err := define.UnmarshalData(p *lang.Process, dataType string)
+// See documentation on lang.UnmarshalData for more details
+v, err := lang.UnmarshalData(p *lang.Process, dataType string)
 ```
 
 ### Examples
@@ -41,12 +41,11 @@ import (
 	"encoding/json"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
 	// Register data-type
-	define.Unmarshallers["example"] = unmarshal
+	lang.Unmarshallers["example"] = unmarshal
 }
 
 // Describe unmarshaller
@@ -79,7 +78,7 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`define.MarshalData()` ](../apis/marshaldata.md):
+* [apis/`lang.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
 * [apis/unmashaldata](../apis/unmashaldata.md):
   

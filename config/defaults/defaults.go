@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 // Defaults defines the default config
@@ -122,7 +122,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 	// TODO: Add config hooks for mime types
 	c.Define("shell", "mime-types", config.Properties{
 		Description: "Supported MIME types and their corresponding Murex data types",
-		Default:     define.GetMimes(),
+		Default:     lang.GetMimes(),
 		DataType:    types.Json,
 		Global:      true,
 	})
@@ -130,7 +130,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 	// TODO: Add config hooks for mime types
 	c.Define("shell", "extensions", config.Properties{
 		Description: "Supported file extensions and their corresponding Murex data types",
-		Default:     define.GetFileExts(),
+		Default:     lang.GetFileExts(),
 		DataType:    types.Json,
 		Global:      true,
 	})

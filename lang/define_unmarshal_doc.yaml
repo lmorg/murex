@@ -17,14 +17,14 @@
     
     ```go
     // To avoid data races, this should only happen inside func init()
-    define.Unmarshallers["json"] = unmarshal
+    lang.Unmarshallers["json"] = unmarshal
     ```
 
     Using an existing unmarshaller (eg inside a builtin command)
 
     ```go
-    // See documentation on define.UnmarshalData for more details
-    v, err := define.UnmarshalData(p *lang.Process, dataType string)
+    // See documentation on lang.UnmarshalData for more details
+    v, err := lang.UnmarshalData(p *lang.Process, dataType string)
     ```
   Examples: |-
     Defining a marshaller for a murex data-type
@@ -43,14 +43,14 @@
 
 - DocumentID: unmarshaldata
   Title: >-
-    `define.UnmarshalData()` 
+    `lang.UnmarshalData()` 
   CategoryID: apis
   Summary: >-
     Converts a _murex_ data-type into structured memory
   Description: |-
   Usage: |-
     ```go
-    data, err := define.UnmarshalData(p, dataType)
+    data, err := lang.UnmarshalData(p, dataType)
     ```
   Examples: |-
     ```go
@@ -59,7 +59,7 @@
 
         dataType := "json"
 
-        v, err := define.UnmarshalData(p, dataType)
+        v, err := lang.UnmarshalData(p, dataType)
         if err != nil {
             return err
         }
@@ -73,7 +73,7 @@
     Go source file:
     
     ```go
-    {{ include "lang/types/define/unmarshal.go" }}
+    {{ include "lang/define_unmarshal.go" }}
     ```
   Parameters:
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "

@@ -5,7 +5,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 const typeName = "csv"
@@ -14,22 +13,22 @@ func init() {
 	//stdio.RegesterReadArray(typeName, readArray)
 	stdio.RegesterReadMap(typeName, readMap)
 
-	define.ReadIndexes[typeName] = readIndex
-	define.ReadNotIndexes[typeName] = readIndex
+	lang.ReadIndexes[typeName] = readIndex
+	lang.ReadNotIndexes[typeName] = readIndex
 
-	define.Marshallers[typeName] = marshal
-	define.Unmarshallers[typeName] = unmarshal
+	lang.Marshallers[typeName] = marshal
+	lang.Unmarshallers[typeName] = unmarshal
 
 	// `application/csv` and `text/csv` are the common ones. `x-csv` is added just in case anyone decides to use
 	// something non-standard.
-	define.SetMime(typeName,
+	lang.SetMime(typeName,
 		"application/csv",
 		"application/x-csv",
 		"text/csv",
 		"text/x-csv",
 	)
 
-	define.SetFileExtensions(typeName, "csv")
+	lang.SetFileExtensions(typeName, "csv")
 
 	lang.InitConf.Define("csv", "separator", config.Properties{
 		Description: "The delimiter for records in a CSV file.",
@@ -41,11 +40,5 @@ func init() {
 		Description: "The prefix token for comments in a CSV table.",
 		Default:     `#`,
 		DataType:    types.String,
-	})
-
-	lang.InitConf.Define("csv", "headings", config.Properties{
-		Description: "CSV files include headings when queried in formap.",
-		Default:     true,
-		DataType:    types.Boolean,
 	})
 }

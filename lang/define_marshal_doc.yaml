@@ -17,14 +17,14 @@
     
     ```go
     // To avoid data races, this should only happen inside func init()
-    define.Marshallers["json"] = marshal
+    lang.Marshallers["json"] = marshal
     ```
 
     Using an existing marshaller (eg inside a builtin command)
 
     ```go
-    // See documentation on define.MarshalData for more details
-    b, err := define.MarshalData(p, dataType, data)
+    // See documentation on lang.MarshalData for more details
+    b, err := lang.MarshalData(p, dataType, data)
     ```
   Examples: |-
     Defining a marshaller for a murex data-type
@@ -44,14 +44,14 @@
 
 - DocumentID: marshaldata
   Title: >-
-    `define.MarshalData()` 
+    `lang.MarshalData()` 
   CategoryID: apis
   Summary: >-
     Converts structured memory into a _murex_ data-type (eg for stdio)
   Description: |-
   Usage: |-
     ```go
-    b, err := define.MarshalData(p, dataType, data)
+    b, err := lang.MarshalData(p, dataType, data)
     ```
   Examples: |-
     ```go
@@ -63,7 +63,7 @@
 
         dataType := "json"
 
-        b, err := define.MarshalData(p, dataType, data)
+        b, err := lang.MarshalData(p, dataType, data)
         if err != nil {
             return err
         }
@@ -76,7 +76,7 @@
     Go source file:
     
     ```go
-    {{ include "lang/types/define/marshal.go" }}
+    {{ include "lang/define_marshal.go" }}
     ```
   Parameters:
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "

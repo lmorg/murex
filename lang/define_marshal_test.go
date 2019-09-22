@@ -1,4 +1,4 @@
-package define_test
+package lang_test
 
 import (
 	"testing"
@@ -6,7 +6,6 @@ import (
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -19,7 +18,7 @@ func TestMarshalArrayJsonString(t *testing.T) {
 	lang.InitEnv()
 	fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
 
-	b, err := define.MarshalData(fork.Process, types.Json, input)
+	b, err := lang.MarshalData(fork.Process, types.Json, input)
 	if err != nil {
 		t.Error(err)
 		return
@@ -42,7 +41,7 @@ func TestMarshalArrayJsonInt(t *testing.T) {
 	lang.InitEnv()
 	fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
 
-	b, err := define.MarshalData(fork.Process, types.Json, input)
+	b, err := lang.MarshalData(fork.Process, types.Json, input)
 	if err != nil {
 		t.Error(err)
 		return

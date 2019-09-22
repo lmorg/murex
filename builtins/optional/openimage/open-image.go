@@ -7,13 +7,12 @@ import (
 
 	"github.com/eliukblau/pixterm/ansimage"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
 func init() {
-	define.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
-	define.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
+	lang.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
+	lang.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
 	lang.GoFunctions["open-image"] = pvImage
 }
 

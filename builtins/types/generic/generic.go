@@ -3,17 +3,17 @@ package generic
 import (
 	"regexp"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
 	// Register data type
-	define.ReadIndexes[types.Generic] = index
-	define.ReadNotIndexes[types.Generic] = index
-	define.Marshallers[types.Generic] = marshal
-	define.Unmarshallers[types.Generic] = unmarshal
+	lang.ReadIndexes[types.Generic] = index
+	lang.ReadNotIndexes[types.Generic] = index
+	lang.Marshallers[types.Generic] = marshal
+	lang.Unmarshallers[types.Generic] = unmarshal
 
 	stdio.RegesterReadArray(types.Generic, readArray)
 	stdio.RegesterReadMap(types.Generic, readMap)

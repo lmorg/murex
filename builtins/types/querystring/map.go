@@ -1,9 +1,10 @@
 package string
 
 import (
+	"net/url"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"net/url"
 )
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {

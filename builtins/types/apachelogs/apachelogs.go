@@ -1,8 +1,8 @@
 package apachelogs
 
 import (
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 const (
@@ -14,8 +14,8 @@ func init() {
 	stdio.RegesterReadArray(typeAccess, readArray)
 	//stdio.RegesterReadMap(typeAccess, readMap)
 
-	define.ReadIndexes[typeAccess] = index
-	define.ReadNotIndexes[typeAccess] = index
-	//define.Marshallers[typeAccess] = marshal
-	define.Unmarshallers[typeAccess] = unmarshal
+	lang.ReadIndexes[typeAccess] = index
+	lang.ReadNotIndexes[typeAccess] = index
+	//lang.Marshallers[typeAccess] = marshal
+	lang.Unmarshallers[typeAccess] = unmarshal
 }

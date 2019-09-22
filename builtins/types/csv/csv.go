@@ -2,11 +2,12 @@ package csv
 
 import (
 	"bufio"
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/types"
 	"io"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/types"
 )
 
 // Parser is the CSV parser settings

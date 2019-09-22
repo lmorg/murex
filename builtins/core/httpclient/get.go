@@ -9,7 +9,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
@@ -19,7 +18,7 @@ func cmdGet(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("URL required.")
+		return errors.New("URL required")
 	}
 
 	var jHttp jsonHttp
@@ -65,7 +64,7 @@ func cmdGet(p *lang.Process) (err error) {
 
 func cmdGetFile(p *lang.Process) (err error) {
 	if p.Parameters.Len() == 0 {
-		return errors.New("URL required.")
+		return errors.New("URL required")
 	}
 
 	url, err := p.Parameters.String(0)
@@ -86,7 +85,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 		return err
 	}
 
-	p.Stdout.SetDataType(define.MimeToMurex(resp.Header.Get("Content-Type")))
+	p.Stdout.SetDataType(lang.MimeToMurex(resp.Header.Get("Content-Type")))
 
 	quit := make(chan bool)
 	cl := resp.Header.Get("Content-Length")

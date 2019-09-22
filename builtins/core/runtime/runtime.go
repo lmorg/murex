@@ -15,7 +15,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/lang/types/define"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -152,11 +151,11 @@ func cmdRuntime(p *lang.Process) error {
 		case fWriteArrays:
 			ret[fWriteArrays[2:]] = stdio.DumpArray()
 		case fIndexes:
-			ret[fIndexes[2:]] = define.DumpIndex()
+			ret[fIndexes[2:]] = lang.DumpIndex()
 		case fMarshallers:
-			ret[fMarshallers[2:]] = define.DumpMarshaller()
+			ret[fMarshallers[2:]] = lang.DumpMarshaller()
 		case fUnmarshallers:
-			ret[fUnmarshallers[2:]] = define.DumpUnmarshaller()
+			ret[fUnmarshallers[2:]] = lang.DumpUnmarshaller()
 		case fEvents:
 			ret[fEvents[2:]] = events.DumpEvents()
 		case fAutocomplete:

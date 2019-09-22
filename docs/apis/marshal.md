@@ -20,14 +20,14 @@ Registering marshal (for writing builtin data-types)
 
 ```go
 // To avoid data races, this should only happen inside func init()
-define.Marshallers["json"] = marshal
+lang.Marshallers["json"] = marshal
 ```
 
 Using an existing marshaller (eg inside a builtin command)
 
 ```go
-// See documentation on define.MarshalData for more details
-b, err := define.MarshalData(p, dataType, data)
+// See documentation on lang.MarshalData for more details
+b, err := lang.MarshalData(p, dataType, data)
 ```
 
 ### Examples
@@ -41,12 +41,11 @@ import (
 	"encoding/json"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 )
 
 func init() {
 	// Register data-type
-	define.Marshallers["json"] = marshal
+	lang.Marshallers["json"] = marshal
 }
 
 // Describe marshaller
@@ -72,7 +71,7 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`define.MarshalData()` ](../apis/marshaldata.md):
+* [apis/`lang.MarshalData()` ](../apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* [apis/`define.UnmarshalData()` ](../apis/unmarshaldata.md):
+* [apis/`lang.UnmarshalData()` ](../apis/unmarshaldata.md):
   Converts a _murex_ data-type into structured memory

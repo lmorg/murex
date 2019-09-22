@@ -3,10 +3,11 @@ package string
 import (
 	"errors"
 	"fmt"
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
 	"net/url"
 	"strconv"
+
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {

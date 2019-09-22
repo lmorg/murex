@@ -2,7 +2,6 @@ package bson
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types/define"
 	"labix.org/v2/mgo/bson"
 )
 
@@ -19,5 +18,5 @@ func readIndex(p *lang.Process, params []string) error {
 		return err
 	}
 
-	return define.IndexTemplateObject(p, params, &jInterface, bson.Marshal)
+	return lang.IndexTemplateObject(p, params, &jInterface, bson.Marshal)
 }
