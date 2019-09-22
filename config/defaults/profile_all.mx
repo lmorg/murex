@@ -10,7 +10,7 @@ func aliases {
 	} -> cast str
 }
 
-test define-unit public aliases {
+test define-unit function aliases {
     "PreBlock": ({
         global ALIAS_UNIT_TEST=${rand: int 9999999999}
         alias $ALIAS_UNIT_TEST=example param1 param2 param3
