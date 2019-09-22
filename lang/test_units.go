@@ -408,7 +408,7 @@ func altFunc(path string, fork *Fork) (int, error) {
 		return runAutocomplete(path, split, fork)
 	case UnitTestOpen:
 		return runOpen(path, split, fork)
-	case UnitTestEven:
+	case UnitTestEvent:
 		return runEvent(path, split, fork)
 	default:
 		return runPrivate(path, split, fork)
