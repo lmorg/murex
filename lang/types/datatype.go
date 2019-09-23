@@ -16,6 +16,10 @@ func DataTypeFromInterface(v interface{}) (dataType string) {
 	case bool:
 		dataType = Boolean
 
+	//case []string, []int, []float32, []float64,
+	//	map[string]string, map[interface{}]string, map[string]interface{}, map[interface{}]interface{}:
+	//	dataType = Json
+
 	default:
 		dataType = Generic
 	}

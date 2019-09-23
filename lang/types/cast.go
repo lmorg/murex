@@ -73,7 +73,7 @@ func goNilRecast(dataType string) (interface{}, error) {
 	case Boolean:
 		return false, nil
 
-	case CodeBlock, Json:
+	case CodeBlock, Json, JsonLines:
 		return "{}", nil
 
 	default:
@@ -104,7 +104,7 @@ func goIntegerRecast(v int, dataType string) (interface{}, error) {
 	case String:
 		return strconv.Itoa(v), nil
 
-	case Json:
+	case Json, JsonLines:
 		return fmt.Sprintf(`{ "Value": %d }`, v), nil
 
 	case Null:
@@ -138,7 +138,7 @@ func goFloatRecast(v float64, dataType string) (interface{}, error) {
 	case String:
 		return FloatToString(v), nil
 
-	case Json:
+	case Json, JsonLines:
 		return fmt.Sprintf(`{ "Value": %s }`, FloatToString(v)), nil
 
 	case Null:
@@ -181,7 +181,7 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 		}
 		return string(FalseByte), nil
 
-	case Json:
+	case Json, JsonLines:
 		if v {
 			return `{ "Value": true }`, nil
 		}
@@ -226,7 +226,7 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 	case String:
 		return v, nil
 
-	case Json:
+	case Json, JsonLines:
 		return fmt.Sprintf(`{ "Value": %s }`, strconv.Quote(v)), nil
 
 	case Null:
@@ -268,7 +268,7 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 	case Null:
 		return nil, nil
 
-	case String, Json:
+	case String, Json, JsonLines:
 		b, err := json.Marshal(v, false)
 		return string(b), err
 
