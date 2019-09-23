@@ -93,7 +93,7 @@ casting the data type:
 
 This awareness of data structures is also utilised in `foreach` (which
 will cycle through each index in an array) and `formap` (key/value
-iteration against complex objects). See [GUIDE.control-structures](docs/GUIDE.control-structures.md)
+iteration against complex objects). See [GUIDE.control-structures](https://murex.rocks/GUIDE.control-structures.html)
 for more details on these and other control structures.
 
 ## More robust scripts / shell one liners
@@ -125,7 +125,7 @@ matching file system objects that follows the same idiomatic pattern:
     # Match only directories
     ls -l @{f +d}
 
-(more information on `g`, `rx` and `f` are available in [GUIDE.quick-start](docs/GUIDE.quick-start.md)).
+(more information on `g`, `rx` and `f` are available in [GUIDE.quick-start](https://murex.rocks/GUIDE.quick-start.html)).
 
 However there will be occasions when you just want an inlined expansion
 (eg when using an interactive shell) and that can be achieved via the `@g`
