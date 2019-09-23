@@ -11,14 +11,14 @@ import (
 
 const (
 	// ErrDataTypeDefaulted is returned if the murex data type is unknown
-	ErrDataTypeDefaulted = "Unexpected or unknown murex data type."
+	ErrDataTypeDefaulted = "Unexpected or unknown murex data type"
 
 	// ErrUnexpectedGoType is returned if the Go data type is unhandled
-	ErrUnexpectedGoType = "Unexpected Go type."
+	ErrUnexpectedGoType = "Unexpected Go type"
 
 	// ErrCannotConvertGoType is returned if the Go data type cannot be converted
 	// to the murex data type (eg there is no numeric data in a string of characters)
-	ErrCannotConvertGoType = "Cannot convert Go type into murex data type (eg no numeric data in a string)."
+	ErrCannotConvertGoType = "Cannot convert Go type into murex data type (eg no numeric data in a string)"
 )
 
 var (
