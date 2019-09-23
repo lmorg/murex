@@ -272,9 +272,9 @@ safe for use.
 1. Git `pre-commit` and `pre-push` files exist to help developers catch any
    regression errors before they even hit the feature branches.
 
-2. Each and every git push is validated against more than a thousand distinct
-   unit tests in Circle CI. These tests are run 10 times to shake out any
-   possible timing related bugs.
+2. Each and every git push is validated against hundreds of distinct tests and
+   race detectors (run in Circle CI). These tests are run 10 times to shake out
+   any possible timing related bugs.
 
 3. Weekly automated builds are then ran against the latest commit to the
    `master` branch. These builds run in AWS CodeBuild and they generate the
