@@ -34,24 +34,25 @@ func (h testHTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func StartHTTPServer(t *testing.T) string {
-	var (
-		port int32
-		addr string
-		err  error
-	)
-
 	for i := 0; i < 10; i++ {
-		port = atomic.AddInt32(&testPort, 1)
-		addr = fmt.Sprintf("%s:%d", testHost, port)
+		var (
+			port = atomic.AddInt32(&testPort, 1)
+			addr = fmt.Sprintf("%s:%d", testHost, port)
+			err  = make(chan error)
+		)
+
 		go func() {
-			err = http.ListenAndServe(addr, testHTTPHandler{})
+			err <- http.ListenAndServe(addr, testHTTPHandler{})
 		}()
 		time.Sleep(100 * time.Millisecond)
-		if err == nil {
+		select {
+		case <-err:
+			continue
+		default:
 			return addr
 		}
 	}
 
-	t.Skip("Failed 10 times to dynamically allocate a port number")
+	t.Errorf("Failed 10 times to dynamically allocate a port number")
 	return ""
 }
