@@ -45,8 +45,11 @@ type Instance struct {
 	// the new line and cursor position.
 	SyntaxCompleter func([]rune, int) ([]rune, int)
 
+	DelayedWorker func([]rune) []rune
+	delayedCount  int64
+
 	// HintText is a helper function which displays hint text the prompt.
-	// HintText takes the line input from the promt and the cursor position.
+	// HintText takes the line input from the prompt and the cursor position.
 	// It returns the hint text to display.
 	HintText func([]rune, int) []rune
 

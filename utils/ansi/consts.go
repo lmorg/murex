@@ -102,6 +102,7 @@ var sgr = map[string][]byte{
 	"ITALIC":     {27, 91, 51, 109}, // Not commonly supported in terminals
 	"UNDERSCORE": {27, 91, 52, 109},
 	"UNDERLINE":  {27, 91, 52, 109},
+	"UNDEROFF":   {27, 91, '2', '4', 109},
 	"BLINK":      {27, 91, 53, 109},
 	"INVERT":     {27, 91, 55, 109},
 

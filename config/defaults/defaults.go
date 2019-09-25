@@ -135,6 +135,20 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "spellcheck-enabled", config.Properties{
+		Description: "Enable spellchecking in the interactive prompt",
+		Default:     false,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
+	c.Define("shell", "spellcheck-block", config.Properties{
+		Description: "Code block to run as part of the spellchecker (STDIN the line, STDOUT is array for misspelt words)",
+		Default:     "{ -> aspell list }",
+		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{
