@@ -126,7 +126,7 @@ func (rl *Instance) echo() {
 	moveCursorBackwards(rl.pos)
 
 	switch {
-	case rl.PasswordMask > 0:
+	case rl.PasswordMask != 0:
 		print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " ")
 
 	case rl.SyntaxHighlighter == nil:

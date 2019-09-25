@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os"
 	"regexp"
+	"sync/atomic"
 )
 
 var rxMultiline = regexp.MustCompile(`[\r\n]+`)
@@ -52,6 +53,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
+		go timer(rl, atomic.LoadInt64(&rl.delayedCount))
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024)
 		var i int
@@ -62,6 +64,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				return "", err
 			}
 		}
+		atomic.AddInt64(&rl.delayedCount, 1)
 
 		rl.skipStdinRead = false
 		r := []rune(string(b))

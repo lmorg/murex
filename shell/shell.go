@@ -99,6 +99,8 @@ func ShowPrompt() {
 		return expanded
 	}
 
+	Prompt.DelayedWorker = spellCheck
+
 	for {
 		getSyntaxHighlighting()
 		getHintTextEnabled()
