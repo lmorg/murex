@@ -3,6 +3,8 @@ package shell
 import (
 	"strings"
 
+	"github.com/lmorg/murex/shell/autocomplete"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -22,7 +24,7 @@ func spellCheck(line []rune) []rune {
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
-	fork.Name = "(spellcheck"
+	fork.Name = "(spellcheck)"
 	fork.Stdin.SetDataType(types.Generic)
 	_, err = fork.Stdin.Writeln([]byte(string(r)))
 	if err != nil && debug.Enabled {
@@ -44,9 +46,13 @@ func spellCheck(line []rune) []rune {
 		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
 	}
 
-	err = fork.Stdout.ReadArray(func(bword []byte) {
-		sword := string(bword)
-		r = []rune(strings.ReplaceAll(string(r), sword, ansi.ExpandConsts("{UNDERLINE}"+sword+"{UNDEROFF}")))
+	err = fork.Stdout.ReadArray(func(bWord []byte) {
+		sWord := string(bWord)
+		if autocomplete.GlobalExes[sWord] || lang.MxFunctions.Exists(sWord) || lang.GoFunctions[sWord] != nil || lang.GlobalAliases.Exists(sWord) {
+			return
+		}
+
+		r = []rune(strings.ReplaceAll(string(r), sWord, ansi.ExpandConsts("{UNDERLINE}"+sWord+"{UNDEROFF}")))
 	})
 	if err != nil && debug.Enabled {
 		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
