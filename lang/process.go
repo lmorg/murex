@@ -303,7 +303,7 @@ executeProcess:
 		// shell execute
 		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
 		p.Name = "exec"
-		err = GoFunctions[p.Name](p)
+		err = GoFunctions["exec"](p)
 	}
 
 	p.Stdout.DefaultDataType(err != nil)

@@ -1,17 +1,17 @@
 package shell
 
 import (
+	"bytes"
 	"strings"
-
-	"github.com/lmorg/murex/shell/autocomplete"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
-func spellCheck(line []rune) []rune {
+func spellcheck(line []rune) []rune {
 	r := line
 	enabled, err := lang.ShellProcess.Config.Get("shell", "spellcheck-enabled", types.Boolean)
 	if err != nil || !enabled.(bool) {
@@ -47,7 +47,12 @@ func spellCheck(line []rune) []rune {
 	}
 
 	err = fork.Stdout.ReadArray(func(bWord []byte) {
-		sWord := string(bWord)
+		if len(bWord) == 0 {
+			return
+		}
+
+		sWord := string(bytes.TrimSpace(bWord))
+
 		if autocomplete.GlobalExes[sWord] || lang.MxFunctions.Exists(sWord) || lang.GoFunctions[sWord] != nil || lang.GlobalAliases.Exists(sWord) {
 			return
 		}
