@@ -52,13 +52,13 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 const testName = "unit test"
 
 const (
-	// UnitTestAutocomplete is the psuedo-module name for autocomplete blocks
+	// UnitTestAutocomplete is the pseudo-module name for autocomplete blocks
 	UnitTestAutocomplete = "(autocomplete)"
 
-	// UnitTestOpen is the psuedo-module name for open handler blocks
+	// UnitTestOpen is the pseudo-module name for open handler blocks
 	UnitTestOpen = "(open)"
 
-	// UnitTestEvent is the psuedo-module name for event blocks
+	// UnitTestEvent is the pseudo-module name for event blocks
 	UnitTestEvent = "(event)"
 )
 

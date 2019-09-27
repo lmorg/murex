@@ -21,6 +21,18 @@
         "d"
     ]
 
+### Detail
+
+`jsplit` will trim trailing carriage returns and line feeds from each element
+as well as any trailing empty elements (zero length strings) in the JSON array.
+However any empty elements will be retained and any other whitespace characters
+- or carriage returns and/or line feeds in the middle of an element - will be
+retained.
+
+This is so that the formatting of (multiline) text is retained as much as
+possible to ensure the `jsplit` is accurate while at the same time any commonly
+unwanted "noise" is stripped from the output.
+
 ### See Also
 
 * [commands/`2darray` ](../commands/2darray.md):
