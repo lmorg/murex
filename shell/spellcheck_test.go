@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/arraytools"
+	_ "github.com/lmorg/murex/builtins/core/textmanip"
 	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -21,7 +22,7 @@ func TestSpellcheckCrLf(t *testing.T) {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit ' ' }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit ' ' -> suffix "\n" }`)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-block config: %s", err)
 	}
@@ -47,7 +48,7 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit '\s' }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit '\s' -> append '' }`)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-block config: %s", err)
 	}
