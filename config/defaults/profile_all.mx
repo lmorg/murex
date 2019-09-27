@@ -186,7 +186,7 @@ private git-branch {
 autocomplete set git { [{
     #"Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
     "DynamicDesc": ({
-        git help -> @[clone..]r -> tabulate --map
+        git help -> tabulate --map
     }),
     "FlagValues": {
         "init": [{
