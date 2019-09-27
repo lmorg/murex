@@ -46,11 +46,11 @@ func NewParser(reader io.Reader, config *config.Config) (parser *Parser, err err
 		parser.Comment = v.(string)[0]
 	}
 
-	v, err = config.Get("csv", "headings", types.Boolean)
+	/*v, err = config.Get("csv", "headings", types.Boolean)
 	if err != nil {
 		return nil, err
 	}
-	parser.Headings = v.(bool)
+	parser.Headings = v.(bool)*/
 	return
 }
 
