@@ -184,14 +184,20 @@ private git-branch {
 }
 
 autocomplete set git { [{
-    "Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
+    #"Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
+    "DynamicDesc": ({
+        git help -> @[clone..]r -> tabulate --map
+    }),
     "FlagValues": {
         "init": [{
             "Flags": ["--bare"]
         }],
         "add": [{
-            "IncFiles": true,
-            "AllowMultiple": true
+            #"IncFiles": true,
+            "AllowMultiple": true,
+            "Dynamic": ({
+                git status -s -> regexp 'm/^( |\?)' -> [:1]
+            })
         }],
         "mv": [
             { "IncFiles": true }
