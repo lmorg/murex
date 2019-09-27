@@ -3,6 +3,7 @@ package tabulate
 import (
 	"bufio"
 	"encoding/csv"
+	"fmt"
 	"regexp"
 	"strings"
 
@@ -97,10 +98,23 @@ func cmdTabulate(p *lang.Process) error {
 			joiner = value
 		case fMap:
 			// check this afterwards just in case fJoiner
-			// hasn't yet been processed
+			// hasn't yet been processed (which can change
+			// the bahavior of fMap)
 		case fHelp:
 			return help(p)
 		}
+	}
+
+	if err := p.ErrIfNotAMethod(); err != nil {
+		p.Stdout.SetDataType(types.Null)
+		return err
+	}
+
+	dt := p.Stdin.GetDataType()
+	if dt != types.Generic && dt != types.String {
+		p.Stdout.SetDataType(types.Null)
+		return fmt.Errorf("`%s` is designed to only take string (%s) or generic (%s) data-types from STDIN. Instead it received '%s'",
+			p.Name, types.String, types.Generic, dt)
 	}
 
 	if f[fMap] == "" {

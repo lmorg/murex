@@ -52,7 +52,7 @@ func TestLenJson(t *testing.T) {
 		test.RunMethodTest(t,
 			cmdLen, "len",
 			s,
-			types.JsonLines,
+			types.Json,
 			[]string{},
 			`5`,
 			nil,

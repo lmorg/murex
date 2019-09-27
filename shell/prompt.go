@@ -19,7 +19,7 @@ func getPrompt() {
 	if err == nil {
 		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set("linenum", 1, types.Integer)
-		fork.Name = "shell (prompt)"
+		fork.Name = "(prompt)"
 		fork.Execute([]rune(prompt.(string)))
 
 		b, err2 = fork.Stdout.ReadAll()
@@ -45,7 +45,7 @@ func getMultilinePrompt(nLines int) {
 	if err == nil {
 		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set("linenum", nLines, types.Integer)
-		fork.Name = "shell (prompt-multiline)"
+		fork.Name = "(prompt-multiline)"
 		fork.Execute([]rune(prompt.(string)))
 
 		b, err2 = fork.Stdout.ReadAll()
