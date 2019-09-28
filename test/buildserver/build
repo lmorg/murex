@@ -9,8 +9,9 @@ ENV GOPATH=/go
 WORKDIR /go/src/github.com/lmorg/murex
 
 # reinstall needed for man pages
-RUN yum --setopt=tsflags='' reinstall -y shadow-utils coreutils && \
-    yum --setopt=tsflags='' install -y install which man man-pages wget gcc git aspell
+RUN yum --setopt=tsflags='' install -y epel-release && \
+    yum --setopt=tsflags='' reinstall -y shadow-utils coreutils && \
+    yum --setopt=tsflags='' install -y install which man man-pages wget gcc git aspell-en
 
 RUN mkdir -p /go && cd /go && \
     wget https://dl.google.com/go/go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
