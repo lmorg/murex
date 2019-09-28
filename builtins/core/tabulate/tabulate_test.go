@@ -2,16 +2,24 @@ package tabulate
 
 import (
 	"testing"
+
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test"
+	"github.com/lmorg/murex/utils/json"
 )
 
-func TestTabulate(t *testing.T) {
+func TestTabulateHelp(t *testing.T) {
+	b, err := json.Marshal(desc, false)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	/*test.RunMethodTest(t,
-		cmdJsplit, "jsplit",
-		"hello\r\n\r\nworld\r\n\r\n",
-		types.String,
-		[]string{"\n"},
-		`["hello","","world"]`,
+	test.RunMethodTest(t,
+		cmdTabulate, "tabulate",
+		"",
+		types.Generic,
+		[]string{"--help"},
+		string(b),
 		nil,
-	)*/
+	)
 }
