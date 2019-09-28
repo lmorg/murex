@@ -37,8 +37,8 @@ readability as it clearly demonstrates the direction of the data flow. eg
     command -> command -> [ index ] -> if { command }
 
 The language supports multiple data types natively; such as JSON, YAML,
-CSV, S-Expressions, CSV and even loosely tabulated terminal output (eg
-`ps`, `ls -l`, etc). This makes passing data through the pipeline and
+CSV, S-Expressions and even loosely tabulated terminal output (eg
+`ps`, `ls -l`). This makes passing data through the pipeline and
 parsing output easier when dealing with more complex arrangements of
 data than a simple byte stream in traditional shells like Bash.
 

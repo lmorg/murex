@@ -10,7 +10,7 @@ WORKDIR /go/src/github.com/lmorg/murex
 
 # reinstall needed for man pages
 RUN yum --setopt=tsflags='' reinstall -y shadow-utils coreutils && \
-    yum --setopt=tsflags='' install -y install which man man-pages wget gcc git
+    yum --setopt=tsflags='' install -y install which man man-pages wget gcc git aspell
 
 RUN mkdir -p /go && cd /go && \
     wget https://dl.google.com/go/go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
