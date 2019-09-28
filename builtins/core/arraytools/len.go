@@ -32,6 +32,9 @@ func cmdLen(p *lang.Process) error {
 	case []string:
 		i = len(v.([]string))
 
+	case [][]string:
+		i = len(v.([][]string))
+
 	case []interface{}:
 		i = len(v.([]interface{}))
 
