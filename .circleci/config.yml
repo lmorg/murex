@@ -15,13 +15,9 @@ jobs:
       - checkout
 
       - run:
-          name: Build murex
-          command: go install github.com/lmorg/murex
-
-      - run:
           name: Run CI script
           command: test/ci.sh
-          
+
       - run:
           name: Code Coverage (codecov.io)
           command: bash <(curl -s https://codecov.io/bash)
