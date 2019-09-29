@@ -17,11 +17,4 @@ To build `murex` and `docgen` run:
 
     docker-compose: up --build murex-build
 
-(Please not it will take a long time to run on the first time. This is because
-it is downloading and creating the build environment. Once that has been built
-Docker will reuse it on all subsequent builds)
-
-To run the tests and compile binaries for every supported platform:
-
-    docker-compose: up --build murex-test
 

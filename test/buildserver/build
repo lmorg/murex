@@ -1,29 +1,35 @@
-FROM centos
+FROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    DEBCONF_NONINTERACTIVE_SEEN=true \
+    GOPATH=/go
 
 ARG VERSION=1.12
 ARG GOOS=linux
 ARG GOARCH=amd64
-VOLUME /go/bin
 
-ENV GOPATH=/go
+VOLUME /go/bin
 WORKDIR /go/src/github.com/lmorg/murex
 
-# reinstall needed for man pages
-RUN yum --setopt=tsflags='' reinstall -y shadow-utils coreutils && \
-    yum --setopt=tsflags='' install -y install which man man-pages wget gcc git
+RUN sed 1,3d -i /etc/dpkg/dpkg.cfg.d/excludes && \
+    apt-get update && apt-get upgrade -y && \
+    apt-get install -y --reinstall man coreutils wget curl gcc git aspell aspell-en pandoc zip
 
+# install golang and tools
 RUN mkdir -p /go && cd /go && \
     wget https://dl.google.com/go/go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
-    tar xfv go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
+    tar xf go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     ln -sv /go/go/bin/go /bin/go && \
     go get -u golang.org/x/tools/cmd/stringer && \
     go build -o /bin/stringer golang.org/x/tools/cmd/stringer && \
     ln -sv /go/bin/murex /bin/murex && \
     ln -sv /go/bin/docgen /bin/docgen
 
+# clean up
+RUN apt-get purge --auto-remove -y && \
+    apt-get clean && \
+    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
 ADD . .
 
-ENTRYPOINT \
-    echo "Compiling murex...." && \
-    go install github.com/lmorg/murex && \
-    murex -c version
+ENTRYPOINT /go/src/github.com/lmorg/murex/test/ci.sh
