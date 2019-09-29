@@ -1,0 +1,37 @@
+FROM centos:latest
+
+ARG VERSION=1.12
+ARG GOOS=linux
+ARG GOARCH=amd64
+VOLUME /go/bin
+
+ENV GOPATH=/go
+WORKDIR /go/src/github.com/lmorg/murex
+
+# install pandoc
+RUN yum update -y && \
+    yum -y install epel-release && \
+    yum -y install haskell-platform --enablerepo=epel && \
+    cabal update && \
+    cabal install pandoc --force-reinstall
+
+# reinstall needed for man pages
+RUN yum --setopt=tsflags='' reinstall -y shadow-utils coreutils && \
+    yum --setopt=tsflags='' install -y which man man-pages wget gcc git aspell aspell-en zip
+
+# install golang and tools
+RUN mkdir -p /go && cd /go && \
+    wget https://dl.google.com/go/go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
+    tar xfv go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
+    ln -sv /go/go/bin/go /bin/go && \
+    go get -u golang.org/x/tools/cmd/stringer && \
+    go build -o /bin/stringer golang.org/x/tools/cmd/stringer && \
+    ln -sv /go/bin/murex /bin/murex && \
+    ln -sv /go/bin/docgen /bin/docgen
+
+ADD . .
+
+ENTRYPOINT \
+    echo "Compiling murex...." && \
+    go install github.com/lmorg/murex && \
+    murex -c version
