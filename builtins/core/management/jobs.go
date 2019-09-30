@@ -34,7 +34,7 @@ func cmdBackground(p *lang.Process) (err error) {
 	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND)
 	fork.Name = p.Name
 	fork.Parameters = p.Parameters
-	fork.Execute(block)
+	go fork.Execute(block)
 
 	return nil
 }

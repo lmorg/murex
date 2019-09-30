@@ -23,7 +23,7 @@ echo "Compiling docgen...."
 go install github.com/lmorg/murex/utils/docgen || exit 1
 
 echo "Compiling Murex docs...."
-docgen -verbose -config gen/docgen.yaml || exit 1
+docgen -config gen/docgen.yaml || exit 1
 
 echo "Formatting autogen docs...."
 go fmt builtins/docgen_test.go

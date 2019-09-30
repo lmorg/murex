@@ -15,29 +15,12 @@ jobs:
       - checkout
 
       - run:
-          name: Run Go tests
-          #environment:
-          #  MUREX_TEST_SKIP_MAN: true
-          command: go test ./... -count 10 -race -coverprofile=coverage.txt -covermode=atomic
+          name: Run CI script
+          command: test/ci.sh
 
       - run:
           name: Code Coverage (codecov.io)
           command: bash <(curl -s https://codecov.io/bash)
-
-      - run:
-          name: Build murex
-          command: go install github.com/lmorg/murex
-
-      - run:
-          name: Run unit tests on builtin profiles
-          command: murex --run-tests
-
-      #- run:
-      #    name: Validating Pre-Commit
-
-      - run:
-          name: Build alt plarforms
-          command: ./test/build_all_platforms.mx --no-colour
 
 workflows:
   version: 2
