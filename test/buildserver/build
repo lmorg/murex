@@ -13,7 +13,7 @@ WORKDIR /go/src/github.com/lmorg/murex
 
 RUN sed 1,3d -i /etc/dpkg/dpkg.cfg.d/excludes && \
     apt-get update && apt-get upgrade -y && \
-    apt-get install -y --reinstall man coreutils wget curl gcc git aspell aspell-en pandoc zip
+    apt-get install -y --reinstall man coreutils wget curl gcc git aspell aspell-en pandoc zip awscli
 
 # install golang and tools
 RUN mkdir -p /go && cd /go && \
