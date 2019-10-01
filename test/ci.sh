@@ -36,6 +36,9 @@ sed -i "s/\$DATE/`date`/;
         s/\$MUREXTESTS/$MUREXTESTS/" \
         gen/website/footer.html
 
+for f in *.md; do
+        gen/website/find-exec.sh $f
+done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
 mkdir /website
