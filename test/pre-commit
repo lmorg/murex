@@ -9,7 +9,9 @@ PATH=$PATH:$GOPATH/bin
 docs=docs
 cdocs=builtins/docs
 
-cd $GOPATH/src/github.com/lmorg/murex
+if [ $1 != '--no-cd' ]; then
+    cd $GOPATH/src/github.com/lmorg/murex
+fi
 
 trap ctrl_c INT
 
