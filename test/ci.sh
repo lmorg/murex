@@ -2,7 +2,7 @@
 
 set -ev
 
-test/pre-commit
+test/pre-commit --no-cd
 
 echo "Starting count server...."
 export MUREX_TEST_COUNT=http
