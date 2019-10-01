@@ -2,6 +2,8 @@
 
 set -e
 
+cd /go/src/github.com/lmorg/murex
+
 test/pre-commit
 
 echo "Starting count server...."
@@ -23,7 +25,6 @@ echo "Building latest binaries...."
 murex ./test/build_all_platforms.mx --no-colour --inc-latest --compress
 
 echo "Building website...."
-mv -v ./bin ./docs/
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
 export MUREXCOMMITS="$(git rev-parse HEAD)"
 export MUREXCOMMITL="$(git rev-parse HEAD)"
@@ -34,6 +35,11 @@ sed -i "s/\$DATE/`date`/;
         s/\$MUREXVERSION/$MUREXVERSION/;
         s/\$MUREXTESTS/$MUREXTESTS/" \
         gen/website/footer.html
-mv -v *.md ./docs/
-mv -v gen/website/*.css ./docs/
+
+for f in *.md; do
+        gen/website/find-exec.sh $f
+done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
+
+mkdir /website
+mv -v *.html gen/website/*.css ./bin ./docs /website/

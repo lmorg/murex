@@ -61,6 +61,10 @@ func runTests() error {
 		return err
 	}
 
+	if err := lang.ShellProcess.Config.Set("shell", "color", false); err != nil {
+		return err
+	}
+
 	// exit early if being run under Go test
 	if os.Getenv(envRunTests) != "" {
 		return nil

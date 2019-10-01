@@ -2,7 +2,7 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
 [![GoDoc](https://godoc.org/github.com/lmorg/murex?status.svg)](https://godoc.org/github.com/lmorg/murex)
-[![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](https://murex.rocks/DOWNLOAD.html)
+[![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
 [![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 [![codecov](https://codecov.io/gh/lmorg/murex/branch/master/graph/badge.svg)](https://codecov.io/gh/lmorg/murex)
 
@@ -93,17 +93,17 @@ casting the data type:
 
 This awareness of data structures is also utilised in `foreach` (which
 will cycle through each index in an array) and `formap` (key/value
-iteration against complex objects). See [GUIDE.control-structures](https://murex.rocks/GUIDE.control-structures.html)
+iteration against complex objects). See [GUIDE.control-structures](docs/GUIDE.control-structures.md)
 for more details on these and other control structures.
 
 ## More robust scripts / shell one liners
 
 _murex_ employs a few methods to make shell scripting more robust:
 
-Bash, for all it's power, is littered with hidden traps. We aim to
-address as many of them as we can without taking the flexibility nor power
-away from the intereactive command line. This is achieved through a couple
-of key concepts:
+Bash, for all it's power, is littered with hidden traps. The aim of _murex_ is
+to address as many of them as we can without taking the flexibility nor power
+away from the interactive command line. This is achieved through a couple of
+key concepts:
 
 ### Everything is a function
 
@@ -125,7 +125,7 @@ matching file system objects that follows the same idiomatic pattern:
     # Match only directories
     ls -l @{f +d}
 
-(more information on `g`, `rx` and `f` are available in [GUIDE.quick-start](https://murex.rocks/GUIDE.quick-start.html)).
+(more information on `g`, `rx` and `f` are available in [GUIDE.quick-start](docs/GUIDE.quick-start.md)).
 
 However there will be occasions when you just want an inlined expansion
 (eg when using an interactive shell) and that can be achieved via the `@g`
@@ -245,19 +245,19 @@ without worrying about any performance impact.
 
 ## Language guides
 
-1. [GUIDE.syntax](https://murex.rocks/GUIDE.syntax.html) is recommended first
+1. [GUIDE.syntax](docs/GUIDE.syntax.md) is recommended first
    as it gives an overview if the shell scripting languages syntax and data
    types.
 
-2. [GUIDE.type-system](https://murex.rocks/GUIDE.type-system.html) describes
+2. [GUIDE.type-system](docs/GUIDE.type-system.md) describes
    _murex_'s type system. Most of the time you will not need to worry about
    typing in _murex_ as the shell is designed around productivity.
 
-3. [GUIDE.builtin-functions](https://murex.rocks/GUIDE.builtin-functions.html)
+3. [GUIDE.builtin-functions](docs/GUIDE.builtin-functions.md)
    lists some of the builtin functions available for this shell.
 
 Or if you're already a seasoned Bash developer then you read the Quick
-Start Guide, [GUIDE.quick-start](https://murex.rocks/GUIDE.quick-start.html),
+Start Guide, [GUIDE.quick-start](docs/GUIDE.quick-start.md),
 to jump straight into using _murex_.
 
 ## Install instructions
@@ -276,10 +276,13 @@ safe for use.
    race detectors (run in Circle CI). These tests are run 10 times to shake out
    any possible timing related bugs.
 
-3. Weekly automated builds are then ran against the latest commit to the
-   `master` branch. These builds run in AWS CodeBuild and they generate the
-   [murex.rocks](https://murex.rocks) website as well a build pre-compiled
-   binaries for [download](https://murex.rocks/DOWNLOAD.html).
+   Each push to `develop` and `master` also creates a new docker container,
+   `lmorg/murex:latest` and `lmorg/murex:stable` (respectively).
+
+3. Weekly automated builds are then ran against the stable container (the
+   `master` branch). These builds run in AWS CodeBuild and they generate the
+   [murex.rocks](https://murex.rocks) website and build pre-compiled
+   binaries for [download](DOWNLOAD.md).
 
 ## Known bugs / TODO
 

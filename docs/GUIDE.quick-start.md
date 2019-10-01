@@ -50,6 +50,12 @@ Examples:
     ls -l @{out: file1 file2 file3}   # fails because not an array
     ls -l @{out: file1\nfile2\nfile3} # works because output is an array
 
+The reason _murex_ breaks from the POSIX tradition of using backticks and
+parentheses is because _murex_ works on the principle that everything inside
+a curly bracket is considered a new block of code. Typically that would mean
+a subshell however sometimes it could be configuration code in the form of
+inlined JSON.
+
 ## Globbing
 
 There isn't auto-expansion of globbing to protect against accidental
