@@ -2,8 +2,6 @@
 
 set -e
 
-cd /go/src/github.com/lmorg/murex
-
 test/pre-commit
 
 echo "Starting count server...."
