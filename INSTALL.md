@@ -29,13 +29,24 @@ Then to start the shell:
 
 ## Inside Docker
 
-If you don't have nor want to install Go and already have `docker` and
-`docker-compose` installed, then you can install _murex_ using the CI/CD
+If you don't have nor want to install Go and already have `docker` (and
+`docker-compose` installed), then you can install _murex_ using the CI/CD
 pipeline scripts.
+
+### Docker Hub
+
+_murex_ provides two prebuilt images on Docker Hub:
+
+* `lmorg/murex:develop` - this is the latest build of the `develop` branch,
+  as such it might contain unstable code
+* `lmorg/murex:latest` - this is the latest build of the `master` branch and
+  is the recommended image to use
+
+### Building Your Own Container
 
 From the project root (the location of this INSTALL.md file) run the following:
 
-    docker-compose up --build murex-build
+    docker-compose up --build murex
 
 ## Required Dependencies
 

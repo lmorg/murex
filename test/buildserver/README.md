@@ -15,6 +15,9 @@ generate executables under `./test/buildserver/bin/`.
 
 To build `murex` and `docgen` run:
 
-    docker-compose: up --build murex-build
+    docker-compose: up --build murex
+
+
+TODO: this documentation is out of date.
 
 
