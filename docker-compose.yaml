@@ -6,7 +6,7 @@ services:
     image: murex/buildserver
     build:
       args:
-        - VERSION=1.12.7
+        - VERSION=1.13.1
         - GOOS=linux
         - GOARCH=amd64
       context: .
