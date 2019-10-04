@@ -41,9 +41,16 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "recursive-timeout", config.Properties{
-		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list for auto-completion. When timeout is reached the recursive lookup it killed and the results it had up to that point are returned",
+	c.Define("shell", "recursive-soft-timeout", config.Properties{
+		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list before the process is backgrounded and the partial results a returned with the rest updating when completed",
 		Default:     150,
+		DataType:    types.Integer,
+		Global:      true,
+	})
+
+	c.Define("shell", "recursive-hard-timeout", config.Properties{
+		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list for auto-completion. When timeout is reached the recursive lookup it killed and the results it had up to that point are returned",
+		Default:     5000,
 		DataType:    types.Integer,
 		Global:      true,
 	})
@@ -54,6 +61,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Integer,
 		Global:      true,
 	})
+
+	/*c.Define("shell", "recursive-prefetch", config.Properties{
+		Description: "Maximum depth to scan through when compiling the recursive list for auto-completion",
+		Default:     false,
+		DataType:    types.Boolean,
+		Global:      true,
+	})*/
 
 	c.Define("shell", "history", config.Properties{
 		Description: "Write shell history (interactive shell) to disk",

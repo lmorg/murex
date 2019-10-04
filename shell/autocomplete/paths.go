@@ -48,19 +48,27 @@ func matchFilesystem(s string, filesToo bool, errCallback func(error), dtc *read
 
 	wg.Add(1)
 
-	timeout, err := lang.ShellProcess.Config.Get("shell", "recursive-timeout", types.Integer)
+	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
 	if err != nil {
-		timeout = 150
+		softTimeout = 150
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(int64(timeout.(int)))*time.Millisecond)
-	defer cancel()
+	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-hard-timeout", types.Integer)
+	if err != nil {
+		hardTimeout = 5000
+	}
+
+	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
+	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
+	//defer cancel()
 
 	done := make(chan bool)
 	go func() {
-		recursive = matchRecursive(ctx, s, filesToo, dtc)
+		recursive = matchRecursive(hardCtx, s, filesToo, dtc)
 		select {
-		case <-ctx.Done():
+		case <-softCtx.Done():
+			dtc.AppendSuggestions(recursive)
+		case <-hardCtx.Done():
 			dtc.AppendSuggestions(recursive)
 		default:
 			done <- true
@@ -84,19 +92,16 @@ func matchFilesystem(s string, filesToo bool, errCallback func(error), dtc *read
 		wg.Wait()
 		return append(once, recursive...)
 
-	case <-ctx.Done():
+	case <-softCtx.Done():
 		// Make sure the surface search has done. It should have, but we might
 		// be working on impossibly slow storage media
 		wg.Wait()
+		return once
 
-		/*var s string
-		if filesToo {
-			s = "file"
-		} else {
-			s = "directory"
-		}
-		errCallback(fmt.Errorf("Recursive %s listing timed out. You can configure this in `config set shell recursive-timeout`", s))*/
-
+	case <-hardCtx.Done():
+		// Make sure the surface search has done. It should have, but we might
+		// be working on impossibly slow storage media
+		wg.Wait()
 		return once
 	}
 }
@@ -173,14 +178,11 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, dtc *readline.
 	}
 
 	walker := func(walkedPath string, info os.FileInfo, err error) error {
-		/*select {
+		select {
 		case <-ctx.Done():
 			return ctx.Err()
-		default:
-		}*/
-		select {
 		case <-dtc.Context.Done():
-			return dtc.Context.Err() //ctx.Err()
+			return dtc.Context.Err()
 		default:
 		}
 
