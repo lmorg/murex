@@ -1,5 +1,7 @@
 package readline
 
+import "context"
+
 // TabDisplayType defines how the autocomplete suggestions display
 type TabDisplayType int
 
@@ -25,7 +27,14 @@ func (rl *Instance) getTabCompletion() {
 		return
 	}
 
-	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = rl.TabCompleter(rl.line, rl.pos)
+	if rl.delayedTabContext.cancel != nil {
+		rl.delayedTabContext.cancel()
+	}
+
+	rl.delayedTabContext = DelayedTabContext{rl: rl}
+	rl.delayedTabContext.Context, rl.delayedTabContext.cancel = context.WithCancel(context.Background())
+
+	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
 	if len(rl.tcSuggestions) == 0 {
 		return
 	}

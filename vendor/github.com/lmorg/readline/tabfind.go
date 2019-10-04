@@ -11,7 +11,7 @@ func (rl *Instance) backspaceTabFind() {
 
 func (rl *Instance) updateTabFind(r []rune) {
 	rl.tfLine = append(rl.tfLine, r...)
-	rl.hintText = append([]rune("regexp find: "), rl.tfLine...)
+	rl.hintText = append([]rune("regex find: "), rl.tfLine...)
 
 	defer func() {
 		rl.clearHelpers()
@@ -48,7 +48,7 @@ func (rl *Instance) resetTabFind() {
 	if rl.modeAutoFind {
 		rl.hintText = []rune{}
 	} else {
-		rl.hintText = []rune("Cancelled regexp suggestion find.")
+		rl.hintText = []rune("Cancelled regex suggestion find.")
 	}
 
 	rl.clearHelpers()
