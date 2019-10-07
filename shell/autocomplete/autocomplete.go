@@ -8,6 +8,14 @@ import (
 	"github.com/lmorg/readline"
 )
 
+type AutoCompleteT struct {
+	Items             []string
+	Definitions       map[string]string
+	TabDisplayType    readline.TabDisplayType
+	ErrCallback       func(error)
+	DelayedTabContext readline.DelayedTabContext
+}
+
 // MatchFunction returns autocomplete suggestions for functions / executables
 // based on a partial string
 func MatchFunction(partial string, errCallback func(error), dtc *readline.DelayedTabContext) (items []string) {

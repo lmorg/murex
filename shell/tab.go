@@ -65,30 +65,8 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (prefix
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
 
-	for i := range items {
-		if len(items[i]) == 0 {
-			items[i] = " "
-			continue
-		}
-
-		if !pt.QuoteSingle && !pt.QuoteDouble && pt.QuoteBrace == 0 {
-			items[i] = strings.Replace(items[i], ` `, `\ `, -1)
-			items[i] = strings.Replace(items[i], `'`, `\'`, -1)
-			items[i] = strings.Replace(items[i], `"`, `\"`, -1)
-			items[i] = strings.Replace(items[i], `(`, `\(`, -1)
-			items[i] = strings.Replace(items[i], `)`, `\)`, -1)
-			items[i] = strings.Replace(items[i], `{`, `\{`, -1)
-			items[i] = strings.Replace(items[i], `}`, `\}`, -1)
-
-			if items[i][len(items[i])-1] != ' ' &&
-				items[i][len(items[i])-1] != '=' &&
-				items[i][len(items[i])-1] != '/' &&
-				len(pt.Variable) == 0 {
-				items[i] += " "
-			}
-		}
-
-	}
+	autocomplete.FormatSuggestionsArray(pt, items)
+	autocomplete.FormatSuggestionsMap(pt, descriptions)
 
 	return
 }

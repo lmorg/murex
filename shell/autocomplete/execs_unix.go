@@ -76,10 +76,7 @@ func matchExes(s string, exes map[string]bool, includeColon bool) (items []strin
 	// function to take this into account but that can be part of the
 	// optimisation stage - whenever I get there.
 	for i := range items {
-		switch items[i] {
-		case ">", ">>", "[", "=":
-			// do nothing
-		default:
+		if !isSpecialBuiltin(items[i]) {
 			items[i] += colon
 		}
 	}
