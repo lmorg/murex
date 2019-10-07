@@ -184,7 +184,7 @@ Categories:
       the internal logic of _murex_'s runtime.
 
     Templates:
-    - OutputPath: user-guide/apis
+    - OutputPath: docs/user-guide
       CategoryFile: ../USER-GUIDE.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
