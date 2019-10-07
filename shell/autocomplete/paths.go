@@ -16,15 +16,15 @@ import (
 	"github.com/lmorg/readline"
 )
 
-func matchDirs(s string, errCallback func(error), dtc *readline.DelayedTabContext) []string {
-	return matchFilesystem(s, false, errCallback, dtc)
+func matchDirs(s string, act *AutoCompleteT) []string {
+	return matchFilesystem(s, false, act)
 }
 
-func matchFilesAndDirs(s string, errCallback func(error), dtc *readline.DelayedTabContext) []string {
-	return matchFilesystem(s, true, errCallback, dtc)
+func matchFilesAndDirs(s string, act *AutoCompleteT) []string {
+	return matchFilesystem(s, true, act)
 }
 
-func matchFilesystem(s string, filesToo bool, errCallback func(error), dtc *readline.DelayedTabContext) []string {
+func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 	// Is recursive search enabled?
 	enabled, err := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
 	if err != nil {
@@ -64,12 +64,14 @@ func matchFilesystem(s string, filesToo bool, errCallback func(error), dtc *read
 
 	done := make(chan bool)
 	go func() {
-		recursive = matchRecursive(hardCtx, s, filesToo, dtc)
+		recursive = matchRecursive(hardCtx, s, filesToo, &act.DelayedTabContext)
 		select {
 		case <-softCtx.Done():
-			dtc.AppendSuggestions(recursive)
+			formatSuggestionsArray(act.ParsedTokens, recursive)
+			act.DelayedTabContext.AppendSuggestions(recursive)
 		case <-hardCtx.Done():
-			dtc.AppendSuggestions(recursive)
+			formatSuggestionsArray(act.ParsedTokens, recursive)
+			act.DelayedTabContext.AppendSuggestions(recursive)
 		default:
 			done <- true
 		}

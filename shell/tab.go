@@ -18,8 +18,8 @@ func errCallback(err error) {
 	Prompt.SetHintText(s)
 }
 
-func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (prefix string, items []string, descriptions map[string]string, tdt readline.TabDisplayType) {
-	descriptions = make(map[string]string)
+func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType) {
+	var prefix string
 
 	if len(line) > pos-1 {
 		line = line[:pos]
@@ -27,36 +27,35 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (prefix
 
 	pt, _ := parse(line)
 
+	act := autocomplete.AutoCompleteT{
+		Definitions:       make(map[string]string),
+		ErrCallback:       errCallback,
+		DelayedTabContext: dtc,
+		ParsedTokens:      pt,
+	}
+
 	switch {
 	case pt.Variable != "":
-		var s string
 		if pt.VarLoc < len(line) {
-			s = strings.TrimSpace(string(line[pt.VarLoc:]))
+			prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
-		s = pt.Variable + s
-		prefix = s
-
-		items = autocomplete.MatchVars(s)
+		prefix = pt.Variable + prefix
+		act.Items = autocomplete.MatchVars(prefix)
 
 	case pt.ExpectFunc:
-		var s string
 		if pt.Loc < len(line) {
-			s = strings.TrimSpace(string(line[pt.Loc:]))
+			prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
-		prefix = s
-		items = autocomplete.MatchFunction(s, errCallback, &dtc)
+		act.Items = autocomplete.MatchFunction(prefix, &act)
 
 	default:
-		var s string
 		if len(pt.Parameters) > 0 {
-			s = pt.Parameters[len(pt.Parameters)-1]
+			prefix = pt.Parameters[len(pt.Parameters)-1]
 		}
-		prefix = s
-
 		autocomplete.InitExeFlags(pt.FuncName)
 
 		pIndex := 0
-		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt, errCallback, &dtc)
+		autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], prefix, pt.FuncName, pt.Parameters, &pIndex, &act)
 	}
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
@@ -65,8 +64,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (prefix
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
 
-	autocomplete.FormatSuggestionsArray(pt, items)
-	autocomplete.FormatSuggestionsMap(pt, descriptions)
+	autocomplete.FormatSuggestions(&act)
 
-	return
+	return prefix, act.Items, act.Definitions, act.TabDisplayType
 }

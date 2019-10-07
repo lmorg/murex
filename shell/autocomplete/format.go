@@ -6,7 +6,12 @@ import (
 	"github.com/lmorg/murex/utils/parser"
 )
 
-func FormatSuggestionsArray(pt parser.ParsedTokens, items []string) {
+func FormatSuggestions(act *AutoCompleteT) {
+	formatSuggestionsArray(act.ParsedTokens, act.Items)
+	formatSuggestionsMap(act.ParsedTokens, act.Definitions)
+}
+
+func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 	for i := range items {
 		if len(items[i]) == 0 {
 			items[i] = " "
@@ -33,7 +38,7 @@ func FormatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 	}
 }
 
-func FormatSuggestionsMap(pt parser.ParsedTokens, items map[string]string) {
+func formatSuggestionsMap(pt parser.ParsedTokens, items map[string]string) {
 	for k := range items {
 		if len(items[k]) == 0 {
 			items[k] = " "

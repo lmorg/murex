@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/readline"
 )
 
@@ -14,15 +15,45 @@ type AutoCompleteT struct {
 	TabDisplayType    readline.TabDisplayType
 	ErrCallback       func(error)
 	DelayedTabContext readline.DelayedTabContext
+	ParsedTokens      parser.ParsedTokens
+}
+
+func (act *AutoCompleteT) append(items ...string) {
+	// Dedup
+	for _, item := range items {
+		for i := range act.Items {
+			if act.Items[i] == item {
+				goto next
+			}
+		}
+
+		act.Items = append(act.Items, item)
+	next:
+	}
+}
+
+func (act *AutoCompleteT) appendDef(item, def string) {
+	act.Definitions[item+" "] = def
+	act.append(item)
+}
+
+func (act *AutoCompleteT) disposable() *AutoCompleteT {
+	return &AutoCompleteT{
+		Items:             []string{},
+		Definitions:       make(map[string]string),
+		ErrCallback:       act.ErrCallback,
+		DelayedTabContext: act.DelayedTabContext,
+		ParsedTokens:      act.ParsedTokens,
+	}
 }
 
 // MatchFunction returns autocomplete suggestions for functions / executables
 // based on a partial string
-func MatchFunction(partial string, errCallback func(error), dtc *readline.DelayedTabContext) (items []string) {
+func MatchFunction(partial string, act *AutoCompleteT) (items []string) {
 	switch {
 	case pathIsLocal(partial):
 		items = matchLocal(partial, true)
-		items = append(items, matchDirs(partial, errCallback, dtc)...)
+		items = append(items, matchDirs(partial, act)...)
 	default:
 		exes := allExecutables(true)
 		items = matchExes(partial, exes, true)
@@ -46,11 +77,11 @@ func MatchVars(partial string) (items []string) {
 }
 
 // MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error), dtc *readline.DelayedTabContext) (items []string) {
+func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, act *AutoCompleteT) int {
 	args := dynamicArgs{
 		exe:    exe,
 		params: params,
 	}
 
-	return matchFlags(flags, partial, exe, params, pIndex, args, defs, tdt, errCallback, dtc)
+	return matchFlags(flags, partial, exe, params, pIndex, args, act)
 }

@@ -1,11 +1,8 @@
 package autocomplete
 
 import (
-	"encoding/json"
-	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/utils/man"
@@ -95,33 +92,39 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 	return exes
 }
 
-func match(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error), dtc *readline.DelayedTabContext) (items []string) {
-	items = append(items, matchPartialFlags(f, partial, defs)...)
-	items = append(items, matchDynamic(f, partial, args, defs, tdt)...)
+func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
+	//items = append(items, matchPartialFlags(f, partial, defs)...)
+	matchPartialFlags(f, partial, act)
+	//items = append(items, matchDynamic(f, partial, args, defs, tdt)...)
+	matchDynamic(f, partial, args, act)
 
 	if f.IncExePath {
 		pathexes := allExecutables(false)
-		items = append(items, matchExes(partial, pathexes, false)...)
+		//items = append(items, matchExes(partial, pathexes, false)...)
+		act.append(matchExes(partial, pathexes, false)...)
 	}
 
 	switch {
 	case f.IncFiles:
-		items = append(items, matchFilesAndDirs(partial, errCallback, dtc)...)
+		//items = append(items, matchFilesAndDirs(partial, errCallback, dtc)...)
+		act.append(matchFilesAndDirs(partial, act)...)
 	case f.IncDirs && !f.IncFiles:
-		items = append(items, matchDirs(partial, errCallback, dtc)...)
+		//items = append(items, matchDirs(partial, errCallback, dtc)...)
+		act.append(matchDirs(partial, act)...)
 	}
 
 	if len(f.FlagsDesc) > 0 && f.ListView {
-		*tdt = readline.TabDisplayList
+		//*tdt = readline.TabDisplayList
+		act.TabDisplayType = readline.TabDisplayList
 	}
 
-	return
+	return len(act.Items)
 }
 
-func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType, errCallback func(error), dtc *readline.DelayedTabContext) (items []string) {
+func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, act *AutoCompleteT) int {
 	var nest int
 
-	defer func() {
+	/*defer func() {
 		if debug.Enabled {
 			return
 		}
@@ -132,7 +135,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			lang.ShellProcess.Stderr.Writeln([]byte(string(b)))
 
 		}
-	}()
+	}()*/
 
 	if len(flags) > 0 {
 		for ; *pIndex <= len(params); *pIndex++ {
@@ -178,19 +181,18 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				items = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, defs, tdt, errCallback, dtc)
-				if len(items) > 0 || len(*defs) > 0 {
-					return
+				length := matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, act)
+				if length > 0 {
+					return len(act.Items)
 				}
 			}
 
 			if nest >= len(flags) {
-				return
+				return len(act.Items)
 			}
 
-			disposableMap := make(map[string]string)
-			length := len(match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, &disposableMap, tdt, errCallback, dtc))
-			if flags[nest].AnyValue || length > 0 || len(disposableMap) > 0 {
+			length := match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, act.disposable())
+			if flags[nest].AnyValue || length > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}
@@ -206,16 +208,17 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		items = append(items, match(&flags[nest], partial, args, defs, tdt, errCallback, dtc)...)
+		//items = append(items, match(&flags[nest], partial, args, defs, tdt, errCallback, dtc)...)
+		match(&flags[nest], partial, args, act)
 		if !flags[nest].Optional {
 			break
 		}
 	}
 
-	return
+	return len(act.Items)
 }
 
-func matchPartialFlags(f *Flags, partial string, defs *map[string]string) (items []string) {
+func matchPartialFlags(f *Flags, partial string, act *AutoCompleteT) {
 	var flag string
 
 	for i := range f.Flags {
@@ -227,15 +230,19 @@ func matchPartialFlags(f *Flags, partial string, defs *map[string]string) (items
 			//if flag[len(flag)-1] != '=' {
 			//	flag += " "
 			//}
-			items = append(items, flag[len(partial):])
+
+			//items = append(items, flag[len(partial):])
+			act.append(flag[len(partial):])
 		}
 	}
 
 	//sort.Strings(items)
 
 	for flag := range f.FlagsDesc {
-		(*defs)[flag[len(partial):]+" "] = f.FlagsDesc[flag]
-		items = append(items, flag[len(partial):])
+		//(*defs)[flag[len(partial):]+" "] = f.FlagsDesc[flag]
+		//items = append(items, flag[len(partial):])
+		act.appendDef(flag[len(partial):], f.FlagsDesc[flag])
 	}
+
 	return
 }
