@@ -8,8 +8,9 @@ set -e
 PATH=$PATH:$GOPATH/bin
 docs=docs
 cdocs=builtins/docs
+flag=${1:-undef}
 
-if [ $1 != '--no-cd' ]; then
+if [ $flag != '--no-cd' ]; then
     cd $GOPATH/src/github.com/lmorg/murex
 fi
 

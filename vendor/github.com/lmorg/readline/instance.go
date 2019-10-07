@@ -2,12 +2,14 @@ package readline
 
 import (
 	"os"
+	"sync"
 )
 
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
 type Instance struct {
+	mutex sync.Mutex
 
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
@@ -32,7 +34,8 @@ type Instance struct {
 	// TabCompleter is a simple function that offers completion suggestions.
 	// It takes the readline line ([]rune) and cursor pos. Returns a prefix
 	// string, an array of suggestions and a map of definitions (optional).
-	TabCompleter func([]rune, int) (string, []string, map[string]string, TabDisplayType)
+	TabCompleter      func([]rune, int, DelayedTabContext) (string, []string, map[string]string, TabDisplayType)
+	delayedTabContext DelayedTabContext
 
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
@@ -45,8 +48,10 @@ type Instance struct {
 	// the new line and cursor position.
 	SyntaxCompleter func([]rune, int) ([]rune, int)
 
-	DelayedWorker func([]rune) []rune
-	delayedCount  int64
+	// DelayedSyntaxWorker allows for syntax highlighting happen to the line
+	// after the line has been drawn.
+	DelayedSyntaxWorker func([]rune) []rune
+	delayedSyntaxCount  int64
 
 	// HintText is a helper function which displays hint text the prompt.
 	// HintText takes the line input from the prompt and the cursor position.

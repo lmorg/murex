@@ -24,7 +24,7 @@ murex ./test/build_all_platforms.mx --no-colour --inc-latest --compress
 
 echo "Building website...."
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
-export MUREXCOMMITS="$(git rev-parse HEAD)"
+export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
 export MUREXCOMMITL="$(git rev-parse HEAD)"
 
 sed -i "s/\$DATE/`date`/;

@@ -46,7 +46,7 @@ Categories:
     - OutputPath: docs/commands
       CategoryFile: ../GUIDE.builtin-functions.md
       OutputExt: .md
-      CategoryTemplate: gen/commands-md-cat.tmpl
+      CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
 
     - OutputPath: builtins/docs
@@ -137,7 +137,7 @@ Categories:
     - OutputPath: docs/types
       CategoryFile: ../GUIDE.type-system.md
       OutputExt: .md
-      CategoryTemplate: gen/types-md-cat.tmpl
+      CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/types-md-doc.tmpl
 
     #- OutputPath: builtins/docs
@@ -154,6 +154,7 @@ Categories:
 
   # pipes:
 
+  # apis:
   - ID: apis
     Title: API Reference
     Description: |-
@@ -168,8 +169,26 @@ Categories:
     - OutputPath: docs/apis
       CategoryFile: ../GUIDE.apis.md
       OutputExt: .md
-      CategoryTemplate: gen/apis-md-cat.tmpl
+      CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/apis-md-doc.tmpl
+
+  # user guide:
+  - ID: userguide
+    Title: User Guide
+    Description: |-
+      This section is a glossary of APIs.
+      
+      These APIs are provided for reference for any developers wishing to write
+      their own builtins. However some APIs are still worth being aware of even
+      when just writing _murex_ scripts because they provide a background into
+      the internal logic of _murex_'s runtime.
+
+    Templates:
+    - OutputPath: user-guide/apis
+      CategoryFile: ../USER-GUIDE.md
+      OutputExt: .md
+      CategoryTemplate: gen/murex-md-cat.tmpl
+      DocumentTemplate: gen/userguide-md-doc.tmpl
 
 # Compile the default profiles
 

@@ -18,7 +18,7 @@ func errCallback(err error) {
 	Prompt.SetHintText(s)
 }
 
-func tabCompletion(line []rune, pos int) (prefix string, items []string, descriptions map[string]string, tdt readline.TabDisplayType) {
+func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (prefix string, items []string, descriptions map[string]string, tdt readline.TabDisplayType) {
 	descriptions = make(map[string]string)
 
 	if len(line) > pos-1 {
@@ -44,7 +44,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, descrip
 			s = strings.TrimSpace(string(line[pt.Loc:]))
 		}
 		prefix = s
-		items = autocomplete.MatchFunction(s, errCallback)
+		items = autocomplete.MatchFunction(s, errCallback, &dtc)
 
 	default:
 		var s string
@@ -56,7 +56,7 @@ func tabCompletion(line []rune, pos int) (prefix string, items []string, descrip
 		autocomplete.InitExeFlags(pt.FuncName)
 
 		pIndex := 0
-		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt, errCallback)
+		items = autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], s, pt.FuncName, pt.Parameters, &pIndex, &descriptions, &tdt, errCallback, &dtc)
 	}
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)

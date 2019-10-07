@@ -34,6 +34,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
+	atomic.StoreInt64(&rl.delayedSyntaxCount, 0)
 	rl.resetHintText()
 	rl.resetTabCompletion()
 
@@ -53,7 +54,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
-		go timer(rl, atomic.LoadInt64(&rl.delayedCount))
+		go delayedSyntaxTimer(rl, atomic.LoadInt64(&rl.delayedSyntaxCount))
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024)
 		var i int
@@ -64,7 +65,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				return "", err
 			}
 		}
-		atomic.AddInt64(&rl.delayedCount, 1)
+		atomic.AddInt64(&rl.delayedSyntaxCount, 1)
 
 		rl.skipStdinRead = false
 		r := []rune(string(b))
