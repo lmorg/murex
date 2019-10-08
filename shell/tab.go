@@ -65,6 +65,5 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	Prompt.MaxTabCompleterRows = v.(int)
 
 	autocomplete.FormatSuggestions(&act)
-
 	return prefix, act.Items, act.Definitions, act.TabDisplayType
 }

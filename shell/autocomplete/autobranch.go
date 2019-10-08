@@ -68,6 +68,7 @@ func cropBranches(tree *[]string) {
 	}
 }
 
+// This is pretty inefficient. It really should be rewritten
 func dedup(items *[]string) {
 	m := make(map[string]bool)
 	for i := range *items {

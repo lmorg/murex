@@ -33,7 +33,7 @@ func (act *AutoCompleteT) append(items ...string) {
 }
 
 func (act *AutoCompleteT) appendDef(item, def string) {
-	act.Definitions[item+" "] = def
+	act.Definitions[item] = def
 	act.append(item)
 }
 

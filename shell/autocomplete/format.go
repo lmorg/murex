@@ -6,9 +6,11 @@ import (
 	"github.com/lmorg/murex/utils/parser"
 )
 
+// FormatSuggestions applies some loose formatting rules to auto-completion
+// suggestions
 func FormatSuggestions(act *AutoCompleteT) {
 	formatSuggestionsArray(act.ParsedTokens, act.Items)
-	formatSuggestionsMap(act.ParsedTokens, act.Definitions)
+	formatSuggestionsMap(act.ParsedTokens, &act.Definitions)
 }
 
 func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
@@ -19,6 +21,7 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 		}
 
 		if !pt.QuoteSingle && !pt.QuoteDouble && pt.QuoteBrace == 0 {
+			items[i] = strings.Replace(items[i], `\`, `\\`, -1)
 			items[i] = strings.Replace(items[i], ` `, `\ `, -1)
 			items[i] = strings.Replace(items[i], `'`, `\'`, -1)
 			items[i] = strings.Replace(items[i], `"`, `\"`, -1)
@@ -31,6 +34,7 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 				items[i][len(items[i])-1] != '=' &&
 				items[i][len(items[i])-1] != '/' &&
 				len(pt.Variable) == 0 {
+
 				items[i] += " "
 			}
 		}
@@ -38,29 +42,41 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 	}
 }
 
-func formatSuggestionsMap(pt parser.ParsedTokens, items map[string]string) {
-	for k := range items {
-		if len(items[k]) == 0 {
-			items[k] = " "
+func formatSuggestionsMap(pt parser.ParsedTokens, definitions *map[string]string) {
+	var (
+		newDef = make(map[string]string)
+		newKey string
+	)
+
+	for key, value := range *definitions {
+		if key == "" {
+			newDef[" "] = value
 			continue
 		}
 
-		if !pt.QuoteSingle && !pt.QuoteDouble && pt.QuoteBrace == 0 {
-			items[k] = strings.Replace(items[k], ` `, `\ `, -1)
-			items[k] = strings.Replace(items[k], `'`, `\'`, -1)
-			items[k] = strings.Replace(items[k], `"`, `\"`, -1)
-			items[k] = strings.Replace(items[k], `(`, `\(`, -1)
-			items[k] = strings.Replace(items[k], `)`, `\)`, -1)
-			items[k] = strings.Replace(items[k], `{`, `\{`, -1)
-			items[k] = strings.Replace(items[k], `}`, `\}`, -1)
+		newKey = key
 
-			if items[k][len(items[k])-1] != ' ' &&
-				items[k][len(items[k])-1] != '=' &&
-				items[k][len(items[k])-1] != '/' &&
+		if !pt.QuoteSingle && !pt.QuoteDouble && pt.QuoteBrace == 0 {
+			newKey = strings.Replace(newKey, `\`, `\\`, -1)
+			newKey = strings.Replace(newKey, ` `, `\ `, -1)
+			newKey = strings.Replace(newKey, `'`, `\'`, -1)
+			newKey = strings.Replace(newKey, `"`, `\"`, -1)
+			newKey = strings.Replace(newKey, `(`, `\(`, -1)
+			newKey = strings.Replace(newKey, `)`, `\)`, -1)
+			newKey = strings.Replace(newKey, `{`, `\{`, -1)
+			newKey = strings.Replace(newKey, `}`, `\}`, -1)
+
+			if newKey[len(newKey)-1] != ' ' &&
+				newKey[len(newKey)-1] != '=' &&
+				newKey[len(newKey)-1] != '/' &&
 				len(pt.Variable) == 0 {
-				items[k] += " "
+
+				newKey += " "
 			}
 		}
 
+		newDef[newKey] = value
 	}
+
+	*definitions = newDef
 }
