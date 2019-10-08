@@ -11,5 +11,5 @@ the internal logic of _murex_'s runtime.
 
 ### Pages
 
-* [_murex_ profile files](userguide/profile.md):
+* [_murex_ profile files](user-guide/profile.md):
   A breakdown of the different files loaded on start up

@@ -1,7 +1,7 @@
 - DocumentID: profile
   Title: >-
     _murex_ profile files
-  CategoryID: userguide
+  CategoryID: user-guide
   Summary: >-
     A breakdown of the different files loaded on start up
   Description: |-
@@ -43,6 +43,12 @@
     `.murex_profile` is only read from the users home directory. Unlike bash et
     al, profiles will not be read from `/etc/profile.d` nor similar. Modules
     should be used in its place.
+  Synonyms:
+  - profile
+  - .murex_profile
+  - murex_profile
+  - .murex_preload
+  - murex_preload
   Related:
   - commands/murex-package
   - modules

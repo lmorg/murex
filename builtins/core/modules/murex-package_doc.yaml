@@ -10,17 +10,27 @@
   Usage: |-
     ```
     murex-package install uri
+    ```
 
+    ```
     murex-package update
+    ```
 
+    ```
     murex-package enable package
     murex-package enable package/module
+    ```
 
+    ```
     murex-package disable package
     murex-package disable package/module
+    ```
 
+    ```
     murex-package import [ uri | local/path ] packages.json
+    ```
 
+    ```
     murex-package status -> <stdout>
     ```
   Examples: |-
@@ -41,5 +51,5 @@
   - function
   - private
   - alias
-  - userguide/profile
-  - userguide/modules
+  - user-guide/profile
+  - user-guide/modules

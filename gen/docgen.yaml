@@ -173,7 +173,7 @@ Categories:
       DocumentTemplate: gen/apis-md-doc.tmpl
 
   # user guide:
-  - ID: userguide
+  - ID: user-guide
     Title: User Guide
     Description: |-
       This section is a glossary of APIs.
