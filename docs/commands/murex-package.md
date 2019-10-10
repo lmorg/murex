@@ -1,4 +1,4 @@
-# _murex_ Shell Guide
+# _murex_ Shell Docs
 
 ## Command Reference: `murex-package`
 
@@ -41,6 +41,8 @@ _murex_ comes with it's own package manager to make managing plugins easier.
 
 ### See Also
 
+* [user-guide/_murex_ profile files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command
 * [commands/`config`](../commands/config.md):
@@ -51,6 +53,8 @@ _murex_ comes with it's own package manager to make managing plugins easier.
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
+* [user-guide/modules](../user-guide/modules.md):
+  
 * [commands/murex-man](../commands/murex-man.md):
   
 * [commands/status](../commands/status.md):

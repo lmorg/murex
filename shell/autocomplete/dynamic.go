@@ -2,7 +2,6 @@ package autocomplete
 
 import (
 	"bytes"
-	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/debug"
@@ -19,7 +18,7 @@ type dynamicArgs struct {
 	float  int
 }
 
-func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]string, tdt *readline.TabDisplayType) (items []string) {
+func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) {
 	// Default to building up from Dynamic field. Fall back to DynamicDefs
 	dynamic := f.Dynamic
 	if f.Dynamic == "" {
@@ -49,6 +48,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 	}
 
 	if f.Dynamic != "" {
+		var items []string
 		fork.Stdout.ReadArray(func(b []byte) {
 			s := string(bytes.TrimSpace(b))
 			if len(s) == 0 {
@@ -56,27 +56,32 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, defs *map[string]s
 			}
 			if strings.HasPrefix(s, partial) {
 				items = append(items, s[len(partial):])
+				//act.append(s[len(partial):])
 			}
 		})
 
+		if f.AutoBranch {
+			autoBranch(&items)
+		}
+
+		act.append(items...)
+
 	} else {
 		if f.ListView {
-			*tdt = readline.TabDisplayList
+			//*tdt = readline.TabDisplayList
+			act.TabDisplayType = readline.TabDisplayList
 		}
 
 		fork.Stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
 			if strings.HasPrefix(key, partial) {
-				items = append(items, key[len(partial):])
+				//items = append(items, key[len(partial):])
 				value = strings.Replace(value, "\r", "", -1)
 				value = strings.Replace(value, "\n", " ", -1)
-				(*defs)[key[len(partial):]+" "] = value
-				sort.Strings(items)
+				//(*defs)[key[len(partial):]+" "] = value
+				//sort.Strings(items)
+				act.appendDef(key[len(partial):], value)
 			}
 		})
-	}
-
-	if f.AutoBranch {
-		autoBranch(&items)
 	}
 
 	return

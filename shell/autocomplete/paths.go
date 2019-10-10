@@ -2,7 +2,6 @@ package autocomplete
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -14,17 +13,18 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/readline"
 )
 
-func matchDirs(s string, errCallback func(error)) []string {
-	return matchFilesystem(s, false, errCallback)
+func matchDirs(s string, act *AutoCompleteT) []string {
+	return matchFilesystem(s, false, act)
 }
 
-func matchFilesAndDirs(s string, errCallback func(error)) []string {
-	return matchFilesystem(s, true, errCallback)
+func matchFilesAndDirs(s string, act *AutoCompleteT) []string {
+	return matchFilesystem(s, true, act)
 }
 
-func matchFilesystem(s string, filesToo bool, errCallback func(error)) []string {
+func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 	// Is recursive search enabled?
 	enabled, err := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
 	if err != nil {
@@ -48,18 +48,35 @@ func matchFilesystem(s string, filesToo bool, errCallback func(error)) []string 
 
 	wg.Add(1)
 
-	timeout, err := lang.ShellProcess.Config.Get("shell", "recursive-timeout", types.Integer)
+	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
 	if err != nil {
-		timeout = 150
+		softTimeout = 150
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(int64(timeout.(int)))*time.Millisecond)
-	defer cancel()
+	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-hard-timeout", types.Integer)
+	if err != nil {
+		hardTimeout = 5000
+	}
+
+	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
+	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
+	//defer cancel()
 
 	done := make(chan bool)
 	go func() {
-		recursive = matchRecursive(ctx, s, filesToo)
-		done <- true
+		act.largeMin() // assume recursive overruns
+		recursive = matchRecursive(hardCtx, s, filesToo, &act.DelayedTabContext)
+		select {
+		case <-softCtx.Done():
+			formatSuggestionsArray(act.ParsedTokens, recursive)
+			act.DelayedTabContext.AppendSuggestions(recursive)
+		case <-hardCtx.Done():
+			formatSuggestionsArray(act.ParsedTokens, recursive)
+			act.DelayedTabContext.AppendSuggestions(recursive)
+		default:
+			act.MinTabItemLength = 0 // recursive hasn't overrun, set it back to default
+			done <- true
+		}
 	}()
 
 	go func() {
@@ -73,23 +90,21 @@ func matchFilesystem(s string, filesToo bool, errCallback func(error)) []string 
 
 	select {
 	case <-done:
-		// the surface search should have already been completed but lets wait
+		// The surface search should have already been completed but lets wait
 		// for it regardless because the last thing we need is a completely
 		// avoidable race condition
 		wg.Wait()
 		return append(once, recursive...)
 
-	case <-ctx.Done():
-		// make sure the surface search has done. It should have, but we might
+	case <-softCtx.Done():
+		// Make sure the surface search has done. It should have, but we might
 		// be working on impossibly slow storage media
-		var s string
-		if filesToo {
-			s = "file"
-		} else {
-			s = "directory"
-		}
-		errCallback(fmt.Errorf("Recursive %s listing timed out. You can configure this in `config set shell recursive-timeout`", s))
+		wg.Wait()
+		return once
 
+	case <-hardCtx.Done():
+		// Make sure the surface search has done. It should have, but we might
+		// be working on impossibly slow storage media
 		wg.Wait()
 		return once
 	}
@@ -150,7 +165,7 @@ func matchFilesAndDirsOnce(s string) (items []string) {
 	return
 }
 
-func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []string) {
+func matchRecursive(ctx context.Context, s string, filesToo bool, dtc *readline.DelayedTabContext) (hierarchy []string) {
 	s = variables.ExpandString(s)
 
 	maxDepth, err := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
@@ -170,6 +185,8 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
+		case <-dtc.Context.Done():
+			return dtc.Context.Err()
 		default:
 		}
 
@@ -202,21 +219,21 @@ func matchRecursive(ctx context.Context, s string, filesToo bool) (hierarchy []s
 		switch {
 		case strings.HasSuffix(s, consts.PathSlash):
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") {
-				//panic(fmt.Sprint(dirs, len(split), split))
+
 				return filepath.SkipDir
 			}
 
 		case len(split) == 1:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") &&
 				(!strings.HasPrefix(s, ".") || strings.HasPrefix(s, "..")) {
-				//panic(fmt.Sprint(dirs, len(split), split))
+
 				return filepath.SkipDir
 			}
 
 		default:
 			if (len(dirs)) > 1 && strings.HasPrefix(dirs[len(dirs)-2], ".") && !strings.HasPrefix(dirs[len(dirs)-2], "..") &&
 				(!strings.HasPrefix(partial, ".") || strings.HasPrefix(partial, "..")) {
-				//panic(fmt.Sprint(dirs, len(split), split))
+
 				return filepath.SkipDir
 			}
 		}

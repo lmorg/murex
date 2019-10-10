@@ -101,7 +101,7 @@ func ShowPrompt() {
 		return expanded
 	}
 
-	Prompt.DelayedWorker = spellcheck
+	Prompt.DelayedSyntaxWorker = spellcheck
 
 	for {
 		getSyntaxHighlighting()

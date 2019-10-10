@@ -1,4 +1,4 @@
-# _murex_ Shell Guide
+# _murex_ Shell Docs
 
 ## Command Reference: `foreach`
 

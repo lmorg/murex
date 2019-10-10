@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
+// SplitPath takes a %PATH% (or similar) string and splits it into an array of paths
 func SplitPath(envPath string) []string {
 	split := strings.Split(envPath, ";")
 	return split
@@ -61,10 +62,11 @@ func matchExes(s string, exes map[string]bool, includeColon bool) (items []strin
 	for name := range exes {
 		lc := strings.ToLower(s)
 		if strings.HasPrefix(strings.ToLower(name), lc) {
-			switch name {
-			case ">", ">>", "[", "=":
+			switch {
+			case isSpecialBuiltin(name):
 				items = append(items, name[len(s):])
-			case consts.NamedPipeProcName:
+			case consts.NamedPipeProcName == name:
+				// do nothing
 			default:
 				items = append(items, name[len(s):])
 			}
@@ -72,10 +74,9 @@ func matchExes(s string, exes map[string]bool, includeColon bool) (items []strin
 	}
 	sort.Strings(items)
 	for i := range items {
-		switch items[i] {
-		case ">", ">>", "[", "=":
+		if isSpecialBuiltin(items[i]) {
 			items[i] += " "
-		default:
+		} else {
 			items[i] += colon
 		}
 	}
