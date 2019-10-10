@@ -12,6 +12,7 @@ import (
 type AutoCompleteT struct {
 	Items             []string
 	Definitions       map[string]string
+	MinTabItemLength  int
 	TabDisplayType    readline.TabDisplayType
 	ErrCallback       func(error)
 	DelayedTabContext readline.DelayedTabContext
@@ -35,6 +36,22 @@ func (act *AutoCompleteT) append(items ...string) {
 func (act *AutoCompleteT) appendDef(item, def string) {
 	act.Definitions[item] = def
 	act.append(item)
+}
+
+func (act *AutoCompleteT) largeMin() {
+	width := readline.GetTermWidth()
+	switch {
+	case width < 40:
+		act.MinTabItemLength = 10
+	case width < 80:
+		act.MinTabItemLength = 15
+	case width < 120:
+		act.MinTabItemLength = 20
+	case width < 160:
+		act.MinTabItemLength = 30
+	default:
+		act.MinTabItemLength = 40
+	}
 }
 
 func (act *AutoCompleteT) disposable() *AutoCompleteT {

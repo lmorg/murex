@@ -14,17 +14,21 @@ func (rl *Instance) initTabGrid() {
 		suggestions = rl.tcSuggestions
 	}
 
-	rl.tcMaxLength = 8
+	rl.tcMaxLength = rl.MinTabItemLength
 	for i := range suggestions {
 		if len(rl.tcPrefix+suggestions[i]) > rl.tcMaxLength {
 			rl.tcMaxLength = len([]rune(rl.tcPrefix + suggestions[i]))
 		}
+	}
+	if rl.tcMaxLength > rl.MaxTabItemLength && rl.MaxTabItemLength > 0 && rl.MaxTabItemLength > rl.MinTabItemLength {
+		rl.tcMaxLength = rl.MaxTabItemLength
 	}
 
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
 	rl.tcMaxX = width / (rl.tcMaxLength + 2)
+	//rl.tcMaxX = width / (rl.tcMaxLength - 2)
 	rl.tcOffset = 0
 
 	// avoid a divide by zero error

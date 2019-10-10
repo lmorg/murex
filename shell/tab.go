@@ -64,6 +64,17 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
 
+	Prompt.MinTabItemLength = act.MinTabItemLength
+	/*width := readline.GetTermWidth()
+	switch {
+	case width < 80:
+		Prompt.MinTabItemLength = 0
+		Prompt.MaxTabItemLength = 0
+	default:
+		Prompt.MinTabItemLength = 10
+		Prompt.MaxTabItemLength = width / 2
+	}*/
+
 	autocomplete.FormatSuggestions(&act)
 	return prefix, act.Items, act.Definitions, act.TabDisplayType
 }

@@ -37,6 +37,9 @@ type Instance struct {
 	TabCompleter      func([]rune, int, DelayedTabContext) (string, []string, map[string]string, TabDisplayType)
 	delayedTabContext DelayedTabContext
 
+	MinTabItemLength int
+	MaxTabItemLength int
+
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
 	MaxTabCompleterRows int // = 4
