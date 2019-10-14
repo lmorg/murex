@@ -17,11 +17,11 @@ const (
 	// TokenTypeNil: no parameter set or uninitialised parameter.
 	TokenTypeNil = iota
 
-	// TokenTypeValue: key is not a variable. eg `command "just a parameter"`
-	TokenTypeValue
-
 	// TokenTypeNamedPipe: key is a named pipe. eg command <stdio>
 	TokenTypeNamedPipe
+
+	// TokenTypeValue: key is not a variable. eg `command "just a parameter"`
+	TokenTypeValue
 
 	// TokenTypeString: key is a variable. Expand as a single string. eg `command $variable`
 	TokenTypeString
