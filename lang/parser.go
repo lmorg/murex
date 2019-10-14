@@ -192,11 +192,18 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case r == '{' && last == '$':
 				pToken.Type = parameters.TokenTypeBlockString
 				braceCount++
+				last = r
 				continue
+
+			/*case r == '(' && last == '$':
+			pToken.Type = parameters.TokenTypeBlockString
+			braceCount++
+			continue*/
 
 			case r == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeBlockArray
 				braceCount++
+				last = r
 				continue
 
 			case r == '{':
