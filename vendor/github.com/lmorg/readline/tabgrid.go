@@ -27,8 +27,8 @@ func (rl *Instance) initTabGrid() {
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
-	rl.tcMaxX = width / (rl.tcMaxLength + 2)
-	//rl.tcMaxX = width / (rl.tcMaxLength - 2)
+	//rl.tcMaxX = width / (rl.tcMaxLength + 2)
+	rl.tcMaxX = width / rl.tcMaxLength
 	rl.tcOffset = 0
 
 	// avoid a divide by zero error
@@ -132,7 +132,7 @@ func (rl *Instance) writeTabGrid() {
 		caption := rl.tcPrefix + suggestions[i]
 		if len(caption) > rl.tcMaxLength {
 			//caption = caption[:rl.tcMaxLength-1] + "…"
-			s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength+5:]
+			s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength:]
 			caption = s
 		}
 
