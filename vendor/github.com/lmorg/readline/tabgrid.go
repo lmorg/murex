@@ -30,8 +30,9 @@ func (rl *Instance) initTabGrid() {
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
-	//rl.tcMaxX = width / (rl.tcMaxLength + 2)
-	rl.tcMaxX = width / rl.tcMaxLength
+	rl.tcMaxX = width / (rl.tcMaxLength + 2)
+	//rl.tcMaxX = width / rl.tcMaxLength
+	//rl.tcMaxX = (width/rl.tcMaxLength + 1)
 	rl.tcOffset = 0
 
 	// avoid a divide by zero error
@@ -111,7 +112,11 @@ func (rl *Instance) writeTabGrid() {
 
 	print(seqClearScreenBelow + "\r\n")
 
-	cellWidth := strconv.Itoa((GetTermWidth() / rl.tcMaxX) - 2)
+	//cellWidth := strconv.Itoa((GetTermWidth() / rl.tcMaxX) - 2)
+	iCellWidth := (GetTermWidth() / rl.tcMaxX) - 2
+	cellWidth := strconv.Itoa(iCellWidth)
+	//cellWidth := strconv.Itoa(GetTermWidth() / rl.tcMaxX)
+	//cellWidth := strconv.Itoa(rl.tcMaxLength)
 	x := 0
 	y := 1
 
@@ -134,8 +139,8 @@ func (rl *Instance) writeTabGrid() {
 
 		caption := rl.tcPrefix + suggestions[i]
 		if len(caption) > rl.tcMaxLength {
-			//caption = caption[:rl.tcMaxLength-1] + "…"
-			s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength:]
+			//s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength:]
+			s := caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
 			caption = s
 		}
 
