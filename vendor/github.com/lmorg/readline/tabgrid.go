@@ -23,6 +23,9 @@ func (rl *Instance) initTabGrid() {
 	if rl.tcMaxLength > rl.MaxTabItemLength && rl.MaxTabItemLength > 0 && rl.MaxTabItemLength > rl.MinTabItemLength {
 		rl.tcMaxLength = rl.MaxTabItemLength
 	}
+	if rl.tcMaxLength == 0 {
+		rl.tcMaxLength = 1
+	}
 
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
