@@ -54,7 +54,7 @@ blockquote {
 code {
     font-family: 'Source Code Pro', monospace;
     color: #14700f;
-    font-weight: bold;
+    /*font-weight: bold;*/
 
     background: #ffffff;
     border-radius: 5px;
