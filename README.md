@@ -279,10 +279,9 @@ safe for use.
    Each push to `develop` and `master` also creates a new docker container,
    `lmorg/murex:develop` and `lmorg/murex:latest` (for the `master` branch).
 
-3. Weekly automated builds are then ran against the stable container (the
-   `master` branch). These builds run in AWS CodeBuild and they generate the
-   [murex.rocks](https://murex.rocks) website and build pre-compiled
-   binaries for [download](DOWNLOAD.md).
+3. Weekly automated builds are then ran against the latest container. These
+   builds are run in AWS CodeBuild and they generate the [murex.rocks](https://murex.rocks)
+   website and build pre-compiled binaries for [download](DOWNLOAD.md).
 
 ## Known bugs / TODO
 
