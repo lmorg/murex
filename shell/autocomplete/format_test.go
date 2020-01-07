@@ -25,6 +25,10 @@ func TestFormatSuggestions(t *testing.T) {
 		"/",
 		"'",
 		`"`,
+		";",
+		"|",
+		"?",
+		"->",
 
 		"\\foobar",
 		"\\foobar ",
@@ -41,6 +45,12 @@ func TestFormatSuggestions(t *testing.T) {
 		"\\/",
 		"\\'",
 		`\"`,
+		"\\;",
+		"\\|",
+		"\\?",
+		"\\->",
+		"-\\>",
+		"\\-\\>",
 
 		`"foobar"`,
 		`"foobar "`,
@@ -59,6 +69,10 @@ func TestFormatSuggestions(t *testing.T) {
 		`"="`,
 		`"/"`,
 		`"'"`,
+		`";"`,
+		`"|"`,
+		`"?"`,
+		`"->"`,
 
 		`'foobar'`,
 		`'foobar '`,
@@ -77,6 +91,10 @@ func TestFormatSuggestions(t *testing.T) {
 		`'='`,
 		`'/'`,
 		`'"'`,
+		`';'`,
+		`'|'`,
+		`'?'`,
+		`'->'`,
 
 		`(foobar)`,
 		`(foobar )`,
@@ -96,6 +114,10 @@ func TestFormatSuggestions(t *testing.T) {
 		`(/)`,
 		`(')`,
 		`(")`,
+		`(;)`,
+		`(|)`,
+		`(?)`,
+		`(->)`,
 	}
 
 	expected := []string{
@@ -115,6 +137,10 @@ func TestFormatSuggestions(t *testing.T) {
 		"/",
 		"\\' ",
 		`\" `,
+		"\\; ",
+		"\\| ",
+		"\\? ",
+		"-\\> ",
 
 		"\\\\foobar ",
 		"\\\\foobar\\ ",
@@ -131,6 +157,12 @@ func TestFormatSuggestions(t *testing.T) {
 		"\\\\/",
 		"\\\\\\' ",
 		`\\\" `,
+		"\\\\\\; ",
+		"\\\\\\| ",
+		"\\\\\\? ",
+		"\\\\-\\> ",
+		"-\\\\> ",
+		"\\\\-\\\\> ",
 
 		`\"foobar\" `,
 		`\"foobar\ \" `,
@@ -149,6 +181,10 @@ func TestFormatSuggestions(t *testing.T) {
 		`\"=\" `,
 		`\"/\" `,
 		`\"\'\" `,
+		`\"\;\" `,
+		`\"\|\" `,
+		`\"\?\" `,
+		`\"-\>\" `,
 
 		`\'foobar\' `,
 		`\'foobar\ \' `,
@@ -167,6 +203,10 @@ func TestFormatSuggestions(t *testing.T) {
 		`\'=\' `,
 		`\'/\' `,
 		`\'\"\' `,
+		`\'\;\' `,
+		`\'\|\' `,
+		`\'\?\' `,
+		`\'-\>\' `,
 
 		`\(foobar\) `,
 		`\(foobar\ \) `,
@@ -186,6 +226,10 @@ func TestFormatSuggestions(t *testing.T) {
 		`\(/\) `,
 		`\(\'\) `,
 		`\(\"\) `,
+		`\(\;\) `,
+		`\(\|\) `,
+		`\(\?\) `,
+		`\(-\>\) `,
 	}
 
 	count.Tests(t, len(tests)*3)
