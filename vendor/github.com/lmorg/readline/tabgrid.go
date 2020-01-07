@@ -139,8 +139,16 @@ func (rl *Instance) writeTabGrid() {
 
 		caption := rl.tcPrefix + suggestions[i]
 		if len(caption) > rl.tcMaxLength {
-			//s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength:]
-			s := caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
+			var s string
+			switch {
+			case len(caption) < iCellWidth:
+				s = caption
+			case len(caption)-iCellWidth+6 < 1:
+				s = caption[:iCellWidth-1] + "…"
+			default:
+				//s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength:]
+				s = caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
+			}
 			caption = s
 		}
 
