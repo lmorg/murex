@@ -93,6 +93,34 @@ autocomplete set swivel-datatype { [{
     "Dynamic": ({ runtime: --marshallers })
 }] }
 
+autocomplete set export { [{
+    "DynamicDesc": ({ runtime --exports })
+}] }
+
+autocomplete set !export { [{
+    "DynamicDesc": ({ runtime --exports })
+}] }
+
+autocomplete set unset { [{
+    "DynamicDesc": ({ runtime --exports })
+}] }
+
+autocomplete set global { [{
+    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+}] }
+
+autocomplete set !global { [{
+    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+}] }
+
+autocomplete set set { [{
+    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+}] }
+
+autocomplete set !set { [{
+    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+}] }
+
 private config.get.apps {
     config: -> formap k v { out $k } -> msort
 }

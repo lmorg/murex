@@ -2,6 +2,9 @@ package cmdruntime
 
 import (
 	"errors"
+	"fmt"
+	"os"
+	"regexp"
 	"runtime"
 	"sort"
 
@@ -21,6 +24,7 @@ import (
 
 const (
 	fVars          = "--variables"
+	fExports       = "--exports"
 	fAliases       = "--aliases"
 	fConfig        = "--config"
 	fNamedPipes    = "--named-pipes"
@@ -52,6 +56,7 @@ const (
 
 var flags = map[string]string{
 	fVars:          types.Boolean,
+	fExports:       types.Boolean,
 	fAliases:       types.Boolean,
 	fConfig:        types.Boolean,
 	fPipes:         types.Boolean,
@@ -128,6 +133,12 @@ func cmdRuntime(p *lang.Process) error {
 		switch flag {
 		case fVars:
 			ret[fVars[2:]] = p.Variables.Dump()
+		case fExports:
+			m, err := dumpExports()
+			if err != nil {
+				return err
+			}
+			ret[fExports[2:]] = m
 		case fAliases:
 			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
 		case fConfig:
@@ -220,4 +231,29 @@ func dumpTestResults(p *lang.Process) interface{} {
 		"shell":   lang.ShellProcess.Tests.Results.Dump(),
 		"process": p.Tests.Results.Dump(),
 	}
+}
+
+var rxMatchEnvs = regexp.MustCompile(`^(.*?)=(.*)$`)
+
+func dumpExports() (map[string]string, error) {
+	envs := os.Environ()
+
+	m := make(map[string]string)
+
+	for _, e := range envs {
+		split := rxMatchEnvs.FindAllStringSubmatch(e, -1)
+
+		if len(split) != 1 || len(split[0]) != 3 {
+			// this should never happen!
+			b, err := json.Marshal(split, false)
+			if err != nil {
+				b = []byte(fmt.Sprint("!!Unable to marshal `", split, "`!!"))
+			}
+			return nil, fmt.Errorf("Unexpected result using regexp to split env string; This should never happen so please log an issue on https://github.com/lmorg/murex/issues/new with this message and the output of `env`. Debug info: len(split)==%d (expected 1), len(split[0])==%d (expected 3), split==%s", len(split), len(split[0]), string(b))
+		}
+
+		m[split[0][1]] = split[0][2]
+	}
+
+	return m, nil
 }
