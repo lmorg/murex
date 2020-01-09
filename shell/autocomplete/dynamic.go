@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"strings"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -34,10 +36,26 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	var fStdin int
+	pipelineStdout := streams.NewStdin()
+	if f.ExecPipeline && !act.ParsedTokens.Unsafe {
+		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
+		fork.Stdout = pipelineStdout
+		fork.Name = args.exe
+		fork.FileRef = ExesFlagsFileRef[args.exe]
+		fork.Execute(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken])
+
+	} else {
+		fStdin = lang.F_NO_STDIN
+	}
+
+	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name = args.exe
 	fork.Parameters = parameters.Parameters{Params: args.params}
 	fork.FileRef = ExesFlagsFileRef[args.exe]
+	if f.ExecPipeline && !act.ParsedTokens.Unsafe {
+		fork.Stdin = pipelineStdout
+	}
 	exitNum, err := fork.Execute(block)
 
 	if err != nil {
@@ -85,4 +103,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 
 	return
+}
+
+func execPipeline() {
+
 }

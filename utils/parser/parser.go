@@ -24,19 +24,21 @@ var (
 
 // ParsedTokens is a struct that returns a tokenized version of the selected command
 type ParsedTokens struct {
-	Loc         int
-	VarLoc      int
-	Escaped     bool
-	QuoteSingle bool
-	QuoteDouble bool
-	QuoteBrace  int
-	NestedBlock int
-	ExpectFunc  bool
-	pop         *string
-	FuncName    string
-	Parameters  []string
-	Variable    string
-	Unsafe      bool // if the pipeline is estimated to be safe enough to dynamically preview
+	Source        []rune
+	Loc           int
+	VarLoc        int
+	Escaped       bool
+	QuoteSingle   bool
+	QuoteDouble   bool
+	QuoteBrace    int
+	NestedBlock   int
+	ExpectFunc    bool
+	pop           *string
+	FuncName      string
+	Parameters    []string
+	Variable      string
+	Unsafe        bool // if the pipeline is estimated to be safe enough to dynamically preview
+	LastFlowToken int
 }
 
 // SafeBuiltins is a list of all the safe functions to call when autocompleting
@@ -50,6 +52,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	pt.Loc = -1
 	pt.ExpectFunc = true
 	pt.pop = &pt.FuncName
+	pt.Source = block
 
 	ansiColour := func(colour string, r rune) {
 		syntaxHighlighted += colour + string(r)
@@ -243,6 +246,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					return
 				}
 				pt.Loc = i
+				pt.LastFlowToken = i - 1
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
@@ -274,6 +278,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
+				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
@@ -296,6 +301,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
+				pt.LastFlowToken = i
 				pt.Unsafe = true
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
@@ -319,6 +325,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
+				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
@@ -345,7 +352,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
-				pt.Unsafe = true
+				//pt.Unsafe = true
 				syntaxHighlighted += hlBlock + string(block[i])
 			}
 
@@ -360,7 +367,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				syntaxHighlighted += string(block[i])
 			default:
 				pt.NestedBlock--
-				pt.Unsafe = true
+				//pt.Unsafe = true
 				syntaxHighlighted += string(block[i])
 				if pt.NestedBlock == 0 {
 					syntaxHighlighted += ansi.Reset + reset[len(reset)-1]
