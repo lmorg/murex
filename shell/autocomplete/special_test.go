@@ -7,7 +7,7 @@ import (
 )
 
 func TestIsSpecialBuiltin(t *testing.T) {
-	trues := []string{">", ">>", "[", "[[", "@[", "="}
+	trues := []string{">", ">>", "[", "![", "[[", "@[", "=", "(", "!", ".", "@g"}
 	falses := []string{"", "and", "or", "if", "foobar", "0", "123"}
 
 	count.Tests(t, len(trues)+len(falses))

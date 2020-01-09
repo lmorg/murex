@@ -122,7 +122,7 @@ autocomplete set !set { [{
 }] }
 
 autocomplete set [ { [{
-    "ExecPipeline": true,
+    "ExecCmdline": true,
     "Dynamic": ({ -> formap k v { out $k } -> cast str })
 }] }
 

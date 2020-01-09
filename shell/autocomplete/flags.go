@@ -27,7 +27,7 @@ type Flags struct {
 	NestedCommand bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
 	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
 	AutoBranch    bool               // Autocomplete trees (eg directory structures) one branch at a time
-	ExecPipeline  bool               // Execute the pipeline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
+	ExecCmdline   bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
