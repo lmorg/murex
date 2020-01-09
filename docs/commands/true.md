@@ -25,7 +25,7 @@ However you can suppress that with the silent flag:
 
 ### Flags
 
-* `-t`
+* `-s`
     silent - don't output the term "true"
 
 ### See Also

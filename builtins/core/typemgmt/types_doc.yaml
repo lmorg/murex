@@ -158,7 +158,7 @@
     » true -s
     ```
   Flags:
-    -t: silent - don't output the term "true"
+    -s: silent - don't output the term "true"
   Detail: |-
   Synonyms:
   Related:

@@ -121,6 +121,11 @@ autocomplete set !set { [{
     "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
 }] }
 
+autocomplete set [ { [{
+    "ExecPipeline": true,
+    "Dynamic": ({ -> formap k v { out $k } -> cast str })
+}] }
+
 private config.get.apps {
     config: -> formap k v { out $k } -> msort
 }
