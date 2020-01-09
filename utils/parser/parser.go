@@ -41,8 +41,11 @@ type ParsedTokens struct {
 	LastFlowToken int
 }
 
-// SafeBuiltins is a list of all the safe functions to call when autocompleting
-var SafeBuiltins = []string{"open", "[", "[["}
+// SafeFunctions is a list of all the functions considered safe when using tab
+// autocomplete with ExecCmdline
+var SafeFunctions = []string{
+	"open", "regexp", "match", "cat", "cat", "format", "[", "[[", "runtime",
+}
 
 // Parse a single line of code and return the tokens for a selected command
 func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
@@ -480,7 +483,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 }
 
 func isFuncUnsafe(f string) bool {
-	for _, sb := range SafeBuiltins {
+	for _, sb := range SafeFunctions {
 		if f == sb {
 			return false
 		}

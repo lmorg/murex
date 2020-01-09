@@ -28,6 +28,8 @@ func TestIsSpecialBuiltin(t *testing.T) {
 }
 
 func TestSortColon(t *testing.T) {
+	count.Tests(t, 1)
+
 	test := []string{
 		"cc", "c", "bb:", "b:", "dd", "d", "aa:", "a:",
 	}
