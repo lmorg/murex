@@ -122,8 +122,10 @@ autocomplete set !set { [{
 }] }
 
 autocomplete set [ { [{
+    "AnyValue": true,
+    "AllowMultiple": true,
     "ExecCmdline": true,
-    "Dynamic": ({ -> formap k v { out $k } -> cast str })
+    "Dynamic": ({ -> formap k v { out $k } -> cast str -> append ] })
 }] }
 
 private config.get.apps {

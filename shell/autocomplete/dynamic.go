@@ -35,6 +35,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
+	// Run the commandline if ExecCmdline flag set AND commandline considered safe
 	var fStdin int
 	cmdlineStdout := streams.NewStdin()
 	if f.ExecCmdline && !act.ParsedTokens.Unsafe {
@@ -48,6 +49,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		fStdin = lang.F_NO_STDIN
 	}
 
+	// Execute the dynamic code block
 	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name = args.exe
 	fork.Parameters = parameters.Parameters{Params: args.params}
@@ -102,8 +104,4 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 
 	return
-}
-
-func execPipeline() {
-
 }
