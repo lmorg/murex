@@ -43,7 +43,7 @@ func noColon(line string) string {
 				switch {
 				case !funcStart:
 					line = line[i+1:]
-					i--
+					//i--
 					continue
 
 				// colon mid command - must split

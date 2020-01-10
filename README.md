@@ -10,17 +10,31 @@
 
 _murex_ is a shell, like bash / zsh / fish / etc. It follows a similar syntax
 to POSIX shells like Bash however supports more advanced features than you'd
-typically expect from a $SHELL. A non-exhaustive list would include:
+typically expect from a $SHELL.
+
+It aims to be similar enough to traditional
+shells that you can retain most of your muscle memory, while not
+being afraid to make breaking changes where "bash-isms" lead to unreadable,
+hard to maintain, or unsafe code.
+
+_murex_ is designed for DevOps productivity so it isn't suited is high
+performance workloads beyond what you'd typically run in Bash (eg pipelines
+forked as concurrent processes).
+
+A non-exhaustive list features would include:
 
 * Testing frameworks baked right into the language itself
 * Smarter handling of errors (for example try/catch blocks, line numbers
   included in error messages, errors optionally highlighted in red, etc)
 * Support for typed pipelines - which can be used to work with complex data
   formats like JSON natively. But also the ability to override or even ignore
-  typed data entirely.
+  typed data entirely so it works transparently with standard UNIX tools too
+* Lots of data-mangling tools backed into the shell
 * Parses man pages for a richer user experience
+* In-lined spell checking
 * Optional support for event-driven programming
-* Plus every aspect of the shell is easily extendable
+* Plus every aspect of the shell is easily extendable, inspectable and can
+  be managed via _murex_'s own package manager
 
 The language employs a relatively simple syntax modelled loosely on functional
 and stack-based programming paradigms (albeit without the LISP-style nested
@@ -207,11 +221,13 @@ structures for when you want you want errors captured in a useful way:
 
 As well as a saner `if` syntax:
 
+    # compare two strings
     if { = `foo`==`bar` } then {
         out: "`foo` matched `bar`"
     }
 
-    !if { foobar } else {
+    # check if command ran successfully
+    !if { foobar } then {
         err: "`foobar` could not be run"
     }
 
