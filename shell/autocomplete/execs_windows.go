@@ -4,7 +4,6 @@ package autocomplete
 
 import (
 	"io/ioutil"
-	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -54,9 +53,9 @@ func listExes(path string, exes map[string]bool) {
 }
 
 func matchExes(s string, exes map[string]bool, includeColon bool) (items []string) {
-	colon := " "
+	colon := ""
 	if includeColon {
-		colon = ": "
+		colon = ":"
 	}
 
 	for name := range exes {
@@ -64,7 +63,7 @@ func matchExes(s string, exes map[string]bool, includeColon bool) (items []strin
 		if strings.HasPrefix(strings.ToLower(name), lc) {
 			switch {
 			case isSpecialBuiltin(name):
-				items = append(items, name[len(s):])
+				items = append(items, name[len(s):]+colon)
 			case consts.NamedPipeProcName == name:
 				// do nothing
 			default:
@@ -72,13 +71,8 @@ func matchExes(s string, exes map[string]bool, includeColon bool) (items []strin
 			}
 		}
 	}
-	sort.Strings(items)
-	for i := range items {
-		if isSpecialBuiltin(items[i]) {
-			items[i] += " "
-		} else {
-			items[i] += colon
-		}
-	}
+
+	sortColon(items, 0, len(items)-1)
+
 	return
 }

@@ -27,7 +27,8 @@ type Flags struct {
 	NestedCommand bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
 	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
 	AutoBranch    bool               // Autocomplete trees (eg directory structures) one branch at a time
-	//NoFlags       bool               // `true` to disable Flags[] slice and man page parsing
+	ExecCmdline   bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
+	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
 var (
@@ -93,28 +94,22 @@ func allExecutables(includeBuiltins bool) map[string]bool {
 }
 
 func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
-	//items = append(items, matchPartialFlags(f, partial, defs)...)
 	matchPartialFlags(f, partial, act)
-	//items = append(items, matchDynamic(f, partial, args, defs, tdt)...)
 	matchDynamic(f, partial, args, act)
 
 	if f.IncExePath {
 		pathexes := allExecutables(false)
-		//items = append(items, matchExes(partial, pathexes, false)...)
 		act.append(matchExes(partial, pathexes, false)...)
 	}
 
 	switch {
 	case f.IncFiles:
-		//items = append(items, matchFilesAndDirs(partial, errCallback, dtc)...)
 		act.append(matchFilesAndDirs(partial, act)...)
 	case f.IncDirs && !f.IncFiles:
-		//items = append(items, matchDirs(partial, errCallback, dtc)...)
 		act.append(matchDirs(partial, act)...)
 	}
 
 	if len(f.FlagsDesc) > 0 && f.ListView {
-		//*tdt = readline.TabDisplayList
 		act.TabDisplayType = readline.TabDisplayList
 	}
 
@@ -208,7 +203,6 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		nest--
 	}
 	for ; nest <= len(flags); nest++ {
-		//items = append(items, match(&flags[nest], partial, args, defs, tdt, errCallback, dtc)...)
 		match(&flags[nest], partial, args, act)
 		if !flags[nest].Optional {
 			break
@@ -239,8 +233,6 @@ func matchPartialFlags(f *Flags, partial string, act *AutoCompleteT) {
 	//sort.Strings(items)
 
 	for flag := range f.FlagsDesc {
-		//(*defs)[flag[len(partial):]+" "] = f.FlagsDesc[flag]
-		//items = append(items, flag[len(partial):])
 		act.appendDef(flag[len(partial):], f.FlagsDesc[flag])
 	}
 

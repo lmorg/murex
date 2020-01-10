@@ -24,18 +24,27 @@ var (
 
 // ParsedTokens is a struct that returns a tokenized version of the selected command
 type ParsedTokens struct {
-	Loc         int
-	VarLoc      int
-	Escaped     bool
-	QuoteSingle bool
-	QuoteDouble bool
-	QuoteBrace  int
-	NestedBlock int
-	ExpectFunc  bool
-	pop         *string
-	FuncName    string
-	Parameters  []string
-	Variable    string
+	Source        []rune
+	Loc           int
+	VarLoc        int
+	Escaped       bool
+	QuoteSingle   bool
+	QuoteDouble   bool
+	QuoteBrace    int
+	NestedBlock   int
+	ExpectFunc    bool
+	pop           *string
+	FuncName      string
+	Parameters    []string
+	Variable      string
+	Unsafe        bool // if the pipeline is estimated to be safe enough to dynamically preview
+	LastFlowToken int
+}
+
+// SafeFunctions is a list of all the functions considered safe when using tab
+// autocomplete with ExecCmdline
+var SafeFunctions = []string{
+	"open", "regexp", "match", "cat", "cast", "format", "[", "[[", "runtime",
 }
 
 // Parse a single line of code and return the tokens for a selected command
@@ -46,6 +55,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	pt.Loc = -1
 	pt.ExpectFunc = true
 	pt.pop = &pt.FuncName
+	pt.Source = block
 
 	ansiColour := func(colour string, r rune) {
 		syntaxHighlighted += colour + string(r)
@@ -214,6 +224,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				readFunc = false
 				pt.Parameters = append(pt.Parameters, "")
 				pt.pop = &pt.Parameters[0]
+				pt.Unsafe = isFuncUnsafe(pt.FuncName) || pt.Unsafe
 				ansiReset(block[i])
 			case pt.ExpectFunc:
 				pt.Loc = i
@@ -238,6 +249,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					return
 				}
 				pt.Loc = i
+				pt.LastFlowToken = i - 1
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
@@ -269,6 +281,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
+				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
@@ -291,6 +304,8 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
+				pt.LastFlowToken = i
+				pt.Unsafe = true
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
@@ -313,9 +328,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
+				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
+				pt.Unsafe = true
 				ansiChar(hlPipe, block[i])
 				syntaxHighlighted += hlFunction
 			default:
@@ -338,6 +355,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.ExpectFunc = true
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
+				//pt.Unsafe = true
 				syntaxHighlighted += hlBlock + string(block[i])
 			}
 
@@ -352,6 +370,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				syntaxHighlighted += string(block[i])
 			default:
 				pt.NestedBlock--
+				//pt.Unsafe = true
 				syntaxHighlighted += string(block[i])
 				if pt.NestedBlock == 0 {
 					syntaxHighlighted += ansi.Reset + reset[len(reset)-1]
@@ -369,6 +388,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
 			default:
+				pt.Unsafe = true
 				*pt.pop += string(block[i])
 				pt.Variable = string(block[i])
 				ansiColour(hlVariable, block[i])
@@ -385,6 +405,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
 			default:
+				pt.Unsafe = true
 				*pt.pop += string(block[i])
 
 				if i > 0 && (block[i-1] == ' ' || block[i-1] == '\t') {
@@ -407,7 +428,33 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case !pt.ExpectFunc:
 				*pt.pop += `:`
 				syntaxHighlighted += string(block[i])
+			case readFunc:
+				pt.Loc = i
+				pt.ExpectFunc = false
+				readFunc = false
+				pt.Parameters = append(pt.Parameters, "")
+				pt.pop = &pt.Parameters[0]
+				pt.Unsafe = isFuncUnsafe(pt.FuncName) || pt.Unsafe
+				ansiReset(block[i])
 			default:
+				syntaxHighlighted += string(block[i])
+			}
+
+		case '<':
+			switch {
+			case pt.Escaped:
+				pt.Escaped = false
+				ansiReset(block[i])
+			case readFunc:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+			case pt.ExpectFunc:
+				*pt.pop = string(block[i])
+				readFunc = true
+				syntaxHighlighted += string(block[i])
+			default:
+				pt.Unsafe = true
+				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
 			}
 
@@ -433,4 +480,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	pt.VarLoc++
 	syntaxHighlighted += ansi.Reset
 	return
+}
+
+func isFuncUnsafe(f string) bool {
+	for _, sb := range SafeFunctions {
+		if f == sb {
+			return false
+		}
+	}
+
+	return true
 }
