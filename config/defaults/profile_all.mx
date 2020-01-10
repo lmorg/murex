@@ -128,6 +128,13 @@ autocomplete set [ { [{
     "Dynamic": ({ -> formap k v { out $k } -> cast str -> append ] })
 }] }
 
+autocomplete set [[ { [{
+    "AnyValue": true,
+    "ExecCmdline": true,
+    "AutoBranch": true,
+    "Dynamic": ({ -> struct-keys -> append ]] })
+} ]}
+
 private config.get.apps {
     config: -> formap k v { out $k } -> msort
 }
