@@ -142,7 +142,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fAliases:
 			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
 		case fConfig:
-			ret[fConfig[2:]] = p.Config.DumpRuntime()
+			ret[fConfig[2:]] = lang.ShellProcess.Config.DumpRuntime()
 		case fNamedPipes:
 			ret[fNamedPipes[2:]] = lang.GlobalPipes.Dump()
 		case fPipes:
