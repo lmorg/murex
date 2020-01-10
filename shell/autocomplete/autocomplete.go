@@ -9,6 +9,10 @@ import (
 	"github.com/lmorg/readline"
 )
 
+// AutoCompleteT is a struct designed for ease to pass common values around the
+// many functions for autocompletion. It's passed as a pointer and is only
+// intended for use by murex internal functions (ie not called by other funcs
+// external to the murex codebase)
 type AutoCompleteT struct {
 	Items             []string
 	Definitions       map[string]string
