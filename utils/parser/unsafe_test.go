@@ -8,7 +8,11 @@ import (
 
 func TestIsFuncUnsafe(t *testing.T) {
 	trues := []string{">", ">>", "$var", "@g", "config"}
-	falses := []string{"open", "regexp", "match", "cat", "cat", "format", "[", "[[", "runtime"}
+	falses := append(SafeFunctions,
+		"open", "regexp", "match", "cat",
+		"cast", "format", "[", "[[",
+		"runtime",
+	)
 
 	count.Tests(t, len(trues)+len(falses))
 

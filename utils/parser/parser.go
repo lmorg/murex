@@ -44,7 +44,7 @@ type ParsedTokens struct {
 // SafeFunctions is a list of all the functions considered safe when using tab
 // autocomplete with ExecCmdline
 var SafeFunctions = []string{
-	"open", "regexp", "match", "cat", "cat", "format", "[", "[[", "runtime",
+	"open", "regexp", "match", "cat", "cast", "format", "[", "[[", "runtime",
 }
 
 // Parse a single line of code and return the tokens for a selected command
