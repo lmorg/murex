@@ -2,21 +2,18 @@ package cmdpipe
 
 import (
 	"errors"
-	"io"
-
-	"github.com/lmorg/murex/lang/proc/stdio"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 func init() {
 	lang.GoFunctions["pipe"] = cmdPipe
 	lang.GoFunctions["!pipe"] = cmdClosePipe
-	lang.GoFunctions[consts.NamedPipeProcName] = cmdReadPipe
+
 	defaults.AppendProfile(`
 		autocomplete set pipe { [
 			{
@@ -104,12 +101,12 @@ func cmdClosePipe(p *lang.Process) error {
 		})
 
 		if len(names) == 0 {
-			return errors.New("Stdin contained a zero lengthed array.")
+			return errors.New("Stdin contained a zero lengthed array")
 		}
 
 	} else {
 		if p.Parameters.Len() == 0 {
-			return errors.New("No pipes listed for closing.")
+			return errors.New("No pipes listed for closing")
 		}
 
 		names = p.Parameters.StringArray()
@@ -122,26 +119,4 @@ func cmdClosePipe(p *lang.Process) error {
 	}
 
 	return nil
-}
-
-func cmdReadPipe(p *lang.Process) error {
-	name, err := p.Parameters.String(0)
-	if err != nil {
-		return err
-	}
-
-	pipe, err := lang.GlobalPipes.Get(name)
-	if err != nil {
-		return err
-	}
-
-	if p.IsMethod {
-		pipe.SetDataType(p.Stdin.GetDataType())
-		_, err = io.Copy(pipe, p.Stdin)
-		return err
-	}
-
-	p.Stdout.SetDataType(pipe.GetDataType())
-	_, err = io.Copy(p.Stdout, pipe)
-	return err
 }
