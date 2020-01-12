@@ -125,7 +125,21 @@ autocomplete set [ { [{
     "AnyValue": true,
     "AllowMultiple": true,
     "ExecCmdline": true,
-    "Dynamic": ({ -> formap k v { out $k } -> cast str -> append [ })
+    "Dynamic": ({
+        switch ${ get-type: stdin } {
+            case * {
+                <stdin> -> [ 0: ] -> format json -> [ 0 ]
+            }
+            
+            case csv {
+                <stdin> -> [ 0: ] -> format json -> [ 0 ]
+            }
+            
+            catch {
+                <stdin> -> formap k v { out $k } -> cast str -> append ]
+            }
+        }
+    })
 }] }
 
 autocomplete set [[ { [{
