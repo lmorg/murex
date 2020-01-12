@@ -43,6 +43,7 @@ func init() {
 		"format":                "format_commands_docgen.go",
 		"function":              "function_commands_docgen.go",
 		"g":                     "g_commands_docgen.go",
+		"get-type":              "get-type_commands_docgen.go",
 		"get":                   "get_commands_docgen.go",
 		"getfile":               "getfile_commands_docgen.go",
 		"global":                "global_commands_docgen.go",

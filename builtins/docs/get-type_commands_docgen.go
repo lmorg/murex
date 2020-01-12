@@ -1,0 +1,7 @@
+package docs
+
+func init() {
+
+	Definition["get-type"] = "# _murex_ Shell Docs\n\n## Command Reference: `get-type`\n\n> Returns the data-type of a variable or pipe\n\n### Description\n\n`get-type` returns the _murex_ data-type of a variable or pipe without\nreading the data from it.\n\n### Usage\n\n    get-type: \\$variable -> <stdout>\n    \n    get-type: stdin -> <stdout>\n    \n    get-type: pipe -> <stdout>\n\n### Examples\n\nGet the data-type of a variable\n\n    » set: json example={[1,2,3]}\n    » get-type: \\$example\n    json\n    \n> Please note that you will need to escape the dollar sign. If you don't\n> the value of the variable will be passed to `get-type` rather than the\n> name.\n\nGet the data-type of a functions STDIN\n\n    » function: example { get-type stdin }\n    » tout: json {[1,2,3]} -> example\n    json\n    \nGet the data-type of a _murex_ named pipe\n\n    » pipe: example\n    » tout: <example> json {[1,2,3]}\n    » get-type: example\n    » !pipe: example\n    json\n\n### See Also\n\n* [commands/`debug`](../commands/debug.md):\n  Debugging information\n* [commands/`function`](../commands/function.md):\n  Define a function block\n* [commands/`runtime`](../commands/runtime.md):\n  Returns runtime information on the internal state of _murex_\n* [commands/`set`](../commands/set.md):\n  Define a local variable and set it's value\n* [commands/`tout`](../commands/tout.md):\n  Print a string to the STDOUT and set it's data-type\n* [commands/pipe](../commands/pipe.md):\n  "
+
+}
