@@ -10,19 +10,33 @@ _murex_ comes with it's own package manager to make managing plugins easier.
 
 ### Usage
 
-    murex-package install uri
+Install a new package
+
+    murex-package: install uri
     
-    murex-package update
+Update all packages
+
+    murex-package: update
     
-    murex-package enable package
-    murex-package enable package/module
+Enable a package or module which had been disabled
+
+    murex-package: enable package
     
-    murex-package disable package
-    murex-package disable package/module
+    murex-package: enable package/module
     
-    murex-package import [ uri | local/path ] packages.json
+Disable a package
+
+    murex-package: disable package
     
-    murex-package status -> <stdout>
+    murex-package: disable package/module
+    
+Import packages from another package database
+
+    murex-package: import [ uri/ | local/path/ ]packages.json
+    
+Check status of murex packages
+
+    murex-package: status -> <stdout>
 
 ### Flags
 
@@ -49,13 +63,13 @@ _murex_ comes with it's own package manager to make managing plugins easier.
   Query or define _murex_ runtime settings
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`murex-docs`](../commands/murex-docs.md):
+  Displays the man pages for _murex_ builtins
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
+* [commands/`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [user-guide/modules](../user-guide/modules.md):
-  
-* [commands/murex-man](../commands/murex-man.md):
-  
-* [commands/status](../commands/status.md):
   

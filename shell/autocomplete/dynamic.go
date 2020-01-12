@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
+
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -39,15 +40,17 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	var fStdin int
 	cmdlineStdout := streams.NewStdin()
 	if f.ExecCmdline && !act.ParsedTokens.Unsafe {
-		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
-		fork.Stdout = cmdlineStdout
-		fork.Name = args.exe
-		fork.FileRef = ExesFlagsFileRef[args.exe]
-		fork.Execute(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken])
+		cmdline := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
+		cmdline.Stdout = cmdlineStdout
+		cmdline.Name = args.exe
+		cmdline.FileRef = ExesFlagsFileRef[args.exe]
+		cmdline.Execute(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken])
 
 	} else {
 		fStdin = lang.F_NO_STDIN
 	}
+
+	//debug.Log(string(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken]))
 
 	// Execute the dynamic code block
 	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
@@ -68,8 +71,9 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 	if f.Dynamic != "" {
 		var items []string
-		fork.Stdout.ReadArray(func(b []byte) {
+		err := fork.Stdout.ReadArray(func(b []byte) {
 			s := string(bytes.TrimSpace(b))
+			//debug.Log(s)
 			if len(s) == 0 {
 				return
 			}
@@ -78,6 +82,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				//act.append(s[len(partial):])
 			}
 		})
+
+		if err != nil {
+			debug.Log(err)
+		}
 
 		if f.AutoBranch {
 			autoBranch(&items)

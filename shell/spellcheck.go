@@ -57,6 +57,10 @@ func spellcheck(line []rune) []rune {
 			return
 		}
 
+		if lang.ShellProcess.Variables.GetValue(sWord) != nil {
+			return
+		}
+
 		r = []rune(strings.ReplaceAll(string(r), sWord, ansi.ExpandConsts("{UNDERLINE}"+sWord+"{UNDEROFF}")))
 	})
 	if err != nil && debug.Enabled {

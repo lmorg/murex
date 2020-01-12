@@ -8,30 +8,44 @@
     _murex_ comes with it's own package manager to make managing plugins easier.
 
   Usage: |-
-    ```
-    murex-package install uri
-    ```
+    Install a new package
 
     ```
-    murex-package update
+    murex-package: install uri
     ```
 
-    ```
-    murex-package enable package
-    murex-package enable package/module
-    ```
+    Update all packages
 
     ```
-    murex-package disable package
-    murex-package disable package/module
+    murex-package: update
     ```
 
-    ```
-    murex-package import [ uri | local/path ] packages.json
-    ```
+    Enable a package or module which had been disabled
 
     ```
-    murex-package status -> <stdout>
+    murex-package: enable package
+
+    murex-package: enable package/module
+    ```
+
+    Disable a package
+
+    ```
+    murex-package: disable package
+
+    murex-package: disable package/module
+    ```
+
+    Import packages from another package database
+
+    ```
+    murex-package: import [ uri/ | local/path/ ]packages.json
+    ```
+
+    Check status of murex packages
+
+    ```
+    murex-package: status -> <stdout>
     ```
   Examples: |-
   Flags:
@@ -46,8 +60,8 @@
   Related:
   - runtime
   - config
-  - murex-man
-  - status
+  - murex-docs
+  - runtime
   - function
   - private
   - alias

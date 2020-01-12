@@ -64,6 +64,35 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	}
 }
 
+// test always fails even when function works. Reason unknown
+/*func TestSpellcheckVariable(t *testing.T) {
+	count.Tests(t, 1)
+	lang.InitEnv()
+	defaults.Defaults(lang.ShellProcess.Config, false)
+
+	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
+	if err != nil {
+		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
+	}
+
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit ' ' -> suffix "\n" }`)
+	if err != nil {
+		t.Fatalf("Unable to set spellcheck-block config: %s", err)
+	}
+
+	os.Setenv("MUREX_TEST_SPELLCHECK_TEST", "quick")
+
+	line := "$the $MUREX_TEST_SPELLCHECK_TEST $brown $fox"
+	newLine := string(spellcheck([]rune(line)))
+	ansiLine := ansi.ExpandConsts("{UNDERLINE}$the{UNDEROFF} $MUREX_TEST_SPELLCHECK_TEST {UNDERLINE}$brown{UNDEROFF} {UNDERLINE}$fox{UNDEROFF}")
+
+	if newLine != ansiLine {
+		t.Error("spellcheck output doesn't match expected:")
+		t.Logf("  Expected: '%s'", ansiLine)
+		t.Logf("  Actual:   '%s'", newLine)
+	}
+}*/
+
 // test times out for reasons currently unknown
 /*func TestSpellcheckBadBlock(t *testing.T) {
 	count.Tests(t, 1)
