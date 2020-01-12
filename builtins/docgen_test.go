@@ -80,6 +80,7 @@ func init() {
 		"rx":                    "rx_commands_docgen.go",
 		"set":                   "set_commands_docgen.go",
 		"sleep":                 "sleep_commands_docgen.go",
+		"struct-keys":           "struct-keys_commands_docgen.go",
 		"swivel-datatype":       "swivel-datatype_commands_docgen.go",
 		"swivel-table":          "swivel-table_commands_docgen.go",
 		"ta":                    "ta_commands_docgen.go",

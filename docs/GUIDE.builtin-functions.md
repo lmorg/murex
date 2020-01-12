@@ -193,6 +193,8 @@ to return the same markdown-formatted document as those listed below. eg
   Define a local variable and set it's value
 * [`sleep` (optional)](commands/sleep.md):
   Suspends the shell for a number of seconds
+* [`struct-keys`](commands/struct-keys.md):
+  Outputs all the keys in a structure
 * [`swivel-datatype`](commands/swivel-datatype.md):
   Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
 * [`swivel-table`](commands/swivel-table.md):
