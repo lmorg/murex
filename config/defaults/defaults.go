@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/parser"
 )
 
 // Defaults defines the default config
@@ -152,6 +153,17 @@ func Defaults(c *config.Config, isInteractive bool) {
 		GoFunc: config.GoFuncProperties{
 			Read:  lang.ReadFileExtensions,
 			Write: lang.WriteFileExtensions,
+		},
+	})
+
+	c.Define("shell", "safe-commands", config.Properties{
+		Description: "Commands whitelisted for being safe to automatically execute in the commandline pipe",
+		Default:     parser.GetSafeCmds(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  parser.ReadSafeCmds,
+			Write: parser.WriteSafeCmds,
 		},
 	})
 

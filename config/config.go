@@ -246,7 +246,13 @@ func (conf *Config) DumpConfig() (obj map[string]map[string]map[string]interface
 			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 
-			if len(conf.properties[app][key].Dynamic.Read) == 0 {
+			switch {
+			case conf.properties[app][key].GoFunc.Read != nil:
+				v, err := conf.properties[app][key].GoFunc.Read()
+				if err == nil {
+					obj[app][key]["Value"] = v
+				}
+			case len(conf.properties[app][key].Dynamic.Read) == 0:
 				obj[app][key]["Value"] = conf.values[app][key]
 			}
 

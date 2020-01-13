@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/json"
 )
 
 // MimeToMurex gets the murex data type for a corresponding MIME
@@ -54,12 +53,10 @@ func GetMimes() map[string]string {
 	return mimes
 }
 
-// ReadMimes returns a JSON-encoded string.
+// ReadMimes returns an interface{} of mimes.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
 func ReadMimes() (interface{}, error) {
-	b, err := json.Marshal(mimes, false)
-	s := string(b)
-	return s, err
+	return mimes, nil
 }
 
 // GetFileExts returns the file extension lookup table
@@ -67,10 +64,8 @@ func GetFileExts() map[string]string {
 	return fileExts
 }
 
-// ReadFileExtensions returns a JSON-encoded string.
+// ReadFileExtensions returns an interface{} of fileExts.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
 func ReadFileExtensions() (interface{}, error) {
-	b, err := json.Marshal(fileExts, false)
-	s := string(b)
-	return s, err
+	return fileExts, nil
 }
