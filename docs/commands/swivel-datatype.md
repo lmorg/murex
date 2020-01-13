@@ -4,16 +4,16 @@
 
 > Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
 
-### Description
+## Description
 
 `swivel-datatype` rotates a table by 90 degrees then exports the output as a
 series of maps to be marshalled by a serialised datatype such as JSON or YAML.
 
-### Usage
+## Usage
 
     <stdin> -> swivel-datatype: data-type -> <stdout>
 
-### Examples
+## Examples
 
 Lets take the first 5 entries from `ps`:
 
@@ -113,7 +113,7 @@ the `generic` datatype), the map keys are defaulted to column numbers:
     - "0.0"
     ...
 
-### Detail
+## Detail
 
 You can check what output data-types are available via the `runtime` command:
 
@@ -121,7 +121,7 @@ You can check what output data-types are available via the `runtime` command:
     
 Marshallers are enabled at compile time from the `builtins/data-types` directory.
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

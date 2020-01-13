@@ -41,7 +41,7 @@
     ```
   Flags:
   Detail: |-
-    #### Deallocation
+    ### Deallocation
 
     You can unset variable names with the bang prefix:
 
@@ -51,7 +51,7 @@
 
     {{ include "gen/includes/variables.inc.md" }}
 
-    #### Declaration Without Values
+    ### Declaration Without Values
 
     You can declare a variable without a value. This is largely only of use when
     you want to overide the scoping of a variable inside a nested code-block.
@@ -114,7 +114,7 @@
     ```
   Flags:
   Detail: |-
-    #### Deallocation
+    ### Deallocation
 
     You can unset variable names with the bang prefix:
 
@@ -124,7 +124,7 @@
 
     {{ include "gen/includes/variables.inc.md" }}
 
-    #### Declaration Without Values
+    ### Declaration Without Values
 
     You can declare a global without a value. However this isn't hugely useful
     aside a rare few edge cases (and in which case the script might be better
@@ -175,7 +175,7 @@
     ```
   Flags:
   Detail: |-
-    #### Deallocation
+    ### Deallocation
 
     You can unset variable names with the bang prefix:
 

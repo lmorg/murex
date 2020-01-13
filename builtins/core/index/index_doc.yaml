@@ -64,17 +64,17 @@
 
   Flags:
   Detail: |-
-    #### Index counts from zero
+    ### Index counts from zero
 
     Indexes in _murex_ behave like any other computer array in that all arrays
     start from zero (`0`).
     
-    #### Include vs exclude
+    ### Include vs exclude
     
     As demonstrated in the examples above, `[` specifies elements to include
     where as `![` specifies elements to exclude.
 
-    #### Don't error upon missing elements
+    ### Don't error upon missing elements
 
     By default, **index** generates an error if an element doesn't exist. However
     you can disable this behavior in `config`

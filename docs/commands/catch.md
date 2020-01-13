@@ -4,12 +4,12 @@
 
 > Handles the exception code raised by `try` or `trypipe` 
 
-### Description
+## Description
 
 `catch` is designed to be used in conjunction with `try` and `trypipe` as it
 handles the exceptions raised by the aforementioned.
 
-### Usage
+## Usage
 
     [ try | trypipe ] { code-block } -> <stdout>
     
@@ -17,7 +17,7 @@ handles the exceptions raised by the aforementioned.
     
     !catch { code-block } -> <stdout>
 
-### Examples
+## Examples
 
     try {
         out: "Hello, World!" -> grep: "non-existent string"
@@ -32,19 +32,19 @@ handles the exceptions raised by the aforementioned.
         out: "No errors were raised"
     }
 
-### Detail
+## Detail
 
 `catch` can be used with a bang prefix to check for a lack of errors.
 
 `catch` forwards on the STDIN and exit number of the calling function.
 
-### Synonyms
+## Synonyms
 
 * `catch`
 * `!catch`
 
 
-### See Also
+## See Also
 
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition

@@ -4,15 +4,15 @@
 
 > Add data to the start of an array
 
-### Description
+## Description
 
 `prepend` a data to the start of an array.
 
-### Usage
+## Usage
 
     <stdin> -> prepend: value -> <stdout>
 
-### Examples
+## Examples
 
     » a: [January..December] -> prepend: 'New Year'
     New Year
@@ -29,7 +29,7 @@
     November
     December
 
-### Detail
+## Detail
 
 It's worth noting that `prepend` and `append` are not data type aware. So 
 any integers in data type aware structures will be converted into strings:
@@ -42,7 +42,7 @@ any integers in data type aware structures will be converted into strings:
         "3"
     ]
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

@@ -11,8 +11,7 @@
     » <readpipe> -> match: foobar
     ```
 
-    > See the documentation on `pipe` (./pipe.md) for more details about _murex_
-    > named pipes.
+    > See the documentation on `pipe` for more details about _murex_ named pipes.
   Usage: |-
     ```
     <example> -> <stdout>

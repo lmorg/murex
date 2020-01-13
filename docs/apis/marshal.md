@@ -4,7 +4,7 @@
 
 > Converts structured memory into a structured file format (eg for stdio)
 
-### Description
+## Description
 
 This is a function you would write when programming a _murex_ data-type.
 The marshal function takes in a Go (golang) `type` or `struct` and returns
@@ -14,7 +14,7 @@ error.
 This marshaller is then registered to _murex_ inside an `init()` function
 and _murex_ builtins can use that marshaller via the `MarshalData()` API.
 
-### Usage
+## Usage
 
 Registering marshal (for writing builtin data-types)
 
@@ -30,7 +30,7 @@ Using an existing marshaller (eg inside a builtin command)
 b, err := lang.MarshalData(p, dataType, data)
 ```
 
-### Examples
+## Examples
 
 Defining a marshaller for a murex data-type
 
@@ -62,12 +62,12 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 }
 ```
 
-### Parameters
+## Parameters
 
 1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 2. `interface{}`: data you wish to marshal
 
-### See Also
+## See Also
 
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory

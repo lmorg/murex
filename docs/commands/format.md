@@ -4,23 +4,23 @@
 
 > Reformat one data-type into another data-type
 
-### Description
+## Description
 
 `format` takes a data from STDIN and returns that data reformated in another
 specified data-type
 
-### Usage
+## Usage
 
     <stdin> -> format data-type -> <stdout>
 
-### Examples
+## Examples
 
     » tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
     One: 1
     Three: 3
     Two: 2
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

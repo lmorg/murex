@@ -4,16 +4,16 @@
 
 > Prettifies JSON to make it human readable
 
-### Description
+## Description
 
 Takes JSON from the STDIN and reformats it to make it human readable, then
 outputs that to STDOUT.
 
-### Usage
+## Usage
 
     <stdin> -> pretty -> <stdout>
 
-### Examples
+## Examples
 
     » tout: json {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> pretty 
     {
@@ -28,7 +28,7 @@ outputs that to STDOUT.
         }
     }
 
-### See Also
+## See Also
 
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type

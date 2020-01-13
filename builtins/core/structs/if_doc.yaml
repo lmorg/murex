@@ -12,7 +12,7 @@
     method, the conditional state is derived from the calling function (eg if the
     previous function succeeds then the condition is `true`).
   Usage: |-
-    #### Function `if`:
+    ### Function `if`:
     
     ```
     if { code-block } then {
@@ -22,7 +22,7 @@
     }
     ```
     
-    #### Method `if`:
+    ### Method `if`:
     
     ```
     command -> if {
@@ -32,7 +32,7 @@
     }
     ```
 
-    #### Negative Function `if`:
+    ### Negative Function `if`:
     
     ```
     !if { code-block } then {
@@ -40,7 +40,7 @@
     }
     ```
     
-    #### Negative Method `if`:
+    ### Negative Method `if`:
     
     ```
     command -> !if {
@@ -48,7 +48,7 @@
     }
     ```
 
-    #### Please Note:
+    ### Please Note:
     the `then` and `else` statements are optional. So the first usage could
     also be written as:
 

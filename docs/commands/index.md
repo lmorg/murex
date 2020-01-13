@@ -4,20 +4,20 @@
 
 > Outputs an element from an array, map or table
 
-### Description
+## Description
 
 Outputs an element or multiple elements from an array, map or table.
 
 Please note that indexes in _murex_ are counted from zero.
 
-### Usage
+## Usage
 
     <stdin> -> [ element ] -> <stdout>
     $variable[ element ] -> <stdout>
     
     <stdin> -> ![ element ] -> <stdout>
 
-### Examples
+## Examples
 
 Return the 2nd (1), 4th (3) and 6th (5) element in an array
 
@@ -57,19 +57,19 @@ Return all elements except for the data-type and description
         "Value": true
     }
 
-### Detail
+## Detail
 
-#### Index counts from zero
+### Index counts from zero
 
 Indexes in _murex_ behave like any other computer array in that all arrays
 start from zero (`0`).
 
-#### Include vs exclude
+### Include vs exclude
 
 As demonstrated in the examples above, `[` specifies elements to include
 where as `![` specifies elements to exclude.
 
-#### Don't error upon missing elements
+### Don't error upon missing elements
 
 By default, **index** generates an error if an element doesn't exist. However
 you can disable this behavior in `config`
@@ -81,13 +81,13 @@ you can disable this behavior in `config`
     
     » config -> [ foobar ]
 
-### Synonyms
+## Synonyms
 
 * `[`
 * `![`
 
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

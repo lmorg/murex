@@ -1,4 +1,4 @@
-#### Tips when writing JSON inside for loops
+### Tips when writing JSON inside for loops
 
 One of the drawbacks (or maybe advantages, depending on your perspective) of
 JSON is that parsers generally expect a complete file for processing in that

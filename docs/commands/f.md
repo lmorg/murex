@@ -4,15 +4,15 @@
 
 > Lists objects (eg files) in the current working directory
 
-### Description
+## Description
 
 Lists objects (eg files) in the current working directory.
 
-### Usage
+## Usage
 
     f: options -> <stdout>
 
-### Examples
+## Examples
 
     # return only directories:
     f: +d
@@ -20,7 +20,7 @@ Lists objects (eg files) in the current working directory.
     # return file and directories but exclude symlinks:
     f: +d +f -s
 
-### Flags
+## Flags
 
 * `d`
     directories
@@ -29,12 +29,12 @@ Lists objects (eg files) in the current working directory.
 * `s`
     symlinks (automatically included with files and directories)
 
-### Detail
+## Detail
 
 By default `f` will return no results. It is then your responsibility to select
 which types of objects to be included or excluded from the results.
 
-### See Also
+## See Also
 
 * [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)

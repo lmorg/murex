@@ -26,7 +26,7 @@
     `out` / `echo` output as `string` data-type. This can be changed by casting
     (`cast`) or using the `tout` function.
 
-    #### ANSI Constants
+    ### ANSI Constants
 
     `out` supports ANSI constants.
   Synonyms:
@@ -43,6 +43,7 @@
   - pt
   - read
   - tread
+  - userguide/ansi
 
 - DocumentID: tout
   Title: >+
@@ -114,7 +115,7 @@
     braces, `{}`). However the braces are nestable so you will need to escape those
     characters if you don't want them nested.
 
-    #### ANSI Constants
+    ### ANSI Constants
 
     `(` supports ANSI constants.
   Synonyms:
@@ -128,6 +129,7 @@
   - greater-than
   - greater-than-greater-than
   - pt
+  - userguide/ansi
 
 - DocumentID: err
   Title: >+
@@ -171,7 +173,7 @@
     }
     ```
 
-    #### ANSI Constants
+    ### ANSI Constants
 
     `err` supports ANSI constants.
   Synonyms:
@@ -187,3 +189,4 @@
   - greater-than
   - greater-than-greater-than
   - pt
+  - userguide/ansi

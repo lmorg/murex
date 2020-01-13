@@ -4,12 +4,12 @@
 
 > Evaluate a mathematical function and assign to variable
 
-### Description
+## Description
 
 `let` evaluates a mathematical function and then assigns it to a locally
 scoped variable (like `set`)
 
-### Usage
+## Usage
 
     let var_name=evaluation
     
@@ -17,7 +17,7 @@ scoped variable (like `set`)
     
     let var_name--
 
-### Examples
+## Examples
 
     » let: age=18
     » $age
@@ -35,9 +35,9 @@ scoped variable (like `set`)
     » $under21
     true
 
-### Detail
+## Detail
 
-#### Variables
+### Variables
 
 There are two ways you can use variables with the math functions. Either by
 string interpolation like you would normally with any other function, or
@@ -101,7 +101,7 @@ Unfortunately is one of the biggest areas in _murex_ where you'd need to be
 careful. The simple addition or omission of the dollar prefix, `$`, can change
 the behavior of `=` and `let`.
 
-#### Strings
+### Strings
 
 Because the usual _murex_ tools for encapsulating a string (`"`, `'` and `()`)
 are interpreted by the shell language parser, it means we need a new token for
@@ -119,7 +119,7 @@ instruct `=` and `let` that your field is a string
     » = `$abc`==`123`
     true
     
-#### Best practice recommendation
+### Best practice recommendation
 
 As you can see from the sections above, string interpolation offers us some
 conveniences when comparing variables of differing data-types, such as a `str`
@@ -127,7 +127,7 @@ type with a number (eg `num` or `int`). However it makes for less readable code
 when just comparing strings. Thus the recommendation is to avoid using string
 interpolation except only where it really makes sense (ie use it sparingly).
 
-#### Non-boolean logic
+### Non-boolean logic
 
 Thus far the examples given have been focused on comparisons however `=` and
 `let` supports all the usual arithmetic operators:
@@ -144,11 +144,11 @@ Thus far the examples given have been focused on comparisons however `=` and
     » = `foo`+`bar`
     foobar
     
-#### Read more
+### Read more
 
 _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's [manual](https://github.com/Knetic/govaluate/blob/master/MANUAL.md).
 
-#### Scoping
+### Scoping
 
 Variables are only scoped inside the code block they're defined in (or any
 children of that code block). For example `$foo` will return an empty string in
@@ -190,7 +190,7 @@ however their real purpose is passing data to external processes. For example
     » env -> grep foo
     foo=bar
     
-#### Function Names
+### Function Names
 
 As a security feature function names cannot include variables. This is done to
 reduce the risk of code executing by mistake due to executables being hidden
@@ -213,7 +213,7 @@ This only works for external executables. There is currently no way to call
 aliases, functions nor builtins from a variable and even the above `exec` trick
 is considered bad form because it reduces the readability of your shell scripts.
 
-#### Usage Inside Quotation Marks
+### Usage Inside Quotation Marks
 
 Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
 inside a double quotes but will escape the variable name when used inside single
@@ -228,7 +228,7 @@ quotes:
     » out ($foo)
     bar
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

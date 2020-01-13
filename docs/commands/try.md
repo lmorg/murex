@@ -4,7 +4,7 @@
 
 > Handles errors inside a block of code
 
-### Description
+## Description
 
 `try` forces a different execution behavior where a failed process at the end
 of a pipeline will cause the block to terminate regardless of any functions that
@@ -17,20 +17,20 @@ To maintain concurrency within the pipeline, `try` will only check the last
 function in any given pipeline (ie series of functions joined via `|`, `->`, or
 similar operators). If you need the entire pipeline checked then use `trypipe`.
 
-### Usage
+## Usage
 
     try { code-block } -> <stdout>
     
     <stdin> -> try { -> code-block } -> <stdout>
 
-### Examples
+## Examples
 
     try {
         out: "Hello, World!" -> grep: "non-existent string"
         out: "This command will be ignored"
     }
 
-### Detail
+## Detail
 
 A failure is determined by:
 
@@ -40,7 +40,7 @@ A failure is determined by:
 You can see which run mode your functions are executing under via the `fid-list`
 command.
 
-### See Also
+## See Also
 
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 

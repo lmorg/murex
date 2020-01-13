@@ -1,4 +1,4 @@
-# Murex build server
+# _murex_ build server
 
 This docker container exists as an optional automated build and test server for
 anyone who might not want to install `go` et al on their platform but who might

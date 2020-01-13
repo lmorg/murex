@@ -4,16 +4,16 @@
 
 > Outputs all the keys in a structure
 
-### Description
+## Description
 
 `struct-keys` outputs all of the keys in a structured data-type eg JSON
 YAML, TOML, etc. The output is a JSON array of the keys.
 
-### Usage
+## Usage
 
     <stdin> -> struct-keys -> <stdout>
 
-### Examples
+## Examples
 
     » set: json example={
           "firstName": "John",
@@ -68,7 +68,7 @@ YAML, TOML, etc. The output is a JSON array of the keys.
         "/firstName"
     ]
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

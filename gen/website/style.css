@@ -19,15 +19,42 @@ p {
 
 h1, h2, h3, h4 {
     font-family: 'Jura', sans-serif;
-    color: #000000;
     text-shadow: #a0a0a0 0em 0em 0.1em;
     font-weight: bold;
 }
 
-h1 { font-size: 26px; }
-h2 { font-size: 22px; }
-h3 { font-size: 18px; }
-h4 { font-size: 16px; }
+h1 {
+    font-size: 26px;
+    color: #707070;
+    text-align: center;
+}
+
+h2 {
+    font-size: 20px;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #000000;
+    margin-right: 40px;
+}
+
+h3 {
+    color: #707000;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #707000;
+    margin-right: 40px;
+}
+
+h4 {
+    color: #000000;
+    font-size: 16px;
+}
+
+strong {
+    text-shadow: #a0a0a0 0em 0em 0.1em;
+}
+
 
 a:link, a:visited, a:active {
     color: #9b251b;

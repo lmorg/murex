@@ -4,7 +4,7 @@
 
 > YAML Ain't Markup Language (YAML)
 
-### Description
+## Description
 
 YAML support within _murex_ is pretty mature however it is not considered a
 primitive. Which means, while it is a recommended builtin which you should
@@ -12,7 +12,7 @@ expect in most deployments of _murex_, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
-### Default Associations
+## Default Associations
 
 * **Extension**: `yaml`
 * **Extension**: `yml`
@@ -22,7 +22,7 @@ external source packages for the shell to compile.
 * **MIME**: `text/yaml`
 
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported
@@ -39,7 +39,7 @@ external source packages for the shell to compile.
 * `WriteArray()`
     Works with YAML arrays
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

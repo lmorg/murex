@@ -4,18 +4,18 @@
 
 > `read` a line of input from the user and store as a user defined *typed* variable
 
-### Description
+## Description
 
 A readline function to allow a line of data inputed from the terminal and then
 store that as a typed variable.
 
-### Usage
+## Usage
 
     tread: data-type "prompt" var_name
     
     <stdin> -> tread: data-type var_name
 
-### Examples
+## Examples
 
     tread: qs "Please paste a URL: " url
     out: "The query string values included were:"
@@ -25,7 +25,7 @@ store that as a typed variable.
     out: "The query string values included were:"
     $url -> format json
 
-### Detail
+## Detail
 
 If `tread` is called as a method then the prompt string is taken from STDIN.
 Otherwise the prompt string will be the first parameter. However if no prompt
@@ -36,7 +36,7 @@ This variable cannot be prefixed by dollar, `$`, otherwise the shell will write
 the output of that variable as the last parameter rather than the name of the
 variable.
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

@@ -4,17 +4,17 @@
 
 > Converts a _murex_ data-type into structured memory
 
-### Description
+## Description
 
 
 
-### Usage
+## Usage
 
 ```go
 data, err := lang.UnmarshalData(p, dataType)
 ```
 
-### Examples
+## Examples
 
 ```go
 func exampleCommand(p *lang.Process) error {
@@ -33,7 +33,7 @@ func exampleCommand(p *lang.Process) error {
 }
 ```
 
-### Detail
+## Detail
 
 Go source file:
 
@@ -69,12 +69,12 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 }
 ```
 
-### Parameters
+## Parameters
 
 1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 2. `string`: _murex_ data type
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

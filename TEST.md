@@ -1,4 +1,4 @@
-# Murex Documentation
+# _murex_ Documentation
 
 ## Running Tests
 
@@ -15,4 +15,4 @@ go test ./...
 curl localhost:38000/total
 ```
 
-(this document is a wip)
+(this document is a WIP)

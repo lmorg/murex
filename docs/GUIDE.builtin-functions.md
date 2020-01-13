@@ -11,14 +11,14 @@ However any executable command can also be called from within _murex_;
 be that either via the `exec` builtin or natively like you would from any
 Linux, UNIX, or even Windows command prompt.
 
-### Other Reference Material
+## Other Reference Material
 
-#### Language Guides
+### Language Guides
 
 1. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
 contains builtins required for building logic.
 
-#### _murex_'s Source Code
+### _murex_'s Source Code
 
 In _murex_'s source under the `lang/builtins` path of the project files
 is several directories, each hosting different categories of _murex_
@@ -28,7 +28,7 @@ Each package will include a README.md file with a basic summary of what
 that package is used for and all you to enable or disable builtins, should
 you decide to compile the shell from source.
 
-#### Shell Commands For Querying Builtins
+### Shell Commands For Querying Builtins
 
 From the shell itself: run `builtins` to list the builtin command.
 
@@ -37,7 +37,7 @@ to return the same markdown-formatted document as those listed below. eg
 
     murex-docs trypipe
 
-### Pages
+## Pages
 
 * [`!` (not)](commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition

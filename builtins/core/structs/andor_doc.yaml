@@ -29,7 +29,7 @@
     If `and` is prefixed by a bang then it returns `true` only when all code-blocks
     are unsuccessful.
 
-    #### Code-Block Testing
+    ### Code-Block Testing
 
     * `and` tests all code-blocks up until one of the code-blocks is unsuccessful,
       then `and` exits and returns `false`.
@@ -82,7 +82,7 @@
     If `or` is prefixed by a bang (`!or`) then it returns `true` when one or more
     code-blocks are unsuccessful (ie the opposite of `or`).
 
-    #### Code-Block Testing
+    ### Code-Block Testing
 
     * `or` only executes code-blocks up until one of the code-blocks is successful
       then it exits the function and returns `true`.

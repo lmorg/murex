@@ -4,22 +4,22 @@
 
 > Sends a background process into the foreground
 
-### Description
+## Description
 
 `fg` resumes a stopped process and sends it into the foreground.
 
-### Usage
+## Usage
 
 POSIX only:
 
     fg fid
 
-### Detail
+## Detail
 
 This builtin is only supported on POSIX systems. There is no support planned
 for Windows (due to the kernel not supporting the right signals) nor Plan 9.
 
-### See Also
+## See Also
 
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background

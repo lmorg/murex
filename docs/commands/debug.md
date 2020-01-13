@@ -4,19 +4,19 @@
 
 > Debugging information
 
-### Description
+## Description
 
 `debug` has two modes: as a function and as a method.
 
-#### Debug Method
+### Debug Method
 
 This usage will return debug information about the previous function ran.
 
-#### Debug Function:
+### Debug Function:
 
 This will enable or disable debugging mode.
 
-### Usage
+## Usage
 
     <stdin> -> debug -> <stdout>
     
@@ -24,7 +24,7 @@ This will enable or disable debugging mode.
     
     debug -> <stdout>
 
-### Examples
+## Examples
 
 Return debugging information on the previous function:
 
@@ -114,7 +114,7 @@ Output whether debug mode is enabled or disabled:
     » debug
     false
 
-### Detail
+## Detail
 
 When enabling or disabling debug mode, because the parameter is a murex
 boolean type, it means you can use other boolean terms. eg
@@ -136,7 +136,7 @@ into the Go source code rather than in _murex_'s shell scripting language.
 If you require debugging those processes then please use _murex_'s `test`
 framework
 
-### See Also
+## See Also
 
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

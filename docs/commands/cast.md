@@ -4,27 +4,27 @@
 
 > Alters the data type of the previous function without altering it's output
 
-### Description
+## Description
 
 `cast` works a little like when you case variables in lower level languages
 where the value of the variable is unchanged. In _murex_ the contents in
 the pipeline are preserved however the reported data type is altered.
 
-### Usage
+## Usage
 
     <stdin> -> cast data-type -> <stdout>
 
-### Examples
+## Examples
 
     » out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
     {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
 
-### Detail
+## Detail
 
 If you want to reformat the STDIN into the new data type then use `format`
 instead.
 
-### See Also
+## See Also
 
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type

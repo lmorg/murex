@@ -4,15 +4,15 @@
 
 > Change (working) directory
 
-### Description
+## Description
 
 Changes current working directory.
 
-### Usage
+## Usage
 
     cd path
 
-### Examples
+## Examples
 
     # Home directory
     » cd: ~ 
@@ -24,7 +24,7 @@ Changes current working directory.
     » cd: Documents
     » cd: ./Documents
 
-### Detail
+## Detail
 
 `cd` updates an environmental variable, `$PWDHIST` with an array of paths.
 You can then use that to change to a previous directory
@@ -35,7 +35,7 @@ You can then use that to change to a previous directory
     # Change to a previous directory
     » cd $PWDHIST[0]
 
-### See Also
+## See Also
 
 * [commands/pwd](../commands/pwd.md):
   

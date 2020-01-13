@@ -4,12 +4,12 @@
 
 > Apache httpd "common" log format
 
-### Description
+## Description
 
 Apache httpd supports a few different log formats. This _murex_ type is for
 parsing the "common" log format.
 
-### Detail
+## Detail
 
 The code here is very rudimentary. If you have large log files or need more complex
 data querying then this data-type is probably not the right tool. Maybe try one of
@@ -18,7 +18,7 @@ the following:
 * [Firesword](https://github.com/lmorg/firesword) - for command line analysis
 * [Plasmasword](https://github.com/lmorg/plasmasword) - exports fields to an sqlite3 or mysql database
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported though no unmarshalling is currently supported
@@ -31,7 +31,7 @@ the following:
 * `ReadNotIndex()`
     Entire log file is read and then the indexes are derived from there
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

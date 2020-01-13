@@ -4,24 +4,24 @@
 
 > Decompress a bz2 file
 
-### Description
+## Description
 
 `!bz2` is an optional builtin for decompressing a bz2 stream from STDIN.
 
-### Usage
+## Usage
 
     <stdin> -> !bz2 -> <stdout>
 
-### Detail
+## Detail
 
 Currently there is no support for compressing a stream using bz2.
 
-### Synonyms
+## Synonyms
 
 * `!bz2`
 
 
-### See Also
+## See Also
 
 * [commands/`base64` (optional)](../commands/base64.md):
   Encode or decode a base64 string

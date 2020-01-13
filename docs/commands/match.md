@@ -4,7 +4,7 @@
 
 > Match an exact value in an array
 
-### Description
+## Description
 
 `match` takes input from STDIN and returns any array items / lines which
 contain an exact match of the parameters supplied.
@@ -16,24 +16,24 @@ string and white space delimited. eg all three of the below are the same:
     match a b c
     match a    b    c
 
-### Usage
+## Usage
 
     <stdin> -> match search string -> <stdout>
 
-### Examples
+## Examples
 
     » ja: [Monday..Friday] -> match Wed
     [
         "Wednesday"
     ]
 
-### Detail
+## Detail
 
 `match` is data-type aware so will work against lists or arrays of whichever
 _murex_ data-type is passed to it via STDIN and return the output in the
 same data-type.
 
-### See Also
+## See Also
 
 * [commands/`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources

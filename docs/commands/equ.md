@@ -4,17 +4,17 @@
 
 > Evaluate a mathematical function
 
-### Description
+## Description
 
 `=` evaluates a mathematical function and returns it's output
 
-### Usage
+## Usage
 
     <stdin> -> = evaluation -> <stdout>
     
     = evaluation -> <stdout>
 
-### Examples
+## Examples
 
 As a method:
 
@@ -40,9 +40,9 @@ Inlining as a function:
     » if { = age < 21 } then { out: "Under 21" } else { out: "Over 21" }
     Under 21
 
-### Detail
+## Detail
 
-#### Variables
+### Variables
 
 There are two ways you can use variables with the math functions. Either by
 string interpolation like you would normally with any other function, or
@@ -106,7 +106,7 @@ Unfortunately is one of the biggest areas in _murex_ where you'd need to be
 careful. The simple addition or omission of the dollar prefix, `$`, can change
 the behavior of `=` and `let`.
 
-#### Strings
+### Strings
 
 Because the usual _murex_ tools for encapsulating a string (`"`, `'` and `()`)
 are interpreted by the shell language parser, it means we need a new token for
@@ -124,7 +124,7 @@ instruct `=` and `let` that your field is a string
     » = `$abc`==`123`
     true
     
-#### Best practice recommendation
+### Best practice recommendation
 
 As you can see from the sections above, string interpolation offers us some
 conveniences when comparing variables of differing data-types, such as a `str`
@@ -132,7 +132,7 @@ type with a number (eg `num` or `int`). However it makes for less readable code
 when just comparing strings. Thus the recommendation is to avoid using string
 interpolation except only where it really makes sense (ie use it sparingly).
 
-#### Non-boolean logic
+### Non-boolean logic
 
 Thus far the examples given have been focused on comparisons however `=` and
 `let` supports all the usual arithmetic operators:
@@ -149,16 +149,16 @@ Thus far the examples given have been focused on comparisons however `=` and
     » = `foo`+`bar`
     foobar
     
-#### Read more
+### Read more
 
 _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's [manual](https://github.com/Knetic/govaluate/blob/master/MANUAL.md).
 
-### Synonyms
+## Synonyms
 
 * `=`
 
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

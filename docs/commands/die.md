@@ -4,19 +4,19 @@
 
 > Terminate murex with an exit number of 1
 
-### Description
+## Description
 
 Terminate _murex_ with an exit number of 1.
 
-### Usage
+## Usage
 
     die
 
-### Examples
+## Examples
 
     » die
 
-### See Also
+## See Also
 
 * [commands/`exit`](../commands/exit.md):
   Exit murex

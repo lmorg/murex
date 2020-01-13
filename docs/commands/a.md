@@ -4,14 +4,14 @@
 
 > A sophisticated yet simple way to build an array or list
 
-### Description
+## Description
 
 Pronounced "make array", like `mkdir` (etc), _murex_ has a pretty sophisticated
 builtin for generating arrays. Think like bash's `{1..9}` syntax:
 
     a: [1..9]
 
-### Usage
+## Usage
 
     a: [start..end] -> <stdout>
     a: [start..end.base] -> <stdout>
@@ -23,7 +23,7 @@ All usages also work with `ja` and `ta` as well:
     ja: [start..end] -> <stdout>
     ta: data-type [start..end] -> <stdout>
 
-### Examples
+## Examples
 
     » a: [1..3]
     1
@@ -40,9 +40,9 @@ All usages also work with `ja` and `ta` as well:
     02
     03
 
-### Detail
+## Detail
 
-#### Alternative Number Bases
+### Alternative Number Bases
 
 You can also specify an alternative number base by using an `x` or `.`
 in the end range:
@@ -57,7 +57,7 @@ while the base identifier is written in decimal: `[hex..hex.dec]`
 Also note that the additional zeros denotes padding (ie the results will
 start at `00`, `01`, etc rather than `0`, `1`...)
 
-#### Character arrays
+### Character arrays
 
 You can select a range of letters (a to z):
 
@@ -68,7 +68,7 @@ You can select a range of letters (a to z):
     
 ...or any characters within that range.
 
-#### Special ranges
+### Special ranges
 
 Unlike bash, _murex_ also supports some special ranges:
 
@@ -132,7 +132,7 @@ this specific scenario:
 * `tail -r` (BSD / OS X)
 * `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
-#### Advanced Array Syntax
+### Advanced Array Syntax
 
 The syntax for `a` is a comma separated list of parameters with expansions
 stored in square brackets. You can have an expansion embedded inside a
@@ -183,7 +183,7 @@ You can also have multiple expansion blocks in a single parameter:
 `a` will cycle through each iteration of the last expansion, moving itself
 backwards through the string; behaving like an normal counter.
 
-#### Creating JSON arrays with `ja`
+### Creating JSON arrays with `ja`
 
 As you can see from the previous examples, `a` returns the array as a
 list of strings. This is so you can stream excessively long arrays, for
@@ -207,7 +207,7 @@ as `a` but forgo the streaming capability:
 This is particularly useful if you are adding formating that might break
 under `a`'s formatting (which uses the `str` data type).
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

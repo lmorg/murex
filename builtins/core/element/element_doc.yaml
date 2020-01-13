@@ -37,12 +37,12 @@
     ```
   Flags:
   Detail: |-
-    #### Element counts from zero
+    ### Element counts from zero
 
     Indexes in _murex_ behave like any other computer array in that all arrays
     start from zero (`0`).
 
-    #### Alternative path separators
+    ### Alternative path separators
 
     **Element** uses the first character in the path as the separator. So the
     following are all valid parameters:
@@ -91,7 +91,7 @@
         config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
     ```
 
-    #### Quoting parameters
+    ### Quoting parameters
 
     In _murex_, everything is a function. Thus even `[[` is a function name and
     the closing `]]` is actually a last parameter. This means the recommended way

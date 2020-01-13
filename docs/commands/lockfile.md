@@ -4,11 +4,11 @@
 
 > Create and manage lock files
 
-### Description
+## Description
 
 `lockfile` is used to create and manage lock files
 
-### Usage
+## Usage
 
 Create a lock file with the name `identifier`
 
@@ -26,7 +26,7 @@ Output the the file name and path of a lock file with the name `identifier`
 
     lockfile: path identifier -> <stdout>
 
-### Examples
+## Examples
 
     lockfile lock example
     out "lock file created: ${lockfile path example}"
@@ -40,7 +40,7 @@ Output the the file name and path of a lock file with the name `identifier`
     lockfile wait example
     out "lock file gone!"
 
-### See Also
+## See Also
 
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background

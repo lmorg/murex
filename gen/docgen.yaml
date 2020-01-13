@@ -14,14 +14,14 @@ Categories:
       be that either via the `exec` builtin or natively like you would from any
       Linux, UNIX, or even Windows command prompt.
 
-      ### Other Reference Material
+      ## Other Reference Material
 
-      #### Language Guides
+      ### Language Guides
 
       1. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
       contains builtins required for building logic.
 
-      #### _murex_'s Source Code
+      ### _murex_'s Source Code
 
       In _murex_'s source under the `lang/builtins` path of the project files
       is several directories, each hosting different categories of _murex_
@@ -31,7 +31,7 @@ Categories:
       that package is used for and all you to enable or disable builtins, should
       you decide to compile the shell from source.
 
-      #### Shell Commands For Querying Builtins
+      ### Shell Commands For Querying Builtins
 
       From the shell itself: run `builtins` to list the builtin command.
 
@@ -106,7 +106,7 @@ Categories:
           » echo '{ "key": "value" }' -> cast json 
           ```
 
-      ### Definitions
+      ## Definitions
       
       For clarity, it is worth explaining a couple of terms:
       
@@ -125,7 +125,7 @@ Categories:
       `generic`, `json`, and `null`. All other data-types are optional albeit
       still recommended (unless described otherwise).
 
-      ### Feature Sets
+      ## Feature Sets
       
       Since not all data formats are equal (for example the TOML file format
       doesn't support naked arrays where as JSON does), you may find some

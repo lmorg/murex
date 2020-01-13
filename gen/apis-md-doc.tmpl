@@ -4,28 +4,28 @@
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
 
-### Description
+## Description
 
 {{ md .Description }}
 
-{{ if .Usage }}### Usage
+{{ if .Usage }}## Usage
 
 {{ md .Usage }}{{ end }}{{ if .Examples }}
 
-### Examples
+## Examples
 
 {{ md (include .Examples) }}{{ end }}{{ if .Detail }}
 
-### Detail
+## Detail
 
 {{ md (include .Detail) }}{{ end }}{{ if .Parameters }}
 
-### Parameters
+## Parameters
 
 {{ range $i,$a := .Parameters }}{{ if gt $i 0 }}
 {{ end }}{{ notanindex $i }}. {{ md . }}{{ end }}{{ end }}{{ if .Related }}
 
-### See Also
+## See Also
 
 {{ range $i,$a := .Related }}{{ if gt $i 0 }}
 {{ end }}* [{{ .CategoryID }}/{{ md .Title }}](../{{ md .Hierarchy }}.md):

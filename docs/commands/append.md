@@ -4,15 +4,15 @@
 
 > Add data to the end of an array
 
-### Description
+## Description
 
 `append` data to the end of an array.
 
-### Usage
+## Usage
 
     <stdin> -> append: value -> <stdout>
 
-### Examples
+## Examples
 
     » a: [Monday..Sunday] -> append: Funday
     Monday
@@ -24,7 +24,7 @@
     Sunday
     Funday
 
-### Detail
+## Detail
 
 It's worth noting that `prepend` and `append` are not data type aware. So 
 any integers in data type aware structures will be converted into strings:
@@ -37,7 +37,7 @@ any integers in data type aware structures will be converted into strings:
         "new"
     ]
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

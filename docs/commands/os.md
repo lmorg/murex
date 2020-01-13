@@ -4,18 +4,18 @@
 
 > Output the auto-detected OS name
 
-### Description
+## Description
 
 Output the auto-detected OS name.
 
-### Usage
+## Usage
 
     os -> <stdout>
     
     os string -> <stdout>
     ``` 
 
-### Examples
+## Examples
 
     » os
     linux
@@ -47,7 +47,7 @@ POSIX-compliant. For that reason, `os` returns false with the `posix`
 parameter when run on Plan 9. If you want to include Plan 9 in the check
 then please write it as `os posix plan9`.
 
-### See Also
+## See Also
 
 * [commands/`cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture

@@ -4,7 +4,7 @@
 
 > Define a private function block
 
-### Description
+## Description
 
 `private` defines a function who's scope is limited to that module or source
 file.
@@ -14,11 +14,11 @@ around a global `function`) and nor can they be called from the interactive
 command line. The purpose of a `private` is to reduce repeated code inside
 a module or source file without cluttering up the global namespace.
 
-### Usage
+## Usage
 
     private: name { code-block }
 
-### Examples
+## Examples
 
     # The following cannot be entered via the command line. You need to write
     # it to a file and execute it from there.
@@ -42,21 +42,21 @@ a module or source file without cluttering up the global namespace.
         out "My name is Harry."
     }
 
-### Detail
+## Detail
 
-#### Allowed characters
+### Allowed characters
 
 Private names can only include any characters apart from dollar (`$`).
 This is to prevent functions from overwriting variables (see the order of
 preference below).
 
-#### Undefining a private
+### Undefining a private
 
 Because private functions are fixed to the source file that declares them,
 there isn't much point in undefining them. Thus at this point in time, it
 is not possible to do so.
 
-#### Order of preference
+### Order of preference
 
 There is an order of preference for which commands are looked up:
 1. Aliases - defined via `alias`. All aliases are global
@@ -69,7 +69,7 @@ There is an order of preference for which commands are looked up:
 6. murex builtins
 7. external executable files
 
-### See Also
+## See Also
 
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command

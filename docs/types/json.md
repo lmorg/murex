@@ -4,11 +4,11 @@
 
 > JavaScript Object Notation (JSON) (primitive)
 
-### Description
+## Description
 
 JSON is a primitive data-type within _murex_.
 
-### Examples
+## Examples
 
 Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
 
@@ -41,9 +41,9 @@ Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
       "spouse": null
     }
 
-### Detail
+## Detail
 
-#### Tips when writing JSON inside for loops
+### Tips when writing JSON inside for loops
 
 One of the drawbacks (or maybe advantages, depending on your perspective) of
 JSON is that parsers generally expect a complete file for processing in that
@@ -147,7 +147,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
         },
     ...
 
-### Default Associations
+## Default Associations
 
 * **Extension**: `json`
 * **MIME**: `application/json`
@@ -156,7 +156,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 * **MIME**: `text/x-toml`
 
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
@@ -173,7 +173,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 * `WriteArray()`
     Works with JSON arrays
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

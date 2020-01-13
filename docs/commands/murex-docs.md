@@ -4,29 +4,29 @@
 
 > Displays the man pages for _murex_ builtins
 
-### Description
+## Description
 
 Displays the man pages for _murex_ builtins.
 
-### Usage
+## Usage
 
     murex-docs: [ flags ] command -> <stdout>
 
-### Examples
+## Examples
 
     # Output this man page
     murex-docs: murex-docs
 
-### Flags
+## Flags
 
 * `--summary`
     Returns an abridged description of the command rather than the entire help page.
 
-### Detail
+## Detail
 
 These man pages are compiled into the _murex_ executable.
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

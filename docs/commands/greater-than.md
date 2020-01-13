@@ -4,27 +4,27 @@
 
 > Writes STDIN to disk - overwriting contents if file already exists
 
-### Description
+## Description
 
 Redirects output to file.
 
 If a file already exists, the contents will be truncated (overwritten).
 Otherwise a new file is created.
 
-### Usage
+## Usage
 
     <stdin> -> > filename
 
-### Examples
+## Examples
 
     g * -> > files.txt
 
-### Synonyms
+## Synonyms
 
 * `>`
 
 
-### See Also
+## See Also
 
 * [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists

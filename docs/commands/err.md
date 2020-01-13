@@ -4,20 +4,20 @@
 
 > Print a line to the STDERR
 
-### Description
+## Description
 
 Write parameters to STDERR with a trailing new line character.
 
-### Usage
+## Usage
 
     err: string to write -> <stderr>
 
-### Examples
+## Examples
 
     » err Hello, World!
     Hello, World!
 
-### Detail
+## Detail
 
 `err` outputs as `string` data-type. This can be changed by casting
 
@@ -39,11 +39,11 @@ a new _murex_ named pipe.
         "Message": "Page not found"
     }
     
-#### ANSI Constants
+### ANSI Constants
 
 `err` supports ANSI constants.
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
@@ -63,6 +63,8 @@ a new _murex_ named pipe.
   Pipe telemetry. Writes data-types and bytes written
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+* [userguide/ansi](../userguide/ansi.md):
+  
 * [commands/pipe](../commands/pipe.md):
   
 * [commands/sprintf](../commands/sprintf.md):

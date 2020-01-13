@@ -4,15 +4,15 @@
 
 > Splits STDIN into a JSON array based on a regex parameter
 
-### Description
+## Description
 
 `jsplit` will read from STDIN and split it based on a regex parameter. It outputs a JSON array.
 
-### Usage
+## Usage
 
     <STDIN> -> jsplit: regex -> <stdout>
 
-### Examples
+## Examples
 
     » (hello, world) -> jsplit: l+ 
     [
@@ -21,7 +21,7 @@
         "d"
     ]
 
-### Detail
+## Detail
 
 `jsplit` will trim trailing carriage returns and line feeds from each element
 as well as any trailing empty elements (zero length strings) in the JSON array.
@@ -33,7 +33,7 @@ This is so that the formatting of (multiline) text is retained as much as
 possible to ensure the `jsplit` is accurate while at the same time any commonly
 unwanted "noise" is stripped from the output.
 
-### See Also
+## See Also
 
 * [commands/`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources

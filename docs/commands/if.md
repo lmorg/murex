@@ -4,7 +4,7 @@
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 
-### Description
+## Description
 
 Conditional control flow
 
@@ -12,9 +12,9 @@ Conditional control flow
 method, the conditional state is derived from the calling function (eg if the
 previous function succeeds then the condition is `true`).
 
-### Usage
+## Usage
 
-#### Function `if`:
+### Function `if`:
 
     if { code-block } then {
         # true
@@ -22,7 +22,7 @@ previous function succeeds then the condition is `true`).
         # false
     }
     
-#### Method `if`:
+### Method `if`:
 
     command -> if {
         # true
@@ -30,19 +30,19 @@ previous function succeeds then the condition is `true`).
         # false
     }
     
-#### Negative Function `if`:
+### Negative Function `if`:
 
     !if { code-block } then {
         # false
     }
     
-#### Negative Method `if`:
+### Negative Method `if`:
 
     command -> !if {
         # false
     }
     
-#### Please Note:
+### Please Note:
 the `then` and `else` statements are optional. So the first usage could
 also be written as:
 
@@ -55,7 +55,7 @@ also be written as:
 However the practice of omitting those statements isn't recommended beyond
 writing short one liners in the interactive command prompt.
 
-### Examples
+## Examples
 
 Check if a file exists:
 
@@ -73,7 +73,7 @@ Check if a file exists:
         out "File does not exist"
     }
 
-### Detail
+## Detail
 
 The conditional block can contain entire pipelines - even multiple lines of code
 let alone a single pipeline - as well as solitary commands as demonstrated in
@@ -86,13 +86,13 @@ use either a _murex_ named pipe to redirect the output, or test or debug flags
 (depending on your use case) if you only need to occasionally inspect the
 conditionals output.
 
-### Synonyms
+## Synonyms
 
 * `if`
 * `!if`
 
 
-### See Also
+## See Also
 
 * [commands/`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition

@@ -4,23 +4,23 @@
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
 
-### Description
+## Description
 
 {{ md .Description }}{{ if .Usage }}
 
-### Usage
+## Usage
 
 {{ md .Usage }}{{ end }}{{ if .Examples }}
 
-### Examples
+## Examples
 
 {{ md .Examples }}{{ end }}{{ if .Detail }}
 
-### Detail
+## Detail
 
 {{ md (include .Detail) }}{{ end }}{{ if (or .Associations.Extensions .Associations.Mimes) }}
 
-### Default Associations
+## Default Associations
 
 {{ range $i,$a := .Associations.Extensions }}{{ if gt $i 0 }}
 {{ end }}* **Extension**: `{{ md . }}`{{ end }}
@@ -28,13 +28,13 @@
 {{ end }}* **MIME**: `{{ md . }}`{{ end }}
 {{ end }}{{ if .Hooks }}
 
-### Supported Hooks
+## Supported Hooks
 
 {{ range $i,$a := .Hooks }}{{ if gt $i 0 }}
 {{ end }}* `{{ md .Hook }}`
     {{ md .Comment }}{{ end }}{{ end }}{{ if .Related }}
 
-### See Also
+## See Also
 
 {{ range $i,$a := .Related }}{{ if gt $i 0 }}
 {{ end }}* [{{ .CategoryID }}/{{ md .Title }}](../{{ md .Hierarchy }}.md):

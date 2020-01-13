@@ -4,11 +4,11 @@
 
 > Define a global variable and set it's value
 
-### Description
+## Description
 
 Defines, updates or deallocates a global variable.
 
-### Usage
+## Usage
 
     # Assume data type and value from STDIN
     <stdin> -> global var_name
@@ -26,7 +26,7 @@ Defines, updates or deallocates a global variable.
     global var_name
     global datatype var_name
 
-### Examples
+## Examples
 
 As a method:
 
@@ -40,15 +40,15 @@ As a function:
     » out "$hw"
     Hello, World!
 
-### Detail
+## Detail
 
-#### Deallocation
+### Deallocation
 
 You can unset variable names with the bang prefix:
 
     !global var_name
     
-#### Scoping
+### Scoping
 
 Variables are only scoped inside the code block they're defined in (or any
 children of that code block). For example `$foo` will return an empty string in
@@ -90,7 +90,7 @@ however their real purpose is passing data to external processes. For example
     » env -> grep foo
     foo=bar
     
-#### Function Names
+### Function Names
 
 As a security feature function names cannot include variables. This is done to
 reduce the risk of code executing by mistake due to executables being hidden
@@ -113,7 +113,7 @@ This only works for external executables. There is currently no way to call
 aliases, functions nor builtins from a variable and even the above `exec` trick
 is considered bad form because it reduces the readability of your shell scripts.
 
-#### Usage Inside Quotation Marks
+### Usage Inside Quotation Marks
 
 Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
 inside a double quotes but will escape the variable name when used inside single
@@ -128,20 +128,20 @@ quotes:
     » out ($foo)
     bar
     
-#### Declaration Without Values
+### Declaration Without Values
 
 You can declare a global without a value. However this isn't hugely useful
 aside a rare few edge cases (and in which case the script might be better
 written another way). However the feature is available to use none-the-less
 and thus maintains consistency with `set`.
 
-### Synonyms
+## Synonyms
 
 * `global`
 * `!global`
 
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

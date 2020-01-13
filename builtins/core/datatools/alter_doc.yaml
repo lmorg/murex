@@ -72,7 +72,7 @@
     > If you require modifying a structure inside _murex_ config (such as http
     > headers) then you can use `config alter`. Read the config docs for reference.
   Detail: |-
-    #### Path
+    ### Path
 
     The path parameter can take any character as node separators. The separator is
     assigned via the first character in the path. For example
@@ -89,7 +89,7 @@
     config -> alter: ' shell prompt Value' moo
     ```
 
-    #### Supported data-types
+    ### Supported data-types
 
     You can check what data-types are available via the `runtime` command:
 

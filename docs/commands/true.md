@@ -4,15 +4,15 @@
 
 > Returns a `true` value
 
-### Description
+## Description
 
 Returns a `true` value.
 
-### Usage
+## Usage
 
     true -> <stdout>
 
-### Examples
+## Examples
 
 By default, `true` also outputs the term "true":
 
@@ -23,12 +23,12 @@ However you can suppress that with the silent flag:
 
     » true -s
 
-### Flags
+## Flags
 
 * `-s`
     silent - don't output the term "true"
 
-### See Also
+## See Also
 
 * [commands/`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition

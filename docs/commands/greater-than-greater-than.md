@@ -4,27 +4,27 @@
 
 > Writes STDIN to disk - appending contents if file already exists
 
-### Description
+## Description
 
 Redirects output to file.
 
 If a file already exists, the contents will be appended to existing contents.
 Otherwise a new file is created.
 
-### Usage
+## Usage
 
     <stdin> -> >> filename
 
-### Examples
+## Examples
 
     g * -> >> files.txt
 
-### Synonyms
+## Synonyms
 
 * `>>`
 
 
-### See Also
+## See Also
 
 * [commands/`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists

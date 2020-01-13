@@ -4,17 +4,17 @@
 
 > Glob pattern matching for file system objects (eg *.txt)
 
-### Description
+## Description
 
 Returns a list of files and directories that match a glob pattern.
 
 Output is a JSON list.
 
-### Usage
+## Usage
 
     g: pattern -> <stdout>
 
-### Examples
+## Examples
 
     # inline globbing
     cat: @{ g: *.txt }
@@ -35,14 +35,14 @@ Output is a JSON list.
         # file does not exist
     }
 
-### Detail
+## Detail
 
-#### Pattern reference
+### Pattern reference
 
 * `*` matches any number of (including zero) characters
 * `?` matches any single character
 
-#### Auto-globbing
+### Auto-globbing
 
 Any command prefixed with `@g` will be auto-globbed. For example, the two
 following commands will produce the same output:
@@ -61,13 +61,13 @@ with auto-globbing enabled:
 
     @g ^!!
 
-### Synonyms
+## Synonyms
 
 * `g`
 * `@g`
 
 
-### See Also
+## See Also
 
 * [commands/`f`](../commands/f.md):
   Lists objects (eg files) in the current working directory

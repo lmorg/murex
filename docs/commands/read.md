@@ -4,17 +4,17 @@
 
 > `read` a line of input from the user and store as a variable
 
-### Description
+## Description
 
 A readline function to allow a line of data inputed from the terminal.
 
-### Usage
+## Usage
 
     read: "prompt" var_name
     
     <stdin> -> read: var_name
 
-### Examples
+## Examples
 
     read: "What is your name? " name
     out: "Hello $name"
@@ -22,7 +22,7 @@ A readline function to allow a line of data inputed from the terminal.
     out: What is your name? -> read: name
     out: "Hello $name"
 
-### Detail
+## Detail
 
 If `read` is called as a method then the prompt string is taken from STDIN.
 Otherwise the prompt string will be the first parameter. However if no prompt
@@ -36,7 +36,7 @@ variable.
 The data type the `read` line will be stored as is `str` (string). If you
 require this to be different then please use `tread` (typed read).
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

@@ -4,7 +4,7 @@
 
 > Sorts an array - data type agnostic
 
-### Description
+## Description
 
 This builtin takes input from stdin, sorts it and the outputs it to stdout. 
 
@@ -19,11 +19,11 @@ without having to write lots of ugly platform-specific code. This is also
 the reason this builtin is called `msort` rather than conflicting with the
 existing UNIX name, `sort`.
 
-### Usage
+## Usage
 
     <stdin> -> msort -> <stdout>
 
-### Examples
+## Examples
 
     » tout: json (["c", "b", "a"]) -> msort   
     [
@@ -42,7 +42,7 @@ output of `msort` into another builtin:
         "a"
     ]
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

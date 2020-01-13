@@ -5,19 +5,19 @@ level of support it had:
 
 ## Linux
 
-**ArchLinux:**
+### ArchLinux
 
 This is one of the primary development platforms; all features should work.
 
-**Debian:**
+### Debian
 
 Extensively tested
 
-**Ubuntu:**
+### Ubuntu
 
 Extensively tested
 
-**CentOS:**
+### CentOS
 
 Extensively tested
 
@@ -75,7 +75,7 @@ If you do happen to run into any such bugs then I do welcome pull requests.
 Feature wise, job control isn't supported in Plan 9 because Plan 9 doesn't
 support all of the required etc signals.
 
-# Other CPU architectures
+## Other CPU architectures
 
 _murex_ I developed on AMD64 and that is also the architecture which runs all
 of the unit tests; however there is nothing CPU specific in _murex_'s source

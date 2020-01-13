@@ -4,20 +4,19 @@
 
 > Reads from a _murex_ named pipe
 
-### Description
+## Description
 
 Sometimes you will need to start a commandline with a _murex_ named pipe:
 
     » <readpipe> -> match: foobar
     
-> See the documentation on `pipe` (./pipe.md) for more details about _murex_
-> named pipes.
+> See the documentation on `pipe` for more details about _murex_ named pipes.
 
-### Usage
+## Usage
 
     <example> -> <stdout>
 
-### Examples
+## Examples
 
 The follow two examples function the same
 
@@ -27,12 +26,12 @@ The follow two examples function the same
     2
     » !pipe: example
 
-### Synonyms
+## Synonyms
 
 * `<>`
 
 
-### See Also
+## See Also
 
 * [commands/`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block

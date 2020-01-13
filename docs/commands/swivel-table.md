@@ -4,15 +4,15 @@
 
 > Rotates a table by 90 degrees
 
-### Description
+## Description
 
 `swivel-table` rotates a table by 90 degrees so the _x_ axis becomes the _y_.
 
-### Usage
+## Usage
 
     <stdin> -> swivel-table -> <stdout>
 
-### Examples
+## Examples
 
     » ps: aux -> head: -n5
     USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
@@ -61,7 +61,7 @@ format that as a CSV, which by default does have a title row (configurable via
     "TIME","0:02","0:00","0:00","0:00"
     "COMMAND","/sbin/init","[kthreadd]","[kworker/0:0H]","[mm_percpu_wq]"
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

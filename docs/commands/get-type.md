@@ -4,12 +4,12 @@
 
 > Returns the data-type of a variable or pipe
 
-### Description
+## Description
 
 `get-type` returns the _murex_ data-type of a variable or pipe without
 reading the data from it.
 
-### Usage
+## Usage
 
     get-type: \$variable -> <stdout>
     
@@ -17,7 +17,7 @@ reading the data from it.
     
     get-type: pipe -> <stdout>
 
-### Examples
+## Examples
 
 Get the data-type of a variable
 
@@ -43,7 +43,7 @@ Get the data-type of a _murex_ named pipe
     » !pipe: example
     json
 
-### See Also
+## See Also
 
 * [commands/`debug`](../commands/debug.md):
   Debugging information

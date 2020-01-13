@@ -4,7 +4,7 @@
 
 > Outputs a ranged subset of data from STDIN
 
-### Description
+## Description
 
 This will read from STDIN and output a subset of data in a defined range.
 
@@ -13,11 +13,11 @@ content of the array or it's index / row number. You can also omit either
 the start or the end of the search criteria to cover all items before or
 after the remaining search criteria.
 
-### Usage
+## Usage
 
     <stdin> -> @[start..end]flags -> <stdout>
 
-### Examples
+## Examples
 
 Range over all months after March:
 
@@ -42,7 +42,7 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
     September
     October
 
-### Flags
+## Flags
 
 * `e`
     exclude the start and end search criteria from the range
@@ -53,12 +53,12 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
 * `s`
     exact string match
 
-### Synonyms
+## Synonyms
 
 * `@[`
 
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
