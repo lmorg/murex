@@ -1,8 +1,12 @@
 package lang
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/json"
 )
 
 var (
@@ -36,5 +40,32 @@ func SetMime(dt string, mime ...string) {
 func SetFileExtensions(dt string, extension ...string) {
 	for i := range extension {
 		fileExts[extension[i]] = strings.ToLower(dt)
+	}
+}
+
+// WriteMimes takes a JSON-encoded string and writes it to the mimes map.
+// This is only intended to be used by `config.Properties.GoFunc.Write()`
+func WriteMimes(v interface{}) error {
+	switch v.(type) {
+	case string:
+		mimes = make(map[string]string)
+		return json.Unmarshal([]byte(v.(string)), &mimes)
+
+	default:
+		return fmt.Errorf("Invalid data-type. Expecting a %s encoded string", types.Json)
+	}
+}
+
+// WriteFileExtensions takes a JSON-encoded string and writes it to the
+// fileExts map.
+// This is only intended to be used by `config.Properties.GoFunc.Write()`
+func WriteFileExtensions(v interface{}) error {
+	switch v.(type) {
+	case string:
+		fileExts = make(map[string]string)
+		return json.Unmarshal([]byte(v.(string)), &fileExts)
+
+	default:
+		return fmt.Errorf("Invalid data-type. Expecting a %s encoded string", types.Json)
 	}
 }

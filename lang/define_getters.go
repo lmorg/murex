@@ -53,7 +53,19 @@ func GetMimes() map[string]string {
 	return mimes
 }
 
+// ReadMimes returns an interface{} of mimes.
+// This is only intended to be used by `config.Properties.GoFunc.Read()`
+func ReadMimes() (interface{}, error) {
+	return mimes, nil
+}
+
 // GetFileExts returns the file extension lookup table
 func GetFileExts() map[string]string {
 	return fileExts
+}
+
+// ReadFileExtensions returns an interface{} of fileExts.
+// This is only intended to be used by `config.Properties.GoFunc.Read()`
+func ReadFileExtensions() (interface{}, error) {
+	return fileExts, nil
 }

@@ -41,13 +41,6 @@ type ParsedTokens struct {
 	LastFlowToken int
 }
 
-// SafeFunctions is a list of all the functions considered safe when using tab
-// autocomplete with ExecCmdline
-var SafeFunctions = []string{
-	"open", "regexp", "match", "cast", "format", "[", "[[", "runtime",
-	"cat", "ps", "grep", "ls",
-}
-
 // Parse a single line of code and return the tokens for a selected command
 func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	var readFunc bool
@@ -225,15 +218,45 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				readFunc = false
 				pt.Parameters = append(pt.Parameters, "")
 				pt.pop = &pt.Parameters[0]
-				pt.Unsafe = isFuncUnsafe(pt.FuncName) || pt.Unsafe
+				pt.Unsafe = isCmdUnsafe(pt.FuncName) || pt.Unsafe
 				ansiReset(block[i])
 			case pt.ExpectFunc:
 				pt.Loc = i
 				syntaxHighlighted += string(block[i])
+			case i > 0 && block[i-1] == ' ':
+				pt.Loc = i
+				syntaxHighlighted += " "
+			case i > 0 && block[i-1] == ':' && len(pt.Parameters) == 1:
+				pt.Loc = i
+				syntaxHighlighted += " "
 			default:
 				pt.Loc = i
 				pt.Parameters = append(pt.Parameters, "")
 				pt.pop = &pt.Parameters[len(pt.Parameters)-1]
+				syntaxHighlighted += string(block[i])
+			}
+
+		case ':':
+			switch {
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += `:`
+				ansiReset(block[i])
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+				*pt.pop += `:`
+				syntaxHighlighted += string(block[i])
+			case !pt.ExpectFunc:
+				*pt.pop += `:`
+				syntaxHighlighted += string(block[i])
+			case readFunc:
+				pt.Loc = i
+				pt.ExpectFunc = false
+				readFunc = false
+				pt.Parameters = append(pt.Parameters, "")
+				pt.pop = &pt.Parameters[0]
+				pt.Unsafe = isCmdUnsafe(pt.FuncName) || pt.Unsafe
+				ansiReset(block[i])
+			default:
 				syntaxHighlighted += string(block[i])
 			}
 
@@ -417,30 +440,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				}
 			}
 
-		case ':':
-			switch {
-			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `:`
-				ansiReset(block[i])
-			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
-				*pt.pop += `:`
-				syntaxHighlighted += string(block[i])
-			case !pt.ExpectFunc:
-				*pt.pop += `:`
-				syntaxHighlighted += string(block[i])
-			case readFunc:
-				pt.Loc = i
-				pt.ExpectFunc = false
-				readFunc = false
-				pt.Parameters = append(pt.Parameters, "")
-				pt.pop = &pt.Parameters[0]
-				pt.Unsafe = isFuncUnsafe(pt.FuncName) || pt.Unsafe
-				ansiReset(block[i])
-			default:
-				syntaxHighlighted += string(block[i])
-			}
-
 		case '<':
 			switch {
 			case pt.Escaped:
@@ -481,14 +480,4 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	pt.VarLoc++
 	syntaxHighlighted += ansi.Reset
 	return
-}
-
-func isFuncUnsafe(f string) bool {
-	for _, sb := range SafeFunctions {
-		if f == sb {
-			return false
-		}
-	}
-
-	return true
 }

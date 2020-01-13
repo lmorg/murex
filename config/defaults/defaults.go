@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/parser"
 )
 
 // Defaults defines the default config
@@ -133,20 +134,37 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	// TODO: Add config hooks for mime types
 	c.Define("shell", "mime-types", config.Properties{
 		Description: "Supported MIME types and their corresponding Murex data types",
 		Default:     lang.GetMimes(),
 		DataType:    types.Json,
 		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadMimes,
+			Write: lang.WriteMimes,
+		},
 	})
 
-	// TODO: Add config hooks for mime types
 	c.Define("shell", "extensions", config.Properties{
 		Description: "Supported file extensions and their corresponding Murex data types",
 		Default:     lang.GetFileExts(),
 		DataType:    types.Json,
 		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadFileExtensions,
+			Write: lang.WriteFileExtensions,
+		},
+	})
+
+	c.Define("shell", "safe-commands", config.Properties{
+		Description: "Commands whitelisted for being safe to automatically execute in the commandline pipe",
+		Default:     parser.GetSafeCmds(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  parser.ReadSafeCmds,
+			Write: parser.WriteSafeCmds,
+		},
 	})
 
 	c.Define("shell", "spellcheck-enabled", config.Properties{

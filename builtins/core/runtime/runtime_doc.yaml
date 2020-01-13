@@ -5,7 +5,7 @@
   Summary: >-
     Returns runtime information on the internal state of _murex_
   Description: |-
-    `runtime` is a tool for quering the internal state of _murex_. It's output
+    `runtime` is a tool for querying the internal state of _murex_. It's output
     will be JSON dumps.
   Usage: |-
     ```
@@ -137,7 +137,9 @@
     ```
   Flags:
     --variables: >-
-      Lists all the murex variables which haven't already been garbage collected. Doesn't include environmental variables
+      Lists all the _murex_ variables which haven't already been garbage collected. Doesn't include environmental variables
+    --exports: >-
+      Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables`
     --aliases: >-
       Lists all aliases
     --config: >-
@@ -277,6 +279,8 @@
   Synonyms:
   Related:
   - set
+  - let
+  - export
   - global
   - config
   - pipe

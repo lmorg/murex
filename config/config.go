@@ -16,15 +16,22 @@ type Properties struct {
 	Options     []string
 	Global      bool
 	Dynamic     DynamicProperties
+	GoFunc      GoFuncProperties
 	FileRef     *ref.File
 }
 
-// DynamicProperties is used for dynamic values
+// DynamicProperties is used for dynamic values written in murex
 type DynamicProperties struct {
 	Read       string
 	Write      string
 	GetDynamic func() (interface{}, error) `json:"-"`
 	SetDynamic func(interface{}) error     `json:"-"`
+}
+
+// GoFuncProperties are used for dynamic values written in Go
+type GoFuncProperties struct {
+	Read  func() (interface{}, error) `json:"-"`
+	Write func(interface{}) error     `json:"-"`
 }
 
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
@@ -55,17 +62,20 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 		return fmt.Errorf("Cannot set config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
-	if conf.properties[app][key].Dynamic.SetDynamic != nil {
+	switch {
+	case conf.properties[app][key].Dynamic.SetDynamic != nil:
 		conf.mutex.Unlock()
 		return conf.properties[app][key].Dynamic.SetDynamic(value)
 
+	case conf.properties[app][key].GoFunc.Write != nil:
+		conf.mutex.Unlock()
+		return conf.properties[app][key].GoFunc.Write(value)
+
+	default:
+		conf.values[app][key] = value
+		conf.mutex.Unlock()
+		return nil
 	}
-
-	defer conf.mutex.Unlock()
-
-	conf.values[app][key] = value
-
-	return nil
 }
 
 // Default resets a config option back to its default
@@ -90,6 +100,8 @@ func (conf *Config) Default(app string, key string) error {
 func (conf *Config) Get(app, key, dataType string) (value interface{}, err error) {
 	conf.mutex.RLock()
 
+	//ptr := &conf.properties[app][key]
+
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 		conf.mutex.RUnlock()
 		return nil, fmt.Errorf("Cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
@@ -97,14 +109,24 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 
 	var v interface{}
 
-	if conf.properties[app][key].Dynamic.GetDynamic != nil {
+	switch {
+	case conf.properties[app][key].Dynamic.GetDynamic != nil:
 		v, err = conf.properties[app][key].Dynamic.GetDynamic()
 		if err != nil {
+			conf.mutex.RUnlock()
 			return
 		}
 		conf.mutex.RUnlock()
 
-	} else {
+	case conf.properties[app][key].GoFunc.Read != nil:
+		v, err = conf.properties[app][key].GoFunc.Read()
+		if err != nil {
+			conf.mutex.RUnlock()
+			return
+		}
+		conf.mutex.RUnlock()
+
+	default:
 		v = conf.values[app][key]
 		if v == nil {
 			v = conf.properties[app][key].Default
@@ -133,10 +155,13 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 		conf.values[app] = make(map[string]interface{})
 	}
 
-	conf.properties[app][key] = properties
-	if properties.Dynamic.Read == "" {
+	// don't set the value to the default if it's a dynamic property
+	if properties.Dynamic.Read == "" && properties.GoFunc.Read == nil {
 		conf.values[app][key] = properties.Default
+	} else {
+		properties.Global = true
 	}
+	conf.properties[app][key] = properties
 
 	conf.mutex.Unlock()
 }
@@ -183,17 +208,24 @@ func (conf *Config) DumpRuntime() (obj map[string]map[string]map[string]interfac
 			obj[app][key]["Value"] = conf.values[app][key]
 			obj[app][key]["FileRef"] = conf.properties[app][key].FileRef
 
-			if conf.properties[app][key].Global {
-				obj[app][key]["Global"] = conf.properties[app][key].Global
-			}
+			//if conf.properties[app][key].Global {
+			obj[app][key]["Global"] = conf.properties[app][key].Global
+			//}
 
-			if len(conf.properties[app][key].Options) != 0 {
-				obj[app][key]["Options"] = conf.properties[app][key].Options
-			}
+			//if len(conf.properties[app][key].Options) != 0 {
+			obj[app][key]["Options"] = conf.properties[app][key].Options
+			//}
 
-			if len(conf.properties[app][key].Dynamic.Read) != 0 {
-				obj[app][key]["Dynamic"] = conf.properties[app][key].Dynamic
+			//if len(conf.properties[app][key].Dynamic.Read) != 0 {
+			obj[app][key]["Dynamic"] = conf.properties[app][key].Dynamic
+			//}
+
+			//if conf.properties[app][key].GoFunc.Read != nil {
+			obj[app][key]["GoFunc"] = map[string]bool{
+				"Read":  conf.properties[app][key].GoFunc.Read != nil,
+				"Write": conf.properties[app][key].GoFunc.Write != nil,
 			}
+			//}
 
 		}
 	}
@@ -214,7 +246,13 @@ func (conf *Config) DumpConfig() (obj map[string]map[string]map[string]interface
 			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 
-			if len(conf.properties[app][key].Dynamic.Read) == 0 {
+			switch {
+			case conf.properties[app][key].GoFunc.Read != nil:
+				v, err := conf.properties[app][key].GoFunc.Read()
+				if err == nil {
+					obj[app][key]["Value"] = v
+				}
+			case len(conf.properties[app][key].Dynamic.Read) == 0:
 				obj[app][key]["Value"] = conf.values[app][key]
 			}
 
