@@ -4,7 +4,7 @@
 
 > Converts a structured file format into structured memory
 
-### Description
+## Description
 
 This is a function you would write when programming a _murex_ data-type.
 The unmarshal function takes in a byte slice and returns a Go (golang)
@@ -14,7 +14,7 @@ This unmarshaller is then registered to _murex_ inside an `init()` function
 and _murex_ builtins can use that unmarshaller via the `UnmarshalData()`
 API.
 
-### Usage
+## Usage
 
 Registering unmarshal (for writing builtin data-types)
 
@@ -30,7 +30,7 @@ Using an existing unmarshaller (eg inside a builtin command)
 v, err := lang.UnmarshalData(p *lang.Process, dataType string)
 ```
 
-### Examples
+## Examples
 
 Defining a marshaller for a murex data-type
 
@@ -70,11 +70,11 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 }
 ```
 
-### Parameters
+## Parameters
 
 1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
 
-### See Also
+## See Also
 
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory

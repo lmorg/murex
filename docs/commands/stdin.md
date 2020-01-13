@@ -4,16 +4,16 @@
 
 > Read the STDIN belonging to the parent code block
 
-### Description
+## Description
 
 This is used inside functions and other code blocks to pass that block's
 STDIN down a pipeline
 
-### Usage
+## Usage
 
     <stdin> -> <stdout>
 
-### Examples
+## Examples
 
 When writing more complex scripts, you cannot always invoke your read as the
 first command in a code block. For example a simple pipeline might be:
@@ -40,12 +40,12 @@ This could also be written as:
 
     function: example { out: "only match 2"; <stdin> -> match 2 }
 
-### Synonyms
+## Synonyms
 
 * `<stdin>`
 
 
-### See Also
+## See Also
 
 * [commands/`<>` (read pipe)](../commands/readpipe.md):
   Reads from a _murex_ named pipe

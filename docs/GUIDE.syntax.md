@@ -45,7 +45,7 @@ shells) and yet you still have the ability to quickly draft up Bash-
 style one liners in a way that many more advanced scripting languages
 normally struggle.
 
-### Processes
+## Processes
 
 Processes are called by name then parameters. The process name can be
 separated by either a colon (:) and/or a white space character (\s, \t,
@@ -56,7 +56,7 @@ not necessary unless you are calling an external executable with white
 space characters or a colon. Additionally characters can be escaped in
 the process name (eg: `o\ut: "hello world"`).
 
-### Piping
+## Piping
 
 To pass streams into processes you use pipes like you would in your standard
 shell. However _murex_ pipes are typically written as arrows, `->`, because
@@ -73,7 +73,7 @@ So while the idiomatic way to write _murex_ code would be using arrow pipes,
 there isn't any danger in using the traditional pipe character since those two
 tokens are interchangeable.
 
-#### Redirection
+### Redirection
 
 Another important difference in piping is the way redirection is handled. In
 _murex_ you define redirection as the first parameter(s). For example:
@@ -108,7 +108,7 @@ sit on the same code pipeline.
 
 (**PLEASE NOTE** that _murex_ named pipes are not file system FIFO objects)
 
-#### `null` pipe
+### `null` pipe
 
 There is a builtin `null` device for forwarding output into a black hole. This
 `null` device is analogous to `/dev/null` on POSIX systems:
@@ -121,7 +121,7 @@ There is a builtin `null` device for forwarding output into a black hole. This
 
 The `null` device doesn't need to be created.
 
-#### File writer pipe
+### File writer pipe
 
 You can also use named pipes for writing files:
 
@@ -142,7 +142,7 @@ causing unexpected behaviour. Alternatively you can use <pipe> as a function:
     out: "closing foobar..." -> <foobar>
     !pipe: foobar
 
-#### Networking pipes
+### Networking pipes
 
 There are 4 networking pipes:
 
@@ -158,7 +158,7 @@ These are used in the same way as the other named-pipes described above.
     <google>
     !pipe: google
 
-### Parameters
+## Parameters
 
 As you have probably guessed from the above examples, parameters are
 space delimited (much like with Bash) and support single and double
@@ -167,14 +167,14 @@ quotations and escaping.
 The quotes and escaping works in the same was as they do for function
 names:
 
-#### No quotes
+### No quotes
 
 Parameters are space delimited.
 
 `out: a b c 1 2 3;` translates to 6 parameters: "a", "b", "c", "1", "2",
 "3".
 
-#### Single quotes and double quotes
+### Single quotes and double quotes
 
 This auto-escapes all characters expect the escape character (\\) and
 variables (eg `$variableName`)

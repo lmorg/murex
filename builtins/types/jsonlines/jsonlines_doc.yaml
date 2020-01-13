@@ -31,7 +31,7 @@
     Marshal(): Supported
     Unmarshal(): Supported
   Detail: |-
-    #### Concatenated JSON
+    ### Concatenated JSON
 
     Technically the `jsonl` Marshal() method supports Concatenated JSON, as
     described on [Wikipedia]():
@@ -73,7 +73,7 @@
 
     This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
 
-    #### More information
+    ### More information
 
     This format is sometimes also referred to as LDJSON and NDJSON, as described
     on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).

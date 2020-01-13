@@ -192,7 +192,7 @@
     --inspect-variables: >-
       List all variables - including those outside your normal scope
   Detail: |-
-    #### Usage in scripts
+    ### Usage in scripts
 
     `runtime` should not be used in scripts because the output of `runtime` may
     be subject to change as and when the internal mechanics of _murex_ change.
@@ -251,7 +251,7 @@
     ]
     ```
     
-    #### File reference
+    ### File reference
 
     Some of the JSON dumps produced from `runtime` will include a map called
     `FileRef`. This is a trace of the source file that defined it. It is used
@@ -259,14 +259,14 @@
     positions) however it is also useful for manually debugging user-defined
     properties such as which module or script defined an `autocomplete` schema.
     
-    #### Debug mode
+    ### Debug mode
 
     When `debug` is enabled garbage collection is disabled for variables and
     FIDs. This means the output of `runtime --variables` and `runtime --fids`
     will contain more than just the currently defined variables and running
     functions.
 
-    #### Inspection mode
+    ### Inspection mode
 
     Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
 

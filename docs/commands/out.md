@@ -4,15 +4,15 @@
 
 > `echo` a string to the STDOUT with a trailing new line character
 
-### Description
+## Description
 
 Write parameters to STDOUT with a trailing new line character.
 
-### Usage
+## Usage
 
     out: string to write -> <stdout>
 
-### Examples
+## Examples
 
     » out Hello, World!
     Hello, World!
@@ -22,22 +22,22 @@ For compatibility with other shells, `echo` is also supported:
     » echo Hello, World!
     Hello, World!
 
-### Detail
+## Detail
 
 `out` / `echo` output as `string` data-type. This can be changed by casting
 (`cast`) or using the `tout` function.
 
-#### ANSI Constants
+### ANSI Constants
 
 `out` supports ANSI constants.
 
-### Synonyms
+## Synonyms
 
 * `out`
 * `echo`
 
 
-### See Also
+## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
@@ -57,5 +57,7 @@ For compatibility with other shells, `echo` is also supported:
   Print a string to the STDOUT and set it's data-type
 * [commands/`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable
+* [userguide/ansi](../userguide/ansi.md):
+  
 * [commands/sprintf](../commands/sprintf.md):
   

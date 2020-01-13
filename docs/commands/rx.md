@@ -4,17 +4,17 @@
 
 > Regexp pattern matching for file system objects (eg '.*\.txt')
 
-### Description
+## Description
 
 Returns a list of files and directories that match a regexp pattern.
 
 Output is a JSON list.
 
-### Usage
+## Usage
 
     rx: pattern -> <stdout>
 
-### Examples
+## Examples
 
     # inline regex file matching
     cat: @{ rx: '.*\.txt' }
@@ -32,14 +32,14 @@ Output is a JSON list.
         # files do not exist
     }
 
-### Detail
+## Detail
 
 Unlike globbing (`g`) which can traverse directories (eg `g: /path/*`), `rx` is
 only designed to match file system objects in the current working directory.
 
 `rx` uses Go (lang)'s standard regexp engine.
 
-### See Also
+## See Also
 
 * [commands/`f`](../commands/f.md):
   Lists objects (eg files) in the current working directory

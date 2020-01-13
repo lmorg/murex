@@ -4,7 +4,7 @@
 
 > Whole number (primitive)
 
-### Description
+## Description
 
 An integer is a whole number (eg 1, 2, 3, 4) rather than one with a decimal
 point (such as 1.1).
@@ -21,14 +21,14 @@ AMD64 or other 64bit built of _murex_ would see the range from
 > Unless you specifically know you only want whole numbers, it is recommended
 > that you use the default numeric data-type: `num`.
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported
 * `Unmarshal()`
     Supported
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

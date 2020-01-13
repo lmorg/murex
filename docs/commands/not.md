@@ -4,15 +4,15 @@
 
 > Reads the STDIN and exit number from previous process and not's it's condition
 
-### Description
+## Description
 
 Reads the STDIN and exit number from previous process and not's it's condition.
 
-### Usage
+## Usage
 
     <stdin> -> ! -> <stdout>
 
-### Examples
+## Examples
 
     » echo "Hello, world!" -> !
     false
@@ -20,12 +20,12 @@ Reads the STDIN and exit number from previous process and not's it's condition.
     » false -> !
     true
 
-### Synonyms
+## Synonyms
 
 * `!`
 
 
-### See Also
+## See Also
 
 * [commands/`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met

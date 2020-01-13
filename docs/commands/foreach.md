@@ -4,19 +4,19 @@
 
 > Iterate through an array
 
-### Description
+## Description
 
 `foreach` reads an array or map from STDIN and iterates through it, running
 a code block for each iteration with the value of the iterated element passed
 to it.
 
-### Usage
+## Usage
 
     <stdin> -> foreach variable { code-block } -> <stdout>
     
     <stdin> -> foreach { -> code-block } -> <stdout>
 
-### Examples
+## Examples
 
 There are two basic ways you can write a `foreach` loop depending on how you
 want the iterated element passed to the code block.
@@ -43,9 +43,9 @@ The second option is for the code block's STDIN to read the element:
 > element on the first command then it is recommended you use the first
 > option (passing a variable) instead.
 
-### Detail
+## Detail
 
-#### Preserving the data-type
+### Preserving the data-type
 
 `foreach` will preserve the data-type read from STDIN in all instances where
 data is being passed along the pipeline:
@@ -83,7 +83,7 @@ This can be resolved via `cast`:
 The output is the same but now it's defined as `yaml` so any further pipelined
 processes will now automatically use YAML marshallers when reading that data.
 
-#### Tips when writing JSON inside for loops
+### Tips when writing JSON inside for loops
 
 One of the drawbacks (or maybe advantages, depending on your perspective) of
 JSON is that parsers generally expect a complete file for processing in that
@@ -187,7 +187,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
         },
     ...
 
-### See Also
+## See Also
 
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list

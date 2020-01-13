@@ -4,20 +4,20 @@
 
 > Output the exit number of the previous process
 
-### Description
+## Description
 
 Output the exit number of the previous process.
 
-### Usage
+## Usage
 
     exitnum -> <stdout>
 
-### Examples
+## Examples
 
     » exitnum
     0
 
-### See Also
+## See Also
 
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

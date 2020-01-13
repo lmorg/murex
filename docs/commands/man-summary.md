@@ -4,21 +4,21 @@
 
 > Outputs a man page summary of a command
 
-### Description
+## Description
 
 `man-summary` reads the man pages for a given command and outputs it's
 summary (if one exists).
 
-### Usage
+## Usage
 
     man-summary command -> <stdout>
 
-### Examples
+## Examples
 
     » man-summary: man 
     man - an interface to the on-line reference manuals
 
-### See Also
+## See Also
 
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings

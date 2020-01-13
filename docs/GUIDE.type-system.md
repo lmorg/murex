@@ -35,7 +35,7 @@ generally following a strictly typed design. Examples of this are:
 
         » echo '{ "key": "value" }' -> cast json 
         
-### Definitions
+## Definitions
 
 For clarity, it is worth explaining a couple of terms:
 
@@ -54,7 +54,7 @@ to function. These will be `int`, `float` / `number`, `bool`, `string`,
 `generic`, `json`, and `null`. All other data-types are optional albeit
 still recommended (unless described otherwise).
 
-### Feature Sets
+## Feature Sets
 
 Since not all data formats are equal (for example the TOML file format
 doesn't support naked arrays where as JSON does), you may find some
@@ -62,7 +62,7 @@ features missing in some data-types which are present in others. If in
 doubt then refer to the manual here or check the API manual for more
 details about specific hooks.
 
-### Pages
+## Pages
 
 * [`commonlog` ](types/commonlog.md):
   Apache httpd "common" log format

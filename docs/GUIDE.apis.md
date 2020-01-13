@@ -9,7 +9,7 @@ their own builtins. However some APIs are still worth being aware of even
 when just writing _murex_ scripts because they provide a background into
 the internal logic of _murex_'s runtime.
 
-### Pages
+## Pages
 
 * [`Marshal()` ](apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

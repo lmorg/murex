@@ -1,4 +1,4 @@
-#### Scoping
+### Scoping
 
 Variables are only scoped inside the code block they're defined in (or any
 children of that code block). For example `$foo` will return an empty string in
@@ -46,7 +46,7 @@ however their real purpose is passing data to external processes. For example
 foo=bar
 ```
 
-#### Function Names
+### Function Names
 
 As a security feature function names cannot include variables. This is done to
 reduce the risk of code executing by mistake due to executables being hidden
@@ -73,7 +73,7 @@ This only works for external executables. There is currently no way to call
 aliases, functions nor builtins from a variable and even the above `exec` trick
 is considered bad form because it reduces the readability of your shell scripts.
 
-#### Usage Inside Quotation Marks
+### Usage Inside Quotation Marks
 
 Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
 inside a double quotes but will escape the variable name when used inside single

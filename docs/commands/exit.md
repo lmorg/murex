@@ -4,23 +4,23 @@
 
 > Exit murex
 
-### Description
+## Description
 
 Exit's _murex_ with either a exit number of 0 (by default if no parameters
 supplied) or a custom value specified by the first parameter.
 
-### Usage
+## Usage
 
     exit
     exit number
 
-### Examples
+## Examples
 
     » exit
     
     » exit 42
 
-### See Also
+## See Also
 
 * [commands/`die`](../commands/die.md):
   Terminate murex with an exit number of 1

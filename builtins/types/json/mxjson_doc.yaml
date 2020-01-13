@@ -16,14 +16,14 @@
     by a small subset of _murex_ builtins (eg `config` and `autocomplete`) where
     config might embed _murex_ code blocks.
 
-    ### mxjson Features The Following Enhancements
+    **mxjson features the following enhancements:**
 
-    #### Line Comments
+    ### Line Comments
 
     Line comments are prefixed with a 'hash', `#`, just like with regular _murex_
     code.
 
-    #### Block Quotation
+    ### Block Quotation
 
     Code blocks are quoted with `(`, `)`. For example, below "ExampleFunction"
     uses the `({ block quote })` method.

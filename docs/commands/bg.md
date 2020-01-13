@@ -4,13 +4,13 @@
 
 > Run processes in the background
 
-### Description
+## Description
 
 `bg` supports two modes: it can either be run as a function block which will
 execute in the background, or it can take stopped processes and daemonize
 them.
 
-### Usage
+## Usage
 
 Any operating system:
 
@@ -26,7 +26,7 @@ POSIX only:
     
     bg fid
 
-### Examples
+## Examples
 
 As a function:
 
@@ -36,7 +36,7 @@ As a method:
 
     » ({ sleep 5; out "Morning" }) -> bg
 
-### Detail
+## Detail
 
 The examples above will work on any system (Windows included). However the
 `ctrl+z` usage of backgrounding a stopped process (like Bash) is only
@@ -44,7 +44,7 @@ supported on POSIX systems due to the limitation of required signals on
 non-platforms. This means the usage described in the examples is cross
 cross platform while `bg int` currently does not work on Windows nor Plan 9.
 
-### See Also
+## See Also
 
 * [commands/`fg`](../commands/fg.md):
   Sends a background process into the foreground

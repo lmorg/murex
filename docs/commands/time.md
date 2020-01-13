@@ -4,18 +4,18 @@
 
 > Returns the execution run time of a command or block
 
-### Description
+## Description
 
 `time` is an optional builtin which runs a command or block of code and
 returns it's running time.
 
-### Usage
+## Usage
 
     time: command parameters -> <stderr>
     
     time: { code-block } -> <stderr>
 
-### Examples
+## Examples
 
     » time: sleep 5
     5.000151513
@@ -25,13 +25,13 @@ returns it's running time.
     Waking up
     5.000240977
 
-### Detail
+## Detail
 
 `time`'s output is written to STDERR. However any output and errors written
 by the commands executed by time will also be written to `time`'s STDOUT
 and STDERR as usual.
 
-### See Also
+## See Also
 
 * [commands/`exec`](../commands/exec.md):
   Runs an executable

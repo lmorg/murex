@@ -4,23 +4,23 @@
 
 > Compress or decompress a gzip file
 
-### Description
+## Description
 
 An optional builtin for compressing or decompressing a gzip stream from STDIN.
 
-### Usage
+## Usage
 
     <stdin> -> gz -> <stdout>
     
     <stdin> -> !gz -> <stdout>
 
-### Synonyms
+## Synonyms
 
 * `gz`
 * `!gz`
 
 
-### See Also
+## See Also
 
 * [commands/`!bz2` (optional)](../commands/bz2.md):
   Decompress a bz2 file

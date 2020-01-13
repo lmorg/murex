@@ -4,17 +4,17 @@
 
 > Create an alias for a command
 
-### Description
+## Description
 
 `alias` defines an alias for global usage
 
-### Usage
+## Usage
 
     alias: alias=command parameter parameter
     
     !alias: command
 
-### Examples
+## Examples
 
 Because aliases are parsed into an array of parameters, you cannot put the
 entire alias within quotes. For example:
@@ -39,15 +39,15 @@ otherwise be. However the design of this is to keep `alias` focused on it's
 core objective. For any more advanced requirements you can use a `function`
 instead.
 
-### Detail
+## Detail
 
-#### Allowed characters
+### Allowed characters
 
 Alias names can only include alpha-numeric characters, hyphen and underscore.
 The following regex is used to validate the `alias`'s parameters:
 `^([-_a-zA-Z0-9]+)=(.*?)$`
 
-#### Undefining an alias
+### Undefining an alias
 
 Like all other definable states in _murex_, you can delete an alias with the
 bang prefix:
@@ -60,7 +60,7 @@ bang prefix:
     » hw
     exec: "hw": executable file not found in $PATH
     
-#### Order of preference
+### Order of preference
 
 There is an order of preference for which commands are looked up:
 1. Aliases - defined via `alias`. All aliases are global
@@ -73,13 +73,13 @@ There is an order of preference for which commands are looked up:
 6. murex builtins
 7. external executable files
 
-### Synonyms
+## Synonyms
 
 * `alias`
 * `!alias`
 
 
-### See Also
+## See Also
 
 * [commands/`export`](../commands/export.md):
   Define a local variable and set it's value

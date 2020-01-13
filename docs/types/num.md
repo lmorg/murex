@@ -4,7 +4,7 @@
 
 > Floating point number (primitive)
 
-### Description
+## Description
 
 Any number. To be precise, a full set of all IEEE-754 64-bit floating-point
 numbers.
@@ -12,14 +12,14 @@ numbers.
 > Unless you specifically know you only want whole numbers, it is recommended
 > that you use this as your default numeric data-type as opposed to `int`.
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported
 * `Unmashal()`
     Supported
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

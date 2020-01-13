@@ -4,22 +4,22 @@
 
 > Pipe telemetry. Writes data-types and bytes written
 
-### Description
+## Description
 
 Pipe telemetry, `pt`, writes statistics about the pipeline. The telemetry is written
 directly to the OS's STDERR so to preserved the pipeline.
 
-### Usage
+## Usage
 
     <stdin> -> pt -> <stdout>
 
-### Examples
+## Examples
 
     curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
     (though _murex_ does also have it's own HTTP clients, `get`, `post` and
 `getfile`)
 
-### See Also
+## See Also
 
 * [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists

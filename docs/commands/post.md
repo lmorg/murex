@@ -4,17 +4,17 @@
 
 > HTTP POST request with a JSON-parsable return
 
-### Description
+## Description
 
 Fetches a page from a URL via HTTP/S POST request.
 
-### Usage
+## Usage
 
     post url -> <stdout>
     
     <stdin> -> post url content-type -> <stdout>
 
-### Examples
+## Examples
 
     » post google.com -> [ Status ] 
     {
@@ -22,9 +22,9 @@ Fetches a page from a URL via HTTP/S POST request.
         "Message": "Method Not Allowed"
     }
 
-### Detail
+## Detail
 
-#### JSON return
+### JSON return
 
 `POST` returns a JSON object with the following fields:
 
@@ -44,13 +44,13 @@ Fetches a page from a URL via HTTP/S POST request.
 The concept behind this is it provides and easier path for scripting eg pulling
 specific fields via the index, `[`, function.
 
-#### `post` as a method
+### `post` as a method
 
 Running `post` as a method will transmit the contents of STDIN as part of the
 body of the HTTP POST request. When run as a method you have to include a second
 parameter specifying the Content-Type MIME.
 
-#### Configurable options
+### Configurable options
 
 `post` has a number of behavioral options which can be configured via _murex_'s
 standard `config` tool:
@@ -65,7 +65,7 @@ To change a default, for example the user agent string:
 This enables sane, repeatable and readable defaults. Read the documents on
 `config` for more details about it's usage and the rational behind the command.
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

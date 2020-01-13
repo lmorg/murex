@@ -4,20 +4,20 @@
 
 > Outputs the length of an array
 
-### Description
+## Description
 
 This will read an array from STDIN and outputs the length for that array
 
-### Usage
+## Usage
 
     <STDIN> -> len -> <stdout>
 
-### Examples
+## Examples
 
     » tout: json (["a", "b", "c"]) -> len 
     3
 
-### Detail
+## Detail
 
 Please note that this returns the length of the _array_ rather than string.
 For example `out "foobar" -> len` would return `1` because an array in the
@@ -42,7 +42,7 @@ instead. But be mindful that `wc` will also count new line characters
     6
     # (printf does not print a trailing new line)
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

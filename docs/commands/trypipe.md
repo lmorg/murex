@@ -4,7 +4,7 @@
 
 > Checks state of each function in a pipeline and exits block on error
 
-### Description
+## Description
 
 `trypipe` checks the state of each function and exits the block if any of them
 fail. Where `trypipe` differs from regular `try` blocks is `trypipe` will check
@@ -12,13 +12,13 @@ every process along the pipeline as well as the terminating function (which
 `try` only validates against). The downside to this is that piped functions can
 no longer run in parallel.
 
-### Usage
+## Usage
 
     trypipe { code-block } -> <stdout>
     
     <stdin> -> trypipe { -> code-block } -> <stdout>
 
-### Examples
+## Examples
 
     trypipe {
         out: "Hello, World!" -> grep: "non-existent string" -> cat
@@ -31,7 +31,7 @@ Formated pager (`less`) where the pager isn't called if the formatter (`pretty`)
         -> trypipe { -> pretty -> less }
     }
 
-### Detail
+## Detail
 
 A failure is determined by:
 
@@ -41,7 +41,7 @@ A failure is determined by:
 You can see which run mode your functions are executing under via the `fid-list`
 command.
 
-### See Also
+## See Also
 
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 

@@ -4,20 +4,20 @@
 
 > Output the number of CPU cores available on your host
 
-### Description
+## Description
 
 Output the number of CPU cores available on your host.
 
-### Usage
+## Usage
 
     cpucount -> <stdout>
 
-### Examples
+## Examples
 
     » cpucount
     4
 
-### See Also
+## See Also
 
 * [commands/`cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture

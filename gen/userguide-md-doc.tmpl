@@ -6,7 +6,7 @@
 
 {{ md .Description }}{{ if .Related }}
 
-### See Also
+## See Also
 
 {{ range $i,$a := .Related }}{{ if gt $i 0 }}
 {{ end }}* [{{ .CategoryID }}/{{ md .Title }}](../{{ md .Hierarchy }}.md):

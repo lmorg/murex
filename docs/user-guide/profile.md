@@ -43,7 +43,7 @@ is the standard place to put all user and/or machine specific config in.
 al, profiles will not be read from `/etc/profile.d` nor similar. Modules
 should be used in its place.
 
-### See Also
+## See Also
 
 * [commands/`murex-package`](../commands/murex-package.md):
   _murex_'s package manager

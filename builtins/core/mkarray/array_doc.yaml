@@ -44,7 +44,7 @@
     ```
   Flags:
   Detail: |-
-    #### Alternative Number Bases
+    ### Alternative Number Bases
 
     You can also specify an alternative number base by using an `x` or `.`
     in the end range:
@@ -61,7 +61,7 @@
     Also note that the additional zeros denotes padding (ie the results will
     start at `00`, `01`, etc rather than `0`, `1`...)
 
-    #### Character arrays
+    ### Character arrays
 
     You can select a range of letters (a to z):
 
@@ -74,7 +74,7 @@
 
     ...or any characters within that range.
 
-    #### Special ranges
+    ### Special ranges
 
     Unlike bash, _murex_ also supports some special ranges:
 
@@ -146,7 +146,7 @@
     * `tail -r` (BSD / OS X)
     * `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
-    #### Advanced Array Syntax
+    ### Advanced Array Syntax
 
     The syntax for `a` is a comma separated list of parameters with expansions
     stored in square brackets. You can have an expansion embedded inside a
@@ -207,7 +207,7 @@
     `a` will cycle through each iteration of the last expansion, moving itself
     backwards through the string; behaving like an normal counter.
 
-    #### Creating JSON arrays with `ja`
+    ### Creating JSON arrays with `ja`
 
     As you can see from the previous examples, `a` returns the array as a
     list of strings. This is so you can stream excessively long arrays, for

@@ -4,17 +4,17 @@
 
 > Creates a map from two data sources
 
-### Description
+## Description
 
 This takes two parameters - which are code blocks - and combines them to output a key/value map in JSON.
 
 The first block is the key and the second is the value.
 
-### Usage
+## Usage
 
     map { code-block } { code-block } -> <stdout>
 
-### Examples
+## Examples
 
     » map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
     {
@@ -23,7 +23,7 @@ The first block is the key and the second is the value.
         "key 3": "value 3"
     }
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

@@ -4,7 +4,7 @@
 
 > Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 
-### Description
+## Description
 
 `alter` a value within a structured data-type.
 
@@ -13,11 +13,11 @@ The path separater is defined by the first character in the path. For example
 however you should remember to quote or escape any special characters (tokens)
 used by the shell (such as pipe, `|`, and hash, `#`).
 
-### Usage
+## Usage
 
     <stdin> -> alter: /path value -> <stdout>
 
-### Examples
+## Examples
 
     » config: -> [ shell ] -> [ prompt ] -> alter: /Value moo
     {
@@ -66,9 +66,9 @@ Numbers will also follow the same transparent conversion treatment:
 > If you require modifying a structure inside _murex_ config (such as http
 > headers) then you can use `config alter`. Read the config docs for reference.
 
-### Detail
+## Detail
 
-#### Path
+### Path
 
 The path parameter can take any character as node separators. The separator is
 assigned via the first character in the path. For example
@@ -81,7 +81,7 @@ Just make sure you quote or escape any characters used as shell tokens. eg
     config -> alter: '#shell#prompt#Value' moo
     config -> alter: ' shell prompt Value' moo
     
-#### Supported data-types
+### Supported data-types
 
 You can check what data-types are available via the `runtime` command:
 
@@ -89,7 +89,7 @@ You can check what data-types are available via the `runtime` command:
     
 Marshallers are enabled at compile time from the `builtins/data-types` directory.
 
-### See Also
+## See Also
 
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

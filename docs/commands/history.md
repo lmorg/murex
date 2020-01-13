@@ -4,15 +4,15 @@
 
 > Outputs murex's command history
 
-### Description
+## Description
 
 Outputs _mutex_'s command history.
 
-### Usage
+## Usage
 
     history -> <stdout>
 
-### Examples
+## Examples
 
     » history
     ...
@@ -33,11 +33,11 @@ Outputs _mutex_'s command history.
     },
     ...
 
-### Detail
+## Detail
 
 The history file is typically located on disk in a file called `~/.murex.history`.
 
-### See Also
+## See Also
 
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings

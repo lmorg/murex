@@ -45,7 +45,7 @@
     > option (passing a variable) instead.
   Flags:
   Detail: |-
-    #### Preserving the data-type
+    ### Preserving the data-type
 
     `foreach` will preserve the data-type read from STDIN in all instances where
     data is being passed along the pipeline:

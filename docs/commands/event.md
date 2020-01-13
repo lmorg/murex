@@ -4,17 +4,17 @@
 
 > Event driven programming for shell scripts
 
-### Description
+## Description
 
 Create or destroy an event interrupt
 
-### Usage
+## Usage
 
     event: event-type name=interrupt { code block }
     
     !event: event-type name
 
-### Examples
+## Examples
 
 Create an event:
 
@@ -27,7 +27,7 @@ Destroy an event:
 
     !event onSecondsElapsed autoquit
 
-### Detail
+## Detail
 
 The `interrupt` field in the CLI supports ANSI constants. eg
 
@@ -42,13 +42,13 @@ To list compiled event types:
     onKeyPress
     onSecondsElapsed
 
-### Synonyms
+## Synonyms
 
 * `event`
 * `!event`
 
 
-### See Also
+## See Also
 
 * [commands/`function`](../commands/function.md):
   Define a function block

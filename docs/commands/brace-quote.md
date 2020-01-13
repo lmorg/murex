@@ -4,15 +4,15 @@
 
 > Write a string to the STDOUT without new line
 
-### Description
+## Description
 
 Write parameters to STDOUT (does not include a new line)
 
-### Usage
+## Usage
 
     (string to write) -> <stdout>
 
-### Examples
+## Examples
 
     » (Hello, World!)
     Hello, World!
@@ -28,23 +28,23 @@ Write parameters to STDOUT (does not include a new line)
     » {RED}Hello, World!{RESET}
     Hello, World!
 
-### Detail
+## Detail
 
 The `(` function performs exactly like the `(` token for quoting so you do not
 need to escape other tokens (eg single / double quotes, `'`/`"`, nor curly
 braces, `{}`). However the braces are nestable so you will need to escape those
 characters if you don't want them nested.
 
-#### ANSI Constants
+### ANSI Constants
 
 `(` supports ANSI constants.
 
-### Synonyms
+## Synonyms
 
 * `(`
 
 
-### See Also
+## See Also
 
 * [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
@@ -60,5 +60,7 @@ characters if you don't want them nested.
   Pipe telemetry. Writes data-types and bytes written
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
+* [userguide/ansi](../userguide/ansi.md):
+  
 * [commands/sprintf](../commands/sprintf.md):
   

@@ -4,19 +4,19 @@
 
 > Escapes an array so output is valid shell code
 
-### Description
+## Description
 
 `esccli` takes an array and escapes any characters that might cause problems
 when pasted back into the terminal. Typically you'd want to use this against
 command parameters.
 
-### Usage
+## Usage
 
     <stdin> -> esccli -> <stdout>
     
     esccli @array -> <stdout>
 
-### Examples
+## Examples
 
 As a method
 
@@ -37,7 +37,7 @@ As a function
     » esccli: @fb
     out foo\$b\@r
 
-### See Also
+## See Also
 
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table

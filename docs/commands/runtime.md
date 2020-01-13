@@ -4,16 +4,16 @@
 
 > Returns runtime information on the internal state of _murex_
 
-### Description
+## Description
 
 `runtime` is a tool for querying the internal state of _murex_. It's output
 will be JSON dumps.
 
-### Usage
+## Usage
 
     runtime: flags -> <stdout>
 
-### Examples
+## Examples
 
 List all the builtin data-types that support WriteArray()
 
@@ -131,7 +131,7 @@ flag names. eg
         "test": []
     }
 
-### Flags
+## Flags
 
 * `--aliases`
     Lists all aliases
@@ -188,9 +188,9 @@ flag names. eg
 * `--writearray`
     Lists all builtin data-types which support WriteArray()
 
-### Detail
+## Detail
 
-#### Usage in scripts
+### Usage in scripts
 
 `runtime` should not be used in scripts because the output of `runtime` may
 be subject to change as and when the internal mechanics of _murex_ change.
@@ -247,7 +247,7 @@ a script parsable version when STDOUT is not a terminal.
         }
     ]
     
-#### File reference
+### File reference
 
 Some of the JSON dumps produced from `runtime` will include a map called
 `FileRef`. This is a trace of the source file that defined it. It is used
@@ -255,14 +255,14 @@ by _murex_ to help provide meaningful errors (eg with line and character
 positions) however it is also useful for manually debugging user-defined
 properties such as which module or script defined an `autocomplete` schema.
 
-#### Debug mode
+### Debug mode
 
 When `debug` is enabled garbage collection is disabled for variables and
 FIDs. This means the output of `runtime --variables` and `runtime --fids`
 will contain more than just the currently defined variables and running
 functions.
 
-#### Inspection mode
+### Inspection mode
 
 Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
 
@@ -271,7 +271,7 @@ Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
 This is to prevent code from inspecting potentially sensitive data under
 normal operation.
 
-### See Also
+## See Also
 
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table

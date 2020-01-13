@@ -4,15 +4,15 @@
 
 > Create a 2D JSON array from multiple input sources
 
-### Description
+## Description
 
 `2darray` merges multiple input sources to create a two dimensional array in JSON
 
-### Usage
+## Usage
 
     2darray: { code-block } { code-block } -> <stdout>
 
-### Examples
+## Examples
 
     » ps: -fe -> head: -n 10 -> set: ps 
     » 2darray { $ps[UID] } { $ps[PID] } { $ps[TTY] } { $ps[TIME] }
@@ -85,11 +85,11 @@
         ]
     ]
 
-### Detail
+## Detail
 
 `2darray` can have as many or as few code blocks as you wish.
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

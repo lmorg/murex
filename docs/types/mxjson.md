@@ -4,7 +4,7 @@
 
 > Murex-flavoured JSON (primitive)
 
-### Description
+## Description
 
 mxjson is an extension to JSON designed to integrate more seamlessly when
 use as a configuration file. Thus mxjson supports comments and _murex_ code
@@ -17,14 +17,14 @@ and unmarshal mxjson files. Currently it is a format that is only supported
 by a small subset of _murex_ builtins (eg `config` and `autocomplete`) where
 config might embed _murex_ code blocks.
 
-### mxjson Features The Following Enhancements
+**mxjson features the following enhancements:**
 
-#### Line Comments
+### Line Comments
 
 Line comments are prefixed with a 'hash', `#`, just like with regular _murex_
 code.
 
-#### Block Quotation
+### Block Quotation
 
 Code blocks are quoted with `(`, `)`. For example, below "ExampleFunction"
 uses the `({ block quote })` method.
@@ -44,7 +44,7 @@ Any block quoted by this method will be converted to the following valid JSON:
         "ExampleFunction": "\n    out: \"This is an example _murex_ function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
     }
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

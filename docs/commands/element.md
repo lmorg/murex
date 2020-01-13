@@ -4,7 +4,7 @@
 
 > Outputs an element from a nested structure
 
-### Description
+## Description
 
 Outputs an element from an array, map or table. Unlike **index** (`[`),
 **element** takes a path parameter which means it can work inside nested
@@ -15,13 +15,13 @@ comes with the drawback that you can only return one element.
 
 Please note that indexes in _murex_ are counted from zero.
 
-### Usage
+## Usage
 
     <stdin> -> [[ element ]] -> <stdout>
     
     $variable[[ element ]] -> <stdout>
 
-### Examples
+## Examples
 
 Return the 2nd element in an array
 
@@ -35,14 +35,14 @@ Return the data-type and description of **config shell syntax-highlighting**
     » config -> [[ /shell/syntax-highlighting/Data-Type ]]
     bool
 
-### Detail
+## Detail
 
-#### Element counts from zero
+### Element counts from zero
 
 Indexes in _murex_ behave like any other computer array in that all arrays
 start from zero (`0`).
 
-#### Alternative path separators
+### Alternative path separators
 
 **Element** uses the first character in the path as the separator. So the
 following are all valid parameters:
@@ -85,7 +85,7 @@ However there are a few of caveats:
         # shell parser level rather than command parameter level)
         config -> [[ -shell-syntax\-highlighting-Data\-Type ]]
     
-#### Quoting parameters
+### Quoting parameters
 
 In _murex_, everything is a function. Thus even `[[` is a function name and
 the closing `]]` is actually a last parameter. This means the recommended way
@@ -100,12 +100,12 @@ path:
     
 If you did need to quote the entire 
 
-### Synonyms
+## Synonyms
 
 * `[[`
 
 
-### See Also
+## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN

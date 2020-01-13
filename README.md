@@ -1,4 +1,4 @@
-# murex
+# _murex_
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
 [![GoDoc](https://godoc.org/github.com/lmorg/murex?status.svg)](https://godoc.org/github.com/lmorg/murex)

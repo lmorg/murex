@@ -4,15 +4,15 @@
 
 > Returns a `false` value
 
-### Description
+## Description
 
 Returns a `false` value.
 
-### Usage
+## Usage
 
     false -> <stdout>
 
-### Examples
+## Examples
 
 By default, `false` also outputs the term "false":
 
@@ -23,12 +23,12 @@ However you can suppress that with the silent flag:
 
     » false -s
 
-### Flags
+## Flags
 
 * `-s`
     silent - don't output the term "false"
 
-### See Also
+## See Also
 
 * [commands/`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition

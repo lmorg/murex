@@ -39,13 +39,13 @@
     instead.
   Flags:
   Detail: |-
-    #### Allowed characters
+    ### Allowed characters
 
     Alias names can only include alpha-numeric characters, hyphen and underscore.
     The following regex is used to validate the `alias`'s parameters:
     `^([-_a-zA-Z0-9]+)=(.*?)$`
 
-    #### Undefining an alias
+    ### Undefining an alias
 
     Like all other definable states in _murex_, you can delete an alias with the
     bang prefix:
@@ -60,7 +60,7 @@
     exec: "hw": executable file not found in $PATH
     ```
 
-    #### Order of preference
+    ### Order of preference
 
     {{ include "gen/includes/order-of-preference.inc.md" }}
   Synonyms:
@@ -103,18 +103,18 @@
     ```
   Flags:
   Detail: |-
-    #### Allowed characters
+    ### Allowed characters
 
     Function names can only include any characters apart from dollar (`$`).
     This is to prevent functions from overwriting variables (see the order of
     preference below).
 
-    #### Undefining a function
+    ### Undefining a function
 
     Like all other definable states in _murex_, you can delete a function with
     the bang prefix (see the example above).
 
-    #### Order of preference
+    ### Order of preference
 
     {{ include "gen/includes/order-of-preference.inc.md" }}
   Synonyms:
@@ -177,19 +177,19 @@
     ```
   Flags:
   Detail: |-
-    #### Allowed characters
+    ### Allowed characters
 
     Private names can only include any characters apart from dollar (`$`).
     This is to prevent functions from overwriting variables (see the order of
     preference below).
 
-    #### Undefining a private
+    ### Undefining a private
 
     Because private functions are fixed to the source file that declares them,
     there isn't much point in undefining them. Thus at this point in time, it
     is not possible to do so.
 
-    #### Order of preference
+    ### Order of preference
 
     {{ include "gen/includes/order-of-preference.inc.md" }}
   Synonyms:

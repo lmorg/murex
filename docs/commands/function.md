@@ -4,17 +4,17 @@
 
 > Define a function block
 
-### Description
+## Description
 
 `function` defines a block of code as a function
 
-### Usage
+## Usage
 
     function: name { code-block }
     
     !function: command
 
-### Examples
+## Examples
 
     » function hw { out "Hello, World!" }
     » hw
@@ -24,20 +24,20 @@
     » hw
     exec: "hw": executable file not found in $PATH
 
-### Detail
+## Detail
 
-#### Allowed characters
+### Allowed characters
 
 Function names can only include any characters apart from dollar (`$`).
 This is to prevent functions from overwriting variables (see the order of
 preference below).
 
-#### Undefining a function
+### Undefining a function
 
 Like all other definable states in _murex_, you can delete a function with
 the bang prefix (see the example above).
 
-#### Order of preference
+### Order of preference
 
 There is an order of preference for which commands are looked up:
 1. Aliases - defined via `alias`. All aliases are global
@@ -50,7 +50,7 @@ There is an order of preference for which commands are looked up:
 6. murex builtins
 7. external executable files
 
-### Synonyms
+## Synonyms
 
 * `function`
 * `!function`
@@ -58,7 +58,7 @@ There is an order of preference for which commands are looked up:
 * `!func`
 
 
-### See Also
+## See Also
 
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command

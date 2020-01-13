@@ -67,12 +67,12 @@
     }
     ```
   Detail: |-
-    #### Pattern reference
+    ### Pattern reference
 
     * `*` matches any number of (including zero) characters
     * `?` matches any single character
 
-    #### Auto-globbing
+    ### Auto-globbing
 
     Any command prefixed with `@g` will be auto-globbed. For example, the two
     following commands will produce the same output:

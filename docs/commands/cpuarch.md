@@ -4,20 +4,20 @@
 
 > Output the hosts CPU architecture
 
-### Description
+## Description
 
 Output the hosts CPU architecture.
 
-### Usage
+## Usage
 
     cpuarch -> <stdout>
 
-### Examples
+## Examples
 
     » cpuarch
     amd64
 
-### See Also
+## See Also
 
 * [commands/`cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host

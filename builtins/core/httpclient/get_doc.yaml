@@ -21,7 +21,7 @@
     }
     ```
   Detail: |-
-    #### JSON return
+    ### JSON return
 
     `get` returns a JSON object with the following fields:
 
@@ -42,13 +42,13 @@
     The concept behind this is it provides and easier path for scripting eg pulling
     specific fields via the index, `[`, function.
 
-    #### `get` as a method
+    ### `get` as a method
 
     Running `get` as a method will transmit the contents of STDIN as part of the
     body of the HTTP GET request. When run as a method you have to include a second
     parameter specifying the Content-Type MIME.
 
-    #### Configurable options
+    ### Configurable options
 
     `get` has a number of behavioral options which can be configured via _murex_'s
     standard `config` tool:
@@ -103,7 +103,7 @@
     render the output to the terminal then use `open` which has hooks for smart
     terminal rendering.
 
-    #### Configurable options
+    ### Configurable options
 
     `getfile` has a number of behavioral options which can be configured via
     _murex_'s standard `config` tool:

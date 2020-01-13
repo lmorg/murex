@@ -7,11 +7,11 @@
   Description: |-
     `debug` has two modes: as a function and as a method.
 
-    #### Debug Method
+    ### Debug Method
 
     This usage will return debug information about the previous function ran.
 
-    #### Debug Function:
+    ### Debug Function:
 
     This will enable or disable debugging mode.
 

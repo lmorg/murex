@@ -4,7 +4,7 @@
 
 > Runs an executable
 
-### Description
+## Description
 
 With _murex_, like most other shells, you launch a process by calling the
 name of that executable directly. While this is suitable 99% of the time,
@@ -24,18 +24,18 @@ then you could prefix the variable with exec:
     » exec $exe
     Linux
 
-### Usage
+## Usage
 
     <stdin> -> exec
     <stdin> -> exec -> <stdout>
                exec -> <stdout>
 
-### Examples
+## Examples
 
     » exec printf "Hello, world!"
     Hello, world!
 
-### See Also
+## See Also
 
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function

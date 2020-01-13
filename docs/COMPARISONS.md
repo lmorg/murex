@@ -24,15 +24,15 @@ than a recommendation nor "flamewar" about which method is best.
 
 ## Github issue parsing
 
-Bash + jq:
+### Bash + jq
 
     curl -s https://api.github.com/repos/lmorg/murex/issues | jq -r  '.[] | [(.number|tostring), .title] | join(": ")'
 
-Elvish:
+### Elvish
 
     curl -s https://api.github.com/repos/lmorg/murex/issues | from-json | each explode | each [issue]{ echo $issue[number]: $issue[title] }
 
-Murex:
+### _Murex_
 
     open https://api.github.com/repos/lmorg/murex/issues -> foreach { -> [ number title ] -> sprintf "%2s: %s\n" }
 
@@ -40,7 +40,7 @@ Murex:
 
 Example taken from [oilshell.org/blog/2017/09/19.html](http://www.oilshell.org/blog/2017/09/19.html)
 
-Bash / Oil Shell:
+### Bash / Oil Shell
 
     # Escape portions of standard input delimited by special bytes
     escape-segments() {
@@ -68,7 +68,7 @@ Bash / Oil Shell:
       echo '</table>'
     }
 
-Murex:
+### _murex_
 
 This can be done in one line but I'll split it for readability:
 

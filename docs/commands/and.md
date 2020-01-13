@@ -4,12 +4,12 @@
 
 > Returns `true` or `false` depending on whether multiple conditions are met
 
-### Description
+## Description
 
 Returns a boolean results (`true` or `false`) depending on whether all of the
 code-blocks included as parameters are successful or not.
 
-### Usage
+## Usage
 
     and: { code-block } { code-block } -> <stdout>
     
@@ -17,13 +17,13 @@ code-blocks included as parameters are successful or not.
     
 `and` supports as many or as few code-blocks as you wish.
 
-### Examples
+## Examples
 
     if { and { = 1+1==2 } { = 2+2==4 } { = 3+3==6 } } then {
         out: The laws of mathematics still exist in this universe.
     }
 
-### Detail
+## Detail
 
 `and` does not set the exit number on failure so it is safe to use inside a `try`
 or `trypipe` block.
@@ -31,7 +31,7 @@ or `trypipe` block.
 If `and` is prefixed by a bang then it returns `true` only when all code-blocks
 are unsuccessful.
 
-#### Code-Block Testing
+### Code-Block Testing
 
 * `and` tests all code-blocks up until one of the code-blocks is unsuccessful,
   then `and` exits and returns `false`.
@@ -39,13 +39,13 @@ are unsuccessful.
 * `!and` tests all code-blocks up until one of the code-blocks is successful,
   then `!and` exits and returns `false` (ie `!and` is `not`ing every code-block).
 
-### Synonyms
+## Synonyms
 
 * `and`
 * `!and`
 
 
-### See Also
+## See Also
 
 * [commands/`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition

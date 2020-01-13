@@ -4,7 +4,7 @@
 
 > Reverse the order of an array
 
-### Description
+## Description
 
 `mtac` takes input from STDIN and reverses the order of it.
 
@@ -15,11 +15,11 @@ function as a replacement for `tac` but it also works on JSON arrays,
 s-expressions, and any other data-type supporting arrays compiled into
 _murex_. 
 
-### Usage
+## Usage
 
     <stdin> -> mtac -> <stdout>
 
-### Examples
+## Examples
 
     » ja: [Monday..Friday] -> mtac
     [
@@ -40,7 +40,7 @@ _murex_.
         "Friday"
     ]
 
-### Detail
+## Detail
 
 Please bare in mind that while _murex_ is optimised with concurrency and
 streaming in mind, it's impossible to reverse an incomplete array. Thus all
@@ -50,7 +50,7 @@ output.
 In practical terms you shouldn't notice any difference except for when
 STDIN is a long running process or non-standard stream (eg network pipe).
 
-### See Also
+## See Also
 
 * [commands/`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources

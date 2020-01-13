@@ -4,11 +4,11 @@
 
 > _murex_'s package manager
 
-### Description
+## Description
 
 _murex_ comes with it's own package manager to make managing plugins easier.
 
-### Usage
+## Usage
 
 Install a new package
 
@@ -38,7 +38,7 @@ Check status of murex packages
 
     murex-package: status -> <stdout>
 
-### Flags
+## Flags
 
 * `disable`
     Disables a previously enabled package or module
@@ -53,7 +53,7 @@ Check status of murex packages
 * `update`
     Updates all installed packages
 
-### See Also
+## See Also
 
 * [user-guide/_murex_ profile files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up

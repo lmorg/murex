@@ -4,7 +4,7 @@
 
 > JSON Lines (primitive)
 
-### Description
+## Description
 
 The following description is taken from [jsonlines.org](http://jsonlines.org/):
 
@@ -14,7 +14,7 @@ The following description is taken from [jsonlines.org](http://jsonlines.org/):
 > It's also a flexible format for passing messages between cooperating
 > processes.
 
-### Examples
+## Examples
 
 Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
 
@@ -23,9 +23,9 @@ Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/exam
     {"name": "May", "wins": []}
     {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
 
-### Detail
+## Detail
 
-#### Concatenated JSON
+### Concatenated JSON
 
 Technically the `jsonl` Marshal() method supports Concatenated JSON, as
 described on [Wikipedia]():
@@ -67,7 +67,7 @@ primary example might be when generating JSON lines from inside a 'for' loop.
 
 This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
 
-#### More information
+### More information
 
 This format is sometimes also referred to as LDJSON and NDJSON, as described
 on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
@@ -75,7 +75,7 @@ on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON)
 _murex_'s [`json` data-type document](json.md) also describes some use
 cases for JSON lines.
 
-### Default Associations
+## Default Associations
 
 * **Extension**: `jsonl`
 * **Extension**: `jsonlines`
@@ -110,7 +110,7 @@ cases for JSON lines.
 * **MIME**: `text/x-ndjson`
 
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported
@@ -127,7 +127,7 @@ cases for JSON lines.
 * `WriteArray()`
     Supported
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

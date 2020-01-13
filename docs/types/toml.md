@@ -4,7 +4,7 @@
 
 > Tom's Obvious, Minimal Language (TOML)
 
-### Description
+## Description
 
 TOML support within _murex_ is pretty mature however it is not considered a
 primitive. Which means, while it is a recommended builtin which you should
@@ -12,7 +12,7 @@ expect in most deployments of _murex_, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
-### Examples
+## Examples
 
 Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 
@@ -50,7 +50,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
       "omega"
     ]
 
-### Default Associations
+## Default Associations
 
 * **Extension**: `toml`
 * **MIME**: `application/toml`
@@ -59,7 +59,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 * **MIME**: `text/x-toml`
 
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported
@@ -72,7 +72,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 * `Unmarshal()`
     Supported
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

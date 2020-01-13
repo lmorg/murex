@@ -4,18 +4,18 @@
 
 > Regexp tools for arrays / lists of strings
 
-### Description
+## Description
 
 `regexp` provides a few tools for text matching and manipulation against an
 array or list of strings - thus `regexp` is _murex_ data-type aware.
 
-### Usage
+## Usage
 
     <stdin> -> regexp expression -> <stdout>
 
-### Examples
+## Examples
 
-#### Find elements:
+### Find elements
 
     » ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
     [
@@ -28,7 +28,7 @@ This returns only 3 days because only 3 days match the expression (where
 the days have to be 6 characters long) and then it only returns the first 3
 characters because those are inside the parenthesis.
 
-#### Match elements:
+### Match elements
 
     » ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
     [
@@ -37,7 +37,7 @@ characters because those are inside the parenthesis.
         "sunday"
     ]
     
-#### Substitute expression:
+### Substitute expression
 
     » ja: [monday..sunday] -> regexp 's/day/night/'
     [
@@ -50,7 +50,7 @@ characters because those are inside the parenthesis.
         "sunnight"
     ]
 
-### Flags
+## Flags
 
 * `f/`
     output found expressions
@@ -59,13 +59,13 @@ characters because those are inside the parenthesis.
 * `s/`
     output all elements - substituting elements that match expression
 
-### Detail
+## Detail
 
 `regexp` is data-type aware so will work against lists or arrays of whichever
 _murex_ data-type is passed to it via STDIN and return the output in the
 same data-type.
 
-### See Also
+## See Also
 
 * [commands/`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources

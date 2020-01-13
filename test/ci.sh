@@ -34,6 +34,7 @@ sed -i "s/\$DATE/`date`/;
         s/\$MUREXTESTS/$MUREXTESTS/" \
         gen/website/footer.html
 
+cp gen/website/404.md .
 for f in *.md; do
         gen/website/find-exec.sh $f
 done

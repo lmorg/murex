@@ -4,7 +4,7 @@
 
 > HashiCorp Configuration Language (HCL)
 
-### Description
+## Description
 
 The description below is taken from the HCL git repository's [README](https://github.com/hashicorp/hcl):
 
@@ -23,7 +23,7 @@ expect in most deployments of _murex_, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
-### Examples
+## Examples
 
     terraform {
       required_version = "~> 0.11.5"
@@ -53,7 +53,7 @@ external source packages for the shell to compile.
     
 See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
 
-### Default Associations
+## Default Associations
 
 * **Extension**: `hcl`
 * **Extension**: `tf`
@@ -64,7 +64,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * **MIME**: `text/x-hcl`
 
 
-### Supported Hooks
+## Supported Hooks
 
 * `Marshal()`
     Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
@@ -81,7 +81,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * `WriteArray()`
     Works with HCL arrays
 
-### See Also
+## See Also
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)

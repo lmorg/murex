@@ -4,32 +4,32 @@
 
 > null function. Similar to /dev/null
 
-### Description
+## Description
 
 `null` is a function that acts a little like the `null` data type and the
 UNIX /dev/null device.
 
-### Usage
+## Usage
 
     <stdin> -> null
 
-### Examples
+## Examples
 
     » out: "Hello, world!" -> null
 
-### Detail
+## Detail
 
 While this method does exist, a more idiomatic way to suppress STDOUT is to
 use the named pipe property rather than piping to null:
 
     » out: <null> "Hello, world!"
 
-### Synonyms
+## Synonyms
 
 * `null`
 
 
-### See Also
+## See Also
 
 * [commands/`die`](../commands/die.md):
   Terminate murex with an exit number of 1
