@@ -27,7 +27,7 @@ Set a setting
     
     <stdin> -> config set app key
     
-    config eval app key { code-block }
+    config eval app key { -> code-block }
     
 Define a new config setting
 
@@ -38,6 +38,14 @@ Reset a setting to it's default value
     !config app key
     
     config default app key
+
+### Examples
+
+Using `eval` to append to an array (in this instance, adding a function
+name to the list of "safe" commands)
+
+    » function: foobar { -> match foobar }
+    » config: eval shell safe-commands { -> append foobar }
 
 ### Detail
 
@@ -53,7 +61,9 @@ Other app names include
 * `shell`: for "global" (system wide) _murex_ settings
 * `proc`: for scoped _murex_ settings
 * `http`: for settings that are applied to any processes which use the builtin
-   HTTP user agent (eg `open`, `get`, `getfile`, `set`)
+   HTTP user agent (eg `open`, `get`, `getfile`, `put`)
+* `test`: settings for _murex_'s test frameworks
+* `index`: settings for `[` (index)
 
 #### "key"
 
@@ -169,6 +179,20 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 ### See Also
 
+* [commands/`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
+* [commands/`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
+* [commands/`append`](../commands/append.md):
+  Add data to the end of an array
+* [commands/`function`](../commands/function.md):
+  Define a function block
+* [commands/`get`](../commands/get.md):
+  Makes a standard HTTP request and returns the result as a JSON object
+* [commands/`getfile`](../commands/getfile.md):
+  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+* [commands/`match`](../commands/match.md):
+  Match an exact value in an array
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [commands/events](../commands/events.md):
@@ -176,4 +200,6 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
 * [commands/open](../commands/open.md):
+  
+* [commands/put](../commands/put.md):
   

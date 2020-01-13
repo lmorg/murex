@@ -7,6 +7,8 @@ func init() {
 		"!bz2":                  "bz2_commands_docgen.go",
 		"(":                     "brace-quote_commands_docgen.go",
 		"2darray":               "2darray_commands_docgen.go",
+		"<>":                    "readpipe_commands_docgen.go",
+		"<stdin>":               "stdin_commands_docgen.go",
 		"=":                     "equ_commands_docgen.go",
 		">>":                    "greater-than-greater-than_commands_docgen.go",
 		">":                     "greater-than_commands_docgen.go",

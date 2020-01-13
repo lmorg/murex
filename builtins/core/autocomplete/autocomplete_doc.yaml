@@ -102,6 +102,67 @@
     suggestion - depending on which suggestion "popup" you define (see
     **ListView**).
 
+    #### "ExecCmdline": boolean (false)
+
+    Sometimes you'd want your autocomplete suggestions to aware of the output
+    returned from the commands that preceeded it. For example the suggestions
+    for `[` (index) will depend entirely on what data is piped into it.
+
+    **ExecCmdline** tells _murex_ to run the commandline up until the command
+    which your cursor is editing and pipe that output to the STDIN of that
+    commands **Dynamic** or **DynamicDesc** code block.
+
+    > This is a dangerous feature to enable so **ExecCmdline is only honoured
+    > if the commandline is considered "safe". **Dynamic** / **DynamicDesc**
+    > will still be executed however if the commandline is "unsafe" then your
+    > dynamic autocompletion blocks will have no STDIN.
+
+    Because this is a dangerous feature, your partial commandline will only
+    execute if the following conditions are met:
+
+    * the commandline must be one pipeline (eg `;` tokens are not allowed)
+    * the commandline must not have any new line characters
+    * there must not be any redirection, including named pipes
+      (eg `cmd <namedpipe>`) and the STDOUT/STDERR switch token (`?`)
+    * the commandline doesn't inline any variables (`$strings`, `@arrays`) or
+      functions (`${subshell}`, `$[index]`)
+    * lastly all commands are whitelisted in "safe-commands"
+      (`config get shell safe-commands`)
+
+    If these criteria are met, the commandline is considered "safe"; if any of
+    those conditions fail then the commandline is considered "unsafe".
+
+    _murex_ will come with a number of sane commands already included in its
+    `safe-commands` whitelist however you can add or remove them using `config`
+
+    ```
+    » function: foobar { -> match foobar }
+    » config: eval shell safe-commands { -> append foobar }
+    ```
+
+    Remember that **ExecCmdline** is designed to be included with either
+    **Dynamic** or **DynamicDesc** and those code blocks would need to read
+    from STDIN:
+
+    ```
+    autocomplete set "[" { [{
+        "AnyValue": true,
+        "AllowMultiple": true,
+        "ExecCmdline": true,
+        "Dynamic": ({
+            switch ${ get-type: stdin } {
+                case * {
+                    <stdin> -> [ 0: ] -> format json -> [ 0 ]
+                }
+                
+                catch {
+                    <stdin> -> formap k v { out $k } -> cast str -> append "]"
+                }
+            }
+        })
+    }] }
+    ```
+
     #### "FlagValues": map of arrays (null)
 
     This is a map of the flags with the values being the same array of directive
@@ -187,4 +248,9 @@
   - alias
   - summary
   - types/mxjson
+  - index
+  - get-type
+  - switch
+  - stdin
+
   

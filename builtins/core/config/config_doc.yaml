@@ -30,7 +30,7 @@
 
     <stdin> -> config set app key
 
-    config eval app key { code-block }
+    config eval app key { -> code-block }
     ```
 
     Define a new config setting
@@ -47,6 +47,13 @@
     config default app key
     ```
   Examples: |-
+    Using `eval` to append to an array (in this instance, adding a function
+    name to the list of "safe" commands)
+    
+    ```
+    » function: foobar { -> match foobar }
+    » config: eval shell safe-commands { -> append foobar }
+    ```
   Flags:
   Detail: |-
     With regards to `config`, the following terms are applied:
@@ -61,7 +68,9 @@
     * `shell`: for "global" (system wide) _murex_ settings
     * `proc`: for scoped _murex_ settings
     * `http`: for settings that are applied to any processes which use the builtin
-       HTTP user agent (eg `open`, `get`, `getfile`, `set`)
+       HTTP user agent (eg `open`, `get`, `getfile`, `put`)
+    * `test`: settings for _murex_'s test frameworks
+    * `index`: settings for `[` (index)
 
     #### "key"
 
@@ -187,3 +196,12 @@
   - open
   - events
   - types/mxjson
+  - append
+  - function
+  - match
+  - get
+  - put
+  - getfile
+  - index
+  - element
+

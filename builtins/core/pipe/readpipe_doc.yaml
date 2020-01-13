@@ -1,0 +1,93 @@
+- DocumentID: readpipe
+  Title: >+
+    `<>` (read pipe)
+  CategoryID: commands
+  Summary: >-
+    Reads from a _murex_ named pipe
+  Description: |-
+    Sometimes you will need to start a commandline with a _murex_ named pipe:
+
+    ```
+    » <readpipe> -> match: foobar
+    ```
+
+    > See the documentation on `pipe` (./pipe.md) for more details about _murex_
+    > named pipes.
+  Usage: |-
+    ```
+    <example> -> <stdout>
+    ```
+  Examples: |-
+    The follow two examples function the same
+    
+    ```
+    » pipe: example
+    » bg { <example> -> match: 2 }
+    » a: <example> [1..3]
+    2
+    » !pipe: example
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  - "<>"
+  Related:
+  - pipe
+  - stdin
+
+
+- DocumentID: stdin
+  Title: >+
+    `<stdin>` 
+  CategoryID: commands
+  Summary: >-
+    Read the STDIN belonging to the parent code block
+  Description: |-
+    This is used inside functions and other code blocks to pass that block's
+    STDIN down a pipeline
+  Usage: |-
+    ```
+    <stdin> -> <stdout>
+    ```
+  Examples: |-
+    When writing more complex scripts, you cannot always invoke your read as the
+    first command in a code block. For example a simple pipeline might be:
+
+    ```
+    » function: example { -> match: 2 }
+    ```
+
+    But this only works if `->` is the very first command. The following would
+    fail:
+
+    ```
+    # Incorrect code
+    function: example {
+        out: "only match 2"
+        -> match 2
+    }
+    ```
+
+    This is where `<stdin>` comes to our rescue:
+
+    ```
+    function: example {
+        out: "only match 2"
+        <stdin> -> match 2
+    }
+    ```
+
+    This could also be written as:
+
+    ```
+    function: example { out: "only match 2"; <stdin> -> match 2 }
+    ```
+  Flags:
+  Detail: |-
+  Synonyms:
+  - "<stdin>"
+  Related:
+  - pipe
+  - readpipe
+
+

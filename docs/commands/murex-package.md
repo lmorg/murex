@@ -69,7 +69,5 @@ Check status of murex packages
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
 * [user-guide/modules](../user-guide/modules.md):
   

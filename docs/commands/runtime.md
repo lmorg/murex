@@ -6,7 +6,7 @@
 
 ### Description
 
-`runtime` is a tool for quering the internal state of _murex_. It's output
+`runtime` is a tool for querying the internal state of _murex_. It's output
 will be JSON dumps.
 
 ### Usage
@@ -143,6 +143,8 @@ flag names. eg
     Outputs the state of debug and inspect mode
 * `--events`
     Lists all builtin event types and any defined events
+* `--exports`
+    Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables
 * `--fids`
     Lists all running processes / functions
 * `--flags`
@@ -182,7 +184,7 @@ flag names. eg
 * `--unmarshallers`
     Lists all builtin data-types with unmarshallers (eg required for `format`)
 * `--variables`
-    Lists all the murex variables which haven't already been garbage collected. Doesn't include environmental variables
+    Lists all the _murex_ variables which haven't already been garbage collected. Doesn't include environmental variables
 * `--writearray`
     Lists all builtin data-types which support WriteArray()
 
@@ -281,6 +283,8 @@ normal operation.
   Debugging information
 * [commands/`event`](../commands/event.md):
   Event driven programming for shell scripts
+* [commands/`export`](../commands/export.md):
+  Define a local variable and set it's value
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
 * [commands/`format`](../commands/format.md):
@@ -289,6 +293,8 @@ normal operation.
   Define a function block
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
+* [commands/`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`private`](../commands/private.md):
