@@ -82,20 +82,17 @@ func setConfig(p *lang.Process) error {
 		val, _ = p.Parameters.String(3)
 	}
 
-	err := p.Config.Set(app, key, val)
-	return err
+	return p.Config.Set(app, key, val)
 }
 
 func defaultConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(1)
 	key, _ := p.Parameters.String(2)
-	err := p.Config.Default(app, key)
-	return err
+	return p.Config.Default(app, key)
 }
 
 func bangConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(0)
 	key, _ := p.Parameters.String(1)
-	err := p.Config.Default(app, key)
-	return err
+	return p.Config.Default(app, key)
 }

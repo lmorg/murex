@@ -133,20 +133,26 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	// TODO: Add config hooks for mime types
 	c.Define("shell", "mime-types", config.Properties{
 		Description: "Supported MIME types and their corresponding Murex data types",
 		Default:     lang.GetMimes(),
 		DataType:    types.Json,
 		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadMimes,
+			Write: lang.WriteMimes,
+		},
 	})
 
-	// TODO: Add config hooks for mime types
 	c.Define("shell", "extensions", config.Properties{
 		Description: "Supported file extensions and their corresponding Murex data types",
 		Default:     lang.GetFileExts(),
 		DataType:    types.Json,
 		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadFileExtensions,
+			Write: lang.WriteFileExtensions,
+		},
 	})
 
 	c.Define("shell", "spellcheck-enabled", config.Properties{
