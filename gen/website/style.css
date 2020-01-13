@@ -35,6 +35,7 @@ h2 {
     border-bottom-style: solid;
     border-bottom-color: #000000;
     margin-right: 40px;
+    padding-bottom: 5px;
 }
 
 h3 {
@@ -44,6 +45,7 @@ h3 {
     border-bottom-style: solid;
     border-bottom-color: #707000;
     margin-right: 40px;
+    padding-bottom: 5px;
 }
 
 h4 {
