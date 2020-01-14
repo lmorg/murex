@@ -26,7 +26,6 @@ h1, h2, h3, h4 {
 h1 {
     font-size: 26px;
     color: #707070;
-    text-align: center;
 }
 
 h2 {
@@ -44,7 +43,7 @@ h3 {
     border-bottom-width: 2px;
     border-bottom-style: solid;
     border-bottom-color: #707000;
-    margin-right: 40px;
+    margin-right: 60px;
     padding-bottom: 5px;
 }
 
@@ -77,18 +76,14 @@ blockquote {
     background: #d6dee9;
     border-radius: 5px;
     border-right-width: 10px;
-    /*width: calc(100%-10px);*/
 }
 
 code {
     font-family: 'Source Code Pro', monospace;
     color: #14700f;
-    /*font-weight: bold;*/
-
     background: #ffffff;
     border-radius: 5px;
     line-height: 130%;
-
     padding: 2px;
 }
 
@@ -115,7 +110,6 @@ pre {
     padding-bottom: 10px;
     overflow: auto;
     text-shadow: none;
-    /*width: calc(100%-10px);*/
 }
 
 img { max-width: 100%; }
@@ -132,8 +126,6 @@ img { max-width: 100%; }
 
 #document {
     position: relative;
-    /*top: 0px;
-    left: 200px;*/
     padding-left: 200px;
     width: auto;
 }
@@ -170,7 +162,6 @@ a.side-bar:active, a.side-bar:hover {
     padding: 5px;
     border-radius: 5px;
     text-align: center;
-    /*width: calc(100%-10px);*/
     
     font-size: 12px;
     line-height: 150%;
@@ -183,11 +174,11 @@ a.side-bar:active, a.side-bar:hover {
 
 @media screen and (max-width: 678px) {
     #side-bar { display: none; }
-    /*#document { position: relative; left: 10px; padding-right: 10px; }*/
     #document { padding-left: 10px; padding-right: 10px; }
     blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
     #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     #commit-hash-short { display: inline; }
     #commit-hash-long { display: none; }
+    h2, h3 { margin-right: 0px; }
 }
