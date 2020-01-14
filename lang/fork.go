@@ -31,6 +31,10 @@ const (
 	// call
 	F_FUNCTION
 
+	// F_SHELL_REPL is only used by commands launched from the interactive
+	// commandline
+	F_SHELL_REPL
+
 	// F_PARENT_VARTABLE will bypass the automatic forking of the var table.
 	// The plan is to make this the default because it's what you'd expect to
 	// use inside builtins
@@ -51,7 +55,10 @@ const (
 	F_NEW_TESTS
 
 	// F_BACKGROUND this process will run in the background
-	F_BACKGROUND
+	F_BACKGROUND // deprecated
+
+	// F_FOREGROUND this process will run in the forground
+	F_FOREGROUND
 
 	// F_CREATE_STDIN will create a new stdin stdio.Io interface
 	F_CREATE_STDIN
@@ -93,13 +100,19 @@ func ShellFork(flags int) *Fork {
 func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
+	fork.Kill = func() {
+		ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
+	}
 
 	fork.State = state.MemAllocated
 	fork.PromptId = p.PromptId
 	//fork.LineNumber = p.LineNumber
 	//fork.ColNumber = p.ColNumber
-	fork.IsBackground = flags&F_BACKGROUND != 0
+	fork.IsBackground = flags&F_FOREGROUND == 0 || p.IsBackground
 	fork.PromptId = p.PromptId
+
+	fork.Previous = p
+	fork.Next = p.Next
 
 	fork.FidTree = make([]uint32, len(p.FidTree))
 	copy(fork.FidTree, p.FidTree)
@@ -155,7 +168,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
-			fork.Parent = fork.Process
+			//fork.Parent = fork.Process
 			fork.Parent = p
 			fork.Variables = ReferenceVariables(p.Variables)
 			fork.Name += " (fork)"
@@ -169,6 +182,12 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Name += " (fork)"
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
+		}
+
+		if flags&F_SHELL_REPL != 0 {
+			fork.Name += " (fork)"
+			GlobalFIDs.Register(fork.Process)
+
 		}
 
 		if flags&F_NEW_CONFIG != 0 {
@@ -262,10 +281,14 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	procs := compile(&tree, fork.Process)
 	if len(procs) == 0 {
-		return
+		if debug.Enabled {
+			err = errors.New("Empty code block")
+		}
+		return 0, err
 	}
-	//ForegroundProc = &procs[0]
+
 	if !fork.IsBackground {
+		//debug.Log("procs", procs)
 		ForegroundProc.Set(&procs[0])
 	}
 

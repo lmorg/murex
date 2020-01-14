@@ -5,10 +5,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"

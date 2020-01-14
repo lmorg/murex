@@ -5,9 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/config"
-
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
@@ -189,7 +188,7 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
+			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_SHELL_REPL | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef.Source.Module = config.AppName
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc

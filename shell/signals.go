@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -26,6 +27,7 @@ func sigtstp() {
 	// function here with the rest of the signal functions for the sake of
 	// consistency.
 	p := lang.ForegroundProc.Get()
+	debug.Json("p =", p)
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
@@ -46,9 +48,26 @@ func sigtstp() {
 }
 
 func stopStatus(p *lang.Process) {
-	stdinR, stdinW := p.Stdin.Stats()
-	stdoutR, stdoutW := p.Stdout.Stats()
-	stderrR, stderrW := p.Stderr.Stats()
+	//if p == nil {
+	//	panic("stopStatus received nil p")
+	//}
+
+	var (
+		stdinR, stdinW   uint64
+		stdoutR, stdoutW uint64
+		stderrR, stderrW uint64
+	)
+
+	if p.Stdin != nil {
+		stdinR, stdinW = p.Stdin.Stats()
+	}
+	if p.Stdout != nil {
+		stdoutR, stdoutW = p.Stdout.Stats()
+	}
+	if p.Stderr != nil {
+		stderrR, stderrW = p.Stderr.Stats()
+	}
+
 	pipeStatus := fmt.Sprintf(
 		"\nSTDIN:  %s read / %s written\nSTDOUT: %s read / %s written\nSTDERR: %s read / %s written",
 		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
@@ -88,7 +107,14 @@ func sigint(interactive bool) {
 func sigterm(interactive bool) {
 	if interactive {
 		p := lang.ForegroundProc.Get()
-		if p != nil && p.Kill != nil {
+		debug.Json("p =", p)
+
+		switch {
+		case p == nil:
+			lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground process !!!"))
+		case p.Kill == nil:
+			lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground kill function !!!"))
+		default:
 			p.Kill()
 		}
 

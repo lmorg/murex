@@ -22,6 +22,8 @@ func InitEnv() {
 	ShellProcess.Parameters.Params = os.Args[1:]
 	ShellProcess.Scope = ShellProcess
 	ShellProcess.Parent = ShellProcess
+	ShellProcess.Previous = ShellProcess
+	ShellProcess.Next = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
 	ShellProcess.Tests = NewTests(ShellProcess)
 	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
@@ -29,7 +31,7 @@ func InitEnv() {
 	ShellProcess.FidTree = []uint32{0}
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
-
+	ShellProcess.Kill = func() {}
 	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: config.AppName}}
 
 	// Sets $SHELL to be murex
