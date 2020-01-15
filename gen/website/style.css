@@ -1,18 +1,18 @@
 @charset "UTF-8";
 
 body {
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Raleway', sans-serif;
     /*color: #503737;*/
     color: #000000;
     background-color: #f0f0f0;
     text-shadow: #ffffff 0em 0em 1px;
     line-height: 180%;
     font-size: 14px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
 }
 
 p {
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Raleway', sans-serif;
     color: #000000;
     text-shadow: #ffffff 0em 0em 0.2em;
 }
@@ -35,6 +35,7 @@ h2 {
     border-bottom-style: solid;
     border-bottom-color: #000000;
     margin-right: 40px;
+    padding-bottom: 5px;
 }
 
 h3 {
@@ -43,7 +44,8 @@ h3 {
     border-bottom-width: 2px;
     border-bottom-style: solid;
     border-bottom-color: #707000;
-    margin-right: 40px;
+    margin-right: 60px;
+    padding-bottom: 5px;
 }
 
 h4 {
@@ -75,18 +77,14 @@ blockquote {
     background: #d6dee9;
     border-radius: 5px;
     border-right-width: 10px;
-    /*width: calc(100%-10px);*/
 }
 
 code {
     font-family: 'Source Code Pro', monospace;
     color: #14700f;
-    /*font-weight: bold;*/
-
     background: #ffffff;
     border-radius: 5px;
     line-height: 130%;
-
     padding: 2px;
 }
 
@@ -113,7 +111,6 @@ pre {
     padding-bottom: 10px;
     overflow: auto;
     text-shadow: none;
-    /*width: calc(100%-10px);*/
 }
 
 img { max-width: 100%; }
@@ -130,8 +127,6 @@ img { max-width: 100%; }
 
 #document {
     position: relative;
-    /*top: 0px;
-    left: 200px;*/
     padding-left: 200px;
     width: auto;
 }
@@ -168,7 +163,6 @@ a.side-bar:active, a.side-bar:hover {
     padding: 5px;
     border-radius: 5px;
     text-align: center;
-    /*width: calc(100%-10px);*/
     
     font-size: 12px;
     line-height: 150%;
@@ -181,11 +175,11 @@ a.side-bar:active, a.side-bar:hover {
 
 @media screen and (max-width: 678px) {
     #side-bar { display: none; }
-    /*#document { position: relative; left: 10px; padding-right: 10px; }*/
     #document { padding-left: 10px; padding-right: 10px; }
     blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
     #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
     #commit-hash-short { display: inline; }
     #commit-hash-long { display: none; }
+    h2, h3 { margin-right: 0px; }
 }
