@@ -185,9 +185,8 @@ func (p *Process) Fork(flags int) *Fork {
 		}
 
 		if flags&F_SHELL_REPL != 0 {
-			fork.Name += " (fork)"
-			GlobalFIDs.Register(fork.Process)
-
+			//fork.Name += " (fork)"
+			//GlobalFIDs.Register(fork.Process)
 		}
 
 		if flags&F_NEW_CONFIG != 0 {
@@ -288,8 +287,8 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	}
 
 	if !fork.IsBackground {
-		//debug.Log("procs", procs)
 		ForegroundProc.Set(&procs[0])
+		//debug.Json("procs", procs)
 	}
 
 	// Support for different run modes:

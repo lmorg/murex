@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -27,7 +26,7 @@ func sigtstp() {
 	// function here with the rest of the signal functions for the sake of
 	// consistency.
 	p := lang.ForegroundProc.Get()
-	debug.Json("p =", p)
+	//debug.Json("p =", p)
 
 	show, err := lang.ShellProcess.Config.Get("shell", "stop-status-enabled", types.Boolean)
 	if err != nil {
@@ -107,7 +106,7 @@ func sigint(interactive bool) {
 func sigterm(interactive bool) {
 	if interactive {
 		p := lang.ForegroundProc.Get()
-		debug.Json("p =", p)
+		//p.Json("p =", p)
 
 		switch {
 		case p == nil:

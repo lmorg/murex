@@ -113,7 +113,7 @@ func newForegroundProc() *foregroundProc {
 	return &foregroundProc{p: ShellProcess}
 }
 
-func (fp foregroundProc) Get() *Process {
+func (fp *foregroundProc) Get() *Process {
 	fp.mutex.Lock()
 	p := fp.p
 	//if p == nil {
@@ -124,11 +124,13 @@ func (fp foregroundProc) Get() *Process {
 	return p
 }
 
-func (fp foregroundProc) Set(p *Process) {
+func (fp *foregroundProc) Set(p *Process) {
 	fp.mutex.Lock()
 	if p == nil {
 		panic("nil p")
 	}
 	fp.p = p
+	//debug.Json("fp.Set", p)
+	//debug.Json("fp.p", fp.p)
 	fp.mutex.Unlock()
 }
