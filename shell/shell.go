@@ -188,7 +188,7 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_FOREGROUND | lang.F_SHELL_REPL | lang.F_NEW_MODULE | lang.F_NO_STDIN)
+			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef.Source.Module = config.AppName
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
