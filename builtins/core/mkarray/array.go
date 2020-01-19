@@ -172,7 +172,6 @@ func mkArray(p *lang.Process, dataType string) error {
 
 	// Now do your magic
 	var (
-		//array  []string
 		marker = string([]byte{0})
 	)
 
@@ -229,14 +228,6 @@ func mkArray(p *lang.Process, dataType string) error {
 				s = strings.Replace(s, marker, variable[t][c], 1)
 			}
 			writer.WriteString(s)
-			/*if jsonArray {
-				array = append(array, s)
-			} else {
-				_, err := p.Stdout.Writeln([]byte(s))
-				if err != nil {
-					return err
-				}
-			}*/
 
 			i := len(counter) - 1
 			if i < 0 {
@@ -266,15 +257,5 @@ func mkArray(p *lang.Process, dataType string) error {
 	}
 
 cancelled:
-	/*if jsonArray {
-		b, err := json.Marshal(array, p.Stdout.IsTTY())
-		if err != nil {
-			return err
-		}
-
-		_, err = p.Stdout.Writeln(b)
-		return err
-	}*/
-
 	return writer.Close()
 }

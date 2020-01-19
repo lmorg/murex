@@ -8,6 +8,14 @@ import (
 )
 
 func compile(tree *astNodes, parent *Process) (procs []Process) {
+	if parent == nil {
+		panic("nil parent")
+	}
+
+	if tree == nil {
+		panic("nil tree")
+	}
+
 	procs = make([]Process, len(*tree))
 
 	for i := range *tree {

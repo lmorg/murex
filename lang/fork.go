@@ -79,27 +79,23 @@ type Fork struct {
 	newTestScope  bool
 }
 
-// ShellFork will fork against the shell process but without leaking variables
-// into the global namespace. `flags` must include F_FUNCTION
-func ShellFork(flags int) *Fork {
-	//container := ShellProcess.Fork(F_DEFAULTS)
-	//fork := container.Fork(flags)
-	//DeregisterProcess(container.Process) // it shouldn't matter that we dereigster the container before the fork has executed. We just do this for garbage collection
-	//return fork
-	return ShellProcess.Fork(flags)
-}
-
 // Fork will create a new handle for executing a code block
 func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
+	fork.Kill = func() {
+		ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
+	}
 
 	fork.State = state.MemAllocated
 	fork.PromptId = p.PromptId
 	//fork.LineNumber = p.LineNumber
 	//fork.ColNumber = p.ColNumber
-	fork.IsBackground = flags&F_BACKGROUND != 0
+	fork.IsBackground = flags&F_BACKGROUND != 0 || p.IsBackground
 	fork.PromptId = p.PromptId
+
+	fork.Previous = p
+	fork.Next = p.Next
 
 	fork.FidTree = make([]uint32, len(p.FidTree))
 	copy(fork.FidTree, p.FidTree)
@@ -155,7 +151,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
-			fork.Parent = fork.Process
+			//fork.Parent = fork.Process
 			fork.Parent = p
 			fork.Variables = ReferenceVariables(p.Variables)
 			fork.Name += " (fork)"
@@ -262,11 +258,15 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	procs := compile(&tree, fork.Process)
 	if len(procs) == 0 {
-		return
+		if debug.Enabled {
+			err = errors.New("Empty code block")
+		}
+		return 0, err
 	}
-	//ForegroundProc = &procs[0]
+
 	if !fork.IsBackground {
 		ForegroundProc.Set(&procs[0])
+		//debug.Json("procs", procs)
 	}
 
 	// Support for different run modes:

@@ -19,26 +19,26 @@ import (
 // It is equivalent to the /proc directory on Linux, albeit queried through murex as JSON.
 // External processes will also appear in the host OS's process list.
 type Process struct {
+	Id                 uint32
+	Name               string
+	Parameters         parameters.Parameters
+	Path               string
 	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io
 	Stderr             stdio.Io
-	Parameters         parameters.Parameters
 	ExitNum            int
-	Name               string
-	Id                 uint32
-	Exec               shellExec
-	PromptId           int
-	Path               string
-	IsMethod           bool
-	Scope              *Process  `json:"-"`
-	Parent             *Process  `json:"-"`
-	Previous           *Process  `json:"-"`
-	Next               *Process  `json:"-"`
 	WaitForTermination chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
+	Exec               shellExec
+	PromptId           int
+	Scope              *Process `json:"-"`
+	Parent             *Process `json:"-"`
+	Previous           *Process `json:"-"`
+	Next               *Process `json:"-"`
 	IsNot              bool
+	IsMethod           bool
 	NamedPipeOut       string
 	NamedPipeErr       string
 	NamedPipeTest      string
@@ -109,16 +109,28 @@ type foregroundProc struct {
 	p     *Process
 }
 
-func (fp foregroundProc) Get() *Process {
+func newForegroundProc() *foregroundProc {
+	return &foregroundProc{p: ShellProcess}
+}
+
+func (fp *foregroundProc) Get() *Process {
 	fp.mutex.Lock()
 	p := fp.p
+	//if p == nil {
+	//	panic("Get() retrieved p")
+	//}
 	fp.mutex.Unlock()
 
 	return p
 }
 
-func (fp foregroundProc) Set(p *Process) {
+func (fp *foregroundProc) Set(p *Process) {
 	fp.mutex.Lock()
+	if p == nil {
+		panic("nil p")
+	}
 	fp.p = p
+	//debug.Json("fp.Set", p)
+	//debug.Json("fp.p", fp.p)
 	fp.mutex.Unlock()
 }

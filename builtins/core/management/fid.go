@@ -3,6 +3,8 @@ package management
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/proc/state"
+
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -31,28 +33,46 @@ func yn(state bool) (s string) {
 func cmdFidList(p *lang.Process) error {
 	flag, _ := p.Parameters.String(0)
 	switch flag {
+	case "":
+		if p.Stdout.IsTTY() {
+			return cmdFidListTTY(p)
+		}
+		return cmdFidListPipe(p)
+
 	case "--csv":
 		return cmdFidListCSV(p)
+
 	case "--jsonl":
 		return cmdFidListPipe(p)
+
 	case "--tty":
 		return cmdFidListTTY(p)
+
+	//case "--jobs":
+	//	return cmdJobs(p)
+
+	case "--stopped":
+		return cmdJobsStopped(p)
+
+	case "--background":
+		return cmdJobsBackground(p)
+
 	case "--help":
+		fallthrough
+
+	default:
 		return cmdFidListHelp(p)
 	}
-
-	if p.Stdout.IsTTY() {
-		return cmdFidListTTY(p)
-	}
-	return cmdFidListPipe(p)
 }
 
 func cmdFidListHelp(p *lang.Process) error {
 	flags := map[string]string{
-		"--csv":   "Outputs as CSV table",
-		"--jsonl": "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
-		"--tty":   "Outputs as a human readable table. This is the default mode when outputting to a TTY",
-		"--help":  "Displays a list of parameters",
+		"--csv":        "Outputs as CSV table",
+		"--jsonl":      "Outputs as a jsonlines (a greppable array of JSON objects). This is the default mode when `fid-list` is piped",
+		"--tty":        "Outputs as a human readable table. This is the default mode when outputting to a TTY",
+		"--stopped":    "JSON map of all stopped processes running under murex",
+		"--background": "JSON map of all background processes running under murex",
+		"--help":       "Displays a list of parameters",
 	}
 	p.Stdout.SetDataType(types.Json)
 	b, err := json.Marshal(flags, p.Stdout.IsTTY())
@@ -222,4 +242,53 @@ func cmdKillAll(*lang.Process) error {
 	}
 
 	return nil
+}
+
+func cmdJobsStopped(p *lang.Process) error {
+	procs := lang.GlobalFIDs.ListAll()
+	m := make(map[uint32]string)
+
+	for i := range procs {
+		if procs[i].State != state.Stopped {
+			continue
+		}
+		m[procs[i].Id] = procs[i].Name + unrollSlice(procs[i].Parameters.StringArray())
+	}
+
+	b, err := lang.MarshalData(p, types.Json, m)
+	if err != nil {
+		return err
+	}
+
+	p.Stdout.SetDataType(types.Json)
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func cmdJobsBackground(p *lang.Process) error {
+	procs := lang.GlobalFIDs.ListAll()
+	m := make(map[uint32]string)
+
+	for i := range procs {
+		if !procs[i].IsBackground {
+			continue
+		}
+		m[procs[i].Id] = procs[i].Name + unrollSlice(procs[i].Parameters.StringArray())
+	}
+
+	b, err := lang.MarshalData(p, types.Json, m)
+	if err != nil {
+		return err
+	}
+
+	p.Stdout.SetDataType(types.Json)
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func unrollSlice(a []string) (s string) {
+	for i := range a {
+		s += " " + a[i]
+	}
+	return
 }

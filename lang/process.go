@@ -12,6 +12,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
@@ -51,8 +52,7 @@ var (
 	GlobalUnitTests = new(UnitTests)
 
 	// ForegroundProc is the murex FID which currently has "focus"
-	//ForegroundProc = ShellProcess
-	ForegroundProc = new(foregroundProc)
+	ForegroundProc = newForegroundProc()
 
 	// ShellExitNum is for when running murex in interactive shell mode
 	ShellExitNum int
@@ -359,7 +359,9 @@ func deregisterProcess(p *Process) {
 
 	p.SetTerminatedState(true)
 	if !p.IsBackground {
-		//ForegroundProc = p.Next
+		if p.Next == nil {
+			debug.Json("p", p)
+		}
 		ForegroundProc.Set(p.Next)
 	}
 

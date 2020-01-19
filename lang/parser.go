@@ -428,6 +428,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 			case scanFuncName:
+				if len(*pop) == 0 {
+					pErr = raiseErr(ErrUnexpectedOpenBraceFunc, i)
+					return
+				}
 				startParameters()
 				pUpdate(r)
 				braceCount++
