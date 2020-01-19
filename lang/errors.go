@@ -23,6 +23,7 @@ const (
 	ErrUnterminatedBraceQuote
 	ErrUnclosedIndex
 	ErrUnexpectedParsingError
+	ErrUnexpectedOpenBraceFunc
 )
 
 var errMessages = map[int]string{
@@ -40,6 +41,7 @@ var errMessages = map[int]string{
 	11: "Unexpected end of script. More open quotation braces, `(`, than closed.",
 	12: "Unexpected end of script. Variable index used, `[`, but missing closing bracket: `]`.",
 	13: "Unexpected parsing error.",
+	14: "Unexpected opening curly brace. Code blocks cannot be used as function names.",
 }
 
 func raiseErr(code, endByte int) ParserError {
