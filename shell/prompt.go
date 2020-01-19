@@ -17,7 +17,7 @@ func getPrompt() {
 
 	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt", types.CodeBlock)
 	if err == nil {
-		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set("linenum", 1, types.Integer)
 		fork.Name = "(prompt)"
 		fork.Execute([]rune(prompt.(string)))
@@ -43,7 +43,7 @@ func getMultilinePrompt(nLines int) {
 
 	prompt, err := lang.ShellProcess.Config.Get("shell", "prompt-multiline", types.CodeBlock)
 	if err == nil {
-		fork := lang.ShellFork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Variables.Set("linenum", nLines, types.Integer)
 		fork.Name = "(prompt-multiline)"
 		fork.Execute([]rune(prompt.(string)))

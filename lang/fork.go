@@ -51,7 +51,7 @@ const (
 	F_NEW_TESTS
 
 	// F_BACKGROUND this process will run in the background
-	F_BACKGROUND // deprecated
+	F_BACKGROUND
 
 	// F_CREATE_STDIN will create a new stdin stdio.Io interface
 	F_CREATE_STDIN
@@ -77,16 +77,6 @@ type Fork struct {
 	*Process
 	fidRegistered bool
 	newTestScope  bool
-}
-
-// ShellFork will fork against the shell process but without leaking variables
-// into the global namespace. `flags` must include F_FUNCTION
-func ShellFork(flags int) *Fork {
-	//container := ShellProcess.Fork(F_DEFAULTS)
-	//fork := container.Fork(flags)
-	//DeregisterProcess(container.Process) // it shouldn't matter that we dereigster the container before the fork has executed. We just do this for garbage collection
-	//return fork
-	return ShellProcess.Fork(flags)
 }
 
 // Fork will create a new handle for executing a code block

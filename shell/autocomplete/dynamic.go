@@ -40,7 +40,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	var fStdin int
 	cmdlineStdout := streams.NewStdin()
 	if f.ExecCmdline && !act.ParsedTokens.Unsafe {
-		cmdline := lang.ShellFork(lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
+		cmdline := lang.ShellProcess.Fork(lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
 		cmdline.Stdout = cmdlineStdout
 		cmdline.Name = args.exe
 		cmdline.FileRef = ExesFlagsFileRef[args.exe]
@@ -53,7 +53,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	//debug.Log(string(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken]))
 
 	// Execute the dynamic code block
-	fork := lang.ShellFork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name = args.exe
 	fork.Parameters = parameters.Parameters{Params: args.params}
 	fork.FileRef = ExesFlagsFileRef[args.exe]
