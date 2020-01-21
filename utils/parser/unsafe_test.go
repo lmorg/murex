@@ -9,7 +9,7 @@ import (
 func TestIsCmdUnsafe(t *testing.T) {
 	trues := []string{">", ">>", "$var", "@g", "config"}
 	falses := append(safeCmds,
-		"open", "regexp", "match", "cat",
+		"open", "regexp", "match",
 		"cast", "format", "[", "[[",
 		"runtime",
 	)

@@ -39,6 +39,9 @@ func Alter(ctx context.Context, v interface{}, path []string, new string) (inter
 
 // Merge a data structure; like Alter but merges arrays and maps where possible
 func Merge(ctx context.Context, v interface{}, path []string, new string) (interface{}, error) {
+	if len(path) == 1 && path[0] == "" {
+		path = []string{}
+	}
 	return loop(ctx, v, 0, path, &new, true)
 }
 
@@ -71,6 +74,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 			ret, err = loop(ctx, v.([]interface{})[pathI], i+1, path, new, merge)
 			if err == errOverwritePath {
 				v.([]interface{})[pathI] = parseString(new)
+
 			}
 			if err == nil {
 				v.([]interface{})[pathI] = ret
@@ -119,7 +123,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 		}
 
 	case i == len(path):
-		switch t := v.(type) {
+		switch v.(type) {
 		case string:
 			ret = *new
 
@@ -140,11 +144,23 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 		case bool:
 			ret = types.IsTrue([]byte(*new), 0)
 
-		case nil, map[string]interface{}:
+		case nil:
+			ret = parseString(new)
+
+		case []interface{}:
+			if merge {
+				return mergeArray(v, new)
+			}
+			ret = parseString(new)
+
+		case map[string]interface{}, map[interface{}]interface{}:
+			if merge {
+				return mergeMap(v, new)
+			}
 			ret = parseString(new)
 
 		default:
-			return nil, fmt.Errorf("Cannot locate `%s` in object path or no condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", path[i-1], t)
+			return nil, fmt.Errorf("Cannot locate `%s` in object path or no condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", path[i-1], v)
 		}
 
 	default:

@@ -7,13 +7,6 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-// safeCmds is a list of all the functions considered safe when using tab
-// autocomplete with ExecCmdline
-var safeCmds = []string{
-	"open", "regexp", "match", "cast", "format", "[", "[[", "runtime",
-	"cat", "ps", "grep", "ls",
-}
-
 func isCmdUnsafe(f string) bool {
 	for _, sb := range safeCmds {
 		if f == sb {

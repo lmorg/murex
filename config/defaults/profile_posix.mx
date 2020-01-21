@@ -85,3 +85,9 @@ autocomplete set go { [{
         "generate": [{ "IncFiles": true }]
     }
 }] }
+
+config eval shell safe-commands {
+    -> alter --merge / ([
+        "cat", "ps", "grep", "ls", "head", "tail", "printf"
+    ])
+}

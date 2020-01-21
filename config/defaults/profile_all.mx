@@ -250,6 +250,7 @@ autocomplete set git { [{
     "DynamicDesc": ({
         git help -> tabulate --map
     }),
+    #"ListView": true,
     "FlagValues": {
         "init": [{
             "Flags": ["--bare"]
@@ -285,15 +286,122 @@ autocomplete set git { [{
     }
 }] }
 
+#autocomplete set docker { [
+#    {
+#        "Flags": [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
+#    },
+#    {
+#        "Flags": [ "-t" ],
+#        "Optional": true,
+#        "AllowMultiple": true,
+#        "AnyValue": true
+#    },
+#    {
+#        "IncFiles": true
+#    }
+#] }
+
 autocomplete set docker { [
     {
-        "Flags": [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
-    },
-    {
-        "Flags": [ "-t" ],
-        "Optional": true,
-        "AllowMultiple": true,
-        "AnyValue": true
+        "DynamicDesc": ({
+            docker help -> @[^Usage:..]re -> tabulate: --split-comma --map
+        }),
+
+        #"AllowMultiple": true,
+        #"AnyValue": true,
+        "ListView": true,
+
+        "FlagValues": {
+            "builder": [{
+                "DynamicDesc": ({
+                    docker help builder -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "config": [{
+                "DynamicDesc": ({
+                    docker help config -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "container": [{
+                "DynamicDesc": ({
+                    docker help container -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "context": [{
+                "DynamicDesc": ({
+                    docker help context -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "image": [{
+                "DynamicDesc": ({
+                    docker help image -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "network": [{
+                "DynamicDesc": ({
+                    docker help network -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "node": [{
+                "DynamicDesc": ({
+                    docker help node -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "plugin": [{
+                "DynamicDesc": ({
+                    docker help plugin -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "secret": [{
+                "DynamicDesc": ({
+                    docker help secret -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "service": [{
+                "DynamicDesc": ({
+                    docker help service -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "stack": [{
+                "DynamicDesc": ({
+                    docker help stack -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "swarm": [{
+                "DynamicDesc": ({
+                    docker help swarm -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "system": [{
+                "DynamicDesc": ({
+                    docker help system -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "trust": [{
+                "DynamicDesc": ({
+                    docker help trust -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }],
+
+            "volume": [{
+                "DynamicDesc": ({
+                    docker help volume -> @[^Usage:..]re -> tabulate: --split-comma --map
+                })
+            }]
+        }
     },
     {
         "IncFiles": true

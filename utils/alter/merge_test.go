@@ -9,14 +9,7 @@ import (
 	"github.com/lmorg/murex/utils/alter"
 )
 
-type plan struct {
-	original string
-	path     string
-	change   string
-	expected string
-}
-
-func alterTest(t *testing.T, test *plan) {
+func mergeTest(t *testing.T, test *plan) {
 	count.Tests(t, 1)
 
 	pathS, err := alter.SplitPath(test.path)
@@ -37,7 +30,7 @@ func alterTest(t *testing.T, test *plan) {
 	var old interface{}
 	err = json.Unmarshal([]byte(test.original), &old)
 	if err != nil {
-		t.Error("Error unmarshalling original for alter.Alter()")
+		t.Error("Error unmarshalling original for alter.Merge()")
 		t.Logf("  original: %s", test.original)
 		t.Logf("  path:     %s: %v", test.path, pathS)
 		t.Logf("  change:   %s", test.change)
@@ -47,7 +40,7 @@ func alterTest(t *testing.T, test *plan) {
 		return
 	}
 
-	v, err := alter.Alter(context.TODO(), old, pathS, test.change)
+	v, err := alter.Merge(context.TODO(), old, pathS, test.change)
 	if err != nil {
 		t.Error("Error received from alter.Alter()")
 		t.Logf("  original: %s", test.original)
@@ -61,7 +54,7 @@ func alterTest(t *testing.T, test *plan) {
 
 	actual, err := json.Marshal(v)
 	if err != nil {
-		t.Error("Error marshalling v from alter.Alter()")
+		t.Error("Error marshalling v from alter.Merge()")
 		t.Logf("  original: %s", test.original)
 		t.Logf("  path:     %s: %v", test.path, pathS)
 		t.Logf("  change:   %s", test.change)
@@ -82,33 +75,15 @@ func alterTest(t *testing.T, test *plan) {
 	}
 }
 
-func TestUpdateMap(t *testing.T) {
-	test := plan{
-		original: `{"1": "foo", "2": "bar"}`,
-		path:     "/2",
-		change:   `test`,
-		expected: `{
-						"1": "foo",
-						"2": "test"
-					}`,
-	}
-
-	alterTest(t, &test)
-}
-
-func TestUpdateNestedMap(t *testing.T) {
+func TestMergeMap(t *testing.T) {
 	test := plan{
 		original: `
 			{
-				"1": "foo",
-				"2": "bar",
-				"3": {
-					"a": "aye",
-					"b": "bee",
-					"c": "cee"
-				}
+				"a": "aye",
+				"b": "bee",
+				"c": "cee"
 			}`,
-		path: "/3",
+		path: "/",
 		change: `
 			{
 				"d": "dee",
@@ -116,85 +91,106 @@ func TestUpdateNestedMap(t *testing.T) {
 				"f": "eff"
 			}`,
 		expected: `
-		{
-			"1": "foo",
-			"2": "bar",
-			"3": {
+			{
+				"a": "aye",
+				"b": "bee",
+				"c": "cee",
 				"d": "dee",
 				"e": "ee",
 				"f": "eff"
-			}
-		}`,
+			}`,
 	}
 
-	alterTest(t, &test)
+	mergeTest(t, &test)
 }
 
-func TestNewMap(t *testing.T) {
+func TestMergeAndUpdateMap(t *testing.T) {
 	test := plan{
-		original: `{"1": "foo", "2": "bar"}`,
-		path:     "/3",
-		change:   `{"3": "test"}`,
-		expected: `{
-						"1": "foo",
-						"2": "bar",
-						"3": {
-							"3": "test"
-						}
-					}`,
+		original: `
+			{
+				"a": "aye",
+				"b": "bee",
+				"c": "cee"
+			}`,
+		path: "/",
+		change: `
+			{
+				"c": "update",
+				"e": "ee",
+				"f": "eff"
+			}`,
+		expected: `
+			{
+				"a": "aye",
+				"b": "bee",
+				"c": "update",
+				"e": "ee",
+				"f": "eff"
+			}`,
 	}
 
-	alterTest(t, &test)
+	mergeTest(t, &test)
 }
 
-func TestUpdateArrayAlpha(t *testing.T) {
+func TestMergeArrayAlpha(t *testing.T) {
 	test := plan{
-		original: `["foo", "bar"]`,
-		path:     "/1",
-		change:   `test`,
-		expected: `[
-						"foo",
-						"test"
-					]`,
+		original: `
+			[
+				"aye",
+				"bee",
+				"cee"
+			]`,
+		path: "/",
+		change: `
+			[
+				"dee",
+				"ee",
+				"eff"
+			]`,
+		expected: `
+			[
+				"aye",
+				"bee",
+				"cee",
+				"dee",
+				"ee",
+				"eff"
+			]`,
 	}
 
-	alterTest(t, &test)
+	mergeTest(t, &test)
 }
 
-func TestUpdateArrayNumeric(t *testing.T) {
+func TestMergeArrayNumeric(t *testing.T) {
 	test := plan{
-		original: `[1, 2]`,
-		path:     "/1",
-		change:   `3`,
-		expected: `[
-						1,
-						3
-					]`,
+		original: `
+			[
+				1,
+				2,
+				3
+			]`,
+		path: "/",
+		change: `
+			[
+				5,
+				6,
+				7
+			]`,
+		expected: `
+			[
+				1,
+				2,
+				3,
+				5,
+				6,
+				7
+			]`,
 	}
 
-	alterTest(t, &test)
+	mergeTest(t, &test)
 }
 
-func TestNewArray(t *testing.T) {
-	test := plan{
-		original: `{"1": "foo", "2": "bar"}`,
-		path:     "/3",
-		change:   `[4, 5, 6]`,
-		expected: `{
-						"1": "foo",
-						"2": "bar",
-						"3": [
-							4,
-							5,
-							6
-						]
-					}`,
-	}
-
-	alterTest(t, &test)
-}
-
-func TestUpdateNestedArrayAlpha(t *testing.T) {
+func TestMergeNestedArrayAlpha(t *testing.T) {
 	test := plan{
 		original: `
 			{
@@ -218,6 +214,9 @@ func TestUpdateNestedArrayAlpha(t *testing.T) {
 			"1": "foo",
 			"2": "bar",
 			"3": [
+				"aye",
+				"bee",
+				"cee",
 				"dee",
 				"ee",
 				"eff"
@@ -225,10 +224,10 @@ func TestUpdateNestedArrayAlpha(t *testing.T) {
 		}`,
 	}
 
-	alterTest(t, &test)
+	mergeTest(t, &test)
 }
 
-func TestUpdateNestedArrayNumeric(t *testing.T) {
+func TestMergeNestedArrayNumeric(t *testing.T) {
 	test := plan{
 		original: `
 			{
@@ -252,6 +251,9 @@ func TestUpdateNestedArrayNumeric(t *testing.T) {
 			"1": "foo",
 			"2": "bar",
 			"3": [
+				4,
+				5,
+				6,
 				7,
 				8,
 				9
@@ -259,5 +261,5 @@ func TestUpdateNestedArrayNumeric(t *testing.T) {
 		}`,
 	}
 
-	alterTest(t, &test)
+	mergeTest(t, &test)
 }
