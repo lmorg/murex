@@ -26,13 +26,15 @@ func isCmdUnsafe(f string) bool {
 
 // GetSafeCmds returns a slice of the safeCmds
 func GetSafeCmds() []string {
-	return safeCmds
+	a := make([]string, len(safeCmds))
+	copy(a, safeCmds)
+	return a
 }
 
 // ReadSafeCmds returns an interface{} of the safeCmds.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
 func ReadSafeCmds() (interface{}, error) {
-	return safeCmds, nil
+	return GetSafeCmds(), nil
 }
 
 // WriteSafeCmds takes a JSON-encoded string and writes it to the safeCmds

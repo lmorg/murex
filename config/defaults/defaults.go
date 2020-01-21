@@ -129,7 +129,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "stop-status-func", config.Properties{
 		Description: "Murex function to execute when an `exec` process is stopped",
-		Default:     `{ progress $PID }`,
+		Default:     `{}`,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})

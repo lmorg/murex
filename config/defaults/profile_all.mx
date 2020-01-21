@@ -231,6 +231,12 @@ autocomplete set !func { [
     }
 ]}
 
+autocomplete set !function { [
+    {
+        "Dynamic": ({ runtime: --funcs -> formap k v { out $k } })
+    }
+]}
+
 autocomplete set autocomplete { [{
     "Flags" : [ "get", "set" ]
 }] }
@@ -346,57 +352,57 @@ autocomplete set debug { [{
 #    }]
 #}
 
-private fid.list.all {
-    set json fids=([])
-    set json procs=([])
-    fid-list -> foreach f {
-        if { = $f[Scope]!=$SELF[Scope] && $f[FID]!=$SELF[Parent] && $f[FID]!=0 } then {
-            $fids -> append $f[FID] -> set fids
-            $procs -> append "$f[Command] $f[Parameters]" -> set procs
-        }
-    }
-    map { $fids } { $procs }
-}
-
-private fid.list.stopped {
-    set json fids=([])
-    set json procs=([])
-    fid-list -> foreach f {
-        if { = `$f[State]`==`Stopped` && $f[Scope]!=$SELF[Scope] && $f[FID]!=$SELF[Parent] && $f[FID]!=0 } then {
-            $fids -> append $f[FID] -> set fids
-            $procs -> append "$f[Command] $f[Parameters]" -> set procs
-        }
-    }
-    map { $fids } { $procs }
-}
-
-func jobs {
-    # List any stopped jobs
-    out "FID - Process"
-    fid-list -> foreach f {
-        if { = `$f[State]`==`Stopped` } {
-            out "$f[FID] - $f[Command] $f[Parameters]"
-        }
-    }
-}
+#private fid.list.all {
+#    set json fids=([])
+#    set json procs=([])
+#    fid-list -> foreach f {
+#        if { = $f[Scope]!=$SELF[Scope] && $f[FID]!=$SELF[Parent] && $f[FID]!=0 } then {
+#            $fids -> append $f[FID] -> set fids
+#            $procs -> append "$f[Command] $f[Parameters]" -> set procs
+#        }
+#    }
+#    map { $fids } { $procs }
+#}
+#
+#private fid.list.stopped {
+#    set json fids=([])
+#    set json procs=([])
+#    fid-list -> foreach f {
+#        if { = `$f[State]`==`Stopped` && $f[Scope]!=$SELF[Scope] && $f[FID]!=$SELF[Parent] && $f[FID]!=0 } then {
+#            $fids -> append $f[FID] -> set fids
+#            $procs -> append "$f[Command] $f[Parameters]" -> set procs
+#        }
+#    }
+#    map { $fids } { $procs }
+#}
+#
+#func jobs {
+#    # List any stopped jobs
+#    out "FID - Process"
+#    fid-list -> foreach f {
+#        if { = `$f[State]`==`Stopped` } {
+#            out "$f[FID] - $f[Command] $f[Parameters]"
+#        }
+#    }
+#}
 
 autocomplete: set bg {
     [{
-        "DynamicDesc": ({ fid.list.stopped }),
+        "DynamicDesc": ({ fid-list --stopped }),
         "ListView": true
     }]
 }
 
 autocomplete: set fg {
     [{
-        "DynamicDesc": ({ fid.list.stopped }),
+        "DynamicDesc": ({ fid-list --stopped }),
         "ListView": true
     }]
 }
 
 autocomplete: set fid-kill {
     [{
-        "DynamicDesc": ({ fid.list.all }),
+        "DynamicDesc": ({ fid-list: --csv -> [ :0 :8 :9 ] }),
         "ListView": true,
         "AllowMultiple": true
     }]

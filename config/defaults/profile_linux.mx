@@ -45,3 +45,7 @@ test define-unit private kill-autocomplete {
     "StdoutType": "json",
     "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
 }
+
+config set shell stop-status-func {
+    progress $PID
+}

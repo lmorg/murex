@@ -34,12 +34,17 @@ func SplitPath(path string) ([]string, error) {
 // functions. I'm also open to any breaking changes those optimisations might
 // bring (at least until the project reaches version 1.0).
 func Alter(ctx context.Context, v interface{}, path []string, new string) (interface{}, error) {
-	return loop(ctx, v, 0, path, &new)
+	return loop(ctx, v, 0, path, &new, false)
+}
+
+// Merge a data structure; like Alter but merges arrays and maps where possible
+func Merge(ctx context.Context, v interface{}, path []string, new string) (interface{}, error) {
+	return loop(ctx, v, 0, path, &new, true)
 }
 
 var errOverwritePath = errors.New("internal condition: path needs overwriting")
 
-func loop(ctx context.Context, v interface{}, i int, path []string, new *string) (ret interface{}, err error) {
+func loop(ctx context.Context, v interface{}, i int, path []string, new *string, merge bool) (ret interface{}, err error) {
 	select {
 	case <-ctx.Done():
 		return nil, errors.New("Cancelled")
@@ -48,9 +53,32 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string)
 
 	switch {
 	case i < len(path):
-		switch t := v.(type) {
+		switch v.(type) {
+		case []interface{}:
+			pathI, err := strconv.Atoi(path[i])
+			if err != nil {
+				return nil, fmt.Errorf("Expecting an array index in path element '%s': %s", path[i], err)
+			}
+
+			if pathI < 0 {
+				return nil, fmt.Errorf("Negative indexes not allowed in arrays: path element '%d'", pathI)
+			}
+
+			if pathI >= len(v.([]interface{})) {
+				return nil, fmt.Errorf("Index greater than length of array in path element '%d' (array length '%d')", pathI, len(v.([]interface{})))
+			}
+
+			ret, err = loop(ctx, v.([]interface{})[pathI], i+1, path, new, merge)
+			if err == errOverwritePath {
+				v.([]interface{})[pathI] = parseString(new)
+			}
+			if err == nil {
+				v.([]interface{})[pathI] = ret
+				ret = v
+			}
+
 		case map[interface{}]interface{}:
-			ret, err = loop(ctx, v.(map[interface{}]interface{})[path[i]], i+1, path, new)
+			ret, err = loop(ctx, v.(map[interface{}]interface{})[path[i]], i+1, path, new, merge)
 			if err == errOverwritePath {
 				v.(map[interface{}]interface{})[path[i]] = parseString(new)
 			}
@@ -60,9 +88,9 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string)
 			}
 
 		case map[string]interface{}:
-			ret, err = loop(ctx, v.(map[string]interface{})[path[i]], i+1, path, new)
+			ret, err = loop(ctx, v.(map[string]interface{})[path[i]], i+1, path, new, merge)
 			if err == errOverwritePath {
-				v.(map[interface{}]interface{})[path[i]] = parseString(new)
+				v.(map[string]interface{})[path[i]] = parseString(new)
 			}
 			if err == nil {
 				v.(map[string]interface{})[path[i]] = ret
@@ -70,9 +98,9 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string)
 			}
 
 		case map[interface{}]string:
-			ret, err = loop(ctx, v.(map[interface{}]string)[path[i]], i+1, path, new)
+			ret, err = loop(ctx, v.(map[interface{}]string)[path[i]], i+1, path, new, merge)
 			if err == errOverwritePath {
-				v.(map[interface{}]interface{})[path[i]] = parseString(new)
+				v.(map[interface{}]string)[path[i]] = fmt.Sprint(parseString(new))
 			}
 			if err == nil {
 				v.(map[interface{}]string)[path[i]] = ret.(string)
@@ -84,10 +112,10 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string)
 			return nil, errOverwritePath
 
 		case string, int, float64, bool:
-			return nil, fmt.Errorf("Unable to alter data structure using that path because one of the path elements is an end of tree (%T) rather than a map. Instead please have the full path you want to add as part of the amend JSON string in `alter`", t)
+			return nil, fmt.Errorf("Unable to alter data structure using that path because one of the path elements is an end of tree (%T) rather than a map. Instead please have the full path you want to add as part of the amend JSON string in `alter`", v)
 
 		default:
-			return nil, fmt.Errorf("murex code error: No condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", t)
+			return nil, fmt.Errorf("murex code error: No condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", v)
 		}
 
 	case i == len(path):
