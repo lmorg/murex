@@ -13,6 +13,11 @@ func cmdAlter(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
+	var (
+		merge  bool
+		offset int
+	)
+
 	if err := p.ErrIfNotAMethod(); err != nil {
 		return err
 	}
@@ -27,7 +32,17 @@ func cmdAlter(p *lang.Process) error {
 		return err
 	}
 
-	new, err := p.Parameters.String(1)
+	if s == "-m" || s == "--merge" {
+		merge = true
+		offset++
+
+		s, err = p.Parameters.String(1)
+		if err != nil {
+			return err
+		}
+	}
+
+	new, err := p.Parameters.String(1 + offset)
 	if err != nil {
 		return err
 	}
@@ -37,9 +52,16 @@ func cmdAlter(p *lang.Process) error {
 		return err
 	}
 
-	v, err = alter.Alter(p.Context, v, path, new)
-	if err != nil {
-		return err
+	if merge {
+		v, err = alter.Merge(p.Context, v, path, new)
+		if err != nil {
+			return err
+		}
+	} else {
+		v, err = alter.Alter(p.Context, v, path, new)
+		if err != nil {
+			return err
+		}
 	}
 
 	b, err := lang.MarshalData(p, dt, v)

@@ -7,13 +7,6 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-// safeCmds is a list of all the functions considered safe when using tab
-// autocomplete with ExecCmdline
-var safeCmds = []string{
-	"open", "regexp", "match", "cast", "format", "[", "[[", "runtime",
-	"cat", "ps", "grep", "ls",
-}
-
 func isCmdUnsafe(f string) bool {
 	for _, sb := range safeCmds {
 		if f == sb {
@@ -26,13 +19,15 @@ func isCmdUnsafe(f string) bool {
 
 // GetSafeCmds returns a slice of the safeCmds
 func GetSafeCmds() []string {
-	return safeCmds
+	a := make([]string, len(safeCmds))
+	copy(a, safeCmds)
+	return a
 }
 
 // ReadSafeCmds returns an interface{} of the safeCmds.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
 func ReadSafeCmds() (interface{}, error) {
-	return safeCmds, nil
+	return GetSafeCmds(), nil
 }
 
 // WriteSafeCmds takes a JSON-encoded string and writes it to the safeCmds

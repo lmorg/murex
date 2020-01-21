@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
-
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
