@@ -1,7 +1,7 @@
 - DocumentID: "gz"
   Title: >-
-    `gz` (optional)
-  CategoryID: commands
+    `gz` 
+  CategoryID: optional
   Summary: >-
     Compress or decompress a gzip file
   Description: |-
@@ -20,7 +20,7 @@
   Related:
   - base64
   - bz2
-  - escape
-  - eschtml
-  - escurl
-  - esccli
+  - commands/escape
+  - commands/eschtml
+  - commands/escurl
+  - commands/esccli

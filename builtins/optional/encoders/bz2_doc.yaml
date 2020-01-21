@@ -1,7 +1,7 @@
 - DocumentID: "bz2"
   Title: >-
-    `!bz2` (optional)
-  CategoryID: commands
+    `!bz2` 
+  CategoryID: optional
   Summary: >-
     Decompress a bz2 file
   Description: |-
@@ -18,7 +18,7 @@
   Related:
   - base64
   - gz
-  - escape
-  - eschtml
-  - escurl
-  - esccli
+  - commands/escape
+  - commands/eschtml
+  - commands/escurl
+  - commands/esccli

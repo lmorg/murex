@@ -1,6 +1,6 @@
 - DocumentID: open-image
   Title: >-
-    `open-image` (optional)
+    `open-image` 
   CategoryID: commands
   Summary: >-
     Renders bitmap image data on your terminal
@@ -30,5 +30,5 @@
     `open-image` will fail if STDOUT is not a TTY.
   Synonyms:
   Related:
-  - qr
+  - optional/qr
   - open

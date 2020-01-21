@@ -7,13 +7,11 @@ import (
 	"os"
 	"runtime"
 	"strconv"
-	"strings"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/posix"
@@ -30,7 +28,6 @@ func init() {
 	lang.GoFunctions["cpucount"] = cmdCpuCount
 	lang.GoFunctions["murex-update-exe-list"] = cmdUpdateExeList
 	lang.GoFunctions["man-summary"] = cmdManSummary
-	lang.GoFunctions["esccli"] = cmdEscapeCli
 }
 
 func cmdDebug(p *lang.Process) (err error) {
@@ -239,26 +236,4 @@ func cmdManSummary(p *lang.Process) (err error) {
 	}
 
 	return nil
-}
-
-func cmdEscapeCli(p *lang.Process) error {
-	p.Stdout.SetDataType(types.String)
-
-	var s []string
-
-	if p.IsMethod {
-		err := p.Stdin.ReadArray(func(b []byte) {
-			s = append(s, string(b))
-		})
-		if err != nil {
-			return err
-		}
-	} else {
-		s = p.Parameters.StringArray()
-	}
-
-	escape.CommandLine(s)
-
-	_, err := p.Stdout.Writeln([]byte(strings.Join(s, " ")))
-	return err
 }

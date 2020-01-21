@@ -46,5 +46,5 @@ Output the the file name and path of a lock file with the name `identifier`
   Run processes in the background
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
-* [commands/`sleep` (optional)](../commands/sleep.md):
-  Suspends the shell for a number of seconds
+* [commands/sleep](../commands/sleep.md):
+  

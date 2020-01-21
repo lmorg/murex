@@ -41,8 +41,6 @@ to return the same markdown-formatted document as those listed below. eg
 
 * [`!` (not)](commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [`!bz2` (optional)](commands/bz2.md):
-  Decompress a bz2 file
 * [`(` (brace quote)](commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`2darray` ](commands/2darray.md):
@@ -75,8 +73,6 @@ to return the same markdown-formatted document as those listed below. eg
   Add data to the end of an array
 * [`autocomplete`](commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`base64` (optional)](commands/base64.md):
-  Encode or decode a base64 string
 * [`bg`](commands/bg.md):
   Run processes in the background
 * [`cast`](commands/cast.md):
@@ -131,8 +127,6 @@ to return the same markdown-formatted document as those listed below. eg
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 * [`global`](commands/global.md):
   Define a global variable and set it's value
-* [`gz` (optional)](commands/gz.md):
-  Compress or decompress a gzip file
 * [`history`](commands/history.md):
   Outputs murex's command history
 * [`if`](commands/if.md):
@@ -165,7 +159,7 @@ to return the same markdown-formatted document as those listed below. eg
   Forces _murex_ to rescan $PATH looking for exectables
 * [`null`](commands/devnull.md):
   null function. Similar to /dev/null
-* [`open-image` (optional)](commands/open-image.md):
+* [`open-image` ](commands/open-image.md):
   Renders bitmap image data on your terminal
 * [`or`](commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
@@ -183,8 +177,6 @@ to return the same markdown-formatted document as those listed below. eg
   Define a private function block
 * [`pt`](commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [`qr` (optional)](commands/qr.md):
-  Creates a QR code from STDIN
 * [`read`](commands/read.md):
   `read` a line of input from the user and store as a variable
 * [`regexp`](commands/regexp.md):
@@ -195,8 +187,6 @@ to return the same markdown-formatted document as those listed below. eg
   Regexp pattern matching for file system objects (eg '.*\.txt')
 * [`set`](commands/set.md):
   Define a local variable and set it's value
-* [`sleep` (optional)](commands/sleep.md):
-  Suspends the shell for a number of seconds
 * [`struct-keys`](commands/struct-keys.md):
   Outputs all the keys in a structure
 * [`swivel-datatype`](commands/swivel-datatype.md):
@@ -205,7 +195,7 @@ to return the same markdown-formatted document as those listed below. eg
   Rotates a table by 90 degrees
 * [`ta`](commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [`time` (optional)](commands/time.md):
+* [`time` ](commands/time.md):
   Returns the execution run time of a command or block
 * [`tout`](commands/tout.md):
   Print a string to the STDOUT and set it's data-type
