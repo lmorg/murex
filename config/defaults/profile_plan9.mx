@@ -1,0 +1,13 @@
+autocomplete: set bg {
+    [{
+        "DynamicDesc": ({ fid-list --stopped }),
+        "ListView": true
+    }]
+}
+
+autocomplete: set fg {
+    [{
+        "DynamicDesc": ({ fid-list --stopped }),
+        "ListView": true
+    }]
+}

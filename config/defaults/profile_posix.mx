@@ -16,7 +16,6 @@ autocomplete set man-summary { [{
     "AllowMultiple": true
 }] }
 
-
 autocomplete set which { [{
     "IncExePath": true
 }] }
@@ -61,6 +60,47 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
+private kill-autocomplete {
+    # Autocomplete suggestion for `kill`
+    test define ps {
+        "ExitNum": 0
+    }
+    
+    test define map {
+        "StdoutRegex": (\{(".*?":".*?",?)+\})
+    }
+
+    ps <test_ps> -A -o pid -o command -> sed 1d -> set ps
+    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+}
+
+test define-unit private kill-autocomplete {
+    "StdoutType": "json",
+    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
+}
+
+autocomplete set kill {
+    [{
+        "DynamicDesc": ({ kill-autocomplete }),
+        "ListView": true,
+        "AllowMultiple": true
+    }]
+}
+
+autocomplete: set bg {
+    [{
+        "DynamicDesc": ({ fid-list --stopped }),
+        "ListView": true
+    }]
+}
+
+autocomplete: set fg {
+    [{
+        "DynamicDesc": ({ fid-list --stopped }),
+        "ListView": true
+    }]
+}
+
 private go-package {
     # returns all the packages in $GOPATH
     find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/::
@@ -88,6 +128,6 @@ autocomplete set go { [{
 
 config eval shell safe-commands {
     -> alter --merge / ([
-        "cat", "ps", "grep", "ls", "head", "tail", "printf"
+        "cat", "ps", "grep", "egrep", "ls", "head", "tail", "printf", "awk", "sed", "td", "cut"
     ])
 }

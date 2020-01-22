@@ -15,5 +15,5 @@ package defaults
 */
 
 func init() {
-	murexProfile = append(murexProfile, "")
+	murexProfile = append(murexProfile, "autocomplete: set bg {\n    [{\n        \"DynamicDesc\": ({ fid-list --stopped }),\n        \"ListView\": true\n    }]\n}\n\nautocomplete: set fg {\n    [{\n        \"DynamicDesc\": ({ fid-list --stopped }),\n        \"ListView\": true\n    }]\n}")
 }
