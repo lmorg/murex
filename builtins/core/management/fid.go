@@ -166,8 +166,7 @@ type fidList struct {
 }
 
 func cmdFidListPipe(p *lang.Process) error {
-	var fids []fidList
-
+	var fids []interface{}
 	p.Stdout.SetDataType(types.JsonLines)
 
 	procs := lang.GlobalFIDs.ListAll()
@@ -186,7 +185,7 @@ func cmdFidListPipe(p *lang.Process) error {
 		})
 	}
 
-	b, err := json.Marshal(fids, false)
+	b, err := lang.MarshalData(p, types.JsonLines, fids)
 	if err != nil {
 		return err
 	}

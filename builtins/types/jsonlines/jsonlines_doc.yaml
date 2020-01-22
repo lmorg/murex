@@ -33,8 +33,8 @@
   Detail: |-
     ### Concatenated JSON
 
-    Technically the `jsonl` Marshal() method supports Concatenated JSON, as
-    described on [Wikipedia]():
+    Technically the `jsonl` Unmarshal() method supports Concatenated JSON, as
+    described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
 
     > Concatenated JSON streaming allows the sender to simply write each JSON
     > object into the stream with no delimiters. It relies on the receiver using
@@ -132,6 +132,7 @@
   - commands/element
   - commands/cast
   - commands/format
+  - commands/foreach
   - commands/runtime
   - commands/pretty
   - apis/readarray

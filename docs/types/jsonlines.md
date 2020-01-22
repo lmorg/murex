@@ -27,8 +27,8 @@ Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/exam
 
 ### Concatenated JSON
 
-Technically the `jsonl` Marshal() method supports Concatenated JSON, as
-described on [Wikipedia]():
+Technically the `jsonl` Unmarshal() method supports Concatenated JSON, as
+described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
 
 > Concatenated JSON streaming allows the sender to simply write each JSON
 > object into the stream with no delimiters. It relies on the receiver using
@@ -139,6 +139,8 @@ cases for JSON lines.
   Outputs an element from an array, map or table
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [commands/`foreach`](../commands/foreach.md):
+  Iterate through an array
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [types/`hcl` ](../types/hcl.md):

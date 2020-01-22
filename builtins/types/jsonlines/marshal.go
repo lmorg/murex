@@ -11,25 +11,26 @@ import (
 
 func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 	switch v.(type) {
-	default:
-		return nil, fmt.Errorf("Cannot marshal data into jsonlines. Expecting an array of structures and instead received %T", v)
-
 	case []interface{}:
 		var (
 			b, jsonl []byte
 			err      error
 		)
 
-		for i, line := range v.([]interface{}) {
-			b, err = json.Marshal(line, p.Stdout.IsTTY())
+		for i := range v.([]interface{}) {
+			b, err = json.Marshal(v.([]interface{})[i], p.Stdout.IsTTY())
 			if err != nil {
-				return jsonl, fmt.Errorf("Unable to marshal index %d in array. %s", i, err)
+				err = fmt.Errorf("Unable to marshal %T on line %d: %s", v.([]interface{})[i], i, err)
 			}
+
 			jsonl = append(jsonl, b...)
 			jsonl = append(jsonl, '\n')
 		}
 
 		return jsonl, nil
+
+	default:
+		return nil, fmt.Errorf("Cannot marshal data into jsonlines. Expecting a slice instead received %T", v)
 	}
 }
 

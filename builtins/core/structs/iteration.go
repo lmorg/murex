@@ -40,7 +40,6 @@ func cmdFor(p *lang.Process) (err error) {
 	conditional := "= " + parameters[1]
 	incremental := "let " + parameters[2]
 
-	//_, err = lang.RunBlockExistingConfigSpace([]rune(variable), nil, nil, p.Stderr, p)
 	_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute([]rune(variable))
 	if err != nil {
 		return err
@@ -55,7 +54,6 @@ func cmdFor(p *lang.Process) (err error) {
 		}
 
 		//stdout := streams.NewStdin()
-		//i, err := lang.RunBlockExistingConfigSpace([]rune(conditional), nil, stdout, p.Stderr, p)
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 		i, err := fork.Execute(rConditional)
 		if err != nil {
@@ -71,11 +69,9 @@ func cmdFor(p *lang.Process) (err error) {
 		}
 
 		// Execute block.
-		//lang.RunBlockExistingConfigSpace(block, nil, p.Stdout, p.Stderr, p)
 		p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 
 		// Increment counter.
-		//_, err = lang.RunBlockExistingConfigSpace([]rune(incremental), nil, nil, p.Stderr, p)
 		_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute(rIncremental)
 		if err != nil {
 			return err
@@ -87,7 +83,11 @@ func cmdFor(p *lang.Process) (err error) {
 
 func cmdForEach(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
-	p.Stdout.SetDataType(dt)
+	if dt == types.Json {
+		p.Stdout.SetDataType(types.JsonLines)
+	} else {
+		p.Stdout.SetDataType(dt)
+	}
 
 	var (
 		block   []rune
@@ -125,19 +125,14 @@ func cmdForEach(p *lang.Process) (err error) {
 			p.Variables.Set(varName, string(b), dt)
 		}
 
-		//stdin := streams.NewStdin()
-		//stdin.SetDataType(dt)
-		//stdin.Writeln(b)
-
-		//lang.RunBlockExistingConfigSpace(block, stdin, p.Stdout, p.Stderr, p)
-
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
 		fork.Stdin.SetDataType(dt)
 		fork.Stdin.Writeln(b)
 		fork.Execute(block)
+
 	})
 
-	return err
+	return
 }
 
 func cmdForMap(p *lang.Process) error {
@@ -190,7 +185,6 @@ func cmdWhile(p *lang.Process) error {
 			}
 
 			//stdout := streams.NewStdin()
-			//i, err := lang.RunBlockExistingConfigSpace(block, nil, stdout, p.Stderr, p)
 			fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 			i, err := fork.Execute(block)
 			if err != nil {
@@ -233,7 +227,6 @@ func cmdWhile(p *lang.Process) error {
 			}
 
 			//stdout := streams.NewStdin()
-			//i, err := lang.RunBlockExistingConfigSpace(ifBlock, nil, stdout, nil, p)
 			fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 			i, err := fork.Execute(ifBlock)
 			if err != nil {
@@ -250,7 +243,6 @@ func cmdWhile(p *lang.Process) error {
 				return nil
 			}
 
-			//lang.RunBlockExistingConfigSpace(whileBlock, nil, p.Stdout, p.Stderr, p)
 			p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(whileBlock)
 		}
 
