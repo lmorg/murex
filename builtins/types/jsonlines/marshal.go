@@ -34,6 +34,18 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 	}
 }
 
+func noQuote(slice []byte) bool {
+	return !bytes.HasPrefix(slice, []byte{'"'}) || !bytes.HasSuffix(slice, []byte{'"'})
+}
+
+func noSquare(slice []byte) bool {
+	return !bytes.HasPrefix(slice, []byte{'['}) || !bytes.HasSuffix(slice, []byte{']'})
+}
+
+func noCurly(slice []byte) bool {
+	return !bytes.HasPrefix(slice, []byte{'{'}) || !bytes.HasSuffix(slice, []byte{'}'})
+}
+
 func unmarshal(p *lang.Process) (interface{}, error) {
 	var (
 		jsonl   []interface{}
@@ -47,14 +59,29 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 	for scanner.Scan() {
 		b = scanner.Bytes()
 		err = json.Unmarshal(b, &v)
-		if err != nil {
-			if len(jsonl) == 0 && len(b) > 1 && bytes.Contains(b, []byte{'}', '{'}) {
-				nextEOF = true
-			} else {
-				return jsonl, fmt.Errorf("Unable to unmarshal index %d in jsonlines: %s", len(jsonl), err)
+		switch {
+		case err == nil:
+			jsonl = append(jsonl, v)
+			continue
+
+		case len(jsonl) == 0 && len(b) > 1 && bytes.Contains(b, []byte{'}', '{'}):
+			nextEOF = true
+			continue
+
+		case noQuote(b) && noSquare(b) && noCurly(b):
+			b = append([]byte{'"'}, b...)
+			b = append(b, '"')
+			err = json.Unmarshal(b, &v)
+			if err == nil {
+				jsonl = append(jsonl, v)
+				continue
 			}
+			fallthrough
+
+		default:
+			return jsonl, fmt.Errorf("Unable to unmarshal index %d in jsonlines: %s", len(jsonl), err)
 		}
-		jsonl = append(jsonl, v)
+
 	}
 
 	if err != nil && nextEOF {

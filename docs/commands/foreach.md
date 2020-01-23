@@ -64,7 +64,7 @@ however the data-type is defined as `json`:
     - 2
     - 3
     
-    » ja [1..3] -> foreach i { out "- $i" } -> debug -> [[ /DataType/Murex ]]
+    » ja [1..3] -> foreach i { out "- $i" } -> debug -> [[ /Data-Type/Murex ]]
     json
     
 Thus any marshalling or other data-type-aware API's would fail because they
@@ -77,7 +77,7 @@ This can be resolved via `cast`:
     - 2
     - 3
     
-    » ja [1..3] -> foreach i { out "- $i" } -> cast yaml -> debug -> [[ /DataType/Murex ]]
+    » ja [1..3] -> foreach i { out "- $i" } -> cast yaml -> debug -> [[ /Data-Type/Murex ]]
     yaml
     
 The output is the same but now it's defined as `yaml` so any further pipelined
@@ -186,6 +186,23 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
             "Value": true
         },
     ...
+    
+#### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
+
+    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name }
+    Hello Tom
+    Hello Dick
+    Hello Sally
+    
+    » ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> debug -> [[ /Data-Type/Murex ]]
+    jsonl
+    
+    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name } -> format: json
+    [
+        "Hello Tom",
+        "Hello Dick",
+        "Hello Sally"
+    ]
 
 ## See Also
 
