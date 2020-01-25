@@ -2,7 +2,6 @@ package management
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -285,7 +284,7 @@ func cmdJobs(p *lang.Process) error {
 	var dt, dtLine string
 	if p.Stdout.IsTTY() {
 		dt = types.Generic
-		dtLine = types.Generic
+		dtLine = types.Columns
 	} else {
 		dt = types.JsonLines
 		dtLine = types.Json
@@ -300,10 +299,10 @@ func cmdJobs(p *lang.Process) error {
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {
 		if process.IsBackground || process.State == state.Stopped {
-			b, err := lang.MarshalData(p, dtLine, []string{
-				strconv.Itoa(int(process.Id)),
+			b, err := lang.MarshalData(p, dtLine, []interface{}{
+				process.Id,
 				process.State.String(),
-				yn(process.IsBackground),
+				process.IsBackground,
 				process.Name,
 				getParams(process),
 			})

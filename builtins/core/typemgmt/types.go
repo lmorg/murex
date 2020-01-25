@@ -104,8 +104,8 @@ func cmdCast(p *lang.Process) error {
 	// Technically you could use the following values as data types, but it's unlikely anyone would intend to do so,
 	// so lets just disable them with a helpful error to ease debugging.
 	switch dt {
-	case "string":
-		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.String + "`?")
+	//case "string":
+	//	return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.String + "`?")
 	case "number":
 		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Number + "`?")
 	case "integer":
@@ -114,8 +114,8 @@ func cmdCast(p *lang.Process) error {
 		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Boolean + "`?")
 	case "code", "codeblock":
 		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.CodeBlock + "`?")
-	case "generic":
-		return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Generic + "`?")
+		//case "generic":
+		//	return errors.New("`" + s + "` is an invalid data type. Presumably you meant `" + types.Generic + "`?")
 	}
 
 	p.Stdout.SetDataType(dt)

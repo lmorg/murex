@@ -48,6 +48,7 @@ import (
 
 	// Data types:
 	_ "github.com/lmorg/murex/builtins/types/binary"    // basic data type for handing binary data
+	_ "github.com/lmorg/murex/builtins/types/columns"   // columns data type
 	_ "github.com/lmorg/murex/builtins/types/generic"   // generic data type
 	_ "github.com/lmorg/murex/builtins/types/json"      // JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonlines" // jsonlines data type

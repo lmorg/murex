@@ -31,4 +31,15 @@ func init() {
 		"application/javascript", "application/x-javascript",
 		"application/xml",
 	)
+
+	// descriptive name
+	stdio.RegesterReadArray("string", readArray)
+	stdio.RegesterReadMap("string", readMap)
+	stdio.RegesterWriteArray("string", newArrayWriter)
+
+	lang.ReadIndexes["string"] = index
+	lang.ReadNotIndexes["string"] = index
+	lang.Marshallers["string"] = marshal
+	lang.Unmarshallers["string"] = unmarshal
+
 }

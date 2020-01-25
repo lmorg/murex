@@ -1,18 +1,14 @@
-package generic
+package columns
 
-import (
-	"bufio"
-
-	"github.com/lmorg/murex/lang/proc/stdio"
-)
-
-func readArray(read stdio.Io, callback func([]byte)) error {
+/*func readArray(read stdio.Io, callback func([]byte)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		callback(scanner.Bytes())
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	return err
+	//return read.ReadLine(callback)
 }
 
 type arrayWriter struct {
@@ -35,3 +31,4 @@ func (w *arrayWriter) WriteString(s string) error {
 }
 
 func (w *arrayWriter) Close() error { return nil }
+*/
