@@ -20,6 +20,8 @@ func init() {
 	autocomplete set fid-list { [{
 		"DynamicDesc": ({ fid-list --help })
 	}] }
+
+	alias jobs=fid-list --jobs
 `)
 }
 
@@ -294,6 +296,23 @@ func cmdJobs(p *lang.Process) error {
 	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
 		return err
+	}
+
+	if p.Stdout.IsTTY() {
+		b, err := lang.MarshalData(p, dtLine, []interface{}{
+			"PID",
+			"State",
+			"Background",
+			"Process",
+			"Parameters",
+		})
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Writeln(b)
+		if err != nil {
+			return err
+		}
 	}
 
 	procs := lang.GlobalFIDs.ListAll()

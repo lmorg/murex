@@ -79,9 +79,9 @@ func iface2str(iface *interface{}) (b []byte) {
 		return []byte(fmt.Sprintf("%v\t", v))
 
 	default:
-		return []byte(fmt.Sprintf("%v\t", v))*/
-	//default:
-	//	panic(fmt.Sprintf("Cannot marshal %T", v))
+		return []byte(fmt.Sprintf("%v\t", v))
+		//default:
+		//	panic(fmt.Sprintf("Cannot marshal %T", v))
 	}
 
 }
