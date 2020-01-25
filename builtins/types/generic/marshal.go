@@ -75,11 +75,14 @@ func iface2str(iface *interface{}) (b []byte) {
 		}
 		return append(b, []byte(fmt.Sprintf("%v%s", v[len(v)-1], utils.NewLineString))...)
 
+	case string:
+		return []byte(v + utils.NewLineString)
+
 	case interface{}:
-		return []byte(fmt.Sprintf("%v\t", v))
+		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 
 	default:
-		return []byte(fmt.Sprintf("%v\t", v))
+		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 		//default:
 		//	panic(fmt.Sprintf("Cannot marshal %T", v))
 	}
