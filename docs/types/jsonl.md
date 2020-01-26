@@ -16,7 +16,19 @@ The following description is taken from [jsonlines.org](http://jsonlines.org/):
 
 ## Examples
 
-Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
+Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
+
+### Tabulated data
+
+    ["Name", "Session", "Score", "Completed"]
+    ["Gilbert", "2013", 24, true]
+    ["Alexa", "2013", 29, true]
+    ["May", "2012B", 14, false]
+    ["Deloise", "2012A", 19, true] 
+    
+This format is equatable to `generic` and `csv`.
+
+### Nested objects
 
     {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
     {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
@@ -145,6 +157,8 @@ cases for JSON lines.
   Reformat one data-type into another data-type
 * [types/`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
+* [types/`json` ](../types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -153,6 +167,10 @@ cases for JSON lines.
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [types/csv](../types/csv.md):
+  
+* [types/generic](../types/generic.md):
+  
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
 * [commands/open](../commands/open.md):

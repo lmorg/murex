@@ -14,7 +14,21 @@
     > processes.
   Usage: |-
   Examples: |-
-    Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
+    Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
+    
+    ### Tabulated data
+
+    ```
+    ["Name", "Session", "Score", "Completed"]
+    ["Gilbert", "2013", 24, true]
+    ["Alexa", "2013", 29, true]
+    ["May", "2012B", 14, false]
+    ["Deloise", "2012A", 19, true] 
+    ```
+
+    This format is equatable to `generic` and `csv`.
+    
+    ### Nested objects
     
     ```
     {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
@@ -126,6 +140,9 @@
   - toml
   - hcl
   - mxjson
+  - json
+  - generic
+  - csv
   - commands/open
   - commands/index
   - commands/element
