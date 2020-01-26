@@ -32,6 +32,10 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 	scanner := bufio.NewScanner(p.Stdin)
 	for scanner.Scan() {
 		b = scanner.Bytes()
+		if len(bytes.TrimSpace(b)) == 0 {
+			continue
+		}
+
 		isStruct = isStruct || noSquare(b)
 
 		switch {
@@ -63,7 +67,7 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 
 		default:
 			// is a struct
-
+			err = json.Unmarshal(b, &v)
 			switch {
 			case err == nil:
 				jStruct = append(jStruct, v)

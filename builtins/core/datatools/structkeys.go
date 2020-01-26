@@ -31,125 +31,164 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	recursive(p.Context, "", v, aw)
+	err = recursive(p.Context, "", v, aw)
+	if err != nil {
+		return err
+	}
 	return aw.Close()
 }
 
-func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter) {
+func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter) error {
 	switch t := v.(type) {
 	case []string:
 		for i := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			aw.WriteString(path + "/" + strconv.Itoa(i))
 		}
+		return nil
 
 	case []int:
 		for i := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			aw.WriteString(path + "/" + strconv.Itoa(i))
 		}
+		return nil
 
 	case []float64:
 		for i := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			aw.WriteString(path + "/" + strconv.Itoa(i))
 		}
+		return nil
 
 	case []uint32:
 		for i := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			aw.WriteString(path + "/" + strconv.Itoa(i))
 		}
+		return nil
 
 	case []bool:
 		for i := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			aw.WriteString(path + "/" + strconv.Itoa(i))
 		}
+		return nil
 
 	case []interface{}:
 		for i := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			newPath := path + "/" + strconv.Itoa(i)
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t[i], aw)
+			err := recursive(ctx, newPath, t[i], aw)
+			if err != nil {
+				return err
+			}
 		}
-		return
+		return nil
+
+	case [][]string:
+		for i := range t {
+			select {
+			case <-ctx.Done():
+				return nil
+			default:
+			}
+
+			newPath := path + "/" + strconv.Itoa(i)
+			aw.WriteString(newPath)
+			err := recursive(ctx, newPath, t[i], aw)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
 
 	case map[string]interface{}:
 		for key := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			newPath := path + "/" + key
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t[key], aw)
+			err := recursive(ctx, newPath, t[key], aw)
+			if err != nil {
+				return err
+			}
 		}
-		return
+		return nil
 
 	case map[int]interface{}:
 		for key := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			newPath := path + "/" + strconv.Itoa(key)
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t[key], aw)
+			err := recursive(ctx, newPath, t[key], aw)
+			if err != nil {
+				return err
+			}
 		}
-		return
+		return nil
 
 	case map[interface{}]interface{}:
 		for key := range t {
 			select {
 			case <-ctx.Done():
-				return
+				return nil
 			default:
 			}
 
 			newPath := path + "/" + fmt.Sprint(key)
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t[key], aw)
+			err := recursive(ctx, newPath, t[key], aw)
+			if err != nil {
+				return err
+			}
 		}
-		return
+		return nil
+
+	case string, bool, int, float64, nil, float32, uint, int8, int16, int32, int64, uint8, uint16, uint32, uint64:
+		return nil
 
 	default:
-		//debug.Log(fmt.Sprintf("default: %T", v))
-		return
+		return fmt.Errorf("Found %T but no case exists for handling it", t)
 	}
 }
