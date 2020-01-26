@@ -75,6 +75,7 @@
   - yaml
   - json
   - jsonl
+  - mxjson
   - commands/open
   - commands/index
   - commands/element

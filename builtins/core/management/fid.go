@@ -17,11 +17,12 @@ func init() {
 	lang.GoFunctions["fid-killall"] = cmdKillAll
 
 	defaults.AppendProfile(`
-	autocomplete set fid-list { [{
+	autocomplete: set fid-list { [{
 		"DynamicDesc": ({ fid-list --help })
 	}] }
 
-	alias jobs=fid-list --jobs
+	alias: jobs=fid-list --jobs
+	config: eval shell safe-commands { -> append jobs }
 `)
 }
 
@@ -298,22 +299,22 @@ func cmdJobs(p *lang.Process) error {
 		return err
 	}
 
-	if p.Stdout.IsTTY() {
-		b, err := lang.MarshalData(p, dtLine, []interface{}{
-			"PID",
-			"State",
-			"Background",
-			"Process",
-			"Parameters",
-		})
-		if err != nil {
-			return err
-		}
-		_, err = p.Stdout.Writeln(b)
-		if err != nil {
-			return err
-		}
+	//if p.Stdout.IsTTY() {
+	b, err := lang.MarshalData(p, dtLine, []interface{}{
+		"PID",
+		"State",
+		"Background",
+		"Process",
+		"Parameters",
+	})
+	if err != nil {
+		return err
 	}
+	_, err = p.Stdout.Writeln(b)
+	if err != nil {
+		return err
+	}
+	//}
 
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {

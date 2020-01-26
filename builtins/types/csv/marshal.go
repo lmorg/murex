@@ -3,7 +3,6 @@ package csv
 import (
 	enc "encoding/csv"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -49,6 +48,17 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, utils.NewLineByte...)
 		}
 		return
+
+	/*case [][]interface{}:
+	for i := range v {
+		a := make([]string, len(v[i]))
+		for j := range v[i] {
+			a[j] = fmt.Sprint(v[i][j])
+		}
+		b = append(b, w.ArrayToCsv(a)...)
+		b = append(b, utils.NewLineByte...)
+	}
+	return*/
 
 	case map[string]string:
 		var headings []string
@@ -238,7 +248,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 		return b, nil
 
 	default:
-		err = errors.New("I don't know how to marshal that data into a `csv`. Data possibly too complex?")
+		err = fmt.Errorf("I don't know how to marshal %T data into a `%s`. Data possibly too complex?", v, typeName)
 		return
 	}
 }

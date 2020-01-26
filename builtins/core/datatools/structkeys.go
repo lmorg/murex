@@ -31,15 +31,69 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	recursiveMap(p.Context, "", v, aw)
+	recursive(p.Context, "", v, aw)
 	return aw.Close()
 }
 
-func recursiveMap(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter) {
-	switch v.(type) {
+func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter) {
+	switch t := v.(type) {
+	case []string:
+		for i := range t {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+			}
+
+			aw.WriteString(path + "/" + strconv.Itoa(i))
+		}
+
+	case []int:
+		for i := range t {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+			}
+
+			aw.WriteString(path + "/" + strconv.Itoa(i))
+		}
+
+	case []float64:
+		for i := range t {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+			}
+
+			aw.WriteString(path + "/" + strconv.Itoa(i))
+		}
+
+	case []uint32:
+		for i := range t {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+			}
+
+			aw.WriteString(path + "/" + strconv.Itoa(i))
+		}
+
+	case []bool:
+		for i := range t {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+			}
+
+			aw.WriteString(path + "/" + strconv.Itoa(i))
+		}
+
 	case []interface{}:
-		for key := range v.([]interface{}) {
-			//debug.Log("v.([]interface{})")
+		for key := range t {
 			select {
 			case <-ctx.Done():
 				return
@@ -48,12 +102,11 @@ func recursiveMap(ctx context.Context, path string, v interface{}, aw stdio.Arra
 
 			newPath := path + "/" + strconv.Itoa(key)
 			aw.WriteString(newPath)
-			recursiveMap(ctx, newPath, v.([]interface{})[key], aw)
+			recursive(ctx, newPath, t, aw)
 		}
 
 	case map[string]interface{}:
-		for key := range v.(map[string]interface{}) {
-			//debug.Log("v.(map[string]interface{})")
+		for key := range t {
 			select {
 			case <-ctx.Done():
 				return
@@ -62,12 +115,11 @@ func recursiveMap(ctx context.Context, path string, v interface{}, aw stdio.Arra
 
 			newPath := path + "/" + key
 			aw.WriteString(newPath)
-			recursiveMap(ctx, newPath, v.(map[string]interface{})[key], aw)
+			recursive(ctx, newPath, t, aw)
 		}
 
 	case map[int]interface{}:
-		for key := range v.(map[int]interface{}) {
-			//debug.Log("v.(map[int]interface{})")
+		for key := range t {
 			select {
 			case <-ctx.Done():
 				return
@@ -76,12 +128,11 @@ func recursiveMap(ctx context.Context, path string, v interface{}, aw stdio.Arra
 
 			newPath := path + "/" + strconv.Itoa(key)
 			aw.WriteString(newPath)
-			recursiveMap(ctx, newPath, v.(map[int]interface{})[key], aw)
+			recursive(ctx, newPath, t, aw)
 		}
 
 	case map[interface{}]interface{}:
-		for key := range v.(map[interface{}]interface{}) {
-			//debug.Log("v.(map[interface{}]interface{})")
+		for key := range t {
 			select {
 			case <-ctx.Done():
 				return
@@ -90,7 +141,7 @@ func recursiveMap(ctx context.Context, path string, v interface{}, aw stdio.Arra
 
 			newPath := path + "/" + fmt.Sprint(key)
 			aw.WriteString(newPath)
-			recursiveMap(ctx, newPath, v.(map[interface{}]interface{})[key], aw)
+			recursive(ctx, newPath, t, aw)
 		}
 
 	default:

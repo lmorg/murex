@@ -22,7 +22,6 @@ func readIndex(p *lang.Process, params []string) error {
 			cRecords <- recs
 		})
 		if err != nil {
-			//ansi.Stderrln(p, ansi.FgRed, err.Error())
 			p.Stderr.Writeln([]byte(err.Error()))
 		}
 		close(cRecords)

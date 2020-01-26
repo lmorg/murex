@@ -88,12 +88,12 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
   Reformat one data-type into another data-type
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/jsonl](../types/jsonl.md):
-  
 * [commands/open](../commands/open.md):
   
 * [apis/readarray](../apis/readarray.md):

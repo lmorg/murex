@@ -96,7 +96,9 @@ autocomplete: set bg {
 
 autocomplete: set fg {
     [{
-        "DynamicDesc": ({ fid-list --stopped }),
+        "DynamicDesc": ({
+            fid-list: --background -> alter -m / ${ fid-list --stopped }
+        }),
         "ListView": true
     }]
 }

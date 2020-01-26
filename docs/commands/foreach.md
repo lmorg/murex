@@ -218,6 +218,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   A sophisticated yet simply way to build a JSON array
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [types/`yaml` ](../types/yaml.md):
@@ -225,8 +227,6 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 * [commands/for](../commands/for.md):
   
 * [commands/formap](../commands/formap.md):
-  
-* [types/jsonl](../types/jsonl.md):
   
 * [commands/while](../commands/while.md):
   

@@ -1,4 +1,4 @@
-- DocumentID: jsonlines
+- DocumentID: jsonl
   Title: >-
     `jsonl` 
   CategoryID: types
@@ -47,11 +47,11 @@
     > human readability. For example, these two inputs are both valid and produce
     > the same output:
     >
-    > **Single line concatenated JSON**
+    > #### Single line concatenated JSON
     >
     >     {"some":"thing\n"}{"may":{"include":"nested","objects":["and","arrays"]}}
     >
-    > **Multi-line concatenated JSON**
+    > #### Multi-line concatenated JSON
     >
     >     {
     >       "some": "thing\n"
@@ -69,7 +69,7 @@
     ...however in _murex_'s case, only single line concatenated JSON files
     (example 1) are supported; and that is only supported to cover some edge
     cases when writing JSON lines and a new line character isn't included. The
-    primary example might be when generating JSON lines from inside a 'for' loop.
+    primary example might be when generating JSON lines from inside a `for` loop.
 
     This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
 
@@ -125,7 +125,6 @@
   - yaml
   - toml
   - hcl
-  - jsonl
   - mxjson
   - commands/open
   - commands/index
