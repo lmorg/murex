@@ -22,7 +22,7 @@ echo "Running unit tests on builtin profiles...."
 go build github.com/lmorg/murex || exit 1
 ./murex --run-tests || exit 1
 
-echo "Checking alternative OS builds...."
+echo "Checking subset of alternative OS builds...."
 test/test_goos.mx || exit 1
 
 #echo "Allowing git push to proceed...."
