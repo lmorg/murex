@@ -93,17 +93,18 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 		}
 
 	case []interface{}:
-		for key := range t {
+		for i := range t {
 			select {
 			case <-ctx.Done():
 				return
 			default:
 			}
 
-			newPath := path + "/" + strconv.Itoa(key)
+			newPath := path + "/" + strconv.Itoa(i)
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t, aw)
+			recursive(ctx, newPath, t[i], aw)
 		}
+		return
 
 	case map[string]interface{}:
 		for key := range t {
@@ -115,8 +116,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + key
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t, aw)
+			recursive(ctx, newPath, t[key], aw)
 		}
+		return
 
 	case map[int]interface{}:
 		for key := range t {
@@ -128,8 +130,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + strconv.Itoa(key)
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t, aw)
+			recursive(ctx, newPath, t[key], aw)
 		}
+		return
 
 	case map[interface{}]interface{}:
 		for key := range t {
@@ -141,8 +144,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + fmt.Sprint(key)
 			aw.WriteString(newPath)
-			recursive(ctx, newPath, t, aw)
+			recursive(ctx, newPath, t[key], aw)
 		}
+		return
 
 	default:
 		//debug.Log(fmt.Sprintf("default: %T", v))
