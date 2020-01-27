@@ -128,6 +128,7 @@ autocomplete set "[" { [{
     "Dynamic": ({
         switch ${ get-type: stdin } {
             case * {
+                #<stdin> -> tabulate -> [ 0: ] -> format json -> [ 0 ]
                 <stdin> -> [ 0: ] -> format json -> [ 0 ]
             }
             
