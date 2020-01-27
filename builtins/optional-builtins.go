@@ -1,3 +1,5 @@
+// +build windows
+
 package builtins
 
 // This is where you can add or remove built in functions. Imports here require underscoring.
@@ -7,5 +9,5 @@ package builtins
 // These are all optional functions
 import (
 	_ "github.com/lmorg/murex/builtins/optional/encoders" // base64, file archives, etc
-	_ "github.com/lmorg/murex/builtins/optional/time"     // sleep, time
+	_ "github.com/lmorg/murex/builtins/optional/time"     // sleep
 )

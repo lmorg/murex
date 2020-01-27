@@ -45,3 +45,9 @@ As a function
   Create an alias for a command
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
+* [commands/escape](../commands/escape.md):
+  
+* [commands/eschtml](../commands/eschtml.md):
+  
+* [commands/escurl](../commands/escurl.md):
+  

@@ -25,14 +25,15 @@ func newArrayWriter(writer stdio.Io) (stdio.ArrayWriter, error) {
 	return w, nil
 }
 
-func (w *arrayWriter) Write(b []byte) error {
-	_, err := w.writer.Writeln(b)
-	return err
+func (w *arrayWriter) Write(b []byte) (err error) {
+	_, err = w.writer.Writeln(b)
+	return
 }
 
-func (w *arrayWriter) WriteString(s string) error {
-	_, err := w.writer.Writeln([]byte(s))
-	return err
+func (w *arrayWriter) WriteString(s string) (err error) {
+	return w.Write([]byte(s))
 }
 
-func (w *arrayWriter) Close() error { return nil }
+func (w *arrayWriter) Close() error {
+	return nil
+}

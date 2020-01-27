@@ -13,7 +13,7 @@ ctrl_c() {
 }
 
 echo "Running Go tests...."
-go test ./... -count 10 -race || exit 1
+go test ./... -count 1 -race || exit 1
 
 #echo "Starting Murex tests...."
 #test/regression_test.sh || exit 1
@@ -22,7 +22,7 @@ echo "Running unit tests on builtin profiles...."
 go build github.com/lmorg/murex || exit 1
 ./murex --run-tests || exit 1
 
-echo "Checking alternative OS builds...."
+echo "Checking subset of alternative OS builds...."
 test/test_goos.mx || exit 1
 
 #echo "Allowing git push to proceed...."

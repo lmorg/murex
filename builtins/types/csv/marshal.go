@@ -1,56 +1,71 @@
 package csv
 
 import (
+	"bytes"
 	enc "encoding/csv"
-	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
-	"os"
-	"sort"
-	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
 )
 
-func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
-	w, err := NewParser(nil, p.Config)
+func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
+	var b []byte
+	buf := bytes.NewBuffer(b)
+	w := enc.NewWriter(buf)
+
+	separator, err := p.Config.Get("csv", "separator", types.String)
 	if err != nil {
-		return
+		return nil, err
+	}
+	if len(separator.(string)) != 0 {
+		w.Comma = []rune(separator.(string))[0]
 	}
 
 	switch v := iface.(type) {
 	case []string:
 		for i := range v {
-			s := strings.TrimSpace(v[i])
-			b = append(b, w.ArrayToCsv([]string{s})...)
-			b = append(b, utils.NewLineByte...)
+			err = w.Write([]string{v[i]})
+			if err != nil {
+				return buf.Bytes(), err
+			}
 		}
-		return
+		w.Flush()
+		return buf.Bytes(), w.Error()
 
 	case [][]string:
 		for i := range v {
-			//s := strings.TrimSpace(v[i])
-			b = append(b, w.ArrayToCsv(v[i])...)
-			b = append(b, utils.NewLineByte...)
+			err = w.Write(v[i])
+			if err != nil {
+				return buf.Bytes(), err
+			}
 		}
-		return
+		w.Flush()
+		return buf.Bytes(), w.Error()
 
 	case []interface{}:
 		for i := range v {
-			j, err := json.Marshal(v[i])
-			s := string(j)
+			err = w.Write([]string{fmt.Sprint(v[i])})
 			if err != nil {
-				s = strings.TrimSpace(fmt.Sprintln(v[i]))
+				return buf.Bytes(), err
 			}
-			b = append(b, w.ArrayToCsv([]string{s})...)
-			b = append(b, utils.NewLineByte...)
 		}
-		return
+		w.Flush()
+		return buf.Bytes(), w.Error()
 
-	case map[string]string:
+	/*case [][]interface{}:
+	for i := range v {
+		a := make([]string, len(v[i]))
+		for j := range v[i] {
+			a[j] = fmt.Sprint(v[i][j])
+		}
+		b = append(b, w.ArrayToCsv(a)...)
+		b = append(b, utils.NewLineByte...)
+	}
+	return*/
+
+	/*case map[string]string:
 		var headings []string
 		for key := range v {
 			headings = append(headings, key)
@@ -235,11 +250,11 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, w.ArrayToCsv(records)...)
 		}
 		os.Stderr.WriteString("Warning: untested!\n")
-		return b, nil
+		return b, nil*/
 
 	default:
-		err = errors.New("I don't know how to marshal that data into a `csv`. Data possibly too complex?")
-		return
+		err = fmt.Errorf("I don't know how to marshal %T data into a `%s`. Data possibly too complex?", v, typeName)
+		return buf.Bytes(), err
 	}
 }
 

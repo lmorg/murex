@@ -12,9 +12,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 		callback(scanner.Bytes())
 	}
 
-	err := scanner.Err()
-	return err
-	//return read.ReadLine(callback)
+	return scanner.Err()
 }
 
 type arrayWriter struct {

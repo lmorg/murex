@@ -2,11 +2,12 @@ package generic
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/utils"
 	"strings"
+
+	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
@@ -29,7 +30,7 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		return
 
-	case map[string]string:
+	/*case map[string]string:
 		for s := range v {
 			b = append(b, []byte(s+": "+v[s]+utils.NewLineString)...)
 		}
@@ -51,28 +52,41 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		for s := range v {
 			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), v[s], utils.NewLineString))...)
 		}
-		return
+		return*/
 
-	case interface{}:
-		return []byte(fmt.Sprintln(iface)), nil
+	/*case interface{}:
+	return []byte(fmt.Sprintln(iface)), nil*/
 
 	default:
-		err = errors.New("I don't know how to marshal that data into a `*`. Data possibly too complex?")
+		err = fmt.Errorf("I don't know how to marshal %T into a `%s`. Data possibly too complex?", v, types.Generic)
 		return
 	}
 }
 
-func iface2str(v *interface{}) (b []byte) {
-	switch t := (*v).(type) {
+func iface2str(iface *interface{}) (b []byte) {
+	switch v := (*iface).(type) {
+	case []interface{}:
+		if len(v) == 0 {
+			return
+		}
+
+		for i := 0; i < len(v)-2; i++ {
+			b = append(b, []byte(fmt.Sprintf("%v\t", v[i]))...)
+		}
+		return append(b, []byte(fmt.Sprintf("%v%s", v[len(v)-1], utils.NewLineString))...)
+
 	case string:
-		return []byte((*v).(string) + utils.NewLineString)
-	case int, uint, float64:
-		s := fmt.Sprintln(*v)
-		return []byte(s)
+		return []byte(v + utils.NewLineString)
+
+	case interface{}:
+		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
+
 	default:
-		s := fmt.Sprintf("%s: %s%s", t, *v, utils.NewLineString)
-		return []byte(s)
+		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
+		//default:
+		//	panic(fmt.Sprintf("Cannot marshal %T", v))
 	}
+
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {

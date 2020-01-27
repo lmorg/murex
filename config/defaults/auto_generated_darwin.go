@@ -15,5 +15,5 @@ package defaults
 */
 
 func init() {
-	murexProfile = append(murexProfile, "autocomplete set kill {\n    [{\n        \"DynamicDesc\": ({ kill-autocomplete }),\n        \"ListView\": true,\n        \"AllowMultiple\": true\n    }]\n}\n\nprivate kill-autocomplete {\n    # Autocomplete suggestion for `kill`\n    test define ps {\n        \"ExitNum\": 0\n    }\n    \n    test define map {\n        \"StdoutRegex\": (\\{(\".*?\":\".*?\",?)+\\})\n    }\n\n    ps <test_ps> -A -o pid -o command -> sed 1d -> set ps\n    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }\n}\n\ntest define-unit private kill-autocomplete {\n    \"StdoutType\": \"json\",\n    \"StdoutRegex\": \"\\\\{\\\\\\\"[0-9]+\\\\\\\":\\\\\\\".*?\\\\\\\"(,|)\\\\}\"\n}")
+	murexProfile = append(murexProfile, "")
 }

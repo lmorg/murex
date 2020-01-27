@@ -53,9 +53,9 @@
   Associations:
     Mimes:
     - application/json
-    - application/x-toml
-    - text/toml
-    - text/x-toml
+    - application/x-json
+    - text/json
+    - text/x-json
     Extensions:
     - json
   Related:

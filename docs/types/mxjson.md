@@ -66,6 +66,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   HashiCorp Configuration Language (HCL)
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -74,7 +76,5 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/jsonl](../types/jsonl.md):
-  
 * [commands/open](../commands/open.md):
   

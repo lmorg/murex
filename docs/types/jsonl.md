@@ -16,7 +16,19 @@ The following description is taken from [jsonlines.org](http://jsonlines.org/):
 
 ## Examples
 
-Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/examples/)
+Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
+
+### Tabulated data
+
+    ["Name", "Session", "Score", "Completed"]
+    ["Gilbert", "2013", 24, true]
+    ["Alexa", "2013", 29, true]
+    ["May", "2012B", 14, false]
+    ["Deloise", "2012A", 19, true] 
+    
+This format is equatable to `generic` and `csv`.
+
+### Nested objects
 
     {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
     {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
@@ -27,8 +39,8 @@ Example JSON lines document taken from [jsonlines.org](http://jsonlines.org/exam
 
 ### Concatenated JSON
 
-Technically the `jsonl` Marshal() method supports Concatenated JSON, as
-described on [Wikipedia]():
+Technically the `jsonl` Unmarshal() method supports Concatenated JSON, as
+described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
 
 > Concatenated JSON streaming allows the sender to simply write each JSON
 > object into the stream with no delimiters. It relies on the receiver using
@@ -41,11 +53,11 @@ described on [Wikipedia]():
 > human readability. For example, these two inputs are both valid and produce
 > the same output:
 >
-> **Single line concatenated JSON**
+> #### Single line concatenated JSON
 >
 >     {"some":"thing\n"}{"may":{"include":"nested","objects":["and","arrays"]}}
 >
-> **Multi-line concatenated JSON**
+> #### Multi-line concatenated JSON
 >
 >     {
 >       "some": "thing\n"
@@ -63,7 +75,7 @@ described on [Wikipedia]():
 ...however in _murex_'s case, only single line concatenated JSON files
 (example 1) are supported; and that is only supported to cover some edge
 cases when writing JSON lines and a new line character isn't included. The
-primary example might be when generating JSON lines from inside a 'for' loop.
+primary example might be when generating JSON lines from inside a `for` loop.
 
 This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
 
@@ -139,10 +151,14 @@ cases for JSON lines.
   Outputs an element from an array, map or table
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [commands/`foreach`](../commands/foreach.md):
+  Iterate through an array
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [types/`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
+* [types/`json` ](../types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -151,7 +167,9 @@ cases for JSON lines.
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/jsonl](../types/jsonl.md):
+* [types/csv](../types/csv.md):
+  
+* [types/generic](../types/generic.md):
   
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

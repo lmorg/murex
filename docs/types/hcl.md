@@ -97,14 +97,16 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   Reformat one data-type into another data-type
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/jsonl](../types/jsonl.md):
-  
+* [types/mxjson](../types/mxjson.md):
+  Murex-flavoured JSON (primitive)
 * [commands/open](../commands/open.md):
   
 * [apis/readarray](../apis/readarray.md):

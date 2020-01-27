@@ -146,14 +146,31 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
             "Value": true
         },
     ...
+    
+#### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
+
+    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name }
+    Hello Tom
+    Hello Dick
+    Hello Sally
+    
+    » ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> debug -> [[ /Data-Type/Murex ]]
+    jsonl
+    
+    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name } -> format: json
+    [
+        "Hello Tom",
+        "Hello Dick",
+        "Hello Sally"
+    ]
 
 ## Default Associations
 
 * **Extension**: `json`
 * **MIME**: `application/json`
-* **MIME**: `application/x-toml`
-* **MIME**: `text/toml`
-* **MIME**: `text/x-toml`
+* **MIME**: `application/x-json`
+* **MIME**: `text/json`
+* **MIME**: `text/x-json`
 
 
 ## Supported Hooks
@@ -189,6 +206,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Reformat one data-type into another data-type
 * [types/`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -197,8 +216,6 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/jsonl](../types/jsonl.md):
-  
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
 * [commands/open](../commands/open.md):

@@ -18,34 +18,56 @@ autocomplete set systemctl { [
 	}
 ] }
 
-autocomplete set kill {
+# I have a feeling this is old code that needs replacing with the OSX code 
+#private kill-autocomplete {
+#    test define ps {
+#        "ExitNum": 0
+#    }
+#
+#    test define map {
+#        "StdoutRegex": (\{(".*?":".*?",?)+\})
+#    }
+#
+#    ps <test_ps> -A -o pid,cmd --no-headers -> set ps
+#    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+#}
+#
+#test define-unit private kill-autocomplete {
+#    "StdoutType": "json",
+#    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
+#}
+
+func progress {
+    # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
+
+    if { = `+"`${os}`==`linux`"+` } then {
+        params -> [ 1 ] -> set pid
+        
+        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
+            trypipe <!null> {
+                open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
+                readlink: /proc/$pid/fd/$fd -> set file
+                du -b $file -> [ :0 ] -> set int size
+                if { = size > 0 } then {
+                    = ($pos/$size)*100 -> set int percent
+                    out "$percent% ($pos/$size) $file"
+                }
+            }
+        }
+    }
+}
+
+autocomplete set progress {
     [{
         "DynamicDesc": ({
-           
+            ps -A -o pid,cmd --no-headers -> set ps
+            map { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
         }),
-        "ListView": true,
-        "AllowMultiple": true
+        "ListView": true
     }]
-}
-
-private kill-autocomplete {
-    test define ps {
-        "ExitNum": 0
-    }
-
-    test define map {
-        "StdoutRegex": (\{(".*?":".*?",?)+\})
-    }
-
-    ps <test_ps> -A -o pid,cmd --no-headers -> set ps
-    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
-}
-
-test define-unit private kill-autocomplete {
-    "StdoutType": "json",
-    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
 }
 
 config set shell stop-status-func {
     progress $PID
 }
+

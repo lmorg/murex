@@ -65,7 +65,7 @@
     - 2
     - 3
 
-    » ja [1..3] -> foreach i { out "- $i" } -> debug -> [[ /DataType/Murex ]]
+    » ja [1..3] -> foreach i { out "- $i" } -> debug -> [[ /Data-Type/Murex ]]
     json
     ```
 
@@ -80,7 +80,7 @@
     - 2
     - 3
 
-    » ja [1..3] -> foreach i { out "- $i" } -> cast yaml -> debug -> [[ /DataType/Murex ]]
+    » ja [1..3] -> foreach i { out "- $i" } -> cast yaml -> debug -> [[ /Data-Type/Murex ]]
     yaml
     ```
 

@@ -1,10 +1,10 @@
 # Builtins: `misc`
 
-Some time based builtins.
+Some optional time based builtins.
 
 # Package `time`
 
-This provides some time based builtins. It contains the following commands:
+This provides some optional time based builtins. It contains the following commands:
 
 * `sleep`
 * `time`

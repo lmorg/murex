@@ -10,7 +10,7 @@ import (
 func TestStructKeys(t *testing.T) {
 	tests := []test.MurexTest{{
 		Block: `
-			tout json ` + input + ` -> struct-keys -> format str -> msort
+			tout json (` + input + `) -> struct-keys -> format str -> msort
 		`,
 		ExitNum: 0,
 		Stdout:  expected,

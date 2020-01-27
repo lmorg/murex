@@ -1,12 +1,14 @@
-package encoders
+package escape
 
 import (
 	"html"
 	"net/url"
 	"strconv"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/escape"
 )
 
 func init() {
@@ -16,6 +18,7 @@ func init() {
 	lang.GoFunctions["!eschtml"] = cmdHtml
 	lang.GoFunctions["escurl"] = cmdUrl
 	lang.GoFunctions["!escurl"] = cmdUrl
+	lang.GoFunctions["esccli"] = cmdEscapeCli
 }
 
 func cmdEscape(p *lang.Process) error {
@@ -103,5 +106,27 @@ func cmdUrl(p *lang.Process) (err error) {
 	}
 
 	_, err = p.Stdout.Write([]byte(str))
+	return err
+}
+
+func cmdEscapeCli(p *lang.Process) error {
+	p.Stdout.SetDataType(types.String)
+
+	var s []string
+
+	if p.IsMethod {
+		err := p.Stdin.ReadArray(func(b []byte) {
+			s = append(s, string(b))
+		})
+		if err != nil {
+			return err
+		}
+	} else {
+		s = p.Parameters.StringArray()
+	}
+
+	escape.CommandLine(s)
+
+	_, err := p.Stdout.Writeln([]byte(strings.Join(s, " ")))
 	return err
 }

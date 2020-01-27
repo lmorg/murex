@@ -13,6 +13,7 @@ const (
 	Die       = "die"
 	Boolean   = "bool"
 	String    = "str"
+	Columns   = "columns"
 	Binary    = "bin"
 	CodeBlock = "block"
 	Json      = "json"

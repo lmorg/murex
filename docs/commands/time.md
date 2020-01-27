@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Command Reference: `time` (optional)
+## Command Reference: `time` 
 
 > Returns the execution run time of a command or block
 
@@ -35,7 +35,7 @@ and STDERR as usual.
 
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`sleep` (optional)](../commands/sleep.md):
+* [optional/`sleep` ](../optional/sleep.md):
   Suspends the shell for a number of seconds
 * [commands/source](../commands/source.md):
   

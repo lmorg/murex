@@ -2,7 +2,6 @@ package management
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -18,9 +17,12 @@ func init() {
 	lang.GoFunctions["fid-killall"] = cmdKillAll
 
 	defaults.AppendProfile(`
-	autocomplete set fid-list { [{
+	autocomplete: set fid-list { [{
 		"DynamicDesc": ({ fid-list --help })
 	}] }
+
+	alias: jobs=fid-list --jobs
+	config: eval shell safe-commands { -> append jobs }
 `)
 }
 
@@ -166,8 +168,7 @@ type fidList struct {
 }
 
 func cmdFidListPipe(p *lang.Process) error {
-	var fids []fidList
-
+	var fids []interface{}
 	p.Stdout.SetDataType(types.JsonLines)
 
 	procs := lang.GlobalFIDs.ListAll()
@@ -186,7 +187,7 @@ func cmdFidListPipe(p *lang.Process) error {
 		})
 	}
 
-	b, err := json.Marshal(fids, false)
+	b, err := lang.MarshalData(p, types.JsonLines, fids)
 	if err != nil {
 		return err
 	}
@@ -286,7 +287,7 @@ func cmdJobs(p *lang.Process) error {
 	var dt, dtLine string
 	if p.Stdout.IsTTY() {
 		dt = types.Generic
-		dtLine = types.Generic
+		dtLine = types.Columns
 	} else {
 		dt = types.JsonLines
 		dtLine = types.Json
@@ -298,13 +299,30 @@ func cmdJobs(p *lang.Process) error {
 		return err
 	}
 
+	//if p.Stdout.IsTTY() {
+	b, err := lang.MarshalData(p, dtLine, []interface{}{
+		"PID",
+		"State",
+		"Background",
+		"Process",
+		"Parameters",
+	})
+	if err != nil {
+		return err
+	}
+	_, err = p.Stdout.Writeln(b)
+	if err != nil {
+		return err
+	}
+	//}
+
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {
 		if process.IsBackground || process.State == state.Stopped {
-			b, err := lang.MarshalData(p, dtLine, []string{
-				strconv.Itoa(int(process.Id)),
+			b, err := lang.MarshalData(p, dtLine, []interface{}{
+				process.Id,
 				process.State.String(),
-				yn(process.IsBackground),
+				process.IsBackground,
 				process.Name,
 				getParams(process),
 			})

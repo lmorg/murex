@@ -1,7 +1,7 @@
 - DocumentID: base64
   Title: >-
-    `base64` (optional)
-  CategoryID: commands
+    `base64` 
+  CategoryID: optional
   Summary: >-
     Encode or decode a base64 string
   Description: |-
@@ -47,7 +47,7 @@
   Related:
   - bz2
   - gz
-  - escape
-  - eschtml
-  - escurl
-  - esccli
+  - commands/escape
+  - commands/eschtml
+  - commands/escurl
+  - commands/esccli

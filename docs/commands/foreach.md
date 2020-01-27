@@ -64,7 +64,7 @@ however the data-type is defined as `json`:
     - 2
     - 3
     
-    » ja [1..3] -> foreach i { out "- $i" } -> debug -> [[ /DataType/Murex ]]
+    » ja [1..3] -> foreach i { out "- $i" } -> debug -> [[ /Data-Type/Murex ]]
     json
     
 Thus any marshalling or other data-type-aware API's would fail because they
@@ -77,7 +77,7 @@ This can be resolved via `cast`:
     - 2
     - 3
     
-    » ja [1..3] -> foreach i { out "- $i" } -> cast yaml -> debug -> [[ /DataType/Murex ]]
+    » ja [1..3] -> foreach i { out "- $i" } -> cast yaml -> debug -> [[ /Data-Type/Murex ]]
     yaml
     
 The output is the same but now it's defined as `yaml` so any further pipelined
@@ -186,6 +186,23 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
             "Value": true
         },
     ...
+    
+#### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
+
+    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name }
+    Hello Tom
+    Hello Dick
+    Hello Sally
+    
+    » ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> debug -> [[ /Data-Type/Murex ]]
+    jsonl
+    
+    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name } -> format: json
+    [
+        "Hello Tom",
+        "Hello Dick",
+        "Hello Sally"
+    ]
 
 ## See Also
 
@@ -201,6 +218,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   A sophisticated yet simply way to build a JSON array
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
 * [types/`yaml` ](../types/yaml.md):
@@ -208,8 +227,6 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 * [commands/for](../commands/for.md):
   
 * [commands/formap](../commands/formap.md):
-  
-* [types/jsonl](../types/jsonl.md):
   
 * [commands/while](../commands/while.md):
   

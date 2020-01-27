@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Command Reference: `open-image` (optional)
+## Command Reference: `open-image` 
 
 > Renders bitmap image data on your terminal
 
@@ -32,7 +32,7 @@ As a function
 
 ## See Also
 
-* [commands/`qr` (optional)](../commands/qr.md):
+* [optional/`qr` ](../optional/qr.md):
   Creates a QR code from STDIN
 * [commands/open](../commands/open.md):
   

@@ -9,11 +9,7 @@ cd build-tests
 set json targets=([
     "linux",
     "freebsd",
-    "openbsd",
-    "netbsd",
-    "dragonfly",
     "darwin",
-    "solaris",
     "plan9",
     "windows"
 ])

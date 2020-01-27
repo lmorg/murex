@@ -55,10 +55,10 @@ external source packages for the shell to compile.
   Reformat one data-type into another data-type
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonl` ](../types/jsonl.md):
+  JSON Lines (primitive)
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/jsonl](../types/jsonl.md):
-  
 * [commands/open](../commands/open.md):
   
 * [apis/readarray](../apis/readarray.md):

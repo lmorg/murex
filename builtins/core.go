@@ -15,6 +15,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/config"       // config cli tools
 	_ "github.com/lmorg/murex/builtins/core/datatools"    // utilities for manipulating structured data
 	_ "github.com/lmorg/murex/builtins/core/element"      // element function: [[ /element ]]
+	_ "github.com/lmorg/murex/builtins/core/escape"       // string escaping
 	_ "github.com/lmorg/murex/builtins/core/httpclient"   // builtins for http
 	_ "github.com/lmorg/murex/builtins/core/index"        // index function: [ index ]
 	_ "github.com/lmorg/murex/builtins/core/io"           // OS IO builtins
@@ -22,6 +23,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/mkarray"      // rapidly makes arrays
 	_ "github.com/lmorg/murex/builtins/core/modules"      // `murex-package`: module package management
 	_ "github.com/lmorg/murex/builtins/core/open"         // `open` and default handlers
+	_ "github.com/lmorg/murex/builtins/core/openimage"    // image pipelines
 	_ "github.com/lmorg/murex/builtins/core/pipe"         // cli tools for named pipes
 	_ "github.com/lmorg/murex/builtins/core/random"       // random data builtin
 	_ "github.com/lmorg/murex/builtins/core/ranges"       // working with ranges within arrays (`@[..]`)
@@ -30,6 +32,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/tabulate"     // function to auto-tabulise data
 	_ "github.com/lmorg/murex/builtins/core/test"         // testing framework for murex shell scripts
 	_ "github.com/lmorg/murex/builtins/core/textmanip"    // text manipulation builtins
+	_ "github.com/lmorg/murex/builtins/core/time"         // time-based utilities
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"     // type handling and management builtins
 
 	// Events:
@@ -45,6 +48,7 @@ import (
 
 	// Data types:
 	_ "github.com/lmorg/murex/builtins/types/binary"    // basic data type for handing binary data
+	_ "github.com/lmorg/murex/builtins/types/columns"   // columns data type
 	_ "github.com/lmorg/murex/builtins/types/generic"   // generic data type
 	_ "github.com/lmorg/murex/builtins/types/json"      // JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonlines" // jsonlines data type

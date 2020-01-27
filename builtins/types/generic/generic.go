@@ -18,6 +18,16 @@ func init() {
 	stdio.RegesterReadArray(types.Generic, readArray)
 	stdio.RegesterReadMap(types.Generic, readMap)
 	stdio.RegesterWriteArray(types.Generic, newArrayWriter)
+
+	// descriptive name
+	lang.ReadIndexes["generic"] = index
+	lang.ReadNotIndexes["generic"] = index
+	lang.Marshallers["generic"] = marshal
+	lang.Unmarshallers["generic"] = unmarshal
+
+	stdio.RegesterReadArray("generic", readArray)
+	stdio.RegesterReadMap("generic", readMap)
+	stdio.RegesterWriteArray("generic", newArrayWriter)
 }
 
 var rxWhitespace = regexp.MustCompile(`\s+`)
