@@ -3,9 +3,8 @@ package jsonlines
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/utils"
-
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -29,6 +28,7 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 			b, err = json.Marshal(t[i], p.Stdout.IsTTY())
 			if err != nil {
 				err = fmt.Errorf("Unable to marshal %T on line %d: %s", v.([]interface{})[i], i, err)
+				return nil, err
 			}
 
 			jsonl = append(jsonl, b...)

@@ -13,6 +13,7 @@ import (
 
 func readIndex(p *lang.Process, params []string) error {
 	cRecords := make(chan []string, 1)
+	status := make(chan error)
 
 	r := enc.NewReader(p.Stdin)
 
@@ -31,8 +32,6 @@ func readIndex(p *lang.Process, params []string) error {
 	if len(v.(string)) != 0 {
 		r.Comment = rune(v.(string)[0])
 	}
-
-	status := make(chan error)
 
 	go func() {
 		for {
