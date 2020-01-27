@@ -1,4 +1,4 @@
-package management
+package processes
 
 import (
 	"fmt"
@@ -13,8 +13,6 @@ import (
 
 func init() {
 	lang.GoFunctions["fid-list"] = cmdFidList
-	lang.GoFunctions["fid-kill"] = cmdFidKill
-	lang.GoFunctions["fid-killall"] = cmdKillAll
 
 	defaults.AppendProfile(`
 	autocomplete: set fid-list { [{
@@ -196,51 +194,6 @@ func cmdFidListPipe(p *lang.Process) error {
 	return err
 }
 
-func cmdFidKill(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Null)
-
-	for i := 0; i < p.Parameters.Len(); i++ {
-		fid, err := p.Parameters.Uint32(i)
-		if err != nil {
-			return err
-		}
-
-		process, err := lang.GlobalFIDs.Proc(fid)
-		if err != nil {
-			return err
-		}
-
-		if process.Kill != nil {
-			process.Kill()
-		} else {
-			return fmt.Errorf("fid `%d` cannot be killed. `Kill` method == `nil`", fid)
-		}
-	}
-
-	return nil
-}
-
-func cmdKillAll(*lang.Process) error {
-	fids := lang.GlobalFIDs.ListAll()
-	for _, p := range fids {
-		if p.Kill != nil /*&& !p.HasTerminated()*/ {
-			procName := p.Name
-			procParam, _ := p.Parameters.String(0)
-			if p.Name == "exec" {
-				procName = procParam
-				procParam, _ = p.Parameters.String(1)
-			}
-			if len(procParam) > 10 {
-				procParam = procParam[:10]
-			}
-			lang.ShellProcess.Stderr.Write([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!\n", p.Id, procName, procParam)))
-			p.Kill()
-		}
-	}
-
-	return nil
-}
-
 func cmdJobsStopped(p *lang.Process) error {
 	procs := lang.GlobalFIDs.ListAll()
 	m := make(map[uint32]string)
@@ -281,60 +234,4 @@ func cmdJobsBackground(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 	_, err = p.Stdout.Write(b)
 	return err
-}
-
-func cmdJobs(p *lang.Process) error {
-	var dt, dtLine string
-	if p.Stdout.IsTTY() {
-		dt = types.Generic
-		dtLine = types.Columns
-	} else {
-		dt = types.JsonLines
-		dtLine = types.Json
-	}
-	p.Stdout.SetDataType(dt)
-
-	aw, err := p.Stdout.WriteArray(dt)
-	if err != nil {
-		return err
-	}
-
-	//if p.Stdout.IsTTY() {
-	b, err := lang.MarshalData(p, dtLine, []interface{}{
-		"PID",
-		"State",
-		"Background",
-		"Process",
-		"Parameters",
-	})
-	if err != nil {
-		return err
-	}
-	_, err = p.Stdout.Writeln(b)
-	if err != nil {
-		return err
-	}
-	//}
-
-	procs := lang.GlobalFIDs.ListAll()
-	for _, process := range procs {
-		if process.IsBackground || process.State == state.Stopped {
-			b, err := lang.MarshalData(p, dtLine, []interface{}{
-				process.Id,
-				process.State.String(),
-				process.IsBackground,
-				process.Name,
-				getParams(process),
-			})
-			if err != nil {
-				return err
-			}
-			err = aw.Write(b)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return aw.Close()
 }

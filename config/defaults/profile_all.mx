@@ -173,14 +173,6 @@ private config.get.apps {
     config: -> formap k v { out $k } -> msort
 }
 
-#private config.get.keys {
-#    config: -> [ ${params->[2]} ] -> formap k v { out $k } -> msort
-#}
-#
-#private config.get.meta {
-#    config: -> [ ${params->[2]} ] -> [ ${params->[3]} ] -> [ ${params->[4]} ]
-#}
-
 autocomplete set config { [{
     "Flags": [ "get", "set", "eval", "define", "default" ],
     "FlagValues": {
@@ -334,20 +326,7 @@ autocomplete set git { [{
     }
 }] }
 
-#autocomplete set docker { [
-#    {
-#        "Flags": [ "config", "container", "image", "network", "node", "plugin", "secret", "service", "stack", "swarm", "system", "volume", "attach", "build", "commit", "cp", "create", "diff", "events", "exec", "export", "history", "images", "info", "inspect", "kill", "load", "login", "logout", "logs", "pause", "port", "ps", "pull", "push", "rename", "restart", "rm", "rmi", "run", "save", "search", "start", "stats", "stop", "tag", "top", "unpause", "update", "version", "wait" ]
-#    },
-#    {
-#        "Flags": [ "-t" ],
-#        "Optional": true,
-#        "AllowMultiple": true,
-#        "AnyValue": true
-#    },
-#    {
-#        "IncFiles": true
-#    }
-#] }
+
 
 autocomplete set docker { [
     {
@@ -478,13 +457,7 @@ autocomplete set debug { [{
     "Flags": ["on", "off"]
 }] }
 
-autocomplete: set fid-kill {
-    [{
-        "DynamicDesc": ({ fid-list: --csv -> [ :0 :8 :9 ] }),
-        "ListView": true,
-        "AllowMultiple": true
-    }]
-}
+
 
 autocomplete: set murex-package {
     [{
