@@ -48,7 +48,15 @@ autocomplete set exec { [
     }
 ] }
 
-private get.datatypes {
+autocomplete set format { [{
+    "Dynamic": ({ runtime: --marshallers })
+}] }
+
+autocomplete set swivel-datatype { [{
+    "Dynamic": ({ runtime: --marshallers })
+}] }
+
+private autocomplete.data-types {
     runtime: --readarray -> format: str
     runtime: --writearray -> format: str
     runtime: --readmap -> format: str
@@ -56,12 +64,12 @@ private get.datatypes {
     runtime: --unmarshallers -> format: str
 }
 
-private datatypes {
-    get.datatypes -> sort -> uniq -> cast str
-}
+#private datatypes {
+#    get.datatypes -> sort -> uniq -> cast str
+#}
 
-test define-unit private datatypes {
-    "StdoutRegex": "[a-z]+",
+test define-unit private autocomplete.data-types {
+    "StdoutRegex": (^(([a-z0-9]+|\*)\n)+),
     "StdoutType":  "str",
     "StdoutBlock": ({
         -> len -> set len;
@@ -74,23 +82,15 @@ test define-unit private datatypes {
 }
 
 autocomplete set cast { [{
-    "Dynamic": ({ datatypes })
+    "Dynamic": ({ autocomplete.data-types })
 }] }
 
 autocomplete set tout { [{
-    "Dynamic": ({ datatypes })
+    "Dynamic": ({ autocomplete.data-types })
 }] }
 
 autocomplete set set { [{
-    "Dynamic": ({ datatypes })
-}] }
-
-autocomplete set format { [{
-    "Dynamic": ({ runtime: --marshallers })
-}] }
-
-autocomplete set swivel-datatype { [{
-    "Dynamic": ({ runtime: --marshallers })
+    "Dynamic": ({ autocomplete.data-types })
 }] }
 
 autocomplete set export { [{
@@ -105,20 +105,39 @@ autocomplete set unset { [{
     "DynamicDesc": ({ runtime --exports })
 }] }
 
+private autocomplete.variables {
+    runtime: --variables -> formap k v { out $k }
+}
+
+test define-unit private autocomplete.variables {
+    "PreBlock": ({ global MUREX_UNIT_TEST=foobar }),
+    "PostBlock": ({ !global MUREX_UNIT_TEST }),
+    "StdoutRegex": (^([_a-zA-Z0-9]+\n)+),
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    })
+}
+
 autocomplete set global { [{
-    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+    "Dynamic": ({ autocomplete.variables })
 }] }
 
 autocomplete set !global { [{
-    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+    "Dynamic": ({ autocomplete.variables })
 }] }
 
 autocomplete set set { [{
-    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+    "Dynamic": ({ autocomplete.variables })
 }] }
 
 autocomplete set !set { [{
-    "Dynamic": ({ runtime: --variables -> formap k v { out $k } })
+    "Dynamic": ({ autocomplete.variables })
 }] }
 
 autocomplete set "[" { [{
@@ -220,23 +239,51 @@ autocomplete set !event { [
     }
 ] }
 
-autocomplete set !alias { [
-    {
-        "Dynamic": ({ runtime: --aliases -> formap k v { out $k } })
-    }
-]}
+private autocomplete.alias {
+    runtime: --aliases -> formap k v { out $k }
+}
 
-autocomplete set !func { [
-    {
-        "Dynamic": ({ runtime: --funcs -> formap k v { out $k } })
-    }
-]}
+test define-unit private autocomplete.alias {
+    "StdoutRegex": (^([-_./a-zA-Z0-9]+\n)+),
+	"StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    })
+}
 
-autocomplete set !function { [
-    {
-        "Dynamic": ({ runtime: --funcs -> formap k v { out $k } })
-    }
-]}
+autocomplete set !alias { [{
+    "Dynamic": ({ autocomplete.alias })
+}] }
+
+private autocomplete.functions {
+    runtime: --functions -> formap k v { out $k }
+}
+
+test define-unit private autocomplete.functions {
+    "StdoutRegex": (^([-_./a-zA-Z0-9]+\n)+),
+	"StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    })
+}
+
+autocomplete set !func { [{
+    "Dynamic": ({ autocomplete.functions })
+} ]}
+
+autocomplete set !function { [{
+    "Dynamic": ({ autocomplete.functions })
+} ]}
 
 autocomplete set autocomplete { [{
     "Flags" : [ "get", "set" ]

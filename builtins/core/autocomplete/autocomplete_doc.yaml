@@ -105,7 +105,7 @@
     ### "ExecCmdline": boolean (false)
 
     Sometimes you'd want your autocomplete suggestions to aware of the output
-    returned from the commands that preceeded it. For example the suggestions
+    returned from the commands that preceded it. For example the suggestions
     for `[` (index) will depend entirely on what data is piped into it.
 
     **ExecCmdline** tells _murex_ to run the commandline up until the command

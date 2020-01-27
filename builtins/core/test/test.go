@@ -15,22 +15,53 @@ func init() {
 	lang.GoFunctions["!test"] = cmdTestDisable
 
 	defaults.AppendProfile(`
-		autocomplete set test { [{
-			"Flags": [
-				"enable",
-				"!enable",
-				"auto-report",
-				"!auto-report",
-				"verbose",
-				"!verbose",
-				"define",
-				"state",
-				"run",
-				"define-unit",
-				"run-unit"
-			],
-			"AllowMultiple": true
-        }] }
+private autocomplete.test.run-unit {
+    runtime: --tests -> [ unit ] -> foreach: test {
+        out: $test[function]
+    } -> prepend *
+}
+
+test define-unit private autocomplete.test.run-unit {
+    "StdoutRegex": (^(([-_./a-zA-Z0-9]+|\*)\n)+),
+	"StdoutType":  "jsonl",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    })
+}
+
+autocomplete set test { [
+    {
+        "Flags": [
+            "enable",
+            "!enable",
+            "auto-report",
+            "!auto-report",
+            "verbose",
+            "!verbose"
+        ],
+        "AllowMultiple": true,
+        "Optional": true
+    },
+    {
+        "Flags": [
+            "define",
+            "state",
+            "run",
+            "define-unit",
+            "run-unit"
+        ],
+        "FlagValues": {
+            "run-unit": [{
+                "Dynamic": ({ autocomplete.test.run-unit })
+            }]
+        }
+    }
+] }
     `)
 }
 
