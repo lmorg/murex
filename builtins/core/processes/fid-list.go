@@ -104,18 +104,18 @@ func cmdFidListTTY(p *lang.Process) error {
 		"FID", "Parent", "Scope", "State", "Run Mode", "BG", "Out Pipe", "Err Pipe", "Command", "Parameters")))
 
 	procs := lang.GlobalFIDs.ListAll()
-	for i := range procs {
+	for _, process := range procs {
 		s := fmt.Sprintf("%7d  %7d  %7d  %-12s  %-8s  %-3s  %-10s  %-10s  %-10s  %s",
-			procs[i].Id,
-			procs[i].Parent.Id,
-			procs[i].Scope.Id,
-			procs[i].State,
-			procs[i].RunMode,
-			yn(procs[i].IsBackground),
-			procs[i].NamedPipeOut,
-			procs[i].NamedPipeErr,
-			procs[i].Name,
-			getParams(&procs[i]),
+			process.Id,
+			process.Parent.Id,
+			process.Scope.Id,
+			process.State,
+			process.RunMode,
+			yn(process.IsBackground),
+			process.NamedPipeOut,
+			process.NamedPipeErr,
+			process.Name,
+			getParams(process),
 		)
 		_, err := p.Stdout.Writeln([]byte(s))
 		if err != nil {
@@ -131,18 +131,18 @@ func cmdFidListCSV(p *lang.Process) error {
 		"FID", "Parent", "Scope", "State", "Run Mode", "BG", "Out Pipe", "Err Pipe", "Command", "Parameters")))
 
 	procs := lang.GlobalFIDs.ListAll()
-	for i := range procs {
+	for _, process := range procs {
 		s := fmt.Sprintf("%d,%d,%d,%s,%s,%s,%s,%s,%s,%s",
-			procs[i].Id,
-			procs[i].Parent.Id,
-			procs[i].Scope.Id,
-			procs[i].State,
-			procs[i].RunMode,
-			yn(procs[i].IsBackground),
-			procs[i].NamedPipeOut,
-			procs[i].NamedPipeErr,
-			procs[i].Name,
-			getParams(&procs[i]),
+			process.Id,
+			process.Parent.Id,
+			process.Scope.Id,
+			process.State,
+			process.RunMode,
+			yn(process.IsBackground),
+			process.NamedPipeOut,
+			process.NamedPipeErr,
+			process.Name,
+			getParams(process),
 		)
 		_, err := p.Stdout.Writeln([]byte(s))
 		if err != nil {
@@ -170,18 +170,18 @@ func cmdFidListPipe(p *lang.Process) error {
 	p.Stdout.SetDataType(types.JsonLines)
 
 	procs := lang.GlobalFIDs.ListAll()
-	for i := range procs {
+	for _, process := range procs {
 		fids = append(fids, fidList{
-			FID:        procs[i].Id,
-			Parent:     procs[i].Parent.Id,
-			Scope:      procs[i].Scope.Id,
-			State:      procs[i].State.String(),
-			RunMode:    procs[i].RunMode.String(),
-			BG:         procs[i].IsBackground,
-			OutPipe:    procs[i].NamedPipeOut,
-			ErrPipe:    procs[i].NamedPipeErr,
-			Command:    procs[i].Name,
-			Parameters: getParams(&procs[i]),
+			FID:        process.Id,
+			Parent:     process.Parent.Id,
+			Scope:      process.Scope.Id,
+			State:      process.State.String(),
+			RunMode:    process.RunMode.String(),
+			BG:         process.IsBackground,
+			OutPipe:    process.NamedPipeOut,
+			ErrPipe:    process.NamedPipeErr,
+			Command:    process.Name,
+			Parameters: getParams(process),
 		})
 	}
 
@@ -198,11 +198,11 @@ func cmdJobsStopped(p *lang.Process) error {
 	procs := lang.GlobalFIDs.ListAll()
 	m := make(map[uint32]string)
 
-	for i := range procs {
-		if procs[i].State != state.Stopped {
+	for _, process := range procs {
+		if process.State != state.Stopped {
 			continue
 		}
-		m[procs[i].Id] = procs[i].Name + " " + getParams(&procs[i])
+		m[process.Id] = process.Name + " " + getParams(process)
 	}
 
 	b, err := lang.MarshalData(p, types.Json, m)
@@ -219,11 +219,11 @@ func cmdJobsBackground(p *lang.Process) error {
 	procs := lang.GlobalFIDs.ListAll()
 	m := make(map[uint32]string)
 
-	for i := range procs {
-		if !procs[i].IsBackground {
+	for _, process := range procs {
+		if !process.IsBackground {
 			continue
 		}
-		m[procs[i].Id] = procs[i].Name + " " + getParams(&procs[i])
+		m[process.Id] = process.Name + " " + getParams(process)
 	}
 
 	b, err := lang.MarshalData(p, types.Json, m)

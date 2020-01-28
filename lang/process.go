@@ -228,8 +228,10 @@ func executeProcess(p *Process) {
 	p.State = state.Executing
 	p.StartTime = time.Now()
 
+	if err := GlobalFIDs.Executing(p.Id); err != nil {
+		panic(err)
+	}
 executeProcess:
-	GlobalFIDs.Executing(p.Id)
 
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)

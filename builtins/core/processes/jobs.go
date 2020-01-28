@@ -40,14 +40,14 @@ func cmdJobs(p *lang.Process) error {
 	//}
 
 	procs := lang.GlobalFIDs.ListAll()
-	for i := range procs {
-		if procs[i].IsBackground || procs[i].State == state.Stopped {
+	for _, process := range procs {
+		if process.IsBackground || process.State == state.Stopped {
 			b, err := lang.MarshalData(p, dtLine, []interface{}{
-				procs[i].Id,
-				procs[i].State.String(),
-				procs[i].IsBackground,
-				procs[i].Name,
-				getParams(&procs[i]),
+				process.Id,
+				process.State.String(),
+				process.IsBackground,
+				process.Name,
+				getParams(process),
 			})
 			if err != nil {
 				return err

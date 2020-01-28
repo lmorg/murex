@@ -41,9 +41,12 @@ func (f *funcID) Register(p *Process) (fid uint32) {
 
 // Executing moves the function from init to list
 func (f *funcID) Executing(fid uint32) error {
+
 	f.mutex.Lock()
 	p := f.init[fid]
+
 	if p == nil {
+		f.mutex.Unlock()
 		return errors.New("Function ID not in init map")
 	}
 
@@ -90,7 +93,7 @@ func (f *funcID) Proc(fid uint32) (*Process, error) {
 }
 
 // fidList is the list of exported FIDs
-type fidList []Process
+type fidList []*Process
 
 // Len returns the length of fidList - used purely for sorting FIDs
 func (f fidList) Len() int { return len(f) }
@@ -107,7 +110,7 @@ func (f *funcID) ListAll() fidList {
 	procs := make(fidList, len(f.list))
 	var i int
 	for _, p := range f.list {
-		procs[i] = *p
+		procs[i] = p
 		i++
 	}
 	f.mutex.Unlock()
