@@ -288,9 +288,9 @@ private git-branch {
 autocomplete set git { [{
     #"Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
     "DynamicDesc": ({
-        git help -> tabulate --map
+        git: help -a -> @[..^Ancillary]re -> tabulate: --map
     }),
-    #"ListView": true,
+    "ListView": true,
     "FlagValues": {
         "init": [{
             "Flags": ["--bare"]
@@ -302,9 +302,9 @@ autocomplete set git { [{
                 git status -s -> regexp 'm/^( |\?)' -> [:1]
             })
         }],
-        "mv": [
-            { "IncFiles": true }
-        ],
+        "mv": [{ 
+            "IncFiles": true
+        }],
         "rm": [{
             "IncFiles": true,
             "AllowMultiple": true
