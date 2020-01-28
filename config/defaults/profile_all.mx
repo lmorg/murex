@@ -461,10 +461,21 @@ autocomplete set debug { [{
 
 autocomplete: set murex-package {
     [{
-        "Flags": [ "install", "update", "import", "enable", "disable", "reload", "status" ],
+        "Flags": [ "install", "update", "import", "enable", "disable", "reload", "status", "list", "cd" ],
         "FlagValues": {
             "import": [{
                 "IncFiles": true
+            }],
+            "enable": [{
+                "DynamicDesc": ({ murex-package: list disabled }),
+                "ListView": true
+            }],
+            "disable": [{
+                "DynamicDesc": ({ murex-package: list enabled }),
+                "ListView": true
+            }],
+            "list": [{
+                "Flags": [ "enabled", "disabled" ]
             }]
         }
     }]
