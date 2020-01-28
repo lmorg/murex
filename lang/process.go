@@ -229,6 +229,8 @@ func executeProcess(p *Process) {
 	p.StartTime = time.Now()
 
 executeProcess:
+	GlobalFIDs.Executing(p.Id)
+
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
 		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
