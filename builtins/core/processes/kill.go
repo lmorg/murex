@@ -13,12 +13,12 @@ func init() {
 	lang.GoFunctions["fid-killall"] = cmdKillAll
 
 	defaults.AppendProfile(`
-private autocomplete.kill {
+private autocomplete.fid-kill {
     fid-list: --csv -> [ :0 :8 :9 ]
 }
 
-test define-unit private autocomplete.kill {
-    "StdoutRegex": (^FID,Command,Parameters\n0,\./murex,\n.*),
+test define-unit private autocomplete.fid-kill {
+#    "StdoutRegex": (^FID,Command,Parameters\n0,\./murex,\n.*),
 	"StdoutType":  "csv",
     "StdoutBlock": ({
         -> len -> set len;
@@ -32,7 +32,7 @@ test define-unit private autocomplete.kill {
 
 autocomplete: set fid-kill {
     [{
-        "DynamicDesc": ({ autocomplete.kill }),
+        "DynamicDesc": ({ autocomplete.fid-kill }),
         "ListView": true,
         "AllowMultiple": true
     }]
