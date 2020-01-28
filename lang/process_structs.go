@@ -44,17 +44,18 @@ type Process struct {
 	NamedPipeTest      string
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
-	State              state.FunctionState
-	IsBackground       bool
-	RunMode            runmode.RunMode
-	Config             *config.Config
-	Tests              *Tests
-	testState          []string
-	Variables          *Variables
-	FidTree            []uint32
-	CreationTime       time.Time
-	StartTime          time.Time
-	FileRef            *ref.File
+	//hasTerminated chan bool
+	State        state.FunctionState
+	IsBackground bool
+	RunMode      runmode.RunMode
+	Config       *config.Config
+	Tests        *Tests
+	testState    []string
+	Variables    *Variables
+	FidTree      []uint32
+	CreationTime time.Time
+	StartTime    time.Time
+	FileRef      *ref.File
 }
 
 type shellExec struct {
@@ -70,6 +71,19 @@ func (p *Process) HasTerminated() (state bool) {
 	state = p.hasTerminatedV
 	p.hasTerminatedM.Unlock()
 	return
+	//return p.HasCancelled()
+	/*if p.Id == 0 {
+		return true
+	}
+
+	fmt.Println("< start: ", p.Id, p.Name)
+	defer fmt.Println("< end: ", p.Id, p.Name)
+	select {
+	case <-p.hasTerminated:
+		return true
+	default:
+		return false
+	}*/
 }
 
 // HasCancelled is a wrapper function around context because it's a pretty ugly API
@@ -93,7 +107,12 @@ func (p *Process) SetTerminatedState(state bool) {
 	p.hasTerminatedM.Lock()
 	p.hasTerminatedV = state
 	p.hasTerminatedM.Unlock()
-	return
+	/*if p.Id == 0 {
+		return
+	}
+	fmt.Println("> start: ", p.Id, p.Name)
+	p.hasTerminated <- state
+	fmt.Println("> end: ", p.Id, p.Name)*/
 }
 
 // ErrIfNotAMethod returns a standard error message for builtins not run as methods

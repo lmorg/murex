@@ -11,25 +11,30 @@ import (
 
 // FID (Function ID) table: ie table of murex `Process` processes
 type funcID struct {
-	procs  sync.Map
+	list   map[uint32]*Process
+	mutex  sync.Mutex
 	latest uint32
 }
 
 // newFuncID creates new FID (Function ID) table of `Process`es
 func newFuncID() *funcID {
 	f := new(funcID)
-	f.procs.Store(uint32(0), ShellProcess)
+	f.list = make(map[uint32]*Process)
 	return f
 }
 
 // Register process to assign it a FID (Function ID)
 func (f *funcID) Register(p *Process) (fid uint32) {
-	i := atomic.AddUint32(&f.latest, 1)
-	f.procs.Store(i, p)
-	p.Id = i
-	p.FidTree = append(p.FidTree, i)
+	fid = atomic.AddUint32(&f.latest, 1)
+
+	f.mutex.Lock()
+	f.list[fid] = p
+	f.mutex.Unlock()
+
+	p.Id = fid
+	p.FidTree = append(p.FidTree, fid)
 	p.Variables.process = p
-	return i
+	return
 }
 
 // Deregister removes function from the FID table
@@ -38,7 +43,9 @@ func (f *funcID) Deregister(fid uint32) {
 		return
 	}
 
-	f.procs.Delete(fid)
+	f.mutex.Lock()
+	delete(f.list, fid)
+	f.mutex.Unlock()
 }
 
 // Proc gets process by FID
@@ -47,9 +54,12 @@ func (f *funcID) Proc(fid uint32) (*Process, error) {
 		return nil, errors.New("FID 0 is reserved for the shell")
 	}
 
-	p, ok := f.procs.Load(fid)
-	if ok {
-		return p.(*Process), nil
+	f.mutex.Lock()
+	p := f.list[fid]
+	f.mutex.Unlock()
+
+	if p != nil {
+		return p, nil
 	}
 
 	return nil, errors.New("Function ID does not exist")
@@ -68,17 +78,18 @@ func (f fidList) Less(i, j int) bool { return f[i].Id < f[j].Id }
 func (f fidList) Swap(i, j int) { f[i], f[j] = f[j], f[i] }
 
 // ListAll processes registered in the FID (Function ID) table - return as a ordered list
-func (f *funcID) ListAll() (procs fidList) {
-	f.procs.Range(func(key interface{}, val interface{}) bool {
-		p, ok := f.procs.Load(key.(uint32))
-		if ok {
-			procs = append(procs, *p.(*Process))
-		}
-		return true
-	})
+func (f *funcID) ListAll() fidList {
+	f.mutex.Lock()
+	procs := make(fidList, len(f.list))
+	var i int
+	for _, p := range f.list {
+		procs[i] = *p
+		i++
+	}
+	f.mutex.Unlock()
 
 	sort.Sort(procs)
-	return
+	return procs
 }
 
 /*// Dump lists all processes registered in the FID (Function ID) table - return as an unsorted list (faster but less useful)
