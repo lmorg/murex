@@ -416,7 +416,7 @@ func altFunc(path string, fork *Fork) (int, error) {
 }
 
 func runAutocomplete(path string, split []string, fork *Fork) (int, error) {
-	return 0, errors.New("Not currently supported")
+	return 0, errors.New("TODO: Not currently supported")
 	//autocomplete.MatchFlags()
 }
 

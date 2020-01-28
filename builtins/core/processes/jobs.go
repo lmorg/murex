@@ -33,7 +33,7 @@ func cmdJobs(p *lang.Process) error {
 	if err != nil {
 		return err
 	}
-	_, err = p.Stdout.Writeln(b)
+	err = aw.Write(b)
 	if err != nil {
 		return err
 	}

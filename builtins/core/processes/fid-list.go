@@ -152,7 +152,7 @@ func cmdFidListCSV(p *lang.Process) error {
 	return nil
 }
 
-type fidList struct {
+/*type fidList struct {
 	FID        uint32
 	Parent     uint32
 	Scope      uint32
@@ -163,35 +163,55 @@ type fidList struct {
 	ErrPipe    string `json:"Err Pipe"`
 	Command    string
 	Parameters string
-}
+}*/
 
 func cmdFidListPipe(p *lang.Process) error {
-	var fids []interface{}
 	p.Stdout.SetDataType(types.JsonLines)
 
-	procs := lang.GlobalFIDs.ListAll()
-	for _, process := range procs {
-		fids = append(fids, fidList{
-			FID:        process.Id,
-			Parent:     process.Parent.Id,
-			Scope:      process.Scope.Id,
-			State:      process.State.String(),
-			RunMode:    process.RunMode.String(),
-			BG:         process.IsBackground,
-			OutPipe:    process.NamedPipeOut,
-			ErrPipe:    process.NamedPipeErr,
-			Command:    process.Name,
-			Parameters: getParams(process),
-		})
+	b, err := lang.MarshalData(p, types.Json, []interface{}{
+		"FID",
+		"Parent",
+		"Scope",
+		"State",
+		"RunMode",
+		"BG",
+		"OutPipe",
+		"ErrPipe",
+		"Command",
+		"Parameters",
+	})
+	if err != nil {
+		return err
 	}
-
-	b, err := lang.MarshalData(p, types.JsonLines, fids)
+	_, err = p.Stdout.Writeln(b)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.Stdout.Write(b)
-	return err
+	procs := lang.GlobalFIDs.ListAll()
+	for _, process := range procs {
+		b, err = lang.MarshalData(p, types.Json, []interface{}{
+			process.Id,
+			process.Parent.Id,
+			process.Scope.Id,
+			process.State.String(),
+			process.RunMode.String(),
+			process.IsBackground,
+			process.NamedPipeOut,
+			process.NamedPipeErr,
+			process.Name,
+			getParams(process),
+		})
+		if err != nil {
+			return err
+		}
+		_, err = p.Stdout.Writeln(b)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func cmdJobsStopped(p *lang.Process) error {

@@ -39,17 +39,6 @@ func indexObject(p *lang.Process, params []string) error {
 		err error
 	)
 
-	/*scanner := bufio.NewScanner(p.Stdin)
-	for scanner.Scan() {
-		if lines[i] != p.IsNot {
-			_, err = p.Stdout.Writeln(scanner.Bytes())
-			if err != nil {
-				break
-			}
-		}
-		i++
-	}*/
-
 	err = p.Stdin.ReadArray(func(b []byte) {
 		if lines[i] != p.IsNot {
 			_, err = p.Stdout.Writeln(b)
@@ -64,7 +53,7 @@ func indexObject(p *lang.Process, params []string) error {
 }
 
 func indexTable(p *lang.Process, params []string) error {
-	cRecords := make(chan []string, 1)
+	cRecords := make(chan []string, 30)
 	status := make(chan error)
 
 	go func() {
@@ -100,7 +89,7 @@ func indexTable(p *lang.Process, params []string) error {
 		close(cRecords)
 	}()
 
-	marshaller := func(s []string) (b []byte) {
+	marshaller := func(s []string) []byte {
 		b, err := lang.MarshalData(p, types.Json, s)
 		if err != nil {
 			close(cRecords)

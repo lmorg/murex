@@ -14,13 +14,14 @@ func init() {
 
 	defaults.AppendProfile(`
 private autocomplete.fid-kill {
-    fid-list: --csv -> [ :0 :8 :9 ]
+    fid-list: --jsonl -> [ FID Command Parameters ]
 }
 
 test define-unit private autocomplete.fid-kill {
-#    "StdoutRegex": (^FID,Command,Parameters\n0,\./murex,\n.*),
-	"StdoutType":  "csv",
-    "StdoutBlock": ({
+    "StdoutRegex": (^\["FID","Command","Parameters"\]\n.*(["[0-9]+","fid-list")),
+	"StdoutType":  "jsonl",
+	"ExitNum: 1,
+	"StdoutBlock": ({
         -> len -> set len;
         if { = len>0 } then {
             out "Len greater than 0"
