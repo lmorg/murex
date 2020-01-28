@@ -56,7 +56,7 @@ func (f *funcID) Proc(fid uint32) (*Process, error) {
 }
 
 // fidList is the list of exported FIDs
-type fidList []*Process
+type fidList []Process
 
 // Len returns the length of fidList - used purely for sorting FIDs
 func (f fidList) Len() int { return len(f) }
@@ -72,7 +72,7 @@ func (f *funcID) ListAll() (procs fidList) {
 	f.procs.Range(func(key interface{}, val interface{}) bool {
 		p, ok := f.procs.Load(key.(uint32))
 		if ok {
-			procs = append(procs, p.(*Process))
+			procs = append(procs, *p.(*Process))
 		}
 		return true
 	})
