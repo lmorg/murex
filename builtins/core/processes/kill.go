@@ -20,7 +20,7 @@ private autocomplete.fid-kill {
 test define-unit private autocomplete.fid-kill {
     "StdoutRegex": (^\["FID","Command","Parameters"\]\n.*(["[0-9]+","fid-list")),
 	"StdoutType":  "jsonl",
-	"ExitNum: 1,
+	"ExitNum": 1,
 	"StdoutBlock": ({
         -> len -> set len;
         if { = len>0 } then {
