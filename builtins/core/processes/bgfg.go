@@ -1,4 +1,4 @@
-package management
+package processes
 
 import (
 	"github.com/lmorg/murex/lang"

@@ -25,6 +25,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/open"         // `open` and default handlers
 	_ "github.com/lmorg/murex/builtins/core/openimage"    // image pipelines
 	_ "github.com/lmorg/murex/builtins/core/pipe"         // cli tools for named pipes
+	_ "github.com/lmorg/murex/builtins/core/processes"    // process handling
 	_ "github.com/lmorg/murex/builtins/core/random"       // random data builtin
 	_ "github.com/lmorg/murex/builtins/core/ranges"       // working with ranges within arrays (`@[..]`)
 	_ "github.com/lmorg/murex/builtins/core/runtime"      // runtime inspection

@@ -34,6 +34,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
 		procs[i].Done = func() {}
 		procs[i].Kill = func() {}
+		//procs[i].hasTerminated = make(chan bool, 1)
 		procs[i].PromptId = parent.PromptId
 
 		procs[i].FidTree = make([]uint32, len(parent.Parent.FidTree))

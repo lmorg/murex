@@ -1,6 +1,6 @@
 // +build !windows,!plan9
 
-package management
+package processes
 
 import (
 	"errors"

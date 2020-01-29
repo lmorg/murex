@@ -5,11 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/lmorg/murex/builtins/core/httpclient"
 	"github.com/lmorg/murex/config/profile"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/readline"
 )
@@ -20,11 +23,73 @@ Usage: murex-package install         uri
                      reload
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
-                     status
+					 status
+					 list            enabled|disabled
 `
 
 func init() {
 	lang.GoFunctions["murex-package"] = cmdModuleAdmin
+}
+
+func listModules(p *lang.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
+	list := make(map[string]string)
+
+	enabled, err := p.Parameters.Bool(1)
+	if err != nil {
+		return err
+	}
+
+	var disabled []string
+	err = profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
+	if err != nil {
+		return err
+	}
+	debug.Log("disabled", disabled)
+
+	isDisabled := func(name string) bool {
+		debug.Log(name)
+		for i := range disabled {
+			if disabled[i] == name {
+				return true
+			}
+		}
+
+		return false
+	}
+
+	paths, err := filepath.Glob(profile.ModulePath + "*")
+	if err != nil {
+		return err
+	}
+
+	for _, pack := range paths {
+		mods, err := profile.LoadPackage(pack, false)
+		if err != nil {
+			return err
+		}
+		// these should NOT equate ;)
+		if strings.HasSuffix(pack, profile.IgnoredExt) != enabled {
+			name := strings.Replace(pack, profile.ModulePath, "", 1)
+			name = strings.Replace(name, profile.IgnoredExt, "", 1)
+			list[name] = name
+		}
+
+		for i := range mods {
+			if isDisabled(mods[i].Package+"/"+mods[i].Name) == enabled {
+				continue
+			}
+			list[mods[i].Package+"/"+mods[i].Name] = mods[i].Summary
+		}
+	}
+
+	b, err := lang.MarshalData(p, types.Json, &list)
+	if err != nil {
+		return err
+	}
+	_, err = p.Stdout.Write(b)
+	return err
 }
 
 func cmdModuleAdmin(p *lang.Process) error {
@@ -50,6 +115,9 @@ func cmdModuleAdmin(p *lang.Process) error {
 
 	case "status":
 		return statusModules(p)
+
+	case "list":
+		return listModules(p)
 
 	default:
 		return errors.New("Missing or invalid parameters." + usage)
@@ -90,7 +158,7 @@ func getModule(p *lang.Process) error {
 		message += err.Error() + utils.NewLineString
 	}
 
-	err = profile.LoadPackage(profile.ModulePath + pack)
+	_, err = profile.LoadPackage(profile.ModulePath+pack, true)
 	if err != nil {
 		message += err.Error() + utils.NewLineString
 	}
@@ -265,7 +333,7 @@ func importModules(p *lang.Process) error {
 
 		db = append(db, importDb[i])
 
-		err = profile.LoadPackage(profile.ModulePath + importDb[i].Package)
+		_, err = profile.LoadPackage(profile.ModulePath+importDb[i].Package, true)
 		if err != nil {
 			p.Stderr.Writeln([]byte(err.Error()))
 		}
