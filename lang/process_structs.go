@@ -93,7 +93,6 @@ func (p *Process) SetTerminatedState(state bool) {
 	p.hasTerminatedM.Lock()
 	p.hasTerminatedV = state
 	p.hasTerminatedM.Unlock()
-	return
 }
 
 // ErrIfNotAMethod returns a standard error message for builtins not run as methods

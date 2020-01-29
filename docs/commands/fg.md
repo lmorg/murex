@@ -29,3 +29,5 @@ for Windows (due to the kernel not supporting the right signals) nor Plan 9.
   
 * [commands/fid-list](../commands/fid-list.md):
   
+* [commands/jobs](../commands/jobs.md):
+  

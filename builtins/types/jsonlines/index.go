@@ -39,17 +39,6 @@ func indexObject(p *lang.Process, params []string) error {
 		err error
 	)
 
-	/*scanner := bufio.NewScanner(p.Stdin)
-	for scanner.Scan() {
-		if lines[i] != p.IsNot {
-			_, err = p.Stdout.Writeln(scanner.Bytes())
-			if err != nil {
-				break
-			}
-		}
-		i++
-	}*/
-
 	err = p.Stdin.ReadArray(func(b []byte) {
 		if lines[i] != p.IsNot {
 			_, err = p.Stdout.Writeln(b)
@@ -64,16 +53,16 @@ func indexObject(p *lang.Process, params []string) error {
 }
 
 func indexTable(p *lang.Process, params []string) error {
-	cRecords := make(chan []string, 1)
+	cRecords := make(chan []string, 10)
 	status := make(chan error)
 
 	go func() {
-		err := p.Stdin.ReadArray(func(b []byte) {
+		err1 := p.Stdin.ReadArray(func(b []byte) {
 			var v []interface{}
-			err := json.Unmarshal(b, &v)
-			if err != nil {
+			err2 := json.Unmarshal(b, &v)
+			if err2 != nil {
 				//close(cRecords)
-				status <- err
+				status <- err2
 				return
 			}
 			cRecords <- iface2Str(v)
@@ -92,28 +81,29 @@ func indexTable(p *lang.Process, params []string) error {
 			}*/
 
 		})
-		if err != nil {
+		if err1 != nil {
 			close(cRecords)
-			status <- err
+			status <- err1
 			return
 		}
 		close(cRecords)
 	}()
 
-	marshaller := func(s []string) (b []byte) {
-		b, err := lang.MarshalData(p, types.Json, s)
-		if err != nil {
+	marshaller := func(s []string) []byte {
+		b, err3 := lang.MarshalData(p, types.Json, s)
+		if err3 != nil {
 			close(cRecords)
-			status <- err
+			status <- err3
 		}
 		return b
 	}
 
 	go func() {
-		err := lang.IndexTemplateTable(p, params, cRecords, marshaller)
-		status <- err
+		err4 := lang.IndexTemplateTable(p, params, cRecords, marshaller)
+		status <- err4
 		return
 	}()
 
-	return <-status
+	err0 := <-status
+	return err0
 }

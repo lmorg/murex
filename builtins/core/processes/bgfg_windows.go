@@ -1,6 +1,6 @@
 // +build windows
 
-package management
+package processes
 
 import (
 	"errors"

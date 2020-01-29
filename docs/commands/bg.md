@@ -54,3 +54,5 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
   
 * [commands/fid-list](../commands/fid-list.md):
   
+* [commands/jobs](../commands/jobs.md):
+  

@@ -51,6 +51,7 @@
   - fid-kill
   - fid-killall
   - fg
+  - jobs
 
 - DocumentID: fg
   Title: >+
@@ -77,3 +78,4 @@
   - fid-kill
   - fid-killall
   - bg
+  - jobs

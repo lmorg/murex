@@ -66,6 +66,8 @@ func TestIsTrue(t *testing.T) {
 		"failed":        false,
 		"positive":      true,
 		"negative":      true,
+		"enabled":       true,
+		"disabled":      false,
 	}
 
 	exitNums := map[int]interface{}{
