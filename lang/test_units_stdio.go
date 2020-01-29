@@ -16,6 +16,7 @@ package lang
 import (
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/utils"
 )
 
 func utBlock(plan *UnitTestPlan, fileRef *ref.File, block []rune, stdin []byte, dt string, property string, function string, results *TestResults, passed *bool) {
@@ -59,7 +60,7 @@ func utReadAllOut(std stdio.Io, results *TestResults, plan *UnitTestPlan, fileRe
 
 	if len(b) != 0 {
 		utAddReport(results, fileRef, plan, function, TestInfo,
-			tMsgStdout(property, b))
+			tMsgStdout(property, utils.CrLfTrim(b)))
 	}
 }
 
@@ -74,7 +75,7 @@ func utReadAllErr(std stdio.Io, results *TestResults, plan *UnitTestPlan, fileRe
 
 	if len(b) != 0 {
 		utAddReport(results, fileRef, plan, function, TestFailed,
-			tMsgStdout(property, b))
+			tMsgStdout(property, utils.CrLfTrim(b)))
 		*passed = false
 	}
 }

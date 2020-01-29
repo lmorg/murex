@@ -1,4 +1,4 @@
-package docs
+package docs_test
 
 import (
 	"testing"

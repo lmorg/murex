@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/userdic"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
@@ -23,7 +24,7 @@ func spellcheck(line []rune) []rune {
 		return r
 	}
 
-	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 	fork.Name = "(spellcheck)"
 	fork.Stdin.SetDataType(types.Generic)
 	_, err = fork.Stdin.Writeln([]byte(string(r)))
@@ -58,6 +59,10 @@ func spellcheck(line []rune) []rune {
 		}
 
 		if lang.ShellProcess.Variables.GetValue(sWord) != nil {
+			return
+		}
+
+		if userdic.IsInUserDic(sWord) {
 			return
 		}
 

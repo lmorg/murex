@@ -10,12 +10,11 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/json"

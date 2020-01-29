@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/userdic"
 	"github.com/lmorg/murex/utils/parser"
 )
 
@@ -179,6 +180,17 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Default:     "{ -> aspell list }",
 		DataType:    types.CodeBlock,
 		Global:      true,
+	})
+
+	c.Define("shell", "spellcheck-user-dictionary", config.Properties{
+		Description: "An array of words not to count as misspellings",
+		Default:     userdic.GetSpellcheckUserDic(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  userdic.ReadSpellcheckUserDic,
+			Write: userdic.WriteSpellcheckUserDic,
+		},
 	})
 
 	// --- proc ---
