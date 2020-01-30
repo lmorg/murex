@@ -1,16 +1,32 @@
-package userdic
+package userdictionary
 
 import (
 	"encoding/json"
 	"testing"
 
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/test/count"
 )
+
+func TestIsIn(t *testing.T) {
+	count.Tests(t, 2)
+
+	positive := config.AppName
+	negative := config.AppName + "-unit-test-ertfyguhibgvcfdrtfyg"
+
+	if !IsInDictionary(positive) {
+		t.Errorf("%s should be in dictionary", positive)
+	}
+
+	if IsInDictionary(negative) {
+		t.Errorf("%s should NOT be in dictionary", negative)
+	}
+}
 
 func TestGet(t *testing.T) {
 	count.Tests(t, 1)
 
-	a := GetSpellcheckUserDic()
+	a := Get()
 
 	if len(dictionary) != len(a) {
 		t.Error("len doesn't match")
@@ -20,7 +36,7 @@ func TestGet(t *testing.T) {
 func TestRead(t *testing.T) {
 	count.Tests(t, 1)
 
-	v, err := ReadSpellcheckUserDic()
+	v, err := Read()
 	if err != nil {
 		t.Error(err)
 	}
@@ -40,7 +56,7 @@ func TestWrite(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = WriteSpellcheckUserDic(string(b))
+	err = Write(string(b))
 	if err != nil {
 		t.Error(err)
 	}

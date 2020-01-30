@@ -1,4 +1,4 @@
-package userdic
+package userdictionary
 
 import (
 	"encoding/json"
@@ -13,8 +13,8 @@ var dictionary = []string{
 	config.AppName,
 }
 
-// IsInUserDic checks if word is in user dictionary
-func IsInUserDic(word string) bool {
+// IsInDictionary checks if word is in user dictionary
+func IsInDictionary(word string) bool {
 	s := strings.ToLower(word)
 	for i := range dictionary {
 		if s == strings.ToLower(dictionary[i]) {
@@ -25,23 +25,22 @@ func IsInUserDic(word string) bool {
 	return false
 }
 
-// GetSpellcheckUserDic returns a slice of the spellcheckUserDic
-func GetSpellcheckUserDic() []string {
+// Get returns a copy of the slice dictionary
+func Get() []string {
 	a := make([]string, len(dictionary))
 	copy(a, dictionary)
 	return a
 }
 
-// ReadSpellcheckUserDic returns an interface{} of the user dictionary.
+// Read returns an interface{} of the user dictionary.
 // This is only intended to be used by `config.Properties.GoFunc.Read()`
-func ReadSpellcheckUserDic() (interface{}, error) {
-	return GetSpellcheckUserDic(), nil
+func Read() (interface{}, error) {
+	return Get(), nil
 }
 
-// WriteSpellcheckUserDic takes a JSON-encoded string and writes it to the
-// spellcheckUserDic slice.
+// Write takes a JSON-encoded string and writes it to the dictionary slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
-func WriteSpellcheckUserDic(v interface{}) error {
+func Write(v interface{}) error {
 	switch v.(type) {
 	case string:
 		return json.Unmarshal([]byte(v.(string)), &dictionary)
