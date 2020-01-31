@@ -468,14 +468,19 @@ autocomplete: set murex-package {
             }],
             "enable": [{
                 "DynamicDesc": ({ murex-package: list disabled }),
-                "ListView": true
+                "ListView": true,
+                "AutoBranch": true
             }],
             "disable": [{
                 "DynamicDesc": ({ murex-package: list enabled }),
-                "ListView": true
+                "ListView": true,
+                "AutoBranch": true
             }],
             "list": [{
-                "Flags": [ "enabled", "disabled" ]
+                "Flags": [ "enabled", "disabled", "packages" ]
+            }],
+            "cd": [{
+                "Dynamic": ({ murex-package: list packages })
             }]
         }
     }]

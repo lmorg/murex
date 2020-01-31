@@ -1,10 +1,8 @@
 package management
 
 import (
-	corejson "encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"runtime"
 	"strconv"
 
@@ -12,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/posix"
@@ -126,47 +125,13 @@ func cmdBuiltinExists(p *lang.Process) error {
 
 func cmdCd(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
-	s, err := p.Parameters.String(0)
+	path, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	err = os.Chdir(s)
-	if err != nil {
-		return err
-	}
+	err = cd.Chdir(p, path)
 
-	pwd, err := os.Getwd()
-	if err != nil {
-		p.Stderr.Writeln([]byte(err.Error()))
-		pwd = s
-	}
-
-	// Update $PWD environmental variable for compatibility reasons
-	err = os.Setenv("PWD", pwd)
-	if err != nil {
-		p.Stderr.Writeln([]byte(err.Error()))
-	}
-
-	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
-	hist := p.Variables.GetString("PWDHIST")
-	if hist == "" {
-		hist = "[]"
-	}
-
-	var v []string
-	err = json.Unmarshal([]byte(hist), &v)
-	if err != nil {
-		return errors.New("Unable to unpack $PWDHIST: " + err.Error())
-	}
-
-	v = append(v, pwd)
-	b, err := corejson.MarshalIndent(v, "", "    ")
-	if err != nil {
-		return errors.New("Unable to repack $PWDHIST: " + err.Error())
-	}
-
-	err = p.Variables.Set("PWDHIST", string(b), types.Json)
 	return err
 }
 

@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/readline"
 )
 
@@ -59,7 +60,7 @@ func importModules(p *lang.Process) error {
 	}
 
 	for i := range importDb {
-		err = os.Chdir(profile.ModulePath)
+		err = cd.Chdir(p, profile.ModulePath)
 		if err != nil {
 			p.Stderr.Writeln([]byte(err.Error()))
 			continue

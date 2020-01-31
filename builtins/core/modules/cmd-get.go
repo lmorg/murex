@@ -3,12 +3,12 @@ package modules
 import (
 	"errors"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/cd"
 )
 
 func getModule(p *lang.Process) error {
@@ -22,7 +22,7 @@ func getModule(p *lang.Process) error {
 		return err
 	}
 
-	err = os.Chdir(profile.ModulePath)
+	err = cd.Chdir(p, profile.ModulePath)
 	if err != nil {
 		return fmt.Errorf("Unable to get package: %s", err.Error())
 	}

@@ -3,7 +3,10 @@ package modules
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strings"
+
+	"github.com/lmorg/murex/utils/cd"
 
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
@@ -50,6 +53,9 @@ func cmdModuleAdmin(p *lang.Process) error {
 	case "list":
 		return listModules(p)
 
+	case "cd":
+		return cdPackage(p)
+
 	default:
 		return errors.New("Missing or invalid parameters." + usage)
 	}
@@ -69,6 +75,28 @@ func detectProtocol(uri string) (string, error) {
 	default:
 		return "", errors.New("Unable to get package: Unable to auto-detect a suitable protocol for transferring the package")
 	}
+}
+
+func cdPackage(p *lang.Process) error {
+	path, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	f, err := os.Stat(profile.ModulePath + path)
+	if err != nil {
+		var err2 error
+		f, err2 = os.Stat(profile.ModulePath + path + profile.IgnoredExt)
+		if err2 != nil {
+			return fmt.Errorf("Unable to cd to package: %s: %s", err, err2)
+		}
+	}
+
+	if !f.IsDir() {
+		return fmt.Errorf("`%s` is not a directory", f.Name())
+	}
+
+	return cd.Chdir(p, profile.ModulePath+f.Name())
 }
 
 func updateModules(p *lang.Process) error {
