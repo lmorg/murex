@@ -1,18 +1,21 @@
 package unicode
 
 import (
-	"bufio"
-
 	"github.com/lmorg/murex/lang/proc/stdio"
 )
 
 func readArray(read stdio.Io, callback func([]byte)) error {
-	scanner := bufio.NewScanner(read)
-	for scanner.Scan() {
-		callback(scanner.Bytes())
+	b, err := read.ReadAll()
+	if err != nil {
+		return nil
 	}
 
-	return scanner.Err()
+	r := []rune(string(b))
+	for _, i := range r {
+		callback([]byte(string([]rune{i})))
+	}
+
+	return nil
 }
 
 type arrayWriter struct {
@@ -25,12 +28,12 @@ func newArrayWriter(writer stdio.Io) (stdio.ArrayWriter, error) {
 }
 
 func (w *arrayWriter) Write(b []byte) error {
-	_, err := w.writer.Writeln(b)
+	_, err := w.writer.Write(b)
 	return err
 }
 
 func (w *arrayWriter) WriteString(s string) error {
-	_, err := w.writer.Writeln([]byte(s))
+	_, err := w.writer.Write([]byte(s))
 	return err
 }
 
