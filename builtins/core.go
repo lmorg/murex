@@ -56,4 +56,5 @@ import (
 	_ "github.com/lmorg/murex/builtins/types/null"      // null data type
 	_ "github.com/lmorg/murex/builtins/types/numeric"   // formatting numeric data types (int, float, number)
 	_ "github.com/lmorg/murex/builtins/types/string"    // string data type
+	_ "github.com/lmorg/murex/builtins/types/unicode"   // unicode data type
 )

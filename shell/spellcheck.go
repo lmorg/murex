@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/shell/userdic"
+	"github.com/lmorg/murex/shell/userdictionary"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
@@ -62,7 +62,7 @@ func spellcheck(line []rune) []rune {
 			return
 		}
 
-		if userdic.IsInUserDic(sWord) {
+		if userdictionary.IsInDictionary(sWord) {
 			return
 		}
 

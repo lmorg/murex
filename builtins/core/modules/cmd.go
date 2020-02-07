@@ -1,20 +1,15 @@
 package modules
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
-	"github.com/lmorg/murex/builtins/core/httpclient"
+	"github.com/lmorg/murex/utils/cd"
+
 	"github.com/lmorg/murex/config/profile"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/readline"
 )
 
 const usage = `
@@ -29,67 +24,6 @@ Usage: murex-package install         uri
 
 func init() {
 	lang.GoFunctions["murex-package"] = cmdModuleAdmin
-}
-
-func listModules(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Json)
-
-	list := make(map[string]string)
-
-	enabled, err := p.Parameters.Bool(1)
-	if err != nil {
-		return err
-	}
-
-	var disabled []string
-	err = profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
-	if err != nil {
-		return err
-	}
-	debug.Log("disabled", disabled)
-
-	isDisabled := func(name string) bool {
-		debug.Log(name)
-		for i := range disabled {
-			if disabled[i] == name {
-				return true
-			}
-		}
-
-		return false
-	}
-
-	paths, err := filepath.Glob(profile.ModulePath + "*")
-	if err != nil {
-		return err
-	}
-
-	for _, pack := range paths {
-		mods, err := profile.LoadPackage(pack, false)
-		if err != nil {
-			return err
-		}
-		// these should NOT equate ;)
-		if strings.HasSuffix(pack, profile.IgnoredExt) != enabled {
-			name := strings.Replace(pack, profile.ModulePath, "", 1)
-			name = strings.Replace(name, profile.IgnoredExt, "", 1)
-			list[name] = name
-		}
-
-		for i := range mods {
-			if isDisabled(mods[i].Package+"/"+mods[i].Name) == enabled {
-				continue
-			}
-			list[mods[i].Package+"/"+mods[i].Name] = mods[i].Summary
-		}
-	}
-
-	b, err := lang.MarshalData(p, types.Json, &list)
-	if err != nil {
-		return err
-	}
-	_, err = p.Stdout.Write(b)
-	return err
 }
 
 func cmdModuleAdmin(p *lang.Process) error {
@@ -119,55 +53,12 @@ func cmdModuleAdmin(p *lang.Process) error {
 	case "list":
 		return listModules(p)
 
+	case "cd":
+		return cdPackage(p)
+
 	default:
 		return errors.New("Missing or invalid parameters." + usage)
 	}
-}
-
-func getModule(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
-	if err != nil {
-		return err
-	}
-
-	uri, err := p.Parameters.String(1)
-	if err != nil {
-		return err
-	}
-
-	err = os.Chdir(profile.ModulePath)
-	if err != nil {
-		return fmt.Errorf("Unable to get package: %s", err.Error())
-	}
-
-	pack, protocol, err := getPackage(p, uri)
-	if err != nil {
-		return err
-	}
-
-	db = append(db, packageDb{
-		Package:  pack,
-		URI:      uri,
-		Protocol: protocol,
-	})
-
-	var message string
-
-	err = writePackagesFile(&db)
-	if err != nil {
-		message += err.Error() + utils.NewLineString
-	}
-
-	_, err = profile.LoadPackage(profile.ModulePath+pack, true)
-	if err != nil {
-		message += err.Error() + utils.NewLineString
-	}
-
-	if message != "" {
-		return errors.New(strings.TrimSpace(message))
-	}
-
-	return nil
 }
 
 func detectProtocol(uri string) (string, error) {
@@ -186,29 +77,26 @@ func detectProtocol(uri string) (string, error) {
 	}
 }
 
-func getPackage(p *lang.Process, uri string) (pack, protocol string, err error) {
-	p.Stderr.Writeln([]byte("Getting package from `" + uri + "`...."))
-
-	protocol, err = detectProtocol(uri)
+func cdPackage(p *lang.Process) error {
+	path, err := p.Parameters.String(1)
 	if err != nil {
-		return "", "", err
+		return err
 	}
 
-	switch protocol {
-	case "git":
-		pack, err = gitGet(p, uri)
-		if err != nil {
-			return "", protocol, fmt.Errorf("Unable to update package: %s", err.Error())
+	f, err := os.Stat(profile.ModulePath + path)
+	if err != nil {
+		var err2 error
+		f, err2 = os.Stat(profile.ModulePath + path + profile.IgnoredExt)
+		if err2 != nil {
+			return fmt.Errorf("Unable to cd to package: %s: %s", err, err2)
 		}
-
-	case "https":
-		return "", protocol, errors.New("Protocol handler for HTTPS has not yet been written. Please use git in the mean time (you can do this by specifying a git extension in the uri)")
-
-	default:
-		return "", "", fmt.Errorf("This is weird, protocol detected as `%s` but no handler has been written", protocol)
 	}
 
-	return
+	if !f.IsDir() {
+		return fmt.Errorf("`%s` is not a directory", f.Name())
+	}
+
+	return cd.Chdir(p, profile.ModulePath+f.Name())
 }
 
 func updateModules(p *lang.Process) error {
@@ -240,124 +128,7 @@ func updateModules(p *lang.Process) error {
 	return nil
 }
 
-func statusModules(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
-	if err != nil {
-		return err
-	}
-
-	for i := range db {
-		p.Stderr.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
-		p.Stderr.Writeln([]byte("Package status " + db[i].Package + "...."))
-
-		switch db[i].Protocol {
-		case "git":
-			err = gitStatus(p, &db[i])
-			if err != nil {
-				p.Stderr.Writeln([]byte(fmt.Sprintf(
-					"Unable to return package status `%s`: %s", db[i].Package, err.Error(),
-				)))
-			}
-
-		default:
-			p.Stderr.Writeln([]byte(fmt.Sprintf(
-				"Unable to return package status `%s`: Unknown protocol `%s`", db[i].Package, db[i].Protocol,
-			)))
-		}
-	}
-
-	return nil
-}
-
 func reloadModules(p *lang.Process) error {
 	profile.Execute()
 	return nil
-}
-
-func importModules(p *lang.Process) error {
-	path, err := p.Parameters.String(1)
-	if err != nil {
-		return err
-	}
-
-	if path == profile.ModulePath+profile.PackagesFile {
-		return errors.New("You cannot import the same file as the master packages.json file")
-	}
-
-	if utils.IsURL(path) {
-		resp, err := httpclient.Request(p.Context, "GET", path, nil, p.Config, true)
-		if err != nil {
-			return err
-		}
-
-		f, err := utils.NewTempFile(resp.Body, "_package.json")
-		if err != nil {
-			return err
-		}
-
-		path = f.FileName
-
-		defer f.Close()
-	}
-
-	importDb, err := readPackagesFile(path)
-	if err != nil {
-		return err
-	}
-
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
-	if err != nil {
-		return err
-	}
-
-	for i := range importDb {
-		err = os.Chdir(profile.ModulePath)
-		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
-			continue
-		}
-
-		p.Stderr.Writeln(bytes.Repeat([]byte{'-'}, readline.GetTermWidth()))
-		p.Stderr.Writeln([]byte("Importing `" + importDb[i].Package + "`...."))
-		err = packageDirExists(importDb[i].Package)
-		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
-			continue
-		}
-
-		importDb[i].Package, _, err = getPackage(p, importDb[i].URI)
-		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
-			continue
-		}
-
-		db = append(db, importDb[i])
-
-		_, err = profile.LoadPackage(profile.ModulePath+importDb[i].Package, true)
-		if err != nil {
-			p.Stderr.Writeln([]byte(err.Error()))
-		}
-	}
-
-	var message string
-
-	err = writePackagesFile(&db)
-	if err != nil {
-		message += err.Error() + utils.NewLineString
-	}
-
-	if message != "" {
-		return errors.New(strings.TrimSpace(message))
-	}
-
-	return nil
-}
-
-func packageDirExists(pack string) error {
-	_, err := os.Stat(pack)
-	if os.IsNotExist(err) {
-		return nil
-	}
-
-	return errors.New("A file or directory already exists with that package name")
 }

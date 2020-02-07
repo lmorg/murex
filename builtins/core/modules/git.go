@@ -34,7 +34,21 @@ func gitStatus(p *lang.Process, pack *packageDb) error {
 		return err
 	}
 
-	params := []string{"-C", profile.ModulePath + pack.Package, "status", "-sb"}
+	// git fetch
+
+	params := []string{"-C", profile.ModulePath + pack.Package, "fetch"}
+
+	if ansi.IsAllowed() {
+		params = append([]string{"-c", "color.status=always"}, params...)
+	}
+
+	if err := gitExec(p, params...); err != nil {
+		return err
+	}
+
+	// git status
+
+	params = []string{"-C", profile.ModulePath + pack.Package, "status", "-sb"}
 
 	if ansi.IsAllowed() {
 		params = append([]string{"-c", "color.status=always"}, params...)
