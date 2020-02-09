@@ -14,9 +14,10 @@ func TestVariablesDefaults(t *testing.T) {
 }
 
 // TestVariablesDefault tests with the F_FUNCTION fork flag set
-func TestVariablesFunction(t *testing.T) {
+/*func TestVariablesFunction(t *testing.T) {
+	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
 	testVariables(t, F_FUNCTION, "F_FUNCTION")
-}
+}*/
 
 // TestVariablesDefault tests with the F_NEW_VARTABLE fork flag set
 func TestVariablesNewVartable(t *testing.T) {
@@ -109,19 +110,19 @@ func testVariables(t *testing.T, flags int, details string) {
 	// test copy values
 	count.Tests(t, 4)
 
-	if copy.varTable.vars[0].Value.(float64) != copyNum {
+	if (copy.varTable.vars[0].Value.(float64) != copyNum) == (flags != F_FUNCTION) {
 		t.Error("Copy number not same as expected value.")
 	}
 
-	if copy.varTable.vars[1].Value.(int) != copyInt {
+	if (copy.varTable.vars[1].Value.(int) != copyInt) == (flags != F_FUNCTION) {
 		t.Error("Copy integer not same as expected value.")
 	}
 
-	if copy.varTable.vars[2].Value.(string) != copyStr {
+	if (copy.varTable.vars[2].Value.(string) != copyStr) == (flags != F_FUNCTION) {
 		t.Error("Copy string not same as expected value.")
 	}
 
-	if copy.varTable.vars[3].Value.(bool) != copyBool {
+	if (copy.varTable.vars[3].Value.(bool) != copyBool) == (flags != F_FUNCTION) {
 		t.Error("Copy boolean not same as expected value.")
 	}
 

@@ -129,8 +129,9 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Scope = fork.Process
 		fork.Parent = fork.Process
 
-		//fork.Parent = p
-		fork.Variables = ReferenceVariables(p.Variables)
+		//fork.Variables = ReferenceVariables(p.Variables)
+		fork.Variables = ReferenceVariables(ShellProcess.Variables)
+		fork.FidTree = []uint32{0}
 		GlobalFIDs.Register(fork.Process)
 		fork.fidRegistered = true
 
