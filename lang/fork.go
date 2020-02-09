@@ -114,22 +114,11 @@ func (p *Process) Fork(flags int) *Fork {
 	}
 
 	if flags&F_FUNCTION != 0 {
-		/*fork.Variables = ReferenceVariables(p.Variables)
-		//fork.Name += " (fork)"
-		GlobalFIDs.Register(fork.Process)
-		fork.fidRegistered = true
-
-		fork.Scope = fork.Process
-		fork.Parent = p
-		fork.newTestScope = true
-		fork.Tests = NewTests(fork.Process)
-		fork.Config = p.Config.Copy()
-		fork.Variables = p.Variables*/
-
 		fork.Scope = fork.Process
 		fork.Parent = fork.Process
 
-		//fork.Variables = ReferenceVariables(p.Variables)
+		// fork variables from shell process so we don't leak vars into new
+		// functions: https://github.com/lmorg/murex/issues/138
 		fork.Variables = ReferenceVariables(ShellProcess.Variables)
 		fork.FidTree = []uint32{0}
 		GlobalFIDs.Register(fork.Process)

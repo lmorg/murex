@@ -57,7 +57,7 @@ func runTests() error {
 	if err := lang.ShellProcess.Config.Set("test", "auto-report", false); err != nil {
 		return err
 	}
-	if err := lang.ShellProcess.Config.Set("test", "verbose", true); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "verbose", false); err != nil {
 		return err
 	}
 
