@@ -49,7 +49,7 @@ func (ut *UnitTests) Add(function string, test *UnitTestPlan, fileRef *ref.File)
 	ut.mutex.Unlock()
 }
 
-const testName = "unit test"
+const testName = "(unit)"
 
 const (
 	// UnitTestAutocomplete is the pseudo-module name for autocomplete blocks

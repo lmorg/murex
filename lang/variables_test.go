@@ -2,11 +2,14 @@ package lang
 
 import (
 	"strconv"
+	"sync/atomic"
 	"testing"
 
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 )
+
+var runOnce int32
 
 // TestVariablesDefault tests with the F_DEFAULTS fork flag set
 func TestVariablesDefaults(t *testing.T) {
@@ -14,10 +17,15 @@ func TestVariablesDefaults(t *testing.T) {
 }
 
 // TestVariablesDefault tests with the F_FUNCTION fork flag set
-/*func TestVariablesFunction(t *testing.T) {
+func TestVariablesFunction(t *testing.T) {
+	i := atomic.AddInt32(&runOnce, 1)
+	if i > 0 {
+		return
+	}
+
 	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
 	testVariables(t, F_FUNCTION, "F_FUNCTION")
-}*/
+}
 
 // TestVariablesDefault tests with the F_NEW_VARTABLE fork flag set
 func TestVariablesNewVartable(t *testing.T) {

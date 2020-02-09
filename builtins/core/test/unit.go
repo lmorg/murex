@@ -40,10 +40,10 @@ func testUnitDefine(p *lang.Process) error {
 		function = lang.UnitTestAutocomplete + "/" + function
 
 	case "open":
-		function = lang.UnitTestAutocomplete + "/" + function
+		function = lang.UnitTestOpen + "/" + function
 
 	case "event":
-		function = lang.UnitTestAutocomplete + "/" + function
+		function = lang.UnitTestEvent + "/" + function
 
 	default:
 		return fmt.Errorf("Unsupported block type (eg `function`, `private`, `autocomplete`): `%s`", mod)
