@@ -17,7 +17,7 @@ import (
 
 // InitEnv initialises murex. Exported function to enable unit tests.
 func InitEnv() {
-	ShellProcess.State = state.Executing
+	ShellProcess.State.Set(state.Executing)
 	ShellProcess.Name = os.Args[0]
 	ShellProcess.Parameters.Params = os.Args[1:]
 	ShellProcess.Scope = ShellProcess

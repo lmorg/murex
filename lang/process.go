@@ -141,7 +141,7 @@ func createProcess(p *Process, isMethod bool) {
 
 	p.Stderr.SetDataType(types.Generic)
 
-	p.State = state.Assigned
+	p.State.Set(state.Assigned)
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
 	if p.Name == "pipe" || p.Name == "test" {
@@ -154,7 +154,7 @@ func createProcess(p *Process, isMethod bool) {
 			}
 		}
 		p.SetTerminatedState(true)
-		p.State = state.Executed
+		p.State.Set(state.Executed)
 	}
 
 	return
@@ -202,7 +202,7 @@ func executeProcess(p *Process) {
 		return
 	}
 
-	p.State = state.Starting
+	p.State.Set(state.Starting)
 
 	echo, err := p.Config.Get("shell", "echo", types.Boolean)
 	if err != nil {
@@ -225,7 +225,7 @@ func executeProcess(p *Process) {
 
 	// Execute function.
 	var parsedAlias bool
-	p.State = state.Executing
+	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
 
 	if err := GlobalFIDs.Executing(p.Id); err != nil {
@@ -319,7 +319,7 @@ executeProcess:
 		}
 	}
 
-	p.State = state.Executed
+	p.State.Set(state.Executed)
 
 	if p.NamedPipeTest != "" {
 		testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
@@ -356,7 +356,7 @@ func destroyProcess(p *Process) {
 // deregisterProcess deregisters a murex process, FID and mark variables for
 // garbage collection.
 func deregisterProcess(p *Process) {
-	p.State = state.Terminating
+	p.State.Set(state.Terminating)
 
 	p.Stdout.Close()
 	p.Stderr.Close()
@@ -370,7 +370,7 @@ func deregisterProcess(p *Process) {
 	}
 
 	go func() {
-		p.State = state.AwaitingGC
+		p.State.Set(state.AwaitingGC)
 		CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()

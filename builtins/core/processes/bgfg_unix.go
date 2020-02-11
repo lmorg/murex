@@ -23,7 +23,7 @@ func mkbg(p *lang.Process) error {
 		return err
 	}
 
-	if f.State != state.Stopped {
+	if f.State.Get() != state.Stopped {
 		return errors.New("FID is not a stopped process. Run `jobs` or `fid-list` to see a list of stopped processes")
 	}
 
@@ -71,7 +71,7 @@ func mkbg(p *lang.Process) error {
 		return err
 	}
 
-	f.State = state.Executing
+	f.State.Set(state.Executing)
 
 	shell.ShowPrompt()
 	return nil
@@ -110,7 +110,7 @@ func cmdForeground(p *lang.Process) error {
 	}
 	//}
 
-	f.State = state.Executing
+	f.State.Set(state.Executing)
 	shell.PromptId.Set(f.PromptId)
 	return nil
 }

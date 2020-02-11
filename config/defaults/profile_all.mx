@@ -335,8 +335,6 @@ autocomplete set git { [{
     }
 }] }
 
-
-
 autocomplete set docker { [
     {
         "DynamicDesc": ({
