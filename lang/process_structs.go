@@ -44,7 +44,7 @@ type Process struct {
 	NamedPipeTest      string
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
-	State              state.FunctionState
+	State              state.State
 	IsBackground       bool
 	RunMode            runmode.RunMode
 	Config             *config.Config

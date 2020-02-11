@@ -19,7 +19,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 	procs = make([]Process, len(*tree))
 
 	for i := range *tree {
-		procs[i].State = state.MemAllocated
+		procs[i].State.Set(state.MemAllocated)
 		procs[i].Name = (*tree)[i].Name
 		procs[i].IsMethod = (*tree)[i].Method
 		procs[i].IsBackground = parent.IsBackground
@@ -202,7 +202,7 @@ func runModeTry(procs []Process) (exitNum int) {
 						procs[i].Stdout.Close()
 						procs[i].Stderr.Close()
 						GlobalFIDs.Deregister(procs[i].Id)
-						procs[i].State = state.AwaitingGC
+						procs[i].State.Set(state.AwaitingGC)
 					}
 					return
 				}
@@ -262,7 +262,7 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 				procs[i].Stdout.Close()
 				procs[i].Stderr.Close()
 				GlobalFIDs.Deregister(procs[i].Id)
-				procs[i].State = state.AwaitingGC
+				procs[i].State.Set(state.AwaitingGC)
 			}
 			return
 		}

@@ -87,7 +87,7 @@ func (p *Process) Fork(flags int) *Fork {
 		ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
 	}
 
-	fork.State = state.MemAllocated
+	fork.State.Set(state.MemAllocated)
 	fork.PromptId = p.PromptId
 	//fork.LineNumber = p.LineNumber
 	//fork.ColNumber = p.ColNumber
@@ -272,6 +272,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	//case runmode.Evil:
 	//	panic("Not yet implemented")
+
 	default:
 		panic("Unknown run mode")
 	}

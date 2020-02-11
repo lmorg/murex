@@ -307,7 +307,8 @@ autocomplete set git { [{
             #"IncFiles": true,
             "AllowMultiple": true,
             "Dynamic": ({
-                git status -s -> regexp 'm/^( |\?)' -> [:1]
+                #git status -s -> regexp 'm/^( |\?)' -> [:1]
+                git status -s -> regexp 'f/^ . ["]?(.*?)["]?$/' -> cast str
             })
         }],
         "mv": [{ 
@@ -333,8 +334,6 @@ autocomplete set git { [{
         }]
     }
 }] }
-
-
 
 autocomplete set docker { [
     {

@@ -109,7 +109,7 @@ func cmdFidListTTY(p *lang.Process) error {
 			process.Id,
 			process.Parent.Id,
 			process.Scope.Id,
-			process.State,
+			process.State.String(),
 			process.RunMode,
 			yn(process.IsBackground),
 			process.NamedPipeOut,
@@ -136,7 +136,7 @@ func cmdFidListCSV(p *lang.Process) error {
 			process.Id,
 			process.Parent.Id,
 			process.Scope.Id,
-			process.State,
+			process.State.String(),
 			process.RunMode,
 			yn(process.IsBackground),
 			process.NamedPipeOut,
@@ -219,7 +219,7 @@ func cmdJobsStopped(p *lang.Process) error {
 	m := make(map[uint32]string)
 
 	for _, process := range procs {
-		if process.State != state.Stopped {
+		if process.State.Get() != state.Stopped {
 			continue
 		}
 		m[process.Id] = process.Name + " " + getParams(process)

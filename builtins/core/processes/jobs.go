@@ -41,7 +41,7 @@ func cmdJobs(p *lang.Process) error {
 
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {
-		if process.IsBackground || process.State == state.Stopped {
+		if process.IsBackground || process.State.Get() == state.Stopped {
 			b, err := lang.MarshalData(p, dtLine, []interface{}{
 				process.Id,
 				process.State.String(),

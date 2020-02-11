@@ -38,7 +38,7 @@ func sigtstp() {
 	}
 
 	if p.Exec.Pid != 0 {
-		p.State = state.Stopped
+		p.State.Set(state.Stopped)
 		go ShowPrompt()
 
 	} else {
