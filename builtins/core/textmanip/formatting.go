@@ -24,7 +24,7 @@ func cmdPretty(p *lang.Process) error {
 
 	flags, _, err := p.Parameters.ParseFlags(&parameters.Arguments{
 		Flags: map[string]string{
-			"--lazy": "bool",
+			"--strict": "bool",
 		},
 	})
 	if err != nil {
@@ -32,14 +32,14 @@ func cmdPretty(p *lang.Process) error {
 	}
 
 	switch {
-	case flags["--lazy"] == types.TrueString:
-		return prettyLazy(p)
+	case flags["--strict"] == types.TrueString:
+		return prettyStrict(p)
 	default:
 		return prettyDefault(p)
 	}
 }
 
-func prettyLazy(p *lang.Process) error {
+func prettyStrict(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 

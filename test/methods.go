@@ -9,8 +9,8 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-// RunMethodTest is a template function for testing builtins run as methods.RunMethodTest.
-// dataType should preloaded in calling functions, eg
+// RunMethodTest is a template function for testing builtins run as methods.
+// dataType should be preloaded in calling functions, eg
 //
 //     _ "github.com/lmorg/murex/builtins/types/generic"
 //	   _ "github.com/lmorg/murex/builtins/types/json"
