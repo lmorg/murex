@@ -484,7 +484,18 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			switch {
 			case escaped:
 				//pUpdate(r)
-				pUpdate(' ')
+				//pUpdate(' ')
+				switch {
+				case !scanFuncName && last != ' ' && last != ':':
+					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+					pCount++
+					pToken = &node.ParamTokens[pCount][0]
+					pop = &pToken.Key
+				case scanFuncName && !ignoreWhitespace:
+					startParameters()
+				default:
+					pUpdate(r)
+				}
 				escaped = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
