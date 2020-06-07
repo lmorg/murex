@@ -268,7 +268,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += ` `
 				syntaxHighlighted += string(block[i])
-			case i > 0 && block[i-1] == '-':
+			case i > 0 && (block[i-1] == '-' || block[i-1] == '='):
 				if pos != 0 && pt.Loc >= pos {
 					return
 				}
@@ -279,7 +279,8 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
-				ansiColour(hlPipe, '-')
+				//ansiColour(hlPipe, '-')
+				ansiColour(hlPipe, block[i-1])
 				ansiReset('>')
 				syntaxHighlighted += hlFunction
 			case pt.ExpectFunc, readFunc:

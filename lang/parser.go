@@ -2,6 +2,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
@@ -325,7 +326,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case quoteBrace > 0:
 				pUpdate(r)
 				quoteBrace++
-			case scanFuncName:
+			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
 				startParameters()
 				quoteBrace++
@@ -379,7 +380,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case braceCount > 0:
 				pUpdate(r)
-			case scanFuncName:
+			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
 				startParameters()
 			default:
@@ -395,7 +396,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case braceCount > 0:
 				pUpdate(r)
-			case scanFuncName:
+			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
 				startParameters()
 			default:
@@ -525,7 +526,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			default:
 				node.PipeOut = true
 				appendNode()
-				node = astNode{}
+				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -584,6 +585,32 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
+			case last == '=':
+				// close last node
+				*pop = (*pop)[:len(*pop)-1]
+				if len(*pop) == 0 {
+					pToken.Type = parameters.TokenTypeNil
+				}
+				node.PipeOut = true
+				appendNode()
+
+				// append -> format generic ->
+				node = astNode{
+					Method:  true,
+					PipeOut: true,
+					Name:    "format",
+					ParamTokens: [][]parameters.ParamToken{{{
+						Type: parameters.TokenTypeValue,
+						Key:  types.Generic,
+					}}},
+				}
+				appendNode()
+
+				// new node
+				node = astNode{Method: true}
+				pop = &node.Name
+				scanFuncName = true
+
 			default:
 				ignoreWhitespace = false
 				pUpdate(r)
