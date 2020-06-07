@@ -546,7 +546,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case last == ' ' || last == '\t':
 				node.PipeErr = true
 				appendNode()
-				node = astNode{}
+				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			default:

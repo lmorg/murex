@@ -106,6 +106,7 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 type parserTestSimpleConditions struct {
 	Block    string
 	Expected []parserTestSimpleExpected
+	Error    bool
 }
 
 type parserTestSimpleExpected struct {
@@ -132,13 +133,15 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 
 		nodes, pErr := parser([]rune(tests[j].Block))
 		if pErr.Code != 0 {
-			jsonExp, _ := json.Marshal(exp, false)
-			t.Error("Unable to parse valid command line:")
-			t.Logf("  Test #:    %d", j)
-			t.Logf("  Block:     %s", tests[j].Block)
-			t.Logf("  Error Msg: %s", pErr.Message)
-			t.Logf("  Expected:  %s", string(jsonExp))
-			t.Logf("  Actual:    n/a")
+			if !tests[j].Error {
+				jsonExp, _ := json.Marshal(exp, false)
+				t.Error("Unable to parse valid command line:")
+				t.Logf("  Test #:    %d", j)
+				t.Logf("  Block:     %s", tests[j].Block)
+				t.Logf("  Error Msg: %s", pErr.Message)
+				t.Logf("  Expected:  %s", string(jsonExp))
+				t.Logf("  Actual:    n/a")
+			}
 			continue
 		}
 
