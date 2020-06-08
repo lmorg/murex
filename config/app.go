@@ -5,4 +5,4 @@ const AppName = "murex"
 
 // Version number of $SHELL
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
-const Version = "0.48.1200 BETA"
+const Version = "0.49.0000 BETA"
