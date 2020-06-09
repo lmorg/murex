@@ -73,7 +73,7 @@ tests have been run.
 If you do happen to run into any such bugs then I do welcome pull requests.
 
 Feature wise, job control isn't supported in Plan 9 because Plan 9 doesn't
-support all of the required etc signals.
+support all of the required signals.
 
 ## Other CPU architectures
 
