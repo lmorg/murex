@@ -31,6 +31,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 		quoteSingle      bool
 		quoteDouble      bool
 		quoteBrace       int
+		quoteBraceHide   bool
 		braceCount       int
 		unclosedIndex    bool
 		ignoreWhitespace = true
@@ -341,6 +342,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 				startParameters()
 				quoteBrace++
+			case len(*pop) > 0: // experimental!
+				pUpdate(r)
+				quoteBrace++
+				quoteBraceHide = true
 			default:
 				quoteBrace++
 			}
@@ -356,14 +361,21 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case quoteSingle, quoteDouble:
 				pUpdate(r)
 				ignoreWhitespace = false
-			case quoteBrace == 0:
-				pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
-				return
+			/*case quoteBrace == 0:
+			pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
+			return*/
 			case quoteBrace > 1:
 				pUpdate(r)
 				quoteBrace--
 			case quoteBrace == 1:
+				if quoteBraceHide {
+					quoteBraceHide = false
+					pUpdate(r)
+				}
 				quoteBrace--
+			case quoteBrace == 0:
+				pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
+				return
 			default:
 				pErr = raiseErr(ErrUnexpectedParsingError, i) //+" No case found for `switch ')' { ... }`.", i)
 				return
