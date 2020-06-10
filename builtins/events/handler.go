@@ -30,6 +30,10 @@ type j struct {
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
 func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout stdio.Io) {
+	if fileRef == nil {
+		panic("fileRef should not be nil value")
+	}
+
 	json, err := json.Marshal(&j{
 		Name:      name,
 		Interrupt: interrupt,

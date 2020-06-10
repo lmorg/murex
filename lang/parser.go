@@ -2,6 +2,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
@@ -247,8 +248,13 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 		switch r {
 		case '#':
 			switch {
-			case escaped, quoteSingle, quoteDouble, quoteBrace > 0, braceCount > 0:
+			case escaped:
 				pUpdate(r)
+				ignoreWhitespace = false
+				escaped = false
+			case quoteSingle, quoteDouble, quoteBrace > 0, braceCount > 0:
+				pUpdate(r)
+				ignoreWhitespace = false
 			default:
 				commentLine = true
 			}
@@ -280,7 +286,9 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 			default:
-				pToken.Type = parameters.TokenTypeValue
+				if !scanFuncName {
+					pToken.Type = parameters.TokenTypeValue
+				}
 				quoteSingle = true
 			}
 
@@ -296,7 +304,9 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case quoteDouble:
 				quoteDouble = false
 			default:
-				pToken.Type = parameters.TokenTypeValue
+				if !scanFuncName {
+					pToken.Type = parameters.TokenTypeValue
+				}
 				quoteDouble = true
 			}
 
@@ -320,12 +330,14 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case quoteBrace > 0:
 				pUpdate(r)
 				quoteBrace++
-			case scanFuncName:
+			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
 				startParameters()
 				quoteBrace++
@@ -340,8 +352,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case quoteBrace == 0:
 				pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
 				return
@@ -360,8 +374,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			case scanFuncName:
@@ -375,11 +391,13 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
-			case scanFuncName:
+			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
 				startParameters()
 			default:
@@ -391,11 +409,14 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
+				continue // skip `last=r`
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
-			case scanFuncName:
+			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
 				startParameters()
 			default:
@@ -407,8 +428,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			case scanFuncName:
@@ -425,8 +448,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case scanFuncName:
 				if len(*pop) == 0 {
 					pErr = raiseErr(ErrUnexpectedOpenBraceFunc, i)
@@ -445,8 +470,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case scanFuncName:
 				pErr = raiseErr(ErrUnexpectedCloseBrace, i)
 				return
@@ -463,8 +490,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			case !scanFuncName && last != ' ' && last != ':':
@@ -484,7 +513,18 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			switch {
 			case escaped:
 				//pUpdate(r)
-				pUpdate(' ')
+				//pUpdate(' ')
+				switch {
+				case !scanFuncName && last != ' ' && last != ':':
+					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+					pCount++
+					pToken = &node.ParamTokens[pCount][0]
+					pop = &pToken.Key
+				case scanFuncName && !ignoreWhitespace:
+					startParameters()
+				default:
+					pUpdate(r)
+				}
 				escaped = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
@@ -504,8 +544,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			case len(node.Name) == 0:
@@ -514,7 +556,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			default:
 				node.PipeOut = true
 				appendNode()
-				node = astNode{}
+				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -524,8 +566,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			case len(node.Name) == 0:
@@ -534,7 +578,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case last == ' ' || last == '\t':
 				node.PipeErr = true
 				appendNode()
-				node = astNode{}
+				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			default:
@@ -546,8 +590,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			default:
@@ -559,8 +605,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			case last == '-':
@@ -573,6 +621,32 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				node = astNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
+			case last == '=':
+				// close last node
+				*pop = (*pop)[:len(*pop)-1]
+				if len(*pop) == 0 {
+					pToken.Type = parameters.TokenTypeNil
+				}
+				node.PipeOut = true
+				appendNode()
+
+				// append -> format generic ->
+				node = astNode{
+					Method:  true,
+					PipeOut: true,
+					Name:    "format",
+					ParamTokens: [][]parameters.ParamToken{{{
+						Type: parameters.TokenTypeValue,
+						Key:  types.Generic,
+					}}},
+				}
+				appendNode()
+
+				// new node
+				node = astNode{Method: true}
+				pop = &node.Name
+				scanFuncName = true
+
 			default:
 				ignoreWhitespace = false
 				pUpdate(r)
@@ -583,8 +657,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
 			default:
@@ -599,8 +675,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case scanFuncName || braceCount > 0 || quoteSingle:
 				pUpdate(r)
+				ignoreWhitespace = false
 			default:
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeTilde})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
@@ -612,8 +690,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case scanFuncName || braceCount > 0 || quoteSingle:
 				pUpdate(r)
+				ignoreWhitespace = false
 			default:
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeString})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
@@ -625,8 +705,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case escaped:
 				pUpdate(r)
 				escaped = false
+				ignoreWhitespace = false
 			case scanFuncName || braceCount > 0 || quoteSingle:
 				pUpdate(r)
+				ignoreWhitespace = false
 			case last != ' ' && last != '\t':
 				pUpdate(r)
 			default:
@@ -678,13 +760,20 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			}
 
 		default:
-			switch {
+			/*switch {
 			case escaped:
 				pUpdate(r)
 				escaped = false
 			default:
 				ignoreWhitespace = false
 				pUpdate(r)
+			}*/
+			ignoreWhitespace = false
+			pUpdate(r)
+			// skip last=r since the last char was escaped
+			if escaped {
+				escaped = false
+				continue
 			}
 		}
 

@@ -72,7 +72,7 @@ Example taken from [oilshell.org/blog/2017/09/19.html](http://www.oilshell.org/b
 
 This can be done in one line but I'll split it for readability:
 
-    2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc } -> foreach rec {
+    2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> eschtml } -> foreach rec {
         out "<tr> <td>$rec[1]</td> <td>$rec[0]</td> <tr>"
     }
 
@@ -90,7 +90,7 @@ string with clean escaping. A longer version of the code might read:
         </tr>'
 
     # Create array with git logs output. HTML escape the titles.
-    2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> htmlesc} -> set gitlog
+    2darray: { git log --pretty=format:"%s" } { git log --pretty=format:"%H" -> eschtml } -> set gitlog
 
     # For each grouped record create a HTML row.
     # Use the $row variable defined above as a template.

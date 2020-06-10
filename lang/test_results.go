@@ -18,6 +18,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/lang/ref"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -51,12 +53,18 @@ set:
 
 // AddResult is called after the test has run so the result can be recorded
 func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatus, message string) {
+	// p.FileRef might be nil for missed tests
+	var fileRef ref.File
+	if p.FileRef != nil {
+		fileRef = *p.FileRef
+	}
+
 	tests.Results.Add(&TestResult{
 		TestName:   test.Name,
 		Exec:       p.Name,
 		Params:     p.Parameters.StringArray(),
-		LineNumber: p.FileRef.Line,
-		ColNumber:  p.FileRef.Column,
+		LineNumber: fileRef.Line,
+		ColNumber:  fileRef.Column,
 		Status:     status,
 		Message:    message,
 	})
