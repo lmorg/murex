@@ -410,6 +410,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 				escaped = false
 				ignoreWhitespace = false
+				continue // skip `last=r`
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 				ignoreWhitespace = false
@@ -769,7 +770,11 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			}*/
 			ignoreWhitespace = false
 			pUpdate(r)
-			escaped = false
+			// skip last=r since the last char was escaped
+			if escaped {
+				escaped = false
+				continue
+			}
 		}
 
 		last = r

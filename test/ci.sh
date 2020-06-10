@@ -12,6 +12,7 @@ sleep 1
 echo "Run golang unit tests...."
 go test ./... -count 10 -race -coverprofile=coverage.txt -covermode=atomic
 export MUREXTESTS="$(curl -s http://localhost:38000/t)"
+echo "$MUREXTESTS tests completed"
 
 echo "Compiling murex...."
 go install github.com/lmorg/murex
