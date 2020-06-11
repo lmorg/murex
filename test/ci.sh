@@ -21,7 +21,7 @@ echo "Run murex shell script unit tests...."
 murex --run-tests
 
 echo "Building latest binaries...."
-murex ./test/build_all_platforms.mx --no-colour --inc-latest --compress
+murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
 
 echo "Building website...."
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
