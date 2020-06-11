@@ -6,7 +6,7 @@ cd $GOPATH/src/$project/test
 mkdir build-tests
 cd build-tests
 
-set json targets =\ ([
+set json targets = ([
     "linux",
     "freebsd",
     "darwin",

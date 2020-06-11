@@ -228,10 +228,6 @@ func TestGlobalMethodNegative(t *testing.T) {
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: foo=",
-			Fail:  true,
-		},
-		{
 			Block: "out: foobar -> global: foo=bar",
 			Fail:  true,
 		},

@@ -185,19 +185,27 @@ func TestExportMethodPositive(t *testing.T) {
 func TestExportFunctionNegative(t *testing.T) {
 	tests := []Test{
 		{
-			Block: "global: =foobar",
+			Block: "export: =foobar",
 			Fail:  true,
 		},
 		{
-			Block: "global: -=foobar",
+			Block: "export: -=foobar",
 			Fail:  true,
 		},
 		{
-			Block: "global: foo-bar=foobar",
+			Block: "export: foo-bar=foobar",
 			Fail:  true,
 		},
 		{
-			Block: "global: foo\\-bar=foobar",
+			Block: "export: foo\\-bar=foobar",
+			Fail:  true,
+		},
+		{
+			Block: "export: foobar =foobar",
+			Fail:  true,
+		},
+		{
+			Block: "export: foobar = foobar",
 			Fail:  true,
 		},
 	}
@@ -208,31 +216,31 @@ func TestExportFunctionNegative(t *testing.T) {
 func TestExportMethodNegative(t *testing.T) {
 	tests := []Test{
 		{
-			Block: "out: foobar -> set",
+			Block: "out: foobar -> export",
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: =",
+			Block: "out: foobar -> export: =",
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: -",
+			Block: "out: foobar -> export: -",
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: foo-bar",
+			Block: "out: foobar -> export: foo-bar",
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: foo\\-bar",
+			Block: "out: foobar -> export: foo\\-bar",
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: foo=",
+			Block: "out: foobar -> export: foo=",
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> global: foo=bar",
+			Block: "out: foobar -> export: foo=bar",
 			Fail:  true,
 		},
 	}

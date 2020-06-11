@@ -74,6 +74,34 @@ func TestSetFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		{
+			Block: `set: json array = ([
+	"a",
+	"b",
+	"c"
+])`,
+			Name: "array",
+			Value: `[
+	"a",
+	"b",
+	"c"
+]`,
+			DataType: "json",
+		},
+		{
+			Block: `set: json map = {
+	"a": "1",
+	"b": "2",
+	"c": "3"
+}`,
+			Name: "map",
+			Value: `{
+	"a": "1",
+	"b": "2",
+	"c": "3"
+}`,
+			DataType: "json",
+		},
 	}
 
 	VariableTests(set, t)
@@ -89,6 +117,8 @@ func TestSetFunctionPositive(t *testing.T) {
 		"f_bar",
 		"foo_bar",
 		"foobar",
+		"array",
+		"map",
 	}
 
 	UnSetTests("!set", unset, t)
@@ -225,10 +255,6 @@ func TestSetMethodNegative(t *testing.T) {
 		},
 		{
 			Block: "out: foobar -> set: foo\\-bar",
-			Fail:  true,
-		},
-		{
-			Block: "out: foobar -> set: foo=",
 			Fail:  true,
 		},
 		{
