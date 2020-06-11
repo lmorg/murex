@@ -6,6 +6,7 @@ jobs:
       - image: lmorg/murex
         environment:
           GOPATH: /go
+          MUREX_BUILD_FLAGS: --no-colour
     
     steps:
       - run:

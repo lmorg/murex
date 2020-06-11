@@ -179,9 +179,9 @@ func TestParserNamedPiped6(t *testing.T) {
 	}}
 
 	params3 := [][]parameters.ParamToken{{
-		{Key: "<", Type: parameters.TokenTypeNamedPipe},
+		{Key: "<(", Type: parameters.TokenTypeNamedPipe},
 		{Key: "notapipe", Type: parameters.TokenTypeString},
-		{Key: ">", Type: parameters.TokenTypeValue},
+		{Key: ")>", Type: parameters.TokenTypeValue},
 	}}
 
 	nodes3 := astNodes{{
