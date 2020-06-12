@@ -41,5 +41,6 @@ for f in *.md; do
 done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
-mkdir /website
+mkdir /website | true
 mv -v *.html gen/website/*.css ./bin ./docs /website/
+echo "Fin!git"

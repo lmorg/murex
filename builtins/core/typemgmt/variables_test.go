@@ -2,7 +2,7 @@ package typemgmt
 
 import (
 	"encoding/json"
-	"os"
+	"sync"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/io"
@@ -21,8 +21,13 @@ type Test struct {
 
 const envVarPrefix = "MUREX_TEST_VAR_"
 
+var varTestMutex sync.Mutex
+
 func VariableTests(tests []Test, t *testing.T) {
-	// these tests don't support multiple counts
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
+	/*// these tests don't support multiple counts
 	if os.Getenv(envVarPrefix+t.Name()) == "1" {
 		return
 	}
@@ -30,7 +35,7 @@ func VariableTests(tests []Test, t *testing.T) {
 	err := os.Setenv(envVarPrefix+t.Name(), "1")
 	if err != nil {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
-	}
+	}*/
 
 	count.Tests(t, len(tests)*2)
 
@@ -73,7 +78,10 @@ func VariableTests(tests []Test, t *testing.T) {
 }
 
 func UnSetTests(unsetter string, tests []string, t *testing.T) {
-	// these tests don't support multiple counts
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
+	/*// these tests don't support multiple counts
 	if os.Getenv(envVarPrefix+t.Name()) == "1" {
 		return
 	}
@@ -81,7 +89,7 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 	err := os.Setenv(envVarPrefix+t.Name(), "1")
 	if err != nil {
 		t.Fatalf("Aborting test because unable to set env: %s", err)
-	}
+	}*/
 
 	count.Tests(t, len(tests)*2)
 
