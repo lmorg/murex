@@ -74,32 +74,47 @@ func TestSetFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		/////
 		{
 			Block: `set: json array = ([
-	"a",
-	"b",
-	"c"
-])`,
+			"a",
+			"b",
+			"c"
+		])`,
 			Name: "array",
 			Value: `[
-	"a",
-	"b",
-	"c"
-]`,
+			"a",
+			"b",
+			"c"
+		]`,
 			DataType: "json",
 		},
 		{
 			Block: `set: json map = {
-	"a": "1",
-	"b": "2",
-	"c": "3"
-}`,
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		}`,
 			Name: "map",
 			Value: `{
-	"a": "1",
-	"b": "2",
-	"c": "3"
-}`,
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		}`,
+			DataType: "json",
+		},
+		{
+			Block: `set: json map2 = ({
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		})`,
+			Name: "map2",
+			Value: `{
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		}`,
 			DataType: "json",
 		},
 	}
@@ -119,6 +134,7 @@ func TestSetFunctionPositive(t *testing.T) {
 		"foobar",
 		"array",
 		"map",
+		"map2",
 	}
 
 	UnSetTests("!set", unset, t)
