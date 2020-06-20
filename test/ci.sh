@@ -10,7 +10,7 @@ go run github.com/lmorg/murex/test/count/server 2>/dev/null &
 sleep 1
         
 echo "Run golang unit tests...."
-go test ./... -count 10 -race -coverprofile=coverage.txt -covermode=atomic
+go test ./... -count 1 -race -coverprofile=coverage.txt -covermode=atomic
 export MUREXTESTS="$(curl -s http://localhost:38000/t)"
 echo "$MUREXTESTS tests completed"
 

@@ -7,6 +7,9 @@ import (
 )
 
 func TestSetFunctionPositive(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "set: f=b",
@@ -141,6 +144,9 @@ func TestSetFunctionPositive(t *testing.T) {
 }
 
 func TestSetMethodPositive(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "out: b -> set: f",
@@ -229,6 +235,9 @@ func TestSetMethodPositive(t *testing.T) {
 }
 
 func TestSetFunctionNegative(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	tests := []Test{
 		{
 			Block: "set: =foobar",
@@ -252,6 +261,9 @@ func TestSetFunctionNegative(t *testing.T) {
 }
 
 func TestSetMethodNegative(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	tests := []Test{
 		{
 			Block: "out: foobar -> set",
@@ -283,6 +295,9 @@ func TestSetMethodNegative(t *testing.T) {
 }
 
 func TestSetFunctionDataTypes(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "set: foobar=123",
@@ -344,6 +359,9 @@ func TestSetFunctionDataTypes(t *testing.T) {
 }
 
 func TestSetMethodDataTypes(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "tout: int 123 -> set: foobar",

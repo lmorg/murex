@@ -7,6 +7,9 @@ import (
 )
 
 func TestGlobalFunctionPositive(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "global: f=b",
@@ -95,6 +98,9 @@ func TestGlobalFunctionPositive(t *testing.T) {
 }
 
 func TestGlobalMethodPositive(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "out: b -> global: f",
@@ -183,6 +189,9 @@ func TestGlobalMethodPositive(t *testing.T) {
 }
 
 func TestGlobalFunctionNegative(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	tests := []Test{
 		{
 			Block: "global: =foobar",
@@ -206,6 +215,9 @@ func TestGlobalFunctionNegative(t *testing.T) {
 }
 
 func TestGlobalMethodNegative(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	tests := []Test{
 		{
 			Block: "out: foobar -> set",
@@ -237,6 +249,9 @@ func TestGlobalMethodNegative(t *testing.T) {
 }
 
 func TestGlobalFunctionDataTypes(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "global: foobar=123",
@@ -298,6 +313,9 @@ func TestGlobalFunctionDataTypes(t *testing.T) {
 }
 
 func TestGlobalMethodDataTypes(t *testing.T) {
+	varTestMutex.Lock()
+	defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "tout: int 123 -> global: foobar",
