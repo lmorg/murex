@@ -67,11 +67,14 @@ Categories:
       This section is a glossary of _murex_ optional builtins.
       
       These builtins likely wont be compiled with _murex_ unless you specifically
-      request them to be. This will be because they duplicate functionality
-      already available on POSIX systems. However some of these tools might be
-      missing from an out-of-the-box Windows install and in those instances
-      _murex_ will default to compiling many optionals.
+      request them to be. This might be because they duplicate functionality
+      already available on POSIX systems or introduce more complex dependencies.
+      It might also be because that specific builtin is in an alpha stage and thus
+      not ready to ship with _murex_.
 
+      There are also optional some builtins which are automatically be built on
+      Windows to include a few coreutils commands missing Windows.
+  
       ## Other Reference Material
 
       ### Language Guides
@@ -103,12 +106,32 @@ Categories:
       murex-docs trypipe
       ```
   
+  - ID: parser
+    Title: Parser Reference
+    Description: |-
+      This section is a glossary of _murex_ tokens and parser behavior.
+  
+      ## Other Reference Material
+
+      ### Language Guides
+
+      1. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md), for docs
+      on the core builtins.
+
+      2. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
+      contains builtins required for building logic.
+
+      ### _murex_'s Source Code
+
+      The parser is located _murex_'s source under the `lang` path of the project
+      files.
+  
     Templates:
-    - OutputPath: docs/optional
-      CategoryFile: ../GUIDE.optional-commands.md
+    - OutputPath: docs/parser
+      CategoryFile: ../GUIDE.parser.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
-      DocumentTemplate: gen/commands-md-doc.tmpl
+      DocumentTemplate: gen/parser-md-doc.tmpl
 
   # events:
 

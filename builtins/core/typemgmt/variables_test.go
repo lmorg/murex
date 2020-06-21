@@ -3,7 +3,6 @@ package typemgmt
 import (
 	"encoding/json"
 	"os"
-	"sync"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/io"
@@ -22,7 +21,7 @@ type Test struct {
 
 const envVarPrefix = "MUREX_TEST_VAR_"
 
-var varTestMutex sync.Mutex
+//var varTestMutex sync.Mutex
 
 func VariableTests(tests []Test, t *testing.T) {
 

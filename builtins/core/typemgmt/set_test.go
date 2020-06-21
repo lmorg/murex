@@ -7,8 +7,8 @@ import (
 )
 
 func TestSetFunctionPositive(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
@@ -144,8 +144,8 @@ func TestSetFunctionPositive(t *testing.T) {
 }
 
 func TestSetMethodPositive(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
@@ -235,8 +235,8 @@ func TestSetMethodPositive(t *testing.T) {
 }
 
 func TestSetFunctionNegative(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	tests := []Test{
 		{
@@ -261,8 +261,8 @@ func TestSetFunctionNegative(t *testing.T) {
 }
 
 func TestSetMethodNegative(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	tests := []Test{
 		{
@@ -295,8 +295,8 @@ func TestSetMethodNegative(t *testing.T) {
 }
 
 func TestSetFunctionDataTypes(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
@@ -359,8 +359,8 @@ func TestSetFunctionDataTypes(t *testing.T) {
 }
 
 func TestSetMethodDataTypes(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{

@@ -7,8 +7,8 @@ import (
 )
 
 func TestGlobalFunctionPositive(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
@@ -98,8 +98,8 @@ func TestGlobalFunctionPositive(t *testing.T) {
 }
 
 func TestGlobalMethodPositive(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
@@ -189,8 +189,8 @@ func TestGlobalMethodPositive(t *testing.T) {
 }
 
 func TestGlobalFunctionNegative(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	tests := []Test{
 		{
@@ -215,8 +215,8 @@ func TestGlobalFunctionNegative(t *testing.T) {
 }
 
 func TestGlobalMethodNegative(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	tests := []Test{
 		{
@@ -249,8 +249,8 @@ func TestGlobalMethodNegative(t *testing.T) {
 }
 
 func TestGlobalFunctionDataTypes(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
@@ -313,8 +313,8 @@ func TestGlobalFunctionDataTypes(t *testing.T) {
 }
 
 func TestGlobalMethodDataTypes(t *testing.T) {
-	varTestMutex.Lock()
-	defer varTestMutex.Unlock()
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
 
 	set := []Test{
 		{
