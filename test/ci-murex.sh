@@ -2,7 +2,22 @@
 
 set -ev
 
-test/pre-commit --no-cd
+#test/pre-commit --no-cd
+
+echo "Compiling stringer...."
+go build -o /bin/stringer golang.org/x/tools/cmd/stringer 
+
+echo "Updating auto-generated code...."
+go generate ./...
+
+echo "Compiling docgen...."
+go install github.com/lmorg/murex/utils/docgen
+
+echo "Compiling murex docs...."
+docgen -config gen/docgen.yaml
+
+echo "Compiling murex...."
+go install github.com/lmorg/murex
 
 echo "Starting count server...."
 export MUREX_TEST_COUNT=http
@@ -14,13 +29,7 @@ go test ./... -count 1 -race -coverprofile=coverage.txt -covermode=atomic
 export MUREXTESTS="$(curl -s http://localhost:38000/t)"
 echo "$MUREXTESTS tests completed"
 
-echo "Compiling murex...."
-go install github.com/lmorg/murex
-
 echo "Run murex shell script unit tests...."
 murex --run-tests
-
-echo "Building latest binaries...."
-murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
 
 echo "Fin!"

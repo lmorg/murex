@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Building latest binaries...."
+murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
+
 echo "Building website...."
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
 export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"

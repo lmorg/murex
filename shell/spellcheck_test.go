@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"os"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/arraytools"
@@ -13,6 +14,11 @@ import (
 )
 
 func TestSpellcheckCrLf(t *testing.T) {
+	if os.Getenv("MUREX_TEST_SKIP_SPELLCHECK") != "" {
+		t.Skip("Environmental variable `MUREX_TEST_SKIP_SPELLCHECK` set")
+		return
+	}
+
 	count.Tests(t, 1)
 	lang.InitEnv()
 	defaults.Defaults(lang.ShellProcess.Config, false)
@@ -39,6 +45,11 @@ func TestSpellcheckCrLf(t *testing.T) {
 }
 
 func TestSpellcheckZeroLenStr(t *testing.T) {
+	if os.Getenv("MUREX_TEST_SKIP_SPELLCHECK") != "" {
+		t.Skip("Environmental variable `MUREX_TEST_SKIP_SPELLCHECK` set")
+		return
+	}
+
 	count.Tests(t, 1)
 	lang.InitEnv()
 	defaults.Defaults(lang.ShellProcess.Config, false)

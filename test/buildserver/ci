@@ -9,24 +9,26 @@ ARG GOOS=linux
 ARG GOARCH=amd64
 
 VOLUME /go/bin
+VOLUME /website
 WORKDIR /go/src/github.com/lmorg/murex
 
 RUN sed 1,3d -i /etc/dpkg/dpkg.cfg.d/excludes && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y --reinstall man coreutils wget curl gcc git aspell aspell-en pandoc zip awscli
 
-# install golang and tools
+# install golang and sources
 RUN mkdir -p /go && cd /go && \
     wget https://dl.google.com/go/go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     tar xf go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
+    rm -v go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     ln -sv /go/go/bin/go /bin/go && \
     go get -u golang.org/x/tools/cmd/stringer && \
-    go build -o /bin/stringer golang.org/x/tools/cmd/stringer && \
     ln -sv /go/bin/murex /bin/murex && \
     ln -sv /go/bin/docgen /bin/docgen
 
 # clean up
 RUN apt-get purge --auto-remove -y && \
+    apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 

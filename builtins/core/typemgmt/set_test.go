@@ -79,6 +79,18 @@ func TestSetFunctionPositive(t *testing.T) {
 		},
 		/////
 		{
+			Block:    "set: gapped = foobar",
+			Name:     "gapped",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "set: custard gapped2 = foobar",
+			Name:     "gapped2",
+			Value:    "foobar",
+			DataType: "custard",
+		},
+		{
 			Block: `set: json array = ([
 			"a",
 			"b",
@@ -92,7 +104,7 @@ func TestSetFunctionPositive(t *testing.T) {
 		]`,
 			DataType: "json",
 		},
-		/*{
+		{
 			Block: `set: json map = {
 			"a": "1",
 			"b": "2",
@@ -119,10 +131,8 @@ func TestSetFunctionPositive(t *testing.T) {
 			"c": "3"
 		}`,
 			DataType: "json",
-		},*/
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
@@ -135,11 +145,14 @@ func TestSetFunctionPositive(t *testing.T) {
 		"f_bar",
 		"foo_bar",
 		"foobar",
-		/*"array",
+		"gapped",
+		"gapped2",
+		"array",
 		"map",
-		"map2",*/
+		"map2",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
@@ -216,8 +229,6 @@ func TestSetMethodPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"f",
 		"foo",
@@ -231,6 +242,7 @@ func TestSetMethodPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
@@ -349,12 +361,11 @@ func TestSetFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
@@ -413,11 +424,10 @@ func TestSetMethodDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }

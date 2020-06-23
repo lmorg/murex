@@ -2,7 +2,10 @@ FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
-    GOPATH=/go
+    GOPATH=/go \
+    MUREX_TEST_SKIP_MAN=1 \
+    MUREX_TEST_SKIP_SPELLCHECK=1 \
+    MUREX_TEST_NO_EXEC_DEPS=1
 
 ARG VERSION=1.13.1
 ARG GOOS=linux
@@ -11,20 +14,22 @@ ARG GOARCH=amd64
 VOLUME /go/bin
 WORKDIR /go/src/github.com/lmorg/murex
 
-RUN apt-get install -y wget
+RUN apt-get update && apt-get install -y wget git gcc
 
-# install golang and tools
+# install golang and sources
 RUN mkdir -p /go && cd /go && \
     wget https://dl.google.com/go/go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     tar xf go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
+    rm -v go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     ln -sv /go/go/bin/go /bin/go && \
     go get -u golang.org/x/tools/cmd/stringer && \
-    go build -o /bin/stringer golang.org/x/tools/cmd/stringer && \
     ln -sv /go/bin/murex /bin/murex && \
     ln -sv /go/bin/docgen /bin/docgen
 
 # clean up
-RUN apt-get purge --auto-remove -y && \
+RUN apt-get remove -y wget git && \
+    apt-get autoremove -y && \
+    apt-get purge --auto-remove -y && \
     apt-get clean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
