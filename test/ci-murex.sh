@@ -4,6 +4,8 @@ set -ev
 
 #test/pre-commit --no-cd
 
+. /etc/ci-murex.env
+
 echo "Compiling stringer...."
 go build -o /bin/stringer golang.org/x/tools/cmd/stringer 
 
