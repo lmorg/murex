@@ -2,10 +2,7 @@ FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
-    GOPATH=/go \
-    MUREX_TEST_SKIP_MAN=1 \
-    MUREX_TEST_SKIP_SPELLCHECK=1 \
-    MUREX_TEST_NO_EXEC_DEPS=1
+    GOPATH=/go
 
 ARG VERSION=1.13.1
 ARG GOOS=linux
@@ -24,7 +21,8 @@ RUN mkdir -p /go && cd /go && \
     ln -sv /go/go/bin/go /bin/go && \
     go get -u golang.org/x/tools/cmd/stringer && \
     ln -sv /go/bin/murex /bin/murex && \
-    ln -sv /go/bin/docgen /bin/docgen
+    ln -sv /go/bin/docgen /bin/docgen && \
+    ln -sv /go/src/github.com/lmorg/murex/test/buildserver/ci.env /etc/ci-murex.env
 
 # clean up
 RUN apt-get remove -y wget git && \
