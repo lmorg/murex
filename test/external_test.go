@@ -1,11 +1,16 @@
 package test
 
 import (
+	"os"
 	"runtime"
 	"testing"
 )
 
 func TestInstalledDepsTest(t *testing.T) {
+	if os.Getenv("MUREX_TEST_NO_EXEC_DEPS") != "" {
+		return
+	}
+
 	var exec string
 
 	switch runtime.GOOS {

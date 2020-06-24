@@ -9,9 +9,12 @@ ARG GOOS=linux
 ARG GOARCH=amd64
 
 VOLUME /go/bin
+VOLUME /website
 WORKDIR /go/src/github.com/lmorg/murex
 
-RUN apt-get update && apt-get install -y wget git gcc
+RUN sed 1,3d -i /etc/dpkg/dpkg.cfg.d/excludes && \
+    apt-get update && apt-get upgrade -y && \
+    apt-get install -y --reinstall man coreutils wget curl gcc git aspell aspell-en pandoc zip awscli
 
 # install golang and sources
 RUN mkdir -p /go && cd /go && \
@@ -25,12 +28,12 @@ RUN mkdir -p /go && cd /go && \
     ln -sv /go/src/github.com/lmorg/murex/test/buildserver/ci.env /etc/ci-murex.env
 
 # clean up
-RUN apt-get remove -y wget git && \
+RUN apt-get purge --auto-remove -y && \
     apt-get autoremove -y && \
-    apt-get purge --auto-remove -y && \
     apt-get clean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 ADD . .
 
-ENTRYPOINT /go/src/github.com/lmorg/murex/test/ci-murex.sh
+ENTRYPOINT /go/src/github.com/lmorg/murex/test/ci-murex.sh && \
+           /go/src/github.com/lmorg/murex/test/ci-website.sh

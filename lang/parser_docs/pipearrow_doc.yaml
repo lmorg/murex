@@ -1,0 +1,38 @@
+- DocumentID: pipearrow
+  Title: >-
+    Arrow Pipe (`->`) Token
+  CategoryID: parser
+  Summary: >-
+    Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Description: |-
+    This token behaves much like pipe would in Bash or similar shells. It passes
+    STDOUT along the pipeline while merging STDERR stream with the parents STDERR
+    stream.
+
+    It is identical in purpose to the `|` pipe token.
+  Examples: |-
+    ```
+    » out: Hello, world! -> regexp: s/world/Earth/
+    Hello, Earth!
+
+    » out: Hello, world!->regexp: s/world/Earth/
+    Hello, Earth!
+    ```
+
+    In following example the first command is writing to STDERR rather than STDOUT
+    so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
+    
+    ```
+    » err: Hello, world! -> regexp: s/world/Earth/
+    Hello, world!
+    ```
+  Detail: |-
+  Related:
+  - pipeposix
+  - pipeformat
+  - pipenamed
+  - pipeerr
+  - commands/out
+  - commands/err
+  - commands/regexp
+

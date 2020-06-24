@@ -3,9 +3,10 @@ jobs:
   build:
     working_directory: /go/src/github.com/lmorg/murex
     docker:
-      - image: lmorg/murex
+      - image: lmorg/murex:ci
         environment:
           GOPATH: /go
+          MUREX_BUILD_FLAGS: --no-colour
     
     steps:
       - run:
@@ -15,8 +16,12 @@ jobs:
       - checkout
 
       - run:
-          name: Run CI script
-          command: test/ci.sh
+          name: Build and test murex
+          command: test/ci-murex.sh
+
+      - run:
+          name: Build and test website
+          command: test/ci-website.sh
 
       - run:
           name: Code Coverage (codecov.io)

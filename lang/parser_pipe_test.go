@@ -582,7 +582,7 @@ func TestParserPipePosixQuote(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{"1", "2", "3|bar", "1", "2", "3"},
+					Parameters: []string{"1", "2", "3 | bar", "1", "2", "3"},
 					Method:     TEST_NEW_PIPE,
 				},
 			},
@@ -676,7 +676,7 @@ func TestParserPipePosixQuote(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{"1", "2", "3|bar", "1", "2", "3"},
+					Parameters: []string{"1", "2", "3 | bar", "1", "2", "3"},
 					Method:     TEST_NEW_PIPE,
 				},
 			},
@@ -988,7 +988,7 @@ func TestParserPipeArrowQuote(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{"1", "2", "3->bar", "1", "2", "3"},
+					Parameters: []string{"1", "2", "3 -> bar", "1", "2", "3"},
 					Method:     TEST_NEW_PIPE,
 				},
 			},
@@ -1082,7 +1082,7 @@ func TestParserPipeArrowQuote(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{"1", "2", "3->bar", "1", "2", "3"},
+					Parameters: []string{"1", "2", "3 -> bar", "1", "2", "3"},
 					Method:     TEST_NEW_PIPE,
 				},
 			},
@@ -1182,7 +1182,7 @@ func TestParserPipeArrow2Quote(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{"1", "2", "3=>bar", "1", "2", "3"},
+					Parameters: []string{"1", "2", "3 => bar", "1", "2", "3"},
 					Method:     TEST_NEW_PIPE,
 				},
 			},
@@ -1276,7 +1276,7 @@ func TestParserPipeArrow2Quote(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{"1", "2", "3=>bar", "1", "2", "3"},
+					Parameters: []string{"1", "2", "3 => bar", "1", "2", "3"},
 					Method:     TEST_NEW_PIPE,
 				},
 			},

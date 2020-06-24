@@ -212,6 +212,20 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 					t.Logf("  Node #:   %d", i)
 					t.Logf("  Expected: %d (%s)", len(exp[i].Parameters), jsonExp)
 					t.Logf("  Actual:   %d (%s)", params.Len(), jsonAct)
+					continue
+				}
+
+				for p := range params.Params {
+					if params.Params[p] != exp[i].Parameters[p] {
+						t.Error("Parsing failed; Invalid parameter:")
+						t.Logf("  Test #:   %d", j)
+						t.Logf("  Block:    %s", tests[j].Block)
+						t.Logf("  Node #:   %d", i)
+						t.Logf("  Param #:  %d", p)
+						t.Logf("  Expected: %s", exp[i].Parameters[p])
+						t.Logf("  Actual:   %s", params.Params[p])
+						continue
+					}
 				}
 			}
 		}

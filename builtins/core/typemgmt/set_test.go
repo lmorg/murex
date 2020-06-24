@@ -7,6 +7,9 @@ import (
 )
 
 func TestSetFunctionPositive(t *testing.T) {
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "set: f=b",
@@ -74,9 +77,62 @@ func TestSetFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		/////
+		{
+			Block:    "set: gapped = foobar",
+			Name:     "gapped",
+			Value:    "foobar",
+			DataType: "str",
+		},
+		{
+			Block:    "set: custard gapped2 = foobar",
+			Name:     "gapped2",
+			Value:    "foobar",
+			DataType: "custard",
+		},
+		{
+			Block: `set: json array = ([
+			"a",
+			"b",
+			"c"
+		])`,
+			Name: "array",
+			Value: `[
+			"a",
+			"b",
+			"c"
+		]`,
+			DataType: "json",
+		},
+		{
+			Block: `set: json map = {
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		}`,
+			Name: "map",
+			Value: `{
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		}`,
+			DataType: "json",
+		},
+		{
+			Block: `set: json map2 = ({
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		})`,
+			Name: "map2",
+			Value: `{
+			"a": "1",
+			"b": "2",
+			"c": "3"
+		}`,
+			DataType: "json",
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
@@ -89,12 +145,21 @@ func TestSetFunctionPositive(t *testing.T) {
 		"f_bar",
 		"foo_bar",
 		"foobar",
+		"gapped",
+		"gapped2",
+		"array",
+		"map",
+		"map2",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
 func TestSetMethodPositive(t *testing.T) {
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "out: b -> set: f",
@@ -164,8 +229,6 @@ func TestSetMethodPositive(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"f",
 		"foo",
@@ -179,10 +242,14 @@ func TestSetMethodPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
 func TestSetFunctionNegative(t *testing.T) {
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
+
 	tests := []Test{
 		{
 			Block: "set: =foobar",
@@ -206,6 +273,9 @@ func TestSetFunctionNegative(t *testing.T) {
 }
 
 func TestSetMethodNegative(t *testing.T) {
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
+
 	tests := []Test{
 		{
 			Block: "out: foobar -> set",
@@ -228,10 +298,6 @@ func TestSetMethodNegative(t *testing.T) {
 			Fail:  true,
 		},
 		{
-			Block: "out: foobar -> set: foo=",
-			Fail:  true,
-		},
-		{
 			Block: "out: foobar -> set: foo=bar",
 			Fail:  true,
 		},
@@ -241,6 +307,9 @@ func TestSetMethodNegative(t *testing.T) {
 }
 
 func TestSetFunctionDataTypes(t *testing.T) {
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "set: foobar=123",
@@ -292,16 +361,18 @@ func TestSetFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
 func TestSetMethodDataTypes(t *testing.T) {
+	//varTestMutex.Lock()
+	//defer varTestMutex.Unlock()
+
 	set := []Test{
 		{
 			Block:    "tout: int 123 -> set: foobar",
@@ -353,11 +424,10 @@ func TestSetMethodDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
