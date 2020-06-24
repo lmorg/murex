@@ -22,7 +22,7 @@ RUN mkdir -p /go && cd /go && \
     go get -u golang.org/x/tools/cmd/stringer && \
     ln -sv /go/bin/murex /bin/murex && \
     ln -sv /go/bin/docgen /bin/docgen && \
-    ln -sv /go/src/github.com/lmorg/murex/test/buildserver/build.env /etc/ci-murex.env
+    ln -sv /go/src/github.com/lmorg/murex/test/buildserver/ci.env /etc/ci-murex.env
 
 # clean up
 RUN apt-get remove -y wget git && \
