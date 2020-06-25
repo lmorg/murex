@@ -4,9 +4,12 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/io"
+	"github.com/lmorg/murex/lang"
 )
 
 func TestExportFunctionPositive(t *testing.T) {
+	lang.InitEnv()
+
 	set := []Test{
 		{
 			Block:    "export: f=b",
@@ -74,9 +77,13 @@ func TestExportFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		{
+			Block:    "export: foobar=foobar",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "str",
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
@@ -91,10 +98,13 @@ func TestExportFunctionPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!export", unset, t)
 }
 
 func TestExportMethodPositive(t *testing.T) {
+	lang.InitEnv()
+
 	set := []Test{
 		{
 			Block:    "out: b -> export: f",
@@ -162,9 +172,13 @@ func TestExportMethodPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		{
+			Block:    "out: foobar -> export: foobar",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "str",
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
@@ -179,10 +193,13 @@ func TestExportMethodPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!export", unset, t)
 }
 
 func TestExportFunctionNegative(t *testing.T) {
+	lang.InitEnv()
+
 	tests := []Test{
 		{
 			Block: "export: =foobar",
@@ -214,6 +231,8 @@ func TestExportFunctionNegative(t *testing.T) {
 }
 
 func TestExportMethodNegative(t *testing.T) {
+	lang.InitEnv()
+
 	tests := []Test{
 		{
 			Block: "out: foobar -> export",

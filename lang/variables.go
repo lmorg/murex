@@ -277,7 +277,7 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 	//debug.Json("vars set", vars.process)
 
 	switch name {
-	case "SELF", "ARGS":
+	case "SELF", "ARGS", "_":
 		return errVariableReserved
 	}
 
@@ -315,7 +315,7 @@ func (vars *Variables) Set(name string, value interface{}, dataType string) erro
 func (vars *Variables) Unset(name string) error {
 	v := vars.varTable.getVariable(vars.process, name)
 	if v == nil {
-		return errors.New("No variables match the name")
+		return fmt.Errorf("No variables match the name '%s'", name)
 	}
 
 	v.mutex.Lock()

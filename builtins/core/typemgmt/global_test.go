@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/io"
+	"github.com/lmorg/murex/lang"
 )
 
 func TestGlobalFunctionPositive(t *testing.T) {
-	//varTestMutex.Lock()
-	//defer varTestMutex.Unlock()
+	lang.InitEnv()
 
 	set := []Test{
 		{
@@ -33,12 +33,6 @@ func TestGlobalFunctionPositive(t *testing.T) {
 			Block:    "global: foo=bar",
 			Name:     "foo",
 			Value:    "bar",
-			DataType: "str",
-		},
-		{
-			Block:    "global: _=foobar",
-			Name:     "_",
-			Value:    "foobar",
 			DataType: "str",
 		},
 		{
@@ -77,14 +71,17 @@ func TestGlobalFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		{
+			Block:    "global: foobar=foobar",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "str",
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
 		"foo",
-		"_",
 		"_b",
 		"f_",
 		"f_b",
@@ -94,12 +91,12 @@ func TestGlobalFunctionPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!global", unset, t)
 }
 
 func TestGlobalMethodPositive(t *testing.T) {
-	//varTestMutex.Lock()
-	//defer varTestMutex.Unlock()
+	lang.InitEnv()
 
 	set := []Test{
 		{
@@ -124,12 +121,6 @@ func TestGlobalMethodPositive(t *testing.T) {
 			Block:    "out: bar -> global: foo",
 			Name:     "foo",
 			Value:    "bar",
-			DataType: "str",
-		},
-		{
-			Block:    "out: foobar -> global: _",
-			Name:     "_",
-			Value:    "foobar",
 			DataType: "str",
 		},
 		{
@@ -168,14 +159,17 @@ func TestGlobalMethodPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "str",
 		},
+		{
+			Block:    "out: foobar -> global: foobar",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "str",
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
 		"foo",
-		"_",
 		"_b",
 		"f_",
 		"f_b",
@@ -185,12 +179,12 @@ func TestGlobalMethodPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!global", unset, t)
 }
 
 func TestGlobalFunctionNegative(t *testing.T) {
-	//varTestMutex.Lock()
-	//defer varTestMutex.Unlock()
+	lang.InitEnv()
 
 	tests := []Test{
 		{
@@ -199,6 +193,10 @@ func TestGlobalFunctionNegative(t *testing.T) {
 		},
 		{
 			Block: "global: -=foobar",
+			Fail:  true,
+		},
+		{
+			Block: "global: _=foobar",
 			Fail:  true,
 		},
 		{
@@ -215,8 +213,7 @@ func TestGlobalFunctionNegative(t *testing.T) {
 }
 
 func TestGlobalMethodNegative(t *testing.T) {
-	//varTestMutex.Lock()
-	//defer varTestMutex.Unlock()
+	lang.InitEnv()
 
 	tests := []Test{
 		{
@@ -229,6 +226,10 @@ func TestGlobalMethodNegative(t *testing.T) {
 		},
 		{
 			Block: "out: foobar -> global: -",
+			Fail:  true,
+		},
+		{
+			Block: "out: foobar -> global: _",
 			Fail:  true,
 		},
 		{
@@ -249,8 +250,7 @@ func TestGlobalMethodNegative(t *testing.T) {
 }
 
 func TestGlobalFunctionDataTypes(t *testing.T) {
-	//varTestMutex.Lock()
-	//defer varTestMutex.Unlock()
+	lang.InitEnv()
 
 	set := []Test{
 		{
@@ -303,18 +303,16 @@ func TestGlobalFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!global", unset, t)
 }
 
 func TestGlobalMethodDataTypes(t *testing.T) {
-	//varTestMutex.Lock()
-	//defer varTestMutex.Unlock()
+	lang.InitEnv()
 
 	set := []Test{
 		{
@@ -367,11 +365,10 @@ func TestGlobalMethodDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!global", unset, t)
 }
