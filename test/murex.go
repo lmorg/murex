@@ -29,8 +29,9 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 	for i := range tests {
 		hasError := false
 
-		fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+		fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 		fork.Name = "RunMurexTests()"
+		fork.FileRef.Source.Module = "go test/" + t.Name()
 		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Errorf("Cannot execute script on test %d", i)
