@@ -1,13 +1,16 @@
 package cd
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
+
+// GlobalVarName is the name of the path history variable that `cd` writes to
+const GlobalVarName = "PWDHIST"
 
 // Chdir changes the current working directory and updates the global working
 // environment
@@ -23,36 +26,27 @@ func Chdir(p *lang.Process, path string) error {
 
 	pwd, err := os.Getwd()
 	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+		p.Stderr.Writeln([]byte(err.Error()))
 		pwd = path
 	}
 
 	// Update $PWD environmental variable for compatibility reasons
 	err = os.Setenv("PWD", pwd)
 	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
+		p.Stderr.Writeln([]byte(err.Error()))
 	}
 
 	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
-	hist := lang.GlobalVariables.GetString("PWDHIST")
-	//hist := lang.ShellProcess.Variables.GetString("PWDHIST")
-	if hist == "" {
-		hist = "[]"
+	pwdhist := lang.GlobalVariables.GetValue(GlobalVarName)
+
+	switch pwdhist.(type) {
+	case []string:
+		pwdhist = append(pwdhist.([]string), pwd)
+	default:
+		debug.Log(fmt.Sprintf("$%s has become corrupt (%t) so regenerating", GlobalVarName, pwdhist))
+		pwdhist = []string{pwd}
 	}
 
-	var v []string
-	err = json.Unmarshal([]byte(hist), &v)
-	if err != nil {
-		return fmt.Errorf("Unable to unpack $PWDHIST: %s", err.Error())
-	}
-
-	v = append(v, pwd)
-	b, err := json.MarshalIndent(v, "", "    ")
-	if err != nil {
-		return fmt.Errorf("Unable to repack $PWDHIST: %s", err.Error())
-	}
-
-	//err = lang.ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
-	lang.GlobalVariables.Set(p, "PWDHIST", string(b), types.Json)
+	lang.GlobalVariables.Set(p, GlobalVarName, pwdhist, types.Json)
 	return err
 }

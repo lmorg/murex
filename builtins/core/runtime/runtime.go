@@ -194,18 +194,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:
-			/*if !debug.Inspect {
-				return errors.New("Unrecognised parameter: " + flag)
-			}
-
-			// inspect
-			switch flag {
-			case inspVariables:
-				ret[inspVariables[2:]] = p.Variables.Inspect()
-			default:*/
 			return errors.New("Unrecognised parameter: " + flag)
-			//}
-
 		}
 	}
 

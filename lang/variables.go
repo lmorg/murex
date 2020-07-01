@@ -104,8 +104,9 @@ func (v *Variables) getValue(name string) (value interface{}) {
 func (v *Variables) GetString(name string) string {
 	switch {
 	case v.global:
-		//return v.getString(name)
-		panic(errNoDirectGlobalMethod)
+		val, _ := v.getString(name)
+		return val
+		//panic(errNoDirectGlobalMethod)
 
 	case name == "SELF":
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
@@ -145,12 +146,16 @@ func (v *Variables) getString(name string) (string, bool) {
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(name string) string {
-	if v.global {
-		panic(errNoDirectGlobalMethod)
-	}
+	switch {
+	case v.global:
+		dt, _ := v.getDataType(name)
+		return dt
+		//panic(errNoDirectGlobalMethod)
 
-	switch name {
-	case "SELF", "ARGS":
+	case name == "SELF":
+		return types.Json
+
+	case name == "ARGS":
 		return types.Json
 	}
 
@@ -214,14 +219,6 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	}
 
 	v.mutex.Unlock()
-
-	/*debug.Json(name, variable{
-		Value:    value,
-		String:   s.(string),
-		DataType: dataType,
-		Modify:   time.Now(),
-		FileRef:  fileRef,
-	})*/
 
 	return nil
 }
