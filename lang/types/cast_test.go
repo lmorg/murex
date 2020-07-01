@@ -96,7 +96,8 @@ func TestConvertGoTypeBaseline(t *testing.T) {
 		{
 			In:       `foobar`,
 			DataType: types.Json,
-			Out:      `{ "Value": "foobar" }`,
+			//Out:      `{ "Value": "foobar" }`,
+			Out: `foobar`,
 		},
 	}
 

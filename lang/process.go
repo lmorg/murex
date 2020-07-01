@@ -33,11 +33,11 @@ var (
 	// GoFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 
-	// This will hold all variables
-	masterVarTable = newVarTable()
-
 	// InitConf is a table of global config options
 	InitConf = config.NewConfiguration()
+
+	// GlobalVariables is a table of global variables
+	GlobalVariables = NewGlobals()
 
 	// GlobalAliases is a table of global aliases
 	GlobalAliases = NewAliases()
@@ -337,7 +337,7 @@ func deregisterProcess(p *Process) {
 
 	go func() {
 		p.State.Set(state.AwaitingGC)
-		CloseScopedVariables(p)
+		//CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()
 }

@@ -98,20 +98,21 @@ func goIntegerRecast(v int, dataType string) (interface{}, error) {
 		}
 		return true, nil
 
-	case CodeBlock:
-		return fmt.Sprintf("out: %d", v), nil
+	//case CodeBlock:
+	//	return fmt.Sprintf("out: %d", v), nil
 
 	case String:
 		return strconv.Itoa(v), nil
 
-	case Json, JsonLines:
-		return fmt.Sprintf(`{ "Value": %d }`, v), nil
+	//case Json, JsonLines:
+	//	return fmt.Sprintf(`{ "Value": %d }`, v), nil
 
 	case Null:
 		return "", nil
 
 	default:
-		return nil, errors.New(ErrDataTypeDefaulted)
+		//	return nil, errors.New(ErrDataTypeDefaulted)
+		return strconv.Itoa(v), nil
 	}
 }
 
@@ -132,20 +133,21 @@ func goFloatRecast(v float64, dataType string) (interface{}, error) {
 		}
 		return true, nil
 
-	case CodeBlock:
-		return "out: " + FloatToString(v), nil
+	//case CodeBlock:
+	//	return "out: " + FloatToString(v), nil
 
 	case String:
 		return FloatToString(v), nil
 
-	case Json, JsonLines:
-		return fmt.Sprintf(`{ "Value": %s }`, FloatToString(v)), nil
+	//case Json, JsonLines:
+	//	return fmt.Sprintf(`{ "Value": %s }`, FloatToString(v)), nil
 
 	case Null:
 		return "", nil
 
 	default:
-		return nil, errors.New(ErrDataTypeDefaulted)
+		//return nil, errors.New(ErrDataTypeDefaulted)
+		return FloatToString(v), nil
 	}
 }
 
@@ -181,17 +183,21 @@ func goBooleanRecast(v bool, dataType string) (interface{}, error) {
 		}
 		return string(FalseByte), nil
 
-	case Json, JsonLines:
-		if v {
-			return `{ "Value": true }`, nil
-		}
-		return `{ "Value": false }`, nil
+	/*case Json, JsonLines:
+	if v {
+		return `{ "Value": true }`, nil
+	}
+	return `{ "Value": false }`, nil*/
 
 	case Null:
 		return "", nil
 
 	default:
-		return nil, errors.New(ErrDataTypeDefaulted)
+		//return nil, errors.New(ErrDataTypeDefaulted)
+		if v {
+			return string(TrueByte), nil
+		}
+		return string(FalseByte), nil
 	}
 }
 
@@ -221,19 +227,21 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		if len(v) > 1 && v[0] == '{' && v[len(v)-1] == '}' {
 			return v[1 : len(v)-1], nil
 		}
-		return "out: '" + v + "'", nil //errors.New("Not a valid code block: `" + v.(string) + "`")
+		//errors.New("Not a valid code block: `" + v.(string) + "`")
+		return "out: '" + v + "'", nil
 
 	case String:
 		return v, nil
 
-	case Json, JsonLines:
-		return fmt.Sprintf(`{ "Value": %s }`, strconv.Quote(v)), nil
+	//case Json, JsonLines:
+	//	return fmt.Sprintf(`{ "Value": %s }`, strconv.Quote(v)), nil
 
 	case Null:
 		return "", nil
 
 	default:
-		return nil, errors.New(ErrDataTypeDefaulted)
+		//return nil, errors.New(ErrDataTypeDefaulted)
+		return v, nil
 	}
 }
 

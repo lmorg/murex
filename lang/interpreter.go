@@ -30,7 +30,7 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		procs[i].RunMode = parent.RunMode
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
-		procs[i].Variables = ReferenceVariables(parent.Variables)
+		procs[i].Variables = parent.Variables
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
 		procs[i].Done = func() {}
 		procs[i].Kill = func() {}

@@ -119,7 +119,9 @@ func (p *Process) Fork(flags int) *Fork {
 
 		// fork variables from shell process so we don't leak vars into new
 		// functions: https://github.com/lmorg/murex/issues/138
-		fork.Variables = ReferenceVariables(ShellProcess.Variables)
+		//fork.Variables = ReferenceVariables(ShellProcess.Variables)
+		// Variables has been rewritten again to simplify the design
+		fork.Variables = NewVariables(fork.Process)
 		fork.FidTree = []uint32{0}
 		GlobalFIDs.Register(fork.Process)
 		fork.fidRegistered = true
@@ -143,15 +145,19 @@ func (p *Process) Fork(flags int) *Fork {
 		case flags&F_NEW_VARTABLE != 0:
 			//fork.Parent = fork.Process
 			fork.Parent = p
-			fork.Variables = ReferenceVariables(p.Variables)
+			//fork.Variables = ReferenceVariables(p.Variables)
+			//fork.Variables = NewVariables(fork.Process)
+			fork.Variables = p.Variables
 			fork.Name += " (fork)"
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 
 		default:
-			//	panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
+			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
 			fork.Parent = p
-			fork.Variables = ReferenceVariables(p.Variables)
+			//fork.Variables = ReferenceVariables(p.Variables)
+			fork.Variables = NewVariables(fork.Process)
+			fork.Variables = p.Variables
 			fork.Name += " (fork)"
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true

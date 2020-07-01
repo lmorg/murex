@@ -34,7 +34,8 @@ func Chdir(p *lang.Process, path string) error {
 	}
 
 	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
-	hist := lang.ShellProcess.Variables.GetString("PWDHIST")
+	hist := lang.GlobalVariables.GetString("PWDHIST")
+	//hist := lang.ShellProcess.Variables.GetString("PWDHIST")
 	if hist == "" {
 		hist = "[]"
 	}
@@ -51,7 +52,7 @@ func Chdir(p *lang.Process, path string) error {
 		return fmt.Errorf("Unable to repack $PWDHIST: %s", err.Error())
 	}
 
-	err = lang.ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
-
+	//err = lang.ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
+	lang.GlobalVariables.Set(p, "PWDHIST", string(b), types.Json)
 	return err
 }

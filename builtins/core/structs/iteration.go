@@ -53,7 +53,6 @@ func cmdFor(p *lang.Process) (err error) {
 			return errors.New(errCancelled)
 		}
 
-		//stdout := streams.NewStdin()
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 		i, err := fork.Execute(rConditional)
 		if err != nil {
@@ -68,10 +67,10 @@ func cmdFor(p *lang.Process) (err error) {
 			return nil
 		}
 
-		// Execute block.
+		// Execute block
 		p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(block)
 
-		// Increment counter.
+		// Increment counter
 		_, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT).Execute(rIncremental)
 		if err != nil {
 			return err
@@ -122,7 +121,7 @@ func cmdForEach(p *lang.Process) (err error) {
 		}
 
 		if varName != "" {
-			p.Variables.Set(varName, string(b), dt)
+			p.Variables.Set(p, varName, string(b), dt)
 		}
 
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
@@ -160,8 +159,8 @@ func cmdForMap(p *lang.Process) error {
 		}
 
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
-		p.Variables.Set(varKey, key, types.String)
-		p.Variables.Set(varVal, value, dt)
+		p.Variables.Set(p, varKey, key, types.String)
+		p.Variables.Set(p, varVal, value, dt)
 		fork.Execute(block)
 	})
 
@@ -184,7 +183,6 @@ func cmdWhile(p *lang.Process) error {
 				return errors.New(errCancelled)
 			}
 
-			//stdout := streams.NewStdin()
 			fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 			i, err := fork.Execute(block)
 			if err != nil {
@@ -226,7 +224,6 @@ func cmdWhile(p *lang.Process) error {
 				return nil
 			}
 
-			//stdout := streams.NewStdin()
 			fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 			i, err := fork.Execute(ifBlock)
 			if err != nil {

@@ -78,7 +78,8 @@ func cmdArgs(p *lang.Process) (err error) {
 		return err
 	}
 
-	return p.Scope.Variables.Set(varName, b, types.Json)
+	//return p.Scope.Variables.Set(varName, b, types.Json)
+	return p.Variables.Set(p, varName, b, types.Json)
 }
 
 func cmdParams(p *lang.Process) error {

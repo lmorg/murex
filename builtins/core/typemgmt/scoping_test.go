@@ -27,7 +27,7 @@ func TestScopingSet(t *testing.T) {
 					}
 					set TestScopingSet2=1
 					TestScopingSet2`,
-			Stdout: "1\n",
+			Stdout: "\n",
 		},
 		{
 			Block: `function TestScopingSet3 {
@@ -203,8 +203,40 @@ func TestScopingMixed(t *testing.T) {
 func TestScopingNonFuncBlock(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  ``,
-			Stdout: "1\n",
+			Block: `if { true } then {
+						set TestScopingNonFuncBlock0=1
+						$TestScopingNonFuncBlock0
+					}
+					set TestScopingNonFuncBlock0=2
+					out $TestScopingNonFuncBlock0`,
+			Stdout: "12\n",
+		},
+		{
+			Block: `set TestScopingNonFuncBlock1=1
+					$TestScopingNonFuncBlock1
+					if { true } then {
+						set TestScopingNonFuncBlock1=2
+						$TestScopingNonFuncBlock1
+					}
+					set TestScopingNonFuncBlock1=3
+					out $TestScopingNonFuncBlock1`,
+			Stdout: "123\n",
+		},
+		{
+			Block: `set TestScopingNonFuncBlock2=1
+					$TestScopingNonFuncBlock2
+					if { true } then {
+						out $TestScopingNonFuncBlock2
+					}`,
+			Stdout: "11\n",
+		},
+		{
+			Block: `if { true } then {
+						set TestScopingNonFuncBlock3=1
+						$TestScopingNonFuncBlock3
+					}
+					out $TestScopingNonFuncBlock3`,
+			Stdout: "11\n",
 		},
 	}
 

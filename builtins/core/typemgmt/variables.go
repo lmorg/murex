@@ -22,12 +22,12 @@ func init() {
 	lang.GoFunctions["unset"] = cmdUnexport
 }
 
-func cmdSet(p *lang.Process) error      { return set(p, p) }
-func cmdUnset(p *lang.Process) error    { return unset(p, p) }
-func cmdGlobal(p *lang.Process) error   { return set(p, lang.ShellProcess) }
-func cmdUnglobal(p *lang.Process) error { return unset(p, lang.ShellProcess) }
+func cmdSet(p *lang.Process) error      { return set(p, p.Variables) }
+func cmdUnset(p *lang.Process) error    { return unset(p, p.Variables) }
+func cmdGlobal(p *lang.Process) error   { return set(p, lang.GlobalVariables) }
+func cmdUnglobal(p *lang.Process) error { return unset(p, lang.GlobalVariables) }
 
-func set(p *lang.Process, scope *lang.Process) error {
+func set(p *lang.Process, v *lang.Variables) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -54,7 +54,16 @@ func set(p *lang.Process, scope *lang.Process) error {
 		if dataType == "" {
 			dataType = p.Stdin.GetDataType()
 		}
-		return scope.Parent.Variables.Set(name, string(b), dataType)
+
+		if dataType == types.String {
+			return v.Set(p, name, string(b), dataType)
+		}
+
+		iface, err := types.ConvertGoType(string(b), dataType)
+		if err != nil {
+			return fmt.Errorf("Unable to convert parameters into data type: %s", err.Error())
+		}
+		return v.Set(p, name, iface, dataType)
 	}
 
 	// Set variable as parameters:
@@ -62,10 +71,18 @@ func set(p *lang.Process, scope *lang.Process) error {
 		dataType = types.String
 	}
 
-	return scope.Parent.Variables.Set(name, value, dataType)
+	if dataType == types.String {
+		return v.Set(p, name, value, dataType)
+	}
+
+	iface, err := types.ConvertGoType(value, dataType)
+	if err != nil {
+		return fmt.Errorf("Unable to convert parameters into data type: %s", err.Error())
+	}
+	return v.Set(p, name, iface, dataType)
 }
 
-func unset(p *lang.Process, scope *lang.Process) error {
+func unset(p *lang.Process, v *lang.Variables) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
@@ -77,8 +94,9 @@ func unset(p *lang.Process, scope *lang.Process) error {
 		return err
 	}
 
-	err = scope.Parent.Variables.Unset(varName)
-	return err
+	//err = scope.Parent.Variables.Unset(varName)
+	//return err
+	return v.Unset(varName)
 }
 
 var (

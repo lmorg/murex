@@ -58,12 +58,12 @@ func TestRedirection(t *testing.T) {
 			Stderr:  "",
 			ExitNum: 0,
 		},
-		{
+		/*{
 			Block:   "regexp <!out> -> match ' '",
 			Stdout:  "Error in `regexp` (0,1): `regexp` expects to be pipelined\n",
 			Stderr:  "",
 			ExitNum: 0,
-		},
+		},*/
 	}
 
 	test.RunMurexTests(tests, t)
