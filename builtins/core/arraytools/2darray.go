@@ -67,7 +67,6 @@ func twoDArray(p *lang.Process) (err error) {
 		count := 0
 
 		go func() {
-			//_, err := lang.RunBlockExistingConfigSpace(block[index], nil, out, p.Stderr, p)
 			fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 			_, err := fork.Execute(block[index])
 
