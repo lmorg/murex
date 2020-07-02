@@ -2,7 +2,6 @@ package lang
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -245,8 +244,6 @@ executeProcess:
 		case len(p.Name) == 1:
 			err = errors.New("Variable token, `$`, used without specifying variable name")
 		case len(match) == 0 || len(match[0]) == 0:
-			b, _ := json.MarshalIndent(match, "", "\t")
-			fmt.Println(p.Name, p.Parameters.StringArray(), string(b))
 			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name")
 		case match[0][2] == "":
 			s := p.Variables.GetString(match[0][1])
