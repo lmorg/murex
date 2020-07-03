@@ -232,7 +232,6 @@ func (v *Variables) Unset(name string) error {
 		return errVarNotExist
 	}
 
-	variable = nil
 	delete(v.vars, name)
 	v.mutex.Unlock()
 	return nil
