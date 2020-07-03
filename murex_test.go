@@ -1,14 +1,10 @@
 package main
 
 import (
-	"os"
 	"sync"
 	"testing"
 
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -29,7 +25,7 @@ func TestMurex(t *testing.T) {
 
 var testUnitLock sync.Mutex
 
-func TestUnitTestMurexSourceFiles(t *testing.T) {
+/*func TestUnitTestMurexSourceFiles(t *testing.T) {
 	testUnitLock.Lock()
 	if os.Getenv("MUREX_TEST_UNIT_TESTS") != "" {
 		testUnitLock.Unlock()
@@ -79,4 +75,4 @@ func TestUnitTestMurexSourceFiles(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-}
+}*/

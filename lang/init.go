@@ -26,7 +26,7 @@ func InitEnv() {
 	ShellProcess.Next = ShellProcess
 	ShellProcess.Config = InitConf.Copy()
 	ShellProcess.Tests = NewTests(ShellProcess)
-	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
+	ShellProcess.Variables = NewVariables(ShellProcess)
 	ShellProcess.RunMode = runmode.Shell
 	ShellProcess.FidTree = []uint32{0}
 	ShellProcess.Stdout = new(term.Out)
@@ -45,7 +45,8 @@ func InitEnv() {
 	s, _ := os.Getwd()
 	pwd := []string{s}
 	if b, err := json.Marshal(&pwd, false); err == nil {
-		ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
+		//ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
+		GlobalVariables.Set(ShellProcess, "PWDHIST", string(b), types.Json)
 	}
 }
 
@@ -56,7 +57,7 @@ func NewTestProcess() (p *Process) {
 	p.Stdout = new(null.Null)
 	p.Stderr = new(null.Null)
 	p.Config = config.NewConfiguration()
-	p.Variables = newVariables(p, masterVarTable)
+	p.Variables = NewVariables(p)
 	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
 
 	GlobalFIDs.Register(p)

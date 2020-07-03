@@ -20,12 +20,12 @@ func TestExpand(t *testing.T) {
 
 	lang.InitEnv()
 
-	err := lang.ShellProcess.Variables.Set("foo", "oof", types.String)
+	err := lang.GlobalVariables.Set(lang.ShellProcess, "foo", "oof", types.String)
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = lang.ShellProcess.Variables.Set("bar", "rab", types.String)
+	err = lang.GlobalVariables.Set(lang.ShellProcess, "bar", "rab", types.String)
 	if err != nil {
 		t.Error(err)
 	}
@@ -45,12 +45,12 @@ func TestExpandString(t *testing.T) {
 
 	lang.InitEnv()
 
-	err := lang.ShellProcess.Variables.Set("foo", "oof", types.String)
+	err := lang.GlobalVariables.Set(lang.ShellProcess, "foo", "oof", types.String)
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = lang.ShellProcess.Variables.Set("bar", "rab", types.String)
+	err = lang.GlobalVariables.Set(lang.ShellProcess, "bar", "rab", types.String)
 	if err != nil {
 		t.Error(err)
 	}

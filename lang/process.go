@@ -2,7 +2,6 @@ package lang
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -33,11 +32,11 @@ var (
 	// GoFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 
-	// This will hold all variables
-	masterVarTable = newVarTable()
-
 	// InitConf is a table of global config options
 	InitConf = config.NewConfiguration()
+
+	// GlobalVariables is a table of global variables
+	GlobalVariables = NewGlobals()
 
 	// GlobalAliases is a table of global aliases
 	GlobalAliases = NewAliases()
@@ -245,8 +244,6 @@ executeProcess:
 		case len(p.Name) == 1:
 			err = errors.New("Variable token, `$`, used without specifying variable name")
 		case len(match) == 0 || len(match[0]) == 0:
-			b, _ := json.MarshalIndent(match, "", "\t")
-			fmt.Println(p.Name, p.Parameters.StringArray(), string(b))
 			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name")
 		case match[0][2] == "":
 			s := p.Variables.GetString(match[0][1])
@@ -337,7 +334,7 @@ func deregisterProcess(p *Process) {
 
 	go func() {
 		p.State.Set(state.AwaitingGC)
-		CloseScopedVariables(p)
+		//CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()
 }

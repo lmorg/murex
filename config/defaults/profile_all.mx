@@ -106,6 +106,7 @@ autocomplete set unset { [{
 }] }
 
 private autocomplete.variables {
+    runtime: --globals -> formap k v { out $k }
     runtime: --variables -> formap k v { out $k }
 }
 

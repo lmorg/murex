@@ -85,7 +85,7 @@ func MatchFunction(partial string, act *AutoCompleteT) (items []string) {
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string
 func MatchVars(partial string) (items []string) {
-	vars := lang.ShellProcess.Variables.DumpMap()
+	vars := lang.DumpVariables(lang.ShellProcess)
 
 	for name := range vars {
 		if strings.HasPrefix(name, partial[1:]) {

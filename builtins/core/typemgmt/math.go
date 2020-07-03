@@ -24,8 +24,6 @@ var (
 )
 
 func cmdEqu(p *lang.Process) (err error) {
-	//p.Stdout.SetDataType(types.Generic)
-
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing expression")
 	}
@@ -77,8 +75,13 @@ func cmdEqu(p *lang.Process) (err error) {
 		return err
 	}
 
+	s, err := types.ConvertGoType(value, types.String)
+	if err != nil {
+		return fmt.Errorf("Unable to convert result to text: %s", err.Error())
+	}
+
 	p.Stdout.SetDataType(dt)
-	_, err = p.Stdout.Write([]byte(value))
+	_, err = p.Stdout.Write([]byte(s.(string)))
 	return err
 }
 
@@ -122,12 +125,11 @@ func cmdLet(p *lang.Process) (err error) {
 		return err
 	}
 
-	err = p.Parent.Variables.Set(variable, value, dt /*types.Number*/)
-
+	err = p.Variables.Set(p, variable, value, dt)
 	return err
 }
 
-func evaluate(p *lang.Process, expression string) (value, dataType string, err error) {
+func evaluate(p *lang.Process, expression string) (value interface{}, dataType string, err error) {
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
@@ -142,20 +144,12 @@ func evaluate(p *lang.Process, expression string) (value, dataType string, err e
 		return
 	}
 
-	result, err := eval.Evaluate(p.Variables.DumpMap())
+	value, err = eval.Evaluate(lang.DumpVariables(p))
 	if err != nil {
 		return
 	}
 
-	s, err := types.ConvertGoType(result, types.String)
-	if err == nil {
-		value = s.(string)
-	}
-	if err != nil {
-		return
-	}
-
-	dataType = types.DataTypeFromInterface(result)
+	dataType = types.DataTypeFromInterface(value)
 
 	return
 }

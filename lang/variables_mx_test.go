@@ -64,7 +64,7 @@ func TestVariableMxLocalGlobal(t *testing.T) {
 	test.RunMurexTests([]test.MurexTest{mxt}, t)
 }
 
-/*func TestVariableMxGlobalLocal(t *testing.T) {
+func TestVariableMxGlobalLocal(t *testing.T) {
 	mxt := test.MurexTest{
 		Block: `
 			function test2 {
@@ -81,9 +81,9 @@ func TestVariableMxLocalGlobal(t *testing.T) {
 	}
 
 	test.RunMurexTests([]test.MurexTest{mxt}, t)
-}*/
+}
 
-func TestVariableMxForLoop(t *testing.T) {
+/*func TestVariableMxForLoop(t *testing.T) {
 	mxt := test.MurexTest{
 		Block: `
 			function TestVariableMxForLoop2 {
@@ -102,9 +102,9 @@ func TestVariableMxForLoop(t *testing.T) {
 	}
 
 	test.RunMurexTests([]test.MurexTest{mxt}, t)
-}
+}*/
 
-func TestVariableMxForLoopGlobal(t *testing.T) {
+/*func TestVariableMxForLoopGlobal(t *testing.T) {
 	mxt := test.MurexTest{
 		Block: `
 			function TestVariableMxForLoopGlobal2 {
@@ -124,9 +124,9 @@ func TestVariableMxForLoopGlobal(t *testing.T) {
 	}
 
 	test.RunMurexTests([]test.MurexTest{mxt}, t)
-}
+}*/
 
-func TestVariableMxForLoopLocal(t *testing.T) {
+/*func TestVariableMxForLoopLocal(t *testing.T) {
 	mxt := test.MurexTest{
 		Block: `
 			function TestVariableMxForLoopLocal2 {
@@ -147,3 +147,4 @@ func TestVariableMxForLoopLocal(t *testing.T) {
 
 	test.RunMurexTests([]test.MurexTest{mxt}, t)
 }
+*/

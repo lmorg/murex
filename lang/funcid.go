@@ -31,11 +31,13 @@ func (f *funcID) Register(p *Process) (fid uint32) {
 
 	f.mutex.Lock()
 	f.init[fid] = p
-	f.mutex.Unlock()
+	//f.mutex.Unlock()
 
 	p.Id = fid
 	p.FidTree = append(p.FidTree, fid)
 	p.Variables.process = p
+	f.mutex.Unlock()
+
 	return
 }
 

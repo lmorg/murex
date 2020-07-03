@@ -4,9 +4,12 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/io"
+	"github.com/lmorg/murex/lang"
 )
 
 func TestLetFunctionPositive(t *testing.T) {
+	lang.InitEnv()
+
 	set := []Test{
 		{
 			Block:    "let: f=`b`",
@@ -30,12 +33,6 @@ func TestLetFunctionPositive(t *testing.T) {
 			Block:    "let: foo=`bar`",
 			Name:     "foo",
 			Value:    "bar",
-			DataType: "*",
-		},
-		{
-			Block:    "let: _=`foobar`",
-			Name:     "_",
-			Value:    "foobar",
 			DataType: "*",
 		},
 		{
@@ -74,14 +71,17 @@ func TestLetFunctionPositive(t *testing.T) {
 			Value:    "foobar",
 			DataType: "*",
 		},
+		{
+			Block:    "let: foobar=`foobar`",
+			Name:     "foobar",
+			Value:    "foobar",
+			DataType: "*",
+		},
 	}
-
-	VariableTests(set, t)
 
 	unset := []string{
 		"f",
 		"foo",
-		"_",
 		"_b",
 		"f_",
 		"f_b",
@@ -91,10 +91,13 @@ func TestLetFunctionPositive(t *testing.T) {
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
 func TestLetFunctionNegative(t *testing.T) {
+	lang.InitEnv()
+
 	tests := []Test{
 		{
 			Block: "let: =foobar",
@@ -102,6 +105,10 @@ func TestLetFunctionNegative(t *testing.T) {
 		},
 		{
 			Block: "let: -=foobar",
+			Fail:  true,
+		},
+		{
+			Block: "let: _=foobar",
 			Fail:  true,
 		},
 		{
@@ -118,6 +125,8 @@ func TestLetFunctionNegative(t *testing.T) {
 }
 
 func TestLetFunctionDataTypes(t *testing.T) {
+	lang.InitEnv()
+
 	set := []Test{
 		{
 			Block:    "let: foobar=123",
@@ -145,16 +154,17 @@ func TestLetFunctionDataTypes(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }
 
 func TestLetFunctionEvaluation(t *testing.T) {
+	lang.InitEnv()
+
 	set := []Test{
 		{
 			Block:    "let: foobar=2+2",
@@ -181,11 +191,10 @@ func TestLetFunctionEvaluation(t *testing.T) {
 		},
 	}
 
-	VariableTests(set, t)
-
 	unset := []string{
 		"foobar",
 	}
 
+	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
 }

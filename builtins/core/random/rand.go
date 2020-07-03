@@ -8,8 +8,10 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+const funcName = "rand"
+
 func init() {
-	lang.GoFunctions["rand"] = cmdRand
+	lang.GoFunctions[funcName] = cmdRand
 }
 
 func cmdRand(p *lang.Process) error {
@@ -32,6 +34,18 @@ func cmdRand(p *lang.Process) error {
 
 	case types.Float:
 		v = rand.Float64()
+
+	case types.String, types.Generic:
+		max, _ := p.Parameters.Int(1)
+		if max < 1 {
+			max = 20
+		}
+
+		a := make([]rune, max)
+		for i := 0; i < max; i++ {
+			a[i] = rune(rand.Intn(126-31) + 32)
+		}
+		v = string(a)
 
 	default:
 		return errors.New("I don't know how to generate random data for the data type `" + dt + "`")

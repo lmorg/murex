@@ -1,13 +1,26 @@
 package typemgmt_test
 
 import (
+	"os"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
 
+const envVarPrefix = "MUREX_TEST_VAR_"
+
 func TestGetType(t *testing.T) {
+	// these tests don't support multiple counts
+	if os.Getenv(envVarPrefix+t.Name()) == "1" {
+		return
+	}
+
+	err := os.Setenv(envVarPrefix+t.Name(), "1")
+	if err != nil {
+		t.Fatalf("Aborting test because unable to set env: %s", err)
+	}
+
 	tests := []test.MurexTest{
 		{
 			Block: `

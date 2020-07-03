@@ -58,5 +58,6 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 		return err
 	}
 
-	return p.Parent.Variables.Set(varName, s, dt)
+	return p.Variables.Set(p, varName, s, dt)
+	//return p.Parent.Variables.Set(varName, s, dt)
 }

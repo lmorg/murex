@@ -24,6 +24,7 @@ import (
 
 const (
 	fVars          = "--variables"
+	fGlobals       = "--globals"
 	fExports       = "--exports"
 	fAliases       = "--aliases"
 	fConfig        = "--config"
@@ -56,6 +57,7 @@ const (
 
 var flags = map[string]string{
 	fVars:          types.Boolean,
+	fGlobals:       types.Boolean,
 	fExports:       types.Boolean,
 	fAliases:       types.Boolean,
 	fConfig:        types.Boolean,
@@ -133,6 +135,8 @@ func cmdRuntime(p *lang.Process) error {
 		switch flag {
 		case fVars:
 			ret[fVars[2:]] = p.Variables.Dump()
+		case fGlobals:
+			ret[fGlobals[2:]] = lang.GlobalVariables.Dump()
 		case fExports:
 			m, err := dumpExports()
 			if err != nil {
@@ -190,18 +194,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:
-			if !debug.Inspect {
-				return errors.New("Unrecognised parameter: " + flag)
-			}
-
-			// inspect
-			switch flag {
-			case inspVariables:
-				ret[inspVariables[2:]] = p.Variables.Inspect()
-			default:
-				return errors.New("Unrecognised parameter: " + flag)
-			}
-
+			return errors.New("Unrecognised parameter: " + flag)
 		}
 	}
 
