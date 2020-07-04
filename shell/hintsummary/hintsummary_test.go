@@ -8,7 +8,7 @@ import (
 
 // TestHintSummary tests the HintSummary structure
 func TestHintSummary(t *testing.T) {
-	count.Tests(t, 4)
+	count.Tests(t, 6)
 
 	summary := New()
 
@@ -28,6 +28,15 @@ func TestHintSummary(t *testing.T) {
 	}
 
 	if len(summary.Dump()) != 3 {
+		t.Error("length of summary map is incorrect")
+	}
+
+	err := summary.Delete("cmd1")
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	if len(summary.Dump()) != 2 {
 		t.Error("length of summary map is incorrect")
 	}
 }

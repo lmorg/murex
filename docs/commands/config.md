@@ -178,6 +178,12 @@ block is the setting's value.
 This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 `eval`). is ran. The STDIN of the code block is the new value.
 
+## Synonyms
+
+* `config`
+* `!config`
+
+
 ## See Also
 
 * [commands/`[[` (element)](../commands/element.md):

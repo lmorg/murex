@@ -189,6 +189,8 @@ to return the same markdown-formatted document as those listed below. eg
   Define a local variable and set it's value
 * [`struct-keys`](commands/struct-keys.md):
   Outputs all the keys in a structure
+* [`summary` ](commands/summary.md):
+  Defines a summary help text for a command
 * [`swivel-datatype`](commands/swivel-datatype.md):
   Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
 * [`swivel-table`](commands/swivel-table.md):

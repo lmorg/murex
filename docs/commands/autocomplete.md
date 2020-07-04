@@ -249,9 +249,9 @@ flags.
   Returns the data-type of a variable or pipe
 * [commands/`private`](../commands/private.md):
   Define a private function block
+* [commands/`summary` ](../commands/summary.md):
+  Defines a summary help text for a command
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/summary](../commands/summary.md):
-  
 * [commands/switch](../commands/switch.md):
   

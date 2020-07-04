@@ -29,6 +29,7 @@ func init() {
 	lang.GoFunctions["version"] = cmdVersion
 	lang.GoFunctions["murex-parser"] = cmdParser
 	lang.GoFunctions["summary"] = cmdSummary
+	lang.GoFunctions["!summary"] = cmdBangSummary
 }
 
 func cmdArgs(p *lang.Process) (err error) {
@@ -250,9 +251,21 @@ func cmdSummary(p *lang.Process) error {
 	summary, err := p.Parameters.String(1)
 	if err != nil {
 		return err
+		//shell.Summary.
 	}
 
 	shell.Summary.Set(exe, summary)
 
 	return nil
+}
+
+func cmdBangSummary(p *lang.Process) error {
+	p.Stdout.SetDataType(types.Null)
+
+	exe, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	return shell.Summary.Delete(exe)
 }
