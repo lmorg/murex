@@ -112,6 +112,7 @@ func ShowPrompt() {
 			getMultilinePrompt(nLines)
 		} else {
 			block = []rune{}
+			os.Stdout.Write(leftMost())
 			getPrompt()
 		}
 
@@ -193,8 +194,6 @@ func ShowPrompt() {
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
 			lang.ShellExitNum, _ = fork.Execute(expanded)
-
-			term.CrLf.Write()
 
 			if PromptId.NotEqual(thisProc) {
 				return

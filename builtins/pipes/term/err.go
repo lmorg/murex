@@ -21,8 +21,6 @@ func (t *Err) Write(b []byte) (i int, err error) {
 	i, err = os.Stderr.Write(b)
 	if err != nil {
 		os.Stdout.WriteString(err.Error())
-	} else if len(b) > 0 {
-		CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
 	return

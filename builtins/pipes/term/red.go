@@ -26,8 +26,6 @@ func (t *ErrRed) Write(b []byte) (i int, err error) {
 	i, err = os.Stderr.WriteString(fgRed + string(b) + reset)
 	if err != nil {
 		os.Stdout.WriteString(fgRed + err.Error() + reset)
-	} else if len(b) > 0 {
-		CrLf.set(b[len(b)-1])
 	}
 	t.mutex.Unlock()
 	return i - 9, err

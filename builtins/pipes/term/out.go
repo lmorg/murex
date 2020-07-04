@@ -23,8 +23,6 @@ func (t *Out) Write(b []byte) (i int, err error) {
 	i, err = os.Stdout.Write(b)
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
-	} else if len(b) > 0 {
-		CrLf.set(b[len(b)-1])
 	}
 
 	return
