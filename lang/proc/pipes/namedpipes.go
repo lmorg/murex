@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -79,11 +80,20 @@ func (n *Named) Close(name string) error {
 
 // Get a named pipe interface from the named pipe table
 func (n *Named) Get(name string) (stdio.Io, error) {
+	retries := 0
+
+try:
 	n.mutex.Lock()
 
 	if n.pipes[name].Pipe == nil {
 		n.mutex.Unlock()
-		return nil, fmt.Errorf("No pipe with the name `%s` exists", name)
+
+		if retries == 100 {
+			return nil, fmt.Errorf("No pipe with the name `%s` exists, timed out waiting for pipe to be created", name)
+		}
+		time.Sleep(100 * time.Millisecond)
+		retries++
+		goto try
 	}
 
 	p := n.pipes[name].Pipe
