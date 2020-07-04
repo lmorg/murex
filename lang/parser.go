@@ -508,7 +508,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
-			case !scanFuncName && last != ' ' && last != ':':
+			case !scanFuncName && last != ' ':
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]
