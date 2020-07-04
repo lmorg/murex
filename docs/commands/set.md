@@ -49,36 +49,90 @@ You can unset variable names with the bang prefix:
     
 ### Scoping
 
-Variables are only scoped inside the code block they're defined in (or any
-children of that code block). For example `$foo` will return an empty string in
-the following code because it's defined within a `try` block then being queried
-outside of the `try` block:
+Variable scoping is simplified to three layers:
 
-    » try {
-    »     set foo=bar
-    » }
-    » out "foo: $foo"
-    foo:
-    
-However if we define `$foo` above the `try` block then it's value will be changed
-even though it is being set inside the `try` block:
+1. Local variables (`set`, `!set`, `let`)
+2. Global variables (`global`, `!global`)
+3. Environmental variables (`export`, `!export`, `unset`)
 
-    » set foo
-    » try {
-    »     set foo=bar
-    » }
-    » out "foo: $foo"
-    foo: bar
+Variables are looked up in that order of too. For example a the following
+code where `set` overrides both the global and environmental variable:
+
+    » set:    foobar=1
+    » global: foobar=2
+    » export: foobar=3
+    » out: $foobar
+    1
     
-So unlike the previous example, this will return `bar`.
+#### Local variables
+
+These are defined via `set` and `let`. They're variables that are persistent
+across any blocks within a function. Functions will typically be blocks
+encapsulated like so:
+
+    function example {
+        # variables scoped inside here
+    }
+    
+...or...
+
+    private example {
+        # variables scoped inside here
+    }
+    
+    
+...however dynamic autocompletes, events, unit tests and any blocks defined in
+`config` will also be triggered as functions.
+
+Code running inside any control flow or error handing structures will be
+treated as part of the same part of the same scope as the parent function:
+
+    » function example {
+    »     try {
+    »         # set 'foobar' inside a `try` block
+    »         set: foobar=example
+    »     }
+    »     # 'foobar' exists outside of `try` because it is scoped to `function`
+    »     out: $foobar
+    » }
+    example
+    
+Where this behavior might catch you out is with iteration blocks which create
+variables, eg `for`, `foreach` and `formap`. Any variables created inside them
+are still shared with any code outside of those structures but still inside the
+function block.
+
+Any local variables are only available to that function. If a variable is
+defined in a parent function that goes on to call child functions, then those
+local variables are not inherited but the child functions:
+
+    » function parent {
+    »     # set a local variable
+    »     set: foobar=example
+    »     child
+    » }
+    » 
+    » function child {
+    »     # returns the `global` value, "not set", because the local `set` isn't inherited
+    »     out: $foobar
+    » }
+    » 
+    » global: $foobar="not set"
+    » parent
+    not set
+    
+It's also worth remembering that any variable defined using `set` in the shells
+FID (ie in the interactive shell) is localised to structures running in the
+interactive, REPL, shell and are not inherited by any called functions.
+
+#### Global variables
 
 Where `global` differs from `set` is that the variables defined with `global`
-will scoped at the global shell level (please note this is not the same as
+will be scoped at the global shell level (please note this is not the same as
 environmental variables!) so will cascade down through all scoped code-blocks
 including those running in other threads.
 
-It's also worth remembering that any variable defined using `set` in the shell's
-FID (ie in the interactive shell) is literally the same as using `global`
+#### Environmental variables
 
 Exported variables (defined via `export`) are system environmental variables.
 Inside _murex_ environmental variables behave much like `global` variables
