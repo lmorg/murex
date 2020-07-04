@@ -28,7 +28,6 @@ func InitEnv() {
 	ShellProcess.Tests = NewTests(ShellProcess)
 	ShellProcess.Variables = NewVariables(ShellProcess)
 	ShellProcess.RunMode = runmode.Shell
-	ShellProcess.FidTree = []uint32{0}
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	ShellProcess.Kill = func() {}

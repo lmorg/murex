@@ -51,7 +51,6 @@ type Process struct {
 	Tests              *Tests
 	testState          []string
 	Variables          *Variables
-	FidTree            []uint32
 	CreationTime       time.Time
 	StartTime          time.Time
 	FileRef            *ref.File

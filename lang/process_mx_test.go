@@ -75,6 +75,18 @@ func TestMxProcess(t *testing.T) {
 					test-priv`,
 			Stdout: "Hello, world!\n",
 		},
+
+		{
+			Block: `func hello-world {
+						test define example {
+							"StdoutRegex": (^Hello world$)
+						}
+						out <test_example> "Hello world"
+					}
+					test enable !auto-report
+					hello-world`,
+			Stdout: "Enabling test mode....\nDisabling auto-report....\nHello world\n",
+		},
 	}
 
 	test.RunMurexTests(tests, t)
