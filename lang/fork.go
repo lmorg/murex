@@ -97,9 +97,6 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.Previous = p
 	fork.Next = p.Next
 
-	fork.FidTree = make([]uint32, len(p.FidTree))
-	copy(fork.FidTree, p.FidTree)
-
 	if p.Id == ShellProcess.Id {
 		fork.ExitNum = ShellExitNum
 	} else {
@@ -122,7 +119,6 @@ func (p *Process) Fork(flags int) *Fork {
 		//fork.Variables = ReferenceVariables(ShellProcess.Variables)
 		// Variables has been rewritten again to simplify the design
 		fork.Variables = NewVariables(fork.Process)
-		fork.FidTree = []uint32{0}
 		GlobalFIDs.Register(fork.Process)
 		fork.fidRegistered = true
 

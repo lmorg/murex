@@ -37,9 +37,6 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		//procs[i].hasTerminated = make(chan bool, 1)
 		procs[i].PromptId = parent.PromptId
 
-		procs[i].FidTree = make([]uint32, len(parent.Parent.FidTree))
-		copy(procs[i].FidTree, parent.Parent.FidTree)
-
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
 
 		if (*tree)[i].LineNumber == 0 {
