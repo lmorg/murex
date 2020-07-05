@@ -224,9 +224,9 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   JSON Lines (primitive)
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
+* [commands/`while`](../commands/while.md):
+  Loop until condition false
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [commands/formap](../commands/formap.md):
-  
-* [commands/while](../commands/while.md):
   

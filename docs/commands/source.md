@@ -60,11 +60,11 @@ Execute a code block from parameter
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
+* [commands/`version` ](../commands/version.md):
+  Get _murex_ version
 * [commands/args](../commands/args.md):
   
 * [commands/murex-parser](../commands/murex-parser.md):
   
 * [commands/params](../commands/params.md):
-  
-* [commands/version](../commands/version.md):
   

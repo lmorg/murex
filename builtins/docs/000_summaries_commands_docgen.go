@@ -30,7 +30,10 @@ func init() {
 		"debug":                 "Debugging information",
 		"die":                   "Terminate murex with an exit number of 1",
 		"err":                   "Print a line to the STDERR",
+		"escape":                "Escape or unescapes input",
 		"esccli":                "Escapes an array so output is valid shell code",
+		"eschtml":               "Encode or decodes text for HTML",
+		"escurl":                "Encode or decodes text for the URL",
 		"event":                 "Event driven programming for shell scripts",
 		"exec":                  "Runs an executable",
 		"exit":                  "Exit murex",
@@ -90,6 +93,8 @@ func init() {
 		"true":                  "Returns a `true` value",
 		"try":                   "Handles errors inside a block of code",
 		"trypipe":               "Checks state of each function in a pipeline and exits block on error",
+		"version":               "Get _murex_ version",
+		"while":                 "Loop until condition false",
 	}
 
 	Synonym = map[string]string{
@@ -126,7 +131,13 @@ func init() {
 		"debug":                 "debug",
 		"die":                   "die",
 		"err":                   "err",
+		"escape":                "escape",
+		"!escape":               "escape",
 		"esccli":                "esccli",
+		"eschtml":               "eschtml",
+		"!eschtml":              "eschtml",
+		"escurl":                "escurl",
+		"!escurl":               "escurl",
 		"event":                 "event",
 		"!event":                "event",
 		"exec":                  "exec",
@@ -200,5 +211,8 @@ func init() {
 		"true":                  "true",
 		"try":                   "try",
 		"trypipe":               "trypipe",
+		"version":               "version",
+		"while":                 "while",
+		"!while":                "while",
 	}
 }

@@ -1,3 +1,166 @@
+- DocumentID: escape
+  Title: >+
+    `escape`
+  CategoryID: commands
+  Summary: >-
+    Escape or unescapes input 
+  Description: |-
+    `escape` takes input from either STDIN or the parameters and returns the same
+    data, escaped.
+
+    `!escape` does the same process in reverse, where it takes escaped data and
+    returns its unescaped counterpart.
+  Usage: |-
+    Escape
+
+    ```
+    <stdin> -> escape -> <stdout>
+    
+    escape string to escape -> <stdout>
+    ```
+
+    Unescape
+
+    ```
+    <stdin> -> !escape -> <stdout>
+    
+    !escape string to unescape -> <stdout>
+    ```
+  Examples: |-
+    Escape
+
+    ```
+    » out (multi
+    » line
+    » string) -> escape
+    "multi\nline\nstring\n" 
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  - escape
+  - "!escape"
+  Related:
+  - esccli
+  - eschtml
+  - escurl
+
+
+
+- DocumentID: eschtml
+  Title: >+
+    `eschtml`
+  CategoryID: commands
+  Summary: >-
+    Encode or decodes text for HTML
+  Description: |-
+    `eschtml` takes input from either STDIN or the parameters and returns the same
+    data, HTML escaped.
+
+    `!eschtml` does the same process in reverse, where it takes HTML escaped data
+    and returns its unescaped counterpart.
+  Usage: |-
+    Escape
+
+    ```
+    <stdin> -> eschtml -> <stdout>
+    
+    eschtml string to escape -> <stdout>
+    ```
+
+    Unescape
+
+    ```
+    <stdin> -> !eschtml -> <stdout>
+    
+    !eschtml string to unescape -> <stdout>
+    ```
+  Examples: |-
+    Escape
+
+    ```
+    » out: "<h1>foo & bar</h1>" -> eschtml
+    &lt;h1&gt;foo &amp; bar&lt;/h1&gt;
+    ```
+
+    Unescape
+
+    ```
+    » out: '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml
+    <h1>foo & bar</h1>
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  - eschtml
+  - "!eschtml"
+  Related:
+  - esccli
+  - escape
+  - escurl
+  - get
+  - post
+  - getfile
+
+
+
+- DocumentID: escurl
+  Title: >+
+    `escurl`
+  CategoryID: commands
+  Summary: >-
+    Encode or decodes text for the URL
+  Description: |-
+    `escurl` takes input from either STDIN or the parameters and returns the same
+    data, escaped for the URL.
+
+    `!eschtml` does the same process in reverse, where it takes URL escaped data
+    and returns its unescaped counterpart.
+  Usage: |-
+    Escape
+
+    ```
+    <stdin> -> escurl -> <stdout>
+    
+    escurl string to escape -> <stdout>
+    ```
+
+    Unescape
+
+    ```
+    <stdin> -> !escurl -> <stdout>
+    
+    !escurl string to unescape -> <stdout>
+    ```
+  Examples: |-
+    Escape
+
+    ```
+    » out: "!? <>" -> escurl
+    %21%3F%20%3C%3E%0A 
+    ```
+
+    Unescape
+
+    ```
+    out: '%21%3F%20%3C%3E%0A' -> !escurl
+    !? <>
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  - escurl
+  - "!escurl"
+  Related:
+  - esccli
+  - escape
+  - eschtml
+  - get
+  - post
+  - getfile
+
+
+
 - DocumentID: esccli
   Title: >+
     `esccli`
@@ -37,9 +200,8 @@
     » esccli: @fb
     out foo\$b\@r
     ```
-
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
   - alias

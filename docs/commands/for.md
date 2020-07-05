@@ -93,7 +93,7 @@ You can also do step ranges with `foreach`:
   Evaluate a mathematical function and assign to variable
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
+* [commands/`while`](../commands/while.md):
+  Loop until condition false
 * [commands/formap](../commands/formap.md):
-  
-* [commands/while](../commands/while.md):
   

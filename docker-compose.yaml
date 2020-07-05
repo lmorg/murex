@@ -3,10 +3,10 @@ version: "3"
 services:
   murex:
     container_name: murex
-    image: murex/buildserver
+    image: lmorg/murex:latest
     build:
       args:
-        - VERSION=1.13.1
+        - VERSION=1.14.4
         - GOOS=linux
         - GOARCH=amd64
       context: .
