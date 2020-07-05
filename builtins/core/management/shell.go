@@ -104,24 +104,30 @@ func quickHash(s string) string {
 }
 
 func cmdSource(p *lang.Process) error {
-	var block []rune
-
-	fileRef := p.FileRef
+	var (
+		block []rune
+		name  string
+		err   error
+		b     []byte
+	)
 
 	if p.IsMethod {
-		b, err := p.Stdin.ReadAll()
+		b, err = p.Stdin.ReadAll()
 		if err != nil {
 			return err
 		}
 		block = []rune(string(b))
+		name = "<stdin>"
 
 	} else {
-		var err error
 		block, err = p.Parameters.Block(0)
+		if err == nil {
+			b = []byte(string(block))
+			name = "N/A"
 
-		if err != nil {
+		} else {
 			// get block from file
-			name, err := p.Parameters.String(0)
+			name, err = p.Parameters.String(0)
 			if err != nil {
 				return err
 			}
@@ -131,24 +137,21 @@ func cmdSource(p *lang.Process) error {
 				return err
 			}
 
-			b, err := ioutil.ReadAll(file)
+			b, err = ioutil.ReadAll(file)
 			if err != nil {
 				return err
 			}
 			block = []rune(string(b))
-
-			module := quickHash(name + time.Now().String())
-
-			fileRef = &ref.File{Source: ref.History.AddSource(name, "source/"+module, b)}
 		}
-
 	}
 
-	var err error
-	p.RunMode = runmode.Shell
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
-	fork.Stdout = p.Stdout
-	fork.Stderr = p.Stderr
+	module := quickHash(name + time.Now().String())
+	fileRef := &ref.File{Source: ref.History.AddSource(name, "source/"+module, b)}
+
+	p.RunMode = runmode.Normal
+	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
+
+	fork.Name = p.Name
 	fork.FileRef = fileRef
 	p.ExitNum, err = fork.Execute(block)
 	return err
@@ -251,7 +254,6 @@ func cmdSummary(p *lang.Process) error {
 	summary, err := p.Parameters.String(1)
 	if err != nil {
 		return err
-		//shell.Summary.
 	}
 
 	shell.Summary.Set(exe, summary)

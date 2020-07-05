@@ -301,6 +301,8 @@ normal operation.
   Define a private function block
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
+* [commands/`source` ](../commands/source.md):
+  Import _murex_ code from another file of code block
 * [commands/fid-list](../commands/fid-list.md):
   
 * [commands/formap](../commands/formap.md):
@@ -310,8 +312,6 @@ normal operation.
 * [commands/openagent](../commands/openagent.md):
   
 * [commands/pipe](../commands/pipe.md):
-  
-* [commands/source](../commands/source.md):
   
 * [commands/test](../commands/test.md):
   

@@ -125,7 +125,7 @@ func (fp *foregroundProc) Get() *Process {
 func (fp *foregroundProc) Set(p *Process) {
 	fp.mutex.Lock()
 	if p == nil {
-		panic("nil p")
+		panic("nil p in (fp *foregroundProc) Set(p *Process)")
 	}
 	fp.p = p
 	//debug.Json("fp.Set", p)

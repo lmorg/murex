@@ -57,6 +57,7 @@ func NewTestProcess() (p *Process) {
 	p.Stderr = new(null.Null)
 	p.Config = config.NewConfiguration()
 	p.Variables = NewVariables(p)
+	p.FileRef = &ref.File{Source: &ref.Source{Module: "builtin/testing"}}
 	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
 
 	GlobalFIDs.Register(p)

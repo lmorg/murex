@@ -30,3 +30,22 @@ func TestSummary(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestSource(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `tout block { out "Hello, world!" } -> source`,
+			Stdout: "Hello, world!\n",
+		},
+		{
+			Block:  `source { out "Hello, world!" }`,
+			Stdout: "Hello, world!\n",
+		},
+		{
+			Block:  `source source_test.mx`,
+			Stdout: "Hello, world!\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

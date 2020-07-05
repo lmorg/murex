@@ -1,0 +1,66 @@
+- DocumentID: source
+  Title: >+
+    `source` 
+  CategoryID: commands
+  Summary: >-
+    Import _murex_ code from another file of code block
+  Description: |-
+    `source` imports code from another file or code block. It can be used as either
+    an "import" / "include" directive (eg Python, Go, C, etc) or an "eval" (eg
+    Python, Perl, etc).
+  Usage: |-
+    Execute source from STDIN
+
+    ```
+    <stdin> -> source
+    ```
+
+    Execute source from a file
+
+    ```
+    source: filename.mx
+    ```
+
+    Execute a code block from parameter
+
+    ```
+    source: { code-block }
+    ```
+ 
+  Examples: |-
+    Execute source from stdin:
+
+    ```
+    » tout: block { out: "Hello, world!" } -> source
+    Hello, world!
+    ```
+
+    Execute source from file:
+
+    ```
+    » tout: block { out: "Hello, world!" } |> example.mx
+    » source: example.mx
+    Hello, world!
+    ```
+
+    Execute a code block from parameter
+
+    ```
+    » source { out: "Hello, world!" }
+    Hello, world!
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  - source
+  - "."
+  Related:
+  - config
+  - runtime
+  - function
+  - private
+  - murex-parser
+  - version
+  - autocomplete
+  - args
+  - params

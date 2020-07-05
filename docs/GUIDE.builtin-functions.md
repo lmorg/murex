@@ -187,6 +187,8 @@ to return the same markdown-formatted document as those listed below. eg
   Regexp pattern matching for file system objects (eg '.*\.txt')
 * [`set`](commands/set.md):
   Define a local variable and set it's value
+* [`source` ](commands/source.md):
+  Import _murex_ code from another file of code block
 * [`struct-keys`](commands/struct-keys.md):
   Outputs all the keys in a structure
 * [`summary` ](commands/summary.md):
