@@ -111,6 +111,8 @@ to return the same markdown-formatted document as those listed below. eg
   Returns a `false` value
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
+* [`for`](commands/for.md):
+  A more familiar iteration loop to existing developers
 * [`foreach`](commands/foreach.md):
   Iterate through an array
 * [`format`](commands/format.md):

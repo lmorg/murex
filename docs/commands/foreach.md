@@ -210,6 +210,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   A sophisticated yet simple way to build an array or list
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [commands/`for`](../commands/for.md):
+  A more familiar iteration loop to existing developers
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`if`](../commands/if.md):
@@ -224,8 +226,6 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   `echo` a string to the STDOUT with a trailing new line character
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [commands/for](../commands/for.md):
-  
 * [commands/formap](../commands/formap.md):
   
 * [commands/while](../commands/while.md):

@@ -39,6 +39,7 @@ func init() {
 		"f":                     "f_commands_docgen.go",
 		"false":                 "false_commands_docgen.go",
 		"fg":                    "fg_commands_docgen.go",
+		"for":                   "for_commands_docgen.go",
 		"foreach":               "foreach_commands_docgen.go",
 		"format":                "format_commands_docgen.go",
 		"function":              "function_commands_docgen.go",
