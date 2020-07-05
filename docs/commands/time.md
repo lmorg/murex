@@ -37,5 +37,5 @@ and STDERR as usual.
   Runs an executable
 * [optional/`sleep` ](../optional/sleep.md):
   Suspends the shell for a number of seconds
-* [commands/source](../commands/source.md):
-  
+* [commands/`source` ](../commands/source.md):
+  Import _murex_ code from another file of code block

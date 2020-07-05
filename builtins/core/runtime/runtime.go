@@ -18,6 +18,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -49,6 +50,7 @@ const (
 	fModules       = "--modules"
 	fDebug         = "--debug"
 	fSources       = "--sources"
+	fSummaries     = "--summaries"
 	fHelp          = "--help"
 
 	// inspect
@@ -82,6 +84,7 @@ var flags = map[string]string{
 	fModules:       types.Boolean,
 	fDebug:         types.Boolean,
 	fSources:       types.Boolean,
+	fSummaries:     types.Boolean,
 	fHelp:          types.Boolean,
 
 	// inspect flags are defined in cmdRuntime() below
@@ -191,6 +194,8 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fDebug[2:]] = debug.Dump()
 		case fSources:
 			ret[fSources[2:]] = ref.History.Dump()
+		case fSummaries:
+			ret[fSummaries[2:]] = shell.Summary.Dump()
 		case fHelp:
 			ret[fHelp[2:]] = help()
 		default:

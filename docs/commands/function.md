@@ -75,5 +75,5 @@ There is an order of preference for which commands are looked up:
   Define a private function block
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/source](../commands/source.md):
-  
+* [commands/`source` ](../commands/source.md):
+  Import _murex_ code from another file of code block

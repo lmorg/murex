@@ -192,6 +192,8 @@
     `eval`). is ran. The STDIN of the code block is the new value.
 
   Synonyms:
+  - config
+  - "!config"
   Related:
   - runtime
   - open

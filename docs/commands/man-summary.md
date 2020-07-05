@@ -24,5 +24,5 @@ summary (if one exists).
   Query or define _murex_ runtime settings
 * [commands/`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
-* [commands/summary](../commands/summary.md):
-  
+* [commands/`summary` ](../commands/summary.md):
+  Defines a summary help text for a command

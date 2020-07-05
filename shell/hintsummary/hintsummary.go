@@ -1,6 +1,9 @@
 package hintsummary
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 // HintSummary is a thread-safe map for storing the hint summary overrides
 type HintSummary struct {
@@ -28,6 +31,19 @@ func (hs *HintSummary) Set(exe, summary string) {
 	hs.mutex.Lock()
 	hs.m[exe] = summary
 	hs.mutex.Unlock()
+}
+
+// Delete removes a hint summary for a specific executable
+func (hs *HintSummary) Delete(exe string) error {
+	hs.mutex.Lock()
+	if hs.m[exe] == "" {
+		hs.mutex.Unlock()
+		return fmt.Errorf("No summary set for '%s'", exe)
+	}
+
+	delete(hs.m, exe)
+	hs.mutex.Unlock()
+	return nil
 }
 
 // Dump returns a JSON-able structure of the stored hint summary overrides

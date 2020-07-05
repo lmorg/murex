@@ -218,12 +218,15 @@ func (p *Process) Fork(flags int) *Fork {
 
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
-	if fork.FileRef.Source.Module == "" {
-		panic("missing module name")
-	}
-
-	if fork.Name == "" {
-		panic("missing function name")
+	switch {
+	case fork.FileRef == nil:
+		panic("fork.FileRef == nil in (fork *Fork).Execute()")
+	case fork.FileRef.Source == nil:
+		panic("fork.FileRef.Source == nil in (fork *Fork).Execute()")
+	case fork.FileRef.Source.Module == "":
+		panic("missing module name in (fork *Fork).Execute()")
+	case fork.Name == "":
+		panic("missing function name in (fork *Fork).Execute()")
 	}
 
 	fork.Stdout.Open()
