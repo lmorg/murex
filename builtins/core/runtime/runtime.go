@@ -52,9 +52,6 @@ const (
 	fSources       = "--sources"
 	fSummaries     = "--summaries"
 	fHelp          = "--help"
-
-	// inspect
-	inspVariables = "--inspect-variables"
 )
 
 var flags = map[string]string{
@@ -86,8 +83,6 @@ var flags = map[string]string{
 	fSources:       types.Boolean,
 	fSummaries:     types.Boolean,
 	fHelp:          types.Boolean,
-
-	// inspect flags are defined in cmdRuntime() below
 }
 
 func init() {
@@ -111,11 +106,6 @@ func help() (s []string) {
 }
 
 func cmdRuntime(p *lang.Process) error {
-	// inspect
-	if debug.Inspect {
-		flags[inspVariables] = types.Boolean
-	}
-
 	p.Stdout.SetDataType(types.Json)
 
 	f, _, err := p.Parameters.ParseFlags(
