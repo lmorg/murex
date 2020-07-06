@@ -137,6 +137,8 @@ flag names. eg
     Lists all aliases
 * `--astcache`
     Lists some data about cached ASTs 
+* `--autocomplete`
+    Lists all `autocomplete` schemas - both user defined and automatically generated one
 * `--config`
     Lists all properties available to `config
 * `--debug`
@@ -147,16 +149,14 @@ flag names. eg
     Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables
 * `--fids`
     Lists all running processes / functions
-* `--flags`
-    Lists all `autocomplete` schemas - both user defined and automatically generated one
 * `--functions`
     Lists all _murex_ global functions
+* `--globals`
+    Lists all the global variable
 * `--help`
     Outputs a list of `runtimes`'s flags
 * `--indexes`
     Lists all builtin data-types which are supported by index (`[`)
-* `--inspect-variables`
-    List all variables - including those outside your normal scope
 * `--marshallers`
     Lists all builtin data-types with marshallers (eg required for `format`)
 * `--memstats`
@@ -177,6 +177,8 @@ flag names. eg
     Lists all builtin data-types which support ReadMap()
 * `--sources`
     Lists all loaded murex sources
+* `--summaries`
+    Outputs all the override summaries 
 * `--test-results`
     A dump of any unreported test results
 * `--tests`
@@ -184,7 +186,7 @@ flag names. eg
 * `--unmarshallers`
     Lists all builtin data-types with unmarshallers (eg required for `format`)
 * `--variables`
-    Lists all the _murex_ variables which haven't already been garbage collected. Doesn't include environmental variables
+    Lists all the local _murex_ variables which doesn't include environmental nor global variables
 * `--writearray`
     Lists all builtin data-types which support WriteArray()
 

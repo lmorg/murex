@@ -30,7 +30,10 @@ func init() {
 		"debug":                 "debug_commands_docgen.go",
 		"die":                   "die_commands_docgen.go",
 		"err":                   "err_commands_docgen.go",
+		"escape":                "escape_commands_docgen.go",
 		"esccli":                "esccli_commands_docgen.go",
+		"eschtml":               "eschtml_commands_docgen.go",
+		"escurl":                "escurl_commands_docgen.go",
 		"event":                 "event_commands_docgen.go",
 		"exec":                  "exec_commands_docgen.go",
 		"exit":                  "exit_commands_docgen.go",
@@ -39,6 +42,7 @@ func init() {
 		"f":                     "f_commands_docgen.go",
 		"false":                 "false_commands_docgen.go",
 		"fg":                    "fg_commands_docgen.go",
+		"for":                   "for_commands_docgen.go",
 		"foreach":               "foreach_commands_docgen.go",
 		"format":                "format_commands_docgen.go",
 		"function":              "function_commands_docgen.go",
@@ -89,5 +93,7 @@ func init() {
 		"true":                  "true_commands_docgen.go",
 		"try":                   "try_commands_docgen.go",
 		"trypipe":               "trypipe_commands_docgen.go",
+		"version":               "version_commands_docgen.go",
+		"while":                 "while_commands_docgen.go",
 	}
 }

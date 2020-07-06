@@ -137,7 +137,9 @@
     ```
   Flags:
     --variables: >-
-      Lists all the _murex_ variables which haven't already been garbage collected. Doesn't include environmental variables
+      Lists all the local _murex_ variables which doesn't include environmental nor global variables
+    --globals: >-
+      Lists all the global variable
     --exports: >-
       Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables`
     --aliases: >-
@@ -170,7 +172,7 @@
       Lists all builtin data-types with unmarshallers (eg required for `format`)
     --events: >-
       Lists all builtin event types and any defined events
-    --flags: >-
+    --autocomplete: >-
       Lists all `autocomplete` schemas - both user defined and automatically generated one
     --memstats: >-
       Outputs the running state of Go's runtime
@@ -186,11 +188,11 @@
       Outputs the state of debug and inspect mode
     --sources: >-
       Lists all loaded murex sources
+    --summaries: >-
+      Outputs all the override summaries 
     --help: >-
       Outputs a list of `runtimes`'s flags
 
-    --inspect-variables: >-
-      List all variables - including those outside your normal scope
   Detail: |-
     ### Usage in scripts
 

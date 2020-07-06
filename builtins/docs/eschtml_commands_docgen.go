@@ -1,0 +1,7 @@
+package docs
+
+func init() {
+
+	Definition["eschtml"] = "# _murex_ Shell Docs\n\n## Command Reference: `eschtml`\n\n> Encode or decodes text for HTML\n\n## Description\n\n`eschtml` takes input from either STDIN or the parameters and returns the same\ndata, HTML escaped.\n\n`!eschtml` does the same process in reverse, where it takes HTML escaped data\nand returns its unescaped counterpart.\n\n## Usage\n\nEscape\n\n    <stdin> -> eschtml -> <stdout>\n    \n    eschtml string to escape -> <stdout>\n    \nUnescape\n\n    <stdin> -> !eschtml -> <stdout>\n    \n    !eschtml string to unescape -> <stdout>\n\n## Examples\n\nEscape\n\n    » out: \"<h1>foo & bar</h1>\" -> eschtml\n    &lt;h1&gt;foo &amp; bar&lt;/h1&gt;\n    \nUnescape\n\n    » out: '&lt;h1&gt;foo &amp; bar&lt;/h1&gt;' -> !eschtml\n    <h1>foo & bar</h1>\n\n## Synonyms\n\n* `eschtml`\n* `!eschtml`\n\n\n## See Also\n\n* [commands/`escape`](../commands/escape.md):\n  Escape or unescapes input \n* [commands/`esccli`](../commands/esccli.md):\n  Escapes an array so output is valid shell code\n* [commands/`escurl`](../commands/escurl.md):\n  Encode or decodes text for the URL\n* [commands/`get`](../commands/get.md):\n  Makes a standard HTTP request and returns the result as a JSON object\n* [commands/`getfile`](../commands/getfile.md):\n  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.\n* [commands/`post`](../commands/post.md):\n  HTTP POST request with a JSON-parsable return"
+
+}

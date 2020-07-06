@@ -4,13 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/lmorg/murex/lang/ref"
-
 	_ "github.com/lmorg/murex/builtins/core/index"
 	_ "github.com/lmorg/murex/builtins/core/io"
 	_ "github.com/lmorg/murex/builtins/core/runtime"
 	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/test/count"
 )
 

@@ -93,8 +93,14 @@ to return the same markdown-formatted document as those listed below. eg
   Terminate murex with an exit number of 1
 * [`err`](commands/err.md):
   Print a line to the STDERR
+* [`escape`](commands/escape.md):
+  Escape or unescapes input 
 * [`esccli`](commands/esccli.md):
   Escapes an array so output is valid shell code
+* [`eschtml`](commands/eschtml.md):
+  Encode or decodes text for HTML
+* [`escurl`](commands/escurl.md):
+  Encode or decodes text for the URL
 * [`event`](commands/event.md):
   Event driven programming for shell scripts
 * [`exec`](commands/exec.md):
@@ -111,6 +117,8 @@ to return the same markdown-formatted document as those listed below. eg
   Returns a `false` value
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
+* [`for`](commands/for.md):
+  A more familiar iteration loop to existing developers
 * [`foreach`](commands/foreach.md):
   Iterate through an array
 * [`format`](commands/format.md):
@@ -211,3 +219,7 @@ to return the same markdown-formatted document as those listed below. eg
   Handles errors inside a block of code
 * [`trypipe`](commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
+* [`version` ](commands/version.md):
+  Get _murex_ version
+* [`while`](commands/while.md):
+  Loop until condition false
