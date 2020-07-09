@@ -1,0 +1,70 @@
+- DocumentID: switch
+  Title: >+
+    `switch`
+  CategoryID: commands
+  Summary: >-
+    Blocks of cascading conditionals
+  Description: |-
+    `switch` is a large block for simplifying cascades of conditional statements.
+  Usage: |-
+    ```
+    switch {
+      case | if { conditional } then { code-block }
+      case | if { conditional } then { code-block }
+      ...
+      [ catch { code-block } ]
+    } -> <stdout>
+    ```
+  Examples: |-
+    Output an array of editors installed
+
+    ```
+    switch {
+      if { which: vim   } { out: vim   }
+      if { which: vi    } { out: vi    }
+      if { which: nano  } { out: nano  }
+      if { which: emacs } { out: emacs }
+    } -> format: json
+    ```
+
+    ```
+    function higherlower {
+      try {
+        rand: int 100 -> set rand
+        while { $rand } {
+          read: guess "Guess a number between 1 and 100: "
+
+          switch {
+            case: { = $guess < $rand } then {
+              out: "Too low"
+            }
+
+            case: { = $guess > $rand } then {
+              out: "Too high"
+            }
+
+            catch: {
+              out: "Correct"
+              let: rand=0
+            }
+          }
+        }
+      }
+    }
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  Related:
+  - if
+  - try
+  - trypipe
+  - catch
+  - "and"
+  - "or"
+  - "not"
+  - "true"
+  - "false"
+  - set
+  - let
+  - while

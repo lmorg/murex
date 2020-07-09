@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lmorg/murex/utils"
-
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
@@ -26,8 +26,6 @@ func cmdSwitch(p *lang.Process) error {
 		return errors.New(pErr.Message)
 	}
 
-	minParamLen := 2
-
 	for i := range ast {
 		if p.HasCancelled() {
 			return errors.New(errCancelled)
@@ -36,6 +34,8 @@ func cmdSwitch(p *lang.Process) error {
 		if ast[i].Name != "case" && ast[i].Name != "if" && ast[i].Name != "catch" {
 			return fmt.Errorf("Missing `if`, `case` or `catch` statement after statement %d", i)
 		}
+
+		minParamLen := 2
 
 		if ast[i].Name == "catch" {
 			minParamLen = 1
@@ -51,16 +51,22 @@ func cmdSwitch(p *lang.Process) error {
 		}
 
 		if params.Len() < minParamLen {
-			return fmt.Errorf("`%s` %d is missing a comparison or execution block:%s %s %s%s(Parameters found %d/expected %d)",
+			b, _ := json.Marshal(ast, true)
+			return fmt.Errorf("`%s` %d is missing a comparison or execution block:%s %s %s%sParameters found: %d%sParameters expected: %d%s%s",
 				ast[i].Name, i+1, utils.NewLineString,
 				ast[i].Name, params.StringAll(), utils.NewLineString,
-				params.Len(), minParamLen)
+				params.Len(), utils.NewLineString, minParamLen, utils.NewLineString,
+				string(b),
+			)
 		}
 		if params.Len() > minParamLen {
-			return fmt.Errorf("`%s` %d has too many parameters:%s %s %s%s(Parameters found %d/expected %d)",
+			b, _ := json.Marshal(ast, true)
+			return fmt.Errorf("`%s` %d has too many parameters:%s %s %s%sParameters found: %d%sParameters expected: %d%s%s",
 				ast[i].Name, i+1, utils.NewLineString,
 				ast[i].Name, params.StringAll(), utils.NewLineString,
-				params.Len(), minParamLen)
+				params.Len(), utils.NewLineString, minParamLen, utils.NewLineString,
+				string(b),
+			)
 		}
 
 		var result bool

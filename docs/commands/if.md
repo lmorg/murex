@@ -106,6 +106,8 @@ conditionals output.
   Returns a `false` value
 * [commands/`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
+* [commands/`switch`](../commands/switch.md):
+  Blocks of cascading conditionals
 * [commands/`true`](../commands/true.md):
   Returns a `true` value
 * [commands/`try`](../commands/try.md):

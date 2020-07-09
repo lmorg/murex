@@ -216,6 +216,28 @@ func (p *Process) Fork(flags int) *Fork {
 	return fork
 }
 
+// ExecuteAsRunMode is a wrapper function for handling forks that need to
+// comply with runmode changes (eg `try` and `trypipe` blocks). It returns err
+// if the child process raises a runmode error and that should be returned in
+// the calling builtin. Functions that shouldn't make use of this is processes
+// that are spawned by the shell (eg dynamic autocomplete blocks or events).
+func (fork *Fork) ExecuteAsRunMode(block []rune) error {
+	fork.RunMode = fork.Parent.RunMode
+	i, err := fork.Execute(block)
+	if fork.RunMode != runmode.Try && fork.RunMode != runmode.TryPipe {
+		return nil
+	}
+
+	if err != nil {
+		return err
+	}
+	if i != 0 {
+		return fmt.Errorf("Non-zero exit code: %d", i)
+	}
+
+	return nil
+}
+
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	switch {

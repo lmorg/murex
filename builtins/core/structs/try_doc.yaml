@@ -44,6 +44,8 @@
   - catch
   - fid-list
   - if
+  - switch
+
 
 
 - DocumentID: trypipe
@@ -95,6 +97,9 @@
   - catch
   - fid-list
   - if
+  - switch
+
+
 
 - DocumentID: catch
   Title: >+
@@ -141,3 +146,4 @@
   - try
   - if
   - evil
+  - switch

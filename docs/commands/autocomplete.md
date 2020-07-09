@@ -251,7 +251,7 @@ flags.
   Define a private function block
 * [commands/`summary` ](../commands/summary.md):
   Defines a summary help text for a command
+* [commands/`switch`](../commands/switch.md):
+  Blocks of cascading conditionals
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/switch](../commands/switch.md):
-  
