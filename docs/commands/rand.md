@@ -18,7 +18,30 @@ Random integer: 64-bit on 64-bit machines
 
     rand int
     
-Random number between 
+Random integer between 0 and 9
+
+    rand int 9
+    
+Random floating point number between 0 and 1
+
+    rand float
+    
+Random string, fixed to 5 characters long
+
+    rand str 5
+
+## Flags
+
+* `*`
+    Alias for **str** (string)
+* `float`
+    Random floating point number between 0 and 1. **max-value** not supported
+* `int`
+    Random integer, **max-value** specifies highest value for integer
+* `num`
+    Alias for **int** in this builtin
+* `str`
+    Random string of printable ASCII characters. **max-value** specifies the fixed length of the string
 
 ## Detail
 

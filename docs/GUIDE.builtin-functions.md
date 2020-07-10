@@ -143,6 +143,8 @@ to return the same markdown-formatted document as those listed below. eg
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
+* [`left`](commands/left.md):
+  Left substring a list
 * [`len` ](commands/len.md):
   Outputs the length of an array
 * [`let`](commands/let.md):
@@ -191,6 +193,8 @@ to return the same markdown-formatted document as those listed below. eg
   `read` a line of input from the user and store as a variable
 * [`regexp`](commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [`right`](commands/right.md):
+  Right substring a list
 * [`runtime`](commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):
