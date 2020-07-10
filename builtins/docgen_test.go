@@ -76,6 +76,7 @@ func init() {
 		"pretty":                "pretty_commands_docgen.go",
 		"private":               "private_commands_docgen.go",
 		"pt":                    "pt_commands_docgen.go",
+		"rand":                  "rand_commands_docgen.go",
 		"read":                  "read_commands_docgen.go",
 		"regexp":                "regexp_commands_docgen.go",
 		"runtime":               "runtime_commands_docgen.go",

@@ -185,6 +185,8 @@ to return the same markdown-formatted document as those listed below. eg
   Define a private function block
 * [`pt`](commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
+* [`rand`](commands/rand.md):
+  Random field generator
 * [`read`](commands/read.md):
   `read` a line of input from the user and store as a variable
 * [`regexp`](commands/regexp.md):
