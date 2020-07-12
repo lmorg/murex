@@ -144,7 +144,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`jsplit` ](commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [`left`](commands/left.md):
-  Left substring a list
+  Left substring every item in a list
 * [`len` ](commands/len.md):
   Outputs the length of an array
 * [`let`](commands/let.md):
@@ -179,6 +179,8 @@ to return the same markdown-formatted document as those listed below. eg
   `echo` a string to the STDOUT with a trailing new line character
 * [`post`](commands/post.md):
   HTTP POST request with a JSON-parsable return
+* [`prefix`](commands/prefix.md):
+  Prefix a string to every item in a list
 * [`prepend` ](commands/prepend.md):
   Add data to the start of an array
 * [`pretty`](commands/pretty.md):
@@ -194,7 +196,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`regexp`](commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [`right`](commands/right.md):
-  Right substring a list
+  Right substring every item in a list
 * [`runtime`](commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):
@@ -205,6 +207,8 @@ to return the same markdown-formatted document as those listed below. eg
   Import _murex_ code from another file of code block
 * [`struct-keys`](commands/struct-keys.md):
   Outputs all the keys in a structure
+* [`suffix`](commands/suffix.md):
+  Prefix a string to every item in a list
 * [`summary` ](commands/summary.md):
   Defines a summary help text for a command
 * [`switch`](commands/switch.md):

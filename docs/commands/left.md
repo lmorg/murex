@@ -2,7 +2,7 @@
 
 ## Command Reference: `left`
 
-> Left substring a list
+> Left substring every item in a list
 
 ## Description
 
@@ -48,13 +48,15 @@ Supported data types can queried via `runtime`
   A sophisticated yet simple way to build an array or list
 * [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [commands/`prefix`](../commands/prefix.md):
+  Prefix a string to every item in a list
 * [commands/`right`](../commands/right.md):
-  Right substring a list
+  Right substring every item in a list
+* [commands/`suffix`](../commands/suffix.md):
+  Prefix a string to every item in a list
+* [commands/length](../commands/length.md):
+  
 * [api/marshaldata](../api/marshaldata.md):
-  
-* [commands/prefix](../commands/prefix.md):
-  
-* [commands/suffix](../commands/suffix.md):
   
 * [api/unmarshaldata](../api/unmarshaldata.md):
   

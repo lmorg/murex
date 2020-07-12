@@ -1,38 +1,24 @@
 # _murex_ Shell Docs
 
-## Command Reference: `right`
+## Command Reference: `suffix`
 
-> Right substring every item in a list
+> Prefix a string to every item in a list
 
 ## Description
 
-Takes a list from STDIN and returns a right substring of that same list.
-
-One parameter is required and that is the number of characters to return. If
-the parameter is a negative then `right` counts from the left.
+Takes a list from STDIN and returns that same list with each element suffixed.
 
 ## Usage
 
-    <stdin> -> right int -> <stdout>
+    <stdin> -> suffix str -> <stdout>
 
 ## Examples
 
-Count from the right
-
-    » ja: [Monday..Wednesday] -> right 4
+    » ja: [Monday..Wednesday] -> suffix foobar
     [
-        "nday",
-        "sday",
-        "sday"
-    ]
-    
-Count from the left
-
-    » ja: [Monday..Wednesday] -> left -3
-    [
-        "day",
-        "sday",
-        "nesday"
+        "Mondayfoobar",
+        "Tuesdayfoobar",
+        "Wednesdayfoobar"
     ]
 
 ## Detail
@@ -48,12 +34,12 @@ Supported data types can queried via `runtime`
   A sophisticated yet simple way to build an array or list
 * [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [commands/`left`](../commands/left.md):
+  Left substring every item in a list
 * [commands/`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
 * [commands/`right`](../commands/right.md):
   Right substring every item in a list
-* [commands/`suffix`](../commands/suffix.md):
-  Prefix a string to every item in a list
 * [commands/length](../commands/length.md):
   
 * [api/marshaldata](../api/marshaldata.md):

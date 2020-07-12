@@ -3,7 +3,7 @@
     `left`
   CategoryID: commands
   Summary: >-
-    Left substring a list
+    Left substring every item in a list
   Description: |-
     Takes a list from STDIN and returns a left substring of that same list.
 
@@ -50,6 +50,7 @@
   - suffix
   - ja
   - a
+  - length
   - api/marshaldata
   - api/unmarshaldata
 
@@ -60,7 +61,7 @@
     `right`
   CategoryID: commands
   Summary: >-
-    Right substring a list
+    Right substring every item in a list
   Description: |-
     Takes a list from STDIN and returns a right substring of that same list.
 
@@ -107,5 +108,89 @@
   - suffix
   - ja
   - a
+  - length
+  - api/marshaldata
+  - api/unmarshaldata
+
+
+- DocumentID: prefix
+  Title: >+
+    `prefix`
+  CategoryID: commands
+  Summary: >-
+    Prefix a string to every item in a list
+  Description: |-
+    Takes a list from STDIN and returns that same list with each element prefixed.
+  Usage: |-
+    ```
+    <stdin> -> prefix str -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » ja: [Monday..Wednesday] -> prefix foobar
+    [
+        "foobarMonday",
+        "foobarTuesday",
+        "foobarWednesday"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    Supported data types can queried via `runtime`
+
+    ```
+    runtime: --marshallers
+    runtime: --unmarshallers
+    ```
+  Synonyms:
+  Related:
+  - left
+  - right
+  - suffix
+  - ja
+  - a
+  - length
+  - api/marshaldata
+  - api/unmarshaldata
+
+
+
+- DocumentID: suffix
+  Title: >+
+    `suffix`
+  CategoryID: commands
+  Summary: >-
+    Prefix a string to every item in a list
+  Description: |-
+    Takes a list from STDIN and returns that same list with each element suffixed.
+  Usage: |-
+    ```
+    <stdin> -> suffix str -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » ja: [Monday..Wednesday] -> suffix foobar
+    [
+        "Mondayfoobar",
+        "Tuesdayfoobar",
+        "Wednesdayfoobar"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    Supported data types can queried via `runtime`
+
+    ```
+    runtime: --marshallers
+    runtime: --unmarshallers
+    ```
+  Synonyms:
+  Related:
+  - left
+  - right
+  - prefix
+  - ja
+  - a
+  - length
   - api/marshaldata
   - api/unmarshaldata

@@ -142,7 +142,10 @@ func cmdRight(p *lang.Process) error {
 	return aw.Close()
 }
 
-func cmdPrefix(p *lang.Process) (err error) {
+func cmdPrefix(p *lang.Process) error { return cmdFix(p, true) }
+func cmdSuffix(p *lang.Process) error { return cmdFix(p, false) }
+
+func cmdFix(p *lang.Process, pre bool) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -150,7 +153,7 @@ func cmdPrefix(p *lang.Process) (err error) {
 		return err
 	}
 
-	prepend := p.Parameters.ByteAll()
+	fix := p.Parameters.ByteAll()
 
 	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
@@ -158,7 +161,14 @@ func cmdPrefix(p *lang.Process) (err error) {
 	}
 
 	p.Stdin.ReadArray(func(b []byte) {
-		err = aw.Write(append(prepend, b...))
+		write := make([]byte, len(b)+len(fix))
+		if pre {
+			copy(write, fix, b)
+		} else {
+			copy(write, b, fix)
+		}
+
+		err = aw.Write(write)
 		if err != nil {
 			p.Stdin.ForceClose()
 			p.Done()
@@ -172,32 +182,12 @@ func cmdPrefix(p *lang.Process) (err error) {
 	return aw.Close()
 }
 
-func cmdSuffix(p *lang.Process) (err error) {
-	dt := p.Stdin.GetDataType()
-	p.Stdout.SetDataType(dt)
-
-	if err := p.ErrIfNotAMethod(); err != nil {
-		return err
+func copy(write, pre, post []byte) {
+	l := len(pre)
+	for i := 0; i < l; i++ {
+		write[i] = pre[i]
 	}
-
-	suffix := p.Parameters.ByteAll()
-
-	aw, err := p.Stdout.WriteArray(dt)
-	if err != nil {
-		return err
+	for i := 0; i < len(post); i++ {
+		write[l+i] = post[i]
 	}
-
-	p.Stdin.ReadArray(func(b []byte) {
-		err = aw.Write(append(b, suffix...))
-		if err != nil {
-			p.Stdin.ForceClose()
-			p.Done()
-		}
-	})
-
-	if p.HasCancelled() {
-		return err
-	}
-
-	return aw.Close()
 }

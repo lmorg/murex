@@ -51,15 +51,15 @@ same data-type.
   Creates a map from two data sources
 * [commands/`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
+* [commands/`prefix`](../commands/prefix.md):
+  Prefix a string to every item in a list
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [commands/`suffix`](../commands/suffix.md):
+  Prefix a string to every item in a list
 * [commands/`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [commands/prefix](../commands/prefix.md):
-  
-* [commands/suffix](../commands/suffix.md):
-  

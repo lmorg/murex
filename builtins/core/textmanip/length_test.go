@@ -110,3 +110,33 @@ func TestRight(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestPrefix(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> prefix foobar`,
+			Stdout: `["foobarMonday","foobarTuesday","foobarWednesday"]`,
+		},
+		{
+			Block:  `a: [Monday..Wednesday] -> prefix foobar`,
+			Stdout: "foobarMonday\nfoobarTuesday\nfoobarWednesday\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestSuffix(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> suffix foobar`,
+			Stdout: `["Mondayfoobar","Tuesdayfoobar","Wednesdayfoobar"]`,
+		},
+		{
+			Block:  `a: [Monday..Wednesday] -> suffix foobar`,
+			Stdout: "Mondayfoobar\nTuesdayfoobar\nWednesdayfoobar\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
