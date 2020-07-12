@@ -45,7 +45,7 @@ to return the same markdown-formatted document as those listed below. eg
   Write a string to the STDOUT without new line
 * [`2darray` ](commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`<>` (read pipe)](commands/readpipe.md):
+* [`<>` (murex named pipe)](commands/namedpipe.md):
   Reads from a _murex_ named pipe
 * [`<stdin>` ](commands/stdin.md):
   Read the STDIN belonging to the parent code block
@@ -177,6 +177,8 @@ to return the same markdown-formatted document as those listed below. eg
   Output the auto-detected OS name
 * [`out`](commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
+* [`pipe`](commands/pipe.md):
+  Manage _murex_ named pipes
 * [`post`](commands/post.md):
   HTTP POST request with a JSON-parsable return
 * [`prefix`](commands/prefix.md):

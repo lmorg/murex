@@ -35,5 +35,5 @@ The follow two examples function the same
 
 * [commands/`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [commands/pipe](../commands/pipe.md):
-  
+* [commands/`pipe`](../commands/pipe.md):
+  Manage _murex_ named pipes

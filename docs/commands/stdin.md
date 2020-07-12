@@ -47,7 +47,7 @@ This could also be written as:
 
 ## See Also
 
-* [commands/`<>` (read pipe)](../commands/readpipe.md):
-  Reads from a _murex_ named pipe
-* [commands/pipe](../commands/pipe.md):
+* [commands/`pipe`](../commands/pipe.md):
+  Manage _murex_ named pipes
+* [commands/readpipe](../commands/readpipe.md):
   

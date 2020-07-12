@@ -38,6 +38,8 @@ Supported data types can queried via `runtime`
   Left substring every item in a list
 * [commands/`right`](../commands/right.md):
   Right substring every item in a list
+* [commands/`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [commands/`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
 * [commands/length](../commands/length.md):

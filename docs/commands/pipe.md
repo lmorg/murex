@@ -1,52 +1,41 @@
 # _murex_ Shell Docs
 
-## Command Reference: `set`
+## Command Reference: `pipe`
 
-> Define a local variable and set it's value
+> Manage _murex_ named pipes
 
 ## Description
 
-Defines, updates or deallocates a local variable.
+`pipe` creates and destroys _murex_ named pipes.
 
 ## Usage
 
-    <stdin> -> set var_name
+Create pipe
+
+    pipe: name [ pipe-type ]
     
-    # Assume value from STDIN, define the data type manually
-    <stdin> -> set datatype var_name
-    
-    # Define value manually (data type defaults to string; `str`)
-    set var_name=data
-    
-    # Define value and data type manually
-    set datatype var_name=data
-    
-    # Define a variable but don't set any value
-    set var_name
-    set datatype var_name
+Destroy pipe
+
+    !pipe: name
 
 ## Examples
 
-As a method:
+Create and destroy a standard pipe
 
-    » out "Hello, world!" -> set hw
-    » out "$hw"
-    Hello, World!
+    pipe: example
     
-As a function:
+    !pipe: example
+    
+Create a TCP pipe
 
-    » set hw="Hello, world!"
-    » out "$hw"
-    Hello, World!
+    pipe example --tcp-dial google.com:80
+    bg { <example> }
+    out: "GET /" -> <example>
+    
+    !pipe: example
 
 ## Detail
 
-### Deallocation
-
-You can unset variable names with the bang prefix:
-
-    !set var_name
-    
 ### Scoping
 
 Variable scoping is simplified to three layers:
@@ -183,25 +172,23 @@ quotes:
 
 ## Synonyms
 
-* `set`
-* `!set`
+* `pipe`
+* `!pipe`
 
 
 ## See Also
 
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
-  Write a string to the STDOUT without new line
-* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function
-* [commands/`[[` (element)](../commands/element.md):
-  Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
-* [commands/`exec`](../commands/exec.md):
-  Runs an executable
-* [commands/`export`](../commands/export.md):
-  Define a local variable and set it's value
-* [commands/`global`](../commands/global.md):
-  Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+* [commands/`<>` (murex named pipe)](../commands/namedpipe.md):
+  Reads from a _murex_ named pipe
+* [commands/`bg`](../commands/bg.md):
+  Run processes in the background
+* [commands/`match`](../commands/match.md):
+  Match an exact value in an array
+* [commands/`out`](../commands/out.md):
+  `echo` a string to the STDOUT with a trailing new line character
+* [commands/`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
+* [parser/namedpipe](../parser/namedpipe.md):
+  
+* [commands/test](../commands/test.md):
+  

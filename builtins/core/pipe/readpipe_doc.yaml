@@ -1,6 +1,6 @@
-- DocumentID: readpipe
+- DocumentID: namedpipe
   Title: >+
-    `<>` (read pipe)
+    `<>` (murex named pipe)
   CategoryID: commands
   Summary: >-
     Reads from a _murex_ named pipe
@@ -8,13 +8,21 @@
     Sometimes you will need to start a commandline with a _murex_ named pipe:
 
     ```
-    » <readpipe> -> match: foobar
+    » <namedpipe> -> match: foobar
     ```
 
     > See the documentation on `pipe` for more details about _murex_ named pipes.
   Usage: |-
+    Read from pipe
+
     ```
-    <example> -> <stdout>
+    <namedpipe> -> <stdout>
+    ```
+
+    Write to pipe
+
+    ```
+    <stdin> -> <namedpipe>
     ```
   Examples: |-
     The follow two examples function the same
@@ -28,6 +36,7 @@
     ```
   Flags:
   Detail: |-
+    {{ include "gen/includes/named-pipes.inc.md" }}
   Synonyms:
   - "<>"
   Related:

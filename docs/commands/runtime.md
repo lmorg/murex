@@ -297,6 +297,8 @@ normal operation.
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
+* [commands/`pipe`](../commands/pipe.md):
+  Manage _murex_ named pipes
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`private`](../commands/private.md):
@@ -312,8 +314,6 @@ normal operation.
 * [commands/open](../commands/open.md):
   
 * [commands/openagent](../commands/openagent.md):
-  
-* [commands/pipe](../commands/pipe.md):
   
 * [commands/test](../commands/test.md):
   

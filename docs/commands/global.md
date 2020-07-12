@@ -181,13 +181,6 @@ quotes:
     
     » out ($foo)
     bar
-    
-### Declaration Without Values
-
-You can declare a global without a value. However this isn't hugely useful
-aside a rare few edge cases (and in which case the script might be better
-written another way). However the feature is available to use none-the-less
-and thus maintains consistency with `set`.
 
 ## Synonyms
 
