@@ -9,10 +9,10 @@ import (
 )
 
 func init() {
-	lang.GoFunctions[consts.NamedPipeProcName] = cmdReadPipe
+	lang.GoFunctions[consts.NamedPipeProcName] = cmdMurexNamedPipe
 }
 
-func cmdReadPipe(p *lang.Process) error {
+func cmdMurexNamedPipe(p *lang.Process) error {
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err

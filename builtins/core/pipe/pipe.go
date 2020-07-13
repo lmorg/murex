@@ -15,31 +15,47 @@ func init() {
 	lang.GoFunctions["!pipe"] = cmdClosePipe
 
 	defaults.AppendProfile(`
+		private autocomplete.pipe-types {
+			runtime: --pipes -> !match: std -> prefix: "--"
+		}
+
+		test define-unit private autocomplete.pipe-types {
+			"StdoutRegex": "--file"
+		}
+
 		autocomplete set pipe { [
 			{
 				"AnyValue": true
 			},
-		    {
-		        "Dynamic": ({
-					runtime: --pipes -> !match: std -> prefix: "--"
-				}),
-		        "FlagValues": {
-		         	"--file": [{
-		        		"IncFiles": true
-		        	}]
+			{
+				"Dynamic": ({ autocomplete.pipe-types }),
+				"FlagValues": {
+					"--file": [{
+						"IncFiles": true
+					}]
 				}
-		    }
+			}
 		] }
 
+		private autocomplete.!pipe-list {
+			runtime: --named-pipes -> ![ null ]
+		}
+
+		test define-unit private autocomplete.!pipe-list {
+			"PreBlock": ({
+				pipe: autocompleteunittest
+			}),
+			"StdoutRegex": "autocompleteunittest",
+			"PostBlock": ({
+				!pipe: autocompleteunittest
+			})
+		}
+
 		autocomplete set !pipe { [
-		    {
-		        "Dynamic": ({ 
-					runtime: --named-pipes -> formap: k v {
-						if { = v!=` + "`null`" + ` } { $k }
-					}
-				}),
+			{
+				"DynamicDesc": ({ autocomplete.!pipe-list }),
 				"AllowMultiple": true
-		    }
+			}
 		] }
 	`)
 }

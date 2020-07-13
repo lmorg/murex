@@ -57,6 +57,8 @@ a new _murex_ named pipe.
   Alters the data type of the previous function without altering it's output
 * [commands/`out`](../commands/out.md):
   `echo` a string to the STDOUT with a trailing new line character
+* [commands/`pipe`](../commands/pipe.md):
+  Manage _murex_ named pipes
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`pt`](../commands/pt.md):
@@ -64,8 +66,6 @@ a new _murex_ named pipe.
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [userguide/ansi](../userguide/ansi.md):
-  
-* [commands/pipe](../commands/pipe.md):
   
 * [commands/sprintf](../commands/sprintf.md):
   

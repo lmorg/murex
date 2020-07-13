@@ -49,11 +49,11 @@ Get the data-type of a _murex_ named pipe
   Debugging information
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`pipe`](../commands/pipe.md):
+  Manage _murex_ named pipes
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [commands/pipe](../commands/pipe.md):
-  

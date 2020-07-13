@@ -1,0 +1,200 @@
+- DocumentID: left
+  Title: >+
+    `left`
+  CategoryID: commands
+  Summary: >-
+    Left substring every item in a list
+  Description: |-
+    Takes a list from STDIN and returns a left substring of that same list.
+
+    One parameter is required and that is the number of characters to return. If
+    the parameter is a negative then `left` counts from the right.
+  Usage: |-
+    ```
+    <stdin> -> left int -> <stdout>
+    ```
+  Examples: |-
+    Count from the left
+
+    ```
+    » ja: [Monday..Wednesday] -> left 2
+    [
+        "Mo",
+        "Tu",
+        "We"
+    ]
+    ```
+
+    Count from the right
+    
+    ```
+    » ja: [Monday..Wednesday] -> left -3
+    [
+        "Mon",
+        "Tues",
+        "Wednes"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    Supported data types can queried via `runtime`
+
+    ```
+    runtime: --marshallers
+    runtime: --unmarshallers
+    ```
+  Synonyms:
+  Related:
+  - right
+  - prefix
+  - suffix
+  - ja
+  - a
+  - length
+  - runtime
+  - api/marshaldata
+  - api/unmarshaldata
+
+
+
+- DocumentID: right
+  Title: >+
+    `right`
+  CategoryID: commands
+  Summary: >-
+    Right substring every item in a list
+  Description: |-
+    Takes a list from STDIN and returns a right substring of that same list.
+
+    One parameter is required and that is the number of characters to return. If
+    the parameter is a negative then `right` counts from the left.
+  Usage: |-
+    ```
+    <stdin> -> right int -> <stdout>
+    ```
+  Examples: |-
+    Count from the right
+
+    ```
+    » ja: [Monday..Wednesday] -> right 4
+    [
+        "nday",
+        "sday",
+        "sday"
+    ]
+    ```
+
+    Count from the left
+    
+    ```
+    » ja: [Monday..Wednesday] -> left -3
+    [
+        "day",
+        "sday",
+        "nesday"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    Supported data types can queried via `runtime`
+
+    ```
+    runtime: --marshallers
+    runtime: --unmarshallers
+    ```
+  Synonyms:
+  Related:
+  - right
+  - prefix
+  - suffix
+  - ja
+  - a
+  - length
+  - runtime
+  - api/marshaldata
+  - api/unmarshaldata
+
+
+- DocumentID: prefix
+  Title: >+
+    `prefix`
+  CategoryID: commands
+  Summary: >-
+    Prefix a string to every item in a list
+  Description: |-
+    Takes a list from STDIN and returns that same list with each element prefixed.
+  Usage: |-
+    ```
+    <stdin> -> prefix str -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » ja: [Monday..Wednesday] -> prefix foobar
+    [
+        "foobarMonday",
+        "foobarTuesday",
+        "foobarWednesday"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    Supported data types can queried via `runtime`
+
+    ```
+    runtime: --marshallers
+    runtime: --unmarshallers
+    ```
+  Synonyms:
+  Related:
+  - left
+  - right
+  - suffix
+  - ja
+  - a
+  - length
+  - runtime
+  - api/marshaldata
+  - api/unmarshaldata
+
+
+
+- DocumentID: suffix
+  Title: >+
+    `suffix`
+  CategoryID: commands
+  Summary: >-
+    Prefix a string to every item in a list
+  Description: |-
+    Takes a list from STDIN and returns that same list with each element suffixed.
+  Usage: |-
+    ```
+    <stdin> -> suffix str -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » ja: [Monday..Wednesday] -> suffix foobar
+    [
+        "Mondayfoobar",
+        "Tuesdayfoobar",
+        "Wednesdayfoobar"
+    ]
+    ```
+  Flags:
+  Detail: |-
+    Supported data types can queried via `runtime`
+
+    ```
+    runtime: --marshallers
+    runtime: --unmarshallers
+    ```
+  Synonyms:
+  Related:
+  - left
+  - right
+  - prefix
+  - ja
+  - a
+  - length
+  - runtime
+  - api/marshaldata
+  - api/unmarshaldata

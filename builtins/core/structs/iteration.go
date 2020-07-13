@@ -224,7 +224,7 @@ func cmdWhile(p *lang.Process) error {
 				return nil
 			}
 
-			fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+			fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 			i, err := fork.Execute(ifBlock)
 			if err != nil {
 				return err
@@ -240,7 +240,11 @@ func cmdWhile(p *lang.Process) error {
 				return nil
 			}
 
-			p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN).Execute(whileBlock)
+			fork = p.Fork(lang.F_NO_STDIN)
+			err = fork.ExecuteAsRunMode(whileBlock)
+			if err != nil {
+				return err
+			}
 		}
 
 	default:

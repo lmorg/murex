@@ -69,11 +69,11 @@ func leftMost() []byte {
 		return utils.NewLineByte
 	}
 
-	b := make([]byte, w)
-	for i := 0; i < w-1; i++ {
+	b := make([]byte, w+1)
+	for i := 0; i < w; i++ {
 		b[i] = ' '
 	}
-	b[w-1] = '\r'
+	b[w] = '\r'
 
 	return b
 }

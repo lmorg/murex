@@ -30,7 +30,7 @@ Otherwise a new file is created.
   Writes STDIN to disk - appending contents if file already exists
 * [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
-* [commands/pipe](../commands/pipe.md):
-  
+* [commands/`pipe`](../commands/pipe.md):
+  Manage _murex_ named pipes
 * [commands/tmp](../commands/tmp.md):
   

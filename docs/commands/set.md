@@ -180,12 +180,6 @@ quotes:
     
     » out ($foo)
     bar
-    
-### Declaration Without Values
-
-You can declare a variable without a value. This is largely only of use when
-you want to overide the scoping of a variable inside a nested code-block.
-(see the text above about variable scoping).
 
 ## Synonyms
 

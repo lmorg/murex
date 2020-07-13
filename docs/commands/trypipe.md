@@ -47,6 +47,8 @@ command.
   Handles the exception code raised by `try` or `trypipe` 
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [commands/`switch`](../commands/switch.md):
+  Blocks of cascading conditionals
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
 * [commands/evil](../commands/evil.md):
