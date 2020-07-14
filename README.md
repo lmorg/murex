@@ -1,9 +1,11 @@
 # _murex_
 
 [![GoDoc](https://godoc.org/github.com/lmorg/murex?status.svg)](https://godoc.org/github.com/lmorg/murex)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lmorg/murex)](https://goreportcard.com/report/github.com/lmorg/murex)
 [![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
 [![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 [![codecov](https://codecov.io/gh/lmorg/murex/branch/master/graph/badge.svg)](https://codecov.io/gh/lmorg/murex)
+[![Known Vulnerabilities](https://snyk.io/test/github/lmorg/murex/badge.svg?targetFile=Gopkg.lock)](https://snyk.io/test/github/lmorg/murex?targetFile=Gopkg.lock)
 
 ## About _murex_
 
@@ -90,8 +92,8 @@ goes a long way. For example _murex_'s support for complex data objects
 of differing formats is managed in the pipeline so you don't need to think
 about the data format when querying data from them.
 
-    open: file.csv -> [ column_name ] # returns specific columns (or rows) in CSV file
-    open: file.json -> [ index ]      # returns specific items from JSON
+    open: file.csv  -> [ column_name ] # returns specific columns (or rows) in CSV file
+    open: file.json -> [ index ]       # returns specific items from JSON
 
 The index function (`[`) alters its matching algorithm depending on the
 piped data type and `open` sets the data type depending on the file
@@ -101,7 +103,7 @@ Sometimes you will want fewer guesswork or just the robustness of a forced
 behavior. On those occasions you can remove one layer of magic by
 casting the data type:
 
-    open: file.txt -> cast csv -> [ column_name ]
+    open: file.txt -> cast csv  -> [ column_name ]
     open: file.txt -> cast json -> [ index ]
 
 This awareness of data structures is also utilised in `foreach` (which
