@@ -5,7 +5,7 @@
   Summary: >-
     Reads from a _murex_ named pipe
   Description: |-
-    Sometimes you will need to start a commandline with a _murex_ named pipe:
+    Sometimes you will need to start a command line with a _murex_ named pipe, eg
 
     ```
     » <namedpipe> -> match: foobar
@@ -38,10 +38,16 @@
   Detail: |-
     {{ include "gen/includes/named-pipes.inc.md" }}
   Synonyms:
+  - "(murex named pipe)"
   - "<>"
   Related:
   - pipe
   - stdin
+  - parser/namedpipe
+  - bg
+  - a
+  - ja
+
 
 
 - DocumentID: stdin
@@ -96,6 +102,10 @@
   - "<stdin>"
   Related:
   - pipe
-  - readpipe
+  - namedpipe
+  - parser/namedpipe
+  - out
+  - function
+  - match
 
 

@@ -6,7 +6,7 @@
 
 ## Description
 
-Sometimes you will need to start a commandline with a _murex_ named pipe:
+Sometimes you will need to start a command line with a _murex_ named pipe, eg
 
     » <namedpipe> -> match: foobar
     
@@ -100,6 +100,7 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## Synonyms
 
+* `(murex named pipe)`
 * `<>`
 
 
@@ -107,5 +108,13 @@ that pipes created in modules should be prefixed with the name of its package.
 
 * [commands/`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
+* [commands/`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [commands/`bg`](../commands/bg.md):
+  Run processes in the background
+* [commands/`ja`](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
+* [parser/namedpipe](../parser/namedpipe.md):
+  

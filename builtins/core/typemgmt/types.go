@@ -11,7 +11,6 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["datatype"] = cmdSetDt
 	lang.GoFunctions["exec"] = lang.External
 	lang.GoFunctions["die"] = cmdDie
 	lang.GoFunctions["exit"] = cmdExit
@@ -20,14 +19,6 @@ func init() {
 	lang.GoFunctions["false"] = cmdFalse
 	lang.GoFunctions["!"] = cmdNot
 	lang.GoFunctions["cast"] = cmdCast
-}
-
-func cmdSetDt(p *lang.Process) error {
-	dt := p.Parameters.StringAll()
-	//p.Scope.Stdout.SetDataType(dt)
-	//p.Parent.Stdout.SetDataType(dt)
-	p.Stdout.SetDataType(dt)
-	return nil
 }
 
 func cmdNull(p *lang.Process) error {

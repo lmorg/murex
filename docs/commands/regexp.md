@@ -30,11 +30,23 @@ characters because those are inside the parenthesis.
 
 ### Match elements
 
+Elements containing
+
     » ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
     [
         "monday",
         "friday",
         "sunday"
+    ]
+    
+Elements excluding
+
+    » ja: [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
+    [
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "saturday"
     ]
     
 ### Substitute expression
@@ -52,18 +64,24 @@ characters because those are inside the parenthesis.
 
 ## Flags
 
-* `f/`
-    output found expressions
-* `m/`
-    output elements that match expression
-* `s/`
-    output all elements - substituting elements that match expression
+* `f`
+    output found expressions (doesn't support bang prefix)
+* `m`
+    output elements that match expression (supports bang prefix)
+* `s`
+    output all elements - substituting elements that match expression (doesn't support bang prefix)
 
 ## Detail
 
 `regexp` is data-type aware so will work against lists or arrays of whichever
 _murex_ data-type is passed to it via STDIN and return the output in the
 same data-type.
+
+## Synonyms
+
+* `regexp`
+* `!regexp`
+
 
 ## See Also
 

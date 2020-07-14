@@ -64,10 +64,6 @@ private autocomplete.data-types {
     runtime: --unmarshallers -> format: str
 }
 
-#private datatypes {
-#    get.datatypes -> sort -> uniq -> cast str
-#}
-
 test define-unit private autocomplete.data-types {
     "StdoutRegex": (^(([a-z0-9]+|\*)\n)+),
     "StdoutType":  "str",

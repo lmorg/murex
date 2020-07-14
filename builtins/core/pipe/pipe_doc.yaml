@@ -49,6 +49,7 @@
   - "!pipe"
   Related:
   - namedpipe
+  - stdin
   - runtime
   - out
   - bg
