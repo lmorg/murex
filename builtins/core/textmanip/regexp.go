@@ -93,9 +93,15 @@ func cmdRegexp(p *lang.Process) (err error) {
 		return regexMatch(p, rx, dt)
 
 	case 's':
+		if p.IsNot {
+			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name, string(sRegex[0][0]), p.Parameters.StringAll())
+		}
 		return regexSubstitute(p, rx, sRegex, dt)
 
 	case 'f':
+		if p.IsNot {
+			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name, string(sRegex[0][0]), p.Parameters.StringAll())
+		}
 		return regexFind(p, rx, dt)
 
 	default:
