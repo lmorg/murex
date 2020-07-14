@@ -180,6 +180,8 @@ quotes:
 
 * [commands/`<>` (murex named pipe)](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
+* [commands/`<stdin>` ](../commands/stdin.md):
+  Read the STDIN belonging to the parent code block
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
 * [commands/`match`](../commands/match.md):

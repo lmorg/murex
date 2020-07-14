@@ -23,6 +23,7 @@ func TestCoreDocs(t *testing.T) {
 
 	count.Tests(t, len(lang.GoFunctions)*2)
 	for name := range lang.GoFunctions {
+
 		syn := docs.Synonym[name]
 		if syn == "" {
 			t.Errorf("Synonym for `%s` does not exist", name)

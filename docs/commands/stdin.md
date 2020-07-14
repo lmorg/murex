@@ -47,7 +47,15 @@ This could also be written as:
 
 ## See Also
 
+* [commands/`<>` (murex named pipe)](../commands/namedpipe.md):
+  Reads from a _murex_ named pipe
+* [commands/`function`](../commands/function.md):
+  Define a function block
+* [commands/`match`](../commands/match.md):
+  Match an exact value in an array
+* [commands/`out`](../commands/out.md):
+  `echo` a string to the STDOUT with a trailing new line character
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
-* [commands/readpipe](../commands/readpipe.md):
+* [parser/namedpipe](../parser/namedpipe.md):
   
