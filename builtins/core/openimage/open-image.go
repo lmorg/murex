@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/eliukblau/pixterm/ansimage"
+	"github.com/eliukblau/pixterm/pkg/ansimage"
 	"github.com/lmorg/murex/lang"
 	"golang.org/x/crypto/ssh/terminal"
 )

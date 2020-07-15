@@ -223,6 +223,8 @@ to return the same markdown-formatted document as those listed below. eg
   A sophisticated yet simple way to build an array of a user defined data-type
 * [`time` ](commands/time.md):
   Returns the execution run time of a command or block
+* [`tmp`](commands/tmp.md):
+  Create a temporary file and write to it
 * [`tout`](commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [`tread`](commands/tread.md):

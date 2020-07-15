@@ -1,0 +1,50 @@
+# github.com/BurntSushi/toml v0.3.1
+github.com/BurntSushi/toml
+# github.com/Knetic/govaluate v3.0.0+incompatible
+github.com/Knetic/govaluate
+# github.com/abesto/sexp v0.0.1
+github.com/abesto/sexp
+# github.com/boombuler/barcode v1.0.0
+github.com/boombuler/barcode
+github.com/boombuler/barcode/qr
+github.com/boombuler/barcode/utils
+# github.com/disintegration/imaging v1.6.2
+github.com/disintegration/imaging
+# github.com/eliukblau/pixterm v1.3.1
+github.com/eliukblau/pixterm/pkg/ansimage
+# github.com/fsnotify/fsnotify v1.4.9
+github.com/fsnotify/fsnotify
+# github.com/hashicorp/hcl v1.0.0
+github.com/hashicorp/hcl
+github.com/hashicorp/hcl/hcl/ast
+github.com/hashicorp/hcl/hcl/parser
+github.com/hashicorp/hcl/hcl/scanner
+github.com/hashicorp/hcl/hcl/strconv
+github.com/hashicorp/hcl/hcl/token
+github.com/hashicorp/hcl/json/parser
+github.com/hashicorp/hcl/json/scanner
+github.com/hashicorp/hcl/json/token
+# github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad
+github.com/lmorg/apachelogs
+# github.com/lucasb-eyer/go-colorful v1.0.3
+github.com/lucasb-eyer/go-colorful
+# github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
+github.com/phayes/permbits
+# golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
+golang.org/x/crypto/ssh/terminal
+# golang.org/x/image v0.0.0-20191206065243-da761ea9ff43
+golang.org/x/image/bmp
+golang.org/x/image/ccitt
+golang.org/x/image/riff
+golang.org/x/image/tiff
+golang.org/x/image/tiff/lzw
+golang.org/x/image/vp8
+golang.org/x/image/vp8l
+golang.org/x/image/webp
+# golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# gopkg.in/yaml.v2 v2.3.0
+gopkg.in/yaml.v2
+# labix.org/v2/mgo v0.0.0-20140701140051-000000000287
+labix.org/v2/mgo/bson

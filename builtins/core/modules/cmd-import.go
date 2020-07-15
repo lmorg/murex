@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/cd"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func packageDirExists(pack string) error {

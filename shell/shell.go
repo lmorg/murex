@@ -15,7 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/home"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 var (

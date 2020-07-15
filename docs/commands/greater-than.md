@@ -22,6 +22,7 @@ Otherwise a new file is created.
 ## Synonyms
 
 * `>`
+* `fwrite`
 
 
 ## See Also
@@ -32,5 +33,5 @@ Otherwise a new file is created.
   Glob pattern matching for file system objects (eg *.txt)
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
-* [commands/tmp](../commands/tmp.md):
-  
+* [commands/`tmp`](../commands/tmp.md):
+  Create a temporary file and write to it
