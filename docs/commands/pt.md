@@ -16,7 +16,8 @@ directly to the OS's STDERR so to preserved the pipeline.
 ## Examples
 
     curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
-    (though _murex_ does also have it's own HTTP clients, `get`, `post` and
+    
+(though _murex_ does also have it's own HTTP clients, `get`, `post` and
 `getfile`)
 
 ## See Also
