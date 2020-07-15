@@ -91,7 +91,7 @@ Create a beautiful blue color using different source space:
 // Any of the following should be the same
 c := colorful.Color{0.313725, 0.478431, 0.721569}
 c, err := colorful.Hex("#517AB8")
-if err != nil{
+if err != nil {
     log.Fatal(err)
 }
 c = colorful.Hsv(216.0, 0.56, 0.722)
@@ -124,17 +124,16 @@ Because a `colorful.Color` implements Go's `color.Color` interface (found in the
 `image/color` package), it can be used anywhere that expects a `color.Color`.
 
 Furthermore, you can convert anything that implements the `color.Color` interface
-into a `colorful.Color` using the `MakeColorful` function:
+into a `colorful.Color` using the `MakeColor` function:
 
 ```go
-c := colorful.MakeColor(color.Gray16{12345})
+c, ok := colorful.MakeColor(color.Gray16{12345})
 ```
 
-**Caveat:** Be aware that for this latter conversion  (using `MakeColor`) hits a corner-case
-when alpha is exactly zero. Because `color.Color` uses pre-multiplied alpha colors,
-this means the RGB values are lost and it's impossible to recover them. The current
-implementation `panic()`s in that case, see [issue 21](https://github.com/lucasb-eyer/go-colorful/issues/21)
-for discussion and suggesting alternatives.
+**Caveat:** Be aware that this latter conversion (using `MakeColor`) hits a
+corner-case when alpha is exactly zero. Because `color.Color` uses pre-multiplied
+alpha colors, this means the RGB values are lost (set to 0) and it's impossible
+to recover them. In such a case `MakeColor` will return `false` as its second value.
 
 ### Comparing colors
 In the RGB color space, the Euclidian distance between colors *doesn't* correspond
@@ -158,16 +157,17 @@ import "fmt"
 import "github.com/lucasb-eyer/go-colorful"
 
 func main() {
-    c1a := colorful.Color{150.0/255.0, 10.0/255.0, 150.0/255.0}
-    c1b := colorful.Color{ 53.0/255.0, 10.0/255.0, 150.0/255.0}
-    c2a := colorful.Color{10.0/255.0, 150.0/255.0, 50.0/255.0}
-    c2b := colorful.Color{99.9/255.0, 150.0/255.0, 10.0/255.0}
+	c1a := colorful.Color{150.0 / 255.0, 10.0 / 255.0, 150.0 / 255.0}
+	c1b := colorful.Color{53.0 / 255.0, 10.0 / 255.0, 150.0 / 255.0}
+	c2a := colorful.Color{10.0 / 255.0, 150.0 / 255.0, 50.0 / 255.0}
+	c2b := colorful.Color{99.9 / 255.0, 150.0 / 255.0, 10.0 / 255.0}
 
-    fmt.Printf("DistanceRgb:   c1: %v\tand c2: %v\n", c1a.DistanceRgb(c1b), c2a.DistanceRgb(c2b))
-    fmt.Printf("DistanceLab:   c1: %v\tand c2: %v\n", c1a.DistanceLab(c1b), c2a.DistanceLab(c2b))
-    fmt.Printf("DistanceLuv:   c1: %v\tand c2: %v\n", c1a.DistanceLuv(c1b), c2a.DistanceLuv(c2b))
-    fmt.Printf("DistanceCIE76: c1: %v\tand c2: %v\n", c1a.DistanceCIE76(c1b), c2a.DistanceCIE76(c2b))
-    fmt.Printf("DistanceCIE94: c1: %v\tand c2: %v\n", c1a.DistanceCIE94(c1b), c2a.DistanceCIE94(c2b))
+	fmt.Printf("DistanceRgb:       c1: %v\tand c2: %v\n", c1a.DistanceRgb(c1b), c2a.DistanceRgb(c2b))
+	fmt.Printf("DistanceLab:       c1: %v\tand c2: %v\n", c1a.DistanceLab(c1b), c2a.DistanceLab(c2b))
+	fmt.Printf("DistanceLuv:       c1: %v\tand c2: %v\n", c1a.DistanceLuv(c1b), c2a.DistanceLuv(c2b))
+	fmt.Printf("DistanceCIE76:     c1: %v\tand c2: %v\n", c1a.DistanceCIE76(c1b), c2a.DistanceCIE76(c2b))
+	fmt.Printf("DistanceCIE94:     c1: %v\tand c2: %v\n", c1a.DistanceCIE94(c1b), c2a.DistanceCIE94(c2b))
+	fmt.Printf("DistanceCIEDE2000: c1: %v\tand c2: %v\n", c1a.DistanceCIEDE2000(c1b), c2a.DistanceCIEDE2000(c2b))
 }
 ```
 
@@ -175,16 +175,17 @@ Running the above program shows that you should always prefer any of the CIE dis
 
 ```bash
 $ go run colordist.go
-DistanceRgb:   c1: 0.3803921568627451   and c2: 0.3858713931171159
-DistanceLab:   c1: 0.3204845831279805   and c2: 0.2439715175856528
-DistanceLuv:   c1: 0.5134369614199698   and c2: 0.25686928398606323
-DistanceCIE76: c1: 0.3204845831279805   and c2: 0.2439715175856528
-DistanceCIE94: c1: 0.19799168128511327  and c2: 0.12207136371167401
+DistanceRgb:       c1: 0.3803921568627451	and c2: 0.3858713931171159
+DistanceLab:       c1: 0.32048458312798056	and c2: 0.24397151758565272
+DistanceLuv:       c1: 0.5134369614199698	and c2: 0.2568692839860636
+DistanceCIE76:     c1: 0.32048458312798056	and c2: 0.24397151758565272
+DistanceCIE94:     c1: 0.19799168128511324	and c2: 0.12207136371167401
+DistanceCIEDE2000: c1: 0.17274551120971166	and c2: 0.10665210031428465
 ```
 
 It also shows that `DistanceLab` is more formally known as `DistanceCIE76` and
 has been superseded by the slightly more accurate, but much more expensive
-`DistanceCIE94`.
+`DistanceCIE94` and `DistanceCIEDE2000`.
 
 Note that `AlmostEqualRgb` is provided mainly for (unit-)testing purposes. Use
 it only if you really know what you're doing. It will eat your cat.
@@ -308,7 +309,7 @@ second is the fast one.
 ![Warm, fast warm, happy and fast happy random colors, respectively.](doc/colorgens/colorgens.png)
 
 Don't forget to initialize the random seed! You can see the code used for
-generating this picture in `doc/colorgens/golorgens.go`.
+generating this picture in `doc/colorgens/colorgens.go`.
 
 ### Getting random palettes
 As soon as you need to generate more than one random color, you probably want
@@ -364,6 +365,8 @@ from top to bottom: `Warm`, `FastWarm`, `Happy`, `FastHappy`, `Soft`,
 `SoftEx(isbrowny)`. All of them contain some randomness, so YMMV.
 
 ![All example palettes](doc/palettegens/palettegens.png)
+
+Again, the code used for generating the above image is available as [doc/palettegens/palettegens.go](https://github.com/lucasb-eyer/go-colorful/blob/master/doc/palettegens/palettegens.go).
 
 ### Sorting colors
 TODO: Sort using dist fn.
@@ -456,16 +459,26 @@ but that is outside the scope of this library.
 Thanks to [@ZirconiumX](https://github.com/ZirconiumX) for starting this investigation,
 see [issue #18](https://github.com/lucasb-eyer/go-colorful/issues/18) for details.
 
-### Q: `MakeColor` panics when alpha is zero!
-A: Because in that case, the conversion is undefined. See
-[issue 21](https://github.com/lucasb-eyer/go-colorful/issues/21)
-as well as the short caveat discussion in the ["The `color.Color` interface"](README.md#the-colorcolor-interface) section above.
+### Q: Why would `MakeColor` ever fail!?
+A: `MakeColor` fails when the alpha channel is zero. In that case, the
+conversion is undefined. See [issue 21](https://github.com/lucasb-eyer/go-colorful/issues/21)
+as well as the short caveat note in the ["The `color.Color` interface"](README.md#the-colorcolor-interface)
+section above.
 
 Who?
 ====
 
 This library has been developed by Lucas Beyer with contributions from
-Bastien Dejean (@baskerville) and Phil Kulak (@pkulak).
+Bastien Dejean (@baskerville), Phil Kulak (@pkulak) and Christian Muehlhaeuser (@muesli).
+
+Release Notes
+=============
+
+### Version 1.0
+- API Breaking change in `MakeColor`: instead of `panic`ing when alpha is zero, it now returns a secondary, boolean return value indicating success. See [the color.Color interface](https://github.com/lucasb-eyer/go-colorful#the-colorcolor-interface) section and [this FAQ entry](https://github.com/lucasb-eyer/go-colorful#q-why-would-makecolor-ever-fail) for details.
+
+### Version 0.9
+- Initial version number after having ignored versioning for a long time :)
 
 License: MIT
 ============
