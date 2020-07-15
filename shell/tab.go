@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func errCallback(err error) {

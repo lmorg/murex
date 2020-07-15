@@ -6,7 +6,7 @@ import (
 
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func statusModules(p *lang.Process) error {

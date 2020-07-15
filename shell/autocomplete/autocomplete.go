@@ -6,7 +6,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/parser"
-	"github.com/lmorg/readline"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 // AutoCompleteT is a struct designed for ease to pass common values around the

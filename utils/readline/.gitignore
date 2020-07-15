@@ -1,0 +1,6 @@
+# Compiled ELFs / Win PEs
+main
+main.exe
+
+# Misc
+.directory
