@@ -38,6 +38,42 @@ Execute unit test(s)
 
     test: run-unit package[/module[/test-name]|*
 
+## Examples
+
+Inlined test
+
+    function: hello-world {
+        test: define example {
+            "StdoutRegex": (^Hello World$)
+        }
+    
+        out: <test_example> "Hello Earth"
+    }
+    
+    test: run { hello-world }
+    
+Unit test
+
+    test: unit function aliases {
+        "PreBlock": ({
+            alias ALIAS_UNIT_TEST=example param1 param2 param3
+        }),
+        "StdoutRegex": "([- _0-9a-zA-Z]+ => .*?\n)+",
+        "StdoutType": "str",
+        "PostBlock": ({
+            !alias ALIAS_UNIT_TEST
+        })
+    }
+    
+    function: aliases {
+        # Output the aliases in human readable format
+        runtime: --aliases -> formap: name alias {
+            $name -> sprintf: "%10s => ${esccli @alias}\n"
+        } -> cast: str
+    }
+    
+    test: run-unit aliases
+
 ## Synonyms
 
 * `test`
