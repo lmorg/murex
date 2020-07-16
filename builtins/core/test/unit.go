@@ -10,17 +10,17 @@ import (
 func testUnitDefine(p *lang.Process) error {
 	mod, err := p.Parameters.String(1)
 	if err != nil {
-		return err
+		return errUsage("", err)
 	}
 
 	function, err := p.Parameters.String(2)
 	if err != nil {
-		return err
+		return errUsage("", err)
 	}
 
 	b, err := p.Parameters.Byte(3)
 	if err != nil {
-		return err
+		return errUsage("", err)
 	}
 
 	plan := new(lang.UnitTestPlan)
@@ -46,7 +46,7 @@ func testUnitDefine(p *lang.Process) error {
 		function = lang.UnitTestEvent + "/" + function
 
 	default:
-		return fmt.Errorf("Unsupported block type (eg `function`, `private`, `autocomplete`): `%s`", mod)
+		return errUsage("", fmt.Errorf("Unsupported block type (eg `function`, `private`, `event`): `%s`", mod))
 	}
 
 	lang.GlobalUnitTests.Add(function, plan, p.FileRef)
@@ -57,6 +57,16 @@ func testUnitDefine(p *lang.Process) error {
 func testUnitRun(p *lang.Process) error {
 	function, err := p.Parameters.String(1)
 	if err != nil {
+		return errUsage("", err)
+	}
+
+	err = p.Config.Set("test", "enabled", true)
+	if err != nil {
+		return err
+	}
+
+	err = p.Config.Set("test", "auto-report", false)
+	if err != nil {
 		return err
 	}
 
@@ -64,5 +74,5 @@ func testUnitRun(p *lang.Process) error {
 		p.ExitNum = 1
 	}
 
-	return nil
+	return p.Tests.WriteResults(p.Config, p.Stdout)
 }

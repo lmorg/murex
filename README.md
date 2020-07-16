@@ -281,7 +281,7 @@ For example:
         } -> cast: str
     }
 
-    test: run-unit aliases
+    test: run aliases
 
 ...will output:
 

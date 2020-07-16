@@ -36,7 +36,11 @@ Execute a function with testing enabled
     
 Execute unit test(s)
 
-    test: run-unit package[/module[/test-name]|*
+    test: run package/module/test-name|*
+    
+Write report
+
+    test: report
 
 ## Examples
 
@@ -72,7 +76,17 @@ Unit test
         } -> cast: str
     }
     
-    test: run-unit aliases
+    test: run aliases
+
+## Detail
+
+### Report
+
+`test: report` is only needed if `config: test auto-report` is set false.
+However `test: run` automatically enables **auto-report*.
+
+When the report is generated, be it automatically or manually triggered, it
+flushes the table of pending reports.
 
 ## Synonyms
 

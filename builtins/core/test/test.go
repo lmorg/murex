@@ -40,9 +40,9 @@ autocomplete set test { [
 			"config":   "Enable or disable boolean test states (more options available in ` + "`" + `config` + "`" + `)",
 			"define":   "Define an inlined test",
             "state":    "Define a state report",
-            "run":      "Execute a function with testing enabled",
-            "unit": 	"Define a unit test",
-            "run-unit": "Execute unit test(s)"
+            "run":      "Execute a code block, function or unit test with inline testing enabled",
+			"unit": 	"Define a unit test",
+			"report":   "Write the test report (happens automatically by default)"
 		},
         "FlagValues": {
 			"config": [{
@@ -57,7 +57,7 @@ autocomplete set test { [
 				"AllowMultiple": true,
 				"Optional": false
     		}],
-            "run-unit": [{
+            "run": [{
                 "Dynamic": ({ autocomplete.test.run-unit })
             }]
         }
@@ -73,7 +73,8 @@ func errUsage(invalidParameter string, err error) error {
     test: unit function|private|open|event test-name { json-properties }
     test: state name { code block }
     test: run { code-block }
-    test: run-unit package[/module[/test-name]|*
+	test: run package/module/test-name|*
+	test: report
     !test`)
 
 	switch {
@@ -131,6 +132,9 @@ func cmdTest(p *lang.Process) error {
 			}
 		}
 		return nil
+
+	case "report":
+		return lang.ShellProcess.Tests.WriteResults(p.Config, p.Stdout)
 
 	default:
 		return errUsage(option, nil)

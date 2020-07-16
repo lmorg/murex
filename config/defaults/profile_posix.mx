@@ -41,7 +41,12 @@ autocomplete set dd { [{
 
 private getHostsFile {
     # Parse the hosts file and return uniq host names and IPs
-    egrep -v '^(#.*|\s*)$' /etc/hosts -> sed -r 's/\s+/\n/g' -> sort -> uniq
+    egrep -v '^(#.*|\s*)$' /etc/hosts -> sed 's/\s+/\n/g' -> sort -> uniq
+}
+
+test unit private getHostsFile {
+    "StdoutType": "*",
+    "StdoutRegex": "[-_.0-9a-zA-Z]+\n"
 }
 
 autocomplete set ssh { [{
@@ -60,7 +65,7 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
-private kill-autocomplete {
+private autocomplete.kill {
     # Autocomplete suggestion for `kill`
     test define ps {
         "ExitNum": 0
@@ -74,14 +79,14 @@ private kill-autocomplete {
     map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
 }
 
-test unit private kill-autocomplete {
+test unit private autocomplete.kill {
     "StdoutType": "json",
     "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
 }
 
 autocomplete set kill {
     [{
-        "DynamicDesc": ({ kill-autocomplete }),
+        "DynamicDesc": ({ autocomplete.kill }),
         "ListView": true,
         "AllowMultiple": true
     }]
