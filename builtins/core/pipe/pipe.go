@@ -19,7 +19,7 @@ func init() {
 			runtime: --pipes -> !match: std -> prefix: "--"
 		}
 
-		test define-unit private autocomplete.pipe-types {
+		test unit private autocomplete.pipe-types {
 			"StdoutRegex": "--file"
 		}
 
@@ -41,7 +41,7 @@ func init() {
 			runtime: --named-pipes -> ![ null ]
 		}
 
-		test define-unit private autocomplete.!pipe-list {
+		test unit private autocomplete.!pipe-list {
 			"PreBlock": ({
 				pipe: autocompleteunittest
 			}),

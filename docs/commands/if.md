@@ -109,7 +109,7 @@ conditionals output.
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [commands/`test`](../commands/test.md):
-  _murex_'s test framework
+  _murex_'s test framework - define tests, run tests and debug shell scripts
 * [commands/`true`](../commands/true.md):
   Returns a `true` value
 * [commands/`try`](../commands/try.md):

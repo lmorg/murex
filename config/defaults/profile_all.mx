@@ -1,25 +1,23 @@
-func h {
+function h {
     # Output the murex history log in a human readable format
     history -> foreach { -> set json line; out "$line[Index]: $line[Block]" } -> cast *
 }
 
-func aliases {
+function aliases {
 	# Output the aliases in human readable format
 	runtime: --aliases -> formap name alias {
         $name -> sprintf: "%10s => ${esccli @alias}\n"
 	} -> cast str
 }
 
-test define-unit function aliases {
+test unit function aliases {
     "PreBlock": ({
-        global ALIAS_UNIT_TEST=${rand: int 9999999999}
-        alias $ALIAS_UNIT_TEST=example param1 param2 param3
+        alias ALIAS_UNIT_TEST=example param1 param2 param3
     }),
     "StdoutRegex": "([- _0-9a-zA-Z]+ => .*?\n)+",
     "StdoutType": "str",
     "PostBlock": ({
-        !alias $ALIAS_UNIT_TEST
-        !global ALIAS_UNIT_TEST
+        !alias ALIAS_UNIT_TEST
     })
 }
 
@@ -64,7 +62,7 @@ private autocomplete.data-types {
     runtime: --unmarshallers -> format: str
 }
 
-test define-unit private autocomplete.data-types {
+test unit private autocomplete.data-types {
     "StdoutRegex": (^(([a-z0-9]+|\*)\n)+),
     "StdoutType":  "str",
     "StdoutBlock": ({
@@ -106,7 +104,7 @@ private autocomplete.variables {
     runtime: --variables -> formap k v { out $k }
 }
 
-test define-unit private autocomplete.variables {
+test unit private autocomplete.variables {
     "PreBlock": ({ global MUREX_UNIT_TEST=foobar }),
     "PostBlock": ({ !global MUREX_UNIT_TEST }),
     "StdoutRegex": (^([_a-zA-Z0-9]+\n)+),
@@ -240,7 +238,7 @@ private autocomplete.alias {
     runtime: --aliases -> formap k v { out $k }
 }
 
-test define-unit private autocomplete.alias {
+test unit private autocomplete.alias {
     "StdoutRegex": (^([-_./a-zA-Z0-9]+\n)+),
 	"StdoutType":  "str",
     "StdoutBlock": ({
@@ -261,7 +259,7 @@ private autocomplete.functions {
     runtime: --functions -> formap k v { out $k }
 }
 
-test define-unit private autocomplete.functions {
+test unit private autocomplete.functions {
     "StdoutRegex": (^([-_./a-zA-Z0-9]+\n)+),
 	"StdoutType":  "str",
     "StdoutBlock": ({

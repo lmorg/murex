@@ -74,7 +74,7 @@ private kill-autocomplete {
     map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
 }
 
-test define-unit private kill-autocomplete {
+test unit private kill-autocomplete {
     "StdoutType": "json",
     "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
 }

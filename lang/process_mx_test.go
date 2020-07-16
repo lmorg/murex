@@ -83,7 +83,7 @@ func TestMxProcess(t *testing.T) {
 						}
 						out <test_example> "Hello world"
 					}
-					test enable !auto-report
+					test config enable !auto-report
 					hello-world`,
 			Stdout: "Enabling test mode....\nDisabling auto-report....\nHello world\n",
 		},

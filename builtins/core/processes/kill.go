@@ -17,7 +17,7 @@ private autocomplete.fid-kill {
     fid-list: --jsonl -> [ FID Command Parameters ]
 }
 
-test define-unit private autocomplete.fid-kill {
+test unit private autocomplete.fid-kill {
     "StdoutRegex": (^\["FID","Command","Parameters"\]\n.*(["[0-9]+",")),
 	"StdoutType":  "jsonl",
 	"ExitNum": 1, # because parameters might be empty
