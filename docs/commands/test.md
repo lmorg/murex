@@ -1,8 +1,8 @@
 # _murex_ Shell Docs
 
-## Command Reference: `pipe`
+## Command Reference: `test`
 
-> Manage _murex_ named pipes
+> _murex_'s test framework
 
 ## Description
 
@@ -172,25 +172,15 @@ quotes:
 
 ## Synonyms
 
-* `pipe`
-* `!pipe`
+* `test`
+* `!test`
 
 
 ## See Also
 
 * [commands/`<>` (murex named pipe)](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`<stdin>` ](../commands/stdin.md):
-  Read the STDIN belonging to the parent code block
-* [commands/`bg`](../commands/bg.md):
-  Run processes in the background
-* [commands/`match`](../commands/match.md):
-  Match an exact value in an array
-* [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
-* [commands/`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
-* [commands/`test`](../commands/test.md):
-  _murex_'s test framework
+* [commands/`config`](../commands/config.md):
+  Query or define _murex_ runtime settings
 * [parser/namedpipe](../parser/namedpipe.md):
   

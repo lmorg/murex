@@ -307,6 +307,8 @@ normal operation.
   Define a local variable and set it's value
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
+* [commands/`test`](../commands/test.md):
+  _murex_'s test framework
 * [commands/fid-list](../commands/fid-list.md):
   
 * [commands/formap](../commands/formap.md):
@@ -314,6 +316,4 @@ normal operation.
 * [commands/open](../commands/open.md):
   
 * [commands/openagent](../commands/openagent.md):
-  
-* [commands/test](../commands/test.md):
   

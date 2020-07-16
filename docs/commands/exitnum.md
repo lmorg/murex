@@ -21,5 +21,5 @@ Output the exit number of the previous process.
 
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/test](../commands/test.md):
-  
+* [commands/`test`](../commands/test.md):
+  _murex_'s test framework
