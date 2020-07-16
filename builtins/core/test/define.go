@@ -16,12 +16,12 @@ func testDefine(p *lang.Process) error {
 
 	name, err := p.Parameters.String(1)
 	if err != nil {
-		return err
+		return errUsage("", err)
 	}
 
 	b, err := p.Parameters.Byte(2)
 	if err != nil {
-		return err
+		return errUsage("", err)
 	}
 
 	var args testArgs

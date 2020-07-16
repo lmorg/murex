@@ -21,7 +21,7 @@ private autocomplete.test.run-unit {
     } -> prepend *
 }
 
-test define-unit private autocomplete.test.run-unit {
+test unit private autocomplete.test.run-unit {
     "StdoutRegex": (^(([-_./a-zA-Z0-9]+|\*)\n)+),
 	"StdoutType":  "jsonl",
     "StdoutBlock": ({
@@ -36,27 +36,28 @@ test define-unit private autocomplete.test.run-unit {
 
 autocomplete set test { [
     {
-        "Flags": [
-            "enable",
-            "!enable",
-            "auto-report",
-            "!auto-report",
-            "verbose",
-            "!verbose"
-        ],
-        "AllowMultiple": true,
-        "Optional": true
-    },
-    {
-        "Flags": [
-            "define",
-            "state",
-            "run",
-            "define-unit",
-            "run-unit"
-        ],
+        "FlagsDesc": {
+			"config":   "Enable or disable boolean test states (more options available in ` + "`" + `config` + "`" + `)",
+			"define":   "Define an inlined test",
+            "state":    "Define a state report",
+            "run":      "Execute a code block, function or unit test with inline testing enabled",
+			"unit": 	"Define a unit test",
+			"report":   "Write the test report (happens automatically by default)"
+		},
         "FlagValues": {
-            "run-unit": [{
+			"config": [{
+				"FlagsDesc": {
+					"enable":       "Enable inlined tests",
+					"!enable":      "Disable inlined tests",
+					"auto-report":  "Automatically output report (default)",
+					"!auto-report": "Do not automatically output report",
+					"verbose":      "Verbose report",
+					"!verbose":     "Consice report (default)"
+				},
+				"AllowMultiple": true,
+				"Optional": false
+    		}],
+            "run": [{
                 "Dynamic": ({ autocomplete.test.run-unit })
             }]
         }
@@ -65,11 +66,32 @@ autocomplete set test { [
     `)
 }
 
+func errUsage(invalidParameter string, err error) error {
+	usage := fmt.Sprintf(`Expected usage:
+    test: config [ enable|!enable ] [ verbose|!verbose ] [ auto-report|!auto-report ]
+    test: define test-name { json-properties }
+    test: unit function|private|open|event test-name { json-properties }
+    test: state name { code block }
+    test: run { code-block }
+	test: run package/module/test-name|*
+	test: report
+    !test`)
+
+	switch {
+	case invalidParameter != "":
+		return fmt.Errorf("Invalid parameter: `%s`%s%s", invalidParameter, utils.NewLineString, usage)
+	case err != nil:
+		return fmt.Errorf("%s%s%s", err.Error(), utils.NewLineString, usage)
+	default:
+		return errors.New(usage)
+	}
+}
+
 type testArgs struct {
-	StdoutBlock string //OutBlock  string
-	StdoutRegex string //OutRegexp string
-	StderrBlock string //ErrBlock  string
-	StderrRegex string //ErrRegexp string
+	StdoutBlock string
+	StdoutRegex string
+	StderrBlock string
+	StderrRegex string
 	ExitNum     int
 }
 
@@ -90,7 +112,7 @@ func cmdTest(p *lang.Process) error {
 	case "define":
 		return testDefine(p)
 
-	case "define-unit":
+	case "unit":
 		return testUnitDefine(p)
 
 	case "state":
@@ -102,14 +124,20 @@ func cmdTest(p *lang.Process) error {
 	case "run-unit":
 		return testUnitRun(p)
 
-	default:
-		for i := range p.Parameters.StringArray() {
+	case "config":
+		for i := 1; i < p.Parameters.Len(); i++ {
 			err := testConfig(p, i)
 			if err != nil {
 				return err
 			}
 		}
 		return nil
+
+	case "report":
+		return lang.ShellProcess.Tests.WriteResults(p.Config, p.Stdout)
+
+	default:
+		return errUsage(option, nil)
 	}
 }
 
@@ -117,11 +145,11 @@ func testConfig(p *lang.Process, i int) error {
 	option, _ := p.Parameters.String(i)
 
 	switch option {
-	case "enable", "on":
+	case "enable":
 		p.Stdout.Writeln([]byte("Enabling test mode...."))
 		return p.Config.Set("test", "enabled", true)
 
-	case "!enable", "disable", "off":
+	case "!enable":
 		p.Stdout.Writeln([]byte("Disabling test mode...."))
 		return p.Config.Set("test", "enabled", false)
 
@@ -142,20 +170,13 @@ func testConfig(p *lang.Process, i int) error {
 		return p.Config.Set("test", "verbose", false)
 
 	default:
-		return fmt.Errorf(
-			"Invalid parameter: `%s`%sExpected usage: test [ enable | !enable ] [ verbose | !verbose ] [ auto-report | !auto-report ]%s                test define { json-properties }%s                test state { code block }%s                test run { code-block }",
-			option,
-			utils.NewLineString,
-			utils.NewLineString,
-			utils.NewLineString,
-			utils.NewLineString,
-		)
+		return errUsage(option, nil)
 	}
 }
 
 func cmdTestDisable(p *lang.Process) error {
 	if p.Parameters.Len() > 0 {
-		return errors.New("Too many parameters! Usage: `!test` to disable testing")
+		return errUsage("", errors.New("Too many parameters! Usage: `!test` to disable testing"))
 	}
 	return p.Config.Set("test", "enabled", false)
 }

@@ -108,11 +108,11 @@ conditionals output.
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals
+* [commands/`test`](../commands/test.md):
+  _murex_'s test framework - define tests, run tests and debug shell scripts
 * [commands/`true`](../commands/true.md):
   Returns a `true` value
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
 * [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [commands/test](../commands/test.md):
-  

@@ -221,11 +221,6 @@ func matchPartialFlags(f *Flags, partial string, act *AutoCompleteT) {
 			continue
 		}
 		if strings.HasPrefix(flag, partial) {
-			//if flag[len(flag)-1] != '=' {
-			//	flag += " "
-			//}
-
-			//items = append(items, flag[len(partial):])
 			act.append(flag[len(partial):])
 		}
 	}
@@ -233,6 +228,10 @@ func matchPartialFlags(f *Flags, partial string, act *AutoCompleteT) {
 	//sort.Strings(items)
 
 	for flag := range f.FlagsDesc {
+		if !strings.HasPrefix(flag, partial) {
+			continue
+		}
+
 		act.appendDef(flag[len(partial):], f.FlagsDesc[flag])
 	}
 

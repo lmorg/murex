@@ -5,7 +5,6 @@
 [![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
 [![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 [![codecov](https://codecov.io/gh/lmorg/murex/branch/master/graph/badge.svg)](https://codecov.io/gh/lmorg/murex)
-[![Known Vulnerabilities](https://snyk.io/test/github/lmorg/murex/badge.svg?targetFile=Gopkg.lock)](https://snyk.io/test/github/lmorg/murex?targetFile=Gopkg.lock)
 
 ## About _murex_
 
@@ -240,15 +239,15 @@ shell scripts as part of the shell scripts themselves.
 
 For example:
 
-    func hello-world {
-        test define example {
+    function: hello-world {
+        test: define example {
             "StdoutRegex": (^Hello World$)
         }
 
-        out <test_example> "Hello Earth"
+        out: <test_example> "Hello Earth"
     }
 
-    test run { hello-world }
+    test: run { hello-world }
 
 ...will output:
 
@@ -259,6 +258,35 @@ For example:
 If test mode isn't enabled then any `test` commands are skipped without being
 executed so you can liberally include test cases throughout your functions
 without worrying about any performance impact.
+
+#### _murex_ also supports unit tests
+
+For example:
+
+    test: unit function aliases {
+        "PreBlock": ({
+            alias ALIAS_UNIT_TEST=example param1 param2 param3
+        }),
+        "StdoutRegex": "([- _0-9a-zA-Z]+ => .*?\n)+",
+        "StdoutType": "str",
+        "PostBlock": ({
+            !alias ALIAS_UNIT_TEST
+        })
+    }
+
+    function: aliases {
+        # Output the aliases in human readable format
+        runtime: --aliases -> formap: name alias {
+            $name -> sprintf: "%10s => ${esccli @alias}\n"
+        } -> cast: str
+    }
+
+    test: run aliases
+
+...will output:
+
+     Status  Definition Function                                           Line Col. Message
+    [PASSED] (unit)     aliases                                            13   1    All test conditions were met
 
 ## Language guides
 

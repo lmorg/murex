@@ -190,7 +190,7 @@ quotes:
   `echo` a string to the STDOUT with a trailing new line character
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
+* [commands/`test`](../commands/test.md):
+  _murex_'s test framework - define tests, run tests and debug shell scripts
 * [parser/namedpipe](../parser/namedpipe.md):
-  
-* [commands/test](../commands/test.md):
   

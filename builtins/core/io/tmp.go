@@ -13,7 +13,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func main() {
+func init() {
 	lang.GoFunctions["tmp"] = cmdTempFile
 }
 

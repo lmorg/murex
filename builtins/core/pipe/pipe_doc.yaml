@@ -40,7 +40,6 @@
     ```
     !pipe: example
     ```
-
   Flags:
   Detail: |-
     {{ include "gen/includes/variables.inc.md" }}

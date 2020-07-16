@@ -94,6 +94,7 @@ func init() {
 		"swivel-datatype":       "swivel-datatype_commands_docgen.go",
 		"swivel-table":          "swivel-table_commands_docgen.go",
 		"ta":                    "ta_commands_docgen.go",
+		"test":                  "test_commands_docgen.go",
 		"time":                  "time_commands_docgen.go",
 		"tmp":                   "tmp_commands_docgen.go",
 		"tout":                  "tout_commands_docgen.go",
