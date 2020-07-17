@@ -16,6 +16,7 @@ sed -i "s/\$DATE/`date`/;
         gen/website/footer.html
 
 cp gen/website/404.md .
+cp gen/website/markdown.md .
 for f in *.md; do
         gen/website/find-exec.sh $f
 done
