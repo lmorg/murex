@@ -23,5 +23,5 @@ done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
 mkdir /website | true
-mv -v *.html gen/website/*.css ./bin ./docs /website/
+mv *.html gen/website/*.css ./bin ./docs /website/
 echo "Fin!"
