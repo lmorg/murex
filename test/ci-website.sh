@@ -16,11 +16,12 @@ sed -i "s/\$DATE/`date`/;
         gen/website/footer.html
 
 cp gen/website/404.md .
+cp gen/website/markdown.md .
 for f in *.md; do
         gen/website/find-exec.sh $f
 done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
 mkdir /website | true
-mv -v *.html gen/website/*.css ./bin ./docs /website/
+mv *.html gen/website/*.css ./bin ./docs /website/
 echo "Fin!"
