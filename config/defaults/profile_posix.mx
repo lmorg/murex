@@ -119,6 +119,9 @@ autocomplete set go { [{
         go help -> @[^The commands are..^Use]r -> tabulate: --map
     }),
     "FlagValues": {
+        "get": [{
+            "Flags": [ "github.com/" ]
+        }],
         "run": [{
             "Dynamic": ({ go-package }),
             "AutoBranch": true
