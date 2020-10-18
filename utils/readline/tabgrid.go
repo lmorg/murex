@@ -154,7 +154,7 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 		return caption
 	case len(caption) < 5:
 		return caption
-	case len(caption) < iCellWidth:
+	case len(caption) <= iCellWidth:
 		return caption
 	case len(caption)-iCellWidth+6 < 1:
 		return caption[:iCellWidth-1] + "…"

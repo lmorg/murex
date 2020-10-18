@@ -302,7 +302,14 @@ autocomplete set git { [{
             #"IncFiles": true,
             "AllowMultiple": true,
             "Dynamic": ({
-                git status -s -> regexp 'f/^[\ \?]. ["]?(.*?)["]?$/' -> cast str
+                git status -s -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' -> cast str
+            })
+        }],
+        "diff": [{
+            #"IncFiles": true,
+            "AllowMultiple": true,
+            "Dynamic": ({
+                git status -s -> [:1]
             })
         }],
         "mv": [{ 
