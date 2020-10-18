@@ -114,8 +114,14 @@ private go-package {
 }
 
 autocomplete set go { [{
-    "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ],
+    "Flags": [ "help" ],
+    "DynamicDesc": ({
+        go help -> @[^The commands are..^Use]r -> tabulate: --map
+    }),
     "FlagValues": {
+        "get": [{
+            "Flags": [ "github.com/" ]
+        }],
         "run": [{
             "Dynamic": ({ go-package }),
             "AutoBranch": true
@@ -124,6 +130,16 @@ autocomplete set go { [{
             "Dynamic": ({ go-package }),
             "AutoBranch": true,
             "Flags": [ "./..." ]
+        }],
+        "mod": [{
+            "DynamicDesc": ({
+                go help mod -> @[^The commands are..^Use]r -> tabulate: --map
+            })
+        }],
+        "help": [{
+            "DynamicDesc": ({
+                go help -> tabulate: --map
+            })
         }],
         "build": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
         "install": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],

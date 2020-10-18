@@ -3,7 +3,7 @@ package history
 func noColon(line string) string {
 	var escape, qSingle, qDouble, funcStart bool
 
-	for i := range line {
+	for i := 0; i < len(line); i++ {
 		switch line[i] {
 		case '#':
 			return line
@@ -43,7 +43,7 @@ func noColon(line string) string {
 				switch {
 				case !funcStart:
 					line = line[i+1:]
-					//i--
+					funcStart = true
 					continue
 
 				// colon mid command - must split

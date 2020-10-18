@@ -137,23 +137,30 @@ func (rl *Instance) writeTabGrid() {
 			print(seqBgWhite + seqFgBlack)
 		}
 
-		caption := rl.tcPrefix + suggestions[i]
-		if len(caption) > rl.tcMaxLength {
-			var s string
-			switch {
-			case len(caption) < iCellWidth:
-				s = caption
-			case len(caption)-iCellWidth+6 < 1:
-				s = caption[:iCellWidth-1] + "…"
-			default:
-				//s := caption[:4] + "…" + caption[len(caption)-rl.tcMaxLength:]
-				s = caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
-			}
-			caption = s
-		}
+		caption := cropCaption(rl.tcPrefix+suggestions[i], rl.tcMaxLength, iCellWidth)
 
 		printf(" %-"+cellWidth+"s %s", caption, seqReset)
 	}
 
 	rl.tcUsedY = y
+}
+
+func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
+	switch {
+	case iCellWidth == 0:
+		// this condition shouldn't ever happen but lets cover it just in case
+		return ""
+	case len(caption) > tcMaxLength:
+		return caption
+	case len(caption) < 5:
+		return caption
+	case len(caption) < iCellWidth:
+		return caption
+	case len(caption)-iCellWidth+6 < 1:
+		return caption[:iCellWidth-1] + "…"
+	case len(caption) > 5+len(caption)-iCellWidth+6:
+		return caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
+	default:
+		return caption[:iCellWidth-1] + "…"
+	}
 }
