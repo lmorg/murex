@@ -267,9 +267,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	tree, pErr := ParseBlock(block)
 	if pErr.Code != 0 {
-		fork.Stderr.Writeln([]byte(pErr.Message))
+		errMsg := fmt.Sprintf("Syntax error at %d,%d+%d: %s", fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, pErr.Message)
+		fork.Stderr.Writeln([]byte(errMsg))
 		//debug.Json("ParseBlock returned:", pErr)
-		err = errors.New(pErr.Message)
+		err = errors.New(errMsg)
 		return 1, err
 	}
 

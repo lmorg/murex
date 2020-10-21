@@ -52,36 +52,31 @@ func TestParserPipeIn(t *testing.T) {
 			},
 		},
 
-		/*{
+		{
 			Block: `=>foo`,
-			Expected: []parserTestSimpleExpected{
-				{
-					Name:       "foo",
-					Parameters: []string{},
-					Method:     TEST_METHOD,
-				},
-			},
+			Error: true,
 		},
 		{
 			Block: `=> foo`,
-			Expected: []parserTestSimpleExpected{
-				{
-					Name:       "foo",
-					Parameters: []string{},
-					Method:     TEST_METHOD,
-				},
-			},
+			Error: true,
 		},
 		{
 			Block: `  =>  foo`,
-			Expected: []parserTestSimpleExpected{
-				{
-					Name:       "foo",
-					Parameters: []string{},
-					Method:     TEST_METHOD,
-				},
-			},
-		},*/
+			Error: true,
+		},
+
+		{
+			Block: `?foo`,
+			Error: true,
+		},
+		{
+			Block: `? foo`,
+			Error: true,
+		},
+		{
+			Block: `  ?  foo`,
+			Error: true,
+		},
 	}
 
 	testParserSimple(t, tests)
