@@ -269,22 +269,25 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	if pErr.Code != 0 {
 		errMsg := fmt.Sprintf("Syntax error at %d,%d+%d: %s", fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, pErr.Message)
 		fork.Stderr.Writeln([]byte(errMsg))
-		//debug.Json("ParseBlock returned:", pErr)
 		err = errors.New(errMsg)
 		return 1, err
 	}
 
-	procs := compile(&tree, fork.Process)
+	procs, errNo := compile(&tree, fork.Process)
+	if errNo != 0 {
+		errMsg := fmt.Sprintf("Compilation Error at %d,%d+0: %s", fork.FileRef.Line, fork.FileRef.Column, errMessages[errNo])
+		fork.Stderr.Writeln([]byte(errMsg))
+		return errNo, errors.New(errMsg)
+	}
 	if len(procs) == 0 {
 		if debug.Enabled {
-			err = errors.New("Empty code block")
+			err = fmt.Errorf("Compilation Error at %d,%d+0: Empty code block", fork.FileRef.Line, fork.FileRef.Column)
 		}
 		return 0, err
 	}
 
 	if !fork.IsBackground {
 		ForegroundProc.Set(&procs[0])
-		//debug.Json("procs", procs)
 	}
 
 	// Support for different run modes:

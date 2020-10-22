@@ -85,6 +85,70 @@ func TestParserPipeIn(t *testing.T) {
 func TestParserPipeOut(t *testing.T) {
 	tests := []parserTestSimpleConditions{
 		{
+			Block: `foo|`,
+			Error: true,
+		},
+		{
+			Block: `foo |`,
+			Error: true,
+		},
+		{
+			Block: `foo  |  `,
+			Error: true,
+		},
+
+		{
+			Block: `foo->`,
+			Error: true,
+		},
+		{
+			Block: `foo ->`,
+			Error: true,
+		},
+		{
+			Block: `foo  ->  `,
+			Error: true,
+		},
+
+		{
+			Block: `foo=>`,
+			Error: true,
+		},
+		{
+			Block: `foo =>`,
+			Error: true,
+		},
+		{
+			Block: `foo  =>  `,
+			Error: true,
+		},
+
+		{
+			Block: `foo?`,
+			Expected: []parserTestSimpleExpected{
+				{
+					Name:       "foo?",
+					Parameters: []string{},
+					Method:     TEST_NEW_PIPE,
+				},
+			},
+		},
+		{
+			Block: `foo ?`,
+			Error: true,
+		},
+		{
+			Block: `foo  ?  `,
+			Error: true,
+		},
+	}
+
+	testParserSimple(t, tests)
+}
+
+func TestParserPipeLine(t *testing.T) {
+	tests := []parserTestSimpleConditions{
+		{
 			Block: `foo|bar`,
 			Expected: []parserTestSimpleExpected{
 				{

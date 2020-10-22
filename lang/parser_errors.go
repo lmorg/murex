@@ -26,6 +26,8 @@ const (
 	ErrUnclosedIndex
 	ErrUnexpectedParsingError
 	ErrUnexpectedOpenBraceFunc
+
+	ErrPipingToNothing
 )
 
 var errMessages = []string{
@@ -46,6 +48,8 @@ var errMessages = []string{
 	"Unexpected end of script. Variable index used, `[`, but missing closing bracket: `]`",
 	"Unexpected parsing error",
 	"Unexpected opening curly brace. Code blocks cannot be used as function names",
+
+	"Piping out to nothing. Commands should not be terminated by a pipe token (`|`, `->`, `=>`, or ` ?`)",
 }
 
 func raiseErr(code, endByte int) ParserError {

@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 )
 
-func compile(tree *astNodes, parent *Process) (procs []Process) {
+func compile(tree *astNodes, parent *Process) (procs []Process, errNo int) {
 	if parent == nil {
 		panic("nil parent")
 	}
@@ -92,11 +92,19 @@ func compile(tree *astNodes, parent *Process) (procs []Process) {
 		// Define stdout / stderr interfaces:
 		switch {
 		case (*tree)[i].PipeOut:
+			if i+1 == len(procs) {
+				errNo = ErrPipingToNothing
+				return
+			}
 			procs[i+1].Stdin = streams.NewStdin()
 			procs[i].Stdout = procs[i].Next.Stdin
 			procs[i].Stderr = procs[i].Parent.Stderr
 
 		case (*tree)[i].PipeErr:
+			if i+1 == len(procs) {
+				errNo = ErrPipingToNothing
+				return
+			}
 			procs[i+1].Stdin = streams.NewStdin()
 			procs[i].Stdout = procs[i].Parent.Stdout
 			procs[i].Stderr = procs[i].Next.Stdin
