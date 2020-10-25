@@ -8,6 +8,9 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+// InitConf is a table of global config options
+var InitConf = NewConfiguration(0)
+
 // Properties is the Config defaults and descriptions
 type Properties struct {
 	Description string
@@ -37,13 +40,15 @@ type GoFuncProperties struct {
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
 type Config struct {
 	mutex      sync.RWMutex
+	fid        uint32
 	properties map[string]map[string]Properties  // This will be the main configuration metadata for each configuration option
 	values     map[string]map[string]interface{} // This stores the values when no custom getter and setter have been defined
 }
 
 // NewConfiguration creates an new Config object (see above)
-func NewConfiguration() (conf *Config) {
+func NewConfiguration(fid uint32) (conf *Config) {
 	conf = new(Config)
+	conf.fid = fid
 	conf.properties = make(map[string]map[string]Properties)
 	conf.values = make(map[string]map[string]interface{})
 	return
@@ -60,6 +65,11 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 		conf.mutex.Unlock()
 		return fmt.Errorf("Cannot set config. No config has been defined for app `%s`, key `%s`", app, key)
+	}
+
+	if conf.fid > 0 && conf.properties[app][key].Global {
+		conf.mutex.Unlock()
+		return InitConf.Set(app, key, value)
 	}
 
 	switch {
@@ -167,8 +177,8 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 }
 
 // Copy clones the structure
-func (conf *Config) Copy() *Config {
-	clone := NewConfiguration()
+func (conf *Config) Copy(fid uint32) *Config {
+	clone := NewConfiguration(fid)
 
 	conf.mutex.RLock()
 
@@ -180,9 +190,9 @@ func (conf *Config) Copy() *Config {
 		}
 
 		for key := range conf.properties[app] {
-			if conf.properties[app][key].Global {
-				continue
-			}
+			//if conf.properties[app][key].Global {
+			//	continue
+			//}
 			clone.properties[app][key] = conf.properties[app][key]
 			clone.values[app][key] = conf.values[app][key]
 		}

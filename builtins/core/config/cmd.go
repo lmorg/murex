@@ -3,6 +3,7 @@ package cmdconfig
 import (
 	"errors"
 
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -82,7 +83,8 @@ func setConfig(p *lang.Process) error {
 		val, _ = p.Parameters.String(3)
 	}
 
-	return p.Config.Set(app, key, val)
+	//return p.Config.Set(app, key, val)
+	return config.InitConf.Set(app, key, val)
 }
 
 func defaultConfig(p *lang.Process) error {

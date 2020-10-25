@@ -33,7 +33,7 @@ var (
 	GoFunctions = make(map[string]func(*Process) error)
 
 	// InitConf is a table of global config options
-	InitConf = config.NewConfiguration()
+	//InitConf = config.NewConfiguration(0)
 
 	// GlobalVariables is a table of global variables
 	GlobalVariables = NewGlobals()
