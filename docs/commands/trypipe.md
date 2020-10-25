@@ -45,6 +45,8 @@ command.
 
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
+* [commands/`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`switch`](../commands/switch.md):
@@ -52,6 +54,4 @@ command.
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
 * [commands/evil](../commands/evil.md):
-  
-* [commands/fid-list](../commands/fid-list.md):
   

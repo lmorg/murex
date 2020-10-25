@@ -56,6 +56,8 @@ Execute a code block from parameter
   Query or define _murex_ runtime settings
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`murex-parser` ](../commands/murex-parser.md):
+  Runs the _murex_ parser against a block of code 
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
@@ -63,8 +65,6 @@ Execute a code block from parameter
 * [commands/`version` ](../commands/version.md):
   Get _murex_ version
 * [commands/args](../commands/args.md):
-  
-* [commands/murex-parser](../commands/murex-parser.md):
   
 * [commands/params](../commands/params.md):
   

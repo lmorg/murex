@@ -287,6 +287,8 @@ normal operation.
   Event driven programming for shell scripts
 * [commands/`export`](../commands/export.md):
   Define a local variable and set it's value
+* [commands/`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
 * [commands/`format`](../commands/format.md):
@@ -309,8 +311,6 @@ normal operation.
   Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts
-* [commands/fid-list](../commands/fid-list.md):
-  
 * [commands/formap](../commands/formap.md):
   
 * [commands/open](../commands/open.md):

@@ -23,7 +23,7 @@ import (
 
 func init() {
 	lang.GoFunctions["args"] = cmdArgs
-	lang.GoFunctions["params"] = cmdParams
+	//lang.GoFunctions["params"] = cmdParams
 	lang.GoFunctions["source"] = cmdSource
 	lang.GoFunctions["."] = cmdSource
 	lang.GoFunctions["version"] = cmdVersion
@@ -83,7 +83,7 @@ func cmdArgs(p *lang.Process) (err error) {
 	return p.Variables.Set(p, varName, b, types.Json)
 }
 
-func cmdParams(p *lang.Process) error {
+/*func cmdParams(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
 	params := append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
@@ -95,7 +95,7 @@ func cmdParams(p *lang.Process) error {
 
 	_, err = p.Stdout.Write(b)
 	return err
-}
+}*/
 
 func quickHash(s string) string {
 	hasher := md5.New()

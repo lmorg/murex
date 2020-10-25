@@ -1,0 +1,59 @@
+- DocumentID: fid-kill
+  Title: >+
+    `fid-kill`
+  CategoryID: commands
+  Summary: >-
+    Terminate a running _murex_ function
+  Description: |-
+    `fid-kill` will terminate a running _murex_ function in a similar way
+    that the POSIX `kill` (superficially speaking).
+  Usage: |-
+    ```
+    fid-kill fid
+    ```
+  Examples: |-
+  Flags:
+  Detail: |-
+    {{ include "gen/includes/fid-kill.inc.md" }}
+  Synonyms:
+  Related:
+  - fid-list
+  - fid-killall
+  - bg
+  - fg
+  - jobs
+  - exec
+  - murex-update-exe-list
+  - builtins
+  - bexists
+
+
+- DocumentID: fid-killall
+  Title: >+
+    `fid-killall`
+  CategoryID: commands
+  Summary: >-
+    Terminate _ALL_ running _murex_ functions
+  Description: |-
+    `fid-killall` will terminate _ALL_ running _murex_ functions.
+  Usage: |-
+    ```
+    fid-killall
+    ```
+  Examples: |-
+  Flags:
+  Detail: |-
+    `fid-killall` works by the same mechanisms as `fid-kill`, described below:
+
+    {{ include "gen/includes/fid-kill.inc.md" }}
+  Synonyms:
+  Related:
+  - fid-list
+  - fid-kill
+  - bg
+  - fg
+  - jobs
+  - exec
+  - murex-update-exe-list
+  - builtins
+  - bexists

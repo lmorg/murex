@@ -45,6 +45,10 @@ Undefine a summary
 
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
+* [commands/`exec`](../commands/exec.md):
+  Runs an executable
+* [commands/`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
