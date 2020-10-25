@@ -16,16 +16,16 @@ import (
 func TestMxProcess(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block: `pipe: foobar
-					bg { <foobar> }
-					out: "Hello, world!" -> <foobar>
-					!pipe: foobar`,
+			Block: `pipe: TestMxProcess
+					bg { <TestMxProcess> }
+					out: "Hello, world!" -> <TestMxProcess>
+					!pipe: TestMxProcess`,
 			Stdout: "Hello, world!\n",
 		},
 
 		{
-			Block: `alias: foobar=out Hello, world!
-					foobar`,
+			Block: `alias: TestMxProcess=out Hello, world!
+					TestMxProcess`,
 			Stdout: "Hello, world!\n",
 		},
 
@@ -35,8 +35,8 @@ func TestMxProcess(t *testing.T) {
 		},
 
 		{
-			Block: `global: foobar="Hello, world!"
-					$foobar`,
+			Block: `global: TestMxProcess="Hello, world!"
+					$TestMxProcess`,
 			Stdout: "Hello, world!",
 		},
 

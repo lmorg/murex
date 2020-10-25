@@ -28,6 +28,7 @@ const (
 	fGlobals       = "--globals"
 	fExports       = "--exports"
 	fAliases       = "--aliases"
+	fBuiltins      = "--builtins"
 	fConfig        = "--config"
 	fNamedPipes    = "--named-pipes"
 	fPipes         = "--pipes"
@@ -59,6 +60,7 @@ var flags = map[string]string{
 	fGlobals:       types.Boolean,
 	fExports:       types.Boolean,
 	fAliases:       types.Boolean,
+	fBuiltins:      types.Boolean,
 	fConfig:        types.Boolean,
 	fPipes:         types.Boolean,
 	fNamedPipes:    types.Boolean,
@@ -138,6 +140,13 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fExports[2:]] = m
 		case fAliases:
 			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
+		case fBuiltins:
+			var s []string
+			for name := range lang.GoFunctions {
+				s = append(s, name)
+			}
+			sort.Strings(s)
+			ret[fBuiltins[2:]] = s
 		case fConfig:
 			ret[fConfig[2:]] = lang.ShellProcess.Config.DumpRuntime()
 		case fNamedPipes:

@@ -19,7 +19,6 @@ import (
 func init() {
 	lang.GoFunctions["debug"] = cmdDebug
 	lang.GoFunctions["exitnum"] = cmdExitNum
-	lang.GoFunctions["builtins"] = cmdListBuiltins
 	lang.GoFunctions["bexists"] = cmdBuiltinExists
 	lang.GoFunctions["cd"] = cmdCd
 	lang.GoFunctions["os"] = cmdOs
@@ -78,23 +77,6 @@ func cmdExitNum(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Integer)
 	p.Stdout.Writeln([]byte(strconv.Itoa(p.Previous.ExitNum)))
 	return nil
-}
-
-func cmdListBuiltins(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Json)
-
-	var s []string
-	for name := range lang.GoFunctions {
-		s = append(s, name)
-	}
-
-	b, err := json.Marshal(s, p.Stdout.IsTTY())
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Writeln(b)
-	return err
 }
 
 func cmdBuiltinExists(p *lang.Process) error {
