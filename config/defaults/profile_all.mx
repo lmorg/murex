@@ -281,7 +281,14 @@ autocomplete set !function { [{
 } ]}
 
 autocomplete set autocomplete { [{
-    "Flags" : [ "get", "set" ]
+    "Flags": [ "get", "set" ],
+    "FlagValues": {
+        "get": [{
+            "Dynamic": ({
+                runtime --autocomplete -> formap cmd _ { out $cmd } -> cast str
+            })
+        }]
+    }
 }] }
 
 private git-branch {
