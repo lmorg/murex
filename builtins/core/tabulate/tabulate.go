@@ -61,10 +61,10 @@ var desc = map[string]string{
 	//fNoTrim:     "Disable ",
 	fSeparator:   "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
 	fSplitComma:  "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
-	fKeyVal:      "Boolean, discard any records that don't appear key value pairs (auto-enabled when --map used)",
+	fKeyVal:      "Boolean, discard any records that don't appear key value pairs (auto-enabled when " + fMap + " used)",
 	fMap:         "Boolean, return JSON map instead of table",
-	fJoiner:      "String, used with --map to concatenate any trailing records in a given field",
-	fColumnWraps: "Boolean, used with --map to merge trailing lines if the text wraps within the same column",
+	fJoiner:      "String, used with " + fMap + " to concatenate any trailing records in a given field",
+	fColumnWraps: "Boolean, used with " + fMap + " or " + fKeyVal + " to merge trailing lines if the text wraps within the same column",
 	fHelp:        "Boolean, displays this help message",
 }
 
@@ -109,13 +109,14 @@ func cmdTabulate(p *lang.Process) error {
 		case fMap:
 			keyVal = true
 		case fColumnWraps:
-			if !keyVal {
-				return fmt.Errorf("Cannot use %s without %s or %s being set", fColumnWraps, fKeyVal, fMap)
-			}
 			columnWraps = true
 		case fHelp:
 			return help(p)
 		}
+	}
+
+	if !keyVal && columnWraps {
+		return fmt.Errorf("Cannot use %s without %s or %s being set", fColumnWraps, fKeyVal, fMap)
 	}
 
 	if err := p.ErrIfNotAMethod(); err != nil {
