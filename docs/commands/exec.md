@@ -57,7 +57,7 @@ handles any programs that aren't native to _murex_.
 * [commands/`fid-kill`](../commands/fid-kill.md):
   Terminate a running _murex_ function
 * [commands/`fid-killall`](../commands/fid-killall.md):
-  Terminate _ALL_ running _murex_ functions
+  Terminate _all_ running _murex_ functions
 * [commands/`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
 * [commands/`let`](../commands/let.md):

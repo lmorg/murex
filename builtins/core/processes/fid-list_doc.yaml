@@ -13,15 +13,27 @@
     ```
     fid-list [ flag ] -> <stdout>
     ```
-  Examples: |-
+
+    `jobs` is an alias for `fid-list: --jobs`:
+    ```
+    jobs -> <stdout>
+    ```
+  #Examples: |-
   Flags:
-    --csv: Output table in a `csv` format
-    --jsonl: Output table in a jsonlines (`jsonl`) format (defaulted to when piped)
-    --tty: Force default TTY output even when piped
-    --jobs: Show background and stopped jobs
-    --stopped: Returns a `json` map of stopped jobs
-    --background: Returns a `json` map of background jobs
-    --help: Outputs a list of parameters and a descriptions
+    --csv: >-
+      Output table in a `csv` format
+    --jsonl: >-
+      Output table in a jsonlines (`jsonl`) format (defaulted to when piped)
+    --tty: >-
+      Force default TTY output even when piped
+    --jobs: >-
+      Show background and stopped jobs
+    --stopped: >-
+      Returns a `json` map of stopped jobs
+    --background: >-
+      Returns a `json` map of background jobs
+    --help: >-
+      Outputs a list of parameters and a descriptions
   Detail: |-
     Because _murex_ is a multi-threaded shell, builtins are not forked processes
     like in a traditional / POSIX shell. This means that you cannot use the
@@ -35,6 +47,8 @@
     * any external processes that were launched from within this shell session
     * any background functions or processes of any of the above
   Synonyms:
+    - fid-list
+    - jobs
   Related:
   - fid-kill
   - fid-killall

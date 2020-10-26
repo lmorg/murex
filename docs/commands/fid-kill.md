@@ -33,7 +33,7 @@ PID (process ID). You can obtain a FID from `fid-list`.
 * [commands/`fg`](../commands/fg.md):
   Sends a background process into the foreground
 * [commands/`fid-killall`](../commands/fid-killall.md):
-  Terminate _ALL_ running _murex_ functions
+  Terminate _all_ running _murex_ functions
 * [commands/`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):

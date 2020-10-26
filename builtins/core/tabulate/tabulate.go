@@ -2,7 +2,6 @@ package tabulate
 
 import (
 	"bufio"
-	"encoding/csv"
 	"fmt"
 	"regexp"
 	"strings"
@@ -38,29 +37,35 @@ var (
 
 const (
 	//fNoTrim     = "--no-trim"
-	fSeparator  = "--separator"
-	fSplitComma = "--split-comma"
-	fMap        = "--map"
-	fJoiner     = "--joiner"
-	fHelp       = "--help"
+	fSeparator   = "--separator"
+	fSplitComma  = "--split-comma"
+	fKeyVal      = "--key-value"
+	fMap         = "--map"
+	fJoiner      = "--joiner"
+	fColumnWraps = "--column-wraps"
+	fHelp        = "--help"
 )
 
 var flags = map[string]string{
 	//fNoTrim:     types.Boolean,
-	fSeparator:  types.String,
-	fSplitComma: types.Boolean,
-	fMap:        types.Boolean,
-	fJoiner:     types.String,
-	fHelp:       types.Boolean,
+	fSeparator:   types.String,
+	fSplitComma:  types.Boolean,
+	fKeyVal:      types.Boolean,
+	fMap:         types.Boolean,
+	fJoiner:      types.String,
+	fColumnWraps: types.Boolean,
+	fHelp:        types.Boolean,
 }
 
 var desc = map[string]string{
 	//fNoTrim:     "Disable ",
-	fSeparator:  "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
-	fSplitComma: "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
-	fMap:        "Boolean, return JSON map instead of table",
-	fJoiner:     "String, used with --map to concatenate any trailing records in a given field",
-	fHelp:       "Boolean, displays this help message",
+	fSeparator:   "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
+	fSplitComma:  "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
+	fKeyVal:      "Boolean, discard any records that don't appear key value pairs (auto-enabled when --map used)",
+	fMap:         "Boolean, return JSON map instead of table",
+	fJoiner:      "String, used with --map to concatenate any trailing records in a given field",
+	fColumnWraps: "Boolean, used with --map to merge trailing lines if the text wraps within the same column",
+	fHelp:        "Boolean, displays this help message",
 }
 
 func cmdTabulate(p *lang.Process) error {
@@ -77,13 +82,16 @@ func cmdTabulate(p *lang.Process) error {
 
 	var (
 		//trim       = true
-		separator  = constSeparator
-		splitComma = false
-		joiner     = " "
-		w          writer
+		separator   = constSeparator
+		splitComma  = false
+		keyVal      = false
+		joiner      = " "
+		columnWraps = false
+		w           writer
 
-		firstRec bool
+		//firstRec bool
 		offByOne bool
+		last     string
 	)
 
 	for flag, value := range f {
@@ -94,12 +102,17 @@ func cmdTabulate(p *lang.Process) error {
 			separator = value
 		case fSplitComma:
 			splitComma = true
+		case fKeyVal:
+			keyVal = true
 		case fJoiner:
 			joiner = value
 		case fMap:
-			// check this afterwards just in case fJoiner
-			// hasn't yet been processed (which can change
-			// the bahavior of fMap)
+			keyVal = true
+		case fColumnWraps:
+			if !keyVal {
+				return fmt.Errorf("Cannot use %s without %s or %s being set", fColumnWraps, fKeyVal, fMap)
+			}
+			columnWraps = true
 		case fHelp:
 			return help(p)
 		}
@@ -119,10 +132,10 @@ func cmdTabulate(p *lang.Process) error {
 
 	if f[fMap] == "" {
 		p.Stdout.SetDataType("csv")
-		w = csv.NewWriter(p.Stdout)
+		w = newCsvWriter(p.Stdout, joiner, columnWraps)
 	} else {
 		p.Stdout.SetDataType(types.Json)
-		w = newMapWriter(p.Stdout, joiner)
+		w = newMapWriter(p.Stdout, joiner, columnWraps)
 	}
 
 	rxTableSplit, err := regexp.Compile(separator)
@@ -153,8 +166,8 @@ func cmdTabulate(p *lang.Process) error {
 			continue
 		}
 
-		firstRec = true
-		if firstRec && split[0] == "" {
+		//firstRec = true
+		if /*firstRec &&*/ split[0] == "" {
 			offByOne = true
 		}
 
@@ -180,6 +193,20 @@ func cmdTabulate(p *lang.Process) error {
 		}
 
 	noSplit:
+		if keyVal {
+			if len(split) < 2 || split[0] == "" {
+				if columnWraps && last != "" {
+					err := w.Merge(last, strings.Join(split, ""))
+					if err != nil {
+						return err
+					}
+				}
+				// else silently ignore
+				continue
+			} else {
+				last = split[0]
+			}
+		}
 		err := w.Write(split)
 		if err != nil {
 			return err

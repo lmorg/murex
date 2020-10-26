@@ -52,6 +52,7 @@
   - fid-killall
   - fg
   - jobs
+  - exec
 
 - DocumentID: fg
   Title: >+
@@ -79,3 +80,4 @@
   - fid-killall
   - bg
   - jobs
+  - exec

@@ -14,6 +14,9 @@ Multiple flags cannot be used with each other.
 ## Usage
 
     fid-list [ flag ] -> <stdout>
+    
+`jobs` is an alias for `fid-list: --jobs`:
+    jobs -> <stdout>
 
 ## Flags
 
@@ -46,6 +49,12 @@ include:
 * any external processes that were launched from within this shell session
 * any background functions or processes of any of the above
 
+## Synonyms
+
+* `fid-list`
+* `jobs`
+
+
 ## See Also
 
 * [commands/`bg`](../commands/bg.md):
@@ -57,7 +66,7 @@ include:
 * [commands/`fid-kill`](../commands/fid-kill.md):
   Terminate a running _murex_ function
 * [commands/`fid-killall`](../commands/fid-killall.md):
-  Terminate _ALL_ running _murex_ functions
+  Terminate _all_ running _murex_ functions
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):

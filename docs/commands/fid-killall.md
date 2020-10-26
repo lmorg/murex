@@ -2,11 +2,11 @@
 
 ## Command Reference: `fid-killall`
 
-> Terminate _ALL_ running _murex_ functions
+> Terminate _all_ running _murex_ functions
 
 ## Description
 
-`fid-killall` will terminate _ALL_ running _murex_ functions.
+`fid-killall` will terminate _all_ running _murex_ functions.
 
 ## Usage
 

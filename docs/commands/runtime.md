@@ -12,6 +12,9 @@ will be JSON dumps.
 ## Usage
 
     runtime: flags -> <stdout>
+    
+`builtins` is an alias for `runtime: --builtins`:
+    builtins -> <stdout>
 
 ## Examples
 
@@ -139,6 +142,8 @@ flag names. eg
     Lists some data about cached ASTs 
 * `--autocomplete`
     Lists all `autocomplete` schemas - both user defined and automatically generated one
+* `--builtins`
+    Lists all builtin commands, compiled into _murex_
 * `--config`
     Lists all properties available to `config
 * `--debug`
@@ -272,6 +277,12 @@ Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
     
 This is to prevent code from inspecting potentially sensitive data under
 normal operation.
+
+## Synonyms
+
+* `runtime`
+* `builtins`
+
 
 ## See Also
 

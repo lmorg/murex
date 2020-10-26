@@ -120,7 +120,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`fid-kill`](commands/fid-kill.md):
   Terminate a running _murex_ function
 * [`fid-killall`](commands/fid-killall.md):
-  Terminate _ALL_ running _murex_ functions
+  Terminate _all_ running _murex_ functions
 * [`fid-list`](commands/fid-list.md):
   Lists all running functions within the current _murex_ session
 * [`for`](commands/for.md):
