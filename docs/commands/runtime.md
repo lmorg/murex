@@ -12,6 +12,9 @@ will be JSON dumps.
 ## Usage
 
     runtime: flags -> <stdout>
+    
+`builtins` is an alias for `runtime: --builtins`:
+    builtins -> <stdout>
 
 ## Examples
 
@@ -139,6 +142,8 @@ flag names. eg
     Lists some data about cached ASTs 
 * `--autocomplete`
     Lists all `autocomplete` schemas - both user defined and automatically generated one
+* `--builtins`
+    Lists all builtin commands, compiled into _murex_
 * `--config`
     Lists all properties available to `config
 * `--debug`
@@ -273,6 +278,12 @@ Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
 This is to prevent code from inspecting potentially sensitive data under
 normal operation.
 
+## Synonyms
+
+* `runtime`
+* `builtins`
+
+
 ## See Also
 
 * [commands/`[` (index)](../commands/index.md):
@@ -287,6 +298,8 @@ normal operation.
   Event driven programming for shell scripts
 * [commands/`export`](../commands/export.md):
   Define a local variable and set it's value
+* [commands/`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
 * [commands/`format`](../commands/format.md):
@@ -309,8 +322,6 @@ normal operation.
   Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts
-* [commands/fid-list](../commands/fid-list.md):
-  
 * [commands/formap](../commands/formap.md):
   
 * [commands/open](../commands/open.md):

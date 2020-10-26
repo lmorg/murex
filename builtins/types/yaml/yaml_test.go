@@ -19,8 +19,6 @@ func TestReadArray(t *testing.T) {
 }
 
 func TestReadMap(t *testing.T) {
-	config := config.NewConfiguration()
-
 	input := []byte("foo: oof\nbar: rab\n")
 
 	expected := []test.ReadMapExpected{
@@ -36,7 +34,7 @@ func TestReadMap(t *testing.T) {
 		},
 	}
 
-	test.ReadMapUnorderedTest(t, typeName, input, expected, config)
+	test.ReadMapUnorderedTest(t, typeName, input, expected, config.InitConf)
 }
 
 func TestArrayWriter(t *testing.T) {

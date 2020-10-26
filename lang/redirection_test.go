@@ -72,7 +72,7 @@ func TestRedirection(t *testing.T) {
 func TestRedirectionParserBug(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:   "params -> [ <!null> 10 ]",
+			Block:   "$ARGS -> [ <!null> 10 ]",
 			Stdout:  "",
 			Stderr:  "",
 			ExitNum: 1,

@@ -35,11 +35,40 @@ then you could prefix the variable with exec:
     » exec printf "Hello, world!"
     Hello, world!
 
+## Detail
+
+If any command doesn't exist as a builtin, function nor alias, then _murex_
+will default to forking out to any command with this name (subject to an
+absolute path or the order of precedence in `$PATH`). Any forked process will
+show up in both the operating systems process viewer (eg `ps`) but also
+_murex_'s own process viewer, `fid-list`. However inside `fid-list` you will
+notice that all external processes are listed as `exec` with the process name
+as part of `exec`'s parameters. That is because that is literally how _murex_
+handles any programs that aren't native to _murex_.
+
 ## See Also
 
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function
+* [commands/`bg`](../commands/bg.md):
+  Run processes in the background
+* [commands/`fg`](../commands/fg.md):
+  Sends a background process into the foreground
+* [commands/`fid-kill`](../commands/fid-kill.md):
+  Terminate a running _murex_ function
+* [commands/`fid-killall`](../commands/fid-killall.md):
+  Terminate _all_ running _murex_ functions
+* [commands/`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
+* [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+  Forces _murex_ to rescan $PATH looking for exectables
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
+* [commands/bexists](../commands/bexists.md):
+  
+* [commands/builtins](../commands/builtins.md):
+  
+* [commands/jobs](../commands/jobs.md):
+  

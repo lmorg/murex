@@ -14,7 +14,7 @@ import (
 func TestDefaultConfigExists(t *testing.T) {
 	count.Tests(t, 1)
 
-	conf := config.NewConfiguration()
+	conf := config.InitConf.Copy()
 
 	defaults.Defaults(conf, false)
 
@@ -28,9 +28,9 @@ func TestDefaultConfigExists(t *testing.T) {
 func TestDefaultProfileCompiles(t *testing.T) {
 	count.Tests(t, 1)
 
-	defaults.Defaults(lang.InitConf, false)
+	defaults.Defaults(config.InitConf, false)
 	lang.InitEnv()
-	lang.ShellProcess.Config = lang.InitConf
+	lang.ShellProcess.Config = config.InitConf
 
 	//stderr := streams.NewStdin()
 	//exitNum, err := lang.RunBlockShellConfigSpace(defaults.DefaultMurexProfile(), nil, nil, stderr)

@@ -24,7 +24,7 @@ func InitEnv() {
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Previous = ShellProcess
 	ShellProcess.Next = ShellProcess
-	ShellProcess.Config = InitConf.Copy()
+	ShellProcess.Config = config.InitConf //InitConf.Copy(ShellProcess.Id)
 	ShellProcess.Tests = NewTests(ShellProcess)
 	ShellProcess.Variables = NewVariables(ShellProcess)
 	ShellProcess.RunMode = runmode.Shell
@@ -55,7 +55,7 @@ func NewTestProcess() (p *Process) {
 	p.Stdin = new(null.Null)
 	p.Stdout = new(null.Null)
 	p.Stderr = new(null.Null)
-	p.Config = config.NewConfiguration()
+	p.Config = config.InitConf.Copy()
 	p.Variables = NewVariables(p)
 	p.FileRef = &ref.File{Source: &ref.Source{Module: "builtin/testing"}}
 	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)

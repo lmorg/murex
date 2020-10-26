@@ -1,0 +1,86 @@
+- DocumentID: summary
+  Title: >+
+    `summary` 
+  CategoryID: commands
+  Summary: >-
+    Defines a summary help text for a command
+  Description: |-
+    `summary` define help text for a command. This is effectively like a tooltip
+    message that appears, by default, in blue in the interactive shell.
+
+    Normally this text is populated from the `man` pages or `murex-docs`, however
+    if neither exist or if you wish to override their text, then you can use
+    `summary` to define that text.
+  Usage: |-
+    Define a commands summary
+
+    ```
+    summary command description
+    ```
+
+    Undefine a summary
+
+    ```
+    !summary command
+    ```
+
+  Examples: |-
+    Define a commands summary
+
+    ```
+    » summary: foobar "Hello, world!"
+    » runtime: --summaries -> [ foobar ]
+    Hello, world! 
+    ```
+
+    Undefine a summary
+
+    ```
+    » !summary: foobar
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  - summary
+  - "!summary"
+  Related:
+  - config
+  - runtime
+  - murex-docs
+  - murex-update-exe-list
+  - builtins
+  - bexists
+  - exec
+  - fid-list
+
+
+- DocumentID: murex-parser
+  Title: >+
+    `murex-parser` 
+  CategoryID: commands
+  Summary: >-
+    Runs the _murex_ parser against a block of code 
+  Description: |-
+    `summary` define help text for a command. This is effectively like a tooltip
+    message that appears, by default, in blue in the interactive shell.
+
+    Normally this text is populated from the `man` pages or `murex-docs`, however
+    if neither exist or if you wish to override their text, then you can use
+    `summary` to define that text.
+  Usage: |-
+    ```
+    <stdin> -> murex-parser -> <stdout>
+
+    murex-parser { code-block } -> <stdout>
+  Examples: |-
+  Flags:
+  Detail:
+    Please note this command is still very much in beta and is likely to change
+    in incompatible ways in the future. If you do happen to like this command
+    and/or have any suggestions on how to improve it, then please leave your
+    feedback on the GitHub repository, https://github.com/lmorg/murex
+  Synonyms:
+  Related:
+  - config
+  - runtime
+  - murex-docs

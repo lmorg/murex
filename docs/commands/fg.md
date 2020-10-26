@@ -23,11 +23,13 @@ for Windows (due to the kernel not supporting the right signals) nor Plan 9.
 
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/fid-kill](../commands/fid-kill.md):
-  
-* [commands/fid-killall](../commands/fid-killall.md):
-  
-* [commands/fid-list](../commands/fid-list.md):
-  
+* [commands/`exec`](../commands/exec.md):
+  Runs an executable
+* [commands/`fid-kill`](../commands/fid-kill.md):
+  Terminate a running _murex_ function
+* [commands/`fid-killall`](../commands/fid-killall.md):
+  Terminate _all_ running _murex_ functions
+* [commands/`fid-list`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/jobs](../commands/jobs.md):
   

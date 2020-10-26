@@ -117,6 +117,12 @@ to return the same markdown-formatted document as those listed below. eg
   Returns a `false` value
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
+* [`fid-kill`](commands/fid-kill.md):
+  Terminate a running _murex_ function
+* [`fid-killall`](commands/fid-killall.md):
+  Terminate _all_ running _murex_ functions
+* [`fid-list`](commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [`for`](commands/for.md):
   A more familiar iteration loop to existing developers
 * [`foreach`](commands/foreach.md):
@@ -165,6 +171,8 @@ to return the same markdown-formatted document as those listed below. eg
   Displays the man pages for _murex_ builtins
 * [`murex-package`](commands/murex-package.md):
   _murex_'s package manager
+* [`murex-parser` ](commands/murex-parser.md):
+  Runs the _murex_ parser against a block of code 
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
 * [`null`](commands/devnull.md):

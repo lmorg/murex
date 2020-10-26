@@ -13,7 +13,7 @@ import (
 func TestAnsiColoured(t *testing.T) {
 	count.Tests(t, 1)
 
-	lang.ShellProcess.Config = config.NewConfiguration()
+	lang.ShellProcess.Config = config.InitConf
 	lang.ShellProcess.Config.Define("shell", "color", config.Properties{
 		DataType:    types.Boolean,
 		Default:     true,
@@ -40,7 +40,7 @@ func TestAnsiColoured(t *testing.T) {
 func TestAnsiNoColour(t *testing.T) {
 	count.Tests(t, 1)
 
-	lang.ShellProcess.Config = config.NewConfiguration()
+	lang.ShellProcess.Config = config.InitConf
 	lang.ShellProcess.Config.Define("shell", "color", config.Properties{
 		DataType:    types.Boolean,
 		Default:     false,

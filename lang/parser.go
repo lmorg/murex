@@ -430,7 +430,12 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case scanFuncName && len(*pop) == 0:
 				pUpdate(r)
+				if i < len(block)-1 && block[i+1] == '>' {
+					pErr = raiseErr(ErrUnexpectedPipeTokenEqGt, i)
+					return
+				} //else {
 				startParameters()
+				//}
 			default:
 				pUpdate(r)
 			}
@@ -563,7 +568,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case braceCount > 0:
 				pUpdate(r)
 			case len(node.Name) == 0:
-				pErr = raiseErr(ErrUnexpectedPipeToken, i)
+				pErr = raiseErr(ErrUnexpectedPipeTokenPipe, i)
 				return
 			default:
 				node.PipeOut = true
@@ -585,7 +590,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case braceCount > 0:
 				pUpdate(r)
 			case len(node.Name) == 0:
-				pErr = raiseErr(ErrUnexpectedPipeToken, i)
+				pErr = raiseErr(ErrUnexpectedPipeTokenQm, i)
 				return
 			case last == ' ' || last == '\t':
 				node.PipeErr = true

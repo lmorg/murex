@@ -11,6 +11,11 @@
     ```
     runtime: flags -> <stdout>
     ```
+
+    `builtins` is an alias for `runtime: --builtins`:
+    ```
+    builtins -> <stdout>
+    ```
   Examples: |-
     List all the builtin data-types that support WriteArray()
     
@@ -144,6 +149,8 @@
       Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables`
     --aliases: >-
       Lists all aliases
+    --builtins: >-
+      Lists all builtin commands, compiled into _murex_
     --config: >-
       Lists all properties available to `config`
     --named-pipes: >-
@@ -279,6 +286,8 @@
     This is to prevent code from inspecting potentially sensitive data under
     normal operation.
   Synonyms:
+    - runtime
+    - builtins
   Related:
   - set
   - let

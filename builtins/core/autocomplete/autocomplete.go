@@ -37,7 +37,15 @@ func cmdAutocomplete(p *lang.Process) error {
 func get(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	b, err := json.Marshal(autocomplete.ExesFlags, p.Stdout.IsTTY())
+	var v interface{}
+	cmd, err := p.Parameters.String(1)
+	if err != nil {
+		v = autocomplete.ExesFlags
+	} else {
+		v = autocomplete.ExesFlags[cmd]
+	}
+
+	b, err := json.Marshal(v, p.Stdout.IsTTY())
 	if err != nil {
 		return err
 	}

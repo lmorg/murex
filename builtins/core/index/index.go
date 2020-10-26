@@ -10,13 +10,11 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-//type jsonInterface map[interface{}]interface{}
-
 func init() {
 	lang.GoFunctions["["] = index
 	lang.GoFunctions["!["] = index
 
-	lang.InitConf.Define("index", "silent", config.Properties{
+	config.InitConf.Define("index", "silent", config.Properties{
 		Description: "Don't report error if an index in [ ] does not exist",
 		Default:     false,
 		DataType:    types.Boolean,

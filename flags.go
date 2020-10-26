@@ -7,7 +7,6 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -45,7 +44,7 @@ func readFlags() {
 		os.Exit(1)
 	}
 
-	lang.InitConf.Define("shell", "echo", config.Properties{
+	config.InitConf.Define("shell", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
 		DataType:    types.Boolean,

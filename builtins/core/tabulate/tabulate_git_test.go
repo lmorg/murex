@@ -85,7 +85,7 @@ func TestTabulateGit(t *testing.T) {
 		cmdTabulate, "tabulate",
 		inGit,
 		types.Generic,
-		[]string{"--map"},
+		[]string{fMap},
 		jsonGit,
 		nil,
 	)

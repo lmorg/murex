@@ -6,6 +6,7 @@ require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/abesto/sexp v0.0.1
+	github.com/aws/aws-sdk-go v1.35.14
 	github.com/boombuler/barcode v1.0.0
 	github.com/eliukblau/pixterm v1.3.1
 	github.com/fsnotify/fsnotify v1.4.9

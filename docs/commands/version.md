@@ -44,6 +44,8 @@ Ran with the `--short` parameter
   Query or define _murex_ runtime settings
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`murex-parser` ](../commands/murex-parser.md):
+  Runs the _murex_ parser against a block of code 
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
@@ -51,8 +53,6 @@ Ran with the `--short` parameter
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
 * [commands/args](../commands/args.md):
-  
-* [commands/murex-parser](../commands/murex-parser.md):
   
 * [commands/params](../commands/params.md):
   

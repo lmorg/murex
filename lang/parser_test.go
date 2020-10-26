@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"runtime/debug"
 	"testing"
 
 	"github.com/lmorg/murex/lang/proc/parameters"
@@ -14,10 +15,20 @@ type parserTestConditions struct {
 }
 
 func testParser(t *testing.T, tests []parserTestConditions) {
+	var j, i int
+
+	defer func() {
+		if r := recover(); r != nil {
+			t.Errorf("Panic caught in test %d, node %d: %s\n%s\n%s", j, i, tests[j].Block, r, string(debug.Stack()))
+		}
+	}()
+
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	for j := range tests {
+	InitEnv()
+
+	for j = range tests {
 		exp := tests[j].Expected
 
 		nodes, pErr := parser([]rune(tests[j].Block))
@@ -27,6 +38,19 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 			t.Logf("  Test #:    %d", j)
 			t.Logf("  Block:     %s", tests[j].Block)
 			t.Logf("  Error Msg: %s", pErr.Message)
+			t.Logf("  Expected:  %s", string(jsonExp))
+			t.Logf("  Actual:    n/a")
+			continue
+		}
+
+		// compile just in case any parser validation is deferred to the compiler
+		_, errNo := compile(&nodes, ShellProcess)
+		if errNo != 0 {
+			jsonExp, _ := json.Marshal(exp, false)
+			t.Error("Unable to compile valid command line:")
+			t.Logf("  Test #:    %d", j)
+			t.Logf("  Block:     %s", tests[j].Block)
+			t.Logf("  Error Msg: %s", errMessages[errNo])
 			t.Logf("  Expected:  %s", string(jsonExp))
 			t.Logf("  Actual:    n/a")
 			continue
@@ -44,7 +68,7 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 			continue
 		}
 
-		for i := range nodes {
+		for i = range nodes {
 			switch {
 
 			case nodes[i].NewChain != exp[i].NewChain:
@@ -123,12 +147,20 @@ const (
 )
 
 func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
+	var j, i int
+
+	defer func() {
+		if r := recover(); r != nil {
+			t.Errorf("Panic caught in test %d, node %d: %s\n%s\n%s", j, i, tests[j].Block, r, string(debug.Stack()))
+		}
+	}()
+
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	//InitEnv()
+	InitEnv()
 
-	for j := range tests {
+	for j = range tests {
 		exp := tests[j].Expected
 
 		nodes, pErr := parser([]rune(tests[j].Block))
@@ -145,7 +177,48 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 			continue
 		}
 
-		for i := range nodes {
+		// compile just in case any parser validation is deferred to the compiler
+		_, errNo := compile(&nodes, ShellProcess)
+		if errNo != 0 {
+			if !tests[j].Error {
+				jsonExp, _ := json.Marshal(exp, false)
+				t.Error("Unable to compile valid command line:")
+				t.Logf("  Test #:    %d", j)
+				t.Logf("  Block:     %s", tests[j].Block)
+				t.Logf("  Error Msg: %s", errMessages[errNo])
+				t.Logf("  Expected:  %s", string(jsonExp))
+				t.Logf("  Actual:    n/a")
+			}
+			continue
+		}
+
+		if tests[j].Error {
+			jsonExp, _ := json.Marshal(exp, false)
+			jsonAct, _ := json.Marshal(nodes, false)
+			t.Error("Error expected, no parser nor compiler error raised:")
+			t.Logf("  Test #:    %d", j)
+			t.Logf("  Block:     %s", tests[j].Block)
+			t.Logf("  len(exp):  %d", len(exp))
+			t.Logf("  len(nodes):%d", len(nodes))
+			t.Logf("  Expected:  %s", string(jsonExp))
+			t.Logf("  Actual:    %s", string(jsonAct))
+			continue
+		}
+
+		if len(nodes) != len(exp) {
+			jsonExp, _ := json.Marshal(exp, false)
+			jsonAct, _ := json.Marshal(nodes, false)
+			t.Error("Number of nodes expected different to actual:")
+			t.Logf("  Test #:    %d", j)
+			t.Logf("  Block:     %s", tests[j].Block)
+			t.Logf("  len(exp):  %d", len(exp))
+			t.Logf("  len(nodes):%d", len(nodes))
+			t.Logf("  Expected:  %s", string(jsonExp))
+			t.Logf("  Actual:    %s", string(jsonAct))
+			continue
+		}
+
+		for i = range nodes {
 			switch {
 
 			case nodes[i].NewChain != (exp[i].Method&TEST_NEW_PIPE != 0):

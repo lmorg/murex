@@ -30,13 +30,13 @@ func init() {
 
 	lang.SetFileExtensions(typeName, "csv")
 
-	lang.InitConf.Define("csv", "separator", config.Properties{
+	config.InitConf.Define("csv", "separator", config.Properties{
 		Description: "The delimiter for records in a CSV file.",
 		Default:     `,`,
 		DataType:    types.String,
 	})
 
-	lang.InitConf.Define("csv", "comment", config.Properties{
+	config.InitConf.Define("csv", "comment", config.Properties{
 		Description: "The prefix token for comments in a CSV table.",
 		Default:     `#`,
 		DataType:    types.String,

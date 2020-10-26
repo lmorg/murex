@@ -15,13 +15,12 @@ func init() {
 	lang.GoFunctions["fid-list"] = cmdFidList
 
 	defaults.AppendProfile(`
-	autocomplete: set fid-list { [{
-		"DynamicDesc": ({ fid-list --help })
-	}] }
+		autocomplete: set fid-list { [{
+			"DynamicDesc": ({ fid-list --help })
+		}] }
 
-	alias: jobs=fid-list --jobs
-	config: eval shell safe-commands { -> append jobs }
-`)
+		alias: jobs=fid-list --jobs
+		config: eval shell safe-commands { -> append jobs }`)
 }
 
 func yn(state bool) (s string) {

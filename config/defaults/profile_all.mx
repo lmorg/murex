@@ -181,35 +181,35 @@ autocomplete set config { [{
     "FlagValues": {
         "get": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
             #{ "Dynamic": ({ err $SELF\n$ARGS }) }
         ],               
         "set": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) },
+            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) },
             { "Dynamic": ({
 				switch {
-					case { = `${source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Data-Type ]}`==`bool` } {
+					case { = `${ config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Data-Type ]}`==`bool` } {
 						ja [true,false]
 					}
 
-					case { source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ <!null> Options ] } {
-						source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Options ]
+					case { config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ <!null> Options ] } {
+						config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Options ]
 					}
 					
                 	catch {
-						out ${source { config } -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Default ]}
+						out ${ config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Default ]}
 					}
 				}
 			}) }
         ],
         "eval": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
         ],
         "default": [
             { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ source { config } -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
         ]
     }
 }] }
@@ -281,7 +281,14 @@ autocomplete set !function { [{
 } ]}
 
 autocomplete set autocomplete { [{
-    "Flags" : [ "get", "set" ]
+    "Flags": [ "get", "set" ],
+    "FlagValues": {
+        "get": [{
+            "Dynamic": ({
+                runtime --autocomplete -> formap cmd _ { out $cmd } -> cast str
+            })
+        }]
+    }
 }] }
 
 private git-branch {
@@ -493,3 +500,23 @@ autocomplete: set murex-package {
         }
     }]
 }
+
+alias builtins=runtime --builtins
+
+config eval shell safe-commands {
+    -> alter --merge / ([
+        "builtins", "jobs"
+    ])
+}
+
+summary terraform "Write, Plan, and Create Infrastructure as Code"
+
+autocomplete set terraform {[
+    {
+        "DynamicDesc": ({
+            terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps
+        }),
+        "AllowMultiple": true,
+        "ListView": true
+    }
+]}

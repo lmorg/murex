@@ -11,7 +11,7 @@ completion rules for suggestions in the interactive command line.
 
 ## Usage
 
-    autocomplete get command -> <stdout>
+    autocomplete get [ command ] -> <stdout>
     
     autocomplete set command { mxjson }
 

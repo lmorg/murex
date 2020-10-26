@@ -269,5 +269,8 @@ func DumpVariables(p *Process) map[string]interface{} {
 	}
 	p.Variables.mutex.Unlock()
 
+	m["SELF"] = p.Variables.GetValue("SELF")
+	m["ARGS"] = p.Variables.GetValue("ARGS")
+
 	return m
 }
