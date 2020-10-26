@@ -11,7 +11,7 @@ import (
 func TestConfig(t *testing.T) {
 	count.Tests(t, 2)
 
-	conf := NewConfiguration()
+	conf := InitConf.Copy()
 
 	conf.Define("shell", "prompt", Properties{
 		Description: "test",

@@ -3,12 +3,12 @@ package test
 import (
 	"testing"
 
-	"github.com/lmorg/murex/test/count"
-
-	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import boolean builtins
-	"github.com/lmorg/murex/config/defaults"
+	_ "github.com/lmorg/murex/builtins/core/typemgmt"
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/config/defaults" // import boolean builtins
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/test/count"
 )
 
 // BooleanTest is a basic framework for each boolean test of murex code.
@@ -24,7 +24,7 @@ func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	defaults.Defaults(lang.InitConf, false)
+	defaults.Defaults(config.InitConf, false)
 	lang.InitEnv()
 
 	for i := range tests {

@@ -3,7 +3,7 @@ package csv
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/test"
 )
 
@@ -72,7 +72,7 @@ func TestReadMap(t *testing.T) {
 		},
 	}
 
-	test.ReadMapOrderedTest(t, typeName, input, expected, lang.InitConf)
+	test.ReadMapOrderedTest(t, typeName, input, expected, config.InitConf)
 }
 
 /*func TestArrayWriter(t *testing.T) {

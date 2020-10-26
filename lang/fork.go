@@ -122,7 +122,7 @@ func (p *Process) Fork(flags int) *Fork {
 		GlobalFIDs.Register(fork.Process)
 		fork.fidRegistered = true
 
-		fork.Config = p.Config.Copy(fork.Id)
+		fork.Config = p.Config.Copy()
 
 		fork.newTestScope = true
 		fork.Tests = NewTests(fork.Process)
@@ -160,10 +160,7 @@ func (p *Process) Fork(flags int) *Fork {
 		}
 
 		if flags&F_NEW_CONFIG != 0 {
-			if fork.Id == ShellProcess.Id {
-				panic("Cannot copy ShellProcess.Config before fork has created registered a new FID")
-			}
-			fork.Config = p.Config.Copy(fork.Id)
+			fork.Config = p.Config.Copy()
 		} else {
 			fork.Config = p.Config
 		}

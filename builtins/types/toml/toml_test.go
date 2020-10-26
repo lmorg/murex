@@ -8,8 +8,6 @@ import (
 )
 
 /*func TestReadMap(t *testing.T) {
-	config := config.NewConfiguration()
-
 	input := []byte("[test]\nfoo = \"oof\"\nbar = \"rab\"\n")
 
 	expected := []test.ReadMapExpected{
@@ -25,7 +23,7 @@ import (
 		},
 	}
 
-	test.ReadMapUnorderedTest(t, typeName, input, expected, config)
+	test.ReadMapUnorderedTest(t, typeName, input, expected, config.InitConf)
 }*/
 
 func TestArrayWriter(t *testing.T) {

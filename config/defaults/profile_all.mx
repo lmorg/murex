@@ -502,3 +502,9 @@ autocomplete: set murex-package {
 }
 
 alias builtins=runtime --builtins
+
+config eval shell safe-commands {
+    -> alter --merge / ([
+        "builtins"
+    ])
+}

@@ -4,6 +4,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
@@ -23,7 +24,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	defaults.Defaults(lang.InitConf, false)
+	defaults.Defaults(config.InitConf, false)
 	lang.InitEnv()
 
 	for i := range tests {

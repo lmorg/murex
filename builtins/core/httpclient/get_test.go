@@ -15,7 +15,6 @@ func TestGet(t *testing.T) {
 	addr := StartHTTPServer(t)
 
 	p := lang.NewTestProcess()
-	p.Config = lang.ShellProcess.Config
 	p.Parameters.Params = []string{addr}
 
 	err := cmdGet(p)
@@ -32,7 +31,6 @@ func TestGetFile(t *testing.T) {
 	addr := StartHTTPServer(t)
 
 	p := lang.NewTestProcess()
-	p.Config = lang.ShellProcess.Config
 	p.Parameters.Params = []string{addr}
 
 	err := cmdGetFile(p)
