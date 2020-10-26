@@ -70,12 +70,21 @@ func (n *Named) Close(name string) error {
 		return errors.New("null pipe must not be closed")
 	}
 
-	n.pipes[name].Pipe.Close()
+	n.mutex.Unlock()
 
+	go deletePipe(n, name)
+	return nil
+}
+
+func deletePipe(n *Named, name string) {
+	time.Sleep(2 * time.Second)
+
+	n.mutex.Lock()
+
+	n.pipes[name].Pipe.Close()
 	delete(n.pipes, name)
 
 	n.mutex.Unlock()
-	return nil
 }
 
 // Get a named pipe interface from the named pipe table
