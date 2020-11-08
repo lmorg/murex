@@ -450,68 +450,77 @@ autocomplete set docker { [
     }
 ] }
 
-private docker-compose.services.autocomplete {
-    open docker-compose.yaml -> [ services ] -> formap k v { out "$k" } -> cast str
-}
-
-autocomplete set docker-compose { [{
-    "DynamicDesc": ({
-        docker-compose help @{ $ARGS -> @[1..] } -> tabulate: --map --split-comma
-    }),
-    "FlagValues": {
-        "build": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "create": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "events": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "exec": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "kill": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "logs": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "pause": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "pull": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "push": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "restart": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "run": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "scale": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "start": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "stop": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "top": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "unpause": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }],
-        "up": [{
-            "Dynamic": ({ docker-compose.services.autocomplete })
-        }]
+if { which docker-compose } then {
+    function autocomplete.docker-compose.services {
+        open docker-compose.yaml -> [ services ] -> formap k v { out "$k" } -> cast str
     }
-}] }
+
+    function autocomplete.docker-compose.FlagValues {
+        out '{
+            "build": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "create": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "events": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "exec": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "kill": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "logs": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "pause": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "pull": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "push": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "restart": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "run": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "scale": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "start": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "stop": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "top": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "unpause": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }],
+            "up": [{
+                "Dynamic": ({ autocomplete.docker-compose.services })
+            }]
+        }'
+    }
+
+    function autocomplete.docker-compose.FlagsDesc {
+        docker-compose help -> tabulate: --map --split-comma
+    }
+
+    autocomplete set docker-compose "[{
+        \"FlagsDesc\": ${ autocomplete.docker-compose.FlagsDesc },
+        \"FlagValues\": ${ autocomplete.docker-compose.FlagValues },
+        \"ListView\": true
+    }]"
+}
 
 autocomplete set terraform { [{
     "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
@@ -527,7 +536,7 @@ autocomplete set terraform { [{
 autocomplete set gopass { [{
     "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
     "AllowMultiple": true,
-    "Dynamic": "{ exec: @{ $ARGS -> @[1..] } --generate-bash-completion }",
+    "Dynamic": ({ exec: @ARGS --generate-bash-completion }),
     "AutoBranch": true
 }] }
 
