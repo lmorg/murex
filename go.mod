@@ -13,6 +13,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0
 	github.com/hhatto/gocloc v0.3.3 // indirect
 	github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad
+	github.com/lmorg/readline v0.0.0-20190310235027-80486cdafb40
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
 	golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9

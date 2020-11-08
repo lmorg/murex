@@ -509,7 +509,9 @@ config eval shell safe-commands {
     ])
 }
 
-summary terraform "Write, Plan, and Create Infrastructure as Code"
+!if { man-summary terraform } then {
+    summary terraform "Write, Plan, and Create Infrastructure as Code"
+}
 
 autocomplete set terraform {[
     {
@@ -520,3 +522,31 @@ autocomplete set terraform {[
         "ListView": true
     }
 ]}
+
+!if { man-summary go } then {
+    summary go "Go is a tool for managing Go source code"
+}
+
+!if { man-summary atom } then {
+    summary atom "Github Atom - Text editor / IDE"
+}
+
+!if { man-summary code } then {
+    summary code "Microsoft Visual Studio Code - Text editor / IDE"
+}
+
+autocomplete set zfs {
+    [{
+        "Dynamic": ({
+             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+        })
+    }]
+}
+
+autocomplete set zpool {
+    [{
+        "Dynamic": ({
+             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+        })
+    }]
+}

@@ -112,7 +112,6 @@ func ShowPrompt() {
 			getMultilinePrompt(nLines)
 		} else {
 			block = []rune{}
-			os.Stdout.Write(leftMost())
 			getPrompt()
 		}
 
