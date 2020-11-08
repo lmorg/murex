@@ -450,6 +450,69 @@ autocomplete set docker { [
     }
 ] }
 
+private docker-compose.services.autocomplete {
+    open docker-compose.yaml -> [ services ] -> formap k v { out "$k" } -> cast str
+}
+
+autocomplete set docker-compose { [{
+    "DynamicDesc": ({
+        docker-compose help @{ $ARGS -> @[1..] } -> tabulate: --map --split-comma
+    }),
+    "FlagValues": {
+        "build": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "create": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "events": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "exec": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "kill": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "logs": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "pause": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "pull": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "push": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "restart": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "run": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "scale": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "start": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "stop": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "top": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "unpause": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }],
+        "up": [{
+            "Dynamic": ({ docker-compose.services.autocomplete })
+        }]
+    }
+}] }
+
 autocomplete set terraform { [{
     "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
     "FlagValues": {
@@ -464,7 +527,7 @@ autocomplete set terraform { [{
 autocomplete set gopass { [{
     "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
     "AllowMultiple": true,
-    "Dynamic": "{ exec: @{params} --generate-bash-completion }",
+    "Dynamic": "{ exec: @{ $ARGS -> @[1..] } --generate-bash-completion }",
     "AutoBranch": true
 }] }
 
