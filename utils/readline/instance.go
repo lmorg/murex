@@ -121,6 +121,8 @@ type Instance struct {
 
 	// event
 	evtKeyPress map[string]func(string, []rune, int) *EventReturn
+
+	EnableGetCursorPos bool
 }
 
 // NewInstance is used to create a readline instance and initialise it with sane
@@ -139,6 +141,8 @@ func NewInstance() *Instance {
 	rl.evtKeyPress = make(map[string]func(string, []rune, int) *EventReturn)
 
 	rl.TempDirectory = os.TempDir()
+
+	//rl.EnableGetCursorPos = true
 
 	return rl
 }

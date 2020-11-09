@@ -2,12 +2,10 @@ package shell
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 func getPrompt() {
@@ -60,20 +58,4 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	Prompt.SetPrompt(string(b))
-}
-
-func leftMost() []byte {
-	fd := int(os.Stdout.Fd())
-	w, _, err := readline.GetSize(fd)
-	if err != nil {
-		return utils.NewLineByte
-	}
-
-	b := make([]byte, w+1)
-	for i := 0; i < w; i++ {
-		b[i] = ' '
-	}
-	b[w] = '\r'
-
-	return b
 }

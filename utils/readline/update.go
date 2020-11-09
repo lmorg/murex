@@ -1,8 +1,82 @@
 package readline
 
 import (
+	"os"
+	"regexp"
+	"strconv"
 	"strings"
 )
+
+/*func leftMost() []byte {
+	fd := int(os.Stdout.Fd())
+	w, _, err := GetSize(fd)
+	if err != nil {
+		return []byte{'\r', '\n'}
+	}
+
+	b := make([]byte, w+1)
+	for i := 0; i < w; i++ {
+		b[i] = ' '
+	}
+	b[w] = '\r'
+
+	return b
+}*/
+
+/*func leftMost() {
+	fd := int(os.Stdout.Fd())
+	width, _, err := GetSize(fd)
+	if err != nil {
+		print("\r\n")
+	}
+
+	//s := strings.Repeat(" ",)
+	//moveCursorForwards(width)
+	print(strings.Repeat("  ", width+1))
+	//print("  ")
+	//moveCursorBackwards(width + 1)
+	print("\r")
+}*/
+
+var rxRcvCursorPos = regexp.MustCompile("^\x1b([0-9]+);([0-9]+)R$")
+
+func (rl *Instance) getCursorPos() (x int, y int) {
+	if !rl.EnableGetCursorPos {
+		return 0, 0
+	}
+
+	disable := func(_ string) (int, int) {
+		os.Stderr.WriteString("\r\ngetCursorPos() not supported by terminal emulator, disabling....\r\n")
+		rl.EnableGetCursorPos = false
+		return 0, 0
+	}
+
+	print(seqGetCursorPos)
+	b := make([]byte, 64)
+	i, err := os.Stdin.Read(b)
+	if err != nil {
+		return disable("read")
+	}
+
+	//printf("i %d b '%s'", i, b)
+
+	if !rxRcvCursorPos.Match(b[:i]) {
+		return disable(string("match"))
+	}
+
+	match := rxRcvCursorPos.FindAllStringSubmatch(string(b[:i]), 1)
+	y, err = strconv.Atoi(match[0][1])
+	if err != nil {
+		return disable("y")
+	}
+
+	x, err = strconv.Atoi(match[0][2])
+	if err != nil {
+		return disable("x")
+	}
+
+	return x, y
+}
 
 func moveCursorUp(i int) {
 	if i < 1 {
@@ -58,7 +132,7 @@ func (rl *Instance) moveCursorByAdjust(adjust int) {
 
 func (rl *Instance) insert(r []rune) {
 	for {
-		// I don't really understand why `0` is creaping in at the end of the
+		// I don't really understand why `0` is creeping in at the end of the
 		// array but it only happens with unicode characters.
 		if len(r) > 1 && r[len(r)-1] == 0 {
 			r = r[:len(r)-1]

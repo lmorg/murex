@@ -27,6 +27,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 		}
 	}()
 
+	x, _ := rl.getCursorPos()
+	if x != 0 {
+		print("\r\n")
+	}
 	print(rl.prompt)
 
 	rl.line = []rune{}

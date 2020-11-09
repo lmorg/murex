@@ -34,8 +34,6 @@ func (rl *Instance) initTabGrid() {
 	rl.tcPosX = 1
 	rl.tcPosY = 1
 	rl.tcMaxX = width / (rl.tcMaxLength + 2)
-	//rl.tcMaxX = width / rl.tcMaxLength
-	//rl.tcMaxX = (width/rl.tcMaxLength + 1)
 	rl.tcOffset = 0
 
 	// avoid a divide by zero error
@@ -115,11 +113,9 @@ func (rl *Instance) writeTabGrid() {
 
 	print(seqClearScreenBelow + "\r\n")
 
-	//cellWidth := strconv.Itoa((GetTermWidth() / rl.tcMaxX) - 2)
 	iCellWidth := (GetTermWidth() / rl.tcMaxX) - 2
 	cellWidth := strconv.Itoa(iCellWidth)
-	//cellWidth := strconv.Itoa(GetTermWidth() / rl.tcMaxX)
-	//cellWidth := strconv.Itoa(rl.tcMaxLength)
+
 	x := 0
 	y := 1
 
@@ -153,7 +149,7 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 	case iCellWidth == 0:
 		// this condition shouldn't ever happen but lets cover it just in case
 		return ""
-	case len(caption) > tcMaxLength:
+	case len(caption) < tcMaxLength:
 		return caption
 	case len(caption) < 5:
 		return caption
