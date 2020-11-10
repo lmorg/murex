@@ -59,3 +59,33 @@ func getMultilinePrompt(nLines int) {
 
 	Prompt.SetPrompt(string(b))
 }
+
+// ConfigReadGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos
+func ConfigReadGetCursorPos() (interface{}, error) {
+	return Prompt.EnableGetCursorPos, nil
+}
+
+// ConfigWriteGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos
+func ConfigWriteGetCursorPos(v interface{}) error {
+	switch v.(type) {
+	case bool:
+		Prompt.EnableGetCursorPos = v.(bool)
+
+	case string:
+		switch v.(string) {
+		case types.TrueString:
+			Prompt.EnableGetCursorPos = true
+
+		case types.FalseString:
+			Prompt.EnableGetCursorPos = false
+
+		default:
+			return fmt.Errorf("Expecting 'true' or 'false'. Instead received '%s'", v.(string))
+		}
+
+	default:
+		return fmt.Errorf("Expecting boolean value. Instead received %T", v)
+	}
+
+	return nil
+}

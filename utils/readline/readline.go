@@ -28,7 +28,12 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}()
 
 	x, _ := rl.getCursorPos()
-	if x != 0 {
+	switch x {
+	case -1:
+		print(string(leftMost()))
+	case 0:
+		// do nothing
+	default:
 		print("\r\n")
 	}
 	print(rl.prompt)
@@ -60,7 +65,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	for {
 		go delayedSyntaxTimer(rl, atomic.LoadInt64(&rl.delayedSyntaxCount))
 		rl.viUndoSkipAppend = false
-		b := make([]byte, 1024)
+		b := make([]byte, 1024*1024)
 		var i int
 
 		if !rl.skipStdinRead {

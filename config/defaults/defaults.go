@@ -3,6 +3,8 @@ package defaults
 import (
 	"strings"
 
+	"github.com/lmorg/murex/shell"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -27,6 +29,17 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Default:     `{ out "$linenum » " }`,
 		DataType:    types.CodeBlock,
 		Global:      true,
+	})
+
+	c.Define("shell", "get-cursor-pos", config.Properties{
+		Description: "Toggle support for the getCursorPos ANSI escape sequence to detect when prompt needs to write a new line (more accurate than zsh's wrap mode but also supported by fewer terminal emulators)",
+		Default:     false,
+		DataType:    types.Boolean,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  shell.ConfigReadGetCursorPos,
+			Write: shell.ConfigWriteGetCursorPos,
+		},
 	})
 
 	c.Define("shell", "max-suggestions", config.Properties{
