@@ -13,9 +13,7 @@ import (
 func init() {
 	lang.GoFunctions["alias"] = cmdAlias
 	lang.GoFunctions["!alias"] = cmdUnalias
-	lang.GoFunctions["func"] = cmdFunc
 	lang.GoFunctions["function"] = cmdFunc
-	lang.GoFunctions["!func"] = cmdUnfunc
 	lang.GoFunctions["!function"] = cmdUnfunc
 	lang.GoFunctions["private"] = cmdPrivate
 	//lang.GoFunctions["!private"] = cmdUnprivate

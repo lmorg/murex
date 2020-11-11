@@ -18,8 +18,8 @@ Usage: murex-package install         uri
                      reload
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
-					 status
-					 list            enabled|disabled
+                     status
+                     list            enabled|disabled
 `
 
 func init() {

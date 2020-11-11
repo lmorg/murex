@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-/*func leftMost() []byte {
+func leftMost() []byte {
 	fd := int(os.Stdout.Fd())
 	w, _, err := GetSize(fd)
 	if err != nil {
@@ -21,7 +21,7 @@ import (
 	b[w] = '\r'
 
 	return b
-}*/
+}
 
 /*func leftMost() {
 	fd := int(os.Stdout.Fd())
@@ -42,37 +42,37 @@ var rxRcvCursorPos = regexp.MustCompile("^\x1b([0-9]+);([0-9]+)R$")
 
 func (rl *Instance) getCursorPos() (x int, y int) {
 	if !rl.EnableGetCursorPos {
-		return 0, 0
+		return -1, -1
 	}
 
-	disable := func(_ string) (int, int) {
+	disable := func() (int, int) {
 		os.Stderr.WriteString("\r\ngetCursorPos() not supported by terminal emulator, disabling....\r\n")
 		rl.EnableGetCursorPos = false
-		return 0, 0
+		return -1, -1
 	}
 
 	print(seqGetCursorPos)
 	b := make([]byte, 64)
 	i, err := os.Stdin.Read(b)
 	if err != nil {
-		return disable("read")
+		return disable()
 	}
 
 	//printf("i %d b '%s'", i, b)
 
 	if !rxRcvCursorPos.Match(b[:i]) {
-		return disable(string("match"))
+		return disable()
 	}
 
 	match := rxRcvCursorPos.FindAllStringSubmatch(string(b[:i]), 1)
 	y, err = strconv.Atoi(match[0][1])
 	if err != nil {
-		return disable("y")
+		return disable()
 	}
 
 	x, err = strconv.Atoi(match[0][2])
 	if err != nil {
-		return disable("x")
+		return disable()
 	}
 
 	return x, y

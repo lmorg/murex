@@ -4,14 +4,44 @@ import (
 	"os"
 	"testing"
 
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/userdictionary"
+
 	_ "github.com/lmorg/murex/builtins/core/arraytools"
 	_ "github.com/lmorg/murex/builtins/core/textmanip"
 	_ "github.com/lmorg/murex/builtins/types/json"
-	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/ansi"
 )
+
+func configDefaults(c *config.Config) {
+	c.Define("shell", "spellcheck-enabled", config.Properties{
+		Description: "Enable spellchecking in the interactive prompt",
+		Default:     false,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
+	c.Define("shell", "spellcheck-block", config.Properties{
+		Description: "Code block to run as part of the spellchecker (STDIN the line, STDOUT is array for misspelt words)",
+		Default:     "{ -> aspell list }",
+		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
+	c.Define("shell", "spellcheck-user-dictionary", config.Properties{
+		Description: "An array of words not to count as misspellings",
+		Default:     userdictionary.Get(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  userdictionary.Read,
+			Write: userdictionary.Write,
+		},
+	})
+}
 
 func TestSpellcheckCrLf(t *testing.T) {
 	if os.Getenv("MUREX_TEST_SKIP_SPELLCHECK") != "" {
@@ -21,7 +51,8 @@ func TestSpellcheckCrLf(t *testing.T) {
 
 	count.Tests(t, 1)
 	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
+	//defaults.Defaults(lang.ShellProcess.Config, false)
+	configDefaults(lang.ShellProcess.Config)
 
 	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
 	if err != nil {
@@ -52,7 +83,8 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 
 	count.Tests(t, 1)
 	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
+	//defaults.Defaults(lang.ShellProcess.Config, false)
+	configDefaults(lang.ShellProcess.Config)
 
 	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
 	if err != nil {

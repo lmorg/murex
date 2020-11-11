@@ -174,8 +174,6 @@ func init() {
 		"format":                "format",
 		"function":              "function",
 		"!function":             "function",
-		"func":                  "function",
-		"!func":                 "function",
 		"g":                     "g",
 		"@g":                    "g",
 		"get-type":              "get-type",

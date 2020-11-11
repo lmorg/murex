@@ -37,7 +37,7 @@ autocomplete set systemctl { [
 #    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
 #}
 
-func progress {
+function progress {
     # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
 
     if { = `+"`${os}`==`linux`"+` } then {
