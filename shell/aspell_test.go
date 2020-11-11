@@ -1,4 +1,4 @@
-package shell
+package shell_test
 
 import (
 	"testing"
