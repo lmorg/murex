@@ -55,8 +55,6 @@ There is an order of preference for which commands are looked up:
 
 * `function`
 * `!function`
-* `func`
-* `!func`
 
 
 ## See Also
