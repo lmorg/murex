@@ -77,7 +77,7 @@ func TestMxProcess(t *testing.T) {
 		},
 
 		{
-			Block: `func hello-world {
+			Block: `function hello-world {
 						test define example {
 							"StdoutRegex": (^Hello world$)
 						}

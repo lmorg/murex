@@ -97,7 +97,7 @@ try:
 	if n.pipes[name].Pipe == nil {
 		n.mutex.Unlock()
 
-		if retries == 100 {
+		if retries == 5 {
 			return nil, fmt.Errorf("No pipe with the name `%s` exists, timed out waiting for pipe to be created", name)
 		}
 		time.Sleep(100 * time.Millisecond)
