@@ -237,7 +237,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 func (rl *Instance) escapeSeq(r []rune) {
 	switch string(r) {
-	case string(charEscape):
+	case string([]rune{charEscape}):
 		switch {
 		case rl.modeAutoFind:
 			rl.resetTabFind()
