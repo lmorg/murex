@@ -23,7 +23,7 @@ func runTestCases(t *testing.T, tests []testCase) {
 }
 
 func testMx(t *testing.T, src string, sExp string, fail bool, testNum int) {
-	v, err := mxjson.Unmarshal([]byte(src))
+	v, err := mxjson.Parse([]byte(src))
 	bAct, jsonErr := json.Marshal(v)
 	if jsonErr != nil {
 		t.Errorf("Unable to marshal Go struct from mxjson unmarshaller, this is possibly an error with the standard library: %s", jsonErr.Error())
@@ -41,6 +41,10 @@ func testMx(t *testing.T, src string, sExp string, fail bool, testNum int) {
 		t.Logf("  act str: %s", sAct)
 		t.Log("  exp byt: ", bExp)
 		t.Log("  act byt: ", bAct)
+	}
+
+	if sExp == "" && v == nil {
+		return
 	}
 
 	if sExp != sAct {

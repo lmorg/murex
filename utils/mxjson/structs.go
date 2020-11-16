@@ -53,13 +53,13 @@ func (q *quote) Close() {
 // bracket pairs
 
 type pair struct {
-	s   []int
+	pos []int
 	len int
 }
 
 func newPair() *pair {
 	p := new(pair)
-	p.s = make([]int, 100)
+	p.pos = make([]int, 100)
 	return p
 }
 
@@ -68,10 +68,10 @@ func (p *pair) IsOpen() bool {
 }
 
 func (p *pair) Open(pos int) {
-	if len(p.s) == p.len {
-		p.s = append(p.s, pos)
+	if len(p.pos) == p.len {
+		p.pos = append(p.pos, pos)
 	} else {
-		p.s[p.len] = pos
+		p.pos[p.len] = pos
 	}
 	p.len++
 }

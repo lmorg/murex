@@ -79,6 +79,11 @@ func TestBasicMapsNumbers(t *testing.T) {
 			Json:     `{"1": {"11foo": 11, "12foo": 12}, "2": {"21foo": 21, "22foo": 22} }`,
 			Expected: `{"1":{"11foo":11,"12foo":12},"2":{"21foo":21,"22foo":22}}`,
 		},
+
+		{
+			Json:     `{"1": {"11foo": 1.1, "12foo": 1.2}, "2": {"21foo": 2.1, "22foo": 2.2} }`,
+			Expected: `{"1":{"11foo":1.1,"12foo":1.2},"2":{"21foo":2.1,"22foo":2.2}}`,
+		},
 	}
 
 	runTestCases(t, tests)

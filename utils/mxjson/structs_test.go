@@ -83,7 +83,7 @@ func TestPairOverflow(t *testing.T) {
 	count.Tests(t, 1)
 
 	p := newPair()
-	max := cap(p.s) * cap(p.s)
+	max := cap(p.pos) * cap(p.pos)
 
 	for i := 0; i < max; i++ {
 		p.Open(i)

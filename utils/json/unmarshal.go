@@ -5,6 +5,8 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/utils/mxjson"
 )
 
 // Unmarshal is a wrapper around the standard json.Unmarshal function. This is
@@ -23,6 +25,20 @@ func Unmarshal(data []byte, v interface{}) (err error) {
 // brace quotes (which allows for a cleaner syntax when embedding Murex code as
 // JSON strings) and line comments via the hash, `#`, prefix.
 func UnmarshalMurex(data []byte, v interface{}) error {
+	err := unmarshalMurex(data, v)
+	if err == nil {
+		return nil
+	}
+
+	_, mxerr := mxjson.Parse(data)
+	if mxerr != nil {
+		return mxerr
+	}
+
+	return err
+}
+
+func unmarshalMurex(data []byte, v interface{}) error {
 	var (
 		escape   bool
 		comment  bool

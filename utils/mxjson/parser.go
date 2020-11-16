@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-// Unmarshal converts mxjson file into a Go struct
-func Unmarshal(json []byte) (interface{}, error) {
+// Parse converts mxjson file into a Go struct
+func Parse(json []byte) (interface{}, error) {
 	if len(json) == 0 {
 		return nil, nil
 	}
@@ -30,31 +30,35 @@ func Unmarshal(json []byte) (interface{}, error) {
 	)
 
 	cannotClose := func() (interface{}, error) {
-		return nil, fmt.Errorf("Cannot close `%s` at %d: %s", string([]byte{b}), i, err.Error())
+		return nil, fmt.Errorf("Cannot close `%s` at %d: %s", string([]byte{b}), i+1, err.Error())
 	}
 
 	unexpectedCharacter := func() (interface{}, error) {
-		return nil, fmt.Errorf("Unexpected character `%s` at %d", string([]byte{b}), i)
+		return nil, fmt.Errorf("Unexpected character `%s` at %d", string([]byte{b}), i+1)
 	}
 
 	unexpectedColon := func() (interface{}, error) {
-		return nil, fmt.Errorf("Unexpected `%s` at %d. Colons should just be used to separate keys and values", string([]byte{b}), i)
+		return nil, fmt.Errorf("Unexpected `%s` at %d. Colons should just be used to separate keys and values", string([]byte{b}), i+1)
 	}
 
 	unexpectedComma := func() (interface{}, error) {
-		return nil, fmt.Errorf("Unexpected `%s` at %d. Commas should just be used to separate items mid arrays and maps and not for the end value", string([]byte{b}), i)
+		return nil, fmt.Errorf("Unexpected `%s` at %d. Commas should just be used to separate items mid arrays and maps and not for the end value nor to separate keys and values in a map", string([]byte{b}), i+1)
 	}
 
 	invalidNewLine := func() (interface{}, error) {
-		return nil, fmt.Errorf("Cannot have a new line (eg \\n) within single nor double quotes at %d", i)
+		return nil, fmt.Errorf("Cannot have a new line (eg \\n) within single nor double quotes at %d", i+1)
 	}
 
 	cannotOpen := func() (interface{}, error) {
-		return nil, fmt.Errorf("Cannot use the brace quotes on key names at %d", i)
+		return nil, fmt.Errorf("Cannot use the brace quotes on key names at %d", i+1)
 	}
 
 	cannotReOpen := func() (interface{}, error) {
-		return nil, fmt.Errorf("Quote multiple strings in a key or value block at %d. Should use arrays (`[` and `]`) if multiple values expected", i)
+		return nil, fmt.Errorf("Quote multiple strings in a key or value block at %d. Should use arrays (`[` and `]`) if multiple values expected", i+1)
+	}
+
+	keysOutsideMap := func() (interface{}, error) {
+		return nil, fmt.Errorf("Keys outside of map blocks, `{...}`, at %d", i+1)
 	}
 
 	/*cannotMixArrayTypes := func() (interface{}, error) {
@@ -63,32 +67,37 @@ func Unmarshal(json []byte) (interface{}, error) {
 
 	store := func() error {
 		state++
-		if state == stateEndVal {
-			switch valType {
-			case objBoolean:
-				s := current.String()
-				switch s {
-				case "true":
-					objects.SetValue(true)
-				case "false":
-					objects.SetValue(false)
-				default:
-					return fmt.Errorf("Boolean values should be either 'true' or 'false', instead received '%s'", s)
-				}
 
-			case objNumber:
-				i, err := strconv.Atoi(current.String())
-				if err != nil {
-					return err
-				}
-				objects.SetValue(i)
+		if state != stateEndVal {
+			return nil
+		}
 
-			case objString:
-				objects.SetValue(current.String())
+		pos := i - current.len + 1
 
+		switch valType {
+		case objBoolean:
+			s := current.String()
+			switch s {
+			case "true":
+				objects.SetValue(true)
+			case "false":
+				objects.SetValue(false)
 			default:
-				panic("code shouldn't fail here")
+				return fmt.Errorf("Boolean values should be either 'true' or 'false', instead received '%s' at %d", s, pos)
 			}
+
+		case objNumber:
+			i, err := strconv.ParseFloat(current.String(), 64)
+			if err != nil {
+				return fmt.Errorf("%s at %d", err.Error(), pos)
+			}
+			objects.SetValue(i)
+
+		case objString:
+			objects.SetValue(current.String())
+
+		default:
+			panic("code shouldn't fail here")
 		}
 
 		return nil
@@ -154,6 +163,9 @@ func Unmarshal(json []byte) (interface{}, error) {
 					objects.SetValue(current.String())
 				}
 			case state == stateBeginKey:
+				if objects.len < 0 {
+					return keysOutsideMap()
+				}
 				qSingle.Open(i)
 				current = objects.GetKeyPtr()
 			case state == stateBeginVal:
@@ -175,21 +187,14 @@ func Unmarshal(json []byte) (interface{}, error) {
 				current.Append(b)
 			case qDouble.IsOpen():
 				qDouble.Close()
-				//state++
-				//if state == stateEndVal {
-				//	objects.SetValue(current.String())
-				//}
 				err = store()
 				if err != nil {
 					return nil, err
 				}
 			case state == stateBeginKey:
-				/*switch objects.GetObjType() {
-				case objArrayUndefined:
-					objects.SetObjType(objArrayString)
-				case objArrayNumber, objArrayArray, objArrayMap:
-					return cannotMixArrayTypes()
-				}*/
+				if objects.len < 0 {
+					return keysOutsideMap()
+				}
 				qDouble.Open(i)
 				current = objects.GetKeyPtr()
 			case state == stateBeginVal:
@@ -234,7 +239,7 @@ func Unmarshal(json []byte) (interface{}, error) {
 				current.Append(b)
 				qBrace.Close()
 			default:
-				err = curly.Close()
+				err = qBrace.Close()
 				if err != nil {
 					return cannotClose()
 				}
@@ -412,5 +417,23 @@ func Unmarshal(json []byte) (interface{}, error) {
 
 	}
 
-	return objects.nest[0].value, nil
+	switch {
+	case qSingle.IsOpen():
+		return nil, fmt.Errorf("Single quote, `'`, openned at %d but not closed", qSingle.pos+1)
+
+	case qDouble.IsOpen():
+		return nil, fmt.Errorf("Double quote, `\"`, openned at %d but not closed", qDouble.pos+1)
+
+	case qBrace.IsOpen():
+		return nil, fmt.Errorf("Quote brace, `(`, openned at %d but not closed", qBrace.pos[qBrace.len]+1)
+
+	case square.IsOpen():
+		return nil, fmt.Errorf("Square brace, `(`, openned at %d but not closed", square.pos[square.len]+1)
+
+	case curly.IsOpen():
+		return nil, fmt.Errorf("Curly brace, `(`, openned at %d but not closed", curly.pos[curly.len]+1)
+
+	default:
+		return objects.nest[0].value, nil
+	}
 }
