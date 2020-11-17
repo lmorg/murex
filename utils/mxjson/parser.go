@@ -54,7 +54,7 @@ func Parse(json []byte) (interface{}, error) {
 	}
 
 	cannotReOpen := func() (interface{}, error) {
-		return nil, fmt.Errorf("Quote multiple strings in a key or value block at %d. Should use arrays (`[` and `]`) if multiple values expected", i+1)
+		return nil, fmt.Errorf("Quote multiple strings in a key or value block at %d. Strings should be comma separated and inside arrays block (`[` and `]`) where multiple values are expected", i+1)
 	}
 
 	keysOutsideMap := func() (interface{}, error) {
