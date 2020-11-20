@@ -58,7 +58,6 @@ var flags = map[string]string{
 }
 
 var desc = map[string]string{
-	//fNoTrim:     "Disable ",
 	fSeparator:   "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
 	fSplitComma:  "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
 	fKeyVal:      "Boolean, discard any records that don't appear key value pairs (auto-enabled when " + fMap + " used)",
@@ -81,7 +80,6 @@ func cmdTabulate(p *lang.Process) error {
 	}
 
 	var (
-		//trim       = true
 		separator   = constSeparator
 		splitComma  = false
 		keyVal      = false
@@ -89,15 +87,12 @@ func cmdTabulate(p *lang.Process) error {
 		columnWraps = false
 		w           writer
 
-		//firstRec bool
 		offByOne bool
 		last     string
 	)
 
 	for flag, value := range f {
 		switch flag {
-		//case fNoTrim:
-		//	trim = false
 		case fSeparator:
 			separator = value
 		case fSplitComma:
@@ -152,12 +147,6 @@ func cmdTabulate(p *lang.Process) error {
 	for scanner.Scan() {
 		s := scanner.Text()
 
-		/*if trim {
-			s = strings.TrimSpace(s)
-			//s = rxWhitespaceLeft.ReplaceAllString(s, "")
-			//s = rxWhitespaceRight.ReplaceAllString(s, "")
-		}*/
-
 		if !rxTableSplit.MatchString(s) {
 			continue
 		}
@@ -167,8 +156,7 @@ func cmdTabulate(p *lang.Process) error {
 			continue
 		}
 
-		//firstRec = true
-		if /*firstRec &&*/ split[0] == "" {
+		if split[0] == "" {
 			offByOne = true
 		}
 
