@@ -33,14 +33,16 @@ var (
 	rxWhitespaceLeft  = regexp.MustCompile(`^[\t\s]+`)
 	rxWhitespaceRight = regexp.MustCompile(`[\t\s]+$`)
 	rxSplitComma      = regexp.MustCompile(`[\s\t]*,[\s\t]*`)
+	rxSplitSpace      = regexp.MustCompile(`[\s\t]+-`)
 )
 
 // flags
 
 const (
-	//fNoTrim     = "--no-trim"
 	fSeparator   = "--separator"
 	fSplitComma  = "--split-comma"
+	fSplitSpace  = "--split-space"
+	fKeyIncHint  = "--key-inc-hint"
 	fKeyVal      = "--key-value"
 	fMap         = "--map"
 	fJoiner      = "--joiner"
@@ -49,9 +51,10 @@ const (
 )
 
 var flags = map[string]string{
-	//fNoTrim:     types.Boolean,
 	fSeparator:   types.String,
 	fSplitComma:  types.Boolean,
+	fSplitSpace:  types.Boolean,
+	fKeyIncHint:  types.Boolean,
 	fKeyVal:      types.Boolean,
 	fMap:         types.Boolean,
 	fJoiner:      types.String,
@@ -62,6 +65,8 @@ var flags = map[string]string{
 var desc = map[string]string{
 	fSeparator:   "String, custom regex pattern for spliting fields (default: `" + constSeparator + "`)",
 	fSplitComma:  "Boolean, split first field and duplicate the line if comma found in first field (eg parsing flags in help pages)",
+	fSplitSpace:  "Boolean, split first field and duplicate the line if white space found in first field (eg parsing flags in help pages)",
+	fKeyIncHint:  "Boolean, used with " + fMap + " to split any space or equal delimited hints/examples (eg parsing flags)",
 	fKeyVal:      "Boolean, discard any records that don't appear key value pairs (auto-enabled when " + fMap + " used)",
 	fMap:         "Boolean, return JSON map instead of table",
 	fJoiner:      "String, used with " + fMap + " to concatenate any trailing records in a given field",
@@ -83,7 +88,9 @@ func cmdTabulate(p *lang.Process) error {
 
 	var (
 		separator   = constSeparator
-		splitComma  = false
+		splitComma  bool
+		splitSpace  bool
+		keyIncHint  bool
 		keyVal      = false
 		joiner      = " "
 		columnWraps = false
@@ -100,6 +107,10 @@ func cmdTabulate(p *lang.Process) error {
 			separator = value
 		case fSplitComma:
 			splitComma = true
+		case fSplitSpace:
+			splitSpace = true
+		case fKeyIncHint:
+			keyIncHint = true
 		case fKeyVal:
 			keyVal = true
 		case fJoiner:
@@ -111,6 +122,14 @@ func cmdTabulate(p *lang.Process) error {
 		case fHelp:
 			return help(p)
 		}
+	}
+
+	if splitSpace && splitComma {
+		return fmt.Errorf("Cannot have %s and %s both enabled. Please pick one or the other", fSplitComma, fSplitSpace)
+	}
+
+	if !keyVal && keyIncHint {
+		return fmt.Errorf("Cannot use %s without %s or %s being set", fKeyIncHint, fKeyVal, fMap)
 	}
 
 	if !keyVal && columnWraps {
@@ -150,12 +169,12 @@ func cmdTabulate(p *lang.Process) error {
 	for scanner.Scan() {
 		s := scanner.Text()
 
-		// not a table
+		// not a table row
 		if !rxTableSplit.MatchString(s) {
 			continue
 		}
 
-		// still not a table
+		// still not a table row
 		split = rxTableSplit.Split(scanner.Text(), -1)
 		if len(split) == 0 {
 			continue
@@ -191,6 +210,31 @@ func cmdTabulate(p *lang.Process) error {
 		// split keys by comma
 		if splitComma && len(split) > 1 {
 			keys = rxSplitComma.Split(split[0], -1)
+		}
+
+		// split keys by space
+		if splitSpace && len(split) > 1 {
+			keys = rxSplitSpace.Split(split[0], -1)
+			for i := range keys {
+				keys[i] = "-" + keys[i]
+			}
+		}
+
+		// remove the hint stuff
+		if keyIncHint {
+			if len(keys) != 0 {
+				for i := range keys {
+					keys[i] = strings.SplitN(keys[i], " ", 2)[0]
+					if strings.Contains(keys[i], "=") {
+						keys[i] = strings.SplitN(keys[i], "=", 2)[0] + "="
+					}
+				}
+			} else {
+				split[0] = strings.SplitN(split[0], " ", 2)[0]
+				if strings.Contains(split[0], "=") {
+					split[0] = strings.SplitN(split[0], "=", 2)[0] + "="
+				}
+			}
 		}
 
 		if keyVal {
