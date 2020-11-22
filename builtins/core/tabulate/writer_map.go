@@ -14,7 +14,7 @@ type mapWriter struct {
 	joiner string
 }
 
-func newMapWriter(writer stdio.Io, joiner string, columnWraps bool) *mapWriter {
+func newMapWriter(writer stdio.Io, joiner string) *mapWriter {
 	return &mapWriter{
 		m:      make(map[string]string),
 		out:    writer,
@@ -24,11 +24,6 @@ func newMapWriter(writer stdio.Io, joiner string, columnWraps bool) *mapWriter {
 
 func (mw *mapWriter) Write(array []string) error {
 	mw.m[array[0]] = strings.Join(array[1:], mw.joiner)
-	return nil
-}
-
-func (mw *mapWriter) Merge(last, s string) error {
-	mw.m[last] += mw.joiner + s
 	return nil
 }
 

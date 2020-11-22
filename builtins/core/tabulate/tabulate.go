@@ -2,6 +2,7 @@ package tabulate
 
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"regexp"
 	"strings"
@@ -31,6 +32,7 @@ const (
 var (
 	rxWhitespaceLeft  = regexp.MustCompile(`^[\t\s]+`)
 	rxWhitespaceRight = regexp.MustCompile(`[\t\s]+$`)
+	rxSplitComma      = regexp.MustCompile(`[\s\t]*,[\s\t]*`)
 )
 
 // flags
@@ -85,10 +87,11 @@ func cmdTabulate(p *lang.Process) error {
 		keyVal      = false
 		joiner      = " "
 		columnWraps = false
+		colWrapsBuf string // buffer for wrapped columns
+		keys        []string
 		w           writer
-
-		offByOne bool
-		last     string
+		last        string
+		split       []string
 	)
 
 	for flag, value := range f {
@@ -128,10 +131,10 @@ func cmdTabulate(p *lang.Process) error {
 
 	if f[fMap] == "" {
 		p.Stdout.SetDataType("csv")
-		w = newCsvWriter(p.Stdout, joiner, columnWraps)
+		w = csv.NewWriter(p.Stdout)
 	} else {
 		p.Stdout.SetDataType(types.Json)
-		w = newMapWriter(p.Stdout, joiner, columnWraps)
+		w = newMapWriter(p.Stdout, joiner)
 	}
 
 	rxTableSplit, err := regexp.Compile(separator)
@@ -147,58 +150,108 @@ func cmdTabulate(p *lang.Process) error {
 	for scanner.Scan() {
 		s := scanner.Text()
 
+		// not a table
 		if !rxTableSplit.MatchString(s) {
 			continue
 		}
 
-		split := rxTableSplit.Split(scanner.Text(), -1)
+		// still not a table
+		split = rxTableSplit.Split(scanner.Text(), -1)
 		if len(split) == 0 {
 			continue
 		}
 
-		if split[0] == "" {
-			offByOne = true
-		}
-
-		if offByOne && len(split) > 1 && split[0] == "" {
+		// table has indentation, lets remove that
+		if len(split) > 1 && split[0] == "" {
 			split = split[1:]
 		}
 
-		if splitComma && len(split) > 1 {
-			comma := strings.Split(split[0], ",")
-			if len(comma) == 1 {
-				goto noSplit
-			}
+		// looks like there's a new key, so lets write the colWrapsBuf
+		if columnWraps && len(split) > 1 && last != "" {
+			if len(keys) == 0 {
 
-			for i := range comma {
-				flag := strings.TrimSpace(comma[i])
-				new := append([]string{flag}, split[1:]...)
-				err := w.Write(new)
+				err = w.Write([]string{last, colWrapsBuf})
 				if err != nil {
 					return err
 				}
-			}
-			continue
-		}
 
-	noSplit:
-		if keyVal {
-			if len(split) < 2 || split[0] == "" {
-				if columnWraps && last != "" {
-					err := w.Merge(last, strings.Join(split, ""))
+			} else {
+
+				for i := range keys {
+					err = w.Write([]string{keys[i], colWrapsBuf})
 					if err != nil {
 						return err
 					}
 				}
-				// else silently ignore
-				continue
-			} else {
-				last = split[0]
 			}
+
+			colWrapsBuf = ""
 		}
-		err := w.Write(split)
-		if err != nil {
-			return err
+
+		// split keys by comma
+		if splitComma && len(split) > 1 {
+			keys = rxSplitComma.Split(split[0], -1)
+		}
+
+		if keyVal {
+			if len(split) < 2 || split[0] == "" {
+				// is this a wrapped column? If not, it's clearly a field
+				// heading so we should skip over it
+				if columnWraps && last != "" {
+					colWrapsBuf += joiner + strings.Join(split, joiner)
+				}
+
+				// else silently ignore heading
+				continue
+			}
+			last = split[0]
+		}
+
+		// only write if columns not wrapped, otherwise loop round to check for
+		// any wrapped columns
+		if !columnWraps {
+			if len(keys) == 0 {
+
+				err = w.Write(split)
+				if err != nil {
+					return err
+				}
+
+			} else {
+
+				for i := range keys {
+					split[0] = keys[i]
+					err = w.Write(split)
+					if err != nil {
+						return err
+					}
+				}
+			}
+
+			keys = nil
+
+		} else {
+			colWrapsBuf = strings.Join(split[1:], joiner)
+		}
+	}
+
+	// clean up any trailing wrapped columns
+	if columnWraps && len(colWrapsBuf) != 0 {
+		if len(keys) == 0 {
+
+			err = w.Write([]string{last, colWrapsBuf})
+			if err != nil {
+				return err
+			}
+
+		} else {
+
+			for i := range keys {
+				err = w.Write([]string{keys[i], colWrapsBuf})
+				if err != nil {
+					return err
+				}
+			}
 		}
 	}
 
