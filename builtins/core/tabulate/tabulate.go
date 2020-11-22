@@ -185,56 +185,56 @@ func cmdTabulate(p *lang.Process) error {
 			split = split[1:]
 		}
 
-		// looks like there's a new key, so lets write the colWrapsBuf
-		if columnWraps && len(split) > 1 && last != "" {
-			if len(keys) == 0 {
+		if len(split) > 1 { // recheck because we've redefined the length of split
 
-				err = w.Write([]string{last, colWrapsBuf})
-				if err != nil {
-					return err
-				}
+			// looks like there's a new key, so lets write the colWrapsBuf
+			if columnWraps && last != "" {
+				if len(keys) == 0 {
 
-			} else {
-
-				for i := range keys {
-					err = w.Write([]string{keys[i], colWrapsBuf})
+					err = w.Write([]string{last, colWrapsBuf})
 					if err != nil {
 						return err
 					}
-				}
-			}
 
-			colWrapsBuf = ""
-		}
+				} else {
 
-		// split keys by comma
-		if splitComma && len(split) > 1 {
-			keys = rxSplitComma.Split(split[0], -1)
-		}
-
-		// split keys by space
-		if splitSpace && len(split) > 1 {
-			keys = rxSplitSpace.Split(split[0], -1)
-			for i := range keys {
-				keys[i] = "-" + keys[i]
-			}
-		}
-
-		// remove the hint stuff
-		if keyIncHint {
-			if len(keys) != 0 {
-				for i := range keys {
-					keys[i] = strings.SplitN(keys[i], " ", 2)[0]
-					if strings.Contains(keys[i], "=") {
-						keys[i] = strings.SplitN(keys[i], "=", 2)[0] + "="
+					for i := range keys {
+						err = w.Write([]string{keys[i], colWrapsBuf})
+						if err != nil {
+							return err
+						}
 					}
 				}
-			} else {
-				split[0] = strings.SplitN(split[0], " ", 2)[0]
-				if strings.Contains(split[0], "=") {
-					split[0] = strings.SplitN(split[0], "=", 2)[0] + "="
+
+				colWrapsBuf = ""
+			}
+
+			// split keys by comma
+			if splitComma {
+				keys = rxSplitComma.Split(split[0], -1)
+			}
+
+			// split keys by space
+			if splitSpace {
+				keys = rxSplitSpace.Split(split[0], 2)
+				if len(keys) == 2 {
+					keys[1] = "-" + keys[1]
 				}
 			}
+
+			// remove the hint stuff
+			if keyIncHint {
+				var hint string
+				if len(keys) != 0 {
+					_, hint = stripKeyHint(keys)
+				} else {
+					split[0], hint = stripKeyHint([]string{split[0]})
+				}
+				if len(hint) != 0 {
+					split[1] = "(args: " + hint + ") " + split[1]
+				}
+			}
+
 		}
 
 		if keyVal {
@@ -305,6 +305,31 @@ func cmdTabulate(p *lang.Process) error {
 
 	w.Flush()
 	return w.Error()
+}
+
+func stripKeyHint(keys []string) (string, string) {
+	var (
+		s, e []string
+		hint string
+	)
+
+	for i := range keys {
+		s = strings.SplitN(keys[i], " ", 2)
+		keys[i] = s[0]
+		if strings.Contains(s[0], "=") {
+			e = strings.SplitN(keys[i], "=", 2)
+			keys[i] = e[0] + "="
+		}
+	}
+
+	switch {
+	case len(s) == 2:
+		hint = s[1]
+	case len(e) == 2:
+		hint = e[1]
+	}
+
+	return keys[0], hint
 }
 
 func help(p *lang.Process) error {

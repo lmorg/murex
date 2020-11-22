@@ -9,22 +9,23 @@ private autocomplete.systemctl {
 autocomplete set systemctl { [
 	{
 		"DynamicDesc": ({
-            systemctl: --help -> tabulate: --column-wraps --map --key-inc-hint --split-space
+            systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
         }),
 		"Optional": true,
-		"AllowMultiple": true
+		"AllowMultiple": false
 	},
 	{
         "DynamicDesc": ({
             systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
         }),
-        "Optional": false
+        "Optional": false,
+        "AllowMultiple": false
 	},
 	{
 		"Dynamic": ({ autocomplete.systemctl }),
-		"AllowMultiple": true,
-        "ListView: true,
-		"Optional": false
+        "ListView": true,
+		"Optional": false,
+        "AllowMultiple": true
 	}
 ] }
 
