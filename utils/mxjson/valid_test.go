@@ -162,3 +162,31 @@ func TestBasicArrayString(t *testing.T) {
 
 	runTestCases(t, tests)
 }
+
+func TestQuotedColon(t *testing.T) {
+	tests := []testCase{
+		{
+			Json: `{
+						"DynamicDesc": 'out: foobar',
+						"Optional": true
+					}`,
+			Expected: `{"DynamicDesc":"out: foobar","Optional":true}`,
+		},
+		{
+			Json: `{
+						"DynamicDesc": "out: foobar",
+						"Optional": true
+					}`,
+			Expected: `{"DynamicDesc":"out: foobar","Optional":true}`,
+		},
+		{
+			Json: `{
+						"DynamicDesc": ({ out: foobar }),
+						"Optional": true
+					}`,
+			Expected: `{"DynamicDesc":"{ out: foobar }","Optional":true}`,
+		},
+	}
+
+	runTestCases(t, tests)
+}
