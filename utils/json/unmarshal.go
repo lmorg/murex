@@ -3,6 +3,7 @@ package json
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -31,11 +32,8 @@ func UnmarshalMurex(data []byte, v interface{}) error {
 	}
 
 	_, mxerr := mxjson.Parse(data)
-	if mxerr != nil {
-		return mxerr
-	}
 
-	return err
+	return fmt.Errorf("mxjson parse error: %s\n%s", err, mxerr)
 }
 
 func unmarshalMurex(data []byte, v interface{}) error {
@@ -162,9 +160,9 @@ func unmarshalMurex(data []byte, v interface{}) error {
 	case double:
 		return errors.New("Unterminated double quotes")
 	case brace > 0:
-		return errors.New("More open braces than closed")
+		return fmt.Errorf("%d more open brace(s) than closed", brace)
 	case brace < 0:
-		return errors.New("More closed braces than opened")
+		return fmt.Errorf("%d more closed brace(s) than opened", brace)
 	}
 
 	// nothing to do so might as well just forward the params on without editing

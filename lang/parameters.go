@@ -5,6 +5,7 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
@@ -121,7 +122,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 
 			case parameters.TokenTypeRange:
 				// TODO: write me!
-				//debug.Log("parameters.TokenTypeRange:", p.Tokens[i][j].Key)
+				debug.Log("parameters.TokenTypeRange:", p.Tokens[i][j].Key)
+				//panic("TODO: write me!")
 
 			case parameters.TokenTypeTilde:
 				if len(p.Tokens[i][j].Key) == 0 {

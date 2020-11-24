@@ -190,3 +190,54 @@ func TestQuotedColon(t *testing.T) {
 
 	runTestCases(t, tests)
 }
+
+func TestHungProcess(t *testing.T) {
+	tests := []testCase{
+		{
+			Json: `[
+						{
+							#"DynamicDesc": ({
+							#    systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
+							#}),
+							#"Optional": true,
+							#"AllowMultiple": false
+						}
+						#{
+							#"DynamicDesc": ({
+							#    systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
+							#}),
+							#"Optional": false,
+							#"AllowMultiple": false,
+							#"FlagValues": {
+							#    ${ autocomplete.systemctl.flags }
+							#}
+						#}
+					]`,
+			Expected: `[{}]`,
+		},
+		{
+			Json: `{[
+						{
+							#"DynamicDesc": ({
+							#    systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
+							#}),
+							#"Optional": true,
+							#"AllowMultiple": false
+						}
+						#{
+							#"DynamicDesc": ({
+							#    systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
+							#}),
+							#"Optional": false,
+							#"AllowMultiple": false,
+							#"FlagValues": {
+							#    ${ autocomplete.systemctl.flags }
+							#}
+						#}
+					]}`,
+			Expected: `{"":[{}]}`,
+		},
+	}
+
+	runTestCases(t, tests)
+}

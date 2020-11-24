@@ -220,11 +220,17 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				unclosedIndex = true
 				continue
 
-			case r == '[' && pToken.Type == parameters.TokenTypeArray && last != '@':
-				pToken.Type = parameters.TokenTypeRange
-				*pop += string(r)
-				last = r
-				unclosedIndex = true
+			case r == '[' && pToken.Type == parameters.TokenTypeArray:
+				if last != '@' {
+					pToken.Type = parameters.TokenTypeRange
+					*pop += string(r)
+					last = r
+					unclosedIndex = true
+
+				} else {
+					pToken.Type = parameters.TokenTypeValue
+					*pop += "@["
+				}
 				continue
 
 			case braceCount > 0:

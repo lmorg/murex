@@ -2,32 +2,44 @@ alias ls=ls --color=auto
 alias grep=grep --color=auto
 alias egrep=egrep --color=auto
 
-private autocomplete.systemctl {
-    systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
-}
+if { which: systemctl } {
+    private autocomplete.systemctl {
+        systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
+    }
 
-autocomplete set systemctl { [
-	{
-		"DynamicDesc": ({
-            systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
-        }),
-		"Optional": true,
-		"AllowMultiple": false
-	},
-	{
-        "DynamicDesc": ({
-            systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
-        }),
-        "Optional": false,
-        "AllowMultiple": false
-	},
-	{
-		"Dynamic": ({ autocomplete.systemctl }),
-        "ListView": true,
-		"Optional": false,
-        "AllowMultiple": true
-	}
-] }
+    function autocomplete.systemctl.flags {
+        systemctl: --help -> @[Unit Commands:..]s -> regexp m/(NAME|PATTERN)/ -> tabulate: --map --key-inc-hint -> formap key val {
+            out ("$key": [{
+                "Dynamic": ({ autocomplete.systemctl }),
+                "ListView": true,
+                "Optional": false,
+                "AllowMultiple": true
+            }],)
+        }
+        out ("": [{}]) # dummy value so there's no trailing comma
+    }
+
+    autocomplete set systemctl ({[
+        {
+            "DynamicDesc": ({
+                systemctl: --help -> \@[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
+            }),
+            "Optional": true,
+            "AllowMultiple": false
+        },
+        {
+            "DynamicDesc": ({
+                systemctl: --help -> \@[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
+            }),
+            "Optional": false,
+            "AllowMultiple": false,
+            "FlagValues": {
+                ${ autocomplete.systemctl.flags }
+            }
+        }
+    ]})
+
+}
 
 # I have a feeling this is old code that needs replacing with the OSX code 
 #private kill-autocomplete {

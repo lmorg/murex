@@ -5,9 +5,12 @@ import (
 
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 func TestAutocomplete(t *testing.T) {
+	count.Tests(t, 1)
+
 	block := []rune(
 		`autocomplete set foobar { [{
 			"AnyValue": true,
