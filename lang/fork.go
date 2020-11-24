@@ -89,8 +89,6 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.PromptId = p.PromptId
-	//fork.LineNumber = p.LineNumber
-	//fork.ColNumber = p.ColNumber
 	fork.IsBackground = flags&F_BACKGROUND != 0 || p.IsBackground
 	fork.PromptId = p.PromptId
 
@@ -104,7 +102,6 @@ func (p *Process) Fork(flags int) *Fork {
 	}
 
 	if flags&F_NEW_MODULE == 0 {
-		//fork.Module = p.Module
 		fork.FileRef = p.FileRef
 	} else {
 		fork.FileRef = &ref.File{Source: new(ref.Source)}

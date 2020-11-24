@@ -2,6 +2,7 @@ package lang
 
 import (
 	"errors"
+	"strings"
 	"sync"
 
 	"github.com/lmorg/murex/lang/ref"
@@ -111,16 +112,39 @@ func (mf *MurexPrivs) Dump() interface{} {
 		FileRef *ref.File
 	}
 
-	var dump []funcs
+	dump := make(map[string]map[string]map[string]funcs)
 
 	mf.mutex.Lock()
 	for _, priv := range mf.fn {
-		dump = append(dump, funcs{
+		mod := strings.Split(priv.FileRef.Source.Module, "/")
+		switch len(mod) {
+		case 0:
+			mod = []string{priv.FileRef.Source.Module, priv.FileRef.Source.Module}
+
+		case 1:
+			mod = append(mod, priv.FileRef.Source.Module)
+
+		case 2:
+			// do nothing
+
+		default:
+			mod = []string{mod[0], strings.Join(mod[1:], "-")}
+		}
+
+		if dump[mod[0]] == nil {
+			dump[mod[0]] = make(map[string]map[string]funcs)
+		}
+
+		if dump[mod[0]][mod[1]] == nil {
+			dump[mod[0]][mod[1]] = make(map[string]funcs)
+		}
+
+		dump[mod[0]][mod[1]][priv.Name] = funcs{
 			Name:    priv.Name,
 			Summary: priv.Summary,
 			Block:   string(priv.Block),
 			FileRef: priv.FileRef,
-		})
+		}
 	}
 	mf.mutex.Unlock()
 
