@@ -23,6 +23,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 	var (
 		// Current state
+		i                int
+		r                rune
 		lineNumber       int
 		colNumber        int
 		last             rune
@@ -105,7 +107,19 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 		*pop += string(r)
 	}
 
-	for i, r := range block {
+	next := func(r rune) bool {
+		if i+1 == len(block) {
+			return false
+		}
+
+		if block[i+1] == r {
+			return true
+		}
+
+		return false
+	}
+
+	for i, r = range block {
 		colNumber++
 
 		if commentLine {
@@ -733,6 +747,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 				ignoreWhitespace = false
 			case last != ' ' && last != '\t':
+				pUpdate(r)
+			case next('['):
 				pUpdate(r)
 			default:
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))

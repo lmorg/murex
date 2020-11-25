@@ -1,9 +1,10 @@
-package json
+package json_test
 
 import (
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // TestJsonMap tests the the JSON wrapper can marshal interface{} maps which the
@@ -15,7 +16,7 @@ func TestJsonMap(t *testing.T) {
 	obj["a"] = "b"
 	obj[1] = 2
 
-	b, err := Marshal(obj, false)
+	b, err := json.Marshal(obj, false)
 	if err != nil {
 		t.Error("Error marshalling: " + err.Error())
 	}

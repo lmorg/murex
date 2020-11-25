@@ -19,17 +19,17 @@ if { which: systemctl } {
         out ("": [{}]) # dummy value so there's no trailing comma
     }
 
-    autocomplete set systemctl ({[
+    autocomplete set systemctl ([
         {
             "DynamicDesc": ({
-                systemctl: --help -> \@[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
+                systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
             }),
             "Optional": true,
             "AllowMultiple": false
         },
         {
             "DynamicDesc": ({
-                systemctl: --help -> \@[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
+                systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
             }),
             "Optional": false,
             "AllowMultiple": false,
@@ -37,7 +37,7 @@ if { which: systemctl } {
                 ${ autocomplete.systemctl.flags }
             }
         }
-    ]})
+    ])
 
 }
 

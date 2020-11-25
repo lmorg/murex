@@ -89,7 +89,7 @@ func TestParserVariableString3(t *testing.T) {
 }*/
 
 // fix bug with parser hanging
-func TestParserParenthesisHung(t *testing.T) {
+func TestParserParenthesisHungBug(t *testing.T) {
 	tests := []parserTestSimpleConditions{
 		{
 			Block: `out test $[foobar]`,
@@ -135,3 +135,44 @@ func TestParserParenthesisHung(t *testing.T) {
 
 	testParserSimple(t, tests)
 }
+
+/*func TestParserParenthesisBug(t *testing.T) {
+	block := `
+    private autocomplete.systemctl {
+        systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
+    }
+
+    function autocomplete.systemctl.flags {
+        systemctl: --help -> @[Unit Commands:..]s -> regexp m/(NAME|PATTERN)/ -> tabulate: --map --key-inc-hint -> formap key val {
+            out ("$key": [{
+                "Dynamic": ({ autocomplete.systemctl }),
+                "ListView": true,
+                "Optional": false,
+                "AllowMultiple": true
+            }],)
+        }
+        out ("": [{}]) # dummy value so there's no trailing comma
+    }
+
+    autocomplete set systemctl ({[
+        {
+            "DynamicDesc": ({
+                systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
+            }),
+            "Optional": true,
+            "AllowMultiple": false
+        },
+        {
+            "DynamicDesc": ({
+                systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
+            }),
+            "Optional": false,
+            "AllowMultiple": false,
+            "FlagValues": {
+                ${ autocomplete.systemctl.flags }
+            }
+        }
+    ]})`
+
+	t.Error(queryParser(t, block))
+}*/
