@@ -1,7 +1,7 @@
 package lang
 
 import (
-	"errors"
+	"fmt"
 	"strings"
 	"sync"
 
@@ -21,6 +21,8 @@ type murexPrivDetails struct {
 	Summary string
 	FileRef *ref.File
 }
+
+const errMsg = "Cannot locate private called `%s` in module `%s`"
 
 // NewMurexPrivs creates a new table of private murex functions
 func NewMurexPrivs() (mf MurexPrivs) {
@@ -71,7 +73,7 @@ func (mf *MurexPrivs) Block(name, module string) ([]rune, error) {
 	priv := mf.get(name, module)
 
 	if priv == nil {
-		return nil, errors.New("Cannot locate private named `" + name + "`")
+		return nil, fmt.Errorf(errMsg, name, module)
 	}
 
 	return priv.Block, nil
@@ -82,7 +84,7 @@ func (mf *MurexPrivs) Summary(name, module string) (string, error) {
 	priv := mf.get(name, module)
 
 	if priv == nil {
-		return "", errors.New("Cannot locate private named `" + name + "`")
+		return "", fmt.Errorf(errMsg, name, module)
 	}
 
 	return priv.Summary, nil
