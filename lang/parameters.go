@@ -60,11 +60,16 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeArray:
+				data := prc.Variables.GetString(p.Tokens[i][j].Key)
+				if data == "" {
+					continue
+				}
+
 				var array []string
 
 				variable := streams.NewStdin()
 				variable.SetDataType(prc.Variables.GetDataType(p.Tokens[i][j].Key))
-				variable.Write([]byte(prc.Variables.GetString(p.Tokens[i][j].Key)))
+				variable.Write([]byte(data))
 
 				variable.ReadArray(func(b []byte) {
 					array = append(array, string(b))
