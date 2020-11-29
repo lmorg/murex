@@ -99,6 +99,9 @@ func cmdTabulate(p *lang.Process) error {
 		w           writer
 		last        string
 		split       []string
+		iKeyStart   int // where the key starts when column wraps and keyVal used
+		processKey  bool
+		//iValStart   int // where the value starts when column wraps and keyVal used
 	)
 
 	for flag, value := range f {
@@ -175,7 +178,7 @@ func cmdTabulate(p *lang.Process) error {
 		}
 
 		// still not a table row
-		split = rxTableSplit.Split(scanner.Text(), -1)
+		split = rxTableSplit.Split(s, -1)
 		if len(split) == 0 {
 			continue
 		}
@@ -185,7 +188,37 @@ func cmdTabulate(p *lang.Process) error {
 			split = split[1:]
 		}
 
-		if len(split) > 1 { // recheck because we've redefined the length of split
+		if keyVal && (len(split) < 2 || split[0] == "") {
+			// is this a wrapped column?
+			if columnWraps && last != "" {
+				// is it a wrapped key?
+				for i, r := range s {
+					if r != ' ' && r != '\t' {
+						if iKeyStart == i {
+							// it's a key
+							processKey = true
+							if len(split) == 1 {
+								split = []string{split[0], ""}
+							}
+						}
+						break
+					}
+				}
+
+				// look like it's just a wrapped column
+				if !processKey {
+					colWrapsBuf += joiner + strings.Join(split, joiner)
+				}
+			}
+
+			// else silently ignore heading
+			if !processKey {
+				continue
+			}
+		}
+
+		if len(split) > 1 || processKey { // recheck because we've redefined the length of split
+			processKey = false
 
 			// looks like there's a new key, so lets write the colWrapsBuf
 			if columnWraps && last != "" {
@@ -207,6 +240,13 @@ func cmdTabulate(p *lang.Process) error {
 				}
 
 				colWrapsBuf = ""
+
+				for i, r := range s {
+					if r != ' ' && r != '\t' {
+						iKeyStart = i
+						break
+					}
+				}
 			}
 
 			// split keys by comma
@@ -238,16 +278,6 @@ func cmdTabulate(p *lang.Process) error {
 		}
 
 		if keyVal {
-			if len(split) < 2 || split[0] == "" {
-				// is this a wrapped column? If not, it's clearly a field
-				// heading so we should skip over it
-				if columnWraps && last != "" {
-					colWrapsBuf += joiner + strings.Join(split, joiner)
-				}
-
-				// else silently ignore heading
-				continue
-			}
 			last = split[0]
 		}
 
@@ -307,26 +337,37 @@ func cmdTabulate(p *lang.Process) error {
 	return w.Error()
 }
 
+var rxSquareHints = regexp.MustCompile(`\[.*\]$`)
+
 func stripKeyHint(keys []string) (string, string) {
 	var (
-		s, e []string
-		hint string
+		space, equ, square []string
+		hint               string
 	)
 
 	for i := range keys {
-		s = strings.SplitN(keys[i], " ", 2)
-		keys[i] = s[0]
-		if strings.Contains(s[0], "=") {
-			e = strings.SplitN(keys[i], "=", 2)
-			keys[i] = e[0] + "="
+		square = rxSquareHints.FindStringSubmatch(keys[i])
+		if len(square) != 0 {
+			keys[i] = strings.Replace(keys[i], square[0], "", 1)
+		}
+
+		space = strings.SplitN(keys[i], " ", 2)
+		keys[i] = space[0]
+		if strings.Contains(space[0], "=") {
+			equ = strings.SplitN(keys[i], "=", 2)
+			keys[i] = equ[0] + "="
 		}
 	}
 
 	switch {
-	case len(s) == 2:
-		hint = s[1]
-	case len(e) == 2:
-		hint = e[1]
+	case len(square) != 0:
+		hint = square[0]
+
+	case len(space) == 2:
+		hint = space[1]
+
+	case len(equ) == 2:
+		hint = equ[1]
 	}
 
 	return keys[0], hint

@@ -176,3 +176,18 @@ if { which bash } then {
         }
     }
 }
+
+autocomplete set make { [
+    {
+        "DynamicDesc":  ({
+            make --help -> tabulate: --key-inc-hint --map --split-comma
+        }),
+        "Optional": true,
+        "AllowMultiple": true
+    },
+    {
+        "Dynamic": ({
+            grep '^[^\.][-a-zA-Z\.0-9_\/]*:' ./Makefile -> regexp 's/:.*//g' -> uniq
+        })
+    }
+] }
