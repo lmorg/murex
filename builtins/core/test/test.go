@@ -74,8 +74,8 @@ func errUsage(invalidParameter string, err error) error {
     test: unit function|private|open|event test-name { json-properties }
     test: state name { code block }
     test: run { code-block }
-	test: run package/module/test-name|*
-	test: report
+    test: run package/module/test-name|*
+    test: report
     !test`)
 
 	switch {
