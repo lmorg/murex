@@ -51,3 +51,28 @@ func TestAliases(t *testing.T) {
 		t.Error("test alias appears in empty aliases")
 	}
 }
+
+// TestAliasArray tests what goes in is the same as what comes out
+func TestAliasArray(t *testing.T) {
+	count.Tests(t, 1)
+
+	exp := []string{"testing", "$foo", "@bar", "foo bar"}
+	a := lang.NewAliases()
+
+	a.Add("test", exp)
+	act := a.Get("test")
+
+	if len(exp) != len(act) {
+		t.Error("Array len() mismatch:")
+		t.Logf("  Expected: %d", len(exp))
+		t.Logf("  Actual:   %d", len(act))
+	}
+
+	for i := range exp {
+		if exp[i] != act[i] {
+			t.Errorf("Array item mismatch: %d", i)
+			t.Logf("  Expected: %s", exp[i])
+			t.Logf("  Actual:   %s", act[i])
+		}
+	}
+}

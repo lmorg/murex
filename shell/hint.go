@@ -54,7 +54,9 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	if lang.GlobalAliases.Exists(cmd) {
-		alias := lang.GlobalAliases.Get(cmd)
+		a := lang.GlobalAliases.Get(cmd)
+		alias := make([]string, len(a))
+		copy(alias, a)
 		escape.CommandLine(alias)
 		s := strings.Join(alias, " ")
 		r = []rune("(alias) " + s + " => ")

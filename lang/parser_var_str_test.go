@@ -65,29 +65,6 @@ func TestParserVariableString3(t *testing.T) {
 	testParser(t, tests)
 }
 
-/*func TestParserVariableString4(t *testing.T) {
-	params := [][]parameters.ParamToken{
-		{{Key: "-", Type: parameters.TokenTypeValue}},
-		{{Key: "var", Type: parameters.TokenTypeString}},
-		{{Key: "-", Type: parameters.TokenTypeValue}},
-	}
-
-	nodes := astNodes{{
-		NewChain:    true,
-		Name:        "example",
-		ParamTokens: params,
-	}}
-
-	var tests = []parserTestConditions{
-		{Expected: nodes, Block: `example - $var -`},
-		{Expected: nodes, Block: `example -  $var  -`},
-		{Expected: nodes, Block: `example - "$var" -`},
-		{Expected: nodes, Block: `example -  "$var"  -`},
-	}
-
-	testParser(t, tests)
-}*/
-
 // fix bug with parser hanging
 func TestParserParenthesisHungBug(t *testing.T) {
 	tests := []parserTestSimpleConditions{
