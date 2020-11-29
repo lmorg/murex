@@ -7,7 +7,7 @@ function aliases {
 	# Output the aliases in human readable format
 	runtime: --aliases -> formap name alias {
         $name -> sprintf: "%10s => ${esccli @alias}\n"
-	} -> cast str
+	} -> cast: str
 }
 
 test unit function aliases {
@@ -72,7 +72,8 @@ test unit private autocomplete.data-types {
         } else {
             err "No elements returned"
         }
-    })
+    }),
+    "StdoutIsArray": true
 }
 
 autocomplete set cast { [{
@@ -100,8 +101,8 @@ autocomplete set unset { [{
 }] }
 
 private autocomplete.variables {
-    runtime: --globals -> formap k v { out $k }
-    runtime: --variables -> formap k v { out $k }
+    runtime: --globals -> formap k v { out $k } -> cast: str
+    runtime: --variables -> formap k v { out $k } -> cast: str
 }
 
 test unit private autocomplete.variables {
@@ -116,7 +117,8 @@ test unit private autocomplete.variables {
         } else {
             err "No elements returned"
         }
-    })
+    }),
+    "StdoutIsArray": true
 }
 
 autocomplete set global { [{
@@ -172,21 +174,53 @@ autocomplete set "[[" { [{
     "Dynamic": ({ -> struct-keys -> append "]]" })
 } ]}
 
-private config.get.apps {
-    config: -> formap k v { out $k } -> msort
+private autocomplete.config.get.apps {
+    config: -> formap k v { out $k } -> cast: str -> msort
+}
+
+test unit private autocomplete.config.get.apps {
+    "StdoutRegex": (shell),
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
+}
+
+private autocomplete.config.get.keys {
+    config -> [ $ARGS[1] ] -> formap k v { out $k } -> cast: str -> msort
+}
+
+test unit private autocomplete.config.get.keys {
+    "Parameters": [ "shell" ],
+    "StdoutRegex": (prompt),
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
 }
 
 autocomplete set config { [{
     "Flags": [ "get", "set", "eval", "define", "default" ],
     "FlagValues": {
         "get": [
-            { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
-            #{ "Dynamic": ({ err $SELF\n$ARGS }) }
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) }
         ],               
         "set": [
-            { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) },
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) },
             { "Dynamic": ({
 				switch {
 					case { = `${ config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Data-Type ]}`==`bool` } {
@@ -204,20 +238,21 @@ autocomplete set config { [{
 			}) }
         ],
         "eval": [
-            { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) }
         ],
         "default": [
-            { "Dynamic": ({ config.get.apps }) },
-            { "Dynamic": ({ config -> [ $ARGS[2] ] -> formap k v { out $k } -> msort }) }
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) }
         ]
     }
 }] }
 
 autocomplete set !config { [
-    { "Dynamic": ({ config.get.apps }) },
-    { "Dynamic": ({ source { config } -> [ $ARGS[1] ] -> formap k v { out $k } -> msort }) }
+    { "Dynamic": ({ autocomplete.config.get.apps }) },
+    { "Dynamic": ({ autocomplete.config.get.keys $ARGS[1] }) }
 ] }
+
 
 autocomplete set event { [
     {
@@ -235,11 +270,11 @@ autocomplete set !event { [
 ] }
 
 private autocomplete.alias {
-    runtime: --aliases -> formap k v { out $k }
+    runtime: --aliases -> formap k v { out $k } -> cast: str
 }
 
 test unit private autocomplete.alias {
-    "StdoutRegex": (^([-_./a-zA-Z0-9]+\n)+),
+    "StdoutRegex": (jobs),
 	"StdoutType":  "str",
     "StdoutBlock": ({
         -> len -> set len;
@@ -248,7 +283,8 @@ test unit private autocomplete.alias {
         } else {
             err "No elements returned"
         }
-    })
+    }),
+    "StdoutIsArray": true
 }
 
 autocomplete set !alias { [{
@@ -256,11 +292,19 @@ autocomplete set !alias { [{
 }] }
 
 private autocomplete.functions {
-    runtime: --functions -> formap k v { out $k }
+    runtime: --functions -> formap k v { out $k } -> cast: str
 }
 
 test unit private autocomplete.functions {
-    "StdoutRegex": (^([-_./a-zA-Z0-9]+\n)+),
+    "PreBlock": ({
+        function unit.test.autocomplete.functions {
+            out "This is only a dummy function for testing"
+        }
+    }),
+    "PostBlock": ({
+        !function unit.test.autocomplete.functions
+    }),
+    "StdoutRegex": (unit.test.autocomplete.functions),
 	"StdoutType":  "str",
     "StdoutBlock": ({
         -> len -> set len;
@@ -269,7 +313,8 @@ test unit private autocomplete.functions {
         } else {
             err "No elements returned"
         }
-    })
+    }),
+    "StdoutIsArray": true
 }
 
 autocomplete set !function { [{
@@ -281,7 +326,7 @@ autocomplete set autocomplete { [{
     "FlagValues": {
         "get": [{
             "Dynamic": ({
-                runtime --autocomplete -> formap cmd _ { out $cmd } -> cast str
+                runtime --autocomplete -> formap cmd _ { out $cmd } -> cast: str
             })
         }]
     }

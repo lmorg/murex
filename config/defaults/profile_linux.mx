@@ -7,6 +7,20 @@ if { which: systemctl } {
         systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
     }
 
+    test unit private autocomplete.systemctl {
+        "StdoutRegex": (shutdown\.target),
+        "StdoutType":  "str",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsArray": true
+    }
+
     function autocomplete.systemctl.flags {
         systemctl: --help -> @[Unit Commands:..]s -> regexp m/(NAME|PATTERN)/ -> tabulate: --map --key-inc-hint -> formap key val {
             out ("$key": [{

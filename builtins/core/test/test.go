@@ -31,7 +31,8 @@ test unit private autocomplete.test.run-unit {
         } else {
             err "No elements returned"
         }
-    })
+	}),
+	"StdoutIsArray": true
 }
 
 autocomplete set test { [
