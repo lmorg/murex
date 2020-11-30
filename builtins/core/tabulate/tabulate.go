@@ -99,8 +99,8 @@ func cmdTabulate(p *lang.Process) error {
 		w           writer
 		last        string
 		split       []string
-		iKeyStart   int // where the key starts when column wraps and keyVal used
-		processKey  bool
+		//iKeyStart   int // where the key starts when column wraps and keyVal used
+		processKey bool
 		//iValStart   int // where the value starts when column wraps and keyVal used
 	)
 
@@ -191,23 +191,29 @@ func cmdTabulate(p *lang.Process) error {
 		if keyVal && (len(split) < 2 || split[0] == "") {
 			// is this a wrapped column?
 			if columnWraps && last != "" {
-				// is it a wrapped key?
-				for i, r := range s {
-					if r != ' ' && r != '\t' {
-						if iKeyStart == i {
-							// it's a key
-							processKey = true
-							if len(split) == 1 {
-								split = []string{split[0], ""}
-							}
+				// is it a wrapped key? Check if indented flag
+				for i := 0; i < len(s); i++ {
+					if s[i] == '-' && i > 0 {
+						// it's a key
+						processKey = true
+						if len(split) == 1 {
+							split = []string{split[0], ""}
 						}
+
+						break
+					}
+					if s[i] != ' ' && s[i] != '\t' {
 						break
 					}
 				}
 
 				// look like it's just a wrapped column
 				if !processKey {
-					colWrapsBuf += joiner + strings.Join(split, joiner)
+					if len(colWrapsBuf) == 0 || colWrapsBuf[len(colWrapsBuf)-1] == ' ' {
+						colWrapsBuf += strings.Join(split, joiner)
+					} else {
+						colWrapsBuf += joiner + strings.Join(split, joiner)
+					}
 				}
 			}
 
@@ -241,12 +247,12 @@ func cmdTabulate(p *lang.Process) error {
 
 				colWrapsBuf = ""
 
-				for i, r := range s {
+				/*for i, r := range s {
 					if r != ' ' && r != '\t' {
 						iKeyStart = i
 						break
 					}
-				}
+				}*/
 			}
 
 			// split keys by comma

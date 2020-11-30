@@ -18,12 +18,12 @@ func init() {
 private autocomplete.test.run-unit {
     runtime: --tests -> [ unit ] -> foreach: test {
         out: $test[function]
-    } -> prepend *
+    } -> prepend * -> cast str
 }
 
 test unit private autocomplete.test.run-unit {
     "StdoutRegex": (^(([-_./a-zA-Z0-9]+|\*)\n)+),
-	"StdoutType":  "jsonl",
+	"StdoutType":  "str",
     "StdoutBlock": ({
         -> len -> set len;
         if { = len>0 } then {

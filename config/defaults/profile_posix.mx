@@ -180,7 +180,7 @@ if { which bash } then {
 autocomplete set make { [
     {
         "DynamicDesc":  ({
-            make --help -> tabulate: --key-inc-hint --map --split-comma
+            make --help -> tabulate: --key-inc-hint --map --split-comma --column-wraps
         }),
         "Optional": true,
         "AllowMultiple": true
