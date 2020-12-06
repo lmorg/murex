@@ -19,6 +19,11 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
+	nDeep, _ := p.Parameters.Int(0)
+	if nDeep < 1 {
+		nDeep = 20 // lets hardcode the max number of iterations for now...
+	}
+
 	v, err := lang.UnmarshalData(p, p.Stdin.GetDataType())
 	if err != nil {
 		return err
@@ -31,14 +36,18 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	err = recursive(p.Context, "", v, aw)
+	err = recursive(p.Context, "", v, aw, nDeep)
 	if err != nil {
 		return err
 	}
 	return aw.Close()
 }
 
-func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter) error {
+func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter, iteration int) error {
+	if iteration == 0 {
+		return nil
+	}
+
 	switch t := v.(type) {
 	case []string:
 		for i := range t {
@@ -110,7 +119,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + strconv.Itoa(i)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[i], aw)
+			err := recursive(ctx, newPath, t[i], aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -127,7 +136,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + strconv.Itoa(i)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[i], aw)
+			err := recursive(ctx, newPath, t[i], aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -144,7 +153,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + key
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[key], aw)
+			err := recursive(ctx, newPath, t[key], aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -161,7 +170,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + strconv.Itoa(key)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[key], aw)
+			err := recursive(ctx, newPath, t[key], aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -178,7 +187,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 
 			newPath := path + "/" + fmt.Sprint(key)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[key], aw)
+			err := recursive(ctx, newPath, t[key], aw, iteration-1)
 			if err != nil {
 				return err
 			}
