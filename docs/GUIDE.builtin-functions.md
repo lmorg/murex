@@ -216,7 +216,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`source` ](commands/source.md):
   Import _murex_ code from another file of code block
 * [`struct-keys`](commands/struct-keys.md):
-  Outputs all the keys in a structure
+  Outputs all the keys in a structure as a file path
 * [`suffix`](commands/suffix.md):
   Prefix a string to every item in a list
 * [`summary` ](commands/summary.md):

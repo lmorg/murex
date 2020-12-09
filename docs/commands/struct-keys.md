@@ -2,16 +2,25 @@
 
 ## Command Reference: `struct-keys`
 
-> Outputs all the keys in a structure
+> Outputs all the keys in a structure as a file path
 
 ## Description
 
-`struct-keys` outputs all of the keys in a structured data-type eg JSON
-YAML, TOML, etc. The output is a JSON array of the keys.
+`struct-keys` outputs all of the keys in a structured data-type eg JSON, YAML,
+TOML, etc.
+
+The output is a JSON array of the keys with each value being a file path
+representation of the input structure's node.
+
+`struct-keys` accepts one optional parameter, an integer value which defines
+how deep into a nest `struct-keys` should travel. The default is set at a
+modest `20` for runtime performance, however this value might be subject to
+change in future releases of _murex_ and thus you are recommended to set this
+value in any scripts.
 
 ## Usage
 
-    <stdin> -> struct-keys -> <stdout>
+    <stdin> -> struct-keys [ depth ] -> <stdout>
 
 ## Examples
 

@@ -1,4 +1,4 @@
-export PATH=$PATH:$GOPATH/bin:~/bin:~/.cargo/bin
+#export PATH=$PATH:$GOPATH/bin:~/bin:~/.cargo/bin
 
 export EDITOR=vi
 
@@ -6,6 +6,10 @@ export EDITOR=vi
 export TIME_STYLE=long-iso
 export BLOCK_SIZE="'1"
 
+alias grep=grep --color=auto
+if { os linux } then { alias ls=ls --color=auto }
+
+config: set shell spellcheck-enabled true
 
 if { which vim } then { alias vi=vim }
 
@@ -17,20 +21,19 @@ if { which bat } then {
 
 # https://github.com/sharkdp/lsd
 # https://github.com/ryanoasis/nerd-fonts/
-if { which lsd } then { 
-    alias ls=lsd
-    summary ls ${man-summary ls}
+#if { which lsd } then { 
+#    alias ls=lsd
+#    summary ls ${man-summary ls}
+#}
+
+config set shell max-suggestions 12
+
+function pless {
+    # less for JSON
+    -> trypipe { -> pretty -> less }
 }
 
-!if { man-summary go } then {
-    summary go "Go is a tool for managing Go source code"
-}
-summary atom "Github Atom - Text editor / IDE"
-summary code "Microsoft Visual Studio Code - Text editor / IDE"
-
-config set shell max-suggestions 6
-
-func chdir {
+function chdir {
     # make a directory then change to that new dir (assumes `-p` flag where supported)
     try {
         switch ${os} {
@@ -39,12 +42,12 @@ func chdir {
             catch        { tout json {[ "-p" ]} }
         } -> set flags
 
-        mkdir @flags $params[1]
-        cd $params[1]
+        mkdir @flags $ARGS[1]
+        cd $ARGS[1]
     }
 }
 
-func pwd_short {
+function pwd_short {
     # Normalise path to it's short form
     pwd -> regexp "s#^$HOME#\~#"
 }
@@ -62,14 +65,17 @@ config: set shell prompt-multiline {
     printf "%${$len}s » " $linenum
 }
 
-func funcs {
-    # Returns a human readable list of murex functions
-    runtime: --funcs -> formap k v { printf "%20s => %s\n" $k $v[Summary] } -> sort
-}
+#config: set shell hint-text-formatting "{ALT-FONT-1}{BLUE}"
+
+
+#function funcs {
+#    # Returns a human readable list of murex functions
+#    runtime: --funcs -> formap k v { printf "%20s => %s\n" $k $v[Summary] } -> sort
+#}
 
 # So I can use the same murex profile on FreeBSD without creating unsupported
 # functions nor aliases
-if { = `${os}`==`linux` } then {
+if { os linux } then {
 
     # ip -brief -color address
     alias ipip=ip -br -c a
@@ -77,216 +83,181 @@ if { = `${os}`==`linux` } then {
     # ip -brief -color link
     alias ipmac=ip -br -c l
 
-    #func fix_keyboard {
-    #    # Corrects the function keys on some MacBooks running Linux
-    #    echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode
-    #}
-}
-
-autocomplete set zfs {
-    [{
-        "Dynamic": ({
-             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
-autocomplete set zpool {
-    [{
-        "Dynamic": ({
-             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
-func agent {
-    # Launch ssh-agent
-    ssh-agent -> head -n2 -> [ :0 ] -> prefix "export " -> source
-    ssh-add: @{g <!null> ~/.ssh/*.key} @{g <!null> ~/.ssh/*.pem}
-}
-
-func tsplit {
-    # Splits the current tmux session horizontally and runs a murex code block
-    if { $TMUX } then {
-        trypipe {
-            params -> [ 1 ] -> set cmd
-            pwd -> set PWD
-            tmux split -h ($SHELL -c "source ~/.murex_profile; cd $PWD; source $cmd")
-        }
-    } else {
-        err "tmux is not running."
+    function fix_mac_keyboard {
+        # Corrects the function keys on some MacBooks running Linux
+        #echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode
+        echo 2 | sudo tee /sys/module/applespi/parameters/fnmode
     }
 }
 
-event onKeyPress help={F1-VT100} {
-    -> [ Interrupt ] -> set: evt
-    set quit="\n\nPress q to quit."
-
-    if { $TMUX } then {
-        $evt[ Line ] -> murex-parser: $evt[Pos] -> [ FuncName ] -> set: func
+function qrmfa {
+    # Generates a QR code for Google Authenticator based on the gopass output
+    -> set gopass
     
-        if { $func } then {
-  
-            switch {
-                case { runtime: --funcs -> [ $func ] } {
-                    runtime: --funcs -> [ $func ] -> [ Block ] -> set code
-                    out "func $func {$code\n}" -> tmp -> set tmp
-                    tmux split -h (less -N $tmp; rm $tmp)
-                }
-
-                case { bexists: $func } {
-                    tmux split -h ($SHELL -c "
-                        trypipe {
-                            murex-docs $func -> less
-                        };
-                        catch {
-                            out (That murex builtin doesn't yet include a help document.$quit) -> less
-                        }
-                    ")
-                }
-
-                catch {
-                    tmux split -h ($SHELL -c "
-                        try { man $func };
-                        catch {
-                            out (No man page exists for that command.$quit) -> less
-                        }
-                    ")
-                    
-                    tmux split -v -p 30 ($SHELL -c "
-                        config: set http user-agent curl/1.0;
-                        config: set http timeout 2;
-                        trypipe {
-                            get: https://cheat.sh/$func -> [ Body ] -> less -RN
-                        };
-                        catch { exit 1 }
-                    ")
-                }
-            }
-      
-        }
-  
-    } else {
-        tout json { "HintText": "tmux doesn't appear to be running. Please start tmux to take advantage of the F1 feature." }
+    set creds
+    try {
+        $gopass -> set yaml creds
+    }; catch {
+        $gopass -> sed 1d -> set yaml creds
     }
+    
+    config set index silent true
+
+    $creds[Account\sNumber] -> set str account
+    $creds[Email]           -> set str email
+    $creds[MFA\sSecret]     -> set str secret
+    !if { $secret } then { $creds[TOTP] -> set str secret }
+
+    !if { $account } then { read account "Account name: " }
+    !if { $email   } then { read email   "Email: " }
+
+    (otpauth://totp/$email:$account?secret=$secret) -> qr -> open
 }
 
-event onKeyPress edit={^E} {
-    -> [ Interrupt ] -> set: evt
+#########
+## IDE ##
+#########
 
-    test define hasfunc {
-        "StdoutRegex": "^[_a-zA-Z0-9]+$"
-    }
+function github_token {
+    # Sets my Github token (eg for Terraform)
+    
+    set token=hQEMAzU2n9AgSSJCAQf/cDoPCNcuMj4b5KL6yec0fKivMi0o9i6oJcHVwxDUVNnuriBk03at54Da06VgaYq6w/o9NnxUSIaL7v7PHoafP34dzoi0fGdldcjJ5R2t3AfVYy6wf8mSNwqbGozTa9Fbqq1JEJ/9D0bx7dKs0PsiRQMyApW58GdHMmZnY874v4qo6s9S9UF0CDtbZbEPdyVNGEaFhQ9z8tlOBddPZEtDitgGsdyCbYo83hB+i5okuIbhujdKqhx5izCOypq6bxmQVvUs1sU7fDKRI+H/WnTwRGK7oDcMvPIW5zv1kVW9QsoK3DJ5f4hKbaSiktA/yHttrCAGGX3/ScXjU6NPiGxSRNJjARzQgT1USad2n58mY7YJlrEhoh3MpDojNvoV+lWEYggrjgiAl13Y0cmjPmFIGwJxj2z3cwUMc0zQT3fNZYFJJIznE29tOydHOYHltXerbbBWhk1betMDvs1gMQXT4wkwsEuY
 
-    test define funcblock {
-        "StdoutRegex": "[a-zA-Z0-9]+"
-    }
+    ($token) -> !base64 -> gpg --decrypt -> export GITHUB_TOKEN
 
-    if { $TMUX } then {
-        $evt[ Line ] -> murex-parser: $evt[Pos] -> set parsed
-
-        if { $parsed[FuncName] } then {
-            set edit=true
-
-            switch {
-                if { $parsed[Parameters] -> len } {
-                    $parsed[Parameters] -> len -> set len
-
-                    for ( i=len-1; i>=0; i-- ) {
-                        $parsed[Parameters] -> [ $i ] -> set file
-                        
-                        if { and {$edit} {g: $file} } {
-                            lockfile path EDITOR -> set lockfile
-                            lockfile lock EDITOR
-                            tmux new-window (cd ${pwd}; $EDITOR $file; rm $lockfile)
-                            lockfile wait EDITOR
-                            set edit=false
-                        }
-                    }
-                }
-
-                case { and {$edit} {runtime: --funcs -> [ $parsed[FuncName] ]} } {
-                    $parsed -> [ <test_hasfunc> FuncName ] -> set func
-                    runtime: --funcs -> [ $func ] -> [ <test_funcblock> Block ] -> set code
-                    out "func $func {$code\n}" -> tmp -> set tmp
-                    
-                    lockfile path EDITOR -> set lockfile
-                    lockfile lock EDITOR
-                    tmux new-window ($EDITOR $tmp; rm $lockfile)
-                    lockfile wait EDITOR
-                    source $tmp
-                    rm $tmp
-                    tout json {
-                        "HintText": "Function updated.",
-                        "IgnoreKey": true
-                    }
-                }
-      
-                case {$edit} {
-                    tout json {
-                        "HintText": "Nothing to edit.",
-                        "IgnoreKey": true
-                    }
-                }
-
-                catch {
-                    tout json { "IgnoreKey": true }
-                }
-            }
-
-        } else {
-            tout json { "IgnoreKey": true }
-        }
-
-    } else {
-        tout json { "HintText": "tmux doesn't appear to be running. Please start tmux to take advantage of the edit feature." }
-    }
-}
-
-func murex-dev {
-    # Sets murex up so I can dev it easier
     source {
-        cd $GOPATH/src/github.com/lmorg/murex
-        config: set shell prompt (murex >>)
-        agent
-        
-        func mxbuild {
-            # Builds murex then launches it
-            try {
-                out: "Running docgen...."
-                docgen <!out> -debug -config gen/docgen.yaml
-                out: "Formatting generated source...."
-                go <null> fmt @{g: builtins/core/docs/*.go}
-                go <null> fmt @{g: config/defaults/*.go}
-                out: "Compiling murex...."
-                go build github.com/lmorg/murex
-                out: "Starting...."
-                ./murex
-            }
-        }
-
-        func mxtest {
-            # Builds murex then runs the testing frameworks against the compiled binary
-            try {
-                out: "Running docgen...."
-                docgen <!out> -verbose -debug -config gen/docgen.yaml
-                out: "Formatting generated source...."
-                go <null> fmt @{g: builtins/core/docs/*.go}
-                go <null> fmt @{g: config/defaults/*.go}
-                out: "Compiling murex...."
-                go build github.com/lmorg/murex
-                out: "Running test suites...."
-                go test ./...
-                ./test/regression_test.sh
-                ./test/test_goos.mx
-            }
-            catch {
-                out "{RED}Testing failed :({RESET}"
-            }
-        }
-
-        alias mxinstall=go install github.com/lmorg/murex
+        config set http default-https true
+        config alter http headers /api.github.com ({
+            "Authorization": "token $GITHUB_TOKEN"
+        })
     }
+}
+
+alias todo=todo --database ~/.todo
+summary todo "todo - a reminder/task program aimed at developers"
+private todo.map.tasks {
+    todo -> set todo
+    map { $todo -> regexp 'f/^\s+([0-9]+)\..*$' } { $todo -> regexp 'f/^\s+[0-9]+\.(.*)$' }
+}
+
+autocomplete set todo {
+    [
+        {
+            "Dynamic": ({
+                todo --help -> regexp 'f/(--[-a-zA-Z0-9]+)/' -> sort -> uniq
+            }),
+            "FlagValues": {
+                "--remove": [{
+                    "DynamicDesc": ({ todo.map.tasks }),
+                    "ListView": true,
+                    "AllowMultiple": true
+                }],
+
+                "--edit": [{
+                    "DynamicDesc": ({ todo.map.tasks }),
+                    "ListView": true
+                }],
+                "-e": [{
+                    "DynamicDesc": ({ todo.map.tasks }),
+                    "ListView": true
+                }],
+
+                "--done": [{
+                    "DynamicDesc": ({ todo.map.tasks }),
+                    "ListView": true,
+                    "AllowMultiple": true
+                }],
+
+                "-d": [{
+                    "DynamicDesc": ({ todo.map.tasks }),
+                    "ListView": true,
+                    "AllowMultiple": true
+                }]
+            }
+        }
+    ]
+}
+
+config set shell hint-text-func {
+    trypipe <!null> {
+        git status --porcelain -b -> set gitstatus
+        #$gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
+        $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /' -> set gitbranch
+        let gitchanges=${ out $gitstatus -> sed 1d -> wc -l }
+        !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
+        (Git{BLUE}: $gitbranch ($gitchanges pending). )
+    }
+    catch {
+        ({YELLOW}Git{BLUE}: Not a git repository. )
+    }
+
+    if { $SSH_AGENT_PID } then {
+        ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
+    } else {
+        ({RED}ssh-agent{BLUE}: No env set. ) 
+    }
+    
+    if { pgrep: vpnc } then {
+        ({YELLOW}VPN{BLUE}: vpnc is active. )
+    }
+
+    if { ps aux -> regexp m/openvpn --errors-to-stderr --log/ } then {
+        ({YELLOW}VPN{BLUE}: openvpn is active. )
+    }
+    
+    trypipe <!null> {
+        open: main.tf -> format json -> [ terraform ] -> [ 0 ] -> [ required_version ] -> sed -r 's/\s0\./ /' -> set tfmod
+        terraform: version -> head -n1 -> regexp (f/Terraform v0\.([0-9.]+)$) -> set tfver
+        if { = tfmod >= tfver } then { ({GREEN}) } else { ({RED}) }
+        (Terraform{BLUE}: $tfver; required $tfmod. )
+    }
+    
+    if { $AWS_SESSION_TOKEN } then {
+        set aws_expiration
+        set int date=${ date +%s }
+
+        if { os linux } then {
+            set int aws_expiration=${ date -d $AWS_SESSION_EXPIRATION +%s }
+        } else {
+            set int aws_expiration=${ date -j -f "%FT%R:%SZ" $AWS_SESSION_EXPIRATION +%s }
+        }
+
+        = (($aws_expiration-$date)/60) -> format int -> set aws_session_time
+        if { = aws_session_time < 1 } then { ({RED}) } else { ({GREEN}) }
+        (awscon{BLUE}: $AWS_SESSION_NAME => $aws_session_time mins. )
+    }
+}
+
+############
+## AWSCON ##
+############
+
+if { g: ~/dev/python/infra-aws-assume-role/aws_assume_role.py } then {
+
+    function awscon {
+        # Authenticates with AWS using multi-factor authentication
+        $ARGS -> [ <!null> 2 ] -> set mfatoken
+        try {
+            if { $mfatoken } else {
+                read mfatoken "Please enter the 6 digit AWS identities MFA: "
+            }
+            python ~/dev/python/infra-aws-assume-role/aws_assume_role.py --profile $ARGS[1] --MFAtoken $mfatoken -> source
+        }
+    }
+
+    autocomplete set awscon { [{
+        "Dynamic": ({
+            trypipe {
+                open terraform.tfvars -> [ aws_account_id ] -> set accid
+                grep $accid ~/.aws/config -n -> regexp 'f/(^[0-9]+)' -> set int line
+                let line=line-3
+                cat ~/.aws/config -> @[$line..$line]n -> regexp 'f/^\[profile (.*?)\]/'
+            }; catch {
+                cat ~/.aws/config -> regexp 'f/^\[profile (.*?)\]/' -> sort
+            }
+        })
+    }] }
+
 }
 
 ###########
@@ -297,124 +268,32 @@ autocomplete set vault { [{
     "Flags": ["audit-disable","audit-enable","audit-list","auth","auth-disable","auth-enable","capabilities","delete","generate-root","init","key-status","list","mount","mounts","mount-tune","path-help","policies","policy-delete","policy-write","read","rekey","remount","renew","revoke","rotate","seal","server","ssh","status","step-down","token-create","token-lookup","token-renew","token-revoke","unmount","unseal","unwrap","version","write"]
 }] }
 
-################
-## TERRRAFORM ##
-################
-
-autocomplete set terraform {
-    [
-        {
-            "Dynamic": ({
-                terraform -> @[Common commands:..]se -> !regexp 'm/^(All other commands:|)$' -> [ :0 ]
-            }),
-            "FlagValues": {
-                "state": [{
-                    "Dynamic": ({ terraform: state -> @[Subcommands:...]se -> [ :0 ] })
-                }],
-                "workspace": [{
-                    "Flags": [ "delete", "list", "new", "select", "show" ]
-                }]
-            }
-        }
-    ]
-}
-
 #############
 ## KEYBASE ##
 #############
 
-#autocomplete set keybase { [{
-#    "DynamicDesc": ({
-#        keybase: -> @[ ^COMMANDS:\$..^\$ ]re -> sort -> set keybase
-#        map { $keybase[ :0 ] -> regexp s/,// } { $keybase -> regexp 'f/\t+(.*?)$' }
-#    })
-#}] }
-
 autocomplete set keybase { [{
-    "DynamicDesc": ({ keybase: -> @[COMMANDS:..]es -> tabulate: --split-comma --map }),
+    "DynamicDesc": ({
+        #keybase: -> @[ ^COMMANDS:\$..^\$ ]re -> sort -> set keybase
+        #map { $keybase[ :0 ] -> regexp s/,// } { $keybase -> regexp 'f/\t+(.*?)$' }
+        keybase -> @[^COMMANDS..^ADDITIONAL]re -> tabulate: --split-comma --map
+    }),
+    "ListView": true,
     "FlagValues": {
         "pgp": [{
-                "DynamicDesc": ({ keybase: pgp -> @[COMMANDS:..]es -> tabulate: --split-comma --map })
+            "DynamicDesc": ({
+                keybase help pgp -> @[^COMMANDS..^ADDITIONAL]re -> tabulate: --split-comma --map
+            }),
+            "ListView": true
         }]
     }
 }] }
-
-###################
-## OPEN HANDLERS ##
-###################
-
-config define open image {
-    "Description":  "Which mode to render images to the terminal.",
-    "DataType":     "str",
-    "Default":      "auto",
-    "Options":      [ "auto", "compatible", "kitty", "iterm", "terminology", "sixel" ]
-}
-
-openagent set image {
-    params -> [ 1 ] -> set file
-    config get open image -> set mode
-
-    if { = mode==`auto` } {
-        switch {
-            case { $KITTY_WINDOW_ID }      { set mode=kitty }
-            case { = TERM==`xterm-kitty` } { set mode=kitty }
-            case { $TERMINOLOGY }          { set mode=terminology }
-            catch                          { set mode=compatible }
-        }
-    }
-
-    # If Kitty but running inside a screen / tmux session, fallback to compatible.
-    # We do this because tmux doesn't support reporting screen sizes via the TIOCGWINSZ ioctl.
-    if { and { = mode==`kitty` } { = TERM==`screen` } } {
-        set mode=compatible
-    }
-
-    switch $mode {
-        case compatible {
-            open-image $file
-        }
-
-        case kitty {
-            try {
-                kitty icat $file
-            }
-            catch {
-                err "Error running `kitty`. Please check `kitty` is installed."
-            }
-        }
-
-        case iterm {
-            err "Not currently supported."
-        }
-
-        case terminology {
-            try {
-                tycat -c $file
-            }
-            catch {
-                err "Error running `tycat`. Please check `terminology` is installed."
-            }
-        }
-
-        case sixel {
-            try {
-                img2sixel $file
-            }
-            catch {
-                err "Error running `img2sixel`. Please check `libsixel` is installed."
-            }
-        }
-
-        catch {
-            out "Invalid rendering method. Please define in `config set open image` - 'auto' is recommended."
-        }
-    }
-}
 
 ###############
 ## CONCOURSE ##
 ###############
 
+summary fly "Concourse - The `fly` CLI"
 autocomplete set fly {
     [
         {
