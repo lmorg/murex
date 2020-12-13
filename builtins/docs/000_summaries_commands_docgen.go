@@ -91,7 +91,7 @@ func init() {
 		"rx":                    "Regexp pattern matching for file system objects (eg '.*\\.txt')",
 		"set":                   "Define a local variable and set it's value",
 		"source":                "Import _murex_ code from another file of code block",
-		"struct-keys":           "Outputs all the keys in a structure",
+		"struct-keys":           "Outputs all the keys in a structure as a file path",
 		"suffix":                "Prefix a string to every item in a list",
 		"summary":               "Defines a summary help text for a command",
 		"switch":                "Blocks of cascading conditionals",

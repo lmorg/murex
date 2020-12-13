@@ -1,18 +1,18 @@
 @charset "UTF-8";
 
 body {
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Raleway', sans-serif;
     /*color: #503737;*/
     color: #000000;
     background-color: #f0f0f0;
     text-shadow: #ffffff 0em 0em 1px;
     line-height: 180%;
     font-size: 14px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
 }
 
 p {
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Raleway', sans-serif;
     color: #000000;
     text-shadow: #ffffff 0em 0em 0.2em;
 }

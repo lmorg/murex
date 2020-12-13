@@ -29,9 +29,9 @@ A non-exhaustive list features would include:
 * Support for typed pipelines - which can be used to work with complex data
   formats like JSON natively. But also the ability to override or even ignore
   typed data entirely so it works transparently with standard UNIX tools too
-* Lots of data-mangling tools backed into the shell
+* Lots of data-mangling tools baked into the shell
 * Parses man pages for a richer user experience
-* In-lined spell checking
+* In-line spell checking
 * Optional support for event-driven programming
 * Plus every aspect of the shell is easily extendable, inspectable and can
   be managed via _murex_'s own package manager
@@ -58,7 +58,7 @@ data than a simple byte stream in traditional shells like Bash.
 
 ## Interactive shell
 
-Aside the _murex_ being carefully designed with scripting in mind, the
+Aside from _murex_ being carefully designed with scripting in mind, the
 interactive shell itself is also built around productivity. To achieve this,
 we wrote our own readline library. Below is an example of that library in use:
 
@@ -98,7 +98,7 @@ The index function (`[`) alters its matching algorithm depending on the
 piped data type and `open` sets the data type depending on the file
 extension or MIME type.
 
-Sometimes you will want fewer guesswork or just the robustness of a forced
+Sometimes you will want less guesswork or just the robustness of a forced
 behavior. On those occasions you can remove one layer of magic by
 casting the data type:
 
@@ -115,7 +115,7 @@ for more details on these and other control structures.
 _murex_ employs a few methods to make shell scripting more robust:
 
 Bash, for all it's power, is littered with hidden traps. The aim of _murex_ is
-to address as many of them as we can without taking the flexibility nor power
+to address as many of them as we can without taking the flexibility or power
 away from the interactive command line. This is achieved through a couple of
 key concepts:
 
@@ -235,7 +235,7 @@ As well as a saner `if` syntax:
 
 Unlike traditional shells, _murex_ is designed with a test and debugging modes
 baked into the shell language. This means you can write tests against your
-shell scripts as part of the shell scripts itself.
+shell scripts as part of the shell scripts themselves.
 
 For example:
 
@@ -324,7 +324,7 @@ safe for use.
    Each push to `develop` and `master` also creates a new docker container,
    `lmorg/murex:develop` and `lmorg/murex:latest` (for the `master` branch).
 
-3. Weekly automated builds are then ran against the latest container. These
+3. Weekly automated builds are then run against the latest container. These
    builds are run in AWS CodeBuild and they generate the [murex.rocks](https://murex.rocks)
    website and build pre-compiled binaries for [download](DOWNLOAD.md).
 
