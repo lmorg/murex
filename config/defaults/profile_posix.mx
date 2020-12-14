@@ -41,12 +41,21 @@ autocomplete set dd { [{
 
 private getHostsFile {
     # Parse the hosts file and return uniq host names and IPs
-    egrep -v '^(#.*|\s*)$' /etc/hosts -> sed 's/\s+/\n/g' -> sort -> uniq
+    cat /etc/hosts -> !regexp: 'm/^(#.*|\s*)$/' -> regexp: "s/[\s\t]+/\n/" -> sort -> uniq -> cast: str
 }
 
 test unit private getHostsFile {
-    "StdoutType": "*",
-    "StdoutRegex": "[-_.0-9a-zA-Z]+\n"
+    "StdoutRegex": "[-_.0-9a-zA-Z]+\n",
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
 }
 
 autocomplete set ssh { [{
@@ -167,3 +176,18 @@ if { which bash } then {
         }
     }
 }
+
+autocomplete set make { [
+    {
+        "DynamicDesc":  ({
+            make --help -> tabulate: --key-inc-hint --map --split-comma --column-wraps
+        }),
+        "Optional": true,
+        "AllowMultiple": true
+    },
+    {
+        "Dynamic": ({
+            grep '^[^\.][-a-zA-Z\.0-9_\/]*:' ./Makefile -> regexp 's/:.*//g' -> uniq
+        })
+    }
+] }

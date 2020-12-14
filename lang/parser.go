@@ -23,6 +23,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 	var (
 		// Current state
+		i                int
+		r                rune
 		lineNumber       int
 		colNumber        int
 		last             rune
@@ -105,7 +107,35 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 		*pop += string(r)
 	}
 
-	for i, r := range block {
+	next := func(r rune) bool {
+		if i+1 == len(block) {
+			return false
+		}
+
+		if block[i+1] == r {
+			return true
+		}
+
+		return false
+	}
+
+	nextAlphaNumeric := func() bool {
+		if i+1 == len(block) {
+			return false
+		}
+
+		if block[i+1] == '_' ||
+			(block[i+1] >= 'a' && 'z' >= block[i+1]) ||
+			(block[i+1] >= 'A' && 'Z' >= block[i+1]) ||
+			(block[i+1] >= '0' && '9' >= block[i+1]) {
+			return true
+		}
+
+		return false
+	}
+
+	for ; i < len(block); i++ {
+		r = block[i]
 		colNumber++
 
 		if commentLine {
@@ -119,7 +149,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
-			case pToken.Type == parameters.TokenTypeIndex:
+			case pToken.Type == parameters.TokenTypeIndex ||
+				pToken.Type == parameters.TokenTypeRange:
 				if r != ']' {
 					*pop += string(r)
 					last = r
@@ -133,27 +164,29 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				continue
 
 			case pToken.Type == parameters.TokenTypeRange:
-				if unclosedIndex {
+				//if unclosedIndex {
+				if r != ']' {
 					*pop += string(r)
 					last = r
 					continue
 				}
-				if r == ']' {
+				/*if r == ']' {
 					unclosedIndex = false
 					last = r
 					*pop += string(r)
 					continue
-				}
-				if !unclosedIndex && 'a' <= r && r <= 'z' {
+				}*/
+				/*if !unclosedIndex && 'a' <= r && r <= 'z' {
 					last = r
 					*pop += string(r)
 					continue
-				}
+				}*/
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]
 				pop = &pToken.Key
-				goto nextParser
+				//goto nextParser
+				continue
 
 			case pToken.Type == parameters.TokenTypeTilde &&
 				(r == '_' || r == '-' || r == '.' ||
@@ -220,11 +253,17 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				unclosedIndex = true
 				continue
 
-			case r == '[' && pToken.Type == parameters.TokenTypeArray && last != '@':
+			case r == '[' && pToken.Type == parameters.TokenTypeArray:
+				//if last != '@' {
 				pToken.Type = parameters.TokenTypeRange
 				*pop += string(r)
 				last = r
 				unclosedIndex = true
+
+				/*} else {
+					pToken.Type = parameters.TokenTypeValue
+					*pop += "@["
+				}*/
 				continue
 
 			case braceCount > 0:
@@ -245,7 +284,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			}
 		}
 
-	nextParser:
+		//nextParser:
 		switch r {
 		case '#':
 			switch {
@@ -711,10 +750,14 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case scanFuncName || braceCount > 0 || quoteSingle:
 				pUpdate(r)
 				ignoreWhitespace = false
-			default:
+			case next('{'):
+				fallthrough
+			case nextAlphaNumeric():
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeString})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
+			default:
+				pUpdate(r)
 			}
 
 		case '@':
@@ -728,12 +771,16 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				ignoreWhitespace = false
 			case last != ' ' && last != '\t':
 				pUpdate(r)
-			default:
+			case next('{'):
+				fallthrough
+			case nextAlphaNumeric():
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]
 				pToken.Type = parameters.TokenTypeArray
 				pop = &pToken.Key
+			default:
+				pUpdate(r)
 			}
 
 		case 's':
@@ -813,6 +860,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 	}
 
 	appendNode()
+
+	//debug.Json("params", nodes)
 
 	return
 }

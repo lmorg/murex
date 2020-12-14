@@ -8,6 +8,7 @@ import (
 )
 
 func TestCropCaption(t *testing.T) {
+	count.Tests(t, 1)
 	// We aren't really bothered about the quality of the output here, just
 	// testing that the function doesn't generate any slice out of bounds
 	// exceptions
@@ -28,5 +29,4 @@ func TestCropCaption(t *testing.T) {
 		}
 	}
 
-	count.Tests(t, caption*maxLen*cellWidth)
 }

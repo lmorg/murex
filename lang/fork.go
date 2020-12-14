@@ -89,8 +89,6 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.PromptId = p.PromptId
-	//fork.LineNumber = p.LineNumber
-	//fork.ColNumber = p.ColNumber
 	fork.IsBackground = flags&F_BACKGROUND != 0 || p.IsBackground
 	fork.PromptId = p.PromptId
 
@@ -104,7 +102,6 @@ func (p *Process) Fork(flags int) *Fork {
 	}
 
 	if flags&F_NEW_MODULE == 0 {
-		//fork.Module = p.Module
 		fork.FileRef = p.FileRef
 	} else {
 		fork.FileRef = &ref.File{Source: new(ref.Source)}
@@ -114,10 +111,6 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Scope = fork.Process
 		fork.Parent = fork.Process
 
-		// fork variables from shell process so we don't leak vars into new
-		// functions: https://github.com/lmorg/murex/issues/138
-		//fork.Variables = ReferenceVariables(ShellProcess.Variables)
-		// Variables has been rewritten again to simplify the design
 		fork.Variables = NewVariables(fork.Process)
 		GlobalFIDs.Register(fork.Process)
 		fork.fidRegistered = true
@@ -139,10 +132,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
-			//fork.Parent = fork.Process
 			fork.Parent = p
-			//fork.Variables = ReferenceVariables(p.Variables)
-			//fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
 			fork.Name += " (fork)"
 			GlobalFIDs.Register(fork.Process)
@@ -151,7 +141,6 @@ func (p *Process) Fork(flags int) *Fork {
 		default:
 			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
 			fork.Parent = p
-			//fork.Variables = ReferenceVariables(p.Variables)
 			fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
 			fork.Name += " (fork)"

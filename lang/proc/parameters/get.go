@@ -51,10 +51,14 @@ func (p Parameters) StringAll() string {
 // StringAllRange returns all parameters within range as one space-delimited string.
 // `start` is first point in array. `end` is last. Set `end` to `-1` if you want `[n:]`.
 func (p Parameters) StringAllRange(start, end int) string {
-	if end == -1 {
+	switch {
+	case len(p.Params) == 0:
+		return ""
+	case end == -1:
 		return strings.Join(p.Params[start:], " ")
+	default:
+		return strings.Join(p.Params[start:end], " ")
 	}
-	return strings.Join(p.Params[start:end], " ")
 }
 
 // Int gets parameter as integer

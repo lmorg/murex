@@ -258,16 +258,20 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	if plan.StdoutIsArray {
 		status, message := testIsArray(stdout, stdoutType, "StdoutIsArray")
-		addReport(status, message)
-		if status != TestPassed {
+		if status == TestPassed {
+			addReport(TestInfo, message)
+		} else {
+			addReport(status, message)
 			passed = false
 		}
 	}
 
 	if plan.StdoutIsMap {
 		status, message := testIsMap(stdout, stdoutType, "StdoutIsMap")
-		addReport(status, message)
-		if status != TestPassed {
+		if status == TestPassed {
+			addReport(TestInfo, message)
+		} else {
+			addReport(status, message)
 			passed = false
 		}
 	}
@@ -314,16 +318,20 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	if plan.StderrIsArray {
 		status, message := testIsArray(stderr, stderrType, "StderrIsArray")
-		addReport(status, message)
-		if status != TestPassed {
+		if status == TestPassed {
+			addReport(TestInfo, message)
+		} else {
+			addReport(status, message)
 			passed = false
 		}
 	}
 
 	if plan.StderrIsMap {
 		status, message := testIsMap(stderr, stderrType, "StderrIsMap")
-		addReport(status, message)
-		if status != TestPassed {
+		if status == TestPassed {
+			addReport(TestInfo, message)
+		} else {
+			addReport(status, message)
 			passed = false
 		}
 	}

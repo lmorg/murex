@@ -32,9 +32,6 @@ var (
 	// GoFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 
-	// InitConf is a table of global config options
-	//InitConf = config.NewConfiguration(0)
-
 	// GlobalVariables is a table of global variables
 	GlobalVariables = NewGlobals()
 
@@ -220,7 +217,6 @@ executeProcess:
 			fork := p.Fork(F_FUNCTION)
 			fork.Name = p.Name
 			fork.Parameters = p.Parameters
-			//fork.Module = fn.Module
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
@@ -232,7 +228,6 @@ executeProcess:
 			fork := p.Fork(F_FUNCTION)
 			fork.Name = p.Name
 			fork.Parameters = p.Parameters
-			//fork.Module = fn.Module
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
@@ -251,7 +246,6 @@ executeProcess:
 			_, err = p.Stdout.Write([]byte(s))
 		default:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
-			//RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 			p.Fork(F_PARENT_VARTABLE).Execute(block)
 		}
 

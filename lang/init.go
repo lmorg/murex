@@ -59,6 +59,10 @@ func NewTestProcess() (p *Process) {
 	p.Variables = NewVariables(p)
 	p.FileRef = &ref.File{Source: &ref.Source{Module: "builtin/testing"}}
 	p.Context, p.Done = context.WithTimeout(context.Background(), 60*time.Second)
+	p.Parent = ShellProcess
+	p.Scope = ShellProcess
+	p.Next = ShellProcess
+	p.Previous = ShellProcess
 
 	GlobalFIDs.Register(p)
 

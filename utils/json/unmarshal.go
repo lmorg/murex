@@ -3,8 +3,11 @@ package json
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/utils/mxjson"
 )
 
 // Unmarshal is a wrapper around the standard json.Unmarshal function. This is
@@ -23,6 +26,17 @@ func Unmarshal(data []byte, v interface{}) (err error) {
 // brace quotes (which allows for a cleaner syntax when embedding Murex code as
 // JSON strings) and line comments via the hash, `#`, prefix.
 func UnmarshalMurex(data []byte, v interface{}) error {
+	err := unmarshalMurex(data, v)
+	if err == nil {
+		return nil
+	}
+
+	_, mxerr := mxjson.Parse(data)
+
+	return fmt.Errorf("mxjson parse error: %s\n%s", err, mxerr)
+}
+
+func unmarshalMurex(data []byte, v interface{}) error {
 	var (
 		escape   bool
 		comment  bool
@@ -146,9 +160,9 @@ func UnmarshalMurex(data []byte, v interface{}) error {
 	case double:
 		return errors.New("Unterminated double quotes")
 	case brace > 0:
-		return errors.New("More open braces than closed")
+		return fmt.Errorf("%d more open brace(s) than closed", brace)
 	case brace < 0:
-		return errors.New("More closed braces than opened")
+		return fmt.Errorf("%d more closed brace(s) than opened", brace)
 	}
 
 	// nothing to do so might as well just forward the params on without editing

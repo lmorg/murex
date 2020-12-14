@@ -23,7 +23,7 @@ func RegesterPipe(name string, constructor func(string) (Io, error)) {
 // the pipe type is invalid.
 func CreatePipe(pipeType, arguments string) (Io, error) {
 	if pipes[pipeType] == nil {
-		return nil, fmt.Errorf("`%s` is not a support pipe type", pipeType)
+		return nil, fmt.Errorf("`%s` is not a supported pipe type", pipeType)
 	}
 
 	return pipes[pipeType](arguments)

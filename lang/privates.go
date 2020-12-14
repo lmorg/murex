@@ -1,7 +1,8 @@
 package lang
 
 import (
-	"errors"
+	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/lmorg/murex/lang/ref"
@@ -20,6 +21,8 @@ type murexPrivDetails struct {
 	Summary string
 	FileRef *ref.File
 }
+
+const errMsg = "Cannot locate private called `%s` in module `%s`"
 
 // NewMurexPrivs creates a new table of private murex functions
 func NewMurexPrivs() (mf MurexPrivs) {
@@ -70,7 +73,7 @@ func (mf *MurexPrivs) Block(name, module string) ([]rune, error) {
 	priv := mf.get(name, module)
 
 	if priv == nil {
-		return nil, errors.New("Cannot locate private named `" + name + "`")
+		return nil, fmt.Errorf(errMsg, name, module)
 	}
 
 	return priv.Block, nil
@@ -81,7 +84,7 @@ func (mf *MurexPrivs) Summary(name, module string) (string, error) {
 	priv := mf.get(name, module)
 
 	if priv == nil {
-		return "", errors.New("Cannot locate private named `" + name + "`")
+		return "", fmt.Errorf(errMsg, name, module)
 	}
 
 	return priv.Summary, nil
@@ -111,16 +114,39 @@ func (mf *MurexPrivs) Dump() interface{} {
 		FileRef *ref.File
 	}
 
-	var dump []funcs
+	dump := make(map[string]map[string]map[string]funcs)
 
 	mf.mutex.Lock()
 	for _, priv := range mf.fn {
-		dump = append(dump, funcs{
+		mod := strings.Split(priv.FileRef.Source.Module, "/")
+		switch len(mod) {
+		case 0:
+			mod = []string{priv.FileRef.Source.Module, priv.FileRef.Source.Module}
+
+		case 1:
+			mod = append(mod, priv.FileRef.Source.Module)
+
+		case 2:
+			// do nothing
+
+		default:
+			mod = []string{mod[0], strings.Join(mod[1:], "-")}
+		}
+
+		if dump[mod[0]] == nil {
+			dump[mod[0]] = make(map[string]map[string]funcs)
+		}
+
+		if dump[mod[0]][mod[1]] == nil {
+			dump[mod[0]][mod[1]] = make(map[string]funcs)
+		}
+
+		dump[mod[0]][mod[1]][priv.Name] = funcs{
 			Name:    priv.Name,
 			Summary: priv.Summary,
 			Block:   string(priv.Block),
 			FileRef: priv.FileRef,
-		})
+		}
 	}
 	mf.mutex.Unlock()
 

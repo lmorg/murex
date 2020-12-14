@@ -6,7 +6,6 @@ import (
 
 func TestParserParenthesis(t *testing.T) {
 	tests := []parserTestSimpleConditions{
-
 		{
 			Block: `foo (bar)`,
 			Expected: []parserTestSimpleExpected{

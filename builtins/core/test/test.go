@@ -18,12 +18,12 @@ func init() {
 private autocomplete.test.run-unit {
     runtime: --tests -> [ unit ] -> foreach: test {
         out: $test[function]
-    } -> prepend *
+    } -> prepend * -> cast str
 }
 
 test unit private autocomplete.test.run-unit {
     "StdoutRegex": (^(([-_./a-zA-Z0-9]+|\*)\n)+),
-	"StdoutType":  "jsonl",
+	"StdoutType":  "str",
     "StdoutBlock": ({
         -> len -> set len;
         if { = len>0 } then {
@@ -31,7 +31,8 @@ test unit private autocomplete.test.run-unit {
         } else {
             err "No elements returned"
         }
-    })
+	}),
+	"StdoutIsArray": true
 }
 
 autocomplete set test { [
@@ -73,8 +74,8 @@ func errUsage(invalidParameter string, err error) error {
     test: unit function|private|open|event test-name { json-properties }
     test: state name { code block }
     test: run { code-block }
-	test: run package/module/test-name|*
-	test: report
+    test: run package/module/test-name|*
+    test: report
     !test`)
 
 	switch {
