@@ -74,7 +74,7 @@ func execute(p *Process) error {
 	// In the meantime, you can force exec processes to write STDERR to the TTY via the `config` command in the shell:
 	//
 	//     config set proc force-tty true
-	if p.Stderr.IsTTY() && forceTTY(p) {
+	if p.Stderr.IsTTY() && !forceTTY(p) {
 		cmd.Stderr = os.Stderr
 	} else {
 		cmd.Stderr = p.Stderr

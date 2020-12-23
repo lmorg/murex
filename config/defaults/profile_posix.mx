@@ -166,6 +166,7 @@ config eval shell safe-commands {
 
 if { which bash } then {
     function bash {
+        # Wrapper script around GNU bash
         config: set proc force-tty true
         
         if { $ARGS -> len -> = -1 } then {
@@ -175,6 +176,8 @@ if { which bash } then {
             exec bash
         }
     }
+
+    summary bash ${ man-summary: bash }
 }
 
 autocomplete set make { [
