@@ -27,7 +27,7 @@ func init() {
             "FlagValues": {
 				"function": [{
 					"DynamicDesc": ({
-						runtime: --functions -> formap k v { out "${escape: $k}: ${escape: $v[summary]}" } -> cast yaml
+						runtime: --functions -> formap --jmap k v { $k } { out: $v[summary] }
 					})
 				}],
 				"private": [{
