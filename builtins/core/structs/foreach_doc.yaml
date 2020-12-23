@@ -87,7 +87,7 @@
     The output is the same but now it's defined as `yaml` so any further pipelined
     processes will now automatically use YAML marshallers when reading that data.
     
-    {{ include "gen/includes/for-loop-json-tips.md" }}
+    {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Synonyms:
   Related:
   - formap

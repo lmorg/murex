@@ -62,7 +62,7 @@
 
     ### Order of preference
 
-    {{ include "gen/includes/order-of-preference.inc.md" }}
+    {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
   - alias
   - "!alias"
@@ -75,6 +75,8 @@
   - set
   - global
   - export
+  - exec
+  - fexec
 
 
 - DocumentID: function
@@ -116,7 +118,7 @@
 
     ### Order of preference
 
-    {{ include "gen/includes/order-of-preference.inc.md" }}
+    {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
   - function
   - "!function"
@@ -129,6 +131,8 @@
   - set
   - global
   - export
+  - exec
+  - fexec
 
 
 - DocumentID: private
@@ -189,7 +193,7 @@
 
     ### Order of preference
 
-    {{ include "gen/includes/order-of-preference.inc.md" }}
+    {{ include "gen/includes/order-of-precedence.inc.md" }}
   Synonyms:
   Related:
   - function
@@ -201,3 +205,5 @@
   - set
   - global
   - export
+  - exec
+  - fexec

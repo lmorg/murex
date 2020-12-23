@@ -49,7 +49,7 @@
     Marshal(): Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
     Unmarshal(): Supported
   Detail: |-
-    {{ include "gen/includes/for-loop-json-tips.md" }}
+    {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Associations:
     Mimes:
     - application/json
