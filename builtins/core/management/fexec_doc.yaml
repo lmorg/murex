@@ -3,15 +3,18 @@
     `fexec` 
   CategoryID: commands
   Summary: >-
-    Execute a command in a user supplied 
+    Execute a command or function, bypassing the usual order of precedence.
   Description: |-
-    `fexec` allows you to execute a command of a function / private / etc bypassing
-    the usual order of precedence.
+    `fexec` allows you to execute a command or function, bypassing the usual order
+    of precedence.
   Usage: |-
     ```
-    fexec flag command [ parameters... ] -> <stdout>
+    fexec: flag command [ parameters... ] -> <stdout>
     ``` 
-  #Examples: |-
+  Examples: |-
+    ```
+    fexec: private /source/builtin/autocomplete.alias
+    ```
   Flags:
     function: >-
       Execute a _murex_ public function

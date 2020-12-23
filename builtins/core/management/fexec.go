@@ -41,21 +41,21 @@ func init() {
 
 	fe = map[string]feType{
 		"function": {
-			desc: "",
+			desc: "Execute a murex public function",
 			fn:   feFunction,
 		},
 
 		"private": {
-			desc: "private",
+			desc: "Execute a murex private function",
 			fn:   fePrivate,
 		},
 
-		"event": {
+		/*"event": {
 			desc: "event",
 			fn: func(p *lang.Process, cmd string, params []string) error {
 				return fmt.Errorf("TODO: function not written yet")
 			},
-		},
+		},*/
 
 		"builtin": {
 			desc: "builtin",

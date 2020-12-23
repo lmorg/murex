@@ -13,6 +13,7 @@
     ```
 
     `builtins` is an alias for `runtime: --builtins`:
+
     ```
     builtins -> <stdout>
     ```

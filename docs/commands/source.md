@@ -54,6 +54,10 @@ Execute a code block from parameter
   Set definitions for tab-completion in the command line
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
+* [commands/`exec`](../commands/exec.md):
+  Runs an executable
+* [commands/`fexec` ](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [commands/`function`](../commands/function.md):
   Define a function block
 * [commands/`murex-parser` ](../commands/murex-parser.md):

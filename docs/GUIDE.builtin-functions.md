@@ -115,6 +115,8 @@ to return the same markdown-formatted document as those listed below. eg
   Lists objects (eg files) in the current working directory
 * [`false`](commands/false.md):
   Returns a `false` value
+* [`fexec` ](commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
 * [`fid-kill`](commands/fid-kill.md):
