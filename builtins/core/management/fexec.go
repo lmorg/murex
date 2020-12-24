@@ -26,14 +26,16 @@ func init() {
             "DynamicDesc": ({ fexec help }),
             "FlagValues": {
 				"function": [{
-					"DynamicDesc": ({
-						runtime: --functions -> formap --jmap k v { $k } { out: $v[summary] }
-					})
+					"DynamicDesc": ({ autocomplete.functions }),
+					"ListView": true
 				}],
 				"private": [{
-					"Dynamic": ({
-						runtime: --privates -> struct-keys: 3
-					})
+					"DynamicDesc": ({ autocomplete.privates }),
+					"ListView": true
+				}],
+				"builtin": [{
+					"DynamicDesc": ({ autocomplete.builtins }),
+					"ListView": true
 				}]
 			}
         }] }
@@ -58,12 +60,12 @@ func init() {
 		},*/
 
 		"builtin": {
-			desc: "builtin",
+			desc: "Execute a murex builtin",
 			fn:   feBuiltin,
 		},
 
 		"help": {
-			desc: "help",
+			desc: "Display help message",
 			fn:   feHelp,
 		},
 	}

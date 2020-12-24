@@ -55,6 +55,7 @@ autocomplete set swivel-datatype { [{
 }] }
 
 private autocomplete.data-types {
+    # Returns all murex data-types compiled
     runtime: --readarray -> format: str
     runtime: --writearray -> format: str
     runtime: --readmap -> format: str
@@ -101,6 +102,7 @@ autocomplete set unset { [{
 }] }
 
 private autocomplete.variables {
+    # Returns all global and local variable names
     runtime: --globals -> formap k v { out $k } -> cast: str
     runtime: --variables -> formap k v { out $k } -> cast: str
 }
@@ -175,6 +177,7 @@ autocomplete set "[[" { [{
 } ]}
 
 private autocomplete.config.get.apps {
+    # Returns all app names for the 'app' field in `config`
     config: -> formap k v { out $k } -> cast: str -> msort
 }
 
@@ -193,6 +196,7 @@ test unit private autocomplete.config.get.apps {
 }
 
 private autocomplete.config.get.keys {
+    # Returns all keys for the 'app' field in `config`
     config -> [ $ARGS[1] ] -> formap k v { out $k } -> cast: str -> msort
 }
 
@@ -270,12 +274,13 @@ autocomplete set !event { [
 ] }
 
 private autocomplete.alias {
-    runtime: --aliases -> formap k v { out $k } -> cast: str
+    # Returns a map of all alises and the code they execute
+    runtime: --aliases -> formap --jmap name value { $name } { out @value }
 }
 
 test unit private autocomplete.alias {
     "StdoutRegex": (jobs),
-	"StdoutType":  "str",
+	"StdoutType":  "json",
     "StdoutBlock": ({
         -> len -> set len;
         if { = len>0 } then {
@@ -284,15 +289,17 @@ test unit private autocomplete.alias {
             err "No elements returned"
         }
     }),
-    "StdoutIsArray": true
+    "StdoutIsMap": true
 }
 
 autocomplete set !alias { [{
-    "Dynamic": ({ autocomplete.alias })
+    "DynamicDesc": ({ autocomplete.alias }),
+    "ListView": true
 }] }
 
 private autocomplete.functions {
-    runtime: --functions -> formap k v { out $k } -> cast: str
+    # Returns a map of all murex public functions
+    runtime: --functions -> formap --jmap k v { $k } { out: $v[summary] }
 }
 
 test unit private autocomplete.functions {
@@ -305,7 +312,7 @@ test unit private autocomplete.functions {
         !function unit.test.autocomplete.functions
     }),
     "StdoutRegex": (unit.test.autocomplete.functions),
-	"StdoutType":  "str",
+	"StdoutType":  "json",
     "StdoutBlock": ({
         -> len -> set len;
         if { = len>0 } then {
@@ -314,12 +321,49 @@ test unit private autocomplete.functions {
             err "No elements returned"
         }
     }),
-    "StdoutIsArray": true
+    "StdoutIsMap": true
 }
 
 autocomplete set !function { [{
-    "Dynamic": ({ autocomplete.functions })
+    "DynamicDesc": ({ autocomplete.functions }),
+    "ListView": true
 } ]}
+
+private autocomplete.privates {
+    # Returns a map of all murex private functions
+    runtime: --privates  -> struct-keys: 3 -> regexp m,/.*?/.*?/, -> foreach --jmap private { $private } { runtime: --privates -> [[ $private/Summary ]] }
+}
+
+test unit private autocomplete.privates {
+	"StdoutType":  "json",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsMap": true
+}
+
+private autocomplete.builtins {
+    # Returns a map of all murex builtins
+    runtime --builtins -> foreach --jmap builtin { $builtin } { murex-docs --summary $builtin }
+}
+
+test unit private autocomplete.builtins {
+	"StdoutType":  "json",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsMap": true
+}
 
 autocomplete set autocomplete { [{
     "Flags": [ "get", "set" ],
@@ -333,6 +377,7 @@ autocomplete set autocomplete { [{
 }] }
 
 private git-branch {
+    # Returns a list of branches excluding currect checked-out branch in the current git repository
     git branch -> [ :0 ] -> !match *
 }
 
@@ -492,6 +537,7 @@ autocomplete set docker { [
 ] }
 
 private autocomplete.docker-compose.services {
+    # Returns a list of services described in docker-compose.yaml
     open docker-compose.yaml -> [ services ] -> formap k v { out "$k" } -> cast str
 }
 
@@ -573,8 +619,6 @@ autocomplete set gopass { [{
 autocomplete set debug { [{
     "Flags": ["on", "off"]
 }] }
-
-
 
 autocomplete: set murex-package {
     [{

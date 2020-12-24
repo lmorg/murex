@@ -9,10 +9,22 @@
     a code block for each iteration with the value of the iterated element passed
     to it.
   Usage: |-
+    `{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT
+
     ```
     <stdin> -> foreach variable { code-block } -> <stdout>
+    ```
 
+    `{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT
+
+    ```
     <stdin> -> foreach { -> code-block } -> <stdout>
+    ```
+
+    `foreach` writes to a buffered JSON map
+
+    ```
+    <stdin> -> foreach --jmap variable { code-block (map key) } { code-block (map value) } -> <stdout>
     ```
   Examples: |-
     There are two basic ways you can write a `foreach` loop depending on how you
@@ -43,6 +55,19 @@
     > STDIN can only be read as the first command. If you cannot process the
     > element on the first command then it is recommended you use the first
     > option (passing a variable) instead.
+
+    ### Writing JSON maps
+
+    ```
+    » ja [Monday..Friday] -> foreach --jmap day { out $day -> left 3 } { $day }
+    {
+        "Fri": "Friday",
+        "Mon": "Monday",
+        "Thu": "Thursday",
+        "Tue": "Tuesday",
+        "Wed": "Wednesday"
+    } 
+    ```
   Flags:
   Detail: |-
     ### Preserving the data-type
@@ -53,7 +78,8 @@
     * The temporary variable will be created with the same data-type as
       `foreach`'s STDIN
     * The code block's STDIN will have the same data-type as `foreach`'s STDIN
-    * `foreeach`'s STDOUT will also be the same data-type as it's STDIN
+    * `foreeach`'s STDOUT will also be the same data-type as it's STDIN (or `jsonl`
+      (jsonlines) where STDIN was `json` because `jsonl` better supports streaming)
 
     This last point means you may need to `cast` your data if you're writing
     data in a different format. For example the following is creating a YAML list
@@ -102,3 +128,6 @@
   - types/jsonl
   - types/yaml
   - out
+  - left
+  - debug
+  - element

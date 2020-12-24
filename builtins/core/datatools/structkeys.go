@@ -21,7 +21,7 @@ func cmdStructKeys(p *lang.Process) error {
 
 	nDeep, _ := p.Parameters.Int(0)
 	if nDeep < 1 {
-		nDeep = 20 // lets hardcode the max number of iterations for now...
+		nDeep = -1 // lets hardcode the max number of iterations for now...
 	}
 
 	v, err := lang.UnmarshalData(p, p.Stdin.GetDataType())

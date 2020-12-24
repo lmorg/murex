@@ -2,7 +2,6 @@ autocomplete set go { [{
     "Flags": [ "build", "clean", "doc", "env", "bug", "fix", "fmt", "generate", "get", "install", "list", "run", "test", "tool", "version", "vet", "help" ]
 }] }
 
-
 autocomplete set cast { [{
     "Dynamic": ({ runtime: --unmarshallers })
 }] }

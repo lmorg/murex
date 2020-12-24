@@ -46,9 +46,14 @@ func cmdForMapDefault(p *lang.Process) error {
 			return
 		}
 
+		if varKey != "!" {
+			p.Variables.Set(p, varKey, key, types.String)
+		}
+		if varVal != "!" {
+			p.Variables.Set(p, varVal, value, dt)
+		}
+
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
-		p.Variables.Set(p, varKey, key, types.String)
-		p.Variables.Set(p, varVal, value, dt)
 		fork.Execute(block)
 	})
 
@@ -88,8 +93,12 @@ func cmdForMapJmap(p *lang.Process) error {
 			return
 		}
 
-		p.Variables.Set(p, varKey, key, types.String)
-		p.Variables.Set(p, varVal, value, dt)
+		if varKey != "!" {
+			p.Variables.Set(p, varKey, key, types.String)
+		}
+		if varVal != "!" {
+			p.Variables.Set(p, varVal, value, dt)
+		}
 
 		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 		forkKey.Execute(blockKey)

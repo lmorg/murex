@@ -4,6 +4,7 @@ alias egrep=egrep --color=auto
 
 if { which: systemctl } {
     private autocomplete.systemctl {
+        # Returns all known systemd unit files
         systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
     }
 
@@ -22,6 +23,7 @@ if { which: systemctl } {
     }
 
     function autocomplete.systemctl.flags {
+        # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
         systemctl: --help -> @[Unit Commands:..]s -> regexp m/(NAME|PATTERN)/ -> tabulate: --map --key-inc-hint -> formap key val {
             out ("$key": [{
                 "Dynamic": ({ autocomplete.systemctl }),
@@ -52,6 +54,8 @@ if { which: systemctl } {
             }
         }
     ])
+
+    !function autocomplete.systemctl.flags
 
 }
 
