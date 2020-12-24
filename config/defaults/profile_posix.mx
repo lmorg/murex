@@ -177,7 +177,10 @@ if { which bash } then {
         }
     }
 
-    summary bash ${ man-summary: bash }
+    trypipe {
+        man-summary: <!null> bash -> set bash_summary
+        summary bash $bash_summary
+    }
 }
 
 autocomplete set make { [
