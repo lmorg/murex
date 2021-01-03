@@ -82,6 +82,8 @@
     ```
 
     ...though granted the latter is a little less readable.
+
+    {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Synonyms:
   Related:
   - formap

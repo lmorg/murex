@@ -115,6 +115,8 @@ to return the same markdown-formatted document as those listed below. eg
   Lists objects (eg files) in the current working directory
 * [`false`](commands/false.md):
   Returns a `false` value
+* [`fexec` ](commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
 * [`fid-kill`](commands/fid-kill.md):
@@ -184,7 +186,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`os`](commands/os.md):
   Output the auto-detected OS name
 * [`out`](commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [`pipe`](commands/pipe.md):
   Manage _murex_ named pipes
 * [`post`](commands/post.md):

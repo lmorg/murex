@@ -61,8 +61,8 @@ func TestStructKeysNoParams(t *testing.T) {
 		/spouse
 	`
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -129,8 +129,8 @@ func TestStructKeysParamStr(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -197,8 +197,8 @@ func TestStructKeysParam0(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -265,8 +265,8 @@ func TestStructKeysParamMinus10(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -320,8 +320,8 @@ func TestStructKeysParam1(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -382,8 +382,8 @@ func TestStructKeysParam2(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -450,8 +450,8 @@ func TestStructKeysParam3(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `
@@ -518,8 +518,8 @@ func TestStructKeysParam200(t *testing.T) {
 	  /spouse
   `
 
-	expected = strings.ReplaceAll(expected, "\t", "")
-	expected = strings.ReplaceAll(expected, " ", "")
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
 
 	tests := []test.MurexTest{{
 		Block: `

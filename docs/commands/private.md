@@ -58,7 +58,7 @@ is not possible to do so.
 
 ### Order of preference
 
-There is an order of preference for which commands are looked up:
+There is an order of precedence for which commands are looked up:
 1. `test` and `pipe` functions because they alter the behavior of the compiler
 2. Aliases - defined via `alias`. All aliases are global
 3. _murex_ functions - defined via `function`. All functions are global
@@ -74,8 +74,12 @@ There is an order of preference for which commands are looked up:
 
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command
+* [commands/`exec`](../commands/exec.md):
+  Runs an executable
 * [commands/`export`](../commands/export.md):
   Define a local variable and set it's value
+* [commands/`fexec` ](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [commands/`function`](../commands/function.md):
   Define a function block
 * [commands/`g`](../commands/g.md):

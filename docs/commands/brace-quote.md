@@ -55,7 +55,7 @@ characters if you don't want them nested.
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
 * [commands/`tout`](../commands/tout.md):

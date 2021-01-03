@@ -3,17 +3,24 @@ package utils
 // CrLfTrim removes the trailing carridge return and line feed from a byte array
 // however it is only concerned with one instance (ie you can still append a
 // CRLF to the data if you have two instances of a \r\n terminator).
+// CrLfTrim creates a copy of the byte slice.
 func CrLfTrim(b []byte) []byte {
-	trim := make([]byte, len(b))
-	copy(trim, b)
+	i := len(b)
 
-	if len(trim) > 0 && trim[len(trim)-1] == '\n' {
-		trim = trim[:len(trim)-1]
+	if i != 0 && b[i-1] == '\n' {
+		i--
 	}
 
-	if len(trim) > 0 && trim[len(trim)-1] == '\r' {
-		trim = trim[:len(trim)-1]
+	if i != 0 && b[i-1] == '\r' {
+		i--
 	}
+
+	if i == 0 {
+		return []byte{}
+	}
+
+	trim := make([]byte, i)
+	copy(trim, b[:i])
 
 	return trim
 }
@@ -21,17 +28,24 @@ func CrLfTrim(b []byte) []byte {
 // CrLfTrimRune removes the trailing carridge return and line feed from a rune
 // array however it is only concerned with one instance (ie you can still append
 // a CRLF to the data if you have two instances of a \r\n terminator).
+// CrLfTrimRune creates a copy of the rune slice.
 func CrLfTrimRune(r []rune) []rune {
-	trim := make([]rune, len(r))
-	copy(trim, r)
+	i := len(r)
 
-	if len(trim) > 0 && trim[len(trim)-1] == '\n' {
-		trim = trim[:len(trim)-1]
+	if i != 0 && r[i-1] == '\n' {
+		i--
 	}
 
-	if len(trim) > 0 && trim[len(trim)-1] == '\r' {
-		trim = trim[:len(trim)-1]
+	if i != 0 && r[i-1] == '\r' {
+		i--
 	}
+
+	if i == 0 {
+		return []rune{}
+	}
+
+	trim := make([]rune, i)
+	copy(trim, r[:i])
 
 	return trim
 }
@@ -40,13 +54,19 @@ func CrLfTrimRune(r []rune) []rune {
 // string however it is only concerned with one instance (ie you can still
 // append a CRLF to the data if you have two instances of a \r\n terminator).
 func CrLfTrimString(s string) string {
-	if len(s) > 0 && s[len(s)-1] == '\n' {
-		s = s[:len(s)-1]
+	i := len(s)
+
+	if i != 0 && s[i-1] == '\n' {
+		i--
 	}
 
-	if len(s) > 0 && s[len(s)-1] == '\r' {
-		s = s[:len(s)-1]
+	if i != 0 && s[i-1] == '\r' {
+		i--
 	}
 
-	return s
+	if i == 0 {
+		return ""
+	}
+
+	return s[:i]
 }

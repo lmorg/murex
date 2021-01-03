@@ -54,7 +54,7 @@ This could also be written as:
 * [commands/`match`](../commands/match.md):
   Match an exact value in an array
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
 * [parser/namedpipe](../parser/namedpipe.md):

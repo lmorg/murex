@@ -61,6 +61,8 @@ include:
   Run processes in the background
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
+* [commands/`fexec` ](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [commands/`fg`](../commands/fg.md):
   Sends a background process into the foreground
 * [commands/`fid-kill`](../commands/fid-kill.md):

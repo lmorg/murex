@@ -187,7 +187,7 @@ quotes:
 * [commands/`match`](../commands/match.md):
   Match an exact value in an array
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [commands/`test`](../commands/test.md):

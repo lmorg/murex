@@ -175,7 +175,7 @@ func funcInclude(s string) string {
 	for i := range match {
 		f := fileReader(match[i][1])
 		b := bytes.TrimSpace(readAll(f))
-		s = strings.ReplaceAll(s, match[i][0], string(b))
+		s = strings.Replace(s, match[i][0], string(b), -1)
 	}
 
 	return s

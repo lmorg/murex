@@ -41,7 +41,7 @@ like any ordinary printable character:
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
 * [parser/pipenamed](../parser/pipenamed.md):

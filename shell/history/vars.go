@@ -274,7 +274,7 @@ func expandHistRepParam(s string, rl *readline.Instance) (string, error) {
 				return "", fmt.Errorf("(%s) Parameter index out of bounds: %d (derived from '%s')", mhRepParam[i][0], param, mhRepParam[i][1])
 			}
 			new := rx.ReplaceAllString(old, mhRepParam[i][3])
-			s = strings.ReplaceAll(s, mhRepParam[i][0], new)
+			s = strings.Replace(s, mhRepParam[i][0], new, -1)
 		}
 
 	}

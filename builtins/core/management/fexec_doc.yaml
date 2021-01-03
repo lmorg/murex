@@ -1,0 +1,44 @@
+- DocumentID: fexec
+  Title: >+
+    `fexec` 
+  CategoryID: commands
+  Summary: >-
+    Execute a command or function, bypassing the usual order of precedence.
+  Description: |-
+    `fexec` allows you to execute a command or function, bypassing the usual order
+    of precedence.
+  Usage: |-
+    ```
+    fexec: flag command [ parameters... ] -> <stdout>
+    ``` 
+  Examples: |-
+    ```
+    fexec: private /source/builtin/autocomplete.alias
+    ```
+  Flags:
+    function: >-
+      Execute a _murex_ public function
+    private: >-
+      Execute a _murex_ private function
+    builtin: >-
+      Execute a _murex_ builtin
+    help: >-
+      Display help message
+  Detail: |-
+    ### Order of precedence
+
+    {{ include "gen/includes/order-of-precedence.inc.md" }}
+  Synonyms:
+  Related:
+  - function
+  - private
+  - exec
+  - source
+  - open
+  - alias
+  - autocomplete
+  - event
+  - builtins
+  - bg
+  - fg
+  - jobs

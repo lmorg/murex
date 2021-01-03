@@ -56,7 +56,7 @@ a new _murex_ named pipe.
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
 * [commands/`pretty`](../commands/pretty.md):

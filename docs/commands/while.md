@@ -80,7 +80,7 @@ Until false
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
 * [commands/formap](../commands/formap.md):

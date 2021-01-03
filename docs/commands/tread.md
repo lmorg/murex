@@ -47,7 +47,7 @@ variable.
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`read`](../commands/read.md):

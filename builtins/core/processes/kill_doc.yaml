@@ -26,6 +26,7 @@
   - murex-update-exe-list
   - builtins
   - bexists
+  - fexec
 
 
 - DocumentID: fid-killall
@@ -54,6 +55,7 @@
   - fg
   - jobs
   - exec
+  - fexec
   - murex-update-exe-list
   - builtins
   - bexists

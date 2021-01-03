@@ -12,9 +12,17 @@ to it.
 
 ## Usage
 
+`{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT
+
     <stdin> -> foreach variable { code-block } -> <stdout>
     
+`{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT
+
     <stdin> -> foreach { -> code-block } -> <stdout>
+    
+`foreach` writes to a buffered JSON map
+
+    <stdin> -> foreach --jmap variable { code-block (map key) } { code-block (map value) } -> <stdout>
 
 ## Examples
 
@@ -43,6 +51,17 @@ The second option is for the code block's STDIN to read the element:
 > element on the first command then it is recommended you use the first
 > option (passing a variable) instead.
 
+### Writing JSON maps
+
+    » ja [Monday..Friday] -> foreach --jmap day { out $day -> left 3 } { $day }
+    {
+        "Fri": "Friday",
+        "Mon": "Monday",
+        "Thu": "Thursday",
+        "Tue": "Tuesday",
+        "Wed": "Wednesday"
+    } 
+
 ## Detail
 
 ### Preserving the data-type
@@ -53,7 +72,8 @@ data is being passed along the pipeline:
 * The temporary variable will be created with the same data-type as
   `foreach`'s STDIN
 * The code block's STDIN will have the same data-type as `foreach`'s STDIN
-* `foreeach`'s STDOUT will also be the same data-type as it's STDIN
+* `foreeach`'s STDOUT will also be the same data-type as it's STDIN (or `jsonl`
+  (jsonlines) where STDIN was `json` because `jsonl` better supports streaming)
 
 This last point means you may need to `cast` your data if you're writing
 data in a different format. For example the following is creating a YAML list
@@ -206,10 +226,14 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 ## See Also
 
+* [commands/`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [commands/`debug`](../commands/debug.md):
+  Debugging information
 * [commands/`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [commands/`format`](../commands/format.md):
@@ -222,8 +246,10 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
+* [commands/`left`](../commands/left.md):
+  Left substring every item in a list
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`while`](../commands/while.md):
   Loop until condition false
 * [types/`yaml` ](../types/yaml.md):

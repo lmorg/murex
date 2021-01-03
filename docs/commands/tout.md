@@ -38,7 +38,7 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/sprintf](../commands/sprintf.md):

@@ -85,9 +85,9 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	}
 
 	escape := func(s string) string {
-		s = strings.ReplaceAll(s, "\n", `\n`)
-		s = strings.ReplaceAll(s, "\r", `\r`)
-		s = strings.ReplaceAll(s, "\t", `\t`)
+		s = strings.Replace(s, "\n", `\n`, -1)
+		s = strings.Replace(s, "\r", `\r`, -1)
+		s = strings.Replace(s, "\t", `\t`, -1)
 		return s
 	}
 
@@ -220,7 +220,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 				`"`+params(r.Exec, r.Params)+`",`,
 				r.LineNumber,
 				r.ColNumber,
-				`"`+strings.ReplaceAll(escape(r.Message), `"`, `""`)+`"`,
+				`"`+strings.Replace(escape(r.Message), `"`, `""`, -1)+`"`,
 			)
 
 			pipe.Writeln([]byte(s))

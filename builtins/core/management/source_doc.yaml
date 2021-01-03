@@ -64,3 +64,5 @@
   - autocomplete
   - args
   - params
+  - exec
+  - fexec
