@@ -16,6 +16,7 @@ func init() {
 
 	defaults.AppendProfile(`
 		private autocomplete.pipe-types {
+			# Returns CLI flags for ` + "`pipe`" + `
 			runtime: --pipes -> !match: std -> prefix: "--"
 		}
 
@@ -38,6 +39,7 @@ func init() {
 		] }
 
 		private autocomplete.!pipe-list {
+			# Returns CLI flags for ` + "`!pipe`" + `
 			runtime: --named-pipes -> ![ null ]
 		}
 

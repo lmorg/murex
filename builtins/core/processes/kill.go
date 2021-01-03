@@ -14,6 +14,7 @@ func init() {
 
 	defaults.AppendProfile(`
 private autocomplete.fid-kill {
+	# Returns a 2D array FIDs 
     fid-list: --jsonl -> [ FID Command Parameters ]
 }
 
