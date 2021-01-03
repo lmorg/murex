@@ -19,9 +19,6 @@ func jsonStr() string {
 		"Nested":   { "self": 5314, "fork": "fork" }
 	}`
 
-	//s = strings.ReplaceAll(s, "5314", s)
-	//s = strings.ReplaceAll(s, "5314", s)
-
 	return s
 }
 

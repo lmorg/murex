@@ -19,7 +19,7 @@ func testCreateModuleStruct() (posix, plan9, windows Module, err error) {
 	}
 
 	if runtime.GOOS == "windows" {
-		pwd = strings.ReplaceAll(pwd, `\`, "/")
+		pwd = strings.Replace(pwd, `\`, "/", -1)
 	}
 
 	// this is a terrible kludge!
