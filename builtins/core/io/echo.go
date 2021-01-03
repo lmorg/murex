@@ -1,17 +1,26 @@
 package io
 
 import (
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
 )
 
 func init() {
-	lang.GoFunctions["echo"] = cmdOut
 	lang.GoFunctions["out"] = cmdOut
 	lang.GoFunctions["("] = cmdOutNoCR
 	lang.GoFunctions["tout"] = cmdTout
 	lang.GoFunctions["err"] = cmdErr
+
+	defaults.AppendProfile(`
+		alias echo=out
+		config eval shell safe-commands {
+			-> alter --merge / ([
+				"echo"
+			])
+		}
+	`)
 }
 
 func cmdOut(p *lang.Process) (err error) {

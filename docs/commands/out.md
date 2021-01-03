@@ -2,7 +2,7 @@
 
 ## Command Reference: `out`
 
-> `echo` a string to the STDOUT with a trailing new line character
+> Print a string to the STDOUT with a trailing new line character
 
 ## Description
 

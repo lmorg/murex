@@ -45,6 +45,6 @@ Output the the file name and path of a lock file with the name `identifier`
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/sleep](../commands/sleep.md):
   

@@ -50,4 +50,4 @@ As a function
 * [commands/`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character

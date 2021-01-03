@@ -29,7 +29,6 @@ var safeCmds = []string{
 	"cpuarch",
 	"cpucount",
 	"debug",
-	"echo",
 	"escape",
 	"esccli",
 	"eschtml",

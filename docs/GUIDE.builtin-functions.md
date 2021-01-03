@@ -186,7 +186,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`os`](commands/os.md):
   Output the auto-detected OS name
 * [`out`](commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [`pipe`](commands/pipe.md):
   Manage _murex_ named pipes
 * [`post`](commands/post.md):

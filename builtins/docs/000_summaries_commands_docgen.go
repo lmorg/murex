@@ -76,7 +76,7 @@ func init() {
 		"open-image":            "Renders bitmap image data on your terminal",
 		"or":                    "Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.",
 		"os":                    "Output the auto-detected OS name",
-		"out":                   "`echo` a string to the STDOUT with a trailing new line character",
+		"out":                   "Print a string to the STDOUT with a trailing new line character",
 		"pipe":                  "Manage _murex_ named pipes",
 		"post":                  "HTTP POST request with a JSON-parsable return",
 		"prefix":                "Prefix a string to every item in a list",

@@ -29,6 +29,6 @@ instead.
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

@@ -39,7 +39,7 @@ These man pages are compiled into the _murex_ executable.
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [commands/`tread`](../commands/tread.md):

@@ -3,7 +3,7 @@
     `out`
   CategoryID: commands
   Summary: >-
-    `echo` a string to the STDOUT with a trailing new line character
+    Print a string to the STDOUT with a trailing new line character
   Description: |-
     Write parameters to STDOUT with a trailing new line character.
   Usage: |-
@@ -130,6 +130,7 @@
   - greater-than-greater-than
   - pt
   - userguide/ansi
+
 
 - DocumentID: err
   Title: >+

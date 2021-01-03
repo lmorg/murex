@@ -249,7 +249,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 * [commands/`left`](../commands/left.md):
   Left substring every item in a list
 * [commands/`out`](../commands/out.md):
-  `echo` a string to the STDOUT with a trailing new line character
+  Print a string to the STDOUT with a trailing new line character
 * [commands/`while`](../commands/while.md):
   Loop until condition false
 * [types/`yaml` ](../types/yaml.md):
