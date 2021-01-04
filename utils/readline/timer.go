@@ -29,12 +29,14 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 	moveCursorBackwards(len(rl.line) - rl.pos)
 }
 
+// DelayedTabContext is a custom context interface for async updates to the tab completions
 type DelayedTabContext struct {
 	rl      *Instance
 	Context context.Context
 	cancel  context.CancelFunc
 }
 
+// AppendSuggestions updates the tab completions with additional suggestions asynchronously
 func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 	dtc.rl.mutex.Lock()
 	defer dtc.rl.mutex.Unlock()

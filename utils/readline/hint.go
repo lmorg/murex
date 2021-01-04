@@ -51,6 +51,7 @@ func (rl *Instance) resetHintText() {
 	rl.hintText = []rune{}
 }
 
+// SetHintText is a nasty function for force writing a new hint text. Use sparingly!
 func (rl *Instance) SetHintText(s string) {
 	rl.hintText = []rune(s)
 	//rl.writeHintText()

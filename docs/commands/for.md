@@ -8,7 +8,7 @@
 
 This `for` loop is fills a small niche where `foreach` or `formap` idioms will
 fail within your scripts. It's generally not recommended to use `for` because
-it performs slower and doesn't adhere to _murex_'s design philosiphy.
+it performs slower and doesn't adhere to _murex_'s design philosophy.
 
 ## Usage
 

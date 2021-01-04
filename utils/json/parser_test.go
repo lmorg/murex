@@ -33,7 +33,7 @@ func testMx(t *testing.T, src string, sExp string, fail bool, testNum int) {
 	bExp := []byte(sExp)
 
 	if (err != nil) != fail {
-		t.Errorf("Error responce not as expected in test %d: ", testNum)
+		t.Errorf("Error response not as expected in test %d: ", testNum)
 		t.Logf("  mxjson:  %s", src)
 		t.Logf("  exp err: %v", fail)
 		t.Logf("  act err: %v", err)

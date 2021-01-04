@@ -30,7 +30,7 @@ github.com/lmorg/apachelogs
 github.com/lucasb-eyer/go-colorful
 # github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
 github.com/phayes/permbits
-# golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
+# golang.org/x/crypto v0.0.0-20201124201722-c8d3bf9c5392
 golang.org/x/crypto/ssh/terminal
 # golang.org/x/image v0.0.0-20191206065243-da761ea9ff43
 golang.org/x/image/bmp
@@ -41,10 +41,14 @@ golang.org/x/image/tiff/lzw
 golang.org/x/image/vp8
 golang.org/x/image/vp8l
 golang.org/x/image/webp
-# golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9
+# golang.org/x/sys v0.0.0-20201126233918-771906719818
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# gopkg.in/yaml.v2 v2.3.0
+# golang.org/x/term v0.0.0-20201117132131-f5c789dd3221
+golang.org/x/term
+# gopkg.in/yaml.v2 v2.4.0
 gopkg.in/yaml.v2
 # labix.org/v2/mgo v0.0.0-20140701140051-000000000287
 labix.org/v2/mgo/bson
