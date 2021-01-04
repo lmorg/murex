@@ -74,4 +74,3 @@ func GetSize(fd int) (width, height int, err error) {
 	}
 	return int(ws.Col), int(ws.Row), nil
 }
-

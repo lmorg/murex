@@ -70,4 +70,3 @@ func GetSize(fd int) (width, height int, err error) {
 	}
 	return int(info.Size.X), int(info.Size.Y), nil
 }
-
