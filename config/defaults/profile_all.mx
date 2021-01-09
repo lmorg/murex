@@ -649,6 +649,32 @@ autocomplete: set murex-package {
 
 alias builtins=runtime --builtins
 
+private test.alias.builtins { builtins }
+
+test unit private test.alias.builtins {
+    "StdoutRegex": ("[a-z0-9]+",),
+    "StdoutType":  "json",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
+}
+
+autocomplete set murex-docs { [{
+    "Dynamic": ({ builtins }),
+	"Flags": [ "--summary" ],
+	"FlagValues": {
+		"--summary": [{
+			"Dynamic": ({ builtins })
+		}]
+	}
+}] }
+
 config eval shell safe-commands {
     -> alter --merge / ([
         "builtins", "jobs"
