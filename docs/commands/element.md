@@ -97,8 +97,6 @@ path:
     
     » config -> [[ "|shell|syntax-highlighting|Data-Type" ]]
     bool
-    
-If you did need to quote the entire 
 
 ## Synonyms
 
