@@ -160,6 +160,9 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 			ret = parseString(new)
 
 		default:
+			if len(path) == 0 {
+				return nil, fmt.Errorf("Path is 0 (zero) lengthed and unable to construct an object path for %T. Possibly due to bad parameters supplied", v)
+			}
 			return nil, fmt.Errorf("Cannot locate `%s` in object path or no condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", path[i-1], v)
 		}
 

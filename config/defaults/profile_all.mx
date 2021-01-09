@@ -647,11 +647,14 @@ autocomplete: set murex-package {
     }]
 }
 
-alias builtins=runtime --builtins
+alias: builtins=runtime --builtins
 
-private test.alias.builtins { builtins }
+private: test.alias.builtins {
+    # Wrapper function around the alias for `builtins` for unit testing
+    builtins
+}
 
-test unit private test.alias.builtins {
+test: unit private test.alias.builtins {
     "StdoutRegex": ("[a-z0-9]+",),
     "StdoutType":  "json",
     "StdoutBlock": ({
@@ -665,7 +668,7 @@ test unit private test.alias.builtins {
     "StdoutIsArray": true
 }
 
-autocomplete set murex-docs { [{
+autocomplete: set murex-docs { [{
     "Dynamic": ({ builtins }),
 	"Flags": [ "--summary" ],
 	"FlagValues": {
@@ -675,7 +678,33 @@ autocomplete set murex-docs { [{
 	}
 }] }
 
-config eval shell safe-commands {
+private: autocomplete.aliases.and.builtins {
+    # Returns a list of aliases and builtins
+    runtime: --aliases -> formap k ! { out: $k } -> cast str
+    builtins -> format str
+}
+
+test: unit private autocomplete.aliases.and.builtins {
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
+}
+
+autocomplete: set summary { [{
+    "IncExePath": true,
+    "Dynamic": ({
+        autocomplete.aliases.and.builtins
+    })
+}] }
+
+config: eval shell safe-commands {
     -> alter --merge / ([
         "builtins", "jobs"
     ])
@@ -685,7 +714,7 @@ config eval shell safe-commands {
     summary terraform "Write, Plan, and Create Infrastructure as Code"
 }
 
-autocomplete set terraform {[
+autocomplete: set terraform {[
     {
         "DynamicDesc": ({
             terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps
