@@ -261,3 +261,58 @@ func TestUpdateNestedArrayNumeric(t *testing.T) {
 
 	alterTest(t, &test)
 }
+
+func TestUpdateArrayDiffDataTypesInt(t *testing.T) {
+	test := plan{
+		original: `[ 1, 2, 3 ]`,
+		path:     "/1",
+		change:   `10`,
+		expected: `[ 1, 10, 3 ]`,
+	}
+
+	alterTest(t, &test)
+}
+
+func TestUpdateArrayDiffDataTypesFloat(t *testing.T) {
+	test := plan{
+		original: `[ 1.1, 2.2, 3.3 ]`,
+		path:     "/1",
+		change:   `10.01`,
+		expected: `[ 1.1, 10.01, 3.3 ]`,
+	}
+
+	alterTest(t, &test)
+}
+
+func TestUpdateArrayDiffDataTypesBoolTrue(t *testing.T) {
+	test := plan{
+		original: `[ true, true, true ]`,
+		path:     "/1",
+		change:   `false`,
+		expected: `[ true, false, true ]`,
+	}
+
+	alterTest(t, &test)
+}
+
+func TestUpdateArrayDiffDataTypesBoolFalse(t *testing.T) {
+	test := plan{
+		original: `[ false, false, false ]`,
+		path:     "/1",
+		change:   `true`,
+		expected: `[ false, true, false ]`,
+	}
+
+	alterTest(t, &test)
+}
+
+func TestUpdateArrayDiffDataTypesString(t *testing.T) {
+	test := plan{
+		original: `[ "a", "b", "c" ]`,
+		path:     "/1",
+		change:   `z`,
+		expected: `[ "a", "z", "c" ]`,
+	}
+
+	alterTest(t, &test)
+}
