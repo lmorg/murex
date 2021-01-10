@@ -3,34 +3,61 @@ package alter
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func mergeArray(v interface{}, new *string) (ret interface{}, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("Cannot merge new array into old. Likely this is because of a data-type mismatch: %s", r)
-		}
-	}()
+const errCannotUnmarshalNewArray = "Cannot unmarshal new array: %s"
 
-	var newV interface{}
-	err = json.Unmarshal([]byte(*new), &newV)
-	if err != nil {
-		return v, fmt.Errorf("Cannot unmarshal new array: %s", err)
+func mergeArray(v interface{}, new *string) (ret interface{}, err error) {
+	if !debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("Cannot merge new array into old. Likely this is because of a data-type mismatch: %s", r)
+			}
+		}()
 	}
 
 	switch v.(type) {
 	case []string:
-		ret = append(v.([]string), newV.([]string)...)
+		var newV []string
+		err = json.Unmarshal([]byte(*new), &newV)
+		if err != nil {
+			return v, fmt.Errorf(errCannotUnmarshalNewArray, err)
+		}
+		ret = append(v.([]string), newV...)
+
+	case []float64:
+		var newV []float64
+		err = json.Unmarshal([]byte(*new), &newV)
+		if err != nil {
+			return v, fmt.Errorf(errCannotUnmarshalNewArray, err)
+		}
+		ret = append(v.([]float64), newV...)
 
 	case []int:
-		ret = append(v.([]int), newV.([]int)...)
+		var newV []int
+		err = json.Unmarshal([]byte(*new), &newV)
+		if err != nil {
+			return v, fmt.Errorf(errCannotUnmarshalNewArray, err)
+		}
+		ret = append(v.([]int), newV...)
 
 	case []bool:
-		ret = append(v.([]bool), newV.([]bool)...)
+		var newV []bool
+		err = json.Unmarshal([]byte(*new), &newV)
+		if err != nil {
+			return v, fmt.Errorf(errCannotUnmarshalNewArray, err)
+		}
+		ret = append(v.([]bool), newV...)
 
 	case []interface{}:
-		ret = append(v.([]interface{}), newV.([]interface{})...)
+		var newV []interface{}
+		err = json.Unmarshal([]byte(*new), &newV)
+		if err != nil {
+			return v, fmt.Errorf(errCannotUnmarshalNewArray, err)
+		}
+		ret = append(v.([]interface{}), newV...)
 
 	default:
 		return v, fmt.Errorf("Path either points to an object that's not an array or no condition has been made for %T", v)
@@ -40,11 +67,13 @@ func mergeArray(v interface{}, new *string) (ret interface{}, err error) {
 }
 
 func mergeMap(v interface{}, new *string) (ret interface{}, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("Cannot merge new map into old. Likely this is because of a data-type mismatch: %s", r)
-		}
-	}()
+	if !debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("Cannot merge new map into old. Likely this is because of a data-type mismatch: %s", r)
+			}
+		}()
+	}
 
 	var newV interface{}
 	err = json.Unmarshal([]byte(*new), &newV)

@@ -13,9 +13,11 @@ The path separater is defined by the first character in the path. For example
 however you should remember to quote or escape any special characters (tokens)
 used by the shell (such as pipe, `|`, and hash, `#`).
 
+The *value* must always be supplied as JSON however 
+
 ## Usage
 
-    <stdin> -> alter: /path value -> <stdout>
+    <stdin> -> alter: [ -m | --merge ] /path value -> <stdout>
 
 ## Examples
 
@@ -66,6 +68,20 @@ Numbers will also follow the same transparent conversion treatment:
 > If you require modifying a structure inside _murex_ config (such as http
 > headers) then you can use `config alter`. Read the config docs for reference.
 
+### -m / --merge
+
+Thus far all the examples have be changing existing keys. However you can also
+alter a structure by appending to an array or a merging two maps together. You
+do this with the `--merge` (or `-m`) flag.
+
+    » out: a\nb\nc -> alter: --merge / ([ "d", "e", "f" ])
+    a
+    b
+    c
+    d
+    e
+    f
+
 ## Detail
 
 ### Path
@@ -82,6 +98,9 @@ Just make sure you quote or escape any characters used as shell tokens. eg
     config -> alter: ' shell prompt Value' moo
     
 ### Supported data-types
+
+The *value* field must always be supplied as JSON however the *STDIN* struct
+can be any data-type supported by murex.
 
 You can check what data-types are available via the `runtime` command:
 
