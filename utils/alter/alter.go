@@ -81,6 +81,102 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 				ret = v
 			}
 
+		case []string:
+			pathI, err := strconv.Atoi(path[i])
+			if err != nil {
+				return nil, fmt.Errorf("Expecting an array index in path element '%s': %s", path[i], err)
+			}
+
+			if pathI < 0 {
+				return nil, fmt.Errorf("Negative indexes not allowed in arrays: path element '%d'", pathI)
+			}
+
+			if pathI >= len(v.([]string)) {
+				return nil, fmt.Errorf("Index greater than length of array in path element '%d' (array length '%d')", pathI, len(v.([]string)))
+			}
+
+			ret, err = loop(ctx, v.([]string)[pathI], i+1, path, new, merge)
+			if err == errOverwritePath {
+				v.([]string)[pathI] = parseString(new).(string)
+
+			}
+			if err == nil {
+				v.([]string)[pathI] = ret.(string)
+				ret = v
+			}
+
+		case []int:
+			pathI, err := strconv.Atoi(path[i])
+			if err != nil {
+				return nil, fmt.Errorf("Expecting an array index in path element '%s': %s", path[i], err)
+			}
+
+			if pathI < 0 {
+				return nil, fmt.Errorf("Negative indexes not allowed in arrays: path element '%d'", pathI)
+			}
+
+			if pathI >= len(v.([]int)) {
+				return nil, fmt.Errorf("Index greater than length of array in path element '%d' (array length '%d')", pathI, len(v.([]int)))
+			}
+
+			ret, err = loop(ctx, v.([]int)[pathI], i+1, path, new, merge)
+			if err == errOverwritePath {
+				v.([]int)[pathI] = parseString(new).(int)
+
+			}
+			if err == nil {
+				v.([]int)[pathI] = ret.(int)
+				ret = v
+			}
+
+		case []float64:
+			pathI, err := strconv.Atoi(path[i])
+			if err != nil {
+				return nil, fmt.Errorf("Expecting an array index in path element '%s': %s", path[i], err)
+			}
+
+			if pathI < 0 {
+				return nil, fmt.Errorf("Negative indexes not allowed in arrays: path element '%d'", pathI)
+			}
+
+			if pathI >= len(v.([]float64)) {
+				return nil, fmt.Errorf("Index greater than length of array in path element '%d' (array length '%d')", pathI, len(v.([]float64)))
+			}
+
+			ret, err = loop(ctx, v.([]float64)[pathI], i+1, path, new, merge)
+			if err == errOverwritePath {
+				v.([]float64)[pathI] = parseString(new).(float64)
+
+			}
+			if err == nil {
+				v.([]float64)[pathI] = ret.(float64)
+				ret = v
+			}
+
+		case []bool:
+			pathI, err := strconv.Atoi(path[i])
+			if err != nil {
+				return nil, fmt.Errorf("Expecting an array index in path element '%s': %s", path[i], err)
+			}
+
+			if pathI < 0 {
+				return nil, fmt.Errorf("Negative indexes not allowed in arrays: path element '%d'", pathI)
+			}
+
+			if pathI >= len(v.([]bool)) {
+				return nil, fmt.Errorf("Index greater than length of array in path element '%d' (array length '%d')", pathI, len(v.([]bool)))
+			}
+
+			ret, err = loop(ctx, v.([]bool)[pathI], i+1, path, new, merge)
+			if err == errOverwritePath {
+				v.([]bool)[pathI] = parseString(new).(bool)
+
+			}
+			if err == nil {
+				v.([]bool)[pathI] = ret.(bool)
+				ret = v
+			}
+
 		case map[interface{}]interface{}:
 			ret, err = loop(ctx, v.(map[interface{}]interface{})[path[i]], i+1, path, new, merge)
 			if err == errOverwritePath {
@@ -153,6 +249,12 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 			}
 			ret = parseString(new)
 
+		case []string:
+			if merge {
+				return mergeArray(v, new)
+			}
+			ret = parseString(new)
+
 		case map[string]interface{}, map[interface{}]interface{}:
 			if merge {
 				return mergeMap(v, new)
@@ -160,6 +262,9 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 			ret = parseString(new)
 
 		default:
+			if len(path) == 0 {
+				return nil, fmt.Errorf("Path is 0 (zero) lengthed and unable to construct an object path for %T. Possibly due to bad parameters supplied", v)
+			}
 			return nil, fmt.Errorf("Cannot locate `%s` in object path or no condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", path[i-1], v)
 		}
 

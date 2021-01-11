@@ -1,12 +1,37 @@
 package datatools
 
 import (
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/alter"
 )
 
 func init() {
 	lang.GoFunctions["alter"] = cmdAlter
+
+	defaults.AppendProfile(`
+		autocomplete: set alter { [{
+			"AnyValue": true,
+			"ExecCmdline": true,
+			"AutoBranch": true,
+			"Dynamic": ({ -> struct-keys }),
+			"Flags": [ "-m", "--merge" ],
+			"FlagValues": {
+				"-m": [{
+					"AnyValue": true,
+					"ExecCmdline": true,
+					"AutoBranch": true,
+					"Dynamic": ({ -> struct-keys })
+				}],
+				"--merge": [{
+					"AnyValue": true,
+					"ExecCmdline": true,
+					"AutoBranch": true,
+					"Dynamic": ({ -> struct-keys })
+				}]
+			}
+		} ]}
+	`)
 }
 
 func cmdAlter(p *lang.Process) error {

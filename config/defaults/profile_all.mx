@@ -21,21 +21,21 @@ test unit function aliases {
     })
 }
 
-autocomplete set cd { [{
+autocomplete: set cd { [{
     "IncDirs": true
 }] }
 
-autocomplete set mkdir { [{
+autocomplete: set mkdir { [{
     "IncDirs": true,
     "AllowMultiple": true
 }] }
 
-autocomplete set rmdir { [{
+autocomplete: set rmdir { [{
     "IncDirs": true,
     "AllowMultiple": true
 }] }
 
-autocomplete set exec { [
+autocomplete: set exec { [
     {
         "IncFiles": true,
         "IncDirs": true,
@@ -46,11 +46,11 @@ autocomplete set exec { [
     }
 ] }
 
-autocomplete set format { [{
+autocomplete: set format { [{
     "Dynamic": ({ runtime: --marshallers })
 }] }
 
-autocomplete set swivel-datatype { [{
+autocomplete: set swivel-datatype { [{
     "Dynamic": ({ runtime: --marshallers })
 }] }
 
@@ -77,27 +77,27 @@ test unit private autocomplete.data-types {
     "StdoutIsArray": true
 }
 
-autocomplete set cast { [{
+autocomplete: set cast { [{
     "Dynamic": ({ autocomplete.data-types })
 }] }
 
-autocomplete set tout { [{
+autocomplete: set tout { [{
     "Dynamic": ({ autocomplete.data-types })
 }] }
 
-autocomplete set set { [{
+autocomplete: set set { [{
     "Dynamic": ({ autocomplete.data-types })
 }] }
 
-autocomplete set export { [{
+autocomplete: set export { [{
     "DynamicDesc": ({ runtime --exports })
 }] }
 
-autocomplete set !export { [{
+autocomplete: set !export { [{
     "DynamicDesc": ({ runtime --exports })
 }] }
 
-autocomplete set unset { [{
+autocomplete: set unset { [{
     "DynamicDesc": ({ runtime --exports })
 }] }
 
@@ -123,23 +123,23 @@ test unit private autocomplete.variables {
     "StdoutIsArray": true
 }
 
-autocomplete set global { [{
+autocomplete: set global { [{
     "Dynamic": ({ autocomplete.variables })
 }] }
 
-autocomplete set !global { [{
+autocomplete: set !global { [{
     "Dynamic": ({ autocomplete.variables })
 }] }
 
-autocomplete set set { [{
+autocomplete: set set { [{
     "Dynamic": ({ autocomplete.variables })
 }] }
 
-autocomplete set !set { [{
+autocomplete: set !set { [{
     "Dynamic": ({ autocomplete.variables })
 }] }
 
-autocomplete set "[" { [{
+autocomplete: set "[" { [{
     "AnyValue": true,
     "AllowMultiple": true,
     "ExecCmdline": true,
@@ -169,7 +169,7 @@ autocomplete set "[" { [{
     })
 }] }
 
-autocomplete set "[[" { [{
+autocomplete: set "[[" { [{
     "AnyValue": true,
     "ExecCmdline": true,
     "AutoBranch": true,
@@ -215,7 +215,7 @@ test unit private autocomplete.config.get.keys {
     "StdoutIsArray": true
 }
 
-autocomplete set config { [{
+autocomplete: set config { [{
     "Flags": [ "get", "set", "eval", "define", "default" ],
     "FlagValues": {
         "get": [
@@ -252,19 +252,19 @@ autocomplete set config { [{
     }
 }] }
 
-autocomplete set !config { [
+autocomplete: set !config { [
     { "Dynamic": ({ autocomplete.config.get.apps }) },
     { "Dynamic": ({ autocomplete.config.get.keys $ARGS[1] }) }
 ] }
 
 
-autocomplete set event { [
+autocomplete: set event { [
     {
         "Dynamic": ({ runtime: --events -> formap k v { out $k } })
     }
 ] }
 
-autocomplete set !event { [
+autocomplete: set !event { [
     {
         "Dynamic": ({ runtime: --events -> formap k v { out $k } -> msort })
     },
@@ -292,7 +292,7 @@ test unit private autocomplete.alias {
     "StdoutIsMap": true
 }
 
-autocomplete set !alias { [{
+autocomplete: set !alias { [{
     "DynamicDesc": ({ autocomplete.alias }),
     "ListView": true
 }] }
@@ -324,7 +324,7 @@ test unit private autocomplete.functions {
     "StdoutIsMap": true
 }
 
-autocomplete set !function { [{
+autocomplete: set !function { [{
     "DynamicDesc": ({ autocomplete.functions }),
     "ListView": true
 } ]}
@@ -365,12 +365,12 @@ test unit private autocomplete.builtins {
     "StdoutIsMap": true
 }
 
-autocomplete set autocomplete { [{
+autocomplete: set autocomplete { [{
     "Flags": [ "get", "set" ],
     "FlagValues": {
         "get": [{
             "Dynamic": ({
-                runtime --autocomplete -> formap cmd _ { out $cmd } -> cast: str
+                runtime: --autocomplete -> formap: cmd ! { out $cmd } -> cast: str
             })
         }]
     }
@@ -381,7 +381,7 @@ private git-branch {
     git branch -> [ :0 ] -> !match *
 }
 
-autocomplete set git { [{
+autocomplete: set git { [{
     #"Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
     "DynamicDesc": ({
         git: help -a -> @[..^Ancillary]re -> tabulate: --map
@@ -429,7 +429,7 @@ autocomplete set git { [{
     }
 }] }
 
-autocomplete set docker { [
+autocomplete: set docker { [
     {
         "DynamicDesc": ({
             docker help -> @[^Usage:..]re -> tabulate: --split-comma --map
@@ -541,7 +541,7 @@ private autocomplete.docker-compose.services {
     open docker-compose.yaml -> [ services ] -> formap k v { out "$k" } -> cast str
 }
 
-autocomplete set docker-compose { [{
+autocomplete: set docker-compose { [{
     "Flags": ["build","bundle","config","create","down","events","exec","help","images","kill","logs","pause","port","ps","pull","push","restart","rm","run","scale","start","stop","top","unpause","up","version"],
     "FlagValues": {
         "build": [{
@@ -598,7 +598,7 @@ autocomplete set docker-compose { [{
     }
 }] }
 
-autocomplete set terraform { [{
+autocomplete: set terraform { [{
     "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
     "FlagValues": {
         "workspace": [
@@ -609,14 +609,14 @@ autocomplete set terraform { [{
     }
 }] }
 
-autocomplete set gopass { [{
+autocomplete: set gopass { [{
     "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
     "AllowMultiple": true,
     "Dynamic": ({ exec: @ARGS --generate-bash-completion }),
     "AutoBranch": true
 }] }
 
-autocomplete set debug { [{
+autocomplete: set debug { [{
     "Flags": ["on", "off"]
 }] }
 
@@ -647,9 +647,64 @@ autocomplete: set murex-package {
     }]
 }
 
-alias builtins=runtime --builtins
+alias: builtins=runtime --builtins
 
-config eval shell safe-commands {
+private: test.alias.builtins {
+    # Wrapper function around the alias for `builtins` for unit testing
+    builtins
+}
+
+test: unit private test.alias.builtins {
+    "StdoutRegex": ("[a-z0-9]+",),
+    "StdoutType":  "json",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
+}
+
+autocomplete: set murex-docs { [{
+    "Dynamic": ({ builtins }),
+	"Flags": [ "--summary" ],
+	"FlagValues": {
+		"--summary": [{
+			"Dynamic": ({ builtins })
+		}]
+	}
+}] }
+
+private: autocomplete.aliases.and.builtins {
+    # Returns a list of aliases and builtins
+    runtime: --aliases -> formap k ! { out: $k } -> cast str
+    builtins -> format str
+}
+
+test: unit private autocomplete.aliases.and.builtins {
+    "StdoutType":  "str",
+    "StdoutBlock": ({
+        -> len -> set len;
+        if { = len>0 } then {
+            out "Len greater than 0"
+        } else {
+            err "No elements returned"
+        }
+    }),
+    "StdoutIsArray": true
+}
+
+autocomplete: set summary { [{
+    "IncExePath": true,
+    "Dynamic": ({
+        autocomplete.aliases.and.builtins
+    })
+}] }
+
+config: eval shell safe-commands {
     -> alter --merge / ([
         "builtins", "jobs"
     ])
@@ -659,7 +714,7 @@ config eval shell safe-commands {
     summary terraform "Write, Plan, and Create Infrastructure as Code"
 }
 
-autocomplete set terraform {[
+autocomplete: set terraform {[
     {
         "DynamicDesc": ({
             terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps
@@ -681,7 +736,7 @@ autocomplete set terraform {[
     summary code "Microsoft Visual Studio Code - Text editor / IDE"
 }
 
-autocomplete set zfs {
+autocomplete: set zfs {
     [{
         "Dynamic": ({
              zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
@@ -689,7 +744,7 @@ autocomplete set zfs {
     }]
 }
 
-autocomplete set zpool {
+autocomplete: set zpool {
     [{
         "Dynamic": ({
              zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
