@@ -21,6 +21,8 @@ type AutoCompleteT struct {
 	ErrCallback       func(error)
 	DelayedTabContext readline.DelayedTabContext
 	ParsedTokens      parser.ParsedTokens
+	OnlyLists         bool
+	ExpectDelayed     bool
 }
 
 func (act *AutoCompleteT) append(items ...string) {

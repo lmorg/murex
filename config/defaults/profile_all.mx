@@ -717,7 +717,7 @@ config: eval shell safe-commands {
 autocomplete: set terraform {[
     {
         "DynamicDesc": ({
-            terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps
+            terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps --key-inc-hint
         }),
         "AllowMultiple": true,
         "ListView": true

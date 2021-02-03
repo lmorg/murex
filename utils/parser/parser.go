@@ -50,6 +50,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	pt.ExpectFunc = true
 	pt.pop = &pt.FuncName
 	pt.Source = block
+	pt.Parameters = []string{}
 
 	ansiColour := func(colour string, r rune) {
 		syntaxHighlighted += colour + string(r)

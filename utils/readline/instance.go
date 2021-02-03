@@ -34,7 +34,7 @@ type Instance struct {
 	// TabCompleter is a simple function that offers completion suggestions.
 	// It takes the readline line ([]rune) and cursor pos. Returns a prefix
 	// string, an array of suggestions and a map of definitions (optional).
-	TabCompleter      func([]rune, int, DelayedTabContext) (string, []string, map[string]string, TabDisplayType)
+	TabCompleter      func([]rune, int, DelayedTabContext) (string, []string, map[string]string, TabDisplayType, bool)
 	delayedTabContext DelayedTabContext
 
 	MinTabItemLength int

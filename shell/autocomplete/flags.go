@@ -103,6 +103,8 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 	}
 
 	switch {
+	case act.OnlyLists:
+		// do nothing
 	case f.IncFiles:
 		act.append(matchFilesAndDirs(partial, act)...)
 	case f.IncDirs && !f.IncFiles:

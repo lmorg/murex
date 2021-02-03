@@ -60,9 +60,8 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 
 	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
 	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
-	//defer cancel()
-
 	done := make(chan bool)
+
 	go func() {
 		act.largeMin() // assume recursive overruns
 		recursive = matchRecursive(hardCtx, s, filesToo, &act.DelayedTabContext)
