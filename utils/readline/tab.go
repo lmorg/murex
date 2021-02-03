@@ -34,12 +34,11 @@ func (rl *Instance) getTabCompletion() {
 	rl.delayedTabContext = DelayedTabContext{rl: rl}
 	rl.delayedTabContext.Context, rl.delayedTabContext.cancel = context.WithCancel(context.Background())
 
-	var delayed bool
-
-	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType, delayed = rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
-	if len(rl.tcSuggestions) == 0 && delayed {
+	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
+	/*if len(rl.tcSuggestions) == 0 && delayed {
 		return
-	}
+	}*/
+	//panic(rl.tcDisplayType)
 
 	if len(rl.tcDescriptions) == 0 {
 		// probably not needed, but just in case someone doesn't initialise the

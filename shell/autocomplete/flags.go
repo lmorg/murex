@@ -103,7 +103,7 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 	}
 
 	switch {
-	case act.OnlyLists:
+	case act.CacheDynamic:
 		// do nothing
 	case f.IncFiles:
 		act.append(matchFilesAndDirs(partial, act)...)
@@ -111,7 +111,7 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 		act.append(matchDirs(partial, act)...)
 	}
 
-	if len(f.FlagsDesc) > 0 && f.ListView {
+	if /*len(f.FlagsDesc) > 0 &&*/ f.ListView {
 		act.TabDisplayType = readline.TabDisplayList
 	}
 

@@ -67,7 +67,7 @@ func recursiveCache(fn string, oac []autocomplete.Flags, errCallback func(error)
 
 	act := &autocomplete.AutoCompleteT{
 		Definitions:       make(map[string]string),
-		OnlyLists:         true,
+		CacheDynamic:      true,
 		ParsedTokens:      pt,
 		DelayedTabContext: readline.DelayedTabContext{Context: softCtx},
 	}

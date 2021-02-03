@@ -18,7 +18,7 @@ func errCallback(err error) {
 	Prompt.SetHintText(s)
 }
 
-func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType, bool) {
+func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType) {
 	var prefix string
 
 	if len(line) > pos-1 {
@@ -76,5 +76,5 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	}*/
 
 	autocomplete.FormatSuggestions(&act)
-	return prefix, act.Items, act.Definitions, act.TabDisplayType, act.ExpectDelayed
+	return prefix, act.Items, act.Definitions, act.TabDisplayType
 }

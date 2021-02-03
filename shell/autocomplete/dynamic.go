@@ -13,7 +13,6 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 type dynamicArgs struct {
@@ -54,11 +53,11 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	done := make(chan bool)
 
 	act.largeMin()
-	if f.ListView {
+	/*if f.ListView {
 		// check this here so delayed results can still be ListView
 		// (ie after &act has timed out)
 		act.TabDisplayType = readline.TabDisplayList
-	}
+	}*/
 
 	go func() {
 		// Run the commandline if ExecCmdline flag set AND commandline considered safe
@@ -116,13 +115,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				debug.Log(err)
 			}
 
-			if f.AutoBranch && !act.OnlyLists {
+			if f.AutoBranch && !act.CacheDynamic {
 				autoBranch(&items)
 			}
 
 			select {
 			case <-softCtx.Done():
-				act.ExpectDelayed = true
 				formatSuggestionsArray(act.ParsedTokens, items)
 				act.DelayedTabContext.AppendSuggestions(items)
 			default:
@@ -156,7 +154,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			})
 
 			if timeout {
-				act.ExpectDelayed = true
 				formatSuggestionsMap(act.ParsedTokens, &items)
 				act.DelayedTabContext.AppendDescriptions(items)
 			}
