@@ -1,4 +1,10 @@
+// +build ignore
+
 package cmdautocomplete
+
+// This file isn't yet in use and might be removed at a later date.
+// That said, it would be good to find a way to compile autocompletions.
+// I'm just not convined this is the best way to accumplish this.
 
 import (
 	"context"

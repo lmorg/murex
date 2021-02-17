@@ -28,8 +28,8 @@ func cmdAutocomplete(p *lang.Process) error {
 	case "set":
 		return set(p)
 
-	case "cache-dynamic":
-		return cacheDynamic(p)
+	//case "cache-dynamic":
+	//	return cacheDynamic(p)
 
 	default:
 		p.Stdout.SetDataType(types.Null)
