@@ -1,8 +1,6 @@
 package shell
 
 import (
-	"strings"
-
 	"github.com/lmorg/murex/debug"
 )
 
@@ -20,7 +18,7 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 	}()
 
 	pt, _ := parse(line)
-	s := string(line)
+
 	switch {
 	case pt.QuoteSingle && pt.QuoteBrace == 0 && pt.NestedBlock == 0:
 		if pos < len(line)-1 && line[pos] == '\'' && line[len(line)-1] == '\'' {
@@ -54,7 +52,7 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 		}
 
 	case pt.NestedBlock > 0 && pt.QuoteBrace == 0:
-		if pos < len(line)-1 || line[pos] != '{' {
+		if (pos < len(line)-1 || line[pos] != '{') && !pt.SquareBracket {
 			return append(line, '}'), pos
 		}
 
@@ -63,29 +61,9 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 			return line[:len(line)-1], pos
 		}
 
-	/*case pos > 0 && len(line) > pos && line[pos-1] == '[':
-		if pos < len(line)-1 {
-			s := string(line)
-			if strings.Count(s, "[") > strings.Count(s, "]") { // this is a bit of a kludge!
-				r := append(line[:pos+1], ']')
-				return append(r, line[pos+2:]...), pos
-			}
-
-			return line, pos
-		}
+	case pt.SquareBracket && pt.NestedBlock == 0 && pt.LastCharacter == '[':
 		return append(line, ']'), pos
 
-	}*/
-
-	case pos > 0 && len(line) > pos && line[pos-1] == '[':
-		// this is a bit of a kludge!
-		if strings.Count(s, "[") > strings.Count(s, "]") {
-			return append(line, ']'), pos
-		}
-
-		if strings.Count(s, "[") < strings.Count(s, "]") && line[len(line)-1] == ']' {
-			return line[:len(line)-1], pos
-		}
 	}
 
 	return line, pos
