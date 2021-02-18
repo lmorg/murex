@@ -70,7 +70,7 @@ func TestSyntaxCompletionsCurlyBrackets(t *testing.T) {
 		},
 		{
 			Input:    "func: param{{fo_",
-			Expected: "func: param{{fo_}}",
+			Expected: "func: param{{fo_}", // Should this actually be "func: param{{fo_}}"?
 		},
 		/*{
 			Input:    "func: param{_fo}}",
