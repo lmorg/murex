@@ -421,13 +421,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
-				if i > 0 && block[0] == '^' {
-					pt.SquareBracket = true
-				}
+				//if i > 0 && block[0] == '^' {
+				pt.SquareBracket = true
+				//}
 			case pt.ExpectFunc:
 				*pt.pop = string(block[i])
 				readFunc = true
 				syntaxHighlighted += string(block[i])
+				pt.SquareBracket = true
 			default:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])

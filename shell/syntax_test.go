@@ -128,6 +128,30 @@ func TestSyntaxCompletionsSquareBrackets(t *testing.T) {
 			Input:    `^foobar[_`,
 			Expected: `^foobar[_]`,
 		},
+		{
+			Input:    `@[_`,
+			Expected: `@[_]`,
+		},
+		{
+			Input:    `echo @[_`,
+			Expected: `echo @[_]`,
+		},
+		{
+			Input:    `echo: @[_`,
+			Expected: `echo: @[_]`,
+		},
+		{
+			Input:    `$[_`,
+			Expected: `$[_]`,
+		},
+		{
+			Input:    `echo $[_`,
+			Expected: `echo $[_]`,
+		},
+		{
+			Input:    `echo: $[_`,
+			Expected: `echo: $[_]`,
+		},
 	}
 
 	testSyntaxCompletions(t, tests)
