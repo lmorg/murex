@@ -10,12 +10,13 @@ import (
 
 type testSyntaxCompletionsType struct {
 	Input    string // Please note that the underscore character must
-	Expected string // proceed the character who's cursor is positioned
+	Expected string // preceed the character who's cursor is positioned
 }
 
 func testSyntaxCompletions(t *testing.T, tests []testSyntaxCompletionsType) {
 	t.Helper()
 	count.Tests(t, len(tests))
+	var failed int
 
 	for i, test := range tests {
 		if !strings.Contains(test.Input, "_") {
@@ -35,6 +36,7 @@ func testSyntaxCompletions(t *testing.T, tests []testSyntaxCompletionsType) {
 			t.Logf("  Error:   %s", err.Error())
 			t.Logf("  String: '%s'", string(r))
 			t.Logf("  Pos:     %d", newPos)
+			failed++
 			continue
 		}
 
@@ -46,36 +48,43 @@ func testSyntaxCompletions(t *testing.T, tests []testSyntaxCompletionsType) {
 			t.Logf("  Pos:       %d", pos)
 			t.Logf("  Expected: '%s'", test.Expected)
 			t.Logf("  Actual:   '%s'", output)
+			failed++
 		}
 	}
+
+	t.Logf("%d test(s) failed", failed)
 }
 
 func TestSyntaxCompletionsCurlyBrackets(t *testing.T) {
 	tests := []testSyntaxCompletionsType{
 		{
 			Input:    "func: param{_",
-			Expected: "func: param{_",
+			Expected: "func: param{_}",
 		},
 		{
 			Input:    "func: param{f_",
-			Expected: "func: param{f_}",
+			Expected: "func: param{f_",
 		},
 		{
 			Input:    "func: param{{_",
-			Expected: "func: param{{_",
+			Expected: "func: param{{_}",
 		},
 		{
 			Input:    "func: param{{f_",
-			Expected: "func: param{{f_}",
+			Expected: "func: param{{f_",
 		},
 		{
 			Input:    "func: param{{fo_",
-			Expected: "func: param{{fo_}", // Should this actually be "func: param{{fo_}}"?
+			Expected: "func: param{{fo_",
 		},
-		/*{
+		{
 			Input:    "func: param{_fo}}",
-			Expected: "func: param{_fo}",
-		},*/
+			Expected: "func: param{_fo}}",
+		},
+		{
+			Input:    `func: param{_\}`,
+			Expected: `func: param{_\}`,
+		},
 	}
 
 	testSyntaxCompletions(t, tests)
@@ -107,6 +116,18 @@ func TestSyntaxCompletionsSquareBrackets(t *testing.T) {
 			Input:    "func: param[_fo]]",
 			Expected: "func: param[_fo]]",
 		},
+		{
+			Input:    `func: param[_\[`,
+			Expected: `func: param[_\[`,
+		},
+		{
+			Input:    `^[_`,
+			Expected: `^[_]`,
+		},
+		{
+			Input:    `^foobar[_`,
+			Expected: `^foobar[_]`,
+		},
 	}
 
 	testSyntaxCompletions(t, tests)
@@ -121,7 +142,7 @@ func TestSyntaxCompletionsMixedBrackets(t *testing.T) {
 		},
 		{
 			Input:    "func: param{[{_",
-			Expected: "func: param{[{_",
+			Expected: "func: param{[{_}",
 		},
 	}
 

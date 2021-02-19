@@ -87,7 +87,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	}
 
 	var i int
-	for i, pt.LastCharacter = range block {
+	for i = range block {
+		if !pt.Escaped {
+			pt.LastCharacter = block[i]
+		}
+
 		if pt.Variable != "" && !rxAllowedVarChars.MatchString(string(block[i])) {
 			pt.Variable = ""
 			ansiResetNoChar()
@@ -417,6 +421,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
+				if i > 0 && block[0] == '^' {
+					pt.SquareBracket = true
+				}
 			case pt.ExpectFunc:
 				*pt.pop = string(block[i])
 				readFunc = true

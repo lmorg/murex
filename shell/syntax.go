@@ -51,10 +51,10 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 			return line[:len(line)-1], pos
 		}
 
-	case pt.NestedBlock > 0 && pt.QuoteBrace == 0:
-		if (pos < len(line)-1 || line[pos] != '{') && !pt.SquareBracket {
-			return append(line, '}'), pos
-		}
+	//case pt.NestedBlock > 0 && pt.QuoteBrace == 0:
+	//	if (pos < len(line)-1 || line[pos] != '{') && !pt.SquareBracket {
+	//		return append(line, '}'), pos
+	//	}
 
 	case pt.NestedBlock < 0:
 		if line[pos] == '}' && line[len(line)-1] == '}' && pos != len(line)-1 {
@@ -63,6 +63,9 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 
 	case pt.SquareBracket && pt.NestedBlock == 0 && pt.LastCharacter == '[':
 		return append(line, ']'), pos
+
+	case pt.NestedBlock > 0 && !pt.SquareBracket && pt.LastCharacter == '{':
+		return append(line, '}'), pos
 
 	}
 
