@@ -295,8 +295,9 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 		if rl.pos > 0 {
-			moveCursorBackwards(1)
-			rl.pos--
+			//moveCursorBackwards(1)
+			//rl.pos--
+			rl.moveCursorByAdjust(-1)
 		}
 		rl.viUndoSkipAppend = true
 
@@ -308,8 +309,9 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
 			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
-			moveCursorForwards(1)
-			rl.pos++
+			//moveCursorForwards(1)
+			//rl.pos++
+			rl.moveCursorByAdjust(1)
 		}
 		rl.viUndoSkipAppend = true
 

@@ -166,7 +166,7 @@ func TestSyntaxCompletionsMixedBrackets(t *testing.T) {
 		},
 		{
 			Input:    "func: param{[{_",
-			Expected: "func: param{[{_}",
+			Expected: "func: param{[{_",
 		},
 	}
 

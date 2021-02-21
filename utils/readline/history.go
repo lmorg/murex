@@ -78,7 +78,7 @@ func (h *NullHistory) Dump() interface{} {
 	return []string{}
 }
 
-// Browse historic lines:
+// Browse historic lines
 func (rl *Instance) walkHistory(i int) {
 	switch rl.histPos + i {
 	case -1, rl.History.Len() + 1:
@@ -103,17 +103,18 @@ func (rl *Instance) walkHistory(i int) {
 		}
 
 		rl.clearLine()
+
 		rl.histPos += i
 		rl.line = []rune(s)
+
+		termWidth := GetTermWidth()
+		_, y := lineWrapPos(rl.promptLen, len(rl.line), termWidth)
+		print(strings.Repeat("\r\n", y))
 	}
 
-	rl.echo()
 	rl.pos = len(rl.line)
-	if rl.pos > 1 {
-		moveCursorForwards(rl.pos - 1)
-	} else if rl.pos == 0 {
-		moveCursorBackwards(1)
-	}
+	rl.echo()
+	//rl.moveCursorToLinePos()
 
 	rl.updateHelpers()
 }

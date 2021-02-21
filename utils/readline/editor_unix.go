@@ -23,10 +23,6 @@ func (rl *Instance) launchEditor(multiline []rune) ([]rune, error) {
 
 	cmd := exec.Command(editor, name)
 
-	//cmd.SysProcAttr = &syscall.SysProcAttr{
-	//	Ctty: int(os.Stdout.Fd()),
-	//}
-
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

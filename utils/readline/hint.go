@@ -1,5 +1,7 @@
 package readline
 
+import "strings"
+
 func (rl *Instance) getHintText() {
 	if rl.HintText == nil {
 		rl.resetHintText()
@@ -15,12 +17,12 @@ func (rl *Instance) writeHintText() {
 		return
 	}
 
-	width := GetTermWidth()
+	termWidth := GetTermWidth()
 
 	// Determine how many lines hintText spans over
 	// (Currently there is no support for carridge returns / new lines)
 	hintLength := strLen(string(rl.hintText))
-	n := float64(hintLength) / float64(width)
+	n := float64(hintLength) / float64(termWidth)
 	if float64(int(n)) != n {
 		n++
 	}
@@ -28,7 +30,7 @@ func (rl *Instance) writeHintText() {
 
 	if rl.hintY > 3 {
 		rl.hintY = 3
-		rl.hintText = rl.hintText[:(width*3)-4]
+		rl.hintText = rl.hintText[:(termWidth*3)-4]
 		rl.hintText = append(rl.hintText, '.', '.', '.')
 	}
 
@@ -43,7 +45,10 @@ func (rl *Instance) writeHintText() {
 		}
 	}
 
-	print("\r\n" + rl.HintFormatting + string(hintText) + seqReset)
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), termWidth)
+	_, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	y := lineY - posY + 1
+	print(strings.Repeat("\r\n", y) + rl.HintFormatting + string(hintText) + seqReset)
 }
 
 func (rl *Instance) resetHintText() {
