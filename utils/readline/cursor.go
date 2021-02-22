@@ -93,29 +93,24 @@ func moveCursorBackwards(i int) {
 }
 
 func (rl *Instance) moveCursorToStart() {
-	termWidth := GetTermWidth()
-	_, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
-	moveCursorBackwards(termWidth)
+	moveCursorBackwards(rl.termWidth)
 	moveCursorUp(posY)
 	moveCursorForwards(rl.promptLen)
 }
 
 func (rl *Instance) moveCursorToLinePos() {
-	termWidth := GetTermWidth()
-
 	rl.moveCursorToStart()
 	moveCursorBackwards(rl.promptLen)
 
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
 func (rl *Instance) moveCursorByAdjust(adjust int) {
-	termWidth := GetTermWidth()
-
-	_, oldY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	_, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	rl.pos += adjust
 
@@ -123,7 +118,7 @@ func (rl *Instance) moveCursorByAdjust(adjust int) {
 		rl.pos--
 	}
 
-	_, newY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	_, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	i := newY - oldY
 	switch {

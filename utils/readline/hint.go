@@ -17,12 +17,10 @@ func (rl *Instance) writeHintText() {
 		return
 	}
 
-	termWidth := GetTermWidth()
-
 	// Determine how many lines hintText spans over
 	// (Currently there is no support for carridge returns / new lines)
 	hintLength := strLen(string(rl.hintText))
-	n := float64(hintLength) / float64(termWidth)
+	n := float64(hintLength) / float64(rl.termWidth)
 	if float64(int(n)) != n {
 		n++
 	}
@@ -30,7 +28,7 @@ func (rl *Instance) writeHintText() {
 
 	if rl.hintY > 3 {
 		rl.hintY = 3
-		rl.hintText = rl.hintText[:(termWidth*3)-4]
+		rl.hintText = rl.hintText[:(rl.termWidth*3)-4]
 		rl.hintText = append(rl.hintText, '.', '.', '.')
 	}
 
@@ -45,8 +43,8 @@ func (rl *Instance) writeHintText() {
 		}
 	}
 
-	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), termWidth)
-	_, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 	y := lineY - posY + 1
 	print(strings.Repeat("\r\n", y) + rl.HintFormatting + string(hintText) + seqReset)
 }

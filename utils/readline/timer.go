@@ -10,7 +10,7 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 		return
 	}
 
-	if len(rl.line)+rl.promptLen > GetTermWidth() {
+	if len(rl.line)+rl.promptLen > rl.termWidth {
 		return
 	}
 

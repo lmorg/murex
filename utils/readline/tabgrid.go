@@ -6,8 +6,6 @@ import (
 )
 
 func (rl *Instance) initTabGrid() {
-	width := GetTermWidth()
-
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -33,7 +31,7 @@ func (rl *Instance) initTabGrid() {
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
-	rl.tcMaxX = width / (rl.tcMaxLength + 2)
+	rl.tcMaxX = rl.termWidth / (rl.tcMaxLength + 2)
 	rl.tcOffset = 0
 
 	// avoid a divide by zero error
@@ -113,7 +111,7 @@ func (rl *Instance) writeTabGrid() {
 
 	print(seqClearScreenBelow + "\r\n")
 
-	iCellWidth := (GetTermWidth() / rl.tcMaxX) - 2
+	iCellWidth := (rl.termWidth / rl.tcMaxX) - 2
 	cellWidth := strconv.Itoa(iCellWidth)
 
 	x := 0

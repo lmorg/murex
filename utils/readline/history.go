@@ -115,8 +115,7 @@ func (rl *Instance) walkHistory(i int) {
 		rl.histPos += i
 		rl.line = []rune(new)
 
-		termWidth := GetTermWidth()
-		_, y := lineWrapPos(rl.promptLen, len(rl.line), termWidth)
+		_, y := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
 		print(strings.Repeat("\r\n", y))
 	}
 

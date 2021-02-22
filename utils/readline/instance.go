@@ -80,6 +80,7 @@ type Instance struct {
 	promptLen     int    //= 4
 	line          []rune
 	pos           int
+	termWidth     int
 	multiline     []byte
 	multisplit    []string
 	skipStdinRead bool

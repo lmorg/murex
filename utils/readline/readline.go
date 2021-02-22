@@ -59,6 +59,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		return string(rl.line), nil
 	}
 
+	rl.termWidth = GetTermWidth()
 	rl.getHintText()
 	rl.renderHelpers()
 
@@ -73,6 +74,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			if err != nil {
 				return "", err
 			}
+			rl.termWidth = GetTermWidth()
 		}
 		atomic.AddInt64(&rl.delayedSyntaxCount, 1)
 

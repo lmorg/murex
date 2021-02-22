@@ -27,14 +27,12 @@ func strLen(s string) int {
 }
 
 func (rl *Instance) echo() {
-	termWidth := GetTermWidth()
-
-	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	moveCursorBackwards(posX)
 	moveCursorUp(posY)
-	if rl.promptLen < termWidth {
+	if rl.promptLen < rl.termWidth {
 		print(rl.prompt)
 	}
 
@@ -42,11 +40,11 @@ func (rl *Instance) echo() {
 	case rl.PasswordMask != 0:
 		print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " \r\n")
 
-	case len(rl.line)+rl.promptLen > termWidth:
+	case len(rl.line)+rl.promptLen > rl.termWidth:
 		fallthrough
 
 	case rl.SyntaxHighlighter == nil:
-		wrap := lineWrap(rl, termWidth)
+		wrap := lineWrap(rl, rl.termWidth)
 		for i := range wrap {
 			print(wrap[i] + "\r\n")
 		}
@@ -126,13 +124,12 @@ func (rl *Instance) clearLine() {
 
 	rl.moveCursorToStart()
 
-	termWidth := GetTermWidth()
-	if termWidth > rl.promptLen {
-		print(strings.Repeat(" ", termWidth-rl.promptLen))
+	if rl.termWidth > rl.promptLen {
+		print(strings.Repeat(" ", rl.termWidth-rl.promptLen))
 	}
 	print(seqClearScreenBelow)
 
-	moveCursorBackwards(termWidth)
+	moveCursorBackwards(rl.termWidth)
 	print(rl.prompt)
 
 	rl.line = []rune{}
@@ -157,7 +154,6 @@ func (rl *Instance) renderHelpers() {
 	rl.writeTabCompletion()
 
 	moveCursorUp(rl.hintY + rl.tcUsedY)
-	//moveCursorBackwards(GetTermWidth())
 	rl.moveCursorToLinePos()
 }
 
