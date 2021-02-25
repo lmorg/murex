@@ -62,10 +62,11 @@ func (rl *Instance) echo() {
 	moveCursorUp(y + 1)*/
 	//moveCursorBackwards(len(rl.line) - rl.pos)
 
-	moveCursorBackwards(lineX)
+	//moveCursorBackwards(lineX)
 	moveCursorUp(lineY + 1)
-	moveCursorForwards(posX + 1)
+	//moveCursorForwards(posX + 1)
 	moveCursorDown(posY)
+	moveCursorBackwards(lineX - posX + 1)
 }
 
 func lineWrap(rl *Instance, termWidth int) []string {
@@ -144,17 +145,20 @@ func (rl *Instance) resetHelpers() {
 }
 
 func (rl *Instance) clearHelpers() {
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	y := lineY - posY
+
+	moveCursorDown(y)
 	print("\r\n" + seqClearScreenBelow)
-	moveCursorUp(1)
-	rl.moveCursorToLinePos()
+
+	moveCursorUp(y + 1)
+	moveCursorForwards(posX)
 }
 
 func (rl *Instance) renderHelpers() {
-	rl.writeHintText()
-	rl.writeTabCompletion()
-
-	moveCursorUp(rl.hintY + rl.tcUsedY)
-	rl.moveCursorToLinePos()
+	rl.writeHintText(true)
+	rl.writeTabCompletion(true)
 }
 
 func (rl *Instance) updateHelpers() {

@@ -110,7 +110,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			rl.clearHelpers()
+			//rl.clearHelpers() // unessisary clear
 
 			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
 
@@ -297,8 +297,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 		if rl.pos > 0 {
-			//moveCursorBackwards(1)
-			//rl.pos--
 			rl.moveCursorByAdjust(-1)
 		}
 		rl.viUndoSkipAppend = true
@@ -311,8 +309,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
 			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
-			//moveCursorForwards(1)
-			//rl.pos++
 			rl.moveCursorByAdjust(1)
 		}
 		rl.viUndoSkipAppend = true

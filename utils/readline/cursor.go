@@ -93,24 +93,38 @@ func moveCursorBackwards(i int) {
 }
 
 func (rl *Instance) moveCursorToStart() {
-	_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
-	moveCursorBackwards(rl.termWidth)
+	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
-	moveCursorForwards(rl.promptLen)
 }
 
-func (rl *Instance) moveCursorToLinePos() {
-	rl.moveCursorToStart()
-	moveCursorBackwards(rl.promptLen)
-
+func (rl *Instance) moveCursorFromStartToLinePos() {
 	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
+func (rl *Instance) moveCursorFromEndToLinePos() {
+	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	moveCursorBackwards(lineX - posX)
+	moveCursorUp(lineY - posY)
+}
+
+// moveCursorToLinePos should only be used on extreme circumstances because it
+// causes the cursor to jump around quite a bit
+func (rl *Instance) moveCursorFromUnknownToLinePos() {
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	//moveCursorBackwards(lineX)
+	print("\r")
+	moveCursorForwards(posX)
+	moveCursorUp(lineY - posY)
+}
+
 func (rl *Instance) moveCursorByAdjust(adjust int) {
-	_, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	oldX, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	rl.pos += adjust
 
@@ -118,16 +132,21 @@ func (rl *Instance) moveCursorByAdjust(adjust int) {
 		rl.pos--
 	}
 
-	_, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	newX, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
-	i := newY - oldY
+	y := newY - oldY
 	switch {
-	case i < 0:
-		moveCursorUp(i * -1)
-	case i > 0:
-		moveCursorDown(i)
+	case y < 0:
+		moveCursorUp(y * -1)
+	case y > 0:
+		moveCursorDown(y)
 	}
 
-	rl.moveCursorToLinePos()
-	//rl.echo()
+	x := newX - oldX
+	switch {
+	case x < 0:
+		moveCursorBackwards(x * -1)
+	case x > 0:
+		moveCursorForwards(x)
+	}
 }

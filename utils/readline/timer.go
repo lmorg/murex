@@ -11,6 +11,8 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 	}
 
 	if len(rl.line)+rl.promptLen > rl.termWidth {
+		// line wraps, which is hard to do with random ANSI escape sequences
+		// so better we don't bother trying.
 		return
 	}
 
@@ -28,9 +30,10 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 		sLine = string(newLine)
 	}
 
+	return
 	rl.moveCursorToStart()
 	print(sLine)
-	rl.moveCursorToLinePos()
+	rl.moveCursorFromEndToLinePos()
 }
 
 // DelayedTabContext is a custom context interface for async updates to the tab completions

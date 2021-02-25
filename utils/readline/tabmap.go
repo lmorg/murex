@@ -98,7 +98,9 @@ func (rl *Instance) writeTabMap() {
 	itemWidth := strconv.Itoa(maxDescWidth)
 
 	y := 0
-	print(seqClearScreenBelow)
+
+	//print("\r" + strings.Repeat("\n", rl.hintY) + seqClearScreenBelow)
+	moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
 
 	highlight := func(y int) string {
 		if y == rl.tcPosY {
