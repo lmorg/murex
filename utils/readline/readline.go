@@ -281,7 +281,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		// are we midway through a long line that spans multiple terminal lines?
+		// are we midway through a long line that wrap multiple terminal lines?
 		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 		if posY > 0 {
 			rl.moveCursorByAdjust(-rl.termWidth + rl.promptLen)
@@ -296,7 +296,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		// are we midway through a long line that spans multiple terminal lines?
+		// are we midway through a long line that wrap multiple terminal lines?
 		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
 		if posY < lineY {
