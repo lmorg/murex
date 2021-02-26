@@ -128,6 +128,13 @@ func (rl *Instance) moveCursorByAdjust(adjust int) {
 
 	rl.pos += adjust
 
+	if rl.pos < 0 {
+		rl.pos = 0
+	}
+	if rl.pos > len(rl.line) {
+		rl.pos = len(rl.line)
+	}
+
 	if rl.modeViMode != vimInsert && rl.pos == len(rl.line) {
 		rl.pos--
 	}
@@ -137,7 +144,7 @@ func (rl *Instance) moveCursorByAdjust(adjust int) {
 	y := newY - oldY
 	switch {
 	case y < 0:
-		moveCursorUp(y * -1)
+		moveCursorUp(-y)
 	case y > 0:
 		moveCursorDown(y)
 	}
@@ -145,7 +152,7 @@ func (rl *Instance) moveCursorByAdjust(adjust int) {
 	x := newX - oldX
 	switch {
 	case x < 0:
-		moveCursorBackwards(x * -1)
+		moveCursorBackwards(-x)
 	case x > 0:
 		moveCursorForwards(x)
 	}

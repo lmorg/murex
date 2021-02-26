@@ -280,12 +280,27 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 			return
 		}
+
+		// are we midway through a long line that spans multiple terminal lines?
+		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		if posY > 0 {
+			rl.moveCursorByAdjust(-rl.termWidth + rl.promptLen)
+			return
+		}
 		rl.walkHistory(-1)
 
 	case seqDown:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, 1)
 			rl.renderHelpers()
+			return
+		}
+
+		// are we midway through a long line that spans multiple terminal lines?
+		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+		if posY < lineY {
+			rl.moveCursorByAdjust(rl.termWidth - rl.promptLen)
 			return
 		}
 		rl.walkHistory(1)
@@ -296,6 +311,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 			return
 		}
+
 		if rl.pos > 0 {
 			rl.moveCursorByAdjust(-1)
 		}
@@ -307,6 +323,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 			return
 		}
+
 		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
 			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
 			rl.moveCursorByAdjust(1)
@@ -317,16 +334,16 @@ func (rl *Instance) escapeSeq(r []rune) {
 		if rl.modeTabCompletion {
 			return
 		}
-		moveCursorBackwards(rl.pos)
-		rl.pos = 0
+
+		rl.moveCursorByAdjust(-rl.pos)
 		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
 		if rl.modeTabCompletion {
 			return
 		}
-		moveCursorForwards(len(rl.line) - rl.pos)
-		rl.pos = len(rl.line)
+
+		rl.moveCursorByAdjust(len(rl.line) - rl.pos)
 		rl.viUndoSkipAppend = true
 
 	case seqShiftTab:
