@@ -30,7 +30,6 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 		sLine = string(newLine)
 	}
 
-	return
 	rl.moveCursorToStart()
 	print(sLine)
 	rl.moveCursorFromEndToLinePos()

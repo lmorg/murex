@@ -27,6 +27,10 @@ func strLen(s string) int {
 }
 
 func (rl *Instance) echo() {
+	if len(rl.multisplit) == 0 {
+		rl.syntaxCompletion()
+	}
+
 	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
 	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
@@ -53,18 +57,7 @@ func (rl *Instance) echo() {
 		print(rl.SyntaxHighlighter(rl.line) + " \r\n")
 	}
 
-	/*x := lineX - posX
-	y := lineY - posY
-	if y == 0 && rl.promptLen < termWidth {
-		x -= len(rl.prompt)
-	}
-	moveCursorBackwards(x)
-	moveCursorUp(y + 1)*/
-	//moveCursorBackwards(len(rl.line) - rl.pos)
-
-	//moveCursorBackwards(lineX)
 	moveCursorUp(lineY + 1)
-	//moveCursorForwards(posX + 1)
 	moveCursorDown(posY)
 	moveCursorBackwards(lineX - posX + 1)
 }

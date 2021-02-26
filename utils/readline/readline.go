@@ -49,7 +49,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 	if len(rl.multisplit) > 0 {
 		r := []rune(rl.multisplit[0])
-		rl.editorInput(r)
+		rl.readlineInput(r)
 		rl.carridgeReturn()
 		if len(rl.multisplit) > 1 {
 			rl.multisplit = rl.multisplit[1:]
@@ -97,7 +97,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 			r = []rune(rl.multisplit[0])
 			rl.modeViMode = vimInsert
-			rl.editorInput(r)
+			rl.readlineInput(r)
 			rl.carridgeReturn()
 			rl.multiline = []byte{}
 			if len(rl.multisplit) > 1 {
@@ -110,7 +110,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			//rl.clearHelpers() // unessisary clear
+			//rl.clearHelpers() // unessisary clear?
 
 			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
 
@@ -223,7 +223,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.updateTabFind(r[:i])
 				rl.viUndoSkipAppend = true
 			} else {
-				rl.editorInput(r[:i])
+				rl.readlineInput(r[:i])
 				if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
 					rl.skipStdinRead = true
 				}
@@ -364,10 +364,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 	}
 }
 
-// editorInput is an unexported function used to determine what mode of text
+// readlineInput is an unexported function used to determine what mode of text
 // entry readline is currently configured for and then update the line entries
 // accordingly.
-func (rl *Instance) editorInput(r []rune) {
+func (rl *Instance) readlineInput(r []rune) {
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(r[0])
@@ -392,10 +392,6 @@ func (rl *Instance) editorInput(r []rune) {
 
 	default:
 		rl.insert(r)
-	}
-
-	if len(rl.multisplit) == 0 {
-		rl.syntaxCompletion()
 	}
 }
 

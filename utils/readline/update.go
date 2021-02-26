@@ -23,12 +23,8 @@ func (rl *Instance) insert(r []rune) {
 		rl.line = append(rl.line, r...)
 	}
 
-	//rl.echo()
-
 	rl.moveCursorByAdjust(len(r))
 	rl.echo()
-	//rl.pos += len(r)
-	//moveCursorForwards(len(r) - 1)
 
 	if rl.modeViMode == vimInsert {
 		rl.updateHelpers()
