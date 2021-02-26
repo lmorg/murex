@@ -43,10 +43,10 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 	if resetCursorPos {
 		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
 		posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-		y := lineY - posY + 1
+		y := lineY - posY
 		moveCursorDown(y)
 
-		print("\r" + rl.HintFormatting + hintText + seqReset)
+		print("\r\n" + rl.HintFormatting + hintText + seqReset)
 
 		moveCursorUp(rl.hintY + lineY - posY)
 		moveCursorBackwards(rl.termWidth)
