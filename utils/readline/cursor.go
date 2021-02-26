@@ -93,46 +93,67 @@ func moveCursorBackwards(i int) {
 }
 
 func (rl *Instance) moveCursorToStart() {
-	termWidth := GetTermWidth()
-	_, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
-	moveCursorBackwards(termWidth)
+	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
-	moveCursorForwards(rl.promptLen)
 }
 
-func (rl *Instance) moveCursorToLinePos() {
-	termWidth := GetTermWidth()
-
-	rl.moveCursorToStart()
-	moveCursorBackwards(rl.promptLen)
-
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+func (rl *Instance) moveCursorFromStartToLinePos() {
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
-func (rl *Instance) moveCursorByAdjust(adjust int) {
-	termWidth := GetTermWidth()
+func (rl *Instance) moveCursorFromEndToLinePos() {
+	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	moveCursorBackwards(lineX - posX)
+	moveCursorUp(lineY - posY)
+}
 
-	_, oldY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+// moveCursorToLinePos should only be used on extreme circumstances because it
+// causes the cursor to jump around quite a bit
+func (rl *Instance) moveCursorFromUnknownToLinePos() {
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	//moveCursorBackwards(lineX)
+	print("\r")
+	moveCursorForwards(posX)
+	moveCursorUp(lineY - posY)
+}
+
+func (rl *Instance) moveCursorByAdjust(adjust int) {
+	oldX, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	rl.pos += adjust
+
+	if rl.pos < 0 {
+		rl.pos = 0
+	}
+	if rl.pos > len(rl.line) {
+		rl.pos = len(rl.line)
+	}
 
 	if rl.modeViMode != vimInsert && rl.pos == len(rl.line) {
 		rl.pos--
 	}
 
-	_, newY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	newX, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
-	i := newY - oldY
+	y := newY - oldY
 	switch {
-	case i < 0:
-		moveCursorUp(i * -1)
-	case i > 0:
-		moveCursorDown(i)
+	case y < 0:
+		moveCursorUp(-y)
+	case y > 0:
+		moveCursorDown(y)
 	}
 
-	rl.moveCursorToLinePos()
-	//rl.echo()
+	x := newX - oldX
+	switch {
+	case x < 0:
+		moveCursorBackwards(-x)
+	case x > 0:
+		moveCursorForwards(x)
+	}
 }

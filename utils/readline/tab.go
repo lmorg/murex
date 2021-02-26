@@ -1,6 +1,8 @@
 package readline
 
-import "context"
+import (
+	"context"
+)
 
 // TabDisplayType defines how the autocomplete suggestions display
 type TabDisplayType int
@@ -73,10 +75,15 @@ func (rl *Instance) moveTabCompletionHighlight(x, y int) {
 	}
 }
 
-func (rl *Instance) writeTabCompletion() {
+func (rl *Instance) writeTabCompletion(resetCursorPos bool) {
 	if !rl.modeTabCompletion {
 		return
 	}
+
+	_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	moveCursorDown(rl.hintY + lineY - posY)
+	print("\r\n" + seqClearScreenBelow)
 
 	switch rl.tcDisplayType {
 	case TabDisplayGrid:
@@ -90,6 +97,12 @@ func (rl *Instance) writeTabCompletion() {
 
 	default:
 		rl.writeTabGrid()
+	}
+
+	if resetCursorPos {
+		moveCursorUp(rl.hintY + rl.tcUsedY)
+		print("\r")
+		rl.moveCursorFromStartToLinePos()
 	}
 }
 

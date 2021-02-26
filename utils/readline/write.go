@@ -27,14 +27,16 @@ func strLen(s string) int {
 }
 
 func (rl *Instance) echo() {
-	termWidth := GetTermWidth()
+	if len(rl.multisplit) == 0 {
+		rl.syntaxCompletion()
+	}
 
-	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, termWidth)
+	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	moveCursorBackwards(posX)
 	moveCursorUp(posY)
-	if rl.promptLen < termWidth {
+	if rl.promptLen < rl.termWidth {
 		print(rl.prompt)
 	}
 
@@ -42,11 +44,11 @@ func (rl *Instance) echo() {
 	case rl.PasswordMask != 0:
 		print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " \r\n")
 
-	case len(rl.line)+rl.promptLen > termWidth:
+	case len(rl.line)+rl.promptLen > rl.termWidth:
 		fallthrough
 
 	case rl.SyntaxHighlighter == nil:
-		wrap := lineWrap(rl, termWidth)
+		wrap := lineWrap(rl, rl.termWidth)
 		for i := range wrap {
 			print(wrap[i] + "\r\n")
 		}
@@ -55,19 +57,9 @@ func (rl *Instance) echo() {
 		print(rl.SyntaxHighlighter(rl.line) + " \r\n")
 	}
 
-	/*x := lineX - posX
-	y := lineY - posY
-	if y == 0 && rl.promptLen < termWidth {
-		x -= len(rl.prompt)
-	}
-	moveCursorBackwards(x)
-	moveCursorUp(y + 1)*/
-	//moveCursorBackwards(len(rl.line) - rl.pos)
-
-	moveCursorBackwards(lineX)
 	moveCursorUp(lineY + 1)
-	moveCursorForwards(posX + 1)
 	moveCursorDown(posY)
+	moveCursorBackwards(lineX - posX + 1)
 }
 
 func lineWrap(rl *Instance, termWidth int) []string {
@@ -126,13 +118,12 @@ func (rl *Instance) clearLine() {
 
 	rl.moveCursorToStart()
 
-	termWidth := GetTermWidth()
-	if termWidth > rl.promptLen {
-		print(strings.Repeat(" ", termWidth-rl.promptLen))
+	if rl.termWidth > rl.promptLen {
+		print(strings.Repeat(" ", rl.termWidth-rl.promptLen))
 	}
 	print(seqClearScreenBelow)
 
-	moveCursorBackwards(termWidth)
+	moveCursorBackwards(rl.termWidth)
 	print(rl.prompt)
 
 	rl.line = []rune{}
@@ -147,18 +138,20 @@ func (rl *Instance) resetHelpers() {
 }
 
 func (rl *Instance) clearHelpers() {
+	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	y := lineY - posY
+
+	moveCursorDown(y)
 	print("\r\n" + seqClearScreenBelow)
-	moveCursorUp(1)
-	rl.moveCursorToLinePos()
+
+	moveCursorUp(y + 1)
+	moveCursorForwards(posX)
 }
 
 func (rl *Instance) renderHelpers() {
-	rl.writeHintText()
-	rl.writeTabCompletion()
-
-	moveCursorUp(rl.hintY + rl.tcUsedY)
-	//moveCursorBackwards(GetTermWidth())
-	rl.moveCursorToLinePos()
+	rl.writeHintText(true)
+	rl.writeTabCompletion(true)
 }
 
 func (rl *Instance) updateHelpers() {
