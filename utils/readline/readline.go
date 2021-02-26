@@ -49,7 +49,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 	if len(rl.multisplit) > 0 {
 		r := []rune(rl.multisplit[0])
-		rl.editorInput(r)
+		rl.readlineInput(r)
 		rl.carridgeReturn()
 		if len(rl.multisplit) > 1 {
 			rl.multisplit = rl.multisplit[1:]
@@ -59,6 +59,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		return string(rl.line), nil
 	}
 
+	rl.termWidth = GetTermWidth()
 	rl.getHintText()
 	rl.renderHelpers()
 
@@ -73,6 +74,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			if err != nil {
 				return "", err
 			}
+			rl.termWidth = GetTermWidth()
 		}
 		atomic.AddInt64(&rl.delayedSyntaxCount, 1)
 
@@ -95,7 +97,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 			r = []rune(rl.multisplit[0])
 			rl.modeViMode = vimInsert
-			rl.editorInput(r)
+			rl.readlineInput(r)
 			rl.carridgeReturn()
 			rl.multiline = []byte{}
 			if len(rl.multisplit) > 1 {
@@ -108,7 +110,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			rl.clearHelpers()
+			//rl.clearHelpers() // unessisary clear?
 
 			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
 
@@ -221,7 +223,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.updateTabFind(r[:i])
 				rl.viUndoSkipAppend = true
 			} else {
-				rl.editorInput(r[:i])
+				rl.readlineInput(r[:i])
 				if len(rl.multiline) > 0 && rl.modeViMode == vimKeys {
 					rl.skipStdinRead = true
 				}
@@ -278,12 +280,27 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 			return
 		}
+
+		// are we midway through a long line that spans multiple terminal lines?
+		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		if posY > 0 {
+			rl.moveCursorByAdjust(-rl.termWidth + rl.promptLen)
+			return
+		}
 		rl.walkHistory(-1)
 
 	case seqDown:
 		if rl.modeTabCompletion {
 			rl.moveTabCompletionHighlight(0, 1)
 			rl.renderHelpers()
+			return
+		}
+
+		// are we midway through a long line that spans multiple terminal lines?
+		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+		if posY < lineY {
+			rl.moveCursorByAdjust(rl.termWidth - rl.promptLen)
 			return
 		}
 		rl.walkHistory(1)
@@ -294,9 +311,9 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 			return
 		}
+
 		if rl.pos > 0 {
-			moveCursorBackwards(1)
-			rl.pos--
+			rl.moveCursorByAdjust(-1)
 		}
 		rl.viUndoSkipAppend = true
 
@@ -306,10 +323,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 			return
 		}
+
 		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
 			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
-			moveCursorForwards(1)
-			rl.pos++
+			rl.moveCursorByAdjust(1)
 		}
 		rl.viUndoSkipAppend = true
 
@@ -317,16 +334,16 @@ func (rl *Instance) escapeSeq(r []rune) {
 		if rl.modeTabCompletion {
 			return
 		}
-		moveCursorBackwards(rl.pos)
-		rl.pos = 0
+
+		rl.moveCursorByAdjust(-rl.pos)
 		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
 		if rl.modeTabCompletion {
 			return
 		}
-		moveCursorForwards(len(rl.line) - rl.pos)
-		rl.pos = len(rl.line)
+
+		rl.moveCursorByAdjust(len(rl.line) - rl.pos)
 		rl.viUndoSkipAppend = true
 
 	case seqShiftTab:
@@ -364,10 +381,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 	}
 }
 
-// editorInput is an unexported function used to determine what mode of text
+// readlineInput is an unexported function used to determine what mode of text
 // entry readline is currently configured for and then update the line entries
 // accordingly.
-func (rl *Instance) editorInput(r []rune) {
+func (rl *Instance) readlineInput(r []rune) {
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(r[0])
@@ -392,10 +409,6 @@ func (rl *Instance) editorInput(r []rune) {
 
 	default:
 		rl.insert(r)
-	}
-
-	if len(rl.multisplit) == 0 {
-		rl.syntaxCompletion()
 	}
 }
 

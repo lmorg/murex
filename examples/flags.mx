@@ -30,15 +30,15 @@ out "The structure of \$args is: ${$args->pretty}\n\n"
 # Some example usage:
 # -------------------
 
-!if { $args->[ Flags ]->[ --bool ] } {
+!if { $args->[[ /Flags/--bool ]] } {
     out "Flag `--bool` was not set."
 }
 
 # `<!null>` redirects the STDERR to a named pipe. In this instance it's the 'null' pipe so equivalent to 2>/dev/null
 # thus we are just suppressing any error messages.
 try <!null> {
-    $args -> [ Flags ] -> [ --str ] -> set fStr
-    $args -> [ Flags ] -> [ --num ] -> set fNum
+    $args -> [[ /Flags/--str ]] -> set fStr
+    $args -> [[ /Flags/--num ]] -> set fNum
 
     out "Defined Flags:"
     out "  --str == $fStr"

@@ -7,44 +7,9 @@ import (
 	"encoding/hex"
 	"io/ioutil"
 	"os"
-	"os/exec"
 	"strconv"
 	"time"
 )
-
-func (rl *Instance) launchEditor(multiline []rune) ([]rune, error) {
-	name, err := rl.writeTempFile([]byte(string(multiline)))
-	if err != nil {
-		return multiline, err
-	}
-
-	editor := os.Getenv("EDITOR")
-	// default editor is $EDITOR not set
-	if editor == "" {
-		editor = "vi"
-	}
-
-	cmd := exec.Command(editor, name)
-
-	//cmd.SysProcAttr = &syscall.SysProcAttr{
-	//	Ctty: int(os.Stdout.Fd()),
-	//}
-
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	if err := cmd.Start(); err != nil {
-		return multiline, err
-	}
-
-	if err := cmd.Wait(); err != nil {
-		return multiline, err
-	}
-
-	b, err := readTempFile(name)
-	return []rune(string(b)), err
-}
 
 func (rl *Instance) writeTempFile(content []byte) (string, error) {
 	fileID := strconv.Itoa(time.Now().Nanosecond()) + ":" + string(rl.line)

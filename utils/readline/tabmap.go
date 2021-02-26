@@ -5,8 +5,6 @@ import (
 )
 
 func (rl *Instance) initTabMap() {
-	//width := GetTermWidth()
-
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -85,23 +83,24 @@ func (rl *Instance) writeTabMap() {
 		suggestions = rl.tcSuggestions
 	}
 
-	termWidth := GetTermWidth()
-	if termWidth < 10 {
+	if rl.termWidth < 10 {
 		// terminal too small. Probably better we do nothing instead of crash
 		return
 	}
 
 	maxLength := rl.tcMaxLength
-	if maxLength > termWidth-9 {
-		maxLength = termWidth - 9
+	if maxLength > rl.termWidth-9 {
+		maxLength = rl.termWidth - 9
 	}
-	maxDescWidth := termWidth - maxLength - 4
+	maxDescWidth := rl.termWidth - maxLength - 4
 
 	cellWidth := strconv.Itoa(maxLength)
 	itemWidth := strconv.Itoa(maxDescWidth)
 
 	y := 0
-	print(seqClearScreenBelow)
+
+	//print("\r" + strings.Repeat("\n", rl.hintY) + seqClearScreenBelow)
+	moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
 
 	highlight := func(y int) string {
 		if y == rl.tcPosY {

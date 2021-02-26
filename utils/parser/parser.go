@@ -25,6 +25,7 @@ var (
 // ParsedTokens is a struct that returns a tokenized version of the selected command
 type ParsedTokens struct {
 	Source        []rune
+	LastCharacter rune
 	Loc           int
 	VarLoc        int
 	Escaped       bool
@@ -32,6 +33,7 @@ type ParsedTokens struct {
 	QuoteDouble   bool
 	QuoteBrace    int
 	NestedBlock   int
+	SquareBracket bool
 	ExpectFunc    bool
 	pop           *string
 	FuncName      string
@@ -50,6 +52,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	pt.ExpectFunc = true
 	pt.pop = &pt.FuncName
 	pt.Source = block
+	pt.Parameters = []string{}
 
 	ansiColour := func(colour string, r rune) {
 		syntaxHighlighted += colour + string(r)
@@ -83,7 +86,12 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		}
 	}
 
-	for i := range block {
+	var i int
+	for i = range block {
+		if !pt.Escaped {
+			pt.LastCharacter = block[i]
+		}
+
 		if pt.Variable != "" && !rxAllowedVarChars.MatchString(string(block[i])) {
 			pt.Variable = ""
 			ansiResetNoChar()
@@ -275,6 +283,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.Loc = i
 				pt.LastFlowToken = i - 1
 				pt.ExpectFunc = true
+				pt.SquareBracket = false
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
@@ -308,6 +317,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				}
 				pt.LastFlowToken = i
 				pt.ExpectFunc = true
+				pt.SquareBracket = false
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
@@ -355,6 +365,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				}
 				pt.LastFlowToken = i
 				pt.ExpectFunc = true
+				pt.SquareBracket = false
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
 				pt.Unsafe = true
@@ -400,6 +411,46 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				if pt.NestedBlock == 0 {
 					syntaxHighlighted += ansi.Reset + reset[len(reset)-1]
 				}
+			}
+
+		case '[':
+			switch {
+			case pt.Escaped:
+				pt.Escaped = false
+				ansiReset(block[i])
+			case readFunc:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+				//if i > 0 && block[0] == '^' {
+				pt.SquareBracket = true
+				//}
+			case pt.ExpectFunc:
+				*pt.pop = string(block[i])
+				readFunc = true
+				syntaxHighlighted += string(block[i])
+				pt.SquareBracket = true
+			default:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+				pt.SquareBracket = true
+			}
+
+		case ']':
+			switch {
+			case pt.Escaped:
+				pt.Escaped = false
+				ansiReset(block[i])
+			case readFunc:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+			case pt.ExpectFunc:
+				*pt.pop = string(block[i])
+				readFunc = true
+				syntaxHighlighted += string(block[i])
+			default:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+				pt.SquareBracket = true
 			}
 
 		case '$':

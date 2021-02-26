@@ -78,8 +78,14 @@ func (h *NullHistory) Dump() interface{} {
 	return []string{}
 }
 
-// Browse historic lines:
+// Browse historic lines
 func (rl *Instance) walkHistory(i int) {
+	var (
+		old, new string
+		dedup    bool
+		err      error
+	)
+
 	switch rl.histPos + i {
 	case -1, rl.History.Len() + 1:
 		return
@@ -90,7 +96,9 @@ func (rl *Instance) walkHistory(i int) {
 		rl.line = []rune(rl.lineBuf)
 
 	default:
-		s, err := rl.History.GetLine(rl.histPos + i)
+		dedup = true
+		old = string(rl.line)
+		new, err = rl.History.GetLine(rl.histPos + i)
 		if err != nil {
 			rl.resetHelpers()
 			print("\r\n" + err.Error() + "\r\n")
@@ -103,19 +111,22 @@ func (rl *Instance) walkHistory(i int) {
 		}
 
 		rl.clearLine()
+
 		rl.histPos += i
-		rl.line = []rune(s)
+		rl.line = []rune(new)
+
+		_, y := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+		print(strings.Repeat("\r\n", y))
 	}
 
-	rl.echo()
 	rl.pos = len(rl.line)
-	if rl.pos > 1 {
-		moveCursorForwards(rl.pos - 1)
-	} else if rl.pos == 0 {
-		moveCursorBackwards(1)
-	}
+	rl.echo()
 
 	rl.updateHelpers()
+
+	if dedup && old == new {
+		rl.walkHistory(i)
+	}
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {

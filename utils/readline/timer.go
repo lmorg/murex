@@ -10,6 +10,12 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 		return
 	}
 
+	if len(rl.line)+rl.promptLen > rl.termWidth {
+		// line wraps, which is hard to do with random ANSI escape sequences
+		// so better we don't bother trying.
+		return
+	}
+
 	newLine := rl.DelayedSyntaxWorker(rl.line)
 	var sLine string
 
@@ -24,9 +30,9 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 		sLine = string(newLine)
 	}
 
-	moveCursorBackwards(rl.pos)
+	rl.moveCursorToStart()
 	print(sLine)
-	moveCursorBackwards(len(rl.line) - rl.pos)
+	rl.moveCursorFromEndToLinePos()
 }
 
 // DelayedTabContext is a custom context interface for async updates to the tab completions
@@ -52,8 +58,26 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 		}
 	}
 
-	//dtc.rl.updateTabFind([]rune{})
-	//dtc.rl.writeTabCompletion()
+	dtc.rl.clearHelpers()
+	dtc.rl.renderHelpers()
+}
+
+// AppendDescriptions updates the tab completions with additional suggestions + descriptions asynchronously
+func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
+	dtc.rl.mutex.Lock()
+	defer dtc.rl.mutex.Unlock()
+
+	for k := range suggestions {
+		select {
+		case <-dtc.Context.Done():
+			return
+
+		default:
+			dtc.rl.tcDescriptions[k] = suggestions[k]
+			dtc.rl.tcSuggestions = append(dtc.rl.tcSuggestions, k)
+		}
+	}
+
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()
 }

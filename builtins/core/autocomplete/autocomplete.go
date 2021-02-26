@@ -28,6 +28,9 @@ func cmdAutocomplete(p *lang.Process) error {
 	case "set":
 		return set(p)
 
+	//case "cache-dynamic":
+	//	return cacheDynamic(p)
+
 	default:
 		p.Stdout.SetDataType(types.Null)
 		return errors.New("Not a valid mode. Please use `get` or `set`")

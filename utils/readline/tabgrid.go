@@ -6,8 +6,6 @@ import (
 )
 
 func (rl *Instance) initTabGrid() {
-	width := GetTermWidth()
-
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -27,13 +25,13 @@ func (rl *Instance) initTabGrid() {
 		rl.tcMaxLength = rl.MaxTabItemLength
 	}
 	if rl.tcMaxLength == 0 {
-		rl.tcMaxLength = 1
+		rl.tcMaxLength = 20
 	}
 
 	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
-	rl.tcMaxX = width / (rl.tcMaxLength + 2)
+	rl.tcMaxX = rl.termWidth / (rl.tcMaxLength + 2)
 	rl.tcOffset = 0
 
 	// avoid a divide by zero error
@@ -91,16 +89,6 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 			rl.tcPosY = 1
 		}
 	}
-
-	/*if !rl.modeTabFind && len(suggestions) > 0 {
-		cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
-		description := rl.tcDescriptions[suggestions[cell]]
-		if description != "" {
-			rl.hintText = []rune(description)
-		} else {
-			rl.getHintText()
-		}
-	}*/
 }
 
 func (rl *Instance) writeTabGrid() {
@@ -111,9 +99,9 @@ func (rl *Instance) writeTabGrid() {
 		suggestions = rl.tcSuggestions
 	}
 
-	print(seqClearScreenBelow + "\r\n")
+	//print("\r" + strings.Repeat("\n", rl.hintY) + seqClearScreenBelow)
 
-	iCellWidth := (GetTermWidth() / rl.tcMaxX) - 2
+	iCellWidth := (rl.termWidth / rl.tcMaxX) - 2
 	cellWidth := strconv.Itoa(iCellWidth)
 
 	x := 0
