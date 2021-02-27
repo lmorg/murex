@@ -17,7 +17,7 @@ shells that you can retain most of your muscle memory, while not
 being afraid to make breaking changes where "bash-isms" lead to unreadable,
 hard to maintain, or unsafe code.
 
-_murex_ is designed for DevOps productivity so it isn't suited is high
+_murex_ is designed for DevOps productivity so it isn't suited for high
 performance workloads beyond what you'd typically run in Bash (eg pipelines
 forked as concurrent processes).
 
