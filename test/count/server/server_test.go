@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"regexp"
 	"testing"
 	"time"
@@ -32,7 +31,6 @@ func TestServer(t *testing.T) {
 
 	if err != nil {
 		// lets not get caught up with testing if there is already a listener
-		//t.SkipNow()
 		t.SkipNow()
 	}
 
@@ -40,7 +38,7 @@ func TestServer(t *testing.T) {
 
 	testCount(t)
 	//testT(t) //this test doesn't yet work
-	os.Exit(0)
+	//os.Exit(0)
 }
 
 func testCount(t *testing.T) {
