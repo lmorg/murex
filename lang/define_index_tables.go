@@ -174,7 +174,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 			} else {
 				for i := range matchStr {
 					col := headings[matchStr[i]]
-					if col != 0 && col < len(recs) {
+					if col != 0 && col < len(recs)+1 {
 						line = append(line, recs[col-1])
 					} else {
 						p.ExitNum = 1
