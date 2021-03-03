@@ -735,6 +735,8 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case scanFuncName || braceCount > 0 || quoteSingle:
 				pUpdate(r)
 				ignoreWhitespace = false
+			case !scanFuncName && last == '=' && node.Name == "=":
+				pUpdate(r)
 			default:
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{Type: parameters.TokenTypeTilde})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
