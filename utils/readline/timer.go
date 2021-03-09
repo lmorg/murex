@@ -53,6 +53,9 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 			return
 
 		default:
+			if dtc.rl.tcDescriptions == nil {
+				dtc.rl.tcDescriptions = make(map[string]string)
+			}
 			dtc.rl.tcDescriptions[suggestions[i]] = dtc.rl.tcPrefix + suggestions[i]
 			dtc.rl.tcSuggestions = append(dtc.rl.tcSuggestions, suggestions[i])
 		}
