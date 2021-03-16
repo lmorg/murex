@@ -178,8 +178,9 @@ if { which bash } then {
     }
 
     trypipe {
-        man-summary: <!null> bash -> set bash_summary
+        man-summary: <!null> bash -> set: bash_summary
         summary bash $bash_summary
+        !set bash_summary
     }
 }
 

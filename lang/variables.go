@@ -4,12 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"sync"
 	"time"
 
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -251,11 +251,7 @@ func (v *Variables) Dump() interface{} {
 func DumpVariables(p *Process) map[string]interface{} {
 	m := make(map[string]interface{})
 
-	envVars := os.Environ()
-	for i := range envVars {
-		split := strings.Split(envVars[i], "=")
-		m[split[0]] = strings.Join(split[1:], "=")
-	}
+	envvars.All(m)
 
 	GlobalVariables.mutex.Lock()
 	for name, v := range GlobalVariables.vars {

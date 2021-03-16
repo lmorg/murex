@@ -85,26 +85,20 @@ autocomplete: set tout { [{
     "Dynamic": ({ autocomplete.data-types })
 }] }
 
-autocomplete: set set { [{
-    "Dynamic": ({ autocomplete.data-types })
-}] }
+private autocomplete.variables.locals {
+    # Returns all local variable names
+    runtime: --variables -> formap k v { out $k } -> cast: str
+}
 
-autocomplete: set export { [{
-    "DynamicDesc": ({ runtime --exports })
-}] }
-
-autocomplete: set !export { [{
-    "DynamicDesc": ({ runtime --exports })
-}] }
-
-autocomplete: set unset { [{
-    "DynamicDesc": ({ runtime --exports })
-}] }
+private autocomplete.variables.globals {
+    # Returns all global variable names
+    runtime: --globals -> formap k v { out $k } -> cast: str
+}
 
 private autocomplete.variables {
     # Returns all global and local variable names
-    runtime: --globals -> formap k v { out $k } -> cast: str
-    runtime: --variables -> formap k v { out $k } -> cast: str
+    autocomplete.variables.locals
+    autocomplete.variables.globals
 }
 
 test unit private autocomplete.variables {
@@ -123,20 +117,32 @@ test unit private autocomplete.variables {
     "StdoutIsArray": true
 }
 
-autocomplete: set global { [{
-    "Dynamic": ({ autocomplete.variables })
-}] }
-
-autocomplete: set !global { [{
-    "Dynamic": ({ autocomplete.variables })
-}] }
-
 autocomplete: set set { [{
-    "Dynamic": ({ autocomplete.variables })
+    "Dynamic": ({ autocomplete.variables.locals })
 }] }
 
 autocomplete: set !set { [{
+    "Dynamic": ({ autocomplete.variables.locals })
+}] }
+
+autocomplete: set global { [{
+    "Dynamic": ({ autocomplete.variables.globals })
+}] }
+
+autocomplete: set !global { [{
+    "Dynamic": ({ autocomplete.variables.globals })
+}] }
+
+autocomplete: set export { [{
     "Dynamic": ({ autocomplete.variables })
+}] }
+
+autocomplete: set !export { [{
+    "DynamicDesc": ({ runtime --exports })
+}] }
+
+autocomplete: set unset { [{
+    "DynamicDesc": ({ runtime --exports })
 }] }
 
 autocomplete: set "[" { [{
