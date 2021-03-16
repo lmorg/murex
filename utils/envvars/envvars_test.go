@@ -242,13 +242,14 @@ func testEnvVarsAll(t *testing.T, tests []envAllTestT) {
 			test.Expected = make(map[string]string)
 		}
 
-		actual, err := all(test.Slice)
+		actual := make(map[string]interface{})
+		all(test.Slice, actual)
 
-		if (err != nil) != test.Error {
+		/*if (err != nil) != test.Error {
 			t.Errorf("Error expectation mismatch in test %d", i)
 			t.Logf("  Expected: %v", test.Error)
 			t.Logf("  Actual:   %v", err)
-		}
+		}*/
 
 		if len(test.Expected) != len(actual) {
 			t.Errorf("Output count mistmatch in test %d", i)
@@ -263,7 +264,7 @@ func testEnvVarsAll(t *testing.T, tests []envAllTestT) {
 				t.Errorf("Key/value mistmatch in test %d", i)
 				t.Logf("  Key:       `%s`", k)
 				t.Logf("  Exp Value: `%s`", test.Expected[k])
-				t.Logf("  Act Value: `%s`", actual[k])
+				t.Logf("  Act Value: `%s`", actual[k].(string))
 				t.Logf("  Expected:\n%s", testJsonEncode(test.Expected))
 				t.Logf("  Actual:\n%s", testJsonEncode(actual))
 			}

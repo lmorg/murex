@@ -4,14 +4,12 @@ import (
 	"os"
 )
 
-// All returns a map of environmental variables
-func All() (map[string]string, error) {
-	return all(os.Environ())
+// All populates a map of environmental variables
+func All(m map[string]interface{}) {
+	all(os.Environ(), m)
 }
 
-func all(envs []string) (map[string]string, error) {
-	m := make(map[string]string)
-
+func all(envs []string, m map[string]interface{}) {
 	for _, s := range envs {
 		if s == "" || s == "=" {
 			m[""] = ""
@@ -34,6 +32,4 @@ func all(envs []string) (map[string]string, error) {
 			m[s[:i]] = s[i+1:]
 		}
 	}
-
-	return m, nil
 }

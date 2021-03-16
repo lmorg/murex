@@ -131,10 +131,8 @@ func cmdRuntime(p *lang.Process) error {
 		case fGlobals:
 			ret[fGlobals[2:]] = lang.GlobalVariables.Dump()
 		case fExports:
-			m, err := envvars.All()
-			if err != nil {
-				return err
-			}
+			m := make(map[string]interface{})
+			envvars.All(m)
 			ret[fExports[2:]] = m
 		case fAliases:
 			ret[fAliases[2:]] = lang.GlobalAliases.Dump()
