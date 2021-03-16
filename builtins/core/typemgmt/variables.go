@@ -128,7 +128,9 @@ func cmdExport(p *lang.Process) error {
 
 	// Set env as parameters:
 	if rxVarName.MatchString(params) {
-		return os.Setenv(params, "")
+		v := p.Variables.GetString(params)
+
+		return os.Setenv(params, v)
 	}
 
 	match := rxSet.FindAllStringSubmatch(params, -1)
