@@ -1,5 +1,7 @@
 package readline
 
+import "strings"
+
 func (rl *Instance) getHintText() {
 	if rl.HintText == nil {
 		rl.resetHintText()
@@ -38,6 +40,9 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 	if rl.hintY > 3 {
 		rl.hintY = 3
 		hintText = hintText[:(rl.termWidth*3)-4] + "..."
+	} else {
+		padding := (rl.hintY * rl.termWidth) - len(hintText)
+		hintText += strings.Repeat(" ", padding)
 	}
 
 	if resetCursorPos {
