@@ -167,7 +167,7 @@ _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More 
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [commands/`export`](../commands/export.md):
-  Define a local variable and set it's value
+  Define an environmental variable and set it's value
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`global`](../commands/global.md):

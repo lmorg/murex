@@ -110,7 +110,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`exitnum`](commands/exitnum.md):
   Output the exit number of the previous process
 * [`export`](commands/export.md):
-  Define a local variable and set it's value
+  Define an environmental variable and set it's value
 * [`f`](commands/f.md):
   Lists objects (eg files) in the current working directory
 * [`false`](commands/false.md):

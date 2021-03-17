@@ -200,7 +200,7 @@ quotes:
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
 * [commands/`export`](../commands/export.md):
-  Define a local variable and set it's value
+  Define an environmental variable and set it's value
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):

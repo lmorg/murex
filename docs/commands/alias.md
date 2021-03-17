@@ -85,7 +85,7 @@ There is an order of precedence for which commands are looked up:
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
 * [commands/`export`](../commands/export.md):
-  Define a local variable and set it's value
+  Define an environmental variable and set it's value
 * [commands/`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [commands/`function`](../commands/function.md):
