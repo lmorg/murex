@@ -55,6 +55,7 @@
     disable: Disables a previously enabled package or module
     import: Import packages described in a backup package DB from user defined URI or local path
     status: Returns the version status of locally installed packages
+    list: Returns a list of indexed packages
   Detail: |-
   Synonyms:
   Related:

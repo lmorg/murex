@@ -33,6 +33,7 @@ type Module struct {
 	Source       string
 	Package      string
 	Disabled     bool
+	Loaded       bool
 	Dependencies Dependencies
 }
 

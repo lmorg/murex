@@ -48,6 +48,8 @@ Check status of murex packages
     Import packages described in a backup package DB from user defined URI or local path
 * `install`
     Installs a package from a user defined URI
+* `list`
+    Returns a list of indexed packages
 * `status`
     Returns the version status of locally installed packages
 * `update`
