@@ -64,6 +64,14 @@ well as used naked. But they cannot be expanded inside single quotes.
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [parser/Brace Quote (`(`, `)`) Token](../parser/brace-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [parser/Double Quote (`"`) Token](../parser/double-quote.md):
+  Initiates or terminates a string (variables expanded)
+* [parser/Single Quote (`'`) Token](../parser/single-quote.md):
+  Initiates or terminates a string (variables not expanded)
+* [parser/Tilde (`~`) Token](../parser/tilde.md):
+  Home directory path variable
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`ja`](../commands/ja.md):
@@ -72,9 +80,3 @@ well as used naked. But they cannot be expanded inside single quotes.
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [parser/brace-quote](../parser/brace-quote.md):
-  
-* [parser/double-quote](../parser/double-quote.md):
-  
-* [parser/single-quote](../parser/single-quote.md):
-  
