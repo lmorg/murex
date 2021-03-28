@@ -8,6 +8,18 @@
 
 _murex_ comes with it's own package manager to make managing plugins easier.
 
+The format of the packages is a directory, typically located at `~/.murex_modules`,
+which contains one or more murex scripts. Each script can be it's own module.
+ie there are multiple modules that can be grouped together and distributed as a
+single package.
+
+The way packages and modules are represented is as a path:
+
+    package/module
+    
+`murex-package` is a package management tool for administrating murex modules
+and packages.
+
 ## Usage
 
 Install a new package
@@ -48,10 +60,25 @@ Check status of murex packages
     Import packages described in a backup package DB from user defined URI or local path
 * `install`
     Installs a package from a user defined URI
+* `list`
+    Returns a list of indexed packages/modules (eg what's enabled or disabled)
 * `status`
     Returns the version status of locally installed packages
 * `update`
     Updates all installed packages
+
+## Detail
+
+### `murex-package: list`... `enabled` vs `loaded`
+
+`enabled` and `disabled` reads the package status from disk rather than the
+package cache in your current _murex_ session (like `runtime` reports). This
+because the typical use for `murex-package list enabled|disabled` is to view
+which packages and modules will be loaded with any new murex session.
+
+If you wish to view what modules are loaded in a current session then use
+`murex-package list loaded` instead. This is also equivalent to using
+`runtime --modules`.
 
 ## See Also
 

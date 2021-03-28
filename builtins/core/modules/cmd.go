@@ -6,10 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/utils/cd"
-
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils/cd"
 )
 
 const usage = `
@@ -19,7 +18,7 @@ Usage: murex-package install         uri
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
                      status
-                     list            enabled|disabled
+                     list            loaded|not-loaded|enabled|disabled|packages
 `
 
 func init() {

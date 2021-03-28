@@ -3,8 +3,9 @@ package readline
 func (rl *Instance) insert(r []rune) {
 	for {
 		// I don't really understand why `0` is creeping in at the end of the
-		// array but it only happens with unicode characters.
-		if len(r) > 1 && r[len(r)-1] == 0 {
+		// array but it only happens with unicode characters. Also have a similar
+		// annoyance with \r when copy/pasting from iTerm.
+		if len(r) > 1 && (r[len(r)-1] == 0 || r[len(r)-1] == '\r') {
 			r = r[:len(r)-1]
 			continue
 		}

@@ -644,7 +644,7 @@ autocomplete: set murex-package {
                 "AutoBranch": true
             }],
             "list": [{
-                "Flags": [ "enabled", "disabled", "packages" ]
+                "Flags": [ "enabled", "disabled", "loaded", "not-loaded", "packages" ]
             }],
             "cd": [{
                 "Dynamic": ({ murex-package: list packages })

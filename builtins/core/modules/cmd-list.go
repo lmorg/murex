@@ -12,13 +12,12 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+const expecting = `Expecting enabled | disabled | loaded | not-loaded | packages`
+
 func listModules(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	flag, err := p.Parameters.String(1)
-	if err != nil {
-		return err
-	}
+	flag, _ := p.Parameters.String(1)
 
 	switch flag {
 	case "enabled":
@@ -27,24 +26,36 @@ func listModules(p *lang.Process) error {
 	case "disabled":
 		return listModulesEnDis(p, false)
 
+	case "loaded":
+		return listModulesLoadNotLoad(p, true)
+
+	case "not-loaded":
+		return listModulesLoadNotLoad(p, false)
+
 	case "packages":
 		return listPackages(p)
 
+	case "":
+		return fmt.Errorf("Missing parameter. %s", expecting)
+
 	default:
-		return fmt.Errorf("Invalid flag `%s`. Expecting enabled|disabled|packages", flag)
+		return fmt.Errorf("Invalid parameter `%s`. %s", flag, expecting)
 	}
 }
 
+// listModulesEnDis reads from disk rather than the package cache (like `runtime`)
+// because the typical use for `murex-package list enabled|disabled` is to view
+// which packages and modules will be loaded with murex. To get a view of what is
+// currently loaded in a given session then use `loaded` / `not-loaded` instead of
+// `enabled` / `disabled`
 func listModulesEnDis(p *lang.Process, enabled bool) error {
 	var disabled []string
 	err := profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
 	if err != nil {
 		return err
 	}
-	//debug.Log("disabled", disabled)
 
 	isDisabled := func(name string) bool {
-		//debug.Log(name)
 		for i := range disabled {
 			if disabled[i] == name {
 				return true
@@ -80,7 +91,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) error {
 
 		mods, err := profile.LoadPackage(pack, false)
 		if err != nil {
-			return err
+			p.Stderr.Writeln([]byte(err.Error()))
 		}
 
 		// these should NOT equate ;)
@@ -94,6 +105,25 @@ func listModulesEnDis(p *lang.Process, enabled bool) error {
 				continue
 			}
 			list[mods[i].Package+"/"+mods[i].Name] = mods[i].Summary
+		}
+	}
+
+	b, err := lang.MarshalData(p, types.Json, &list)
+	if err != nil {
+		return err
+	}
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
+func listModulesLoadNotLoad(p *lang.Process, loaded bool) error {
+	list := make(map[string]string)
+
+	for _, mods := range profile.Packages {
+		for i := range mods {
+			if mods[i].Loaded == loaded {
+				list[mods[i].Package+"/"+mods[i].Name] = mods[i].Summary
+			}
 		}
 	}
 

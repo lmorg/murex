@@ -2,7 +2,7 @@
 
 ## Command Reference: `export`
 
-> Define a local variable and set it's value
+> Define an environmental variable and set it's value
 
 ## Description
 

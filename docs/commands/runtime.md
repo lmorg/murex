@@ -298,7 +298,7 @@ normal operation.
 * [commands/`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [commands/`export`](../commands/export.md):
-  Define a local variable and set it's value
+  Define an environmental variable and set it's value
 * [commands/`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
 * [commands/`foreach`](../commands/foreach.md):

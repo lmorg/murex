@@ -135,7 +135,7 @@
     `export`
   CategoryID: commands
   Summary: >-
-    Define a local variable and set it's value
+    Define an environmental variable and set it's value
   Description: |-
     Defines, updates or deallocates an environmental variable.
   Usage: |-

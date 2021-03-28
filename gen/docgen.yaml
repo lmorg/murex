@@ -123,7 +123,7 @@ Categories:
 
       ### _murex_'s Source Code
 
-      The parser is located _murex_'s source under the `lang` path of the project
+      The parser is located _murex_'s source under the `lang/` path of the project
       files.
   
     Templates:

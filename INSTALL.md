@@ -86,6 +86,11 @@ the `builtins` directory of this project or append `// +build ignore` to
 the `.go` file if you wish to preserve the change in subsequent updates
 from git.
 
+## Supported Platforms
+
+Most popular operating systems and CPU types are supported. More details
+can be read at (docs/FAQ.supported-platforms.md).
+
 ## Recommended Terminal Typeface
 
 This is obviously just a subjective matter and everyone will have their own

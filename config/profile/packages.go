@@ -160,7 +160,7 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		module[i].Package = f.Name()
 		module[i].Disabled = module[i].Disabled || isDisabled(module[i].Package+"/"+module[i].Name)
 		err = module[i].validate()
-		if err != nil {
+		if err != nil && !module[i].Disabled {
 			message += fmt.Sprintf(
 				"Error loading module `%s` in path `%s`:%s%s%s",
 				module[i].Name,
@@ -169,7 +169,7 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 				err.Error(),
 				utils.NewLineString,
 			)
-			module[i].Disabled = true
+			continue
 		}
 
 		if !execute || module[i].Disabled {
@@ -180,6 +180,8 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 		if err != nil {
 			os.Stderr.WriteString(err.Error())
 		}
+
+		module[i].Loaded = true
 
 		err = module[i].execute()
 		if err != nil {
