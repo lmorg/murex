@@ -1,0 +1,127 @@
+- DocumentID: single-quote
+  Title: >-
+    Single Quote (`'`) Token
+  CategoryID: parser
+  Summary: >-
+    Initiates or terminates a string (variables not expanded)
+  Description: |-
+    Single quote is used to initiate and terminate strict strings where variables
+    cannot be expanded.
+
+    Commands can also be quoted using single quotes (eg where a command might
+    contain a space character in it's name)
+  Examples: |-
+    ```
+    » set: example='World!'
+    
+    » out: 'Hello $example'
+    Hello $example
+    ```
+  Detail: |-
+    Quotes can also work over multiple lines
+
+    ```
+    » out: 'foo
+    » bar'
+    foo
+    bar
+    ```
+  Related:
+  - tilde
+  - string
+  - array
+  - double-quote
+  - brace-quote
+  - commands/out
+  - commands/set
+  - commands/brace-quote
+
+
+- DocumentID: double-quote
+  Title: >-
+    Double Quote (`"`) Token
+  CategoryID: parser
+  Summary: >-
+    Initiates or terminates a string (variables expanded)
+  Description: |-
+    Double quote is used to initiate and terminate strict strings where variables
+    can be expanded.
+
+    Commands can also be quoted using double quotes (eg where a command might
+    contain a space character in it's name) however variables cannot be used as
+    part of a command name.
+  Examples: |-
+    ```
+    » set: example="World!"
+    
+    » out: "Hello $example"
+    Hello World!
+    ```
+  Detail: |-
+    Quotes can also work over multiple lines
+
+    ```
+    » out: (foo
+    » bar)
+    foo
+    bar
+    ```
+  Related:
+  - tilde
+  - string
+  - array
+  - single-quote
+  - brace-quote
+  - commands/out
+  - commands/set
+  - commands/brace-quote
+
+
+- DocumentID: brace-quote
+  Title: >-
+    Brace Quote (`(`, `)`) Token
+  CategoryID: parser
+  Summary: >-
+    Initiates or terminates a string (variables expanded)
+  Description: |-
+    Brace quote is used to initiate and terminate strict strings where variables
+    can be expanded.
+
+    While brace quotes are untraditional compared to your typical string quotations
+    in POSIX shells, brace quotes have one advantage in that the open and close
+    grapheme differ (ie `(` is a different character to `)`). This brings benefits
+    when nesting quotes as it saves the developer from having to carefully escape
+    the nested quotation marks just the right number of times.
+
+    Commands cannot be quoted using double quotes because `(` is recognized as its
+    own command.
+  Examples: |-
+    The open brace character is only recognized as a brace quote token if it is the
+    start of a parameter.
+
+    ```
+    » set: example=(World!)
+    
+    » out: (Hello $example)
+    Hello (World!)
+    ```
+  Detail: |-
+    Quotes can also work over multiple lines
+
+    ```
+    » out: (foo
+    » bar)
+    foo
+    bar
+    ```
+  Related:
+  - tilde
+  - string
+  - array
+  - single-quote
+  - brace-quote
+  - commands/out
+  - commands/set
+  - commands/brace-quote
+
+

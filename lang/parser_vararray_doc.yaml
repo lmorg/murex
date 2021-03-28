@@ -47,7 +47,9 @@
     @{ ja: [1..5] } 
     ```
   Related:
-  - variable
+  - tilde
+  - array
+  - single-quote
   - double-quote
   - brace-quote
   - commands/out
