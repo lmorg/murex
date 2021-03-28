@@ -16,11 +16,13 @@ contains builtins required for building logic.
 
 ### _murex_'s Source Code
 
-The parser is located _murex_'s source under the `lang` path of the project
+The parser is located _murex_'s source under the `lang/` path of the project
 files.
 
 ## Pages
 
+* [Array (`@`) Token](parser/array.md):
+  Expand values as an array
 * [Arrow Pipe (`->`) Token](parser/pipearrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Formatted Pipe (`=>`) Token](parser/pipeformat.md):
@@ -29,3 +31,5 @@ files.
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [STDERR Pipe (`?`) Token](parser/pipeerr.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
+* [String (`@`) Token](parser/string.md):
+  Expand values as a string
