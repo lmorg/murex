@@ -43,16 +43,19 @@ func listModules(p *lang.Process) error {
 	}
 }
 
+// listModulesEnDis reads from disk rather than the package cache (like `runtime`)
+// because the typical use for `murex-package list enabled|disabled` is to view
+// which packages and modules will be loaded with murex. To get a view of what is
+// currently loaded in a given session then use `loaded` / `not-loaded` instead of
+// `enabled` / `disabled`
 func listModulesEnDis(p *lang.Process, enabled bool) error {
 	var disabled []string
 	err := profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
 	if err != nil {
 		return err
 	}
-	//debug.Log("disabled", disabled)
 
 	isDisabled := func(name string) bool {
-		//debug.Log(name)
 		for i := range disabled {
 			if disabled[i] == name {
 				return true
