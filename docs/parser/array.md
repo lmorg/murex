@@ -50,6 +50,8 @@ inside quoted strings like you can with a string variable:
 
 ## See Also
 
+* [parser/Array (`@`) Token](../parser/array.md):
+  Expand values as an array
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`ja`](../commands/ja.md):
@@ -62,5 +64,5 @@ inside quoted strings like you can with a string variable:
   
 * [parser/double-quote](../parser/double-quote.md):
   
-* [parser/variable](../parser/variable.md):
+* [parser/single-quote](../parser/single-quote.md):
   

@@ -62,6 +62,8 @@ well as used naked. But they cannot be expanded inside single quotes.
 
 ## See Also
 
+* [parser/Array (`@`) Token](../parser/array.md):
+  Expand values as an array
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`ja`](../commands/ja.md):
@@ -75,6 +77,4 @@ well as used naked. But they cannot be expanded inside single quotes.
 * [parser/double-quote](../parser/double-quote.md):
   
 * [parser/single-quote](../parser/single-quote.md):
-  
-* [parser/variable](../parser/variable.md):
   
