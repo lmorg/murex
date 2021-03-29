@@ -12,12 +12,29 @@ string. One handy common use case is file names where traditional POSIX shells
 would treat spaces as a new file, whereas _murex_ treats spaces as a printable
 character unless explicitly told to do otherwise.
 
-
-
 ## Examples
 
-{{ include "gen/includes/parser-var-tokens.inc.md" }}
+    » set: example="foo\nbar"
+    
+    » out: $example
+    foo
+    bar
+    
+    » out: @example
+    foo bar
+    
+In this example the second command is passing `foo\nbar` (`\n` escaped as a new
+line) to `out`. The third command is passing an array of two values: `foo` and
+`bar`.
 
+The string and array tokens also works for subshells
+
+    » out: ${ ja: [Mon..Fri] }
+    ["Mon","Tue","Wed","Thu","Fri"]
+    
+    » out: @{ ja: [Mon..Fri] }
+    Mon Tue Wed Thu Fri
+    
 The string token can also be used as a command too
 
     » set: example="Hello World!"

@@ -11,8 +11,6 @@ This token swaps the STDOUT and STDERR streams of the left hand command.
 Please note that this token is only effective when it is prefixed by white
 space. 
 
-
-
 ## Examples
 
     » err Hello, world! ? regexp s/world/Earth/
@@ -32,17 +30,19 @@ like any ordinary printable character:
 
 ## See Also
 
-* [parser/Arrow Pipe (`->`) Token](../parser/pipearrow.md):
+* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Formatted Pipe (`=>`) Token](../parser/pipeformat.md):
+* [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [parser/POSIX Pipe (`|`) Token](../parser/pipeposix.md):
+* [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [parser/Pipeline](../parser/pipeline.md):
+  Overview of what a "pipeline" is
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [parser/pipenamed](../parser/pipenamed.md):
+* [parser/pipe-named](../parser/pipe-named.md):
   

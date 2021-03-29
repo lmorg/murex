@@ -63,9 +63,9 @@ brace block might be JSON).
 
 ## See Also
 
+* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+  Initiates or terminates a code block
 * [parser/Pipeline](../parser/pipeline.md):
   Overview of what a "pipeline" is
 * [parser/Schedulers](../parser/schedulers.md):
   Overview of the different schedulers (or run modes) in _murex_
-* [parser/curly-brace](../parser/curly-brace.md):
-  

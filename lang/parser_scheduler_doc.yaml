@@ -40,3 +40,7 @@
   - commands/try
   - commands/trypipe
   - pipeline
+  - pipe-arrow
+  - pipe-posix
+  - pipe-format
+  - pipe-err

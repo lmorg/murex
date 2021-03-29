@@ -40,8 +40,16 @@ the pipeline.
 
 ## See Also
 
+* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
+  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+* [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [parser/Pipeline](../parser/pipeline.md):
   Overview of what a "pipeline" is
+* [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+  Pipes STDERR from the left hand command to STDIN of the right hand command
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
 * [commands/`trypipe`](../commands/trypipe.md):

@@ -14,7 +14,7 @@
 
 ## Examples
 
-{{ md .Examples }}{{ end }}{{ if .Flags }}
+{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
 
 ## Flags
 

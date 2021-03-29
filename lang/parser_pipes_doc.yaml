@@ -1,0 +1,184 @@
+- DocumentID: pipe-arrow
+  Title: >-
+    Arrow Pipe (`->`) Token
+  CategoryID: parser
+  Summary: >-
+    Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Description: |-
+    This token behaves much like pipe would in Bash or similar shells. It passes
+    STDOUT along the pipeline while merging STDERR stream with the parents STDERR
+    stream.
+
+    It is identical in purpose to the `|` pipe token.
+  Examples: |-
+    ```
+    » out: Hello, world! -> regexp: s/world/Earth/
+    Hello, Earth!
+
+    » out: Hello, world!->regexp: s/world/Earth/
+    Hello, Earth!
+    ```
+
+    In following example the first command is writing to STDERR rather than STDOUT
+    so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
+    
+    ```
+    » err: Hello, world! -> regexp: s/world/Earth/
+    Hello, world!
+    ```
+  Detail: |-
+  Related:
+  - pipe-posix
+  - pipe-format
+  - pipe-named
+  - pipe-err
+  - pipeline
+  - commands/out
+  - commands/err
+  - commands/regexp
+
+
+
+- DocumentID: pipe-err
+  Title: >-
+    STDERR Pipe (`?`) Token
+  CategoryID: parser
+  Summary: >-
+    Pipes STDERR from the left hand command to STDIN of the right hand command
+  Description: |-
+    This token swaps the STDOUT and STDERR streams of the left hand command.
+
+    Please note that this token is only effective when it is prefixed by white
+    space. 
+  Examples: |-
+    ```
+    » err Hello, world! ? regexp s/world/Earth/
+    Hello, Earth!
+    ```
+
+    In following example the first command is writing to STDOUT rather than STDERR
+    so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
+    
+    ```
+    » out Hello, world! ? regexp s/world/Earth/
+    Hello, world!
+    ```
+
+    In following example the STDERR token isn't whitespace padded so is treated
+    like any ordinary printable character:
+
+    ```
+    » err Hello, world!? regexp s/world/Earth/
+    Hello, world!? regexp s/world/Earth/
+    ```
+  Detail: |-
+  Related:
+  - pipe-arrow
+  - pipe-format
+  - pipe-named
+  - pipe-posix
+  - pipeline
+  - commands/out
+  - commands/err
+  - commands/regexp
+
+
+- DocumentID: pipe-format
+  Title: >-
+    Formatted Pipe (`=>`) Token
+  CategoryID: parser
+  Summary: >-
+    Pipes a reformatted STDOUT stream from the left hand command to STDIN of the
+    right hand command
+  Description: |-
+    This token behaves much like the `->` pipe would except it injects `format
+    generic` into the pipeline. The purpose of a formatted pipe is to support
+    piping out to external commands which don't support _murex_ data types. For
+    example they might expect arrays as lists rather than JSON objects).
+  Examples: |-
+    ```
+    » ja: [Mon..Wed] => cat
+    Mon
+    Tue
+    Wed
+    ```
+
+    The above is literally the same as typing:
+
+    ```
+    » ja: [Mon..Wed] -> format generic -> cat
+    Mon
+    Tue
+    Wed
+    ```
+
+    To demonstrate how the previous pipeline might look without a formatted pipe:
+    
+    ```
+    » ja: [Mon..Wed] -> cat
+    ["Mon","Tue","Wed"]
+
+    » ja: [Mon..Wed] | cat
+    ["Mon","Tue","Wed"]
+
+    » ja: [Mon..Wed]
+    [
+        "Mon",
+        "Tue",
+        "Wed"
+    ]
+    ```
+  Detail: |-
+  Related:
+  - pipe-arrow
+  - pipe-posix
+  - pipe-named
+  - pipe-err
+  - pipeline
+  - commands/ja
+  - commands/cat
+  - commands/format
+
+
+- DocumentID: pipe-posix
+  Title: >-
+    POSIX Pipe (`|`) Token
+  CategoryID: parser
+  Summary: >-
+    Pipes STDOUT from the left hand command to STDIN of the right hand command
+  Description: |-
+    This token behaves much like pipe would in Bash or similar shells. It passes
+    STDOUT along the pipeline while merging STDERR stream with the parents STDERR
+    stream.
+
+    It is identical in purpose to the `->` pipe token.
+  Examples: |-
+    ```
+    » out: Hello, world! | regexp: s/world/Earth/
+    Hello, Earth!
+
+    » out: Hello, world!|regexp: s/world/Earth/
+    Hello, Earth!
+    ```
+
+    In this example the first command is writing to STDERR rather than STDOUT so
+    `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
+    
+    ```
+    » err: Hello, world! | regexp: s/world/Earth/
+    Hello, world!
+    ```
+  #Tests: |-
+  #  ```go
+  #  {{ include "lang/parser_docs/pipeposix_test.go" }}
+  #  ```
+  Detail: |-
+  Related:
+  - pipe-arrow
+  - pipe-format
+  - pipe-named
+  - pipe-err
+  - pipeline
+  - commands/out
+  - commands/err
+  - commands/regexp

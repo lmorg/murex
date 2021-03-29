@@ -38,7 +38,7 @@
   Detail:
   Related:
   - schedulers
-  - pipearrow
-  - pipeposix
-  - pipeformat
-  - pipeerr
+  - pipe-arrow
+  - pipe-posix
+  - pipe-format
+  - pipe-err
