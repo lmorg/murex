@@ -13,23 +13,7 @@ parameters (an array) rather than as a single parameter string.
 
 ## Examples
 
-    » set: example="foo\nbar"
-    
-    » out: $example
-    foo
-    bar
-    
-    » out: @example
-    foo bar
-    
-In this example the second command is passing **foo\nbar** (`\n` escaped as a new
-line) to `out`. The third command is passing an array of two values: **foo** and
-**bar**.
-
-The array token can also work for subshells
-
-    » out: @{ ja: [Mon..Fri] }
-    Mon Tue Wed Thu Fri
+{{ include "gen/includes/parser-var-tokens.inc.md" }}
 
 ## Detail
 

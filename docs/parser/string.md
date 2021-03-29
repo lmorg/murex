@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Parser Reference: String (`@`) Token
+## Parser Reference: String (`$`) Token
 
 > Expand values as a string
 
@@ -16,25 +16,9 @@ character unless explicitly told to do otherwise.
 
 ## Examples
 
-    » set: example="foo\nbar"
-    
-    » out: $example
-    foo
-    bar
-    
-    » out: @example
-    foo bar
-    
-In this example the second command is passing **foo\nbar** (`\n` escaped as a new
-line) to `out`. The third command is passing an array of two values: **foo** and
-**bar**.
+{{ include "gen/includes/parser-var-tokens.inc.md" }}
 
-The string token also works for subshells
-
-    » out: ${ ja: [Mon..Fri] }
-    ["Mon","Tue","Wed","Thu","Fri"]
-    
-And it can also function as a command too
+The string token can also be used as a command too
 
     » set: example="Hello World!"
     

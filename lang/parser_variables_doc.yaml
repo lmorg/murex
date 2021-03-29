@@ -1,0 +1,140 @@
+- DocumentID: string
+  Title: >-
+    String (`$`) Token
+  CategoryID: parser
+  Summary: >-
+    Expand values as a string
+  Description: |-
+    The string token is used to tell _murex_ to expand variables and subshells as a
+    string (ie one single parameter) irrespective of the data that is stored in the
+    string. One handy common use case is file names where traditional POSIX shells
+    would treat spaces as a new file, whereas _murex_ treats spaces as a printable
+    character unless explicitly told to do otherwise.
+  Examples: |-
+    {{ include "gen/includes/parser-var-tokens.inc.md" }}
+
+    The string token can also be used as a command too
+
+    ```
+    » set: example="Hello World!"
+
+    » $example
+    Hello World!
+    ```
+
+  Detail: |-
+    Variables and subshells can be expanded inside double quotes, brace quotes as
+    well as used naked. But they cannot be expanded inside single quotes.
+    
+    ```
+    » set: example="World!"
+
+    » out: Hello $example
+    Hello World!
+
+    » out: 'Hello $example'
+    Hello $example
+
+    » out: "Hello $example"
+    Hello World!
+
+    » out: (Hello $example)
+    Hello World!
+    ```
+  Related:
+  - tilde
+  - array
+  - single-quote
+  - double-quote
+  - brace-quote
+  - commands/out
+  - commands/set
+  - commands/ja
+  - commands/brace-quote
+
+
+
+- DocumentID: array
+  Title: >-
+    Array (`@`) Token
+  CategoryID: parser
+  Summary: >-
+    Expand values as an array
+  Description: |-
+    The array token is used to tell _murex_ to expand the string as multiple
+    parameters (an array) rather than as a single parameter string.
+  Examples: |-
+    {{ include "gen/includes/parser-var-tokens.inc.md" }}
+  Detail: |-
+    Since arrays are expanded over multiple parameters, you cannot expand an array
+    inside quoted strings like you can with a string variable:
+
+    ```
+    » out: "foo ${ ja: [1..5] } bar"
+    foo ["1","2","3","4","5"] bar
+    
+    » out: "foo @{ ja: [1..5] } bar"
+    foo  1 2 3 4 5  bar
+
+    » (${ ja: [1..5] })
+    ["1","2","3","4","5"]   
+
+    » (@{ ja: [1..5] })                                                                                                                                                                                        ~/go/src/github.com/lmorg/murex » (@{ja [1..5]})
+    @{ ja: [1..5] } 
+    ```
+  Related:
+  - tilde
+  - array
+  - single-quote
+  - double-quote
+  - brace-quote
+  - commands/out
+  - commands/set
+  - commands/ja
+  - commands/brace-quote
+
+
+
+- DocumentID: tilde
+  Title: >-
+    Tilde (`~`) Token
+  CategoryID: parser
+  Summary: >-
+    Home directory path variable
+  Description: |-
+    The tilde token is used as a lazy reference to the users home directory.
+  Examples: |-
+    ```
+    » out: ~
+    /home/bob
+
+    » out: ~joe
+    /home/joe
+    ```
+  Detail: |-
+    Tilde can be expanded inside double quotes, brace quotes as well as used naked.
+    But it cannot be expanded inside single quotes.
+    
+    ```
+    » out: ~
+    /home/bob
+
+    » out: '~'
+    ~
+
+    » out: "~"
+    /home/bob
+
+    » out: (~)
+    /home/bob
+    ```
+  Related:
+  - string
+  - array
+  - single-quote
+  - double-quote
+  - brace-quote
+  - commands/out
+  - commands/set
+  - commands/ja
+  - commands/brace-quote

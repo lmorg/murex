@@ -38,7 +38,7 @@ Quotes can also work over multiple lines
   Initiates or terminates a string (variables expanded)
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [parser/String (`@`) Token](../parser/string.md):
+* [parser/String (`$`) Token](../parser/string.md):
   Expand values as a string
 * [parser/Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable

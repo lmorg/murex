@@ -45,7 +45,7 @@ But it cannot be expanded inside single quotes.
   Initiates or terminates a string (variables expanded)
 * [parser/Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [parser/String (`@`) Token](../parser/string.md):
+* [parser/String (`$`) Token](../parser/string.md):
   Expand values as a string
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

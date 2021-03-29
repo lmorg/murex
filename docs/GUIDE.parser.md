@@ -37,7 +37,7 @@ files.
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [Single Quote (`'`) Token](parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [String (`@`) Token](parser/string.md):
+* [String (`$`) Token](parser/string.md):
   Expand values as a string
 * [Tilde (`~`) Token](parser/tilde.md):
   Home directory path variable
