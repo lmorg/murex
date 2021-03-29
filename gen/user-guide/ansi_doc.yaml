@@ -29,7 +29,7 @@
     The part within quotes is the constant name, and the part that follows is the
     sequence of bytes that are infixed.
 
-    So the example above will replace `{{GREEN}}` from within a string with the
+    So the example above will replace `{GREEN}` from within a string with the
     byte values of 27, 91, 51, 50 and 109 (in that order).
 
     ### Unsupported Constants
@@ -48,7 +48,7 @@
     ```
   Synonyms:
   Related:
-  - command/brace-quote
-  - command/out
-  - command/tout
-  - command/err
+  - commands/brace-quote
+  - commands/out
+  - commands/tout
+  - commands/err

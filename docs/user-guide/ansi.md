@@ -182,7 +182,7 @@ Each line will look something a little like
 The part within quotes is the constant name, and the part that follows is the
 sequence of bytes that are infixed.
 
-So the example above will replace `{{GREEN}}` from within a string with the
+So the example above will replace `{GREEN}` from within a string with the
 byte values of 27, 91, 51, 50 and 109 (in that order).
 
 ### Unsupported Constants
@@ -200,11 +200,11 @@ unedited.
 
 ## See Also
 
-* [command/brace-quote](../command/brace-quote.md):
-  
-* [command/err](../command/err.md):
-  
-* [command/out](../command/out.md):
-  
-* [command/tout](../command/tout.md):
-  
+* [commands/`(` (brace quote)](../commands/brace-quote.md):
+  Write a string to the STDOUT without new line
+* [commands/`err`](../commands/err.md):
+  Print a line to the STDERR
+* [commands/`out`](../commands/out.md):
+  Print a string to the STDOUT with a trailing new line character
+* [commands/`tout`](../commands/tout.md):
+  Print a string to the STDOUT and set it's data-type
