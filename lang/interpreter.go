@@ -123,6 +123,10 @@ func compile(tree *astNodes, parent *Process) (procs []Process, errNo int) {
 	return
 }
 
+//////////////////
+//  Schedulers  //
+//////////////////
+
 // `evil` - Only use this if you are not concerned about STDERR nor exit number.
 func runModeEvil(procs []Process) int {
 	if len(procs) == 0 {

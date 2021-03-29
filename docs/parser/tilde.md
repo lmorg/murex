@@ -39,13 +39,13 @@ But it cannot be expanded inside single quotes.
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Token](../parser/brace-quote.md):
+* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [parser/String (`@`) Token](../parser/string.md):
+* [parser/String (`$`) Token](../parser/string.md):
   Expand values as a string
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

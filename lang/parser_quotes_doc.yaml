@@ -32,6 +32,7 @@
   - array
   - double-quote
   - brace-quote
+  - curly-brace
   - commands/out
   - commands/set
   - commands/brace-quote
@@ -72,6 +73,7 @@
   - array
   - single-quote
   - brace-quote
+  - curly-brace
   - commands/out
   - commands/set
   - commands/brace-quote
@@ -79,7 +81,7 @@
 
 - DocumentID: brace-quote
   Title: >-
-    Brace Quote (`(`, `)`) Token
+    Brace Quote (`(`, `)`) Tokens
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)
@@ -119,7 +121,8 @@
   - string
   - array
   - single-quote
-  - brace-quote
+  - double-quote
+  - curly-brace
   - commands/out
   - commands/set
   - commands/brace-quote
