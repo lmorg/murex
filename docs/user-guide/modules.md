@@ -13,6 +13,7 @@ the perspective of my personal usage ("me" being Laurence Morgan, the original
 author of _murex_).
 
 What _murex_'s package system provides is:
+
 1. A way to ensure consistency across multiple platforms
 2. An easy way to extend _murex_
 3. An easy way to share what you've extended with others
@@ -83,7 +84,7 @@ For more information on FileRef see the link below.
 
 ## See Also
 
-* [user-guide/Modules and packages](../user-guide/fileref.md):
+* [user-guide/FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
 * [commands/`murex-package`](../commands/murex-package.md):
   _murex_'s package manager
