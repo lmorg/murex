@@ -33,8 +33,12 @@ files.
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [POSIX Pipe (`|`) Token](parser/pipeposix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [Pipeline](parser/pipeline.md):
+  Overview of what a "pipeline" is
 * [STDERR Pipe (`?`) Token](parser/pipeerr.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
+* [Schedulers](parser/schedulers.md):
+  Overview of the different schedulers (or run modes) in _murex_
 * [Single Quote (`'`) Token](parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [String (`$`) Token](parser/string.md):
