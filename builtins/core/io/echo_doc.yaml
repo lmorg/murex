@@ -43,7 +43,7 @@
   - pt
   - read
   - tread
-  - userguide/ansi
+  - user-guide/ansi
 
 - DocumentID: tout
   Title: >+
@@ -79,6 +79,7 @@
   - cast
   - pretty
   - format
+  - user-guide/ansi
 
 
 - DocumentID: brace-quote
@@ -129,7 +130,7 @@
   - greater-than
   - greater-than-greater-than
   - pt
-  - userguide/ansi
+  - user-guide/ansi
 
 
 - DocumentID: err
@@ -190,4 +191,4 @@
   - greater-than
   - greater-than-greater-than
   - pt
-  - userguide/ansi
+  - user-guide/ansi

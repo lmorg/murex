@@ -4,7 +4,7 @@
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
 
-{{ md .Description }}{{ if .Related }}
+{{ md (include .Description) }}{{ if .Related }}
 
 ## See Also
 

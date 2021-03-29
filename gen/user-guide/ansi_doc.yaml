@@ -1,0 +1,54 @@
+- DocumentID: ansi
+  Title: >-
+    ANSI Constants
+  CategoryID: user-guide
+  Summary: >-
+    Infixed constants that return ANSI escape sequences
+  Description: |-
+    ANSI Constants is a _murex_ convention of passing ANSI escape sequences into
+    strings. It uses the `{}` notation with the constant name placed in between two
+    curly braces. eg `{GREEN}`. 
+
+    ### Constants
+
+    Rather than duplicate the constants from source, and risk the documentation and
+    implementation drifting, this document will embed the source directly below.
+
+    ```go
+    {{ include "utils/ansi/consts.go" }}
+    ```
+
+    #### How to read the code above
+
+    Each line will look something a little like
+    
+    ```
+    "GREEN":   {27, 91, 51, 50, 109},
+    ```
+    
+    The part within quotes is the constant name, and the part that follows is the
+    sequence of bytes that are infixed.
+
+    So the example above will replace `{GREEN}` from within a string with the
+    byte values of 27, 91, 51, 50 and 109 (in that order).
+
+    ### Unsupported Constants
+
+    If a constant does not exist in the above code, then the infix string is left
+    unedited.
+
+    ```
+    # Green spelt correctly
+    » out: "{GREEN}PASSED{RESET}"
+    PASSED
+    
+    # Green spelt incorrectly (ie so that it doesn't exist as a valid constant)
+    » out: "{GREEEEN}PASSED{RESET}"
+    {GREEEEN}PASSED
+    ```
+  Synonyms:
+  Related:
+  - commands/brace-quote
+  - commands/out
+  - commands/tout
+  - commands/err

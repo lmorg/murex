@@ -44,9 +44,22 @@ to be separated by whitespace:
     
     # Invalid
     if{true}{out: "Yipee"}
+    
+### ANSI Constants
+
+Some builtins (like `out`) also support infixing using the curly brace. eg
+
+    out: "{GREEN}PASSED{RESET}"
+    
+This is a separate layer of parsing and happens at the parameter level for
+specific builtins which opt to support ANSI constants. See the ANSI Constant
+user guide (link below) for more information on supporting builtins and which
+constants are available.
 
 ## See Also
 
+* [user-guide/ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
 * [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
@@ -63,7 +76,11 @@ to be separated by whitespace:
   Home directory path variable
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [commands/`err`](../commands/err.md):
+  Print a line to the STDERR
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
+* [commands/`tout`](../commands/tout.md):
+  Print a string to the STDOUT and set it's data-type

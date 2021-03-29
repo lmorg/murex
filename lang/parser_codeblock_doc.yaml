@@ -47,6 +47,19 @@
     if{true}{out: "Yipee"}
     ```
 
+    ### ANSI Constants
+
+    Some builtins (like `out`) also support infixing using the curly brace. eg
+
+    ```
+    out: "{GREEN}PASSED{RESET}"
+    ```
+
+    This is a separate layer of parsing and happens at the parameter level for
+    specific builtins which opt to support ANSI constants. See the ANSI Constant
+    user guide (link below) for more information on supporting builtins and which
+    constants are available.
+
   Related:
   - tilde
   - string
@@ -56,8 +69,11 @@
   - brace-quote
   - code-block
   - commands/out
+  - commands/tout
+  - commands/err
   - commands/set
   - commands/brace-quote
+  - user-guide/ansi
 
 
 
@@ -107,6 +123,7 @@
         }
     ]
     ```
+
     > Please note this is a mock JSON structure rather than a representation of the
     > actual AST that would be created. Parameters are stored differently to allow
     > infixing of variables; and there also needs to be data shared about how
@@ -130,3 +147,4 @@
   - schedulers
   - pipeline
   - curly-brace
+  - user-guide/ansi

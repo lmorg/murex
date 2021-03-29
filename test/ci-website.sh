@@ -6,8 +6,8 @@ murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
 echo "Building website...."
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
 export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
-export MUREXCOMMITL="$(git rev-parse HEAD | cut -c1-7)"
-#export MUREXCOMMITL="$(git rev-parse HEAD)"
+#export MUREXCOMMITL="$(git rev-parse HEAD | cut -c1-7)"
+export MUREXCOMMITL="$(git rev-parse HEAD)"
 export MUREXTESTS="$(cat ./murex-test-count.txt)"
 
 sed -i "s/\$DATE/`date`/;
