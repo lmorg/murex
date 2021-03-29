@@ -25,8 +25,12 @@ files.
   Expand values as an array
 * [Arrow Pipe (`->`) Token](parser/pipearrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Brace Quote (`(`, `)`) Token](parser/brace-quote.md):
+* [Brace Quote (`(`, `)`) Tokens](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
+* [Code Block Parsing](parser/code-block.md):
+  Overview of how code blocks are parsed
+* [Curly Brace (`{`, `}`) Tokens](parser/curly brace.md):
+  Initiates or terminates a code block
 * [Double Quote (`"`) Token](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Formatted Pipe (`=>`) Token](parser/pipeformat.md):

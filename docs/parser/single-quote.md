@@ -34,7 +34,7 @@ Quotes can also work over multiple lines
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Token](../parser/brace-quote.md):
+* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
@@ -48,3 +48,5 @@ Quotes can also work over multiple lines
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
+* [parser/curly-brace](../parser/curly-brace.md):
+  
