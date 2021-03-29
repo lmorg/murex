@@ -10,11 +10,9 @@
 
 {{ if .Usage }}## Usage
 
-{{ md .Usage }}{{ end }}{{ if .Examples }}
+{{ md .Usage }}{{ end }}{{ if .Examples }}## Examples
 
-## Examples
-
-{{ md .Examples }}{{ end }}{{ if .Flags }}
+{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
 
 ## Flags
 

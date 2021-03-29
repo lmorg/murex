@@ -18,8 +18,6 @@ the nested quotation marks just the right number of times.
 Commands cannot be quoted using double quotes because `(` is recognized as its
 own command.
 
-
-
 ## Examples
 
 The open brace character is only recognized as a brace quote token if it is the
@@ -43,6 +41,8 @@ Quotes can also work over multiple lines
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+  Initiates or terminates a code block
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Single Quote (`'`) Token](../parser/single-quote.md):
@@ -57,5 +57,3 @@ Quotes can also work over multiple lines
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [parser/curly-brace](../parser/curly-brace.md):
-  

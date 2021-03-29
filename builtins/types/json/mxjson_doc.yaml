@@ -68,3 +68,6 @@
   - commands/autocomplete
   - apis/marshal
   - apis/unmarshal
+  - parser/curly-brace
+  - parser/brace-quote
+  - parser/code-block

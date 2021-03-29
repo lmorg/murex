@@ -44,7 +44,6 @@ to be separated by whitespace:
     
     # Invalid
     if{true}{out: "Yipee"}
-    ```    
 
 ## See Also
 

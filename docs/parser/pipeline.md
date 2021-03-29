@@ -12,8 +12,6 @@ commands sequenced together.
 A pipeline can be joined via any pipe token (eg `|`, `->`, `=>`, `?`). But,
 for the sake of documentation, a pipeline might even be a solitary command.
 
-
-
 ## Examples
 
 Typical _murex_ pipeline:
@@ -34,13 +32,13 @@ Pipeline filtering out a specific error from `example-cmd`
 
 ## See Also
 
-* [parser/Arrow Pipe (`->`) Token](../parser/pipearrow.md):
+* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Formatted Pipe (`=>`) Token](../parser/pipeformat.md):
+* [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [parser/POSIX Pipe (`|`) Token](../parser/pipeposix.md):
+* [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/STDERR Pipe (`?`) Token](../parser/pipeerr.md):
+* [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [parser/Schedulers](../parser/schedulers.md):
   Overview of the different schedulers (or run modes) in _murex_

@@ -1,4 +1,4 @@
-- DocumentID: curly brace
+- DocumentID: curly-brace
   Title: >-
     Curly Brace (`{`, `}`) Tokens
   CategoryID: parser
@@ -45,7 +45,8 @@
 
     # Invalid
     if{true}{out: "Yipee"}
-    ```    
+    ```
+
   Related:
   - tilde
   - string

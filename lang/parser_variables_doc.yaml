@@ -79,12 +79,12 @@
     » (${ ja: [1..5] })
     ["1","2","3","4","5"]   
 
-    » (@{ ja: [1..5] })                                                                                                                                                                                        ~/go/src/github.com/lmorg/murex » (@{ja [1..5]})
+    » (@{ ja: [1..5] })
     @{ ja: [1..5] } 
     ```
   Related:
   - tilde
-  - array
+  - string
   - single-quote
   - double-quote
   - brace-quote

@@ -13,8 +13,6 @@ Commands can also be quoted using double quotes (eg where a command might
 contain a space character in it's name) however variables cannot be used as
 part of a command name.
 
-
-
 ## Examples
 
     » set: example="World!"
@@ -37,6 +35,8 @@ Quotes can also work over multiple lines
   Expand values as an array
 * [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
+* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+  Initiates or terminates a code block
 * [parser/Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [parser/String (`$`) Token](../parser/string.md):
@@ -49,5 +49,3 @@ Quotes can also work over multiple lines
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [parser/curly-brace](../parser/curly-brace.md):
-  
