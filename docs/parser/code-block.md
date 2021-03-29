@@ -64,11 +64,11 @@ brace block might be JSON).
 
 ## See Also
 
+* [user-guide/ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [parser/Pipeline](../parser/pipeline.md):
   Overview of what a "pipeline" is
 * [parser/Schedulers](../parser/schedulers.md):
   Overview of the different schedulers (or run modes) in _murex_
-* [userguide/ansi](../userguide/ansi.md):
-  

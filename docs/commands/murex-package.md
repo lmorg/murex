@@ -14,9 +14,9 @@ ie there are multiple modules that can be grouped together and distributed as a
 single package.
 
 The way packages and modules are represented is as a path:
-
-    package/module
     
+    package/module
+        
 `murex-package` is a package management tool for administrating murex modules
 and packages.
 
@@ -82,6 +82,8 @@ If you wish to view what modules are loaded in a current session then use
 
 ## See Also
 
+* [user-guide/Modules and packages](../user-guide/modules.md):
+  An introduction to _murex_ modules and packages
 * [user-guide/_murex_ profile files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [commands/`alias`](../commands/alias.md):
@@ -96,5 +98,3 @@ If you wish to view what modules are loaded in a current session then use
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [user-guide/modules](../user-guide/modules.md):
-  

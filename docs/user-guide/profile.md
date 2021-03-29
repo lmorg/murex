@@ -45,7 +45,7 @@ should be used in its place.
 
 ## See Also
 
+* [user-guide/Modules and packages](../user-guide/modules.md):
+  An introduction to _murex_ modules and packages
 * [commands/`murex-package`](../commands/murex-package.md):
   _murex_'s package manager
-* [user-guide/modules](../user-guide/modules.md):
-  

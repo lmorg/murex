@@ -46,6 +46,8 @@ characters if you don't want them nested.
 
 ## See Also
 
+* [user-guide/ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [commands/`>` (truncate file)](../commands/greater-than.md):
@@ -60,7 +62,5 @@ characters if you don't want them nested.
   Pipe telemetry. Writes data-types and bytes written
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [userguide/ansi](../userguide/ansi.md):
-  
 * [commands/sprintf](../commands/sprintf.md):
   

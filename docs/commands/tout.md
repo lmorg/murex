@@ -29,6 +29,8 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 
 ## See Also
 
+* [user-guide/ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`cast`](../commands/cast.md):
@@ -41,7 +43,5 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
   Print a string to the STDOUT with a trailing new line character
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [userguide/ansi](../userguide/ansi.md):
-  
 * [commands/sprintf](../commands/sprintf.md):
   

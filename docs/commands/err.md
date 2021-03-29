@@ -45,6 +45,8 @@ a new _murex_ named pipe.
 
 ## See Also
 
+* [user-guide/ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
@@ -65,7 +67,5 @@ a new _murex_ named pipe.
   Pipe telemetry. Writes data-types and bytes written
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [userguide/ansi](../userguide/ansi.md):
-  
 * [commands/sprintf](../commands/sprintf.md):
   

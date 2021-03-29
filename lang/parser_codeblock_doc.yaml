@@ -73,7 +73,7 @@
   - commands/err
   - commands/set
   - commands/brace-quote
-  - userguide/ansi
+  - user-guide/ansi
 
 
 
@@ -147,4 +147,4 @@
   - schedulers
   - pipeline
   - curly-brace
-  - userguide/ansi
+  - user-guide/ansi

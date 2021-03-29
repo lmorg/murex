@@ -58,6 +58,8 @@ constants are available.
 
 ## See Also
 
+* [user-guide/ANSI Constants](../user-guide/ansi.md):
+  Infixed constants that return ANSI escape sequences
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
 * [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
@@ -82,5 +84,3 @@ constants are available.
   Define a local variable and set it's value
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [userguide/ansi](../userguide/ansi.md):
-  
