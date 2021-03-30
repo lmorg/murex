@@ -80,7 +80,26 @@ All code loaded in _murex_, every function, variable and event (etc) is stored
 in memory with metadata about where it was loaded from; which package, file and
 at what time. This is called `FileRef`.
 
-For more information on FileRef see the link below.
+For more information on `FileRef` see the link below.
+
+### Module Strings For Non-Module Code
+
+#### Source
+
+A common shell idiom is to load shell script files via `source` / `.`. When
+this is done the module string (as seen in the `FileRef` structures described
+above) will be `source/hash` where **hash** will be a unique hash of the file
+path and load time.
+
+Thus no two sourced files will share the same module string. Even the same file
+but modified and sourced twice (before and after the edit) will have different
+module strings due to the load time being part of the hashed data.
+
+#### REPL
+
+Any functions, variables, events, auto-completions, etc created manually,
+directly, in the interactive shell will have a module string of `murex` and an
+empty Filename string.
 
 ## See Also
 
@@ -90,5 +109,7 @@ For more information on FileRef see the link below.
   _murex_'s package manager
 * [commands/`private`](../commands/private.md):
   Define a private function block
+* [commands/`source` ](../commands/source.md):
+  Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts
