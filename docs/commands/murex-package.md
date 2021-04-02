@@ -64,6 +64,8 @@ Check status of murex packages
     Installs a package from a user defined URI
 * `list`
     Returns a list of indexed packages/modules (eg what's enabled or disabled)
+* `reload`
+    Reloads all enabled modules
 * `status`
     Returns the version status of locally installed packages
 * `update`

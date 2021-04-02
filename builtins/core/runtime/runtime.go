@@ -127,7 +127,7 @@ func cmdRuntime(p *lang.Process) error {
 	for flag := range f {
 		switch flag {
 		case fVars:
-			ret[fVars[2:]] = p.Variables.Dump()
+			ret[fVars[2:]] = p.Scope.Variables.Dump()
 		case fGlobals:
 			ret[fGlobals[2:]] = lang.GlobalVariables.Dump()
 		case fExports:

@@ -56,6 +56,7 @@
     status: Returns the version status of locally installed packages
     list: Returns a list of indexed packages/modules (eg what's enabled or disabled)
     cd: Changes working directory to a package's install location
+    reload: Reloads all enabled modules
   Detail: |-
     ### `murex-package: list`... `enabled` vs `loaded`
 

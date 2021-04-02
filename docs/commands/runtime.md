@@ -158,7 +158,7 @@ flag names. eg
 * `--functions`
     Lists all _murex_ global functions
 * `--globals`
-    Lists all the global variable
+    Lists all global variables
 * `--help`
     Outputs a list of `runtimes`'s flags
 * `--indexes`
@@ -170,9 +170,9 @@ flag names. eg
 * `--modules`
     Lists all installed modules
 * `--named-pipes`
-    Lists all the named pipes defined
+    Lists all named pipes defined
 * `--open-agents`
-    Lists all the registered `open` handlers 
+    Lists all registered `open` handlers 
 * `--pipes`
     Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
 * `--privates`
@@ -192,7 +192,7 @@ flag names. eg
 * `--unmarshallers`
     Lists all builtin data-types with unmarshallers (eg required for `format`)
 * `--variables`
-    Lists all the local _murex_ variables which doesn't include environmental nor global variables
+    Lists all local _murex_ variables which doesn't include environmental nor global variables
 * `--writearray`
     Lists all builtin data-types which support WriteArray()
 
@@ -269,15 +269,6 @@ When `debug` is enabled garbage collection is disabled for variables and
 FIDs. This means the output of `runtime --variables` and `runtime --fids`
 will contain more than just the currently defined variables and running
 functions.
-
-### Inspection mode
-
-Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
-
-    $ murex -inspect
-    
-This is to prevent code from inspecting potentially sensitive data under
-normal operation.
 
 ## Synonyms
 
