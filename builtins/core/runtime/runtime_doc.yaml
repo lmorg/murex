@@ -143,9 +143,9 @@
     ```
   Flags:
     --variables: >-
-      Lists all the local _murex_ variables which doesn't include environmental nor global variables
+      Lists all local _murex_ variables which doesn't include environmental nor global variables
     --globals: >-
-      Lists all the global variable
+      Lists all global variables
     --exports: >-
       Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables`
     --aliases: >-
@@ -155,7 +155,7 @@
     --config: >-
       Lists all properties available to `config`
     --named-pipes: >-
-      Lists all the named pipes defined
+      Lists all named pipes defined
     --pipes: >-
       Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
     --functions: >-
@@ -163,7 +163,7 @@
     --privates: >-
       Lists all _murex_ private functions
     --open-agents: >-
-      Lists all the registered `open` handlers 
+      Lists all registered `open` handlers 
     --fids: >-
       Lists all running processes / functions
     --readarray: >-
@@ -275,17 +275,6 @@
     FIDs. This means the output of `runtime --variables` and `runtime --fids`
     will contain more than just the currently defined variables and running
     functions.
-
-    ### Inspection mode
-
-    Flags prefixed with **inspect** require _murex_ to be started with `-inspect`:
-
-    ```
-    $ murex -inspect
-    ```
-
-    This is to prevent code from inspecting potentially sensitive data under
-    normal operation.
   Synonyms:
     - runtime
     - builtins

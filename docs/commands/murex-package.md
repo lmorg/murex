@@ -24,11 +24,11 @@ and packages.
 
 Install a new package
 
-    murex-package: install uri
+    murex-package: install uri -> <stdout>
     
 Update all packages
 
-    murex-package: update
+    murex-package: update -> <stdout>
     
 Enable a package or module which had been disabled
 
@@ -44,7 +44,7 @@ Disable a package
     
 Import packages from another package database
 
-    murex-package: import [ uri/ | local/path/ ]packages.json
+    murex-package: import [ uri/ | local/path/ ]packages.json -> <stdout>
     
 Check status of murex packages
 
@@ -52,6 +52,8 @@ Check status of murex packages
 
 ## Flags
 
+* `cd`
+    Changes working directory to a package's install location
 * `disable`
     Disables a previously enabled package or module
 * `enable`
@@ -62,6 +64,8 @@ Check status of murex packages
     Installs a package from a user defined URI
 * `list`
     Returns a list of indexed packages/modules (eg what's enabled or disabled)
+* `reload`
+    Reloads all enabled modules
 * `status`
     Returns the version status of locally installed packages
 * `update`

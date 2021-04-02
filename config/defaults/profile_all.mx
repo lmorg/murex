@@ -628,7 +628,17 @@ autocomplete: set debug { [{
 
 autocomplete: set murex-package {
     [{
-        "Flags": [ "install", "update", "import", "enable", "disable", "reload", "status", "list", "cd" ],
+        "FlagsDesc": {
+            "install": "Installs a package from a user defined URI",
+            "update":  "Updates all installed packages",
+            "import":  "Import packages described in a backup package DB from user defined URI or local path",
+            "enable":  "Enables a previously disabled package or module",
+            "disable": "Disables a previously enabled package or module",
+            "reload":  "Reloads all enabled modules",
+            "status":  "Returns the version status of locally installed packages",
+            "list":    "Returns a list of indexed packages/modules (eg what's enabled or disabled)",
+            "cd":      "Changes working directory to a package's install location"
+        },
         "FlagValues": {
             "import": [{
                 "IncFiles": true

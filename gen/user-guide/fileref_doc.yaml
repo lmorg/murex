@@ -1,6 +1,6 @@
 - DocumentID: fileref
   Title: >-
-    Modules and packages
+    FileRef
   CategoryID: user-guide
   Summary: >-
     How to track what code was loaded and from where
@@ -11,7 +11,7 @@
     libraries.
     
     ```
-    » runtime: --functions -> [[/agent/FileRef/]]
+    » runtime: --functions -> [[ /agent/FileRef/ ]]
     {
         "Column": 5,
         "Line": 5,
@@ -22,7 +22,7 @@
         }
     }
 
-    » runtime --globals -> [[/DEVOPSBIN/FileRef]]
+    » runtime --globals -> [[ /DEVOPSBIN/FileRef ]]
     {
         "Column": 1,
         "Line": 0,
@@ -33,6 +33,8 @@
         }
     }
     ```
+
+    {{ include "gen/includes/fileref-module-strings.inc.md" }}
   Synonyms:
     - fileref
     - FileRef
@@ -41,3 +43,4 @@
   - modules
   - commands/runtime
   - commands/element
+  - commands/source

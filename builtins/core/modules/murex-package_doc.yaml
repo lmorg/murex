@@ -10,13 +10,13 @@
     Install a new package
 
     ```
-    murex-package: install uri
+    murex-package: install uri -> <stdout>
     ```
 
     Update all packages
 
     ```
-    murex-package: update
+    murex-package: update -> <stdout>
     ```
 
     Enable a package or module which had been disabled
@@ -38,7 +38,7 @@
     Import packages from another package database
 
     ```
-    murex-package: import [ uri/ | local/path/ ]packages.json
+    murex-package: import [ uri/ | local/path/ ]packages.json -> <stdout>
     ```
 
     Check status of murex packages
@@ -55,6 +55,8 @@
     import: Import packages described in a backup package DB from user defined URI or local path
     status: Returns the version status of locally installed packages
     list: Returns a list of indexed packages/modules (eg what's enabled or disabled)
+    cd: Changes working directory to a package's install location
+    reload: Reloads all enabled modules
   Detail: |-
     ### `murex-package: list`... `enabled` vs `loaded`
 

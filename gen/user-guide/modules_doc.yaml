@@ -14,6 +14,7 @@
     author of _murex_).
 
     What _murex_'s package system provides is:
+
     1. A way to ensure consistency across multiple platforms
     2. An easy way to extend _murex_
     3. An easy way to share what you've extended with others
@@ -74,12 +75,17 @@
     in memory with metadata about where it was loaded from; which package, file and
     at what time. This is called `FileRef`.
 
-    For more information on FileRef see the link below.
+    For more information on `FileRef` see the link below.
+
+    {{ include "gen/includes/fileref-module-strings.inc.md" }}
   Synonyms:
+    - module
     - modules
+    - package
     - packages
   Related:
   - commands/murex-package
   - fileref
   - commands/private
   - commands/test
+  - commands/source
