@@ -64,7 +64,7 @@ constants are available.
   Expand values as an array
 * [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [parser/Code Block Parsing](../parser/code-block.md):
+* [user-guide/Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)

@@ -43,6 +43,8 @@ command.
 
 ## See Also
 
+* [user-guide/Schedulers](../user-guide/schedulers.md):
+  Overview of the different schedulers (or 'run modes') in _murex_
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
 * [commands/`fid-list`](../commands/fid-list.md):

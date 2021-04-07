@@ -46,6 +46,8 @@ handles the exceptions raised by the aforementioned.
 
 ## See Also
 
+* [user-guide/Schedulers](../user-guide/schedulers.md):
+  Overview of the different schedulers (or 'run modes') in _murex_
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`switch`](../commands/switch.md):

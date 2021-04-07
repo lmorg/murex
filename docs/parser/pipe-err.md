@@ -36,7 +36,7 @@ like any ordinary printable character:
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Pipeline](../parser/pipeline.md):
+* [user-guide/Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR

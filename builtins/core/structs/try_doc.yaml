@@ -45,6 +45,7 @@
   - fid-list
   - if
   - switch
+  - user-guide/schedulers
 
 
 
@@ -98,6 +99,7 @@
   - fid-list
   - if
   - switch
+  - user-guide/schedulers
 
 
 
@@ -147,3 +149,4 @@
   - if
   - evil
   - switch
+  - user-guide/schedulers
