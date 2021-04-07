@@ -123,6 +123,7 @@
   - single-quote
   - double-quote
   - curly-brace
+  - user-guide/code-block
   - commands/out
   - commands/set
   - commands/brace-quote

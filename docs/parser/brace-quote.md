@@ -41,6 +41,8 @@ Quotes can also work over multiple lines
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [user-guide/Code Block Parsing](../user-guide/code-block.md):
+  Overview of how code blocks are parsed
 * [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):

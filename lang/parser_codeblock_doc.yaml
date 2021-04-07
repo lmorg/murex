@@ -67,7 +67,7 @@
   - single-quote
   - double-quote
   - brace-quote
-  - code-block
+  - user-guide/code-block
   - commands/out
   - commands/tout
   - commands/err
@@ -80,7 +80,7 @@
 - DocumentID: code-block
   Title: >-
     Code Block Parsing
-  CategoryID: parser
+  CategoryID: user-guide
   Summary: >-
     Overview of how code blocks are parsed
   Description: |-
@@ -146,5 +146,5 @@
   Related:
   - schedulers
   - pipeline
-  - curly-brace
-  - user-guide/ansi
+  - parser/curly-brace
+  - ansi

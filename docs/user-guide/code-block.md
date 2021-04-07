@@ -1,10 +1,8 @@
 # _murex_ Shell Docs
 
-## Parser Reference: Code Block Parsing
+## User Guide: Code Block Parsing
 
 > Overview of how code blocks are parsed
-
-## Description
 
 The murex parser creates ASTs ahead of interpreting each block of code. However
 the AST is only generated for a block at a time. Take this sample code:
@@ -60,15 +58,13 @@ With murex, there's no distinction between text and code. It's up to commands
 to determine if they want to execute a parameter as code or not (eg a curly
 brace block might be JSON).
 
-
-
 ## See Also
 
 * [user-guide/ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
 * [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [parser/Pipeline](../parser/pipeline.md):
+* [user-guide/Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [parser/Schedulers](../parser/schedulers.md):
-  Overview of the different schedulers (or run modes) in _murex_
+* [user-guide/Schedulers](../user-guide/schedulers.md):
+  Overview of the different schedulers (or 'run modes') in _murex_

@@ -1,9 +1,9 @@
 - DocumentID: schedulers
   Title: >-
     Schedulers
-  CategoryID: parser
+  CategoryID: user-guide
   Summary: >-
-    Overview of the different schedulers (or run modes) in _murex_
+    Overview of the different schedulers (or 'run modes') in _murex_
   Description: |-
     There are a few distinct schedulers (or run modes) in _murex_ which are invoked
     by builtin commands. This means you can alter the way commands are executed
@@ -34,13 +34,11 @@
     the exit status is non-zero then the scheduler exits that entire block. Unlike
     with `try`, this check happens on every command rather than the last command in
     the pipeline. 
-  Examples:
-  Detail:
   Related:
   - commands/try
   - commands/trypipe
   - pipeline
-  - pipe-arrow
-  - pipe-posix
-  - pipe-format
-  - pipe-err
+  - parser/pipe-arrow
+  - parser/pipe-posix
+  - parser/pipe-format
+  - parser/pipe-err

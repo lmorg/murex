@@ -46,7 +46,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Pipeline](../parser/pipeline.md):
+* [user-guide/Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command

@@ -32,7 +32,7 @@
   - pipe-format
   - pipe-named
   - pipe-err
-  - pipeline
+  - user-guide/pipeline
   - commands/out
   - commands/err
   - commands/regexp
@@ -77,7 +77,7 @@
   - pipe-format
   - pipe-named
   - pipe-posix
-  - pipeline
+  - user-guide/pipeline
   - commands/out
   - commands/err
   - commands/regexp
@@ -134,7 +134,7 @@
   - pipe-posix
   - pipe-named
   - pipe-err
-  - pipeline
+  - user-guide/pipeline
   - commands/ja
   - commands/cat
   - commands/format
@@ -178,7 +178,7 @@
   - pipe-format
   - pipe-named
   - pipe-err
-  - pipeline
+  - user-guide/pipeline
   - commands/out
   - commands/err
   - commands/regexp
