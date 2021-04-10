@@ -1,0 +1,53 @@
+# This file tests flags but running the murex executable
+
+function try-semicolon {
+    ./murex --try -c (err: "foo"; out "bar") 
+}
+
+test: unit function try-semicolon {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function try-pipe {
+    ./murex --try -c (err: "foo" -> out "bar") 
+}
+
+test: unit function try-pipe {
+    "StderrRegex": "foo",
+    "StdoutRegex": "bar"
+}
+
+function try-errpipe {
+    ./murex --try -c (err: "foo" ? out "bar") 
+}
+
+test: unit function try-errpipe {
+    "StdoutRegex": "bar"
+}
+
+function trypipe-semicolon {
+    ./murex --trypipe -c (err: "foo"; out "bar") 
+}
+
+test: unit function trypipe-semicolon {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function trypipe-pipe {
+    ./murex --trypipe -c (err: "foo" -> out "bar") 
+}
+
+test: unit function trypipe-pipe {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function trypipe-errpipe {
+    ./murex --trypipe -c (err: "foo" ? out "bar") 
+}
+
+test: unit function trypipe-errpipe {
+    "ExitNum":     1
+}
