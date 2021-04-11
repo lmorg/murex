@@ -49,8 +49,10 @@
   - brace-quote
   - commands/out
   - commands/set
+  - commands/let
   - commands/ja
   - commands/brace-quote
+  - user-guide/reserved-vars
 
 
 

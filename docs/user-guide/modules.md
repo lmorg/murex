@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## User Guide: Modules and packages
+## User Guide: Modules and Packages
 
 > An introduction to _murex_ modules and packages
 

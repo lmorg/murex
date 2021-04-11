@@ -69,6 +69,8 @@ well as used naked. But they cannot be expanded inside single quotes.
   Initiates or terminates a string (variables expanded)
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
+* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by _murex_
 * [parser/Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [parser/Tilde (`~`) Token](../parser/tilde.md):
@@ -77,6 +79,8 @@ well as used naked. But they cannot be expanded inside single quotes.
   Write a string to the STDOUT without new line
 * [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [commands/`let`](../commands/let.md):
+  Evaluate a mathematical function and assign to variable
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):

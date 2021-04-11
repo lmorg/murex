@@ -129,6 +129,8 @@ to return the same markdown-formatted document as those listed below. eg
   A more familiar iteration loop to existing developers
 * [`foreach`](commands/foreach.md):
   Iterate through an array
+* [`formap`](commands/formap.md):
+  Iterate through a map or other collection of data
 * [`format`](commands/format.md):
   Reformat one data-type into another data-type
 * [`function`](commands/function.md):
@@ -231,6 +233,8 @@ to return the same markdown-formatted document as those listed below. eg
   Rotates a table by 90 degrees
 * [`ta`](commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [`tabulate`](commands/tabulate.md):
+  Table transformation tools
 * [`test`](commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts
 * [`time` ](commands/time.md):

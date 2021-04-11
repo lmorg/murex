@@ -181,8 +181,6 @@ func executeProcess(p *Process) {
 		p.Done()
 	}
 
-	//ShellProcess.Stderr.Write([]byte(fmt.Sprintf("%-000000d: %s\n", ForegroundProc.Id, ForegroundProc.Name)))
-
 	ParseParameters(p, &p.Parameters)
 
 	// Execute function.

@@ -294,6 +294,8 @@ functions.
   Lists all running functions within the current _murex_ session
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
+* [commands/`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`function`](../commands/function.md):
@@ -314,8 +316,6 @@ functions.
   Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts
-* [commands/formap](../commands/formap.md):
-  
 * [commands/open](../commands/open.md):
   
 * [commands/openagent](../commands/openagent.md):

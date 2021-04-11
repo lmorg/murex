@@ -59,16 +59,26 @@ test unit private getHostsFile {
 }
 
 autocomplete set ssh { [{
-    "Dynamic": "{ getHostsFile }"
+    "Dynamic": ({ getHostsFile })
 }] }
 
 autocomplete set ping { [ {
-    "Dynamic": "{ getHostsFile }"
+    "Dynamic": ({ getHostsFile })
 }] }
 
-autocomplete set rsync { [ {
-    "Dynamic": "{ getHostsFile }"
-}] }
+autocomplete set rsync { [
+    {
+        "DynamicDesc": ({
+            rsync --help -> @[^Options$..--help]re -> tabulate: --map --split-comma --column-wraps --key-inc-hint
+        }),
+        "AllowMultiple": true,
+        "Optional": true
+    },
+    {
+        "Dynamic": ({ getHostsFile }),
+        "AllowMultiple": true
+    }
+] }
 
 autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
