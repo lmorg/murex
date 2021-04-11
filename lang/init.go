@@ -15,6 +15,11 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
+var (
+	FlagTry     bool
+	FlagTryPipe bool
+)
+
 // InitEnv initialises murex. Exported function to enable unit tests.
 func InitEnv() {
 	ShellProcess.State.Set(state.Executing)
@@ -24,14 +29,22 @@ func InitEnv() {
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Previous = ShellProcess
 	ShellProcess.Next = ShellProcess
-	ShellProcess.Config = config.InitConf //InitConf.Copy(ShellProcess.Id)
+	ShellProcess.Config = config.InitConf
 	ShellProcess.Tests = NewTests(ShellProcess)
 	ShellProcess.Variables = NewVariables(ShellProcess)
-	ShellProcess.RunMode = runmode.Shell
+	//ShellProcess.RunMode = runmode.Normal // defaults to Normal due to Normal == 0
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	ShellProcess.Kill = func() {}
 	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: config.AppName}}
+
+	if FlagTry {
+		ShellProcess.RunMode = runmode.Try
+	}
+
+	if FlagTryPipe {
+		ShellProcess.RunMode = runmode.TryPipe
+	}
 
 	// Sets $SHELL to be murex
 	shellEnv, err := os.Executable()

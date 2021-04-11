@@ -281,7 +281,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	// Support for different run modes:
 	switch fork.RunMode {
-	case runmode.Normal, runmode.Shell:
+	case runmode.Normal:
 		exitNum = runModeNormal(procs)
 
 	case runmode.Try:

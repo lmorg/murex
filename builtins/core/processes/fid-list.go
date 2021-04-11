@@ -109,7 +109,7 @@ func cmdFidListTTY(p *lang.Process) error {
 			process.Parent.Id,
 			process.Scope.Id,
 			process.State.String(),
-			process.RunMode,
+			process.RunMode.String(),
 			yn(process.IsBackground),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
@@ -136,7 +136,7 @@ func cmdFidListCSV(p *lang.Process) error {
 			process.Parent.Id,
 			process.Scope.Id,
 			process.State.String(),
-			process.RunMode,
+			process.RunMode.String(),
 			yn(process.IsBackground),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
@@ -150,19 +150,6 @@ func cmdFidListCSV(p *lang.Process) error {
 	}
 	return nil
 }
-
-/*type fidList struct {
-	FID        uint32
-	Parent     uint32
-	Scope      uint32
-	State      string
-	RunMode    string `json:"Run Mode"`
-	BG         bool   `json:"Background"`
-	OutPipe    string `json:"Out Pipe"`
-	ErrPipe    string `json:"Err Pipe"`
-	Command    string
-	Parameters string
-}*/
 
 func cmdFidListPipe(p *lang.Process) error {
 	p.Stdout.SetDataType(types.JsonLines)

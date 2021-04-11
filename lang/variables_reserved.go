@@ -1,5 +1,7 @@
 package lang
 
+import "os"
+
 type self struct {
 	Parent     uint32
 	Scope      uint32
@@ -24,4 +26,13 @@ func getVarSelf(p *Process) interface{} {
 
 func getVarParams(p *Process) interface{} {
 	return append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
+}
+
+func getVarMurexExe() interface{} {
+	path, err := os.Executable()
+	if err != nil {
+		return err.Error()
+	}
+
+	return path
 }
