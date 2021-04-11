@@ -7,6 +7,7 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -34,6 +35,9 @@ func readFlags() {
 	flag.BoolVar(&fRunTests, "run-tests", false, "Run all tests and exit")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
 	flag.BoolVar(&fSh, "murex", false, "")
+
+	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
+	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")
 
 	flag.Parse()
 

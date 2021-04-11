@@ -15,24 +15,7 @@ func TestVariablesDefaults(t *testing.T) {
 	testVariables(t, F_DEFAULTS, "F_DEFAULTS")
 }
 
-/*// TestVariablesDefault tests with the F_FUNCTION fork flag set
-func TestVariablesFunction(t *testing.T) {
-	i := atomic.AddInt32(&runOnce, 1)
-	if i > 0 {
-		return
-	}
-
-	ShellProcess.Variables = newVariables(ShellProcess, masterVarTable)
-	testVariables(t, F_FUNCTION, "F_FUNCTION")
-}
-
-// TestVariablesDefault tests with the F_NEW_VARTABLE fork flag set
-func TestVariablesNewVartable(t *testing.T) {
-	testVariables(t, F_NEW_VARTABLE, "F_NEW_VARTABLE")
-}*/
-
-// testVariables is the main testing function for variables under different
-// fork scenarios
+// testVariables is the main testing function for variables
 func testVariables(t *testing.T, flags int, details string) {
 	t.Log("Testing with flags: " + details)
 	const (
@@ -50,27 +33,6 @@ func testVariables(t *testing.T, flags int, details string) {
 
 	count.Tests(t, 4)
 	p := NewTestProcess()
-	/*orig := p.Variables
-
-	err := orig.Set(p, "number", origNum, types.Number)
-	if err != nil {
-		t.Error("Unable to set number in original. " + err.Error())
-	}
-
-	err = orig.Set(p, "integer", origInt, types.Integer)
-	if err != nil {
-		t.Error("Unable to set integer in original. " + err.Error())
-	}
-
-	err = orig.Set(p, "string", origStr, types.String)
-	if err != nil {
-		t.Error("Unable to set string in original. " + err.Error())
-	}
-
-	err = orig.Set(p, "boolean", origBool, types.Boolean)
-	if err != nil {
-		t.Error("Unable to set boolean in original. " + err.Error())
-	}*/
 
 	// Create a referenced variable table
 	count.Tests(t, 4)
@@ -96,44 +58,6 @@ func testVariables(t *testing.T, flags int, details string) {
 	if err != nil {
 		t.Error("Unable to set boolean in copy. " + err.Error())
 	}
-
-	/*// test values changed
-	count.Tests(t, 4)
-
-	if copy.varTable.vars[0].Value != orig.varTable.vars[0].Value {
-		t.Error("Copy and original shouldn't share same value for number.")
-	}
-
-	if copy.varTable.vars[1].Value != orig.varTable.vars[1].Value {
-		t.Error("Copy and original shouldn't share same value for integer.")
-	}
-
-	if copy.varTable.vars[2].Value != orig.varTable.vars[2].Value {
-		t.Error("Copy and original shouldn't share same value for string.")
-	}
-
-	if copy.varTable.vars[3].Value != orig.varTable.vars[3].Value {
-		t.Error("Copy and original shouldn't share same value for boolean.")
-	}
-
-	// test copy values
-	count.Tests(t, 4)
-
-	if (copy.varTable.vars[0].Value.(float64) != copyNum) == (flags != F_FUNCTION) {
-		t.Error("Copy number not same as expected value.")
-	}
-
-	if (copy.varTable.vars[1].Value.(int) != copyInt) == (flags != F_FUNCTION) {
-		t.Error("Copy integer not same as expected value.")
-	}
-
-	if (copy.varTable.vars[2].Value.(string) != copyStr) == (flags != F_FUNCTION) {
-		t.Error("Copy string not same as expected value.")
-	}
-
-	if (copy.varTable.vars[3].Value.(bool) != copyBool) == (flags != F_FUNCTION) {
-		t.Error("Copy boolean not same as expected value.")
-	}*/
 
 	// test GetValue
 	count.Tests(t, 4)
@@ -172,24 +96,6 @@ func testVariables(t *testing.T, flags int, details string) {
 	if types.IsTrue([]byte(copy.GetString("boolean")), 0) != copyBool {
 		t.Error("Copy var table not returning correct boolean converted value using GetString.")
 	}
-
-	/*count.Tests(t, 4)
-	err = copy.Set("new", "string", types.String)
-	if err != nil {
-		t.Error("Unable to create new string. " + err.Error())
-	}
-
-	if orig.GetString("new") != "" {
-		t.Error("New string exists on original when not expected.")
-	}
-
-	if orig.GetString("new") == "string" {
-		t.Error("New string saved on copy was replicated on original - this shouldn't happen.")
-	}
-
-	if copy.GetString("new") != "string" {
-		t.Error("New string on copy not retriving correctly: '" + copy.GetString("new") + "'")
-	}*/
 }
 
 // TestReservedVariables tests the Vars structure

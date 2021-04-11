@@ -354,7 +354,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 		case !rx.Match(stderr):
 			passed = false
-			addReport(TestFailed, tMsgRegexMismatch("StderrRegex", stdout))
+			addReport(TestFailed, tMsgRegexMismatch("StderrRegex", stderr))
 
 		default:
 			addReport(TestInfo, tMsgRegexMatch("StderrRegex"))

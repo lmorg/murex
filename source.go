@@ -53,6 +53,7 @@ func execSource(source []rune, sourceRef *ref.Source) {
 	if sourceRef != nil {
 		fork.FileRef.Source = sourceRef
 	}
+	fork.RunMode = lang.ShellProcess.RunMode
 	exitNum, err := fork.Execute(source)
 
 	if err != nil {

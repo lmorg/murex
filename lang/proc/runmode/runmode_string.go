@@ -9,15 +9,14 @@ func _() {
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
 	_ = x[Normal-0]
-	_ = x[Shell-1]
-	_ = x[Try-2]
-	_ = x[TryPipe-3]
-	_ = x[Evil-4]
+	_ = x[Try-1]
+	_ = x[TryPipe-2]
+	_ = x[Evil-3]
 }
 
-const _RunMode_name = "NormalShellTryTryPipeEvil"
+const _RunMode_name = "NormalTryTryPipeEvil"
 
-var _RunMode_index = [...]uint8{0, 6, 11, 14, 21, 25}
+var _RunMode_index = [...]uint8{0, 6, 9, 16, 20}
 
 func (i RunMode) String() string {
 	if i < 0 || i >= RunMode(len(_RunMode_index)-1) {

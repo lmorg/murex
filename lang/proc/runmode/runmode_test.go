@@ -18,7 +18,6 @@ func TestRunmodeStringer(t *testing.T) {
 	}()
 
 	t.Log(Normal.String())
-	t.Log(Shell.String())
 	t.Log(Try.String())
 	t.Log(TryPipe.String())
 	t.Log(Evil.String())
