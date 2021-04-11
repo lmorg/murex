@@ -52,7 +52,7 @@ empty Filename string.
 
 ## See Also
 
-* [user-guide/Modules and packages](../user-guide/modules.md):
+* [user-guide/Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

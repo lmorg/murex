@@ -9,14 +9,14 @@
     by builtin commands. This means you can alter the way commands are executed
     dynamically within _murex_ shell scripts.
     
-    ## Normal
+    ### Normal
 
     This is a traditional shell where anything in a pipeline (eg `cmd1 -> cmd2 -> cmd3`)
     is executed in parallel. The scheduler only pauses launching new commands when
     the last command in any pipeline is still executing. A pipeline could be multiple
     commands (like above) or a single command (eg `top`).
 
-    ## Try
+    ### Try
 
     This is similar to normal where commands in a pipeline are run in parallel except
     _murex_ validates the STDERR and exit status of the last command in any pipeline.
@@ -24,7 +24,7 @@
     If STDERR is greater than STDOUT (per bytes written) **OR** the exit status is
     non-zero then the scheduler exits that entire block.
 
-    ## Try Pipe
+    ### Try Pipe
 
     This runs the commands sequentially because the STDERR and the exit status of
     each command is checked irrespective of whether that command is at the start of
