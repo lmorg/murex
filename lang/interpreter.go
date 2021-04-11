@@ -25,7 +25,6 @@ func compile(tree *astNodes, parent *Process) (procs []Process, errNo int) {
 		procs[i].IsBackground = parent.IsBackground
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
-		//procs[i].Module = parent.Module
 		procs[i].WaitForTermination = make(chan bool)
 		procs[i].RunMode = parent.RunMode
 		procs[i].Config = parent.Config

@@ -83,7 +83,7 @@ value in any scripts.
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [commands/`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/formap](../commands/formap.md):
-  

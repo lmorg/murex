@@ -129,6 +129,8 @@ to return the same markdown-formatted document as those listed below. eg
   A more familiar iteration loop to existing developers
 * [`foreach`](commands/foreach.md):
   Iterate through an array
+* [`formap`](commands/formap.md):
+  Iterate through a map or other collection of data
 * [`format`](commands/format.md):
   Reformat one data-type into another data-type
 * [`function`](commands/function.md):

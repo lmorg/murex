@@ -206,6 +206,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   A sophisticated yet simple way to build an array or list
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
+* [commands/`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`ja`](../commands/ja.md):
@@ -216,5 +218,3 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Define a local variable and set it's value
 * [commands/`while`](../commands/while.md):
   Loop until condition false
-* [commands/formap](../commands/formap.md):
-  

@@ -10,17 +10,20 @@
 a code block for each iteration with the value of the iterated element passed
 to it.
 
+Unlike `foreach`, `formap`'s default output is `str`, so each new line will be
+treated as a list item
+
 ## Usage
 
-`{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT
+`{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT:
 
     <stdin> -> foreach variable { code-block } -> <stdout>
     
-`{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT
+`{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT:
 
     <stdin> -> foreach { -> code-block } -> <stdout>
     
-`foreach` writes to a buffered JSON map
+`foreach` writes to a buffered JSON map:
 
     <stdin> -> foreach --jmap variable { code-block (map key) } { code-block (map value) } -> <stdout>
 
@@ -61,6 +64,11 @@ The second option is for the code block's STDIN to read the element:
         "Tue": "Tuesday",
         "Wed": "Wednesday"
     } 
+
+## Flags
+
+* `--jmap`
+    Write a map to STDOUT instead of an array
 
 ## Detail
 
@@ -236,6 +244,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Debugging information
 * [commands/`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
+* [commands/`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`if`](../commands/if.md):
@@ -254,5 +264,3 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Loop until condition false
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [commands/formap](../commands/formap.md):
-  

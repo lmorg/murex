@@ -48,6 +48,7 @@ func init() {
 		"fid-list":              "fid-list_commands_docgen.go",
 		"for":                   "for_commands_docgen.go",
 		"foreach":               "foreach_commands_docgen.go",
+		"formap":                "formap_commands_docgen.go",
 		"format":                "format_commands_docgen.go",
 		"function":              "function_commands_docgen.go",
 		"g":                     "g_commands_docgen.go",

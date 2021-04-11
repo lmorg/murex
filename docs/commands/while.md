@@ -75,6 +75,8 @@ Until false
   A more familiar iteration loop to existing developers
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
+* [commands/`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
@@ -83,5 +85,3 @@ Until false
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/formap](../commands/formap.md):
-  
