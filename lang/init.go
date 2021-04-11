@@ -29,10 +29,10 @@ func InitEnv() {
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Previous = ShellProcess
 	ShellProcess.Next = ShellProcess
-	ShellProcess.Config = config.InitConf //InitConf.Copy(ShellProcess.Id)
+	ShellProcess.Config = config.InitConf
 	ShellProcess.Tests = NewTests(ShellProcess)
 	ShellProcess.Variables = NewVariables(ShellProcess)
-	//ShellProcess.RunMode = runmode.Normal
+	//ShellProcess.RunMode = runmode.Normal // defaults to Normal due to Normal == 0
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	ShellProcess.Kill = func() {}

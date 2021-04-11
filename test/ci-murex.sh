@@ -35,6 +35,6 @@ echo "Run murex shell script unit tests...."
 murex --run-tests
 
 echo "Run murex flag unit tests...."
-./murex -c 'source: ./flags_test.mx; try {test: run *}'
+murex -c 'source: ./flags_test.mx; try {test: run *}'
 
 echo "Fin!"

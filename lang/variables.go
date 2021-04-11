@@ -20,6 +20,13 @@ var (
 	errNoDirectGlobalMethod = "This method cannot be invoked directly for global variables"
 )
 
+const (
+	SELF       = "SELF"
+	ARGS       = "ARGS"
+	MUREX_EXE  = "MUREX_EXE"
+	MUREX_ARGS = "MUREX_ARGS"
+)
+
 // Variables is a table of all the variables. This will be local to the scope's
 // process
 type Variables struct {
@@ -61,11 +68,14 @@ func (v *Variables) GetValue(name string) interface{} {
 	case v.global:
 		return v.getValue(name)
 
-	case name == "SELF":
+	case name == SELF:
 		return getVarSelf(v.process)
 
-	case name == "ARGS":
+	case name == ARGS:
 		return getVarParams(v.process)
+
+	case name == MUREX_EXE:
+		return getVarMurexExe()
 	}
 
 	value := v.getValue(name)
@@ -108,13 +118,16 @@ func (v *Variables) GetString(name string) string {
 		return val
 		//panic(errNoDirectGlobalMethod)
 
-	case name == "SELF":
+	case name == SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b)
 
-	case name == "ARGS":
+	case name == ARGS:
 		b, _ := json.Marshal(getVarParams(v.process), v.process.Stdout.IsTTY())
 		return string(b)
+
+	case name == MUREX_EXE:
+		return getVarMurexExe().(string)
 	}
 
 	s, exists := v.getString(name)
@@ -152,11 +165,14 @@ func (v *Variables) GetDataType(name string) string {
 		return dt
 		//panic(errNoDirectGlobalMethod)
 
-	case name == "SELF":
+	case name == SELF:
 		return types.Json
 
-	case name == "ARGS":
+	case name == ARGS:
 		return types.Json
+
+	case name == MUREX_EXE:
+		return types.String
 	}
 
 	s, exists := v.getDataType(name)
@@ -194,7 +210,7 @@ func (v *Variables) getDataType(name string) (string, bool) {
 // Set writes a variable
 func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
-	case "SELF", "ARGS", "_":
+	case SELF, ARGS, MUREX_EXE, MUREX_ARGS, "_":
 		return errVariableReserved
 	}
 
@@ -265,8 +281,9 @@ func DumpVariables(p *Process) map[string]interface{} {
 	}
 	p.Variables.mutex.Unlock()
 
-	m["SELF"] = p.Variables.GetValue("SELF")
-	m["ARGS"] = p.Variables.GetValue("ARGS")
-
+	m[SELF] = p.Variables.GetValue(SELF)
+	m[ARGS] = p.Variables.GetValue(ARGS)
+	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
+	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
 	return m
 }

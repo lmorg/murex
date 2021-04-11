@@ -1,7 +1,7 @@
 # This file tests flags but running the murex executable
 
 function try-semicolon {
-    ./murex --try -c (err: "foo"; out "bar") 
+    exec: $MUREX_EXE --try -c (err: "foo"; out "bar") 
 }
 
 test: unit function try-semicolon {
@@ -10,7 +10,7 @@ test: unit function try-semicolon {
 }
 
 function try-pipe {
-    ./murex --try -c (err: "foo" -> out "bar") 
+    exec: $MUREX_EXE --try -c (err: "foo" -> out "bar") 
 }
 
 test: unit function try-pipe {
@@ -19,7 +19,7 @@ test: unit function try-pipe {
 }
 
 function try-errpipe {
-    ./murex --try -c (err: "foo" ? out "bar") 
+    exec: $MUREX_EXE --try -c (err: "foo" ? out "bar") 
 }
 
 test: unit function try-errpipe {
@@ -27,7 +27,7 @@ test: unit function try-errpipe {
 }
 
 function trypipe-semicolon {
-    ./murex --trypipe -c (err: "foo"; out "bar") 
+    exec: $MUREX_EXE --trypipe -c (err: "foo"; out "bar") 
 }
 
 test: unit function trypipe-semicolon {
@@ -36,7 +36,7 @@ test: unit function trypipe-semicolon {
 }
 
 function trypipe-pipe {
-    ./murex --trypipe -c (err: "foo" -> out "bar") 
+    exec: $MUREX_EXE --trypipe -c (err: "foo" -> out "bar") 
 }
 
 test: unit function trypipe-pipe {
@@ -45,7 +45,7 @@ test: unit function trypipe-pipe {
 }
 
 function trypipe-errpipe {
-    ./murex --trypipe -c (err: "foo" ? out "bar") 
+    exec: $MUREX_EXE --trypipe -c (err: "foo" ? out "bar") 
 }
 
 test: unit function trypipe-errpipe {
