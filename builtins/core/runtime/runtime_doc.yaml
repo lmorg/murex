@@ -143,11 +143,13 @@
     ```
   Flags:
     --variables: >-
-      Lists all local _murex_ variables which doesn't include environmental nor global variables
+      Lists all local _murex_ variables which doesn't include environmental nor
+      global variables
     --globals: >-
       Lists all global variables
     --exports: >-
-      Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables`
+      Outputs environmental variables. For _murex_ variables (`global` and
+      `set`/`let`) use `--variables`
     --aliases: >-
       Lists all aliases
     --builtins: >-
@@ -157,7 +159,8 @@
     --named-pipes: >-
       Lists all named pipes defined
     --pipes: >-
-      Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
+      Lists builtin pipes compiled into _murex_. These can be then be defined as
+      named-pipes
     --functions: >-
       Lists all _murex_ global functions
     --privates: >-
@@ -181,7 +184,8 @@
     --events: >-
       Lists all builtin event types and any defined events
     --autocomplete: >-
-      Lists all `autocomplete` schemas - both user defined and automatically generated one
+      Lists all `autocomplete` schemas - both user defined and automatically
+      generated one
     --memstats: >-
       Outputs the running state of Go's runtime
     --astcache: >-
