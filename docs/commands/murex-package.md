@@ -86,9 +86,9 @@ If you wish to view what modules are loaded in a current session then use
 
 ## See Also
 
-* [user-guide/Modules and packages](../user-guide/modules.md):
+* [user-guide/Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [user-guide/_murex_ profile files](../user-guide/profile.md):
+* [user-guide/_murex_ Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command

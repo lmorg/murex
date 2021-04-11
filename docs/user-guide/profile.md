@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## User Guide: _murex_ profile files
+## User Guide: _murex_ Profile Files
 
 > A breakdown of the different files loaded on start up
 
@@ -45,7 +45,7 @@ should be used in its place.
 
 ## See Also
 
-* [user-guide/Modules and packages](../user-guide/modules.md):
+* [user-guide/Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
 * [commands/`murex-package`](../commands/murex-package.md):
   _murex_'s package manager

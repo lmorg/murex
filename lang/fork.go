@@ -92,6 +92,9 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.IsBackground = flags&F_BACKGROUND != 0 || p.IsBackground
 	fork.PromptId = p.PromptId
 
+	fork.IsMethod = p.IsMethod
+	fork.IsNot = p.IsNot
+
 	fork.Previous = p
 	fork.Next = p.Next
 
