@@ -18,6 +18,7 @@
         if { true } then { set foo=bar }
         out $foo
     }
+    ```
 
     In here the value is getting set inside an `if` block but its value is is
     retrieved outside of that block. `out` and `set` have different parents but
