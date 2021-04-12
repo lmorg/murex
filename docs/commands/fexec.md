@@ -61,6 +61,8 @@ There is an order of precedence for which commands are looked up:
   Sends a background process into the foreground
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`source` ](../commands/source.md):
@@ -68,6 +70,4 @@ There is an order of precedence for which commands are looked up:
 * [commands/builtins](../commands/builtins.md):
   
 * [commands/jobs](../commands/jobs.md):
-  
-* [commands/open](../commands/open.md):
   

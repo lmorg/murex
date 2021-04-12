@@ -32,7 +32,7 @@ As a function
 
 ## See Also
 
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [optional/`qr` ](../optional/qr.md):
   Creates a QR code from STDIN
-* [commands/open](../commands/open.md):
-  

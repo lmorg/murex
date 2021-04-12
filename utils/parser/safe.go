@@ -72,7 +72,6 @@ var safeCmds = []string{
 	"right",
 	"runtime",
 	"rx",
-	"sprintf",
 	"struct-keys",
 	"suffix",
 	"swivel-datatype",

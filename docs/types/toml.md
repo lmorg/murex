@@ -90,12 +90,12 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [commands/open](../commands/open.md):
-  
 * [apis/readarray](../apis/readarray.md):
   
 * [apis/readindex](../apis/readindex.md):

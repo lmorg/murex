@@ -21,13 +21,13 @@ func TestParserColon(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param},
 	}}
 
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param},
@@ -58,12 +58,12 @@ func TestParserSpace1(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param1, param2},
 	}}
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param1, param2},
@@ -112,12 +112,12 @@ func TestParserSpace2(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param1, param2},
 	}}
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param1, param2},
@@ -166,12 +166,12 @@ func TestParserSpace3(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param1, param2},
 	}}
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param1, param2},
@@ -220,12 +220,12 @@ func TestParserSpace4(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param1, param2},
 	}}
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param1, param2},
@@ -274,12 +274,12 @@ func TestParserSpace5(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param1, param2},
 	}}
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param1, param2},
@@ -325,13 +325,13 @@ func TestParserCmdQuotes1(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{param},
 	}}
 
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: [][]parameters.ParamToken{null, param},
@@ -360,7 +360,7 @@ func TestParserCmdQuotes2(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example ",
 		ParamTokens: params,
@@ -383,7 +383,7 @@ func TestParserCmdQuotes3(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example:",
 		ParamTokens: params,
@@ -406,7 +406,7 @@ func TestParserCmdQuotes4(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example:--flag1",
 		ParamTokens: params,

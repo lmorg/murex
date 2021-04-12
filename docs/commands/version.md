@@ -38,6 +38,8 @@ Ran with the `--short` parameter
 
 ## See Also
 
+* [commands/`args` ](../commands/args.md):
+  Command line flag parser for _murex_ shell scripting
 * [commands/`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [commands/`config`](../commands/config.md):
@@ -52,7 +54,5 @@ Ran with the `--short` parameter
   Returns runtime information on the internal state of _murex_
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/args](../commands/args.md):
-  
 * [commands/params](../commands/params.md):
   

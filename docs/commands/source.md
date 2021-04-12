@@ -50,6 +50,8 @@ Execute a code block from parameter
 
 ## See Also
 
+* [commands/`args` ](../commands/args.md):
+  Command line flag parser for _murex_ shell scripting
 * [commands/`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [commands/`config`](../commands/config.md):
@@ -68,7 +70,5 @@ Execute a code block from parameter
   Returns runtime information on the internal state of _murex_
 * [commands/`version` ](../commands/version.md):
   Get _murex_ version
-* [commands/args](../commands/args.md):
-  
 * [commands/params](../commands/params.md):
   

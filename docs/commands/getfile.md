@@ -48,7 +48,7 @@ This enables sane, repeatable and readable defaults. Read the documents on
   Query or define _murex_ runtime settings
 * [commands/`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [commands/open](../commands/open.md):
-  

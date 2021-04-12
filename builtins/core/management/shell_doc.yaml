@@ -72,7 +72,8 @@
     <stdin> -> murex-parser -> <stdout>
 
     murex-parser { code-block } -> <stdout>
-  Examples: |-
+    ```
+  Examples:
   Flags:
   Detail:
     Please note this command is still very much in beta and is likely to change
@@ -84,3 +85,34 @@
   - config
   - runtime
   - murex-docs
+
+
+
+- DocumentID: args
+  Title: >+
+    `args` 
+  CategoryID: commands
+  Summary: >-
+    Command line flag parser for _murex_ shell scripting
+  Description: |-
+    One of the nuisances of shell scripts is handling flags. More often than not
+    your script will be littered with `$1` still variables and not handle flags
+    shifting in placement amongst a group of parameters. `args` aims to fix that by
+    providing a common tool for parsing flags.
+
+    `args` takes a name of a variable to assign the result of the parsed parameters
+    as well as a JSON structure containing the result. It also returns a non-zero
+    exit number if there is an error when parsing.
+  Usage: |-
+    ```
+    args var-name { json-block } -> <stdout>
+    ```
+  Examples: |-
+    ```
+    {{ include "examples/flags.mx" }}
+    ```
+  Flags:
+  Detail:
+  Synonyms:
+  Related:
+  - user-guide/reserved-vars

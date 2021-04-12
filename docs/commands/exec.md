@@ -50,6 +50,8 @@ handles any programs that aren't native to _murex_.
 
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function
+* [commands/`bexists`](../commands/bexists.md):
+  Check which builtins exist
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
 * [commands/`fg`](../commands/fg.md):
@@ -66,8 +68,6 @@ handles any programs that aren't native to _murex_.
   Forces _murex_ to rescan $PATH looking for exectables
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/bexists](../commands/bexists.md):
-  
 * [commands/builtins](../commands/builtins.md):
   
 * [commands/jobs](../commands/jobs.md):

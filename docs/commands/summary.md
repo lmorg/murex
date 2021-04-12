@@ -43,6 +43,8 @@ Undefine a summary
 
 ## See Also
 
+* [commands/`bexists`](../commands/bexists.md):
+  Check which builtins exist
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
 * [commands/`exec`](../commands/exec.md):
@@ -55,7 +57,5 @@ Undefine a summary
   Forces _murex_ to rescan $PATH looking for exectables
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/bexists](../commands/bexists.md):
-  
 * [commands/builtins](../commands/builtins.md):
   

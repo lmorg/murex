@@ -200,13 +200,13 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 * [commands/`match`](../commands/match.md):
   Match an exact value in an array
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [commands/events](../commands/events.md):
   
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/open](../commands/open.md):
-  
 * [commands/put](../commands/put.md):
   

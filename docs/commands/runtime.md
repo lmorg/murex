@@ -304,6 +304,10 @@ functions.
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
+* [commands/`openagent`](../commands/openagent.md):
+  Creates a handler function for `open
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
 * [commands/`pretty`](../commands/pretty.md):
@@ -316,7 +320,3 @@ functions.
   Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts
-* [commands/open](../commands/open.md):
-  
-* [commands/openagent](../commands/openagent.md):
-  

@@ -159,6 +159,8 @@ cases for JSON lines.
   HashiCorp Configuration Language (HCL)
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -173,8 +175,6 @@ cases for JSON lines.
   
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/open](../commands/open.md):
-  
 * [apis/readarray](../apis/readarray.md):
   
 * [apis/readindex](../apis/readindex.md):

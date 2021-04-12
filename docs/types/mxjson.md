@@ -72,6 +72,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -81,6 +83,4 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [parser/code-block](../parser/code-block.md):
-  
-* [commands/open](../commands/open.md):
   

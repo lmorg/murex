@@ -208,6 +208,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   HashiCorp Configuration Language (HCL)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -218,8 +220,6 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   YAML Ain't Markup Language (YAML)
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/open](../commands/open.md):
-  
 * [apis/readarray](../apis/readarray.md):
   
 * [apis/readindex](../apis/readindex.md):

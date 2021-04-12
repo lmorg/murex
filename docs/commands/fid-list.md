@@ -57,6 +57,8 @@ include:
 
 ## See Also
 
+* [commands/`bexists`](../commands/bexists.md):
+  Check which builtins exist
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
 * [commands/`exec`](../commands/exec.md):
@@ -73,8 +75,6 @@ include:
   JSON Lines (primitive)
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
-* [commands/bexists](../commands/bexists.md):
-  
 * [commands/builtins](../commands/builtins.md):
   
 * [types/csv](../types/csv.md):

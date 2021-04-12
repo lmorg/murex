@@ -35,9 +35,9 @@ numbers.
   Reformat one data-type into another data-type
 * [types/`int` ](../types/int.md):
   Whole number (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/open](../commands/open.md):
-  
 * [types/str](../types/str.md):
   
