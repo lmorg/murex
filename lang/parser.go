@@ -12,16 +12,19 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 }
 
 // ParseBlock parses a murex code block.
-// Returns the abstract syntax tree (astNodes) or any syntax errors preventing
+// Returns the abstract syntax tree (AstNodes) or any syntax errors preventing
 // a successful parse (ParserError)
-func ParseBlock(block []rune) (nodes astNodes, pErr ParserError) {
+func ParseBlock(block []rune) (nodes *AstNodes, pErr ParserError) {
 	return AstCache.ParseCache(block)
 }
 
-func parser(block []rune) (nodes astNodes, pErr ParserError) {
+func parser(block []rune) (*AstNodes, ParserError) {
 	//defer debug.Json("Parser", nodes)
 
 	var (
+		nodes AstNodes
+		pErr  ParserError
+
 		// Current state
 		i                int
 		r                rune
@@ -40,7 +43,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 		scanFuncName     = true
 
 		// Parsed thus far
-		node   = astNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
+		node   = AstNode{NewChain: true, ParamTokens: genEmptyParamTokens()}
 		pop    = &node.Name
 		pCount int // parameter count
 		pToken = &node.ParamTokens[0][0]
@@ -414,10 +417,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				quoteBrace--
 			case quoteBrace == 0:
 				pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
-				return
+				return &nodes, pErr
 			default:
 				pErr = raiseErr(ErrUnexpectedParsingError, i) //+" No case found for `switch ')' { ... }`.", i)
-				return
+				return &nodes, pErr
 			}
 
 		case ':':
@@ -471,7 +474,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 				if i < len(block)-1 && block[i+1] == '>' {
 					pErr = raiseErr(ErrUnexpectedPipeTokenEqGt, i)
-					return
+					return &nodes, pErr
 				} //else {
 				startParameters()
 				//}
@@ -511,7 +514,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 			case scanFuncName:
 				if len(*pop) == 0 {
 					pErr = raiseErr(ErrUnexpectedOpenBraceFunc, i)
-					return
+					return &nodes, pErr
 				}
 				startParameters()
 				pUpdate(r)
@@ -532,10 +535,10 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				ignoreWhitespace = false
 			case scanFuncName:
 				pErr = raiseErr(ErrUnexpectedCloseBrace, i)
-				return
+				return &nodes, pErr
 			case braceCount == 0:
 				pErr = raiseErr(ErrClosingBraceBlockNoOpen, i)
-				return
+				return &nodes, pErr
 			default:
 				pUpdate(r)
 				braceCount--
@@ -590,7 +593,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				// do nothing
 			default:
 				appendNode()
-				node = astNode{NewChain: true}
+				node = AstNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -608,11 +611,11 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeTokenPipe, i)
-				return
+				return &nodes, pErr
 			default:
 				node.PipeOut = true
 				appendNode()
-				node = astNode{Method: true}
+				node = AstNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -630,11 +633,11 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeTokenQm, i)
-				return
+				return &nodes, pErr
 			case last == ' ' || last == '\t':
 				node.PipeErr = true
 				appendNode()
-				node = astNode{Method: true}
+				node = AstNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			default:
@@ -674,7 +677,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				}
 				node.PipeOut = true
 				appendNode()
-				node = astNode{Method: true}
+				node = AstNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 			case last == '=':
@@ -687,7 +690,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				appendNode()
 
 				// append -> format generic ->
-				node = astNode{
+				node = AstNode{
 					Method:  true,
 					PipeOut: true,
 					Name:    "format",
@@ -699,7 +702,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				appendNode()
 
 				// new node
-				node = astNode{Method: true}
+				node = AstNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
 
@@ -721,7 +724,7 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 				pUpdate(r)
 			default:
 				appendNode()
-				node = astNode{NewChain: true}
+				node = AstNode{NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
 			}
@@ -865,5 +868,5 @@ func parser(block []rune) (nodes astNodes, pErr ParserError) {
 
 	//debug.Json("params", nodes)
 
-	return
+	return &nodes, pErr
 }

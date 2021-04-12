@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -12,6 +13,12 @@ import (
 
 func init() {
 	lang.GoFunctions["pretty"] = cmdPretty
+
+	defaults.AppendProfile(`
+		autocomplete: set pretty { [{
+			"Flags": [ "--strict" ]
+		}] }
+	`)
 }
 
 func cmdPretty(p *lang.Process) error {

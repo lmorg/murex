@@ -768,10 +768,6 @@ autocomplete: set zpool {
     }]
 }
 
-autocomplete: set pretty { [{
-    "Flags": [ "--strict" ]
-}] }
-
 function sprintf {
     # This is a wrapper around the OS's default `printf`, replacing the now deprecated builtin of the same name
     -> set params

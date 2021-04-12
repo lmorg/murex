@@ -12,7 +12,9 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 )
 
-func spellcheck(line []rune) []rune {
+// Spellcheck is exported largely for ease of testing. However it's a self-contained
+// function so should be safe to call from other packages.
+func Spellcheck(line []rune) []rune {
 	r := line
 	enabled, err := lang.ShellProcess.Config.Get("shell", "spellcheck-enabled", types.Boolean)
 	if err != nil || !enabled.(bool) {

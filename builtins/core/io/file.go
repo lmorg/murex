@@ -8,7 +8,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/humannumbers"
 )
 
 func init() {
@@ -29,9 +29,9 @@ func cmdPipeTelemetry(p *lang.Process) error {
 		os.Stderr.WriteString(
 			fmt.Sprintf("Pipe telemetry: `%s` written %s -> pt -> `%s` read %s (Data type: %s)\n",
 				p.Previous.Name,
-				utils.HumanBytes(written),
+				humannumbers.Bytes(written),
 				p.Next.Name,
-				utils.HumanBytes(read),
+				humannumbers.Bytes(read),
 				dt),
 		)
 	}

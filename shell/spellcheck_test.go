@@ -1,17 +1,18 @@
-package shell
+package shell_test
 
 import (
 	"os"
 	"testing"
 
-	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/userdictionary"
-
 	_ "github.com/lmorg/murex/builtins/core/arraytools"
 	_ "github.com/lmorg/murex/builtins/core/textmanip"
 	_ "github.com/lmorg/murex/builtins/types/json"
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/shell/userdictionary"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/ansi"
 )
@@ -65,7 +66,7 @@ func TestSpellcheckCrLf(t *testing.T) {
 	}
 
 	line := "the quick brown fox"
-	newLine := string(spellcheck([]rune(line)))
+	newLine := string(shell.Spellcheck([]rune(line)))
 	ansiLine := ansi.ExpandConsts("{UNDERLINE}the{UNDEROFF} {UNDERLINE}quick{UNDEROFF} {UNDERLINE}brown{UNDEROFF} {UNDERLINE}fox{UNDEROFF}")
 
 	if newLine != ansiLine {
@@ -97,7 +98,7 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	}
 
 	line := "the quick brown fox"
-	newLine := string(spellcheck([]rune(line)))
+	newLine := string(shell.Spellcheck([]rune(line)))
 	ansiLine := ansi.ExpandConsts("{UNDERLINE}the{UNDEROFF} {UNDERLINE}quick{UNDEROFF} {UNDERLINE}brown{UNDEROFF} {UNDERLINE}fox{UNDEROFF}")
 
 	if newLine != ansiLine {
@@ -107,8 +108,7 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	}
 }
 
-// test always fails even when function works. Reason unknown
-/*func TestSpellcheckVariable(t *testing.T) {
+func TestSpellcheckVariable(t *testing.T) {
 	count.Tests(t, 1)
 	lang.InitEnv()
 	defaults.Defaults(lang.ShellProcess.Config, false)
@@ -126,15 +126,15 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	os.Setenv("MUREX_TEST_SPELLCHECK_TEST", "quick")
 
 	line := "$the $MUREX_TEST_SPELLCHECK_TEST $brown $fox"
-	newLine := string(spellcheck([]rune(line)))
-	ansiLine := ansi.ExpandConsts("{UNDERLINE}$the{UNDEROFF} $MUREX_TEST_SPELLCHECK_TEST {UNDERLINE}$brown{UNDEROFF} {UNDERLINE}$fox{UNDEROFF}")
+	newLine := string(shell.Spellcheck([]rune(line)))
+	ansiLine := ansi.ExpandConsts("{UNDERLINE}$the{UNDEROFF} {UNDERLINE}$MUREX_TEST_SPELLCHECK_TEST{UNDEROFF} {UNDERLINE}$brown{UNDEROFF} {UNDERLINE}$fox{UNDEROFF}")
 
 	if newLine != ansiLine {
 		t.Error("spellcheck output doesn't match expected:")
 		t.Logf("  Expected: '%s'", ansiLine)
 		t.Logf("  Actual:   '%s'", newLine)
 	}
-}*/
+}
 
 // test times out for reasons currently unknown
 /*func TestSpellcheckBadBlock(t *testing.T) {
@@ -153,11 +153,12 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	}
 
 	line := "the quick brown fox"
-	newLine := string(spellcheck([]rune(line)))
+	newLine := string(shell.Spellcheck([]rune(line)))
 
 	if newLine != line {
 		t.Error("spellcheck output doesn't match expected:")
 		t.Logf("  Expected: '%s'", line)
 		t.Logf("  Actual:   '%s'", newLine)
 	}
-}*/
+}
+*/

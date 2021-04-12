@@ -68,3 +68,49 @@ func IsBlock(b []byte) bool {
 
 	return false
 }
+
+// IsBlockRune checks if the []rune slice is a code or JSON block
+func IsBlockRune(r []rune) bool {
+	r = trimSpaceRune(r)
+	if len(r) < 2 {
+		return false
+	}
+
+	if r[0] == '{' && r[len(r)-1] == '}' {
+		return true
+	}
+
+	return false
+}
+
+func trimSpaceRune(r []rune) []rune {
+	if len(r) == 0 {
+		return []rune{}
+	}
+
+	for {
+		l := len(r) - 1
+
+		if r[l] == ' ' || r[l] == '\t' || r[l] == '\r' || r[l] == '\n' {
+			if l == 0 {
+				return []rune{}
+			}
+			r = r[:l]
+		} else {
+			break
+		}
+	}
+
+	for {
+		if r[0] == ' ' || r[0] == '\t' || r[0] == '\r' || r[0] == '\n' {
+			if len(r) == 1 {
+				return []rune{}
+			}
+			r = r[1:]
+		} else {
+			break
+		}
+	}
+
+	return r
+}

@@ -265,7 +265,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		return 1, err
 	}
 
-	procs, errNo := compile(&tree, fork.Process)
+	procs, errNo := compile(tree, fork.Process)
 	if errNo != 0 {
 		errMsg := fmt.Sprintf("Compilation Error at %d,%d+0: %s", fork.FileRef.Line, fork.FileRef.Column, errMessages[errNo])
 		fork.Stderr.Writeln([]byte(errMsg))
