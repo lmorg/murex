@@ -3,8 +3,6 @@ package textmanip
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"io"
 
 	"github.com/lmorg/murex/lang"
@@ -14,7 +12,6 @@ import (
 
 func init() {
 	lang.GoFunctions["pretty"] = cmdPretty
-	lang.GoFunctions["sprintf"] = cmdSprintf
 }
 
 func cmdPretty(p *lang.Process) error {
@@ -78,31 +75,5 @@ func prettyDefault(p *lang.Process) error {
 	}
 
 	_, err = p.Stdout.Write(prettyJSON.Bytes())
-	return err
-}
-
-func cmdSprintf(p *lang.Process) error {
-	p.Stdout.SetDataType(types.String)
-
-	if err := p.ErrIfNotAMethod(); err != nil {
-		return err
-	}
-
-	if p.Parameters.Len() == 0 {
-		return errors.New("Parameters missing")
-	}
-
-	s := p.Parameters.StringAll()
-	var a []interface{}
-
-	err := p.Stdin.ReadArray(func(b []byte) {
-		a = append(a, string(b))
-	})
-
-	if err != nil {
-		return err
-	}
-
-	_, err = p.Stdout.Write([]byte(fmt.Sprintf(s, a...)))
 	return err
 }

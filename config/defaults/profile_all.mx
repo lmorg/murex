@@ -767,3 +767,19 @@ autocomplete: set zpool {
         })
     }]
 }
+
+autocomplete: set pretty { [{
+    "Flags": [ "--strict" ]
+}] }
+
+function sprintf {
+    # This is a wrapper around the OS's default `printf`, replacing the now deprecated builtin of the same name
+    -> set params
+    switch {
+        case  { $params -> ! } { err: "No parameters passed via STDIN" }
+        case  { $ARGS[1]-> ! } { err: "No string supplied to print"    }
+        catch {
+            printf "$ARGS[1]\n" @params
+        }
+    }
+}

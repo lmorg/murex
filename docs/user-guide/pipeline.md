@@ -53,6 +53,8 @@ Wikipedia has a page on [Pipeline (Unix)](https://en.wikipedia.org/wiki/Pipeline
 
 * [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [user-guide/Bang Prefix](../user-guide/bang-prefix.md):
+  Bang prefixing to reverse default actions
 * [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):

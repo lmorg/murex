@@ -6,6 +6,8 @@
 
 * [ANSI Constants](user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
+* [Bang Prefix](user-guide/bang-prefix.md):
+  Bang prefixing to reverse default actions
 * [Code Block Parsing](user-guide/code-block.md):
   Overview of how code blocks are parsed
 * [FileRef](user-guide/fileref.md):
