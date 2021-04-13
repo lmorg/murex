@@ -118,7 +118,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 
 		dv.Related = append(
 			dv.Related,
-			t.DocumentValues(docs.ByID(relCatID, relDocID), docs, false),
+			t.DocumentValues(docs.ByID(d.DocumentID, relCatID, relDocID), docs, false),
 		)
 	}
 
@@ -198,14 +198,14 @@ func (v sortableHookValues) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 type documents []document
 
 // ByID returns the from it's CategoryID and DocumentID
-func (d documents) ByID(categoryID, documentID string) *document {
+func (d documents) ByID(requesterID, categoryID, documentID string) *document {
 	for i := range d {
 		if d[i].DocumentID == documentID && d[i].CategoryID == categoryID {
 			return &d[i]
 		}
 	}
 
-	warning(fmt.Sprintf("Cannot find document with the ID `%s/%s`", categoryID, documentID))
+	warning(requesterID, fmt.Sprintf("Cannot find document with the ID `%s/%s`", categoryID, documentID))
 	return &document{
 		Title:      documentID,
 		DocumentID: categoryID + "/" + documentID,

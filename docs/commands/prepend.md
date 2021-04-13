@@ -66,5 +66,3 @@ any integers in data type aware structures will be converted into strings:
   Reverse the order of an array
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [commands/update](../commands/update.md):
-  

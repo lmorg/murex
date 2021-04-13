@@ -28,17 +28,17 @@ Output the the file name and path of a lock file with the name `identifier`
 
 ## Examples
 
-    lockfile lock example
-    out "lock file created: ${lockfile path example}"
+    lockfile: lock example
+    out: "lock file created: ${lockfile path example}"
     
     bg {
-        sleep 10
-        lockfile unlock example
+        sleep: 10
+        lockfile: unlock example
     }
     
-    out "waiting for lock file to be deleted (sleep 10 seconds)...."
-    lockfile wait example
-    out "lock file gone!"
+    out: "waiting for lock file to be deleted (sleep 10 seconds)...."
+    lockfile: wait example
+    out: "lock file gone!"
 
 ## See Also
 
@@ -46,5 +46,3 @@ Output the the file name and path of a lock file with the name `identifier`
   Run processes in the background
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/sleep](../commands/sleep.md):
-  

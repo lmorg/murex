@@ -173,7 +173,7 @@ var sgr = map[string][]byte{
 }
 ```
 
-#### How to read the code above
+#### How To Read The Code Above
 
 Each line will look something a little like
 
@@ -197,9 +197,20 @@ unedited.
     # Green spelt incorrectly (ie so that it doesn't exist as a valid constant)
     » out: "{GREEEEN}PASSED{RESET}"
     {GREEEEN}PASSED
+    
+### Enabling / Disabling ANSI Escape Sequences
+
+These sequences are enabled by default. To disable run the following:
+
+    » config: set shell color false
+    
+You will need to add this to your _murex_ profile, `~/.murex_profile` to make
+it persistent.
 
 ## See Also
 
+* [user-guide/_murex_ Profile Files](../user-guide/profile.md):
+  A breakdown of the different files loaded on start up
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`err`](../commands/err.md):

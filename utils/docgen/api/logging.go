@@ -1,6 +1,7 @@
 package docgen
 
 import (
+	"fmt"
 	"io"
 	golog "log"
 )
@@ -11,6 +12,9 @@ var (
 
 	// Warning enables [WARNING] messages
 	Warning bool
+
+	// ExitStatus is what the recommended exit status should be
+	ExitStatus int
 )
 
 // SetLogger allows output messages to be redirected
@@ -24,8 +28,14 @@ func log(v ...interface{}) {
 	}
 }
 
-func warning(v ...interface{}) {
+func warning(file string, v ...interface{}) {
 	if Warning || Verbose {
-		golog.Println(append([]interface{}{"[WARNING]"}, v...)...)
+		ExitStatus++
+		if ExitStatus > 254 {
+			ExitStatus = 254
+		}
+
+		warning := fmt.Sprintf("[WARNING] %s:", file)
+		golog.Println(append([]interface{}{warning}, v...)...)
 	}
 }

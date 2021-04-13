@@ -1,8 +1,11 @@
 package autocomplete
 
 import (
+	"encoding/json"
+	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/utils/man"
@@ -121,18 +124,18 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, act *AutoCompleteT) int {
 	var nest int
 
-	/*defer func() {
+	defer func() {
 		if debug.Enabled {
 			return
 		}
 		if r := recover(); r != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
-			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("Debug information (partial, exe, params, pIndex, nest): ", partial, exe, params, *pIndex, nest)))
+			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Debug information:\n- partial: '%s'\n- exe: '%s'\n- params: %s\n- pIndex: %d\n- nest: %d\nAutocompletion syntax:", partial, exe, params, *pIndex, nest)))
 			b, _ := json.MarshalIndent(flags, "", "\t")
 			lang.ShellProcess.Stderr.Writeln([]byte(string(b)))
 
 		}
-	}()*/
+	}()
 
 	if len(flags) > 0 {
 		for ; *pIndex <= len(params); *pIndex++ {
@@ -204,7 +207,32 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 	if nest > 0 {
 		nest--
 	}
+
 	for ; nest <= len(flags); nest++ {
+		if nest >= len(flags) {
+			/* I don't know why this is needed but it catches a segfault with the following code:
+
+			autocomplete set docgen { [
+				{
+					"AllowMultiple": true,
+					"Optional": true,
+					"FlagsDesc": {
+						"-panic": "Write a stack trace on error",
+						"-readonly": "Don't write output to disk. Use this to test the config",
+						"-verbose": "Verbose output (all log messages inc warnings)",
+						"-version": "Output docgen version number and exit",
+						"-warning": "Display warning messages (will also return a non-zero exit status if warnings found)",
+						"-config": "Location of the base docgen config file"
+					},
+					"FlagValues": {
+						"-config": [{
+							"IncFiles": true
+						}]
+					}
+				}
+			] } */
+			break
+		}
 		match(&flags[nest], partial, args, act)
 		if !flags[nest].Optional {
 			break

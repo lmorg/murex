@@ -9,8 +9,16 @@ import (
 	docgen "github.com/lmorg/murex/utils/docgen/api"
 )
 
-// Version is the release ID of docgen
-const Version = "2.0.10"
+const (
+	// Version is the release ID of docgen
+	Version = "2.1.0"
+
+	// Copyright is the copyright owner string
+	Copyright = "(c) 2018-2021 Laurence Morgan"
+
+	// License is the projects software license
+	License = "Licence GPL v2"
+)
 
 // flags
 var (
@@ -29,6 +37,8 @@ func main() {
 	if err != nil {
 		log.Fatalln("[ERROR]", err)
 	}
+
+	os.Exit(docgen.ExitStatus)
 }
 
 func readFlags() error {
@@ -43,7 +53,7 @@ func readFlags() error {
 	flag.Parse()
 
 	if *version {
-		fmt.Printf("docgen version %s\nLicence GPL v2, (C) 2018-2019 Laurence Morgan", Version)
+		fmt.Printf("docgen version %s\n%s, %s", Version, License, Copyright)
 		os.Exit(0)
 	}
 

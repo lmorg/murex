@@ -11,19 +11,19 @@
     centralised and discoverable.
 
   Usage: |-
-    List all settings
+    List all settings:
     
     ```
     config -> <stdout>
     ```
 
-    Get a setting
+    Get a setting:
 
     ```
     config get app key -> <stdout>
     ```
 
-    Set a setting
+    Set a setting:
 
     ```
     config set app key value
@@ -33,13 +33,13 @@
     config eval app key { -> code-block }
     ```
 
-    Define a new config setting
+    Define a new config setting:
 
     ```
     config define app key { mxjson }
     ```
 
-    Reset a setting to it's default value
+    Reset a setting to it's default value:
 
     ```
     !config app key
@@ -68,7 +68,7 @@
     * `shell`: for "global" (system wide) _murex_ settings
     * `proc`: for scoped _murex_ settings
     * `http`: for settings that are applied to any processes which use the builtin
-       HTTP user agent (eg `open`, `get`, `getfile`, `put`)
+       HTTP user agent (eg `open`, `get`, `getfile`, `post`)
     * `test`: settings for _murex_'s test frameworks
     * `index`: settings for `[` (index)
 
@@ -203,7 +203,7 @@
   - function
   - match
   - get
-  - put
+  - post
   - getfile
   - index
   - element

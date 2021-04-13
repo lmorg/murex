@@ -57,12 +57,11 @@
   - reserved-vars
   - commands/function
   - commands/private
-  - commands/open-agent
+  - commands/openagent
   - commands/autocomplete
   - commands/event
   - commands/if
   - commands/switch
-  - commands/config
   - commands/foreach
   - commands/source
 

@@ -779,3 +779,27 @@ function sprintf {
         }
     }
 }
+
+autocomplete set docgen { [
+    {
+        "AllowMultiple": true,
+        "Optional": true,
+        "FlagsDesc": {
+            "-panic": "Write a stack trace on error",
+            "-readonly": "Don't write output to disk. Use this to test the config",
+            "-verbose": "Verbose output (all log messages inc warnings)",
+            "-version": "Output docgen version number and exit",
+            "-warning": "Display warning messages (will also return a non-zero exit status if warnings found)"
+        }
+    },
+    {
+        "FlagsDesc": {
+            "-config": "Location of the base docgen config file"
+        },
+        "FlagValues": {
+            "-config": [{
+                "IncFiles": true
+            }]
+        }
+    }
+] }

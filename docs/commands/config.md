@@ -13,15 +13,15 @@ centralised and discoverable.
 
 ## Usage
 
-List all settings
+List all settings:
 
     config -> <stdout>
     
-Get a setting
+Get a setting:
 
     config get app key -> <stdout>
     
-Set a setting
+Set a setting:
 
     config set app key value
     
@@ -29,11 +29,11 @@ Set a setting
     
     config eval app key { -> code-block }
     
-Define a new config setting
+Define a new config setting:
 
     config define app key { mxjson }
     
-Reset a setting to it's default value
+Reset a setting to it's default value:
 
     !config app key
     
@@ -61,7 +61,7 @@ Other app names include
 * `shell`: for "global" (system wide) _murex_ settings
 * `proc`: for scoped _murex_ settings
 * `http`: for settings that are applied to any processes which use the builtin
-   HTTP user agent (eg `open`, `get`, `getfile`, `put`)
+   HTTP user agent (eg `open`, `get`, `getfile`, `post`)
 * `test`: settings for _murex_'s test frameworks
 * `index`: settings for `[` (index)
 
@@ -202,11 +202,11 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Match an exact value in an array
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler
+* [commands/`post`](../commands/post.md):
+  HTTP POST request with a JSON-parsable return
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [commands/events](../commands/events.md):
   
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/put](../commands/put.md):
-  

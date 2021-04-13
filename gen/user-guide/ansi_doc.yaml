@@ -18,7 +18,7 @@
     {{ include "utils/ansi/consts.go" }}
     ```
 
-    #### How to read the code above
+    #### How To Read The Code Above
 
     Each line will look something a little like
     
@@ -46,9 +46,21 @@
     » out: "{GREEEEN}PASSED{RESET}"
     {GREEEEN}PASSED
     ```
+
+    ### Enabling / Disabling ANSI Escape Sequences
+
+    These sequences are enabled by default. To disable run the following:
+
+    ```
+    » config: set shell color false
+    ```
+
+    You will need to add this to your _murex_ profile, `~/.murex_profile` to make
+    it persistent.
   Synonyms:
   Related:
   - commands/brace-quote
   - commands/out
   - commands/tout
   - commands/err
+  - user-guide/profile

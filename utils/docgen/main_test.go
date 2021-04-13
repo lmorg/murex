@@ -1,25 +1,13 @@
-package config
+package main
 
 import (
 	"fmt"
 	"regexp"
 	"testing"
 	"time"
-
-	"github.com/lmorg/murex/test/count"
 )
 
-func TestAppName(t *testing.T) {
-	count.Tests(t, 1)
-
-	if AppName == "" {
-		t.Error("AppName isn't valid:")
-		t.Log("  AppName:", AppName)
-	}
-}
-
 func TestVersion(t *testing.T) {
-	count.Tests(t, 1)
 	rx := regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+( (ALPHA|BETA|RC[0-9]))?$`)
 
 	if !rx.MatchString(Version) {
@@ -29,7 +17,6 @@ func TestVersion(t *testing.T) {
 }
 
 func TestCopyright(t *testing.T) {
-	count.Tests(t, 1)
 	rx := regexp.MustCompile(fmt.Sprintf(`^(\(c\)|©) [0-9]{4}-%s .*$`, time.Now().Format("2006")))
 
 	if !rx.MatchString(Copyright) {
