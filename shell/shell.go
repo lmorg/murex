@@ -16,6 +16,7 @@ import (
 	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/murex/utils/spellcheck"
 )
 
 var (
@@ -100,7 +101,7 @@ func ShowPrompt() {
 		return expanded
 	}
 
-	Prompt.DelayedSyntaxWorker = Spellcheck
+	Prompt.DelayedSyntaxWorker = spellchecker
 
 	for {
 		getSyntaxHighlighting()
@@ -231,4 +232,15 @@ func getHintTextFormatting() {
 		formatting = ""
 	}
 	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
+}
+
+func spellchecker(r []rune) []rune {
+	s := string(r)
+	new, err := spellcheck.String(s)
+	if err != nil {
+		hint := fmt.Sprintf("{RED}Spellchecker produced an error: %s{RESET}", err.Error())
+		Prompt.SetHintText(ansi.ExpandConsts(hint))
+	}
+
+	return []rune(new)
 }

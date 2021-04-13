@@ -1,4 +1,4 @@
-package shell_test
+package spellcheck_test
 
 import (
 	"os"
@@ -11,10 +11,10 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/userdictionary"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/spellcheck"
 )
 
 func configDefaults(c *config.Config) {
@@ -66,13 +66,17 @@ func TestSpellcheckCrLf(t *testing.T) {
 	}
 
 	line := "the quick brown fox"
-	newLine := string(shell.Spellcheck([]rune(line)))
+	newLine, err := spellcheck.String(line)
 	ansiLine := ansi.ExpandConsts("{UNDERLINE}the{UNDEROFF} {UNDERLINE}quick{UNDEROFF} {UNDERLINE}brown{UNDEROFF} {UNDERLINE}fox{UNDEROFF}")
 
 	if newLine != ansiLine {
 		t.Error("spellcheck output doesn't match expected:")
 		t.Logf("  Expected: '%s'", ansiLine)
 		t.Logf("  Actual:   '%s'", newLine)
+	}
+
+	if err != nil {
+		t.Errorf("spellcheck produced an error: %s", err.Error())
 	}
 }
 
@@ -98,13 +102,17 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	}
 
 	line := "the quick brown fox"
-	newLine := string(shell.Spellcheck([]rune(line)))
+	newLine, err := spellcheck.String(line)
 	ansiLine := ansi.ExpandConsts("{UNDERLINE}the{UNDEROFF} {UNDERLINE}quick{UNDEROFF} {UNDERLINE}brown{UNDEROFF} {UNDERLINE}fox{UNDEROFF}")
 
 	if newLine != ansiLine {
 		t.Error("spellcheck output doesn't match expected:")
 		t.Logf("  Expected: '%s'", ansiLine)
 		t.Logf("  Actual:   '%s'", newLine)
+	}
+
+	if err != nil {
+		t.Errorf("spellcheck produced an error: %s", err.Error())
 	}
 }
 
@@ -126,13 +134,17 @@ func TestSpellcheckVariable(t *testing.T) {
 	os.Setenv("MUREX_TEST_SPELLCHECK_TEST", "quick")
 
 	line := "$the $MUREX_TEST_SPELLCHECK_TEST $brown $fox"
-	newLine := string(shell.Spellcheck([]rune(line)))
+	newLine, err := spellcheck.String(line)
 	ansiLine := ansi.ExpandConsts("{UNDERLINE}$the{UNDEROFF} {UNDERLINE}$MUREX_TEST_SPELLCHECK_TEST{UNDEROFF} {UNDERLINE}$brown{UNDEROFF} {UNDERLINE}$fox{UNDEROFF}")
 
 	if newLine != ansiLine {
 		t.Error("spellcheck output doesn't match expected:")
 		t.Logf("  Expected: '%s'", ansiLine)
 		t.Logf("  Actual:   '%s'", newLine)
+	}
+
+	if err != nil {
+		t.Errorf("spellcheck produced an error: %s", err.Error())
 	}
 }
 

@@ -45,7 +45,6 @@
     » !pipe: example
     json
     ```
-
   Flags:
   Detail: |-
   Synonyms:
@@ -56,4 +55,5 @@
   - pipe
   - debug
   - runtime
-
+  - user-guide/scoping
+  - user-guide/reserved-vars

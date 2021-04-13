@@ -20,6 +20,8 @@
   Special variables reserved by _murex_
 * [Schedulers](user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
+* [Spellcheck](user-guide/spellcheck.md):
+  How to enable inline spellchecking
 * [Variable and Config Scoping](user-guide/scoping.md):
   How scoping works within _murex_
 * [_murex_ Profile Files](user-guide/profile.md):

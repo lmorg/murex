@@ -57,6 +57,8 @@
   - export
   - brace-quote
   - if
+  - user-guide/scoping
+  - user-guide/reserved-vars
 
 
 - DocumentID: let
@@ -109,3 +111,5 @@
   - equ
   - brace-quote
   - if
+  - user-guide/scoping
+  - user-guide/reserved-vars
