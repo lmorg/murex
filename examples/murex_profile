@@ -9,8 +9,6 @@ export BLOCK_SIZE="'1"
 alias grep=grep --color=auto
 if { os linux } then { alias ls=ls --color=auto }
 
-config: set shell spellcheck-enabled true
-
 if { which vim } then { alias vi=vim }
 
 # https://github.com/sharkdp/bat
@@ -45,137 +43,6 @@ function chdir {
         mkdir @flags $ARGS[1]
         cd $ARGS[1]
     }
-}
-
-function pwd_short {
-    # Normalise path to it's short form
-    pwd -> regexp "s#^$HOME#\~#"
-}
-
-config: set shell prompt {
-    exitnum -> !if {
-        out "{RESET}{YELLOW}${pwd_short} {GREEN}»{RESET} "
-    } else {
-        out "{RESET}{YELLOW}${pwd_short} {RED}»{RESET} "
-    }
-}
-
-config: set shell prompt-multiline {
-    let len = ${pwd_short -> wc -c} - 1
-    printf "%${$len}s » " $linenum
-}
-
-#config: set shell hint-text-formatting "{ALT-FONT-1}{BLUE}"
-
-
-#function funcs {
-#    # Returns a human readable list of murex functions
-#    runtime: --funcs -> formap k v { printf "%20s => %s\n" $k $v[Summary] } -> sort
-#}
-
-# So I can use the same murex profile on FreeBSD without creating unsupported
-# functions nor aliases
-if { os linux } then {
-
-    # ip -brief -color address
-    alias ipip=ip -br -c a
-
-    # ip -brief -color link
-    alias ipmac=ip -br -c l
-
-    function fix_mac_keyboard {
-        # Corrects the function keys on some MacBooks running Linux
-        #echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode
-        echo 2 | sudo tee /sys/module/applespi/parameters/fnmode
-    }
-}
-
-function qrmfa {
-    # Generates a QR code for Google Authenticator based on the gopass output
-    -> set gopass
-    
-    set creds
-    try {
-        $gopass -> set yaml creds
-    }; catch {
-        $gopass -> sed 1d -> set yaml creds
-    }
-    
-    config set index silent true
-
-    $creds[Account\sNumber] -> set str account
-    $creds[Email]           -> set str email
-    $creds[MFA\sSecret]     -> set str secret
-    !if { $secret } then { $creds[TOTP] -> set str secret }
-
-    !if { $account } then { read account "Account name: " }
-    !if { $email   } then { read email   "Email: " }
-
-    (otpauth://totp/$email:$account?secret=$secret) -> qr -> open
-}
-
-#########
-## IDE ##
-#########
-
-function github_token {
-    # Sets my Github token (eg for Terraform)
-    
-    set token=hQEMAzU2n9AgSSJCAQf/cDoPCNcuMj4b5KL6yec0fKivMi0o9i6oJcHVwxDUVNnuriBk03at54Da06VgaYq6w/o9NnxUSIaL7v7PHoafP34dzoi0fGdldcjJ5R2t3AfVYy6wf8mSNwqbGozTa9Fbqq1JEJ/9D0bx7dKs0PsiRQMyApW58GdHMmZnY874v4qo6s9S9UF0CDtbZbEPdyVNGEaFhQ9z8tlOBddPZEtDitgGsdyCbYo83hB+i5okuIbhujdKqhx5izCOypq6bxmQVvUs1sU7fDKRI+H/WnTwRGK7oDcMvPIW5zv1kVW9QsoK3DJ5f4hKbaSiktA/yHttrCAGGX3/ScXjU6NPiGxSRNJjARzQgT1USad2n58mY7YJlrEhoh3MpDojNvoV+lWEYggrjgiAl13Y0cmjPmFIGwJxj2z3cwUMc0zQT3fNZYFJJIznE29tOydHOYHltXerbbBWhk1betMDvs1gMQXT4wkwsEuY
-
-    ($token) -> !base64 -> gpg --decrypt -> export GITHUB_TOKEN
-
-    source {
-        config set http default-https true
-        config alter http headers /api.github.com ({
-            "Authorization": "token $GITHUB_TOKEN"
-        })
-    }
-}
-
-alias todo=todo --database ~/.todo
-summary todo "todo - a reminder/task program aimed at developers"
-private todo.map.tasks {
-    todo -> set todo
-    map { $todo -> regexp 'f/^\s+([0-9]+)\..*$' } { $todo -> regexp 'f/^\s+[0-9]+\.(.*)$' }
-}
-
-autocomplete set todo {
-    [
-        {
-            "Dynamic": ({
-                todo --help -> regexp 'f/(--[-a-zA-Z0-9]+)/' -> sort -> uniq
-            }),
-            "FlagValues": {
-                "--remove": [{
-                    "DynamicDesc": ({ todo.map.tasks }),
-                    "ListView": true,
-                    "AllowMultiple": true
-                }],
-
-                "--edit": [{
-                    "DynamicDesc": ({ todo.map.tasks }),
-                    "ListView": true
-                }],
-                "-e": [{
-                    "DynamicDesc": ({ todo.map.tasks }),
-                    "ListView": true
-                }],
-
-                "--done": [{
-                    "DynamicDesc": ({ todo.map.tasks }),
-                    "ListView": true,
-                    "AllowMultiple": true
-                }],
-
-                "-d": [{
-                    "DynamicDesc": ({ todo.map.tasks }),
-                    "ListView": true,
-                    "AllowMultiple": true
-                }]
-            }
-        }
-    ]
 }
 
 config set shell hint-text-func {
@@ -259,14 +126,6 @@ if { g: ~/dev/python/infra-aws-assume-role/aws_assume_role.py } then {
     }] }
 
 }
-
-###########
-## VAULT ##
-###########
-
-autocomplete set vault { [{
-    "Flags": ["audit-disable","audit-enable","audit-list","auth","auth-disable","auth-enable","capabilities","delete","generate-root","init","key-status","list","mount","mounts","mount-tune","path-help","policies","policy-delete","policy-write","read","rekey","remount","renew","revoke","rotate","seal","server","ssh","status","step-down","token-create","token-lookup","token-renew","token-revoke","unmount","unseal","unwrap","version","write"]
-}] }
 
 #############
 ## KEYBASE ##

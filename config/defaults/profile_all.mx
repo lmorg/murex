@@ -803,3 +803,74 @@ autocomplete set docgen { [
         }
     }
 ] }
+
+config define open image {
+    "Description":  "Which mode to render images to the terminal.",
+    "DataType":     "str",
+    "Default":      "auto",
+    "Options":      [ "auto", "compatible", "kitty", "iterm", "terminology", "sixel" ]
+}
+
+openagent set image {
+    $ARGS[1] -> set file
+    config get open image -> set mode
+
+    if { = mode==`auto` } {
+        switch {
+            case { $KITTY_WINDOW_ID }      { set mode=kitty }
+            case { = TERM==`xterm-kitty` } { set mode=kitty }
+            case { $TERMINOLOGY }          { set mode=terminology }
+            #case { = TERM_PROGRAM==`iTerm.app` } { set mode=iterm }
+            #case { $ITERM_PROFILE }        { set mode=iterm }
+            catch                          { set mode=compatible }
+        }
+    }
+
+    # If Kitty but running inside a screen / tmux session, fallback to compatible.
+    # We do this because tmux doesn't support reporting screen sizes via the TIOCGWINSZ ioctl.
+    if { and { = mode==`kitty` } { = TERM==`screen` } } {
+        set mode=compatible
+    }
+
+    switch $mode {
+        case compatible {
+            open-image $file
+        }
+
+        case kitty {
+            try {
+                kitty icat $file
+            }
+            catch {
+                err "Error running `kitty`. Please check `kitty` is installed."
+            }
+        }
+
+        case iterm {
+            #out "{ESC}]1337;File=$file{^G}"
+            out "$file"
+        }
+
+        case terminology {
+            try {
+                tycat -c $file
+            }
+            catch {
+                err "Error running `tycat`. Please check `terminology` is installed."
+            }
+        }
+
+        case sixel {
+            try {
+                img2sixel $file
+            }
+            catch {
+                err "Error running `img2sixel`. Please check `libsixel` is installed."
+            }
+        }
+
+        catch {
+            out "Invalid rendering method. Please define in `config set open image` - 'auto' is recommended."
+        }
+    }
+}

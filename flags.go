@@ -58,7 +58,7 @@ func readFlags() {
 		os.Exit(0)
 	}
 
-	config.InitConf.Define("shell", "echo", config.Properties{
+	config.InitConf.Define("proc", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
 		DataType:    types.Boolean,

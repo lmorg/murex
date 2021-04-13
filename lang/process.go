@@ -166,7 +166,7 @@ func executeProcess(p *Process) {
 
 	p.State.Set(state.Starting)
 
-	echo, err := p.Config.Get("shell", "echo", types.Boolean)
+	echo, err := p.Config.Get("proc", "echo", types.Boolean)
 	if err != nil {
 		echo = false
 		err = nil
