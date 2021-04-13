@@ -1,45 +1,81 @@
-package config
+package config_test
 
 import (
 	"testing"
 
+	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 )
 
-// TestConfig tests the config structure
-func TestConfig(t *testing.T) {
+func TestConfigScoped(t *testing.T) {
 	count.Tests(t, 2)
 
-	conf := InitConf.Copy()
+	orig := config.InitConf.Copy()
 
-	conf.Define("shell", "prompt", Properties{
+	orig.Define("shell", "prompt", config.Properties{
 		Description: "test",
 		Default:     "test",
 		DataType:    types.String,
+		Global:      false,
 	})
 
-	copy := conf.Copy()
+	copy := orig.Copy()
 
 	err := copy.Set("shell", "prompt", "copy")
 	if err != nil {
 		t.Error("Error setting string: " + err.Error())
 	}
 
-	if conf.values["shell"]["prompt"].(string) != conf.properties["shell"]["prompt"].Default.(string) {
-		t.Error("Original struct should retain it's state: " + conf.values["shell"]["prompt"].(string) + "!=" + conf.properties["shell"]["prompt"].Default.(string))
-	}
-
-	if copy.values["shell"]["prompt"].(string) != "copy" {
-		t.Error("Copy struct should have new state: " + copy.values["shell"]["prompt"].(string))
-	}
-
-	v, err := copy.Get("shell", "prompt", types.String)
+	old, err := orig.Get("shell", "prompt", types.String)
 	if err != nil {
-		t.Error("Unable to get config: " + err.Error())
+		t.Error("Unable to get old config: " + err.Error())
 	}
 
-	if v.(string) != "copy" {
-		t.Error("config.Get returns invalid string: " + v.(string))
+	new, err := copy.Get("shell", "prompt", types.String)
+	if err != nil {
+		t.Error("Unable to get new config: " + err.Error())
+	}
+
+	if old.(string) == new.(string) {
+		t.Error("old and new configs have synced when they should have drifted:")
+		t.Logf("  old: %s", old)
+		t.Logf("  new: %s", new)
+	}
+}
+
+func TestConfigGlobal(t *testing.T) {
+	count.Tests(t, 2)
+
+	orig := config.InitConf.Copy()
+
+	orig.Define("shell", "prompt", config.Properties{
+		Description: "test",
+		Default:     "test",
+		DataType:    types.String,
+		Global:      true,
+	})
+
+	copy := orig.Copy()
+
+	err := copy.Set("shell", "prompt", "copy")
+	if err != nil {
+		t.Error("Error setting string: " + err.Error())
+	}
+
+	old, err := orig.Get("shell", "prompt", types.String)
+	if err != nil {
+		t.Error("Unable to get old config: " + err.Error())
+	}
+
+	new, err := copy.Get("shell", "prompt", types.String)
+	if err != nil {
+		t.Error("Unable to get new config: " + err.Error())
+	}
+
+	if old.(string) != new.(string) {
+		t.Error("old and new configs have drifted when they should have synced:")
+		t.Logf("  old: %s", old)
+		t.Logf("  new: %s", new)
 	}
 }
