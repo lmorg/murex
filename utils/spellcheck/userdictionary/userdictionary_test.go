@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/test/count"
 )
 
 func TestIsIn(t *testing.T) {
 	count.Tests(t, 2)
 
-	positive := config.AppName
-	negative := config.AppName + "-unit-test-ertfyguhibgvcfdrtfyg"
+	positive := app.Name
+	negative := app.Name + "-unit-test-ertfyguhibgvcfdrtfyg"
 
 	if !IsInDictionary(positive) {
 		t.Errorf("%s should be in dictionary", positive)

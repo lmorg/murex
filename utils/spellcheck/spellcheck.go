@@ -8,9 +8,9 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/shell/userdictionary"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
 
 // String spellchecks a line of type string and returns an underlined (ANSI escaped) string

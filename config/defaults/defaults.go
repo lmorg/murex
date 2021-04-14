@@ -7,8 +7,8 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
-	"github.com/lmorg/murex/shell/userdictionary"
 	"github.com/lmorg/murex/utils/parser"
+	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
 
 // Defaults defines the default config

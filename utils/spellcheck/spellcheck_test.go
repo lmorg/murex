@@ -11,10 +11,10 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell/userdictionary"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/spellcheck"
+	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
 
 func configDefaults(c *config.Config) {
