@@ -1,11 +1,11 @@
-package config
+package app
 
-// AppName is the name of the $SHELL
-const AppName = "murex"
+// Name is the name of the $SHELL
+const Name = "murex"
 
 // Version number of $SHELL
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
-const Version = "1.9.0300 BETA"
+const Version = "2.0.0500 BETA"
 
 // Copyright is the copyright owner string
 const Copyright = "© 2018-2021 Laurence Morgan"

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -47,14 +48,14 @@ func readFlags() {
 	flag.Parse()
 
 	if fHelp1 || fHelp2 || fHelp3 {
-		fmt.Printf("%s v%s\n", config.AppName, config.Version)
+		fmt.Printf("%s v%s\n", app.Name, app.Version)
 		flag.Usage()
 		os.Exit(1)
 	}
 
 	if fVersion1 || fVersion2 {
-		fmt.Printf("%s v%s\n", config.AppName, config.Version)
-		fmt.Printf("%s\n%s\n", config.License, config.Copyright)
+		fmt.Printf("%s v%s\n", app.Name, app.Version)
+		fmt.Printf("%s\n%s\n", app.License, app.Copyright)
 		os.Exit(0)
 	}
 

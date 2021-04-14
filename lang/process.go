@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/proc/pipes"
 	"github.com/lmorg/murex/lang/proc/state"
@@ -60,7 +60,7 @@ var (
 )
 
 func writeError(p *Process, err error) []byte {
-	if p.FileRef.Source.Module == config.AppName {
+	if p.FileRef.Source.Module == app.Name {
 		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.FileRef.Line, p.FileRef.Column, err.Error()))
 	}
 	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", p.Name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))

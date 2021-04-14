@@ -1,6 +1,7 @@
 package httpclient
 
 import (
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -13,7 +14,7 @@ func init() {
 
 	config.InitConf.Define("http", "user-agent", config.Properties{
 		Description: "User agent string for `get` and `getfile`.",
-		Default:     config.AppName + "/" + config.Version,
+		Default:     app.Name + "/" + app.Version,
 		DataType:    types.String,
 	})
 

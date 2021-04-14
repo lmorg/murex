@@ -1,4 +1,4 @@
-package config
+package app
 
 import (
 	"fmt"
@@ -12,9 +12,9 @@ import (
 func TestAppName(t *testing.T) {
 	count.Tests(t, 1)
 
-	if AppName == "" {
-		t.Error("AppName isn't valid:")
-		t.Log("  AppName:", AppName)
+	if Name == "" {
+		t.Error("Name isn't valid:")
+		t.Log("  Name:", Name)
 	}
 }
 

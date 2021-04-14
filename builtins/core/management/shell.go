@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
@@ -151,7 +151,7 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--short":
 		p.Stdout.SetDataType(types.Number)
-		num := rxVersionNum.FindStringSubmatch(config.Version)
+		num := rxVersionNum.FindStringSubmatch(app.Version)
 		if len(num) != 1 {
 			return errors.New("Unable to extract version number from string")
 		}
@@ -160,12 +160,12 @@ func cmdVersion(p *lang.Process) error {
 
 	case "--no-app-name":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(config.Version))
+		_, err := p.Stdout.Writeln([]byte(app.Version))
 		return err
 
 	case "":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(config.AppName + ": " + config.Version))
+		_, err := p.Stdout.Writeln([]byte(app.Name + ": " + app.Version))
 		return err
 
 	default:
