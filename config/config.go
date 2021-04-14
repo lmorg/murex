@@ -37,32 +37,6 @@ type GoFuncProperties struct {
 	Write func(interface{}) error     `json:"-"`
 }
 
-/*type Config interface {
-	Get(app, key, dataType string) (value interface{}, err error)
-	Set(app string, key string, value interface{}) error
-	Default(app string, key string) error
-	DataType(app, key string) string
-	Define(app string, key string, properties Properties)
-	DumpRuntime() (obj map[string]map[string]map[string]interface{})
-	DumpConfig() (obj map[string]map[string]map[string]interface{})
-}
-
-// Config is used to store all the configuration settings, `config`, in a thread-safe API
-type configTemplace struct {
-	mutex      sync.RWMutex
-	properties map[string]map[string]Properties  // This will be the main configuration metadata for each configuration option
-	values     map[string]map[string]interface{} // This stores the values when no custom getter and setter have been defined
-}
-
-type ConfigGlobal struct {
-	configTemplace
-}
-
-type ConfigLocal struct {
-	global *ConfigGlobal
-	configTemplace
-}*/
-
 // Config is used to store all the configuration settings, `config`, in a thread-safe API
 type Config struct {
 	mutex      sync.RWMutex
@@ -111,7 +85,9 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 	conf.mutex.RLock()
 
 	if conf.global != nil && conf.values[app] != nil && conf.values[app][key] != nil {
-		return conf.values[app][key], nil
+		v := conf.values[app][key]
+		conf.mutex.RUnlock()
+		return v, nil
 	}
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
@@ -227,9 +203,9 @@ func (conf *Config) DataType(app, key string) string {
 		return conf.global.DataType(app, key)
 	}
 
-	conf.mutex.RLock()
+	conf.mutex.Lock()
 	dt := conf.properties[app][key].DataType
-	conf.mutex.RUnlock()
+	conf.mutex.Unlock()
 	return dt
 
 }
@@ -298,7 +274,7 @@ func (conf *Config) DumpRuntime() (obj map[string]map[string]map[string]interfac
 
 		}
 	}
-	conf.mutex.RUnlock()
+	conf.mutex.Unlock()
 	return
 }
 
