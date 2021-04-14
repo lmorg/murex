@@ -57,7 +57,6 @@ func InitEnv() {
 	s, _ := os.Getwd()
 	pwd := []string{s}
 	if b, err := json.Marshal(&pwd, false); err == nil {
-		//ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 		GlobalVariables.Set(ShellProcess, "PWDHIST", string(b), types.Json)
 	}
 }

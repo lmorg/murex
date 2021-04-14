@@ -76,7 +76,7 @@ func (conf *Config) ExistsAndGlobal(app, key string) (exists, global bool) {
 	return
 }
 
-// Get retrieves a setting from the Config. Returns an interface{} for the value and err for conversion failures.
+// Get retrieves a setting from the Config. Returns an interface{} for the value and err for any failures.
 //
 //     app == tooling name
 //     key == name of setting
@@ -87,7 +87,8 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 	if conf.global != nil && conf.values[app] != nil && conf.values[app][key] != nil {
 		v := conf.values[app][key]
 		conf.mutex.RUnlock()
-		return v, nil
+		value, err = types.ConvertGoType(v, dataType)
+		return
 	}
 
 	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
@@ -165,11 +166,21 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 	default:
 		if len(conf.values) == 0 {
 			conf.values = make(map[string]map[string]interface{})
+			//conf.properties = make(map[string]map[string]Properties)
 		}
 		if len(conf.values[app]) == 0 {
 			conf.values[app] = make(map[string]interface{})
+			//conf.properties[app] = make(map[string]Properties)
 		}
+
+		/*if conf.global != nil {
+			conf.global.mutex.RLock()
+			conf.properties[app][key] = conf.global.properties[app][key]
+			conf.global.mutex.RUnlock()
+		}*/
+
 		conf.values[app][key] = value
+
 		conf.mutex.Unlock()
 		return nil
 	}
@@ -177,23 +188,21 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 
 // Default resets a config option back to its default
 func (conf *Config) Default(app string, key string) error {
-	// first check if we're in a global, and whether we should be
-	if conf.global != nil {
-		exists, global := conf.global.ExistsAndGlobal(app, key)
-		if !exists || global {
-			return conf.global.Default(app, key)
-		}
+	c := conf.global
+	if c == nil {
+		c = conf
 	}
 
-	conf.mutex.Lock()
+	exists, _ := c.ExistsAndGlobal(app, key)
 
-	if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
-		conf.mutex.Unlock()
+	if !exists {
 		return fmt.Errorf("Cannot default config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
-	v := conf.properties[app][key].Default
-	conf.mutex.Unlock()
+	c.mutex.RLock()
+	v := c.properties[app][key].Default
+	c.mutex.RUnlock()
+
 	return conf.Set(app, key, v)
 }
 
@@ -207,7 +216,6 @@ func (conf *Config) DataType(app, key string) string {
 	dt := conf.properties[app][key].DataType
 	conf.mutex.Unlock()
 	return dt
-
 }
 
 // Define allows new properties to be created in the Config object
@@ -274,7 +282,7 @@ func (conf *Config) DumpRuntime() (obj map[string]map[string]map[string]interfac
 
 		}
 	}
-	conf.mutex.Unlock()
+	conf.mutex.RUnlock()
 	return
 }
 
