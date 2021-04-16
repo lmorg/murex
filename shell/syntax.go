@@ -1,13 +1,14 @@
 package shell
 
 import (
-	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/utils/inject"
+	"github.com/lmorg/murex/utils/parser"
 )
 
-func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
+func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 	// This is lazy I know, but it's faster and less error prone than checking
 	// the size of every array. Plus produces more readable code.
-	defer func() {
+	/*defer func() {
 		if debug.Enabled {
 			return
 		}
@@ -15,58 +16,124 @@ func syntaxCompletion(line []rune, pos int) (newLine []rune, newPos int) {
 			newLine = line
 			newPos = pos
 		}
-	}()
+	}()*/
 
-	pt, _ := parse(line)
+	var part parser.ParsedTokens
+	full, _ := parse(line)
+	if pos == len(line) {
+		part = full
+	} else {
+		part, _ = parse(line[:pos+1])
+	}
 
-	switch {
-	case pt.QuoteSingle && pt.QuoteBrace == 0 && pt.NestedBlock == 0:
-		if pos < len(line)-1 && line[pos] == '\'' && line[len(line)-1] == '\'' {
+	if len(line) > 1 && pos > 0 && line[pos-1] == '\\' {
+		return line, pos
+	}
+
+	posEOL := pos == len(line)-1
+
+	switch change {
+	case "'":
+		switch {
+		case part.QuoteDouble || part.QuoteBrace > 0:
+			return line, pos
+		case posEOL:
+			return append(line, '\''), pos
+		case part.QuoteSingle && full.LastCharacter == '\'':
 			return line[:len(line)-1], pos
-		}
-		if pos < len(line)-1 || line[pos] != '\'' {
+		default:
+			//new, err:=inject.Rune(line,[]rune{'\''},pos)
 			return append(line, '\''), pos
 		}
 
-	case pt.QuoteDouble && pt.QuoteBrace == 0:
-		if pt.NestedBlock == 0 {
-			if pos < len(line)-1 && line[pos] == '"' && line[len(line)-1] == '"' {
-				return line[:len(line)-1], pos
+	case "\"":
+		switch {
+		case part.QuoteSingle || part.QuoteBrace > 0:
+			return line, pos
+		case posEOL:
+			return append(line, '"'), pos
+		case part.QuoteDouble && full.LastCharacter == '"':
+			return line[:len(line)-1], pos
+		default:
+			//new, err:=inject.Rune(line,[]rune{'"'},pos)
+			return append(line, '"'), pos
+		}
+
+	case "(":
+		switch {
+		case part.SquareBracket || part.NestedBlock > 0 ||
+			full.SquareBracket || full.NestedBlock > 0:
+			new, err := inject.Rune(line, []rune{')'}, pos+1)
+			if err != nil {
+				return line, pos + 1
 			}
-			if pos < len(line)-1 || line[pos] != '"' {
-				return append(line, '"'), pos
+			return new, pos
+		case part.QuoteSingle || part.QuoteDouble:
+			return line, pos
+		case full.QuoteBrace == 1 && part.QuoteBrace == 1:
+			return append(line, ')'), pos
+		case part.QuoteBrace > 0:
+			new, err := inject.Rune(line, []rune{')'}, pos+1)
+			if err != nil {
+				return line, pos + 1
 			}
-		} else {
-			// dont do anything
+			return new, pos
+		case posEOL:
+			return append(line, ')'), pos
+		default:
 			return line, pos
 		}
 
-	case pt.QuoteBrace > 0 && pt.NestedBlock == 0:
-		if pos < len(line)-1 || line[pos] != '(' {
-			return append(line, ')'), pos
-		}
-
-	case pt.QuoteBrace < 0:
-		if line[pos] == ')' && line[len(line)-1] == ')' && pos != len(line)-1 {
+	case ")":
+		if full.QuoteBrace < 0 && part.QuoteBrace == 0 && full.LastCharacter == ')' {
 			return line[:len(line)-1], pos
 		}
 
-	//case pt.NestedBlock > 0 && pt.QuoteBrace == 0:
-	//	if (pos < len(line)-1 || line[pos] != '{') && !pt.SquareBracket {
-	//		return append(line, '}'), pos
-	//	}
-
-	case pt.NestedBlock < 0:
-		if line[pos] == '}' && line[len(line)-1] == '}' && pos != len(line)-1 {
-			return line[:len(line)-1], pos
+	case "{":
+		switch {
+		case part.SquareBracket:
+			new, err := inject.Rune(line, []rune{'}'}, pos+1)
+			if err != nil {
+				return line, pos + 1
+			}
+			return new, pos
+		case part.QuoteSingle || part.QuoteDouble:
+			return line, pos
+		case part.QuoteBrace > 0:
+			new, err := inject.Rune(line, []rune{'}'}, pos+1)
+			if err != nil {
+				return line, pos + 1
+			}
+			return new, pos
+		case full.NestedBlock == 1 && part.NestedBlock == 1:
+			return append(line, '}'), pos
+		case part.NestedBlock > 0:
+			new, err := inject.Rune(line, []rune{'}'}, pos+1)
+			if err != nil {
+				return line, pos + 1
+			}
+			return new, pos
+		case posEOL:
+			return append(line, '}'), pos
+		default:
+			return line, pos
 		}
 
-	case pt.SquareBracket && pt.NestedBlock == 0 && pt.LastCharacter == '[':
-		return append(line, ']'), pos
-
-	case pt.NestedBlock > 0 && !pt.SquareBracket && pt.LastCharacter == '{':
-		return append(line, '}'), pos
-
+	case "[":
+		switch {
+		case part.QuoteSingle || part.QuoteDouble || part.QuoteBrace > 0 || part.NestedBlock > 0:
+			new, err := inject.Rune(line, []rune{']'}, pos+1)
+			if err != nil {
+				return line, pos + 1
+			}
+			return new, pos
+		case full.SquareBracket && full.NestedBlock == 0 && full.LastCharacter == '[':
+			return append(line, ']'), pos
+		case full.FuncName == "[[]" && change == "[" && line[pos+1] == ']':
+			newLine := append(line[:pos+1], ' ', ' ', ']', ']')
+			newLine = append(newLine, line[pos+1:]...)
+			return newLine, pos + 1
+		}
 	}
 
 	return line, pos

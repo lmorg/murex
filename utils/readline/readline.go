@@ -39,6 +39,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	print(rl.prompt)
 
 	rl.line = []rune{}
+	rl.lineChange = ""
 	rl.viUndoHistory = []undoItem{{line: "", pos: 0}}
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
@@ -110,8 +111,6 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			//rl.clearHelpers() // unessisary clear?
-
 			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
 
 			rl.clearLine()
@@ -139,6 +138,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 				return string(rl.line), nil
 			}
 		}
+
+		rl.lineChange = string(b[:i])
 
 		switch b[0] {
 		case charCtrlC:

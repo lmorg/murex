@@ -166,18 +166,10 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 	default:
 		if len(conf.values) == 0 {
 			conf.values = make(map[string]map[string]interface{})
-			//conf.properties = make(map[string]map[string]Properties)
 		}
 		if len(conf.values[app]) == 0 {
 			conf.values[app] = make(map[string]interface{})
-			//conf.properties[app] = make(map[string]Properties)
 		}
-
-		/*if conf.global != nil {
-			conf.global.mutex.RLock()
-			conf.properties[app][key] = conf.global.properties[app][key]
-			conf.global.mutex.RUnlock()
-		}*/
 
 		conf.values[app][key] = value
 
@@ -313,17 +305,12 @@ func (conf *Config) DumpConfig() (obj map[string]map[string]map[string]interface
 				obj[app][key]["Value"] = conf.values[app][key]
 			}
 
-			//if conf.properties[app][key].Global {
 			obj[app][key]["Global"] = conf.properties[app][key].Global
-			//}
 
 			if len(conf.properties[app][key].Options) != 0 {
 				obj[app][key]["Options"] = conf.properties[app][key].Options
 			}
 
-			//if len(conf.properties[app][key].Dynamic.Read) != 0 {
-			//	obj[app][key]["Dynamic"] = true
-			//}
 			obj[app][key]["Dynamic"] = len(conf.properties[app][key].Dynamic.Read) != 0
 
 		}
