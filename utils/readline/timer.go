@@ -44,6 +44,10 @@ type DelayedTabContext struct {
 
 // AppendSuggestions updates the tab completions with additional suggestions asynchronously
 func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
+	if !dtc.rl.modeTabCompletion {
+		return
+	}
+
 	dtc.rl.mutex.Lock()
 	defer dtc.rl.mutex.Unlock()
 
@@ -67,6 +71,10 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 
 // AppendDescriptions updates the tab completions with additional suggestions + descriptions asynchronously
 func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
+	if !dtc.rl.modeTabCompletion {
+		return
+	}
+
 	dtc.rl.mutex.Lock()
 	defer dtc.rl.mutex.Unlock()
 

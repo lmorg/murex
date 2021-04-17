@@ -139,7 +139,15 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 		}
 
+		// Used for syntax completion
 		rl.lineChange = string(b[:i])
+
+		// Slow or invisible tab completions shouldn't lock up cursor movement
+		if rl.modeTabCompletion && len(rl.tcSuggestions) == 0 {
+			rl.delayedTabContext.cancel()
+			rl.modeTabCompletion = false
+			rl.updateHelpers()
+		}
 
 		switch b[0] {
 		case charCtrlC:
@@ -196,7 +204,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = rl.tcSuggestions
 			}
 
-			if rl.modeTabCompletion && len(suggestions) > 0 {
+			if rl.modeTabCompletion /*&& len(suggestions) > 0*/ {
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
@@ -263,7 +271,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 			}
 			rl.modeViMode = vimKeys
 			rl.viIteration = ""
-			//rl.viHintVimKeys()
 			rl.viHintMessage()
 		}
 		rl.viUndoSkipAppend = true
