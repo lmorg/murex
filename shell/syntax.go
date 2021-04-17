@@ -35,6 +35,10 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 	switch change {
 	case "'":
 		switch {
+		case !part.QuoteSingle && full.QuoteSingle && pos < len(line) && line[pos+1] == '\'':
+			return append(line[:pos], line[pos+1:]...), pos
+		case !part.QuoteSingle && full.QuoteSingle && full.LastCharacter == '\'':
+			return line[:len(line)-1], pos
 		case part.QuoteDouble || part.QuoteBrace > 0:
 			return line, pos
 		case posEOL:
@@ -48,6 +52,10 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 
 	case "\"":
 		switch {
+		case !part.QuoteDouble && full.QuoteDouble && pos < len(line) && line[pos+1] == '"':
+			return append(line[:pos], line[pos+1:]...), pos
+		case !part.QuoteDouble && full.QuoteDouble && full.LastCharacter == '"':
+			return line[:len(line)-1], pos
 		case part.QuoteSingle || part.QuoteBrace > 0:
 			return line, pos
 		case posEOL:

@@ -397,3 +397,39 @@ func TestSyntaxCompletionsQuotes(t *testing.T) {
 
 	testSyntaxCompletions(t, tests)
 }
+
+func TestSyntaxCompletionsQuotesOvertype(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `out: 'hello'_'`,
+			Change:   `'`,
+			Expected: `out: 'hello'_`,
+		},
+
+		{
+			Line:     `out: "hello"_"`,
+			Change:   `"`,
+			Expected: `out: "hello"_`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}
+
+func TestSyntaxCompletionsQuotesInsert(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `out: 'hello'_ world'`,
+			Change:   `'`,
+			Expected: `out: 'hello'_ world`,
+		},
+
+		{
+			Line:     `out: "hello"_ world"`,
+			Change:   `"`,
+			Expected: `out: "hello"_ world`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}
