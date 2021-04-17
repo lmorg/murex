@@ -20,7 +20,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 
 	var part parser.ParsedTokens
 	full, _ := parse(line)
-	if pos == len(line) {
+	if pos >= len(line) {
 		part = full
 	} else {
 		part, _ = parse(line[:pos+1])

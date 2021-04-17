@@ -71,6 +71,24 @@ func InitExeFlags(exe string) {
 	}
 }
 
+type runtimeDump struct {
+	FlagValues []Flags
+	FileRef    *ref.File
+}
+
+func RuntimeDump() interface{} {
+	dump := make(map[string]runtimeDump)
+
+	for exe := range ExesFlags {
+		dump[exe] = runtimeDump{
+			FlagValues: ExesFlags[exe],
+			FileRef:    ExesFlagsFileRef[exe],
+		}
+	}
+
+	return dump
+}
+
 func scanManPages(exe string) []string {
 	f := man.GetManPages(exe)
 	return man.ParseFlags(f)

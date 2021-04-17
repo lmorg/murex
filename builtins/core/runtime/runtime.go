@@ -96,7 +96,8 @@ func init() {
     `)
 }
 
-func help() (s []string) {
+// Help returns an array of flags supported by `runtime`
+func Help() (s []string) {
 	for f := range flags {
 		s = append(s, f)
 	}
@@ -172,7 +173,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fEvents:
 			ret[fEvents[2:]] = events.DumpEvents()
 		case fAutocomplete:
-			ret[fAutocomplete[2:]] = autocomplete.ExesFlags
+			ret[fAutocomplete[2:]] = autocomplete.RuntimeDump()
 		case fMemstats:
 			var mem runtime.MemStats
 			runtime.ReadMemStats(&mem)
@@ -192,7 +193,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fSummaries:
 			ret[fSummaries[2:]] = shell.Summary.Dump()
 		case fHelp:
-			ret[fHelp[2:]] = help()
+			ret[fHelp[2:]] = Help()
 		default:
 			return errors.New("Unrecognised parameter: " + flag)
 		}
