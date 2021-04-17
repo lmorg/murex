@@ -27,8 +27,8 @@ option is found in `config` under **shell**, **color**.
 
 #### Spellcheck Enable
 
-Spellcheck needs to be enabled (which it isn't by default). This option can be
-found in `config` under **shell**, **spellcheck-enabled**.
+Spellcheck needs to be enabled. This option can be found in `config` under
+**shell**, **spellcheck-enabled**.
 
 To enable this run:
 
@@ -36,6 +36,9 @@ To enable this run:
     
 ...or add the above line to your _murex_ profile, `~/.murex_profile` to make
 the change persistent.
+
+> Please note that this option will automatically be enabled is `aspell` is
+> installed.
 
 #### Spellcheck _murex_ Code
 

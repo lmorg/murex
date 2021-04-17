@@ -1,0 +1,26 @@
+- DocumentID: v2.0
+  Title: >-
+    What's new in murex v2.0
+  CategoryID: blog
+  DateTime: 2021-04-17 12:49
+  Summary: >-
+    The feature comes with spellchecking, inlined images, smarter syntax completion and more
+  Description: |-
+    This release seems some major upgrade to the default experience:
+
+    * inlined spellchecking enabled by default (requires `aspell` installed)
+    * support for inlining images enabled by default (was previously an external
+      module: https://github.com/lmorg/murex-module-open-image)
+    * massively overhauled syntax completion
+    * rewritten config backend which copies less data around
+    * significantly more features documented (see https://murex.rocks)
+    * plus this new blog!
+  Synonyms:
+  Related:
+  - user-guide/spellcheck
+  - commands/config
+  - commands/open
+  - commands/openimage
+  - user-guide/modules
+  - commands/package
+

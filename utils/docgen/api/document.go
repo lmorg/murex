@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 )
 
 // Document is the catalogue of config files found in the search path
@@ -49,6 +50,9 @@ type document struct {
 
 	// Related documents (these should be in the format of `Category/FileName`)
 	Related []string `yaml:"Related"`
+
+	// Date article was published
+	DateTime string `yaml:"DateTime"`
 }
 
 // AssociationValues are associations registered by murex data-types
@@ -75,7 +79,23 @@ func (t templates) DocumentFilePath(d *document) string {
 	return t.OutputPath + t.DocumentFileName(d)
 }
 
+const dateTimeParse = `2006-01-02 15:04`
+
 func (t templates) DocumentValues(d *document, docs documents, nest bool) *documentValues {
+	var (
+		dateTime time.Time
+		err      error
+	)
+
+	if d.DateTime == "" {
+		dateTime = time.Now()
+	} else {
+		dateTime, err = time.Parse(dateTimeParse, d.DateTime)
+		if err != nil {
+			panic(fmt.Sprintf("Cannot parse DateTime as `%s` on %s: %s", dateTimeParse, d.DocumentID, err.Error()))
+		}
+	}
+
 	dv := &documentValues{
 		ID:                  d.DocumentID,
 		Title:               d.Title,
@@ -93,6 +113,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Synonyms:            d.Synonyms,
 		Parameters:          d.Parameters,
 		Associations:        d.Associations,
+		DateTime:            dateTime,
 	}
 
 	if !nest {
@@ -165,6 +186,7 @@ type documentValues struct {
 	Detail              string
 	Synonyms            []string
 	Related             sortableDocumentValues
+	DateTime            time.Time
 }
 
 type sortableDocumentValues []*documentValues
@@ -177,6 +199,12 @@ type flagValues struct {
 	Flag        string
 	Description string
 }
+
+type sortableDocumentDateTime []*documentValues
+
+func (v sortableDocumentDateTime) Len() int           { return len(v) }
+func (v sortableDocumentDateTime) Less(i, j int) bool { return v[i].DateTime.After(v[j].DateTime) }
+func (v sortableDocumentDateTime) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 
 type sortableFlagValues []*flagValues
 

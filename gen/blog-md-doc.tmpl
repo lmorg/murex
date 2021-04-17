@@ -1,0 +1,14 @@
+# _murex_ Shell Docs
+
+## {{ md .CategoryTitle }}: {{ md .Title }}
+{{ if .Summary }}
+> {{ md .Summary }}{{ end }}
+> Published: {{ .DateTime }}
+
+{{ md (include .Description) }}{{ if .Related }}
+
+## See Also
+
+{{ range $i,$a := .Related }}{{ if gt $i 0 }}
+{{ end }}* [{{ .CategoryID }}/{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ end }}

@@ -248,12 +248,39 @@ Categories:
   - ID: user-guide
     Title: User Guide
     Description: |-
+      This section contains miscellaneous documents on using and configuring the
+      shell and _murex_'s numerous features.
+
+      ## Other Reference Material
+
+      There are other sections for which are dedicated to _murex_'s parser, builtin
+      commands and such like:
+
+      ### Language Guides
+
+      1. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md), for docs
+      on the core builtins.
+
+      2. [GUIDE.parser.md](./GUIDE.parser.md), which details a lot of the logic.
+
     Templates:
     - OutputPath: docs/user-guide
       CategoryFile: ../USER-GUIDE.md
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/userguide-md-doc.tmpl
+
+  # blog
+  - ID: blog
+    Title: Blog
+    Description: |-
+      Collection of _murex_ related documents and personal thoughts.
+    Templates:
+    - OutputPath: docs/blog
+      CategoryFile: ../BLOG.md
+      OutputExt: .md
+      CategoryTemplate: gen/blog-md-cat.tmpl
+      DocumentTemplate: gen/blog-md-doc.tmpl
 
 # Compile the default profiles
 

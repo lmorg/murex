@@ -2,6 +2,21 @@
 
 ## User Guide
 
+This section contains miscellaneous documents on using and configuring the
+shell and _murex_'s numerous features.
+
+## Other Reference Material
+
+There are other sections for which are dedicated to _murex_'s parser, builtin
+commands and such like:
+
+### Language Guides
+
+1. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md), for docs
+on the core builtins.
+
+2. [GUIDE.parser.md](./GUIDE.parser.md), which details a lot of the logic.
+
 ## Pages
 
 * [ANSI Constants](user-guide/ansi.md):
