@@ -67,5 +67,3 @@ a new _murex_ named pipe.
   Pipe telemetry. Writes data-types and bytes written
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [commands/sprintf](../commands/sprintf.md):
-  

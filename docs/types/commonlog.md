@@ -33,11 +33,17 @@ the following:
 
 ## See Also
 
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [apis/ReadIndex](../apis/ReadIndex.md):
+  
+* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
+  
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`ReadArray()` ](../apis/readarray.md):
+* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+  Treat data type as a key/value structure and read its contents
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -48,12 +54,6 @@ the following:
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [types/generic](../types/generic.md):
-  
-* [apis/readindex](../apis/readindex.md):
-  
-* [apis/readmap](../apis/readmap.md):
-  
-* [apis/readnotindex](../apis/readnotindex.md):
   
 * [types/str](../types/str.md):
   

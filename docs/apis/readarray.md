@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## API Reference: `ReadArray()` 
+## API Reference: `ReadArray()` (type)
 
 > Read from a data type one array element at a time
 
@@ -9,8 +9,11 @@
 This is a function you would write when programming a _murex_ data-type.
 
 It's called by builtins to allow them to read data structures one array element
-at a time. The aim of this function is to allow builtins to support sequential
-reads (where)
+at a time.
+
+The purpose of this function is to allow builtins to support sequential reads
+(where possible) and also create a standard interface for builtins, thus
+allowing them to be data-type agnostic.
 
 ## Usage
 
@@ -18,7 +21,7 @@ Registering your ReadArray()
 
 ```go
 // To avoid confusion, this should only happen inside func init()
-stdio.RegisterReadArray(/* your type */, /* your readArray func */)
+stdio.RegisterReadArray(/* your type name */, /* your readArray func */)
 ```
 
 ## Examples
@@ -79,13 +82,18 @@ pipelines.
 
 ## Parameters
 
-1. `func([]byte)`: callback function. Each callback will be a []byte slice containing an array element
+1. `stdio.Io`: stream to read from (eg STDIN)
+2. `func([]byte)`: callback function. Each callback will be a []byte slice containing an array element
 
 ## See Also
 
-* [apis/`WriteArray()` ](../apis/writearray.md):
+* [apis/ReadIndex](../apis/ReadIndex.md):
+  
+* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
+  
+* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+  Treat data type as a key/value structure and read its contents
+* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
-* [apis/arraytemplate](../apis/arraytemplate.md):
-  
-* [apis/readmap](../apis/readmap.md):
-  
+* [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array

@@ -12,7 +12,7 @@
     > processing tools and shell pipelines. It's a great format for log files.
     > It's also a flexible format for passing messages between cooperating
     > processes.
-  Usage: |-
+  Usage:
   Examples: |-
     Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
     
@@ -151,10 +151,10 @@
   - commands/foreach
   - commands/runtime
   - commands/pretty
-  - apis/readarray
-  - apis/readmap
-  - apis/writearray
-  - apis/readindex
-  - apis/readnotindex
-  - apis/marshal
-  - apis/unmarshal
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/WriteArray
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal

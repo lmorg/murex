@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## API Reference: `Marshal()` 
+## API Reference: `Marshal()` (type)
 
 > Converts structured memory into a structured file format (eg for stdio)
 
@@ -69,9 +69,9 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 
 ## See Also
 
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`lang.MarshalData()` ](../apis/marshaldata.md):
+* [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* [apis/`lang.UnmarshalData()` ](../apis/unmarshaldata.md):
+* [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
   Converts a _murex_ data-type into structured memory

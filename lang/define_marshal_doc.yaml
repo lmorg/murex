@@ -1,6 +1,6 @@
-- DocumentID: marshal
+- DocumentID: Marshal
   Title: >-
-    `Marshal()` 
+    `Marshal()` (type)
   CategoryID: apis
   Summary: >-
     Converts structured memory into a structured file format (eg for stdio)
@@ -37,14 +37,14 @@
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   - "`interface{}`: data you wish to marshal"
   Related:
-  - marshaldata
-  - unmarshaldata
-  - unmarshal
+  - lang.MarshalData
+  - lang.UnmarshalData
+  - Unmarshal
 
 
-- DocumentID: marshaldata
+- DocumentID: lang.MarshalData
   Title: >-
-    `lang.MarshalData()` 
+    `lang.MarshalData()` (system API)
   CategoryID: apis
   Summary: >-
     Converts structured memory into a _murex_ data-type (eg for stdio)
@@ -83,6 +83,6 @@
   - "`string`: _murex_ data type" 
   - "`interface{}`: data you wish to marshal"
   Related:
-  - marshal
-  - unmarshaldata
-  - unmarshal
+  - Marshal
+  - lang.UnmarshalData
+  - Unmarshal

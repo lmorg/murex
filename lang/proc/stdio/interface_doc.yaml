@@ -1,6 +1,6 @@
-- DocumentID: readarray
+- DocumentID: ReadArray
   Title: >-
-    `ReadArray()` 
+    `ReadArray()` (type)
   CategoryID: apis
   Summary: >-
     Read from a data type one array element at a time
@@ -8,14 +8,17 @@
     This is a function you would write when programming a _murex_ data-type.
     
     It's called by builtins to allow them to read data structures one array element
-    at a time. The aim of this function is to allow builtins to support sequential
-    reads (where)
+    at a time.
+    
+    The purpose of this function is to allow builtins to support sequential reads
+    (where possible) and also create a standard interface for builtins, thus
+    allowing them to be data-type agnostic.
   Usage: |-
     Registering your ReadArray()
     
     ```go
     // To avoid confusion, this should only happen inside func init()
-    stdio.RegisterReadArray(/* your type */, /* your readArray func */)
+    stdio.RegisterReadArray(/* your type name */, /* your readArray func */)
     ```
   Examples: |-
     Example ReadArray() function:
@@ -38,16 +41,19 @@
     could be slow on large files and also breaks the streaming nature of UNIX
     pipelines.
   Parameters:
+  - "`stdio.Io`: stream to read from (eg STDIN)"
   - "`func([]byte)`: callback function. Each callback will be a []byte slice containing an array element"
   Related:
-  - writearray
-  - readmap
-  - arraytemplate
+  - WriteArray
+  - ReadMap
+  - lang.ArrayTemplate
+  - ReadIndex
+  - ReadNotIndex
 
 
-- DocumentID: writearray
+- DocumentID: WriteArray
   Title: >-
-    `WriteArray()` 
+    `WriteArray()` (type)
   CategoryID: apis
   Summary: >-
     Write a data type, one array element at a time
@@ -56,15 +62,26 @@
     
     It's called by builtins to allow them to write data structures one array
     element at a time.
+
+    The purpose of this function is to allow builtins to support sequential writes
+    (where possible) and also create a standard interface for builtins, thus
+    allowing them to be data-type agnostic.
+
+    ### A Collection of Functions
+
+    `WriteArray()` should return a `struct` that satisfies the following
+    `interface{}`:
+    
+    ```go
+    {{ include "lang/proc/stdio/interface_aw.go" }}
+    ```
   Usage: |-
     Registering your WriteArray()
     
     ```go
     // To avoid confusion, this should only happen inside func init()
-    stdio.RegisterWriteArray(/* your type */, /* your writeArray func */)
+    stdio.RegisterWriteArray(/* your type name */, /* your writeArray func */)
     ```
-
-    
   Examples: |-
     Example WriteArray() function:
 
@@ -79,8 +96,91 @@
     ```go
     {{ include "builtins/types/json/array_write.go" }}
     ```
-  Parameters:
-  - "`string`: array element to write"
   Related:
-  - readearray
-  - readmap
+  - ReadArray
+  - ReadMap
+  - ReadIndex
+  - ReadNotIndex
+
+
+- DocumentID: lang.ArrayTemplate
+  Title: >-
+    `lang.ArrayTemplate()` (template API)
+  CategoryID: apis
+  Summary: >-
+    Unmarshals a data type into a Go struct and returns the results as an array
+  Description: |-
+    This is a template API you can use for your custom data types to wrap around an
+    existing Go marshaller and return a _murex_ array which is consistent with
+    other structures such as nested JSON or YAML documents.
+
+    It should only be called from `ReadArray()` functions.
+
+    Because `lang.ArrayTemplate()` relies on a marshaller, it means any types that
+    rely on this API are not going to be stream-able.
+  Usage:
+  Examples: |-
+    Example calling lang.ArrayTemplate() function:
+
+    ```go
+    {{ include "builtins/types/json/array_read.go" }}
+    ```
+  Detail: |-
+    ### API Source:
+
+    ```go
+    {{ include "lang/define_array.go" }}
+    ```
+  Parameters:
+  - "`func(interface{}) ([]byte, error)`: data type's marshaller"
+  - "`func([]byte, interface{}) error`: data type's unmarshaller"
+  - "`stdio.Io`: stream to read from (eg STDIN)"
+  - "`func([]byte)`: callback function to write each array element"
+  Related:
+  - ReadArray
+  - WriteArray
+  - ReadMap
+  - ReadIndex
+  - ReadNotIndex
+
+
+- DocumentID: ReadMap
+  Title: >-
+    `ReadMap()` (type)
+  CategoryID: apis
+  Summary: >-
+    Treat data type as a key/value structure and read its contents
+  Description: |-
+    This is a function you would write when programming a _murex_ data-type.
+    
+    It's called by builtins to allow them to read data structures one key/value
+    pair at a time.
+
+    The purpose of this function is to allow builtins to support sequential reads
+    (where possible) and also create a standard interface for builtins, thus
+    allowing them to be data-type agnostic.
+  Usage: |-
+    Registering your ReadMap()
+    
+    ```go
+    // To avoid confusion, this should only happen inside func init()
+    stdio.RegisterReadMap(/* your type name */, /* your readMap func */)
+    ```
+  Examples: |-
+    Example ReadMap() function:
+
+    ```go
+    {{ include "builtins/types/json/map.go" }}
+    ```
+  Detail:
+    There isn't (yet) a template read function for types to call. However that
+    might follow in a future release of _murex_.
+  Parameters:
+  - "`stdio.Io`: stream to read from (eg STDIN)"
+  - "`*config.Config`: scoped config (eg your data type might have configurable parsing rules)"
+  - "`func(key, value string, last bool)`: callback function: key and value of map plus boolean which is true if last element in row (eg reading from tables rather than key/values)"
+  Related:
+  - ReadArray
+  - WriteArray
+  - ReadIndex
+  - ReadNotIndex

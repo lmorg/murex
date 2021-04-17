@@ -50,9 +50,9 @@ Any block quoted by this method will be converted to the following valid JSON:
   Initiates or terminates a string (variables expanded)
 * [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

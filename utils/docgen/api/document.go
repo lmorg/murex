@@ -228,8 +228,23 @@ type documents []document
 // ByID returns the from it's CategoryID and DocumentID
 func (d documents) ByID(requesterID, categoryID, documentID string) *document {
 	for i := range d {
-		if d[i].DocumentID == documentID && d[i].CategoryID == categoryID {
+		if d[i].CategoryID != categoryID {
+			continue
+		}
+
+		if d[i].DocumentID == documentID {
 			return &d[i]
+		}
+		for syn := range d[i].Synonyms {
+			if d[i].Synonyms[syn] == documentID {
+				copy := d[i]
+				title := strings.Replace(d[i].Title, d[i].DocumentID, d[i].Synonyms[syn], -1)
+				if title == d[i].Title {
+					title = d[i].Synonyms[syn]
+				}
+				copy.Title = title
+				return &copy
+			}
 		}
 	}
 

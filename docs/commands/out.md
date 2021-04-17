@@ -59,5 +59,3 @@ For compatibility with other shells, `echo` is also supported:
   Print a string to the STDOUT and set it's data-type
 * [commands/`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable
-* [commands/sprintf](../commands/sprintf.md):
-  

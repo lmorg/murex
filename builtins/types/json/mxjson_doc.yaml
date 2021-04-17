@@ -46,10 +46,10 @@
         "ExampleFunction": "\n    out: \"This is an example _murex_ function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
     }
     ```
-  Usage: |-
-  Examples: |-
+  Usage:
+  Examples:
   Hooks:
-  Detail: |-
+  Detail:
   Associations:
   Related:
   - yaml
@@ -66,8 +66,8 @@
   - commands/pretty
   - commands/config
   - commands/autocomplete
-  - apis/marshal
-  - apis/unmarshal
+  - apis/Marshal
+  - apis/Unmarshal
   - parser/curly-brace
   - parser/brace-quote
   - parser/code-block

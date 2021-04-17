@@ -83,13 +83,19 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ## See Also
 
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [apis/ReadIndex](../apis/ReadIndex.md):
+  
+* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
+  
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`ReadArray()` ](../apis/readarray.md):
+* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+  Treat data type as a key/value structure and read its contents
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`WriteArray()` ](../apis/writearray.md):
+* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -113,9 +119,3 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   YAML Ain't Markup Language (YAML)
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [apis/readindex](../apis/readindex.md):
-  
-* [apis/readmap](../apis/readmap.md):
-  
-* [apis/readnotindex](../apis/readnotindex.md):
-  

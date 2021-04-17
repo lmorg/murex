@@ -11,15 +11,19 @@ the internal logic of _murex_'s runtime.
 
 ## Pages
 
-* [`Marshal()` ](apis/marshal.md):
+* [`Marshal()` (type)](apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`ReadArray()` ](apis/readarray.md):
+* [`ReadArray()` (type)](apis/ReadArray.md):
   Read from a data type one array element at a time
-* [`Unmarshal()` ](apis/unmarshal.md):
+* [`ReadMap()` (type)](apis/ReadMap.md):
+  Treat data type as a key/value structure and read its contents
+* [`Unmarshal()` (type)](apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [`WriteArray()` ](apis/writearray.md):
+* [`WriteArray()` (type)](apis/WriteArray.md):
   Write a data type, one array element at a time
-* [`lang.MarshalData()` ](apis/marshaldata.md):
+* [`lang.ArrayTemplate()` (template API)](apis/lang.ArrayTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array
+* [`lang.MarshalData()` (system API)](apis/lang.MarshalData.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* [`lang.UnmarshalData()` ](apis/unmarshaldata.md):
+* [`lang.UnmarshalData()` (system API)](apis/lang.UnmarshalData.md):
   Converts a _murex_ data-type into structured memory

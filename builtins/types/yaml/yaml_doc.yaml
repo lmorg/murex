@@ -10,8 +10,8 @@
     expect in most deployments of _murex_, it's still an optional package and
     thus may not be present in some edge cases. This is because it relies on
     external source packages for the shell to compile.
-  Usage: |-
-  Examples: |-
+  Usage:
+  Examples:
   Hooks:
     ReadArray(): Works with YAML arrays. Maps are converted into arrays
     ReadMap(): Works with YAML maps
@@ -20,7 +20,7 @@
     ReadNotIndex(): Works against all properties in YAML
     Marshal(): Supported
     Unmarshal(): Supported
-  Detail: |-
+  Detail:
   Associations:
     Mimes:
     - application/yaml
@@ -39,10 +39,10 @@
   - commands/cast
   - commands/format
   - commands/runtime
-  - apis/readarray
-  - apis/readmap
-  - apis/writearray
-  - apis/readindex
-  - apis/readnotindex
-  - apis/marshal
-  - apis/unmarshal
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/WriteArray
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal
