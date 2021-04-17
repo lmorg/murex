@@ -13,8 +13,12 @@ the internal logic of _murex_'s runtime.
 
 * [`Marshal()` ](apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
+* [`ReadArray()` ](apis/readarray.md):
+  Read from a data type one array element at a time
 * [`Unmarshal()` ](apis/unmarshal.md):
   Converts a structured file format into structured memory
+* [`WriteArray()` ](apis/writearray.md):
+  Write a data type, one array element at a time
 * [`lang.MarshalData()` ](apis/marshaldata.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
 * [`lang.UnmarshalData()` ](apis/unmarshaldata.md):

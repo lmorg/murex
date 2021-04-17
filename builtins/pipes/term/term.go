@@ -11,11 +11,11 @@ import (
 
 // We don't regester these pipes because we don't want users creating them adhoc inside murex
 /*func init() {
-	stdio.RegesterPipe("term-out", func(string) (stdio.Io, error) {
+	stdio.RegisterPipe("term-out", func(string) (stdio.Io, error) {
 		return nil, errors.New("`term-out` is a system device and cannot be created")
 	})
 
-	stdio.RegesterPipe("term-err", func(string) (stdio.Io, error) {
+	stdio.RegisterPipe("term-err", func(string) (stdio.Io, error) {
 		return nil, errors.New("`term-err` is a system device and cannot be created")
 	})
 }*/

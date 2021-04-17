@@ -13,6 +13,6 @@ func init() {
 	lang.Unmarshallers[dataType] = unmarshal
 	lang.ReadIndexes[dataType] = index
 
-	stdio.RegesterReadArray(dataType, readArray)
-	stdio.RegesterReadMap(dataType, readMap)
+	stdio.RegisterReadArray(dataType, readArray)
+	stdio.RegisterReadMap(dataType, readMap)
 }

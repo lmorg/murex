@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	stdio.RegesterPipe("std", newStream)
+	stdio.RegisterPipe("std", newStream)
 }
 
 func newStream(_ string) (io stdio.Io, err error) {

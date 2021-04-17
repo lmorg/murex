@@ -16,17 +16,17 @@ const (
 )
 
 func init() {
-	stdio.RegesterReadArray(sexpr, readArrayS)
-	stdio.RegesterReadMap(sexpr, readMapS)
-	stdio.RegesterWriteArray(sexpr, newArrayWriterS)
+	stdio.RegisterReadArray(sexpr, readArrayS)
+	stdio.RegisterReadMap(sexpr, readMapS)
+	stdio.RegisterWriteArray(sexpr, newArrayWriterS)
 	lang.ReadIndexes[sexpr] = readIndexS
 	lang.ReadNotIndexes[sexpr] = readIndexS
 	lang.Marshallers[sexpr] = marshalS
 	lang.Unmarshallers[sexpr] = unmarshal
 
-	stdio.RegesterReadArray(csexp, readArrayC)
-	stdio.RegesterReadMap(csexp, readMapC)
-	stdio.RegesterWriteArray(csexp, newArrayWriterC)
+	stdio.RegisterReadArray(csexp, readArrayC)
+	stdio.RegisterReadMap(csexp, readMapC)
+	stdio.RegisterWriteArray(csexp, newArrayWriterC)
 	lang.ReadIndexes[csexp] = readIndexC
 	lang.ReadNotIndexes[csexp] = readIndexC
 	lang.Marshallers[csexp] = marshalC

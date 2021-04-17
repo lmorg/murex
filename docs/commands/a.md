@@ -223,3 +223,5 @@ under `a`'s formatting (which uses the `str` data type).
   Reverse the order of an array
 * [commands/`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [types/str](../types/str.md):
+  

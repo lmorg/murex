@@ -35,6 +35,8 @@ the following:
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
+* [apis/`ReadArray()` ](../apis/readarray.md):
+  Read from a data type one array element at a time
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
 * [commands/`[[` (element)](../commands/element.md):
@@ -46,8 +48,6 @@ the following:
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [types/generic](../types/generic.md):
-  
-* [apis/readarray](../apis/readarray.md):
   
 * [apis/readindex](../apis/readindex.md):
   

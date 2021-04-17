@@ -18,9 +18,9 @@ func init() {
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
 
-	stdio.RegesterReadArray(typeName, readArray)
-	stdio.RegesterReadMap(typeName, readMap)
-	stdio.RegesterWriteArray(typeName, newArrayWriter)
+	stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadMap(typeName, readMap)
+	stdio.RegisterWriteArray(typeName, newArrayWriter)
 
 	lang.Marshallers[typeName] = marshal
 	lang.Unmarshallers[typeName] = unmarshal

@@ -9,7 +9,7 @@ import (
 )
 
 /*func init() {
-	stdio.RegesterPipe("tee", func(string) (stdio.Io, error) {
+	stdio.RegisterPipe("tee", func(string) (stdio.Io, error) {
 		return nil, errors.New("`tee` is a system device used for `test`. It's user creation isn't yet supported but might be included in a future release")
 	})
 }*/

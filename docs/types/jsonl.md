@@ -143,8 +143,12 @@ cases for JSON lines.
 
 * [apis/`Marshal()` ](../apis/marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
+* [apis/`ReadArray()` ](../apis/readarray.md):
+  Read from a data type one array element at a time
 * [apis/`Unmarshal()` ](../apis/unmarshal.md):
   Converts a structured file format into structured memory
+* [apis/`WriteArray()` ](../apis/writearray.md):
+  Write a data type, one array element at a time
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
@@ -175,13 +179,9 @@ cases for JSON lines.
   
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [apis/readarray](../apis/readarray.md):
-  
 * [apis/readindex](../apis/readindex.md):
   
 * [apis/readmap](../apis/readmap.md):
   
 * [apis/readnotindex](../apis/readnotindex.md):
-  
-* [apis/writearray](../apis/writearray.md):
   

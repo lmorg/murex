@@ -15,9 +15,9 @@ func init() {
 	lang.Marshallers[types.Generic] = marshal
 	lang.Unmarshallers[types.Generic] = unmarshal
 
-	stdio.RegesterReadArray(types.Generic, readArray)
-	stdio.RegesterReadMap(types.Generic, readMap)
-	stdio.RegesterWriteArray(types.Generic, newArrayWriter)
+	stdio.RegisterReadArray(types.Generic, readArray)
+	stdio.RegisterReadMap(types.Generic, readMap)
+	stdio.RegisterWriteArray(types.Generic, newArrayWriter)
 
 	// descriptive name
 	lang.ReadIndexes["generic"] = index
@@ -25,9 +25,9 @@ func init() {
 	lang.Marshallers["generic"] = marshal
 	lang.Unmarshallers["generic"] = unmarshal
 
-	stdio.RegesterReadArray("generic", readArray)
-	stdio.RegesterReadMap("generic", readMap)
-	stdio.RegesterWriteArray("generic", newArrayWriter)
+	stdio.RegisterReadArray("generic", readArray)
+	stdio.RegisterReadMap("generic", readMap)
+	stdio.RegisterWriteArray("generic", newArrayWriter)
 }
 
 var rxWhitespace = regexp.MustCompile(`\s+`)

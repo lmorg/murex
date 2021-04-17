@@ -1,0 +1,86 @@
+- DocumentID: readarray
+  Title: >-
+    `ReadArray()` 
+  CategoryID: apis
+  Summary: >-
+    Read from a data type one array element at a time
+  Description: |-
+    This is a function you would write when programming a _murex_ data-type.
+    
+    It's called by builtins to allow them to read data structures one array element
+    at a time. The aim of this function is to allow builtins to support sequential
+    reads (where)
+  Usage: |-
+    Registering your ReadArray()
+    
+    ```go
+    // To avoid confusion, this should only happen inside func init()
+    stdio.RegisterReadArray(/* your type */, /* your readArray func */)
+    ```
+  Examples: |-
+    Example ReadArray() function:
+
+    ```go
+    {{ include "builtins/types/string/array_read.go" }}
+    ```
+  Detail: |-
+    If your data type is not a stream-able array, it is then recommended that
+    you pass your array to  `lang.ArrayTemplate()` which is a handler to convert Go
+    structures into _murex_ arrays. This also makes writing `ReadArray()` handlers
+    easier since you can just pass `lang.ArrayTemplate()` your marshaller.
+    For example:
+
+    ```go
+    {{ include "builtins/types/string/array_read.go" }}
+    ```
+
+    The downside of this is that you're then unmarshalling the entire file, which
+    could be slow on large files and also breaks the streaming nature of UNIX
+    pipelines.
+  Parameters:
+  - "`func([]byte)`: callback function. Each callback will be a []byte slice containing an array element"
+  Related:
+  - writearray
+  - readmap
+  - arraytemplate
+
+
+- DocumentID: writearray
+  Title: >-
+    `WriteArray()` 
+  CategoryID: apis
+  Summary: >-
+    Write a data type, one array element at a time
+  Description: |-
+    This is a function you would write when programming a _murex_ data-type.
+    
+    It's called by builtins to allow them to write data structures one array
+    element at a time.
+  Usage: |-
+    Registering your WriteArray()
+    
+    ```go
+    // To avoid confusion, this should only happen inside func init()
+    stdio.RegisterWriteArray(/* your type */, /* your writeArray func */)
+    ```
+
+    
+  Examples: |-
+    Example WriteArray() function:
+
+    ```go
+    {{ include "builtins/types/string/array_write.go" }}
+    ```
+  Detail: |-
+    Since not all data types will be stream-able (for example `json`), some types
+    may need to cache the array and then to write it once the array writer has been
+    closed.
+
+    ```go
+    {{ include "builtins/types/json/array_write.go" }}
+    ```
+  Parameters:
+  - "`string`: array element to write"
+  Related:
+  - readearray
+  - readmap

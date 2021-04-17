@@ -14,9 +14,9 @@ import (
 const typeName = "yaml"
 
 func init() {
-	stdio.RegesterReadArray(typeName, readArray)
-	stdio.RegesterReadMap(typeName, readMap)
-	stdio.RegesterWriteArray(typeName, newArrayWriter)
+	stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadMap(typeName, readMap)
+	stdio.RegisterWriteArray(typeName, newArrayWriter)
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
 	lang.Marshallers[typeName] = marshal

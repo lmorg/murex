@@ -12,9 +12,9 @@ func init() {
 	lang.Marshallers[types.Columns] = marshal
 	//lang.Unmarshallers[types.Columns] = unmarshal
 
-	//stdio.RegesterReadArray(types.Columns, readArray)
-	//stdio.RegesterReadMap(types.Columns, readMap)
-	//stdio.RegesterWriteArray(types.Columns, newArrayWriter)
+	//stdio.RegisterReadArray(types.Columns, readArray)
+	//stdio.RegisterReadMap(types.Columns, readMap)
+	//stdio.RegisterWriteArray(types.Columns, newArrayWriter)
 }
 
 //var rxWhitespace = regexp.MustCompile(`\s+`)

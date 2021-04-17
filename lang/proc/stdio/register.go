@@ -9,9 +9,9 @@ import (
 
 var pipes = make(map[string]func(string) (Io, error))
 
-// RegesterPipe is used by pipes (/builtins/) to regester themselves to murex.
+// RegisterPipe is used by pipes (/builtins/) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegesterPipe(name string, constructor func(string) (Io, error)) {
+func RegisterPipe(name string, constructor func(string) (Io, error)) {
 	if pipes[name] != nil {
 		panic("Pipe already registered with the name: " + name)
 	}
@@ -39,9 +39,9 @@ func DumpPipes() (dump []string) {
 	return
 }
 
-// RegesterReadArray is used by pipes (/builtins/) to regester themselves to murex.
+// RegisterReadArray is used by pipes (/builtins/) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegesterReadArray(dataType string, function func(read Io, callback func([]byte)) error) {
+func RegisterReadArray(dataType string, function func(read Io, callback func([]byte)) error) {
 	if readArray[dataType] != nil {
 		panic("readArray already registered for the data type: " + dataType)
 	}
@@ -49,9 +49,9 @@ func RegesterReadArray(dataType string, function func(read Io, callback func([]b
 	readArray[dataType] = function
 }
 
-// RegesterReadMap is used by pipes (/builtins/) to regester themselves to murex.
+// RegisterReadMap is used by pipes (/builtins/) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegesterReadMap(dataType string, function func(read Io, config *config.Config, callback func(key, value string, last bool)) error) {
+func RegisterReadMap(dataType string, function func(read Io, config *config.Config, callback func(key, value string, last bool)) error) {
 	if readMap[dataType] != nil {
 		panic("readMap already registered for the data type: " + dataType)
 	}
@@ -59,9 +59,9 @@ func RegesterReadMap(dataType string, function func(read Io, config *config.Conf
 	readMap[dataType] = function
 }
 
-// RegesterWriteArray is used by pipes (/builtins/) to regester themselves to murex.
+// RegisterWriteArray is used by pipes (/builtins/) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegesterWriteArray(dataType string, function func(read Io) (ArrayWriter, error)) {
+func RegisterWriteArray(dataType string, function func(read Io) (ArrayWriter, error)) {
 	if writeArray[dataType] != nil {
 		panic("writeArray already registered for the data type: " + dataType)
 	}

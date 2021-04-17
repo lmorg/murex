@@ -20,7 +20,7 @@
   - user-guide/spellcheck
   - commands/config
   - commands/open
-  - commands/openimage
+  - commands/open-image
   - user-guide/modules
-  - commands/package
+  - commands/murex-package
 
