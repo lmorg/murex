@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/app"
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
@@ -29,6 +30,12 @@ func init() {
 	lang.GoFunctions["murex-parser"] = cmdParser
 	lang.GoFunctions["summary"] = cmdSummary
 	lang.GoFunctions["!summary"] = cmdBangSummary
+
+	defaults.AppendProfile(`
+		autocomplete set version { [{
+			"Flags": [ "--short", "--no-app-name", "--license", "--copyright" ]
+		}] }
+	`)
 }
 
 func cmdArgs(p *lang.Process) (err error) {
@@ -163,9 +170,20 @@ func cmdVersion(p *lang.Process) error {
 		_, err := p.Stdout.Writeln([]byte(app.Version))
 		return err
 
+	case "--license":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(app.License))
+		return err
+
+	case "--copyright":
+		p.Stdout.SetDataType(types.String)
+		_, err := p.Stdout.Writeln([]byte(app.Copyright))
+		return err
+
 	case "":
 		p.Stdout.SetDataType(types.String)
-		_, err := p.Stdout.Writeln([]byte(app.Name + ": " + app.Version))
+		v := fmt.Sprintf("%s: %s\n%s\n%s", app.Name, app.Version, app.License, app.Copyright)
+		_, err := p.Stdout.Writeln([]byte(v))
 		return err
 
 	default:
