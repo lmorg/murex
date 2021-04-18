@@ -7,7 +7,7 @@
   Description: |-
     _murex_ supports inline spellchecking, where errors are underlined. For example
 
-    > » out: "The quick brown fox jumped over the lazy __madeupword__"
+    [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
 
     However to use there there needs to be a few satisfied prerequisites, not all
     of which will be enabled by default:
