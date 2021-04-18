@@ -471,3 +471,67 @@ func TestSyntaxCompletionsQuotesInsideBrackets(t *testing.T) {
 
 	testSyntaxCompletions(t, tests)
 }
+
+func TestSyntaxCompletionsComment(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `# {_`,
+			Change:   `{`,
+			Expected: `# {_`,
+		},
+		{
+			Line:     `# (_`,
+			Change:   `(`,
+			Expected: `# (_`,
+		},
+		{
+			Line:     `# [_`,
+			Change:   `[`,
+			Expected: `# [_`,
+		},
+		{
+			Line:     `# '_`,
+			Change:   `'`,
+			Expected: `# '_`,
+		},
+		{
+			Line:     `# "_`,
+			Change:   `"`,
+			Expected: `# "_`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}
+
+func TestSyntaxCompletionsEscaped(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `\{_`,
+			Change:   `{`,
+			Expected: `\{_`,
+		},
+		{
+			Line:     `\(_`,
+			Change:   `(`,
+			Expected: `\(_`,
+		},
+		{
+			Line:     `\[_`,
+			Change:   `[`,
+			Expected: `\[_`,
+		},
+		{
+			Line:     `\'_`,
+			Change:   `'`,
+			Expected: `\'_`,
+		},
+		{
+			Line:     `\"_`,
+			Change:   `"`,
+			Expected: `\"_`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}

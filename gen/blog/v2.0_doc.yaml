@@ -8,13 +8,26 @@
   Description: |-
     This release seems some major upgrade to the default experience:
 
-    * inlined spellchecking enabled by default (requires `aspell` installed)
-    * support for inlining images enabled by default (was previously an external
+    * Inlined spellchecking enabled by default (requires `aspell` installed)
+      [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
+      (see spellcheck link below)
+
+    * Support for inlining images enabled by default (was previously an external
       module: https://github.com/lmorg/murex-module-open-image)
-    * massively overhauled syntax completion
-    * rewritten config backend which copies less data around
-    * significantly more features documented (see https://murex.rocks)
-    * plus this new blog!
+      [![asciicast](https://asciinema.org/a/408028.svg)](https://asciinema.org/a/408028)
+
+    * Massively overhauled syntax completion
+      [![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
+
+    * Additional tab autocompletions included in base install
+
+    * Minor `readline` bug fixes (https://github.com/lmorg/murex/pull/312/commits/5064cf418f768d2ba4a6bbc7c74e46629ef3b5f3)
+
+    * Rewritten config backend which copies less data around
+
+    * Significantly more features documented (see https://murex.rocks)
+
+    * Plus this new blog!
   Synonyms:
   Related:
   - user-guide/spellcheck

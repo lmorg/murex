@@ -26,6 +26,10 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		part, _ = parse(line[:pos+1])
 	}
 
+	if part.Escaped || part.Comment {
+		return line, pos
+	}
+
 	if len(line) > 1 && pos > 0 && line[pos-1] == '\\' {
 		return line, pos
 	}

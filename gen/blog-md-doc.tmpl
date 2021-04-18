@@ -1,11 +1,14 @@
-# _murex_ Shell Docs
+# _murex_ Blogs
 
-## {{ md .CategoryTitle }}: {{ md .Title }}
+## {{ md .Title }}
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
-> Published: {{ .DateTime }}
 
 {{ md (include .Description) }}{{ if .Related }}
+
+<hr>
+
+Published: {{ date .DateTime }} at {{ time .DateTime }}
 
 ## See Also
 
