@@ -29,6 +29,7 @@ type ParsedTokens struct {
 	Loc           int
 	VarLoc        int
 	Escaped       bool
+	Comment       bool
 	QuoteSingle   bool
 	QuoteDouble   bool
 	QuoteBrace    int
@@ -109,6 +110,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				*pt.pop += `#`
 				syntaxHighlighted += string(block[i])
 			default:
+				pt.Comment = true
 				syntaxHighlighted += hlComment + string(block[i:]) + ansi.Reset
 				return
 			}
