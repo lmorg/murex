@@ -35,35 +35,50 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 	switch change {
 	case "'":
 		switch {
-		case !part.QuoteSingle && full.QuoteSingle && pos < len(line) && line[pos+1] == '\'':
+		case (part.NestedBlock > 0 || part.SquareBracket) && !posEOL:
+			new, err := inject.Rune(line, []rune{'\''}, pos)
+			if err != nil {
+				return line, pos
+			}
+			return new, pos
+		case part.QuoteDouble || part.QuoteBrace > 0:
+			return line, pos
+		case !part.QuoteSingle && full.QuoteSingle && !posEOL && line[pos+1] == '\'':
 			return append(line[:pos], line[pos+1:]...), pos
 		case !part.QuoteSingle && full.QuoteSingle && full.LastCharacter == '\'':
 			return line[:len(line)-1], pos
-		case part.QuoteDouble || part.QuoteBrace > 0:
-			return line, pos
 		case posEOL:
 			return append(line, '\''), pos
 		case part.QuoteSingle && full.LastCharacter == '\'':
 			return line[:len(line)-1], pos
 		default:
-			//new, err:=inject.Rune(line,[]rune{'\''},pos)
 			return append(line, '\''), pos
 		}
 
 	case "\"":
 		switch {
+		case (part.NestedBlock > 0 || part.SquareBracket) && !posEOL:
+			new, err := inject.Rune(line, []rune{'"'}, pos)
+			if err != nil {
+				return line, pos
+			}
+			return new, pos
+		case part.QuoteSingle || part.QuoteBrace > 0:
+			//	return line, pos
+			new, err := inject.Rune(line, []rune{'"'}, pos)
+			if err != nil {
+				return line, pos
+			}
+			return new, pos
 		case !part.QuoteDouble && full.QuoteDouble && pos < len(line) && line[pos+1] == '"':
 			return append(line[:pos], line[pos+1:]...), pos
 		case !part.QuoteDouble && full.QuoteDouble && full.LastCharacter == '"':
 			return line[:len(line)-1], pos
-		case part.QuoteSingle || part.QuoteBrace > 0:
-			return line, pos
 		case posEOL:
 			return append(line, '"'), pos
 		case part.QuoteDouble && full.LastCharacter == '"':
 			return line[:len(line)-1], pos
 		default:
-			//new, err:=inject.Rune(line,[]rune{'"'},pos)
 			return append(line, '"'), pos
 		}
 
@@ -73,7 +88,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			full.SquareBracket || full.NestedBlock > 0:
 			new, err := inject.Rune(line, []rune{')'}, pos+1)
 			if err != nil {
-				return line, pos + 1
+				return line, pos
 			}
 			return new, pos
 		case part.QuoteSingle || part.QuoteDouble:
@@ -83,7 +98,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		case part.QuoteBrace > 0:
 			new, err := inject.Rune(line, []rune{')'}, pos+1)
 			if err != nil {
-				return line, pos + 1
+				return line, pos
 			}
 			return new, pos
 		case posEOL:
@@ -102,7 +117,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		case part.SquareBracket:
 			new, err := inject.Rune(line, []rune{'}'}, pos+1)
 			if err != nil {
-				return line, pos + 1
+				return line, pos
 			}
 			return new, pos
 		case part.QuoteSingle || part.QuoteDouble:
@@ -110,7 +125,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		case part.QuoteBrace > 0:
 			new, err := inject.Rune(line, []rune{'}'}, pos+1)
 			if err != nil {
-				return line, pos + 1
+				return line, pos
 			}
 			return new, pos
 		case full.NestedBlock == 1 && part.NestedBlock == 1:
@@ -118,7 +133,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		case part.NestedBlock > 0:
 			new, err := inject.Rune(line, []rune{'}'}, pos+1)
 			if err != nil {
-				return line, pos + 1
+				return line, pos
 			}
 			return new, pos
 		case posEOL:
@@ -132,7 +147,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		case part.QuoteSingle || part.QuoteDouble || part.QuoteBrace > 0 || part.NestedBlock > 0:
 			new, err := inject.Rune(line, []rune{']'}, pos+1)
 			if err != nil {
-				return line, pos + 1
+				return line, pos
 			}
 			return new, pos
 		case full.SquareBracket && full.NestedBlock == 0 && full.LastCharacter == '[':

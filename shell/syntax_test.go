@@ -433,3 +433,41 @@ func TestSyntaxCompletionsQuotesInsert(t *testing.T) {
 
 	testSyntaxCompletions(t, tests)
 }
+
+func TestSyntaxCompletionsQuotesInsideBrackets(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `out: {'_}`,
+			Change:   `'`,
+			Expected: `out: {'_'}`,
+		},
+		{
+			Line:     `out: ['_]`,
+			Change:   `'`,
+			Expected: `out: ['_']`,
+		},
+		{ // No matching because quote here might be intended as an apostrophe
+			Line:     `out: ('_)`,
+			Change:   `'`,
+			Expected: `out: ('_)`,
+		},
+		/////
+		{
+			Line:     `out: {"_}`,
+			Change:   `"`,
+			Expected: `out: {"_"}`,
+		},
+		{
+			Line:     `out: ["_]`,
+			Change:   `"`,
+			Expected: `out: ["_"]`,
+		},
+		{
+			Line:     `out: ("_)`,
+			Change:   `"`,
+			Expected: `out: ("_")`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}
