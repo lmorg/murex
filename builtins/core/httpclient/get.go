@@ -9,7 +9,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
 )
@@ -94,7 +94,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 		cl = "{unknown}"
 	} else {
 		i, _ := strconv.Atoi(cl)
-		cl = utils.HumanBytes(uint64(i))
+		cl = humannumbers.Bytes(uint64(i))
 		//length = float64(i)
 	}
 
@@ -102,7 +102,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 		quit <- true
 		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
-		os.Stderr.WriteString("Downloaded " + utils.HumanBytes(written) + ".\n")
+		os.Stderr.WriteString("Downloaded " + humannumbers.Bytes(written) + ".\n")
 	}()
 
 	go func() {
@@ -127,7 +127,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 			speed := written - last
 			last = written
 			//percent := int((float64(written) / length) * 100)
-			os.Stderr.WriteString("Downloaded " + utils.HumanBytes(written) + " of " + cl + " @ " + utils.HumanBytes(speed) + "/s....\n")
+			os.Stderr.WriteString("Downloaded " + humannumbers.Bytes(written) + " of " + cl + " @ " + humannumbers.Bytes(speed) + "/s....\n")
 			//render.UpdateGaugeBar(gauge, percent, "Downloaded "+utils.HumanBytes(written)+" of "+cl+" @ "+utils.HumanBytes(speed)+"/s....")
 		}
 	}()

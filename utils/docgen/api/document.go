@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 )
 
 // Document is the catalogue of config files found in the search path
@@ -49,6 +50,9 @@ type document struct {
 
 	// Related documents (these should be in the format of `Category/FileName`)
 	Related []string `yaml:"Related"`
+
+	// Date article was published
+	DateTime string `yaml:"DateTime"`
 }
 
 // AssociationValues are associations registered by murex data-types
@@ -75,7 +79,23 @@ func (t templates) DocumentFilePath(d *document) string {
 	return t.OutputPath + t.DocumentFileName(d)
 }
 
+const dateTimeParse = `2006-01-02 15:04`
+
 func (t templates) DocumentValues(d *document, docs documents, nest bool) *documentValues {
+	var (
+		dateTime time.Time
+		err      error
+	)
+
+	if d.DateTime == "" {
+		dateTime = time.Now()
+	} else {
+		dateTime, err = time.Parse(dateTimeParse, d.DateTime)
+		if err != nil {
+			panic(fmt.Sprintf("Cannot parse DateTime as `%s` on %s: %s", dateTimeParse, d.DocumentID, err.Error()))
+		}
+	}
+
 	dv := &documentValues{
 		ID:                  d.DocumentID,
 		Title:               d.Title,
@@ -93,6 +113,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 		Synonyms:            d.Synonyms,
 		Parameters:          d.Parameters,
 		Associations:        d.Associations,
+		DateTime:            dateTime,
 	}
 
 	if !nest {
@@ -118,7 +139,7 @@ func (t templates) DocumentValues(d *document, docs documents, nest bool) *docum
 
 		dv.Related = append(
 			dv.Related,
-			t.DocumentValues(docs.ByID(relCatID, relDocID), docs, false),
+			t.DocumentValues(docs.ByID(d.DocumentID, relCatID, relDocID), docs, false),
 		)
 	}
 
@@ -165,6 +186,7 @@ type documentValues struct {
 	Detail              string
 	Synonyms            []string
 	Related             sortableDocumentValues
+	DateTime            time.Time
 }
 
 type sortableDocumentValues []*documentValues
@@ -177,6 +199,12 @@ type flagValues struct {
 	Flag        string
 	Description string
 }
+
+type sortableDocumentDateTime []*documentValues
+
+func (v sortableDocumentDateTime) Len() int           { return len(v) }
+func (v sortableDocumentDateTime) Less(i, j int) bool { return v[i].DateTime.After(v[j].DateTime) }
+func (v sortableDocumentDateTime) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 
 type sortableFlagValues []*flagValues
 
@@ -198,14 +226,29 @@ func (v sortableHookValues) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 type documents []document
 
 // ByID returns the from it's CategoryID and DocumentID
-func (d documents) ByID(categoryID, documentID string) *document {
+func (d documents) ByID(requesterID, categoryID, documentID string) *document {
 	for i := range d {
-		if d[i].DocumentID == documentID && d[i].CategoryID == categoryID {
+		if d[i].CategoryID != categoryID {
+			continue
+		}
+
+		if d[i].DocumentID == documentID {
 			return &d[i]
+		}
+		for syn := range d[i].Synonyms {
+			if d[i].Synonyms[syn] == documentID {
+				copy := d[i]
+				title := strings.Replace(d[i].Title, d[i].DocumentID, d[i].Synonyms[syn], -1)
+				if title == d[i].Title {
+					title = d[i].Synonyms[syn]
+				}
+				copy.Title = title
+				return &copy
+			}
 		}
 	}
 
-	warning(fmt.Sprintf("Cannot find document with the ID `%s/%s`", categoryID, documentID))
+	warning(requesterID, fmt.Sprintf("Cannot find document with the ID `%s/%s`", categoryID, documentID))
 	return &document{
 		Title:      documentID,
 		DocumentID: categoryID + "/" + documentID,

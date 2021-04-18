@@ -29,7 +29,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 				callback(strconv.Itoa(i), string(j), i != len(jObj.([]interface{}))-1)
 			}
 
-		case map[string]interface{} /*, map[interface{}]interface{}*/ :
+		case map[string]interface{}:
 			i := 1
 			for key := range jObj.(map[string]interface{}) {
 				switch jObj.(map[string]interface{})[key].(type) {

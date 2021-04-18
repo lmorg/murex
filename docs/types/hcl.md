@@ -83,10 +83,20 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 
 ## See Also
 
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+  Read from a data type one array element at a time
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
+* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+  Treat data type as a key/value structure and read its contents
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
+* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+  Write a data type, one array element at a time
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
@@ -99,6 +109,8 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [commands/`runtime`](../commands/runtime.md):
@@ -107,15 +119,3 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
   YAML Ain't Markup Language (YAML)
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)
-* [commands/open](../commands/open.md):
-  
-* [apis/readarray](../apis/readarray.md):
-  
-* [apis/readindex](../apis/readindex.md):
-  
-* [apis/readmap](../apis/readmap.md):
-  
-* [apis/readnotindex](../apis/readnotindex.md):
-  
-* [apis/writearray](../apis/writearray.md):
-  

@@ -63,3 +63,4 @@
   - parser/pipe-posix
   - parser/pipe-format
   - parser/pipe-err
+  - bang-prefix

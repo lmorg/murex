@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/humannumbers"
 )
 
 const (
@@ -69,9 +70,9 @@ func stopStatus(p *lang.Process) {
 
 	pipeStatus := fmt.Sprintf(
 		"\nSTDIN:  %s read / %s written\nSTDOUT: %s read / %s written\nSTDERR: %s read / %s written",
-		utils.HumanBytes(stdinR), utils.HumanBytes(stdinW),
-		utils.HumanBytes(stdoutR), utils.HumanBytes(stdoutW),
-		utils.HumanBytes(stderrR), utils.HumanBytes(stderrW),
+		humannumbers.Bytes(stdinR), humannumbers.Bytes(stdinW),
+		humannumbers.Bytes(stdoutR), humannumbers.Bytes(stdoutW),
+		humannumbers.Bytes(stderrR), humannumbers.Bytes(stderrW),
 	)
 	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 

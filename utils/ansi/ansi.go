@@ -21,8 +21,16 @@ func IsAllowed() bool {
 
 // ExpandConsts writes a new string with the {CONST} values replaced
 func ExpandConsts(s string) string {
-	noColour := !IsAllowed()
+	return expandConsts(s, !IsAllowed())
+}
 
+// ForceExpandConsts expands consts irrespective of user preferences. It is not
+// recommended that you uset this apart from in other testing functions.
+func ForceExpandConsts(s string, noColour bool) string {
+	return expandConsts(s, noColour)
+}
+
+func expandConsts(s string, noColour bool) string {
 	match := rxAnsiConsts.FindAllStringSubmatch(s, -1)
 	for i := range match {
 

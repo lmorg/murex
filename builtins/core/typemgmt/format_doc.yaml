@@ -19,11 +19,11 @@
     Two: 2
     ```
   Flags:
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
   - cast
   - tout
-  - apis/marshal
-  - apis/unmarshal
+  - apis/Marshal
+  - apis/Unmarshal
 

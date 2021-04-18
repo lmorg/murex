@@ -15,9 +15,9 @@ const typeName = "toml"
 var errNakedArrays = errors.New("The TOML specification doesn't support naked arrays")
 
 func init() {
-	stdio.RegesterReadArray(typeName, readArray)
-	//stdio.RegesterReadMap(typeName, readMap)
-	stdio.RegesterWriteArray(typeName, func(_ stdio.Io) (stdio.ArrayWriter, error) {
+	stdio.RegisterReadArray(typeName, readArray)
+	//stdio.RegisterReadMap(typeName, readMap)
+	stdio.RegisterWriteArray(typeName, func(_ stdio.Io) (stdio.ArrayWriter, error) {
 		return nil, errNakedArrays
 	})
 

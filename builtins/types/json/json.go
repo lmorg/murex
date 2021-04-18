@@ -13,9 +13,9 @@ func init() {
 	lang.ReadIndexes[types.Json] = index
 	lang.ReadNotIndexes[types.Json] = index
 
-	stdio.RegesterReadArray(types.Json, readArray)
-	stdio.RegesterReadMap(types.Json, readMap)
-	stdio.RegesterWriteArray(types.Json, newArrayWriter)
+	stdio.RegisterReadArray(types.Json, readArray)
+	stdio.RegisterReadMap(types.Json, readMap)
+	stdio.RegisterWriteArray(types.Json, newArrayWriter)
 
 	lang.SetMime(types.Json,
 		"application/json", // this is preferred, but we include the others incase a website sends a non-standard MIME time

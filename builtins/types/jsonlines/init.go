@@ -13,9 +13,9 @@ func init() {
 	lang.ReadIndexes[types.JsonLines] = index
 	lang.ReadNotIndexes[types.JsonLines] = index
 
-	stdio.RegesterReadArray(types.JsonLines, readArray)
-	//stdio.RegesterReadMap(name, readMap)
-	stdio.RegesterWriteArray(types.JsonLines, newArrayWriter)
+	stdio.RegisterReadArray(types.JsonLines, readArray)
+	//stdio.RegisterReadMap(name, readMap)
+	stdio.RegisterWriteArray(types.JsonLines, newArrayWriter)
 
 	lang.SetMime(types.JsonLines,
 		"application/jsonl",

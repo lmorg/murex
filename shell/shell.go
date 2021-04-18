@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
-	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
@@ -16,6 +16,7 @@ import (
 	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/murex/utils/spellcheck"
 )
 
 var (
@@ -100,7 +101,7 @@ func ShowPrompt() {
 		return expanded
 	}
 
-	Prompt.DelayedSyntaxWorker = spellcheck
+	Prompt.DelayedSyntaxWorker = spellchecker
 
 	for {
 		getSyntaxHighlighting()
@@ -189,7 +190,7 @@ func ShowPrompt() {
 			merged = ""
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-			fork.FileRef.Source.Module = config.AppName
+			fork.FileRef.Source.Module = app.Name
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
 			lang.ShellExitNum, _ = fork.Execute(expanded)
@@ -231,4 +232,15 @@ func getHintTextFormatting() {
 		formatting = ""
 	}
 	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
+}
+
+func spellchecker(r []rune) []rune {
+	s := string(r)
+	new, err := spellcheck.String(s)
+	if err != nil {
+		hint := fmt.Sprintf("{RED}Spellchecker produced an error: %s{RESET}", err.Error())
+		Prompt.SetHintText(ansi.ExpandConsts(hint))
+	}
+
+	return []rune(new)
 }

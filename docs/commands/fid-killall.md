@@ -27,8 +27,12 @@ PID (process ID). You can obtain a FID from `fid-list`.
 
 ## See Also
 
+* [commands/`bexists`](../commands/bexists.md):
+  Check which builtins exist
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
+* [commands/`builtins`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
 * [commands/`fexec` ](../commands/fexec.md):
@@ -39,11 +43,7 @@ PID (process ID). You can obtain a FID from `fid-list`.
   Terminate a running _murex_ function
 * [commands/`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
+* [commands/`jobs`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
-* [commands/bexists](../commands/bexists.md):
-  
-* [commands/builtins](../commands/builtins.md):
-  
-* [commands/jobs](../commands/jobs.md):
-  

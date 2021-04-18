@@ -11,7 +11,7 @@ import (
 
 type parserTestConditions struct {
 	Block    string
-	Expected astNodes
+	Expected AstNodes
 }
 
 func testParser(t *testing.T, tests []parserTestConditions) {
@@ -44,7 +44,7 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 		}
 
 		// compile just in case any parser validation is deferred to the compiler
-		_, errNo := compile(&nodes, ShellProcess)
+		_, errNo := compile(nodes, ShellProcess)
 		if errNo != 0 {
 			jsonExp, _ := json.Marshal(exp, false)
 			t.Error("Unable to compile valid command line:")
@@ -56,63 +56,63 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 			continue
 		}
 
-		if len(nodes) != len(exp) {
+		if len(*nodes) != len(exp) {
 			t.Error("Parsing failed; number of nodes expected did not match returned:")
 			jsonNodes, _ := json.Marshal(nodes, false)
 			jsonExp, _ := json.Marshal(exp, false)
 			t.Logf("  Test #:     %d", j)
 			t.Logf("  Block:      %s", tests[j].Block)
-			t.Logf("  Node count: %d exp, %d actual", len(exp), len(nodes))
+			t.Logf("  Node count: %d exp, %d actual", len(exp), len(*nodes))
 			t.Logf("  Expected:   %s", string(jsonExp))
 			t.Logf("  Actual:     %s", string(jsonNodes))
 			continue
 		}
 
-		for i = range nodes {
+		for i = range *nodes {
 			switch {
 
-			case nodes[i].NewChain != exp[i].NewChain:
+			case (*nodes)[i].NewChain != exp[i].NewChain:
 				t.Error("Parsing failed; NewChain mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v", exp[i].NewChain)
-				t.Logf("  Actual:   %v", nodes[i].NewChain)
+				t.Logf("  Actual:   %v", (*nodes)[i].NewChain)
 
-			case nodes[i].PipeOut != exp[i].PipeOut:
+			case (*nodes)[i].PipeOut != exp[i].PipeOut:
 				t.Error("Parsing failed; PipeOut mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v", exp[i].PipeOut)
-				t.Logf("  Actual:   %v", nodes[i].PipeOut)
+				t.Logf("  Actual:   %v", (*nodes)[i].PipeOut)
 
-			case nodes[i].PipeErr != exp[i].PipeErr:
+			case (*nodes)[i].PipeErr != exp[i].PipeErr:
 				t.Error("Parsing failed; PipeErr mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v", exp[i].PipeErr)
-				t.Logf("  Actual:   %v", nodes[i].PipeErr)
+				t.Logf("  Actual:   %v", (*nodes)[i].PipeErr)
 
-			case nodes[i].Method != exp[i].Method:
+			case (*nodes)[i].Method != exp[i].Method:
 				t.Error("Parsing failed; Method mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v", exp[i].Method)
-				t.Logf("  Actual:   %v", nodes[i].Method)
+				t.Logf("  Actual:   %v", (*nodes)[i].Method)
 
-			case nodes[i].Name != exp[i].Name:
+			case (*nodes)[i].Name != exp[i].Name:
 				t.Error("Parsing failed; Name mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %s", exp[i].Name)
-				t.Logf("  Actual:   %s", nodes[i].Name)
+				t.Logf("  Actual:   %s", (*nodes)[i].Name)
 
 			default:
-				jsonNodes, _ := json.Marshal(nodes[i].ParamTokens, false)
+				jsonNodes, _ := json.Marshal((*nodes)[i].ParamTokens, false)
 				jsonExp, _ := json.Marshal(exp[i].ParamTokens, false)
 				if string(jsonNodes) != string(jsonExp) {
 					t.Error("Parsing failed; Parameter mismatch:")
@@ -194,7 +194,7 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 		}
 
 		// compile just in case any parser validation is deferred to the compiler
-		_, errNo := compile(&nodes, ShellProcess)
+		_, errNo := compile(nodes, ShellProcess)
 		if errNo != 0 {
 			if !tests[j].Error {
 				jsonExp, _ := json.Marshal(exp, false)
@@ -215,70 +215,70 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 			t.Logf("  Test #:    %d", j)
 			t.Logf("  Block:     %s", tests[j].Block)
 			t.Logf("  len(exp):  %d", len(exp))
-			t.Logf("  len(nodes):%d", len(nodes))
+			t.Logf("  len(nodes):%d", len(*nodes))
 			t.Logf("  Expected:  %s", string(jsonExp))
 			t.Logf("  Actual:    %s", string(jsonAct))
 			continue
 		}
 
-		if len(nodes) != len(exp) {
+		if len(*nodes) != len(exp) {
 			jsonExp, _ := json.Marshal(exp, false)
 			jsonAct, _ := json.Marshal(nodes, false)
 			t.Error("Number of nodes expected different to actual:")
 			t.Logf("  Test #:    %d", j)
 			t.Logf("  Block:     %s", tests[j].Block)
 			t.Logf("  len(exp):  %d", len(exp))
-			t.Logf("  len(nodes):%d", len(nodes))
+			t.Logf("  len(nodes):%d", len(*nodes))
 			t.Logf("  Expected:  %s", string(jsonExp))
 			t.Logf("  Actual:    %s", string(jsonAct))
 			continue
 		}
 
-		for i = range nodes {
+		for i = range *nodes {
 			switch {
 
-			case nodes[i].NewChain != (exp[i].Method&TEST_NEW_PIPE != 0):
+			case (*nodes)[i].NewChain != (exp[i].Method&TEST_NEW_PIPE != 0):
 				t.Error("Parsing failed; NewChain mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v (%d)", exp[i].Method&TEST_NEW_PIPE != 0, exp[i].Method)
-				t.Logf("  Actual:   %v", nodes[i].NewChain)
+				t.Logf("  Actual:   %v", (*nodes)[i].NewChain)
 
-			case nodes[i].PipeOut != (exp[i].Method&TEST_PIPE_OUT != 0):
+			case (*nodes)[i].PipeOut != (exp[i].Method&TEST_PIPE_OUT != 0):
 				t.Error("Parsing failed; PipeOut mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v (%d)", exp[i].Method&TEST_PIPE_OUT != 0, exp[i].Method)
-				t.Logf("  Actual:   %v", nodes[i].PipeOut)
+				t.Logf("  Actual:   %v", (*nodes)[i].PipeOut)
 
-			case nodes[i].PipeErr != (exp[i].Method&TEST_PIPE_ERR != 0):
+			case (*nodes)[i].PipeErr != (exp[i].Method&TEST_PIPE_ERR != 0):
 				t.Error("Parsing failed; PipeErr mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v (%d)", exp[i].Method&TEST_PIPE_ERR != 0, exp[i].Method)
-				t.Logf("  Actual:   %v", nodes[i].PipeErr)
+				t.Logf("  Actual:   %v", (*nodes)[i].PipeErr)
 
-			case nodes[i].Method != (exp[i].Method&TEST_METHOD != 0):
+			case (*nodes)[i].Method != (exp[i].Method&TEST_METHOD != 0):
 				t.Error("Parsing failed; Method mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %v (%d)", exp[i].Method&TEST_METHOD != 0, exp[i].Method)
-				t.Logf("  Actual:   %v", nodes[i].Method)
+				t.Logf("  Actual:   %v", (*nodes)[i].Method)
 
-			case nodes[i].Name != exp[i].Name:
+			case (*nodes)[i].Name != exp[i].Name:
 				t.Error("Parsing failed; Name mismatch:")
 				t.Logf("  Test #:   %d", j)
 				t.Logf("  Block:    %s", tests[j].Block)
 				t.Logf("  Node #:   %d", i)
 				t.Logf("  Expected: %s", exp[i].Name)
-				t.Logf("  Actual:   %s", nodes[i].Name)
+				t.Logf("  Actual:   %s", (*nodes)[i].Name)
 
 			default:
-				params := parameters.Parameters{Tokens: nodes[i].ParamTokens}
+				params := parameters.Parameters{Tokens: (*nodes)[i].ParamTokens}
 				ParseParameters(ShellProcess, &params)
 
 				if params.Len() != len(exp[i].Parameters) {

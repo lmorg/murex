@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 )
 
-func compile(tree *astNodes, parent *Process) (procs []Process, errNo int) {
+func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 	if parent == nil {
 		panic("nil parent")
 	}

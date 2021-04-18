@@ -39,6 +39,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	print(rl.prompt)
 
 	rl.line = []rune{}
+	rl.lineChange = ""
 	rl.viUndoHistory = []undoItem{{line: "", pos: 0}}
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
@@ -110,8 +111,6 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			//rl.clearHelpers() // unessisary clear?
-
 			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
 
 			rl.clearLine()
@@ -138,6 +137,16 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.clearHelpers()
 				return string(rl.line), nil
 			}
+		}
+
+		// Used for syntax completion
+		rl.lineChange = string(b[:i])
+
+		// Slow or invisible tab completions shouldn't lock up cursor movement
+		if rl.modeTabCompletion && len(rl.tcSuggestions) == 0 {
+			rl.delayedTabContext.cancel()
+			rl.modeTabCompletion = false
+			rl.updateHelpers()
 		}
 
 		switch b[0] {
@@ -195,7 +204,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = rl.tcSuggestions
 			}
 
-			if rl.modeTabCompletion && len(suggestions) > 0 {
+			if rl.modeTabCompletion /*&& len(suggestions) > 0*/ {
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
@@ -262,7 +271,6 @@ func (rl *Instance) escapeSeq(r []rune) {
 			}
 			rl.modeViMode = vimKeys
 			rl.viIteration = ""
-			//rl.viHintVimKeys()
 			rl.viHintMessage()
 		}
 		rl.viUndoSkipAppend = true

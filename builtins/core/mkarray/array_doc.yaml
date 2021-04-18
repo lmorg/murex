@@ -241,6 +241,7 @@
   - mtac
   - ja
   - ta
+  - types/str
 
 
 - DocumentID: ja
@@ -300,6 +301,7 @@
   - mtac
   - a
   - ta
+  - types/json
 
 
 - DocumentID: ta

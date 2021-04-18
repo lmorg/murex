@@ -190,6 +190,10 @@ quotes:
 
 ## See Also
 
+* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+  Special variables reserved by _murex_
+* [user-guide/Variable and Config Scoping](../user-guide/scoping.md):
+  How scoping works within _murex_
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):

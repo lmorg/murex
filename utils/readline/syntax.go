@@ -5,7 +5,7 @@ func (rl *Instance) syntaxCompletion() {
 		return
 	}
 
-	newLine, newPos := rl.SyntaxCompleter(rl.line, rl.pos-1)
+	newLine, newPos := rl.SyntaxCompleter(rl.line, rl.lineChange, rl.pos-1)
 	if string(newLine) == string(rl.line) {
 		return
 	}

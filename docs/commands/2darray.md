@@ -101,6 +101,8 @@
   Add data to the end of an array
 * [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [types/`json` ](../types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [commands/`len` ](../commands/len.md):

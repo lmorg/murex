@@ -221,5 +221,7 @@ under `a`'s formatting (which uses the `str` data type).
   Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [types/`str` (string) ](../types/str.md):
+  string (primitive)
 * [commands/`ta`](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

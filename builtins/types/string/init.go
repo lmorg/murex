@@ -8,9 +8,9 @@ import (
 
 func init() {
 	// Register data type
-	stdio.RegesterReadArray(types.String, readArray)
-	stdio.RegesterReadMap(types.String, readMap)
-	stdio.RegesterWriteArray(types.String, newArrayWriter)
+	stdio.RegisterReadArray(types.String, readArray)
+	stdio.RegisterReadMap(types.String, readMap)
+	stdio.RegisterWriteArray(types.String, newArrayWriter)
 
 	lang.ReadIndexes[types.String] = index
 	lang.ReadNotIndexes[types.String] = index
@@ -33,9 +33,9 @@ func init() {
 	)
 
 	// descriptive name
-	stdio.RegesterReadArray("string", readArray)
-	stdio.RegesterReadMap("string", readMap)
-	stdio.RegesterWriteArray("string", newArrayWriter)
+	stdio.RegisterReadArray("string", readArray)
+	stdio.RegisterReadMap("string", readMap)
+	stdio.RegisterWriteArray("string", newArrayWriter)
 
 	lang.ReadIndexes["string"] = index
 	lang.ReadNotIndexes["string"] = index

@@ -10,7 +10,7 @@ var AstCache = newAstCache()
 
 type cacheItem struct {
 	created time.Time
-	nodes   astNodes
+	nodes   *AstNodes
 	pErr    ParserError
 }
 
@@ -38,7 +38,7 @@ func astGarbageCollector(c *astCache) {
 
 // ParseCache scans through the AST cache looking for a match. If none found
 // then it runs the parser itself.
-func (c *astCache) ParseCache(block []rune) (astNodes, ParserError) {
+func (c *astCache) ParseCache(block []rune) (*AstNodes, ParserError) {
 	key := string(block)
 	v, ok := c.cache.Load(key)
 	if ok {

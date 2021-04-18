@@ -53,6 +53,8 @@ There is an order of precedence for which commands are looked up:
   Set definitions for tab-completion in the command line
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
+* [commands/`builtins`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [commands/`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [commands/`exec`](../commands/exec.md):
@@ -61,13 +63,11 @@ There is an order of precedence for which commands are looked up:
   Sends a background process into the foreground
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`jobs`](../commands/fid-list.md):
+  Lists all running functions within the current _murex_ session
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/builtins](../commands/builtins.md):
-  
-* [commands/jobs](../commands/jobs.md):
-  
-* [commands/open](../commands/open.md):
-  

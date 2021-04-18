@@ -7,5 +7,5 @@ import (
 
 func init() {
 	// Register data type
-	stdio.RegesterWriteArray(types.Null, newArrayWriter)
+	stdio.RegisterWriteArray(types.Null, newArrayWriter)
 }

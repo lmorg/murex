@@ -17,33 +17,33 @@ For example lets start with the following function that sets a variable called
         out $foo
     }
     
-    In here the value is getting set inside an `if` block but its value is is
-    retrieved outside of that block. `out` and `set` have different parents but
-    the same scoping.
-    
-    Then lets set **foo** outside of that function and see what happens:
-    
+In here the value is getting set inside an `if` block but its value is is
+retrieved outside of that block. `out` and `set` have different parents but
+the same scoping.
+
+Then lets set **foo** outside of that function and see what happens:
+
     » set foo=oof
-» $foo
-oof
+    » $foo
+    oof
+    
+    » example
+    bar
+    
+    » $foo
+    oof
+    
+Despite setting a variable named **foo**, the value inside **example** does not
+overwrite the value outside **example** because they occupy different scoping.
 
-» example
-bar
+### What Instantiates A New Scope?
 
-» $foo
-oof
-    
-    Despite setting a variable named **foo**, the value inside **example** does not
-    overwrite the value outside **example** because they occupy different scoping.
-    
-    ### What Instantiates A New Scope?
-    
-    A new scope is instantiated by anything which resembles a function. This would
-    be code inside events, dynamic autocompletes, open agents, any code blocks
-    defined in `config`, as well as public and private functions too.
-    
-    Code inside an `if`, `switch`, `foreach` and `source` do not create a new
-    scope. Subshells also do not create a new scoping either.
+A new scope is instantiated by anything which resembles a function. This would
+be code inside events, dynamic autocompletes, open agents, any code blocks
+defined in `config`, as well as public and private functions too.
+
+Code inside an `if`, `switch`, `foreach` and `source` do not create a new
+scope. Subshells also do not create a new scoping either.
 
 ## See Also
 
@@ -51,8 +51,6 @@ oof
   Special variables reserved by _murex_
 * [commands/`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
 * [commands/`event`](../commands/event.md):
@@ -65,6 +63,8 @@ oof
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
+* [commands/`openagent`](../commands/openagent.md):
+  Creates a handler function for `open
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):
@@ -73,5 +73,3 @@ oof
   Import _murex_ code from another file of code block
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [commands/open-agent](../commands/open-agent.md):
-  

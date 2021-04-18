@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	stdio.RegesterPipe("file", NewFile)
+	stdio.RegisterPipe("file", NewFile)
 }
 
 // Stats returns bytes written and read. As File is a write-only interface bytes read will always equal 0

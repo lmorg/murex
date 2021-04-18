@@ -71,10 +71,10 @@
   - commands/format
   - commands/runtime
   - commands/pretty
-  - apis/readarray
-  - apis/readmap
-  - apis/writearray
-  - apis/readindex
-  - apis/readnotindex
-  - apis/marshal
-  - apis/unmarshal
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/WriteArray
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal

@@ -54,5 +54,3 @@ variable.
   `read` a line of input from the user and store as a variable
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [commands/sprintf](../commands/sprintf.md):
-  

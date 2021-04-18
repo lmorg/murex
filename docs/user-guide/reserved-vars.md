@@ -88,7 +88,7 @@ This is very similar to the `$SHELL` environmental variable in that it holds
 the full path to the running shell. The reason for defining a reserved variable
 is so that the shell path cannot be overridden.
 
-### MUREX_ARGS
+### `MUREX_ARGS` (json)
 
 This is TODO: [https://github.com/lmorg/murex/issues/304](Github issue 304)
 
@@ -96,6 +96,8 @@ This is TODO: [https://github.com/lmorg/murex/issues/304](Github issue 304)
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [user-guide/Bang Prefix](../user-guide/bang-prefix.md):
+  Bang prefixing to reverse default actions
 * [user-guide/Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
 * [user-guide/Pipeline](../user-guide/pipeline.md):
@@ -120,5 +122,3 @@ This is TODO: [https://github.com/lmorg/murex/issues/304](Github issue 304)
   Define a local variable and set it's value
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [user-guide/bang-prefix](../user-guide/bang-prefix.md):
-  

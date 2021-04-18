@@ -8,24 +8,31 @@
     `switch` is a large block for simplifying cascades of conditional statements.
   Usage: |-
     ```
-    switch {
-      case | if { conditional } then { code-block }
-      case | if { conditional } then { code-block }
+    switch [value] {
+      case | if { conditional } [then] { code-block }
+      case | if { conditional } [then] { code-block }
       ...
       [ catch { code-block } ]
     } -> <stdout>
     ```
+
+    The first parameter should be either **case** or **if** -- the statements are
+    subtly different and thus alter the behavior of `switch`.
+    
+    **then** is optional ('then' is assumed even if not explicitly present).
   Examples: |-
-    Output an array of editors installed
+    Output an array of editors installed:
 
     ```
     switch {
-      if { which: vim   } { out: vim   }
-      if { which: vi    } { out: vi    }
-      if { which: nano  } { out: nano  }
-      if { which: emacs } { out: emacs }
+        if { which: vi    } { out: vi    }
+        if { which: vim   } { out: vim   }
+        if { which: nano  } { out: nano  }
+        if { which: emacs } { out: emacs }
     } -> format: json
     ```
+
+    A higher/lower game written using `switch`:
 
     ```
     function higherlower {
@@ -52,8 +59,137 @@
       }
     }
     ```
+
+    String matching with `switch`:
+
+    ```
+    read: name "What is your name? "
+    switch $name {
+        case "Tom"   { out: "I have a brother called Tom" }
+        case "Dick"  { out: "I have an uncle called Dick" }
+        case "Sally" { out: "I have a sister called Sally" }
+        catch        { err: "That is an odd name" }
+    }
+    ```
   Flags:
-  Detail:
+  Detail: |-
+    ### Comparing Values vs Boolean State
+
+    #### By Values
+
+    If you supply a value with `switch`...
+
+    ```
+    switch value { ... }
+    ```
+
+    ...then all the conditionals are compared against that value. For example:
+
+    ```
+    switch foo {
+        case bar {
+            # not executed because foo != bar
+        }
+        case foo {
+            # executed because foo != foo
+        }
+    }
+    ```
+
+    You can use code blocks to return strings too
+
+    ```
+    switch foo {
+        case {out: bar} then {
+            # not executed because foo != bar
+        }
+        case {out: foo} then {
+            # executed because foo != foo
+        }
+    }
+    ```
+
+    #### By Boolean State
+
+    This style of syntax could be argued as a prettier counterpart to if/else if.
+    Only code blocks are support and each block is checked for its boolean state
+    rather than string matching.
+
+    This is simply written as:
+
+    ```
+    switch { ... }
+    ```
+
+    ### When To Use `case`, `if` and `catch`?
+    
+    A `switch` command may contain multiple **case** and **if** blocks. These
+    statements subtly alter the behavior of `switch`. You can mix and match **if**
+    and **case** statements within the same `switch` block.
+    
+    #### case
+
+    A **case** statement will only move on to the next statement if the result of
+    the **case** statement is **false**. If a **case** statement is **true** then
+    `switch` will exit with an exit number of `0`.
+
+    ```
+    switch {
+        case { false } then {
+            # ignored because case == false
+        }
+        case { true } then {
+            # executed because case == true
+        }
+        case { true } then {
+            # ignored because a previous case was true
+        }
+    }
+    ```
+
+    ### if
+
+    An **if** statement will proceed to the next statement _even_ if the result of
+    the **if** statement is **true**.
+
+    ```
+    switch {
+        if { false } then {
+            # ignored because if == false
+        }
+        if { true } then {
+            # executed because if == true
+        }
+        if { true } then {
+            # executed because if == true
+        }
+    }
+    ```
+
+    ### catch
+
+    **catch** statements are only run if _all_ **case** _and_ **if** statements are
+    false.
+
+    ```
+    switch {
+        if { false } then {
+            # ignored because if == false
+        }
+        if { true } then {
+            # executed because if == true
+        }
+        if { true } then {
+            # executed because if == true
+        }
+        if { false } then {
+            # ignored because if == false
+        }
+        catch {
+            # ignored because one or more previous if's were true
+        }
+    }
+    ```
   Synonyms:
   Related:
   - if

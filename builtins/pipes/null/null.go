@@ -10,7 +10,7 @@ import (
 
 // Since I don't want you to create null pipes, lets not regester it
 /*func init() {
-	stdio.RegesterPipe("null", func(string) (stdio.Io, error) {
+	stdio.RegisterPipe("null", func(string) (stdio.Io, error) {
 		return nil, errors.New("null pipes cannot be created. Use `null` if you require a null pipe")
 	})
 }*/

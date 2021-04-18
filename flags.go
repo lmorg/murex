@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -19,6 +20,8 @@ var (
 	fHelp1    bool
 	fHelp2    bool
 	fHelp3    bool
+	fVersion1 bool
+	fVersion2 bool
 	fSh       bool
 	fRunTests bool
 )
@@ -31,6 +34,9 @@ func readFlags() {
 	flag.BoolVar(&fHelp2, "h", false, "Help")
 	flag.BoolVar(&fHelp3, "help", false, "Help")
 
+	flag.BoolVar(&fVersion1, "v", false, "Version")
+	flag.BoolVar(&fVersion2, "version", false, "Version")
+
 	flag.BoolVar(&debug.Enabled, "debug", false, "Debug mode (for debugging murex code. This can also be enabled from inside the shell.")
 	flag.BoolVar(&fRunTests, "run-tests", false, "Run all tests and exit")
 	flag.BoolVar(&fEcho, "echo", false, "Echo on")
@@ -42,13 +48,18 @@ func readFlags() {
 	flag.Parse()
 
 	if fHelp1 || fHelp2 || fHelp3 {
-		fmt.Println(config.AppName)
-		fmt.Println(config.Version)
+		fmt.Printf("%s v%s\n", app.Name, app.Version)
 		flag.Usage()
 		os.Exit(1)
 	}
 
-	config.InitConf.Define("shell", "echo", config.Properties{
+	if fVersion1 || fVersion2 {
+		fmt.Printf("%s v%s\n", app.Name, app.Version)
+		fmt.Printf("%s\n%s\n", app.License, app.Copyright)
+		os.Exit(0)
+	}
+
+	config.InitConf.Define("proc", "echo", config.Properties{
 		Description: "Echo shell functions",
 		Default:     fEcho,
 		DataType:    types.Boolean,

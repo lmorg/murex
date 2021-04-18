@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
+	"time"
 )
 
 var funcMap = template.FuncMap{
@@ -19,6 +20,8 @@ var funcMap = template.FuncMap{
 	"file":       funcFile,
 	"include":    funcInclude,
 	"notanindex": funcNotAnIndex,
+	"date":       funcDate,
+	"time":       funcTime,
 }
 
 /************
@@ -189,4 +192,24 @@ func funcInclude(s string) string {
 // Returns: number incremented by 1
 func funcNotAnIndex(i int) int {
 	return i + 1
+}
+
+/************
+ *   Date   *
+ ************/
+
+// Takes: DateTime (time.Time)
+// Returns: Date as string
+func funcDate(dt time.Time) string {
+	return dt.Format("02.01.2006")
+}
+
+/************
+ *   Time   *
+ ************/
+
+// Takes: DateTime (time.Time)
+// Returns: Time as string
+func funcTime(dt time.Time) string {
+	return dt.Format("15:04")
 }

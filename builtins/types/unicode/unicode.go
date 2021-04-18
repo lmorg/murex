@@ -14,6 +14,6 @@ func init() {
 	lang.Marshallers[dataType] = marshal
 	lang.Unmarshallers[dataType] = unmarshal
 
-	stdio.RegesterReadArray(dataType, readArray)
-	stdio.RegesterWriteArray(dataType, newArrayWriter)
+	stdio.RegisterReadArray(dataType, readArray)
+	stdio.RegisterWriteArray(dataType, newArrayWriter)
 }

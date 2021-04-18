@@ -37,7 +37,6 @@
   - tout
   - err
   - brace-quote
-  - sprintf
   - cast
   - greater-than
   - greater-than-greater-than
@@ -85,7 +84,6 @@
   - tout
   - err
   - brace-quote
-  - sprintf
   - cast
   - pretty
   - format

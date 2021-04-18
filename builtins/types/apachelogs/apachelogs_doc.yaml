@@ -30,9 +30,9 @@
   - commands/element
   - commands/cast
   - commands/format
-  - apis/readarray
-  - apis/readmap
-  - apis/readindex
-  - apis/readnotindex
-  - apis/marshal
-  - apis/unmarshal
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal

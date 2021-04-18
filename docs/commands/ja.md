@@ -57,6 +57,8 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs an element from an array, map or table
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [types/`json` ](../types/json.md):
+  JavaScript Object Notation (JSON) (primitive)
 * [commands/`len` ](../commands/len.md):
   Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):

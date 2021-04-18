@@ -54,9 +54,9 @@ To list compiled event types:
   Iterate through a map or other collection of data
 * [commands/`function`](../commands/function.md):
   Define a function block
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/open](../commands/open.md):
-  

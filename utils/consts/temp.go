@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/app"
 )
 
 // TempDir is the location of temp directory
@@ -13,7 +13,7 @@ var TempDir string
 func init() {
 	var err error
 
-	TempDir, err = ioutil.TempDir("", config.AppName)
+	TempDir, err = ioutil.TempDir("", app.Name)
 	if err != nil || TempDir == "" {
 		TempDir = tempDir
 	}

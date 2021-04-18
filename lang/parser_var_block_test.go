@@ -13,7 +13,7 @@ func TestParserVariableBlockString1(t *testing.T) {
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -33,7 +33,7 @@ func TestParserVariableBlockString2(t *testing.T) {
 		{Key: "-${block}-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -53,7 +53,7 @@ func TestParserVariableBlockString3(t *testing.T) {
 		{Key: "-\\${block}-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -73,7 +73,7 @@ func TestParserVariableBlockString4(t *testing.T) {
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,

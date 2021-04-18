@@ -32,21 +32,20 @@
     ```
   Examples: |-
     ```
-    lockfile lock example
-    out "lock file created: ${lockfile path example}"
+    lockfile: lock example
+    out: "lock file created: ${lockfile path example}"
     
     bg {
-        sleep 10
-        lockfile unlock example
+        sleep: 10
+        lockfile: unlock example
     }
     
-    out "waiting for lock file to be deleted (sleep 10 seconds)...."
-    lockfile wait example
-    out "lock file gone!"
+    out: "waiting for lock file to be deleted (sleep 10 seconds)...."
+    lockfile: wait example
+    out: "lock file gone!"
     ```
   Detail: |-
   Synonyms:
   Related:
   - out
-  - sleep
   - bg

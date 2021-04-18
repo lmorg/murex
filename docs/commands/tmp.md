@@ -100,7 +100,7 @@ which itself is located in the appropriate temp directory for the host OS (eg
   Writes STDIN to disk - appending contents if file already exists
 * [commands/`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
-* [commands/open](../commands/open.md):
-  

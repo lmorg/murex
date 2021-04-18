@@ -1,13 +1,26 @@
-package cmdruntime
+package cmdruntime_test
 
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins"
+	cmdruntime "github.com/lmorg/murex/builtins/core/runtime"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func TestRangeByIndex(t *testing.T) {
+func marshalHelp(t *testing.T) string {
+	t.Helper()
+
+	b, err := json.Marshal(cmdruntime.Help(), false)
+	if err != nil {
+		t.Errorf("Cannot marshal help(): %s", err)
+	}
+	return string(b)
+}
+
+func TestRuntimeHelp(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  `runtime --help`,
@@ -18,12 +31,15 @@ func TestRangeByIndex(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func marshalHelp(t *testing.T) string {
-	t.Helper()
+func TestRuntimeNoPanic(t *testing.T) {
+	lang.InitEnv()
 
-	b, err := json.Marshal(help(), false)
-	if err != nil {
-		t.Errorf("Cannot marshal help(): %s", err)
+	tests := []test.MurexTest{
+		{
+			Block:  `runtime @{runtime --help}`,
+			Stdout: `^.+$`,
+		},
 	}
-	return string(b)
+
+	test.RunMurexTestsRx(tests, t)
 }

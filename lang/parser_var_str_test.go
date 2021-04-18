@@ -13,7 +13,7 @@ func TestParserVariableString1(t *testing.T) {
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -32,7 +32,7 @@ func TestParserVariableString2(t *testing.T) {
 		{Key: "-$var-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -52,7 +52,7 @@ func TestParserVariableString3(t *testing.T) {
 		{Key: "-\\$var-", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,

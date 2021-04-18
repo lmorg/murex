@@ -1,4 +1,4 @@
-package utils
+package humannumbers
 
 import "fmt"
 
@@ -28,8 +28,8 @@ const (
 	//fYB
 )
 
-// HumanBytes converts n bytes into a human readable format
-func HumanBytes(size uint64) (human string) {
+// Bytes converts n bytes into a human readable format
+func Bytes(size uint64) (human string) {
 	switch {
 	//case size > YB*2:
 	//	human = fmt.Sprintf("%.8f YB", float64(size)/fYB)

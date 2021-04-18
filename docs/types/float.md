@@ -21,9 +21,9 @@ numbers.
 
 ## See Also
 
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [types/`int` ](../types/int.md):
   Whole number (primitive)

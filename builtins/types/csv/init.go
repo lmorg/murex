@@ -10,8 +10,8 @@ import (
 const typeName = "csv"
 
 func init() {
-	//stdio.RegesterReadArray(typeName, readArray)
-	stdio.RegesterReadMap(typeName, readMap)
+	//stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadMap(typeName, readMap)
 
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex

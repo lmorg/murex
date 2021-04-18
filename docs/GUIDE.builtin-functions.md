@@ -71,8 +71,12 @@ to return the same markdown-formatted document as those listed below. eg
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`append`](commands/append.md):
   Add data to the end of an array
+* [`args` ](commands/args.md):
+  Command line flag parser for _murex_ shell scripting
 * [`autocomplete`](commands/autocomplete.md):
   Set definitions for tab-completion in the command line
+* [`bexists`](commands/bexists.md):
+  Check which builtins exist
 * [`bg`](commands/bg.md):
   Run processes in the background
 * [`cast`](commands/cast.md):
@@ -183,6 +187,10 @@ to return the same markdown-formatted document as those listed below. eg
   null function. Similar to /dev/null
 * [`open-image` ](commands/open-image.md):
   Renders bitmap image data on your terminal
+* [`open`](commands/open.md):
+  Open a file with a preferred handler
+* [`openagent`](commands/openagent.md):
+  Creates a handler function for `open
 * [`or`](commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`os`](commands/os.md):

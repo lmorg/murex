@@ -21,9 +21,9 @@ numbers.
 
 ## See Also
 
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -35,9 +35,9 @@ numbers.
   Reformat one data-type into another data-type
 * [types/`int` ](../types/int.md):
   Whole number (primitive)
+* [commands/`open`](../commands/open.md):
+  Open a file with a preferred handler
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/open](../commands/open.md):
-  
-* [types/str](../types/str.md):
-  
+* [types/`str` (string) ](../types/str.md):
+  string (primitive)

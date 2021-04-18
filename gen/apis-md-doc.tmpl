@@ -6,11 +6,11 @@
 
 ## Description
 
-{{ md .Description }}
+{{ md (include .Description) }}
 
 {{ if .Usage }}## Usage
 
-{{ md .Usage }}{{ end }}{{ if .Examples }}
+{{ md (include .Usage) }}{{ end }}{{ if .Examples }}
 
 ## Examples
 

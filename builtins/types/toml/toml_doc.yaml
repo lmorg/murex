@@ -10,7 +10,7 @@
     expect in most deployments of _murex_, it's still an optional package and
     thus may not be present in some edge cases. This is because it relies on
     external source packages for the shell to compile.
-  Usage: |-
+  Usage:
   Examples: |-
     Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
     
@@ -55,7 +55,7 @@
     ReadNotIndex(): Works against all properties in TOML
     Marshal(): Supported
     Unmarshal(): Supported
-  Detail: |-
+  Detail:
   Associations:
     Mimes:
     - application/toml
@@ -74,10 +74,10 @@
   - commands/cast
   - commands/format
   - commands/runtime
-  - apis/readarray
-  - apis/readmap
-  - apis/writearray
-  - apis/readindex
-  - apis/readnotindex
-  - apis/marshal
-  - apis/unmarshal
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/WriteArray
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal

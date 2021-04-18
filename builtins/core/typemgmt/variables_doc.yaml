@@ -62,6 +62,8 @@
   - brace-quote
   - index
   - element
+  - user-guide/scoping
+  - user-guide/reserved-vars
 
 
 - DocumentID: global
@@ -128,6 +130,8 @@
   - brace-quote
   - index
   - element
+  - user-guide/scoping
+  - user-guide/reserved-vars
 
 
 - DocumentID: export
@@ -208,3 +212,5 @@
   - equ
   - global
   - brace-quote
+  - user-guide/scoping
+  - user-guide/reserved-vars

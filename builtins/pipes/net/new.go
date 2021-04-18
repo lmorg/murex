@@ -9,10 +9,10 @@ import (
 )
 
 func init() {
-	stdio.RegesterPipe("udp-dial", newDialerUDP)
-	stdio.RegesterPipe("tcp-dial", newDialerTCP)
-	stdio.RegesterPipe("udp-listen", newListenerUDP)
-	stdio.RegesterPipe("tcp-listen", newListenerTCP)
+	stdio.RegisterPipe("udp-dial", newDialerUDP)
+	stdio.RegisterPipe("tcp-dial", newDialerTCP)
+	stdio.RegisterPipe("udp-listen", newListenerUDP)
+	stdio.RegisterPipe("tcp-listen", newListenerTCP)
 }
 
 func newDialerUDP(arguments string) (stdio.Io, error) {

@@ -48,20 +48,26 @@ func (t templates) CategoryFilePath() string {
 }
 
 func (t templates) CategoryValues(docs documents) *categoryValues {
-	var dv sortableDocumentValues
+	var (
+		dv sortableDocumentValues
+		dt sortableDocumentDateTime
+	)
 
 	for i := range docs {
 		if docs[i].CategoryID == t.ref.ID {
 			dv = append(dv, t.DocumentValues(&docs[i], docs, true))
+			dt = append(dt, t.DocumentValues(&docs[i], docs, true))
 		}
 	}
 
 	sort.Sort(dv)
+	sort.Sort(dt)
 
 	return &categoryValues{
 		Title:       t.ref.Title,
 		Description: t.ref.Description,
 		Documents:   dv,
+		DateTime:    dt,
 	}
 }
 
@@ -69,4 +75,5 @@ type categoryValues struct {
 	Title       string
 	Description string
 	Documents   []*documentValues
+	DateTime    []*documentValues
 }

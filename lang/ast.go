@@ -4,7 +4,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
-type astNode struct {
+type AstNode struct {
 	Name        string
 	ParamTokens [][]parameters.ParamToken
 	NewChain    bool
@@ -15,10 +15,10 @@ type astNode struct {
 	ColNumber   int
 }
 
-type astNodes []astNode
+type AstNodes []AstNode
 
 // Last node in the AST array
-func (n *astNodes) Last() *astNode {
+func (n *AstNodes) Last() *AstNode {
 	if len(*n) == 0 {
 		return &(*n)[0]
 	}

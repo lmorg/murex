@@ -17,7 +17,7 @@
     ```
     g * -> > files.txt
     ```
-  Detail: |-
+  Detail:
   Synonyms:
   - ">"
   - "fwrite"
@@ -47,7 +47,7 @@
     ```
     g * -> >> files.txt
     ```
-  Detail: |-
+  Detail:
   Synonyms:
   - ">>"
   - "fappend"
@@ -78,7 +78,7 @@
 
     (though _murex_ does also have it's own HTTP clients, `get`, `post` and
     `getfile`)
-  Detail: |-
+  Detail:
   Synonyms:
   Related:
     - greater-than

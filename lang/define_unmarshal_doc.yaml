@@ -1,6 +1,6 @@
-- DocumentID: unmarshal
+- DocumentID: Unmarshal
   Title: >-
-    `Unmarshal()` 
+    `Unmarshal()` (type)
   CategoryID: apis
   Summary: >-
     Converts a structured file format into structured memory
@@ -13,11 +13,11 @@
     and _murex_ builtins can use that unmarshaller via the `UnmarshalData()`
     API.
   Usage: |-
-    Registering unmarshal (for writing builtin data-types)
+    Registering `Unmarshal()` (for writing builtin data-types)
     
     ```go
     // To avoid data races, this should only happen inside func init()
-    lang.Unmarshallers["json"] = unmarshal
+    lang.Unmarshallers[ /* your type name */ ] = /* your readIndex func */
     ```
 
     Using an existing unmarshaller (eg inside a builtin command)
@@ -36,14 +36,14 @@
   Parameters:
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   Related:
-  - marshaldata
-  - unmashaldata
-  - unmarshal
+  - lang.MarshalData
+  - lang.UnmarshalData
+  - Marshal
 
 
-- DocumentID: unmarshaldata
+- DocumentID: lang.UnmarshalData
   Title: >-
-    `lang.UnmarshalData()` 
+    `lang.UnmarshalData()` (system API)
   CategoryID: apis
   Summary: >-
     Converts a _murex_ data-type into structured memory
@@ -79,6 +79,6 @@
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
   - "`string`: _murex_ data type" 
   Related:
-  - marshal
-  - marshaldata
-  - unmarshal
+  - Marshal
+  - lang.MarshalData
+  - Unmarshal

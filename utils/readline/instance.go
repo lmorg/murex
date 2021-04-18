@@ -47,9 +47,9 @@ type Instance struct {
 	// SyntaxCompletion is used to autocomplete code syntax (like braces and
 	// quotation marks). If you want to complete words or phrases then you might
 	// be better off using the TabCompletion function.
-	// SyntaxCompletion takes the line ([]rune) and cursor position, and returns
-	// the new line and cursor position.
-	SyntaxCompleter func([]rune, int) ([]rune, int)
+	// SyntaxCompletion takes the line ([]rune), change (string) and cursor
+	// position, and returns the new line and cursor position.
+	SyntaxCompleter func([]rune, string, int) ([]rune, int)
 
 	// DelayedSyntaxWorker allows for syntax highlighting happen to the line
 	// after the line has been drawn.
@@ -79,6 +79,7 @@ type Instance struct {
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
 	line          []rune
+	lineChange    string // cache what had changed from previous line
 	pos           int
 	termWidth     int
 	multiline     []byte

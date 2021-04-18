@@ -46,7 +46,6 @@
   - element
   - cast
   - append
-  - update
   - a
   - ja
   - len
@@ -99,7 +98,6 @@
   - element
   - cast
   - prepend
-  - update
   - a
   - ja
   - len

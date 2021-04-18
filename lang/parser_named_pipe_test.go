@@ -17,13 +17,13 @@ func TestParserNamedPiped1(t *testing.T) {
 		Type: parameters.TokenTypeValue,
 	}}}
 
-	pipeNodes := astNodes{{
+	pipeNodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: pipeParams,
 	}}
 
-	valNodes := astNodes{{
+	valNodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: valParams,
@@ -56,13 +56,13 @@ func TestParserNamedPiped2(t *testing.T) {
 		{{Key: "<notapipe>", Type: parameters.TokenTypeValue}},
 	}
 
-	pipeNodes := astNodes{{
+	pipeNodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: pipeParams,
 	}}
 
-	valNodes := astNodes{{
+	valNodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: valParams,
@@ -88,7 +88,7 @@ func TestParserNamedPiped3(t *testing.T) {
 		{{Key: "<notapipe>", Type: parameters.TokenTypeValue}},
 	}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -112,7 +112,7 @@ func TestParserNamedPiped4(t *testing.T) {
 		{{Key: "<badpipe", Type: parameters.TokenTypeNamedPipe}},
 	}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -132,7 +132,7 @@ func TestParserNamedPiped5(t *testing.T) {
 		{Key: ">", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes := astNodes{{
+	nodes := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params,
@@ -150,7 +150,7 @@ func TestParserNamedPiped6(t *testing.T) {
 		{{Key: "<$notapipe>", Type: parameters.TokenTypeNamedPipe}},
 	}
 
-	nodes0 := astNodes{{
+	nodes0 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params0,
@@ -160,7 +160,7 @@ func TestParserNamedPiped6(t *testing.T) {
 		{{Key: "<$notapipe>", Type: parameters.TokenTypeValue}},
 	}
 
-	nodes1 := astNodes{{
+	nodes1 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params1,
@@ -172,7 +172,7 @@ func TestParserNamedPiped6(t *testing.T) {
 		{Key: ">", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes2 := astNodes{{
+	nodes2 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params2,
@@ -184,7 +184,7 @@ func TestParserNamedPiped6(t *testing.T) {
 		{Key: ")>", Type: parameters.TokenTypeValue},
 	}}
 
-	nodes3 := astNodes{{
+	nodes3 := AstNodes{{
 		NewChain:    true,
 		Name:        "example",
 		ParamTokens: params3,

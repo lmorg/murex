@@ -76,5 +76,7 @@ func defineConfig(p *lang.Process) error {
 	}
 
 	lang.ShellProcess.Config.Define(app, key, properties)
+	// duplicate in case process has already forked from shell and we need to use config
+	p.Config.Define(app, key, properties)
 	return nil
 }

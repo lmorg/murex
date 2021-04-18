@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
@@ -36,7 +37,7 @@ func InitEnv() {
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	ShellProcess.Kill = func() {}
-	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: config.AppName}}
+	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.Name}}
 
 	if FlagTry {
 		ShellProcess.RunMode = runmode.Try
@@ -57,7 +58,6 @@ func InitEnv() {
 	s, _ := os.Getwd()
 	pwd := []string{s}
 	if b, err := json.Marshal(&pwd, false); err == nil {
-		//ShellProcess.Variables.Set("PWDHIST", string(b), types.Json)
 		GlobalVariables.Set(ShellProcess, "PWDHIST", string(b), types.Json)
 	}
 }

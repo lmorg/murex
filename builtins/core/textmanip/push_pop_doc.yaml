@@ -50,10 +50,10 @@
   - suffix
   - ja
   - a
-  - length
+  - len
   - runtime
-  - api/marshaldata
-  - api/unmarshaldata
+  - apis/lang.MarshalData
+  - apis/lang.UnmarshalData
 
 
 
@@ -109,10 +109,10 @@
   - suffix
   - ja
   - a
-  - length
+  - len
   - runtime
-  - api/marshaldata
-  - api/unmarshaldata
+  - apis/lang.MarshalData
+  - apis/lang.UnmarshalData
 
 
 - DocumentID: prefix
@@ -151,10 +151,10 @@
   - suffix
   - ja
   - a
-  - length
+  - len
   - runtime
-  - api/marshaldata
-  - api/unmarshaldata
+  - apis/lang.MarshalData
+  - apis/lang.UnmarshalData
 
 
 
@@ -194,7 +194,7 @@
   - prefix
   - ja
   - a
-  - length
+  - len
   - runtime
-  - api/marshaldata
-  - api/unmarshaldata
+  - apis/lang.MarshalData
+  - apis/lang.UnmarshalData

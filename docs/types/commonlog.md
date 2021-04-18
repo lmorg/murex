@@ -33,9 +33,19 @@ the following:
 
 ## See Also
 
-* [apis/`Marshal()` ](../apis/marshal.md):
+* [types/`*` (generic) ](../types/generic.md):
+  generic (primitive)
+* [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` ](../apis/unmarshal.md):
+* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+  Read from a data type one array element at a time
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
+* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+  Treat data type as a key/value structure and read its contents
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
+* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
@@ -45,15 +55,5 @@ the following:
   Alters the data type of the previous function without altering it's output
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/generic](../types/generic.md):
-  
-* [apis/readarray](../apis/readarray.md):
-  
-* [apis/readindex](../apis/readindex.md):
-  
-* [apis/readmap](../apis/readmap.md):
-  
-* [apis/readnotindex](../apis/readnotindex.md):
-  
-* [types/str](../types/str.md):
-  
+* [types/`str` (string) ](../types/str.md):
+  string (primitive)

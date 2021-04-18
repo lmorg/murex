@@ -36,7 +36,6 @@
   - tout
   - err
   - brace-quote
-  - sprintf
   - cast
   - greater-than
   - greater-than-greater-than
@@ -75,7 +74,6 @@
   - out
   - err
   - brace-quote
-  - sprintf
   - cast
   - pretty
   - format
@@ -125,7 +123,6 @@
   - tout
   - err
   - out
-  - sprintf
   - cast
   - greater-than
   - greater-than-greater-than
@@ -183,7 +180,6 @@
   - tout
   - out
   - brace-quote
-  - sprintf
   - cast
   - bg
   - pipe

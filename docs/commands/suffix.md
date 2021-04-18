@@ -34,17 +34,17 @@ Supported data types can queried via `runtime`
   A sophisticated yet simple way to build an array or list
 * [commands/`ja`](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
+* [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
+  Converts structured memory into a _murex_ data-type (eg for stdio)
+* [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
+  Converts a _murex_ data-type into structured memory
 * [commands/`left`](../commands/left.md):
   Left substring every item in a list
+* [commands/`len` ](../commands/len.md):
+  Outputs the length of an array
 * [commands/`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
 * [commands/`right`](../commands/right.md):
   Right substring every item in a list
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/length](../commands/length.md):
-  
-* [api/marshaldata](../api/marshaldata.md):
-  
-* [api/unmarshaldata](../api/unmarshaldata.md):
-  

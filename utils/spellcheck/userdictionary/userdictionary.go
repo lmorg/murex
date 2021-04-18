@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/lang/types"
 )
 
 var dictionary = []string{
-	config.AppName,
+	app.Name,
 }
 
 // IsInDictionary checks if word is in user dictionary
