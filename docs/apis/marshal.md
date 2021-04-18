@@ -16,11 +16,11 @@ and _murex_ builtins can use that marshaller via the `MarshalData()` API.
 
 ## Usage
 
-Registering marshal (for writing builtin data-types)
+Registering `Marshal()` (for writing builtin data-types)
 
 ```go
 // To avoid data races, this should only happen inside func init()
-lang.Marshallers["json"] = marshal
+lang.Marshallers[ /* your type name */ ] = /* your readIndex func */
 ```
 
 Using an existing marshaller (eg inside a builtin command)

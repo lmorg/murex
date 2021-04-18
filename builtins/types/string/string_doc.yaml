@@ -1,0 +1,37 @@
+- DocumentID: str
+  Title: >-
+    `str` (string) 
+  CategoryID: types
+  Summary: >-
+    string (primitive)
+  Description: |-
+    This type is modelled closely on generic but is more tailored for textual
+    (non-tabulated) data.
+  Usage:
+  Examples:
+  Hooks:
+    ReadArray(): Treats each new line as a new array element
+    ReadMap(): Treats each new line as a numbered map element
+    WriteArray(): Writes a new line per array element
+    ReadIndex(): Indexes treated as a new line separated list
+    ReadNotIndex(): Indexes treated as a new line separated list
+    Marshal(): Supported
+    Unmarshal(): Supported
+  Detail:
+  Associations:
+  Synonyms:
+  - str
+  - string
+  Related:
+  - generic
+  - num
+  - int
+  - commands/open
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - commands/runtime
+  - apis/Marshal
+  - apis/Unmarshal
+

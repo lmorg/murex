@@ -33,7 +33,7 @@ type ArrayWriter interface {
 
 ## Usage
 
-Registering your WriteArray()
+Registering your `WriteArray()`
 
 ```go
 // To avoid confusion, this should only happen inside func init()
@@ -42,7 +42,7 @@ stdio.RegisterWriteArray(/* your type name */, /* your writeArray func */)
 
 ## Examples
 
-Example WriteArray() function:
+Example `WriteArray()` function:
 
 ```go
 package string
@@ -120,11 +120,11 @@ func (w *arrayWriter) Close() error {
 
 ## See Also
 
-* [apis/ReadIndex](../apis/ReadIndex.md):
-  
-* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
-  
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin

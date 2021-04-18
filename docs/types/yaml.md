@@ -41,16 +41,16 @@ external source packages for the shell to compile.
 
 ## See Also
 
-* [apis/ReadIndex](../apis/ReadIndex.md):
-  
-* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
-  
 * [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):

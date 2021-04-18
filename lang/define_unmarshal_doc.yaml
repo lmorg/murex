@@ -13,11 +13,11 @@
     and _murex_ builtins can use that unmarshaller via the `UnmarshalData()`
     API.
   Usage: |-
-    Registering unmarshal (for writing builtin data-types)
+    Registering `Unmarshal()` (for writing builtin data-types)
     
     ```go
     // To avoid data races, this should only happen inside func init()
-    lang.Unmarshallers["json"] = unmarshal
+    lang.Unmarshallers[ /* your type name */ ] = /* your readIndex func */
     ```
 
     Using an existing unmarshaller (eg inside a builtin command)

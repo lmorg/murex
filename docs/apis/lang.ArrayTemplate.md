@@ -19,7 +19,7 @@ rely on this API are not going to be stream-able.
 
 ## Examples
 
-Example calling lang.ArrayTemplate() function:
+Example calling `lang.ArrayTemplate()` function:
 
 ```go
 package json
@@ -214,13 +214,17 @@ func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) err
 
 ## See Also
 
-* [apis/ReadIndex](../apis/ReadIndex.md):
-  
-* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
-  
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
+* [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
+  Returns element(s) from a data structure
+* [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
+  Returns element(s) from a table

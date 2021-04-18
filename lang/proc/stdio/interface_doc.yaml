@@ -14,14 +14,14 @@
     (where possible) and also create a standard interface for builtins, thus
     allowing them to be data-type agnostic.
   Usage: |-
-    Registering your ReadArray()
+    Registering your `ReadArray()`
     
     ```go
     // To avoid confusion, this should only happen inside func init()
     stdio.RegisterReadArray(/* your type name */, /* your readArray func */)
     ```
   Examples: |-
-    Example ReadArray() function:
+    Example `ReadArray()` function:
 
     ```go
     {{ include "builtins/types/string/array_read.go" }}
@@ -76,14 +76,14 @@
     {{ include "lang/proc/stdio/interface_aw.go" }}
     ```
   Usage: |-
-    Registering your WriteArray()
+    Registering your `WriteArray()`
     
     ```go
     // To avoid confusion, this should only happen inside func init()
     stdio.RegisterWriteArray(/* your type name */, /* your writeArray func */)
     ```
   Examples: |-
-    Example WriteArray() function:
+    Example `WriteArray()` function:
 
     ```go
     {{ include "builtins/types/string/array_write.go" }}
@@ -120,7 +120,7 @@
     rely on this API are not going to be stream-able.
   Usage:
   Examples: |-
-    Example calling lang.ArrayTemplate() function:
+    Example calling `lang.ArrayTemplate()` function:
 
     ```go
     {{ include "builtins/types/json/array_read.go" }}
@@ -142,6 +142,8 @@
   - ReadMap
   - ReadIndex
   - ReadNotIndex
+  - lang.IndexTemplateObject
+  - lang.IndexTemplateTable
 
 
 - DocumentID: ReadMap
@@ -160,19 +162,19 @@
     (where possible) and also create a standard interface for builtins, thus
     allowing them to be data-type agnostic.
   Usage: |-
-    Registering your ReadMap()
+    Registering your `ReadMap()`
     
     ```go
     // To avoid confusion, this should only happen inside func init()
     stdio.RegisterReadMap(/* your type name */, /* your readMap func */)
     ```
   Examples: |-
-    Example ReadMap() function:
+    Example `ReadMap()` function:
 
     ```go
     {{ include "builtins/types/json/map.go" }}
     ```
-  Detail:
+  Detail: |-
     There isn't (yet) a template read function for types to call. However that
     might follow in a future release of _murex_.
   Parameters:
@@ -184,3 +186,181 @@
   - WriteArray
   - ReadIndex
   - ReadNotIndex
+
+
+- DocumentID: ReadIndex
+  Title: >-
+    `ReadIndex()` (type)
+  CategoryID: apis
+  Summary: >-
+    Data type handler for the index, `[`, builtin
+  Description: |-
+    This is a function you would write when programming a _murex_ data-type.
+    
+    It's called by the index, `[`, builtin.
+
+    The purpose of this function is to allow builtins to support sequential reads
+    (where possible) and also create a standard interface for `[` (index), thus
+    allowing it to be data-type agnostic.
+  Usage: |-
+    Registering your `ReadIndex()`
+    
+    ```go
+    // To avoid data races, this should only happen inside func init()
+    lang.ReadIndexes[ /* your type name */ ] = /* your readIndex func */
+    ```
+  Examples: |-
+    Example `ReadIndex()` function:
+
+    ```go
+    {{ include "builtins/types/json/index.go" }}
+    ```
+  Detail: |-
+    While there is support for a dedicated `ReadNotIndex()` for instances of `![`,
+    the template APIs `lang.IndexTemplateObject` and `lang.IndexTemplateTable` are
+    both agnostic to the bang prefix.
+  Parameters:
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
+  - "`[]string`: slice of parameters used in `[` "
+  Related:
+  - ReadArray
+  - WriteArray
+  - lang.IndexTemplateObject
+  - lang.IndexTemplateTable
+  - ReadNotIndex
+  - commands/index
+  - commands/element
+  - user-guide/bang-prefix
+
+
+
+- DocumentID: ReadNotIndex
+  Title: >-
+    `ReadNotIndex()` (type)
+  CategoryID: apis
+  Summary: >-
+    Data type handler for the bang-prefixed index, `![`, builtin
+  Description: |-
+    This is a function you would write when programming a _murex_ data-type.
+    
+    It's called by the index, `![`, builtin.
+
+    The purpose of this function is to allow builtins to support sequential reads
+    (where possible) and also create a standard interface for `![` (index), thus
+    allowing it to be data-type agnostic.
+  Usage: |-
+    Registering your `ReadNotIndex()`
+    
+    ```go
+    // To avoid data races, this should only happen inside func init()
+    lang.ReadNotIndexes[ /* your type name */ ] = /* your readIndex func */
+    ```
+  Examples: |-
+    Example `ReadIndex()` function (the code structure is the same for `ReadIndex`
+    and `ReadNotIndex`):
+
+    ```go
+    {{ include "builtins/types/json/index.go" }}
+    ```
+  Detail: |-
+    While there is support for a dedicated `ReadNotIndex()` for instances of `![`,
+    the template APIs `lang.IndexTemplateObject` and `lang.IndexTemplateTable` are
+    both agnostic to the bang prefix.
+  Parameters:
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
+  - "`[]string`: slice of parameters used in `![` "
+  Related:
+  - ReadArray
+  - WriteArray
+  - lang.IndexTemplateObject
+  - lang.IndexTemplateTable
+  - ReadIndex
+  - commands/index
+  - commands/element
+  - user-guide/bang-prefix
+
+
+- DocumentID: lang.IndexTemplateObject
+  Title: >-
+    `lang.IndexTemplateObject()` (template API)
+  CategoryID: apis
+  Summary: >-
+    Returns element(s) from a data structure
+  Description: |-
+    This is a template API you can use for your custom data types.
+
+    It should only be called from `ReadIndex()` and `ReadNotIndex()` functions.
+
+    This function ensures consistency with the index, `[`, builtin when used with
+    different _murex_ data types. Thus making indexing a data type agnostic
+    capability.
+  Usage:
+  Examples: |-
+    Example calling `lang.IndexTemplateObject()` function:
+
+    ```go
+    {{ include "builtins/types/json/index.go" }}
+    ```
+  Detail: |-
+    ### API Source:
+
+    ```go
+    {{ include "lang/define_index_objects.go" }}
+    ```
+  Parameters:
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
+  - "`[]string`: slice of parameters used in `[` / `![` "
+  - "`*interface{}`: a pointer to the data structure being indexed"
+  - "`func(interface{}) ([]byte, error)`: data type marshaller function"
+  Related:
+  - ReadArray
+  - WriteArray
+  - ReadMap
+  - ReadIndex
+  - ReadNotIndex
+  - lang.IndexTemplateTable
+  - commands/index
+
+
+- DocumentID: lang.IndexTemplateTable
+  Title: >-
+    `lang.IndexTemplateTable()` (template API)
+  CategoryID: apis
+  Summary: >-
+    Returns element(s) from a table
+  Description: |-
+    This is a template API you can use for your custom data types.
+
+    It should only be called from `ReadIndex()` and `ReadNotIndex()` functions.
+
+    This function ensures consistency with the index, `[`, builtin when used with
+    different _murex_ data types. Thus making indexing a data type agnostic
+    capability.
+  Usage:
+  Examples: |-
+    Example calling `lang.IndexTemplateTable()` function:
+
+    ```go
+    {{ include "builtins/types/generic/index.go" }}
+    ```
+  Detail: |-
+    ### API Source:
+
+    ```go
+    {{ include "lang/define_index_tables.go" }}
+    ```
+  Parameters:
+  - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
+  - "`[]string`: slice of parameters used in `[` / `![` "
+  - "`chan []string`: a channel for rows (each element in the slice is a column within the row). This allows tables to be stream-able"
+  - "`func(interface{}) ([]byte, error)`: data type marshaller function"
+  Related:
+  - ReadArray
+  - WriteArray
+  - ReadMap
+  - ReadIndex
+  - ReadNotIndex
+  - lang.IndexTemplateObject
+  - commands/index
+
+

@@ -192,6 +192,8 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   Outputs an element from an array, map or table
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
+* [commands/`event`](../commands/event.md):
+  Event driven programming for shell scripts
 * [commands/`function`](../commands/function.md):
   Define a function block
 * [commands/`get`](../commands/get.md):
@@ -206,7 +208,5 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
   HTTP POST request with a JSON-parsable return
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/events](../commands/events.md):
-  
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

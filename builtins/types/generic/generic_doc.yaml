@@ -1,0 +1,37 @@
+- DocumentID: generic
+  Title: >-
+    `*` (generic) 
+  CategoryID: types
+  Summary: >-
+    generic (primitive)
+  Description: |-
+    This is the default data type used when STDOUT is returned from any external
+    executables.
+  Usage:
+  Examples:
+  Hooks:
+    ReadArray(): Treats each new line as a new array element
+    ReadMap(): Works against tables such as the output from `ps -fe`
+    WriteArray(): Writes a new line per array element
+    ReadIndex(): Indexes treated as table coordinates
+    ReadNotIndex(): Indexes treated as table coordinates
+    Marshal(): Supported
+    Unmarshal(): Supported
+  Detail:
+  Associations:
+  Synonyms:
+  - generic
+  - "*"
+  Related:
+  - str
+  - num
+  - int
+  - commands/open
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - commands/runtime
+  - apis/Marshal
+  - apis/Unmarshal
+

@@ -64,6 +64,8 @@ details about specific hooks.
 
 ## Pages
 
+* [`*` (generic) ](types/generic.md):
+  generic (primitive)
 * [`commonlog` ](types/commonlog.md):
   Apache httpd "common" log format
 * [`float` (floating point number)](types/float.md):
@@ -78,6 +80,8 @@ details about specific hooks.
   JSON Lines (primitive)
 * [`num` (number)](types/num.md):
   Floating point number (primitive)
+* [`str` (string) ](types/str.md):
+  string (primitive)
 * [`toml` ](types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](types/yaml.md):

@@ -179,6 +179,8 @@ func MimeToMurex(mimeType string) string {
 
 ## See Also
 
+* [types/`*` (generic) ](../types/generic.md):
+  generic (primitive)
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
 * [commands/`exec`](../commands/exec.md):
@@ -197,5 +199,3 @@ func MimeToMurex(mimeType string) string {
   Print a string to the STDOUT with a trailing new line character
 * [commands/`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [types/generic](../types/generic.md):
-  

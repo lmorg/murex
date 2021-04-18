@@ -70,5 +70,3 @@ Execute a code block from parameter
   Returns runtime information on the internal state of _murex_
 * [commands/`version` ](../commands/version.md):
   Get _murex_ version
-* [commands/params](../commands/params.md):
-  

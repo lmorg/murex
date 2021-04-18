@@ -54,5 +54,3 @@ Ran with the `--short` parameter
   Returns runtime information on the internal state of _murex_
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/params](../commands/params.md):
-  

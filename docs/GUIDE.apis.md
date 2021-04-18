@@ -15,14 +15,22 @@ the internal logic of _murex_'s runtime.
   Converts structured memory into a structured file format (eg for stdio)
 * [`ReadArray()` (type)](apis/ReadArray.md):
   Read from a data type one array element at a time
+* [`ReadIndex()` (type)](apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
 * [`ReadMap()` (type)](apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
+* [`ReadNotIndex()` (type)](apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
 * [`Unmarshal()` (type)](apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [`WriteArray()` (type)](apis/WriteArray.md):
   Write a data type, one array element at a time
 * [`lang.ArrayTemplate()` (template API)](apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [`lang.IndexTemplateObject()` (template API)](apis/lang.IndexTemplateObject.md):
+  Returns element(s) from a data structure
+* [`lang.IndexTemplateTable()` (template API)](apis/lang.IndexTemplateTable.md):
+  Returns element(s) from a table
 * [`lang.MarshalData()` (system API)](apis/lang.MarshalData.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
 * [`lang.UnmarshalData()` (system API)](apis/lang.UnmarshalData.md):

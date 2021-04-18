@@ -17,7 +17,7 @@ allowing them to be data-type agnostic.
 
 ## Usage
 
-Registering your ReadMap()
+Registering your `ReadMap()`
 
 ```go
 // To avoid confusion, this should only happen inside func init()
@@ -26,7 +26,7 @@ stdio.RegisterReadMap(/* your type name */, /* your readMap func */)
 
 ## Examples
 
-Example ReadMap() function:
+Example `ReadMap()` function:
 
 ```go
 package json
@@ -91,7 +91,8 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 
 ## Detail
 
-There isn't (yet) a template read function for types to call. However that might follow in a future release of _murex_.
+There isn't (yet) a template read function for types to call. However that
+might follow in a future release of _murex_.
 
 ## Parameters
 
@@ -101,11 +102,11 @@ There isn't (yet) a template read function for types to call. However that might
 
 ## See Also
 
-* [apis/ReadIndex](../apis/ReadIndex.md):
-  
-* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
-  
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time

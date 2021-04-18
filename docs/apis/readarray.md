@@ -17,7 +17,7 @@ allowing them to be data-type agnostic.
 
 ## Usage
 
-Registering your ReadArray()
+Registering your `ReadArray()`
 
 ```go
 // To avoid confusion, this should only happen inside func init()
@@ -26,7 +26,7 @@ stdio.RegisterReadArray(/* your type name */, /* your readArray func */)
 
 ## Examples
 
-Example ReadArray() function:
+Example `ReadArray()` function:
 
 ```go
 package string
@@ -87,12 +87,12 @@ pipelines.
 
 ## See Also
 
-* [apis/ReadIndex](../apis/ReadIndex.md):
-  
-* [apis/ReadNotIndex](../apis/ReadNotIndex.md):
-  
+* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+  Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
+* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+  Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):

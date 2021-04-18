@@ -57,6 +57,8 @@ include:
 
 ## See Also
 
+* [types/`*` (generic) ](../types/generic.md):
+  generic (primitive)
 * [commands/`bexists`](../commands/bexists.md):
   Check which builtins exist
 * [commands/`bg`](../commands/bg.md):
@@ -80,6 +82,4 @@ include:
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
 * [types/csv](../types/csv.md):
-  
-* [types/generic](../types/generic.md):
   

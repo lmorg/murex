@@ -197,7 +197,7 @@
   Related:
   - runtime
   - open
-  - events
+  - event
   - types/mxjson
   - append
   - function
