@@ -405,11 +405,31 @@ func TestSyntaxCompletionsQuotesOvertype(t *testing.T) {
 			Change:   `'`,
 			Expected: `out: 'hello'_`,
 		},
-
+		{
+			Line:     `out 'test'_`,
+			Change:   `'`,
+			Expected: `out 'test'_`,
+		},
+		{
+			Line:     `out 'hello'_ world`,
+			Change:   `'`,
+			Expected: `out 'hello'_ world`,
+		},
+		/////
 		{
 			Line:     `out: "hello"_"`,
 			Change:   `"`,
 			Expected: `out: "hello"_`,
+		},
+		{
+			Line:     `out "test"_`,
+			Change:   `"`,
+			Expected: `out "test"_`,
+		},
+		{
+			Line:     `out "hello"_ world`,
+			Change:   `"`,
+			Expected: `out "hello"_ world`,
 		},
 	}
 

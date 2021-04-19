@@ -11,6 +11,7 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/hashicorp/hcl v1.0.0
 	github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad
+	github.com/mattn/go-sqlite3 v1.14.7 // indirect
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/crypto v0.0.0-20201124201722-c8d3bf9c5392
