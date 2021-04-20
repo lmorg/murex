@@ -93,7 +93,7 @@ func loadSeq(p *lang.Process, confFailColMismatch, confTableIncHeadings bool) er
 		return err
 	}
 
-	query := fmt.Sprintf(sqlQueryWhere, p.Parameters.StringAll())
+	query := createQueryString(p.Parameters.StringAll())
 	debug.Log(query)
 
 	//rows, err := db.QueryContext(p.Context, query)

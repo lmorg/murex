@@ -69,7 +69,7 @@ func sliceSliceInterface(p *lang.Process, v [][]interface{}, dt string, confFail
 		return err
 	}
 
-	query := fmt.Sprintf(sqlQueryWhere, p.Parameters.StringAll())
+	query := createQueryString(p.Parameters.StringAll())
 	debug.Log(query)
 
 	rows, err := db.QueryContext(p.Context, query)
@@ -152,7 +152,7 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 		return err
 	}
 
-	query := fmt.Sprintf(sqlQueryWhere, p.Parameters.StringAll())
+	query := createQueryString(p.Parameters.StringAll())
 	debug.Log(query)
 
 	rows, err := db.QueryContext(p.Context, query)

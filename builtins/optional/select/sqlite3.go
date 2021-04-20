@@ -3,6 +3,7 @@ package sqlselect
 import (
 	"database/sql"
 	"fmt"
+	"regexp"
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -13,10 +14,10 @@ const (
 
 	sqlInsertRecord = `INSERT INTO main VALUES (%s);`
 
-	sqlQueryWhere = `SELECT * FROM main WHERE %s;`
-
-	sqlQueryNoWhere = `SELECT %s FROM main %s;`
+	sqlQuery = `SELECT %s FROM main %s %s;`
 )
+
+var rxQuery = regexp.MustCompile(`(?i)[\s\t\r\n]+(WHERE|GROUP BY|ORDER BY)[\s\t\r\n]+`)
 
 func open(headings []string) (*sql.DB, *sql.Tx, error) {
 	if len(headings) == 0 {
@@ -75,4 +76,19 @@ func createValues(length int) (string, error) {
 	values = values[:len(values)-1]
 
 	return values, nil
+}
+
+func createQueryString(parameters string) string {
+	split := rxQuery.Split(parameters, 2)
+
+	match := rxQuery.FindString(parameters)
+
+	switch len(split) {
+	case 1:
+		return fmt.Sprintf(sqlQuery, split[0], "")
+	case 2:
+		return fmt.Sprintf(sqlQuery, split[0], match, split[1])
+	default:
+		panic("Unexpected length of split")
+	}
 }
