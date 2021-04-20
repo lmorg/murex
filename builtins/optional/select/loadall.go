@@ -75,7 +75,7 @@ func sliceSliceInterface(p *lang.Process, v [][]interface{}, dt string, confFail
 	rows, err := db.QueryContext(p.Context, query)
 	//rows, err := db.Query(query)
 	if err != nil {
-		return fmt.Errorf("Cannot query table: %s", err.Error())
+		return fmt.Errorf("Cannot query table: %s\nSQL: %s", err.Error(), query)
 	}
 
 	var table [][]interface{}
@@ -158,7 +158,7 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 	rows, err := db.QueryContext(p.Context, query)
 	//rows, err := db.Query(query)
 	if err != nil {
-		return fmt.Errorf("Cannot query table: %s", err.Error())
+		return fmt.Errorf("Cannot query table: %s\nSQL: %s", err.Error(), query)
 	}
 
 	table := [][]string{headings}
