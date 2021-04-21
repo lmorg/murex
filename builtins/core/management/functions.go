@@ -37,7 +37,7 @@ func cmdDebug(p *lang.Process) (err error) {
 		)
 
 		dt := p.Stdin.GetDataType()
-		obj, err := lang.UnmarshalData(p, dt) // For once we don't care about the error
+		obj, err := lang.UnmarshalData(p, dt)
 
 		j["Process"] = *p.Previous // not querying any properties that are managed va the mutex
 		j["Data-Type"] = map[string]string{
