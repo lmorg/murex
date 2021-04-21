@@ -1,4 +1,4 @@
-package builtins
+package imports
 
 // Uses a 3rd party library: github.com/hashicorp/hcl
 // (included in vendor directory)

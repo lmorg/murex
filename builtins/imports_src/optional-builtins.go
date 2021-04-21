@@ -1,6 +1,6 @@
 // +build windows
 
-package builtins
+package imports
 
 // This is where you can add or remove built in functions. Imports here require underscoring.
 // Each builtin package should include a README.md with details about its use. However the code should also be readable

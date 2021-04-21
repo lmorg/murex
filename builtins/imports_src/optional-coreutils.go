@@ -1,6 +1,6 @@
 // +build windows
 
-package builtins
+package imports
 
 // This is an optional package that covers some of the basic packages you'd expect to find in your POSIX environment.
 // It it not aimed at being a complete like for like rewrite of GNU coreutils (for example) nor will it offer the same

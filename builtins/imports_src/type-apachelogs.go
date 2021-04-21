@@ -1,4 +1,4 @@
-package builtins
+package imports
 
 // While this data type does require a 3rd party library, that library was also
 // written by the same developer as murex (github.com/lmorg) thus it is

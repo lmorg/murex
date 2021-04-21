@@ -1,4 +1,4 @@
-package builtins
+package imports
 
 // This is an optional builtin for S-Expressions support.
 // Uses a 3rd party library: github.com/abesto/sexp

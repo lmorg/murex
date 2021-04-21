@@ -1,4 +1,4 @@
-package builtins
+package imports
 
 // This requires no additional third-party dependencies so it is recommended to
 // keep this builtin enabled

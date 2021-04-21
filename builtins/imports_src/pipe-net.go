@@ -1,4 +1,4 @@
-package builtins
+package imports
 
 // This is an optional builtin because there is no strict reason why you might
 // want to pipe data over a TCP or UDP socket. However it's a cool feature to
@@ -11,6 +11,4 @@ package builtins
 // ...except murex's `net` pipe does allow for better interactivity over
 // network sockets.
 
-import (
-	_ "github.com/lmorg/murex/builtins/pipes/net" // piping data via TCP and UDP sockets
-)
+import _ "github.com/lmorg/murex/builtins/pipes/net" // piping data via TCP and UDP sockets

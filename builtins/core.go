@@ -58,5 +58,5 @@ import (
 	_ "github.com/lmorg/murex/builtins/types/string"    // string data type
 	_ "github.com/lmorg/murex/builtins/types/unicode"   // unicode data type
 
-	_ "github.com/lmorg/murex/builtins/optional/select" // deleteme
+	_ "github.com/lmorg/murex/builtins/imports_build" // optional plugins
 )
