@@ -27,8 +27,8 @@ func (t *Null) ReadLine(func([]byte)) error { return nil }
 // ReadArray - null interface
 func (t *Null) ReadArray(func([]byte)) error { return nil }
 
-// ReadArrayByType - null interface
-func (t *Null) ReadArrayByType(func([]byte, string)) error { return nil }
+// ReadArrayWithType - null interface
+func (t *Null) ReadArrayWithType(func([]byte, string)) error { return nil }
 
 // ReadMap - null interface
 func (t *Null) ReadMap(*config.Config, func(string, string, bool)) error { return nil }

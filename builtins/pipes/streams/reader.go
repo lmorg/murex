@@ -106,9 +106,9 @@ func (r *Reader) ReadArray(callback func([]byte)) error {
 	return stdio.ReadArray(r, callback)
 }
 
-// ReadArrayByType returns a data type-specific array returned via a callback function
-func (r *Reader) ReadArrayByType(callback func([]byte, string)) error {
-	return stdio.ReadArrayByType(r, callback)
+// ReadArrayWithType returns a data type-specific array returned via a callback function
+func (r *Reader) ReadArrayWithType(callback func([]byte, string)) error {
+	return stdio.ReadArrayWithType(r, callback)
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function

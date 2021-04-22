@@ -16,7 +16,7 @@ const (
 
 func init() {
 	stdio.RegisterReadArray(sexpr, readArrayS)
-	stdio.RegisterReadArrayByType(sexpr, readArrayByTypeS)
+	stdio.RegisterReadArrayWithType(sexpr, readArrayWithTypeS)
 	stdio.RegisterReadMap(sexpr, readMapS)
 	stdio.RegisterWriteArray(sexpr, newArrayWriterS)
 	lang.ReadIndexes[sexpr] = readIndexS
@@ -25,7 +25,7 @@ func init() {
 	lang.Unmarshallers[sexpr] = unmarshal
 
 	stdio.RegisterReadArray(csexp, readArrayC)
-	stdio.RegisterReadArrayByType(csexp, readArrayByTypeC)
+	stdio.RegisterReadArrayWithType(csexp, readArrayWithTypeC)
 	stdio.RegisterReadMap(csexp, readMapC)
 	stdio.RegisterWriteArray(csexp, newArrayWriterC)
 	lang.ReadIndexes[csexp] = readIndexC

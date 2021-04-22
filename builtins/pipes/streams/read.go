@@ -103,9 +103,9 @@ func (stdin *Stdin) ReadArray(callback func([]byte)) error {
 	return stdio.ReadArray(stdin, callback)
 }
 
-// ReadArrayByType returns an array like "ReadArray" plus data type via a callback function
-func (stdin *Stdin) ReadArrayByType(callback func([]byte, string)) error {
-	return stdio.ReadArrayByType(stdin, callback)
+// ReadArrayWithType returns an array like "ReadArray" plus data type via a callback function
+func (stdin *Stdin) ReadArrayWithType(callback func([]byte, string)) error {
+	return stdio.ReadArrayWithType(stdin, callback)
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function

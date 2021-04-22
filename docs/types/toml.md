@@ -65,7 +65,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
     Supported
 * `ReadArray()`
     Hook supported albeit TOML doesn't support naked arrays
-* `ReadArrayByType()`
+* `ReadArrayWithType()`
     Hook supported albeit TOML doesn't support naked arrays
 * `ReadIndex()`
     Works against all properties in TOML

@@ -179,7 +179,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
     Writes minified JSON when no TTY detected and human readable JSON when stdout is a TTY
 * `ReadArray()`
     Works with JSON arrays. Maps are converted into arrays
-* `ReadArrayByType()`
+* `ReadArrayWithType()`
     Works with JSON arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the JSON type of the element
 * `ReadIndex()`
     Works against all properties in JSON
@@ -194,12 +194,12 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 ## See Also
 
-* [apis/ReadArrayByType](../apis/ReadArrayByType.md):
-  
 * [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):
@@ -234,7 +234,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [apis/lang.ArrayByTypeTemplate](../apis/lang.ArrayByTypeTemplate.md):
+* [apis/lang.ArrayWithTypeTemplate](../apis/lang.ArrayWithTypeTemplate.md):
   
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

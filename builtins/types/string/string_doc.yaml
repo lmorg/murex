@@ -11,7 +11,7 @@
   Examples:
   Hooks:
     ReadArray(): Treats each new line as a new array element
-    ReadArrayByType(): Treats each new line as a new array element, each array element is `str`
+    ReadArrayWithType(): Treats each new line as a new array element, each array element is `str`
     ReadMap(): Treats each new line as a numbered map element
     WriteArray(): Writes a new line per array element
     ReadIndex(): Indexes treated as a new line separated list

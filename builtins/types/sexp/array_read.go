@@ -39,14 +39,14 @@ func readArray(read stdio.Io, callback func([]byte), canonical bool) error {
 	return nil
 }
 
-func readArrayByTypeC(read stdio.Io, callback func([]byte, string)) error {
-	return readArrayByType(read, callback, true, sexpr)
+func readArrayWithTypeC(read stdio.Io, callback func([]byte, string)) error {
+	return readArrayWithType(read, callback, true, sexpr)
 }
-func readArrayByTypeS(read stdio.Io, callback func([]byte, string)) error {
-	return readArrayByType(read, callback, false, sexpr)
+func readArrayWithTypeS(read stdio.Io, callback func([]byte, string)) error {
+	return readArrayWithType(read, callback, false, sexpr)
 }
 
-func readArrayByType(read stdio.Io, callback func([]byte, string), canonical bool, dataType string) error {
+func readArrayWithType(read stdio.Io, callback func([]byte, string), canonical bool, dataType string) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

@@ -15,7 +15,7 @@ var errNakedArrays = errors.New("The TOML specification doesn't support naked ar
 
 func init() {
 	stdio.RegisterReadArray(typeName, readArray)
-	stdio.RegisterReadArrayByType(typeName, readArrayByType)
+	stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
 	//stdio.RegisterReadMap(typeName, readMap)
 	stdio.RegisterWriteArray(typeName, func(_ stdio.Io) (stdio.ArrayWriter, error) {
 		return nil, errNakedArrays

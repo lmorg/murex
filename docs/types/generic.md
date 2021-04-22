@@ -15,7 +15,7 @@ executables.
     Supported
 * `ReadArray()`
     Treats each new line as a new array element
-* `ReadArrayByType()`
+* `ReadArrayWithType()`
     Treats each new line as a new array element, each element is `*
 * `ReadIndex()`
     Indexes treated as table coordinates

@@ -10,9 +10,9 @@ import (
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
 var readArray = make(map[string]func(read Io, callback func([]byte)) error)
 
-// readArrayByType is where custom data formats can define how to iterate through arrays (eg `foreach`).
+// readArrayWithType is where custom data formats can define how to iterate through arrays (eg `foreach`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
-var readArrayByType = make(map[string]func(read Io, callback func([]byte, string)) error)
+var readArrayWithType = make(map[string]func(read Io, callback func([]byte, string)) error)
 
 // ReadMap is where custom data formats can define how to iterate through structured data (eg `formap`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.

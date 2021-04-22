@@ -14,7 +14,7 @@ const typeName = "bson"
 
 func init() {
 	stdio.RegisterReadArray(typeName, readArray)
-	stdio.RegisterReadArrayByType(typeName, readArrayByType)
+	stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
 	stdio.RegisterReadMap(typeName, readMap)
 
 	lang.ReadIndexes[typeName] = readIndex

@@ -38,7 +38,7 @@
     ```
   Hooks:
     ReadArray(): Works with JSON arrays. Maps are converted into arrays
-    ReadArrayByType(): Works with JSON arrays. Maps are converted into arrays. Element data type is `json`
+    ReadArrayWithType(): Works with JSON arrays. Maps are converted into arrays. Element data type is `json`
     ReadMap(): Not currently supported.
     WriteArray(): Supported
     ReadIndex(): Works against all properties in JSON

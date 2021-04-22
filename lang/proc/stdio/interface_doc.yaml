@@ -34,7 +34,7 @@
     For example:
 
     ```go
-    {{ include "builtins/types/string/array_read.go" }}
+    {{ include "builtins/types/json/array_read.go" }}
     ```
 
     The downside of this is that you're then unmarshalling the entire file, which
@@ -49,6 +49,153 @@
   - lang.ArrayTemplate
   - ReadIndex
   - ReadNotIndex
+
+
+- DocumentID: lang.ArrayTemplate
+  Title: >-
+    `lang.ArrayTemplate()` (template API)
+  CategoryID: apis
+  Summary: >-
+    Unmarshals a data type into a Go struct and returns the results as an array
+  Description: |-
+    This is a template API you can use for your custom data types to wrap around an
+    existing Go marshaller and return a _murex_ array which is consistent with
+    other structures such as nested JSON or YAML documents.
+
+    It should only be called from `ReadArray()` functions.
+
+    Because `lang.ArrayTemplate()` relies on a marshaller, it means any types that
+    rely on this API are not going to be stream-able.
+  Usage:
+  Examples: |-
+    Example calling `lang.ArrayTemplate()` function:
+
+    ```go
+    {{ include "builtins/types/json/array_read.go" }}
+    ```
+  Detail: |-
+    ### API Source:
+
+    ```go
+    {{ include "lang/define_array.go" }}
+    ```
+  Parameters:
+  - "`func(interface{}) ([]byte, error)`: data type's marshaller"
+  - "`func([]byte, interface{}) error`: data type's unmarshaller"
+  - "`stdio.Io`: stream to read from (eg STDIN)"
+  - "`func([]byte)`: callback function to write each array element"
+  Related:
+  - ReadArray
+  - WriteArray
+  - ReadMap
+  - ReadIndex
+  - ReadNotIndex
+  - lang.IndexTemplateObject
+  - lang.IndexTemplateTable
+
+
+- DocumentID: ReadArrayWithType
+  Title: >-
+    `ReadArrayWithType()` (type)
+  CategoryID: apis
+  Summary: >-
+    Read from a data type one array element at a time and return the elements
+    contents and data type
+  Description: |-
+    This is a function you would write when programming a _murex_ data-type.
+    
+    It's called by builtins to allow them to read data structures one array element
+    at a time.
+    
+    The purpose of this function is to allow builtins to support sequential reads
+    (where possible) and also create a standard interface for builtins, thus
+    allowing them to be data-type agnostic.
+    
+    This differs from ReadArray() because it also returns the data type.
+
+    There is a good chance ReadArray() might get deprecated in the medium to long
+    term.
+  Usage: |-
+    Registering your `ReadArrayWithType()`
+    
+    ```go
+    // To avoid confusion, this should only happen inside func init()
+    stdio.RegisterReadArrayWithType(/* your type name */, /* your readArray func */)
+    ```
+  Examples: |-
+    Example `ReadArrayWithType()` function:
+
+    ```go
+    {{ include "builtins/types/string/array_read_type.go" }}
+    ```
+  Detail: |-
+    If your data type is not a stream-able array, it is then recommended that
+    you pass your array to  `lang.ArrayWithTypeTemplate()` which is a handler to
+    convert Go structures into _murex_ arrays. This also makes writing `ReadArray()`
+    handlers easier since you can just pass `lang.ArrayTemplate()` your marshaller.
+    For example:
+
+    ```go
+    {{ include "builtins/types/json/array_read_type.go" }}
+    ```
+
+    The downside of this is that you're then unmarshalling the entire file, which
+    could be slow on large files and also breaks the streaming nature of UNIX
+    pipelines.
+  Parameters:
+  - "`stdio.Io`: stream to read from (eg STDIN)"
+  - "`func([]byte, string)`: callback function. Each callback will be a []byte slice containing an array element"
+  Related:
+  - WriteArray
+  - ReadMap
+  - lang.ArrayTemplate
+  - ReadIndex
+  - ReadNotIndex
+
+
+- DocumentID: lang.ArrayTemplateWithType
+  Title: >-
+    `lang.ArrayTemplateWithType()` (template API)
+  CategoryID: apis
+  Summary: >-
+    Unmarshals a data type into a Go struct and returns the results as an array
+    with data type included
+  Description: |-
+    This is a template API you can use for your custom data types to wrap around an
+    existing Go marshaller and return a _murex_ array which is consistent with
+    other structures such as nested JSON or YAML documents.
+
+    It should only be called from `ReadArrayWithType()` functions.
+
+    Because `lang.ArrayTemplateWithType()` relies on a marshaller, it means any types that
+    rely on this API are not going to be stream-able.
+  Usage:
+  Examples: |-
+    Example calling `lang.ArrayTemplate()` function:
+
+    ```go
+    {{ include "builtins/types/json/array_read.go" }}
+    ```
+  Detail: |-
+    ### API Source:
+
+    ```go
+    {{ include "lang/define_array_type.go" }}
+    ```
+  Parameters:
+  - "`func(interface{}) ([]byte, error)`: data type's marshaller"
+  - "`func([]byte, interface{}) error`: data type's unmarshaller"
+  - "`stdio.Io`: stream to read from (eg STDIN)"
+  - "`func([]byte, string)`: callback function to write each array element"
+  Related:
+  - ReadArray
+  - WriteArray
+  - ReadMap
+  - ReadIndex
+  - ReadNotIndex
+  - lang.IndexTemplateObject
+  - lang.IndexTemplateTable
+
 
 
 - DocumentID: WriteArray
@@ -101,50 +248,6 @@
   - ReadMap
   - ReadIndex
   - ReadNotIndex
-
-
-- DocumentID: lang.ArrayTemplate
-  Title: >-
-    `lang.ArrayTemplate()` (template API)
-  CategoryID: apis
-  Summary: >-
-    Unmarshals a data type into a Go struct and returns the results as an array
-  Description: |-
-    This is a template API you can use for your custom data types to wrap around an
-    existing Go marshaller and return a _murex_ array which is consistent with
-    other structures such as nested JSON or YAML documents.
-
-    It should only be called from `ReadArray()` functions.
-
-    Because `lang.ArrayTemplate()` relies on a marshaller, it means any types that
-    rely on this API are not going to be stream-able.
-  Usage:
-  Examples: |-
-    Example calling `lang.ArrayTemplate()` function:
-
-    ```go
-    {{ include "builtins/types/json/array_read.go" }}
-    ```
-  Detail: |-
-    ### API Source:
-
-    ```go
-    {{ include "lang/define_array.go" }}
-    ```
-  Parameters:
-  - "`func(interface{}) ([]byte, error)`: data type's marshaller"
-  - "`func([]byte, interface{}) error`: data type's unmarshaller"
-  - "`stdio.Io`: stream to read from (eg STDIN)"
-  - "`func([]byte)`: callback function to write each array element"
-  Related:
-  - ReadArray
-  - WriteArray
-  - ReadMap
-  - ReadIndex
-  - ReadNotIndex
-  - lang.IndexTemplateObject
-  - lang.IndexTemplateTable
-
 
 - DocumentID: ReadMap
   Title: >-

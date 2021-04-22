@@ -14,7 +14,7 @@
   Examples:
   Hooks:
     ReadArray(): Works with YAML arrays. Maps are converted into arrays
-    ReadArrayByType(): Works with YAML arrays. Maps are converted into arrays. Element type returned in _murex_ should match element type in YAML
+    ReadArrayWithType(): Works with YAML arrays. Maps are converted into arrays. Element type returned in _murex_ should match element type in YAML
     ReadMap(): Works with YAML maps
     WriteArray(): Works with YAML arrays
     ReadIndex(): Works against all properties in YAML
@@ -48,4 +48,4 @@
   - apis/Marshal
   - apis/Unmarshal
   - apis/lang.ArrayTemplate
-  - apis/lang.ArrayByTypeTemplate
+  - apis/lang.ArrayWithTypeTemplate

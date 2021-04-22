@@ -11,7 +11,7 @@
   Examples:
   Hooks:
     ReadArray(): Treats each new line as a new array element
-    ReadArrayByType(): Treats each new line as a new array element, each element is `*`
+    ReadArrayWithType(): Treats each new line as a new array element, each element is `*`
     ReadMap(): Works against tables such as the output from `ps -fe`
     WriteArray(): Writes a new line per array element
     ReadIndex(): Indexes treated as table coordinates

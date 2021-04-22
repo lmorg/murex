@@ -14,7 +14,7 @@ func init() {
 	lang.ReadNotIndexes[types.Json] = index
 
 	stdio.RegisterReadArray(types.Json, readArray)
-	stdio.RegisterReadArrayByType(types.Json, readArrayByType)
+	stdio.RegisterReadArrayWithType(types.Json, readArrayWithType)
 	stdio.RegisterReadMap(types.Json, readMap)
 	stdio.RegisterWriteArray(types.Json, newArrayWriter)
 

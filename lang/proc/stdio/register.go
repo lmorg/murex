@@ -49,14 +49,14 @@ func RegisterReadArray(dataType string, function func(read Io, callback func([]b
 	readArray[dataType] = function
 }
 
-// RegisterReadArrayByType is used by types (/builtins/types) to regester themselves to murex.
+// RegisterReadArrayWithType is used by types (/builtins/types) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegisterReadArrayByType(dataType string, function func(read Io, callback func([]byte, string)) error) {
-	if readArrayByType[dataType] != nil {
-		panic("readArrayByType already registered for the data type: " + dataType)
+func RegisterReadArrayWithType(dataType string, function func(read Io, callback func([]byte, string)) error) {
+	if readArrayWithType[dataType] != nil {
+		panic("readArrayWithType already registered for the data type: " + dataType)
 	}
 
-	readArrayByType[dataType] = function
+	readArrayWithType[dataType] = function
 }
 
 // RegisterReadMap is used by pipes (/builtins/) to regester themselves to murex.

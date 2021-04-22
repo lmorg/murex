@@ -1,8 +1,8 @@
 # _murex_ Shell Docs
 
-## API Reference: `ReadArray()` (type)
+## API Reference: `ReadArrayWithType()` (type)
 
-> Read from a data type one array element at a time
+> Read from a data type one array element at a time and return the elements contents and data type
 
 ## Description
 
@@ -15,18 +15,52 @@ The purpose of this function is to allow builtins to support sequential reads
 (where possible) and also create a standard interface for builtins, thus
 allowing them to be data-type agnostic.
 
+This differs from ReadArray() because it also returns the data type.
+
+There is a good chance ReadArray() might get deprecated in the medium to long
+term.
+
 ## Usage
 
-Registering your `ReadArray()`
+Registering your `ReadArrayWithType()`
 
 ```go
 // To avoid confusion, this should only happen inside func init()
-stdio.RegisterReadArray(/* your type name */, /* your readArray func */)
+stdio.RegisterReadArrayWithType(/* your type name */, /* your readArray func */)
 ```
 
 ## Examples
 
-Example `ReadArray()` function:
+Example `ReadArrayWithType()` function:
+
+```go
+package string
+
+import (
+	"bufio"
+	"bytes"
+
+	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/types"
+)
+
+func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+	scanner := bufio.NewScanner(read)
+	for scanner.Scan() {
+		callback(bytes.TrimSpace(scanner.Bytes()), types.String)
+	}
+
+	return scanner.Err()
+}
+```
+
+## Detail
+
+If your data type is not a stream-able array, it is then recommended that
+you pass your array to  `lang.ArrayTemplate()` which is a handler to convert Go
+structures into _murex_ arrays. This also makes writing `ReadArray()` handlers
+easier since you can just pass `lang.ArrayTemplate()` your marshaller.
+For example:
 
 ```go
 package string
@@ -45,33 +79,6 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	}
 
 	return scanner.Err()
-}
-```
-
-## Detail
-
-If your data type is not a stream-able array, it is then recommended that
-you pass your array to  `lang.ArrayTemplate()` which is a handler to convert Go
-structures into _murex_ arrays. This also makes writing `ReadArray()` handlers
-easier since you can just pass `lang.ArrayTemplate()` your marshaller.
-For example:
-
-```go
-package json
-
-import (
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
-	"github.com/lmorg/murex/utils/json"
-)
-
-func readArray(read stdio.Io, callback func([]byte)) error {
-	// Create a marshaller function to pass to ArrayTemplate
-	marshaller := func(v interface{}) ([]byte, error) {
-		return json.Marshal(v, read.IsTTY())
-	}
-
-	return lang.ArrayTemplate(marshaller, json.Unmarshal, read, callback)
 }
 ```
 

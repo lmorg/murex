@@ -9,7 +9,7 @@ import (
 func init() {
 	// Register data type
 	stdio.RegisterReadArray(types.String, readArray)
-	stdio.RegisterReadArrayByType(types.String, readArrayByType)
+	stdio.RegisterReadArrayWithType(types.String, readArrayWithType)
 	stdio.RegisterReadMap(types.String, readMap)
 	stdio.RegisterWriteArray(types.String, newArrayWriter)
 

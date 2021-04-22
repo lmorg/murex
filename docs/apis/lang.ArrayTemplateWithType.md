@@ -1,8 +1,8 @@
 # _murex_ Shell Docs
 
-## API Reference: `lang.ArrayTemplate()` (template API)
+## API Reference: `lang.ArrayTemplateWithType()` (template API)
 
-> Unmarshals a data type into a Go struct and returns the results as an array
+> Unmarshals a data type into a Go struct and returns the results as an array with data type included
 
 ## Description
 
@@ -10,9 +10,9 @@ This is a template API you can use for your custom data types to wrap around an
 existing Go marshaller and return a _murex_ array which is consistent with
 other structures such as nested JSON or YAML documents.
 
-It should only be called from `ReadArray()` functions.
+It should only be called from `ReadArrayWithType()` functions.
 
-Because `lang.ArrayTemplate()` relies on a marshaller, it means any types that
+Because `lang.ArrayTemplateWithType()` relies on a marshaller, it means any types that
 rely on this API are not going to be stream-able.
 
 
@@ -48,13 +48,12 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 package lang
 
 import (
-	"fmt"
-
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/types"
 )
 
-// ArrayTemplate is a template function for reading arrays from marshalled data
-func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte)) error {
+// ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
+func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -69,26 +68,26 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 
 	switch v.(type) {
 	case string:
-		return readArrayByString(v.(string), callback)
+		return readArrayWithTypeByString(v.(string), callback)
 
 	case []string:
-		return readArrayBySliceString(v.([]string), callback)
+		return readArrayWithTypeBySliceString(v.([]string), callback)
 
 	case []interface{}:
-		return readArrayBySliceInterface(marshal, v.([]interface{}), callback)
+		return readArrayWithTypeBySliceInterface(dataType, marshal, v.([]interface{}), callback)
 
-	case map[string]string:
-		return readArrayByMapStrStr(v.(map[string]string), callback)
+	/*case map[string]string:
+		return readArrayWithTypeByMapStrStr(v.(map[string]string), callback)
 
 	case map[string]interface{}:
-		return readArrayByMapStrIface(marshal, v.(map[string]interface{}), callback)
+		return readArrayWithTypeByMapStrIface(marshal, v.(map[string]interface{}), callback)
 
 	case map[interface{}]string:
-		return readArrayByMapIfaceStr(v.(map[interface{}]string), callback)
+		return readArrayWithTypeByMapIfaceStr(v.(map[interface{}]string), callback)
 
 	case map[interface{}]interface{}:
-		return readArrayByMapIfaceIface(marshal, v.(map[interface{}]interface{}), callback)
-
+		return readArrayWithTypeByMapIfaceIface(marshal, v.(map[interface{}]interface{}), callback)
+	*/
 	default:
 		jBytes, err := marshal(v)
 		if err != nil {
@@ -96,27 +95,27 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 			return err
 		}
 
-		callback(jBytes)
+		callback(jBytes, dataType)
 
 		return nil
 	}
 }
 
-func readArrayByString(v string, callback func([]byte)) error {
-	callback([]byte(v))
+func readArrayWithTypeByString(v string, callback func([]byte, string)) error {
+	callback([]byte(v), types.String)
 
 	return nil
 }
 
-func readArrayBySliceString(v []string, callback func([]byte)) error {
+func readArrayWithTypeBySliceString(v []string, callback func([]byte, string)) error {
 	for i := range v {
-		callback([]byte(v[i]))
+		callback([]byte(v[i]), types.String)
 	}
 
 	return nil
 }
 
-func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
+func readArrayWithTypeBySliceInterface(dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte, string)) error {
 	if len(v) == 0 {
 		return nil
 	}
@@ -124,12 +123,12 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 	switch v[0].(type) {
 	case string:
 		for i := range v {
-			callback([]byte(v[i].(string)))
+			callback([]byte(v[i].(string)), types.String)
 		}
 
 	case []byte:
 		for i := range v {
-			callback(v[i].([]byte))
+			callback(v[i].([]byte), types.String)
 		}
 
 	default:
@@ -139,14 +138,15 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 			if err != nil {
 				return err
 			}
-			callback(jBytes)
+			callback(jBytes, dataType)
+
 		}
 	}
 
 	return nil
 }
 
-func readArrayByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte)) error {
+/*func readArrayWithTypeByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte, string)) error {
 	for key, val := range v {
 
 		bKey := []byte(fmt.Sprint(key) + ": ")
@@ -160,7 +160,7 @@ func readArrayByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[i
 	return nil
 }
 
-func readArrayByMapStrStr(v map[string]string, callback func([]byte)) error {
+func readArrayWithTypeByMapStrStr(v map[string]string, callback func([]byte, string)) error {
 	for key, val := range v {
 
 		callback([]byte(key + ": " + val))
@@ -169,7 +169,7 @@ func readArrayByMapStrStr(v map[string]string, callback func([]byte)) error {
 	return nil
 }
 
-func readArrayByMapStrIface(marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte)) error {
+func readArrayWithTypeByMapStrIface(marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte, string)) error {
 	for key, val := range v {
 
 		bKey := []byte(key + ": ")
@@ -183,7 +183,7 @@ func readArrayByMapStrIface(marshal func(interface{}) ([]byte, error), v map[str
 	return nil
 }
 
-func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) error {
+func readArrayWithTypeByMapIfaceStr(v map[interface{}]string, callback func([]byte, string)) error {
 	for key, val := range v {
 
 		callback([]byte(fmt.Sprint(key) + ": " + val))
@@ -191,6 +191,7 @@ func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) err
 
 	return nil
 }
+*/
 ```
 
 ## Parameters
@@ -198,7 +199,7 @@ func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) err
 1. `func(interface{}) ([]byte, error)`: data type's marshaller
 2. `func([]byte, interface{}) error`: data type's unmarshaller
 3. `stdio.Io`: stream to read from (eg STDIN)
-4. `func([]byte)`: callback function to write each array element
+4. `func([]byte, string)`: callback function to write each array element
 
 ## See Also
 

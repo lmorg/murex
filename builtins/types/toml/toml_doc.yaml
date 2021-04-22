@@ -52,7 +52,7 @@
   Hooks:
 #    ReadMap(): Works with TOML maps
     ReadArray(): Hook supported albeit TOML doesn't support naked arrays
-    ReadArrayByType(): Hook supported albeit TOML doesn't support naked arrays
+    ReadArrayWithType(): Hook supported albeit TOML doesn't support naked arrays
     ReadIndex(): Works against all properties in TOML
     ReadNotIndex(): Works against all properties in TOML
     Marshal(): Supported

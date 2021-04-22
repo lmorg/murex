@@ -28,7 +28,7 @@ external source packages for the shell to compile.
     Supported
 * `ReadArray()`
     Works with YAML arrays. Maps are converted into arrays
-* `ReadArrayByType()`
+* `ReadArrayWithType()`
     Works with YAML arrays. Maps are converted into arrays. Element type returned in _murex_ should match element type in YAML
 * `ReadIndex()`
     Works against all properties in YAML
@@ -75,5 +75,5 @@ external source packages for the shell to compile.
   Open a file with a preferred handler
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [apis/lang.ArrayByTypeTemplate](../apis/lang.ArrayByTypeTemplate.md):
+* [apis/lang.ArrayWithTypeTemplate](../apis/lang.ArrayWithTypeTemplate.md):
   

@@ -46,9 +46,9 @@ func (tee *Tee) ReadLine(callback func([]byte)) error { return tee.primary.ReadL
 // ReadArray reads an array from STDIN (uses the primary tee stream)
 func (tee *Tee) ReadArray(callback func([]byte)) error { return tee.primary.ReadArray(callback) }
 
-// ReadArrayByType reads an array from STDIN (uses the primary tee stream)
-func (tee *Tee) ReadArrayByType(callback func([]byte, string)) error {
-	return tee.primary.ReadArrayByType(callback)
+// ReadArrayWithType reads an array from STDIN (uses the primary tee stream)
+func (tee *Tee) ReadArrayWithType(callback func([]byte, string)) error {
+	return tee.primary.ReadArrayWithType(callback)
 }
 
 // ReadMap reads a hash table from STDIN (uses the primary tee stream)
