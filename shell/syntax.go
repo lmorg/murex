@@ -20,7 +20,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 
 	var part parser.ParsedTokens
 	full, _ := parse(line)
-	if pos >= len(line) {
+	if pos >= len(line)-1 {
 		part = full
 	} else {
 		part, _ = parse(line[:pos+1])
@@ -33,6 +33,11 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 	var previousRune rune
 	if pos > 0 {
 		previousRune = line[pos-1] // character before current one
+	}
+
+	var nextRune rune
+	if pos < len(line)-1 {
+		nextRune = line[pos+1] // character after current one
 	}
 
 	if len(line) > 1 && pos > 0 && previousRune == '\\' {
@@ -155,6 +160,11 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			return line, pos
 		}
 
+	case "}":
+		if full.NestedBlock < 0 && part.NestedBlock == 0 && full.LastCharacter == '}' {
+			return line[:len(line)-1], pos
+		}
+
 	case "[":
 		switch {
 		case part.QuoteSingle || part.QuoteDouble || part.QuoteBrace > 0 || part.NestedBlock > 0:
@@ -169,6 +179,11 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			newLine := append(line[:pos+1], ' ', ' ', ']', ']')
 			newLine = append(newLine, line[pos+1:]...)
 			return newLine, pos + 1
+		}
+
+	case "]":
+		if part.SquareBracket && full.SquareBracket && nextRune == ']' {
+			return append(line[:pos], line[pos+1:]...), pos
 		}
 	}
 

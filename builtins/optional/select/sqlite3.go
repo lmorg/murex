@@ -85,7 +85,7 @@ func createQueryString(parameters string) string {
 
 	switch len(split) {
 	case 1:
-		return fmt.Sprintf(sqlQuery, split[0], "")
+		return fmt.Sprintf(sqlQuery, split[0], match, "")
 	case 2:
 		return fmt.Sprintf(sqlQuery, split[0], match, split[1])
 	default:

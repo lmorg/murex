@@ -555,3 +555,45 @@ func TestSyntaxCompletionsEscaped(t *testing.T) {
 
 	testSyntaxCompletions(t, tests)
 }
+
+func TestSyntaxCompletionsBraceOvertype(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `out: {}_}`,
+			Change:   `}`,
+			Expected: `out: {}_`,
+		},
+		{
+			Line:     `out: []_]`,
+			Change:   `]`,
+			Expected: `out: []_`,
+		},
+		{
+			Line:     `out: ()_)`,
+			Change:   `)`,
+			Expected: `out: ()_`,
+		},
+		/////
+		{
+			// this condition doesn't happen organically so lets not force a
+			// correction here
+			Line:     `out: {}_}foobar`,
+			Change:   `}`,
+			Expected: `out: {}_}foobar`,
+		},
+		{
+			Line:     `out: []_]foobar`,
+			Change:   `]`,
+			Expected: `out: []_foobar`,
+		},
+		{
+			// this condition doesn't happen organically so lets not force a
+			// correction here
+			Line:     `out: ()_)foobar`,
+			Change:   `)`,
+			Expected: `out: ()_)foobar`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}
