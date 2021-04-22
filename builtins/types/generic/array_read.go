@@ -1,9 +1,10 @@
-package apachelogs
+package generic
 
 import (
 	"bufio"
 
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func readArray(read stdio.Io, callback func([]byte)) error {
@@ -18,7 +19,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 func readArrayByType(read stdio.Io, callback func([]byte, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
-		callback(scanner.Bytes(), typeAccess)
+		callback(scanner.Bytes(), types.Generic)
 	}
 
 	return scanner.Err()

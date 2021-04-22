@@ -26,6 +26,9 @@ func (f *File) ReadLine(func([]byte)) error { return nil }
 // ReadArray is an empty method because file devices are write only
 func (f *File) ReadArray(func([]byte)) error { return nil }
 
+// ReadArrayByType is an empty method because file devices are write only
+func (f *File) ReadArrayByType(func([]byte, string)) error { return nil }
+
 // ReadMap is an empty method because file devices are write only
 func (f *File) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
 

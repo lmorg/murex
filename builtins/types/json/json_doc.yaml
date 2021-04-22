@@ -42,6 +42,7 @@
     ```
   Hooks:
     ReadArray(): Works with JSON arrays. Maps are converted into arrays
+    ReadArrayByType(): Works with JSON arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the JSON type of the element
     ReadMap(): Works with JSON maps
     WriteArray(): Works with JSON arrays
     ReadIndex(): Works against all properties in JSON
@@ -72,9 +73,12 @@
   - commands/runtime
   - commands/pretty
   - apis/ReadArray
+  - apis/ReadArrayByType
   - apis/ReadMap
   - apis/WriteArray
   - apis/ReadIndex
   - apis/ReadNotIndex
   - apis/Marshal
   - apis/Unmarshal
+  - apis/lang.ArrayTemplate
+  - apis/lang.ArrayByTypeTemplate

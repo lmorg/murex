@@ -39,7 +39,7 @@ func DumpPipes() (dump []string) {
 	return
 }
 
-// RegisterReadArray is used by pipes (/builtins/) to regester themselves to murex.
+// RegisterReadArray is used by types (/builtins/types) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
 func RegisterReadArray(dataType string, function func(read Io, callback func([]byte)) error) {
 	if readArray[dataType] != nil {
@@ -47,6 +47,16 @@ func RegisterReadArray(dataType string, function func(read Io, callback func([]b
 	}
 
 	readArray[dataType] = function
+}
+
+// RegisterReadArrayByType is used by types (/builtins/types) to regester themselves to murex.
+// This function should only be called from a packages Init() func.
+func RegisterReadArrayByType(dataType string, function func(read Io, callback func([]byte, string)) error) {
+	if readArrayByType[dataType] != nil {
+		panic("readArrayByType already registered for the data type: " + dataType)
+	}
+
+	readArrayByType[dataType] = function
 }
 
 // RegisterReadMap is used by pipes (/builtins/) to regester themselves to murex.

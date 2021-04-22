@@ -14,5 +14,6 @@ func init() {
 	lang.ReadIndexes[dataType] = index
 
 	stdio.RegisterReadArray(dataType, readArray)
+	stdio.RegisterReadArrayByType(dataType, readArrayByType)
 	stdio.RegisterReadMap(dataType, readMap)
 }

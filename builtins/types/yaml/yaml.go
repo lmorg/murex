@@ -15,6 +15,7 @@ const typeName = "yaml"
 
 func init() {
 	stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadArrayByType(typeName, readArrayByType)
 	stdio.RegisterReadMap(typeName, readMap)
 	stdio.RegisterWriteArray(typeName, newArrayWriter)
 	lang.ReadIndexes[typeName] = readIndex
@@ -34,6 +35,10 @@ func init() {
 
 func readArray(read stdio.Io, callback func([]byte)) error {
 	return lang.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)
+}
+
+func readArrayByType(read stdio.Io, callback func([]byte, string)) error {
+	return lang.ArrayByTypeTemplate(typeName, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
 func noCrLf(b []byte) []byte {

@@ -1,7 +1,6 @@
 package toml
 
 import (
-	"bytes"
 	"errors"
 
 	"github.com/BurntSushi/toml"
@@ -16,6 +15,7 @@ var errNakedArrays = errors.New("The TOML specification doesn't support naked ar
 
 func init() {
 	stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadArrayByType(typeName, readArrayByType)
 	//stdio.RegisterReadMap(typeName, readMap)
 	stdio.RegisterWriteArray(typeName, func(_ stdio.Io) (stdio.ArrayWriter, error) {
 		return nil, errNakedArrays
@@ -46,35 +46,6 @@ func tomlMarshal(v interface{}) (b []byte, err error) {
 
 	b, err = w.ReadAll()
 	return b, err
-}
-
-func readArray(read stdio.Io, callback func([]byte)) error {
-	b, err := read.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	j := make([]interface{}, 0)
-	err = toml.Unmarshal(b, &j)
-	if err != nil {
-		return err
-	}
-
-	for i := range j {
-		switch j[i].(type) {
-		case string:
-			callback(bytes.TrimSpace([]byte(j[i].(string))))
-
-		default:
-			jBytes, err := tomlMarshal(j[i])
-			if err != nil {
-				return err
-			}
-			callback(jBytes)
-		}
-	}
-
-	return nil
 }
 
 /*func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {

@@ -18,15 +18,14 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 		default:
 		}
 
-		//stdin.mutex.RLock()
 		stdin.mutex.Lock()
 		l := len(stdin.buffer)
 		deps := stdin.dependants
-		//stdin.mutex.RUnlock()
+
 		stdin.mutex.Unlock()
 
 		if l == 0 {
-			if deps /*atomic.LoadInt32(&stdin.dependants)*/ < 1 {
+			if deps < 1 {
 				return 0, io.EOF
 			}
 
@@ -37,20 +36,17 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 	}
 
 	stdin.mutex.Lock()
-	//stdin.mutex.RLock()
 
 	if len(p) >= len(stdin.buffer) {
 		i = len(stdin.buffer)
 		copy(p, stdin.buffer)
-		//stdin.mutex.RUnlock()
-		//stdin.mutex.Lock()
+
 		stdin.buffer = make([]byte, 0)
 
 	} else {
 		i = len(p)
 		copy(p, stdin.buffer[:i])
-		//stdin.mutex.RUnlock()
-		//stdin.mutex.Lock()
+
 		stdin.buffer = stdin.buffer[i:]
 	}
 
@@ -65,10 +61,7 @@ func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(stdin)
 	for scanner.Scan() {
 		b := scanner.Bytes()
-		// surely this is covered by Read() ...?
-		//stdin.mutex.Lock()
-		//stdin.bRead += uint64(len(b))
-		//stdin.mutex.Unlock()
+
 		callback(append(b, utils.NewLineByte...))
 	}
 
@@ -88,13 +81,12 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 		default:
 		}
 
-		//stdin.mutex.RLock()
 		stdin.mutex.Lock()
 		closed := stdin.dependants < 1
-		//stdin.mutex.RUnlock()
+
 		stdin.mutex.Unlock()
 
-		if closed /*atomic.LoadInt32(&stdin.dependants) < 1 */ {
+		if closed {
 			break
 		}
 	}
@@ -109,6 +101,11 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 // ReadArray returns a data type-specific array returned via a callback function
 func (stdin *Stdin) ReadArray(callback func([]byte)) error {
 	return stdio.ReadArray(stdin, callback)
+}
+
+// ReadArrayByType returns an array like "ReadArray" plus data type via a callback function
+func (stdin *Stdin) ReadArrayByType(callback func([]byte, string)) error {
+	return stdio.ReadArrayByType(stdin, callback)
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function

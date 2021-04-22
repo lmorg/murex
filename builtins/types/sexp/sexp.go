@@ -1,7 +1,6 @@
 package sexp
 
 import (
-	"bytes"
 	"strconv"
 
 	"github.com/abesto/sexp"
@@ -17,6 +16,7 @@ const (
 
 func init() {
 	stdio.RegisterReadArray(sexpr, readArrayS)
+	stdio.RegisterReadArrayByType(sexpr, readArrayByTypeS)
 	stdio.RegisterReadMap(sexpr, readMapS)
 	stdio.RegisterWriteArray(sexpr, newArrayWriterS)
 	lang.ReadIndexes[sexpr] = readIndexS
@@ -25,6 +25,7 @@ func init() {
 	lang.Unmarshallers[sexpr] = unmarshal
 
 	stdio.RegisterReadArray(csexp, readArrayC)
+	stdio.RegisterReadArrayByType(csexp, readArrayByTypeC)
 	stdio.RegisterReadMap(csexp, readMapC)
 	stdio.RegisterWriteArray(csexp, newArrayWriterC)
 	lang.ReadIndexes[csexp] = readIndexC
@@ -41,37 +42,6 @@ func init() {
 	)
 
 	lang.SetFileExtensions(sexpr, "sexp")
-}
-
-func readArrayC(read stdio.Io, callback func([]byte)) error { return readArray(read, callback, true) }
-func readArrayS(read stdio.Io, callback func([]byte)) error { return readArray(read, callback, false) }
-
-func readArray(read stdio.Io, callback func([]byte), canonical bool) error {
-	b, err := read.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	j, err := sexp.Unmarshal(b)
-	if err != nil {
-		return err
-	}
-
-	for i := range j {
-		switch j[i].(type) {
-		case string:
-			callback(bytes.TrimSpace([]byte(j[i].(string))))
-
-		default:
-			jBytes, err := sexp.Marshal(j[i], canonical)
-			if err != nil {
-				return err
-			}
-			callback(jBytes)
-		}
-	}
-
-	return nil
 }
 
 func readMapC(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {

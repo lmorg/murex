@@ -10,7 +10,8 @@
   Usage: |-
   Examples: |-
   Hooks:
-    ReadArray(): Supported. Each line is considered an index (like with `str` data-type)
+    ReadArray(): Supported. Each line is considered an index (like with `str` data type)
+    ReadArrayByIndex(): Supported. Each line is considered an index with `commonlog` data type
     ReadMap(): Not supported, currently a work in progress
     ReadIndex(): Entire log file is read and then the indexes are derived from there
     ReadNotIndex(): Entire log file is read and then the indexes are derived from there
