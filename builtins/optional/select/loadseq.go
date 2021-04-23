@@ -15,7 +15,7 @@ import (
 var rxWhitespace = regexp.MustCompile(`[\s\t]+`)
 
 // loadSeq is highly experimental!
-func loadSeq(p *lang.Process, confFailColMismatch, confTableIncHeadings bool) error {
+func loadSeq(p *lang.Process, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings bool) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	var (

@@ -67,13 +67,13 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 				pass, err = compareConditional(p, val, caseIf)
 				if err != nil {
 					return fmt.Errorf("Error comparing %s statement, %s conditional: %s",
-						humannumbers.Position(i+1), (*ast)[i].Name, err.Error())
+						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error())
 				}
 			} else {
 				pass, err = executeConditional(p, caseIf)
 				if err != nil {
 					return fmt.Errorf("Error executing %s statement, %s conditional: %s",
-						humannumbers.Position(i+1), (*ast)[i].Name, err.Error())
+						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error())
 				}
 			}
 
@@ -81,7 +81,7 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 				err = executeThen(p, thenBlock)
 				if err != nil {
 					return fmt.Errorf("Error executing %s statement, then block: %s",
-						humannumbers.Position(i+1), err.Error())
+						humannumbers.Ordinal(i+1), err.Error())
 				}
 
 				switch (*ast)[i].Name {
@@ -106,7 +106,7 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 			err = executeThen(p, thenBlock)
 			if err != nil {
 				return fmt.Errorf("Error executing %s statement, catch block: %s",
-					humannumbers.Position(i+1), err.Error())
+					humannumbers.Ordinal(i+1), err.Error())
 			}
 
 			return nil
@@ -129,15 +129,15 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 		switch params.Len() {
 		case 0:
 			return fmt.Errorf("Missing parameters for %s statement (%s)\n%s",
-				humannumbers.Position(i+1), (*ast)[i].Name, errReferToDocs), nil, nil
+				humannumbers.Ordinal(i+1), (*ast)[i].Name, errReferToDocs), nil, nil
 		case 1:
 			return fmt.Errorf("Too few parameters for %s statement (%s)\nExpected: conditional then { code block }\nFound: %s\n%s",
-				humannumbers.Position(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
+				humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
 
 		case 3:
 			if params.Params[1] != "then" {
 				return fmt.Errorf("Too many parameters for %s statement (%s) or typo in statements. Expecting 'then' statement but found: '%s'\n%s",
-					humannumbers.Position(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
+					humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
 			}
 			adjust = 1
 			fallthrough
@@ -146,7 +146,7 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 			thenBlock, err := params.Block(1 + adjust)
 			if err != nil {
 				return fmt.Errorf("Cannot compile %s statement (%s): %s\nExpecting code block, found: '%s'",
-					humannumbers.Position(i+1), (*ast)[i].Name, err.Error(), params.Params[1+adjust]), nil, nil
+					humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.Params[1+adjust]), nil, nil
 			}
 
 			if byVal {
@@ -156,36 +156,36 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 			caseIf, err := params.Block(0)
 			if err != nil {
 				return fmt.Errorf("Cannot compile %s statement (%s): %s\nExpecting %s conditional block, found: '%s'",
-					humannumbers.Position(i+1), (*ast)[i].Name, err.Error(), (*ast)[i].Name, params.Params[0]), nil, nil
+					humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), (*ast)[i].Name, params.Params[0]), nil, nil
 			}
 			return nil, caseIf, thenBlock
 
 		default:
 			return fmt.Errorf("Too many parameters for %s statement (%s)\nFound: '%s'\n%s",
-				humannumbers.Position(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
+				humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
 		}
 
 	case "catch":
 		switch params.Len() {
 		case 0:
 			return fmt.Errorf("Missing parameters for %s statement (%s)\n%s",
-				humannumbers.Position(i+1), (*ast)[i].Name, errReferToDocs), nil, nil
+				humannumbers.Ordinal(i+1), (*ast)[i].Name, errReferToDocs), nil, nil
 
 		case 1:
 			thenBlock, err := params.Block(0)
 			if err != nil {
 				return fmt.Errorf("Cannot compile %s statement (%s): %s\nExpecting code block, found: '%s'",
-					humannumbers.Position(i+1), (*ast)[i].Name, err.Error(), params.Params[0]), nil, nil
+					humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.Params[0]), nil, nil
 			}
 			return nil, nil, thenBlock
 
 		default:
 			return fmt.Errorf("Too many parameters for %s statement (%s)\nFound: '%s'\n%s",
-				humannumbers.Position(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
+				humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs), nil, nil
 		}
 
 	default:
-		return fmt.Errorf("Invalid %s statement '%s'", humannumbers.Position(i+1), (*ast)[i].Name), nil, nil
+		return fmt.Errorf("Invalid %s statement '%s'", humannumbers.Ordinal(i+1), (*ast)[i].Name), nil, nil
 	}
 }
 

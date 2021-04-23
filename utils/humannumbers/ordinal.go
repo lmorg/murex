@@ -2,8 +2,8 @@ package humannumbers
 
 import "strconv"
 
-// Position returns the number + positional suffix
-func Position(i int) string {
+// Ordinal returns the number + ordinal suffix
+func Ordinal(i int) string {
 	s := strconv.Itoa(i)
 
 	switch i % 100 {

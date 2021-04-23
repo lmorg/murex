@@ -47,9 +47,9 @@ func dynamicAutocomplete(p *lang.Process, confFailColMismatch, confTableIncHeadi
 			"ORDER BY", "GROUP BY",
 		)
 	} else {
-		for i := range completions {
-			completions[i] += ","
-		}
+		//for i := range completions {
+		//	completions[i] += ","
+		//}
 		completions = append(completions, "*", "WHERE", "ORDER BY", "GROUP BY")
 	}
 

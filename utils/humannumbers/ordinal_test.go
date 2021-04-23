@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-func TestPosition(t *testing.T) {
+func TestOrdinal(t *testing.T) {
 	tests := map[int]string{
 		-12512: "-12512th",
 		-12511: "-12511th",
@@ -51,7 +51,7 @@ func TestPosition(t *testing.T) {
 	count.Tests(t, len(tests))
 
 	for i, exp := range tests {
-		act := humannumbers.Position(i)
+		act := humannumbers.Ordinal(i)
 
 		if exp != act {
 			t.Error("Expected != Actual:")
