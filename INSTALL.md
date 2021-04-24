@@ -67,9 +67,9 @@ to exist in $PATH
 * `github.com/abesto/sexp` adds support for s-expressions and canonical
 s-expressions
 
-* `gopkg.in/yaml.v2` adds support for YAML
+* `gopkg.in/yaml.v3` adds support for YAML
 
-* `github.com/BurntSushi/toml` adds support for TOML
+* `github.com/pelletier/go-toml` adds support for TOML
 
 * `github.com/hashicorp/hcl` adds support for HCL (eg Terraform scripts)
 
