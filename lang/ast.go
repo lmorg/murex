@@ -4,6 +4,7 @@ import (
 	"github.com/lmorg/murex/lang/proc/parameters"
 )
 
+// AstNode is a tokenized struct for each command, including it's parameters
 type AstNode struct {
 	Name        string
 	ParamTokens [][]parameters.ParamToken
@@ -15,6 +16,7 @@ type AstNode struct {
 	ColNumber   int
 }
 
+// AstNodes is the entire code block sequenced as an array of tokenized structs
 type AstNodes []AstNode
 
 // Last node in the AST array

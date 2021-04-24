@@ -17,8 +17,8 @@ import (
 )
 
 var (
-	FlagTry     bool
-	FlagTryPipe bool
+	FlagTry     bool // murex started with `--try` ?
+	FlagTryPipe bool // murex started with `--trypipe` ?
 )
 
 // InitEnv initialises murex. Exported function to enable unit tests.
