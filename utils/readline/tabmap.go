@@ -26,7 +26,6 @@ func (rl *Instance) initTabMap() {
 		}
 	}
 
-	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
 	rl.tcOffset = 0

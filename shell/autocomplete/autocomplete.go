@@ -25,7 +25,7 @@ type AutoCompleteT struct {
 }
 
 func (act *AutoCompleteT) append(items ...string) {
-	// Dedup
+	/*// Dedup
 	for _, item := range items {
 		for i := range act.Items {
 			if act.Items[i] == item {
@@ -35,7 +35,9 @@ func (act *AutoCompleteT) append(items ...string) {
 
 		act.Items = append(act.Items, item)
 	next:
-	}
+	}*/
+
+	act.Items = append(act.Items, items...)
 }
 
 func (act *AutoCompleteT) appendDef(item, def string) {

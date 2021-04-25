@@ -20,7 +20,7 @@ func autoBranch(items *[]string) {
 	} else {
 		// Only show top level
 		cropBranches(items)
-		dedup(items)
+		// dedup group
 	}
 }
 
@@ -66,21 +66,4 @@ func cropBranches(tree *[]string) {
 		}
 
 	}
-}
-
-// This is pretty inefficient. It really should be rewritten
-func dedup(items *[]string) {
-	m := make(map[string]bool)
-	for i := range *items {
-		m[(*items)[i]] = true
-	}
-
-	*items = make([]string, len(m))
-	var i int
-	for s := range m {
-		(*items)[i] = s
-		i++
-	}
-
-	sort.Strings(*items)
 }

@@ -1,7 +1,6 @@
 package readline
 
 import (
-	"sort"
 	"strconv"
 )
 
@@ -12,8 +11,6 @@ func (rl *Instance) initTabGrid() {
 	} else {
 		suggestions = rl.tcSuggestions
 	}
-
-	sort.Strings(suggestions) // I don't like doing this here
 
 	rl.tcMaxLength = rl.MinTabItemLength
 	for i := range suggestions {
@@ -28,7 +25,6 @@ func (rl *Instance) initTabGrid() {
 		rl.tcMaxLength = 20
 	}
 
-	rl.modeTabCompletion = true
 	rl.tcPosX = 1
 	rl.tcPosY = 1
 	rl.tcMaxX = rl.termWidth / (rl.tcMaxLength + 2)

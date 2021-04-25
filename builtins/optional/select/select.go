@@ -156,15 +156,3 @@ func stringToInterfacePtr(s *[]string, max int) []interface{} {
 
 	return slice
 }
-
-func iToColumnLetter(i int) string {
-	var col string
-
-	for i >= 0 {
-		mod := i % 26
-		col = string([]byte{byte(mod) + 65}) + col
-		i = ((i - mod) / 26) - 1
-	}
-
-	return col
-}

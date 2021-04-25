@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils/humannumbers"
 )
 
 func loadAll(p *lang.Process, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool) error {
@@ -51,7 +52,7 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 	} else {
 		headings = make([]string, len(v[0]))
 		for i := range headings {
-			headings[i] = iToColumnLetter(i)
+			headings[i] = humannumbers.ColumnLetter(i)
 		}
 		db, tx, err = open(headings)
 		if err != nil {

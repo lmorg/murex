@@ -175,7 +175,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	case <-softCtx.Done():
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
 			act.ErrCallback(fmt.Errorf("Long running dynamic autocompletion pushed to the background"))
-			//act.appendDef("", "Long running dynamic auto-completion...")
+			//act.appendDef("", "")
+			//act.MinTabItemLength = 0
 		}
 
 		return
