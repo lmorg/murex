@@ -72,13 +72,15 @@ The second option is for the code block's STDIN to read the element:
 
 ## Detail
 
-### Preserving the data-type
+### Preserving The Data Type
 
-`foreach` will preserve the data-type read from STDIN in all instances where
-data is being passed along the pipeline:
+`foreach` will preserve the data type read from STDIN in all instances where
+data is being passed along the pipeline and push that data type out at the
+other end:
 
 * The temporary variable will be created with the same data-type as
-  `foreach`'s STDIN
+  `foreach`'s STDIN, or the data type of the array element (eg if it is a
+  string or number)
 * The code block's STDIN will have the same data-type as `foreach`'s STDIN
 * `foreeach`'s STDOUT will also be the same data-type as it's STDIN (or `jsonl`
   (jsonlines) where STDIN was `json` because `jsonl` better supports streaming)
@@ -234,6 +236,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 ## See Also
 
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`a` (mkarray)](../commands/a.md):
