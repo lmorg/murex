@@ -71,7 +71,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "autocomplete-soft-timeout", config.Properties{
 		Description: "Number of milliseconds (1/1000th second) to wait when running autocompletins before the task is backgrounded and the results appended to the existing completions (longer reduces responsiveness, shorter means autocompletion fields aren't sized to the longest suggestion)",
-		Default:     100,
+		Default:     150,
 		DataType:    types.Integer,
 		Global:      true,
 	})
