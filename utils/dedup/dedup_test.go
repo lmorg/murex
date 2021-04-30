@@ -52,7 +52,7 @@ func TestSortAndDedupString(t *testing.T) {
 		},
 		{
 			Input:     []string{"a", "f", "f", "c", "g", "d", "a", "b", "e", "a", "b", "b"},
-			Expected:  []string{"a", "b", "c", "d", "e", "f", ""},
+			Expected:  []string{"a", "b", "c", "d", "e", "f", "g"},
 			ExpLength: 7,
 		},
 		{
