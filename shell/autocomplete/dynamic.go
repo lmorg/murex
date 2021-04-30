@@ -36,12 +36,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
+	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
 	if err != nil {
-		softTimeout = 50
+		softTimeout = 100
 	}
 
-	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-hard-timeout", types.Integer)
+	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
 	if err != nil {
 		hardTimeout = 5000
 	}
@@ -193,22 +193,3 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 
 }
-
-/*
-config: set shell recursive-soft-timeout 1
-
-function testarray { out $ARGS }
-
-autocomplete set testarray { [{
-	"Dynamic": ({ sleep 2; ja: [Monday..Friday] })
-}] }
-
-function testmap { out $ARGS }
-
-autocomplete set testmap { [{
-	"DynamicDesc": ({
-		sleep 2
-		ja: [Monday..Friday] -> foreach --jmap day { $day } { out "$day happy days!" }
-	})
-}] }
-*/

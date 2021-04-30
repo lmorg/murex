@@ -35,9 +35,9 @@ func cacheDynamic(p *lang.Process) error {
 		p.Stderr.Writeln([]byte(err.Error()))
 	}
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
+	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
 	if err != nil {
-		softTimeout = 150
+		softTimeout = 100
 	}
 
 	var (

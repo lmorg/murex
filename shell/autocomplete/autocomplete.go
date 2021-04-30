@@ -25,18 +25,6 @@ type AutoCompleteT struct {
 }
 
 func (act *AutoCompleteT) append(items ...string) {
-	/*// Dedup
-	for _, item := range items {
-		for i := range act.Items {
-			if act.Items[i] == item {
-				goto next
-			}
-		}
-
-		act.Items = append(act.Items, item)
-	next:
-	}*/
-
 	act.Items = append(act.Items, items...)
 }
 
@@ -50,12 +38,14 @@ func (act *AutoCompleteT) largeMin() {
 	switch {
 	case width < 40:
 		act.MinTabItemLength = 10
-	case width < 80:
+	case width < 30:
 		act.MinTabItemLength = 15
-	case width < 120:
+	case width < 80:
 		act.MinTabItemLength = 20
-	case width < 160:
+	case width < 120:
 		act.MinTabItemLength = 30
+	case width < 160:
+		act.MinTabItemLength = 40
 	default:
 		act.MinTabItemLength = 40
 	}
