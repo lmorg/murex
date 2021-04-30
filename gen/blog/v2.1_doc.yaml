@@ -7,10 +7,10 @@
     This release comes with support for inlining SQL and some major bug fixes plus
     a breaking change for `config`. Please read for details.
   Description: |-
-    This release seems new optional features plus major bug fixes to the existing
+    This release sees new optional features plus major bug fixes to the existing
     code base:
 
-    ## Breaking Changes:
+    ### Breaking Changes:
     
     Two `config` **shell** keys have changed names:
     
@@ -23,7 +23,7 @@
 
     **This change might break some of your existing profile config!**
 
-    ## User Facing Changes:
+    ### User Facing Changes:
 
     * `config` **shell** **max-suggestions** now defaults at `12` rather than 6
 
@@ -64,7 +64,7 @@
 
     * Minor website tweaks
 
-    ## Non-User Face / Maintenance Changes
+    ### Non-User Face / Maintenance Changes
 
     * All dependencies have been updated, pinned and the `vendors` directory
       rebuilt
