@@ -1,7 +1,6 @@
 package autocomplete
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"strings"
@@ -39,7 +38,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
 	if err != nil {
-		softTimeout = 150
+		softTimeout = 50
 	}
 
 	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-hard-timeout", types.Integer)
@@ -99,9 +98,21 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		}
 
 		if f.Dynamic != "" {
-			var items []string
+			var (
+				timeout bool
+				items   []string
+			)
+
+			select {
+			case <-softCtx.Done():
+				timeout = true
+			default:
+				wait <- true
+			}
+
 			err := fork.Stdout.ReadArray(func(b []byte) {
-				s := string(bytes.TrimSpace(b))
+				//s := string(bytes.TrimSpace(b))
+				s := string(b)
 
 				if len(s) == 0 {
 					return
@@ -119,11 +130,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				autoBranch(&items)
 			}
 
-			select {
-			case <-softCtx.Done():
+			if timeout {
 				formatSuggestionsArray(act.ParsedTokens, items)
 				act.DelayedTabContext.AppendSuggestions(items)
-			default:
+			} else {
 				act.append(items...)
 			}
 
@@ -164,12 +174,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 	select {
 	case <-done:
-		act.MinTabItemLength = 0
+		//act.MinTabItemLength = 0
 		return
 	case <-wait:
 		select {
 		case <-done:
-			act.MinTabItemLength = 0
+			//act.MinTabItemLength = 0
 			return
 		}
 	case <-softCtx.Done():
@@ -183,3 +193,22 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 
 }
+
+/*
+config: set shell recursive-soft-timeout 1
+
+function testarray { out $ARGS }
+
+autocomplete set testarray { [{
+	"Dynamic": ({ sleep 2; ja: [Monday..Friday] })
+}] }
+
+function testmap { out $ARGS }
+
+autocomplete set testmap { [{
+	"DynamicDesc": ({
+		sleep 2
+		ja: [Monday..Friday] -> foreach --jmap day { $day } { out "$day happy days!" }
+	})
+}] }
+*/
