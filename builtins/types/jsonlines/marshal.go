@@ -9,9 +9,13 @@ import (
 )
 
 func marshal(p *lang.Process, v interface{}) ([]byte, error) {
+	var (
+		b, jsonl []byte
+		err      error
+	)
+
 	switch t := v.(type) {
 	case []string:
-		var jsonl []byte
 		for i := range t {
 			jsonl = append(jsonl, []byte(t[i])...)
 			jsonl = append(jsonl, utils.NewLineByte...)
@@ -19,15 +23,38 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 		return jsonl, nil
 
 	case []interface{}:
-		var (
-			b, jsonl []byte
-			err      error
-		)
-
 		for i := range t {
 			b, err = json.Marshal(t[i], p.Stdout.IsTTY())
 			if err != nil {
 				err = fmt.Errorf("Unable to marshal %T on line %d: %s", v.([]interface{})[i], i, err)
+				return nil, err
+			}
+
+			jsonl = append(jsonl, b...)
+			jsonl = append(jsonl, utils.NewLineByte...)
+		}
+
+		return jsonl, nil
+
+	case [][]string:
+		for i := range t {
+			b, err = json.Marshal(t[i], false)
+			if err != nil {
+				err = fmt.Errorf("Unable to marshal %T on line %d: %s", v.([][]string)[i], i, err)
+				return nil, err
+			}
+
+			jsonl = append(jsonl, b...)
+			jsonl = append(jsonl, utils.NewLineByte...)
+		}
+
+		return jsonl, nil
+
+	case [][]interface{}:
+		for i := range t {
+			b, err = json.Marshal(t[i], false)
+			if err != nil {
+				err = fmt.Errorf("Unable to marshal %T on line %d: %s", v.([][]interface{})[i], i, err)
 				return nil, err
 			}
 

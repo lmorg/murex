@@ -63,10 +63,12 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 
 * `Marshal()`
     Supported
+* `ReadArray()`
+    Hook supported albeit TOML doesn't support naked arrays
+* `ReadArrayWithType()`
+    Hook supported albeit TOML doesn't support naked arrays
 * `ReadIndex()`
     Works against all properties in TOML
-* `ReadMap()`
-    Works with TOML maps
 * `ReadNotIndex()`
     Works against all properties in TOML
 * `Unmarshal()`

@@ -22,6 +22,17 @@ func ReadArray(read Io, callback func([]byte)) error {
 	return readArray[types.Generic](read, callback)
 }
 
+// ReadArrayWithType is a template function for stdio.Io
+func ReadArrayWithType(read Io, callback func([]byte, string)) error {
+	dt := read.GetDataType()
+
+	if readArrayWithType[dt] != nil {
+		return readArrayWithType[dt](read, callback)
+	}
+
+	return readArrayWithType[types.Generic](read, callback)
+}
+
 // ReadMap is a template function for stdio.Io
 func ReadMap(read Io, config *config.Config, callback func(key, value string, last bool)) error {
 	dt := read.GetDataType()

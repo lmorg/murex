@@ -2,15 +2,15 @@ package inject
 
 import "fmt"
 
-// String injects one string into another at a given postion
+// String injects one string into another at a given position
 func String(old, insert string, pos int) (string, error) {
 	switch {
 	case len(old) == 0:
 		if pos == 0 {
 			return insert, nil
-		} else {
-			return "", fmt.Errorf("pos cannot be non-zero when old is empty")
 		}
+
+		return "", fmt.Errorf("pos cannot be non-zero when old is empty")
 
 	case pos < 0:
 		return "", fmt.Errorf("pos cannot be less than zero")
@@ -29,15 +29,15 @@ func String(old, insert string, pos int) (string, error) {
 	}
 }
 
-// Rune injects one []rune into another at a given postion
+// Rune injects one []rune into another at a given position
 func Rune(old, insert []rune, pos int) ([]rune, error) {
 	switch {
 	case len(old) == 0:
 		if pos == 0 {
 			return insert, nil
-		} else {
-			return []rune{}, fmt.Errorf("pos cannot be non-zero when old is empty")
 		}
+
+		return []rune{}, fmt.Errorf("pos cannot be non-zero when old is empty")
 
 	case pos < 0:
 		return []rune{}, fmt.Errorf("pos cannot be less than zero")

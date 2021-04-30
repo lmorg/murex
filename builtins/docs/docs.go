@@ -20,7 +20,7 @@ var (
 	Summary map[string]string
 
 	// Synonym is used for builtins that might have more than one internal alias.
-	//This will be auto-populated by docgen
+	// This will be auto-populated by docgen
 	Synonym map[string]string
 )
 

@@ -20,7 +20,7 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 
 	var part parser.ParsedTokens
 	full, _ := parse(line)
-	if pos >= len(line) {
+	if pos >= len(line)-1 {
 		part = full
 	} else {
 		part, _ = parse(line[:pos+1])
@@ -30,7 +30,17 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 		return line, pos
 	}
 
-	if len(line) > 1 && pos > 0 && line[pos-1] == '\\' {
+	var previousRune rune
+	if pos > 0 {
+		previousRune = line[pos-1] // character before current one
+	}
+
+	var nextRune rune
+	if pos < len(line)-1 {
+		nextRune = line[pos+1] // character after current one
+	}
+
+	if len(line) > 1 && pos > 0 && previousRune == '\\' {
 		return line, pos
 	}
 
@@ -46,11 +56,13 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			}
 			return new, pos
 		case part.QuoteDouble || part.QuoteBrace > 0:
-			return line, pos
+			return line, pos // do nothing because QuoteSingle might be an apostrophe
 		case !part.QuoteSingle && full.QuoteSingle && !posEOL && line[pos+1] == '\'':
 			return append(line[:pos], line[pos+1:]...), pos
 		case !part.QuoteSingle && full.QuoteSingle && full.LastCharacter == '\'':
 			return line[:len(line)-1], pos
+		case !part.QuoteSingle && !full.QuoteSingle:
+			return line, pos
 		case posEOL:
 			return append(line, '\''), pos
 		case part.QuoteSingle && full.LastCharacter == '\'':
@@ -78,6 +90,8 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			return append(line[:pos], line[pos+1:]...), pos
 		case !part.QuoteDouble && full.QuoteDouble && full.LastCharacter == '"':
 			return line[:len(line)-1], pos
+		case !part.QuoteDouble && !full.QuoteDouble:
+			return line, pos //
 		case posEOL:
 			return append(line, '"'), pos
 		case part.QuoteDouble && full.LastCharacter == '"':
@@ -146,6 +160,11 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			return line, pos
 		}
 
+	case "}":
+		if full.NestedBlock < 0 && part.NestedBlock == 0 && full.LastCharacter == '}' {
+			return line[:len(line)-1], pos
+		}
+
 	case "[":
 		switch {
 		case part.QuoteSingle || part.QuoteDouble || part.QuoteBrace > 0 || part.NestedBlock > 0:
@@ -160,6 +179,11 @@ func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
 			newLine := append(line[:pos+1], ' ', ' ', ']', ']')
 			newLine = append(newLine, line[pos+1:]...)
 			return newLine, pos + 1
+		}
+
+	case "]":
+		if part.SquareBracket && full.SquareBracket && nextRune == ']' {
+			return append(line[:pos], line[pos+1:]...), pos
 		}
 	}
 

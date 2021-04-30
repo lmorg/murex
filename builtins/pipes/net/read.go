@@ -62,6 +62,11 @@ func (n *Net) ReadArray(callback func([]byte)) error {
 	return stdio.ReadArray(n, callback)
 }
 
+// ReadArrayWithType treats net Io interface as an array of data
+func (n *Net) ReadArrayWithType(callback func([]byte, string)) error {
+	return stdio.ReadArrayWithType(n, callback)
+}
+
 // ReadMap treats net Io interface as an hash of data
 func (n *Net) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
 	return stdio.ReadMap(n, config, callback)

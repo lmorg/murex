@@ -1,14 +1,12 @@
-# _murex_ Blogs
+# _murex_ {{ md .CategoryTitle }}
 
 ## {{ md .Title }}
-{{ if .Summary }}
-> {{ md .Summary }}{{ end }}
 
-{{ md (include .Description) }}{{ if .Related }}
+{{ md (include .Description) }}
 
 <hr>
 
-Published: {{ date .DateTime }} at {{ time .DateTime }}
+Published: {{ date .DateTime }} at {{ time .DateTime }}{{ if .Related }}
 
 ## See Also
 

@@ -12,6 +12,9 @@ bin/
 /docs/*.html
 /docs/*/*.html
 
+# optional builtins
+/builtins/imports_build
+
 # IDE
 .idea/
 .vscode/

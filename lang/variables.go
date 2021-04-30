@@ -20,6 +20,8 @@ var (
 	errNoDirectGlobalMethod = "This method cannot be invoked directly for global variables"
 )
 
+// Reserved variable names. Set as constants so any typos of these names within
+// the code will be raised as compiler errors
 const (
 	SELF       = "SELF"
 	ARGS       = "ARGS"

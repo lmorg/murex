@@ -16,6 +16,7 @@ func init() {
 	lang.Unmarshallers[types.Generic] = unmarshal
 
 	stdio.RegisterReadArray(types.Generic, readArray)
+	stdio.RegisterReadArrayWithType(types.Generic, readArrayWithType)
 	stdio.RegisterReadMap(types.Generic, readMap)
 	stdio.RegisterWriteArray(types.Generic, newArrayWriter)
 

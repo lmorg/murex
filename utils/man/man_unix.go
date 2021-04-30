@@ -60,6 +60,29 @@ func ParseFlags(paths []string) (flags []string) {
 	return
 }
 
+// new parser
+/*func parseFlagsNew(flags map[string]string, manPath string) {
+	cmd := exec.Command("nroff", "-man", manPath)
+	//nroff -man /usr/share/man/man1/man.1
+	b, err := cmd.Output()
+	if err != nil {
+		return
+	}
+
+	// whitespace
+	var wsExpected, wsCurrent int
+	for i, c := range b {
+		switch c {
+		case ' ':
+			wsCurrent++
+
+		case '-':
+
+		}
+	}
+}*/
+
+// old parsing
 func parseFlags(flags *map[string]bool, filename string) {
 	file, err := os.Open(filename)
 	defer file.Close()

@@ -48,43 +48,14 @@ From the project root (the location of this INSTALL.md file) run the following:
 
     docker-compose up --build murex
 
-## Required Dependencies
+## Including optional builtins
 
-For your information below is a list of packages required by _murex_:
+Some optional builtins will be included by default, however there may be others
+you wish to include which are not part of the default build (such as `select`).
+To add them, copy (or symlink) the optional file from `builtins/import_src` to
+`builtins/import_build`.
 
-* `github.com/Knetic/govaluate` evaluates the math formulas. This is
-exposed via `=` and `let`
-
-* `github.com/fsnotify/fsnotify` monitors file system changes for the fs
-event system
-
-## Optional Dependencies
-
-* `labix.org/v2/mgo/bson`  adds support for BSON (binary JSON) (as used
-by MongoDB). This is disabled by default due to a requirement for `bzr`
-to exist in $PATH
-
-* `github.com/abesto/sexp` adds support for s-expressions and canonical
-s-expressions
-
-* `gopkg.in/yaml.v2` adds support for YAML
-
-* `github.com/BurntSushi/toml` adds support for TOML
-
-* `github.com/hashicorp/hcl` adds support for HCL (eg Terraform scripts)
-
-* Image previewing requires a few dependencies:
-
-    1. `github.com/disintegration/imaging`
-    2. `golang.org/x/crypto/ssh/terminal`
-    3. `golang.org/x/image/bmp`
-    4. `golang.org/x/image/tiff`
-    5. `golang.org/x/image/webp`
-
-If you wish do disable any of these then delete the appropriate files in
-the `builtins` directory of this project or append `// +build ignore` to
-the `.go` file if you wish to preserve the change in subsequent updates
-from git.
+A tool will be introduced in a later version to automate this.
 
 ## Supported Platforms
 

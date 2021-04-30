@@ -43,29 +43,15 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "max-suggestions", config.Properties{
 		Description: "Maximum number of lines with auto-completion suggestions to display",
-		Default:     6,
+		Default:     12,
 		DataType:    types.Integer,
 		Global:      true,
 	})
 
 	c.Define("shell", "recursive-enabled", config.Properties{
-		Description: "Enable a recursive scan through the directory hierarchy when using tab-complete against a file or directory parameter",
+		Description: "Enable a recursive scan through the directory hierarchy when using autocomplete against a file or directory parameter",
 		Default:     true,
 		DataType:    types.Boolean,
-		Global:      true,
-	})
-
-	c.Define("shell", "recursive-soft-timeout", config.Properties{
-		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list before the process is backgrounded and the partial results a returned with the rest updating when completed",
-		Default:     150,
-		DataType:    types.Integer,
-		Global:      true,
-	})
-
-	c.Define("shell", "recursive-hard-timeout", config.Properties{
-		Description: "Number of milliseconds (1/1000th second) to wait when compiling the recursive list for auto-completion. When timeout is reached the recursive lookup it killed and the results it had up to that point are returned",
-		Default:     5000,
-		DataType:    types.Integer,
 		Global:      true,
 	})
 
@@ -82,6 +68,20 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 		Global:      true,
 	})*/
+
+	c.Define("shell", "autocomplete-soft-timeout", config.Properties{
+		Description: "Number of milliseconds (1/1000th second) to wait when running autocompletins before the task is backgrounded and the results appended to the existing completions (longer reduces responsiveness, shorter means autocompletion fields aren't sized to the longest suggestion)",
+		Default:     150,
+		DataType:    types.Integer,
+		Global:      true,
+	})
+
+	c.Define("shell", "autocomplete-hard-timeout", config.Properties{
+		Description: "Number of milliseconds (1/1000th second) to wait when running long autocompletions before the shell gives up. When timeout is reached on recursive directory lookups, only the results it had up to that point are returned",
+		Default:     5000,
+		DataType:    types.Integer,
+		Global:      true,
+	})
 
 	c.Define("shell", "history", config.Properties{
 		Description: "Write shell history (interactive shell) to disk",

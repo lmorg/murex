@@ -405,11 +405,31 @@ func TestSyntaxCompletionsQuotesOvertype(t *testing.T) {
 			Change:   `'`,
 			Expected: `out: 'hello'_`,
 		},
-
+		{
+			Line:     `out 'test'_`,
+			Change:   `'`,
+			Expected: `out 'test'_`,
+		},
+		{
+			Line:     `out 'hello'_ world`,
+			Change:   `'`,
+			Expected: `out 'hello'_ world`,
+		},
+		/////
 		{
 			Line:     `out: "hello"_"`,
 			Change:   `"`,
 			Expected: `out: "hello"_`,
+		},
+		{
+			Line:     `out "test"_`,
+			Change:   `"`,
+			Expected: `out "test"_`,
+		},
+		{
+			Line:     `out "hello"_ world`,
+			Change:   `"`,
+			Expected: `out "hello"_ world`,
 		},
 	}
 
@@ -530,6 +550,48 @@ func TestSyntaxCompletionsEscaped(t *testing.T) {
 			Line:     `\"_`,
 			Change:   `"`,
 			Expected: `\"_`,
+		},
+	}
+
+	testSyntaxCompletions(t, tests)
+}
+
+func TestSyntaxCompletionsBraceOvertype(t *testing.T) {
+	tests := []testSyntaxCompletionsType{
+		{
+			Line:     `out: {}_}`,
+			Change:   `}`,
+			Expected: `out: {}_`,
+		},
+		{
+			Line:     `out: []_]`,
+			Change:   `]`,
+			Expected: `out: []_`,
+		},
+		{
+			Line:     `out: ()_)`,
+			Change:   `)`,
+			Expected: `out: ()_`,
+		},
+		/////
+		{
+			// this condition doesn't happen organically so lets not force a
+			// correction here
+			Line:     `out: {}_}foobar`,
+			Change:   `}`,
+			Expected: `out: {}_}foobar`,
+		},
+		{
+			Line:     `out: []_]foobar`,
+			Change:   `]`,
+			Expected: `out: []_foobar`,
+		},
+		{
+			// this condition doesn't happen organically so lets not force a
+			// correction here
+			Line:     `out: ()_)foobar`,
+			Change:   `)`,
+			Expected: `out: ()_)foobar`,
 		},
 	}
 

@@ -60,6 +60,7 @@ func newConfiguration(global *Config) *Config {
 	return conf
 }
 
+// Copy creates a new *Config instance referenced to the parent
 func (conf *Config) Copy() *Config {
 	if conf.global == nil {
 		return newConfiguration(conf)
@@ -68,6 +69,7 @@ func (conf *Config) Copy() *Config {
 	return newConfiguration(conf.global)
 }
 
+// ExistsAndGlobal checks if a config option exists and/or is global
 func (conf *Config) ExistsAndGlobal(app, key string) (exists, global bool) {
 	conf.mutex.RLock()
 	exists = conf.properties[app] != nil && conf.properties[app][key].DataType != "" && conf.properties[app][key].Description != ""

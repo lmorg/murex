@@ -48,12 +48,12 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 
 	wg.Add(1)
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
+	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
 	if err != nil {
-		softTimeout = 150
+		softTimeout = 100
 	}
 
-	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-hard-timeout", types.Integer)
+	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
 	if err != nil {
 		hardTimeout = 5000
 	}

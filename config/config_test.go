@@ -14,7 +14,7 @@ func TestExistsAndGlobal(t *testing.T) {
 
 	exists, global := conf.ExistsAndGlobal("app", "key")
 	if exists || global {
-		t.Errorf("Invalid responce:")
+		t.Errorf("Invalid response:")
 		t.Logf("  Exists (expected): %v (%v)", exists, false)
 		t.Logf("  Global (expected): %v (%v)", global, false)
 	}
@@ -28,7 +28,7 @@ func TestExistsAndGlobal(t *testing.T) {
 
 	exists, global = conf.ExistsAndGlobal("app", "key")
 	if exists || global {
-		t.Errorf("Invalid responce:")
+		t.Errorf("Invalid response:")
 		t.Logf("  Exists (expected): %v (%v)", exists, true)
 		t.Logf("  Global (expected): %v (%v)", global, false)
 	}
@@ -42,7 +42,7 @@ func TestExistsAndGlobal(t *testing.T) {
 
 	exists, global = conf.ExistsAndGlobal("app", "key")
 	if exists || global {
-		t.Errorf("Invalid responce:")
+		t.Errorf("Invalid response:")
 		t.Logf("  Exists (expected): %v (%v)", exists, true)
 		t.Logf("  Global (expected): %v (%v)", global, true)
 	}

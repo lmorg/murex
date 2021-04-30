@@ -59,7 +59,7 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		return errors.New("Invalid number of parameters")
 	}
 
-	err = p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {
 		if len(b) == 0 || p.HasCancelled() {
 			return
 		}
@@ -79,7 +79,7 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 }
 
 func cmdForEachJmap(p *lang.Process) error {
-	dt := p.Stdin.GetDataType()
+	//dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(types.Json)
 
 	varName, err := p.Parameters.String(1)
@@ -99,7 +99,7 @@ func cmdForEachJmap(p *lang.Process) error {
 
 	m := make(map[string]string)
 
-	err = p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {
 		if len(b) == 0 || p.HasCancelled() {
 			return
 		}

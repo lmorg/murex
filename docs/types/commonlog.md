@@ -23,7 +23,9 @@ the following:
 * `Marshal()`
     Supported though no unmarshalling is currently supported
 * `ReadArray()`
-    Supported. Each line is considered an index (like with `str` data-type)
+    Supported. Each line is considered an index (like with `str` data type)
+* `ReadArrayWithType()`
+    Supported. Each line is considered an index with `commonlog` data type
 * `ReadIndex()`
     Entire log file is read and then the indexes are derived from there
 * `ReadMap()`

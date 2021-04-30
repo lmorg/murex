@@ -7,9 +7,9 @@ config set shell prompt-multiline {
     printf "%${$len}s » " $linenum
 }
 
-#autocomplete set man { [{
-#    "IncExePath": true
-#}] }
+autocomplete set man { [{
+    "IncExePath": true
+}] }
 
 autocomplete set man-summary { [{
     "IncExePath": true,

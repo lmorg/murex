@@ -76,6 +76,8 @@ type runtimeDump struct {
 	FileRef    *ref.File
 }
 
+// RuntimeDump exports the autocomplete flags and FileRef metadata in a JSON
+// compatible struct for `runtime` to consume
 func RuntimeDump() interface{} {
 	dump := make(map[string]runtimeDump)
 

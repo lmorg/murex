@@ -15,6 +15,8 @@ This type is modelled closely on generic but is more tailored for textual
     Supported
 * `ReadArray()`
     Treats each new line as a new array element
+* `ReadArrayWithType()`
+    Treats each new line as a new array element, each array element is `str
 * `ReadIndex()`
     Indexes treated as a new line separated list
 * `ReadMap()`

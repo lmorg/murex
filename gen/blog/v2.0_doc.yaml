@@ -4,28 +4,32 @@
   CategoryID: blog
   DateTime: 2021-04-17 12:49
   Summary: >-
-    The feature comes with spellchecking, inlined images, smarter syntax completion and more
+    This release comes with spellchecking, inlined images, smarter syntax completion and more
   Description: |-
     This release seems some major upgrade to the default experience:
 
     * Inlined spellchecking enabled by default (requires `aspell` installed)
+      
       [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
+      
       (see spellcheck link below)
 
-    * Support for inlining images enabled by default (was previously an external
-      module: https://github.com/lmorg/murex-module-open-image)
+    * Support for inlining images enabled by default (was previously an [external
+      module](https://github.com/lmorg/murex-module-open-image))
+      
       [![asciicast](https://asciinema.org/a/408028.svg)](https://asciinema.org/a/408028)
 
     * Massively overhauled syntax completion
-      [![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
+      
+    [![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
 
     * Additional tab autocompletions included in base install
 
-    * Minor `readline` bug fixes (https://github.com/lmorg/murex/pull/312/commits/5064cf418f768d2ba4a6bbc7c74e46629ef3b5f3)
+    * Minor `readline` bug fixes: [git commits](https://github.com/lmorg/murex/pull/312/commits/5064cf418f768d2ba4a6bbc7c74e46629ef3b5f3)
 
     * Rewritten config backend which copies less data around
 
-    * Significantly more features documented (see https://murex.rocks)
+    * Significantly more features documented: [https://murex.rocks](https://murex.rocks)
 
     * Plus this new blog!
   Synonyms:

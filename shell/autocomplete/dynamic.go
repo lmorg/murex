@@ -1,7 +1,6 @@
 package autocomplete
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"strings"
@@ -37,12 +36,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-soft-timeout", types.Integer)
+	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
 	if err != nil {
-		softTimeout = 150
+		softTimeout = 100
 	}
 
-	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "recursive-hard-timeout", types.Integer)
+	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
 	if err != nil {
 		hardTimeout = 5000
 	}
@@ -99,9 +98,21 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		}
 
 		if f.Dynamic != "" {
-			var items []string
+			var (
+				timeout bool
+				items   []string
+			)
+
+			select {
+			case <-softCtx.Done():
+				timeout = true
+			default:
+				wait <- true
+			}
+
 			err := fork.Stdout.ReadArray(func(b []byte) {
-				s := string(bytes.TrimSpace(b))
+				//s := string(bytes.TrimSpace(b))
+				s := string(b)
 
 				if len(s) == 0 {
 					return
@@ -119,11 +130,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				autoBranch(&items)
 			}
 
-			select {
-			case <-softCtx.Done():
+			if timeout {
 				formatSuggestionsArray(act.ParsedTokens, items)
 				act.DelayedTabContext.AppendSuggestions(items)
-			default:
+			} else {
 				act.append(items...)
 			}
 
@@ -164,18 +174,19 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 	select {
 	case <-done:
-		act.MinTabItemLength = 0
+		//act.MinTabItemLength = 0
 		return
 	case <-wait:
 		select {
 		case <-done:
-			act.MinTabItemLength = 0
+			//act.MinTabItemLength = 0
 			return
 		}
 	case <-softCtx.Done():
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
 			act.ErrCallback(fmt.Errorf("Long running dynamic autocompletion pushed to the background"))
-			//act.appendDef("", "Long running dynamic auto-completion...")
+			//act.appendDef("", "")
+			//act.MinTabItemLength = 0
 		}
 
 		return

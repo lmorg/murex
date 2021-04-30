@@ -12,6 +12,7 @@ const (
 
 func init() {
 	stdio.RegisterReadArray(typeAccess, readArray)
+	stdio.RegisterReadArrayWithType(typeAccess, readArrayWithType)
 	//stdio.RegisterReadMap(typeAccess, readMap)
 
 	lang.ReadIndexes[typeAccess] = index

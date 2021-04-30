@@ -43,7 +43,7 @@ func (rl *Instance) getTabCompletion() {
 	//panic(rl.tcDisplayType)
 
 	if len(rl.tcDescriptions) == 0 {
-		// probably not needed, but just in case someone doesn't initialise the
+		// probably not needed, but just in case someone doesn't initialize the
 		// map in their API call.
 		rl.tcDescriptions = make(map[string]string)
 	}
@@ -60,6 +60,7 @@ func (rl *Instance) getTabCompletion() {
 }
 
 func (rl *Instance) initTabCompletion() {
+	rl.modeTabCompletion = true
 	if rl.tcDisplayType == TabDisplayGrid {
 		rl.initTabGrid()
 	} else {

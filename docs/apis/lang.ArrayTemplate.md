@@ -48,7 +48,6 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 package lang
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/proc/stdio"
@@ -93,8 +92,10 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 	default:
 		jBytes, err := marshal(v)
 		if err != nil {
+
 			return err
 		}
+
 		callback(jBytes)
 
 		return nil
@@ -102,14 +103,14 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 }
 
 func readArrayByString(v string, callback func([]byte)) error {
-	callback(bytes.TrimSpace([]byte(v)))
+	callback([]byte(v))
 
 	return nil
 }
 
 func readArrayBySliceString(v []string, callback func([]byte)) error {
 	for i := range v {
-		callback(bytes.TrimSpace([]byte(v[i])))
+		callback([]byte(v[i]))
 	}
 
 	return nil
@@ -120,18 +121,7 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 		return nil
 	}
 
-	//for i := range v {
-
 	switch v[0].(type) {
-
-	//case interface{}:
-	//panic(fmt.Sprintf("%T",v[i]))
-	//jBytes, err := marshal(v[i])
-	//if err != nil {
-	//	return err
-	//}
-	//callback(jBytes)
-
 	case string:
 		for i := range v {
 			callback([]byte(v[i].(string)))
@@ -144,8 +134,7 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 
 	default:
 		for i := range v {
-			//s:=fmt.Sprint(v[i])
-			//callback([]byte(s))
+
 			jBytes, err := marshal(v[i])
 			if err != nil {
 				return err
@@ -153,7 +142,6 @@ func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []in
 			callback(jBytes)
 		}
 	}
-	//}
 
 	return nil
 }

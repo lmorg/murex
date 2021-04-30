@@ -24,8 +24,6 @@ if { which bat } then {
 #    summary ls ${man-summary ls}
 #}
 
-config set shell max-suggestions 12
-
 function pless {
     # less for JSON
     -> trypipe { -> pretty -> less }

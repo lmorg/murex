@@ -3,9 +3,9 @@ package test
 import (
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/core/typemgmt"
+	_ "github.com/lmorg/murex/builtins/core/typemgmt" // import boolean builtins
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/config/defaults" // import boolean builtins
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"

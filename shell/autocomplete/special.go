@@ -10,7 +10,7 @@ func isSpecialBuiltin(s string) bool {
 	}
 }
 
-func sortColon(items []string, start, end int) {
+/*func sortColon(items []string, start, end int) {
 	if (end - start) < 1 {
 		return
 	}
@@ -41,4 +41,4 @@ func noColon(s string) string {
 		s = s[:len(s)-1]
 	}
 	return s
-}
+}*/

@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/dedup"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -75,6 +76,11 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		Prompt.MaxTabItemLength = width / 2
 	}*/
 
+	i := dedup.SortAndDedupString(act.Items)
 	autocomplete.FormatSuggestions(&act)
-	return prefix, act.Items, act.Definitions, act.TabDisplayType
+	//if len(act.Items) == 1 && act.Items[0] == " " {
+	//	act.Items = []string{}
+	//	delete(act.Definitions, " ")
+	//}
+	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
 }

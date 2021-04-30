@@ -33,7 +33,7 @@ autocomplete set brew { [
 null {
 # brew commands -> grep -v '==>' -> cast str
 mkautocomplete {
-    # Compiles a persistant autocomplete file optimised for executables with a slow launch time
+    # Compiles a persistent autocomplete file optimised for executables with a slow launch time
 
     set usage = (Example usage:
 $ARGS[0] cmd {
