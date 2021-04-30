@@ -5,10 +5,13 @@
 This section is a glossary of _murex_ optional builtins.
 
 These builtins likely wont be compiled with _murex_ unless you specifically
-request them to be. This will be because they duplicate functionality
-already available on POSIX systems. However some of these tools might be
-missing from an out-of-the-box Windows install and in those instances
-_murex_ will default to compiling many optionals.
+request them to be. This might be because they duplicate functionality
+already available on POSIX systems or introduce more complex dependencies.
+It might also be because that specific builtin is in an alpha stage and thus
+not ready to ship with _murex_.
+
+There are also optional some builtins which are automatically be built on
+Windows to include a few coreutils commands missing Windows.
 
 ## Other Reference Material
 
@@ -49,5 +52,7 @@ to return the same markdown-formatted document as those listed below. eg
   Compress or decompress a gzip file
 * [`qr` ](optional/qr.md):
   Creates a QR code from STDIN
+* [`select` ](optional/select.md):
+  Inlining SQL into shell pipelines
 * [`sleep` ](optional/sleep.md):
   Suspends the shell for a number of seconds

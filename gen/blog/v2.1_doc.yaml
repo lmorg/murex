@@ -10,16 +10,20 @@
     This release seems new optional features plus major bug fixes to the existing
     code base:
 
-    * Two `config` **shell** keys have changed names:
+    ## Breaking Changes:
     
-      * recursive-soft-timeout => `autocomplete-soft-timeout`
-      * recursive-hard-timeout => `autocomplete-hard-timeout`
+    Two `config` **shell** keys have changed names:
+    
+    * recursive-soft-timeout => `autocomplete-soft-timeout`
+    * recursive-hard-timeout => `autocomplete-hard-timeout`
 
-      This is to better describe their functionality now that those values are
-      also used for `Dynamic` and `DynamicDesc` autocompletions as well as
-      recursive directory lookups.
+    This is to better describe their functionality now that those values are
+    also used for `Dynamic` and `DynamicDesc` autocompletions as well as
+    recursive directory lookups.
 
-      **This change might break some of your existing profile config!**
+    **This change might break some of your existing profile config!**
+
+    ## User Facing Changes:
 
     * `config` **shell** **max-suggestions** now defaults at `12` rather than 6
 
@@ -40,13 +44,12 @@
       Unfortunately this kind of testing would fall outside of unit testing each
       function so I'll need to add another layer of testing against the compiled
       executable to verify any future regressions like these: [discussion](https://github.com/lmorg/murex/issues/318)
-
       To use this feature, run a command and then press `^z` (ctrl+z) to pause
       the process. You can check which jobs have been paused via `jobs` and/or
       modify processes to run in the background/foreground via `bg` and `fg`.
 
-    * Added new API endpoints: `ReadArrayByType`. This solves some edge cases in
-      `foreach` where elements might not match the same data type as the parent
+    * Added new API endpoints: `ReadArrayWithType()`. This solves some edge cases
+      in `foreach` where elements might not match the same data type as the parent
       object (eg a `json` object might have `int` or `str` elements in an array)
 
     * Rewritten how `Dynamic` autocompletions are executed to fall in line with
@@ -56,20 +59,22 @@
 
     * Improvements to the context completions
 
+    * Default lengths for autocompletions where all results are deferred to the
+      background have been tweaked slightly to give some extra length
+
+    * Minor website tweaks
+
+    ## Non-User Face / Maintenance Changes
+
     * All dependencies have been updated, pinned and the `vendors` directory
       rebuilt
 
     * Fixed some issues flagged up in [goreportcard.com](https://goreportcard.com/report/github.com/lmorg/murex)
-  
-    * Default lengths for autocompletions where all results are deferred to the
-      background have been tweaked slightly to give some extra length
 
     * Some internal API changes that have no UI/UX ramifications but makes the
       code more maintainable
 
-    * Lots more unit tests added.
-
-    * Website tweaks
+    * Lots more unit tests added
   Synonyms:
   Related:
   - optional/select
@@ -79,6 +84,6 @@
   - commands/jobs
   - commands/fg
   - commands/bg
-  - apis/ReadArrayByType
+  - apis/ReadArrayWithType
   - commands/foreach
 
