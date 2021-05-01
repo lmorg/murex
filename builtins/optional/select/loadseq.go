@@ -55,12 +55,12 @@ func loadSeq(p *lang.Process, confFailColMismatch, confMergeTrailingColumns, con
 					innerErr = fmt.Errorf("Table rows contain a different number of columns to table headings\n%d: %s", nRow, records)
 					p.Done()
 					return
-				} else {
+				} //else {
 
-					for i := len(headings); i >= len(records); i-- {
-						slice[i-1] = ""
-					}
+				for i := len(headings); i >= len(records); i-- {
+					slice[i-1] = ""
 				}
+				//}
 			}
 
 			for i := 0; i < len(headings); i++ {
