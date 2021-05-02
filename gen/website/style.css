@@ -2,7 +2,6 @@
 
 body {
   font-family: 'Raleway', sans-serif;
-  /*color: #503737;*/
   color: #000000;
   background-color: #f0f0f0;
   /*text-shadow: #ffffff 0em 0em 1px;*/
@@ -130,6 +129,7 @@ img {
   position: relative;
   padding-left: 200px;
   width: auto;
+  color: #000000;
 }
 
 .side-bar-title {
