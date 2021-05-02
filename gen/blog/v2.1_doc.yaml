@@ -14,8 +14,8 @@
     
     Two `config` **shell** keys have changed names:
     
-    * recursive-soft-timeout => `autocomplete-soft-timeout`
-    * recursive-hard-timeout => `autocomplete-hard-timeout`
+    * recursive-soft-timeout -> `autocomplete-soft-timeout`
+    * recursive-hard-timeout -> `autocomplete-hard-timeout`
 
     This is to better describe their functionality now that those values are
     also used for `Dynamic` and `DynamicDesc` autocompletions as well as
@@ -64,7 +64,7 @@
 
     * Minor website tweaks
 
-    ### Non-User Face / Maintenance Changes
+    ### Non-User Facing / Maintenance Changes
 
     * All dependencies have been updated, pinned and the `vendors` directory
       rebuilt
