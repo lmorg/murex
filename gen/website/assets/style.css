@@ -5,7 +5,7 @@ body {
   color: #000000;
   background-color: #f0f0f0;
   /*text-shadow: #ffffff 0em 0em 1px;*/
-  line-height: 180%;
+  line-height: 150%;
   font-size: 14px;
   letter-spacing: 0.04em;
 }
@@ -65,6 +65,10 @@ a:hover {
   text-decoration: underline;
 }
 
+li {
+    padding-bottom: 10px;
+}
+
 blockquote {
   border-width: 1px;
   border-style: solid;
@@ -82,7 +86,8 @@ code {
   background: #ffffff;
   border-radius: 5px;
   line-height: 130%;
-  padding: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 pre code {
