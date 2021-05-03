@@ -7,8 +7,6 @@ jobs:
         environment:
           GOPATH: /go
           MUREX_BUILD_FLAGS: --no-colour
-          MUREX_BUILD_BIN: bin
-          MUREX_BUILD_WEBSITE: website
     
     steps:
       - run:
