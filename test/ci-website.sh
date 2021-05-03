@@ -9,13 +9,13 @@ mkdir -p /website
 
 
 echo "Building latest binaries...."
-if [ "$MUREX_BUILD_BIN" == "bin" ]; then
+#if [ "$MUREX_BUILD_BIN" == "bin" ]; then
         murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
         mv ./bin /website/
-fi
+#fi
 
 echo "Building website...."
-if [ "$MUREX_BUILD_WEBSITE" == "website" ]; then
+#if [ "$MUREX_BUILD_WEBSITE" == "website" ]; then
         export MUREXVERSION="$(murex -c 'version --no-app-name')"
         export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
         export MUREXCOMMITL="$(git rev-parse HEAD)"
@@ -35,6 +35,6 @@ if [ "$MUREX_BUILD_WEBSITE" == "website" ]; then
         find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
         mv *.html gen/website/assets/* ./docs /website/
-fi
+#fi
 
 echo "Fin!"
