@@ -38,6 +38,7 @@ try {
     export GOOS=js
     export GOARCH=wasm
     go build -o murex.wasm ../
+    out "{GREEN}SUCCESSFUL{RESET}"
 }
 catch {
     out "{RED}FAILED{RESET}"
