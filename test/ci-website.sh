@@ -35,6 +35,17 @@ for f in *.md; do
 done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
+
+
+echo "Compiling WASM...."
+
+export GOOS=js
+export GOARCH=wasm
+go build -o ./gen/website/wasm/murex.wasm
+cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
+
 mv *.html gen/website/assets/* ./docs /website/
+
+
 
 echo "Fin!"

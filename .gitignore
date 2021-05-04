@@ -3,6 +3,7 @@ main
 murex
 murex.exe
 murex.upx
+murex.wasm
 /gen-murex-docs
 /gen-murex-docs.exe
 /docgen

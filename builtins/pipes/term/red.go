@@ -1,3 +1,5 @@
+// +build !js
+
 package term
 
 import (
@@ -23,11 +25,13 @@ const (
 func (t *ErrRed) Write(b []byte) (i int, err error) {
 	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
+	t.mutex.Unlock()
+
 	i, err = os.Stderr.WriteString(fgRed + string(b) + reset)
 	if err != nil {
 		os.Stdout.WriteString(fgRed + err.Error() + reset)
 	}
-	t.mutex.Unlock()
+
 	return i - 9, err
 }
 

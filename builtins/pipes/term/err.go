@@ -1,3 +1,5 @@
+// +build !js
+
 package term
 
 import (
@@ -18,18 +20,18 @@ type Err struct {
 func (t *Err) Write(b []byte) (i int, err error) {
 	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
+	t.mutex.Unlock()
+
 	i, err = os.Stderr.Write(b)
 	if err != nil {
 		os.Stdout.WriteString(err.Error())
 	}
-	t.mutex.Unlock()
+
 	return
 }
 
 // Writeln writes an OS-specific terminated line to the stderr
 func (t *Err) Writeln(b []byte) (int, error) {
-	//line := append(b, utils.NewLineByte...)
-	//return t.Write(line)
 	return t.Write(appendBytes(b, utils.NewLineByte...))
 }
 
