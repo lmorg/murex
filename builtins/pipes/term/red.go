@@ -17,8 +17,8 @@ type ErrRed struct {
 }
 
 const (
-	reset = "\x1b[0m"
 	fgRed = "\x1b[31m"
+	reset = "\x1b[0m"
 )
 
 // Write is the io.Writer() interface for term

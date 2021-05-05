@@ -3,12 +3,17 @@ main
 murex
 murex.exe
 murex.upx
-murex.wasm
-/gen-murex-docs
-/gen-murex-docs.exe
 /docgen
 /docgen.exe
 bin/
+
+# WebAssembly 
+murex.wasm
+wasm_exec.js
+/wasmserver
+/wasmserver.exe
+
+# pandoc
 /*.html
 /docs/*.html
 /docs/*/*.html

@@ -18,8 +18,8 @@ type ErrRed struct {
 }
 
 const (
-	reset = `<span class="red">`
-	fgRed = `</span>`
+	fgRed = `<span class="red">`
+	reset = `</span>`
 )
 
 // Write is the io.Writer() interface for term

@@ -7,17 +7,17 @@ import (
 
 	"github.com/lmorg/murex/app"
 	_ "github.com/lmorg/murex/builtins"
-	// "github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
-	//"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 const interactive = true
 
 func main() {
-	js.Global().Set("shellexec", js.FuncOf(jsShellExec))
+	js.Global().Set("shellExec", js.FuncOf(jsShellExec))
 
 	startMurex()
 
@@ -50,21 +50,10 @@ func jsShellExec(this js.Value, args []js.Value) interface{} {
 
 	block := args[0].String()
 
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 	fork.FileRef.Source.Module = app.Name
-	//fork.Stderr = term.NewErr(ansi.IsAllowed())
+	fork.Stderr = term.NewErr(ansi.IsAllowed())
 	lang.ShellExitNum, _ = fork.Execute([]rune(block))
 
-	bOut, _ := fork.Stdout.ReadAll()
-	bErr, _ := fork.Stderr.ReadAll()
-
-	return string(bOut) + string(bErr)
-
-	/*input, err := strconv.ParseFloat(args[0].String(), 64)
-	fmt.Println("Input: ", input)
-	if err != nil {
-		return err.Error()
-	}
-	square := square(input)
-	return square*/
+	return nil
 }
