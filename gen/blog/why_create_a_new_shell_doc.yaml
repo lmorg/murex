@@ -1,0 +1,21 @@
+- DocumentID: why_create_a_new_shell
+  Title: >-
+    Why Create A New Shell?
+  CategoryID: blog
+  DateTime: 2021-05-06 08:24
+  Summary: >-
+    This article discuses the motivation behind creating a new shell
+  Description: |-
+    
+  Synonyms:
+  Related:
+  - optional/select
+  - types/jsonl
+  - types/csv
+  - types/generic
+  - commands/jobs
+  - commands/fg
+  - commands/bg
+  - apis/ReadArrayWithType
+  - commands/foreach
+

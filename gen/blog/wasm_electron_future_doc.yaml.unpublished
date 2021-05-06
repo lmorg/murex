@@ -1,0 +1,21 @@
+- DocumentID: wasm_electron_future
+  Title: >-
+    WebAssembly, Electron, And The Future Of $SHELL's
+  CategoryID: blog
+  DateTime: 2021-05-06 08:24
+  Summary: >-
+    This article discuses the motivation behind creating a new shell
+  Description: |-
+    
+  Synonyms:
+  Related:
+  - optional/select
+  - types/jsonl
+  - types/csv
+  - types/generic
+  - commands/jobs
+  - commands/fg
+  - commands/bg
+  - apis/ReadArrayWithType
+  - commands/foreach
+
