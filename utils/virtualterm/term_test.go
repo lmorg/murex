@@ -1,4 +1,4 @@
-package termemu
+package virtualterm
 
 import (
 	"testing"
@@ -12,12 +12,12 @@ func TestWriteCell(t *testing.T) {
 	test := "Hello world!"
 	exp := "Hello\n worl\nd!   \n"
 
-	grid := NewGrid(5, 3)
+	term := NewTerminal(5, 3)
 
 	for _, r := range []rune(test) {
-		grid.writeCell(r)
+		term.writeCell(r)
 	}
-	act := grid.Export()
+	act := term.Export()
 
 	if exp != act {
 		t.Error("Expected output does not match actual output")
@@ -28,20 +28,20 @@ func TestWriteCell(t *testing.T) {
 	}
 }
 
-func TestMoveGridUp(t *testing.T) {
+func TestMoveContentsUp(t *testing.T) {
 	count.Tests(t, 1)
 
 	test := "1234554321"
 	exp := "54321\n     \n     \n"
 
-	grid := NewGrid(5, 3)
+	term := NewTerminal(5, 3)
 
 	for _, r := range []rune(test) {
-		grid.writeCell(r)
+		term.writeCell(r)
 	}
-	grid.moveGridUp()
+	term.moveContentsUp()
 
-	act := grid.Export()
+	act := term.Export()
 
 	if exp != act {
 		t.Error("Expected output does not match actual output")
@@ -55,27 +55,27 @@ func TestMoveGridUp(t *testing.T) {
 func TestCell(t *testing.T) {
 	count.Tests(t, 1)
 
-	grid := NewGrid(5, 3)
-	grid.cells[1][4].char = 'T'
-	grid.curPos.X = 4
-	grid.curPos.Y = 1
+	term := NewTerminal(5, 3)
+	term.cells[1][4].char = 'T'
+	term.curPos.X = 4
+	term.curPos.Y = 1
 
-	c := grid.Cell().char
+	c := term.Cell().char
 	if c != 'T' {
-		t.Errorf("*Grid.Cell look up appears to fail. %d", c)
+		t.Errorf("*Term.Cell look up appears to fail. %d", c)
 	}
 }
 
 func TestMoveCursorForwards(t *testing.T) {
 	count.Tests(t, 1)
 
-	grid := NewGrid(5, 3)
-	overflow := grid.moveCursorForwards(5)
+	term := NewTerminal(5, 3)
+	overflow := term.moveCursorForwards(5)
 
-	if grid.curPos.X != grid.size.X-1 {
+	if term.curPos.X != term.size.X-1 {
 		t.Errorf("curPos.X not where expected:")
-		t.Logf("  Expected: %d", grid.size.X-1)
-		t.Logf("  Actual:   %d", grid.curPos.X)
+		t.Logf("  Expected: %d", term.size.X-1)
+		t.Logf("  Actual:   %d", term.curPos.X)
 	}
 
 	if overflow != 1 {
@@ -88,13 +88,13 @@ func TestMoveCursorForwards(t *testing.T) {
 func TestMoveCursorDownwards(t *testing.T) {
 	count.Tests(t, 1)
 
-	grid := NewGrid(5, 3)
-	overflow := grid.moveCursorDownwards(3)
+	term := NewTerminal(5, 3)
+	overflow := term.moveCursorDownwards(3)
 
-	if grid.curPos.Y != grid.size.Y-1 {
+	if term.curPos.Y != term.size.Y-1 {
 		t.Errorf("curPos.Y not where expected:")
-		t.Logf("  Expected: %d", grid.size.Y-1)
-		t.Logf("  Actual:   %d", grid.curPos.Y)
+		t.Logf("  Expected: %d", term.size.Y-1)
+		t.Logf("  Actual:   %d", term.curPos.Y)
 	}
 
 	if overflow != 1 {
