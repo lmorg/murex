@@ -60,7 +60,7 @@ func TestCell(t *testing.T) {
 	term.curPos.X = 4
 	term.curPos.Y = 1
 
-	c := term.Cell().char
+	c := term.cell().char
 	if c != 'T' {
 		t.Errorf("*Term.Cell look up appears to fail. %d", c)
 	}

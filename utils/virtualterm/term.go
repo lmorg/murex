@@ -1,14 +1,9 @@
 package virtualterm
 
-import (
-	"html"
-	"strings"
-)
-
 type Term struct {
 	cells   [][]cell
-	size    Xy
-	curPos  Xy
+	size    xy
+	curPos  xy
 	sgr     sgr
 	LfIncCr bool // if false, \n acts as a \r\n
 }
@@ -20,36 +15,44 @@ type cell struct {
 
 type sgr struct {
 	bitwise sgrFlag
-	fg      Rgb
-	bg      Rgb
+	fg      rgb
+	bg      rgb
 }
 
-func (sgr *sgr) Differs(old *sgr) bool {
-	if sgr.bitwise != old.bitwise {
+func (c *cell) differs(oldChar rune, oldSgr *sgr) bool {
+	if c.sgr.bitwise != oldSgr.bitwise {
 		return true
 	}
 
-	if sgr.fg.Red != old.fg.Red || sgr.fg.Green != old.fg.Green || sgr.fg.Blue != old.fg.Blue {
+	if c.char == 0 && oldChar != 0 {
 		return true
 	}
 
-	if sgr.bg.Red != old.bg.Red || sgr.bg.Green != old.bg.Green || sgr.bg.Blue != old.bg.Blue {
+	if c.sgr.fg.Red != oldSgr.fg.Red ||
+		c.sgr.fg.Green != oldSgr.fg.Green ||
+		c.sgr.fg.Blue != oldSgr.fg.Blue {
+		return true
+	}
+
+	if c.sgr.bg.Red != oldSgr.bg.Red ||
+		c.sgr.bg.Green != oldSgr.bg.Green ||
+		c.sgr.bg.Blue != oldSgr.bg.Blue {
 		return true
 	}
 
 	return false
 }
 
-func (sgr *sgr) CheckFlag(flag sgrFlag) bool {
+func (sgr *sgr) checkFlag(flag sgrFlag) bool {
 	return sgr.bitwise&flag != 0
 }
 
-type Xy struct {
+type xy struct {
 	X int
 	Y int
 }
 
-type Rgb struct {
+type rgb struct {
 	Red, Green, Blue byte
 }
 
@@ -61,7 +64,7 @@ func NewTerminal(x, y int) *Term {
 
 	return &Term{
 		cells: cells,
-		size:  Xy{x, y},
+		size:  xy{x, y},
 	}
 }
 
@@ -69,8 +72,8 @@ func NewTerminal(x, y int) *Term {
 
 func (t *Term) sgrReset() {
 	t.sgr.bitwise = 0
-	t.sgr.fg = Rgb{}
-	t.sgr.bg = Rgb{}
+	t.sgr.fg = rgb{}
+	t.sgr.bg = rgb{}
 }
 
 func (t *Term) sgrEffect(flag sgrFlag) {
@@ -119,7 +122,7 @@ func (t *Term) moveCursorDownwards(i int) (overflow int) {
 	return
 }
 
-func (t *Term) Cell() *cell { return &t.cells[t.curPos.Y][t.curPos.X] }
+func (t *Term) cell() *cell { return &t.cells[t.curPos.Y][t.curPos.X] }
 
 // moveGridPos functions DO effect other contents in the grid
 
@@ -148,67 +151,7 @@ func (t *Term) wrapCursorForwards() {
 }
 
 func (t *Term) writeCell(r rune) {
-	t.Cell().char = r
-	t.Cell().sgr = t.sgr
+	t.cell().char = r
+	t.cell().sgr = t.sgr
 	t.wrapCursorForwards()
-}
-
-// export contents
-
-func (t *Term) Export() string {
-	gridLen := (t.size.X + 1) * t.size.Y
-	r := make([]rune, gridLen, gridLen)
-	var i int
-	for y := range t.cells {
-		for x := range t.cells[y] {
-			if t.cells[y][x].char != 0 { // if cell contains no data then lets assume it's a space character
-				r[i] = t.cells[y][x].char
-			} else {
-				r[i] = ' '
-			}
-			i++
-		}
-		r[i] = '\n'
-		i++
-	}
-
-	return string(r)
-}
-
-func (t *Term) ExportHtml() string {
-	s := `<span class="">`
-
-	last := &sgr{}
-
-	for y := range t.cells {
-		for x := range t.cells[y] {
-
-			if t.Cell().sgr.Differs(last) {
-				s += `</span><span class="` + sgrHtmlClassLookup(&t.Cell().sgr) + `">`
-			}
-
-			if t.cells[y][x].char != 0 { // if cell contains no data then lets assume it's a space character
-				s += html.EscapeString(string(t.cells[y][x].char))
-			} else {
-				s += " "
-			}
-
-			last = &t.Cell().sgr
-		}
-		s += "\n"
-	}
-
-	return s + "</span>"
-}
-
-func sgrHtmlClassLookup(sgr *sgr) string {
-	classes := make([]string, 0)
-
-	for bit, class := range sgrHtmlClassNames {
-		if sgr.CheckFlag(bit) {
-			classes = append(classes, class)
-		}
-	}
-
-	return strings.Join(classes, " ")
 }

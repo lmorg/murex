@@ -2,8 +2,26 @@
     <head>
         <meta charset="utf-8"/>
         <style>
-            .red {
-                color: red;
+            .sgr-black   { color: black;   }
+            .sgr-red     { color: red;     }
+            .sgr-green   { color: green;   }
+            .sgr-yellow  { color: yellow;  }
+            .sgr-blue    { color: blue;    }
+            .sgr-magenta { color: magenta; }
+            .sgr-cyan    { color: cyan;    }
+            .sgr-white   { color: white;   }
+
+            .sgr-bold    { font-weight: bold; }
+            .sgr-italic  { font-style: italic; }
+            .sgr-underscore { text-decoration: underline; }
+            .sgr-blink {
+                animation: animate 1s linear infinite;
+                transform: translate(-50%, -50%);
+            }
+            @keyframes animate {
+                0%    { opacity: 0;   }
+                50%   { opacity: 0.7; }
+                100%  { opacity: 0;   }
             }
         </style>
     </head>

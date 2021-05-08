@@ -3,9 +3,6 @@
 package term
 
 import (
-	"html"
-	"syscall/js"
-
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/utils"
 )
@@ -23,12 +20,7 @@ func (t *Out) Write(b []byte) (int, error) {
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	jsDoc := js.Global().Get("document")
-	outElement := jsDoc.Call("getElementById", "term")
-
-	term := outElement.Get("innerHTML").String()
-	new := html.EscapeString(string(b))
-	outElement.Set("innerHTML", term+new)
+	vtermWrite([]rune(string(b)))
 
 	return len(b), nil
 }

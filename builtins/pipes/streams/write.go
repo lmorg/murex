@@ -45,9 +45,6 @@ func (stdin *Stdin) Write(p []byte) (int, error) {
 
 // Writeln just calls Write() but with an appended, OS specific, new line.
 func (stdin *Stdin) Writeln(b []byte) (int, error) {
-	//line := append(b, utils.NewLineByte...)
-	//stdin.Write(line)
-	//return len(b), nil
 	return stdin.Write(appendBytes(b, utils.NewLineByte...))
 }
 

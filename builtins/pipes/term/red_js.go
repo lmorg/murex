@@ -3,9 +3,6 @@
 package term
 
 import (
-	"html"
-	"syscall/js"
-
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/utils"
 )
@@ -18,8 +15,8 @@ type ErrRed struct {
 }
 
 const (
-	fgRed = `<span class="red">`
-	reset = `</span>`
+	fgRed = "\x1b[31m"
+	reset = "\x1b[0m"
 )
 
 // Write is the io.Writer() interface for term
@@ -28,12 +25,9 @@ func (t *ErrRed) Write(b []byte) (int, error) {
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	jsDoc := js.Global().Get("document")
-	outElement := jsDoc.Call("getElementById", "term")
+	new := fgRed + string(b) + reset
 
-	term := outElement.Get("innerHTML").String()
-	new := html.EscapeString(string(b))
-	outElement.Set("innerHTML", term+fgRed+new+reset)
+	vtermWrite([]rune(new))
 
 	return len(b), nil
 }
