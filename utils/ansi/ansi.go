@@ -25,7 +25,7 @@ func ExpandConsts(s string) string {
 }
 
 // ForceExpandConsts expands consts irrespective of user preferences. It is not
-// recommended that you uset this apart from in other testing functions.
+// recommended that you use this apart from in other testing functions.
 func ForceExpandConsts(s string, noColour bool) string {
 	return expandConsts(s, noColour)
 }

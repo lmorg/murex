@@ -1,10 +1,8 @@
-// +build !js
+// +build js
 
 package term
 
 import (
-	"os"
-
 	"github.com/lmorg/murex/lang/proc/stdio"
 	"github.com/lmorg/murex/utils"
 )
@@ -17,17 +15,14 @@ type Err struct {
 }
 
 // Write is the io.Writer() interface for term
-func (t *Err) Write(b []byte) (i int, err error) {
+func (t *Err) Write(b []byte) (int, error) {
 	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	i, err = os.Stderr.Write(b)
-	if err != nil {
-		os.Stdout.WriteString(err.Error())
-	}
+	vtermWrite([]rune(string(b)))
 
-	return
+	return len(b), nil
 }
 
 // Writeln writes an OS-specific terminated line to the stderr

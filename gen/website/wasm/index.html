@@ -1,0 +1,70 @@
+<html>  
+    <head>
+        <meta charset="utf-8"/>
+        <style>
+            #term {
+                background-color: #eee8d5;
+                color: #073642;
+                scroll-behavior: auto;
+                font-size: 14px;
+                width: 120ch;
+                height: 40ch;
+            }
+
+            .sgr-black   { color: #073642; }
+            .sgr-red     { color: #dc322f; }
+            .sgr-green   { color: #859900; }
+            .sgr-yellow  { color: #b58900; }
+            .sgr-blue    { color: #268bd2; }
+            .sgr-magenta { color: #d33682; }
+            .sgr-cyan    { color: #2aa198; }
+            .sgr-white   { color: #eee8d5; }
+
+            .sgr-bold    { font-weight: bold; }
+            .sgr-italic  { font-style: italic; }
+            .sgr-underscore { text-decoration: underline; }
+            .sgr-blink {
+                animation: animate 1s linear infinite;
+                transform: translate(-50%, -50%);
+            }
+            @keyframes animate {
+                0%    { opacity: 0;   }
+                50%   { opacity: 0.7; }
+                100%  { opacity: 0;   }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Murex WASM Build</h1>
+        <pre id="term" contenteditable=""></pre>
+        <!--<input id="block" name="block" type="string" />
+        <input id="button" type="submit" name="button" value="Run" onclick="shellExec(block.value)"/>
+        -->
+        <script src="wasm_exec.js"></script>
+        <script>
+            document.getElementById("term").addEventListener("keydown", function(event) {
+                event.preventDefault();
+                console.log(`${event.type} has been fired`);
+            });
+
+            const go = new Go();
+            WebAssembly.instantiateStreaming(fetch("murex.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
+            });
+
+            /*async function shellExec(cmd) {
+                try {
+                    console.log(await wasmShellExec(cmd));
+                } catch (err) {
+                    console.error('Caught exception', err);
+                };
+            };*/
+
+            async function shellStart() {
+                await wasmShellStart();
+            };
+
+            shellStart();
+        </script>
+   </body>
+</html>  
