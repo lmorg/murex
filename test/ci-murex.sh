@@ -25,7 +25,7 @@ go run github.com/lmorg/murex/test/count/server 2>/dev/null &
 sleep 1
         
 echo "Run golang unit tests...."
-go test ./... -count 1 -race -coverprofile=coverage.txt -covermode=atomic
+#go test ./... -count 1 -race -coverprofile=coverage.txt -covermode=atomic
 curl -s http://localhost:38000/t > ./murex-test-count.txt
 echo "$(cat ./murex-test-count.txt) tests completed"
 
@@ -34,5 +34,3 @@ murex --run-tests
 
 echo "Run murex flag unit tests...."
 murex -c 'source: ./flags_test.mx; try {test: run *}'
-
-echo "Fin!"
