@@ -6,28 +6,21 @@ import (
 	"sync"
 	"syscall/js"
 
-	"github.com/lmorg/murex/utils/virtualterm"
+	"github.com/lmorg/murex/utils/readline"
 )
 
-var (
-	vterm      = virtualterm.NewTerminal(120, 25)
-	vtermMutex sync.Mutex
-)
-
-func init() {
-	vterm.LfIncCr = true
-}
+var divMutex sync.Mutex
 
 func vtermWrite(r []rune) {
-	vtermMutex.Lock()
+	readline.VTerm.Write(r)
 
-	vterm.Write(r)
+	html := readline.VTerm.ExportHtml()
 
-	html := vterm.ExportHtml()
+	divMutex.Lock()
 
 	jsDoc := js.Global().Get("document")
 	outElement := jsDoc.Call("getElementById", "term")
 	outElement.Set("innerHTML", html)
 
-	vtermMutex.Unlock()
+	divMutex.Unlock()
 }

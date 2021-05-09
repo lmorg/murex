@@ -33,6 +33,7 @@ func TestWriteNewLineCrLf1(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(5, 3)
+	term.MakeRaw()
 	test := "1\n2\n3\n4\n5"
 	exp := "   4 \n    5\n     \n"
 
@@ -71,7 +72,6 @@ func TestWriteNewLineLf(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(5, 3)
-	term.LfIncCr = true
 	test := "1\n2\n3\n4\n5"
 	exp := "3    \n4    \n5    \n"
 
@@ -91,7 +91,6 @@ func TestWriteTwice(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(5, 3)
-	term.LfIncCr = true
 	w1 := "foo\n"
 	w2 := "bar\n"
 
@@ -114,7 +113,6 @@ func TestWriteSgrBasicExportHtml(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(120, 1)
-	term.LfIncCr = true
 	test := fmt.Sprintf("Normal%sBold%sUnderscore%sReset", ansi.Bold, ansi.Underscore, ansi.Reset)
 	exp := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-underscore">Underscore</span><span class="">Reset</span><span class="">                                                                                               
 </span>`

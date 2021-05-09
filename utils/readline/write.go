@@ -3,7 +3,6 @@ package readline
 import (
 	"fmt"
 	"math"
-	"os"
 	"regexp"
 	"strings"
 	"unicode/utf8"
@@ -12,10 +11,6 @@ import (
 func printf(format string, a ...interface{}) {
 	s := fmt.Sprintf(format, a...)
 	print(s)
-}
-
-func print(s string) {
-	os.Stdout.WriteString(s)
 }
 
 var rxAnsiSgr = regexp.MustCompile("\x1b\\[[:;0-9]+m")

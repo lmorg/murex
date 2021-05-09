@@ -1,7 +1,5 @@
 package virtualterm
 
-//go:generate stringer -type=sgrFlag
-
 type sgrFlag uint32
 
 // Flags

@@ -14,7 +14,6 @@ func TestWriteSgrFgRedExportHtml(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(120, 1)
-	term.LfIncCr = true
 	test := fmt.Sprintf("Normal%sBold%sRed%sReset", ansi.Bold, ansi.FgRed, ansi.Reset)
 	exp := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-red">Red</span><span class="">Reset</span><span class="">                                                                                                      
 </span>`
@@ -35,7 +34,6 @@ func TestWriteSgrFgColoursExportHtml(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(120, 1)
-	term.LfIncCr = true
 	test := fmt.Sprintf("%sRed%sGreen%sBlue", ansi.FgRed, ansi.FgGreen, ansi.FgBlue)
 	exp := `<span class=""></span><span class="sgr-red">Red</span><span class="sgr-green">Green</span><span class="sgr-blue">Blue</span><span class="">                                                                                                            
 </span>`

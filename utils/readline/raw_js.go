@@ -2,22 +2,25 @@
 
 package readline
 
-// State contains the state of a terminal.
-type State struct{}
+import "github.com/lmorg/murex/utils/virtualterm"
 
-// MakeRaw is an empty function for web assembly since the terminal is just a
-// webpage
-func MakeRaw(_ int) (*State, error) {
-	return new(State), nil
+var VTerm = virtualterm.NewTerminal(120, 40)
+
+type State struct {
+	state virtualterm.State
 }
 
-// Restore is an empty function for web assembly since the terminal is just a
-// webpage
-func Restore(_ int, _ *State) error {
+func MakeRaw(_ int) (*State, error) {
+	state := State{state: VTerm.MakeRaw()}
+	return &state, nil
+}
+
+func Restore(_ int, state *State) error {
+	VTerm.Restore(state.state)
 	return nil
 }
 
 // GetSize the default terminal size in the webpage
 func GetSize(_ int) (width, height int, err error) {
-	return 120, 40, nil
+	return VTerm.GetSize()
 }

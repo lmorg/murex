@@ -1,11 +1,14 @@
 package virtualterm
 
+import "sync"
+
 type Term struct {
-	cells   [][]cell
-	size    xy
-	curPos  xy
-	sgr     sgr
-	LfIncCr bool // if false, \n acts as a \r\n
+	cells  [][]cell
+	size   xy
+	curPos xy
+	sgr    sgr
+	state  State
+	mutex  sync.Mutex
 }
 
 type cell struct {
@@ -17,6 +20,10 @@ type sgr struct {
 	bitwise sgrFlag
 	fg      rgb
 	bg      rgb
+}
+
+type State struct {
+	LfIncCr bool // if false, \n acts as a \r\n
 }
 
 func (c *cell) differs(oldChar rune, oldSgr *sgr) bool {
@@ -65,7 +72,23 @@ func NewTerminal(x, y int) *Term {
 	return &Term{
 		cells: cells,
 		size:  xy{x, y},
+		state: State{LfIncCr: true},
 	}
+}
+
+// GetSize outputs mirror those from terminal and readline packages
+func (t *Term) GetSize() (int, int, error) {
+	return t.size.X, t.size.Y, nil
+}
+
+func (t *Term) MakeRaw() State {
+	old := t.state
+	t.state.LfIncCr = false
+	return old
+}
+
+func (t *Term) Restore(state State) {
+	t.state = state
 }
 
 // format
@@ -78,6 +101,11 @@ func (t *Term) sgrReset() {
 
 func (t *Term) sgrEffect(flag sgrFlag) {
 	t.sgr.bitwise |= flag
+}
+
+func (c *cell) clear() {
+	c.char = 0
+	c.sgr = sgr{}
 }
 
 // moveCursor functions DON'T effect other contents in the grid
@@ -146,12 +174,12 @@ func (t *Term) wrapCursorForwards() {
 			t.moveCursorDownwards(1)
 		}
 	}
-
-	return
 }
 
-func (t *Term) writeCell(r rune) {
-	t.cell().char = r
-	t.cell().sgr = t.sgr
-	t.wrapCursorForwards()
+func (t *Term) eraseDisplayAfter() {
+	for y := t.curPos.Y; y < t.size.Y; y++ {
+		for x := t.curPos.X; x < t.size.X; x++ {
+			t.cells[y][x].clear()
+		}
+	}
 }

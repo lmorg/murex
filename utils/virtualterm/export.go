@@ -7,6 +7,8 @@ import (
 )
 
 func (t *Term) Export() string {
+	t.mutex.Lock()
+
 	gridLen := (t.size.X + 1) * t.size.Y
 	r := make([]rune, gridLen, gridLen)
 	var i int
@@ -23,6 +25,8 @@ func (t *Term) Export() string {
 		i++
 	}
 
+	t.mutex.Unlock()
+
 	return string(r)
 }
 
@@ -31,6 +35,8 @@ func (t *Term) ExportHtml() string {
 
 	lastSgr := &sgr{}
 	var lastChar rune = 0
+
+	t.mutex.Lock()
 
 	for y := range t.cells {
 		for x := range t.cells[y] {
@@ -52,6 +58,8 @@ func (t *Term) ExportHtml() string {
 		}
 		s += "\n"
 	}
+
+	t.mutex.Unlock()
 
 	return s + "</span>"
 }

@@ -6,10 +6,18 @@ const (
 	charBackspaceAnsi = 127
 )
 
+func (t *Term) writeCell(r rune) {
+	t.cell().char = r
+	t.cell().sgr = t.sgr
+	t.wrapCursorForwards()
+}
+
 func (term *Term) Write(text []rune) {
 	var (
 		escape bool
 	)
+
+	term.mutex.Lock()
 
 	for i := 0; i < len(text); i++ {
 		switch text[i] {
@@ -33,7 +41,7 @@ func (term *Term) Write(text []rune) {
 			term.curPos.X = 0
 
 		case '\n':
-			if term.LfIncCr {
+			if term.state.LfIncCr {
 				term.curPos.X = 0
 			}
 			if term.moveCursorDownwards(1) > 0 {
@@ -46,18 +54,45 @@ func (term *Term) Write(text []rune) {
 
 		}
 	}
+
+	term.mutex.Unlock()
 }
 
 func parseSgr(term *Term, text []rune) int {
 	i := 2
 
+	var n rune
+
 	for ; i < len(text); i++ {
 		switch {
 		case text[i] >= '0' && '9' >= text[i]:
-			// do nothing
-		case text[i] == 'm':
-			lookupSgr(term, text[:i+1])
+			n = (n * 10) + (text[i] - 48)
+
+		case text[i] == 'm': // SGR
+			lookupSgr(term, n)
 			return i - 1
+
+		case text[i] == 'A': // moveCursorUp
+			term.moveCursorUpwards(int(n))
+			return i - 1
+
+		case text[i] == 'B': // moveCursorDown
+			term.moveCursorDownwards(int(n))
+			return i - 1
+
+		case text[i] == 'C': // moveCursorForwards
+			term.moveCursorForwards(int(n))
+			return i - 1
+
+		case text[i] == 'D': // moveCursorBackwards
+			term.moveCursorBackwards(int(n))
+			return i - 1
+
+		case text[i] == 'J': // eraseDisplay...
+			if n == 0 {
+				term.eraseDisplayAfter()
+			}
+
 		default:
 			return i - 1
 		}
@@ -65,83 +100,53 @@ func parseSgr(term *Term, text []rune) int {
 	return i
 }
 
-func parseCsi(term *Term, text []rune) int {
-	i := 2
-
-	/*for ; i < len(text); i++ {
-		switch {
-		case text[i] >= '0' && '9' >= text[i]:
-			// do nothing
-		case text[i] == 'm':
-			lookupSgr(term, text[:i+1])
-			return i - 1
-		default:
-			return i - 1
-		}
-	}*/
-	return i
-}
-
-func lookupSgr(term *Term, text []rune) {
-	sgr := string(text)
-	switch sgr {
-	case "\x1b[m", "\x1b[0m":
-		// reset / normal
+func lookupSgr(term *Term, n rune) {
+	switch n {
+	case 0: // reset / normal
 		term.sgrReset()
 
-	case "\x1b[1m":
-		// bold
+	case 1: // bold
 		term.sgrEffect(sgrBold)
 
-	case "\x1b[4m":
-		// underscore
+	case 4: // underscore
 		term.sgrEffect(sgrUnderscore)
 
-	case "\x1b[5m":
-		// blink
+	case 5: // blink
 		term.sgrEffect(sgrBlink)
 
 		//
 		// 4bit foreground colour:
 		//
 
-	case "\x1b[30m":
-		// fg black
+	case 30: // fg black
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Black
 
-	case "\x1b[31m":
-		// fg red
+	case 31: // fg red
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Red
 
-	case "\x1b[32m":
-		// fg green
+	case 32: // fg green
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Green
 
-	case "\x1b[33m":
-		// fg yellow
+	case 33: // fg yellow
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Yellow
 
-	case "\x1b[34m":
-		// fg blue
+	case 34: // fg blue
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Blue
 
-	case "\x1b[35m":
-		// fg magenta
+	case 35: // fg magenta
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Magenta
 
-	case "\x1b[36m":
-		// fg cyan
+	case 36: // fg cyan
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4Cyan
 
-	case "\x1b[37m":
-		// fg white
+	case 37: // fg white
 		term.sgrEffect(sgrFgColour4)
 		term.sgr.fg.Red = sgrColour4White
 	}

@@ -30,7 +30,7 @@ func (rl *Instance) getCursorPos() (x int, y int) {
 	}
 
 	disable := func() (int, int) {
-		os.Stderr.WriteString("\r\ngetCursorPos() not supported by terminal emulator, disabling....\r\n")
+		printErr("\r\ngetCursorPos() not supported by terminal emulator, disabling....\r\n")
 		rl.EnableGetCursorPos = false
 		return -1, -1
 	}
