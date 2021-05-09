@@ -1,11 +1,9 @@
-// +build !windows,!plan9,!js
+// +build js
 
 package lang
 
 import (
-	"os"
 	"os/exec"
-	"syscall"
 )
 
 func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
@@ -20,7 +18,5 @@ func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
 }
 
 func osSyscalls(cmd *exec.Cmd) {
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Ctty: int(os.Stdout.Fd()),
-	}
+	return
 }

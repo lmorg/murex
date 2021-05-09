@@ -68,11 +68,7 @@ func (stdin *Stdin) Open() {
 func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
 
-	/*stdin.dependants--
-
-	if stdin.dependants < 0 {
-		panic("More closed dependants than open")
-	}*/
+	//stdin.dependants--
 
 	i := atomic.AddInt32(&stdin.dependants, -1)
 	if i < 0 {

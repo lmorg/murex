@@ -17,8 +17,8 @@ fi
 trap ctrl_c INT
 
 ctrl_c() {
-  printf "\n\033[0;31m[COMMIT CANCELLED]\033[0m\n"
-  exit 1
+    printf "\n\033[0;31m[COMMIT CANCELLED]\033[0m\n"
+    exit 1
 }
 
 echo "Updating auto-generated code...."
@@ -39,4 +39,4 @@ echo "Updating git...."
 find . -name "*_string.go" -exec git add -v {} \;
 git add -v docs config/defaults builtins/docgen_test.go $docs $cdocs
 
-#echo "Allowing git commit to proceed...."
+echo "Allowing git commit to proceed...."

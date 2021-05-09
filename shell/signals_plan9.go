@@ -12,13 +12,7 @@ import (
 func SignalHandler(interactive bool) {
 	c := make(chan os.Signal, 1)
 
-	if Interactive {
-		// Interactive, so we will handle stop
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-	} else {
-		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-	}
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
 		for {
