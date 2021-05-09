@@ -38,12 +38,13 @@
                 go.run(result.instance);
             });
 
-            /*var shellExecWasm = function(input) {
-                err = shellexec(input);
-                if (err != undefined) {
-                    alert(err);
+            async function shellExec(cmd) {
+                try {
+                    console.log(await wasmShellExec(cmd));
+                } catch (err) {
+                    console.error('Caught exception', err);
                 };
-            };*/
+            };
         </script>
    </body>
 </html>  
