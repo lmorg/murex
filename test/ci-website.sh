@@ -37,7 +37,7 @@ find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
 
 
-echo "Compiling WASM...."
+echo "Compiling WebAssembly...."
 
 export GOOS=js
 export GOARCH=wasm
