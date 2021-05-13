@@ -5,7 +5,7 @@ import (
 	"sync/atomic"
 )
 
-func delayedSyntaxTimer(rl *Instance, i int64) {
+func delayedSyntaxTimer(rl *Instance, i int32) {
 	if rl.PasswordMask != 0 || rl.DelayedSyntaxWorker == nil {
 		return
 	}
@@ -19,7 +19,7 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 	newLine := rl.DelayedSyntaxWorker(rl.line)
 	var sLine string
 
-	count := atomic.LoadInt64(&rl.delayedSyntaxCount)
+	count := atomic.LoadInt32(&rl.delayedSyntaxCount)
 	if count != i {
 		return
 	}
