@@ -49,6 +49,8 @@ h3 {
 h4 {
   color: #000000;
   font-size: 16px;
+  text-decoration: underline;
+  text-underline-offset: 8px;
 }
 
 strong {

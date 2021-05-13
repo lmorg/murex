@@ -15,17 +15,19 @@ func TestWriteSgrFgRedExportHtml(t *testing.T) {
 
 	term := virtualterm.NewTerminal(120, 1)
 	test := fmt.Sprintf("Normal%sBold%sRed%sReset", ansi.Bold, ansi.FgRed, ansi.Reset)
-	exp := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-red">Red</span><span class="">Reset</span><span class="">                                                                                                      
+	exp1 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-red">Red</span><span class="">Reset</span><span class="">                                                                                                      
+</span>`
+	exp2 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-red">Red</span><span class="">Reset</span><span class="">                                                                                                      
 </span>`
 
 	term.Write([]rune(test))
 	act := strings.TrimSpace(term.ExportHtml())
 
-	if exp != act {
+	if exp1 != act && exp2 != act {
 		t.Error("Expected output does not match actual output")
-		t.Logf("  Expected: '%s'", exp)
+		t.Logf("  Expected: '%s'", exp1)
 		t.Logf("  Actual:   '%s'", act)
-		t.Logf("  exp bytes: %v", []byte(exp))
+		t.Logf("  exp bytes: %v", []byte(exp1))
 		t.Logf("  act bytes: %v", []byte(act))
 	}
 }

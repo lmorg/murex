@@ -2,7 +2,6 @@ package virtualterm
 
 import (
 	"html"
-	"sort"
 	"strings"
 )
 
@@ -76,14 +75,6 @@ func sgrHtmlClassLookup(sgr *sgr) string {
 	if sgr.checkFlag(sgrFgColour4) {
 		classes = append(classes, sgrColourHtmlClassNames[sgr.fg.Red])
 	}
-
-	// It doesn't actually matter if the classes are sorted. However it does
-	// make it harder to write tests when classes can be returned in any order.
-	// So while this adds a bit of overhead to the function, it does ensure
-	// tests pass consistently. The prod version of this code might see this
-	// this removed with regexp matches in the tests rather than string == and
-	// have this sort() function removed.
-	sort.Strings(classes)
 
 	return strings.Join(classes, " ")
 }

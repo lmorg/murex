@@ -8,7 +8,7 @@
                 scroll-behavior: auto;
                 font-size: 14px;
                 width: 120ch;
-                height: 40ch;
+                height: auto;
             }
 
             .sgr-black   { color: #073642; }
@@ -36,35 +36,52 @@
     </head>
     <body>
         <h1>Murex WASM Build</h1>
-        <pre id="term" contenteditable=""></pre>
+        <pre id="term" contenteditable="">
+Loading....
+(this might take a few minutes on slower connections)
+        </pre>
         <!--<input id="block" name="block" type="string" />
         <input id="button" type="submit" name="button" value="Run" onclick="shellExec(block.value)"/>
         -->
         <script src="wasm_exec.js"></script>
         <script>
-            document.getElementById("term").addEventListener("keydown", function(event) {
+            document.getElementById("term").addEventListener("keypress", function(event) {
                 event.preventDefault();
-                console.log(`${event.type} has been fired`);
+                var x = event.charCode
+                var y = String.fromCharCode(x); 
+                //console.log(`${x} -- ${y} has been pressed`);
+                shellKeyPress(y);
             });
 
             const go = new Go();
             WebAssembly.instantiateStreaming(fetch("murex.wasm"), go.importObject).then((result) => {
                 go.run(result.instance);
+                shellStart();
             });
 
-            /*async function shellExec(cmd) {
+            async function shellExec(cmd) {
                 try {
                     console.log(await wasmShellExec(cmd));
                 } catch (err) {
                     console.error('Caught exception', err);
                 };
-            };*/
-
-            async function shellStart() {
-                await wasmShellStart();
             };
 
-            shellStart();
+            async function shellStart(cmd) {
+                try {
+                    console.log(await wasmShellStart(cmd));
+                } catch (err) {
+                    console.error('Caught exception', err);
+                };
+            };
+
+            async function shellKeyPress(stdin) {
+                try {
+                    console.log(await wasmKeyPress(stdin));
+                } catch (err) {
+                    console.error('Caught exception', err);
+                };
+            };
         </script>
    </body>
 </html>  

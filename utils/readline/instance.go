@@ -54,7 +54,7 @@ type Instance struct {
 	// DelayedSyntaxWorker allows for syntax highlighting happen to the line
 	// after the line has been drawn.
 	DelayedSyntaxWorker func([]rune) []rune
-	delayedSyntaxCount  int64
+	delayedSyntaxCount  int32
 
 	// HintText is a helper function which displays hint text the prompt.
 	// HintText takes the line input from the prompt and the cursor position.

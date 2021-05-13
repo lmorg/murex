@@ -5,14 +5,15 @@ package main
 import (
 	"syscall/js"
 
-	//"github.com/lmorg/murex/app"
+	"github.com/lmorg/murex/app"
 	_ "github.com/lmorg/murex/builtins"
-	//"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
-	//"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 const interactive = true
@@ -20,8 +21,9 @@ const interactive = true
 func main() {
 	startMurex()
 
-	//js.Global().Set("wasmShellExec", wasmShellExec())
+	js.Global().Set("wasmShellExec", wasmShellExec())
 	js.Global().Set("wasmShellStart", wasmShellStart())
+	js.Global().Set("wasmKeyPress", wasmKeyPress())
 
 	wait := make(chan bool)
 	<-wait
@@ -46,7 +48,7 @@ func startMurex() {
 }
 
 // wasmShellExec returns a Promise
-/*func wasmShellExec() js.Func {
+func wasmShellExec() js.Func {
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		block := args[0].String()
 
@@ -80,21 +82,42 @@ func startMurex() {
 		promiseConstructor := js.Global().Get("Promise")
 		return promiseConstructor.New(handler)
 	})
-}*/
+}
 
 // wasmShellStart starts the interactive shell as a Promise
 func wasmShellStart() js.Func {
 	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
-		// Handler for the Promise: this is a JS function
-		// It receives two arguments, which are JS functions themselves: resolve and reject
 		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			resolve := args[0]
+			//reject := args[1]
 
-			// Now that we have a way to return the response to JS, spawn a goroutine
-			// This way, we don't block the event loop and avoid a deadlock
 			go func() {
-				// start interactive shell
+				resolve.Invoke("Starting interactive shell....")
 				shell.Start()
+			}()
+
+			// The handler of a Promise doesn't return any value
+			return nil
+		})
+
+		// Create and return the Promise object
+		promiseConstructor := js.Global().Get("Promise")
+		return promiseConstructor.New(handler)
+	})
+}
+
+// wasmKeyPress starts the interactive shell as a Promise
+func wasmKeyPress() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		stdin := args[0].String()
+
+		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			//resolve := args[0]
+			//reject := args[1]
+
+			go func() {
+				readline.Stdin <- stdin
 			}()
 
 			// The handler of a Promise doesn't return any value

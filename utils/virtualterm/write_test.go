@@ -114,15 +114,17 @@ func TestWriteSgrBasicExportHtml(t *testing.T) {
 
 	term := virtualterm.NewTerminal(120, 1)
 	test := fmt.Sprintf("Normal%sBold%sUnderscore%sReset", ansi.Bold, ansi.Underscore, ansi.Reset)
-	exp := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-underscore">Underscore</span><span class="">Reset</span><span class="">                                                                                               
+	exp1 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-underscore">Underscore</span><span class="">Reset</span><span class="">                                                                                               
+</span>`
+	exp2 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-underscore sgr-bold">Underscore</span><span class="">Reset</span><span class="">                                                                                               
 </span>`
 
 	term.Write([]rune(test))
 	act := strings.TrimSpace(term.ExportHtml())
 
-	if exp != act {
+	if exp1 != act && exp2 != act {
 		t.Error("Expected output does not match actual output")
-		t.Logf("  Expected: '%s'", exp)
+		t.Logf("  Expected: '%s'", exp1)
 		t.Logf("  Actual:   '%s'", act)
 		//t.Logf("  exp bytes: %v", []byte(exp))
 		//t.Logf("  act bytes: %v", []byte(act))
