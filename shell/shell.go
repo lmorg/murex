@@ -14,7 +14,6 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/counter"
-	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
 )
@@ -52,12 +51,7 @@ func Start() {
 	Prompt.SyntaxCompleter = syntaxCompletion
 	Prompt.HistoryAutoWrite = false
 
-	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
-	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
-	} else {
-		Prompt.History = h
-	}
+	setPromptHistory()
 
 	SignalHandler(true)
 

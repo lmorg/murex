@@ -71,7 +71,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		var i int
 
 		if !rl.skipStdinRead {
-			i, err = os.Stdin.Read(b)
+			i, err = read(b)
 			if err != nil {
 				return "", err
 			}

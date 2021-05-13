@@ -1,6 +1,8 @@
 package virtualterm
 
-import "sync"
+import (
+	"github.com/lmorg/murex/debug"
+)
 
 type Term struct {
 	cells  [][]cell
@@ -8,7 +10,8 @@ type Term struct {
 	curPos xy
 	sgr    sgr
 	state  State
-	mutex  sync.Mutex
+	//mutex  sync.Mutex
+	mutex debug.BadMutex
 }
 
 type cell struct {
