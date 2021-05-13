@@ -27,6 +27,13 @@ sed -i "s/\$DATE/`date`/;
         s/\$COMMITHASHLONG/$MUREXCOMMITL/;
         s/\$MUREXVERSION/$MUREXVERSION/;
         s/\$MUREXTESTS/$MUREXTESTS/" \
+        gen/website/header.html
+
+sed -i "s/\$DATE/`date`/;
+        s/\$COMMITHASHSHORT/$MUREXCOMMITS/;
+        s/\$COMMITHASHLONG/$MUREXCOMMITL/;
+        s/\$MUREXVERSION/$MUREXVERSION/;
+        s/\$MUREXTESTS/$MUREXTESTS/" \
         gen/website/footer.html
 
 cp gen/website/404.md .

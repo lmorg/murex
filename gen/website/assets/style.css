@@ -50,7 +50,7 @@ h4 {
   color: #000000;
   font-size: 16px;
   text-decoration: underline;
-  text-underline-offset: 8px;
+  text-underline-offset: 7px;
 }
 
 strong {
@@ -166,12 +166,10 @@ a.side-bar:active, a.side-bar:hover {
   border-color: #404040;
   border-style: solid;
   border-right-width: 10px;
-  color: #404040;
   background: #e0e0e0;
   padding: 5px;
   border-radius: 5px;
   text-align: center;
-  
   font-size: 12px;
   line-height: 150%;
   letter-spacing: 0px;
