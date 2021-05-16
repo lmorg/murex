@@ -199,3 +199,38 @@ func TestParserNamedPiped6(t *testing.T) {
 
 	testParser(t, tests)
 }
+
+func TestParserTemporaryPipes(t *testing.T) {
+	pipeParams := [][]parameters.ParamToken{{{
+		Key:  "<pipe:param-eter:s>",
+		Type: parameters.TokenTypeNamedPipe,
+	}}}
+
+	valParams := [][]parameters.ParamToken{{{
+		Key:  "<notapipe:param-eter:s>",
+		Type: parameters.TokenTypeValue,
+	}}}
+
+	pipeNodes := AstNodes{{
+		NewChain:    true,
+		Name:        "example",
+		ParamTokens: pipeParams,
+	}}
+
+	valNodes := AstNodes{{
+		NewChain:    true,
+		Name:        "example",
+		ParamTokens: valParams,
+	}}
+
+	var tests = []parserTestConditions{
+		{Expected: pipeNodes, Block: `example <pipe:param-eter:s>`},
+
+		{Expected: valNodes, Block: `example \<notapipe:param-eter:s>`},
+		{Expected: valNodes, Block: `example '<notapipe:param-eter:s>'`},
+		{Expected: valNodes, Block: `example "<notapipe:param-eter:s>"`},
+		{Expected: valNodes, Block: `example (<notapipe:param-eter:s>)`},
+	}
+
+	testParser(t, tests)
+}

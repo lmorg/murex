@@ -26,6 +26,7 @@ type Process struct {
 	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io
+	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
 	Stderr             stdio.Io
 	ExitNum            int
 	WaitForTermination chan bool `json:"-"`
