@@ -108,7 +108,7 @@ func createProcess(p *Process, isMethod bool) {
 	case "":
 		p.NamedPipeOut = "out"
 	case "err":
-		//p.Stdout.SetDataType(types.Null)
+		p.Stdout.SetDataType(types.Generic)
 		p.Stdout = p.Next.Stderr
 	case "out":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
