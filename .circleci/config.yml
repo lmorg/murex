@@ -27,8 +27,92 @@ jobs:
           name: Code Coverage (codecov.io)
           command: bash <(curl -s https://codecov.io/bash)
 
+  goget:
+    docker:
+      - image: golang
+    steps:
+      - run:
+          name: go get (latest go version)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (latest go version)
+          command: go install github.com/lmorg/murex
+
+  goget111:
+    docker:
+      - image: golang:1.11
+    steps:
+      - run:
+          name: go get (go v1.11)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (go v1.11)
+          command: go install github.com/lmorg/murex
+
+  goget112:
+    docker:
+      - image: golang:1.12
+    steps:
+      - run:
+          name: go get (go v1.12)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (go v1.12)
+          command: go install github.com/lmorg/murex
+
+  goget113:
+    docker:
+      - image: golang:1.13
+    steps:
+      - run:
+          name: go get (go v1.13)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (go v1.13)
+          command: go install github.com/lmorg/murex
+
+  goget114:
+    docker:
+      - image: golang:1.14
+    steps:
+      - run:
+          name: go get (go v1.14)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (go v1.14)
+          command: go install github.com/lmorg/murex
+
+  goget115:
+    docker:
+      - image: golang:1.15
+    steps:
+      - run:
+          name: go get (go v1.15)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (go v1.15)
+          command: go install github.com/lmorg/murex
+
+  goget116:
+    docker:
+      - image: golang:1.16
+    steps:
+      - run:
+          name: go get (go v1.16)
+          command: go get -u github.com/lmorg/murex
+
+          name: go install (go v1.16)
+          command: go install github.com/lmorg/murex
+
 workflows:
   version: 2
   build-workflow:
     jobs:
       - build
+      - goget
+      - goget111
+      - goget112
+      - goget113
+      - goget114
+      - goget115
+      - goget116
