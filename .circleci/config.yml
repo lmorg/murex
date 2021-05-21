@@ -1,118 +1,112 @@
 version: 2
+steps: &steps
+  steps:
+    - checkout
+    - run:
+        name: go test
+        command: go test ./... -count 1 -race
+    - run:
+        name: build
+        command: go build github.com/lmorg/murex
+    - run:
+        name: mx tests
+        command: ./murex --run-tests
+    - run:
+        name: binary tests
+        command: |
+          ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+
+env: &env
+  environment:
+    GOPATH: /go
+    MUREX_BUILD_FLAGS: --no-colour
+    MUREX_TEST_NO_EXEC_DEPS: true
+    MUREX_TEST_SKIP_MAN: true
+
+
+  
 jobs:
-  build:
+  website:
     working_directory: /go/src/github.com/lmorg/murex
     docker:
       - image: lmorg/murex:ci
         environment:
           GOPATH: /go
           MUREX_BUILD_FLAGS: --no-colour
-    
     steps:
       - run:
           name: Nuke old code
           command: cd .. && rm -rf murex && mkdir murex
-
       - checkout
-
       - run:
           name: Build and test murex
           command: test/ci-murex.sh
-
       - run:
           name: Build and test website
           command: test/ci-website.sh
-
       - run:
           name: Code Coverage (codecov.io)
           command: bash <(curl -s https://codecov.io/bash)
 
-  goget:
+  latest:
     docker:
       - image: golang
-    steps:
-      - run:
-          name: go get (latest go version)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (latest go version)
-          command: go install github.com/lmorg/murex
-
-  goget111:
+  v1.11:
     docker:
       - image: golang:1.11
-    steps:
-      - run:
-          name: go get (go v1.11)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (go v1.11)
-          command: go install github.com/lmorg/murex
-
-  goget112:
+  v1.12:
     docker:
       - image: golang:1.12
-    steps:
-      - run:
-          name: go get (go v1.12)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (go v1.12)
-          command: go install github.com/lmorg/murex
-
-  goget113:
+  v1.13:
     docker:
       - image: golang:1.13
-    steps:
-      - run:
-          name: go get (go v1.13)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (go v1.13)
-          command: go install github.com/lmorg/murex
-
-  goget114:
+  v1.14:
     docker:
       - image: golang:1.14
-    steps:
-      - run:
-          name: go get (go v1.14)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (go v1.14)
-          command: go install github.com/lmorg/murex
-
-  goget115:
+  v1.15:
     docker:
       - image: golang:1.15
-    steps:
-      - run:
-          name: go get (go v1.15)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (go v1.15)
-          command: go install github.com/lmorg/murex
-
-  goget116:
+  v1.16:
     docker:
       - image: golang:1.16
-    steps:
-      - run:
-          name: go get (go v1.16)
-          command: go get -u github.com/lmorg/murex
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
-          name: go install (go v1.16)
-          command: go install github.com/lmorg/murex
 
 workflows:
   version: 2
   build-workflow:
     jobs:
-      - build
-      - goget
-      - goget111
-      - goget112
-      - goget113
-      - goget114
-      - goget115
-      - goget116
+      - website
+      - latest
+      - v1.11
+      - v1.12
+      - v1.13
+      - v1.14
+      - v1.15
+      - v1.16
