@@ -12,7 +12,7 @@ function and the exit number. Any non-zero exit numbers are an automatic
 "false". Any functions returning no data are also classed as a "false".
 For a full list of conditions that are evaluated to determine a true or
 false state of a function, please read the documentation on the `boolean`
-data type in [GUIDE.syntax.md](GUIDE.syntax.md#boolean).
+data type in [GUIDE.syntax](GUIDE.syntax.md#boolean).
 
 Please also note that while the last parameter is optional, if it is
 left off and `if` or `!if` would have otherwise called it, then `if` /
@@ -141,7 +141,7 @@ when compared to the latter:
     time { a: [1..999][0,2,4,6,8],10000 -> foreach i { $i } }
     time { for { i=10; i<10001; i=i+2 } { $i } }
 
-For more information about the `array` function see [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#the-array-builtin).
+For more information about the `array` function see [GUIDE.arrays-and-maps](GUIDE.arrays-and-maps.md#the-array-builtin).
 
 ## foreach / formap
 
@@ -152,7 +152,7 @@ map (`formap`)
     structured_output -> formap: var_key var_value { iteration }
 
 More detailed descriptions on working with structured data, including
-examples, can be found in [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#working-with-structured-data).
+examples, can be found in [GUIDE.arrays-and-maps](GUIDE.arrays-and-maps.md#working-with-structured-data).
 
 ## while
 (description to follow)

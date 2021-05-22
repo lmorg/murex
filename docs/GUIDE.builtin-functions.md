@@ -15,7 +15,7 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
+1. [GUIDE.control-structures](./GUIDE.control-structures.md), which
 contains builtins required for building logic.
 
 ### _murex_'s Source Code

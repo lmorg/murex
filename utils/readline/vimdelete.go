@@ -46,25 +46,14 @@ func (rl *Instance) vimDelete(r []rune) {
 }
 
 func (rl *Instance) viDeleteByAdjust(adjust int) {
-	var (
-		newLine []rune
-		backOne bool
-	)
-
-	switch {
-	case adjust == 0:
+	if adjust == 0 {
 		rl.viUndoSkipAppend = true
 		return
-	case rl.pos+adjust == len(rl.line)-1:
-		newLine = rl.line[:rl.pos]
-		backOne = true
-	case rl.pos+adjust == 0:
-		newLine = rl.line[rl.pos:]
-	case adjust < 0:
-		newLine = append(rl.line[:rl.pos+adjust], rl.line[rl.pos:]...)
-	default:
-		newLine = append(rl.line[:rl.pos], rl.line[rl.pos+adjust:]...)
 	}
+
+	// Separate out the cursor movement from the logic so we can run tests on
+	// the logic
+	newLine, backOne := rl.viDeleteByAdjustLogic(&adjust)
 
 	moveCursorBackwards(rl.pos)
 	print(strings.Repeat(" ", len(rl.line)))
@@ -82,6 +71,31 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 		moveCursorBackwards(1)
 		rl.pos--
 	}
+}
+
+func (rl *Instance) viDeleteByAdjustLogic(adjust *int) (newLine []rune, backOne bool) {
+	switch {
+	case len(rl.line) == 0:
+		*adjust = 0
+		newLine = []rune{}
+	case rl.pos+*adjust > len(rl.line)-1:
+		*adjust -= (rl.pos + *adjust) - (len(rl.line) - 1)
+		fallthrough
+	case rl.pos+*adjust == len(rl.line)-1:
+		newLine = rl.line[:rl.pos]
+		backOne = true
+	case rl.pos+*adjust < 0:
+		*adjust = rl.pos
+		fallthrough
+	case rl.pos+*adjust == 0:
+		newLine = rl.line[rl.pos:]
+	case *adjust < 0:
+		newLine = append(rl.line[:rl.pos+*adjust], rl.line[rl.pos:]...)
+	default:
+		newLine = append(rl.line[:rl.pos], rl.line[rl.pos+*adjust:]...)
+	}
+
+	return
 }
 
 func (rl *Instance) vimDeleteToken(r rune) bool {

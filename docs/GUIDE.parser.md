@@ -8,10 +8,10 @@ This section is a glossary of _murex_ tokens and parser behavior.
 
 ### Language Guides
 
-1. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md), for docs
+1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
 on the core builtins.
 
-2. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
+2. [GUIDE.control-structures](./GUIDE.control-structures.md), which
 contains builtins required for building logic.
 
 ### _murex_'s Source Code
