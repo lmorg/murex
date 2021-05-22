@@ -27,6 +27,7 @@ go generate ./...
 echo 'Updating `import_build` includes....'
 while read include; do
     cp -vf "./builtins/imports_src/$include" ./builtins/imports_build/
+    git add -f "./builtins/imports_build/$include"
 done < ./builtins/imports_build/standard_build.txt
 
 echo "Compiling docgen...."
