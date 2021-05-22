@@ -1,0 +1,10 @@
+optional-builtins.go
+optional-coreutils.go
+pipe-net.go
+type-apachelogs.go
+type-csv.go
+type-hcl.go
+type-querystring.go
+type-sexp.go
+type-toml.go
+type-yaml.go
