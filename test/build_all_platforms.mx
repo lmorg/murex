@@ -16,6 +16,8 @@ catch {
     exit 1
 }
 
+go env GOVERSION -> regexp 'f/([1-9]+\.[0-9]+)/' -> set num goversion
+
 if { $args->[[/Flags/--no-colour]] } then {
     config: set shell color false
     config: set proc force-tty true
@@ -40,11 +42,19 @@ set json targets = ({
     "openbsd":   [ "386", "amd64", "arm"          ],
     "netbsd":    [ "386", "amd64", "arm"          ],
     "dragonfly": [        "amd64"                 ],
-    "darwin":    [        "amd64",        "arm64" ],
+    "darwin":    [        "amd64"                 ],
     "solaris":   [        "amd64"                 ],
     "plan9":     [ "386", "amd64", "arm"          ],
     "windows":   [ "386", "amd64", "arm"          ]
 })
+
+# Add support for arm64 on supporting Go releases
+if { = goversion >= 1.16 } then {
+    $targets -> alter: -m /darwin  (["arm64"]) -> set targets
+    $targets -> alter: -m /freebsd (["arm64"]) -> set targets
+    $targets -> alter: -m /openbsd (["arm64"]) -> set targets
+    $targets -> alter: -m /netbsd  (["arm64"]) -> set targets
+}
 
 let status=0
 

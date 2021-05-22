@@ -3,18 +3,35 @@ steps: &steps
   steps:
     - checkout
     - run:
+        name: enable all optional builtins
+        command: |
+          rm -vf builtins/imports_build/*
+          cp -vf builtins/imports_src/* builtins/imports_build/
+    - run:
         name: go test
-        command: go test ./... -count 1 -race
+        command: |
+          go test ./... -count 1 -race
     - run:
         name: build
-        command: go build github.com/lmorg/murex
+        command: |
+          go build github.com/lmorg/murex
     - run:
         name: mx tests
-        command: ./murex --run-tests
+        command: |
+          ./murex --run-tests
     - run:
-        name: binary tests
+        name: tests flags
         command: |
           ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+    - run:
+        name: build all standalone targets
+        command: |
+          ./murex ./test/build_all_platforms.mx
+    - run:
+        name: build web assembly
+        command: |
+          GOOS=js GOARCH=wasm go build -o murex.wasm .
+
 
 env: &env
   environment:
@@ -51,13 +68,6 @@ jobs:
   latest:
     docker:
       - image: golang
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
-  v1.11:
-    docker:
-      - image: golang:1.11
         <<: *env
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
@@ -104,9 +114,9 @@ workflows:
     jobs:
       - website
       - latest
-      - v1.11
       - v1.12
       - v1.13
       - v1.14
       - v1.15
       - v1.16
+

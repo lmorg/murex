@@ -7,13 +7,32 @@ page to select your platform.
 
 ## From Source
 
-> Go 1.11 or higher is required
+> Go 1.12 or higher is required
 
-Assuming you already have Go (Golang) installed, you can download the
-source just by running the following from the command line
+### Prerequisites
 
-    go get -u github.com/lmorg/murex
-    cd $GOPATH/src/github.com/lmorg/murex
+You will need `go` (Golang) compiler and `git` installed, and your `$GOPATH`
+environmental variable set. You can check these by running:
+
+    which go
+    which git
+    echo $GOPATH
+
+(each of those commands should return a non-zero length string).
+
+### Installation From Source Steps
+
+> At present, _murex_ depends on being in a specific directory hierarchy for
+> the tests to work.
+
+First create the directory path and clone the source into the appropriate
+directory structure.
+
+    mkdir -p $GOPATH/lmorg/murex
+    git clone github.com/lmorg/murex $GOPATH/lmorg/murex
+
+> Using `go get -u` is currently unsupported because it breaks the optional
+> builtin import system. This is a known bug. Please use `git clone` instead.
 
 Test the code (optional stage):
 
@@ -22,6 +41,11 @@ Test the code (optional stage):
 Compile the code:
 
     go build github.com/lmorg/murex
+
+Test the executable (optional stage):
+
+    ./murex --run-tests
+    ./murex -c 'source: ./flags_test.mx; try {test: run *}'
 
 Then to start the shell:
 
@@ -48,7 +72,7 @@ From the project root (the location of this INSTALL.md file) run the following:
 
     docker-compose up --build murex
 
-## Including optional builtins
+## Including Optional Builtins
 
 Some optional builtins will be included by default, however there may be others
 you wish to include which are not part of the default build (such as `select`).
