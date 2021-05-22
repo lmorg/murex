@@ -16,7 +16,9 @@ catch {
     exit 1
 }
 
-let goversion=${go env GOVERSION -> regexp 'f/([1-9]+\.[0-9]+)/'}
+go env GOVERSION -> regexp 'f/([1-9]+\.[0-9]+)/' -> set num goversion
+# Please note that versions of go < 1.16 will not be detected due to `go env GOVERSION`
+# not existing on earlier versions of `go`
 
 if { $args->[[/Flags/--no-colour]] } then {
     config: set shell color false
