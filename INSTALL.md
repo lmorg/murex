@@ -24,11 +24,11 @@ environmental variable set. You can check these by running:
 
 (each of those commands should return a non-zero length string).
 
-#### Further Reading
+#### Further Reading:
 
-How to install Go: https://golang.org/doc/install
-How to install git: https://github.com/git-guides/install-git
-How to set GOPATH: https://github.com/golang/go/wiki/SettingGOPATH
+- How to install Go: https://golang.org/doc/install
+- How to install git: https://github.com/git-guides/install-git
+- How to set GOPATH: https://github.com/golang/go/wiki/SettingGOPATH
 
 ### Installation From Source Steps
 
