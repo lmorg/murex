@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"regexp"
 	"strings"
@@ -90,10 +91,10 @@ func createProcess(p *Process, isMethod bool) {
 	case "err":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
-		p.Stderr.SetDataType(types.Generic)
-		p.Stderr = p.Next.Stdout
+		//p.Stderr.SetDataType(types.Generic)
+		p.Stderr = p.Next.Stdin //p.Next.Stdout
 	default:
-		p.Stderr.SetDataType(types.Generic)
+		//p.Stderr.SetDataType(types.Generic)
 		pipe, err := GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
 			p.Stderr = pipe
@@ -107,14 +108,15 @@ func createProcess(p *Process, isMethod bool) {
 	case "":
 		p.NamedPipeOut = "out"
 	case "err":
-		p.Stdout.SetDataType(types.Null)
+		p.Stdout.SetDataType(types.Generic)
 		p.Stdout = p.Next.Stderr
 	case "out":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
-		p.Stdout.SetDataType(types.Null)
+		//p.Stdout.SetDataType(types.Null)
 		pipe, err := GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
+			p.stdoutOldPtr = p.Stdout
 			p.Stdout = pipe
 		} else {
 			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
@@ -280,6 +282,25 @@ executeProcess:
 		testEnabled, err := p.Config.Get("test", "enabled", types.Boolean)
 		if err == nil && testEnabled.(bool) {
 			p.Tests.Compare(p.NamedPipeTest, p)
+		}
+	}
+
+	if len(p.NamedPipeOut) > 7 /* tmp:$FID/$MD5 */ && p.NamedPipeOut[:4] == "tmp:" {
+		out, err := GlobalPipes.Get(p.NamedPipeOut)
+		if err != nil {
+			p.Stderr.Writeln([]byte(fmt.Sprintf("Error connecting to temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
+		} else {
+			p.stdoutOldPtr.Open()
+			_, err = out.WriteTo(p.stdoutOldPtr)
+			p.stdoutOldPtr.Close()
+			if err != nil && err != io.EOF {
+				p.Stderr.Writeln([]byte(fmt.Sprintf("Error piping from temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
+			}
+		}
+
+		err = GlobalPipes.Close(p.NamedPipeOut)
+		if err != nil {
+			p.Stderr.Writeln([]byte(fmt.Sprintf("Error closing temporary named pipe '%s': %s", p.NamedPipeOut, err.Error())))
 		}
 	}
 

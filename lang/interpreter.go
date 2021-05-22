@@ -104,7 +104,7 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 				return
 			}
 			procs[i+1].Stdin = streams.NewStdin()
-			procs[i].Stdout = procs[i].Parent.Stdout
+			procs[i].Stdout = procs[i].Parent.Stderr //Stdout
 			procs[i].Stderr = procs[i].Next.Stdin
 
 		default:

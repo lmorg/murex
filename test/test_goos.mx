@@ -10,9 +10,7 @@ cd $build_path
 
 set json targets = ([
     "linux",
-    "freebsd",
     "darwin",
-    "plan9",
     "windows"
 ])
 
@@ -32,18 +30,6 @@ $targets -> foreach target {
 }
 
 cd ..
-
-try {
-    ({BLUE}Building js/wasm....{RESET})
-    export GOOS=js
-    export GOARCH=wasm
-    go build -o murex.wasm ../
-    out "{GREEN}SUCCESSFUL{RESET}"
-}
-catch {
-    out "{RED}FAILED{RESET}"
-    let status++
-}
 
 rm -rf $build_path
 

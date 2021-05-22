@@ -1,34 +1,122 @@
 version: 2
+steps: &steps
+  steps:
+    - checkout
+    - run:
+        name: enable all optional builtins
+        command: |
+          rm -vf builtins/imports_build/*
+          cp -vf builtins/imports_src/* builtins/imports_build/
+    - run:
+        name: go test
+        command: |
+          go test ./... -count 1 -race
+    - run:
+        name: build
+        command: |
+          go build github.com/lmorg/murex
+    - run:
+        name: mx tests
+        command: |
+          ./murex --run-tests
+    - run:
+        name: tests flags
+        command: |
+          ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+    - run:
+        name: build all standalone targets
+        command: |
+          ./murex ./test/build_all_platforms.mx
+    - run:
+        name: build web assembly
+        command: |
+          GOOS=js GOARCH=wasm go build -o murex.wasm .
+
+
+env: &env
+  environment:
+    GOPATH: /go
+    MUREX_BUILD_FLAGS: --no-colour
+    MUREX_TEST_NO_EXEC_DEPS: true
+    MUREX_TEST_SKIP_MAN: true
+
+
+  
 jobs:
-  build:
+  website:
     working_directory: /go/src/github.com/lmorg/murex
     docker:
       - image: lmorg/murex:ci
         environment:
           GOPATH: /go
           MUREX_BUILD_FLAGS: --no-colour
-    
     steps:
       - run:
           name: Nuke old code
           command: cd .. && rm -rf murex && mkdir murex
-
       - checkout
-
       - run:
           name: Build and test murex
           command: test/ci-murex.sh
-
       - run:
           name: Build and test website
           command: test/ci-website.sh
-
       - run:
           name: Code Coverage (codecov.io)
           command: bash <(curl -s https://codecov.io/bash)
+
+  latest:
+    docker:
+      - image: golang
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
+  v1.12:
+    docker:
+      - image: golang:1.12
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
+  v1.13:
+    docker:
+      - image: golang:1.13
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
+  v1.14:
+    docker:
+      - image: golang:1.14
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
+  v1.15:
+    docker:
+      - image: golang:1.15
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
+  v1.16:
+    docker:
+      - image: golang:1.16
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
 
 workflows:
   version: 2
   build-workflow:
     jobs:
-      - build
+      - website
+      - latest
+      - v1.12
+      - v1.13
+      - v1.14
+      - v1.15
+      - v1.16
+

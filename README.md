@@ -307,25 +307,6 @@ to jump straight into using _murex_.
 
 There are various ways you can load _murex_ on to your system. See [INSTALL](INSTALL.md) for details.
 
-## CI/CD
-
-_murex_ makes heavy use of testing and CI/CD to ensure the latest builds are
-safe for use.
-
-1. Git `pre-commit` and `pre-push` files exist to help developers catch any
-   regression errors before they even hit the feature branches.
-
-2. Each and every git push is validated against hundreds of distinct tests and
-   race detectors (run in Circle CI). These tests are run 10 times to shake out
-   any possible timing related bugs.
-
-   Each push to `develop` and `master` also creates a new docker container,
-   `lmorg/murex:develop` and `lmorg/murex:latest` (for the `master` branch).
-
-3. Weekly automated builds are then run against the latest container. These
-   builds are run in AWS CodeBuild and they generate the [murex.rocks](https://murex.rocks)
-   website and build pre-compiled binaries for [download](DOWNLOAD.md).
-
 ## Known bugs / TODO
 
 Please see GitHub's issue tracker: [https://github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
