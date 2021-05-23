@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
 )
 
@@ -146,14 +147,11 @@ func TestProfilePaths(t *testing.T) {
 	}
 }
 
-// TestProfileAndCustomPaths tests a range of functionality from the env var
-// custom paths to a lot of the code surrounding loading, enabling and disabling
-// modules and packages
 func TestProfileAndCustomPaths(t *testing.T) {
 	var (
-		preloadFileName = "preload.mx"
-		modulesPathName = ""
-		profileFileName = "profile.mx"
+		preloadFileName = "preload_TestProfileAndCustomPaths.mx"
+		modulesPathName = "modules_TestProfileAndCustomPaths.d" // test needs to exclude trailing slash!
+		profileFileName = "profile_TestProfileAndCustomPaths.mx"
 	)
 
 	path, err := test.TempDir()
@@ -229,10 +227,31 @@ func TestProfileAndCustomPaths(t *testing.T) {
 
 	// run tests
 
-	count.Tests(t, 2)
+	count.Tests(t, 5)
 
 	lang.InitEnv()
 	profile.Execute()
+
+	filename := path + modulesPathName
+	fi, err := os.Stat(filename)
+	if err != nil {
+		t.Errorf("Unable to stat '%s': %s", filename, err.Error())
+	}
+	if !fi.IsDir() {
+		t.Errorf("Modules path is not a directory: '%s'", filename)
+	}
+
+	filename = path + modulesPathName + consts.PathSlash + "packages.json"
+	_, err = os.Stat(filename)
+	if err != nil {
+		t.Errorf("Unable to stat '%s': %s", filename, err.Error())
+	}
+
+	filename = path + modulesPathName + consts.PathSlash + "disabled.json"
+	_, err = os.Stat(filename)
+	if err != nil {
+		t.Errorf("Unable to stat '%s': %s", filename, err.Error())
+	}
 
 	if !lang.MxFunctions.Exists("test_preload") {
 		t.Errorf("test_preload failed to be defined. Reason: unknown")
@@ -243,6 +262,4 @@ func TestProfileAndCustomPaths(t *testing.T) {
 		t.Errorf("test_profile failed to be defined. Reason: unknown")
 		t.Logf("  %v", lang.MxFunctions.Dump())
 	}
-
-	// TODO: enable/disable modules
 }
