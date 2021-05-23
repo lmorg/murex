@@ -43,9 +43,41 @@ is the standard place to put all user and/or machine specific config in.
 al, profiles will not be read from `/etc/profile.d` nor similar. Modules
 should be used in its place.
 
+## Overriding The Default Paths (XDG)
+
+Some individuals, particularly those running Linux, follow a standard called
+[XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html).
+While _murex_ does not adhere to this standard, instead conforming to the
+_de facto_ standard defined by the past precedents of previous shells, in
+order to offer flexibility for those who do prefer the XDG specification
+_murex_ does support overriding its own default paths via special environmental
+variables.
+
+- `MUREX_PRELOAD` defines the preload path (and file name)
+- `MUREX_MODULES` defines the module path (only)
+- `MUREX_PROFILE` defines the profile path (and file name)
+
+Where `MUREX_PRELOAD` and/or `MUREX_PROFILE` are directories rather than
+absolute file names, the path is appended with the default file names as
+named above.
+
+For people who wish to use XDG paths, in many instances you can get away
+with setting the follow prior to launching _murex_ (eg in `/etc/profile.d`):
+
+    MUREX_PRELOAD="$XDG_CONFIG_HOME/murex/"
+    MUREX_MODULES="$XDG_CONFIG_HOME/murex/"
+    MUREX_PROFILE="$XDG_CONFIG_HOME/murex/"
+    
+This, however, depends on `$XDG_CONFIG_HOME` pointing to a single path rather
+than an array of paths (like `$PATH`). In that instance you can still use
+custom paths in _murex_ but you might need to get a little more creative in
+how you define that value.
+
 ## See Also
 
 * [user-guide/Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
+* [commands/`export`](../commands/export.md):
+  Define an environmental variable and set it's value
 * [commands/`murex-package`](../commands/murex-package.md):
   _murex_'s package manager

@@ -71,7 +71,7 @@ func isDisabled(name string) bool {
 
 // Path returns the full path to the murex script that is sourced into your running shell
 func (m *Module) Path() string {
-	return ModulePath + m.Package + consts.PathSlash + m.Source
+	return ModulePath() + m.Package + consts.PathSlash + m.Source
 }
 
 func (m *Module) validate() error {

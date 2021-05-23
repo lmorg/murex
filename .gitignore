@@ -21,6 +21,9 @@ wasm_exec.js
 # optional builtins
 /builtins/imports_build
 
+# test working directories
+/test/tmp
+
 # IDE
 .idea/
 .vscode/
