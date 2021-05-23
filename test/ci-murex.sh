@@ -19,6 +19,8 @@ docgen -config gen/docgen.yaml
 echo "Compiling murex...."
 go install github.com/lmorg/murex
 
+exit 0
+
 echo "Starting count server...."
 export MUREX_TEST_COUNT=http
 go run github.com/lmorg/murex/test/count/server 2>/dev/null &
