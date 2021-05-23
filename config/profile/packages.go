@@ -24,15 +24,11 @@ const (
 	IgnoredExt = ".ignore"
 )
 
-func modules() error {
-	if !strings.HasSuffix(ModulePath, consts.PathSlash) {
-		ModulePath += consts.PathSlash
-	}
-
+func modules(modulePath string) error {
 	// Check module path
-	fi, err := os.Stat(ModulePath)
+	fi, err := os.Stat(modulePath)
 	if os.IsNotExist(err) {
-		err = os.Mkdir(ModulePath, 0740)
+		err = os.Mkdir(modulePath, 0740)
 		if err != nil {
 			return err
 		}
@@ -51,7 +47,7 @@ func modules() error {
 		return errors.New(err.Error() + utils.NewLineString + "This will break murex's package manager, `murex-package`, however modules will continue to work without it")
 	}
 
-	paths, err := filepath.Glob(ModulePath + "*")
+	paths, err := filepath.Glob(modulePath + "*")
 	if err != nil {
 		return err
 	}
@@ -78,7 +74,7 @@ func disabledFile() error {
 		return err
 	}
 
-	return ReadJson(ModulePath+DisabledFile, &disabled)
+	return ReadJson(ModulePath()+DisabledFile, &disabled)
 }
 
 func packageFile() error {
@@ -86,7 +82,7 @@ func packageFile() error {
 }
 
 func autoFile(name string) error {
-	filename := ModulePath + name
+	filename := ModulePath() + name
 
 	fi, err := os.Stat(filename)
 	switch {

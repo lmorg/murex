@@ -24,12 +24,13 @@ func packageDirExists(pack string) error {
 }
 
 func importModules(p *lang.Process) error {
+	modulePath := profile.ModulePath()
 	path, err := p.Parameters.String(1)
 	if err != nil {
 		return err
 	}
 
-	if path == profile.ModulePath+profile.PackagesFile {
+	if path == modulePath+profile.PackagesFile {
 		return errors.New("You cannot import the same file as the master packages.json file")
 	}
 
@@ -54,13 +55,13 @@ func importModules(p *lang.Process) error {
 		return err
 	}
 
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
+	db, err := readPackagesFile(modulePath + profile.PackagesFile)
 	if err != nil {
 		return err
 	}
 
 	for i := range importDb {
-		err = cd.Chdir(p, profile.ModulePath)
+		err = cd.Chdir(p, modulePath)
 		if err != nil {
 			p.Stderr.Writeln([]byte(err.Error()))
 			continue
@@ -82,7 +83,7 @@ func importModules(p *lang.Process) error {
 
 		db = append(db, importDb[i])
 
-		_, err = profile.LoadPackage(profile.ModulePath+importDb[i].Package, true)
+		_, err = profile.LoadPackage(modulePath+importDb[i].Package, true)
 		if err != nil {
 			p.Stderr.Writeln([]byte(err.Error()))
 		}

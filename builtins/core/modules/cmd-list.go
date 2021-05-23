@@ -50,7 +50,9 @@ func listModules(p *lang.Process) error {
 // `enabled` / `disabled`
 func listModulesEnDis(p *lang.Process, enabled bool) error {
 	var disabled []string
-	err := profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
+	modulePath := profile.ModulePath()
+
+	err := profile.ReadJson(modulePath+profile.DisabledFile, &disabled)
 	if err != nil {
 		return err
 	}
@@ -65,7 +67,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) error {
 		return false
 	}
 
-	paths, err := filepath.Glob(profile.ModulePath + "*")
+	paths, err := filepath.Glob(modulePath + "*")
 	if err != nil {
 		return err
 	}
@@ -136,7 +138,7 @@ func listModulesLoadNotLoad(p *lang.Process, loaded bool) error {
 }
 
 func listPackages(p *lang.Process) error {
-	paths, err := filepath.Glob(profile.ModulePath + "*")
+	paths, err := filepath.Glob(profile.ModulePath() + "*")
 	if err != nil {
 		return err
 	}

@@ -24,7 +24,7 @@ func readPackagesFile(path string) ([]packageDb, error) {
 }
 
 func writePackagesFile(db *[]packageDb) error {
-	path := profile.ModulePath + profile.PackagesFile
+	path := profile.ModulePath() + profile.PackagesFile
 
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0640)
 	if err != nil {
@@ -58,7 +58,7 @@ func mvPackagePath(path string) (string, error) {
 		return path, err
 	}
 
-	err = os.Rename(path, profile.ModulePath+pack.Name)
+	err = os.Rename(path, profile.ModulePath()+pack.Name)
 	if err != nil {
 		return path, fmt.Errorf("Unable to do post-install tidy up: %s", err)
 	}
