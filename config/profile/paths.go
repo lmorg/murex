@@ -36,7 +36,7 @@ func validateProfilePath(envvar, defaultFileName string) string {
 	fi, err := os.Stat(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
-			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new file will be created.",
+			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new file will be created.\n",
 			envvar, path)
 		return path
 	}
@@ -57,14 +57,14 @@ func ModulePath() string {
 	fi, err := os.Stat(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
-			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new directory will be created.",
+			"Override path specified in %s does not exist: '%s'!\n  Assuming this is intentional, a new directory will be created.\n",
 			ModuleEnvVar, path)
 		return addTrailingSlash(path)
 	}
 
 	if !fi.IsDir() {
 		fmt.Fprintf(os.Stderr,
-			"Override path specified in %s is a file, directory expected: '%s'!\n  Falling back to default path.",
+			"Override path specified in %s is a file, directory expected: '%s'!\n  Falling back to default path.\n",
 			ModuleEnvVar, path)
 		return home.MyDir + consts.PathSlash + moduleDirName
 	}

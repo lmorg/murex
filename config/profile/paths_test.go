@@ -23,6 +23,26 @@ func TestProfilePaths(t *testing.T) {
 		t.Fatalf(err.Error())
 	}
 
+	// get running settings
+
+	bakPreload := os.Getenv(profile.PreloadEnvVar)
+	bakModule := os.Getenv(profile.ModuleEnvVar)
+	bakProfile := os.Getenv(profile.ProfileEnvVar)
+
+	defer func() {
+		if err := os.Setenv(profile.PreloadEnvVar, bakPreload); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.PreloadEnvVar, bakPreload)
+		}
+
+		if err := os.Setenv(profile.ModuleEnvVar, bakModule); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ModuleEnvVar, bakModule)
+		}
+
+		if err := os.Setenv(profile.ProfileEnvVar, bakProfile); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ProfileEnvVar, bakProfile)
+		}
+	}()
+
 	// unset env vars (default paths)
 
 	os.Unsetenv(profile.PreloadEnvVar) // don't care about errors
@@ -140,6 +160,26 @@ func TestProfileAndCustomPaths(t *testing.T) {
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
+
+	// get running settings
+
+	bakPreload := os.Getenv(profile.PreloadEnvVar)
+	bakModule := os.Getenv(profile.ModuleEnvVar)
+	bakProfile := os.Getenv(profile.ProfileEnvVar)
+
+	defer func() {
+		if err := os.Setenv(profile.PreloadEnvVar, bakPreload); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.PreloadEnvVar, bakPreload)
+		}
+
+		if err := os.Setenv(profile.ModuleEnvVar, bakModule); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ModuleEnvVar, bakModule)
+		}
+
+		if err := os.Setenv(profile.ProfileEnvVar, bakProfile); err != nil {
+			t.Errorf("Unable to restore env var settings: '%s' to '%s'", profile.ProfileEnvVar, bakProfile)
+		}
+	}()
 
 	// set env vars
 

@@ -91,26 +91,6 @@ func TestIsDisabled(t *testing.T) {
 	}
 }
 
-func TestPath(t *testing.T) {
-	m, _, _, err := testCreateModuleStruct()
-	if err != nil {
-		t.Skipf("Unable to get current working directory: %s", err)
-	}
-
-	count.Tests(t, 2)
-
-	path := m.Path()
-
-	if strings.Contains(path, `\`) {
-		t.Errorf("`\\` found if path (this could break Windows compatibility): %s", path)
-		t.Log("(for the sake of standardization, all paths in Murex should be separated by `/` - even on Windows)")
-	}
-
-	if strings.Contains(path, "//") {
-		t.Errorf("Possible missing path value in %s", path)
-	}
-}
-
 func TestValidate(t *testing.T) {
 	posix, plan9, windows, err := testCreateModuleStruct()
 	if err != nil {
