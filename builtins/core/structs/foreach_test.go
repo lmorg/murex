@@ -35,11 +35,11 @@ func TestForEach(t *testing.T) {
 			Stdout: `{"Fri":"Friday","Mon":"Monday","Thu":"Thuday","Tue":"Tueday","Wed":"Wedday"}`,
 		},
 		{
-			Block:  `a: [Mon..Fri] -> foreach { null } -> debug -> [[ /Data-Type/Murex  ]]`,
+			Block:  `a: [Mon..Fri] -> foreach { out nothing } -> debug -> [[ /Data-Type/Murex  ]]`,
 			Stdout: types.String,
 		},
 		{
-			Block:  `ja: [Mon..Fri] -> foreach { null } -> debug -> [[ /Data-Type/Murex  ]]`,
+			Block:  `ja: [Mon..Fri] -> foreach { out nothing } -> debug -> [[ /Data-Type/Murex  ]]`,
 			Stdout: types.JsonLines,
 		},
 	}
