@@ -44,7 +44,7 @@ As a function
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command
 * [commands/`escape`](../commands/escape.md):
-  Escape or unescapes input 
+  Escape or unescape input 
 * [commands/`eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
 * [commands/`escurl`](../commands/escurl.md):
