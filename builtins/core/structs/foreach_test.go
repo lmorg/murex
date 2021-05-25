@@ -42,6 +42,14 @@ func TestForEach(t *testing.T) {
 			Block:  `ja: [Mon..Fri] -> foreach { out nothing } -> debug -> [[ /Data-Type/Murex  ]]`,
 			Stdout: types.JsonLines,
 		},
+		{
+			Block:  `a: [Mon..Fri] -> foreach { null } -> debug -> [[ /Data-Type/Murex  ]]`,
+			Stdout: types.String,
+		},
+		{
+			Block:  `ja: [Mon..Fri] -> foreach { null } -> debug -> [[ /Data-Type/Murex  ]]`,
+			Stdout: types.JsonLines,
+		},
 	}
 
 	test.RunMurexTests(tests, t)
