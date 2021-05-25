@@ -1,0 +1,27 @@
+codecov:
+  require_ci_to_pass: no
+  notify:
+    after_n_builds: 1
+    wait_for_ci: no
+
+coverage:
+  status:
+    patch: off
+    project:
+      docgen:
+        paths:
+          - tools/docgen
+      readline:
+        paths:
+          - tools/readline
+      wasmserver:
+        paths:
+          - tools/wasmserver
+
+ignore:
+  - "vendor"                # not my project files
+  - "builtins/import_build" # these should just be copies of import_src
+  - "**/*.mx"               # these are tested outside of codecov
+  - "**/*.sh"               # these are just for bootstrapping development
+#  - "tools/docgen"          # this is a separate project for bootstrapping development
+#  - "tools/wasmserver"      # this is also a separate project for bootstrapping development
