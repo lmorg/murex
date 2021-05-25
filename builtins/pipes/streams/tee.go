@@ -107,10 +107,3 @@ func (tee *Tee) SetDataType(dt string) {
 	tee.secondary.SetDataType(dt)
 	tee.primary.SetDataType(dt)
 }
-
-// DefaultDataType defines the murex data type for the stream.Io interface if
-// it's not already set
-func (tee *Tee) DefaultDataType(err bool) {
-	tee.secondary.DefaultDataType(err)
-	tee.primary.DefaultDataType(err)
-}

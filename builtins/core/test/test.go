@@ -98,7 +98,7 @@ type testArgs struct {
 }
 
 func cmdTest(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
 		s, err := p.Config.Get("test", "enabled", types.String)

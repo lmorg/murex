@@ -137,7 +137,7 @@ func createProcess(p *Process, isMethod bool) {
 	p.Stdout.Open()
 	p.Stderr.Open()
 
-	p.Stderr.SetDataType(types.Generic)
+	//p.Stderr.SetDataType(types.Generic)
 
 	p.State.Set(state.Assigned)
 
@@ -267,7 +267,7 @@ executeProcess:
 		err = GoFunctions["exec"](p)
 	}
 
-	p.Stdout.DefaultDataType(err != nil)
+	//p.Stdout.DefaultDataType(err != nil)
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))

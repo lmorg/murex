@@ -90,7 +90,7 @@ func TestRunTestDataTypes(t *testing.T) {
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
 				StdoutMatch: `{}`,
-				StdoutType:  "json",
+				StdoutType:  types.Json,
 			},
 		},
 		{
@@ -99,7 +99,7 @@ func TestRunTestDataTypes(t *testing.T) {
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
 				StderrMatch: `{}`,
-				StderrType:  "json",
+				StderrType:  types.Json,
 			},
 		},
 		{
@@ -108,7 +108,7 @@ func TestRunTestDataTypes(t *testing.T) {
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
 				StdoutMatch: `{}`,
-				StdoutType:  "json",
+				StdoutType:  types.Json,
 			},
 		},
 		{
@@ -117,7 +117,7 @@ func TestRunTestDataTypes(t *testing.T) {
 			Passed:    false,
 			UTP: lang.UnitTestPlan{
 				StderrMatch: `{}`,
-				StderrType:  "json",
+				StderrType:  types.Json,
 			},
 		},
 	}

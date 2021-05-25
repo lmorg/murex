@@ -5,7 +5,7 @@ const Name = "murex"
 
 // Version number of $SHELL
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
-const Version = "2.1.5000 BETA"
+const Version = "2.2.0000 BETA"
 
 // Copyright is the copyright owner string
 const Copyright = "© 2018-2021 Laurence Morgan"
