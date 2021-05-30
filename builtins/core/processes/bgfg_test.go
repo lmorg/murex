@@ -71,11 +71,10 @@ func TestBgFg(t *testing.T) {
 
 next:
 
-	if !p.IsBackground {
-		t.Fatalf("`sleep 5` isn't set to background: p.IsBackground == %v", p.IsBackground)
+	if !p.Background.Get() {
+		t.Fatalf("`sleep 5` isn't set to background: p.IsBackground == %v", p.Background.Get())
 	}
 
-	return // TODO: enable this test
 	count.Tests(t, 2)
 	block = fmt.Sprintf(`fg %d`, p.Id)
 
@@ -93,7 +92,7 @@ next:
 		t.Logf("  Error:    %v", err.Error())
 	}
 
-	if p.IsBackground {
-		t.Fatalf("`sleep 5` hasn't been set to foreground: p.IsBackground == %v", p.IsBackground)
+	if p.Background.Get() {
+		t.Fatalf("`sleep 5` hasn't been set to foreground: p.Background == %v", p.Background.Get())
 	}
 }

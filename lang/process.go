@@ -338,7 +338,7 @@ func deregisterProcess(p *Process) {
 	p.Stderr.Close()
 
 	p.SetTerminatedState(true)
-	if !p.IsBackground {
+	if !p.Background.Get() {
 		if p.Next == nil {
 			debug.Json("p", p)
 		}

@@ -19,7 +19,7 @@ func getVarSelf(p *Process) interface{} {
 		TTY:        p.Scope.Stdout.IsTTY(),
 		Method:     p.Scope.IsMethod,
 		Not:        p.Scope.IsNot,
-		Background: p.Scope.IsBackground,
+		Background: p.Scope.Background.Get(),
 		Module:     p.Scope.FileRef.Source.Module,
 	}
 }

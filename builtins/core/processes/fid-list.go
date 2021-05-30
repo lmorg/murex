@@ -23,13 +23,6 @@ func init() {
 		config: eval shell safe-commands { -> append jobs }`)
 }
 
-func yn(state bool) (s string) {
-	if state {
-		return "yes"
-	}
-	return "no"
-}
-
 func getParams(p *lang.Process) string {
 	params := p.Parameters.StringAll()
 	if len(params) == 0 && len(p.Parameters.Tokens) > 1 {
@@ -110,7 +103,7 @@ func cmdFidListTTY(p *lang.Process) error {
 			process.Scope.Id,
 			process.State.String(),
 			process.RunMode.String(),
-			yn(process.IsBackground),
+			process.Background.String(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
 			process.Name,
@@ -137,7 +130,7 @@ func cmdFidListCSV(p *lang.Process) error {
 			process.Scope.Id,
 			process.State.String(),
 			process.RunMode.String(),
-			yn(process.IsBackground),
+			process.Background.String(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
 			process.Name,
@@ -182,7 +175,7 @@ func cmdFidListPipe(p *lang.Process) error {
 			process.Scope.Id,
 			process.State.String(),
 			process.RunMode.String(),
-			process.IsBackground,
+			process.Background.Get(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
 			process.Name,
@@ -226,7 +219,7 @@ func cmdJobsBackground(p *lang.Process) error {
 	m := make(map[uint32]string)
 
 	for _, process := range procs {
-		if !process.IsBackground {
+		if !process.Background.Get() {
 			continue
 		}
 		m[process.Id] = process.Name + " " + getParams(process)

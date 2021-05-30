@@ -90,7 +90,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 	fork.State.Set(state.MemAllocated)
 	fork.PromptId = p.PromptId
-	fork.IsBackground = flags&F_BACKGROUND != 0 || p.IsBackground
+	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.PromptId = p.PromptId
 
 	fork.IsMethod = p.IsMethod
@@ -279,7 +279,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		return 0, err
 	}
 
-	if !fork.IsBackground {
+	if !fork.Background.Get() {
 		ForegroundProc.Set(&procs[0])
 	}
 

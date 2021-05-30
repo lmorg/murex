@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/background"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
@@ -46,7 +47,7 @@ type Process struct {
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.State
-	IsBackground       bool
+	Background         background.Background
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests

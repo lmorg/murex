@@ -29,7 +29,7 @@ func cmdBackground(p *lang.Process) (err error) {
 		}
 	}
 
-	p.IsBackground = true
+	p.Background.Set(true)
 	p.WaitForTermination <- false
 	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND)
 	fork.Name = p.Name
@@ -46,7 +46,7 @@ func updateTree(p *lang.Process, isBackground bool) {
 			break
 		}
 		pTree = pTree.Parent
-		pTree.IsBackground = isBackground
+		pTree.Background.Set(isBackground)
 	}
 
 	pTree = p
@@ -55,6 +55,6 @@ func updateTree(p *lang.Process, isBackground bool) {
 			break
 		}
 		pTree = pTree.Next
-		pTree.IsBackground = isBackground
+		pTree.Background.Set(isBackground)
 	}
 }

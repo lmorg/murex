@@ -28,7 +28,7 @@ func cmdTread(p *lang.Process) error {
 func read(p *lang.Process, dt string, paramAdjust int) error {
 	p.Stdout.SetDataType(types.Null)
 
-	if p.IsBackground {
+	if p.Background.Get() {
 		return errors.New("Background processes cannot read from stdin")
 	}
 

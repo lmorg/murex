@@ -53,7 +53,7 @@ func execute(p *Process) error {
 	switch {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
-	case p.IsBackground:
+	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
 	default:
 		cmd.Stdin = os.Stdin
