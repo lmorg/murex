@@ -26,8 +26,6 @@ func alias(cmd string) func(p *lang.Process) error {
 
 		err := lang.External(p)
 
-		p.ExitNum = 13
-
 		return err
 	}
 }
