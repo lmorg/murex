@@ -25,7 +25,7 @@ func getVarSelf(p *Process) interface{} {
 }
 
 func getVarParams(p *Process) interface{} {
-	return append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
+	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.Params...)
 }
 
 func getVarMurexExe() interface{} {

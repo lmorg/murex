@@ -20,7 +20,7 @@ func TestAliases(t *testing.T) {
 	}
 
 	p := lang.NewTestProcess()
-	p.Name = "alias"
+	p.Name.Set("alias")
 	p.Parameters.Params = []string{alias + "=foobar"}
 	err := cmdAlias(p)
 	if err != nil {
@@ -32,7 +32,7 @@ func TestAliases(t *testing.T) {
 	}
 
 	p = lang.NewTestProcess()
-	p.Name = "!alias"
+	p.Name.Set("!alias")
 	p.IsNot = true
 	p.Parameters.Params = []string{alias}
 	err = cmdUnalias(p)
@@ -57,7 +57,7 @@ func TestFunction(t *testing.T) {
 	}
 
 	p := lang.NewTestProcess()
-	p.Name = "function"
+	p.Name.Set("function")
 	p.Parameters.Params = []string{fn, "{ test }"}
 	err := cmdFunc(p)
 	if err != nil {
@@ -69,7 +69,7 @@ func TestFunction(t *testing.T) {
 	}
 
 	p = lang.NewTestProcess()
-	p.Name = "!function"
+	p.Name.Set("!function")
 	p.IsNot = true
 	p.Parameters.Params = []string{fn}
 	err = cmdUnfunc(p)
@@ -95,7 +95,7 @@ func TestPrivate(t *testing.T) {
 	}
 
 	p := lang.NewTestProcess()
-	p.Name = "function"
+	p.Name.Set("function")
 	p.FileRef = &ref.File{
 		Source: &ref.Source{
 			Module: mod,

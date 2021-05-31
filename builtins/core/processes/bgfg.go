@@ -42,7 +42,7 @@ func cmdBackground(p *lang.Process) (err error) {
 func updateTree(p *lang.Process, isBackground bool) {
 	pTree := p
 	for {
-		if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name == `bg` {
+		if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name.String() == `bg` {
 			break
 		}
 		pTree = pTree.Parent

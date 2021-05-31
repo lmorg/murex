@@ -27,7 +27,7 @@ var (
 // InitEnv initialises murex. Exported function to enable unit tests.
 func InitEnv() {
 	ShellProcess.State.Set(state.Executing)
-	ShellProcess.Name = os.Args[0]
+	ShellProcess.Name.Set(os.Args[0])
 	ShellProcess.Parameters.Params = os.Args[1:]
 	ShellProcess.Scope = ShellProcess
 	ShellProcess.Parent = ShellProcess
@@ -53,7 +53,7 @@ func InitEnv() {
 	// Sets $SHELL to be murex
 	shellEnv, err := os.Executable()
 	if err != nil {
-		shellEnv = ShellProcess.Name
+		shellEnv = ShellProcess.Name.String()
 	}
 	os.Setenv("SHELL", shellEnv)
 

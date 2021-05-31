@@ -1,16 +1,16 @@
-package background_test
+package process_test
 
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/background"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/test/count"
 )
 
 func TestBackground(t *testing.T) {
 	count.Tests(t, 6)
 
-	bg := new(background.Background)
+	bg := new(process.Background)
 
 	bg.Set(false)
 	if bg.Get() {

@@ -15,7 +15,7 @@ func getDynamic(block []rune, args []string, fileRef *ref.File) func() (interfac
 		block = block[1 : len(block)-1]
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
-		fork.Name = "config"
+		fork.Name.Set("config")
 		fork.Parameters.Params = args
 		fork.FileRef = fileRef
 		exitNum, err := fork.Execute(block)
@@ -43,7 +43,7 @@ func setDynamic(block []rune, args []string, fileRef *ref.File, dataType string)
 		//}
 		block = block[1 : len(block)-1]
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_CREATE_STDIN)
-		fork.Name = "config"
+		fork.Name.Set("config")
 		fork.Parameters.Params = args
 		fork.FileRef = fileRef
 		s, err := types.ConvertGoType(value, types.String)

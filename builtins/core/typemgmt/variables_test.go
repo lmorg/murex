@@ -34,7 +34,7 @@ func VariableTests(tests []Test, t *testing.T) {
 
 	for i := range tests {
 		fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
-		fork.Name = "VariableTests()"
+		fork.Name.Set("VariableTests()")
 		_, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Error(err.Error())
@@ -82,7 +82,7 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 
 	for i := range tests {
 		fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
-		fork.Name = "UnSetTests()"
+		fork.Name.Set("UnSetTests()")
 
 		old := fork.Variables.GetString(tests[i])
 
@@ -110,5 +110,3 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 		}
 	}
 }
-
-/////

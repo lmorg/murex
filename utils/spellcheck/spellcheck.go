@@ -26,7 +26,7 @@ func String(line string) (string, error) {
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
-	fork.Name = "(spellcheck)"
+	fork.Name.Set("(spellcheck)")
 	fork.Stdin.SetDataType(types.Generic)
 	_, err = fork.Stdin.Writeln([]byte(line))
 	if err != nil {

@@ -52,7 +52,7 @@ func TestBgFg(t *testing.T) {
 
 	for i := range fids {
 
-		if fids[i].Name == "exec" {
+		if fids[i].Name.String() == "exec" {
 			name, err := fids[i].Parameters.String(0)
 			if err != nil && name != "sleep" {
 				continue

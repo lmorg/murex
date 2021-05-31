@@ -106,7 +106,7 @@ func cmdFidListTTY(p *lang.Process) error {
 			process.Background.String(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
-			process.Name,
+			process.Name.String(),
 			getParams(process),
 		)
 		_, err := p.Stdout.Writeln([]byte(s))
@@ -133,7 +133,7 @@ func cmdFidListCSV(p *lang.Process) error {
 			process.Background.String(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
-			process.Name,
+			process.Name.String(),
 			getParams(process),
 		)
 		_, err := p.Stdout.Writeln([]byte(s))
@@ -201,7 +201,7 @@ func cmdJobsStopped(p *lang.Process) error {
 		if process.State.Get() != state.Stopped {
 			continue
 		}
-		m[process.Id] = process.Name + " " + getParams(process)
+		m[process.Id] = process.Name.String() + " " + getParams(process)
 	}
 
 	b, err := lang.MarshalData(p, types.Json, m)
@@ -222,7 +222,7 @@ func cmdJobsBackground(p *lang.Process) error {
 		if !process.Background.Get() {
 			continue
 		}
-		m[process.Id] = process.Name + " " + getParams(process)
+		m[process.Id] = process.Name.String() + " " + getParams(process)
 	}
 
 	b, err := lang.MarshalData(p, types.Json, m)

@@ -2,17 +2,17 @@ package lang
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"os/exec"
 	"sync"
 	"time"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/background"
 	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/proc/runmode"
 	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 )
 
@@ -21,9 +21,8 @@ import (
 // External processes will also appear in the host OS's process list.
 type Process struct {
 	Id                 uint32
-	Name               string
+	Name               process.Name
 	Parameters         parameters.Parameters
-	Path               string
 	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io
@@ -47,7 +46,7 @@ type Process struct {
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.State
-	Background         background.Background
+	Background         process.Background
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
@@ -97,11 +96,11 @@ func (p *Process) SetTerminatedState(state bool) {
 }
 
 // ErrIfNotAMethod returns a standard error message for builtins not run as methods
-func (p *Process) ErrIfNotAMethod() (err error) {
+func (p *Process) ErrIfNotAMethod() error {
 	if !p.IsMethod {
-		err = errors.New("`" + p.Name + "` expects to be pipelined")
+		return fmt.Errorf("`%s` expects to be pipelined", p.Name.String())
 	}
-	return
+	return nil
 }
 
 type foregroundProc struct {

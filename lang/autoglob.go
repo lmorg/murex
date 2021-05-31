@@ -16,9 +16,9 @@ func autoGlob(p *Process) error {
 		return err
 	}
 	if name[len(name)-1] == ':' {
-		p.Name = name[:len(name)-1]
+		p.Name.Set(name[:len(name)-1])
 	} else {
-		p.Name = name
+		p.Name.Set(name)
 	}
 
 	params := p.Parameters.Params[1:]

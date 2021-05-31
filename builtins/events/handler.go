@@ -45,7 +45,7 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
 	fork.Stdin.SetDataType(types.Json)
-	fork.Name = "(event)"
+	fork.Name.Set("(event)")
 	fork.FileRef = fileRef
 	_, err = fork.Stdin.Write(json)
 	if err != nil {

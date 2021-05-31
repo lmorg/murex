@@ -60,7 +60,7 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 
 	tests.Results.Add(&TestResult{
 		TestName:   test.Name,
-		Exec:       p.Name,
+		Exec:       p.Name.String(),
 		Params:     p.Parameters.StringArray(),
 		LineNumber: fileRef.Line,
 		ColNumber:  fileRef.Column,

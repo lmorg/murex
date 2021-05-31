@@ -71,7 +71,7 @@ func cmdArgs(p *lang.Process) (err error) {
 			params = params[1:]
 		}
 	} else {
-		jObj.Self = p.Scope.Name
+		jObj.Self = p.Scope.Name.String()
 	}
 
 	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(params, &args)

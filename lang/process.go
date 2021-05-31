@@ -62,9 +62,9 @@ var (
 
 func writeError(p *Process, err error) []byte {
 	if p.FileRef.Source.Module == app.Name {
-		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name, p.FileRef.Line, p.FileRef.Column, err.Error()))
+		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name.String(), p.FileRef.Line, p.FileRef.Column, err.Error()))
 	}
-	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", p.Name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
+	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", p.Name.String(), p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
 }
 
 func createProcess(p *Process, isMethod bool) {
@@ -73,12 +73,15 @@ func createProcess(p *Process, isMethod bool) {
 
 	parseRedirection(p)
 
-	if rxNamedPipeStdinOnly.MatchString(p.Name) {
-		p.Parameters.SetPrepend(p.Name[1 : len(p.Name)-1])
-		p.Name = consts.NamedPipeProcName
+	name := p.Name.String()
+
+	if rxNamedPipeStdinOnly.MatchString(name) {
+		p.Parameters.SetPrepend(name[1 : len(name)-1])
+		p.Name.Set(consts.NamedPipeProcName)
+		name = consts.NamedPipeProcName
 	}
 
-	if p.Name[0] == '!' {
+	if name[0] == '!' {
 		p.IsNot = true
 	}
 
@@ -142,9 +145,9 @@ func createProcess(p *Process, isMethod bool) {
 	p.State.Set(state.Assigned)
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
-	if p.Name == "pipe" || p.Name == "test" {
+	if name == "pipe" || name == "test" {
 		ParseParameters(p, &p.Parameters)
-		err := GoFunctions[p.Name](p)
+		err := GoFunctions[name](p)
 		if err != nil {
 			ShellProcess.Stderr.Writeln(writeError(p, err))
 			if p.ExitNum == 0 {
@@ -160,6 +163,8 @@ func createProcess(p *Process, isMethod bool) {
 
 func executeProcess(p *Process) {
 	testStates(p)
+
+	name := p.Name.String()
 
 	if p.HasTerminated() {
 		destroyProcess(p)
@@ -197,49 +202,50 @@ executeProcess:
 
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
-		os.Stdout.WriteString("# " + p.Name + `("` + params + `");` + utils.NewLineString)
+		os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
 	}
 
 	// execution mode:
 	switch {
-	case GlobalAliases.Exists(p.Name) && p.Parent.Name != "alias" && !parsedAlias:
+	case GlobalAliases.Exists(name) && p.Parent.Name.String() != "alias" && !parsedAlias:
 		// murex aliases
-		alias := GlobalAliases.Get(p.Name)
-		p.Name = alias[0]
+		alias := GlobalAliases.Get(name)
+		p.Name.Set(alias[0])
+		name = alias[0]
 		p.Parameters.Params = append(alias[1:], p.Parameters.Params...)
 		parsedAlias = true
 		goto executeProcess
 
-	case MxFunctions.Exists(p.Name):
+	case MxFunctions.Exists(name):
 		// murex functions
-		fn := MxFunctions.get(p.Name)
+		fn := MxFunctions.get(name)
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
-			fork.Name = p.Name
+			fork.Name.Set(name)
 			fork.Parameters = p.Parameters
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
-	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(p.Name, p.FileRef.Source.Module):
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef.Source.Module):
 		// murex privates
-		fn := PrivateFunctions.get(p.Name, p.FileRef.Source.Module)
+		fn := PrivateFunctions.get(name, p.FileRef.Source.Module)
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
-			fork.Name = p.Name
+			fork.Name.Set(name)
 			fork.Parameters = p.Parameters
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
-	case p.Name[0] == '$':
+	case name[0] == '$':
 		// variables as functions
-		match := rxVariables.FindAllStringSubmatch(p.Name+p.Parameters.StringAll(), -1)
+		match := rxVariables.FindAllStringSubmatch(name+p.Parameters.StringAll(), -1)
 		switch {
-		case len(p.Name) == 1:
+		case len(name) == 1:
 			err = errors.New("Variable token, `$`, used without specifying variable name")
 		case len(match) == 0 || len(match[0]) == 0:
-			err = errors.New("`" + p.Name[1:] + "` is not a valid variable name")
+			err = errors.New("`" + name[1:] + "` is not a valid variable name")
 		case match[0][2] == "":
 			s := p.Variables.GetString(match[0][1])
 			p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))
@@ -249,21 +255,22 @@ executeProcess:
 			p.Fork(F_PARENT_VARTABLE).Execute(block)
 		}
 
-	case p.Name == "@g":
+	case name == "@g":
 		// auto globbing
 		err = autoGlob(p)
 		if err == nil {
 			goto executeProcess
 		}
 
-	case GoFunctions[p.Name] != nil:
+	case GoFunctions[name] != nil:
 		// murex builtins
-		err = GoFunctions[p.Name](p)
+		err = GoFunctions[name](p)
 
 	default:
 		// shell execute
-		p.Parameters.Params = append([]string{p.Name}, p.Parameters.Params...)
-		p.Name = "exec"
+		p.Parameters.Params = append([]string{name}, p.Parameters.Params...)
+		p.Name.Set("exec")
+		name = "exec"
 		err = GoFunctions["exec"](p)
 	}
 
@@ -322,7 +329,7 @@ func destroyProcess(p *Process) {
 	go p.Done()
 
 	// Make special case for `bg` because that doesn't wait.
-	if p.Name != "bg" {
+	if p.Name.String() != "bg" {
 		p.WaitForTermination <- false
 	}
 

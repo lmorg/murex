@@ -70,9 +70,9 @@ func cmdKillAll(*lang.Process) error {
 	fids := lang.GlobalFIDs.ListAll()
 	for _, p := range fids {
 		if p.Kill != nil /*&& !p.HasTerminated()*/ {
-			procName := p.Name
+			procName := p.Name.String()
 			procParam, _ := p.Parameters.String(0)
-			if p.Name == "exec" {
+			if procName == "exec" {
 				procName = procParam
 				procParam, _ = p.Parameters.String(1)
 			}

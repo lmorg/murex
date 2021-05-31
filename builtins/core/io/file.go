@@ -28,9 +28,9 @@ func cmdPipeTelemetry(p *lang.Process) error {
 		_, read := p.Stdout.Stats()
 		os.Stderr.WriteString(
 			fmt.Sprintf("Pipe telemetry: `%s` written %s -> pt -> `%s` read %s (Data type: %s)\n",
-				p.Previous.Name,
+				p.Previous.Name.String(),
 				humannumbers.Bytes(written),
-				p.Next.Name,
+				p.Next.Name.String(),
 				humannumbers.Bytes(read),
 				dt),
 		)

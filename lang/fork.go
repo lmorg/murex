@@ -138,7 +138,7 @@ func (p *Process) Fork(flags int) *Fork {
 		case flags&F_NEW_VARTABLE != 0:
 			fork.Parent = p
 			fork.Variables = p.Variables
-			fork.Name += " (fork)"
+			fork.Name.Append(" (fork)")
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 
@@ -147,7 +147,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Parent = p
 			fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
-			fork.Name += " (fork)"
+			fork.Name.Append(" (fork)")
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 		}
@@ -240,7 +240,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		panic("fork.FileRef.Source == nil in (fork *Fork).Execute()")
 	case fork.FileRef.Source.Module == "":
 		panic("missing module name in (fork *Fork).Execute()")
-	case fork.Name == "":
+	case fork.Name.String() == "":
 		panic("missing function name in (fork *Fork).Execute()")
 	}
 

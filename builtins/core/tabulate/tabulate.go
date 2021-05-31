@@ -148,7 +148,7 @@ func cmdTabulate(p *lang.Process) error {
 	if dt != types.Generic && dt != types.String {
 		p.Stdout.SetDataType(types.Null)
 		return fmt.Errorf("`%s` is designed to only take string (%s) or generic (%s) data-types from STDIN. Instead it received '%s'",
-			p.Name, types.String, types.Generic, dt)
+			p.Name.String(), types.String, types.Generic, dt)
 	}
 
 	if f[fMap] == "" {

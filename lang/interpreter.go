@@ -19,7 +19,7 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 
 	for i := range *tree {
 		procs[i].State.Set(state.MemAllocated)
-		procs[i].Name = (*tree)[i].Name
+		procs[i].Name.Set((*tree)[i].Name)
 		procs[i].IsMethod = (*tree)[i].Method
 		procs[i].Background.Set(parent.Background.Get())
 		procs[i].Parent = parent

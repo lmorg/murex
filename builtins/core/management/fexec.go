@@ -97,7 +97,7 @@ func cmdFexec(p *lang.Process) error {
 
 func feBlock(p *lang.Process, block []rune, cmd string, params []string) (err error) {
 	fork := p.Fork(lang.F_FUNCTION)
-	fork.Name = cmd
+	fork.Name.Set(cmd)
 	fork.Parameters = parameters.Parameters{Params: params}
 	fork.FileRef = p.FileRef
 	p.ExitNum, err = fork.Execute(block)
@@ -144,7 +144,7 @@ func feBuiltin(p *lang.Process, cmd string, params []string) error {
 	}
 
 	fork := p.Fork(lang.F_DEFAULTS)
-	fork.Name = cmd
+	fork.Name.Set(cmd)
 	fork.Parameters = parameters.Parameters{Params: params}
 	fork.FileRef = p.FileRef
 	return lang.GoFunctions[cmd](fork.Process)
