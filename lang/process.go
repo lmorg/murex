@@ -259,6 +259,7 @@ executeProcess:
 		// auto globbing
 		err = autoGlob(p)
 		if err == nil {
+			name = p.Name.String()
 			goto executeProcess
 		}
 

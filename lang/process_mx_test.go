@@ -33,6 +33,10 @@ func TestMxProcess(t *testing.T) {
 			Block:  `@g out "Hello, world!"`,
 			Stdout: "Hello, world!\n",
 		},
+		{
+			Block:  `@g out: "Hello, world!"`,
+			Stdout: "Hello, world!\n",
+		},
 
 		{
 			Block: `global: TestMxProcess="Hello, world!"

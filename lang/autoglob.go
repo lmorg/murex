@@ -3,6 +3,8 @@ package lang
 import (
 	"path/filepath"
 	"strings"
+
+	"github.com/lmorg/murex/debug"
 )
 
 func init() {
@@ -11,10 +13,12 @@ func init() {
 }
 
 func autoGlob(p *Process) error {
+	debug.Json("autoglob", p)
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
+
 	if name[len(name)-1] == ':' {
 		p.Name.Set(name[:len(name)-1])
 	} else {

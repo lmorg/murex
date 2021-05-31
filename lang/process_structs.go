@@ -3,7 +3,6 @@ package lang
 import (
 	"context"
 	"fmt"
-	"os/exec"
 	"sync"
 	"time"
 
@@ -32,7 +31,7 @@ type Process struct {
 	WaitForTermination chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
-	Exec               shellExec
+	Exec               process.Exec
 	PromptId           int
 	Scope              *Process `json:"-"`
 	Parent             *Process `json:"-"`
@@ -55,11 +54,6 @@ type Process struct {
 	CreationTime       time.Time
 	StartTime          time.Time
 	FileRef            *ref.File
-}
-
-type shellExec struct {
-	Pid int
-	Cmd *exec.Cmd
 }
 
 // HasTerminated checks if process has terminated.
