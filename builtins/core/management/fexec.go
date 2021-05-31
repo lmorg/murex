@@ -6,7 +6,6 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -89,7 +88,7 @@ func cmdFexec(p *lang.Process) error {
 
 	var params []string
 	if p.Parameters.Len() > 2 {
-		params = p.Parameters.Params[2:]
+		params = p.Parameters.StringArray()[2:]
 	}
 
 	return fe[flag].fn(p, cmd, params)
@@ -98,7 +97,7 @@ func cmdFexec(p *lang.Process) error {
 func feBlock(p *lang.Process, block []rune, cmd string, params []string) (err error) {
 	fork := p.Fork(lang.F_FUNCTION)
 	fork.Name.Set(cmd)
-	fork.Parameters = parameters.Parameters{Params: params}
+	fork.Parameters.DefineParsed(params)
 	fork.FileRef = p.FileRef
 	p.ExitNum, err = fork.Execute(block)
 	return
@@ -145,7 +144,7 @@ func feBuiltin(p *lang.Process, cmd string, params []string) error {
 
 	fork := p.Fork(lang.F_DEFAULTS)
 	fork.Name.Set(cmd)
-	fork.Parameters = parameters.Parameters{Params: params}
+	fork.Parameters.DefineParsed(params)
 	fork.FileRef = p.FileRef
 	return lang.GoFunctions[cmd](fork.Process)
 }

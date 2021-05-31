@@ -34,7 +34,7 @@ func set(p *lang.Process, v *lang.Variables) error {
 		return errors.New("Missing variable name; expected: set|global [data-type] name[=value]")
 	}
 
-	name, value, dataType, err := splitVarString(p.Parameters.Params)
+	name, value, dataType, err := splitVarString(p.Parameters.StringArray())
 	if err != nil {
 		return err
 	}

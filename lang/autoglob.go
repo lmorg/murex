@@ -3,8 +3,6 @@ package lang
 import (
 	"path/filepath"
 	"strings"
-
-	"github.com/lmorg/murex/debug"
 )
 
 func init() {
@@ -13,7 +11,6 @@ func init() {
 }
 
 func autoGlob(p *Process) error {
-	debug.Json("autoglob", p)
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
@@ -25,22 +22,24 @@ func autoGlob(p *Process) error {
 		p.Name.Set(name)
 	}
 
-	params := p.Parameters.Params[1:]
-	p.Parameters.Params = []string{}
-	var globbed []string
+	var (
+		old     = p.Parameters.StringArray()[1:]
+		new     []string
+		globbed []string
+	)
 
-	for i := range params {
-		if strings.ContainsAny(params[i], "?*") {
-			globbed, err = filepath.Glob(params[i])
+	for i := range old {
+		if strings.ContainsAny(old[i], "?*") {
+			globbed, err = filepath.Glob(old[i])
 			if err != nil {
 				return err
 			}
-			p.Parameters.Params = append(p.Parameters.Params, globbed...)
+			new = append(new, globbed...)
 		} else {
-			p.Parameters.Params = append(p.Parameters.Params, params[i])
+			new = append(new, old[i])
 		}
-
 	}
 
-	return err
+	p.Parameters.DefineParsed(new)
+	return nil
 }

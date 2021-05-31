@@ -201,7 +201,7 @@ func executeProcess(p *Process) {
 executeProcess:
 
 	if echo.(bool) {
-		params := strings.Replace(strings.Join(p.Parameters.Params, `", "`), "\n", "\n# ", -1)
+		params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
 		os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
 	}
 
@@ -212,7 +212,7 @@ executeProcess:
 		alias := GlobalAliases.Get(name)
 		p.Name.Set(alias[0])
 		name = alias[0]
-		p.Parameters.Params = append(alias[1:], p.Parameters.Params...)
+		p.Parameters.Prepend(alias[1:])
 		parsedAlias = true
 		goto executeProcess
 
@@ -269,7 +269,7 @@ executeProcess:
 
 	default:
 		// shell execute
-		p.Parameters.Params = append([]string{name}, p.Parameters.Params...)
+		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
 		name = "exec"
 		err = GoFunctions["exec"](p)

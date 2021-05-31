@@ -166,7 +166,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 
 	fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-	fork.Parameters.Params = plan.Parameters
+	fork.Parameters.DefineParsed(plan.Parameters)
 
 	if len(plan.Stdin) > 0 {
 		if plan.StdinType == "" {

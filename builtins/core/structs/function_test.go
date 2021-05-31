@@ -21,7 +21,7 @@ func TestAliases(t *testing.T) {
 
 	p := lang.NewTestProcess()
 	p.Name.Set("alias")
-	p.Parameters.Params = []string{alias + "=foobar"}
+	p.Parameters.DefineParsed([]string{alias + "=foobar"})
 	err := cmdAlias(p)
 	if err != nil {
 		t.Fatalf("Error calling cmdAlias(): %s", err.Error())
@@ -34,7 +34,7 @@ func TestAliases(t *testing.T) {
 	p = lang.NewTestProcess()
 	p.Name.Set("!alias")
 	p.IsNot = true
-	p.Parameters.Params = []string{alias}
+	p.Parameters.DefineParsed([]string{alias})
 	err = cmdUnalias(p)
 	if err != nil {
 		t.Fatalf("Error calling cmdAlias() for the 2nd time: %s", err.Error())
@@ -58,7 +58,7 @@ func TestFunction(t *testing.T) {
 
 	p := lang.NewTestProcess()
 	p.Name.Set("function")
-	p.Parameters.Params = []string{fn, "{ test }"}
+	p.Parameters.DefineParsed([]string{fn, "{ test }"})
 	err := cmdFunc(p)
 	if err != nil {
 		t.Fatalf("Error calling cmdFunc(): %s", err.Error())
@@ -71,7 +71,7 @@ func TestFunction(t *testing.T) {
 	p = lang.NewTestProcess()
 	p.Name.Set("!function")
 	p.IsNot = true
-	p.Parameters.Params = []string{fn}
+	p.Parameters.DefineParsed([]string{fn})
 	err = cmdUnfunc(p)
 	if err != nil {
 		t.Fatalf("Error calling cmdFunc() for the 2nd time: %s", err.Error())
@@ -102,7 +102,7 @@ func TestPrivate(t *testing.T) {
 		},
 	}
 
-	p.Parameters.Params = []string{fn, "{ test }"}
+	p.Parameters.DefineParsed([]string{fn, "{ test }"})
 	err := cmdPrivate(p)
 	if err != nil {
 		t.Fatalf("Error calling cmdPrivate(): %s", err.Error())

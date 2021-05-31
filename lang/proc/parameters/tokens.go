@@ -1,8 +1,11 @@
 package parameters
 
+import "sync"
+
 // Parameters is the parameter object
 type Parameters struct {
-	Params []string
+	mutex  sync.RWMutex
+	params []string
 	Tokens [][]ParamToken
 }
 

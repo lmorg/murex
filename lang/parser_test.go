@@ -304,15 +304,15 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 					continue
 				}
 
-				for p := range params.Params {
-					if params.Params[p] != exp[i].Parameters[p] {
+				for p, actual := range params.StringArray() {
+					if actual != exp[i].Parameters[p] {
 						t.Error("Parsing failed; Invalid parameter:")
 						t.Logf("  Test #:   %d", j)
 						t.Logf("  Block:    %s", tests[j].Block)
 						t.Logf("  Node #:   %d", i)
 						t.Logf("  Param #:  %d", p)
 						t.Logf("  Expected: %s", exp[i].Parameters[p])
-						t.Logf("  Actual:   %s", params.Params[p])
+						t.Logf("  Actual:   %s", actual)
 						continue
 					}
 				}

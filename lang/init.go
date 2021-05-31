@@ -28,7 +28,7 @@ var (
 func InitEnv() {
 	ShellProcess.State.Set(state.Executing)
 	ShellProcess.Name.Set(os.Args[0])
-	ShellProcess.Parameters.Params = os.Args[1:]
+	ShellProcess.Parameters.DefineParsed(os.Args[1:])
 	ShellProcess.Scope = ShellProcess
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Previous = ShellProcess

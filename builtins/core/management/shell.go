@@ -62,7 +62,7 @@ func cmdArgs(p *lang.Process) (err error) {
 	}
 	var jObj flags
 
-	params := p.Scope.Parameters.Params
+	params := p.Scope.Parameters.StringArray()
 	if p.Scope.Id == 0 && len(params) > 0 {
 		jObj.Self = params[0]
 		if len(params) == 1 {

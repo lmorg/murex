@@ -11,7 +11,7 @@ func TestGetString(t *testing.T) {
 	count.Tests(t, 6)
 
 	p := new(parameters.Parameters)
-	p.Params = []string{"one"}
+	p.DefineParsed([]string{"one"})
 
 	var err error
 
@@ -50,7 +50,7 @@ func TestGetInt(t *testing.T) {
 	count.Tests(t, 6)
 
 	p := new(parameters.Parameters)
-	p.Params = []string{"1"}
+	p.DefineParsed([]string{"1"})
 
 	var err error
 
@@ -89,7 +89,7 @@ func TestGetUint32(t *testing.T) {
 	count.Tests(t, 6)
 
 	p := new(parameters.Parameters)
-	p.Params = []string{"-1"}
+	p.DefineParsed([]string{"-1"})
 
 	var err error
 
@@ -171,7 +171,7 @@ func TestGetBounds1(t *testing.T) {
 	count.Tests(t, 6)
 
 	p := new(parameters.Parameters)
-	p.Params = []string{"1"}
+	p.DefineParsed([]string{"1"})
 
 	var err error
 

@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -76,7 +75,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		// Execute the dynamic code block
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 		fork.Name.Set(args.exe)
-		fork.Parameters = parameters.Parameters{Params: args.params}
+		fork.Parameters.DefineParsed(args.params)
 		fork.FileRef = ExesFlagsFileRef[args.exe]
 		if f.ExecCmdline && !act.ParsedTokens.Unsafe {
 			fork.Stdin = cmdlineStdout

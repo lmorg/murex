@@ -134,7 +134,7 @@ func preview(p *lang.Process, path, dataType string) error {
 
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 	fork.Name.Set("open")
-	fork.Parameters.Params = []string{path}
+	fork.Parameters.DefineParsed([]string{path})
 	fork.FileRef = agent.FileRef
 	_, err = fork.Execute(agent.Block)
 

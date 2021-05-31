@@ -22,7 +22,7 @@ func alias(cmd string) func(p *lang.Process) error {
 
 		p.Name.Set("exec")
 
-		p.Parameters.Params = append([]string{cmd}, p.Parameters.Params...)
+		p.Parameters.Prepend([]string{cmd})
 
 		err := lang.External(p)
 

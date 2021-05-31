@@ -16,9 +16,10 @@ var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *Process, p *parameters.Parameters) {
 	var namedPipeIsParam bool
+	params := []string{}
 
 	for i := range p.Tokens {
-		p.Params = append(p.Params, "")
+		params = append(params, "")
 
 		var tCount bool
 		for j := range p.Tokens[i] {
@@ -34,14 +35,14 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				fallthrough
 
 			case parameters.TokenTypeValue:
-				p.Params[len(p.Params)-1] += p.Tokens[i][j].Key
+				params[len(params)-1] += p.Tokens[i][j].Key
 				tCount = true
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeString:
 				s := prc.Variables.GetString(p.Tokens[i][j].Key)
 				s = utils.CrLfTrimString(s)
-				p.Params[len(p.Params)-1] += s
+				params[len(params)-1] += s
 				tCount = true
 				namedPipeIsParam = true
 
@@ -55,7 +56,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 
 				b = utils.CrLfTrim(b)
 
-				p.Params[len(p.Params)-1] += string(b)
+				params[len(params)-1] += string(b)
 				tCount = true
 				namedPipeIsParam = true
 
@@ -76,10 +77,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				})
 
 				if !tCount {
-					p.Params = p.Params[:len(p.Params)-1]
+					params = params[:len(params)-1]
 				}
 
-				p.Params = append(p.Params, array...)
+				params = append(params, array...)
 
 				tCount = true
 				namedPipeIsParam = true
@@ -94,10 +95,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				})
 
 				if !tCount {
-					p.Params = p.Params[:len(p.Params)-1]
+					params = params[:len(params)-1]
 				}
 
-				p.Params = append(p.Params, array...)
+				params = append(params, array...)
 
 				tCount = true
 				namedPipeIsParam = true
@@ -106,7 +107,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
 				match := rxTokenIndex.FindStringSubmatch(p.Tokens[i][j].Key)
 				if len(match) != 3 {
-					p.Params[len(p.Params)-1] = p.Tokens[i][j].Key
+					params[len(params)-1] = p.Tokens[i][j].Key
 					tCount = true
 					continue
 				}
@@ -121,7 +122,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 
 				b = utils.CrLfTrim(b)
 
-				p.Params[len(p.Params)-1] += string(b)
+				params[len(params)-1] += string(b)
 				tCount = true
 				namedPipeIsParam = true
 
@@ -132,9 +133,9 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 
 			case parameters.TokenTypeTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
-					p.Params[len(p.Params)-1] += home.MyDir
+					params[len(params)-1] += home.MyDir
 				} else {
-					p.Params[len(p.Params)-1] += home.UserDir(p.Tokens[i][j].Key)
+					params[len(params)-1] += home.UserDir(p.Tokens[i][j].Key)
 				}
 				tCount = true
 				namedPipeIsParam = true
@@ -149,8 +150,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 		}
 
 		if !tCount {
-			p.Params = p.Params[:len(p.Params)-1]
+			params = params[:len(params)-1]
 		}
 
 	}
+
+	p.DefineParsed(params)
 }

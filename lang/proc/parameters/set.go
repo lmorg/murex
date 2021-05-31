@@ -18,3 +18,38 @@ func (p *Parameters) SetTokens(tokens [][]ParamToken) {
 		copy(p.Tokens[i], tokens[i])
 	}
 }
+
+// ShiftLeft returns the top most parameter and removes it from the stack
+/*func (p *Parameters) ShiftLeft() (string, error) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	switch len(p.params) {
+	case 0:
+		return "", fmt.Errorf("cannot ShiftLeft() when p.Len() == 0")
+	case 1:
+		left := p.params[0]
+		p.params = []string{}
+		return left, nil
+	default:
+		left := p.params[0]
+		p.params = p.params[1:]
+		return left, nil
+	}
+}*/
+
+// DefineParsed overrides all of the parsed parameters for a given process
+func (p *Parameters) DefineParsed(params []string) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	p.params = params
+}
+
+// Prepend inserts one or multiple parameters at the top of stack
+func (p *Parameters) Prepend(params []string) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
+
+	p.params = append(params, p.params...)
+}
