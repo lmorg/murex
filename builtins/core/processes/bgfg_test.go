@@ -72,16 +72,16 @@ func TestBgFg(t *testing.T) {
 next:
 
 	if !p.Background.Get() {
-		t.Fatalf("`sleep 5` isn't set to background: p.IsBackground == %v", p.Background.Get())
+		t.Fatalf("`sleep 5` isn't set to background: p.Background == %v", p.Background.Get())
 	}
-
-	count.Tests(t, 2)
-	block = fmt.Sprintf(`fg %d`, p.Id)
 
 	if runtime.GOOS == "windows" || runtime.GOOS == "plan9" || runtime.GOOS == "js" {
 		// skip `fg` tests on systems that don't support foregrounding
 		return
 	}
+
+	count.Tests(t, 2)
+	block = fmt.Sprintf(`fg %d`, p.Id)
 
 	fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
 	i, err := fork.Execute([]rune(block))

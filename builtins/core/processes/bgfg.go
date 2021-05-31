@@ -42,7 +42,8 @@ func cmdBackground(p *lang.Process) (err error) {
 func updateTree(p *lang.Process, isBackground bool) {
 	pTree := p
 	for {
-		if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name.String() == `bg` {
+		//if pTree.Parent == nil || pTree.Parent.Id == 0 || pTree.Name.String() == `bg` {
+		if pTree.Id == 0 || pTree.Name.String() == `bg` {
 			break
 		}
 		pTree = pTree.Parent
@@ -51,7 +52,9 @@ func updateTree(p *lang.Process, isBackground bool) {
 
 	pTree = p
 	for {
-		if pTree.Next == nil || pTree.Next.Id == p.Parent.Id {
+		//if pTree.Next == nil || pTree.Next.Id == p.Parent.Id {
+		if pTree.Next.Id == p.Parent.Id {
+			pTree.Background.Set(isBackground)
 			break
 		}
 		pTree = pTree.Next
