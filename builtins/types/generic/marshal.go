@@ -2,8 +2,10 @@ package generic
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"strings"
+	"text/tabwriter"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -19,10 +21,11 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		return
 
 	case [][]string:
-		for i := range v {
+		return tabWriter(iface.([][]string))
+		/*for i := range v {
 			b = append(b, []byte(strings.Join(v[i], "\t")+utils.NewLineString)...)
 		}
-		return
+		return*/
 
 	case []interface{}:
 		for i := range v {
@@ -87,6 +90,26 @@ func iface2str(iface *interface{}) (b []byte) {
 		//	panic(fmt.Sprintf("Cannot marshal %T", v))
 	}
 
+}
+
+func tabWriter(v [][]string) ([]byte, error) {
+	var (
+		b   []byte
+		err error
+	)
+
+	buf := bytes.NewBuffer(b)
+	w := tabwriter.NewWriter(buf, 0, 0, 1, ' ', 0)
+
+	for i := range v {
+		_, err = fmt.Fprintln(w, strings.Join(v[i], "\t"))
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	err = w.Flush()
+	return buf.Bytes(), err
 }
 
 func unmarshal(p *lang.Process) (interface{}, error) {
