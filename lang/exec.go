@@ -35,6 +35,7 @@ func execute(p *Process) error {
 		return err
 	}
 	cmd := exec.Command(exeName, parameters...)
+	cmd.Env = p.Exec.Env
 
 	if p.HasCancelled() {
 		return nil

@@ -3,14 +3,13 @@ package lang
 import (
 	"crypto/md5"
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
 
-var rxNamedPipe = regexp.MustCompile(`^<(state_|test_|\!)?[a-zA-Z0-9]+>$`)
+//var rxNamedPipe = regexp.MustCompile(`^<(state_|test_|\!)?[a-zA-Z0-9]+>$`)
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
@@ -29,19 +28,21 @@ func parseRedirection(p *Process) {
 
 		l := len(p.Parameters.Tokens[i][0].Key)
 		if l < 2 || p.Parameters.Tokens[i][0].Key[l-1] != '>' {
-			p.Stderr.Writeln([]byte(fmt.Sprintf("Invalid format used in named pipe: '%s'", p.Parameters.Tokens[i][0].Key)))
+			pipeErr(p, fmt.Sprintf("invalid format used: '%s'", p.Parameters.Tokens[i][0].Key))
 			continue
 		}
 
 		name := p.Parameters.Tokens[i][0].Key[1 : l-1]
 
-		if !rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) {
+		/*if !rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) ||
+			len(name) < 5 || name[:4] != "env:" {
+
 			err := parseRedirectionTemp(p, name)
 			if err != nil {
 				p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
 			}
 			continue
-		}
+		}*/
 
 		switch {
 		case len(name) > 5 && name[:5] == "test_":
@@ -51,7 +52,7 @@ func parseRedirection(p *Process) {
 					p.NamedPipeTest = name[5:]
 				}
 			} else {
-				p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined test multiple times"))
+				pipeErr(p, "you specified test multiple times")
 			}
 
 		case len(name) > 6 && name[:6] == "state_":
@@ -62,18 +63,27 @@ func parseRedirection(p *Process) {
 				}
 			}
 
+		case len(name) > 4 && name[:4] == "env:":
+			p.Exec.Env = append(p.Exec.Env, name[4:])
+
 		case name[0] == '!':
 			if p.NamedPipeErr == "" {
 				p.NamedPipeErr = name[1:]
 			} else {
-				p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stderr multiple times"))
+				pipeErr(p, "you specified stderr multiple times")
+			}
+
+		case strings.Contains(name, ":"):
+			err := parseRedirectionTemp(p, name)
+			if err != nil {
+				pipeErr(p, err.Error())
 			}
 
 		default:
 			if p.NamedPipeOut == "" {
 				p.NamedPipeOut = name
 			} else {
-				p.Stderr.Writeln([]byte("Invalid usage of named pipes: you defined stdout multiple times"))
+				pipeErr(p, "you specified stdout multiple times")
 			}
 		}
 	}
@@ -82,7 +92,7 @@ func parseRedirection(p *Process) {
 func parseRedirectionTemp(p *Process, namedPipe string) error {
 	split := strings.SplitN(namedPipe, ":", 2)
 	if len(split) != 2 {
-		return fmt.Errorf("Invalid format used in named pipe: '%s'", namedPipe)
+		return fmt.Errorf("invalid format used: '%s'", namedPipe)
 	}
 
 	name := fmt.Sprintf("tmp:%d/%.3x", p.Id, md5.Sum([]byte(namedPipe)))
@@ -95,4 +105,8 @@ func parseRedirectionTemp(p *Process, namedPipe string) error {
 	p.NamedPipeOut = name
 
 	return nil
+}
+
+func pipeErr(p *Process, msg string) {
+	p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + msg))
 }

@@ -9,6 +9,7 @@ type Exec struct {
 	mutex sync.RWMutex
 	pid   int
 	cmd   *exec.Cmd
+	Env   []string
 }
 
 func (exec *Exec) Set(pid int, cmd *exec.Cmd) {
