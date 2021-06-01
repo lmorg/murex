@@ -18,6 +18,5 @@ require (
 	golang.org/x/sys v0.0.0-20210423185535-09eb48e85fd7
 	golang.org/x/tools v0.1.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	labix.org/v2/mgo v0.0.0-20140701140051-000000000287
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
