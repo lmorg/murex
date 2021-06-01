@@ -12,6 +12,8 @@ github.com/disintegration/imaging
 github.com/eliukblau/pixterm/pkg/ansimage
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
+# github.com/go-stack/stack v1.8.0
+github.com/go-stack/stack
 # github.com/hashicorp/hcl v1.0.0
 github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/ast
@@ -32,6 +34,14 @@ github.com/mattn/go-sqlite3
 github.com/pelletier/go-toml
 # github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
 github.com/phayes/permbits
+# go.mongodb.org/mongo-driver v1.5.3
+go.mongodb.org/mongo-driver/bson
+go.mongodb.org/mongo-driver/bson/bsoncodec
+go.mongodb.org/mongo-driver/bson/bsonoptions
+go.mongodb.org/mongo-driver/bson/bsonrw
+go.mongodb.org/mongo-driver/bson/bsontype
+go.mongodb.org/mongo-driver/bson/primitive
+go.mongodb.org/mongo-driver/x/bsonx/bsoncore
 # golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
 golang.org/x/crypto/ssh/terminal
 # golang.org/x/image v0.0.0-20191206065243-da761ea9ff43
@@ -52,5 +62,3 @@ golang.org/x/sys/windows
 golang.org/x/term
 # gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 gopkg.in/yaml.v3
-# labix.org/v2/mgo v0.0.0-20140701140051-000000000287
-labix.org/v2/mgo/bson

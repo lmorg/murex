@@ -14,6 +14,7 @@ require (
 	github.com/pelletier/go-toml v1.9.0
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
 	github.com/stretchr/testify v1.7.0 // indirect
+	go.mongodb.org/mongo-driver v1.5.3
 	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b
 	golang.org/x/sys v0.0.0-20210423185535-09eb48e85fd7
 	golang.org/x/tools v0.1.0 // indirect
