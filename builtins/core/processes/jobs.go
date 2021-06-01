@@ -2,7 +2,7 @@ package processes
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 )
 

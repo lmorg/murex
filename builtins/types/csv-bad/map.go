@@ -2,7 +2,7 @@ package csvbad
 
 import (
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func readMap(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {

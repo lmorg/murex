@@ -220,7 +220,7 @@
     `interface{}`:
     
     ```go
-    {{ include "lang/proc/stdio/interface_aw.go" }}
+    {{ include "lang/stdio/interface_aw.go" }}
     ```
   Usage: |-
     Registering your `WriteArray()`

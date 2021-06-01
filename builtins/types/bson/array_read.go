@@ -3,7 +3,7 @@ package bson
 import (
 	"bytes"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"labix.org/v2/mgo/bson"
 )

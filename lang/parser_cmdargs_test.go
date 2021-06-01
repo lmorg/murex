@@ -3,7 +3,7 @@ package lang
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 )
 
 // Some of the tests in this file might appear duplications upon first glance.

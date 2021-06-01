@@ -4,7 +4,7 @@ import (
 	"runtime/debug"
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/json"
 )

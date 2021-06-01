@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/ref"
 )
 

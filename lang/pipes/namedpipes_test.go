@@ -5,7 +5,7 @@ import (
 	"time"
 
 	_ "github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/proc/pipes"
+	"github.com/lmorg/murex/lang/pipes"
 	"github.com/lmorg/murex/test/count"
 )
 

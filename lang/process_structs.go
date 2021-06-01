@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/runmode"
-	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/runmode"
+	"github.com/lmorg/murex/lang/state"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 )

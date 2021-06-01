@@ -3,7 +3,7 @@ package streams
 import (
 	"io"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils"
 )
 

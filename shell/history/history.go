@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/file"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 // History exports common functions needed for shell history

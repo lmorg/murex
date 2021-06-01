@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/humannumbers"

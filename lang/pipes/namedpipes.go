@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 // Named is a table of created named pipes

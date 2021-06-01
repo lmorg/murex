@@ -3,7 +3,7 @@ package state_test
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/test/count"
 )
 

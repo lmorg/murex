@@ -14,7 +14,7 @@ package lang
 */
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func testBlock(test *TestProperties, p *Process, block []rune, stdin []byte, dt string, property string, failed *bool) {
