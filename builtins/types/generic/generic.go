@@ -32,3 +32,12 @@ func init() {
 }
 
 var rxWhitespace = regexp.MustCompile(`\s+`)
+
+// common tabwriter values
+const (
+	twMinWidth = 0
+	twTabWidth = 0
+	twPadding  = 1
+	twPadChar  = ' '
+	twFlags    = 0
+)

@@ -99,7 +99,7 @@ func tabWriter(v [][]string) ([]byte, error) {
 	)
 
 	buf := bytes.NewBuffer(b)
-	w := tabwriter.NewWriter(buf, 0, 0, 1, ' ', 0)
+	w := tabwriter.NewWriter(buf, twMinWidth, twTabWidth, twPadding, twPadChar, twFlags)
 
 	for i := range v {
 		_, err = fmt.Fprintln(w, strings.Join(v[i], "\t"))

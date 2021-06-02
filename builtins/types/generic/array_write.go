@@ -13,7 +13,7 @@ type arrayWriter struct {
 
 func newArrayWriter(writer stdio.Io) (stdio.ArrayWriter, error) {
 	w := &arrayWriter{
-		tabwriter: tabwriter.NewWriter(writer, 0, 0, 1, ' ', 0),
+		tabwriter: tabwriter.NewWriter(writer, twMinWidth, twTabWidth, twPadding, twPadChar, twFlags),
 	}
 	return w, nil
 }
