@@ -228,13 +228,18 @@ func getHintTextFormatting() {
 	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
 }
 
+var ignoreSpellCheckErr bool
+
 func spellchecker(r []rune) []rune {
 	s := string(r)
 	new, err := spellcheck.String(s)
-	if err != nil {
-		hint := fmt.Sprintf("{RED}Spellchecker produced an error: %s{RESET}", err.Error())
+	if err != nil && !ignoreSpellCheckErr {
+		ignoreSpellCheckErr = true
+		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/docs/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.SetHintText(ansi.ExpandConsts(hint))
 	}
+
+	ignoreSpellCheckErr = false // reset ignore status
 
 	return []rune(new)
 }

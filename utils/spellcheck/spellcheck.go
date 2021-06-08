@@ -43,7 +43,7 @@ func String(line string) (string, error) {
 		return line, err
 	}
 	if len(b) != 0 {
-		return line, fmt.Errorf("STDERR: %s", string(utils.CrLfTrim(b)))
+		return line, fmt.Errorf("`config get shell spellcheck-block` STDERR: %s", string(utils.CrLfTrim(b)))
 	}
 
 	err = fork.Stdout.ReadArray(func(bWord []byte) {
