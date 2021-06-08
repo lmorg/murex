@@ -88,13 +88,6 @@ jobs:
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
 
-  go1.12:
-    docker:
-      - image: golang:1.12
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
   go1.13:
     docker:
       - image: golang:1.13
@@ -130,7 +123,6 @@ workflows:
     jobs:
       - website
       - latest
-      - go1.12
       - go1.13
       - go1.14
       - go1.15
