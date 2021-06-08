@@ -14,9 +14,17 @@ of which will be enabled by default:
 ### CLI Spellchecker (3rd Party Software)
 
 A CLI spellchecker needs to be installed. The recommendation is `aspell`. This
-might already be installed by default with your OS but typically isn't.
+might already be installed by default with your OS or has been included as a
+dependency with another application. You can check if `aspell` is installed by
+running the following:
 
+    which: aspell
+    
+If that returns no data, then you will need to install `aspell` yourself.
 Please consult your OS docs for how to install software.
+
+For help debugging issues with `aspell`, please see the last section in this
+document.
 
 ### _murex_ Config
 
@@ -25,6 +33,8 @@ Please consult your OS docs for how to install software.
 ANSI escape sequences need to be enabled (which they are by default). This
 option is found in `config` under **shell**, **color**.
 
+    config: set shell color true
+    
 #### Spellcheck Enable
 
 Spellcheck needs to be enabled. This option can be found in `config` under
@@ -48,9 +58,12 @@ will require updated code. The default will look something like this:
     » config: get shell spellcheck-func
     { -> aspell list }
     
+The default should be good enough for most people but should you want to run an
+alternative spellchecker then follow the instructions in the next section:
+
 ### How To Write Your Own `spellcheck-func`
 
-You might legitimately want to run a different spellchecker, and if so you'll
+You might legitimately want to run a different spellchecker and if so you'll
 need to write your own **spellcheck-func**. Fortunately this is simple:
 
 The function reads the command line from STDIN, if the spellchecker reads lines
@@ -99,9 +112,26 @@ that fall into the following categories are ignored by default:
 
 * words that are also the names of commands found in `$PATH`
 * words that are the names of _murex_ functions (defined via `function`)
-* words that are builtins (eg `config`)
+* words that are builtins (eg `config` and `jsplit`)
 * any global aliases
 * also any words that are also the names of global variables
+
+## Common Problems With `aspell`
+
+### `Error: No word lists can be found for the language "en_NZ".`
+
+The `en_NZ` portion of the error will differ depending on your language.
+
+If this error arises then it means `aspell` is installed but it doesn't have
+the dictionary for your language. This is an easy fix in most OSs. For example
+in Ubuntu:
+
+    apt install aspell-en
+    
+(you may need to change `-en` with your specific language code)
+
+Please consult your operating systems documentation for how to install software
+and what the package names are for `aspell` and its corresponding dictionaries.
 
 ## See Also
 
@@ -121,5 +151,7 @@ that fall into the following categories are ignored by default:
   Query or define _murex_ runtime settings
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [commands/`jsplit` ](../commands/jsplit.md):
+  Splits STDIN into a JSON array based on a regex parameter
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value
