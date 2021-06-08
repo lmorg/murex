@@ -49,14 +49,14 @@
     will require updated code. The default will look something like this:
 
     ```
-    » config: get shell spellcheck-block
+    » config: get shell spellcheck-func
     { -> aspell list }
     ```
 
-    ### How To Write Your Own `spellcheck-block`
+    ### How To Write Your Own `spellcheck-func`
 
     You might legitimately want to run a different spellchecker, and if so you'll
-    need to write your own **spellcheck-block**. Fortunately this is simple:
+    need to write your own **spellcheck-func**. Fortunately this is simple:
 
     The function reads the command line from STDIN, if the spellchecker reads lines
     from parameters rather than STDIN you'll need to write something equivalent to

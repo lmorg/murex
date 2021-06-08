@@ -25,7 +25,7 @@ func configDefaults(c *config.Config) {
 		Global:      true,
 	})
 
-	c.Define("shell", "spellcheck-block", config.Properties{
+	c.Define("shell", "spellcheck-func", config.Properties{
 		Description: "Code block to run as part of the spellchecker (STDIN the line, STDOUT is array for misspelt words)",
 		Default:     "{ -> aspell list }",
 		DataType:    types.CodeBlock,
@@ -60,9 +60,9 @@ func TestSpellcheckCrLf(t *testing.T) {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit ' ' -> suffix "\n" }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit ' ' -> suffix "\n" }`)
 	if err != nil {
-		t.Fatalf("Unable to set spellcheck-block config: %s", err)
+		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}
 
 	line := "the quick brown fox"
@@ -96,9 +96,9 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit '\s' -> append '' }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit '\s' -> append '' }`)
 	if err != nil {
-		t.Fatalf("Unable to set spellcheck-block config: %s", err)
+		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}
 
 	line := "the quick brown fox"
@@ -126,9 +126,9 @@ func TestSpellcheckVariable(t *testing.T) {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit ' ' -> suffix "\n" }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit ' ' -> suffix "\n" }`)
 	if err != nil {
-		t.Fatalf("Unable to set spellcheck-block config: %s", err)
+		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}
 
 	os.Setenv("MUREX_TEST_SPELLCHECK_TEST", "quick")
@@ -159,9 +159,9 @@ func TestSpellcheckVariable(t *testing.T) {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-block", `{ -> jsplit { }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit { }`)
 	if err != nil {
-		t.Fatalf("Unable to set spellcheck-block config: %s", err)
+		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}
 
 	line := "the quick brown fox"
