@@ -15,11 +15,11 @@ import (
 func TestBg(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `bg { out "bg" }; sleep 1; out "fg"`,
+			Block:  `bg { out "bg" }; sleep 3; out "fg"`,
 			Stdout: "bg\nfg\n",
 		},
 		{
-			Block:  `bg { sleep 1; out "bg" }; out "fg"`,
+			Block:  `bg { sleep 3; out "bg" }; out "fg"`,
 			Stdout: "fg\nbg\n",
 		},
 	}
@@ -29,7 +29,7 @@ func TestBg(t *testing.T) {
 
 func TestBgFg(t *testing.T) {
 	count.Tests(t, 2)
-	sleep := 3
+	sleep := 7
 	block := fmt.Sprintf(`bg { sleep %d }`, sleep)
 
 	lang.InitEnv()
@@ -72,7 +72,7 @@ func TestBgFg(t *testing.T) {
 next:
 
 	if !p.Background.Get() {
-		t.Fatalf("`sleep 5` isn't set to background: p.Background == %v", p.Background.Get())
+		t.Fatalf("`sleep %d` isn't set to background: p.Background == %v", sleep, p.Background.Get())
 	}
 
 	if runtime.GOOS == "windows" || runtime.GOOS == "plan9" || runtime.GOOS == "js" {
@@ -92,7 +92,9 @@ next:
 		t.Logf("  Error:    %v", err)
 	}
 
+	time.Sleep(1 * time.Second)
+
 	if p.Background.Get() {
-		t.Fatalf("`sleep 5` hasn't been set to foreground: p.Background == %v", p.Background.Get())
+		t.Fatalf("`sleep %d` hasn't been set to foreground: p.Background == %v", sleep, p.Background.Get())
 	}
 }
