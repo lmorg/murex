@@ -41,7 +41,7 @@ func TestBgFg(t *testing.T) {
 			t.Error("Error executing block:")
 			t.Logf("  Block:    %s", block)
 			t.Logf("  Exit num: %d", i)
-			t.Logf("  Error:    %v", err.Error())
+			t.Logf("  Error:    %v", err)
 		}
 	}()
 
@@ -89,7 +89,7 @@ next:
 		t.Error("Error executing block:")
 		t.Logf("  Block:    %s", block)
 		t.Logf("  Exit num: %d", i)
-		t.Logf("  Error:    %v", err.Error())
+		t.Logf("  Error:    %v", err)
 	}
 
 	if p.Background.Get() {
