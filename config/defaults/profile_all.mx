@@ -938,12 +938,17 @@ if { microk8s } then {
             "FlagValues": {
                 "kubectl": [
                     {
-                        "DynamicDesc":   ({ autocomplete.microk8s.kubectl })
+                        "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
+                        "ListView": true,
+                        "AllowMultiple": false,
+                        "Optional": false
                     },
                     {
-                        "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
+                        #"DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
+                        "Dynamic": ({ out @ARGS }),
                         "AllowMultiple": true,
                         "AnyValue":      true
+                        #"ListView":      true
                     }
                 ]
             }

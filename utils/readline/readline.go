@@ -462,7 +462,7 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 			return false
 		}
 
-		if bytes.Contains(b, []byte{'\n'}) {
+		if i > 1 {
 			rl.multiline = append(rl.multiline, b[:i]...)
 			moveCursorUp(2)
 			return rl.allowMultiline(append(data, b[:i]...))
