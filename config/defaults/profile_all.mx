@@ -875,76 +875,79 @@ openagent set image {
     }
 }
 
-private autocomplete.microk8s {
-    # Top level completion results for microk8s
-    microk8s -> tabulate -> cast str
-}
+if { microk8s } then {
 
-test: unit private autocomplete.microk8s {
-    "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
-    "StdoutIsArray": true
-}
-
-private autocomplete.microk8s.kubectl {
-    # Top level completion results for microk8s kubectl
-    microk8s kubectl help -> tabulate: --map
-}
-
-test: unit private autocomplete.microk8s.kubectl {
-    "StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
-    "StdoutIsMap": true
-}
-
-private autocomplete.microk8s.kubectl.dyndesc {
-    # Dynamic completion for microk8s kubectl
-    microk8s kubectl help $ARGS[1] -> @[^Options..^Usage]re -> regexp "s/:/\t/" -> tabulate: --key-inc-hint --map --split-comma
-}
-
-test: unit private autocomplete.microk8s.kubectl.dyndesc {
-    "StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
-    "StdoutIsMap": true
-}
-
-
-autocomplete: set microk8s {[
-    {
-        "Dynamic": ({ autocomplete.microk8s }),
-        "AllowMultiple": false,
-        "FlagValues": {
-            "kubectl": [
-                {
-                    "DynamicDesc":   ({ autocomplete.microk8s.kubectl })
-                },
-                {
-                    "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
-                    "AllowMultiple": true,
-                    "AnyValue":      true
-                }
-            ]
-        }
+    private autocomplete.microk8s {
+        # Top level completion results for microk8s
+        microk8s -> tabulate -> cast str
     }
-]}
+
+    test: unit private autocomplete.microk8s {
+        "StdoutType":  "str",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsArray": true
+    }
+
+    private autocomplete.microk8s.kubectl {
+        # Top level completion results for microk8s kubectl
+        microk8s kubectl help -> tabulate: --map
+    }
+
+    test: unit private autocomplete.microk8s.kubectl {
+        "StdoutType":  "json",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsMap": true
+    }
+
+    private autocomplete.microk8s.kubectl.dyndesc {
+        # Dynamic completion for microk8s kubectl
+        microk8s kubectl help $ARGS[1] -> @[^Options..^Usage]re -> regexp "s/:/\t/" -> tabulate: --key-inc-hint --map --split-comma
+    }
+
+    test: unit private autocomplete.microk8s.kubectl.dyndesc {
+        "StdoutType":  "json",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsMap": true
+    }
+
+    autocomplete: set microk8s {[
+        {
+            "Dynamic": ({ autocomplete.microk8s }),
+            "AllowMultiple": false,
+            "FlagValues": {
+                "kubectl": [
+                    {
+                        "DynamicDesc":   ({ autocomplete.microk8s.kubectl })
+                    },
+                    {
+                        "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
+                        "AllowMultiple": true,
+                        "AnyValue":      true
+                    }
+                ]
+            }
+        }
+    ]}
+
+}
