@@ -176,11 +176,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		//act.MinTabItemLength = 0
 		return
 	case <-wait:
-		select {
-		case <-done:
-			//act.MinTabItemLength = 0
-			return
-		}
+		<-done
+		//act.MinTabItemLength = 0
+		return
+
 	case <-softCtx.Done():
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
 			act.ErrCallback(fmt.Errorf("Long running dynamic autocompletion pushed to the background"))

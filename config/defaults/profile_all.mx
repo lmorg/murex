@@ -918,19 +918,6 @@ if { microk8s } then {
         microk8s kubectl help $ARGS[1] -> @[^Options..^Usage]re -> regexp "s/:/\t/" -> tabulate: --key-inc-hint --map --split-comma
     }
 
-    test: unit private autocomplete.microk8s.kubectl.dyndesc {
-        "StdoutType":  "json",
-        "StdoutBlock": ({
-            -> len -> set len;
-            if { = len>0 } then {
-                out "Len greater than 0"
-            } else {
-                err "No elements returned"
-            }
-        }),
-        "StdoutIsMap": true
-    }
-
     autocomplete: set microk8s {[
         {
             "Dynamic": ({ autocomplete.microk8s }),
@@ -955,4 +942,36 @@ if { microk8s } then {
         }
     ]}
 
+    autocomplete: set microk8s.kubectl {[
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
+            "ListView": true,
+            "AllowMultiple": false,
+            "Optional": false
+        },
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[1] }),
+            #"Dynamic": ({ out @ARGS }),
+            "AllowMultiple": true,
+            "AnyValue":      true,
+            "ListView":      true
+        }
+    ]}
+
+
+    autocomplete: set kubectl {[
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
+            "ListView": true,
+            "AllowMultiple": false,
+            "Optional": false
+        },
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
+            #"Dynamic": ({ out @ARGS }),
+            "AllowMultiple": true,
+            "AnyValue":      true,
+            "ListView":      true
+        }
+    ]}
 }

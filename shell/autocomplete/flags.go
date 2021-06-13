@@ -59,7 +59,7 @@ func UpdateGlobalExeList() {
 	}
 }
 
-// InitExeFlags initialises empty []Flags based on sane defaults and a quick scan of the man pages (OS dependant)
+// InitExeFlags initializes empty []Flags based on sane defaults and a quick scan of the man pages (OS dependant)
 func InitExeFlags(exe string) {
 	if len(ExesFlags[exe]) == 0 {
 		ExesFlags[exe] = []Flags{{
@@ -275,8 +275,6 @@ func matchPartialFlags(f *Flags, partial string, act *AutoCompleteT) {
 		}
 	}
 
-	//sort.Strings(items)
-
 	for flag := range f.FlagsDesc {
 		if !strings.HasPrefix(flag, partial) {
 			continue
@@ -284,6 +282,4 @@ func matchPartialFlags(f *Flags, partial string, act *AutoCompleteT) {
 
 		act.appendDef(flag[len(partial):], f.FlagsDesc[flag])
 	}
-
-	return
 }
