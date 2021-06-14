@@ -741,22 +741,6 @@ autocomplete: set terraform {[
     summary code "Microsoft Visual Studio Code - Text editor / IDE"
 }
 
-autocomplete: set zfs {
-    [{
-        "Dynamic": ({
-             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
-autocomplete: set zpool {
-    [{
-        "Dynamic": ({
-             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
 function sprintf {
     # This is a wrapper around the OS's default `printf`, replacing the now deprecated builtin of the same name
     -> set params
