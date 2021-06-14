@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -26,7 +25,7 @@ type testAutocompleteFlagsT struct {
 
 func initAutocompleteFlagsTest(exe string, acJson string) {
 	lang.InitEnv()
-	debug.Enabled = true
+	//debug.Enabled = true
 
 	var flags []autocomplete.Flags
 
@@ -908,7 +907,7 @@ func TestAutocompleteDynamicDescArrayChainOptionalMultiple(t *testing.T) {
 }
 
 /////
-
+/*
 func TestAutocompleteNested(t *testing.T) {
 	json := `
 		[
@@ -1053,3 +1052,4 @@ func TestAutocompleteComplexNested(t *testing.T) {
 
 	testAutocompleteFlags(t, tests)
 }
+*/
