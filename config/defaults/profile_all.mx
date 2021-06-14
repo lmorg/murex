@@ -604,19 +604,8 @@ autocomplete: set docker-compose { [{
     }
 }] }
 
-autocomplete: set terraform { [{
-    "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
-    "FlagValues": {
-        "workspace": [
-            {
-                "Flags": [ "new", "delete", "select", "list", "show" ]
-            }
-        ]
-    }
-}] }
-
 autocomplete: set gopass { [{
-    "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
+    "Flags": [ "--yes", "--clip", "-c", "--help", "-h", "--version", "-v" ],
     "AllowMultiple": true,
     "Dynamic": ({ exec: @ARGS --generate-bash-completion }),
     "AutoBranch": true
