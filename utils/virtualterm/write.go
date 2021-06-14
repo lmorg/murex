@@ -12,6 +12,7 @@ func (t *Term) writeCell(r rune) {
 	t.wrapCursorForwards()
 }
 
+// Write multiple characters to the virtual terminal
 func (term *Term) Write(text []rune) {
 	var (
 		escape bool
