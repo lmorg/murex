@@ -1060,6 +1060,26 @@ func TestAutocompleteComplexNestedDynamic(t *testing.T) {
 			},
 			ExpDefs: map[string]string{},
 		},
+		{
+			CmdLine:  fmt.Sprintf(`%s z`, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s z `, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s Sunday z`, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s Sunday z `, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
 	}
 
 	testAutocompleteFlags(t, tests)
@@ -1171,6 +1191,31 @@ func TestAutocompleteComplexNestedDynamicDesc(t *testing.T) {
 				`b`: `b`,
 				`c`: `c`,
 			},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s z `, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s z`, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s z `, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s Sunday z`, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
+		},
+		{
+			CmdLine:  fmt.Sprintf(`%s Sunday z `, t.Name()),
+			ExpItems: []string{},
+			ExpDefs:  map[string]string{},
 		},
 	}
 
