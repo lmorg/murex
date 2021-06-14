@@ -51,6 +51,16 @@ func testAutocompleteFlags(t *testing.T, tests []testAutocompleteFlagsT) {
 	t.Helper()
 	count.Tests(t, len(tests))
 
+	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = lang.ShellProcess.Config.Set("shell", "autocomplete-hard-timeout", 10000)
+	if err != nil {
+		panic(err.Error())
+	}
+
 	for i, test := range tests {
 		var err error
 		errCallback := func(e error) { err = e }
@@ -907,7 +917,7 @@ func TestAutocompleteDynamicDescArrayChainOptionalMultiple(t *testing.T) {
 }
 
 /////
-/*
+
 func TestAutocompleteNested(t *testing.T) {
 	json := `
 		[
@@ -953,7 +963,7 @@ func TestAutocompleteNested(t *testing.T) {
 			ExpDefs: map[string]string{},
 		},
 		{
-			CmdLine: fmt.Sprintf(`%s Monday`, t.Name()),
+			CmdLine: fmt.Sprintf(`%s Monday `, t.Name()),
 			ExpItems: []string{
 				`a`,
 				`b`,
@@ -968,7 +978,7 @@ func TestAutocompleteNested(t *testing.T) {
 
 /////
 
-func TestAutocompleteComplexNested(t *testing.T) {
+func TestAutocompleteComplexNestedDynamic(t *testing.T) {
 	json := `
 		[
 			{
@@ -1031,7 +1041,7 @@ func TestAutocompleteComplexNested(t *testing.T) {
 			ExpDefs: map[string]string{},
 		},
 		{
-			CmdLine: fmt.Sprintf(`%s Sunday`, t.Name()),
+			CmdLine: fmt.Sprintf(`%s Sunday `, t.Name()),
 			ExpItems: []string{
 				`1`,
 				`2`,
@@ -1040,7 +1050,7 @@ func TestAutocompleteComplexNested(t *testing.T) {
 			ExpDefs: map[string]string{},
 		},
 		{
-			CmdLine: fmt.Sprintf(`%s Monday`, t.Name()),
+			CmdLine: fmt.Sprintf(`%s Monday `, t.Name()),
 			ExpItems: []string{
 				`a`,
 				`b`,
@@ -1052,4 +1062,115 @@ func TestAutocompleteComplexNested(t *testing.T) {
 
 	testAutocompleteFlags(t, tests)
 }
-*/
+
+func TestAutocompleteComplexNestedDynamicDesc(t *testing.T) {
+	json := `
+		[
+			{
+				"Optional": true,
+				"DynamicDesc": ({
+					map { out "Optional" } { out "optional" }
+				})
+			},
+			{
+				"DynamicDesc": ({
+					map { a: [Sunday..Friday] } { a: [sunday..friday] }
+				}),
+				"FlagValues": {
+					"Sunday": [{
+						"DynamicDesc": ({
+							map { a: [1..3] } { a: [1..3] }
+						})
+					}],
+					"Monday": [{
+						"DynamicDesc": ({
+							map { a: [a..c] } { a: [a..c] }
+						})
+					}]
+				}
+			},
+			{
+				"DynamicDesc": ({
+					map { a: [Jan..Mar] } { a: [jan..mar] }
+				})
+			}
+		]`
+
+	initAutocompleteFlagsTest(t.Name(), json)
+
+	tests := []testAutocompleteFlagsT{
+		{
+			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			ExpItems: []string{
+				`Optional`,
+				`Sunday`,
+				`Monday`,
+				`Tuesday`,
+				`Wednesday`,
+				`Thursday`,
+				`Friday`,
+			},
+			ExpDefs: map[string]string{
+				`Optional`:  `optional`,
+				`Sunday`:    `sunday`,
+				`Monday`:    `monday`,
+				`Tuesday`:   `tuesday`,
+				`Wednesday`: `wednesday`,
+				`Thursday`:  `thursday`,
+				`Friday`:    `friday`,
+			},
+		},
+		{
+			CmdLine: fmt.Sprintf(`%s T`, t.Name()),
+			ExpItems: []string{
+				`uesday`,
+				`hursday`,
+			},
+			ExpDefs: map[string]string{
+				`uesday`:  `tuesday`,
+				`hursday`: `thursday`,
+			},
+		},
+		{
+			CmdLine: fmt.Sprintf(`%s Tuesday `, t.Name()),
+			ExpItems: []string{
+				`Jan`,
+				`Feb`,
+				`Mar`,
+			},
+			ExpDefs: map[string]string{
+				`Jan`: `jan`,
+				`Feb`: `feb`,
+				`Mar`: `mar`,
+			},
+		},
+		{
+			CmdLine: fmt.Sprintf(`%s Sunday `, t.Name()),
+			ExpItems: []string{
+				`1`,
+				`2`,
+				`3`,
+			},
+			ExpDefs: map[string]string{
+				`1`: `1`,
+				`2`: `2`,
+				`3`: `3`,
+			},
+		},
+		{
+			CmdLine: fmt.Sprintf(`%s Monday `, t.Name()),
+			ExpItems: []string{
+				`a`,
+				`b`,
+				`c`,
+			},
+			ExpDefs: map[string]string{
+				`a`: `a`,
+				`b`: `b`,
+				`c`: `c`,
+			},
+		},
+	}
+
+	testAutocompleteFlags(t, tests)
+}
