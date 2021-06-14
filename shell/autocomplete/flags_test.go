@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -25,11 +26,22 @@ type testAutocompleteFlagsT struct {
 
 func initAutocompleteFlagsTest(exe string, acJson string) {
 	lang.InitEnv()
+	defaults.Defaults(lang.ShellProcess.Config, false)
 	//debug.Enabled = true
+
+	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = lang.ShellProcess.Config.Set("shell", "autocomplete-hard-timeout", 10000)
+	if err != nil {
+		panic(err.Error())
+	}
 
 	var flags []autocomplete.Flags
 
-	err := json.UnmarshalMurex([]byte(acJson), &flags)
+	err = json.UnmarshalMurex([]byte(acJson), &flags)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -50,16 +62,6 @@ func initAutocompleteFlagsTest(exe string, acJson string) {
 func testAutocompleteFlags(t *testing.T, tests []testAutocompleteFlagsT) {
 	t.Helper()
 	count.Tests(t, len(tests))
-
-	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = lang.ShellProcess.Config.Set("shell", "autocomplete-hard-timeout", 10000)
-	if err != nil {
-		panic(err.Error())
-	}
 
 	for i, test := range tests {
 		var err error

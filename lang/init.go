@@ -9,9 +9,9 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
-	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )

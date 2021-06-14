@@ -35,15 +35,15 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
-	if err != nil {
-		softTimeout = 100
-	}
+	softTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
+	//if err != nil {
+	//	softTimeout = 100
+	//}
 
-	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
-	if err != nil {
-		hardTimeout = 5000
-	}
+	hardTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
+	//if err != nil {
+	//	hardTimeout = 5000
+	//}
 
 	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
 	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
