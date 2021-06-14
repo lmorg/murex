@@ -71,6 +71,11 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 
 // AppendDescriptions updates the tab completions with additional suggestions + descriptions asynchronously
 func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
+	if dtc.rl == nil {
+		// This might legitimately happen with some tests
+		return
+	}
+
 	if !dtc.rl.modeTabCompletion {
 		return
 	}
