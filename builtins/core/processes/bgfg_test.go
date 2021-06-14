@@ -92,7 +92,7 @@ next:
 		t.Logf("  Error:    %v", err)
 	}
 
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	if p.Background.Get() {
 		t.Fatalf("`sleep %d` hasn't been set to foreground: p.Background == %v", sleep, p.Background.Get())
