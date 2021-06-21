@@ -22,32 +22,35 @@ func init() {
 func cmdPipeTelemetry(p *lang.Process) error {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
-	quit := false
+	quit := make(chan bool)
 	stats := func() {
 		written, _ := p.Stdin.Stats()
 		_, read := p.Stdout.Stats()
 		os.Stderr.WriteString(
 			fmt.Sprintf("Pipe telemetry: `%s` written %s -> pt -> `%s` read %s (Data type: %s)\n",
-				p.Previous.Name,
+				p.Previous.Name.String(),
 				humannumbers.Bytes(written),
-				p.Next.Name,
+				p.Next.Name.String(),
 				humannumbers.Bytes(read),
 				dt),
 		)
 	}
 
 	go func() {
-		for !quit {
+		for {
 			time.Sleep(1 * time.Second)
-			if quit {
+			select {
+			case <-quit:
 				return
+			default:
+				stats()
 			}
-			stats()
+
 		}
 	}()
 
 	_, err := io.Copy(p.Stdout, p.Stdin)
-	quit = true
+	quit <- true
 	stats()
 	return err
 }

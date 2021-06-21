@@ -3,7 +3,7 @@ package lang
 import (
 	"testing"
 
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 )
 
 func TestParserVariableBlockString1(t *testing.T) {

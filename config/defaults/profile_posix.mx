@@ -168,6 +168,22 @@ autocomplete set go { [{
     }
 }] }
 
+autocomplete: set zfs {
+    [{
+        "Dynamic": ({
+             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+        })
+    }]
+}
+
+autocomplete: set zpool {
+    [{
+        "Dynamic": ({
+             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+        })
+    }]
+}
+
 config eval shell safe-commands {
     -> alter --merge / ([
         "cat", "ps", "grep", "egrep", "ls", "head", "tail", "printf", "awk", "sed", "td", "cut"

@@ -4,7 +4,7 @@ import (
 	"context"
 	"net"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 

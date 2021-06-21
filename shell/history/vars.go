@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -201,7 +201,7 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 			case val == 0:
 				s = strings.Replace(s, mhParam[i][0], nodes.Last().Name, -1)
 			case val > 0 && val-1 < p.Len():
-				s = strings.Replace(s, mhParam[i][0], p.Params[val-1], -1)
+				s = strings.Replace(s, mhParam[i][0], p.StringArray()[val-1], -1)
 			default:
 				s = strings.Replace(s, mhParam[i][0], "", -1)
 				return s, fmt.Errorf("(%s) No parameter with index %s", mhParam[i][0], mhParam[i][1])

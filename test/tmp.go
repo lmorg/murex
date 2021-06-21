@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
+// TempDir creates a temporary directory outside of version control for testing
 func TempDir() (string, error) {
 	gopath := os.Getenv("GOPATH")
 	if gopath == "" {

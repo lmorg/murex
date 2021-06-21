@@ -61,6 +61,22 @@ jobs:
       - run:
           name: Build and test website
           command: test/ci-website.sh
+
+  codecov:
+    working_directory: /go/src/github.com/lmorg/murex
+    docker:
+      - image: lmorg/murex:ci
+        environment:
+          GOPATH: /go
+          MUREX_BUILD_FLAGS: --no-colour
+    steps:
+      - run:
+          name: Nuke old code
+          command: cd .. && rm -rf murex && mkdir murex
+      - checkout
+      - run:
+          name: Build and test murex
+          command: go test ./... -count 1 -race -coverprofile=coverage.txt -covermode=atomic
       - run:
           name: Code Coverage (codecov.io)
           command: bash <(curl -s https://codecov.io/bash)
@@ -68,13 +84,6 @@ jobs:
   latest:
     docker:
       - image: golang
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
-  go1.12:
-    docker:
-      - image: golang:1.12
         <<: *env
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
@@ -114,9 +123,8 @@ workflows:
     jobs:
       - website
       - latest
-      - go1.12
       - go1.13
       - go1.14
       - go1.15
       - go1.16
-
+      - codecov

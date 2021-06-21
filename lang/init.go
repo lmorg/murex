@@ -9,9 +9,9 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/runmode"
-	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/runmode"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -27,8 +27,8 @@ var (
 // InitEnv initialises murex. Exported function to enable unit tests.
 func InitEnv() {
 	ShellProcess.State.Set(state.Executing)
-	ShellProcess.Name = os.Args[0]
-	ShellProcess.Parameters.Params = os.Args[1:]
+	ShellProcess.Name.Set(os.Args[0])
+	ShellProcess.Parameters.DefineParsed(os.Args[1:])
 	ShellProcess.Scope = ShellProcess
 	ShellProcess.Parent = ShellProcess
 	ShellProcess.Previous = ShellProcess
@@ -53,7 +53,7 @@ func InitEnv() {
 	// Sets $SHELL to be murex
 	shellEnv, err := os.Executable()
 	if err != nil {
-		shellEnv = ShellProcess.Name
+		shellEnv = ShellProcess.Name.String()
 	}
 	os.Setenv("SHELL", shellEnv)
 

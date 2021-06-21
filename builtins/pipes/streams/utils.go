@@ -54,41 +54,32 @@ func (stdin *Stdin) GetDataType() (dt string) {
 		default:
 		}
 
-		//stdin.dtLock.RLock()
-		stdin.dtLock.Lock()
+		stdin.mutex.Lock()
+		//stdin.dtLock.Lock()
 		dt = stdin.dataType
-		//stdin.dtLock.RUnlock()
-		stdin.dtLock.Unlock()
+		//stdin.dtLock.Unlock()
+
 		if dt != "" {
+			stdin.mutex.Unlock()
 			return
+		}
+
+		fin := stdin.dependants < 1
+		stdin.mutex.Unlock()
+
+		if fin {
+			return types.Generic
 		}
 	}
 }
 
 // SetDataType defines the murex data type for the stream.Io interface
 func (stdin *Stdin) SetDataType(dt string) {
-	stdin.dtLock.Lock()
-	stdin.dataType = dt
-	stdin.dtLock.Unlock()
-}
-
-// DefaultDataType defines the murex data type for the stream.Io interface if it's not already set
-func (stdin *Stdin) DefaultDataType(err bool) {
-	//stdin.dtLock.RLock()
-	stdin.dtLock.Lock()
-	dt := stdin.dataType
-	//stdin.dtLock.RUnlock()
-	stdin.dtLock.Unlock()
-
-	if dt == "" {
-		if err {
-			stdin.dtLock.Lock()
-			stdin.dataType = types.Null
-			stdin.dtLock.Unlock()
-		} else {
-			stdin.dtLock.Lock()
-			stdin.dataType = types.Generic
-			stdin.dtLock.Unlock()
-		}
+	//stdin.dtLock.Lock()
+	stdin.mutex.Lock()
+	if stdin.dataType == "" {
+		stdin.dataType = dt
 	}
+	//stdin.dtLock.Unlock()
+	stdin.mutex.Unlock()
 }

@@ -84,9 +84,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		if isMultiline(r[:i]) || len(rl.multiline) > 0 {
 			rl.multiline = append(rl.multiline, b[:i]...)
-			if i == len(b) {
-				continue
-			}
+			//if i == len(b) {
+			//	continue
+			//}
 
 			if !rl.allowMultiline(rl.multiline) {
 				rl.multiline = []byte{}
@@ -455,11 +455,17 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 	for {
 		print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
 
-		b := make([]byte, 1024)
+		b := make([]byte, 1024*1024)
 
 		i, err := os.Stdin.Read(b)
 		if err != nil {
 			return false
+		}
+
+		if i > 1 {
+			rl.multiline = append(rl.multiline, b[:i]...)
+			moveCursorUp(2)
+			return rl.allowMultiline(append(data, b[:i]...))
 		}
 
 		s := string(b[:i])

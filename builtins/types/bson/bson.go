@@ -6,8 +6,8 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
-	"labix.org/v2/mgo/bson"
+	"github.com/lmorg/murex/lang/stdio"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 const typeName = "bson"

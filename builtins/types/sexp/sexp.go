@@ -6,7 +6,7 @@ import (
 	"github.com/abesto/sexp"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 const (

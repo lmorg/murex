@@ -166,7 +166,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 
 	fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
-	fork.Parameters.Params = plan.Parameters
+	fork.Parameters.DefineParsed(plan.Parameters)
 
 	if len(plan.Stdin) > 0 {
 		if plan.StdinType == "" {
@@ -184,7 +184,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	if len(plan.PreBlock) > 0 {
 		preFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_CREATE_STDOUT | F_CREATE_STDERR)
 		preFork.FileRef = fileRef
-		preFork.Name = "(unit test PreBlock)"
+		preFork.Name.Set("(unit test PreBlock)")
 		preExitNum, preForkErr = preFork.Execute([]rune(plan.PreBlock))
 
 		if preForkErr != nil {
@@ -210,7 +210,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	// run any clear down code...if defined
 	if len(plan.PostBlock) > 0 {
 		postFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_CREATE_STDOUT | F_CREATE_STDERR)
-		postFork.Name = "(unit test PostBlock)"
+		postFork.Name.Set("(unit test PostBlock)")
 		postFork.FileRef = fileRef
 		postExitNum, postForkErr = postFork.Execute([]rune(plan.PostBlock))
 
@@ -394,7 +394,7 @@ func runFunction(function string, isMethod bool, fork *Fork) (int, error) {
 		return altFunc(function, fork)
 	}
 
-	fork.Name = function
+	fork.Name.Set(function)
 
 	if !MxFunctions.Exists(function) {
 		return 0, errors.New("Function does not exist")
@@ -444,7 +444,7 @@ func runPrivate(path string, split []string, fork *Fork) (int, error) {
 	function := split[len(split)-1]
 	module := strings.Join(split[:len(split)-1], "/")
 
-	fork.Name = function
+	fork.Name.Set(function)
 
 	if !PrivateFunctions.Exists(function, module) {
 		return 0, fmt.Errorf("Private (%s) does not exist or module name (%s) is wrong", function, module)

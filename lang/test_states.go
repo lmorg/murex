@@ -13,7 +13,7 @@ func testStates(p *Process) {
 		}
 
 		fork := p.Fork(F_PARENT_VARTABLE | F_BACKGROUND | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
-		fork.Name = fmt.Sprintf("<state_%s> (%s)", name, p.Name)
+		fork.Name.Set(fmt.Sprintf("<state_%s> (%s)", name, p.Name.String()))
 		_, err := fork.Execute(block)
 		if err != nil {
 			p.Tests.AddResult(&TestProperties{Name: name}, p, TestError, err.Error())

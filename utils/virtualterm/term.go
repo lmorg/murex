@@ -4,12 +4,13 @@ import (
 	"github.com/lmorg/murex/debug"
 )
 
+// Term is the display state of the virtual term
 type Term struct {
 	cells  [][]cell
 	size   xy
 	curPos xy
 	sgr    sgr
-	state  State
+	state  PtyState
 	//mutex  sync.Mutex
 	mutex debug.BadMutex
 }
@@ -25,7 +26,8 @@ type sgr struct {
 	bg      rgb
 }
 
-type State struct {
+// PtyState defines some basic emulation states for the virtual TTY
+type PtyState struct {
 	LfIncCr bool // if false, \n acts as a \r\n
 }
 
@@ -66,6 +68,7 @@ type rgb struct {
 	Red, Green, Blue byte
 }
 
+// NewTerminal creates a new virtual term
 func NewTerminal(x, y int) *Term {
 	cells := make([][]cell, y, y)
 	for i := range cells {
@@ -75,7 +78,7 @@ func NewTerminal(x, y int) *Term {
 	return &Term{
 		cells: cells,
 		size:  xy{x, y},
-		state: State{LfIncCr: true},
+		state: PtyState{LfIncCr: true},
 	}
 }
 
@@ -84,13 +87,15 @@ func (t *Term) GetSize() (int, int, error) {
 	return t.size.X, t.size.Y, nil
 }
 
-func (t *Term) MakeRaw() State {
+// MakeRaw sets the virtual TTY to a raw state
+func (t *Term) MakeRaw() PtyState {
 	old := t.state
 	t.state.LfIncCr = false
 	return old
 }
 
-func (t *Term) Restore(state State) {
+// Restore returns the virtual TTY to a previous state
+func (t *Term) Restore(state PtyState) {
 	t.state = state
 }
 

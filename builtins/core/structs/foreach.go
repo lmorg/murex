@@ -72,7 +72,6 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		fork.Stdin.SetDataType(dt)
 		fork.Stdin.Writeln(b)
 		fork.Execute(block)
-
 	})
 
 	return

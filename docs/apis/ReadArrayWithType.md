@@ -40,7 +40,7 @@ import (
 	"bufio"
 	"bytes"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -67,7 +67,7 @@ package json
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )

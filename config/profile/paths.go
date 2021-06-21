@@ -10,19 +10,27 @@ import (
 )
 
 const (
+	// default locations
 	preloadFileName = ".murex_preload"
 	moduleDirName   = ".murex_modules/"
 	profileFileName = ".murex_profile"
 
+	// PreloadEnvVar environmental variable name for the preload profile override path. It's stored as a constant so typos are caught by the compiler
 	PreloadEnvVar = "MUREX_PRELOAD"
-	ModuleEnvVar  = "MUREX_MODULES"
+
+	// ModuleEnvVar environmental variable name for the module override path. It's stored as a constant so typos are caught by the compiler
+	ModuleEnvVar = "MUREX_MODULES"
+
+	// ProfileEnvVar environmental variable name for the profile override path. It's stored as a constant so typos are caught by the compiler
 	ProfileEnvVar = "MUREX_PROFILE"
 )
 
+// PreloadPath returns the path of the preload profile
 func PreloadPath() string {
 	return validateProfilePath(PreloadEnvVar, preloadFileName)
 }
 
+// ProfilePath returns the path of your murex profile
 func ProfilePath() string {
 	return validateProfilePath(ProfileEnvVar, profileFileName)
 }
@@ -48,6 +56,7 @@ func validateProfilePath(envvar, defaultFileName string) string {
 	return path
 }
 
+// MudulePath returns the install path of the murex modules / packages
 func ModulePath() string {
 	path := os.Getenv(ModuleEnvVar)
 	if strings.TrimSpace(path) == "" {

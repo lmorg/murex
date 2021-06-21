@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Export returns a character map of the virtual terminal
 func (t *Term) Export() string {
 	t.mutex.Lock()
 
@@ -29,6 +30,7 @@ func (t *Term) Export() string {
 	return string(r)
 }
 
+// ExportHTML returns a HTML reder of the virtual terminal
 func (t *Term) ExportHtml() string {
 	s := `<span class="">`
 

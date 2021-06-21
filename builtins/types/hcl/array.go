@@ -1,7 +1,7 @@
 package hcl
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/json"
 )
 

@@ -2,7 +2,7 @@ package bson
 
 import (
 	"github.com/lmorg/murex/lang"
-	"labix.org/v2/mgo/bson"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func readIndex(p *lang.Process, params []string) error {

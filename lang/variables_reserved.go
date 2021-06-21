@@ -19,13 +19,13 @@ func getVarSelf(p *Process) interface{} {
 		TTY:        p.Scope.Stdout.IsTTY(),
 		Method:     p.Scope.IsMethod,
 		Not:        p.Scope.IsNot,
-		Background: p.Scope.IsBackground,
+		Background: p.Scope.Background.Get(),
 		Module:     p.Scope.FileRef.Source.Module,
 	}
 }
 
 func getVarParams(p *Process) interface{} {
-	return append([]string{p.Scope.Name}, p.Scope.Parameters.Params...)
+	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.StringArray()...)
 }
 
 func getVarMurexExe() interface{} {

@@ -15,7 +15,7 @@ func TestGet(t *testing.T) {
 	addr := StartHTTPServer(t)
 
 	p := lang.NewTestProcess()
-	p.Parameters.Params = []string{addr}
+	p.Parameters.DefineParsed([]string{addr})
 
 	err := cmdGet(p)
 	if err != nil {
@@ -31,7 +31,7 @@ func TestGetFile(t *testing.T) {
 	addr := StartHTTPServer(t)
 
 	p := lang.NewTestProcess()
-	p.Parameters.Params = []string{addr}
+	p.Parameters.DefineParsed([]string{addr})
 
 	err := cmdGetFile(p)
 	if err != nil {

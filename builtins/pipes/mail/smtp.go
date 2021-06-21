@@ -12,7 +12,7 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func NewMail(parameters string) (stdio.Io, error) {

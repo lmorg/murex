@@ -32,7 +32,7 @@ func init() {
 		"debug":                 "Debugging information",
 		"die":                   "Terminate murex with an exit number of 1",
 		"err":                   "Print a line to the STDERR",
-		"escape":                "Escape or unescapes input",
+		"escape":                "Escape or unescape input",
 		"esccli":                "Escapes an array so output is valid shell code",
 		"eschtml":               "Encode or decodes text for HTML",
 		"escurl":                "Encode or decodes text for the URL",

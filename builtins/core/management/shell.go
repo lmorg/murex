@@ -13,8 +13,8 @@ import (
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/runmode"
+	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
@@ -62,7 +62,7 @@ func cmdArgs(p *lang.Process) (err error) {
 	}
 	var jObj flags
 
-	params := p.Scope.Parameters.Params
+	params := p.Scope.Parameters.StringArray()
 	if p.Scope.Id == 0 && len(params) > 0 {
 		jObj.Self = params[0]
 		if len(params) == 1 {
@@ -71,7 +71,7 @@ func cmdArgs(p *lang.Process) (err error) {
 			params = params[1:]
 		}
 	} else {
-		jObj.Self = p.Scope.Name
+		jObj.Self = p.Scope.Name.String()
 	}
 
 	jObj.Flags, jObj.Additional, err = parameters.ParseFlags(params, &args)

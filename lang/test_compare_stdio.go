@@ -14,13 +14,13 @@ package lang
 */
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func testBlock(test *TestProperties, p *Process, block []rune, stdin []byte, dt string, property string, failed *bool) {
 	fork := p.Fork(F_FUNCTION | F_CREATE_STDIN | F_CREATE_STDERR | F_CREATE_STDOUT)
 	fork.IsMethod = true
-	fork.Name = "(pipe test " + property + ")"
+	fork.Name.Set("(pipe test " + property + ")")
 	fork.Stdin.SetDataType(dt)
 	_, err := fork.Stdin.Write(stdin)
 	if err != nil {

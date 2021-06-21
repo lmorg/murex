@@ -20,13 +20,11 @@ func alias(cmd string) func(p *lang.Process) error {
 	return func(p *lang.Process) error {
 		p.Stdout.SetDataType(types.String)
 
-		p.Name = "exec"
+		p.Name.Set("exec")
 
-		p.Parameters.Params = append([]string{cmd}, p.Parameters.Params...)
+		p.Parameters.Prepend([]string{cmd})
 
 		err := lang.External(p)
-
-		p.ExitNum = 13
 
 		return err
 	}

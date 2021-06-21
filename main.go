@@ -12,13 +12,12 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 const (
 	interactive    bool = true
 	nonInteractive bool = false
-
-	envRunTests = "MUREX_TEST_MAIN_RUN_TESTS"
 )
 
 func main() {
@@ -62,14 +61,9 @@ func runTests() error {
 	if err := lang.ShellProcess.Config.Set("test", "verbose", false); err != nil {
 		return err
 	}
-
-	if err := lang.ShellProcess.Config.Set("shell", "color", false); err != nil {
+	tty := readline.IsTerminal(int(os.Stdout.Fd()))
+	if err := lang.ShellProcess.Config.Set("shell", "color", tty); err != nil {
 		return err
-	}
-
-	// exit early if being run under Go test
-	if os.Getenv(envRunTests) != "" {
-		return nil
 	}
 
 	// run unit tests

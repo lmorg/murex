@@ -4,7 +4,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 )
 
 //////////////////

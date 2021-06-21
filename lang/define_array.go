@@ -3,7 +3,7 @@ package lang
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 // ArrayTemplate is a template function for reading arrays from marshalled data

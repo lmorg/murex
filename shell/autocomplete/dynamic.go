@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -36,15 +35,15 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}
 	block := []rune(dynamic[1 : len(dynamic)-1])
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
-	if err != nil {
-		softTimeout = 100
-	}
+	softTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
+	//if err != nil {
+	//	softTimeout = 100
+	//}
 
-	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
-	if err != nil {
-		hardTimeout = 5000
-	}
+	hardTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
+	//if err != nil {
+	//	hardTimeout = 5000
+	//}
 
 	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
 	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
@@ -65,7 +64,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		if f.ExecCmdline && !act.ParsedTokens.Unsafe {
 			cmdline := lang.ShellProcess.Fork(lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
 			cmdline.Stdout = cmdlineStdout
-			cmdline.Name = args.exe
+			cmdline.Name.Set(args.exe)
 			cmdline.FileRef = ExesFlagsFileRef[args.exe]
 			cmdline.Execute(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken])
 
@@ -75,8 +74,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 		// Execute the dynamic code block
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-		fork.Name = args.exe
-		fork.Parameters = parameters.Parameters{Params: args.params}
+		fork.Name.Set(args.exe)
+		fork.Parameters.DefineParsed(args.params)
 		fork.FileRef = ExesFlagsFileRef[args.exe]
 		if f.ExecCmdline && !act.ParsedTokens.Unsafe {
 			fork.Stdin = cmdlineStdout
@@ -177,11 +176,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		//act.MinTabItemLength = 0
 		return
 	case <-wait:
-		select {
-		case <-done:
-			//act.MinTabItemLength = 0
-			return
-		}
+		<-done
+		//act.MinTabItemLength = 0
+		return
+
 	case <-softCtx.Done():
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
 			act.ErrCallback(fmt.Errorf("Long running dynamic autocompletion pushed to the background"))

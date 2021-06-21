@@ -22,18 +22,18 @@ export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
 export MUREXCOMMITL="$(git rev-parse HEAD)"
 export MUREXTESTS="$(cat ./murex-test-count.txt)"
 
-sed -i "s/\$DATE/`date`/;
-        s/\$COMMITHASHSHORT/$MUREXCOMMITS/;
-        s/\$COMMITHASHLONG/$MUREXCOMMITL/;
-        s/\$MUREXVERSION/$MUREXVERSION/;
-        s/\$MUREXTESTS/$MUREXTESTS/" \
+sed -i "s/\$DATE/`date`/g;
+        s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
+        s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
+        s/\$MUREXVERSION/$MUREXVERSION/g;
+        s/\$MUREXTESTS/$MUREXTESTS/g" \
         gen/website/header.html
 
 sed -i "s/\$DATE/`date`/;
-        s/\$COMMITHASHSHORT/$MUREXCOMMITS/;
-        s/\$COMMITHASHLONG/$MUREXCOMMITL/;
-        s/\$MUREXVERSION/$MUREXVERSION/;
-        s/\$MUREXTESTS/$MUREXTESTS/" \
+        s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
+        s/\$COMMITHASHLONG/$MUREXCOMMITL/g;
+        s/\$MUREXVERSION/$MUREXVERSION/g;
+        s/\$MUREXTESTS/$MUREXTESTS/g" \
         gen/website/footer.html
 
 cp gen/website/404.md .

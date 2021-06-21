@@ -3,7 +3,7 @@ package events
 import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -45,7 +45,7 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
 	fork.Stdin.SetDataType(types.Json)
-	fork.Name = "(event)"
+	fork.Name.Set("(event)")
 	fork.FileRef = fileRef
 	_, err = fork.Stdin.Write(json)
 	if err != nil {

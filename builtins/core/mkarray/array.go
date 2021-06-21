@@ -43,7 +43,8 @@ func cmdTa(p *lang.Process) error {
 		return err
 	}
 
-	p.Parameters.Params = p.Parameters.Params[1:]
+	params := p.Parameters.StringArray()[1:]
+	p.Parameters.DefineParsed(params)
 
 	return mkArray(p, dataType)
 }

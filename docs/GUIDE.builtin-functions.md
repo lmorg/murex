@@ -98,7 +98,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`err`](commands/err.md):
   Print a line to the STDERR
 * [`escape`](commands/escape.md):
-  Escape or unescapes input 
+  Escape or unescape input 
 * [`esccli`](commands/esccli.md):
   Escapes an array so output is valid shell code
 * [`eschtml`](commands/eschtml.md):

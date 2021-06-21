@@ -173,7 +173,7 @@ func hintCodeBlock() []rune {
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-	fork.Name = "shell (hint-text-func)"
+	fork.Name.Set("shell (hint-text-func)")
 	exitNum, err := fork.Execute([]rune(ht.(string)))
 
 	b, err2 := fork.Stdout.ReadAll()

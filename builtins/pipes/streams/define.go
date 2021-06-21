@@ -5,7 +5,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func init() {
@@ -28,8 +28,8 @@ type Stdin struct {
 	bWritten   uint64
 	dependants int32
 	dataType   string
-	dtLock     sync.Mutex
-	max        int
+	//dtLock     sync.Mutex
+	max int
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin

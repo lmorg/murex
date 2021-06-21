@@ -3,9 +3,9 @@ package bson
 import (
 	"bytes"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"labix.org/v2/mgo/bson"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 func readArray(read stdio.Io, callback func([]byte)) error {

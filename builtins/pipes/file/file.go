@@ -3,7 +3,7 @@ package file
 import (
 	"os"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func init() {

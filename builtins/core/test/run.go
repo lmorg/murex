@@ -15,7 +15,7 @@ func testRun(p *lang.Process) error {
 
 func testRunBlock(p *lang.Process, block []rune) error {
 	fork := p.Fork(lang.F_FUNCTION)
-	fork.Name = "(test run)"
+	fork.Name.Set("(test run)")
 
 	err := fork.Config.Set("test", "enabled", true)
 	if err != nil {

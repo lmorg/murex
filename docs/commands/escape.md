@@ -2,7 +2,7 @@
 
 ## Command Reference: `escape`
 
-> Escape or unescapes input 
+> Escape or unescape input 
 
 ## Description
 

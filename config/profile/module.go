@@ -137,7 +137,7 @@ func (m *Module) execute() error {
 		b,
 	)
 
-	fork.Name = "(module)"
+	fork.Name.Set("(module)")
 	_, err = fork.Execute(block)
 	return err
 }

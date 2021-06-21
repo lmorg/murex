@@ -5,8 +5,8 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -21,13 +21,6 @@ func init() {
 
 		alias: jobs=fid-list --jobs
 		config: eval shell safe-commands { -> append jobs }`)
-}
-
-func yn(state bool) (s string) {
-	if state {
-		return "yes"
-	}
-	return "no"
 }
 
 func getParams(p *lang.Process) string {
@@ -110,10 +103,10 @@ func cmdFidListTTY(p *lang.Process) error {
 			process.Scope.Id,
 			process.State.String(),
 			process.RunMode.String(),
-			yn(process.IsBackground),
+			process.Background.String(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
-			process.Name,
+			process.Name.String(),
 			getParams(process),
 		)
 		_, err := p.Stdout.Writeln([]byte(s))
@@ -137,10 +130,10 @@ func cmdFidListCSV(p *lang.Process) error {
 			process.Scope.Id,
 			process.State.String(),
 			process.RunMode.String(),
-			yn(process.IsBackground),
+			process.Background.String(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
-			process.Name,
+			process.Name.String(),
 			getParams(process),
 		)
 		_, err := p.Stdout.Writeln([]byte(s))
@@ -182,7 +175,7 @@ func cmdFidListPipe(p *lang.Process) error {
 			process.Scope.Id,
 			process.State.String(),
 			process.RunMode.String(),
-			process.IsBackground,
+			process.Background.Get(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
 			process.Name,
@@ -208,7 +201,7 @@ func cmdJobsStopped(p *lang.Process) error {
 		if process.State.Get() != state.Stopped {
 			continue
 		}
-		m[process.Id] = process.Name + " " + getParams(process)
+		m[process.Id] = process.Name.String() + " " + getParams(process)
 	}
 
 	b, err := lang.MarshalData(p, types.Json, m)
@@ -226,10 +219,10 @@ func cmdJobsBackground(p *lang.Process) error {
 	m := make(map[uint32]string)
 
 	for _, process := range procs {
-		if !process.IsBackground {
+		if !process.Background.Get() {
 			continue
 		}
-		m[process.Id] = process.Name + " " + getParams(process)
+		m[process.Id] = process.Name.String() + " " + getParams(process)
 	}
 
 	b, err := lang.MarshalData(p, types.Json, m)

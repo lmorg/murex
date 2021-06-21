@@ -4,10 +4,11 @@ package readline
 
 import "github.com/lmorg/murex/utils/virtualterm"
 
+// VTern is a virtual terminal
 var VTerm = virtualterm.NewTerminal(120, 40)
 
 type State struct {
-	state virtualterm.State
+	state virtualterm.PtyState
 }
 
 func MakeRaw(_ int) (*State, error) {

@@ -35,6 +35,7 @@ func execute(p *Process) error {
 		return err
 	}
 	cmd := exec.Command(exeName, parameters...)
+	cmd.Env = p.Exec.Env
 
 	if p.HasCancelled() {
 		return nil
@@ -53,7 +54,7 @@ func execute(p *Process) error {
 	switch {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
-	case p.IsBackground:
+	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
 	default:
 		cmd.Stdin = os.Stdin
@@ -86,8 +87,7 @@ func execute(p *Process) error {
 		}
 	}
 
-	p.Exec.Pid = cmd.Process.Pid
-	p.Exec.Cmd = cmd
+	p.Exec.Set(cmd.Process.Pid, cmd)
 
 	if err := cmd.Wait(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {

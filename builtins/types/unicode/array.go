@@ -1,7 +1,7 @@
 package unicode
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func readArray(read stdio.Io, callback func([]byte)) error {

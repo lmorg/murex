@@ -13,10 +13,10 @@
     ReadArray(): Treats each new line as a new array element
     ReadArrayWithType(): Treats each new line as a new array element, each element is `*`
     ReadMap(): Works against tables such as the output from `ps -fe`
-    WriteArray(): Writes a new line per array element
+    WriteArray(): Writes a new line per array element - tabs are treated as columns
     ReadIndex(): Indexes treated as table coordinates
     ReadNotIndex(): Indexes treated as table coordinates
-    Marshal(): Supported
+    Marshal(): Supported. Tables columns are aligned
     Unmarshal(): Supported
   Detail:
   Associations:

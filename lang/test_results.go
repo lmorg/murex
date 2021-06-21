@@ -19,7 +19,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
@@ -60,7 +60,7 @@ func (tests *Tests) AddResult(test *TestProperties, p *Process, status TestStatu
 
 	tests.Results.Add(&TestResult{
 		TestName:   test.Name,
-		Exec:       p.Name,
+		Exec:       p.Name.String(),
 		Params:     p.Parameters.StringArray(),
 		LineNumber: fileRef.Line,
 		ColNumber:  fileRef.Column,

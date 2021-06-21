@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
 )
@@ -63,8 +63,9 @@ func sigtstp() {
 		stopStatus(p)
 	}
 
-	if p.Exec.Pid != 0 {
-		err = p.Exec.Cmd.Process.Signal(syscall.SIGTSTP)
+	pid, cmd := p.Exec.Get()
+	if pid != 0 {
+		err = cmd.Process.Signal(syscall.SIGTSTP)
 		if err != nil {
 			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
 		} else {
@@ -106,7 +107,7 @@ func stopStatus(p *lang.Process) {
 	)
 	lang.ShellProcess.Stderr.Writeln([]byte(pipeStatus))
 
-	if p.Exec.Pid != 0 {
+	if p.Exec.Pid() != 0 {
 		block, err := lang.ShellProcess.Config.Get("shell", "stop-status-func", types.CodeBlock)
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
@@ -114,8 +115,8 @@ func stopStatus(p *lang.Process) {
 		}
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
-		fork.Name = "(SIGTSTP)"
-		fork.Variables.Set(fork.Process, "PID", lang.ForegroundProc.Get().Exec.Pid, types.Integer)
+		fork.Name.Set("(SIGTSTP)")
+		fork.Variables.Set(fork.Process, "PID", lang.ForegroundProc.Get().Exec.Pid(), types.Integer)
 		_, err = fork.Execute([]rune(block.(string)))
 
 		if err != nil {

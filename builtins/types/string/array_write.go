@@ -1,7 +1,7 @@
 package string
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 type arrayWriter struct {

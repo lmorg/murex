@@ -26,10 +26,10 @@ func matchFilesAndDirs(s string, act *AutoCompleteT) []string {
 
 func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 	// Is recursive search enabled?
-	enabled, err := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
-	if err != nil {
-		enabled = false
-	}
+	enabled, _ := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
+	//if err != nil {
+	//	enabled = false
+	//}
 
 	// If not, fallback to the faster surface level scan
 	if !enabled.(bool) {
@@ -48,15 +48,15 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 
 	wg.Add(1)
 
-	softTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
-	if err != nil {
-		softTimeout = 100
-	}
+	softTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
+	//if err != nil {
+	//	softTimeout = 100
+	//}
 
-	hardTimeout, err := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
-	if err != nil {
-		hardTimeout = 5000
-	}
+	hardTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
+	//if err != nil {
+	//	hardTimeout = 5000
+	//}
 
 	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
 	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
@@ -167,10 +167,10 @@ func matchFilesAndDirsOnce(s string) (items []string) {
 func matchRecursive(ctx context.Context, s string, filesToo bool, dtc *readline.DelayedTabContext) (hierarchy []string) {
 	s = variables.ExpandString(s)
 
-	maxDepth, err := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
-	if err != nil {
-		maxDepth = 5
-	}
+	maxDepth, _ := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
+	//if err != nil {
+	//	maxDepth = 5
+	//}
 
 	split := strings.Split(s, consts.PathSlash)
 	path := strings.Join(split[:len(split)-1], consts.PathSlash)

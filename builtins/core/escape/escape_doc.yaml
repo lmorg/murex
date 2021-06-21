@@ -3,7 +3,7 @@
     `escape`
   CategoryID: commands
   Summary: >-
-    Escape or unescapes input 
+    Escape or unescape input 
   Description: |-
     `escape` takes input from either STDIN or the parameters and returns the same
     data, escaped.

@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/ref"
 )
 
@@ -19,9 +19,9 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 
 	for i := range *tree {
 		procs[i].State.Set(state.MemAllocated)
-		procs[i].Name = (*tree)[i].Name
+		procs[i].Name.Set((*tree)[i].Name)
 		procs[i].IsMethod = (*tree)[i].Method
-		procs[i].IsBackground = parent.IsBackground
+		procs[i].Background.Set(parent.Background.Get())
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
 		procs[i].WaitForTermination = make(chan bool)

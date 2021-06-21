@@ -86,7 +86,7 @@ func cmdEqu(p *lang.Process) (err error) {
 }
 
 func cmdLet(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if !debug.Enabled {
 		defer func() {

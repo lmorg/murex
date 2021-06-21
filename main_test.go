@@ -1,22 +1,24 @@
 package main
 
 import (
-	"os"
 	"testing"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
 )
 
-func TestMainRunTests(t *testing.T) {
+// TestMurex tests murex runtime environment can be initialized and and simple
+// command line can execute
+func TestMurex(t *testing.T) {
 	count.Tests(t, 1)
 
-	if err := os.Setenv(envRunTests, "1"); err != nil {
-		t.Error(err)
-		return
-	}
+	lang.InitEnv()
 
-	if err := runTests(); err != nil {
-		t.Error(err)
+	block := []rune("a [Mon..Fri]->regexp m/^T/")
+
+	_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute(block)
+	if err != nil {
+		t.Error(err.Error())
 	}
 }
 

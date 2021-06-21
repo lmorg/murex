@@ -12,7 +12,7 @@ executables.
 ## Supported Hooks
 
 * `Marshal()`
-    Supported
+    Supported. Tables columns are aligned
 * `ReadArray()`
     Treats each new line as a new array element
 * `ReadArrayWithType()`
@@ -26,7 +26,7 @@ executables.
 * `Unmarshal()`
     Supported
 * `WriteArray()`
-    Writes a new line per array element
+    Writes a new line per array element - tabs are treated as columns
 
 ## See Also
 

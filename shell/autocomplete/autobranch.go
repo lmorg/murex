@@ -10,10 +10,10 @@ import (
 
 func autoBranch(items *[]string) {
 	// Is recursive search enabled?
-	recursiveSearch, err := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
-	if err != nil {
-		recursiveSearch = false
-	}
+	recursiveSearch, _ := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
+	//if err != nil {
+	//	recursiveSearch = false
+	//}
 
 	if recursiveSearch.(bool) {
 		sort.Sort(treeSorter(*items))
