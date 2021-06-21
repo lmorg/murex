@@ -1,0 +1,60 @@
+- DocumentID: v2.2
+  Title: >-
+    What's new in murex v2.2
+  CategoryID: blog
+  DateTime: 2021-06-21 21:51
+  Summary: >-
+    This is mainly a bug fix release but it does include one breaking change for
+    `config`. Please read for details.
+  Description: |-
+    This release sees new optional features plus major bug fixes to the existing
+    code base:
+
+    ### Breaking Changes:
+    
+    One `config` **shell** key has changed it's name:
+    
+    * spellcheck-block -> `spellcheck-func`
+
+    This is to bring spellcheck inline with other keys that contain executable
+    code.
+
+    **This change might break some of your existing profile config!**
+
+    ### User Facing Changes:
+
+    * Windows coreutils no longer returns exit code of 13 for aliases 
+
+    * Fixed regression bug in fg
+
+    * stdstream.SetDataType() only works on first call -- ignored thereafter
+
+    * Generic data type, `*`, now uses tabwriter to align columns
+
+    * Spellchecker error handling tweaked to be more user friendly
+
+    * Environmental variables can been created per command:
+      
+    ```
+    » env <env:foo=bar> | grep foo
+    foo=bar
+    ```
+
+    ### Non-User Facing / Maintenance Changes
+
+    * All dependencies have been updated, pinned and the `vendors` directory
+      rebuilt
+
+    * Fixed some issues flagged up in [goreportcard.com](https://goreportcard.com/report/github.com/lmorg/murex)
+
+    * Some internal API changes that have no UI/UX ramifications but makes the
+      code more maintainable
+
+    * Lots more unit tests added
+
+    * Lots of code rewritten to avoid potential data races
+  Synonyms:
+  Related:
+  - types/generic
+  - commands/fg
+
