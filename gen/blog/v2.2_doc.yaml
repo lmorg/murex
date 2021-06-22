@@ -25,20 +25,24 @@
 
     * Windows coreutils no longer returns exit code of 13 for aliases 
 
-    * Fixed regression bug in fg
+    * Fixed regression bug in fg (added stronger testing here to prevent future
+      regressions)
 
-    * stdstream.SetDataType() only works on first call -- ignored thereafter
-
-    * Generic data type, `*`, now uses tabwriter to align columns
+    * Generic data type, `*`, now uses `tabwriter` to align columns
 
     * Spellchecker error handling tweaked to be more user friendly
 
     * Environmental variables can been created per command:
-      
-    ```
+    
+    <pre><code>
     » env <env:foo=bar> | grep foo
     foo=bar
-    ```
+    </code></pre>
+
+    * stdstream.SetDataType() only works on first call -- ignored thereafter.
+      This will impact pipes that are written to by many processes but results
+      in more predictable code due possible timing errors where different
+      processes are overwriting the stream data type
 
     ### Non-User Facing / Maintenance Changes
 
