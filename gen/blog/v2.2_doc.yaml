@@ -34,10 +34,15 @@
 
     * Environmental variables can been created per command:
     
-    ```
+    <pre><code>
     » env <env:foo=bar> | grep foo
     foo=bar
-    ```
+    </code></pre>
+
+    * stdstream.SetDataType() only works on first call -- ignored thereafter.
+      This will impact pipes that are written to by many processes but results
+      in more predictable code due possible timing errors where different
+      processes are overwriting the stream data type
 
     * stdstream.SetDataType() only works on first call -- ignored thereafter.
       This will impact pipes that are written to by many processes but results
