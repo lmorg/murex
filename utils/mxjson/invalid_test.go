@@ -192,3 +192,22 @@ func TestInvalid(t *testing.T) {
 
 	runTestCases(t, tests)
 }
+
+// https://github.com/lmorg/murex/issues/352
+func TestGithubIssue352(t *testing.T) {
+	tests := []testCase{
+		{
+			Json: `
+				[{
+					"DynamicDesc": ({ autocomplete.asumepy }),
+					"Optional": true
+				}],
+				[{
+					"Dynamic": ({ autocomplete.awscon })
+				}]`,
+			Error: true,
+		},
+	}
+
+	runTestCases(t, tests)
+}

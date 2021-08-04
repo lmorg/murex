@@ -207,6 +207,9 @@ func (no *nestedObject) GetKeyPtr() *str {
 }
 
 func (no *nestedObject) GetObjType() objectType {
+	if no.len < 0 || len(no.nest) == 0 || no.len > len(no.nest) {
+		return objUndefined
+	}
 	return no.nest[no.len].objType
 }
 
