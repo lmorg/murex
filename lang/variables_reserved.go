@@ -24,7 +24,7 @@ func getVarSelf(p *Process) interface{} {
 	}
 }
 
-func getVarParams(p *Process) interface{} {
+func getVarArgs(p *Process) interface{} {
 	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.StringArray()...)
 }
 

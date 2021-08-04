@@ -25,6 +25,7 @@ var (
 const (
 	SELF       = "SELF"
 	ARGS       = "ARGS"
+	PARAMS     = "PARAMS"
 	MUREX_EXE  = "MUREX_EXE"
 	MUREX_ARGS = "MUREX_ARGS"
 )
@@ -74,7 +75,10 @@ func (v *Variables) GetValue(name string) interface{} {
 		return getVarSelf(v.process)
 
 	case name == ARGS:
-		return getVarParams(v.process)
+		return getVarArgs(v.process)
+
+	case name == PARAMS:
+		return v.process.Scope.Parameters.StringArray()
 
 	case name == MUREX_EXE:
 		return getVarMurexExe()
@@ -125,7 +129,11 @@ func (v *Variables) GetString(name string) string {
 		return string(b)
 
 	case name == ARGS:
-		b, _ := json.Marshal(getVarParams(v.process), v.process.Stdout.IsTTY())
+		b, _ := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
+		return string(b)
+
+	case name == PARAMS:
+		b, _ := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
 		return string(b)
 
 	case name == MUREX_EXE:
@@ -173,6 +181,9 @@ func (v *Variables) GetDataType(name string) string {
 	case name == ARGS:
 		return types.Json
 
+	case name == PARAMS:
+		return types.Json
+
 	case name == MUREX_EXE:
 		return types.String
 	}
@@ -212,7 +223,7 @@ func (v *Variables) getDataType(name string) (string, bool) {
 // Set writes a variable
 func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
-	case SELF, ARGS, MUREX_EXE, MUREX_ARGS, "_":
+	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, "_":
 		return errVariableReserved
 	}
 
@@ -285,6 +296,7 @@ func DumpVariables(p *Process) map[string]interface{} {
 
 	m[SELF] = p.Variables.GetValue(SELF)
 	m[ARGS] = p.Variables.GetValue(ARGS)
+	m[PARAMS] = p.Variables.GetValue(PARAMS)
 	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
 	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
 	return m
