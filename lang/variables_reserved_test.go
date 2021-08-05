@@ -83,3 +83,89 @@ func TestVarSelf(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestVarArgs(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				function TestVarArgs {
+					out @ARGS
+				}
+				TestVarArgs
+			`,
+			Stdout: "TestVarArgs\n",
+		},
+		{
+			Block: `
+				function TestVarArgs {
+					out @ARGS
+				}
+				TestVarArgs 1 2 3
+			`,
+			Stdout: "TestVarArgs 1 2 3\n",
+		},
+		{
+			Block: `
+				function TestVarArgs {
+					out @ARGS
+				}
+				TestVarArgs 1   2   3
+			`,
+			Stdout: "TestVarArgs 1 2 3\n",
+		},
+		{
+			Block: `
+				function TestVarArgs {
+					out $ARGS
+				}
+				TestVarArgs 1   2   3
+			`,
+			Stdout: `["TestVarArgs","1","2","3"]` + "\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestVarParams(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				function TestVarParams {
+					out @PARAMS
+				}
+				TestVarParams
+			`,
+			Stdout: "\n",
+		},
+		{
+			Block: `
+				function TestVarParams {
+					out @PARAMS
+				}
+				TestVarParams 1 2 3
+			`,
+			Stdout: "1 2 3\n",
+		},
+		{
+			Block: `
+				function TestVarParams {
+					out @PARAMS
+				}
+				TestVarParams 1   2   3
+			`,
+			Stdout: "1 2 3\n",
+		},
+		{
+			Block: `
+				function TestVarParams {
+					out $PARAMS
+				}
+				TestVarParams 1   2   3
+			`,
+			Stdout: `["1","2","3"]` + "\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

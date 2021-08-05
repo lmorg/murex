@@ -376,9 +376,12 @@ func Parse(json []byte) (interface{}, error) {
 				}
 				fallthrough
 			case state > stateBeginVal:
-				if objects.GetObjType() == objMap {
+				switch objects.GetObjType() {
+				case objMap:
 					state = stateBeginKey
-				} else {
+				case objUndefined:
+					return unexpectedComma()
+				default:
 					state = stateBeginVal
 				}
 			default:
