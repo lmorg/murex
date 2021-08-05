@@ -90,7 +90,7 @@ This returns a JSON array of the parameters within a given scope.
 
 Unlike `$ARGS`, `$PARAMS` does not include the function name.
 
-    » function example { out $ARGS }
+    » function example { out $PARAMS }
     » example abc 1 2 3
     [
         "abc",
