@@ -129,7 +129,7 @@ cases for JSON lines.
 * `ReadArray()`
     Works with JSON arrays. Maps are converted into arrays
 * `ReadArrayWithType()`
-    Works with JSON arrays. Maps are converted into arrays. Element data type is `json
+    Works with JSON arrays. Maps are converted into arrays. Element data type is `json` 
 * `ReadIndex()`
     Works against all properties in JSON
 * `ReadMap()`
