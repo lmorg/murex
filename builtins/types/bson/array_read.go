@@ -1,14 +1,13 @@
 package bson
 
 import (
-	"bytes"
-
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+/*func readArray(read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -35,9 +34,17 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	}
 
 	return nil
+}*/
+
+func readArray(read stdio.Io, callback func([]byte)) error {
+	return lang.ArrayTemplate(bson.Marshal, bson.Unmarshal, read, callback)
 }
 
 func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+	return lang.ArrayWithTypeTemplate(types.Json, bson.Marshal, bson.Unmarshal, read, callback)
+}
+
+/*func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -64,4 +71,4 @@ func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
 	}
 
 	return nil
-}
+}*/
