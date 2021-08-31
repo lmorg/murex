@@ -10,7 +10,7 @@ import (
 )
 
 func TestPipes(t *testing.T) {
-	count.Tests(t, 3)
+	count.Tests(t, 6)
 	pipes := pipes.NewNamed()
 
 	if len(pipes.Dump()) != 1 {
@@ -35,7 +35,7 @@ func TestPipes(t *testing.T) {
 		t.Errorf("(pipe timeout exceeded too early) Empty pipes != 2: %d", len(pipes.Dump()))
 	}
 
-	time.Sleep(5 * time.Second)
+	time.Sleep(4 * time.Second)
 
 	if len(pipes.Dump()) != 1 {
 		t.Errorf("Empty pipes != 1: %d", len(pipes.Dump()))

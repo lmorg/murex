@@ -111,12 +111,12 @@ try:
 }
 
 // Dump returns the named pipe table in a format that can be serialised into JSON
-func (n *Named) Dump() (dump map[string]string) {
-	dump = make(map[string]string)
+func (n *Named) Dump() map[string]string {
+	dump := make(map[string]string)
 	n.mutex.Lock()
 	for name := range n.pipes {
 		dump[name] = n.pipes[name].Type
 	}
 	n.mutex.Unlock()
-	return
+	return dump
 }
