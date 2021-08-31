@@ -21,18 +21,18 @@ forked as concurrent processes).
 
 A non-exhaustive list features would include:
 
-* Testing frameworks baked right into the language itself
-* Smarter handling of errors (for example try/catch blocks, line numbers
-  included in error messages, errors optionally highlighted in red, etc)
 * Support for typed pipelines - which can be used to work with complex data
   formats like JSON natively. But also the ability to override or even ignore
-  typed data entirely so it works transparently with standard UNIX tools too
-* Lots of data-mangling tools baked into the shell
-* Parses man pages for a richer user experience
-* In-line spell checking
-* Optional support for event-driven programming
-* Plus every aspect of the shell is easily extendable, inspectable and can
-  be managed via _murex_'s own package manager
+  typed data entirely so it works transparently with standard UNIX tools too.
+  This means you can use a common set of commands for manipulating any form of
+  data file.
+* Usability improvements such as a smarter `readline` API, in-line spell
+  checking, hint text detailing a commands behavior before you hit return, and auto-parsing man pages for auto-completions on commands that don't have any
+  auto-completion config set.
+* Smarter handling of errors, for example try/catch blocks, line numbers
+  included in error messages, errors optionally highlighted in red, etc.
+* Script testing and debugging frameworks baked right into the language itself.
+  Which makes it easier to write, maintain and fix shell scripts.
 
 The language employs a relatively simple syntax modelled loosely on functional
 and stack-based programming paradigms (albeit without the LISP-style nested
