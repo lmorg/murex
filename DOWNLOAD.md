@@ -1,8 +1,12 @@
 # Download _murex_
 
-## Weekly Builds
+Below are the instructions to download a pre-compiled binary via HTTP. If you
+wish to install from source or use your preferred package manager, then please
+refer to the [INSTALL](INSTALL.md) page for further instructions.
 
-Below are the latest weekly builds from the stable (`master`) branch.
+## HTTP Downloads
+
+Below are the latest builds from the stable (`master`) branch.
 
 All files are approximately 6 MB in size (aside the Plan 9 builds which are 3 MB).
 

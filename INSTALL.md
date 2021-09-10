@@ -1,6 +1,16 @@
 # Install Instructions
 
-## Pre-Compiled Binaries
+## From A Package Manager
+
+Currently only Homebrew is supported. More package managers are expected to be
+supported in the future however due to the numbers and variety of solutions out
+there, we do ask for community support to help bring _mure_ to your preferred platform, if it isn't already supported.
+
+### Homebrew
+
+    brew install murex
+
+## Pre-Compiled Binaries (HTTP download)
 
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
@@ -83,12 +93,8 @@ pipeline scripts.
 
 ### Docker Hub
 
-_murex_ provides two prebuilt images on Docker Hub:
-
-* `lmorg/murex:develop` - this is the latest build of the `develop` branch,
-  as such it might contain unstable code
-* `lmorg/murex:latest` - this is the latest build of the `master` branch and
-  is the recommended image to use
+Due to licencing changes from Docker, Docker Hub images are no longer up to
+date. However you can still build your own container.
 
 ### Building Your Own Container
 
@@ -100,8 +106,8 @@ From the project root (the location of this INSTALL.md file) run the following:
 
 Some optional builtins will be included by default, however there may be others
 you wish to include which are not part of the default build (such as `select`).
-To add them, copy (or symlink) the optional file from `builtins/import_src` to
-`builtins/import_build`.
+To add them, copy (or symlink) the applicable include file from
+`builtins/import_src` to `builtins/import_build`.
 
 A tool will be introduced in a later version to automate this.
 
