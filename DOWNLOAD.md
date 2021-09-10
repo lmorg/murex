@@ -36,8 +36,8 @@ All files are approximately 6 MB in size (aside the Plan 9 builds which are 3 MB
 
 > macOS (Darwin) builds for arm64 should support the ARM-based M1 processor.
 > However please treat these builds as experimental. If you do run into any
-> issues then log them at (https://github.com/lmorg/murex/issues) and use the
-> amd64 builds in the meantime.
+> issues then log them at [github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
+> and use the amd64 builds in the meantime.
 
 ### Linux / UNIX / macOS Instructions
 
@@ -73,11 +73,11 @@ the different underpinning technologies behind consoles / terminal emulators.
 If you do experience some wonky behavior then our recommendation is to run the
 `linux-amd64` build for Linux on top of WSL. The instructions above will guide
 you through installing on Linux, WSL install instructions can be found at the
-following site: (https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
 ### Plan9 Instructions
 
 Plan9 is untested. The code compiles and it is syscall compatible with Plan9
 operating systems, however you may experience bugs using _murex_ on Plan9. If
 you do encounter any issues then please raise them at:
-(https://github.com/lmorg/murex/issues)
+[github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
