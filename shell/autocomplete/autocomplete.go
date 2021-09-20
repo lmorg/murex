@@ -75,6 +75,41 @@ func MatchFunction(partial string, act *AutoCompleteT) (items []string) {
 	return
 }
 
+// MatchFunctionExec returns autocomplete suggestions for executables
+// based on a partial string
+func MatchFunctionExec(partial string, act *AutoCompleteT) (items []string) {
+	switch {
+	case pathIsLocal(partial):
+		items = matchLocal(partial, true)
+		items = append(items, matchDirs(partial, act)...)
+	default:
+		exes := allExecutables(false)
+		items = matchExes(partial, exes, true)
+	}
+	return
+}
+
+// MatchFunctionFunc returns autocomplete suggestions for functions
+// based on a partial string
+func MatchFunctionFunc(partial string, act *AutoCompleteT) (items []string) {
+	switch {
+	case pathIsLocal(partial):
+		items = matchLocal(partial, true)
+		items = append(items, matchDirs(partial, act)...)
+	default:
+		exes := make(map[string]bool)
+
+		for name := range lang.GoFunctions {
+			exes[name] = true
+		}
+
+		lang.MxFunctions.UpdateMap(exes)
+		lang.GlobalAliases.UpdateMap(exes)
+		items = matchExes(partial, exes, true)
+	}
+	return
+}
+
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string
 func MatchVars(partial string) (items []string) {

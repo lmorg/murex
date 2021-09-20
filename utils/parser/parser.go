@@ -1,5 +1,7 @@
 package parser
 
+//go:generate stringer -type=PipeToken
+
 import (
 	"regexp"
 
@@ -42,7 +44,19 @@ type ParsedTokens struct {
 	Variable      string
 	Unsafe        bool // if the pipeline is estimated to be safe enough to dynamically preview
 	LastFlowToken int
+	PipeToken     PipeToken
 }
+
+// PipeToken stores an interger value for the pipe token used in a pipeline
+type PipeToken int
+
+// These are different pipe tokens
+const (
+	PipeTokenNone     PipeToken = 0    // No pipe token
+	PipeTokenPosix    PipeToken = iota // `|`  (POSIX style pipe)
+	PipeTokenMurex                     // `->` (murex style pipe)
+	PipeTokenRedirect                  // `?`  (STDERR redirected to STDOUT and vice versa)
+)
 
 // Parse a single line of code and return the tokens for a selected command
 func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
@@ -286,6 +300,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i - 1
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenMurex
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
@@ -303,7 +318,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				syntaxHighlighted += string(block[i])
 			}
 
-		case ';', '|':
+		case '|':
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
@@ -320,6 +335,32 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenPosix
+				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
+				pt.Parameters = make([]string, 0)
+				ansiChar(hlPipe, block[i])
+				syntaxHighlighted += hlFunction
+			}
+
+		case ';':
+			pt.Loc = i
+			switch {
+			case pt.Escaped:
+				pt.Escaped = false
+				*pt.pop += string(block[i])
+				ansiReset(block[i])
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+			default:
+				if pos != 0 && pt.Loc >= pos {
+					return
+				}
+				pt.LastFlowToken = i
+				pt.ExpectFunc = true
+				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
 				pt.Parameters = make([]string, 0)
@@ -368,6 +409,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenRedirect
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
 				pt.Unsafe = true
@@ -391,6 +433,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			default:
 				pt.NestedBlock++
 				pt.ExpectFunc = true
+				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
 				//pt.Unsafe = true

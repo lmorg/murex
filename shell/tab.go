@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/dedup"
+	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -47,7 +48,15 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		if pt.Loc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
-		act.Items = autocomplete.MatchFunction(prefix, &act)
+
+		switch pt.PipeToken {
+		case parser.PipeTokenPosix:
+			act.Items = autocomplete.MatchFunctionExec(prefix, &act)
+		case parser.PipeTokenMurex:
+			act.Items = autocomplete.MatchFunctionFunc(prefix, &act)
+		default:
+			act.Items = autocomplete.MatchFunction(prefix, &act)
+		}
 
 	default:
 		if len(pt.Parameters) > 0 {
