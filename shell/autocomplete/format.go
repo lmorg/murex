@@ -9,6 +9,7 @@ import (
 // FormatSuggestions applies some loose formatting rules to auto-completion
 // suggestions
 func FormatSuggestions(act *AutoCompleteT) {
+	sortCompletions(act.Items)
 	formatSuggestionsArray(act.ParsedTokens, act.Items)
 	formatSuggestionsMap(act.ParsedTokens, &act.Definitions)
 }
@@ -42,7 +43,6 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 				items[i] += " "
 			}
 		}
-
 	}
 }
 

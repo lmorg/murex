@@ -1,7 +1,6 @@
 package autocomplete
 
 import (
-	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -121,7 +120,7 @@ func MatchVars(partial string) (items []string) {
 		}
 	}
 
-	sort.Strings(items)
+	//sort.Strings(items)
 	return
 }
 
