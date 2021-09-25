@@ -12,7 +12,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["2darray"] = twoDArray
+	lang.DefineFunction("2darray", twoDArray, types.Json)
 }
 
 type mdarray struct {

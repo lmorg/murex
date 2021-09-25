@@ -39,6 +39,7 @@ type ParsedTokens struct {
 	SquareBracket bool
 	ExpectFunc    bool
 	pop           *string
+	LastFuncName  string
 	FuncName      string
 	Parameters    []string
 	Variable      string
@@ -303,6 +304,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.PipeToken = PipeTokenMurex
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
 				//ansiColour(hlPipe, '-')
@@ -338,6 +340,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.PipeToken = PipeTokenPosix
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
 				syntaxHighlighted += hlFunction
@@ -363,6 +366,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
 				syntaxHighlighted += hlFunction
@@ -385,8 +389,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i
 				pt.Unsafe = true
 				pt.ExpectFunc = true
+				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
 				syntaxHighlighted += hlFunction
@@ -411,6 +418,8 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenRedirect
 				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				pt.Unsafe = true
 				ansiChar(hlPipe, block[i])

@@ -235,11 +235,11 @@ var (
 // Tests the order is preserved and that items can be added the map without
 // breaking the function
 func TestFormatSuggestionsOrder(t *testing.T) {
-	formatSuggestions := func(act *AutoCompleteT) {
+	/*formatSuggestions := func(act *AutoCompleteT) {
 		//sortCompletions(act.Items)
 		formatSuggestionsArray(act.ParsedTokens, act.Items)
 		formatSuggestionsMap(act.ParsedTokens, &act.Definitions)
-	}
+	}*/
 
 	count.Tests(t, len(testData)*3)
 
@@ -253,7 +253,7 @@ func TestFormatSuggestionsOrder(t *testing.T) {
 		Definitions: make(map[string]string),
 	}
 
-	formatSuggestions(&act1)
+	FormatSuggestions(&act1)
 
 	for i := range tests {
 		if tests[i] != expected[i] {
@@ -268,7 +268,7 @@ func TestFormatSuggestionsOrder(t *testing.T) {
 			Definitions: map[string]string{original[i]: "some data"},
 		}
 
-		formatSuggestions(&act2)
+		FormatSuggestions(&act2)
 
 		if len(act2.Definitions) != 1 {
 			t.Errorf("Invalid test length in formatSuggestionsMap:")

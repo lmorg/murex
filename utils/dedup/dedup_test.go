@@ -75,6 +75,21 @@ func TestSortAndDedupString(t *testing.T) {
 			Expected:  []string{"bar", "foo", "foobar"},
 			ExpLength: 3,
 		},
+		{
+			Input:     []string{"-bar", "foo", "foobar"},
+			Expected:  []string{"foo", "foobar", "-bar"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"bar", "-foo", "foobar"},
+			Expected:  []string{"bar", "foobar", "-foo"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"bar", "foo", "-foobar"},
+			Expected:  []string{"bar", "foo", "-foobar"},
+			ExpLength: 3,
+		},
 	}
 
 	count.Tests(t, len(tests))

@@ -63,6 +63,9 @@ func InitEnv() {
 	if b, err := json.Marshal(&pwd, false); err == nil {
 		GlobalVariables.Set(ShellProcess, "PWDHIST", string(b), types.Json)
 	}
+
+	MethodStdin.Degroup()
+	MethodStdout.Degroup()
 }
 
 // NewTestProcess creates a dummy process for testing in Go (ie `go test`)

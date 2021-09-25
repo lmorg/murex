@@ -15,7 +15,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["tabulate"] = cmdTabulate
+	//lang.GoFunctions["tabulate"] = cmdTabulate
+	lang.DefineMethod("tabulate", cmdTabulate, types.Generic, types.Any)
 
 	defaults.AppendProfile(`
 		autocomplete set tabulate { [{

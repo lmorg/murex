@@ -51,9 +51,22 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 		switch pt.PipeToken {
 		case parser.PipeTokenPosix:
-			act.Items = autocomplete.MatchFunctionExec(prefix, &act)
+			act.Items = autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenMurex:
-			act.Items = autocomplete.MatchFunctionFunc(prefix, &act)
+			outTypes := lang.MethodStdout.Types(pt.LastFuncName)
+			outTypes = append(outTypes, types.Any)
+			for i := range outTypes {
+				inTypes := lang.MethodStdin.Get(outTypes[i])
+				if len(prefix) == 0 {
+					act.Items = append(act.Items, inTypes...)
+					continue
+				}
+				for j := range inTypes {
+					if strings.HasPrefix(inTypes[j], prefix) {
+						act.Items = append(act.Items, inTypes[j][len(prefix):])
+					}
+				}
+			}
 		default:
 			act.Items = autocomplete.MatchFunction(prefix, &act)
 		}
@@ -70,7 +83,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
-		v = 4
+		v = 8
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
 
@@ -87,9 +100,6 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 	i := dedup.SortAndDedupString(act.Items)
 	autocomplete.FormatSuggestions(&act)
-	//if len(act.Items) == 1 && act.Items[0] == " " {
-	//	act.Items = []string{}
-	//	delete(act.Definitions, " ")
-	//}
+
 	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
 }

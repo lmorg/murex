@@ -6,7 +6,9 @@ import (
 
 func init() {
 	lang.GoFunctions["swivel-table"] = cmdSwivelTable
+	//lang.DefineFunction("swivel-table", cmdSwivelTable, types.ReadMap, types.Marshal)
 	lang.GoFunctions["swivel-datatype"] = cmdSwivelDataType
+	//lang.DefineFunction("swivel-datatype", cmdSwivelDataType, types.ReadMap, types.Marshal)
 }
 
 func cmdSwivelDataType(p *lang.Process) error {

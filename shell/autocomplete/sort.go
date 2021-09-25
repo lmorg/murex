@@ -1,3 +1,5 @@
+// +build ignore
+
 package autocomplete
 
 func sortCompletions(items []string) {

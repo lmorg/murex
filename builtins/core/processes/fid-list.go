@@ -12,7 +12,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["fid-list"] = cmdFidList
+	//lang.GoFunctions["fid-list"] = cmdFidList
+	lang.DefineFunction("fid-list", cmdFidList, types.JsonLines)
 
 	defaults.AppendProfile(`
 		autocomplete: set fid-list { [{
@@ -20,6 +21,7 @@ func init() {
 		}] }
 
 		alias: jobs=fid-list --jobs
+		method: jobs --in null --out *
 		config: eval shell safe-commands { -> append jobs }`)
 }
 

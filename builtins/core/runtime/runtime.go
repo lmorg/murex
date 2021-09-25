@@ -12,8 +12,8 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -22,71 +22,78 @@ import (
 )
 
 const (
-	fVars          = "--variables"
-	fGlobals       = "--globals"
-	fExports       = "--exports"
-	fAliases       = "--aliases"
-	fBuiltins      = "--builtins"
-	fConfig        = "--config"
-	fNamedPipes    = "--named-pipes"
-	fPipes         = "--pipes"
-	fFunctions     = "--functions"
-	fPrivates      = "--privates"
-	fOpenAgents    = "--open-agents"
-	fFids          = "--fids"
-	fReadArrays    = "--readarray"
-	fReadMaps      = "--readmap"
-	fWriteArrays   = "--writearray"
-	fIndexes       = "--indexes"
-	fMarshallers   = "--marshallers"
-	fUnmarshallers = "--unmarshallers"
-	fEvents        = "--events"
-	fAutocomplete  = "--autocomplete"
-	fMemstats      = "--memstats"
-	fAstCache      = "--astcache"
-	fTests         = "--tests"
-	fTestResults   = "--test-results"
-	fModules       = "--modules"
-	fDebug         = "--debug"
-	fSources       = "--sources"
-	fSummaries     = "--summaries"
-	fHelp          = "--help"
+	fVars               = "--variables"
+	fGlobals            = "--globals"
+	fExports            = "--exports"
+	fAliases            = "--aliases"
+	fBuiltins           = "--builtins"
+	fMethods            = "--methods"
+	fConfig             = "--config"
+	fNamedPipes         = "--named-pipes"
+	fPipes              = "--pipes"
+	fFunctions          = "--functions"
+	fPrivates           = "--privates"
+	fOpenAgents         = "--open-agents"
+	fFids               = "--fids"
+	fReadArrays         = "--readarray"
+	fReadArrayWithTypes = "--readarraywithtype"
+	fReadMaps           = "--readmap"
+	fWriteArrays        = "--writearray"
+	fIndexes            = "--indexes"
+	fNotIndexes         = "--not-indexes"
+	fMarshallers        = "--marshallers"
+	fUnmarshallers      = "--unmarshallers"
+	fEvents             = "--events"
+	fAutocomplete       = "--autocomplete"
+	fMemstats           = "--memstats"
+	fAstCache           = "--astcache"
+	fTests              = "--tests"
+	fTestResults        = "--test-results"
+	fModules            = "--modules"
+	fDebug              = "--debug"
+	fSources            = "--sources"
+	fSummaries          = "--summaries"
+	fHelp               = "--help"
 )
 
 var flags = map[string]string{
-	fVars:          types.Boolean,
-	fGlobals:       types.Boolean,
-	fExports:       types.Boolean,
-	fAliases:       types.Boolean,
-	fBuiltins:      types.Boolean,
-	fConfig:        types.Boolean,
-	fPipes:         types.Boolean,
-	fNamedPipes:    types.Boolean,
-	fFunctions:     types.Boolean,
-	fPrivates:      types.Boolean,
-	fOpenAgents:    types.Boolean,
-	fFids:          types.Boolean,
-	fReadArrays:    types.Boolean,
-	fReadMaps:      types.Boolean,
-	fWriteArrays:   types.Boolean,
-	fIndexes:       types.Boolean,
-	fMarshallers:   types.Boolean,
-	fUnmarshallers: types.Boolean,
-	fEvents:        types.Boolean,
-	fAutocomplete:  types.Boolean,
-	fMemstats:      types.Boolean,
-	fAstCache:      types.Boolean,
-	fTests:         types.Boolean,
-	fTestResults:   types.Boolean,
-	fModules:       types.Boolean,
-	fDebug:         types.Boolean,
-	fSources:       types.Boolean,
-	fSummaries:     types.Boolean,
-	fHelp:          types.Boolean,
+	fVars:               types.Boolean,
+	fGlobals:            types.Boolean,
+	fExports:            types.Boolean,
+	fAliases:            types.Boolean,
+	fBuiltins:           types.Boolean,
+	fMethods:            types.Boolean,
+	fConfig:             types.Boolean,
+	fPipes:              types.Boolean,
+	fNamedPipes:         types.Boolean,
+	fFunctions:          types.Boolean,
+	fPrivates:           types.Boolean,
+	fOpenAgents:         types.Boolean,
+	fFids:               types.Boolean,
+	fReadArrays:         types.Boolean,
+	fReadArrayWithTypes: types.Boolean,
+	fReadMaps:           types.Boolean,
+	fWriteArrays:        types.Boolean,
+	fIndexes:            types.Boolean,
+	fNotIndexes:         types.Boolean,
+	fMarshallers:        types.Boolean,
+	fUnmarshallers:      types.Boolean,
+	fEvents:             types.Boolean,
+	fAutocomplete:       types.Boolean,
+	fMemstats:           types.Boolean,
+	fAstCache:           types.Boolean,
+	fTests:              types.Boolean,
+	fTestResults:        types.Boolean,
+	fModules:            types.Boolean,
+	fDebug:              types.Boolean,
+	fSources:            types.Boolean,
+	fSummaries:          types.Boolean,
+	fHelp:               types.Boolean,
 }
 
 func init() {
-	lang.GoFunctions["runtime"] = cmdRuntime
+	//lang.GoFunctions["runtime"] = cmdRuntime
+	lang.DefineFunction("runtime", cmdRuntime, types.Json)
 
 	defaults.AppendProfile(`
         autocomplete set runtime { [{
@@ -144,6 +151,11 @@ func cmdRuntime(p *lang.Process) error {
 			}
 			sort.Strings(s)
 			ret[fBuiltins[2:]] = s
+		case fMethods:
+			ret[fMethods[2:]] = map[string]map[string][]string{
+				"in":  lang.MethodStdin.Dump(),
+				"out": lang.MethodStdout.Dump(),
+			}
 		case fConfig:
 			ret[fConfig[2:]] = lang.ShellProcess.Config.DumpRuntime()
 		case fNamedPipes:
@@ -159,13 +171,17 @@ func cmdRuntime(p *lang.Process) error {
 		case fFids:
 			ret[fFids[2:]] = lang.GlobalFIDs.ListAll()
 		case fReadArrays:
-			ret[fReadArrays[2:]] = stdio.DumpArray()
+			ret[fReadArrays[2:]] = stdio.DumpReadArray()
+		case fReadArrayWithTypes:
+			ret[fReadArrays[2:]] = stdio.DumpReadArrayWithType()
 		case fReadMaps:
 			ret[fReadMaps[2:]] = stdio.DumpMap()
 		case fWriteArrays:
-			ret[fWriteArrays[2:]] = stdio.DumpArray()
+			ret[fWriteArrays[2:]] = stdio.DumpWriteArray()
 		case fIndexes:
 			ret[fIndexes[2:]] = lang.DumpIndex()
+		case fNotIndexes:
+			ret[fIndexes[2:]] = lang.DumpNotIndex()
 		case fMarshallers:
 			ret[fMarshallers[2:]] = lang.DumpMarshaller()
 		case fUnmarshallers:

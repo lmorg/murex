@@ -12,7 +12,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["pretty"] = cmdPretty
+	//lang.GoFunctions["pretty"] = cmdPretty
+	lang.DefineMethod("pretty", cmdPretty, types.Json, types.Json)
 
 	defaults.AppendProfile(`
 		autocomplete: set pretty { [{

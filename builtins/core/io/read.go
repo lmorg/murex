@@ -10,7 +10,9 @@ import (
 
 func init() {
 	lang.GoFunctions["read"] = cmdRead
+	//lang.DefineMethod("read", cmdRead, types.String, types.Null)
 	lang.GoFunctions["tread"] = cmdTread
+	//lang.DefineMethod("tread", cmdTread, types.String, types.Null)
 }
 
 func cmdRead(p *lang.Process) error {

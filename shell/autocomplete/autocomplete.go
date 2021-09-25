@@ -74,7 +74,7 @@ func MatchFunction(partial string, act *AutoCompleteT) (items []string) {
 	return
 }
 
-// MatchFunctionExec returns autocomplete suggestions for executables
+/*// MatchFunctionExec returns autocomplete suggestions for executables
 // based on a partial string
 func MatchFunctionExec(partial string, act *AutoCompleteT) (items []string) {
 	switch {
@@ -86,9 +86,9 @@ func MatchFunctionExec(partial string, act *AutoCompleteT) (items []string) {
 		items = matchExes(partial, exes, true)
 	}
 	return
-}
+}*/
 
-// MatchFunctionFunc returns autocomplete suggestions for functions
+/*// MatchFunctionFunc returns autocomplete suggestions for functions
 // based on a partial string
 func MatchFunctionFunc(partial string, act *AutoCompleteT) (items []string) {
 	switch {
@@ -107,7 +107,7 @@ func MatchFunctionFunc(partial string, act *AutoCompleteT) (items []string) {
 		items = matchExes(partial, exes, true)
 	}
 	return
-}
+}*/
 
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string

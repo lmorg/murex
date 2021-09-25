@@ -17,6 +17,7 @@ func init() {
 	lang.GoFunctions["!function"] = cmdUnfunc
 	lang.GoFunctions["private"] = cmdPrivate
 	//lang.GoFunctions["!private"] = cmdUnprivate
+	lang.GoFunctions["method"] = cmdMethod
 }
 
 var rxAlias = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*?)$`)
@@ -125,3 +126,7 @@ func cmdPrivate(p *lang.Process) error {
 
 	return lang.PrivateFunctions.Undefine(name)
 }*/
+
+func cmdMethod(p *lang.Process) error {
+	return errors.New("TODO")
+}

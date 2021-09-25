@@ -11,6 +11,15 @@ func DumpIndex() (dump []string) {
 	return
 }
 
+// DumpNotIndex returns an array of compiled builtins supporting deserialization by !index
+func DumpNotIndex() (dump []string) {
+	for name := range ReadNotIndexes {
+		dump = append(dump, name)
+	}
+	sort.Strings(dump)
+	return
+}
+
 // DumpUnmarshaller returns an array of compiled builtins supporting unmarshalling
 func DumpUnmarshaller() (dump []string) {
 	for name := range Unmarshallers {

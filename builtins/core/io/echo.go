@@ -8,13 +8,14 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["out"] = cmdOut
-	lang.GoFunctions["("] = cmdOutNoCR
-	lang.GoFunctions["tout"] = cmdTout
-	lang.GoFunctions["err"] = cmdErr
+	lang.DefineFunction("out", cmdOut, types.String)
+	lang.DefineFunction("(", cmdOutNoCR, types.String)
+	lang.DefineFunction("tout", cmdTout, types.Any)
+	lang.DefineFunction("err", cmdErr, types.Null)
 
 	defaults.AppendProfile(`
 		alias echo=out
+		method echo --in null --out string
 		config eval shell safe-commands {
 			-> alter --merge / ([
 				"echo"
