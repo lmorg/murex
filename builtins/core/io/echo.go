@@ -15,7 +15,10 @@ func init() {
 
 	defaults.AppendProfile(`
 		alias echo=out
-		method echo --in null --out string
+		method define echo {
+			"Stdin": "null",
+			"Stdout": "str"
+		}
 		config eval shell safe-commands {
 			-> alter --merge / ([
 				"echo"

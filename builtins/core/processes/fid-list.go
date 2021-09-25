@@ -21,7 +21,10 @@ func init() {
 		}] }
 
 		alias: jobs=fid-list --jobs
-		method: jobs --in null --out *
+		method: define jobs {
+			"in": "null",
+			"out": "*"
+		}
 		config: eval shell safe-commands { -> append jobs }`)
 }
 

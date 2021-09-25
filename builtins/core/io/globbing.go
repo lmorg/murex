@@ -13,7 +13,7 @@ import (
 )
 
 func init() {
-	lang.DefineFunction("g", cmdLsF, types.Json)
+	lang.DefineFunction("g", cmdLsG, types.Json)
 	lang.DefineFunction("rx", cmdLsRx, types.Json)
 	lang.DefineMethod("f", cmdLsF, types.ReadArray, types.Json)
 }
