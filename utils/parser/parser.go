@@ -55,7 +55,7 @@ type PipeToken int
 const (
 	PipeTokenNone     PipeToken = 0    // No pipe token
 	PipeTokenPosix    PipeToken = iota // `|`  (POSIX style pipe)
-	PipeTokenMurex                     // `->` (murex style pipe)
+	PipeTokenArrow                     // `->` (murex style pipe)
 	PipeTokenGeneric                   // `=>` (reformat to generic)
 	PipeTokenRedirect                  // `?`  (STDERR redirected to STDOUT and vice versa)
 )
@@ -303,7 +303,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
 				if block[i-1] == '-' {
-					pt.PipeToken = PipeTokenMurex
+					pt.PipeToken = PipeTokenArrow
 				} else {
 					pt.PipeToken = PipeTokenGeneric
 				}

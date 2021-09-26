@@ -52,7 +52,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		switch pt.PipeToken {
 		case parser.PipeTokenPosix:
 			act.Items = autocomplete.MatchFunction(prefix, &act)
-		case parser.PipeTokenMurex:
+		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
 			outTypes := lang.MethodStdout.Types(pt.LastFuncName)
 			outTypes = append(outTypes, types.Any)

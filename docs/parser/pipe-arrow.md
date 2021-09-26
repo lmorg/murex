@@ -10,7 +10,12 @@ This token behaves much like pipe would in Bash or similar shells. It passes
 STDOUT along the pipeline while merging STDERR stream with the parents STDERR
 stream.
 
-It is identical in purpose to the `|` pipe token.
+`->` differs from `|` in the interactive terminal where it produces different
+autocompletion suggestion. It returns a list of "methods". That is, commands
+that are known to support the output type of the previous command. `->` helps
+with the discovery of commandline tools.
+
+In shell scripts, `->` and `|` can be used interchangeably.
 
 ## Examples
 
@@ -28,7 +33,7 @@ so `Hello, world!` doesn't get pipelined and thus isn't affected by `regexp`:
 
 ## See Also
 
-* [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
+* [parser/Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

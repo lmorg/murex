@@ -10,12 +10,12 @@ func _() {
 	var x [1]struct{}
 	_ = x[PipeTokenNone-0]
 	_ = x[PipeTokenPosix-1]
-	_ = x[PipeTokenMurex-2]
+	_ = x[PipeTokenArrow-2]
 	_ = x[PipeTokenGeneric-3]
 	_ = x[PipeTokenRedirect-4]
 }
 
-const _PipeToken_name = "PipeTokenNonePipeTokenPosixPipeTokenMurexPipeTokenGenericPipeTokenRedirect"
+const _PipeToken_name = "PipeTokenNonePipeTokenPosixPipeTokenArrowPipeTokenGenericPipeTokenRedirect"
 
 var _PipeToken_index = [...]uint8{0, 13, 27, 41, 57, 74}
 
