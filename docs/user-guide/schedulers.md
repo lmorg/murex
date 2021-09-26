@@ -38,6 +38,8 @@ the pipeline.
 
 * [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [parser/Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
+  Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [user-guide/Pipeline](../user-guide/pipeline.md):
@@ -48,5 +50,3 @@ the pipeline.
   Handles errors inside a block of code
 * [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [parser/pipe-format](../parser/pipe-format.md):
-  

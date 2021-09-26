@@ -61,6 +61,6 @@
   - schedulers
   - parser/pipe-arrow
   - parser/pipe-posix
-  - parser/pipe-format
+  - parser/pipe-generic
   - parser/pipe-err
   - bang-prefix
