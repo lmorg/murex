@@ -18,6 +18,9 @@ func External(p *Process) error {
 		if strings.HasPrefix(err.Error(), "exit status ") {
 			i, _ := strconv.Atoi(strings.Replace(err.Error(), "exit status ", "", 1))
 			p.ExitNum = i
+			if exitStatus(p) {
+				return err
+			}
 		} else {
 			p.Stderr.Writeln([]byte(err.Error()))
 			p.ExitNum = 1
@@ -104,6 +107,14 @@ func forceTTY(p *Process) bool {
 	v, err := p.Config.Get("proc", "force-tty", types.Boolean)
 	if err != nil {
 		return false
+	}
+	return v.(bool)
+}
+
+func exitStatus(p *Process) bool {
+	v, err := p.Config.Get("proc", "exec-exit-status", types.Boolean)
+	if err != nil {
+		return true
 	}
 	return v.(bool)
 }
