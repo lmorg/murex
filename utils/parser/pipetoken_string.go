@@ -11,12 +11,13 @@ func _() {
 	_ = x[PipeTokenNone-0]
 	_ = x[PipeTokenPosix-1]
 	_ = x[PipeTokenMurex-2]
-	_ = x[PipeTokenRedirect-3]
+	_ = x[PipeTokenGeneric-3]
+	_ = x[PipeTokenRedirect-4]
 }
 
-const _PipeToken_name = "PipeTokenNonePipeTokenPosixPipeTokenMurexPipeTokenRedirect"
+const _PipeToken_name = "PipeTokenNonePipeTokenPosixPipeTokenMurexPipeTokenGenericPipeTokenRedirect"
 
-var _PipeToken_index = [...]uint8{0, 13, 27, 41, 58}
+var _PipeToken_index = [...]uint8{0, 13, 27, 41, 57, 74}
 
 func (i PipeToken) String() string {
 	if i < 0 || i >= PipeToken(len(_PipeToken_index)-1) {

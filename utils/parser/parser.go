@@ -56,6 +56,7 @@ const (
 	PipeTokenNone     PipeToken = 0    // No pipe token
 	PipeTokenPosix    PipeToken = iota // `|`  (POSIX style pipe)
 	PipeTokenMurex                     // `->` (murex style pipe)
+	PipeTokenGeneric                   // `=>` (reformat to generic)
 	PipeTokenRedirect                  // `?`  (STDERR redirected to STDOUT and vice versa)
 )
 
@@ -301,7 +302,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i - 1
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
-				pt.PipeToken = PipeTokenMurex
+				if block[i-1] == '-' {
+					pt.PipeToken = PipeTokenMurex
+				} else {
+					pt.PipeToken = PipeTokenGeneric
+				}
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
