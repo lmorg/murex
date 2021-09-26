@@ -15,21 +15,6 @@ const (
 	ReadMap           = "@ReadMap"
 )
 
-// Groups is an array of the group consts
-var Groups = []string{
-	Any,
-	Text,
-	Math,
-	Unmarshal,
-	Marshal,
-	ReadArray,
-	ReadArrayWithType,
-	WriteArray,
-	ReadMap,
-	ReadIndex,
-	ReadNotIndex,
-}
-
 // GroupText is an array of the data types that make up the `text` type
 var GroupText = []string{
 	Generic,

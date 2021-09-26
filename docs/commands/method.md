@@ -11,14 +11,54 @@ and STDOUT.
 
 ## Usage
 
-    method: define name { code-block }
+    method: define name { json }
 
 ## Examples
 
     method: define name {
-        "Stdin": "@Any",
+        "Stdin":  "@Any",
         "Stdout": "json"
     }
+
+## Detail
+
+### Type Groups
+
+You can define a _murex_ data type or use a type group. The following type
+groups are available to use:
+
+```go
+package types
+
+// These are the different supported type groups
+const (
+	Any               = "@Any"
+	Text              = "@Text"
+	Math              = "@Math"
+	Unmarshal         = "@Unmarshal"
+	Marshal           = "@Marshal"
+	ReadArray         = "@ReadArray"
+	ReadArrayWithType = "@ReadArrayWithType"
+	WriteArray        = "@WriteArray"
+	ReadIndex         = "@ReadIndex"
+	ReadNotIndex      = "@ReadNotIndex"
+	ReadMap           = "@ReadMap"
+)
+
+// GroupText is an array of the data types that make up the `text` type
+var GroupText = []string{
+	Generic,
+	String,
+}
+
+// GroupMath is an array of the data types that make up the `math` type
+var GroupMath = []string{
+	Number,
+	Integer,
+	Float,
+	Boolean,
+}
+```
 
 ## See Also
 

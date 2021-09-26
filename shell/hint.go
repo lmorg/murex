@@ -36,7 +36,7 @@ func hintText(line []rune, pos int) []rune {
 
 	pt, _ := parse(line)
 	cmd := pt.FuncName
-	var summary string
+	//var summary string
 
 	/*if pt.ExpectFunc == false {
 		// autocomplete hint
@@ -48,6 +48,19 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	// check if a custom summary has been set
+	r = hintSummary(cmd)
+
+	if len(r) > 0 {
+		r = append(r, []rune("target `"+cmd+"` was not found")...)
+		return r
+	}
+
+	return hintCodeBlock()
+}
+
+func hintSummary(cmd string) (r []rune) {
+	var summary string
+
 	custom := Summary.Get(cmd)
 	if custom != "" {
 		summary = custom
@@ -109,12 +122,7 @@ func hintText(line []rune, pos int) []rune {
 		}
 	}
 
-	if len(r) > 0 {
-		r = append(r, []rune("target `"+cmd+"` was not found")...)
-		return r
-	}
-
-	return hintCodeBlock()
+	return nil
 }
 
 func hintExpandVariables(line []rune) []rune {

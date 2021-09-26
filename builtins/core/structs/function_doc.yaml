@@ -223,17 +223,25 @@
     and STDOUT.
   Usage: |-
     ```
-    method: define name { code-block }
+    method: define name { json }
     ```
   Examples: |-
     ```
     method: define name {
-        "Stdin": "@Any",
+        "Stdin":  "@Any",
         "Stdout": "json"
     }
     ```
   Flags:
-  Detail:
+  Detail: |-
+    ### Type Groups
+
+    You can define a _murex_ data type or use a type group. The following type
+    groups are available to use:
+    
+    ```go
+    {{ include "lang/types/groups.go" }}
+    ```
   Synonyms:
   Related:
   - function

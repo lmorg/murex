@@ -53,17 +53,22 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		case parser.PipeTokenPosix:
 			act.Items = autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenMurex:
+			act.TabDisplayType = readline.TabDisplayList
 			outTypes := lang.MethodStdout.Types(pt.LastFuncName)
 			outTypes = append(outTypes, types.Any)
 			for i := range outTypes {
 				inTypes := lang.MethodStdin.Get(outTypes[i])
 				if len(prefix) == 0 {
 					act.Items = append(act.Items, inTypes...)
+					for j := range inTypes {
+						act.Definitions[inTypes[j]] = string(hintSummary(inTypes[j]))
+					}
 					continue
 				}
 				for j := range inTypes {
 					if strings.HasPrefix(inTypes[j], prefix) {
 						act.Items = append(act.Items, inTypes[j][len(prefix):])
+						act.Definitions[inTypes[j][len(prefix):]] = string(hintSummary(inTypes[j]))
 					}
 				}
 			}
