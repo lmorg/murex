@@ -33,11 +33,14 @@
 
     * External commands return a error message if the exit status is non-zero
       ([issue #299](https://github.com/lmorg/murex/issues/299))
+      
+      <pre><code>» exec: false
+      Error in `exec` (1,1): exit status 1
+      </code></pre>
 
-    <pre><code>
-    » exec false
-    Error in `exec` (1,1): exit status 1
-    </code></pre>
+      This can be disabled in `config`:
+
+      <pre><code>» config: set proc exec-exit-status false</code></pre>
 
     * `runtime` was missing a few flags for reporting supported data types against
       the newer APIs
