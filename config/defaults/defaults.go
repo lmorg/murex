@@ -213,11 +213,11 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
-	c.Define("proc", "exec-exit-status", config.Properties{
+	/*c.Define("proc", "exec-exit-status", config.Properties{
 		Description: "Report the exit status and line number of external commands",
 		Default:     true,
 		DataType:    types.Boolean,
-	})
+	})*/
 
 	// --- test ---
 
