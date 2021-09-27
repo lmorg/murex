@@ -104,13 +104,12 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		}
 
 	default:
-		if len(pt.Parameters) > 0 {
+		autocomplete.InitExeFlags(pt.FuncName)
+		if !pt.ExpectParam && len(act.ParsedTokens.Parameters) > 0 {
 			prefix = pt.Parameters[len(pt.Parameters)-1]
 		}
-		autocomplete.InitExeFlags(pt.FuncName)
 
-		pIndex := 0
-		autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], prefix, pt.FuncName, pt.Parameters, &pIndex, &act)
+		autocomplete.MatchFlags(&act)
 	}
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)

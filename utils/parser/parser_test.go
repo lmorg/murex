@@ -100,6 +100,9 @@ func testParser(t *testing.T, block string, pos int,
 }
 
 func TestParser(t *testing.T) {
+	testParser(t, "out ", 0,
+		false, false, false, false, 0, 0, false, false, "", "out", []string{}, "", parser.PipeTokenNone)
+
 	testParser(t, " out Hello ", 0,
 		false, false, false, false, 0, 0, false, false, "", "out", []string{"Hello"}, "", parser.PipeTokenNone)
 	testParser(t, "  out Hello ", 0,

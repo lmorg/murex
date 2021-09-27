@@ -217,6 +217,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteBrace == 0:
 				ansiColour(hlBraceQuote, block[i])
 				pt.QuoteBrace++
+				if pt.ExpectParam {
+					expectParam()
+				}
 			case pt.ExpectParam:
 				expectParam()
 				fallthrough
@@ -260,8 +263,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.Loc = i
 				pt.ExpectFunc = false
 				readFunc = false
-				pt.Parameters = append(pt.Parameters, "")
-				pt.pop = &pt.Parameters[0]
+				pt.ExpectParam = true
+				//pt.Parameters = append(pt.Parameters, "")
+				//pt.pop = &pt.Parameters[0]
 				pt.Unsafe = isCmdUnsafe(pt.FuncName) || pt.Unsafe
 				ansiReset(block[i])
 			case pt.ExpectFunc:

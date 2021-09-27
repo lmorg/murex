@@ -74,41 +74,6 @@ func MatchFunction(partial string, act *AutoCompleteT) (items []string) {
 	return
 }
 
-/*// MatchFunctionExec returns autocomplete suggestions for executables
-// based on a partial string
-func MatchFunctionExec(partial string, act *AutoCompleteT) (items []string) {
-	switch {
-	case pathIsLocal(partial):
-		items = matchLocal(partial, true)
-		items = append(items, matchDirs(partial, act)...)
-	default:
-		exes := allExecutables(false)
-		items = matchExes(partial, exes, true)
-	}
-	return
-}*/
-
-/*// MatchFunctionFunc returns autocomplete suggestions for functions
-// based on a partial string
-func MatchFunctionFunc(partial string, act *AutoCompleteT) (items []string) {
-	switch {
-	case pathIsLocal(partial):
-		items = matchLocal(partial, true)
-		items = append(items, matchDirs(partial, act)...)
-	default:
-		exes := make(map[string]bool)
-
-		for name := range lang.GoFunctions {
-			exes[name] = true
-		}
-
-		lang.MxFunctions.UpdateMap(exes)
-		lang.GlobalAliases.UpdateMap(exes)
-		items = matchExes(partial, exes, true)
-	}
-	return
-}*/
-
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string
 func MatchVars(partial string) (items []string) {
@@ -125,11 +90,26 @@ func MatchVars(partial string) (items []string) {
 }
 
 // MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, act *AutoCompleteT) int {
-	args := dynamicArgs{
-		exe:    exe,
-		params: params,
+func MatchFlags(act *AutoCompleteT) int {
+	if act.ParsedTokens.ExpectParam || len(act.ParsedTokens.Parameters) == 0 {
+		act.ParsedTokens.Parameters = append(act.ParsedTokens.Parameters, "")
 	}
 
-	return matchFlags(flags, partial, exe, params, pIndex, args, act)
+	args := dynamicArgs{
+		exe:    act.ParsedTokens.FuncName,
+		params: make([]string, len(act.ParsedTokens.Parameters)),
+	}
+	copy(args.params, act.ParsedTokens.Parameters)
+
+	params := make([]string, len(act.ParsedTokens.Parameters))
+	copy(params, act.ParsedTokens.Parameters)
+
+	flags := ExesFlags[act.ParsedTokens.FuncName]
+
+	partial := act.ParsedTokens.Parameters[len(act.ParsedTokens.Parameters)-1]
+	exe := act.ParsedTokens.FuncName
+
+	pIndex := 0
+
+	return matchFlags(flags, partial, exe, params, &pIndex, args, act)
 }
