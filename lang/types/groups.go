@@ -19,6 +19,8 @@ const (
 var GroupText = []string{
 	Generic,
 	String,
+	`generic`,
+	`string`,
 }
 
 // GroupMath is an array of the data types that make up the `math` type
