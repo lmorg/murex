@@ -19,7 +19,14 @@ func newMethods() *methods {
 	return m
 }
 
-func (m *methods) methodExists(cmd, dataType string) int {
+func (m *methods) Exists(cmd, dataType string) int {
+	m.mutex.Lock()
+	i := m.exists(cmd, dataType)
+	m.mutex.Unlock()
+	return i
+}
+
+func (m *methods) exists(cmd, dataType string) int {
 	cmds := m.dt[dataType]
 
 	for i := range cmds {
@@ -37,7 +44,7 @@ func (m *methods) Define(cmd, dataType string) {
 
 	cmds := m.dt[dataType]
 
-	if m.methodExists(cmd, dataType) != -1 {
+	if m.exists(cmd, dataType) != -1 {
 		m.mutex.Unlock()
 		debug.Log("method define", cmd, dataType, "exists")
 		return

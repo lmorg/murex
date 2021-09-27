@@ -54,21 +54,48 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 			act.Items = autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
-			outTypes := lang.MethodStdout.Types(pt.LastFuncName)
-			outTypes = append(outTypes, types.Any)
-			for i := range outTypes {
-				inTypes := lang.MethodStdin.Get(outTypes[i])
+			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) != -1 {
+				// match everything
+				dump := lang.MethodStdout.Dump()
+
 				if len(prefix) == 0 {
-					act.Items = append(act.Items, inTypes...)
-					for j := range inTypes {
-						act.Definitions[inTypes[j]] = string(hintSummary(inTypes[j]))
+					for dt := range dump {
+						act.Items = append(act.Items, dump[dt]...)
+						for i := range dump[dt] {
+							act.Definitions[dump[dt][i]] = string(hintSummary(dump[dt][i]))
+						}
 					}
-					continue
+
+				} else {
+
+					for dt := range dump {
+						for i := range dump[dt] {
+							if strings.HasPrefix(dump[dt][i], prefix) {
+								act.Items = append(act.Items, dump[dt][i][len(prefix):])
+								act.Definitions[dump[dt][i][len(prefix):]] = string(hintSummary(dump[dt][i]))
+							}
+						}
+					}
 				}
-				for j := range inTypes {
-					if strings.HasPrefix(inTypes[j], prefix) {
-						act.Items = append(act.Items, inTypes[j][len(prefix):])
-						act.Definitions[inTypes[j][len(prefix):]] = string(hintSummary(inTypes[j]))
+
+			} else {
+				// match type
+				outTypes := lang.MethodStdout.Types(pt.LastFuncName)
+				outTypes = append(outTypes, types.Any)
+				for i := range outTypes {
+					inTypes := lang.MethodStdin.Get(outTypes[i])
+					if len(prefix) == 0 {
+						act.Items = append(act.Items, inTypes...)
+						for j := range inTypes {
+							act.Definitions[inTypes[j]] = string(hintSummary(inTypes[j]))
+						}
+						continue
+					}
+					for j := range inTypes {
+						if strings.HasPrefix(inTypes[j], prefix) {
+							act.Items = append(act.Items, inTypes[j][len(prefix):])
+							act.Definitions[inTypes[j][len(prefix):]] = string(hintSummary(inTypes[j]))
+						}
 					}
 				}
 			}
