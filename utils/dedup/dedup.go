@@ -18,6 +18,12 @@ func SortAndDedupString(s []string) int {
 
 	sort.Slice(s, func(i, j int) bool {
 		switch {
+		case len(s[i]) == 0:
+			return true
+
+		case len(s[j]) == 0:
+			return false
+
 		case s[i][0] == '-' && s[j][0] != '-':
 			return false
 
