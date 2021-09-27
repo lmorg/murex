@@ -54,7 +54,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 			act.Items = autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
-			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) != -1 {
+			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) {
 				// match everything
 				dump := lang.MethodStdout.Dump()
 

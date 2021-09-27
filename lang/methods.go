@@ -19,11 +19,11 @@ func newMethods() *methods {
 	return m
 }
 
-func (m *methods) Exists(cmd, dataType string) int {
+func (m *methods) Exists(cmd, dataType string) bool {
 	m.mutex.Lock()
 	i := m.exists(cmd, dataType)
 	m.mutex.Unlock()
-	return i
+	return i != -1
 }
 
 func (m *methods) exists(cmd, dataType string) int {

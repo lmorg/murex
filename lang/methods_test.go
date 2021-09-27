@@ -18,9 +18,8 @@ func TestMethodExists(t *testing.T) {
 	m := newMethods()
 
 	cmds := m.dt[t.Name()]
-	i := m.methodExists("1", t.Name())
-	if i != -1 {
-		t.Errorf("methodExists != -1: %d", i)
+	if m.Exists("1", t.Name()) {
+		t.Error("Method exists")
 		t.Logf("  cmds: %s", quickJson(cmds))
 		t.Logf("  m.dt: %s", quickJson(m.dt))
 	}
@@ -30,9 +29,8 @@ func TestMethodExists(t *testing.T) {
 		t.Errorf("m.dt not getting set: %v", quickJson(m.dt))
 	}
 
-	i = m.methodExists("1", t.Name())
-	if i != 0 {
-		t.Errorf("methodExists != 0: %d", i)
+	if !m.Exists("1", t.Name()) {
+		t.Error("Method does not exist")
 		t.Logf("  cmds: %s", quickJson(cmds))
 		t.Logf("  m.dt: %s", quickJson(m.dt))
 	}
@@ -42,9 +40,8 @@ func TestMethodExists(t *testing.T) {
 		t.Errorf("m.dt not getting set: %v", quickJson(m.dt))
 	}
 
-	i = m.methodExists("2", t.Name())
-	if i != 1 {
-		t.Errorf("methodExists != 1: %d", i)
+	if !m.Exists("2", t.Name()) {
+		t.Error("Method does not exist")
 		t.Logf("  cmds: %s", quickJson(cmds))
 		t.Logf("  m.dt: %s", quickJson(m.dt))
 	}
