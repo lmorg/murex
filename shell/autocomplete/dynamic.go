@@ -83,15 +83,15 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		exitNum, err := fork.Execute(block)
 
 		if err != nil {
-			lang.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete code could not compile: " + err.Error()))
+			lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete code could not compile: " + err.Error()))
 		}
 		if exitNum != 0 && debug.Enabled {
-			lang.ShellProcess.Stderr.Writeln([]byte("Dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
+			lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
 		}
 
 		select {
 		case <-hardCtx.Done():
-			act.ErrCallback(fmt.Errorf("Dynamic autocompletion took too long"))
+			act.ErrCallback(fmt.Errorf("dynamic autocompletion took too long"))
 			return
 		default:
 		}
@@ -132,6 +132,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			if timeout {
 				formatSuggestionsArray(act.ParsedTokens, items)
 				act.DelayedTabContext.AppendSuggestions(items)
+				//act.ErrCallback(fmt.Errorf(" ")) // clear slow autocomplete message
 			} else {
 				act.append(items...)
 			}
@@ -169,6 +170,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		}
 
 		done <- true
+		//act.ErrCallback(fmt.Errorf(" ")) // clear slow autocomplete message
 	}()
 
 	select {
@@ -182,7 +184,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 	case <-softCtx.Done():
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
-			act.ErrCallback(fmt.Errorf("Long running dynamic autocompletion pushed to the background"))
+			act.ErrCallback(fmt.Errorf("long running autocompletion pushed to the background"))
 			//act.appendDef("", "")
 			//act.MinTabItemLength = 0
 		}
