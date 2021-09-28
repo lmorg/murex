@@ -12,11 +12,11 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["pt"] = cmdPipeTelemetry
-	lang.GoFunctions[">"] = cmdWriteFile
-	lang.GoFunctions["fwrite"] = cmdWriteFile
-	lang.GoFunctions[">>"] = cmdAppendFile
-	lang.GoFunctions["fappend"] = cmdAppendFile
+	lang.DefineMethod("pt", cmdPipeTelemetry, types.Any, types.Any)
+	lang.DefineMethod(">", cmdWriteFile, types.Any, types.Null)
+	lang.DefineMethod("fwrite", cmdWriteFile, types.Any, types.Null)
+	lang.DefineMethod(">>", cmdAppendFile, types.Any, types.Null)
+	lang.DefineMethod("fwrite", cmdAppendFile, types.Any, types.Null)
 }
 
 func cmdPipeTelemetry(p *lang.Process) error {

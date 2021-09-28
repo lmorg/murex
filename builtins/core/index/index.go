@@ -11,8 +11,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["["] = index
-	lang.GoFunctions["!["] = index
+	lang.DefineMethod("[", index, types.ReadIndex, types.Any)
+	lang.DefineMethod("![", index, types.ReadNotIndex, types.Any)
 
 	config.InitConf.Define("index", "silent", config.Properties{
 		Description: "Don't report error if an index in [ ] does not exist",

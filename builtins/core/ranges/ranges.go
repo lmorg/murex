@@ -6,10 +6,12 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["@["] = cmdRange
+	//lang.GoFunctions["@["] = cmdRange
+	lang.DefineMethod("@[", cmdRange, types.ReadArray, types.WriteArray)
 }
 
 const usage = "\nUsage: @[start..end] / @[start..end]se\n(start or end can be omitted)"

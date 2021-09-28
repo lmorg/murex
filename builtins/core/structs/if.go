@@ -8,8 +8,11 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["if"] = cmdIf
-	lang.GoFunctions["!if"] = cmdIf
+	//lang.GoFunctions["if"] = cmdIf
+	//lang.GoFunctions["!if"] = cmdIf
+
+	lang.DefineMethod("if", cmdIf, types.Any, types.Generic)
+	lang.DefineMethod("!if", cmdIf, types.Any, types.Generic)
 }
 
 const (

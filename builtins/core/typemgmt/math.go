@@ -13,8 +13,11 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["="] = cmdEqu
-	lang.GoFunctions["let"] = cmdLet
+	//lang.GoFunctions["="] = cmdEqu
+	//lang.GoFunctions["let"] = cmdLet
+
+	lang.DefineMethod("=", cmdEqu, types.Math, types.Math)
+	lang.DefineMethod("let", cmdLet, types.Math, types.Null)
 }
 
 var (

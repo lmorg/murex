@@ -79,13 +79,9 @@ func testAutocompleteFlags(t *testing.T, tests []testAutocompleteFlagsT) {
 			ParsedTokens:      pt,
 		}
 
-		var prefix string
-		if len(pt.Parameters) > 0 {
-			prefix = pt.Parameters[len(pt.Parameters)-1]
-		}
+		autocomplete.MatchFlags(&act)
 
-		pIndex := 0
-		autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], prefix, pt.FuncName, pt.Parameters, &pIndex, &act)
+		//fmt.Println(jsonOutput(pt.Parameters))
 
 		if err != nil {
 			t.Errorf("Error in test %d: %s", i, err.Error())
@@ -343,7 +339,7 @@ func TestAutocompleteDynamic(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: fmt.Sprintf(`%s `, t.Name()),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,

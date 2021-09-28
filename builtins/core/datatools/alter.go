@@ -3,11 +3,12 @@ package datatools
 import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/alter"
 )
 
 func init() {
-	lang.GoFunctions["alter"] = cmdAlter
+	lang.DefineMethod("alter", cmdAlter, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
 		autocomplete: set alter { [{

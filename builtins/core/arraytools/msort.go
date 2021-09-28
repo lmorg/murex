@@ -4,10 +4,11 @@ import (
 	"sort"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["msort"] = cmdMSort
+	lang.DefineMethod("msort", cmdMSort, types.ReadArray, types.WriteArray)
 }
 
 func cmdMSort(p *lang.Process) error {

@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/dedup"
+	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -47,21 +48,73 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		if pt.Loc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
-		act.Items = autocomplete.MatchFunction(prefix, &act)
+
+		switch pt.PipeToken {
+		case parser.PipeTokenPosix:
+			act.Items = autocomplete.MatchFunction(prefix, &act)
+		case parser.PipeTokenArrow:
+			act.TabDisplayType = readline.TabDisplayList
+			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) {
+				// match everything
+				dump := lang.MethodStdout.Dump()
+
+				if len(prefix) == 0 {
+					for dt := range dump {
+						act.Items = append(act.Items, dump[dt]...)
+						for i := range dump[dt] {
+							act.Definitions[dump[dt][i]] = string(hintSummary(dump[dt][i]))
+						}
+					}
+
+				} else {
+
+					for dt := range dump {
+						for i := range dump[dt] {
+							if strings.HasPrefix(dump[dt][i], prefix) {
+								act.Items = append(act.Items, dump[dt][i][len(prefix):])
+								act.Definitions[dump[dt][i][len(prefix):]] = string(hintSummary(dump[dt][i]))
+							}
+						}
+					}
+				}
+
+			} else {
+				// match type
+				outTypes := lang.MethodStdout.Types(pt.LastFuncName)
+				outTypes = append(outTypes, types.Any)
+				for i := range outTypes {
+					inTypes := lang.MethodStdin.Get(outTypes[i])
+					if len(prefix) == 0 {
+						act.Items = append(act.Items, inTypes...)
+						for j := range inTypes {
+							act.Definitions[inTypes[j]] = string(hintSummary(inTypes[j]))
+						}
+						continue
+					}
+					for j := range inTypes {
+						if strings.HasPrefix(inTypes[j], prefix) {
+							act.Items = append(act.Items, inTypes[j][len(prefix):])
+							act.Definitions[inTypes[j][len(prefix):]] = string(hintSummary(inTypes[j]))
+						}
+					}
+				}
+			}
+		default:
+			act.Items = autocomplete.MatchFunction(prefix, &act)
+		}
 
 	default:
-		if len(pt.Parameters) > 0 {
+		autocomplete.InitExeFlags(pt.FuncName)
+		if !pt.ExpectParam && len(act.ParsedTokens.Parameters) > 0 {
 			prefix = pt.Parameters[len(pt.Parameters)-1]
 		}
-		autocomplete.InitExeFlags(pt.FuncName)
 
-		pIndex := 0
-		autocomplete.MatchFlags(autocomplete.ExesFlags[pt.FuncName], prefix, pt.FuncName, pt.Parameters, &pIndex, &act)
+		autocomplete.MatchFlags(&act)
 	}
 
 	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
-		v = 4
+		v = 8
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
 
@@ -78,9 +131,6 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 	i := dedup.SortAndDedupString(act.Items)
 	autocomplete.FormatSuggestions(&act)
-	//if len(act.Items) == 1 && act.Items[0] == " " {
-	//	act.Items = []string{}
-	//	delete(act.Definitions, " ")
-	//}
+
 	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
 }

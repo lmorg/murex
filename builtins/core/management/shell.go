@@ -14,8 +14,8 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/json"
@@ -27,7 +27,8 @@ func init() {
 	lang.GoFunctions["source"] = cmdSource
 	lang.GoFunctions["."] = cmdSource
 	lang.GoFunctions["version"] = cmdVersion
-	lang.GoFunctions["murex-parser"] = cmdParser
+	//lang.GoFunctions["murex-parser"] = cmdParser
+	lang.DefineMethod("murex-parser", cmdParser, types.String, types.Json)
 	lang.GoFunctions["summary"] = cmdSummary
 	lang.GoFunctions["!summary"] = cmdBangSummary
 

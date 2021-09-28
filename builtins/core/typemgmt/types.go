@@ -17,8 +17,10 @@ func init() {
 	lang.GoFunctions["null"] = cmdNull
 	lang.GoFunctions["true"] = cmdTrue
 	lang.GoFunctions["false"] = cmdFalse
-	lang.GoFunctions["!"] = cmdNot
-	lang.GoFunctions["cast"] = cmdCast
+	//lang.GoFunctions["!"] = cmdNot
+	lang.DefineMethod("!", cmdCast, types.Any, types.Boolean)
+	//lang.GoFunctions["cast"] = cmdCast
+	lang.DefineMethod("cast", cmdCast, types.Any, types.Any)
 }
 
 func cmdNull(p *lang.Process) error {

@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["len"] = cmdLen
+	lang.DefineMethod("len", cmdLen, types.Unmarshal, types.Integer)
 }
 
 func cmdLen(p *lang.Process) error {

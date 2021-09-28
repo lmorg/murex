@@ -154,6 +154,9 @@
       Lists all aliases
     --builtins: >-
       Lists all builtin commands, compiled into _murex_
+    --methods: >-
+      Lists all commands with a defined STDOUT and STDIN data type. This is used to
+      generate smarter autocompletion suggestions with `->`
     --config: >-
       Lists all properties available to `config`
     --named-pipes: >-
@@ -171,12 +174,16 @@
       Lists all running processes / functions
     --readarray: >-
       Lists all builtin data-types which support ReadArray()
-    --readmap: >-
-      Lists all builtin data-types which support ReadMap()
+    --readarraywithtype: >-
+      Lists all builtin data-types which support ReadArrayWithType()
     --writearray: >-
       Lists all builtin data-types which support WriteArray()
+    --readmap: >-
+      Lists all builtin data-types which support ReadMap()
     --indexes: >-
       Lists all builtin data-types which are supported by index (`[`)
+    --not-indexes: >-
+      Lists all builtin data-types which are supported by index (`![`)
     --marshallers: >-
       Lists all builtin data-types with marshallers (eg required for `format`)
     --unmarshallers: >-
@@ -304,5 +311,6 @@
   - pretty
   - open
   - openagent
+  - method
 
 

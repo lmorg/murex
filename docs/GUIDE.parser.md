@@ -31,7 +31,7 @@ files.
   Initiates or terminates a code block
 * [Double Quote (`"`) Token](parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [Formatted Pipe (`=>`) Token](parser/pipe-format.md):
+* [Generic Pipe (`=>`) Token](parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [POSIX Pipe (`|`) Token](parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

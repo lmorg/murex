@@ -1,12 +1,12 @@
 # _murex_ Shell Docs
 
-## Parser Reference: Formatted Pipe (`=>`) Token
+## Parser Reference: Generic Pipe (`=>`) Token
 
 > Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 
 ## Description
 
-This token behaves much like the `->` pipe would except it injects `format
+This token behaves much like the `|` pipe would except it injects `format
 generic` into the pipeline. The purpose of a formatted pipe is to support
 piping out to external commands which don't support _murex_ data types. For
 example they might expect arrays as lists rather than JSON objects).

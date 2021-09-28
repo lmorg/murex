@@ -73,6 +73,8 @@ There is an order of precedence for which commands are looked up:
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
+* [commands/`method`](../commands/method.md):
+  Define a methods supported data-types
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):

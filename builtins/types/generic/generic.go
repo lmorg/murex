@@ -37,7 +37,7 @@ var rxWhitespace = regexp.MustCompile(`\s+`)
 const (
 	twMinWidth = 0
 	twTabWidth = 0
-	twPadding  = 1
+	twPadding  = 2
 	twPadChar  = ' '
 	twFlags    = 0
 )

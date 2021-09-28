@@ -13,11 +13,16 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["set"] = cmdSet
+	//lang.GoFunctions["set"] = cmdSet
+	lang.DefineMethod("set", cmdSet, types.Any, types.Null)
 	lang.GoFunctions["!set"] = cmdUnset
-	lang.GoFunctions["global"] = cmdGlobal
+
+	//lang.GoFunctions["global"] = cmdGlobal
+	lang.DefineMethod("global", cmdGlobal, types.Any, types.Null)
 	lang.GoFunctions["!global"] = cmdUnglobal
-	lang.GoFunctions["export"] = cmdExport
+
+	//lang.GoFunctions["export"] = cmdExport
+	lang.DefineMethod("export", cmdExport, types.Any, types.Null)
 	lang.GoFunctions["!export"] = cmdUnexport
 	lang.GoFunctions["unset"] = cmdUnexport
 }

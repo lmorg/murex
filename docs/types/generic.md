@@ -16,11 +16,11 @@ executables.
 * `ReadArray()`
     Treats each new line as a new array element
 * `ReadArrayWithType()`
-    Treats each new line as a new array element, each element is `*
+    Treats each new line as a new array element, each element is `*` 
 * `ReadIndex()`
     Indexes treated as table coordinates
 * `ReadMap()`
-    Works against tables such as the output from `ps -fe
+    Works against tables such as the output from `ps -fe` 
 * `ReadNotIndex()`
     Indexes treated as table coordinates
 * `Unmarshal()`

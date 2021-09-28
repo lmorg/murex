@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["history"] = cmdHistory
+	lang.DefineFunction("history", cmdHistory, types.JsonLines)
 	//lang.GoFunctions["history-set-write-pipe"] = cmdHistPipe
 }
 

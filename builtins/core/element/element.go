@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["[["] = element
+	lang.DefineMethod("[[", element, types.Unmarshal, types.Marshal)
 }
 
 func element(p *lang.Process) (err error) {

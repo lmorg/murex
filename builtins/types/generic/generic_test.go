@@ -162,6 +162,6 @@ func TestArrayWriterTab(t *testing.T) {
 		"1\t2\t3",
 	}
 
-	output := "England Scotland Ireland\na       b        c\n1       2        3\n"
+	output := "England  Scotland  Ireland\na        b         c\n1        2         3\n"
 	test.ArrayWriterTest(t, types.Generic, input, output)
 }

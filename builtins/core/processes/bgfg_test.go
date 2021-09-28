@@ -45,7 +45,7 @@ func TestBgFg(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	var p *lang.Process
 	fids := lang.GlobalFIDs.ListAll()

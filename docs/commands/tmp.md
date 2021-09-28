@@ -50,6 +50,7 @@ import (
 
 func init() {
 	lang.GoFunctions["tmp"] = cmdTempFile
+	//lang.DefineFunction("tmp", cmdTempFile, types.Any, types.String)
 }
 
 func cmdTempFile(p *lang.Process) error {

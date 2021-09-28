@@ -10,7 +10,7 @@ This token behaves much like pipe would in Bash or similar shells. It passes
 STDOUT along the pipeline while merging STDERR stream with the parents STDERR
 stream.
 
-It is identical in purpose to the `->` pipe token.
+It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
 
 ## Examples
 
@@ -30,7 +30,7 @@ In this example the first command is writing to STDERR rather than STDOUT so
 
 * [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
+* [parser/Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [user-guide/Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is

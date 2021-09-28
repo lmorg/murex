@@ -15,7 +15,8 @@ import (
 var rxExt = regexp.MustCompile(`(?i)\.([a-z0-9]+)(\.gz)?$`)
 
 func init() {
-	lang.GoFunctions["open"] = open
+	//lang.GoFunctions["open"] = open
+	lang.DefineFunction("open", open, types.Any)
 }
 
 func open(p *lang.Process) (err error) {

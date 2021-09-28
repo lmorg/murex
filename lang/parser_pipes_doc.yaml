@@ -9,7 +9,12 @@
     STDOUT along the pipeline while merging STDERR stream with the parents STDERR
     stream.
 
-    It is identical in purpose to the `|` pipe token.
+    `->` differs from `|` in the interactive terminal where it produces different
+    autocompletion suggestion. It returns a list of "methods". That is, commands
+    that are known to support the output type of the previous command. `->` helps
+    with the discovery of commandline tools.
+
+    In shell scripts, `->` and `|` can be used interchangeably.
   Examples: |-
     ```
     » out: Hello, world! -> regexp: s/world/Earth/
@@ -29,7 +34,7 @@
   Detail: |-
   Related:
   - pipe-posix
-  - pipe-format
+  - pipe-generic
   - pipe-named
   - pipe-err
   - user-guide/pipeline
@@ -74,7 +79,7 @@
   Detail: |-
   Related:
   - pipe-arrow
-  - pipe-format
+  - pipe-generic
   - pipe-named
   - pipe-posix
   - user-guide/pipeline
@@ -83,15 +88,16 @@
   - commands/regexp
 
 
-- DocumentID: pipe-format
+
+- DocumentID: pipe-generic
   Title: >-
-    Formatted Pipe (`=>`) Token
+    Generic Pipe (`=>`) Token
   CategoryID: parser
   Summary: >-
     Pipes a reformatted STDOUT stream from the left hand command to STDIN of the
     right hand command
   Description: |-
-    This token behaves much like the `->` pipe would except it injects `format
+    This token behaves much like the `|` pipe would except it injects `format
     generic` into the pipeline. The purpose of a formatted pipe is to support
     piping out to external commands which don't support _murex_ data types. For
     example they might expect arrays as lists rather than JSON objects).
@@ -140,6 +146,7 @@
   - commands/format
 
 
+
 - DocumentID: pipe-posix
   Title: >-
     POSIX Pipe (`|`) Token
@@ -151,7 +158,7 @@
     STDOUT along the pipeline while merging STDERR stream with the parents STDERR
     stream.
 
-    It is identical in purpose to the `->` pipe token.
+    It can be used interchangeably with the arrow pipe, `->`, in shell scripts.
   Examples: |-
     ```
     » out: Hello, world! | regexp: s/world/Earth/
@@ -175,7 +182,7 @@
   Detail: |-
   Related:
   - pipe-arrow
-  - pipe-format
+  - pipe-generic
   - pipe-named
   - pipe-err
   - user-guide/pipeline
