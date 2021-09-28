@@ -50,8 +50,13 @@ func hintText(line []rune, pos int) []rune {
 	// check if a custom summary has been set
 	r = hintSummary(cmd)
 
+	if pt.ExpectParam && len(r) == 0 {
+		r = append(r, []rune(
+			fmt.Sprintf("%starget `"+cmd+"` was not found%s", ansi.FgRed, ansi.Reset),
+		)...)
+	}
+
 	if len(r) > 0 {
-		r = append(r, []rune("target `"+cmd+"` was not found")...)
 		return r
 	}
 
