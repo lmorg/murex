@@ -144,7 +144,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		// Slow or invisible tab completions shouldn't lock up cursor movement
 		if rl.modeTabCompletion && len(rl.tcSuggestions) == 0 {
-			rl.delayedTabContext.cancel()
+			if rl.delayedTabContext.cancel != nil {
+				rl.delayedTabContext.cancel()
+			}
 			rl.modeTabCompletion = false
 			rl.updateHelpers()
 		}
@@ -204,12 +206,17 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = rl.tcSuggestions
 			}
 
-			if rl.modeTabCompletion /*&& len(suggestions) > 0*/ {
+			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
+				tfLine := rl.tfLine
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
 				rl.renderHelpers()
-				rl.insert([]rune(suggestions[cell]))
+				if len(suggestions) > 0 {
+					rl.insert([]rune(suggestions[cell]))
+				} else {
+					rl.insert(tfLine)
+				}
 				continue
 			}
 			rl.carridgeReturn()
