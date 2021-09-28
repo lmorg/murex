@@ -11,14 +11,14 @@ import (
 // syntax highlighting
 var (
 	hlFunction    = ansi.Bold
-	hlVariable    = ansi.FgGreen
+	hlVariable    = ansi.FgRed
 	hlEscaped     = ansi.FgYellow
 	hlSingleQuote = ansi.FgBlue
 	hlDoubleQuote = ansi.FgBlue
 	hlBraceQuote  = ansi.FgBlue
-	hlBlock       = ansi.BgBlackBright
+	hlBlock       = ansi.Bold
 	hlPipe        = ansi.FgMagenta
-	hlComment     = ansi.BgGreenBright
+	hlComment     = ansi.FgGreen
 	hlError       = ansi.BgRed
 
 	rxAllowedVarChars = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
