@@ -61,7 +61,7 @@ func TestMxProcess(t *testing.T) {
 		{
 			Block: `global: json array = ([0, 1, 2, 3])
 					$array[2]`,
-			Stdout: "2\n",
+			Stdout: "2",
 		},
 
 		{
