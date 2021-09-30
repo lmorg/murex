@@ -43,6 +43,8 @@ func Start() {
 		}
 	}()*/
 
+	//go warmCache()
+
 	var err error
 
 	Interactive = true

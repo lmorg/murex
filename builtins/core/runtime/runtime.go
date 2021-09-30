@@ -15,8 +15,8 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -128,7 +128,7 @@ func cmdRuntime(p *lang.Process) error {
 	}
 
 	if len(f) == 0 {
-		return errors.New("Please include one or more parameters")
+		return errors.New("please include one or more parameters")
 	}
 
 	ret := make(map[string]interface{})
@@ -207,11 +207,11 @@ func cmdRuntime(p *lang.Process) error {
 		case fSources:
 			ret[fSources[2:]] = ref.History.Dump()
 		case fSummaries:
-			ret[fSummaries[2:]] = shell.Summary.Dump()
+			ret[fSummaries[2:]] = hintsummary.Summary.Dump()
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:
-			return errors.New("Unrecognised parameter: " + flag)
+			return errors.New("unrecognised parameter: " + flag)
 		}
 	}
 
