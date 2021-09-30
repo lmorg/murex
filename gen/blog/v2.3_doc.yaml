@@ -38,12 +38,21 @@
       Error in `exec` (1,1): exit status 1
       </code></pre>
 
+    * `Index()` (`[`) now returns a different data type from the root object if the
+      element is a string, integer, float64, boolean or nil ([issue #2316](https://github.com/lmorg/murex/issues/316))
+
     * `runtime` was missing a few flags for reporting supported data types against
       the newer APIs
 
-    * Generic types (`*`) to include two spaces between columns when marshalled
+    * Generic types (`*` / `generic`) to include two spaces between columns when
+      marshalled
 
+    * Syntax highlighter colour tweaks -- no longer using background highlighting
+      because that looks weird and unreadable on some terminal colour schemes
+    
     * Bug fixes to the fast parser
+
+    * Bug fixes to readline merged from `v2.2.1200` ([issue #362](https://github.com/lmorg/murex/issues/362))
 
     ### Non-User Facing / Maintenance Changes
 
