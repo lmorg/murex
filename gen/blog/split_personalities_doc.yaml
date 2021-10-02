@@ -1,6 +1,6 @@
 - DocumentID: split_personalities
   Title: >-
-    The Split Personalities of $SHELL Usage
+    The Split Personalities of Shell Usage
   CategoryID: blog
   DateTime: 2021-10-02 22:42
   Summary: >-
@@ -11,10 +11,13 @@
   Description: |-
     ### A Very Brief History
 
+    ![Thompson (sitting) and Ritchie working together at a PDP-11](/images/blog/split_personalities/thompson.jpg)
+
     In the very early days of UNIX you had the Thompson shell which supported
     pipes, some basic control structures and wildcards. Thompson shell was based
     after the Multics shell, which in turn was inspired from `RUNCOM`. In fact the
     'rc' extension often seen in shell profiles is directly taken from `RUNCOM`.
+    
     It wasn't until a little later that variables were a feature in shells. That
     came with the PWB shell, which was designed to be upwardly-compatible with the
     Thompson shell, supporting Thompson syntax while bringing advancements intended
@@ -28,11 +31,15 @@
     originally external executables and only later rewritten as shell builtins for
     performance reasons. For example running `if` in the shell would originally
     `fork()` the executable `/bin/if` but that quickly became call a builtin
-    function that was part of the shell itself. For this reason, $SHELLs based on
-    that lineage, be it the Bourne shell, Bash or Zsh, all share a scripting syntax
-    which very much feels like it is extended from REPL usage.
+    function that was part of the shell itself.
+    
+    I believe it is these reasons why $SHELLs based on that lineage, be it the
+    Bourne shell, Bash or Zsh, all share a scripting syntax which very much feels
+    like it is extended from REPL usage.
 
     ### Opposing Requirements
+
+    ![Opposing Requirements](/images/blog/split_personalities/conflict.png)
 
     The problem with shell usage is it falls into two contradictory categories
     equally:
@@ -83,6 +90,8 @@
 
     ### The Traditional
 
+    ![The Traditional](/images/blog/split_personalities/old.jpg)
+
     As I've already hinted in the section before, Bourne, Bash, Zsh all fall nicely
     into the first camp. The write-many read-once camp. And that makes sense to me
     when I consider the evolution of those shells. Their heritage does stem from
@@ -105,6 +114,8 @@
     for terse REPLs and lengthier scripts is LISP.
 
     ### The Modern
+
+    ![The Modern](/images/blog/split_personalities/new.jpg)
 
     So how are modern shells addressing these split concerns?
 
@@ -131,9 +142,6 @@
        [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
        ```
 
-       There is no question that Powershell is a more powerful REPL than Bash but
-       it definitely slides towards the "write-once read-many" end of the spectrum.
-
     2. Powershell doesn't play nicely with POSIX. Okay, I'm arguably contradicting
        myself now because earlier I raised this as a benefit. And in many ways it
        is. However if you wish to run Powershell on Linux, which you can do, you
@@ -144,9 +152,12 @@
        many scenarios where my expectations didn't match the practicalities of
        Powershell.
 
-    I will talk more about the second point in another article where I'll discuss
+    (I will talk more about the second point in another article where I'll discuss
     pipelines, data types and the need for modern shells to understand rich data
-    rather than treating everything as a flat stream of bytes.
+    rather than treating everything as a flat stream of bytes)
+
+    There is no question that Powershell is a more powerful REPL than Bash but it
+    definitely slides more towards the "write-once read-many" end of the spectrum.
 
     #### Oil
 
@@ -166,6 +177,8 @@
     across.
 
     #### Murex
+
+    ![Murex](/images/blog/split_personalities/murex.png)
 
     The approach _murex_ takes sits somewhere in between the previous two shells.
     It attempts to retain familiarity with POSIX syntax but isn't afraid to break
