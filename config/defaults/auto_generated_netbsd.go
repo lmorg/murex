@@ -1,3 +1,4 @@
+//go:build netbsd
 // +build netbsd
 
 package defaults
