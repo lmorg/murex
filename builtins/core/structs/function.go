@@ -2,9 +2,11 @@ package structs
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strings"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -17,6 +19,17 @@ func init() {
 	lang.GoFunctions["!function"] = cmdUnfunc
 	lang.GoFunctions["private"] = cmdPrivate
 	//lang.GoFunctions["!private"] = cmdUnprivate
+	lang.GoFunctions["method"] = cmdMethod
+
+	defaults.AppendProfile(`
+	autocomplete set method { [
+		{
+			"FlagsDesc": {
+				"define": "Define method"
+			}
+		}
+	] }
+`)
 }
 
 var rxAlias = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*?)$`)
@@ -125,3 +138,52 @@ func cmdPrivate(p *lang.Process) error {
 
 	return lang.PrivateFunctions.Undefine(name)
 }*/
+
+func cmdMethod(p *lang.Process) error {
+	fn, err := p.Parameters.String(0)
+	if err != nil {
+		return err
+	}
+
+	switch fn {
+	case "define":
+		return cmdMethodDefine(p)
+	default:
+		return fmt.Errorf("Invalid parameter `%s`", fn)
+	}
+}
+
+type methodDefineT struct {
+	Stdin  string
+	Stdout string
+}
+
+func cmdMethodDefine(p *lang.Process) error {
+	name, err := p.Parameters.String(1)
+	if err != nil {
+		return err
+	}
+
+	j, err := p.Parameters.String(2)
+	if err != nil {
+		return err
+	}
+
+	var mdt methodDefineT
+	err = json.UnmarshalMurex([]byte(j), &mdt)
+	if err != nil {
+		return err
+	}
+
+	if mdt.Stdin != "" {
+		lang.MethodStdin.Define(name, mdt.Stdin)
+		lang.MethodStdin.Degroup()
+	}
+
+	if mdt.Stdout != "" {
+		lang.MethodStdout.Define(name, mdt.Stdout)
+		lang.MethodStdout.Degroup()
+	}
+
+	return nil
+}

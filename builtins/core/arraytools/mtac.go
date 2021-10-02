@@ -4,10 +4,11 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["mtac"] = cmdMtac
+	lang.DefineMethod("mtac", cmdMtac, types.Unmarshal, types.Marshal)
 }
 
 func cmdMtac(p *lang.Process) error {

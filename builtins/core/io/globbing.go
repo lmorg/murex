@@ -13,9 +13,9 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["g"] = cmdLsG
-	lang.GoFunctions["rx"] = cmdLsRx
-	lang.GoFunctions["f"] = cmdLsF
+	lang.DefineFunction("g", cmdLsG, types.Json)
+	lang.DefineFunction("rx", cmdLsRx, types.Json)
+	lang.DefineMethod("f", cmdLsF, types.ReadArray, types.Json)
 }
 
 func cmdLsG(p *lang.Process) (err error) {

@@ -8,7 +8,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["formap"] = cmdForMap
+	//lang.GoFunctions["formap"] = cmdForMap
+	lang.DefineMethod("formap", cmdForMap, types.ReadMap, types.Any)
 }
 
 func cmdForMap(p *lang.Process) (err error) {

@@ -77,6 +77,7 @@
   - export
   - exec
   - fexec
+  - method
 
 
 - DocumentID: function
@@ -133,6 +134,7 @@
   - export
   - exec
   - fexec
+  - method
 
 
 - DocumentID: private
@@ -198,7 +200,6 @@
   Related:
   - function
   - alias
-  - private
   - source
   - g
   - let
@@ -207,3 +208,43 @@
   - export
   - exec
   - fexec
+  - method
+
+
+- DocumentID: method
+  Title: >+
+    `method`
+  CategoryID: commands
+  Summary: >-
+    Define a methods supported data-types
+  Description: |-
+    `method` defines what the typical data type would be for a function's STDIN
+    and STDOUT.
+  Usage: |-
+    ```
+    method: define name { json }
+    ```
+  Examples: |-
+    ```
+    method: define name {
+        "Stdin":  "@Any",
+        "Stdout": "json"
+    }
+    ```
+  Flags:
+  Detail: |-
+    ### Type Groups
+
+    You can define a _murex_ data type or use a type group. The following type
+    groups are available to use:
+    
+    ```go
+    {{ include "lang/types/groups.go" }}
+    ```
+  Synonyms:
+  Related:
+  - function
+  - alias
+  - private
+  - autocomplete
+  - runtime

@@ -9,6 +9,7 @@ import (
 // FormatSuggestions applies some loose formatting rules to auto-completion
 // suggestions
 func FormatSuggestions(act *AutoCompleteT) {
+	//sortCompletions(act.Items)
 	formatSuggestionsArray(act.ParsedTokens, act.Items)
 	formatSuggestionsMap(act.ParsedTokens, &act.Definitions)
 }
@@ -33,6 +34,7 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 			items[i] = strings.Replace(items[i], `|`, `\|`, -1)
 			items[i] = strings.Replace(items[i], `?`, `\?`, -1)
 			items[i] = strings.Replace(items[i], `->`, `-\>`, -1)
+			items[i] = strings.Replace(items[i], `#`, `\#`, -1)
 
 			if items[i][len(items[i])-1] != ' ' &&
 				items[i][len(items[i])-1] != '=' &&
@@ -42,7 +44,6 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 				items[i] += " "
 			}
 		}
-
 	}
 }
 
@@ -73,6 +74,7 @@ func formatSuggestionsMap(pt parser.ParsedTokens, definitions *map[string]string
 			newKey = strings.Replace(newKey, `|`, `\|`, -1)
 			newKey = strings.Replace(newKey, `?`, `\?`, -1)
 			newKey = strings.Replace(newKey, `->`, `-\>`, -1)
+			newKey = strings.Replace(newKey, `#`, `\#`, -1)
 
 			if newKey[len(newKey)-1] != ' ' &&
 				newKey[len(newKey)-1] != '=' &&

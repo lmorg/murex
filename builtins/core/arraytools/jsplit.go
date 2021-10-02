@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["jsplit"] = cmdJsplit
+	lang.DefineMethod("jsplit", cmdJsplit, types.Text, types.Json)
 }
 
 func cmdJsplit(p *lang.Process) error {

@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["config"] = cmdConfig
-	lang.GoFunctions["!config"] = bangConfig
+	lang.DefineFunction("config", cmdConfig, types.Any)
+	lang.DefineFunction("!config", bangConfig, types.Null)
 }
 
 func cmdConfig(p *lang.Process) error {

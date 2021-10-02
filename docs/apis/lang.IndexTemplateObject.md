@@ -61,6 +61,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/lang/types"
 )
 
 // IndexTemplateObject is a handy standard indexer you can use in your custom data types for structured object types.
@@ -83,7 +85,7 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 				return err
 			}
 			if i < 0 {
-				//return errors.New("Cannot have negative keys in array")
+				//return errors.New("cannot have negative keys in array")
 				i = len(v) + i
 			}
 			if i >= len(v) {
@@ -95,7 +97,25 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 
 			} else {
 				switch v[i].(type) {
+				case nil:
+					p.Stdout.SetDataType(types.Null)
+				case bool:
+					p.Stdout.SetDataType(types.Boolean)
+					if v[i].(bool) {
+						p.Stdout.Write(types.TrueByte)
+					} else {
+						p.Stdout.Write(types.FalseByte)
+					}
+				case int:
+					p.Stdout.SetDataType(types.Integer)
+					s := strconv.Itoa(v[i].(int))
+					p.Stdout.Write([]byte(s))
+				case float64:
+					p.Stdout.SetDataType(types.Number)
+					s := types.FloatToString(v[i].(float64))
+					p.Stdout.Write([]byte(s))
 				case string:
+					p.Stdout.SetDataType(types.String)
 					p.Stdout.Write([]byte(v[i].(string)))
 				default:
 					b, err := marshaller(v[i])
@@ -136,7 +156,25 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 
 			} else {
 				switch v[params[i]].(type) {
+				case nil:
+					p.Stdout.SetDataType(types.Null)
+				case bool:
+					p.Stdout.SetDataType(types.Boolean)
+					if v[params[i]].(bool) {
+						p.Stdout.Write(types.TrueByte)
+					} else {
+						p.Stdout.Write(types.FalseByte)
+					}
+				case int:
+					p.Stdout.SetDataType(types.Integer)
+					s := strconv.Itoa(v[params[i]].(int))
+					p.Stdout.Write([]byte(s))
+				case float64:
+					p.Stdout.SetDataType(types.Number)
+					s := types.FloatToString(v[params[i]].(float64))
+					p.Stdout.Write([]byte(s))
 				case string:
+					p.Stdout.SetDataType(types.String)
 					p.Stdout.Write([]byte(v[params[i]].(string)))
 				default:
 					b, err := marshaller(v[params[i]])
@@ -172,7 +210,7 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 			//case v[strings.ToTitle(params[i])] != nil:
 			//	params[i] = strings.ToTitle(params[i])
 			default:
-				return errors.New("Key '" + params[i] + "' not found")
+				return errors.New("key '" + params[i] + "' not found")
 			}
 
 			if len(params) > 1 {
@@ -180,7 +218,25 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 
 			} else {
 				switch v[params[i]].(type) {
+				case nil:
+					p.Stdout.SetDataType(types.Null)
+				case bool:
+					p.Stdout.SetDataType(types.Boolean)
+					if v[params[i]].(bool) {
+						p.Stdout.Write(types.TrueByte)
+					} else {
+						p.Stdout.Write(types.FalseByte)
+					}
+				case int:
+					p.Stdout.SetDataType(types.Integer)
+					s := strconv.Itoa(v[params[i]].(int))
+					p.Stdout.Write([]byte(s))
+				case float64:
+					p.Stdout.SetDataType(types.Number)
+					s := types.FloatToString(v[params[i]].(float64))
+					p.Stdout.Write([]byte(s))
 				case string:
+					p.Stdout.SetDataType(types.String)
 					p.Stdout.Write([]byte(v[params[i]].(string)))
 				default:
 					b, err := marshaller(v[params[i]])
@@ -201,7 +257,7 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 		return nil
 
 	default:
-		return errors.New("Object cannot be indexed")
+		return errors.New("object cannot be indexed")
 	}
 }
 
@@ -217,7 +273,7 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 				return err
 			}
 			if i < 0 {
-				return errors.New("Cannot have negative keys in array")
+				return errors.New("cannot have negative keys in array")
 			}
 			if i >= len(v) {
 				return errors.New("Key '" + key + "' greater than number of items in array")
@@ -295,7 +351,7 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 		return nil
 
 	default:
-		return errors.New("Object cannot be !indexed")
+		return errors.New("object cannot be !indexed")
 	}
 }
 ```

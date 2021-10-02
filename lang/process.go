@@ -33,6 +33,12 @@ var (
 	// GoFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 
+	// MethodStdin is a table of all the different commands that can be used as methods
+	MethodStdin = newMethods()
+
+	// MethodStdout is a table of all the different output formats supported by a given command (by default)
+	MethodStdout = newMethods()
+
 	// GlobalVariables is a table of global variables
 	GlobalVariables = NewGlobals()
 
@@ -54,6 +60,17 @@ var (
 	// ShellExitNum is for when running murex in interactive shell mode
 	ShellExitNum int
 )
+
+func DefineMethod(name string, fn func(*Process) error, StdinDataType, StdoutDataType string) {
+	GoFunctions[name] = fn
+	MethodStdin.Define(name, StdinDataType)
+	MethodStdout.Define(name, StdoutDataType)
+}
+
+func DefineFunction(name string, fn func(*Process) error, StdoutDataType string) {
+	GoFunctions[name] = fn
+	MethodStdout.Define(name, StdoutDataType)
+}
 
 var (
 	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)

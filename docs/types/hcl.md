@@ -70,6 +70,8 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
     Supported via a JSON marshaller because HCL is designed to be written by humans but "compiled" into JSON
 * `ReadArray()`
     Works with HCL arrays. Maps are converted into arrays
+* `ReadArrayWithType()`
+    Works with HCL arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the HCL type of the element
 * `ReadIndex()`
     Works against all properties in HCL
 * `ReadMap()`

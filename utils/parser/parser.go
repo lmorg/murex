@@ -1,5 +1,7 @@
 package parser
 
+//go:generate stringer -type=PipeToken
+
 import (
 	"regexp"
 
@@ -9,14 +11,14 @@ import (
 // syntax highlighting
 var (
 	hlFunction    = ansi.Bold
-	hlVariable    = ansi.FgGreen
+	hlVariable    = ansi.FgRed
 	hlEscaped     = ansi.FgYellow
 	hlSingleQuote = ansi.FgBlue
 	hlDoubleQuote = ansi.FgBlue
 	hlBraceQuote  = ansi.FgBlue
-	hlBlock       = ansi.BgBlackBright
+	hlBlock       = ansi.Bold
 	hlPipe        = ansi.FgMagenta
-	hlComment     = ansi.BgGreenBright
+	hlComment     = ansi.FgGreen
 	hlError       = ansi.BgRed
 
 	rxAllowedVarChars = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
@@ -36,13 +38,28 @@ type ParsedTokens struct {
 	NestedBlock   int
 	SquareBracket bool
 	ExpectFunc    bool
+	ExpectParam   bool
 	pop           *string
+	LastFuncName  string
 	FuncName      string
 	Parameters    []string
 	Variable      string
 	Unsafe        bool // if the pipeline is estimated to be safe enough to dynamically preview
 	LastFlowToken int
+	PipeToken     PipeToken
 }
+
+// PipeToken stores an interger value for the pipe token used in a pipeline
+type PipeToken int
+
+// These are different pipe tokens
+const (
+	PipeTokenNone     PipeToken = 0    // No pipe token
+	PipeTokenPosix    PipeToken = iota // `|`  (POSIX style pipe)
+	PipeTokenArrow                     // `->` (murex style pipe)
+	PipeTokenGeneric                   // `=>` (reformat to generic)
+	PipeTokenRedirect                  // `?`  (STDERR redirected to STDOUT and vice versa)
+)
 
 // Parse a single line of code and return the tokens for a selected command
 func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
@@ -88,6 +105,20 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	}
 
 	var i int
+
+	expectParam := func() {
+		pt.ExpectParam = false
+		pt.Parameters = append(pt.Parameters, "")
+		pt.pop = &pt.Parameters[len(pt.Parameters)-1]
+		//syntaxHighlighted += string(block[i])
+	}
+
+	escaped := func() {
+		pt.Escaped = false
+		*pt.pop += string(block[i])
+		ansiReset(block[i])
+	}
+
 	for i = range block {
 		if !pt.Escaped {
 			pt.LastCharacter = block[i]
@@ -103,12 +134,12 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `#`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0, pt.NestedBlock > 0:
 				*pt.pop += `#`
 				syntaxHighlighted += string(block[i])
+			case pt.ExpectParam:
+				fallthrough
 			default:
 				pt.Comment = true
 				syntaxHighlighted += hlComment + string(block[i:]) + ansi.Reset
@@ -117,13 +148,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 
 		case '\\':
 			switch {
-			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `\`
-				ansiReset(block[i])
-			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+			case pt.QuoteSingle, pt.QuoteBrace > 0:
 				*pt.pop += `\`
 				syntaxHighlighted += string(block[i])
+			case pt.Escaped:
+				escaped()
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				pt.Escaped = true
 				ansiColour(hlEscaped, block[i])
@@ -133,15 +165,16 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `'`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += `'`
 				syntaxHighlighted += string(block[i])
 			case pt.QuoteSingle:
 				pt.QuoteSingle = false
 				ansiReset(block[i])
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				pt.QuoteSingle = true
 				ansiColour(hlSingleQuote, block[i])
@@ -151,15 +184,16 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `"`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteBrace > 0:
 				*pt.pop += `"`
 				syntaxHighlighted += string(block[i])
 			case pt.QuoteDouble:
 				pt.QuoteDouble = false
 				ansiReset(block[i])
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				pt.QuoteDouble = true
 				ansiColour(hlDoubleQuote, block[i])
@@ -169,9 +203,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `(`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble:
 				*pt.pop += `(`
 				syntaxHighlighted += string(block[i])
@@ -185,6 +217,12 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteBrace == 0:
 				ansiColour(hlBraceQuote, block[i])
 				pt.QuoteBrace++
+				if pt.ExpectParam {
+					expectParam()
+				}
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				*pt.pop += `(`
 				syntaxHighlighted += string(block[i])
@@ -195,9 +233,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `)`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble:
 				*pt.pop += `)`
 				syntaxHighlighted += string(block[i])
@@ -207,6 +243,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteBrace == 0:
 				ansiColour(hlError, block[i])
 				pt.QuoteBrace--
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				*pt.pop += `)`
 				syntaxHighlighted += string(block[i])
@@ -216,9 +255,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		case ' ':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += ` `
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += ` `
 				syntaxHighlighted += string(block[i])
@@ -226,8 +263,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.Loc = i
 				pt.ExpectFunc = false
 				readFunc = false
-				pt.Parameters = append(pt.Parameters, "")
-				pt.pop = &pt.Parameters[0]
+				pt.ExpectParam = true
+				//pt.Parameters = append(pt.Parameters, "")
+				//pt.pop = &pt.Parameters[0]
 				pt.Unsafe = isCmdUnsafe(pt.FuncName) || pt.Unsafe
 				ansiReset(block[i])
 			case pt.ExpectFunc:
@@ -241,17 +279,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				syntaxHighlighted += " "
 			default:
 				pt.Loc = i
-				pt.Parameters = append(pt.Parameters, "")
-				pt.pop = &pt.Parameters[len(pt.Parameters)-1]
 				syntaxHighlighted += string(block[i])
+				pt.ExpectParam = true
 			}
 
 		case ':':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `:`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += `:`
 				syntaxHighlighted += string(block[i])
@@ -273,8 +308,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		case '>':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += ` `
 				syntaxHighlighted += string(block[i])
@@ -286,8 +320,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i - 1
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
+				if block[i-1] == '-' {
+					pt.PipeToken = PipeTokenArrow
+				} else {
+					pt.PipeToken = PipeTokenGeneric
+				}
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
 				//ansiColour(hlPipe, '-')
@@ -303,13 +343,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				syntaxHighlighted += string(block[i])
 			}
 
-		case ';', '|':
+		case '|':
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += string(block[i])
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -320,8 +358,34 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenPosix
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
+				pt.Parameters = make([]string, 0)
+				ansiChar(hlPipe, block[i])
+				syntaxHighlighted += hlFunction
+			}
+
+		case ';':
+			pt.Loc = i
+			switch {
+			case pt.Escaped:
+				escaped()
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+			default:
+				if pos != 0 && pt.Loc >= pos {
+					return
+				}
+				pt.LastFlowToken = i
+				pt.ExpectFunc = true
+				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenNone
+				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
 				syntaxHighlighted += hlFunction
@@ -331,9 +395,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += string(block[i])
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -344,8 +406,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i
 				pt.Unsafe = true
 				pt.ExpectFunc = true
+				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
 				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
 				syntaxHighlighted += hlFunction
@@ -355,9 +420,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `?`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += `?`
 				syntaxHighlighted += string(block[i])
@@ -368,7 +431,10 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFlowToken = i
 				pt.ExpectFunc = true
 				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenRedirect
 				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				pt.Unsafe = true
 				ansiChar(hlPipe, block[i])
@@ -382,15 +448,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.Loc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `{`
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += `{`
 				syntaxHighlighted += string(block[i])
 			default:
 				pt.NestedBlock++
 				pt.ExpectFunc = true
+				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
 				pt.Parameters = make([]string, 0)
 				//pt.Unsafe = true
@@ -400,10 +465,8 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		case '}':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += `}`
-				ansiReset(block[i])
-			case pt.Escaped, pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+				escaped()
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
 				*pt.pop += `}`
 				syntaxHighlighted += string(block[i])
 			default:
@@ -418,8 +481,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		case '[':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				ansiReset(block[i])
+				escaped()
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -440,8 +502,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		case ']':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				ansiReset(block[i])
+				escaped()
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -459,9 +520,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.VarLoc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += string(block[i])
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -476,9 +535,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.VarLoc = i
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				*pt.pop += string(block[i])
-				ansiReset(block[i])
+				escaped()
 			case pt.QuoteSingle:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -497,8 +554,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		case '<':
 			switch {
 			case pt.Escaped:
-				pt.Escaped = false
-				ansiReset(block[i])
+				escaped()
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -517,6 +573,19 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.Escaped:
 				pt.Escaped = false
 				ansiReset(block[i])
+				switch block[i] {
+				case 'r':
+					*pt.pop = "\r"
+				case 'n':
+					*pt.pop = "\n"
+				case 's':
+					*pt.pop = " "
+				case 't':
+					*pt.pop = "\t"
+				default:
+					*pt.pop = string(block[i])
+				}
+				//syntaxHighlighted += string(block[i])
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
@@ -524,6 +593,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				*pt.pop = string(block[i])
 				readFunc = true
 				syntaxHighlighted += string(block[i])
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])

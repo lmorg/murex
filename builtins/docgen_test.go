@@ -69,6 +69,7 @@ func init() {
 		"man-summary":           "man-summary_commands_docgen.go",
 		"map":                   "map_commands_docgen.go",
 		"match":                 "match_commands_docgen.go",
+		"method":                "method_commands_docgen.go",
 		"msort":                 "msort_commands_docgen.go",
 		"mtac":                  "mtac_commands_docgen.go",
 		"murex-docs":            "murex-docs_commands_docgen.go",

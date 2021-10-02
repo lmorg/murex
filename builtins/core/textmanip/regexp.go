@@ -8,13 +8,19 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["match"] = cmdMatch
-	lang.GoFunctions["!match"] = cmdMatch
-	lang.GoFunctions["regexp"] = cmdRegexp
-	lang.GoFunctions["!regexp"] = cmdRegexp
+	//lang.GoFunctions["match"] = cmdMatch
+	//lang.GoFunctions["!match"] = cmdMatch
+	//lang.GoFunctions["regexp"] = cmdRegexp
+	//lang.GoFunctions["!regexp"] = cmdRegexp
+
+	lang.DefineMethod("match", cmdMatch, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("!match", cmdMatch, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("regexp", cmdRegexp, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("!regexp", cmdRegexp, types.ReadArray, types.WriteArray)
 }
 
 func cmdMatch(p *lang.Process) error {

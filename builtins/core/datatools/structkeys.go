@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["struct-keys"] = cmdStructKeys
+	lang.DefineMethod("struct-keys", cmdStructKeys, types.Unmarshal, types.Json)
 }
 
 func cmdStructKeys(p *lang.Process) error {

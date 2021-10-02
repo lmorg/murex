@@ -16,7 +16,7 @@ func TestVarSelf(t *testing.T) {
 				}
 				TestVarSelf
 			`,
-			Stdout: "false\n",
+			Stdout: "false",
 		},
 
 		// Method
@@ -27,7 +27,7 @@ func TestVarSelf(t *testing.T) {
 				}
 				TestVarSelf
 			`,
-			Stdout: "false\n",
+			Stdout: "false",
 		},
 		{
 			Block: `
@@ -36,7 +36,7 @@ func TestVarSelf(t *testing.T) {
 				}
 				out foobar -> TestVarSelf
 			`,
-			Stdout: "true\n",
+			Stdout: "true",
 		},
 
 		// Not
@@ -47,7 +47,7 @@ func TestVarSelf(t *testing.T) {
 				}
 				TestVarSelf
 			`,
-			Stdout: "false\n",
+			Stdout: "false",
 		},
 		{
 			Block: `
@@ -56,7 +56,7 @@ func TestVarSelf(t *testing.T) {
 				}
 				!TestVarSelf
 			`,
-			Stdout: "true\n",
+			Stdout: "true",
 		},
 
 		// Background
@@ -67,7 +67,7 @@ func TestVarSelf(t *testing.T) {
 				}
 				TestVarSelf
 			`,
-			Stdout: "false\n",
+			Stdout: "false",
 		},
 		{
 			Block: `
@@ -77,7 +77,7 @@ func TestVarSelf(t *testing.T) {
 				bg { TestVarSelf }
 				sleep 1
 			`,
-			Stdout: "true\n",
+			Stdout: "true",
 		},
 	}
 

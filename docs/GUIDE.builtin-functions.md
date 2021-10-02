@@ -171,6 +171,8 @@ to return the same markdown-formatted document as those listed below. eg
   Creates a map from two data sources
 * [`match`](commands/match.md):
   Match an exact value in an array
+* [`method`](commands/method.md):
+  Define a methods supported data-types
 * [`msort` ](commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](commands/mtac.md):

@@ -10,10 +10,9 @@ _murex_ is a shell, like bash / zsh / fish / etc. It follows a similar syntax
 to POSIX shells like Bash however supports more advanced features than you'd
 typically expect from a $SHELL.
 
-It aims to be similar enough to traditional
-shells that you can retain most of your muscle memory, while not
-being afraid to make breaking changes where "bash-isms" lead to unreadable,
-hard to maintain, or unsafe code.
+It aims to be similar enough to traditional shells that you can retain most of
+your muscle memory, while not being afraid to make breaking changes where
+"bash-isms" lead to unreadable, hard to maintain, or unsafe code.
 
 _murex_ is designed for DevOps productivity so it isn't suited for high
 performance workloads beyond what you'd typically run in Bash (eg pipelines
@@ -21,38 +20,45 @@ forked as concurrent processes).
 
 A non-exhaustive list features would include:
 
-* Testing frameworks baked right into the language itself
-* Smarter handling of errors (for example try/catch blocks, line numbers
-  included in error messages, errors optionally highlighted in red, etc)
 * Support for typed pipelines - which can be used to work with complex data
   formats like JSON natively. But also the ability to override or even ignore
-  typed data entirely so it works transparently with standard UNIX tools too
-* Lots of data-mangling tools baked into the shell
-* Parses man pages for a richer user experience
-* In-line spell checking
-* Optional support for event-driven programming
-* Plus every aspect of the shell is easily extendable, inspectable and can
-  be managed via _murex_'s own package manager
+  typed data entirely so it works transparently with standard UNIX tools too.
+  This means you can use a common set of commands for manipulating any form of
+  data file.
 
-The language employs a relatively simple syntax modelled loosely on functional
-and stack-based programming paradigms (albeit without the LISP-style nested
-parentheses that scare a lot of developers) while maintaining compatibility
-with POSIX-like shells (eg Bash) wherever sensible. For example, a program
-structure could look like the following:
+* Usability improvements such as a smarter `readline` API, in-line spell
+  checking, hint text detailing a commands behavior before you hit return, and auto-parsing man pages for auto-completions on commands that don't have any
+  auto-completion config set.
+  
+* Smarter handling of errors, for example try/catch blocks, line numbers
+  included in error messages, errors optionally highlighted in red, etc.
 
-    command | command | [ index ] | if { command }
+* Script testing and debugging frameworks baked right into the language itself.
+  Which makes it easier to write, maintain and fix shell scripts.
 
-However where _murex_ differs is that, while the pipe token, `|` is supported
-for compatibility with existing shells, _murex_ idioms prefer `->` used for
-readability as it clearly demonstrates the direction of the data flow. eg
+## Type system
 
-    command -> command -> [ index ] -> if { command }
+_murex_ supports multiple data types natively; such as JSON, YAML, CSV, 
+S-Expressions and even loosely tabulated terminal output (eg `ps`, `ls -l`).
+This makes passing data through the pipeline and parsing output easier when
+dealing with more complex arrangements of data.
 
-The language supports multiple data types natively; such as JSON, YAML,
-CSV, S-Expressions and even loosely tabulated terminal output (eg
-`ps`, `ls -l`). This makes passing data through the pipeline and
-parsing output easier when dealing with more complex arrangements of
-data than a simple byte stream in traditional shells like Bash.
+For example a traditional pipeline might look like the following:
+
+    curl -s https://api.github.com/repos/lmorg/murex/issues | jq -r  '.[] | [(.number|tostring), .title] | join(": ")'
+
+Because traditional shells send everything as dumb byte streams, working with
+any structured data means learning a multitude of additional languages like
+`awk`, `sed`, `tr`, `Perl`, `jq` and so on and so forth.
+
+The same pipeline in _murex_ might look like the following:
+
+    open https://api.github.com/repos/lmorg/murex/issues -> foreach issue { out "$issue[number]: $issue[title]" }
+
+The aims of _murex_ is to create a single consistant language that can work for
+any data structure, be readable but also as terse and quick to write as Bash.
+
+A big part of that ambition is realized via the interactive shell.
 
 ## Interactive shell
 
@@ -79,6 +85,28 @@ library:
 * readline’s warning before pasting multiple lines of data into the buffer and
   the preview option that’s available as part of the aforementioned warning
 * and VIM keys (enabled by pressing `[ESC]`)
+
+## Pipe tokens: `->` vs `|`
+
+_murex_ supports multiple different pipe tokens. The main two being `|` and
+`->`.
+
+* `|` works exactly the same as in any normal shell
+
+* `->` displays all of the supported methods (commands that support the output
+  of the previous command). Think of it a little like object orientated
+  programming where an object will have functions (methods) attached.
+
+In _murex_ scripts you can use `|` and `->` interchangeably, so there's no need
+to remember which commands are methods and which are not. The difference only
+applies in the interactive shell where `->` can be used with tab-autocompletion
+to display a shortlist of supported functions that can manipulate the data from
+the previous command. It's purely a clue to the parser to generate different
+autocompletion suggestions to help with your discovery of different commandline
+tools.
+
+You can [read more about the _murex_ parser](/docs/GUIDE.parser.md) and the
+different supported tokens in the [docs](https://murex.rocks/).
 
 ## Concise yet predictable
 

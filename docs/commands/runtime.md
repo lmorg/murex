@@ -167,10 +167,14 @@ flag names. eg
     Lists all builtin data-types with marshallers (eg required for `format`)
 * `--memstats`
     Outputs the running state of Go's runtime
+* `--methods`
+    Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->
 * `--modules`
     Lists all installed modules
 * `--named-pipes`
     Lists all named pipes defined
+* `--not-indexes`
+    Lists all builtin data-types which are supported by index (`![`)
 * `--open-agents`
     Lists all registered `open` handlers 
 * `--pipes`
@@ -179,6 +183,8 @@ flag names. eg
     Lists all _murex_ private functions
 * `--readarray`
     Lists all builtin data-types which support ReadArray()
+* `--readarraywithtype`
+    Lists all builtin data-types which support ReadArrayWithType()
 * `--readmap`
     Lists all builtin data-types which support ReadMap()
 * `--sources`
@@ -304,6 +310,8 @@ functions.
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
+* [commands/`method`](../commands/method.md):
+  Define a methods supported data-types
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler
 * [commands/`openagent`](../commands/openagent.md):

@@ -14,10 +14,10 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/parser"
 )
@@ -27,7 +27,8 @@ func init() {
 	lang.GoFunctions["source"] = cmdSource
 	lang.GoFunctions["."] = cmdSource
 	lang.GoFunctions["version"] = cmdVersion
-	lang.GoFunctions["murex-parser"] = cmdParser
+	//lang.GoFunctions["murex-parser"] = cmdParser
+	lang.DefineMethod("murex-parser", cmdParser, types.String, types.Json)
 	lang.GoFunctions["summary"] = cmdSummary
 	lang.GoFunctions["!summary"] = cmdBangSummary
 
@@ -42,7 +43,7 @@ func cmdArgs(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Boolean)
 
 	if p.Parameters.Len() != 2 {
-		return errors.New("Invalid parameters. Usage: args var_name { json }")
+		return errors.New("invalid parameters. Usage: args var_name { json }")
 	}
 
 	varName, _ := p.Parameters.String(0)
@@ -160,7 +161,7 @@ func cmdVersion(p *lang.Process) error {
 		p.Stdout.SetDataType(types.Number)
 		num := rxVersionNum.FindStringSubmatch(app.Version)
 		if len(num) != 1 {
-			return errors.New("Unable to extract version number from string")
+			return errors.New("unable to extract version number from string")
 		}
 		_, err := p.Stdout.Write([]byte(num[0]))
 		return err
@@ -187,7 +188,7 @@ func cmdVersion(p *lang.Process) error {
 		return err
 
 	default:
-		return fmt.Errorf("Not a valid parameter: %s", s)
+		return fmt.Errorf("not a valid parameter: %s", s)
 	}
 
 }
@@ -259,7 +260,7 @@ func cmdSummary(p *lang.Process) error {
 		return err
 	}
 
-	shell.Summary.Set(exe, summary)
+	hintsummary.Summary.Set(exe, summary)
 
 	return nil
 }
@@ -272,5 +273,5 @@ func cmdBangSummary(p *lang.Process) error {
 		return err
 	}
 
-	return shell.Summary.Delete(exe)
+	return hintsummary.Summary.Delete(exe)
 }

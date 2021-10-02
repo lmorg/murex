@@ -29,7 +29,7 @@ func TestBg(t *testing.T) {
 
 func TestBgFg(t *testing.T) {
 	count.Tests(t, 2)
-	sleep := 7
+	sleep := 10
 	block := fmt.Sprintf(`bg { sleep %d }`, sleep)
 
 	lang.InitEnv()
@@ -45,7 +45,7 @@ func TestBgFg(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	var p *lang.Process
 	fids := lang.GlobalFIDs.ListAll()
@@ -92,7 +92,7 @@ next:
 		t.Logf("  Error:    %v", err)
 	}
 
-	time.Sleep(2 * time.Second)
+	time.Sleep(4 * time.Second)
 
 	if p.Background.Get() {
 		t.Fatalf("`sleep %d` hasn't been set to foreground: p.Background == %v", sleep, p.Background.Get())

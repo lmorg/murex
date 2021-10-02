@@ -54,6 +54,7 @@
     See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
   Hooks:
     ReadArray(): Works with HCL arrays. Maps are converted into arrays
+    ReadArrayWithType(): Works with HCL arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the HCL type of the element
     ReadMap(): Works with HCL maps
     WriteArray(): Works with HCL arrays
     ReadIndex(): Works against all properties in HCL
