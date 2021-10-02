@@ -6,6 +6,11 @@ Collection of _murex_ related documents and personal thoughts.
 
 ## Articles
 
+### 02.10.2021 - [The Split Personalities of $SHELL Usage](blog/split_personalities.md)
+
+> Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
+
+
 ### 26.09.2021 - [What's new in murex v2.3](blog/v2.3.md)
 
 > This release includes significant changes to the interactive terminal
