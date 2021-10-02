@@ -2,16 +2,16 @@ package lang
 
 import (
 	"context"
-	"errors"
-	"os/exec"
+	"fmt"
 	"sync"
 	"time"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/parameters"
-	"github.com/lmorg/murex/lang/proc/runmode"
-	"github.com/lmorg/murex/lang/proc/state"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/runmode"
+	"github.com/lmorg/murex/lang/state"
+	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/process"
 	"github.com/lmorg/murex/lang/ref"
 )
 
@@ -20,18 +20,18 @@ import (
 // External processes will also appear in the host OS's process list.
 type Process struct {
 	Id                 uint32
-	Name               string
+	Name               process.Name
 	Parameters         parameters.Parameters
-	Path               string
 	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io
+	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
 	Stderr             stdio.Io
 	ExitNum            int
 	WaitForTermination chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
-	Exec               shellExec
+	Exec               process.Exec
 	PromptId           int
 	Scope              *Process `json:"-"`
 	Parent             *Process `json:"-"`
@@ -45,7 +45,7 @@ type Process struct {
 	hasTerminatedM     sync.Mutex
 	hasTerminatedV     bool
 	State              state.State
-	IsBackground       bool
+	Background         process.Background
 	RunMode            runmode.RunMode
 	Config             *config.Config
 	Tests              *Tests
@@ -54,11 +54,6 @@ type Process struct {
 	CreationTime       time.Time
 	StartTime          time.Time
 	FileRef            *ref.File
-}
-
-type shellExec struct {
-	Pid int
-	Cmd *exec.Cmd
 }
 
 // HasTerminated checks if process has terminated.
@@ -95,11 +90,11 @@ func (p *Process) SetTerminatedState(state bool) {
 }
 
 // ErrIfNotAMethod returns a standard error message for builtins not run as methods
-func (p *Process) ErrIfNotAMethod() (err error) {
+func (p *Process) ErrIfNotAMethod() error {
 	if !p.IsMethod {
-		err = errors.New("`" + p.Name + "` expects to be pipelined")
+		return fmt.Errorf("`%s` expects to be pipelined", p.Name.String())
 	}
-	return
+	return nil
 }
 
 type foregroundProc struct {

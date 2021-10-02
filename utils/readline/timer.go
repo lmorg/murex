@@ -5,7 +5,7 @@ import (
 	"sync/atomic"
 )
 
-func delayedSyntaxTimer(rl *Instance, i int64) {
+func delayedSyntaxTimer(rl *Instance, i int32) {
 	if rl.PasswordMask != 0 || rl.DelayedSyntaxWorker == nil {
 		return
 	}
@@ -19,7 +19,7 @@ func delayedSyntaxTimer(rl *Instance, i int64) {
 	newLine := rl.DelayedSyntaxWorker(rl.line)
 	var sLine string
 
-	count := atomic.LoadInt64(&rl.delayedSyntaxCount)
+	count := atomic.LoadInt32(&rl.delayedSyntaxCount)
 	if count != i {
 		return
 	}
@@ -65,12 +65,18 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 		}
 	}
 
+	dtc.rl.SetHintText(" ")
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()
 }
 
 // AppendDescriptions updates the tab completions with additional suggestions + descriptions asynchronously
 func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
+	if dtc.rl == nil {
+		// This might legitimately happen with some tests
+		return
+	}
+
 	if !dtc.rl.modeTabCompletion {
 		return
 	}
@@ -89,6 +95,7 @@ func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
 		}
 	}
 
+	dtc.rl.SetHintText(" ")
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()
 }

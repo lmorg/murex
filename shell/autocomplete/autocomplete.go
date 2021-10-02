@@ -1,7 +1,6 @@
 package autocomplete
 
 import (
-	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -86,16 +85,31 @@ func MatchVars(partial string) (items []string) {
 		}
 	}
 
-	sort.Strings(items)
+	//sort.Strings(items)
 	return
 }
 
 // MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, act *AutoCompleteT) int {
-	args := dynamicArgs{
-		exe:    exe,
-		params: params,
+func MatchFlags(act *AutoCompleteT) int {
+	if act.ParsedTokens.ExpectParam || len(act.ParsedTokens.Parameters) == 0 {
+		act.ParsedTokens.Parameters = append(act.ParsedTokens.Parameters, "")
 	}
 
-	return matchFlags(flags, partial, exe, params, pIndex, args, act)
+	args := dynamicArgs{
+		exe:    act.ParsedTokens.FuncName,
+		params: make([]string, len(act.ParsedTokens.Parameters)),
+	}
+	copy(args.params, act.ParsedTokens.Parameters)
+
+	params := make([]string, len(act.ParsedTokens.Parameters))
+	copy(params, act.ParsedTokens.Parameters)
+
+	flags := ExesFlags[act.ParsedTokens.FuncName]
+
+	partial := act.ParsedTokens.Parameters[len(act.ParsedTokens.Parameters)-1]
+	exe := act.ParsedTokens.FuncName
+
+	pIndex := 0
+
+	return matchFlags(flags, partial, exe, params, &pIndex, args, act)
 }

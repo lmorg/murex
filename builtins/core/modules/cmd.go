@@ -77,15 +77,17 @@ func detectProtocol(uri string) (string, error) {
 }
 
 func cdPackage(p *lang.Process) error {
+	modulePath := profile.ModulePath()
+
 	path, err := p.Parameters.String(1)
 	if err != nil {
 		return err
 	}
 
-	f, err := os.Stat(profile.ModulePath + path)
+	f, err := os.Stat(modulePath + path)
 	if err != nil {
 		var err2 error
-		f, err2 = os.Stat(profile.ModulePath + path + profile.IgnoredExt)
+		f, err2 = os.Stat(modulePath + path + profile.IgnoredExt)
 		if err2 != nil {
 			return fmt.Errorf("Unable to cd to package: %s: %s", err, err2)
 		}
@@ -95,11 +97,11 @@ func cdPackage(p *lang.Process) error {
 		return fmt.Errorf("`%s` is not a directory", f.Name())
 	}
 
-	return cd.Chdir(p, profile.ModulePath+f.Name())
+	return cd.Chdir(p, modulePath+f.Name())
 }
 
 func updateModules(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
+	db, err := readPackagesFile(profile.ModulePath() + profile.PackagesFile)
 	if err != nil {
 		return err
 	}

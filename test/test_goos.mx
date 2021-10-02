@@ -1,16 +1,16 @@
 #!/usr/bin/env murex
 
 set project=github.com/lmorg/murex
+set build_path=build-tests
 
 cd $GOPATH/src/$project/test
-mkdir build-tests
-cd build-tests
+
+mkdir $build_path
+cd $build_path
 
 set json targets = ([
     "linux",
-    "freebsd",
     "darwin",
-    "plan9",
     "windows"
 ])
 
@@ -30,6 +30,7 @@ $targets -> foreach target {
 }
 
 cd ..
-rm -rf build-tests
+
+rm -rf $build_path
 
 exit $status

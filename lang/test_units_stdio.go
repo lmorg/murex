@@ -14,7 +14,7 @@ package lang
 */
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/utils"
 )
@@ -22,7 +22,7 @@ import (
 func utBlock(plan *UnitTestPlan, fileRef *ref.File, block []rune, stdin []byte, dt string, property string, function string, results *TestResults, passed *bool) {
 	fork := ShellProcess.Fork(F_FUNCTION | F_CREATE_STDIN | F_CREATE_STDERR | F_CREATE_STDOUT)
 	fork.IsMethod = true
-	fork.Name = "(unit test " + property + ")"
+	fork.Name.Set("(unit test " + property + ")")
 	fork.Stdin.SetDataType(dt)
 	_, err := fork.Stdin.Write(stdin)
 	if err != nil {

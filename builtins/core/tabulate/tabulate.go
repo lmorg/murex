@@ -9,13 +9,14 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
 func init() {
-	lang.GoFunctions["tabulate"] = cmdTabulate
+	//lang.GoFunctions["tabulate"] = cmdTabulate
+	lang.DefineMethod("tabulate", cmdTabulate, types.Generic, types.Any)
 
 	defaults.AppendProfile(`
 		autocomplete set tabulate { [{
@@ -148,7 +149,7 @@ func cmdTabulate(p *lang.Process) error {
 	if dt != types.Generic && dt != types.String {
 		p.Stdout.SetDataType(types.Null)
 		return fmt.Errorf("`%s` is designed to only take string (%s) or generic (%s) data-types from STDIN. Instead it received '%s'",
-			p.Name, types.String, types.Generic, dt)
+			p.Name.String(), types.String, types.Generic, dt)
 	}
 
 	if f[fMap] == "" {

@@ -1,31 +1,89 @@
 # Install Instructions
 
-## Pre-Compiled Binaries
+## From A Package Manager
 
-If you wish to download a pre-compiled binary then head to the [DOWNLOAD.md](DOWNLOAD.md)
+Currently only Homebrew is supported. More package managers are expected to be
+supported in the future however due to the numbers and variety of solutions out
+there, we do ask for community support to help bring _mure_ to your preferred platform, if it isn't already supported.
+
+### Homebrew
+
+    brew install murex
+
+## Pre-Compiled Binaries (HTTP download)
+
+If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
+
+This is the recommended way to install _murex_ unless you're already familiar
+with `git` and `go`, or need to enable/disable a specific builtin from what is
+compiled as part of the standard build.
 
 ## From Source
 
-> Go 1.11 or higher is required
+> Go 1.12 or higher is required
 
-Assuming you already have Go (Golang) installed, you can download the
-source just by running the following from the command line
+### Prerequisites
 
-    go get -u github.com/lmorg/murex
-    cd $GOPATH/src/github.com/lmorg/murex
+You will need `go` (Golang) compiler and `git` installed, and your `$GOPATH`
+environmental variable set. You can check these by running:
 
-Test the code (optional stage):
+    which go
+    which git
+    echo $GOPATH
+
+(each of those commands should return a non-zero length string).
+
+#### Further Reading:
+
+- [How to install Go](https://golang.org/doc/install)
+- [How to install git](https://github.com/git-guides/install-git)
+- [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
+
+### Installation From Source Steps
+
+#### Importing the source code
+
+> At present, _murex_ depends on being in a specific directory hierarchy for
+> the tests to work and packages to import correctly. These instructions will
+> talk you through creating that initial structure ready to import the source
+> into. Experienced users in Go may opt to ignore some of these steps and run
+> `go get -u github.com/lmorg/murex` instead. While this _should_ work in most
+> cases, it is difficult to run automated tests to ensure any updates doesn't
+> break the `go get` import tool. And thus that approach is not officially
+> supported. If you are in any doubt, please follow the `git clone` process
+> below.
+
+First create the directory path and clone the source into the appropriate
+directory structure.
+
+    mkdir -p $GOPATH/lmorg/murex
+    git clone github.com/lmorg/murex $GOPATH/lmorg/murex
+
+At this point you can add and remove any optional builtins by following the
+instructions on this located further down this document. This is entirely
+optional as _murex_ attempts to ship with sane defaults.
+
+#### Test the code (optional stage)
 
     go test ./...
 
-Compile the code:
+#### Compile the code
 
     go build github.com/lmorg/murex
 
-Then to start the shell:
+#### Test the executable (optional stage)
+
+    ./murex --run-tests
+    ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+
+#### Start the shell
 
     ./murex
+
+or, on Windows,...
+
+    murex.exe
 
 ## Inside Docker
 
@@ -35,12 +93,8 @@ pipeline scripts.
 
 ### Docker Hub
 
-_murex_ provides two prebuilt images on Docker Hub:
-
-* `lmorg/murex:develop` - this is the latest build of the `develop` branch,
-  as such it might contain unstable code
-* `lmorg/murex:latest` - this is the latest build of the `master` branch and
-  is the recommended image to use
+Due to licencing changes from Docker, Docker Hub images are no longer up to
+date. However you can still build your own container.
 
 ### Building Your Own Container
 
@@ -48,12 +102,12 @@ From the project root (the location of this INSTALL.md file) run the following:
 
     docker-compose up --build murex
 
-## Including optional builtins
+## Including Optional Builtins
 
 Some optional builtins will be included by default, however there may be others
 you wish to include which are not part of the default build (such as `select`).
-To add them, copy (or symlink) the optional file from `builtins/import_src` to
-`builtins/import_build`.
+To add them, copy (or symlink) the applicable include file from
+`builtins/import_src` to `builtins/import_build`.
 
 A tool will be introduced in a later version to automate this.
 

@@ -74,7 +74,7 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 						panic(err)
 					}
 
-					t.Logf("Test report:\n%s", b)
+					t.Logf("  Test report:\n%s", b)
 
 				} else {
 					t.Errorf("Unit test %s %d passed when expected to fail", pubPriv, i)

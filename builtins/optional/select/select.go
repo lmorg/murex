@@ -17,7 +17,8 @@ const ( // Config key names
 )
 
 func init() {
-	lang.GoFunctions["select"] = cmdSelect
+	//lang.GoFunctions["select"] = cmdSelect
+	lang.DefineMethod("select", cmdSelect, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
 		config: eval  shell safe-commands { -> append select }

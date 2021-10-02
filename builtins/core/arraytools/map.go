@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["map"] = mkmap
+	lang.DefineFunction("map", mkmap, types.Json)
 }
 
 func mkmap(p *lang.Process) error {

@@ -604,19 +604,8 @@ autocomplete: set docker-compose { [{
     }
 }] }
 
-autocomplete: set terraform { [{
-    "Flags": ["apply","console","destroy","env","fmt","get","graph","import","init","output","plan","providers","push","refresh","show","taint","untaint","validate","version","workspace"],
-    "FlagValues": {
-        "workspace": [
-            {
-                "Flags": [ "new", "delete", "select", "list", "show" ]
-            }
-        ]
-    }
-}] }
-
 autocomplete: set gopass { [{
-    "Flags": ["--yes","--clip","-c","--help","-h","--version","-v"],
+    "Flags": [ "--yes", "--clip", "-c", "--help", "-h", "--version", "-v" ],
     "AllowMultiple": true,
     "Dynamic": ({ exec: @ARGS --generate-bash-completion }),
     "AutoBranch": true
@@ -752,22 +741,6 @@ autocomplete: set terraform {[
     summary code "Microsoft Visual Studio Code - Text editor / IDE"
 }
 
-autocomplete: set zfs {
-    [{
-        "Dynamic": ({
-             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
-autocomplete: set zpool {
-    [{
-        "Dynamic": ({
-             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
 function sprintf {
     # This is a wrapper around the OS's default `printf`, replacing the now deprecated builtin of the same name
     -> set params
@@ -873,4 +846,105 @@ openagent set image {
             out "Invalid rendering method. Please define in `config set open image` - 'auto' is recommended."
         }
     }
+}
+
+if { microk8s } then {
+
+    private autocomplete.microk8s {
+        # Top level completion results for microk8s
+        microk8s -> tabulate -> cast str
+    }
+
+    test: unit private autocomplete.microk8s {
+        "StdoutType":  "str",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsArray": true
+    }
+
+    private autocomplete.microk8s.kubectl {
+        # Top level completion results for microk8s kubectl
+        microk8s kubectl help -> tabulate: --map
+    }
+
+    test: unit private autocomplete.microk8s.kubectl {
+        "StdoutType":  "json",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsMap": true
+    }
+
+    private autocomplete.microk8s.kubectl.dyndesc {
+        # Dynamic completion for microk8s kubectl
+        microk8s kubectl help $ARGS[1] -> @[^Options..^Usage]re -> regexp "s/:/\t/" -> tabulate: --key-inc-hint --map --split-comma
+    }
+
+    autocomplete: set microk8s {[
+        {
+            "Dynamic": ({ autocomplete.microk8s }),
+            "AllowMultiple": false,
+            "FlagValues": {
+                "kubectl": [
+                    {
+                        "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
+                        "ListView": true,
+                        "AllowMultiple": false,
+                        "Optional": false
+                    },
+                    {
+                        #"DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
+                        "Dynamic": ({ out @ARGS }),
+                        "AllowMultiple": true,
+                        "AnyValue":      true
+                        #"ListView":      true
+                    }
+                ]
+            }
+        }
+    ]}
+
+    autocomplete: set microk8s.kubectl {[
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
+            "ListView": true,
+            "AllowMultiple": false,
+            "Optional": false
+        },
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[1] }),
+            #"Dynamic": ({ out @ARGS }),
+            "AllowMultiple": true,
+            "AnyValue":      true,
+            "ListView":      true
+        }
+    ]}
+
+
+    autocomplete: set kubectl {[
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
+            "ListView": true,
+            "AllowMultiple": false,
+            "Optional": false
+        },
+        {
+            "DynamicDesc":   ({ autocomplete.microk8s.kubectl.dyndesc $ARGS[2] }),
+            #"Dynamic": ({ out @ARGS }),
+            "AllowMultiple": true,
+            "AnyValue":      true,
+            "ListView":      true
+        }
+    ]}
 }

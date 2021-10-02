@@ -2,11 +2,12 @@ package arraytools
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["append"] = cmdAppend
-	lang.GoFunctions["prepend"] = cmdPrepend
+	lang.DefineMethod("prepend", cmdAppend, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("append", cmdAppend, types.ReadArray, types.WriteArray)
 }
 
 func cmdPrepend(p *lang.Process) error {

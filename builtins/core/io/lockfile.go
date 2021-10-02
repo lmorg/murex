@@ -12,11 +12,11 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["lockfile"] = cmdLockfile
+	lang.DefineFunction("lockfile", cmdLockfile, types.Null)
 }
 
 func cmdLockfile(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Generic)
+	p.Stdout.SetDataType(types.Null)
 
 	method, err := p.Parameters.String(0)
 	if err != nil {

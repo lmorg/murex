@@ -26,28 +26,3 @@ func TestIsSpecialBuiltin(t *testing.T) {
 		}
 	}
 }
-
-/*func TestSortColon(t *testing.T) {
-	count.Tests(t, 1)
-
-	test := []string{
-		"cc", "c", "bb:", "b:", "dd", "d", "aa:", "a:",
-	}
-
-	expected := []string{
-		"a:", "aa:", "b:", "bb:", "c", "cc", "d", "dd",
-	}
-
-	sortColon(test, 0, len(test)-1)
-
-	passed := true
-	for i := range test {
-		passed = passed && test[i] == expected[i]
-	}
-
-	if !passed {
-		t.Error("Expected splice does not match actual splice")
-		t.Log("  Expected:", expected)
-		t.Log("  Actual:  ", test)
-	}
-}*/

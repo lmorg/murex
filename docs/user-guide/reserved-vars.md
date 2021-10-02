@@ -72,10 +72,27 @@ This will be the module string for the current scope.
 This returns a JSON array of the command name and parameters within a given
 scope.
 
+Unlike `$PARAMS`, `$ARGS` includes the function name.
+
     » function example { out $ARGS }
     » example abc 1 2 3
     [
         "example",
+        "abc",
+        "1",
+        "2",
+        "3"
+    ]
+    
+### `PARAMS` (json)
+
+This returns a JSON array of the parameters within a given scope.
+
+Unlike `$ARGS`, `$PARAMS` does not include the function name.
+
+    » function example { out $PARAMS }
+    » example abc 1 2 3
+    [
         "abc",
         "1",
         "2",

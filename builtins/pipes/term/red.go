@@ -1,9 +1,11 @@
+// +build !js
+
 package term
 
 import (
 	"os"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -15,19 +17,21 @@ type ErrRed struct {
 }
 
 const (
-	reset = "\x1b[0m"
 	fgRed = "\x1b[31m"
+	reset = "\x1b[0m"
 )
 
 // Write is the io.Writer() interface for term
 func (t *ErrRed) Write(b []byte) (i int, err error) {
 	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
+	t.mutex.Unlock()
+
 	i, err = os.Stderr.WriteString(fgRed + string(b) + reset)
 	if err != nil {
 		os.Stdout.WriteString(fgRed + err.Error() + reset)
 	}
-	t.mutex.Unlock()
+
 	return i - 9, err
 }
 

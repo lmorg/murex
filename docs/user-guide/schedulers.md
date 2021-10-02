@@ -38,7 +38,7 @@ the pipeline.
 
 * [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Formatted Pipe (`=>`) Token](../parser/pipe-format.md):
+* [parser/Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 * [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command

@@ -16,7 +16,7 @@ the first parameter:
     out: <err> "output redirected to stderr"
 
 You can also use named pipes this way to join up parts of the script
-that otherwise wouldn't be part of the same pipeline. See [GUIDE.syntax.md](GUIDE.syntax.md#piping)
+that otherwise wouldn't be part of the same pipeline. See [GUIDE.syntax](GUIDE.syntax.md#piping)
 for more details on named pipes.
 
 To redirect to a file you can use the `>` or `>>` functions. They work
@@ -94,7 +94,7 @@ in _murex_. Instead there a separate command `exitnum`:
 In bash you can expand arrays using the following syntax: `a{1..5}b`. In
 _murex_ this is another subshell process: `a: a[1..5]b`. As you can see,
 _murex_ also uses square brackets instead as well. There are a few other
-changes, read [GUIDE.arrays-and-maps.md](GUIDE.arrays-and-maps.md#the-array-builtin)
+changes, read [GUIDE.arrays-and-maps](GUIDE.arrays-and-maps.md#the-array-builtin)
 for more on using the `array` builtin.
 
 ## Back ticks

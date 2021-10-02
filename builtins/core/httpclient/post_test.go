@@ -16,7 +16,7 @@ func TestPost(t *testing.T) {
 
 	p := lang.NewTestProcess()
 	p.Config = lang.ShellProcess.Config
-	p.Parameters.Params = []string{addr}
+	p.Parameters.DefineParsed([]string{addr})
 
 	err := cmdPost(p)
 	if err != nil {

@@ -70,9 +70,9 @@ func defineConfig(p *lang.Process) error {
 
 	if properties.Dynamic.Read != "" {
 		properties.Dynamic.GetDynamic = getDynamic(
-			[]rune(properties.Dynamic.Read), p.Parameters.Params, p.FileRef)
+			[]rune(properties.Dynamic.Read), p.Parameters.StringArray(), p.FileRef)
 		properties.Dynamic.SetDynamic = setDynamic(
-			[]rune(properties.Dynamic.Write), p.Parameters.Params, p.FileRef, properties.DataType)
+			[]rune(properties.Dynamic.Write), p.Parameters.StringArray(), p.FileRef, properties.DataType)
 	}
 
 	lang.ShellProcess.Config.Define(app, key, properties)

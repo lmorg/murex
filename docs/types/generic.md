@@ -12,21 +12,21 @@ executables.
 ## Supported Hooks
 
 * `Marshal()`
-    Supported
+    Supported. Tables columns are aligned
 * `ReadArray()`
     Treats each new line as a new array element
 * `ReadArrayWithType()`
-    Treats each new line as a new array element, each element is `*
+    Treats each new line as a new array element, each element is `*` 
 * `ReadIndex()`
     Indexes treated as table coordinates
 * `ReadMap()`
-    Works against tables such as the output from `ps -fe
+    Works against tables such as the output from `ps -fe` 
 * `ReadNotIndex()`
     Indexes treated as table coordinates
 * `Unmarshal()`
     Supported
 * `WriteArray()`
-    Writes a new line per array element
+    Writes a new line per array element - tabs are treated as columns
 
 ## See Also
 

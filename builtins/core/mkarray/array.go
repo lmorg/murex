@@ -11,9 +11,12 @@ import (
 // This code is ugly. Read at your own risk.
 
 func init() {
-	lang.GoFunctions["a"] = cmdA
-	lang.GoFunctions["ja"] = cmdJa
-	lang.GoFunctions["ta"] = cmdTa
+	//lang.GoFunctions["a"] = cmdA
+	lang.DefineFunction("a", cmdA, types.String)
+	//lang.GoFunctions["ja"] = cmdJa
+	lang.DefineFunction("ja", cmdJa, types.Json)
+	//lang.GoFunctions["ta"] = cmdTa
+	lang.DefineFunction("ta", cmdTa, types.WriteArray)
 }
 
 const (
@@ -43,7 +46,8 @@ func cmdTa(p *lang.Process) error {
 		return err
 	}
 
-	p.Parameters.Params = p.Parameters.Params[1:]
+	params := p.Parameters.StringArray()[1:]
+	p.Parameters.DefineParsed(params)
 
 	return mkArray(p, dataType)
 }

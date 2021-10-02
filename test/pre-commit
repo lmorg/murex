@@ -17,12 +17,18 @@ fi
 trap ctrl_c INT
 
 ctrl_c() {
-  printf "\n\033[0;31m[COMMIT CANCELLED]\033[0m\n"
-  exit 1
+    printf "\n\033[0;31m[COMMIT CANCELLED]\033[0m\n"
+    exit 1
 }
 
 echo "Updating auto-generated code...."
 go generate ./...
+
+echo 'Updating `import_build` includes....'
+while read include; do
+    cp -vf "./builtins/imports_src/$include" ./builtins/imports_build/
+    git add -f "./builtins/imports_build/$include"
+done < ./builtins/imports_src/standard_build.txt
 
 echo "Compiling docgen...."
 go install github.com/lmorg/murex/utils/docgen
@@ -39,4 +45,4 @@ echo "Updating git...."
 find . -name "*_string.go" -exec git add -v {} \;
 git add -v docs config/defaults builtins/docgen_test.go $docs $cdocs
 
-#echo "Allowing git commit to proceed...."
+echo "Allowing git commit to proceed...."

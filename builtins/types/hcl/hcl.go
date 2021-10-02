@@ -1,14 +1,14 @@
 package hcl
 
 import (
-	"bytes"
 	"strconv"
 
 	"github.com/hashicorp/hcl"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -19,6 +19,7 @@ func init() {
 	lang.ReadNotIndexes[typeName] = readIndex
 
 	stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
 	stdio.RegisterReadMap(typeName, readMap)
 	stdio.RegisterWriteArray(typeName, newArrayWriter)
 
@@ -36,7 +37,7 @@ func init() {
 	lang.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
 }
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+/*func readArray(read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -63,6 +64,24 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	}
 
 	return nil
+}*/
+
+func readArray(read stdio.Io, callback func([]byte)) error {
+	// Create a marshaller function to pass to ArrayTemplate
+	marshaller := func(v interface{}) ([]byte, error) {
+		return json.Marshal(v, read.IsTTY())
+	}
+
+	return lang.ArrayTemplate(marshaller, hcl.Unmarshal, read, callback)
+}
+
+func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+	// Create a marshaller function to pass to ArrayWithTypeTemplate
+	marshaller := func(v interface{}) ([]byte, error) {
+		return json.Marshal(v, read.IsTTY())
+	}
+
+	return lang.ArrayWithTypeTemplate(types.Json, marshaller, hcl.Unmarshal, read, callback)
 }
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {

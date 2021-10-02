@@ -12,10 +12,10 @@ commands and such like:
 
 ### Language Guides
 
-1. [GUIDE.builtin-functions.md](./GUIDE.builtin-functions.md), for docs
+1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
 on the core builtins.
 
-2. [GUIDE.parser.md](./GUIDE.parser.md), which details a lot of the logic.
+2. [GUIDE.parser](./GUIDE.parser.md), which details a lot of the logic.
 
 ## Pages
 

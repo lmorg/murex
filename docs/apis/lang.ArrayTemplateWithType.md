@@ -26,7 +26,7 @@ package json
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -48,7 +48,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 package lang
 
 import (
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 

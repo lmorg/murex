@@ -16,7 +16,7 @@ func enableModules(p *lang.Process) error {
 	}
 
 	var disabled []string
-	err := profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
+	err := profile.ReadJson(profile.ModulePath()+profile.DisabledFile, &disabled)
 	if err != nil {
 		return err
 	}
@@ -42,7 +42,8 @@ func enableModules(p *lang.Process) error {
 }
 
 func enablePack(pack string) error {
-	return os.Rename(profile.ModulePath+pack+profile.IgnoredExt, profile.ModulePath+pack)
+	modulePath := profile.ModulePath()
+	return os.Rename(modulePath+pack+profile.IgnoredExt, modulePath+pack)
 }
 
 func enableMod(mod string, disabled []string) ([]string, error) {

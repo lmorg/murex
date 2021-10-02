@@ -12,7 +12,9 @@ import (
 )
 
 func getModule(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
+	modulePath := profile.ModulePath()
+
+	db, err := readPackagesFile(modulePath + profile.PackagesFile)
 	if err != nil {
 		return err
 	}
@@ -22,7 +24,7 @@ func getModule(p *lang.Process) error {
 		return err
 	}
 
-	err = cd.Chdir(p, profile.ModulePath)
+	err = cd.Chdir(p, modulePath)
 	if err != nil {
 		return fmt.Errorf("Unable to get package: %s", err.Error())
 	}
@@ -45,7 +47,7 @@ func getModule(p *lang.Process) error {
 		message += err.Error() + utils.NewLineString
 	}
 
-	_, err = profile.LoadPackage(profile.ModulePath+pack, true)
+	_, err = profile.LoadPackage(modulePath+pack, true)
 	if err != nil {
 		message += err.Error() + utils.NewLineString
 	}

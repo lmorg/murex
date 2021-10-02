@@ -4,11 +4,11 @@ set -ev
 
 . /etc/ci-murex.env
 
-echo "Compiling stringer...."
-go build -o /bin/stringer golang.org/x/tools/cmd/stringer 
-
-echo "Updating auto-generated code...."
-go generate ./...
+#echo "Compiling stringer...."
+#go build -o /bin/stringer golang.org/x/tools/cmd/stringer 
+#
+#echo "Updating auto-generated code...."
+#go generate ./...
 
 echo "Compiling docgen...."
 go install github.com/lmorg/murex/utils/docgen
@@ -18,6 +18,8 @@ docgen -config gen/docgen.yaml
 
 echo "Compiling murex...."
 go install github.com/lmorg/murex
+
+exit 0
 
 echo "Starting count server...."
 export MUREX_TEST_COUNT=http
@@ -34,5 +36,3 @@ murex --run-tests
 
 echo "Run murex flag unit tests...."
 murex -c 'source: ./flags_test.mx; try {test: run *}'
-
-echo "Fin!"

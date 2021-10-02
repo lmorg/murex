@@ -33,6 +33,10 @@ func TestMxProcess(t *testing.T) {
 			Block:  `@g out "Hello, world!"`,
 			Stdout: "Hello, world!\n",
 		},
+		{
+			Block:  `@g out: "Hello, world!"`,
+			Stdout: "Hello, world!\n",
+		},
 
 		{
 			Block: `global: TestMxProcess="Hello, world!"
@@ -57,7 +61,7 @@ func TestMxProcess(t *testing.T) {
 		{
 			Block: `global: json array = ([0, 1, 2, 3])
 					$array[2]`,
-			Stdout: "2\n",
+			Stdout: "2",
 		},
 
 		{

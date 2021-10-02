@@ -11,7 +11,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["autocomplete"] = cmdAutocomplete
+	lang.DefineFunction("autocomplete", cmdAutocomplete, types.Json)
 }
 
 func cmdAutocomplete(p *lang.Process) error {

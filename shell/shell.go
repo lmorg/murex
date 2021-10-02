@@ -14,7 +14,6 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/counter"
-	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/readline"
 	"github.com/lmorg/murex/utils/spellcheck"
 )
@@ -44,6 +43,8 @@ func Start() {
 		}
 	}()*/
 
+	//go warmCache()
+
 	var err error
 
 	Interactive = true
@@ -52,12 +53,7 @@ func Start() {
 	Prompt.SyntaxCompleter = syntaxCompletion
 	Prompt.HistoryAutoWrite = false
 
-	h, err := history.New(home.MyDir + consts.PathSlash + ".murex_history")
-	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte("Error opening history file: " + err.Error()))
-	} else {
-		Prompt.History = h
-	}
+	setPromptHistory()
 
 	SignalHandler(true)
 
@@ -234,13 +230,18 @@ func getHintTextFormatting() {
 	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
 }
 
+var ignoreSpellCheckErr bool
+
 func spellchecker(r []rune) []rune {
 	s := string(r)
 	new, err := spellcheck.String(s)
-	if err != nil {
-		hint := fmt.Sprintf("{RED}Spellchecker produced an error: %s{RESET}", err.Error())
+	if err != nil && !ignoreSpellCheckErr {
+		ignoreSpellCheckErr = true
+		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/docs/user-guide/spellcheck.html{RESET}", err.Error())
 		Prompt.SetHintText(ansi.ExpandConsts(hint))
 	}
+
+	ignoreSpellCheckErr = false // reset ignore status
 
 	return []rune(new)
 }

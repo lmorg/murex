@@ -7,12 +7,13 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["pretty"] = cmdPretty
+	//lang.GoFunctions["pretty"] = cmdPretty
+	lang.DefineMethod("pretty", cmdPretty, types.Json, types.Json)
 
 	defaults.AppendProfile(`
 		autocomplete: set pretty { [{

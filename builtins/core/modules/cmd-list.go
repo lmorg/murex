@@ -21,16 +21,16 @@ func listModules(p *lang.Process) error {
 
 	switch flag {
 	case "enabled":
-		return listModulesEnDis(p, true)
+		return listAndPrint(listModulesEnDis, p, true)
 
 	case "disabled":
-		return listModulesEnDis(p, false)
+		return listAndPrint(listModulesEnDis, p, false)
 
 	case "loaded":
-		return listModulesLoadNotLoad(p, true)
+		return listAndPrint(listModulesLoadNotLoad, p, true)
 
 	case "not-loaded":
-		return listModulesLoadNotLoad(p, false)
+		return listAndPrint(listModulesLoadNotLoad, p, false)
 
 	case "packages":
 		return listPackages(p)
@@ -43,16 +43,37 @@ func listModules(p *lang.Process) error {
 	}
 }
 
+// listAndPrint is a wrapper function around the listModules...() functions. The
+// rational behind this weird design is so that the code is concise and readable
+// for normal execution but easily testable (ie the p.Stdout.Write code) is
+// removed from the logic
+func listAndPrint(fn func(*lang.Process, bool) (map[string]string, error), p *lang.Process, enabled bool) error {
+	list, err := fn(p, enabled)
+	if err != nil {
+		return err
+	}
+
+	b, err := lang.MarshalData(p, types.Json, &list)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
+}
+
 // listModulesEnDis reads from disk rather than the package cache (like `runtime`)
 // because the typical use for `murex-package list enabled|disabled` is to view
 // which packages and modules will be loaded with murex. To get a view of what is
 // currently loaded in a given session then use `loaded` / `not-loaded` instead of
 // `enabled` / `disabled`
-func listModulesEnDis(p *lang.Process, enabled bool) error {
+func listModulesEnDis(p *lang.Process, enabled bool) (map[string]string, error) {
 	var disabled []string
-	err := profile.ReadJson(profile.ModulePath+profile.DisabledFile, &disabled)
+	modulePath := profile.ModulePath()
+
+	err := profile.ReadJson(modulePath+profile.DisabledFile, &disabled)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	isDisabled := func(name string) bool {
@@ -65,9 +86,9 @@ func listModulesEnDis(p *lang.Process, enabled bool) error {
 		return false
 	}
 
-	paths, err := filepath.Glob(profile.ModulePath + "*")
+	paths, err := filepath.Glob(modulePath + "*")
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	list := make(map[string]string)
@@ -75,7 +96,7 @@ func listModulesEnDis(p *lang.Process, enabled bool) error {
 	for _, pack := range paths {
 		f, err := os.Stat(pack)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		// only read directories
@@ -108,15 +129,10 @@ func listModulesEnDis(p *lang.Process, enabled bool) error {
 		}
 	}
 
-	b, err := lang.MarshalData(p, types.Json, &list)
-	if err != nil {
-		return err
-	}
-	_, err = p.Stdout.Write(b)
-	return err
+	return list, nil
 }
 
-func listModulesLoadNotLoad(p *lang.Process, loaded bool) error {
+func listModulesLoadNotLoad(p *lang.Process, loaded bool) (map[string]string, error) {
 	list := make(map[string]string)
 
 	for _, mods := range profile.Packages {
@@ -127,16 +143,11 @@ func listModulesLoadNotLoad(p *lang.Process, loaded bool) error {
 		}
 	}
 
-	b, err := lang.MarshalData(p, types.Json, &list)
-	if err != nil {
-		return err
-	}
-	_, err = p.Stdout.Write(b)
-	return err
+	return list, nil
 }
 
 func listPackages(p *lang.Process) error {
-	paths, err := filepath.Glob(profile.ModulePath + "*")
+	paths, err := filepath.Glob(profile.ModulePath() + "*")
 	if err != nil {
 		return err
 	}

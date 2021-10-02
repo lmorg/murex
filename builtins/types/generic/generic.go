@@ -4,7 +4,7 @@ import (
 	"regexp"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -32,3 +32,12 @@ func init() {
 }
 
 var rxWhitespace = regexp.MustCompile(`\s+`)
+
+// common tabwriter values
+const (
+	twMinWidth = 0
+	twTabWidth = 0
+	twPadding  = 2
+	twPadChar  = ' '
+	twFlags    = 0
+)

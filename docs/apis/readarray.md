@@ -35,7 +35,7 @@ import (
 	"bufio"
 	"bytes"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func readArray(read stdio.Io, callback func([]byte)) error {
@@ -61,7 +61,7 @@ package json
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/json"
 )
 

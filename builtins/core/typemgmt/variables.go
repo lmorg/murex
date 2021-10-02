@@ -13,11 +13,16 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["set"] = cmdSet
+	//lang.GoFunctions["set"] = cmdSet
+	lang.DefineMethod("set", cmdSet, types.Any, types.Null)
 	lang.GoFunctions["!set"] = cmdUnset
-	lang.GoFunctions["global"] = cmdGlobal
+
+	//lang.GoFunctions["global"] = cmdGlobal
+	lang.DefineMethod("global", cmdGlobal, types.Any, types.Null)
 	lang.GoFunctions["!global"] = cmdUnglobal
-	lang.GoFunctions["export"] = cmdExport
+
+	//lang.GoFunctions["export"] = cmdExport
+	lang.DefineMethod("export", cmdExport, types.Any, types.Null)
 	lang.GoFunctions["!export"] = cmdUnexport
 	lang.GoFunctions["unset"] = cmdUnexport
 }
@@ -28,13 +33,13 @@ func cmdGlobal(p *lang.Process) error   { return set(p, lang.GlobalVariables) }
 func cmdUnglobal(p *lang.Process) error { return unset(p, lang.GlobalVariables) }
 
 func set(p *lang.Process, v *lang.Variables) error {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing variable name; expected: set|global [data-type] name[=value]")
 	}
 
-	name, value, dataType, err := splitVarString(p.Parameters.Params)
+	name, value, dataType, err := splitVarString(p.Parameters.StringArray())
 	if err != nil {
 		return err
 	}
@@ -83,7 +88,7 @@ func set(p *lang.Process, v *lang.Variables) error {
 }
 
 func unset(p *lang.Process, v *lang.Variables) error {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing variable name")
@@ -105,7 +110,7 @@ var (
 )
 
 func cmdExport(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing variable name")
@@ -150,7 +155,7 @@ func cmdExport(p *lang.Process) error {
 }
 
 func cmdUnexport(p *lang.Process) error {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
 		return errors.New("Missing variable name")

@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"errors"
 	"strconv"
 	"strings"
 )
@@ -41,7 +42,14 @@ func (h *ExampleHistory) Write(s string) (int, error) {
 
 // GetLine returns a line from history
 func (h *ExampleHistory) GetLine(i int) (string, error) {
-	return h.items[i], nil
+	switch {
+	case i < 0:
+		return "", errors.New("Requested history item out of bounds: < 0")
+	case i > h.Len()-1:
+		return "", errors.New("Requested history item out of bounds: > Len()")
+	default:
+		return h.items[i], nil
+	}
 }
 
 // Len returns the number of lines in history

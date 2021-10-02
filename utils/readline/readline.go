@@ -44,7 +44,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.pos = 0
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
-	atomic.StoreInt64(&rl.delayedSyntaxCount, 0)
+	atomic.StoreInt32(&rl.delayedSyntaxCount, 0)
 	rl.resetHintText()
 	rl.resetTabCompletion()
 
@@ -65,28 +65,28 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
-		go delayedSyntaxTimer(rl, atomic.LoadInt64(&rl.delayedSyntaxCount))
+		go delayedSyntaxTimer(rl, atomic.LoadInt32(&rl.delayedSyntaxCount))
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024*1024)
 		var i int
 
 		if !rl.skipStdinRead {
-			i, err = os.Stdin.Read(b)
+			i, err = read(b)
 			if err != nil {
 				return "", err
 			}
 			rl.termWidth = GetTermWidth()
 		}
-		atomic.AddInt64(&rl.delayedSyntaxCount, 1)
+		atomic.AddInt32(&rl.delayedSyntaxCount, 1)
 
 		rl.skipStdinRead = false
 		r := []rune(string(b))
 
 		if isMultiline(r[:i]) || len(rl.multiline) > 0 {
 			rl.multiline = append(rl.multiline, b[:i]...)
-			if i == len(b) {
-				continue
-			}
+			//if i == len(b) {
+			//	continue
+			//}
 
 			if !rl.allowMultiline(rl.multiline) {
 				rl.multiline = []byte{}
@@ -144,7 +144,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		// Slow or invisible tab completions shouldn't lock up cursor movement
 		if rl.modeTabCompletion && len(rl.tcSuggestions) == 0 {
-			rl.delayedTabContext.cancel()
+			if rl.delayedTabContext.cancel != nil {
+				rl.delayedTabContext.cancel()
+			}
 			rl.modeTabCompletion = false
 			rl.updateHelpers()
 		}
@@ -204,12 +206,17 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = rl.tcSuggestions
 			}
 
-			if rl.modeTabCompletion /*&& len(suggestions) > 0*/ {
+			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
+				tfLine := rl.tfLine
 				cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
 				rl.clearHelpers()
 				rl.resetTabCompletion()
 				rl.renderHelpers()
-				rl.insert([]rune(suggestions[cell]))
+				if len(suggestions) > 0 {
+					rl.insert([]rune(suggestions[cell]))
+				} else {
+					rl.insert(tfLine)
+				}
 				continue
 			}
 			rl.carridgeReturn()
@@ -455,11 +462,17 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 	for {
 		print("\r\nDo you wish to proceed (yes|no|preview)? [y/n/p] ")
 
-		b := make([]byte, 1024)
+		b := make([]byte, 1024*1024)
 
 		i, err := os.Stdin.Read(b)
 		if err != nil {
 			return false
+		}
+
+		if i > 1 {
+			rl.multiline = append(rl.multiline, b[:i]...)
+			moveCursorUp(2)
+			return rl.allowMultiline(append(data, b[:i]...))
 		}
 
 		s := string(b[:i])

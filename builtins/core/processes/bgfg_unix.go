@@ -1,4 +1,4 @@
-// +build !windows,!plan9
+// +build !windows,!plan9,!js
 
 package processes
 
@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 )
@@ -27,11 +27,12 @@ func mkbg(p *lang.Process) error {
 		return errors.New("FID is not a stopped process. Run `jobs` or `fid-list` to see a list of stopped processes")
 	}
 
-	if f.Exec.Pid == 0 {
+	pid, cmd := f.Exec.Get()
+	if pid == 0 {
 		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `bg`")
 	}
 
-	if f.Exec.Cmd == nil {
+	if cmd == nil {
 		return errors.New("Something went wrong trying to communicate back to the OS process")
 	}
 
@@ -66,7 +67,7 @@ func mkbg(p *lang.Process) error {
 		Foreground: false,
 	}*/
 
-	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)
+	err = cmd.Process.Signal(syscall.SIGCONT)
 	if err != nil {
 		return err
 	}
@@ -90,11 +91,11 @@ func cmdForeground(p *lang.Process) error {
 		return err
 	}
 
-	if f.Exec.Pid == 0 {
+	pid, cmd := f.Exec.Get()
+	if pid == 0 {
 		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `fg`")
 	}
-
-	if f.Exec.Cmd == nil {
+	if cmd == nil {
 		return errors.New("Something went wrong trying to communicate back to the OS process")
 	}
 
@@ -104,7 +105,7 @@ func cmdForeground(p *lang.Process) error {
 	lang.ForegroundProc.Set(f)
 
 	//if !f.Exec.Cmd.ProcessState.Exited() {
-	err = f.Exec.Cmd.Process.Signal(syscall.SIGCONT)
+	err = cmd.Process.Signal(syscall.SIGCONT)
 	if err != nil {
 		return err
 	}

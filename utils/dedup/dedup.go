@@ -16,7 +16,66 @@ func SortAndDedupString(s []string) int {
 		return 0
 	}
 
-	sort.Strings(s)
+	sort.Slice(s, func(i, j int) bool {
+		switch {
+		case len(s[i]) == 0:
+			return true
+
+		case len(s[j]) == 0:
+			return false
+
+		case s[i][0] == '-' && s[j][0] != '-':
+			return false
+
+		case s[i][0] != '-' && s[j][0] == '-':
+			return true
+
+		case len(s[i]) < len(s[j]):
+			for pos := range s[i] {
+				switch {
+				case s[i][pos] == ':':
+					return true
+				//case s[j][pos] == ':':
+				//	return false
+				case s[i][pos] == s[j][pos]:
+					continue
+				default:
+					return s[i][pos] < s[j][pos]
+				}
+			}
+			return true
+
+		case len(s[i]) > len(s[j]):
+			for pos := range s[j] {
+				switch {
+				//case s[i][pos] == ':':
+				//	return true
+				case s[j][pos] == ':':
+					return false
+				case s[i][pos] == s[j][pos]:
+					continue
+				default:
+					return s[i][pos] < s[j][pos]
+				}
+			}
+			return false
+
+		default:
+			for pos := range s[i] {
+				switch {
+				//case s[i][pos] == ':':
+				//	return true
+				//case s[j][pos] == ':':
+				//	return false
+				case s[i][pos] == s[j][pos]:
+					continue
+				default:
+					return s[i][pos] < s[j][pos]
+				}
+			}
+			return true
+		}
+	})
 
 	j := 1
 	for i := 0; i < len(s)-1; i++ {

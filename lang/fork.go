@@ -8,9 +8,9 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/proc/runmode"
-	"github.com/lmorg/murex/lang/proc/state"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/runmode"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -84,12 +84,13 @@ func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
 	fork.Kill = func() {
-		ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
+		// Do nothing
+		//ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
 	}
 
 	fork.State.Set(state.MemAllocated)
 	fork.PromptId = p.PromptId
-	fork.IsBackground = flags&F_BACKGROUND != 0 || p.IsBackground
+	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.PromptId = p.PromptId
 
 	fork.IsMethod = p.IsMethod
@@ -125,7 +126,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 	} else {
 		fork.Scope = p.Scope
-		fork.Name = p.Name
+		fork.Name.Set(p.Name.String())
 		fork.Parameters = p.Parameters
 
 		switch {
@@ -137,7 +138,7 @@ func (p *Process) Fork(flags int) *Fork {
 		case flags&F_NEW_VARTABLE != 0:
 			fork.Parent = p
 			fork.Variables = p.Variables
-			fork.Name += " (fork)"
+			fork.Name.Append(" (fork)")
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 
@@ -146,7 +147,7 @@ func (p *Process) Fork(flags int) *Fork {
 			fork.Parent = p
 			fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
-			fork.Name += " (fork)"
+			fork.Name.Append(" (fork)")
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 		}
@@ -239,7 +240,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		panic("fork.FileRef.Source == nil in (fork *Fork).Execute()")
 	case fork.FileRef.Source.Module == "":
 		panic("missing module name in (fork *Fork).Execute()")
-	case fork.Name == "":
+	case fork.Name.String() == "":
 		panic("missing function name in (fork *Fork).Execute()")
 	}
 
@@ -278,7 +279,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		return 0, err
 	}
 
-	if !fork.IsBackground {
+	if !fork.Background.Get() {
 		ForegroundProc.Set(&procs[0])
 	}
 

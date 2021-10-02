@@ -8,9 +8,9 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["get"] = cmdGet
-	lang.GoFunctions["post"] = cmdPost
-	lang.GoFunctions["getfile"] = cmdGetFile
+	lang.DefineMethod("get", cmdGet, types.Any, types.Json)
+	lang.DefineFunction("getfile", cmdGetFile, types.Any)
+	lang.DefineMethod("post", cmdPost, types.Any, types.Json)
 
 	config.InitConf.Define("http", "user-agent", config.Properties{
 		Description: "User agent string for `get` and `getfile`.",

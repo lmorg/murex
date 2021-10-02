@@ -2,7 +2,7 @@ package processes
 
 import (
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/state"
+	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -41,11 +41,11 @@ func cmdJobs(p *lang.Process) error {
 
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {
-		if process.IsBackground || process.State.Get() == state.Stopped {
+		if process.Background.Get() || process.State.Get() == state.Stopped {
 			b, err := lang.MarshalData(p, dtLine, []interface{}{
 				process.Id,
 				process.State.String(),
-				process.IsBackground,
+				process.Background.Get(),
 				process.Name,
 				getParams(process),
 			})

@@ -13,8 +13,11 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["="] = cmdEqu
-	lang.GoFunctions["let"] = cmdLet
+	//lang.GoFunctions["="] = cmdEqu
+	//lang.GoFunctions["let"] = cmdLet
+
+	lang.DefineMethod("=", cmdEqu, types.Math, types.Math)
+	lang.DefineMethod("let", cmdLet, types.Math, types.Null)
 }
 
 var (
@@ -86,7 +89,7 @@ func cmdEqu(p *lang.Process) (err error) {
 }
 
 func cmdLet(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Null)
+	//p.Stdout.SetDataType(types.Null)
 
 	if !debug.Enabled {
 		defer func() {

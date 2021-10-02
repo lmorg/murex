@@ -5,7 +5,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func init() {
@@ -28,8 +28,8 @@ type Stdin struct {
 	bWritten   uint64
 	dependants int32
 	dataType   string
-	dtLock     sync.Mutex
-	max        int
+	//dtLock     sync.Mutex
+	max int
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
@@ -68,11 +68,7 @@ func (stdin *Stdin) Open() {
 func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
 
-	/*stdin.dependants--
-
-	if stdin.dependants < 0 {
-		panic("More closed dependants than open")
-	}*/
+	//stdin.dependants--
 
 	i := atomic.AddInt32(&stdin.dependants, -1)
 	if i < 0 {

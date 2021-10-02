@@ -21,7 +21,7 @@ func RunMethodTest(t *testing.T, cmd func(*lang.Process) error, methodName strin
 
 	p := lang.NewTestProcess()
 	p.IsMethod = true
-	p.Parameters.Params = params
+	p.Parameters.DefineParsed(params)
 
 	p.Stdin = streams.NewStdin()
 	p.Stdin.SetDataType(dataType)
@@ -68,7 +68,7 @@ func RunMethodRegexTest(t *testing.T, cmd func(*lang.Process) error, methodName 
 
 	p := lang.NewTestProcess()
 	p.IsMethod = true
-	p.Parameters.Params = params
+	p.Parameters.DefineParsed(params)
 
 	p.Stdin = streams.NewStdin()
 	p.Stdin.SetDataType(dataType)

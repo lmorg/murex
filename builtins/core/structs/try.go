@@ -4,7 +4,7 @@ import (
 	"io"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/runmode"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/types"
 )
 

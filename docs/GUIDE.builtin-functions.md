@@ -15,7 +15,7 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [GUIDE.control-structures.md](./GUIDE.control-structures.md), which
+1. [GUIDE.control-structures](./GUIDE.control-structures.md), which
 contains builtins required for building logic.
 
 ### _murex_'s Source Code
@@ -98,7 +98,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`err`](commands/err.md):
   Print a line to the STDERR
 * [`escape`](commands/escape.md):
-  Escape or unescapes input 
+  Escape or unescape input 
 * [`esccli`](commands/esccli.md):
   Escapes an array so output is valid shell code
 * [`eschtml`](commands/eschtml.md):
@@ -171,6 +171,8 @@ to return the same markdown-formatted document as those listed below. eg
   Creates a map from two data sources
 * [`match`](commands/match.md):
   Match an exact value in an array
+* [`method`](commands/method.md):
+  Define a methods supported data-types
 * [`msort` ](commands/msort.md):
   Sorts an array - data type agnostic
 * [`mtac`](commands/mtac.md):

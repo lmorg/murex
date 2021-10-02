@@ -8,13 +8,19 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["match"] = cmdMatch
-	lang.GoFunctions["!match"] = cmdMatch
-	lang.GoFunctions["regexp"] = cmdRegexp
-	lang.GoFunctions["!regexp"] = cmdRegexp
+	//lang.GoFunctions["match"] = cmdMatch
+	//lang.GoFunctions["!match"] = cmdMatch
+	//lang.GoFunctions["regexp"] = cmdRegexp
+	//lang.GoFunctions["!regexp"] = cmdRegexp
+
+	lang.DefineMethod("match", cmdMatch, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("!match", cmdMatch, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("regexp", cmdRegexp, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("!regexp", cmdRegexp, types.ReadArray, types.WriteArray)
 }
 
 func cmdMatch(p *lang.Process) error {
@@ -94,13 +100,13 @@ func cmdRegexp(p *lang.Process) (err error) {
 
 	case 's':
 		if p.IsNot {
-			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name, string(sRegex[0][0]), p.Parameters.StringAll())
+			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
 		}
 		return regexSubstitute(p, rx, sRegex, dt)
 
 	case 'f':
 		if p.IsNot {
-			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name, string(sRegex[0][0]), p.Parameters.StringAll())
+			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
 		}
 		return regexFind(p, rx, dt)
 

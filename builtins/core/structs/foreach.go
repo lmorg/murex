@@ -10,7 +10,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["foreach"] = cmdForEach
+	//lang.GoFunctions["foreach"] = cmdForEach
+	lang.DefineMethod("foreach", cmdForEach, types.ReadArrayWithType, types.Any)
 }
 
 func cmdForEach(p *lang.Process) (err error) {
@@ -72,7 +73,6 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		fork.Stdin.SetDataType(dt)
 		fork.Stdin.Writeln(b)
 		fork.Execute(block)
-
 	})
 
 	return

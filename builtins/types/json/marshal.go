@@ -1,9 +1,6 @@
 package json
 
 import (
-	"bytes"
-	"fmt"
-
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -41,7 +38,7 @@ func unmarshal(p *lang.Process) (v interface{}, err error) {
 	return
 }
 
-func unmarshalJsonLines(b []byte) (v interface{}, err error) {
+/*func unmarshalJsonLines(b []byte) (v interface{}, err error) {
 	var jsonl []interface{}
 
 	lines := bytes.Split(b, []byte{'\n'})
@@ -55,3 +52,4 @@ func unmarshalJsonLines(b []byte) (v interface{}, err error) {
 
 	return jsonl, err
 }
+*/

@@ -2,13 +2,19 @@ package textmanip
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	lang.GoFunctions["left"] = cmdLeft
-	lang.GoFunctions["right"] = cmdRight
-	lang.GoFunctions["prefix"] = cmdPrefix
-	lang.GoFunctions["suffix"] = cmdSuffix
+	//lang.GoFunctions["left"] = cmdLeft
+	//lang.GoFunctions["right"] = cmdRight
+	//lang.GoFunctions["prefix"] = cmdPrefix
+	//lang.GoFunctions["suffix"] = cmdSuffix
+
+	lang.DefineMethod("left", cmdLeft, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("right", cmdRight, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("prefix", cmdPrefix, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("suffix", cmdSuffix, types.ReadArray, types.WriteArray)
 }
 
 func cmdLeft(p *lang.Process) error {

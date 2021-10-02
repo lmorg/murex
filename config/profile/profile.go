@@ -11,25 +11,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
-	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
-)
-
-const (
-	profileFileName = ".murex_profile"
-	preloadFileName = ".murex_preload"
-	moduleDirName   = ".murex_modules"
-)
-
-var (
-	// ProfilePath is the filename and path to the user profile
-	ProfilePath = home.MyDir + consts.PathSlash + profileFileName
-
-	// PreloadPath is the filename and path to the preload script
-	PreloadPath = home.MyDir + consts.PathSlash + preloadFileName
-
-	// ModulePath is the path to the modules directory
-	ModulePath = home.MyDir + consts.PathSlash + moduleDirName
 )
 
 const preloadMessage = `# This file is loaded before any murex modules. It should only contain
@@ -49,18 +31,18 @@ func Execute() {
 		os.Stderr.WriteString(err.Error())
 	}
 
-	if err := profile(preloadFileName, PreloadPath); err != nil {
-		os.Stderr.WriteString("There were problems loading profile `" + PreloadPath + "`:" + utils.NewLineString)
+	if err := profile(preloadFileName, PreloadPath()); err != nil {
+		os.Stderr.WriteString("There were problems loading profile `" + PreloadPath() + "`:" + utils.NewLineString)
 		os.Stderr.WriteString(err.Error() + utils.NewLineString)
 	}
 
-	if err := modules(); err != nil {
-		os.Stderr.WriteString("There were problems loading modules `" + ModulePath + "`:" + utils.NewLineString)
+	if err := modules(ModulePath()); err != nil {
+		os.Stderr.WriteString("There were problems loading modules `" + ModulePath() + "`:" + utils.NewLineString)
 		os.Stderr.WriteString(err.Error() + utils.NewLineString)
 	}
 
-	if err := profile(profileFileName, ProfilePath); err != nil {
-		os.Stderr.WriteString("There were problems loading profile `" + ProfilePath + "`:" + utils.NewLineString)
+	if err := profile(profileFileName, ProfilePath()); err != nil {
+		os.Stderr.WriteString("There were problems loading profile `" + ProfilePath() + "`:" + utils.NewLineString)
 		os.Stderr.WriteString(err.Error() + utils.NewLineString)
 	}
 
@@ -83,7 +65,7 @@ func profile(name, path string) error {
 		return err
 	}
 
-	if len(b) == 0 && path == PreloadPath {
+	if len(b) == 0 && path == PreloadPath() {
 		err := file.Close()
 		if err != nil {
 			return err
@@ -92,7 +74,7 @@ func profile(name, path string) error {
 		if err != nil {
 			return err
 		}
-		_, err = file.WriteString(preloadMessage + ProfilePath + strings.Repeat(utils.NewLineString, 3))
+		_, err = file.WriteString(preloadMessage + ProfilePath() + strings.Repeat(utils.NewLineString, 3))
 		if err != nil {
 			return err
 		}

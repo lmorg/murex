@@ -3,7 +3,7 @@ package file
 import (
 	"os"
 
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 )
 
 func init() {
@@ -33,14 +33,13 @@ func NewFile(name string) (_ stdio.Io, err error) {
 // Open file writer
 func (f *File) Open() {
 	f.mutex.Lock()
-	defer f.mutex.Unlock()
 	f.dependants++
+	f.mutex.Unlock()
 }
 
 // Close file writer
 func (f *File) Close() {
 	f.mutex.Lock()
-	defer f.mutex.Unlock()
 
 	f.dependants--
 	if f.dependants == 0 {
@@ -50,6 +49,8 @@ func (f *File) Close() {
 	if f.dependants < 0 {
 		panic("more closed dependants than open")
 	}
+
+	f.mutex.Unlock()
 }
 
 // ForceClose forces the stream.Io interface to close.

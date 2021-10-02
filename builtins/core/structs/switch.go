@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/humannumbers"
@@ -27,7 +27,7 @@ func cmdSwitch(p *lang.Process) error {
 	case 1:
 		return switchLogic(p, false, "")
 	case 2:
-		return switchLogic(p, true, p.Parameters.Params[0])
+		return switchLogic(p, true, p.Parameters.StringArray()[0])
 	default:
 		return fmt.Errorf(errSwitchParameters, "Too many")
 	}
@@ -137,7 +137,7 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 					humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
 
 		case 3:
-			if params.Params[1] != "then" {
+			if params.StringArray()[1] != "then" {
 				return nil, nil,
 					fmt.Errorf("Too many parameters for %s statement (%s) or typo in statements. Expecting 'then' statement but found: '%s'\n%s",
 						humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
@@ -150,17 +150,17 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 			if err != nil {
 				return nil, nil,
 					fmt.Errorf("Cannot compile %s statement (%s): %s\nExpecting code block, found: '%s'",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.Params[1+adjust])
+						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.StringArray()[1+adjust])
 			}
 
 			if byVal {
-				return []rune(params.Params[0]), thenBlock, nil
+				return []rune(params.StringArray()[0]), thenBlock, nil
 			}
 
 			caseIf, err := params.Block(0)
 			if err != nil {
 				return nil, nil, fmt.Errorf("Cannot compile %s statement (%s): %s\nExpecting %s conditional block, found: '%s'",
-					humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), (*ast)[i].Name, params.Params[0])
+					humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), (*ast)[i].Name, params.StringArray()[0])
 			}
 			return caseIf, thenBlock, nil
 
@@ -181,7 +181,7 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 			if err != nil {
 				return nil, nil,
 					fmt.Errorf("Cannot compile %s statement (%s): %s\nExpecting code block, found: '%s'",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.Params[0])
+						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.StringArray()[0])
 			}
 			return nil, thenBlock, nil
 

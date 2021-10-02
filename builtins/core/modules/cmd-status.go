@@ -10,7 +10,7 @@ import (
 )
 
 func statusModules(p *lang.Process) error {
-	db, err := readPackagesFile(profile.ModulePath + profile.PackagesFile)
+	db, err := readPackagesFile(profile.ModulePath() + profile.PackagesFile)
 	if err != nil {
 		return err
 	}

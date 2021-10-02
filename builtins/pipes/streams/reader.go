@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/proc/stdio"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )

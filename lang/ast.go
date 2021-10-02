@@ -1,7 +1,7 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/lang/proc/parameters"
+	"github.com/lmorg/murex/lang/parameters"
 )
 
 // AstNode is a tokenized struct for each command, including it's parameters

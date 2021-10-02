@@ -15,7 +15,8 @@ import (
 var rxExt = regexp.MustCompile(`(?i)\.([a-z0-9]+)(\.gz)?$`)
 
 func init() {
-	lang.GoFunctions["open"] = open
+	//lang.GoFunctions["open"] = open
+	lang.DefineFunction("open", open, types.Any)
 }
 
 func open(p *lang.Process) (err error) {
@@ -133,8 +134,8 @@ func preview(p *lang.Process, path, dataType string) error {
 	}
 
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-	fork.Name = "open"
-	fork.Parameters.Params = []string{path}
+	fork.Name.Set("open")
+	fork.Parameters.DefineParsed([]string{path})
 	fork.FileRef = agent.FileRef
 	_, err = fork.Execute(agent.Block)
 

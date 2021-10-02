@@ -43,7 +43,7 @@ func TestSourceFile(t *testing.T) {
 func testSourceFileRef(t *testing.T, fork *lang.Fork, block string) {
 	count.Tests(t, 1)
 
-	fork.Name = "(fork)"
+	fork.Name.Set("(fork)")
 
 	exitNum, err := fork.Execute([]rune(block))
 	if exitNum != 0 {

@@ -17,7 +17,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["debug"] = cmdDebug
+	//lang.GoFunctions["debug"] = cmdDebug
+	lang.DefineMethod("debug", cmdDebug, types.Any, types.Json)
 	lang.GoFunctions["exitnum"] = cmdExitNum
 	lang.GoFunctions["bexists"] = cmdBuiltinExists
 	lang.GoFunctions["cd"] = cmdCd
@@ -28,36 +29,12 @@ func init() {
 	lang.GoFunctions["man-summary"] = cmdManSummary
 }
 
-func cmdDebug(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Json)
+func cmdDebug(p *lang.Process) error {
 	if p.IsMethod {
-		var (
-			j = make(map[string]interface{})
-			b []byte
-		)
-
-		dt := p.Stdin.GetDataType()
-		obj, err := lang.UnmarshalData(p, dt)
-
-		j["Process"] = *p.Previous // not querying any properties that are managed va the mutex
-		j["Data-Type"] = map[string]string{
-			"Murex":             dt,
-			"Go":                fmt.Sprintf("%T", obj),
-			"UnmarshalData Err": fmt.Sprint(err),
-		}
-
-		b, err = json.Marshal(j, p.Stdout.IsTTY())
-		if err != nil {
-			return err
-		}
-
-		_, err = p.Stdout.Writeln(b)
-		return err
-
+		return cmdDebugMethod(p)
 	}
 
-	var v bool
-	v, err = p.Parameters.Bool(0)
+	v, err := p.Parameters.Bool(0)
 
 	if err != nil {
 		_, err = p.Stdout.Write([]byte(fmt.Sprint(debug.Enabled)))
@@ -71,7 +48,34 @@ func cmdDebug(p *lang.Process) (err error) {
 	}
 
 	_, err = p.Stdout.Writeln(types.TrueByte)
-	return
+	return err
+}
+
+func cmdDebugMethod(p *lang.Process) error {
+	dt := p.Stdin.GetDataType()
+	p.Stdout.SetDataType(types.Json)
+
+	var (
+		j = make(map[string]interface{})
+		b []byte
+	)
+
+	obj, err := lang.UnmarshalData(p, dt)
+
+	j["Process"] = p.Previous
+	j["Data-Type"] = map[string]string{
+		"Murex":             dt,
+		"Go":                fmt.Sprintf("%T", obj),
+		"UnmarshalData Err": fmt.Sprint(err),
+	}
+
+	b, err = json.Marshal(j, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Writeln(b)
+	return err
 }
 
 func cmdExitNum(p *lang.Process) error {

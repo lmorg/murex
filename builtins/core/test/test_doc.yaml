@@ -97,7 +97,7 @@
     ### Report
 
     `test: report` is only needed if `config: test auto-report` is set false.
-    However `test: run` automatically enables **auto-report*.
+    However `test: run` automatically enables **auto-report**.
 
     When the report is generated, be it automatically or manually triggered, it
     flushes the table of pending reports.

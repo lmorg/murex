@@ -3,7 +3,6 @@ package lang
 import (
 	"os"
 	"os/exec"
-	"strconv"
 	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
@@ -14,14 +13,13 @@ import (
 // External executes an external process.
 func External(p *Process) error {
 	if err := execute(p); err != nil {
-		// Get exit status. This has only been tested on Linux. May not work on other OSs.
-		if strings.HasPrefix(err.Error(), "exit status ") {
-			i, _ := strconv.Atoi(strings.Replace(err.Error(), "exit status ", "", 1))
-			p.ExitNum = i
+		_, cmd := p.Exec.Get()
+		if cmd != nil {
+			p.ExitNum = cmd.ProcessState.ExitCode()
 		} else {
-			p.Stderr.Writeln([]byte(err.Error()))
 			p.ExitNum = 1
 		}
+		return err
 
 	}
 	return nil
@@ -35,6 +33,7 @@ func execute(p *Process) error {
 		return err
 	}
 	cmd := exec.Command(exeName, parameters...)
+	//cmd.Env = p.Exec.Env
 
 	if p.HasCancelled() {
 		return nil
@@ -53,7 +52,7 @@ func execute(p *Process) error {
 	switch {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
-	case p.IsBackground:
+	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
 	default:
 		cmd.Stdin = os.Stdin
@@ -81,13 +80,12 @@ func execute(p *Process) error {
 	}
 
 	if err := cmd.Start(); err != nil {
-		if !strings.HasPrefix(err.Error(), "signal:") {
-			return err
-		}
+		//if !strings.HasPrefix(err.Error(), "signal:") {
+		return err
+		//}
 	}
 
-	p.Exec.Pid = cmd.Process.Pid
-	p.Exec.Cmd = cmd
+	p.Exec.Set(cmd.Process.Pid, cmd)
 
 	if err := cmd.Wait(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {

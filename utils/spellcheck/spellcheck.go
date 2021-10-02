@@ -20,13 +20,13 @@ func String(line string) (string, error) {
 		return line, err
 	}
 
-	block, err := lang.ShellProcess.Config.Get("shell", "spellcheck-block", types.CodeBlock)
+	block, err := lang.ShellProcess.Config.Get("shell", "spellcheck-func", types.CodeBlock)
 	if err != nil || len(block.(string)) == 0 {
 		return line, err
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
-	fork.Name = "(spellcheck)"
+	fork.Name.Set("(spellcheck)")
 	fork.Stdin.SetDataType(types.Generic)
 	_, err = fork.Stdin.Writeln([]byte(line))
 	if err != nil {
@@ -43,7 +43,7 @@ func String(line string) (string, error) {
 		return line, err
 	}
 	if len(b) != 0 {
-		return line, fmt.Errorf("STDERR: %s", string(utils.CrLfTrim(b)))
+		return line, fmt.Errorf("`config get shell spellcheck-func` STDERR: %s", string(utils.CrLfTrim(b)))
 	}
 
 	err = fork.Stdout.ReadArray(func(bWord []byte) {

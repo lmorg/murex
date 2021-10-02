@@ -12,13 +12,13 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["escape"] = cmdEscape
-	lang.GoFunctions["!escape"] = cmdEscape
-	lang.GoFunctions["eschtml"] = cmdHtml
-	lang.GoFunctions["!eschtml"] = cmdHtml
-	lang.GoFunctions["escurl"] = cmdUrl
-	lang.GoFunctions["!escurl"] = cmdUrl
-	lang.GoFunctions["esccli"] = cmdEscapeCli
+	lang.DefineMethod("escape", cmdEscape, types.Text, types.String)
+	lang.DefineMethod("!escape", cmdEscape, types.Text, types.String)
+	lang.DefineMethod("eschtml", cmdHtml, types.Text, types.String)
+	lang.DefineMethod("!eschtml", cmdHtml, types.Text, types.String)
+	lang.DefineMethod("escurl", cmdUrl, types.Text, types.String)
+	lang.DefineMethod("!escurl", cmdUrl, types.Text, types.String)
+	lang.DefineMethod("esccli", cmdEscapeCli, types.Text, types.String)
 }
 
 func cmdEscape(p *lang.Process) error {

@@ -60,6 +60,46 @@ func TestSortAndDedupString(t *testing.T) {
 			Expected:  []string{"aee", "bee", "cee", "dee", "eee", "eff", "gee"},
 			ExpLength: 7,
 		},
+		{
+			Input:     []string{"f:", "foo:", "fo:", "b:", "bar:", "ba:"},
+			Expected:  []string{"b:", "ba:", "bar:", "f:", "fo:", "foo:"},
+			ExpLength: 6,
+		},
+		{
+			Input:     []string{"foobar", "foo", "bar"},
+			Expected:  []string{"bar", "foo", "foobar"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"bar", "foo", "foobar"},
+			Expected:  []string{"bar", "foo", "foobar"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"-bar", "foo", "foobar"},
+			Expected:  []string{"foo", "foobar", "-bar"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"bar", "-foo", "foobar"},
+			Expected:  []string{"bar", "foobar", "-foo"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"bar", "foo", "-foobar"},
+			Expected:  []string{"bar", "foo", "-foobar"},
+			ExpLength: 3,
+		},
+		{
+			Input:     []string{"", " ", "foo", "bar"},
+			Expected:  []string{"", " ", "bar", "foo"},
+			ExpLength: 4,
+		},
+		{
+			Input:     []string{"bar", "foo", "", " "},
+			Expected:  []string{"", " ", "bar", "foo"},
+			ExpLength: 4,
+		},
 	}
 
 	count.Tests(t, len(tests))

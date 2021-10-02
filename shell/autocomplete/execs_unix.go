@@ -69,7 +69,5 @@ func matchExes(s string, exes map[string]bool, includeColon bool) (items []strin
 		}
 	}
 
-	//sortColon(items, 0, len(items)-1)
-
 	return
 }

@@ -187,7 +187,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "spellcheck-block", config.Properties{
+	c.Define("shell", "spellcheck-func", config.Properties{
 		Description: "Code block to run as part of the spellchecker (STDIN the line, STDOUT is array for misspelt words)",
 		Default:     "{ -> aspell list }",
 		DataType:    types.CodeBlock,
@@ -212,6 +212,12 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Default:     false,
 		DataType:    types.Boolean,
 	})
+
+	/*c.Define("proc", "exec-exit-status", config.Properties{
+		Description: "Report the exit status and line number of external commands",
+		Default:     true,
+		DataType:    types.Boolean,
+	})*/
 
 	// --- test ---
 
