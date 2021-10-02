@@ -1,0 +1,24 @@
+- DocumentID: no_js_here
+  Title: >-
+    There's No Javascript Here!
+  CategoryID: blog
+  DateTime: 2021-05-06 08:24
+  Summary: >-
+    In a modern web with every static site being served by complex Javascript
+    frameworks, so much so that some sites fail to render anything when JS is,
+    turned off, I thought I'd take a moment to discuss how murex.rocks is built
+    and the rational behind its alternative approach to web development.
+  Description: |-
+    
+  Synonyms:
+  Related:
+  - optional/select
+  - types/jsonl
+  - types/csv
+  - types/generic
+  - commands/jobs
+  - commands/fg
+  - commands/bg
+  - apis/ReadArrayWithType
+  - commands/foreach
+
