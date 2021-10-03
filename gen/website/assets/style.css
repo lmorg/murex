@@ -122,6 +122,18 @@ img {
   max-height: 600px;
 }
 
+.figure {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.caption {
+  color: #404040;
+  font-size: 10px;
+  text-align: center;
+}
+
 #side-bar {
   position: fixed;
   width: 180px;
