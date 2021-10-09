@@ -135,6 +135,10 @@ a img:hover {
   border-color: #f57d0d;
 }
 
+.no-border {
+  border-width: 0px;
+}
+
 .figure {
   display: block;
   margin: auto;
