@@ -42,7 +42,10 @@ for f in *.md; do
 done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
-
+sed -i 's/<img src/<img class="no-border" src/;
+        s/<img src/<img class="no-border" src/;
+        s/<img src/<img class="no-border" src/;' \
+        README.html
 
 echo "Compiling WebAssembly...."
 
