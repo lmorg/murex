@@ -129,10 +129,14 @@ img {
 
 a img {
   border-color: #9b251b;
+  border-width: 2px;
+  border-bottom-width: 10px;
 }
 
 a img:hover {
   border-color: #f57d0d;
+  border-width: 2px;
+  border-bottom-width: 10px; 
 }
 
 .no-border {
