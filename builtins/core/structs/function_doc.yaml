@@ -248,3 +248,5 @@
   - private
   - autocomplete
   - runtime
+  - parser/pipe-arrow
+  - user-guide/interactive-shell

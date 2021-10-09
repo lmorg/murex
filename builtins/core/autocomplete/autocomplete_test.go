@@ -34,6 +34,7 @@ func TestAutocomplete(t *testing.T) {
         "Dynamic": "",
         "DynamicDesc": "",
         "ListView": false,
+        "MapView": false,
         "FlagValues": null,
         "Optional": false,
         "AllowMultiple": true,

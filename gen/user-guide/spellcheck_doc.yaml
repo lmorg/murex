@@ -9,8 +9,8 @@
 
     [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
 
-    However to use there there needs to be a few satisfied prerequisites, not all
-    of which will be enabled by default:
+    However to use this there needs to be a few satisfied prerequisites, not all of
+    which will be enabled by default:
 
     ### CLI Spellchecker (3rd Party Software)
 
@@ -163,6 +163,7 @@
   - code-block
   - parser/curly-brace
   - ansi
+  - interactive-shell
   - user-guide/profile
   - types/json
 

@@ -1,5 +1,3 @@
-# _murex_
-
 [![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
 [![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 [![codecov](https://codecov.io/gh/lmorg/murex/branch/master/graph/badge.svg)](https://codecov.io/gh/lmorg/murex)
@@ -30,11 +28,10 @@ A non-exhaustive list features would include:
   checking, hint text detailing a commands behavior before you hit return, and auto-parsing man pages for auto-completions on commands that don't have any
   auto-completion config set.
   
-* Smarter handling of errors, for example try/catch blocks, line numbers
-  included in error messages, errors optionally highlighted in red, etc.
-
-* Script testing and debugging frameworks baked right into the language itself.
-  Which makes it easier to write, maintain and fix shell scripts.
+* Smarter handling of errors and debugging tools. For example try/catch blocks,
+  line numbers included in error messages, errors optionally highlighted in
+  red, and script testing and debugging frameworks baked right into the
+  language itself.
 
 ## Type system
 
@@ -63,28 +60,13 @@ A big part of that ambition is realized via the interactive shell.
 ## Interactive shell
 
 Aside from _murex_ being carefully designed with scripting in mind, the
-interactive shell itself is also built around productivity. To achieve this,
+interactive shell itself is also built around productivity. To achieve this
 we wrote our own readline library. Below is an example of that library in use:
 
 [![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
 
-The above demo includes the following features of _murex_'s bespoke readline
-library:
-
-* hint text - blue status text below the prompt (the colour is configurable)
-* syntax highlighting (albeit there isn’t much syntax to highlight in the
-  example). This can also be turned off if your preference is to have colours
-  disabled
-* tab-completion in gridded mode (seen when typing `cd`)
-* tab-completion in list view (seen when selecting a process name to `kill`
-  where the process ID was substituted when selected)
-* regex searching through the tab-completion suggestions (seen in both `cd` and
-  `kill` - enabled by pressing `[CTRL+f]`)
-* line editing using $EDITOR (`vi` in the example - enabled by pressing `[ESC]`
-  followed by `[v]`)
-* readline’s warning before pasting multiple lines of data into the buffer and
-  the preview option that’s available as part of the aforementioned warning
-* and VIM keys (enabled by pressing `[ESC]`)
+See [the interactive shell user guide](/docs/user-guide/interactive-shell.md)
+for details on all tricks supported by _murex_'s interactive terminal.
 
 ## Pipe tokens: `->` vs `|`
 

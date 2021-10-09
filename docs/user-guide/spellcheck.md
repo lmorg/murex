@@ -8,8 +8,8 @@ _murex_ supports inline spellchecking, where errors are underlined. For example
 
 [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
 
-However to use there there needs to be a few satisfied prerequisites, not all
-of which will be enabled by default:
+However to use this there needs to be a few satisfied prerequisites, not all of
+which will be enabled by default:
 
 ### CLI Spellchecker (3rd Party Software)
 
@@ -143,6 +143,8 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Initiates or terminates a code block
 * [user-guide/_murex_ Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
+* [user-guide/_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about _murex_'s interactive shell?
 * [commands/`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [commands/`append`](../commands/append.md):

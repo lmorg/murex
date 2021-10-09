@@ -64,6 +64,10 @@ var GroupMath = []string{
 
 ## See Also
 
+* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+  Pipes STDOUT from the left hand command to STDIN of the right hand command
+* [user-guide/_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about _murex_'s interactive shell?
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command
 * [commands/`autocomplete`](../commands/autocomplete.md):

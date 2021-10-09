@@ -120,6 +120,7 @@ pre {
 img {
   max-width: 900px;
   max-height: 600px;
+    border-radius: 15px;
 }
 
 .figure {
@@ -132,6 +133,7 @@ img {
   color: #404040;
   font-size: 10px;
   text-align: center;
+  border-top: 0px;
 }
 
 #side-bar {
@@ -142,6 +144,23 @@ img {
   height: 100%;
   background: #303133;
   z-index: 999;
+}
+
+.corner {
+  position: fixed;
+  top: 0px;
+  left: 180px;
+  width: 500px;
+  height: 500px;
+}
+
+#corner-lower {
+  background: #303133;
+}
+
+#corner-upper {
+  background: #f0f0f0;
+  border-radius: 50px 0px 0px 0px;
 }
 
 #document {
@@ -201,6 +220,7 @@ a.side-bar:active, a.side-bar:hover {
   img { max-width: 100%; }
   #side-bar { display: none; position: relative; height: 0px; padding: 10px; width: auto; }
   .side-bar-title { display: none; }
+  #corner-lower { display: none; }
   #burger label { display: block; }
   blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
   pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }

@@ -41,3 +41,5 @@ on the core builtins.
   How scoping works within _murex_
 * [_murex_ Profile Files](user-guide/profile.md):
   A breakdown of the different files loaded on start up
+* [_murex_'s Interactive Shell](user-guide/interactive-shell.md):
+  What's different about _murex_'s interactive shell?
