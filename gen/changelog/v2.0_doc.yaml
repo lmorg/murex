@@ -1,7 +1,7 @@
 - DocumentID: v2.0
   Title: >-
     What's new in murex v2.0
-  CategoryID: blog
+  CategoryID: changelog
   DateTime: 2021-04-17 12:49
   Summary: >-
     This release comes with spellchecking, inlined images, smarter syntax completion and more

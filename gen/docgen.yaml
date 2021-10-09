@@ -288,6 +288,18 @@ Categories:
       CategoryTemplate: gen/blog-md-cat.tmpl
       DocumentTemplate: gen/blog-md-doc.tmpl
 
+  # changelog
+  - ID: changelog
+    Title: Change Log
+    Description: |-
+      Track new features, any breaking changes, and the release history here.
+    Templates:
+    - OutputPath: docs/changelog
+      CategoryFile: ../CHANGELOG.md
+      OutputExt: .md
+      CategoryTemplate: gen/changelog-md-cat.tmpl
+      DocumentTemplate: gen/changelog-md-doc.tmpl
+
 # Compile the default profiles
 
   - ID: default-profile-all
