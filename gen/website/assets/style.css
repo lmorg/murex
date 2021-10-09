@@ -121,6 +121,18 @@ img {
   max-width: 900px;
   max-height: 600px;
   border-radius: 15px;
+  border-width: 1px;
+  border-right-width: 10px;
+  border-color: #303133;
+  border-style: solid;
+}
+
+a img {
+  border-color: #9b251b;
+}
+
+a img:hover {
+  border-color: #f57d0d;
 }
 
 .figure {
