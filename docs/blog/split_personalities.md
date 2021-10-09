@@ -2,6 +2,8 @@
 
 ## The Split Personalities of Shell Usage
 
+> Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
+
 ### A Very Brief History
 
 ![Thompson (sitting) and Ritchie working together at a PDP-11](/images/blog/split_personalities/thompson.jpg)
@@ -216,7 +218,9 @@ Published: 02.10.2021 at 22:42
 
 ## See Also
 
-* [blog/What's new in murex v2.3](../blog/v2.3.md):
+* [changelog/What's new in murex v2.3](../changelog/v2.3.md):
   This release includes significant changes to the interactive terminal
+* [user-guide/_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about _murex_'s interactive shell?
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition

@@ -124,7 +124,7 @@ If you do run into any issues then please raise them on [Github](https://github.
 
 ## See Also
 
-* [blog/What's new in murex v2.1](../blog/v2.1.md):
+* [changelog/What's new in murex v2.1](../changelog/v2.1.md):
   This release comes with support for inlining SQL and some major bug fixes plus a breaking change for `config`. Please read for details.
 * [types/`*` (generic) ](../types/generic.md):
   generic (primitive)

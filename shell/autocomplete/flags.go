@@ -14,7 +14,6 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	//HintText      string             // readline hint text override
 	IncFiles      bool               // `true` to include file name completion
 	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
@@ -23,6 +22,7 @@ type Flags struct {
 	Dynamic       string             // Use murex script to generate auto-complete suggestions
 	DynamicDesc   string             // Use murex script to generate auto-complete suggestions with descriptions
 	ListView      bool               // Display the helps as a "popup menu-like" list rather than grid
+	MapView       bool               // Like ListView but the description is highlighted instead
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
@@ -136,6 +136,8 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 
 	if /*len(f.FlagsDesc) > 0 &&*/ f.ListView {
 		act.TabDisplayType = readline.TabDisplayList
+	} else if f.MapView {
+		act.TabDisplayType = readline.TabDisplayMap
 	}
 
 	return len(act.Items)

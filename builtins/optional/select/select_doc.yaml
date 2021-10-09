@@ -118,7 +118,7 @@
   Synonyms:
   - select
   Related:
-  - blog/v2.1
+  - changelog/v2.1
   - types/csv
   - types/jsonl
   - types/generic

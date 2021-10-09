@@ -279,3 +279,14 @@ func TestParserQuoteBrace(t *testing.T) {
 	testParser(t, `out (")`, 0,
 		false, false, false, false, 0, 0, false, false, "", "out", []string{`"`}, "", parser.PipeTokenNone)
 }
+
+func TestParserPipeBasic(t *testing.T) {
+	testParser(t, "foo | bar", 0,
+		false, false, false, false, 0, 0, false, true, "foo", "bar", []string{}, "", parser.PipeTokenPosix)
+	testParser(t, "foo -> bar", 0,
+		false, false, false, false, 0, 0, false, true, "foo", "bar", []string{}, "", parser.PipeTokenArrow)
+	testParser(t, "foo => bar", 0,
+		false, false, false, false, 0, 0, false, true, "foo", "bar", []string{}, "", parser.PipeTokenGeneric)
+	testParser(t, "foo ? bar", 0,
+		false, false, false, false, 0, 0, false, true, "foo", "bar", []string{}, "", parser.PipeTokenRedirect)
+}
