@@ -46,7 +46,7 @@ For example a traditional pipeline might look like the following:
 
 Because traditional shells send everything as dumb byte streams, working with
 any structured data means learning a multitude of additional languages like
-`awk`, `sed`, `tr`, `Perl`, `jq` and so on and so forth.
+awk, sed, tr, Perl, jq and so on and so forth.
 
 The same pipeline in _murex_ might look like the following:
 

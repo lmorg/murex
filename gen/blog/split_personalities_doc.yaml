@@ -68,17 +68,18 @@
     the following:
 
     ```
-    cat: "./example.csv" | grep: "-n", "foobar"
+    cat ("./example.csv") | grep ("-n", "foobar")
     ```
 
     While this came with some readability improvements, it was a _massive_ pain to
     write over and over. So I added some syntax completion to the terminal,
     inspired by IDE's and how they attempt to minimize the repetition of entering
     syntax tokens. However this didn't remove the pain entirely, it just masked it
-    a little. So I decided to make the quotation marks optional. Then the commas
-    became optional...and before I knew it, I'd basically just reinvented the
-    same syntax for writing commands as everyone had already been using for a
-    multitude of decade prior. What started out as the example above ended up
+    a little. So I removed the redundant braces. But the enforced quotation marks
+    were still annoying, so I decided to make the quotation marks optional. Then
+    the commas were removed...and before I knew it, I'd basically just reinvented
+    the same syntax for writing commands as everyone had already been using for a
+    multitude of decades prior. What started out as the example above ended up
     looking more like the example below:
 
     ```
