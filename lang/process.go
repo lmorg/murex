@@ -80,16 +80,16 @@ var (
 func writeError(p *Process, err error) []byte {
 	name := p.Name.String()
 	if name == "exec" {
-		exec, pErr := p.Parameters.String(1)
-		if pErr != nil {
+		exec, pErr := p.Parameters.String(0)
+		if pErr == nil {
 			name = exec
 		}
 	}
 
 	if p.FileRef.Source.Module == app.Name {
-		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name.String(), p.FileRef.Line, p.FileRef.Column, err.Error()))
+		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", name, p.FileRef.Line, p.FileRef.Column, err.Error()))
 	}
-	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", p.Name.String(), p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
+	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
 }
 
 func createProcess(p *Process, isMethod bool) {
