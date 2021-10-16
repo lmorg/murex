@@ -820,8 +820,7 @@ openagent set image {
         }
 
         case iterm {
-            #out "{ESC}]1337;File=$file{^G}"
-            out "$file"
+            out "{ESC}]1337;File=inline=1:${base64 $file}{^G}"
         }
 
         case terminology {

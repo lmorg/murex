@@ -78,6 +78,14 @@ var (
 )
 
 func writeError(p *Process, err error) []byte {
+	name := p.Name.String()
+	if name == "exec" {
+		exec, pErr := p.Parameters.String(1)
+		if pErr != nil {
+			name = exec
+		}
+	}
+
 	if p.FileRef.Source.Module == app.Name {
 		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name.String(), p.FileRef.Line, p.FileRef.Column, err.Error()))
 	}
