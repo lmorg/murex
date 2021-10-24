@@ -169,7 +169,7 @@ func TestCliBang(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:   `!esccli foo\ bar`,
-			Stderr:  "Error in `exec` ( 1,1): exec: \"!esccli\": executable file not found in $PATH\n",
+			Stderr:  "Error in `!esccli` ( 1,1): exec: \"!esccli\": executable file not found in $PATH\n",
 			ExitNum: 1,
 		},
 	}
