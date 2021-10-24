@@ -42,6 +42,9 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 		hintText = hintText[:(rl.termWidth*3)-4] + "..."
 	} else {
 		padding := (rl.hintY * rl.termWidth) - len(hintText)
+		if padding < 0 {
+			padding = 0
+		}
 		hintText += strings.Repeat(" ", padding)
 	}
 
