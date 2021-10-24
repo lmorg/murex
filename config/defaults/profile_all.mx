@@ -203,7 +203,7 @@ test unit private autocomplete.config.get.apps {
 
 private autocomplete.config.get.keys {
     # Returns all keys for the 'app' field in `config`
-    config -> [ $ARGS[1] ] -> formap k v { out $k } -> cast: str -> msort
+    config -> [ $PARAMS[0] ] -> formap k v { out $k } -> cast: str
 }
 
 test unit private autocomplete.config.get.keys {
@@ -226,41 +226,63 @@ autocomplete: set config { [{
     "FlagValues": {
         "get": [
             { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) }
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
         ],               
         "set": [
             { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) },
             { "Dynamic": ({
 				switch {
-					case { = `${ config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Data-Type ]}`==`bool` } {
+					case { = `${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Data-Type ]}`==`bool` } {
 						ja [true,false]
 					}
 
-					case { config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ <!null> Options ] } {
-						config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Options ]
+					case { config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ <!null> Options ] } {
+						config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Options ]
 					}
 					
                 	catch {
-						out ${ config -> [ $ARGS[2] ] -> [ $ARGS[3] ] -> [ Default ]}
+						out ${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Default ]}
 					}
 				}
 			}) }
         ],
         "eval": [
             { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) }
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
         ],
         "default": [
             { "Dynamic": ({ autocomplete.config.get.apps }) },
-            { "Dynamic": ({ autocomplete.config.get.keys $ARGS[2] }) }
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
+        ]
+    }
+}] }
+
+autocomplete: set test-autocomplete { [{
+    "Flags": [ "111", "222", "333", "444" ],
+    "FlagValues": {
+        "111": [
+            { "Dynamic": ({ out aaa\nbbb\nccc\n$PARAMS }) },
+            { "Dynamic": ({ out ddd\neee\nfff\n$PARAMS }) }
+        ],               
+        "222": [
+            { "Dynamic": ({ out ggg\nhhh\niii\n$PARAMS }) },
+            { "Dynamic": ({ out jjj\nkkk\nlll\n$PARAMS }) }
+        ],
+        "333": [
+            { "Dynamic": ({ out mmm\nnnn\nooo\n$PARAMS }) },
+            { "Dynamic": ({ out ppp\nqqq\nrrr\n$PARAMS }) }
+        ],
+        "444": [
+            { "Dynamic": ({ out sss\nttt\nuuu\n$PARAMS }) },
+            { "Dynamic": ({ out vvv\nwww\nxxx\n$PARAMS }) }
         ]
     }
 }] }
 
 autocomplete: set !config { [
     { "Dynamic": ({ autocomplete.config.get.apps }) },
-    { "Dynamic": ({ autocomplete.config.get.keys $ARGS[1] }) }
+    { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[0] }) }
 ] }
 
 
@@ -790,11 +812,12 @@ openagent set image {
 
     if { = mode==`auto` } {
         switch {
+            case { $TMUX }                 { set mode=compatible }
             case { $KITTY_WINDOW_ID }      { set mode=kitty }
             case { = TERM==`xterm-kitty` } { set mode=kitty }
             case { $TERMINOLOGY }          { set mode=terminology }
-            #case { = TERM_PROGRAM==`iTerm.app` } { set mode=iterm }
-            #case { $ITERM_PROFILE }        { set mode=iterm }
+            case { = TERM_PROGRAM==`iTerm.app` } { set mode=iterm }
+            case { $ITERM_PROFILE }        { set mode=iterm }
             catch                          { set mode=compatible }
         }
     }

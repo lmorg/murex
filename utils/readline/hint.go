@@ -28,6 +28,11 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 		}
 	}
 
+	// fix bug https://github.com/lmorg/murex/issues/376
+	if rl.termWidth == 0 {
+		rl.termWidth = GetTermWidth()
+	}
+
 	// Determine how many lines hintText spans over
 	// (Currently there is no support for carridge returns / new lines)
 	hintLength := strLen(hintText)
@@ -39,7 +44,8 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 
 	if rl.hintY > 3 {
 		rl.hintY = 3
-		hintText = hintText[:(rl.termWidth*3)-4] + "..."
+		//hintText = hintText[:(rl.termWidth*3)-4] + "..."
+		hintText = hintText[:(rl.termWidth*3)-2] + "…"
 	} else {
 		padding := (rl.hintY * rl.termWidth) - len(hintText)
 		if padding < 0 {
