@@ -72,8 +72,8 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			fStdin = lang.F_NO_STDIN
 		}
 
-		params := act.ParsedTokens.Parameters //args.params
-		//if act.ParsedTokens.LastCharacter != ' ' {
+		// don't share incomplete parameters with dynamic autocompletion blocks
+		params := act.ParsedTokens.Parameters
 		switch len(params) {
 		case 0: // do nothing
 		case 1:
@@ -81,7 +81,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		default:
 			params = params[:len(params)-1]
 		}
-		//}
 
 		// Execute the dynamic code block
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
