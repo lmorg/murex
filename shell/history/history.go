@@ -99,12 +99,12 @@ func (h *History) Close() {
 // GetLine returns a specific line from the history file
 func (h *History) GetLine(i int) (string, error) {
 	if i < 0 {
-		return "", errors.New("Cannot use a negative index when requesting historic commands")
+		return "", errors.New("cannot use a negative index when requesting historic commands")
 	}
 	if i < len(h.list) {
 		return h.list[i].Block, nil
 	}
-	return "", errors.New("Index requested greater than number of items in history")
+	return "", errors.New("index requested greater than number of items in history")
 }
 
 // Len returns the number of items in the history file

@@ -26,19 +26,19 @@ func NewTestHistory() *TestHistory {
 
 // Write item to history file. eg ~/.murex_history
 func (h *TestHistory) Write(s string) (int, error) {
-	h.list = append(h.list)
+	h.list = append(h.list, s)
 	return len(h.list), nil
 }
 
 // GetLine returns a specific line from the history file
 func (h *TestHistory) GetLine(i int) (string, error) {
 	if i < 0 {
-		return "", errors.New("Cannot use a negative index when requesting historic commands")
+		return "", errors.New("cannot use a negative index when requesting historic commands")
 	}
 	if i < len(h.list) {
 		return h.list[i], nil
 	}
-	return "", errors.New("Index requested greater than number of items in history")
+	return "", errors.New("index requested greater than number of items in history")
 }
 
 // Len returns the number of items in the history file
@@ -56,6 +56,6 @@ func TestTestHistory(t *testing.T) {
 
 	h := NewTestHistory()
 	if h.Len() != len(testHistoryItems) {
-		t.Error("Test history doesn't contain the number of items it is expecting")
+		t.Error("test history doesn't contain the number of items it is expecting")
 	}
 }

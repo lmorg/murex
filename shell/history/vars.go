@@ -23,7 +23,7 @@ var (
 )
 
 const (
-	errCannotParsePrevCmd = "Cannot parse previous command line to extract parameters for history variable"
+	errCannotParsePrevCmd = "cannot parse previous command line to extract parameters for history variable"
 )
 
 func getLine(i int, rl *readline.Instance) (s string) {
