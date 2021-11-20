@@ -49,14 +49,15 @@ type Config struct {
 func newGlobal() *Config {
 	conf := new(Config)
 	conf.properties = make(map[string]map[string]Properties)
-	conf.values = make(map[string]map[string]interface{})
 	conf.fileRefSet = make(map[string]map[string]*ref.File)
+	conf.values = make(map[string]map[string]interface{})
 	return conf
 }
 
 func newConfiguration(global *Config) *Config {
 	conf := new(Config)
 	conf.properties = make(map[string]map[string]Properties)
+	conf.fileRefSet = make(map[string]map[string]*ref.File)
 	conf.values = make(map[string]map[string]interface{})
 	conf.global = global
 	return conf
@@ -182,13 +183,15 @@ func (conf *Config) Set(app string, key string, value interface{}, fileRef *ref.
 	default:
 		if len(conf.values) == 0 {
 			conf.values = make(map[string]map[string]interface{})
+			conf.fileRefSet = make(map[string]map[string]*ref.File)
 		}
 		if len(conf.values[app]) == 0 {
 			conf.values[app] = make(map[string]interface{})
+			conf.fileRefSet[app] = make(map[string]*ref.File)
 		}
 
-		conf.values[app][key] = value
 		conf.fileRefSet[app][key] = fileRef
+		conf.values[app][key] = value
 
 		conf.mutex.Unlock()
 		return nil
@@ -237,8 +240,8 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 	conf.mutex.Lock()
 	if conf.properties[app] == nil {
 		conf.properties[app] = make(map[string]Properties)
-		conf.values[app] = make(map[string]interface{})
 		conf.fileRefSet[app] = make(map[string]*ref.File)
+		conf.values[app] = make(map[string]interface{})
 	}
 
 	// don't set the value to the default if it's a dynamic property
