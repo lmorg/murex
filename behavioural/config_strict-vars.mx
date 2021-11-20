@@ -2,7 +2,7 @@
 
 function config.proc.strict-vars.true.params {
     config: set proc strict-vars true
-    out foo $SDFSDFGDFSDSAFDSAF bar
+    out: foo $SDFSdfgdfsgdsfgDFGDFSDSAFDSAFfgbtrr5g bar
 }
 
 test: unit function config.proc.strict-vars.true.params {
@@ -12,7 +12,7 @@ test: unit function config.proc.strict-vars.true.params {
 
 function config.proc.strict-vars.true.string {
     config: set proc strict-vars true
-    out "foo $SDFSDFGDFSDSAFDSAF bar"
+    out: "foo $gghrfhfgdDFGDFGnbrtygertgg5454gbghfg bar"
 }
 
 test: unit function config.proc.strict-vars.true.string {
@@ -22,20 +22,20 @@ test: unit function config.proc.strict-vars.true.string {
 
 function config.proc.strict-vars.false.params {
     config: set proc strict-vars false
-    out foo $SDFSDFGDFSDSAFDSAF bar
+    out: foo $dfg5446hrtdfgdfsgserg4365hyfgh655665b bar
 }
 
 test: unit function config.proc.strict-vars.false.params {
-    "StdoutString": "foo bar",
+    "StdoutMatch": "foo  bar\n",
     "ExitNum":     0
 }
 
 function config.proc.strict-vars.false.string {
     config: set proc strict-vars false
-    out "foo $SDFSDFGDFSDSAFDSAF bar"
+    out: "foo $sdfgh5434g45jsdfgdsed4g556657j76kwe5 bar"
 }
 
 test: unit function config.proc.strict-vars.false.string {
-    "StdoutString": "foo  bar",
+    "StdoutMatch": "foo  bar\n",
     "ExitNum":     0
 }
