@@ -37,7 +37,7 @@ func cmdConfig(p *lang.Process) error {
 
 	default:
 		p.Stdout.SetDataType(types.Null)
-		return errors.New("Unknown option. Please get, set, eval, default or define")
+		return errors.New("unknown option. Please get, set, eval, default or define")
 	}
 }
 
@@ -82,17 +82,17 @@ func setConfig(p *lang.Process) error {
 		val, _ = p.Parameters.String(3)
 	}
 
-	return p.Config.Set(app, key, val)
+	return p.Config.Set(app, key, val, p.FileRef)
 }
 
 func defaultConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(1)
 	key, _ := p.Parameters.String(2)
-	return p.Config.Default(app, key)
+	return p.Config.Default(app, key, p.FileRef)
 }
 
 func bangConfig(p *lang.Process) error {
 	app, _ := p.Parameters.String(0)
 	key, _ := p.Parameters.String(1)
-	return p.Config.Default(app, key)
+	return p.Config.Default(app, key, p.FileRef)
 }

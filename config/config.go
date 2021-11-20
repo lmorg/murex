@@ -20,7 +20,7 @@ type Properties struct {
 	Global      bool
 	Dynamic     DynamicProperties
 	GoFunc      GoFuncProperties
-	FileRef     *ref.File
+	FileRefDef  *ref.File
 }
 
 // DynamicProperties is used for dynamic values written in murex
@@ -41,6 +41,7 @@ type GoFuncProperties struct {
 type Config struct {
 	mutex      sync.RWMutex
 	properties map[string]map[string]Properties  // This will be the main configuration metadata for each configuration option
+	fileRefSet map[string]map[string]*ref.File   // This is separate from Properties because it gets updated more frequently (eg custom setters)
 	values     map[string]map[string]interface{} // This stores the values when no custom getter and setter have been defined
 	global     *Config
 }
@@ -49,6 +50,7 @@ func newGlobal() *Config {
 	conf := new(Config)
 	conf.properties = make(map[string]map[string]Properties)
 	conf.values = make(map[string]map[string]interface{})
+	conf.fileRefSet = make(map[string]map[string]*ref.File)
 	return conf
 }
 
@@ -99,7 +101,7 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 		if conf.global != nil {
 			return conf.global.Get(app, key, dataType)
 		}
-		return nil, fmt.Errorf("Cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
+		return nil, fmt.Errorf("cannot get config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
 	var v interface{}
@@ -138,12 +140,12 @@ func (conf *Config) Get(app, key, dataType string) (value interface{}, err error
 //     app == tooling name
 //     key == name of setting
 //     value == the setting itself
-func (conf *Config) Set(app string, key string, value interface{}) error {
+func (conf *Config) Set(app string, key string, value interface{}, fileRef *ref.File) error {
 	// first check if we're in a global, and whether we should be
 	if conf.global != nil {
 		exists, global := conf.global.ExistsAndGlobal(app, key)
 		if !exists || global {
-			return conf.global.Set(app, key, value)
+			return conf.global.Set(app, key, value, fileRef)
 		}
 	}
 
@@ -152,18 +154,30 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 	if conf.global == nil {
 		if conf.properties[app] == nil || conf.properties[app][key].DataType == "" || conf.properties[app][key].Description == "" {
 			conf.mutex.Unlock()
-			return fmt.Errorf("Cannot set config. No config has been defined for app `%s`, key `%s`", app, key)
+			return fmt.Errorf("cannot set config. No config has been defined for app `%s`, key `%s`", app, key)
 		}
 	}
 
 	switch {
 	case conf.properties[app][key].Dynamic.SetDynamic != nil:
 		conf.mutex.Unlock()
-		return conf.properties[app][key].Dynamic.SetDynamic(value)
+		err := conf.properties[app][key].Dynamic.SetDynamic(value)
+		if err == nil {
+			conf.mutex.Lock()
+			conf.fileRefSet[app][key] = fileRef
+			conf.mutex.Unlock()
+		}
+		return err
 
 	case conf.properties[app][key].GoFunc.Write != nil:
 		conf.mutex.Unlock()
-		return conf.properties[app][key].GoFunc.Write(value)
+		err := conf.properties[app][key].GoFunc.Write(value)
+		if err == nil {
+			conf.mutex.Lock()
+			conf.fileRefSet[app][key] = fileRef
+			conf.mutex.Unlock()
+		}
+		return err
 
 	default:
 		if len(conf.values) == 0 {
@@ -174,6 +188,7 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 		}
 
 		conf.values[app][key] = value
+		conf.fileRefSet[app][key] = fileRef
 
 		conf.mutex.Unlock()
 		return nil
@@ -181,7 +196,7 @@ func (conf *Config) Set(app string, key string, value interface{}) error {
 }
 
 // Default resets a config option back to its default
-func (conf *Config) Default(app string, key string) error {
+func (conf *Config) Default(app string, key string, fileRef *ref.File) error {
 	c := conf.global
 	if c == nil {
 		c = conf
@@ -190,14 +205,14 @@ func (conf *Config) Default(app string, key string) error {
 	exists, _ := c.ExistsAndGlobal(app, key)
 
 	if !exists {
-		return fmt.Errorf("Cannot default config. No config has been defined for app `%s`, key `%s`", app, key)
+		return fmt.Errorf("cannot default config. No config has been defined for app `%s`, key `%s`", app, key)
 	}
 
 	c.mutex.RLock()
 	v := c.properties[app][key].Default
 	c.mutex.RUnlock()
 
-	return conf.Set(app, key, v)
+	return conf.Set(app, key, v, fileRef)
 }
 
 // DataType retrieves the murex data type for a given Config property
@@ -223,6 +238,7 @@ func (conf *Config) Define(app string, key string, properties Properties) {
 	if conf.properties[app] == nil {
 		conf.properties[app] = make(map[string]Properties)
 		conf.values[app] = make(map[string]interface{})
+		conf.fileRefSet[app] = make(map[string]*ref.File)
 	}
 
 	// don't set the value to the default if it's a dynamic property
@@ -253,7 +269,8 @@ func (conf *Config) DumpRuntime() (obj map[string]map[string]map[string]interfac
 			obj[app][key]["Data-Type"] = conf.properties[app][key].DataType
 			obj[app][key]["Default"] = conf.properties[app][key].Default
 			obj[app][key]["Value"] = conf.values[app][key]
-			obj[app][key]["FileRef"] = conf.properties[app][key].FileRef
+			obj[app][key]["FileRefDefined"] = conf.properties[app][key].FileRefDef
+			obj[app][key]["FileRefSet"] = conf.fileRefSet[app][key]
 
 			//if conf.properties[app][key].Global {
 			obj[app][key]["Global"] = conf.properties[app][key].Global

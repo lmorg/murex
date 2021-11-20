@@ -1,3 +1,4 @@
+//go:build !js
 // +build !js
 
 package main
@@ -52,17 +53,17 @@ func runTests() error {
 	execSource(defaults.DefaultMurexProfile(), srcRef)
 
 	// enable tests
-	if err := lang.ShellProcess.Config.Set("test", "enabled", true); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "enabled", true, nil); err != nil {
 		return err
 	}
-	if err := lang.ShellProcess.Config.Set("test", "auto-report", false); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "auto-report", false, nil); err != nil {
 		return err
 	}
-	if err := lang.ShellProcess.Config.Set("test", "verbose", false); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "verbose", false, nil); err != nil {
 		return err
 	}
 	tty := readline.IsTerminal(int(os.Stdout.Fd()))
-	if err := lang.ShellProcess.Config.Set("shell", "color", tty); err != nil {
+	if err := lang.ShellProcess.Config.Set("shell", "color", tty, nil); err != nil {
 		return err
 	}
 

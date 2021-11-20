@@ -55,12 +55,12 @@ func TestSpellcheckCrLf(t *testing.T) {
 	//defaults.Defaults(lang.ShellProcess.Config, false)
 	configDefaults(lang.ShellProcess.Config)
 
-	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
+	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true, nil)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit ' ' -> suffix "\n" }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit ' ' -> suffix "\n" }`, nil)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}
@@ -91,12 +91,12 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 	//defaults.Defaults(lang.ShellProcess.Config, false)
 	configDefaults(lang.ShellProcess.Config)
 
-	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
+	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true, nil)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit '\s' -> append '' }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit '\s' -> append '' }`, nil)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}
@@ -121,12 +121,12 @@ func TestSpellcheckVariable(t *testing.T) {
 	lang.InitEnv()
 	defaults.Defaults(lang.ShellProcess.Config, false)
 
-	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
+	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true, nil)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit ' ' -> suffix "\n" }`)
+	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit ' ' -> suffix "\n" }`, nil)
 	if err != nil {
 		t.Fatalf("Unable to set spellcheck-func config: %s", err)
 	}

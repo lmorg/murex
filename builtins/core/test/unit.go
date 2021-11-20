@@ -60,12 +60,12 @@ func testUnitRun(p *lang.Process) error {
 		return errUsage("", err)
 	}
 
-	err = p.Config.Set("test", "enabled", true)
+	err = p.Config.Set("test", "enabled", true, p.FileRef)
 	if err != nil {
 		return err
 	}
 
-	err = p.Config.Set("test", "auto-report", false)
+	err = p.Config.Set("test", "auto-report", false, p.FileRef)
 	if err != nil {
 		return err
 	}

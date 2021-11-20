@@ -22,7 +22,7 @@ type murexPrivDetails struct {
 	FileRef *ref.File
 }
 
-const errMsg = "Cannot locate private called `%s` in module `%s`"
+const errMsg = "cannot locate private called `%s` in module `%s`"
 
 // NewMurexPrivs creates a new table of private murex functions
 func NewMurexPrivs() (mf MurexPrivs) {

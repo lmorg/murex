@@ -17,12 +17,12 @@ func testRunBlock(p *lang.Process, block []rune) error {
 	fork := p.Fork(lang.F_FUNCTION)
 	fork.Name.Set("(test run)")
 
-	err := fork.Config.Set("test", "enabled", true)
+	err := fork.Config.Set("test", "enabled", true, p.FileRef)
 	if err != nil {
 		return err
 	}
 
-	err = fork.Config.Set("test", "auto-report", false)
+	err = fork.Config.Set("test", "auto-report", false, p.FileRef)
 	if err != nil {
 		return err
 	}

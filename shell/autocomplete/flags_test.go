@@ -29,12 +29,12 @@ func initAutocompleteFlagsTest(exe string, acJson string) {
 	defaults.Defaults(lang.ShellProcess.Config, false)
 	//debug.Enabled = true
 
-	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000)
+	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000, nil)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	err = lang.ShellProcess.Config.Set("shell", "autocomplete-hard-timeout", 10000)
+	err = lang.ShellProcess.Config.Set("shell", "autocomplete-hard-timeout", 10000, nil)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -396,7 +396,7 @@ func TestAutocompleteDynamicDesc(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -477,7 +477,7 @@ func TestAutocompleteDynamicArrayChain(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -529,7 +529,7 @@ func TestAutocompleteDynamicArrayChainOptional(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -600,7 +600,7 @@ func TestAutocompleteDynamicArrayChainOptionalMultiple(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -676,7 +676,7 @@ func TestAutocompleteDynamicDescArrayChain(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -741,7 +741,7 @@ func TestAutocompleteDynamicDescArrayChainOptional(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -833,7 +833,7 @@ func TestAutocompleteDynamicDescArrayChainOptionalMultiple(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Monday`,
 				`Tuesday`,
@@ -936,7 +936,7 @@ func TestAutocompleteNested(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Sunday`,
 				`Monday`,
@@ -1009,7 +1009,7 @@ func TestAutocompleteComplexNestedDynamic(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`optional`,
 				`Sunday`,
@@ -1118,7 +1118,7 @@ func TestAutocompleteComplexNestedDynamicDesc(t *testing.T) {
 
 	tests := []testAutocompleteFlagsT{
 		{
-			CmdLine: fmt.Sprintf(`%s`, t.Name()),
+			CmdLine: t.Name(),
 			ExpItems: []string{
 				`Optional`,
 				`Sunday`,

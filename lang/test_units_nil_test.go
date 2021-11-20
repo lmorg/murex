@@ -27,7 +27,7 @@ func TestRunTestNotATest(t *testing.T) {
 	count.Tests(t, 1)
 
 	lang.InitEnv()
-	lang.ShellProcess.Config.Set("test", "auto-report", false)
+	lang.ShellProcess.Config.Set("test", "auto-report", false, nil)
 
 	fileRef := &ref.File{
 		Source: &ref.Source{
@@ -61,7 +61,7 @@ func TestRunTestNotAFunction(t *testing.T) {
 	count.Tests(t, 1)
 
 	lang.InitEnv()
-	lang.ShellProcess.Config.Set("test", "auto-report", false)
+	lang.ShellProcess.Config.Set("test", "auto-report", false, nil)
 
 	fileRef := &ref.File{
 		Source: &ref.Source{

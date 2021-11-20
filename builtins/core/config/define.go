@@ -42,7 +42,7 @@ func defineConfig(p *lang.Process) error {
 		return err
 	}
 
-	properties.FileRef = p.FileRef
+	properties.FileRefDef = p.FileRef
 
 	switch {
 	case properties.DataType == "":
@@ -56,13 +56,13 @@ func defineConfig(p *lang.Process) error {
 
 	case (properties.Dynamic.Read == "" && properties.Dynamic.Write != "") ||
 		(properties.Dynamic.Read != "" && properties.Dynamic.Write == ""):
-		return errors.New("When using dynamic values, both the `read` and `write` need to contain code blocks")
+		return errors.New("when using dynamic values, both the `read` and `write` need to contain code blocks")
 
 	case properties.Dynamic.Read != "" && !types.IsBlock([]byte(properties.Dynamic.Read)):
-		return errors.New("Dynamic `Read` is not a valid code block")
+		return errors.New("dynamic `Read` is not a valid code block")
 
 	case properties.Dynamic.Write != "" && !types.IsBlock([]byte(properties.Dynamic.Write)):
-		return errors.New("Dynamic `Write` is not a valid code block")
+		return errors.New("dynamic `Write` is not a valid code block")
 
 	case properties.Dynamic.Read != "" && !properties.Global:
 		return errors.New("`Global` must be `true` when dynamic values are defined")
