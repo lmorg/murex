@@ -14,10 +14,8 @@ import (
 )
 
 var (
-	errVariableReserved     = errors.New("Cannot set a reserved variable")
-	errVarNotExist          = errors.New("Variable does not exist")
-	errInvalidVarProperty   = "Invalid varProperty set!"
-	errNoDirectGlobalMethod = "This method cannot be invoked directly for global variables"
+	errVariableReserved = errors.New("cannot set a reserved variable")
+	errVarNotExist      = errors.New("variable does not exist")
 )
 
 // Reserved variable names. Set as constants so any typos of these names within
@@ -65,7 +63,10 @@ type variable struct {
 	FileRef  *ref.File // only needed for globals
 }
 
-// GetValue return the value of a variable
+// GetValue return the value of a variable. If a variable does not exist then
+// GetValue will return nil. Please check if p.Config.Get("proc", "strict-vars", "bool")
+// matters for your usage of GetValue because this API doesn't care. If in doubt
+// use GetString instead.
 func (v *Variables) GetValue(name string) interface{} {
 	switch {
 	case v.global:
@@ -117,41 +118,47 @@ func (v *Variables) getValue(name string) (value interface{}) {
 }
 
 // GetString returns a string representation of the data stored in the requested variable
-func (v *Variables) GetString(name string) string {
+func (v *Variables) GetString(name string) (string, error) {
 	switch {
 	case v.global:
 		val, _ := v.getString(name)
-		return val
+		return val, nil
 		//panic(errNoDirectGlobalMethod)
 
 	case name == SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
-		return string(b)
+		return string(b), nil
 
 	case name == ARGS:
 		b, _ := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
-		return string(b)
+		return string(b), nil
 
 	case name == PARAMS:
 		b, _ := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
-		return string(b)
+		return string(b), nil
 
 	case name == MUREX_EXE:
-		return getVarMurexExe().(string)
+		return getVarMurexExe().(string), nil
 	}
 
 	s, exists := v.getString(name)
 	if exists {
-		return s
+		return s, nil
 	}
 
 	s, exists = GlobalVariables.getString(name)
 	if exists {
-		return s
+		return s, nil
 	}
 
 	// variable not found so lets fallback to the environmental variables
-	return os.Getenv(name)
+	s, exists = os.LookupEnv(name)
+
+	if v, _ := v.process.Config.Get("proc", "strict-vars", "bool"); v.(bool) == true && !exists {
+		return "", errVarNotExist
+	}
+
+	return s, nil
 }
 
 func (v *Variables) getString(name string) (string, bool) {
@@ -229,7 +236,7 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
-		return fmt.Errorf("Cannot store variable: %s", err.Error())
+		return fmt.Errorf("cannot store variable: %s", err.Error())
 	}
 
 	fileRef := v.process.FileRef

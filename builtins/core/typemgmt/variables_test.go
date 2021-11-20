@@ -45,8 +45,16 @@ func VariableTests(tests []Test, t *testing.T) {
 			t.Error("unable to read from stderr: " + err.Error())
 		}
 
-		value := fork.Variables.GetString(tests[i].Name)
+		value, err := fork.Variables.GetString(tests[i].Name)
 		dataType := fork.Variables.GetDataType(tests[i].Name)
+
+		if err != nil {
+			t.Errorf("Test %d failed on %s:", i, t.Name())
+			t.Logf("  code block:    %s", tests[i].Block)
+			t.Logf("  variable name: %s", tests[i].Name)
+			t.Logf("  error value:   %s", err.Error())
+			continue
+		}
 
 		if value != tests[i].Value ||
 			dataType != tests[i].DataType ||
@@ -84,10 +92,16 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 		fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
 		fork.Name.Set("UnSetTests()")
 
-		old := fork.Variables.GetString(tests[i])
+		old, err := fork.Variables.GetString(tests[i])
+		if err != nil {
+			t.Errorf("Test %d failed:", i)
+			t.Logf("  variable name: %s", tests[i])
+			t.Logf("  error:         %s", err.Error())
+			continue
+		}
 
 		block := unsetter + ": " + tests[i]
-		_, err := fork.Execute([]rune(block))
+		_, err = fork.Execute([]rune(block))
 		if err != nil {
 			t.Error(err.Error())
 		}
@@ -97,8 +111,18 @@ func UnSetTests(unsetter string, tests []string, t *testing.T) {
 			t.Error("unable to read from stderr: " + err.Error())
 		}
 
-		value := fork.Variables.GetString(tests[i])
+		value, err := fork.Variables.GetString(tests[i])
 		dataType := fork.Variables.GetDataType(tests[i])
+
+		if err != nil {
+			t.Errorf("Test %d failed:", i)
+			t.Logf("  unsetter block: %s", block)
+			t.Logf("  variable name:  %s", tests[i])
+			t.Logf("  variable value: %s", value)
+			t.Logf("  variable type:  %s", dataType)
+			t.Logf("  error:          %s", err.Error())
+			continue
+		}
 
 		if value == old || dataType != "" || len(b) > 0 {
 			t.Errorf("Test %d failed:", i)

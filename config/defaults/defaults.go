@@ -213,11 +213,11 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
-	/*c.Define("proc", "exec-exit-status", config.Properties{
-		Description: "Report the exit status and line number of external commands",
-		Default:     true,
+	c.Define("proc", "strict-vars", config.Properties{
+		Description: "Return errors if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
+		Default:     false,
 		DataType:    types.Boolean,
-	})*/
+	})
 
 	// --- test ---
 

@@ -14,7 +14,7 @@ import (
 var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
 // ParseParameters is an internal function to parse parameters
-func ParseParameters(prc *Process, p *parameters.Parameters) {
+func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	var namedPipeIsParam bool
 	params := []string{}
 
@@ -40,7 +40,11 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeString:
-				s := prc.Variables.GetString(p.Tokens[i][j].Key)
+				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
+				if err != nil {
+					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
+					return err
+				}
 				s = utils.CrLfTrimString(s)
 				params[len(params)-1] += s
 				tCount = true
@@ -51,7 +55,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				fork.Execute([]rune(p.Tokens[i][j].Key))
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
-					prc.Stderr.Writeln([]byte(err.Error()))
+					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
+					return err
 				}
 
 				b = utils.CrLfTrim(b)
@@ -61,7 +66,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeArray:
-				data := prc.Variables.GetString(p.Tokens[i][j].Key)
+				data, err := prc.Variables.GetString(p.Tokens[i][j].Key)
+				if err != nil {
+					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
+					return err
+				}
+
 				if data == "" {
 					continue
 				}
@@ -117,7 +127,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
-					prc.Stderr.Writeln([]byte(err.Error()))
+					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
+					return err
 				}
 
 				b = utils.CrLfTrim(b)
@@ -141,11 +152,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 				namedPipeIsParam = true
 
 			default:
-				prc.Stderr.Writeln([]byte(fmt.Sprintf(
-					`Unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"%s`,
+				err := fmt.Errorf(
+					`unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
-					utils.NewLineString,
-				)))
+				)
+				//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
+				return err
 			}
 		}
 
@@ -156,4 +168,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) {
 	}
 
 	p.DefineParsed(params)
+
+	return nil
 }

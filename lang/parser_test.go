@@ -281,7 +281,15 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 
 			default:
 				params := parameters.Parameters{Tokens: (*nodes)[i].ParamTokens}
-				ParseParameters(ShellProcess, &params)
+				err := ParseParameters(ShellProcess, &params)
+				if err != nil {
+					t.Error("Parsing failed; err raised:")
+					t.Logf("  Test #: %d", j)
+					t.Logf("  Block:  %s", tests[j].Block)
+					t.Logf("  Node #: %d", i)
+					t.Logf("  Error:  %s", err.Error())
+					continue
+				}
 
 				if params.Len() != len(exp[i].Parameters) {
 					var jsonExp, jsonAct string

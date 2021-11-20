@@ -36,7 +36,7 @@ func set(p *lang.Process, v *lang.Variables) error {
 	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name; expected: set|global [data-type] name[=value]")
+		return errors.New("missing variable name; expected: set|global [data-type] name[=value]")
 	}
 
 	name, value, dataType, err := splitVarString(p.Parameters.StringArray())
@@ -47,7 +47,7 @@ func set(p *lang.Process, v *lang.Variables) error {
 	// Set variable as method:
 	if p.IsMethod {
 		if value != "" {
-			return errors.New("Unexpected parameters for calling `set` / `global` as method; value was set in parameters")
+			return errors.New("unexpected parameters for calling `set` / `global` as method; value was set in parameters")
 		}
 
 		b, err := p.Stdin.ReadAll()
@@ -66,7 +66,7 @@ func set(p *lang.Process, v *lang.Variables) error {
 
 		iface, err := types.ConvertGoType(string(b), dataType)
 		if err != nil {
-			return fmt.Errorf("Unable to convert parameters into data type: %s", err.Error())
+			return fmt.Errorf("unable to convert parameters into data type: %s", err.Error())
 		}
 		return v.Set(p, name, iface, dataType)
 	}
@@ -82,7 +82,7 @@ func set(p *lang.Process, v *lang.Variables) error {
 
 	iface, err := types.ConvertGoType(value, dataType)
 	if err != nil {
-		return fmt.Errorf("Unable to convert parameters into data type: %s", err.Error())
+		return fmt.Errorf("unable to convert parameters into data type: %s", err.Error())
 	}
 	return v.Set(p, name, iface, dataType)
 }
@@ -91,7 +91,7 @@ func unset(p *lang.Process, v *lang.Variables) error {
 	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name")
+		return errors.New("missing variable name")
 	}
 
 	varName, err := p.Parameters.String(0)
@@ -113,7 +113,7 @@ func cmdExport(p *lang.Process) error {
 	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name")
+		return errors.New("missing variable name")
 	}
 
 	params := p.Parameters.StringAll()
@@ -121,7 +121,7 @@ func cmdExport(p *lang.Process) error {
 	// Set env as method:
 	if p.IsMethod {
 		if !rxVarName.MatchString(params) {
-			return errors.New("Invalid variable name; unexpected parameters for calling `export` as method")
+			return errors.New("invalid variable name; unexpected parameters for calling `export` as method")
 		}
 		b, err := p.Stdin.ReadAll()
 		if err != nil {
@@ -133,14 +133,17 @@ func cmdExport(p *lang.Process) error {
 
 	// Set env as parameters:
 	if rxVarName.MatchString(params) {
-		v := p.Variables.GetString(params)
+		v, err := p.Variables.GetString(params)
+		if err != nil {
+			return err
+		}
 
 		return os.Setenv(params, v)
 	}
 
 	match := rxSet.FindAllStringSubmatch(params, -1)
 	if len(match) == 0 || len(match[0]) < 3 {
-		return errors.New("Error parsing export parameters. Expected: name[=value]")
+		return errors.New("error parsing export parameters. Expected: name[=value]")
 	}
 	err := os.Setenv(match[0][1], match[0][2])
 	if err != nil {
@@ -158,7 +161,7 @@ func cmdUnexport(p *lang.Process) error {
 	//p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing variable name")
+		return errors.New("missing variable name")
 	}
 
 	varName, err := p.Parameters.String(0)
@@ -190,12 +193,12 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 	runes := make([]rune, max)
 	i := 0
 	for j := range params {
-		for _, r := range []rune(params[j]) {
+		for _, r := range params[j] {
 			switch {
 			case (r >= 'a' && 'z' >= r) || (r >= 'A' && 'Z' >= r) || (r >= '0' && '9' >= r) || r == '_':
 				switch parserState {
 				case parserStateExpValue:
-					err = fmt.Errorf("Invalid space or tab in variable name")
+					err = fmt.Errorf("invalid space or tab in variable name")
 					return
 				default:
 					runes[i] = r
@@ -205,11 +208,11 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 			case r == '=':
 				switch parserState {
 				case parserStateDataType:
-					err = fmt.Errorf("Invalid character '=' in data-type name")
+					err = fmt.Errorf("invalid character '=' in data-type name")
 					return
 				case parserStateName, parserStateExpValue:
 					if dataType != "" && i > 0 {
-						err = fmt.Errorf("Invalid space or tab in variable name / too many parameters")
+						err = fmt.Errorf("invalid space or tab in variable name / too many parameters")
 						return
 					}
 					if name != "" {
@@ -231,11 +234,11 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 			case r == ' ' || r == '\t':
 				switch parserState {
 				case parserStateDataType:
-					err = fmt.Errorf("Invalid space or tab in data type name")
+					err = fmt.Errorf("invalid space or tab in data type name")
 					return
 				case parserStateName:
 					if i == 0 {
-						err = fmt.Errorf("Invalid space or tab in variable name")
+						err = fmt.Errorf("invalid space or tab in variable name")
 						return
 					}
 					parserState = parserStateExpValue
@@ -251,7 +254,7 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 				switch parserState {
 				case parserStateName, parserStateExpValue:
 					if len(params) > 1 && dataType != "" {
-						err = fmt.Errorf("Invalid character '%s' in variable name", string([]rune{r}))
+						err = fmt.Errorf("invalid character '%s' in variable name", string([]rune{r}))
 						return
 					}
 					parserState = parserStateDataType
@@ -270,7 +273,7 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 		switch parserState {
 		case parserStateDataType:
 			if len(params) == 0 {
-				err = fmt.Errorf("Invalid parameters; expecting: [data-type] name[=value]")
+				err = fmt.Errorf("invalid parameters; expecting: [data-type] name[=value]")
 				return
 			}
 			dataType = string(runes[:i])
@@ -286,7 +289,7 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 				dataType = name
 				name = string(runes[:i])
 			default:
-				err = fmt.Errorf("Invalid space or tab in variable name / too many parameters")
+				err = fmt.Errorf("invalid space or tab in variable name / too many parameters")
 				return
 			}
 			i = 0
@@ -305,7 +308,7 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 	}
 
 	if name == "" {
-		err = fmt.Errorf("Invalid variable name. Names can only include alpha, numeric and underscore characters")
+		err = fmt.Errorf("invalid variable name. Names can only include alpha, numeric and underscore characters")
 	}
 
 	return

@@ -189,7 +189,10 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
 		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
-		lang.ParseParameters(lang.ShellProcess, &p)
+		err := lang.ParseParameters(lang.ShellProcess, &p)
+		if err != nil {
+			return s, err
+		}
 
 		for i := range mhParam {
 			val, _ := strconv.Atoi(mhParam[i][1])

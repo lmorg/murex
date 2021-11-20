@@ -14,7 +14,7 @@ func init() {
 
 func cmdGetType(p *lang.Process) error {
 	if p.IsMethod {
-		return errors.New("This shouldn't be run as a method. Run `murex-docs get-type` for usage")
+		return errors.New("this shouldn't be run as a method. Run `murex-docs get-type` for usage")
 	}
 
 	v, err := p.Parameters.String(0)
@@ -32,10 +32,10 @@ func cmdGetType(p *lang.Process) error {
 	switch {
 	case v[0] == '$':
 		if len(v) == 1 {
-			return errors.New("Variable data-type requested but with no variable name")
+			return errors.New("variable data-type requested but with no variable name")
 		}
 		if p.Variables.GetValue(v[1:]) == nil {
-			return fmt.Errorf("No variable set with the name `%s`", v[1:])
+			return fmt.Errorf("no variable set with the name `%s`", v[1:])
 		}
 		dt = p.Variables.GetDataType(v[1:])
 
