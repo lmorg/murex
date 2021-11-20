@@ -154,7 +154,7 @@ func (v *Variables) GetString(name string) (string, error) {
 	// variable not found so lets fallback to the environmental variables
 	s, exists = os.LookupEnv(name)
 
-	if v, _ := v.process.Config.Get("proc", "strict-vars", "bool"); v.(bool) == true && !exists {
+	if v, err := v.process.Config.Get("proc", "strict-vars", "bool"); err == nil && v.(bool) == true && !exists {
 		return "", errVarNotExist
 	}
 
