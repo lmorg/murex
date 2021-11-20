@@ -34,5 +34,8 @@ echo "$(cat ./murex-test-count.txt) tests completed"
 echo "Run murex shell script unit tests...."
 murex --run-tests
 
-echo "Run murex flag unit tests...."
-murex -c 'source: ./flags_test.mx; try {test: run *}'
+echo "Run murex behavioural tests...."
+murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
+
+echo "Run murex behavioural tests...."
+murex -c 'source: ./behavioural_test.mx; try {test: run *}'

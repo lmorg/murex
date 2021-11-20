@@ -20,9 +20,9 @@ steps: &steps
         command: |
           ./murex --run-tests
     - run:
-        name: tests flags
+        name: behavioural tests
         command: |
-          ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+          ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
     - run:
         name: build all standalone targets
         command: |
