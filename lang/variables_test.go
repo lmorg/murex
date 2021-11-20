@@ -2,6 +2,7 @@ package lang
 
 import (
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/lmorg/murex/lang/types"
@@ -115,7 +116,7 @@ func TestReservedVarables(t *testing.T) {
 
 	for _, name := range reserved {
 		err := GlobalVariables.Set(p, name, "foobar", types.String)
-		if err != errVariableReserved {
+		if err == nil || !strings.Contains(err.Error(), "reserved") {
 			t.Errorf("`%s` is not a reserved variable", name)
 		}
 	}

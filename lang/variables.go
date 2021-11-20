@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"sync"
@@ -13,10 +12,13 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-var (
-	errVariableReserved = errors.New("cannot set a reserved variable")
-	errVarNotExist      = errors.New("variable does not exist")
-)
+func errVariableReserved(name string) error {
+	return fmt.Errorf("cannot set a reserved variable: %s", name)
+}
+
+func errVarNotExist(name string) error {
+	return fmt.Errorf("variable '%s' does not exist", name)
+}
 
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
@@ -155,7 +157,7 @@ func (v *Variables) GetString(name string) (string, error) {
 	s, exists = os.LookupEnv(name)
 
 	if v, err := v.process.Config.Get("proc", "strict-vars", "bool"); err == nil && v.(bool) == true && !exists {
-		return "", errVarNotExist
+		return "", errVarNotExist(name)
 	}
 
 	return s, nil
@@ -231,7 +233,7 @@ func (v *Variables) getDataType(name string) (string, bool) {
 func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
 	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, "_":
-		return errVariableReserved
+		return errVariableReserved(name)
 	}
 
 	s, err := types.ConvertGoType(value, types.String)
@@ -265,7 +267,7 @@ func (v *Variables) Unset(name string) error {
 	variable := v.vars[name]
 	if variable == nil {
 		v.mutex.Unlock()
-		return errVarNotExist
+		return errVarNotExist(name)
 	}
 
 	delete(v.vars, name)
