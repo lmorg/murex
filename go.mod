@@ -8,7 +8,7 @@ require (
 	github.com/boombuler/barcode v1.0.1
 	github.com/eliukblau/pixterm v1.3.1
 	github.com/fsnotify/fsnotify v1.5.1
-	github.com/hashicorp/hcl/v2 v2.10.1
+	github.com/hashicorp/hcl v1.0.0
 	github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad
 	github.com/mattn/go-sqlite3 v1.14.8
 	github.com/pelletier/go-toml v1.9.4
@@ -25,6 +25,7 @@ require (
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/google/go-cmp v0.5.2 // indirect
+	github.com/hashicorp/hcl/v2 v2.10.1 // indirect
 	github.com/lucasb-eyer/go-colorful v1.0.3 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
