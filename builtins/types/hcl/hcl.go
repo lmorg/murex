@@ -1,11 +1,14 @@
 package hcl
 
 import (
-	"github.com/hashicorp/hcl/v2"
-	"github.com/hashicorp/hcl/v2/gohcl"
-	hcljson "github.com/hashicorp/hcl/v2/json"
+	"strconv"
+
+	"github.com/hashicorp/hcl"
+	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -15,9 +18,9 @@ func init() {
 	lang.ReadIndexes[typeName] = readIndex
 	lang.ReadNotIndexes[typeName] = readIndex
 
-	//stdio.RegisterReadArray(typeName, readArray)
-	//stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
-	//stdio.RegisterReadMap(typeName, readMap)
+	stdio.RegisterReadArray(typeName, readArray)
+	stdio.RegisterReadArrayWithType(typeName, readArrayWithType)
+	stdio.RegisterReadMap(typeName, readMap)
 	stdio.RegisterWriteArray(typeName, newArrayWriter)
 
 	lang.Marshallers[typeName] = marshal
@@ -34,30 +37,13 @@ func init() {
 	lang.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
 }
 
-func decode(data []byte, v interface{}) error {
-	filename := ""
-	//file, diags := hclsyntax.ParseConfig(data, filename, hcl.Pos{Line: 1, Column: 1})
-	file, diags := hcljson.Parse(data, filename)
-	if diags.HasErrors() {
-		return diags
-	}
-
-	var ctx *hcl.EvalContext
-
-	diags = gohcl.DecodeBody(file.Body, ctx, v)
-	if diags.HasErrors() {
-		return diags
-	}
-	return nil
-}
-
-/*func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayTemplate(marshaller, unmarshaller, read, callback)
+	return lang.ArrayTemplate(marshaller, hcl.Unmarshal, read, callback)
 }
 
 func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
@@ -66,7 +52,7 @@ func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayWithTypeTemplate(types.Json, marshaller, unmarshaller, read, callback)
+	return lang.ArrayWithTypeTemplate(types.Json, marshaller, hcl.Unmarshal, read, callback)
 }
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
@@ -76,7 +62,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 	}
 
 	var jObj interface{}
-	err = unmarshaller(b, &jObj)
+	err = hcl.Unmarshal(b, &jObj)
 	if err == nil {
 
 		switch v := jObj.(type) {
@@ -109,42 +95,38 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 		return nil
 	}
 	return err
-}*/
+}
 
 func readIndex(p *lang.Process, params []string) error {
-	v := make(map[string]interface{})
+	var jInterface interface{}
 
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return err
 	}
 
-	err = decode(b, &v)
+	err = hcl.Unmarshal(b, &jInterface)
 	if err != nil {
 		return err
 	}
-
-	var vWrapper interface{} = v
 
 	marshaller := func(iface interface{}) ([]byte, error) {
 		return json.Marshal(iface, p.Stdout.IsTTY())
 	}
 
-	return lang.IndexTemplateObject(p, params, &vWrapper, marshaller)
+	return lang.IndexTemplateObject(p, params, &jInterface, marshaller)
 }
 
 func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 	return json.Marshal(v, p.Stdout.IsTTY())
 }
 
-func unmarshal(p *lang.Process) (interface{}, error) {
+func unmarshal(p *lang.Process) (v interface{}, err error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
-		return nil, err
+		return
 	}
 
-	v := make(map[string]interface{})
-
-	err = decode(b, &v)
-	return v, err
+	err = hcl.Unmarshal(b, &v)
+	return
 }
