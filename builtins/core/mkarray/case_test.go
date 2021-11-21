@@ -26,12 +26,28 @@ func TestGetCase(t *testing.T) {
 	}
 }
 
+func TestGetCaseDate(t *testing.T) {
+	count.Tests(t, 3)
+
+	if getCase("1-jan-20") != caseLDate {
+		t.Error("`1-jan-20` not being detected as lower case")
+	}
+
+	if getCase("1-Jan-20") != caseTitle {
+		t.Error("`Foobar` not being detected as first case")
+	}
+
+	if getCase("1-JAN-20") != caseUpper {
+		t.Error("`FOOBAR` not being detected as upper case")
+	}
+}
+
 func TestSetCase(t *testing.T) {
 	count.Tests(t, 3)
 
-	input := "foobar"
+	input := "foo bar"
 
-	expected := "foobar"
+	expected := "foo bar"
 	output := setCase(input, caseLower)
 	if output != expected {
 		t.Error("setCase not lower casing correctly")
@@ -40,7 +56,16 @@ func TestSetCase(t *testing.T) {
 		t.Log("  expected: ", expected)
 	}
 
-	expected = "Foobar"
+	expected = "Foo bar"
+	output = setCase(input, caseFirst)
+	if output != expected {
+		t.Error("setCase not title casing correctly")
+		t.Log("  input:    ", input)
+		t.Log("  output:   ", output)
+		t.Log("  expected: ", expected)
+	}
+
+	expected = "Foo Bar"
 	output = setCase(input, caseTitle)
 	if output != expected {
 		t.Error("setCase not title casing correctly")
@@ -49,8 +74,59 @@ func TestSetCase(t *testing.T) {
 		t.Log("  expected: ", expected)
 	}
 
-	expected = "FOOBAR"
+	expected = "FOO BAR"
 	output = setCase(input, caseUpper)
+	if output != expected {
+		t.Error("setCase not upper casing correctly")
+		t.Log("  input:    ", input)
+		t.Log("  output:   ", output)
+		t.Log("  expected: ", expected)
+	}
+}
+
+func TestSetCaseDate(t *testing.T) {
+	count.Tests(t, 4)
+
+	input := "1-jAN-20"
+
+	expected := "1-jAN-20"
+	output := setCase(input, caseLower)
+	if output != expected {
+		t.Error("setCase not lower casing correctly")
+		t.Log("  input:    ", input)
+		t.Log("  output:   ", output)
+		t.Log("  expected: ", expected)
+	}
+
+	expected = "1-jan-20"
+	output = setCase(input, caseLDate)
+	if output != expected {
+		t.Error("setCase not lower casing correctly")
+		t.Log("  input:    ", input)
+		t.Log("  output:   ", output)
+		t.Log("  expected: ", expected)
+	}
+
+	expected = "1-JAN-20"
+	output = setCase(input, caseTitle)
+	if output != expected {
+		t.Error("setCase not title casing correctly")
+		t.Log("  input:    ", input)
+		t.Log("  output:   ", output)
+		t.Log("  expected: ", expected)
+	}
+
+	expected = "1-JAN-20"
+	output = setCase(input, caseUpper)
+	if output != expected {
+		t.Error("setCase not upper casing correctly")
+		t.Log("  input:    ", input)
+		t.Log("  output:   ", output)
+		t.Log("  expected: ", expected)
+	}
+
+	expected = "1-jAN-20"
+	output = setCase(input, caseTDate)
 	if output != expected {
 		t.Error("setCase not upper casing correctly")
 		t.Log("  input:    ", input)
