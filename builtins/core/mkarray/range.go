@@ -61,7 +61,15 @@ func rangeToArray(b []byte) ([]string, error) {
 			return a, nil
 
 		default:
-			return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
+			a := make([]string, 1)
+			if split[1][0] != '0' {
+				a[0] = strconv.Itoa(i1)
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "d"
+				a[0] = fmt.Sprintf(s, i1)
+			}
+			return a, nil
 		}
 	}
 
@@ -80,7 +88,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
+			return []string{split[0]}, nil
 		}
 	}
 
@@ -99,7 +107,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
+			return []string{split[0]}, nil
 		}
 
 	}
@@ -155,18 +163,42 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
+			a := make([]string, 1)
+			if split[1][0] != '0' {
+				a[0] = strconv.FormatInt(i1, base)
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "s"
+				a[0] = fmt.Sprintf(s, strconv.FormatInt(i1, base))
+			}
+			return a, nil
 		}
 	}
 
 	var t1, t2 time.Time
 	for i := range dateFormat {
 		t1, e1 = time.Parse(dateFormat[i], split[0])
-		if e1 == nil {
+		if e1 == nil || (len(split[0]) == 0 && len(split[1]) > 0) {
 			t2, e2 = time.Parse(dateFormat[i], split[1])
 
-			if e2 == nil {
-				c := getCase(split[0])
+			if e2 == nil || (len(split[0]) > 0 && len(split[1]) == 0) {
+				var c int
+				switch {
+				case len(split[0]) == 0:
+					t1, e1 = time.Parse(dateFormat[i], time.Now().Format(dateFormat[i]))
+					if e1 != nil {
+						return nil, e1
+					}
+					c = getCase(split[1])
+				case len(split[1]) == 0:
+					t2, e2 = time.Parse(dateFormat[i], time.Now().Format(dateFormat[i]))
+					if e2 != nil {
+						return nil, e2
+					}
+					c = getCase(split[0])
+				default:
+					c = getCase(split[0])
+				}
 
 				switch {
 				case t1.Before(t2):
@@ -186,7 +218,8 @@ func rangeToArray(b []byte) ([]string, error) {
 					return a, nil
 
 				default:
-					return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
+					return []string{setCase(t1.Format(dateFormat[i]), c)}, nil
+					//return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
 				}
 			}
 		}

@@ -158,6 +158,45 @@ func TestRangeAlpha(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
+func TestRangeSame(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `a: [1..1]`,
+			Stdout: "1\n",
+		},
+		{
+			Block:  `a: [01..01]`,
+			Stdout: "01\n",
+		},
+		{
+			Block:  `a: [a..a]`,
+			Stdout: "a\n",
+		},
+		{
+			Block:  `a: [A..A]`,
+			Stdout: "A\n",
+		},
+		{
+			Block:  `a: [1..1x8]`,
+			Stdout: "1\n",
+		},
+		{
+			Block:  `a: [1..1x16]`,
+			Stdout: "1\n",
+		},
+		{
+			Block:  `a: [01..01x8]`,
+			Stdout: "01\n",
+		},
+		{
+			Block:  `a: [01..01x16]`,
+			Stdout: "01\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
 func TestRangeAltNumberBase(t *testing.T) {
 	tests := []test.MurexTest{
 		// up
