@@ -112,7 +112,7 @@ func (rl *Instance) moveCursorFromEndToLinePos() {
 	moveCursorUp(lineY - posY)
 }
 
-// moveCursorToLinePos should only be used on extreme circumstances because it
+/*// moveCursorToLinePos should only be used on extreme circumstances because it
 // causes the cursor to jump around quite a bit
 func (rl *Instance) moveCursorFromUnknownToLinePos() {
 	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
@@ -121,7 +121,7 @@ func (rl *Instance) moveCursorFromUnknownToLinePos() {
 	print("\r")
 	moveCursorForwards(posX)
 	moveCursorUp(lineY - posY)
-}
+}*/
 
 func (rl *Instance) moveCursorByAdjust(adjust int) {
 	oldX, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)

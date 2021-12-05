@@ -16,9 +16,9 @@ const (
 
 var (
 	// CtrlC is returned when ctrl+c is pressed
-	CtrlC = errors.New("Ctrl+C")
+	CtrlC = errors.New(ErrCtrlC)
 
 	// EOF is returned when ctrl+d is pressed.
 	// (this is actually the same value as io.EOF)
-	EOF = errors.New("EOF")
+	EOF = errors.New(ErrEOF)
 )

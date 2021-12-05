@@ -3,6 +3,7 @@ package spellcheck
 import (
 	"bytes"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -12,6 +13,8 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
+
+var rxRemoveEsc = regexp.MustCompile(`\\[a-zA-Z]`)
 
 // String spellchecks a line of type string and returns an underlined (ANSI escaped) string
 func String(line string) (string, error) {
@@ -25,10 +28,12 @@ func String(line string) (string, error) {
 		return line, err
 	}
 
+	check := rxRemoveEsc.ReplaceAll([]byte(line), []byte{' '})
+
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 	fork.Name.Set("(spellcheck)")
 	fork.Stdin.SetDataType(types.Generic)
-	_, err = fork.Stdin.Writeln([]byte(line))
+	_, err = fork.Stdin.Writeln(check)
 	if err != nil {
 		return line, err
 	}

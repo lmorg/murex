@@ -13,7 +13,8 @@ func printf(format string, a ...interface{}) {
 	print(s)
 }
 
-var rxAnsiSgr = regexp.MustCompile("\x1b\\[[:;0-9]+m")
+//var rxAnsiSgr = regexp.MustCompile("\x1b\\[[:;0-9]+m")
+var rxAnsiSgr = regexp.MustCompile(`\x1b\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]`)
 
 // Gets the number of runes in a string and
 func strLen(s string) int {
@@ -51,6 +52,9 @@ func (rl *Instance) echo() {
 	default:
 		print(rl.SyntaxHighlighter(rl.line) + " \r\n")
 	}
+
+	//lineX, lineY := lineWrapPos(rl.promptLen, strLen(string(rl.line)), rl.termWidth)
+	//posX, posY = lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	moveCursorUp(lineY + 1)
 	moveCursorDown(posY)
