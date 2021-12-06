@@ -19,7 +19,7 @@ echo "Running unit tests on builtin profiles...."
 go build github.com/lmorg/murex || exit 1
 ./murex --run-tests || exit 1
 
-echo "Run murex behavioural tests...."
+echo "Running murex behavioural tests...."
 ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}' || exit 1
 
 #echo "Checking subset of alternative OS builds...."
