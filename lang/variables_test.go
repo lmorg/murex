@@ -9,8 +9,6 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-var runOnce int32
-
 // TestVariablesDefault tests with the F_DEFAULTS fork flag set
 func TestVariablesDefaults(t *testing.T) {
 	testVariables(t, F_DEFAULTS, "F_DEFAULTS")

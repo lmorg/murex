@@ -46,7 +46,7 @@ func (a *Aliases) Delete(name string) error {
 	defer a.mutex.Unlock()
 
 	if len(a.aliases[name]) == 0 {
-		return errors.New("Alias does not exist")
+		return errors.New("alias does not exist")
 	}
 	delete(a.aliases, name)
 	return nil

@@ -48,7 +48,7 @@ func (f *funcID) Executing(fid uint32) error {
 
 	if p == nil {
 		f.mutex.Unlock()
-		return errors.New("Function ID not in init map")
+		return errors.New("function ID not in init map")
 	}
 
 	delete(f.init, fid)
@@ -87,10 +87,10 @@ func (f *funcID) Proc(fid uint32) (*Process, error) {
 	f.mutex.Unlock()
 
 	if p != nil {
-		return nil, errors.New("Function hasn't started yet")
+		return nil, errors.New("function hasn't started yet")
 	}
 
-	return nil, errors.New("Function ID does not exist")
+	return nil, errors.New("function ID does not exist")
 }
 
 // fidList is the list of exported FIDs
@@ -119,11 +119,3 @@ func (f *funcID) ListAll() fidList {
 	sort.Sort(procs)
 	return procs
 }
-
-/*// Dump lists all processes registered in the FID (Function ID) table - return as an unsorted list (faster but less useful)
-func (f *funcID) Dump() dump map[int]*Process {
-	f.mutex.Lock()
-	r := f.procs
-	f.mutex.Unlock()
-	return r
-}*/

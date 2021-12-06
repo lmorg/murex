@@ -52,7 +52,7 @@ func WriteMimes(v interface{}) error {
 		return json.Unmarshal([]byte(v.(string)), &mimes)
 
 	default:
-		return fmt.Errorf("Invalid data-type. Expecting a %s encoded string", types.Json)
+		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
 	}
 }
 
@@ -66,6 +66,6 @@ func WriteFileExtensions(v interface{}) error {
 		return json.Unmarshal([]byte(v.(string)), &fileExts)
 
 	default:
-		return fmt.Errorf("Invalid data-type. Expecting a %s encoded string", types.Json)
+		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
 	}
 }

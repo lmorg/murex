@@ -127,7 +127,7 @@ func (p *Process) Fork(flags int) *Fork {
 	} else {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
-		fork.Parameters = p.Parameters
+		fork.Parameters.PointTo(&p.Parameters)
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:
@@ -225,7 +225,7 @@ func (fork *Fork) ExecuteAsRunMode(block []rune) error {
 		return err
 	}
 	if i != 0 {
-		return fmt.Errorf("Non-zero exit code: %d", i)
+		return fmt.Errorf("non-zero exit code: %d", i)
 	}
 
 	return nil
@@ -260,7 +260,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	tree, pErr := ParseBlock(block)
 	if pErr.Code != 0 {
-		errMsg := fmt.Sprintf("Syntax error at %d,%d+%d: %s", fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, pErr.Message)
+		errMsg := fmt.Sprintf("syntax error at %d,%d+%d: %s", fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, pErr.Message)
 		fork.Stderr.Writeln([]byte(errMsg))
 		err = errors.New(errMsg)
 		return 1, err
@@ -268,13 +268,13 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	procs, errNo := compile(tree, fork.Process)
 	if errNo != 0 {
-		errMsg := fmt.Sprintf("Compilation Error at %d,%d+0: %s", fork.FileRef.Line, fork.FileRef.Column, errMessages[errNo])
+		errMsg := fmt.Sprintf("compilation Error at %d,%d+0: %s", fork.FileRef.Line, fork.FileRef.Column, errMessages[errNo])
 		fork.Stderr.Writeln([]byte(errMsg))
 		return errNo, errors.New(errMsg)
 	}
 	if len(procs) == 0 {
 		if debug.Enabled {
-			err = fmt.Errorf("Compilation Error at %d,%d+0: Empty code block", fork.FileRef.Line, fork.FileRef.Column)
+			err = fmt.Errorf("compilation Error at %d,%d+0: Empty code block", fork.FileRef.Line, fork.FileRef.Column)
 		}
 		return 0, err
 	}

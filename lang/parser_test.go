@@ -127,7 +127,7 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 	}
 }
 
-func queryParser(t *testing.T, block string) string {
+/*func queryParser(t *testing.T, block string) string {
 	t.Helper()
 
 	nodes, pErr := parser([]rune(block))
@@ -141,7 +141,7 @@ func queryParser(t *testing.T, block string) string {
 	}
 
 	return string(b)
-}
+}*/
 
 type parserTestSimpleConditions struct {
 	Block    string
