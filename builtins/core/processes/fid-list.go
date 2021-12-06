@@ -183,7 +183,7 @@ func cmdFidListPipe(p *lang.Process) error {
 			process.Background.Get(),
 			process.NamedPipeOut,
 			process.NamedPipeErr,
-			process.Name,
+			process.Name.String(),
 			getParams(process),
 		})
 		if err != nil {
