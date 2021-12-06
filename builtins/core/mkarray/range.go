@@ -176,6 +176,7 @@ func rangeToArray(b []byte) ([]string, error) {
 	}
 
 	var t1, t2 time.Time
+	var now bool
 	for i := range dateFormat {
 		t1, e1 = time.Parse(dateFormat[i], split[0])
 		if e1 == nil || (len(split[0]) == 0 && len(split[1]) > 0) {
@@ -190,17 +191,21 @@ func rangeToArray(b []byte) ([]string, error) {
 						return nil, e1
 					}
 					c = getCase(split[1])
+					now = true
 				case len(split[1]) == 0:
 					t2, e2 = time.Parse(dateFormat[i], time.Now().Format(dateFormat[i]))
 					if e2 != nil {
 						return nil, e2
 					}
 					c = getCase(split[0])
+					now = true
 				default:
 					c = getCase(split[0])
 				}
 
 				switch {
+				case now && t1.Format(dateFormat[i]) == t2.Format(dateFormat[i]):
+					return []string{setCase(t1.Format(dateFormat[i]), c)}, nil
 				case t1.Before(t2):
 					a := []string{setCase(t1.Format(dateFormat[i]), c)}
 					for t1.Before(t2) {
