@@ -127,7 +127,7 @@ func (p *Process) Fork(flags int) *Fork {
 	} else {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
-		fork.Parameters.PointTo(&p.Parameters)
+		fork.Parameters.CopyFrom(&p.Parameters)
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:

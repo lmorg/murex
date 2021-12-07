@@ -259,7 +259,7 @@ executeProcess:
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
 			fork.Name.Set(name)
-			fork.Parameters.PointTo(&p.Parameters)
+			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
@@ -270,7 +270,7 @@ executeProcess:
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
 			fork.Name.Set(name)
-			fork.Parameters.PointTo(&p.Parameters)
+			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}

@@ -33,7 +33,7 @@ func cmdBackground(p *lang.Process) (err error) {
 	p.WaitForTermination <- false
 	fork := p.Fork(lang.F_FUNCTION | lang.F_BACKGROUND)
 	fork.Name.Set(p.Name.String())
-	fork.Parameters.PointTo(&p.Parameters)
+	fork.Parameters.CopyFrom(&p.Parameters)
 	go fork.Execute(block)
 
 	return nil

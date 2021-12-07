@@ -33,12 +33,10 @@ func (p *Parameters) Prepend(params []string) {
 	p.mutex.Unlock()
 }
 
-func (p *Parameters) PointTo(src *Parameters) {
+func (p *Parameters) CopyFrom(src *Parameters) {
 	p.mutex.Lock()
 	src.mutex.Lock()
 
-	//p.Tokens = src.Tokens
-	//p.params = src.params
 	p.SetTokens(src.Tokens)
 	p.params = make([]string, len(src.params))
 	copy(p.params, src.params)
