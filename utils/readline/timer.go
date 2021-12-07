@@ -23,17 +23,16 @@ func delayedSyntaxTimer(rl *Instance, i int32) {
 	newLine := rl.DelayedSyntaxWorker(rl.line)
 	var sLine string
 
-	count := atomic.LoadInt32(&rl.delayedSyntaxCount)
-	if count != i {
-		return
-	}
-
 	if rl.SyntaxHighlighter != nil {
 		sLine = rl.SyntaxHighlighter(newLine)
 	} else {
 		sLine = string(newLine)
 	}
 	rl.cacheSyntax.Append(rl.line, sLine)
+
+	if atomic.LoadInt32(&rl.delayedSyntaxCount) != i {
+		return
+	}
 
 	rl.moveCursorToStart()
 	print(sLine)
