@@ -151,6 +151,10 @@ func NewInstance() *Instance {
 	rl.TempDirectory = os.TempDir()
 
 	//rl.EnableGetCursorPos = true
+
 	rl.MaxCacheSize = 256
+	rl.cacheHint.Init(rl)
+	rl.cacheSyntax.Init(rl)
+
 	return rl
 }
