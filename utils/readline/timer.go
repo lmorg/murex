@@ -10,6 +10,10 @@ func delayedSyntaxTimer(rl *Instance, i int32) {
 		return
 	}
 
+	if rl.cacheSyntax.Get(rl.line) != "" {
+		return
+	}
+
 	if len(rl.line)+rl.promptLen > rl.termWidth {
 		// line wraps, which is hard to do with random ANSI escape sequences
 		// so better we don't bother trying.
@@ -29,6 +33,7 @@ func delayedSyntaxTimer(rl *Instance, i int32) {
 	} else {
 		sLine = string(newLine)
 	}
+	rl.cacheSyntax.Append(rl.line, sLine)
 
 	rl.moveCursorToStart()
 	print(sLine)

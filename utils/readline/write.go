@@ -50,7 +50,19 @@ func (rl *Instance) echo() {
 		}
 
 	default:
-		print(rl.SyntaxHighlighter(rl.line) + " \r\n")
+		syntax := rl.cacheSyntax.Get(rl.line)
+		if len(syntax) > 0 {
+			print(syntax + " \r\n")
+
+		} else {
+			syntax = rl.SyntaxHighlighter(rl.line)
+			print(syntax + " \r\n")
+
+			if rl.DelayedSyntaxWorker == nil {
+				rl.cacheSyntax.Append(rl.line, syntax)
+			}
+		}
+		//print(string(rl.line) + " \r\n")
 	}
 
 	//lineX, lineY := lineWrapPos(rl.promptLen, strLen(string(rl.line)), rl.termWidth)

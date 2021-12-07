@@ -8,7 +8,14 @@ func (rl *Instance) getHintText() {
 		return
 	}
 
+	hint := rl.cacheHint.Get(rl.line)
+	if len(hint) > 0 {
+		rl.hintText = hint
+		return
+	}
+
 	rl.hintText = rl.HintText(rl.line, rl.pos)
+	rl.cacheHint.Append(rl.line, rl.hintText)
 }
 
 func (rl *Instance) writeHintText(resetCursorPos bool) {

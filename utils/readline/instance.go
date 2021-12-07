@@ -75,6 +75,12 @@ type Instance struct {
 	// then readline will just use the current line.
 	GetMultiLine func([]rune) []rune
 
+	MaxCacheSize int
+	cacheHint    cacheSliceRune
+	cacheSyntax  cacheString
+	//cacheSyntaxHighlight cacheString
+	//cacheSyntaxDelayed   cacheSliceRune
+
 	// readline operating parameters
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
@@ -145,6 +151,6 @@ func NewInstance() *Instance {
 	rl.TempDirectory = os.TempDir()
 
 	//rl.EnableGetCursorPos = true
-
+	rl.MaxCacheSize = 256
 	return rl
 }

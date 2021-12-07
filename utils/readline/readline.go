@@ -48,6 +48,11 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.resetHintText()
 	rl.resetTabCompletion()
 
+	rl.cacheHint.Init(rl)
+	rl.cacheSyntax.Init(rl)
+	//rl.cacheSyntaxHighlight.Init(rl)
+	//rl.cacheSyntaxDelayed.Init(rl)
+
 	if len(rl.multisplit) > 0 {
 		r := []rune(rl.multisplit[0])
 		rl.readlineInput(r)
