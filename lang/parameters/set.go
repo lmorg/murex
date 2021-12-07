@@ -33,11 +33,16 @@ func (p *Parameters) Prepend(params []string) {
 	p.mutex.Unlock()
 }
 
-func (p *Parameters) PointTo(cf *Parameters) {
+func (p *Parameters) PointTo(src *Parameters) {
 	p.mutex.Lock()
-	cf.mutex.Lock()
-	p.params = cf.params
-	p.Tokens = cf.Tokens
+	src.mutex.Lock()
+
+	//p.Tokens = src.Tokens
+	//p.params = src.params
+	p.SetTokens(src.Tokens)
+	p.params = make([]string, len(src.params))
+	copy(p.params, src.params)
+
 	p.mutex.Unlock()
-	cf.mutex.Unlock()
+	src.mutex.Unlock()
 }
