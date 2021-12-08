@@ -22,8 +22,7 @@
       flip that and make it opt out. So take this opportunity to enable it in your
       `~/.murex_profile` and test your scripts. Enable this via `config`:
 
-      <pre><code>config: set proc strict-vars true
-      </code></pre>
+          <pre><code>config: set proc strict-vars true</code></pre>
 
       This feature was requested in [issue #380](https://github.com/lmorg/murex/issues/380).
     
@@ -48,15 +47,15 @@
     * Prompt now defaults to only displaying current directory rather than the full
       path. You can revert this change by adding your own prompt in `config`. eg:
 
-      <pre><code>config: set shell prompt {
-          out "{RESET}{YELLOW}${pwd_short} {RESET}» "
-      }
+          <pre><code>config: set shell prompt {
+              out "{RESET}{YELLOW}${pwd_short} {RESET}» "
+          }
 
-      config: set shell prompt-multiline {
-          let len = ${pwd_short -> wc -c} - 1
-          printf "%${$len}s » " $linenum
-      }
-      </code></pre>
+          config: set shell prompt-multiline {
+              let len = ${pwd_short -> wc -c} - 1
+              printf "%${$len}s » " $linenum
+          }
+          </code></pre>
 
     * Parser updated to better support multiline pipelines where the newline is
       escaped and a comment exists after [issue #379](https://github.com/lmorg/murex/issues/379).
