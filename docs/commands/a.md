@@ -128,8 +128,11 @@ If you did want to reverse then just pipe the output into another tool:
     
 There are other UNIX tools which aren't data type aware but would work in
 this specific scenario:
+
 * `tac` (Linux),
+
 * `tail -r` (BSD / OS X)
+
 * `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
 ### Advanced Array Syntax
