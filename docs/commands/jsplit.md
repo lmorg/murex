@@ -47,7 +47,7 @@ unwanted "noise" is stripped from the output.
   A sophisticated yet simple way to build an array or list
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`len` ](../commands/len.md):
   Outputs the length of an array

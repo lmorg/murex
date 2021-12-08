@@ -54,7 +54,7 @@ any integers in data type aware structures will be converted into strings:
   Add data to the end of an array
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`len` ](../commands/len.md):
   Outputs the length of an array

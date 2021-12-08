@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Command Reference: `ta`
+## Command Reference: `ta` (mkarray)
 
 > A sophisticated yet simple way to build an array of a user defined data-type
 
@@ -58,7 +58,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs an element from an array, map or table
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`len` ](../commands/len.md):
   Outputs the length of an array

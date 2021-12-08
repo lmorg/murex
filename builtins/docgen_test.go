@@ -29,6 +29,7 @@ func init() {
 		"config":                "config_commands_docgen.go",
 		"cpuarch":               "cpuarch_commands_docgen.go",
 		"cpucount":              "cpucount_commands_docgen.go",
+		"datetime":              "datetime_commands_docgen.go",
 		"debug":                 "debug_commands_docgen.go",
 		"die":                   "die_commands_docgen.go",
 		"err":                   "err_commands_docgen.go",

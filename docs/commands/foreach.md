@@ -254,7 +254,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Reformat one data-type into another data-type
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)

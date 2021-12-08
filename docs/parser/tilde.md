@@ -47,7 +47,7 @@ But it cannot be expanded inside single quotes.
   Expand values as a string
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character

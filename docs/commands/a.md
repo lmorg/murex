@@ -207,7 +207,7 @@ as `a` but forgo the streaming capability:
         "Sunday"
     ]
     
-This is particularly useful if you are adding formating that might break
+This is particularly useful if you are adding formatting that might break
 under `a`'s formatting (which uses the `str` data type).
 
 ## See Also
@@ -218,7 +218,7 @@ under `a`'s formatting (which uses the `str` data type).
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`len` ](../commands/len.md):
   Outputs the length of an array
@@ -226,5 +226,5 @@ under `a`'s formatting (which uses the `str` data type).
   Reverse the order of an array
 * [types/`str` (string) ](../types/str.md):
   string (primitive)
-* [commands/`ta`](../commands/ta.md):
+* [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

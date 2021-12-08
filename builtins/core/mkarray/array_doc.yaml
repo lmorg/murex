@@ -233,7 +233,7 @@
     ]
     ```
 
-    This is particularly useful if you are adding formating that might break
+    This is particularly useful if you are adding formatting that might break
     under `a`'s formatting (which uses the `str` data type).
   Synonyms:
   Related:
@@ -249,7 +249,7 @@
 
 - DocumentID: ja
   Title: >+
-    `ja`
+    `ja` (mkarray)
   CategoryID: commands
   Summary: >-
     A sophisticated yet simply way to build a JSON array
@@ -309,7 +309,7 @@
 
 - DocumentID: ta
   Title: >+
-    `ta`
+    `ta` (mkarray)
   CategoryID: commands
   Summary: >-
     A sophisticated yet simple way to build an array of a user defined data-type

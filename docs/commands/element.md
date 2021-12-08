@@ -113,7 +113,7 @@ path:
   A sophisticated yet simple way to build an array or list
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`len` ](../commands/len.md):
   Outputs the length of an array

@@ -54,8 +54,7 @@
           config: set shell prompt-multiline {
               let len = ${pwd_short -> wc -c} - 1
               printf "%${$len}s » " $linenum
-          }
-          </code></pre>
+          }</code></pre>
 
     * Parser updated to better support multiline pipelines where the newline is
       escaped and a comment exists after [issue #379](https://github.com/lmorg/murex/issues/379).
@@ -96,7 +95,9 @@
     * Updated documentation.
   Synonyms:
   Related:
-  - commands/mkarray
+  - commands/a
+  - commands/ta
+  - commands/ja
   - commands/datetime
   - commands/config
   - commands/runtime

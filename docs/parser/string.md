@@ -77,7 +77,7 @@ well as used naked. But they cannot be expanded inside single quotes.
   Home directory path variable
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable
