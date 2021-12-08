@@ -99,7 +99,7 @@
   A sophisticated yet simple way to build an array or list
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)

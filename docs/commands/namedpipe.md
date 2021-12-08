@@ -112,7 +112,7 @@ that pipes created in modules should be prefixed with the name of its package.
   A sophisticated yet simple way to build an array or list
 * [commands/`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes

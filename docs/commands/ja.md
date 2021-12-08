@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Command Reference: `ja`
+## Command Reference: `ja` (mkarray)
 
 > A sophisticated yet simply way to build a JSON array
 
@@ -63,5 +63,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [commands/`ta`](../commands/ta.md):
+* [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

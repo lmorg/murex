@@ -54,7 +54,7 @@ instead. But be mindful that `wc` will also count new line characters
   A sophisticated yet simple way to build an array or list
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter

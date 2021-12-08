@@ -52,7 +52,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/cat](../commands/cat.md):
   

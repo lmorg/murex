@@ -70,7 +70,7 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter

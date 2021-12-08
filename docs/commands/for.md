@@ -210,7 +210,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Iterate through a map or other collection of data
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable

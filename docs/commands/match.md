@@ -68,7 +68,7 @@ same data-type.
   A sophisticated yet simple way to build an array or list
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
@@ -88,5 +88,5 @@ same data-type.
   Regexp tools for arrays / lists of strings
 * [commands/`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
-* [commands/`ta`](../commands/ta.md):
+* [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

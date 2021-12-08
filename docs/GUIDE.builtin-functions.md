@@ -91,6 +91,8 @@ to return the same markdown-formatted document as those listed below. eg
   Output the hosts CPU architecture
 * [`cpucount`](commands/cpucount.md):
   Output the number of CPU cores available on your host
+* [`datetime` ](commands/datetime.md):
+  A date and/or time conversion tool (like `printf` but for date and time values)
 * [`debug`](commands/debug.md):
   Debugging information
 * [`die`](commands/die.md):
@@ -153,7 +155,7 @@ to return the same markdown-formatted document as those listed below. eg
   Outputs murex's command history
 * [`if`](commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`ja`](commands/ja.md):
+* [`ja` (mkarray)](commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`jsplit` ](commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
@@ -241,7 +243,7 @@ to return the same markdown-formatted document as those listed below. eg
   Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
 * [`swivel-table`](commands/swivel-table.md):
   Rotates a table by 90 degrees
-* [`ta`](commands/ta.md):
+* [`ta` (mkarray)](commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
 * [`tabulate`](commands/tabulate.md):
   Table transformation tools

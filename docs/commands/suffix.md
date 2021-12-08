@@ -32,7 +32,7 @@ Supported data types can queried via `runtime`
 
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`ja`](../commands/ja.md):
+* [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
