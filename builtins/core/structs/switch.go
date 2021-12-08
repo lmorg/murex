@@ -53,7 +53,10 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 
 	for i := range *ast {
 		params := &parameters.Parameters{Tokens: (*ast)[i].ParamTokens}
-		lang.ParseParameters(p, params)
+		err = lang.ParseParameters(p, params)
+		if err != nil {
+			return err
+		}
 
 		switch (*ast)[i].Name {
 		case "if", "case":

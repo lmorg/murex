@@ -165,7 +165,7 @@ func (tests *Tests) Define(name string, out *TestChecks, err *TestChecks, exitNu
 
 define:
 	tests.mutex.Unlock()
-	return fmt.Errorf("Test already defined for '%s' in this scope", name)
+	return fmt.Errorf("test already defined for '%s' in this scope", name)
 }
 
 // State creates a new test state
@@ -174,12 +174,12 @@ func (tests *Tests) State(name string, block []rune) error {
 
 	if len(tests.stateBlocks[name]) != 0 {
 		tests.mutex.Unlock()
-		return fmt.Errorf("Test state already defined for '%s' in this scope", name)
+		return fmt.Errorf("test state already defined for '%s' in this scope", name)
 	}
 
 	if len(block) == 0 {
 		tests.mutex.Unlock()
-		return fmt.Errorf("Test state for '%s' is an empty code block", name)
+		return fmt.Errorf("test state for '%s' is an empty code block", name)
 	}
 
 	tests.stateBlocks[name] = block

@@ -54,3 +54,31 @@ func TestParserAtBug(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+// https://github.com/lmorg/murex/issues/379
+func TestParserBug379(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				out: one\
+				     two \
+					 three\ # test
+					 four \ # test
+					 five
+				out: six`,
+			Stdout: "one two three four five\nsix\n",
+		},
+		{
+			Block: `
+				out: one\
+				     two \
+					 three # test \
+					 four # test  \
+					 five
+				out: six`,
+			Stdout: "one two three four five\nsix\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

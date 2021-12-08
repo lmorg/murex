@@ -1,9 +1,27 @@
-config set shell prompt {
-    out "${pwd -> egrep -o '[^/]+$'} » "
+#config set shell prompt {
+#    out "${pwd -> egrep -o '[^/]+$'} » "
+#}
+#
+#config set shell prompt-multiline {
+#    let len = ${pwd_short -> wc -c} - 1
+#    printf "%${$len}s » " $linenum
+#}
+
+function pwd_short {
+    # Normalise path to it's short form
+    pwd -> regexp "s#^$HOME#\~#"
 }
 
-config set shell prompt-multiline {
-    let len = ${pwd_short -> wc -c} - 1
+config: set shell prompt {
+    exitnum -> !if {
+        out "{RESET}{YELLOW}${pwd_short -> egrep -o '[^/]+$'} {GREEN}»{RESET} "
+    } else {
+        out "{RESET}{YELLOW}${pwd_short -> egrep -o '[^/]+$'} {RED}»{RESET} "
+    }
+}
+
+config: set shell prompt-multiline {
+    let len = ${pwd_short -> egrep -o '[^/]+$' -> wc -c} - 1
     printf "%${$len}s » " $linenum
 }
 
@@ -227,22 +245,4 @@ autocomplete set make { [
 
 if { which: aspell } then {
     config: set shell spellcheck-enabled true
-}
-
-function pwd_short {
-    # Normalise path to it's short form
-    pwd -> regexp "s#^$HOME#\~#"
-}
-
-config: set shell prompt {
-    exitnum -> !if {
-        out "{RESET}{YELLOW}${pwd_short} {GREEN}»{RESET} "
-    } else {
-        out "{RESET}{YELLOW}${pwd_short} {RED}»{RESET} "
-    }
-}
-
-config: set shell prompt-multiline {
-    let len = ${pwd_short -> wc -c} - 1
-    printf "%${$len}s » " $linenum
 }

@@ -6,8 +6,8 @@
 
 Every function, event, autocompletion and even variable is stored with which
 file it was sourced, when it was loaded and what module it was loaded from.
-This makes it trivial to identify buggy 3rd party code or even malicious
-libraries.
+This makes it trivial to identify buggy 3rd party code, malicious libraries, or
+even just bugs in your own profiles and/or modules.
 
     » runtime: --functions -> [[ /agent/FileRef/ ]]
     {
@@ -15,7 +15,7 @@ libraries.
         "Line": 5,
         "Source": {
             "DateTime": "2021-03-28T09:10:53.572197+01:00",
-            "Filename": "/Users/laurencemorgan/.murex_modules/murex-dev/murex-dev.mx",
+            "Filename": "/home/lmorg/.murex_modules/murex-dev/murex-dev.mx",
             "Module": "murex-dev/murex-dev"
         }
     }
@@ -26,7 +26,7 @@ libraries.
         "Line": 0,
         "Source": {
             "DateTime": "2021-03-28T09:10:53.541952+01:00",
-            "Filename": "/Users/laurencemorgan/.murex_modules/devops/global.mx",
+            "Filename": "/home/lmorg/.murex_modules/devops/global.mx",
             "Module": "devops/global"
         }
     }

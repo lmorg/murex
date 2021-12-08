@@ -1,0 +1,113 @@
+- DocumentID: v2.4
+  Title: >-
+    What's new in murex v2.4
+  CategoryID: changelog
+  DateTime: 2021-12-09 08:00
+  Summary: >-
+    This release introduces a strict mode for variables, new builtin, performance
+    improvements, and better error messages; plus a potential breaking change
+  Description: |-
+    There are a number of new features in this release
+
+    ### Breaking Changes:
+
+    * mkarray (`a` et al) no longer returns an error if the start and end ranges
+      are the same. Instead it returns an array of 1 value.
+
+    ### User Facing Changes:
+
+    * Strict variables now supported (like `set -u` in Bash). This will mean any
+      variables passed that haven't been initialized beforehand will cause that
+      pipeline to fail. Currently this is opt in, a future release of _murex_ will
+      flip that and make it opt out. So take this opportunity to enable it in your
+      `~/.murex_profile` and test your scripts. Enable this via `config`:
+
+      <pre><code>config: set proc strict-vars true
+      </code></pre>
+
+      This feature was requested in [issue #380](https://github.com/lmorg/murex/issues/380).
+    
+    * New builtin: `datetime`. This builtin allows you to convert date and/or time
+      strings of one format into strings of another format. `datetime` is a
+      supercharged alternative to the UNIX command `date` aimed at making scripting
+      easier.
+
+    * mkarray (`a` et al) now supports dates. eg `[01-Jan-20..05-May-21]`. If no
+      start nor end date appears then mkarray assumes range starts or ends at
+      current date.
+
+    * `openagent` profile for `image` data types has been improved. _murex_ now
+      better supports tmux and iTerm2.
+
+    * `runtime --config` now displays `FileRef` for every `set` as well as `define`,
+      named `FileRefSet` and `FileRefDefine` respectively. So you can now easily
+      trace where global config is being set and defined.
+       
+    * Better error messages in the interactive terminal.
+
+    * Prompt now defaults to only displaying current directory rather than the full
+      path. You can revert this change by adding your own prompt in `config`. eg:
+
+      <pre><code>config: set shell prompt {
+          out "{RESET}{YELLOW}${pwd_short} {RESET}» "
+      }
+
+      config: set shell prompt-multiline {
+          let len = ${pwd_short -> wc -c} - 1
+          printf "%${$len}s » " $linenum
+      }
+      </code></pre>
+
+    * Parser updated to better support multiline pipelines where the newline is
+      escaped and a comment exists after [issue #379](https://github.com/lmorg/murex/issues/379).
+      This only applies to shell scripts, the interactive terminal hasn't yet been
+      updated to reflect this change.
+
+    * Fixed regression bugs with autocomplete parameters that affected some dynamic
+      blocks.
+
+    * `readline` now caches syntax highlighting and hint text to improve the
+      responsiveness of the interactive terminal. This is set to a hard limit of
+      200 cached items however that will be a configurable metric in a future
+      release. Also planned for the future is caching autocompletion suggestions.
+
+    * Loading message added for the default profile, ie the one that is compiled
+      into and thus shipped with _murex_.
+
+    * Fixed bug with `fid-list` and `jobs` where they were outputting the `p.Name`
+      struct rather than `p.Name.String()`. This lead to the process name appearing
+      garbled under some circumstances.
+
+    * `{BG-BLUE}` emitted the wrong ANSI escape code, this has been corrected.
+
+    * `readline` bug fixes.
+
+    ### Non-User Facing / Maintenance Changes
+
+    * Thread safe copying of parameters upon fork. The previous code never actually
+      generated any race conditions and I don't think ever could. However it was
+      ambiguous. This new code makes the copy more explicit and appears to have
+      also brought some minor performance improvements in benchmarks too.
+
+    * Behavioural test framework has been refactored to make it easier to add new
+      behavioural tests.
+
+    * Lots of new tests added.
+
+    * Updated documentation.
+  Synonyms:
+  Related:
+  - commands/mkarray
+  - commands/datetime
+  - commands/config
+  - commands/runtime
+  - commands/open
+  - commands/openagent
+  - commands/fid-list
+  - user-guide/fileref
+  - user-guide/profile
+  - user-guide/modules
+  - user-guide/ansi
+
+
+

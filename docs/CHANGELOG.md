@@ -6,6 +6,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 09.12.2021 - [What's new in murex v2.4](changelog/v2.4.md)
+
+> This release introduces a strict mode for variables, new builtin, performance improvements, and better error messages; plus a potential breaking change
+
+
 ### 26.09.2021 - [What's new in murex v2.3](changelog/v2.3.md)
 
 > This release includes significant changes to the interactive terminal

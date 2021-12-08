@@ -1,0 +1,41 @@
+# This file tests the behaviour of strict-vars
+
+function config.proc.strict-vars.true.params {
+    config: set proc strict-vars true
+    out: foo $SDFSdfgdfsgdsfgDFGDFSDSAFDSAFfgbtrr5g bar
+}
+
+test: unit function config.proc.strict-vars.true.params {
+    "StderrRegex": "variable",
+    "ExitNum":     1
+}
+
+function config.proc.strict-vars.true.string {
+    config: set proc strict-vars true
+    out: "foo $gghrfhfgdDFGDFGnbrtygertgg5454gbghfg bar"
+}
+
+test: unit function config.proc.strict-vars.true.string {
+    "StderrRegex": "variable",
+    "ExitNum":     1
+}
+
+function config.proc.strict-vars.false.params {
+    config: set proc strict-vars false
+    out: foo $dfg5446hrtdfgdfsgserg4365hyfgh655665b bar
+}
+
+test: unit function config.proc.strict-vars.false.params {
+    "StdoutMatch": "foo  bar\n",
+    "ExitNum":     0
+}
+
+function config.proc.strict-vars.false.string {
+    config: set proc strict-vars false
+    out: "foo $sdfgh5434g45jsdfgdsed4g556657j76kwe5 bar"
+}
+
+test: unit function config.proc.strict-vars.false.string {
+    "StdoutMatch": "foo  bar\n",
+    "ExitNum":     0
+}

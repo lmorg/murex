@@ -39,6 +39,6 @@ func WriteSafeCmds(v interface{}) error {
 		return json.Unmarshal([]byte(v.(string)), &safeCmds)
 
 	default:
-		return fmt.Errorf("Invalid data-type. Expecting a %s encoded string", types.Json)
+		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
 	}
 }

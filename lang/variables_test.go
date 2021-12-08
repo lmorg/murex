@@ -2,13 +2,12 @@ package lang
 
 import (
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 )
-
-var runOnce int32
 
 // TestVariablesDefault tests with the F_DEFAULTS fork flag set
 func TestVariablesDefaults(t *testing.T) {
@@ -81,19 +80,20 @@ func testVariables(t *testing.T, flags int, details string) {
 	// test GetString on copy
 	count.Tests(t, 4)
 
-	if copy.GetString("number") != types.FloatToString(copyNum) {
+	if v, err := copy.GetString("number"); err != nil || v != types.FloatToString(copyNum) {
 		t.Error("Copy var table not returning correct numeric converted value using GetString.")
 	}
 
-	if copy.GetString("integer") != strconv.Itoa(copyInt) {
+	if v, err := copy.GetString("integer"); err != nil || v != strconv.Itoa(copyInt) {
 		t.Error("Copy var table not returning correct numeric converted value using GetString.")
 	}
 
-	if copy.GetString("string") != copyStr {
+	if v, err := copy.GetString("string"); err != nil || v != copyStr {
 		t.Error("Copy var table not returning correct string converted value using GetString.")
 	}
 
-	if types.IsTrue([]byte(copy.GetString("boolean")), 0) != copyBool {
+	v, err := copy.GetString("boolean")
+	if types.IsTrue([]byte(v), 0) != copyBool || err != nil {
 		t.Error("Copy var table not returning correct boolean converted value using GetString.")
 	}
 }
@@ -105,13 +105,16 @@ func TestReservedVarables(t *testing.T) {
 	reserved := []string{
 		"SELF",
 		"ARGS",
+		"PARAMS",
+		"MUREX_EXE",
+		"MUREX_ARGS",
 	}
 
 	count.Tests(t, len(reserved))
 
 	for _, name := range reserved {
 		err := GlobalVariables.Set(p, name, "foobar", types.String)
-		if err != errVariableReserved {
+		if err == nil || !strings.Contains(err.Error(), "reserved") {
 			t.Errorf("`%s` is not a reserved variable", name)
 		}
 	}

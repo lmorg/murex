@@ -193,6 +193,7 @@
     ```
     » config: set shell syntax-highlighting off
     ```
+
   Synonyms:
   - interactive-shell
   - repl

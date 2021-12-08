@@ -47,7 +47,7 @@ func TestMxProcess(t *testing.T) {
 		{
 			Block:   `$`,
 			Stdout:  "",
-			Stderr:  "Error in `$` ( 1,1): Variable token, `$`, used without specifying variable name\n",
+			Stderr:  "Error in `$` ( 1,1): variable token, `$`, used without specifying variable name\n",
 			ExitNum: 1,
 		},
 

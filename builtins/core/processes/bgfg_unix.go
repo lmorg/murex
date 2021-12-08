@@ -1,3 +1,4 @@
+//go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
 package processes
@@ -15,7 +16,7 @@ import (
 func mkbg(p *lang.Process) error {
 	fid, err := p.Parameters.Uint32(0)
 	if err != nil {
-		return errors.New("Invalid parameters. Expecting either a code block or FID of a stopped process")
+		return errors.New("invalid parameters. Expecting either a code block or FID of a stopped process")
 	}
 
 	f, err := lang.GlobalFIDs.Proc(fid)
@@ -29,19 +30,19 @@ func mkbg(p *lang.Process) error {
 
 	pid, cmd := f.Exec.Get()
 	if pid == 0 {
-		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `bg`")
+		return errors.New("this FID doesn't have an associated PID. Murex functions currently don't support `bg`")
 	}
 
 	if cmd == nil {
-		return errors.New("Something went wrong trying to communicate back to the OS process")
+		return errors.New("something went wrong trying to communicate back to the OS process")
 	}
 
 	updateTree(f, true)
 
-	if !f.IsMethod {
+	/*if !f.IsMethod {
 		// This doesn't work. But we would need something clever like this:
 		//f.Exec.Cmd.Stdin = streams.NewStdin()
-	}
+	}*/
 
 	// This doesn't belong here. It should only be called if the requesting program tries to access STDIN while backgrounded:
 	/*err = f.Exec.Cmd.Process.Signal(syscall.SIGTTIN)
@@ -93,10 +94,10 @@ func cmdForeground(p *lang.Process) error {
 
 	pid, cmd := f.Exec.Get()
 	if pid == 0 {
-		return errors.New("This FID doesn't have an associated PID. Murex functions currently don't support `fg`")
+		return errors.New("this FID doesn't have an associated PID. Murex functions currently don't support `fg`")
 	}
 	if cmd == nil {
-		return errors.New("Something went wrong trying to communicate back to the OS process")
+		return errors.New("something went wrong trying to communicate back to the OS process")
 	}
 
 	updateTree(f, false)

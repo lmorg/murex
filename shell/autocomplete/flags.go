@@ -50,7 +50,7 @@ var (
 // slight but highly annoying pause if murex had been sat idle for a while. So now it's an exported function so it can
 // be run as a background job or upon user request.
 func UpdateGlobalExeList() {
-	envPath := lang.ShellProcess.Variables.GetString("PATH")
+	envPath, _ := lang.ShellProcess.Variables.GetString("PATH")
 
 	dirs := SplitPath(envPath)
 

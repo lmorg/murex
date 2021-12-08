@@ -127,7 +127,7 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 	}
 }
 
-func queryParser(t *testing.T, block string) string {
+/*func queryParser(t *testing.T, block string) string {
 	t.Helper()
 
 	nodes, pErr := parser([]rune(block))
@@ -141,7 +141,7 @@ func queryParser(t *testing.T, block string) string {
 	}
 
 	return string(b)
-}
+}*/
 
 type parserTestSimpleConditions struct {
 	Block    string
@@ -271,15 +271,25 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 
 			case (*nodes)[i].Name != exp[i].Name:
 				t.Error("Parsing failed; Name mismatch:")
-				t.Logf("  Test #:   %d", j)
-				t.Logf("  Block:    %s", tests[j].Block)
-				t.Logf("  Node #:   %d", i)
-				t.Logf("  Expected: %s", exp[i].Name)
-				t.Logf("  Actual:   %s", (*nodes)[i].Name)
+				t.Logf("  Test #:    %d", j)
+				t.Logf("  Block:     %s", tests[j].Block)
+				t.Logf("  Node #:    %d", i)
+				t.Logf("  Expected: `%s`", exp[i].Name)
+				t.Logf("  Actual:   `%s`", (*nodes)[i].Name)
+				t.Log("  bytes exp:", []byte(exp[i].Name))
+				t.Log("  bytes act:", []byte((*nodes)[i].Name))
 
 			default:
 				params := parameters.Parameters{Tokens: (*nodes)[i].ParamTokens}
-				ParseParameters(ShellProcess, &params)
+				err := ParseParameters(ShellProcess, &params)
+				if err != nil {
+					t.Error("Parsing failed; err raised:")
+					t.Logf("  Test #: %d", j)
+					t.Logf("  Block:  %s", tests[j].Block)
+					t.Logf("  Node #: %d", i)
+					t.Logf("  Error:  %s", err.Error())
+					continue
+				}
 
 				if params.Len() != len(exp[i].Parameters) {
 					var jsonExp, jsonAct string
@@ -307,12 +317,14 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 				for p, actual := range params.StringArray() {
 					if actual != exp[i].Parameters[p] {
 						t.Error("Parsing failed; Invalid parameter:")
-						t.Logf("  Test #:   %d", j)
-						t.Logf("  Block:    %s", tests[j].Block)
-						t.Logf("  Node #:   %d", i)
-						t.Logf("  Param #:  %d", p)
-						t.Logf("  Expected: %s", exp[i].Parameters[p])
-						t.Logf("  Actual:   %s", actual)
+						t.Logf("  Test #:    %d", j)
+						t.Logf("  Block:     %s", tests[j].Block)
+						t.Logf("  Node #:    %d", i)
+						t.Logf("  Param #:   %d", p)
+						t.Logf("  Expected: `%s`", exp[i].Parameters[p])
+						t.Logf("  Actual:   `%s`", actual)
+						t.Log("  bytes exp:", []byte(exp[i].Parameters[p]))
+						t.Log("  bytes act:", []byte(actual))
 						continue
 					}
 				}

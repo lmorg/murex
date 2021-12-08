@@ -44,9 +44,9 @@ func (h *ExampleHistory) Write(s string) (int, error) {
 func (h *ExampleHistory) GetLine(i int) (string, error) {
 	switch {
 	case i < 0:
-		return "", errors.New("Requested history item out of bounds: < 0")
+		return "", errors.New("requested history item out of bounds: < 0")
 	case i > h.Len()-1:
-		return "", errors.New("Requested history item out of bounds: > Len()")
+		return "", errors.New("requested history item out of bounds: > Len()")
 	default:
 		return h.items[i], nil
 	}

@@ -37,35 +37,6 @@ func init() {
 	lang.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
 }
 
-/*func readArray(read stdio.Io, callback func([]byte)) error {
-	b, err := read.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	j := make([]interface{}, 0)
-	err = hcl.Unmarshal(b, &j)
-	if err != nil {
-		return err
-	}
-
-	for i := range j {
-		switch j[i].(type) {
-		case string:
-			callback(bytes.TrimSpace([]byte(j[i].(string))))
-
-		default:
-			jBytes, err := json.Marshal(j[i], false)
-			if err != nil {
-				return err
-			}
-			callback(jBytes)
-		}
-	}
-
-	return nil
-}*/
-
 func readArray(read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
 	marshaller := func(v interface{}) ([]byte, error) {

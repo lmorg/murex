@@ -397,7 +397,7 @@ func runFunction(function string, isMethod bool, fork *Fork) (int, error) {
 	fork.Name.Set(function)
 
 	if !MxFunctions.Exists(function) {
-		return 0, errors.New("Function does not exist")
+		return 0, errors.New("function does not exist")
 	}
 
 	block, err := MxFunctions.Block(function)
@@ -438,7 +438,7 @@ func runEvent(path string, split []string, fork *Fork) (int, error) {
 
 func runPrivate(path string, split []string, fork *Fork) (int, error) {
 	if len(split) < 2 {
-		return 0, fmt.Errorf("Invalid module and private function path: `%s`", path)
+		return 0, fmt.Errorf("invalid module and private function path: `%s`", path)
 	}
 
 	function := split[len(split)-1]
@@ -447,7 +447,7 @@ func runPrivate(path string, split []string, fork *Fork) (int, error) {
 	fork.Name.Set(function)
 
 	if !PrivateFunctions.Exists(function, module) {
-		return 0, fmt.Errorf("Private (%s) does not exist or module name (%s) is wrong", function, module)
+		return 0, fmt.Errorf("private (%s) does not exist or module name (%s) is wrong", function, module)
 	}
 
 	block, err := PrivateFunctions.Block(function, module)

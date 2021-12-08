@@ -52,7 +52,7 @@ func tMsgExitNumMismatch(exp int, act int) string {
 	return fmt.Sprintf("ExitNum mismatch. Exp: %d, act: %d", exp, act)
 }
 func tMsgExitNumMatch() string {
-	return fmt.Sprintf("ExitNum matches expected")
+	return "ExitNum matches expected"
 }
 
 func tMsgExitNumNotZero(property string, exitnum int) string {

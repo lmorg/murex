@@ -117,6 +117,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		pt.Escaped = false
 		*pt.pop += string(block[i])
 		ansiReset(block[i])
+		//ansiResetNoChar()
 	}
 
 	for i = range block {
@@ -573,6 +574,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.Escaped:
 				pt.Escaped = false
 				ansiReset(block[i])
+				//ansiResetNoChar()
 				switch block[i] {
 				case 'r':
 					*pt.pop = "\r"
@@ -585,7 +587,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				default:
 					*pt.pop = string(block[i])
 				}
-				//syntaxHighlighted += string(block[i])
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])

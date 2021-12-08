@@ -19,8 +19,8 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
@@ -229,6 +229,6 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 		return nil
 
 	default:
-		return errors.New("Invalid report type requested via `config set test report-format`")
+		return errors.New("invalid report type requested via `config set test report-format`")
 	}
 }

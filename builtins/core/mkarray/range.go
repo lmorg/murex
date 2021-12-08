@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var (
@@ -17,11 +18,11 @@ var (
 func rangeToArray(b []byte) ([]string, error) {
 	split := strings.Split(string(b), "..")
 	if len(split) > 2 {
-		return nil, fmt.Errorf("Invalid syntax. Too many double periods, `..`, in range`%s`. Please escape periods, `\\.`, if you wish to include period in your range", string(b))
+		return nil, fmt.Errorf("invalid syntax. Too many double periods, `..`, in range`%s`. Please escape periods, `\\.`, if you wish to include period in your range", string(b))
 	}
 
 	if len(split) < 2 {
-		return nil, fmt.Errorf("Invalid syntax. Range periods, `..`, found but cannot determine start and end range in `%s`", string(b))
+		return nil, fmt.Errorf("invalid syntax. Range periods, `..`, found but cannot determine start and end range in `%s`", string(b))
 	}
 
 	i1, e1 := strconv.Atoi(split[0])
@@ -60,7 +61,15 @@ func rangeToArray(b []byte) ([]string, error) {
 			return a, nil
 
 		default:
-			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
+			a := make([]string, 1)
+			if split[1][0] != '0' {
+				a[0] = strconv.Itoa(i1)
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "d"
+				a[0] = fmt.Sprintf(s, i1)
+			}
+			return a, nil
 		}
 	}
 
@@ -79,7 +88,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
+			return []string{split[0]}, nil
 		}
 	}
 
@@ -98,7 +107,7 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
+			return []string{split[0]}, nil
 		}
 
 	}
@@ -107,20 +116,20 @@ func rangeToArray(b []byte) ([]string, error) {
 		split = rxAltNumberBase.FindStringSubmatch(string(b))
 		base, err := strconv.Atoi(split[3])
 		if err != nil {
-			return nil, errors.New("Unable to determin number base: " + err.Error())
+			return nil, errors.New("unable to determin number base: " + err.Error())
 		}
 		if base < 2 || base > 36 {
-			return nil, errors.New("Number base must be between 2 and 36 (inclusive)")
+			return nil, errors.New("number base must be between 2 and 36 (inclusive)")
 		}
 
 		i1, err := strconv.ParseInt(split[1], base, 64)
 		if err != nil {
-			return nil, errors.New("Unable to determin start of range: " + err.Error())
+			return nil, errors.New("unable to determin start of range: " + err.Error())
 		}
 
 		i2, err := strconv.ParseInt(split[2], base, 64)
 		if err != nil {
-			return nil, errors.New("Unable to determin end of range: " + err.Error())
+			return nil, errors.New("unable to determin end of range: " + err.Error())
 		}
 
 		switch {
@@ -154,7 +163,70 @@ func rangeToArray(b []byte) ([]string, error) {
 			}
 			return a, nil
 		default:
-			return nil, fmt.Errorf("Invalid range. Start and end of range are the same in `%s`", string(b))
+			a := make([]string, 1)
+			if split[1][0] != '0' {
+				a[0] = strconv.FormatInt(i1, base)
+			} else {
+				l := len(split[1])
+				s := "%0" + strconv.Itoa(l) + "s"
+				a[0] = fmt.Sprintf(s, strconv.FormatInt(i1, base))
+			}
+			return a, nil
+		}
+	}
+
+	var t1, t2 time.Time
+	var now bool
+	for i := range dateFormat {
+		t1, e1 = time.Parse(dateFormat[i], split[0])
+		if e1 == nil || (len(split[0]) == 0 && len(split[1]) > 0) {
+			t2, e2 = time.Parse(dateFormat[i], split[1])
+
+			if e2 == nil || (len(split[0]) > 0 && len(split[1]) == 0) {
+				var c int
+				switch {
+				case len(split[0]) == 0:
+					t1, e1 = time.Parse(dateFormat[i], time.Now().Format(dateFormat[i]))
+					if e1 != nil {
+						return nil, e1
+					}
+					c = getCase(split[1])
+					now = true
+				case len(split[1]) == 0:
+					t2, e2 = time.Parse(dateFormat[i], time.Now().Format(dateFormat[i]))
+					if e2 != nil {
+						return nil, e2
+					}
+					c = getCase(split[0])
+					now = true
+				default:
+					c = getCase(split[0])
+				}
+
+				switch {
+				case now && t1.Format(dateFormat[i]) == t2.Format(dateFormat[i]):
+					return []string{setCase(t1.Format(dateFormat[i]), c)}, nil
+				case t1.Before(t2):
+					a := []string{setCase(t1.Format(dateFormat[i]), c)}
+					for t1.Before(t2) {
+						t1 = t1.AddDate(0, 0, 1)
+						a = append(a, setCase(t1.Format(dateFormat[i]), c))
+					}
+					return a, nil
+
+				case t1.After(t2):
+					a := []string{setCase(t1.Format(dateFormat[i]), c)}
+					for t1.After(t2) {
+						t1 = t1.AddDate(0, 0, -1)
+						a = append(a, setCase(t1.Format(dateFormat[i]), c))
+					}
+					return a, nil
+
+				default:
+					return []string{setCase(t1.Format(dateFormat[i]), c)}, nil
+					//return nil, fmt.Errorf("invalid range. Start and end of range are the same in `%s`", string(b))
+				}
+			}
 		}
 	}
 
@@ -169,7 +241,7 @@ func rangeToArray(b []byte) ([]string, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("Unable to auto-detect range in `%s`", string(b))
+	return nil, fmt.Errorf("unable to auto-detect range in `%s`", string(b))
 }
 
 func mapArray(start, end int, constMap map[string]int, c int) (matched bool, array []string) {

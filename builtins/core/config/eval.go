@@ -47,5 +47,5 @@ func evalConfig(p *lang.Process) error {
 		return err
 	}
 
-	return p.Config.Set(app, key, string(b))
+	return p.Config.Set(app, key, string(b), p.FileRef)
 }

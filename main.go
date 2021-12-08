@@ -1,3 +1,4 @@
+//go:build !js
 // +build !js
 
 package main
@@ -10,7 +11,6 @@ import (
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -47,22 +47,20 @@ func runTests() error {
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
-	source := defaults.DefaultMurexProfile()
-	srcRef := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-	execSource(defaults.DefaultMurexProfile(), srcRef)
+	defaultProfile()
 
 	// enable tests
-	if err := lang.ShellProcess.Config.Set("test", "enabled", true); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "enabled", true, nil); err != nil {
 		return err
 	}
-	if err := lang.ShellProcess.Config.Set("test", "auto-report", false); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "auto-report", false, nil); err != nil {
 		return err
 	}
-	if err := lang.ShellProcess.Config.Set("test", "verbose", false); err != nil {
+	if err := lang.ShellProcess.Config.Set("test", "verbose", false, nil); err != nil {
 		return err
 	}
 	tty := readline.IsTerminal(int(os.Stdout.Fd()))
-	if err := lang.ShellProcess.Config.Set("shell", "color", tty); err != nil {
+	if err := lang.ShellProcess.Config.Set("shell", "color", tty, nil); err != nil {
 		return err
 	}
 
@@ -87,9 +85,7 @@ func runCommandLine(commandLine string) {
 	// load modules and profile
 	if fLoadMods {
 		// compiled profile
-		source := defaults.DefaultMurexProfile()
-		ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-		execSource(defaults.DefaultMurexProfile(), ref)
+		defaultProfile()
 
 		// local profile
 		profile.Execute()
@@ -109,9 +105,7 @@ func runSource(filename string) {
 	// load modules a profile
 	if fLoadMods {
 		// compiled profile
-		source := defaults.DefaultMurexProfile()
-		ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-		execSource(defaults.DefaultMurexProfile(), ref)
+		defaultProfile()
 
 		// local profile
 		profile.Execute()
@@ -138,9 +132,7 @@ func startMurex() {
 	defaults.Defaults(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
-	source := defaults.DefaultMurexProfile()
-	ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-	execSource(defaults.DefaultMurexProfile(), ref)
+	defaultProfile()
 
 	// load modules and profile
 	profile.Execute()

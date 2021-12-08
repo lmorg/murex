@@ -8,13 +8,15 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+var errTooFew = errors.New("too few parameters")
+
 // Byte gets a single parameter as a []byte slice
 func (p *Parameters) Byte(pos int) ([]byte, error) {
 	p.mutex.RLock()
 	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
-		return []byte{}, errors.New("Too few parameters")
+		return []byte{}, errTooFew
 	}
 	return []byte(p.params[pos]), nil
 }
@@ -45,7 +47,7 @@ func (p *Parameters) String(pos int) (string, error) {
 	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
-		return "", errors.New("Too few parameters")
+		return "", errTooFew
 	}
 	return p.params[pos], nil
 }
@@ -88,7 +90,7 @@ func (p *Parameters) Int(pos int) (int, error) {
 	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
-		return 0, errors.New("Too few parameters")
+		return 0, errTooFew
 	}
 	return strconv.Atoi(p.params[pos])
 }
@@ -99,7 +101,7 @@ func (p *Parameters) Uint32(pos int) (uint32, error) {
 	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
-		return 0, errors.New("Too few parameters")
+		return 0, errTooFew
 	}
 	i, err := strconv.ParseUint(p.params[pos], 10, 32)
 	return uint32(i), err
@@ -111,7 +113,7 @@ func (p *Parameters) Bool(pos int) (bool, error) {
 	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
-		return false, errors.New("Too few parameters")
+		return false, errTooFew
 	}
 	return types.IsTrue([]byte(p.params[pos]), 0), nil
 }
@@ -123,16 +125,16 @@ func (p *Parameters) Block(pos int) ([]rune, error) {
 
 	switch {
 	case p.Len() <= pos:
-		return []rune{}, errors.New("Too few parameters")
+		return []rune{}, errTooFew
 
 	case len(p.params[pos]) < 2:
-		return []rune{}, errors.New("Not a valid code block. Too few characters")
+		return []rune{}, errors.New("not a valid code block. Too few characters. Code blocks should be surrounded by curly brace, eg `{ code }`")
 
 	case p.params[pos][0] != '{':
-		return []rune{}, errors.New("Not a valid code block. Missing opening curly brace. Found `" + string([]byte{p.params[pos][0]}) + "` instead.")
+		return []rune{}, errors.New("not a valid code block. Missing opening curly brace. Found `" + string([]byte{p.params[pos][0]}) + "` instead.")
 
 	case p.params[pos][len(p.params[pos])-1] != '}':
-		return []rune{}, errors.New("Not a valid code block. Missing closing curly brace. Found `" + string([]byte{p.params[pos][len(p.params[pos])-1]}) + "` instead.")
+		return []rune{}, errors.New("not a valid code block. Missing closing curly brace. Found `" + string([]byte{p.params[pos][len(p.params[pos])-1]}) + "` instead.")
 
 	}
 

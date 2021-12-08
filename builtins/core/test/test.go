@@ -149,27 +149,27 @@ func testConfig(p *lang.Process, i int) error {
 	switch option {
 	case "enable":
 		p.Stdout.Writeln([]byte("Enabling test mode...."))
-		return p.Config.Set("test", "enabled", true)
+		return p.Config.Set("test", "enabled", true, p.FileRef)
 
 	case "!enable":
 		p.Stdout.Writeln([]byte("Disabling test mode...."))
-		return p.Config.Set("test", "enabled", false)
+		return p.Config.Set("test", "enabled", false, p.FileRef)
 
 	case "auto-report":
 		p.Stdout.Writeln([]byte("Enabling auto-report...."))
-		return p.Config.Set("test", "auto-report", true)
+		return p.Config.Set("test", "auto-report", true, p.FileRef)
 
 	case "!auto-report":
 		p.Stdout.Writeln([]byte("Disabling auto-report...."))
-		return p.Config.Set("test", "auto-report", false)
+		return p.Config.Set("test", "auto-report", false, p.FileRef)
 
 	case "verbose":
 		p.Stdout.Writeln([]byte("Enabling verbose reporting...."))
-		return p.Config.Set("test", "verbose", true)
+		return p.Config.Set("test", "verbose", true, p.FileRef)
 
 	case "!verbose":
 		p.Stdout.Writeln([]byte("Disabling verbose reporting...."))
-		return p.Config.Set("test", "verbose", false)
+		return p.Config.Set("test", "verbose", false, p.FileRef)
 
 	default:
 		return errUsage(option, nil)
@@ -180,5 +180,5 @@ func cmdTestDisable(p *lang.Process) error {
 	if p.Parameters.Len() > 0 {
 		return errUsage("", errors.New("Too many parameters! Usage: `!test` to disable testing"))
 	}
-	return p.Config.Set("test", "enabled", false)
+	return p.Config.Set("test", "enabled", false, p.FileRef)
 }

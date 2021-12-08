@@ -65,6 +65,12 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
+		if len(rl.line) == 0 {
+			// clear the cache when the line is cleared
+			rl.cacheHint.Init(rl)
+			rl.cacheSyntax.Init(rl)
+		}
+
 		go delayedSyntaxTimer(rl, atomic.LoadInt32(&rl.delayedSyntaxCount))
 		rl.viUndoSkipAppend = false
 		b := make([]byte, 1024*1024)

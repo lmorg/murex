@@ -132,8 +132,6 @@ func ShowPrompt() {
 		}
 
 		switch {
-		//case len(block) > 0 && block[len(block)-1] == '\\':
-		//		block = append(block, []rune(" "+line)...)
 		case nLines > 1:
 			block = append(block, []rune(utils.NewLineString+line)...)
 		default:

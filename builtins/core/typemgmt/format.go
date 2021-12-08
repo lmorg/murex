@@ -8,8 +8,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["format"] = cmdFormat
-
 	lang.DefineMethod("format", cmdFormat, types.Unmarshal, types.Marshal)
 }
 

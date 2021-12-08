@@ -74,6 +74,7 @@ const (
 var (
 	rxColumnPrefix = regexp.MustCompile(`^:[0-9]+$`)
 	rxRowSuffix    = regexp.MustCompile(`^[0-9]+:$`)
+	errMixAndMatch = errors.New("you cannot mix and match matching modes")
 )
 
 // IndexTemplateTable is a handy standard indexer you can use in your custom data types for tabulated / streamed data.
@@ -96,7 +97,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 		switch {
 		case rxRowSuffix.MatchString(params[i]):
 			if mode != 0 && mode != byRowNumber {
-				return errors.New("You cannot mix and match matching modes")
+				return errMixAndMatch
 			}
 			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
@@ -104,7 +105,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 
 		case rxColumnPrefix.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
-				return errors.New("You cannot mix and match matching modes")
+				return errMixAndMatch
 			}
 			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
@@ -112,7 +113,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 
 		default:
 			if mode != 0 && mode != byColumnName {
-				return errors.New("You cannot mix and match matching modes")
+				return errMixAndMatch
 			}
 			matchStr = append(matchStr, params[i])
 			mode = byColumnName
@@ -247,7 +248,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 		}
 
 	default:
-		return errors.New("You haven't selected any rows / columns")
+		return errors.New("you haven't selected any rows / columns")
 	}
 }
 
@@ -262,7 +263,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 		switch {
 		case rxRowSuffix.MatchString(params[i]):
 			if mode != 0 && mode != byRowNumber {
-				return errors.New("You cannot mix and match matching modes")
+				return errMixAndMatch
 			}
 			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
@@ -270,7 +271,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 
 		case rxColumnPrefix.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
-				return errors.New("You cannot mix and match matching modes")
+				return errMixAndMatch
 			}
 			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
@@ -278,7 +279,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 
 		default:
 			if mode != 0 && mode != byColumnName {
-				return errors.New("You cannot mix and match matching modes")
+				return errMixAndMatch
 			}
 			matchStr[params[i]] = true
 			mode = byColumnName
@@ -361,7 +362,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 		}
 
 	default:
-		return errors.New("You haven't selected any rows / columns")
+		return errors.New("you haven't selected any rows / columns")
 	}
 }
 ```

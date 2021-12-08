@@ -62,7 +62,7 @@ func TestConfigScoped(t *testing.T) {
 
 	copy := orig.Copy()
 
-	err := copy.Set("app", "key", "copy")
+	err := copy.Set("app", "key", "copy", nil)
 	if err != nil {
 		t.Error("Error setting string: " + err.Error())
 	}
@@ -85,7 +85,7 @@ func TestConfigScoped(t *testing.T) {
 
 	///// Default
 
-	err = copy.Default("app", "key")
+	err = copy.Default("app", "key", nil)
 	if err != nil {
 		t.Error("Error defaulting string: " + err.Error())
 	}
@@ -121,7 +121,7 @@ func TestConfigGlobal(t *testing.T) {
 
 	copy := orig.Copy()
 
-	err := copy.Set("app", "key", "copy")
+	err := copy.Set("app", "key", "copy", nil)
 	if err != nil {
 		t.Error("Error setting string: " + err.Error())
 	}
@@ -144,7 +144,7 @@ func TestConfigGlobal(t *testing.T) {
 
 	///// Default
 
-	err = copy.Default("app", "key")
+	err = copy.Default("app", "key", nil)
 	if err != nil {
 		t.Error("Error defaulting string: " + err.Error())
 	}

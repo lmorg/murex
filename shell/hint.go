@@ -42,7 +42,7 @@ func hintText(line []rune, pos int) []rune {
 	// check if a custom summary has been set
 	r = hintsummary.Get(cmd, autocomplete.GlobalExes[cmd])
 
-	if pt.ExpectParam && len(r) == 0 {
+	if pt.ExpectParam && len(r) == 0 && !utils.Exists(cmd) {
 		r = append(r, []rune(
 			fmt.Sprintf("%starget `"+cmd+"` was not found%s", ansi.FgRed, ansi.Reset),
 		)...)

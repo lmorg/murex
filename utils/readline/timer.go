@@ -10,6 +10,10 @@ func delayedSyntaxTimer(rl *Instance, i int32) {
 		return
 	}
 
+	if rl.cacheSyntax.Get(rl.line) != "" {
+		return
+	}
+
 	if len(rl.line)+rl.promptLen > rl.termWidth {
 		// line wraps, which is hard to do with random ANSI escape sequences
 		// so better we don't bother trying.
@@ -19,15 +23,15 @@ func delayedSyntaxTimer(rl *Instance, i int32) {
 	newLine := rl.DelayedSyntaxWorker(rl.line)
 	var sLine string
 
-	count := atomic.LoadInt32(&rl.delayedSyntaxCount)
-	if count != i {
-		return
-	}
-
 	if rl.SyntaxHighlighter != nil {
 		sLine = rl.SyntaxHighlighter(newLine)
 	} else {
 		sLine = string(newLine)
+	}
+	rl.cacheSyntax.Append(rl.line, sLine)
+
+	if atomic.LoadInt32(&rl.delayedSyntaxCount) != i {
+		return
 	}
 
 	rl.moveCursorToStart()

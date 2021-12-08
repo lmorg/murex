@@ -1,53 +1,53 @@
-# This file tests flags but running the murex executable
+# This file tests flags by running the murex executable
 
-function try-semicolon {
+function murex.flag.try.semicolon {
     exec: $MUREX_EXE --try -c (err: "foo"; out "bar") 
 }
 
-test: unit function try-semicolon {
+test: unit function murex.flag.try.semicolon {
     "StderrRegex": "foo",
     "ExitNum":     1
 }
 
-function try-pipe {
+function murex.flag.try.pipe {
     exec: $MUREX_EXE --try -c (err: "foo" -> out "bar") 
 }
 
-test: unit function try-pipe {
+test: unit function murex.flag.try.pipe {
     "StderrRegex": "foo",
     "StdoutRegex": "bar"
 }
 
-function try-errpipe {
+function murex.flag.try.errpipe {
     exec: $MUREX_EXE --try -c (err: "foo" ? out "bar") 
 }
 
-test: unit function try-errpipe {
+test: unit function murex.flag.try.errpipe {
     "StdoutRegex": "bar"
 }
 
-function trypipe-semicolon {
+function murex.flag.trypipe.semicolon {
     exec: $MUREX_EXE --trypipe -c (err: "foo"; out "bar") 
 }
 
-test: unit function trypipe-semicolon {
+test: unit function murex.flag.trypipe.semicolon {
     "StderrRegex": "foo",
     "ExitNum":     1
 }
 
-function trypipe-pipe {
+function murex.flag.trypipe.pipe {
     exec: $MUREX_EXE --trypipe -c (err: "foo" -> out "bar") 
 }
 
-test: unit function trypipe-pipe {
+test: unit function murex.flag.trypipe.pipe {
     "StderrRegex": "foo",
     "ExitNum":     1
 }
 
-function trypipe-errpipe {
+function murex.flag.trypipe.errpipe {
     exec: $MUREX_EXE --trypipe -c (err: "foo" ? out "bar") 
 }
 
-test: unit function trypipe-errpipe {
+test: unit function murex.flag.trypipe.errpipe {
     "ExitNum":     1
 }

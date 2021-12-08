@@ -78,10 +78,18 @@ var (
 )
 
 func writeError(p *Process, err error) []byte {
-	if p.FileRef.Source.Module == app.Name {
-		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", p.Name.String(), p.FileRef.Line, p.FileRef.Column, err.Error()))
+	name := p.Name.String()
+	if name == "exec" {
+		exec, pErr := p.Parameters.String(0)
+		if pErr == nil {
+			name = exec
+		}
 	}
-	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", p.Name.String(), p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
+
+	if p.FileRef.Source.Module == app.Name {
+		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", name, p.FileRef.Line, p.FileRef.Column, err.Error()))
+	}
+	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
 }
 
 func createProcess(p *Process, isMethod bool) {
@@ -163,19 +171,27 @@ func createProcess(p *Process, isMethod bool) {
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
 	if name == "pipe" || name == "test" {
-		ParseParameters(p, &p.Parameters)
-		err := GoFunctions[name](p)
+		err := ParseParameters(p, &p.Parameters)
 		if err != nil {
 			ShellProcess.Stderr.Writeln(writeError(p, err))
 			if p.ExitNum == 0 {
 				p.ExitNum = 1
 			}
+
+		} else {
+
+			err = GoFunctions[name](p)
+			if err != nil {
+				ShellProcess.Stderr.Writeln(writeError(p, err))
+				if p.ExitNum == 0 {
+					p.ExitNum = 1
+				}
+			}
 		}
+
 		p.SetTerminatedState(true)
 		p.State.Set(state.Executed)
 	}
-
-	return
 }
 
 func executeProcess(p *Process) {
@@ -205,10 +221,14 @@ func executeProcess(p *Process) {
 		p.Done()
 	}
 
-	ParseParameters(p, &p.Parameters)
+	var parsedAlias bool
+
+	err = ParseParameters(p, &p.Parameters)
+	if err != nil {
+		goto cleanUpProcess
+	}
 
 	// Execute function.
-	var parsedAlias bool
 	p.State.Set(state.Executing)
 	p.StartTime = time.Now()
 
@@ -239,7 +259,7 @@ executeProcess:
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
 			fork.Name.Set(name)
-			fork.Parameters = p.Parameters
+			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
@@ -250,7 +270,7 @@ executeProcess:
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
 			fork.Name.Set(name)
-			fork.Parameters = p.Parameters
+			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
 			p.ExitNum, err = fork.Execute(fn.Block)
 		}
@@ -260,13 +280,19 @@ executeProcess:
 		match := rxVariables.FindAllStringSubmatch(name+p.Parameters.StringAll(), -1)
 		switch {
 		case len(name) == 1:
-			err = errors.New("Variable token, `$`, used without specifying variable name")
+			err = errors.New("variable token, `$`, used without specifying variable name")
 		case len(match) == 0 || len(match[0]) == 0:
 			err = errors.New("`" + name[1:] + "` is not a valid variable name")
 		case match[0][2] == "":
-			s := p.Variables.GetString(match[0][1])
-			p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))
-			_, err = p.Stdout.Write([]byte(s))
+			var s string
+			s, err = p.Variables.GetString(match[0][1])
+			if err == nil {
+				p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))
+				_, err = p.Stdout.Write([]byte(s))
+			} else {
+				p.Stdout.SetDataType(types.Null)
+				//p.Stderr.Write([]byte(err.Error()))
+			}
 		default:
 			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
 			p.Fork(F_PARENT_VARTABLE).Execute(block)
@@ -293,6 +319,8 @@ executeProcess:
 	}
 
 	//p.Stdout.DefaultDataType(err != nil)
+
+cleanUpProcess:
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))

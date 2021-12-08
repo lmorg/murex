@@ -46,7 +46,7 @@ func cmdJobs(p *lang.Process) error {
 				process.Id,
 				process.State.String(),
 				process.Background.Get(),
-				process.Name,
+				process.Name.String(),
 				getParams(process),
 			})
 			if err != nil {

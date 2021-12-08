@@ -11,11 +11,8 @@ import (
 // This code is ugly. Read at your own risk.
 
 func init() {
-	//lang.GoFunctions["a"] = cmdA
 	lang.DefineFunction("a", cmdA, types.String)
-	//lang.GoFunctions["ja"] = cmdJa
 	lang.DefineFunction("ja", cmdJa, types.Json)
-	//lang.GoFunctions["ta"] = cmdTa
 	lang.DefineFunction("ta", cmdTa, types.WriteArray)
 }
 
@@ -102,7 +99,7 @@ func mkArray(p *lang.Process, dataType string) error {
 				continue
 			}
 			if open {
-				return fmt.Errorf("Cannot open bracket (char %d) inside of open bracket.\nIf you wanted to print the bracket then please escape it: `\\[``", i)
+				return fmt.Errorf("cannot open bracket (char %d) inside of open bracket.\nIf you wanted to print the bracket then please escape it: `\\[``", i)
 			}
 			open = true
 			nodes = append(nodes,
@@ -122,7 +119,7 @@ func mkArray(p *lang.Process, dataType string) error {
 				continue
 			}
 			if !open {
-				return fmt.Errorf("Cannot close bracket (char %d) with an open bracket.\nIf you wanted to print the bracket then please escape it: `\\]``", i)
+				return fmt.Errorf("cannot close bracket (char %d) with an open bracket.\nIf you wanted to print the bracket then please escape it: `\\]``", i)
 			}
 			open = false
 			nodes = append(nodes,

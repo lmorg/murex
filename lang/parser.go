@@ -33,6 +33,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		last             rune
 		commentLine      bool
 		escaped          bool
+		escapedBfComment bool
 		quoteSingle      bool
 		quoteDouble      bool
 		quoteBrace       int
@@ -141,15 +142,31 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		r = block[i]
 		colNumber++
 
+		// comment
 		if commentLine {
 			if r == '\n' {
 				commentLine = false
 				lineNumber++
 				colNumber = 0
 			}
+			if escapedBfComment {
+				escapedBfComment = false
+				switch {
+				case !scanFuncName && last != ' ' && last != ':':
+					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+					pCount++
+					pToken = &node.ParamTokens[pCount][0]
+					pop = &pToken.Key
+				case scanFuncName && !ignoreWhitespace:
+					startParameters()
+				default:
+					pUpdate(r)
+				}
+			}
 			continue
 		}
 
+		// variable tokens
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
 			case pToken.Type == parameters.TokenTypeIndex ||
@@ -547,9 +564,20 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		case ' ', '\t', '\r':
 			switch {
 			case escaped:
-				pUpdate(r)
+				for lookFwd := i; lookFwd < len(block)-1; lookFwd++ {
+					if block[lookFwd] == '#' {
+						escapedBfComment = true
+						break
+					}
+					if block[lookFwd] != ' ' && block[lookFwd] != '\t' {
+						break
+					}
+				}
+				if !escapedBfComment {
+					pUpdate(r)
+					ignoreWhitespace = false
+				}
 				escaped = false
-				ignoreWhitespace = false
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 				ignoreWhitespace = false
@@ -571,8 +599,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			colNumber = 0
 			switch {
 			case escaped:
-				//pUpdate(r)
-				//pUpdate(' ')
 				switch {
 				case !scanFuncName && last != ' ' && last != ':':
 					node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
