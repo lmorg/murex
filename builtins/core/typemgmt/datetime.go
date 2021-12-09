@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -15,6 +16,20 @@ import (
 
 func init() {
 	lang.DefineMethod("datetime", cmdDateTime, types.Any, types.Any)
+
+	defaults.AppendProfile(`	
+		autocomplete: set datetime {
+			[{
+				"FlagsDesc": {
+					"--value": "(optional) Input data/time string to be parsed",
+					"--in": "Formatting rules of input data/time string",
+					"--out": "Formatting rules of output date/time string"
+				},
+				"AllowMultiple": true,
+				"AnyValue": true
+			}]
+		}
+	`)
 }
 
 func cmdDateTime(p *lang.Process) error {
