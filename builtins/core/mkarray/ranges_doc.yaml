@@ -429,6 +429,35 @@
     ```
   Flags:
   Detail: |-
+    ### Current Date
+
+    If the start value is missing (eg `[..01-Jan-2020]`) then mkarray (`a` et al)
+    will start the range from the current date and count up or down to the end.
+
+    If the end value is missing (eg `[01-Jan-2020..]`) then mkarray will start at
+    the start value, as usual, and count up or down to the current date.
+
+    For example, if today was 25th December 2020:
+
+    ```
+    » a: [23-December-2020..]
+    23-December-2020
+    24-December-2020
+    25-December-2020
+
+    » a: [..23-December-2020]
+    25-December-2020
+    24-December-2020
+    23-December-2020
+    ```
+
+    This can lead so some fun like countdowns:
+
+    ```
+    » out: "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
+    7 days until the new year!
+    ```
+
     ### Case Sensitivity
 
     Date ranges are case aware. If the ranges are uppercase then the return will be
