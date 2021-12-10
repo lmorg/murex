@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
@@ -15,6 +16,20 @@ import (
 
 func init() {
 	lang.DefineMethod("datetime", cmdDateTime, types.Any, types.Any)
+
+	defaults.AppendProfile(`	
+		autocomplete: set datetime {
+			[{
+				"FlagsDesc": {
+					"--value": "(optional) Input data/time string to be parsed",
+					"--in": "Formatting rules of input data/time string",
+					"--out": "Formatting rules of output date/time string"
+				},
+				"AllowMultiple": true,
+				"AnyValue": true
+			}]
+		}
+	`)
 }
 
 func cmdDateTime(p *lang.Process) error {
@@ -122,13 +137,15 @@ func pyParse(format string, t time.Time) (string, error) {
 			continue
 		}
 
+		isDirective = false
+
 		switch c {
 		case 'a':
-			s += time.Now().Format("Mon")
+			s += t.Format("Mon")
 		case 'A':
-			s += time.Now().Format("Monday")
+			s += t.Format("Monday")
 		case 'w':
-			switch time.Now().Format("Monday") {
+			switch t.Format("Monday") {
 			case "Sunday":
 				s += "0"
 			case "Monday":
@@ -145,45 +162,45 @@ func pyParse(format string, t time.Time) (string, error) {
 				s += "6"
 			}
 		case 'd':
-			s += time.Now().Format("02")
+			s += t.Format("02")
 		case 'b':
-			s += time.Now().Format("Jan")
+			s += t.Format("Jan")
 		case 'B':
-			s += time.Now().Format("January")
+			s += t.Format("January")
 		case 'm':
-			s += time.Now().Format("01")
+			s += t.Format("01")
 		case 'y':
-			s += time.Now().Format("06")
+			s += t.Format("06")
 		case 'Y':
-			s += time.Now().Format("2006")
+			s += t.Format("2006")
 		case 'H':
-			s += time.Now().Format("15")
+			s += t.Format("15")
 		case 'I':
-			s += time.Now().Format("03")
+			s += t.Format("03")
 		case 'p':
-			s += time.Now().Format("PM")
+			s += t.Format("PM")
 		case 'M':
-			s += time.Now().Format("04")
+			s += t.Format("04")
 		case 'S':
-			s += time.Now().Format("05")
+			s += t.Format("05")
 		case 'f':
-			s += time.Now().Format("000000")
+			s += t.Format("000000")
 		case 'z':
-			s += time.Now().Format("-0700")
+			s += t.Format("-0700")
 		case 'Z':
-			s += time.Now().Format("MST")
+			s += t.Format("MST")
 		case 'j':
-			s += time.Now().Format("002")
+			s += t.Format("002")
 		case 'U':
 			return "", errors.New("`%U` is currently unsupported")
 		case 'W':
 			return "", errors.New("`%W` is currently unsupported")
 		case 'c':
-			s += time.Now().Format("Mon Jan 03 15:04:05 2006")
+			s += t.Format("Mon Jan 03 15:04:05 2006")
 		case 'x':
-			s += time.Now().Format("01/02/06")
+			s += t.Format("01/02/06")
 		case 'X':
-			s += time.Now().Format("15:04:05")
+			s += t.Format("15:04:05")
 		case '%':
 			s += "%"
 		default:

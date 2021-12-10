@@ -14,7 +14,7 @@ Pass date/time value as a parameter:
 
     datetime --in "format" --out "format" --value "date/time" -> <stdout>
     
-Read date/time value from `STDIN`:
+Read date/time value from STDIN:
 
     <stdin> -> datetime --in "format" --out "format" -> <stdout>
 
@@ -40,9 +40,9 @@ Convert value passed as a command line argument:
 * `--in`
     Defines the date/time string is formatted in `--value
 * `--out`
-    Defined how the date/time string should be formatted in `STDOUT
+    Defined how the date/time string should be formatted in STDOUT
 * `--value`
-    Date/time value to convert (if omitted and the input format is not set to `{now}` then date/time is read from `STDIN`)
+    Date/time value to convert (if omitted and the input format is not set to `{now}` then date/time is read from STDIN)
 
 ## Detail
 
@@ -50,20 +50,20 @@ Convert value passed as a command line argument:
 
 `datetime` supports a number of parsers, defined in curly braces.
 
-## `{py}`: Python `strftime` / `strptime` format codes
+#### `{py}`: Python strftime / strptime format codes
 
 _murex_ doesn't support all the language and locale features of Python, instead
 defaulting to English. However enough support is there to cover most use cases.
 
 Documentation regarding these format codes can be found on [docs.python.org](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
 
-## `{go}`: Go (lang) `time.Time` format codes
+#### `{go}`: Go (lang) time.Time format codes
 
 _murex_ has full support for Go's date/time parsing.
 
 Documentation regarding these format codes can be found on [pkg.go.dev](https://pkg.go.dev/time#pkg-constants).
 
-## `{now}`: Current date and time
+#### `{now}`: Current date and time
 
 This is only supported as an input. When it is used `--value` flag is not
 required.

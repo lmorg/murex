@@ -14,13 +14,7 @@
 
 ## Examples
 
-{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
-
-## Flags
-
-{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
-{{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Detail }}
+{{ md (include .Examples) }}{{ end }}{{ if .Detail }}
 
 ## Detail
 
