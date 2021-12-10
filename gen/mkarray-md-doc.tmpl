@@ -4,7 +4,27 @@
 {{ if .Summary }}
 > {{ md .Summary }}{{ end }}
 
-{{ md (include .Description) }}{{ if .Related }}
+## Description
+
+{{ md (include .Description) }}
+
+{{ if .Usage }}## Usage
+
+{{ md (include .Usage) }}{{ end }}{{ if .Examples }}
+
+## Examples
+
+{{ md (include .Examples) }}{{ end }}{{ if .Detail }}
+
+## Detail
+
+{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
+
+## Synonyms
+
+{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
+{{ end }}* `{{ md . }}`{{ end }}
+{{ end }}{{ if .Related }}
 
 ## See Also
 

@@ -1,0 +1,126 @@
+# _murex_ Shell Docs
+
+## mkarray: Non-Decimal Ranges
+
+> Create arrays of integers from non-decimal number bases
+
+## Description
+
+When making arrays you can specify ranges of an alternative number base by
+using an `x` or `.` in the end range:
+
+    a: [00..ffx16]
+    a: [00..ff.16]
+    
+All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
+Please note that the start and end range are written in the target base
+while the base identifier is written in decimal: `[hex..hex.dec]`
+
+Also note that the additional zeros denotes padding (ie the results will
+start at `00`, `01`, etc rather than `0`, `1`...)
+
+Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarray.
+
+## Usage
+
+    a: [start..end] -> <stdout>
+    a: [start..end.base] -> <stdout>
+    a: [start..end,start..end] -> <stdout>
+    a: [start..end][start..end] -> <stdout>
+    
+All usages also work with `ja` and `ta` as well:
+
+    ja: [start..end] -> <stdout>
+    ta: data-type [start..end] -> <stdout>
+
+## Examples
+
+    » a: [08..10x16]
+    08
+    09
+    0a
+    0b
+    0c
+    0d
+    0e
+    0f
+    10
+    
+    » a: [10..08x16]
+    10
+    f
+    e
+    d
+    c
+    b
+    a
+    9
+    8
+
+## Detail
+
+### Floating Point Numbers
+
+If you do need a range of fixed floating point numbers generated then you can
+do so by merging two decimal integer ranges together. For example
+
+    » a: [05..10x8].[0..7]
+    05.0
+    05.1
+    05.2
+    05.3
+    05.4
+    05.5
+    05.6
+    05.7
+    06.0
+    06.1
+    06.2
+    ...
+    07.5
+    07.6
+    07.7
+    10.0
+    10.1
+    10.2
+    10.3
+    10.4
+    10.5
+    10.6
+    10.7
+    
+### Everything Is A String
+
+Please note that all arrays are created as strings. Even when using typed
+arrays such as JSON (`ja`).
+
+    » ja [0..5]
+    [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ] 
+
+## See Also
+
+* [mkarray/Character arrays](../mkarray/character.md):
+  Making character arrays (a to z)
+* [mkarray/Decimal Ranges](../mkarray/decimal.md):
+  Create arrays of decimal integers
+* [commands/`@[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
+* [commands/`[[` (element)](../commands/element.md):
+  Outputs an element from a nested structure
+* [commands/`[` (index)](../commands/index.md):
+  Outputs an element from an array, map or table
+* [commands/`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
+* [commands/`ja` (mkarray)](../commands/ja.md):
+  A sophisticated yet simply way to build a JSON array
+* [commands/`len` ](../commands/len.md):
+  Outputs the length of an array
+* [commands/`ta` (mkarray)](../commands/ta.md):
+  A sophisticated yet simple way to build an array of a user defined data-type

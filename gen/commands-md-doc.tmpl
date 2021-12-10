@@ -10,7 +10,7 @@
 
 {{ if .Usage }}## Usage
 
-{{ md .Usage }}{{ end }}{{ if .Examples }}
+{{ md (include .Usage) }}{{ end }}{{ if .Examples }}
 
 ## Examples
 

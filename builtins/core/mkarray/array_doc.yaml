@@ -15,7 +15,7 @@
     Except _murex_ also supports other sets of ranges like dates, days of the week,
     and alternative number bases.
   Usage: |-
-    {{ include "gen/includes/mkarray-range-usage.inc copy.md" }}
+    {{ include "gen/includes/mkarray-range-usage.inc.md" }}
   Examples: |-
     ```
     » a: [1..3]
