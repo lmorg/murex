@@ -10,18 +10,13 @@ Pronounced "make array", like `mkdir` (etc), _murex_ has a pretty sophisticated
 builtin for generating arrays. Think like bash's `{1..9}` syntax:
 
     a: [1..9]
+    
+Except _murex_ also supports other sets of ranges like dates, days of the week,
+and alternative number bases.
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end.base] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
-All usages also work with `ja` and `ta` as well:
-
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
+{{ include "gen/includes/mkarray-range-usage.inc copy.md" }}
 
 ## Examples
 
@@ -41,99 +36,6 @@ All usages also work with `ja` and `ta` as well:
     03
 
 ## Detail
-
-### Alternative Number Bases
-
-You can also specify an alternative number base by using an `x` or `.`
-in the end range:
-
-    a: [00..ffx16]
-    a: [00..ff.16]
-    
-All number bases from 2 (binary) to 36 (0-9 plus a-z) are supported.
-Please note that the start and end range are written in the target base
-while the base identifier is written in decimal: `[hex..hex.dec]`
-
-Also note that the additional zeros denotes padding (ie the results will
-start at `00`, `01`, etc rather than `0`, `1`...)
-
-### Character arrays
-
-You can select a range of letters (a to z):
-
-    » a: [a..z]
-    » a: [z..a]
-    » a: [A..Z]
-    » a: [Z..A]
-    
-...or any characters within that range.
-
-### Special ranges
-
-Unlike bash, _murex_ also supports some special ranges:
-
-```  
-» a: [mon..sun]
-» a: [monday..sunday]
-» a: [jan..dec]
-» a: [january..december]
-» a: [spring..winter]
-```
-
-It is also case aware. If the ranges are uppercase then the return will
-be uppercase. If the ranges are title case (capital first letter) then
-the return will be in title case:
-
-    » a: [Monday..Sunday]
-    Monday
-    Tuesday
-    Wednesday
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    
-Where the special ranges differ from a regular range is they cannot
-cannot down. eg `a: [3..1]` would output
-
-    » a: [3..1]
-    3
-    2
-    1
-    
-however a negative range in special ranges will cycle through to the end
-of the range and then loop back from the start:
-
-    » a: [Thursday..Wednesday]
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    Monday
-    Tuesday
-    Wednesday
-    
-This decision was made because generally with ranges of this type, you
-would more often prefer to cycle through values rather than iterate
-backwards through the list.
-
-If you did want to reverse then just pipe the output into another tool:
-
-    » a: [Monday..Friday] -> mtac
-    Friday
-    Thursday
-    Wednesday
-    Tuesday
-    Monday
-    
-There are other UNIX tools which aren't data type aware but would work in
-this specific scenario:
-
-* `tac` (Linux),
-
-* `tail -r` (BSD / OS X)
-
-* `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
 ### Advanced Array Syntax
 
