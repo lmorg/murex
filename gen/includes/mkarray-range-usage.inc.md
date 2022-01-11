@@ -1,6 +1,5 @@
 ```
 a: [start..end] -> <stdout>
-a: [start..end.base] -> <stdout>
 a: [start..end,start..end] -> <stdout>
 a: [start..end][start..end] -> <stdout>
 ```
