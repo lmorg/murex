@@ -24,7 +24,6 @@ Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarr
 ## Usage
 
     a: [start..end] -> <stdout>
-    a: [start..end.base] -> <stdout>
     a: [start..end,start..end] -> <stdout>
     a: [start..end][start..end] -> <stdout>
     
