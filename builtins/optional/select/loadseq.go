@@ -1,4 +1,4 @@
-//go:build ignore
+// +build ignore
 
 package sqlselect
 
