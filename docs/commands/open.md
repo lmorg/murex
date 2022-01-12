@@ -18,7 +18,7 @@
 
 ## Usage
 
-    open filename|uri -> <stdout>
+    open filename[.gz]|uri -> <stdout>
 
 ## Examples
 
@@ -32,6 +32,9 @@ Supported file extensions are listed in `config` under the app and key names of
 **shell**, **extensions**.
 
 Unsupported file extensions are defaulted to generic, `*`.
+
+Files with a `.gz` extension are assumed to be gzipped and thus are are
+automatically expanded.
 
 ### MIME Types
 

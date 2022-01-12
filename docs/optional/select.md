@@ -12,7 +12,9 @@ data type as the input type
 
 ## Usage
 
-    <stdin> -> select SQL -> <stdout>
+    <stdin> -> select * | ... WHERE ... -> <stdout>
+    
+    select * | ... FROM file[.gz] WHERE ... -> <stdout>
 
 ## Examples
 
@@ -50,6 +52,9 @@ List a count of all the processes running against each user ID:
     7       _locationd
     144     root
     308     foobar
+    
+    
+    select count(*)
 
 ## Detail
 

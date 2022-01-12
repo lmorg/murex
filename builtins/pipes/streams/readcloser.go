@@ -1,6 +1,7 @@
 package streams
 
 import (
+	"context"
 	"io"
 )
 
@@ -18,5 +19,6 @@ func NewReadCloser(reader io.ReadCloser) (r *ReadCloser) {
 	r = new(ReadCloser)
 	r.reader = reader
 	r.readCloser = reader
+	r.ctx, r.forceClose = context.WithCancel(context.Background())
 	return
 }
