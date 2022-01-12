@@ -1,10 +1,17 @@
 package sqlselect
 
 import (
+	"encoding/json"
 	"testing"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/test/count"
 )
+
+func inlineJson(v interface{}) string {
+	b, _ := json.Marshal(v)
+	return string(b)
+}
 
 type Str2IfaceT struct {
 	Input  []string
@@ -120,6 +127,104 @@ func TestStringToInterfaceTrim(t *testing.T) {
 				t.Logf("  Expected: '%s'", test.Output[j])
 				t.Logf("  Actual:   '%s'", actual[j].(string))
 			}
+		}
+	}
+}
+
+type DissectParametersT struct {
+	Input    []string
+	IsMethod bool
+	Output   string
+	Error    bool
+	FileName string
+}
+
+func TestDissectParameters(t *testing.T) {
+	tests := []DissectParametersT{
+		{
+			Input:    []string{"FROM", "file.csv", "ORDER BY", "1"},
+			IsMethod: false,
+			Output:   "* ORDER BY 1",
+			FileName: "file.csv",
+		},
+		{
+			Input:    []string{"*", "FROM", "file.csv", "ORDER BY", "1"},
+			IsMethod: false,
+			Output:   "* ORDER BY 1",
+			FileName: "file.csv",
+		},
+		{
+			Input:    []string{"*", "FROM", "file.csv"},
+			IsMethod: false,
+			Output:   "*",
+			FileName: "file.csv",
+		},
+		{
+			Input:    []string{"FROM", "file.csv"},
+			IsMethod: false,
+			Output:   "*",
+			FileName: "file.csv",
+		},
+		{
+			Input:    []string{"a", "b", "c", "FROM", "file.csv"},
+			IsMethod: false,
+			Output:   "a b c",
+			FileName: "file.csv",
+		},
+		{
+			Input:    []string{"FROM", "file.csv", "ORDER BY", "1", "2", "3"},
+			IsMethod: false,
+			Output:   "* ORDER BY 1 2 3",
+			FileName: "file.csv",
+		}, {
+			Input:    []string{"a", "b", "c", "FROM", "file.csv", "ORDER BY", "1", "2", "3"},
+			IsMethod: false,
+			Output:   "a b c ORDER BY 1 2 3",
+			FileName: "file.csv",
+		},
+	}
+
+	count.Tests(t, len(tests))
+
+	for i, test := range tests {
+		p := lang.NewTestProcess()
+		p.Parameters.DefineParsed(test.Input)
+		actOutput, actFileName, err := dissectParameters(p)
+
+		if actOutput != test.Output {
+			t.Errorf("Parameter output does not match expected in test %d", i)
+			t.Logf("  Input:      %v", inlineJson(test.Input))
+			t.Logf("  IsMethod:   %v", test.IsMethod)
+			t.Logf("  exp param: '%s'", test.Output)
+			t.Logf("  act param: '%s'", actOutput)
+			t.Logf("  exp file:  '%s'", test.FileName)
+			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp error:  %v", test.Error)
+			t.Logf("  act error:  %v", err)
+		}
+
+		if actFileName != test.FileName {
+			t.Errorf("FileName output does not match expected in test %d", i)
+			t.Logf("  Input:      %v", inlineJson(test.Input))
+			t.Logf("  IsMethod:   %v", test.IsMethod)
+			t.Logf("  exp param: '%s'", test.Output)
+			t.Logf("  act param: '%s'", actOutput)
+			t.Logf("  exp file:  '%s'", test.FileName)
+			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp error:  %v", test.Error)
+			t.Logf("  act error:  %v", err)
+		}
+
+		if (err != nil) != test.Error {
+			t.Errorf("Error output does not match expected in test %d", i)
+			t.Logf("  Input:      %v", inlineJson(test.Input))
+			t.Logf("  IsMethod:   %v", test.IsMethod)
+			t.Logf("  exp param: '%s'", test.Output)
+			t.Logf("  act param: '%s'", actOutput)
+			t.Logf("  exp file:  '%s'", test.FileName)
+			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp error:  %v", test.Error)
+			t.Logf("  act error:  %v", err)
 		}
 	}
 }

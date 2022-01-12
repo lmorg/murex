@@ -17,11 +17,13 @@ const (
 	sqlQuery = `SELECT %s FROM main %s %s;`
 )
 
-var rxQuery = regexp.MustCompile(`(?i)[\s\t\r\n]+(WHERE|GROUP BY|ORDER BY)[\s\t\r\n]+`)
+var (
+	rxQuery = regexp.MustCompile(`(?i)[\s\t\r\n]+(WHERE|GROUP BY|ORDER BY)[\s\t\r\n]+`)
+)
 
-func open(headings []string) (*sql.DB, *sql.Tx, error) {
+func openDb(headings []string) (*sql.DB, *sql.Tx, error) {
 	if len(headings) == 0 {
-		return nil, nil, fmt.Errorf("Cannot create table: no titles supplied")
+		return nil, nil, fmt.Errorf("cannot create table: no titles supplied")
 	}
 
 	var sHeadings string
@@ -32,18 +34,18 @@ func open(headings []string) (*sql.DB, *sql.Tx, error) {
 
 	db, err := sql.Open("sqlite3", ":memory:" /*"file:debug.db"*/)
 	if err != nil {
-		return nil, nil, fmt.Errorf("Could not open database: %s", err.Error())
+		return nil, nil, fmt.Errorf("could not open database: %s", err.Error())
 	}
 
 	query := fmt.Sprintf(sqlCreateTable, sHeadings)
 	_, err = db.Exec(query)
 	if err != nil {
-		return nil, nil, fmt.Errorf("Could not create table: %s\n%s", err.Error(), query)
+		return nil, nil, fmt.Errorf("could not create table: %s\n%s", err.Error(), query)
 	}
 
 	tx, err := db.Begin()
 	if err != nil {
-		return nil, nil, fmt.Errorf("Could not create transaction: %s", err.Error())
+		return nil, nil, fmt.Errorf("could not create transaction: %s", err.Error())
 	}
 
 	return db, tx, nil
@@ -51,17 +53,17 @@ func open(headings []string) (*sql.DB, *sql.Tx, error) {
 
 func insertRecords(tx *sql.Tx, records []interface{}) error {
 	if len(records) == 0 {
-		return fmt.Errorf("No records to insert into transaction")
+		return fmt.Errorf("no records to insert into transaction")
 	}
 
 	values, err := createValues(len(records))
 	if err != nil {
-		return fmt.Errorf("Cannot insert records into transaction: %s", err.Error())
+		return fmt.Errorf("cannot insert records into transaction: %s", err.Error())
 	}
 
 	_, err = tx.Exec(fmt.Sprintf(sqlInsertRecord, values), records...)
 	if err != nil {
-		return fmt.Errorf("Cannot insert records into transaction: %s", err.Error())
+		return fmt.Errorf("cannot insert records into transaction: %s", err.Error())
 	}
 
 	return nil
@@ -69,7 +71,7 @@ func insertRecords(tx *sql.Tx, records []interface{}) error {
 
 func createValues(length int) (string, error) {
 	if length == 0 {
-		return "", fmt.Errorf("No records to insert")
+		return "", fmt.Errorf("no records to insert")
 	}
 
 	values := strings.Repeat("?,", length)

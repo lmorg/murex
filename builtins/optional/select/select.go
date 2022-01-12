@@ -1,6 +1,7 @@
 package sqlselect
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/lmorg/murex/config"
@@ -21,7 +22,7 @@ func init() {
 	lang.DefineMethod("select", cmdSelect, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
-		config: eval  shell safe-commands { -> append select }
+		config: eval shell safe-commands { -> append select }
 
 		autocomplete set select { [{ 
 			"Dynamic": ({ -> select --autocomplete ${$ARGS->@[1..] } }),
@@ -61,10 +62,6 @@ func init() {
 }
 
 func cmdSelect(p *lang.Process) error {
-	if err := p.ErrIfNotAMethod(); err != nil {
-		return err
-	}
-
 	confFailColMismatch, err := p.Config.Get("select", sFailColMismatch, types.Boolean)
 	if err != nil {
 		return err
@@ -89,7 +86,40 @@ func cmdSelect(p *lang.Process) error {
 		return dynamicAutocomplete(p, confFailColMismatch.(bool), confTableIncHeadings.(bool))
 	}
 
-	return loadAll(p, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool))
+	parameters, fromFile, err := dissectParameters(p)
+	if err != nil {
+		return err
+	}
+
+	return loadAll(p, fromFile, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool), parameters)
+}
+
+func dissectParameters(p *lang.Process) (parameters, fromFile string, err error) {
+	if p.IsMethod {
+		return p.Parameters.StringAll(), "", nil
+
+	} else {
+		params := p.Parameters.StringArray()
+		i := 0
+		for ; i < len(params); i++ {
+			if strings.ToLower(params[i]) == "from" {
+				goto fromFound
+			}
+		}
+		return "", "", fmt.Errorf("invalid usage. `select` should either be called as a method or include a `FROM file` statement")
+
+	fromFound:
+		fromFile = params[i+1]
+		if i == 0 {
+			params = append([]string{"*"}, params...)
+			i++
+		}
+		if i == len(params)-1 {
+			return "", "", fmt.Errorf("invalid usage: `FROM` used but no source file specified")
+		}
+
+		return strings.Join(append(params[:i], params[i+2:]...), " "), fromFile, nil
+	}
 }
 
 func stringToInterfaceTrim(s []string, max int) []interface{} {
