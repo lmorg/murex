@@ -141,6 +141,75 @@ type DissectParametersT struct {
 
 func TestDissectParameters(t *testing.T) {
 	tests := []DissectParametersT{
+
+		// is a method
+
+		{
+			Input:    []string{"FROM", "file.csv", "ORDER BY", "1"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"*", "FROM", "file.csv", "ORDER BY", "1"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"*", "FROM", "file.csv"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"FROM", "file.csv"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"FROM", "file name with space.csv"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"a", "b", "c", "FROM", "file.csv"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"FROM", "file.csv", "ORDER BY", "1", "2", "3"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"a", "b", "c", "FROM", "file.csv", "ORDER BY", "1", "2", "3"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+		{
+			Input:    []string{"a", "b", "c", "FROM", "file name with space.csv", "ORDER BY", "1", "2", "3"},
+			IsMethod: true,
+			Output:   "",
+			FileName: "",
+			Error:    true,
+		},
+
+		// not a method
+
 		{
 			Input:    []string{"FROM", "file.csv", "ORDER BY", "1"},
 			IsMethod: false,
@@ -166,6 +235,12 @@ func TestDissectParameters(t *testing.T) {
 			FileName: "file.csv",
 		},
 		{
+			Input:    []string{"FROM", "file name with space.csv"},
+			IsMethod: false,
+			Output:   "*",
+			FileName: "file name with space.csv",
+		},
+		{
 			Input:    []string{"a", "b", "c", "FROM", "file.csv"},
 			IsMethod: false,
 			Output:   "a b c",
@@ -176,11 +251,18 @@ func TestDissectParameters(t *testing.T) {
 			IsMethod: false,
 			Output:   "* ORDER BY 1 2 3",
 			FileName: "file.csv",
-		}, {
+		},
+		{
 			Input:    []string{"a", "b", "c", "FROM", "file.csv", "ORDER BY", "1", "2", "3"},
 			IsMethod: false,
 			Output:   "a b c ORDER BY 1 2 3",
 			FileName: "file.csv",
+		},
+		{
+			Input:    []string{"a", "b", "c", "FROM", "file name with space.csv", "ORDER BY", "1", "2", "3"},
+			IsMethod: false,
+			Output:   "a b c ORDER BY 1 2 3",
+			FileName: "file name with space.csv",
 		},
 	}
 
@@ -188,6 +270,7 @@ func TestDissectParameters(t *testing.T) {
 
 	for i, test := range tests {
 		p := lang.NewTestProcess()
+		p.IsMethod = test.IsMethod
 		p.Parameters.DefineParsed(test.Input)
 		actOutput, actFileName, err := dissectParameters(p)
 

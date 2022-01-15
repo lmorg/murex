@@ -18,7 +18,6 @@ const ( // Config key names
 )
 
 func init() {
-	//lang.GoFunctions["select"] = cmdSelect
 	lang.DefineMethod("select", cmdSelect, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
@@ -96,7 +95,11 @@ func cmdSelect(p *lang.Process) error {
 
 func dissectParameters(p *lang.Process) (parameters, fromFile string, err error) {
 	if p.IsMethod {
-		return p.Parameters.StringAll(), "", nil
+		s := p.Parameters.StringAll()
+		if !rxCheckFrom.MatchString(s) {
+			return "", "", fmt.Errorf("SQL contains FROM clause. This should not be included when using `select` as a method")
+		}
+		return s, "", nil
 
 	} else {
 		params := p.Parameters.StringArray()
