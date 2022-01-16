@@ -208,6 +208,13 @@ func TestDissectParameters(t *testing.T) {
 			Error:    true,
 		},
 
+		{
+			Input:    []string{"a", "b", "c", "ORDER BY", "1", "2", "3"},
+			IsMethod: true,
+			Output:   "a b c ORDER BY 1 2 3",
+			FileName: "",
+		},
+
 		// not a method
 
 		{
@@ -263,6 +270,14 @@ func TestDissectParameters(t *testing.T) {
 			IsMethod: false,
 			Output:   "a b c ORDER BY 1 2 3",
 			FileName: "file name with space.csv",
+		},
+
+		{
+			Input:    []string{"a", "b", "c", "ORDER BY", "1", "2", "3"},
+			IsMethod: false,
+			Output:   "",
+			FileName: "",
+			Error:    true,
 		},
 	}
 

@@ -96,7 +96,7 @@ func cmdSelect(p *lang.Process) error {
 func dissectParameters(p *lang.Process) (parameters, fromFile string, err error) {
 	if p.IsMethod {
 		s := p.Parameters.StringAll()
-		if !rxCheckFrom.MatchString(s) {
+		if rxCheckFrom.MatchString(s) {
 			return "", "", fmt.Errorf("SQL contains FROM clause. This should not be included when using `select` as a method")
 		}
 		return s, "", nil

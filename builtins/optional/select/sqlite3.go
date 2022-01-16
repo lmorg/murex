@@ -18,9 +18,9 @@ const (
 )
 
 var (
-	rxQuery = regexp.MustCompile(`(?i)[\s\t\r\n]+(WHERE|GROUP BY|ORDER BY)[\s\t\r\n]+`)
+	rxQuery = regexp.MustCompile(`(?i)\s+(WHERE|GROUP BY|ORDER BY)\s+`)
 
-	rxCheckFrom = regexp.MustCompile(`(?i)[\s\t\r\n]+FROM[\s\t\r\n]+[:print:][\s\t\r\n]+(WHERE|GROUP BY|ORDER BY)[\s\t\r\n]+`)
+	rxCheckFrom = regexp.MustCompile(`(?iU)(\s+)?FROM\s+(\P{C})+($|\s+(WHERE|GROUP BY|ORDER BY)[\s]+)`)
 )
 
 func openDb(headings []string) (*sql.DB, *sql.Tx, error) {
