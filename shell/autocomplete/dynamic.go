@@ -168,11 +168,11 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				pathexes := allExecutables(false)
 				items = append(items, matchExes(partial, pathexes, false)...)
 			case incExeAll:
-				pathexes := allExecutables(true)
-				items = append(items, matchExes(partial, pathexes, false)...)
+				pathall := allExecutables(true)
+				items = append(items, matchExes(partial, pathall, false)...)
 			case incManPages:
-				flags := lists.CropPartial(scanManPages(args.exe), partial)
-				items = append(items, flags...)
+				flags := scanManPages(args.exe)
+				items = append(items, lists.CropPartial(flags, partial)...)
 			}
 
 			if err != nil {

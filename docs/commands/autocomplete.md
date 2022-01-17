@@ -40,13 +40,14 @@ don't define an autocomplete schema manually.
 
 ### "Alias": string ("")
 
-_description to follow_
+This works a little like a pointer or symlink to another commands autocomplete.
+So you don't have to duplicate the same autocomplete config if you use aliases.
 
 ### "AllowMultiple": boolean (false)
 
-Set to `true` to enable multiple parameters following the same rules as
-defined in this index. For example the following will suggest directories
-on each tab for multiple parameters:
+Set to `true` to enable multiple parameters following the same rules as defined
+in this index. For example the following will suggest directories on each tab
+for multiple parameters:
 
     autocomplete set example { [{
         "IncDirs": true,
@@ -63,10 +64,10 @@ parameter should be. Setting **AnyValue** to `true` tells the suggestion
 engine to accept any value as the next parameter thus allowing it to then
 predict the next parameter afterwards.
 
-This directive isn't usually nessisary because such fields are often the
-last parameter or most parameters can be detectable with a reasonable
-amount of effort. However **AnyValue** is often required for more complex
-command line tools.
+This directive isn't usually nessisary because such fields are often the last
+parameter or most parameters can be detectable with a reasonable amount of
+effort. However **AnyValue** is often required for more complex command line
+tools.
 
 ### "AutoBranch": boolean (false)
 
@@ -202,9 +203,14 @@ Not needed if **IncFiles** is set to `true`.
 Behavior of this directive can be altered with `config set shell
 recursive-enabled`
 
+### "IncExeAll": boolean (false)
+
+Enable this to any executables. Suggestions will include aliases, functions
+builtins and any executables in `$PATH`. It will not include private functions.
+
 ### "IncExePath": boolean (false)
 
-Enable this to any executables in `$PATH`. Suggestions will not include
+Enable this to include any executables in `$PATH`. Suggestions will not include
 aliases, functions nor privates.
 
 ### "IncFiles": boolean (true)
@@ -213,6 +219,13 @@ Include files and directories. This is enabled by default for any commands
 that don't have autocomplete defined but you will need to manually enable
 it in any `autocomplete` schemas you create and want files as part of the
 suggestions.
+
+### "IncManPage": boolean (false)
+
+The default behavior for commands with no autocomplete defined is to parse the
+man page and use those results. If a custom autocomplete is defined then that
+man page parser is disabled by default. You can re-enable it and include its
+results with other flags and behaviors you define by using this directive.
 
 ### "ListView": boolean (false)
 
