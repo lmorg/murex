@@ -24,7 +24,7 @@ func init() {
 		config: eval shell safe-commands { -> append select }
 
 		autocomplete set select { [{ 
-			"Dynamic": ({ -> select --autocomplete ${$ARGS->@[1..] } }),
+			"Dynamic": ({ -> select --autocomplete @{$ARGS->@[1..] } }),
 			"AllowMultiple": true,
 			"AnyValue":      true,
 			"ExecCmdline":   true

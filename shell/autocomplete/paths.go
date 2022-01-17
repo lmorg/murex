@@ -65,6 +65,7 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 	go func() {
 		act.largeMin() // assume recursive overruns
 		recursive = matchRecursive(hardCtx, s, filesToo, &act.DelayedTabContext)
+
 		select {
 		case <-softCtx.Done():
 			formatSuggestionsArray(act.ParsedTokens, recursive)

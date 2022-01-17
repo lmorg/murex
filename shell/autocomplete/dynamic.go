@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/parser"
 )
 
 type dynamicArgs struct {
@@ -90,6 +91,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		if f.ExecCmdline && !act.ParsedTokens.Unsafe {
 			fork.Stdin = cmdlineStdout
 		}
+		fork.Process.Variables.Set(fork.Process, "ISMETHOD", act.ParsedTokens.PipeToken != parser.PipeTokenNone, types.Boolean)
 		exitNum, err := fork.Execute(block)
 
 		if err != nil {
@@ -119,6 +121,11 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				wait <- true
 			}
 
+			var (
+				incFiles bool
+				incDirs  bool
+			)
+
 			err := fork.Stdout.ReadArray(func(b []byte) {
 				//s := string(bytes.TrimSpace(b))
 				s := string(b)
@@ -126,10 +133,28 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				if len(s) == 0 {
 					return
 				}
-				if strings.HasPrefix(s, partial) {
-					items = append(items, s[len(partial):])
+
+				switch s {
+				case "@IncFiles":
+					incFiles = true
+				case "@IncDirs":
+					incDirs = true
+
+				default:
+					if strings.HasPrefix(s, partial) {
+						items = append(items, s[len(partial):])
+					}
 				}
 			})
+
+			switch {
+			case incFiles:
+				files := matchFilesystem(partial, true, act)
+				items = append(items, files...)
+			case incDirs:
+				files := matchFilesystem(partial, false, act)
+				items = append(items, files...)
+			}
 
 			if err != nil {
 				debug.Log(err)
