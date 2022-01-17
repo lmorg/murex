@@ -26,6 +26,8 @@ func TestAutocomplete(t *testing.T) {
         "IncFiles": false,
         "IncDirs": false,
         "IncExePath": false,
+        "IncExeAll": false,
+        "IncManPage": false,
         "Flags": [
             "hello",
             "world"
