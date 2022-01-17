@@ -14,9 +14,11 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	IncFiles      bool               // `true` to include file name completion
-	IncDirs       bool               // `true` to include directory navigation completion
-	IncExePath    bool               // `true` to include binaries in $PATH
+	IncFiles   bool // `true` to include file name completion
+	IncDirs    bool // `true` to include directory navigation completion
+	IncExePath bool // `true` to include binaries in $PATH
+	//IncExeAll     bool               // `true` to include all executable names
+	//IncManPage    bool               // `true` to include man page lookup
 	Flags         []string           // known supported command line flags for executable
 	FlagsDesc     map[string]string  // known supported command line flags for executable with descriptions
 	Dynamic       string             // Use murex script to generate auto-complete suggestions

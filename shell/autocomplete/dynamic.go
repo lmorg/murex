@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/parser"
 )
 
@@ -122,8 +123,11 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			}
 
 			var (
-				incFiles bool
-				incDirs  bool
+				incFiles    bool
+				incDirs     bool
+				incExePath  bool
+				incExeAll   bool
+				incManPages bool
 			)
 
 			err := fork.Stdout.ReadArray(func(b []byte) {
@@ -139,6 +143,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 					incFiles = true
 				case "@IncDirs":
 					incDirs = true
+				case "@IncExePath":
+					incExePath = true
+				case "@incExeAll":
+					incExeAll = true
+				case "@IncManPages":
+					incManPages = true
 
 				default:
 					if strings.HasPrefix(s, partial) {
@@ -154,6 +164,15 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			case incDirs:
 				files := matchFilesystem(partial, false, act)
 				items = append(items, files...)
+			case incExePath:
+				pathexes := allExecutables(false)
+				items = append(items, matchExes(partial, pathexes, false)...)
+			case incExeAll:
+				pathexes := allExecutables(true)
+				items = append(items, matchExes(partial, pathexes, false)...)
+			case incManPages:
+				flags := lists.CropPartial(scanManPages(args.exe), partial)
+				items = append(items, flags...)
 			}
 
 			if err != nil {
