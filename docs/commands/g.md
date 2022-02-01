@@ -13,6 +13,8 @@ Output is a JSON list.
 ## Usage
 
     g: pattern -> <stdout>
+    
+    !g: pattern -> <stdout>
 
 ## Examples
 
@@ -37,12 +39,12 @@ Output is a JSON list.
 
 ## Detail
 
-### Pattern reference
+### Pattern Reference
 
 * `*` matches any number of (including zero) characters
 * `?` matches any single character
 
-### Auto-globbing
+### Auto-Globbing
 
 Any command prefixed with `@g` will be auto-globbed. For example, the two
 following commands will produce the same output:
@@ -50,7 +52,7 @@ following commands will produce the same output:
     » ls @{g: *.go}
     benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
     
-    » @g ls *.go
+    » @g ls: *.go
     benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
     
 The rational behind the ugly `@g` syntax is simply to make one-liners a bit
@@ -60,11 +62,25 @@ then realise you've forgotten to subshell, you can just recall the last command
 with auto-globbing enabled:
 
     @g ^!!
+    
+### Inversed Matches
+
+If you want to exclude any matches based on wildcards, rather than include
+them, then you can use the bang prefix. eg
+
+    » g: READ*
+    [
+        "README.md"
+    ]
+    
+    » !g: *
+    Error in `!g` (1,1): No data returned.
 
 ## Synonyms
 
 * `g`
 * `@g`
+* `!g`
 
 
 ## See Also

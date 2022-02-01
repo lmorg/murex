@@ -44,6 +44,8 @@
   Usage: |-
     ```
     g: pattern -> <stdout>
+
+    !g: pattern -> <stdout>
     ```
   Examples: |-
     ```
@@ -67,12 +69,12 @@
     }
     ```
   Detail: |-
-    ### Pattern reference
+    ### Pattern Reference
 
     * `*` matches any number of (including zero) characters
     * `?` matches any single character
 
-    ### Auto-globbing
+    ### Auto-Globbing
 
     Any command prefixed with `@g` will be auto-globbed. For example, the two
     following commands will produce the same output:
@@ -81,7 +83,7 @@
     » ls @{g: *.go}
     benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
 
-    » @g ls *.go
+    » @g ls: *.go
     benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
     ```
 
@@ -94,9 +96,25 @@
     ```
     @g ^!!
     ```
+
+    ### Inversed Matches
+
+    If you want to exclude any matches based on wildcards, rather than include
+    them, then you can use the bang prefix. eg
+
+    ```
+    » g: READ*
+    [
+        "README.md"
+    ]
+
+    » !g: *
+    Error in `!g` (1,1): No data returned.
+    ```
   Synonyms:
   - g
   - "@g"
+  - "!g"
   Related:
   - rx
   - f
@@ -115,6 +133,8 @@
   Usage: |-
     ```
     rx: pattern -> <stdout>
+
+    !rx: pattern -> <stdout>
     ```
   Examples: |-
     ```
@@ -135,11 +155,30 @@
     }
     ```
   Detail: |-
+    ### Traversing Directories
+
     Unlike globbing (`g`) which can traverse directories (eg `g: /path/*`), `rx` is
     only designed to match file system objects in the current working directory.
 
     `rx` uses Go (lang)'s standard regexp engine.
+
+    ### Inversed Matches
+
+    If you want to exclude any matches based on wildcards, rather than include
+    them, then you can use the bang prefix. eg
+
+    ```
+    » rx: READ*                                                                                                                                                              
+    [
+        "README.md"
+    ]
+    
+    murex-dev» !rx: .*
+    Error in `!rx` (1,1): No data returned.
+    ```
   Synonyms:
+  - rx
+  - "!rx"
   Related:
   - g
   - f

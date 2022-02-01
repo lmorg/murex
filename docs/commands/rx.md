@@ -13,6 +13,8 @@ Output is a JSON list.
 ## Usage
 
     rx: pattern -> <stdout>
+    
+    !rx: pattern -> <stdout>
 
 ## Examples
 
@@ -34,10 +36,31 @@ Output is a JSON list.
 
 ## Detail
 
+### Traversing Directories
+
 Unlike globbing (`g`) which can traverse directories (eg `g: /path/*`), `rx` is
 only designed to match file system objects in the current working directory.
 
 `rx` uses Go (lang)'s standard regexp engine.
+
+### Inversed Matches
+
+If you want to exclude any matches based on wildcards, rather than include
+them, then you can use the bang prefix. eg
+
+    » rx: READ*                                                                                                                                                              
+    [
+        "README.md"
+    ]
+    
+    murex-dev» !rx: .*
+    Error in `!rx` (1,1): No data returned.
+
+## Synonyms
+
+* `rx`
+* `!rx`
+
 
 ## See Also
 
