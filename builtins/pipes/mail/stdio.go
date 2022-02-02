@@ -32,37 +32,37 @@ type Mail struct {
 	recipients []string
 }
 
-// Read
+// Read is an empty method because you cannot read a sent email
 func (m *Mail) Read(p []byte) (int, error) {
 	return 0, nil
 }
 
-// ReadLine
+// ReadLine is an empty method because you cannot read a sent email
 func (m *Mail) ReadLine(func([]byte)) error {
 	return errors.New("ReadLine() is not supported by mail pipes")
 }
 
-// ReadArray
+// ReadArray is an empty method because you cannot read a sent email
 func (m *Mail) ReadArray(func([]byte)) error {
 	return errors.New("ReadArray() is not supported by mail pipes")
 }
 
-// ReadArrayWithType
+// ReadArrayWithType is an empty method because you cannot read a sent email
 func (m *Mail) ReadArrayWithType(func([]byte, string)) error {
 	return errors.New("ReadArrayWithType() is not supported by mail pipes")
 }
 
-// ReadMap
+// ReadMap is an empty method because you cannot read a sent email
 func (m *Mail) ReadMap(*config.Config, func(string, string, bool)) error {
 	return errors.New("ReadMap() is not supported by mail pipes")
 }
 
-// ReadAll
+// ReadAll is an empty method because you cannot read a sent email
 func (m *Mail) ReadAll() ([]byte, error) {
 	return nil, nil
 }
 
-// WriteTo - mail is write only
+// WriteTo is an empty method because you cannot read a sent email
 func (m *Mail) WriteTo(w io.Writer) (int64, error) {
 	return 0, nil
 }
@@ -99,8 +99,8 @@ func (m *Mail) Stats() (bytesWritten, bytesRead uint64) {
 	return
 }
 
-// GetDataType
-func (m *Mail) GetDataType() string { return types.Generic }
+// GetDataType returns null because you cannot read a sent email
+func (m *Mail) GetDataType() string { return types.Null }
 
 // SetDataType - not required as data is emailed
 func (m *Mail) SetDataType(string) {}
@@ -134,5 +134,5 @@ func (m *Mail) Close() {
 	m.mutex.Unlock()
 }
 
-// ForceClose - not really required
+// ForceClose is not required on this occasion
 func (m *Mail) ForceClose() {}
