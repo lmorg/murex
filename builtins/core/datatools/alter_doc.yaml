@@ -16,7 +16,7 @@
     The *value* must always be supplied as JSON however 
   Usage: |-
     ```
-    <stdin> -> alter: [ -m | --merge ] /path value -> <stdout>
+    <stdin> -> alter: [ -m | --merge | -s | --sum ] /path value -> <stdout>
     ```
   Examples: |-
     ```
@@ -119,6 +119,11 @@
     ```
 
     Marshallers are enabled at compile time from the `builtins/data-types` directory.
+  Flags:
+    "--merge": Merge data structures rather than overwrite
+    "-m"     : Alias for `--merge`
+    "--sum"  : Sum values in a map, merge items in an array
+    "-s"     : Alias for `--sum`
   Synonyms:
   Related:
   - index

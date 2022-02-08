@@ -17,7 +17,7 @@ The *value* must always be supplied as JSON however
 
 ## Usage
 
-    <stdin> -> alter: [ -m | --merge ] /path value -> <stdout>
+    <stdin> -> alter: [ -m | --merge | -s | --sum ] /path value -> <stdout>
 
 ## Examples
 
@@ -81,6 +81,17 @@ do this with the `--merge` (or `-m`) flag.
     d
     e
     f
+
+## Flags
+
+* `--merge`
+    Merge data structures rather than overwrite
+* `--sum`
+    Sum values in a map, merge items in an array
+* `-m`
+    Alias for `--merge
+* `-s`
+    Alias for `--sum
 
 ## Detail
 
