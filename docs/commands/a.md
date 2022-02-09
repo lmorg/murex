@@ -145,11 +145,11 @@ arrays. For more details on these please refer to the documents for each format
   Outputs an element from an array, map or table
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [types/`str` (string) ](../types/str.md):
   string (primitive)
 * [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [commands/len](../commands/len.md):
+  

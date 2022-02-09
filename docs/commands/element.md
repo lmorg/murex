@@ -115,7 +115,7 @@ path:
   Query or define _murex_ runtime settings
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [commands/len](../commands/len.md):
+  

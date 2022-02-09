@@ -87,6 +87,8 @@ to return the same markdown-formatted document as those listed below. eg
   Change (working) directory
 * [`config`](commands/config.md):
   Query or define _murex_ runtime settings
+* [`count`](commands/count.md):
+  Count items in a map, list or array
 * [`cpuarch`](commands/cpuarch.md):
   Output the hosts CPU architecture
 * [`cpucount`](commands/cpucount.md):
@@ -161,8 +163,6 @@ to return the same markdown-formatted document as those listed below. eg
   Splits STDIN into a JSON array based on a regex parameter
 * [`left`](commands/left.md):
   Left substring every item in a list
-* [`len` ](commands/len.md):
-  Outputs the length of an array
 * [`let`](commands/let.md):
   Evaluate a mathematical function and assign to variable
 * [`lockfile`](commands/lockfile.md):

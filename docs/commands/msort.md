@@ -60,9 +60,9 @@ output of `msort` into another builtin:
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [commands/len](../commands/len.md):
+  

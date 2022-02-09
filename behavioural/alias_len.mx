@@ -1,0 +1,10 @@
+# This file tests the alias `len` is set
+
+function alias.len {
+    a: [1..5] -> len
+}
+
+test: unit function alias.len {
+    "StdoutMatch": "1\n",
+    "ExitNum":     0
+}

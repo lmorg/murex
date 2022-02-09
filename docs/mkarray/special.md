@@ -210,9 +210,9 @@ var rangeMoon = map[string]int{
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [commands/len](../commands/len.md):
+  
