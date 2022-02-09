@@ -5,6 +5,6 @@ function alias.len {
 }
 
 test: unit function alias.len {
-    "StdoutMatch": "5\n",
+    "StdoutMatch": "5",
     "ExitNum":     0
 }
