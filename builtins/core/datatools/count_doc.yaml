@@ -96,11 +96,11 @@
     9
     ```
   Flags:
-    "--duplications": 
+    "--duplications": Output a JSON map of items and the number of their occurrences in a list or array
     "-d"            : Alias for `--duplications`
-    "--unique"      : 
+    "--unique"      : Print the number of unique elements in a list or array
     "-u"            : Alias for `--unique`
-    "--total"       : 
+    "--total"       : Read an array, list or map from STDIN and output the length for that array (default behaviour)
     "-t"            : Alias for `--total`
   Synonyms:
   Related:

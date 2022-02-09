@@ -18,12 +18,12 @@ func init() {
 	defaults.AppendProfile(`
 		alias len=count --total
 		
-		autocomplete: set alter { [{
-			"Flags": [
-				"-d", "--duplications",
-				"-u", "--unique",
-				"-t", "--total"
-			]
+		autocomplete: set count { [{
+			"FlagsDesc": {
+				"--duplications": "Output a JSON map of items and the number of their occurrences in a list or array",
+				"--unique": "Print the number of unique elements in a list or array",
+				"--total": "Read an array, list or map from STDIN and output the length for that array (default behaviour)"
+			}
 		} ]}
 	`)
 }
