@@ -16,10 +16,10 @@ func init() {
 			"ExecCmdline": true,
 			"AutoBranch": true,
 			"Dynamic": ({ -> struct-keys }),
-			"Flags": [
-				"-m", "--merge",
-				"-s", "--sum"
-			],
+			"FlagsDesc": {
+				"--merge": "Merge data structures rather than overwrite",
+				"--sum": "Sum values in a map, merge items in an array"
+			},
 			"FlagValues": {
 				"-m": [{
 					"AnyValue": true,
@@ -91,7 +91,7 @@ func cmdAlter(p *lang.Process) error {
 	}
 
 	if s == "-s" || s == "--sum" {
-		action = alterMerge
+		action = alterSum
 		offset++
 
 		s, err = p.Parameters.String(1)

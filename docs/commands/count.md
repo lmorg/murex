@@ -22,11 +22,11 @@ Count number of items in a map, list or array:
 ## Flags
 
 * `--duplications`
-    
+    Output a JSON map of items and the number of their occurrences in a list or array
 * `--total`
-    
+    Read an array, list or map from STDIN and output the length for that array (default behaviour)
 * `--unique`
-    
+    Print the number of unique elements in a list or array
 * `-d`
     Alias for `--duplications
 * `-t`
