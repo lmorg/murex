@@ -313,7 +313,7 @@ func TestSumInterface(t *testing.T) {
 		err := lists.SumInterface(actual, test.Source)
 		jAct := json.LazyLogging(actual)
 
-		if jExp != jAct || (err == nil) == test.Error {
+		if (jExp != jAct && test.Error) || (err == nil) == test.Error {
 			t.Errorf("Test %d failed", i)
 			t.Logf("  Source:      %s", json.LazyLogging(test.Source))
 			t.Logf("  Destination: %s", json.LazyLogging(test.Destination))

@@ -9,7 +9,7 @@ import (
 func SplitPath(path string) ([]string, error) {
 	split := strings.Split(path, string(path[0]))
 	if len(split) == 0 || (len(split) == 1 && split[0] == "") {
-		return nil, errors.New("Empty path")
+		return nil, errors.New("empty path")
 	}
 
 	if split[0] == "" {

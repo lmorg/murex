@@ -65,7 +65,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 	switch {
 	case i < len(path):
-		switch v.(type) {
+		switch v := v.(type) {
 		case []interface{}:
 			pathI, err := strconv.Atoi(path[i])
 			if err != nil {
@@ -76,17 +76,17 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 				return nil, fmt.Errorf("%s '%d'", errNegativeIndexesNotAllowed, pathI)
 			}
 
-			if pathI >= len(v.([]interface{})) {
-				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v.([]interface{})))
+			if pathI >= len(v) {
+				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v))
 			}
 
-			ret, err = loop(ctx, v.([]interface{})[pathI], i+1, path, new, action)
+			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.([]interface{})[pathI] = parseString(new)
+				v[pathI] = parseString(new)
 
 			}
 			if err == nil {
-				v.([]interface{})[pathI] = ret
+				v[pathI] = ret
 				ret = v
 			}
 
@@ -100,17 +100,17 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 				return nil, fmt.Errorf("%s '%d'", errNegativeIndexesNotAllowed, pathI)
 			}
 
-			if pathI >= len(v.([]string)) {
-				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v.([]string)))
+			if pathI >= len(v) {
+				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v))
 			}
 
-			ret, err = loop(ctx, v.([]string)[pathI], i+1, path, new, action)
+			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.([]string)[pathI] = parseString(new).(string)
+				v[pathI] = parseString(new).(string)
 
 			}
 			if err == nil {
-				v.([]string)[pathI] = ret.(string)
+				v[pathI] = ret.(string)
 				ret = v
 			}
 
@@ -124,17 +124,17 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 				return nil, fmt.Errorf("%s '%d'", errNegativeIndexesNotAllowed, pathI)
 			}
 
-			if pathI >= len(v.([]int)) {
-				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v.([]int)))
+			if pathI >= len(v) {
+				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v))
 			}
 
-			ret, err = loop(ctx, v.([]int)[pathI], i+1, path, new, action)
+			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.([]int)[pathI] = parseString(new).(int)
+				v[pathI] = parseString(new).(int)
 
 			}
 			if err == nil {
-				v.([]int)[pathI] = ret.(int)
+				v[pathI] = ret.(int)
 				ret = v
 			}
 
@@ -148,17 +148,17 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 				return nil, fmt.Errorf("%s '%d'", errNegativeIndexesNotAllowed, pathI)
 			}
 
-			if pathI >= len(v.([]float64)) {
-				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v.([]float64)))
+			if pathI >= len(v) {
+				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v))
 			}
 
-			ret, err = loop(ctx, v.([]float64)[pathI], i+1, path, new, action)
+			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.([]float64)[pathI] = parseString(new).(float64)
+				v[pathI] = parseString(new).(float64)
 
 			}
 			if err == nil {
-				v.([]float64)[pathI] = ret.(float64)
+				v[pathI] = ret.(float64)
 				ret = v
 			}
 
@@ -172,47 +172,47 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 				return nil, fmt.Errorf("%s '%d'", errNegativeIndexesNotAllowed, pathI)
 			}
 
-			if pathI >= len(v.([]bool)) {
-				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v.([]bool)))
+			if pathI >= len(v) {
+				return nil, fmt.Errorf("%s '%d' (array length '%d')", errIndexGreaterThanArray, pathI, len(v))
 			}
 
-			ret, err = loop(ctx, v.([]bool)[pathI], i+1, path, new, action)
+			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.([]bool)[pathI] = parseString(new).(bool)
+				v[pathI] = parseString(new).(bool)
 
 			}
 			if err == nil {
-				v.([]bool)[pathI] = ret.(bool)
+				v[pathI] = ret.(bool)
 				ret = v
 			}
 
 		case map[interface{}]interface{}:
-			ret, err = loop(ctx, v.(map[interface{}]interface{})[path[i]], i+1, path, new, action)
+			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.(map[interface{}]interface{})[path[i]] = parseString(new)
+				v[path[i]] = parseString(new)
 			}
 			if err == nil {
-				v.(map[interface{}]interface{})[path[i]] = ret
+				v[path[i]] = ret
 				ret = v
 			}
 
 		case map[string]interface{}:
-			ret, err = loop(ctx, v.(map[string]interface{})[path[i]], i+1, path, new, action)
+			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.(map[string]interface{})[path[i]] = parseString(new)
+				v[path[i]] = parseString(new)
 			}
 			if err == nil {
-				v.(map[string]interface{})[path[i]] = ret
+				v[path[i]] = ret
 				ret = v
 			}
 
 		case map[interface{}]string:
-			ret, err = loop(ctx, v.(map[interface{}]string)[path[i]], i+1, path, new, action)
+			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
-				v.(map[interface{}]string)[path[i]] = fmt.Sprint(parseString(new))
+				v[path[i]] = fmt.Sprint(parseString(new))
 			}
 			if err == nil {
-				v.(map[interface{}]string)[path[i]] = ret.(string)
+				v[path[i]] = ret.(string)
 				ret = v
 			}
 
@@ -289,7 +289,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 		default:
 			if len(path) == 0 {
-				return nil, fmt.Errorf("path is 0 (zero) lengthed and unable to construct an object path for %T. Possibly due to bad parameters supplied", v)
+				return nil, fmt.Errorf("path is 0 (zero) length and unable to construct an object path for %T. Possibly due to bad parameters supplied", v)
 			}
 			return nil, fmt.Errorf("cannot locate `%s` in object path or no condition is made for `%T`. Please report this bug to https://github.com/lmorg/murex/issues", path[i-1], v)
 		}

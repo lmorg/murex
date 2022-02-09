@@ -30,7 +30,7 @@ func sumTest(t *testing.T, test *plan) {
 	var old interface{}
 	err = json.Unmarshal([]byte(test.original), &old)
 	if err != nil {
-		t.Error("Error unmarshalling original for alter.Merge()")
+		t.Error("Error unmarshalling original for alter.Sum()")
 		t.Logf("  original: %s", test.original)
 		t.Logf("  path:     %s: %v", test.path, pathS)
 		t.Logf("  change:   %s", test.change)
@@ -42,7 +42,7 @@ func sumTest(t *testing.T, test *plan) {
 
 	v, err := alter.Sum(context.TODO(), old, pathS, test.change)
 	if err != nil {
-		t.Error("Error received from alter.Alter()")
+		t.Error("Error received from alter.Sum()")
 		t.Logf("  original: %s", test.original)
 		t.Logf("  path:     %s: %v", test.path, pathS)
 		t.Logf("  change:   %s", test.change)
@@ -54,7 +54,7 @@ func sumTest(t *testing.T, test *plan) {
 
 	actual, err := json.Marshal(v)
 	if err != nil {
-		t.Error("Error marshalling v from alter.Merge()")
+		t.Error("Error marshalling v from alter.Sum()")
 		t.Logf("  original: %s", test.original)
 		t.Logf("  path:     %s: %v", test.path, pathS)
 		t.Logf("  change:   %s", test.change)
@@ -152,165 +152,3 @@ func TestSumMapInterface(t *testing.T) {
 
 	sumTest(t, &test)
 }
-
-/*
-func TestMergeAndUpdateMap(t *testing.T) {
-	test := plan{
-		original: `
-			{
-				"a": "aye",
-				"b": "bee",
-				"c": "cee"
-			}`,
-		path: "/",
-		change: `
-			{
-				"c": "update",
-				"e": "ee",
-				"f": "eff"
-			}`,
-		expected: `
-			{
-				"a": "aye",
-				"b": "bee",
-				"c": "update",
-				"e": "ee",
-				"f": "eff"
-			}`,
-	}
-
-	mergeTest(t, &test)
-}
-
-func TestMergeArrayAlpha(t *testing.T) {
-	test := plan{
-		original: `
-			[
-				"aye",
-				"bee",
-				"cee"
-			]`,
-		path: "/",
-		change: `
-			[
-				"dee",
-				"ee",
-				"eff"
-			]`,
-		expected: `
-			[
-				"aye",
-				"bee",
-				"cee",
-				"dee",
-				"ee",
-				"eff"
-			]`,
-	}
-
-	mergeTest(t, &test)
-}
-
-func TestMergeArrayNumeric(t *testing.T) {
-	test := plan{
-		original: `
-			[
-				1,
-				2,
-				3
-			]`,
-		path: "/",
-		change: `
-			[
-				5,
-				6,
-				7
-			]`,
-		expected: `
-			[
-				1,
-				2,
-				3,
-				5,
-				6,
-				7
-			]`,
-	}
-
-	mergeTest(t, &test)
-}
-
-func TestMergeNestedArrayAlpha(t *testing.T) {
-	test := plan{
-		original: `
-			{
-				"1": "foo",
-				"2": "bar",
-				"3": [
-					"aye",
-					"bee",
-					"cee"
-				]
-			}`,
-		path: "/3",
-		change: `
-			[
-				"dee",
-				"ee",
-				"eff"
-			]`,
-		expected: `
-		{
-			"1": "foo",
-			"2": "bar",
-			"3": [
-				"aye",
-				"bee",
-				"cee",
-				"dee",
-				"ee",
-				"eff"
-			]
-		}`,
-	}
-
-	mergeTest(t, &test)
-}
-
-func TestMergeNestedArrayNumeric(t *testing.T) {
-	test := plan{
-		original: `
-			{
-				"1": "foo",
-				"2": "bar",
-				"3": [
-					4,
-					5,
-					6
-				]
-			}`,
-		path: "/3",
-		change: `
-			[
-				7,
-				8,
-				9
-			]`,
-		expected: `
-		{
-			"1": "foo",
-			"2": "bar",
-			"3": [
-				4,
-				5,
-				6,
-				7,
-				8,
-				9
-			]
-		}`,
-	}
-
-	mergeTest(t, &test)
-}
-*/
