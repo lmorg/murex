@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/lmorg/murex/builtins/core/io"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test/count"
 )
 
 func TestLetFunctionPositive(t *testing.T) {
@@ -197,4 +198,313 @@ func TestLetFunctionEvaluation(t *testing.T) {
 
 	VariableTests(set, t)
 	UnSetTests("!set", unset, t)
+}
+
+func TestLetBuilder(t *testing.T) {
+	type TestLetBuilderT struct {
+		Params     string
+		Variable   string
+		Expression string
+		Error      bool
+	}
+
+	tests := []TestLetBuilderT{
+		{
+			Params:     "a--",
+			Variable:   "a",
+			Expression: "a-1",
+		},
+		{
+			Params:     "a++",
+			Variable:   "a",
+			Expression: "a+1",
+		},
+		// a -=
+		{
+			Params:     "a-=1",
+			Variable:   "a",
+			Expression: "a-1",
+		},
+		{
+			Params:     "a-=2",
+			Variable:   "a",
+			Expression: "a-2",
+		},
+		{
+			Params:     "a-=-1",
+			Variable:   "a",
+			Expression: "a--1",
+		},
+		//
+		{
+			Params:     "a -=1",
+			Variable:   "a",
+			Expression: "a-1",
+		},
+		{
+			Params:     "a -=2",
+			Variable:   "a",
+			Expression: "a-2",
+		},
+		{
+			Params:     "a -=-1",
+			Variable:   "a",
+			Expression: "a--1",
+		},
+		//
+		{
+			Params:     "a-= 1",
+			Variable:   "a",
+			Expression: "a-1",
+		},
+		{
+			Params:     "a-= 2",
+			Variable:   "a",
+			Expression: "a-2",
+		},
+		{
+			Params:     "a-= -1",
+			Variable:   "a",
+			Expression: "a--1",
+		},
+		//
+		{
+			Params:     "a -= 1",
+			Variable:   "a",
+			Expression: "a-1",
+		},
+		{
+			Params:     "a -= 2",
+			Variable:   "a",
+			Expression: "a-2",
+		},
+		{
+			Params:     "a -= -1",
+			Variable:   "a",
+			Expression: "a--1",
+		},
+		// a +=
+		{
+			Params:     "a+=1",
+			Variable:   "a",
+			Expression: "a+1",
+		},
+		{
+			Params:     "a+=2",
+			Variable:   "a",
+			Expression: "a+2",
+		},
+		{
+			Params:     "a+=-1",
+			Variable:   "a",
+			Expression: "a+-1",
+		},
+		//
+		{
+			Params:     "a +=1",
+			Variable:   "a",
+			Expression: "a+1",
+		},
+		{
+			Params:     "a +=2",
+			Variable:   "a",
+			Expression: "a+2",
+		},
+		{
+			Params:     "a +=-1",
+			Variable:   "a",
+			Expression: "a+-1",
+		},
+		//
+		{
+			Params:     "a+= 1",
+			Variable:   "a",
+			Expression: "a+1",
+		},
+		{
+			Params:     "a+= 2",
+			Variable:   "a",
+			Expression: "a+2",
+		},
+		{
+			Params:     "a+= -1",
+			Variable:   "a",
+			Expression: "a+-1",
+		},
+		//
+		{
+			Params:     "a += 1",
+			Variable:   "a",
+			Expression: "a+1",
+		},
+		{
+			Params:     "a += 2",
+			Variable:   "a",
+			Expression: "a+2",
+		},
+		{
+			Params:     "a += -1",
+			Variable:   "a",
+			Expression: "a+-1",
+		},
+		// a /=
+		{
+			Params:     "a/=1",
+			Variable:   "a",
+			Expression: "a/1",
+		},
+		{
+			Params:     "a/=2",
+			Variable:   "a",
+			Expression: "a/2",
+		},
+		{
+			Params:     "a/=-1",
+			Variable:   "a",
+			Expression: "a/-1",
+		},
+		//
+		{
+			Params:     "a /=1",
+			Variable:   "a",
+			Expression: "a/1",
+		},
+		{
+			Params:     "a /=2",
+			Variable:   "a",
+			Expression: "a/2",
+		},
+		{
+			Params:     "a /=-1",
+			Variable:   "a",
+			Expression: "a/-1",
+		},
+		//
+		{
+			Params:     "a/= 1",
+			Variable:   "a",
+			Expression: "a/1",
+		},
+		{
+			Params:     "a/= 2",
+			Variable:   "a",
+			Expression: "a/2",
+		},
+		{
+			Params:     "a/= -1",
+			Variable:   "a",
+			Expression: "a/-1",
+		},
+		//
+		{
+			Params:     "a /= 1",
+			Variable:   "a",
+			Expression: "a/1",
+		},
+		{
+			Params:     "a /= 2",
+			Variable:   "a",
+			Expression: "a/2",
+		},
+		{
+			Params:     "a /= -1",
+			Variable:   "a",
+			Expression: "a/-1",
+		},
+		// a *=
+		{
+			Params:     "a*=1",
+			Variable:   "a",
+			Expression: "a*1",
+		},
+		{
+			Params:     "a*=2",
+			Variable:   "a",
+			Expression: "a*2",
+		},
+		{
+			Params:     "a*=-1",
+			Variable:   "a",
+			Expression: "a*-1",
+		},
+		//
+		{
+			Params:     "a *=1",
+			Variable:   "a",
+			Expression: "a*1",
+		},
+		{
+			Params:     "a *=2",
+			Variable:   "a",
+			Expression: "a*2",
+		},
+		{
+			Params:     "a *=-1",
+			Variable:   "a",
+			Expression: "a*-1",
+		},
+		//
+		{
+			Params:     "a*= 1",
+			Variable:   "a",
+			Expression: "a*1",
+		},
+		{
+			Params:     "a*= 2",
+			Variable:   "a",
+			Expression: "a*2",
+		},
+		{
+			Params:     "a*= -1",
+			Variable:   "a",
+			Expression: "a*-1",
+		},
+		//
+		{
+			Params:     "a *= 1",
+			Variable:   "a",
+			Expression: "a*1",
+		},
+		{
+			Params:     "a *= 2",
+			Variable:   "a",
+			Expression: "a*2",
+		},
+		{
+			Params:     "a *= -1",
+			Variable:   "a",
+			Expression: "a*-1",
+		},
+	}
+
+	count.Tests(t, len(tests))
+
+	for i, test := range tests {
+		variable, expression, err := letBuilder(test.Params)
+
+		var errStr string
+
+		if variable != test.Variable {
+			errStr += ". Variable mismatch"
+		}
+
+		if expression != test.Expression {
+			errStr += ". Expression mismatch"
+		}
+
+		if (err == nil) == test.Error {
+			errStr += ". Error mismatch"
+		}
+
+		if errStr != "" {
+			t.Errorf("Test %d failed%s", i, errStr)
+			t.Logf("  Params:  '%s'", test.Params)
+			t.Logf("  exp var: '%s'", test.Variable)
+			t.Logf("  act var: '%s'", variable)
+			t.Logf("  exp exp: '%s'", test.Expression)
+			t.Logf("  act exp: '%s'", expression)
+			t.Logf("  exp err:  %v", test.Error)
+			t.Logf("  act err:  %s", err)
+		}
+	}
 }
