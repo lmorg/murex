@@ -313,8 +313,18 @@ func TestSumInterface(t *testing.T) {
 		err := lists.SumInterface(actual, test.Source)
 		jAct := json.LazyLogging(actual)
 
-		if (jExp != jAct && test.Error) || (err == nil) == test.Error {
-			t.Errorf("Test %d failed", i)
+		var errStr string
+
+		if jExp != jAct && !test.Error {
+			errStr += ". Expected != Actual"
+		}
+
+		if (err == nil) == test.Error {
+			errStr += ". Error mismatch"
+		}
+
+		if errStr != "" {
+			t.Errorf("Test %d failed%s", i, errStr)
 			t.Logf("  Source:      %s", json.LazyLogging(test.Source))
 			t.Logf("  Destination: %s", json.LazyLogging(test.Destination))
 			t.Logf("  Expected:    %s", jExp)
