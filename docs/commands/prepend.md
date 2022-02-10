@@ -50,6 +50,8 @@ any integers in data type aware structures will be converted into strings:
   Outputs an element from an array, map or table
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [commands/`addheading` ](../commands/addheading.md):
+  Adds headings to a table
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
 * [commands/`cast`](../commands/cast.md):

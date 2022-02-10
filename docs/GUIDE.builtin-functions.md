@@ -63,6 +63,8 @@ to return the same markdown-formatted document as those listed below. eg
   Outputs an element from an array, map or table
 * [`a` (mkarray)](commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [`addheading` ](commands/addheading.md):
+  Adds headings to a table
 * [`alias`](commands/alias.md):
   Create an alias for a command
 * [`alter`](commands/alter.md):

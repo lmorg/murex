@@ -15,6 +15,7 @@ func init() {
 		"[[":                    "element_commands_docgen.go",
 		"[":                     "index_commands_docgen.go",
 		"a":                     "a_commands_docgen.go",
+		"addheading":            "addheading_commands_docgen.go",
 		"alias":                 "alias_commands_docgen.go",
 		"alter":                 "alter_commands_docgen.go",
 		"and":                   "and_commands_docgen.go",

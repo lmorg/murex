@@ -1,56 +1,35 @@
 # _murex_ Shell Docs
 
-## Command Reference: `append`
+## Command Reference: `addheading` 
 
-> Add data to the end of an array
+> Adds headings to a table
 
 ## Description
 
-`append` data to the end of an array.
+`addheading` takes a list of parameters and adds them to the start of a table.
+Where `prepend` is designed to work with arrays, `addheading` is designed to
+prepend to tables.
 
 ## Usage
 
-    <stdin> -> append: value -> <stdout>
+    <stdin> -> addheading: value value value ... -> <stdout>
 
 ## Examples
 
-    » a: [Monday..Sunday] -> append: Funday
-    Monday
-    Tuesday
-    Wednesday
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    Funday
-
-## Detail
-
-It's worth noting that `prepend` and `append` are not data type aware. So 
-any integers in data type aware structures will be converted into strings:
-
-    » tout: json [1,2,3] -> append: new 
-    [
-        "1",
-        "2",
-        "3",
-        "new"
-    ]
+    » tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
+    ["name","age","active"]
+    ["Bob","23","true"]
 
 ## See Also
 
-* [commands/`@[` (range) ](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`addheading` ](../commands/addheading.md):
-  Adds headings to a table
+* [commands/`append`](../commands/append.md):
+  Add data to the end of an array
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [commands/`ja` (mkarray)](../commands/ja.md):
