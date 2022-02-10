@@ -41,7 +41,7 @@ func twoDArray(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters. Expecting code blocks to populate array")
+		return errors.New("missing parameters. Expecting code blocks to populate array")
 	}
 
 	block := make(map[int][]rune)
@@ -71,7 +71,7 @@ func twoDArray(p *lang.Process) (err error) {
 			_, err := fork.Execute(block[index])
 
 			if err != nil {
-				fork.Stderr.Write([]byte(fmt.Sprintf("Error executing fork (block %d): %s", index, err.Error())))
+				fork.Stderr.Write([]byte(fmt.Sprintf("error executing fork (block %d): %s", index, err.Error())))
 			}
 
 			err = fork.Stdout.ReadArray(func(b []byte) {
@@ -80,7 +80,7 @@ func twoDArray(p *lang.Process) (err error) {
 			})
 
 			if err != nil {
-				p.Stderr.Writeln([]byte(fmt.Sprintf("Error in ReadArray() (block %d): %s: ", index, err.Error())))
+				p.Stderr.Writeln([]byte(fmt.Sprintf("error in ReadArray() (block %d): %s: ", index, err.Error())))
 				atomic.AddInt32(&errCount, 1)
 			}
 

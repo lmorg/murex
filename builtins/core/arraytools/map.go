@@ -81,11 +81,11 @@ func mkmap(p *lang.Process) error {
 	//debug.Json("a values", aValues)
 
 	if len(aKeys) > len(aValues) {
-		return errors.New("There are more keys than values (k > v)")
+		return errors.New("there are more keys than values (k > v)")
 	}
 
 	if len(aKeys) < len(aValues) {
-		return errors.New("There are more values than keys (v > k)")
+		return errors.New("there are more values than keys (v > k)")
 	}
 
 	m := make(map[string]string)
