@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	lang.DefineMethod("prepend", cmdAppend, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("prepend", cmdPrepend, types.ReadArray, types.WriteArray)
 	lang.DefineMethod("append", cmdAppend, types.ReadArray, types.WriteArray)
 }
 
