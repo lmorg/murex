@@ -89,7 +89,7 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 				i = len(v) + i
 			}
 			if i >= len(v) {
-				return errors.New("Key '" + key + "' greater than number of items in array")
+				return errors.New("key '" + key + "' greater than number of items in array")
 			}
 
 			if len(params) > 1 {
@@ -136,48 +136,61 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 		return nil
 
 	case map[string]interface{}:
+		var (
+			obj interface{}
+			err error
+		)
+
 		for i := range params {
-			switch {
-			case v[params[i]] != nil:
-			case v[strings.Title(params[i])] != nil:
-				params[i] = strings.Title(params[i])
-			case v[strings.ToLower(params[i])] != nil:
-				params[i] = strings.ToLower(params[i])
-			case v[strings.ToUpper(params[i])] != nil:
-				params[i] = strings.ToUpper(params[i])
-			//case v[strings.ToTitle(params[i])] != nil:
-			//	params[i] = strings.ToTitle(params[i])
-			default:
-				return errors.New("Key '" + params[i] + "' not found")
+			if len(params[i]) > 2 && params[i][0] == '[' && params[i][len(params[i])-1] == ']' {
+				obj, err = ElementLookup(v, params[i][1:len(params[i])-1])
+				if err != nil {
+					return err
+				}
+
+			} else {
+
+				switch {
+				case v[params[i]] != nil:
+					obj = v[params[i]]
+				case v[strings.Title(params[i])] != nil:
+					obj = v[strings.Title(params[i])]
+				case v[strings.ToLower(params[i])] != nil:
+					obj = v[strings.ToLower(params[i])]
+				case v[strings.ToUpper(params[i])] != nil:
+					obj = v[strings.ToUpper(params[i])]
+				default:
+					return errors.New("key '" + params[i] + "' not found")
+				}
 			}
 
 			if len(params) > 1 {
-				objArray = append(objArray, v[params[i]])
+				objArray = append(objArray, obj)
 
 			} else {
-				switch v[params[i]].(type) {
+				switch obj := obj.(type) {
 				case nil:
 					p.Stdout.SetDataType(types.Null)
 				case bool:
 					p.Stdout.SetDataType(types.Boolean)
-					if v[params[i]].(bool) {
+					if obj {
 						p.Stdout.Write(types.TrueByte)
 					} else {
 						p.Stdout.Write(types.FalseByte)
 					}
 				case int:
 					p.Stdout.SetDataType(types.Integer)
-					s := strconv.Itoa(v[params[i]].(int))
+					s := strconv.Itoa(obj)
 					p.Stdout.Write([]byte(s))
 				case float64:
 					p.Stdout.SetDataType(types.Number)
-					s := types.FloatToString(v[params[i]].(float64))
+					s := types.FloatToString(obj)
 					p.Stdout.Write([]byte(s))
 				case string:
 					p.Stdout.SetDataType(types.String)
-					p.Stdout.Write([]byte(v[params[i]].(string)))
+					p.Stdout.Write([]byte(obj))
 				default:
-					b, err := marshaller(v[params[i]])
+					b, err := marshaller(obj)
 					if err != nil {
 						return err
 					}
@@ -197,7 +210,7 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 	case map[interface{}]interface{}:
 		for i := range params {
 			//if v[key] == nil {
-			//	return errors.New("Key '" + key + "' not found.")
+			//	return errors.New("key '" + key + "' not found.")
 			//}
 			switch {
 			case v[params[i]] != nil:

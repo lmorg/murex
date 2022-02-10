@@ -46,10 +46,10 @@ func SetFileExtensions(dt string, extension ...string) {
 // WriteMimes takes a JSON-encoded string and writes it to the mimes map.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
 func WriteMimes(v interface{}) error {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
 		mimes = make(map[string]string)
-		return json.Unmarshal([]byte(v.(string)), &mimes)
+		return json.Unmarshal([]byte(v), &mimes)
 
 	default:
 		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
@@ -60,10 +60,10 @@ func WriteMimes(v interface{}) error {
 // fileExts map.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
 func WriteFileExtensions(v interface{}) error {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
 		fileExts = make(map[string]string)
-		return json.Unmarshal([]byte(v.(string)), &fileExts)
+		return json.Unmarshal([]byte(v), &fileExts)
 
 	default:
 		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
