@@ -78,7 +78,7 @@ func cmdFexec(p *lang.Process) error {
 	}
 
 	if fe[flag].fn == nil {
-		return fmt.Errorf("Invalid flag '%s'. Use 'help' for more help", flag)
+		return fmt.Errorf("invalid flag '%s'. Use 'help' for more help", flag)
 	}
 
 	cmd, err := p.Parameters.String(1)
@@ -139,7 +139,7 @@ func fePrivate(p *lang.Process, cmd string, params []string) error {
 
 func feBuiltin(p *lang.Process, cmd string, params []string) error {
 	if lang.GoFunctions[cmd] == nil {
-		return fmt.Errorf("No builtin exists with the name `%s`", cmd)
+		return fmt.Errorf("no builtin exists with the name `%s`", cmd)
 	}
 
 	fork := p.Fork(lang.F_DEFAULTS)

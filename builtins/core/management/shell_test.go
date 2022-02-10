@@ -23,7 +23,7 @@ func TestSummary(t *testing.T) {
 					!summary foobar
 					runtime --summaries -> [ foobar ]`,
 			Stdout:  "part1\ntestpart2\n",
-			Stderr:  "part1\npart2\nError in `[` ( 8,29): Key 'foobar' not found\n",
+			Stderr:  "part1\npart2\nError in `[` ( 8,29): key 'foobar' not found\n",
 			ExitNum: 1,
 		},
 	}
