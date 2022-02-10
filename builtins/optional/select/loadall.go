@@ -9,13 +9,115 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-func loadAll(p *lang.Process, fromFile string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool, parameters string) error {
+func loadAll(p *lang.Process, fromFile string, pipes, vars []string, parameters string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool) error {
 	var (
-		dt  string
+		v      interface{}
+		dt     string
+		err    error
+		tables []string
+	)
+
+	db, err := createDb()
+	if err != nil {
+		return err
+	}
+
+	switch {
+	case len(pipes) > 0:
+		dt = types.Generic
+		debug.Json("select pipes", pipes)
+		debug.Log(fromFile, parameters)
+		tables = pipes
+		for i := range pipes {
+			v, err = readPipe(p, pipes[i])
+			if err != nil {
+				return err
+			}
+
+			err = createTable(p, db, pipes[i], v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
+			if err != nil {
+				return err
+			}
+		}
+
+	case len(vars) > 0:
+		dt = types.Generic
+		debug.Json("select vars", vars)
+		debug.Log(fromFile, parameters)
+		tables = vars
+		for i := range vars {
+			v, err = readVariable(p, vars[i])
+			if err != nil {
+				return err
+			}
+
+			err = createTable(p, db, vars[i], v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
+			if err != nil {
+				return err
+			}
+		}
+
+	default:
+		v, dt, err = readFile(p, fromFile)
+		if err != nil {
+			return err
+		}
+
+		err = createTable(p, db, "main", v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
+		if err != nil {
+			return err
+		}
+	}
+
+	p.Stdout.SetDataType(dt)
+	return runQuery(p, db, dt, tables, parameters, confPrintHeadings)
+}
+
+func readPipe(p *lang.Process, name string) (interface{}, error) {
+	pipe, err := lang.GlobalPipes.Get(name)
+	if err != nil {
+		return nil, err
+	}
+
+	fork := p.Fork(0)
+	fork.Process.Stdin = pipe
+
+	dt := pipe.GetDataType()
+	v, err := lang.UnmarshalData(fork.Process, dt)
+	if err != nil {
+		return nil, fmt.Errorf("unable to unmarshal named pipe '%s': %s", name, err.Error())
+	}
+
+	return v, nil
+}
+
+func readVariable(p *lang.Process, name string) (interface{}, error) {
+	s, err := p.Variables.GetString(name)
+	if err != nil {
+		return nil, err
+	}
+	dt := p.Variables.GetDataType(name)
+
+	fork := p.Fork(lang.F_CREATE_STDIN)
+	fork.Process.Stdin.SetDataType(dt)
+	fork.Process.Stdin.Write([]byte(s))
+
+	v, err := lang.UnmarshalData(fork.Process, dt)
+	if err != nil {
+		return nil, fmt.Errorf("unable to unmarshal variable '%s': %s", name, err.Error())
+	}
+
+	return v, nil
+}
+
+func readFile(p *lang.Process, fromFile string) (interface{}, string, error) {
+	var (
 		v   interface{}
+		dt  string
 		err error
 	)
 
@@ -24,18 +126,18 @@ func loadAll(p *lang.Process, fromFile string, confFailColMismatch, confMergeTra
 
 		v, err = lang.UnmarshalData(p, dt)
 		if err != nil {
-			return fmt.Errorf("unable to unmarshal STDIN: %s", err.Error())
+			return nil, "", fmt.Errorf("unable to unmarshal STDIN: %s", err.Error())
 		}
 
 	} else {
 		closers, err := open.OpenFile(p, &fromFile, &dt)
 		if err != nil {
-			return err
+			return nil, "", err
 		}
 
 		f, err := os.Open(fromFile)
 		if err != nil {
-			return err
+			return nil, "", err
 		}
 
 		fork := p.Fork(0)
@@ -43,36 +145,38 @@ func loadAll(p *lang.Process, fromFile string, confFailColMismatch, confMergeTra
 
 		v, err = lang.UnmarshalData(fork.Process, dt)
 		if err != nil {
-			return fmt.Errorf("unable to unmarshal %s: %s", fromFile, err.Error())
+			return nil, "", fmt.Errorf("unable to unmarshal %s: %s", fromFile, err.Error())
 		}
 
 		err = open.CloseFiles(closers)
 		if err != nil {
-			return err
+			return nil, "", err
 		}
 	}
 
-	p.Stdout.SetDataType(dt)
+	return v, dt, nil
+}
 
+func createTable(p *lang.Process, db *sql.DB, name string, v interface{}, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings bool) error {
+	debug.Log("Creating table:", name)
 	switch v := v.(type) {
 	case [][]string:
-		return sliceSliceString(p, v, dt, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings, parameters)
+		return createTable_SliceSliceString(p, db, name, v, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)
 
 	/*case [][]interface{}:
 	return sliceSliceInterface(p, v.([][]interface{}, dt, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings)*/
 
 	default:
-		return fmt.Errorf("unable to convert the following data structure into a table: %T", v)
+		return fmt.Errorf("unable to convert the following data structure into a table '%s': %T", name, v)
 	}
 }
 
-func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool, parameters string) error {
+func createTable_SliceSliceString(p *lang.Process, db *sql.DB, name string, v [][]string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings bool) error {
 	if len(v) == 0 {
 		return fmt.Errorf("no table found")
 	}
 
 	var (
-		db       *sql.DB
 		tx       *sql.Tx
 		err      error
 		headings []string
@@ -84,7 +188,7 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 		for i := range headings {
 			headings[i] = fmt.Sprint(v[0][i])
 		}
-		db, tx, err = openDb(headings)
+		tx, err = openTable(db, name, headings)
 		if err != nil {
 			return err
 		}
@@ -95,13 +199,13 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 		for i := range headings {
 			headings[i] = humannumbers.ColumnLetter(i)
 		}
-		db, tx, err = openDb(headings)
+		tx, err = openTable(db, name, headings)
 		if err != nil {
 			return err
 		}
 
 		slice := stringToInterfaceTrim(v[0], len(v))
-		err = insertRecords(tx, slice)
+		err = insertRecords(tx, name, slice)
 		if err != nil {
 			return fmt.Errorf("unable to insert headings into sqlite3: %s", err.Error())
 		}
@@ -110,7 +214,7 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 
 	for ; nRow < len(v); nRow++ {
 		if p.HasCancelled() {
-			return nil
+			return fmt.Errorf("cancelled")
 		}
 
 		if len(v[nRow]) != len(headings) && confFailColMismatch {
@@ -119,13 +223,13 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 
 		if confMergeTrailingColumns {
 			slice := stringToInterfaceMerge(v[nRow], len(headings))
-			err = insertRecords(tx, slice)
+			err = insertRecords(tx, name, slice)
 			if err != nil {
 				return fmt.Errorf("%s\n%d: %s", err.Error(), nRow, v[nRow])
 			}
 		} else {
 			slice := stringToInterfaceTrim(v[nRow], len(headings))
-			err = insertRecords(tx, slice)
+			err = insertRecords(tx, name, slice)
 			if err != nil {
 				return fmt.Errorf("%s\n%d: %s", err.Error(), nRow, v[nRow][:len(headings)-1])
 			}
@@ -137,11 +241,24 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 		return fmt.Errorf("unable to commit sqlite3 transaction: %s", err.Error())
 	}
 
-	query := createQueryString(parameters)
+	return nil
+}
+
+func runQuery(p *lang.Process, db *sql.DB, dt string, tables []string, parameters string, confPrintHeadings bool) error {
+	query := createQueryString(tables, parameters)
 	debug.Log(query)
 
 	rows, err := db.QueryContext(p.Context, query)
 	if err != nil {
+		/*r, _ := db.Query(".tables")
+		var (
+			s []string
+			t [][]string
+		)
+		r.Scan(&s)
+		for rows.Next() {
+			t = append(t, s)
+		}*/
 		return fmt.Errorf("cannot query table: %s\nSQL: %s", err.Error(), query)
 	}
 
@@ -150,8 +267,10 @@ func sliceSliceString(p *lang.Process, v [][]string, dt string, confFailColMisma
 		return fmt.Errorf("cannot query rows: %s", err.Error())
 	}
 
-	var table [][]string
-	nRow = 0
+	var (
+		table [][]string
+		nRow  int
+	)
 
 	if confPrintHeadings {
 		table = [][]string{r}

@@ -10,7 +10,8 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-const ( // Config key names
+const (
+	// Config key names
 	sFailColMismatch      = "fail-irregular-columns"
 	sTableIncHeadings     = "table-includes-headings"
 	sMergeTrailingColumns = "merge-trailing-columns"
@@ -85,21 +86,21 @@ func cmdSelect(p *lang.Process) error {
 		return dynamicAutocomplete(p, confFailColMismatch.(bool), confTableIncHeadings.(bool))
 	}
 
-	parameters, fromFile, err := dissectParameters(p)
+	parameters, fromFile, pipes, vars, err := dissectParameters(p)
 	if err != nil {
 		return err
 	}
 
-	return loadAll(p, fromFile, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool), parameters)
+	return loadAll(p, fromFile, pipes, vars, parameters, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool))
 }
 
-func dissectParameters(p *lang.Process) (parameters, fromFile string, err error) {
+func dissectParameters(p *lang.Process) (parameters, fromFile string, pipes, vars []string, err error) {
 	if p.IsMethod {
 		s := p.Parameters.StringAll()
 		if rxCheckFrom.MatchString(s) {
-			return "", "", fmt.Errorf("SQL contains FROM clause. This should not be included when using `select` as a method")
+			return "", "", nil, nil, fmt.Errorf("SQL contains FROM clause. This should not be included when using `select` as a method")
 		}
-		return s, "", nil
+		return s, "", nil, nil, nil
 
 	} else {
 		params := p.Parameters.StringArray()
@@ -109,7 +110,7 @@ func dissectParameters(p *lang.Process) (parameters, fromFile string, err error)
 				goto fromFound
 			}
 		}
-		return "", "", fmt.Errorf("invalid usage. `select` should either be called as a method or include a `FROM file` statement")
+		return "", "", nil, nil, fmt.Errorf("invalid usage. `select` should either be called as a method or include a `FROM file` statement")
 
 	fromFound:
 		fromFile = params[i+1]
@@ -118,10 +119,39 @@ func dissectParameters(p *lang.Process) (parameters, fromFile string, err error)
 			i++
 		}
 		if i == len(params)-1 {
-			return "", "", fmt.Errorf("invalid usage: `FROM` used but no source file specified")
+			return "", "", nil, nil, fmt.Errorf("invalid usage: `FROM` used but no source file specified")
 		}
 
-		return strings.Join(append(params[:i], params[i+2:]...), " "), fromFile, nil
+		if rxPipesMatch.MatchString(fromFile) {
+			j := i + 2
+			for ; j < len(params); j++ {
+				if rxPipesMatch.MatchString(params[j]) {
+					fromFile += " " + params[j]
+				} else {
+					break
+				}
+			}
+			fromFile = strings.Replace(fromFile, "<", "", -1)
+			fromFile = strings.Replace(fromFile, ">", "", -1)
+			pipes = rxPipesSplit.Split(fromFile, -1)
+			return strings.Join(append(params[:i], params[j:]...), " "), "", pipes, nil, nil
+		}
+
+		if rxVarsMatch.MatchString(fromFile) {
+			j := i + 2
+			for ; j < len(params); j++ {
+				if rxVarsMatch.MatchString(params[j]) {
+					fromFile += " " + params[j]
+				} else {
+					break
+				}
+			}
+			fromFile = strings.Replace(fromFile, "$", "", -1)
+			vars = rxPipesSplit.Split(fromFile, -1)
+			return strings.Join(append(params[:i], params[j:]...), " "), "", nil, vars, nil
+		}
+
+		return strings.Join(append(params[:i], params[i+2:]...), " "), fromFile, nil, nil, nil
 	}
 }
 

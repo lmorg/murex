@@ -132,11 +132,13 @@ func TestStringToInterfaceTrim(t *testing.T) {
 }
 
 type DissectParametersT struct {
-	Input    []string
-	IsMethod bool
-	Output   string
-	Error    bool
-	FileName string
+	Input      []string
+	IsMethod   bool
+	Output     string
+	Error      bool
+	FileName   string
+	NamedPipes []string
+	Variables  []string
 }
 
 func TestDissectParameters(t *testing.T) {
@@ -273,6 +275,128 @@ func TestDissectParameters(t *testing.T) {
 		},
 
 		{
+			Input:      []string{"FROM", "<foo>,", "<bar>", "ORDER BY", "1"},
+			IsMethod:   false,
+			Output:     "* ORDER BY 1",
+			NamedPipes: []string{"foo", "bar"},
+		},
+		{
+			Input:      []string{"*", "FROM", "<foo>,", "<bar>", "ORDER BY", "1"},
+			IsMethod:   false,
+			Output:     "* ORDER BY 1",
+			NamedPipes: []string{"foo", "bar"},
+		},
+		{
+			Input:      []string{"*", "FROM", "<foo>,", "<bar>"},
+			IsMethod:   false,
+			Output:     "*",
+			NamedPipes: []string{"foo", "bar"},
+		},
+		{
+			Input:      []string{"FROM", "<foo>,", "<bar>"},
+			IsMethod:   false,
+			Output:     "*",
+			NamedPipes: []string{"foo", "bar"},
+		},
+		{
+			Input:      []string{"a", "b", "c", "FROM", "<foo>,", "<bar>"},
+			IsMethod:   false,
+			Output:     "a b c",
+			NamedPipes: []string{"foo", "bar"},
+		},
+		{
+			Input:      []string{"FROM", "<foo>,", "<bar>", "ORDER BY", "1", "2", "3"},
+			IsMethod:   false,
+			Output:     "* ORDER BY 1 2 3",
+			NamedPipes: []string{"foo", "bar"},
+		},
+		{
+			Input:      []string{"a", "b", "c", "FROM", "<fee>", "ORDER BY", "1", "2", "3"},
+			IsMethod:   false,
+			Output:     "a b c ORDER BY 1 2 3",
+			NamedPipes: []string{"fee"},
+		},
+		{
+			Input:      []string{"a", "b", "c", "FROM", "<fee>,", "<fii>", "ORDER BY", "1", "2", "3"},
+			IsMethod:   false,
+			Output:     "a b c ORDER BY 1 2 3",
+			NamedPipes: []string{"fee", "fii"},
+		},
+		{
+			Input:      []string{"a", "b", "c", "FROM", "<fee>,", "<fii>,", "<fo>", "ORDER BY", "1", "2", "3"},
+			IsMethod:   false,
+			Output:     "a b c ORDER BY 1 2 3",
+			NamedPipes: []string{"fee", "fii", "fo"},
+		},
+		{
+			Input:      []string{"a", "b", "c", "FROM", "<fee>,", "<fii>,", "<fo>,", "<fum>", "ORDER BY", "1", "2", "3"},
+			IsMethod:   false,
+			Output:     "a b c ORDER BY 1 2 3",
+			NamedPipes: []string{"fee", "fii", "fo", "fum"},
+		},
+
+		{
+			Input:     []string{"FROM", "$foo,", "$bar", "ORDER BY", "1"},
+			IsMethod:  false,
+			Output:    "* ORDER BY 1",
+			Variables: []string{"foo", "bar"},
+		},
+		{
+			Input:     []string{"*", "FROM", "$foo,", "$bar", "ORDER BY", "1"},
+			IsMethod:  false,
+			Output:    "* ORDER BY 1",
+			Variables: []string{"foo", "bar"},
+		},
+		{
+			Input:     []string{"*", "FROM", "$foo,", "$bar"},
+			IsMethod:  false,
+			Output:    "*",
+			Variables: []string{"foo", "bar"},
+		},
+		{
+			Input:     []string{"FROM", "$foo,", "$bar"},
+			IsMethod:  false,
+			Output:    "*",
+			Variables: []string{"foo", "bar"},
+		},
+		{
+			Input:     []string{"a", "b", "c", "FROM", "$foo,", "$bar"},
+			IsMethod:  false,
+			Output:    "a b c",
+			Variables: []string{"foo", "bar"},
+		},
+		{
+			Input:     []string{"FROM", "$foo,", "$bar", "ORDER BY", "1", "2", "3"},
+			IsMethod:  false,
+			Output:    "* ORDER BY 1 2 3",
+			Variables: []string{"foo", "bar"},
+		},
+		{
+			Input:     []string{"a", "b", "c", "FROM", "$fee", "ORDER BY", "1", "2", "3"},
+			IsMethod:  false,
+			Output:    "a b c ORDER BY 1 2 3",
+			Variables: []string{"fee"},
+		},
+		{
+			Input:     []string{"a", "b", "c", "FROM", "$fee,", "$fii", "ORDER BY", "1", "2", "3"},
+			IsMethod:  false,
+			Output:    "a b c ORDER BY 1 2 3",
+			Variables: []string{"fee", "fii"},
+		},
+		{
+			Input:     []string{"a", "b", "c", "FROM", "$fee,", "$fii,", "$fo", "ORDER BY", "1", "2", "3"},
+			IsMethod:  false,
+			Output:    "a b c ORDER BY 1 2 3",
+			Variables: []string{"fee", "fii", "fo"},
+		},
+		{
+			Input:     []string{"a", "b", "c", "FROM", "$fee,", "$fii,", "$fo,", "$fum", "ORDER BY", "1", "2", "3"},
+			IsMethod:  false,
+			Output:    "a b c ORDER BY 1 2 3",
+			Variables: []string{"fee", "fii", "fo", "fum"},
+		},
+
+		{
 			Input:    []string{"a", "b", "c", "ORDER BY", "1", "2", "3"},
 			IsMethod: false,
 			Output:   "",
@@ -287,7 +411,7 @@ func TestDissectParameters(t *testing.T) {
 		p := lang.NewTestProcess()
 		p.IsMethod = test.IsMethod
 		p.Parameters.DefineParsed(test.Input)
-		actOutput, actFileName, err := dissectParameters(p)
+		actOutput, actFileName, actPipes, actVars, err := dissectParameters(p)
 
 		if actOutput != test.Output {
 			t.Errorf("Parameter output does not match expected in test %d", i)
@@ -297,6 +421,10 @@ func TestDissectParameters(t *testing.T) {
 			t.Logf("  act param: '%s'", actOutput)
 			t.Logf("  exp file:  '%s'", test.FileName)
 			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp pipes:  %s", inlineJson(test.NamedPipes))
+			t.Logf("  act pipes:  %s", inlineJson(actPipes))
+			t.Logf("  exp vars:   %s", inlineJson(test.Variables))
+			t.Logf("  act vars:   %s", inlineJson(actVars))
 			t.Logf("  exp error:  %v", test.Error)
 			t.Logf("  act error:  %v", err)
 		}
@@ -309,18 +437,58 @@ func TestDissectParameters(t *testing.T) {
 			t.Logf("  act param: '%s'", actOutput)
 			t.Logf("  exp file:  '%s'", test.FileName)
 			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp pipes:  %s", inlineJson(test.NamedPipes))
+			t.Logf("  act pipes:  %s", inlineJson(actPipes))
+			t.Logf("  exp vars:   %s", inlineJson(test.Variables))
+			t.Logf("  act vars:   %s", inlineJson(actVars))
 			t.Logf("  exp error:  %v", test.Error)
 			t.Logf("  act error:  %v", err)
 		}
 
 		if (err != nil) != test.Error {
-			t.Errorf("Error output does not match expected in test %d", i)
+			t.Errorf("Output does not match expected in test %d", i)
 			t.Logf("  Input:      %v", inlineJson(test.Input))
 			t.Logf("  IsMethod:   %v", test.IsMethod)
 			t.Logf("  exp param: '%s'", test.Output)
 			t.Logf("  act param: '%s'", actOutput)
 			t.Logf("  exp file:  '%s'", test.FileName)
 			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp pipes:  %s", inlineJson(test.NamedPipes))
+			t.Logf("  act pipes:  %s", inlineJson(actPipes))
+			t.Logf("  exp vars:   %s", inlineJson(test.Variables))
+			t.Logf("  act vars:   %s", inlineJson(actVars))
+			t.Logf("  exp error:  %v", test.Error)
+			t.Logf("  act error:  %v", err)
+		}
+
+		if inlineJson(actPipes) != inlineJson(test.NamedPipes) {
+			t.Errorf("Pipes do not match expected in test %d", i)
+			t.Logf("  Input:      %v", inlineJson(test.Input))
+			t.Logf("  IsMethod:   %v", test.IsMethod)
+			t.Logf("  exp param: '%s'", test.Output)
+			t.Logf("  act param: '%s'", actOutput)
+			t.Logf("  exp file:  '%s'", test.FileName)
+			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp pipes:  %s", inlineJson(test.NamedPipes))
+			t.Logf("  act pipes:  %s", inlineJson(actPipes))
+			t.Logf("  exp vars:   %s", inlineJson(test.Variables))
+			t.Logf("  act vars:   %s", inlineJson(actVars))
+			t.Logf("  exp error:  %v", test.Error)
+			t.Logf("  act error:  %v", err)
+		}
+
+		if inlineJson(actVars) != inlineJson(test.Variables) {
+			t.Errorf("Variables do not match expected in test %d", i)
+			t.Logf("  Input:      %v", inlineJson(test.Input))
+			t.Logf("  IsMethod:   %v", test.IsMethod)
+			t.Logf("  exp param: '%s'", test.Output)
+			t.Logf("  act param: '%s'", actOutput)
+			t.Logf("  exp file:  '%s'", test.FileName)
+			t.Logf("  act file:  '%s'", actFileName)
+			t.Logf("  exp pipes:  %s", inlineJson(test.NamedPipes))
+			t.Logf("  act pipes:  %s", inlineJson(actPipes))
+			t.Logf("  exp vars:   %s", inlineJson(test.Variables))
+			t.Logf("  act vars:   %s", inlineJson(actVars))
 			t.Logf("  exp error:  %v", test.Error)
 			t.Logf("  act error:  %v", err)
 		}
