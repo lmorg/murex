@@ -26,45 +26,45 @@ func cmdMtac(p *lang.Process) error {
 
 	var b []byte
 
-	switch v.(type) {
+	switch v := v.(type) {
 	case []string:
-		for i := len(v.([]string))/2 - 1; i >= 0; i-- {
-			opp := len(v.([]string)) - 1 - i
-			v.([]string)[i], v.([]string)[opp] = v.([]string)[opp], v.([]string)[i]
+		for i := len(v)/2 - 1; i >= 0; i-- {
+			opp := len(v) - 1 - i
+			v[i], v[opp] = v[opp], v[i]
 		}
 
 	case [][]string:
-		for i := len(v.([][]string))/2 - 1; i >= 0; i-- {
-			opp := len(v.([][]string)) - 1 - i
-			v.([][]string)[i], v.([][]string)[opp] = v.([][]string)[opp], v.([][]string)[i]
+		for i := len(v)/2 - 1; i >= 0; i-- {
+			opp := len(v) - 1 - i
+			v[i], v[opp] = v[opp], v[i]
 		}
 
 	case []int:
-		for i := len(v.([]int))/2 - 1; i >= 0; i-- {
-			opp := len(v.([]int)) - 1 - i
-			v.([]int)[i], v.([]int)[opp] = v.([]int)[opp], v.([]int)[i]
+		for i := len(v)/2 - 1; i >= 0; i-- {
+			opp := len(v) - 1 - i
+			v[i], v[opp] = v[opp], v[i]
 		}
 
 	case []float64:
-		for i := len(v.([]float64))/2 - 1; i >= 0; i-- {
-			opp := len(v.([]float64)) - 1 - i
-			v.([]float64)[i], v.([]float64)[opp] = v.([]float64)[opp], v.([]float64)[i]
+		for i := len(v)/2 - 1; i >= 0; i-- {
+			opp := len(v) - 1 - i
+			v[i], v[opp] = v[opp], v[i]
 		}
 
 	case []bool:
-		for i := len(v.([]bool))/2 - 1; i >= 0; i-- {
-			opp := len(v.([]bool)) - 1 - i
-			v.([]bool)[i], v.([]bool)[opp] = v.([]bool)[opp], v.([]bool)[i]
+		for i := len(v)/2 - 1; i >= 0; i-- {
+			opp := len(v) - 1 - i
+			v[i], v[opp] = v[opp], v[i]
 		}
 
 	case []interface{}:
-		for i := len(v.([]interface{}))/2 - 1; i >= 0; i-- {
-			opp := len(v.([]interface{})) - 1 - i
-			v.([]interface{})[i], v.([]interface{})[opp] = v.([]interface{})[opp], v.([]interface{})[i]
+		for i := len(v)/2 - 1; i >= 0; i-- {
+			opp := len(v) - 1 - i
+			v[i], v[opp] = v[opp], v[i]
 		}
 
 	default:
-		return fmt.Errorf("I don't know how to read %T as an array", v)
+		return fmt.Errorf("murex doesn't know how to read `%T` as an array. Please report this to https://github.com/lmorg/murex/issues", v)
 	}
 
 	b, err = lang.MarshalData(p, dt, v)
