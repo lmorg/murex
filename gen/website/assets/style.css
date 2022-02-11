@@ -17,6 +17,7 @@ p {
 
 h1, h2, h3, h4 {
   font-family: 'Jura', sans-serif;
+  /*text-shadow: #a0a0a0 0em 0em 0.1em;*/
   font-weight: bold;
 }
 
@@ -95,7 +96,7 @@ pre code {
 }
 
 a code:hover {
-  color: #f57d0d;
+  color: #ff2020;
 }
 
 pre {
@@ -119,7 +120,7 @@ pre {
 img {
   max-width: 900px;
   max-height: 600px;
-  border-radius: 10px;
+  border-radius: 5px;
   border-width: 1px;
   border-color: #303133;
   border-style: solid;
@@ -220,6 +221,7 @@ a.side-bar:active, a.side-bar:hover {
 
 @media screen and (max-width: 678px) {
   body { background-color: #d0d1d3; margin: 0px; }
+  p { margin-right: 5px; }
   #document { padding: 10px; background-color: #f0f0f0 }
   img { max-width: 100%; }
   #side-bar { display: none; position: relative; height: 0px; padding: 10px; width: auto; }
