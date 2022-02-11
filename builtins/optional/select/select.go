@@ -16,6 +16,7 @@ const (
 	sTableIncHeadings     = "table-includes-headings"
 	sMergeTrailingColumns = "merge-trailing-columns"
 	sPrintHeadings        = "print-headings"
+	sDefaultDataType      = "data-type"
 )
 
 func init() {
@@ -59,6 +60,13 @@ func init() {
 		DataType:    types.Boolean,
 		Global:      false,
 	})
+
+	config.InitConf.Define("select", sDefaultDataType, config.Properties{
+		Description: "Default output data type to use when multiple tables used (`select` will use STDIN's data type when executed as a method)",
+		Default:     types.JsonLines,
+		DataType:    types.String,
+		Global:      false,
+	})
 }
 
 func cmdSelect(p *lang.Process) error {
@@ -82,6 +90,11 @@ func cmdSelect(p *lang.Process) error {
 		return err
 	}
 
+	confDataType, err := p.Config.Get("select", sDefaultDataType, types.String)
+	if err != nil {
+		return err
+	}
+
 	if flag, _ := p.Parameters.String(0); flag == "--autocomplete" {
 		return dynamicAutocomplete(p, confFailColMismatch.(bool), confTableIncHeadings.(bool))
 	}
@@ -91,7 +104,7 @@ func cmdSelect(p *lang.Process) error {
 		return err
 	}
 
-	return loadAll(p, fromFile, pipes, vars, parameters, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool))
+	return loadTables(p, fromFile, pipes, vars, parameters, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool), confDataType.(string))
 }
 
 func dissectParameters(p *lang.Process) (parameters, fromFile string, pipes, vars []string, err error) {

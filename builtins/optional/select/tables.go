@@ -9,11 +9,10 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/humannumbers"
 )
 
-func loadAll(p *lang.Process, fromFile string, pipes, vars []string, parameters string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool) error {
+func loadTables(p *lang.Process, fromFile string, pipes, vars []string, parameters string, confFailColMismatch, confMergeTrailingColumns, confTableIncHeadings, confPrintHeadings bool, confDataType string) error {
 	var (
 		v      interface{}
 		dt     string
@@ -28,7 +27,7 @@ func loadAll(p *lang.Process, fromFile string, pipes, vars []string, parameters 
 
 	switch {
 	case len(pipes) > 0:
-		dt = types.Generic
+		dt = confDataType
 		debug.Json("select pipes", pipes)
 		debug.Log(fromFile, parameters)
 		tables = pipes
@@ -45,7 +44,7 @@ func loadAll(p *lang.Process, fromFile string, pipes, vars []string, parameters 
 		}
 
 	case len(vars) > 0:
-		dt = types.Generic
+		dt = confDataType
 		debug.Json("select vars", vars)
 		debug.Log(fromFile, parameters)
 		tables = vars
