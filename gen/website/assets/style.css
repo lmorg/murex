@@ -4,7 +4,6 @@ body {
   font-family: 'Lato', sans-serif;
   color: #000000;
   background-color: #f0f0f0;
-  /*text-shadow: #ffffff 0em 0em 1px;*/
   line-height: 150%;
   font-size: 14px;
   letter-spacing: 0.04em;
@@ -13,7 +12,6 @@ body {
 p {
   font-family: 'Lato', sans-serif;
   color: #000000;
-  /*text-shadow: #ffffff 0em 0em 0.2em;*/
   margin-right: 60px
 }
 
@@ -98,7 +96,7 @@ pre code {
 }
 
 a code:hover {
-  color: #f57d0d;
+  color: #ff2020;
 }
 
 pre {
