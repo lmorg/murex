@@ -57,7 +57,7 @@ after another and that everything fits neatly into the concept of "output" and
 more specific with data streams (even if just ignore them entirely), or use
 more than one data stream, then this concept breaks down. This is where named
 pipes come to the rescue. Named pipes are out of scope for this specific
-document but you can read more on them in links in **Related**, below.
+document but you can read more on them in links the links below.
 
 ## See Also
 

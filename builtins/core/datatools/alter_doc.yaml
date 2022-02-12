@@ -89,6 +89,21 @@
     e
     f
     ```
+
+    ### -s / --sum
+
+    This behaves similarly to `--merge` where structures are blended together.
+    However where a map exists with two keys the same and the values are numeric,
+    those values are added together.
+
+    ```
+    » tout json { "a": 1, "b": 2 } -> alter --sum / { "b": 3, "c": 4 }
+    {
+        "a": 1,
+        "b": 5,
+        "c": 4
+    }
+    ```
   Detail: |-
     ### Path
 

@@ -127,4 +127,4 @@ foobar
 
 ### Read more
 
-_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's [manual](https://github.com/Knetic/govaluate/blob/master/MANUAL.md).
+_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's manual.
