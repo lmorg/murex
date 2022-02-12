@@ -14,7 +14,7 @@ func dynamicAutocomplete(p *lang.Process, confFailColMismatch, confTableIncHeadi
 
 	inBytes, _ := p.Stdin.Stats()
 	if inBytes > 1024*1024*10 { // 10MB
-		return fmt.Errorf("File too large to unmarshal")
+		return fmt.Errorf("file too large to unmarshal")
 	}
 
 	var completions []string
@@ -23,20 +23,20 @@ func dynamicAutocomplete(p *lang.Process, confFailColMismatch, confTableIncHeadi
 	if confTableIncHeadings {
 		v, err := lang.UnmarshalData(p, dt)
 		if err != nil {
-			return fmt.Errorf("Unable to unmarshal STDIN: %s", err.Error())
+			return fmt.Errorf("unable to unmarshal STDIN: %s", err.Error())
 		}
-		switch v.(type) {
+		switch v := v.(type) {
 		case [][]string:
-			completions = v.([][]string)[0]
+			completions = v[0]
 
 		case [][]interface{}:
-			completions = make([]string, len(v.([][]interface{})[0]))
+			completions = make([]string, len(v[0]))
 			for i := range completions {
-				completions[i] = fmt.Sprint(v.([][]interface{})[0][i])
+				completions[i] = fmt.Sprint(v[0][i])
 			}
 
 		default:
-			return fmt.Errorf("Not a table") // TODO: better error message please
+			return fmt.Errorf("unable to convert the following data structure into a table: %T", v)
 		}
 	}
 
@@ -47,9 +47,16 @@ func dynamicAutocomplete(p *lang.Process, confFailColMismatch, confTableIncHeadi
 			"ORDER BY", "GROUP BY",
 		)
 	} else {
-		//for i := range completions {
-		//	completions[i] += ","
-		//}
+		s, err := p.Variables.GetString("ISMETHOD")
+		if !types.IsTrue([]byte(s), 0) && err == nil {
+			completions = append(completions, "FROM")
+
+			last, _ := p.Parameters.String(p.Parameters.Len() - 1)
+			if strings.ToUpper(last) == "FROM" {
+				completions = append(completions, "@IncFiles")
+			}
+		}
+
 		completions = append(completions, "*", "WHERE", "ORDER BY", "GROUP BY")
 	}
 

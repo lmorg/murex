@@ -60,7 +60,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simple way to build an array or list
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [commands/len](../commands/len.md):
+  

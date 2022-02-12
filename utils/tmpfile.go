@@ -55,12 +55,17 @@ func NewTempFile(reader io.Reader, ext string) (*TempFile, error) {
 }
 
 // Close the temporary file
-func (tmp *TempFile) Close() {
+func (tmp *TempFile) Close() (err error) {
 	if tmp.reader != nil {
-		tmp.reader.Close()
+		err = tmp.reader.Close()
 	}
 
-	os.Remove(tmp.FileName)
+	if err != nil {
+		return err
+	}
+
+	err = os.Remove(tmp.FileName)
+	return err
 }
 
 // Read is standard io.Reader method

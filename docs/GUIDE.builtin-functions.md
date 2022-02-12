@@ -63,6 +63,8 @@ to return the same markdown-formatted document as those listed below. eg
   Outputs an element from an array, map or table
 * [`a` (mkarray)](commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [`addheading` ](commands/addheading.md):
+  Adds headings to a table
 * [`alias`](commands/alias.md):
   Create an alias for a command
 * [`alter`](commands/alter.md):
@@ -87,6 +89,8 @@ to return the same markdown-formatted document as those listed below. eg
   Change (working) directory
 * [`config`](commands/config.md):
   Query or define _murex_ runtime settings
+* [`count`](commands/count.md):
+  Count items in a map, list or array
 * [`cpuarch`](commands/cpuarch.md):
   Output the hosts CPU architecture
 * [`cpucount`](commands/cpucount.md):
@@ -161,8 +165,6 @@ to return the same markdown-formatted document as those listed below. eg
   Splits STDIN into a JSON array based on a regex parameter
 * [`left`](commands/left.md):
   Left substring every item in a list
-* [`len` ](commands/len.md):
-  Outputs the length of an array
 * [`let`](commands/let.md):
   Evaluate a mathematical function and assign to variable
 * [`lockfile`](commands/lockfile.md):

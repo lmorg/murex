@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -17,6 +18,8 @@ type Flags struct {
 	IncFiles      bool               // `true` to include file name completion
 	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
+	IncExeAll     bool               // `true` to include all executable names
+	IncManPage    bool               // `true` to include man page lookup
 	Flags         []string           // known supported command line flags for executable
 	FlagsDesc     map[string]string  // known supported command line flags for executable with descriptions
 	Dynamic       string             // Use murex script to generate auto-complete suggestions
@@ -120,9 +123,18 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 	matchPartialFlags(f, partial, act)
 	matchDynamic(f, partial, args, act)
 
-	if f.IncExePath {
+	if f.IncExeAll {
+		pathall := allExecutables(true)
+		act.append(matchExes(partial, pathall, false)...)
+
+	} else if f.IncExePath {
 		pathexes := allExecutables(false)
 		act.append(matchExes(partial, pathexes, false)...)
+	}
+
+	if f.IncManPage {
+		flags := scanManPages(args.exe)
+		act.append(lists.CropPartial(flags, partial)...)
 	}
 
 	switch {

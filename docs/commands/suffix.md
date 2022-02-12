@@ -40,11 +40,11 @@ Supported data types can queried via `runtime`
   Converts a _murex_ data-type into structured memory
 * [commands/`left`](../commands/left.md):
   Left substring every item in a list
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
 * [commands/`right`](../commands/right.md):
   Right substring every item in a list
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
+* [commands/len](../commands/len.md):
+  

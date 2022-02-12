@@ -55,9 +55,13 @@ func (p *Parameters) String(pos int) (string, error) {
 // StringArray returns all parameters as a slice of strings
 func (p *Parameters) StringArray() []string {
 	p.mutex.RLock()
-	defer p.mutex.RUnlock()
 
-	return p.params
+	params := make([]string, len(p.params))
+	copy(params, p.params)
+
+	p.mutex.RUnlock()
+
+	return params
 }
 
 // StringAll returns all parameters as one space-delimited string

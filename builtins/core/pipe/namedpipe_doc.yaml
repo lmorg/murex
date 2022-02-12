@@ -47,6 +47,7 @@
   - bg
   - a
   - ja
+  - runtime
 
 
 
@@ -98,6 +99,11 @@
     ```
   Flags:
   Detail: |-
+    `<stdin>` makes use of a feature called **named pipes**, which are a way of
+    piping data between processes without chaining them together as a single
+    command pipeline (eg commands delimited with `|`, `->`, `=>`, `?` tokens).
+
+    {{ include "gen/includes/named-pipes.inc.md" }}
   Synonyms:
   - "<stdin>"
   Related:
@@ -107,5 +113,5 @@
   - out
   - function
   - match
-
-
+  - runtime
+  - user-guide/pipeline

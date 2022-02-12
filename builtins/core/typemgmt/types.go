@@ -17,9 +17,7 @@ func init() {
 	lang.GoFunctions["null"] = cmdNull
 	lang.GoFunctions["true"] = cmdTrue
 	lang.GoFunctions["false"] = cmdFalse
-	//lang.GoFunctions["!"] = cmdNot
-	lang.DefineMethod("!", cmdCast, types.Any, types.Boolean)
-	//lang.GoFunctions["cast"] = cmdCast
+	lang.DefineMethod("!", cmdNot, types.Any, types.Boolean)
 	lang.DefineMethod("cast", cmdCast, types.Any, types.Any)
 }
 

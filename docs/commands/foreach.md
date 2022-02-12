@@ -10,8 +10,10 @@
 a code block for each iteration with the value of the iterated element passed
 to it.
 
-Unlike `foreach`, `formap`'s default output is `str`, so each new line will be
-treated as a list item
+By default `foreach`'s output data type is inherieted from its input data type.
+For example is STDIN is `yaml` then so will STDOUT. The only exception to this
+is if STDIN is `json` in which case STDOUT will be jsonlines (`jsonl`), or when
+additional flags are used such as `--jmap`.
 
 ## Usage
 
@@ -68,11 +70,11 @@ The second option is for the code block's STDIN to read the element:
 ## Flags
 
 * `--jmap`
-    Write a map to STDOUT instead of an array
+    Write a `json` map to STDOUT instead of an array
 
 ## Detail
 
-### Preserving The Data Type
+### Preserving The Data Type (when no flags used)
 
 `foreach` will preserve the data type read from STDIN in all instances where
 data is being passed along the pipeline and push that data type out at the

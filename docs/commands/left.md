@@ -52,8 +52,6 @@ Supported data types can queried via `runtime`
   Converts structured memory into a _murex_ data-type (eg for stdio)
 * [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
   Converts a _murex_ data-type into structured memory
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
 * [commands/`right`](../commands/right.md):
@@ -62,3 +60,5 @@ Supported data types can queried via `runtime`
   Returns runtime information on the internal state of _murex_
 * [commands/`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
+* [commands/len](../commands/len.md):
+  

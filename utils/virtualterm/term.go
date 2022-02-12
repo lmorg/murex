@@ -83,32 +83,32 @@ func NewTerminal(x, y int) *Term {
 }
 
 // GetSize outputs mirror those from terminal and readline packages
-func (t *Term) GetSize() (int, int, error) {
-	return t.size.X, t.size.Y, nil
+func (term *Term) GetSize() (int, int, error) {
+	return term.size.X, term.size.Y, nil
 }
 
 // MakeRaw sets the virtual TTY to a raw state
-func (t *Term) MakeRaw() PtyState {
-	old := t.state
-	t.state.LfIncCr = false
+func (term *Term) MakeRaw() PtyState {
+	old := term.state
+	term.state.LfIncCr = false
 	return old
 }
 
 // Restore returns the virtual TTY to a previous state
-func (t *Term) Restore(state PtyState) {
-	t.state = state
+func (term *Term) Restore(state PtyState) {
+	term.state = state
 }
 
 // format
 
-func (t *Term) sgrReset() {
-	t.sgr.bitwise = 0
-	t.sgr.fg = rgb{}
-	t.sgr.bg = rgb{}
+func (term *Term) sgrReset() {
+	term.sgr.bitwise = 0
+	term.sgr.fg = rgb{}
+	term.sgr.bg = rgb{}
 }
 
-func (t *Term) sgrEffect(flag sgrFlag) {
-	t.sgr.bitwise |= flag
+func (term *Term) sgrEffect(flag sgrFlag) {
+	term.sgr.bitwise |= flag
 }
 
 func (c *cell) clear() {
@@ -118,76 +118,76 @@ func (c *cell) clear() {
 
 // moveCursor functions DON'T effect other contents in the grid
 
-func (t *Term) moveCursorBackwards(i int) (overflow int) {
-	t.curPos.X -= i
-	if t.curPos.X < 0 {
-		overflow = t.curPos.X * -1
-		t.curPos.X = 0
+func (term *Term) moveCursorBackwards(i int) (overflow int) {
+	term.curPos.X -= i
+	if term.curPos.X < 0 {
+		overflow = term.curPos.X * -1
+		term.curPos.X = 0
 	}
 
 	return
 }
 
-func (t *Term) moveCursorForwards(i int) (overflow int) {
-	t.curPos.X += i
-	if t.curPos.X >= t.size.X {
-		overflow = t.curPos.X - (t.size.X - 1)
-		t.curPos.X = t.size.X - 1
+func (term *Term) moveCursorForwards(i int) (overflow int) {
+	term.curPos.X += i
+	if term.curPos.X >= term.size.X {
+		overflow = term.curPos.X - (term.size.X - 1)
+		term.curPos.X = term.size.X - 1
 	}
 
 	return
 }
 
-func (t *Term) moveCursorUpwards(i int) (overflow int) {
-	t.curPos.Y -= i
-	if t.curPos.Y < 0 {
-		overflow = t.curPos.Y * -1
-		t.curPos.Y = 0
+func (term *Term) moveCursorUpwards(i int) (overflow int) {
+	term.curPos.Y -= i
+	if term.curPos.Y < 0 {
+		overflow = term.curPos.Y * -1
+		term.curPos.Y = 0
 	}
 
 	return
 }
 
-func (t *Term) moveCursorDownwards(i int) (overflow int) {
-	t.curPos.Y += i
-	if t.curPos.Y >= t.size.Y {
-		overflow = t.curPos.Y - (t.size.Y - 1)
-		t.curPos.Y = t.size.Y - 1
+func (term *Term) moveCursorDownwards(i int) (overflow int) {
+	term.curPos.Y += i
+	if term.curPos.Y >= term.size.Y {
+		overflow = term.curPos.Y - (term.size.Y - 1)
+		term.curPos.Y = term.size.Y - 1
 	}
 
 	return
 }
 
-func (t *Term) cell() *cell { return &t.cells[t.curPos.Y][t.curPos.X] }
+func (term *Term) cell() *cell { return &term.cells[term.curPos.Y][term.curPos.X] }
 
 // moveGridPos functions DO effect other contents in the grid
 
-func (t *Term) moveContentsUp() {
+func (term *Term) moveContentsUp() {
 	var i int
-	for ; i < t.size.Y-1; i++ {
-		t.cells[i] = t.cells[i+1]
+	for ; i < term.size.Y-1; i++ {
+		term.cells[i] = term.cells[i+1]
 	}
-	t.cells[i] = make([]cell, t.size.X, t.size.X)
+	term.cells[i] = make([]cell, term.size.X, term.size.X)
 }
 
-func (t *Term) wrapCursorForwards() {
-	t.curPos.X += 1
+func (term *Term) wrapCursorForwards() {
+	term.curPos.X += 1
 
-	if t.curPos.X >= t.size.X {
-		overflow := t.curPos.X - (t.size.X - 1)
-		t.curPos.X = 0
+	if term.curPos.X >= term.size.X {
+		overflow := term.curPos.X - (term.size.X - 1)
+		term.curPos.X = 0
 
-		if overflow > 0 && t.moveCursorDownwards(1) > 0 {
-			t.moveContentsUp()
-			t.moveCursorDownwards(1)
+		if overflow > 0 && term.moveCursorDownwards(1) > 0 {
+			term.moveContentsUp()
+			term.moveCursorDownwards(1)
 		}
 	}
 }
 
-func (t *Term) eraseDisplayAfter() {
-	for y := t.curPos.Y; y < t.size.Y; y++ {
-		for x := t.curPos.X; x < t.size.X; x++ {
-			t.cells[y][x].clear()
+func (term *Term) eraseDisplayAfter() {
+	for y := term.curPos.Y; y < term.size.Y; y++ {
+		for x := term.curPos.X; x < term.size.X; x++ {
+			term.cells[y][x].clear()
 		}
 	}
 }

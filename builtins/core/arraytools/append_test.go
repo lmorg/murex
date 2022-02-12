@@ -5,15 +5,31 @@ import (
 
 	_ "github.com/lmorg/murex/builtins/types/generic"
 	_ "github.com/lmorg/murex/builtins/types/json"
+	_ "github.com/lmorg/murex/builtins/types/jsonlines"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test"
 )
 
 /*
+	ADDHEADING
+*/
+
+func TestAddheadingJsonl(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `tout: jsonl '["Bob", 23, true]' -> addheading name age active`,
+			Stdout: "[\"name\",\"age\",\"active\"]\n[\"Bob\",\"23\",\"true\"]\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+/*
 	PREPEND
 */
 
-// TestPrependJsonStr tests the prepend method with a JSON array of strings
+// TestPrependJsonStr tests the p with a JSON array of strings
 func TestPrependJsonStr(t *testing.T) {
 	test.RunMethodTest(t,
 		cmdPrepend, "prepend",

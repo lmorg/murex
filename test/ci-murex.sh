@@ -31,8 +31,8 @@ go test ./... -count 1 -race -coverprofile=coverage.txt -covermode=atomic
 curl -s http://localhost:38000/t > ./murex-test-count.txt
 echo "$(cat ./murex-test-count.txt) tests completed"
 
-echo "Running murex shell script unit tests...."
-murex --run-tests
+#echo "Running murex shell script unit tests...."
+#murex --run-tests
 
 echo "Running murex behavioural tests...."
 murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'

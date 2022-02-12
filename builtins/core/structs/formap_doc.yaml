@@ -10,7 +10,8 @@
     used on array too.
 
     Unlike `foreach`, `formap`'s default output is `str`, so each new line will be
-    treated as a list item
+    treated as a list item. This behaviour will differ if any additional flags are
+    used with `foreach`, such as `--jmap`.
   Usage: |-
     `formap` writes a list:
 
@@ -68,7 +69,7 @@
     ```
   Flags:
     --jmap: >-
-      Write a map to STDOUT instead of an array
+      Write a `json` map to STDOUT instead of an array
   Detail: |-
     `formap` can also work against arrays and tables as well. However `foreach` is
     a much better tool for ordered lists and tables can look a little funky when

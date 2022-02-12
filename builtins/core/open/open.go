@@ -2,6 +2,7 @@ package open
 
 import (
 	"compress/gzip"
+	"fmt"
 	"io"
 	"os"
 	"regexp"
@@ -15,7 +16,6 @@ import (
 var rxExt = regexp.MustCompile(`(?i)\.([a-z0-9]+)(\.gz)?$`)
 
 func init() {
-	//lang.GoFunctions["open"] = open
 	lang.DefineFunction("open", open, types.Any)
 }
 
@@ -29,7 +29,7 @@ func open(p *lang.Process) (err error) {
 		dataType = p.Stdin.GetDataType()
 		p.Stdout.SetDataType(dataType)
 
-		ext = getExt("", dataType)
+		ext = GetExt("", dataType)
 		tmp, err := utils.NewTempFile(p.Stdin, ext)
 		defer tmp.Close()
 
@@ -45,56 +45,96 @@ func open(p *lang.Process) (err error) {
 		return err
 	}
 
-	switch {
-	case utils.IsURL(path):
-		var body io.ReadCloser
-		body, dataType, err = http(p, path)
-		if err != nil {
-			return err
-		}
-
-		ext = getExt("", dataType)
-		tmp, err := utils.NewTempFile(body, ext)
-		if err != nil {
-			return err
-		}
-
-		path = tmp.FileName
-
-	default:
-		ext = getExt(path, "")
-		dataType = lang.GetExtType(ext)
+	closers, err := OpenFile(p, &path, &dataType)
+	if err != nil {
+		return err
 	}
 
-	if dataType == "gz" || (len(path) > 3 && strings.ToLower(path[len(path)-3:]) == ".gz") {
-		file, err := os.Open(path)
+	err = preview(p, path, dataType)
+	if err != nil {
+		return err
+	}
+
+	return CloseFiles(closers)
+}
+
+func OpenFile(p *lang.Process, path *string, dataType *string) ([]io.Closer, error) {
+	var (
+		closers []io.Closer
+		err     error
+		ext     string
+	)
+
+	switch {
+	case utils.IsURL(*path):
+		var body io.ReadCloser
+		body, *dataType, err = http(p, *path)
 		if err != nil {
-			return err
+			return closers, err
 		}
-		defer file.Close()
+
+		ext = GetExt("", *dataType)
+		tmp, err := utils.NewTempFile(body, ext)
+		if err != nil {
+			return closers, err
+		}
+
+		*path = tmp.FileName
+
+	default:
+		ext = GetExt(*path, "")
+		*dataType = lang.GetExtType(ext)
+	}
+
+	if *dataType == "gz" || (len(*path) > 3 && strings.ToLower((*path)[len(*path)-3:]) == ".gz") {
+		file, err := os.Open(*path)
+		if err != nil {
+			return closers, err
+		}
+		//defer file.Close()
+		closers = append(closers, file)
 
 		gz, err := gzip.NewReader(file)
 		if err != nil {
-			return err
+			return closers, err
 		}
-		defer gz.Close()
+		//defer gz.Close()
+		closers = append(closers, gz)
 
-		ext = getExt(path, "")
-		dataType = lang.GetExtType(ext)
+		ext = GetExt(*path, "")
+		*dataType = lang.GetExtType(ext)
 		tmp, err := utils.NewTempFile(gz, ext)
-		defer tmp.Close()
+		//defer tmp.Close()
+		closers = append(closers, tmp)
 
 		if err != nil {
-			return err
+			return closers, err
 		}
 
-		path = tmp.FileName
+		*path = tmp.FileName
 	}
 
-	return preview(p, path, dataType)
+	return closers, err
 }
 
-func getExt(path, dataType string) string {
+func CloseFiles(closers []io.Closer) error {
+	var s string
+
+	for i := len(closers) - 1; i > -1; i-- {
+		err := closers[i].Close()
+		if err != nil {
+			s = fmt.Sprintf("%s: %s", err.Error(), s)
+		}
+	}
+
+	if len(s) > 0 {
+		return fmt.Errorf("unable to close files: %s", s[:len(s)-2])
+	}
+
+	return nil
+}
+
+func GetExt(path, dataType string) string {
 	if path != "" {
 		match := rxExt.FindAllStringSubmatch(path, -1)
 		if len(match) > 0 && len(match[0]) > 1 {

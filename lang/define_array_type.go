@@ -19,27 +19,27 @@ func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, e
 		return err
 	}
 
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		return readArrayWithTypeByString(v.(string), callback)
+		return readArrayWithTypeByString(v, callback)
 
 	case []string:
-		return readArrayWithTypeBySliceString(v.([]string), callback)
+		return readArrayWithTypeBySliceString(v, callback)
 
 	case []interface{}:
-		return readArrayWithTypeBySliceInterface(dataType, marshal, v.([]interface{}), callback)
+		return readArrayWithTypeBySliceInterface(dataType, marshal, v, callback)
 
 	/*case map[string]string:
-		return readArrayWithTypeByMapStrStr(v.(map[string]string), callback)
+		return readArrayWithTypeByMapStrStr(v, callback)
 
 	case map[string]interface{}:
-		return readArrayWithTypeByMapStrIface(marshal, v.(map[string]interface{}), callback)
+		return readArrayWithTypeByMapStrIface(marshal, v, callback)
 
 	case map[interface{}]string:
-		return readArrayWithTypeByMapIfaceStr(v.(map[interface{}]string), callback)
+		return readArrayWithTypeByMapIfaceStr(v, callback)
 
 	case map[interface{}]interface{}:
-		return readArrayWithTypeByMapIfaceIface(marshal, v.(map[interface{}]interface{}), callback)
+		return readArrayWithTypeByMapIfaceIface(marshal, v, callback)
 	*/
 	default:
 		jBytes, err := marshal(v)

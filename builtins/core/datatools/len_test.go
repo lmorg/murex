@@ -1,4 +1,4 @@
-package arraytools
+package datatools
 
 import (
 	"testing"
@@ -26,7 +26,7 @@ func TestLenJsonLines(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.JsonLines,
 			[]string{},
@@ -50,7 +50,7 @@ func TestLenJson(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.Json,
 			[]string{},
@@ -72,7 +72,7 @@ func TestLenString1(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.String,
 			[]string{},
@@ -100,7 +100,7 @@ func TestLenString5(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.String,
 			[]string{},
@@ -128,7 +128,7 @@ func TestLenString6(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.String,
 			[]string{},
@@ -150,7 +150,7 @@ func TestLenGeneric1(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.Generic,
 			[]string{},
@@ -178,7 +178,7 @@ func TestLenGeneric5(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.Generic,
 			[]string{},
@@ -206,7 +206,7 @@ func TestLenGeneric6(t *testing.T) {
 
 	for _, s := range tests {
 		test.RunMethodTest(t,
-			cmdLen, "len",
+			cmdCount, "count",
 			s,
 			types.Generic,
 			[]string{},

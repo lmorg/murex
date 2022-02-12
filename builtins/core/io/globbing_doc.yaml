@@ -9,14 +9,26 @@
   Usage: |-
     ```
     f: options -> <stdout>
+
+    <stdin> -> f: options -> <stdout>
     ```
   Examples: |-
+    Return only directories:
+    
     ```
-    # return only directories:
     f: +d
+    ```
 
-    # return file and directories but exclude symlinks:
+    Return file and directories but exclude symlinks:
+    
+    ```
     f: +d +f -s
+    ```
+
+    Compare list against files (eg created by `g`) against conditions set by `f`:
+
+    ```
+    g /* -> f +f
     ```
   Flags:
     f: files
@@ -44,35 +56,64 @@
   Usage: |-
     ```
     g: pattern -> <stdout>
+
+    [ <stdin> -> ] @g command pattern [ -> <stdout> ]
+
+    !g: pattern -> <stdout>
     ```
   Examples: |-
+    Inline globbing:
+    
     ```
-    # inline globbing
     cat: @{ g: *.txt }
+    ```
 
-    # writing a JSON array of files to disk
+    Writing a JSON array of files to disk:
+    
+    ```
     g: *.txt -> > filelist.json
+    ```
 
-    # writing a list of files to disk
+    Writing a list of files to disk:
+    
+    ```
     g: *.txt -> format str -> > filelist.txt
+    ```
 
-    # checking if a file exists
+    Checking if a file exists:
+    
+    ```
     if { g: somefile.txt } then {
         # file exists
     }
+    ```
 
-    # checking if a file does not exist
+    Checking if a file does not exist:
+    
+    ```
     !if { g: somefile.txt } then {
         # file does not exist
     }
     ```
+
+    Return all files apart from text files:
+
+    ```
+    !g: *.txt
+    ```
+
+    Auto-globbing (eg for Bash compatibility):
+
+    ```
+    @g ls *.txt
+    ```
   Detail: |-
-    ### Pattern reference
+    ### Pattern Reference
 
     * `*` matches any number of (including zero) characters
     * `?` matches any single character
 
-    ### Auto-globbing
+    ### Auto-Globbing
 
     Any command prefixed with `@g` will be auto-globbed. For example, the two
     following commands will produce the same output:
@@ -81,7 +122,7 @@
     » ls @{g: *.go}
     benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
 
-    » @g ls *.go
+    » @g ls: *.go
     benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
     ```
 
@@ -94,9 +135,25 @@
     ```
     @g ^!!
     ```
+
+    ### Inverse Matches
+
+    If you want to exclude any matches based on wildcards, rather than include
+    them, then you can use the bang prefix. eg
+
+    ```
+    » g: READ*
+    [
+        "README.md"
+    ]
+
+    » !g: *
+    Error in `!g` (1,1): No data returned.
+    ```
   Synonyms:
   - g
   - "@g"
+  - "!g"
   Related:
   - rx
   - f
@@ -115,31 +172,68 @@
   Usage: |-
     ```
     rx: pattern -> <stdout>
+
+    !rx: pattern -> <stdout>
     ```
   Examples: |-
+    Inline regex file matching:
+    
     ```
-    # inline regex file matching
     cat: @{ rx: '.*\.txt' }
+    ```
 
-    # writing a list of files to disk
+    Writing a list of files to disk:
+    
+    ```
     rx: '.*\.go' -> > filelist.txt
+    ```
 
-    # checking if any files exist
+    Checking if files exist:
+    
+    ```
     if { rx: somefiles.* } then {
         # files exist
     }
+    ```
 
-    # checking if no files exist
+    Checking if files do not exist:
+    
+    ```
     !if { rx: somefiles.* } then {
         # files do not exist
     }
     ```
+
+    Return all files apart from text files:
+
+    ```
+    !g: '\.txt$'
+    ```
   Detail: |-
+    ### Traversing Directories
+
     Unlike globbing (`g`) which can traverse directories (eg `g: /path/*`), `rx` is
     only designed to match file system objects in the current working directory.
 
     `rx` uses Go (lang)'s standard regexp engine.
+
+    ### Inverse Matches
+
+    If you want to exclude any matches based on wildcards, rather than include
+    them, then you can use the bang prefix. eg
+
+    ```
+    » rx: READ*                                                                                                                                                              
+    [
+        "README.md"
+    ]
+    
+    murex-dev» !rx: .*
+    Error in `!rx` (1,1): No data returned.
+    ```
   Synonyms:
+  - rx
+  - "!rx"
   Related:
   - g
   - f

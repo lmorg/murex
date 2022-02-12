@@ -57,7 +57,7 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 	// races -- PROVIDING developers strictly follow the pattern of only writing
 	// to this map within init() func's.
 	if Unmarshallers[dataType] == nil {
-		return nil, errors.New("I don't know how to unmarshal `" + dataType + "`.")
+		return nil, errors.New("I don't know how to unmarshal `" + dataType + "`")
 	}
 
 	v, err = Unmarshallers[dataType](p)

@@ -59,9 +59,9 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simple way to build an array or list
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [commands/len](../commands/len.md):
+  

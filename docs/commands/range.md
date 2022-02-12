@@ -74,7 +74,7 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [commands/len](../commands/len.md):
+  

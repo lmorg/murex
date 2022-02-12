@@ -24,7 +24,7 @@ func init() {
 func index(p *lang.Process) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			err = fmt.Errorf("panic caught: %s", r)
+			err = fmt.Errorf("panic caught, please report this to https://github.com/lmorg/murex/issues : %s", r)
 		}
 	}()
 

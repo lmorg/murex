@@ -198,6 +198,6 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 		return nil
 
 	default:
-		return fmt.Errorf("Found %T but no case exists for handling it", t)
+		return fmt.Errorf("found %T but no case exists for handling it", t)
 	}
 }

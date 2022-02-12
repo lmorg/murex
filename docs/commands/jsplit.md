@@ -49,8 +49,6 @@ unwanted "noise" is stripped from the output.
   Add data to the end of an array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`len` ](../commands/len.md):
-  Outputs the length of an array
 * [commands/`map` ](../commands/map.md):
   Creates a map from two data sources
 * [commands/`msort` ](../commands/msort.md):
@@ -59,3 +57,5 @@ unwanted "noise" is stripped from the output.
   Reverse the order of an array
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [commands/len](../commands/len.md):
+  

@@ -87,7 +87,7 @@ func cmdExitNum(p *lang.Process) error {
 func cmdBuiltinExists(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters. Please name builtins you want to check")
+		return errors.New("missing parameters. Please name builtins you want to check")
 	}
 
 	var j struct {
@@ -163,7 +163,7 @@ func cmdManSummary(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.String)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Parameter expected - name of executable")
+		return errors.New("parameter expected - name of executable")
 	}
 
 	exes := p.Parameters.StringArray()

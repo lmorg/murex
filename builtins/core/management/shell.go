@@ -144,7 +144,7 @@ func cmdSource(p *lang.Process) error {
 	p.RunMode = runmode.Normal
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 
-	fork.Name = p.Name
+	fork.Name.Set(p.Name.String())
 	fork.FileRef = fileRef
 	p.ExitNum, err = fork.Execute(block)
 	return err

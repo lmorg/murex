@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 )
 
+// NewMail creates a new stdio.Io object for sending mail
 func NewMail(parameters string) (stdio.Io, error) {
 	m := new(Mail)
 	//m.response = bytes.NewBuffer(m.b)

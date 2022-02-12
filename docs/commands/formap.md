@@ -11,7 +11,8 @@ sequences of data similarly like a `foreach`. In fact `formap` can even be
 used on array too.
 
 Unlike `foreach`, `formap`'s default output is `str`, so each new line will be
-treated as a list item
+treated as a list item. This behaviour will differ if any additional flags are
+used with `foreach`, such as `--jmap`.
 
 ## Usage
 
@@ -65,7 +66,7 @@ With `--jmap` we can turn that structure into a new structure:
 ## Flags
 
 * `--jmap`
-    Write a map to STDOUT instead of an array
+    Write a `json` map to STDOUT instead of an array
 
 ## Detail
 

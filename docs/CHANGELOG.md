@@ -11,6 +11,11 @@ Track new features, any breaking changes, and the release history here.
 > This release introduces a strict mode for variables, new builtin, performance improvements, and better error messages; plus a potential breaking change
 
 
+### 09.12.2021 - [What's new in murex v2.4](changelog/v2.4.md)
+
+> This release introduces a number of new builtins, fixes some regression bugs and supercharges the `select` optional builtin (which I plan to include into the core builtins for non-Windows users in the next release).
+
+
 ### 26.09.2021 - [What's new in murex v2.3](changelog/v2.3.md)
 
 > This release includes significant changes to the interactive terminal

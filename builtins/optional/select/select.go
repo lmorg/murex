@@ -1,6 +1,7 @@
 package sqlselect
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/lmorg/murex/config"
@@ -9,22 +10,23 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-const ( // Config key names
+const (
+	// Config key names
 	sFailColMismatch      = "fail-irregular-columns"
 	sTableIncHeadings     = "table-includes-headings"
 	sMergeTrailingColumns = "merge-trailing-columns"
 	sPrintHeadings        = "print-headings"
+	sDefaultDataType      = "data-type"
 )
 
 func init() {
-	//lang.GoFunctions["select"] = cmdSelect
 	lang.DefineMethod("select", cmdSelect, types.Unmarshal, types.Marshal)
 
 	defaults.AppendProfile(`
-		config: eval  shell safe-commands { -> append select }
+		config: eval shell safe-commands { -> append select }
 
 		autocomplete set select { [{ 
-			"Dynamic": ({ -> select --autocomplete ${$ARGS->@[1..] } }),
+			"Dynamic": ({ -> select --autocomplete @{$ARGS->@[1..] } }),
 			"AllowMultiple": true,
 			"AnyValue":      true,
 			"ExecCmdline":   true
@@ -58,13 +60,16 @@ func init() {
 		DataType:    types.Boolean,
 		Global:      false,
 	})
+
+	config.InitConf.Define("select", sDefaultDataType, config.Properties{
+		Description: "Default output data type to use when multiple tables used (`select` will use STDIN's data type when executed as a method)",
+		Default:     types.JsonLines,
+		DataType:    types.String,
+		Global:      false,
+	})
 }
 
 func cmdSelect(p *lang.Process) error {
-	if err := p.ErrIfNotAMethod(); err != nil {
-		return err
-	}
-
 	confFailColMismatch, err := p.Config.Get("select", sFailColMismatch, types.Boolean)
 	if err != nil {
 		return err
@@ -85,11 +90,82 @@ func cmdSelect(p *lang.Process) error {
 		return err
 	}
 
+	confDataType, err := p.Config.Get("select", sDefaultDataType, types.String)
+	if err != nil {
+		return err
+	}
+
 	if flag, _ := p.Parameters.String(0); flag == "--autocomplete" {
 		return dynamicAutocomplete(p, confFailColMismatch.(bool), confTableIncHeadings.(bool))
 	}
 
-	return loadAll(p, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool))
+	parameters, fromFile, pipes, vars, err := dissectParameters(p)
+	if err != nil {
+		return err
+	}
+
+	return loadTables(p, fromFile, pipes, vars, parameters, confFailColMismatch.(bool), confMergeTrailingColumns.(bool), confTableIncHeadings.(bool), confPrintHeadings.(bool), confDataType.(string))
+}
+
+func dissectParameters(p *lang.Process) (parameters, fromFile string, pipes, vars []string, err error) {
+	if p.IsMethod {
+		s := p.Parameters.StringAll()
+		if rxCheckFrom.MatchString(s) {
+			return "", "", nil, nil, fmt.Errorf("SQL contains FROM clause. This should not be included when using `select` as a method")
+		}
+		return s, "", nil, nil, nil
+
+	} else {
+		params := p.Parameters.StringArray()
+		i := 0
+		for ; i < len(params); i++ {
+			if strings.ToLower(params[i]) == "from" {
+				goto fromFound
+			}
+		}
+		return "", "", nil, nil, fmt.Errorf("invalid usage. `select` should either be called as a method or include a `FROM file` statement")
+
+	fromFound:
+		fromFile = params[i+1]
+		if i == 0 {
+			params = append([]string{"*"}, params...)
+			i++
+		}
+		if i == len(params)-1 {
+			return "", "", nil, nil, fmt.Errorf("invalid usage: `FROM` used but no source file specified")
+		}
+
+		if rxPipesMatch.MatchString(fromFile) {
+			j := i + 2
+			for ; j < len(params); j++ {
+				if rxPipesMatch.MatchString(params[j]) {
+					fromFile += " " + params[j]
+				} else {
+					break
+				}
+			}
+			fromFile = strings.Replace(fromFile, "<", "", -1)
+			fromFile = strings.Replace(fromFile, ">", "", -1)
+			pipes = rxPipesSplit.Split(fromFile, -1)
+			return strings.Join(append(params[:i], params[j:]...), " "), "", pipes, nil, nil
+		}
+
+		if rxVarsMatch.MatchString(fromFile) {
+			j := i + 2
+			for ; j < len(params); j++ {
+				if rxVarsMatch.MatchString(params[j]) {
+					fromFile += " " + params[j]
+				} else {
+					break
+				}
+			}
+			fromFile = strings.Replace(fromFile, "$", "", -1)
+			vars = rxPipesSplit.Split(fromFile, -1)
+			return strings.Join(append(params[:i], params[j:]...), " "), "", nil, vars, nil
+		}
+
+		return strings.Join(append(params[:i], params[i+2:]...), " "), fromFile, nil, nil, nil
+	}
 }
 
 func stringToInterfaceTrim(s []string, max int) []interface{} {

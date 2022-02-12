@@ -82,11 +82,11 @@ func runCommandLine(commandLine string) {
 	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
+	// compiled profile
+	defaultProfile()
+
 	// load modules and profile
 	if fLoadMods {
-		// compiled profile
-		defaultProfile()
-
 		// local profile
 		profile.Execute()
 	}
@@ -102,11 +102,11 @@ func runSource(filename string) {
 	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
+	// compiled profile
+	defaultProfile()
+
 	// load modules a profile
 	if fLoadMods {
-		// compiled profile
-		defaultProfile()
-
 		// local profile
 		profile.Execute()
 	}

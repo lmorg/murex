@@ -6,10 +6,10 @@ const (
 	charBackspaceAnsi = 127
 )
 
-func (t *Term) writeCell(r rune) {
-	t.cell().char = r
-	t.cell().sgr = t.sgr
-	t.wrapCursorForwards()
+func (term *Term) writeCell(r rune) {
+	term.cell().char = r
+	term.cell().sgr = term.sgr
+	term.wrapCursorForwards()
 }
 
 // Write multiple characters to the virtual terminal

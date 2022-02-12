@@ -10,18 +10,35 @@ import (
 )
 
 const (
-	sqlCreateTable = `CREATE TABLE IF NOT EXISTS main (%s);`
+	sqlCreateTable = `CREATE TABLE IF NOT EXISTS %s (%s);`
 
-	sqlInsertRecord = `INSERT INTO main VALUES (%s);`
+	sqlInsertRecord = `INSERT INTO %s VALUES (%s);`
 
-	sqlQuery = `SELECT %s FROM main %s %s;`
+	sqlQuery = `SELECT %s FROM %s %s %s;`
 )
 
-var rxQuery = regexp.MustCompile(`(?i)[\s\t\r\n]+(WHERE|GROUP BY|ORDER BY)[\s\t\r\n]+`)
+var (
+	rxQuery      = regexp.MustCompile(`(?i)\s+(WHERE|GROUP BY|ORDER BY)\s+`)
+	rxCheckFrom  = regexp.MustCompile(`(?iU)(\s+)?FROM\s+(\P{C})+($|\s+(WHERE|GROUP BY|ORDER BY)[\s]+)`)
+	rxPipesMatch = regexp.MustCompile(`^(<[a-zA-Z0-9]+>[\s,]*)+$`)
+	rxVarsMatch  = regexp.MustCompile(`^(\$[-_a-zA-Z0-9]+[\s,]*)+$`)
+	rxPipesSplit = regexp.MustCompile(`[\s,]+`)
+)
 
-func open(headings []string) (*sql.DB, *sql.Tx, error) {
+func createDb() (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", ":memory:" /*"file:debug.db"*/)
+	if err != nil {
+		return nil, fmt.Errorf("could not open database: %s", err.Error())
+	}
+
+	return db, nil
+}
+
+func openTable(db *sql.DB, name string, headings []string) (*sql.Tx, error) {
+	var err error
+
 	if len(headings) == 0 {
-		return nil, nil, fmt.Errorf("Cannot create table: no titles supplied")
+		return nil, fmt.Errorf("cannot create table '%s': no titles supplied", name)
 	}
 
 	var sHeadings string
@@ -30,38 +47,33 @@ func open(headings []string) (*sql.DB, *sql.Tx, error) {
 	}
 	sHeadings = sHeadings[:len(sHeadings)-1]
 
-	db, err := sql.Open("sqlite3", ":memory:" /*"file:debug.db"*/)
-	if err != nil {
-		return nil, nil, fmt.Errorf("Could not open database: %s", err.Error())
-	}
-
-	query := fmt.Sprintf(sqlCreateTable, sHeadings)
+	query := fmt.Sprintf(sqlCreateTable, name, sHeadings)
 	_, err = db.Exec(query)
 	if err != nil {
-		return nil, nil, fmt.Errorf("Could not create table: %s\n%s", err.Error(), query)
+		return nil, fmt.Errorf("could not create table '%s': %s\n%s", name, err.Error(), query)
 	}
 
 	tx, err := db.Begin()
 	if err != nil {
-		return nil, nil, fmt.Errorf("Could not create transaction: %s", err.Error())
+		return nil, fmt.Errorf("could not create transaction: %s", err.Error())
 	}
 
-	return db, tx, nil
+	return tx, nil
 }
 
-func insertRecords(tx *sql.Tx, records []interface{}) error {
+func insertRecords(tx *sql.Tx, name string, records []interface{}) error {
 	if len(records) == 0 {
-		return fmt.Errorf("No records to insert into transaction")
+		return fmt.Errorf("no records to insert into transaction on table %s", name)
 	}
 
 	values, err := createValues(len(records))
 	if err != nil {
-		return fmt.Errorf("Cannot insert records into transaction: %s", err.Error())
+		return fmt.Errorf("cannot insert records into transaction on table %s: %s", name, err.Error())
 	}
 
-	_, err = tx.Exec(fmt.Sprintf(sqlInsertRecord, values), records...)
+	_, err = tx.Exec(fmt.Sprintf(sqlInsertRecord, name, values), records...)
 	if err != nil {
-		return fmt.Errorf("Cannot insert records into transaction: %s", err.Error())
+		return fmt.Errorf("cannot insert records into transaction on table %s: %s", name, err.Error())
 	}
 
 	return nil
@@ -69,7 +81,7 @@ func insertRecords(tx *sql.Tx, records []interface{}) error {
 
 func createValues(length int) (string, error) {
 	if length == 0 {
-		return "", fmt.Errorf("No records to insert")
+		return "", fmt.Errorf("no records to insert")
 	}
 
 	values := strings.Repeat("?,", length)
@@ -78,17 +90,22 @@ func createValues(length int) (string, error) {
 	return values, nil
 }
 
-func createQueryString(parameters string) string {
+func createQueryString(pipes []string, parameters string) string {
 	split := rxQuery.Split(parameters, 2)
-
 	match := rxQuery.FindString(parameters)
 
 	switch len(split) {
 	case 1:
-		return fmt.Sprintf(sqlQuery, split[0], match, "")
+		return fmt.Sprintf(sqlQuery, split[0], "main", match, "")
+
 	case 2:
-		return fmt.Sprintf(sqlQuery, split[0], match, split[1])
+		if len(pipes) > 0 {
+			return fmt.Sprintf(sqlQuery, split[0], strings.Join(pipes, ", "), match, split[1])
+		}
+
+		return fmt.Sprintf(sqlQuery, split[0], "main", match, split[1])
+
 	default:
-		panic("Unexpected length of split")
+		panic("unexpected length of split")
 	}
 }
