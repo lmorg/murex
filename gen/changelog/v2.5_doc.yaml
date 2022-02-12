@@ -63,6 +63,7 @@
   - commands/namedpipe
   - commands/let
   - commands/set
+  - commands/count
   - user-guide/pipeline
 
 
