@@ -79,7 +79,6 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 }
 
 func cmdForEachJmap(p *lang.Process) error {
-	//dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(types.Json)
 
 	varName, err := p.Parameters.String(1)

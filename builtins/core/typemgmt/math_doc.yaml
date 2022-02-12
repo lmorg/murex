@@ -98,8 +98,6 @@
     ```
   Flags:
   Detail: |-
-    {{ include "gen/includes/math.inc.md" }}
-
     ### Other Operators
 
     `let` also supports the following operators (substitute **VAR** with your
@@ -119,14 +117,18 @@
     » let: i++
     » $i
     1
+
     » let: i+=8
     » $i
     9
+    
     » let: i/=3
     3
     ```
 
     Please note these operators are not supported by `=`.
+
+    {{ include "gen/includes/math.inc.md" }}
 
     {{ include "gen/includes/variables.inc.md" }}
   Synonyms:

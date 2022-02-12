@@ -37,6 +37,34 @@ scoped variable (like `set`)
 
 ## Detail
 
+### Other Operators
+
+`let` also supports the following operators (substitute **VAR** with your
+variable name, and **NUM** with a number):
+
+* `VAR--`, subtract 1 from VAR
+* `VAR++`, add 1 to VAR
+* `VAR -= NUM`, subtract NUM from VAR
+* `VAR += NUM`, add NUM to VAR
+* `VAR /= NUM`, divide VAR by NUM
+* `VAR *= NUM`, multiply VAR by NUM
+
+eg
+
+    » let: i=0
+    » let: i++
+    » $i
+    1
+    
+    » let: i+=8
+    » $i
+    9
+    
+    » let: i/=3
+    3
+    
+Please note these operators are not supported by `=`.
+
 ### Variables
 
 There are two ways you can use variables with the math functions. Either by
@@ -146,33 +174,7 @@ Thus far the examples given have been focused on comparisons however `=` and
     
 ### Read more
 
-_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's [manual](https://github.com/Knetic/govaluate/blob/master/MANUAL.md).
-
-### Other Operators
-
-`let` also supports the following operators (substitute **VAR** with your
-variable name, and **NUM** with a number):
-
-* `VAR--`, subtract 1 from VAR
-* `VAR++`, add 1 to VAR
-* `VAR -= NUM`, subtract NUM from VAR
-* `VAR += NUM`, add NUM to VAR
-* `VAR /= NUM`, divide VAR by NUM
-* `VAR *= NUM`, multiply VAR by NUM
-
-eg
-
-    » let: i=0
-    » let: i++
-    » $i
-    1
-    » let: i+=8
-    » $i
-    9
-    » let: i/=3
-    3
-    
-Please note these operators are not supported by `=`.
+_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's manual.
 
 ### Scoping
 

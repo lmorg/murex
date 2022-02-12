@@ -22,6 +22,8 @@
 
       * `autocomplete` now passes `ISMETHOD` variable to dynamic completions so those dynamic completions are aware if a command requesting auto-completion suggestions is being invoked as a method (mid-pipeline) or function (start of a pipeline)
 
+      * Index, `[`, now supports inlining element, `[[`, lookups. eg `[ a b [/map/c] ]`
+      
       * Dynamic auto-completions that include `@IncFiles` or `@IncDirs` will now automatically append files and/or directories to their auto-completion suggestions
 
       * New `autocomplete` directives: `IncExeAll` (like `IncExePath` but includes builtins, functions, aliases), `IncManPage` (include results from the `man` page parser -- usually suppressed when `autocomplete` config is set)
@@ -63,6 +65,7 @@
   - commands/namedpipe
   - commands/let
   - commands/set
+  - commands/count
   - user-guide/pipeline
 
 
