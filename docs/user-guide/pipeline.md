@@ -49,6 +49,16 @@ Wikipedia has a page on [Pipeline (Unix)](https://en.wikipedia.org/wiki/Pipeline
 > "hiding of internals" (Ritchie & Thompson, 1974). This in turn allows for
 > more clarity and simplicity in the system. 
 
+## Named Pipes
+
+The drawback with pipes is that it assumes each command runs sequentially one
+after another and that everything fits neatly into the concept of "output" and
+"errors". The moment you need to use background (`bg`) processes, do anything
+more specific with data streams (even if just ignore them entirely), or use
+more than one data stream, then this concept breaks down. This is where named
+pipes come to the rescue. Named pipes are out of scope for this specific
+document but you can read more on them in links in **Related**, below.
+
 ## See Also
 
 * [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
@@ -63,3 +73,5 @@ Wikipedia has a page on [Pipeline (Unix)](https://en.wikipedia.org/wiki/Pipeline
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [user-guide/Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
+* [commands/`bg`](../commands/bg.md):
+  Run processes in the background

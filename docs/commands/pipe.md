@@ -20,155 +20,85 @@ Destroy pipe
 
 ## Examples
 
-Create and destroy a standard pipe
+Create a standard pipe:
 
     pipe: example
     
+Delete a pipe:
+
     !pipe: example
     
-Create a TCP pipe
+Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 
     pipe example --tcp-dial google.com:80
     bg { <example> }
     out: "GET /" -> <example>
-    
-    !pipe: example
 
 ## Detail
 
-### Scoping
+### What are _murex_ named pipes?
 
-Variable scoping is simplified to three layers:
+In POSIX, there is a concept of STDIN, STDOUT and STDERR, these are FIFO files
+while are "piped" from one executable to another. ie STDOUT for application 'A'
+would be the same file as STDIN for application 'B' when A is piped to B:
+`A | B`. _murex_ adds a another layer around this to enable support for passing
+data types and builtins which are agnostic to the data serialization format
+traversing the pipeline. While this does add overhead the advantage is this new
+wrapper can be used as a primitive for channelling any data from one point to
+another.
 
-1. Local variables (`set`, `!set`, `let`)
-2. Global variables (`global`, `!global`)
-3. Environmental variables (`export`, `!export`, `unset`)
+_murex_ named pipes are where these pipes are created in a global store,
+decoupled from any executing functions, named and can then be used to pass
+data along asynchronously.
 
-Variables are looked up in that order of too. For example a the following
-code where `set` overrides both the global and environmental variable:
+For example
 
-    » set:    foobar=1
-    » global: foobar=2
-    » export: foobar=3
-    » out: $foobar
-    1
+    pipe: example
     
-#### Local variables
-
-These are defined via `set` and `let`. They're variables that are persistent
-across any blocks within a function. Functions will typically be blocks
-encapsulated like so:
-
-    function example {
-        # variables scoped inside here
+    bg {
+        <example> -> match: Hello
     }
     
-...or...
+    out: "foobar"        -> <example>
+    out: "Hello, world!" -> <example>
+    out: "foobar"        -> <example>
+    
+    !pipe: example
+    
+This returns `Hello, world!` because `out` is writing to the **example** named
+pipe and `match` is also reading from it in the background (`bg`).
 
-    private example {
-        # variables scoped inside here
+Named pipes can also be inlined into the command parameters with `<>` tags
+
+    pipe: example
+    
+    bg {
+        <example> -> match: Hello
     }
     
+    out: <example> "foobar"
+    out: <example> "Hello, world!"
+    out: <example> "foobar"
     
-...however dynamic autocompletes, events, unit tests and any blocks defined in
-`config` will also be triggered as functions.
-
-Code running inside any control flow or error handing structures will be
-treated as part of the same part of the same scope as the parent function:
-
-    » function example {
-    »     try {
-    »         # set 'foobar' inside a `try` block
-    »         set: foobar=example
-    »     }
-    »     # 'foobar' exists outside of `try` because it is scoped to `function`
-    »     out: $foobar
-    » }
-    example
+    !pipe: example
     
-Where this behavior might catch you out is with iteration blocks which create
-variables, eg `for`, `foreach` and `formap`. Any variables created inside them
-are still shared with any code outside of those structures but still inside the
-function block.
+> Please note this is also how `test` works.
 
-Any local variables are only available to that function. If a variable is
-defined in a parent function that goes on to call child functions, then those
-local variables are not inherited but the child functions:
+_murex_ named pipes can also represent network sockets, files on a disk or any
+other read and/or write endpoint. Custom builtins can also be written in Golang
+to support different abstractions so your _murex_ code can work with those read
+or write endpoints transparently.
 
-    » function parent {
-    »     # set a local variable
-    »     set: foobar=example
-    »     child
-    » }
-    » 
-    » function child {
-    »     # returns the `global` value, "not set", because the local `set` isn't inherited
-    »     out: $foobar
-    » }
-    » 
-    » global: $foobar="not set"
-    » parent
-    not set
+To see the different supported types run
+
+    runtime --pipes
     
-It's also worth remembering that any variable defined using `set` in the shells
-FID (ie in the interactive shell) is localised to structures running in the
-interactive, REPL, shell and are not inherited by any called functions.
+### Namespacing and used in modules and packages
 
-#### Global variables
-
-Where `global` differs from `set` is that the variables defined with `global`
-will be scoped at the global shell level (please note this is not the same as
-environmental variables!) so will cascade down through all scoped code-blocks
-including those running in other threads.
-
-#### Environmental variables
-
-Exported variables (defined via `export`) are system environmental variables.
-Inside _murex_ environmental variables behave much like `global` variables
-however their real purpose is passing data to external processes. For example
-`env` is an external process on Linux (eg `/usr/bin/env` on ArchLinux):
-
-    » export foo=bar
-    » env -> grep foo
-    foo=bar
-    
-### Function Names
-
-As a security feature function names cannot include variables. This is done to
-reduce the risk of code executing by mistake due to executables being hidden
-behind variable names.
-
-Instead _murex_ will assume you want the output of the variable printed:
-
-    » out "Hello, world!" -> set hw
-    » $hw
-    Hello, world!
-    
-On the rare occasions you want to force variables to be expanded inside a
-function name, then call that function via `exec`:
-
-    » set cmd=grep
-    » ls -> exec: $cmd main.go
-    main.go
-    
-This only works for external executables. There is currently no way to call
-aliases, functions nor builtins from a variable and even the above `exec` trick
-is considered bad form because it reduces the readability of your shell scripts.
-
-### Usage Inside Quotation Marks
-
-Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
-inside a double quotes but will escape the variable name when used inside single
-quotes:
-
-    » out "$foo"
-    bar
-    
-    » out '$foo'
-    $foo
-    
-    » out ($foo)
-    bar
+Pipes created via `pipe` are created in the global namespace. This allows pipes
+to be used across different functions easily however it does pose a risk with
+name clashes where _murex_ named pipes are used heavily. Thus is it recommended
+that pipes created in modules should be prefixed with the name of its package.
 
 ## Synonyms
 
@@ -178,6 +108,8 @@ quotes:
 
 ## See Also
 
+* [user-guide/Pipeline](../user-guide/pipeline.md):
+  Overview of what a "pipeline" is
 * [commands/`<>` (murex named pipe)](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
 * [commands/`<stdin>` ](../commands/stdin.md):

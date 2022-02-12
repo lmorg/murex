@@ -116,5 +116,7 @@ that pipes created in modules should be prefixed with the name of its package.
   A sophisticated yet simply way to build a JSON array
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
+* [commands/`runtime`](../commands/runtime.md):
+  Returns runtime information on the internal state of _murex_
 * [parser/namedpipe](../parser/namedpipe.md):
   
