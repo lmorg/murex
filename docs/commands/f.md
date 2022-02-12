@@ -11,14 +11,22 @@ Lists objects (eg files) in the current working directory.
 ## Usage
 
     f: options -> <stdout>
+    
+    <stdin> -> f: options -> <stdout>
 
 ## Examples
 
-    # return only directories:
+Return only directories:
+
     f: +d
     
-    # return file and directories but exclude symlinks:
+Return file and directories but exclude symlinks:
+
     f: +d +f -s
+    
+Compare list against files (eg created by `g`) against conditions set by `f`:
+
+    g /* -> f +f
 
 ## Flags
 

@@ -14,28 +14,43 @@ Output is a JSON list.
 
     g: pattern -> <stdout>
     
+    [ <stdin> -> ] @g command pattern [ -> <stdout> ]
+    
     !g: pattern -> <stdout>
 
 ## Examples
 
-    # inline globbing
+Inline globbing:
+
     cat: @{ g: *.txt }
     
-    # writing a JSON array of files to disk
+Writing a JSON array of files to disk:
+
     g: *.txt -> > filelist.json
     
-    # writing a list of files to disk
+Writing a list of files to disk:
+
     g: *.txt -> format str -> > filelist.txt
     
-    # checking if a file exists
+Checking if a file exists:
+
     if { g: somefile.txt } then {
         # file exists
     }
     
-    # checking if a file does not exist
+Checking if a file does not exist:
+
     !if { g: somefile.txt } then {
         # file does not exist
     }
+    
+Return all files apart from text files:
+
+    !g: *.txt
+    
+Auto-globbing (eg for Bash compatibility):
+
+    @g ls *.txt
 
 ## Detail
 
@@ -63,7 +78,7 @@ with auto-globbing enabled:
 
     @g ^!!
     
-### Inversed Matches
+### Inverse Matches
 
 If you want to exclude any matches based on wildcards, rather than include
 them, then you can use the bang prefix. eg

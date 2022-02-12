@@ -18,21 +18,29 @@ Output is a JSON list.
 
 ## Examples
 
-    # inline regex file matching
+Inline regex file matching:
+
     cat: @{ rx: '.*\.txt' }
     
-    # writing a list of files to disk
+Writing a list of files to disk:
+
     rx: '.*\.go' -> > filelist.txt
     
-    # checking if any files exist
+Checking if files exist:
+
     if { rx: somefiles.* } then {
         # files exist
     }
     
-    # checking if no files exist
+Checking if files do not exist:
+
     !if { rx: somefiles.* } then {
         # files do not exist
     }
+    
+Return all files apart from text files:
+
+    !g: '\.txt$'
 
 ## Detail
 
@@ -43,7 +51,7 @@ only designed to match file system objects in the current working directory.
 
 `rx` uses Go (lang)'s standard regexp engine.
 
-### Inversed Matches
+### Inverse Matches
 
 If you want to exclude any matches based on wildcards, rather than include
 them, then you can use the bang prefix. eg
