@@ -61,7 +61,7 @@ To see the different supported types run
 runtime --pipes
 ```
 
-### Namespacing and used in modules and packages
+### Namespaces and usage in modules and packages
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes
 to be used across different functions easily however it does pose a risk with

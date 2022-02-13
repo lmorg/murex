@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -ev
+
+. /etc/ci-murex.env
+
 #[ -z "$MUREX_BUILD_WEBSITE_ONLY" ] && \
 #        export MUREX_BUILD_WEBSITE_ONLY="$(git describe --tags --match website)"
 
