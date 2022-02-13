@@ -12,7 +12,6 @@ of precedence.
 ## Usage
 
     fexec: flag command [ parameters... ] -> <stdout>
-    ``` 
 
 ## Examples
 
