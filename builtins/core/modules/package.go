@@ -60,7 +60,10 @@ func mvPackagePath(path string) (string, error) {
 	if path != profile.ModulePath()+pack.Name {
 		err = os.Rename(path, profile.ModulePath()+pack.Name)
 		if err != nil {
-			return path, fmt.Errorf("unable to do post-install tidy up: %s", err)
+			os.Stderr.WriteString(fmt.Sprintf(
+				"WARNING: unable to do post-install tidy up: %s.\n         Please manually run the following:\n             mv %s %s",
+				err, path, profile.ModulePath()+pack.Name,
+			))
 		}
 	}
 
