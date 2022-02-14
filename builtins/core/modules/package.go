@@ -60,8 +60,8 @@ func mvPackagePath(path string) (string, error) {
 	if path != profile.ModulePath()+pack.Name {
 		err = os.Rename(path, profile.ModulePath()+pack.Name)
 		if err != nil {
-			os.Stderr.WriteString(fmt.Sprintf(
-				"WARNING: unable to do post-install tidy up: %s.\n         Please manually run the following:\n             mv %s %s",
+			os.Stdout.WriteString(fmt.Sprintf(
+				"WARNING: unable to do post-install tidy up: %s.\n         To manually apply the changes please run the following commands:\n             mv %s %s\n             murex-package reload\n",
 				err, path, profile.ModulePath()+pack.Name,
 			))
 		}
