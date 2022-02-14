@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-const noModulesToAble = "Missing package or package/module names to "
+const noModulesToAble = "missing package or package/module names to "
 
 func disableModules(p *lang.Process) error {
 	if p.Parameters.Len() < 2 {

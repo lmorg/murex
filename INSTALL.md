@@ -57,8 +57,9 @@ environmental variable set. You can check these by running:
 First create the directory path and clone the source into the appropriate
 directory structure.
 
-    mkdir -p $GOPATH/lmorg/murex
-    git clone github.com/lmorg/murex $GOPATH/lmorg/murex
+    mkdir -p $GOPATH/src/github.com/lmorg/murex
+    cd $GOPATH/src/github.com/lmorg/murex
+    git clone https://github.com/lmorg/murex .
 
 At this point you can add and remove any optional builtins by following the
 instructions on this located further down this document. This is entirely

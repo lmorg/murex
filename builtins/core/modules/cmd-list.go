@@ -36,10 +36,10 @@ func listModules(p *lang.Process) error {
 		return listPackages(p)
 
 	case "":
-		return fmt.Errorf("Missing parameter. %s", expecting)
+		return fmt.Errorf("missing parameter. %s", expecting)
 
 	default:
-		return fmt.Errorf("Invalid parameter `%s`. %s", flag, expecting)
+		return fmt.Errorf("invalid parameter `%s`. %s", flag, expecting)
 	}
 }
 

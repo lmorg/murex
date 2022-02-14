@@ -608,3 +608,14 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	syntaxHighlighted += ansi.Reset
 	return
 }
+
+/*func Highlight(block []rune) (hl string) {
+	ast, _ := lang.ParseBlock(block)
+
+	for i := range *ast {
+		ast[i].Name
+	}
+
+	return
+}
+*/

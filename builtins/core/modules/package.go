@@ -13,7 +13,6 @@ type packageDb struct {
 	Protocol string
 	URI      string
 	Package  string
-	modules  []profile.Module
 }
 
 func readPackagesFile(path string) ([]packageDb, error) {
@@ -58,9 +57,14 @@ func mvPackagePath(path string) (string, error) {
 		return path, err
 	}
 
-	err = os.Rename(path, profile.ModulePath()+pack.Name)
-	if err != nil {
-		return path, fmt.Errorf("Unable to do post-install tidy up: %s", err)
+	if path != profile.ModulePath()+pack.Name {
+		err = os.Rename(path, profile.ModulePath()+pack.Name)
+		if err != nil {
+			os.Stdout.WriteString(fmt.Sprintf(
+				"WARNING: unable to do post-install tidy up: %s.\n         To manually apply the changes please run the following commands:\n             mv %s %s\n             murex-package reload\n",
+				err, path, profile.ModulePath()+pack.Name,
+			))
+		}
 	}
 
 	return pack.Name, nil

@@ -24,13 +24,13 @@ func statusModules(p *lang.Process) error {
 			err = gitStatus(p, &db[i])
 			if err != nil {
 				p.Stderr.Writeln([]byte(fmt.Sprintf(
-					"Unable to return package status `%s`: %s", db[i].Package, err.Error(),
+					"unable to return package status `%s`: %s", db[i].Package, err.Error(),
 				)))
 			}
 
 		default:
 			p.Stderr.Writeln([]byte(fmt.Sprintf(
-				"Unable to return package status `%s`: Unknown protocol `%s`", db[i].Package, db[i].Protocol,
+				"unable to return package status `%s`: Unknown protocol `%s`", db[i].Package, db[i].Protocol,
 			)))
 		}
 	}
