@@ -20,7 +20,7 @@ func packageDirExists(pack string) error {
 		return nil
 	}
 
-	return errors.New("A file or directory already exists with that package name")
+	return errors.New("a file or directory already exists with that package name")
 }
 
 func importModules(p *lang.Process) error {
@@ -31,7 +31,7 @@ func importModules(p *lang.Process) error {
 	}
 
 	if path == modulePath+profile.PackagesFile {
-		return errors.New("You cannot import the same file as the master packages.json file")
+		return errors.New("you cannot import the same file as the master packages.json file")
 	}
 
 	if utils.IsURL(path) {

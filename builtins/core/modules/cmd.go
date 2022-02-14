@@ -18,8 +18,7 @@ Usage: murex-package install         uri
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
                      status
-                     list            loaded|not-loaded|enabled|disabled|packages
-`
+                     list            loaded|not-loaded|enabled|disabled|packages`
 
 func init() {
 	lang.GoFunctions["murex-package"] = cmdModuleAdmin
@@ -56,14 +55,14 @@ func cmdModuleAdmin(p *lang.Process) error {
 		return cdPackage(p)
 
 	default:
-		return errors.New("Missing or invalid parameters." + usage)
+		return errors.New("missing or invalid parameters." + usage)
 	}
 }
 
 func detectProtocol(uri string) (string, error) {
 	switch {
 	case strings.HasPrefix(uri, "http://"):
-		return "", errors.New("For security reasons, downloading packages is not allowed over plain text http. Please use `https://` instead")
+		return "", errors.New("for security reasons, downloading packages is not allowed over plain text http. Please use `https://` instead")
 
 	case strings.HasSuffix(uri, ".git"):
 		return "git", nil
@@ -72,7 +71,7 @@ func detectProtocol(uri string) (string, error) {
 		return "https", nil
 
 	default:
-		return "", errors.New("Unable to get package: Unable to auto-detect a suitable protocol for transferring the package")
+		return "", errors.New("unable to get package: Unable to auto-detect a suitable protocol for transferring the package")
 	}
 }
 
@@ -89,7 +88,7 @@ func cdPackage(p *lang.Process) error {
 		var err2 error
 		f, err2 = os.Stat(modulePath + path + profile.IgnoredExt)
 		if err2 != nil {
-			return fmt.Errorf("Unable to cd to package: %s: %s", err, err2)
+			return fmt.Errorf("unable to cd to package: %s: %s", err, err2)
 		}
 	}
 

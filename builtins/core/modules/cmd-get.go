@@ -26,7 +26,7 @@ func getModule(p *lang.Process) error {
 
 	err = cd.Chdir(p, modulePath)
 	if err != nil {
-		return fmt.Errorf("Unable to get package: %s", err.Error())
+		return fmt.Errorf("unable to get package: %s", err.Error())
 	}
 
 	pack, protocol, err := getPackage(p, uri)
@@ -71,14 +71,14 @@ func getPackage(p *lang.Process, uri string) (pack, protocol string, err error) 
 	case "git":
 		pack, err = gitGet(p, uri)
 		if err != nil {
-			return "", protocol, fmt.Errorf("Unable to update package: %s", err.Error())
+			return "", protocol, fmt.Errorf("unable to update package: %s", err.Error())
 		}
 
 	case "https":
-		return "", protocol, errors.New("Protocol handler for HTTPS has not yet been written. Please use git in the mean time (you can do this by specifying a git extension in the uri)")
+		return "", protocol, errors.New("protocol handler for HTTPS has not yet been written. Please use git in the mean time (you can do this by specifying a git extension in the uri)")
 
 	default:
-		return "", "", fmt.Errorf("This is weird, protocol detected as `%s` but no handler has been written", protocol)
+		return "", "", fmt.Errorf("this is weird, protocol detected as `%s` but no handler has been written", protocol)
 	}
 
 	return
