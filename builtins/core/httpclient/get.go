@@ -2,6 +2,7 @@ package httpclient
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"strconv"
@@ -9,9 +10,11 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func cmdGet(p *lang.Process) (err error) {
@@ -90,24 +93,27 @@ func cmdGetFile(p *lang.Process) (err error) {
 	quit := make(chan bool)
 	cl := resp.Header.Get("Content-Length")
 
+	var i int
 	if cl == "" {
 		cl = "{unknown}"
 	} else {
-		i, _ := strconv.Atoi(cl)
+		i, _ = strconv.Atoi(cl)
 		cl = humannumbers.Bytes(uint64(i))
-		//length = float64(i)
 	}
 
 	defer func() {
 		quit <- true
 		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
-		os.Stderr.WriteString("Downloaded " + humannumbers.Bytes(written) + ".\n")
+
+		os.Stderr.WriteString(
+			"\x1b[" + strconv.Itoa(readline.GetTermWidth()+2) + "D" + ansi.ClearLine + ansi.Reset +
+				"Downloaded " + humannumbers.Bytes(written) + ".\n",
+		)
 	}()
 
 	go func() {
-		//gauge := render.NewGaugeBar("Downloading....")
-		var last uint64
+		var last, written, speed uint64
 		select {
 		case <-quit:
 			return
@@ -115,7 +121,17 @@ func cmdGetFile(p *lang.Process) (err error) {
 		}
 
 		for {
-			time.Sleep(1 * time.Second)
+
+			if p.Stderr.IsTTY() {
+				time.Sleep(10 * time.Millisecond)
+				written, _ = p.Stdout.Stats()
+				speed = (written - last) * 100
+			} else {
+				time.Sleep(2 * time.Millisecond)
+				written, _ = p.Stdout.Stats()
+				speed = (written - last) / 2
+			}
+			last = written
 
 			select {
 			case <-quit:
@@ -123,15 +139,40 @@ func cmdGetFile(p *lang.Process) (err error) {
 			default:
 			}
 
-			written, _ := p.Stdout.Stats()
-			speed := written - last
-			last = written
-			//percent := int((float64(written) / length) * 100)
-			os.Stderr.WriteString("Downloaded " + humannumbers.Bytes(written) + " of " + cl + " @ " + humannumbers.Bytes(speed) + "/s....\n")
-			//render.UpdateGaugeBar(gauge, percent, "Downloaded "+utils.HumanBytes(written)+" of "+cl+" @ "+utils.HumanBytes(speed)+"/s....")
+			msg := fmt.Sprintf(
+				"Downloaded %s of %s @ %s/s....",
+				humannumbers.Bytes(written),
+				cl,
+				humannumbers.Bytes(speed),
+			)
+			printGaugeBar(float64(written), float64(i), msg)
 		}
 	}()
 
 	_, err = io.Copy(p.Stdout, resp.Body)
 	return err
+}
+
+func printGaugeBar(value, max float64, message string) {
+	width := readline.GetTermWidth()
+	cells := int((float64(width) / max) * value)
+
+	s := "\x1b[" + strconv.Itoa(width+2) + "D" + ansi.ClearLine + ansi.Reset
+	if cells > 0 {
+		s += ansi.Invert
+	}
+
+	for i := 0; i < width; i++ {
+		if cells+1 == i {
+			s += ansi.Reset
+		}
+
+		if i < len(message) {
+			s += string([]byte{message[i]})
+		} else {
+			s += " "
+		}
+	}
+
+	os.Stderr.WriteString(s + ansi.Reset)
 }
