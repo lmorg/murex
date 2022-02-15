@@ -232,7 +232,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("proc", "strict-vars", config.Properties{
 		Description: "Return errors if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
-		Default:     false,
+		Default:     true,
 		DataType:    types.Boolean,
 	})
 
