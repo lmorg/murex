@@ -4,11 +4,8 @@
 package autocomplete
 
 import (
-	"io/ioutil"
 	"strings"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
 
