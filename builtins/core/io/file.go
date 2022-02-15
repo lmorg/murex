@@ -16,7 +16,7 @@ func init() {
 	lang.DefineMethod(">", cmdWriteFile, types.Any, types.Null)
 	lang.DefineMethod("fwrite", cmdWriteFile, types.Any, types.Null)
 	lang.DefineMethod(">>", cmdAppendFile, types.Any, types.Null)
-	lang.DefineMethod("fwrite", cmdAppendFile, types.Any, types.Null)
+	lang.DefineMethod("fappend", cmdAppendFile, types.Any, types.Null)
 }
 
 func cmdPipeTelemetry(p *lang.Process) error {

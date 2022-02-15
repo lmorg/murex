@@ -52,8 +52,6 @@ func cmdLsNotG(p *lang.Process) (err error) {
 		return
 	}
 
-	//files := make([]string, len(all))
-	//var length int
 	var files []string
 	for i := range all {
 		if !lists.Match(glob, all[i]) {
@@ -61,7 +59,6 @@ func cmdLsNotG(p *lang.Process) (err error) {
 		}
 	}
 
-	//j, err := json.Marshal(files[:length], p.Stdout.IsTTY())
 	j, err := json.Marshal(files, p.Stdout.IsTTY())
 	if err != nil {
 		return
