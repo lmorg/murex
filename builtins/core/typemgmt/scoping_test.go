@@ -27,7 +27,8 @@ func TestScopingSet(t *testing.T) {
 					}
 					set TestScopingSet2=1
 					TestScopingSet2`,
-			Stdout: "\n",
+			Stderr:  "Error in `out` ( 2,7): variable 'TestScopingSet2' does not exist\n",
+			ExitNum: 1,
 		},
 		{
 			Block: `function TestScopingSet3 {
@@ -80,7 +81,9 @@ func TestScopingSet(t *testing.T) {
 					}
 					TestScopingSet6.0
 					out $TestScopingSet6`,
-			Stdout: "23\n",
+			Stdout:  "23",
+			Stderr:  "Error in `out` ( 11,6): variable 'TestScopingSet6' does not exist\n",
+			ExitNum: 1,
 		},
 	}
 
