@@ -106,10 +106,11 @@ func cmdGetFile(p *lang.Process) (err error) {
 		resp.Body.Close()
 		written, _ := p.Stdout.Stats()
 
-		os.Stderr.WriteString(
-			"\x1b[" + strconv.Itoa(readline.GetTermWidth()+2) + "D" + ansi.ClearLine + ansi.Reset +
-				"Downloaded " + humannumbers.Bytes(written) + ".\n",
-		)
+		os.Stderr.WriteString(fmt.Sprintf(
+			"%sDownloaded %s.\n",
+			"\x1b["+strconv.Itoa(readline.GetTermWidth()+2)+"D"+ansi.ClearLine+ansi.Reset,
+			humannumbers.Bytes(written),
+		))
 	}()
 
 	go func() {
@@ -140,7 +141,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 			}
 
 			msg := fmt.Sprintf(
-				"Downloaded %s of %s @ %s/s....",
+				"Downloading... %s of %s @ %s/s....",
 				humannumbers.Bytes(written),
 				cl,
 				humannumbers.Bytes(speed),
