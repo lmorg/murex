@@ -112,3 +112,11 @@ config set shell stop-status-func {
     progress $PID
 }
 
+if { or { $WSLENV } { $WSL_DISTRO_NAME } } then {
+    trypipe {
+        mount \
+            -> regexp (m/[A-Z]:\\/) -> [:2] \
+            -> cast str -> format json \
+            -> config: set wsl windows-mounts
+    }
+}

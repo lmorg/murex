@@ -1,12 +1,14 @@
 package defaults
 
 import (
+	"os"
 	"strings"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
@@ -105,13 +107,6 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "extensions-enabled", config.Properties{
-		Description: "Windows only! Auto-completes file extensions. This also affects the auto-completion parameters",
-		Default:     false,
-		DataType:    types.Boolean,
-		Global:      true,
-	})
-
 	c.Define("shell", "hint-text-enabled", config.Properties{
 		Description: "Display the interactive shell's hint text helper. Please note, even when this is disabled, it will still appear when used for regexp searches and other readline-specific functions",
 		Default:     true,
@@ -203,6 +198,28 @@ func Defaults(c *config.Config, isInteractive bool) {
 			Read:  userdictionary.Read,
 			Write: userdictionary.Write,
 		},
+	})
+
+	_, WSLENV := os.LookupEnv("WSLENV")
+	_, WSL_DISTRO_NAME := os.LookupEnv("WSL_DISTRO_NAME")
+	wsl := WSLENV || WSL_DISTRO_NAME
+
+	c.Define("wsl", "windows-mounts", config.Properties{
+		Description: "Windows mount points when running WSL (this improves autocompletion suggestions)",
+		Default:     "",
+		DataType:    types.String,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  autocomplete.WslMountsGet,
+			Write: autocomplete.WslMountsSet,
+		},
+	})
+
+	c.Define("shell", "extensions-enabled", config.Properties{
+		Description: "Windows and WSL only! Auto-completes file extensions. This also affects the auto-completion parameters. This is best left `true` for WSL. You may need to run `murex-update-exe-list` to apply the changes",
+		Default:     wsl,
+		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	// --- proc ---
