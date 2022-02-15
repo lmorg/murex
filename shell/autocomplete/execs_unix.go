@@ -1,3 +1,4 @@
+//go:build !windows && !plan9
 // +build !windows,!plan9
 
 package autocomplete
@@ -18,6 +19,15 @@ func SplitPath(envPath string) []string {
 }
 
 func listExes(path string, exes map[string]bool) {
+	// if WSL then using a Windows lookup rather than POSIX
+	for i := range wslMounts {
+		if strings.HasPrefix(path, wslMounts[i]) {
+			listExesWindows(path, exes)
+			return
+		}
+	}
+
+	// POSIX lookup
 	files, _ := ioutil.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {

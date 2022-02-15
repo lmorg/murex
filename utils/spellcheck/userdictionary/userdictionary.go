@@ -41,11 +41,11 @@ func Read() (interface{}, error) {
 // Write takes a JSON-encoded string and writes it to the dictionary slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
 func Write(v interface{}) error {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		return json.Unmarshal([]byte(v.(string)), &dictionary)
+		return json.Unmarshal([]byte(v), &dictionary)
 
 	default:
-		return fmt.Errorf("Invalid data-type. Expecting a %s encoded string", types.Json)
+		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)
 	}
 }
