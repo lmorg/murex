@@ -29,6 +29,8 @@
     
     * `~/.ssh/config` hosts have been added to SSH (et al)'s autocomplete suggestions
     
+    * `murex-package: reload` now only reloads packages, not `.murex_preload nor `.murex_profile`
+
     * website tweaks: updated INSTALL doc, CSS fixes
     
     * debug message added to warn when fork FIDs are being killed
