@@ -8,18 +8,13 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["and"] = cmdAnd
-	//lang.GoFunctions["!and"] = cmdAnd
-	//lang.GoFunctions["or"] = cmdOr
-	//lang.GoFunctions["!or"] = cmdOr
-
 	lang.DefineFunction("and", cmdAnd, types.Boolean)
 	lang.DefineFunction("!and", cmdAnd, types.Boolean)
 	lang.DefineFunction("or", cmdOr, types.Boolean)
 	lang.DefineFunction("!or", cmdOr, types.Boolean)
 }
 
-const errCancelled = "User has cancelled processing mid-way through the execution of this control flow structure."
+const errCancelled = "user has cancelled processing mid-way through the execution of this control flow structure"
 
 func cmdAnd(p *lang.Process) error { return cmdAndOr(p, true) }
 func cmdOr(p *lang.Process) error  { return cmdAndOr(p, false) }

@@ -9,10 +9,10 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["try"] = cmdTry
-	lang.GoFunctions["trypipe"] = cmdTryPipe
-	lang.GoFunctions["catch"] = cmdCatch
-	lang.GoFunctions["!catch"] = cmdCatch
+	lang.DefineFunction("try", cmdTry, types.Any)
+	lang.DefineFunction("trypipe", cmdTryPipe, types.Any)
+	lang.DefineFunction("catch", cmdCatch, types.Any)
+	lang.DefineFunction("!catch", cmdCatch, types.Any)
 }
 
 func cmdTry(p *lang.Process) (err error) {

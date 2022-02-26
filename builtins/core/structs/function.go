@@ -13,13 +13,13 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["alias"] = cmdAlias
-	lang.GoFunctions["!alias"] = cmdUnalias
-	lang.GoFunctions["function"] = cmdFunc
-	lang.GoFunctions["!function"] = cmdUnfunc
-	lang.GoFunctions["private"] = cmdPrivate
-	//lang.GoFunctions["!private"] = cmdUnprivate
-	lang.GoFunctions["method"] = cmdMethod
+	lang.DefineFunction("alias", cmdAlias, types.Null)
+	lang.DefineFunction("!alias", cmdUnalias, types.Null)
+	lang.DefineFunction("function", cmdFunc, types.Null)
+	lang.DefineFunction("!function", cmdUnfunc, types.Null)
+	lang.DefineFunction("private", cmdPrivate, types.Null)
+	//lang.DefineFunction("!private", cmdUnprivate, types.Null)
+	lang.DefineFunction("method", cmdMethod, types.Null)
 
 	defaults.AppendProfile(`
 	autocomplete set method { [
@@ -51,7 +51,7 @@ func cmdAlias(p *lang.Process) error {
 	s, _ := p.Parameters.String(0)
 
 	if !rxAlias.MatchString(s) {
-		return errors.New("Invalid syntax. Expecting `alias new_name=original_name parameter1 parameter2 ...`")
+		return errors.New("invalid syntax. Expecting `alias new_name=original_name parameter1 parameter2 ...`")
 	}
 
 	split := rxAlias.FindStringSubmatch(s)
@@ -87,10 +87,10 @@ func cmdFunc(p *lang.Process) error {
 
 	switch {
 	case len(name) == 0:
-		return errors.New("Function name is an empty (zero length) string")
+		return errors.New("function name is an empty (zero length) string")
 
 	case strings.Contains(name, "$"):
-		return errors.New("Function name cannot contain a dollar, '$', character")
+		return errors.New("function name cannot contain a dollar, '$', character")
 
 	default:
 		lang.MxFunctions.Define(name, block, p.FileRef)
@@ -120,10 +120,10 @@ func cmdPrivate(p *lang.Process) error {
 
 	switch {
 	case len(name) == 0:
-		return errors.New("Private name is an empty (zero length) string")
+		return errors.New("private name is an empty (zero length) string")
 
 	case strings.Contains(name, "$"):
-		return errors.New("Private name cannot contain a dollar, '$', character")
+		return errors.New("private name cannot contain a dollar, '$', character")
 
 	default:
 		return lang.PrivateFunctions.Define(name, block, p.FileRef)
@@ -149,7 +149,7 @@ func cmdMethod(p *lang.Process) error {
 	case "define":
 		return cmdMethodDefine(p)
 	default:
-		return fmt.Errorf("Invalid parameter `%s`", fn)
+		return fmt.Errorf("invalid parameter `%s`", fn)
 	}
 }
 
