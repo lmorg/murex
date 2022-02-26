@@ -159,10 +159,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 
 			switch {
 			case incFiles:
-				files := matchFilesystem(partial, true, act)
+				files := matchFilesAndDirs(partial, act)
 				items = append(items, files...)
 			case incDirs:
-				files := matchFilesystem(partial, false, act)
+				files := matchDirs(partial, act)
 				items = append(items, files...)
 			case incExePath:
 				pathexes := allExecutables(false)

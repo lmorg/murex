@@ -164,6 +164,25 @@
     }] }
     ```
 
+    ### "FileRegexp": string ("")
+
+    When set in conjunction with **IncFiles**, this directive will filter on files
+    files which match the regexp string. eg to only show ".txt" extensions you can
+    use the following:
+    
+    ```
+    autocomplete set notepad.exe { [{
+        "IncFiles": true,
+        "FileRegexp": (\.txt)
+    }] }
+    ```
+    
+    > Please note that you may need to double escape any regexp strings: escaping
+    > the `.` match and then also escaping the escape character in JSON. It is
+    > recommended you use the `mxjson` method of quoting using parentheses as this
+    > will compile that string into JSON, automatically adding additional escaping
+    > where required.
+
     ### "FlagValues": map of arrays (null)
 
     This is a map of the flags with the values being the same array of directive
@@ -224,6 +243,9 @@
     that don't have autocomplete defined but you will need to manually enable
     it in any `autocomplete` schemas you create and want files as part of the
     suggestions.
+
+    If you want to filter files based on file name then you can set a regexp
+    string to match to using **FileRegexp**.
 
     ### "IncManPage": boolean (false)
 

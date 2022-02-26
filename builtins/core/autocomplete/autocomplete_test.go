@@ -24,6 +24,7 @@ func TestAutocomplete(t *testing.T) {
 	expected := `[
     {
         "IncFiles": false,
+        "FileRegexp": "",
         "IncDirs": false,
         "IncExePath": false,
         "IncExeAll": false,

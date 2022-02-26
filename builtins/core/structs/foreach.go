@@ -10,7 +10,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["foreach"] = cmdForEach
 	lang.DefineMethod("foreach", cmdForEach, types.ReadArrayWithType, types.Any)
 }
 
@@ -57,7 +56,7 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		}
 
 	default:
-		return errors.New("Invalid number of parameters")
+		return errors.New("invalid number of parameters")
 	}
 
 	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {

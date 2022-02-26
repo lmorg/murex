@@ -19,14 +19,14 @@ import (
 func init() {
 	//lang.GoFunctions["debug"] = cmdDebug
 	lang.DefineMethod("debug", cmdDebug, types.Any, types.Json)
-	lang.GoFunctions["exitnum"] = cmdExitNum
-	lang.GoFunctions["bexists"] = cmdBuiltinExists
-	lang.GoFunctions["cd"] = cmdCd
-	lang.GoFunctions["os"] = cmdOs
-	lang.GoFunctions["cpuarch"] = cmdCpuArch
-	lang.GoFunctions["cpucount"] = cmdCpuCount
-	lang.GoFunctions["murex-update-exe-list"] = cmdUpdateExeList
-	lang.GoFunctions["man-summary"] = cmdManSummary
+	lang.DefineFunction("exitnum", cmdExitNum, types.Integer)
+	lang.DefineFunction("bexists", cmdBuiltinExists, types.Json)
+	lang.DefineFunction("cd", cmdCd, types.Null)
+	lang.DefineFunction("os", cmdOs, types.String)
+	lang.DefineFunction("cpuarch", cmdCpuArch, types.String)
+	lang.DefineFunction("cpucount", cmdCpuCount, types.Integer)
+	lang.DefineFunction("murex-update-exe-list", cmdUpdateExeList, types.Null)
+	lang.DefineFunction("man-summary", cmdManSummary, types.Null)
 }
 
 func cmdDebug(p *lang.Process) error {

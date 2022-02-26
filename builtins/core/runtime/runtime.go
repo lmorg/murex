@@ -92,7 +92,6 @@ var flags = map[string]string{
 }
 
 func init() {
-	//lang.GoFunctions["runtime"] = cmdRuntime
 	lang.DefineFunction("runtime", cmdRuntime, types.Json)
 
 	defaults.AppendProfile(`

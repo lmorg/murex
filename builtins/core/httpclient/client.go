@@ -38,7 +38,6 @@ func Request(ctx context.Context, method, url string, body io.Reader, conf *conf
 		return
 	}
 
-	//client := &http.Client{}
 	var client *http.Client
 	if setTimeout {
 		tr := http.Transport{

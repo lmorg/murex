@@ -8,9 +8,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["if"] = cmdIf
-	//lang.GoFunctions["!if"] = cmdIf
-
 	lang.DefineMethod("if", cmdIf, types.Any, types.Generic)
 	lang.DefineMethod("!if", cmdIf, types.Any, types.Generic)
 }
@@ -26,7 +23,7 @@ func cmdIf(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("No arguments made. `if` requires parameters")
+		return errors.New("no arguments made. `if` requires parameters")
 	}
 
 	var (
@@ -52,7 +49,7 @@ func cmdIf(p *lang.Process) error {
 
 		default:
 			if flag == fDone {
-				return errors.New("Parameters past end of `then` block")
+				return errors.New("parameters past end of `then` block")
 			}
 
 			s, err := p.Parameters.String(i)

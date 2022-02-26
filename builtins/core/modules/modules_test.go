@@ -165,7 +165,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	// initialize empty directory structures
 
 	lang.InitEnv()
-	profile.Execute()
+	profile.Execute(profile.F_MODULES)
 
 	// initialize test package
 
@@ -182,7 +182,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	// import new packages
 
 	count.Tests(t, 1) // importing from non-standard location
-	profile.Execute()
+	profile.Execute(profile.F_MODULES)
 
 	if !lang.MxFunctions.Exists(testFunction1) || !lang.MxFunctions.Exists(testFunction2) {
 		t.Fatalf("test functions were not imported from test package. Reason: unknown\n%s\nTry deleting '%s' and then rerun",

@@ -6,6 +6,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 26.02.2022 - [What's new in murex v2.6](changelog/v2.6.md)
+
+> This update has introduced a potential breaking change: variables now need to be defined before usage otherwise the commandline will fail. Read notes to learn how to disable this feature where needed. Also included in this release is the `select` command as part of the standard build.
+
+
 ### 12.02.2022 - [What's new in murex v2.5](changelog/v2.5.md)
 
 > This release introduces a number of new builtins, fixes some regression bugs and supercharges the `select` optional builtin (which I plan to include into the core builtins for non-Windows users in the next release).

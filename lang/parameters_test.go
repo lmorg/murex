@@ -92,5 +92,9 @@ func TestParamHangBug(t *testing.T) {
 		},
 	}
 
+	for i := range tests {
+		tests[i].Block = "config: set proc strict-vars false; " + tests[i].Block
+	}
+
 	test.RunMurexTests(tests, t)
 }

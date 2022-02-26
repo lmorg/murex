@@ -84,8 +84,9 @@ func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
 	fork.Kill = func() {
-		// Do nothing
-		//ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
+		if debug.Enabled {
+			ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
+		}
 	}
 
 	fork.State.Set(state.MemAllocated)

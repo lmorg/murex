@@ -16,6 +16,7 @@ import (
 // Flags is a struct to store auto-complete options
 type Flags struct {
 	IncFiles      bool               // `true` to include file name completion
+	FileRegexp    string             // Regexp match for files if IncFiles set
 	IncDirs       bool               // `true` to include directory navigation completion
 	IncExePath    bool               // `true` to include binaries in $PATH
 	IncExeAll     bool               // `true` to include all executable names
@@ -141,7 +142,7 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 	case act.CacheDynamic:
 		// do nothing
 	case f.IncFiles:
-		act.append(matchFilesAndDirs(partial, act)...)
+		act.append(matchFilesAndDirsWithRegexp(partial, f.FileRegexp, act)...)
 	case f.IncDirs && !f.IncFiles:
 		act.append(matchDirs(partial, act)...)
 	}
