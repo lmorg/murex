@@ -75,8 +75,7 @@ optional as _murex_ attempts to ship with sane defaults.
 
 #### Test the executable (optional stage)
 
-    ./murex --run-tests
-    ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+    ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
 
 #### Start the shell
 

@@ -48,10 +48,13 @@ use should the MIME type not appear in `config`, as seen in the following code:
 package lang
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang/types"
 )
+
+var rxMimePrefix = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
 
 // MimeToMurex gets the murex data type for a corresponding MIME
 func MimeToMurex(mimeType string) string {
