@@ -87,8 +87,7 @@ func runCommandLine(commandLine string) {
 
 	// load modules and profile
 	if fLoadMods {
-		// local profile
-		profile.Execute()
+		profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 	}
 
 	// read block from command line parameters
@@ -107,8 +106,7 @@ func runSource(filename string) {
 
 	// load modules a profile
 	if fLoadMods {
-		// local profile
-		profile.Execute()
+		profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 	}
 
 	// read block from disk
@@ -135,7 +133,7 @@ func startMurex() {
 	defaultProfile()
 
 	// load modules and profile
-	profile.Execute()
+	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	// start interactive shell
 	shell.Start()
