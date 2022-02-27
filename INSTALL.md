@@ -1,25 +1,31 @@
 # Install Instructions
 
-## From A Package Manager
-
-Currently only Homebrew is supported. More package managers are expected to be
-supported in the future however due to the numbers and variety of solutions out
-there, we do ask for community support to help bring _mure_ to your preferred platform, if it isn't already supported.
-
-### Homebrew
-
-    brew install murex
+[![GitHub version](https://badge.fury.io/gh/lmorg%2Fmurex.svg)](https://badge.fury.io/gh/lmorg%2Fmurex)
 
 ## Pre-Compiled Binaries (HTTP download)
 
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
 
-This is the recommended way to install _murex_ unless you're already familiar
-with `git` and `go`, or need to enable/disable a specific builtin from what is
-compiled as part of the standard build.
+This is the recommended over compiling _murex_ yourself (unless you need to enable
+or disable a specific builtin from what is compiled as part of the standard build).
+
+However if your preferred package manager is supported then this is the best method
+to install. See the next section for package manager support.
+
+## From A Package Manager
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
+
+### Homebrew
+
+    brew install murex
 
 ## From Source
+
+[![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
+[![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
+[![codecov](https://codecov.io/gh/lmorg/murex/branch/master/graph/badge.svg)](https://codecov.io/gh/lmorg/murex)
 
 > Go 1.12 or higher is required
 
@@ -93,7 +99,7 @@ pipeline scripts.
 
 ### Docker Hub
 
-Due to licencing changes from Docker, Docker Hub images are no longer up to
+Due to licensing changes from Docker, Docker Hub images are no longer up to
 date. However you can still build your own container.
 
 ### Building Your Own Container
