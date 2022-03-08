@@ -15,12 +15,11 @@ const eventType = "onSecondsElapsed"
 
 func init() {
 	t := newTimer()
-	events.AddEventType(eventType, t)
+	events.AddEventType(eventType, t, nil)
 	go t.init()
 }
 
 type timer struct {
-	error  error
 	mutex  sync.Mutex
 	events []timeEvent
 }

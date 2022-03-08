@@ -1,10 +1,12 @@
+//go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
 package onfilesystemchange
 
 import (
-	"errors"
+	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 
@@ -23,32 +25,34 @@ type Interrupt struct {
 }
 
 func init() {
-	evt := newWatch()
-	events.AddEventType(eventType, evt)
+	evt, err := newWatch()
+	events.AddEventType(eventType, evt, err)
 	go evt.init()
 }
 
 type watch struct {
-	watcher  *fsnotify.Watcher
-	error    error
-	mutex    sync.Mutex
-	paths    map[string]string // map of paths indexed by event name
-	blocks   map[string][]rune // map of blocks indexed by path
-	refFiles map[string]*ref.File
+	watcher *fsnotify.Watcher
+	mutex   sync.Mutex
+	paths   map[string]string // map of paths indexed by event name
+	source  map[string]source // map of blocks indexed by path
 }
 
-func newWatch() (w *watch) {
-	w = new(watch)
-	w.watcher, w.error = fsnotify.NewWatcher()
-	w.paths = make(map[string]string)
-	w.blocks = make(map[string][]rune)
-	w.refFiles = make(map[string]*ref.File)
+type source struct {
+	name    string
+	block   []rune
+	fileRef *ref.File
+}
 
+func newWatch() (w *watch, err error) {
+	w = new(watch)
+	w.watcher, err = fsnotify.NewWatcher()
+	w.paths = make(map[string]string)
+	w.source = make(map[string]source)
 	return
 }
 
 // Callback returns the block to execute upon a triggered event
-func (evt *watch) findCallbackBlock(path string) (block []rune) {
+func (evt *watch) findCallbackBlock(path string) (source, error) {
 	evt.mutex.Lock()
 
 	for {
@@ -56,10 +60,10 @@ func (evt *watch) findCallbackBlock(path string) (block []rune) {
 			path = path[:len(path)-1]
 		}
 
-		block = evt.blocks[path]
-
-		if len(block) > 0 {
-			break
+		source := evt.source[path]
+		if len(source.block) > 0 {
+			evt.mutex.Unlock()
+			return source, nil
 		}
 
 		split := strings.Split(path, "/")
@@ -71,11 +75,10 @@ func (evt *watch) findCallbackBlock(path string) (block []rune) {
 		default:
 			path = strings.Join(split[:len(split)-1], "/")
 		}
-		//debug.Log("path=" + path)
 	}
 
 	evt.mutex.Unlock()
-	return
+	return source{}, fmt.Errorf("cannot locate source for event '%s'. This is probably a bug in murex, please report to https://github.com/lmorg/murex/issues", path)
 }
 
 // Add a path to the watch event list
@@ -89,12 +92,17 @@ func (evt *watch) Add(name, path string, block []rune, fileRef *ref.File) error 
 		path = pwd + "/" + path
 	}
 
+	path = filepath.Clean(path)
+
 	err = evt.watcher.Add(path)
 	if err == nil {
 		evt.mutex.Lock()
 		evt.paths[name] = path
-		evt.blocks[path] = block
-		evt.refFiles[name] = fileRef
+		evt.source[path] = source{
+			name:    name,
+			block:   block,
+			fileRef: fileRef,
+		}
 		evt.mutex.Unlock()
 	}
 
@@ -105,36 +113,18 @@ func (evt *watch) Add(name, path string, block []rune, fileRef *ref.File) error 
 func (evt *watch) Remove(name string) error {
 	path := evt.paths[name]
 	if path == "" {
-		return errors.New("No event found for this listener with the name `" + name + "`.")
+		return fmt.Errorf("no event found for this listener with the name '%s'", name)
 	}
 
 	err := evt.watcher.Remove(path)
 	if err == nil {
 		evt.mutex.Lock()
 		delete(evt.paths, name)
-		delete(evt.blocks, path)
-		delete(evt.refFiles, name)
+		delete(evt.source, path)
 		evt.mutex.Unlock()
 	}
 
 	return err
-}
-
-func getName(evt *watch, path string) (name string, fileRef *ref.File) {
-	var evtPath string
-	evt.mutex.Lock()
-
-	for name, evtPath = range evt.paths {
-		if path == evtPath {
-			fileRef = evt.refFiles[name]
-			evt.mutex.Unlock()
-			return
-		}
-	}
-
-	// code shouldn't hit this point anyway
-	evt.mutex.Unlock()
-	return
 }
 
 // Init starts a new watch event loop
@@ -144,20 +134,24 @@ func (evt *watch) init() {
 	for {
 		select {
 		case event := <-evt.watcher.Events:
-			name, module := getName(evt, event.Name)
+			source, err := evt.findCallbackBlock(event.Name)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error: " + err.Error()))
+				continue
+			}
 			events.Callback(
-				name,
+				source.name,
 				Interrupt{
 					Path:      event.Name,
 					Operation: event.Op.String(),
 				},
-				evt.findCallbackBlock(event.Name),
-				module,
+				source.block,
+				source.fileRef,
 				lang.ShellProcess.Stdout,
 			)
 
 		case err := <-evt.watcher.Errors:
-			lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange event error with watcher: " + err.Error()))
+			lang.ShellProcess.Stderr.Writeln([]byte("onFileSystemChange watcher error: " + err.Error()))
 		}
 	}
 }
@@ -177,8 +171,8 @@ func (evt *watch) Dump() interface{} {
 	for name, path := range evt.paths {
 		dump[name] = jsonable{
 			Path:    path,
-			Block:   string(evt.blocks[path]),
-			FileRef: evt.refFiles[name],
+			Block:   string(evt.source[path].block),
+			FileRef: evt.source[path].fileRef,
 		}
 	}
 

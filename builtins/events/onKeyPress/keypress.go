@@ -18,7 +18,7 @@ import (
 const eventType = "onKeyPress"
 
 func init() {
-	events.AddEventType(eventType, newKeyPress())
+	events.AddEventType(eventType, newKeyPress(), nil)
 }
 
 // Interrupt is a JSONable structure passed to the murex function
