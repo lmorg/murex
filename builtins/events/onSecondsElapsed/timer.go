@@ -64,7 +64,7 @@ func (t *timer) init() {
 func (t *timer) Add(name, interrupt string, block []rune, fileRef *ref.File) (err error) {
 	interval, err := strconv.Atoi(interrupt)
 	if err != nil {
-		return errors.New("Interrupt should be an integer for `" + eventType + "` events")
+		return errors.New("interrupt should be an integer for `" + eventType + "` events")
 	}
 
 	t.mutex.Lock()
@@ -94,7 +94,7 @@ func (t *timer) Remove(name string) (err error) {
 	defer t.mutex.Unlock()
 
 	if len(t.events) == 0 {
-		return errors.New("No events have been created for this listener")
+		return errors.New("no events have been created for this listener")
 	}
 
 	for i := range t.events {
@@ -113,7 +113,7 @@ func (t *timer) Remove(name string) (err error) {
 		}
 	}
 
-	return errors.New("No event found for this listener with the name `" + name + "`.")
+	return errors.New("no event found for this listener with the name `" + name + "`.")
 }
 
 // Dump returns all the events in w
