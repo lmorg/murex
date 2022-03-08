@@ -401,7 +401,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pUpdate(r)
 				startParameters()
 				quoteBrace++
-			case len(*pop) > 0: // experimental!
+			case len(*pop) > 0:
 				pUpdate(r)
 				quoteBrace++
 				quoteBraceHide = true
