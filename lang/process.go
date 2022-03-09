@@ -30,7 +30,7 @@ var (
 	// PrivateFunctions is a table of private murex functions
 	PrivateFunctions = NewMurexPrivs()
 
-	// GoFunctions is a table of available builtin functions
+	// goFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 
 	// MethodStdin is a table of all the different commands that can be used as methods
