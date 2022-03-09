@@ -45,7 +45,7 @@ to install. See the next section for package manager support.
 You will need `go` (Golang) compiler, `gcc` (C compiler) and `git` installed
 as well as your `$GOPATH` environmental variable set. 
 
-> Go 1.12 or higher is required
+> Go 1.13 or higher is recommended
 
 These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems
