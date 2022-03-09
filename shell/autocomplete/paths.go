@@ -36,6 +36,8 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 		err error
 	)
 
+	act.DoNotSort = true
+
 	if len(fileRegexp) > 0 {
 		rx, err = regexp.Compile(fileRegexp)
 		if err != nil {

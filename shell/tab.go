@@ -126,7 +126,12 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
 
-	i := dedup.SortAndDedupString(act.Items)
+	var i int
+	if act.DoNotSort {
+		i = len(act.Items)
+	} else {
+		i = dedup.SortAndDedupString(act.Items)
+	}
 	autocomplete.FormatSuggestions(&act)
 
 	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
