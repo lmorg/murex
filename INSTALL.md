@@ -40,21 +40,12 @@ to install. See the next section for package manager support.
 
 [![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 
-> Go 1.12 or higher is required
-
 ### Prerequisites
 
 You will need `go` (Golang) compiler, `gcc` (C compiler) and `git` installed
-as well as your `$GOPATH` environmental variable set. You can check these by
-running:
+as well as your `$GOPATH` environmental variable set. 
 
-    which go
-    which git
-    which gcc
-    echo $GOPATH
-
-(each of those commands should return a non-zero length string aside from the
-`echo` statement).
+> Go 1.13 or higher is recommended
 
 These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems
@@ -114,17 +105,9 @@ optional as _murex_ attempts to ship with sane defaults.
 
     ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
 
-or, on Windows,...
-
-    murex.exe -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
-
 #### Start the shell
 
     ./murex
-
-or, on Windows,...
-
-    murex.exe
 
 ## Inside Docker
 
@@ -158,13 +141,13 @@ Some of _murex_'s extended features will have additional external dependencies.
 
 * `aspell`: This is used for spellchecking. Murex will automatically enable or
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
-  http://aspell.net/
+  [http://aspell.net](http://aspell.net)
 
 * `bzip`: This is used for the `bson` data type. By default this data type is
   not compiled because of this dependency and thus if you require `bson`
   support you will need to enable it manually (see **Including Optional Builtins**
   section above).
-  http://www.bzip.org/
+  [http://www.bzip.org](http://www.bzip.org)
 
 ## Recommended Terminal Typeface
 
