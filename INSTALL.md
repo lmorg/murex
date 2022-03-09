@@ -1,10 +1,15 @@
 # Install Instructions
 
+While _murex_ aims at being cross platform, there are some known limitations on
+Windows and Plan 9. Please read (docs/FAQ.supported-platforms.md) for more
+information.
+
 ## From A Package Manager
 
 Currently only Homebrew is supported. More package managers are expected to be
 supported in the future however due to the numbers and variety of solutions out
-there, we do ask for community support to help bring _mure_ to your preferred platform, if it isn't already supported.
+there, we do ask for community support to help bring _mure_ to your preferred
+platform, if it isn't already supported.
 
 ### Homebrew
 
@@ -25,19 +30,27 @@ compiled as part of the standard build.
 
 ### Prerequisites
 
-You will need `go` (Golang) compiler and `git` installed, and your `$GOPATH`
-environmental variable set. You can check these by running:
+You will need `go` (Golang) compiler, `gcc` (C compiler) and `git` installed
+as well as your `$GOPATH` environmental variable set. You can check these by
+running:
 
     which go
     which git
+    which gcc
     echo $GOPATH
 
-(each of those commands should return a non-zero length string).
+(each of those commands should return a non-zero length string aside from the
+`echo` statement).
+
+These should be easy to install on most operating systems however Windows is a
+lot more tricky with regards to `gcc`. Please check with your operating systems
+package manager first but see further reading below if you get stuck.
 
 #### Further Reading:
 
 - [How to install Go](https://golang.org/doc/install)
 - [How to install git](https://github.com/git-guides/install-git)
+- [How to install gcc](https://gcc.gnu.org/install/)
 - [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
 ### Installation From Source Steps
@@ -94,7 +107,7 @@ pipeline scripts.
 
 ### Docker Hub
 
-Due to licencing changes from Docker, Docker Hub images are no longer up to
+Due to licensing changes from Docker, Docker Hub images are no longer up to
 date. However you can still build your own container.
 
 ### Building Your Own Container
@@ -116,6 +129,13 @@ A tool will be introduced in a later version to automate this.
 
 Most popular operating systems and CPU types are supported. More details
 can be read at (docs/FAQ.supported-platforms.md).
+
+Please note that Windows support is experimental and there are bugs specific to
+Windows due to the differences in how commands are executed on Windows. In some
+instances these bugs are significant to the user experience of _murex_ and
+cannot be worked around. The recommended approach for running _murex_ on
+Windows is to use a Linux port of the shell on a POSIX compatibility layer such
+as WSL or Cygwin. Please see (docs/FAQ.supported-platforms.md) for more details.
 
 ## Recommended Terminal Typeface
 
