@@ -32,9 +32,6 @@ func TestDefaultProfileCompiles(t *testing.T) {
 	lang.InitEnv()
 	lang.ShellProcess.Config = config.InitConf
 
-	//stderr := streams.NewStdin()
-	//exitNum, err := lang.RunBlockShellConfigSpace(defaults.DefaultMurexProfile(), nil, nil, stderr)
-
 	fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
 	exitNum, err := fork.Execute(defaults.DefaultMurexProfile())
 

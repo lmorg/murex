@@ -24,5 +24,5 @@ func init() {
 		"text/json",
 		"text/x-json",
 	)
-	lang.SetFileExtensions(types.Json, "json")
+	lang.SetFileExtensions(types.Json, "json", "tfstate")
 }

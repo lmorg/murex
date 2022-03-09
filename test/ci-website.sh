@@ -24,7 +24,7 @@ echo "Building website...."
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
 export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
 export MUREXCOMMITL="$(git rev-parse HEAD)"
-export MUREXTESTS="$(cat ./murex-test-count.txt)"
+export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
 
 sed -i "s/\$DATE/`date`/g;
         s/\$COMMITHASHSHORT/$MUREXCOMMITS/g;
@@ -48,8 +48,16 @@ find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
 sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
+        0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;' \
         README.html
+
+sed -i '0,/<img src/s//<img class="no-border" src/;
+        0,/<img src/s//<img class="no-border" src/;
+        0,/<img src/s//<img class="no-border" src/;
+        0,/<img src/s//<img class="no-border" src/;
+        0,/<img src/s//<img class="no-border" src/;' \
+        INSTALL.html
 
 echo "Compiling WebAssembly...."
 

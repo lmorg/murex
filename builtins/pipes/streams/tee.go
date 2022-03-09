@@ -22,12 +22,12 @@ type Tee struct {
 }
 
 // NewTee creates a new tee stdio interface
-func NewTee(primary stdio.Io) (tee *Tee, secondary *Stdin) {
-	tee = new(Tee)
-	tee.primary = primary
-	tee.secondary.max = 0
-	tee.secondary.ctx = context.Background()
-	secondary = &tee.secondary
+func NewTee(primary stdio.Io) (primaryTee *Tee, secondaryTee *Stdin) {
+	primaryTee = new(Tee)
+	primaryTee.primary = primary
+	primaryTee.secondary.max = 0
+	primaryTee.secondary.ctx = context.Background()
+	secondaryTee = &primaryTee.secondary
 	return
 }
 

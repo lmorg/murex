@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["for"] = cmdFor
+	lang.DefineFunction("for", cmdFor, types.Generic)
 }
 
 // Example usage:
@@ -29,7 +29,7 @@ func cmdFor(p *lang.Process) (err error) {
 
 	parameters := strings.Split(string(cblock), ";")
 	if len(parameters) != 3 {
-		return errors.New("Invalid syntax. Must be ( variable; conditional; incremental )")
+		return errors.New("invalid syntax. Must be ( variable; conditional; incremental )")
 	}
 
 	variable := "let " + parameters[0]

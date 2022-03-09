@@ -22,8 +22,18 @@ const preloadMessage = `# This file is loaded before any murex modules. It shoul
 # Any other profile config belongs in your profile script instead:
 # `
 
+const (
+	F_PRELOAD = 1 << iota
+	F_MODULES
+	F_PROFILE
+)
+
 // Execute runs the preload script, then murex modules followed by your murex profile
-func Execute() {
+func Execute(flags int) {
+	if flags == 0 {
+		panic("no flags specified")
+	}
+
 	autocomplete.UpdateGlobalExeList()
 
 	pwd, err := os.Getwd()
@@ -31,19 +41,25 @@ func Execute() {
 		os.Stderr.WriteString(err.Error())
 	}
 
-	if err := profile(preloadFileName, PreloadPath()); err != nil {
-		os.Stderr.WriteString("There were problems loading profile `" + PreloadPath() + "`:" + utils.NewLineString)
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+	if flags&F_PRELOAD != 0 {
+		if err := profile(preloadFileName, PreloadPath()); err != nil {
+			os.Stderr.WriteString("There were problems loading profile `" + PreloadPath() + "`:" + utils.NewLineString)
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		}
 	}
 
-	if err := modules(ModulePath()); err != nil {
-		os.Stderr.WriteString("There were problems loading modules `" + ModulePath() + "`:" + utils.NewLineString)
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+	if flags&F_MODULES != 0 {
+		if err := modules(ModulePath()); err != nil {
+			os.Stderr.WriteString("There were problems loading modules `" + ModulePath() + "`:" + utils.NewLineString)
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		}
 	}
 
-	if err := profile(profileFileName, ProfilePath()); err != nil {
-		os.Stderr.WriteString("There were problems loading profile `" + ProfilePath() + "`:" + utils.NewLineString)
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+	if flags&F_PROFILE != 0 {
+		if err := profile(profileFileName, ProfilePath()); err != nil {
+			os.Stderr.WriteString("There were problems loading profile `" + ProfilePath() + "`:" + utils.NewLineString)
+			os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		}
 	}
 
 	err = os.Chdir(pwd)

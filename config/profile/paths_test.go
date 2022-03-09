@@ -230,7 +230,7 @@ func TestProfileAndCustomPaths(t *testing.T) {
 	count.Tests(t, 5)
 
 	lang.InitEnv()
-	profile.Execute()
+	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	filename := path + modulesPathName
 	fi, err := os.Stat(filename)

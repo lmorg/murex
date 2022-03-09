@@ -6,6 +6,7 @@ const (
 	Bold       = "\x1b[1m"
 	Underscore = "\x1b[4m"
 	Blink      = "\x1b[5m"
+	Invert     = "\x1b[7m"
 )
 
 // Text colours

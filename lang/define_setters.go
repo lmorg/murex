@@ -2,7 +2,6 @@ package lang
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang/types"
@@ -24,9 +23,8 @@ var (
 )
 
 var (
-	mimes        = make(map[string]string)
-	fileExts     = make(map[string]string)
-	rxMimePrefix = regexp.MustCompile(`(^[-0-9a-zA-Z]+)/.*$`)
+	mimes    = make(map[string]string)
+	fileExts = make(map[string]string)
 )
 
 // SetMime defines MIME(s) and assign it a murex data type

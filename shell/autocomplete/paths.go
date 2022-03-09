@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -17,14 +18,31 @@ import (
 )
 
 func matchDirs(s string, act *AutoCompleteT) []string {
-	return matchFilesystem(s, false, act)
+	return matchFilesystem(s, false, "", act)
 }
 
 func matchFilesAndDirs(s string, act *AutoCompleteT) []string {
-	return matchFilesystem(s, true, act)
+	return matchFilesystem(s, true, "", act)
 }
 
-func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
+func matchFilesAndDirsWithRegexp(s string, fileRegexp string, act *AutoCompleteT) []string {
+	return matchFilesystem(s, true, fileRegexp, act)
+}
+
+func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoCompleteT) []string {
+	// compile regex
+	var (
+		rx  *regexp.Regexp
+		err error
+	)
+
+	if len(fileRegexp) > 0 {
+		rx, err = regexp.Compile(fileRegexp)
+		if err != nil {
+			act.ErrCallback(err)
+		}
+	}
+
 	// Is recursive search enabled?
 	enabled, _ := lang.ShellProcess.Config.Get("shell", "recursive-enabled", types.Boolean)
 	//if err != nil {
@@ -34,7 +52,7 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 	// If not, fallback to the faster surface level scan
 	if !enabled.(bool) {
 		if filesToo {
-			return matchFilesAndDirsOnce(s)
+			return matchFilesAndDirsOnce(s, rx)
 		}
 		return matchDirsOnce(s)
 	}
@@ -64,7 +82,7 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 
 	go func() {
 		act.largeMin() // assume recursive overruns
-		recursive = matchRecursive(hardCtx, s, filesToo, &act.DelayedTabContext)
+		recursive = matchRecursive(hardCtx, s, filesToo, rx, &act.DelayedTabContext)
 
 		select {
 		case <-softCtx.Done():
@@ -81,7 +99,7 @@ func matchFilesystem(s string, filesToo bool, act *AutoCompleteT) []string {
 
 	go func() {
 		if filesToo {
-			once = matchFilesAndDirsOnce(s)
+			once = matchFilesAndDirsOnce(s, rx)
 		} else {
 			once = matchDirsOnce(s)
 		}
@@ -134,7 +152,7 @@ func matchLocal(s string, includeColon bool) (items []string) {
 	return
 }
 
-func matchFilesAndDirsOnce(s string) (items []string) {
+func matchFilesAndDirsOnce(s string, rx *regexp.Regexp) (items []string) {
 	s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
@@ -146,6 +164,9 @@ func matchFilesAndDirsOnce(s string) (items []string) {
 			// hide hidden files and directories unless you press dot / period.
 			// (this behavior will also hide files and directories in Windows if
 			// those file system objects are prefixed with a dot / period).
+			continue
+		}
+		if rx != nil && !rx.MatchString(f.Name()) {
 			continue
 		}
 		if f.IsDir() {
@@ -165,7 +186,7 @@ func matchFilesAndDirsOnce(s string) (items []string) {
 	return
 }
 
-func matchRecursive(ctx context.Context, s string, filesToo bool, dtc *readline.DelayedTabContext) (hierarchy []string) {
+func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Regexp, dtc *readline.DelayedTabContext) (hierarchy []string) {
 	s = variables.ExpandString(s)
 
 	maxDepth, _ := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
@@ -239,9 +260,12 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, dtc *readline.
 		}
 
 		if strings.HasPrefix(walkedPath, s) {
-			if info.IsDir() {
+			switch {
+			case info.IsDir():
 				hierarchy = append(hierarchy, walkedPath[len(s):]+consts.PathSlash)
-			} else {
+			case rx != nil && !rx.MatchString(info.Name()):
+				return nil
+			default:
 				hierarchy = append(hierarchy, walkedPath[len(s):])
 			}
 		}

@@ -8,6 +8,7 @@ import (
 
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/cd"
 )
 
@@ -18,10 +19,11 @@ Usage: murex-package install         uri
                      enable|disable  package[/module]
                      import          [uri|local path]packages.json
                      status
-                     list            loaded|not-loaded|enabled|disabled|packages`
+                     list            loaded|not-loaded|enabled|disabled|packages
+                     cd              package`
 
 func init() {
-	lang.GoFunctions["murex-package"] = cmdModuleAdmin
+	lang.DefineFunction("murex-package", cmdModuleAdmin, types.Json)
 }
 
 func cmdModuleAdmin(p *lang.Process) error {
@@ -129,6 +131,6 @@ func updateModules(p *lang.Process) error {
 }
 
 func reloadModules(p *lang.Process) error {
-	profile.Execute()
+	profile.Execute(profile.F_MODULES)
 	return nil
 }

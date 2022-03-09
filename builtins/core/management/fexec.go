@@ -18,7 +18,7 @@ type feType struct {
 var fe map[string]feType
 
 func init() {
-	lang.GoFunctions["fexec"] = cmdFexec
+	lang.DefineFunction("fexec", cmdFexec, types.Any)
 
 	defaults.AppendProfile(`
         autocomplete set fexec { [{

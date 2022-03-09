@@ -127,14 +127,13 @@ img {
 }
 
 a img {
-  border-color: #800000;
+  border-color: #f0f0f0;
   border-width: 2px;
 }
 
 a img:hover {
   border-color: #ff2020;
   border-width: 2px;
-  border-right-width: 5px; 
 }
 
 .no-border {
@@ -222,8 +221,9 @@ a.side-bar:active, a.side-bar:hover {
 @media screen and (max-width: 678px) {
   body { background-color: #d0d1d3; margin: 0px; }
   p { margin-right: 5px; }
-  #document { padding: 10px; background-color: #f0f0f0 }
+  #document { padding: 10px; background-color: #f0f0f0; }
   img { max-width: 100%; }
+  a img {  border-color: #800000; }
   #side-bar { display: none; position: relative; height: 0px; padding: 10px; width: auto; }
   .side-bar-title { display: none; }
   #corner-lower { display: none; }

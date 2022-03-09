@@ -35,22 +35,6 @@ func TestRunSource(t *testing.T) {
 	runSource(file)
 }
 
-func TestRunSourceMods(t *testing.T) {
-	count.Tests(t, 1)
-
-	file := "test/source.mx"
-	fLoadMods = true
-	runSource(file)
-}
-
-func TestRunSourceGz(t *testing.T) {
-	count.Tests(t, 1)
-
-	file := "test/source.mx.gz"
-	fLoadMods = true
-	runSource(file)
-}
-
 func TestRunSourceGzMods(t *testing.T) {
 	count.Tests(t, 1)
 

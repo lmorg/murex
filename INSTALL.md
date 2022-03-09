@@ -1,30 +1,44 @@
 # Install Instructions
 
+## Supported Platforms
+
 While _murex_ aims at being cross platform, there are some known limitations on
-Windows and Plan 9. Please read (docs/FAQ.supported-platforms.md) for more
-information.
+Windows and Plan 9. Please read the [supported platforms document](docs/FAQ.supported-platforms.md)
+for more information.
 
-## From A Package Manager
+Please note that Windows support is experimental and there are bugs specific to
+Windows due to the differences in how commands are executed on Windows. In some
+instances these bugs are significant to the user experience of _murex_ and
+cannot be worked around. The recommended approach for running _murex_ on
+Windows is to use a Linux port of the shell on a POSIX compatibility layer such
+as WSL or Cygwin. Please see (docs/FAQ.supported-platforms.md) for more details.
 
-Currently only Homebrew is supported. More package managers are expected to be
-supported in the future however due to the numbers and variety of solutions out
-there, we do ask for community support to help bring _mure_ to your preferred
-platform, if it isn't already supported.
+## Pre-Compiled Binaries (HTTPS download)
+
+[![GitHub version](https://badge.fury.io/gh/lmorg%2Fmurex.svg)](https://badge.fury.io/gh/lmorg%2Fmurex)
+[![CodeBuild](https://codebuild.eu-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoib3cxVnoyZUtBZU5wN1VUYUtKQTJUVmtmMHBJcUJXSUFWMXEyc2d3WWJldUdPTHh4QWQ1eFNRendpOUJHVnZ5UXBpMXpFVkVSb3k2UUhKL2xCY2JhVnhJPSIsIml2UGFyYW1ldGVyU3BlYyI6Im9QZ2dPS3ozdWFyWHIvbm8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](DOWNLOAD.md)
+
+
+If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
+page to select your platform.
+
+This is the recommended over compiling _murex_ yourself (unless you need to enable
+or disable a specific builtin from what is compiled as part of the standard build).
+
+However if your preferred package manager is supported then this is the best method
+to install. See the next section for package manager support.
+
+## Installing From A Package Manager
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
 
 ### Homebrew
 
     brew install murex
 
-## Pre-Compiled Binaries (HTTP download)
+## Compiling From Source
 
-If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
-page to select your platform.
-
-This is the recommended way to install _murex_ unless you're already familiar
-with `git` and `go`, or need to enable/disable a specific builtin from what is
-compiled as part of the standard build.
-
-## From Source
+[![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 
 > Go 1.12 or higher is required
 
@@ -54,6 +68,16 @@ package manager first but see further reading below if you get stuck.
 - [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
 ### Installation From Source Steps
+
+The following instructions are assuming you're compiling on a POSIX-compatible
+system like Linux, BSD or macOS. Compiling from source is untested on Plan 9
+(if you run into issues there then please use the pre-compiled binary for that
+platform) and Windows. In the case of Windows you may run into issues with the
+`gcc` installation and some of the commands below will need to be adapted (eg
+`murex.exe` used instead of `./murex`).
+
+Compiling from source is not recommended unless you already have a strong
+understanding of compiling Go projects for your specific platform.
 
 #### Importing the source code
 
@@ -88,8 +112,11 @@ optional as _murex_ attempts to ship with sane defaults.
 
 #### Test the executable (optional stage)
 
-    ./murex --run-tests
-    ./murex -c 'source: ./flags_test.mx; try {test: run *}'
+    ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
+
+or, on Windows,...
+
+    murex.exe -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
 
 #### Start the shell
 
@@ -119,23 +146,25 @@ From the project root (the location of this INSTALL.md file) run the following:
 ## Including Optional Builtins
 
 Some optional builtins will be included by default, however there may be others
-you wish to include which are not part of the default build (such as `select`).
-To add them, copy (or symlink) the applicable include file from
+you wish to include which are not part of the default build (such as `qr`). To
+add them, copy (or symlink) the applicable include file from
 `builtins/import_src` to `builtins/import_build`.
 
 A tool will be introduced in a later version to automate this.
 
-## Supported Platforms
+## External Dependencies (Optional)
 
-Most popular operating systems and CPU types are supported. More details
-can be read at (docs/FAQ.supported-platforms.md).
+Some of _murex_'s extended features will have additional external dependencies.
 
-Please note that Windows support is experimental and there are bugs specific to
-Windows due to the differences in how commands are executed on Windows. In some
-instances these bugs are significant to the user experience of _murex_ and
-cannot be worked around. The recommended approach for running _murex_ on
-Windows is to use a Linux port of the shell on a POSIX compatibility layer such
-as WSL or Cygwin. Please see (docs/FAQ.supported-platforms.md) for more details.
+* `aspell`: This is used for spellchecking. Murex will automatically enable or
+  disable spellchecking based on whether `aspell` can be found in your `$PATH`.
+  http://aspell.net/
+
+* `bzip`: This is used for the `bson` data type. By default this data type is
+  not compiled because of this dependency and thus if you require `bson`
+  support you will need to enable it manually (see **Including Optional Builtins**
+  section above).
+  http://www.bzip.org/
 
 ## Recommended Terminal Typeface
 
