@@ -1,11 +1,13 @@
 package shell
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansititle"
 )
 
 func getPrompt() {
@@ -58,6 +60,39 @@ func getMultilinePrompt(nLines int) {
 	}
 
 	Prompt.SetPrompt(string(b))
+}
+
+func writeTitlebar() {
+	var (
+		err, err2 error
+		exitNum   int
+		b         []byte
+	)
+
+	prompt, err := lang.ShellProcess.Config.Get("shell", "titlebar-func", types.CodeBlock)
+	if err == nil {
+		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+		fork.Name.Set("(titlebar-func)")
+		fork.Execute([]rune(prompt.(string)))
+
+		b, err2 = fork.Stdout.ReadAll()
+		b = utils.CrLfTrim(b)
+	}
+
+	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
+		lang.ShellProcess.Stderr.Writeln([]byte("Invalid titlebar-func. Block returned false."))
+		return
+	}
+
+	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
+	// replace all control characters with space
+	for i := range b {
+		if b[i] < 32 || b[i] == 127 {
+			b[i] = 32
+		}
+	}
+
+	ansititle.Write(b)
 }
 
 // ConfigReadGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos

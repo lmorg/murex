@@ -110,6 +110,7 @@ func ShowPrompt() {
 		} else {
 			block = []rune{}
 			getPrompt()
+			writeTitlebar()
 		}
 
 		line, err := Prompt.Readline()

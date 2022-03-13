@@ -17,6 +17,7 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -240,6 +241,10 @@ executeProcess:
 	if echo.(bool) {
 		params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
 		os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+	}
+
+	if !p.Background.Get() {
+		ansititle.Write([]byte(name))
 	}
 
 	// execution mode:

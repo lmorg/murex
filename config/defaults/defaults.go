@@ -128,6 +128,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "titlebar-func", config.Properties{
+		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carrage returns and tabs are replaced with spaces",
+		Default:     `{ out "$USER@$HOSTNAME:$PWD" }`,
+		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
 	c.Define("shell", "stop-status-enabled", config.Properties{
 		Description: "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs)",
 		Default:     true,
