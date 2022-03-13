@@ -28,6 +28,7 @@ const (
 	PARAMS     = "PARAMS"
 	MUREX_EXE  = "MUREX_EXE"
 	MUREX_ARGS = "MUREX_ARGS"
+	HOSTNAME   = "HOSTNAME"
 )
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -70,21 +71,25 @@ type variable struct {
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
 func (v *Variables) GetValue(name string) interface{} {
-	switch {
-	case v.global:
+	if v.global {
 		return v.getValue(name)
+	}
 
-	case name == SELF:
+	switch name {
+	case SELF:
 		return getVarSelf(v.process)
 
-	case name == ARGS:
+	case ARGS:
 		return getVarArgs(v.process)
 
-	case name == PARAMS:
+	case PARAMS:
 		return v.process.Scope.Parameters.StringArray()
 
-	case name == MUREX_EXE:
+	case MUREX_EXE:
 		return getVarMurexExe()
+
+	case HOSTNAME:
+		return getHostname()
 	}
 
 	value := v.getValue(name)
@@ -121,26 +126,29 @@ func (v *Variables) getValue(name string) (value interface{}) {
 
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(name string) (string, error) {
-	switch {
-	case v.global:
+	if v.global {
 		val, _ := v.getString(name)
 		return val, nil
-		//panic(errNoDirectGlobalMethod)
+	}
 
-	case name == SELF:
+	switch name {
+	case SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b), nil
 
-	case name == ARGS:
+	case ARGS:
 		b, _ := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
 		return string(b), nil
 
-	case name == PARAMS:
+	case PARAMS:
 		b, _ := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
 		return string(b), nil
 
-	case name == MUREX_EXE:
+	case MUREX_EXE:
 		return getVarMurexExe().(string), nil
+
+	case HOSTNAME:
+		return getHostname(), nil
 	}
 
 	s, exists := v.getString(name)
@@ -178,22 +186,22 @@ func (v *Variables) getString(name string) (string, bool) {
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(name string) string {
-	switch {
-	case v.global:
+	if v.global {
 		dt, _ := v.getDataType(name)
 		return dt
-		//panic(errNoDirectGlobalMethod)
+	}
 
-	case name == SELF:
+	switch name {
+	case SELF:
 		return types.Json
 
-	case name == ARGS:
+	case ARGS:
 		return types.Json
 
-	case name == PARAMS:
+	case PARAMS:
 		return types.Json
 
-	case name == MUREX_EXE:
+	case MUREX_EXE:
 		return types.String
 	}
 
@@ -232,7 +240,7 @@ func (v *Variables) getDataType(name string) (string, bool) {
 // Set writes a variable
 func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
-	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, "_":
+	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, "_":
 		return errVariableReserved(name)
 	}
 
@@ -308,5 +316,6 @@ func DumpVariables(p *Process) map[string]interface{} {
 	m[PARAMS] = p.Variables.GetValue(PARAMS)
 	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
 	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
+	m[HOSTNAME] = p.Variables.GetValue(HOSTNAME)
 	return m
 }
