@@ -31,7 +31,7 @@ var (
 	// PrivateFunctions is a table of private murex functions
 	PrivateFunctions = NewMurexPrivs()
 
-	// goFunctions is a table of available builtin functions
+	// GoFunctions is a table of available builtin functions
 	GoFunctions = make(map[string]func(*Process) error)
 
 	// MethodStdin is a table of all the different commands that can be used as methods
@@ -198,8 +198,6 @@ func createProcess(p *Process, isMethod bool) {
 func executeProcess(p *Process) {
 	testStates(p)
 
-	name := p.Name.String()
-
 	if p.HasTerminated() {
 		destroyProcess(p)
 		return
@@ -207,11 +205,10 @@ func executeProcess(p *Process) {
 
 	p.State.Set(state.Starting)
 
-	echo, err := p.Config.Get("proc", "echo", types.Boolean)
-	if err != nil {
-		echo = false
-		err = nil
-	}
+	var err error
+	name := p.Name.String()
+	echo, _ := p.Config.Get("proc", "echo", types.Boolean)
+	tmux, _ := p.Config.Get("proc", "echo-tmux", types.Boolean)
 
 	p.Context, p.Done = context.WithCancel(context.Background())
 
@@ -238,12 +235,16 @@ func executeProcess(p *Process) {
 	}
 executeProcess:
 
-	if echo.(bool) {
-		params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
-		os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
-	}
+	if !p.Background.Get() || debug.Enabled {
+		if echo.(bool) {
+			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
+			os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+		}
 
-	if !p.Background.Get() {
+		if tmux.(bool) {
+			ansititle.Tmux([]byte(name))
+		}
+
 		ansititle.Write([]byte(name))
 	}
 
