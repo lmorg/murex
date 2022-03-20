@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["!bz2"] = cmdUnbz2
+	lang.DefineMethod("!bz2", cmdUnbz2, types.Generic, types.Generic)
 }
 
 func cmdUnbz2(p *lang.Process) (err error) {

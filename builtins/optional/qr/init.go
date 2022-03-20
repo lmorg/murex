@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["qr"] = cmdQr
+	lang.DefineMethod("qr", cmdQr, types.Any, "image")
 }
 
 func cmdQr(p *lang.Process) error {

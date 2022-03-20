@@ -10,8 +10,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["event"] = cmdEvent
-	lang.GoFunctions["!event"] = cmdUnevent
+	lang.DefineFunction("event", cmdEvent, types.Null)
+	lang.DefineFunction("!event", cmdUnevent, types.Null)
 }
 
 var rxNameInterruptSyntax = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*)$`)

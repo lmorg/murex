@@ -13,18 +13,15 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["set"] = cmdSet
 	lang.DefineMethod("set", cmdSet, types.Any, types.Null)
-	lang.GoFunctions["!set"] = cmdUnset
+	lang.DefineFunction("!set", cmdUnset, types.Null)
 
-	//lang.GoFunctions["global"] = cmdGlobal
 	lang.DefineMethod("global", cmdGlobal, types.Any, types.Null)
-	lang.GoFunctions["!global"] = cmdUnglobal
+	lang.DefineFunction("!global", cmdUnglobal, types.Null)
 
-	//lang.GoFunctions["export"] = cmdExport
 	lang.DefineMethod("export", cmdExport, types.Any, types.Null)
-	lang.GoFunctions["!export"] = cmdUnexport
-	lang.GoFunctions["unset"] = cmdUnexport
+	lang.DefineFunction("!export", cmdUnexport, types.Null)
+	lang.DefineFunction("unset", cmdUnexport, types.Null)
 }
 
 func cmdSet(p *lang.Process) error      { return set(p, p.Variables) }

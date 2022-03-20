@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["fid-kill"] = cmdFidKill
-	lang.GoFunctions["fid-killall"] = cmdKillAll
+	lang.DefineFunction("fid-kill", cmdFidKill, types.Null)
+	lang.DefineFunction("fid-killall", cmdKillAll, types.Null)
 
 	defaults.AppendProfile(`
 private autocomplete.fid-kill {

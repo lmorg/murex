@@ -7,13 +7,14 @@ import (
 
 	"github.com/eliukblau/pixterm/pkg/ansimage"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
 func init() {
 	lang.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
 	lang.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
-	lang.GoFunctions["open-image"] = pvImage
+	lang.DefineMethod("open-image", pvImage, "image", types.Null)
 }
 
 // color implements the Go color.Color interface.

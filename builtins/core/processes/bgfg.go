@@ -6,8 +6,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["bg"] = cmdBackground
-	lang.GoFunctions["fg"] = cmdForeground
+	lang.DefineFunction("bg", cmdBackground, types.Null)
+	lang.DefineFunction("fg", cmdForeground, types.Null)
 }
 
 func cmdBackground(p *lang.Process) (err error) {

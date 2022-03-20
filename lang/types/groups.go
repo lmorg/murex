@@ -30,3 +30,19 @@ var GroupMath = []string{
 	Float,
 	Boolean,
 }
+
+/*var Groups groups
+
+type groups struct {
+	g map[string][]string
+}
+
+func newGroups() groups {
+	var g groups
+	g.g = make(map[string][]string)
+	return g
+}
+
+func (g *groups) Define(name string, types []string) {
+	g.g[name] = types
+}*/

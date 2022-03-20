@@ -22,7 +22,7 @@ ctrl_c() {
 }
 
 echo "Updating auto-generated code...."
-go generate ./...
+#go generate ./...
 
 echo 'Updating `import_build` includes....'
 while read include; do

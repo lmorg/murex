@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["base64"] = cmdBase64
-	lang.GoFunctions["!base64"] = cmdUnbase64
+	lang.DefineMethod("base64", cmdBase64, types.Any, types.String)
+	lang.DefineMethod("!base64", cmdUnbase64, types.String, types.Generic)
 }
 
 func cmdBase64(p *lang.Process) (err error) {
