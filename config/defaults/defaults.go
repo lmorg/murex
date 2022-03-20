@@ -243,6 +243,12 @@ func Defaults(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
+	config.InitConf.Define("proc", "echo-tmux", config.Properties{
+		Description: "Echo shell function names to the tmux window name",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
 	// --- test ---
 
 	c.Define("test", "enabled", config.Properties{
