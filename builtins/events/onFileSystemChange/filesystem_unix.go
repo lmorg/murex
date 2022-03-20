@@ -4,6 +4,7 @@
 package onfilesystemchange
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -83,6 +84,10 @@ func (evt *watch) findCallbackBlock(path string) (source, error) {
 
 // Add a path to the watch event list
 func (evt *watch) Add(name, path string, block []rune, fileRef *ref.File) error {
+	if len(path) == 0 {
+		return errors.New("no path to watch supplied")
+	}
+
 	for len(path) > 1 && path[len(path)-1] == '/' {
 		path = path[:len(path)-1]
 	}
