@@ -207,8 +207,14 @@ func executeProcess(p *Process) {
 
 	var err error
 	name := p.Name.String()
-	echo, _ := p.Config.Get("proc", "echo", types.Boolean)
-	tmux, _ := p.Config.Get("proc", "echo-tmux", types.Boolean)
+	echo, err := p.Config.Get("proc", "echo", types.Boolean)
+	if err != nil {
+		echo = false
+	}
+	tmux, err := p.Config.Get("proc", "echo-tmux", types.Boolean)
+	if err != nil {
+		tmux = false
+	}
 
 	p.Context, p.Done = context.WithCancel(context.Background())
 
