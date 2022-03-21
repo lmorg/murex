@@ -20,9 +20,9 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	var namedPipeIsParam bool
 	params := []string{}
 
-	strictVars, err := prc.Config.Get("proc", "strict-vars", "bool")
+	strictArrays, err := prc.Config.Get("proc", "strict-arrays", "bool")
 	if err != nil {
-		strictVars = true
+		strictArrays = true
 	}
 
 	for i := range p.Tokens {
@@ -80,7 +80,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				}
 
 				if data == "" {
-					if strictVars.(bool) {
+					if strictArrays.(bool) {
 						return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
 					} else {
 						continue
@@ -97,7 +97,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 					array = append(array, string(b))
 				})
 
-				if len(array) == 0 && strictVars.(bool) {
+				if len(array) == 0 && strictArrays.(bool) {
 					return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
 				}
 
@@ -119,7 +119,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 					array = append(array, string(b))
 				})
 
-				if len(array) == 0 && strictVars.(bool) {
+				if len(array) == 0 && strictArrays.(bool) {
 					return fmt.Errorf(errEmptyArray, "{"+p.Tokens[i][j].Key+"}")
 				}
 

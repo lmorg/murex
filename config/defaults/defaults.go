@@ -238,12 +238,18 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("proc", "strict-vars", config.Properties{
-		Description: "Return errors if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
+		Description: "Return an error if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
 		Default:     true,
 		DataType:    types.Boolean,
 	})
 
-	config.InitConf.Define("proc", "echo-tmux", config.Properties{
+	c.Define("proc", "strict-arrays", config.Properties{
+		Description: "Return an error if an array is empty (applies to array subshells as well as variables)",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("proc", "echo-tmux", config.Properties{
 		Description: "Echo shell function names to the tmux window name",
 		Default:     false,
 		DataType:    types.Boolean,
