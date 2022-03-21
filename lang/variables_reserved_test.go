@@ -136,7 +136,8 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams
 			`,
-			Stdout: "\n",
+			Stderr:  "Error in `out` ( 3,6): Array '@PARAMS' is empty\n",
+			ExitNum: 1,
 		},
 		{
 			Block: `

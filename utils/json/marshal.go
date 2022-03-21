@@ -8,7 +8,7 @@ import (
 )
 
 // NoData is a custom default error message when JSON marshaller returns nil
-const NoData = "No data returned."
+const NoData = "no data returned"
 
 // Marshal is a wrapper around Go's JSON marshaller to prettify output
 // depending on whether the target is a terminal or not. This is so that the

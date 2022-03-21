@@ -13,10 +13,17 @@ import (
 
 var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
+const errEmptyArray = "Array '@%s' is empty"
+
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	var namedPipeIsParam bool
 	params := []string{}
+
+	strictVars, err := prc.Config.Get("proc", "strict-vars", "bool")
+	if err != nil {
+		strictVars = true
+	}
 
 	for i := range p.Tokens {
 		params = append(params, "")
@@ -73,7 +80,11 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				}
 
 				if data == "" {
-					continue
+					if strictVars.(bool) {
+						return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
+					} else {
+						continue
+					}
 				}
 
 				var array []string
@@ -85,6 +96,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				variable.ReadArray(func(b []byte) {
 					array = append(array, string(b))
 				})
+
+				if len(array) == 0 && strictVars.(bool) {
+					return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
+				}
 
 				if !tCount {
 					params = params[:len(params)-1]
@@ -103,6 +118,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				fork.Stdout.ReadArray(func(b []byte) {
 					array = append(array, string(b))
 				})
+
+				if len(array) == 0 && strictVars.(bool) {
+					return fmt.Errorf(errEmptyArray, "{"+p.Tokens[i][j].Key+"}")
+				}
 
 				if !tCount {
 					params = params[:len(params)-1]

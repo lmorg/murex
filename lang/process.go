@@ -333,6 +333,7 @@ executeProcess:
 	//p.Stdout.DefaultDataType(err != nil)
 
 cleanUpProcess:
+	//oncommandcompletion.Callback(p.Name, p.Parameters.StringArray())
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))

@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
-	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/lang/ref"
 )
 
@@ -88,7 +88,7 @@ func (cce *commandCompletionEvent) execEvent(name string, parameters []string) {
 		Parameters: parameters,
 	}
 
-	events.Callback(name, interrupt, cce.Block, cce.FileRef, lang.ShellProcess.Stdout)
+	events.Callback(name, interrupt, cce.Block, cce.FileRef, term.NewErr(false))
 }
 
 func (evt *commandCompletionEvents) Dump() interface{} {
