@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 )
@@ -33,6 +34,9 @@ func autoGlob(p *Process) error {
 			globbed, err = filepath.Glob(old[i])
 			if err != nil {
 				return err
+			}
+			if len(globbed) == 0 {
+				return fmt.Errorf("no files match '%s'", old[i])
 			}
 			new = append(new, globbed...)
 		} else {
