@@ -2,6 +2,7 @@ package defaults
 
 import (
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/lmorg/murex/config"
@@ -224,7 +225,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "extensions-enabled", config.Properties{
 		Description: "Windows and WSL only! Auto-completes file extensions. This also affects the auto-completion parameters. This is best left `true` for WSL. You may need to run `murex-update-exe-list` to apply the changes",
-		Default:     wsl,
+		Default:     wsl || runtime.GOOS == "windows",
 		DataType:    types.Boolean,
 		Global:      true,
 	})
