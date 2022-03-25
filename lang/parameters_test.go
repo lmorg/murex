@@ -7,6 +7,11 @@ import (
 )
 
 func TestParamHangBug(t *testing.T) {
+	const config = `
+		config: set proc strict-vars false;
+		config: set proc strict-arrays false; 
+	`
+
 	tests := []test.MurexTest{
 		// string
 		{
@@ -93,7 +98,7 @@ func TestParamHangBug(t *testing.T) {
 	}
 
 	for i := range tests {
-		tests[i].Block = "config: set proc strict-vars false; " + tests[i].Block
+		tests[i].Block = config + tests[i].Block
 	}
 
 	test.RunMurexTests(tests, t)
