@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
 )
@@ -59,7 +60,14 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 			case parameters.TokenTypeBlockString:
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
-				fork.Execute([]rune(p.Tokens[i][j].Key))
+				exitNum, err := fork.Execute([]rune(p.Tokens[i][j].Key))
+				if err != nil {
+					return fmt.Errorf("subshell failed: %s", err.Error())
+				}
+				if exitNum > 0 &&
+					(prc.RunMode == runmode.Try || prc.RunMode == runmode.TryPipe) {
+					return fmt.Errorf("subshell exit status %d", exitNum)
+				}
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
 					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
