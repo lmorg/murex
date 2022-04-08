@@ -32,6 +32,8 @@ type ParsedTokens struct {
 	VarLoc        int
 	Escaped       bool
 	Comment       bool
+	CommentMsg    string
+	commentMsg    []rune
 	QuoteSingle   bool
 	QuoteDouble   bool
 	QuoteBrace    int
@@ -121,6 +123,11 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	}
 
 	for i = range block {
+		if pt.Comment {
+			pt.commentMsg = append(pt.commentMsg, block[i])
+			continue
+		}
+
 		if !pt.Escaped {
 			pt.LastCharacter = block[i]
 		}
@@ -144,7 +151,8 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			default:
 				pt.Comment = true
 				syntaxHighlighted += hlComment + string(block[i:]) + ansi.Reset
-				return
+				//return
+				defer func() { pt.CommentMsg = string(pt.commentMsg) }()
 			}
 
 		case '\\':
