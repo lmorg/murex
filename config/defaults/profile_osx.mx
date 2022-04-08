@@ -23,7 +23,8 @@ autocomplete set brew { [
         }
 	},
     {
-        "DynamicDesc": ({ 
+        "DynamicDesc": ({
+            config: set proc strict-arrays false
             brew help @{ $ARGS->@[1..] } -> tabulate: --map --split-comma --column-wraps
         }),
         "ListView": true

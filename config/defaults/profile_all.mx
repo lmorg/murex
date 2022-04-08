@@ -744,6 +744,8 @@ config: eval shell safe-commands {
 autocomplete: set terraform {[
     {
         "DynamicDesc": ({
+            cast json
+            config: set proc strict-arrays false
             terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps --key-inc-hint
         }),
         "AllowMultiple": true,
