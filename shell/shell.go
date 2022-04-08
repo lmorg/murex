@@ -3,6 +3,7 @@ package shell
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/app"
@@ -42,8 +43,6 @@ func Start() {
 			Start()
 		}
 	}()*/
-
-	//go warmCache()
 
 	var err error
 
@@ -139,6 +138,8 @@ func ShowPrompt() {
 			block = []rune(line)
 		}
 
+		cancel := macroVars(&block)
+
 		expanded, err := history.ExpandVariables(block, Prompt)
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
@@ -184,6 +185,10 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
+			if cancel {
+				continue
+			}
+
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef.Source.Module = app.Name
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
@@ -195,6 +200,37 @@ func ShowPrompt() {
 			}
 		}
 	}
+}
+
+var rxHistVar = regexp.MustCompile(`(\^\$[-_a-zA-Z0-9]+)`)
+
+func macroVars(block *[]rune) bool {
+	var err error
+
+	s := string(*block)
+
+	if !rxHistVar.MatchString(s) {
+		return false
+	}
+
+	match := rxHistVar.FindAllString(s, -1)
+	vars := make([]string, len(match))
+	for i := range match {
+		Prompt.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
+			"{GREEN}Value for '{RED}%s{GREEN}'? {RESET}", match[i][2:],
+		)))
+		vars[i], err = Prompt.Readline()
+		if err != nil {
+			return true
+		}
+	}
+
+	for i := range match {
+		s = strings.ReplaceAll(s, match[i], vars[i])
+	}
+
+	*block = []rune(s)
+	return false
 }
 
 func getSyntaxHighlighting() {
