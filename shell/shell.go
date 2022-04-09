@@ -138,8 +138,6 @@ func ShowPrompt() {
 			block = []rune(line)
 		}
 
-		cancel := macroVars(&block)
-
 		expanded, err := history.ExpandVariables(block, Prompt)
 		if err != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))
@@ -180,14 +178,22 @@ func ShowPrompt() {
 				merged = string(mergedExp)
 			}
 
+			macroFind, macroReplace, err := getMacroVars(merged)
+			if err != nil {
+				nLines = 1
+				merged = ""
+				continue
+			}
+
+			if len(macroFind) > 0 {
+				merged = expandMacroVars(merged, macroFind, macroReplace)
+				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
+			}
+
 			Prompt.History.Write(merged)
 
 			nLines = 1
 			merged = ""
-
-			if cancel {
-				continue
-			}
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef.Source.Module = app.Name
@@ -202,35 +208,42 @@ func ShowPrompt() {
 	}
 }
 
-var rxHistVar = regexp.MustCompile(`(\^\$[-_a-zA-Z0-9]+)`)
+var rxMacroVar = regexp.MustCompile(`(\^\$[-_a-zA-Z0-9]+)`)
 
-func macroVars(block *[]rune) bool {
+func getMacroVars(s string) ([]string, []string, error) {
 	var err error
 
-	s := string(*block)
-
-	if !rxHistVar.MatchString(s) {
-		return false
+	if !rxMacroVar.MatchString(s) {
+		return nil, nil, nil
 	}
 
-	match := rxHistVar.FindAllString(s, -1)
+	match := rxMacroVar.FindAllString(s, -1)
 	vars := make([]string, len(match))
 	for i := range match {
-		Prompt.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
-			"{GREEN}Value for '{RED}%s{GREEN}'? {RESET}", match[i][2:],
-		)))
-		vars[i], err = Prompt.Readline()
-		if err != nil {
-			return true
+		for {
+			Prompt.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
+				"{YELLOW}Enter value for: {RED}%s{YELLOW}? {RESET}", match[i][2:],
+			)))
+			vars[i], err = Prompt.Readline()
+			if err != nil {
+				return nil, nil, err
+			}
+			if vars[i] != "" {
+				break
+			}
+			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
 		}
 	}
 
+	return match, vars, nil
+}
+
+func expandMacroVars(s string, match, vars []string) string {
 	for i := range match {
 		s = strings.ReplaceAll(s, match[i], vars[i])
 	}
 
-	*block = []rune(s)
-	return false
+	return s
 }
 
 func getSyntaxHighlighting() {

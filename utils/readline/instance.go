@@ -11,6 +11,8 @@ import (
 type Instance struct {
 	mutex sync.Mutex
 
+	Active bool
+
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
 	PasswordMask rune

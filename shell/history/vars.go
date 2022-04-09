@@ -12,13 +12,14 @@ import (
 )
 
 var (
-	rxHistIndex  = regexp.MustCompile(`(\^[0-9]+)`)
-	rxHistRegex  = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
-	rxHistPrefix = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
-	rxHistTag    = regexp.MustCompile(`(\^#[-_a-zA-Z0-9]+)`)
-	//rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistIndex   = regexp.MustCompile(`(\^[0-9]+)`)
+	rxHistRegex   = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
+	rxHistPrefix  = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
+	rxHistTag     = regexp.MustCompile(`(\^#[-_a-zA-Z0-9]+)`)
 	rxHistParam   = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
 	rxHistReplace = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
+
+	//rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
 	//rxHistRepParam = regexp.MustCompile(`\^s([-]?[0-9]+)/(.*?[^\\])/(.*?[^\\])/`)
 )
 
