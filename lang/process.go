@@ -341,15 +341,15 @@ executeProcess:
 
 cleanUpProcess:
 
-	if p.CCEvent != nil {
-		p.CCEvent(p)
-	}
-
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
+	}
+
+	if p.CCEvent != nil {
+		p.CCEvent(p)
 	}
 
 	p.State.Set(state.Executed)
