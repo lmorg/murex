@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 )
 
@@ -14,16 +15,18 @@ const eventType = "onCommandCompletion"
 func init() {
 	event := newCommandCompletion()
 	events.AddEventType(eventType, event, nil)
-	Callback = event.callback
+	lang.ShellProcess.CCEvent = event.callback
+	lang.ShellProcess.CCExists = event.exists
 }
-
-var Callback func(string, []string)
 
 // Interrupt is a JSONable structure passed to the murex function
 type Interrupt struct {
 	Name       string
 	Command    string
 	Parameters []string
+	Stdout     string
+	Stderr     string
+	ExitNum    int
 }
 
 type commandCompletionEvent struct {
@@ -53,6 +56,8 @@ func (evt *commandCompletionEvents) Add(name, command string, block []rune, file
 		FileRef: fileRef,
 	}
 
+	evt.mutex.Unlock()
+
 	return nil
 }
 
@@ -69,26 +74,64 @@ func (evt *commandCompletionEvents) Remove(name string) error {
 	return nil
 }
 
-func (evt *commandCompletionEvents) callback(command string, parameters []string) {
+func (evt *commandCompletionEvents) callback(p *lang.Process) {
 	evt.mutex.Lock()
+
+	command := p.Name.String()
+	parameters := p.Parameters.StringArray()
+
+	if command == "exec" && len(parameters) > 0 {
+		command = parameters[0]
+		parameters = parameters[1:]
+	}
 
 	for name, cce := range evt.events {
 		if cce.Command == command {
-			cce.execEvent(name, parameters)
+			evt.mutex.Unlock()
+			cce.execEvent(name, parameters, p)
+			evt.mutex.Lock()
 		}
 	}
 
 	evt.mutex.Unlock()
 }
 
-func (cce *commandCompletionEvent) execEvent(name string, parameters []string) {
+func (evt *commandCompletionEvents) exists(command string) bool {
+	evt.mutex.Lock()
+
+	for name := range evt.events {
+		if evt.events[name].Command == command {
+			evt.mutex.Unlock()
+			return true
+		}
+	}
+
+	evt.mutex.Unlock()
+	return false
+}
+
+// TODO: error handling
+func (cce *commandCompletionEvent) execEvent(name string, parameters []string, p *lang.Process) {
+	stdout := fmt.Sprintf("%d-out", p.Id)
+	stderr := fmt.Sprintf("%d-err", p.Id)
+
+	lang.GlobalPipes.ExposePipe(stdout, "std", p.CCOut)
+	lang.GlobalPipes.ExposePipe(stderr, "std", p.CCErr)
+
 	interrupt := Interrupt{
 		Name:       name,
 		Command:    cce.Command,
 		Parameters: parameters,
+		Stdout:     stdout,
+		Stderr:     stderr,
+		ExitNum:    p.ExitNum,
 	}
 
-	events.Callback(name, interrupt, cce.Block, cce.FileRef, term.NewErr(false))
+	//os.Stderr.WriteString("execing....\n")
+	events.Callback(name, interrupt, cce.Block, cce.FileRef, term.NewErr(false), false)
+
+	lang.GlobalPipes.Delete(stdout)
+	lang.GlobalPipes.Delete(stderr)
 }
 
 func (evt *commandCompletionEvents) Dump() interface{} {

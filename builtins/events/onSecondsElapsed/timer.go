@@ -53,6 +53,7 @@ func (t *timer) init() {
 					t.events[i].Block,
 					t.events[i].FileRef,
 					lang.ShellProcess.Stdout,
+					true,
 				)
 			}
 		}

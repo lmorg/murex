@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Command Reference: `<>` (murex named pipe)
+## Command Reference: `<>` / `read-named-pipe`
 
 > Reads from a _murex_ named pipe
 
@@ -102,6 +102,7 @@ that pipes created in modules should be prefixed with the name of its package.
 
 * `(murex named pipe)`
 * `<>`
+* `read-named-pipe`
 
 
 ## See Also

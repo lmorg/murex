@@ -163,6 +163,12 @@ func createProcess(p *Process, isMethod bool) {
 		}
 	}
 
+	if p.CCExists != nil && p.CCExists(p.Name.String()) {
+		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
+		p.Stderr, p.CCErr = streams.NewTee(p.Stderr)
+		p.CCErr.SetDataType(types.Generic)
+	}
+
 	p.Stdout.Open()
 	p.Stderr.Open()
 
@@ -239,6 +245,7 @@ func executeProcess(p *Process) {
 	if err := GlobalFIDs.Executing(p.Id); err != nil {
 		panic(err)
 	}
+
 executeProcess:
 
 	if !p.Background.Get() || debug.Enabled {
@@ -333,7 +340,10 @@ executeProcess:
 	//p.Stdout.DefaultDataType(err != nil)
 
 cleanUpProcess:
-	//oncommandcompletion.Callback(p.Name, p.Parameters.StringArray())
+
+	if p.CCEvent != nil {
+		p.CCEvent(p)
+	}
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))

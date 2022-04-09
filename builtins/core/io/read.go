@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -42,6 +43,7 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 	} else {
 		prompt = p.Parameters.StringAllRange(1+paramAdjust, -1)
 	}
+	prompt = ansi.ExpandConsts(prompt)
 
 	varName, err := p.Parameters.String(0 + paramAdjust)
 	if err != nil {

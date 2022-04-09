@@ -153,6 +153,7 @@ func (evt *watch) init() {
 				source.block,
 				source.fileRef,
 				lang.ShellProcess.Stdout,
+				true,
 			)
 
 		case err := <-evt.watcher.Errors:

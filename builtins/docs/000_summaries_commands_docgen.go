@@ -127,6 +127,7 @@ func init() {
 		"2darray":               "2darray",
 		"(murex named pipe)":    "(murex named pipe)",
 		"<>":                    "(murex named pipe)",
+		"read-named-pipe":       "(murex named pipe)",
 		"<stdin>":               "<stdin>",
 		"=":                     "=",
 		">>":                    ">>",

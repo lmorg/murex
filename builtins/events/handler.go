@@ -39,7 +39,7 @@ type j struct {
 
 // Callback is a generic function your event handlers types should hook into so
 // murex functions can remain consistent.
-func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout stdio.Io) {
+func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.File, stdout stdio.Io, background bool) {
 	if fileRef == nil {
 		if debug.Enabled {
 			panic("fileRef should not be nil value")
@@ -63,10 +63,17 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 		return
 	}
 
-	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | lang.F_CREATE_STDIN)
+	var bgProc int
+	if background {
+		bgProc = lang.F_BACKGROUND
+	}
+
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | bgProc | lang.F_CREATE_STDIN)
 	fork.Stdin.SetDataType(types.Json)
 	fork.Name.Set("(event)")
 	fork.FileRef = fileRef
+	fork.CCEvent = nil
+	fork.CCExists = nil
 	_, err = fork.Stdin.Write(json)
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte("error writing event input: " + err.Error()))

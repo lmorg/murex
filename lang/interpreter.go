@@ -2,8 +2,8 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/state"
 )
 
 func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
@@ -34,6 +34,8 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		procs[i].Kill = func() {}
 		//procs[i].hasTerminated = make(chan bool, 1)
 		procs[i].PromptId = parent.PromptId
+		procs[i].CCEvent = parent.CCEvent
+		procs[i].CCExists = parent.CCExists
 
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
 

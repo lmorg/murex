@@ -10,6 +10,7 @@ import (
 )
 
 func init() {
+	lang.DefineMethod("(murex named pipe)", cmdMurexNamedPipe, types.Null, types.Any)
 	lang.DefineMethod(consts.NamedPipeProcName, cmdMurexNamedPipe, types.Any, types.Any)
 }
 

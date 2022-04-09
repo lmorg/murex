@@ -45,7 +45,7 @@ to return the same markdown-formatted document as those listed below. eg
   Write a string to the STDOUT without new line
 * [`2darray` ](commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`<>` (murex named pipe)](commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](commands/namedpipe.md):
   Reads from a _murex_ named pipe
 * [`<stdin>` ](commands/stdin.md):
   Read the STDIN belonging to the parent code block

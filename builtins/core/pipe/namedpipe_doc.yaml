@@ -1,6 +1,6 @@
 - DocumentID: namedpipe
   Title: >+
-    `<>` (murex named pipe)
+    `<>` / `read-named-pipe`
   CategoryID: commands
   Summary: >-
     Reads from a _murex_ named pipe
@@ -40,6 +40,7 @@
   Synonyms:
   - "(murex named pipe)"
   - "<>"
+  - read-named-pipe
   Related:
   - pipe
   - stdin
