@@ -47,6 +47,9 @@ func ExpandVariablesInLine(line []rune, rl *readline.Instance) ([]rune, error) {
 func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([]rune, error) {
 	s := string(line)
 
+	escape := string([]byte{0, 1, 2, 2})
+	s = strings.ReplaceAll(s, `\^`, escape)
+
 	if !skipFormatting {
 		s = strings.Replace(s, `^\n`, "\n", -1) // Match new line
 		s = strings.Replace(s, `^\t`, "\t", -1) // Match tab
@@ -72,6 +75,7 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 		}
 	}
 
+	s = strings.ReplaceAll(s, escape, `\^`)
 	return []rune(s), nil
 }
 
