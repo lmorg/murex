@@ -195,7 +195,7 @@ func TestSyntaxCompletionsIndexElement(t *testing.T) {
 	// since 1.14 is out of date and this is a minor UI feature rather than an
 	// essential function, I'm just going to ignore this bug, and test, on that
 	// version of Go.
-	if runtime.Version() == "go1.14" {
+	if strings.HasPrefix(runtime.Version(), "go1.14") {
 		return
 	}
 
