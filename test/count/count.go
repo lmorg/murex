@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
 	"testing"
@@ -24,6 +25,10 @@ const (
 
 // Tests a function to count all the unit tests that have been run
 func Tests(t *testing.T, count int) {
+	t.Logf("Go version: '%s'", runtime.Version())
+	t.Logf("Go arch:    '%s'", runtime.GOARCH)
+	t.Logf("Go OS:      '%s'", runtime.GOOS)
+
 	switch strings.ToLower(os.Getenv(Env)) {
 	case "log":
 		t.Logf("%s tests ran: %d", t.Name(), count)
