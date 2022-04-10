@@ -10,8 +10,8 @@ if { os posix } then {
         exec echo test
     }
 
-    test: unit function alias.len {
-        "StdoutMatch": "test",
+    test: unit function event.cc.panic.posix {
+        "StdoutMatch": "test\n",
         "ExitNum":     0
     }
 
