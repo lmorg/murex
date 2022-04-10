@@ -49,6 +49,28 @@ func TestOperatorLogicAndNormal(t *testing.T) {
 			Stderr:  "foo\n",
 			ExitNum: 1,
 		},
+		/////
+		{
+			Block:  `out "foo" \&& out "bar"`,
+			Stdout: "foo && out bar\n",
+		},
+		{
+			Block:  `out "foo" &\& out "bar"`,
+			Stdout: "foo && out bar\n",
+		},
+		{
+			Block:  `out "foo" \&\& out "bar"`,
+			Stdout: "foo && out bar\n",
+		},
+		/////
+		{
+			Block:  `out "foo" \&&& out "bar"`,
+			Stdout: "foo &\nbar\n",
+		},
+		{
+			Block:  `out "foo" &\&& out "bar"`,
+			Stdout: "foo &&& out bar\n",
+		},
 	}
 
 	test.RunMurexTests(tests, t)
@@ -96,6 +118,11 @@ func TestOperatorLogicOrNormal(t *testing.T) {
 			Block:   `err "foo"||err "bar"`,
 			Stderr:  "foo\nbar\n",
 			ExitNum: 1,
+		},
+		/////
+		{
+			Block:  `out "foo" \| | regexp s/f/g/`,
+			Stdout: "goo |\n",
 		},
 	}
 

@@ -690,19 +690,21 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
-			case last == '&':
+			case next('&'):
 				if len(node.Name) == 0 {
 					pErr = raiseErr(ErrUnexpectedLogicAnd, i)
 					return &nodes, pErr
 				}
-				*pop = (*pop)[:len(*pop)-1]
+				/**pop = (*pop)[:len(*pop)-1]
 				if len(*pop) == 0 {
 					pToken.Type = parameters.TokenTypeNil
-				}
+				}*/
 				appendNode()
 				node = AstNode{LogicAnd: true, NewChain: true}
 				pop = &node.Name
 				scanFuncName = true
+			case last == '&' && len(*pop) == 0:
+				// do nothing
 			default:
 				ignoreWhitespace = false
 				pUpdate(r)
