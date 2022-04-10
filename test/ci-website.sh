@@ -55,8 +55,6 @@ sed -i '0,/<img src/s//<img class="no-border" src/;
 sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
-        0,/<img src/s//<img class="no-border" src/;
-        0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;' \
         INSTALL.html
 
