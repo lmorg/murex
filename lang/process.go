@@ -336,7 +336,7 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
-		name = "exec"
+		//name = "exec"
 		err = GoFunctions["exec"](p)
 	}
 
@@ -353,7 +353,7 @@ cleanUpProcess:
 	}
 
 	if p.CCEvent != nil {
-		p.CCEvent(p)
+		p.CCEvent(name, p)
 	}
 
 	p.State.Set(state.Executed)

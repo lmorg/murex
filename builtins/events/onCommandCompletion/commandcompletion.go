@@ -1,7 +1,9 @@
 package oncommandcompletion
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"sync"
 
 	"github.com/lmorg/murex/builtins/events"
@@ -48,6 +50,10 @@ func newCommandCompletion() *commandCompletionEvents {
 
 // Add a command to the onCommandCompleteionEvents
 func (evt *commandCompletionEvents) Add(name, command string, block []rune, fileRef *ref.File) error {
+	if command == "exec" || command == "fexec" {
+		return errors.New("for safety reasons, you cannot assign this event against `exec` nor `fexec`")
+	}
+
 	evt.mutex.Lock()
 
 	evt.events[name] = commandCompletionEvent{
@@ -74,13 +80,17 @@ func (evt *commandCompletionEvents) Remove(name string) error {
 	return nil
 }
 
-func (evt *commandCompletionEvents) callback(p *lang.Process) {
+func (evt *commandCompletionEvents) callback(command string, p *lang.Process) {
+	if command == "exec" || command == "fexec" {
+		return
+	}
+
 	evt.mutex.Lock()
 
-	command := p.Name.String()
+	//command := p.Name.String()
 	parameters := p.Parameters.StringArray()
 
-	if command == "exec" && len(parameters) > 0 {
+	if p.Name.String() == "exec" && len(parameters) > 0 {
 		command = parameters[0]
 		parameters = parameters[1:]
 	}
@@ -110,13 +120,30 @@ func (evt *commandCompletionEvents) exists(command string) bool {
 	return false
 }
 
-// TODO: error handling
+func writeErr(desc string, err error, name string, cmd string) {
+	os.Stderr.WriteString(
+		fmt.Sprintf(
+			"ERROR: cannot execute event '%s' (command `%s`): %s: %s",
+			name, cmd, desc, err))
+}
+
 func (cce *commandCompletionEvent) execEvent(name string, parameters []string, p *lang.Process) {
+	var err error
+
 	stdout := fmt.Sprintf("%d-out", p.Id)
 	stderr := fmt.Sprintf("%d-err", p.Id)
 
-	lang.GlobalPipes.ExposePipe(stdout, "std", p.CCOut)
+	err = lang.GlobalPipes.ExposePipe(stdout, "std", p.CCOut)
+	if err != nil {
+		writeErr(fmt.Sprintf("cannot expose stdout pipe '%s'", stdout), err, name, cce.Command)
+		return
+	}
+
 	lang.GlobalPipes.ExposePipe(stderr, "std", p.CCErr)
+	if err != nil {
+		writeErr(fmt.Sprintf("cannot expose stderr pipe '%s'", stderr), err, name, cce.Command)
+		return
+	}
 
 	interrupt := Interrupt{
 		Name:       name,

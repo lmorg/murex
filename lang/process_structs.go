@@ -57,10 +57,10 @@ type Process struct {
 	CreationTime       time.Time
 	StartTime          time.Time
 	FileRef            *ref.File
-	CCEvent            func(*Process)    `json:"-"`
-	CCExists           func(string) bool `json:"-"`
-	CCOut              *streams.Stdin    `json:"-"`
-	CCErr              *streams.Stdin    `json:"-"`
+	CCEvent            func(string, *Process) `json:"-"`
+	CCExists           func(string) bool      `json:"-"`
+	CCOut              *streams.Stdin         `json:"-"`
+	CCErr              *streams.Stdin         `json:"-"`
 }
 
 // HasTerminated checks if process has terminated.
