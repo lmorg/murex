@@ -8,6 +8,7 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
@@ -99,6 +100,8 @@ func ShowPrompt() {
 	Prompt.DelayedSyntaxWorker = spellchecker
 
 	for {
+		debug.Log("ShowPrompt (for{})")
+
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
@@ -112,6 +115,7 @@ func ShowPrompt() {
 			writeTitlebar()
 		}
 
+		debug.Log("ShowPrompt (Prompt.Readline())")
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err {

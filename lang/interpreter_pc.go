@@ -5,6 +5,7 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/null"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/state"
 )
 
@@ -43,6 +44,12 @@ func runModeEvil(procs []Process) int {
 }
 
 func runModeNormal(procs []Process) (exitNum int) {
+	debug.Json("runModeNormal ()", procs)
+	var (
+		skipToNextPipeline bool
+		prev               int
+	)
+
 	if len(procs) == 0 {
 		return 1
 	}
@@ -50,12 +57,26 @@ func runModeNormal(procs []Process) (exitNum int) {
 	procs[0].Previous.SetTerminatedState(true)
 
 	for i := range procs {
-
 		if i > 0 {
-			if !procs[i].IsMethod {
-				waitProcess(&procs[i-1])
+			prev = i - 1
+
+			if procs[i].IsMethod {
+				go waitProcess(&procs[prev])
 			} else {
-				go waitProcess(&procs[i-1])
+				waitProcess(&procs[prev])
+			}
+
+			if (procs[i].OperatorLogicAnd && procs[prev].ExitNum > 0) ||
+				(procs[i].OperatorLogicOr && procs[prev].ExitNum < 1) {
+				skipToNextPipeline = true
+			}
+
+			if skipToNextPipeline && (procs[i].OperatorLogicAnd || procs[i].OperatorLogicOr || procs[i].IsMethod) {
+				procs[i].hasTerminatedM.Lock()
+				procs[i].hasTerminatedV = true
+				procs[i].hasTerminatedM.Unlock()
+				procs[i].ExitNum = 1
+				//continue
 			}
 		}
 
@@ -66,8 +87,10 @@ func runModeNormal(procs []Process) (exitNum int) {
 		go executeProcess(&procs[i])
 	}
 
+	debug.Json("runModeNormal (final waitProcess)", procs)
 	waitProcess(&procs[len(procs)-1])
 	exitNum = procs[len(procs)-1].ExitNum
+	debug.Json("runModeNormal (end)", procs)
 	return
 }
 

@@ -14,6 +14,8 @@ type AstNode struct {
 	PipeErr     bool
 	LineNumber  int
 	ColNumber   int
+	LogicAnd    bool
+	LogicOr     bool
 }
 
 // AstNodes is the entire code block sequenced as an array of tokenized structs

@@ -94,6 +94,7 @@ func writeError(p *Process, err error) []byte {
 }
 
 func createProcess(p *Process, isMethod bool) {
+	debug.Json("Creating process", p)
 	GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
 
@@ -202,6 +203,7 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
+	debug.Json("Execute process ()", p)
 	testStates(p)
 
 	if p.HasTerminated() {
@@ -247,6 +249,7 @@ func executeProcess(p *Process) {
 	}
 
 executeProcess:
+	debug.Json("Execute process (executeProcess)", p)
 
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {
@@ -340,6 +343,7 @@ executeProcess:
 	//p.Stdout.DefaultDataType(err != nil)
 
 cleanUpProcess:
+	debug.Json("Execute process (cleanUpProcess)", p)
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))
@@ -385,29 +389,37 @@ cleanUpProcess:
 		// This would only happen if someone abuses pipes on a function that has no stdin.
 	}
 
+	debug.Json("Execute process (destroyProcess)", p)
 	destroyProcess(p)
 }
 
 func waitProcess(p *Process) {
-	//debug.Log("Waiting for", p.Name)
+	debug.Log("Waiting for", p.Name.String())
 	<-p.WaitForTermination
+	debug.Log("Finished waiting for", p.Name.String())
 }
 
 func destroyProcess(p *Process) {
+	debug.Json("destroyProcess ()", p)
 	// Clean up any context goroutines
 	go p.Done()
 
 	// Make special case for `bg` because that doesn't wait.
 	if p.Name.String() != "bg" {
+		debug.Json("destroyProcess (p.WaitForTermination <- false)", p)
 		p.WaitForTermination <- false
 	}
 
+	debug.Json("destroyProcess (deregisterProcess)", p)
 	deregisterProcess(p)
+	debug.Json("destroyProcess (end)", p)
 }
 
 // deregisterProcess deregisters a murex process, FID and mark variables for
 // garbage collection.
 func deregisterProcess(p *Process) {
+	debug.Json("deregisterProcess ()", p)
+
 	p.State.Set(state.Terminating)
 
 	p.Stdout.Close()
@@ -416,7 +428,7 @@ func deregisterProcess(p *Process) {
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
 		if p.Next == nil {
-			debug.Json("p", p)
+			debug.Json("deregisterProcess (p.Next == nill)", p)
 		}
 		ForegroundProc.Set(p.Next)
 	}
@@ -426,4 +438,6 @@ func deregisterProcess(p *Process) {
 		//CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()
+
+	debug.Json("deregisterProcess (end)", p)
 }

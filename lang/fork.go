@@ -97,6 +97,8 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.CCExists = p.CCExists
 
 	fork.IsMethod = p.IsMethod
+	fork.OperatorLogicAnd = p.OperatorLogicAnd
+	fork.OperatorLogicOr = p.OperatorLogicOr
 	fork.IsNot = p.IsNot
 
 	fork.Previous = p

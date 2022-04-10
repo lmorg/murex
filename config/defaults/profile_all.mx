@@ -4,8 +4,8 @@ function h {
 }
 
 function aliases {
-	# Output the aliases in human readable format
-	runtime: --aliases -> formap name alias {
+   # Output the aliases in human readable format
+   runtime: --aliases -> formap name alias {
         $name -> sprintf: "%10s => ${esccli @alias}\n"
 	} -> cast: str
 }

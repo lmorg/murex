@@ -638,12 +638,21 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeTokenPipe, i)
 				return &nodes, pErr
-			default:
+			case last == '|':
+				appendNode()
+				node = AstNode{LogicOr: true, NewChain: true}
+				pop = &node.Name
+				scanFuncName = true
+			case !next('|'):
 				node.PipeOut = true
 				appendNode()
 				node = AstNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
+			default:
+				// do nothing
+				//pErr = raiseErr(ErrUnknownParserErrorPipe, i)
+				//return &nodes, pErr
 			}
 
 		case '?':
@@ -667,6 +676,35 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pop = &node.Name
 				scanFuncName = true
 			default:
+				pUpdate(r)
+			}
+
+		case '&':
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+				ignoreWhitespace = false
+			case quoteSingle, quoteDouble, quoteBrace > 0:
+				pUpdate(r)
+				ignoreWhitespace = false
+			case braceCount > 0:
+				pUpdate(r)
+			case last == '&':
+				if len(node.Name) == 0 {
+					pErr = raiseErr(ErrUnexpectedLogicAnd, i)
+					return &nodes, pErr
+				}
+				*pop = (*pop)[:len(*pop)-1]
+				if len(*pop) == 0 {
+					pToken.Type = parameters.TokenTypeNil
+				}
+				appendNode()
+				node = AstNode{LogicAnd: true, NewChain: true}
+				pop = &node.Name
+				scanFuncName = true
+			default:
+				ignoreWhitespace = false
 				pUpdate(r)
 			}
 

@@ -21,6 +21,8 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		procs[i].State.Set(state.MemAllocated)
 		procs[i].Name.Set((*tree)[i].Name)
 		procs[i].IsMethod = (*tree)[i].Method
+		procs[i].OperatorLogicAnd = (*tree)[i].LogicAnd
+		procs[i].OperatorLogicOr = (*tree)[i].LogicOr
 		procs[i].Background.Set(parent.Background.Get())
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
@@ -87,6 +89,7 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		case (*tree)[i].NewChain:
 			// new chain
 			procs[i].Stdin = streams.NewStdin()
+			//procs[i].Stdin = new(null.Null)
 		}
 
 		// Define stdout / stderr interfaces:

@@ -40,6 +40,8 @@ type Process struct {
 	Next               *Process `json:"-"`
 	IsNot              bool
 	IsMethod           bool
+	OperatorLogicAnd   bool
+	OperatorLogicOr    bool
 	NamedPipeOut       string
 	NamedPipeErr       string
 	NamedPipeTest      string

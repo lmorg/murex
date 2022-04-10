@@ -26,8 +26,9 @@ const (
 	ErrUnclosedIndex
 	ErrUnexpectedParsingError
 	ErrUnexpectedOpenBraceFunc
-
+	ErrUnexpectedLogicAnd
 	ErrPipingToNothing
+	ErrUnknownParserErrorPipe
 )
 
 var errMessages = []string{
@@ -48,8 +49,9 @@ var errMessages = []string{
 	"Unexpected end of script. Variable index used, `[`, but missing closing bracket: `]`",
 	"Unexpected parsing error",
 	"Unexpected opening curly brace. Code blocks cannot be used as function names",
-
+	"Logic AND, `&&`, preceding function name",
 	"Piping out to nothing. Commands should not be terminated by a pipe token (`|`, `->`, `=>`, or ` ?`)",
+	"Unexpected error parsing `|`. Reason unknown. Please file a bug at https://github.com/lmorg/murex/issues",
 }
 
 func raiseErr(code, endByte int) ParserError {
