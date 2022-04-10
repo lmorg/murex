@@ -35,15 +35,14 @@ var (
 
 // Start the interactive shell
 func Start() {
-	/*defer func() {
-		if debug.Enabled {
-			return
-		}
-		if r := recover(); r != nil {
-			os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
-			Start()
-		}
-	}()*/
+	if debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
+				Start()
+			}
+		}()
+	}
 
 	var err error
 
@@ -100,7 +99,7 @@ func ShowPrompt() {
 	Prompt.DelayedSyntaxWorker = spellchecker
 
 	for {
-		debug.Log("ShowPrompt (for{})")
+		//debug.Log("ShowPrompt (for{})")
 
 		getSyntaxHighlighting()
 		getHintTextEnabled()
@@ -115,7 +114,7 @@ func ShowPrompt() {
 			writeTitlebar()
 		}
 
-		debug.Log("ShowPrompt (Prompt.Readline())")
+		//debug.Log("ShowPrompt (Prompt.Readline())")
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err {

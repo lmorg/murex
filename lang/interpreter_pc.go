@@ -5,7 +5,6 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/null"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/state"
 )
 
@@ -44,7 +43,7 @@ func runModeEvil(procs []Process) int {
 }
 
 func runModeNormal(procs []Process) (exitNum int) {
-	debug.Json("runModeNormal ()", procs)
+	//debug.Json("runModeNormal ()", procs)
 	var (
 		skipToNextPipeline bool
 		prev               int
@@ -86,10 +85,10 @@ func runModeNormal(procs []Process) (exitNum int) {
 		go executeProcess(&procs[i])
 	}
 
-	debug.Json("runModeNormal (final waitProcess)", procs)
+	//debug.Json("runModeNormal (final waitProcess)", procs)
 	waitProcess(&procs[len(procs)-1])
 	exitNum = procs[len(procs)-1].ExitNum
-	debug.Json("runModeNormal (end)", procs)
+	//debug.Json("runModeNormal (end)", procs)
 	return
 }
 
