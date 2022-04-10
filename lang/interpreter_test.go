@@ -6,8 +6,8 @@ import (
 	"github.com/lmorg/murex/test"
 )
 
-func TestOperatorLogicAndNormal(t *testing.T) {
-	tests := []test.MurexTest{
+var (
+	testsAnd = []test.MurexTest{
 		{
 			Block:  `out "foo" && out "bar"`,
 			Stdout: "foo\nbar\n",
@@ -73,11 +73,7 @@ func TestOperatorLogicAndNormal(t *testing.T) {
 		},
 	}
 
-	test.RunMurexTests(tests, t)
-}
-
-func TestOperatorLogicOrNormal(t *testing.T) {
-	tests := []test.MurexTest{
+	testsOr = []test.MurexTest{
 		{
 			Block:   `out "foo" || out "bar"`,
 			Stdout:  "foo\n",
@@ -125,6 +121,53 @@ func TestOperatorLogicOrNormal(t *testing.T) {
 			Stdout: "goo |\n",
 		},
 	}
+)
+
+func TestOperatorLogicAndNormal(t *testing.T) {
+	test.RunMurexTests(testsAnd, t)
+}
+
+func TestOperatorLogicOrNormal(t *testing.T) {
+	test.RunMurexTests(testsOr, t)
+}
+
+func TestOperatorLogicAndTry(t *testing.T) {
+	var tests []test.MurexTest
+	for _, src := range testsAnd {
+		newTest := src
+		src.Block = "try {" + src.Block + "}"
+		tests = append(tests, newTest)
+	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestOperatorLogicOrTry(t *testing.T) {
+	var tests []test.MurexTest
+	for _, src := range testsOr {
+		newTest := src
+		src.Block = "try {" + src.Block + "}"
+		tests = append(tests, newTest)
+	}
+	test.RunMurexTests(testsOr, t)
+}
+
+func TestOperatorLogicAndTryPipe(t *testing.T) {
+	var tests []test.MurexTest
+	for _, src := range testsAnd {
+		newTest := src
+		src.Block = "trypipe {" + src.Block + "}"
+		tests = append(tests, newTest)
+	}
+	test.RunMurexTests(testsAnd, t)
+}
+
+func TestOperatorLogicOrTryPipe(t *testing.T) {
+	var tests []test.MurexTest
+	for _, src := range testsOr {
+		newTest := src
+		src.Block = "trypipe {" + src.Block + "}"
+		tests = append(tests, newTest)
+	}
+	test.RunMurexTests(testsOr, t)
 }

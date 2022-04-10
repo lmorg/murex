@@ -76,7 +76,6 @@ func runModeNormal(procs []Process) (exitNum int) {
 				procs[i].hasTerminatedV = true
 				procs[i].hasTerminatedM.Unlock()
 				procs[i].ExitNum = 1
-				//continue
 			}
 		}
 
