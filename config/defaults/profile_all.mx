@@ -445,7 +445,7 @@ autocomplete: set git { [{
             "Flags": [ "-b" ]
         }],
         "merge": [{
-            "Dynamic": ({ git-branch })
+            "Dynamic": ({ cast str; git-branch; git tag })
         }],
         "commit": [{
             "Flags": ["-a", "-m", "--amend"],
