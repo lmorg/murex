@@ -49,6 +49,11 @@ var argsCount = parameters.Arguments{
 func cmdCount(p *lang.Process) error {
 	//p.Stdout.SetDataType(types.Json)
 
+	err := p.ErrIfNotAMethod()
+	if err != nil {
+		return err
+	}
+
 	flags, _, err := p.Parameters.ParseFlags(&argsCount)
 	if err != nil {
 		return err
