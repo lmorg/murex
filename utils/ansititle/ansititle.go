@@ -4,6 +4,7 @@
 package ansititle
 
 import (
+	"bytes"
 	"errors"
 	"os"
 
@@ -23,6 +24,7 @@ func formatTitle(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
+	title = sanatise(title)
 	ansi := make([]byte, len(title)+5)
 
 	copy(ansi[0:4], []byte{27, ']', '2', ';'})
@@ -45,6 +47,7 @@ func formatIcon(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
+	title = sanatise(title)
 	ansi := make([]byte, len(title)+5)
 
 	copy(ansi[0:4], []byte{27, ']', '1', ';'})
@@ -70,6 +73,7 @@ func formatTmux(title []byte) []byte {
 	if len(title) == 0 {
 		return nil
 	}
+	title = sanatise(title)
 	ansi := make([]byte, len(title)+4)
 
 	copy(ansi[0:2], []byte{27, 'k'})
@@ -77,4 +81,16 @@ func formatTmux(title []byte) []byte {
 	copy(ansi[len(ansi)-2:], []byte{27, '\\'})
 
 	return ansi
+}
+
+func sanatise(b []byte) []byte {
+	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
+	// replace all control characters with space
+	for i := range b {
+		if b[i] < 32 || b[i] == 127 {
+			b[i] = 32
+		}
+	}
+
+	return b
 }

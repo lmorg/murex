@@ -149,7 +149,7 @@ func TestOperatorLogicOrTry(t *testing.T) {
 		src.Block = "try {" + src.Block + "}"
 		tests = append(tests, newTest)
 	}
-	test.RunMurexTests(testsOr, t)
+	test.RunMurexTests(tests, t)
 }
 
 func TestOperatorLogicAndTryPipe(t *testing.T) {
@@ -159,7 +159,7 @@ func TestOperatorLogicAndTryPipe(t *testing.T) {
 		src.Block = "trypipe {" + src.Block + "}"
 		tests = append(tests, newTest)
 	}
-	test.RunMurexTests(testsAnd, t)
+	test.RunMurexTests(tests, t)
 }
 
 func TestOperatorLogicOrTryPipe(t *testing.T) {
@@ -169,5 +169,5 @@ func TestOperatorLogicOrTryPipe(t *testing.T) {
 		src.Block = "trypipe {" + src.Block + "}"
 		tests = append(tests, newTest)
 	}
-	test.RunMurexTests(testsOr, t)
+	test.RunMurexTests(tests, t)
 }

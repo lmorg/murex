@@ -1,7 +1,6 @@
 package shell
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/lmorg/murex/app"
@@ -88,17 +87,9 @@ func writeTitlebar() {
 		}
 	}
 
-	b = bytes.ReplaceAll(b, []byte{'\r'}, nil)
-	// replace all control characters with space
-	for i := range b {
-		if b[i] < 32 || b[i] == 127 {
-			b[i] = 32
-		}
-	}
-
 	ansititle.Write(b)
 	if tmux, _ := lang.ShellProcess.Config.Get("proc", "echo-tmux", types.Boolean); tmux.(bool) {
-		ansititle.Tmux([]byte(b))
+		ansititle.Tmux(b)
 	}
 }
 

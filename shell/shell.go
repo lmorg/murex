@@ -31,6 +31,8 @@ var (
 	// PromptId is an custom defined ID for each prompt Goprocess so we don't
 	// accidentally end up with multiple prompts running
 	PromptId = new(counter.MutexCounter)
+
+	rxHashTag = regexp.MustCompile(`#[-_a-zA-Z0-9]+$`)
 )
 
 // Start the interactive shell
@@ -189,7 +191,9 @@ func ShowPrompt() {
 			}
 
 			if len(macroFind) > 0 {
-				merged = expandMacroVars(merged, macroFind, macroReplace)
+				if !rxHashTag.MatchString(merged) {
+					merged = expandMacroVars(merged, macroFind, macroReplace)
+				}
 				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
 			}
 
@@ -202,6 +206,8 @@ func ShowPrompt() {
 			fork.FileRef.Source.Module = app.Name
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
+			fork.CCEvent = lang.ShellProcess.CCEvent
+			fork.CCExists = lang.ShellProcess.CCExists
 			lang.ShellExitNum, _ = fork.Execute(expanded)
 
 			if PromptId.NotEqual(thisProc) {

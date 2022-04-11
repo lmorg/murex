@@ -93,8 +93,10 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.PromptId = p.PromptId
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.PromptId = p.PromptId
-	fork.CCEvent = p.CCEvent
-	fork.CCExists = p.CCExists
+	/*if p.Id != ShellProcess.Id {
+		fork.CCEvent = p.CCEvent
+		fork.CCExists = p.CCExists
+	}*/
 
 	fork.IsMethod = p.IsMethod
 	fork.OperatorLogicAnd = p.OperatorLogicAnd
