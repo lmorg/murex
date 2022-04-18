@@ -406,7 +406,7 @@ autocomplete: set autocomplete { [{
 
 private git-branch {
     # Returns a list of branches excluding currect checked-out branch in the current git repository
-    git branch -> [ :0 ] -> !match *
+    git -c color.ui=no branch -> [ :0 ] -> !match *
 }
 
 autocomplete: set git { [{
