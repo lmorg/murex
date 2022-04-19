@@ -10,19 +10,49 @@ A readline function to allow a line of data inputed from the terminal.
 
 ## Usage
 
+Classic usage:
+
     read: "prompt" var_name
     
     <stdin> -> read: var_name
+    
+Script usage:
+
+    read: [ --prompt "prompt"         ]
+          [ --variable var_name       ]
+          [ --default "default value" ]
+          [ --datatype data-type      ]
 
 ## Examples
+
+Classic usage:
 
     read: "What is your name? " name
     out: "Hello $name"
     
     out: What is your name? -> read: name
     out: "Hello $name"
+    
+Script usage:
+
+    read: --prompt "Are you sure? [Y/n]" \
+          --variable yn \
+          --default Y
+
+## Flags
+
+* `--datatype`
+    _murex_ data-type for the read data (default: str)
+* `--default`
+    If a zero length string is returned but neither ctrl+c nor ctrl+d were pressed, then the default value defined here will be returned
+* `--prompt`
+    User notification to display
+* `--variable`
+    Variable name to store the read data (default: read)
 
 ## Detail
+
+### Classic Usage
 
 If `read` is called as a method then the prompt string is taken from STDIN.
 Otherwise the prompt string will be the first parameter. However if no prompt
@@ -34,7 +64,8 @@ the output of that variable as the last parameter rather than the name of the
 variable.
 
 The data type the `read` line will be stored as is `str` (string). If you
-require this to be different then please use `tread` (typed read).
+require this to be different then please use `tread` (typed read) or call `read`
+with the `--datatype` flag as per the **script usage**.
 
 ## See Also
 

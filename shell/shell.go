@@ -230,10 +230,12 @@ func getMacroVars(s string) ([]string, []string, error) {
 	vars := make([]string, len(match))
 	for i := range match {
 		for {
-			Prompt.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
+			rl := readline.NewInstance()
+			rl.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
 				"{YELLOW}Enter value for: {RED}%s{YELLOW}? {RESET}", match[i][2:],
 			)))
-			vars[i], err = Prompt.Readline()
+			rl.History = new(readline.NullHistory)
+			vars[i], err = rl.Readline()
 			if err != nil {
 				return nil, nil, err
 			}
