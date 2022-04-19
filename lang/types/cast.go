@@ -212,13 +212,21 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 		}
 		//return strconv.Atoi(strings.TrimSpace(v))
 		f, err := strconv.ParseFloat(v, 64)
-		return int(f), err
+		if err != nil {
+			return int(f), fmt.Errorf("cannot convert '%s' to an integer: %s", v, err.Error())
+		}
+		return int(f), nil
 
 	case Float, Number:
 		if v == "" {
 			v = "0"
 		}
-		return strconv.ParseFloat(v, 64)
+
+		f, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			return f, fmt.Errorf("cannot convert '%s' to a floating point number: %s", v, err.Error())
+		}
+		return f, nil
 
 	case Boolean:
 		return IsTrue([]byte(v), 0), nil

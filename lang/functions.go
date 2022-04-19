@@ -16,9 +16,15 @@ type MurexFuncs struct {
 
 // MurexFuncDetails is the properties for any given murex function
 type murexFuncDetails struct {
-	Block   []rune
-	Summary string
-	FileRef *ref.File
+	Block      []rune
+	Summary    string
+	Parameters []murexFuncParameter
+	FileRef    *ref.File
+}
+
+type murexFuncParameter struct {
+	Name     string
+	DataType string
 }
 
 // NewMurexFuncs creates a new table of murex functions
@@ -65,6 +71,11 @@ func funcPrivSummary(block []rune) string {
 
 exitLoop:
 	return strings.TrimSpace(string(summary))
+}
+
+func funcParseDataTypes(parameters string) ([]murexFuncParameter, error) {
+	// function example (name: str, age: num) {}
+	return nil, errors.New("TODO!!!")
 }
 
 // Define creates a function

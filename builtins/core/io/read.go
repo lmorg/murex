@@ -102,5 +102,10 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 		//os.Stdout.WriteString(s)
 	}
 
-	return p.Variables.Set(p, varName, s, dt)
+	v, err := types.ConvertGoType(s, dt)
+	if err != nil {
+		return err
+	}
+
+	return p.Variables.Set(p, varName, v, dt)
 }
