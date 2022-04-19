@@ -28,7 +28,7 @@
   - prepend
   - a
   - ja
-  - len
+  - count
   - mtac
   - msort
   - match
@@ -86,7 +86,7 @@
   - addheading
   - a
   - ja
-  - len
+  - count
   - mtac
   - msort
   - match
@@ -139,7 +139,7 @@
   - addheading
   - a
   - ja
-  - len
+  - count
   - index
   - range
   - mtac

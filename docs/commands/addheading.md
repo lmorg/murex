@@ -32,6 +32,8 @@ prepend to tables.
   Add data to the end of an array
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`match`](../commands/match.md):
@@ -44,5 +46,3 @@ prepend to tables.
   Add data to the start of an array
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [commands/len](../commands/len.md):
-  

@@ -113,9 +113,9 @@ path:
   A sophisticated yet simple way to build an array or list
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [commands/len](../commands/len.md):
-  

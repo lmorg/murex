@@ -58,9 +58,9 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Outputs an element from an array, map or table
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [commands/len](../commands/len.md):
-  

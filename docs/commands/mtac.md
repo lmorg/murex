@@ -58,6 +58,8 @@ STDIN is a long running process or non-standard stream (eg network pipe).
   A sophisticated yet simple way to build an array or list
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
@@ -76,5 +78,3 @@ STDIN is a long running process or non-standard stream (eg network pipe).
   Prefix a string to every item in a list
 * [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [commands/len](../commands/len.md):
-  

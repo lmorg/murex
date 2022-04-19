@@ -94,7 +94,7 @@
   - commands/ja
   - commands/ta
   - commands/range
-  - commands/len
+  - commands/count
   - commands/index
   - commands/element
 
@@ -208,7 +208,7 @@
   - commands/ja
   - commands/ta
   - commands/range
-  - commands/len
+  - commands/count
   - commands/index
   - commands/element
 
@@ -258,7 +258,7 @@
   - commands/ja
   - commands/ta
   - commands/range
-  - commands/len
+  - commands/count
   - commands/index
   - commands/element
 
@@ -391,7 +391,7 @@
   - commands/datetime
   - commands/mtac
   - commands/range
-  - commands/len
+  - commands/count
   - commands/index
   - commands/element
 
@@ -529,6 +529,6 @@
   - commands/datetime
   - commands/mtac
   - commands/range
-  - commands/len
+  - commands/count
   - commands/index
   - commands/element
