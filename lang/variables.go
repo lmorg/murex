@@ -3,6 +3,7 @@ package lang
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"sync"
 	"time"
 
@@ -18,6 +19,10 @@ func errVariableReserved(name string) error {
 
 func errVarNotExist(name string) error {
 	return fmt.Errorf("variable '%s' does not exist", name)
+}
+
+func errVarNoParam(i int, err error) error {
+	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
 }
 
 // Reserved variable names. Set as constants so any typos of these names within
@@ -71,10 +76,6 @@ type variable struct {
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
 func (v *Variables) GetValue(name string) interface{} {
-	if v.global {
-		return v.getValue(name)
-	}
-
 	switch name {
 	case SELF:
 		return getVarSelf(v.process)
@@ -90,6 +91,18 @@ func (v *Variables) GetValue(name string) interface{} {
 
 	case HOSTNAME:
 		return getHostname()
+	}
+
+	if i, err := strconv.Atoi(name); err == nil && i > 0 {
+		s, err := v.process.Scope.Parameters.String(i - 1)
+		if err != nil {
+			return nil
+		}
+		return s
+	}
+
+	if v.global {
+		return v.getValue(name)
 	}
 
 	value := v.getValue(name)
@@ -126,11 +139,6 @@ func (v *Variables) getValue(name string) (value interface{}) {
 
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(name string) (string, error) {
-	if v.global {
-		val, _ := v.getString(name)
-		return val, nil
-	}
-
 	switch name {
 	case SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
@@ -149,6 +157,19 @@ func (v *Variables) GetString(name string) (string, error) {
 
 	case HOSTNAME:
 		return getHostname(), nil
+	}
+
+	if i, err := strconv.Atoi(name); err == nil && i > 0 {
+		s, err := v.process.Scope.Parameters.String(i - 1)
+		if err != nil {
+			return "", errVarNoParam(i, err)
+		}
+		return s, nil
+	}
+
+	if v.global {
+		val, _ := v.getString(name)
+		return val, nil
 	}
 
 	s, exists := v.getString(name)
@@ -186,11 +207,6 @@ func (v *Variables) getString(name string) (string, bool) {
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(name string) string {
-	if v.global {
-		dt, _ := v.getDataType(name)
-		return dt
-	}
-
 	switch name {
 	case SELF:
 		return types.Json
@@ -203,6 +219,18 @@ func (v *Variables) GetDataType(name string) string {
 
 	case MUREX_EXE:
 		return types.String
+	}
+
+	if i, err := strconv.Atoi(name); err == nil && i > 0 {
+		if i >= v.process.Scope.Parameters.Len() {
+			return ""
+		}
+		return types.String
+	}
+
+	if v.global {
+		dt, _ := v.getDataType(name)
+		return dt
 	}
 
 	s, exists := v.getDataType(name)
@@ -243,6 +271,14 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, "_":
 		return errVariableReserved(name)
 	}
+	for _, r := range name {
+		if r < '0' || r > '9' {
+			goto notReserved
+		}
+	}
+	return errVariableReserved(name)
+
+notReserved:
 
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {

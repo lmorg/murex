@@ -108,6 +108,8 @@ func TestReservedVarables(t *testing.T) {
 		"PARAMS",
 		"MUREX_EXE",
 		"MUREX_ARGS",
+		"0", "1", "8", "9",
+		"00", "10", "50", "99", "100",
 	}
 
 	count.Tests(t, len(reserved))

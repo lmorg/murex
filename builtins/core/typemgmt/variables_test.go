@@ -20,6 +20,8 @@ type Test struct {
 const envVarPrefix = "MUREX_TEST_VAR_"
 
 func VariableTests(tests []Test, t *testing.T) {
+	t.Helper()
+
 	// these tests don't support multiple counts
 	if os.Getenv(envVarPrefix+t.Name()) == "1" {
 		return
@@ -76,6 +78,8 @@ func VariableTests(tests []Test, t *testing.T) {
 }
 
 func UnSetTests(unsetter string, tests []string, t *testing.T) {
+	t.Helper()
+
 	// these tests don't support multiple counts
 	if os.Getenv(envVarPrefix+t.Name()) == "1" {
 		return
