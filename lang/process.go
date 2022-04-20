@@ -283,7 +283,10 @@ executeProcess:
 			fork.Name.Set(name)
 			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
-			p.ExitNum, err = fork.Execute(fn.Block)
+			err = fn.castParameters(fork.Process)
+			if err == nil {
+				p.ExitNum, err = fork.Execute(fn.Block)
+			}
 		}
 
 	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef.Source.Module):

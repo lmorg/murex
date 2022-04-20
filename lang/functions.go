@@ -2,10 +2,13 @@ package lang
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"sync"
 
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 // MurexFuncs is a table of murex functions
@@ -18,13 +21,15 @@ type MurexFuncs struct {
 type murexFuncDetails struct {
 	Block      []rune
 	Summary    string
-	Parameters []murexFuncParameter
+	Parameters []MxFunctionParams
 	FileRef    *ref.File
 }
 
-type murexFuncParameter struct {
-	Name     string
-	DataType string
+type MxFunctionParams struct {
+	Name        string
+	DataType    string
+	Description string
+	Default     string
 }
 
 // NewMurexFuncs creates a new table of murex functions
@@ -73,20 +78,208 @@ exitLoop:
 	return strings.TrimSpace(string(summary))
 }
 
-func funcParseDataTypes(parameters string) ([]murexFuncParameter, error) {
-	// function example (name: str, age: num) {}
-	return nil, errors.New("TODO!!!")
+const ( // function parameter contexts
+	fpcNameStart = 0
+	fpcNameRead  = iota
+	fpcTypeStart
+	fpcTypeRead
+	fpcDescStart
+	fpcDescRead
+	fpcDescEnd
+)
+
+const ( // function parameter error messages
+	fpeUnexpectedWhiteSpace    = "unexpected whitespace character at %d (%d:%d)"
+	fpeUnexpectedNewLine       = "unexpected new line at %d (%d:%d)"
+	fpeUnexpectedCharacter     = "unexpected character '%s' (%d) at %d (%d:%d)"
+	fpeUnexpectedColon         = "unexpected colon ':' (%d) at %d (%d:%d)"
+	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (%d) at %d (%d:%d)"
+	fpeEofNameStart            = "missing variable name at %d (%d:%d)"
+	fpeEofNameRead             = "varaible name not terminated with a colon %d (%d:%d)"
+	fpeEofTypeStart            = "missing data type %d (%d:%d)"
+	fpeEofDescRead             = "missing closing quotation mark on description %d (%d:%d)"
+	fpeParameterNoName         = "parameter %d is missing a name"
+	fpeParameterNoDataType     = "parameter %d is missing a data type"
+)
+
+// Parse the function parameter and data type block
+func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
+	/* function example (
+		name: str "User name" [Bob],
+		age:  num "How old are you?" [100]
+	   ) {}*/
+
+	var (
+		context int
+		counter int
+		x, y    = 0, 1
+	)
+
+	mfp := make([]MxFunctionParams, 1)
+
+	for i, r := range parameters {
+		x++
+
+		switch r {
+		case '\r', '\n':
+			switch context {
+			case fpcNameStart:
+				y++
+				x = 0
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedNewLine, i+1, y, x)
+			}
+
+		case ' ', '\t':
+			switch context {
+			case fpcNameRead:
+				return nil, fmt.Errorf(fpeUnexpectedWhiteSpace, i+1, y, x)
+			case fpcTypeRead:
+				context++
+			case fpcDescRead:
+				mfp[counter].Description += " "
+			default:
+				// do nothing
+				continue
+			}
+
+		case ':':
+			switch context {
+			case fpcNameRead:
+				context++
+				continue
+			case fpcDescRead:
+				mfp[counter].Description += ":"
+				continue
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedColon, r, i, y, x)
+			}
+
+		case '"':
+			switch context {
+			case fpcDescStart, fpcDescRead:
+				context++
+				continue
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedQuotationMark, r, i, y, x)
+			}
+
+		case ',':
+			switch context {
+			case fpcDescRead:
+				mfp[counter].Description += ","
+			case fpcTypeRead, fpcDescEnd:
+				mfp = append(mfp, MxFunctionParams{})
+				counter++
+				continue
+			}
+
+		default:
+			if (r >= 'a' && 'z' >= r) ||
+				(r >= 'A' && 'Z' >= r) ||
+				(r >= '0' && '9' >= r) ||
+				r == '_' || r == '-' {
+
+				switch context {
+				case fpcNameStart:
+					context++
+					fallthrough
+				case fpcNameRead:
+					mfp[counter].Name += string([]rune{r})
+					continue
+				case fpcTypeStart:
+					context++
+					fallthrough
+				case fpcTypeRead:
+					mfp[counter].DataType += string([]rune{r})
+					continue
+				case fpcDescRead:
+					mfp[counter].Description += string([]rune{r})
+					continue
+				}
+			}
+
+			if context == fpcDescRead {
+				mfp[counter].Description += string([]rune{r})
+				continue
+			}
+
+			return nil, fmt.Errorf(fpeUnexpectedCharacter, string([]rune{r}), r, i, y, x)
+		}
+	}
+
+	switch context {
+	case fpcNameStart:
+		return nil, fmt.Errorf(fpeEofNameStart, len(parameters), y, x)
+	case fpcNameRead:
+		return nil, fmt.Errorf(fpeEofNameRead, len(parameters), y, x)
+	case fpcTypeStart:
+		return nil, fmt.Errorf(fpeEofTypeStart, len(parameters), y, x)
+	case fpcDescRead:
+		return nil, fmt.Errorf(fpeEofDescRead, len(parameters), y, x)
+	}
+
+	for i := range mfp {
+		if mfp[i].Name == "" {
+			return nil, fmt.Errorf(fpeParameterNoName, i)
+		}
+		if mfp[i].DataType == "" {
+			return nil, fmt.Errorf(fpeParameterNoDataType, i)
+		}
+	}
+
+	return mfp, nil
+}
+
+func (mfd *murexFuncDetails) castParameters(p *Process) error {
+	for i := range mfd.Parameters {
+		s, err := p.Parameters.String(i)
+		if err != nil {
+			if p.Background.Get() {
+				return fmt.Errorf("cannot prompt for parameters when a function is run in the background: %s", err.Error())
+			}
+
+			prompt := mfd.Parameters[i].Description
+			if prompt == "" {
+				prompt = "Please enter a value for '" + mfd.Parameters[i].Name + "'"
+			}
+			rl := readline.NewInstance()
+			rl.SetPrompt(prompt + ": ")
+			rl.History = new(readline.NullHistory)
+
+			s, err = rl.Readline()
+			if err != nil {
+				return err
+			}
+
+			if s == "" {
+				s = mfd.Parameters[i].Default
+			}
+		}
+
+		v, err := types.ConvertGoType(s, mfd.Parameters[i].DataType)
+		if err != nil {
+			return fmt.Errorf("cannot convert parameter %d '%s' to data type '%s'", i, s, mfd.Parameters[i].DataType)
+		}
+		err = p.Variables.Set(p, mfd.Parameters[i].Name, v, mfd.Parameters[i].DataType)
+		if err != nil {
+			return fmt.Errorf("cannot set function variable: %s", err.Error())
+		}
+	}
+
+	return nil
 }
 
 // Define creates a function
-func (mf *MurexFuncs) Define(name string, block []rune, fileRef *ref.File) {
+func (mf *MurexFuncs) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
 	summary := funcPrivSummary(block)
 
 	mf.mutex.Lock()
 	mf.fn[name] = &murexFuncDetails{
-		Block:   block,
-		FileRef: fileRef,
-		Summary: summary,
+		Block:      block,
+		Parameters: parameters,
+		FileRef:    fileRef,
+		Summary:    summary,
 	}
 
 	mf.mutex.Unlock()
@@ -115,7 +308,7 @@ func (mf *MurexFuncs) Block(name string) ([]rune, error) {
 	mf.mutex.Unlock()
 
 	if fn == nil {
-		return nil, errors.New("Cannot locate function named `" + name + "`")
+		return nil, errors.New("cannot locate function named `" + name + "`")
 	}
 
 	return fn.Block, nil
@@ -128,7 +321,7 @@ func (mf *MurexFuncs) Summary(name string) (string, error) {
 	mf.mutex.Unlock()
 
 	if fn == nil {
-		return "", errors.New("Cannot locate function named `" + name + "`")
+		return "", errors.New("cannot locate function named `" + name + "`")
 	}
 
 	return fn.Summary, nil
@@ -140,7 +333,7 @@ func (mf *MurexFuncs) Undefine(name string) error {
 	defer mf.mutex.Unlock()
 
 	if mf.fn[name] == nil {
-		return errors.New("Cannot locate function named `" + name + "`")
+		return errors.New("cannot locate function named `" + name + "`")
 	}
 
 	delete(mf.fn, name)
@@ -150,9 +343,10 @@ func (mf *MurexFuncs) Undefine(name string) error {
 // Dump list all murex functions in table
 func (mf *MurexFuncs) Dump() interface{} {
 	type funcs struct {
-		Summary string
-		Block   string
-		FileRef *ref.File
+		Summary    string
+		Parameters []MxFunctionParams
+		Block      string
+		FileRef    *ref.File
 	}
 
 	dump := make(map[string]funcs)
@@ -160,9 +354,10 @@ func (mf *MurexFuncs) Dump() interface{} {
 	mf.mutex.Lock()
 	for name, fn := range mf.fn {
 		dump[name] = funcs{
-			Summary: fn.Summary,
-			Block:   string(fn.Block),
-			FileRef: fn.FileRef,
+			Summary:    fn.Summary,
+			Parameters: fn.Parameters,
+			Block:      string(fn.Block),
+			FileRef:    fn.FileRef,
 		}
 	}
 	mf.mutex.Unlock()
