@@ -91,6 +91,9 @@ func (v *Variables) GetValue(name string) interface{} {
 
 	case HOSTNAME:
 		return getHostname()
+
+	case "0":
+		return v.process.Scope.Name.String()
 	}
 
 	if i, err := strconv.Atoi(name); err == nil && i > 0 {
@@ -157,6 +160,9 @@ func (v *Variables) GetString(name string) (string, error) {
 
 	case HOSTNAME:
 		return getHostname(), nil
+
+	case "0":
+		return v.process.Scope.Name.String(), nil
 	}
 
 	if i, err := strconv.Atoi(name); err == nil && i > 0 {
@@ -218,6 +224,9 @@ func (v *Variables) GetDataType(name string) string {
 		return types.Json
 
 	case MUREX_EXE:
+		return types.String
+
+	case "0":
 		return types.String
 	}
 
