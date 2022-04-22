@@ -22,6 +22,7 @@ Script usage:
           [ --variable var_name       ]
           [ --default "default value" ]
           [ --datatype data-type      ]
+          [ --mask character          ]
 
 ## Examples
 
@@ -38,6 +39,10 @@ Script usage:
     read: --prompt "Are you sure? [Y/n]" \
           --variable yn \
           --default Y
+    
+Secrets:
+
+    read: --prompt "Password: " --variable pw --mask *
 
 ## Flags
 
@@ -45,6 +50,8 @@ Script usage:
     _murex_ data-type for the read data (default: str)
 * `--default`
     If a zero length string is returned but neither ctrl+c nor ctrl+d were pressed, then the default value defined here will be returned
+* `--mask`
+    Optional password mask, for reading secrets
 * `--prompt`
     User notification to display
 * `--variable`

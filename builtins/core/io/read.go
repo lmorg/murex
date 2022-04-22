@@ -3,6 +3,7 @@ package io
 import (
 	"errors"
 	"fmt"
+	"unicode/utf8"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
@@ -33,6 +34,7 @@ const (
 	flagReadPrompt   = "--prompt"
 	flagReadVariable = "--variable"
 	flagReadDataType = "--datatype"
+	flagReadMask     = "--mask"
 )
 
 var readArguments = parameters.Arguments{
@@ -41,6 +43,7 @@ var readArguments = parameters.Arguments{
 		flagReadPrompt:   types.String,
 		flagReadVariable: types.String,
 		flagReadDataType: types.String,
+		flagReadMask:     types.String,
 	},
 	AllowAdditional: true,
 }
@@ -52,7 +55,7 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 		return errors.New("background processes cannot read from stdin")
 	}
 
-	var prompt, varName, defaultVal string
+	var prompt, varName, defaultVal, mask string
 
 	flags, additional, err := p.Parameters.ParseFlags(&readArguments)
 	if err != nil {
@@ -64,6 +67,7 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 		varName = flags[flagReadVariable]
 		defaultVal = flags[flagReadDefault]
 		datatype := flags[flagReadDataType]
+		mask = flags[flagReadMask]
 
 		if datatype != "" {
 			dt = datatype
@@ -99,6 +103,10 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 	rl := readline.NewInstance()
 	rl.SetPrompt(prompt)
 	rl.History = new(readline.NullHistory)
+
+	if len(mask) > 0 {
+		rl.PasswordMask, _ = utf8.DecodeRuneInString(mask)
+	}
 
 	s, err := rl.Readline()
 	if err != nil {

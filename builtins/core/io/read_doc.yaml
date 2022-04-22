@@ -22,6 +22,7 @@
           [ --variable var_name       ]
           [ --default "default value" ]
           [ --datatype data-type      ]
+          [ --mask character          ]
     ```
   Examples: |-
     Classic usage:
@@ -40,6 +41,12 @@
     read: --prompt "Are you sure? [Y/n]" \
           --variable yn \
           --default Y
+    ```
+
+    Secrets:
+
+    ```
+    read: --prompt "Password: " --variable pw --mask *
     ```
   Detail: |-
     ### Classic Usage
@@ -62,6 +69,7 @@
     --datatype: "_murex_ data-type for the read data (default: str)"
     --default: If a zero length string is returned but neither ctrl+c nor ctrl+d
                were pressed, then the default value defined here will be returned
+    --mask: Optional password mask, for reading secrets
   Synonyms:
   Related:
   - tout
