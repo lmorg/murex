@@ -91,17 +91,17 @@ const ( // function parameter contexts
 )
 
 const ( // function parameter error messages
-	fpeUnexpectedWhiteSpace    = "unexpected whitespace character (chr %d) at %d (%d:%d)"
-	fpeUnexpectedNewLine       = "unexpected new line at %d (%d:%d)"
-	fpeUnexpectedCharacter     = "unexpected character '%s' (chr %d) at %d (%d:%d)"
-	fpeUnexpectedColon         = "unexpected colon ':' (chr %d) at %d (%d:%d)"
-	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (chr %d) at %d (%d:%d)"
-	fpeUnexpectedEndSquare     = "unexpected closing square bracket ']' (chr %d) at %d (%d:%d)"
-	fpeEofNameStart            = "missing variable name at %d (%d:%d)"
-	fpeEofNameRead             = "varaible name not terminated with a colon %d (%d:%d)"
-	fpeEofTypeStart            = "missing data type %d (%d:%d)"
-	fpeEofDescRead             = "missing closing quotation mark on description %d (%d:%d)"
-	fpeEofDefaultRead          = "missing closing square bracket on default %d (%d:%d)"
+	fpeUnexpectedWhiteSpace    = "unexpected whitespace character (chr %d) at %d (%d,%d)"
+	fpeUnexpectedNewLine       = "unexpected new line at %d (%d,%d)"
+	fpeUnexpectedCharacter     = "unexpected character '%s' (chr %d) at %d (%d,%d)"
+	fpeUnexpectedColon         = "unexpected colon ':' (chr %d) at %d (%d,%d)"
+	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (chr %d) at %d (%d,%d)"
+	fpeUnexpectedEndSquare     = "unexpected closing square bracket ']' (chr %d) at %d (%d,%d)"
+	fpeEofNameStart            = "missing variable name at %d (%d,%d)"
+	fpeEofNameRead             = "varaible name not terminated with a colon %d (%d,%d)"
+	fpeEofTypeStart            = "missing data type %d (%d,%d)"
+	fpeEofDescRead             = "missing closing quotation mark on description %d (%d,%d)"
+	fpeEofDefaultRead          = "missing closing square bracket on default %d (%d,%d)"
 	fpeParameterNoName         = "parameter %d is missing a name"
 	fpeParameterNoDataType     = "parameter %d is missing a data type"
 )

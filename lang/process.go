@@ -76,13 +76,7 @@ func DefineFunction(name string, fn func(*Process) error, StdoutDataType string)
 var (
 	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
-	//EscapedColon         = string([]byte{1, 2, 3, 7})
 )
-
-// EscapeColonInErr is used to escape the ": " sequence in error message formatting
-/*func EscapeColonInErr(s string) string {
-	return strings.ReplaceAll(s, ": ", EscapedColon)
-}*/
 
 func writeError(p *Process, err error) []byte {
 	var msg string
@@ -100,9 +94,7 @@ func writeError(p *Process, err error) []byte {
 	}
 	msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
 
-	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+"> "+strings.Repeat(" ", len(msg)))
-	//sErr = strings.ReplaceAll(sErr, ": ", ":"+utils.NewLineString+strings.Repeat(" ", len(msg))+"> ")
-	//sErr = strings.ReplaceAll(sErr, EscapedColon, ": ")
+	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", len(msg)-2)+"> ")
 	return []byte(msg + sErr)
 }
 
