@@ -2,6 +2,7 @@ package io
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
@@ -41,7 +42,7 @@ var readArguments = parameters.Arguments{
 		flagReadVariable: types.String,
 		flagReadDataType: types.String,
 	},
-	AllowAdditional: false,
+	AllowAdditional: true,
 }
 
 func read(p *lang.Process, dt string, paramAdjust int) error {
@@ -53,9 +54,12 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 
 	var prompt, varName, defaultVal string
 
-	flags, _, err := p.Parameters.ParseFlags(&readArguments)
+	flags, additional, err := p.Parameters.ParseFlags(&readArguments)
+	if err != nil {
+		return fmt.Errorf("cannot parse parameters: %s", err.Error())
+	}
 
-	if err == nil {
+	if len(additional) == 0 {
 		prompt = flags[flagReadPrompt]
 		varName = flags[flagReadVariable]
 		defaultVal = flags[flagReadDefault]
@@ -82,6 +86,10 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 				return err
 			}
 		} else {
+			varName, err = p.Parameters.String(0 + paramAdjust)
+			if err != nil {
+				return err
+			}
 			prompt = p.Parameters.StringAllRange(1+paramAdjust, -1)
 		}
 	}
