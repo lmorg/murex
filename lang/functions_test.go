@@ -18,23 +18,23 @@ func testFuncParseDataTypes(t *testing.T, tests []testFuncParseDataTypesT) {
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	for i, test := range tests {
-		actual, err := lang.ParseMxFunctionParameters(test.Parameters)
-		if (err != nil) == test.Error {
+	for i := range tests {
+		actual, err := lang.ParseMxFunctionParameters(tests[i].Parameters)
+		if (err == nil) == tests[i].Error {
 			t.Errorf("Unexpected error raised in test %d", i)
-			t.Logf("Parameters: %s", test.Parameters)
-			t.Logf("Expected:   %s", json.LazyLogging(test.Expected))
+			t.Logf("Parameters: %s", tests[i].Parameters)
+			t.Logf("Expected:   %s", json.LazyLogging(tests[i].Expected))
 			t.Logf("Actual:     %s", json.LazyLogging(actual))
-			t.Logf("exp err:    %v", test.Error)
+			t.Logf("exp err:    %v", tests[i].Error)
 			t.Logf("act err:    %s", err)
 		}
 
-		if json.LazyLogging(test.Expected) == json.LazyLogging(actual) {
+		if json.LazyLogging(tests[i].Expected) != json.LazyLogging(actual) {
 			t.Errorf("Unexpected error raised in test %d", i)
-			t.Logf("Parameters: %s", test.Parameters)
-			t.Logf("Expected:   %s", json.LazyLogging(test.Expected))
+			t.Logf("Parameters: %s", tests[i].Parameters)
+			t.Logf("Expected:   %s", json.LazyLogging(tests[i].Expected))
 			t.Logf("Actual:     %s", json.LazyLogging(actual))
-			t.Logf("exp err:    %v", test.Error)
+			t.Logf("exp err:    %v", tests[i].Error)
 			t.Logf("act err:    %s", err)
 		}
 	}
@@ -44,7 +44,6 @@ func TestFuncParseDataTypes(t *testing.T) {
 	tests := []testFuncParseDataTypesT{
 		{
 			Parameters: `name: str, age: int`,
-			Error:      false,
 			Expected: []lang.MxFunctionParams{{
 				Name:     "name",
 				DataType: "str",
@@ -55,7 +54,6 @@ func TestFuncParseDataTypes(t *testing.T) {
 		},
 		{
 			Parameters: `name: str "What is your name?", age: int "How old are you?"`,
-			Error:      false,
 			Expected: []lang.MxFunctionParams{{
 				Name:        "name",
 				DataType:    "str",
@@ -64,6 +62,40 @@ func TestFuncParseDataTypes(t *testing.T) {
 				Name:        "age",
 				DataType:    "int",
 				Description: "How old are you?",
+			}},
+		},
+		{
+			Parameters: `name: str [Bob], age: int [100]`,
+			Expected: []lang.MxFunctionParams{{
+				Name:     "name",
+				DataType: "str",
+				Default:  "Bob",
+			}, {
+				Name:     "age",
+				DataType: "int",
+				Default:  "100",
+			}},
+		},
+		{
+			Parameters: `name: str "What is your name?" [Bob], age: int "How old are you?" [100]`,
+			Expected: []lang.MxFunctionParams{{
+				Name:        "name",
+				DataType:    "str",
+				Description: "What is your name?",
+				Default:     "Bob",
+			}, {
+				Name:        "age",
+				DataType:    "int",
+				Description: "How old are you?",
+				Default:     "100",
+			}},
+		},
+		{
+			Parameters: `name: str [Bob]`,
+			Expected: []lang.MxFunctionParams{{
+				Name:     "name",
+				DataType: "str",
+				Default:  "Bob",
 			}},
 		},
 	}

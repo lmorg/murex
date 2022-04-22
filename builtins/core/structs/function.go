@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -93,7 +94,9 @@ func cmdFunc(p *lang.Process) error {
 
 		dtParamsT, err = lang.ParseMxFunctionParameters(dtParamsS)
 		if err != nil {
-			return err
+			return fmt.Errorf("cannot parse function parameter block: %s:%scode: (%s)",
+				//err.Error(), lang.EscapedColon, lang.EscapeColonInErr(dtParamsS))
+				err.Error(), utils.NewLineString, dtParamsS)
 		}
 	}
 

@@ -76,9 +76,17 @@ func DefineFunction(name string, fn func(*Process) error, StdoutDataType string)
 var (
 	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
 	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
+	//EscapedColon         = string([]byte{1, 2, 3, 7})
 )
 
+// EscapeColonInErr is used to escape the ": " sequence in error message formatting
+/*func EscapeColonInErr(s string) string {
+	return strings.ReplaceAll(s, ": ", EscapedColon)
+}*/
+
 func writeError(p *Process, err error) []byte {
+	var msg string
+
 	name := p.Name.String()
 	if name == "exec" {
 		exec, pErr := p.Parameters.String(0)
@@ -88,9 +96,14 @@ func writeError(p *Process, err error) []byte {
 	}
 
 	if p.FileRef.Source.Module == app.Name {
-		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", name, p.FileRef.Line, p.FileRef.Column, err.Error()))
+		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
 	}
-	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
+	msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
+
+	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+"> "+strings.Repeat(" ", len(msg)))
+	//sErr = strings.ReplaceAll(sErr, ": ", ":"+utils.NewLineString+strings.Repeat(" ", len(msg))+"> ")
+	//sErr = strings.ReplaceAll(sErr, EscapedColon, ": ")
+	return []byte(msg + sErr)
 }
 
 func createProcess(p *Process, isMethod bool) {

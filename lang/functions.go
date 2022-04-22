@@ -86,18 +86,22 @@ const ( // function parameter contexts
 	fpcDescStart
 	fpcDescRead
 	fpcDescEnd
+	fpcDefaultRead
+	fpcDefaultEnd
 )
 
 const ( // function parameter error messages
-	fpeUnexpectedWhiteSpace    = "unexpected whitespace character at %d (%d:%d)"
+	fpeUnexpectedWhiteSpace    = "unexpected whitespace character (chr %d) at %d (%d:%d)"
 	fpeUnexpectedNewLine       = "unexpected new line at %d (%d:%d)"
-	fpeUnexpectedCharacter     = "unexpected character '%s' (%d) at %d (%d:%d)"
-	fpeUnexpectedColon         = "unexpected colon ':' (%d) at %d (%d:%d)"
-	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (%d) at %d (%d:%d)"
+	fpeUnexpectedCharacter     = "unexpected character '%s' (chr %d) at %d (%d:%d)"
+	fpeUnexpectedColon         = "unexpected colon ':' (chr %d) at %d (%d:%d)"
+	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (chr %d) at %d (%d:%d)"
+	fpeUnexpectedEndSquare     = "unexpected closing square bracket ']' (chr %d) at %d (%d:%d)"
 	fpeEofNameStart            = "missing variable name at %d (%d:%d)"
 	fpeEofNameRead             = "varaible name not terminated with a colon %d (%d:%d)"
 	fpeEofTypeStart            = "missing data type %d (%d:%d)"
 	fpeEofDescRead             = "missing closing quotation mark on description %d (%d:%d)"
+	fpeEofDefaultRead          = "missing closing square bracket on default %d (%d:%d)"
 	fpeParameterNoName         = "parameter %d is missing a name"
 	fpeParameterNoDataType     = "parameter %d is missing a data type"
 )
@@ -125,7 +129,7 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 			switch context {
 			case fpcNameStart:
 				y++
-				x = 0
+				x = 1
 			default:
 				return nil, fmt.Errorf(fpeUnexpectedNewLine, i+1, y, x)
 			}
@@ -133,7 +137,7 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 		case ' ', '\t':
 			switch context {
 			case fpcNameRead:
-				return nil, fmt.Errorf(fpeUnexpectedWhiteSpace, i+1, y, x)
+				return nil, fmt.Errorf(fpeUnexpectedWhiteSpace, r, i+1, y, x)
 			case fpcTypeRead:
 				context++
 			case fpcDescRead:
@@ -147,31 +151,54 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 			switch context {
 			case fpcNameRead:
 				context++
-				continue
 			case fpcDescRead:
 				mfp[counter].Description += ":"
-				continue
+			case fpcDefaultRead:
+				mfp[counter].Default += ":"
 			default:
-				return nil, fmt.Errorf(fpeUnexpectedColon, r, i, y, x)
+				return nil, fmt.Errorf(fpeUnexpectedColon, r, i+1, y, x)
 			}
 
 		case '"':
 			switch context {
+			case fpcDefaultRead:
+				mfp[counter].Default += "\""
 			case fpcDescStart, fpcDescRead:
 				context++
-				continue
 			default:
-				return nil, fmt.Errorf(fpeUnexpectedQuotationMark, r, i, y, x)
+				return nil, fmt.Errorf(fpeUnexpectedQuotationMark, r, i+1, y, x)
+			}
+
+		case '[':
+			switch context {
+			case fpcDescRead:
+				mfp[counter].Description += "["
+			case fpcDefaultRead:
+				mfp[counter].Default += "["
+			case fpcDescStart, fpcDescEnd:
+				context = fpcDefaultRead
+			}
+
+		case ']':
+			switch context {
+			case fpcDescRead:
+				mfp[counter].Description += "]"
+			case fpcDefaultRead:
+				context++
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedEndSquare, r, i+1, y, x)
 			}
 
 		case ',':
 			switch context {
 			case fpcDescRead:
 				mfp[counter].Description += ","
-			case fpcTypeRead, fpcDescEnd:
+			case fpcDefaultRead:
+				mfp[counter].Default += ","
+			case fpcTypeRead, fpcDescEnd, fpcDefaultEnd:
 				mfp = append(mfp, MxFunctionParams{})
 				counter++
-				continue
+				context = fpcNameStart
 			}
 
 		default:
@@ -196,15 +223,20 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 				case fpcDescRead:
 					mfp[counter].Description += string([]rune{r})
 					continue
+				case fpcDefaultRead:
+					mfp[counter].Default += string([]rune{r})
+					continue
 				}
 			}
 
-			if context == fpcDescRead {
+			switch context {
+			case fpcDescRead:
 				mfp[counter].Description += string([]rune{r})
-				continue
+			case fpcDefaultRead:
+				mfp[counter].Default += string([]rune{r})
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedCharacter, string([]rune{r}), r, i+1, y, x)
 			}
-
-			return nil, fmt.Errorf(fpeUnexpectedCharacter, string([]rune{r}), r, i, y, x)
 		}
 	}
 
@@ -217,14 +249,16 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 		return nil, fmt.Errorf(fpeEofTypeStart, len(parameters), y, x)
 	case fpcDescRead:
 		return nil, fmt.Errorf(fpeEofDescRead, len(parameters), y, x)
+	case fpcDefaultRead:
+		return nil, fmt.Errorf(fpeEofDefaultRead, len(parameters), y, x)
 	}
 
 	for i := range mfp {
 		if mfp[i].Name == "" {
-			return nil, fmt.Errorf(fpeParameterNoName, i)
+			return nil, fmt.Errorf(fpeParameterNoName, i+1)
 		}
 		if mfp[i].DataType == "" {
-			return nil, fmt.Errorf(fpeParameterNoDataType, i)
+			return nil, fmt.Errorf(fpeParameterNoDataType, i+1)
 		}
 	}
 
@@ -243,6 +277,9 @@ func (mfd *murexFuncDetails) castParameters(p *Process) error {
 			if prompt == "" {
 				prompt = "Please enter a value for '" + mfd.Parameters[i].Name + "'"
 			}
+			if len(mfd.Parameters[i].Default) > 0 {
+				prompt += " [" + mfd.Parameters[i].Default + "]"
+			}
 			rl := readline.NewInstance()
 			rl.SetPrompt(prompt + ": ")
 			rl.History = new(readline.NullHistory)
@@ -259,7 +296,7 @@ func (mfd *murexFuncDetails) castParameters(p *Process) error {
 
 		v, err := types.ConvertGoType(s, mfd.Parameters[i].DataType)
 		if err != nil {
-			return fmt.Errorf("cannot convert parameter %d '%s' to data type '%s'", i, s, mfd.Parameters[i].DataType)
+			return fmt.Errorf("cannot convert parameter %d '%s' to data type '%s'", i+1, s, mfd.Parameters[i].DataType)
 		}
 		err = p.Variables.Set(p, mfd.Parameters[i].Name, v, mfd.Parameters[i].DataType)
 		if err != nil {
