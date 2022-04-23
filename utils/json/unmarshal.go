@@ -156,9 +156,9 @@ func unmarshalMurex(data []byte, v interface{}) error {
 	case comment:
 		comments = append(comments, "")
 	case single:
-		return errors.New("Unterminated single quotes")
+		return errors.New("unterminated single quotes")
 	case double:
-		return errors.New("Unterminated double quotes")
+		return errors.New("unterminated double quotes")
 	case brace > 0:
 		return fmt.Errorf("%d more open brace(s) than closed", brace)
 	case brace < 0:

@@ -30,35 +30,43 @@ func Parse(json []byte) (interface{}, error) {
 	)
 
 	cannotClose := func() (interface{}, error) {
-		return nil, fmt.Errorf("Cannot close `%s` at %d(%d,%d): %s", string([]byte{b}), i+1, y, x, err.Error())
+		return nil, fmt.Errorf("cannot close `%s` at %d(%d,%d): %s", string([]byte{b}), i+1, y, x, err.Error())
 	}
 
 	unexpectedCharacter := func() (interface{}, error) {
-		return nil, fmt.Errorf("Unexpected character `%s` at %d(%d,%d)", string([]byte{b}), i+1, y, x)
+		return nil, fmt.Errorf("unexpected character `%s` at %d(%d,%d)", string([]byte{b}), i+1, y, x)
 	}
 
 	unexpectedColon := func() (interface{}, error) {
-		return nil, fmt.Errorf("Unexpected `%s` at %d(%d,%d). Colons should just be used to separate keys and values", string([]byte{b}), i+1, y, x)
+		return nil, fmt.Errorf("unexpected `%s` at %d(%d,%d). Colons should just be used to separate keys and values", string([]byte{b}), i+1, y, x)
 	}
 
 	unexpectedComma := func() (interface{}, error) {
-		return nil, fmt.Errorf("Unexpected `%s` at %d(%d,%d). Commas should just be used to separate items mid arrays and maps and not for the end value nor to separate keys and values in a map", string([]byte{b}), i+1, y, x)
+		return nil, fmt.Errorf("unexpected `%s` at %d(%d,%d). Commas should just be used to separate items mid arrays and maps and not for the end value nor to separate keys and values in a map", string([]byte{b}), i+1, y, x)
 	}
 
 	invalidNewLine := func() (interface{}, error) {
-		return nil, fmt.Errorf("Cannot have a new line (eg \\n) within single nor double quotes at %d(%d,%d)", i+1, y, x)
+		return nil, fmt.Errorf("cannot have a new line (eg \\n) within single nor double quotes at %d(%d,%d)", i+1, y, x)
 	}
 
 	cannotOpen := func() (interface{}, error) {
-		return nil, fmt.Errorf("Cannot use the brace quotes on key names at %d(%d,%d)", i+1, y, x)
+		return nil, fmt.Errorf("cannot use the brace quotes on key names at %d(%d,%d)", i+1, y, x)
 	}
 
 	cannotReOpen := func() (interface{}, error) {
-		return nil, fmt.Errorf("Quote multiple strings in a key or value block at %d(%d,%d). Strings should be comma separated and inside arrays block (`[` and `]`) where multiple values are expected", i+1, y, x)
+		return nil, fmt.Errorf("quote multiple strings in a key or value block at %d(%d,%d). Strings should be comma separated and inside arrays block (`[` and `]`) where multiple values are expected", i+1, y, x)
 	}
 
 	keysOutsideMap := func() (interface{}, error) {
-		return nil, fmt.Errorf("Keys outside of map blocks, `{...}`, at %d(%d,%d)", i+1, y, x)
+		return nil, fmt.Errorf("keys outside of map blocks, `{...}`, at %d(%d,%d)", i+1, y, x)
+	}
+
+	storeErr := func(err error, pos, y, x int) error {
+		if err != nil {
+			return fmt.Errorf("error at %d(%d,%d):\n%s", pos, y, x, err.Error())
+		}
+
+		return nil
 	}
 
 	/*cannotMixArrayTypes := func() (interface{}, error) {
@@ -79,11 +87,11 @@ func Parse(json []byte) (interface{}, error) {
 			s := current.String()
 			switch s {
 			case "true":
-				objects.SetValue(true)
+				return storeErr(objects.SetValue(true), pos, y, x)
 			case "false":
-				objects.SetValue(false)
+				return storeErr(objects.SetValue(false), pos, y, x)
 			default:
-				return fmt.Errorf("Boolean values should be either 'true' or 'false', instead received '%s' at %d(%d,%d)", s, pos, y, x)
+				return fmt.Errorf("boolean values should be either 'true' or 'false', instead received '%s' at %d(%d,%d)", s, pos, y, x)
 			}
 
 		case objNumber:
@@ -91,16 +99,14 @@ func Parse(json []byte) (interface{}, error) {
 			if err != nil {
 				return fmt.Errorf("%s at %d(%d,%d)", err.Error(), pos, y, x)
 			}
-			objects.SetValue(i)
+			return storeErr(objects.SetValue(i), pos, y, x)
 
 		case objString:
-			objects.SetValue(current.String())
+			return storeErr(objects.SetValue(current.String()), pos, y, x)
 
 		default:
-			panic("code shouldn't fail here")
+			return fmt.Errorf("unexpected condition in `Parse(json []byte) (interface{}, error).\nThis is likely a murex bug, please log an issue at https://github.com/lmorg/murex/issues`")
 		}
-
-		return nil
 	}
 
 	for ; i < len(json); i++ {
@@ -443,19 +449,19 @@ func Parse(json []byte) (interface{}, error) {
 
 	switch {
 	case qSingle.IsOpen():
-		return nil, fmt.Errorf("Single quote, `'`, openned at %d but not closed", qSingle.pos+1)
+		return nil, fmt.Errorf("single quote, `'`, openned at %d but not closed", qSingle.pos+1)
 
 	case qDouble.IsOpen():
-		return nil, fmt.Errorf("Double quote, `\"`, openned at %d but not closed", qDouble.pos+1)
+		return nil, fmt.Errorf("double quote, `\"`, openned at %d but not closed", qDouble.pos+1)
 
 	case qBrace.IsOpen():
-		return nil, fmt.Errorf("Quote brace, `(`, openned at %d but not closed", qBrace.pos[qBrace.len]+1)
+		return nil, fmt.Errorf("quote brace, `(`, openned at %d but not closed", qBrace.pos[qBrace.len]+1)
 
 	case square.IsOpen():
-		return nil, fmt.Errorf("Square brace, `(`, openned at %d but not closed", square.pos[square.len]+1)
+		return nil, fmt.Errorf("square brace, `(`, openned at %d but not closed", square.pos[square.len]+1)
 
 	case curly.IsOpen():
-		return nil, fmt.Errorf("Curly brace, `(`, openned at %d but not closed", curly.pos[curly.len]+1)
+		return nil, fmt.Errorf("curly brace, `(`, openned at %d but not closed", curly.pos[curly.len]+1)
 
 	default:
 		return objects.nest[0].value, nil

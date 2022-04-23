@@ -50,7 +50,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			case parameters.TokenTypeString:
 				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 				s = utils.CrLfTrimString(s)
@@ -70,7 +69,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				}
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 
@@ -83,7 +81,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			case parameters.TokenTypeArray:
 				data, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 
@@ -154,7 +151,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 
@@ -183,7 +179,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 					`unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
 				)
-				//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 				return err
 			}
 		}
