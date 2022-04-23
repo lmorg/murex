@@ -11,10 +11,18 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 	return
 }
 
+// DontCacheAst is an override for disabling the AST cache. This is enabled for
+// some tests (particularly fuzz testing)
+var DontCacheAst bool
+
 // ParseBlock parses a murex code block.
 // Returns the abstract syntax tree (AstNodes) or any syntax errors preventing
 // a successful parse (ParserError)
 func ParseBlock(block []rune) (nodes *AstNodes, pErr ParserError) {
+	if DontCacheAst {
+		return parser(block)
+	}
+
 	return AstCache.ParseCache(block)
 }
 

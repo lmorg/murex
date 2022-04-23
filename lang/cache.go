@@ -26,7 +26,7 @@ func newAstCache() *astCache {
 
 func astGarbageCollector(c *astCache) {
 	for {
-		time.Sleep(5 * time.Minute)
+		time.Sleep(30 * time.Second)
 		c.cache.Range(func(k interface{}, v interface{}) bool {
 			if v.(*cacheItem).created.Add(5 * time.Minute).Before(time.Now()) {
 				c.cache.Delete(k)
