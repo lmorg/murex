@@ -512,7 +512,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pUpdate(r)
 			case scanFuncName:
 				pUpdate(r)
-				if i < len(block) && block[i+1] != '[' {
+				if i < len(block)-1 && block[i+1] != '[' {
 					startParameters()
 				}
 			default:
@@ -737,9 +737,18 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			case braceCount > 0:
 				pUpdate(r)
 			case last == '-':
-				*pop = (*pop)[:len(*pop)-1]
-				if len(*pop) == 0 {
-					pToken.Type = parameters.TokenTypeNil
+				if len(node.ParamTokens) != 0 {
+					l := len(node.ParamTokens[pCount])
+					if l > 1 && node.ParamTokens[pCount][l-2].Type == parameters.TokenTypeTilde && len(node.ParamTokens[pCount][l-2].Key) > 0 {
+						// work around '-' being an acceptable character for ~,
+						// thus causing an index out of bounds panic.
+						node.ParamTokens[pCount][l-2].Key = node.ParamTokens[pCount][l-2].Key[:len(node.ParamTokens[pCount][l-2].Key)-1]
+					} else {
+						*pop = (*pop)[:len(*pop)-1]
+					}
+					if len(*pop) == 0 {
+						pToken.Type = parameters.TokenTypeNil
+					}
 				}
 				node.PipeOut = true
 				appendNode()

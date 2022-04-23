@@ -102,3 +102,14 @@ func TestFuncParseDataTypes(t *testing.T) {
 
 	testFuncParseDataTypes(t, tests)
 }
+
+func FuzzFuncParseDataTypes(f *testing.F) {
+	tests := []string{"name: str, age: int", "", "!12345"}
+	for _, tc := range tests {
+		f.Add(tc) // Use f.Add to provide a seed corpus
+	}
+	f.Fuzz(func(t *testing.T, orig string) {
+		lang.ParseMxFunctionParameters(orig)
+		// we are just testing we can't cause an unhandled panic
+	})
+}

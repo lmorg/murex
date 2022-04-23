@@ -49,3 +49,14 @@ func TestBugFix(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func FuzzParseBlock(f *testing.F) {
+	tests := []string{"out: hello world", "", "bg { err: abc 123 }"}
+	for _, tc := range tests {
+		f.Add(tc) // Use f.Add to provide a seed corpus
+	}
+	f.Fuzz(func(t *testing.T, orig string) {
+		lang.ParseBlock([]rune(orig))
+		// we are just testing we can't cause an unhandled panic
+	})
+}
