@@ -6,17 +6,9 @@ import (
 )
 
 func syntaxCompletion(line []rune, change string, pos int) ([]rune, int) {
-	// This is lazy I know, but it's faster and less error prone than checking
-	// the size of every array. Plus produces more readable code.
-	/*defer func() {
-		if debug.Enabled {
-			return
-		}
-		if r := recover(); r != nil {
-			newLine = line
-			newPos = pos
-		}
-	}()*/
+	if pos < 0 || len(line) < pos {
+		return line, pos
+	}
 
 	var part parser.ParsedTokens
 	full, _ := parse(line)
