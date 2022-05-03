@@ -1,9 +1,11 @@
 package lang
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
+	"syscall"
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
@@ -39,14 +41,18 @@ func execute(p *Process) error {
 		return nil
 	}
 
-	ctxCancel := p.Kill
+	//ctxCancel := p.Kill
 	p.Kill = func() {
 		if !debug.Enabled {
 			defer func() { recover() }() // I don't care about errors in this instance since we are just killing the proc anyway
 		}
 
-		ctxCancel()
-		cmd.Process.Kill()
+		//ctxCancel()
+		err := cmd.Process.Signal(syscall.SIGTERM)
+		if err != nil {
+			os.Stderr.WriteString(
+				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", p.Name.String(), err.Error()))
+		}
 	}
 
 	switch {
