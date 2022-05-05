@@ -3,6 +3,7 @@ package shell
 import (
 	"fmt"
 	"os"
+	"regexp"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
@@ -46,6 +47,8 @@ func sigterm(interactive bool) {
 	}
 }
 
+var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
+
 func sigquit(interactive bool) {
 	if !interactive {
 		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
@@ -64,11 +67,27 @@ func sigquit(interactive bool) {
 				procName = procParam
 				procParam, _ = p.Parameters.String(1)
 			}
-			if len(procParam) > 10 {
-				procParam = procParam[:10]
+			if len(procParam) > 60 {
+				procParam = procParam[:60] + "..."
 			}
-			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!", p.Id, procName, procParam)))
+			procParam = rxWhiteSpace.ReplaceAllString(procParam, " ")
+
+			lang.ShellProcess.Stderr.Writeln([]byte(
+				fmt.Sprintf(
+					"!!! Force closing FID %d: %s %s !!!",
+					p.Id, procName, procParam)))
 			p.Kill()
+
+			i, cmd := p.Exec.Get()
+			if cmd != nil {
+				err := cmd.Process.Kill()
+				if err != nil {
+					lang.ShellProcess.Stderr.Writeln([]byte(
+						fmt.Sprintf(
+							"!!! Error terminating FID %d (%d), `%s`: %s !!!",
+							p.Id, i, procName, err.Error())))
+				}
+			}
 		}
 	}
 
