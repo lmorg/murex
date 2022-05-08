@@ -453,6 +453,9 @@ autocomplete: set git { [{
                 "--amend": [{ "AnyValue": true }]
             },
             "AllowMultiple": true
+        }],
+        "push": [{
+            "Flags": ["--tags"]
         }]
     }
 }] }
