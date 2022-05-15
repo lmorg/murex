@@ -6,6 +6,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 15.05.2022 - [What's new in murex v2.7](changelog/v2.7.md)
+
+This update has introduced another potential breaking change for your safety: zero length arrays now fail by default. Also errors inside subshells will cause the parent command to fail if ran inside a `try` or `trypipe` block.
+
+
 ### 26.02.2022 - [What's new in murex v2.6](changelog/v2.6.md)
 
 This update has introduced a potential breaking change: variables now need to be defined before usage otherwise the commandline will fail. Read notes to learn how to disable this feature where needed. Also included in this release is the `select` command as part of the standard build.

@@ -133,9 +133,14 @@ autocomplete: set !global { [{
     "Dynamic": ({ autocomplete.variables.globals })
 }] }
 
-autocomplete: set export { [{
-    "Dynamic": ({ autocomplete.variables })
-}] }
+autocomplete: set export { [
+    {
+        "Dynamic": ({ autocomplete.variables })
+    },
+    {
+        "IncDirs": true
+    }
+] }
 
 autocomplete: set !export { [{
     "DynamicDesc": ({ runtime --exports })
