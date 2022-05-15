@@ -30,11 +30,12 @@ type Flags struct {
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
-	Alias         string             // Alias one []Flags to another
-	NestedCommand bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
-	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
-	AutoBranch    bool               // Autocomplete trees (eg directory structures) one branch at a time
-	ExecCmdline   bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
+	//Goto          bool               // Jump to another location in the config
+	Alias         string // Alias one []Flags to another
+	NestedCommand bool   // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
+	AnyValue      bool   // Allow any value to be input (eg user input that cannot be pre-determined)
+	AutoBranch    bool   // Autocomplete trees (eg directory structures) one branch at a time
+	ExecCmdline   bool   // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
@@ -75,7 +76,7 @@ func InitExeFlags(exe string) {
 	}
 }
 
-type runtimeDump struct {
+type runtimeDumpT struct {
 	FlagValues []Flags
 	FileRef    *ref.File
 }
@@ -83,10 +84,10 @@ type runtimeDump struct {
 // RuntimeDump exports the autocomplete flags and FileRef metadata in a JSON
 // compatible struct for `runtime` to consume
 func RuntimeDump() interface{} {
-	dump := make(map[string]runtimeDump)
+	dump := make(map[string]runtimeDumpT)
 
 	for exe := range ExesFlags {
-		dump[exe] = runtimeDump{
+		dump[exe] = runtimeDumpT{
 			FlagValues: ExesFlags[exe],
 			FileRef:    ExesFlagsFileRef[exe],
 		}
