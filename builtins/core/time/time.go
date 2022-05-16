@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["time"] = cmdTime
+	lang.DefineFunction("time", cmdTime, types.Any)
 }
 
 func cmdTime(p *lang.Process) (err error) {

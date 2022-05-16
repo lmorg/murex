@@ -82,7 +82,8 @@ function progress {
     # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
 
     if { = `+"`${os}`==`linux`"+` } then {
-        params -> [ 1 ] -> set pid
+        #params -> [ 1 ] -> set pid
+        $1 -> set pid
         
         g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
             trypipe <!null> {

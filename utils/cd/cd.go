@@ -30,6 +30,8 @@ func Chdir(p *lang.Process, path string) error {
 		pwd = path
 	}
 
+	//ansititle.Icon([]byte(pwd))
+
 	// Update $PWD environmental variable for compatibility reasons
 	err = os.Setenv("PWD", pwd)
 	if err != nil {

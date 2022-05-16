@@ -11,8 +11,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["test"] = cmdTest
-	lang.GoFunctions["!test"] = cmdTestDisable
+	lang.DefineFunction("test", cmdTest, types.Any)
+	lang.DefineFunction("!test", cmdTestDisable, types.Null)
 
 	defaults.AppendProfile(`
 private autocomplete.test.run-unit {

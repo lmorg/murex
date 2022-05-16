@@ -41,7 +41,7 @@ func TestRunTestNotATest(t *testing.T) {
 		StdoutMatch: "foobar\n",
 	}
 
-	lang.MxFunctions.Define("foobar", []rune("out foobar"), fileRef)
+	lang.MxFunctions.Define("foobar", nil, []rune("out foobar"), fileRef)
 
 	ut := new(lang.UnitTests)
 	ut.Add("random_string_that_shouldnt_exist_kjhadgkjsdhgfksdahfgsadhjsdfjksadfhs", plan, fileRef)
@@ -75,7 +75,7 @@ func TestRunTestNotAFunction(t *testing.T) {
 		StdoutMatch: "foobar\n",
 	}
 
-	lang.MxFunctions.Define("foobar", []rune("out foobar"), fileRef)
+	lang.MxFunctions.Define("foobar", nil, []rune("out foobar"), fileRef)
 
 	ut := new(lang.UnitTests)
 	ut.Add("random_string_that_shouldnt_exist_kjhadgkjsdhgfksdahfgsadhjsdfjksadfhs", plan, fileRef)

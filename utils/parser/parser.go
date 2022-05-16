@@ -32,6 +32,8 @@ type ParsedTokens struct {
 	VarLoc        int
 	Escaped       bool
 	Comment       bool
+	CommentMsg    string
+	commentMsg    []rune
 	QuoteSingle   bool
 	QuoteDouble   bool
 	QuoteBrace    int
@@ -97,7 +99,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		}
 	}
 
-	ansiChar := func(colour string, r rune) {
+	ansiChar := func(colour string, r ...rune) {
 		syntaxHighlighted += colour + string(r) + reset[len(reset)-1]
 		if len(reset) == 1 && pt.NestedBlock > 0 {
 			syntaxHighlighted += hlBlock
@@ -120,7 +122,19 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		//ansiResetNoChar()
 	}
 
-	for i = range block {
+	next := func(r rune) bool {
+		if i+1 < len(block) {
+			return block[i+1] == r
+		}
+		return false
+	}
+
+	for ; i < len(block); i++ {
+		if pt.Comment {
+			pt.commentMsg = append(pt.commentMsg, block[i])
+			continue
+		}
+
 		if !pt.Escaped {
 			pt.LastCharacter = block[i]
 		}
@@ -144,7 +158,8 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			default:
 				pt.Comment = true
 				syntaxHighlighted += hlComment + string(block[i:]) + ansi.Reset
-				return
+				//return
+				defer func() { pt.CommentMsg = string(pt.commentMsg) }()
 			}
 
 		case '\\':
@@ -364,8 +379,50 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
-				ansiChar(hlPipe, block[i])
+				if next('>') {
+					readFunc = true
+					*pt.pop += `>`
+					pt.Loc = i
+					i++
+					if next('>') {
+						pt.Loc = i
+						i++
+						ansiChar(hlPipe, '|', '>', '>')
+					} else {
+						ansiChar(hlPipe, '|', '>')
+					}
+				} else {
+					ansiChar(hlPipe, block[i])
+				}
 				syntaxHighlighted += hlFunction
+			}
+
+		case '&':
+			pt.Loc = i
+			switch {
+			case pt.Escaped:
+				escaped()
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+			case next('&'):
+				if pos != 0 && pt.Loc >= pos {
+					return
+				}
+				pt.LastFlowToken = i
+				pt.ExpectFunc = true
+				pt.SquareBracket = false
+				pt.PipeToken = PipeTokenNone
+				pt.pop = &pt.FuncName
+				//pt.FuncName = ""
+				pt.LastFuncName = pt.FuncName
+				pt.Parameters = make([]string, 0)
+				ansiChar(hlPipe, '&', '&')
+				syntaxHighlighted += hlFunction
+				i++
+			default:
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
 			}
 
 		case ';':

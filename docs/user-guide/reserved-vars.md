@@ -109,6 +109,21 @@ is so that the shell path cannot be overridden.
 
 This is TODO: [https://github.com/lmorg/murex/issues/304](Github issue 304)
 
+### `hostname` (str)
+
+This returns the hostname of the machine _murex_ is running from.
+
+### `0` (str)
+
+This returns the name of the executable (like `$ARGS[0]`)
+
+### `1`, `2`, `3`... (str)
+
+This returns parameter _n_ (like `$ARGS[n]`). If there is no parameter _n_
+then the variable will not be set thus the upper limit variable is determined
+by how many parameters are set. For example if you have 19 parameters passed
+then variables `$1` through to `$19` (inclusive) will all be set.
+
 ## See Also
 
 * [parser/Array (`@`) Token](../parser/array.md):

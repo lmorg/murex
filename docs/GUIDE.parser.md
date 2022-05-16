@@ -21,6 +21,8 @@ files.
 
 ## Pages
 
+* [And (`&&`) Logical Operator](parser/logical-and.md):
+  Continues next operation if previous operation passes
 * [Array (`@`) Token](parser/array.md):
   Expand values as an array
 * [Arrow Pipe (`->`) Token](parser/pipe-arrow.md):
@@ -33,6 +35,8 @@ files.
   Initiates or terminates a string (variables expanded)
 * [Generic Pipe (`=>`) Token](parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
+* [Or (`||`) Logical Operator](parser/logical-or.md):
+  Continues next operation only if previous operation fails
 * [POSIX Pipe (`|`) Token](parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [STDERR Pipe (`?`) Token](parser/pipe-err.md):

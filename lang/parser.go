@@ -11,10 +11,18 @@ func genEmptyParamTokens() (pt [][]parameters.ParamToken) {
 	return
 }
 
+// DontCacheAst is an override for disabling the AST cache. This is enabled for
+// some tests (particularly fuzz testing)
+var DontCacheAst bool
+
 // ParseBlock parses a murex code block.
 // Returns the abstract syntax tree (AstNodes) or any syntax errors preventing
 // a successful parse (ParserError)
 func ParseBlock(block []rune) (nodes *AstNodes, pErr ParserError) {
+	if DontCacheAst {
+		return parser(block)
+	}
+
 	return AstCache.ParseCache(block)
 }
 
@@ -401,7 +409,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pUpdate(r)
 				startParameters()
 				quoteBrace++
-			case len(*pop) > 0: // experimental!
+			case len(*pop) > 0:
 				pUpdate(r)
 				quoteBrace++
 				quoteBraceHide = true
@@ -512,7 +520,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pUpdate(r)
 			case scanFuncName:
 				pUpdate(r)
-				if i < len(block) && block[i+1] != '[' {
+				if i < len(block)-1 && block[i+1] != '[' {
 					startParameters()
 				}
 			default:
@@ -638,12 +646,21 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeTokenPipe, i)
 				return &nodes, pErr
-			default:
+			case last == '|':
+				appendNode()
+				node = AstNode{LogicOr: true, NewChain: true}
+				pop = &node.Name
+				scanFuncName = true
+			case !next('|'):
 				node.PipeOut = true
 				appendNode()
 				node = AstNode{Method: true}
 				pop = &node.Name
 				scanFuncName = true
+			default:
+				// do nothing
+				//pErr = raiseErr(ErrUnknownParserErrorPipe, i)
+				//return &nodes, pErr
 			}
 
 		case '?':
@@ -667,6 +684,37 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pop = &node.Name
 				scanFuncName = true
 			default:
+				pUpdate(r)
+			}
+
+		case '&':
+			switch {
+			case escaped:
+				pUpdate(r)
+				escaped = false
+				ignoreWhitespace = false
+			case quoteSingle, quoteDouble, quoteBrace > 0:
+				pUpdate(r)
+				ignoreWhitespace = false
+			case braceCount > 0:
+				pUpdate(r)
+			case next('&'):
+				if len(node.Name) == 0 {
+					pErr = raiseErr(ErrUnexpectedLogicAnd, i)
+					return &nodes, pErr
+				}
+				/**pop = (*pop)[:len(*pop)-1]
+				if len(*pop) == 0 {
+					pToken.Type = parameters.TokenTypeNil
+				}*/
+				appendNode()
+				node = AstNode{LogicAnd: true, NewChain: true}
+				pop = &node.Name
+				scanFuncName = true
+			case last == '&' && len(*pop) == 0:
+				// do nothing
+			default:
+				ignoreWhitespace = false
 				pUpdate(r)
 			}
 
@@ -697,9 +745,18 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			case braceCount > 0:
 				pUpdate(r)
 			case last == '-':
-				*pop = (*pop)[:len(*pop)-1]
-				if len(*pop) == 0 {
-					pToken.Type = parameters.TokenTypeNil
+				if len(node.ParamTokens) != 0 {
+					l := len(node.ParamTokens[pCount])
+					if l > 1 && node.ParamTokens[pCount][l-2].Type == parameters.TokenTypeTilde && len(node.ParamTokens[pCount][l-2].Key) > 0 {
+						// work around '-' being an acceptable character for ~,
+						// thus causing an index out of bounds panic.
+						node.ParamTokens[pCount][l-2].Key = node.ParamTokens[pCount][l-2].Key[:len(node.ParamTokens[pCount][l-2].Key)-1]
+					} else {
+						*pop = (*pop)[:len(*pop)-1]
+					}
+					if len(*pop) == 0 {
+						pToken.Type = parameters.TokenTypeNil
+					}
 				}
 				node.PipeOut = true
 				appendNode()

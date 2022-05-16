@@ -36,3 +36,8 @@ func getVarMurexExe() interface{} {
 
 	return path
 }
+
+func getHostname() string {
+	name, _ := os.Hostname()
+	return name
+}

@@ -56,6 +56,23 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 	return nil
 }
 
+// ExposePipe takes an existing stdio.Io interface and exposes it as a named pipe
+func (n *Named) ExposePipe(name, pipeType string, io stdio.Io) error {
+	n.mutex.Lock()
+	defer n.mutex.Unlock()
+
+	if n.pipes[name].Pipe != nil {
+		return fmt.Errorf("Named pipe `%s`already exists", name)
+	}
+
+	n.pipes[name] = pipe{
+		Pipe: io,
+		Type: pipeType,
+	}
+
+	return nil
+}
+
 // Close a named pipe
 func (n *Named) Close(name string) error {
 	n.mutex.Lock()
@@ -72,11 +89,11 @@ func (n *Named) Close(name string) error {
 
 	n.mutex.Unlock()
 
-	go deletePipe(n, name)
+	go closePipe(n, name)
 	return nil
 }
 
-func deletePipe(n *Named, name string) {
+func closePipe(n *Named, name string) {
 	time.Sleep(2 * time.Second)
 
 	n.mutex.Lock()
@@ -85,6 +102,26 @@ func deletePipe(n *Named, name string) {
 	delete(n.pipes, name)
 
 	n.mutex.Unlock()
+}
+
+// Deletes a named pipe without closing it (careful using this!!!)
+func (n *Named) Delete(name string) error {
+	n.mutex.Lock()
+
+	if n.pipes[name].Pipe == nil {
+		n.mutex.Unlock()
+		return fmt.Errorf("No pipe with the name `%s` exists", name)
+	}
+
+	if name == "null" {
+		n.mutex.Unlock()
+		return errors.New("null pipe must not be closed")
+	}
+
+	n.mutex.Unlock()
+
+	delete(n.pipes, name)
+	return nil
 }
 
 // Get a named pipe interface from the named pipe table

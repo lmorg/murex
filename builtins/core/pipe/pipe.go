@@ -11,8 +11,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["pipe"] = cmdPipe
-	lang.GoFunctions["!pipe"] = cmdClosePipe
+	lang.DefineFunction("pipe", cmdPipe, types.Null)
+	lang.DefineFunction("!pipe", cmdClosePipe, types.Null)
 
 	defaults.AppendProfile(`
 		private autocomplete.pipe-types {

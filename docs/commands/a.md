@@ -143,6 +143,8 @@ arrays. For more details on these please refer to the documents for each format
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`mtac`](../commands/mtac.md):
@@ -151,5 +153,3 @@ arrays. For more details on these please refer to the documents for each format
   string (primitive)
 * [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [commands/len](../commands/len.md):
-  

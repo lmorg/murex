@@ -3,10 +3,12 @@ package shell
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/builtins/pipes/term"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
@@ -29,21 +31,20 @@ var (
 	// PromptId is an custom defined ID for each prompt Goprocess so we don't
 	// accidentally end up with multiple prompts running
 	PromptId = new(counter.MutexCounter)
+
+	rxHashTag = regexp.MustCompile(`#[-_a-zA-Z0-9]+$`)
 )
 
 // Start the interactive shell
 func Start() {
-	/*defer func() {
-		if debug.Enabled {
-			return
-		}
-		if r := recover(); r != nil {
-			os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
-			Start()
-		}
-	}()*/
-
-	//go warmCache()
+	if debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
+				Start()
+			}
+		}()
+	}
 
 	var err error
 
@@ -100,6 +101,8 @@ func ShowPrompt() {
 	Prompt.DelayedSyntaxWorker = spellchecker
 
 	for {
+		//debug.Log("ShowPrompt (for{})")
+
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
@@ -110,8 +113,10 @@ func ShowPrompt() {
 		} else {
 			block = []rune{}
 			getPrompt()
+			writeTitlebar()
 		}
 
+		//debug.Log("ShowPrompt (Prompt.Readline())")
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err {
@@ -178,6 +183,20 @@ func ShowPrompt() {
 				merged = string(mergedExp)
 			}
 
+			macroFind, macroReplace, err := getMacroVars(merged)
+			if err != nil {
+				nLines = 1
+				merged = ""
+				continue
+			}
+
+			if len(macroFind) > 0 {
+				if !rxHashTag.MatchString(merged) {
+					merged = expandMacroVars(merged, macroFind, macroReplace)
+				}
+				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
+			}
+
 			Prompt.History.Write(merged)
 
 			nLines = 1
@@ -187,6 +206,8 @@ func ShowPrompt() {
 			fork.FileRef.Source.Module = app.Name
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
+			fork.CCEvent = lang.ShellProcess.CCEvent
+			fork.CCExists = lang.ShellProcess.CCExists
 			lang.ShellExitNum, _ = fork.Execute(expanded)
 
 			if PromptId.NotEqual(thisProc) {
@@ -194,6 +215,46 @@ func ShowPrompt() {
 			}
 		}
 	}
+}
+
+var rxMacroVar = regexp.MustCompile(`(\^\$[-_a-zA-Z0-9]+)`)
+
+func getMacroVars(s string) ([]string, []string, error) {
+	var err error
+
+	if !rxMacroVar.MatchString(s) {
+		return nil, nil, nil
+	}
+
+	match := rxMacroVar.FindAllString(s, -1)
+	vars := make([]string, len(match))
+	for i := range match {
+		for {
+			rl := readline.NewInstance()
+			rl.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
+				"{YELLOW}Enter value for: {RED}%s{YELLOW}? {RESET}", match[i][2:],
+			)))
+			rl.History = new(readline.NullHistory)
+			vars[i], err = rl.Readline()
+			if err != nil {
+				return nil, nil, err
+			}
+			if vars[i] != "" {
+				break
+			}
+			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
+		}
+	}
+
+	return match, vars, nil
+}
+
+func expandMacroVars(s string, match, vars []string) string {
+	for i := range match {
+		s = strings.ReplaceAll(s, match[i], vars[i])
+	}
+
+	return s
 }
 
 func getSyntaxHighlighting() {

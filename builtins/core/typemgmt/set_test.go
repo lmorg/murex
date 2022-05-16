@@ -24,8 +24,8 @@ func TestSetFunctionPositive(t *testing.T) {
 			DataType: "str",
 		},
 		{
-			Block:    "set: 2=bar",
-			Name:     "2",
+			Block:    "set: 2_=bar",
+			Name:     "2_",
 			Value:    "bar",
 			DataType: "str",
 		},
@@ -174,8 +174,8 @@ func TestSetMethodPositive(t *testing.T) {
 			DataType: "str",
 		},
 		{
-			Block:    "out: bar -> set: 2",
-			Name:     "2",
+			Block:    "out: bar -> set: 2_",
+			Name:     "2_",
 			Value:    "bar",
 			DataType: "str",
 		},
@@ -252,6 +252,10 @@ func TestSetFunctionNegative(t *testing.T) {
 
 	tests := []Test{
 		{
+			Block: "set: 20=bar",
+			Fail:  true,
+		},
+		{
 			Block: "set: =foobar",
 			Fail:  true,
 		},
@@ -280,6 +284,10 @@ func TestSetMethodNegative(t *testing.T) {
 	lang.InitEnv()
 
 	tests := []Test{
+		{
+			Block: "out: bar -> set: 2",
+			Fail:  true,
+		},
 		{
 			Block: "out: foobar -> set",
 			Fail:  true,

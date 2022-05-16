@@ -9,6 +9,6 @@
 {{ if .Documents }}{{ range $i,$a := .DateTime }}{{ if gt $i 0 }}
 {{ end }}### {{ date .DateTime }} - [{{ md .Title }}]({{ md .Hierarchy }}.md)
 
-> {{ md .Summary }}
+{{ md .Summary }}
 
 {{ end }}{{ else }}No pages currently exist for this category.{{ end }}

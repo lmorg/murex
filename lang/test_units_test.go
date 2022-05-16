@@ -55,7 +55,7 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 			}
 
 			if j == 1 {
-				lang.MxFunctions.Define(plans[i].Function, []rune(plans[i].TestBlock), fileRef)
+				lang.MxFunctions.Define(plans[i].Function, nil, []rune(plans[i].TestBlock), fileRef)
 				pubPriv = "public"
 			} else {
 				lang.PrivateFunctions.Define(plans[i].Function, []rune(plans[i].TestBlock), fileRef)

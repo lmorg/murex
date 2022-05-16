@@ -6,13 +6,14 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/process"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/process"
-	"github.com/lmorg/murex/lang/ref"
 )
 
 // Process - Each process running inside the murex shell will be one of these objects.
@@ -39,6 +40,8 @@ type Process struct {
 	Next               *Process `json:"-"`
 	IsNot              bool
 	IsMethod           bool
+	OperatorLogicAnd   bool
+	OperatorLogicOr    bool
 	NamedPipeOut       string
 	NamedPipeErr       string
 	NamedPipeTest      string
@@ -54,6 +57,10 @@ type Process struct {
 	CreationTime       time.Time
 	StartTime          time.Time
 	FileRef            *ref.File
+	CCEvent            func(string, *Process) `json:"-"`
+	CCExists           func(string) bool      `json:"-"`
+	CCOut              *streams.Stdin         `json:"-"`
+	CCErr              *streams.Stdin         `json:"-"`
 }
 
 // HasTerminated checks if process has terminated.

@@ -3,6 +3,7 @@ package lang
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"sync"
 	"time"
 
@@ -20,6 +21,10 @@ func errVarNotExist(name string) error {
 	return fmt.Errorf("variable '%s' does not exist", name)
 }
 
+func errVarNoParam(i int, err error) error {
+	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
+}
+
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
 const (
@@ -28,6 +33,7 @@ const (
 	PARAMS     = "PARAMS"
 	MUREX_EXE  = "MUREX_EXE"
 	MUREX_ARGS = "MUREX_ARGS"
+	HOSTNAME   = "HOSTNAME"
 )
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -70,21 +76,36 @@ type variable struct {
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
 func (v *Variables) GetValue(name string) interface{} {
-	switch {
-	case v.global:
-		return v.getValue(name)
-
-	case name == SELF:
+	switch name {
+	case SELF:
 		return getVarSelf(v.process)
 
-	case name == ARGS:
+	case ARGS:
 		return getVarArgs(v.process)
 
-	case name == PARAMS:
+	case PARAMS:
 		return v.process.Scope.Parameters.StringArray()
 
-	case name == MUREX_EXE:
+	case MUREX_EXE:
 		return getVarMurexExe()
+
+	case HOSTNAME:
+		return getHostname()
+
+	case "0":
+		return v.process.Scope.Name.String()
+	}
+
+	if i, err := strconv.Atoi(name); err == nil && i > 0 {
+		s, err := v.process.Scope.Parameters.String(i - 1)
+		if err != nil {
+			return nil
+		}
+		return s
+	}
+
+	if v.global {
+		return v.getValue(name)
 	}
 
 	value := v.getValue(name)
@@ -121,26 +142,40 @@ func (v *Variables) getValue(name string) (value interface{}) {
 
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(name string) (string, error) {
-	switch {
-	case v.global:
-		val, _ := v.getString(name)
-		return val, nil
-		//panic(errNoDirectGlobalMethod)
-
-	case name == SELF:
+	switch name {
+	case SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
 		return string(b), nil
 
-	case name == ARGS:
+	case ARGS:
 		b, _ := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
 		return string(b), nil
 
-	case name == PARAMS:
+	case PARAMS:
 		b, _ := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
 		return string(b), nil
 
-	case name == MUREX_EXE:
+	case MUREX_EXE:
 		return getVarMurexExe().(string), nil
+
+	case HOSTNAME:
+		return getHostname(), nil
+
+	case "0":
+		return v.process.Scope.Name.String(), nil
+	}
+
+	if i, err := strconv.Atoi(name); err == nil && i > 0 {
+		s, err := v.process.Scope.Parameters.String(i - 1)
+		if err != nil {
+			return "", errVarNoParam(i, err)
+		}
+		return s, nil
+	}
+
+	if v.global {
+		val, _ := v.getString(name)
+		return val, nil
 	}
 
 	s, exists := v.getString(name)
@@ -178,23 +213,33 @@ func (v *Variables) getString(name string) (string, bool) {
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(name string) string {
-	switch {
-	case v.global:
+	switch name {
+	case SELF:
+		return types.Json
+
+	case ARGS:
+		return types.Json
+
+	case PARAMS:
+		return types.Json
+
+	case MUREX_EXE:
+		return types.String
+
+	case "0":
+		return types.String
+	}
+
+	if i, err := strconv.Atoi(name); err == nil && i > 0 {
+		if i >= v.process.Scope.Parameters.Len() {
+			return ""
+		}
+		return types.String
+	}
+
+	if v.global {
 		dt, _ := v.getDataType(name)
 		return dt
-		//panic(errNoDirectGlobalMethod)
-
-	case name == SELF:
-		return types.Json
-
-	case name == ARGS:
-		return types.Json
-
-	case name == PARAMS:
-		return types.Json
-
-	case name == MUREX_EXE:
-		return types.String
 	}
 
 	s, exists := v.getDataType(name)
@@ -232,9 +277,17 @@ func (v *Variables) getDataType(name string) (string, bool) {
 // Set writes a variable
 func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
-	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, "_":
+	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, "_":
 		return errVariableReserved(name)
 	}
+	for _, r := range name {
+		if r < '0' || r > '9' {
+			goto notReserved
+		}
+	}
+	return errVariableReserved(name)
+
+notReserved:
 
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
@@ -308,5 +361,6 @@ func DumpVariables(p *Process) map[string]interface{} {
 	m[PARAMS] = p.Variables.GetValue(PARAMS)
 	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
 	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
+	m[HOSTNAME] = p.Variables.GetValue(HOSTNAME)
 	return m
 }

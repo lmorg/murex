@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["murex-docs"] = cmdMurexDocs
+	lang.DefineFunction("murex-docs", cmdMurexDocs, types.String)
 }
 
 var (

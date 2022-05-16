@@ -3,6 +3,7 @@ package shell
 import (
 	"fmt"
 	"os"
+	"regexp"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils"
@@ -29,51 +30,67 @@ func sigint(interactive bool) {
 }*/
 
 func sigterm(interactive bool) {
-	if interactive {
-		p := lang.ForegroundProc.Get()
-		//p.Json("p =", p)
-
-		switch {
-		case p == nil:
-			lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground process !!!"))
-		case p.Kill == nil:
-			lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground kill function !!!"))
-		default:
-			p.Kill()
-		}
-
-	} else {
+	if !interactive {
 		os.Exit(0)
+	}
+
+	p := lang.ForegroundProc.Get()
+	//p.Json("p =", p)
+
+	switch {
+	case p == nil:
+		lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground process !!!"))
+	case p.Kill == nil:
+		lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground kill function !!!"))
+	default:
+		p.Kill()
 	}
 }
 
+var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
+
 func sigquit(interactive bool) {
-	if interactive {
-		//os.Stderr.WriteString(PromptSIGQUIT)
-		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
-
-		fids := lang.GlobalFIDs.ListAll()
-		for _, p := range fids {
-			if p.Kill != nil /*&& !p.HasTerminated()*/ {
-				procName := p.Name.String()
-				procParam, _ := p.Parameters.String(0)
-				if procName == "exec" {
-					procName = procParam
-					procParam, _ = p.Parameters.String(1)
-				}
-				if len(procParam) > 10 {
-					procParam = procParam[:10]
-				}
-				lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("!!! Sending kill signal to fid %d: %s %s !!!", p.Id, procName, procParam)))
-				p.Kill()
-			}
-		}
-
-		lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
-		go ShowPrompt()
-
-	} else {
+	if !interactive {
 		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
 		os.Exit(2)
 	}
+
+	//os.Stderr.WriteString(PromptSIGQUIT)
+	os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
+
+	fids := lang.GlobalFIDs.ListAll()
+	for _, p := range fids {
+		if p.Kill != nil /*&& !p.HasTerminated()*/ {
+			procName := p.Name.String()
+			procParam, _ := p.Parameters.String(0)
+			if procName == "exec" {
+				procName = procParam
+				procParam, _ = p.Parameters.String(1)
+			}
+			if len(procParam) > 60 {
+				procParam = procParam[:60] + "..."
+			}
+			procParam = rxWhiteSpace.ReplaceAllString(procParam, " ")
+
+			lang.ShellProcess.Stderr.Writeln([]byte(
+				fmt.Sprintf(
+					"!!! Force closing FID %d: %s %s !!!",
+					p.Id, procName, procParam)))
+			p.Kill()
+
+			i, cmd := p.Exec.Get()
+			if cmd != nil {
+				err := cmd.Process.Kill()
+				if err != nil {
+					lang.ShellProcess.Stderr.Writeln([]byte(
+						fmt.Sprintf(
+							"!!! Error terminating FID %d (%d), `%s`: %s !!!",
+							p.Id, i, procName, err.Error())))
+				}
+			}
+		}
+	}
+
+	lang.ShellProcess.Stderr.Writeln([]byte("!!! Starting new prompt !!!"))
+	go ShowPrompt()
 }

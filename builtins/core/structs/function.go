@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -75,12 +76,31 @@ func cmdUnalias(p *lang.Process) error {
 }
 
 func cmdFunc(p *lang.Process) error {
+	var dtParamsT []lang.MxFunctionParams
+
 	name, err := p.Parameters.String(0)
 	if err != nil {
 		return err
 	}
 
-	block, err := p.Parameters.Block(1)
+	blockId := 1
+	if p.Parameters.Len() == 3 {
+		blockId++
+
+		dtParamsS, err := p.Parameters.String(1)
+		if err != nil {
+			return err
+		}
+
+		dtParamsT, err = lang.ParseMxFunctionParameters(dtParamsS)
+		if err != nil {
+			return fmt.Errorf("cannot parse function parameter block: %s:%scode: (%s)",
+				//err.Error(), lang.EscapedColon, lang.EscapeColonInErr(dtParamsS))
+				err.Error(), utils.NewLineString, dtParamsS)
+		}
+	}
+
+	block, err := p.Parameters.Block(blockId)
 	if err != nil {
 		return err
 	}
@@ -93,7 +113,7 @@ func cmdFunc(p *lang.Process) error {
 		return errors.New("function name cannot contain a dollar, '$', character")
 
 	default:
-		lang.MxFunctions.Define(name, block, p.FileRef)
+		lang.MxFunctions.Define(name, dtParamsT, block, p.FileRef)
 		return nil
 	}
 }

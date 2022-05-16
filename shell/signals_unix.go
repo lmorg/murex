@@ -1,3 +1,4 @@
+//go:build !windows && !plan9 && !js
 // +build !windows,!plan9,!js
 
 package shell
@@ -63,9 +64,10 @@ func sigtstp() {
 		stopStatus(p)
 	}
 
-	pid, cmd := p.Exec.Get()
-	if pid != 0 {
-		err = cmd.Process.Signal(syscall.SIGTSTP)
+	_, cmd := p.Exec.Get()
+	if cmd != nil {
+		//err = cmd.Process.Signal(syscall.SIGTSTP)
+		err = cmd.Process.Signal(syscall.SIGSTOP)
 		if err != nil {
 			lang.ShellProcess.Stderr.Write([]byte(err.Error()))
 		} else {

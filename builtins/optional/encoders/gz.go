@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["gz"] = cmdGz
-	lang.GoFunctions["!gz"] = cmdUngz
+	lang.DefineMethod("gz", cmdGz, types.Any, types.Binary)
+	lang.DefineMethod("!gz", cmdUngz, types.Generic, types.Generic)
 }
 
 func cmdGz(p *lang.Process) (err error) {

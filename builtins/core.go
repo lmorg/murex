@@ -37,9 +37,10 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"     // type handling and management builtins
 
 	// Events:
-	_ "github.com/lmorg/murex/builtins/events/onFileSystemChange" // file system watcher event type
-	_ "github.com/lmorg/murex/builtins/events/onKeyPress"         // readline key-press event type
-	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"   // timer-based event type
+	_ "github.com/lmorg/murex/builtins/events/onCommandCompletion" // timer-based event type
+	_ "github.com/lmorg/murex/builtins/events/onFileSystemChange"  // file system watcher event type
+	_ "github.com/lmorg/murex/builtins/events/onKeyPress"          // readline key-press event type
+	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"    // triggered when a command finishes
 
 	// Pipes:
 	_ "github.com/lmorg/murex/builtins/pipes/file"    // writing to a file (required for history)

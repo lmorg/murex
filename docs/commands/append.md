@@ -53,6 +53,8 @@ any integers in data type aware structures will be converted into strings:
   Adds headings to a table
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`match`](../commands/match.md):
@@ -65,5 +67,3 @@ any integers in data type aware structures will be converted into strings:
   Add data to the start of an array
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [commands/len](../commands/len.md):
-  

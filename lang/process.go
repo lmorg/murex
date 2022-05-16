@@ -17,6 +17,7 @@ import (
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -78,6 +79,8 @@ var (
 )
 
 func writeError(p *Process, err error) []byte {
+	var msg string
+
 	name := p.Name.String()
 	if name == "exec" {
 		exec, pErr := p.Parameters.String(0)
@@ -87,12 +90,16 @@ func writeError(p *Process, err error) []byte {
 	}
 
 	if p.FileRef.Source.Module == app.Name {
-		return []byte(fmt.Sprintf("Error in `%s` (%d,%d): %s", name, p.FileRef.Line, p.FileRef.Column, err.Error()))
+		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
 	}
-	return []byte(fmt.Sprintf("Error in `%s` (%s %d,%d): %s", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, err.Error()))
+	msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
+
+	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", len(msg)-2)+"> ")
+	return []byte(msg + sErr)
 }
 
 func createProcess(p *Process, isMethod bool) {
+	//debug.Json("Creating process", p)
 	GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
 
@@ -162,6 +169,12 @@ func createProcess(p *Process, isMethod bool) {
 		}
 	}
 
+	if p.CCExists != nil && p.CCExists(p.Name.String()) {
+		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
+		p.Stderr, p.CCErr = streams.NewTee(p.Stderr)
+		p.CCErr.SetDataType(types.Generic)
+	}
+
 	p.Stdout.Open()
 	p.Stderr.Open()
 
@@ -195,9 +208,8 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
+	//debug.Json("Execute process ()", p)
 	testStates(p)
-
-	name := p.Name.String()
 
 	if p.HasTerminated() {
 		destroyProcess(p)
@@ -206,10 +218,15 @@ func executeProcess(p *Process) {
 
 	p.State.Set(state.Starting)
 
+	var err error
+	name := p.Name.String()
 	echo, err := p.Config.Get("proc", "echo", types.Boolean)
 	if err != nil {
 		echo = false
-		err = nil
+	}
+	tmux, err := p.Config.Get("proc", "echo-tmux", types.Boolean)
+	if err != nil {
+		tmux = false
 	}
 
 	p.Context, p.Done = context.WithCancel(context.Background())
@@ -235,11 +252,21 @@ func executeProcess(p *Process) {
 	if err := GlobalFIDs.Executing(p.Id); err != nil {
 		panic(err)
 	}
-executeProcess:
 
-	if echo.(bool) {
-		params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
-		os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+executeProcess:
+	//debug.Json("Execute process (executeProcess)", p)
+
+	if !p.Background.Get() || debug.Enabled {
+		if echo.(bool) {
+			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
+			os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+		}
+
+		if tmux.(bool) {
+			ansititle.Tmux([]byte(name))
+		}
+
+		ansititle.Write([]byte(name))
 	}
 
 	// execution mode:
@@ -261,7 +288,10 @@ executeProcess:
 			fork.Name.Set(name)
 			fork.Parameters.CopyFrom(&p.Parameters)
 			fork.FileRef = fn.FileRef
-			p.ExitNum, err = fork.Execute(fn.Block)
+			err = fn.castParameters(fork.Process)
+			if err == nil {
+				p.ExitNum, err = fork.Execute(fn.Block)
+			}
 		}
 
 	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef.Source.Module):
@@ -314,19 +344,24 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
-		name = "exec"
+		//name = "exec"
 		err = GoFunctions["exec"](p)
 	}
 
 	//p.Stdout.DefaultDataType(err != nil)
 
 cleanUpProcess:
+	//debug.Json("Execute process (cleanUpProcess)", p)
 
 	if err != nil {
 		p.Stderr.Writeln(writeError(p, err))
 		if p.ExitNum == 0 {
 			p.ExitNum = 1
 		}
+	}
+
+	if p.CCEvent != nil {
+		p.CCEvent(name, p)
 	}
 
 	p.State.Set(state.Executed)
@@ -362,29 +397,37 @@ cleanUpProcess:
 		// This would only happen if someone abuses pipes on a function that has no stdin.
 	}
 
+	//debug.Json("Execute process (destroyProcess)", p)
 	destroyProcess(p)
 }
 
 func waitProcess(p *Process) {
-	//debug.Log("Waiting for", p.Name)
+	//debug.Log("Waiting for", p.Name.String())
 	<-p.WaitForTermination
+	//debug.Log("Finished waiting for", p.Name.String())
 }
 
 func destroyProcess(p *Process) {
+	//debug.Json("destroyProcess ()", p)
 	// Clean up any context goroutines
 	go p.Done()
 
 	// Make special case for `bg` because that doesn't wait.
 	if p.Name.String() != "bg" {
+		//debug.Json("destroyProcess (p.WaitForTermination <- false)", p)
 		p.WaitForTermination <- false
 	}
 
+	//debug.Json("destroyProcess (deregisterProcess)", p)
 	deregisterProcess(p)
+	//debug.Json("destroyProcess (end)", p)
 }
 
 // deregisterProcess deregisters a murex process, FID and mark variables for
 // garbage collection.
 func deregisterProcess(p *Process) {
+	//debug.Json("deregisterProcess ()", p)
+
 	p.State.Set(state.Terminating)
 
 	p.Stdout.Close()
@@ -393,7 +436,7 @@ func deregisterProcess(p *Process) {
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
 		if p.Next == nil {
-			debug.Json("p", p)
+			//debug.Json("deregisterProcess (p.Next == nill)", p)
 		}
 		ForegroundProc.Set(p.Next)
 	}
@@ -403,4 +446,6 @@ func deregisterProcess(p *Process) {
 		//CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()
+
+	//debug.Json("deregisterProcess (end)", p)
 }

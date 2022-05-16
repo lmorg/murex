@@ -1,6 +1,7 @@
 package shell
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -20,6 +21,8 @@ func errCallback(err error) {
 	}
 	Prompt.SetHintText(s)
 }
+
+var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
 
 func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType) {
 	var prefix string
@@ -50,6 +53,18 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		}
 		prefix = pt.Variable + prefix
 		act.Items = autocomplete.MatchVars(prefix)
+
+	case pt.Comment && pt.FuncName == "^":
+		for h := Prompt.History.Len() - 1; h > -1; h-- {
+			line, _ := Prompt.History.GetLine(h)
+			linePt, _ := parser.Parse([]rune(line), 0)
+			if linePt.Comment && rxHistTag.MatchString(linePt.CommentMsg) && strings.HasPrefix(linePt.CommentMsg, pt.CommentMsg) {
+				suggestion := linePt.CommentMsg[len(pt.CommentMsg):]
+				act.Items = append(act.Items, suggestion)
+				act.Definitions[suggestion] = line
+				prefix = pt.CommentMsg
+			}
+		}
 
 	case pt.ExpectFunc:
 		if pt.Loc < len(line) {
@@ -111,6 +126,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 			if len(act.Items) == 0 {
 				autocompleteFunctions(&act, prefix)
 			}
+
 		default:
 			autocompleteFunctions(&act, prefix)
 		}
@@ -126,7 +142,12 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
 
-	i := dedup.SortAndDedupString(act.Items)
+	var i int
+	if act.DoNotSort {
+		i = len(act.Items)
+	} else {
+		i = dedup.SortAndDedupString(act.Items)
+	}
 	autocomplete.FormatSuggestions(&act)
 
 	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType

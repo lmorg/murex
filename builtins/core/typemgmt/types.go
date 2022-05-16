@@ -11,12 +11,12 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["exec"] = lang.External
-	lang.GoFunctions["die"] = cmdDie
-	lang.GoFunctions["exit"] = cmdExit
-	lang.GoFunctions["null"] = cmdNull
-	lang.GoFunctions["true"] = cmdTrue
-	lang.GoFunctions["false"] = cmdFalse
+	lang.DefineMethod("exec", lang.External, types.Any, types.Generic)
+	lang.DefineFunction("die", cmdDie, types.Null)
+	lang.DefineFunction("exit", cmdExit, types.Null)
+	lang.DefineFunction("null", cmdNull, types.Null)
+	lang.DefineFunction("true", cmdTrue, types.Boolean)
+	lang.DefineFunction("false", cmdFalse, types.Boolean)
 	lang.DefineMethod("!", cmdNot, types.Any, types.Boolean)
 	lang.DefineMethod("cast", cmdCast, types.Any, types.Any)
 }

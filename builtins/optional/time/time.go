@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["sleep"] = cmdSleep
+	lang.DefineFunction("sleep", cmdSleep, types.Null)
 }
 
 func cmdSleep(p *lang.Process) error {

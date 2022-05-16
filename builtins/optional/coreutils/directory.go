@@ -1,14 +1,14 @@
 package coreutils
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"os"
 )
 
 func init() {
-	//lang.GoFunctions["ls"] = cmdLs
-	lang.GoFunctions["pwd"] = pwd
+	lang.DefineFunction("pwd", pwd, types.String)
 }
 
 func pwd(p *lang.Process) error {

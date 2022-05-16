@@ -54,7 +54,12 @@ autocomplete set sudo { [
 ] }
 
 autocomplete set dd { [{
-    "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ]
+    "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
+    "FlagValues": {
+        "if": [{ "IncFiles": true }],
+        "of": [{ "IncFiles": true }]
+    },
+    "Loop": true
 }] }
 
 private getHostsFile {
@@ -212,6 +217,7 @@ config eval shell safe-commands {
 if { which bash } then {
     function bash {
         # Wrapper script around GNU bash
+        config: set proc strict-arrays false
         config: set proc force-tty true
         
         if { $ARGS -> len -> = -1 } then {

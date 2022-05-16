@@ -11,7 +11,7 @@ import (
 const funcName = "rand"
 
 func init() {
-	lang.GoFunctions[funcName] = cmdRand
+	lang.DefineFunction(funcName, cmdRand, types.Any)
 }
 
 func cmdRand(p *lang.Process) error {

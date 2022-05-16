@@ -56,6 +56,8 @@ output of `msort` into another builtin:
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`jsplit` ](../commands/jsplit.md):
@@ -64,5 +66,3 @@ output of `msort` into another builtin:
   Reverse the order of an array
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [commands/len](../commands/len.md):
-  

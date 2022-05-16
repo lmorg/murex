@@ -1,6 +1,9 @@
 package mxjson
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // parser state
 
@@ -217,10 +220,14 @@ func (no *nestedObject) SetObjType(objType objectType) {
 	no.nest[no.len].objType = objType
 }
 
-func (no *nestedObject) SetValue(value interface{}) {
+func (no *nestedObject) SetValue(value interface{}) error {
+	if no.len < 0 {
+		return fmt.Errorf("unable to marshal '%v' into parent structure. This might be due to the an incorrect file", value)
+	}
+
 	switch no.nest[no.len].objType {
 	case objUndefined:
-		panic("Undef object type - We should know what the data type is by now!")
+		return fmt.Errorf("undef object type. We should know what the data type is by now. Please file a bug at https://github.com/lmorg/murex/issues")
 
 	case objBoolean:
 		no.nest[no.len].value = value.(bool)
@@ -254,8 +261,10 @@ func (no *nestedObject) SetValue(value interface{}) {
 		no.nest[no.len].value.(map[string]interface{})[no.nest[no.len].key.String()] = value
 
 	default:
-		panic("This condition shouldn't arise!")
+		return fmt.Errorf("switch statement unexpectedly failed. This condition shouldn't arise, so please file a bug at https://github.com/lmorg/murex/issues")
 	}
+
+	return nil
 }
 
 func (no *nestedObject) MergeDown() {

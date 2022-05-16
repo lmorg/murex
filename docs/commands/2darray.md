@@ -99,6 +99,8 @@
   A sophisticated yet simple way to build an array or list
 * [commands/`append`](../commands/append.md):
   Add data to the end of an array
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [types/`json` ](../types/json.md):
@@ -113,5 +115,3 @@
   Reverse the order of an array
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [commands/len](../commands/len.md):
-  

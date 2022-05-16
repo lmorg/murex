@@ -7,16 +7,24 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
 )
 
 var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 
+const errEmptyArray = "Array '@%s' is empty"
+
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	var namedPipeIsParam bool
 	params := []string{}
+
+	strictArrays, err := prc.Config.Get("proc", "strict-arrays", "bool")
+	if err != nil {
+		strictArrays = true
+	}
 
 	for i := range p.Tokens {
 		params = append(params, "")
@@ -42,7 +50,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			case parameters.TokenTypeString:
 				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 				s = utils.CrLfTrimString(s)
@@ -52,10 +59,16 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 			case parameters.TokenTypeBlockString:
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
-				fork.Execute([]rune(p.Tokens[i][j].Key))
+				exitNum, err := fork.Execute([]rune(p.Tokens[i][j].Key))
+				if err != nil {
+					return fmt.Errorf("subshell failed: %s", err.Error())
+				}
+				if exitNum > 0 &&
+					(prc.RunMode == runmode.Try || prc.RunMode == runmode.TryPipe) {
+					return fmt.Errorf("subshell exit status %d", exitNum)
+				}
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 
@@ -68,12 +81,15 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			case parameters.TokenTypeArray:
 				data, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 
 				if data == "" {
-					continue
+					if strictArrays.(bool) {
+						return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
+					} else {
+						continue
+					}
 				}
 
 				var array []string
@@ -85,6 +101,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				variable.ReadArray(func(b []byte) {
 					array = append(array, string(b))
 				})
+
+				if len(array) == 0 && strictArrays.(bool) {
+					return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
+				}
 
 				if !tCount {
 					params = params[:len(params)-1]
@@ -103,6 +123,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				fork.Stdout.ReadArray(func(b []byte) {
 					array = append(array, string(b))
 				})
+
+				if len(array) == 0 && strictArrays.(bool) {
+					return fmt.Errorf(errEmptyArray, "{"+p.Tokens[i][j].Key+"}")
+				}
 
 				if !tCount {
 					params = params[:len(params)-1]
@@ -127,7 +151,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
-					//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 					return err
 				}
 
@@ -156,7 +179,6 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 					`unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"`,
 					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
 				)
-				//prc.Stderr.Writeln([]byte(err.Error() + utils.NewLineString))
 				return err
 			}
 		}

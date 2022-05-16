@@ -5,11 +5,13 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
 
 func init() {
-	lang.GoFunctions[consts.NamedPipeProcName] = cmdMurexNamedPipe
+	lang.DefineMethod("(murex named pipe)", cmdMurexNamedPipe, types.Null, types.Any)
+	lang.DefineMethod(consts.NamedPipeProcName, cmdMurexNamedPipe, types.Any, types.Any)
 }
 
 func cmdMurexNamedPipe(p *lang.Process) error {

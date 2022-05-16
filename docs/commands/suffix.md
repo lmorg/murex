@@ -32,6 +32,8 @@ Supported data types can queried via `runtime`
 
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
@@ -46,5 +48,3 @@ Supported data types can queried via `runtime`
   Right substring every item in a list
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/len](../commands/len.md):
-  

@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	lang.GoFunctions["get-type"] = cmdGetType
+	lang.DefineFunction("get-type", cmdGetType, types.String)
 }
 
 func cmdGetType(p *lang.Process) error {

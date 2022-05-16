@@ -110,7 +110,7 @@ that pipes created in modules should be prefixed with the name of its package.
 
 * [user-guide/Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [commands/`<>` (murex named pipe)](../commands/namedpipe.md):
+* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
 * [commands/`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block

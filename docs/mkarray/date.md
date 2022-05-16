@@ -177,6 +177,8 @@ If you do need any other formatting options not supported there, you can use
   Outputs an element from an array, map or table
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [commands/`count`](../commands/count.md):
+  Count items in a map, list or array
 * [commands/`datetime` ](../commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
 * [commands/`ja` (mkarray)](../commands/ja.md):
@@ -185,5 +187,3 @@ If you do need any other formatting options not supported there, you can use
   Reverse the order of an array
 * [commands/`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [commands/len](../commands/len.md):
-  

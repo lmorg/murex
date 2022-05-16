@@ -12,12 +12,18 @@ var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
 func (rl *Instance) Readline() (_ string, err error) {
+	rl.mutex.Lock()
+	rl.Active = true
 	fd := int(os.Stdin.Fd())
 	state, err := MakeRaw(fd)
+	rl.mutex.Unlock()
+
 	if err != nil {
 		return "", err
 	}
 	defer func() {
+		rl.mutex.Lock()
+		rl.Active = false
 		// return an error if Restore fails. However we don't want to return
 		// `nil` if there is no error because there might be a CtrlC or EOF
 		// that needs to be returned
@@ -25,6 +31,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		if r != nil {
 			err = r
 		}
+		rl.mutex.Unlock()
 	}()
 
 	x, _ := rl.getCursorPos()

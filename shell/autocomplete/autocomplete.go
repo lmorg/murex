@@ -21,6 +21,7 @@ type AutoCompleteT struct {
 	DelayedTabContext readline.DelayedTabContext
 	ParsedTokens      parser.ParsedTokens
 	CacheDynamic      bool
+	DoNotSort         bool
 }
 
 func (act *AutoCompleteT) append(items ...string) {

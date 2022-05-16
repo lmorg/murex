@@ -18,7 +18,7 @@ import (
 const eventType = "onKeyPress"
 
 func init() {
-	events.AddEventType(eventType, newKeyPress())
+	events.AddEventType(eventType, newKeyPress(), nil)
 }
 
 // Interrupt is a JSONable structure passed to the murex function
@@ -48,10 +48,10 @@ func newKeyPress() *keyPressEvents {
 // Add a key to the event list
 func (evt *keyPressEvents) Add(name, keySeq string, block []rune, fileRef *ref.File) error {
 	if shell.Prompt == nil {
-		return errors.New("Unable to register event with readline API")
+		return errors.New("unable to register event with readline API")
 	}
 
-	evt.mutex.Lock()
+	/*evt.mutex.Lock()
 	for i := range evt.events {
 		if evt.events[i].name == name {
 			evt.mutex.Unlock()
@@ -59,10 +59,10 @@ func (evt *keyPressEvents) Add(name, keySeq string, block []rune, fileRef *ref.F
 		}
 		if evt.events[i].keySeq == keySeq {
 			evt.mutex.Unlock()
-			return fmt.Errorf("Event already exists with that  key sequence for event type `%s`", eventType)
+			return fmt.Errorf("Event already exists with that key sequence for event type `%s`", eventType)
 		}
 	}
-	evt.mutex.Unlock()
+	evt.mutex.Unlock()*/
 
 	shell.Prompt.AddEvent(keySeq, evt.callback)
 	evt.events = append(evt.events, keyPressEvent{
@@ -81,7 +81,7 @@ func (evt *keyPressEvents) Remove(name string) error {
 	}
 
 	if shell.Prompt == nil {
-		return errors.New("Unable to de-register event with readline API")
+		return errors.New("unable to de-register event with readline API")
 	}
 
 	evt.mutex.Lock()
@@ -95,7 +95,7 @@ func (evt *keyPressEvents) Remove(name string) error {
 		}
 	}
 
-	return fmt.Errorf("Unable to delete event as no event found with the name `%s` for event type `%s`", name, eventType)
+	return fmt.Errorf("unable to delete event as no event found with the name `%s` for event type `%s`", name, eventType)
 }
 
 func (evt *keyPressEvents) callback(keyPress string, line []rune, pos int) *readline.EventReturn {
@@ -126,7 +126,7 @@ eventFound:
 
 	stdout := streams.NewStdin()
 	events.Callback(
-		evt.events[i].name, interrupt, block, evt.events[i].fileRef, stdout)
+		evt.events[i].name, interrupt, block, evt.events[i].fileRef, stdout, true)
 
 	ret := make(map[string]string)
 	err := stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
@@ -134,7 +134,7 @@ eventFound:
 	})
 	if err != nil {
 		return &readline.EventReturn{
-			HintText: []rune("Callback error: " + err.Error()),
+			HintText: []rune("callback error: " + err.Error()),
 			NewLine:  line,
 			NewPos:   pos,
 		}
@@ -143,7 +143,7 @@ eventFound:
 	forwardKey, err := types.ConvertGoType(ret["ForwardKey"], types.Boolean)
 	if err != nil {
 		return &readline.EventReturn{
-			HintText: []rune("Callback error: " + err.Error()),
+			HintText: []rune("callback error: " + err.Error()),
 			NewLine:  line,
 			NewPos:   pos,
 		}
@@ -152,7 +152,7 @@ eventFound:
 	clearHelpers, err := types.ConvertGoType(ret["ClearHelpers"], types.Boolean)
 	if err != nil {
 		return &readline.EventReturn{
-			HintText: []rune("Callback error: " + err.Error()),
+			HintText: []rune("callback error: " + err.Error()),
 			NewLine:  line,
 			NewPos:   pos,
 		}
@@ -161,7 +161,7 @@ eventFound:
 	closeReadline, err := types.ConvertGoType(ret["CloseReadline"], types.Boolean)
 	if err != nil {
 		return &readline.EventReturn{
-			HintText: []rune("Callback error: " + err.Error()),
+			HintText: []rune("callback error: " + err.Error()),
 			NewLine:  line,
 			NewPos:   pos,
 		}
@@ -179,7 +179,7 @@ eventFound:
 		i, err := types.ConvertGoType(ret["NewPos"], types.Integer)
 		if err != nil {
 			return &readline.EventReturn{
-				HintText: []rune("Callback error: " + err.Error()),
+				HintText: []rune("callback error: " + err.Error()),
 				NewLine:  line,
 				NewPos:   pos,
 			}

@@ -12,13 +12,14 @@ import (
 )
 
 var (
-	rxHistIndex  = regexp.MustCompile(`(\^[0-9]+)`)
-	rxHistRegex  = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
-	rxHistPrefix = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
-	rxHistTag    = regexp.MustCompile(`(\^#[-_a-zA-Z0-9]+)`)
-	//rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
+	rxHistIndex   = regexp.MustCompile(`(\^[0-9]+)`)
+	rxHistRegex   = regexp.MustCompile(`\^m/(.*?[^\\])/`) // Scratchpad: https://play.golang.org/p/Iya2Hx1uxb
+	rxHistPrefix  = regexp.MustCompile(`(\^\^[a-zA-Z]+)`)
+	rxHistTag     = regexp.MustCompile(`(\^#[-_a-zA-Z0-9]+)`)
 	rxHistParam   = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
 	rxHistReplace = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
+
+	//rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
 	//rxHistRepParam = regexp.MustCompile(`\^s([-]?[0-9]+)/(.*?[^\\])/(.*?[^\\])/`)
 )
 
@@ -46,6 +47,9 @@ func ExpandVariablesInLine(line []rune, rl *readline.Instance) ([]rune, error) {
 func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([]rune, error) {
 	s := string(line)
 
+	escape := string([]byte{0, 1, 2, 2})
+	s = strings.ReplaceAll(s, `\^`, escape)
+
 	if !skipFormatting {
 		s = strings.Replace(s, `^\n`, "\n", -1) // Match new line
 		s = strings.Replace(s, `^\t`, "\t", -1) // Match tab
@@ -71,6 +75,7 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 		}
 	}
 
+	s = strings.ReplaceAll(s, escape, `\^`)
 	return []rune(s), nil
 }
 

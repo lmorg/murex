@@ -1,0 +1,18 @@
+# This tests we don't see a panic
+
+if { os posix } then {
+
+    function event.cc.panic.posix {
+        event onCommandCompletion event.cc.panic.posix=echo {
+            # do nothing
+        }
+
+        exec echo test
+    }
+
+    test: unit function event.cc.panic.posix {
+        "StdoutMatch": "test\n",
+        "ExitNum":     0
+    }
+
+}

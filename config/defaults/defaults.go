@@ -2,6 +2,7 @@ package defaults
 
 import (
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/lmorg/murex/config"
@@ -128,6 +129,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "titlebar-func", config.Properties{
+		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carrage returns and tabs are replaced with spaces",
+		Default:     `{ out "$USER@$HOSTNAME:$PWD" }`,
+		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
 	c.Define("shell", "stop-status-enabled", config.Properties{
 		Description: "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs)",
 		Default:     true,
@@ -217,7 +225,7 @@ func Defaults(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "extensions-enabled", config.Properties{
 		Description: "Windows and WSL only! Auto-completes file extensions. This also affects the auto-completion parameters. This is best left `true` for WSL. You may need to run `murex-update-exe-list` to apply the changes",
-		Default:     wsl,
+		Default:     wsl || runtime.GOOS == "windows",
 		DataType:    types.Boolean,
 		Global:      true,
 	})
@@ -231,8 +239,20 @@ func Defaults(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("proc", "strict-vars", config.Properties{
-		Description: "Return errors if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
+		Description: "Return an error if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
 		Default:     true,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("proc", "strict-arrays", config.Properties{
+		Description: "Return an error if an array is empty (applies to array subshells as well as variables)",
+		Default:     true,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("proc", "echo-tmux", config.Properties{
+		Description: "Echo shell function names to the tmux window name",
+		Default:     false,
 		DataType:    types.Boolean,
 	})
 

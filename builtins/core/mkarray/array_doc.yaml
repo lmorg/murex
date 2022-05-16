@@ -131,7 +131,7 @@
   Synonyms:
   Related:
   - range
-  - len
+  - count
   - index
   - element
   - mtac
@@ -191,7 +191,7 @@
   Synonyms:
   Related:
   - range
-  - len
+  - count
   - index
   - element
   - mtac
@@ -252,7 +252,7 @@
   Synonyms:
   Related:
   - range
-  - len
+  - count
   - index
   - element
   - mtac

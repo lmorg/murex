@@ -83,7 +83,7 @@ jobs:
 
   latest:
     docker:
-      - image: golang
+      - image: golang:latest
         <<: *env
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
@@ -116,6 +116,13 @@ jobs:
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
 
+  go1.17:
+    docker:
+      - image: golang:1.17
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
 
 workflows:
   version: 2
@@ -127,4 +134,5 @@ workflows:
       - go1.14
       - go1.15
       - go1.16
+      - go1.17
       - codecov

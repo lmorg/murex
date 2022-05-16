@@ -4,8 +4,8 @@ function h {
 }
 
 function aliases {
-	# Output the aliases in human readable format
-	runtime: --aliases -> formap name alias {
+   # Output the aliases in human readable format
+   runtime: --aliases -> formap name alias {
         $name -> sprintf: "%10s => ${esccli @alias}\n"
 	} -> cast: str
 }
@@ -133,9 +133,14 @@ autocomplete: set !global { [{
     "Dynamic": ({ autocomplete.variables.globals })
 }] }
 
-autocomplete: set export { [{
-    "Dynamic": ({ autocomplete.variables })
-}] }
+autocomplete: set export { [
+    {
+        "Dynamic": ({ autocomplete.variables })
+    },
+    {
+        "IncDirs": true
+    }
+] }
 
 autocomplete: set !export { [{
     "DynamicDesc": ({ runtime --exports })
@@ -406,7 +411,7 @@ autocomplete: set autocomplete { [{
 
 private git-branch {
     # Returns a list of branches excluding currect checked-out branch in the current git repository
-    git branch -> [ :0 ] -> !match *
+    git -c color.ui=no branch -> [ :0 ] -> !match *
 }
 
 autocomplete: set git { [{
@@ -423,14 +428,14 @@ autocomplete: set git { [{
             #"IncFiles": true,
             "AllowMultiple": true,
             "Dynamic": ({
-                git status -s -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' -> cast str
+                git -c color.ui=no status -s -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' -> cast str
             })
         }],
         "diff": [{
             #"IncFiles": true,
             "AllowMultiple": true,
             "Dynamic": ({
-                git status -s -> [:1]
+                git -c color.ui=no status -s -> [:1]
             })
         }],
         "mv": [{ 
@@ -445,7 +450,7 @@ autocomplete: set git { [{
             "Flags": [ "-b" ]
         }],
         "merge": [{
-            "Dynamic": ({ git-branch })
+            "Dynamic": ({ cast str; git-branch; git tag })
         }],
         "commit": [{
             "Flags": ["-a", "-m", "--amend"],
@@ -453,6 +458,9 @@ autocomplete: set git { [{
                 "--amend": [{ "AnyValue": true }]
             },
             "AllowMultiple": true
+        }],
+        "push": [{
+            "Flags": ["--tags"]
         }]
     }
 }] }
@@ -744,6 +752,8 @@ config: eval shell safe-commands {
 autocomplete: set terraform {[
     {
         "DynamicDesc": ({
+            cast json
+            config: set proc strict-arrays false
             terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps --key-inc-hint
         }),
         "AllowMultiple": true,
