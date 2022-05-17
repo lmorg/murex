@@ -50,8 +50,9 @@ func execute(p *Process) error {
 		//ctxCancel()
 		err := cmd.Process.Signal(syscall.SIGTERM)
 		if err != nil {
+			name, _ := p.Args()
 			os.Stderr.WriteString(
-				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", p.Name.String(), err.Error()))
+				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", name, err.Error()))
 		}
 	}
 
