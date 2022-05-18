@@ -3,9 +3,9 @@
 body {
   font-family: 'Lato', sans-serif;
   color: #000000;
-  background-color: #f0f0f0;
+  background-color: #e0e0da;
   line-height: 150%;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.04em;
 }
 
@@ -36,11 +36,11 @@ h2 {
 }
 
 h3 {
-  color: #707000;
+  color: #202000;
   font-size: 16px;
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  border-bottom-color: #707000;
+  border-bottom-color: #404000;
   margin-right: 60px;
   padding-bottom: 5px;
 }
@@ -84,7 +84,7 @@ blockquote {
 code {
   font-family: 'Source Code Pro', monospace;
   color: #004000;
-  background: #ffffff;
+  background: #f0f0ff;
   border-radius: 5px;
   line-height: 130%;
   padding-left: 3px;
@@ -100,7 +100,7 @@ a code:hover {
 }
 
 pre {
-  background: #ffffff;
+  background: #f0f0ff;
   border-radius: 5px;
   line-height: 130%;
   border-width: 1px;
@@ -118,12 +118,15 @@ pre {
 }
 
 img {
-  max-width: 900px;
-  max-height: 600px;
+  max-width: 100%;
+  max-height: 400px;
   border-radius: 5px;
   border-width: 1px;
   border-color: #303133;
   border-style: solid;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 a img {
@@ -138,6 +141,10 @@ a img:hover {
 
 .no-border {
   border-width: 0px;
+  width: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  display: inherit;
 }
 
 .no-border:hover {
@@ -171,6 +178,9 @@ a img:hover {
   position: relative;
   padding-left: 200px;
   width: auto;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
   color: #000000;
 }
 
@@ -219,14 +229,13 @@ a.side-bar:active, a.side-bar:hover {
 }
 
 @media screen and (max-width: 678px) {
-  body { background-color: #d0d1d3; margin: 0px; }
+  body { background-color: #e0e0da; margin: 0px; background-image: linear-gradient(to bottom, #800000, #e0e0da); background-repeat: repeat-x; }
   p { margin-right: 5px; }
-  #document { padding: 10px; background-color: #f0f0f0; }
+  #document { padding: 0px; top: 30px; left: 10px; right: 10px; bottom: 0px; background-color: #e0e0da; height: auto; max-width: 100%; position: absolute; overflow-y: auto; }
   img { max-width: 100%; }
   a img {  border-color: #800000; }
-  #side-bar { display: none; position: relative; height: 0px; padding: 10px; width: auto; }
+  #side-bar { display: none; position: relative; height: 0px; padding: 10px; width: auto; background-color: #d0d1d3; border-width: 2px; border-color: #800000; border-style: solid; }
   .side-bar-title { display: none; }
-  #corner-lower { display: none; }
   #burger label { display: block; }
   blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
   pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
@@ -261,11 +270,12 @@ a.side-bar:active, a.side-bar:hover {
 #toggle-mobile-menu:checked + #side-bar {
   display: block;
   height: 100%;
+  /*border-radius: 0px 0px 5px 5px;*/
 }
 
-#toggle-mobile-menu:checked ~ #document {
+/*#toggle-mobile-menu:checked ~ #document {
   display: none;
-}
+}*/
 
 #burger-text {
   display: flex;

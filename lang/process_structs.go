@@ -104,6 +104,25 @@ func (p *Process) ErrIfNotAMethod() error {
 	return nil
 }
 
+// Args returns a normalised function name and parameters
+func (p *Process) Args() (string, []string) {
+	return args(p.Name.String(), p.Parameters.StringArray())
+}
+
+func args(name string, params []string) (string, []string) {
+	if len(params) == 0 {
+		return name, []string{}
+	}
+
+	switch name {
+	case "exec":
+		return params[0], params[1:]
+
+	default:
+		return name, params
+	}
+}
+
 type foregroundProc struct {
 	mutex sync.Mutex
 	p     *Process
