@@ -980,3 +980,36 @@ if { microk8s } then {
         }
     ]}
 }
+
+if { which yarn } then {
+    autocomplete: set yarn ({[
+        {
+            "FlagsDesc": ${
+                yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
+            },
+            "Optional": true,
+            "AllowMultiple": true
+        },
+        {
+            "DynamicDesc": ({
+                open package.json -> [ scripts ]
+            }),
+            "Optional": true
+        },
+        {
+            "Flags": ${
+                yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+            },
+            "FlagValues": {
+                ${
+                    yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
+                        out ("$cmd": [{ "DynamicDesc": ({ 
+                            yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                        }) }],)
+                    }
+                }
+                "": [{}]
+            }
+        }
+    ]})
+}
