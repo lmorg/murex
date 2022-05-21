@@ -112,5 +112,5 @@ func MatchFlags(act *AutoCompleteT) {
 
 	pIndex := 0
 
-	matchFlags(flags, partial, exe, params, &pIndex, args, act)
+	matchFlags(flags, 0, partial, exe, params, &pIndex, args, act)
 }

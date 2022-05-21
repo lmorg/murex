@@ -1,15 +1,18 @@
 package autocomplete
 
 import (
-	"encoding/json"
+	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/man"
+	"github.com/lmorg/murex/utils/pathsplit"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -30,12 +33,12 @@ type Flags struct {
 	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
 	Optional      bool               // This nest of flags is optional
 	AllowMultiple bool               // Allow multiple flags in this nest
-	//Goto          bool               // Jump to another location in the config
-	Alias         string // Alias one []Flags to another
-	NestedCommand bool   // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
-	AnyValue      bool   // Allow any value to be input (eg user input that cannot be pre-determined)
-	AutoBranch    bool   // Autocomplete trees (eg directory structures) one branch at a time
-	ExecCmdline   bool   // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
+	Goto          string             // Jump to another location in the config
+	Alias         string             // Alias one []Flags to another
+	NestedCommand bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
+	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
+	AutoBranch    bool               // Autocomplete trees (eg directory structures) one branch at a time
+	ExecCmdline   bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
@@ -156,9 +159,33 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 
 	return len(act.Items)
 }
+func getFlagStructFromPath(flags []Flags, path []string) ([]Flags, int, error) {
+	if len(flags) == 0 {
+		return nil, 0, errors.New("empty []Flags struct found in autocomplete nest")
+	}
 
-func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int, args dynamicArgs, act *AutoCompleteT) int {
-	var nest int
+	if len(path) == 0 {
+		return flags, 0, nil
+	}
+
+	i, err := strconv.Atoi(path[0])
+	if err != nil {
+		return nil, 0, fmt.Errorf("unable to convert path index of '%s' into an integer: %s", path[0], err.Error())
+	}
+
+	if len(path) == 1 {
+		return flags, i, nil
+	}
+
+	if len(flags[i].FlagValues[path[1]]) == 0 {
+		return nil, 0, fmt.Errorf("empty set of flags for value '%s'", path[1])
+	}
+
+	return getFlagStructFromPath(flags[i].FlagValues[path[1]], path[2:])
+}
+
+func matchFlags(flags []Flags, nest int, partial, exe string, params []string, pIndex *int, args dynamicArgs, act *AutoCompleteT) int {
+	//var nest int
 
 	defer func() {
 		if debug.Enabled {
@@ -167,7 +194,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 		if r := recover(); r != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Debug information:\n- partial: '%s'\n- exe: '%s'\n- params: %s\n- pIndex: %d\n- nest: %d\nAutocompletion syntax:", partial, exe, params, *pIndex, nest)))
-			b, _ := json.MarshalIndent(flags, "", "\t")
+			b, _ := json.Marshal(flags, true)
 			lang.ShellProcess.Stderr.Writeln([]byte(string(b)))
 
 		}
@@ -217,7 +244,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
 				}
 
-				length := matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], partial, exe, params, pIndex, args, act)
+				length := matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], 0, partial, exe, params, pIndex, args, act)
 				if length > 0 {
 					return len(act.Items)
 				}
@@ -225,6 +252,24 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 
 			if nest >= len(flags) {
 				return len(act.Items)
+			}
+
+			if flags[nest].Goto != "" {
+				split, err := pathsplit.Split(flags[nest].Goto)
+				if err != nil {
+					act.ErrCallback(err)
+					return 0
+				}
+
+				f, i, err := getFlagStructFromPath(ExesFlags[exe], split)
+				if err != nil {
+					act.ErrCallback(err)
+					return 0
+				}
+
+				//b, _ := json.Marshal(f[i], true)
+				//os.Stderr.WriteString(fmt.Sprintf("%d: %s", i, string(b)))
+				return matchFlags(f, i, partial, exe, params, pIndex, args, act)
 			}
 
 			length := match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, act.disposable())
@@ -269,6 +314,7 @@ func matchFlags(flags []Flags, partial, exe string, params []string, pIndex *int
 			] } */
 			break
 		}
+
 		match(&flags[nest], partial, args, act)
 		if !flags[nest].Optional {
 			break
