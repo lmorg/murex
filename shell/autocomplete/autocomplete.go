@@ -91,7 +91,7 @@ func MatchVars(partial string) (items []string) {
 }
 
 // MatchFlags is the entry point for murex's complex system of flag matching
-func MatchFlags(act *AutoCompleteT) int {
+func MatchFlags(act *AutoCompleteT) {
 	if act.ParsedTokens.ExpectParam || len(act.ParsedTokens.Parameters) == 0 {
 		act.ParsedTokens.Parameters = append(act.ParsedTokens.Parameters, "")
 	}
@@ -112,5 +112,5 @@ func MatchFlags(act *AutoCompleteT) int {
 
 	pIndex := 0
 
-	return matchFlags(flags, partial, exe, params, &pIndex, args, act)
+	matchFlags(flags, partial, exe, params, &pIndex, args, act)
 }
