@@ -993,7 +993,7 @@ if { which yarn } then {
             "Optional": true,
             "AllowMultiple": true,
             "AllowNoFlagValue": true,
-            "FlagValues": {"": [
+            "FlagValues": {"*": [
                 { "IncDirs": true },
                 { "Goto": "/0" }
             ]}
@@ -1013,14 +1013,21 @@ if { which yarn } then {
             "FlagValues": {
                 ${
                     yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
-                        out ("$cmd": [{ "DynamicDesc": ({ 
-                            yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
-                        }) }],)
+                        out ("$cmd":
+                            [{
+                                "DynamicDesc": ({ 
+                                    yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                }),
+                                "AllowMultiple": true,
+                                "AllowNoFlagValue": true,
+                                "FlagValues": {"*": [
+                                    { "IncDirs": true },
+                                    { "Goto": "/2/add/0" }
+                                ]}
+                            }],)
                     }
                 }
-                "": [{
-                    # "Goto": "/2/"
-                }]
+                "": [{ }]
             }
         }
     ]})

@@ -38,7 +38,8 @@ type Flags struct {
 	Goto             string             // Jump to another location in the config
 	Alias            string             // Alias one []Flags to another
 	NestedCommand    bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
-	AnyValue         bool               // Allow any value to be input (eg user input that cannot be pre-determined)
+	AnyValue         bool               // deprecated
+	AllowAny         bool               // Allow any value to be input (eg user input that cannot be pre-determined)
 	AutoBranch       bool               // Autocomplete trees (eg directory structures) one branch at a time
 	ExecCmdline      bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
@@ -76,7 +77,7 @@ func InitExeFlags(exe string) {
 			Flags:         scanManPages(exe),
 			IncFiles:      true,
 			AllowMultiple: true,
-			AnyValue:      true,
+			AllowAny:      true,
 		}}
 	}
 }
@@ -266,6 +267,18 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 					length = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], 0, partial, exe, params, pIndex, args, act)
 				}
 
+				if len(flags[nest-1].FlagValues["*"]) > 0 && (len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 ||
+					flags[nest-1].FlagsDesc[params[*pIndex-1]] != "" ||
+					lists.Match(flags[nest-1].Flags, params[*pIndex-1])) {
+
+					alias := flags[nest-1].FlagValues["*"][0].Alias
+					if alias != "" {
+						flags[nest-1].FlagValues["*"] = flags[nest-1].FlagValues[alias]
+					}
+
+					length += matchFlags(flags[nest-1].FlagValues["*"], 0, partial, exe, params, pIndex, args, act)
+				}
+
 				if len(flags[nest-1].FlagValues[""]) > 0 {
 					alias := flags[nest-1].FlagValues[""][0].Alias
 					if alias != "" {
@@ -273,9 +286,10 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 					}
 
 					length += matchFlags(flags[nest-1].FlagValues[""], 0, partial, exe, params, pIndex, args, act)
-					if length > 0 /*&& !flags[nest-1].AllowNoFlagValue*/ {
-						return len(act.Items)
-					}
+				}
+
+				if length > 0 && !flags[nest-1].AllowNoFlagValue {
+					return len(act.Items)
 				}
 			}
 
@@ -305,7 +319,7 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 				break
 			}
 			length := match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, act.disposable())
-			if flags[nest].AnyValue || length > 0 {
+			if flags[nest].AllowAny || flags[nest].AnyValue || length > 0 {
 				if !flags[nest].AllowMultiple {
 					nest++
 				}

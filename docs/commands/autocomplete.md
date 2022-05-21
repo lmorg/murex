@@ -40,8 +40,25 @@ don't define an autocomplete schema manually.
 
 ### "Alias": string ("")
 
-This works a little like a pointer or symlink to another commands autocomplete.
-So you don't have to duplicate the same autocomplete config if you use aliases.
+Aliases are used inside **FlagValues** as a way of pointing one flag to another
+without duplicating code. eg `-v` and `--version` might be the same flag. Or
+`-?`, `-h` and `--help`. With **Alias** you can write the definitions for one
+flag and then point all the synonyms as an alias to that definition.
+
+### "AllowAny": boolean (false)
+
+The way autocompletion works in _murex_ is the suggestion engine looks for
+matches and if it fines one, it then moves onto the next index in the JSON
+schema. This means unexpected values typed in the interactive terminal will
+break the suggestion engine's ability to predict what the next expected
+parameter should be. Setting **AllowAny** to `true` tells the suggestion
+engine to accept any value as the next parameter thus allowing it to then
+predict the next parameter afterwards.
+
+This directive isn't usually necessary because such fields are often the last
+parameter or most parameters can be detectable with a reasonable amount of
+effort. However **AllowAny** is often required for more complex command line
+tools.
 
 ### "AllowMultiple": boolean (false)
 
@@ -56,18 +73,7 @@ for multiple parameters:
     
 ### "AnyValue": boolean (false)
 
-The way autocompletion works in _murex_ is the suggestion engine looks for
-matches and if it fines one, it then moves onto the next index in the JSON
-schema. This means unexpected values typed in the interactive terminal will
-break the suggestion engine's ability to predict what the next expected
-parameter should be. Setting **AnyValue** to `true` tells the suggestion
-engine to accept any value as the next parameter thus allowing it to then
-predict the next parameter afterwards.
-
-This directive isn't usually nessisary because such fields are often the last
-parameter or most parameters can be detectable with a reasonable amount of
-effort. However **AnyValue** is often required for more complex command line
-tools.
+Deprecated. Please use **AllowAny** instead.
 
 ### "AutoBranch": boolean (false)
 

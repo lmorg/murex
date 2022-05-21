@@ -63,8 +63,8 @@ autocomplete set dd { [
             "of": [{ 
                 "IncFiles": true
             }],
-            "": [{
-                "AnyValue": true
+            "*": [{
+                "AllowAny": true
             }]
         }
     },
