@@ -118,7 +118,8 @@ test unit private autocomplete.variables {
 }
 
 autocomplete: set set { [{
-    "Dynamic": ({ autocomplete.variables.locals })
+    "Dynamic": ({ autocomplete.variables.locals }),
+    "AnyValue": true
 }] }
 
 autocomplete: set !set { [{
@@ -126,7 +127,8 @@ autocomplete: set !set { [{
 }] }
 
 autocomplete: set global { [{
-    "Dynamic": ({ autocomplete.variables.globals })
+    "Dynamic": ({ autocomplete.variables.globals }),
+    "AnyValue": true
 }] }
 
 autocomplete: set !global { [{
@@ -135,7 +137,8 @@ autocomplete: set !global { [{
 
 autocomplete: set export { [
     {
-        "Dynamic": ({ autocomplete.variables })
+        "Dynamic": ({ autocomplete.variables }),
+        "AnyValue": true
     },
     {
         "IncDirs": true
