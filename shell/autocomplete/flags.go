@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -18,27 +19,28 @@ import (
 
 // Flags is a struct to store auto-complete options
 type Flags struct {
-	IncFiles      bool               // `true` to include file name completion
-	FileRegexp    string             // Regexp match for files if IncFiles set
-	IncDirs       bool               // `true` to include directory navigation completion
-	IncExePath    bool               // `true` to include binaries in $PATH
-	IncExeAll     bool               // `true` to include all executable names
-	IncManPage    bool               // `true` to include man page lookup
-	Flags         []string           // known supported command line flags for executable
-	FlagsDesc     map[string]string  // known supported command line flags for executable with descriptions
-	Dynamic       string             // Use murex script to generate auto-complete suggestions
-	DynamicDesc   string             // Use murex script to generate auto-complete suggestions with descriptions
-	ListView      bool               // Display the helps as a "popup menu-like" list rather than grid
-	MapView       bool               // Like ListView but the description is highlighted instead
-	FlagValues    map[string][]Flags // Auto-complete possible values for known flags
-	Optional      bool               // This nest of flags is optional
-	AllowMultiple bool               // Allow multiple flags in this nest
-	Goto          string             // Jump to another location in the config
-	Alias         string             // Alias one []Flags to another
-	NestedCommand bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
-	AnyValue      bool               // Allow any value to be input (eg user input that cannot be pre-determined)
-	AutoBranch    bool               // Autocomplete trees (eg directory structures) one branch at a time
-	ExecCmdline   bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
+	IncFiles         bool               // `true` to include file name completion
+	FileRegexp       string             // Regexp match for files if IncFiles set
+	IncDirs          bool               // `true` to include directory navigation completion
+	IncExePath       bool               // `true` to include binaries in $PATH
+	IncExeAll        bool               // `true` to include all executable names
+	IncManPage       bool               // `true` to include man page lookup
+	Flags            []string           // known supported command line flags for executable
+	FlagsDesc        map[string]string  // known supported command line flags for executable with descriptions
+	Dynamic          string             // Use murex script to generate auto-complete suggestions
+	DynamicDesc      string             // Use murex script to generate auto-complete suggestions with descriptions
+	ListView         bool               // Display the helps as a "popup menu-like" list rather than grid
+	MapView          bool               // Like ListView but the description is highlighted instead
+	FlagValues       map[string][]Flags // Auto-complete possible values for known flags
+	Optional         bool               // This nest of flags is optional
+	AllowMultiple    bool               // Allow multiple flags in this nest
+	AllowNoFlagValue bool               // Allow there to be no match
+	Goto             string             // Jump to another location in the config
+	Alias            string             // Alias one []Flags to another
+	NestedCommand    bool               // Jump to another command's flag processing (derived from the previous parameter). eg `sudo command parameters...`
+	AnyValue         bool               // Allow any value to be input (eg user input that cannot be pre-determined)
+	AutoBranch       bool               // Autocomplete trees (eg directory structures) one branch at a time
+	ExecCmdline      bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
@@ -184,8 +186,18 @@ func getFlagStructFromPath(flags []Flags, path []string) ([]Flags, int, error) {
 	return getFlagStructFromPath(flags[i].FlagValues[path[1]], path[2:])
 }
 
+var occurrences int
+
 func matchFlags(flags []Flags, nest int, partial, exe string, params []string, pIndex *int, args dynamicArgs, act *AutoCompleteT) int {
-	//var nest int
+	occurrences++
+	if occurrences > 10 {
+		act.ErrCallback(errors.New("autocomplete terminated -- suspected endless goto loop"))
+		return 0
+	}
+	if nest >= len(flags) {
+		act.ErrCallback(fmt.Errorf("nest value of %d is greater than the number of autocomplete instructions (%d)", nest, len(flags)))
+		return 0
+	}
 
 	defer func() {
 		if debug.Enabled {
@@ -194,7 +206,7 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 		if r := recover(); r != nil {
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprint("\nPanic caught:", r)))
 			lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Debug information:\n- partial: '%s'\n- exe: '%s'\n- params: %s\n- pIndex: %d\n- nest: %d\nAutocompletion syntax:", partial, exe, params, *pIndex, nest)))
-			b, _ := json.Marshal(flags, true)
+			b, _ := json.Marshal(flags, false)
 			lang.ShellProcess.Stderr.Writeln([]byte(string(b)))
 
 		}
@@ -203,6 +215,11 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 	if len(flags) > 0 {
 		for ; *pIndex <= len(params); *pIndex++ {
 		next:
+			if time.Now().After(act.TimeOut) {
+				act.ErrCallback(errors.New("autocomplete timed out"))
+				return len(act.Items)
+			}
+
 			if *pIndex >= len(params) {
 				break
 			}
@@ -235,18 +252,30 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 					args.float = *pIndex
 					flags[nest-1].FlagValues[args.exe] = ExesFlags[args.exe]
 				}
-
 			}
 
-			if *pIndex > 0 && nest > 0 && len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
-				alias := flags[nest-1].FlagValues[params[*pIndex-1]][0].Alias
-				if alias != "" {
-					flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
+			if *pIndex > 0 && nest > 0 {
+				var length int
+
+				if len(flags[nest-1].FlagValues[params[*pIndex-1]]) > 0 {
+					alias := flags[nest-1].FlagValues[params[*pIndex-1]][0].Alias
+					if alias != "" {
+						flags[nest-1].FlagValues[params[*pIndex-1]] = flags[nest-1].FlagValues[alias]
+					}
+
+					length = matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], 0, partial, exe, params, pIndex, args, act)
 				}
 
-				length := matchFlags(flags[nest-1].FlagValues[params[*pIndex-1]], 0, partial, exe, params, pIndex, args, act)
-				if length > 0 {
-					return len(act.Items)
+				if len(flags[nest-1].FlagValues[""]) > 0 {
+					alias := flags[nest-1].FlagValues[""][0].Alias
+					if alias != "" {
+						flags[nest-1].FlagValues[""] = flags[nest-1].FlagValues[alias]
+					}
+
+					length += matchFlags(flags[nest-1].FlagValues[""], 0, partial, exe, params, pIndex, args, act)
+					if length > 0 /*&& !flags[nest-1].AllowNoFlagValue*/ {
+						return len(act.Items)
+					}
 				}
 			}
 
@@ -272,6 +301,9 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 				return matchFlags(f, i, partial, exe, params, pIndex, args, act)
 			}
 
+			if nest >= len(flags) || *pIndex >= len(params) {
+				break
+			}
 			length := match(&flags[nest], params[*pIndex], dynamicArgs{exe: args.exe, params: params[args.float:*pIndex]}, act.disposable())
 			if flags[nest].AnyValue || length > 0 {
 				if !flags[nest].AllowMultiple {

@@ -218,6 +218,55 @@
     Please note that currently man page parsing cannot provide a description so
     only **Flags** get auto-populated.
 
+    ### "Goto": string ("")
+
+    This is a `goto` in programming terms. While "ugly" it does allow for quick and
+    easy structural definitions without resorting to writing the entire
+    autocomplete in code.
+
+    **Goto** takes a string which represents the path to jump to from the top level
+    of that autocomplete definition. The path should look something like:
+    `/int/string/int/string....` where
+    
+    * the first character is the separator,
+
+    * the first value is an integer that relates to the index in your autocomplete
+      array,
+
+    * the second value is a string which points to the flag value map (if you
+      defined **FlagValues**),
+
+    * the third value is the integer of the autocomplete array inside that
+    **FlagValues** map,
+
+    * ...and so on as necessary.
+
+    An example of a really simple **Goto**:
+
+    ```
+    autocomplete set dd { [
+        {
+            "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
+            "FlagValues": {
+                "if": [{ 
+                    "IncFiles": true,
+                    "AnyValue": true
+                }],
+                "of": [{ 
+                    "IncFiles": true,
+                    "AnyValue": true
+                }]
+            }
+        },
+        {
+            "Goto": "/0"
+        }
+    ] }
+    ```
+
+    **Goto** is given precidense over any other directive. So ensure it's the only
+    directive in it's group.
+
     ### "IncDirs": boolean (false)
 
     Enable to include directories.

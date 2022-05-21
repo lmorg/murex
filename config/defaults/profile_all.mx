@@ -991,7 +991,12 @@ if { which yarn } then {
                 yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
             },
             "Optional": true,
-            "AllowMultiple": true
+            "AllowMultiple": true,
+            "AllowNoFlagValue": true,
+            "FlagValues": {"": [
+                { "IncDirs": true },
+                { "Goto": "/0" }
+            ]}
         },
         {
             "DynamicDesc": ({
@@ -1013,7 +1018,9 @@ if { which yarn } then {
                         }) }],)
                     }
                 }
-                "": [{}]
+                "": [{
+                    # "Goto": "/2/"
+                }]
             }
         }
     ]})

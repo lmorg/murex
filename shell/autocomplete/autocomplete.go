@@ -2,6 +2,7 @@ package autocomplete
 
 import (
 	"strings"
+	"time"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/parser"
@@ -22,6 +23,7 @@ type AutoCompleteT struct {
 	ParsedTokens      parser.ParsedTokens
 	CacheDynamic      bool
 	DoNotSort         bool
+	TimeOut           time.Time
 }
 
 func (act *AutoCompleteT) append(items ...string) {
@@ -112,5 +114,8 @@ func MatchFlags(act *AutoCompleteT) {
 
 	pIndex := 0
 
+	act.TimeOut = time.Now().Add(1 * time.Second)
+
+	occurrences = 0
 	matchFlags(flags, 0, partial, exe, params, &pIndex, args, act)
 }

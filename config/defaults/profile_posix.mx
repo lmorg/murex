@@ -58,11 +58,12 @@ autocomplete set dd { [
         "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
         "FlagValues": {
             "if": [{ 
-                "IncFiles": true,
-                "AnyValue": true
+                "IncFiles": true
             }],
             "of": [{ 
-                "IncFiles": true,
+                "IncFiles": true
+            }],
+            "": [{
                 "AnyValue": true
             }]
         }
