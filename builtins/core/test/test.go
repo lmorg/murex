@@ -19,7 +19,7 @@ private autocomplete.test.run-unit {
 	# Returns all available tests for ` + "`test run`" + `
     runtime: --tests -> [ unit ] -> foreach: test {
         out: $test[function]
-    } -> prepend * -> cast str
+    } -> cast str -> prepend *
 }
 
 test unit private autocomplete.test.run-unit {

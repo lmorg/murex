@@ -2,17 +2,11 @@
 
 ## Data-Type Reference: `jsonc` 
 
-> JSON Lines (primitive)
+> Concatenated JSON (primitive)
 
 ## Description
 
-The following description is taken from [jsonlines.org](http://jsonlines.org/):
-
-> JSON Lines is a convenient format for storing structured data that may be
-> processed one record at a time. It works well with unix-style text
-> processing tools and shell pipelines. It's a great format for log files.
-> It's also a flexible format for passing messages between cooperating
-> processes.
+Presently this is the same 
 
 ## Examples
 

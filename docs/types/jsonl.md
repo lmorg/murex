@@ -174,7 +174,7 @@ cases for JSON lines.
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonc` ](../types/jsonc.md):
-  JSON Lines (primitive)
+  Concatenated JSON (primitive)
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):

@@ -1,0 +1,156 @@
+- DocumentID: jsonc
+  Title: >-
+    `jsonc` 
+  CategoryID: types
+  Summary: >-
+    Concatenated JSON (primitive)
+  Description: |-
+    Presently this is the same 
+  Usage:
+  Examples: |-
+    Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
+    
+    ### Tabulated data
+
+    ```
+    ["Name", "Session", "Score", "Completed"]
+    ["Gilbert", "2013", 24, true]
+    ["Alexa", "2013", 29, true]
+    ["May", "2012B", 14, false]
+    ["Deloise", "2012A", 19, true] 
+    ```
+
+    This format is equatable to `generic` and `csv`.
+    
+    ### Nested objects
+    
+    ```
+    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
+    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
+    {"name": "May", "wins": []}
+    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+    ```
+  Hooks:
+    ReadArray(): Works with JSON arrays. Maps are converted into arrays
+    ReadArrayWithType(): "Works with JSON arrays. Maps are converted into arrays. Element data type is `json` "
+    ReadMap(): Not currently supported.
+    WriteArray(): Supported
+    ReadIndex(): Works against all properties in JSON
+    ReadNotIndex(): Works against all properties in JSON
+    Marshal(): Supported
+    Unmarshal(): Supported
+  Detail: |-
+    ### Concatenated JSON
+
+    Technically the `jsonl` Unmarshal() method supports Concatenated JSON, as
+    described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
+
+    > Concatenated JSON streaming allows the sender to simply write each JSON
+    > object into the stream with no delimiters. It relies on the receiver using
+    > a parser that can recognize and emit each JSON object as the terminating
+    > character is parsed. Concatenated JSON isn't a new format, it's simply a
+    > name for streaming multiple JSON objects without any delimiters.
+    >
+    > The advantage of this format is that it can handle JSON objects that have
+    > been formatted with embedded newline characters, e.g., pretty-printed for
+    > human readability. For example, these two inputs are both valid and produce
+    > the same output:
+    >
+    > #### Single line concatenated JSON
+    >
+    >     {"some":"thing\n"}{"may":{"include":"nested","objects":["and","arrays"]}}
+    >
+    > #### Multi-line concatenated JSON
+    >
+    >     {
+    >       "some": "thing\n"
+    >     }
+    >     {
+    >       "may": {
+    >         "include": "nested",
+    >         "objects": [
+    >           "and",
+    >           "arrays"
+    >         ]
+    >       }
+    >     }
+
+    ...however in _murex_'s case, only single line concatenated JSON files
+    (example 1) are supported; and that is only supported to cover some edge
+    cases when writing JSON lines and a new line character isn't included. The
+    primary example might be when generating JSON lines from inside a `for` loop.
+
+    This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
+
+    ### More information
+
+    This format is sometimes also referred to as LDJSON and NDJSON, as described
+    on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
+
+    _murex_'s [`json` data-type document](json.md) also describes some use
+    cases for JSON lines.
+  Associations:
+    Mimes:
+    - application/jsonl
+    - application/x-jsonl
+    - text/jsonl
+    - text/x-jsonl
+
+    - application/jsonlines
+    - application/x-jsonlines
+    - text/jsonlines
+    - text/x-jsonlines
+
+    - application/json-lines
+    - application/x-json-lines
+    - text/json-lines
+    - text/x-json-lines
+
+    - application/jsonseq
+    - application/x-jsonseq
+    - text/jsonseq
+    - text/x-jsonseq
+
+    - application/json-seq
+    - application/x-json-seq
+    - text/json-seq
+    - text/x-json-seq
+
+    - application/ldjson
+    - application/x-ldjson
+    - text/ldjson
+    - text/x-ldjson
+
+    - application/ndjson
+    - application/x-ndjson
+    - text/ndjson
+    - text/x-ndjson
+
+    Extensions:
+    - jsonl
+    - jsonlines
+    - murex_history
+  Related:
+  - yaml
+  - toml
+  - hcl
+  - mxjson
+  - json
+  - jsonl
+  - generic
+  - csv
+  - commands/open
+  - commands/index
+  - commands/element
+  - commands/cast
+  - commands/format
+  - commands/foreach
+  - commands/runtime
+  - commands/pretty
+  - apis/ReadArray
+  - apis/ReadMap
+  - apis/WriteArray
+  - apis/ReadIndex
+  - apis/ReadNotIndex
+  - apis/Marshal
+  - apis/Unmarshal
