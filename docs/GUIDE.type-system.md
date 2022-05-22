@@ -76,7 +76,7 @@ details about specific hooks.
   Whole number (primitive)
 * [`json` ](types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [`jsonl` ](types/jsonl.md):
+* [`jsonc` ](types/jsonc.md):
   JSON Lines (primitive)
 * [`jsonl` ](types/jsonl.md):
   JSON Lines (primitive)

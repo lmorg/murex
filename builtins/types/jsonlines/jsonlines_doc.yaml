@@ -142,6 +142,7 @@
   - hcl
   - mxjson
   - json
+  - jsonc
   - generic
   - csv
   - commands/open

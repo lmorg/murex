@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Data-Type Reference: `jsonl` 
+## Data-Type Reference: `jsonc` 
 
 > JSON Lines (primitive)
 
@@ -173,7 +173,7 @@ cases for JSON lines.
   HashiCorp Configuration Language (HCL)
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [types/`jsonc` ](../types/jsonc.md):
+* [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler

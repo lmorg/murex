@@ -70,6 +70,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   HashiCorp Configuration Language (HCL)
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
+* [types/`jsonc` ](../types/jsonc.md):
+  JSON Lines (primitive)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [commands/`open`](../commands/open.md):
