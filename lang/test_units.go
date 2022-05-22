@@ -446,11 +446,11 @@ func runPrivate(path string, split []string, fork *Fork) (int, error) {
 
 	fork.Name.Set(function)
 
-	if !PrivateFunctions.Exists(function, module) {
+	if !PrivateFunctions.ExistsString(function, module) {
 		return 0, fmt.Errorf("private (%s) does not exist or module name (%s) is wrong", function, module)
 	}
 
-	block, err := PrivateFunctions.Block(function, module)
+	block, err := PrivateFunctions.BlockString(function, module)
 	if err != nil {
 		return 0, err
 	}

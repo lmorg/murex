@@ -78,6 +78,8 @@ details about specific hooks.
   JavaScript Object Notation (JSON) (primitive)
 * [`jsonl` ](types/jsonl.md):
   JSON Lines (primitive)
+* [`jsonl` ](types/jsonl.md):
+  JSON Lines (primitive)
 * [`num` (number)](types/num.md):
   Floating point number (primitive)
 * [`str` (string) ](types/str.md):

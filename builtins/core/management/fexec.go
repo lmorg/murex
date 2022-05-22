@@ -129,7 +129,7 @@ func fePrivate(p *lang.Process, cmd string, params []string) error {
 		mod = []string{strings.Join(mod[0:len(mod)-1], "/"), mod[2]}
 	}
 
-	block, err := lang.PrivateFunctions.Block(mod[1], mod[0])
+	block, err := lang.PrivateFunctions.BlockString(mod[1], mod[0])
 	if err != nil {
 		return err
 	}

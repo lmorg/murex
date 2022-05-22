@@ -33,13 +33,14 @@ type MxFunctionParams struct {
 }
 
 // NewMurexFuncs creates a new table of murex functions
-func NewMurexFuncs() (mf MurexFuncs) {
+func NewMurexFuncs() *MurexFuncs {
+	mf := new(MurexFuncs)
 	mf.fn = make(map[string]*murexFuncDetails)
 
-	return
+	return mf
 }
 
-func funcPrivSummary(block []rune) string {
+func funcSummary(block []rune) string {
 	var (
 		line1   bool
 		comment bool
@@ -318,7 +319,7 @@ func (mfd *murexFuncDetails) castParameters(p *Process) error {
 
 // Define creates a function
 func (mf *MurexFuncs) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
-	summary := funcPrivSummary(block)
+	summary := funcSummary(block)
 
 	mf.mutex.Lock()
 	mf.fn[name] = &murexFuncDetails{

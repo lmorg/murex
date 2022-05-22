@@ -3,152 +3,90 @@ package lang
 import (
 	"fmt"
 	"strings"
-	"sync"
 
 	"github.com/lmorg/murex/lang/ref"
 )
 
-// MurexPrivs is a table of private murex functions
-type MurexPrivs struct {
-	mutex sync.Mutex
-	fn    []*murexPrivDetails
+type privateFunctions struct {
+	module map[string]*MurexFuncs
 }
 
-// murexPrivDetails is the properties for any given private murex function
-type murexPrivDetails struct {
-	Name    string
-	Block   []rune
-	Summary string
-	FileRef *ref.File
+func NewMurexPrivs() *privateFunctions {
+	pf := new(privateFunctions)
+	pf.module = make(map[string]*MurexFuncs)
+	return pf
 }
 
-const errMsg = "cannot locate private called `%s` in module `%s`"
-
-// NewMurexPrivs creates a new table of private murex functions
-func NewMurexPrivs() (mf MurexPrivs) {
-	return
-}
-
-// Define creates a private
-func (mf *MurexPrivs) Define(name string, block []rune, fileRef *ref.File) error {
-	//if mf.Exists(name, module) {
-	//	return fmt.Errorf("private with the name `%s` already exists in module `%s`", name, module)
-	//}
-	//mf.Undefine(name, fileRef.Source.Module)
-
-	summary := funcPrivSummary(block)
-
-	mf.mutex.Lock()
-	mf.fn = append(mf.fn, &murexPrivDetails{
-		Name:    name,
-		Block:   block,
-		Summary: summary,
-		FileRef: fileRef,
-	})
-	mf.mutex.Unlock()
-
-	return nil
-}
-
-func (mf *MurexPrivs) get(name, module string) *murexPrivDetails {
-	mf.mutex.Lock()
-	for i := range mf.fn {
-		if mf.fn[i].Name == name && mf.fn[i].FileRef.Source.Module == module {
-			priv := mf.fn[i]
-			mf.mutex.Unlock()
-			return priv
-		}
-	}
-	mf.mutex.Unlock()
-	return nil
-}
-
-// Exists checks if private already created
-func (mf *MurexPrivs) Exists(name, module string) (exists bool) {
-	return mf.get(name, module) != nil
-}
-
-// Block returns private function code
-func (mf *MurexPrivs) Block(name, module string) ([]rune, error) {
-	priv := mf.get(name, module)
-
-	if priv == nil {
-		return nil, fmt.Errorf(errMsg, name, module)
+func (pf *privateFunctions) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
+	if pf.module[fileRef.Source.Module] == nil {
+		pf.module[fileRef.Source.Module] = NewMurexFuncs()
 	}
 
-	return priv.Block, nil
+	pf.module[fileRef.Source.Module].Define(name, parameters, block, fileRef)
 }
 
-// Summary returns private's summary
-func (mf *MurexPrivs) Summary(name, module string) (string, error) {
-	priv := mf.get(name, module)
-
-	if priv == nil {
-		return "", fmt.Errorf(errMsg, name, module)
+func (pf *privateFunctions) get(name string, fileRef *ref.File) *murexFuncDetails {
+	if pf.module[fileRef.Source.Module] == nil {
+		return nil
 	}
 
-	return priv.Summary, nil
+	return pf.module[fileRef.Source.Module].get(name)
 }
 
-// Undefine undefined private from table (doesn't delete - which is lazy)
-/*func (mf *MurexPrivs) Undefine(name, module string) error {
-	mf.mutex.Lock()
-	for i := range mf.fn {
-		if mf.fn[i].Name == name && mf.fn[i].FileRef.Source.Module == module {
-			mf.fn[i].Name = "(undefined)"
-			mf.fn[i].FileRef.Source.Module = "(undefined)"
-			mf.mutex.Unlock()
-			return nil
-		}
-	}
-	mf.mutex.Unlock()
-	return errors.New("No private exists with that name and module")
-}*/
-
-// Dump list all private murex functions in table
-func (mf *MurexPrivs) Dump() interface{} {
-	type funcs struct {
-		Name    string
-		Summary string
-		Block   string
-		FileRef *ref.File
+func (pf *privateFunctions) Exists(name string, fileRef *ref.File) bool {
+	if pf.module[fileRef.Source.Module] == nil {
+		return false
 	}
 
-	dump := make(map[string]map[string]map[string]funcs)
+	return pf.module[fileRef.Source.Module].Exists(name)
+}
 
-	mf.mutex.Lock()
-	for _, priv := range mf.fn {
-		mod := strings.Split(priv.FileRef.Source.Module, "/")
-		switch len(mod) {
-		case 0:
-			mod = []string{priv.FileRef.Source.Module, priv.FileRef.Source.Module}
-
-		case 1:
-			mod = append(mod, priv.FileRef.Source.Module)
-
-		case 2:
-			// do nothing
-
-		default:
-			mod = []string{mod[0], strings.Join(mod[1:], "-")}
-		}
-
-		if dump[mod[0]] == nil {
-			dump[mod[0]] = make(map[string]map[string]funcs)
-		}
-
-		if dump[mod[0]][mod[1]] == nil {
-			dump[mod[0]][mod[1]] = make(map[string]funcs)
-		}
-
-		dump[mod[0]][mod[1]][priv.Name] = funcs{
-			Name:    priv.Name,
-			Summary: priv.Summary,
-			Block:   string(priv.Block),
-			FileRef: priv.FileRef,
-		}
+func (pf *privateFunctions) ExistsString(name string, module string) bool {
+	if pf.module[module] == nil {
+		return false
 	}
-	mf.mutex.Unlock()
+
+	return pf.module[module].Exists(name)
+}
+
+func (pf *privateFunctions) BlockString(name string, module string) ([]rune, error) {
+	if pf.module[module] == nil {
+		return nil, fmt.Errorf("no private functions exist for module `%s`", module)
+	}
+
+	return pf.module[module].Block(name)
+}
+
+func (pf *privateFunctions) Summary(name string, fileRef *ref.File) (string, error) {
+	if pf.module[fileRef.Source.Module] == nil {
+		return "", fmt.Errorf("no private functions exist for module `%s`", fileRef.Source.Module)
+	}
+
+	return pf.module[fileRef.Source.Module].Summary(name)
+}
+
+func (pf *privateFunctions) Undefine(name string, fileRef *ref.File) error {
+	if pf.module[fileRef.Source.Module] == nil {
+		return fmt.Errorf("no private functions exist for module `%s`", fileRef.Source.Module)
+	}
+
+	return pf.module[fileRef.Source.Module].Undefine(name)
+}
+
+func (pf *privateFunctions) Dump() interface{} {
+	dump := make(map[string]map[string]interface{})
+	for name, module := range pf.module {
+		path := strings.SplitN(name, "/", 2)
+		if len(path) != 2 {
+			return fmt.Sprintf("error: module path doesn't follow standard 'package/module' format: '%s'", name)
+		}
+
+		if len(dump[path[0]]) == 0 {
+			dump[path[0]] = make(map[string]interface{})
+		}
+
+		dump[path[0]][path[1]] = module.Dump()
+	}
 
 	return dump
 }

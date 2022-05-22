@@ -58,7 +58,7 @@ func testRunTest(t *testing.T, plans []testUTPs) {
 				lang.MxFunctions.Define(plans[i].Function, nil, []rune(plans[i].TestBlock), fileRef)
 				pubPriv = "public"
 			} else {
-				lang.PrivateFunctions.Define(plans[i].Function, []rune(plans[i].TestBlock), fileRef)
+				lang.PrivateFunctions.Define(plans[i].Function, nil, []rune(plans[i].TestBlock), fileRef)
 				plans[i].Function = fileRef.Source.Module + "/" + plans[i].Function
 				pubPriv = "private"
 			}

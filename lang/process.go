@@ -294,9 +294,9 @@ executeProcess:
 			}
 		}
 
-	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef.Source.Module):
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef):
 		// murex privates
-		fn := PrivateFunctions.get(name, p.FileRef.Source.Module)
+		fn := PrivateFunctions.get(name, p.FileRef)
 		if fn != nil {
 			fork := p.Fork(F_FUNCTION)
 			fork.Name.Set(name)
