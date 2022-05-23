@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 package lang
 
 // https://play.golang.com/p/yaQY5kAJCv5

@@ -41,6 +41,9 @@ const (
 	// TokenTypeIndex: key is an array or map. Return only specific indexes. eg `command $variable[index]`
 	TokenTypeIndex
 
+	// TokenTypeElement: key is an array or map. Return only specific elements in a nested structure. eg `command $variable[index]`
+	TokenTypeElement
+
 	// TokenTypeRange: key is an array. Return only a range. eg `command @variable[start..end]r`
 	TokenTypeRange
 
