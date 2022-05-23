@@ -178,13 +178,21 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		if pToken.Type > parameters.TokenTypeValue {
 			switch {
 			case pToken.Type == parameters.TokenTypeIndex ||
+				pToken.Type == parameters.TokenTypeElement ||
 				pToken.Type == parameters.TokenTypeRange:
+
+				*pop += string(r)
+
 				if r != ']' {
-					*pop += string(r)
 					last = r
 					continue
 				}
-				*pop += string(r)
+
+				if next(']') {
+					*pop += string(r)
+					i++
+				}
+
 				node.ParamTokens[pCount] = append(node.ParamTokens[pCount], parameters.ParamToken{})
 				pToken = &node.ParamTokens[pCount][len(node.ParamTokens[pCount])-1]
 				pop = &pToken.Key
@@ -275,7 +283,13 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				continue
 
 			case r == '[' && pToken.Type == parameters.TokenTypeString && last != '$':
-				pToken.Type = parameters.TokenTypeIndex
+				if next('[') {
+					pToken.Type = parameters.TokenTypeElement
+					*pop += string(r)
+					i++
+				} else {
+					pToken.Type = parameters.TokenTypeIndex
+				}
 				*pop += string(r)
 				last = r
 				unclosedIndex = true

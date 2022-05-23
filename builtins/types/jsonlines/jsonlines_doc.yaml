@@ -86,7 +86,8 @@
     cases when writing JSON lines and a new line character isn't included. The
     primary example might be when generating JSON lines from inside a `for` loop.
 
-    This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
+    This is resolved in the new data-type parser `jsonc` (Concatenated JSON). See
+    line below.
 
     ### More information
 
@@ -112,16 +113,6 @@
     - text/json-lines
     - text/x-json-lines
 
-    - application/jsonseq
-    - application/x-jsonseq
-    - text/jsonseq
-    - text/x-jsonseq
-
-    - application/json-seq
-    - application/x-json-seq
-    - text/json-seq
-    - text/x-json-seq
-
     - application/ldjson
     - application/x-ldjson
     - text/ldjson
@@ -133,15 +124,19 @@
     - text/x-ndjson
 
     Extensions:
-    - jsonl
-    - jsonlines
-    - murex_history
+    - "jsonl"
+    - "jsonlines"
+    - "json-lines"
+    - "ldjson"
+    - "ndjson"
+    - "murex_history"
   Related:
   - yaml
   - toml
   - hcl
   - mxjson
   - json
+  - jsonc
   - generic
   - csv
   - commands/open

@@ -220,6 +220,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Reformat one data-type into another data-type
 * [types/`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
+* [types/`jsonc` ](../types/jsonc.md):
+  Concatenated JSON
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):

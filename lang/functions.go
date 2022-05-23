@@ -33,13 +33,14 @@ type MxFunctionParams struct {
 }
 
 // NewMurexFuncs creates a new table of murex functions
-func NewMurexFuncs() (mf MurexFuncs) {
+func NewMurexFuncs() *MurexFuncs {
+	mf := new(MurexFuncs)
 	mf.fn = make(map[string]*murexFuncDetails)
 
-	return
+	return mf
 }
 
-func funcPrivSummary(block []rune) string {
+func funcSummary(block []rune) string {
 	var (
 		line1   bool
 		comment bool
@@ -93,6 +94,7 @@ const ( // function parameter contexts
 const ( // function parameter error messages
 	fpeUnexpectedWhiteSpace    = "unexpected whitespace character (chr %d) at %d (%d,%d)"
 	fpeUnexpectedNewLine       = "unexpected new line at %d (%d,%d)"
+	fpeUnexpectedComma         = "unexpected comma at %d (%d,%d)"
 	fpeUnexpectedCharacter     = "unexpected character '%s' (chr %d) at %d (%d,%d)"
 	fpeUnexpectedColon         = "unexpected colon ':' (chr %d) at %d (%d,%d)"
 	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (chr %d) at %d (%d,%d)"
@@ -195,10 +197,17 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 				mfp[counter].Description += ","
 			case fpcDefaultRead:
 				mfp[counter].Default += ","
+			case fpcNameRead:
+				mfp[counter].DataType = types.String
+				mfp = append(mfp, MxFunctionParams{})
+				counter++
+				context = fpcNameStart
 			case fpcTypeRead, fpcDescEnd, fpcDefaultEnd:
 				mfp = append(mfp, MxFunctionParams{})
 				counter++
 				context = fpcNameStart
+			default:
+				return nil, fmt.Errorf(fpeUnexpectedComma, i+1, y, x)
 			}
 
 		default:
@@ -244,7 +253,8 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 	case fpcNameStart:
 		return nil, fmt.Errorf(fpeEofNameStart, len(parameters), y, x)
 	case fpcNameRead:
-		return nil, fmt.Errorf(fpeEofNameRead, len(parameters), y, x)
+		//return nil, fmt.Errorf(fpeEofNameRead, len(parameters), y, x)
+		mfp[counter].DataType = types.String
 	case fpcTypeStart:
 		return nil, fmt.Errorf(fpeEofTypeStart, len(parameters), y, x)
 	case fpcDescRead:
@@ -309,7 +319,7 @@ func (mfd *murexFuncDetails) castParameters(p *Process) error {
 
 // Define creates a function
 func (mf *MurexFuncs) Define(name string, parameters []MxFunctionParams, block []rune, fileRef *ref.File) {
-	summary := funcPrivSummary(block)
+	summary := funcSummary(block)
 
 	mf.mutex.Lock()
 	mf.fn[name] = &murexFuncDetails{

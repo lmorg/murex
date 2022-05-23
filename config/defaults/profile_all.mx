@@ -118,7 +118,8 @@ test unit private autocomplete.variables {
 }
 
 autocomplete: set set { [{
-    "Dynamic": ({ autocomplete.variables.locals })
+    "Dynamic": ({ autocomplete.variables.locals }),
+    "AnyValue": true
 }] }
 
 autocomplete: set !set { [{
@@ -126,7 +127,8 @@ autocomplete: set !set { [{
 }] }
 
 autocomplete: set global { [{
-    "Dynamic": ({ autocomplete.variables.globals })
+    "Dynamic": ({ autocomplete.variables.globals }),
+    "AnyValue": true
 }] }
 
 autocomplete: set !global { [{
@@ -135,7 +137,8 @@ autocomplete: set !global { [{
 
 autocomplete: set export { [
     {
-        "Dynamic": ({ autocomplete.variables })
+        "Dynamic": ({ autocomplete.variables }),
+        "AnyValue": true
     },
     {
         "IncDirs": true
@@ -979,4 +982,53 @@ if { microk8s } then {
             "ListView":      true
         }
     ]}
+}
+
+if { which yarn } then {
+    autocomplete: set yarn ({[
+        {
+            "FlagsDesc": ${
+                yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
+            },
+            "Optional": true,
+            "AllowMultiple": true,
+            "AllowNoFlagValue": true,
+            "FlagValues": {"*": [
+                { "IncDirs": true },
+                { "Goto": "/0" }
+            ]}
+        },
+        {
+            "DynamicDesc": ({
+                if { g: package.json } then {
+                    open package.json -> [ scripts ]
+                }
+            }),
+            "Optional": true
+        },
+        {
+            "Flags": ${
+                yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+            },
+            "FlagValues": {
+                ${
+                    yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
+                        out ("$cmd":
+                            [{
+                                "DynamicDesc": ({ 
+                                    yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                }),
+                                "AllowMultiple": true,
+                                "AllowNoFlagValue": true,
+                                "FlagValues": {"*": [
+                                    { "IncDirs": true },
+                                    { "Goto": "/2/add/0" }
+                                ]}
+                            }],)
+                    }
+                }
+                "": [{ }]
+            }
+        }
+    ]})
 }

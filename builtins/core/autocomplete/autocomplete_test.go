@@ -41,9 +41,12 @@ func TestAutocomplete(t *testing.T) {
         "FlagValues": null,
         "Optional": false,
         "AllowMultiple": true,
+        "AllowNoFlagValue": false,
+        "Goto": "",
         "Alias": "",
         "NestedCommand": false,
         "AnyValue": true,
+        "AllowAny": false,
         "AutoBranch": false,
         "ExecCmdline": true
     }

@@ -146,7 +146,8 @@ func cmdPrivate(p *lang.Process) error {
 		return errors.New("private name cannot contain a dollar, '$', character")
 
 	default:
-		return lang.PrivateFunctions.Define(name, block, p.FileRef)
+		lang.PrivateFunctions.Define(name, nil, block, p.FileRef)
+		return nil
 	}
 }
 

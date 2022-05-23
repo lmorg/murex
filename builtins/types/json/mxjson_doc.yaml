@@ -57,6 +57,7 @@
   - hcl
   - json
   - jsonl
+  - jsonc
   - commands/open
   - commands/index
   - commands/element

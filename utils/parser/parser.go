@@ -299,6 +299,22 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.ExpectParam = true
 			}
 
+		case '=':
+		switch {
+		case pt.Escaped:
+			escaped()
+		case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0, readFunc:
+			*pt.pop += `=`
+			syntaxHighlighted += string(block[i])
+		case pt.ExpectFunc:
+			pt.Loc = i
+			syntaxHighlighted += string(block[i])
+		default:
+			pt.Loc = i
+			syntaxHighlighted += string(block[i])
+			pt.ExpectParam = true
+		}
+
 		case ':':
 			switch {
 			case pt.Escaped:

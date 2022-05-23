@@ -6,6 +6,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 23.05.2022 - [What's new in murex v2.8](changelog/v2.8.md)
+
+This release comes with a number of experimental but stable features that might eventually become standard practice. The features are there to use if you with but adjacent from the older code so there is zero risk in updating to this version.
+
+
 ### 15.05.2022 - [What's new in murex v2.7](changelog/v2.7.md)
 
 This update has introduced another potential breaking change for your safety: zero length arrays now fail by default. Also errors inside subshells will cause the parent command to fail if ran inside a `try` or `trypipe` block.

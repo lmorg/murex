@@ -80,8 +80,16 @@ func TestParamHangBug(t *testing.T) {
 			Stdout: "@ FOO[BAR]\n",
 		},
 		{
+			Block:  `out: @ FOO[[BAR]]`,
+			Stdout: "@ FOO[[BAR]]\n",
+		},
+		{
 			Block:  `out: @[out]`,
 			Stdout: "@[out]\n",
+		},
+		{
+			Block:  `out: @[[out]]`,
+			Stdout: "@[[out]]\n",
 		},
 		{
 			Block:  `out: @FOO(BAR)`,

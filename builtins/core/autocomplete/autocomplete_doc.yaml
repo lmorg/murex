@@ -33,8 +33,25 @@
 
     ### "Alias": string ("")
 
-    This works a little like a pointer or symlink to another commands autocomplete.
-    So you don't have to duplicate the same autocomplete config if you use aliases.
+    Aliases are used inside **FlagValues** as a way of pointing one flag to another
+    without duplicating code. eg `-v` and `--version` might be the same flag. Or
+    `-?`, `-h` and `--help`. With **Alias** you can write the definitions for one
+    flag and then point all the synonyms as an alias to that definition.
+
+    ### "AllowAny": boolean (false)
+
+    The way autocompletion works in _murex_ is the suggestion engine looks for
+    matches and if it fines one, it then moves onto the next index in the JSON
+    schema. This means unexpected values typed in the interactive terminal will
+    break the suggestion engine's ability to predict what the next expected
+    parameter should be. Setting **AllowAny** to `true` tells the suggestion
+    engine to accept any value as the next parameter thus allowing it to then
+    predict the next parameter afterwards.
+
+    This directive isn't usually necessary because such fields are often the last
+    parameter or most parameters can be detectable with a reasonable amount of
+    effort. However **AllowAny** is often required for more complex command line
+    tools.
 
     ### "AllowMultiple": boolean (false)
 
@@ -51,18 +68,7 @@
 
     ### "AnyValue": boolean (false)
 
-    The way autocompletion works in _murex_ is the suggestion engine looks for
-    matches and if it fines one, it then moves onto the next index in the JSON
-    schema. This means unexpected values typed in the interactive terminal will
-    break the suggestion engine's ability to predict what the next expected
-    parameter should be. Setting **AnyValue** to `true` tells the suggestion
-    engine to accept any value as the next parameter thus allowing it to then
-    predict the next parameter afterwards.
-
-    This directive isn't usually nessisary because such fields are often the last
-    parameter or most parameters can be detectable with a reasonable amount of
-    effort. However **AnyValue** is often required for more complex command line
-    tools.
+    Deprecated. Please use **AllowAny** instead.
 
     ### "AutoBranch": boolean (false)
 
@@ -191,6 +197,74 @@
     This allows you to nest operations by flags. eg when a flag might accept
     multiple parameters.
 
+    **FlagValues** takes a map of arrays, eg
+
+    ```
+    autocomplete set example { [{
+        "Flags": [ "add", "delete" ],
+        "FlagValues": {
+            "add": [{
+                "Flags": [ "foo" ]
+            }],
+            "delete": [{
+                "Flags": [ "bar" ]
+            }]
+        }
+    }] }
+    ```
+
+    ...will provide "foo" as a suggestion to `example add`, and "bar" as a
+    suggestion to `example delete`.
+
+    #### Defaults for matched flags
+
+    You can set default properties to all matched flags by using `*` as a
+    **FlagValues** value. To expand the above example...
+
+    ```
+    autocomplete set example { [{
+        "Flags": [ "add", "delete" ],
+        "FlagValues": {
+            "add": [{
+                "Flags": [ "foo" ]
+            }],
+            "delete": [{
+                "Flags": [ "bar" ]
+            }],
+            "*": [{
+                "IncFiles"
+            }]
+        }
+    }] }
+    ```
+
+    ...in this code we are saying not only does "add" support "foo" and "delete"
+    supports "bar", but both "add" and "delete" also supports any filesystem files.
+
+    This default only applies if there is a matched **Flags** or **FlagValues**.
+
+    #### Defaults for any flags (including unmatched)
+
+    If you wanted a default which applied to all **FlagValues**, even when the flag
+    wasn't matched, then you can use a zero length string (""). For example
+
+    ```
+    autocomplete set example { [{
+        "Flags": [ "add", "delete" ],
+        "FlagValues": {
+            "add": [{
+                "Flags": [ "foo" ]
+            }],
+            "delete": [{
+                "Flags": [ "bar" ]
+            }],
+            "": [{
+                "IncFiles"
+            }]
+        }
+    }] }
+    ```
+
     ### "Flags": array of strings (auto-populated from man pages)
 
     Setting **Flags** is the fastest and easiest way to populate suggestions
@@ -217,6 +291,56 @@
 
     Please note that currently man page parsing cannot provide a description so
     only **Flags** get auto-populated.
+
+    ### "Goto": string ("")
+
+    This is a `goto` in programming terms. While "ugly" it does allow for quick and
+    easy structural definitions without resorting to writing the entire
+    autocomplete in code.
+
+    **Goto** takes a string which represents the path to jump to from the top level
+    of that autocomplete definition. The path should look something like:
+    `/int/string/int/string....` where
+    
+    * the first character is the separator,
+
+    * the first value is an integer that relates to the index in your autocomplete
+      array,
+
+    * the second value is a string which points to the flag value map (if you
+      defined **FlagValues**),
+
+    * the third value is the integer of the autocomplete array inside that
+    **FlagValues** map,
+
+    * ...and so on as necessary.
+
+    An example of a really simple **Goto**:
+
+    ```
+    autocomplete set dd { [
+        {
+            "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
+            "FlagValues": {
+                "if": [{ 
+                    "IncFiles": true
+                }],
+                "of": [{ 
+                    "IncFiles": true
+                }],
+                "*": [{
+                    "AllowAny": true
+                }]
+            }
+        },
+        {
+            "Goto": "/0"
+        }
+    ] }
+    ```
+
+    **Goto** is given precedence over any other directive. So ensure it's the only
+    directive in it's group.
 
     ### "IncDirs": boolean (false)
 

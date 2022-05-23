@@ -2,8 +2,12 @@ package lang
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
+
+	"github.com/lmorg/murex/utils"
 )
 
 const (
@@ -27,12 +31,22 @@ func IndexTemplateTable(p *Process, params []string, cRecords chan []string, mar
 	return ittIndex(p, params, cRecords, marshaller)
 }
 
-func ittIndex(p *Process, params []string, cRecords chan []string, marshaller func([]string) []byte) error {
+func ittIndex(p *Process, params []string, cRecords chan []string, marshaller func([]string) []byte) (err error) {
 	var (
-		mode     int
-		matchStr []string
-		matchInt []int
+		mode      int
+		matchStr  []string
+		matchInt  []int
+		unmatched []string
 	)
+
+	defer func() {
+		if len(unmatched) != 0 {
+			p.ExitNum = 1
+			err = fmt.Errorf("Some records did not contain all of the requested fields:%s%s",
+				utils.NewLineString,
+				strings.Join(unmatched, utils.NewLineString))
+		}
+	}()
 
 	for i := range params {
 		switch {
@@ -89,7 +103,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 					return nil
 				}
 				if i == matchInt[0] {
-					_, err := p.Stdout.Writeln(marshaller(recs))
+					_, err = p.Stdout.Writeln(marshaller(recs))
 					if err != nil {
 						p.Stderr.Writeln([]byte(err.Error()))
 					}
@@ -120,7 +134,10 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 			}
 
 			for _, j := range matchInt {
-				p.Stdout.Writeln(marshaller(lines[j]))
+				_, err = p.Stdout.Writeln(marshaller(lines[j]))
+				if err != nil {
+					p.Stderr.Writeln([]byte(err.Error()))
+				}
 			}
 
 			return nil
@@ -138,11 +155,17 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 				if i < len(recs) {
 					line = append(line, recs[i])
 				} else {
-					p.ExitNum = 1
+					if len(recs) == 0 || (len(recs) == 1 && recs[0] == "") {
+						continue
+					}
+					unmatched = append(unmatched, strings.Join(recs, "\t"))
 				}
 			}
 			if len(line) != 0 {
-				p.Stdout.Writeln(marshaller(line))
+				_, err = p.Stdout.Writeln(marshaller(line))
+				if err != nil {
+					p.Stderr.Writeln([]byte(err.Error()))
+				}
 			}
 		}
 
@@ -169,7 +192,10 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 					}
 				}
 				if len(line) != 0 {
-					p.Stdout.Writeln(marshaller(line))
+					_, err = p.Stdout.Writeln(marshaller(line))
+					if err != nil {
+						p.Stderr.Writeln([]byte(err.Error()))
+					}
 				}
 
 			} else {
@@ -178,11 +204,17 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 					if col != 0 && col < len(recs)+1 {
 						line = append(line, recs[col-1])
 					} else {
-						p.ExitNum = 1
+						if len(recs) == 0 || (len(recs) == 1 && recs[0] == "") {
+							continue
+						}
+						unmatched = append(unmatched, strings.Join(recs, "\t"))
 					}
 				}
 				if len(line) != 0 {
-					p.Stdout.Writeln(marshaller(line))
+					_, err = p.Stdout.Writeln(marshaller(line))
+					if err != nil {
+						p.Stderr.Writeln([]byte(err.Error()))
+					}
 				}
 			}
 			lineNum++

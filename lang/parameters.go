@@ -12,7 +12,10 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-var rxTokenIndex = regexp.MustCompile(`(.*?)\[(.*?)\]`)
+var (
+	rxTokenIndex   = regexp.MustCompile(`(.*?)\[(.*?)\]`)
+	rxTokenElement = regexp.MustCompile(`(.*?)\[\[(.*?)\]\]`)
+)
 
 const errEmptyArray = "Array '@%s' is empty"
 
@@ -147,6 +150,29 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				}
 
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork.Execute(block)
+				b, err := fork.Stdout.ReadAll()
+				if err != nil {
+					return err
+				}
+
+				b = utils.CrLfTrim(b)
+
+				params[len(params)-1] += string(b)
+				tCount = true
+				namedPipeIsParam = true
+
+			case parameters.TokenTypeElement:
+				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
+				match := rxTokenElement.FindStringSubmatch(p.Tokens[i][j].Key)
+				if len(match) != 3 {
+					params[len(params)-1] = p.Tokens[i][j].Key
+					tCount = true
+					continue
+				}
+
+				block := []rune("$" + match[1] + "->[[" + match[2] + "]]")
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()

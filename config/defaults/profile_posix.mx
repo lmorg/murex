@@ -53,14 +53,25 @@ autocomplete set sudo { [
     }
 ] }
 
-autocomplete set dd { [{
-    "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
-    "FlagValues": {
-        "if": [{ "IncFiles": true }],
-        "of": [{ "IncFiles": true }]
+autocomplete set dd { [
+    {
+        "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
+        "FlagValues": {
+            "if": [{ 
+                "IncFiles": true
+            }],
+            "of": [{ 
+                "IncFiles": true
+            }],
+            "*": [{
+                "AllowAny": true
+            }]
+        }
     },
-    "Loop": true
-}] }
+    {
+        "Goto": "/0"
+    }
+] }
 
 private getHostsFile {
     # Parse the hosts file and return uniq host names and IPs

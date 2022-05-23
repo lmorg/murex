@@ -90,7 +90,7 @@ func TestPrivate(t *testing.T) {
 
 	lang.InitEnv()
 
-	if lang.PrivateFunctions.Exists(fn, mod) {
+	if lang.PrivateFunctions.ExistsString(fn, mod) {
 		t.Fatalf("Expecting '%s/%s' not to exist, yet it does", mod, fn)
 	}
 
@@ -108,7 +108,7 @@ func TestPrivate(t *testing.T) {
 		t.Fatalf("Error calling cmdPrivate(): %s", err.Error())
 	}
 
-	if !lang.PrivateFunctions.Exists(fn, mod) {
+	if !lang.PrivateFunctions.ExistsString(fn, mod) {
 		t.Fatalf("Expecting '%s/%s' to be created, it did not", mod, fn)
 	}
 }

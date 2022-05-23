@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -22,11 +23,13 @@ func init() {
 }
 
 func index(p *lang.Process) (err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			err = fmt.Errorf("panic caught, please report this to https://github.com/lmorg/murex/issues : %s", r)
-		}
-	}()
+	if !debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("panic caught, please report this to https://github.com/lmorg/murex/issues : %s", r)
+			}
+		}()
+	}
 
 	dt := p.Stdin.GetDataType()
 	// We will set data type from the index function but fallback to this just

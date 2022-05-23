@@ -34,16 +34,6 @@ func init() {
 		"text/json-lines",
 		"text/x-json-lines",
 
-		"application/jsonseq",
-		"application/x-jsonseq",
-		"text/jsonseq",
-		"text/x-jsonseq",
-
-		"application/json-seq",
-		"application/x-json-seq",
-		"text/json-seq",
-		"text/x-json-seq",
-
 		"application/ldjson",
 		"application/x-ldjson",
 		"text/ldjson",
@@ -59,9 +49,6 @@ func init() {
 		"jsonl",
 		"jsonlines",
 		"json-lines",
-		"jsons",
-		"jsonseq",
-		"json-seq",
 		"ldjson",
 		"ndjson",
 		"murex_history",

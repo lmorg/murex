@@ -1,4 +1,4 @@
-package jsonlines
+package jsonconcat
 
 import (
 	"fmt"
@@ -65,6 +65,6 @@ func marshal(p *lang.Process, v interface{}) ([]byte, error) {
 		return jsonl, nil
 
 	default:
-		return nil, fmt.Errorf("cannot marshal data into jsonlines. Expecting a slice instead received %T", v)
+		return nil, fmt.Errorf("cannot marshal data into concatenated JSON. Expecting a slice instead received %T", v)
 	}
 }
