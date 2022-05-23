@@ -49,5 +49,9 @@ func parse(b []byte, callback func([]byte)) error {
 		}
 	}
 
+	if brace > 0 {
+		return fmt.Errorf("reached end of document with %d missing `%s`", brace, string([]byte{close}))
+	}
+
 	return nil
 }
