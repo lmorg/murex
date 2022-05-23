@@ -10,7 +10,7 @@
     version.
   Description: |-
     Breaking Changes:
-    
+
     * None
 
     Features:
@@ -32,7 +32,7 @@
     * Data-type field in `function` is now optional
 
     * Lots of improvements to the docs
-    
+
     Bug Fixes:
 
     * `$MyVar[[/path/to/element]]` now behaves the same when used infixed as it did when used as a function
