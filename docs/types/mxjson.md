@@ -71,7 +71,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonc` ](../types/jsonc.md):
-  Concatenated JSON (primitive)
+  Concatenated JSON
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [commands/`open`](../commands/open.md):

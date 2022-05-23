@@ -3,11 +3,45 @@
     `jsonc` 
   CategoryID: types
   Summary: >-
-    Concatenated JSON (primitive)
+    Concatenated JSON
   Description: |-
-    Presently this is the same 
+    The following description is taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
+
+    > Concatenated JSON streaming allows the sender to simply write each JSON
+    > object into the stream with no delimiters. It relies on the receiver using
+    > a parser that can recognize and emit each JSON object as the terminating
+    > character is parsed. Concatenated JSON isn't a new format, it's simply a
+    > name for streaming multiple JSON objects without any delimiters.
+    >
+    > The advantage of this format is that it can handle JSON objects that have
+    > been formatted with embedded newline characters, e.g., pretty-printed for
+    > human readability. For example, these two inputs are both valid and produce
+    > the same output:
+    >
+    > #### Single line concatenated JSON
+    >
+    >     {"some":"thing\n"}{"may":{"include":"nested","objects":["and","arrays"]}}
+    >
+    > #### Multi-line concatenated JSON
+    >
+    >     {
+    >       "some": "thing\n"
+    >     }
+    >     {
+    >       "may": {
+    >         "include": "nested",
+    >         "objects": [
+    >           "and",
+    >           "arrays"
+    >         ]
+    >       }
+    >     }
   Usage:
   Examples: |-
+    Because of the similiaries with jsonlines (`jsonl`), the examples here will
+    focus on jsonlines examples. However concatenated JSON doesn't need a new line
+    separator. So the examples below could all be concatenated into one long line.
+
     Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
     
     ### Tabulated data
@@ -40,96 +74,50 @@
     Marshal(): Supported
     Unmarshal(): Supported
   Detail: |-
-    ### Concatenated JSON
+    ### Similarities with `jsonl`
+    
+    The advantage of concatenated JSON is that it supports everything jsonlines
+    supports but without the dependency of a new line as a separator.
 
-    Technically the `jsonl` Unmarshal() method supports Concatenated JSON, as
-    described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
-
-    > Concatenated JSON streaming allows the sender to simply write each JSON
-    > object into the stream with no delimiters. It relies on the receiver using
-    > a parser that can recognize and emit each JSON object as the terminating
-    > character is parsed. Concatenated JSON isn't a new format, it's simply a
-    > name for streaming multiple JSON objects without any delimiters.
-    >
-    > The advantage of this format is that it can handle JSON objects that have
-    > been formatted with embedded newline characters, e.g., pretty-printed for
-    > human readability. For example, these two inputs are both valid and produce
-    > the same output:
-    >
-    > #### Single line concatenated JSON
-    >
-    >     {"some":"thing\n"}{"may":{"include":"nested","objects":["and","arrays"]}}
-    >
-    > #### Multi-line concatenated JSON
-    >
-    >     {
-    >       "some": "thing\n"
-    >     }
-    >     {
-    >       "may": {
-    >         "include": "nested",
-    >         "objects": [
-    >           "and",
-    >           "arrays"
-    >         ]
-    >       }
-    >     }
-
-    ...however in _murex_'s case, only single line concatenated JSON files
-    (example 1) are supported; and that is only supported to cover some edge
-    cases when writing JSON lines and a new line character isn't included. The
-    primary example might be when generating JSON lines from inside a `for` loop.
-
-    This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
-
-    ### More information
-
-    This format is sometimes also referred to as LDJSON and NDJSON, as described
-    on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
-
-    _murex_'s [`json` data-type document](json.md) also describes some use
-    cases for JSON lines.
+    Eventually it is planned that this _murex_ data-type will replace jsonlines
+    and possibly even the regular JSON parser. However this concatenated JSON
+    parser currently requires reading the entire file first before parsing whereas
+    jsonlines can read one line at a time. Which makes jsonlines a better data-
+    type for pipelining super large documents. For this reason (and that this
+    parser is still in beta), it is shipped as an additional data-type.
   Associations:
     Mimes:
-    - application/jsonl
-    - application/x-jsonl
-    - text/jsonl
-    - text/x-jsonl
+      - "application/jsonc"
+      - "application/x-jsonc"
+      - "text/jsonc"
+      - "text/x-jsonc"
 
-    - application/jsonlines
-    - application/x-jsonlines
-    - text/jsonlines
-    - text/x-jsonlines
+      - "application/jsonconcat"
+      - "application/x-jsonconcat"
+      - "text/jsonconcat"
+      - "text/x-jsonconcat"
 
-    - application/json-lines
-    - application/x-json-lines
-    - text/json-lines
-    - text/x-json-lines
+      - "application/concatenated-json"
+      - "application/x-concatenated-json"
+      - "text/concatenated-json"
+      - "text/concatenated-json"
 
-    - application/jsonseq
-    - application/x-jsonseq
-    - text/jsonseq
-    - text/x-jsonseq
+      - "application/jsonseq"
+      - "application/x-jsonseq"
+      - "text/jsonseq"
+      - "text/x-jsonseq"
 
-    - application/json-seq
-    - application/x-json-seq
-    - text/json-seq
-    - text/x-json-seq
-
-    - application/ldjson
-    - application/x-ldjson
-    - text/ldjson
-    - text/x-ldjson
-
-    - application/ndjson
-    - application/x-ndjson
-    - text/ndjson
-    - text/x-ndjson
-
+      - "application/json-seq"
+      - "application/x-json-seq"
+      - "text/json-seq"
+      - "text/x-json-seq"
     Extensions:
-    - jsonl
-    - jsonlines
-    - murex_history
+      - "jsonc"
+      - "jsonconcat"
+      - "concatenated-json"
+      - "jsons"
+      - "jsonseq"
+      - "json-seq"
   Related:
   - yaml
   - toml

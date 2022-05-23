@@ -77,7 +77,8 @@ described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenat
 cases when writing JSON lines and a new line character isn't included. The
 primary example might be when generating JSON lines from inside a `for` loop.
 
-This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
+This is resolved in the new data-type parser `jsonc` (Concatenated JSON). See
+line below.
 
 ### More information
 
@@ -89,35 +90,30 @@ cases for JSON lines.
 
 ## Default Associations
 
+* **Extension**: `json-lines`
 * **Extension**: `jsonl`
 * **Extension**: `jsonlines`
+* **Extension**: `ldjson`
 * **Extension**: `murex_history`
+* **Extension**: `ndjson`
 * **MIME**: `application/json-lines`
-* **MIME**: `application/json-seq`
 * **MIME**: `application/jsonl`
 * **MIME**: `application/jsonlines`
-* **MIME**: `application/jsonseq`
 * **MIME**: `application/ldjson`
 * **MIME**: `application/ndjson`
 * **MIME**: `application/x-json-lines`
-* **MIME**: `application/x-json-seq`
 * **MIME**: `application/x-jsonl`
 * **MIME**: `application/x-jsonlines`
-* **MIME**: `application/x-jsonseq`
 * **MIME**: `application/x-ldjson`
 * **MIME**: `application/x-ndjson`
 * **MIME**: `text/json-lines`
-* **MIME**: `text/json-seq`
 * **MIME**: `text/jsonl`
 * **MIME**: `text/jsonlines`
-* **MIME**: `text/jsonseq`
 * **MIME**: `text/ldjson`
 * **MIME**: `text/ndjson`
 * **MIME**: `text/x-json-lines`
-* **MIME**: `text/x-json-seq`
 * **MIME**: `text/x-jsonl`
 * **MIME**: `text/x-jsonlines`
-* **MIME**: `text/x-jsonseq`
 * **MIME**: `text/x-ldjson`
 * **MIME**: `text/x-ndjson`
 
@@ -174,7 +170,7 @@ cases for JSON lines.
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [types/`jsonc` ](../types/jsonc.md):
-  Concatenated JSON (primitive)
+  Concatenated JSON
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):

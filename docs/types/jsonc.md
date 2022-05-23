@@ -2,39 +2,11 @@
 
 ## Data-Type Reference: `jsonc` 
 
-> Concatenated JSON (primitive)
+> Concatenated JSON
 
 ## Description
 
-Presently this is the same 
-
-## Examples
-
-Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
-
-### Tabulated data
-
-    ["Name", "Session", "Score", "Completed"]
-    ["Gilbert", "2013", 24, true]
-    ["Alexa", "2013", 29, true]
-    ["May", "2012B", 14, false]
-    ["Deloise", "2012A", 19, true] 
-    
-This format is equatable to `generic` and `csv`.
-
-### Nested objects
-
-    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
-    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
-    {"name": "May", "wins": []}
-    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
-
-## Detail
-
-### Concatenated JSON
-
-Technically the `jsonl` Unmarshal() method supports Concatenated JSON, as
-described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
+The following description is taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenated_JSON):
 
 > Concatenated JSON streaming allows the sender to simply write each JSON
 > object into the stream with no delimiters. It relies on the receiver using
@@ -66,54 +38,73 @@ described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenat
 >       }
 >     }
 
-...however in _murex_'s case, only single line concatenated JSON files
-(example 1) are supported; and that is only supported to cover some edge
-cases when writing JSON lines and a new line character isn't included. The
-primary example might be when generating JSON lines from inside a `for` loop.
+## Examples
 
-This behavior is also described on GitHub in [issue #141](https://github.com/lmorg/murex/issues/141).
+Because of the similiaries with jsonlines (`jsonl`), the examples here will
+focus on jsonlines examples. However concatenated JSON doesn't need a new line
+separator. So the examples below could all be concatenated into one long line.
 
-### More information
+Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/examples/)
 
-This format is sometimes also referred to as LDJSON and NDJSON, as described
-on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
+### Tabulated data
 
-_murex_'s [`json` data-type document](json.md) also describes some use
-cases for JSON lines.
+    ["Name", "Session", "Score", "Completed"]
+    ["Gilbert", "2013", 24, true]
+    ["Alexa", "2013", 29, true]
+    ["May", "2012B", 14, false]
+    ["Deloise", "2012A", 19, true] 
+    
+This format is equatable to `generic` and `csv`.
+
+### Nested objects
+
+    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
+    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
+    {"name": "May", "wins": []}
+    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+
+## Detail
+
+### Similarities with `jsonl`
+
+The advantage of concatenated JSON is that it supports everything jsonlines
+supports but without the dependency of a new line as a separator.
+
+Eventually it is planned that this _murex_ data-type will replace jsonlines
+and possibly even the regular JSON parser. However this concatenated JSON
+parser currently requires reading the entire file first before parsing whereas
+jsonlines can read one line at a time. Which makes jsonlines a better data-
+type for pipelining super large documents. For this reason (and that this
+parser is still in beta), it is shipped as an additional data-type.
 
 ## Default Associations
 
-* **Extension**: `jsonl`
-* **Extension**: `jsonlines`
-* **Extension**: `murex_history`
-* **MIME**: `application/json-lines`
+* **Extension**: `concatenated-json`
+* **Extension**: `json-seq`
+* **Extension**: `jsonc`
+* **Extension**: `jsonconcat`
+* **Extension**: `jsons`
+* **Extension**: `jsonseq`
+* **MIME**: `application/concatenated-json`
 * **MIME**: `application/json-seq`
-* **MIME**: `application/jsonl`
-* **MIME**: `application/jsonlines`
+* **MIME**: `application/jsonc`
+* **MIME**: `application/jsonconcat`
 * **MIME**: `application/jsonseq`
-* **MIME**: `application/ldjson`
-* **MIME**: `application/ndjson`
-* **MIME**: `application/x-json-lines`
+* **MIME**: `application/x-concatenated-json`
 * **MIME**: `application/x-json-seq`
-* **MIME**: `application/x-jsonl`
-* **MIME**: `application/x-jsonlines`
+* **MIME**: `application/x-jsonc`
+* **MIME**: `application/x-jsonconcat`
 * **MIME**: `application/x-jsonseq`
-* **MIME**: `application/x-ldjson`
-* **MIME**: `application/x-ndjson`
-* **MIME**: `text/json-lines`
+* **MIME**: `text/concatenated-json`
+* **MIME**: `text/concatenated-json`
 * **MIME**: `text/json-seq`
-* **MIME**: `text/jsonl`
-* **MIME**: `text/jsonlines`
+* **MIME**: `text/jsonc`
+* **MIME**: `text/jsonconcat`
 * **MIME**: `text/jsonseq`
-* **MIME**: `text/ldjson`
-* **MIME**: `text/ndjson`
-* **MIME**: `text/x-json-lines`
 * **MIME**: `text/x-json-seq`
-* **MIME**: `text/x-jsonl`
-* **MIME**: `text/x-jsonlines`
+* **MIME**: `text/x-jsonc`
+* **MIME**: `text/x-jsonconcat`
 * **MIME**: `text/x-jsonseq`
-* **MIME**: `text/x-ldjson`
-* **MIME**: `text/x-ndjson`
 
 
 ## Supported Hooks

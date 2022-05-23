@@ -77,7 +77,7 @@ details about specific hooks.
 * [`json` ](types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [`jsonc` ](types/jsonc.md):
-  Concatenated JSON (primitive)
+  Concatenated JSON
 * [`jsonl` ](types/jsonl.md):
   JSON Lines (primitive)
 * [`num` (number)](types/num.md):
