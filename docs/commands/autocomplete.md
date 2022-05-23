@@ -192,6 +192,68 @@ as the top level.
 This allows you to nest operations by flags. eg when a flag might accept
 multiple parameters.
 
+**FlagValues** takes a map of arrays, eg
+
+    autocomplete set example { [{
+        "Flags": [ "add", "delete" ],
+        "FlagValues": {
+            "add": [{
+                "Flags": [ "foo" ]
+            }],
+            "delete": [{
+                "Flags": [ "bar" ]
+            }]
+        }
+    }] }
+    
+...will provide "foo" as a suggestion to `example add`, and "bar" as a
+suggestion to `example delete`.
+
+#### Defaults for matched flags
+
+You can set default properties to all matched flags by using `*` as a
+**FlagValues** value. To expand the above example...
+
+    autocomplete set example { [{
+        "Flags": [ "add", "delete" ],
+        "FlagValues": {
+            "add": [{
+                "Flags": [ "foo" ]
+            }],
+            "delete": [{
+                "Flags": [ "bar" ]
+            }],
+            "*": [{
+                "IncFiles"
+            }]
+        }
+    }] }
+    
+...in this code we are saying not only does "add" support "foo" and "delete"
+supports "bar", but both "add" and "delete" also supports any filesystem files.
+
+This default only applies if there is a matched **Flags** or **FlagValues**.
+
+#### Defaults for any flags (including unmatched)
+
+If you wanted a default which applied to all **FlagValues**, even when the flag
+wasn't matched, then you can use a zero length string (""). For example
+
+    autocomplete set example { [{
+        "Flags": [ "add", "delete" ],
+        "FlagValues": {
+            "add": [{
+                "Flags": [ "foo" ]
+            }],
+            "delete": [{
+                "Flags": [ "bar" ]
+            }],
+            "": [{
+                "IncFiles"
+            }]
+        }
+    }] }
+    
 ### "Flags": array of strings (auto-populated from man pages)
 
 Setting **Flags** is the fastest and easiest way to populate suggestions
@@ -247,12 +309,13 @@ An example of a really simple **Goto**:
             "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
             "FlagValues": {
                 "if": [{ 
-                    "IncFiles": true,
-                    "AnyValue": true
+                    "IncFiles": true
                 }],
                 "of": [{ 
-                    "IncFiles": true,
-                    "AnyValue": true
+                    "IncFiles": true
+                }],
+                "*": [{
+                    "AllowAny": true
                 }]
             }
         },
@@ -261,7 +324,7 @@ An example of a really simple **Goto**:
         }
     ] }
     
-**Goto** is given precidense over any other directive. So ensure it's the only
+**Goto** is given precedence over any other directive. So ensure it's the only
 directive in it's group.
 
 ### "IncDirs": boolean (false)
