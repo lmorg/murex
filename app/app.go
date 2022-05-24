@@ -11,4 +11,4 @@ const Version = "2.8.2100"
 const Copyright = "© 2018-2022 Laurence Morgan"
 
 // License is the projects software license
-const License = "Licence GPL v2"
+const License = "License GPL v2"
