@@ -34,6 +34,10 @@ to install. See the next section for package manager support.
 ### Homebrew
 
     brew install murex
+    
+### MacPorts
+
+    sudo port install murex
 
 ## Compiling From Source
 
