@@ -49,6 +49,7 @@ find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
+        0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;' \
         README.html
 
@@ -57,6 +58,9 @@ sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;' \
         INSTALL.html
+
+sed -i '0,/<img src/s//<img class="no-border" src/;' \
+        DOWNLOAD.html
 
 echo "Compiling WebAssembly...."
 
@@ -67,6 +71,6 @@ cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
 
 
 
-mv *.html gen/website/assets/* ./docs /website/
+mv *.html *.svg gen/website/assets/* ./docs /website/
 
 echo "Fin!"
