@@ -22,12 +22,19 @@ mkdir -p ./test/tmp
 go test ./... -count 1 -race || exit 1
 curl -s http://localhost:38000/t > ./test/murex-test-count.txt
 echo "$(cat ./test/murex-test-count.txt) tests completed"
-git add ./test/murex-test-count.txt
-git commit -m "Automated add of test counts"
-
 
 echo "Running murex behavioural tests...."
 go build github.com/lmorg/murex || exit 1
 ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}' || exit 1
+
+echo "Writing automated assets...."
+export MUREXVERSION="$(./murex -c 'version --no-app-name')"
+export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
+sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
+        gen/website/version.svg > version.svg
+sed "s/\$MUREXTESTS/$MUREXTESTS/g" \
+        gen/website/testcases.svg > testcases.svg
+git add ./test/murex-test-count.txt ./version.svg ./testcases.svg
+git commit -m "Automated assets"
 
 echo "Allowing git push to proceed...."
