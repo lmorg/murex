@@ -41,8 +41,12 @@ go fmt builtins/docgen_test.go
 go fmt $cdocs/*.go
 go fmt config/defaults/*.go
 
+export MUREXVERSION="$(cat app/app.go | grep 'const Version' | egrep -o '[0-9]+\.[0-9]+\.[0-9]+')"
+sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
+        gen/website/version.svg > version.svg
+
 echo "Updating git...."
 find . -name "*_string.go" -exec git add -v {} \;
-git add -v docs config/defaults builtins/docgen_test.go $docs $cdocs
+git add -v docs config/defaults builtins/docgen_test.go version.svg $docs $cdocs
 
 echo "Allowing git commit to proceed...."
