@@ -1003,6 +1003,7 @@ if { which yarn } then {
         },
         {
             "DynamicDesc": ({
+                cast json
                 if { g: package.json } then {
                     open package.json -> [ scripts ]
                 }

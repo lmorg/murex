@@ -32,9 +32,9 @@ export MUREXVERSION="$(./murex -c 'version --no-app-name')"
 export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
 sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
         gen/website/version.svg > version.svg
-sed "s/\$MUREXTESTS/$MUREXTESTS/g" \
-        gen/website/testcases.svg > testcases.svg
-git add ./test/murex-test-count.txt ./version.svg ./testcases.svg
+#sed "s/\$MUREXTESTS/$MUREXTESTS/g" \
+#        gen/website/testcases.svg > testcases.svg
+git add ./test/murex-test-count.txt ./version.svg #./testcases.svg
 git commit -m "Automated assets"
 
 echo "Allowing git push to proceed...."
