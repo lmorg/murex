@@ -12,18 +12,20 @@ body {
 p {
   font-family: 'Lato', sans-serif;
   color: #000000;
-  margin-right: 60px
+  margin-right: 60px;
+  padding-left: 10px;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Jura', sans-serif;
-  /*text-shadow: #a0a0a0 0em 0em 0.1em;*/
   font-weight: bold;
+  padding-left: 10px;
 }
 
 h1 {
   font-size: 26px;
   color: #707070;
+  padding-left: 0px;
 }
 
 h2 {
@@ -67,18 +69,19 @@ a:hover {
 }
 
 li {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 blockquote {
   border-width: 1px;
   border-style: solid;
   border-color: #4d69e6;
-  padding-left: 20px;
+  padding-left: 10px;
   color: #001369;
   background: #d6dee9;
   border-radius: 5px;
   border-right-width: 10px;
+  margin-left: 10px;
 }
 
 code {
@@ -107,7 +110,7 @@ pre {
   border-style: solid;
   border-color: #0f600f;
   border-right-width: 10px;
-  margin-left: 20px;
+  margin-left: 10px;
   margin-right: 40px;
   padding-left: 15px;
   padding-top: 10px;
