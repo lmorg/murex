@@ -987,6 +987,9 @@ if { microk8s } then {
 if { which yarn } then {
     autocomplete: set yarn ({[
         {
+            "Dynamic": ({
+                g: ${yarn bin}/* -> regexp: s,^.*/,,
+            }),
             "FlagsDesc": ${
                 yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
             },
@@ -1000,6 +1003,7 @@ if { which yarn } then {
         },
         {
             "DynamicDesc": ({
+                cast json
                 if { g: package.json } then {
                     open package.json -> [ scripts ]
                 }
