@@ -4,11 +4,6 @@ set -ev
 
 . /etc/ci-murex.env
 
-#[ -z "$MUREX_BUILD_WEBSITE_ONLY" ] && \
-#        export MUREX_BUILD_WEBSITE_ONLY="$(git describe --tags --match website)"
-
-#export MUREX_BUILD="$(git log -1 --pretty=%B | egrep '^website: ')"
-
 mkdir -p /website
 
 export MUREXVERSION="$(murex -c 'version --no-app-name')"
@@ -20,6 +15,12 @@ else
         echo "Building latest binaries...."
         murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
         mv -v ./bin /website/
+
+        echo "Compiling WebAssembly...."
+        export GOOS=js
+        export GOARCH=wasm
+        go build -o ./gen/website/wasm/murex.wasm
+        cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
 fi
 
 echo "Building website...."
@@ -62,13 +63,6 @@ sed -i '0,/<img src/s//<img class="no-border" src/;
 
 sed -i '0,/<img src/s//<img class="no-border" src/;' \
         DOWNLOAD.html
-
-echo "Compiling WebAssembly...."
-
-export GOOS=js
-export GOARCH=wasm
-go build -o ./gen/website/wasm/murex.wasm
-cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
 
 echo "$MUREXVERSION" > VERSION
 
