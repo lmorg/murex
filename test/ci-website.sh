@@ -11,17 +11,19 @@ set -ev
 
 mkdir -p /website
 
+export MUREXVERSION="$(murex -c 'version --no-app-name')"
+OLDVER="$(curl -s https://murex.rocks/VERSION | head -n1)"
 
-echo "Building latest binaries...."
-#if [ "$MUREX_BUILD" != "website: " ]; then
+if [ "$MUREXVERSION" == "$OLDVER" ]; then
+        echo "No version change, skipping binary build."
+else
+        echo "Building latest binaries...."
         murex ./test/build_all_platforms.mx $MUREX_BUILD_FLAGS
         mv -v ./bin /website/
-#else
-#        echo "!!! Commit appears to only update website, skipping compile tests !!!"
-#fi
+fi
 
 echo "Building website...."
-export MUREXVERSION="$(murex -c 'version --no-app-name')"
+
 export MUREXCOMMITS="$(git rev-parse HEAD | cut -c1-7)"
 export MUREXCOMMITL="$(git rev-parse HEAD)"
 export MUREXTESTS="$(cat ./test/murex-test-count.txt)"
@@ -68,8 +70,8 @@ export GOARCH=wasm
 go build -o ./gen/website/wasm/murex.wasm
 cp -v "$(go env GOROOT)/misc/wasm/wasm_exec.js" ./gen/website/wasm/
 
+echo "$MUREXVERSION" > VERSION
 
-
-mv *.html *.svg gen/website/assets/* ./docs /website/
+mv VERSION *.html *.svg gen/website/assets/* ./docs /website/ 
 
 echo "Fin!"

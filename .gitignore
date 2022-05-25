@@ -6,6 +6,7 @@ murex.upx
 /docgen
 /docgen.exe
 bin/
+VERSION
 
 # WebAssembly 
 murex.wasm
