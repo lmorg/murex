@@ -18,37 +18,41 @@ p {
 
 h1, h2, h3, h4 {
   font-family: 'Jura', sans-serif;
-  font-weight: bold;
+  font-weight: 700;
+  /*text-shadow: #303030 0em 0em 1em;*/
   padding-left: 10px;
 }
 
 h1 {
+  font-family: 'Jura', sans-serif;
   font-size: 26px;
+  text-shadow: none;
   color: #707070;
   padding-left: 0px;
 }
 
 h2 {
+  color: #000075;
   font-size: 20px;
   border-bottom-width: 5px;
   border-bottom-style: solid;
-  border-bottom-color: #000000;
+  border-bottom-color: #000075;
   margin-right: 40px;
   padding-bottom: 5px;
 }
 
 h3 {
-  color: #202000;
+  color: #000075;
   font-size: 16px;
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  border-bottom-color: #404000;
-  margin-right: 60px;
+  border-bottom-color: #000075;
+  margin-right: 50px;
   padding-bottom: 5px;
 }
 
 h4 {
-  color: #000000;
+  color: #000075;
   font-size: 16px;
   text-decoration: underline;
   text-underline-offset: 7px;
