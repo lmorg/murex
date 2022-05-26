@@ -130,8 +130,8 @@ Where Powershell falls down for me is in two key areas:
 1. Many of the flags passed are verbose. Calling .NET objects can be verbose.
    Take this example of base64 encoding a string:
 
-       [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
-       
+        [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
+     
 2. Powershell doesn't play nicely with POSIX. Okay, I'm arguably contradicting
    myself now because earlier I raised this as a benefit. And in many ways it
    is. However if you wish to run Powershell on Linux, which you can do, you
