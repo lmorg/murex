@@ -4,7 +4,8 @@ set -ev
 
 . /etc/ci-murex.env
 
-export MUREXVERSION="$(murex -c 'version --no-app-name')"
+#export MUREXVERSION="$(murex -c 'version --no-app-name')"
+export MUREXVERSION="$(cat app/app.go | grep 'const Version' | egrep -o '[0-9]+\.[0-9]+\.[0-9]+')"
 OLDVER="$(curl -s https://murex.rocks/VERSION | head -n1)"
 
 if [ "$MUREXVERSION" == "$OLDVER" ]; then
