@@ -237,7 +237,7 @@ a.side-bar:active, a.side-bar:hover {
 
 @media screen and (max-width: 678px) {
   body { background-color: #e0e0da; margin: 0px; background-image: linear-gradient(to bottom, #800000, #e0e0da); background-repeat: repeat-x; }
-  p { margin: 0px; }
+  p { margin: 0px; margin-bottom: 10px; }
   #document { padding: 0px; padding-left: 10px; padding-right: 10px; margin-right: 0px; top: 30px; left: 0px; right: 0px; bottom: 0px; background-color: #e0e0da; height: auto; max-width: 100%; position: absolute; overflow-y: auto; }
   img { max-width: 100%; }
   a img {  border-color: #800000; }
