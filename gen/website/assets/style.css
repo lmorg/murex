@@ -21,6 +21,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
   /*text-shadow: #303030 0em 0em 1em;*/
   padding-left: 10px;
+  color: #000075;
 }
 
 h1 {
@@ -32,7 +33,6 @@ h1 {
 }
 
 h2 {
-  color: #000075;
   font-size: 20px;
   border-bottom-width: 5px;
   border-bottom-style: solid;
@@ -42,17 +42,15 @@ h2 {
 }
 
 h3 {
-  color: #000075;
   font-size: 16px;
   border-bottom-width: 2px;
   border-bottom-style: solid;
   border-bottom-color: #000075;
-  margin-right: 50px;
+  margin-right: 40px;
   padding-bottom: 5px;
 }
 
 h4 {
-  color: #000075;
   font-size: 16px;
   text-decoration: underline;
   text-underline-offset: 7px;
@@ -74,6 +72,7 @@ a:hover {
 
 li {
   padding-bottom: 10px;
+  padding-right: 60px;
 }
 
 blockquote {
@@ -86,6 +85,7 @@ blockquote {
   border-radius: 5px;
   border-right-width: 10px;
   margin-left: 10px;
+  margin-right:30px
 }
 
 code {
@@ -115,7 +115,7 @@ pre {
   border-color: #0f600f;
   border-right-width: 10px;
   margin-left: 10px;
-  margin-right: 40px;
+  margin-right: 30px;
   padding-left: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -235,6 +235,13 @@ a.side-bar:active, a.side-bar:hover {
   display: none;
 }
 
+hr {
+  border-width: 1px;
+  border-style: solid;
+  color: #000075;
+  margin-right: 40px;
+}
+
 @media screen and (max-width: 678px) {
   body { background-color: #e0e0da; margin: 0px; background-image: linear-gradient(to bottom, #800000, #e0e0da); background-repeat: repeat-x; }
   p { margin: 0px; margin-bottom: 10px; }
@@ -250,6 +257,7 @@ a.side-bar:active, a.side-bar:hover {
   #commit-hash-short { display: inline; }
   #commit-hash-long { display: none; }
   h2, h3 { margin-right: 0px; }
+  hr { margin-right: 0px; }
 }
 
 #burger {
