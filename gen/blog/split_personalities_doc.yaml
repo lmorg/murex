@@ -140,7 +140,7 @@
        Take this example of base64 encoding a string:
 
        ```
-       [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
+    [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
        ```
 
     2. Powershell doesn't play nicely with POSIX. Okay, I'm arguably contradicting

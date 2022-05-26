@@ -244,7 +244,7 @@ a.side-bar:active, a.side-bar:hover {
   #side-bar { display: none; position: relative; height: 0px; padding: 10px; width: auto; background-color: #d0d1d3; border-width: 2px; border-color: #800000; border-style: solid; }
   .side-bar-title { display: none; }
   #burger label { display: block; }
-  blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
+  blockquote { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; padding-top: 10px; }
   pre { margin-inline-start: 0px; margin-inline-end: 0px; margin-left: 0px; margin-right: 0px; }
   #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
   #commit-hash-short { display: inline; }
