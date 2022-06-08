@@ -22,7 +22,6 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -157,9 +156,9 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	case "table":
 		pipe.SetDataType(types.Generic)
 
-		if reportPipe.(string) == "" {
-			pipe.Writeln([]byte(consts.TestTableHeadings))
-		}
+		//if reportPipe.(string) == "" {
+		//	pipe.Writeln([]byte(consts.TestTableHeadings))
+		//}
 
 		var colour, reset string
 		if ansiColour.(bool) {
@@ -183,12 +182,11 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 				}
 			}
 
-			s := fmt.Sprintf("[%s%-6s%s] %-10s %-50s %-4d %-4d %s",
+			s := fmt.Sprintf("[%s%-6s%s] %-10s %4d:%-4d %-50s %s",
 				colour, r.Status, reset,
 				r.TestName,
+				r.LineNumber, r.ColNumber,
 				params(r.Exec, r.Params),
-				r.LineNumber,
-				r.ColNumber,
 				left(escape(r.Message)),
 			)
 
