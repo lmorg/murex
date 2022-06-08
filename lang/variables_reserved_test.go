@@ -1,6 +1,8 @@
 package lang_test
 
 import (
+	"fmt"
+	"os"
 	"testing"
 
 	"github.com/lmorg/murex/test"
@@ -132,6 +134,24 @@ func TestVarParams(t *testing.T) {
 		{
 			Block: `
 				function TestVarParams {
+					out $0
+				}
+				TestVarParams
+			`,
+			Stdout: "TestVarParams\n",
+		},
+		{
+			Block: `
+				function TestVarParams {
+					out $0
+				}
+				TestVarParams 1 2 3
+			`,
+			Stdout: "TestVarParams\n",
+		},
+		{
+			Block: `
+				function TestVarParams {
 					out @PARAMS
 				}
 				TestVarParams
@@ -165,6 +185,44 @@ func TestVarParams(t *testing.T) {
 				TestVarParams 1   2   3
 			`,
 			Stdout: `["1","2","3"]` + "\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestVarHostname(t *testing.T) {
+	hostname := func() string {
+		s, err := os.Hostname()
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+		return s
+	}
+
+	tests := []test.MurexTest{
+		{
+			Block:  `out $HOSTNAME`,
+			Stdout: fmt.Sprintf("%s\n", hostname()),
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestVarPwd(t *testing.T) {
+	pwd := func() string {
+		s, err := os.Getwd()
+		if err != nil {
+			t.Errorf(err.Error())
+		}
+		return s
+	}
+
+	tests := []test.MurexTest{
+		{
+			Block:  `out $PWD`,
+			Stdout: fmt.Sprintf("%s\n", pwd()),
 		},
 	}
 

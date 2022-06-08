@@ -34,6 +34,7 @@ const (
 	MUREX_EXE  = "MUREX_EXE"
 	MUREX_ARGS = "MUREX_ARGS"
 	HOSTNAME   = "HOSTNAME"
+	PWD        = "PWD"
 )
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -91,6 +92,9 @@ func (v *Variables) GetValue(name string) interface{} {
 
 	case HOSTNAME:
 		return getHostname()
+
+	case PWD:
+		return getPwd()
 
 	case "0":
 		return v.process.Scope.Name.String()
@@ -161,6 +165,9 @@ func (v *Variables) GetString(name string) (string, error) {
 	case HOSTNAME:
 		return getHostname(), nil
 
+	case PWD:
+		return getPwd(), nil
+
 	case "0":
 		return v.process.Scope.Name.String(), nil
 	}
@@ -226,6 +233,9 @@ func (v *Variables) GetDataType(name string) string {
 	case MUREX_EXE:
 		return types.String
 
+	case PWD:
+		return types.String
+
 	case "0":
 		return types.String
 	}
@@ -277,7 +287,7 @@ func (v *Variables) getDataType(name string) (string, bool) {
 // Set writes a variable
 func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
-	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, "_":
+	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
 		return errVariableReserved(name)
 	}
 	for _, r := range name {
@@ -362,5 +372,6 @@ func DumpVariables(p *Process) map[string]interface{} {
 	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
 	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
 	m[HOSTNAME] = p.Variables.GetValue(HOSTNAME)
+	m[PWD] = p.Variables.GetValue(PWD)
 	return m
 }
