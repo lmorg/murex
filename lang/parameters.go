@@ -32,7 +32,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 	autoGlob, err := prc.Config.Get("shell", "auto-glob", "bool")
 	if err != nil {
-		autoGlob = true
+		autoGlob = false
 	}
 	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0
 

@@ -691,7 +691,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			case len(node.Name) == 0:
 				pErr = raiseErr(ErrUnexpectedPipeTokenQm, i)
 				return &nodes, pErr
-			case (last == ' ' || last == '\t') && (next(' ') || next('\t')):
+			case (last == ' ' || last == '\t') && (next(' ') || next('\t') || i == len(block)-1):
 				node.PipeErr = true
 				appendNode()
 				node = AstNode{Method: true}
