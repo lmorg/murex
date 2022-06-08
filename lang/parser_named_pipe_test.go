@@ -128,7 +128,7 @@ func TestParserNamedPiped4(t *testing.T) {
 func TestParserNamedPiped5(t *testing.T) {
 	params := [][]parameters.ParamToken{{
 		{Key: "<", Type: parameters.TokenTypeNamedPipe},
-		{Key: "notapipe", Type: parameters.TokenTypeString},
+		{Key: "notapipe", Type: parameters.TokenTypeVarString},
 		{Key: ">", Type: parameters.TokenTypeValue},
 	}}
 
@@ -168,7 +168,7 @@ func TestParserNamedPiped6(t *testing.T) {
 
 	params2 := [][]parameters.ParamToken{{
 		{Key: "<", Type: parameters.TokenTypeValue},
-		{Key: "notapipe", Type: parameters.TokenTypeString},
+		{Key: "notapipe", Type: parameters.TokenTypeVarString},
 		{Key: ">", Type: parameters.TokenTypeValue},
 	}}
 
@@ -180,7 +180,7 @@ func TestParserNamedPiped6(t *testing.T) {
 
 	params3 := [][]parameters.ParamToken{{
 		{Key: "<(", Type: parameters.TokenTypeNamedPipe},
-		{Key: "notapipe", Type: parameters.TokenTypeString},
+		{Key: "notapipe", Type: parameters.TokenTypeVarString},
 		{Key: ")>", Type: parameters.TokenTypeValue},
 	}}
 

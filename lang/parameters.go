@@ -2,6 +2,7 @@ package lang
 
 import (
 	"fmt"
+	"path/filepath"
 	"regexp"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -29,6 +30,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 		strictArrays = true
 	}
 
+	autoGlob, err := prc.Config.Get("shell", "auto-glob", "bool")
+	if err != nil {
+		autoGlob = true
+	}
+	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0
+
 	for i := range p.Tokens {
 		params = append(params, "")
 
@@ -50,7 +57,26 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeString:
+			case parameters.TokenTypeGlob:
+				if !autoGlob.(bool) {
+					params[len(params)-1] += p.Tokens[i][j].Key
+					tCount = true
+					namedPipeIsParam = true
+				} else {
+					match, err := filepath.Glob(p.Tokens[i][j].Key)
+					if err != nil {
+						return fmt.Errorf("invalid glob: '%s'\n%s", p.Tokens[i][j].Key, err.Error())
+					}
+					if len(match) == 0 {
+						return fmt.Errorf("glob returned zero results.\nglob: '%s'", p.Tokens[i][j].Key)
+					}
+					if !tCount {
+						params = params[:len(params)-1]
+					}
+					params = append(params, match...)
+				}
+
+			case parameters.TokenTypeVarString:
 				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
 					return err
@@ -60,7 +86,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeBlockString:
+			case parameters.TokenTypeVarBlockString:
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				exitNum, err := fork.Execute([]rune(p.Tokens[i][j].Key))
 				if err != nil {
@@ -81,7 +107,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeArray:
+			case parameters.TokenTypeVarArray:
 				data, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
 					return err
@@ -118,7 +144,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeBlockArray:
+			case parameters.TokenTypeVarBlockArray:
 				var array []string
 
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
@@ -140,8 +166,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeIndex:
-				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
+			case parameters.TokenTypeVarIndex:
+				//debug.Log("parameters.TokenTypeVarIndex:", p.Tokens[i][j].Key)
 				match := rxTokenIndex.FindStringSubmatch(p.Tokens[i][j].Key)
 				if len(match) != 3 {
 					params[len(params)-1] = p.Tokens[i][j].Key
@@ -163,8 +189,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeElement:
-				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
+			case parameters.TokenTypeVarElement:
+				//debug.Log("parameters.TokenTypeVarIndex:", p.Tokens[i][j].Key)
 				match := rxTokenElement.FindStringSubmatch(p.Tokens[i][j].Key)
 				if len(match) != 3 {
 					params[len(params)-1] = p.Tokens[i][j].Key
@@ -186,12 +212,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeRange:
+			case parameters.TokenTypeVarRange:
 				// TODO: write me!
-				debug.Log("parameters.TokenTypeRange:", p.Tokens[i][j].Key)
+				debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
 				//panic("TODO: write me!")
 
-			case parameters.TokenTypeTilde:
+			case parameters.TokenTypeVarTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
 					params[len(params)-1] += home.MyDir
 				} else {

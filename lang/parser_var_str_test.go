@@ -9,7 +9,7 @@ import (
 func TestParserVariableString1(t *testing.T) {
 	params := [][]parameters.ParamToken{{
 		{Key: "-", Type: parameters.TokenTypeValue},
-		{Key: "var", Type: parameters.TokenTypeString},
+		{Key: "var", Type: parameters.TokenTypeVarString},
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 

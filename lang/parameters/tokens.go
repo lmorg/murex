@@ -26,27 +26,30 @@ const (
 	// TokenTypeValue: key is not a variable. eg `command "just a parameter"`
 	TokenTypeValue
 
-	// TokenTypeString: key is a variable. Expand as a single string. eg `command $variable`
-	TokenTypeString
+	// TokenTypeGlob: key is a value that supports globbing
+	TokenTypeGlob
 
-	// TokenTypeBlockString: key is a code block. Expand as a single string. eg `command ${ command }`
-	TokenTypeBlockString
+	// TokenTypeVarString: key is a variable. Expand as a single string. eg `command $variable`
+	TokenTypeVarString
 
-	// TokenTypeArray: key is an array. Expand as multiple parameters. eg `command @files`
-	TokenTypeArray
+	// TokenTypeVarBlockString: key is a code block. Expand as a single string. eg `command ${ command }`
+	TokenTypeVarBlockString
 
-	// TokenTypeBlockArray: key is a code block. Expand as multiple parameters. eg `command @{ command }`
-	TokenTypeBlockArray
+	// TokenTypeVarArray: key is an array. Expand as multiple parameters. eg `command @files`
+	TokenTypeVarArray
 
-	// TokenTypeIndex: key is an array or map. Return only specific indexes. eg `command $variable[index]`
-	TokenTypeIndex
+	// TokenTypeVarBlockArray: key is a code block. Expand as multiple parameters. eg `command @{ command }`
+	TokenTypeVarBlockArray
 
-	// TokenTypeElement: key is an array or map. Return only specific elements in a nested structure. eg `command $variable[index]`
-	TokenTypeElement
+	// TokenTypeVarIndex: key is an array or map. Return only specific indexes. eg `command $variable[index]`
+	TokenTypeVarIndex
 
-	// TokenTypeRange: key is an array. Return only a range. eg `command @variable[start..end]r`
-	TokenTypeRange
+	// TokenTypeVarElement: key is an array or map. Return only specific elements in a nested structure. eg `command $variable[index]`
+	TokenTypeVarElement
 
-	// TokenTypeTilde: key is a user name. Return home directory. eg `command ~user`
-	TokenTypeTilde
+	// TokenTypeVarRange: key is an array. Return only a range. eg `command @variable[start..end]r`
+	TokenTypeVarRange
+
+	// TokenTypeVarTilde: key is a user name. Return home directory. eg `command ~user`
+	TokenTypeVarTilde
 )
