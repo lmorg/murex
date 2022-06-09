@@ -69,7 +69,7 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 		}
 	}
 
-	dtc.rl.SetHintText(" ")
+	dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()
 }
@@ -99,7 +99,7 @@ func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
 		}
 	}
 
-	dtc.rl.SetHintText(" ")
+	dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()
 }

@@ -10,6 +10,7 @@ func CommandLine(s []string) {
 		s[i] = strings.Replace(s[i], `@`, `\@`, -1)
 		s[i] = strings.Replace(s[i], `|`, `\|`, -1)
 		s[i] = strings.Replace(s[i], `?`, `\?`, -1)
+		s[i] = strings.Replace(s[i], `*`, `\*`, -1)
 		s[i] = strings.Replace(s[i], `'`, `\'`, -1)
 		s[i] = strings.Replace(s[i], `"`, `\"`, -1)
 		s[i] = strings.Replace(s[i], `(`, `\(`, -1)

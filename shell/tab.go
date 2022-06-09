@@ -19,7 +19,7 @@ func errCallback(err error) {
 	if ansi.IsAllowed() {
 		s = ansi.Reset + ansi.FgRed + s
 	}
-	Prompt.SetHintText(s)
+	Prompt.ForceHintTextUpdate(s)
 }
 
 var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)

@@ -4,13 +4,16 @@ import (
 	"fmt"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/home"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 var (
@@ -60,8 +63,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			case parameters.TokenTypeGlob:
 				if !autoGlob.(bool) {
 					params[len(params)-1] += p.Tokens[i][j].Key
-					tCount = true
-					namedPipeIsParam = true
+
 				} else {
 					match, err := filepath.Glob(p.Tokens[i][j].Key)
 					if err != nil {
@@ -70,11 +72,21 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 					if len(match) == 0 {
 						return fmt.Errorf("glob returned zero results.\nglob: '%s'", p.Tokens[i][j].Key)
 					}
-					if !tCount {
-						params = params[:len(params)-1]
+					glob, err := autoGlobPrompt(p.Tokens[i][j].Key, match)
+					if err != nil {
+						return err
 					}
-					params = append(params, match...)
+					if glob {
+						if !tCount {
+							params = params[:len(params)-1]
+						}
+						params = append(params, match...)
+					} else {
+						params[len(params)-1] += p.Tokens[i][j].Key
+					}
 				}
+				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarString:
 				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
@@ -244,4 +256,31 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	p.DefineParsed(params)
 
 	return nil
+}
+
+func autoGlobPrompt(before string, match []string) (bool, error) {
+	slice := make([]string, len(match))
+	copy(slice, match)
+	escape.CommandLine(slice)
+	after := strings.Join(slice, " ")
+
+	rl := readline.NewInstance()
+	prompt := fmt.Sprintf("Do you wish to expand '%s'? [Yn]: ", before)
+	rl.SetPrompt(prompt)
+	rl.HintText = func(_ []rune, _ int) []rune { return []rune(after) }
+	rl.History = new(readline.NullHistory)
+
+	for {
+		line, err := rl.Readline()
+		if err != nil {
+			return false, err
+		}
+
+		switch strings.ToLower(line) {
+		case "", "y", "yes":
+			return true, nil
+		case "n", "no":
+			return false, nil
+		}
+	}
 }

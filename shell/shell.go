@@ -297,7 +297,7 @@ func spellchecker(r []rune) []rune {
 	if err != nil && !ignoreSpellCheckErr {
 		ignoreSpellCheckErr = true
 		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/docs/user-guide/spellcheck.html{RESET}", err.Error())
-		Prompt.SetHintText(ansi.ExpandConsts(hint))
+		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
 	}
 
 	ignoreSpellCheckErr = false // reset ignore status
