@@ -221,7 +221,7 @@ func (p *Process) Fork(flags int) *Fork {
 // if the child process raises a runmode error and that should be returned in
 // the calling builtin. Functions that shouldn't make use of this is processes
 // that are spawned by the shell (eg dynamic autocomplete blocks or events).
-func (fork *Fork) ExecuteAsRunMode(block []rune) error {
+/*func (fork *Fork) ExecuteAsRunMode(block []rune) error {
 	fork.RunMode = fork.Parent.RunMode
 	i, err := fork.Execute(block)
 	if fork.RunMode != runmode.Try && fork.RunMode != runmode.TryPipe {
@@ -236,7 +236,7 @@ func (fork *Fork) ExecuteAsRunMode(block []rune) error {
 	}
 
 	return nil
-}
+}*/
 
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
@@ -295,10 +295,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	case runmode.Normal:
 		exitNum = runModeNormal(procs)
 
-	case runmode.Try:
+	case runmode.BlockTry, runmode.FunctionTry:
 		exitNum = runModeTry(procs)
 
-	case runmode.TryPipe:
+	case runmode.BlockTryPipe, runmode.FunctionTryPipe:
 		exitNum = runModeTryPipe(procs)
 
 	//case runmode.Evil:
@@ -319,6 +319,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 				ShellProcess.Stderr.Writeln([]byte(message))
 			}
 		}
+	}
+
+	if fork.RunMode.IsStrict() && exitNum > 0 {
+		return exitNum, fmt.Errorf("non-zero exit code: %d", exitNum)
 	}
 
 	return

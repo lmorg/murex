@@ -7,7 +7,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/home"
 )
@@ -66,8 +65,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				if err != nil {
 					return fmt.Errorf("subshell failed: %s", err.Error())
 				}
-				if exitNum > 0 &&
-					(prc.RunMode == runmode.Try || prc.RunMode == runmode.TryPipe) {
+				if exitNum > 0 && prc.RunMode.IsStrict() {
 					return fmt.Errorf("subshell exit status %d", exitNum)
 				}
 				b, err := fork.Stdout.ReadAll()
