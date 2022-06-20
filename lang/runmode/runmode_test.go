@@ -61,10 +61,10 @@ func TestRunModeIsScopeFunction(t *testing.T) {
 	}{
 		{runmode.Normal, false},
 		{runmode.Evil, false},
-		{runmode.BlockTry, false},
-		{runmode.BlockTryPipe, false},
-		{runmode.FunctionTry, true},
-		{runmode.FunctionTryPipe, true},
+		{runmode.BlockTry, true},
+		{runmode.BlockTryPipe, true},
+		{runmode.FunctionTry, false},
+		{runmode.FunctionTryPipe, false},
 		{runmode.ModuleTry, true},
 		{runmode.ModuleTryPipe, true},
 	}
@@ -72,11 +72,11 @@ func TestRunModeIsScopeFunction(t *testing.T) {
 	count.Tests(t, len(tests))
 
 	for i, test := range tests {
-		if test.Strict != test.RunMode.IsScopeFunction() {
+		if test.Strict != test.RunMode.IsBlockOrModule() {
 			t.Errorf("Unexpected return from IsScopeFunction in test %d", i)
 			t.Logf("  RunMode:  %d (%s)", test.RunMode, test.RunMode.String())
 			t.Logf("  Expected: %v", test.Strict)
-			t.Logf("  Actual:   %v", test.RunMode.IsScopeFunction())
+			t.Logf("  Actual:   %v", test.RunMode.IsBlockOrModule())
 		}
 	}
 }

@@ -9,12 +9,15 @@ type RunMode int
 const (
 	Normal RunMode = iota
 	Evil
+
 	BlockTry
 	BlockTryPipe
-	FunctionTry
-	FunctionTryPipe
+
 	ModuleTry
 	ModuleTryPipe
+
+	FunctionTry
+	FunctionTryPipe
 )
 
 // IsStrict checks if RunMode is a Try or TryPipe block
@@ -26,8 +29,8 @@ func (i RunMode) IsStrict() bool {
 	return false
 }
 
-func (i RunMode) IsScopeFunction() bool {
-	if i > BlockTryPipe {
+func (i RunMode) IsBlockOrModule() bool {
+	if i > Evil && i < FunctionTry {
 		return true
 	}
 

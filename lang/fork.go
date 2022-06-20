@@ -72,6 +72,8 @@ const (
 	F_NO_STDERR
 )
 
+var ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
+
 // Fork is a forked process
 type Fork struct {
 	*Process
@@ -135,6 +137,10 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
 		fork.Parameters.CopyFrom(&p.Parameters)
+
+		if p.RunMode.IsBlockOrModule() {
+			fork.RunMode = p.RunMode
+		}
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:
@@ -251,6 +257,11 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		panic("missing function name in (fork *Fork).Execute()")
 	}
 
+	moduleRunMode := ModuleRunModes[fork.FileRef.Source.Module]
+	if moduleRunMode > 0 && fork.RunMode == 0 {
+		fork.RunMode = moduleRunMode
+	}
+
 	fork.Stdout.Open()
 	fork.Stderr.Open()
 
@@ -295,10 +306,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	case runmode.Normal:
 		exitNum = runModeNormal(procs)
 
-	case runmode.BlockTry, runmode.FunctionTry:
+	case runmode.BlockTry, runmode.FunctionTry, runmode.ModuleTry:
 		exitNum = runModeTry(procs)
 
-	case runmode.BlockTryPipe, runmode.FunctionTryPipe:
+	case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
 		exitNum = runModeTryPipe(procs)
 
 	//case runmode.Evil:
