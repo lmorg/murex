@@ -23,7 +23,7 @@ func cmdTry(p *lang.Process) (err error) {
 		return err
 	}
 
-	p.RunMode = runmode.Try
+	p.RunMode = runmode.BlockTry
 
 	//p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 	p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE).Execute(block)
@@ -38,7 +38,7 @@ func cmdTryPipe(p *lang.Process) (err error) {
 		return err
 	}
 
-	p.RunMode = runmode.TryPipe
+	p.RunMode = runmode.BlockTryPipe
 
 	//p.ExitNum, err = lang.RunBlockExistingConfigSpace(block, p.Stdin, p.Stdout, p.Stderr, p)
 	p.ExitNum, err = p.Fork(lang.F_PARENT_VARTABLE | lang.F_DEFAULTS).Execute(block)

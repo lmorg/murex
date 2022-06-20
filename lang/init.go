@@ -43,11 +43,11 @@ func InitEnv() {
 	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.Name}}
 
 	if FlagTry {
-		ShellProcess.RunMode = runmode.Try
+		ShellProcess.RunMode = runmode.ModuleTry
 	}
 
 	if FlagTryPipe {
-		ShellProcess.RunMode = runmode.TryPipe
+		ShellProcess.RunMode = runmode.ModuleTryPipe
 	}
 
 	// Sets $SHELL to be murex

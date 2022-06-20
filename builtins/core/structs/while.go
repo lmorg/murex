@@ -105,7 +105,7 @@ func cmdWhile(p *lang.Process) error {
 			}
 
 			fork = p.Fork(lang.F_NO_STDIN)
-			err = fork.ExecuteAsRunMode(whileBlock)
+			_, err = fork.Execute(whileBlock)
 			if err != nil {
 				return err
 			}

@@ -258,6 +258,7 @@ hr {
   #commit-hash-long { display: none; }
   h2, h3 { margin-right: 0px; }
   hr { margin-right: 0px; }
+  li { padding-right: 0px; }
 }
 
 #burger {
