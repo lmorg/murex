@@ -29,6 +29,8 @@ const (
 	ErrUnexpectedLogicAnd
 	ErrPipingToNothing
 	ErrUnknownParserErrorPipe
+	ErrUnableToParseParametersInRunmode
+	ErrInvalidParametersInRunmode
 )
 
 var errMessages = []string{
@@ -52,6 +54,8 @@ var errMessages = []string{
 	"Logic AND, `&&`, preceding function name",
 	"Piping out to nothing. Commands should not be terminated by a pipe token (`|`, `->`, `=>`, or ` ?`)",
 	"Unexpected error parsing `|`. Reason unknown. Please file a bug at https://github.com/lmorg/murex/issues",
+	"Unable to parse parameters in `runmode`",
+	"Invalid parameters in `runmode`",
 }
 
 func raiseErr(code, endByte int) ParserError {

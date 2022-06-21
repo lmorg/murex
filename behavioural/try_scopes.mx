@@ -1,5 +1,25 @@
-private: pvt.try.foobar     { err: "foo"; out "bar" }
-private: pvt.trypipe.foobar { err: "foo"| out "bar" }
+# control
+
+function: control.scope.block.fn.fail {
+    a: [1..2] -> foreach i { err: $i | out: bar }
+}
+
+test: unit function control.scope.block.fn.fail {
+    "StderrMatch": "1\n2\n",
+    "StdoutMatch": "bar\nbar\n"
+}
+
+function: control.runmode.fail {
+    out "foo"
+    runmode try function
+    out "bar"
+}
+
+test: unit function control.runmode.fail {
+    "StdoutMatch": "foo\nbar\n",
+    "StderrRegexp": "should only be used as the first statement in a block",
+    "ExitNum": 0
+}
 
 # try
 
@@ -20,15 +40,82 @@ test: unit function try.scope.block.fail {
     "ExitNum":     1
 }
 
-function: try.scope.fn.block {
+function: try.scope.block.fn {
+    function: fn.try.foobar { err: "foo"; out "bar" }
+    try { fn.try.foobar }
+}
+
+test: unit function try.scope.block.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: try.scope.block.pvt {
+    private: pvt.try.foobar { err: "foo"; out "bar" }
     try { pvt.try.foobar }
 }
 
-test: unit function try.scope.fn.block {
-    "Stderr": "foo\n",
-    "Stdout": "bar\n"
+test: unit function try.scope.block.pvt {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
 }
 
+function: try.scope.block.foreach.fail {
+    try {
+        a: [1..2] -> foreach i { err: $i; out: bar }
+    }
+}
+
+test: unit function try.scope.block.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+## function
+
+function: try.scope.fn.fn {
+    runmode try function
+    function: fn.try.foobar { err: "foo"; out "bar" }
+    fn.try.foobar
+}
+
+test: unit function try.scope.fn.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: try.scope.fn.foreach.fail {
+    runmode try function
+    a: [1..2] -> foreach i { err: $i; out: bar }
+}
+
+test: unit function try.scope.fn.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+## module
+
+function: try.scope.fn.mod {
+    runmode try module
+    function: fn.try.foobar { err: "foo"; out "bar" }
+    fn.try.foobar
+}
+
+test: unit function try.scope.fn.mod {
+    "StderrMatch": "foo\n",
+    "ExitNum": 1
+}
+
+function: try.scope.mod.foreach.fail {
+    runmode try module
+    a: [1..2] -> foreach i { err: $i; out: bar }
+}
+
+test: unit function try.scope.mod.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
 
 # trypipe
 
@@ -49,12 +136,80 @@ test: unit function trypipe.scope.block.fail {
     "ExitNum":     1
 }
 
-function: trypipe.scope.fn.block {
+function: trypipe.scope.block.fn {
+    function: fn.trypipe.foobar { err: "foo" | out "bar" }
+    trypipe { fn.trypipe.foobar }
+}
+
+test: unit function trypipe.scope.block.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n",
+    "ExitNum": 0
+}
+
+function: trypipe.scope.block.pvt {
+    private:  pvt.trypipe.foobar { err: "foo" | out "bar" }
     trypipe { pvt.trypipe.foobar }
 }
 
-test: unit function trypipe.scope.fn.block {
-    "Stderr": "foo\n",
-    "Stdout": "bar\n",
+test: unit function trypipe.scope.block.pvt {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: trypipe.scope.block.foreach.fail {
+    trypipe {
+        a: [1..2] -> foreach i { err: $i | out: bar }
+    }
+}
+
+test: unit function trypipe.scope.block.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+### function
+
+function: trypipe.scope.fn.fn {
+    runmode trypipe function
+    function: fn.try.foobar { err: "foo" | out "bar" }
+    fn.trypipe.foobar
+}
+
+test: unit function trypipe.scope.fn.fn {
+    "StderrMatch": "foo\n",
+    "StdoutMatch": "bar\n"
+}
+
+function: trypipe.scope.fn.foreach.fail {
+    runmode trypipe function
+    a: [1..2] -> foreach i { err: $i | out: bar }
+}
+
+test: unit function trypipe.scope.fn.foreach.fail {
+    "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+## module
+
+function: trypipe.scope.fn.mod {
+    runmode trypipe module
+    function: trypipe.try.foobar { err: "foo" | out "bar" }
+    fn.trypipe.foobar
+}
+
+test: unit function trypipe.scope.fn.mod {
+    "StderrMatch": "foo\n",
+    "ExitNum": 1
+}
+
+function: trypipe.scope.mod.foreach.fail {
+    runmode trypipe module
+    a: [1..2] -> foreach i { err: $i | out: bar }
+}
+
+test: unit function trypipe.scope.mod.foreach.fail {
+    "StderrMatch": "1\n2\n",
     "ExitNum": 1
 }

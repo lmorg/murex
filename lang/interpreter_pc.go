@@ -45,8 +45,8 @@ func runModeEvil(procs []Process) int {
 func runModeNormal(procs []Process) (exitNum int) {
 	//debug.Json("runModeNormal ()", procs)
 	var (
-		skipToNextPipeline bool
-		prev               int
+		//skipToNextPipeline bool
+		prev int
 	)
 
 	if len(procs) == 0 {
@@ -67,10 +67,10 @@ func runModeNormal(procs []Process) (exitNum int) {
 
 			if (procs[i].OperatorLogicAnd && procs[prev].ExitNum > 0) ||
 				(procs[i].OperatorLogicOr && procs[prev].ExitNum < 1) {
-				skipToNextPipeline = true
-			}
+				//	skipToNextPipeline = true
+				//}
 
-			if skipToNextPipeline && (procs[i].OperatorLogicAnd || procs[i].OperatorLogicOr || procs[i].IsMethod) {
+				//if skipToNextPipeline && (procs[i].OperatorLogicAnd || procs[i].OperatorLogicOr || procs[i].IsMethod) {
 				procs[i].hasTerminatedM.Lock()
 				procs[i].hasTerminatedV = true
 				procs[i].hasTerminatedM.Unlock()

@@ -7,7 +7,9 @@ type RunMode int
 
 // These are the different supported run modes
 const (
-	Normal RunMode = iota
+	Default RunMode = iota
+
+	Normal
 	Evil
 
 	BlockTry
@@ -23,14 +25,6 @@ const (
 // IsStrict checks if RunMode is a Try or TryPipe block
 func (i RunMode) IsStrict() bool {
 	if i > Evil {
-		return true
-	}
-
-	return false
-}
-
-func (i RunMode) IsBlockOrModule() bool {
-	if i > Evil && i < FunctionTry {
 		return true
 	}
 

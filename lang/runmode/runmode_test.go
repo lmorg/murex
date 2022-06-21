@@ -21,10 +21,10 @@ func TestRunModeStringer(t *testing.T) {
 	t.Log(runmode.Evil.String())
 	t.Log(runmode.BlockTry.String())
 	t.Log(runmode.BlockTryPipe.String())
-	t.Log(runmode.FunctionTry.String())
+	/*t.Log(runmode.FunctionTry.String())
 	t.Log(runmode.FunctionTryPipe.String())
 	t.Log(runmode.ModuleTry.String())
-	t.Log(runmode.ModuleTryPipe.String())
+	t.Log(runmode.ModuleTryPipe.String())*/
 }
 
 func TestRunModeIsStrict(t *testing.T) {
@@ -36,10 +36,10 @@ func TestRunModeIsStrict(t *testing.T) {
 		{runmode.Evil, false},
 		{runmode.BlockTry, true},
 		{runmode.BlockTryPipe, true},
-		{runmode.FunctionTry, true},
+		/*{runmode.FunctionTry, true},
 		{runmode.FunctionTryPipe, true},
 		{runmode.ModuleTry, true},
-		{runmode.ModuleTryPipe, true},
+		{runmode.ModuleTryPipe, true},*/
 	}
 
 	count.Tests(t, len(tests))
@@ -50,33 +50,6 @@ func TestRunModeIsStrict(t *testing.T) {
 			t.Logf("  RunMode:  %d (%s)", test.RunMode, test.RunMode.String())
 			t.Logf("  Expected: %v", test.Strict)
 			t.Logf("  Actual:   %v", test.RunMode.IsStrict())
-		}
-	}
-}
-
-func TestRunModeIsScopeFunction(t *testing.T) {
-	tests := []struct {
-		RunMode runmode.RunMode
-		Strict  bool
-	}{
-		{runmode.Normal, false},
-		{runmode.Evil, false},
-		{runmode.BlockTry, true},
-		{runmode.BlockTryPipe, true},
-		{runmode.FunctionTry, false},
-		{runmode.FunctionTryPipe, false},
-		{runmode.ModuleTry, true},
-		{runmode.ModuleTryPipe, true},
-	}
-
-	count.Tests(t, len(tests))
-
-	for i, test := range tests {
-		if test.Strict != test.RunMode.IsBlockOrModule() {
-			t.Errorf("Unexpected return from IsScopeFunction in test %d", i)
-			t.Logf("  RunMode:  %d (%s)", test.RunMode, test.RunMode.String())
-			t.Logf("  Expected: %v", test.Strict)
-			t.Logf("  Actual:   %v", test.RunMode.IsBlockOrModule())
 		}
 	}
 }
