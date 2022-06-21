@@ -89,7 +89,7 @@ func writeError(p *Process, err error) []byte {
 		}
 	}
 
-	if p.FileRef.Source.Module == app.Name {
+	if p.FileRef.Source.Module == app.ShellModule {
 		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
 	}
 	msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
@@ -271,6 +271,17 @@ executeProcess:
 
 	// execution mode:
 	switch {
+	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef):
+		// murex privates
+		fn := PrivateFunctions.get(name, p.FileRef)
+		if fn != nil {
+			fork := p.Fork(F_FUNCTION)
+			fork.Name.Set(name)
+			fork.Parameters.CopyFrom(&p.Parameters)
+			fork.FileRef = fn.FileRef
+			p.ExitNum, err = fork.Execute(fn.Block)
+		}
+
 	case GlobalAliases.Exists(name) && p.Parent.Name.String() != "alias" && !parsedAlias:
 		// murex aliases
 		alias := GlobalAliases.Get(name)
@@ -292,17 +303,6 @@ executeProcess:
 			if err == nil {
 				p.ExitNum, err = fork.Execute(fn.Block)
 			}
-		}
-
-	case p.Scope.Id != ShellProcess.Id && PrivateFunctions.Exists(name, p.FileRef):
-		// murex privates
-		fn := PrivateFunctions.get(name, p.FileRef)
-		if fn != nil {
-			fork := p.Fork(F_FUNCTION)
-			fork.Name.Set(name)
-			fork.Parameters.CopyFrom(&p.Parameters)
-			fork.FileRef = fn.FileRef
-			p.ExitNum, err = fork.Execute(fn.Block)
 		}
 
 	case name[0] == '$':

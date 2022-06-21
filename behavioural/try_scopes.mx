@@ -1,0 +1,60 @@
+private: pvt.try.foobar     { err: "foo"; out "bar" }
+private: pvt.trypipe.foobar { err: "foo"| out "bar" }
+
+# try
+
+function: try.scope.block.pass {
+    try { out: "foo"; out "bar" }
+}
+
+test: unit function try.scope.block.pass {
+    "StdoutMatch": "foo\nbar\n"
+}
+
+function: try.scope.block.fail {
+    try { err: "foo"; out "bar" }
+}
+
+test: unit function try.scope.block.fail {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function: try.scope.fn.block {
+    try { pvt.try.foobar }
+}
+
+test: unit function try.scope.fn.block {
+    "Stderr": "foo\n",
+    "Stdout": "bar\n"
+}
+
+
+# trypipe
+
+function: trypipe.scope.block.pass {
+    trypipe { out: "foo" | out "bar" }
+}
+
+test: unit function trypipe.scope.block.pass {
+    "StdoutMatch": "bar\n"
+}
+
+function: trypipe.scope.block.fail {
+    trypipe { err: "foo" | out "bar" }
+}
+
+test: unit function trypipe.scope.block.fail {
+    "StderrRegex": "foo",
+    "ExitNum":     1
+}
+
+function: trypipe.scope.fn.block {
+    trypipe { pvt.trypipe.foobar }
+}
+
+test: unit function trypipe.scope.fn.block {
+    "Stderr": "foo\n",
+    "Stdout": "bar\n",
+    "ExitNum": 1
+}
