@@ -182,8 +182,8 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 				}
 			}
 
-			s := fmt.Sprintf("[%s%-6s%s] %-10s %4d:%-4d %-50s %s",
-				colour, r.Status, reset,
+			s := fmt.Sprintf("%s[%s%-6s%s] %-10s %4d:%-4d %-50s %s",
+				reset, colour, r.Status, reset,
 				r.TestName,
 				r.LineNumber, r.ColNumber,
 				params(r.Exec, r.Params),
