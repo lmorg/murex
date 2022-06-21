@@ -44,7 +44,6 @@
   Related:
   - pipe
   - stdin
-  - parser/namedpipe
   - bg
   - a
   - ja
@@ -110,7 +109,6 @@
   Related:
   - pipe
   - namedpipe
-  - parser/namedpipe
   - out
   - function
   - match

@@ -35,7 +35,7 @@
   Related:
   - pipe-posix
   - pipe-generic
-  - pipe-named
+  - commands/namedpipe
   - pipe-err
   - user-guide/pipeline
   - commands/out
@@ -80,7 +80,7 @@
   Related:
   - pipe-arrow
   - pipe-generic
-  - pipe-named
+  - commands/namedpipe
   - pipe-posix
   - user-guide/pipeline
   - commands/out
@@ -138,11 +138,10 @@
   Related:
   - pipe-arrow
   - pipe-posix
-  - pipe-named
+  - commands/namedpipe
   - pipe-err
   - user-guide/pipeline
   - commands/ja
-  - commands/cat
   - commands/format
 
 
@@ -183,7 +182,7 @@
   Related:
   - pipe-arrow
   - pipe-generic
-  - pipe-named
+  - commands/namedpipe
   - pipe-err
   - user-guide/pipeline
   - commands/out

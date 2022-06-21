@@ -50,11 +50,9 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
   Overview of what a "pipeline" is
 * [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
+* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+  Reads from a _murex_ named pipe
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/cat](../commands/cat.md):
-  
-* [parser/pipe-named](../parser/pipe-named.md):
-  

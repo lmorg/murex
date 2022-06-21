@@ -119,5 +119,3 @@ that pipes created in modules should be prefixed with the name of its package.
   Manage _murex_ named pipes
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [parser/namedpipe](../parser/namedpipe.md):
-  

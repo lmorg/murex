@@ -57,6 +57,8 @@ to return the same markdown-formatted document as those listed below. eg
   Writes STDIN to disk - overwriting contents if file already exists
 * [`@[` (range) ](commands/range.md):
   Outputs a ranged subset of data from STDIN
+* [`@g` (autoglob) ](commands/autoglob.md):
+  Command prefix to expand globbing
 * [`[[` (element)](commands/element.md):
   Outputs an element from a nested structure
 * [`[` (index)](commands/index.md):

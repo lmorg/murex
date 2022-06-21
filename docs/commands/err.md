@@ -49,6 +49,8 @@ a new _murex_ named pipe.
   Infixed constants that return ANSI escape sequences
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
+* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+  Reads from a _murex_ named pipe
 * [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [commands/`>` (truncate file)](../commands/greater-than.md):

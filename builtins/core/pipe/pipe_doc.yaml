@@ -52,5 +52,5 @@
   - bg
   - match
   - test
-  - parser/namedpipe
+  - commands/namedpipe
   - user-guide/pipeline
