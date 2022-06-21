@@ -40,7 +40,6 @@
   Synonyms:
   Related:
   - trypipe
-  - evil
   - catch
   - fid-list
   - if
@@ -94,7 +93,6 @@
   Synonyms:
   Related:
   - try
-  - evil
   - catch
   - fid-list
   - if
@@ -147,6 +145,5 @@
   - trypipe
   - try
   - if
-  - evil
   - switch
   - user-guide/schedulers

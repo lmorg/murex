@@ -55,5 +55,3 @@ command.
   Blocks of cascading conditionals
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/evil](../commands/evil.md):
-  

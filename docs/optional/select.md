@@ -135,7 +135,7 @@ If you do run into any issues then please raise them on [Github](https://github.
   generic (primitive)
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
+* [types/`csv` ](../types/csv.md):
+  CSV files (and other character delimited tables)
 * [types/`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
-* [types/csv](../types/csv.md):
-  

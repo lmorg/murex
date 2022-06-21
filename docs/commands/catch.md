@@ -56,5 +56,3 @@ handles the exceptions raised by the aforementioned.
   Handles errors inside a block of code
 * [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [commands/evil](../commands/evil.md):
-  

@@ -54,5 +54,3 @@ command.
   Blocks of cascading conditionals
 * [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [commands/evil](../commands/evil.md):
-  

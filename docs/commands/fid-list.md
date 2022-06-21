@@ -65,6 +65,8 @@ include:
   Run processes in the background
 * [commands/`builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
+* [types/`csv` ](../types/csv.md):
+  CSV files (and other character delimited tables)
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
 * [commands/`fexec` ](../commands/fexec.md):
@@ -81,5 +83,3 @@ include:
   JSON Lines (primitive)
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
-* [types/csv](../types/csv.md):
-  
