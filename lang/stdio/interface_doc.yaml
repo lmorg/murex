@@ -153,9 +153,9 @@
   - ReadNotIndex
 
 
-- DocumentID: lang.ArrayTemplateWithType
+- DocumentID: lang.ArrayWithTypeTemplate
   Title: >-
-    `lang.ArrayTemplateWithType()` (template API)
+    `lang.ArrayWithTypeTemplate()` (template API)
   CategoryID: apis
   Summary: >-
     Unmarshals a data type into a Go struct and returns the results as an array

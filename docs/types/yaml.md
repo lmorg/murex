@@ -71,9 +71,9 @@ external source packages for the shell to compile.
   JSON Lines (primitive)
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array with data type included
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [apis/lang.ArrayWithTypeTemplate](../apis/lang.ArrayWithTypeTemplate.md):
-  
