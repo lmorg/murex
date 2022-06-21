@@ -64,18 +64,18 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 					params[len(params)-1] += p.Tokens[i][j].Key
 
 				} else {
-					match, err := filepath.Glob(p.Tokens[i][j].Key)
-					if err != nil {
-						return fmt.Errorf("invalid glob: '%s'\n%s", p.Tokens[i][j].Key, err.Error())
-					}
-					if len(match) == 0 {
-						return fmt.Errorf("glob returned zero results.\nglob: '%s'", p.Tokens[i][j].Key)
-					}
+					match, globErr := filepath.Glob(p.Tokens[i][j].Key)
 					glob, err := autoGlobPrompt(p.Tokens[i][j].Key, match)
 					if err != nil {
 						return err
 					}
 					if glob {
+						if globErr != nil {
+							return fmt.Errorf("invalid glob: '%s'\n%s", p.Tokens[i][j].Key, err.Error())
+						}
+						if len(match) == 0 {
+							return fmt.Errorf("glob returned zero results.\nglob: '%s'", p.Tokens[i][j].Key)
+						}
 						if !tCount {
 							params = params[:len(params)-1]
 						}
@@ -257,15 +257,19 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 }
 
 func autoGlobPrompt(before string, match []string) (bool, error) {
-	slice := make([]string, len(match))
-	copy(slice, match)
-	escape.CommandLine(slice)
-	after := strings.Join(slice, " ")
-
 	rl := readline.NewInstance()
 	prompt := fmt.Sprintf("Do you wish to expand '%s'? [Yn]: ", before)
 	rl.SetPrompt(prompt)
-	rl.HintText = func(_ []rune, _ int) []rune { return []rune(after) }
+	if len(match) > 0 {
+		slice := make([]string, len(match))
+		copy(slice, match)
+		escape.CommandLine(slice)
+		after := strings.Join(slice, " ")
+		rl.HintText = func(_ []rune, _ int) []rune { return []rune(after) }
+	} else {
+		rl.HintFormatting = "\x1b[31m"
+		rl.HintText = func(_ []rune, _ int) []rune { return []rune("Warning: no files match that pattern") }
+	}
 	rl.History = new(readline.NullHistory)
 
 	for {
