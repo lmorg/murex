@@ -22,6 +22,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -162,7 +163,7 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 
 		var colour, reset string
 		if ansiColour.(bool) {
-			reset = "\x1b[0m"
+			reset = codes.Reset
 		}
 		for _, r := range tests.Results.results {
 			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
@@ -172,13 +173,13 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 			if ansiColour.(bool) {
 				switch r.Status {
 				case TestPassed:
-					colour = "\x1b[32m"
+					colour = codes.FgGreen
 				case TestFailed, TestError:
-					colour = "\x1b[31m"
+					colour = codes.FgRed
 				case TestMissed, TestInfo:
-					colour = "\x1b[34m"
+					colour = codes.FgBlue
 				case TestState:
-					colour = "\x1b[33m"
+					colour = codes.FgYellow
 				}
 			}
 

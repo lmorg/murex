@@ -1,3 +1,4 @@
+//go:build js
 // +build js
 
 package term
@@ -5,6 +6,7 @@ package term
 import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi/codes"
 )
 
 // Terminal: Standard Error - Coloured Red
@@ -14,18 +16,13 @@ type ErrRed struct {
 	term
 }
 
-const (
-	fgRed = "\x1b[31m"
-	reset = "\x1b[0m"
-)
-
 // Write is the io.Writer() interface for term
 func (t *ErrRed) Write(b []byte) (int, error) {
 	t.mutex.Lock()
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	new := fgRed + string(b) + reset
+	new := codes.FgRed + string(b) + codes.Reset
 
 	vtermWrite([]rune(new))
 
@@ -34,8 +31,6 @@ func (t *ErrRed) Write(b []byte) (int, error) {
 
 // Writeln writes an OS-specific terminated line to the stderr
 func (t *ErrRed) Writeln(b []byte) (int, error) {
-	//line := append(b, utils.NewLineByte...)
-	//return t.Write(line)
 	return t.Write(appendBytes(b, utils.NewLineByte...))
 }
 

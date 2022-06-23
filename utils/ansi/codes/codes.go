@@ -1,4 +1,4 @@
-package ansi
+package codes
 
 // Text effects
 const (

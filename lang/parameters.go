@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/readline"
@@ -60,7 +61,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeGlob:
-				if !autoGlob.(bool) {
+				if !autoGlob.(bool) || prc.Parent.Id != ShellProcess.Id || prc.Background.Get() || !Interactive {
 					params[len(params)-1] += p.Tokens[i][j].Key
 
 				} else {
@@ -267,7 +268,7 @@ func autoGlobPrompt(before string, match []string) (bool, error) {
 		after := strings.Join(slice, " ")
 		rl.HintText = func(_ []rune, _ int) []rune { return []rune(after) }
 	} else {
-		rl.HintFormatting = "\x1b[31m"
+		rl.HintFormatting = codes.FgRed
 		rl.HintText = func(_ []rune, _ int) []rune { return []rune("Warning: no files match that pattern") }
 	}
 	rl.History = new(readline.NullHistory)

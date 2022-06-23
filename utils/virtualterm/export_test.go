@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
-	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/virtualterm"
 )
 
@@ -14,7 +14,7 @@ func TestWriteSgrFgRedExportHtml(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(120, 1)
-	test := fmt.Sprintf("Normal%sBold%sRed%sReset", ansi.Bold, ansi.FgRed, ansi.Reset)
+	test := fmt.Sprintf("Normal%sBold%sRed%sReset", codes.Bold, codes.FgRed, codes.Reset)
 	exp1 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-red">Red</span><span class="">Reset</span><span class="">                                                                                                      
 </span>`
 	exp2 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-red">Red</span><span class="">Reset</span><span class="">                                                                                                      
@@ -36,7 +36,7 @@ func TestWriteSgrFgColoursExportHtml(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(120, 1)
-	test := fmt.Sprintf("%sRed%sGreen%sBlue", ansi.FgRed, ansi.FgGreen, ansi.FgBlue)
+	test := fmt.Sprintf("%sRed%sGreen%sBlue", codes.FgRed, codes.FgGreen, codes.FgBlue)
 	exp := `<span class=""></span><span class="sgr-red">Red</span><span class="sgr-green">Green</span><span class="sgr-blue">Blue</span><span class="">                                                                                                            
 </span>`
 

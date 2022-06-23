@@ -5,21 +5,21 @@ package parser
 import (
 	"regexp"
 
-	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi/codes"
 )
 
 // syntax highlighting
 var (
-	hlFunction    = ansi.Bold
-	hlVariable    = ansi.FgRed
-	hlEscaped     = ansi.FgYellow
-	hlSingleQuote = ansi.FgBlue
-	hlDoubleQuote = ansi.FgBlue
-	hlBraceQuote  = ansi.FgBlue
-	hlBlock       = ansi.Bold
-	hlPipe        = ansi.FgMagenta
-	hlComment     = ansi.FgGreen
-	hlError       = ansi.BgRed
+	hlFunction    = codes.Bold
+	hlVariable    = codes.FgRed
+	hlEscaped     = codes.FgYellow
+	hlSingleQuote = codes.FgBlue
+	hlDoubleQuote = codes.FgBlue
+	hlBraceQuote  = codes.FgBlue
+	hlBlock       = codes.Bold
+	hlPipe        = codes.FgMagenta
+	hlComment     = codes.FgGreen
+	hlError       = codes.BgRed
 
 	rxAllowedVarChars = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 )
@@ -66,7 +66,7 @@ const (
 // Parse a single line of code and return the tokens for a selected command
 func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	var readFunc bool
-	reset := []string{ansi.Reset, hlFunction}
+	reset := []string{codes.Reset, hlFunction}
 	syntaxHighlighted = hlFunction
 	pt.Loc = -1
 	pt.ExpectFunc = true
@@ -157,7 +157,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				fallthrough
 			default:
 				pt.Comment = true
-				syntaxHighlighted += hlComment + string(block[i:]) + ansi.Reset
+				syntaxHighlighted += hlComment + string(block[i:]) + codes.Reset
 				//return
 				defer func() { pt.CommentMsg = string(pt.commentMsg) }()
 			}
@@ -300,20 +300,20 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			}
 
 		case '=':
-		switch {
-		case pt.Escaped:
-			escaped()
-		case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0, readFunc:
-			*pt.pop += `=`
-			syntaxHighlighted += string(block[i])
-		case pt.ExpectFunc:
-			pt.Loc = i
-			syntaxHighlighted += string(block[i])
-		default:
-			pt.Loc = i
-			syntaxHighlighted += string(block[i])
-			pt.ExpectParam = true
-		}
+			switch {
+			case pt.Escaped:
+				escaped()
+			case pt.QuoteSingle, pt.QuoteDouble, pt.QuoteBrace > 0, readFunc:
+				*pt.pop += `=`
+				syntaxHighlighted += string(block[i])
+			case pt.ExpectFunc:
+				pt.Loc = i
+				syntaxHighlighted += string(block[i])
+			default:
+				pt.Loc = i
+				syntaxHighlighted += string(block[i])
+				pt.ExpectParam = true
+			}
 
 		case ':':
 			switch {
@@ -548,7 +548,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				//pt.Unsafe = true
 				syntaxHighlighted += string(block[i])
 				if pt.NestedBlock == 0 {
-					syntaxHighlighted += ansi.Reset + reset[len(reset)-1]
+					syntaxHighlighted += codes.Reset + reset[len(reset)-1]
 				}
 			}
 
@@ -678,7 +678,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	}
 	pt.Loc++
 	pt.VarLoc++
-	syntaxHighlighted += ansi.Reset
+	syntaxHighlighted += codes.Reset
 	return
 }
 

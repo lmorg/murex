@@ -10,7 +10,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/humannumbers"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readall"
@@ -108,7 +108,7 @@ func cmdGetFile(p *lang.Process) (err error) {
 
 		os.Stderr.WriteString(fmt.Sprintf(
 			"%sDownloaded %s.\n",
-			"\x1b["+strconv.Itoa(readline.GetTermWidth()+2)+"D"+ansi.ClearLine+ansi.Reset,
+			"\x1b["+strconv.Itoa(readline.GetTermWidth()+2)+"D"+codes.ClearLine+codes.Reset,
 			humannumbers.Bytes(written),
 		))
 	}()
@@ -158,14 +158,14 @@ func printGaugeBar(value, max float64, message string) {
 	width := readline.GetTermWidth()
 	cells := int((float64(width) / max) * value)
 
-	s := "\x1b[" + strconv.Itoa(width+2) + "D" + ansi.ClearLine + ansi.Reset
+	s := "\x1b[" + strconv.Itoa(width+2) + "D" + codes.ClearLine + codes.Reset
 	if cells > 0 {
-		s += ansi.Invert
+		s += codes.Invert
 	}
 
 	for i := 0; i < width; i++ {
 		if cells+1 == i {
-			s += ansi.Reset
+			s += codes.Reset
 		}
 
 		if i < len(message) {
@@ -175,5 +175,5 @@ func printGaugeBar(value, max float64, message string) {
 		}
 	}
 
-	os.Stderr.WriteString(s + ansi.Reset)
+	os.Stderr.WriteString(s + codes.Reset)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/ansi/codes"
 )
 
 // TestAnsiColoured tests writing colours via the ansi package
@@ -24,7 +25,7 @@ func TestAnsiColoured(t *testing.T) {
 	message := "{RED}" + text + "{RESET}"
 	output := ExpandConsts(message)
 
-	if output != FgRed+text+Reset {
+	if output != codes.FgRed+text+codes.Reset {
 		t.Error("Colourised config: Source string does not match expected output string: " + output)
 	}
 	if output == message {
