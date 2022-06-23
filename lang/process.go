@@ -22,6 +22,9 @@ import (
 )
 
 var (
+	// Interactive describes whether murex is running as an interactive shell or not
+	Interactive bool
+
 	// ShellProcess is the root murex process
 	ShellProcess = &Process{}
 

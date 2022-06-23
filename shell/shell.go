@@ -22,10 +22,6 @@ import (
 )
 
 var (
-	// Interactive describes whether murex is running as an interactive shell
-	// or not
-	Interactive bool
-
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
@@ -49,7 +45,7 @@ func Start() {
 
 	var err error
 
-	Interactive = true
+	lang.Interactive = true
 	Prompt.TempDirectory = consts.TempDir
 	Prompt.TabCompleter = tabCompletion
 	Prompt.SyntaxCompleter = syntaxCompletion
@@ -73,7 +69,7 @@ func Start() {
 
 // ShowPrompt display's the shell command line prompt
 func ShowPrompt() {
-	if !Interactive {
+	if !lang.Interactive {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
