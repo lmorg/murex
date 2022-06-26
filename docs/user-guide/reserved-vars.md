@@ -109,7 +109,7 @@ is so that the shell path cannot be overridden.
 
 This is TODO: [https://github.com/lmorg/murex/issues/304](Github issue 304)
 
-### `hostname` (str)
+### `HOSTNAME` (str)
 
 This returns the hostname of the machine _murex_ is running from.
 
