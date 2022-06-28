@@ -57,7 +57,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		pCount int // parameter count
 		pToken = &node.ParamTokens[0][0]
 	)
-	//defer debug.Json("Last node", node)
 
 	startParameters := func() {
 		scanFuncName = false
@@ -200,28 +199,16 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				continue
 
 			case pToken.Type == parameters.TokenTypeVarRange:
-				//if unclosedIndex {
 				if r != ']' {
 					*pop += string(r)
 					last = r
 					continue
 				}
-				/*if r == ']' {
-					unclosedIndex = false
-					last = r
-					*pop += string(r)
-					continue
-				}*/
-				/*if !unclosedIndex && 'a' <= r && r <= 'z' {
-					last = r
-					*pop += string(r)
-					continue
-				}*/
+
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]
 				pop = &pToken.Key
-				//goto nextParser
 				continue
 
 			case pToken.Type == parameters.TokenTypeVarTilde &&
@@ -266,11 +253,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				last = r
 				continue
 
-			/*case r == '(' && last == '$':
-			pToken.Type = parameters.TokenTypeVarBlockString
-			braceCount++
-			continue*/
-
 			case r == '{' && last == '@':
 				pToken.Type = parameters.TokenTypeVarBlockArray
 				braceCount++
@@ -296,16 +278,10 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				continue
 
 			case r == '[' && pToken.Type == parameters.TokenTypeVarArray:
-				//if last != '@' {
 				pToken.Type = parameters.TokenTypeVarRange
 				*pop += string(r)
 				last = r
 				unclosedIndex = true
-
-				/*} else {
-					pToken.Type = parameters.TokenTypeValue
-					*pop += "@["
-				}*/
 				continue
 
 			case braceCount > 0:
@@ -326,7 +302,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			}
 		}
 
-		//nextParser:
 		switch r {
 		case '#':
 			switch {
@@ -442,9 +417,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			case quoteSingle, quoteDouble:
 				pUpdate(r)
 				ignoreWhitespace = false
-			/*case quoteBrace == 0:
-			pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
-			return*/
 			case quoteBrace > 1:
 				pUpdate(r)
 				quoteBrace--
@@ -458,7 +430,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pErr = raiseErr(ErrClosingBraceQuoteNoOpen, i)
 				return &nodes, pErr
 			default:
-				pErr = raiseErr(ErrUnexpectedParsingError, i) //+" No case found for `switch ')' { ... }`.", i)
+				pErr = raiseErr(ErrUnexpectedParsingError, i)
 				return &nodes, pErr
 			}
 
@@ -503,7 +475,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pUpdate(r)
 				escaped = false
 				ignoreWhitespace = false
-				continue // skip `last=r`
+				continue
 			case quoteSingle, quoteDouble, quoteBrace > 0:
 				pUpdate(r)
 				ignoreWhitespace = false
@@ -514,9 +486,9 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				if i < len(block)-1 && block[i+1] == '>' {
 					pErr = raiseErr(ErrUnexpectedPipeTokenEqGt, i)
 					return &nodes, pErr
-				} //else {
+				}
 				startParameters()
-				//}
+
 			default:
 				pUpdate(r)
 			}
@@ -673,8 +645,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				scanFuncName = true
 			default:
 				// do nothing
-				//pErr = raiseErr(ErrUnknownParserErrorPipe, i)
-				//return &nodes, pErr
 			}
 
 		case '?':
@@ -731,10 +701,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 					pErr = raiseErr(ErrUnexpectedLogicAnd, i)
 					return &nodes, pErr
 				}
-				/**pop = (*pop)[:len(*pop)-1]
-				if len(*pop) == 0 {
-					pToken.Type = parameters.TokenTypeNil
-				}*/
 				appendNode()
 				node = AstNode{LogicAnd: true, NewChain: true}
 				pop = &node.Name
@@ -940,14 +906,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 			}
 
 		default:
-			/*switch {
-			case escaped:
-				pUpdate(r)
-				escaped = false
-			default:
-				ignoreWhitespace = false
-				pUpdate(r)
-			}*/
 			ignoreWhitespace = false
 			pUpdate(r)
 			// skip last=r since the last char was escaped
@@ -976,8 +934,6 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	}
 
 	appendNode()
-
-	//debug.Json("params", nodes)
 
 	return &nodes, pErr
 }
