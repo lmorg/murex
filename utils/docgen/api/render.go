@@ -98,7 +98,8 @@ func renderDocument(t *templates, d *document, docs documents) {
 
 func renderCategory(t *templates, docs documents) {
 	if t.catTemplate == nil {
-		panic(fmt.Sprintf("No category template loaded for %s[%d]", t.ref.ID, t.index))
+		//panic(fmt.Sprintf("No category template loaded for %s[%d]", t.ref.ID, t.index))
+		return
 	}
 
 	f := fileWriter(t.CategoryFilePath())

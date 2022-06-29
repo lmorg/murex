@@ -12,6 +12,6 @@
 
 ## Optional Builtins
 
-{{ range $i,$a := otherdocs "optional" }}{{ if gt $i 0 }}
+{{ if otherdocs "optional" }}{{ range $i,$a := otherdocs "optional" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
-  {{ md .Summary }}{{ end }}
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}

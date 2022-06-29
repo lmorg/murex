@@ -119,6 +119,13 @@ func init() {
 		"trypipe":               "Checks state of each function in a pipeline and exits block on error",
 		"version":               "Get _murex_ version",
 		"while":                 "Loop until condition false",
+
+		"base64": "Encode or decode a base64 string",
+		"!bz2":   "Decompress a bz2 file",
+		"gz":     "Compress or decompress a gzip file",
+		"qr":     "Creates a QR code from STDIN",
+		"select": "Inlining SQL into shell pipelines",
+		"sleep":  "Suspends the shell for a number of seconds",
 	}
 
 	Synonym = map[string]string{
@@ -273,5 +280,14 @@ func init() {
 		"version":               "version",
 		"while":                 "while",
 		"!while":                "while",
+
+		"base64":  "base64",
+		"!base64": "base64",
+		"!bz2":    "!bz2",
+		"gz":      "gz",
+		"!gz":     "gz",
+		"qr":      "qr",
+		"select":  "select",
+		"sleep":   "sleep",
 	}
 }
