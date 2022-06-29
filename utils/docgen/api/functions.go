@@ -22,6 +22,7 @@ var funcMap = template.FuncMap{
 	"notanindex": funcNotAnIndex,
 	"date":       funcDate,
 	"time":       funcTime,
+	"otherdocs":  funcOtherDocs,
 }
 
 /************
@@ -188,7 +189,7 @@ func funcInclude(s string) string {
  *NotAnIndex*
  ************/
 
-// Takes: number (eg varable)
+// Takes: number (eg variable)
 // Returns: number incremented by 1
 func funcNotAnIndex(i int) int {
 	return i + 1
@@ -212,4 +213,19 @@ func funcDate(dt time.Time) string {
 // Returns: Time as string
 func funcTime(dt time.Time) string {
 	return dt.Format("15:04")
+}
+
+/************
+ * OtherDocs*
+ ************/
+
+// Takes: string (category ID)
+// Returns: list of documents in that category
+func funcOtherDocs(id string) (d documents) {
+	for i := range Documents {
+		if Documents[i].CategoryID == id {
+			d = append(d, Documents[i])
+		}
+	}
+	return
 }

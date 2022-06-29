@@ -271,3 +271,18 @@ to return the same markdown-formatted document as those listed below. eg
   Get _murex_ version
 * [`while`](commands/while.md):
   Loop until condition false
+
+## Optional Builtins
+
+* [`base64` ](optional/base64.md):
+  Encode or decode a base64 string
+* [`!bz2` ](optional/bz2.md):
+  Decompress a bz2 file
+* [`gz` ](optional/gz.md):
+  Compress or decompress a gzip file
+* [`qr` ](optional/qr.md):
+  Creates a QR code from STDIN
+* [`select` ](optional/select.md):
+  Inlining SQL into shell pipelines
+* [`sleep` ](optional/sleep.md):
+  Suspends the shell for a number of seconds
