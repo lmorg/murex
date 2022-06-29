@@ -783,6 +783,13 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				pop = &node.Name
 				scanFuncName = true
 
+			case (last == '\t' || last == ' ') && next('>'):
+				node.PipeOut = true
+				appendNode()
+				node = AstNode{Name: ">>", Method: true}
+				startParameters()
+				i++
+
 			default:
 				ignoreWhitespace = false
 				pUpdate(r)

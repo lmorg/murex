@@ -7,6 +7,11 @@ const (
 	Underscore = "\x1b[4m"
 	Blink      = "\x1b[5m"
 	Invert     = "\x1b[7m"
+
+	NormalIntensity = "\x1b[2m"
+	NoUnderscore    = "\x1b[24m"
+	NoBlink         = "\x1b[2m"
+	NoInvert        = "\x1b[27m"
 )
 
 // Text colours
