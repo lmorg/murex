@@ -227,6 +227,8 @@ to return the same markdown-formatted document as those listed below. eg
   Regexp tools for arrays / lists of strings
 * [`right`](commands/right.md):
   Right substring every item in a list
+* [`runmode`](commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
 * [`runtime`](commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):

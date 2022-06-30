@@ -94,6 +94,23 @@ test: unit function try.scope.fn.foreach.fail {
     "ExitNum": 1
 }
 
+function try.scope.fn.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: try function
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 2
+}
+
+test: unit function try.scope.fn.read.fail {
+    "StderrRegexp": "cannot read from",
+    "ExitNum": 1
+}
+
 ## module
 
 function: try.scope.fn.mod {
@@ -114,6 +131,23 @@ function: try.scope.mod.foreach.fail {
 
 test: unit function try.scope.mod.foreach.fail {
     "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+function try.scope.mod.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: try module
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 2
+}
+
+test: unit function try.scope.mod.read.fail {
+    "StderrRegexp": "cannot read from",
     "ExitNum": 1
 }
 
@@ -191,6 +225,23 @@ test: unit function trypipe.scope.fn.foreach.fail {
     "ExitNum": 1
 }
 
+function trypipe.scope.fn.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: trypipe function
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 2
+}
+
+test: unit function trypipe.scope.fn.read.fail {
+    "StderrRegexp": "cannot read from",
+    "ExitNum": 1
+}
+
 ## module
 
 function: trypipe.scope.fn.mod {
@@ -211,5 +262,22 @@ function: trypipe.scope.mod.foreach.fail {
 
 test: unit function trypipe.scope.mod.foreach.fail {
     "StderrMatch": "1\n2\n",
+    "ExitNum": 1
+}
+
+function trypipe.scope.mod.read.fail {
+    # Short conversation, exit on error
+    
+    runmode: trypipe module
+
+    bg {
+        read: q "? "
+        out: "!"
+    }
+    sleep: 2
+}
+
+test: unit function trypipe.scope.mod.read.fail {
+    "StderrRegexp": "cannot read from",
     "ExitNum": 1
 }

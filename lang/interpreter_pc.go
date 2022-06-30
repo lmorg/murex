@@ -147,7 +147,7 @@ func runModeTry(procs []Process) (exitNum int) {
 	return
 }
 
-// `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelisation.
+// `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelization.
 func runModeTryPipe(procs []Process) (exitNum int) {
 	//debug.Log("Entering run mode `trypipe`")
 	if len(procs) == 0 {
