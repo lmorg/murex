@@ -20,7 +20,7 @@ var (
 	hlPipe        = codes.FgMagenta
 	hlComment     = codes.FgGreen + codes.Invert
 	hlError       = codes.FgRed + codes.Invert
-	hlRedirect    = codes.FgBlue
+	hlRedirect    = codes.FgGreen
 
 	rxAllowedVarChars = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
 )
@@ -40,6 +40,7 @@ type ParsedTokens struct {
 	QuoteBrace    int
 	NestedBlock   int
 	SquareBracket bool
+	AngledBracket bool
 	ExpectFunc    bool
 	ExpectParam   bool
 	pop           *string
@@ -360,7 +361,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					pt.PipeToken = PipeTokenGeneric
 				}
 				pt.pop = &pt.FuncName
-				//pt.FuncName = ""
+				//pt.Unsafe = true
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
@@ -368,7 +369,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				ansiColour(hlPipe, block[i-1])
 				ansiReset('>')
 				syntaxHighlighted += hlFunction
-
 			case i > 0 && (block[i-1] == '\t' || block[i-1] == ' ') && next('>'):
 				if pos != 0 && pt.Loc >= pos {
 					return
@@ -376,7 +376,10 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				i++
 				pt.Loc = i
 				pt.LastFlowToken = i - 1
+				pt.Unsafe = true
 				pt.ExpectFunc = false
+				readFunc = false
+				pt.ExpectParam = true
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenAppend
 				pt.FuncName = ">>"
@@ -384,14 +387,19 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				ansiColour(hlPipe, '>')
 				ansiReset('>')
 				syntaxHighlighted += hlRedirect
-
 			case pt.ExpectFunc, readFunc:
 				readFunc = true
 				*pt.pop += `>`
-				fallthrough
+				pt.Loc = i
+				syntaxHighlighted += ">"
+			case pt.AngledBracket:
+				*pt.pop += `>`
+				pt.Loc = i
+				syntaxHighlighted += ">" + codes.Reset
+
 			default:
 				pt.Loc = i
-				syntaxHighlighted += string(block[i])
+				syntaxHighlighted += ">"
 			}
 
 		case '|':
@@ -415,21 +423,28 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				if next('>') {
-					readFunc = true
 					*pt.pop += `>`
-					pt.Loc = i
+					pt.LastFlowToken = i - 1
+					pt.Unsafe = true
+					pt.ExpectFunc = false
+					readFunc = false
+					pt.ExpectParam = true
+					pt.SquareBracket = false
 					i++
 					if next('>') {
 						pt.Loc = i
 						i++
 						ansiChar(hlPipe, '|', '>', '>')
+						pt.PipeToken = PipeTokenAppend
 					} else {
 						ansiChar(hlPipe, '|', '>')
 					}
+
+					syntaxHighlighted += hlRedirect
 				} else {
 					ansiChar(hlPipe, block[i])
+					syntaxHighlighted += hlFunction
 				}
-				syntaxHighlighted += hlFunction
 			}
 
 		case '&':
@@ -657,16 +672,17 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.Escaped:
 				escaped()
 			case readFunc:
-				*pt.pop += string(block[i])
-				syntaxHighlighted += string(block[i])
+				*pt.pop += "<"
+				syntaxHighlighted += "<"
 			case pt.ExpectFunc:
-				*pt.pop = string(block[i])
+				*pt.pop = "<"
 				readFunc = true
-				syntaxHighlighted += string(block[i])
+				syntaxHighlighted += "<"
 			default:
 				pt.Unsafe = true
-				*pt.pop += string(block[i])
-				syntaxHighlighted += string(block[i])
+				*pt.pop += "<"
+				syntaxHighlighted += hlRedirect + "<"
+				pt.AngledBracket = true
 			}
 
 		default:
@@ -708,14 +724,3 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 	syntaxHighlighted += codes.Reset
 	return
 }
-
-/*func Highlight(block []rune) (hl string) {
-	ast, _ := lang.ParseBlock(block)
-
-	for i := range *ast {
-		ast[i].Name
-	}
-
-	return
-}
-*/
