@@ -241,3 +241,14 @@ func TestHungProcess(t *testing.T) {
 
 	runTestCases(t, tests)
 }
+
+func TestComments(t *testing.T) {
+	tests := []testCase{
+		{
+			Json:     "{ \"foo\": \"bar\"\n# \\ \n}",
+			Expected: `{"foo":"bar"}`,
+		},
+	}
+
+	runTestCases(t, tests)
+}

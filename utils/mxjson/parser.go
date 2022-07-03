@@ -449,19 +449,19 @@ func Parse(json []byte) (interface{}, error) {
 
 	switch {
 	case qSingle.IsOpen():
-		return nil, fmt.Errorf("single quote, `'`, openned at %d but not closed", qSingle.pos+1)
+		return nil, fmt.Errorf("single quote, `'`, opened at %d but not closed", qSingle.pos+1)
 
 	case qDouble.IsOpen():
-		return nil, fmt.Errorf("double quote, `\"`, openned at %d but not closed", qDouble.pos+1)
+		return nil, fmt.Errorf("double quote, `\"`, opened at %d but not closed", qDouble.pos+1)
 
 	case qBrace.IsOpen():
-		return nil, fmt.Errorf("quote brace, `(`, openned at %d but not closed", qBrace.pos[qBrace.len]+1)
+		return nil, fmt.Errorf("quote brace, `(`, opened at %d but not closed", qBrace.pos[qBrace.len]+1)
 
 	case square.IsOpen():
-		return nil, fmt.Errorf("square brace, `(`, openned at %d but not closed", square.pos[square.len]+1)
+		return nil, fmt.Errorf("square brace, `(`, opened at %d but not closed", square.pos[square.len]+1)
 
 	case curly.IsOpen():
-		return nil, fmt.Errorf("curly brace, `(`, openned at %d but not closed", curly.pos[curly.len]+1)
+		return nil, fmt.Errorf("curly brace, `(`, opened at %d but not closed", curly.pos[curly.len]+1)
 
 	default:
 		return objects.nest[0].value, nil

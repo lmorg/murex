@@ -188,6 +188,15 @@ func TestInvalid(t *testing.T) {
 			Json:  `{eurt eurt}`,
 			Error: true,
 		},
+
+		{
+			Json:  `{"foo": "bar"}}`,
+			Error: true,
+		},
+		{
+			Json:  `# foo bar`,
+			Error: true,
+		},
 	}
 
 	runTestCases(t, tests)
