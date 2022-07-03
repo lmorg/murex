@@ -49,33 +49,37 @@ func funcSummary(block []rune) string {
 
 	for _, r := range block {
 		switch {
-		case r == '\n' && !line1:
-			line1 = true
-
-		case r == '\n':
-			goto exitLoop
-
-		case !line1:
-			continue
-
-		case r == '#':
-			comment = true
-
-		case !comment:
-			continue
-
-		case r == '\t':
-			summary = append(summary, ' ', ' ', ' ', ' ')
-
 		case r == '\r':
 			continue
 
+		case r == '\n' && !line1:
+			line1 = true
+
+		case r == '\n' && (line1 || comment):
+			goto exitParser
+
+		case r == '#':
+			comment = true
+			line1 = true
+
+		case !line1 && (r == '{' || r == ' ' || r == '\t'):
+			continue
+
+		case comment && r == '\t':
+			summary = append(summary, ' ', ' ', ' ', ' ')
+
 		case comment:
 			summary = append(summary, r)
+
+		case line1 && (r == ' ' || r == '\t'):
+			continue
+
+		default:
+			return ""
 		}
 	}
 
-exitLoop:
+exitParser:
 	return strings.TrimSpace(string(summary))
 }
 
