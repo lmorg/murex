@@ -261,16 +261,7 @@ func autoGlobPrompt(before string, match []string) (bool, error) {
 	rl := readline.NewInstance()
 	prompt := fmt.Sprintf("Do you wish to expand '%s'? [Yn]: ", before)
 	rl.SetPrompt(prompt)
-	if len(match) > 0 {
-		slice := make([]string, len(match))
-		copy(slice, match)
-		escape.CommandLine(slice)
-		after := strings.Join(slice, " ")
-		rl.HintText = func(_ []rune, _ int) []rune { return []rune(after) }
-	} else {
-		rl.HintFormatting = codes.FgRed
-		rl.HintText = func(_ []rune, _ int) []rune { return []rune("Warning: no files match that pattern") }
-	}
+	rl.HintText = func(_ []rune, _ int) []rune { return autoGlobPromptHintText(rl, match) }
 	rl.History = new(readline.NullHistory)
 
 	for {
@@ -286,4 +277,19 @@ func autoGlobPrompt(before string, match []string) (bool, error) {
 			return false, nil
 		}
 	}
+}
+
+var warningNoGlobMatch = "Warning: no files match that pattern"
+
+func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
+	if len(match) == 0 {
+		rl.HintFormatting = codes.FgRed
+		return []rune(warningNoGlobMatch)
+	}
+
+	slice := make([]string, len(match))
+	copy(slice, match)
+	escape.CommandLine(slice)
+	after := strings.Join(slice, " ")
+	return []rune(after)
 }
