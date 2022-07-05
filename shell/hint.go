@@ -52,7 +52,11 @@ func hintText(line []rune, pos int) []rune {
 		return r
 	}
 
-	return hintCodeBlock()
+	if len(cachedHintText) > 0 {
+		return cachedHintText
+	}
+
+	return HintCodeBlock()
 }
 
 func hintExpandVariables(line []rune) []rune {
@@ -81,17 +85,14 @@ func hintExpandVariables(line []rune) []rune {
 	return []rune{}
 }
 
-func hintCodeBlock() []rune {
-	if len(cachedHintText) > 0 {
-		return cachedHintText
-	}
+func HintCodeBlock() []rune {
 	ht, err := lang.ShellProcess.Config.Get("shell", "hint-text-func", types.CodeBlock)
 	if err != nil || len(ht.(string)) == 0 || ht.(string) == "{}" {
 		return []rune{}
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-	fork.Name.Set("shell (hint-text-func)")
+	fork.Name.Set("(hint-text-func)")
 	exitNum, err := fork.Execute([]rune(ht.(string)))
 
 	b, err2 := fork.Stdout.ReadAll()
@@ -103,14 +104,10 @@ func hintCodeBlock() []rune {
 		b = b[:len(b)-1]
 	}
 
-	if debug.Enabled && ( /*exitNum != 0 ||*/ err != nil || err2 != nil) {
-		lang.ShellProcess.Stderr.Write([]byte(fmt.Sprintf(
-			"Block returned false:\nExit Num: %d\nStdout length: %d\nStdout read error: %s\nStderr: %s\n",
-			exitNum,
-			len(b),
-			err2,
-			err,
-		)))
+	if debug.Enabled && (exitNum != 0 || err != nil || err2 != nil) {
+		return ([]rune(fmt.Sprintf(
+			"Block returned false: Exit Num: %d, Stdout length: %d, Stdout read error: %s, Stderr: %s",
+			exitNum, len(b), err2, err)))
 	}
 
 	cachedHintText = []rune(string(b))
