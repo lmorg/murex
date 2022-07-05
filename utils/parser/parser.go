@@ -16,7 +16,7 @@ var (
 	hlSingleQuote = codes.FgBlue
 	hlDoubleQuote = codes.FgBlue
 	hlBraceQuote  = codes.FgBlue
-	hlBlock       = []string{codes.FgBlue, codes.FgCyan, codes.FgMagenta, codes.FgGreen, codes.FgYellow}
+	hlBlock       = []string{codes.FgGreen, codes.FgMagenta, codes.FgBlue, codes.FgYellow}
 	hlPipe        = codes.FgMagenta
 	hlComment     = codes.FgGreen + codes.Invert
 	hlError       = codes.FgRed + codes.Invert

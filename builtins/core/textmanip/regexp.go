@@ -32,7 +32,7 @@ func cmdMatch(p *lang.Process) error {
 	}
 
 	if p.Parameters.StringAll() == "" {
-		return errors.New("No parameters supplied")
+		return errors.New("no parameters supplied")
 	}
 
 	aw, err := p.Stdout.WriteArray(dt)
@@ -67,7 +67,7 @@ func cmdRegexp(p *lang.Process) (err error) {
 	}
 
 	if p.Parameters.StringAll() == "" {
-		return errors.New("No parameters supplied")
+		return errors.New("no parameters supplied")
 	}
 
 	var sRegex []string
@@ -83,10 +83,10 @@ func cmdRegexp(p *lang.Process) (err error) {
 	}
 
 	if len(sRegex) < 2 {
-		return fmt.Errorf("Invalid regexp (too few parameters) in: `%s`", p.Parameters.StringAll())
+		return fmt.Errorf("invalid regexp (too few parameters) in: `%s`", p.Parameters.StringAll())
 	}
 	if len(sRegex) > 4 {
-		return fmt.Errorf("Invalid regexp (too many parameters) in: `%s`", p.Parameters.StringAll())
+		return fmt.Errorf("invalid regexp (too many parameters) in: `%s`", p.Parameters.StringAll())
 	}
 
 	var rx *regexp.Regexp
@@ -100,24 +100,24 @@ func cmdRegexp(p *lang.Process) (err error) {
 
 	case 's':
 		if p.IsNot {
-			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
+			return fmt.Errorf("cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
 		}
 		return regexSubstitute(p, rx, sRegex, dt)
 
 	case 'f':
 		if p.IsNot {
-			return fmt.Errorf("Cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
+			return fmt.Errorf("cannot use `%s` with `%s` flag in `%s`", p.Name.String(), string(sRegex[0][0]), p.Parameters.StringAll())
 		}
 		return regexFind(p, rx, dt)
 
 	default:
-		return errors.New("Invalid regexp. Please use either match (m), substitute (s) or find (f)")
+		return errors.New("invalid regexp. Please use either match (m), substitute (s) or find (f)")
 	}
 }
 
 func splitRegexParams(regex []byte) ([]string, error) {
 	if len(regex) < 2 {
-		return nil, fmt.Errorf("Invalid regexp (too few characters) in: `%s`", string(regex))
+		return nil, fmt.Errorf("invalid regexp (too few characters) in: `%s`", string(regex))
 	}
 
 	switch regex[1] {
@@ -125,11 +125,11 @@ func splitRegexParams(regex []byte) ([]string, error) {
 		return splitRegexDefault(regex)
 
 	case '{':
-		return nil, fmt.Errorf("The `{` character is not yet supported for separating regex parameters in: `%s`. (feature in development)", string(regex))
+		return nil, fmt.Errorf("the `{` character is not supported for separating regex parameters in: `%s`", string(regex))
 		//return splitRegexBraces(regex)
 
 	case '\\':
-		return nil, fmt.Errorf("The `\\` character is not valid for separating regex parameters in: `%s`", string(regex))
+		return nil, fmt.Errorf("the `\\` character is not valid for separating regex parameters in: `%s`", string(regex))
 	}
 }
 

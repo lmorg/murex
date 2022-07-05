@@ -1,0 +1,217 @@
+package textmanip_test
+
+import (
+	"testing"
+
+	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/test"
+)
+
+func TestMatch(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> match s`,
+			Stdout: `["Tuesday","Wednesday"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> match S`,
+			Stderr:  "Error in `match` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> !match s`,
+			Stdout: `["Monday"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> !match S`,
+			Stdout: `["Monday","Tuesday","Wednesday"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> !match day`,
+			Stderr:  "Error in `!match` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestRegexpMatch(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (m/s/)`,
+			Stdout: `["Tuesday","Wednesday"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp (m/S/)`,
+			Stderr:  "Error in `regexp` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (m.s.)`,
+			Stdout: `["Tuesday","Wednesday"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp (m.S.)`,
+			Stderr:  "Error in `regexp` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestRegexpMatchBang(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> !regexp (m/s/)`,
+			Stdout: `["Monday"]`,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> !regexp (m/S/)`,
+			Stdout: `["Monday","Tuesday","Wednesday"]`,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> !regexp (m.s.)`,
+			Stdout: `["Monday"]`,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> !regexp (m.S.)`,
+			Stdout: `["Monday","Tuesday","Wednesday"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> !regexp (m.day.)`,
+			Stderr:  "Error in `!regexp` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestRegexpSubstitute(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (s/s/5/)`,
+			Stdout: `["Monday","Tue5day","Wedne5day"]`,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (s/S/5/)`,
+			Stdout: `["Monday","Tuesday","Wednesday"]`,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (s.day.night.)`,
+			Stdout: `["Monnight","Tuesnight","Wednesnight"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp s/day`,
+			Stderr:  "Error in `regexp` ( 1,28): Invalid regex (too few parameters - expecting s/find/substitute/) in: `s/day`\n",
+			ExitNum: 1,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp s/day/`,
+			Stdout: `["Mon","Tues","Wednes"]`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestRegexpSubstituteBang(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `ja: [Monday..Wednesday] -> !regexp (s/s/5/)`,
+			Stderr:  "Error in `!regexp`",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
+
+func TestRegexpFindSubmatch(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (f/(day)/)`,
+			Stdout: `["day","day","day"]`,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (f.(day).)`,
+			Stdout: `["day","day","day"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp (f/S/)`,
+			Stderr:  "Error in `regexp` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (f/(s)/)`,
+			Stdout: `["s","s"]`,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp (f/s/)`,
+			Stderr:  "Error in `regexp` ( 1,28): no data returned\n",
+			ExitNum: 1,
+		},
+		{
+			Block:  `ja: [Monday..Wednesday] -> regexp (f/Tue(s)/)`,
+			Stdout: `["s"]`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestRegexpFindSubmatchBang(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `ja: [Monday..Wednesday] -> !regexp (f/(day)/)`,
+			Stderr:  "Error in `!regexp`",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}
+
+func TestRegexpErrors(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp s`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp f`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp m`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp b/bob/`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp m\\bob\\`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   `ja: [Monday..Wednesday] -> regexp m{bob}`,
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}

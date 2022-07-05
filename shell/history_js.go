@@ -1,3 +1,4 @@
+//go:build js
 // +build js
 
 package shell
@@ -7,6 +8,6 @@ import (
 )
 
 func setPromptHistory() {
-	// We don't want persistant history when running this from WebAssembly
+	// We don't want persistent history when running this from WebAssembly
 	Prompt.History = &readline.ExampleHistory{}
 }
