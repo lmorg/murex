@@ -34,7 +34,7 @@ func RunMurexTests(tests []MurexTest, t *testing.T) {
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 		fork.Name.Set("RunMurexTests()")
-		fork.FileRef = &ref.File{Source: &ref.Source{Module: "gotest/" + t.Name()}}
+		fork.FileRef = &ref.File{Source: &ref.Source{Module: "murex/" + t.Name()}}
 		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Errorf("Cannot execute script on test %d", i)
@@ -101,7 +101,7 @@ func RunMurexTestsRx(tests []MurexTest, t *testing.T) {
 
 		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_CREATE_STDERR)
 		fork.Name.Set("RunMurexTestsRx()")
-		fork.FileRef = &ref.File{Source: &ref.Source{Module: "gotest/" + t.Name()}}
+		fork.FileRef = &ref.File{Source: &ref.Source{Module: "murex/" + t.Name()}}
 		exitNum, err := fork.Execute([]rune(tests[i].Block))
 		if err != nil {
 			t.Errorf("Cannot execute script on test %d", i)
