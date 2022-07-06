@@ -106,8 +106,6 @@ func init() {
 		"suffix":                "suffix_commands_docgen.go",
 		"summary":               "summary_commands_docgen.go",
 		"switch":                "switch_commands_docgen.go",
-		"swivel-datatype":       "swivel-datatype_commands_docgen.go",
-		"swivel-table":          "swivel-table_commands_docgen.go",
 		"ta":                    "ta_commands_docgen.go",
 		"tabulate":              "tabulate_commands_docgen.go",
 		"test":                  "test_commands_docgen.go",

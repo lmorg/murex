@@ -245,10 +245,6 @@ to return the same markdown-formatted document as those listed below. eg
   Defines a summary help text for a command
 * [`switch`](commands/switch.md):
   Blocks of cascading conditionals
-* [`swivel-datatype`](commands/swivel-datatype.md):
-  Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
-* [`swivel-table`](commands/swivel-table.md):
-  Rotates a table by 90 degrees
 * [`ta` (mkarray)](commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
 * [`tabulate`](commands/tabulate.md):
