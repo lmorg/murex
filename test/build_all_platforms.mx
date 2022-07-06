@@ -65,6 +65,11 @@ let status=0
 # version.
 set version=${version --short}
 
+#export CGO_CPPFLAGS="$CPPFLAGS"
+#export CGO_CFLAGS="$CFLAGS"
+#export CGO_CXXFLAGS="$CXXFLAGS"
+#export CGO_LDFLAGS="$LDFLAGS"
+
 $targets -> formap os cpus {
     $cpus -> foreach arch {
         set ext
@@ -75,6 +80,11 @@ $targets -> formap os cpus {
             export GOOS=$os
             export GOARCH=$arch
             export GOARM=7
+            #export GOFLAGS="-trimpath -modcacherw"
+
+            #if { = `$GOARCH` == `amd64` } then {
+            #    export GOFLAGS="$GOFLAGS -buildmode=pie"
+            #}
 
             set bin=./bin/murex-$version-$os-$arch$ext
             go build -o $bin $project
