@@ -26,7 +26,7 @@ type Stdin struct {
 	buffer     []byte
 	bRead      uint64
 	bWritten   uint64
-	dependants int32
+	dependents int32
 	dataType   string
 	//dtLock     sync.Mutex
 	max int
@@ -59,8 +59,8 @@ func NewStdinWithContext(ctx context.Context, forceClose context.CancelFunc) (st
 // Open the stream.Io interface for another dependant
 func (stdin *Stdin) Open() {
 	stdin.mutex.Lock()
-	//stdin.dependants++
-	atomic.AddInt32(&stdin.dependants, 1)
+	//stdin.dependents++
+	atomic.AddInt32(&stdin.dependents, 1)
 	stdin.mutex.Unlock()
 }
 
@@ -68,11 +68,11 @@ func (stdin *Stdin) Open() {
 func (stdin *Stdin) Close() {
 	stdin.mutex.Lock()
 
-	//stdin.dependants--
+	//stdin.dependents--
 
-	i := atomic.AddInt32(&stdin.dependants, -1)
+	i := atomic.AddInt32(&stdin.dependents, -1)
 	if i < 0 {
-		panic("More closed dependants than open")
+		panic("More closed dependents than open")
 	}
 
 	stdin.mutex.Unlock()

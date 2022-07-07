@@ -22,7 +22,7 @@ type Reader struct {
 	readCloser io.ReadCloser
 	bRead      uint64
 	bWritten   uint64
-	dependants int
+	dependents int
 	dataType   string
 	dtLock     sync.Mutex
 }
@@ -136,7 +136,7 @@ func (r *Reader) Open() {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
-	r.dependants++
+	r.dependents++
 }
 
 // Close the stream.Io interface
@@ -144,13 +144,13 @@ func (r *Reader) Close() {
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
 
-	r.dependants--
+	r.dependents--
 
-	if r.dependants < 0 {
-		panic("More closed dependants than open")
+	if r.dependents < 0 {
+		panic("More closed dependents than open")
 	}
 
-	if r.dependants == 0 && r.readCloser != nil {
+	if r.dependents == 0 && r.readCloser != nil {
 		r.readCloser.Close()
 	}
 }

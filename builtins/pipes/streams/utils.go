@@ -64,7 +64,7 @@ func (stdin *Stdin) GetDataType() (dt string) {
 			return
 		}
 
-		fin := stdin.dependants < 1
+		fin := stdin.dependents < 1
 		stdin.mutex.Unlock()
 
 		if fin {

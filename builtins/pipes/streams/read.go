@@ -20,7 +20,7 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 
 		stdin.mutex.Lock()
 		l := len(stdin.buffer)
-		deps := stdin.dependants
+		deps := stdin.dependents
 
 		stdin.mutex.Unlock()
 
@@ -82,7 +82,7 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 		}
 
 		stdin.mutex.Lock()
-		closed := stdin.dependants < 1
+		closed := stdin.dependents < 1
 
 		stdin.mutex.Unlock()
 
