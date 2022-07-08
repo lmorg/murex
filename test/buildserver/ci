@@ -1,10 +1,10 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
     GOPATH=/go
 
-ARG VERSION=1.16.3
+ARG VERSION=1.18.3
 ARG GOOS=linux
 ARG GOARCH=amd64
 
@@ -12,9 +12,11 @@ VOLUME /go/bin
 VOLUME /website
 WORKDIR /go/src/github.com/lmorg/murex
 
-RUN sed 1,3d -i /etc/dpkg/dpkg.cfg.d/excludes && \
-    apt-get update && apt-get upgrade -y && \
-    apt-get install -y --reinstall man coreutils wget curl gcc git aspell aspell-en pandoc zip awscli
+#RUN sed 1,3d -i /etc/dpkg/dpkg.cfg.d/excludes && \
+#RUN sed -i 's:^path-exclude=/usr/share/man:#path-exclude=/usr/share/man:' \
+#        /etc/dpkg/dpkg.cfg.d/excludes && \ 
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --reinstall man manpages-posix coreutils wget curl gcc git aspell aspell-en pandoc zip awscli
 
 # install golang and sources
 RUN mkdir -p /go && cd /go && \
@@ -22,8 +24,8 @@ RUN mkdir -p /go && cd /go && \
     tar xf go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     rm -v go${VERSION}.${GOOS}-${GOARCH}.tar.gz && \
     ln -sv /go/go/bin/go /bin/go && \
-    go get -u golang.org/x/tools/cmd/stringer && \
     ln -sv /go/bin/murex /bin/murex && \
+    go install golang.org/x/tools/cmd/stringer@latest && \
     ln -sv /go/bin/docgen /bin/docgen && \
     ln -sv /go/src/github.com/lmorg/murex/test/buildserver/ci.env /etc/ci-murex.env
 
@@ -33,6 +35,7 @@ RUN apt-get purge --auto-remove -y && \
     apt-get clean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
+COPY /usr/share/man/man1/cat.1.gz /usr/share/man/man1/cat.1.gz
 ADD . .
 
 ENTRYPOINT /go/src/github.com/lmorg/murex/test/ci-murex.sh && \
