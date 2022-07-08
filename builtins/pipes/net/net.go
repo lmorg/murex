@@ -16,7 +16,7 @@ type Net struct {
 	forceClose func()
 	bRead      uint64
 	bWritten   uint64
-	dependants int
+	dependents int
 	conn       net.Conn
 	dataType   string
 	protocol   string
@@ -58,7 +58,7 @@ func (n *Net) Open() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	n.dependants++
+	n.dependents++
 }
 
 // Close net Io interface
@@ -66,16 +66,16 @@ func (n *Net) Close() {
 	n.mutex.Lock()
 	defer n.mutex.Unlock()
 
-	n.dependants--
+	n.dependents--
 
-	if n.dependants == 0 {
+	if n.dependents == 0 {
 		err := n.conn.Close()
 		if err != nil {
 			os.Stderr.WriteString(err.Error() + utils.NewLineString)
 		}
 	}
 
-	if n.dependants < 0 {
+	if n.dependents < 0 {
 		panic("more closed dependants than open")
 	}
 }

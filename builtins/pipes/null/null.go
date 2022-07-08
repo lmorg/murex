@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// Since I don't want you to create null pipes, lets not regester it
+// Since I don't want you to create null pipes, lets not register it
 /*func init() {
 	stdio.RegisterPipe("null", func(string) (stdio.Io, error) {
 		return nil, errors.New("null pipes cannot be created. Use `null` if you require a null pipe")

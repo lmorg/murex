@@ -51,19 +51,6 @@ func (evt *keyPressEvents) Add(name, keySeq string, block []rune, fileRef *ref.F
 		return errors.New("unable to register event with readline API")
 	}
 
-	/*evt.mutex.Lock()
-	for i := range evt.events {
-		if evt.events[i].name == name {
-			evt.mutex.Unlock()
-			return fmt.Errorf("Event already exists with the name `%s` for event type `%s`", name, eventType)
-		}
-		if evt.events[i].keySeq == keySeq {
-			evt.mutex.Unlock()
-			return fmt.Errorf("Event already exists with that key sequence for event type `%s`", eventType)
-		}
-	}
-	evt.mutex.Unlock()*/
-
 	shell.Prompt.AddEvent(keySeq, evt.callback)
 	evt.events = append(evt.events, keyPressEvent{
 		name:    name,
