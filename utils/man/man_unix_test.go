@@ -1,3 +1,4 @@
+//go:build !windows
 // +build !windows
 
 package man
@@ -7,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // TestMan tests the builtins package
@@ -25,11 +27,11 @@ func TestMan(t *testing.T) {
 
 	flags := ParseFlags(files)
 	if len(flags) == 0 {
-		t.Error("No flags returned for `cat`")
+		t.Errorf("No flags returned for `cat` in: %s", json.LazyLogging(files))
 	}
 
 	s := ParseSummary(files)
 	if s == "" {
-		t.Error("No description returned for `cat`")
+		t.Errorf("No description returned for `cat` in: %s", json.LazyLogging(files))
 	}
 }
