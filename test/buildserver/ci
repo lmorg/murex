@@ -35,7 +35,7 @@ RUN apt-get purge --auto-remove -y && \
     apt-get clean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-COPY /usr/share/man/man1/cat.1.gz /usr/share/man/man1/cat.1.gz
+COPY ./test/cat.1.gz /usr/share/man/man1/cat.1.gz
 ADD . .
 
 ENTRYPOINT /go/src/github.com/lmorg/murex/test/ci-murex.sh && \
