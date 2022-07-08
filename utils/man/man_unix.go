@@ -1,3 +1,4 @@
+//go:build !windows
 // +build !windows
 
 package man
@@ -42,12 +43,17 @@ func GetManPages(exe string) []string {
 	return strings.Split(s, ":")
 }
 
+func validMan(path string) bool {
+	return !rxMatchManSection.MatchString(path) &&
+		!strings.HasSuffix(path, "test/cat.1.gz")
+}
+
 // ParseFlags runs the parser to locate any flags with hyphen prefixes
 func ParseFlags(paths []string) (flags []string) {
 	// Parse man pages
 	fMap := make(map[string]bool)
 	for i := range paths {
-		if !rxMatchManSection.MatchString(paths[i]) {
+		if validMan(paths[i]) {
 			continue
 		}
 		parseFlags(&fMap, paths[i])
@@ -59,28 +65,6 @@ func ParseFlags(paths []string) (flags []string) {
 	sort.Strings(flags)
 	return
 }
-
-// new parser
-/*func parseFlagsNew(flags map[string]string, manPath string) {
-	cmd := exec.Command("nroff", "-man", manPath)
-	//nroff -man /usr/share/man/man1/man.1
-	b, err := cmd.Output()
-	if err != nil {
-		return
-	}
-
-	// whitespace
-	var wsExpected, wsCurrent int
-	for i, c := range b {
-		switch c {
-		case ' ':
-			wsCurrent++
-
-		case '-':
-
-		}
-	}
-}*/
 
 // old parsing
 func parseFlags(flags *map[string]bool, filename string) {
@@ -171,7 +155,7 @@ func parseFlags(flags *map[string]bool, filename string) {
 // ParseSummary runs the parser to locate a summary
 func ParseSummary(paths []string) string {
 	for i := range paths {
-		if !rxMatchManSection.MatchString(paths[i]) {
+		if validMan(paths[i]) {
 			continue
 		}
 		desc := parseSummary(paths[i])
