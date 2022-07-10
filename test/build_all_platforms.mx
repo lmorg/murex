@@ -58,6 +58,10 @@ if { = goversion >= 1.16 } then {
     $targets -> alter: -m /netbsd  (["arm64"]) -> set targets
 }
 
+if { = goversion >= 1.17 } then {
+    $targets -> alter: -m /windows (["arm64"]) -> set targets
+}
+
 let status=0
 
 # Assumes the same version is running this script as the source.

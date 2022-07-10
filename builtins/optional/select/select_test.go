@@ -20,7 +20,7 @@ func TestSelectStdin(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block: fmt.Sprintf(
-				"tout jsonl (%s) -> select * WHERE command = `exec`",
+				"tout jsonl (%s) -> select * WHERE command = `exec` ORDER BY `Command` DESC",
 				table),
 			Stdout: string(
 				`["FID","Parent","Scope","State","RunMode","BG","OutPipe","ErrPipe","Command","Parameters"]

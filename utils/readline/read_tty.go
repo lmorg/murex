@@ -1,4 +1,5 @@
-// +build !js
+//go:build !js || !test
+// +build !js !test
 
 package readline
 

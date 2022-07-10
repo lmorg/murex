@@ -91,7 +91,7 @@ type Instance struct {
 	pos           int
 	termWidth     int
 	multiline     []byte
-	multisplit    []string
+	multiSplit    []string
 	skipStdinRead bool
 
 	// history

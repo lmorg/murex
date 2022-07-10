@@ -55,14 +55,14 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.resetHintText()
 	rl.resetTabCompletion()
 
-	if len(rl.multisplit) > 0 {
-		r := []rune(rl.multisplit[0])
+	if len(rl.multiSplit) > 0 {
+		r := []rune(rl.multiSplit[0])
 		rl.readlineInput(r)
-		rl.carridgeReturn()
-		if len(rl.multisplit) > 1 {
-			rl.multisplit = rl.multisplit[1:]
+		rl.carriageReturn()
+		if len(rl.multiSplit) > 1 {
+			rl.multiSplit = rl.multiSplit[1:]
 		} else {
-			rl.multisplit = []string{}
+			rl.multiSplit = []string{}
 		}
 		return string(rl.line), nil
 	}
@@ -109,17 +109,17 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 
 			s := string(rl.multiline)
-			rl.multisplit = rxMultiline.Split(s, -1)
+			rl.multiSplit = rxMultiline.Split(s, -1)
 
-			r = []rune(rl.multisplit[0])
+			r = []rune(rl.multiSplit[0])
 			rl.modeViMode = vimInsert
 			rl.readlineInput(r)
-			rl.carridgeReturn()
+			rl.carriageReturn()
 			rl.multiline = []byte{}
-			if len(rl.multisplit) > 1 {
-				rl.multisplit = rl.multisplit[1:]
+			if len(rl.multiSplit) > 1 {
+				rl.multiSplit = rl.multiSplit[1:]
 			} else {
-				rl.multisplit = []string{}
+				rl.multiSplit = []string{}
 			}
 			return string(rl.line), nil
 		}
@@ -234,7 +234,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				}
 				continue
 			}
-			rl.carridgeReturn()
+			rl.carriageReturn()
 			return string(rl.line), nil
 
 		case charBackspace, charBackspace2:
@@ -450,7 +450,7 @@ func (rl *Instance) SetPrompt(s string) {
 	rl.promptLen = strLen(s)
 }
 
-func (rl *Instance) carridgeReturn() {
+func (rl *Instance) carriageReturn() {
 	rl.clearHelpers()
 	print("\r\n")
 	if rl.HistoryAutoWrite {
