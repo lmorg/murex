@@ -23,6 +23,8 @@ files.
 
 * [And (`&&`) Logical Operator](parser/logical-and.md):
   Continues next operation if previous operation passes
+* [Append Pipe (`>>`) Token](parser/pipe-append.md):
+  Redirects STDOUT to a file and append its contents
 * [Array (`@`) Token](parser/array.md):
   Expand values as an array
 * [Arrow Pipe (`->`) Token](parser/pipe-arrow.md):

@@ -11,11 +11,11 @@
     Otherwise a new file is created.
   Usage: |-
     ```
-    <stdin> -> > filename
+    <stdin> |> filename
     ```
   Examples: |-
     ```
-    g * -> > files.txt
+    g * |> files.txt
     ```
   Detail:
   Synonyms:
@@ -26,6 +26,10 @@
   - pipe
   - g
   - tmp
+  - parser/pipe-arrow
+  - parser/pipe-posix
+  - commands/namedpipe
+  - parser/pipe-err
 
 
 - DocumentID: greater-than-greater-than
@@ -41,11 +45,11 @@
     Otherwise a new file is created.
   Usage: |-
     ```
-    <stdin> -> >> filename
+    <stdin> >> filename
     ```
   Examples: |-
     ```
-    g * -> >> files.txt
+    g * >> files.txt
     ```
   Detail:
   Synonyms:
@@ -56,6 +60,10 @@
   - pipe
   - g
   - tmp
+  - parser/pipe-arrow
+  - parser/pipe-posix
+  - commands/namedpipe
+  - parser/pipe-err
 
 
 - DocumentID: pt

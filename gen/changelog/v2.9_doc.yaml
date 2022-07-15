@@ -12,7 +12,7 @@
 
     Features:
 
-    * `>>` redirect (append to file) operator added. This is just syntactic sugar for `-> >>`. To redirect and overwrite a file use `|>` rather than `>`
+    * `>>` redirect (append to file) operator added. This is just syntactic sugar for `-> >>`. To redirect and overwrite/truncate a file use `|>` rather than `>`
 
     * Support for automatic globbing in the commandline. This has to be enabled via `config: set shell auto-glob true` and you will get prompted for each glob. Any globs inside blocks will be ignored and this only works on the interactive prompt (ie not in scripts or background processes) -- these limitations are not a bug but by design
     
@@ -35,6 +35,8 @@
     * Updated autocomplete for homebrew, `brew`
 
     * New autocomplete for AWS CLI, `aws`
+
+    * New autocomplete for yarn, `yarn`
 
     * _murex_ unit tests should report progressively rather than everything upon completion
 
@@ -63,5 +65,11 @@
     - commands/function
     - commands/private
     - commands/range
+    - user-guide/schedulers
+    - commands/try
+    - commands/trypipe
+    - parser/pipe-append
+    - commands/greater-than
+    - commands/greater-than-greater-than
 
   

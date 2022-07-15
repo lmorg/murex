@@ -1,6 +1,7 @@
 autocomplete set brew { [
 	{
-		"Flags": [
+		"CacheTTL": 31536000, # 1 year
+        "Flags": [
             # Built-in commands
             "--cache", "--env", "--version", "cleanup", "deps", "fetch", "home", "leaves", "log", "options", "postinstall", "search", "tap-info", "unlink", "update-report", "upgrade", "--caskroom", "--prefix", "analytics", "commands", "desc", "gist-logs", "info", "link", "migrate", "outdated", "readall", "shellenv", "tap", "unpin", "update-reset", "uses", "--cellar", "--repository", "cask", "config", "doctor", "help", "install", "list", "missing", "pin", "reinstall", "switch", "uninstall", "untap", "update", "vendor-install",
             
