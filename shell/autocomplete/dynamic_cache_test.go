@@ -33,8 +33,11 @@ func TestDynamicCache(t *testing.T) {
 		t.Errorf("out doesn't match expected: '%s'", string(out))
 	}
 
+	cache.mutex.Lock()
 	cache.gcSleep = 0
+	cache.mutex.Unlock()
 	go cache.garbageCollection()
+
 	time.Sleep(1 * time.Second)
 	cache.mutex.Lock()
 	if cache.hash[string(hash)].dataType != "str" {
