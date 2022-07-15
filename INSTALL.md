@@ -11,7 +11,7 @@ Windows due to the differences in how commands are executed on Windows. In some
 instances these bugs are significant to the user experience of _murex_ and
 cannot be worked around. The recommended approach for running _murex_ on
 Windows is to use a Linux port of the shell on a POSIX compatibility layer such
-as WSL or Cygwin. Please see (docs/FAQ.supported-platforms.md) for more details.
+as WSL or Cygwin. Please see the [supported platforms document](docs/FAQ.supported-platforms.md) for more details.
 
 ## Pre-Compiled Binaries (HTTPS download)
 
