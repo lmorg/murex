@@ -171,6 +171,8 @@ to return the same markdown-formatted document as those listed below. eg
   Evaluate a mathematical function and assign to variable
 * [`lockfile`](commands/lockfile.md):
   Create and manage lock files
+* [`man-get-flags` ](commands/man-get-flags.md):
+  Parses man page files for command line flags 
 * [`man-summary`](commands/man-summary.md):
   Outputs a man page summary of a command
 * [`map` ](commands/map.md):

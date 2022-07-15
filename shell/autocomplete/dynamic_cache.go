@@ -3,11 +3,14 @@ package autocomplete
 import (
 	"crypto/md5"
 	"strings"
+	"sync"
 	"time"
 )
 
 type dynamicCacheT struct {
-	hash map[string]dynamicCacheItemT
+	hash    map[string]dynamicCacheItemT
+	gcSleep int
+	mutex   sync.Mutex
 }
 
 type dynamicCacheItemT struct {
@@ -21,11 +24,12 @@ var dynamicCache = NewDynamicCache()
 func NewDynamicCache() *dynamicCacheT {
 	dc := new(dynamicCacheT)
 	dc.hash = make(map[string]dynamicCacheItemT)
+	dc.gcSleep = 5 // minutes
 	go dc.garbageCollection()
 	return dc
 }
 
-func (dc dynamicCacheT) CreateHash(exe string, args []string, block []rune) []byte {
+func (dc *dynamicCacheT) CreateHash(exe string, args []string, block []rune) []byte {
 	h := md5.New()
 
 	_, err := h.Write([]byte(exe))
@@ -51,6 +55,10 @@ func (dc dynamicCacheT) CreateHash(exe string, args []string, block []rune) []by
 
 func (dc *dynamicCacheT) Get(hash []byte) ([]byte, string) {
 	s := string(hash)
+
+	dc.mutex.Lock()
+	defer dc.mutex.Unlock()
+
 	cache := dc.hash[s]
 	if cache.time.After(time.Now()) {
 		return cache.stdout, cache.dataType
@@ -60,6 +68,9 @@ func (dc *dynamicCacheT) Get(hash []byte) ([]byte, string) {
 }
 
 func (dc *dynamicCacheT) Set(hash []byte, stdout []byte, dataType string, TTL int) {
+	dc.mutex.Lock()
+	defer dc.mutex.Unlock()
+
 	dc.hash[string(hash)] = dynamicCacheItemT{
 		time:     time.Now().Add(time.Duration(TTL) * time.Second),
 		stdout:   stdout,
@@ -69,11 +80,17 @@ func (dc *dynamicCacheT) Set(hash []byte, stdout []byte, dataType string, TTL in
 
 func (dc *dynamicCacheT) garbageCollection() {
 	for {
-		time.Sleep(5 * time.Minute)
+		dc.mutex.Lock()
+		sleep := dc.gcSleep
+		dc.mutex.Unlock()
+		time.Sleep(time.Duration(sleep) * time.Minute)
+
+		dc.mutex.Lock()
 		for hash := range dc.hash {
 			if dc.hash[hash].time.Before(time.Now()) {
 				delete(dc.hash, hash)
 			}
 		}
+		dc.mutex.Unlock()
 	}
 }

@@ -69,6 +69,7 @@ func init() {
 		"left":                  "left_commands_docgen.go",
 		"let":                   "let_commands_docgen.go",
 		"lockfile":              "lockfile_commands_docgen.go",
+		"man-get-flags":         "man-get-flags_commands_docgen.go",
 		"man-summary":           "man-summary_commands_docgen.go",
 		"map":                   "map_commands_docgen.go",
 		"match":                 "match_commands_docgen.go",

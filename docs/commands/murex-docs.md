@@ -38,6 +38,8 @@ These man pages are compiled into the _murex_ executable.
   Alters the data type of the previous function without altering it's output
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR
+* [commands/`man-get-flags` ](../commands/man-get-flags.md):
+  Parses man page files for command line flags 
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`tout`](../commands/tout.md):
