@@ -11,6 +11,9 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+
+	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/utils/rmbs"
 )
 
 var (
@@ -20,6 +23,7 @@ var (
 	rxMatchFlagsDarwin  = regexp.MustCompile(`\.It Fl ([a-zA-Z0-9])`)
 	rxMatchFlagsOther   = regexp.MustCompile(`\.B (.*?)`)
 	//rxMatchFlagsOther   = regexp.MustCompile(`\.B (.*?)\\fR`)
+	rxMatchFlagsNoFmt = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)=([_\-a-zA-Z0-9]+)`)
 
 	rxMatchGetFlag = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
 
@@ -48,33 +52,32 @@ func validMan(path string) bool {
 		!strings.HasSuffix(path, "test/cat.1.gz")
 }
 
-// ParseFlags runs the parser to locate any flags with hyphen prefixes
-func ParseFlags(paths []string) (flags []string) {
-	// Parse man pages
+// ParseByPaths runs the parser to locate any flags with hyphen prefixes
+func ParseByPaths(paths []string) []string {
 	fMap := make(map[string]bool)
 	for i := range paths {
 		if validMan(paths[i]) {
 			continue
 		}
-		parseFlags(&fMap, paths[i])
+		parseFlags(&fMap, createScanner(paths[i]))
 	}
 
+	flags := make([]string, len(fMap))
+	var i int
 	for f := range fMap {
-		flags = append(flags, f)
+		flags[i] = f
+		i++
 	}
 	sort.Strings(flags)
-	return
+	return flags
 }
 
-// old parsing
-func parseFlags(flags *map[string]bool, filename string) {
+func createScanner(filename string) (scanner *bufio.Scanner) {
 	file, err := os.Open(filename)
 	defer file.Close()
 	if err != nil {
 		return
 	}
-
-	var scanner *bufio.Scanner
 
 	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
 		gz, err := gzip.NewReader(file)
@@ -88,8 +91,29 @@ func parseFlags(flags *map[string]bool, filename string) {
 		scanner = bufio.NewScanner(file)
 	}
 
+	return
+}
+
+// ParseByStdio runs the parser to locate any flags with hyphen prefixes
+func ParseByStdio(stream stdio.Io) []string {
+	scanner := bufio.NewScanner(stream)
+
+	fMap := make(map[string]bool)
+	parseFlags(&fMap, scanner)
+
+	flags := make([]string, len(fMap))
+	var i int
+	for f := range fMap {
+		flags[i] = f
+		i++
+	}
+	sort.Strings(flags)
+	return flags
+}
+
+func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 	for scanner.Scan() {
-		s := scanner.Text()
+		s := rmbs.Remove(scanner.Text())
 
 		match := rxMatchFlagsEscaped.FindAllStringSubmatch(s, -1)
 		for i := range match {
@@ -146,6 +170,24 @@ func parseFlags(flags *map[string]bool, filename string) {
 
 				(*flags)[flag[j][1]] = true
 			}
+		}
+
+		match = rxMatchFlagsNoFmt.FindAllStringSubmatch(s, -1)
+		for i := range match {
+			if len(match[i]) != 3 {
+				continue
+			}
+
+			(*flags)[match[i][1]] = true
+		}
+
+		match = rxMatchGetFlag.FindAllStringSubmatch(s, -1)
+		for i := range match {
+			if len(match[i]) != 2 {
+				continue
+			}
+
+			(*flags)[match[i][1]] = true
 		}
 	}
 

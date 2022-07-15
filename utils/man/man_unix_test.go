@@ -32,7 +32,7 @@ func TestMan(t *testing.T) {
 		files = []string{gopath + "/src/github.com/lmorg/murex/test/cat.1.gz"}
 	}
 
-	flags := ParseFlags(files)
+	flags := ParseByPaths(files)
 	if len(flags) == 0 {
 		t.Errorf("No flags returned for `cat` in: %s", json.LazyLogging(files))
 	}
