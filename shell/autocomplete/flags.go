@@ -42,6 +42,7 @@ type Flags struct {
 	AllowAny         bool               // Allow any value to be input (eg user input that cannot be pre-determined)
 	AutoBranch       bool               // Autocomplete trees (eg directory structures) one branch at a time
 	ExecCmdline      bool               // Execute the commandline and pass it to STDIN when Dynamic/DynamicDesc used (potentially dangerous)
+	CacheTTL         int                // Length of time in seconds to cache autocomplete (defaults to 0)
 	//NoFlags       bool             // `true` to disable Flags[] slice and man page parsing
 }
 
@@ -103,8 +104,8 @@ func RuntimeDump() interface{} {
 }
 
 func scanManPages(exe string) []string {
-	f := man.GetManPages(exe)
-	return man.ParseFlags(f)
+	paths := man.GetManPages(exe)
+	return man.ParseByPaths(paths)
 }
 
 func allExecutables(includeBuiltins bool) map[string]bool {
