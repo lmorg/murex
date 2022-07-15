@@ -4,7 +4,9 @@
   CategoryID: changelog
   DateTime: 2022-07-15 20:35
   Summary: >-
-    This release sees a step up  
+    This release focuses on testing and REPL usability improvements but also
+    includes updates several new run modes to make error handling easier in
+    larger scripts.
   Description: |-
     Breaking Changes:
 

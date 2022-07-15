@@ -8,7 +8,7 @@ Track new features, any breaking changes, and the release history here.
 
 ### 15.07.2022 - [What's new in murex v2.9](changelog/v2.9.md)
 
-This release sees a step up  
+This release focuses on testing and REPL usability improvements but also includes updates several new run modes to make error handling easier in larger scripts.
 
 
 ### 23.05.2022 - [What's new in murex v2.8](changelog/v2.8.md)
