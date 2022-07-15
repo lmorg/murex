@@ -12,34 +12,74 @@ Below are the latest builds from the stable (`master`) branch.
 
 All files are approximately 6 MB in size (aside the Plan 9 builds which are 3 MB).
 
+### Darwin (macOS)
+
+The `arm64` builds should support the ARM-based M1 processor. However if you do
+run into any issues then log them at [github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
+and use the `amd64` builds in the meantime.
+
 * [murex-darwin-amd64.gz](https://murex.rocks/bin/latest/murex-darwin-amd64.gz)
 * [murex-darwin-arm64.gz](https://murex.rocks/bin/latest/murex-darwin-amd64.gz)
+
+### BSD's
+
+#### DragonflyBSD
 * [murex-dragonfly-amd64.gz](https://murex.rocks/bin/latest/murex-dragonfly-amd64.gz)
+
+#### FreeBSD
+
 * [murex-freebsd-386.gz](https://murex.rocks/bin/latest/murex-freebsd-386.gz)
 * [murex-freebsd-amd64.gz](https://murex.rocks/bin/latest/murex-freebsd-amd64.gz)
 * [murex-freebsd-arm.gz](https://murex.rocks/bin/latest/murex-freebsd-arm.gz)
+* [murex-freebsd-arm64.gz](https://murex.rocks/bin/latest/murex-freebsd-arm64.gz)
+
+#### NetBSD
+
+* [murex-netbsd-386.gz](https://murex.rocks/bin/latest/murex-netbsd-386.gz)
+* [murex-netbsd-amd64.gz](https://murex.rocks/bin/latest/murex-netbsd-amd64.gz)
+* [murex-netbsd-arm.gz](https://murex.rocks/bin/latest/murex-netbsd-arm.gz)
+* [murex-netbsd-arm64.gz](https://murex.rocks/bin/latest/murex-netbsd-arm64.gz)
+
+#### OpenBSD
+
+* [murex-openbsd-386.gz](https://murex.rocks/bin/latest/murex-openbsd-386.gz)
+* [murex-openbsd-amd64.gz](https://murex.rocks/bin/latest/murex-openbsd-amd64.gz)
+* [murex-openbsd-arm.gz](https://murex.rocks/bin/latest/murex-openbsd-arm.gz)
+* [murex-openbsd-arm64.gz](https://murex.rocks/bin/latest/murex-openbsd-arm64.gz)
+
+### Linux
+
 * [murex-linux-386.gz](https://murex.rocks/bin/latest/murex-linux-386.gz)
 * [murex-linux-amd64.gz](https://murex.rocks/bin/latest/murex-linux-amd64.gz)
 * [murex-linux-arm.gz](https://murex.rocks/bin/latest/murex-linux-arm.gz)
 * [murex-linux-arm64.gz](https://murex.rocks/bin/latest/murex-linux-arm64.gz)
-* [murex-netbsd-386.gz](https://murex.rocks/bin/latest/murex-netbsd-386.gz)
-* [murex-netbsd-amd64.gz](https://murex.rocks/bin/latest/murex-netbsd-amd64.gz)
-* [murex-netbsd-arm.gz](https://murex.rocks/bin/latest/murex-netbsd-arm.gz)
-* [murex-openbsd-386.gz](https://murex.rocks/bin/latest/murex-openbsd-386.gz)
-* [murex-openbsd-amd64.gz](https://murex.rocks/bin/latest/murex-openbsd-amd64.gz)
-* [murex-openbsd-arm.gz](https://murex.rocks/bin/latest/murex-openbsd-arm.gz)
+
+### Plan 9
+
+These builds should be treated as experimental.
+
 * [murex-plan9-386.gz](https://murex.rocks/bin/latest/murex-plan9-386.gz)
 * [murex-plan9-amd64.gz](https://murex.rocks/bin/latest/murex-plan9-amd64.gz)
 * [murex-plan9-arm.gz](https://murex.rocks/bin/latest/murex-plan9-arm.gz)
+
+### Solaris
+
+This build should be treated as experimental however unlike the other
+experimental builds (Plan 9 and Windows), Solaris is at least POSIX compliant
+so expect fewer issues than on the non-POSIX platforms.
+
 * [murex-solaris-amd64.gz](https://murex.rocks/bin/latest/murex-solaris-amd64.gz) 
+
+### Windows
+
+These builds should be treated as experimental. Please use the Linux builds in
+WSL (Windows Subsystem for Linux) for a more stable experience on Windows.
+
 * [murex-windows-386.exe.zip](https://murex.rocks/bin/latest/murex-windows-386.exe.zip)
 * [murex-windows-amd64.exe.zip](https://murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
 * [murex-windows-arm.exe.zip](https://murex.rocks/bin/latest/murex-windows-arm.exe.zip)
 
-> macOS (Darwin) builds for arm64 should support the ARM-based M1 processor.
-> However please treat these builds as experimental. If you do run into any
-> issues then log them at [github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
-> and use the amd64 builds in the meantime.
+## Download Instructions
 
 ### Linux / UNIX / macOS Instructions
 
