@@ -3,6 +3,10 @@
 
 package man
 
+import (
+	"github.com/lmorg/murex/lang/stdio"
+)
+
 // ScanManPages - windows doesn't have man pages so lets just create an empty
 // function that returns a zero-lengthed array so murex can compile on Windows
 // but without support for flag auto-detection.
