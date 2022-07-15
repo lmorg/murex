@@ -1,12 +1,14 @@
 package ranges
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/rmbs"
 )
 
 func init() {
@@ -16,13 +18,16 @@ func init() {
 
 const usage = "\nUsage: @[start..end] / @[start..end]se\n(start or end can be omitted)"
 
-var rxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([erns]*)\s*$`)
+var rxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8erns]*)\s*$`)
 
 type rangeParameters struct {
-	Exclude bool
-	Start   string
-	End     string
-	Match   rangeFuncs
+	Exclude    bool
+	RmBS       bool
+	StripBlank bool
+	TrimSpace  bool
+	Start      string
+	End        string
+	Match      rangeFuncs
 }
 
 type rangeFuncs interface {
@@ -53,6 +58,21 @@ func cmdRange(p *lang.Process) (err error) {
 	if strings.Contains(split[3], "e") {
 		r.Exclude = true
 		split[3] = strings.Replace(split[3], "e", "", -1)
+	}
+
+	if strings.Contains(split[3], "8") {
+		r.RmBS = true
+		split[3] = strings.Replace(split[3], "8", "", -1)
+	}
+
+	if strings.Contains(split[3], "b") {
+		r.StripBlank = true
+		split[3] = strings.Replace(split[3], "b", "", -1)
+	}
+
+	if strings.Contains(split[3], "t") {
+		r.TrimSpace = true
+		split[3] = strings.Replace(split[3], "t", "", -1)
 	}
 
 	if len(split[3]) > 1 {
@@ -97,6 +117,18 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 
 	err = p.Stdin.ReadArray(func(b []byte) {
 		if ended {
+			return
+		}
+
+		if r.RmBS {
+			b = []byte(rmbs.Remove(string(b)))
+		}
+
+		if r.TrimSpace {
+			b = bytes.TrimSpace(b)
+		}
+
+		if r.StripBlank && len(b) == 0 {
 			return
 		}
 

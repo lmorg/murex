@@ -22,7 +22,6 @@ after the remaining search criteria.
 Range over all months after March:
 
     » a: [January..December] -> @[March..]se
-    March
     April
     May
     June
@@ -44,6 +43,10 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
 
 ## Flags
 
+* `8`
+    handles backspace characters (char 8) instead of treating it like a printable character
+* `b`
+    removes blank (empty) lines from source
 * `e`
     exclude the start and end search criteria from the range
 * `n`
@@ -52,10 +55,13 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
     regexp match
 * `s`
     exact string match
+* `t`
+    trims whitespace from source
 
 ## Synonyms
 
 * `@[`
+* `range`
 
 
 ## See Also

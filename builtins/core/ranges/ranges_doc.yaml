@@ -20,7 +20,6 @@
 
     ```
     » a: [January..December] -> @[March..]se
-    March
     April
     May
     June
@@ -47,9 +46,13 @@
     s: exact string match
     r: regexp match
     e: exclude the start and end search criteria from the range
+    b: removes blank (empty) lines from source
+    t: trims whitespace from source
+    8: handles backspace characters (char 8) instead of treating it like a printable character
   Detail: |-
   Synonyms:
   - "@["
+  - range
   Related:
   - prepend
   - append
