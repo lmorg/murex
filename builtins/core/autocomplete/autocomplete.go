@@ -93,8 +93,11 @@ func set(p *lang.Process) error {
 		return err
 	}
 
+	// So we don't have nil values in JSON
+	if flags[0].CacheTTL == 0 {
+		flags[0].CacheTTL = 5
+	}
 	for i := range flags {
-		// So we don't have nil values in JSON
 		if len(flags[i].Flags) == 0 {
 			flags[i].Flags = make([]string, 0)
 		}
