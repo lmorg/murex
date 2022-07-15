@@ -60,23 +60,34 @@ is not possible to do so.
 
 There is an order of precedence for which commands are looked up:
 
-1. `test` and `pipe` functions because they alter the behavior of the compiler
+1. `runmode`: this is executed before the rest of the script. It is invoked by
+   the pre-compiler forking process and is required to sit at the top of any
+   scripts.
 
-2. Aliases - defined via `alias`. All aliases are global
-
-3. _murex_ functions - defined via `function`. All functions are global
+1. `test` and `pipe` functions also alter the behavior of the compiler and thus
+   are executed ahead of any scripts.
 
 4. private functions - defined via `private`. Private's cannot be global and
    are scoped only to the module or source that defined them. For example, You
-   cannot call a private function from the interactive command line
+   cannot call a private function directly from the interactive command line
+   (however you can force an indirect call via `fexec`).
 
-5. variables (dollar prefixed) - declared via `set` or `let`
+2. Aliases - defined via `alias`. All aliases are global.
 
-6. auto-globbing prefix: `@g`
+3. _murex_ functions - defined via `function`. All functions are global.
 
-7. murex builtins
+5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
+   Also environmental variables too, declared via `export`.
 
-8. external executable files
+6. Auto-globbing prefix: `@g`. This is largely a deprecated feature, replaced
+   with a smarter auto-globbing parser that can be enabled via `config: set
+   shell auto-glob true`.
+
+7. _murex_ builtins.
+
+8. External executable files
+
+You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
