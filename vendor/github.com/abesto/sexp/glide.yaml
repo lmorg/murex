@@ -1,7 +1,0 @@
-package: github.com/abesto/sexp
-import: []
-testImport:
-- package: github.com/stretchr/testify
-  version: ^1.1.3
-  subpackages:
-  - assert
