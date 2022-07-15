@@ -37,7 +37,7 @@ A non-exhaustive list features would include:
 ## Type system
 
 _murex_ supports multiple data types natively; such as JSON, YAML, CSV, 
-S-Expressions and even loosely tabulated terminal output (eg `ps`, `ls -l`).
+S-Expressions and even vaguely tabulated terminal output (eg `ps`, `ls -l`).
 This makes passing data through the pipeline and parsing output easier when
 dealing with more complex arrangements of data.
 
