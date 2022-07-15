@@ -2,7 +2,9 @@ package lang
 
 import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 )
 
@@ -13,6 +15,40 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 
 	if tree == nil {
 		panic("nil tree")
+	}
+
+	rm := parent.RunMode
+	if len(*tree) > 0 && (*tree)[0].Name == "runmode" {
+		params := parameters.Parameters{Tokens: (*tree)[0].ParamTokens}
+		err := ParseParameters(parent, &params)
+		if err != nil {
+			return nil, ErrUnableToParseParametersInRunmode
+		}
+
+		switch params.StringAll() {
+		case "try function":
+			rm = runmode.FunctionTry
+			parent.Scope.RunMode = rm
+
+		case "trypipe function":
+			rm = runmode.FunctionTryPipe
+			parent.Scope.RunMode = rm
+
+		case "try module":
+			rm = runmode.ModuleTry
+			parent.Scope.RunMode = rm
+			ModuleRunModes[parent.FileRef.Source.Module] = rm
+
+		case "trypipe module":
+			rm = runmode.ModuleTryPipe
+			parent.Scope.RunMode = rm
+			ModuleRunModes[parent.FileRef.Source.Module] = rm
+
+		default:
+			return nil, ErrInvalidParametersInRunmode
+		}
+
+		*tree = (*tree)[1:]
 	}
 
 	procs = make([]Process, len(*tree))
@@ -27,14 +63,13 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
 		procs[i].WaitForTermination = make(chan bool)
-		procs[i].RunMode = parent.RunMode
+		procs[i].RunMode = rm //parent.RunMode //rm
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = parent.Variables
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
 		procs[i].Done = func() {}
 		procs[i].Kill = func() {}
-		//procs[i].hasTerminated = make(chan bool, 1)
 		procs[i].PromptId = parent.PromptId
 		procs[i].CCEvent = parent.CCEvent
 		procs[i].CCExists = parent.CCExists

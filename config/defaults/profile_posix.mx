@@ -20,6 +20,14 @@ config: set shell prompt {
     }
 }
 
+if { which: less } then {
+    function murex-docs {
+        # Wrapper around builtin to pipe to less
+        config: set proc strict-arrays false
+        fexec: builtin murex-docs @PARAMS | less
+    }
+}
+
 config: set shell prompt-multiline {
     let len = ${pwd_short -> egrep -o '[^/]+$' -> wc -c} - 1
     printf "%${$len}s » " $linenum

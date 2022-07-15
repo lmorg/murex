@@ -48,7 +48,8 @@ to install. See the next section for package manager support.
 You will need `go` (Golang) compiler, `gcc` (C compiler) and `git` installed
 as well as your `$GOPATH` environmental variable set. 
 
-> Go 1.13 or higher is recommended
+> Go 1.15 or higher is recommended. While _murex_ should compile on earlier
+> versions, some tests and/or concurrency features may not be stable.
 
 These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems

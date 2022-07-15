@@ -32,15 +32,12 @@ steps: &steps
         command: |
           GOOS=js GOARCH=wasm go build -o murex.wasm .
 
-
 env: &env
   environment:
     GOPATH: /go
     MUREX_BUILD_FLAGS: --no-colour
     MUREX_TEST_NO_EXEC_DEPS: true
     MUREX_TEST_SKIP_MAN: true
-
-
   
 jobs:
   website:
@@ -130,8 +127,6 @@ workflows:
     jobs:
       - website
       - latest
-      - go1.13
-      - go1.14
       - go1.15
       - go1.16
       - go1.17

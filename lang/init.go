@@ -40,14 +40,14 @@ func InitEnv() {
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	ShellProcess.Kill = func() {}
-	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.Name}}
+	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
 
 	if FlagTry {
-		ShellProcess.RunMode = runmode.Try
+		ShellProcess.RunMode = runmode.ModuleTry
 	}
 
 	if FlagTryPipe {
-		ShellProcess.RunMode = runmode.TryPipe
+		ShellProcess.RunMode = runmode.ModuleTryPipe
 	}
 
 	// Sets $SHELL to be murex

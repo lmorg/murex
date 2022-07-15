@@ -65,7 +65,7 @@ func testUnitRun(p *lang.Process) error {
 		return err
 	}
 
-	err = p.Config.Set("test", "auto-report", false, p.FileRef)
+	err = p.Config.Set("test", "auto-report", true, p.FileRef)
 	if err != nil {
 		return err
 	}

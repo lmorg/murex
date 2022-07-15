@@ -242,6 +242,22 @@ hr {
   margin-right: 40px;
 }
 
+.ddg {
+  overflow: hidden;
+  margin: 5px;
+  padding: 0px;
+  width: 160px;
+  height: 40px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #800000;
+  border-width: 2px
+}
+
+.ddg:hover, .ddg:focus {
+  border-color: #ff2020;
+}
+
 @media screen and (max-width: 678px) {
   body { background-color: #e0e0da; margin: 0px; background-image: linear-gradient(to bottom, #800000, #e0e0da); background-repeat: repeat-x; }
   p { margin: 0px; margin-bottom: 10px; }
@@ -259,6 +275,7 @@ hr {
   h2, h3 { margin-right: 0px; }
   hr { margin-right: 0px; }
   li { padding-right: 0px; }
+  .ddg { margin: 0px 0px 0px 10px; width:308px; border-width: 0px; }
 }
 
 #burger {
@@ -286,12 +303,7 @@ hr {
 #toggle-mobile-menu:checked + #side-bar {
   display: block;
   height: 100%;
-  /*border-radius: 0px 0px 5px 5px;*/
 }
-
-/*#toggle-mobile-menu:checked ~ #document {
-  display: none;
-}*/
 
 #burger-text {
   display: flex;

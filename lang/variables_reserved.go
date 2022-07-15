@@ -41,3 +41,8 @@ func getHostname() string {
 	name, _ := os.Hostname()
 	return name
 }
+
+func getPwd() string {
+	pwd, _ := os.Getwd()
+	return pwd
+}

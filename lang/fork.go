@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
-	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
@@ -72,6 +71,8 @@ const (
 	F_NO_STDERR
 )
 
+var ModuleRunModes map[string]runmode.RunMode = make(map[string]runmode.RunMode)
+
 // Fork is a forked process
 type Fork struct {
 	*Process
@@ -93,10 +94,6 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.PromptId = p.PromptId
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.PromptId = p.PromptId
-	/*if p.Id != ShellProcess.Id {
-		fork.CCEvent = p.CCEvent
-		fork.CCExists = p.CCExists
-	}*/
 
 	fork.IsMethod = p.IsMethod
 	fork.OperatorLogicAnd = p.OperatorLogicAnd
@@ -108,14 +105,14 @@ func (p *Process) Fork(flags int) *Fork {
 
 	if p.Id == ShellProcess.Id {
 		fork.ExitNum = ShellExitNum
-	} else {
-		fork.RunMode = p.RunMode
 	}
 
 	if flags&F_NEW_MODULE == 0 {
 		fork.FileRef = p.FileRef
-	} else {
-		fork.FileRef = &ref.File{Source: new(ref.Source)}
+		//} else {
+		/*fork.FileRef = &ref.File{Source: &ref.Source{
+			Module: fmt.Sprintf("murex/undefined-%d", time.Now().Unix()),
+		}}*/
 	}
 
 	if flags&F_FUNCTION != 0 {
@@ -135,6 +132,13 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
 		fork.Parameters.CopyFrom(&p.Parameters)
+
+		if p.Scope.RunMode > runmode.Default {
+			fork.RunMode = p.Scope.RunMode
+		}
+		if p.RunMode > runmode.Default {
+			fork.RunMode = p.RunMode
+		}
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:
@@ -216,28 +220,6 @@ func (p *Process) Fork(flags int) *Fork {
 	return fork
 }
 
-// ExecuteAsRunMode is a wrapper function for handling forks that need to
-// comply with runmode changes (eg `try` and `trypipe` blocks). It returns err
-// if the child process raises a runmode error and that should be returned in
-// the calling builtin. Functions that shouldn't make use of this is processes
-// that are spawned by the shell (eg dynamic autocomplete blocks or events).
-func (fork *Fork) ExecuteAsRunMode(block []rune) error {
-	fork.RunMode = fork.Parent.RunMode
-	i, err := fork.Execute(block)
-	if fork.RunMode != runmode.Try && fork.RunMode != runmode.TryPipe {
-		return nil
-	}
-
-	if err != nil {
-		return err
-	}
-	if i != 0 {
-		return fmt.Errorf("non-zero exit code: %d", i)
-	}
-
-	return nil
-}
-
 // Execute will run a murex code block
 func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	switch {
@@ -249,6 +231,11 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		panic("missing module name in (fork *Fork).Execute()")
 	case fork.Name.String() == "":
 		panic("missing function name in (fork *Fork).Execute()")
+	}
+
+	moduleRunMode := ModuleRunModes[fork.FileRef.Source.Module]
+	if moduleRunMode > 0 && fork.RunMode == 0 {
+		fork.RunMode = moduleRunMode
 	}
 
 	fork.Stdout.Open()
@@ -292,17 +279,17 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 
 	// Support for different run modes:
 	switch fork.RunMode {
-	case runmode.Normal:
+	case runmode.Default, runmode.Normal:
 		exitNum = runModeNormal(procs)
 
-	case runmode.Try:
+	case runmode.BlockTry, runmode.FunctionTry, runmode.ModuleTry:
 		exitNum = runModeTry(procs)
 
-	case runmode.TryPipe:
+	case runmode.BlockTryPipe, runmode.FunctionTryPipe, runmode.ModuleTryPipe:
 		exitNum = runModeTryPipe(procs)
 
-	//case runmode.Evil:
-	//	panic("Not yet implemented")
+	case runmode.Evil:
+		panic("Not yet implemented")
 
 	default:
 		panic("Unknown run mode")
@@ -320,6 +307,10 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 			}
 		}
 	}
+
+	/*if fork.RunMode.IsStrict() && exitNum > 0 {
+		return exitNum, fmt.Errorf("non-zero exit code: %d", exitNum)
+	}*/
 
 	return
 }

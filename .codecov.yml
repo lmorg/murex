@@ -1,8 +1,8 @@
 codecov:
-  require_ci_to_pass: no
+  require_ci_to_pass: false
   notify:
     after_n_builds: 1
-    wait_for_ci: no
+    wait_for_ci: false
 
 coverage:
   status:
@@ -25,7 +25,9 @@ coverage:
 ignore:
   - "vendor"                # not my project files
   - "builtins/import_build" # these should just be copies of import_src
+  - "**/*_test.go"          # Go test files (you shouldn't test test files)
   - "**/*.mx"               # these are tested outside of codecov
   - "**/*.sh"               # these are just for bootstrapping development
+  - "**/*.test"             # files generated for testing
   - "tools/docgen"          # this is a separate project for bootstrapping development
   - "tools/wasmserver"      # this is also a separate project for bootstrapping development

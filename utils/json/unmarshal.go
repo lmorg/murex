@@ -182,10 +182,5 @@ func unmarshalMurex(data []byte, v interface{}) error {
 		}
 	}
 
-	//debug.Json("Murex JSON comments", comments)
-	//debug.Json("Murex JSON braces", replace)
-	//debug.Log(string(data))
-	//debug.Log(s)
-
 	return Unmarshal([]byte(s), v)
 }

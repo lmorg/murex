@@ -2,14 +2,18 @@ package lang
 
 import (
 	"fmt"
+	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
-	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/ansi/codes"
+	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/home"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 var (
@@ -28,6 +32,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	if err != nil {
 		strictArrays = true
 	}
+
+	autoGlob, err := prc.Config.Get("shell", "auto-glob", "bool")
+	if err != nil {
+		autoGlob = false
+	}
+	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0
 
 	for i := range p.Tokens {
 		params = append(params, "")
@@ -50,7 +60,35 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeString:
+			case parameters.TokenTypeGlob:
+				if !autoGlob.(bool) || prc.Parent.Id != ShellProcess.Id || prc.Background.Get() || !Interactive {
+					params[len(params)-1] += p.Tokens[i][j].Key
+
+				} else {
+					match, globErr := filepath.Glob(p.Tokens[i][j].Key)
+					glob, err := autoGlobPrompt(p.Tokens[i][j].Key, match)
+					if err != nil {
+						return err
+					}
+					if glob {
+						if globErr != nil {
+							return fmt.Errorf("invalid glob: '%s'\n%s", p.Tokens[i][j].Key, err.Error())
+						}
+						if len(match) == 0 {
+							return fmt.Errorf("glob returned zero results.\nglob: '%s'", p.Tokens[i][j].Key)
+						}
+						if !tCount {
+							params = params[:len(params)-1]
+						}
+						params = append(params, match...)
+					} else {
+						params[len(params)-1] += p.Tokens[i][j].Key
+					}
+				}
+				tCount = true
+				namedPipeIsParam = true
+
+			case parameters.TokenTypeVarString:
 				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
 					return err
@@ -60,14 +98,13 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeBlockString:
+			case parameters.TokenTypeVarBlockString:
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				exitNum, err := fork.Execute([]rune(p.Tokens[i][j].Key))
 				if err != nil {
 					return fmt.Errorf("subshell failed: %s", err.Error())
 				}
-				if exitNum > 0 &&
-					(prc.RunMode == runmode.Try || prc.RunMode == runmode.TryPipe) {
+				if exitNum > 0 && prc.RunMode.IsStrict() {
 					return fmt.Errorf("subshell exit status %d", exitNum)
 				}
 				b, err := fork.Stdout.ReadAll()
@@ -81,7 +118,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeArray:
+			case parameters.TokenTypeVarArray:
 				data, err := prc.Variables.GetString(p.Tokens[i][j].Key)
 				if err != nil {
 					return err
@@ -118,7 +155,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeBlockArray:
+			case parameters.TokenTypeVarBlockArray:
 				var array []string
 
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
@@ -140,8 +177,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeIndex:
-				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
+			case parameters.TokenTypeVarIndex:
+				//debug.Log("parameters.TokenTypeVarIndex:", p.Tokens[i][j].Key)
 				match := rxTokenIndex.FindStringSubmatch(p.Tokens[i][j].Key)
 				if len(match) != 3 {
 					params[len(params)-1] = p.Tokens[i][j].Key
@@ -163,8 +200,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeElement:
-				//debug.Log("parameters.TokenTypeIndex:", p.Tokens[i][j].Key)
+			case parameters.TokenTypeVarElement:
+				//debug.Log("parameters.TokenTypeVarIndex:", p.Tokens[i][j].Key)
 				match := rxTokenElement.FindStringSubmatch(p.Tokens[i][j].Key)
 				if len(match) != 3 {
 					params[len(params)-1] = p.Tokens[i][j].Key
@@ -186,12 +223,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				tCount = true
 				namedPipeIsParam = true
 
-			case parameters.TokenTypeRange:
+			case parameters.TokenTypeVarRange:
 				// TODO: write me!
-				debug.Log("parameters.TokenTypeRange:", p.Tokens[i][j].Key)
+				debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
 				//panic("TODO: write me!")
 
-			case parameters.TokenTypeTilde:
+			case parameters.TokenTypeVarTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
 					params[len(params)-1] += home.MyDir
 				} else {
@@ -218,4 +255,41 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	p.DefineParsed(params)
 
 	return nil
+}
+
+func autoGlobPrompt(before string, match []string) (bool, error) {
+	rl := readline.NewInstance()
+	prompt := fmt.Sprintf("Do you wish to expand '%s'? [Yn]: ", before)
+	rl.SetPrompt(prompt)
+	rl.HintText = func(_ []rune, _ int) []rune { return autoGlobPromptHintText(rl, match) }
+	rl.History = new(readline.NullHistory)
+
+	for {
+		line, err := rl.Readline()
+		if err != nil {
+			return false, err
+		}
+
+		switch strings.ToLower(line) {
+		case "", "y", "yes":
+			return true, nil
+		case "n", "no":
+			return false, nil
+		}
+	}
+}
+
+var warningNoGlobMatch = "Warning: no files match that pattern"
+
+func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
+	if len(match) == 0 {
+		rl.HintFormatting = codes.FgRed
+		return []rune(warningNoGlobMatch)
+	}
+
+	slice := make([]string, len(match))
+	copy(slice, match)
+	escape.CommandLine(slice)
+	after := strings.Join(slice, " ")
+	return []rune(after)
 }

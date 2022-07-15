@@ -68,6 +68,8 @@ details about specific hooks.
   generic (primitive)
 * [`commonlog` ](types/commonlog.md):
   Apache httpd "common" log format
+* [`csv` ](types/csv.md):
+  CSV files (and other character delimited tables)
 * [`float` (floating point number)](types/float.md):
   Floating point number (primitive)
 * [`hcl` ](types/hcl.md):

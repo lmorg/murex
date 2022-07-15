@@ -51,9 +51,9 @@ command.
   Lists all running functions within the current _murex_ session
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [commands/`runmode`](../commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/evil](../commands/evil.md):
-  

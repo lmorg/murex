@@ -10,7 +10,7 @@ type ParserError struct {
 // murex script parsing error codes:
 const (
 	NoParsingErrors = 0 + iota
-	ErrUnexpectedColon
+	//ErrUnexpectedColon
 	ErrUnexpectedPipeTokenPipe
 	ErrUnexpectedPipeTokenEqGt
 	ErrUnexpectedPipeTokenQm
@@ -29,16 +29,18 @@ const (
 	ErrUnexpectedLogicAnd
 	ErrPipingToNothing
 	ErrUnknownParserErrorPipe
+	ErrUnableToParseParametersInRunmode
+	ErrInvalidParametersInRunmode
 )
 
 var errMessages = []string{
 	"No errors. Block successfully parsed",
-	"Unquoted or unescaped colon located in function parameters",
+	//"Unquoted or unescaped colon located in function parameters",
 	"Pipe token, `|`, preceding function name",
 	"Pipe token, `=>`, preceding function name",
 	"Pipe token, `?`, preceding function name",
 	"Unquoted or unescaped opening curly brace in function parameters",
-	"Unquoted or unescaped closinging curly brace in function parameters",
+	"Unquoted or unescaped closing curly brace in function parameters",
 	"Unexpected closing curly brace, `}`, as no matching opening curly brace found",
 	"Unexpected closing quotation brace, `)`, as no matching opening quotation brace found",
 	"Unexpected end of script. Escape token used but with no character escaped",
@@ -52,6 +54,8 @@ var errMessages = []string{
 	"Logic AND, `&&`, preceding function name",
 	"Piping out to nothing. Commands should not be terminated by a pipe token (`|`, `->`, `=>`, or ` ?`)",
 	"Unexpected error parsing `|`. Reason unknown. Please file a bug at https://github.com/lmorg/murex/issues",
+	"Unable to parse parameters in `runmode`",
+	"Invalid parameters in `runmode`",
 }
 
 func raiseErr(code, endByte int) ParserError {

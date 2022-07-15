@@ -26,11 +26,11 @@
   - tout
   - err
   - brace-quote
-  - sprintf
   - cast
   - greater-than
   - greater-than-greater-than
   - out
   - tread
+  - man-get-flags
 
 

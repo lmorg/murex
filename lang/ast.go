@@ -24,7 +24,8 @@ type AstNodes []AstNode
 // Last node in the AST array
 func (n *AstNodes) Last() *AstNode {
 	if len(*n) == 0 {
-		return &(*n)[0]
+		//return &(*n)[0]
+		return nil
 	}
 	return &(*n)[len(*n)-1]
 }

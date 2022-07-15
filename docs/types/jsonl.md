@@ -161,6 +161,8 @@ cases for JSON lines.
   Outputs an element from an array, map or table
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
+* [types/`csv` ](../types/csv.md):
+  CSV files (and other character delimited tables)
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
 * [commands/`format`](../commands/format.md):
@@ -181,7 +183,5 @@ cases for JSON lines.
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/csv](../types/csv.md):
-  
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

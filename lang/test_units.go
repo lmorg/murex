@@ -74,10 +74,19 @@ func (ut *UnitTests) Run(p *Process, function string) bool {
 		exists bool
 	)
 
+	autoreport, err := p.Config.Get("test", "auto-report", "bool")
+	if err != nil {
+		autoreport = true
+	}
+
 	for i := range utCopy {
 		if function == "*" || utCopy[i].Function == function {
-			passed = passed && runTest(p.Tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, utCopy[i].Function)
+			passed = runTest(p.Tests.Results, utCopy[i].FileRef, utCopy[i].TestPlan, utCopy[i].Function) && passed
 			exists = true
+		}
+
+		if autoreport.(bool) {
+			p.Tests.WriteResults(p.Config, p.Stdout)
 		}
 	}
 
@@ -89,14 +98,10 @@ func (ut *UnitTests) Run(p *Process, function string) bool {
 			Status:   TestError,
 			Message:  fmt.Sprintf("No unit tests exist for: `%s`", function),
 		})
-	}
 
-	v, err := p.Config.Get("test", "auto-report", "bool")
-	if err != nil {
-		v = true
-	}
-	if v.(bool) {
-		p.Tests.WriteResults(p.Config, p.Stdout)
+		if autoreport.(bool) {
+			p.Tests.WriteResults(p.Config, p.Stdout)
+		}
 	}
 
 	return passed
@@ -425,7 +430,6 @@ func altFunc(path string, fork *Fork) (int, error) {
 
 func runAutocomplete(path string, split []string, fork *Fork) (int, error) {
 	return 0, errors.New("TODO: Not currently supported")
-	//autocomplete.MatchFlags()
 }
 
 func runOpen(path string, split []string, fork *Fork) (int, error) {

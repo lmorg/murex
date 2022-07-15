@@ -70,13 +70,13 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 			if byVal {
 				pass, err = compareConditional(p, val, caseIf)
 				if err != nil {
-					return fmt.Errorf("error comparing %s statement, %s conditional: %s",
+					return fmt.Errorf("error comparing %s statement, %s conditional:\n%s",
 						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error())
 				}
 			} else {
 				pass, err = executeConditional(p, caseIf)
 				if err != nil {
-					return fmt.Errorf("error executing %s statement, %s conditional: %s",
+					return fmt.Errorf("error executing %s statement, %s conditional:\n%s",
 						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error())
 				}
 			}
@@ -84,7 +84,7 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 			if pass {
 				err = executeThen(p, thenBlock)
 				if err != nil {
-					return fmt.Errorf("error executing %s statement, then block: %s",
+					return fmt.Errorf("error executing %s statement, then block:\n%s",
 						humannumbers.Ordinal(i+1), err.Error())
 				}
 
@@ -97,7 +97,7 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 				}
 			}
 
-		case "catch":
+		case "catch", "else", "default":
 			if prevIfPassed {
 				return nil
 			}
@@ -109,13 +109,16 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 
 			err = executeThen(p, thenBlock)
 			if err != nil {
-				return fmt.Errorf("error executing %s statement, catch block: %s",
+				return fmt.Errorf("error executing %s statement, catch block:\n%s",
 					humannumbers.Ordinal(i+1), err.Error())
 			}
 
 			return nil
-		}
 
+		default:
+			return fmt.Errorf("error executing %s statement, `%s` is not a valid statement.\nExpecting `case`, `if`, `catch`",
+				humannumbers.Ordinal(i+1), (*ast)[i].Name)
+		}
 	}
 
 	if !prevIfPassed {
@@ -143,7 +146,7 @@ func validateStatementParameters(ast *lang.AstNodes, params *parameters.Paramete
 		case 3:
 			if params.StringArray()[1] != "then" {
 				return nil, nil,
-					fmt.Errorf("too many parameters for %s statement (%s) or typo in statements. Expecting 'then' statement but found: '%s'\n%s",
+					fmt.Errorf("too many parameters for %s statement (%s) or typo in statements.\nExpecting 'then' statement\nFound: '%s'\n%s",
 						humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
 			}
 			adjust = 1

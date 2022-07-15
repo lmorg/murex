@@ -9,8 +9,9 @@ func TestBasicMapsBoolean(t *testing.T) {
 			Expected: `{"foo":true}`,
 		},
 		{
-			Json:     `{'foo': false}`,
-			Expected: `{"foo":false}`,
+			Json: `{'foo': false}`,
+			//Expected: `{"foo":false}`,
+			Error: true,
 		},
 		{
 			Json:     `{"foo":true}`,
@@ -50,8 +51,9 @@ func TestBasicMapsNumbers(t *testing.T) {
 			Expected: `{"foo":1}`,
 		},
 		{
-			Json:     `{'foo': 1 }`,
-			Expected: `{"foo":1}`,
+			Json: `{'foo': 1 }`,
+			//Expected: `{"foo":1}`,
+			Error: true,
 		},
 		{
 			Json:     `{"foo":1}`,
@@ -96,8 +98,9 @@ func TestBasicMaps(t *testing.T) {
 			Expected: `{"foo":"bar"}`,
 		},
 		{
-			Json:     `{'foo': 'bar'}`,
-			Expected: `{"foo":"bar"}`,
+			Json: `{'foo': 'bar'}`,
+			//Expected: `{"foo":"bar"}`,
+			Error: true,
 		},
 		{
 			Json:     `{"foo": (bar)}`,
@@ -170,7 +173,8 @@ func TestQuotedColon(t *testing.T) {
 						"DynamicDesc": 'out: foobar',
 						"Optional": true
 					}`,
-			Expected: `{"DynamicDesc":"out: foobar","Optional":true}`,
+			//Expected: `{"DynamicDesc":"out: foobar","Optional":true}`,
+			Error: true,
 		},
 		{
 			Json: `{
@@ -235,7 +239,31 @@ func TestHungProcess(t *testing.T) {
 							#}
 						#}
 					]}`,
-			Expected: `{"":[{}]}`,
+			//Expected: `{"":[{}]}`,
+			Error: true,
+		},
+	}
+
+	runTestCases(t, tests)
+}
+
+func TestComments(t *testing.T) {
+	tests := []testCase{
+		{
+			Json:     "{ \"foo\": \"bar\"\n# \\\\ \n}",
+			Expected: `{"foo":"bar"}`,
+		},
+		{
+			Json:     "{ \"foo\": \"bar\"\n# #\\\\ \n}",
+			Expected: `{"foo":"bar"}`,
+		},
+		{
+			Json:     "{ \"foo\": \"bar\"\n# \\\\#\\\\ \n}",
+			Expected: `{"foo":"bar"}`,
+		},
+		{
+			Json:     "{ \"foo\": \"\\\\#bar\"\n# \\#\\ \n}",
+			Expected: `{"foo":"#bar"}`,
 		},
 	}
 

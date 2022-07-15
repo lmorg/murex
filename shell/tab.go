@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
@@ -17,9 +18,9 @@ import (
 func errCallback(err error) {
 	s := err.Error()
 	if ansi.IsAllowed() {
-		s = ansi.Reset + ansi.FgRed + s
+		s = codes.Reset + codes.FgRed + s
 	}
-	Prompt.SetHintText(s)
+	Prompt.ForceHintTextUpdate(s)
 }
 
 var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)

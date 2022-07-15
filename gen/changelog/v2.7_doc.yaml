@@ -78,14 +78,14 @@
     
     * Lots of fuzzing added -- a few edge case bugs discovered
   Related:
-    - command/event
-    - command/config
-    - command/openagent
-    - command/autoglob
-    - command/read
-    - command/function
+    - commands/event
+    - commands/config
+    - commands/openagent
+    - commands/autoglob
+    - commands/read
+    - commands/function
     - user-guide/reserved-vars
-    - syntax/logical-and
-    - syntax/logical-or
+    - parser/logical-and
+    - parser/logical-or
 
   

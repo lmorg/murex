@@ -46,7 +46,7 @@ Categories:
     - OutputPath: docs/commands
       CategoryFile: ../GUIDE.builtin-functions.md
       OutputExt: .md
-      CategoryTemplate: gen/murex-md-cat.tmpl
+      CategoryTemplate: gen/commands-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
 
     - OutputPath: builtins/docs
@@ -121,6 +121,12 @@ Categories:
       OutputExt: .md
       CategoryTemplate: gen/murex-md-cat.tmpl
       DocumentTemplate: gen/commands-md-doc.tmpl
+
+    - OutputPath: builtins/docs
+      CategoryFile: 
+      OutputExt: _commands_docgen.go
+      CategoryTemplate: 
+      DocumentTemplate: gen/commands-go-doc.tmpl
 
   - ID: parser
     Title: Parser Reference

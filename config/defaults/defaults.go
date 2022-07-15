@@ -230,6 +230,13 @@ func Defaults(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "auto-glob", config.Properties{
+		Description: "Automatically expand globs in the REPL shell (globs in functions / modules will still need to be invoked via the `g` function)",
+		Default:     false,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{

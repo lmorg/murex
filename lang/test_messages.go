@@ -15,7 +15,8 @@ package lang
 
 import "fmt"
 
-func tMsgPassed() string { return "All test conditions were met" }
+//func tMsgPassed() string { return "All test conditions were met" }
+func tMsgPassed() string { return "-" }
 func tMsgStdout(property string, stdout []byte) string {
 	return fmt.Sprintf("%s output: %s", property, stdout)
 }

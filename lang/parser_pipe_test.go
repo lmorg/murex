@@ -384,13 +384,8 @@ func TestParserPipeErr(t *testing.T) {
 			Expected: []parserTestSimpleExpected{
 				{
 					Name:       "foo",
-					Parameters: []string{},
-					Method:     TEST_NEW_PIPE | TEST_PIPE_ERR,
-				},
-				{
-					Name:       "bar",
-					Parameters: []string{},
-					Method:     TEST_METHOD,
+					Parameters: []string{"?bar"},
+					Method:     TEST_NEW_PIPE,
 				},
 			},
 		},

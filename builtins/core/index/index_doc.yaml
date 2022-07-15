@@ -90,6 +90,7 @@
   Synonyms:
   - "["
   - "!["
+  - index
   Related:
   - range
   - count

@@ -226,6 +226,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   JSON Lines (primitive)
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array with data type included
 * [commands/`open`](../commands/open.md):
   Open a file with a preferred handler
 * [commands/`pretty`](../commands/pretty.md):
@@ -236,7 +238,5 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [apis/lang.ArrayWithTypeTemplate](../apis/lang.ArrayWithTypeTemplate.md):
-  
 * [types/mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

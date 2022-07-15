@@ -20,29 +20,33 @@ that otherwise wouldn't be part of the same pipeline. See [GUIDE.syntax](GUIDE.s
 for more details on named pipes.
 
 To redirect to a file you can use the `>` or `>>` functions. They work
-similarly to bash except that they are functions rather than tokens:
+similarly to bash except that they are functions rather than tokens. This means
+they literally work like the following:
 
-    out: "message" ->> new-file.txt
-    out: "message" ->>> append-file.txt
+    out: "message" -> >  new-file.txt
+    out: "message" -> >> append-file.txt
 
-(these can be written as `-> >` / `-> >>` respectively since they are
-literally just inbuilt functions).
+However this is clearly ugly in practice. So the following syntactic sugar is
+supported, `|>` for overwrite and `>>` for append:
 
-## Embeddable subshells
+    out: "message" |> new-file.txt
+    out: "message" >> append-file.txt
 
-There are two types of embeddable subshells: strings and arrays.
+## Emendable sub-shells
 
-* string subshells, `${ command }`, take the results from the subshell
+There are two types of emendable sub-shells: strings and arrays.
+
+* string sub-shells, `${ command }`, take the results from the sub-shell
 and return it as a single parameter. Equivalent to the following in bash:
-`command "$(subshell command)"`.
+`command "$(sub-shell command)"`.
 
-* array subshells, `@{ command }`, take the results from the subshell
+* array sub-shells, `@{ command }`, take the results from the sub-shell
 and expand it as parameters. Arrays can be multiple lines (like in Bash)
 or array objects in more complex data formats like JSON. Unlike bash,
 other white spaces such as tabs and space characters are not counted as
 separators for walking through arrays. This is intentional to allow line
 formatting and space characters in file names. Array shells are
-equivalent to the following in Bash: `command $(subshell command)`
+equivalent to the following in Bash: `command $(sub-shell command)`
 
 Examples:
 
@@ -53,13 +57,13 @@ Examples:
 The reason _murex_ breaks from the POSIX tradition of using backticks and
 parentheses is because _murex_ works on the principle that everything inside
 a curly bracket is considered a new block of code. Typically that would mean
-a subshell however sometimes it could be configuration code in the form of
+a sub-shell however sometimes it could be configuration code in the form of
 inlined JSON.
 
 ## Globbing
 
 There isn't auto-expansion of globbing to protect against accidental
-damage. Instead globbing is achieved via subshells using either:
+damage. Instead globbing is achieved via sub-shells using either:
 
 * `g` (traditional globbing)
 * `rx` (regexp matching in current directory only)
@@ -92,14 +96,14 @@ in _murex_. Instead there a separate command `exitnum`:
 ## Array expansion
 
 In bash you can expand arrays using the following syntax: `a{1..5}b`. In
-_murex_ this is another subshell process: `a: a[1..5]b`. As you can see,
+_murex_ this is another sub-shell process: `a: a[1..5]b`. As you can see,
 _murex_ also uses square brackets instead as well. There are a few other
 changes, read [GUIDE.arrays-and-maps](GUIDE.arrays-and-maps.md#the-array-builtin)
 for more on using the `array` builtin.
 
 ## Back ticks
 
-In _murex_ back ticks do not spawn subshells. Back ticks are treated
+In _murex_ back ticks do not spawn sub-shells. Back ticks are treated
 like a regular, printable, character. Their only special function is
 quoting strings in `=`, eg:
 

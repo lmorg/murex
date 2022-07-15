@@ -210,7 +210,7 @@ func cmdRuntime(p *lang.Process) error {
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:
-			return errors.New("unrecognised parameter: " + flag)
+			return errors.New("unrecognized parameter: " + flag)
 		}
 	}
 

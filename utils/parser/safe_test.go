@@ -10,11 +10,11 @@ import (
 )
 
 func TestIsSafeCmdsBuiltins(t *testing.T) {
-	safeCmds := parser.GetSafeCmds()
+	safeCmdsLocal := parser.GetSafeCmds()
 
-	count.Tests(t, len(safeCmds))
+	count.Tests(t, len(safeCmdsLocal))
 
-	for _, cmd := range safeCmds {
+	for _, cmd := range safeCmdsLocal {
 		if lang.GoFunctions[cmd] == nil {
 			t.Errorf("Command hardcoded in safe whitelist but is not a builtin: %s", cmd)
 		}

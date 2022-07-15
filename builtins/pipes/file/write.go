@@ -14,10 +14,10 @@ func (f *File) Write(b []byte) (int, error) {
 	defer f.mutex.Unlock()
 
 	if f == nil || f.file == nil {
-		return 0, errors.New("No file open")
+		return 0, errors.New("no file open")
 	}
 
-	if f.dependants < 1 {
+	if f.dependents < 1 {
 		return 0, io.ErrClosedPipe
 	}
 
@@ -32,24 +32,7 @@ func (f *File) Write(b []byte) (int, error) {
 
 // Writeln is the io.Writeln interface
 func (f *File) Writeln(b []byte) (int, error) {
-	f.mutex.Lock()
-	defer f.mutex.Unlock()
-
-	if f == nil || f.file == nil {
-		return 0, errors.New("No file open")
-	}
-
-	if f.dependants < 1 {
-		return 0, io.ErrClosedPipe
-	}
-
-	f.mutex.Unlock()
-	i, err := f.file.Write(append(b, utils.NewLineByte...))
-
-	f.mutex.Lock()
-	f.bWritten += uint64(i)
-
-	return i, err
+	return f.Write(append(b, utils.NewLineByte...))
 }
 
 // WriteArray performs data type specific buffered writes to an stdio.Io interface

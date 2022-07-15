@@ -23,7 +23,7 @@ func strLen(s string) int {
 }
 
 func (rl *Instance) echo() {
-	if len(rl.multisplit) == 0 {
+	if len(rl.multiSplit) == 0 {
 		rl.syntaxCompletion()
 	}
 

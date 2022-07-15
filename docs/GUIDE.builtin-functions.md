@@ -57,6 +57,8 @@ to return the same markdown-formatted document as those listed below. eg
   Writes STDIN to disk - overwriting contents if file already exists
 * [`@[` (range) ](commands/range.md):
   Outputs a ranged subset of data from STDIN
+* [`@g` (autoglob) ](commands/autoglob.md):
+  Command prefix to expand globbing
 * [`[[` (element)](commands/element.md):
   Outputs an element from a nested structure
 * [`[` (index)](commands/index.md):
@@ -169,6 +171,8 @@ to return the same markdown-formatted document as those listed below. eg
   Evaluate a mathematical function and assign to variable
 * [`lockfile`](commands/lockfile.md):
   Create and manage lock files
+* [`man-get-flags` ](commands/man-get-flags.md):
+  Parses man page files for command line flags 
 * [`man-summary`](commands/man-summary.md):
   Outputs a man page summary of a command
 * [`map` ](commands/map.md):
@@ -225,6 +229,8 @@ to return the same markdown-formatted document as those listed below. eg
   Regexp tools for arrays / lists of strings
 * [`right`](commands/right.md):
   Right substring every item in a list
+* [`runmode`](commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
 * [`runtime`](commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):
@@ -241,10 +247,6 @@ to return the same markdown-formatted document as those listed below. eg
   Defines a summary help text for a command
 * [`switch`](commands/switch.md):
   Blocks of cascading conditionals
-* [`swivel-datatype`](commands/swivel-datatype.md):
-  Converts tabulated data into a map of values for serialised data-types such as JSON and YAML
-* [`swivel-table`](commands/swivel-table.md):
-  Rotates a table by 90 degrees
 * [`ta` (mkarray)](commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
 * [`tabulate`](commands/tabulate.md):
@@ -269,3 +271,18 @@ to return the same markdown-formatted document as those listed below. eg
   Get _murex_ version
 * [`while`](commands/while.md):
   Loop until condition false
+
+## Optional Builtins
+
+* [`base64` ](optional/base64.md):
+  Encode or decode a base64 string
+* [`!bz2` ](optional/bz2.md):
+  Decompress a bz2 file
+* [`gz` ](optional/gz.md):
+  Compress or decompress a gzip file
+* [`qr` ](optional/qr.md):
+  Creates a QR code from STDIN
+* [`select` ](optional/select.md):
+  Inlining SQL into shell pipelines
+* [`sleep` ](optional/sleep.md):
+  Suspends the shell for a number of seconds

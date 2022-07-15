@@ -1,13 +1,13 @@
-package runmode
+package runmode_test
 
 import (
 	"testing"
 
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/test/count"
 )
 
-// TestRunmodeStringer tests stringer has ran
-func TestRunmodeStringer(t *testing.T) {
+func TestRunModeStringer(t *testing.T) {
 	count.Tests(t, 5)
 
 	defer func() {
@@ -17,8 +17,39 @@ func TestRunmodeStringer(t *testing.T) {
 		}
 	}()
 
-	t.Log(Normal.String())
-	t.Log(Try.String())
-	t.Log(TryPipe.String())
-	t.Log(Evil.String())
+	t.Log(runmode.Normal.String())
+	t.Log(runmode.Evil.String())
+	t.Log(runmode.BlockTry.String())
+	t.Log(runmode.BlockTryPipe.String())
+	/*t.Log(runmode.FunctionTry.String())
+	t.Log(runmode.FunctionTryPipe.String())
+	t.Log(runmode.ModuleTry.String())
+	t.Log(runmode.ModuleTryPipe.String())*/
+}
+
+func TestRunModeIsStrict(t *testing.T) {
+	tests := []struct {
+		RunMode runmode.RunMode
+		Strict  bool
+	}{
+		{runmode.Normal, false},
+		{runmode.Evil, false},
+		{runmode.BlockTry, true},
+		{runmode.BlockTryPipe, true},
+		/*{runmode.FunctionTry, true},
+		{runmode.FunctionTryPipe, true},
+		{runmode.ModuleTry, true},
+		{runmode.ModuleTryPipe, true},*/
+	}
+
+	count.Tests(t, len(tests))
+
+	for i, test := range tests {
+		if test.Strict != test.RunMode.IsStrict() {
+			t.Errorf("Unexpected return from IsStrict in test %d", i)
+			t.Logf("  RunMode:  %d (%s)", test.RunMode, test.RunMode.String())
+			t.Logf("  Expected: %v", test.Strict)
+			t.Logf("  Actual:   %v", test.RunMode.IsStrict())
+		}
+	}
 }

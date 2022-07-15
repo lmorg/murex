@@ -1126,3 +1126,97 @@ func TestSwitchByValCaseIfBlock4(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestSwitchErrors(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `switch`,
+			Stderr:  `No parameters`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `switch foobar`,
+			Stderr:  `not a valid code block`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `switch foo bar`,
+			Stderr:  `not a valid code block`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `switch foo bar baz`,
+			Stderr:  `Too many`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `switch {"}`,
+			Stderr:  `Double quotes not closed`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `switch foo {"}`,
+			Stderr:  `Double quotes not closed`,
+			ExitNum: 1,
+		},
+		/*{
+			Block:   `switch { $foobar }`,
+			Stderr:  `Double quotes not closed`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `switch foo { $foobar }`,
+			Stderr:  `Double quotes not closed`,
+			ExitNum: 1,
+		},*/
+		{
+			Block:   `switch foo { foobar }`,
+			Stderr:  `not a valid statement`,
+			ExitNum: 1,
+		},
+		{
+			Block:   "switch foo { if {false} }",
+			Stderr:  `too few parameters`,
+			ExitNum: 1,
+		},
+		{
+			Block:   "switch foo { if {)} { out yes } }",
+			Stderr:  `if conditional:\n\s+> syntax error at`,
+			ExitNum: 1,
+		},
+		/*{
+			Block:   "switch foo { if {true} {)} }",
+			Stderr:  `if conditional:\n\s+> syntax error at`,
+			ExitNum: 1,
+		},*/
+		{
+			Block:   "switch foo { case {)} { out yes } }",
+			Stderr:  `case conditional:\n\s+> syntax error at`,
+			ExitNum: 1,
+		},
+		/*{
+			Block:   "switch foo { case {true} {)} }",
+			Stderr:  `if conditional:\n\s+> syntax error at`,
+			ExitNum: 1,
+		},*/
+		{
+			Block:   "switch foo { catch {)} }",
+			Stderr:  `catch block:\n\s+> syntax error at`,
+			ExitNum: 1,
+		},
+		{ // nothing matched but no error
+			Block:   `switch foo { if "bob" { out "yes" } }`,
+			Stdout:  `^$`,
+			Stderr:  `^$`,
+			ExitNum: 1,
+		},
+		{ // nothing matched but no error
+			Block:   `switch foo { if "bob" { out "yes" }; catch {} }`,
+			Stdout:  `^$`,
+			Stderr:  `^$`,
+			ExitNum: 0,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}

@@ -19,7 +19,7 @@ import (
 func SignalHandler(interactive bool) {
 	c := make(chan os.Signal, 1)
 
-	if Interactive {
+	if interactive {
 		// Interactive, so we will handle stop
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
 	} else {

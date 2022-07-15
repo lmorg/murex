@@ -1,6 +1,7 @@
 autocomplete set brew { [
 	{
-		"Flags": [
+		"CacheTTL": 31536000, # 1 year
+        "Flags": [
             # Built-in commands
             "--cache", "--env", "--version", "cleanup", "deps", "fetch", "home", "leaves", "log", "options", "postinstall", "search", "tap-info", "unlink", "update-report", "upgrade", "--caskroom", "--prefix", "analytics", "commands", "desc", "gist-logs", "info", "link", "migrate", "outdated", "readall", "shellenv", "tap", "unpin", "update-reset", "uses", "--cellar", "--repository", "cask", "config", "doctor", "help", "install", "list", "missing", "pin", "reinstall", "switch", "uninstall", "untap", "update", "vendor-install",
             
@@ -24,73 +25,10 @@ autocomplete set brew { [
 	},
     {
         "DynamicDesc": ({
+            cast: json
             config: set proc strict-arrays false
             brew help @{ $ARGS->@[1..] } -> tabulate: --map --split-comma --column-wraps
         }),
         "ListView": true
     }
 ] }
-
-null {
-# brew commands -> grep -v '==>' -> cast str
-mkautocomplete {
-    # Compiles a persistent autocomplete file optimised for executables with a slow launch time
-
-    set usage = (Example usage:
-$ARGS[0] cmd {
-    "VersionPin":      ({ cmd -v }),      # --- required
-    "topDynamic":      ({ code-block }),  # \__ one or
-    "topDynamicDesc":  ({ code-block }),  # /     both
-    "topInclude":      { json },          # --- optional
-    "flagDynamic":     ({ code-block }),  # \__ one or
-    "flagDynamicDesc": ({ code-block }),  # /     other
-    "flagInclude":     { json }           # --- optional
-})
-
-    mkdir -p ~/.murex_modules/.mkautocomplete
-
-    !if { $ARGS[2] } then {
-        err "Invalid usage!"
-        err $usage
-    }
-
-    !if { $ARGS[2]->[VersionPin] } then {
-        err "Invalid usage!"
-        err $usage
-    }
-
-    set cmd=$ARGS[1]
-    open <!null> ~/.murex_modules/.mkautocomplete/$cmd.version -> set oldVersion
-    open <!null> ~/.murex_modules/.mkautocomplete/$cmd.autocomplete -> set oldAutocomplete
-
-    set f=${$ARGS[2]} # lazier flag notation
-
-    trypipe {
-        source $f[VersionPin] -> set newVersion
-        if { "$oldVersion" == "$newVersion" } then {
-            autocomplete $cmd $oldAutocomplete
-            false
-        }
-
-        if { $f[topDynamic] } then {
-            source $f[topDynamic] -> set topDynamic
-        } else {
-            set json topDynamic="[]"
-        }
-        
-        if { $f[topDynamicDesc] } then {
-            source $f[topDynamicDesc] -> set topDynamicDesc
-        } else {
-            set json topDynamicDesc="{}"
-        }
-
-        #if { $f[flagDynamic] } then {
-        #    source $f[flagDynamic] -> foreach
-        #}  
-
-        tout json ({
-
-})
-    }
-}
-}

@@ -1,7 +1,10 @@
 package structs
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
@@ -82,9 +85,13 @@ func TestFunction(t *testing.T) {
 	}
 }
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 func TestPrivate(t *testing.T) {
 	fn := "TestPrivate"
-	mod := "GoTest"
+	mod := fmt.Sprintf("GoTest-%d", rand.Int())
 
 	count.Tests(t, 2)
 

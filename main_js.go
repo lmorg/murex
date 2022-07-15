@@ -1,3 +1,4 @@
+//go:build js
 // +build js
 
 package main
@@ -62,7 +63,7 @@ func wasmShellExec() js.Func {
 			// This way, we don't block the event loop and avoid a deadlock
 			go func() {
 				fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-				fork.FileRef.Source.Module = app.Name
+				fork.FileRef.Source.Module = app.ShellModule
 				fork.Stderr = term.NewErr(ansi.IsAllowed())
 				var err error
 				lang.ShellExitNum, err = fork.Execute([]rune(block))

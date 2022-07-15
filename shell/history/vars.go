@@ -1,6 +1,7 @@
 package history
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -193,7 +194,11 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 		if pErr.Code != lang.NoParsingErrors {
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
-		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
+		node := nodes.Last()
+		if node == nil {
+			return "", errors.New("cannot expand last parameter")
+		}
+		p := parameters.Parameters{Tokens: node.ParamTokens}
 		err := lang.ParseParameters(lang.ShellProcess, &p)
 		if err != nil {
 			return s, err

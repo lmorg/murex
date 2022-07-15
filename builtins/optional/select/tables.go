@@ -249,15 +249,6 @@ func runQuery(p *lang.Process, db *sql.DB, dt string, tables []string, parameter
 
 	rows, err := db.QueryContext(p.Context, query)
 	if err != nil {
-		/*r, _ := db.Query(".tables")
-		var (
-			s []string
-			t [][]string
-		)
-		r.Scan(&s)
-		for rows.Next() {
-			t = append(t, s)
-		}*/
 		return fmt.Errorf("cannot query table: %s\nSQL: %s", err.Error(), query)
 	}
 

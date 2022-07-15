@@ -9,7 +9,7 @@ import (
 func TestParserVariableBlockString1(t *testing.T) {
 	params := [][]parameters.ParamToken{{
 		{Key: "-", Type: parameters.TokenTypeValue},
-		{Key: "block", Type: parameters.TokenTypeBlockString},
+		{Key: "block", Type: parameters.TokenTypeVarBlockString},
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 
@@ -69,7 +69,7 @@ func TestParserVariableBlockString3(t *testing.T) {
 func TestParserVariableBlockString4(t *testing.T) {
 	params := [][]parameters.ParamToken{{
 		{Key: "-", Type: parameters.TokenTypeValue},
-		{Key: "{block}", Type: parameters.TokenTypeBlockString},
+		{Key: "{block}", Type: parameters.TokenTypeVarBlockString},
 		{Key: "-", Type: parameters.TokenTypeValue},
 	}}
 

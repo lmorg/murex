@@ -22,7 +22,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -157,13 +157,13 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 	case "table":
 		pipe.SetDataType(types.Generic)
 
-		if reportPipe.(string) == "" {
-			pipe.Writeln([]byte(consts.TestTableHeadings))
-		}
+		//if reportPipe.(string) == "" {
+		//	pipe.Writeln([]byte(consts.TestTableHeadings))
+		//}
 
 		var colour, reset string
 		if ansiColour.(bool) {
-			reset = "\x1b[0m"
+			reset = codes.Reset
 		}
 		for _, r := range tests.Results.results {
 			if !verbose.(bool) && (r.Status == TestMissed || r.Status == TestInfo) {
@@ -173,22 +173,21 @@ func (tests *Tests) WriteResults(config *config.Config, pipe stdio.Io) error {
 			if ansiColour.(bool) {
 				switch r.Status {
 				case TestPassed:
-					colour = "\x1b[32m"
+					colour = codes.FgGreen
 				case TestFailed, TestError:
-					colour = "\x1b[31m"
+					colour = codes.FgRed
 				case TestMissed, TestInfo:
-					colour = "\x1b[34m"
+					colour = codes.FgBlue
 				case TestState:
-					colour = "\x1b[33m"
+					colour = codes.FgYellow
 				}
 			}
 
-			s := fmt.Sprintf("[%s%-6s%s] %-10s %-50s %-4d %-4d %s",
-				colour, r.Status, reset,
+			s := fmt.Sprintf("%s[%s%-6s%s] %-10s %4d:%-4d %-50s %s",
+				reset, colour, r.Status, reset,
 				r.TestName,
+				r.LineNumber, r.ColNumber,
 				params(r.Exec, r.Params),
-				r.LineNumber,
-				r.ColNumber,
 				left(escape(r.Message)),
 			)
 

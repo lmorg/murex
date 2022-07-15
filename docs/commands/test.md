@@ -100,5 +100,3 @@ flushes the table of pending reports.
   Reads from a _murex_ named pipe
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [parser/namedpipe](../parser/namedpipe.md):
-  

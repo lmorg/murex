@@ -35,7 +35,7 @@ func TestCommandLine(t *testing.T) {
 		t.Errorf("Numeric characters have been modified to: %s", s[2])
 	}
 
-	if s[3] != `!\"£\$%^&*\(\)_+[]{};\'\#:\@~\\\|,./\<\>\?` {
+	if s[3] != `!\"£\$%^&\*\(\)_+[]{};\'\#:\@~\\\|,./\<\>\?` {
 		t.Errorf("Extended characters have not been modified correctly: %s", s[3])
 	}
 

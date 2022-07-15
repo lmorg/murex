@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
-	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/virtualterm"
 )
 
@@ -113,7 +113,7 @@ func TestWriteSgrBasicExportHtml(t *testing.T) {
 	count.Tests(t, 1)
 
 	term := virtualterm.NewTerminal(120, 1)
-	test := fmt.Sprintf("Normal%sBold%sUnderscore%sReset", ansi.Bold, ansi.Underscore, ansi.Reset)
+	test := fmt.Sprintf("Normal%sBold%sUnderscore%sReset", codes.Bold, codes.Underscore, codes.Reset)
 	exp1 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-bold sgr-underscore">Underscore</span><span class="">Reset</span><span class="">                                                                                               
 </span>`
 	exp2 := `<span class="">Normal</span><span class="sgr-bold">Bold</span><span class="sgr-underscore sgr-bold">Underscore</span><span class="">Reset</span><span class="">                                                                                               

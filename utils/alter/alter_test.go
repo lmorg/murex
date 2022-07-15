@@ -316,3 +316,14 @@ func TestUpdateArrayDiffDataTypesString(t *testing.T) {
 
 	alterTest(t, &test)
 }
+
+func TestUpdateArrayFloat(t *testing.T) {
+	test := plan{
+		original: `[ 1.1, 2.2, 3.3 ]`,
+		path:     "/1",
+		change:   `4.4`,
+		expected: `[ 1.1, 4.4, 3.3 ]`,
+	}
+
+	alterTest(t, &test)
+}

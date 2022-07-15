@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
@@ -21,10 +22,6 @@ import (
 )
 
 var (
-	// Interactive describes whether murex is running as an interactive shell
-	// or not
-	Interactive bool
-
 	// Prompt is the readline instance
 	Prompt = readline.NewInstance()
 
@@ -48,7 +45,7 @@ func Start() {
 
 	var err error
 
-	Interactive = true
+	lang.Interactive = true
 	Prompt.TempDirectory = consts.TempDir
 	Prompt.TabCompleter = tabCompletion
 	Prompt.SyntaxCompleter = syntaxCompletion
@@ -72,7 +69,7 @@ func Start() {
 
 // ShowPrompt display's the shell command line prompt
 func ShowPrompt() {
-	if !Interactive {
+	if !lang.Interactive {
 		panic("shell.ShowPrompt() called before initialising prompt with shell.Start()")
 	}
 
@@ -203,7 +200,7 @@ func ShowPrompt() {
 			merged = ""
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
-			fork.FileRef.Source.Module = app.Name
+			fork.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
 			fork.Stderr = term.NewErr(ansi.IsAllowed())
 			fork.PromptId = thisProc
 			fork.CCEvent = lang.ShellProcess.CCEvent
@@ -297,7 +294,7 @@ func spellchecker(r []rune) []rune {
 	if err != nil && !ignoreSpellCheckErr {
 		ignoreSpellCheckErr = true
 		hint := fmt.Sprintf("{RED}Spellchecker error: %s{RESET} {BLUE}https://murex.rocks/docs/user-guide/spellcheck.html{RESET}", err.Error())
-		Prompt.SetHintText(ansi.ExpandConsts(hint))
+		Prompt.ForceHintTextUpdate(ansi.ExpandConsts(hint))
 	}
 
 	ignoreSpellCheckErr = false // reset ignore status

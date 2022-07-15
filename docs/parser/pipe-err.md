@@ -38,11 +38,11 @@ like any ordinary printable character:
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [user-guide/Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
+* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+  Reads from a _murex_ named pipe
 * [commands/`err`](../commands/err.md):
   Print a line to the STDERR
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [parser/pipe-named](../parser/pipe-named.md):
-  

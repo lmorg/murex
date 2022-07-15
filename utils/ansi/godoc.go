@@ -1,2 +1,2 @@
-// Package ansi provides APIs for writing common ASNI escape sequences to the terminal
+// Package ansi provides APIs for writing common ANSI escape sequences to the terminal
 package ansi

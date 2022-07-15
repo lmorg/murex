@@ -50,11 +50,11 @@ handles the exceptions raised by the aforementioned.
   Overview of the different schedulers (or 'run modes') in _murex_
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [commands/`runmode`](../commands/runmode.md):
+  Alter the scheduler's behaviour at higher scoping level
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [commands/`try`](../commands/try.md):
   Handles errors inside a block of code
 * [commands/`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [commands/evil](../commands/evil.md):
-  

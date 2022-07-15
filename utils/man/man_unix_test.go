@@ -1,12 +1,15 @@
+//go:build !windows
 // +build !windows
 
 package man
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/json"
 )
 
 // TestMan tests the builtins package
@@ -19,17 +22,23 @@ func TestMan(t *testing.T) {
 	count.Tests(t, 3)
 
 	files := GetManPages("cat")
-	if len(files) == 0 {
-		t.Error("Could not find any man pages")
+	if len(files) == 0 || strings.Contains(files[0], "'unminimize'") {
+		t.Log("Could not find any man pages so reverting to local copy")
+
+		gopath := os.Getenv("GOPATH")
+		if gopath == "" {
+			t.Errorf("env var GOPATH is not set")
+		}
+		files = []string{gopath + "/src/github.com/lmorg/murex/test/cat.1.gz"}
 	}
 
-	flags := ParseFlags(files)
+	flags := ParseByPaths(files)
 	if len(flags) == 0 {
-		t.Error("No flags returned for `cat`")
+		t.Errorf("No flags returned for `cat` in: %s", json.LazyLogging(files))
 	}
 
 	s := ParseSummary(files)
 	if s == "" {
-		t.Error("No description returned for `cat`")
+		t.Errorf("No summary returned for `cat` in: %s", json.LazyLogging(files))
 	}
 }

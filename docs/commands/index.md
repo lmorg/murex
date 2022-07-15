@@ -85,6 +85,7 @@ you can disable this behavior in `config`
 
 * `[`
 * `![`
+* `index`
 
 
 ## See Also

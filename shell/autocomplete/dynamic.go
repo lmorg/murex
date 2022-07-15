@@ -60,20 +60,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 	}*/
 
 	go func() {
-		// Run the commandline if ExecCmdline flag set AND commandline considered safe
-		var fStdin int
-		cmdlineStdout := streams.NewStdin()
-		if f.ExecCmdline && !act.ParsedTokens.Unsafe {
-			cmdline := lang.ShellProcess.Fork(lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
-			cmdline.Stdout = cmdlineStdout
-			cmdline.Name.Set(args.exe)
-			cmdline.FileRef = ExesFlagsFileRef[args.exe]
-			cmdline.Execute(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken])
-
-		} else {
-			fStdin = lang.F_NO_STDIN
-		}
-
 		// don't share incomplete parameters with dynamic autocompletion blocks
 		params := act.ParsedTokens.Parameters
 		switch len(params) {
@@ -84,22 +70,60 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			params = params[:len(params)-1]
 		}
 
-		// Execute the dynamic code block
-		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-		fork.Name.Set(args.exe)
-		fork.Parameters.DefineParsed(params)
-		fork.FileRef = ExesFlagsFileRef[args.exe]
-		if f.ExecCmdline && !act.ParsedTokens.Unsafe {
-			fork.Stdin = cmdlineStdout
-		}
-		fork.Process.Variables.Set(fork.Process, "ISMETHOD", act.ParsedTokens.PipeToken != parser.PipeTokenNone, types.Boolean)
-		exitNum, err := fork.Execute(block)
+		cacheHash := dynamicCache.CreateHash(args.exe, params, block)
+		cacheB, cacheDT := dynamicCache.Get(cacheHash)
+		stdout := streams.NewStdin()
 
-		if err != nil {
-			lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete code could not compile: " + err.Error()))
-		}
-		if exitNum != 0 && debug.Enabled {
-			lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
+		if len(cacheB) == 0 {
+			// Run the commandline if ExecCmdline flag set AND commandline considered safe
+			var fStdin int
+			cmdlineStdout := streams.NewStdin()
+			if f.ExecCmdline && !act.ParsedTokens.Unsafe {
+				cmdline := lang.ShellProcess.Fork(lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_NO_STDERR)
+				cmdline.Stdout = cmdlineStdout
+				cmdline.Name.Set(args.exe)
+				cmdline.FileRef = ExesFlagsFileRef[args.exe]
+				cmdline.Execute(act.ParsedTokens.Source[:act.ParsedTokens.LastFlowToken])
+
+			} else {
+				fStdin = lang.F_NO_STDIN
+			}
+
+			stdin := streams.NewStdin()
+			var tee *streams.Tee
+			tee, stdout = streams.NewTee(stdin)
+
+			// Execute the dynamic code block
+			fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_BACKGROUND | fStdin | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+			fork.Name.Set(args.exe)
+			fork.Parameters.DefineParsed(params)
+			fork.FileRef = ExesFlagsFileRef[args.exe]
+			if f.ExecCmdline && !act.ParsedTokens.Unsafe {
+				fork.Stdin = cmdlineStdout
+			}
+			fork.Stdout = tee
+			fork.Process.Variables.Set(fork.Process, "ISMETHOD", act.ParsedTokens.PipeToken != parser.PipeTokenNone, types.Boolean)
+
+			exitNum, err := fork.Execute(block)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete code could not compile: " + err.Error()))
+			}
+			if exitNum != 0 && debug.Enabled {
+				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete returned a none zero exit number." + utils.NewLineString))
+			}
+
+			b, err := tee.ReadAll()
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete cache error: " + err.Error()))
+			}
+			dynamicCache.Set(cacheHash, b, tee.GetDataType(), ExesFlags[args.exe][0].CacheTTL)
+
+		} else {
+			stdout.SetDataType(cacheDT)
+			_, err := stdout.Write(cacheB)
+			if err != nil {
+				lang.ShellProcess.Stderr.Writeln([]byte("dynamic autocomplete cache error: " + err.Error()))
+			}
 		}
 
 		select {
@@ -130,7 +154,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				incManPages bool
 			)
 
-			err := fork.Stdout.ReadArray(func(b []byte) {
+			err := stdout.ReadArray(func(b []byte) {
 				//s := string(bytes.TrimSpace(b))
 				s := string(b)
 
@@ -204,7 +228,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				wait <- true
 			}
 
-			fork.Stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
+			stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
 				if strings.HasPrefix(key, partial) {
 					value = strings.Replace(value, "\r", "", -1)
 					value = strings.Replace(value, "\n", " ", -1)

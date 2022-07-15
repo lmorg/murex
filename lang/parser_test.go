@@ -127,22 +127,6 @@ func testParser(t *testing.T, tests []parserTestConditions) {
 	}
 }
 
-/*func queryParser(t *testing.T, block string) string {
-	t.Helper()
-
-	nodes, pErr := parser([]rune(block))
-	if pErr.Code != 0 {
-		t.Errorf("Error at %d: %s", pErr.EndByte, pErr.Message)
-	}
-
-	b, err := json.Marshal(nodes, true)
-	if err != nil {
-		t.Errorf("Error marshalling nodes as JSON: %s", err)
-	}
-
-	return string(b)
-}*/
-
 type parserTestSimpleConditions struct {
 	Block    string
 	Expected []parserTestSimpleExpected

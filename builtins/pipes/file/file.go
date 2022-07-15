@@ -26,14 +26,14 @@ func NewFile(name string) (_ stdio.Io, err error) {
 	if err != nil {
 		return nil, err
 	}
-	f.dependants++
+	//f.dependents++
 	return f, err
 }
 
 // Open file writer
 func (f *File) Open() {
 	f.mutex.Lock()
-	f.dependants++
+	f.dependents++
 	f.mutex.Unlock()
 }
 
@@ -41,17 +41,19 @@ func (f *File) Open() {
 func (f *File) Close() {
 	f.mutex.Lock()
 
-	f.dependants--
-	if f.dependants == 0 {
+	f.dependents--
+	if f.dependents == 0 {
 		f.file.Close()
 	}
 
-	if f.dependants < 0 {
-		panic("more closed dependants than open")
+	if f.dependents < 0 {
+		panic("more closed dependents than open")
 	}
 
 	f.mutex.Unlock()
 }
 
 // ForceClose forces the stream.Io interface to close.
-func (f *File) ForceClose() {}
+func (f *File) ForceClose() {
+	f.file.Close()
+}

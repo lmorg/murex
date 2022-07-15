@@ -48,6 +48,8 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 * [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
+* [user-guide/Code Block Parsing](../user-guide/code-block.md):
+  Overview of how code blocks are parsed
 * [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [apis/`Marshal()` (type)](../apis/Marshal.md):
@@ -84,5 +86,3 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [types/`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [parser/code-block](../parser/code-block.md):
-  

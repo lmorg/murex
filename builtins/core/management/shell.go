@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/parser"
 )
 
@@ -16,6 +17,7 @@ func init() {
 	lang.DefineMethod("murex-parser", cmdParser, types.String, types.Json)
 	lang.DefineFunction("summary", cmdSummary, types.Null)
 	lang.DefineFunction("!summary", cmdBangSummary, types.Null)
+	lang.DefineMethod("man-get-flags", cmdManParser, types.Text, types.Json)
 }
 
 func cmdArgs(p *lang.Process) (err error) {
@@ -150,4 +152,31 @@ func cmdBangSummary(p *lang.Process) error {
 	}
 
 	return hintsummary.Summary.Delete(exe)
+}
+
+func cmdManParser(p *lang.Process) error {
+	p.Stdout.SetDataType(types.Json)
+
+	var flags []string
+
+	if p.IsMethod {
+		flags = man.ParseByStdio(p.Stdin)
+
+	} else {
+		exe, err := p.Parameters.String(0)
+		if err != nil {
+			return err
+		}
+
+		paths := man.GetManPages(exe)
+		flags = man.ParseByPaths(paths)
+	}
+
+	b, err := json.Marshal(flags, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return err
 }

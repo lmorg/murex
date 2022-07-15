@@ -93,6 +93,34 @@ Please note that **AutoBranch**'s behavior is also dependant on a "shell"
     » config get shell recursive-enabled
     true
     
+### "CacheTTL": int (5)
+
+Dynamic autocompletions (via **Dynamic** or **DynamicDesc**) are cached to
+improve interactivity performance. By default the cache is very small but you
+can increase that cache or even disable it entirely. Setting this value will
+define the duration (in seconds) to cache that autocompletion.
+
+If you wish to disable this then set **CacheTTL** to `-1`.
+
+This directive needs to live in the very first definition and affects all
+autocompletes within the rest of the command. For example
+
+    autocomplete set foobar { [
+        {
+            "Flags": [ "--foo", "--bar" ],
+            "CacheTTL": 60
+        },
+        {
+            "Dynamic": ({
+                a: [Monday..Friday]
+                sleep: 3
+            })
+        }
+    ] }
+    
+Here the days of the week take 3 seconds to show up as autocompletion
+suggestions the first time and instantly for the next 60 seconds after.
+
 ### "Dynamic": string ("")
 
 This is a _murex_ block which returns an array of suggestions.

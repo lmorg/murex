@@ -48,7 +48,8 @@ func TestAutocomplete(t *testing.T) {
         "AnyValue": true,
         "AllowAny": false,
         "AutoBranch": false,
-        "ExecCmdline": true
+        "ExecCmdline": true,
+        "CacheTTL": 5
     }
 ]
 `

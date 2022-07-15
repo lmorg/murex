@@ -71,4 +71,4 @@
   - apis/Unmarshal
   - parser/curly-brace
   - parser/brace-quote
-  - parser/code-block
+  - user-guide/code-block

@@ -101,6 +101,7 @@ path:
 ## Synonyms
 
 * `[[`
+* `element`
 
 
 ## See Also

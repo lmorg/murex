@@ -35,6 +35,11 @@ func TestParamHangBug(t *testing.T) {
 			Stdout: "\n",
 		},
 		{
+			Block: `out: $FOO[[BAR]]`,
+			Stdout: "\n",
+			Stderr: "Error in `[[` ( 4,9): murex doesn't know how to lookup `[][]string` (please file a bug with on the murex Github page: https://lmorg/murex)\n",
+		},
+		{
 			Block:  `out: $ FOO[BAR]`,
 			Stdout: "$ FOO[BAR]\n",
 		},
@@ -73,6 +78,10 @@ func TestParamHangBug(t *testing.T) {
 		},
 		{
 			Block:  `out: @FOO[BAR]`,
+			Stdout: "\n",
+		},
+		{
+			Block:  `out: @FOO[[BAR]]`,
 			Stdout: "\n",
 		},
 		{

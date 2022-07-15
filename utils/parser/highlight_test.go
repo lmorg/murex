@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
-	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansi/codes"
 )
 
 func TestParserHighlightEscaped(t *testing.T) {
@@ -19,28 +19,28 @@ func TestParserHighlightEscaped(t *testing.T) {
 			Block: `out: foo \n bar`,
 			Expected: fmt.Sprintf(
 				`%sout:%s foo %s\n%s bar%s`,
-				hlFunction, ansi.Reset, hlEscaped, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlEscaped, codes.Reset, codes.Reset,
 			),
 		},
 		{
 			Block: `out: 'foo \n bar'`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s'foo \n bar'%s%s`,
-				hlFunction, ansi.Reset, hlSingleQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlSingleQuote, codes.Reset, codes.Reset,
 			),
 		},
 		{
 			Block: `out: "foo \n bar"`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s"foo %s\n%s bar"%s%s`,
-				hlFunction, ansi.Reset, hlDoubleQuote, hlEscaped, hlDoubleQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlDoubleQuote, hlEscaped, hlDoubleQuote, codes.Reset, codes.Reset,
 			),
 		},
 		{
 			Block: `out: (foo \n bar)`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s(foo \n bar)%s%s`,
-				hlFunction, ansi.Reset, hlBraceQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlBraceQuote, codes.Reset, codes.Reset,
 			),
 		},
 		/////
@@ -48,28 +48,28 @@ func TestParserHighlightEscaped(t *testing.T) {
 			Block: `out: foo\nbar`,
 			Expected: fmt.Sprintf(
 				`%sout:%s foo%s\n%sbar%s`,
-				hlFunction, ansi.Reset, hlEscaped, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlEscaped, codes.Reset, codes.Reset,
 			),
 		},
 		{
 			Block: `out: 'foo\nbar'`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s'foo\nbar'%s%s`,
-				hlFunction, ansi.Reset, hlSingleQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlSingleQuote, codes.Reset, codes.Reset,
 			),
 		},
 		{
 			Block: `out: "foo\nbar"`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s"foo%s\n%sbar"%s%s`,
-				hlFunction, ansi.Reset, hlDoubleQuote, hlEscaped, hlDoubleQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlDoubleQuote, hlEscaped, hlDoubleQuote, codes.Reset, codes.Reset,
 			),
 		},
 		{
 			Block: `out: (foo\nbar)`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s(foo\nbar)%s%s`,
-				hlFunction, ansi.Reset, hlBraceQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlBraceQuote, codes.Reset, codes.Reset,
 			),
 		},
 		/////
@@ -77,7 +77,7 @@ func TestParserHighlightEscaped(t *testing.T) {
 			Block: `out: "foo\nb"`,
 			Expected: fmt.Sprintf(
 				`%sout:%s %s"foo%s\n%sb"%s%s`,
-				hlFunction, ansi.Reset, hlDoubleQuote, hlEscaped, hlDoubleQuote, ansi.Reset, ansi.Reset,
+				hlFunction, codes.Reset, hlDoubleQuote, hlEscaped, hlDoubleQuote, codes.Reset, codes.Reset,
 			),
 		},
 	}

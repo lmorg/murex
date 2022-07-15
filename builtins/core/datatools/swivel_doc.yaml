@@ -1,7 +1,7 @@
 - DocumentID: swivel-datatype
   Title: >+
     `swivel-datatype`
-  CategoryID: commands
+  CategoryID: deprecated
   Summary: >-
     Converts tabulated data into a map of values for serialised data-types such as
     JSON and YAML
@@ -139,7 +139,7 @@
 - DocumentID: swivel-table
   Title: >+
     `swivel-table`
-  CategoryID: commands
+  CategoryID: deprecated
   Summary: >-
     Rotates a table by 90 degrees
   Description: |-
