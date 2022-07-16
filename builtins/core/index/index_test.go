@@ -22,10 +22,10 @@ var table = [][]string{
 var jTable = json.LazyLogging(table)
 
 var object = map[string]map[string][]int{
-	"london": map[string][]int{"m": {21, 65}},
-	"spain":  map[string][]int{"f": {32}},
-	"italy":  map[string][]int{"m": {43}},
-	"france": map[string][]int{"f": {54}},
+	"london": {"m": {21, 65}},
+	"spain":  {"f": {32}},
+	"italy":  {"m": {43}},
+	"france": {"f": {54}},
 }
 var jObject = json.LazyLogging(object)
 

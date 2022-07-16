@@ -1,3 +1,4 @@
+//go:build windows
 // +build windows
 
 // This isn't currently supported on Windows.

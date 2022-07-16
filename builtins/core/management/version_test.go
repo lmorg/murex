@@ -30,13 +30,13 @@ func TestVersion(t *testing.T) {
 			Stdout: `[0-9]+\.[0-9]+`,
 		},
 		{
-			Block:  `version: --sdfsadf`,
-			Stderr: `not a valid parameter`,
+			Block:   `version: --sdfsadf`,
+			Stderr:  `not a valid parameter`,
 			ExitNum: 1,
 		},
 		{
-			Block:  `version: sdfsadf`,
-			Stderr: `not a valid parameter`,
+			Block:   `version: sdfsadf`,
+			Stderr:  `not a valid parameter`,
 			ExitNum: 1,
 		},
 	}

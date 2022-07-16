@@ -26,7 +26,7 @@ func TestHintCodeBlock(t *testing.T) {
 			HintRx: `^out "bob"$`,
 		},
 		{
-			Block: `{ $out "bob" }`,
+			Block:  `{ $out "bob" }`,
 			HintRx: `^Block returned false`,
 		},
 	}

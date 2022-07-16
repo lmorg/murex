@@ -23,7 +23,7 @@ func TestMatch(t *testing.T) {
 			Stdout: `["Monday"]`,
 		},
 		{
-			Block:   `ja: [Monday..Wednesday] -> !match S`,
+			Block:  `ja: [Monday..Wednesday] -> !match S`,
 			Stdout: `["Monday","Tuesday","Wednesday"]`,
 		},
 		{
