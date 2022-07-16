@@ -1,4 +1,4 @@
-	package parser
+package parser
 
 //go:generate stringer -type=PipeToken
 

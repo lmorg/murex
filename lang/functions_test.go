@@ -161,7 +161,7 @@ func TestFuncParseDataTypesErrorOutOfOrder(t *testing.T) {
 	tests := []testFuncParseDataTypesT{
 		{
 			Parameters: `foo baz [bar]`,
-			Error: true,
+			Error:      true,
 			/*Expected: []MxFunctionParams{{
 				Name:     "foo",
 				DataType: "baz",
@@ -170,7 +170,7 @@ func TestFuncParseDataTypesErrorOutOfOrder(t *testing.T) {
 		},
 		{
 			Parameters: `foo "baz" [bar]`,
-			Error: true,
+			Error:      true,
 			/*Expected: []MxFunctionParams{{
 				Name:        "foo",
 				Description: "baz",
@@ -179,7 +179,7 @@ func TestFuncParseDataTypesErrorOutOfOrder(t *testing.T) {
 		},
 		{
 			Parameters: `foo [bar]`,
-			Error: true,
+			Error:      true,
 			/*Expected: []MxFunctionParams{{
 				Name:     "foo",
 				DataType: "str",

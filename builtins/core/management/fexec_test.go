@@ -42,23 +42,23 @@ func TestFexec(t *testing.T) {
 func TestFexecErrors(t *testing.T) {
 	tests := []test.MurexTest{
 		{
-			Block:  `fexec khlkwajfhldskjfhasdlkjfhaskdljfhasd`,
-			Stderr: "invalid flag",
+			Block:   `fexec khlkwajfhldskjfhasdlkjfhaskdljfhasd`,
+			Stderr:  "invalid flag",
 			ExitNum: 1,
 		},
 		{
-			Block:  `fexec builtin dslahfaksdljhfkasdjhflsdjahf`,
-			Stderr: "no builtin",
+			Block:   `fexec builtin dslahfaksdljhfkasdjhflsdjahf`,
+			Stderr:  "no builtin",
 			ExitNum: 1,
 		},
 		{
-			Block:  `fexec function dslahfaksdljhfkasdjhflsdjahf`,
-			Stderr: "cannot locate function",
+			Block:   `fexec function dslahfaksdljhfkasdjhflsdjahf`,
+			Stderr:  "cannot locate function",
 			ExitNum: 1,
 		},
 		{
-			Block:  `fexec private dslahfaksdljhfkasdjhflsdjahf`,
-			Stderr: "no private functions",
+			Block:   `fexec private dslahfaksdljhfkasdjhflsdjahf`,
+			Stderr:  "no private functions",
 			ExitNum: 1,
 		},
 	}

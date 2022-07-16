@@ -43,7 +43,7 @@ func TestGenericIndex(t *testing.T) {
 		},
 		{
 			Block:   `a: [Mon..Fri] -> cast * -> [:Mon]`,
-			Stderr: `^Error`,
+			Stderr:  `^Error`,
 			ExitNum: 1,
 		},
 		{
@@ -52,7 +52,7 @@ func TestGenericIndex(t *testing.T) {
 		},
 		{
 			Block:   `a: [Mon..Fri] -> cast * -> [Mon:]`,
-			Stderr: `^Error`,
+			Stderr:  `^Error`,
 			ExitNum: 1,
 		},
 		{
@@ -66,7 +66,7 @@ func TestGenericIndex(t *testing.T) {
 		},
 		{
 			Block:   `a: [Mon..Fri] -> cast generic -> [:Mon]`,
-			Stderr: `^Error`,
+			Stderr:  `^Error`,
 			ExitNum: 1,
 		},
 		{
@@ -75,7 +75,7 @@ func TestGenericIndex(t *testing.T) {
 		},
 		{
 			Block:   `a: [Mon..Fri] -> cast generic -> [Mon:]`,
-			Stderr: `^Error`,
+			Stderr:  `^Error`,
 			ExitNum: 1,
 		},
 		{

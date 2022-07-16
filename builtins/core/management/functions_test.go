@@ -73,13 +73,13 @@ func TestOs(t *testing.T) {
 			Stdout: runtime.GOOS,
 		},
 		{
-			Block:  `os: bob`,
-			Stdout: "false",
+			Block:   `os: bob`,
+			Stdout:  "false",
 			ExitNum: 1,
 		},
 		{
-			Block:  `os: windows`,
-			Stdout: "false",
+			Block:   `os: windows`,
+			Stdout:  "false",
 			ExitNum: 1,
 		},
 		{
