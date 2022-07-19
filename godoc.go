@@ -12,5 +12,4 @@
 //     * shell is the code for the interactive shell
 //     * test is the testing framework
 //     * utils directory is tools used exclusively within this Go source code
-//     * vendor contains 3rd party packages used by murex
 package main

@@ -44,7 +44,7 @@ func httpReq(t *testing.T, count int) {
 	buf := new(bytes.Buffer)
 	_, err := buf.WriteString(s)
 	if err != nil {
-		t.Errorf("Unable to log test count via HTTP (export %s=http): %s", Env, err)
+		t.Errorf("unable to log test count via HTTP (export %s=http): %s", Env, err)
 		return
 	}
 
