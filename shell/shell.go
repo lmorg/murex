@@ -126,7 +126,7 @@ func ShowPrompt() {
 			case readline.EOF:
 				fmt.Println(utils.NewLineString)
 				//return
-				os.Exit(0)
+				lang.Exit(0)
 
 			default:
 				panic(err)

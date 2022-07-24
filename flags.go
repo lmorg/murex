@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config"
@@ -13,17 +12,19 @@ import (
 )
 
 var (
-	fCommand  string
-	fSource   []string
-	fLoadMods bool
-	fEcho     bool
-	fHelp1    bool
-	fHelp2    bool
-	fHelp3    bool
-	fVersion1 bool
-	fVersion2 bool
-	fSh       bool
-	fRunTests bool
+	fCommand    string
+	fSource     []string
+	fLoadMods   bool
+	fEcho       bool
+	fHelp1      bool
+	fHelp2      bool
+	fHelp3      bool
+	fVersion1   bool
+	fVersion2   bool
+	fSh         bool
+	fRunTests   bool
+	fCpuProfile string
+	fMemProfile string
 )
 
 func readFlags() {
@@ -45,18 +46,21 @@ func readFlags() {
 	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
 	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")
 
+	flag.StringVar(&fCpuProfile, "cpuprofile", "", "Write cpu profile to `file`")
+	flag.StringVar(&fMemProfile, "memprofile", "", "Write memory profile to `file`")
+
 	flag.Parse()
 
 	if fHelp1 || fHelp2 || fHelp3 {
 		fmt.Printf("%s v%s\n", app.Name, app.Version)
 		flag.Usage()
-		os.Exit(1)
+		lang.Exit(1)
 	}
 
 	if fVersion1 || fVersion2 {
 		fmt.Printf("%s v%s\n", app.Name, app.Version)
 		fmt.Printf("%s\n%s\n", app.License, app.Copyright)
-		os.Exit(0)
+		lang.Exit(0)
 	}
 
 	config.InitConf.Define("proc", "echo", config.Properties{

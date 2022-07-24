@@ -3,7 +3,6 @@ package typemgmt
 import (
 	"errors"
 	"io"
-	"os"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -70,7 +69,7 @@ func cmdNot(p *lang.Process) error {
 func cmdDie(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Die)
 
-	os.Exit(1)
+	lang.Exit(1)
 	return nil
 }
 
@@ -79,7 +78,7 @@ func cmdExit(p *lang.Process) error {
 
 	i, _ := p.Parameters.Int(0)
 
-	os.Exit(i)
+	lang.Exit(i)
 	return nil
 }
 
