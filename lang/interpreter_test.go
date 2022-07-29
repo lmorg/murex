@@ -77,7 +77,6 @@ var (
 		{
 			Block:   `out "foo" || out "bar"`,
 			Stdout:  "foo\n",
-			ExitNum: 1,
 		},
 		{
 			Block:  `err "foo" || out "bar"`,
@@ -87,7 +86,6 @@ var (
 		{
 			Block:   `out "foo" || err "bar"`,
 			Stdout:  "foo\n",
-			ExitNum: 1,
 		},
 		{
 			Block:   `err "foo" || err "bar"`,
@@ -98,7 +96,6 @@ var (
 		{
 			Block:   `out "foo"||out "bar"`,
 			Stdout:  "foo\n",
-			ExitNum: 1,
 		},
 		{
 			Block:  `err "foo"||out "bar"`,
@@ -108,7 +105,6 @@ var (
 		{
 			Block:   `out "foo"||err "bar"`,
 			Stdout:  "foo\n",
-			ExitNum: 1,
 		},
 		{
 			Block:   `err "foo"||err "bar"`,
