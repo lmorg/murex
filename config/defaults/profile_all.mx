@@ -464,6 +464,10 @@ autocomplete: set git { [{
         }],
         "push": [{
             "Flags": ["--tags"]
+        }],
+        "": [{
+            "Dynamic": ({ git --help $1 -> man-get-flags }),
+            "AllowMultiple": true
         }]
     }
 }] }
@@ -760,6 +764,7 @@ autocomplete: set terraform {[
             terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps --key-inc-hint
         }),
         "AllowMultiple": true,
+        "AllowAny": true,
         "ListView": true
     }
 ]}
@@ -787,6 +792,8 @@ function sprintf {
         }
     }
 }
+
+summary docgen "Document generator for murex development"
 
 autocomplete set docgen { [
     {
