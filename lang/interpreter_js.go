@@ -13,7 +13,7 @@ import (
 //////////////////
 
 // `evil` - Only use this if you are not concerned about STDERR nor exit number.
-func runModeEvil(procs []Process) int {
+/*func runModeEvil(procs []Process) int {
 	if len(procs) == 0 {
 		return 1
 	}
@@ -26,21 +26,22 @@ func runModeEvil(procs []Process) int {
 			if !procs[i].IsMethod {
 				waitProcess(&procs[i-1])
 			} else {
-				/*go*/ waitProcess(&procs[i-1])
+				//go waitProcess(&procs[i-1])
+				waitProcess(&procs[i-1])
 			}
 		}
 
-		/*if procs[i].Name == "break" {
-			exitNum, _ := procs[i].Parameters.Int(0)
-			return exitNum
-		}*/
+		//if procs[i].Name == "break" {
+		//	exitNum, _ := procs[i].Parameters.Int(0)
+		//	return exitNum
+		//}
 		procs[i].Stderr = new(null.Null)
 		go executeProcess(&procs[i])
 	}
 
 	waitProcess(&procs[len(procs)-1])
 	return 0
-}
+}*/
 
 func runModeNormal(procs []Process) (exitNum int) {
 	if len(procs) == 0 {
