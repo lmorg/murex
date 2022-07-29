@@ -117,6 +117,9 @@ func runModeTry(procs []Process) (exitNum int) {
 				if exitNum < 1 && procs[next].OperatorLogicOr {
 					//panic(json.LazyLogging(procs))
 					i++
+					procs[i].hasTerminatedM.Lock()
+					procs[i].hasTerminatedV = true
+					procs[i].hasTerminatedM.Unlock()
 					procs[i].Stdout.Close()
 					procs[i].Stderr.Close()
 					GlobalFIDs.Deregister(procs[i].Id)
@@ -175,6 +178,9 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 			if exitNum < 1 && procs[next].OperatorLogicOr {
 				//panic(json.LazyLogging(procs))
 				i++
+				procs[i].hasTerminatedM.Lock()
+				procs[i].hasTerminatedV = true
+				procs[i].hasTerminatedM.Unlock()
 				procs[i].Stdout.Close()
 				procs[i].Stderr.Close()
 				GlobalFIDs.Deregister(procs[i].Id)

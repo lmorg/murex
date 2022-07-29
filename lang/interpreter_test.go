@@ -75,8 +75,8 @@ var (
 
 	testsOr = []test.MurexTest{
 		{
-			Block:   `out "foo" || out "bar"`,
-			Stdout:  "foo\n",
+			Block:  `out "foo" || out "bar"`,
+			Stdout: "foo\n",
 		},
 		{
 			Block:  `err "foo" || out "bar"`,
@@ -84,8 +84,8 @@ var (
 			Stderr: "foo\n",
 		},
 		{
-			Block:   `out "foo" || err "bar"`,
-			Stdout:  "foo\n",
+			Block:  `out "foo" || err "bar"`,
+			Stdout: "foo\n",
 		},
 		{
 			Block:   `err "foo" || err "bar"`,
@@ -94,8 +94,8 @@ var (
 		},
 		/////
 		{
-			Block:   `out "foo"||out "bar"`,
-			Stdout:  "foo\n",
+			Block:  `out "foo"||out "bar"`,
+			Stdout: "foo\n",
 		},
 		{
 			Block:  `err "foo"||out "bar"`,
@@ -103,8 +103,8 @@ var (
 			Stderr: "foo\n",
 		},
 		{
-			Block:   `out "foo"||err "bar"`,
-			Stdout:  "foo\n",
+			Block:  `out "foo"||err "bar"`,
+			Stdout: "foo\n",
 		},
 		{
 			Block:   `err "foo"||err "bar"`,
@@ -245,6 +245,14 @@ func TestOperatorsTry(t *testing.T) {
 			Stdout:  "9\nfalse\n",
 			ExitNum: 1,
 		},
+		{
+			Block:  `out: 9.1; try { true || true; echo foobar }`,
+			Stdout: "9.1\ntrue\nfoobar\n",
+		},
+		{
+			Block:  `out: 9.1; try { true || true && echo foobar }`,
+			Stdout: "9.1\ntrue\nfoobar\n",
+		},
 		///
 		{
 			Block:   `out: 10; trypipe { false; echo foobar }`,
@@ -267,6 +275,14 @@ func TestOperatorsTry(t *testing.T) {
 			Block:   `out: 14; trypipe { false && echo foobar }`,
 			Stdout:  "14\nfalse\n",
 			ExitNum: 1,
+		},
+		{
+			Block:  `out: 14.1; trypipe { true || true ; echo foobar }`,
+			Stdout: "14.1\ntrue\nfoobar\n",
+		},
+		{
+			Block:  `out: 14.1; trypipe { true || true && echo foobar }`,
+			Stdout: "14.1\ntrue\nfoobar\n",
 		},
 	}
 
