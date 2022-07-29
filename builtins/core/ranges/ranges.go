@@ -18,6 +18,8 @@ func init() {
 
 const usage = "\nUsage: @[start..end] / @[start..end]se\n(start or end can be omitted)"
 
+// if additional ranges are added here, they will also need to be added to
+// /home/lau/dev/go/src/github.com/lmorg/murex/lang/parameters.go
 var rxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8erns]*)\s*$`)
 
 type rangeParameters struct {
@@ -47,7 +49,7 @@ func cmdRange(p *lang.Process) (err error) {
 
 	split := rxSplitRange.FindStringSubmatch(s)
 	if len(split) != 4 {
-		return fmt.Errorf("Invalid syntax: could not separate component values: %v.%s", split, usage)
+		return fmt.Errorf("invalid syntax: could not separate component values: %v.%s", split, usage)
 	}
 
 	r := &rangeParameters{
@@ -76,7 +78,7 @@ func cmdRange(p *lang.Process) (err error) {
 	}
 
 	if len(split[3]) > 1 {
-		return fmt.Errorf("Invalid syntax: you cannot combine the following flags: %s.%s", split[3], usage)
+		return fmt.Errorf("invalid syntax: you cannot combine the following flags: %s.%s", split[3], usage)
 	}
 
 	switch split[3] {

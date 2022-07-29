@@ -19,9 +19,13 @@ import (
 var (
 	rxTokenIndex   = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 	rxTokenElement = regexp.MustCompile(`(.*?)\[\[(.*?)\]\]`)
+	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8erns]*)`)
 )
 
-const errEmptyArray = "Array '@%s' is empty"
+const (
+	errEmptyArray = "Array '@%s' is empty"
+	errEmptyRange = "Range '@%s' is empty"
+)
 
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *Process, p *parameters.Parameters) error {
@@ -224,9 +228,42 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarRange:
-				// TODO: write me!
 				debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
-				//panic("TODO: write me!")
+				match := rxTokenRange.FindStringSubmatch(p.Tokens[i][j].Key)
+
+				var flags string
+
+				switch len(match) {
+				case 3:
+					// do nothing
+				case 4:
+					flags = match[3]
+				default:
+					params[len(params)-1] = p.Tokens[i][j].Key
+					tCount = true
+					continue
+				}
+
+				var array []string
+				block := []rune("echo $" + match[1] + "-> @[" + match[2] + "]" + flags)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork.Execute(block)
+				fork.Stdout.ReadArray(func(b []byte) {
+					array = append(array, string(b))
+				})
+
+				if len(array) == 0 && strictArrays.(bool) {
+					return fmt.Errorf(errEmptyRange, p.Tokens[i][j].Key)
+				}
+
+				if !tCount {
+					params = params[:len(params)-1]
+				}
+
+				params = append(params, array...)
+
+				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarTilde:
 				if len(p.Tokens[i][j].Key) == 0 {

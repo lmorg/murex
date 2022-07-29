@@ -428,14 +428,13 @@ autocomplete: set git { [{
             "Flags": ["--bare"]
         }],
         "add": [{
-            #"IncFiles": true,
             "AllowMultiple": true,
+            "AllowAny": true,
             "Dynamic": ({
                 git -c color.ui=no status -s -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' -> cast str
             })
         }],
         "diff": [{
-            #"IncFiles": true,
             "AllowMultiple": true,
             "Dynamic": ({
                 git -c color.ui=no status -s -> [:1]
@@ -449,7 +448,7 @@ autocomplete: set git { [{
             "AllowMultiple": true
         }],
         "checkout": [{
-            "Dynamic": ({ git-branch }),
+            "Dynamic": ({ cast str; git-branch; git tag }),
             "Flags": [ "-b" ]
         }],
         "merge": [{
@@ -460,14 +459,16 @@ autocomplete: set git { [{
             "FlagValues": {
                 "--amend": [{ "AnyValue": true }]
             },
-            "AllowMultiple": true
+            "AllowMultiple": true,
+            "AllowAny": true
         }],
         "push": [{
             "Flags": ["--tags"]
         }],
         "": [{
             "Dynamic": ({ git --help $1 -> man-get-flags }),
-            "AllowMultiple": true
+            "AllowMultiple": true,
+            "AllowAny": true
         }]
     }
 }] }
