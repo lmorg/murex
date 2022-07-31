@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
+	"github.com/phayes/permbits"
 )
 
 func init() {
@@ -99,27 +100,24 @@ func cmdLsRx(p *lang.Process) (err error) {
 func cmdLsF(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	var (
-		file      bool
-		directory bool
-		symlink   = true
+		add, remove fFlagsT
 	)
 
-	for _, flag := range p.Parameters.StringArray() {
-		switch flag {
-		case "+f":
-			file = true
-		case "+d":
-			directory = true
-		case "-s":
-			symlink = false
-		case "-h":
-			p.ExitNum = 2
-			usage := []byte("Usage:\n  +f   include files\n  +d   include directories\n  -s   exclude symlinks")
-			p.Stderr.Writeln(usage)
-			return nil
-		default:
-			return errors.New("invalid flag. `f -h` for usage")
+	params := p.Parameters.RuneArray()
+	if len(params) == 0 {
+		return errors.New("missing parameters")
+	}
+
+	for _, r := range params {
+		add, remove, err = fFlagsParser(r, add, remove)
+		if err != nil {
+			return err
 		}
+		/*case "-h":
+		p.ExitNum = 2
+		usage := []byte("Usage:\n  +f   include files\n  +d   include directories\n  -s   exclude symlinks")
+		p.Stderr.Writeln(usage)
+		return nil*/
 	}
 
 	var files, matched []string
@@ -145,17 +143,62 @@ func cmdLsF(p *lang.Process) (err error) {
 		if err != nil {
 			continue
 		}
+		mode := info.Mode()
+		perm := permbits.FileMode(mode)
 
-		if file && !info.IsDir() {
+		if ((add.File() && mode.IsRegular()) ||
+			(add.Dir() && mode.IsDir()) ||
+			(add.Symlink() && mode&os.ModeSymlink != 0) ||
+			(add.DevBlock() && mode&os.ModeDevice != 0) ||
+			(add.DevChar() && mode&os.ModeCharDevice != 0) ||
+			(add.Socket() && mode&os.ModeSocket != 0) ||
+			(add.NamedPipe() && mode&os.ModeNamedPipe != 0) ||
+
+			(add.UserRead() && perm.UserRead()) ||
+			(add.GroupRead() && perm.GroupRead()) ||
+			(add.OtherRead() && perm.OtherRead()) ||
+
+			(add.UserWrite() && perm.UserWrite()) ||
+			(add.GroupWrite() && perm.GroupWrite()) ||
+			(add.OtherWrite() && perm.OtherWrite()) ||
+
+			(add.UserExecute() && perm.UserExecute()) ||
+			(add.GroupExecute() && perm.GroupExecute()) ||
+			(add.OtherExecute() && perm.OtherExecute()) ||
+
+			(add.SetUid() && mode&os.ModeSetuid != 0) ||
+			(add.SetGid() && mode&os.ModeSetgid != 0) ||
+			(add.Sticky() && mode&os.ModeSticky != 0) ||
+
+			(add.Irregular() && mode&os.ModeIrregular != 0)) &&
+
+			!((remove.File() && mode.IsRegular()) ||
+				(remove.Dir() && mode.IsDir()) ||
+				(remove.Symlink() && mode&os.ModeSymlink != 0) ||
+				(remove.DevBlock() && mode&os.ModeDevice != 0) ||
+				(remove.DevChar() && mode&os.ModeCharDevice != 0) ||
+				(remove.Socket() && mode&os.ModeSocket != 0) ||
+				(remove.NamedPipe() && mode&os.ModeNamedPipe != 0) ||
+
+				(remove.UserRead() && perm.UserRead()) ||
+				(remove.GroupRead() && perm.GroupRead()) ||
+				(remove.OtherRead() && perm.OtherRead()) ||
+
+				(remove.UserWrite() && perm.UserWrite()) ||
+				(remove.GroupWrite() && perm.GroupWrite()) ||
+				(remove.OtherWrite() && perm.OtherWrite()) ||
+
+				(remove.UserExecute() && perm.UserExecute()) ||
+				(remove.GroupExecute() && perm.GroupExecute()) ||
+				(remove.OtherExecute() && perm.OtherExecute()) ||
+
+				(remove.SetUid() && mode&os.ModeSetuid != 0) ||
+				(remove.SetGid() && mode&os.ModeSetgid != 0) ||
+				(remove.Sticky() && mode&os.ModeSticky != 0) ||
+
+				(remove.Irregular() && mode&os.ModeIrregular != 0)) {
+
 			matched = append(matched, files[i])
-		}
-
-		if directory && info.IsDir() {
-			matched = append(matched, files[i])
-		}
-
-		if symlink {
-			// TODO: code me
 		}
 	}
 
