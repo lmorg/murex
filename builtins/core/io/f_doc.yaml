@@ -1,0 +1,83 @@
+- DocumentID: f
+  Title: >+
+    `f`
+  CategoryID: commands
+  Summary: >-
+    Lists or filters file system objects (eg files)
+  Description: |-
+    `f` lists or filters lists of file system objects, such as files, directories,
+    etc. `f` provides a quick way to output file system items that confirm to
+    specific criteria.
+
+    You define this criteria by using +flags (eg `+s` for all symlinks) and
+    optionally then restricting that criteria with -flags (eg `-x` to remove all
+    executable items). All flags supported as `+` are also supported as a `-`.
+
+    By default `f` will return no results. You need to include +flags.
+
+    Output is a JSON array as this format preserves whitespace in file names.
+  Usage: |-
+    ```
+    f: options -> <stdout>
+
+    <stdin> -> f: options -> <stdout>
+    ```
+  Examples: |-
+    Return only directories:
+    
+    ```
+    f: +d
+    ```
+
+    Return file and directories but exclude symlinks:
+    
+    ```
+    f: +fd -s
+    ```
+
+    Filter out files in a list (eg created by `g`) using conditions set by `f`:
+
+    ```
+    g: '*.go' -> f: +f
+
+    rx: '\.(txt|md)' -> f: +fw
+    ```
+  Flags:
+    -: "exclude files (pair this with any other flag apart from `+`)"
+    +: "include files (pair this with any other flag apart from `-`)"
+
+    f: all files (inc symlinks, devices, sockets, name pipes, etc)
+    F: regular files (exc symlinks, devices, sockets, named pipes, etc)
+    d: all directories (inc symlinks)
+    D: regular directories
+    s: symlinks
+    l: symlinks
+    b: block devices
+    c: character devices
+    S: sockets
+    p: POSIX named pipes (FIFO)
+    "?": irregular files (nothing else is known about these files)
+    
+    r: read permissions (user, group, or other)
+    R: user read permissions
+    e: group read permissions
+    E: other read permissions
+
+    w: write permissions (user, group, or other)
+    W: user write permissions
+    q: group write permissions
+    Q: other write permissions
+
+    x: execute permissions (user, group, or other)
+    X: user execute permissions
+    z: group execute permissions
+    Z: other execute permissions
+
+  Detail: |-
+    `+` flags are always matched first. Then the `-` flags are used to filter out
+    any matches from the `+` flags.
+  Synonyms:
+  Related:
+  - g
+  - rx
+  - types/json

@@ -15,23 +15,23 @@ func _() {
 	_ = x[fDevChar-16]
 	_ = x[fSocket-32]
 	_ = x[fNamedPipe-64]
-	_ = x[fUserRead-128]
-	_ = x[fGroupRead-256]
-	_ = x[fOtherRead-512]
-	_ = x[fUserWrite-1024]
-	_ = x[fGroupWrite-2048]
-	_ = x[fOtherWrite-4096]
-	_ = x[fUserExec-8192]
-	_ = x[fGroupExec-16384]
-	_ = x[fOtherExec-32768]
-	_ = x[fSetUid-65536]
-	_ = x[fSetGid-131072]
-	_ = x[fSticky-262144]
-	_ = x[fIrregular-524288]
+	_ = x[fIrregular-128]
+	_ = x[fUserRead-256]
+	_ = x[fGroupRead-512]
+	_ = x[fOtherRead-1024]
+	_ = x[fUserWrite-2048]
+	_ = x[fGroupWrite-4096]
+	_ = x[fOtherWrite-8192]
+	_ = x[fUserExec-16384]
+	_ = x[fGroupExec-32768]
+	_ = x[fOtherExec-65536]
+	_ = x[fSetUid-131072]
+	_ = x[fSetGid-262144]
+	_ = x[fSticky-524288]
 	_ = x[fHelp-1048576]
 }
 
-const _fFlagsT_name = "fFilefDirectoryfSymlinkfDevBlockfDevCharfSocketfNamedPipefUserReadfGroupReadfOtherReadfUserWritefGroupWritefOtherWritefUserExecfGroupExecfOtherExecfSetUidfSetGidfStickyfIrregularfHelp"
+const _fFlagsT_name = "fFilefDirectoryfSymlinkfDevBlockfDevCharfSocketfNamedPipefIrregularfUserReadfGroupReadfOtherReadfUserWritefGroupWritefOtherWritefUserExecfGroupExecfOtherExecfSetUidfSetGidfStickyfHelp"
 
 var _fFlagsT_map = map[fFlagsT]string{
 	1:       _fFlagsT_name[0:5],
@@ -41,19 +41,19 @@ var _fFlagsT_map = map[fFlagsT]string{
 	16:      _fFlagsT_name[32:40],
 	32:      _fFlagsT_name[40:47],
 	64:      _fFlagsT_name[47:57],
-	128:     _fFlagsT_name[57:66],
-	256:     _fFlagsT_name[66:76],
+	128:     _fFlagsT_name[57:67],
+	256:     _fFlagsT_name[67:76],
 	512:     _fFlagsT_name[76:86],
 	1024:    _fFlagsT_name[86:96],
-	2048:    _fFlagsT_name[96:107],
-	4096:    _fFlagsT_name[107:118],
-	8192:    _fFlagsT_name[118:127],
-	16384:   _fFlagsT_name[127:137],
+	2048:    _fFlagsT_name[96:106],
+	4096:    _fFlagsT_name[106:117],
+	8192:    _fFlagsT_name[117:128],
+	16384:   _fFlagsT_name[128:137],
 	32768:   _fFlagsT_name[137:147],
-	65536:   _fFlagsT_name[147:154],
-	131072:  _fFlagsT_name[154:161],
-	262144:  _fFlagsT_name[161:168],
-	524288:  _fFlagsT_name[168:178],
+	65536:   _fFlagsT_name[147:157],
+	131072:  _fFlagsT_name[157:164],
+	262144:  _fFlagsT_name[164:171],
+	524288:  _fFlagsT_name[171:178],
 	1048576: _fFlagsT_name[178:183],
 }
 

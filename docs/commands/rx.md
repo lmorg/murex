@@ -73,7 +73,7 @@ them, then you can use the bang prefix. eg
 ## See Also
 
 * [commands/`f`](../commands/f.md):
-  Lists objects (eg files) in the current working directory
+  Lists or filters file system objects (eg files)
 * [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
 * [commands/`match`](../commands/match.md):

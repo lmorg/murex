@@ -57,14 +57,3 @@ func TestLsRx(t *testing.T) {
 	}
 	test.RunMurexTestsRx(tests, t)
 }
-
-func TestLsF(t *testing.T) {
-	tests := []test.MurexTest{
-		// f
-		{
-			Block:  "f: +f",
-			Stdout: "README.md",
-		},
-	}
-	test.RunMurexTestsRx(tests, t)
-}

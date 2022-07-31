@@ -124,7 +124,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`export`](commands/export.md):
   Define an environmental variable and set it's value
 * [`f`](commands/f.md):
-  Lists objects (eg files) in the current working directory
+  Lists or filters file system objects (eg files)
 * [`false`](commands/false.md):
   Returns a `false` value
 * [`fexec` ](commands/fexec.md):

@@ -101,6 +101,6 @@ them, then you can use the bang prefix. eg
 ## See Also
 
 * [commands/`f`](../commands/f.md):
-  Lists objects (eg files) in the current working directory
+  Lists or filters file system objects (eg files)
 * [commands/`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg '.*\.txt')

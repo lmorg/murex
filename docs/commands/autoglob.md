@@ -37,7 +37,7 @@ To make this setting persistent you will need to add it to your `.murex_profile
 * [commands/`config`](../commands/config.md):
   Query or define _murex_ runtime settings
 * [commands/`f`](../commands/f.md):
-  Lists objects (eg files) in the current working directory
+  Lists or filters file system objects (eg files)
 * [commands/`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg *.txt)
 * [commands/`rx`](../commands/rx.md):

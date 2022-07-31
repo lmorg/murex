@@ -45,7 +45,7 @@ func init() {
 		"exit":                  "Exit murex",
 		"exitnum":               "Output the exit number of the previous process",
 		"export":                "Define an environmental variable and set it's value",
-		"f":                     "Lists objects (eg files) in the current working directory",
+		"f":                     "Lists or filters file system objects (eg files)",
 		"false":                 "Returns a `false` value",
 		"fexec":                 "Execute a command or function, bypassing the usual order of precedence.",
 		"fg":                    "Sends a background process into the foreground",

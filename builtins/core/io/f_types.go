@@ -14,6 +14,7 @@ const (
 	fDevChar
 	fSocket
 	fNamedPipe
+	fIrregular
 
 	fUserRead
 	fGroupRead
@@ -31,8 +32,6 @@ const (
 	fSetGid
 	fSticky
 
-	fIrregular
-
 	fHelp
 )
 
@@ -43,6 +42,7 @@ func (f fFlagsT) DevBlock() bool  { return f&fDevBlock != 0 }
 func (f fFlagsT) DevChar() bool   { return f&fDevChar != 0 }
 func (f fFlagsT) Socket() bool    { return f&fSocket != 0 }
 func (f fFlagsT) NamedPipe() bool { return f&fNamedPipe != 0 }
+func (f fFlagsT) Irregular() bool { return f&fIrregular != 0 }
 
 func (f fFlagsT) UserRead() bool  { return f&fUserRead != 0 }
 func (f fFlagsT) GroupRead() bool { return f&fGroupRead != 0 }
@@ -60,8 +60,6 @@ func (f fFlagsT) SetUid() bool { return f&fSetUid != 0 }
 func (f fFlagsT) SetGid() bool { return f&fSetGid != 0 }
 func (f fFlagsT) Sticky() bool { return f&fSticky != 0 }
 
-func (f fFlagsT) Irregular() bool { return f&fIrregular != 0 }
-
 var fFlagLookup = map[rune]fFlagsT{
 	'f': fFile | fSymlink | fDevBlock | fDevChar | fSocket | fNamedPipe | fIrregular,
 	'F': fFile,
@@ -73,6 +71,7 @@ var fFlagLookup = map[rune]fFlagsT{
 	'c': fDevChar,
 	'S': fSocket,
 	'p': fNamedPipe,
+	'?': fIrregular,
 
 	'r': fUserRead | fGroupRead | fOtherRead,
 	'R': fUserRead,
@@ -92,8 +91,6 @@ var fFlagLookup = map[rune]fFlagsT{
 	'u': fSetUid,
 	'g': fSetGid,
 	't': fSticky,
-
-	'?': fIrregular,
 
 	'h': fHelp,
 }
