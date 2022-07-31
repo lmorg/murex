@@ -1,5 +1,7 @@
 package io
 
+//go:generate stringer -type=fFlagsT
+
 import "fmt"
 
 type fFlagsT rune
@@ -16,17 +18,22 @@ const (
 	fUserRead
 	fGroupRead
 	fOtherRead
+
 	fUserWrite
 	fGroupWrite
 	fOtherWrite
+
 	fUserExec
 	fGroupExec
 	fOtherExec
+
 	fSetUid
 	fSetGid
 	fSticky
 
 	fIrregular
+
+	fHelp
 )
 
 func (f fFlagsT) File() bool      { return f&fFile != 0 }
@@ -87,6 +94,8 @@ var fFlagLookup = map[rune]fFlagsT{
 	't': fSticky,
 
 	'?': fIrregular,
+
+	'h': fHelp,
 }
 
 func fFlagsParser(param []rune, add fFlagsT, remove fFlagsT) (fFlagsT, fFlagsT, error) {

@@ -113,11 +113,10 @@ func cmdLsF(p *lang.Process) (err error) {
 		if err != nil {
 			return err
 		}
-		/*case "-h":
-		p.ExitNum = 2
-		usage := []byte("Usage:\n  +f   include files\n  +d   include directories\n  -s   exclude symlinks")
-		p.Stderr.Writeln(usage)
-		return nil*/
+	}
+
+	if remove&fHelp != 0 {
+		return cmdLsFHelp(p)
 	}
 
 	var files, matched []string
@@ -209,4 +208,18 @@ func cmdLsF(p *lang.Process) (err error) {
 	}
 
 	return
+}
+
+func cmdLsFHelp(p *lang.Process) error {
+	v := make(map[string]string)
+	for r, f := range fFlagLookup {
+		v[string([]rune{r})] = f.String()
+	}
+
+	b, err := json.Marshal(v, p.Stdout.IsTTY())
+	if err != nil {
+		return err
+	}
+	_, err = p.Stdout.Write(b)
+	return err
 }
