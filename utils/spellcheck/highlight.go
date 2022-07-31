@@ -1,7 +1,6 @@
 package spellcheck
 
 import (
-	"fmt"
 	"unicode"
 
 	"github.com/lmorg/murex/utils/ansi"
@@ -34,7 +33,7 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 
 	defer func() { *line = string(r) }()
 
-	fmt.Printf("'%s', '%s'\n", string(word), *line)
+	//fmt.Printf("'%s', '%s'\n", string(word), *line)
 
 	for ; i < len(r); i++ {
 		if r[i] == word[0] {
