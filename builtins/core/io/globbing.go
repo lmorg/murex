@@ -139,7 +139,7 @@ func cmdLsF(p *lang.Process) (err error) {
 			break
 		}
 
-		info, err := os.Stat(files[i])
+		info, err := os.Lstat(files[i])
 		if err != nil {
 			continue
 		}
