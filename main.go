@@ -98,7 +98,7 @@ func memProfile() func() {
 func runTests() error {
 	lang.InitEnv()
 
-	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
@@ -134,7 +134,7 @@ func runCommandLine(commandLine string) {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
@@ -153,7 +153,7 @@ func runSource(filename string) {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
@@ -182,7 +182,7 @@ func startMurex() {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, interactive)
+	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
 	defaultProfile()

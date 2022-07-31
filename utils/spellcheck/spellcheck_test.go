@@ -119,7 +119,7 @@ func TestSpellcheckZeroLenStr(t *testing.T) {
 func TestSpellcheckVariable(t *testing.T) {
 	count.Tests(t, 1)
 	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
+	defaults.Config(lang.ShellProcess.Config, false)
 
 	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true, nil)
 	if err != nil {
@@ -147,30 +147,3 @@ func TestSpellcheckVariable(t *testing.T) {
 		t.Errorf("spellcheck produced an error: %s", err.Error())
 	}
 }
-
-// test times out for reasons currently unknown
-/*func TestSpellcheckBadBlock(t *testing.T) {
-	count.Tests(t, 1)
-	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
-
-	err := lang.ShellProcess.Config.Set("shell", "spellcheck-enabled", true)
-	if err != nil {
-		t.Fatalf("Unable to set spellcheck-enabled config: %s", err)
-	}
-
-	err = lang.ShellProcess.Config.Set("shell", "spellcheck-func", `{ -> jsplit { }`)
-	if err != nil {
-		t.Fatalf("Unable to set spellcheck-func config: %s", err)
-	}
-
-	line := "the quick brown fox"
-	newLine := string(shell.Spellcheck([]rune(line)))
-
-	if newLine != line {
-		t.Error("spellcheck output doesn't match expected:")
-		t.Logf("  Expected: '%s'", line)
-		t.Logf("  Actual:   '%s'", newLine)
-	}
-}
-*/

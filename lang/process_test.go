@@ -30,7 +30,7 @@ func TestBugFix(t *testing.T) {
 		DataType:    types.Boolean,
 	})
 	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
+	defaults.Config(lang.ShellProcess.Config, false)
 	shell.SignalHandler(false)
 
 	tests := []test.MurexTest{

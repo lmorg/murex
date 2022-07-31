@@ -26,7 +26,7 @@ type testAutocompleteFlagsT struct {
 
 func initAutocompleteFlagsTest(exe string, acJson string) {
 	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
+	defaults.Config(lang.ShellProcess.Config, false)
 	//debug.Enabled = true
 
 	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000, nil)

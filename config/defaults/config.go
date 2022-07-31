@@ -14,8 +14,8 @@ import (
 	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
 
-// Defaults defines the default config
-func Defaults(c *config.Config, isInteractive bool) {
+// Config defines the default config
+func Config(c *config.Config, isInteractive bool) {
 
 	// --- shell ---
 

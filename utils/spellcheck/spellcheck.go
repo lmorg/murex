@@ -4,13 +4,11 @@ import (
 	"bytes"
 	"fmt"
 	"regexp"
-	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/spellcheck/userdictionary"
 )
 
@@ -70,7 +68,7 @@ func String(line string) (string, error) {
 			return
 		}
 
-		line = strings.Replace(line, sWord, ansi.ExpandConsts("{UNDERLINE}"+sWord+"{UNDEROFF}"), -1)
+		highlighter(&line, []rune(sWord), highlight)
 	})
 
 	return line, err

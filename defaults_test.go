@@ -16,7 +16,7 @@ func TestDefaultConfigExists(t *testing.T) {
 
 	conf := config.InitConf.Copy()
 
-	defaults.Defaults(conf, false)
+	defaults.Config(conf, false)
 
 	m := conf.DumpConfig()
 	if len(m) == 0 {
@@ -28,7 +28,7 @@ func TestDefaultConfigExists(t *testing.T) {
 func TestDefaultProfileCompiles(t *testing.T) {
 	count.Tests(t, 1)
 
-	defaults.Defaults(config.InitConf, false)
+	defaults.Config(config.InitConf, false)
 	lang.InitEnv()
 	lang.ShellProcess.Config = config.InitConf
 
