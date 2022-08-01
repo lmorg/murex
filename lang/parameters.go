@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
@@ -20,6 +21,7 @@ var (
 	rxTokenIndex   = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 	rxTokenElement = regexp.MustCompile(`(.*?)\[\[(.*?)\]\]`)
 	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8erns]*)`)
+	rlMutex        sync.Mutex
 )
 
 const (
@@ -70,7 +72,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 				} else {
 					match, globErr := filepath.Glob(p.Tokens[i][j].Key)
-					glob, err := autoGlobPrompt(p.Tokens[i][j].Key, match)
+					glob, err := autoGlobPrompt(prc.Name.String(), p.Tokens[i][j].Key, match)
 					if err != nil {
 						return err
 					}
@@ -294,9 +296,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	return nil
 }
 
-func autoGlobPrompt(before string, match []string) (bool, error) {
+func autoGlobPrompt(cmd string, before string, match []string) (bool, error) {
+	rlMutex.Lock()
+	defer rlMutex.Unlock()
+
 	rl := readline.NewInstance()
-	prompt := fmt.Sprintf("Do you wish to expand '%s'? [Yn]: ", before)
+	prompt := fmt.Sprintf("(%s) Do you wish to expand '%s'? [Yn]: ", cmd, before)
 	rl.SetPrompt(prompt)
 	rl.HintText = func(_ []rune, _ int) []rune { return autoGlobPromptHintText(rl, match) }
 	rl.History = new(readline.NullHistory)
