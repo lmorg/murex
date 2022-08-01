@@ -1,0 +1,65 @@
+- DocumentID: v2.10
+  Title: >-
+    What's new in murex v2.10
+  CategoryID: changelog
+  DateTime: 2022-08-01 20:10
+  Summary: >-
+    This release brings a few minor improvements and bug fixes rather than big new
+    headline features.
+  Description: |-
+    Breaking Changes:
+
+    * None
+
+    Features:
+
+    * Added support for ranges to be used as variables. eg
+    
+        <pre><code>f: +f -> set v
+        echo: @v[2..]</code></pre>
+
+    * Complete re-write of `f`. It is now the tool I had always intended when I first created that builtin
+
+    * `g` now supports being run as a method (eg to filter items from a file list)
+
+    * `rx` now supports being run as a method (eg to filter items from a file list)
+
+    * Updated autocompletes for `git`
+    
+    * Updated autocompletes for `terraform`
+
+    Minor Changes:
+
+    * Added support for profiling
+
+    * Removed unused data types
+
+    * Dropped `profile/` prefix from the module string for modules and profiles (as seen in `FileRef`)
+
+    Bug Fixes:
+
+    * Lots of improvements to how `||` and `&&` are used in other `runmode`'s, `try`, and `trypipe`
+
+    * autoglob prompt now has a mutex wrapped around it to prevent concurrent processes sending the prompt haywire
+
+    * Spellchecker no longer underlines partial words
+
+    * Better removal of \\x16 and other non-printable characters leaking into readline
+
+  Related:
+    - commands/autocomplete
+    - commands/range
+    - commands/runmode
+    - user-guide/schedulers
+    - commands/try
+    - commands/trypipe
+    - parser/logical-and
+    - parser/logical-or
+    - user-guide/modules
+    - user-guide/profile
+    - user-guide/fileref
+    - user-guide/spellcheck
+    - commands/f
+    - commands/g
+    - commands/rx
+
