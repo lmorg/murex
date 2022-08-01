@@ -38,7 +38,7 @@ Otherwise a new file is created.
 * [commands/`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [commands/`g`](../commands/g.md):
-  Glob pattern matching for file system objects (eg *.txt)
+  Glob pattern matching for file system objects (eg `*.txt`)
 * [commands/`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
 * [commands/`tmp`](../commands/tmp.md):

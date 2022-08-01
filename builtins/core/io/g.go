@@ -2,7 +2,6 @@ package io
 
 import (
 	"path/filepath"
-	"regexp"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -15,14 +14,17 @@ func init() {
 	lang.DefineFunction("!g", cmdLsNotG, types.Json)
 	lang.DefineFunction("rx", cmdLsRx, types.Json)
 	lang.DefineFunction("!rx", cmdLsRx, types.Json)
-	lang.DefineMethod("f", cmdLsF, types.ReadArray, types.Json)
-	//lang.DefineMethod("!f", cmdLsF, types.ReadArray, types.Json)
+
 }
 
 func cmdLsG(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Json)
-	glob := p.Parameters.StringAll()
+	if p.IsMethod {
+		return cmdLsGMethod(p)
+	}
 
+	p.Stdout.SetDataType(types.Json)
+
+	glob := p.Parameters.StringAll()
 	files, err := filepath.Glob(glob)
 	if err != nil {
 		return
@@ -37,7 +39,44 @@ func cmdLsG(p *lang.Process) (err error) {
 	return
 }
 
+func cmdLsGMethod(p *lang.Process) (err error) {
+	dt := types.Json
+	p.Stdout.SetDataType(dt)
+
+	glob := p.Parameters.StringAll()
+	all, err := filepath.Glob(glob)
+	if err != nil {
+		return
+	}
+
+	aw, err := p.Stdout.WriteArray(dt)
+	if err != nil {
+		return err
+	}
+
+	err = p.Stdin.ReadArray(func(b []byte) {
+		s := string(b)
+		for i := range all {
+			if all[i] == s {
+				err = aw.WriteString(s)
+				if err != nil {
+					p.Done()
+				}
+			}
+		}
+	})
+	if err != nil {
+		return err
+	}
+
+	return aw.Close()
+}
+
 func cmdLsNotG(p *lang.Process) (err error) {
+	if p.IsMethod {
+		return cmdLsNotGMethod(p)
+	}
+
 	p.Stdout.SetDataType(types.Json)
 
 	glob, err := filepath.Glob(p.Parameters.StringAll())
@@ -66,30 +105,36 @@ func cmdLsNotG(p *lang.Process) (err error) {
 	return
 }
 
-func cmdLsRx(p *lang.Process) (err error) {
-	p.Stdout.SetDataType(types.Json)
-	rx, err := regexp.Compile(p.Parameters.StringAll())
+func cmdLsNotGMethod(p *lang.Process) (err error) {
+	dt := types.Json
+	p.Stdout.SetDataType(dt)
+
+	glob := p.Parameters.StringAll()
+	all, err := filepath.Glob(glob)
 	if err != nil {
 		return
 	}
 
-	files, err := filepath.Glob("*")
+	aw, err := p.Stdout.WriteArray(dt)
 	if err != nil {
-		return
+		return err
 	}
 
-	var matched []string
-	for i := range files {
-		if rx.MatchString(files[i]) != p.IsNot {
-			matched = append(matched, files[i])
+	err = p.Stdin.ReadArray(func(b []byte) {
+		s := string(b)
+		for i := range all {
+			if all[i] == s {
+				return
+			}
 		}
-	}
-
-	j, err := json.Marshal(matched, p.Stdout.IsTTY())
+		err = aw.WriteString(s)
+		if err != nil {
+			p.Done()
+		}
+	})
 	if err != nil {
-		return
+		return err
 	}
 
-	_, err = p.Stdout.Writeln(j)
-	return
+	return aw.Close()
 }

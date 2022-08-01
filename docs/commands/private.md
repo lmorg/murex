@@ -102,7 +102,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [commands/`function`](../commands/function.md):
   Define a function block
 * [commands/`g`](../commands/g.md):
-  Glob pattern matching for file system objects (eg *.txt)
+  Glob pattern matching for file system objects (eg `*.txt`)
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):

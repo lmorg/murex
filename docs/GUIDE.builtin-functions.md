@@ -148,7 +148,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`function`](commands/function.md):
   Define a function block
 * [`g`](commands/g.md):
-  Glob pattern matching for file system objects (eg *.txt)
+  Glob pattern matching for file system objects (eg `*.txt`)
 * [`get-type`](commands/get-type.md):
   Returns the data-type of a variable or pipe
 * [`get`](commands/get.md):
@@ -234,7 +234,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`runtime`](commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [`rx`](commands/rx.md):
-  Regexp pattern matching for file system objects (eg '.*\.txt')
+  Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`set`](commands/set.md):
   Define a local variable and set it's value
 * [`source` ](commands/source.md):

@@ -2,7 +2,7 @@
 
 ## Command Reference: `g`
 
-> Glob pattern matching for file system objects (eg *.txt)
+> Glob pattern matching for file system objects (eg `*.txt`)
 
 ## Description
 
@@ -17,6 +17,10 @@ Output is a JSON list.
     [ <stdin> -> ] @g command pattern [ -> <stdout> ]
     
     !g: pattern -> <stdout>
+    
+    <stdin> -> g: pattern -> <stdout>
+    
+    <stdin> -> !g: pattern -> <stdout>
 
 ## Examples
 
@@ -51,6 +55,14 @@ Return all files apart from text files:
 Auto-globbing (eg for Bash compatibility):
 
     @g ls *.txt
+    
+Filtering a file list based on glob matches:
+
+    f: +f -> g: *.md
+    
+Remove any glob matches from a file list:
+
+    f: +f -> !g: *.md
 
 ## Detail
 
@@ -103,4 +115,4 @@ them, then you can use the bang prefix. eg
 * [commands/`f`](../commands/f.md):
   Lists or filters file system objects (eg files)
 * [commands/`rx`](../commands/rx.md):
-  Regexp pattern matching for file system objects (eg '.*\.txt')
+  Regexp pattern matching for file system objects (eg `.*\\.txt`)

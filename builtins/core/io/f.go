@@ -10,6 +10,11 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
+func init() {
+	lang.DefineMethod("f", cmdLsF, types.ReadArray, types.Json)
+	//lang.DefineMethod("!f", cmdLsF, types.ReadArray, types.Json)
+}
+
 func cmdLsF(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(types.Json)
 	var (
