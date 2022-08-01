@@ -15,6 +15,8 @@ Output is a JSON list.
     rx: pattern -> <stdout>
     
     !rx: pattern -> <stdout>
+    
+    <stdin> -> rx: pattern -> 
 
 ## Examples
 
