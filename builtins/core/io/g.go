@@ -10,11 +10,8 @@ import (
 )
 
 func init() {
-	lang.DefineFunction("g", cmdLsG, types.Json)
-	lang.DefineFunction("!g", cmdLsNotG, types.Json)
-	lang.DefineFunction("rx", cmdLsRx, types.Json)
-	lang.DefineFunction("!rx", cmdLsRx, types.Json)
-
+	lang.DefineMethod("g", cmdLsG, types.ReadArray, types.Json)
+	lang.DefineMethod("!g", cmdLsNotG, types.ReadArray, types.Json)
 }
 
 func cmdLsG(p *lang.Process) (err error) {

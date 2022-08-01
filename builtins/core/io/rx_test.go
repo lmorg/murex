@@ -28,6 +28,36 @@ func TestLsRx(t *testing.T) {
 			Block:  `!rx: (go|yaml)`,
 			Stdout: "README.md",
 		},
+		// -> rx
+		{
+			Block:  "rx: R*ME -> rx: .*md",
+			Stdout: "README.md",
+		},
+		{
+			Block:   "rx: R*ME -> rx: .*doesntexist",
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:   "rx: README$ ->  rx: .*md",
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		// -> !rx
+		{
+			Block:   "rx: R*ME -> !rx: .*md",
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:  "rx: R*ME -> !rx: .*doesntexist",
+			Stdout: "README.md",
+		},
+		{
+			Block:   "rx: README$ -> !rx: .*md",
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
 	}
 	test.RunMurexTestsRx(tests, t)
 }
