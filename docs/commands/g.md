@@ -2,7 +2,7 @@
 
 ## Command Reference: `g`
 
-> Glob pattern matching for file system objects (eg *.txt)
+> Glob pattern matching for file system objects (eg `*.txt`)
 
 ## Description
 
@@ -17,6 +17,10 @@ Output is a JSON list.
     [ <stdin> -> ] @g command pattern [ -> <stdout> ]
     
     !g: pattern -> <stdout>
+    
+    <stdin> -> g: pattern -> <stdout>
+    
+    <stdin> -> !g: pattern -> <stdout>
 
 ## Examples
 
@@ -26,11 +30,11 @@ Inline globbing:
     
 Writing a JSON array of files to disk:
 
-    g: *.txt -> > filelist.json
+    g: *.txt |> filelist.json
     
 Writing a list of files to disk:
 
-    g: *.txt -> format str -> > filelist.txt
+    g: *.txt -> format str |> filelist.txt
     
 Checking if a file exists:
 
@@ -51,6 +55,14 @@ Return all files apart from text files:
 Auto-globbing (eg for Bash compatibility):
 
     @g ls *.txt
+    
+Filtering a file list based on glob matches:
+
+    f: +f -> g: *.md
+    
+Remove any glob matches from a file list:
+
+    f: +f -> !g: *.md
 
 ## Detail
 
@@ -90,6 +102,20 @@ them, then you can use the bang prefix. eg
     
     » !g: *
     Error in `!g` (1,1): No data returned.
+    
+### When Used As A Method
+
+`!g` first looks for files that match its pattern, then it reads the file list
+from STDIN. If STDIN contains contents that are not files then `!g` might not
+handle those list items correctly. This shouldn't be an issue with `frx` in its
+normal mode because it is only looking for matches however when used as `!g`
+any items that are not files will leak through.
+
+This is its designed feature and not a bug. If you wish to remove anything that
+also isn't a file then you should first pipe into either `g: *`, `rx: .*`, or
+`f +f` and then pipe that into `!g`.
+
+The reason for this behavior is to separate this from `!regexp` and `!match`.
 
 ## Synonyms
 
@@ -101,6 +127,10 @@ them, then you can use the bang prefix. eg
 ## See Also
 
 * [commands/`f`](../commands/f.md):
-  Lists objects (eg files) in the current working directory
+  Lists or filters file system objects (eg files)
+* [commands/`match`](../commands/match.md):
+  Match an exact value in an array
+* [commands/`regexp`](../commands/regexp.md):
+  Regexp tools for arrays / lists of strings
 * [commands/`rx`](../commands/rx.md):
-  Regexp pattern matching for file system objects (eg '.*\.txt')
+  Regexp pattern matching for file system objects (eg `.*\\.txt`)

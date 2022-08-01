@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang"
 )
 
-func BenchmarkA(b *testing.B) {
+func BenchmarkAForeachN(b *testing.B) {
 	lang.InitEnv()
 
 	block := fmt.Sprintf(`a [1..%d] -> foreach i { out "iteration $i of %d" }`, b.N, b.N)
@@ -18,7 +18,7 @@ func BenchmarkA(b *testing.B) {
 	}
 }
 
-func BenchmarkJa(b *testing.B) {
+func BenchmarkJaForeachN(b *testing.B) {
 	lang.InitEnv()
 
 	block := fmt.Sprintf(`ja [1..%d] -> foreach i { out "iteration $i of %d" }`, b.N, b.N)
@@ -29,7 +29,7 @@ func BenchmarkJa(b *testing.B) {
 	}
 }
 
-func BenchmarkCSV(b *testing.B) {
+func BenchmarkCsvIndexNTimes(b *testing.B) {
 	lang.InitEnv()
 
 	block := []rune(`tout csv "murex,foo,bar\n1,2,3\na,b,c\nz,y,x\n" -> [ :foo ]`)

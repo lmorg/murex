@@ -4,7 +4,6 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/lang/state"
 )
 
@@ -13,7 +12,7 @@ import (
 //////////////////
 
 // `evil` - Only use this if you are not concerned about STDERR nor exit number.
-func runModeEvil(procs []Process) int {
+/*func runModeEvil(procs []Process) int {
 	if len(procs) == 0 {
 		return 1
 	}
@@ -30,17 +29,17 @@ func runModeEvil(procs []Process) int {
 			}
 		}
 
-		/*if procs[i].Name == "break" {
-			exitNum, _ := procs[i].Parameters.Int(0)
-			return exitNum
-		}*/
+		//if procs[i].Name == "break" {
+		//	exitNum, _ := procs[i].Parameters.Int(0)
+		//	return exitNum
+		//}
 		procs[i].Stderr = new(null.Null)
 		go executeProcess(&procs[i])
 	}
 
 	waitProcess(&procs[len(procs)-1])
 	return 0
-}
+}*/
 
 func runModeNormal(procs []Process) (exitNum int) {
 	//debug.Json("runModeNormal ()", procs)
@@ -67,14 +66,11 @@ func runModeNormal(procs []Process) (exitNum int) {
 
 			if (procs[i].OperatorLogicAnd && procs[prev].ExitNum > 0) ||
 				(procs[i].OperatorLogicOr && procs[prev].ExitNum < 1) {
-				//	skipToNextPipeline = true
-				//}
 
-				//if skipToNextPipeline && (procs[i].OperatorLogicAnd || procs[i].OperatorLogicOr || procs[i].IsMethod) {
 				procs[i].hasTerminatedM.Lock()
 				procs[i].hasTerminatedV = true
 				procs[i].hasTerminatedM.Unlock()
-				procs[i].ExitNum = 1
+				procs[i].ExitNum = procs[prev].ExitNum
 			}
 		}
 
@@ -94,26 +90,46 @@ func runModeNormal(procs []Process) (exitNum int) {
 
 // `try` - Last process in each pipe is checked.
 func runModeTry(procs []Process) (exitNum int) {
+	//defer panic("fin")
 	if len(procs) == 0 {
 		return 1
 	}
 
 	procs[0].Previous.SetTerminatedState(true)
 
-	for i := range procs {
-		if i > 0 {
-			if !procs[i].IsMethod {
-				waitProcess(&procs[i-1])
-				exitNum = procs[i-1].ExitNum
-				outSize, _ := procs[i-1].Stdout.Stats()
-				errSize, _ := procs[i-1].Stderr.Stats()
+	for i := 0; i < len(procs); i++ {
+		//fmt.Println(i, json.LazyLogging(procs))
+		go executeProcess(&procs[i])
+		next := i + 1
 
-				if exitNum == 0 && errSize > outSize {
-					exitNum = 1
+		if next == len(procs) || !procs[next].IsMethod {
+			//fmt.Println("not", i)
+			waitProcess(&procs[i])
+			exitNum = procs[i].ExitNum
+			outSize, _ := procs[i].Stdout.Stats()
+			errSize, _ := procs[i].Stderr.Stats()
+
+			if exitNum < 1 && errSize > outSize {
+				exitNum = 1
+			}
+
+			if next < len(procs) {
+				if exitNum < 1 && procs[next].OperatorLogicOr {
+					//panic(json.LazyLogging(procs))
+					i++
+					procs[i].hasTerminatedM.Lock()
+					procs[i].hasTerminatedV = true
+					procs[i].hasTerminatedM.Unlock()
+					procs[i].Stdout.Close()
+					procs[i].Stderr.Close()
+					GlobalFIDs.Deregister(procs[i].Id)
+					procs[i].State.Set(state.AwaitingGC)
+					//panic(i)
+					continue
 				}
 
-				if exitNum > 0 {
-					for ; i < len(procs); i++ {
+				if exitNum > 0 && !procs[next].OperatorLogicOr {
+					for i++; i < len(procs); i++ {
 						procs[i].Stdout.Close()
 						procs[i].Stderr.Close()
 						GlobalFIDs.Deregister(procs[i].Id)
@@ -121,27 +137,12 @@ func runModeTry(procs []Process) (exitNum int) {
 					}
 					return
 				}
-
-			} else {
-				go waitProcess(&procs[i-1])
 			}
+
+		} else {
+			//fmt.Println("isa", i)
+			go waitProcess(&procs[i])
 		}
-
-		/*if procs[i].Name == "break" {
-			exitNum, _ = procs[i].Parameters.Int(0)
-			return
-		}*/
-		go executeProcess(&procs[i])
-	}
-
-	last := len(procs) - 1
-	waitProcess(&procs[last])
-	exitNum = procs[last].ExitNum
-	outSize, _ := procs[last].Stdout.Stats()
-	errSize, _ := procs[last].Stderr.Stats()
-
-	if exitNum == 0 && errSize > outSize {
-		exitNum = 1
 	}
 
 	return
@@ -156,7 +157,7 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 
 	procs[0].Previous.SetTerminatedState(true)
 
-	for i := range procs {
+	for i := 0; i < len(procs); i++ {
 		/*if procs[i].Name == "break" {
 			exitNum, _ = procs[i].Parameters.Int(0)
 			return
@@ -172,14 +173,31 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 			exitNum = 1
 		}
 
-		if exitNum > 0 {
-			for i++; i < len(procs); i++ {
+		next := i + 1
+		if next < len(procs) {
+			if exitNum < 1 && procs[next].OperatorLogicOr {
+				//panic(json.LazyLogging(procs))
+				i++
+				procs[i].hasTerminatedM.Lock()
+				procs[i].hasTerminatedV = true
+				procs[i].hasTerminatedM.Unlock()
 				procs[i].Stdout.Close()
 				procs[i].Stderr.Close()
 				GlobalFIDs.Deregister(procs[i].Id)
 				procs[i].State.Set(state.AwaitingGC)
+				//panic(i)
+				continue
 			}
-			return
+
+			if exitNum > 0 && !procs[next].OperatorLogicOr {
+				for i++; i < len(procs); i++ {
+					procs[i].Stdout.Close()
+					procs[i].Stderr.Close()
+					GlobalFIDs.Deregister(procs[i].Id)
+					procs[i].State.Set(state.AwaitingGC)
+				}
+				return
+			}
 		}
 	}
 

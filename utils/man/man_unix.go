@@ -186,6 +186,9 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 			if len(match[i]) != 2 {
 				continue
 			}
+			if strings.HasPrefix(match[i][1], "---") {
+				continue
+			}
 
 			(*flags)[match[i][1]] = true
 		}

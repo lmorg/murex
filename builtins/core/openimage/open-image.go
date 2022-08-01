@@ -8,13 +8,13 @@ import (
 	"github.com/eliukblau/pixterm/pkg/ansimage"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"golang.org/x/crypto/ssh/terminal"
+	"github.com/lmorg/murex/utils/readline"
 )
 
 func init() {
 	lang.SetMime("image", "image/jpeg", "image/gif", "image/png", "image/bmp", "image/tiff", "image/webp")
 	lang.SetFileExtensions("image", "jpeg", "jpg", "gif", "png", "bmp", "tiff", "webp")
-	lang.DefineMethod("open-image", pvImage, "image", types.Null)
+	lang.DefineMethod("open-image", cmdOpenImage, "image", types.Null)
 }
 
 // color implements the Go color.Color interface.
@@ -25,12 +25,12 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 }
 
-func pvImage(p *lang.Process) error {
+func cmdOpenImage(p *lang.Process) error {
 	var reader io.Reader
 
 	switch {
 	case !p.Stdout.IsTTY():
-		return errors.New("This function is expecting to output to the terminal")
+		return errors.New("this function is expecting to output to the terminal")
 
 	case p.IsMethod:
 		reader = p.Stdin
@@ -46,7 +46,7 @@ func pvImage(p *lang.Process) error {
 		}
 	}
 
-	tx, ty, err := terminal.GetSize(int(os.Stdout.Fd()))
+	tx, ty, err := readline.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return err
 	}

@@ -41,6 +41,19 @@ func (p *Parameters) ByteAllRange(start, end int) []byte {
 	return []byte(strings.Join(p.params[start:end], " "))
 }
 
+// RuneArray gets all parameters as a [][]rune slice {parameter, characters}
+func (p *Parameters) RuneArray() [][]rune {
+	p.mutex.RLock()
+	defer p.mutex.RUnlock()
+
+	r := make([][]rune, len(p.params))
+	for i := range p.params {
+		r[i] = []rune(p.params[i])
+	}
+
+	return r
+}
+
 // String gets a single parameter as string
 func (p *Parameters) String(pos int) (string, error) {
 	p.mutex.RLock()

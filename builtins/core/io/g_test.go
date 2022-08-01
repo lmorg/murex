@@ -28,42 +28,35 @@ func TestLsG(t *testing.T) {
 			Block:  "!g: README",
 			Stdout: "README.md",
 		},
-	}
-	test.RunMurexTestsRx(tests, t)
-}
-
-func TestLsRx(t *testing.T) {
-	tests := []test.MurexTest{
-		// rx
+		// ->g
 		{
-			Block:  "rx: R*ME",
+			Block:  "g: R* -> g: *.md",
 			Stdout: "README.md",
 		},
 		{
-			Block:   "rx: README$",
-			Stderr:  "Error",
-			ExitNum: 1,
-		},
-		// !rx
-		{
-			Block:   "!rx: .*",
+			Block:   "g: R* -> g: *.doesntexist",
 			Stderr:  "Error",
 			ExitNum: 1,
 		},
 		{
-			Block:  `!rx: (go|yaml)`,
+			Block:   "g: *doesntexist -> g: *.md",
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		// ->!g
+		{
+			Block:   "g: R* -> !g: *.md",
+			Stderr:  "Error",
+			ExitNum: 1,
+		},
+		{
+			Block:  "g: R* -> !g: *.doesntexist",
 			Stdout: "README.md",
 		},
-	}
-	test.RunMurexTestsRx(tests, t)
-}
-
-func TestLsF(t *testing.T) {
-	tests := []test.MurexTest{
-		// f
 		{
-			Block:  "f: +f",
-			Stdout: "README.md",
+			Block:   "g: *doesntexist -> !g: *.md",
+			Stderr:  "Error",
+			ExitNum: 1,
 		},
 	}
 	test.RunMurexTestsRx(tests, t)

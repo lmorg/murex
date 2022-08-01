@@ -24,7 +24,7 @@ func RunBooleanTests(tests []BooleanTest, t *testing.T) {
 	t.Helper()
 	count.Tests(t, len(tests))
 
-	defaults.Defaults(config.InitConf, false)
+	defaults.Config(config.InitConf, false)
 	lang.InitEnv()
 
 	for i := range tests {

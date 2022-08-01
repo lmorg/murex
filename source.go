@@ -62,11 +62,11 @@ func execSource(source []rune, sourceRef *ref.Source) {
 			exitNum = 1
 		}
 		os.Stderr.WriteString(err.Error() + utils.NewLineString)
-		os.Exit(exitNum)
+		lang.Exit(exitNum)
 	}
 
 	if exitNum != 0 {
-		os.Exit(exitNum)
+		lang.Exit(exitNum)
 	}
 }
 

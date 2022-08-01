@@ -9,7 +9,6 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-// TestDefaultProfileNotEmpty tests the defaults exist
 func TestDefaultProfileNotEmpty(t *testing.T) {
 	count.Tests(t, 1)
 
@@ -24,7 +23,7 @@ func TestDefaultConfigLoads(t *testing.T) {
 	count.Tests(t, 1)
 
 	c := config.InitConf
-	defaults.Defaults(c, false)
+	defaults.Config(c, false)
 
 	if len(c.DumpConfig()) == 0 {
 		t.Errorf("config not loading")

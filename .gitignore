@@ -24,7 +24,8 @@ wasm_exec.js
 
 # test working directories
 /test/tmp
-.test
+*.test
+*.prof
 
 # IDE
 .idea/

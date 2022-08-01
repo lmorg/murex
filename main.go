@@ -4,7 +4,10 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"runtime"
+	"runtime/pprof"
 
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/config/defaults"
@@ -23,6 +26,9 @@ const (
 func main() {
 	readFlags()
 
+	lang.ProfCpuCleanUp = cpuProfile()
+	lang.ProfMemCleanUp = memProfile()
+
 	switch {
 	case fRunTests:
 		runTests()
@@ -40,10 +46,59 @@ func main() {
 	debug.Log("[FIN]")
 }
 
+func cpuProfile() func() {
+	if fCpuProfile != "" {
+		fmt.Fprintf(os.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
+
+		f, err := os.Create(fCpuProfile)
+		if err != nil {
+			panic(err)
+		}
+		if err := pprof.StartCPUProfile(f); err != nil {
+			panic(err)
+		}
+
+		return func() {
+			pprof.StopCPUProfile()
+			if err = f.Close(); err != nil {
+				panic(err)
+			}
+
+			fmt.Fprintf(os.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
+		}
+	}
+
+	return func() {}
+}
+
+func memProfile() func() {
+	if fMemProfile != "" {
+		fmt.Fprintf(os.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
+
+		f, err := os.Create(fMemProfile)
+		if err != nil {
+			panic(err)
+		}
+
+		return func() {
+			runtime.GC() // get up-to-date statistics
+			if err := pprof.WriteHeapProfile(f); err != nil {
+				panic(err)
+			}
+			if err = f.Close(); err != nil {
+				panic(err)
+			}
+			fmt.Fprintf(os.Stderr, "Memory profile written to '%s'\n", fMemProfile)
+		}
+	}
+
+	return func() {}
+}
+
 func runTests() error {
 	lang.InitEnv()
 
-	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
@@ -69,7 +124,7 @@ func runTests() error {
 	lang.ShellProcess.Tests.WriteResults(lang.ShellProcess.Config, lang.ShellProcess.Stdout)
 
 	if !passed {
-		os.Exit(1)
+		lang.Exit(1)
 	}
 
 	return nil
@@ -79,7 +134,7 @@ func runCommandLine(commandLine string) {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
@@ -98,7 +153,7 @@ func runSource(filename string) {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, nonInteractive)
+	defaults.Config(lang.ShellProcess.Config, nonInteractive)
 	shell.SignalHandler(nonInteractive)
 
 	// compiled profile
@@ -118,7 +173,7 @@ func runSource(filename string) {
 			// cannot write to stderr anyway :(
 			panic(err)
 		}
-		os.Exit(1)
+		lang.Exit(1)
 	}
 	execSource([]rune(string(disk)), nil)
 }
@@ -127,7 +182,7 @@ func startMurex() {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, interactive)
+	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
 	defaultProfile()

@@ -34,7 +34,7 @@ func startMurex() {
 	lang.InitEnv()
 
 	// default config
-	defaults.Defaults(lang.ShellProcess.Config, interactive)
+	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
 	source := defaults.DefaultMurexProfile()

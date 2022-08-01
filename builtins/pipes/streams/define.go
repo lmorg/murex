@@ -33,7 +33,7 @@ type Stdin struct {
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
-//var DefaultMaxBufferSize = 1024 * 1024 * 10 // 10 meg
+//var DefaultMaxBufferSize = 1024 * 1024 * 1000 // 10 meg
 var DefaultMaxBufferSize = 1024 * 1024 * 1 // 1 meg
 
 // NewStdin creates a new stream.Io interface for piping data between processes.
@@ -41,6 +41,7 @@ var DefaultMaxBufferSize = 1024 * 1024 * 1 // 1 meg
 func NewStdin() (stdin *Stdin) {
 	stdin = new(Stdin)
 	stdin.max = DefaultMaxBufferSize
+	//stdin.buffer = make([]byte, 0, 1024*1024)
 	stdin.ctx, stdin.forceClose = context.WithCancel(context.Background())
 	return
 }

@@ -31,7 +31,7 @@ func sigint(interactive bool) {
 
 func sigterm(interactive bool) {
 	if !interactive {
-		os.Exit(0)
+		lang.Exit(0)
 	}
 
 	p := lang.ForegroundProc.Get()
@@ -52,7 +52,7 @@ var rxWhiteSpace = regexp.MustCompilePOSIX(`[\r\n\t ]+`)
 func sigquit(interactive bool) {
 	if !interactive {
 		os.Stderr.WriteString("Murex received SIGQUIT!" + utils.NewLineString)
-		os.Exit(2)
+		lang.Exit(2)
 	}
 
 	//os.Stderr.WriteString(PromptSIGQUIT)

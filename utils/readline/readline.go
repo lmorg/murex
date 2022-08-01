@@ -76,9 +76,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 			// clear the cache when the line is cleared
 			rl.cacheHint.Init(rl)
 			rl.cacheSyntax.Init(rl)
-		} else if rl.line[0] == 16 { // fix bug editing pasted lines
-			rl.line = rl.line[1:]
-		}
+		} /*else if rl.line[0] == 16 { // fix bug editing pasted lines
+			//rl.line = rl.line[1:]
+		}*/
 
 		go delayedSyntaxTimer(rl, atomic.LoadInt32(&rl.delayedSyntaxCount))
 		rl.viUndoSkipAppend = false
@@ -153,6 +153,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 				return string(rl.line), nil
 			}
 		}
+
+		i = removeNonPrintableChars(b)
 
 		// Used for syntax completion
 		rl.lineChange = string(b[:i])

@@ -95,7 +95,7 @@ func ShowPrompt() {
 		return expanded
 	}
 
-	Prompt.DelayedSyntaxWorker = spellchecker
+	Prompt.DelayedSyntaxWorker = Spellchecker
 
 	for {
 		//debug.Log("ShowPrompt (for{})")
@@ -126,7 +126,7 @@ func ShowPrompt() {
 			case readline.EOF:
 				fmt.Println(utils.NewLineString)
 				//return
-				os.Exit(0)
+				lang.Exit(0)
 
 			default:
 				panic(err)
@@ -288,7 +288,7 @@ func getHintTextFormatting() {
 
 var ignoreSpellCheckErr bool
 
-func spellchecker(r []rune) []rune {
+func Spellchecker(r []rune) []rune {
 	s := string(r)
 	new, err := spellcheck.String(s)
 	if err != nil && !ignoreSpellCheckErr {

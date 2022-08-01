@@ -34,7 +34,7 @@ func TestHintCodeBlock(t *testing.T) {
 	count.Tests(t, len(tests))
 
 	lang.InitEnv()
-	defaults.Defaults(lang.ShellProcess.Config, false)
+	defaults.Config(lang.ShellProcess.Config, false)
 	debug.Enabled = true
 
 	for i, test := range tests {

@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
@@ -19,9 +20,14 @@ import (
 var (
 	rxTokenIndex   = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 	rxTokenElement = regexp.MustCompile(`(.*?)\[\[(.*?)\]\]`)
+	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8erns]*)`)
+	rlMutex        sync.Mutex
 )
 
-const errEmptyArray = "Array '@%s' is empty"
+const (
+	errEmptyArray = "Array '@%s' is empty"
+	errEmptyRange = "Range '@%s' is empty"
+)
 
 // ParseParameters is an internal function to parse parameters
 func ParseParameters(prc *Process, p *parameters.Parameters) error {
@@ -66,7 +72,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 				} else {
 					match, globErr := filepath.Glob(p.Tokens[i][j].Key)
-					glob, err := autoGlobPrompt(p.Tokens[i][j].Key, match)
+					glob, err := autoGlobPrompt(prc.Name.String(), p.Tokens[i][j].Key, match)
 					if err != nil {
 						return err
 					}
@@ -224,9 +230,42 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarRange:
-				// TODO: write me!
 				debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
-				//panic("TODO: write me!")
+				match := rxTokenRange.FindStringSubmatch(p.Tokens[i][j].Key)
+
+				var flags string
+
+				switch len(match) {
+				case 3:
+					// do nothing
+				case 4:
+					flags = match[3]
+				default:
+					params[len(params)-1] = p.Tokens[i][j].Key
+					tCount = true
+					continue
+				}
+
+				var array []string
+				block := []rune("echo $" + match[1] + "-> @[" + match[2] + "]" + flags)
+				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork.Execute(block)
+				fork.Stdout.ReadArray(func(b []byte) {
+					array = append(array, string(b))
+				})
+
+				if len(array) == 0 && strictArrays.(bool) {
+					return fmt.Errorf(errEmptyRange, p.Tokens[i][j].Key)
+				}
+
+				if !tCount {
+					params = params[:len(params)-1]
+				}
+
+				params = append(params, array...)
+
+				tCount = true
+				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarTilde:
 				if len(p.Tokens[i][j].Key) == 0 {
@@ -257,9 +296,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	return nil
 }
 
-func autoGlobPrompt(before string, match []string) (bool, error) {
+func autoGlobPrompt(cmd string, before string, match []string) (bool, error) {
+	rlMutex.Lock()
+	defer rlMutex.Unlock()
+
 	rl := readline.NewInstance()
-	prompt := fmt.Sprintf("Do you wish to expand '%s'? [Yn]: ", before)
+	prompt := fmt.Sprintf("(%s) Do you wish to expand '%s'? [Yn]: ", cmd, before)
 	rl.SetPrompt(prompt)
 	rl.HintText = func(_ []rune, _ int) []rune { return autoGlobPromptHintText(rl, match) }
 	rl.History = new(readline.NullHistory)
