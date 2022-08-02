@@ -230,8 +230,9 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarRange:
-				debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
+				//debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
 				match := rxTokenRange.FindStringSubmatch(p.Tokens[i][j].Key)
+				debug.Json("parameters.TokenTypeVarRange:", match)
 
 				var flags string
 
@@ -247,7 +248,8 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				}
 
 				var array []string
-				block := []rune("echo $" + match[1] + "-> @[" + match[2] + "]" + flags)
+				block := []rune("$" + match[1] + "-> @[" + match[2] + "]" + flags)
+				debug.Log(string(block))
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
 				fork.Stdout.ReadArray(func(b []byte) {

@@ -762,11 +762,18 @@ autocomplete: set terraform {[
         "DynamicDesc": ({
             cast json
             config: set proc strict-arrays false
-            terraform -help @{ $ARGS -> @[1..] } -> tabulate: --map --column-wraps --key-inc-hint
+            if {
+                and { = `$1`==`workspace` } { = `$2`==`select` }
+            } then {
+                terraform: workspace list -> regexp: (s/^[\s\*]+//) -> @[..-2] -> suffix: ': "Terraform workspace"' -> grep: -v "^:" -> cast: yaml -> format: json
+            } else {
+                terraform -help @PARAMS -> tabulate: --map --column-wraps --key-inc-hint
+            }
         }),
         "AllowMultiple": true,
         "AllowAny": true,
-        "ListView": true
+        "ListView": true,
+        "CacheTTL": 60
     }
 ]}
 
