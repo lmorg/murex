@@ -1,7 +1,10 @@
 package lang_test
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/lmorg/murex/test"
 )
@@ -79,12 +82,12 @@ func TestParamHangBug(t *testing.T) {
 		{
 			Block:  `out: @FOO[BAR]`,
 			Stdout: "\n",
-			Stderr: "Error in `@[` ( 4,15): invalid syntax: could not separate component values: [].\n                     > Usage: @[start..end] / @[start..end]se\n                     > (start or end can be omitted)\n",
+			Stderr: "Error in `@[` ( 4,10): invalid syntax: could not separate component values: [].\n                     > Usage: @[start..end] / @[start..end]se\n                     > (start or end can be omitted)\n",
 		},
 		{
 			Block:  `out: @FOO[[BAR]]`,
 			Stdout: "\n",
-			Stderr: "Error in `@[[` ( 4,15): exec: \"@[[\": executable file not found in $PATH\n",
+			Stderr: "Error in `@[[` ( 4,10): exec: \"@[[\": executable file not found in $PATH\n",
 		},
 		{
 			Block:  `out: @ FOO[BAR]`,
@@ -121,4 +124,42 @@ func TestParamHangBug(t *testing.T) {
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestParamVarRange(t *testing.T) {
+	rand.Seed(time.Now().Unix())
+
+	test1, test2, test3 := rand.Int(), rand.Int(), rand.Int()
+
+	tests := []test.MurexTest{
+		{
+			Block: fmt.Sprintf(`
+				a: [Monday..Friday] -> set: %s%d
+				out: @%s%d[2..]
+				`,
+				t.Name(), test1, t.Name(), test1,
+			),
+			Stdout: "^Wednesday Thursday Friday\n$",
+		},
+		{
+			Block: fmt.Sprintf(`
+				ja: [Monday..Friday] -> set: %s%d
+				out: @%s%d[2..3]
+				`,
+				t.Name(), test2, t.Name(), test2,
+			),
+			Stdout: "^Wednesday Thursday\n$",
+		},
+		{
+			Block: fmt.Sprintf(`
+				ja: [Monday..Friday] -> set: %s%d
+				out: @%s%d[..1]
+				`,
+				t.Name(), test3, t.Name(), test3,
+			),
+			Stdout: "^Monday Tuesday\n$",
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }
