@@ -2,16 +2,17 @@
 
 ## Supported Platforms
 
-While _murex_ aims at being cross platform, there are some known limitations on
-Windows and Plan 9. Please read the [supported platforms document](docs/FAQ.supported-platforms.md)
-for more information.
+Linux, BSD and macOS are fully supported, with other platforms considered
+experimental.
 
-Please note that Windows support is experimental and there are bugs specific to
-Windows due to the differences in how commands are executed on Windows. In some
-instances these bugs are significant to the user experience of _murex_ and
-cannot be worked around. The recommended approach for running _murex_ on
-Windows is to use a Linux port of the shell on a POSIX compatibility layer such
-as WSL or Cygwin. Please see the [supported platforms document](docs/FAQ.supported-platforms.md) for more details.
+While _murex_ aims at being cross platform, there are some known limitations on
+Windows and Plan 9.
+
+The recommended approach for running _murex_ on Windows is to use a Linux port
+of the shell on a POSIX compatibility layer such as WSL or Cygwin.
+
+Please see the [supported platforms document](docs/FAQ.supported-platforms.md)
+for more details on any of the above.
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -30,6 +31,16 @@ to install. See the next section for package manager support.
 ## Installing From A Package Manager
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/murex.svg)](https://repology.org/project/murex/versions)
+
+### ArchLinux
+
+Available as an AUR package:
+
+* PKGBUILD file:
+  https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex
+
+* AUR package repository:
+  https://aur.archlinux.org/packages/murex
 
 ### Homebrew
 
