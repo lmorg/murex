@@ -37,10 +37,10 @@ to install. See the next section for package manager support.
 Available as an AUR package:
 
 * PKGBUILD file:
-  https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex
+  [https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex](https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex)
 
 * AUR package repository:
-  https://aur.archlinux.org/packages/murex
+  [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
 
 ### Homebrew
 
