@@ -42,7 +42,10 @@ func cacheFileCompletions(pwd string) {
 
 	var ctx context.Context
 
-	maxDepth, _ := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
+	maxDepth, err := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
+	if err != nil {
+		maxDepth = 0 // This should only crop up in testing
+	}
 
 	ctx, cancel = context.WithTimeout(context.Background(), time.Duration(60*time.Second))
 	mutex.Unlock()
