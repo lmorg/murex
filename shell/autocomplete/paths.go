@@ -13,6 +13,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -282,6 +283,7 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		pwd = path
 	}
 
+	cd.WalkCachedCompletions(pwd, walker)
 	filepath.Walk(pwd, walker)
 	/*err = filepath.Walk(pwd, walker)
 	if err != nil {

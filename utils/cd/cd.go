@@ -30,6 +30,8 @@ func Chdir(p *lang.Process, path string) error {
 		pwd = path
 	}
 
+	go cacheFileCompletions(pwd)
+
 	//ansititle.Icon([]byte(pwd))
 
 	// Update $PWD environmental variable for compatibility reasons
