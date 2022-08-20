@@ -142,6 +142,17 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
+	width := readline.GetTermWidth()
+	switch {
+	case width >= 200:
+		Prompt.MaxTabItemLength = width / 5
+	case width >= 150:
+		Prompt.MaxTabItemLength = width / 4
+	case width >= 100:
+		Prompt.MaxTabItemLength = width / 3
+	case width >= 70:
+		Prompt.MaxTabItemLength = width / 2
+	}
 
 	var i int
 	if act.DoNotSort {
