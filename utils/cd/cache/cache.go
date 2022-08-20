@@ -1,4 +1,4 @@
-package cd
+package cache
 
 import (
 	"context"
@@ -15,8 +15,8 @@ import (
 )
 
 type cachedWalkT struct {
-	path     string
-	fileInfo os.FileInfo
+	Path     string
+	FileInfo os.FileInfo
 }
 
 var (
@@ -29,13 +29,32 @@ var (
 func init() {
 	cachedWalk = make(map[string][]cachedWalkT)
 	lastScan = make(map[string]time.Time)
+
+	go garbageCollection()
 }
 
-func cacheFileCompletions(pwd string) {
+func garbageCollection() {
+	for {
+		time.Sleep(time.Duration(gcSleep) * time.Minute)
+
+		mutex.Lock()
+		for s := range lastScan {
+			if lastScan[s].Add(time.Duration(cacheTimeout) * time.Hour).Before(time.Now()) {
+				delete(lastScan, s)
+				delete(cachedWalk, s)
+			}
+		}
+		mutex.Unlock()
+	}
+}
+
+func GatherFileCompletions(pwd string) {
+	pwd = path.Clean(pwd)
+
 	mutex.Lock()
 	cancel()
 
-	if lastScan[pwd].Add(1 * time.Hour).After(time.Now()) {
+	if lastScan[pwd].Add(time.Duration(cacheTimeout) * time.Hour).After(time.Now()) {
 		mutex.Unlock()
 		return
 	}
@@ -47,9 +66,10 @@ func cacheFileCompletions(pwd string) {
 		maxDepth = 0 // This should only crop up in testing
 	}
 
-	ctx, cancel = context.WithTimeout(context.Background(), time.Duration(60*time.Second))
+	ctx, cancel = context.WithTimeout(context.Background(), time.Duration(walkTimeout)*time.Second)
 	mutex.Unlock()
 
+	currentDepth := len(strings.Split(pwd, consts.PathSlash))
 	var cw []cachedWalkT
 
 	walker := func(walkedPath string, info os.FileInfo, err error) error {
@@ -65,13 +85,13 @@ func cacheFileCompletions(pwd string) {
 
 		dirs := strings.Split(walkedPath, consts.PathSlash)
 
-		if len(dirs) > maxDepth.(int) {
+		if len(dirs)-currentDepth > maxDepth.(int) {
 			return filepath.SkipDir
 		}
 
-		if len(dirs) != 0 && len(dirs[len(dirs)-1]) == 0 {
+		/*if len(dirs) != 0 && len(dirs[len(dirs)-1]) == 0 {
 			return nil
-		}
+		}*/
 
 		cw = append(cw, cachedWalkT{walkedPath, info})
 		return nil
@@ -85,9 +105,9 @@ func cacheFileCompletions(pwd string) {
 	mutex.Unlock()
 }
 
-func WalkCachedCompletions(pwd string, walker filepath.WalkFunc) {
+func WalkCompletions(pwd string, walker filepath.WalkFunc) bool {
 	if len(pwd) == 0 {
-		return
+		return false
 	}
 
 	if pwd[0] != '/' {
@@ -100,9 +120,9 @@ func WalkCachedCompletions(pwd string, walker filepath.WalkFunc) {
 
 	mutex.Lock()
 
-	if lastScan[pwd].Add(1 * time.Hour).After(time.Now()) {
+	if lastScan[pwd].Add(time.Duration(cacheTimeout) * time.Second).Before(time.Now()) {
 		mutex.Unlock()
-		return
+		return false
 	}
 
 	cw := cachedWalk[pwd]
@@ -110,9 +130,33 @@ func WalkCachedCompletions(pwd string, walker filepath.WalkFunc) {
 
 	var err error
 	for _, file := range cw {
-		err = walker(file.path, file.fileInfo, nil)
+		err = walker(file.Path, file.FileInfo, nil)
 		if err != nil {
-			return
+			return false
 		}
 	}
+
+	return true
+}
+
+func DumpCompletions() interface{} {
+	type dumpT struct {
+		Walk     []cachedWalkT
+		LastScan string
+	}
+
+	dump := make(map[string]dumpT)
+
+	mutex.Lock()
+	for s := range cachedWalk {
+		walk := make([]cachedWalkT, len(cachedWalk[s]))
+		copy(walk, cachedWalk[s])
+		dump[s] = dumpT{
+			Walk:     walk,
+			LastScan: lastScan[s].String(),
+		}
+	}
+	mutex.Unlock()
+
+	return dump
 }

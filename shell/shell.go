@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/readline"
@@ -34,6 +35,8 @@ var (
 
 // Start the interactive shell
 func Start() {
+	cache.GatherFileCompletions(".")
+
 	if debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
