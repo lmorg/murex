@@ -284,6 +284,7 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 
 	success := cache.WalkCompletions(pwd, walker)
 	if !success {
+		go cache.GatherFileCompletions(pwd)
 		filepath.Walk(pwd, walker)
 		return
 	}

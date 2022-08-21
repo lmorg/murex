@@ -48,8 +48,26 @@ func garbageCollection() {
 	}
 }
 
+func cleanPath(pwd string) string {
+	if len(pwd) == 0 {
+		return ""
+	}
+
+	if pwd[0] != '/' {
+		wd, err := os.Getwd()
+		if err == nil {
+			pwd = wd + "/" + pwd
+		}
+	}
+	return path.Clean(pwd)
+}
+
 func GatherFileCompletions(pwd string) {
-	pwd = path.Clean(pwd)
+	pwd = cleanPath(pwd)
+
+	if len(pwd) == 0 {
+		return
+	}
 
 	mutex.Lock()
 	cancel()
@@ -106,17 +124,11 @@ func GatherFileCompletions(pwd string) {
 }
 
 func WalkCompletions(pwd string, walker filepath.WalkFunc) bool {
+	pwd = cleanPath(pwd)
+
 	if len(pwd) == 0 {
 		return false
 	}
-
-	if pwd[0] != '/' {
-		wd, err := os.Getwd()
-		if err == nil {
-			pwd = wd + "/" + pwd
-		}
-	}
-	pwd = path.Clean(pwd)
 
 	mutex.Lock()
 

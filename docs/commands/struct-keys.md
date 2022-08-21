@@ -12,17 +12,15 @@ TOML, etc.
 The output is a JSON array of the keys with each value being a file path
 representation of the input structure's node.
 
-`struct-keys` accepts one optional parameter, an integer value which defines
-how deep into a nest `struct-keys` should travel. The default is set at a
-modest `20` for runtime performance, however this value might be subject to
-change in future releases of _murex_ and thus you are recommended to set this
-value in any scripts.
-
 ## Usage
 
     <stdin> -> struct-keys [ depth ] -> <stdout>
+    
+    <stdin> -> struct-keys [ flags ] -> <stdout>
 
 ## Examples
+
+The source for these examples will be defined in the variable `$example`:
 
     » set: json example={
           "firstName": "John",
@@ -52,6 +50,9 @@ value in any scripts.
           "children": [],
           "spouse": null
       }
+    
+Without any flags set:
+
     » $example -> struct-keys
     [
         "/lastName",
@@ -76,6 +77,66 @@ value in any scripts.
         "/spouse",
         "/firstName"
     ]
+    
+Defining max depth and changing the separator string:
+
+    » $example -> struct-keys --depth 1 --separator '.'   
+    [
+        ".children",
+        ".spouse",
+        ".firstName",
+        ".lastName",
+        ".isAlive",
+        ".age",
+        ".address",
+        ".phoneNumbers"
+    ]
+    
+An example of a unicode character being used as a separator:
+
+    » $example -> struct-keys --depth 2 --separator ☺                                                                                                                                                           
+    [
+        "☺age",
+        "☺address",
+        "☺address☺streetAddress",
+        "☺address☺city",
+        "☺address☺state",
+        "☺address☺postalCode",
+        "☺phoneNumbers",
+        "☺phoneNumbers☺0",
+        "☺phoneNumbers☺1",
+        "☺phoneNumbers☺2",
+        "☺children",
+        "☺spouse",
+        "☺firstName",
+        "☺lastName",
+        "☺isAlive"
+    ]
+    
+Separator can also be multiple characters:
+
+    » $example -> struct-keys --depth 1 --separator '|||' 
+    [
+        "|||firstName",
+        "|||lastName",
+        "|||isAlive",
+        "|||age",
+        "|||address",
+        "|||phoneNumbers",
+        "|||children",
+        "|||spouse"
+    ]
+
+## Flags
+
+* `--depth`
+    How far to traverse inside the nested structure
+* `--separator`
+    String to use as a separator between fields (defaults to `/`)
+* `-d`
+    Alias for `--depth
+* `-s`
+    Alias for `--separator
 
 ## See Also
 
