@@ -37,7 +37,14 @@ var (
 // Start the interactive shell
 func Start() {
 	cache.GatherFileCompletions(".")
-	go autocomplete.CacheHints()
+
+	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
+	if err != nil {
+		v = false
+	}
+	if v.(bool) {
+		go autocomplete.CacheHints()
+	}
 
 	if debug.Enabled {
 		defer func() {
@@ -47,8 +54,6 @@ func Start() {
 			}
 		}()
 	}
-
-	var err error
 
 	lang.Interactive = true
 	Prompt.TempDirectory = consts.TempDir
@@ -60,7 +65,7 @@ func Start() {
 
 	SignalHandler(true)
 
-	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	v, err = lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = 4
 	}
