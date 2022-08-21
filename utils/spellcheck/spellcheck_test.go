@@ -4,9 +4,7 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/core/arraytools"
-	_ "github.com/lmorg/murex/builtins/core/pretty"
-	_ "github.com/lmorg/murex/builtins/types/json"
+	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
