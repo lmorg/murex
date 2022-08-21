@@ -52,8 +52,8 @@ STDIN is a long running process or non-standard stream (eg network pipe).
 
 ## Synonyms
 
-* `msort`
-* `list.sort`
+* `mtac`
+* `list.reverse`
 
 
 ## See Also

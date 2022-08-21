@@ -40,7 +40,7 @@ any integers in data type aware structures will be converted into strings:
 ## Synonyms
 
 * `append`
-* `list.prepend`
+* `list.append`
 
 
 ## See Also

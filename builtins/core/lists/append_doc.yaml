@@ -97,7 +97,7 @@
     ```
   Synonyms:
   - append
-  - list.prepend
+  - list.append
   Related:
   - index
   - element
