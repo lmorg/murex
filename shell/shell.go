@@ -103,6 +103,8 @@ func ShowPrompt() {
 	for {
 		//debug.Log("ShowPrompt (for{})")
 
+		signalRegister(true)
+
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()

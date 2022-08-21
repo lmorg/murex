@@ -7,3 +7,5 @@ package shell
 // However since no signals will be sent via a webpage, this is just an empty
 // function when compiled against js/wasm
 func SignalHandler(_ bool) {}
+
+func signalRegister(_ bool) {}

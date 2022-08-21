@@ -17,19 +17,11 @@ import (
 
 // SignalHandler is an internal function to capture and handle OS signals (eg SIGTERM).
 func SignalHandler(interactive bool) {
-	c := make(chan os.Signal, 1)
-
-	if interactive {
-		// Interactive, so we will handle stop
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
-	} else {
-		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	}
-
+	signalRegister(interactive)
+	
 	go func() {
 		for {
-			sig := <-c
+			sig := <-signalChan
 			switch sig.String() {
 
 			case syscall.SIGINT.String():
@@ -49,6 +41,16 @@ func SignalHandler(interactive bool) {
 			}
 		}
 	}()
+}
+
+func signalRegister(interactive bool) {
+	if interactive {
+		// Interactive, so we will handle stop
+		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGTSTP)
+	} else {
+		// Non-interactive, so lets ignore the stop signal and let the OS / calling shell manage that for us
+		signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+	}
 }
 
 func sigtstp() {

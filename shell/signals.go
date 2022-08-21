@@ -9,6 +9,8 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
+var signalChan chan os.Signal = make(chan os.Signal, 1)
+
 const (
 	// PromptSIGINT defines the string to write when ctrl+c is pressed
 	PromptSIGINT = "^C"
