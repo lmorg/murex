@@ -12,6 +12,7 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
@@ -36,6 +37,7 @@ var (
 // Start the interactive shell
 func Start() {
 	cache.GatherFileCompletions(".")
+	go autocomplete.CacheHints()
 
 	if debug.Enabled {
 		defer func() {

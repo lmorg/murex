@@ -47,7 +47,7 @@ func GetManPages(exe string) []string {
 	return strings.Split(s, ":")
 }
 
-func validMan(path string) bool {
+func invalidMan(path string) bool {
 	return !rxMatchManSection.MatchString(path) &&
 		!strings.HasSuffix(path, "test/cat.1.gz")
 }
@@ -56,7 +56,7 @@ func validMan(path string) bool {
 func ParseByPaths(paths []string) []string {
 	fMap := make(map[string]bool)
 	for i := range paths {
-		if validMan(paths[i]) {
+		if invalidMan(paths[i]) {
 			continue
 		}
 		parseFlags(&fMap, createScanner(paths[i]))
@@ -193,18 +193,21 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 			(*flags)[match[i][1]] = true
 		}
 	}
-
-	return
 }
 
 // ParseSummary runs the parser to locate a summary
 func ParseSummary(paths []string) string {
 	for i := range paths {
-		if validMan(paths[i]) {
+		if invalidMan(paths[i]) {
 			continue
 		}
-		desc := parseSummary(paths[i])
+		desc := SummaryCache.Get(paths[i])
 		if desc != "" {
+			return desc
+		}
+		desc = parseSummary(paths[i])
+		if desc != "" {
+			SummaryCache.Set(paths[i], desc)
 			return desc
 		}
 	}
