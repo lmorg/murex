@@ -8,8 +8,13 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func TestAliases(t *testing.T) {
 	alias := "TestAlias"
@@ -48,6 +53,37 @@ func TestAliases(t *testing.T) {
 	}
 }
 
+func TestAliasParamParsing(t *testing.T) {
+	alias := fmt.Sprintf("GoTest-alias-%d-", rand.Int())
+
+	tests := []test.MurexTest{
+		// no space
+		{Block: fmt.Sprintf(`alias %s%d=foobar`, alias, 0)},
+
+		// 1 space
+		{Block: fmt.Sprintf(`alias %s%d= foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d =foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d = foobar`, alias, 0)},
+
+		// 2 spaces
+		{Block: fmt.Sprintf(`alias %s%d=  foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d  =foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d  =  foobar`, alias, 0)},
+
+		// 1 tab
+		{Block: fmt.Sprintf(`alias %s%d=	foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d	=foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d	=	foobar`, alias, 0)},
+
+		// 2 tabs
+		{Block: fmt.Sprintf(`alias %s%d=		foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d		=foobar`, alias, 0)},
+		{Block: fmt.Sprintf(`alias %s%d		=		foobar`, alias, 0)},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
 func TestFunction(t *testing.T) {
 	fn := "TestFunction"
 
@@ -83,10 +119,6 @@ func TestFunction(t *testing.T) {
 	if lang.MxFunctions.Exists(fn) {
 		t.Fatalf("Expecting '%s' to be destroyed, it still exists", fn)
 	}
-}
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
 }
 
 func TestPrivate(t *testing.T) {
