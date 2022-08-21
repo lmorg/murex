@@ -60,6 +60,7 @@
   Synonyms:
   - match
   - "!match"
+  - list.string
   Related:
   - a
   - ja
@@ -163,6 +164,7 @@
   Synonyms:
   - regexp
   - "!regexp"
+  - list.regex
   Related:
   - a
   - ja

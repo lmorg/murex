@@ -1,4 +1,4 @@
-package textmanip
+package pretty
 
 import (
 	"bytes"

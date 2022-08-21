@@ -75,7 +75,7 @@ func init() {
 		"match":                 "match_commands_docgen.go",
 		"method":                "method_commands_docgen.go",
 		"msort":                 "msort_commands_docgen.go",
-		"mtac":                  "mtac_commands_docgen.go",
+		"msort":                 "mtac_commands_docgen.go",
 		"murex-docs":            "murex-docs_commands_docgen.go",
 		"murex-package":         "murex-package_commands_docgen.go",
 		"murex-parser":          "murex-parser_commands_docgen.go",

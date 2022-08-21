@@ -58,6 +58,7 @@ same data-type.
 
 * `match`
 * `!match`
+* `list.string`
 
 
 ## See Also

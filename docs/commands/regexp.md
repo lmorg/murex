@@ -81,6 +81,7 @@ same data-type.
 
 * `regexp`
 * `!regexp`
+* `list.regex`
 
 
 ## See Also

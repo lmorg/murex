@@ -1,4 +1,4 @@
-package arraytools
+package lists
 
 import (
 	"testing"

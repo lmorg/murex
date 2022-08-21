@@ -33,6 +33,12 @@ This is so that the formatting of (multiline) text is retained as much as
 possible to ensure the `jsplit` is accurate while at the same time any commonly
 unwanted "noise" is stripped from the output.
 
+## Synonyms
+
+* `jsplit`
+* `list.split`
+
+
 ## See Also
 
 * [commands/`2darray` ](../commands/2darray.md):

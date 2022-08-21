@@ -42,6 +42,12 @@ Supported data types can queried via `runtime`
     runtime: --marshallers
     runtime: --unmarshallers
 
+## Synonyms
+
+* `left`
+* `list.left`
+
+
 ## See Also
 
 * [commands/`a` (mkarray)](../commands/a.md):

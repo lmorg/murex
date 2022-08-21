@@ -42,6 +42,12 @@ any integers in data type aware structures will be converted into strings:
         "3"
     ]
 
+## Synonyms
+
+* `prepend`
+* `list.prepend`
+
+
 ## See Also
 
 * [commands/`[[` (element)](../commands/element.md):

@@ -37,6 +37,12 @@ any integers in data type aware structures will be converted into strings:
         "new"
     ]
 
+## Synonyms
+
+* `append`
+* `list.prepend`
+
+
 ## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):
