@@ -1,11 +1,9 @@
-package arraytools
+package arraytools_test
 
 import (
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins/types/generic"
-	_ "github.com/lmorg/murex/builtins/types/json"
-	_ "github.com/lmorg/murex/builtins/types/jsonlines"
+	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
 

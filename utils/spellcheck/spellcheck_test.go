@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/arraytools"
-	_ "github.com/lmorg/murex/builtins/core/textmanip"
+	_ "github.com/lmorg/murex/builtins/core/pretty"
 	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/config/defaults"
