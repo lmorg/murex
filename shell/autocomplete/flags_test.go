@@ -29,7 +29,7 @@ func initAutocompleteFlagsTest(exe string, acJson string) {
 	defaults.Config(lang.ShellProcess.Config, false)
 	//debug.Enabled = true
 
-	err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000, nil)
+	/*err := lang.ShellProcess.Config.Set("shell", "autocomplete-soft-timeout", 3000, nil)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -37,11 +37,11 @@ func initAutocompleteFlagsTest(exe string, acJson string) {
 	err = lang.ShellProcess.Config.Set("shell", "autocomplete-hard-timeout", 10000, nil)
 	if err != nil {
 		panic(err.Error())
-	}
+	}*/
 
 	var flags []autocomplete.Flags
 
-	err = json.UnmarshalMurex([]byte(acJson), &flags)
+	err := json.UnmarshalMurex([]byte(acJson), &flags)
 	if err != nil {
 		panic(err.Error())
 	}

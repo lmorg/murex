@@ -91,7 +91,7 @@ func GatherFileCompletions(pwd string) {
 
 	var (
 		cw []cachedWalkT
-		m  sync.Mutex
+		//m  sync.Mutex
 	)
 
 	walker := func(walkedPath string, info os.FileInfo, err error) error {
@@ -115,9 +115,9 @@ func GatherFileCompletions(pwd string) {
 			return nil
 		}*/
 
-		m.Lock()
+		//m.Lock()
 		cw = append(cw, cachedWalkT{walkedPath, info})
-		m.Unlock()
+		//m.Unlock()
 
 		return nil
 	}
