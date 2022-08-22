@@ -66,24 +66,27 @@ func (pc *pathsCacheT) Get(hash []byte) []string {
 	s := string(hash)
 
 	pc.mutex.Lock()
-	defer pc.mutex.Unlock()
 
 	cache := pc.hash[s]
 	if cache.time.After(time.Now()) {
-		return cache.paths
+		s := cache.paths
+		pc.mutex.Unlock()
+		return s
 	}
 
+	pc.mutex.Unlock()
 	return nil
 }
 
 func (pc *pathsCacheT) Set(hash []byte, paths []string) {
 	pc.mutex.Lock()
-	defer pc.mutex.Unlock()
 
 	pc.hash[string(hash)] = pathsCacheItemT{
 		time:  time.Now().Add(time.Duration(30) * time.Second),
 		paths: paths,
 	}
+
+	pc.mutex.Unlock()
 }
 
 func (pc *pathsCacheT) garbageCollection() {

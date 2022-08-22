@@ -118,25 +118,24 @@ func (r *Reader) ReadMap(config *config.Config, callback func(key, value string,
 
 // Write is a dummy function because it's a reader interface
 func (r *Reader) Write(p []byte) (int, error) {
-	return 0, errors.New("Cannot write to a reader interface")
+	return 0, errors.New("cannot write to a reader interface")
 }
 
 // Writeln is a dummy function because it's a reader interface
 func (r *Reader) Writeln(b []byte) (int, error) {
-	return 0, errors.New("Cannot write to a reader interface")
+	return 0, errors.New("cannot write to a reader interface")
 }
 
 // WriteArray is a dummy function because it's a reader interface
 func (r *Reader) WriteArray(dataType string) (stdio.ArrayWriter, error) {
-	return nil, errors.New("Cannot write to a reader interface")
+	return nil, errors.New("cannot write to a reader interface")
 }
 
 // Open the stream.Io interface for another dependant
 func (r *Reader) Open() {
 	r.mutex.Lock()
-	defer r.mutex.Unlock()
-
 	r.dependents++
+	r.mutex.Unlock()
 }
 
 // Close the stream.Io interface

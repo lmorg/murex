@@ -15,9 +15,11 @@ func NewSummaryCache() *summaryCacheT {
 
 func (sc *summaryCacheT) Get(command string) string {
 	sc.mutex.Lock()
-	defer sc.mutex.Unlock()
 
-	return sc.summary[command]
+	s := sc.summary[command]
+
+	sc.mutex.Unlock()
+	return s
 }
 
 func (sc *summaryCacheT) Set(command string, summary []rune) {

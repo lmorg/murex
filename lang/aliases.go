@@ -43,12 +43,13 @@ func (a *Aliases) Get(name string) (alias []string) {
 // Delete an alias
 func (a *Aliases) Delete(name string) error {
 	a.mutex.Lock()
-	defer a.mutex.Unlock()
 
 	if len(a.aliases[name]) == 0 {
+		a.mutex.Unlock()
 		return errors.New("alias does not exist")
 	}
 	delete(a.aliases, name)
+	a.mutex.Unlock()
 	return nil
 }
 

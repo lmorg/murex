@@ -381,13 +381,14 @@ func (mf *MurexFuncs) Summary(name string) (string, error) {
 // Undefine deletes function from table
 func (mf *MurexFuncs) Undefine(name string) error {
 	mf.mutex.Lock()
-	defer mf.mutex.Unlock()
 
 	if mf.fn[name] == nil {
+		mf.mutex.Unlock()
 		return errors.New("cannot locate function named `" + name + "`")
 	}
 
 	delete(mf.fn, name)
+	mf.mutex.Unlock()
 	return nil
 }
 

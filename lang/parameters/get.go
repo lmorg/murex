@@ -13,56 +13,64 @@ var errTooFew = errors.New("too few parameters")
 // Byte gets a single parameter as a []byte slice
 func (p *Parameters) Byte(pos int) ([]byte, error) {
 	p.mutex.RLock()
-	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
+		p.mutex.RUnlock()
 		return []byte{}, errTooFew
 	}
-	return []byte(p.params[pos]), nil
+	b := []byte(p.params[pos])
+	p.mutex.RUnlock()
+	return b, nil
 }
 
 // ByteAll returns all parameters as one space-delimited []byte slice
 func (p *Parameters) ByteAll() []byte {
 	p.mutex.RLock()
-	defer p.mutex.RUnlock()
-
-	return []byte(strings.Join(p.params, " "))
+	b := []byte(strings.Join(p.params, " "))
+	p.mutex.RUnlock()
+	return b
 }
 
 // ByteAllRange returns all parameters within range as one space-delimited []byte slice
 // `start` is first point in array. `end` is last. Set `end` to `-1` if you want `[n:]`.
 func (p *Parameters) ByteAllRange(start, end int) []byte {
+	var b []byte
 	p.mutex.RLock()
-	defer p.mutex.RUnlock()
 
 	if end == -1 {
-		return []byte(strings.Join(p.params[start:], " "))
+		b = []byte(strings.Join(p.params[start:], " "))
 	}
-	return []byte(strings.Join(p.params[start:end], " "))
+	b = []byte(strings.Join(p.params[start:end], " "))
+
+	p.mutex.RUnlock()
+
+	return b
 }
 
 // RuneArray gets all parameters as a [][]rune slice {parameter, characters}
 func (p *Parameters) RuneArray() [][]rune {
 	p.mutex.RLock()
-	defer p.mutex.RUnlock()
 
 	r := make([][]rune, len(p.params))
 	for i := range p.params {
 		r[i] = []rune(p.params[i])
 	}
-
+	p.mutex.RUnlock()
 	return r
 }
 
 // String gets a single parameter as string
 func (p *Parameters) String(pos int) (string, error) {
 	p.mutex.RLock()
-	defer p.mutex.RUnlock()
 
 	if p.Len() <= pos {
+		p.mutex.RUnlock()
 		return "", errTooFew
 	}
-	return p.params[pos], nil
+
+	s := p.params[pos]
+	p.mutex.RUnlock()
+	return s, nil
 }
 
 // StringArray returns all parameters as a slice of strings
@@ -88,17 +96,21 @@ func (p *Parameters) StringAll() string {
 // StringAllRange returns all parameters within range as one space-delimited string.
 // `start` is first point in array. `end` is last. Set `end` to `-1` if you want `[n:]`.
 func (p *Parameters) StringAllRange(start, end int) string {
-	p.mutex.RLock()
-	defer p.mutex.RUnlock()
+	p.mutex.RLock() 
+
+	var s string
 
 	switch {
 	case len(p.params) == 0:
-		return ""
+		s= ""
 	case end == -1:
-		return strings.Join(p.params[start:], " ")
+		s= strings.Join(p.params[start:], " ")
 	default:
-		return strings.Join(p.params[start:end], " ")
+		s= strings.Join(p.params[start:end], " ")
 	}
+
+	p.mutex.RUnlock()
+	return s
 }
 
 // Int gets parameter as integer
