@@ -57,11 +57,8 @@ func Start() {
 
 	lang.Interactive = true
 	Prompt.TempDirectory = consts.TempDir
-	Prompt.TabCompleter = tabCompletion
-	Prompt.SyntaxCompleter = syntaxCompletion
-	Prompt.HistoryAutoWrite = false
 
-	setPromptHistory()
+	definePromptHistory()
 
 	SignalHandler(true)
 
@@ -105,12 +102,16 @@ func ShowPrompt() {
 		return expanded
 	}
 
-	Prompt.DelayedSyntaxWorker = Spellchecker
-
 	for {
 		//debug.Log("ShowPrompt (for{})")
 
 		signalRegister(true)
+
+		setPromptHistory()
+		Prompt.TabCompleter = tabCompletion
+		Prompt.SyntaxCompleter = syntaxCompletion
+		Prompt.DelayedSyntaxWorker = Spellchecker
+		Prompt.HistoryAutoWrite = false
 
 		getSyntaxHighlighting()
 		getHintTextEnabled()
