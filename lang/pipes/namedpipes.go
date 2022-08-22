@@ -44,7 +44,7 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 
 	io, err := stdio.CreatePipe(pipeType, arguments)
 	if err != nil {
-		n.mutex.Lock()
+		n.mutex.Unlock()
 		return err
 	}
 
@@ -54,7 +54,7 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 	}
 
 	io.Open()
-	n.mutex.Lock()
+	n.mutex.Unlock()
 	return nil
 }
 
