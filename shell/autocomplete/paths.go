@@ -204,6 +204,8 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		path = consts.PathSlash + path
 	}
 
+	var mutex sync.Mutex
+
 	walker := func(walkedPath string, info os.FileInfo, err error) error {
 		select {
 		case <-ctx.Done():
@@ -264,11 +266,15 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		if strings.HasPrefix(walkedPath, s) {
 			switch {
 			case info.IsDir():
+				mutex.Lock()
 				hierarchy = append(hierarchy, walkedPath[len(s):]+consts.PathSlash)
+				mutex.Unlock()
 			case rx != nil && !rx.MatchString(info.Name()):
 				return nil
 			default:
+				mutex.Lock()
 				hierarchy = append(hierarchy, walkedPath[len(s):])
+				mutex.Unlock()
 			}
 		}
 
