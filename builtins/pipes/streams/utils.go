@@ -1,8 +1,6 @@
 package streams
 
 import (
-	"time"
-
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -73,7 +71,7 @@ func (stdin *Stdin) GetDataType() (dt string) {
 			return types.Generic
 		}
 
-		time.Sleep(3 * time.Millisecond)
+		//time.Sleep(3 * time.Millisecond)
 	}
 }
 
