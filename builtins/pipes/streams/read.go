@@ -3,6 +3,7 @@ package streams
 import (
 	"bufio"
 	"io"
+	"time"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/stdio"
@@ -28,7 +29,7 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 			if deps < 1 {
 				return 0, io.EOF
 			}
-
+			time.Sleep(3 * time.Millisecond)
 			continue
 		}
 

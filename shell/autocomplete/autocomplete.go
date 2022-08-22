@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
@@ -67,15 +68,22 @@ func (act *AutoCompleteT) disposable() *AutoCompleteT {
 // MatchFunction returns autocomplete suggestions for functions / executables
 // based on a partial string
 func MatchFunction(partial string, act *AutoCompleteT) {
+	precache, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
+	if err != nil {
+		precache = false
+	}
+
 	switch {
 	case pathIsLocal(partial):
 		act.Items = matchLocal(partial, true)
 		act.Items = append(act.Items, matchDirs(partial, act)...)
 	default:
 		exes := allExecutables(true)
-		act.Items = matchExes(partial, exes, false)
-		for i := range act.Items {
-			act.Definitions[act.Items[i]] = hintsummary.Cache.Get(partial + act.Items[i])
+		act.Items = matchExes(partial, exes, !precache.(bool))
+		if precache.(bool) {
+			for i := range act.Items {
+				act.Definitions[act.Items[i]] = hintsummary.Cache.Get(partial + act.Items[i])
+			}
 		}
 	}
 }

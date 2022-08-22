@@ -36,6 +36,15 @@ var (
 
 // Start the interactive shell
 func Start() {
+	if debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
+				Start()
+			}
+		}()
+	}
+
 	cache.GatherFileCompletions(".")
 
 	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
@@ -44,15 +53,6 @@ func Start() {
 	}
 	if v.(bool) {
 		go autocomplete.CacheHints()
-	}
-
-	if debug.Enabled {
-		defer func() {
-			if r := recover(); r != nil {
-				os.Stderr.WriteString(fmt.Sprintln("Panic caught:", r))
-				Start()
-			}
-		}()
 	}
 
 	lang.Interactive = true

@@ -27,7 +27,7 @@ func (a *Aliases) Add(name string, alias []string) {
 // Exists checks if alias exists in table
 func (a *Aliases) Exists(name string) (exists bool) {
 	a.mutex.Lock()
-	exists = len(a.aliases[name]) > 0
+	exists = a.aliases[name] != nil
 	a.mutex.Unlock()
 	return exists
 }
