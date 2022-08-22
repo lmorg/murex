@@ -35,11 +35,11 @@ func init() {
 
 func garbageCollection() {
 	for {
-		time.Sleep(time.Duration(gcSleep) * time.Minute)
+		time.Sleep(time.Duration(gcSleep) * time.Second)
 
 		mutex.Lock()
 		for s := range lastScan {
-			if lastScan[s].Add(time.Duration(cacheTimeout) * time.Hour).Before(time.Now()) {
+			if lastScan[s].Add(time.Duration(cacheTimeout) * time.Second).Before(time.Now()) {
 				delete(lastScan, s)
 				delete(cachedWalk, s)
 			}
@@ -72,7 +72,7 @@ func GatherFileCompletions(pwd string) {
 	mutex.Lock()
 	cancel()
 
-	if lastScan[pwd].Add(time.Duration(cacheTimeout) * time.Hour).After(time.Now()) {
+	if lastScan[pwd].Add(time.Duration(cacheTimeout) * time.Second).After(time.Now()) {
 		mutex.Unlock()
 		return
 	}

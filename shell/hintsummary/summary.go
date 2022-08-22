@@ -16,11 +16,11 @@ var (
 )
 
 func Get(cmd string, checkManPage bool) (r []rune) {
-	var summary string
-	/*summary := Cache.Get(cmd)
+	//var summary string
+	summary := Cache.Get(cmd)
 	if summary != "" {
 		return []rune(summary)
-	}*/
+	}
 
 	defer func() { Cache.Set(cmd, r) }()
 

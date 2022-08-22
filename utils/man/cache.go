@@ -18,9 +18,9 @@ func NewSummaryCache() *summaryCacheT {
 
 func (sc *summaryCacheT) Get(path string) string {
 	sc.mutex.Lock()
-	defer sc.mutex.Unlock()
-
-	return sc.summary[path]
+	s := sc.summary[path]
+	sc.mutex.Unlock()
+	return s
 }
 
 func (sc *summaryCacheT) Set(path, summary string) {
