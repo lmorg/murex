@@ -3,6 +3,7 @@ package lang
 import (
 	"context"
 	"os"
+	"sync/atomic"
 	"time"
 
 	"github.com/lmorg/murex/app"
@@ -22,10 +23,17 @@ var (
 
 	// FlagTryPipe is true if murex was started with `--trypipe`
 	FlagTryPipe bool
+
+	hasMurexAlreadyBeenInitialised int32 = -1
 )
 
 // InitEnv initialises murex. Exported function to enable unit tests.
 func InitEnv() {
+	i := atomic.AddInt32(&hasMurexAlreadyBeenInitialised, 1)
+	if i > 0 {
+		return
+	}
+
 	ShellProcess.State.Set(state.Executing)
 	ShellProcess.Name.Set(os.Args[0])
 	ShellProcess.Parameters.DefineParsed(os.Args[1:])
