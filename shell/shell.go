@@ -207,7 +207,10 @@ func ShowPrompt() {
 				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
 			}
 
-			Prompt.History.Write(merged)
+			_, err = Prompt.History.Write(merged)
+			if err != nil {
+				fmt.Printf(ansi.ExpandConsts("{RED}Error: cannot write history file: %s{RESET}\n"), err.Error())
+			}
 
 			nLines = 1
 			merged = ""
