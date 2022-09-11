@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"runtime"
 	"strings"
 
 	"github.com/lmorg/murex/app"
@@ -45,7 +46,11 @@ func Start() {
 		}()
 	}
 
-	cache.GatherFileCompletions(".")
+	// disable this for Darwin (macOS) because the messages it pops up might
+	// spook many macOS users.
+	if runtime.GOOS != "darwin" {
+		go cache.GatherFileCompletions(".")
+	}
 
 	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
 	if err != nil {
