@@ -34,7 +34,11 @@ func TestMan(t *testing.T) {
 
 	flags := ParseByPaths(files)
 	if len(flags) == 0 {
-		t.Errorf("No flags returned for `cat` in: %s", json.LazyLogging(files))
+		t.Fatalf("No flags returned for `cat` in: %s", json.LazyLogging(files))
+	}
+
+	if strings.HasPrefix(flags[0], errPrefix) {
+		t.Fatalf(flags[0])
 	}
 
 	s := ParseSummary(files)

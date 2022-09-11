@@ -13,7 +13,6 @@ import (
 type History struct {
 	filename string
 	list     []Item
-	//writer   stdio.Io
 }
 
 // Item is the structure of an individual item in the History.list slice
@@ -28,7 +27,6 @@ func New(filename string) (h *History, err error) {
 	h = new(History)
 	h.filename = filename
 	h.list, _ = openHist(filename)
-	//h.writer, err = file.NewFile(filename)
 
 	return h, nil //err
 }
