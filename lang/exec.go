@@ -2,6 +2,7 @@ package lang
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -10,6 +11,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 // External executes an external process.
@@ -28,7 +30,7 @@ func External(p *Process) error {
 }
 
 func execute(p *Process) error {
-	p.Stdout.SetDataType(types.Generic)
+	//p.Stdout.SetDataType(types.Generic)
 
 	exeName, parameters, err := getCmdTokens(p)
 	if err != nil {
@@ -56,14 +58,42 @@ func execute(p *Process) error {
 		}
 	}
 
+	tinR, tinW, err := os.Pipe()
+	if err != nil {
+		return fmt.Errorf("unable to create type input file for external process: %s", err.Error())
+	}
+	toutR, toutW, err := os.Pipe()
+	if err != nil {
+		return fmt.Errorf("unable to create type output file for external process: %s", err.Error())
+	}
+	defer func() {
+		tinW.Close()
+		tinR.Close()
+
+		toutW.Close()
+		toutR.Close()
+	}()
+
+	var dt string
 	switch {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
+		dt = p.Stdin.GetDataType()
+
 	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
+		dt = types.Null
 	default:
 		cmd.Stdin = os.Stdin
+		dt = types.Null
 	}
+
+	_, err = tinW.WriteString(dt)
+	if err != nil {
+		return fmt.Errorf("unable to write type information for external process: %s", err.Error())
+	}
+
+	cmd.ExtraFiles = []*os.File{tinR, toutW}
 
 	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
@@ -74,7 +104,7 @@ func execute(p *Process) error {
 		cmd.Stdout = p.Stdout
 	}
 
-	// Pipe STDERR irrespective of whether the exec process is execting a TTY or not.
+	// Pipe STDERR irrespective of whether the exec process is outputting to a TTY or not.
 	// The reason for this is so that we can do some post-processing on the error stream (namely add colour to it),
 	// however this might cause some bugs. If so please raise on github: https://github.com/lmorg/murex
 	// In the meantime, you can force exec processes to write STDERR to the TTY via the `config` command in the shell:
@@ -94,11 +124,28 @@ func execute(p *Process) error {
 
 	p.Exec.Set(cmd.Process.Pid, cmd)
 
+	tinW.Close()
+	tinR.Close()
+	toutW.Close()
+
+	b, err := io.ReadAll(toutR)
+	if err != nil {
+		return fmt.Errorf("unable to read type output file from external process: %s", err.Error())
+	}
+
 	if err := cmd.Wait(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
 			return err
 		}
 	}
+
+	toutR.Close()
+
+	dt = string(utils.CrLfTrim(b))
+	if dt == "" {
+		dt = types.Generic
+	}
+	p.Stdout.SetDataType(dt)
 
 	//debug.Log("exec env:",cmd.Env)
 

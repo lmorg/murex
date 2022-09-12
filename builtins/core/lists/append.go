@@ -7,9 +7,7 @@ import (
 
 func init() {
 	lang.DefineMethod("prepend", cmdPrepend, types.ReadArray, types.WriteArray)
-	lang.DefineMethod("list.prepend", cmdPrepend, types.ReadArray, types.WriteArray)
 	lang.DefineMethod("append", cmdAppend, types.ReadArray, types.WriteArray)
-	lang.DefineMethod("list.append", cmdAppend, types.ReadArray, types.WriteArray)
 }
 
 func cmdPrepend(p *lang.Process) error {

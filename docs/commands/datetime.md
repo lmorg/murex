@@ -32,7 +32,7 @@ Convert STDIN into epoch:
     
 Convert value passed as a command line argument:
 
-    » echo "12/08/21 22:32:30" -> datetime: --value "12/08/21 22:32:30" --in "{go}01/02/06 15:04:05" --out "{unix}"
+    » datetime: --value "12/08/21 22:32:30" --in "{go}01/02/06 15:04:05" --out "{unix}"
     1639002750
 
 ## Flags
