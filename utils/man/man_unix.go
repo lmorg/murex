@@ -16,6 +16,8 @@ import (
 	"github.com/lmorg/murex/utils/rmbs"
 )
 
+const errPrefix = "Error parsing man page: "
+
 var (
 	rxMatchManSection   = regexp.MustCompile(`/man[1678]/`)
 	rxMatchFlagsEscaped = regexp.MustCompile(`\\f[BI]((\\-|-)[a-zA-Z0-9]|(\\-\\-|--)[\\\-a-zA-Z0-9]+).*?\\f[RP]`)
@@ -47,7 +49,7 @@ func GetManPages(exe string) []string {
 	return strings.Split(s, ":")
 }
 
-func validMan(path string) bool {
+func invalidMan(path string) bool {
 	return !rxMatchManSection.MatchString(path) &&
 		!strings.HasSuffix(path, "test/cat.1.gz")
 }
@@ -56,10 +58,20 @@ func validMan(path string) bool {
 func ParseByPaths(paths []string) []string {
 	fMap := make(map[string]bool)
 	for i := range paths {
-		if validMan(paths[i]) {
+		if invalidMan(paths[i]) {
 			continue
 		}
-		parseFlags(&fMap, createScanner(paths[i]))
+
+		scanner, closer, err := createScanner(paths[i])
+		switch {
+		case err != nil:
+			return []string{errPrefix + err.Error()}
+		case scanner == nil:
+			return []string{errPrefix + "scanner is undefined"}
+		default:
+			parseFlags(&fMap, scanner)
+			closer()
+		}
 	}
 
 	flags := make([]string, len(fMap))
@@ -72,26 +84,34 @@ func ParseByPaths(paths []string) []string {
 	return flags
 }
 
-func createScanner(filename string) (scanner *bufio.Scanner) {
+func createScanner(filename string) (*bufio.Scanner, func() error, error) {
+	var scanner *bufio.Scanner
+
 	file, err := os.Open(filename)
-	defer file.Close()
 	if err != nil {
-		return
+		return nil, nil, err
 	}
+
+	closer := file.Close
 
 	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
 		gz, err := gzip.NewReader(file)
-		defer gz.Close()
 		if err != nil {
-			return
+			return nil, closer, err
 		}
 
+		closer = func() error {
+			gz.Close()
+			file.Close()
+			return nil
+		}
 		scanner = bufio.NewScanner(gz)
+
 	} else {
 		scanner = bufio.NewScanner(file)
 	}
 
-	return
+	return scanner, closer, err
 }
 
 // ParseByStdio runs the parser to locate any flags with hyphen prefixes
@@ -194,17 +214,24 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 		}
 	}
 
-	return
+	if scanner.Err() != nil {
+		panic(errPrefix + scanner.Err().Error())
+	}
 }
 
 // ParseSummary runs the parser to locate a summary
 func ParseSummary(paths []string) string {
 	for i := range paths {
-		if validMan(paths[i]) {
+		if invalidMan(paths[i]) {
 			continue
 		}
-		desc := parseSummary(paths[i])
+		desc := SummaryCache.Get(paths[i])
 		if desc != "" {
+			return desc
+		}
+		desc = parseSummary(paths[i])
+		if desc != "" {
+			SummaryCache.Set(paths[i], desc)
 			return desc
 		}
 	}
@@ -214,19 +241,19 @@ func ParseSummary(paths []string) string {
 
 func parseSummary(filename string) string {
 	file, err := os.Open(filename)
-	defer file.Close()
 	if err != nil {
 		return ""
 	}
+	defer file.Close()
 
 	var scanner *bufio.Scanner
 
 	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
 		gz, err := gzip.NewReader(file)
-		defer gz.Close()
 		if err != nil {
 			return ""
 		}
+		defer gz.Close()
 
 		scanner = bufio.NewScanner(gz)
 	} else {

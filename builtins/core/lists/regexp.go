@@ -1,4 +1,4 @@
-package textmanip
+package lists
 
 import (
 	"bytes"

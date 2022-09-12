@@ -1,9 +1,8 @@
-package textmanip_test
+package lists_test
 
 import (
 	"testing"
 
-	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
 

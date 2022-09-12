@@ -1,0 +1,35 @@
+- DocumentID: addheading
+  Title: >-
+    `addheading` 
+  CategoryID: commands
+  Summary: >-
+    Adds headings to a table
+  Description: |-
+    `addheading` takes a list of parameters and adds them to the start of a table.
+    Where `prepend` is designed to work with arrays, `addheading` is designed to
+    prepend to tables.
+  Usage: |-
+    ```
+    <stdin> -> addheading: value value value ... -> <stdout>
+    ```
+  Examples: |-
+    ```
+    » tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
+    ["name","age","active"]
+    ["Bob","23","true"]
+    ```
+  Detail:
+  Synonyms:
+  Related:
+  - index
+  - element
+  - cast
+  - append
+  - prepend
+  - a
+  - ja
+  - count
+  - mtac
+  - msort
+  - match
+  - regexp

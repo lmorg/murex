@@ -11,13 +11,11 @@ import (
 
 // SignalHandler is an internal function to capture and handle OS signals (eg SIGTERM).
 func SignalHandler(interactive bool) {
-	c := make(chan os.Signal, 1)
-
-	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+	signalRegister(interactive)
 
 	go func() {
 		for {
-			sig := <-c
+			sig := <-signalChan
 			switch sig.String() {
 
 			case syscall.SIGINT.String():
@@ -31,4 +29,8 @@ func SignalHandler(interactive bool) {
 			}
 		}
 	}()
+}
+
+func signalRegister(_ bool) {
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 }

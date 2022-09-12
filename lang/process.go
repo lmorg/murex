@@ -308,7 +308,7 @@ executeProcess:
 			}
 		}
 
-	case name[0] == '$':
+	case len(name) > 0 && name[0] == '$':
 		// variables as functions
 		match := rxVariables.FindAllStringSubmatch(name+p.Parameters.StringAll(), -1)
 		switch {

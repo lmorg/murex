@@ -50,6 +50,12 @@ output.
 In practical terms you shouldn't notice any difference except for when
 STDIN is a long running process or non-standard stream (eg network pipe).
 
+## Synonyms
+
+* `mtac`
+* `list.reverse`
+
+
 ## See Also
 
 * [commands/`2darray` ](../commands/2darray.md):

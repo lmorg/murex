@@ -33,7 +33,7 @@ func init() {
 `)
 }
 
-var rxAlias = regexp.MustCompile(`^([-_a-zA-Z0-9]+)=(.*?)$`)
+var rxAlias = regexp.MustCompile(`^([-_.a-zA-Z0-9]+)=(.*?)$`)
 
 func cmdAlias(p *lang.Process) error {
 	if p.Parameters.Len() == 0 {
@@ -50,14 +50,48 @@ func cmdAlias(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	s, _ := p.Parameters.String(0)
+	eq, _ := p.Parameters.String(1)
 
-	if !rxAlias.MatchString(s) {
+	if !rxAlias.MatchString(s) && len(eq) > 0 && eq[0] != '=' {
 		return errors.New("invalid syntax. Expecting `alias new_name=original_name parameter1 parameter2 ...`")
 	}
 
-	split := rxAlias.FindStringSubmatch(s)
-	name := split[1]
-	params := append([]string{split[2]}, p.Parameters.StringArray()[1:]...)
+	var (
+		split  = rxAlias.FindStringSubmatch(s)
+		name   string
+		params []string
+	)
+
+	if len(split) == 0 {
+		name = s
+		params = p.Parameters.StringArray()[1:]
+		switch {
+		case len(params) == 0:
+			return fmt.Errorf("no command supplied")
+		case len(params[0]) == 1 && params[0] == "=":
+			params = params[1:]
+		case len(params[0]) > 0 && params[0][0] == '=':
+			params[0] = params[0][1:]
+		default:
+			return fmt.Errorf("unknown error. Please check syntax follows `alias new_name=original_name parameter1 parameter2 ...`")
+		}
+
+	} else {
+		name = split[1]
+		params = append([]string{split[2]}, p.Parameters.StringArray()[1:]...)
+	}
+
+	if len(params) == 0 {
+		return fmt.Errorf("no command supplied")
+	}
+
+	if params[0] == "" && len(params) > 0 {
+		params = params[1:]
+	}
+
+	if len(params) == 0 || params[0] == "" {
+		return fmt.Errorf("no command supplied")
+	}
 
 	lang.GlobalAliases.Add(name, params)
 	return nil

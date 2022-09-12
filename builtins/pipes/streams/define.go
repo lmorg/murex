@@ -33,7 +33,7 @@ type Stdin struct {
 }
 
 // DefaultMaxBufferSize is the maximum size of buffer for stdin
-//var DefaultMaxBufferSize = 1024 * 1024 * 1000 // 10 meg
+// var DefaultMaxBufferSize = 1024 * 1024 * 1000 // 10 meg
 var DefaultMaxBufferSize = 1024 * 1024 * 1 // 1 meg
 
 // NewStdin creates a new stream.Io interface for piping data between processes.

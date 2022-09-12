@@ -57,25 +57,28 @@ func (dc *dynamicCacheT) Get(hash []byte) ([]byte, string) {
 	s := string(hash)
 
 	dc.mutex.Lock()
-	defer dc.mutex.Unlock()
 
 	cache := dc.hash[s]
 	if cache.time.After(time.Now()) {
-		return cache.stdout, cache.dataType
+		b, s := cache.stdout, cache.dataType
+		dc.mutex.Unlock()
+		return b, s
 	}
 
+	dc.mutex.Unlock()
 	return nil, ""
 }
 
 func (dc *dynamicCacheT) Set(hash []byte, stdout []byte, dataType string, TTL int) {
 	dc.mutex.Lock()
-	defer dc.mutex.Unlock()
 
 	dc.hash[string(hash)] = dynamicCacheItemT{
 		time:     time.Now().Add(time.Duration(TTL) * time.Second),
 		stdout:   stdout,
 		dataType: dataType,
 	}
+
+	dc.mutex.Unlock()
 }
 
 func (dc *dynamicCacheT) garbageCollection() {

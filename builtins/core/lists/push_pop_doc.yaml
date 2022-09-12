@@ -44,6 +44,8 @@
     runtime: --unmarshallers
     ```
   Synonyms:
+  - left
+  - list.left
   Related:
   - right
   - prefix
@@ -103,6 +105,8 @@
     runtime: --unmarshallers
     ```
   Synonyms:
+  - right
+  - list.right
   Related:
   - right
   - prefix
@@ -145,6 +149,8 @@
     runtime: --unmarshallers
     ```
   Synonyms:
+  - prefix
+  - list.prefix
   Related:
   - left
   - right
@@ -188,6 +194,8 @@
     runtime: --unmarshallers
     ```
   Synonyms:
+  - suffix
+  - list.suffix
   Related:
   - left
   - right

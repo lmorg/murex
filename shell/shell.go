@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"runtime"
 	"strings"
 
 	"github.com/lmorg/murex/app"
@@ -12,9 +13,11 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/counter"
 	"github.com/lmorg/murex/utils/readline"
@@ -43,19 +46,28 @@ func Start() {
 		}()
 	}
 
-	var err error
+	// disable this for Darwin (macOS) because the messages it pops up might
+	// spook many macOS users.
+	if runtime.GOOS != "darwin" {
+		go cache.GatherFileCompletions(".")
+	}
+
+	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
+	if err != nil {
+		v = false
+	}
+	if v.(bool) {
+		go autocomplete.CacheHints()
+	}
 
 	lang.Interactive = true
 	Prompt.TempDirectory = consts.TempDir
-	Prompt.TabCompleter = tabCompletion
-	Prompt.SyntaxCompleter = syntaxCompletion
-	Prompt.HistoryAutoWrite = false
 
-	setPromptHistory()
+	definePromptHistory()
 
 	SignalHandler(true)
 
-	v, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	v, err = lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	if err != nil {
 		v = 4
 	}
@@ -95,10 +107,16 @@ func ShowPrompt() {
 		return expanded
 	}
 
-	Prompt.DelayedSyntaxWorker = Spellchecker
-
 	for {
 		//debug.Log("ShowPrompt (for{})")
+
+		signalRegister(true)
+
+		setPromptHistory()
+		Prompt.TabCompleter = tabCompletion
+		Prompt.SyntaxCompleter = syntaxCompletion
+		Prompt.DelayedSyntaxWorker = Spellchecker
+		Prompt.HistoryAutoWrite = false
 
 		getSyntaxHighlighting()
 		getHintTextEnabled()
@@ -194,7 +212,10 @@ func ShowPrompt() {
 				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
 			}
 
-			Prompt.History.Write(merged)
+			_, err = Prompt.History.Write(merged)
+			if err != nil {
+				fmt.Printf(ansi.ExpandConsts("{RED}Error: cannot write history file: %s{RESET}\n"), err.Error())
+			}
 
 			nLines = 1
 			merged = ""

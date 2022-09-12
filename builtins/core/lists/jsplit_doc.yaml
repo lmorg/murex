@@ -31,6 +31,8 @@
     unwanted "noise" is stripped from the output.
     
   Synonyms:
+  - jsplit
+  - list.split
   Related:
   - prepend
   - append

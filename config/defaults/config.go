@@ -129,6 +129,13 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
+		Description: "Run the command hint summary pre-cacher upon murex's start up (warning: only enable this on fast systems with an SSD)",
+		Default:     false,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
 	c.Define("shell", "titlebar-func", config.Properties{
 		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carrage returns and tabs are replaced with spaces",
 		Default:     `{ out "$USER@$HOSTNAME:$PWD" }`,

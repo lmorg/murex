@@ -9,12 +9,6 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-// SplitPath takes a %PATH% (or similar) string and splits it into an array of paths
-func SplitPath(envPath string) []string {
-	split := strings.Split(envPath, ";")
-	return split
-}
-
 // listExes called listExesWindows which exists in execs.go because it needs to
 // be called when murex runs inside WSL
 func listExes(path string, exes map[string]bool) {

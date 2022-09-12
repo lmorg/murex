@@ -42,6 +42,12 @@ output of `msort` into another builtin:
         "a"
     ]
 
+## Synonyms
+
+* `msort`
+* `list.sort`
+
+
 ## See Also
 
 * [commands/`@[` (range) ](../commands/range.md):

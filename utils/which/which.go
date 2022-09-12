@@ -3,7 +3,6 @@ package which
 import (
 	"os"
 
-	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -11,7 +10,7 @@ import (
 func Which(cmd string) string {
 	envPath := os.Getenv("PATH")
 
-	for _, path := range autocomplete.SplitPath(envPath) {
+	for _, path := range SplitPath(envPath) {
 		filepath := path + consts.PathSlash + cmd
 		_, err := os.Stat(filepath)
 		if !os.IsNotExist(err) {

@@ -412,13 +412,29 @@ autocomplete: set autocomplete { [{
     }
 }] }
 
-private git-branch {
-    # Returns a list of branches excluding currect checked-out branch in the current git repository
-    git -c color.ui=no branch -> [ :0 ] -> !match *
+#private git-branch {
+#    # Returns a list of branches excluding checked-out branch in the current git repository
+#    git -c color.ui=no branch -a -> [ :0 ] -> !match *
+#}
+
+private git-refs {
+    # Returns a map of branches and tags excluding checked-out branch in the current git repository
+    map {
+        git branch -a --format='%(refname:strip=2)' \
+            -> [ :0 ] -> !match '*' \
+            -> regexp (s,^origin/,,)
+        git tag --format='%(refname:strip=2)' \
+            -> regexp (s,^origin/,,)
+    } {
+        git branch -a --format='%(refname:strip=0)' \
+            -> [ :0 ] -> !match '*' \
+            -> prefix "Branch Ref: "
+        git tag --format='%(refname:strip=0)' \
+            -> prefix "Tag Ref: "
+    } 
 }
 
 autocomplete: set git { [{
-    #"Flags": [ "clone", "init", "add", "mv", "reset", "rm", "bisect", "grep", "log", "show", "status", "branch", "checkout", "commit", "diff", "merge", "rebase", "tag", "fetch", "pull", "push", "stash" ],
     "DynamicDesc": ({
         git: help -a -> @[..^Ancillary]re -> tabulate: --map
     }),
@@ -448,11 +464,11 @@ autocomplete: set git { [{
             "AllowMultiple": true
         }],
         "checkout": [{
-            "Dynamic": ({ cast str; git-branch; git tag }),
+            "DynamicDesc": ({ git-refs }),
             "Flags": [ "-b" ]
         }],
         "merge": [{
-            "Dynamic": ({ cast str; git-branch; git tag })
+            "DynamicDesc": ({ git-refs })
         }],
         "commit": [{
             "Flags": ["-a", "-m", "--amend"],

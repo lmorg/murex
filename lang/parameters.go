@@ -300,7 +300,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 func autoGlobPrompt(cmd string, before string, match []string) (bool, error) {
 	rlMutex.Lock()
-	defer rlMutex.Unlock()
+	defer rlMutex.Unlock() // performance doesn't matter here
 
 	rl := readline.NewInstance()
 	prompt := fmt.Sprintf("(%s) Do you wish to expand '%s'? [Yn]: ", cmd, before)

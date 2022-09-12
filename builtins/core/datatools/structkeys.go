@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -19,10 +20,39 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	nDeep, _ := p.Parameters.Int(0)
+	flags, additional, err := p.Parameters.ParseFlags(&parameters.Arguments{
+		AllowAdditional: true,
+		Flags: map[string]string{
+			"--depth":     "int",
+			"-d":          "--depth",
+			"--separator": "str",
+			"-s":          "--separator",
+		},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	separator := flags["--separator"]
+	if separator == "" {
+		separator = "/"
+	}
+
+	depth := flags["--depth"]
+	if depth == "" && len(additional) == 1 {
+		depth = additional[0]
+	}
+
+	nDeep, _ := strconv.Atoi(depth)
+	if nDeep < 1 {
+		nDeep = -1
+	}
+
+	/*nDeep, _ := p.Parameters.Int(0)
 	if nDeep < 1 {
 		nDeep = -1 // lets hardcode the max number of iterations for now...
-	}
+	}*/
 
 	v, err := lang.UnmarshalData(p, p.Stdin.GetDataType())
 	if err != nil {
@@ -36,14 +66,14 @@ func cmdStructKeys(p *lang.Process) error {
 		return err
 	}
 
-	err = recursive(p.Context, "", v, aw, nDeep)
+	err = recursive(p.Context, "", v, separator, aw, nDeep)
 	if err != nil {
 		return err
 	}
 	return aw.Close()
 }
 
-func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWriter, iteration int) error {
+func recursive(ctx context.Context, path string, v interface{}, separator string, aw stdio.ArrayWriter, iteration int) error {
 	if iteration == 0 {
 		return nil
 	}
@@ -57,7 +87,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			aw.WriteString(path + "/" + strconv.Itoa(i))
+			aw.WriteString(path + separator + strconv.Itoa(i))
 		}
 		return nil
 
@@ -69,7 +99,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			aw.WriteString(path + "/" + strconv.Itoa(i))
+			aw.WriteString(path + separator + strconv.Itoa(i))
 		}
 		return nil
 
@@ -81,7 +111,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			aw.WriteString(path + "/" + strconv.Itoa(i))
+			aw.WriteString(path + separator + strconv.Itoa(i))
 		}
 		return nil
 
@@ -93,7 +123,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			aw.WriteString(path + "/" + strconv.Itoa(i))
+			aw.WriteString(path + separator + strconv.Itoa(i))
 		}
 		return nil
 
@@ -105,7 +135,7 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			aw.WriteString(path + "/" + strconv.Itoa(i))
+			aw.WriteString(path + separator + strconv.Itoa(i))
 		}
 		return nil
 
@@ -117,9 +147,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			newPath := path + "/" + strconv.Itoa(i)
+			newPath := path + separator + strconv.Itoa(i)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[i], aw, iteration-1)
+			err := recursive(ctx, newPath, t[i], separator, aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -134,9 +164,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			newPath := path + "/" + strconv.Itoa(i)
+			newPath := path + separator + strconv.Itoa(i)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[i], aw, iteration-1)
+			err := recursive(ctx, newPath, t[i], separator, aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -151,9 +181,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			newPath := path + "/" + key
+			newPath := path + separator + key
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[key], aw, iteration-1)
+			err := recursive(ctx, newPath, t[key], separator, aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -168,9 +198,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			newPath := path + "/" + strconv.Itoa(key)
+			newPath := path + separator + strconv.Itoa(key)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[key], aw, iteration-1)
+			err := recursive(ctx, newPath, t[key], separator, aw, iteration-1)
 			if err != nil {
 				return err
 			}
@@ -185,9 +215,9 @@ func recursive(ctx context.Context, path string, v interface{}, aw stdio.ArrayWr
 			default:
 			}
 
-			newPath := path + "/" + fmt.Sprint(key)
+			newPath := path + separator + fmt.Sprint(key)
 			aw.WriteString(newPath)
-			err := recursive(ctx, newPath, t[key], aw, iteration-1)
+			err := recursive(ctx, newPath, t[key], separator, aw, iteration-1)
 			if err != nil {
 				return err
 			}

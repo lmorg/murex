@@ -28,6 +28,12 @@ Supported data types can queried via `runtime`
     runtime: --marshallers
     runtime: --unmarshallers
 
+## Synonyms
+
+* `suffix`
+* `list.suffix`
+
+
 ## See Also
 
 * [commands/`a` (mkarray)](../commands/a.md):

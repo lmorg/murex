@@ -12,23 +12,25 @@ import (
 )
 
 var (
-	fCommand    string
-	fSource     []string
-	fLoadMods   bool
-	fEcho       bool
-	fHelp1      bool
-	fHelp2      bool
-	fHelp3      bool
-	fVersion1   bool
-	fVersion2   bool
-	fSh         bool
-	fRunTests   bool
-	fCpuProfile string
-	fMemProfile string
+	fCommand     string
+	fInteractive bool
+	fSource      []string
+	fLoadMods    bool
+	fEcho        bool
+	fHelp1       bool
+	fHelp2       bool
+	fHelp3       bool
+	fVersion1    bool
+	fVersion2    bool
+	fSh          bool
+	fRunTests    bool
+	fCpuProfile  string
+	fMemProfile  string
 )
 
 func readFlags() {
 	flag.StringVar(&fCommand, "c", "", "Run code block - read from parameters")
+	flag.BoolVar(&fInteractive, "i", false, "Start interactive shell after -c execution")
 	flag.BoolVar(&fLoadMods, "load-modules", false, "Load modules and profile when in non-interactive mode ")
 
 	flag.BoolVar(&fHelp1, "?", false, "Help")

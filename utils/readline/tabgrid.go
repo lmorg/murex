@@ -120,7 +120,11 @@ func (rl *Instance) writeTabGrid() {
 			print(seqBgWhite + seqFgBlack)
 		}
 
-		caption := cropCaption(rl.tcPrefix+suggestions[i], rl.tcMaxLength, iCellWidth)
+		value := rl.tcPrefix + suggestions[i]
+		caption := cropCaption(value, rl.tcMaxLength, iCellWidth)
+		if caption != value {
+			rl.tcDescriptions[suggestions[i]] = value
+		}
 
 		printf(" %-"+cellWidth+"s %s", caption, seqReset)
 	}

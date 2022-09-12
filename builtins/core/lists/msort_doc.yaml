@@ -44,6 +44,8 @@
     ```
   Detail: |-
   Synonyms:
+  - msort
+  - list.sort
   Related:
   - prepend
   - append

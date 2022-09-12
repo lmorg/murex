@@ -12,12 +12,6 @@ import (
 	"github.com/phayes/permbits"
 )
 
-// SplitPath takes a $PATH (or similar) string and splits it into an array of paths
-func SplitPath(envPath string) []string {
-	split := strings.Split(envPath, ":")
-	return split
-}
-
 func listExes(path string, exes map[string]bool) {
 	// if WSL then using a Windows lookup rather than POSIX
 	for i := range wslMounts {

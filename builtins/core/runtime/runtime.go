@@ -17,6 +17,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
+	cdcache "github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -53,6 +54,8 @@ const (
 	fDebug              = "--debug"
 	fSources            = "--sources"
 	fSummaries          = "--summaries"
+	fCachedFilePaths    = "--cached-file-paths"
+	fCachedHints        = "--cached-hints"
 	fHelp               = "--help"
 )
 
@@ -88,6 +91,8 @@ var flags = map[string]string{
 	fDebug:              types.Boolean,
 	fSources:            types.Boolean,
 	fSummaries:          types.Boolean,
+	fCachedFilePaths:    types.Boolean,
+	fCachedHints:        types.Boolean,
 	fHelp:               types.Boolean,
 }
 
@@ -207,6 +212,10 @@ func cmdRuntime(p *lang.Process) error {
 			ret[fSources[2:]] = ref.History.Dump()
 		case fSummaries:
 			ret[fSummaries[2:]] = hintsummary.Summary.Dump()
+		case fCachedFilePaths:
+			ret[fCachedFilePaths[2:]] = cdcache.DumpCompletions()
+		case fCachedHints:
+			ret[fCachedHints[2:]] = hintsummary.Cache.Dump()
 		case fHelp:
 			ret[fHelp[2:]] = Help()
 		default:

@@ -154,7 +154,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 		}
 
-		i = removeNonPrintableChars(b)
+		i = removeNonPrintableChars(b[:i])
 
 		// Used for syntax completion
 		rl.lineChange = string(b[:i])

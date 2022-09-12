@@ -13,8 +13,8 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/variables"
+	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 func matchDirs(s string, act *AutoCompleteT) []string {
@@ -84,7 +84,7 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 
 	go func() {
 		act.largeMin() // assume recursive overruns
-		recursive = matchRecursive(hardCtx, s, filesToo, rx, &act.DelayedTabContext)
+		recursive = matchRecursive(hardCtx, s, filesToo, rx, act)
 
 		select {
 		case <-softCtx.Done():
@@ -188,7 +188,7 @@ func matchFilesAndDirsOnce(s string, rx *regexp.Regexp) (items []string) {
 	return
 }
 
-func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Regexp, dtc *readline.DelayedTabContext) (hierarchy []string) {
+func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Regexp, act *AutoCompleteT) (hierarchy []string) {
 	s = variables.ExpandString(s)
 
 	maxDepth, _ := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
@@ -204,12 +204,14 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		path = consts.PathSlash + path
 	}
 
+	//var mutex sync.Mutex
+
 	walker := func(walkedPath string, info os.FileInfo, err error) error {
 		select {
 		case <-ctx.Done():
 			return ctx.Err()
-		case <-dtc.Context.Done():
-			return dtc.Context.Err()
+		case <-act.DelayedTabContext.Context.Done():
+			return act.DelayedTabContext.Context.Err()
 		default:
 		}
 
@@ -264,11 +266,15 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		if strings.HasPrefix(walkedPath, s) {
 			switch {
 			case info.IsDir():
+				//mutex.Lock()
 				hierarchy = append(hierarchy, walkedPath[len(s):]+consts.PathSlash)
+				//mutex.Unlock()
 			case rx != nil && !rx.MatchString(info.Name()):
 				return nil
 			default:
+				//mutex.Lock()
 				hierarchy = append(hierarchy, walkedPath[len(s):])
+				//mutex.Unlock()
 			}
 		}
 
@@ -282,7 +288,20 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 		pwd = path
 	}
 
-	filepath.Walk(pwd, walker)
+	success := cache.WalkCompletions(pwd, walker)
+	if !success {
+		go cache.GatherFileCompletions(pwd)
+		filepath.Walk(pwd, walker)
+		return
+	}
+
+	go func() {
+		filepath.Walk(pwd, walker)
+
+		formatSuggestionsArray(act.ParsedTokens, hierarchy)
+		act.DelayedTabContext.AppendSuggestions(hierarchy)
+	}()
+
 	/*err = filepath.Walk(pwd, walker)
 	if err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte(err.Error()))

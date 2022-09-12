@@ -19,12 +19,14 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/httpclient"   // builtins for http
 	_ "github.com/lmorg/murex/builtins/core/index"        // index function: [ index ]
 	_ "github.com/lmorg/murex/builtins/core/io"           // OS IO builtins
+	_ "github.com/lmorg/murex/builtins/core/lists"        // tools for working with arrays and lists
 	_ "github.com/lmorg/murex/builtins/core/management"   // murex management builtins
 	_ "github.com/lmorg/murex/builtins/core/mkarray"      // rapidly makes arrays
 	_ "github.com/lmorg/murex/builtins/core/modules"      // `murex-package`: module package management
 	_ "github.com/lmorg/murex/builtins/core/open"         // `open` and default handlers
 	_ "github.com/lmorg/murex/builtins/core/openimage"    // image pipelines
 	_ "github.com/lmorg/murex/builtins/core/pipe"         // cli tools for named pipes
+	_ "github.com/lmorg/murex/builtins/core/pretty"       // data formatting
 	_ "github.com/lmorg/murex/builtins/core/processes"    // process handling
 	_ "github.com/lmorg/murex/builtins/core/random"       // random data builtin
 	_ "github.com/lmorg/murex/builtins/core/ranges"       // working with ranges within arrays (`@[..]`)
@@ -32,7 +34,6 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/structs"      // control structures
 	_ "github.com/lmorg/murex/builtins/core/tabulate"     // function to auto-tabulise data
 	_ "github.com/lmorg/murex/builtins/core/test"         // testing framework for murex shell scripts
-	_ "github.com/lmorg/murex/builtins/core/textmanip"    // text manipulation builtins
 	_ "github.com/lmorg/murex/builtins/core/time"         // time-based utilities
 	_ "github.com/lmorg/murex/builtins/core/typemgmt"     // type handling and management builtins
 

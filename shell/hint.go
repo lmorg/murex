@@ -16,9 +16,7 @@ import (
 	"github.com/lmorg/murex/utils/parser"
 )
 
-var (
-	cachedHintText []rune
-)
+var cachedHintText []rune
 
 func hintText(line []rune, pos int) []rune {
 	r := hintExpandVariables(line)

@@ -74,7 +74,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 		switch pt.PipeToken {
 		case parser.PipeTokenPosix:
-			act.Items = autocomplete.MatchFunction(prefix, &act)
+			autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
 			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) {
@@ -142,6 +142,17 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
+	width := readline.GetTermWidth()
+	switch {
+	case width >= 200:
+		Prompt.MaxTabItemLength = width / 5
+	case width >= 150:
+		Prompt.MaxTabItemLength = width / 4
+	case width >= 100:
+		Prompt.MaxTabItemLength = width / 3
+	case width >= 70:
+		Prompt.MaxTabItemLength = width / 2
+	}
 
 	var i int
 	if act.DoNotSort {
@@ -157,7 +168,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	act.TabDisplayType = readline.TabDisplayGrid
 
-	act.Items = autocomplete.MatchFunction(prefix, act)
+	autocomplete.MatchFunction(prefix, act)
 
 	/*sort.Strings(act.Items)
 	for i := 0; i < Prompt.MaxTabCompleterRows && i <= len(act.Items)-1; i++ {

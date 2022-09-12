@@ -200,82 +200,32 @@ func TestStructKeysParam0(t *testing.T) {
 	expected = strings.Replace(expected, "\t", "", -1)
 	expected = strings.Replace(expected, " ", "", -1)
 
-	tests := []test.MurexTest{{
-		Block: `
-			tout json (` + input + `) -> struct-keys 0 -> format str -> msort
-		`,
-		ExitNum: 0,
-		Stdout:  expected,
-		Stderr:  ``,
-	}}
-
-	test.RunMurexTests(tests, t)
-}
-
-func TestStructKeysParamMinus10(t *testing.T) {
-	var input = `{
-		"firstName": "John",
-		"lastName": "Smith",
-		"isAlive": true,
-		"age": 27,
-		"address": {
-		  "streetAddress": "21 2nd Street",
-		  "city": "New York",
-		  "state": "NY",
-		  "postalCode": "10021-3100"
+	tests := []test.MurexTest{
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys 0 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
 		},
-		"phoneNumbers": [
-		  {
-			"type": "home",
-			"number": "212 555-1234"
-		  },
-		  {
-			"type": "office",
-			"number": "646 555-4567"
-		  },
-		  {
-			"type": "mobile",
-			"number": "123 456-7890"
-		  }
-		],
-		"children": [],
-		"spouse": null
-	  }`
-
-	var expected = `/address
-	  /address/city
-	  /address/postalCode
-	  /address/state
-	  /address/streetAddress
-	  /age
-	  /children
-	  /firstName
-	  /isAlive
-	  /lastName
-	  /phoneNumbers
-	  /phoneNumbers/0
-	  /phoneNumbers/0/number
-	  /phoneNumbers/0/type
-	  /phoneNumbers/1
-	  /phoneNumbers/1/number
-	  /phoneNumbers/1/type
-	  /phoneNumbers/2
-	  /phoneNumbers/2/number
-	  /phoneNumbers/2/type
-	  /spouse
-  `
-
-	expected = strings.Replace(expected, "\t", "", -1)
-	expected = strings.Replace(expected, " ", "", -1)
-
-	tests := []test.MurexTest{{
-		Block: `
-			tout json (` + input + `) -> struct-keys -10 -> format str -> msort
-		`,
-		ExitNum: 0,
-		Stdout:  expected,
-		Stderr:  ``,
-	}}
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -d 0 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys --depth 0 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+	}
 
 	test.RunMurexTests(tests, t)
 }
@@ -323,14 +273,32 @@ func TestStructKeysParam1(t *testing.T) {
 	expected = strings.Replace(expected, "\t", "", -1)
 	expected = strings.Replace(expected, " ", "", -1)
 
-	tests := []test.MurexTest{{
-		Block: `
-			tout json (` + input + `) -> struct-keys 1 -> format str -> msort
-		`,
-		ExitNum: 0,
-		Stdout:  expected,
-		Stderr:  ``,
-	}}
+	tests := []test.MurexTest{
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys 1 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -d 1 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys --depth 1 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+	}
 
 	test.RunMurexTests(tests, t)
 }
@@ -385,14 +353,32 @@ func TestStructKeysParam2(t *testing.T) {
 	expected = strings.Replace(expected, "\t", "", -1)
 	expected = strings.Replace(expected, " ", "", -1)
 
-	tests := []test.MurexTest{{
-		Block: `
+	tests := []test.MurexTest{
+		{
+			Block: `
 			tout json (` + input + `) -> struct-keys 2 -> format str -> msort
 		`,
-		ExitNum: 0,
-		Stdout:  expected,
-		Stderr:  ``,
-	}}
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+			tout json (` + input + `) -> struct-keys -d 2 -> format str -> msort
+		`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+			tout json (` + input + `) -> struct-keys --depth 2 -> format str -> msort
+		`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+	}
 
 	test.RunMurexTests(tests, t)
 }
@@ -453,14 +439,32 @@ func TestStructKeysParam3(t *testing.T) {
 	expected = strings.Replace(expected, "\t", "", -1)
 	expected = strings.Replace(expected, " ", "", -1)
 
-	tests := []test.MurexTest{{
-		Block: `
-			tout json (` + input + `) -> struct-keys 3 -> format str -> msort
-		`,
-		ExitNum: 0,
-		Stdout:  expected,
-		Stderr:  ``,
-	}}
+	tests := []test.MurexTest{
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys 3 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -d 3 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys --depth 3 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+	}
 
 	test.RunMurexTests(tests, t)
 }
@@ -521,14 +525,126 @@ func TestStructKeysParam200(t *testing.T) {
 	expected = strings.Replace(expected, "\t", "", -1)
 	expected = strings.Replace(expected, " ", "", -1)
 
-	tests := []test.MurexTest{{
-		Block: `
-			tout json (` + input + `) -> struct-keys 200 -> format str -> msort
-		`,
-		ExitNum: 0,
-		Stdout:  expected,
-		Stderr:  ``,
-	}}
+	tests := []test.MurexTest{
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys 200 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -d 200 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys --depth 200 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestStructKeysSeparator(t *testing.T) {
+	var input = `{
+		"firstName": "John",
+		"lastName": "Smith",
+		"isAlive": true,
+		"age": 27,
+		"address": {
+		  "streetAddress": "21 2nd Street",
+		  "city": "New York",
+		  "state": "NY",
+		  "postalCode": "10021-3100"
+		},
+		"phoneNumbers": [
+		  {
+			"type": "home",
+			"number": "212 555-1234"
+		  },
+		  {
+			"type": "office",
+			"number": "646 555-4567"
+		  },
+		  {
+			"type": "mobile",
+			"number": "123 456-7890"
+		  }
+		],
+		"children": [],
+		"spouse": null
+	  }`
+
+	var expected = `☺address
+	  ☺address☺city
+	  ☺address☺postalCode
+	  ☺address☺state
+	  ☺address☺streetAddress
+	  ☺age
+	  ☺children
+	  ☺firstName
+	  ☺isAlive
+	  ☺lastName
+	  ☺phoneNumbers
+	  ☺phoneNumbers☺0
+	  ☺phoneNumbers☺0☺number
+	  ☺phoneNumbers☺0☺type
+	  ☺phoneNumbers☺1
+	  ☺phoneNumbers☺1☺number
+	  ☺phoneNumbers☺1☺type
+	  ☺phoneNumbers☺2
+	  ☺phoneNumbers☺2☺number
+	  ☺phoneNumbers☺2☺type
+	  ☺spouse
+  `
+
+	expected = strings.Replace(expected, "\t", "", -1)
+	expected = strings.Replace(expected, " ", "", -1)
+
+	tests := []test.MurexTest{
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -s ☺ -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -s ☺ 200 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys -s ☺ -d 200 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+		{
+			Block: `
+				tout json (` + input + `) -> struct-keys --separator ☺ --depth 200 -> format str -> msort
+			`,
+			ExitNum: 0,
+			Stdout:  expected,
+			Stderr:  ``,
+		},
+	}
 
 	test.RunMurexTests(tests, t)
 }

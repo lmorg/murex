@@ -28,7 +28,7 @@ func (stdin *Stdin) Read(p []byte) (i int, err error) {
 			if deps < 1 {
 				return 0, io.EOF
 			}
-
+			//time.Sleep(3 * time.Millisecond)
 			continue
 		}
 
@@ -77,7 +77,7 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 	for {
 		select {
 		case <-stdin.ctx.Done():
-			break
+			goto read
 		default:
 		}
 
@@ -91,6 +91,7 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 		}
 	}
 
+read:
 	stdin.mutex.Lock()
 	stdin.bRead = uint64(len(stdin.buffer))
 	b := stdin.buffer

@@ -70,6 +70,8 @@ func (stdin *Stdin) GetDataType() (dt string) {
 		if fin {
 			return types.Generic
 		}
+
+		//time.Sleep(3 * time.Millisecond)
 	}
 }
 

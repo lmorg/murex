@@ -13,12 +13,16 @@ import (
 var (
 	// Summary is an overriding summary for readline hints
 	Summary = New()
-
-	manDesc = make(map[string]string)
 )
 
 func Get(cmd string, checkManPage bool) (r []rune) {
-	var summary string
+	//var summary string
+	summary := Cache.Get(cmd)
+	if summary != "" {
+		return []rune(summary)
+	}
+
+	defer func() { Cache.Set(cmd, r) }()
 
 	custom := Summary.Get(cmd)
 	if custom != "" {
@@ -59,11 +63,7 @@ func Get(cmd string, checkManPage bool) (r []rune) {
 		return r
 	}
 
-	if checkManPage /*autocomplete.GlobalExes[cmd]*/ {
-		if summary == "" {
-			summary = manDesc[cmd]
-		}
-
+	if checkManPage {
 		if summary == "" {
 			summary = man.ParseSummary(man.GetManPages(cmd))
 		}
@@ -72,7 +72,6 @@ func Get(cmd string, checkManPage bool) (r []rune) {
 			summary = "no man page found"
 		}
 
-		manDesc[cmd] = summary
 		w := readlink(which.Which(cmd))
 
 		r = append(r, []rune("("+w+") "+summary)...)

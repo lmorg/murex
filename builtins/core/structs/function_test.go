@@ -11,6 +11,10 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 func TestAliases(t *testing.T) {
 	alias := "TestAlias"
 
@@ -83,10 +87,6 @@ func TestFunction(t *testing.T) {
 	if lang.MxFunctions.Exists(fn) {
 		t.Fatalf("Expecting '%s' to be destroyed, it still exists", fn)
 	}
-}
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
 }
 
 func TestPrivate(t *testing.T) {

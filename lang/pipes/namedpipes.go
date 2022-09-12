@@ -36,14 +36,15 @@ func NewNamed() (n Named) {
 // CreatePipe creates a named pipe using the stdin interface
 func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 	n.mutex.Lock()
-	defer n.mutex.Unlock()
 
 	if n.pipes[name].Pipe != nil {
+		n.mutex.Unlock()
 		return fmt.Errorf("Named pipe `%s`already exists", name)
 	}
 
 	io, err := stdio.CreatePipe(pipeType, arguments)
 	if err != nil {
+		n.mutex.Unlock()
 		return err
 	}
 
@@ -53,15 +54,16 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 	}
 
 	io.Open()
+	n.mutex.Unlock()
 	return nil
 }
 
 // ExposePipe takes an existing stdio.Io interface and exposes it as a named pipe
 func (n *Named) ExposePipe(name, pipeType string, io stdio.Io) error {
 	n.mutex.Lock()
-	defer n.mutex.Unlock()
 
 	if n.pipes[name].Pipe != nil {
+		n.mutex.Unlock()
 		return fmt.Errorf("Named pipe `%s`already exists", name)
 	}
 
@@ -70,6 +72,7 @@ func (n *Named) ExposePipe(name, pipeType string, io stdio.Io) error {
 		Type: pipeType,
 	}
 
+	n.mutex.Unlock()
 	return nil
 }
 

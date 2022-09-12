@@ -15,6 +15,7 @@ import (
 	"github.com/lmorg/murex/utils/man"
 	"github.com/lmorg/murex/utils/pathsplit"
 	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/murex/utils/which"
 )
 
 // Flags is a struct to store auto-complete options
@@ -64,7 +65,7 @@ var (
 func UpdateGlobalExeList() {
 	envPath, _ := lang.ShellProcess.Variables.GetString("PATH")
 
-	dirs := SplitPath(envPath)
+	dirs := which.SplitPath(envPath)
 
 	for i := range dirs {
 		listExes(dirs[i], GlobalExes)

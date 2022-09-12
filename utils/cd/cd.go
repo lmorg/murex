@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/cd/cache"
 )
 
 // GlobalVarName is the name of the path history variable that `cd` writes to
@@ -28,6 +29,10 @@ func Chdir(p *lang.Process, path string) error {
 	if err != nil {
 		p.Stderr.Writeln([]byte(err.Error()))
 		pwd = path
+	}
+
+	if lang.Interactive {
+		go cache.GatherFileCompletions(pwd)
 	}
 
 	//ansititle.Icon([]byte(pwd))

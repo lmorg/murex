@@ -120,6 +120,12 @@ jobs:
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
 
+  go1.18:
+    docker:
+      - image: golang:1.18
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
 
 workflows:
   version: 2
@@ -130,4 +136,5 @@ workflows:
       - go1.15
       - go1.16
       - go1.17
+      - go1.18
       - codecov
