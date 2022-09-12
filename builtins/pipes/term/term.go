@@ -60,9 +60,6 @@ func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
 // GetDataType is a null method because the term interface is write-only
 func (t *term) GetDataType() string { return types.Null }
 
-// SetDataType is a null method because the term interface is write-only
-func (t *term) SetDataType(string) {}
-
 // DefaultDataType is a null method because the term interface is write-only
 func (t *term) DefaultDataType(bool) {}
 

@@ -29,10 +29,34 @@ func BenchmarkJaForeachN(b *testing.B) {
 	}
 }
 
+func BenchmarkAForeachForkN(b *testing.B) {
+	lang.InitEnv()
+
+	block := fmt.Sprintf(`a [1..%d] -> foreach i { exec printf "iteration $i of %d\n" }`, b.N, b.N)
+
+	_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute([]rune(block))
+	if err != nil {
+		b.Error(err.Error())
+	}
+}
+
 func BenchmarkCsvIndexNTimes(b *testing.B) {
 	lang.InitEnv()
 
 	block := []rune(`tout csv "murex,foo,bar\n1,2,3\na,b,c\nz,y,x\n" -> [ :foo ]`)
+
+	for i := 0; i < b.N; i++ {
+		_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute(block)
+		if err != nil {
+			b.Error(err.Error())
+		}
+	}
+}
+
+func BenchmarkCsvForkNTimes(b *testing.B) {
+	lang.InitEnv()
+
+	block := []rune(`tout csv "murex,foo,bar\n1,2,3\na,b,c\nz,y,x\n" -> grep foo`)
 
 	for i := 0; i < b.N; i++ {
 		_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute(block)

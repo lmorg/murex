@@ -17,6 +17,32 @@ type Out struct {
 	term
 }
 
+func OutSetDataTypeFd3() {
+	s, _ := os.LookupEnv("MUREX_EXEC")
+	if s != "yes" {
+		return
+	}
+
+	outSetDataTypeFd3 = true
+}
+
+var outSetDataTypeFd3 bool
+
+// SetDataType writes the data type to a special pipe when run under murex
+func (t *Out) SetDataType(dt string) {
+	if !outSetDataTypeFd3 || dt == "null" {
+		return
+	}
+
+	f := os.NewFile(3, "dt")
+	_, err := f.WriteString(dt + "\n")
+	if err != nil {
+		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
+	}
+
+	//f.Close()
+}
+
 // Write is the io.Writer() interface for term
 func (t *Out) Write(b []byte) (i int, err error) {
 	t.mutex.Lock()

@@ -10,6 +10,7 @@ import (
 	"runtime/pprof"
 
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
@@ -146,6 +147,7 @@ func runCommandLine(commandLine string) {
 	}
 
 	// read block from command line parameters
+	term.OutSetDataTypeFd3()
 	execSource([]rune(commandLine), nil)
 
 	if fInteractive {
@@ -169,6 +171,7 @@ func runSource(filename string) {
 	}
 
 	// read block from disk
+	term.OutSetDataTypeFd3()
 	disk, err := diskSource(filename)
 	if err != nil {
 		_, err := os.Stderr.WriteString(err.Error() + "\n")
