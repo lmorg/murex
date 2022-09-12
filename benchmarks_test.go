@@ -65,3 +65,16 @@ func BenchmarkCsvForkNTimes(b *testing.B) {
 		}
 	}
 }
+
+func BenchmarkForkPipelineNTimes(b *testing.B) {
+	lang.InitEnv()
+
+	block := []rune(`exec printf "the\nquick\nbrown\nfox\n" -> tr '[:lower:]' '[:upper:]' -> tr '[:upper:]' '[:lower:]'`)
+
+	for i := 0; i < b.N; i++ {
+		_, err := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR).Execute(block)
+		if err != nil {
+			b.Error(err.Error())
+		}
+	}
+}

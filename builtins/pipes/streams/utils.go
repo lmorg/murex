@@ -77,6 +77,10 @@ func (stdin *Stdin) GetDataType() (dt string) {
 
 // SetDataType defines the murex data type for the stream.Io interface
 func (stdin *Stdin) SetDataType(dt string) {
+	if len(dt) == 0 || dt == types.Null {
+		return
+	}
+
 	//stdin.dtLock.Lock()
 	stdin.mutex.Lock()
 	if stdin.dataType == "" {
