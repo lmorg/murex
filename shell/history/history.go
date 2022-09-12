@@ -7,16 +7,12 @@ import (
 	"os"
 	"strings"
 	"time"
-
-	"github.com/lmorg/murex/builtins/pipes/file"
-	"github.com/lmorg/murex/lang/stdio"
 )
 
 // History exports common functions needed for shell history
 type History struct {
 	filename string
 	list     []Item
-	writer   stdio.Io
 }
 
 // Item is the structure of an individual item in the History.list slice
@@ -31,9 +27,8 @@ func New(filename string) (h *History, err error) {
 	h = new(History)
 	h.filename = filename
 	h.list, _ = openHist(filename)
-	h.writer, err = file.NewFile(filename)
 
-	return h, err
+	return h, nil //err
 }
 
 func openHist(filename string) (list []Item, err error) {
@@ -41,7 +36,6 @@ func openHist(filename string) (list []Item, err error) {
 	if err != nil {
 		return list, err
 	}
-	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -53,17 +47,14 @@ func openHist(filename string) (list []Item, err error) {
 		item.Index = len(list)
 		list = append(list, item)
 	}
+
+	file.Close()
 	return list, nil
 }
 
 // Write item to history file. eg ~/.murex_history
 func (h *History) Write(s string) (int, error) {
 	block := strings.TrimSpace(s)
-
-	type jsonline struct {
-		DateTime time.Time `json:"datetime"`
-		Block    string    `json:"block"`
-	}
 
 	item := Item{
 		DateTime: time.Now(),
@@ -75,7 +66,10 @@ func (h *History) Write(s string) (int, error) {
 		h.list = append(h.list, item)
 	}
 
-	line := jsonline{
+	line := struct {
+		DateTime time.Time `json:"datetime"`
+		Block    string    `json:"block"`
+	}{
 		Block:    block,
 		DateTime: item.DateTime,
 	}
@@ -85,16 +79,15 @@ func (h *History) Write(s string) (int, error) {
 		return h.Len(), err
 	}
 
-	_, err = h.writer.Writeln(b)
+	f, err := os.OpenFile(h.filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+	if err != nil {
+		return 0, err
+	}
+
+	_, err = f.Write(append(b, '\n'))
+	f.Close()
 	return h.Len(), err
 }
-
-/*// Close history file
-func (h *History) Close() {
-	if h.Writer != nil {
-		h.Writer.Close()
-	}
-}*/
 
 // GetLine returns a specific line from the history file
 func (h *History) GetLine(i int) (string, error) {

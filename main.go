@@ -147,6 +147,10 @@ func runCommandLine(commandLine string) {
 
 	// read block from command line parameters
 	execSource([]rune(commandLine), nil)
+
+	if fInteractive {
+		shell.Start()
+	}
 }
 
 func runSource(filename string) {
