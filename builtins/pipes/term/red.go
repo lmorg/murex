@@ -19,7 +19,7 @@ type ErrRed struct {
 }
 
 // SetDataType is a null method because the term interface is write-only
-func (t *ErrRed) SetDataType(string) { return }
+func (t *ErrRed) SetDataType(string) {}
 
 // Write is the io.Writer() interface for term
 func (t *ErrRed) Write(b []byte) (i int, err error) {

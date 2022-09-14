@@ -28,6 +28,10 @@ func External(p *Process) error {
 	return nil
 }
 
+type nilFile os.File
+
+func (nilFile) Close() {}
+
 func execute(p *Process) error {
 	//p.Stdout.SetDataType(types.Generic)
 
@@ -64,13 +68,13 @@ func execute(p *Process) error {
 	switch {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
-		cmd.Env = append(cmd.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=yes", "MUREX_IS_BACKGROUND="+p.Background.String(), "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=yes", "MUREX_IS_BACKGROUND="+p.Background.String(), "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
 	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
-		cmd.Env = append(cmd.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=no", "MUREX_IS_BACKGROUND=yes", "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=no", "MUREX_IS_BACKGROUND=yes", "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
 	default:
 		cmd.Stdin = os.Stdin
-		cmd.Env = append(cmd.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=no", "MUREX_IS_BACKGROUND=no", "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=no", "MUREX_IS_BACKGROUND=no", "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
 	}
 
 	// ***
@@ -105,13 +109,17 @@ func execute(p *Process) error {
 	// ***
 	// Define MUREX DATA TYPE (fd 3)
 	// ***
-
+	var failedPipe bool
 	mxdtR, mxdtW, err := os.Pipe()
 	if err != nil {
-		return fmt.Errorf("unable to create murex data type output file for external process: %s", err.Error())
-	}
+		os.Stderr.WriteString("unable to create murex data type output file for external process: " + err.Error() + "\n")
+		failedPipe = true
+		mxdtR = new(os.File)
+		mxdtW = new(os.File)
 
-	cmd.ExtraFiles = []*os.File{mxdtW}
+	} else {
+		cmd.ExtraFiles = []*os.File{mxdtW}
+	}
 
 	// ***
 	// Start process
@@ -130,6 +138,11 @@ func execute(p *Process) error {
 	// ***
 
 	go func() {
+		if failedPipe {
+			p.Stdout.SetDataType(types.Generic)
+			return
+		}
+
 		var dt string
 
 		scanner := bufio.NewScanner(mxdtR)
@@ -142,15 +155,6 @@ func execute(p *Process) error {
 		if scanner.Err() != nil || dt == "" {
 			dt = types.Generic
 		}
-
-		/*b := make([]byte, 20)
-		i, err := mxdtR.Read(b)
-
-		if err != nil {
-			dt = types.Generic
-		} else {
-			dt = string(b[:i])
-		}*/
 
 		p.Stdout.SetDataType(dt)
 		mxdtR.Close()

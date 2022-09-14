@@ -39,6 +39,7 @@ func (t *Out) SetDataType(dt string) {
 	_, err := f.WriteString(dt + "\n")
 	if err != nil {
 		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
+		outSetDataTypeFd3 = false
 	}
 
 	//f.Close()
