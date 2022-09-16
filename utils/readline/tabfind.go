@@ -10,6 +10,9 @@ func (rl *Instance) backspaceTabFind() {
 }
 
 func (rl *Instance) updateTabFind(r []rune) {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	rl.tfLine = append(rl.tfLine, r...)
 	rl.hintText = append([]rune("regex find: "), rl.tfLine...)
 

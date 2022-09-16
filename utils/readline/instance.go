@@ -104,6 +104,7 @@ type Instance struct {
 
 	// tab completion
 	modeTabCompletion bool
+	tabMutex          sync.Mutex
 	tcPrefix          string
 	tcSuggestions     []string
 	tcDescriptions    map[string]string
