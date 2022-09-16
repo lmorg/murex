@@ -82,7 +82,7 @@ func (rl *Instance) moveTabMapHighlight(x, y int) {
 
 func (rl *Instance) writeTabMap() {
 	rl.tabMutex.Lock()
-	defer rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
 
 	var suggestions []string
 	if rl.modeTabFind {

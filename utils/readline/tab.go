@@ -33,10 +33,10 @@ func (rl *Instance) getTabCompletion() {
 		rl.delayedTabContext.cancel()
 	}
 
-	rl.tabMutex.Lock()
-
 	rl.delayedTabContext = DelayedTabContext{rl: rl}
 	rl.delayedTabContext.Context, rl.delayedTabContext.cancel = context.WithCancel(context.Background())
+
+	rl.tabMutex.Lock()
 
 	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
 

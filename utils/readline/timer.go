@@ -53,11 +53,11 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 	}
 
 	dtc.rl.tabMutex.Lock()
-	defer dtc.rl.tabMutex.Unlock()
 
 	for i := range suggestions {
 		select {
 		case <-dtc.Context.Done():
+			dtc.rl.tabMutex.Unlock()
 			return
 
 		default:
@@ -69,6 +69,7 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 		}
 	}
 
+	dtc.rl.tabMutex.Unlock()
 	dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()
@@ -86,11 +87,11 @@ func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
 	}
 
 	dtc.rl.tabMutex.Lock()
-	defer dtc.rl.tabMutex.Unlock()
 
 	for k := range suggestions {
 		select {
 		case <-dtc.Context.Done():
+			dtc.rl.tabMutex.Unlock()
 			return
 
 		default:
@@ -99,6 +100,7 @@ func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
 		}
 	}
 
+	dtc.rl.tabMutex.Unlock()
 	dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.clearHelpers()
 	dtc.rl.renderHelpers()

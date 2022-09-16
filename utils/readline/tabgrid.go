@@ -131,7 +131,6 @@ func (rl *Instance) writeTabGrid() {
 		caption := cropCaption(value, rl.tcMaxLength, iCellWidth)
 		if caption != value {
 			rl.tcDescriptions[suggestions[i]] = value
-			//rl.tcDescriptions.Store(suggestions[i], value)
 		}
 
 		printf(" %-"+cellWidth+"s %s", caption, seqReset)

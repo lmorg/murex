@@ -10,9 +10,6 @@ func (rl *Instance) backspaceTabFind() {
 }
 
 func (rl *Instance) updateTabFind(r []rune) {
-	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
-
 	rl.tfLine = append(rl.tfLine, r...)
 	rl.hintText = append([]rune("regex find: "), rl.tfLine...)
 
@@ -21,6 +18,9 @@ func (rl *Instance) updateTabFind(r []rune) {
 		rl.initTabCompletion()
 		rl.renderHelpers()
 	}()
+
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
 
 	if len(rl.tfLine) == 0 {
 		rl.tfSuggestions = append(rl.tcSuggestions, []string{}...)
