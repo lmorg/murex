@@ -52,8 +52,8 @@ func (dtc DelayedTabContext) AppendSuggestions(suggestions []string) {
 		return
 	}
 
-	dtc.rl.mutex.Lock()
-	defer dtc.rl.mutex.Unlock()
+	dtc.rl.tabMutex.Lock()
+	defer dtc.rl.tabMutex.Unlock()
 
 	for i := range suggestions {
 		select {
@@ -85,8 +85,8 @@ func (dtc DelayedTabContext) AppendDescriptions(suggestions map[string]string) {
 		return
 	}
 
-	dtc.rl.mutex.Lock()
-	defer dtc.rl.mutex.Unlock()
+	dtc.rl.tabMutex.Lock()
+	defer dtc.rl.tabMutex.Unlock()
 
 	for k := range suggestions {
 		select {
