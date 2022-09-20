@@ -5,6 +5,9 @@ import (
 )
 
 func (rl *Instance) initTabGrid() {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -39,6 +42,9 @@ func (rl *Instance) initTabGrid() {
 }
 
 func (rl *Instance) moveTabGridHighlight(x, y int) {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -88,14 +94,15 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 }
 
 func (rl *Instance) writeTabGrid() {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
 	} else {
 		suggestions = rl.tcSuggestions
 	}
-
-	//print("\r" + strings.Repeat("\n", rl.hintY) + seqClearScreenBelow)
 
 	iCellWidth := (rl.termWidth / rl.tcMaxX) - 2
 	cellWidth := strconv.Itoa(iCellWidth)

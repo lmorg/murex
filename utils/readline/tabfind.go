@@ -19,6 +19,9 @@ func (rl *Instance) updateTabFind(r []rune) {
 		rl.renderHelpers()
 	}()
 
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	if len(rl.tfLine) == 0 {
 		rl.tfSuggestions = append(rl.tcSuggestions, []string{}...)
 		return

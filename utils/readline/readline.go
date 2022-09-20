@@ -12,17 +12,17 @@ var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 // Readline displays the readline prompt.
 // It will return a string (user entered data) or an error.
 func (rl *Instance) Readline() (_ string, err error) {
-	rl.mutex.Lock()
+	rl.fdMutex.Lock()
 	rl.Active = true
 	fd := int(os.Stdin.Fd())
 	state, err := MakeRaw(fd)
-	rl.mutex.Unlock()
+	rl.fdMutex.Unlock()
 
 	if err != nil {
 		return "", err
 	}
 	defer func() {
-		rl.mutex.Lock()
+		rl.fdMutex.Lock()
 		rl.Active = false
 		// return an error if Restore fails. However we don't want to return
 		// `nil` if there is no error because there might be a CtrlC or EOF
@@ -31,7 +31,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		if r != nil {
 			err = r
 		}
-		rl.mutex.Unlock()
+		rl.fdMutex.Unlock()
 	}()
 
 	x, _ := rl.getCursorPos()
@@ -160,7 +160,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 		rl.lineChange = string(b[:i])
 
 		// Slow or invisible tab completions shouldn't lock up cursor movement
-		if rl.modeTabCompletion && len(rl.tcSuggestions) == 0 {
+		rl.tabMutex.Lock()
+		lenTcS := len(rl.tcSuggestions)
+		rl.tabMutex.Unlock()
+		if rl.modeTabCompletion && lenTcS == 0 {
 			if rl.delayedTabContext.cancel != nil {
 				rl.delayedTabContext.cancel()
 			}
@@ -192,7 +195,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.tcOffset = 0
 			rl.modeTabCompletion = true
 			rl.tcDisplayType = TabDisplayMap
+			rl.tabMutex.Lock()
 			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
+			rl.tabMutex.Unlock()
 			rl.initTabCompletion()
 
 			rl.modeTabFind = true
@@ -217,11 +222,13 @@ func (rl *Instance) Readline() (_ string, err error) {
 			fallthrough
 		case '\n':
 			var suggestions []string
+			rl.tabMutex.Lock()
 			if rl.modeTabFind {
 				suggestions = rl.tfSuggestions
 			} else {
 				suggestions = rl.tcSuggestions
 			}
+			rl.tabMutex.Unlock()
 
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
 				tfLine := rl.tfLine
