@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/escape"
 	"github.com/lmorg/murex/utils/home"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -43,7 +44,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 	if err != nil {
 		autoGlob = false
 	}
-	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0
+	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0 && !lists.Match(GetNoGlobCmds(), prc.Name.String())
 
 	for i := range p.Tokens {
 		params = append(params, "")

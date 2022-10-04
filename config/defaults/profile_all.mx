@@ -1011,7 +1011,6 @@ if { microk8s } then {
         }
     ]}
 
-
     autocomplete: set kubectl {[
         {
             "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
@@ -1051,7 +1050,9 @@ if { which yarn } then {
                 g: ${yarn bin}/* -> regexp: s,^.*/,,
             }),
             "FlagsDesc": ${
-                yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
+                trypipe <!null> {
+                    yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
+                }
             },
             "Optional": true,
             "AllowMultiple": true,
@@ -1072,23 +1073,27 @@ if { which yarn } then {
         },
         {
             "Flags": ${
-                yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+                trypipe <!null> {
+                    yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+                }
             },
             "FlagValues": {
                 ${
-                    yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
-                        out ("$cmd":
-                            [{
-                                "DynamicDesc": ({ 
-                                    yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
-                                }),
-                                "AllowMultiple": true,
-                                "AllowNoFlagValue": true,
-                                "FlagValues": {"*": [
-                                    { "IncDirs": true },
-                                    { "Goto": "/2/add/0" }
-                                ]}
-                            }],)
+                    trypipe <!null> {
+                        yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
+                            out ("$cmd":
+                                [{
+                                    "DynamicDesc": ({ 
+                                        yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                    }),
+                                    "AllowMultiple": true,
+                                    "AllowNoFlagValue": true,
+                                    "FlagValues": {"*": [
+                                        { "IncDirs": true },
+                                        { "Goto": "/2/add/0" }
+                                    ]}
+                                }],)
+                        }
                     }
                 }
                 "": [{ }]
