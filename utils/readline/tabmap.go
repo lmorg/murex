@@ -5,6 +5,9 @@ import (
 )
 
 func (rl *Instance) initTabMap() {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -39,6 +42,9 @@ func (rl *Instance) initTabMap() {
 }
 
 func (rl *Instance) moveTabMapHighlight(x, y int) {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -75,6 +81,9 @@ func (rl *Instance) moveTabMapHighlight(x, y int) {
 }
 
 func (rl *Instance) writeTabMap() {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	var suggestions []string
 	if rl.modeTabFind {
 		suggestions = rl.tfSuggestions
@@ -98,7 +107,6 @@ func (rl *Instance) writeTabMap() {
 
 	y := 0
 
-	//print("\r" + strings.Repeat("\n", rl.hintY) + seqClearScreenBelow)
 	moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
 
 	highlight := func(y int) string {

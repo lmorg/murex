@@ -244,6 +244,17 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "auto-glob-unsafe-commands", config.Properties{
+		Description: "Commands blacklisted for being unsafe to automatically glob",
+		Default:     lang.GetNoGlobCmds(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  lang.ReadNoGlobCmds,
+			Write: lang.WriteNoGlobCmds,
+		},
+	})
+
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{

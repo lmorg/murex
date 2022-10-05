@@ -9,7 +9,7 @@ import (
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
 type Instance struct {
-	mutex sync.Mutex
+	fdMutex sync.Mutex
 
 	Active bool
 
@@ -104,6 +104,7 @@ type Instance struct {
 
 	// tab completion
 	modeTabCompletion bool
+	tabMutex          sync.Mutex
 	tcPrefix          string
 	tcSuggestions     []string
 	tcDescriptions    map[string]string
