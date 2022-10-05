@@ -1043,11 +1043,11 @@ if { which aws } then {
 }
 
 if { which yarn } then {
-    autocomplete: set yarn ({[
+    autocomplete: <!null> set yarn ({[
         {
             "CacheTTL": 30,
             "Dynamic": ({
-                g: ${yarn bin}/* -> regexp: s,^.*/,,
+                g: ${yarn <!null> bin}/* -> regexp: s,^.*/,,
             }),
             "FlagsDesc": ${
                 trypipe <!null> {
