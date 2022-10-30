@@ -26,8 +26,8 @@ var (
 )
 
 const (
-	errEmptyArray = "Array '@%s' is empty"
-	errEmptyRange = "Range '@%s' is empty"
+	errEmptyArray = "array '@%s' is empty"
+	errEmptyRange = "range '@%s' is empty"
 )
 
 // ParseParameters is an internal function to parse parameters
@@ -145,7 +145,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				variable.SetDataType(prc.Variables.GetDataType(p.Tokens[i][j].Key))
 				variable.Write([]byte(data))
 
-				variable.ReadArray(func(b []byte) {
+				variable.ReadArray(prc.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
 
@@ -167,7 +167,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute([]rune(p.Tokens[i][j].Key))
-				fork.Stdout.ReadArray(func(b []byte) {
+				fork.Stdout.ReadArray(prc.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
 
@@ -253,7 +253,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				debug.Log(string(block))
 				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
-				fork.Stdout.ReadArray(func(b []byte) {
+				fork.Stdout.ReadArray(prc.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
 

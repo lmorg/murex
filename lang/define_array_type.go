@@ -1,12 +1,14 @@
 package lang
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
 // ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
-func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte, string)) error {
+func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -24,10 +26,10 @@ func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, e
 		return readArrayWithTypeByString(v, callback)
 
 	case []string:
-		return readArrayWithTypeBySliceString(v, callback)
+		return readArrayWithTypeBySliceString(ctx, v, callback)
 
 	case []interface{}:
-		return readArrayWithTypeBySliceInterface(dataType, marshal, v, callback)
+		return readArrayWithTypeBySliceInterface(ctx, dataType, marshal, v, callback)
 
 	/*case map[string]string:
 		return readArrayWithTypeByMapStrStr(v, callback)
@@ -60,39 +62,51 @@ func readArrayWithTypeByString(v string, callback func([]byte, string)) error {
 	return nil
 }
 
-func readArrayWithTypeBySliceString(v []string, callback func([]byte, string)) error {
+func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback func([]byte, string)) error {
 	for i := range v {
-		callback([]byte(v[i]), types.String)
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback([]byte(v[i]), types.String)
+		}
 	}
 
 	return nil
 }
 
-func readArrayWithTypeBySliceInterface(dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte, string)) error {
+func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte, string)) error {
 	if len(v) == 0 {
 		return nil
 	}
 
-	switch v[0].(type) {
-	case string:
-		for i := range v {
-			callback([]byte(v[i].(string)), types.String)
-		}
-
-	case []byte:
-		for i := range v {
-			callback(v[i].([]byte), types.String)
-		}
+	select {
+	case <-ctx.Done():
+		return nil
 
 	default:
-		for i := range v {
-
-			jBytes, err := marshal(v[i])
-			if err != nil {
-				return err
+		switch v[0].(type) {
+		case string:
+			for i := range v {
+				callback([]byte(v[i].(string)), types.String)
 			}
-			callback(jBytes, dataType)
 
+		case []byte:
+			for i := range v {
+				callback(v[i].([]byte), types.String)
+			}
+
+		default:
+			for i := range v {
+
+				jBytes, err := marshal(v[i])
+				if err != nil {
+					return err
+				}
+				callback(jBytes, dataType)
+
+			}
 		}
 	}
 
@@ -101,46 +115,58 @@ func readArrayWithTypeBySliceInterface(dataType string, marshal func(interface{}
 
 /*func readArrayWithTypeByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		bKey := []byte(fmt.Sprint(key) + ": ")
 		b, err := marshal(val)
 		if err != nil {
 			return err
 		}
 		callback(append(bKey, b...))
-	}
+	}}
 
 	return nil
 }
 
 func readArrayWithTypeByMapStrStr(v map[string]string, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		callback([]byte(key + ": " + val))
-	}
+	}}
 
 	return nil
 }
 
 func readArrayWithTypeByMapStrIface(marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		bKey := []byte(key + ": ")
 		b, err := marshal(val)
 		if err != nil {
 			return err
 		}
 		callback(append(bKey, b...))
-	}
+	}}
 
 	return nil
 }
 
 func readArrayWithTypeByMapIfaceStr(v map[interface{}]string, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		callback([]byte(fmt.Sprint(key) + ": " + val))
-	}
+	}}
 
 	return nil
 }

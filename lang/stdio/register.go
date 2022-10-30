@@ -1,6 +1,7 @@
 package stdio
 
 import (
+	"context"
 	"fmt"
 	"sort"
 
@@ -41,7 +42,7 @@ func DumpPipes() (dump []string) {
 
 // RegisterReadArray is used by types (/builtins/types) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegisterReadArray(dataType string, function func(read Io, callback func([]byte)) error) {
+func RegisterReadArray(dataType string, function func(ctx context.Context, read Io, callback func([]byte)) error) {
 	if readArray[dataType] != nil {
 		panic("readArray already registered for the data type: " + dataType)
 	}
@@ -51,7 +52,7 @@ func RegisterReadArray(dataType string, function func(read Io, callback func([]b
 
 // RegisterReadArrayWithType is used by types (/builtins/types) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegisterReadArrayWithType(dataType string, function func(read Io, callback func([]byte, string)) error) {
+func RegisterReadArrayWithType(dataType string, function func(ctx context.Context, read Io, callback func([]byte, string)) error) {
 	if readArrayWithType[dataType] != nil {
 		panic("readArrayWithType already registered for the data type: " + dataType)
 	}

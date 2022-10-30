@@ -1,6 +1,7 @@
 package stdio
 
 import (
+	"context"
 	"io"
 
 	"github.com/lmorg/murex/config"
@@ -18,8 +19,8 @@ type Io interface {
 
 	Read([]byte) (int, error)
 	ReadLine(callback func([]byte)) error
-	ReadArray(callback func([]byte)) error
-	ReadArrayWithType(callback func([]byte, string)) error
+	ReadArray(ctx context.Context, callback func([]byte)) error
+	ReadArrayWithType(ctx context.Context, callback func([]byte, string)) error
 	ReadMap(*config.Config, func(string, string, bool)) error
 	ReadAll() ([]byte, error)
 

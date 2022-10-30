@@ -47,8 +47,10 @@ func InitEnv() {
 	//ShellProcess.RunMode = runmode.Normal // defaults to Normal due to Normal == 0
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
-	ShellProcess.Kill = func() {}
 	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
+	ShellProcess.Context = context.Background()
+	ShellProcess.Done = func() {}
+	ShellProcess.Kill = func() {}
 
 	if FlagTry {
 		ShellProcess.RunMode = runmode.ModuleTry

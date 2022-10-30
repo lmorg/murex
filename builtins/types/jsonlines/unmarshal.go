@@ -88,7 +88,7 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 				fallthrough
 
 			default:
-				return jStruct, fmt.Errorf("Unable to unmarshal index %d in jsonlines: %s", len(jStruct), err)
+				return jStruct, fmt.Errorf("unable to unmarshal index %d in jsonlines: %s", len(jStruct), err)
 			}
 		}
 

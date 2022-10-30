@@ -2,23 +2,36 @@ package apachelogs
 
 import (
 	"bufio"
+	"context"
 
 	"github.com/lmorg/murex/lang/stdio"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
-		callback(scanner.Bytes())
+		select {
+		case <-ctx.Done():
+			return scanner.Err()
+
+		default:
+			callback(scanner.Bytes())
+		}
 	}
 
 	return scanner.Err()
 }
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
-		callback(scanner.Bytes(), typeAccess)
+		select {
+		case <-ctx.Done():
+			return scanner.Err()
+
+		default:
+			callback(scanner.Bytes(), typeAccess)
+		}
 	}
 
 	return scanner.Err()

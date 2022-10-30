@@ -39,15 +39,22 @@ package string
 import (
 	"bufio"
 	"bytes"
+	"context"
 
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
-		callback(bytes.TrimSpace(scanner.Bytes()), types.String)
+		select {
+		case <-ctx.Done():
+			return scanner.Err()
+
+		default:
+			callback(bytes.TrimSpace(scanner.Bytes()), types.String)
+		}
 	}
 
 	return scanner.Err()
@@ -66,19 +73,21 @@ For example:
 package json
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayWithTypeTemplate(types.Json, marshaller, json.Unmarshal, read, callback)
+	return lang.ArrayWithTypeTemplate(ctx, types.Json, marshaller, json.Unmarshal, read, callback)
 }
 ```
 

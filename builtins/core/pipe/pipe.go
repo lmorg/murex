@@ -114,17 +114,17 @@ func cmdClosePipe(p *lang.Process) error {
 	var names []string
 
 	if p.IsMethod {
-		p.Stdin.ReadArray(func(b []byte) {
+		p.Stdin.ReadArray(p.Context, func(b []byte) {
 			names = append(names, string(b))
 		})
 
 		if len(names) == 0 {
-			return errors.New("Stdin contained a zero lengthed array")
+			return errors.New("stdin contained a zero lengthed array")
 		}
 
 	} else {
 		if p.Parameters.Len() == 0 {
-			return errors.New("No pipes listed for closing")
+			return errors.New("no pipes listed for closing")
 		}
 
 		names = p.Parameters.StringArray()

@@ -55,7 +55,7 @@ func mkmap(p *lang.Process) error {
 
 	//go func() {
 	//	wg.Add(1)
-	errKeys = forkKeys.Stdout.ReadArray(func(b []byte) {
+	errKeys = forkKeys.Stdout.ReadArray(p.Context, func(b []byte) {
 		aKeys = append(aKeys, string(b))
 	})
 	//	wg.Done()
@@ -63,7 +63,7 @@ func mkmap(p *lang.Process) error {
 
 	//go func() {
 	//	wg.Add(1)
-	errValues = forkValues.Stdout.ReadArray(func(b []byte) {
+	errValues = forkValues.Stdout.ReadArray(p.Context, func(b []byte) {
 		aValues = append(aValues, string(b))
 	})
 	//	wg.Done()

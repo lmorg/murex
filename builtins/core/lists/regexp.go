@@ -12,11 +12,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["match"] = cmdMatch
-	//lang.GoFunctions["!match"] = cmdMatch
-	//lang.GoFunctions["regexp"] = cmdRegexp
-	//lang.GoFunctions["!regexp"] = cmdRegexp
-
 	lang.DefineMethod("match", cmdMatch, types.ReadArray, types.WriteArray)
 	lang.DefineMethod("!match", cmdMatch, types.ReadArray, types.WriteArray)
 	lang.DefineMethod("regexp", cmdRegexp, types.ReadArray, types.WriteArray)
@@ -40,7 +35,7 @@ func cmdMatch(p *lang.Process) error {
 		return err
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		matched := bytes.Contains(b, p.Parameters.ByteAll())
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 			err = aw.Write(b)
@@ -191,7 +186,7 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 		return err
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		matched := rx.Match(b)
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 
@@ -223,7 +218,7 @@ func regexSubstitute(p *lang.Process, rx *regexp.Regexp, sRegex []string, dt str
 
 	sub := []byte(sRegex[2])
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		err = aw.Write(rx.ReplaceAll(b, sub))
 		if err != nil {
 			p.Stdin.ForceClose()
@@ -244,7 +239,7 @@ func regexFind(p *lang.Process, rx *regexp.Regexp, dt string) error {
 		return err
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		match := rx.FindAllStringSubmatch(string(b), -1)
 		for _, found := range match {
 			if len(found) > 1 {

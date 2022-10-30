@@ -59,7 +59,7 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		return errors.New("invalid number of parameters")
 	}
 
-	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {
+	err = p.Stdin.ReadArrayWithType(p.Context, func(b []byte, dt string) {
 		if len(b) == 0 || p.HasCancelled() {
 			return
 		}
@@ -97,7 +97,7 @@ func cmdForEachJmap(p *lang.Process) error {
 
 	m := make(map[string]string)
 
-	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {
+	err = p.Stdin.ReadArrayWithType(p.Context, func(b []byte, dt string) {
 		if len(b) == 0 || p.HasCancelled() {
 			return
 		}

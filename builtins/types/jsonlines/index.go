@@ -29,7 +29,7 @@ func indexObject(p *lang.Process, params []string) error {
 	for i := range params {
 		num, err := strconv.Atoi(params[i])
 		if err != nil {
-			return fmt.Errorf("Parameter, `%s`, isn't an integer. %s", params[i], err)
+			return fmt.Errorf("parameter, `%s`, isn't an integer. %s", params[i], err)
 		}
 		lines[num] = true
 	}
@@ -39,7 +39,7 @@ func indexObject(p *lang.Process, params []string) error {
 		err error
 	)
 
-	err = p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArray(p.Context, func(b []byte) {
 		if lines[i] != p.IsNot {
 			_, err = p.Stdout.Writeln(b)
 			if err != nil {
@@ -57,7 +57,7 @@ func indexTable(p *lang.Process, params []string) error {
 	status := make(chan error)
 
 	go func() {
-		err1 := p.Stdin.ReadArray(func(b []byte) {
+		err1 := p.Stdin.ReadArray(p.Context, func(b []byte) {
 			var v []interface{}
 			err2 := json.Unmarshal(b, &v)
 			if err2 != nil {
@@ -101,7 +101,6 @@ func indexTable(p *lang.Process, params []string) error {
 	go func() {
 		err4 := lang.IndexTemplateTable(p, params, cRecords, marshaller)
 		status <- err4
-		return
 	}()
 
 	err0 := <-status

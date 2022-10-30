@@ -21,7 +21,7 @@ func cmdMSort(p *lang.Process) error {
 
 	var a []string
 
-	err := p.Stdin.ReadArray(func(b []byte) {
+	err := p.Stdin.ReadArray(p.Context, func(b []byte) {
 		if p.HasCancelled() {
 			return
 		}

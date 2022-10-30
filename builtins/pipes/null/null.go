@@ -1,6 +1,7 @@
 package null
 
 import (
+	"context"
 	"io"
 
 	"github.com/lmorg/murex/config"
@@ -25,10 +26,10 @@ func (t *Null) Read([]byte) (int, error) { return 0, nil }
 func (t *Null) ReadLine(func([]byte)) error { return nil }
 
 // ReadArray - null interface
-func (t *Null) ReadArray(func([]byte)) error { return nil }
+func (t *Null) ReadArray(context.Context, func([]byte)) error { return nil }
 
 // ReadArrayWithType - null interface
-func (t *Null) ReadArrayWithType(func([]byte, string)) error { return nil }
+func (t *Null) ReadArrayWithType(context.Context, func([]byte, string)) error { return nil }
 
 // ReadMap - null interface
 func (t *Null) ReadMap(*config.Config, func(string, string, bool)) error { return nil }

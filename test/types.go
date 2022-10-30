@@ -1,6 +1,7 @@
 package test
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"testing"
@@ -62,7 +63,7 @@ func ReadArrayTest(t *testing.T, dataType string, input []byte, expected []strin
 	}
 
 	actual := make([]string, 0)
-	err = stdout.ReadArray(func(b []byte) {
+	err = stdout.ReadArray(context.Background(), func(b []byte) {
 		actual = append(actual, string(b))
 	})
 	if err != nil {

@@ -42,17 +42,13 @@ import (
 }*/
 
 func runModeNormal(procs []Process) (exitNum int) {
-	//debug.Json("runModeNormal ()", procs)
-	var (
-		//skipToNextPipeline bool
-		prev int
-	)
+	var prev int
 
 	if len(procs) == 0 {
 		return 1
 	}
 
-	procs[0].Previous.SetTerminatedState(true)
+	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := range procs {
 		if i > 0 {
@@ -74,36 +70,28 @@ func runModeNormal(procs []Process) (exitNum int) {
 			}
 		}
 
-		/*if procs[i].Name == "break" {
-			exitNum, _ = procs[i].Parameters.Int(0)
-			return
-		}*/
 		go executeProcess(&procs[i])
 	}
 
-	//debug.Json("runModeNormal (final waitProcess)", procs)
 	waitProcess(&procs[len(procs)-1])
 	exitNum = procs[len(procs)-1].ExitNum
-	//debug.Json("runModeNormal (end)", procs)
+
 	return
 }
 
 // `try` - Last process in each pipe is checked.
 func runModeTry(procs []Process) (exitNum int) {
-	//defer panic("fin")
 	if len(procs) == 0 {
 		return 1
 	}
 
-	procs[0].Previous.SetTerminatedState(true)
+	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := 0; i < len(procs); i++ {
-		//fmt.Println(i, json.LazyLogging(procs))
 		go executeProcess(&procs[i])
 		next := i + 1
 
 		if next == len(procs) || !procs[next].IsMethod {
-			//fmt.Println("not", i)
 			waitProcess(&procs[i])
 			exitNum = procs[i].ExitNum
 			outSize, _ := procs[i].Stdout.Stats()
@@ -115,7 +103,6 @@ func runModeTry(procs []Process) (exitNum int) {
 
 			if next < len(procs) {
 				if exitNum < 1 && procs[next].OperatorLogicOr {
-					//panic(json.LazyLogging(procs))
 					i++
 					procs[i].hasTerminatedM.Lock()
 					procs[i].hasTerminatedV = true
@@ -124,7 +111,6 @@ func runModeTry(procs []Process) (exitNum int) {
 					procs[i].Stderr.Close()
 					GlobalFIDs.Deregister(procs[i].Id)
 					procs[i].State.Set(state.AwaitingGC)
-					//panic(i)
 					continue
 				}
 
@@ -140,7 +126,6 @@ func runModeTry(procs []Process) (exitNum int) {
 			}
 
 		} else {
-			//fmt.Println("isa", i)
 			go waitProcess(&procs[i])
 		}
 	}
@@ -150,12 +135,11 @@ func runModeTry(procs []Process) (exitNum int) {
 
 // `trypipe` - Each process in the pipeline is tried sequentially. Breaks parallelization.
 func runModeTryPipe(procs []Process) (exitNum int) {
-	//debug.Log("Entering run mode `trypipe`")
 	if len(procs) == 0 {
 		return 1
 	}
 
-	procs[0].Previous.SetTerminatedState(true)
+	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := 0; i < len(procs); i++ {
 		/*if procs[i].Name == "break" {
@@ -176,7 +160,6 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 		next := i + 1
 		if next < len(procs) {
 			if exitNum < 1 && procs[next].OperatorLogicOr {
-				//panic(json.LazyLogging(procs))
 				i++
 				procs[i].hasTerminatedM.Lock()
 				procs[i].hasTerminatedV = true
@@ -185,7 +168,6 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 				procs[i].Stderr.Close()
 				GlobalFIDs.Deregister(procs[i].Id)
 				procs[i].State.Set(state.AwaitingGC)
-				//panic(i)
 				continue
 			}
 

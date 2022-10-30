@@ -115,7 +115,7 @@ func cmdEscapeCli(p *lang.Process) error {
 	var s []string
 
 	if p.IsMethod {
-		err := p.Stdin.ReadArray(func(b []byte) {
+		err := p.Stdin.ReadArray(p.Context, func(b []byte) {
 			s = append(s, string(b))
 		})
 		if err != nil {

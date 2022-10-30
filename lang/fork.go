@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"context"
 	"errors"
 	"fmt"
 
@@ -84,14 +85,19 @@ type Fork struct {
 func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
-	fork.Kill = func() {
+	fork.SetTerminatedState(true)
+	/*fork.Kill = func() {
 		if debug.Enabled {
 			ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
 		}
-	}
+	}*/
+	//fork.Context, fork.Done = context.WithCancel(context.Background())
+	/*var done func()
+	fork.Context, done = context.WithCancel(context.Background())
+	fork.Kill = func() { done(); p.Kill() }
+	fork.Done = func() { done(); p.Done() }*/
 
 	fork.State.Set(state.MemAllocated)
-	fork.PromptId = p.PromptId
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.PromptId = p.PromptId
 
@@ -100,7 +106,7 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.OperatorLogicOr = p.OperatorLogicOr
 	fork.IsNot = p.IsNot
 
-	fork.Previous = p
+	fork.Previous = p.Previous
 	fork.Next = p.Next
 
 	if p.Id == ShellProcess.Id {
@@ -118,6 +124,8 @@ func (p *Process) Fork(flags int) *Fork {
 	if flags&F_FUNCTION != 0 {
 		fork.Scope = fork.Process
 		fork.Parent = fork.Process
+		fork.Context, fork.Done = context.WithCancel(context.Background())
+		fork.Kill = fork.Done
 
 		fork.Variables = NewVariables(fork.Process)
 		GlobalFIDs.Register(fork.Process)
@@ -132,6 +140,7 @@ func (p *Process) Fork(flags int) *Fork {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
 		fork.Parameters.CopyFrom(&p.Parameters)
+		fork.Context, fork.Done = p.Context, p.Done
 
 		if p.Scope.RunMode > runmode.Default {
 			fork.RunMode = p.Scope.RunMode
@@ -142,12 +151,12 @@ func (p *Process) Fork(flags int) *Fork {
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:
-			fork.Parent = p
+			fork.Parent = p.Parent
 			fork.Variables = p.Variables
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
-			fork.Parent = p
+			fork.Parent = p.Parent
 			fork.Variables = p.Variables
 			fork.Name.Append(" (fork)")
 			GlobalFIDs.Register(fork.Process)
@@ -155,7 +164,7 @@ func (p *Process) Fork(flags int) *Fork {
 
 		default:
 			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
-			fork.Parent = p
+			fork.Parent = p.Parent
 			fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
 			fork.Name.Append(" (fork)")
@@ -248,6 +257,7 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	if fork.fidRegistered {
 		defer deregisterProcess(fork.Process)
 	} else {
+		defer fork.SetTerminatedState(true)
 		defer fork.Stdout.Close()
 		defer fork.Stderr.Close()
 	}

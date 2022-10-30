@@ -2,6 +2,7 @@ package streams
 
 import (
 	"bufio"
+	"context"
 	"io"
 
 	"github.com/lmorg/murex/config"
@@ -100,13 +101,13 @@ read:
 }
 
 // ReadArray returns a data type-specific array returned via a callback function
-func (stdin *Stdin) ReadArray(callback func([]byte)) error {
-	return stdio.ReadArray(stdin, callback)
+func (stdin *Stdin) ReadArray(ctx context.Context, callback func([]byte)) error {
+	return stdio.ReadArray(ctx, stdin, callback)
 }
 
 // ReadArrayWithType returns an array like "ReadArray" plus data type via a callback function
-func (stdin *Stdin) ReadArrayWithType(callback func([]byte, string)) error {
-	return stdio.ReadArrayWithType(stdin, callback)
+func (stdin *Stdin) ReadArrayWithType(ctx context.Context, callback func([]byte, string)) error {
+	return stdio.ReadArrayWithType(ctx, stdin, callback)
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function

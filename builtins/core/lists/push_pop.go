@@ -32,7 +32,7 @@ func cmdLeft(p *lang.Process) error {
 
 	switch {
 	case left > 0:
-		p.Stdin.ReadArray(func(b []byte) {
+		p.Stdin.ReadArray(p.Context, func(b []byte) {
 			if len(b) < left {
 				err = aw.Write(b)
 			} else {
@@ -47,7 +47,7 @@ func cmdLeft(p *lang.Process) error {
 
 	case left < 0:
 		left = left * -1
-		p.Stdin.ReadArray(func(b []byte) {
+		p.Stdin.ReadArray(p.Context, func(b []byte) {
 			if len(b) < left {
 				err = aw.WriteString("")
 			} else {
@@ -61,7 +61,7 @@ func cmdLeft(p *lang.Process) error {
 		})
 
 	default:
-		p.Stdin.ReadArray(func([]byte) {
+		p.Stdin.ReadArray(p.Context, func([]byte) {
 			err = aw.WriteString("")
 			if err != nil {
 				p.Stdin.ForceClose()
@@ -97,7 +97,7 @@ func cmdRight(p *lang.Process) error {
 
 	switch {
 	case right > 0:
-		p.Stdin.ReadArray(func(b []byte) {
+		p.Stdin.ReadArray(p.Context, func(b []byte) {
 			if len(b) < right {
 				err = aw.Write(b)
 			} else {
@@ -112,7 +112,7 @@ func cmdRight(p *lang.Process) error {
 
 	case right < 0:
 		right = right * -1
-		p.Stdin.ReadArray(func(b []byte) {
+		p.Stdin.ReadArray(p.Context, func(b []byte) {
 			if len(b) < right {
 				err = aw.WriteString("")
 			} else {
@@ -126,7 +126,7 @@ func cmdRight(p *lang.Process) error {
 		})
 
 	default:
-		p.Stdin.ReadArray(func([]byte) {
+		p.Stdin.ReadArray(p.Context, func([]byte) {
 			err = aw.WriteString("")
 
 			if err != nil {
@@ -161,7 +161,7 @@ func cmdFix(p *lang.Process, pre bool) (err error) {
 		return err
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		write := make([]byte, len(b)+len(fix))
 		if pre {
 			copy(write, fix, b)

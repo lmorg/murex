@@ -1,11 +1,13 @@
 package jsonconcat
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -18,7 +20,7 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 	return parse(b, cb)
 }
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

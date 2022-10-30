@@ -1,6 +1,8 @@
 package lang
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/ref"
@@ -63,13 +65,13 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
 		procs[i].WaitForTermination = make(chan bool)
-		procs[i].RunMode = rm //parent.RunMode //rm
+		procs[i].RunMode = rm //parent.RunMode
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = parent.Variables
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
-		procs[i].Done = func() {}
-		procs[i].Kill = func() {}
+		//procs[i].Done = func() {}
+		//procs[i].Kill = func() {}
 		procs[i].PromptId = parent.PromptId
 		procs[i].CCEvent = parent.CCEvent
 		procs[i].CCExists = parent.CCExists
@@ -152,6 +154,13 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 			procs[i].Stderr = procs[i].Parent.Stderr
 		}
 
+		procs[i].Context, procs[i].Done = context.WithCancel(context.Background())
+		procs[i].Kill = func() {
+			procs[i].Stdin.ForceClose()
+			procs[i].Stdout.ForceClose()
+			procs[i].Stderr.ForceClose()
+			procs[i].Done()
+		}
 	}
 
 	for i := range *tree {

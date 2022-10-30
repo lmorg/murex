@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -214,7 +213,7 @@ func executeProcess(p *Process) {
 	//debug.Json("Execute process ()", p)
 	testStates(p)
 
-	if p.HasTerminated() {
+	if p.HasTerminated() || p.Parent.HasCancelled() {
 		destroyProcess(p)
 		return
 	}
@@ -230,15 +229,6 @@ func executeProcess(p *Process) {
 	tmux, err := p.Config.Get("proc", "echo-tmux", types.Boolean)
 	if err != nil {
 		tmux = false
-	}
-
-	p.Context, p.Done = context.WithCancel(context.Background())
-
-	p.Kill = func() {
-		p.Stdin.ForceClose()
-		p.Stdout.ForceClose()
-		p.Stderr.ForceClose()
-		p.Done()
 	}
 
 	var parsedAlias bool
@@ -438,15 +428,14 @@ func deregisterProcess(p *Process) {
 
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
-		if p.Next == nil {
+		/*if p.Next == nil {
 			//debug.Json("deregisterProcess (p.Next == nill)", p)
-		}
+		}*/
 		ForegroundProc.Set(p.Next)
 	}
 
 	go func() {
 		p.State.Set(state.AwaitingGC)
-		//CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()
 

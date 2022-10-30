@@ -4,6 +4,7 @@ package stdio
 // (saves reinventing the wheel lots of times)
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -12,25 +13,25 @@ import (
 )
 
 // ReadArray is a template function for stdio.Io
-func ReadArray(read Io, callback func([]byte)) error {
+func ReadArray(ctx context.Context, read Io, callback func([]byte)) error {
 	dt := read.GetDataType()
 
 	if readArray[dt] != nil {
-		return readArray[dt](read, callback)
+		return readArray[dt](ctx, read, callback)
 	}
 
-	return readArray[types.Generic](read, callback)
+	return readArray[types.Generic](ctx, read, callback)
 }
 
 // ReadArrayWithType is a template function for stdio.Io
-func ReadArrayWithType(read Io, callback func([]byte, string)) error {
+func ReadArrayWithType(ctx context.Context, read Io, callback func([]byte, string)) error {
 	dt := read.GetDataType()
 
 	if readArrayWithType[dt] != nil {
-		return readArrayWithType[dt](read, callback)
+		return readArrayWithType[dt](ctx, read, callback)
 	}
 
-	return readArrayWithType[types.Generic](read, callback)
+	return readArrayWithType[types.Generic](ctx, read, callback)
 }
 
 // ReadMap is a template function for stdio.Io

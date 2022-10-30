@@ -20,7 +20,7 @@ func cmdPrepend(p *lang.Process) error {
 
 	var array []string
 
-	err := p.Stdin.ReadArray(func(b []byte) {
+	err := p.Stdin.ReadArray(p.Context, func(b []byte) {
 		array = append(array, string(b))
 	})
 
@@ -49,7 +49,7 @@ func cmdAppend(p *lang.Process) error {
 
 	var array []string
 
-	err := p.Stdin.ReadArray(func(b []byte) {
+	err := p.Stdin.ReadArray(p.Context, func(b []byte) {
 		array = append(array, string(b))
 	})
 

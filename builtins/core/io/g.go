@@ -51,7 +51,7 @@ func cmdLsGMethod(p *lang.Process) (err error) {
 		return err
 	}
 
-	err = p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArray(p.Context, func(b []byte) {
 		s := string(b)
 		for i := range all {
 			if all[i] == s {
@@ -117,7 +117,7 @@ func cmdLsNotGMethod(p *lang.Process) (err error) {
 		return err
 	}
 
-	err = p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArray(p.Context, func(b []byte) {
 		s := string(b)
 		for i := range all {
 			if all[i] == s {

@@ -117,7 +117,7 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		return err
 	}
 
-	err = p.Stdin.ReadArray(func(b []byte) {
+	err = p.Stdin.ReadArray(p.Context, func(b []byte) {
 		if ended {
 			return
 		}

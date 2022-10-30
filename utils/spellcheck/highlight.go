@@ -59,13 +59,12 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 
 					case r[i] != word[j]:
 						// word not matched
-						break
 
 					case j+1 == len(word):
 						// entire word match found
 						if i+1 < len(r) && (unicode.IsLetter(r[i+1]) || unicode.IsMark(r[i+1]) || unicode.IsDigit(r[i+1])) {
 							// word is substring of a larger word
-							break
+
 						} else {
 							// add highlight
 							var err error
@@ -77,7 +76,7 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 							if err != nil {
 								return
 							}
-							break
+
 						}
 
 					default:

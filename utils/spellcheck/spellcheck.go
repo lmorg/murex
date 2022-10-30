@@ -2,6 +2,7 @@ package spellcheck
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"regexp"
 
@@ -49,7 +50,7 @@ func String(line string) (string, error) {
 		return line, fmt.Errorf("`config get shell spellcheck-func` STDERR: %s", string(utils.CrLfTrim(b)))
 	}
 
-	err = fork.Stdout.ReadArray(func(bWord []byte) {
+	err = fork.Stdout.ReadArray(context.Background(), func(bWord []byte) {
 		if len(bWord) == 0 {
 			return
 		}
