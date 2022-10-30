@@ -6,6 +6,7 @@ package term
 import (
 	"os"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -37,12 +38,12 @@ func (t *Out) SetDataType(dt string) {
 
 	f := os.NewFile(3, "dt")
 	_, err := f.WriteString(dt + "\n")
-	if err != nil {
+	if err != nil && debug.Enabled {
 		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
 		outSetDataTypeFd3 = false
 	}
 
-	//f.Close()
+	f.Close()
 }
 
 // Write is the io.Writer() interface for term
