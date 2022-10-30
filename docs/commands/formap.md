@@ -79,6 +79,8 @@ when there are more than 2 columns. In those instances you're better off using
 
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [commands/`foreach`](../commands/foreach.md):

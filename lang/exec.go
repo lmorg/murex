@@ -28,10 +28,6 @@ func External(p *Process) error {
 	return nil
 }
 
-type nilFile os.File
-
-func (nilFile) Close() {}
-
 func execute(p *Process) error {
 	//p.Stdout.SetDataType(types.Generic)
 

@@ -181,6 +181,8 @@ false.
   Reads the STDIN and exit number from previous process and not's it's condition
 * [commands/`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
 * [commands/`false`](../commands/false.md):

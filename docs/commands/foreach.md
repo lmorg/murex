@@ -244,6 +244,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
   Outputs an element from a nested structure
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [commands/`debug`](../commands/debug.md):

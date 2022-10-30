@@ -93,6 +93,8 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 * [commands/`alias`](../commands/alias.md):
   Create an alias for a command
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
 * [commands/`export`](../commands/export.md):

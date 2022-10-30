@@ -21,7 +21,6 @@ func init() {
 	lang.DefineFunction("private", cmdPrivate, types.Null)
 	//lang.DefineFunction("!private", cmdUnprivate, types.Null)
 	lang.DefineFunction("method", cmdMethod, types.Null)
-	lang.DefineFunction("end", cmdEnd, types.Null)
 
 	defaults.AppendProfile(`
 	autocomplete set method { [
@@ -242,38 +241,4 @@ func cmdMethodDefine(p *lang.Process) error {
 	}
 
 	return nil
-}
-
-func cmdEnd(p *lang.Process) error {
-	//return errors.New("usage: `end block-name`")
-	// get the first parameter for `end`
-	name, _ := p.Parameters.String(0)
-	if name == "" {
-		//go destroyProcess(p)
-		//go destroyProcess(p.Parent)
-		p.Done()
-		p.Parent.Done()
-		return fmt.Errorf(
-			"missing parameter for `%s`. Stopping execution of `%s` as a precaution",
-			p.Name.String(), p.Parent.Name.String(),
-		)
-	}
-
-	scope := p.Scope.Id
-	proc := p.Parent
-	for {
-		proc.Done()
-
-		if proc.Name.String() == name {
-			return nil
-		}
-		if proc.Id == scope {
-			return fmt.Errorf(
-				"invalid parameter for `%s`: no block found named `%s` within the scope of `%s`",
-				p.Name.String(), name, p.Scope.Name.String(),
-			)
-		}
-
-		proc = proc.Parent
-	}
 }

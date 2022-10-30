@@ -29,8 +29,8 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 				return err
 			}
 			if i < 0 {
-				//return errors.New("cannot have negative keys in array")
-				i = len(v) + i
+				//i = len(v) + i
+				i += len(v)
 			}
 			if i >= len(v) {
 				return errors.New("key '" + key + "' greater than number of items in array")

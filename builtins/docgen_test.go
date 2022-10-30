@@ -25,6 +25,7 @@ func init() {
 		"autocomplete":          "autocomplete_commands_docgen.go",
 		"bexists":               "bexists_commands_docgen.go",
 		"bg":                    "bg_commands_docgen.go",
+		"break":                 "break_commands_docgen.go",
 		"cast":                  "cast_commands_docgen.go",
 		"catch":                 "catch_commands_docgen.go",
 		"cd":                    "cd_commands_docgen.go",

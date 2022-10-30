@@ -229,6 +229,8 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
   Create an alias for a command
 * [commands/`args` ](../commands/args.md):
   Command line flag parser for _murex_ shell scripting
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`exec`](../commands/exec.md):
   Runs an executable
 * [commands/`export`](../commands/export.md):

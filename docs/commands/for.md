@@ -6,9 +6,10 @@
 
 ## Description
 
-This `for` loop is fills a small niche where `foreach` or `formap` idioms will
-fail within your scripts. It's generally not recommended to use `for` because
-it performs slower and doesn't adhere to _murex_'s design philosophy.
+This `for` loop is fills a small niche where `foreach` or `formap` are
+inappropiate in your script. It's generally not recommended to use `for`
+because it performs slower and doesn't adhere to _murex_'s design
+philosophy. However it does offer additional flexibility around recursion. 
 
 ## Usage
 
@@ -78,6 +79,9 @@ You can also do step ranges with `foreach`:
     0.053924326
     
 ...though granted the latter is a little less readable.
+
+The big catch with using `a` piped into `foreach` is that values are passed
+as strings rather than numbers.
 
 ### Tips when writing JSON inside for loops
 
@@ -204,6 +208,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
 * [commands/`formap`](../commands/formap.md):

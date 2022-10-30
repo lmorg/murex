@@ -83,6 +83,8 @@ to return the same markdown-formatted document as those listed below. eg
   Check which builtins exist
 * [`bg`](commands/bg.md):
   Run processes in the background
+* [`break`](commands/break.md):
+  terminate execution of a block within your processes scope
 * [`cast`](commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`catch`](commands/catch.md):

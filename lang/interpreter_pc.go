@@ -142,10 +142,6 @@ func runModeTryPipe(procs []Process) (exitNum int) {
 	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := 0; i < len(procs); i++ {
-		/*if procs[i].Name == "break" {
-			exitNum, _ = procs[i].Parameters.Int(0)
-			return
-		}*/
 		go executeProcess(&procs[i])
 		waitProcess(&procs[i])
 

@@ -42,7 +42,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 	defer func() {
 		if len(unmatched) != 0 {
 			p.ExitNum = 1
-			err = fmt.Errorf("Some records did not contain all of the requested fields:%s%s",
+			err = fmt.Errorf("some records did not contain all of the requested fields:%s%s",
 				utils.NewLineString,
 				strings.Join(unmatched, utils.NewLineString))
 		}

@@ -5,9 +5,10 @@
   Summary: >-
     A more familiar iteration loop to existing developers
   Description: |-
-    This `for` loop is fills a small niche where `foreach` or `formap` idioms will
-    fail within your scripts. It's generally not recommended to use `for` because
-    it performs slower and doesn't adhere to _murex_'s design philosophy.
+    This `for` loop is fills a small niche where `foreach` or `formap` are
+    inappropiate in your script. It's generally not recommended to use `for`
+    because it performs slower and doesn't adhere to _murex_'s design
+    philosophy. However it does offer additional flexibility around recursion. 
   Usage: |-
     ```
     for ( variable; conditional; incrementation ) { code-block } -> <stdout>
@@ -83,6 +84,9 @@
 
     ...though granted the latter is a little less readable.
 
+    The big catch with using `a` piped into `foreach` is that values are passed
+    as strings rather than numbers.
+
     {{ include "gen/includes/for-loop-json-tips.inc.md" }}
   Synonyms:
   Related:
@@ -94,3 +98,4 @@
   - set
   - a
   - ja
+  - break
