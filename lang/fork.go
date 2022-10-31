@@ -86,16 +86,6 @@ func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
 	fork.SetTerminatedState(true)
-	/*fork.Kill = func() {
-		if debug.Enabled {
-			ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
-		}
-	}*/
-	//fork.Context, fork.Done = context.WithCancel(context.Background())
-	/*var done func()
-	fork.Context, done = context.WithCancel(context.Background())
-	fork.Kill = func() { done(); p.Kill() }
-	fork.Done = func() { done(); p.Done() }*/
 
 	fork.State.Set(state.MemAllocated)
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())

@@ -1,0 +1,21 @@
+# This file tests murex data types are being sent and received across `exec` process boundaries
+
+function exec.datatypes.murex {
+    tout int 5 | exec $MUREX_EXE behavioural/exec_data_types.mx.murex
+}
+
+test: unit function exec.datatypes.murex {
+    "StdoutMatch": "int",
+    "ExitNum":     0
+}
+
+if { os posix } then {
+    function exec.datatypes.sh {
+        tout int 5 | sh behavioural/exec_data_types.mx.sh
+    }
+
+    test: unit function exec.datatypes.sh {
+        "StdoutMatch": "int\n",
+        "ExitNum":     0
+    }
+}

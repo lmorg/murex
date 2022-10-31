@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 // Terminal: Standard Out
@@ -20,8 +21,7 @@ type Out struct {
 }
 
 func OutSetDataTypeFd3() {
-	s, _ := os.LookupEnv("MUREX_EXEC")
-	if s != "yes" {
+	if _, exists := os.LookupEnv(consts.EnvDataType); !exists {
 		return
 	}
 

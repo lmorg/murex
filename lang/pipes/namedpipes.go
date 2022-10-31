@@ -39,7 +39,7 @@ func (n *Named) CreatePipe(name, pipeType, arguments string) error {
 
 	if n.pipes[name].Pipe != nil {
 		n.mutex.Unlock()
-		return fmt.Errorf("Named pipe `%s`already exists", name)
+		return fmt.Errorf("named pipe `%s`already exists", name)
 	}
 
 	io, err := stdio.CreatePipe(pipeType, arguments)
@@ -64,7 +64,7 @@ func (n *Named) ExposePipe(name, pipeType string, io stdio.Io) error {
 
 	if n.pipes[name].Pipe != nil {
 		n.mutex.Unlock()
-		return fmt.Errorf("Named pipe `%s`already exists", name)
+		return fmt.Errorf("named pipe `%s`already exists", name)
 	}
 
 	n.pipes[name] = pipe{
@@ -82,7 +82,7 @@ func (n *Named) Close(name string) error {
 
 	if n.pipes[name].Pipe == nil {
 		n.mutex.Unlock()
-		return fmt.Errorf("No pipe with the name `%s` exists", name)
+		return fmt.Errorf("no pipe with the name `%s` exists", name)
 	}
 
 	if name == "null" {
@@ -113,7 +113,7 @@ func (n *Named) Delete(name string) error {
 
 	if n.pipes[name].Pipe == nil {
 		n.mutex.Unlock()
-		return fmt.Errorf("No pipe with the name `%s` exists", name)
+		return fmt.Errorf("no pipe with the name `%s` exists", name)
 	}
 
 	if name == "null" {
@@ -138,7 +138,7 @@ try:
 		n.mutex.Unlock()
 
 		if retries == 5 {
-			return nil, fmt.Errorf("No pipe with the name `%s` exists, timed out waiting for pipe to be created", name)
+			return nil, fmt.Errorf("no pipe with the name `%s` exists, timed out waiting for pipe to be created", name)
 		}
 		time.Sleep(100 * time.Millisecond)
 		retries++

@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -65,6 +66,15 @@ func InitEnv() {
 		shellEnv = ShellProcess.Name.String()
 	}
 	os.Setenv("SHELL", shellEnv)
+
+	if os.Getenv(consts.EnvMethod) == consts.EnvTrue {
+		ShellProcess.Stdin = term.NewIn(os.Getenv(consts.EnvDataType))
+		ShellProcess.IsMethod = true
+	}
+
+	if os.Getenv(consts.EnvBackground) == consts.EnvTrue {
+		ShellProcess.Background.Set(true)
+	}
 
 	// Pre-populate $PWDHIST with current working directory
 	s, _ := os.Getwd()
