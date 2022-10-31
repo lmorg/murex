@@ -1,21 +1,39 @@
 # This file tests murex data types are being sent and received across `exec` process boundaries
 
-function exec.datatypes.murex {
-    tout int 5 | exec $MUREX_EXE behavioural/exec_data_types.mx.murex
+function exec.datatypes.murex.mx {
+    tout foo 5 | exec $MUREX_EXE behavioural/exec_data_types.mx.murex
 }
 
-test: unit function exec.datatypes.murex {
-    "StdoutMatch": "int",
+test: unit function exec.datatypes.murex.mx {
+    "StdoutMatch": "foo",
+    "ExitNum":     0
+}
+
+function exec.datatypes.murex.c {
+    tout bar 5 | exec $MUREX_EXE -c (<stdin> -> debug -> [[ /Data-Type/Murex ]])
+}
+
+test: unit function exec.datatypes.murex.c {
+    "StdoutMatch": "bar",
     "ExitNum":     0
 }
 
 if { os posix } then {
-    function exec.datatypes.sh {
-        tout int 5 | sh behavioural/exec_data_types.mx.sh
+    function exec.datatypes.bourne.sh {
+        tout oof 5 | sh behavioural/exec_data_types.mx.sh
     }
 
-    test: unit function exec.datatypes.sh {
-        "StdoutMatch": "int\n",
+    test: unit function exec.datatypes.bourne.sh {
+        "StdoutMatch": "oof\n",
+        "ExitNum":     0
+    }
+
+    function exec.datatypes.bourne.c {
+        tout rab 5 | sh -c 'echo $MUREX_DATA_TYPE'
+    }
+
+    test: unit function exec.datatypes.bourne.c {
+        "StdoutMatch": "rab\n",
         "ExitNum":     0
     }
 }
