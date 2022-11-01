@@ -16,7 +16,6 @@ A non-exhaustive list features would include:
   UNIX tools to work more intelligently and without any additional configuration.
 
   ![json-example](images/murex-open-foreach.png)
-
   ![tabulated-data-example](images/murex-ps-select.png)
 
 * **Usability improvements** such as in-line spell checking, context sensitive
@@ -24,7 +23,6 @@ A non-exhaustive list features would include:
   auto-parsing man pages for auto-completions on commands that don't have auto-completions already defined.
 
   ![spellchecking](images/murex-spellchecker.png)
-
   ![smarter-autocomplete](images/murex-kill-autocomplete.png)
   
 * **Smarter handling of errors** and **debugging tools**. For example try/catch

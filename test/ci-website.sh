@@ -67,6 +67,6 @@ sed -i '0,/<img src/s//<img class="no-border" src/;' \
 
 echo "$MUREXVERSION" > VERSION
 
-mv VERSION *.html *.svg gen/website/assets/* ./docs /website/ 
+mv VERSION *.html *.svg gen/website/assets/* ./docs ./images /website/
 
 echo "Fin!"

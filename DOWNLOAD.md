@@ -54,13 +54,14 @@ and use the `amd64` builds in the meantime.
 * [murex-linux-arm.gz](https://murex.rocks/bin/latest/murex-linux-arm.gz)
 * [murex-linux-arm64.gz](https://murex.rocks/bin/latest/murex-linux-arm64.gz)
 
-### Plan 9
+### Windows
 
-These builds should be treated as experimental.
+These builds should be treated as experimental. Please use the Linux builds in
+WSL (Windows Subsystem for Linux) for a more stable experience on Windows.
 
-* [murex-plan9-386.gz](https://murex.rocks/bin/latest/murex-plan9-386.gz)
-* [murex-plan9-amd64.gz](https://murex.rocks/bin/latest/murex-plan9-amd64.gz)
-* [murex-plan9-arm.gz](https://murex.rocks/bin/latest/murex-plan9-arm.gz)
+* [murex-windows-386.exe.zip](https://murex.rocks/bin/latest/murex-windows-386.exe.zip)
+* [murex-windows-amd64.exe.zip](https://murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
+* [murex-windows-arm.exe.zip](https://murex.rocks/bin/latest/murex-windows-arm.exe.zip)
 
 ### Solaris
 
@@ -70,14 +71,16 @@ so expect fewer issues than on the non-POSIX platforms.
 
 * [murex-solaris-amd64.gz](https://murex.rocks/bin/latest/murex-solaris-amd64.gz) 
 
-### Windows
+### Plan 9
 
-These builds should be treated as experimental. Please use the Linux builds in
-WSL (Windows Subsystem for Linux) for a more stable experience on Windows.
+Plan9 is untested. The code compiles and it is syscall compatible with Plan9
+operating systems, however you may experience bugs using _murex_ on Plan9. If
+you do encounter any issues then please raise them at:
+[github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
 
-* [murex-windows-386.exe.zip](https://murex.rocks/bin/latest/murex-windows-386.exe.zip)
-* [murex-windows-amd64.exe.zip](https://murex.rocks/bin/latest/murex-windows-amd64.exe.zip)
-* [murex-windows-arm.exe.zip](https://murex.rocks/bin/latest/murex-windows-arm.exe.zip)
+* [murex-plan9-386.gz](https://murex.rocks/bin/latest/murex-plan9-386.gz)
+* [murex-plan9-amd64.gz](https://murex.rocks/bin/latest/murex-plan9-amd64.gz)
+* [murex-plan9-arm.gz](https://murex.rocks/bin/latest/murex-plan9-arm.gz)
 
 ## Download Instructions
 
@@ -116,10 +119,3 @@ If you do experience some wonky behavior then our recommendation is to run the
 `linux-amd64` build for Linux on top of WSL. The instructions above will guide
 you through installing on Linux, WSL install instructions can be found at the
 following site: [docs.microsoft.com/en-us/windows/wsl/install-win10](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-
-### Plan9 Instructions
-
-Plan9 is untested. The code compiles and it is syscall compatible with Plan9
-operating systems, however you may experience bugs using _murex_ on Plan9. If
-you do encounter any issues then please raise them at:
-[github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
