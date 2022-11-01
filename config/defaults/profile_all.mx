@@ -1,3 +1,5 @@
+alias help=murex-docs
+
 function h {
     # Output the murex history log in a human readable format
     history -> foreach { -> set json line; out "$line[Index]: $line[Block]" } -> cast *
