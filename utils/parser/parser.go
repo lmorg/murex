@@ -87,9 +87,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			reset = reset[:len(reset)-1]
 		}
 		syntaxHighlighted += string(r) + reset[len(reset)-1]
-		/*if len(reset) == 1 && pt.NestedBlock > 0 {
-			syntaxHighlighted += hlBlock[pt.NestedBlock%len(hlBlock)]
-		}*/
 	}
 
 	ansiResetNoChar := func() {
@@ -97,16 +94,15 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			reset = reset[:len(reset)-1]
 		}
 		syntaxHighlighted += reset[len(reset)-1]
-		/*if len(reset) == 1 && pt.NestedBlock > 0 {
-			syntaxHighlighted += hlBlock[pt.NestedBlock%len(hlBlock)]
-		}*/
 	}
 
 	ansiChar := func(colour string, r ...rune) {
 		syntaxHighlighted += colour + string(r) + reset[len(reset)-1]
-		/*if len(reset) == 1 && pt.NestedBlock > 0 {
-			syntaxHighlighted += hlBlock[pt.NestedBlock%len(hlBlock)]
-		}*/
+	}
+
+	ansiStartFunction := func() {
+		ansiResetNoChar()
+		syntaxHighlighted += hlFunction
 	}
 
 	var i int
@@ -443,7 +439,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					syntaxHighlighted += hlRedirect
 				} else {
 					ansiChar(hlPipe, block[i])
-					syntaxHighlighted += hlFunction
+					ansiStartFunction()
 				}
 			}
 
@@ -468,7 +464,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, '&', '&')
-				syntaxHighlighted += hlFunction
+				ansiStartFunction()
 				i++
 			default:
 				*pt.pop += string(block[i])
@@ -496,7 +492,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
-				syntaxHighlighted += hlFunction
+				ansiStartFunction()
 			}
 
 		case '\n':
@@ -521,7 +517,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
-				syntaxHighlighted += hlFunction
+				ansiStartFunction()
 			}
 
 		case '?':
