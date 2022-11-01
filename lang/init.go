@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -44,13 +45,12 @@ func InitEnv() {
 	ShellProcess.Config = config.InitConf
 	ShellProcess.Tests = NewTests(ShellProcess)
 	ShellProcess.Variables = NewVariables(ShellProcess)
-	//ShellProcess.RunMode = runmode.Normal // defaults to Normal due to Normal == 0
 	ShellProcess.Stdout = new(term.Out)
 	ShellProcess.Stderr = term.NewErr(true) // TODO: check this is overridden by `config set ...`
 	ShellProcess.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
 	ShellProcess.Context = context.Background()
-	ShellProcess.Done = func() {}
-	ShellProcess.Kill = func() {}
+	ShellProcess.Done = func() { /* we don't want to accidentally terminate the shell process */ }
+	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
 
 	if FlagTry {
 		ShellProcess.RunMode = runmode.ModuleTry
@@ -66,6 +66,15 @@ func InitEnv() {
 		shellEnv = ShellProcess.Name.String()
 	}
 	os.Setenv("SHELL", shellEnv)
+
+	if os.Getenv(consts.EnvMethod) == consts.EnvTrue {
+		ShellProcess.Stdin = term.NewIn(os.Getenv(consts.EnvDataType))
+		ShellProcess.IsMethod = true
+	}
+
+	if os.Getenv(consts.EnvBackground) == consts.EnvTrue {
+		ShellProcess.Background.Set(true)
+	}
 
 	// Pre-populate $PWDHIST with current working directory
 	s, _ := os.Getwd()

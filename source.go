@@ -11,6 +11,7 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/consts"
 )
 
 func diskSource(filename string) ([]byte, error) {
@@ -48,7 +49,11 @@ func diskSource(filename string) ([]byte, error) {
 }
 
 func execSource(source []rune, sourceRef *ref.Source) {
-	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
+	var stdin int
+	if os.Getenv(consts.EnvMethod) != consts.EnvTrue {
+		stdin = lang.F_NO_STDIN
+	}
+	fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | stdin)
 	fork.Stdout = new(term.Out)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
 	if sourceRef != nil {

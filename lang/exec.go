@@ -11,6 +11,17 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/consts"
+)
+
+const (
+	envMethodTrue  = consts.EnvMethod + "=" + consts.EnvTrue
+	envMethodFalse = consts.EnvMethod + "=" + consts.EnvFalse
+
+	envBackgroundTrue  = consts.EnvBackground + "=" + consts.EnvTrue
+	envBackgroundFalse = consts.EnvBackground + "=" + consts.EnvFalse
+
+	envDataType = consts.EnvDataType + "="
 )
 
 // External executes an external process.
@@ -29,14 +40,11 @@ func External(p *Process) error {
 }
 
 func execute(p *Process) error {
-	//p.Stdout.SetDataType(types.Generic)
-
 	exeName, parameters, err := getCmdTokens(p)
 	if err != nil {
 		return err
 	}
 	cmd := exec.Command(exeName, parameters...)
-	//cmd.Env = p.Exec.Env
 
 	if p.HasCancelled() {
 		return nil
@@ -64,13 +72,17 @@ func execute(p *Process) error {
 	switch {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
-		cmd.Env = append(os.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=yes", "MUREX_IS_BACKGROUND="+p.Background.String(), "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
+		if p.Background.Get() {
+			cmd.Env = append(os.Environ(), envMethodTrue, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
+		} else {
+			cmd.Env = append(os.Environ(), envMethodTrue, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
+		}
 	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
-		cmd.Env = append(os.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=no", "MUREX_IS_BACKGROUND=yes", "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
 		cmd.Stdin = os.Stdin
-		cmd.Env = append(os.Environ(), "MUREX_EXEC=yes", "MUREX_IS_METHOD=no", "MUREX_IS_BACKGROUND=no", "MUREX_DATA_TYPE="+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
 	// ***
@@ -105,6 +117,7 @@ func execute(p *Process) error {
 	// ***
 	// Define MUREX DATA TYPE (fd 3)
 	// ***
+
 	var failedPipe bool
 	mxdtR, mxdtW, err := os.Pipe()
 	if err != nil {
