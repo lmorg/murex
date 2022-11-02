@@ -41,7 +41,7 @@ go fmt builtins/docgen_test.go
 go fmt $cdocs/*.go
 go fmt config/defaults/*.go
 
-export MUREXVERSION="$(cat app/app.go | grep 'const Version' | egrep -o '[0-9]+\.[0-9]+\.[0-9]+')"
+export MUREXVERSION="$(cat app/app.go | grep 'const Version' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
 sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
         gen/website/version.svg > version.svg
 

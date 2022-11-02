@@ -1,22 +1,13 @@
-#config set shell prompt {
-#    out "${pwd -> egrep -o '[^/]+$'} » "
-#}
-#
-#config set shell prompt-multiline {
-#    let len = ${pwd_short -> wc -c} - 1
-#    printf "%${$len}s » " $linenum
-#}
-
 function pwd_short {
-    # Normalise path to it's short form
+    # normalise path to it's short form
     pwd -> regexp "s#^$HOME#\~#"
 }
 
 config: set shell prompt {
     exitnum -> !if {
-        out "{RESET}{YELLOW}${pwd_short -> egrep -o '[^/]+$'} {GREEN}»{RESET} "
+        out "{RESET}{YELLOW}${pwd_short -> grep -E -o '[^/]+$'} {GREEN}»{RESET} "
     } else {
-        out "{RESET}{YELLOW}${pwd_short -> egrep -o '[^/]+$'} {RED}»{RESET} "
+        out "{RESET}{YELLOW}${pwd_short -> grep -E -o '[^/]+$'} {RED}»{RESET} "
     }
 }
 
@@ -29,7 +20,7 @@ if { which: less } then {
 }
 
 config: set shell prompt-multiline {
-    let len = ${pwd_short -> egrep -o '[^/]+$' -> wc -c} - 1
+    let len = ${pwd_short -> grep -E -o '[^/]+$' -> wc -c} - 1
     printf "%${$len}s » " $linenum
 }
 
@@ -214,7 +205,7 @@ autocomplete set go { [{
 autocomplete: set zfs {
     [{
         "Dynamic": ({
-             zfs ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+             zfs ? grep -E "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
         })
     }]
 }
@@ -222,7 +213,7 @@ autocomplete: set zfs {
 autocomplete: set zpool {
     [{
         "Dynamic": ({
-             zpool ? egrep "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
+             zpool ? grep -E "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
         })
     }]
 }
