@@ -34,16 +34,6 @@ func parseRedirection(p *Process) {
 
 		name := p.Parameters.Tokens[i][0].Key[1 : l-1]
 
-		/*if !rxNamedPipe.MatchString(p.Parameters.Tokens[i][0].Key) ||
-			len(name) < 5 || name[:4] != "env:" {
-
-			err := parseRedirectionTemp(p, name)
-			if err != nil {
-				p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
-			}
-			continue
-		}*/
-
 		switch {
 		case len(name) > 5 && name[:5] == "test_":
 			if p.NamedPipeTest == "" {

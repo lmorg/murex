@@ -324,7 +324,10 @@ func autoGlobPrompt(cmd string, before string, match []string) (bool, error) {
 	}
 }
 
-var warningNoGlobMatch = "Warning: no files match that pattern"
+const (
+	warningNoGlobMatch = "Warning: no files match that pattern"
+	globExpandsTo      = "Glob expands to: "
+)
 
 func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
 	if len(match) == 0 {
@@ -335,6 +338,6 @@ func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
 	slice := make([]string, len(match))
 	copy(slice, match)
 	escape.CommandLine(slice)
-	after := "Glob expands to: " + strings.Join(slice, ", ")
+	after := globExpandsTo + strings.Join(slice, ", ")
 	return []rune(after)
 }
