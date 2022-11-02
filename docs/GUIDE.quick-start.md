@@ -91,7 +91,7 @@ or `<!null>` respectively.
 
 You can also create your own named pipes (not to be confused with POSIX named
 pipes). These pipes could be files, network connections, or any other custom
-data input or output endpoint.
+data input or output endpoint. [read more](user-guide/namedpipes.md)
 
 ### Redirecting to files
 
@@ -163,18 +163,19 @@ out types in conjunction with file name matching:
     # all directories named *.txt
     ls -l @{g *.txt -> f +d}
 
+## Brace expansion
+
+In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion)
+using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
+expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
+that can be expanded. ([read more](commands/a.md))
+
 ## Exit code
 
 In bash the variable `$?` would store the exit code. This doesn't exist
 in _murex_. Instead there a separate command `exitnum`:
 
     open: test/fox.txt -> grep: foobar; exitnum
-
-## List expansion
-
-In bash you can expand lists using the following syntax: `a{1..5}b`. In _murex_
-this is function: `a: a[1..5]b` and supports a much wider range of lists that
-can be expanded. ([read more](commands/a.md))
 
 ## Back ticks
 

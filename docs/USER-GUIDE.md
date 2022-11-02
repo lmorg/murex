@@ -29,6 +29,8 @@ on the core builtins.
   How to track what code was loaded and from where
 * [Modules and Packages](user-guide/modules.md):
   An introduction to _murex_ modules and packages
+* [Murex Named Pipes](user-guide/namedpipes.md):
+  A detailed breakdown of named pipes in _murex_
 * [Pipeline](user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Reserved Variables](user-guide/reserved-vars.md):
