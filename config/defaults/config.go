@@ -130,7 +130,7 @@ func Config(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
-		Description: "Run the command hint summary pre-cacher upon murex's start up (warning: only enable this on fast systems with an SSD)",
+		Description: "Run the command hint summary pre-cache upon murex's start up (warning: only enable this on fast systems with an SSD)",
 		Default:     false,
 		DataType:    types.Boolean,
 		Global:      true,
@@ -237,9 +237,9 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "auto-glob", config.Properties{
-		Description: "Automatically expand globs in the REPL shell (globs in functions / modules will still need to be invoked via the `g` function)",
-		Default:     false,
+	c.Define("shell", "expand-globs", config.Properties{
+		Description: "Expand globs in the REPL shell (globs in functions / modules will still need to be invoked via the `g` function)",
+		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})
