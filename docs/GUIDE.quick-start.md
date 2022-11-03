@@ -3,12 +3,35 @@
 This is a cheat sheet reference for Bash developers wishing to accelerate
 their introduction into _murex_:
 
+## Functions / Methods
+
+_murex_ makes the distinction between commands that are designed to create data
+(functions) and those that process data (methods).
+
+An example function might be `ls` because it doesn't take any inputs but
+produces an output.
+
+An example method might be `grep` because it takes an input from STDIN and
+returns a result via STDOUT.
+
+Some commands might be both functions and methods.
+
+> In the _murex_ docs you might notice commands are often followed by a colon,
+> for example:
+> ```
+> echo: bob | grep: foobar
+> ```
+> This colon is completely optional to include. It dates back to an earlier
+> version of the shell but has since been disabled as the default. However any
+> code written with the colon will still continue to work and there are no
+> plans to deprecate that support entirely.
+
 ## Variables
 
 All variables are defined with one of three key words:
 
-* set - local variables ([read more](commands/set.md))
-* global - global variables ([read more](commands/global.md))
+* set    - local variables         ([read more](commands/set.md))
+* global - global variables        ([read more](commands/global.md))
 * export - environmental variables ([read more](commands/export.md))
 
 If any variables are unset then reading from them will produce an error (under
