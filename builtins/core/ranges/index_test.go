@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/test"
 )
 
-func TestRangeByIndex(t *testing.T) {
+func TestRangeLegacyByIndex(t *testing.T) {
 	tests := []test.MurexTest{
 		// FLAGGED
 
