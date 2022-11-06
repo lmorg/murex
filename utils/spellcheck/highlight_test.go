@@ -119,6 +119,12 @@ func TestHighlighter(t *testing.T) {
 			Words:    []string{`foo`},
 			Expected: `_foo_ foobar`,
 		},
+		/// bug fix:
+		{
+			Line:     `am ammend`,
+			Words:    []string{`ammend`},
+			Expected: `am _ammend_`,
+		},
 	}
 
 	count.Tests(t, len(tests))
