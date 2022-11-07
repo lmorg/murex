@@ -131,7 +131,7 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
 		Description: "Run the command hint summary pre-cache upon murex's start up (warning: only enable this on fast systems with an SSD)",
-		Default:     false,
+		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})
