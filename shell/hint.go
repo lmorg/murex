@@ -38,7 +38,8 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	// check if a custom summary has been set
-	r = hintsummary.Get(cmd, autocomplete.GlobalExes[cmd])
+	globalExes := autocomplete.GlobalExes.Get()
+	r = hintsummary.Get(cmd, (*globalExes)[cmd])
 
 	/*if pt.ExpectParam && len(r) == 0 && !utils.Exists(cmd) {
 		r = append(r, []rune(

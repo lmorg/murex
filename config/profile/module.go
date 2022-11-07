@@ -167,7 +167,7 @@ checkDeps:
 	var message string
 
 	for _, cmd := range m.Dependencies.Required {
-		if !autocomplete.GlobalExes[cmd] && lang.GoFunctions[cmd] == nil && !lang.MxFunctions.Exists(cmd) {
+		if !(*autocomplete.GlobalExes.Get())[cmd] && lang.GoFunctions[cmd] == nil && !lang.MxFunctions.Exists(cmd) {
 			message += "  * Missing required executable, builtin or murex function: `" + cmd + "`" + utils.NewLineString
 		}
 	}
