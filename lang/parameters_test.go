@@ -82,7 +82,7 @@ func TestParamHangBug(t *testing.T) {
 		{
 			Block:  `out: @FOO[BAR]`,
 			Stdout: "\n",
-			Stderr: "Error in `@[` ( 4,10): invalid syntax: could not separate component values: [].\n                     > Usage: @[start..end] / @[start..end]se\n                     > (start or end can be omitted)\n",
+			Stderr: "Error in `@[` ( 4,10): invalid syntax: could not separate component values: [].\n                     > Usage: [start..end] / [start..end]se\n                     > (start or end can be omitted)\n",
 		},
 		{
 			Block:  `out: @FOO[[BAR]]`,
