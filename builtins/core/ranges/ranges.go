@@ -32,7 +32,8 @@ const (
 	f_t = "--trim-space"
 	f_r = "--regexp"
 	f_s = "--string"
-	f_n = "--index"
+	f_n = "--zero-index"
+	f_i = "--index"
 	f_h = "--help"
 )
 
@@ -54,6 +55,8 @@ var args = &parameters.Arguments{
 		"-s": f_s,
 		f_n:  types.Boolean,
 		"-n": f_n,
+		f_i:  types.Boolean,
+		"-i": f_i,
 	},
 	AllowAdditional: true,
 }
@@ -114,8 +117,12 @@ func cmdRange(p *lang.Process) (err error) {
 		err = newString(r)
 		n++
 	}
-	if flags[f_n] == types.TrueString || n == 0 {
+	if flags[f_n] == types.TrueString {
 		err = newNumber(r)
+		n++
+	}
+	if flags[f_i] == types.TrueString || n == 0 {
+		err = newIndex(r)
 		n++
 	}
 

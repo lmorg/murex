@@ -21,7 +21,7 @@ import (
 var (
 	rxTokenIndex   = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 	rxTokenElement = regexp.MustCompile(`(.*?)\[\[(.*?)\]\]`)
-	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8erns]*)`)
+	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8ernsi]*)`)
 	rlMutex        sync.Mutex
 )
 

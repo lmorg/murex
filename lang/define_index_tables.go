@@ -87,7 +87,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 			}
 			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][1:])
-			matchInt = append(matchInt, num)
+			matchInt = append(matchInt, num+1) // Don't count from zero
 
 		case rxColumnPrefixOld.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
@@ -287,7 +287,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 			}
 			mode = byRowNumber
 			num, _ := strconv.Atoi(params[i][1:])
-			matchInt[num] = true
+			matchInt[num+1] = true // Don't count from zero
 
 		case rxColumnPrefixOld.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {

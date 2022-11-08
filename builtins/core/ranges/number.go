@@ -5,26 +5,7 @@ import (
 	"strconv"
 )
 
-type rfIndex struct {
-	start int
-	end   int
-	i     int
-}
-
-func (rf *rfIndex) Start(_ []byte) bool {
-	rf.i++
-	return rf.i > rf.start
-}
-
-func (rf *rfIndex) End(_ []byte) bool {
-	if rf.end > -1 {
-		rf.i++
-		return rf.i > rf.end
-	}
-	return false
-}
-
-func newIndex(r *rangeParameters) (err error) {
+func newNumber(r *rangeParameters) (err error) {
 	rf := new(rfIndex)
 
 	sStart := r.Start
@@ -51,9 +32,6 @@ func newIndex(r *rangeParameters) (err error) {
 	if rf.start > 0 && !r.Exclude {
 		rf.end++
 	}
-
-	rf.start -= 1
-	rf.end -= 1
 
 	r.Match = rf
 
