@@ -14,6 +14,8 @@ const (
 	byRowNumber = iota + 1
 	byColumnNumber
 	byColumnName
+
+	maxReportedUnmatched = 5
 )
 
 var (
@@ -33,20 +35,32 @@ func IndexTemplateTable(p *Process, params []string, cRecords chan []string, mar
 
 func ittIndex(p *Process, params []string, cRecords chan []string, marshaller func([]string) []byte) (err error) {
 	var (
-		mode      int
-		matchStr  []string
-		matchInt  []int
-		unmatched []string
+		mode           int
+		matchStr       []string
+		matchInt       []int
+		unmatched      []string
+		unmatchedCount int
 	)
 
 	defer func() {
 		if len(unmatched) != 0 {
 			p.ExitNum = 1
+			if unmatchedCount > maxReportedUnmatched {
+				unmatched = append(unmatched, fmt.Sprintf("...plus %d more", unmatchedCount-maxReportedUnmatched))
+			}
 			err = fmt.Errorf("some records did not contain all of the requested fields:%s%s",
 				utils.NewLineString,
 				strings.Join(unmatched, utils.NewLineString))
 		}
 	}()
+
+	errUnmatched := func(recs []string) {
+		unmatchedCount++
+		if unmatchedCount > maxReportedUnmatched {
+			return
+		}
+		unmatched = append(unmatched, strings.Join(recs, "\t"))
+	}
 
 	for i := range params {
 		switch {
@@ -158,7 +172,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 					if len(recs) == 0 || (len(recs) == 1 && recs[0] == "") {
 						continue
 					}
-					unmatched = append(unmatched, strings.Join(recs, "\t"))
+					errUnmatched(recs)
 				}
 			}
 			if len(line) != 0 {
@@ -207,7 +221,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 						if len(recs) == 0 || (len(recs) == 1 && recs[0] == "") {
 							continue
 						}
-						unmatched = append(unmatched, strings.Join(recs, "\t"))
+						errUnmatched(recs)
 					}
 				}
 				if len(line) != 0 {
