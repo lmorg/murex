@@ -10,16 +10,16 @@ import (
 )
 
 func init() {
-	lang.DefineMethod("@[", cmdRangeLegacy, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("@[", CmdRangeLegacy, types.ReadArray, types.WriteArray)
 }
 
 const usageLegacy = "\nUsage: @[start..end] / @[start..end]se\n(start or end can be omitted)"
 
 // if additional ranges are added here, they will also need to be added to
 // /home/lau/dev/go/src/github.com/lmorg/murex/lang/parameters.go
-var rxSplitRangeLegacy = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8erns]*)\s*$`)
+var RxSplitRangeLegacy = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8erns]*)\s*$`)
 
-func cmdRangeLegacy(p *lang.Process) (err error) {
+func CmdRangeLegacy(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -29,7 +29,7 @@ func cmdRangeLegacy(p *lang.Process) (err error) {
 
 	s := p.Parameters.StringAll()
 
-	split := rxSplitRangeLegacy.FindStringSubmatch(s)
+	split := RxSplitRangeLegacy.FindStringSubmatch(s)
 	if len(split) != 4 {
 		return fmt.Errorf("invalid syntax: could not separate component values: %v.%s", split, usageLegacy)
 	}
