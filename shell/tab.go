@@ -68,6 +68,8 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		}
 
 	case pt.ExpectFunc:
+		go autocomplete.UpdateGlobalExeList()
+
 		if pt.Loc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
@@ -77,6 +79,8 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 			autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
+			globalExes := autocomplete.GlobalExes.Get()
+
 			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) {
 				// match everything
 				dump := lang.MethodStdout.Dump()
@@ -85,7 +89,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 					for dt := range dump {
 						act.Items = append(act.Items, dump[dt]...)
 						for i := range dump[dt] {
-							act.Definitions[dump[dt][i]] = string(hintsummary.Get(dump[dt][i], autocomplete.GlobalExes[dump[dt][i]]))
+							act.Definitions[dump[dt][i]] = string(hintsummary.Get(dump[dt][i], (*globalExes)[dump[dt][i]]))
 						}
 					}
 
@@ -95,7 +99,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 						for i := range dump[dt] {
 							if strings.HasPrefix(dump[dt][i], prefix) {
 								act.Items = append(act.Items, dump[dt][i][len(prefix):])
-								act.Definitions[dump[dt][i][len(prefix):]] = string(hintsummary.Get(dump[dt][i], autocomplete.GlobalExes[dump[dt][i]]))
+								act.Definitions[dump[dt][i][len(prefix):]] = string(hintsummary.Get(dump[dt][i], (*globalExes)[dump[dt][i]]))
 							}
 						}
 					}
@@ -110,14 +114,14 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 					if len(prefix) == 0 {
 						act.Items = append(act.Items, inTypes...)
 						for j := range inTypes {
-							act.Definitions[inTypes[j]] = string(hintsummary.Get(inTypes[j], autocomplete.GlobalExes[inTypes[j]]))
+							act.Definitions[inTypes[j]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
 						}
 						continue
 					}
 					for j := range inTypes {
 						if strings.HasPrefix(inTypes[j], prefix) {
 							act.Items = append(act.Items, inTypes[j][len(prefix):])
-							act.Definitions[inTypes[j][len(prefix):]] = string(hintsummary.Get(inTypes[j], autocomplete.GlobalExes[inTypes[j]]))
+							act.Definitions[inTypes[j][len(prefix):]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
 						}
 					}
 				}

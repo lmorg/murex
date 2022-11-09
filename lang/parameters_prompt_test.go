@@ -21,11 +21,11 @@ func TestAutoGlobPromptHintText(t *testing.T) {
 		},
 		{
 			Match: []string{"foo", "bar"},
-			Hint:  "foo bar",
+			Hint:  globExpandsTo+"foo, bar",
 		},
 		{
 			Match: []string{"foo bar"},
-			Hint:  "foo\\ bar",
+			Hint:  globExpandsTo+`foo\ bar`,
 		},
 	}
 

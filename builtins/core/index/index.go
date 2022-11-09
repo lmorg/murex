@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/builtins/core/ranges"
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
@@ -23,6 +24,10 @@ func init() {
 }
 
 func index(p *lang.Process) (err error) {
+	if ranges.RxSplitRangeLegacy.MatchString(p.Parameters.StringAll()) {
+		return ranges.CmdRangeLegacy(p)
+	}
+
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {

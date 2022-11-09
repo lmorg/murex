@@ -1,23 +1,122 @@
 # Language Guide: Quick start guide for Bash developers
 
-This is a cheat sheet reference for lazy Bash developers wishing to
-accelerate their introduction into _murex_:
+This is a cheat sheet reference for Bash developers wishing to accelerate
+their introduction into _murex_:
+
+## Functions / Methods
+
+_murex_ makes the distinction between commands that are designed to create data
+(functions) and those that process data (methods).
+
+An example function might be `ls` because it doesn't take any inputs but
+produces an output.
+
+An example method might be `grep` because it takes an input from STDIN and
+returns a result via STDOUT.
+
+Some commands might be both functions and methods.
+
+> In the _murex_ docs you might notice commands are often followed by a colon,
+> for example:
+> ```
+> echo: bob | grep: foobar
+> ```
+> This colon is completely optional to include. It dates back to an earlier
+> version of the shell but has since been disabled as the default. However any
+> code written with the colon will still continue to work and there are no
+> plans to deprecate that support entirely.
+
+## Variables
+
+All variables are defined with one of three key words:
+
+* set    - local variables         ([read more](commands/set.md))
+* global - global variables        ([read more](commands/global.md))
+* export - environmental variables ([read more](commands/export.md))
+
+If any variables are unset then reading from them will produce an error (under
+_murex_'s default behavior):
+
+    » echo $foobar
+    Error in `echo` (1,1): variable 'foobar' does not exist
+
+### Scalars
+
+In traditional shells, variables are expanded in a way that results in spaces
+be parsed as different command parameters. This results in numerous problems
+where developers need to remember to enclose variables inside quotes.
+
+_murex_ parses variables as tokens and expands them into the command line
+arguments intuitively. So, there are no more accidental bugs due to spaces in
+file names, or other such problems due to developers forgetting to quote
+variables:
+
+    » set file=file name.txt
+    » touch $file
+    » ls
+    'file name.txt'
+
+### Arrays
+
+Due to variables not being expanded into arrays by default, _murex_ supports an
+additional variable construct for arrays. These are `@` prefixed:
+
+    » set yaml files=[file1.txt, file2.txt]
+    » touch @files
+    » ls
+    file1.txt  file2.txt
 
 ## Piping and redirection
 
-_murex_ supports the `|` pipe just like Bash but the preferred pipe
-token in _murex_ the arrow, `->` (those two token are interchangeable).
+### Pipes
 
-Redirection of stdout and stderr is very different in _murex_. There is
-no support for the `2>` or `&1` tokens,  instead you name the pipe as
-the first parameter:
+_murex_ supports multiple different pipe tokens. The main two being `|` and
+`->`.
+
+* `|` works exactly the same as in any normal shell ([read more](parser/pipe-posix.md))
+
+* `->` displays all of the supported methods (commands that support the output
+  of the previous command). Think of it a little like object orientated
+  programming where an object will have functions (methods) attached. ([read more](parser/pipe-arrow.md))
+
+In _murex_ scripts you can use `|` and `->` interchangeably, so there's no need
+to remember which commands are methods and which are not. The difference only
+applies in the interactive shell where `->` can be used with tab-autocompletion
+to display a shortlist of supported functions that can manipulate the data from
+the previous command. It's purely a clue to the parser to generate different
+autocompletion suggestions to help with your discovery of different commandline
+tools.
+
+### Redirection
+
+Redirection of stdout and stderr is very different in _murex_. There is no
+support for the `2>` or `&1` tokens,  instead you name the pipe inside angle
+brackets, in the first parameter(s).
+
+`out` is that processes STDOUT (fd1), `err` is that processes STDERR (fd2), and
+`null` is the equivalent of piping to `/dev/null`.
+
+Any pipes prefixed by a bang means reading from that processes STDERR.
+
+So to redirect STDERR to STDOUT you would use `<!out>`:
 
     err: <!out> "error message redirected to stdout"
+
+And to redirect STDOUT to STDERR you would use `<err>`:
+
     out: <err> "output redirected to stderr"
 
-You can also use named pipes this way to join up parts of the script
-that otherwise wouldn't be part of the same pipeline. See [GUIDE.syntax](GUIDE.syntax.md#piping)
-for more details on named pipes.
+Likewise you can redirect either STDOUT, or STDERR to `/dev/null` via `<null>`
+or `<!null>` respectively.
+
+    command: <!null> # ignore STDERR
+    command: <null>  # ignore STDOUT
+
+You can also create your own named pipes (not to be confused with POSIX named
+pipes). These pipes could be files, network connections, or any other custom
+data input or output endpoint. [read more](user-guide/namedpipes.md)
+
+### Redirecting to files
 
 To redirect to a file you can use the `>` or `>>` functions. They work
 similarly to bash except that they are functions rather than tokens. This means
@@ -62,12 +161,13 @@ inlined JSON.
 
 ## Globbing
 
-There isn't auto-expansion of globbing to protect against accidental
-damage. Instead globbing is achieved via sub-shells using either:
+There isn't auto-expansion of globbing in _murex_ shell scripts, in part due to
+its functional nature but also to protect against accidental damage. Instead
+globbing is achieved via sub-shells using either:
 
-* `g` (traditional globbing)
-* `rx` (regexp matching in current directory only)
-* `f` (file or directory type matching)
+* `g`  - traditional globbing ([read more](commands/g.md))
+* `rx` - regexp matching in current directory only ([read more](commands/rx.md))
+* `f`  - file type matching ([read more](commands/f.md))
 
 Examples:
 
@@ -77,8 +177,8 @@ Examples:
     # all text and markdown files via regexp:
     ls -l @{rx '\.(txt|md)$'}
 
-    # all files via type matching:
-    ls -l @{f +f}
+    # all directories via type matching:
+    ls -l @{f +d}
 
 You can also using type matching against globbing and regexp to filter
 out types in conjunction with file name matching:
@@ -86,20 +186,19 @@ out types in conjunction with file name matching:
     # all directories named *.txt
     ls -l @{g *.txt -> f +d}
 
+## Brace expansion
+
+In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion)
+using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
+expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
+that can be expanded. ([read more](commands/a.md))
+
 ## Exit code
 
 In bash the variable `$?` would store the exit code. This doesn't exist
 in _murex_. Instead there a separate command `exitnum`:
 
     open: test/fox.txt -> grep: foobar; exitnum
-
-## Array expansion
-
-In bash you can expand arrays using the following syntax: `a{1..5}b`. In
-_murex_ this is another sub-shell process: `a: a[1..5]b`. As you can see,
-_murex_ also uses square brackets instead as well. There are a few other
-changes, read [GUIDE.arrays-and-maps](GUIDE.arrays-and-maps.md#the-array-builtin)
-for more on using the `array` builtin.
 
 ## Back ticks
 

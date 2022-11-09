@@ -33,8 +33,6 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 
 	defer func() { *line = string(r) }()
 
-	//fmt.Printf("'%s', '%s'\n", string(word), *line)
-
 	for ; i < len(r); i++ {
 		if r[i] == word[0] {
 			if r[i] == word[0] &&
@@ -47,11 +45,7 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 				rStart := i
 				for j := 1; j < len(word); j++ {
 					i++
-					/*fmt.Printf("r[%d]'%s' word[%d]'%s'\n",
-					i,
-					string([]rune{r[i]}),
-					j,
-					string([]rune{word[j]}))*/
+
 					switch {
 					case i == len(r):
 						// end of line reached
@@ -59,6 +53,7 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 
 					case r[i] != word[j]:
 						// word not matched
+						goto breakfor
 
 					case j+1 == len(word):
 						// entire word match found
@@ -83,6 +78,7 @@ func highlighter(line *string, word []rune, highlight *highlightT) {
 						continue
 					}
 				}
+			breakfor:
 			}
 		}
 		rLast = r[i]

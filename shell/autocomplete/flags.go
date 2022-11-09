@@ -56,7 +56,8 @@ var (
 
 	// GlobalExes is a pre-populated list of all executables in $PATH.
 	// The point of this is to speed up exe auto-completion.
-	GlobalExes = make(map[string]bool)
+	//GlobalExes = make(map[string]bool)
+	GlobalExes = NewGlobalExes()
 )
 
 // UpdateGlobalExeList generates a list of executables in $PATH. This used to be called upon demand but it caused a
@@ -67,9 +68,13 @@ func UpdateGlobalExeList() {
 
 	dirs := which.SplitPath(envPath)
 
+	globalExes := make(map[string]bool)
+
 	for i := range dirs {
-		listExes(dirs[i], GlobalExes)
+		listExes(dirs[i], globalExes)
 	}
+
+	GlobalExes.Set(&globalExes)
 }
 
 // InitExeFlags initializes empty []Flags based on sane defaults and a quick scan of the man pages (OS dependant)
@@ -111,7 +116,8 @@ func scanManPages(exe string) []string {
 
 func allExecutables(includeBuiltins bool) map[string]bool {
 	exes := make(map[string]bool)
-	for k, v := range GlobalExes {
+	globalExes := GlobalExes.Get()
+	for k, v := range *globalExes {
 		exes[k] = v
 	}
 

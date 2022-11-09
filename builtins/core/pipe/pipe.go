@@ -66,7 +66,7 @@ func cmdPipe(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 
 	if p.Parameters.Len() == 0 {
-		return errors.New("Missing parameters")
+		return errors.New("missing parameters")
 	}
 
 	// import the registered pipes
@@ -87,11 +87,11 @@ func cmdPipe(p *lang.Process) error {
 	}
 
 	if len(additional) == 0 {
-		return errors.New("No name specified for named pipe. Usage: `pipe name [ --pipe-type creation-data ]")
+		return errors.New("no name specified for named pipe. Usage: `pipe name [ --pipe-type creation-data ]")
 	}
 
 	if len(flags) > 1 {
-		return errors.New("Too many types of pipe specified. Please use only one flag per")
+		return errors.New("too many types of pipe specified. Please use only one flag per")
 	}
 
 	for flag := range flags {
@@ -119,7 +119,7 @@ func cmdClosePipe(p *lang.Process) error {
 		})
 
 		if len(names) == 0 {
-			return errors.New("stdin contained a zero lengthed array")
+			return errors.New("stdin contained a zero length array")
 		}
 
 	} else {

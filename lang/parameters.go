@@ -21,7 +21,7 @@ import (
 var (
 	rxTokenIndex   = regexp.MustCompile(`(.*?)\[(.*?)\]`)
 	rxTokenElement = regexp.MustCompile(`(.*?)\[\[(.*?)\]\]`)
-	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8erns]*)`)
+	rxTokenRange   = regexp.MustCompile(`(.*?)\[(.*?)\]([bt8ernsi]*)`)
 	rlMutex        sync.Mutex
 )
 
@@ -304,7 +304,7 @@ func autoGlobPrompt(cmd string, before string, match []string) (bool, error) {
 	defer rlMutex.Unlock() // performance doesn't matter here
 
 	rl := readline.NewInstance()
-	prompt := fmt.Sprintf("(%s) Do you wish to expand '%s'? [Yn]: ", cmd, before)
+	prompt := fmt.Sprintf("(%s) Do you wish to expand '%s'? [yN]: ", cmd, before)
 	rl.SetPrompt(prompt)
 	rl.HintText = func(_ []rune, _ int) []rune { return autoGlobPromptHintText(rl, match) }
 	rl.History = new(readline.NullHistory)
@@ -316,15 +316,18 @@ func autoGlobPrompt(cmd string, before string, match []string) (bool, error) {
 		}
 
 		switch strings.ToLower(line) {
-		case "", "y", "yes":
+		case "y", "yes":
 			return true, nil
-		case "n", "no":
+		case "", "n", "no":
 			return false, nil
 		}
 	}
 }
 
-var warningNoGlobMatch = "Warning: no files match that pattern"
+const (
+	warningNoGlobMatch = "Warning: no files match that pattern"
+	globExpandsTo      = "Glob expands to: "
+)
 
 func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
 	if len(match) == 0 {
@@ -335,6 +338,6 @@ func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
 	slice := make([]string, len(match))
 	copy(slice, match)
 	escape.CommandLine(slice)
-	after := strings.Join(slice, " ")
+	after := globExpandsTo + strings.Join(slice, ", ")
 	return []rune(after)
 }

@@ -73,12 +73,16 @@ const (
 	byRowNumber = iota + 1
 	byColumnNumber
 	byColumnName
+
+	maxReportedUnmatched = 5
 )
 
 var (
-	rxColumnPrefix = regexp.MustCompile(`^:[0-9]+$`)
-	rxRowSuffix    = regexp.MustCompile(`^[0-9]+:$`)
-	errMixAndMatch = errors.New("you cannot mix and match matching modes")
+	rxColumnPrefixOld = regexp.MustCompile(`^:[0-9]+$`)
+	rxRowSuffixOld    = regexp.MustCompile(`^[0-9]+:$`)
+	rxColumnPrefixNew = regexp.MustCompile(`^\*[a-zA-Z]$`)
+	rxRowSuffixNew    = regexp.MustCompile(`^\*[0-9]+$`)
+	errMixAndMatch    = errors.New("you cannot mix and match matching modes")
 )
 
 // IndexTemplateTable is a handy standard indexer you can use in your custom data types for tabulated / streamed data.
@@ -90,26 +94,45 @@ func IndexTemplateTable(p *Process, params []string, cRecords chan []string, mar
 	return ittIndex(p, params, cRecords, marshaller)
 }
 
+func charToIndex(b byte) int {
+	if b > 96 {
+		return int(b - 97)
+	}
+	return int(b - 65)
+}
+
 func ittIndex(p *Process, params []string, cRecords chan []string, marshaller func([]string) []byte) (err error) {
 	var (
-		mode      int
-		matchStr  []string
-		matchInt  []int
-		unmatched []string
+		mode           int
+		matchStr       []string
+		matchInt       []int
+		unmatched      []string
+		unmatchedCount int
 	)
 
 	defer func() {
 		if len(unmatched) != 0 {
 			p.ExitNum = 1
+			if unmatchedCount > maxReportedUnmatched {
+				unmatched = append(unmatched, fmt.Sprintf("...plus %d more", unmatchedCount-maxReportedUnmatched))
+			}
 			err = fmt.Errorf("some records did not contain all of the requested fields:%s%s",
 				utils.NewLineString,
 				strings.Join(unmatched, utils.NewLineString))
 		}
 	}()
 
+	errUnmatched := func(recs []string) {
+		unmatchedCount++
+		if unmatchedCount > maxReportedUnmatched {
+			return
+		}
+		unmatched = append(unmatched, strings.Join(recs, "\t"))
+	}
+
 	for i := range params {
 		switch {
-		case rxRowSuffix.MatchString(params[i]):
+		case rxRowSuffixOld.MatchString(params[i]):
 			if mode != 0 && mode != byRowNumber {
 				return errMixAndMatch
 			}
@@ -117,12 +140,28 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
 			matchInt = append(matchInt, num)
 
-		case rxColumnPrefix.MatchString(params[i]):
+		case rxRowSuffixNew.MatchString(params[i]):
+			if mode != 0 && mode != byRowNumber {
+				return errMixAndMatch
+			}
+			mode = byRowNumber
+			num, _ := strconv.Atoi(params[i][1:])
+			matchInt = append(matchInt, num+1) // Don't count from zero
+
+		case rxColumnPrefixOld.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
 				return errMixAndMatch
 			}
 			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
+			matchInt = append(matchInt, num)
+
+		case rxColumnPrefixNew.MatchString(params[i]):
+			if mode != 0 && mode != byColumnNumber {
+				return errMixAndMatch
+			}
+			mode = byColumnNumber
+			num := charToIndex(params[i][1])
 			matchInt = append(matchInt, num)
 
 		default:
@@ -217,7 +256,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 					if len(recs) == 0 || (len(recs) == 1 && recs[0] == "") {
 						continue
 					}
-					unmatched = append(unmatched, strings.Join(recs, "\t"))
+					errUnmatched(recs)
 				}
 			}
 			if len(line) != 0 {
@@ -266,7 +305,7 @@ func ittIndex(p *Process, params []string, cRecords chan []string, marshaller fu
 						if len(recs) == 0 || (len(recs) == 1 && recs[0] == "") {
 							continue
 						}
-						unmatched = append(unmatched, strings.Join(recs, "\t"))
+						errUnmatched(recs)
 					}
 				}
 				if len(line) != 0 {
@@ -293,7 +332,7 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 
 	for i := range params {
 		switch {
-		case rxRowSuffix.MatchString(params[i]):
+		case rxRowSuffixOld.MatchString(params[i]):
 			if mode != 0 && mode != byRowNumber {
 				return errMixAndMatch
 			}
@@ -301,12 +340,28 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 			num, _ := strconv.Atoi(params[i][:len(params[i])-1])
 			matchInt[num] = true
 
-		case rxColumnPrefix.MatchString(params[i]):
+		case rxRowSuffixNew.MatchString(params[i]):
+			if mode != 0 && mode != byRowNumber {
+				return errMixAndMatch
+			}
+			mode = byRowNumber
+			num, _ := strconv.Atoi(params[i][1:])
+			matchInt[num+1] = true // Don't count from zero
+
+		case rxColumnPrefixOld.MatchString(params[i]):
 			if mode != 0 && mode != byColumnNumber {
 				return errMixAndMatch
 			}
 			mode = byColumnNumber
 			num, _ := strconv.Atoi(params[i][1:])
+			matchInt[num] = true
+
+		case rxColumnPrefixNew.MatchString(params[i]):
+			if mode != 0 && mode != byColumnNumber {
+				return errMixAndMatch
+			}
+			mode = byColumnNumber
+			num := charToIndex(params[i][1])
 			matchInt[num] = true
 
 		default:

@@ -3,16 +3,7 @@
 ## Supported Platforms
 
 Linux, BSD and macOS are fully supported, with other platforms considered
-experimental.
-
-While _murex_ aims at being cross platform, there are some known limitations on
-Windows and Plan 9.
-
-The recommended approach for running _murex_ on Windows is to use a Linux port
-of the shell on a POSIX compatibility layer such as WSL or Cygwin.
-
-Please see the [supported platforms document](docs/FAQ.supported-platforms.md)
-for more details on any of the above.
+experimental and/or having known limitations.
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -21,12 +12,6 @@ for more details on any of the above.
 
 If you wish to download a pre-compiled binary then head to the [DOWNLOAD](DOWNLOAD.md)
 page to select your platform.
-
-This is the recommended over compiling _murex_ yourself (unless you need to enable
-or disable a specific builtin from what is compiled as part of the standard build).
-
-However if your preferred package manager is supported then this is the best method
-to install. See the next section for package manager support.
 
 ## Installing From A Package Manager
 
@@ -82,20 +67,20 @@ platform) and Windows. In the case of Windows you may run into issues with the
 `gcc` installation and some of the commands below will need to be adapted (eg
 `murex.exe` used instead of `./murex`).
 
-Compiling from source is not recommended unless you already have a strong
-understanding of compiling Go projects for your specific platform.
+> Compiling from source is not recommended unless you already have a strong
+> understanding of compiling Go projects for your specific platform.
 
 #### Importing the source code
 
-> At present, _murex_ depends on being in a specific directory hierarchy for
-> the tests to work and packages to import correctly. These instructions will
-> talk you through creating that initial structure ready to import the source
-> into. Experienced users in Go may opt to ignore some of these steps and run
-> `go get -u github.com/lmorg/murex` instead. While this _should_ work in most
-> cases, it is difficult to run automated tests to ensure any updates doesn't
-> break the `go get` import tool. And thus that approach is not officially
-> supported. If you are in any doubt, please follow the `git clone` process
-> below.
+At present, _murex_ depends on being in a specific directory hierarchy for
+the tests to work and packages to import correctly. These instructions will
+talk you through creating that initial structure ready to import the source
+into. Experienced users in Go may opt to ignore some of these steps and run
+`go get -u github.com/lmorg/murex` instead. While this _should_ work in most
+cases, it is difficult to run automated tests to ensure any updates doesn't
+break the `go get` import tool. And thus that approach is not officially
+supported. If you are in any doubt, please follow the `git clone` process
+below.
 
 First create the directory path and clone the source into the appropriate
 directory structure.
@@ -123,23 +108,6 @@ optional as _murex_ attempts to ship with sane defaults.
 #### Start the shell
 
     ./murex
-
-## Inside Docker
-
-If you don't have nor want to install Go and already have `docker` (and
-`docker-compose` installed), then you can install _murex_ using the CI/CD
-pipeline scripts.
-
-### Docker Hub
-
-Due to licensing changes from Docker, Docker Hub images are no longer up to
-date. However you can still build your own container.
-
-### Building Your Own Container
-
-From the project root (the location of this INSTALL.md file) run the following:
-
-    docker-compose up --build murex
 
 ## Including Optional Builtins
 

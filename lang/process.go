@@ -93,8 +93,9 @@ func writeError(p *Process, err error) []byte {
 
 	if p.FileRef.Source.Module == app.ShellModule {
 		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
+	} else {
+		msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
 	}
-	msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
 
 	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", len(msg)-2)+"> ")
 	return []byte(msg + sErr)

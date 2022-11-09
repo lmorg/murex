@@ -108,11 +108,12 @@ func TestValidate(t *testing.T) {
 
 	count.Tests(t, 6)
 
-	autocomplete.GlobalExes = map[string]bool{
+	globalExes := map[string]bool{
 		"sh":      true,
 		"rc":      true,
 		"cmd.exe": true,
 	}
+	autocomplete.GlobalExes.Set(&globalExes)
 
 	errPosix := posix.validate()
 	errPlan9 := plan9.validate()

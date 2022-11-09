@@ -57,7 +57,7 @@ func String(line string) (string, error) {
 
 		sWord := string(bytes.TrimSpace(bWord))
 
-		if autocomplete.GlobalExes[sWord] || lang.MxFunctions.Exists(sWord) || lang.GoFunctions[sWord] != nil || lang.GlobalAliases.Exists(sWord) {
+		if (*autocomplete.GlobalExes.Get())[sWord] || lang.MxFunctions.Exists(sWord) || lang.GoFunctions[sWord] != nil || lang.GlobalAliases.Exists(sWord) {
 			return
 		}
 
