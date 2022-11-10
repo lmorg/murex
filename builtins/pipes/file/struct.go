@@ -28,7 +28,7 @@ func (f *File) ReadLine(func([]byte)) error { return nil }
 func (f *File) ReadArray(context.Context, func([]byte)) error { return nil }
 
 // ReadArrayWithType is an empty method because file devices are write only
-func (f *File) ReadArrayWithType(context.Context, func([]byte, string)) error { return nil }
+func (f *File) ReadArrayWithType(context.Context, func(interface{}, string)) error { return nil }
 
 // ReadMap is an empty method because file devices are write only
 func (f *File) ReadMap(*config.Config, func(string, string, bool)) error { return nil }

@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		select {

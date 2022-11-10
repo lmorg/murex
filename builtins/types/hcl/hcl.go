@@ -47,7 +47,7 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 	return lang.ArrayTemplate(ctx, marshaller, hcl.Unmarshal, read, callback)
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())

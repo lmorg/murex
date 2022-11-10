@@ -51,14 +51,14 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte), canoni
 	return nil
 }
 
-func readArrayWithTypeC(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithTypeC(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	return readArrayWithType(ctx, read, callback, true, sexpr)
 }
-func readArrayWithTypeS(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithTypeS(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	return readArrayWithType(ctx, read, callback, false, sexpr)
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string), canonical bool, dataType string) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string), canonical bool, dataType string) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

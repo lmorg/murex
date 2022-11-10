@@ -20,7 +20,7 @@ type Io interface {
 	Read([]byte) (int, error)
 	ReadLine(callback func([]byte)) error
 	ReadArray(ctx context.Context, callback func([]byte)) error
-	ReadArrayWithType(ctx context.Context, callback func([]byte, string)) error
+	ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error
 	ReadMap(*config.Config, func(string, string, bool)) error
 	ReadAll() ([]byte, error)
 

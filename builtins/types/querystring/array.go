@@ -33,7 +33,7 @@ func readArray(_ context.Context, read stdio.Io, callback func([]byte)) error {
 	return nil
 }
 
-func readArrayWithType(_ context.Context, read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(_ context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err

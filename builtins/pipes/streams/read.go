@@ -106,7 +106,7 @@ func (stdin *Stdin) ReadArray(ctx context.Context, callback func([]byte)) error 
 }
 
 // ReadArrayWithType returns an array like "ReadArray" plus data type via a callback function
-func (stdin *Stdin) ReadArrayWithType(ctx context.Context, callback func([]byte, string)) error {
+func (stdin *Stdin) ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error {
 	return stdio.ReadArrayWithType(ctx, stdin, callback)
 }
 
