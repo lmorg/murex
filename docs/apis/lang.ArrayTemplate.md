@@ -234,6 +234,8 @@ func readArrayByMapIfaceStr(ctx context.Context, v map[interface{}]string, callb
 
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):

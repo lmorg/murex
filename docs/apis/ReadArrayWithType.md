@@ -98,7 +98,7 @@ pipelines.
 ## Parameters
 
 1. `stdio.Io`: stream to read from (eg STDIN)
-2. `func([]byte, string)`: callback function. Each callback will be a []byte slice containing an array element
+2. `func(interface{}, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element
 
 ## See Also
 
@@ -112,3 +112,5 @@ pipelines.
   Write a data type, one array element at a time
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array with data type included

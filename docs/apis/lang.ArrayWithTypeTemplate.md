@@ -290,12 +290,14 @@ func readArrayWithTypeByMapIfaceStr(v map[interface{}]string, callback func([]by
 1. `func(interface{}) ([]byte, error)`: data type's marshaller
 2. `func([]byte, interface{}) error`: data type's unmarshaller
 3. `stdio.Io`: stream to read from (eg STDIN)
-4. `func([]byte, string)`: callback function to write each array element
+4. `func(interface{}, string)`: callback function to write each array element, with data type
 
 ## See Also
 
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):

@@ -47,6 +47,7 @@
   - WriteArray
   - ReadMap
   - lang.ArrayTemplate
+  - lang.ArrayWithTypeTemplate
   - ReadIndex
   - ReadNotIndex
 
@@ -86,6 +87,7 @@
   - "`func([]byte)`: callback function to write each array element"
   Related:
   - ReadArray
+  - ReadArrayWithType
   - WriteArray
   - ReadMap
   - ReadIndex
@@ -144,11 +146,12 @@
     pipelines.
   Parameters:
   - "`stdio.Io`: stream to read from (eg STDIN)"
-  - "`func([]byte, string)`: callback function. Each callback will be a []byte slice containing an array element"
+  - "`func(interface{}, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element"
   Related:
   - WriteArray
   - ReadMap
   - lang.ArrayTemplate
+  - lang.ArrayWithTypeTemplate
   - ReadIndex
   - ReadNotIndex
 
@@ -186,8 +189,9 @@
   - "`func(interface{}) ([]byte, error)`: data type's marshaller"
   - "`func([]byte, interface{}) error`: data type's unmarshaller"
   - "`stdio.Io`: stream to read from (eg STDIN)"
-  - "`func([]byte, string)`: callback function to write each array element"
+  - "`func(interface{}, string)`: callback function to write each array element, with data type"
   Related:
+  - ReadArrayWithType
   - ReadArray
   - WriteArray
   - ReadMap
@@ -245,6 +249,7 @@
     ```
   Related:
   - ReadArray
+  - ReadArrayWithType
   - ReadMap
   - ReadIndex
   - ReadNotIndex
@@ -286,6 +291,7 @@
   - "`func(key, value string, last bool)`: callback function: key and value of map plus boolean which is true if last element in row (eg reading from tables rather than key/values)"
   Related:
   - ReadArray
+  - ReadArrayWithType
   - WriteArray
   - ReadIndex
   - ReadNotIndex
@@ -327,6 +333,7 @@
   - "`[]string`: slice of parameters used in `[` "
   Related:
   - ReadArray
+  - ReadArrayWithType
   - WriteArray
   - lang.IndexTemplateObject
   - lang.IndexTemplateTable
@@ -374,6 +381,7 @@
   - "`[]string`: slice of parameters used in `![` "
   Related:
   - ReadArray
+  - ReadArrayWithType
   - WriteArray
   - lang.IndexTemplateObject
   - lang.IndexTemplateTable
@@ -417,6 +425,7 @@
   - "`func(interface{}) ([]byte, error)`: data type marshaller function"
   Related:
   - ReadArray
+  - ReadArrayWithType
   - WriteArray
   - ReadMap
   - ReadIndex
@@ -459,6 +468,7 @@
   - "`func(interface{}) ([]byte, error)`: data type marshaller function"
   Related:
   - ReadArray
+  - ReadArrayWithType
   - WriteArray
   - ReadMap
   - ReadIndex

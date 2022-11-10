@@ -105,3 +105,5 @@ pipelines.
   Write a data type, one array element at a time
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array with data type included
