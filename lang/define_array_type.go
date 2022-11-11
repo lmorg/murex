@@ -37,6 +37,12 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 	case string:
 		return readArrayWithTypeByString(v, callback)
 
+	case []byte:
+		return readArrayWithTypeByString(string(v), callback)
+
+	case []rune:
+		return readArrayWithTypeByString(string(v), callback)
+
 	case []bool:
 		return readArrayWithTypeBySliceBool(ctx, v, callback)
 

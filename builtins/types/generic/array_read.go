@@ -31,7 +31,7 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 			return scanner.Err()
 
 		default:
-			callback(scanner.Bytes(), types.Generic)
+			callback(scanner.Text(), types.Generic)
 		}
 	}
 
