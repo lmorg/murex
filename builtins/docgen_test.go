@@ -30,6 +30,7 @@ func init() {
 		"catch":                 "catch_commands_docgen.go",
 		"cd":                    "cd_commands_docgen.go",
 		"config":                "config_commands_docgen.go",
+		"continue":              "continue_commands_docgen.go",
 		"count":                 "count_commands_docgen.go",
 		"cpuarch":               "cpuarch_commands_docgen.go",
 		"cpucount":              "cpucount_commands_docgen.go",

@@ -93,6 +93,8 @@ to return the same markdown-formatted document as those listed below. eg
   Change (working) directory
 * [`config`](commands/config.md):
   Query or define _murex_ runtime settings
+* [`continue`](commands/continue.md):
+  jumps back to 
 * [`count`](commands/count.md):
   Count items in a map, list or array
 * [`cpuarch`](commands/cpuarch.md):
