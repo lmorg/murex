@@ -133,14 +133,12 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 		}
 		return &primitives.DataType{
 			Primitive: primitives.Number,
-			DataType:  types.Number,
 			Value:     f,
 		}, nil
 
 	case symbols.QuoteSingle:
 		return &primitives.DataType{
 			Primitive: primitives.String,
-			DataType:  types.String,
 			Value:     node.Value(),
 		}, nil
 
@@ -148,15 +146,19 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 		// TODO: expand vars
 		return &primitives.DataType{
 			Primitive: primitives.String,
-			DataType:  types.String,
 			Value:     node.Value(),
 		}, nil
 
 	case symbols.Boolean:
 		return &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     types.IsTrue(node.value, 0),
+		}, nil
+
+	case symbols.Bareword:
+		return &primitives.DataType{
+			Primitive: primitives.Null,
+			Value:     nil,
 		}, nil
 	}
 
@@ -167,19 +169,4 @@ func newExpTree(expression []byte) *expTreeT {
 	tree := new(expTreeT)
 	tree.expression = expression
 	return tree
-}
-
-func Parse(p *lang.Process, expression []byte) error {
-	if p == nil {
-		panic("undefined process")
-	}
-	if p.Variables == nil {
-		panic("undefined variables")
-	}
-
-	tree := newExpTree(expression)
-	tree.p = p
-	err := tree.parse()
-
-	return err
 }

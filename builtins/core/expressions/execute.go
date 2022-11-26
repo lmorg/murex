@@ -139,6 +139,7 @@ func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
 		// 15. Comma operator
 		// 14. Assignment operators (right to left)
 		case symbols.Assign:
+			err = expAssign(tree)
 		case symbols.AssignAndAdd:
 		case symbols.AssignAndSubtract:
 		case symbols.AssignAndDivide:

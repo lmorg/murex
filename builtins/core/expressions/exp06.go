@@ -5,7 +5,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/expressions/primitives"
 	"github.com/lmorg/murex/builtins/core/expressions/symbols"
-	"github.com/lmorg/murex/lang/types"
 )
 
 func expGreaterThan(tree *expTreeT) error {
@@ -40,7 +39,6 @@ func expGreaterThan(tree *expTreeT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     value,
 		},
 	})
@@ -78,7 +76,6 @@ func expGreaterThanOrEqual(tree *expTreeT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     value,
 		},
 	})
@@ -116,7 +113,6 @@ func expLessThan(tree *expTreeT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     value,
 		},
 	})
@@ -154,7 +150,6 @@ func expLessThanOrEqual(tree *expTreeT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     value,
 		},
 	})

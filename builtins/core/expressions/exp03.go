@@ -5,7 +5,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/expressions/primitives"
 	"github.com/lmorg/murex/builtins/core/expressions/symbols"
-	"github.com/lmorg/murex/lang/types"
 )
 
 func expMultiply(tree *expTreeT) error {
@@ -28,7 +27,6 @@ func expMultiply(tree *expTreeT) error {
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,
-				DataType:  types.Number,
 				Value:     left.dt.Value.(float64) * right.dt.Value.(float64),
 			},
 		})
@@ -61,7 +59,6 @@ func expDivide(tree *expTreeT) error {
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,
-				DataType:  types.Number,
 				Value:     left.dt.Value.(float64) / right.dt.Value.(float64),
 			},
 		})

@@ -5,7 +5,6 @@ import (
 
 	"github.com/lmorg/murex/builtins/core/expressions/primitives"
 	"github.com/lmorg/murex/builtins/core/expressions/symbols"
-	"github.com/lmorg/murex/lang/types"
 )
 
 func expAdd(tree *expTreeT) error {
@@ -28,7 +27,6 @@ func expAdd(tree *expTreeT) error {
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,
-				DataType:  types.Number,
 				Value:     left.dt.Value.(float64) + right.dt.Value.(float64),
 			},
 		})
@@ -39,7 +37,6 @@ func expAdd(tree *expTreeT) error {
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.String,
-				DataType:  types.String,
 				Value:     left.dt.Value.(string) + right.dt.Value.(string),
 			},
 		})
@@ -72,7 +69,6 @@ func expSubtract(tree *expTreeT) error {
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,
-				DataType:  types.Number,
 				Value:     left.dt.Value.(float64) - right.dt.Value.(float64),
 			},
 		})

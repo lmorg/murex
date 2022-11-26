@@ -21,7 +21,6 @@ func expEqualTo(tree *expTreeT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     left.dt.Value == right.dt.Value,
 		},
 	})
@@ -38,7 +37,6 @@ func expNotEqualTo(tree *expTreeT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     left.dt.Value != right.dt.Value,
 		},
 	})
@@ -68,7 +66,6 @@ func expLike(tree *expTreeT, eq bool) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     (leftL == rightL) == eq,
 		},
 	})
@@ -102,7 +99,6 @@ func expRegexp(tree *expTreeT, eq bool) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			DataType:  types.Boolean,
 			Value:     rx.MatchString(left.dt.Value.(string)) == eq,
 		},
 	})
