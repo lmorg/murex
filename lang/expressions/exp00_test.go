@@ -80,6 +80,22 @@ func TestExpressions(t *testing.T) {
 			Expression: `'bob' == 'bob'`,
 			Expected:   true,
 		},
+		{
+			Expression: `bob=5`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob =5`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob= 5`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob = 5`,
+			Expected:   nil,
+		},
 	}
 
 	testExpression(t, tests)

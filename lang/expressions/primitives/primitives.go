@@ -9,12 +9,13 @@ import (
 type Primitive int
 
 const (
-	Number  Primitive = Primitive(symbols.Number)
-	String  Primitive = Primitive(symbols.QuoteSingle)
-	Boolean Primitive = Primitive(symbols.Boolean)
-	Array   Primitive = Primitive(symbols.ArrayBegin)
-	Object  Primitive = Primitive(symbols.ObjectBegin)
-	Null    Primitive = Primitive(symbols.Null)
+	Number   Primitive = Primitive(symbols.Number)
+	String   Primitive = Primitive(symbols.QuoteSingle)
+	Boolean  Primitive = Primitive(symbols.Boolean)
+	Array    Primitive = Primitive(symbols.ArrayBegin)
+	Object   Primitive = Primitive(symbols.ObjectBegin)
+	Null     Primitive = Primitive(symbols.Null)
+	Bareword Primitive = 0
 )
 
 type DataType struct {
@@ -35,6 +36,8 @@ func (dt *DataType) DataType() string {
 	case Object:
 		return types.Json
 	case Null:
+		return types.Null
+	case Bareword:
 		return types.Null
 	default:
 		return types.Generic

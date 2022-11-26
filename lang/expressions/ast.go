@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
@@ -28,7 +27,8 @@ type expTreeT struct {
 	charOffset int
 	astPos     int
 	expression []rune
-	p          *lang.Process
+	getVar     getVarCallback
+	setVar     setVarCallback
 }
 
 func (tree *expTreeT) nextChar() rune {
@@ -157,7 +157,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 
 	case symbols.Bareword:
 		return &primitives.DataType{
-			Primitive: primitives.Null,
+			Primitive: primitives.Bareword,
 			Value:     nil,
 		}, nil
 	}

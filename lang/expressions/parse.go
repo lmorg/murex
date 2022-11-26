@@ -4,7 +4,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *expTreeT) parse() error {
+func (tree *expTreeT) parse(exec bool) error {
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 		switch r {
@@ -12,8 +12,10 @@ func (tree *expTreeT) parse() error {
 			// whitespace. do nothing
 
 		case '\n', ';':
-			// end sub expression
-			return nil
+			// end expression
+			if !exec {
+				return nil
+			}
 
 		case '=':
 			switch tree.nextChar() {
@@ -86,15 +88,17 @@ func (tree *expTreeT) parse() error {
 			// create sub expression
 			branch := newExpTree(tree.expression[tree.charOffset:])
 			branch.charOffset = tree.charPos + tree.charOffset + 1
-			err := branch.parse()
+			err := branch.parse(exec)
 			if err != nil {
 				return err
 			}
-			dt, err := branch.execute()
-			if err != nil {
-				return err
+			if exec {
+				dt, err := branch.execute()
+				if err != nil {
+					return err
+				}
+				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 			}
-			tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 			tree.charPos += branch.charPos
 
 		case ')':
@@ -214,6 +218,8 @@ func (tree *expTreeT) parse() error {
 				default:
 					tree.appendAst(symbols.Bareword, value...)
 				}
+				tree.charPos--
+
 			default:
 				tree.appendAst(symbols.Unexpected, r)
 			}

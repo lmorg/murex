@@ -1,8 +1,8 @@
 package expressions
 
 import (
-	"github.com/lmorg/murex/builtins/core/expressions/primitives"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -10,19 +10,20 @@ func init() {
 	lang.DefineFunction("exp", cmdExpressions, types.Any)
 }
 
-func Execute(p *lang.Process, expression []byte) (*primitives.DataType, error) {
-	tree := newExpTree(expression)
-	tree.p = p
-	err := tree.parse()
-	if err != nil {
-		return nil, err
+func cmdExpressions(p *lang.Process) error {
+	getVar := func(name string) (interface{}, string, error) {
+		value := p.Variables.GetValue(name)
+		dataType := p.Variables.GetDataType(name)
+		return value, dataType, nil
 	}
 
-	return tree.execute()
-}
+	setVar := func(name string, value interface{}, dataType string) error {
+		return p.Variables.Set(p, name, value, dataType)
+	}
 
-func cmdExpressions(p *lang.Process) error {
-	result, err := Execute(p, p.Parameters.ByteAll())
+	expression := []rune(p.Parameters.StringAll())
+
+	result, err := expressions.Execute(expression, getVar, setVar)
 	if err != nil {
 		return err
 	}

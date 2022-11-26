@@ -13,7 +13,7 @@ func (tree *expTreeT) Dump() interface{} {
 		node["pos"] = tree.ast[i].pos
 		if tree.ast[i].dt != nil {
 			node["dt.prim"] = tree.ast[i].dt.Primitive.String()
-			node["dt.murex"] = tree.ast[i].dt.DataType
+			node["dt.murex"] = tree.ast[i].dt.DataType()
 			node["dt.value"] = tree.ast[i].dt.Value
 		} else {
 			node["dt"] = "unset"

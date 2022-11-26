@@ -1,14 +1,17 @@
 package expressions
 
 import (
-	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 )
 
-func Execute(p *lang.Process, expression []rune) (*primitives.DataType, error) {
+type getVarCallback func(string) (interface{}, string, error)
+type setVarCallback func(string, interface{}, string) error
+
+func Execute(expression []rune, getVar getVarCallback, setVar setVarCallback) (*primitives.DataType, error) {
 	tree := newExpTree(expression)
-	tree.p = p
-	err := tree.parse()
+	tree.getVar = getVar
+	tree.setVar = setVar
+	err := tree.parse(true)
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +26,7 @@ func Execute(p *lang.Process, expression []rune) (*primitives.DataType, error) {
 func ChainParser(expression []rune, offset int) (int, error) {
 	tree := newExpTree(expression)
 	tree.charOffset = offset
-	err := tree.parse()
+	err := tree.parse(false)
 	if err != nil {
 		return 0, err
 	}

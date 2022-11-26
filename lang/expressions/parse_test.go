@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -19,6 +20,14 @@ type expTestsT struct {
 	symbol symbols.Exp
 }
 
+func getVarMock(name string) (interface{}, string, error) {
+	return name, types.String, nil
+}
+
+func setVarMock(name string, value interface{}, dataType string) error {
+	return nil
+}
+
 func testParserSymbol(t *testing.T, tests expTestsT) {
 	t.Helper()
 
@@ -26,7 +35,9 @@ func testParserSymbol(t *testing.T, tests expTestsT) {
 
 	for i, test := range tests.tests {
 		tree := newExpTree([]rune(test.input))
-		err := tree.parse()
+		err := tree.parse(true)
+		tree.getVar = getVarMock
+		tree.setVar = setVarMock
 
 		switch {
 		case err != nil:
@@ -81,7 +92,10 @@ func testExpression(t *testing.T, tests []expressionTestT) {
 
 	for i, test := range tests {
 		tree := newExpTree([]rune(test.Expression))
-		err := tree.parse()
+		tree.getVar = getVarMock
+		tree.setVar = setVarMock
+
+		err := tree.parse(true)
 		if err != nil {
 			t.Errorf("Parser error in test %d: %s", i, err.Error())
 		}
