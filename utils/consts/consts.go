@@ -18,3 +18,5 @@ const (
 	EnvMethod     = "MUREX_IS_METHOD"
 	EnvBackground = "MUREX_IS_BACKGROUND"
 )
+
+const IssueTrackerURL = "This is a murex bug. Please raise an issue at https://github.com/lmorg/murex/issues"

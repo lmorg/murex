@@ -287,8 +287,10 @@ exit:
 }
 
 func isBareChar(r rune) bool {
-	return (r >= 'a' && 'z' >= r) || (r >= 'A' && 'Z' >= r) ||
-		(r >= '0' && '9' >= r) || r == '_'
+	return r == '_' ||
+		(r >= 'a' && 'z' >= r) ||
+		(r >= 'A' && 'Z' >= r) ||
+		(r >= '0' && '9' >= r)
 }
 
 func (tree *expTreeT) parseBareword() []rune {

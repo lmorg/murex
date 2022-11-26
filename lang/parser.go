@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -490,7 +491,46 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				startParameters()
 
 			default:
-				pUpdate(r)
+				if pCount == 0 && len(node.Name) > 0 && isAlphaNumeric(node.Name) {
+					if len(*pop) == 0 {
+						expression := append([]rune(node.Name+" "), block[i:]...)
+						adjust, err := expressions.ChainParser(expression, i)
+						adjust -= len(node.Name)
+						if err != nil {
+							return nil, ParserError{
+								Message: err.Error(),
+								Code:    ErrInExpressionParser,
+								EndByte: i + adjust - 1,
+							}
+						}
+						pUpdate(r)
+						*pop = node.Name + " " + *pop
+						*pop += string(block[i+1 : i+adjust-1])
+						node.Name = "exp"
+						i += adjust - 2
+					} else if scanFuncName {
+						startParameters()
+						expression := append([]rune(node.Name), block[i:]...)
+						adjust, err := expressions.ChainParser(expression, i)
+						adjust -= len(node.Name)
+						if err != nil {
+							return nil, ParserError{
+								Message: err.Error(),
+								Code:    ErrInExpressionParser,
+								EndByte: i + adjust - 1,
+							}
+						}
+						pUpdate(r)
+						*pop = node.Name + *pop
+						*pop += string(block[i+1 : i+adjust])
+						node.Name = "exp"
+						i += adjust - 1
+					} else {
+						pUpdate(r)
+					}
+				} else {
+					pUpdate(r)
+				}
 			}
 
 		case '[':
@@ -943,4 +983,17 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	appendNode()
 
 	return &nodes, pErr
+}
+
+func isAlphaNumeric(s string) bool {
+	for _, b := range s {
+		if b == '_' ||
+			(b >= 'a' && 'z' >= b) ||
+			(b >= 'A' && 'Z' >= b) ||
+			(b >= '0' && '9' >= b) {
+			continue
+		}
+		return false
+	}
+	return true
 }

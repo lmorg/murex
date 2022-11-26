@@ -316,3 +316,27 @@ func testParserSimple(t *testing.T, tests []parserTestSimpleConditions) {
 		}
 	}
 }
+
+func TestIsAlphaNumeric(t *testing.T) {
+	true := []string{
+		"foo", "bar", "baz", "FoO", "BARR", "B4z", "b_",
+	}
+
+	false := []string{
+		"!", "^", "世界",
+	}
+
+	count.Tests(t, len(true)+len(false))
+
+	for _, s := range true {
+		if !isAlphaNumeric(s) {
+			t.Errorf("'%s' == true", s)
+		}
+	}
+
+	for _, s := range false {
+		if isAlphaNumeric(s) {
+			t.Errorf("'%s' == false", s)
+		}
+	}
+}
