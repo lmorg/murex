@@ -66,6 +66,8 @@ details about specific hooks.
 
 * [`*` (generic) ](types/generic.md):
   generic (primitive)
+* [`bool` ](types/bool.md):
+  Boolean (primitive)
 * [`commonlog` ](types/commonlog.md):
   Apache httpd "common" log format
 * [`csv` ](types/csv.md):
