@@ -13,11 +13,12 @@ func raiseError(node *astNodeT, message string) error {
 		return fmt.Errorf("nil ast (%s)", consts.IssueTrackerURL)
 	}
 
-	return fmt.Errorf("%s at char %d (expression: %s, value '%s')",
+	return fmt.Errorf("%s at char %d\nExpression: %s\nValue     : '%s'",
 		message, node.pos+1, node.key.String(), node.Value())
 }
 
 var errMessage = map[symbols.Exp]string{
+	symbols.Undefined:        "parser error",
 	symbols.Unexpected:       "unexpected symbol",
 	symbols.SubExpressionEnd: "more closing parenthesis then opening parenthesis",
 	symbols.ObjectEnd:        "more closing curly braces then opening braces",
@@ -141,9 +142,13 @@ func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
 		case symbols.Assign:
 			err = expAssign(tree)
 		case symbols.AssignAndAdd:
+			err = expAssignAdd(tree)
 		case symbols.AssignAndSubtract:
+			err = expAssignSubtract(tree)
 		case symbols.AssignAndDivide:
+			err = expAssignDivide(tree)
 		case symbols.AssignAndMultiply:
+			err = expAssignMultiply(tree)
 
 		// 13. Conditional expression (ternary)
 		// 12. Logical OR

@@ -1,6 +1,8 @@
 package expressions
 
 import (
+	"fmt"
+
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
@@ -13,9 +15,8 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '\n', ';':
 			// end expression
-			if !exec {
-				return nil
-			}
+			tree.charPos--
+			return nil
 
 		case '=':
 			switch tree.nextChar() {
@@ -86,8 +87,12 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '(':
 			// create sub expression
-			branch := newExpTree(tree.expression[tree.charOffset:])
-			branch.charOffset = tree.charPos + tree.charOffset + 1
+			branch := newExpTree(tree.expression[tree.charPos+1:])
+			branch.charOffset = tree.charPos + tree.charOffset
+			branch.isSubExp = true
+			branch.getVar = tree.getVar
+			branch.setVar = tree.setVar
+			//panic(string(branch.expression))
 			err := branch.parse(exec)
 			if err != nil {
 				return err
@@ -99,11 +104,17 @@ func (tree *expTreeT) parse(exec bool) error {
 				}
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 			}
-			tree.charPos += branch.charPos
+			tree.charPos += branch.charPos + 1
+			/*panic(fmt.Sprintf("offsets: %d %d\nbranch: %d %s\ntree %d %s",
+			branch.charOffset, tree.charOffset,
+			branch.charPos, string(branch.expression),
+			tree.charPos, string(tree.expression)))*/
 
 		case ')':
-			if tree.charOffset != 0 {
+			//if tree.charOffset != 0 {
+			if tree.isSubExp {
 				// end sub expression
+				//tree.charPos--
 				return nil
 			}
 			tree.appendAst(symbols.SubExpressionEnd, r)
@@ -126,15 +137,23 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '\'':
 			// start string / end string
-			value := tree.parseString(r)
+			value, nEscapes, err := tree.parseString(r)
+			if err != nil {
+				return err
+			}
+			tree.charPos -= nEscapes
 			tree.appendAst(symbols.QuoteSingle, value...)
-			tree.charPos++
+			tree.charPos += nEscapes + 1
 
 		case '"':
 			// start string / end string
-			value := tree.parseString(r)
+			value, nEscapes, err := tree.parseString(r)
+			if err != nil {
+				return err
+			}
+			tree.charPos -= nEscapes
 			tree.appendAst(symbols.QuoteDouble, value...)
-			tree.charPos++
+			tree.charPos += nEscapes + 1
 
 		case '$':
 			// start scalar
@@ -252,10 +271,11 @@ func (tree *expTreeT) parseNumber(first rune) []rune {
 	return value
 }
 
-func (tree *expTreeT) parseString(quote rune) []rune {
+func (tree *expTreeT) parseString(quote rune) ([]rune, int, error) {
 	var (
-		value   []rune
-		escaped bool
+		value    []rune
+		nEscapes int
+		escaped  bool
 	)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -266,6 +286,7 @@ func (tree *expTreeT) parseString(quote rune) []rune {
 			// end escape
 			escaped = false
 			value = append(value, r)
+			nEscapes++
 
 		case r == '\\':
 			// start escape
@@ -281,9 +302,13 @@ func (tree *expTreeT) parseString(quote rune) []rune {
 		}
 	}
 
+	return value, 0, fmt.Errorf(
+		"missing closing quote (%s) at char %d:\n%s",
+		string([]rune{quote}), tree.charPos-len(value), string(append([]rune{quote}, value...)))
+
 exit:
 	tree.charPos--
-	return value
+	return value, nEscapes, nil
 }
 
 func isBareChar(r rune) bool {

@@ -57,6 +57,14 @@ func TestParseQuoteDouble(t *testing.T) {
 				input:    `"foo bar"`,
 				expected: `foo bar`,
 			},
+			{
+				input:    `"foobar'"`,
+				expected: `foobar'`,
+			},
+			{
+				input:    `"foobar\""`,
+				expected: `foobar"`,
+			},
 		},
 	}
 

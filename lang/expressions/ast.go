@@ -29,6 +29,7 @@ type expTreeT struct {
 	expression []rune
 	getVar     getVarCallback
 	setVar     setVarCallback
+	isSubExp   bool
 }
 
 func (tree *expTreeT) nextChar() rune {

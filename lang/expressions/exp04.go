@@ -23,7 +23,7 @@ func expAdd(tree *expTreeT) error {
 	switch left.dt.Primitive {
 	case primitives.Number:
 		return tree.foldAst(&astNodeT{
-			key: symbols.DataValues,
+			key: symbols.Calculated,
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,
@@ -33,7 +33,7 @@ func expAdd(tree *expTreeT) error {
 
 	case primitives.String:
 		return tree.foldAst(&astNodeT{
-			key: symbols.DataValues,
+			key: symbols.Calculated,
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.String,
@@ -65,7 +65,7 @@ func expSubtract(tree *expTreeT) error {
 	switch left.dt.Primitive {
 	case primitives.Number:
 		return tree.foldAst(&astNodeT{
-			key: symbols.DataValues,
+			key: symbols.Calculated,
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,

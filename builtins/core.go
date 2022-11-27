@@ -16,6 +16,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/datatools"    // utilities for manipulating structured data
 	_ "github.com/lmorg/murex/builtins/core/element"      // element function: [[ /element ]]
 	_ "github.com/lmorg/murex/builtins/core/escape"       // string escaping
+	_ "github.com/lmorg/murex/builtins/core/expressions"  // new expressions library
 	_ "github.com/lmorg/murex/builtins/core/httpclient"   // builtins for http
 	_ "github.com/lmorg/murex/builtins/core/index"        // index function: [ index ]
 	_ "github.com/lmorg/murex/builtins/core/io"           // OS IO builtins
@@ -50,6 +51,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/pipes/term"    // writing to the terminal / TTY (required!)
 
 	// Data types:
+	_ "github.com/lmorg/murex/builtins/types/boolean"    // boolean data type
 	_ "github.com/lmorg/murex/builtins/types/generic"    // generic data type
 	_ "github.com/lmorg/murex/builtins/types/json"       // JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonconcat" // concatenated JSON data type

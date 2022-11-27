@@ -96,6 +96,65 @@ func TestExpressions(t *testing.T) {
 			Expression: `bob = 5`,
 			Expected:   nil,
 		},
+		{
+			Expression: `bob = (5==5)`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob=(5==5)`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob=("5"=="5")`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob = 5==5`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob=5==5`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob="5"=="5"`,
+			Expected:   nil,
+		},
+		{
+			Expression: `bob=(5*5)`,
+			Expected:   nil,
+		},
+	}
+
+	testExpression(t, tests)
+}
+
+func TestStupidOffByOneErrorsInSubExpressions(t *testing.T) {
+	tests := []expressionTestT{
+		{
+			Expression: `10*(1+2)*10`,
+			Expected:   float64(300),
+		},
+		{
+			Expression: `2*(10*(1+2)*10)`,
+			Expected:   float64(600),
+		},
+		{
+			Expression: `(10*(1+2)*10)*2`,
+			Expected:   float64(600),
+		},
+		{
+			Expression: `2*((10*(1+2)*10)+2)`,
+			Expected:   float64(604),
+		},
+		{
+			Expression: `2*((10*(1+2)*10)+2)*2`,
+			Expected:   float64(1208),
+		},
+		{
+			Expression: `(2*((10*(1+2)*10)+2)*2)`,
+			Expected:   float64(1208),
+		},
 	}
 
 	testExpression(t, tests)

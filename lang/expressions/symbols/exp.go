@@ -34,6 +34,7 @@ const (
 	Number
 	Boolean
 	Null
+	Calculated // data fields that are a result of a calculation
 
 	/*
 		OPERATIONS

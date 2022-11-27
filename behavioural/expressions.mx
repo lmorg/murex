@@ -1,0 +1,39 @@
+# This file tests the behaviour of expressions
+
+function exp.space.brace {
+    out bob;bob =(1+1);out $bob
+}
+
+test: unit function exp.space.brace {
+    "StdoutMatch": "bob\n2\n",
+    "ExitNum":     0
+}
+
+function exp.space.nobrace {
+    out bob;bob =1+1;out $bob
+}
+
+test: unit function exp.space.nobrace {
+    "StdoutMatch": "bob\n2\n",
+    "ExitNum":     0
+}
+
+#####
+
+function exp.nospace.brace {
+    out bob;bob=(1+1);out $bob
+}
+
+test: unit function exp.nospace.brace {
+    "StdoutMatch": "bob\n2\n",
+    "ExitNum":     0
+}
+
+function exp.nospace.nobrace {
+    out bob;bob=1+1;out $bob
+}
+
+test: unit function exp.nospace.nobrace {
+    "StdoutMatch": "bob\n2\n",
+    "ExitNum":     0
+}

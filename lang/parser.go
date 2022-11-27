@@ -500,14 +500,15 @@ func parser(block []rune) (*AstNodes, ParserError) {
 							return nil, ParserError{
 								Message: err.Error(),
 								Code:    ErrInExpressionParser,
-								EndByte: i + adjust - 1,
+								EndByte: i + adjust,
 							}
 						}
-						pUpdate(r)
-						*pop = node.Name + " " + *pop
-						*pop += string(block[i+1 : i+adjust-1])
+						pToken.Type = parameters.TokenTypeValue
+						*pop = node.Name + " ="
+						*pop += string(block[i+1 : i+adjust])
 						node.Name = "exp"
-						i += adjust - 2
+						i += adjust - 1
+
 					} else if scanFuncName {
 						startParameters()
 						expression := append([]rune(node.Name), block[i:]...)
@@ -517,14 +518,13 @@ func parser(block []rune) (*AstNodes, ParserError) {
 							return nil, ParserError{
 								Message: err.Error(),
 								Code:    ErrInExpressionParser,
-								EndByte: i + adjust - 1,
+								EndByte: i + adjust + 1,
 							}
 						}
-						pUpdate(r)
-						*pop = node.Name + *pop
-						*pop += string(block[i+1 : i+adjust])
+						pToken.Type = parameters.TokenTypeValue
+						*pop = node.Name + "=" + string(block[i+1:i+adjust+1])
 						node.Name = "exp"
-						i += adjust - 1
+						i += adjust
 					} else {
 						pUpdate(r)
 					}
