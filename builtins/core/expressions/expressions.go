@@ -7,23 +7,13 @@ import (
 )
 
 func init() {
-	lang.DefineFunction("exp", cmdExpressions, types.Any)
+	lang.DefineFunction(lang.ParserExpressions, cmdExpressions, types.Any)
 }
 
 func cmdExpressions(p *lang.Process) error {
-	getVar := func(name string) (interface{}, string, error) {
-		value := p.Variables.GetValue(name)
-		dataType := p.Variables.GetDataType(name)
-		return value, dataType, nil
-	}
-
-	setVar := func(name string, value interface{}, dataType string) error {
-		return p.Variables.Set(p, name, value, dataType)
-	}
-
 	expression := []rune(p.Parameters.StringAll())
 
-	result, err := expressions.Execute(expression, getVar, setVar)
+	result, err := expressions.Execute(p, expression)
 	if err != nil {
 		return err
 	}

@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -26,6 +25,14 @@ func ParseBlock(block []rune) (nodes *AstNodes, pErr ParserError) {
 
 	return AstCache.ParseCache(block)
 }
+
+// ChainParserFunc is intended to be called from other parsers as a way of
+// embedding and extending the main murex parser
+type ChainParserFunc func([]rune, int) (int, error)
+
+var ChainParser ChainParserFunc
+
+const ParserExpressions = "expr"
 
 func parser(block []rune) (*AstNodes, ParserError) {
 	//defer debug.Json("Parser", nodes)
@@ -494,7 +501,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				if pCount == 0 && len(node.Name) > 0 && isAlphaNumeric(node.Name) {
 					if len(*pop) == 0 {
 						expression := append([]rune(node.Name+" "), block[i:]...)
-						adjust, err := expressions.ChainParser(expression, i)
+						adjust, err := ChainParser(expression, i)
 						adjust -= len(node.Name)
 						if err != nil {
 							return nil, ParserError{
@@ -506,13 +513,13 @@ func parser(block []rune) (*AstNodes, ParserError) {
 						pToken.Type = parameters.TokenTypeValue
 						*pop = node.Name + " ="
 						*pop += string(block[i+1 : i+adjust])
-						node.Name = "exp"
+						node.Name = ParserExpressions
 						i += adjust - 1
 
 					} else if scanFuncName {
 						startParameters()
 						expression := append([]rune(node.Name), block[i:]...)
-						adjust, err := expressions.ChainParser(expression, i)
+						adjust, err := ChainParser(expression, i)
 						adjust -= len(node.Name)
 						if err != nil {
 							return nil, ParserError{
@@ -523,7 +530,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 						}
 						pToken.Type = parameters.TokenTypeValue
 						*pop = node.Name + "=" + string(block[i+1:i+adjust+1])
-						node.Name = "exp"
+						node.Name = ParserExpressions
 						i += adjust
 					} else {
 						pUpdate(r)

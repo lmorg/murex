@@ -1,5 +1,26 @@
 # This file tests the behaviour of expressions
 
+function expressions.simple {
+    bob = 1+1
+}
+
+test: unit function expressions.simple {
+    "StdoutMatch": "",
+    "ExitNum":     0
+}
+
+function expressions.simple2 {
+    bob = 1+1
+    echo $bob
+}
+
+test: unit function expressions.simple2 {
+    "StdoutMatch": "2\n",
+    "ExitNum":     0
+}
+
+##### basic
+
 function exp.space.brace {
     out bob;bob =(1+1);out $bob
 }
@@ -18,7 +39,7 @@ test: unit function exp.space.nobrace {
     "ExitNum":     0
 }
 
-#####
+##### no space
 
 function exp.nospace.brace {
     out bob;bob=(1+1);out $bob
