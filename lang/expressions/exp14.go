@@ -50,30 +50,47 @@ func expAssignAdd(tree *expTreeT) error {
 			"left side should be a bareword, instead got %s", left.key))
 	}
 
-	if right.key != symbols.Number {
+	/*if right.key != symbols.Number {
 		return raiseError(tree.currentSymbol(), fmt.Sprintf(
 			"right side should not be a %s", right.key))
-	}
+	}*/
 
 	varName := left.Value()
 	v, dt, err := tree.getVar(varName)
 	if err != nil {
-		raiseError(tree.currentSymbol(), err.Error())
+		return raiseError(tree.currentSymbol(), err.Error())
 	}
 
-	var f float64
+	var result interface{}
 
 	switch dt {
 	case types.Number, types.Float:
-		f = v.(float64) + right.dt.Value.(float64)
+		if right.dt.Primitive != primitives.Number {
+			return raiseError(tree.currentSymbol(), fmt.Sprintf(
+				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+		}
+		result = v.(float64) + right.dt.Value.(float64)
+
 	case types.Integer:
-		f = float64(v.(int)) + right.dt.Value.(float64)
-	default:
-		raiseError(tree.currentSymbol(), fmt.Sprintf(
+		if right.dt.Primitive != primitives.Number {
+			return raiseError(tree.currentSymbol(), fmt.Sprintf(
+				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+		}
+		result = float64(v.(int)) + right.dt.Value.(float64)
+
+	case types.Boolean, types.Null:
+		return raiseError(tree.currentSymbol(), fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
+
+	default:
+		if right.dt.Primitive != primitives.String {
+			return raiseError(tree.currentSymbol(), fmt.Sprintf(
+				"cannot %s %s to %s", tree.currentSymbol().key, right.dt.Primitive, dt))
+		}
+		result = v.(string) + right.dt.Value.(string)
 	}
 
-	err = tree.setVar(varName, f, right.dt.DataType())
+	err = tree.setVar(varName, result, right.dt.DataType())
 	if err != nil {
 		return raiseError(tree.currentSymbol(), err.Error())
 	}
@@ -107,7 +124,7 @@ func expAssignSubtract(tree *expTreeT) error {
 	varName := left.Value()
 	v, dt, err := tree.getVar(varName)
 	if err != nil {
-		raiseError(tree.currentSymbol(), err.Error())
+		return raiseError(tree.currentSymbol(), err.Error())
 	}
 
 	var f float64
@@ -118,7 +135,7 @@ func expAssignSubtract(tree *expTreeT) error {
 	case types.Integer:
 		f = float64(v.(int)) - right.dt.Value.(float64)
 	default:
-		raiseError(tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.currentSymbol(), fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 	}
 
@@ -156,7 +173,7 @@ func expAssignMultiply(tree *expTreeT) error {
 	varName := left.Value()
 	v, dt, err := tree.getVar(varName)
 	if err != nil {
-		raiseError(tree.currentSymbol(), err.Error())
+		return raiseError(tree.currentSymbol(), err.Error())
 	}
 
 	var f float64
@@ -167,7 +184,7 @@ func expAssignMultiply(tree *expTreeT) error {
 	case types.Integer:
 		f = float64(v.(int)) * right.dt.Value.(float64)
 	default:
-		raiseError(tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.currentSymbol(), fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 	}
 
@@ -205,7 +222,7 @@ func expAssignDivide(tree *expTreeT) error {
 	varName := left.Value()
 	v, dt, err := tree.getVar(varName)
 	if err != nil {
-		raiseError(tree.currentSymbol(), err.Error())
+		return raiseError(tree.currentSymbol(), err.Error())
 	}
 
 	var f float64
@@ -216,7 +233,7 @@ func expAssignDivide(tree *expTreeT) error {
 	case types.Integer:
 		f = float64(v.(int)) / right.dt.Value.(float64)
 	default:
-		raiseError(tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.currentSymbol(), fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 	}
 

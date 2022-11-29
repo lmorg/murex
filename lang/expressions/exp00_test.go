@@ -132,6 +132,10 @@ func TestExpressions(t *testing.T) {
 func TestStupidOffByOneErrorsInSubExpressions(t *testing.T) {
 	tests := []expressionTestT{
 		{
+			Expression: `bob = 1+1`,
+			Expected:   nil,
+		},
+		{
 			Expression: `10*(1+2)*10`,
 			Expected:   float64(300),
 		},

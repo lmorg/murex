@@ -3,7 +3,9 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func (tree *expTreeT) parse(exec bool) error {
@@ -87,12 +89,9 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '(':
 			// create sub expression
-			branch := newExpTree(tree.expression[tree.charPos+1:])
+			branch := newExpTree(tree.p, tree.expression[tree.charPos+1:])
 			branch.charOffset = tree.charPos + tree.charOffset
 			branch.isSubExp = true
-			branch.getVar = tree.getVar
-			branch.setVar = tree.setVar
-			//panic(string(branch.expression))
 			err := branch.parse(exec)
 			if err != nil {
 				return err
@@ -105,16 +104,11 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 			}
 			tree.charPos += branch.charPos + 1
-			/*panic(fmt.Sprintf("offsets: %d %d\nbranch: %d %s\ntree %d %s",
-			branch.charOffset, tree.charOffset,
-			branch.charPos, string(branch.expression),
-			tree.charPos, string(tree.expression)))*/
 
 		case ')':
 			//if tree.charOffset != 0 {
 			if tree.isSubExp {
 				// end sub expression
-				//tree.charPos--
 				return nil
 			}
 			tree.appendAst(symbols.SubExpressionEnd, r)
@@ -129,7 +123,13 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '[':
 			// create JSON array
-			// TODO
+			dt, nEscapes, err := tree.parseArray(exec)
+			if err != nil {
+				return err
+			}
+			tree.charPos -= nEscapes
+			tree.appendAstWithPrimitive(symbols.ArrayBegin, dt)
+			tree.charPos += nEscapes + 1
 
 		case ']':
 			// end JSON array
@@ -228,6 +228,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				value := tree.parseNumber(r)
 				tree.appendAst(symbols.Number, value...)
 				tree.charPos--
+
 			case isBareChar(r):
 				// bareword
 				value := tree.parseBareword()
@@ -245,6 +246,7 @@ func (tree *expTreeT) parse(exec bool) error {
 		}
 	}
 
+	tree.charPos--
 	return nil
 }
 
@@ -259,15 +261,13 @@ func (tree *expTreeT) parseNumber(first rune) []rune {
 		case (r >= '0' && '9' >= r) || r == '.':
 			value = append(value, r)
 
-		case r == ',':
-			// TODO: do nothing
-
 		default:
 			// not a number
-			return value
+			goto endNumber
 		}
 	}
 
+endNumber:
 	return value
 }
 
@@ -294,7 +294,7 @@ func (tree *expTreeT) parseString(quote rune) ([]rune, int, error) {
 
 		case r == quote:
 			// end quote
-			goto exit
+			goto endString
 
 		default:
 			// string
@@ -306,7 +306,7 @@ func (tree *expTreeT) parseString(quote rune) ([]rune, int, error) {
 		"missing closing quote (%s) at char %d:\n%s",
 		string([]rune{quote}), tree.charPos-len(value), string(append([]rune{quote}, value...)))
 
-exit:
+endString:
 	tree.charPos--
 	return value, nEscapes, nil
 }
@@ -327,12 +327,152 @@ func (tree *expTreeT) parseBareword() []rune {
 
 		default:
 			// not a valid bareword character
-			goto exit
+			goto endBareword
 		}
 	}
 
-exit:
+endBareword:
 	value := tree.expression[tree.charPos:i]
 	tree.charPos = i
 	return value
+}
+
+func (tree *expTreeT) parseVarScalar(exec bool) ([]rune, interface{}, string, error) {
+	tree.charPos++
+
+	value := tree.parseBareword()
+
+	if !exec {
+		// don't getVar() until we come to execute the expression, skip when only
+		// parsing syntax
+		return nil, nil, "", nil
+	}
+
+	v, dataType, err := tree.getVar(string(value))
+	return value, v, dataType, err
+}
+
+func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
+	tree.charPos++
+
+	value := tree.parseBareword()
+
+	if !exec {
+		// don't getVar() until we come to execute the expression, skip when only
+		// parsing syntax
+		return nil, nil, nil
+	}
+
+	v, err := tree.getArray(string(value))
+	return value, v, err
+}
+
+func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
+	var (
+		nEscapes int
+		value    = make([]rune, 0, len(tree.expression)-tree.charPos)
+		slice    []interface{}
+	)
+
+	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch r {
+		case '\'', '"':
+			str, i, err := tree.parseString(r)
+			value = append(value, str...)
+			nEscapes += i
+			if err != nil {
+				return nil, 0, err
+			}
+			tree.charPos++
+
+		case '[':
+			// start nested array
+			dt, i, err := tree.parseArray(exec)
+			if err != nil {
+				return nil, 0, err
+			}
+			nEscapes += i
+			slice = append(slice, dt.Value)
+			tree.charPos++
+
+		case ']':
+			// end array
+			if len(value) != 0 {
+				slice = append(slice, string(value))
+			}
+			goto endArray
+
+		case '$':
+			// inline scalar
+			_, v, dataType, err := tree.parseVarScalar(exec)
+			if err != nil {
+				return nil, 0, err
+			}
+			switch dataType {
+			case types.Number, types.Integer, types.Boolean, types.Float:
+				slice = append(slice, v)
+			default:
+				slice = append(slice, v)
+			}
+			tree.charPos--
+
+		case '@':
+			// inline array
+			name, v, err := tree.parseVarArray(exec)
+			if err != nil {
+				return nil, 0, err
+			}
+			switch t := v.(type) {
+			case nil:
+				slice = append(slice, t)
+			case []interface{}:
+				slice = append(slice, t...)
+			case []string, []float64, []int:
+				slice = append(slice, v.([]interface{})...)
+			default:
+				return nil, 0, fmt.Errorf(
+					"cannot expand %T into an array type\nVariable name: @%s",
+					t, string(name))
+			}
+			tree.charPos--
+
+		case ',', ' ', '\t', '\r', '\n':
+			if len(value) == 0 {
+				continue
+			}
+			slice = append(slice, string(value))
+			value = make([]rune, 0, len(tree.expression)-tree.charPos)
+
+		default:
+			switch {
+			case r >= '0' && '9' >= r:
+				// number
+				value := tree.parseNumber(r)
+				tree.charPos--
+				v, err := types.ConvertGoType(value, types.Number)
+				if err != nil {
+					return nil, 0, err
+				}
+				slice = append(slice, v)
+			default:
+				// string
+				value = append(value, r)
+				tree.charPos--
+			}
+		}
+	}
+
+	return nil, 0, fmt.Errorf(
+		"missing closing square bracket (]) at char %d:\n%s",
+		tree.charPos-len(value), string(append([]rune{'['}, value...)))
+
+endArray:
+	tree.charPos--
+	dt := &primitives.DataType{
+		Primitive: primitives.Array,
+		Value:     slice,
+	}
+	return dt, nEscapes, nil
 }
