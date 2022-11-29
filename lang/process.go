@@ -214,7 +214,8 @@ func executeProcess(p *Process) {
 	//debug.Json("Execute process ()", p)
 	testStates(p)
 
-	if p.HasTerminated() || p.Parent.HasCancelled() {
+	if p.HasTerminated() || p.HasCancelled() ||
+		/*p.Parent.HasTerminated() || */ p.Parent.HasCancelled() {
 		destroyProcess(p)
 		return
 	}

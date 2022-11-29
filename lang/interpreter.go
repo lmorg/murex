@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/state"
 )
 
-func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
+func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 	if parent == nil {
 		panic("nil parent")
 	}
@@ -53,7 +53,7 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		*tree = (*tree)[1:]
 	}
 
-	procs = make([]Process, len(*tree))
+	procs := make([]Process, len(*tree))
 
 	for i := range *tree {
 		procs[i].State.Set(state.MemAllocated)
@@ -70,13 +70,11 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = parent.Variables
 		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
-		//procs[i].Done = func() {}
-		//procs[i].Kill = func() {}
 		procs[i].PromptId = parent.PromptId
 		procs[i].CCEvent = parent.CCEvent
 		procs[i].CCExists = parent.CCExists
-
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
+		procs[i].Forks = NewForkManagement()
 
 		if (*tree)[i].LineNumber == 0 {
 			procs[i].FileRef.Column = (*tree)[i].ColNumber + parent.FileRef.Column
@@ -133,8 +131,7 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		switch {
 		case (*tree)[i].PipeOut:
 			if i+1 == len(procs) {
-				errNo = ErrPipingToNothing
-				return
+				return nil, ErrPipingToNothing
 			}
 			procs[i+1].Stdin = streams.NewStdin()
 			procs[i].Stdout = procs[i].Next.Stdin
@@ -142,8 +139,7 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 
 		case (*tree)[i].PipeErr:
 			if i+1 == len(procs) {
-				errNo = ErrPipingToNothing
-				return
+				return nil, ErrPipingToNothing
 			}
 			procs[i+1].Stdin = streams.NewStdin()
 			procs[i].Stdout = procs[i].Parent.Stderr //Stdout
@@ -167,5 +163,5 @@ func compile(tree *AstNodes, parent *Process) (procs []Process, errNo int) {
 		createProcess(&procs[i], !(*tree)[i].NewChain)
 	}
 
-	return
+	return &procs, 0
 }

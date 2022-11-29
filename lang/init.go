@@ -51,6 +51,7 @@ func InitEnv() {
 	ShellProcess.Context = context.Background()
 	ShellProcess.Done = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
+	ShellProcess.Forks = NewForkManagement()
 
 	if FlagTry {
 		ShellProcess.RunMode = runmode.ModuleTry
