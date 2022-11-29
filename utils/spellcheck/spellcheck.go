@@ -61,7 +61,8 @@ func String(line string) (string, error) {
 			return
 		}
 
-		if lang.ShellProcess.Variables.GetValue(sWord) != nil {
+		v, _ := lang.ShellProcess.Variables.GetValue(sWord)
+		if v != nil {
 			return
 		}
 

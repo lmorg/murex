@@ -38,6 +38,10 @@ var FalseByte = []byte(FalseString)
 // IsTrue checks if a process has returned a `true` state.
 // This will check a few conditions as not every external process will return a non-zero exit number on a failure.
 func IsTrue(stdout []byte, exitNum int) bool {
+	return IsTrueString(string(stdout), exitNum)
+}
+
+func IsTrueString(stdout string, exitNum int) bool {
 	switch {
 	case exitNum > 0:
 		return false
@@ -46,7 +50,7 @@ func IsTrue(stdout []byte, exitNum int) bool {
 		return true
 
 	default:
-		s := strings.ToLower(strings.TrimSpace(string(stdout)))
+		s := strings.ToLower(strings.TrimSpace(stdout))
 		if len(s) == 0 || s == "null" || s == "0" || s == "false" || s == "no" || s == "off" || s == "fail" || s == "failed" || s == "disabled" {
 			return false
 		}
