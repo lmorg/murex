@@ -107,10 +107,10 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		ignoreWhitespace = true
 	}
 
-	pUpdate := func(r rune) {
+	pUpdate := func(r ...rune) {
 		if !scanFuncName && pToken.Type == parameters.TokenTypeNil {
 
-			if r == '<' && last != '\\' &&
+			if r[0] == '<' && last != '\\' &&
 				!quoteSingle && !quoteDouble && quoteBrace == 0 {
 				pToken.Type = parameters.TokenTypeNamedPipe
 			} else {
@@ -154,6 +154,16 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	}
 
 	for ; i < len(block); i++ {
+		if scanFuncName && !escaped {
+			newPos, err := ChainParser(block, i)
+			if err == nil {
+				*pop = ParserExpressions
+				startParameters()
+				ignoreWhitespace = false
+				pUpdate(block[i : i+newPos]...)
+				i += newPos
+			}
+		}
 		r = block[i]
 		colNumber++
 
@@ -498,7 +508,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				startParameters()
 
 			default:
-				if pCount == 0 && len(node.Name) > 0 && isAlphaNumeric(node.Name) {
+				/*if pCount == 0 && len(node.Name) > 0 && isAlphaNumeric(node.Name) {
 					if len(*pop) == 0 {
 						expression := append([]rune(node.Name+" "), block[i:]...)
 						adjust, err := ChainParser(expression, i)
@@ -535,9 +545,9 @@ func parser(block []rune) (*AstNodes, ParserError) {
 					} else {
 						pUpdate(r)
 					}
-				} else {
-					pUpdate(r)
-				}
+				} else {*/
+				pUpdate(r)
+				//}
 			}
 
 		case '[':

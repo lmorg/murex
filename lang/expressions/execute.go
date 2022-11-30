@@ -1,6 +1,7 @@
 package expressions
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/primitives"
@@ -54,6 +55,13 @@ func validateExpression(tree *expTreeT) error {
 	// first walk to ensure we have a:
 	// value, expression, value, expression, value....etc
 
+	if len(tree.ast) == 0 {
+		return errors.New("missing expression")
+	}
+	if len(tree.ast) == 1 {
+		return errors.New("not an expression")
+	}
+
 	var expectValue bool
 
 	for tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
@@ -83,6 +91,10 @@ func validateExpression(tree *expTreeT) error {
 		} else {
 			if node.key < symbols.Operations {
 				return raiseError(node, "expecting an operation")
+			}
+			if node.key == symbols.Subtract &&
+				(tree.prevSymbol().key != symbols.Number || tree.nextSymbol().key != symbols.Number) {
+				return raiseError(node, "cannot subtract non-numeric data types")
 			}
 		}
 	}

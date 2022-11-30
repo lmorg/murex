@@ -3,9 +3,7 @@ package expressions
 import (
 	"fmt"
 
-	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
-	"github.com/lmorg/murex/lang/types"
 )
 
 func (tree *expTreeT) parse(exec bool) error {
@@ -113,29 +111,31 @@ func (tree *expTreeT) parse(exec bool) error {
 			}
 			tree.appendAst(symbols.SubExpressionEnd, r)
 
-		case '{':
-			// create JSON object
-			// TODO
-
-		case '}':
-			// end JSON object
-			tree.appendAst(symbols.ObjectEnd, r)
-
-		case '[':
-			// create JSON array
-			dt, nEscapes, err := tree.parseArray(exec)
-			if err != nil {
-				return err
+		case '%':
+			switch tree.nextChar() {
+			case '[':
+				tree.charPos++
+				tree.createArrayAst(exec)
+			default:
+				tree.appendAst(symbols.Unexpected, r)
 			}
-			tree.charPos -= nEscapes
-			tree.appendAstWithPrimitive(symbols.ArrayBegin, dt)
-			tree.charPos += nEscapes + 1
+
+		//case '[':
+		//	tree.createArrayAst(exec)
 
 		case ']':
 			// end JSON array
 			tree.appendAst(symbols.ArrayEnd, r)
 
-		case '\'':
+		//case '{':
+		// create JSON object
+		// TODO
+
+		case '}':
+			// end JSON object
+			tree.appendAst(symbols.ObjectEnd, r)
+
+		case '\'', '`':
 			// start string / end string
 			value, nEscapes, err := tree.parseString(r)
 			if err != nil {
@@ -157,12 +157,17 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '$':
 			// start scalar
+			_, v, mxDt, err := tree.parseVarScalar(exec)
+			if err != nil {
+				return err
+			}
+			dt := scalar2Primitive(mxDt)
+			dt.Value = v
+			tree.appendAstWithPrimitive(symbols.Calculated, dt)
+			tree.charPos--
 
-		case '@':
-			// start array
-
-		case '%':
-			// start object
+		/*case '@':
+		// start array*/
 
 		case '+':
 			switch tree.nextChar() {
@@ -365,114 +370,4 @@ func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 
 	v, err := tree.getArray(string(value))
 	return value, v, err
-}
-
-func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
-	var (
-		nEscapes int
-		value    = make([]rune, 0, len(tree.expression)-tree.charPos)
-		slice    []interface{}
-	)
-
-	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
-		r := tree.expression[tree.charPos]
-
-		switch r {
-		case '\'', '"':
-			str, i, err := tree.parseString(r)
-			value = append(value, str...)
-			nEscapes += i
-			if err != nil {
-				return nil, 0, err
-			}
-			tree.charPos++
-
-		case '[':
-			// start nested array
-			dt, i, err := tree.parseArray(exec)
-			if err != nil {
-				return nil, 0, err
-			}
-			nEscapes += i
-			slice = append(slice, dt.Value)
-			tree.charPos++
-
-		case ']':
-			// end array
-			if len(value) != 0 {
-				slice = append(slice, string(value))
-			}
-			goto endArray
-
-		case '$':
-			// inline scalar
-			_, v, dataType, err := tree.parseVarScalar(exec)
-			if err != nil {
-				return nil, 0, err
-			}
-			switch dataType {
-			case types.Number, types.Integer, types.Boolean, types.Float:
-				slice = append(slice, v)
-			default:
-				slice = append(slice, v)
-			}
-			tree.charPos--
-
-		case '@':
-			// inline array
-			name, v, err := tree.parseVarArray(exec)
-			if err != nil {
-				return nil, 0, err
-			}
-			switch t := v.(type) {
-			case nil:
-				slice = append(slice, t)
-			case []interface{}:
-				slice = append(slice, t...)
-			case []string, []float64, []int:
-				slice = append(slice, v.([]interface{})...)
-			default:
-				return nil, 0, fmt.Errorf(
-					"cannot expand %T into an array type\nVariable name: @%s",
-					t, string(name))
-			}
-			tree.charPos--
-
-		case ',', ' ', '\t', '\r', '\n':
-			if len(value) == 0 {
-				continue
-			}
-			slice = append(slice, string(value))
-			value = make([]rune, 0, len(tree.expression)-tree.charPos)
-
-		default:
-			switch {
-			case r >= '0' && '9' >= r:
-				// number
-				value := tree.parseNumber(r)
-				tree.charPos--
-				v, err := types.ConvertGoType(value, types.Number)
-				if err != nil {
-					return nil, 0, err
-				}
-				slice = append(slice, v)
-			default:
-				// string
-				value = append(value, r)
-				tree.charPos--
-			}
-		}
-	}
-
-	return nil, 0, fmt.Errorf(
-		"missing closing square bracket (]) at char %d:\n%s",
-		tree.charPos-len(value), string(append([]rune{'['}, value...)))
-
-endArray:
-	tree.charPos--
-	dt := &primitives.DataType{
-		Primitive: primitives.Array,
-		Value:     slice,
-	}
-	return dt, nEscapes, nil
 }

@@ -32,5 +32,10 @@ func ChainParser(expression []rune, offset int) (int, error) {
 		return 0, err
 	}
 
+	err = validateExpression(tree)
+	if err != nil {
+		return 0, err
+	}
+
 	return tree.charPos, nil
 }

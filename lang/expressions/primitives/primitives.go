@@ -43,3 +43,4 @@ func (dt *DataType) DataType() string {
 		return types.Generic
 	}
 }
+
