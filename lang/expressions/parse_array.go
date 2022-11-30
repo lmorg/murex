@@ -112,7 +112,6 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 			default:
 				// string
 				value = append(value, r)
-				tree.charPos--
 			}
 		}
 	}
