@@ -1,7 +1,6 @@
 package defaults_test
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/lmorg/murex/config"
@@ -12,10 +11,11 @@ import (
 func TestDefaultProfileNotEmpty(t *testing.T) {
 	count.Tests(t, 1)
 
-	s := string(defaults.DefaultMurexProfile())
+	/*s := string(defaults.DefaultMurexProfile())
 	if strings.TrimSpace(s) == "" {
 		t.Error("Empty default profile")
-	}
+	}*/
+	t.Error("TODO: fix me!")
 
 }
 

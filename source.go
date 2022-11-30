@@ -76,8 +76,14 @@ func execSource(source []rune, sourceRef *ref.Source) {
 }
 
 func defaultProfile() {
-	//os.Stderr.WriteString("Loading default profile" + utils.NewLineString)
-	source := defaults.DefaultMurexProfile()
+	/*source := defaults.DefaultMurexProfile()
 	ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-	execSource(defaults.DefaultMurexProfile(), ref)
+	execSource(defaults.DefaultMurexProfile(), ref)*/
+
+	defaults.AddMurexProfile()
+
+	for _, profile := range defaults.DefaultProfiles {
+		ref := ref.History.AddSource("(builtin)", "builtin/"+profile.Name, profile.Block)
+		execSource([]rune(string(profile.Block)), ref)
+	}
 }
