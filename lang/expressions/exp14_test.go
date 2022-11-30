@@ -28,23 +28,23 @@ func TestExpAssign(t *testing.T) {
 func TestExpAssignAdd(t *testing.T) {
 	tests := []expressionTestT{
 		{
-			Expression: `foo += 5`,
+			Expression: `TestExpAssignAdd0 += 5`,
 			Expected:   nil,
 		},
 		{
-			Expression: `foo += "bar"`,
+			Expression: `TestExpAssignAdd1 += "bar"`,
 			Expected:   nil,
 		},
 		{
-			Expression: `foo += bar`,
+			Expression: `TestExpAssignAdd2 += bar`,
 			Error:      true,
 		},
 		{
-			Expression: `foo += true`,
+			Expression: `TestExpAssignAdd3 += true`,
 			Error:      true,
 		},
 		{
-			Expression: `foo += >`,
+			Expression: `TestExpAssignAdd4 += >`,
 			Error:      true,
 		},
 	}
@@ -55,23 +55,23 @@ func TestExpAssignAdd(t *testing.T) {
 func TestExpAssignSubtract(t *testing.T) {
 	tests := []expressionTestT{
 		{
-			Expression: `foo -= 5`,
+			Expression: `TestExpAssignSubtract0 -= 5`,
 			Expected:   nil,
 		},
 		{
-			Expression: `foo -= "bar"`,
+			Expression: `TestExpAssignSubtract1 -= "bar"`,
 			Error:      true,
 		},
 		{
-			Expression: `foo -= bar`,
+			Expression: `TestExpAssignSubtract2 -= bar`,
 			Error:      true,
 		},
 		{
-			Expression: `foo -= true`,
+			Expression: `TestExpAssignSubtract3 -= true`,
 			Error:      true,
 		},
 		{
-			Expression: `foo -= >`,
+			Expression: `TestExpAssignSubtract4 -= >`,
 			Error:      true,
 		},
 	}
@@ -82,23 +82,23 @@ func TestExpAssignSubtract(t *testing.T) {
 func TestExpAssignMultiply(t *testing.T) {
 	tests := []expressionTestT{
 		{
-			Expression: `foo *= 5`,
+			Expression: `TestExpAssignMultiply0 *= 5`,
 			Expected:   nil,
 		},
 		{
-			Expression: `foo *= "bar"`,
+			Expression: `TestExpAssignMultiply1 *= "bar"`,
 			Error:      true,
 		},
 		{
-			Expression: `foo *= bar`,
+			Expression: `TestExpAssignMultiply2 *= bar`,
 			Error:      true,
 		},
 		{
-			Expression: `foo *= true`,
+			Expression: `TestExpAssignMultiply3 *= true`,
 			Error:      true,
 		},
 		{
-			Expression: `foo *= >`,
+			Expression: `TestExpAssignMultiply4 *= >`,
 			Error:      true,
 		},
 	}
@@ -109,23 +109,23 @@ func TestExpAssignMultiply(t *testing.T) {
 func TestExpAssignDivide(t *testing.T) {
 	tests := []expressionTestT{
 		{
-			Expression: `foo /= 5`,
+			Expression: `TestExpAssignDivide0 /= 5`,
 			Expected:   nil,
 		},
 		{
-			Expression: `foo /= "bar"`,
+			Expression: `TestExpAssignDivide1 /= "bar"`,
 			Error:      true,
 		},
 		{
-			Expression: `foo /= bar`,
+			Expression: `TestExpAssignDivide2 /= bar`,
 			Error:      true,
 		},
 		{
-			Expression: `foo /= true`,
+			Expression: `TestExpAssignDivide3 /= true`,
 			Error:      true,
 		},
 		{
-			Expression: `foo /= >`,
+			Expression: `TestExpAssignDivide4 /= >`,
 			Error:      true,
 		},
 	}

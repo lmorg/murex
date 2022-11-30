@@ -23,7 +23,7 @@ func expMultiply(tree *expTreeT) error {
 	switch left.dt.Primitive {
 	case primitives.Number:
 		return tree.foldAst(&astNodeT{
-			key: symbols.Calculated,
+			key: symbols.Number,
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,
@@ -55,7 +55,7 @@ func expDivide(tree *expTreeT) error {
 	switch left.dt.Primitive {
 	case primitives.Number:
 		return tree.foldAst(&astNodeT{
-			key: symbols.Calculated,
+			key: symbols.Number,
 			pos: tree.ast[tree.astPos].pos,
 			dt: &primitives.DataType{
 				Primitive: primitives.Number,

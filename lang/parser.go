@@ -154,7 +154,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	}
 
 	for ; i < len(block); i++ {
-		if scanFuncName && !escaped {
+		if scanFuncName && !escaped && ChainParser != nil {
 			newPos, err := ChainParser(block, i)
 			if err == nil {
 				*pop = ParserExpressions

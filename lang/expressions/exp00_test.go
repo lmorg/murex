@@ -156,7 +156,7 @@ func TestStupidOffByOneErrorsInSubExpressions(t *testing.T) {
 			Expected:   float64(1208),
 		},
 		{
-			Expression: `(2*((10*(1+2)*10)+2)*2)`,
+			Expression: `1+(2*((10*(1+2)*10)+2)*2)-1`,
 			Expected:   float64(1208),
 		},
 	}

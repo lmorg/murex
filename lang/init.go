@@ -102,6 +102,7 @@ func NewTestProcess() (p *Process) {
 	p.Scope = ShellProcess
 	p.Next = ShellProcess
 	p.Previous = ShellProcess
+	p.Forks = NewForkManagement()
 
 	GlobalFIDs.Register(p)
 

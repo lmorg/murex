@@ -17,7 +17,7 @@ func expEqualTo(tree *expTreeT) error {
 	}
 
 	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
+		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
@@ -33,7 +33,7 @@ func expNotEqualTo(tree *expTreeT) error {
 	}
 
 	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
+		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
@@ -62,7 +62,7 @@ func expLike(tree *expTreeT, eq bool) error {
 	rightL = strings.TrimSpace(strings.ToLower(rightL.(string)))
 
 	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
+		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
@@ -95,7 +95,7 @@ func expRegexp(tree *expTreeT, eq bool) error {
 	}
 
 	return tree.foldAst(&astNodeT{
-		key: symbols.Calculated,
+		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,

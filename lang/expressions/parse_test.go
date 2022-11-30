@@ -3,6 +3,7 @@ package expressions
 import (
 	"testing"
 
+	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
@@ -85,8 +86,13 @@ func testExpression(t *testing.T, tests []expressionTestT) {
 
 	count.Tests(t, len(tests))
 
+	lang.InitEnv()
+	defaults.Config(lang.ShellProcess.Config, false)
+	p := lang.NewTestProcess()
+	p.Config.Set("proc", "strict-vars", false, nil)
+
 	for i, test := range tests {
-		tree := newExpTree(lang.NewTestProcess(), []rune(test.Expression))
+		tree := newExpTree(p, []rune(test.Expression))
 
 		err := tree.parse(true)
 		if err != nil {

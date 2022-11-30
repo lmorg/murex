@@ -11,12 +11,9 @@ import (
 func TestDefaultProfileNotEmpty(t *testing.T) {
 	count.Tests(t, 1)
 
-	/*s := string(defaults.DefaultMurexProfile())
-	if strings.TrimSpace(s) == "" {
+	if len(defaults.DefaultProfiles) == 0 {
 		t.Error("Empty default profile")
-	}*/
-	t.Error("TODO: fix me!")
-
+	}
 }
 
 func TestDefaultConfigLoads(t *testing.T) {

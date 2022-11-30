@@ -2,6 +2,7 @@ package expressions
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
@@ -52,13 +53,13 @@ func validateExpression(tree *expTreeT) error {
 			}
 
 			switch node.key {
-			case symbols.Add:
+			case symbols.Add, symbols.GreaterThan, symbols.LessThan:
 				if tree.prevSymbol().key == symbols.Bareword || tree.nextSymbol().key == symbols.Bareword {
-					return raiseError(node, "cannot add barewords")
+					return raiseError(node, fmt.Sprintf("cannot %s barewords", node.key))
 				}
 			case symbols.Subtract, symbols.Divide, symbols.Multiply:
 				if tree.prevSymbol().key != symbols.Number || tree.nextSymbol().key != symbols.Number {
-					return raiseError(node, "cannot subtract non-numeric data types")
+					return raiseError(node, fmt.Sprintf("cannot %s non-numeric data types", node.key))
 				}
 			}
 		}

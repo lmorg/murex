@@ -50,7 +50,7 @@ func VariableTests(tests []Test, t *testing.T) {
 		value, err := fork.Variables.GetString(tests[i].Name)
 		dataType := fork.Variables.GetDataType(tests[i].Name)
 
-		if err != nil {
+		if (err != nil) != tests[i].Fail {
 			t.Errorf("Test %d failed on %s:", i, t.Name())
 			t.Logf("  code block:    %s", tests[i].Block)
 			t.Logf("  variable name: %s", tests[i].Name)

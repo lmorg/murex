@@ -1,6 +1,7 @@
 package expressions
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
@@ -100,6 +101,8 @@ func (tree *expTreeT) parse(exec bool) error {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
+			} else {
+				tree.appendAst(symbols.SubExpressionBegin)
 			}
 			tree.charPos += branch.charPos + 1
 
@@ -187,9 +190,8 @@ func (tree *expTreeT) parse(exec bool) error {
 				// equal subtract
 				tree.appendAst(symbols.AssignAndSubtract)
 				tree.charPos++
-			case c > '0' && '9' > c:
-				prev := tree.prevSymbol()
-				if prev == nil || prev.key > symbols.Operations {
+			case c >= '0' && '9' >= c:
+				if len(tree.ast) == 0 || tree.ast[len(tree.ast)-1].key > symbols.Operations {
 					// number
 					value := tree.parseNumber(r)
 					tree.appendAst(symbols.Number, value...)
@@ -345,6 +347,10 @@ endBareword:
 func (tree *expTreeT) parseVarScalar(exec bool) ([]rune, interface{}, string, error) {
 	tree.charPos++
 
+	if !isBareChar(tree.nextChar()) {
+		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
+	}
+
 	value := tree.parseBareword()
 
 	if !exec {
@@ -359,6 +365,10 @@ func (tree *expTreeT) parseVarScalar(exec bool) ([]rune, interface{}, string, er
 
 func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	tree.charPos++
+
+	if !isBareChar(tree.nextChar()) {
+		return nil, nil, errors.New("'@' symbol found but no variable name followed")
+	}
 
 	value := tree.parseBareword()
 
