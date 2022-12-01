@@ -8,13 +8,19 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func raiseError(node *astNodeT, message string) error {
+func raiseError(expression []rune, node *astNodeT, message string) error {
 	if node == nil {
 		return fmt.Errorf("nil ast (%s)", consts.IssueTrackerURL)
 	}
 
-	return fmt.Errorf("%s at char %d\nExpression: %s\nValue     : '%s'",
-		message, node.pos+1, node.key.String(), node.Value())
+	if expression != nil {
+		return fmt.Errorf("%s at char %d\nExpression: '%s'\nSymbol    : %s\nValue     : '%s'",
+			message, node.pos+1, string(expression), node.key.String(), node.Value())
+	} else {
+		return fmt.Errorf("%s at char %d\nSymbol    : %s\nValue     : '%s'",
+			message, node.pos+1, node.key.String(), node.Value())
+
+	}
 }
 
 var errMessage = map[symbols.Exp]string{
@@ -82,7 +88,7 @@ var orderOfOperations = []symbols.Exp{
 }
 
 func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
-	for /*i := 0;*/ tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
+	for tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
 		node := tree.ast[tree.astPos]
 
 		if node.key < order {
@@ -150,7 +156,7 @@ func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
 		// 01. Function call, scope, array/member access
 
 		default:
-			err = raiseError(node, fmt.Sprintf(
+			err = raiseError(tree.expression, node, fmt.Sprintf(
 				"no code written to handle symbol (%s)",
 				consts.IssueTrackerURL,
 			))

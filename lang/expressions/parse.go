@@ -14,7 +14,7 @@ func (tree *expTreeT) parse(exec bool) error {
 		case ' ', '\t', '\r':
 			// whitespace. do nothing
 
-		case '\n', ';':
+		case '\n', ';', '|':
 			// end expression
 			tree.charPos--
 			return nil
@@ -29,6 +29,10 @@ func (tree *expTreeT) parse(exec bool) error {
 				// regexp
 				tree.appendAst(symbols.Regexp)
 				tree.charPos++
+			case '>':
+				// generic pipe
+				//tree.charPos--
+				return nil
 			default:
 				// assign value
 				tree.appendAst(symbols.Assign)
@@ -200,6 +204,10 @@ func (tree *expTreeT) parse(exec bool) error {
 					// subtract
 					tree.appendAst(symbols.Subtract)
 				}
+			case c == '>':
+				// arrow pipe
+				//tree.charPos--
+				return nil
 			default:
 				tree.appendAst(symbols.Subtract)
 				// invalid hyphen

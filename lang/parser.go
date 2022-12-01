@@ -154,14 +154,32 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	}
 
 	for ; i < len(block); i++ {
-		if scanFuncName && !escaped && ChainParser != nil {
-			newPos, err := ChainParser(block, i)
+		if scanFuncName && len(node.Name) == 0 && ChainParser != nil && !commentLine &&
+			!escaped && !quoteSingle && !quoteDouble && quoteBrace == 0 && braceCount == 0 {
+			newPos, err := ChainParser(block[i:], 0)
 			if err == nil {
-				*pop = ParserExpressions
+				/*//*pop = ParserExpressions
+				pUpdate([]rune(ParserExpressions)...)
 				startParameters()
-				ignoreWhitespace = false
 				pUpdate(block[i : i+newPos]...)
-				i += newPos
+				i += newPos - 1
+				last = block[i]
+				ignoreWhitespace = true*/
+
+				/*node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
+				pCount++
+				pToken = &node.ParamTokens[pCount][0]
+				pop = &pToken.Key*/
+
+				//panic(json.LazyLoggingPretty(node))
+
+				startParameters()
+				pToken.Type = parameters.TokenTypeValue
+				*pop = string(block[i : i+newPos])
+				node.Name = ParserExpressions
+				i += newPos - 1
+				//defer func() { fmt.Println(json.LazyLoggingPretty(node)) }()
+				continue
 			}
 		}
 		r = block[i]
@@ -508,7 +526,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				startParameters()
 
 			default:
-				/*if pCount == 0 && len(node.Name) > 0 && isAlphaNumeric(node.Name) {
+				/*if pCount == 0 && len(node.Name) > 0 && isAlfphaNumeric(node.Name) {
 					if len(*pop) == 0 {
 						expression := append([]rune(node.Name+" "), block[i:]...)
 						adjust, err := ChainParser(expression, i)
@@ -634,7 +652,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
-			case !scanFuncName && last != ' ':
+			case !scanFuncName && last != ' ' && last != '\t':
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]

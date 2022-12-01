@@ -25,9 +25,18 @@ func init() {
 // This function just parses the expression and returns the end of the
 // expression.
 func ChainParser(expression []rune, offset int) (int, error) {
+	var err error
 	tree := newExpTree(nil, expression)
+
+	/*defer func() {
+		fmt.Printf("%s: %v %s",
+			string(expression),
+			err,
+			json.LazyLoggingPretty(tree.Dump()))
+	}()*/
+
 	tree.charOffset = offset
-	err := tree.parse(false)
+	err = tree.parse(false)
 	if err != nil {
 		return 0, err
 	}
