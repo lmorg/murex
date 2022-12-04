@@ -219,8 +219,8 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)
 * [commands/`while`](../commands/while.md):
   Loop until condition false

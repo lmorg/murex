@@ -62,13 +62,13 @@ scope. Subshells also do not create a new scoping either.
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`openagent`](../commands/openagent.md):
   Creates a handler function for `open
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
 * [commands/`switch`](../commands/switch.md):

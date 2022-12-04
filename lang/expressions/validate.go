@@ -17,16 +17,18 @@ func validateExpression(tree *expTreeT) error {
 		return errors.New("missing expression")
 	}
 	if len(tree.ast) == 1 &&
-		tree.ast[0].key != symbols.ArrayBegin && tree.ast[0].key != symbols.ObjectBegin {
+		tree.ast[0].key != symbols.ArrayBegin && tree.ast[0].key != symbols.ObjectBegin &&
+		tree.ast[0].key != symbols.SubExpressionBegin && tree.ast[0].key != symbols.Calculated {
 		return fmt.Errorf("not an expression: '%s'", string(tree.expression))
 	}
 
 	var expectValue bool
 
 	for tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
-		node := tree.ast[tree.astPos]
 		prev := tree.prevSymbol()
+		node := tree.ast[tree.astPos]
 		next := tree.nextSymbol()
+
 		expectValue = !expectValue
 
 		// check for errors raised by the parser
@@ -36,7 +38,8 @@ func validateExpression(tree *expTreeT) error {
 
 		// check each operation has a left side and right side data value
 		if expectValue {
-			if node.key < symbols.DataValues || node.key > symbols.Operations {
+			if (node.key < symbols.DataValues) ||
+				node.key > symbols.Operations {
 				return raiseError(tree.expression, node, "expecting a data value")
 			}
 
@@ -61,12 +64,13 @@ func validateExpression(tree *expTreeT) error {
 					return raiseError(tree.expression, node, fmt.Sprintf("cannot %s barewords", node.key))
 				}
 			case symbols.Subtract, symbols.Divide, symbols.Multiply:
-				if prev == nil || prev.key != symbols.Number ||
-					next == nil || next.key != symbols.Number {
+				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated) ||
+					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated) {
 					return raiseError(tree.expression, node, fmt.Sprintf("cannot %s non-numeric data types", node.key))
 				}
 			}
 		}
+
 	}
 
 	if !expectValue {

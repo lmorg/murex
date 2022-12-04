@@ -3,33 +3,22 @@ package expressions
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/json"
 )
 
-func raiseError(expression []rune, node *astNodeT, message string) error {
-	if node == nil {
-		return fmt.Errorf("nil ast (%s)", consts.IssueTrackerURL)
+func Execute(p *lang.Process, expression []rune) (*primitives.DataType, error) {
+	tree := newExpTree(p, expression)
+
+	err := tree.parse(true)
+	if err != nil {
+		return nil, err
 	}
 
-	if expression != nil {
-		return fmt.Errorf("%s at char %d\nExpression: '%s'\nSymbol    : %s\nValue     : '%s'",
-			message, node.pos+1, string(expression), node.key.String(), node.Value())
-	} else {
-		return fmt.Errorf("%s at char %d\nSymbol    : %s\nValue     : '%s'",
-			message, node.pos+1, node.key.String(), node.Value())
-
-	}
-}
-
-var errMessage = map[symbols.Exp]string{
-	symbols.Undefined:        "parser error",
-	symbols.Unexpected:       "unexpected symbol",
-	symbols.SubExpressionEnd: "more closing parenthesis then opening parenthesis",
-	symbols.ObjectEnd:        "more closing curly braces then opening braces",
-	symbols.ArrayEnd:         "more closing square brackets then opening brackets",
-	symbols.InvalidHyphen:    "unexpected hyphen",
+	return tree.execute()
 }
 
 func (tree *expTreeT) execute() (*primitives.DataType, error) {
@@ -47,7 +36,8 @@ func (tree *expTreeT) execute() (*primitives.DataType, error) {
 
 	if len(tree.ast) > 1 {
 		return nil, fmt.Errorf(
-			"expression failed to execute correctly. %s",
+			"expression failed to execute correctly (AST results > 1).\n%s\n%s",
+			json.LazyLoggingPretty(tree.Dump()),
 			consts.IssueTrackerURL)
 	}
 
@@ -88,7 +78,19 @@ var orderOfOperations = []symbols.Exp{
 }
 
 func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
+	defer func() {
+		if err := recover(); err != nil {
+			err = fmt.Errorf("panic caught: %v\nExpression: %s\nnode: %d\nAST: %s",
+				err,
+				string(tree.expression),
+				tree.astPos,
+				json.LazyLoggingPretty(tree.Dump()))
+
+		}
+	}()
+
 	for tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
+		//fmt.Println(tree.astPos, json.LazyLogging(tree.Dump()))
 		node := tree.ast[tree.astPos]
 
 		if node.key < order {
@@ -158,13 +160,14 @@ func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
 		default:
 			err = raiseError(tree.expression, node, fmt.Sprintf(
 				"no code written to handle symbol (%s)",
-				consts.IssueTrackerURL,
-			))
+				consts.IssueTrackerURL))
 		}
 
 		if err != nil {
 			return err
 		}
+
+		tree.astPos = 0
 	}
 
 	return nil

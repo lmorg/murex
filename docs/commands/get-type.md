@@ -58,6 +58,6 @@ Get the data-type of a _murex_ named pipe
 * [commands/`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)
 * [commands/`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

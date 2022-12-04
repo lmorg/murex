@@ -40,6 +40,15 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 			}
 			tree.charPos++
 
+		case '%':
+			switch tree.nextChar() {
+			case '[':
+
+			default:
+				// string
+				value = append(value, r)
+			}
+
 		case '[':
 			// start nested array
 			dt, i, err := tree.parseArray(exec)

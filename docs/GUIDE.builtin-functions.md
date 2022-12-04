@@ -50,7 +50,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`<stdin>` ](commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`=` (arithmetic evaluation)](commands/equ.md):
-  Evaluate a mathematical function
+  Evaluate a mathematical function (deprecated)
 * [`>>` (append file)](commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
@@ -127,6 +127,8 @@ to return the same markdown-formatted document as those listed below. eg
   Output the exit number of the previous process
 * [`export`](commands/export.md):
   Define an environmental variable and set it's value
+* [`expr`](commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [`f`](commands/f.md):
   Lists or filters file system objects (eg files)
 * [`false`](commands/false.md):
@@ -172,7 +174,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`left`](commands/left.md):
   Left substring every item in a list
 * [`let`](commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [`lockfile`](commands/lockfile.md):
   Create and manage lock files
 * [`man-get-flags` ](commands/man-get-flags.md):
@@ -240,7 +242,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`rx`](commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`set`](commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)
 * [`source` ](commands/source.md):
   Import _murex_ code from another file of code block
 * [`struct-keys`](commands/struct-keys.md):

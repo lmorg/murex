@@ -154,36 +154,21 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	}
 
 	for ; i < len(block); i++ {
-		if scanFuncName && len(node.Name) == 0 && ChainParser != nil && !commentLine &&
-			!escaped && !quoteSingle && !quoteDouble && quoteBrace == 0 && braceCount == 0 {
-			newPos, err := ChainParser(block[i:], 0)
+		r = block[i]
+		colNumber++
+		if scanFuncName && len(node.Name) == 0 && len(*pop) == 0 && ChainParser != nil &&
+			r != '(' && r != '=' && r != '$' && r != '@' && r != ' ' && r != '\t' && !commentLine && !escaped &&
+			!quoteSingle && !quoteDouble && quoteBrace == 0 && braceCount == 0 {
+			newPos, err := ChainParser(block[i:], i+1)
 			if err == nil {
-				/*//*pop = ParserExpressions
-				pUpdate([]rune(ParserExpressions)...)
-				startParameters()
-				pUpdate(block[i : i+newPos]...)
-				i += newPos - 1
-				last = block[i]
-				ignoreWhitespace = true*/
-
-				/*node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
-				pCount++
-				pToken = &node.ParamTokens[pCount][0]
-				pop = &pToken.Key*/
-
-				//panic(json.LazyLoggingPretty(node))
-
 				startParameters()
 				pToken.Type = parameters.TokenTypeValue
-				*pop = string(block[i : i+newPos])
+				*pop = string(block[i : i+newPos+1])
 				node.Name = ParserExpressions
-				i += newPos - 1
-				//defer func() { fmt.Println(json.LazyLoggingPretty(node)) }()
+				i += newPos
 				continue
 			}
 		}
-		r = block[i]
-		colNumber++
 
 		// comment
 		if commentLine {

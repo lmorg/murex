@@ -47,6 +47,7 @@ func init() {
 		"exit":                  "exit_commands_docgen.go",
 		"exitnum":               "exitnum_commands_docgen.go",
 		"export":                "export_commands_docgen.go",
+		"expr":                  "expr_commands_docgen.go",
 		"f":                     "f_commands_docgen.go",
 		"false":                 "false_commands_docgen.go",
 		"fexec":                 "fexec_commands_docgen.go",

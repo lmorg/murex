@@ -31,7 +31,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.charPos++
 			case '>':
 				// generic pipe
-				//tree.charPos--
+				tree.charPos--
 				return nil
 			default:
 				// assign value
@@ -74,6 +74,10 @@ func (tree *expTreeT) parse(exec bool) error {
 				// greater than or equal to
 				tree.appendAst(symbols.GreaterThanOrEqual)
 				tree.charPos++
+			case '>':
+				// redirect (append)
+				tree.charPos++
+				return nil
 			default:
 				// greater than
 				tree.appendAst(symbols.GreaterThan)
@@ -92,37 +96,56 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '(':
 			// create sub expression
-			branch := newExpTree(tree.p, tree.expression[tree.charPos+1:])
-			branch.charOffset = tree.charPos + tree.charOffset
-			branch.isSubExp = true
-			err := branch.parse(exec)
-			if err != nil {
-				return err
-			}
 			if exec {
+				tree.charPos++
+				branch := newExpTree(tree.p, tree.expression[tree.charPos:])
+				branch.charOffset = tree.charPos + tree.charOffset
+				branch.isSubExp = true
+				err := branch.parse(exec)
+				if err != nil {
+					return err
+				}
+
+				//if exec {
 				dt, err := branch.execute()
 				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
+				tree.charPos += branch.charPos - 1
+				/*} else {
+					//tree.appendAst(symbols.SubExpressionBegin)
+				}
+				tree.charPos += branch.charPos - 1*/
 			} else {
-				tree.appendAst(symbols.SubExpressionBegin)
+				i, err := ChainParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1)
+				if err != nil {
+					return err
+				}
+				tree.appendAst(symbols.Calculated)
+				tree.charPos += i
 			}
-			tree.charPos += branch.charPos + 1
 
 		case ')':
-			//if tree.charOffset != 0 {
-			if tree.isSubExp {
+			tree.charPos++
+			switch {
+			case tree.isSubExp:
 				// end sub expression
 				return nil
+			case exec:
+				tree.appendAst(symbols.SubExpressionEnd, r)
+			default:
+				return nil
 			}
-			tree.appendAst(symbols.SubExpressionEnd, r)
 
 		case '%':
 			switch tree.nextChar() {
 			case '[':
 				tree.charPos++
-				tree.createArrayAst(exec)
+				err := tree.createArrayAst(exec)
+				if err != nil {
+					return err
+				}
 			default:
 				tree.appendAst(symbols.Unexpected, r)
 			}
@@ -257,6 +280,7 @@ func (tree *expTreeT) parse(exec bool) error {
 
 			default:
 				tree.appendAst(symbols.Unexpected, r)
+				//return raiseError(tree.expression, nil, errMessage[symbols.Unexpected])
 			}
 		}
 	}
