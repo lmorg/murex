@@ -1,6 +1,7 @@
 package cmdpipe
 
 import (
+	"errors"
 	"io"
 
 	"github.com/lmorg/murex/lang"
@@ -30,6 +31,10 @@ func cmdMurexNamedPipe(p *lang.Process) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if pipe == nil {
+		return errors.New("STDIN is null")
 	}
 
 	if p.IsMethod {

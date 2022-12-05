@@ -84,12 +84,11 @@ func iface2str(iface *interface{}) (b []byte) {
 	case interface{}:
 		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 
-	default:
-		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 		//default:
-		//	panic(fmt.Sprintf("Cannot marshal %T", v))
+		//	return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
+	default:
+		panic(fmt.Sprintf("cannot marshal %T", v))
 	}
-
 }
 
 func tabWriter(v [][]string) ([]byte, error) {

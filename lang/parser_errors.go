@@ -31,6 +31,8 @@ const (
 	ErrUnknownParserErrorPipe
 	ErrUnableToParseParametersInRunmode
 	ErrInvalidParametersInRunmode
+	// Alternative parsers
+	ErrInExpressionParser
 )
 
 var errMessages = []string{

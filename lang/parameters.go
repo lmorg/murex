@@ -40,9 +40,9 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 		strictArrays = true
 	}
 
-	autoGlob, err := prc.Config.Get("shell", "auto-glob", "bool")
+	autoGlob, err := prc.Config.Get("shell", "expand-glob", "bool")
 	if err != nil {
-		autoGlob = false
+		autoGlob = true
 	}
 	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0 && !lists.Match(GetNoGlobCmds(), prc.Name.String())
 

@@ -78,6 +78,33 @@ func TestConvertGoTypeString(t *testing.T) {
 			DataType: types.String,
 			Out:      `{ "foo": "bar" }`,
 		},
+		///
+
+		{
+			In:       []string{"foo", "bar"},
+			DataType: types.String,
+			Out:      "foo\nbar",
+		},
+		{
+			In:       []int{1, 2},
+			DataType: types.String,
+			Out:      "1\n2",
+		},
+		{
+			In:       []float64{1.2, 1.3},
+			DataType: types.String,
+			Out:      "1.2\n1.3",
+		},
+		{
+			In:       []bool{true, false},
+			DataType: types.String,
+			Out:      "true\nfalse",
+		},
+		{
+			In:       []interface{}{"foo", 1, 2.2, true, "bar"},
+			DataType: types.String,
+			Out:      "foo\n1\n2.2\ntrue\nbar",
+		},
 	}
 
 	testConvertGoType(t, tests)

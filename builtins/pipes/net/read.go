@@ -64,7 +64,7 @@ func (n *Net) ReadArray(ctx context.Context, callback func([]byte)) error {
 }
 
 // ReadArrayWithType treats net Io interface as an array of data
-func (n *Net) ReadArrayWithType(ctx context.Context, callback func([]byte, string)) error {
+func (n *Net) ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error {
 	return stdio.ReadArrayWithType(ctx, n, callback)
 }
 

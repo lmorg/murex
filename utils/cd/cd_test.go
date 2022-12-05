@@ -63,20 +63,20 @@ func TestCd(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 
-	pwdhist := lang.GlobalVariables.GetValue(cd.GlobalVarName)
+	pwdHist, _ := lang.GlobalVariables.GetValue(cd.GlobalVarName)
 
-	switch pwdhist.(type) {
+	switch pwdHist.(type) {
 	case []string:
-		l := len(pwdhist.([]string))
+		l := len(pwdHist.([]string))
 		if l < 2 {
 			t.Errorf("1st pass: $%s len() too short: %d", cd.GlobalVarName, l)
 		}
-		if pwdhist.([]string)[l-1] != new {
+		if pwdHist.([]string)[l-1] != new {
 			t.Errorf("1st pass: $%s not appending new directory", cd.GlobalVarName)
 			t.Logf("  Expected: '%s'", new)
-			t.Logf("  Actual:   '%s'", pwdhist.([]string)[l-1])
-			t.Logf("  Array:     %s", pwdhist.([]string))
-			t.Logf("  Location:  %d of %d", l-1, len(pwdhist.([]string))-1)
+			t.Logf("  Actual:   '%s'", pwdHist.([]string)[l-1])
+			t.Logf("  Array:     %s", pwdHist.([]string))
+			t.Logf("  Location:  %d of %d", l-1, len(pwdHist.([]string))-1)
 		}
 
 	default:
@@ -95,23 +95,23 @@ func TestCd(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 
-	pwdhist = lang.GlobalVariables.GetValue(cd.GlobalVarName)
+	pwdHist, _ = lang.GlobalVariables.GetValue(cd.GlobalVarName)
 	match2 := "murex/utils/cd"
 
-	switch pwdhist.(type) {
+	switch pwdHist.(type) {
 	case []string:
-		l := len(pwdhist.([]string))
+		l := len(pwdHist.([]string))
 		if l != 1 {
 			t.Errorf("2nd pass: $%s len() incorrect. Expecting 1, got %d", cd.GlobalVarName, l)
 		}
-		s := pwdhist.([]string)[l-1]
+		s := pwdHist.([]string)[l-1]
 		if s != before && !strings.HasSuffix(s, match2) {
 			t.Errorf("2nd pass: $%s not appending new directory", cd.GlobalVarName)
 			t.Logf("  Expected1: '%s'", before)
 			t.Logf("  Actual1:   '%s'", s)
 			t.Logf("  Expected2: '%s'", match2)
 			t.Logf("  Actual2:   '%s'", s[len(s)-len(match2):])
-			t.Logf("  Array:      %s", pwdhist.([]string))
+			t.Logf("  Array:      %s", pwdHist.([]string))
 			t.Logf("  Location:   %d of %d", l-1, len(s)-1)
 		}
 

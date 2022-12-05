@@ -1,6 +1,7 @@
 package lists
 
 import (
+	"errors"
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/types/generic"
@@ -33,7 +34,7 @@ func TestPrependJsonInt(t *testing.T) {
 		`[1,2,3]`,
 		types.Json,
 		[]string{"9"},
-		`["9","1","2","3"]`,
+		`[9,1,2,3]`,
 		nil,
 	)
 }
@@ -45,8 +46,8 @@ func TestPrependJsonMixed(t *testing.T) {
 		`[1,2,3]`,
 		types.Json,
 		[]string{"new"},
-		`["new","1","2","3"]`,
-		nil,
+		"",//`["new","1","2","3"]`,
+		errors.New("cannot convert 'new' to a floating point number: strconv.ParseFloat: parsing \"new\": invalid syntax"),
 	)
 }
 
@@ -109,7 +110,7 @@ func TestAppendJsonInt(t *testing.T) {
 		`[1,2,3]`,
 		types.Json,
 		[]string{"9"},
-		`["1","2","3","9"]`,
+		`[1,2,3,9]`,
 		nil,
 	)
 }
@@ -121,8 +122,8 @@ func TestAppendJsonMixed(t *testing.T) {
 		`[1,2,3]`,
 		types.Json,
 		[]string{"new"},
-		`["1","2","3","new"]`,
-		nil,
+		``,
+		errors.New(`cannot convert 'new' to a floating point number: strconv.ParseFloat: parsing "new": invalid syntax`),
 	)
 }
 

@@ -51,6 +51,7 @@ func InitEnv() {
 	ShellProcess.Context = context.Background()
 	ShellProcess.Done = func() { /* we don't want to accidentally terminate the shell process */ }
 	ShellProcess.Kill = func() { /* we don't want to accidentally terminate the shell process */ }
+	ShellProcess.Forks = NewForkManagement()
 
 	if FlagTry {
 		ShellProcess.RunMode = runmode.ModuleTry
@@ -101,6 +102,7 @@ func NewTestProcess() (p *Process) {
 	p.Scope = ShellProcess
 	p.Next = ShellProcess
 	p.Previous = ShellProcess
+	p.Forks = NewForkManagement()
 
 	GlobalFIDs.Register(p)
 

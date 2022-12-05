@@ -26,6 +26,14 @@ func ParseBlock(block []rune) (nodes *AstNodes, pErr ParserError) {
 	return AstCache.ParseCache(block)
 }
 
+// ChainParserFunc is intended to be called from other parsers as a way of
+// embedding and extending the main murex parser
+type ChainParserFunc func([]rune, int) (int, error)
+
+var ChainParser ChainParserFunc
+
+const ParserExpressions = "expr"
+
 func parser(block []rune) (*AstNodes, ParserError) {
 	//defer debug.Json("Parser", nodes)
 
@@ -99,10 +107,10 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		ignoreWhitespace = true
 	}
 
-	pUpdate := func(r rune) {
+	pUpdate := func(r ...rune) {
 		if !scanFuncName && pToken.Type == parameters.TokenTypeNil {
 
-			if r == '<' && last != '\\' &&
+			if r[0] == '<' && last != '\\' &&
 				!quoteSingle && !quoteDouble && quoteBrace == 0 {
 				pToken.Type = parameters.TokenTypeNamedPipe
 			} else {
@@ -148,6 +156,19 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	for ; i < len(block); i++ {
 		r = block[i]
 		colNumber++
+		if scanFuncName && len(node.Name) == 0 && len(*pop) == 0 && ChainParser != nil &&
+			r != '(' && r != '=' && r != '$' && r != '@' && r != ' ' && r != '\t' && !commentLine && !escaped &&
+			!quoteSingle && !quoteDouble && quoteBrace == 0 && braceCount == 0 {
+			newPos, err := ChainParser(block[i:], i+1)
+			if err == nil {
+				startParameters()
+				pToken.Type = parameters.TokenTypeValue
+				*pop = string(block[i : i+newPos+1])
+				node.Name = ParserExpressions
+				i += newPos
+				continue
+			}
+		}
 
 		// comment
 		if commentLine {
@@ -490,7 +511,46 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				startParameters()
 
 			default:
+				/*if pCount == 0 && len(node.Name) > 0 && isAlfphaNumeric(node.Name) {
+					if len(*pop) == 0 {
+						expression := append([]rune(node.Name+" "), block[i:]...)
+						adjust, err := ChainParser(expression, i)
+						adjust -= len(node.Name)
+						if err != nil {
+							return nil, ParserError{
+								Message: err.Error(),
+								Code:    ErrInExpressionParser,
+								EndByte: i + adjust,
+							}
+						}
+						pToken.Type = parameters.TokenTypeValue
+						*pop = node.Name + " ="
+						*pop += string(block[i+1 : i+adjust])
+						node.Name = ParserExpressions
+						i += adjust - 1
+
+					} else if scanFuncName {
+						startParameters()
+						expression := append([]rune(node.Name), block[i:]...)
+						adjust, err := ChainParser(expression, i)
+						adjust -= len(node.Name)
+						if err != nil {
+							return nil, ParserError{
+								Message: err.Error(),
+								Code:    ErrInExpressionParser,
+								EndByte: i + adjust + 1,
+							}
+						}
+						pToken.Type = parameters.TokenTypeValue
+						*pop = node.Name + "=" + string(block[i+1:i+adjust+1])
+						node.Name = ParserExpressions
+						i += adjust
+					} else {
+						pUpdate(r)
+					}
+				} else {*/
 				pUpdate(r)
+				//}
 			}
 
 		case '[':
@@ -577,7 +637,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				ignoreWhitespace = false
 			case braceCount > 0:
 				pUpdate(r)
-			case !scanFuncName && last != ' ':
+			case !scanFuncName && last != ' ' && last != '\t':
 				node.ParamTokens = append(node.ParamTokens, make([]parameters.ParamToken, 1))
 				pCount++
 				pToken = &node.ParamTokens[pCount][0]
@@ -943,4 +1003,17 @@ func parser(block []rune) (*AstNodes, ParserError) {
 	appendNode()
 
 	return &nodes, pErr
+}
+
+func isAlphaNumeric(s string) bool {
+	for _, b := range s {
+		if b == '_' ||
+			(b >= 'a' && 'z' >= b) ||
+			(b >= 'A' && 'Z' >= b) ||
+			(b >= '0' && '9' >= b) {
+			continue
+		}
+		return false
+	}
+	return true
 }

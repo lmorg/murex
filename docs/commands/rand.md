@@ -58,6 +58,6 @@ cryptographically secure.
 * [commands/`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)

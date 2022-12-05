@@ -1,0 +1,81 @@
+package expressions
+
+import (
+	"strings"
+	"testing"
+
+	"github.com/lmorg/murex/test/count"
+)
+
+func TestChainParserOffset0(t *testing.T) {
+	tests := []string{
+		"1+2;other code",
+		"(1+2);other code",
+		"foobar=1+2;other code",
+		"foobar=(1+2);other code",
+		"foobar=1+2;other code",
+		"foobar=(1+(2+3)+4);other code",
+		"TestExpressionsBuiltin6=1+1+1+1+(1+1)+1+1+1+1;code",
+		"TestExpressionsBuiltin0=1+1+1+1+1+1+1+1+1+1",
+		"1+1+1+1+1",
+		"true==true",
+		"1 + 1",
+		"3*(3+1)",
+		"bob=3*(3+1)",
+		"%[apples oranges grapes]",
+		"fruit=%[apples oranges grapes]",
+	}
+
+	count.Tests(t, len(tests))
+
+	for j := range tests {
+		expression := []rune(tests[j][0:])
+		split := strings.Split(tests[j], ";")
+
+		i, err := ChainParser(expression, 0)
+		if err != nil || string(expression[:i+1]) != split[0] {
+			t.Errorf("Expression did not parse correctly in test %d:", j)
+			t.Log("            :           1         2         3         4         5")
+			t.Log("            :  12345678901234567890123456789012345678901234567890")
+			t.Logf("  Expression: '%s'", string(expression))
+			t.Logf("  Error:      %v", err)
+			t.Logf("  Expected:   '%s'", split[0])
+			t.Logf("  Actual:     '%s'", string(expression[:i+1]))
+		}
+	}
+}
+
+func TestChainParserOffset5(t *testing.T) {
+	tests := []string{
+		"code;1+2;other code",
+		"code;(1+2);other code",
+		"code;foobar=1+2;other code",
+		"code;foobar=(1+2);other code",
+		"code;foobar=1+2;other code",
+		"code;foobar=(1+(2+3)+4);other code",
+		"code;TestExpressionsBuiltin6=1+1+1+1+(1+1)+1+1+1+1;code",
+		"code;TestExpressionsBuiltin0=1+1+1+1+1+1+1+1+1+1",
+		"code;3*(3+1)",
+		"code;bob=3*(3+1)",
+		"code;%[apples oranges grapes]",
+		"code;fruit=%[apples oranges grapes]",
+	}
+
+	count.Tests(t, len(tests))
+
+	for j := range tests {
+		expression := []rune(tests[j][5:])
+		split := strings.Split(tests[j], ";")
+
+		i, err := ChainParser(expression, 5)
+		if err != nil || string(expression[:i+1]) != split[1] {
+			t.Errorf("Expression did not parse correctly in test %d:", j)
+			t.Log("            :           1         2         3         4         5")
+			t.Log("            :  12345678901234567890123456789012345678901234567890")
+			t.Logf("  Expression: '%s'", string(expression))
+			t.Logf("  Error:      %v", err)
+			t.Logf("  Expected:   '%s'", split[1])
+			t.Logf("  Actual:     '%s'", string(expression[:i+1]))
+		}
+	}
+}

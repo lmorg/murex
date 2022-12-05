@@ -11,7 +11,7 @@ import (
 // globbing
 var noGlobCmds = []string{
 	"@g", "rx", "g", "cast", "format", "select", "regexp",
-	"find",
+	"find", "expr",
 }
 
 func canGlobCmd(f string) bool {

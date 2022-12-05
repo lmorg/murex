@@ -29,6 +29,7 @@ type Process struct {
 	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
 	Stderr             stdio.Io
 	ExitNum            int
+	Forks              *ForkManagement
 	WaitForTermination chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`

@@ -309,7 +309,7 @@ functions.
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`method`](../commands/method.md):
   Define a methods supported data-types
 * [commands/`open`](../commands/open.md):
@@ -323,7 +323,7 @@ functions.
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):

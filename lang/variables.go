@@ -76,59 +76,63 @@ type variable struct {
 // GetValue will return nil. Please check if p.Config.Get("proc", "strict-vars", "bool")
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
-func (v *Variables) GetValue(name string) interface{} {
+func (v *Variables) GetValue(name string) (interface{}, error) {
 	switch name {
 	case SELF:
-		return getVarSelf(v.process)
+		return getVarSelf(v.process), nil
 
 	case ARGS:
-		return getVarArgs(v.process)
+		return getVarArgs(v.process), nil
 
 	case PARAMS:
-		return v.process.Scope.Parameters.StringArray()
+		return v.process.Scope.Parameters.StringArray(), nil
 
 	case MUREX_EXE:
-		return getVarMurexExe()
+		return getVarMurexExe(), nil
 
 	case HOSTNAME:
-		return getHostname()
+		return getHostname(), nil
 
 	case PWD:
-		return getPwd()
+		return getPwd(), nil
 
 	case "0":
-		return v.process.Scope.Name.String()
+		return v.process.Scope.Name.String(), nil
 	}
 
 	if i, err := strconv.Atoi(name); err == nil && i > 0 {
 		s, err := v.process.Scope.Parameters.String(i - 1)
 		if err != nil {
-			return nil
+			return nil, nil
 		}
-		return s
+		return s, nil
 	}
 
 	if v.global {
-		return v.getValue(name)
+		return v.getValue(name), nil
 	}
 
 	value := v.getValue(name)
 	if value != nil {
-		return value
+		return value, nil
 	}
 
 	value = GlobalVariables.getValue(name)
 	if value != nil {
-		return value
+		return value, nil
 	}
 
 	// variable not found so lets fallback to the environmental variables
 	value = os.Getenv(name)
 	if value != "" {
-		return value
+		return value, nil
 	}
 
-	return nil
+	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
+	if err != nil || strictVars.(bool) {
+		return nil, errVarNotExist(name)
+	}
+	return nil, nil
 }
 
 func (v *Variables) getValue(name string) (value interface{}) {
@@ -198,7 +202,8 @@ func (v *Variables) GetString(name string) (string, error) {
 	// variable not found so lets fallback to the environmental variables
 	s, exists = os.LookupEnv(name)
 
-	if v, err := v.process.Config.Get("proc", "strict-vars", "bool"); err == nil && v.(bool) && !exists {
+	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
+	if (err != nil || strictVars.(bool)) && !exists {
 		return "", errVarNotExist(name)
 	}
 
@@ -298,8 +303,17 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
+	var (
+		s   interface{}
+		err error
+	)
 
-	s, err := types.ConvertGoType(value, types.String)
+	switch dataType {
+	case types.Json, types.JsonLines:
+		s, err = types.ConvertGoType(value, dataType)
+	default:
+		s, err = types.ConvertGoType(value, types.String)
+	}
 	if err != nil {
 		return fmt.Errorf("cannot store variable: %s", err.Error())
 	}
@@ -366,12 +380,12 @@ func DumpVariables(p *Process) map[string]interface{} {
 	}
 	p.Variables.mutex.Unlock()
 
-	m[SELF] = p.Variables.GetValue(SELF)
-	m[ARGS] = p.Variables.GetValue(ARGS)
-	m[PARAMS] = p.Variables.GetValue(PARAMS)
-	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
-	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
-	m[HOSTNAME] = p.Variables.GetValue(HOSTNAME)
-	m[PWD] = p.Variables.GetValue(PWD)
+	m[SELF], _ = p.Variables.GetValue(SELF)
+	m[ARGS], _ = p.Variables.GetValue(ARGS)
+	m[PARAMS], _ = p.Variables.GetValue(PARAMS)
+	m[MUREX_EXE], _ = p.Variables.GetValue(MUREX_EXE)
+	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
+	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
+	m[PWD], _ = p.Variables.GetValue(PWD)
 	return m
 }

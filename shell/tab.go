@@ -2,12 +2,14 @@ package shell
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
+	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
@@ -66,6 +68,10 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 				prefix = pt.CommentMsg
 			}
 		}
+
+	case pt.FuncName == "^":
+		act.Items, act.Definitions = autocompleteHistory()
+		act.TabDisplayType = readline.TabDisplayList
 
 	case pt.ExpectFunc:
 		go autocomplete.UpdateGlobalExeList()
@@ -182,4 +188,18 @@ func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 		}
 		act.Definitions[act.Items[i]] = string(hintsummary.Get(cmd, autocomplete.GlobalExes[cmd]))
 	}*/
+}
+
+func autocompleteHistory() ([]string, map[string]string) {
+	size := Prompt.History.Len()
+	slice := make([]string, size)
+	desc := make(map[string]string, size)
+	dump := Prompt.History.Dump().([]history.Item)
+
+	for i := range dump {
+		s := strconv.Itoa(dump[i].Index)
+		desc[s] = dump[i].Block
+		slice[i] = s
+	}
+	return slice, desc
 }

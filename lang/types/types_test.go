@@ -25,7 +25,7 @@ func testIsTrue(t *testing.T, val string, exp bool, exitNum int) {
 
 	act = types.IsTrue([]byte(strings.Title(val)), exitNum)
 	if act != exp {
-		t.Error("IsTrue output does not match expected (tit):")
+		t.Error("IsTrue output does not match expected (title):")
 		t.Log("Value:   ", val)
 		t.Log("Expected:", exp)
 		t.Log("Actual:  ", act)
@@ -35,7 +35,7 @@ func testIsTrue(t *testing.T, val string, exp bool, exitNum int) {
 
 	act = types.IsTrue([]byte(strings.ToUpper(val)), exitNum)
 	if act != exp {
-		t.Error("IsTrue output does not match expected (tit):")
+		t.Error("IsTrue output does not match expected (upper):")
 		t.Log("Value:   ", val)
 		t.Log("Expected:", exp)
 		t.Log("Actual:  ", act)

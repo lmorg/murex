@@ -2,11 +2,13 @@
 
 ## Command Reference: `=` (arithmetic evaluation)
 
-> Evaluate a mathematical function
+> Evaluate a mathematical function (deprecated)
 
 ## Description
 
 `=` evaluates a mathematical function and returns it's output
+
+**This is a deprecated feature. Please refer to [`expr`](expr.md) instead.**
 
 ## Usage
 
@@ -172,6 +174,8 @@ _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More 
   Outputs an element from an array, map or table
 * [commands/`export`](../commands/export.md):
   Define an environmental variable and set it's value
+* [commands/`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`global`](../commands/global.md):
@@ -179,6 +183,6 @@ _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More 
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)

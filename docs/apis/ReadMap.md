@@ -104,6 +104,8 @@ might follow in a future release of _murex_.
 
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):

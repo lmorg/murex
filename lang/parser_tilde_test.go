@@ -7,6 +7,7 @@ import (
 )
 
 func TestParserTilde(t *testing.T) {
+	ChainParser = nil
 	tests := []parserTestSimpleConditions{
 
 		/// cmd == foo

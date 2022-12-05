@@ -26,16 +26,10 @@
 
 ## Detail
 
-It's worth noting that `prepend` and `append` are not data type aware. So 
-any integers in data type aware structures will be converted into strings:
+`prepend` and `append` are data type aware:
 
-    » tout: json [1,2,3] -> append: new 
-    [
-        "1",
-        "2",
-        "3",
-        "new"
-    ]
+    » tout json [1,2,3] -> append 4 5 6 bob
+    Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
 
 ## Synonyms
 

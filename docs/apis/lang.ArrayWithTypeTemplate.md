@@ -57,7 +57,7 @@ import (
 )
 
 // ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
-func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte, string)) error {
+func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func(interface{}, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -71,14 +71,29 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 	}
 
 	switch v := v.(type) {
-	case string:
-		return readArrayWithTypeByString(v, callback)
+	case []interface{}:
+		return readArrayWithTypeBySliceInterface(ctx, dataType, marshal, v, callback)
 
 	case []string:
 		return readArrayWithTypeBySliceString(ctx, v, callback)
 
-	case []interface{}:
-		return readArrayWithTypeBySliceInterface(ctx, dataType, marshal, v, callback)
+	case []float64:
+		return readArrayWithTypeBySliceFloat(ctx, v, callback)
+
+	case []int:
+		return readArrayWithTypeBySliceInt(ctx, v, callback)
+
+	case string:
+		return readArrayWithTypeByString(v, callback)
+
+	case []byte:
+		return readArrayWithTypeByString(string(v), callback)
+
+	case []rune:
+		return readArrayWithTypeByString(string(v), callback)
+
+	case []bool:
+		return readArrayWithTypeBySliceBool(ctx, v, callback)
 
 	/*case map[string]string:
 		return readArrayWithTypeByMapStrStr(v, callback)
@@ -105,56 +120,110 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 	}
 }
 
-func readArrayWithTypeByString(v string, callback func([]byte, string)) error {
-	callback([]byte(v), types.String)
+func readArrayWithTypeByString(v string, callback func(interface{}, string)) error {
+	callback(v, types.String)
 
 	return nil
 }
 
-func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback func([]byte, string)) error {
+func readArrayWithTypeBySliceInt(ctx context.Context, v []int, callback func(interface{}, string)) error {
 	for i := range v {
 		select {
 		case <-ctx.Done():
 			return nil
 
 		default:
-			callback([]byte(v[i]), types.String)
+			callback(v[i], types.Integer)
 		}
 	}
 
 	return nil
 }
 
-func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte, string)) error {
+func readArrayWithTypeBySliceFloat(ctx context.Context, v []float64, callback func(interface{}, string)) error {
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.Number)
+		}
+	}
+
+	return nil
+}
+
+func readArrayWithTypeBySliceBool(ctx context.Context, v []bool, callback func(interface{}, string)) error {
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.Boolean)
+
+		}
+	}
+
+	return nil
+}
+
+func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback func(interface{}, string)) error {
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.String)
+		}
+	}
+
+	return nil
+}
+
+func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func(interface{}, string)) error {
 	if len(v) == 0 {
 		return nil
 	}
 
-	select {
-	case <-ctx.Done():
-		return nil
-
-	default:
-		switch v[0].(type) {
-		case string:
-			for i := range v {
-				callback([]byte(v[i].(string)), types.String)
-			}
-
-		case []byte:
-			for i := range v {
-				callback(v[i].([]byte), types.String)
-			}
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
 
 		default:
-			for i := range v {
+			switch v[i].(type) {
 
+			case string:
+				callback((v[i].(string)), types.String)
+
+			case float64:
+				callback(v[i].(float64), types.Number)
+
+			case int:
+				callback(v[i].(int), types.Integer)
+
+			case bool:
+				if v[i].(bool) {
+					callback(types.TrueByte, types.Boolean)
+				} else {
+					callback(types.FalseByte, types.Boolean)
+				}
+
+			case []byte:
+				callback(v[i].([]byte), types.String)
+
+			case nil:
+				callback([]byte{}, types.Null)
+
+			default:
 				jBytes, err := marshal(v[i])
 				if err != nil {
 					return err
 				}
 				callback(jBytes, dataType)
-
 			}
 		}
 	}
@@ -227,12 +296,14 @@ func readArrayWithTypeByMapIfaceStr(v map[interface{}]string, callback func([]by
 1. `func(interface{}) ([]byte, error)`: data type's marshaller
 2. `func([]byte, interface{}) error`: data type's unmarshaller
 3. `stdio.Io`: stream to read from (eg STDIN)
-4. `func([]byte, string)`: callback function to write each array element
+4. `func(interface{}, string)`: callback function to write each array element, with data type
 
 ## See Also
 
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):

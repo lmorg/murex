@@ -49,7 +49,7 @@ handles any programs that aren't native to _murex_.
 ## See Also
 
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function
+  Evaluate a mathematical function (deprecated)
 * [commands/`bexists`](../commands/bexists.md):
   Check which builtins exist
 * [commands/`bg`](../commands/bg.md):
@@ -67,8 +67,8 @@ handles any programs that aren't native to _murex_.
 * [commands/`jobs`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value
+  Define a local variable and set it's value (deprecated)

@@ -23,7 +23,7 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 	return scanner.Err()
 }
 
-func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		select {
@@ -31,7 +31,7 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func([]byte,
 			return scanner.Err()
 
 		default:
-			callback(scanner.Bytes(), types.Generic)
+			callback(scanner.Text(), types.Generic)
 		}
 	}
 

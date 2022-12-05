@@ -334,6 +334,20 @@ func AppendProfile(block string) {
 // auto-loaded as part of the default murex binary ship (ie more user
 // friendly), but it also allows me to write a tailored murex profile per
 // target platform.
-func DefaultMurexProfile() []rune {
+/*func DefaultMurexProfile() []rune {
 	return []rune(strings.Join(murexProfile, "\r\n\r\n"))
+}*/
+
+type DefaultProfileT struct {
+	Name  string
+	Block []byte
+}
+
+var DefaultProfiles []*DefaultProfileT
+
+func AddMurexProfile() {
+	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
+		Name:  "builtins",
+		Block: []byte(strings.Join(murexProfile, "\n\n")),
+	})
 }
