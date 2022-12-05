@@ -11,7 +11,6 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/readline"
@@ -37,15 +36,7 @@ func startMurex() {
 	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
-	source := defaults.DefaultMurexProfile()
-	ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-	execSource(defaults.DefaultMurexProfile(), ref)
-
-	// load modules and profile
-	//profile.Execute()
-
-	// start interactive shell
-	//shell.Start()
+	defaultProfile()
 }
 
 // wasmShellExec returns a Promise

@@ -85,34 +85,6 @@ jobs:
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
 
-  go1.13:
-    docker:
-      - image: golang:1.13
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
-  go1.14:
-    docker:
-      - image: golang:1.14
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
-  go1.15:
-    docker:
-      - image: golang:1.15
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
-  go1.16:
-    docker:
-      - image: golang:1.16
-        <<: *env
-    working_directory: /go/src/github.com/lmorg/murex
-    <<: *steps
-
   go1.17:
     docker:
       - image: golang:1.17
@@ -133,8 +105,6 @@ workflows:
     jobs:
       - website
       - latest
-      - go1.15
-      - go1.16
       - go1.17
       - go1.18
       - codecov
