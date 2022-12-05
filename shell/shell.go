@@ -206,9 +206,9 @@ func ShowPrompt() {
 			}
 
 			if len(macroFind) > 0 {
-				if !rxHashTag.MatchString(merged) {
-					merged = expandMacroVars(merged, macroFind, macroReplace)
-				}
+				//if !rxHashTag.MatchString(merged) {
+				//	merged = expandMacroVars(merged, macroFind, macroReplace)
+				//}
 				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
 			}
 

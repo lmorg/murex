@@ -229,7 +229,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				}
 			case c == '>':
 				// arrow pipe
-				//tree.charPos--
+				tree.charPos--
 				return nil
 			default:
 				tree.appendAst(symbols.Subtract)

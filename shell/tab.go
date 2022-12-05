@@ -70,8 +70,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		}
 
 	case pt.FuncName == "^":
-		act.Items, act.Definitions = autocompleteHistory()
-		act.TabDisplayType = readline.TabDisplayList
+		autocompleteHistory(&act)
 
 	case pt.ExpectFunc:
 		go autocomplete.UpdateGlobalExeList()
@@ -190,16 +189,20 @@ func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	}*/
 }
 
-func autocompleteHistory() ([]string, map[string]string) {
+func autocompleteHistory(act *autocomplete.AutoCompleteT) {
 	size := Prompt.History.Len()
-	slice := make([]string, size)
-	desc := make(map[string]string, size)
+	act.Items = make([]string, size)
+	act.Definitions = make(map[string]string, size)
 	dump := Prompt.History.Dump().([]history.Item)
 
+	j := len(dump)
 	for i := range dump {
+		j--
 		s := strconv.Itoa(dump[i].Index)
-		desc[s] = dump[i].Block
-		slice[i] = s
+		act.Definitions[s] = dump[i].Block
+		act.Items[j] = s
 	}
-	return slice, desc
+
+	act.TabDisplayType = readline.TabDisplayList
+	act.DoNotSort = true
 }
