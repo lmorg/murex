@@ -68,16 +68,16 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 		case '$':
 			// inline scalar
-			_, v, dataType, err := tree.parseVarScalar(exec)
+			_, v, _, err := tree.parseVarScalar(exec)
 			if err != nil {
 				return nil, 0, err
 			}
-			switch dataType {
-			case types.Number, types.Integer, types.Boolean, types.Float:
-				slice = append(slice, v)
-			default:
-				slice = append(slice, v)
-			}
+			//switch dataType {
+			//case types.Number, types.Integer, types.Boolean, types.Float:
+			//	slice = append(slice, v)
+			//default:
+			slice = append(slice, v)
+			//}
 			tree.charPos--
 
 		case '@':
