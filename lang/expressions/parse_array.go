@@ -1,11 +1,14 @@
 package expressions
 
 import (
+	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 func (tree *expTreeT) createArrayAst(exec bool) error {
@@ -26,6 +29,19 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 		value    = make([]rune, 0, len(tree.expression)-tree.charPos)
 		slice    []interface{}
 	)
+
+	if exec {
+		// check if valid mkarray
+		dt, pos, err := tree.parseArrayMaker()
+		if err != nil {
+			return nil, 0, err
+		}
+		if dt != nil {
+			tree.charPos--
+			return dt, 0, nil
+		}
+		tree.charPos = pos
+	}
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
@@ -136,4 +152,77 @@ endArray:
 		Value:     slice,
 	}
 	return dt, nEscapes, nil
+}
+
+func (tree *expTreeT) parseArrayMaker() (*primitives.DataType, int, error) {
+	start := tree.charPos
+	var (
+		mkarray  bool
+		brackets int
+	)
+
+	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch r {
+		case '\'', '"', '(', '{', '%':
+			return nil, start, nil
+
+		case '.':
+			if tree.nextChar() == '.' {
+				tree.charPos++
+				mkarray = true
+			}
+
+		case '[':
+			brackets++
+			if brackets > 1 {
+				return nil, start, nil
+			}
+
+		case ']':
+			brackets--
+			if brackets < 0 {
+				goto endParseArrayMaker
+			}
+
+		}
+	}
+
+endParseArrayMaker:
+	if !mkarray {
+		return nil, start, nil
+	}
+
+	block := append([]rune{'j', 'a', ':', ' '}, tree.expression[start+1:tree.charPos]...)
+
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDERR | lang.F_CREATE_STDOUT)
+	_, err := fork.Execute(block)
+	if err != nil {
+		return nil, start, err
+	}
+
+	b, err := fork.Stderr.ReadAll()
+	if err != nil {
+		return nil, start, err
+	}
+	if len(b) > 0 {
+		b = utils.CrLfTrim(b)
+		return nil, start, errors.New(string(b))
+	}
+
+	var slice []interface{}
+	err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+		slice = append(slice, v)
+	})
+
+	if err != nil {
+		return nil, start, err
+	}
+
+	dt := &primitives.DataType{
+		Primitive: primitives.Array,
+		Value:     slice,
+	}
+	return dt, tree.charPos, nil
 }

@@ -49,7 +49,7 @@ func cmdTa(p *lang.Process) error {
 	return mkArray(p, dataType)
 }
 
-// echo @{a: abc[1,2,3],[1..3]}
+// echo %[1..3]
 // a: [1..10] -> ...
 func mkArray(p *lang.Process, dataType string) error {
 	p.Stdout.SetDataType(dataType)
