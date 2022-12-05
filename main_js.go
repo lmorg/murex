@@ -37,15 +37,7 @@ func startMurex() {
 	defaults.Config(lang.ShellProcess.Config, interactive)
 
 	// compiled profile
-	source := defaults.DefaultMurexProfile()
-	ref := ref.History.AddSource("(builtin)", "source/builtin", []byte(string(source)))
-	execSource(defaults.DefaultMurexProfile(), ref)
-
-	// load modules and profile
-	//profile.Execute()
-
-	// start interactive shell
-	//shell.Start()
+	defaultProfile()
 }
 
 // wasmShellExec returns a Promise
