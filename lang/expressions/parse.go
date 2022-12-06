@@ -279,8 +279,12 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.charPos--
 
 			default:
+				if !exec {
+					return raiseError(tree.expression, nil, fmt.Sprintf("%s at char %d: '%s'",
+						errMessage[symbols.Unexpected], tree.charPos, string(r)))
+				}
+				tree.charPos++
 				tree.appendAst(symbols.Unexpected, r)
-				//return raiseError(tree.expression, nil, errMessage[symbols.Unexpected])
 			}
 		}
 	}

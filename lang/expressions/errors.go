@@ -5,30 +5,26 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 func raiseError(expression []rune, node *astNodeT, message string) error {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Printf("%v (%v:%v)\n", err, string(expression), node.pos)
-		}
-	}()
-
-	pos := node.pos
-
-	if node.pos < 0 {
-		pos = 0
+	expr := string(expression)
+	if len(expr) > 30 {
+		expr = expr[:30] + "... (long expression cropped)"
+	}
+	if node == nil {
+		return fmt.Errorf("%s\nExpression: '%s'", message, expr)
 	}
 
-	if node == nil {
-		return fmt.Errorf("nil ast (%s)", consts.IssueTrackerURL)
+	pos := node.pos
+	if node.pos < 0 {
+		pos = 0
 	}
 
 	if expression != nil {
 		return fmt.Errorf("%s at char %d\nExpression: '%s'\n          :  %s\nSymbol    : %s\nValue     : '%s'",
 			message, pos+1,
-			string(expression), strings.Repeat(" ", pos)+"^",
+			expr, strings.Repeat(" ", pos)+"^",
 			node.key.String(), node.Value())
 	} else {
 		return fmt.Errorf("%s at char %d\nSymbol    : %s\nValue     : '%s'",

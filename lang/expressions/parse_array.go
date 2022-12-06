@@ -30,18 +30,16 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 		slice    []interface{}
 	)
 
-	if exec {
-		// check if valid mkarray
-		dt, pos, err := tree.parseArrayMaker()
-		if err != nil {
-			return nil, 0, err
-		}
-		if dt != nil {
-			tree.charPos--
-			return dt, 0, nil
-		}
-		tree.charPos = pos
+	// check if valid mkarray
+	dt, pos, err := tree.parseArrayMaker(exec)
+	if err != nil {
+		return nil, 0, err
 	}
+	if dt != nil {
+		tree.charPos--
+		return dt, 0, nil
+	}
+	tree.charPos = pos
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
@@ -147,18 +145,18 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 endArray:
 	tree.charPos--
-	dt := &primitives.DataType{
+	dt = &primitives.DataType{
 		Primitive: primitives.Array,
 		Value:     slice,
 	}
 	return dt, nEscapes, nil
 }
 
-func (tree *expTreeT) parseArrayMaker() (*primitives.DataType, int, error) {
+func (tree *expTreeT) parseArrayMaker(exec bool) (*primitives.DataType, int, error) {
 	start := tree.charPos
 	var (
 		mkarray  bool
-		brackets int
+		brackets int = 1
 	)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -176,22 +174,31 @@ func (tree *expTreeT) parseArrayMaker() (*primitives.DataType, int, error) {
 
 		case '[':
 			brackets++
-			if brackets > 1 {
+			if brackets == 3 {
 				return nil, start, nil
 			}
 
 		case ']':
 			brackets--
-			if brackets < 0 {
+			if brackets == 0 {
 				goto endParseArrayMaker
 			}
 
 		}
 	}
 
+	return nil, start, fmt.Errorf("missing closing bracket `]`")
+
 endParseArrayMaker:
 	if !mkarray {
 		return nil, start, nil
+	}
+
+	if !exec {
+		return &primitives.DataType{
+			Primitive: primitives.Array,
+			Value:     make([]interface{}, 0),
+		}, tree.charPos, nil
 	}
 
 	block := append([]rune{'j', 'a', ':', ' '}, tree.expression[start+1:tree.charPos]...)

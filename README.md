@@ -29,6 +29,57 @@ A non-exhaustive list features would include:
   blocks, line numbers included in error messages, STDOUT highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
+## More Examples!
+
+### Getting indexes from tabulated data:
+
+```
+ps aux | [PID %CPU COMMAND] | head -n5
+```
+
+Outputs:
+```
+PID     %CPU    COMMAND
+77045   127.5   /usr/sbin/netbiosd
+85046   14.9    /Applications/iTerm.app/Contents/MacOS/iTerm2
+371     3.7     /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer
+4302    3.3     /Applications/Firefox.app/Contents/MacOS/firefox
+```
+
+### Arrays used as parameters:
+
+```
+fruit = %[apples oranges bananas]
+out: "I have the following fruit in my fruit bowl:" @fruit ","
+out: "But I mostly love $fruit[1]."
+```
+
+Outputs:
+```
+I have the following fruit in my fruit bowl: apples oranges bananas,
+But I mostly love oranges.
+```
+
+### Iteration:
+
+```
+%[A[3..5],letter] | foreach page_size {
+    if { $page_size == 'letter' } then {
+        out: "$page_size is loaded"
+    } else {
+        out: "$page_size is unsupported"
+    }
+}
+```
+
+Outputs:
+```
+A3 is unsupported
+A4 is unsupported
+A5 is unsupported
+letter is loaded
+```
+
 ## Install instructions
 
 See [INSTALL](INSTALL.md) for details.

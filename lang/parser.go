@@ -1,6 +1,9 @@
 package lang
 
 import (
+	"fmt"
+
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -157,7 +160,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 		r = block[i]
 		colNumber++
 		if scanFuncName && len(node.Name) == 0 && len(*pop) == 0 && ChainParser != nil &&
-			r != '(' && r != '=' && r != '$' && r != '@' && r != ' ' && r != '\t' && !commentLine && !escaped &&
+			r != '(' && r != '=' && r != '@' && r != ' ' && r != '\t' && !commentLine && !escaped &&
 			!quoteSingle && !quoteDouble && quoteBrace == 0 && braceCount == 0 {
 			newPos, err := ChainParser(block[i:], i+1)
 			if err == nil {
@@ -167,6 +170,10 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				node.Name = ParserExpressions
 				i += newPos
 				continue
+			}
+
+			if debug.Enabled {
+				fmt.Printf("not an expression: %v\n", err)
 			}
 		}
 
