@@ -46,18 +46,19 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 		switch r {
 		case '\'', '"':
+			// quoted string
 			str, i, err := tree.parseString(r)
-			value = append(value, str...)
-			nEscapes += i
 			if err != nil {
 				return nil, 0, err
 			}
+			value = append(value, str...)
+			nEscapes += i
 			tree.charPos++
 
 		case '%':
 			switch tree.nextChar() {
-			case '[':
-
+			case '[', '{':
+				// do nothing because action covered in the next iteration
 			default:
 				// string
 				value = append(value, r)
@@ -80,18 +81,23 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 			}
 			goto endArray
 
+		case '{':
+			// start nested object
+			dt, i, err := tree.parseObject(exec)
+			if err != nil {
+				return nil, 0, err
+			}
+			nEscapes += i
+			slice = append(slice, dt.Value)
+			tree.charPos++
+
 		case '$':
 			// inline scalar
 			_, v, _, err := tree.parseVarScalar(exec)
 			if err != nil {
 				return nil, 0, err
 			}
-			//switch dataType {
-			//case types.Number, types.Integer, types.Boolean, types.Float:
-			//	slice = append(slice, v)
-			//default:
 			slice = append(slice, v)
-			//}
 			tree.charPos--
 
 		case '@':
@@ -123,6 +129,13 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 		default:
 			switch {
+			case r == '-':
+				next := tree.nextChar()
+				if next < '0' || '9' < next {
+					value = append(value, r)
+					continue
+				}
+				fallthrough
 			case r >= '0' && '9' >= r:
 				// number
 				value := tree.parseNumber(r)

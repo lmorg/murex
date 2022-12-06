@@ -106,17 +106,12 @@ func (tree *expTreeT) parse(exec bool) error {
 					return err
 				}
 
-				//if exec {
 				dt, err := branch.execute()
 				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 				tree.charPos += branch.charPos - 1
-				/*} else {
-					//tree.appendAst(symbols.SubExpressionBegin)
-				}
-				tree.charPos += branch.charPos - 1*/
 			} else {
 				i, err := ChainParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1)
 				if err != nil {
@@ -143,6 +138,12 @@ func (tree *expTreeT) parse(exec bool) error {
 			case '[':
 				tree.charPos++
 				err := tree.createArrayAst(exec)
+				if err != nil {
+					return err
+				}
+			case '{':
+				tree.charPos++
+				err := tree.createObjectAst(exec)
 				if err != nil {
 					return err
 				}
@@ -381,12 +382,11 @@ endBareword:
 }
 
 func (tree *expTreeT) parseVarScalar(exec bool) ([]rune, interface{}, string, error) {
-	tree.charPos++
-
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
 	}
 
+	tree.charPos++
 	value := tree.parseBareword()
 
 	if !exec {
@@ -400,12 +400,11 @@ func (tree *expTreeT) parseVarScalar(exec bool) ([]rune, interface{}, string, er
 }
 
 func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
-	tree.charPos++
-
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, errors.New("'@' symbol found but no variable name followed")
 	}
 
+	tree.charPos++
 	value := tree.parseBareword()
 
 	if !exec {

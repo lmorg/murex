@@ -81,6 +81,11 @@ func TestParseArray(t *testing.T) {
 				pos:      16,
 			},
 			{
+				input:    "%[1,2,$TestParseArray]",
+				expected: `[1,2,""]`,
+				pos:      20,
+			},
+			{
 				input:    "%[@TestParseArray]",
 				expected: `null`,
 				pos:      16,
@@ -94,6 +99,17 @@ func TestParseArray(t *testing.T) {
 			{
 				input:    "%[[mon..wed]]",
 				expected: `["mon","tue","wed"]`,
+				pos:      11,
+			},
+			/////
+			{
+				input:    "%[-2,1,0,3.4]",
+				expected: `[-2,1,0,3.4]`,
+				pos:      11,
+			},
+			{
+				input:    "%[-2 1 0 3.4]",
+				expected: `[-2,1,0,3.4]`,
 				pos:      11,
 			},
 		},

@@ -167,6 +167,10 @@ func TestExpressionsScalars(t *testing.T) {
 			Block:  `TestExpressionsScalars0="foobar";$TestExpressionsScalars0=="foobar"`,
 			Stdout: `true`,
 		},
+		{
+			Block:  `TestExpressionsScalars1="foobar";%[1,2,$TestExpressionsScalars1]`,
+			Stdout: `[1,2,"foobar"]`,
+		},
 	}
 
 	count.Tests(t, len(tests))

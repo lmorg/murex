@@ -1,17 +1,33 @@
 package expressions
 
-const (
-	expectKey   = 0
-	expectColon = 2
-	expectValue = 1
+import (
+	"fmt"
+
+	"github.com/lmorg/murex/lang/expressions/primitives"
+	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
 )
 
-/*func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) {
+func (tree *expTreeT) createObjectAst(exec bool) error {
+	// create JSON dict
+	dt, nEscapes, err := tree.parseObject(exec)
+	if err != nil {
+		return err
+	}
+	tree.charPos -= nEscapes
+	tree.appendAstWithPrimitive(symbols.ObjectBegin, dt)
+	tree.charPos += nEscapes + 1
+	return nil
+}
+
+func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) {
 	var (
-		nEscapes int
-		keyValue = make([][]rune, 2, 2)
-		stage    int
-		obj      = make(map[string]interface{})
+		nEscapes  int
+		keyValueR [2][]rune
+		keyValueI [2]interface{}
+		stage     int
+		obj       = make(map[string]interface{})
+		start     = tree.charPos
 	)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -19,85 +35,116 @@ const (
 
 		switch r {
 		case '\'', '"':
+			// quoted string
 			str, i, err := tree.parseString(r)
 			if err != nil {
 				return nil, 0, err
 			}
-			keyValue[stage] = str
+			keyValueR[stage&1] = append(keyValueR[stage&1], str...)
 			nEscapes += i
-			//stage=
-			//tree.charPos++
+			tree.charPos++
+
+		case '%':
+			switch tree.nextChar() {
+			case '[', '{':
+				// do nothing because action covered in the next iteration
+			default:
+				// string
+				keyValueR[stage&1] = append(keyValueR[stage&1], r)
+			}
 
 		case '[':
 			// start nested array
+			if stage&1 == 0 {
+				return nil, 0, fmt.Errorf("object keys cannot be an array")
+			}
 			dt, i, err := tree.parseArray(exec)
 			if err != nil {
 				return nil, 0, err
 			}
 			nEscapes += i
-			slice = append(slice, dt.Value)
+			keyValueI[1] = dt.Value
 			tree.charPos++
-
-		case ']':
-			goto endObject
 
 		case '{':
-			// start nested array
-			dt, i, err := tree.parseArray(exec)
+			// start nested object
+			if stage&1 == 0 {
+				return nil, 0, fmt.Errorf("object keys cannot be another object")
+			}
+			dt, i, err := tree.parseObject(exec)
 			if err != nil {
 				return nil, 0, err
 			}
 			nEscapes += i
-			slice = append(slice, dt.Value)
+			keyValueI[1] = dt.Value
 			tree.charPos++
-
-		case '}':
-			// end object
-			goto endObject
 
 		case '$':
 			// inline scalar
-			_, v, dataType, err := tree.parseVarScalar(exec)
+			_, v, _, err := tree.parseVarScalar(exec)
 			if err != nil {
 				return nil, 0, err
 			}
-			switch dataType {
-			case types.Number, types.Integer, types.Boolean, types.Float:
-				slice = append(slice, v)
-			default:
-				slice = append(slice, v)
-			}
+			keyValueI[stage&1] = v
 			tree.charPos--
 
 		case '@':
 			// inline array
-			name, v, err := tree.parseVarArray(exec)
+			name, _, err := tree.parseVarArray(exec)
 			if err != nil {
 				return nil, 0, err
 			}
-			switch t := v.(type) {
-			case nil:
-				slice = append(slice, t)
-			case []interface{}:
-				slice = append(slice, t...)
-			case []string, []float64, []int:
-				slice = append(slice, v.([]interface{})...)
-			default:
-				return nil, 0, fmt.Errorf(
-					"cannot expand %T into an array type\nVariable name: @%s",
-					t, string(name))
-			}
-			tree.charPos--
+			return nil, 0, fmt.Errorf(
+				"cannot expand an array into an object\nVariable name: @%s",
+				string(name))
 
-		case ',', ' ', '\t', '\r', '\n':
-			if len(value) == 0 {
+		case ':':
+			if stage&1 == 1 {
+				return nil, 0, fmt.Errorf("invalid symbol ':' at %d, expecting ',' or '}' instead", tree.charPos)
+			}
+			stage++
+			if keyValueI[0] != nil {
 				continue
 			}
-			slice = append(slice, string(value))
-			value = make([]rune, 0, len(tree.expression)-tree.charPos)
+			keyValueI[0] = string(keyValueR[0])
+
+		case '}', ',':
+			if stage&1 == 0 {
+				return nil, 0, fmt.Errorf("invalid symbol '%s' at %d, expecting ':' instead",
+					string(r), tree.charPos)
+			}
+			if keyValueI[0] == nil {
+				return nil, 0, fmt.Errorf("object key cannot be null before %d", tree.charPos)
+			}
+			if len(keyValueR[1]) != 0 {
+				keyValueI[1] = string(keyValueR[1])
+			}
+
+			s, err := types.ConvertGoType(keyValueI[0], types.String)
+			if err != nil {
+				return nil, 0, err
+			}
+			obj[s.(string)] = keyValueI[1]
+			keyValueR = [2][]rune{nil, nil}
+			keyValueI = [2]interface{}{nil, nil}
+			stage++
+
+			if r == '}' {
+				goto endObject
+			}
+
+		case ' ', '\t', '\r', '\n':
+			continue
 
 		default:
 			switch {
+			case r == '-':
+				next := tree.nextChar()
+				if next < '0' || '9' < next {
+					keyValueR[stage&1] = append(keyValueR[stage&1], r)
+					continue
+				}
+				fallthrough
 			case r >= '0' && '9' >= r:
 				// number
 				value := tree.parseNumber(r)
@@ -106,18 +153,17 @@ const (
 				if err != nil {
 					return nil, 0, err
 				}
-				slice = append(slice, v)
+				keyValueI[stage&1] = v
+
 			default:
 				// string
-				value = append(value, r)
-				tree.charPos--
+				keyValueR[stage&1] = append(keyValueR[stage&1], r)
 			}
 		}
 	}
 
 	return nil, 0, fmt.Errorf(
-		"missing closing square bracket (]) at char %d:\n%s",
-		tree.charPos-len(value), string(append([]rune{'['}, value...)))
+		"missing closing bracket (}) at char %d", start)
 
 endObject:
 	tree.charPos--
@@ -127,4 +173,3 @@ endObject:
 	}
 	return dt, nEscapes, nil
 }
-*/
