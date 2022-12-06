@@ -112,6 +112,16 @@ func TestParseArray(t *testing.T) {
 				expected: `[-2,1,0,3.4]`,
 				pos:      11,
 			},
+			{
+				input:    "%[-]",
+				expected: `["-"]`,
+				pos:      2,
+			},
+			{
+				input:    "%[-one]",
+				expected: `["-one"]`,
+				pos:      5,
+			},
 		},
 	}
 
