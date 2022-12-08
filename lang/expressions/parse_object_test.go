@@ -64,9 +64,9 @@ func TestParseObject(t *testing.T) {
 				pos:      29,
 			},
 			{
-				input: `%{a:$a,b:@b}`,
-				error: true,
-				pos:   12,
+				input:    `%{a:$a,b:@b}`,
+				expected: `{"a":"","b":null}`,
+				pos:      10,
 			},
 			{
 				input:    `%{a:$a,b:[@b]}`,

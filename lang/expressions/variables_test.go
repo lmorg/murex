@@ -32,7 +32,7 @@ func TestCreateIndexBlock(t *testing.T) {
 
 	for i, test := range tests {
 		if test.Expected == "" {
-			test.Expected = "$" + test.Name + "->[" + test.Index + "]"
+			test.Expected = "$" + test.Name + "-> [" + test.Index + "]"
 		}
 
 		block := createIndexBlock([]rune(test.Name), []rune(test.Index))
