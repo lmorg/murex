@@ -10,7 +10,7 @@ import (
 func TestChainParserOffset0(t *testing.T) {
 	tests := []string{
 		"1+2;other code",
-		//"(1+2);other code",
+		"(1+2);other code",
 		"foobar=1+2;other code",
 		"foobar=(1+2);other code",
 		"foobar=1+2;other code",
@@ -61,7 +61,7 @@ func TestChainParserOffset0(t *testing.T) {
 func TestChainParserOffset5(t *testing.T) {
 	tests := []string{
 		"code;1+2;other code",
-		//"code;(1+2);other code",
+		"code;(1+2);other code",
 		"code;foobar=1+2;other code",
 		"code;foobar=(1+2);other code",
 		"code;foobar=1+2;other code",

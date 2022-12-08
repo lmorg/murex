@@ -30,6 +30,7 @@ func testParserSymbol(t *testing.T, tests expTestsT) {
 	lang.InitEnv()
 	defaults.Config(lang.ShellProcess.Config, false)
 	p := lang.NewTestProcess()
+	p.Name.Set("(test)")
 	p.Config.Set("proc", "strict-vars", false, nil)
 	p.Config.Set("proc", "strict-arrays", false, nil)
 

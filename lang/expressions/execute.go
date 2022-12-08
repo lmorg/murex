@@ -78,7 +78,7 @@ var orderOfOperations = []symbols.Exp{
 }
 
 func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
-	defer func() {
+	/*defer func() {
 		if err := recover(); err != nil {
 			err = fmt.Errorf("panic caught: %v\nExpression: %s\nnode: %d\nAST: %s",
 				err,
@@ -87,7 +87,7 @@ func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
 				json.LazyLoggingPretty(tree.Dump()))
 
 		}
-	}()
+	}()*/
 
 	for tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
 		//fmt.Println(tree.astPos, json.LazyLogging(tree.Dump()))
