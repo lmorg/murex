@@ -329,15 +329,6 @@ func AppendProfile(block string) {
 	murexProfile = append(murexProfile, "\n"+block+"\n")
 }
 
-// DefaultMurexProfile is what was formally the example murex_profile but
-// this has now been converted into a this format so it can not only be
-// auto-loaded as part of the default murex binary ship (ie more user
-// friendly), but it also allows me to write a tailored murex profile per
-// target platform.
-/*func DefaultMurexProfile() []rune {
-	return []rune(strings.Join(murexProfile, "\r\n\r\n"))
-}*/
-
 type DefaultProfileT struct {
 	Name  string
 	Block []byte
@@ -347,7 +338,7 @@ var DefaultProfiles []*DefaultProfileT
 
 func AddMurexProfile() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "builtins",
+		Name:  "profile",
 		Block: []byte(strings.Join(murexProfile, "\n\n")),
 	})
 }

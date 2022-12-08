@@ -79,7 +79,7 @@ func defaultProfile() {
 	defaults.AddMurexProfile()
 
 	for _, profile := range defaults.DefaultProfiles {
-		ref := ref.History.AddSource("(builtin)", "builtin/"+profile.Name, profile.Block)
+		ref := ref.History.AddSource("(builtin)", "builtin/profile", profile.Block)
 		execSource([]rune(string(profile.Block)), ref)
 	}
 }
