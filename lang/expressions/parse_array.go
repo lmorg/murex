@@ -93,11 +93,21 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 		case '$':
 			// inline scalar
-			_, v, _, err := tree.parseVarScalar(exec, varAsValue)
-			if err != nil {
-				return nil, 0, err
+			switch tree.nextChar() {
+			case '{':
+				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return nil, 0, err
+				}
+				slice = append(slice, v)
+
+			default:
+				_, v, _, err := tree.parseVarScalar(exec, varAsValue)
+				if err != nil {
+					return nil, 0, err
+				}
+				slice = append(slice, v)
 			}
-			slice = append(slice, v)
 
 		case '~':
 			// tilde
@@ -105,9 +115,23 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 		case '@':
 			// inline array
-			name, v, err := tree.parseVarArray(exec)
-			if err != nil {
-				return nil, 0, err
+			var (
+				name []rune
+				v    interface{}
+			)
+			switch tree.nextChar() {
+			case '{':
+				_, v, _, err = tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return nil, 0, err
+				}
+
+			default:
+				name, v, err = tree.parseVarArray(exec)
+				if err != nil {
+					return nil, 0, err
+				}
+				tree.charPos--
 			}
 			switch t := v.(type) {
 			case nil:
@@ -121,7 +145,6 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 					"cannot expand %T into an array type\nVariable name: @%s",
 					t, string(name))
 			}
-			tree.charPos--
 
 		case ',', ' ', '\t', '\r', '\n':
 			if len(value) == 0 {
@@ -170,8 +193,9 @@ endArray:
 func (tree *expTreeT) parseArrayMaker(exec bool) (*primitives.DataType, int, error) {
 	start := tree.charPos
 	var (
-		mkarray  bool
-		brackets int = 1
+		mkarray     bool
+		brackets    int = 1
+		twoBrackets bool
 	)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -191,6 +215,9 @@ func (tree *expTreeT) parseArrayMaker(exec bool) (*primitives.DataType, int, err
 			brackets++
 			if brackets == 3 {
 				return nil, start, nil
+			}
+			if brackets == 2 {
+				twoBrackets = true
 			}
 
 		case ']':
@@ -217,7 +244,13 @@ endParseArrayMaker:
 		}, tree.charPos, nil
 	}
 
-	block := append([]rune{'j', 'a', ':', ' '}, tree.expression[start+1:tree.charPos]...)
+	var block []rune
+	if twoBrackets {
+		block = append([]rune{'j', 'a', ':', ' '}, tree.expression[start+1:tree.charPos]...)
+	} else {
+		block = append([]rune{'j', 'a', ':', ' ', '['}, tree.expression[start+1:tree.charPos]...)
+		block = append(block, ']')
+	}
 
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDERR | lang.F_CREATE_STDOUT)
 	_, err := fork.Execute(block)

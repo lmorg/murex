@@ -175,10 +175,19 @@ func ParseParameters(p *Process, paramT *parameters.Parameters) error {
 				var array []string
 
 				fork := p.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
-				fork.Execute([]rune(paramT.Tokens[i][j].Key))
-				fork.Stdout.ReadArray(p.Context, func(b []byte) {
+				exitNum, err := fork.Execute([]rune(paramT.Tokens[i][j].Key))
+				if err != nil {
+					return fmt.Errorf("subshell failed: %s", err.Error())
+				}
+				if exitNum > 0 && p.RunMode.IsStrict() {
+					return fmt.Errorf("subshell exit status %d", exitNum)
+				}
+				err = fork.Stdout.ReadArray(p.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
+				if err != nil {
+					return err
+				}
 
 				if len(array) == 0 && strictArrays {
 					return fmt.Errorf(errEmptyArray, "{"+paramT.Tokens[i][j].Key+"}")

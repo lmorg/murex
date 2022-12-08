@@ -193,6 +193,15 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '$':
 			switch {
+			case tree.nextChar() == '{':
+				// subshell
+				_, v, mxDt, err := tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return err
+				}
+				dt := scalar2Primitive(mxDt)
+				dt.Value = v
+				tree.appendAstWithPrimitive(symbols.Calculated, dt)
 			case isBareChar(tree.nextChar()):
 				// start scalar
 				_, v, mxDt, err := tree.parseVarScalar(exec, varAsValue)
@@ -202,26 +211,45 @@ func (tree *expTreeT) parse(exec bool) error {
 				dt := scalar2Primitive(mxDt)
 				dt.Value = v
 				tree.appendAstWithPrimitive(symbols.Calculated, dt)
-			case tree.nextChar() == '{':
-				// subshell
-				_, v, mxDt, err := tree.parseSubShell(exec, varAsValue)
-				if err != nil {
-					return err
-				}
-				dt := scalar2Primitive(mxDt)
-				dt.Value = v
-				tree.appendAstWithPrimitive(symbols.Calculated, dt)
 			default:
 				if !exec {
-					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s at char %d: '%s'",
-						errMessage[symbols.Unexpected], tree.charPos, string(r)))
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
+						errMessage[symbols.Unexpected], string(r)))
 				}
 				tree.charPos++
 				tree.appendAst(symbols.Unexpected, r)
 			}
 
-		/*case '@':
-		// start array*/
+		case '@':
+			switch {
+			case tree.nextChar() == '{':
+				// subshell
+				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return err
+				}
+				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
+					Primitive: primitives.Array,
+					Value:     v,
+				})
+			case isBareChar(tree.nextChar()):
+				// start array
+				_, v, err := tree.parseVarArray(exec)
+				if err != nil {
+					return err
+				}
+				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
+					Primitive: primitives.Array,
+					Value:     v,
+				})
+			default:
+				if !exec {
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
+						errMessage[symbols.Unexpected], string(r)))
+				}
+				tree.charPos++
+				tree.appendAst(symbols.Unexpected, r)
+			}
 
 		case '+':
 			switch tree.nextChar() {

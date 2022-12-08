@@ -23,13 +23,15 @@ func (node *astNodeT) Value() string {
 }
 
 type expTreeT struct {
-	ast        []*astNodeT
-	charPos    int
-	charOffset int
-	astPos     int
-	expression []rune
-	isSubExp   bool
-	p          *lang.Process
+	ast          []*astNodeT
+	charPos      int
+	charOffset   int
+	astPos       int
+	expression   []rune
+	isSubExp     bool
+	p            *lang.Process
+	strictArrays interface{}
+	expandGlob   interface{}
 }
 
 func (tree *expTreeT) nextChar() rune {
@@ -177,4 +179,32 @@ func newExpTree(p *lang.Process, expression []rune) *expTreeT {
 	tree.expression = expression
 	tree.p = p
 	return tree
+}
+
+func (tree *expTreeT) StrictArrays() bool {
+	if tree.strictArrays != nil {
+		return tree.strictArrays.(bool)
+	}
+
+	var err error
+	tree.strictArrays, err = tree.p.Config.Get("proc", "strict-arrays", "bool")
+	if err != nil {
+		tree.strictArrays = true
+	}
+
+	return tree.strictArrays.(bool)
+}
+
+func (tree *expTreeT) ExpandGlob() bool {
+	if tree.expandGlob != nil {
+		return tree.expandGlob.(bool)
+	}
+
+	var err error
+	tree.expandGlob, err = tree.p.Config.Get("shell", "expand-glob", "bool")
+	if err != nil {
+		tree.expandGlob = true
+	}
+
+	return tree.expandGlob.(bool)
 }

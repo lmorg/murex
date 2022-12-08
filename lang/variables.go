@@ -303,17 +303,7 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
-	var (
-		s   interface{}
-		err error
-	)
-
-	switch dataType {
-	case types.Json, types.JsonLines:
-		s, err = types.ConvertGoType(value, dataType)
-	default:
-		s, err = types.ConvertGoType(value, types.String)
-	}
+	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
 		return fmt.Errorf("cannot store variable: %s", err.Error())
 	}

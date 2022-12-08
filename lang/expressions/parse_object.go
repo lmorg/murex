@@ -97,7 +97,7 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 			case tree.nextChar() == '{':
 				// inline subshell
 				strOrVal := stage&1 == 0
-				subshell, v, _, err := tree.parseSubShell(exec, strOrVal)
+				subshell, v, _, err := tree.parseSubShell(exec, r, strOrVal)
 				if err != nil {
 					return nil, 0, err
 				}
@@ -120,13 +120,21 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 				return nil, 0, raiseError(
 					tree.expression, nil, tree.charPos, "arrays cannot be object keys")
 			}
-			name, _, err := tree.parseVarArray(exec)
-			if err != nil {
-				return nil, 0, err
+			switch tree.nextChar() {
+			case '{':
+				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				if err != nil {
+					return nil, 0, err
+				}
+				keyValueI[1] = v
+			default:
+				_, v, err := tree.parseVarArray(exec)
+				if err != nil {
+					return nil, 0, err
+				}
+				tree.charPos--
+				keyValueI[1] = v
 			}
-			return nil, 0, fmt.Errorf(
-				"cannot expand an array into an object\nVariable name: @%s",
-				string(name))
 
 		case ':':
 			if stage&1 == 1 {

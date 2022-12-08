@@ -25,17 +25,37 @@ func (tree *expTreeT) getVar(name []rune, strOrVal bool) (interface{}, string, e
 
 	if strOrVal { // == varAsString
 		value, err = tree.p.Variables.GetString(nameS)
+		if err != nil {
+			return nil, "", err
+		}
+		value = utils.CrLfTrimString(value.(string))
 
 	} else {
 		dataType = tree.p.Variables.GetDataType(nameS)
 
 		switch dataType {
-		case types.Number, types.Integer, types.Boolean, types.Null, types.Float:
+		case types.String, types.Generic:
+			value, err = tree.p.Variables.GetString(nameS)
+			value = utils.CrLfTrimString(value.(string))
+
+		case types.Number, types.Integer, types.Float, types.Boolean, types.Null:
 			value, err = tree.p.Variables.GetValue(nameS)
 
 		default:
 			value, err = tree.p.Variables.GetString(nameS)
-			value = utils.CrLfTrimString(value.(string))
+			if err != nil {
+				return nil, "", err
+			}
+			fork := tree.p.Fork(lang.F_CREATE_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
+			_, err := fork.Stdin.Write([]byte(value.(string)))
+			if err != nil {
+				return nil, "", err
+			}
+			v, err := lang.UnmarshalData(fork.Process, dataType)
+			if err != nil {
+				return value, dataType, nil
+			}
+			return v, dataType, nil
 		}
 	}
 
@@ -52,12 +72,7 @@ func (tree *expTreeT) getArray(name []rune) (interface{}, error) {
 		return nil, err
 	}
 
-	strictArrays, err := tree.p.Config.Get("proc", "strict-arrays", "bool")
-	if err != nil {
-		strictArrays = true
-	}
-
-	if data == "" && strictArrays.(bool) {
+	if data == "" && tree.StrictArrays() {
 		return nil, fmt.Errorf(errEmptyArray, nameS)
 	}
 
@@ -71,7 +86,7 @@ func (tree *expTreeT) getArray(name []rune) (interface{}, error) {
 		array = append(array, v)
 	})
 
-	if len(array) == 0 && strictArrays.(bool) {
+	if len(array) == 0 && tree.StrictArrays() {
 		return nil, fmt.Errorf(errEmptyArray, nameS)
 	}
 
@@ -91,8 +106,13 @@ func scalar2Primitive(dt string) *primitives.DataType {
 		return &primitives.DataType{Primitive: primitives.Boolean}
 	case types.Null:
 		return &primitives.DataType{Primitive: primitives.Null}
-	default:
+	case types.String:
 		return &primitives.DataType{Primitive: primitives.String}
+	default:
+		return &primitives.DataType{
+			Primitive: primitives.Other,
+			MxDT:      dt,
+		}
 	}
 }
 
@@ -126,11 +146,11 @@ func (tree *expTreeT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVa
 func createIndexBlock(name, index []rune) []rune {
 	l := len(name) + 1
 
-	block := make([]rune, 5+len(name)+len(index))
+	block := make([]rune, 6+len(name)+len(index))
 	block[0] = '$'
 	copy(block[1:], name)
-	copy(block[l:], []rune{'-', '>', '['})
-	copy(block[l+3:], index)
+	copy(block[l:], []rune{'-', '>', ' ', '['})
+	copy(block[l+4:], index)
 	block[len(block)-1] = ']'
 	return block
 }
@@ -138,11 +158,11 @@ func createIndexBlock(name, index []rune) []rune {
 func createElementBlock(name, element []rune) []rune {
 	l := len(name) + 1
 
-	block := make([]rune, 7+len(name)+len(element))
+	block := make([]rune, 8+len(name)+len(element))
 	block[0] = '$'
 	copy(block[1:], name)
-	copy(block[l:], []rune{'-', '>', '[', '['})
-	copy(block[l+4:], element)
+	copy(block[l:], []rune{'-', '>', ' ', '[', '['})
+	copy(block[l+5:], element)
 	copy(block[len(block)-2:], []rune{']', ']'})
 	return block
 }

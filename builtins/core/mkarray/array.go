@@ -2,6 +2,8 @@ package mkarray
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -54,6 +56,13 @@ func cmdTa(p *lang.Process) error {
 func mkArray(p *lang.Process, dataType string) error {
 	p.Stdout.SetDataType(dataType)
 
+	expression := p.Parameters.ByteAll()
+
+	ok, err := isNumberArray(p, expression, dataType)
+	if ok || err != nil {
+		return err
+	}
+
 	var (
 		escaped, open, dots bool
 		nodes               = make([]ast, 1)
@@ -66,7 +75,7 @@ func mkArray(p *lang.Process, dataType string) error {
 	}
 
 	// Parse the parameters
-	for i, b := range p.Parameters.ByteAll() {
+	for i, b := range expression {
 		switch b {
 		case '\\':
 			dots = false
@@ -259,4 +268,74 @@ func mkArray(p *lang.Process, dataType string) error {
 
 cancelled:
 	return writer.Close()
+}
+
+var rxIsNumberArray = regexp.MustCompile(`^\[([0-9]+)..([0-9]+)\]$`)
+
+func isNumberArray(p *lang.Process, expression []byte, dataType string) (bool, error) {
+	// these data types are all strings anyway. So no point making them numeric
+	if dataType == types.String || dataType == types.Generic {
+		return false, nil
+	}
+
+	match := rxIsNumberArray.FindAllSubmatch(expression, -1)
+	if len(match) != 1 {
+		return false, nil
+	}
+
+	if len(match[0]) != 3 {
+		return false, nil
+	}
+
+	// [0n..] should be strings
+	if len(match[0][1]) > 1 && match[0][1][0] == '0' {
+		return false, nil
+	}
+
+	// [..0n] should be strings
+	if len(match[0][2]) > 1 && match[0][2][0] == '0' {
+		return false, nil
+	}
+
+	left, err := strconv.Atoi(string(match[0][1]))
+	if err != nil {
+		return true, err
+	}
+
+	right, err := strconv.Atoi(string(match[0][2]))
+	if err != nil {
+		return true, err
+	}
+
+	var (
+		slice []int
+		i     int
+	)
+
+	switch {
+	case left < right:
+		slice = make([]int, right-left+1)
+		for v := left; v != right+1; v++ {
+			slice[i] = v
+			i++
+		}
+
+	case left > right:
+		slice = make([]int, left-right+1)
+		for v := left; v != right-1; v-- {
+			slice[i] = v
+			i++
+		}
+
+	default:
+		return false, nil
+	}
+
+	b, err := lang.MarshalData(p, dataType, slice)
+	if err != nil {
+		return true, err
+	}
+
+	_, err = p.Stdout.Write(b)
+	return true, err
 }

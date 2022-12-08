@@ -98,7 +98,7 @@ func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	if !exec {
 		// don't getArray() until we come to execute the expression, skip when only
 		// parsing syntax
-		return nil, nil, nil
+		return value, nil, nil
 	}
 
 	v, err := tree.getArray(value)

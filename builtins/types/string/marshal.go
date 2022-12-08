@@ -12,6 +12,10 @@ import (
 
 func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
+	case string:
+		b = []byte(v)
+		return
+
 	case []string:
 		for i := range v {
 			b = append(b, []byte(v[i]+utils.NewLineString)...)

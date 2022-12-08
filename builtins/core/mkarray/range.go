@@ -116,7 +116,7 @@ func rangeToArray(b []byte) ([]string, error) {
 		split = rxAltNumberBase.FindStringSubmatch(string(b))
 		base, err := strconv.Atoi(split[3])
 		if err != nil {
-			return nil, errors.New("unable to determin number base: " + err.Error())
+			return nil, errors.New("unable to determine number base: " + err.Error())
 		}
 		if base < 2 || base > 36 {
 			return nil, errors.New("number base must be between 2 and 36 (inclusive)")
@@ -124,12 +124,12 @@ func rangeToArray(b []byte) ([]string, error) {
 
 		i1, err := strconv.ParseInt(split[1], base, 64)
 		if err != nil {
-			return nil, errors.New("unable to determin start of range: " + err.Error())
+			return nil, errors.New("unable to determine start of range: " + err.Error())
 		}
 
 		i2, err := strconv.ParseInt(split[2], base, 64)
 		if err != nil {
-			return nil, errors.New("unable to determin end of range: " + err.Error())
+			return nil, errors.New("unable to determine end of range: " + err.Error())
 		}
 
 		switch {

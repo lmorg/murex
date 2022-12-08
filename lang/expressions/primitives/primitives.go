@@ -16,11 +16,13 @@ const (
 	Object   Primitive = Primitive(symbols.ObjectBegin)
 	Null     Primitive = Primitive(symbols.Null)
 	Bareword Primitive = 0
+	Other    Primitive = -1
 )
 
 type DataType struct {
 	Primitive Primitive
 	Value     interface{}
+	MxDT      string
 }
 
 func (dt *DataType) DataType() string {
@@ -39,8 +41,9 @@ func (dt *DataType) DataType() string {
 		return types.Null
 	case Bareword:
 		return types.Null
+	case Other:
+		return dt.MxDT
 	default:
 		return types.Generic
 	}
 }
-

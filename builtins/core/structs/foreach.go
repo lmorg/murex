@@ -81,7 +81,7 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		}
 
 		if varName != "!" {
-			p.Variables.Set(p, varName, string(b), dt)
+			p.Variables.Set(p, varName, v, dt)
 		}
 
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
@@ -126,7 +126,7 @@ func cmdForEachJmap(p *lang.Process) error {
 		}
 
 		if varName != "!" {
-			p.Variables.Set(p, varName, string(b), dt)
+			p.Variables.Set(p, varName, v, dt)
 		}
 
 		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)

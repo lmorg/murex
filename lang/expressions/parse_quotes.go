@@ -84,7 +84,7 @@ func (tree *expTreeT) parseStringInfix(quote rune, exec bool) ([]rune, int, erro
 				}
 			case tree.nextChar() == '{':
 				// subshell
-				subshell, v, _, err := tree.parseSubShell(exec, varAsString)
+				subshell, v, _, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return nil, 0, err
 				}

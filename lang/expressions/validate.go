@@ -18,7 +18,7 @@ func validateExpression(tree *expTreeT) error {
 	}
 	if len(tree.ast) == 1 &&
 		tree.ast[0].key != symbols.ArrayBegin && tree.ast[0].key != symbols.ObjectBegin &&
-		tree.ast[0].key != symbols.SubExpressionBegin { //&& tree.ast[0].key != symbols.Calculated {
+		tree.ast[0].key != symbols.SubExpressionBegin && tree.ast[0].key != symbols.Calculated {
 		return fmt.Errorf("not an expression: '%s'", string(tree.expression))
 	}
 
