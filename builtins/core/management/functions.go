@@ -34,6 +34,8 @@ func cmdDebug(p *lang.Process) error {
 		return cmdDebugMethod(p)
 	}
 
+	p.Stdout.SetDataType(types.Boolean)
+
 	v, err := p.Parameters.Bool(0)
 
 	if err != nil {
