@@ -339,11 +339,13 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
-		//name = "exec"
 		err = GoFunctions["exec"](p)
+		if err != nil && strings.Contains(err.Error(), "executable file not found") {
+			cpErr := GoFunctions[ParserExpressions](p)
+			err = fmt.Errorf("invalid statment and expression:\n%v\n...or parameters for `%s`...\n%v",
+				cpErr, name, err)
+		}
 	}
-
-	//p.Stdout.DefaultDataType(err != nil)
 
 cleanUpProcess:
 	//debug.Json("Execute process (cleanUpProcess)", p)

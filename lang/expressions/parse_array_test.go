@@ -3,7 +3,9 @@ package expressions
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins/core/mkarray"
 	_ "github.com/lmorg/murex/builtins/types/generic"
+	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
@@ -79,6 +81,11 @@ func TestParseArray(t *testing.T) {
 				pos:      16,
 			},
 			{
+				input:    "%[1,2,$TestParseArray]",
+				expected: `[1,2,""]`,
+				pos:      20,
+			},
+			{
 				input:    "%[@TestParseArray]",
 				expected: `null`,
 				pos:      16,
@@ -87,6 +94,38 @@ func TestParseArray(t *testing.T) {
 				input:    "%[[@TestParseArray]]",
 				expected: `[null]`,
 				pos:      18,
+			},
+			/////
+			{
+				input:    "%[[mon..wed]]",
+				expected: `["mon","tue","wed"]`,
+				pos:      11,
+			},
+			/////
+			{
+				input:    "%[-2,1,0,3.4]",
+				expected: `[-2,1,0,3.4]`,
+				pos:      11,
+			},
+			{
+				input:    "%[-2 1 0 3.4]",
+				expected: `[-2,1,0,3.4]`,
+				pos:      11,
+			},
+			{
+				input:    "%[-]",
+				expected: `["-"]`,
+				pos:      2,
+			},
+			{
+				input:    "%[-one]",
+				expected: `["-one"]`,
+				pos:      5,
+			},
+			{
+				input:    "%[{a:1} {b:2}]",
+				expected: `[{"a":1},{"b":2}]`,
+				pos:      12,
 			},
 		},
 	}

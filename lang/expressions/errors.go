@@ -5,30 +5,34 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
-	"github.com/lmorg/murex/utils/consts"
 )
 
-func raiseError(expression []rune, node *astNodeT, message string) error {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Printf("%v (%v:%v)\n", err, string(expression), node.pos)
+func raiseError(expression []rune, node *astNodeT, pos int, message string) error {
+	expr := string(expression)
+	if len(expr) > 80 {
+		expr = expr[:80] + "... (long expression cropped)"
+	}
+	if node == nil {
+		if expression != nil {
+			if pos < 1 {
+				pos = 1
+			}
+			return fmt.Errorf("%s at char %d\nExpression: %s\n          : %s",
+				message, pos,
+				expr, strings.Repeat(" ", pos-1)+"^")
 		}
-	}()
+		return fmt.Errorf("%s\nExpression: %s", message, expr)
+	}
 
-	pos := node.pos
-
+	pos = node.pos
 	if node.pos < 0 {
 		pos = 0
 	}
 
-	if node == nil {
-		return fmt.Errorf("nil ast (%s)", consts.IssueTrackerURL)
-	}
-
 	if expression != nil {
-		return fmt.Errorf("%s at char %d\nExpression: '%s'\n          :  %s\nSymbol    : %s\nValue     : '%s'",
+		return fmt.Errorf("%s at char %d\nExpression: %s\n          : %s\nSymbol    : %s\nValue     : '%s'",
 			message, pos+1,
-			string(expression), strings.Repeat(" ", pos)+"^",
+			expr, strings.Repeat(" ", pos)+"^",
 			node.key.String(), node.Value())
 	} else {
 		return fmt.Errorf("%s at char %d\nSymbol    : %s\nValue     : '%s'",

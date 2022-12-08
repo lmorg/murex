@@ -11,6 +11,10 @@ func TestParseQuoteDouble(t *testing.T) {
 		symbol: symbols.QuoteDouble,
 		tests: []expTestT{
 			{
+				input: `"foobar`,
+				error: true,
+			},
+			{
 				input:    `"foobar"`,
 				expected: `foobar`,
 			},
@@ -62,8 +66,30 @@ func TestParseQuoteDouble(t *testing.T) {
 				expected: `foobar'`,
 			},
 			{
-				input:    `"foobar\""`,
-				expected: `foobar"`,
+				input:    `"foo-$bar-bar"`,
+				expected: `foo--bar`,
+				pos:      4,
+			},
+			{
+				input:    `"foo-$b-bar"`,
+				expected: `foo--bar`,
+				pos:      2,
+			},
+			{
+				input:    `"foo-\$bar-bar"`,
+				expected: `foo-$bar-bar`,
+			},
+			{
+				input:    `"\foo-\$bar-\bar"`,
+				expected: `foo-$bar-bar`,
+			},
+			{
+				input:    `"foo-@bar-bar"`,
+				expected: `foo-@bar-bar`,
+			},
+			{
+				input:    `"\s\t\r\n"`,
+				expected: " \t\r\n",
 			},
 		},
 	}

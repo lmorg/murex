@@ -38,7 +38,7 @@ func element(p *lang.Process) (err error) {
 		if strings.HasSuffix(params[0], "]]") {
 			params[0] = params[0][0 : len(params[0])-2]
 		} else {
-			return errors.New("missing closing brackets, ` ]]`")
+			return fmt.Errorf("missing closing brackets, ` ]]`\nExpression: %s", p.Parameters.StringAll())
 		}
 
 	case 2:
@@ -48,7 +48,7 @@ func element(p *lang.Process) (err error) {
 				return errors.New("too many parameters")
 			}
 		} else {
-			return errors.New("missing closing brackets, ` ]]`")
+			return fmt.Errorf("missing closing brackets, ` ]]`\nExpression: %s", p.Parameters.StringAll())
 		}
 
 	default:

@@ -1,9 +1,9 @@
 package expressions
 
 import (
-	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
@@ -64,8 +64,13 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.appendAst(symbols.Like)
 				tree.charPos++
 			default:
-				// unexpected symbol
-				tree.appendAst(symbols.Unexpected)
+				// tilde
+				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
+					Primitive: primitives.String,
+					Value:     tree.parseVarTilde(true),
+				})
+				//// unexpected symbol
+				//tree.appendAst(symbols.Unexpected)
 			}
 
 		case '>':
@@ -106,17 +111,12 @@ func (tree *expTreeT) parse(exec bool) error {
 					return err
 				}
 
-				//if exec {
 				dt, err := branch.execute()
 				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 				tree.charPos += branch.charPos - 1
-				/*} else {
-					//tree.appendAst(symbols.SubExpressionBegin)
-				}
-				tree.charPos += branch.charPos - 1*/
 			} else {
 				i, err := ChainParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1)
 				if err != nil {
@@ -146,6 +146,12 @@ func (tree *expTreeT) parse(exec bool) error {
 				if err != nil {
 					return err
 				}
+			case '{':
+				tree.charPos++
+				err := tree.createObjectAst(exec)
+				if err != nil {
+					return err
+				}
 			default:
 				tree.appendAst(symbols.Unexpected, r)
 			}
@@ -167,7 +173,7 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '\'', '`':
 			// start string / end string
-			value, nEscapes, err := tree.parseString(r)
+			value, nEscapes, err := tree.parseString(r, exec)
 			if err != nil {
 				return err
 			}
@@ -177,7 +183,7 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '"':
 			// start string / end string
-			value, nEscapes, err := tree.parseString(r)
+			value, nEscapes, err := tree.parseString(r, exec)
 			if err != nil {
 				return err
 			}
@@ -186,15 +192,33 @@ func (tree *expTreeT) parse(exec bool) error {
 			tree.charPos += nEscapes + 1
 
 		case '$':
-			// start scalar
-			_, v, mxDt, err := tree.parseVarScalar(exec)
-			if err != nil {
-				return err
+			switch {
+			case isBareChar(tree.nextChar()):
+				// start scalar
+				_, v, mxDt, err := tree.parseVarScalar(exec, varAsValue)
+				if err != nil {
+					return err
+				}
+				dt := scalar2Primitive(mxDt)
+				dt.Value = v
+				tree.appendAstWithPrimitive(symbols.Calculated, dt)
+			case tree.nextChar() == '{':
+				// subshell
+				_, v, mxDt, err := tree.parseSubShell(exec, varAsValue)
+				if err != nil {
+					return err
+				}
+				dt := scalar2Primitive(mxDt)
+				dt.Value = v
+				tree.appendAstWithPrimitive(symbols.Calculated, dt)
+			default:
+				if !exec {
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s at char %d: '%s'",
+						errMessage[symbols.Unexpected], tree.charPos, string(r)))
+				}
+				tree.charPos++
+				tree.appendAst(symbols.Unexpected, r)
 			}
-			dt := scalar2Primitive(mxDt)
-			dt.Value = v
-			tree.appendAstWithPrimitive(symbols.Calculated, dt)
-			tree.charPos--
 
 		/*case '@':
 		// start array*/
@@ -229,7 +253,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				}
 			case c == '>':
 				// arrow pipe
-				//tree.charPos--
+				tree.charPos--
 				return nil
 			default:
 				tree.appendAst(symbols.Subtract)
@@ -279,137 +303,16 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.charPos--
 
 			default:
+				if !exec {
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s at char %d: '%s'",
+						errMessage[symbols.Unexpected], tree.charPos, string(r)))
+				}
+				tree.charPos++
 				tree.appendAst(symbols.Unexpected, r)
-				//return raiseError(tree.expression, nil, errMessage[symbols.Unexpected])
 			}
 		}
 	}
 
 	tree.charPos--
 	return nil
-}
-
-func (tree *expTreeT) parseNumber(first rune) []rune {
-	// TODO: don't append each time, just return a range
-	value := []rune{first}
-
-	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
-		r := tree.expression[tree.charPos]
-
-		switch {
-		case (r >= '0' && '9' >= r) || r == '.':
-			value = append(value, r)
-
-		default:
-			// not a number
-			goto endNumber
-		}
-	}
-
-endNumber:
-	return value
-}
-
-func (tree *expTreeT) parseString(quote rune) ([]rune, int, error) {
-	var (
-		value    []rune
-		nEscapes int
-		escaped  bool
-	)
-
-	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
-		r := tree.expression[tree.charPos]
-
-		switch {
-		case escaped:
-			// end escape
-			escaped = false
-			value = append(value, r)
-			nEscapes++
-
-		case r == '\\':
-			// start escape
-			escaped = true
-
-		case r == quote:
-			// end quote
-			goto endString
-
-		default:
-			// string
-			value = append(value, r)
-		}
-	}
-
-	return value, 0, fmt.Errorf(
-		"missing closing quote (%s) at char %d:\n%s",
-		string([]rune{quote}), tree.charPos-len(value), string(append([]rune{quote}, value...)))
-
-endString:
-	tree.charPos--
-	return value, nEscapes, nil
-}
-
-func isBareChar(r rune) bool {
-	return r == '_' ||
-		(r >= 'a' && 'z' >= r) ||
-		(r >= 'A' && 'Z' >= r) ||
-		(r >= '0' && '9' >= r)
-}
-
-func (tree *expTreeT) parseBareword() []rune {
-	i := tree.charPos + 1
-	for ; i < len(tree.expression); i++ {
-		switch {
-		case isBareChar(tree.expression[i]):
-			// valid bareword character
-
-		default:
-			// not a valid bareword character
-			goto endBareword
-		}
-	}
-
-endBareword:
-	value := tree.expression[tree.charPos:i]
-	tree.charPos = i
-	return value
-}
-
-func (tree *expTreeT) parseVarScalar(exec bool) ([]rune, interface{}, string, error) {
-	tree.charPos++
-
-	if !isBareChar(tree.nextChar()) {
-		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
-	}
-
-	value := tree.parseBareword()
-
-	if !exec {
-		// don't getVar() until we come to execute the expression, skip when only
-		// parsing syntax
-		return nil, nil, "", nil
-	}
-
-	v, dataType, err := tree.getVar(string(value))
-	return value, v, dataType, err
-}
-
-func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
-	tree.charPos++
-
-	if !isBareChar(tree.nextChar()) {
-		return nil, nil, errors.New("'@' symbol found but no variable name followed")
-	}
-
-	value := tree.parseBareword()
-
-	if !exec {
-		// don't getVar() until we come to execute the expression, skip when only
-		// parsing syntax
-		return nil, nil, nil
-	}
-
-	v, err := tree.getArray(string(value))
-	return value, v, err
 }

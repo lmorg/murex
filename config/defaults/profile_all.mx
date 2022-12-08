@@ -932,7 +932,7 @@ openagent set image {
     }
 }
 
-if { microk8s } then {
+if { which: microk8s } then {
 
     private autocomplete.microk8s {
         # Top level completion results for microk8s

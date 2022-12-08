@@ -14,7 +14,7 @@ func expAdd(tree *expTreeT) error {
 	}
 
 	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s with %s",
 			tree.currentSymbol().key, left.dt.Primitive, right.dt.Primitive,
 		))
@@ -42,7 +42,7 @@ func expAdd(tree *expTreeT) error {
 		})
 
 	default:
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
 		))
 	}
@@ -56,7 +56,7 @@ func expSubtract(tree *expTreeT) error {
 	}
 
 	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s with %s",
 			tree.currentSymbol().key, left.dt.Primitive, right.dt.Primitive,
 		))
@@ -74,7 +74,7 @@ func expSubtract(tree *expTreeT) error {
 		})
 
 	default:
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
 		))
 	}

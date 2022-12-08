@@ -30,28 +30,37 @@ const (
 	errEmptyRange = "range '@%s' is empty"
 )
 
-// ParseParameters is an internal function to parse parameters
-func ParseParameters(prc *Process, p *parameters.Parameters) error {
-	var namedPipeIsParam bool
-	params := []string{}
-
-	strictArrays, err := prc.Config.Get("proc", "strict-arrays", "bool")
+// PPConfigDefaults returns the following config settings:
+//   - strictArrays
+//   - expandGlob
+func PPConfigDefaults(p *Process) (bool, bool) {
+	strictArrays, err := p.Config.Get("proc", "strict-arrays", "bool")
 	if err != nil {
 		strictArrays = true
 	}
 
-	autoGlob, err := prc.Config.Get("shell", "expand-glob", "bool")
+	expandGlob, err := p.Config.Get("shell", "expand-glob", "bool")
 	if err != nil {
-		autoGlob = true
+		expandGlob = true
 	}
-	autoGlob = autoGlob.(bool) && prc.Scope.Id == 0 && !lists.Match(GetNoGlobCmds(), prc.Name.String())
+	expandGlob = expandGlob.(bool) && p.Scope.Id == 0 && !lists.Match(GetNoGlobCmds(), p.Name.String())
 
-	for i := range p.Tokens {
+	return strictArrays.(bool), expandGlob.(bool)
+}
+
+// ParseParameters is an internal function to parse parameters
+func ParseParameters(p *Process, paramT *parameters.Parameters) error {
+	var namedPipeIsParam bool
+	params := []string{}
+
+	strictArrays, expandGlob := PPConfigDefaults(p)
+
+	for i := range paramT.Tokens {
 		params = append(params, "")
 
 		var tCount bool
-		for j := range p.Tokens[i] {
-			switch p.Tokens[i][j].Type {
+		for j := range paramT.Tokens[i] {
+			switch paramT.Tokens[i][j].Type {
 			case parameters.TokenTypeNil:
 				// do nothing
 
@@ -59,44 +68,44 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				if !namedPipeIsParam {
 					continue
 				}
-				p.Tokens[i][j].Type = parameters.TokenTypeValue
+				paramT.Tokens[i][j].Type = parameters.TokenTypeValue
 				fallthrough
 
 			case parameters.TokenTypeValue:
-				params[len(params)-1] += p.Tokens[i][j].Key
+				params[len(params)-1] += paramT.Tokens[i][j].Key
 				tCount = true
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeGlob:
-				if !autoGlob.(bool) || prc.Parent.Id != ShellProcess.Id || prc.Background.Get() || !Interactive {
-					params[len(params)-1] += p.Tokens[i][j].Key
+				if !expandGlob || p.Parent.Id != ShellProcess.Id || p.Background.Get() || !Interactive {
+					params[len(params)-1] += paramT.Tokens[i][j].Key
 
 				} else {
-					match, globErr := filepath.Glob(p.Tokens[i][j].Key)
-					glob, err := autoGlobPrompt(prc.Name.String(), p.Tokens[i][j].Key, match)
+					match, globErr := filepath.Glob(paramT.Tokens[i][j].Key)
+					glob, err := autoGlobPrompt(p.Name.String(), paramT.Tokens[i][j].Key, match)
 					if err != nil {
 						return err
 					}
 					if glob {
 						if globErr != nil {
-							return fmt.Errorf("invalid glob: '%s'\n%s", p.Tokens[i][j].Key, err.Error())
+							return fmt.Errorf("invalid glob: '%s'\n%s", paramT.Tokens[i][j].Key, err.Error())
 						}
 						if len(match) == 0 {
-							return fmt.Errorf("glob returned zero results.\nglob: '%s'", p.Tokens[i][j].Key)
+							return fmt.Errorf("glob returned zero results.\nglob: '%s'", paramT.Tokens[i][j].Key)
 						}
 						if !tCount {
 							params = params[:len(params)-1]
 						}
 						params = append(params, match...)
 					} else {
-						params[len(params)-1] += p.Tokens[i][j].Key
+						params[len(params)-1] += paramT.Tokens[i][j].Key
 					}
 				}
 				tCount = true
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarString:
-				s, err := prc.Variables.GetString(p.Tokens[i][j].Key)
+				s, err := p.Variables.GetString(paramT.Tokens[i][j].Key)
 				if err != nil {
 					return err
 				}
@@ -106,12 +115,12 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarBlockString:
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
-				exitNum, err := fork.Execute([]rune(p.Tokens[i][j].Key))
+				fork := p.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				exitNum, err := fork.Execute([]rune(paramT.Tokens[i][j].Key))
 				if err != nil {
 					return fmt.Errorf("subshell failed: %s", err.Error())
 				}
-				if exitNum > 0 && prc.RunMode.IsStrict() {
+				if exitNum > 0 && p.RunMode.IsStrict() {
 					return fmt.Errorf("subshell exit status %d", exitNum)
 				}
 				b, err := fork.Stdout.ReadAll()
@@ -126,14 +135,14 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarArray:
-				data, err := prc.Variables.GetString(p.Tokens[i][j].Key)
+				data, err := p.Variables.GetString(paramT.Tokens[i][j].Key)
 				if err != nil {
 					return err
 				}
 
 				if data == "" {
-					if strictArrays.(bool) {
-						return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
+					if strictArrays {
+						return fmt.Errorf(errEmptyArray, paramT.Tokens[i][j].Key)
 					} else {
 						continue
 					}
@@ -142,15 +151,15 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				var array []string
 
 				variable := streams.NewStdin()
-				variable.SetDataType(prc.Variables.GetDataType(p.Tokens[i][j].Key))
+				variable.SetDataType(p.Variables.GetDataType(paramT.Tokens[i][j].Key))
 				variable.Write([]byte(data))
 
-				variable.ReadArray(prc.Context, func(b []byte) {
+				variable.ReadArray(p.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
 
-				if len(array) == 0 && strictArrays.(bool) {
-					return fmt.Errorf(errEmptyArray, p.Tokens[i][j].Key)
+				if len(array) == 0 && strictArrays {
+					return fmt.Errorf(errEmptyArray, paramT.Tokens[i][j].Key)
 				}
 
 				if !tCount {
@@ -165,14 +174,14 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			case parameters.TokenTypeVarBlockArray:
 				var array []string
 
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
-				fork.Execute([]rune(p.Tokens[i][j].Key))
-				fork.Stdout.ReadArray(prc.Context, func(b []byte) {
+				fork := p.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork.Execute([]rune(paramT.Tokens[i][j].Key))
+				fork.Stdout.ReadArray(p.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
 
-				if len(array) == 0 && strictArrays.(bool) {
-					return fmt.Errorf(errEmptyArray, "{"+p.Tokens[i][j].Key+"}")
+				if len(array) == 0 && strictArrays {
+					return fmt.Errorf(errEmptyArray, "{"+paramT.Tokens[i][j].Key+"}")
 				}
 
 				if !tCount {
@@ -185,16 +194,16 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarIndex:
-				//debug.Log("parameters.TokenTypeVarIndex:", p.Tokens[i][j].Key)
-				match := rxTokenIndex.FindStringSubmatch(p.Tokens[i][j].Key)
+				//debug.Log("parameters.TokenTypeVarIndex:", paramT.Tokens[i][j].Key)
+				match := rxTokenIndex.FindStringSubmatch(paramT.Tokens[i][j].Key)
 				if len(match) != 3 {
-					params[len(params)-1] = p.Tokens[i][j].Key
+					params[len(params)-1] = paramT.Tokens[i][j].Key
 					tCount = true
 					continue
 				}
 
 				block := []rune("$" + match[1] + "->[" + match[2] + "]")
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork := p.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
@@ -208,16 +217,16 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarElement:
-				//debug.Log("parameters.TokenTypeVarIndex:", p.Tokens[i][j].Key)
-				match := rxTokenElement.FindStringSubmatch(p.Tokens[i][j].Key)
+				//debug.Log("parameters.TokenTypeVarIndex:", paramT.Tokens[i][j].Key)
+				match := rxTokenElement.FindStringSubmatch(paramT.Tokens[i][j].Key)
 				if len(match) != 3 {
-					params[len(params)-1] = p.Tokens[i][j].Key
+					params[len(params)-1] = paramT.Tokens[i][j].Key
 					tCount = true
 					continue
 				}
 
 				block := []rune("$" + match[1] + "->[[" + match[2] + "]]")
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork := p.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
 				b, err := fork.Stdout.ReadAll()
 				if err != nil {
@@ -231,9 +240,9 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarRange:
-				//debug.Log("parameters.TokenTypeVarRange:", p.Tokens[i][j].Key)
-				match := rxTokenRange.FindStringSubmatch(p.Tokens[i][j].Key)
-				debug.Json("parameters.TokenTypeVarRange:", match)
+				//debug.Log("parameters.TokenTypeVarRange:", paramT.Tokens[i][j].Key)
+				match := rxTokenRange.FindStringSubmatch(paramT.Tokens[i][j].Key)
+				//debug.Json("parameters.TokenTypeVarRange:", match)
 
 				var flags string
 
@@ -243,7 +252,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				case 4:
 					flags = match[3]
 				default:
-					params[len(params)-1] = p.Tokens[i][j].Key
+					params[len(params)-1] = paramT.Tokens[i][j].Key
 					tCount = true
 					continue
 				}
@@ -251,14 +260,14 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				var array []string
 				block := []rune("$" + match[1] + "-> @[" + match[2] + "]" + flags)
 				debug.Log(string(block))
-				fork := prc.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
+				fork := p.Fork(F_NO_STDIN | F_CREATE_STDOUT | F_PARENT_VARTABLE)
 				fork.Execute(block)
-				fork.Stdout.ReadArray(prc.Context, func(b []byte) {
+				fork.Stdout.ReadArray(p.Context, func(b []byte) {
 					array = append(array, string(b))
 				})
 
-				if len(array) == 0 && strictArrays.(bool) {
-					return fmt.Errorf(errEmptyRange, p.Tokens[i][j].Key)
+				if len(array) == 0 && strictArrays {
+					return fmt.Errorf(errEmptyRange, paramT.Tokens[i][j].Key)
 				}
 
 				if !tCount {
@@ -271,10 +280,10 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 				namedPipeIsParam = true
 
 			case parameters.TokenTypeVarTilde:
-				if len(p.Tokens[i][j].Key) == 0 {
+				if len(paramT.Tokens[i][j].Key) == 0 {
 					params[len(params)-1] += home.MyDir
 				} else {
-					params[len(params)-1] += home.UserDir(p.Tokens[i][j].Key)
+					params[len(params)-1] += (paramT.Tokens[i][j].Key)
 				}
 				tCount = true
 				namedPipeIsParam = true
@@ -282,7 +291,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 			default:
 				err := fmt.Errorf(
 					`unexpected parameter token type (%d) in parsed parameters. Param[%d][%d] == "%s"`,
-					p.Tokens[i][j].Type, i, j, p.Tokens[i][j].Key,
+					paramT.Tokens[i][j].Type, i, j, paramT.Tokens[i][j].Key,
 				)
 				return err
 			}
@@ -294,7 +303,7 @@ func ParseParameters(prc *Process, p *parameters.Parameters) error {
 
 	}
 
-	p.DefineParsed(params)
+	paramT.DefineParsed(params)
 
 	return nil
 }

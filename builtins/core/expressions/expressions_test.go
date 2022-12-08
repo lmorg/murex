@@ -160,3 +160,20 @@ func TestExpressionsBuiltin(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestExpressionsScalars(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestExpressionsScalars0="foobar";$TestExpressionsScalars0=="foobar"`,
+			Stdout: `true`,
+		},
+		{
+			Block:  `TestExpressionsScalars1="foobar";%[1,2,$TestExpressionsScalars1]`,
+			Stdout: `[1,2,"foobar"]`,
+		},
+	}
+
+	count.Tests(t, len(tests))
+
+	test.RunMurexTests(tests, t)
+}

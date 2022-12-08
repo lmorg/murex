@@ -50,12 +50,12 @@ func expLike(tree *expTreeT, eq bool) error {
 
 	leftL, err := types.ConvertGoType(left.dt.Value, types.String)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), err.Error())
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
 
 	rightL, err := types.ConvertGoType(right.dt.Value, types.String)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), err.Error())
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
 
 	leftL = strings.TrimSpace(strings.ToLower(leftL.(string)))
@@ -78,20 +78,20 @@ func expRegexp(tree *expTreeT, eq bool) error {
 	}
 
 	if left.dt.Primitive != primitives.String {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side should be %s, instead received %s",
 			primitives.String, left.dt.Primitive))
 	}
 
 	if right.dt.Primitive != primitives.String {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, right, 0, fmt.Sprintf(
 			"right side should be a regexp expression, instead received %s",
 			right.dt.Primitive))
 	}
 
 	rx, err := regexp.Compile(right.dt.Value.(string))
 	if err != nil {
-		raiseError(tree.expression, tree.currentSymbol(), err.Error())
+		raiseError(tree.expression, right, 0, err.Error())
 	}
 
 	return tree.foldAst(&astNodeT{

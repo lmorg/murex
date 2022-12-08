@@ -69,6 +69,23 @@ func TestParseBareword(t *testing.T) {
 				input:    `foo0bar`,
 				expected: `foo0bar`,
 			},
+			/////
+			{
+				input:    `foo0bar.`,
+				expected: `foo0bar`,
+			},
+			{
+				input:    `foo0bar=`,
+				expected: `foo0bar`,
+			},
+			{
+				input:    `foo.bar`,
+				expected: `foo`,
+			},
+			{
+				input:    `foo=bar`,
+				expected: `foo`,
+			},
 		},
 	}
 

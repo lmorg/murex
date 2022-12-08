@@ -18,7 +18,7 @@ func validateExpression(tree *expTreeT) error {
 	}
 	if len(tree.ast) == 1 &&
 		tree.ast[0].key != symbols.ArrayBegin && tree.ast[0].key != symbols.ObjectBegin &&
-		tree.ast[0].key != symbols.SubExpressionBegin && tree.ast[0].key != symbols.Calculated {
+		tree.ast[0].key != symbols.SubExpressionBegin { //&& tree.ast[0].key != symbols.Calculated {
 		return fmt.Errorf("not an expression: '%s'", string(tree.expression))
 	}
 
@@ -33,14 +33,14 @@ func validateExpression(tree *expTreeT) error {
 
 		// check for errors raised by the parser
 		if node.key < symbols.DataValues {
-			return raiseError(tree.expression, node, errMessage[node.key])
+			return raiseError(tree.expression, node, 0, errMessage[node.key])
 		}
 
 		// check each operation has a left side and right side data value
 		if expectValue {
 			if (node.key < symbols.DataValues) ||
 				node.key > symbols.Operations {
-				return raiseError(tree.expression, node, "expecting a data value")
+				return raiseError(tree.expression, node, 0, "expecting a data value")
 			}
 
 			if node.dt != nil {
@@ -54,19 +54,19 @@ func validateExpression(tree *expTreeT) error {
 
 		} else {
 			if node.key < symbols.Operations {
-				return raiseError(tree.expression, node, "expecting an operation")
+				return raiseError(tree.expression, node, 0, "expecting an operation")
 			}
 
 			switch node.key {
 			case symbols.Add, symbols.GreaterThan, symbols.LessThan:
 				if prev == nil || prev.key == symbols.Bareword ||
 					next == nil || next.key == symbols.Bareword {
-					return raiseError(tree.expression, node, fmt.Sprintf("cannot %s barewords", node.key))
+					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s barewords", node.key))
 				}
 			case symbols.Subtract, symbols.Divide, symbols.Multiply:
 				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated) ||
 					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated) {
-					return raiseError(tree.expression, node, fmt.Sprintf("cannot %s non-numeric data types", node.key))
+					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s non-numeric data types", node.key))
 				}
 			}
 		}
@@ -74,7 +74,7 @@ func validateExpression(tree *expTreeT) error {
 	}
 
 	if !expectValue {
-		return raiseError(tree.expression, tree.ast[len(tree.ast)-1], "unexpected end of expression")
+		return raiseError(tree.expression, tree.ast[len(tree.ast)-1], 0, "unexpected end of expression")
 	}
 
 	return nil

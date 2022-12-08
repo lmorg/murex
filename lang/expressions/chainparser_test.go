@@ -10,7 +10,7 @@ import (
 func TestChainParserOffset0(t *testing.T) {
 	tests := []string{
 		"1+2;other code",
-		"(1+2);other code",
+		//"(1+2);other code",
 		"foobar=1+2;other code",
 		"foobar=(1+2);other code",
 		"foobar=1+2;other code",
@@ -24,6 +24,19 @@ func TestChainParserOffset0(t *testing.T) {
 		"bob=3*(3+1)",
 		"%[apples oranges grapes]",
 		"fruit=%[apples oranges grapes]",
+		"$a==$b",
+		"%[1,2,$a]",
+		"%[1,2,@a]",
+		"%[1,2,$aa]",
+		"%[1,2,@aa]",
+		"b=%[1,2,$a]",
+		"b=%[1,2,@a]",
+		"b=%[1,2,$aa]",
+		"b=%[1,2,@aa]",
+		"foobar=%[1,2,$a]",
+		"foobar=%[1,2,@a]",
+		"foobar=%[1,2,$aa]",
+		"foobar=%[1,2,@aa]",
 	}
 
 	count.Tests(t, len(tests))
@@ -48,7 +61,7 @@ func TestChainParserOffset0(t *testing.T) {
 func TestChainParserOffset5(t *testing.T) {
 	tests := []string{
 		"code;1+2;other code",
-		"code;(1+2);other code",
+		//"code;(1+2);other code",
 		"code;foobar=1+2;other code",
 		"code;foobar=(1+2);other code",
 		"code;foobar=1+2;other code",
@@ -59,6 +72,19 @@ func TestChainParserOffset5(t *testing.T) {
 		"code;bob=3*(3+1)",
 		"code;%[apples oranges grapes]",
 		"code;fruit=%[apples oranges grapes]",
+		"code;$a==$b",
+		"code;%[1,2,$a]",
+		"code;%[1,2,@a]",
+		"code;%[1,2,$aa]",
+		"code;%[1,2,@aa]",
+		"code;b=%[1,2,$a]",
+		"code;b=%[1,2,@a]",
+		"code;b=%[1,2,$aa]",
+		"code;b=%[1,2,@aa]",
+		"code;foobar=%[1,2,$a]",
+		"code;foobar=%[1,2,@a]",
+		"code;foobar=%[1,2,$aa]",
+		"code;foobar=%[1,2,@aa]",
 	}
 
 	count.Tests(t, len(tests))

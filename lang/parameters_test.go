@@ -85,11 +85,6 @@ func TestParamHangBug(t *testing.T) {
 			Stderr: "Error in `@[` ( 4,10): invalid syntax: could not separate component values: [].\n                     > Usage: [start..end] / [start..end]se\n                     > (start or end can be omitted)\n",
 		},
 		{
-			Block:  `out: @FOO[[BAR]]`,
-			Stdout: "\n",
-			Stderr: "Error in `@[[` ( 4,10): exec: \"@[[\": executable file not found in $PATH\n",
-		},
-		{
 			Block:  `out: @ FOO[BAR]`,
 			Stdout: "@ FOO[BAR]\n",
 		},
@@ -124,6 +119,27 @@ func TestParamHangBug(t *testing.T) {
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestParamHangBugRx(t *testing.T) {
+	const config = `
+		config: set proc strict-vars false;
+		config: set proc strict-arrays false; 
+	`
+
+	tests := []test.MurexTest{
+		{
+			Block:  `out: @FOO[[BAR]]`,
+			Stdout: "\n",
+			Stderr: "executable file not found",
+		},
+	}
+
+	for i := range tests {
+		tests[i].Block = config + tests[i].Block
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestParamVarRange(t *testing.T) {

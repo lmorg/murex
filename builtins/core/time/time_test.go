@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	_ "github.com/lmorg/murex/builtins/core/expressions"
 	_ "github.com/lmorg/murex/builtins/optional/time"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
