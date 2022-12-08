@@ -158,7 +158,7 @@ func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
 		// 01. Function call, scope, array/member access
 
 		default:
-			err = raiseError(tree.expression, node, fmt.Sprintf(
+			err = raiseError(tree.expression, node, 0, fmt.Sprintf(
 				"no code written to handle symbol (%s)",
 				consts.IssueTrackerURL))
 		}

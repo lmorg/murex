@@ -27,7 +27,7 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 		keyValueI [2]interface{}
 		stage     int
 		obj       = make(map[string]interface{})
-		start     = tree.charPos
+		//start     = tree.charPos
 	)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -36,7 +36,7 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 		switch r {
 		case '\'', '"':
 			// quoted string
-			str, i, err := tree.parseString(r)
+			str, i, err := tree.parseString(r, exec)
 			if err != nil {
 				return nil, 0, err
 			}
@@ -69,7 +69,8 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 		case '{':
 			// start nested object
 			if stage&1 == 0 {
-				return nil, 0, fmt.Errorf("object keys cannot be another object")
+				return nil, 0, raiseError(
+					tree.expression, nil, tree.charPos, "object keys cannot be another object")
 			}
 			dt, i, err := tree.parseObject(exec)
 			if err != nil {
@@ -80,16 +81,45 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 			tree.charPos++
 
 		case '$':
-			// inline scalar
-			_, v, _, err := tree.parseVarScalar(exec)
-			if err != nil {
-				return nil, 0, err
+			switch {
+			case isBareChar(tree.nextChar()):
+				// inline scalar
+				strOrVal := stage&1 == 0
+				scalar, v, _, err := tree.parseVarScalar(exec, strOrVal)
+				if err != nil {
+					return nil, 0, err
+				}
+				if exec {
+					keyValueI[stage&1] = v
+				} else {
+					keyValueI[stage&1] = string(scalar)
+				}
+			case tree.nextChar() == '{':
+				// inline subshell
+				strOrVal := stage&1 == 0
+				subshell, v, _, err := tree.parseSubShell(exec, strOrVal)
+				if err != nil {
+					return nil, 0, err
+				}
+				if exec {
+					keyValueI[stage&1] = v
+				} else {
+					keyValueI[stage&1] = string(subshell)
+				}
+			default:
+				keyValueR[stage&1] = append(keyValueR[stage&1], r)
 			}
-			keyValueI[stage&1] = v
-			tree.charPos--
+
+		case '~':
+			// tilde
+			keyValueI[stage&1] = tree.parseVarTilde(true)
 
 		case '@':
 			// inline array
+			if stage&1 == 0 {
+				return nil, 0, raiseError(
+					tree.expression, nil, tree.charPos, "arrays cannot be object keys")
+			}
 			name, _, err := tree.parseVarArray(exec)
 			if err != nil {
 				return nil, 0, err
@@ -100,7 +130,8 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 
 		case ':':
 			if stage&1 == 1 {
-				return nil, 0, fmt.Errorf("invalid symbol ':' at %d, expecting ',' or '}' instead", tree.charPos)
+				return nil, 0, raiseError(
+					tree.expression, nil, tree.charPos, "invalid symbol ':' expecting ',' or '}' instead")
 			}
 			stage++
 			if keyValueI[0] != nil {
@@ -108,10 +139,17 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 			}
 			keyValueI[0] = string(keyValueR[0])
 
-		case '}', ',':
+		case '}', ',', '\n':
 			if stage&1 == 0 {
-				return nil, 0, fmt.Errorf("invalid symbol '%s' at %d, expecting ':' instead",
-					string(r), tree.charPos)
+				if r == '\n' {
+					return nil, 0, raiseError(
+						tree.expression, nil, tree.charPos,
+						"unexpected new line, expecting ':' instead")
+				}
+				return nil, 0, raiseError(
+					tree.expression, nil, tree.charPos, fmt.Sprintf(
+						"invalid symbol '%s', expecting ':' instead",
+						string(r)))
 			}
 			if keyValueI[0] == nil {
 				return nil, 0, fmt.Errorf("object key cannot be null before %d", tree.charPos)
@@ -133,7 +171,7 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 				goto endObject
 			}
 
-		case ' ', '\t', '\r', '\n':
+		case ' ', '\t', '\r':
 			continue
 
 		default:
@@ -162,8 +200,8 @@ func (tree *expTreeT) parseObject(exec bool) (*primitives.DataType, int, error) 
 		}
 	}
 
-	return nil, 0, fmt.Errorf(
-		"missing closing bracket (}) at char %d", start)
+	return nil, 0, raiseError(
+		tree.expression, nil, tree.charPos, "missing closing bracket (})")
 
 endObject:
 	tree.charPos--

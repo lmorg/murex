@@ -47,7 +47,7 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 		switch r {
 		case '\'', '"':
 			// quoted string
-			str, i, err := tree.parseString(r)
+			str, i, err := tree.parseString(r, exec)
 			if err != nil {
 				return nil, 0, err
 			}
@@ -93,12 +93,15 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 
 		case '$':
 			// inline scalar
-			_, v, _, err := tree.parseVarScalar(exec)
+			_, v, _, err := tree.parseVarScalar(exec, varAsValue)
 			if err != nil {
 				return nil, 0, err
 			}
 			slice = append(slice, v)
-			tree.charPos--
+
+		case '~':
+			// tilde
+			slice = append(slice, tree.parseVarTilde(true))
 
 		case '@':
 			// inline array
@@ -152,9 +155,8 @@ func (tree *expTreeT) parseArray(exec bool) (*primitives.DataType, int, error) {
 		}
 	}
 
-	return nil, 0, fmt.Errorf(
-		"missing closing square bracket (]) at char %d:\n%s",
-		tree.charPos-len(value), string(append([]rune{'['}, value...)))
+	return nil, 0, raiseError(tree.expression, nil, tree.charPos,
+		"missing closing square bracket ']'")
 
 endArray:
 	tree.charPos--
@@ -200,7 +202,8 @@ func (tree *expTreeT) parseArrayMaker(exec bool) (*primitives.DataType, int, err
 		}
 	}
 
-	return nil, start, fmt.Errorf("missing closing bracket `]`")
+	return nil, start, raiseError(
+		tree.expression, nil, tree.charPos, "missing closing bracket `]` ")
 
 endParseArrayMaker:
 	if !mkarray {

@@ -7,22 +7,30 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func raiseError(expression []rune, node *astNodeT, message string) error {
+func raiseError(expression []rune, node *astNodeT, pos int, message string) error {
 	expr := string(expression)
-	if len(expr) > 30 {
-		expr = expr[:30] + "... (long expression cropped)"
+	if len(expr) > 80 {
+		expr = expr[:80] + "... (long expression cropped)"
 	}
 	if node == nil {
-		return fmt.Errorf("%s\nExpression: '%s'", message, expr)
+		if expression != nil {
+			if pos < 1 {
+				pos = 1
+			}
+			return fmt.Errorf("%s at char %d\nExpression: %s\n          : %s",
+				message, pos,
+				expr, strings.Repeat(" ", pos-1)+"^")
+		}
+		return fmt.Errorf("%s\nExpression: %s", message, expr)
 	}
 
-	pos := node.pos
+	pos = node.pos
 	if node.pos < 0 {
 		pos = 0
 	}
 
 	if expression != nil {
-		return fmt.Errorf("%s at char %d\nExpression: '%s'\n          :  %s\nSymbol    : %s\nValue     : '%s'",
+		return fmt.Errorf("%s at char %d\nExpression: %s\n          : %s\nSymbol    : %s\nValue     : '%s'",
 			message, pos+1,
 			expr, strings.Repeat(" ", pos)+"^",
 			node.key.String(), node.Value())

@@ -14,7 +14,7 @@ func expGreaterThan(tree *expTreeT) error {
 	}
 
 	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
 		))
 	}
@@ -29,7 +29,7 @@ func expGreaterThan(tree *expTreeT) error {
 		value = left.dt.Value.(string) > right.dt.Value.(string)
 
 	default:
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
 		))
 	}
@@ -51,7 +51,7 @@ func expGreaterThanOrEqual(tree *expTreeT) error {
 	}
 
 	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
 		))
 	}
@@ -66,7 +66,7 @@ func expGreaterThanOrEqual(tree *expTreeT) error {
 		value = left.dt.Value.(string) >= right.dt.Value.(string)
 
 	default:
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
 		))
 	}
@@ -88,7 +88,7 @@ func expLessThan(tree *expTreeT) error {
 	}
 
 	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
 		))
 	}
@@ -103,7 +103,7 @@ func expLessThan(tree *expTreeT) error {
 		value = left.dt.Value.(string) < right.dt.Value.(string)
 
 	default:
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
 		))
 	}
@@ -125,7 +125,7 @@ func expLessThanOrEqual(tree *expTreeT) error {
 	}
 
 	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
 		))
 	}
@@ -140,7 +140,7 @@ func expLessThanOrEqual(tree *expTreeT) error {
 		value = left.dt.Value.(string) <= right.dt.Value.(string)
 
 	default:
-		return raiseError(tree.expression, tree.currentSymbol(), fmt.Sprintf(
+		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s with %s types", tree.currentSymbol().key, left.dt.Primitive,
 		))
 	}

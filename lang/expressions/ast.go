@@ -115,11 +115,11 @@ func (tree *expTreeT) getLeftAndRightSymbols() (*astNodeT, *astNodeT, error) {
 	right := tree.nextSymbol()
 
 	if left == nil {
-		return nil, nil, raiseError(tree.expression, tree.ast[tree.astPos], "missing value left of operation")
+		return nil, nil, raiseError(tree.expression, tree.ast[tree.astPos], 0, "missing value left of operation")
 	}
 
 	if right == nil {
-		return nil, nil, raiseError(tree.expression, tree.ast[tree.astPos], "missing value right of operation")
+		return nil, nil, raiseError(tree.expression, tree.ast[tree.astPos], 0, "missing value right of operation")
 	}
 
 	return left, right, nil
@@ -130,7 +130,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 	case symbols.Number:
 		f, err := strconv.ParseFloat(node.Value(), 64)
 		if err != nil {
-			return nil, raiseError(nil, node, err.Error())
+			return nil, raiseError(nil, node, 0, err.Error())
 		}
 		return &primitives.DataType{
 			Primitive: primitives.Number,
@@ -169,7 +169,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 		}, nil
 	}
 
-	return nil, raiseError(nil, node, fmt.Sprintf("unexpected error converting node to primitive (%s)", consts.IssueTrackerURL))
+	return nil, raiseError(nil, node, 0, fmt.Sprintf("unexpected error converting node to primitive (%s)", consts.IssueTrackerURL))
 }
 
 func newExpTree(p *lang.Process, expression []rune) *expTreeT {
