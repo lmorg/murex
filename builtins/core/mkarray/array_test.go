@@ -3,6 +3,7 @@ package mkarray
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins/types/json"
 	_ "github.com/lmorg/murex/builtins/types/string"
 	"github.com/lmorg/murex/test"
 )
@@ -80,6 +81,63 @@ func TestArrayDec(t *testing.T) {
 		{
 			Block:  `a: [001..10.10]`,
 			Stdout: "001\n002\n003\n004\n005\n006\n007\n008\n009\n010\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestArrayDecTyped(t *testing.T) {
+	tests := []test.MurexTest{
+		// Decimal, typed
+		{
+			Block:  `ta: json [0..10]`,
+			Stdout: "[0,1,2,3,4,5,6,7,8,9,10]",
+		},
+		{
+			Block:  `ta: json [01..10]`,
+			Stdout: `["01","02","03","04","05","06","07","08","09","10"]`,
+		},
+		{
+			Block:  `ta: json [00..10]`,
+			Stdout: `["00","01","02","03","04","05","06","07","08","09","10"]`,
+		},
+		{
+			Block:  `ja: [0..10]`,
+			Stdout: "[0,1,2,3,4,5,6,7,8,9,10]",
+		},
+		{
+			Block:  `ja: [01..10]`,
+			Stdout: `["01","02","03","04","05","06","07","08","09","10"]`,
+		},
+		{
+			Block:  `ja: [00..10]`,
+			Stdout: `["00","01","02","03","04","05","06","07","08","09","10"]`,
+		},
+		/////
+		{
+			Block:  `ta: json [10..0]`,
+			Stdout: "[10,9,8,7,6,5,4,3,2,1,0]",
+		},
+		{
+			Block:  `ta: json [10..01]`,
+			Stdout: `["10","09","08","07","06","05","04","03","02","01"]`,
+		},
+		{
+			Block:  `ta: json [10..00]`,
+			Stdout: `["10","09","08","07","06","05","04","03","02","01","00"]`,
+		},
+		{
+			Block:  `ja: [10..0]`,
+			Stdout: "[10,9,8,7,6,5,4,3,2,1,0]",
+		},
+		{
+			Block:  `ja: [10..01]`,
+			Stdout: `["10","09","08","07","06","05","04","03","02","01"]`,
+		},
+		{
+			Block:  `ja: [10..00]`,
+			Stdout: `["10","09","08","07","06","05","04","03","02","01","00"]`,
 		},
 	}
 
