@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func (tree *expTreeT) parseSubShell(exec bool, prefix rune, strOrVal bool) ([]rune, interface{}, string, error) {
+func (tree *expTreeT) parseSubShell(exec bool, prefix rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	var (
 		brackets = 1
 		escape   bool
@@ -69,10 +69,11 @@ endSubShell:
 	default:
 		err = fmt.Errorf("invalid prefix in expression '%s'. %s", string(prefix), consts.IssueTrackerURL)
 	}
+
 	return value, v, dataType, err
 }
 
-func execSubShellScalar(tree *expTreeT, block []rune, strOrVal bool) (interface{}, string, error) {
+func execSubShellScalar(tree *expTreeT, block []rune, strOrVal varFormatting) (interface{}, string, error) {
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
 	exitNum, err := fork.Execute(block)
 	if err != nil {
@@ -93,7 +94,7 @@ func execSubShellScalar(tree *expTreeT, block []rune, strOrVal bool) (interface{
 	return v, dataType, err
 }
 
-func execSubShellArray(tree *expTreeT, block []rune, strOrVal bool) ([]interface{}, error) {
+func execSubShellArray(tree *expTreeT, block []rune, strOrVal varFormatting) ([]interface{}, error) {
 	var slice []interface{}
 
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
@@ -105,14 +106,17 @@ func execSubShellArray(tree *expTreeT, block []rune, strOrVal bool) ([]interface
 		return nil, fmt.Errorf("subshell exit status %d", exitNum)
 	}
 
-	if strOrVal { // == varAsString
+	switch strOrVal {
+	case varAsString:
 		err = fork.Stdout.ReadArray(tree.p.Context, func(b []byte) {
 			slice = append(slice, string(b))
 		})
-	} else {
+	case varAsValue:
 		err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
 			slice = append(slice, v)
 		})
+	default:
+		panic("invalid value set for strOrVal")
 	}
 	if err != nil {
 		return nil, err

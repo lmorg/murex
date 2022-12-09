@@ -162,7 +162,7 @@ func testExpression(t *testing.T, tests []expressionTestT) {
 		if err != nil {
 			t.Errorf("Parser error in test %d: %s", i, err.Error())
 		}
-		dt, err := tree.execute()
+		dt, err := tree.executeExpr()
 
 		switch {
 		case (err != nil) != test.Error:

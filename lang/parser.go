@@ -511,7 +511,7 @@ func parser(block []rune) (*AstNodes, ParserError) {
 				startParameters()
 
 			default:
-				/*if pCount == 0 && len(node.Name) > 0 && isAlfphaNumeric(node.Name) {
+				if pCount == 0 && len(node.Name) > 0 && isAlphaNumeric(node.Name) {
 					if len(*pop) == 0 {
 						expression := append([]rune(node.Name+" "), block[i:]...)
 						adjust, err := ChainParser(expression, i)
@@ -548,9 +548,9 @@ func parser(block []rune) (*AstNodes, ParserError) {
 					} else {
 						pUpdate(r)
 					}
-				} else {*/
-				pUpdate(r)
-				//}
+				} else {
+					pUpdate(r)
+				}
 			}
 
 		case '[':

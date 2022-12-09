@@ -67,7 +67,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				// tilde
 				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
 					Primitive: primitives.String,
-					Value:     tree.parseVarTilde(true),
+					Value:     tree.parseVarTilde(exec),
 				})
 				//// unexpected symbol
 				//tree.appendAst(symbols.Unexpected)
@@ -111,7 +111,7 @@ func (tree *expTreeT) parse(exec bool) error {
 					return err
 				}
 
-				dt, err := branch.execute()
+				dt, err := branch.executeExpr()
 				if err != nil {
 					return err
 				}
@@ -152,6 +152,12 @@ func (tree *expTreeT) parse(exec bool) error {
 				if err != nil {
 					return err
 				}
+			case '(':
+				tree.charPos++
+				err := tree.createStringAst('(', ')', exec)
+				if err != nil {
+					return err
+				}
 			default:
 				tree.appendAst(symbols.Unexpected, r)
 			}
@@ -173,7 +179,7 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '\'', '`':
 			// start string / end string
-			value, nEscapes, err := tree.parseString(r, exec)
+			value, nEscapes, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
 			}
@@ -183,7 +189,7 @@ func (tree *expTreeT) parse(exec bool) error {
 
 		case '"':
 			// start string / end string
-			value, nEscapes, err := tree.parseString(r, exec)
+			value, nEscapes, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
 			}
@@ -220,7 +226,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.appendAst(symbols.Unexpected, r)
 			}
 
-		case '@':
+		case '@': // TODO: test me please!
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
@@ -247,7 +253,6 @@ func (tree *expTreeT) parse(exec bool) error {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						errMessage[symbols.Unexpected], string(r)))
 				}
-				tree.charPos++
 				tree.appendAst(symbols.Unexpected, r)
 			}
 

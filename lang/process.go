@@ -341,7 +341,8 @@ executeProcess:
 		p.Name.Set("exec")
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
-			cpErr := GoFunctions[ParserExpressions](p)
+			//cpErr := GoFunctions[ParserExpressions](p)
+			_, cpErr := ChainParser([]rune(p.Parameters.StringAll()), 0)
 			err = fmt.Errorf("invalid statment and expression:\n%v\n...or parameters for `%s`...\n%v",
 				cpErr, name, err)
 		}

@@ -10,12 +10,14 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
+type varFormatting int
+
 const (
-	varAsString = true
-	varAsValue  = false
+	varAsString varFormatting = 0
+	varAsValue  varFormatting = 1
 )
 
-func (tree *expTreeT) getVar(name []rune, strOrVal bool) (interface{}, string, error) {
+func (tree *expTreeT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
 	var (
 		value    interface{}
 		dataType string
@@ -23,7 +25,7 @@ func (tree *expTreeT) getVar(name []rune, strOrVal bool) (interface{}, string, e
 		nameS    = string(name)
 	)
 
-	if strOrVal { // == varAsString
+	if strOrVal == varAsString {
 		value, err = tree.p.Variables.GetString(nameS)
 		if err != nil {
 			return nil, "", err
@@ -121,7 +123,7 @@ const (
 	getVarIsElement = 2
 )
 
-func (tree *expTreeT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal bool) (interface{}, string, error) {
+func (tree *expTreeT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal varFormatting) (interface{}, string, error) {
 	var block []rune
 	if isIorE == getVarIsIndex {
 		block = createIndexBlock(name, key)
@@ -167,8 +169,8 @@ func createElementBlock(name, element []rune) []rune {
 	return block
 }
 
-func formatBytes(b []byte, dataType string, strOrVal bool) (interface{}, error) {
-	if strOrVal { // == varAsString
+func formatBytes(b []byte, dataType string, strOrVal varFormatting) (interface{}, error) {
+	if strOrVal == varAsString {
 		return string(b), nil
 	}
 

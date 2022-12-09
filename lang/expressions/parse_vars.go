@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-func (tree *expTreeT) parseVarScalar(exec bool, strOrVal bool) ([]rune, interface{}, string, error) {
+func (tree *expTreeT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
 	}
@@ -23,14 +23,14 @@ func (tree *expTreeT) parseVarScalar(exec bool, strOrVal bool) ([]rune, interfac
 	if !exec {
 		// don't getVar() until we come to execute the expression, skip when only
 		// parsing syntax
-		return value, nil, "", nil
+		return append([]rune{'$'}, value...), nil, "", nil
 	}
 
 	v, dataType, err := tree.getVar(value, strOrVal)
 	return value, v, dataType, err
 }
 
-func (tree *expTreeT) parseVarIndexElement(exec bool, varName []rune, strOrVal bool) ([]rune, interface{}, string, error) {
+func (tree *expTreeT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	var (
 		brackets = 1
 		escape   bool
@@ -95,10 +95,12 @@ func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	tree.charPos++
 	value := tree.parseBareword()
 
+	tree.charPos--
+
 	if !exec {
 		// don't getArray() until we come to execute the expression, skip when only
 		// parsing syntax
-		return value, nil, nil
+		return append([]rune{'@'}, value...), nil, nil
 	}
 
 	v, err := tree.getArray(value)

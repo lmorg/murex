@@ -32,6 +32,7 @@ type expTreeT struct {
 	p            *lang.Process
 	strictArrays interface{}
 	expandGlob   interface{}
+	statement    *StatementT
 }
 
 func (tree *expTreeT) nextChar() rune {
@@ -39,6 +40,13 @@ func (tree *expTreeT) nextChar() rune {
 		return 0
 	}
 	return tree.expression[tree.charPos+1]
+}
+
+func (tree *expTreeT) prevChar() rune {
+	if tree.charPos < 1 {
+		return 0
+	}
+	return tree.expression[tree.charPos-1]
 }
 
 func (tree *expTreeT) appendAst(key symbols.Exp, value ...rune) {

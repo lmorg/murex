@@ -13,7 +13,7 @@ func init() {
 func cmdExpressions(p *lang.Process) error {
 	expression := []rune(p.Parameters.StringAll())
 
-	result, err := expressions.Execute(p, expression)
+	result, err := expressions.ExecuteExpr(p, expression)
 	if err != nil {
 		return err
 	}
