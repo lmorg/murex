@@ -8,10 +8,21 @@ import (
 )
 
 func raiseError(expression []rune, node *astNodeT, pos int, message string) error {
-	expr := string(expression)
-	if len(expr) > 80 {
-		expr = expr[:80] + "... (long expression cropped)"
+	if pos < 0 {
+		pos = 0
 	}
+	expr := string(expression)
+	expr = strings.ReplaceAll(expr, "\r", " ")
+	expr = strings.ReplaceAll(expr, "\n", " ")
+
+	if pos < 80 {
+		if len(expr) > 80 {
+			expr = expr[:80] + "... (long expression cropped)"
+		}
+	} else {
+		expr = expr[:pos]
+	}
+
 	if node == nil {
 		if expression != nil {
 			if pos < 1 {

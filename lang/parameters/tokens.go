@@ -4,11 +4,12 @@ import "sync"
 
 // Parameters is the parameter object
 type Parameters struct {
-	mutex  sync.RWMutex
-	params []string
-	Tokens [][]ParamToken
+	mutex     sync.RWMutex
+	params    []string
+	PreParsed [][]rune
 }
 
+/*
 // ParamToken holds information on each parameter token before it is parsed into a string
 type ParamToken struct {
 	Type int
@@ -53,3 +54,4 @@ const (
 	// TokenTypeVarTilde: key is a user name. Return home directory. eg `command ~user`
 	TokenTypeVarTilde
 )
+*/

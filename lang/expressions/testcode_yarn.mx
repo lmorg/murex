@@ -1,0 +1,59 @@
+if { which yarn } then {
+    autocomplete: <!null> set yarn ({[
+        {
+            "CacheTTL": 30,
+            "Dynamic": ({
+                g: ${yarn <!null> bin}/* -> regexp: s,^.*/,,
+            }),
+            "FlagsDesc": ${
+                trypipe <!null> {
+                    yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
+                }
+            },
+            "Optional": true,
+            "AllowMultiple": true,
+            "AllowNoFlagValue": true,
+            "FlagValues": {"*": [
+                { "IncDirs": true },
+                { "Goto": "/0" }
+            ]}
+        },
+        {
+            "DynamicDesc": ({
+                cast json
+                if { g: package.json } then {
+                    open package.json -> [ scripts ]
+                }
+            }),
+            "Optional": true
+        },
+        {
+            "Flags": ${
+                trypipe <!null> {
+                    yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+                }
+            },
+            "FlagValues": {
+                ${
+                    trypipe <!null> {
+                        yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
+                            out ("$cmd":
+                                [{
+                                    "DynamicDesc": ({ 
+                                        yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                    }),
+                                    "AllowMultiple": true,
+                                    "AllowNoFlagValue": true,
+                                    "FlagValues": {"*": [
+                                        { "IncDirs": true },
+                                        { "Goto": "/2/add/0" }
+                                    ]}
+                                }],)
+                        }
+                    }
+                }
+                "": [{ }]
+            }
+        }
+    ]})
+}

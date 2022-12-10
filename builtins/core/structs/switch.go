@@ -1,10 +1,10 @@
 package structs
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -34,6 +34,30 @@ func cmdSwitch(p *lang.Process) error {
 	}
 }
 
+func parseSwitch(p *lang.Process, block []rune) ([]*expressions.ParserT, error) {
+	var swt []*expressions.ParserT
+
+	for i := 0; i < len(block); i++ {
+		r := block[i]
+
+		switch r {
+		case ' ', '\t', '\r', '\n', ';':
+			continue
+
+		default:
+			tree := expressions.NewParser(p, block[i:], 0)
+			err := tree.ParseStatement(true)
+			if err != nil {
+				return nil, err
+			}
+
+			swt = append(swt, tree)
+		}
+	}
+
+	return swt, nil
+}
+
 func switchLogic(p *lang.Process, byVal bool, val string) error {
 	var loc int
 	if byVal {
@@ -45,19 +69,15 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 		return err
 	}
 
-	ast, pErr := lang.ParseBlock(block)
-	if pErr.Code != 0 {
-		return errors.New(pErr.Message)
+	swt, err := parseSwitch(p, block)
+	if err != nil {
+		return err
 	}
 
 	var prevIfPassed bool
 
-	for i := range *ast {
-		params := &parameters.Parameters{Tokens: (*ast)[i].ParamTokens}
-		err = lang.ParseParameters(p, params)
-		if err != nil {
-			return err
-		}
+	for _, tree := range swt {
+		tree.ParseStatement()
 
 		switch (*ast)[i].Name {
 		case "if", "case":

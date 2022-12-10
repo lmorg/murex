@@ -33,7 +33,7 @@ func (st *StatementT) NextParameter() {
 	st.paramTemp = []rune{}
 }
 
-func (st *StatementT) Validate() error {
+func (st *StatementT) validate() error {
 	switch {
 	case len(st.command) == 0:
 		return errors.New("no command specified (empty command property)")

@@ -11,6 +11,10 @@ func TestParseQuoteDouble(t *testing.T) {
 		symbol: symbols.QuoteDouble,
 		tests: []expTestT{
 			{
+				input:    `""`,
+				expected: ``,
+			},
+			{
 				input: `"foobar`,
 				error: true,
 			},

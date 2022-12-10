@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func expAssign(tree *expTreeT) error {
+func expAssign(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -55,7 +55,7 @@ func expAssign(tree *expTreeT) error {
 	})
 }
 
-func expAssignAdd(tree *expTreeT) error {
+func expAssignAdd(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -132,7 +132,7 @@ func expAssignAdd(tree *expTreeT) error {
 	})
 }
 
-func expAssignSubtract(tree *expTreeT) error {
+func expAssignSubtract(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -184,7 +184,7 @@ func expAssignSubtract(tree *expTreeT) error {
 	})
 }
 
-func expAssignMultiply(tree *expTreeT) error {
+func expAssignMultiply(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -236,7 +236,7 @@ func expAssignMultiply(tree *expTreeT) error {
 	})
 }
 
-func expAssignDivide(tree *expTreeT) error {
+func expAssignDivide(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err

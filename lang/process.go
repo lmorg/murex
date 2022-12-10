@@ -17,7 +17,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 var (
@@ -76,8 +75,8 @@ func DefineFunction(name string, fn func(*Process) error, StdoutDataType string)
 }
 
 var (
-	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
-	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
+	//rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
+	rxVariables = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
 )
 
 func writeError(p *Process, err error) []byte {
@@ -110,11 +109,11 @@ func createProcess(p *Process, isMethod bool) {
 
 	name := p.Name.String()
 
-	if rxNamedPipeStdinOnly.MatchString(name) {
+	/*if rxNamedPipeStdinOnly.MatchString(name) {
 		p.Parameters.SetPrepend(name[1 : len(name)-1])
 		p.Name.Set(consts.NamedPipeProcName)
 		name = consts.NamedPipeProcName
-	}
+	}*/
 
 	if name[0] == '!' {
 		p.IsNot = true
@@ -187,7 +186,8 @@ func createProcess(p *Process, isMethod bool) {
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
 	if name == "pipe" || name == "test" {
-		err := ParseParameters(p, &p.Parameters)
+		//err := ParseParameters(p, &p.Parameters)
+		err := ParseStatementParameters(p.raw, p)
 		if err != nil {
 			ShellProcess.Stderr.Writeln(writeError(p, err))
 			if p.ExitNum == 0 {
@@ -211,7 +211,7 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
-	//debug.Json("Execute process ()", p)
+	//debug.Json("Execute process ()", p.Dump())
 	testStates(p)
 
 	if p.HasTerminated() || p.HasCancelled() ||
@@ -228,6 +228,7 @@ func executeProcess(p *Process) {
 	if err != nil {
 		echo = false
 	}
+
 	tmux, err := p.Config.Get("proc", "echo-tmux", types.Boolean)
 	if err != nil {
 		tmux = false
@@ -235,7 +236,7 @@ func executeProcess(p *Process) {
 
 	var parsedAlias bool
 
-	err = ParseParameters(p, &p.Parameters)
+	err = ParseStatementParameters(p.raw, p)
 	if err != nil {
 		goto cleanUpProcess
 	}
@@ -342,7 +343,7 @@ executeProcess:
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
 			//cpErr := GoFunctions[ParserExpressions](p)
-			_, cpErr := ChainParser([]rune(p.Parameters.StringAll()), 0)
+			_, cpErr := ParseExpression([]rune(p.Parameters.StringAll()), 0, false)
 			err = fmt.Errorf("invalid statment and expression:\n%v\n...or parameters for `%s`...\n%v",
 				cpErr, name, err)
 		}

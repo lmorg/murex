@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func expGreaterThan(tree *expTreeT) error {
+func expGreaterThan(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -44,7 +44,7 @@ func expGreaterThan(tree *expTreeT) error {
 	})
 }
 
-func expGreaterThanOrEqual(tree *expTreeT) error {
+func expGreaterThanOrEqual(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -81,7 +81,7 @@ func expGreaterThanOrEqual(tree *expTreeT) error {
 	})
 }
 
-func expLessThan(tree *expTreeT) error {
+func expLessThan(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -118,7 +118,7 @@ func expLessThan(tree *expTreeT) error {
 	})
 }
 
-func expLessThanOrEqual(tree *expTreeT) error {
+func expLessThanOrEqual(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err

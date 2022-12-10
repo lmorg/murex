@@ -1,5 +1,6 @@
 package lang
 
+/*
 import (
 	"fmt"
 	"path/filepath"
@@ -359,3 +360,4 @@ func autoGlobPromptHintText(rl *readline.Instance, match []string) []rune {
 	after := globExpandsTo + strings.Join(slice, ", ")
 	return []rune(after)
 }
+*/

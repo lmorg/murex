@@ -35,8 +35,8 @@ func testParserSymbol(t *testing.T, tests expTestsT) {
 	p.Config.Set("proc", "strict-arrays", false, nil)
 
 	for i, test := range tests.tests {
-		tree := newExpTree(p, []rune(test.input))
-		err := tree.parse(true)
+		tree := NewParser(p, []rune(test.input), 0)
+		err := tree.parseExpression(true)
 
 		switch {
 		case (err != nil) != test.error:
@@ -93,8 +93,8 @@ func testParserObject(t *testing.T, tests expTestsT) {
 	p.Config.Set("proc", "strict-arrays", false, nil)
 
 	for i, test := range tests.tests {
-		tree := newExpTree(p, []rune(test.input))
-		err := tree.parse(true)
+		tree := NewParser(p, []rune(test.input), 0)
+		err := tree.parseExpression(true)
 
 		switch {
 		case (err != nil) != test.error:
@@ -156,9 +156,9 @@ func testExpression(t *testing.T, tests []expressionTestT) {
 	p.Config.Set("proc", "strict-arrays", false, nil)
 
 	for i, test := range tests {
-		tree := newExpTree(p, []rune(test.Expression))
+		tree := NewParser(p, []rune(test.Expression), 0)
 
-		err := tree.parse(true)
+		err := tree.parseExpression(true)
 		if err != nil {
 			t.Errorf("Parser error in test %d: %s", i, err.Error())
 		}

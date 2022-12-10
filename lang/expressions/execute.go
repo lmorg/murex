@@ -6,9 +6,9 @@ import (
 )
 
 func ExecuteExpr(p *lang.Process, expression []rune) (*primitives.DataType, error) {
-	tree := newExpTree(p, expression)
+	tree := NewParser(p, expression, 0)
 
-	err := tree.parse(true)
+	err := tree.parseExpression(true)
 	if err != nil {
 		return nil, err
 	}
@@ -16,7 +16,7 @@ func ExecuteExpr(p *lang.Process, expression []rune) (*primitives.DataType, erro
 	return tree.executeExpr()
 }
 
-func (tree *expTreeT) ParseStatement(exec bool) error {
+func (tree *ParserT) ParseStatement(exec bool) error {
 	tree.statement = new(StatementT)
 	tree.charPos = 0
 
@@ -25,9 +25,9 @@ func (tree *expTreeT) ParseStatement(exec bool) error {
 		return err
 	}
 
-	if !exec {
-		return tree.statement.Validate()
-	}
+	/*if !exec { // TODO: rethink this bit
+		tree.statement.validate()
+	}*/
 
 	return nil
 }

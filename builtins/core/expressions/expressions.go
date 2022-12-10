@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	lang.DefineFunction(lang.ParserExpressions, cmdExpressions, types.Any)
+	lang.DefineFunction(lang.ExpressionFunctionName, cmdExpressions, types.Any)
 }
 
 func cmdExpressions(p *lang.Process) error {

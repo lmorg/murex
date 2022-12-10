@@ -4,13 +4,18 @@ import (
 	"context"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
-	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/expressions/functions"
 	"github.com/lmorg/murex/lang/ref"
-	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 )
 
-func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
+var ParseBlock func(block []rune) (*[]functions.FunctionT, error)
+var ParseExpression func([]rune, int, bool) (int, error)
+var ParseStatementParameters func([]rune, *Process) error
+
+const ExpressionFunctionName = "expr"
+
+func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 	if parent == nil {
 		panic("nil parent")
 	}
@@ -19,8 +24,8 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 		panic("nil tree")
 	}
 
-	rm := parent.RunMode
-	if len(*tree) > 0 && (*tree)[0].Name == "runmode" {
+	rm := parent.RunMode // TODO: replimient this
+	/*if len(*tree) > 0 && (*tree)[0].Name == "runmode" {
 		params := parameters.Parameters{Tokens: (*tree)[0].ParamTokens}
 		err := ParseParameters(parent, &params)
 		if err != nil {
@@ -51,16 +56,19 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 		}
 
 		*tree = (*tree)[1:]
-	}
+	}*/
 
 	procs := make([]Process, len(*tree))
 
 	for i := range *tree {
 		procs[i].State.Set(state.MemAllocated)
-		procs[i].Name.Set((*tree)[i].Name)
-		procs[i].IsMethod = (*tree)[i].Method
-		procs[i].OperatorLogicAnd = (*tree)[i].LogicAnd
-		procs[i].OperatorLogicOr = (*tree)[i].LogicOr
+		procs[i].raw = (*tree)[i].Raw
+		procs[i].Name.SetRune((*tree)[i].Command)
+		procs[i].Parameters.PreParsed = (*tree)[i].Parameters
+		procs[i].namedPipes = (*tree)[i].NamedPipes
+		procs[i].IsMethod = (*tree)[i].Properties.Method()
+		procs[i].OperatorLogicAnd = (*tree)[i].Properties.LogicAnd()
+		procs[i].OperatorLogicOr = (*tree)[i].Properties.LogicOr()
 		procs[i].Background.Set(parent.Background.Get())
 		procs[i].Parent = parent
 		procs[i].Scope = parent.Scope
@@ -69,24 +77,23 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 		procs[i].Config = parent.Config
 		procs[i].Tests = parent.Tests
 		procs[i].Variables = parent.Variables
-		procs[i].Parameters.SetTokens((*tree)[i].ParamTokens)
 		procs[i].PromptId = parent.PromptId
 		procs[i].CCEvent = parent.CCEvent
 		procs[i].CCExists = parent.CCExists
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
 		procs[i].Forks = NewForkManagement()
-
-		if (*tree)[i].LineNumber == 0 {
+		// TODO: add line numbers
+		/*if (*tree)[i].LineNumber == 0 {
 			procs[i].FileRef.Column = (*tree)[i].ColNumber + parent.FileRef.Column
 		} else {
 			procs[i].FileRef.Column = (*tree)[i].ColNumber
-		}
+		}*/
 
-		if parent.Id == 0 {
+		/*if parent.Id == 0 {
 			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line + 1
 		} else {
 			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line
-		}
+		}*/
 
 		// Define previous and next processes:
 		switch {
@@ -121,7 +128,7 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 			// first
 			procs[0].Stdin = parent.Stdin
 
-		case (*tree)[i].NewChain:
+		case (*tree)[i].Properties.NewChain():
 			// new chain
 			procs[i].Stdin = streams.NewStdin()
 			//procs[i].Stdin = new(null.Null)
@@ -129,7 +136,7 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 
 		// Define stdout / stderr interfaces:
 		switch {
-		case (*tree)[i].PipeOut:
+		case (*tree)[i].Properties.PipeOut():
 			if i+1 == len(procs) {
 				return nil, ErrPipingToNothing
 			}
@@ -137,7 +144,7 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 			procs[i].Stdout = procs[i].Next.Stdin
 			procs[i].Stderr = procs[i].Parent.Stderr
 
-		case (*tree)[i].PipeErr:
+		case (*tree)[i].Properties.PipeErr():
 			if i+1 == len(procs) {
 				return nil, ErrPipingToNothing
 			}
@@ -160,7 +167,7 @@ func compile(tree *AstNodes, parent *Process) (*[]Process, int) {
 	}
 
 	for i := range *tree {
-		createProcess(&procs[i], !(*tree)[i].NewChain)
+		createProcess(&procs[i], !(*tree)[i].Properties.NewChain())
 	}
 
 	return &procs, 0

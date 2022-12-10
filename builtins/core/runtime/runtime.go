@@ -198,8 +198,6 @@ func cmdRuntime(p *lang.Process) error {
 			var mem runtime.MemStats
 			runtime.ReadMemStats(&mem)
 			ret[fMemstats[2:]] = mem
-		case fAstCache:
-			ret[fAstCache[2:]] = lang.AstCache.Dump()
 		case fTests:
 			ret[fTests[2:]] = p.Tests.Dump()
 		case fTestResults:

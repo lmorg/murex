@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *expTreeT) createStringAst(qStart, qEnd rune, exec bool) error {
+func (tree *ParserT) createStringAst(qStart, qEnd rune, exec bool) error {
 	// create JSON dict
 	value, nEscapes, err := tree.parseString(qStart, qEnd, exec)
 	if err != nil {
@@ -18,7 +18,7 @@ func (tree *expTreeT) createStringAst(qStart, qEnd rune, exec bool) error {
 	return nil
 }
 
-func (tree *expTreeT) parseParen(exec bool) ([]rune, int, error) {
+func (tree *ParserT) parseParen(exec bool) ([]rune, int, error) {
 	value, nEscape, err := tree.parseString('(', ')', exec)
 	if err != nil {
 		return nil, 0, err
@@ -33,7 +33,7 @@ func (tree *expTreeT) parseParen(exec bool) ([]rune, int, error) {
 	return value, nEscape, nil
 }
 
-func (tree *expTreeT) parseString(qStart, qEnd rune, exec bool) ([]rune, int, error) {
+func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, int, error) {
 	if exec && qStart != '\'' {
 		return tree.parseStringInfix(qEnd, exec)
 	}
@@ -48,6 +48,12 @@ func (tree *expTreeT) parseString(qStart, qEnd rune, exec bool) ([]rune, int, er
 		r := tree.expression[tree.charPos]
 
 		switch {
+		case r == '(' && qEnd == ')':
+			_, _, err := tree.parseParen(exec)
+			if err != nil {
+				return nil, 0, err
+			}
+
 		case r == qEnd:
 			// end quote
 			goto endString
@@ -72,7 +78,7 @@ endString:
 	return value, 0, nil
 }
 
-func (tree *expTreeT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error) {
+func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error) {
 	var (
 		value    []rune
 		nEscapes int
@@ -137,6 +143,12 @@ func (tree *expTreeT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error
 			tilde := tree.parseVarTilde(exec)
 			value = append(value, []rune(tilde)...)
 
+		case r == '(' && qEnd == ')':
+			_, _, err := tree.parseParen(exec)
+			if err != nil {
+				return nil, 0, err
+			}
+
 		case r == qEnd:
 			// end quote
 			goto endString
@@ -157,19 +169,22 @@ endString:
 	return value, nEscapes, nil
 }
 
-func (tree *expTreeT) parseBlockQuote() ([]rune, error) {
+func (tree *ParserT) parseBlockQuote() ([]rune, error) {
 	start := tree.charPos
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 
 		switch r {
-		case '\'', '"':
-			_, _, err := tree.parseString(r, r, false)
-			if err != nil {
-				return nil, err
-			}
-			tree.charPos++
+		case '#':
+			tree.parseComment()
+
+		/*case '\'', '"':
+		_, _, err := tree.parseString(r, r, false)
+		if err != nil {
+			return nil, err
+		}
+		tree.charPos++*/
 
 		case '%':
 			switch tree.nextChar() {
@@ -186,6 +201,12 @@ func (tree *expTreeT) parseBlockQuote() ([]rune, error) {
 					return nil, err
 				}
 			}
+
+		/*case '(':
+		_, _, err := tree.parseParen(false)
+		if err != nil {
+			return nil, err
+		}*/
 
 		case '{':
 			_, err := tree.parseBlockQuote()
@@ -205,7 +226,7 @@ func (tree *expTreeT) parseBlockQuote() ([]rune, error) {
 	return nil, raiseError(tree.expression, nil, tree.charPos, "missing closing brace '}'")
 }
 
-func (tree *expTreeT) parseNamedPipe() []rune {
+func (tree *ParserT) parseNamedPipe() []rune {
 	start := tree.charPos
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -216,7 +237,7 @@ func (tree *expTreeT) parseNamedPipe() []rune {
 		}
 
 		if r == '>' {
-			return tree.expression[start : tree.charPos+1]
+			return tree.expression[start+1 : tree.charPos]
 		}
 
 		break

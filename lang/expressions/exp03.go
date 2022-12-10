@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func expMultiply(tree *expTreeT) error {
+func expMultiply(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func expMultiply(tree *expTreeT) error {
 
 }
 
-func expDivide(tree *expTreeT) error {
+func expDivide(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err

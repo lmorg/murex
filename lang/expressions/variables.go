@@ -17,7 +17,7 @@ const (
 	varAsValue  varFormatting = 1
 )
 
-func (tree *expTreeT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
+func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
 	var (
 		value    interface{}
 		dataType string
@@ -66,7 +66,7 @@ func (tree *expTreeT) getVar(name []rune, strOrVal varFormatting) (interface{}, 
 
 const errEmptyArray = "array '@%s' is empty"
 
-func (tree *expTreeT) getArray(name []rune) (interface{}, error) {
+func (tree *ParserT) getArray(name []rune) (interface{}, error) {
 	var nameS = string(name)
 
 	data, err := tree.p.Variables.GetString(nameS)
@@ -95,7 +95,7 @@ func (tree *expTreeT) getArray(name []rune) (interface{}, error) {
 	return array, nil
 }
 
-func (tree *expTreeT) setVar(name []rune, value interface{}, dataType string) error {
+func (tree *ParserT) setVar(name []rune, value interface{}, dataType string) error {
 	nameS := string(name)
 	return tree.p.Variables.Set(tree.p, nameS, value, dataType)
 }
@@ -123,7 +123,7 @@ const (
 	getVarIsElement = 2
 )
 
-func (tree *expTreeT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal varFormatting) (interface{}, string, error) {
+func (tree *ParserT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal varFormatting) (interface{}, string, error) {
 	var block []rune
 	if isIorE == getVarIsIndex {
 		block = createIndexBlock(name, key)

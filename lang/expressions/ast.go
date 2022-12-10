@@ -22,7 +22,7 @@ func (node *astNodeT) Value() string {
 	return string(node.value)
 }
 
-type expTreeT struct {
+type ParserT struct {
 	ast          []*astNodeT
 	charPos      int
 	charOffset   int
@@ -32,24 +32,24 @@ type expTreeT struct {
 	p            *lang.Process
 	strictArrays interface{}
 	expandGlob   interface{}
-	statement    *StatementT
+	Statement    *StatementT
 }
 
-func (tree *expTreeT) nextChar() rune {
+func (tree *ParserT) nextChar() rune {
 	if tree.charPos+1 >= len(tree.expression) {
 		return 0
 	}
 	return tree.expression[tree.charPos+1]
 }
 
-func (tree *expTreeT) prevChar() rune {
+func (tree *ParserT) prevChar() rune {
 	if tree.charPos < 1 {
 		return 0
 	}
 	return tree.expression[tree.charPos-1]
 }
 
-func (tree *expTreeT) appendAst(key symbols.Exp, value ...rune) {
+func (tree *ParserT) appendAst(key symbols.Exp, value ...rune) {
 	tree.ast = append(tree.ast, &astNodeT{
 		key:   key,
 		value: value,
@@ -57,7 +57,7 @@ func (tree *expTreeT) appendAst(key symbols.Exp, value ...rune) {
 	})
 }
 
-func (tree *expTreeT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType) {
+func (tree *ParserT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType) {
 	tree.ast = append(tree.ast, &astNodeT{
 		key: key,
 		dt:  dt,
@@ -65,7 +65,7 @@ func (tree *expTreeT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.Dat
 	})
 }
 
-func (tree *expTreeT) foldAst(new *astNodeT) error {
+func (tree *ParserT) foldAst(new *astNodeT) error {
 	switch {
 	case tree.astPos <= 0:
 		return fmt.Errorf("cannot fold when tree.astPos<%d> <= 0<%d> (%s)",
@@ -94,7 +94,7 @@ func (tree *expTreeT) foldAst(new *astNodeT) error {
 }
 
 // memory safe
-func (tree *expTreeT) prevSymbol() *astNodeT {
+func (tree *ParserT) prevSymbol() *astNodeT {
 	if tree.astPos-1 < 0 {
 		return nil
 	}
@@ -103,7 +103,7 @@ func (tree *expTreeT) prevSymbol() *astNodeT {
 }
 
 // memory safe
-func (tree *expTreeT) currentSymbol() *astNodeT {
+func (tree *ParserT) currentSymbol() *astNodeT {
 	if tree.astPos < 0 || tree.astPos >= len(tree.ast) {
 		return nil
 	}
@@ -112,7 +112,7 @@ func (tree *expTreeT) currentSymbol() *astNodeT {
 }
 
 // memory safe
-func (tree *expTreeT) nextSymbol() *astNodeT {
+func (tree *ParserT) nextSymbol() *astNodeT {
 	if tree.astPos+1 >= len(tree.ast) {
 		return nil
 	}
@@ -120,7 +120,7 @@ func (tree *expTreeT) nextSymbol() *astNodeT {
 	return tree.ast[tree.astPos+1]
 }
 
-func (tree *expTreeT) getLeftAndRightSymbols() (*astNodeT, *astNodeT, error) {
+func (tree *ParserT) getLeftAndRightSymbols() (*astNodeT, *astNodeT, error) {
 	left := tree.prevSymbol()
 	right := tree.nextSymbol()
 
@@ -182,14 +182,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 	return nil, raiseError(nil, node, 0, fmt.Sprintf("unexpected error converting node to primitive (%s)", consts.IssueTrackerURL))
 }
 
-func newExpTree(p *lang.Process, expression []rune) *expTreeT {
-	tree := new(expTreeT)
-	tree.expression = expression
-	tree.p = p
-	return tree
-}
-
-func (tree *expTreeT) StrictArrays() bool {
+func (tree *ParserT) StrictArrays() bool {
 	if tree.strictArrays != nil {
 		return tree.strictArrays.(bool)
 	}
@@ -203,7 +196,7 @@ func (tree *expTreeT) StrictArrays() bool {
 	return tree.strictArrays.(bool)
 }
 
-func (tree *expTreeT) ExpandGlob() bool {
+func (tree *ParserT) ExpandGlob() bool {
 	if tree.expandGlob != nil {
 		return tree.expandGlob.(bool)
 	}

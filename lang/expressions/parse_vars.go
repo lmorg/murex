@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-func (tree *expTreeT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
 	}
@@ -30,7 +30,7 @@ func (tree *expTreeT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune,
 	return value, v, dataType, err
 }
 
-func (tree *expTreeT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	var (
 		brackets = 1
 		escape   bool
@@ -87,7 +87,7 @@ endIndexElement:
 	return nil, v, dt, nil
 }
 
-func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
+func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, errors.New("'@' symbol found but no variable name followed")
 	}
@@ -111,7 +111,7 @@ func isUserNameChar(r rune) bool {
 	return isBareChar(r) || r == '.' || r == '-'
 }
 
-func (tree *expTreeT) parseVarTilde(exec bool) string {
+func (tree *ParserT) parseVarTilde(exec bool) string {
 	tree.charPos++
 	start := tree.charPos
 

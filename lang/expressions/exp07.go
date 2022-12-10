@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func expEqualTo(tree *expTreeT) error {
+func expEqualTo(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -26,7 +26,7 @@ func expEqualTo(tree *expTreeT) error {
 	})
 }
 
-func expNotEqualTo(tree *expTreeT) error {
+func expNotEqualTo(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -42,7 +42,7 @@ func expNotEqualTo(tree *expTreeT) error {
 	})
 }
 
-func expLike(tree *expTreeT, eq bool) error {
+func expLike(tree *ParserT, eq bool) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -71,7 +71,7 @@ func expLike(tree *expTreeT, eq bool) error {
 	})
 }
 
-func expRegexp(tree *expTreeT, eq bool) error {
+func expRegexp(tree *ParserT, eq bool) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err

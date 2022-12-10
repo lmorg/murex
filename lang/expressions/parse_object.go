@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func (tree *expTreeT) createObjectAst(exec bool) error {
+func (tree *ParserT) createObjectAst(exec bool) error {
 	// create JSON dict
 	_, dt, nEscapes, err := tree.parseObject(exec)
 	if err != nil {
@@ -53,7 +53,7 @@ func (o *parseObjectT) WriteKeyValuePair(pos int) error {
 	return nil
 }
 
-func (tree *expTreeT) parseObject(exec bool) ([]rune, *primitives.DataType, int, error) {
+func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, int, error) {
 	var (
 		start    = tree.charPos
 		nEscapes int
@@ -64,6 +64,9 @@ func (tree *expTreeT) parseObject(exec bool) ([]rune, *primitives.DataType, int,
 		r := tree.expression[tree.charPos]
 
 		switch r {
+		case '#':
+			tree.parseComment()
+
 		case '\'', '"':
 			// quoted string
 			str, i, err := tree.parseString(r, r, exec)

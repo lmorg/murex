@@ -28,10 +28,10 @@ func testParseStatement(t *testing.T, tests []testParseStatementT) {
 		p.Name.Set("TestParseStatement")
 		p.Config.Set("proc", "strict-vars", false, nil)
 		p.Config.Set("proc", "strict-arrays", false, nil)
-		tree := newExpTree(p, []rune(test.Statement))
+		tree := NewParser(p, []rune(test.Statement), 0)
 		err := tree.ParseStatement(test.Exec)
 		if err == nil {
-			err = tree.statement.Validate()
+			err = tree.statement.validate()
 		}
 
 		actual := make([]string, len(tree.statement.parameters)+1)
@@ -57,6 +57,7 @@ func testParseStatement(t *testing.T, tests []testParseStatementT) {
 		}
 	}
 }
+
 func TestParseStatement(t *testing.T) {
 	tests := []testParseStatementT{
 		{
@@ -65,6 +66,13 @@ func TestParseStatement(t *testing.T) {
 				"echo", "hello", "world",
 			},
 			Exec: false,
+		},
+		{
+			Statement: `echo hello world`,
+			Args: []string{
+				"echo", "hello", "world",
+			},
+			Exec: true,
 		},
 		{
 			Statement: `echo 'hello world'`,
@@ -77,6 +85,76 @@ func TestParseStatement(t *testing.T) {
 			Statement: `echo 'hello world'`,
 			Args: []string{
 				"echo", "hello world",
+			},
+			Exec: true,
+		},
+		{
+			Statement: `echo "hello world"`,
+			Args: []string{
+				"echo", `"hello world"`,
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo "hello world"`,
+			Args: []string{
+				"echo", `hello world`,
+			},
+			Exec: true,
+		},
+		{
+			Statement: `echo (hello world)`,
+			Args: []string{
+				"echo", "(hello world)",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo (hello world)`,
+			Args: []string{
+				"echo", "hello world",
+			},
+			Exec: true,
+		},
+		{
+			Statement: `echo h(ello worl)d`,
+			Args: []string{
+				"echo", "h(ello", "worl)d",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo h(ello worl)d`,
+			Args: []string{
+				"echo", "h(ello", "worl)d",
+			},
+			Exec: true,
+		},
+		{
+			Statement: `echo %(hello world)`,
+			Args: []string{
+				"echo", "%(hello world)",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo %(hello world)`,
+			Args: []string{
+				"echo", "hello world",
+			},
+			Exec: true,
+		},
+		{
+			Statement: `echo {hello world}`,
+			Args: []string{
+				"echo", "{hello world}",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo {hello world}`,
+			Args: []string{
+				"echo", "{hello world}",
 			},
 			Exec: true,
 		},

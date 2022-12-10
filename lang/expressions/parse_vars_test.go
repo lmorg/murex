@@ -40,6 +40,19 @@ func TestParseVarsScalar(t *testing.T) {
 			Block:  `TestParseVarsScalar6=6;%{"foobar": $TestParseVarsScalar6}`,
 			Stdout: `{"foobar":6}`,
 		},
+		/////
+		{
+			Block:  `TestParseVarsScalar7=1;TestParseVarsScalar7=2;TestParseVarsScalar7=3;$TestParseVarsScalar7`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsScalar8=1;TestParseVarsScalar8=2;TestParseVarsScalar8=3;;$TestParseVarsScalar8`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsScalar9=1;TestParseVarsScalar9=2;TestParseVarsScalar9=3;out bob;$TestParseVarsScalar9`,
+			Stdout: "bob\n3",
+		},
 	}
 
 	test.RunMurexTests(tests, t)

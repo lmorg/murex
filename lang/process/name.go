@@ -13,6 +13,12 @@ func (n *Name) Set(s string) {
 	n.mutex.Unlock()
 }
 
+func (n *Name) SetRune(r []rune) {
+	n.mutex.Lock()
+	n.name = string(r)
+	n.mutex.Unlock()
+}
+
 func (n *Name) String() string {
 	n.mutex.RLock()
 	s := n.name

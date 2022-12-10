@@ -11,6 +11,11 @@ func TestParseQuoteParen(t *testing.T) {
 		symbol: symbols.QuoteDouble,
 		tests: []expTestT{
 			{
+				input:    `%()`,
+				expected: ``,
+				pos:      1,
+			},
+			{
 				input: `%(foobar`,
 				error: true,
 			},

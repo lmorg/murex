@@ -11,6 +11,10 @@ func TestParseQuoteSingle(t *testing.T) {
 		symbol: symbols.QuoteSingle,
 		tests: []expTestT{
 			{
+				input:    `''`,
+				expected: ``,
+			},
+			{
 				input: `'foobar`,
 				error: true,
 			},

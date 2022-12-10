@@ -9,8 +9,8 @@ import (
 	"github.com/lmorg/murex/utils/json"
 )
 
-func (tree *expTreeT) executeExpr() (*primitives.DataType, error) {
-	err := validateExpression(tree)
+func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
+	err := tree.validateExpression()
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ var orderOfOperations = []symbols.Exp{
 	// 15. Comma operator
 }
 
-func executeExpression(tree *expTreeT, order symbols.Exp) (err error) {
+func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 	/*defer func() {
 		if err := recover(); err != nil {
 			err = fmt.Errorf("panic caught: %v\nExpression: %s\nnode: %d\nAST: %s",

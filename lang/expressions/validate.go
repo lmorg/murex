@@ -1,25 +1,28 @@
 package expressions
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func validateExpression(tree *expTreeT) error {
+func (tree *ParserT) validateExpression() error {
 	// compile data types and check for errors in the AST
 	//
 	// first walk to ensure we have a:
 	// value, expression, value, expression, value....etc
 
+	if tree.charPos < 0 {
+		tree.charPos = 0
+	}
+
 	if len(tree.ast) == 0 {
-		return errors.New("missing expression")
+		return fmt.Errorf("missing expression: '%s'", string(tree.expression[:tree.charPos]))
 	}
 	if len(tree.ast) == 1 &&
 		tree.ast[0].key != symbols.ArrayBegin && tree.ast[0].key != symbols.ObjectBegin &&
 		tree.ast[0].key != symbols.SubExpressionBegin && tree.ast[0].key != symbols.Calculated {
-		return fmt.Errorf("not an expression: '%s'", string(tree.expression))
+		return fmt.Errorf("not an expression: '%s'", string(tree.expression[:tree.charPos]))
 	}
 
 	var expectValue bool

@@ -5,7 +5,6 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/state"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
@@ -30,13 +29,14 @@ func init() {
 
 func getParams(p *lang.Process) string {
 	params := p.Parameters.StringAll()
-	if len(params) == 0 && len(p.Parameters.Tokens) > 1 {
+	/*if len(params) == 0 && len(p.Parameters.Tokens) > 1 {
 		newParams := parameters.Parameters{
 			Tokens: p.Parameters.Tokens,
 		}
 		lang.ParseParameters(p, &newParams)
 		params = "(subject to change) " + newParams.StringAll()
-	}
+	}*/
+	// TODO: fix this
 	return params
 }
 

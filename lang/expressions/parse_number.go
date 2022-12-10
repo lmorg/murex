@@ -1,6 +1,6 @@
 package expressions
 
-func (tree *expTreeT) parseNumber(first rune) []rune {
+func (tree *ParserT) parseNumber(first rune) []rune {
 	// TODO: don't append each time, just return a range
 	value := []rune{first}
 

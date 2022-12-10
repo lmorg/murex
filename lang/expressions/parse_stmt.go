@@ -1,12 +1,14 @@
 package expressions
 
-import "github.com/lmorg/murex/lang/expressions/primitives"
+import (
+	"github.com/lmorg/murex/lang/expressions/primitives"
+)
 
-func appendToParam(tree *expTreeT, r ...rune) {
+func appendToParam(tree *ParserT, r ...rune) {
 	tree.statement.paramTemp = append(tree.statement.paramTemp, r...)
 }
 
-func (tree *expTreeT) parseStatement(exec bool) error {
+func (tree *ParserT) parseStatement(exec bool) error {
 	var escape bool
 
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -35,6 +37,9 @@ func (tree *expTreeT) parseStatement(exec bool) error {
 		}
 
 		switch r {
+		case '#':
+			tree.parseComment()
+
 		case '\\':
 			escape = true
 
@@ -43,12 +48,14 @@ func (tree *expTreeT) parseStatement(exec bool) error {
 			tree.statement.NextParameter()
 
 		case '\n':
-			tree.statement.NextParameter()
+			// ignore empty lines while in the statement parser
 			if len(tree.statement.command) > 0 {
+				tree.statement.NextParameter()
+				tree.charPos--
 				return nil
 			}
 
-		case ';', '|':
+		case ';', '|', '?':
 			// end expression
 			tree.statement.NextParameter()
 			tree.charPos--
@@ -106,44 +113,23 @@ func (tree *expTreeT) parseStatement(exec bool) error {
 				appendToParam(tree, r)
 			}
 
-		/*case '(':
-			// create sub expression
-			if exec {
-				tree.charPos++
-				branch := newExpTree(tree.p, tree.expression[tree.charPos:])
-				branch.charOffset = tree.charPos + tree.charOffset
-				branch.isSubExp = true
-				err := branch.parse(exec)
-				if err != nil {
-					return err
-				}
-
-				dt, err := branch.execute()
-				if err != nil {
-					return err
-				}
-				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
-				tree.charPos += branch.charPos - 1
-			} else {
-				i, err := ChainParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1)
-				if err != nil {
-					return err
-				}
-				tree.appendAst(symbols.Calculated)
-				tree.charPos += i
+		case '(':
+			if len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0 {
+				appendToParam(tree, r)
+				tree.statement.NextParameter()
+				continue
 			}
-
-		case ')':
-			tree.charPos++
-			switch {
-			case tree.isSubExp:
-				// end sub expression
-				return nil
-			case exec:
-				tree.appendAst(symbols.SubExpressionEnd, r)
-			default:
-				return nil
-			}*/
+			prev := tree.prevChar()
+			if prev == ' ' || prev == '\t' {
+				// quotes
+				value, _, err := tree.parseParen(exec)
+				if err != nil {
+					return err
+				}
+				appendToParam(tree, value...)
+				continue
+			}
+			appendToParam(tree, r)
 
 		case '%':
 			if !exec {
@@ -175,13 +161,6 @@ func (tree *expTreeT) parseStatement(exec bool) error {
 				}
 			}
 
-		//case '[':
-		//	tree.createArrayAst(exec)
-
-		/*case ']':
-		// end JSON array
-		tree.appendAst(symbols.ArrayEnd, r)*/
-
 		case '{':
 			// block literal
 			value, err := tree.parseBlockQuote()
@@ -190,9 +169,9 @@ func (tree *expTreeT) parseStatement(exec bool) error {
 			}
 			appendToParam(tree, value...)
 
-		/*case '}':
-		// end JSON object
-		tree.appendAst(symbols.ObjectEnd, r)*/
+		case '}':
+			return raiseError(tree.expression, nil, tree.charPos,
+				"unexpected closing bracket '}'")
 
 		case '\'', '"':
 			// start string / end string
@@ -287,7 +266,7 @@ func (tree *expTreeT) parseStatement(exec bool) error {
 	return nil
 }
 
-func processStatementArrays(tree *expTreeT, value []rune, v interface{}, exec bool) {
+func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec bool) {
 	if exec {
 		switch v.(type) {
 		case []interface{}:
@@ -310,17 +289,17 @@ func processStatementArrays(tree *expTreeT, value []rune, v interface{}, exec bo
 	tree.statement.NextParameter()
 }
 
-func processStatementColon(tree *expTreeT, exec bool) {
+func processStatementColon(tree *ParserT, exec bool) {
 	switch {
 	case len(tree.statement.command) == 0:
 		if len(tree.statement.paramTemp) > 0 {
 			// is a command
-			if !exec {
-				appendToParam(tree, ':')
-			}
+			//if !exec {
+			//	appendToParam(tree, ':')
+			//}
 			tree.statement.NextParameter()
 		} else {
-			// is a cast
+			// TODO: is a cast
 		}
 	default:
 		// is a value
@@ -328,9 +307,9 @@ func processStatementColon(tree *expTreeT, exec bool) {
 	}
 }
 
-type parserMethod func(bool) ([]rune, *primitives.DataType, int, error)
+type parserMethodT func(bool) ([]rune, *primitives.DataType, int, error)
 
-func processStatementFromExpr(tree *expTreeT, method parserMethod, exec bool) error {
+func processStatementFromExpr(tree *ParserT, method parserMethodT, exec bool) error {
 	tree.charPos++
 	value, dt, _, err := method(exec)
 	if err != nil {

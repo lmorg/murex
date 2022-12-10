@@ -7,14 +7,25 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *expTreeT) parse(exec bool) error {
+func (tree *ParserT) parseExpression(exec bool) error {
 	for ; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 		switch r {
+		case '#':
+			tree.parseComment()
+
 		case ' ', '\t', '\r':
 			// whitespace. do nothing
 
-		case '\n', ';', '|':
+		case '\n':
+			if len(tree.ast) == 0 {
+				// do nothing if just empty lines
+				continue
+			}
+			tree.charPos--
+			return nil
+
+		case ';', '|', '?':
 			// end expression
 			tree.charPos--
 			return nil
@@ -103,10 +114,10 @@ func (tree *expTreeT) parse(exec bool) error {
 			// create sub expression
 			if exec {
 				tree.charPos++
-				branch := newExpTree(tree.p, tree.expression[tree.charPos:])
+				branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
 				branch.charOffset = tree.charPos + tree.charOffset
 				branch.isSubExp = true
-				err := branch.parse(exec)
+				err := branch.parseExpression(exec)
 				if err != nil {
 					return err
 				}
@@ -118,7 +129,7 @@ func (tree *expTreeT) parse(exec bool) error {
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
 				tree.charPos += branch.charPos - 1
 			} else {
-				i, err := ChainParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1)
+				i, err := ExpressionParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1, exec)
 				if err != nil {
 					return err
 				}
@@ -176,6 +187,8 @@ func (tree *expTreeT) parse(exec bool) error {
 		case '}':
 			// end JSON object
 			tree.appendAst(symbols.ObjectEnd, r)
+
+			//TODO: ? pipe
 
 		case '\'', '`':
 			// start string / end string
@@ -337,8 +350,8 @@ func (tree *expTreeT) parse(exec bool) error {
 
 			default:
 				if !exec {
-					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s at char %d: '%s'",
-						errMessage[symbols.Unexpected], tree.charPos, string(r)))
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s'",
+						errMessage[symbols.Unexpected], string(r)))
 				}
 				tree.charPos++
 				tree.appendAst(symbols.Unexpected, r)

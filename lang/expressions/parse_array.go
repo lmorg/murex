@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
-func (tree *expTreeT) createArrayAst(exec bool) error {
+func (tree *ParserT) createArrayAst(exec bool) error {
 	// create JSON array
 	_, dt, nEscapes, err := tree.parseArray(exec)
 	if err != nil {
@@ -23,7 +23,7 @@ func (tree *expTreeT) createArrayAst(exec bool) error {
 	return nil
 }
 
-func (tree *expTreeT) parseArray(exec bool) ([]rune, *primitives.DataType, int, error) {
+func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, int, error) {
 	var (
 		start    = tree.charPos
 		nEscapes int
@@ -46,6 +46,9 @@ func (tree *expTreeT) parseArray(exec bool) ([]rune, *primitives.DataType, int, 
 		r := tree.expression[tree.charPos]
 
 		switch r {
+		case '#':
+			tree.parseComment()
+
 		case '\'', '"':
 			// quoted string
 			str, i, err := tree.parseString(r, r, exec)
@@ -203,7 +206,7 @@ endArray:
 	return value, dt, nEscapes, nil
 }
 
-func (tree *expTreeT) parseArrayMaker(exec bool) (*primitives.DataType, int, error) {
+func (tree *ParserT) parseArrayMaker(exec bool) (*primitives.DataType, int, error) {
 	start := tree.charPos
 	var (
 		mkarray     bool

@@ -7,8 +7,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -187,10 +185,11 @@ func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 
 // Match last params (first command in block)
 func expandHistParam(s string, rl *readline.Instance) (string, error) {
-	mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
+	return "", errors.New("TODO") // TODO
+	/*mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
 		last := getLine(rl.History.Len()-1, rl)
-		nodes, pErr := lang.ParseBlock([]rune(last))
+		nodes, pErr := lang.ParseBlock_old([]rune(last))
 		if pErr.Code != lang.NoParsingErrors {
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
@@ -224,7 +223,7 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 
 		//return s, nil //err
 	}
-	return s, nil
+	return s, nil*/
 }
 
 // Replace string from command buffer
