@@ -25,9 +25,5 @@ func (tree *ParserT) ParseStatement(exec bool) error {
 		return err
 	}
 
-	/*if !exec { // TODO: rethink this bit
-		tree.statement.validate()
-	}*/
-
 	return nil
 }

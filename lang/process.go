@@ -109,12 +109,6 @@ func createProcess(p *Process, isMethod bool) {
 
 	name := p.Name.String()
 
-	/*if rxNamedPipeStdinOnly.MatchString(name) {
-		p.Parameters.SetPrepend(name[1 : len(name)-1])
-		p.Name.Set(consts.NamedPipeProcName)
-		name = consts.NamedPipeProcName
-	}*/
-
 	if name[0] == '!' {
 		p.IsNot = true
 	}
@@ -187,7 +181,7 @@ func createProcess(p *Process, isMethod bool) {
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
 	if name == "pipe" || name == "test" {
 		//err := ParseParameters(p, &p.Parameters)
-		err := ParseStatementParameters(p.raw, p)
+		_, params, err := ParseStatementParameters(p.raw, p)
 		if err != nil {
 			ShellProcess.Stderr.Writeln(writeError(p, err))
 			if p.ExitNum == 0 {
@@ -195,7 +189,7 @@ func createProcess(p *Process, isMethod bool) {
 			}
 
 		} else {
-
+			p.Parameters.DefineParsed(params)
 			err = GoFunctions[name](p)
 			if err != nil {
 				ShellProcess.Stderr.Writeln(writeError(p, err))
@@ -236,10 +230,15 @@ func executeProcess(p *Process) {
 
 	var parsedAlias bool
 
-	err = ParseStatementParameters(p.raw, p)
+	n, params, err := ParseStatementParameters(p.raw, p)
 	if err != nil {
 		goto cleanUpProcess
 	}
+	if n != name {
+		p.Name.Set(n)
+		name = n
+	}
+	p.Parameters.DefineParsed(params)
 
 	// Execute function.
 	p.State.Set(state.Executing)
@@ -342,9 +341,8 @@ executeProcess:
 		p.Name.Set("exec")
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
-			//cpErr := GoFunctions[ParserExpressions](p)
 			_, cpErr := ParseExpression([]rune(p.Parameters.StringAll()), 0, false)
-			err = fmt.Errorf("invalid statment and expression:\n%v\n...or parameters for `%s`...\n%v",
+			err = fmt.Errorf("not a valid expression:\n%v\n...nor a valid statement `%s`:\n%v",
 				cpErr, name, err)
 		}
 	}

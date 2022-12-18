@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	fn "github.com/lmorg/murex/lang/expressions/functions"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -34,27 +35,20 @@ func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
 
 // StatementParametersParser is intended to be called from other parsers as a
 // way of parsing function parameters
-func StatementParametersParser(expression []rune, p *lang.Process) error {
+func StatementParametersParser(expression []rune, p *lang.Process) (string, []string, error) {
 	if p.Name.String() == lang.ExpressionFunctionName {
-		s := string(p.Parameters.PreParsed[0])
-		p.Parameters.DefineParsed([]string{s})
-		return nil
+		return p.Name.String(), []string{string(p.Parameters.PreParsed[0])}, nil
+		//panic("expression parsed as statement")
 	}
 
 	tree := NewParser(nil, expression, 0)
 	tree.p = p
 	err := tree.ParseStatement(true)
 	if err != nil {
-		return err
+		return "", nil, err
 	}
 
-	params := make([]string, len(tree.statement.parameters))
-	for i := range params {
-		params[i] = string(tree.statement.parameters[i])
-	}
-
-	p.Parameters.DefineParsed(params)
-	return nil
+	return tree.statement.String(), tree.statement.Parameters(), nil
 }
 
 func NewParser(p *lang.Process, expression []rune, offset int) *ParserT {
@@ -94,7 +88,7 @@ func (tree *ParserT) preParser() (int, error) {
 
 }
 
-var exprFuncName = []rune(lang.ExpressionFunctionName)
+var expressionFunctionName = []rune(lang.ExpressionFunctionName)
 
 func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 	switch {
@@ -102,13 +96,15 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 		// do nothing
 
 	case tree.statement == nil:
-
+		if tree.charPos+1 >= len(tree.expression) {
+			tree.charPos = len(tree.expression) - 1
+		}
 		blk.Functions = append(blk.Functions, fn.FunctionT{
-			Command:    exprFuncName,
-			Parameters: [][]rune{tree.expression[tree.charOffset : tree.charPos+1]},
+			Command:    expressionFunctionName,
+			Parameters: [][]rune{tree.expression[:tree.charPos+1]},
 			Properties: blk.nextProperty | this,
-			//blk.Functions[i].LineN = blk.lineN // TODO
-			//blk.Functions[i].ColumnN = blk.columnN
+			LineN:      tree.GetLineN(),
+			ColumnN:    tree.GetColumnN(),
 		})
 
 	default:
@@ -116,16 +112,18 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 			Command:    tree.statement.command,
 			Parameters: tree.statement.parameters,
 			NamedPipes: tree.statement.namedPipes,
-			Raw:        tree.expression[tree.charOffset : tree.charPos+1],
+			Raw:        tree.expression[:tree.charPos+1],
 			Properties: blk.nextProperty | this,
-			//blk.Functions[i].LineN = blk.lineN // TODO
-			//blk.Functions[i].ColumnN = blk.columnN
+			LineN:      tree.GetLineN(),
+			ColumnN:    tree.GetColumnN(),
 		})
 
 	}
 
 	blk.nextProperty = next
 }
+
+var formatGeneric = []rune("format " + types.Generic)
 
 func (blk *BlockT) ParseBlock() error {
 	var tree *ParserT
@@ -140,19 +138,33 @@ func (blk *BlockT) ParseBlock() error {
 		case '\n':
 			blk.append(tree, 0, fn.P_NEW_CHAIN)
 			tree = nil
+			blk.row++
+			blk.offset = blk.charPos
 			continue
+
+		case '#':
+			comment := NewParser(nil, blk.expression[blk.charPos:], 0)
+			comment.parseComment()
+			blk.charPos += comment.charPos
 
 		case ';':
 			blk.append(tree, 0, fn.P_NEW_CHAIN)
 			tree = nil
 
 		case '&':
-			if blk.nextChar() == '&' {
+			switch {
+			case blk.nextChar() == '&':
 				blk.charPos++
 				blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_LOGIC_AND)
 				tree = nil
-
-			} else {
+			case tree == nil:
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			default:
 				blk.panic('&', '&')
 			}
 
@@ -168,47 +180,69 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case '-':
-			if blk.nextChar() != '>' {
+			switch {
+			case blk.nextChar() == '>':
+				blk.charPos++
+				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
+				tree = nil
+			case tree == nil:
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			default:
 				blk.panic('-', '>')
 			}
-			blk.charPos++
-			blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
-			tree = nil
 
 		case '?':
 			blk.append(tree, fn.P_PIPE_ERR, fn.P_METHOD)
 			tree = nil
 
 		case '=':
-			if tree.nextChar() != '>' {
+			switch {
+			case blk.nextChar() == '>':
+				blk.charPos++
+				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
+				tree = nil
+				format := NewParser(nil, formatGeneric, 0)
+				_, _ = format.preParser()
+				blk.append(format, fn.P_PIPE_OUT, fn.P_METHOD)
+
+			case tree == nil:
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			default:
 				blk.panic('=', '>')
 			}
-			blk.charPos++
-			blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
-			tree = nil
-			//panic("TODO") // TODO
 
 		case '>':
-			if tree.nextChar() != '>' {
+			switch {
+			case blk.nextChar() == '>':
+				fallthrough
+			case tree == nil:
+				blk.nextProperty = fn.P_METHOD
+				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			default:
 				blk.panic('>', '>')
 			}
-			panic("TODO") // TODO
-
-			/*default:
-			if tree == nil {
-				// this is probably just the first run in a new block. eg
-				//   { -> do something }
-				continue
-			}
-			blk.panic(blk.expression[blk.charPos], 0)*/
 
 		default:
-			tree := NewParser(nil, blk.expression[blk.charPos:], 0)
+			tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
 			newPos, err := tree.preParser()
 			if err != nil {
 				return err
 			}
-
 			blk.charPos += newPos
 
 		}
@@ -221,101 +255,6 @@ func (blk *BlockT) ParseBlock() error {
 
 	return nil
 }
-
-/*func (blk *BlockT) ParseBlock() error {
-	parseBlock(blk, nil)
-	for blk.charPos < len(blk.expression) {
-		tree := NewParser(nil, blk.expression[blk.charPos:], 0)
-		newPos, err := tree.preParser()
-
-		blk.charPos += newPos + 1
-
-		if newPos == 1 || (tree.statement != nil && len(tree.statement.command) == 0) {
-			continue
-		}
-		if err != nil {
-			return err
-		}
-
-		if blk.charPos >= len(blk.expression) {
-			blk.append(tree, 0, 0)
-			break
-		}
-
-		parseBlock(blk, tree)
-	}
-
-	return nil
-}
-
-func parseBlock(blk *BlockT, tree *ParserT) error {
-	for ; blk.charPos < len(blk.expression)-1; blk.charPos++ {
-		r := blk.expression[blk.charPos]
-		if r == ' ' || r == '\t' || r == '\r' {
-			continue
-		}
-		break
-	}
-
-	switch blk.expression[blk.charPos] {
-	case '\n':
-		blk.append(tree, 0, fn.P_NEW_CHAIN)
-
-	case ';':
-		blk.append(tree, 0, fn.P_NEW_CHAIN)
-
-	case '&':
-		if blk.nextChar() == '&' {
-			blk.charPos++
-			blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_LOGIC_AND)
-		} else {
-			blk.panic('&', '&')
-		}
-
-	case '|':
-		if blk.nextChar() == '|' {
-			blk.charPos++
-			blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_LOGIC_OR)
-		} else {
-			blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
-		}
-
-	case '-':
-		if blk.nextChar() != '>' {
-			blk.panic('-', '>')
-		}
-		blk.charPos++
-		blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
-
-	case '?':
-		blk.append(tree, fn.P_PIPE_ERR, fn.P_METHOD)
-
-	case '=':
-		if tree.nextChar() != '>' {
-			blk.panic('=', '>')
-		}
-		blk.charPos++
-		blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
-		//panic("TODO") // TODO
-
-	case '>':
-		if tree.nextChar() != '>' {
-			blk.panic('>', '>')
-		}
-		panic("TODO") // TODO
-
-	default:
-		if tree == nil {
-			// this is probably just the first run in a new block. eg
-			//   { -> do something }
-			return nil
-		}
-		blk.panic(blk.expression[blk.charPos], 0)
-
-	}
-
-	return nil
-}*/
 
 func (blk *BlockT) panic(found rune, follows rune) {
 	msg := "unexpected parser error: '%s' found"

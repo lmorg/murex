@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/lmorg/murex/builtins/types/json"
 	_ "github.com/lmorg/murex/builtins/types/string"
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 )
 

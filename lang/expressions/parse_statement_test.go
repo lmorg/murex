@@ -149,7 +149,7 @@ func TestParseStatement(t *testing.T) {
 			Args: []string{
 				"echo", "{hello world}",
 			},
-			Exec: false,
+			Exec: true,
 		},
 		{
 			Statement: `echo {hello world}`,
@@ -358,7 +358,7 @@ func TestParseStatementNamedPipe(t *testing.T) {
 				"echo", "hello", "world",
 			},
 			Pipes: []string{
-				"<123>",
+				"123",
 			},
 			Exec: false,
 		},
@@ -368,7 +368,7 @@ func TestParseStatementNamedPipe(t *testing.T) {
 				"echo", "hello", "world",
 			},
 			Pipes: []string{
-				"<123>",
+				"123",
 			},
 			Exec: true,
 		},
@@ -568,6 +568,30 @@ func TestParseStatementObjCreators(t *testing.T) {
 			Statement: `echo %{hello: world}`,
 			Args: []string{
 				"echo", `{"hello":"world"}`,
+			},
+			Exec: true,
+		},
+	}
+
+	testParseStatement(t, tests)
+}
+
+func TestParseStatementEscCrLf(t *testing.T) {
+	tests := []testParseStatementT{
+		{
+			Statement: "echo 1\\\n2\\\n3\n",
+			Args: []string{
+				"echo", "1", "2", "3",
+			},
+			Exec: false,
+		},
+
+		/////
+
+		{
+			Statement: "echo 1\\\n2\\\n3\n",
+			Args: []string{
+				"echo", "1", "2", "3",
 			},
 			Exec: true,
 		},

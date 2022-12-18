@@ -65,17 +65,17 @@ func TestParseObject(t *testing.T) {
 			},
 			{
 				input:    `%{a:$a,b:@b}`,
-				expected: `{"a":"","b":null}`,
+				expected: `{"a":null,"b":null}`,
 				pos:      10,
 			},
 			{
 				input:    `%{a:$a,b:[@b]}`,
-				expected: `{"a":"","b":null}`,
+				expected: `{"a":null,"b":null}`,
 				pos:      12,
 			},
 			{
 				input:    `%{a:$a,b:%[@b]}`,
-				expected: `{"a":"","b":null}`,
+				expected: `{"a":null,"b":null}`,
 				pos:      13,
 			},
 			{

@@ -1,12 +1,12 @@
 package history
 
 import (
-	"errors"
 	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -185,35 +185,27 @@ func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
 
 // Match last params (first command in block)
 func expandHistParam(s string, rl *readline.Instance) (string, error) {
-	return "", errors.New("TODO") // TODO
-	/*mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
+	mhParam := rxHistParam.FindAllStringSubmatch(s, -1)
 	if len(mhParam) > 0 {
 		last := getLine(rl.History.Len()-1, rl)
-		nodes, pErr := lang.ParseBlock_old([]rune(last))
-		if pErr.Code != lang.NoParsingErrors {
+		nodes, err := lang.ParseBlock([]rune(last))
+		if err != nil || len(*nodes) == 0 {
 			return "", fmt.Errorf(errCannotParsePrevCmd)
 		}
-		node := nodes.Last()
-		if node == nil {
-			return "", errors.New("cannot expand last parameter")
-		}
-		p := parameters.Parameters{Tokens: node.ParamTokens}
-		err := lang.ParseParameters(lang.ShellProcess, &p)
-		if err != nil {
-			return s, err
-		}
 
+		cmd := &(*nodes)[0]
+		l := len(cmd.Parameters)
 		for i := range mhParam {
 			val, _ := strconv.Atoi(mhParam[i][1])
 			if val < 0 {
-				val += p.Len() + 1
+				val += l + 1
 			}
 
 			switch {
 			case val == 0:
-				s = strings.Replace(s, mhParam[i][0], nodes.Last().Name, -1)
-			case val > 0 && val-1 < p.Len():
-				s = strings.Replace(s, mhParam[i][0], p.StringArray()[val-1], -1)
+				s = strings.Replace(s, mhParam[i][0], string(cmd.Command), -1)
+			case val > 0 && val-1 < l:
+				s = strings.Replace(s, mhParam[i][0], string(cmd.Parameters[val-1]), -1)
 			default:
 				s = strings.Replace(s, mhParam[i][0], "", -1)
 				return s, fmt.Errorf("(%s) No parameter with index %s", mhParam[i][0], mhParam[i][1])
@@ -221,9 +213,8 @@ func expandHistParam(s string, rl *readline.Instance) (string, error) {
 
 		}
 
-		//return s, nil //err
 	}
-	return s, nil*/
+	return s, nil
 }
 
 // Replace string from command buffer

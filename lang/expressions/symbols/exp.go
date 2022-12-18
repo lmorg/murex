@@ -31,6 +31,7 @@ const (
 	ArrayBegin
 	QuoteSingle
 	QuoteDouble
+	QuoteParenthesis
 	Number
 	Boolean
 	Null

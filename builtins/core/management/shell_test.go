@@ -22,13 +22,13 @@ func TestSummary(t *testing.T) {
 					err: part2
 					!summary foobar
 					runtime --summaries -> [ foobar ]`,
-			Stdout:  "part1\ntestpart2\n",
-			Stderr:  "part1\npart2\nError in `[` ( 8,29): key 'foobar' not found\n",
+			Stdout:  "^part1\ntestpart2\n$",
+			Stderr:  "^part1\npart2\nError in .*?: key 'foobar' not found\n",
 			ExitNum: 1,
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestSource(t *testing.T) {

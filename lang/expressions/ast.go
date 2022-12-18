@@ -12,10 +12,11 @@ import (
 )
 
 type astNodeT struct {
-	key   symbols.Exp
-	value []rune
-	pos   int
-	dt    *primitives.DataType
+	key    symbols.Exp
+	value  []rune
+	pos    int
+	offset int
+	dt     *primitives.DataType
 }
 
 func (node *astNodeT) Value() string {
@@ -27,12 +28,16 @@ type ParserT struct {
 	charPos      int
 	charOffset   int
 	astPos       int
+	startRow     int
+	endRow       int
+	startCol     int
+	endCol       int
 	expression   []rune
-	isSubExp     bool
+	subExp       bool
 	p            *lang.Process
 	strictArrays interface{}
 	expandGlob   interface{}
-	Statement    *StatementT
+	statement    *StatementT
 }
 
 func (tree *ParserT) nextChar() rune {
@@ -49,19 +54,29 @@ func (tree *ParserT) prevChar() rune {
 	return tree.expression[tree.charPos-1]
 }
 
+func (tree *ParserT) crLf() {
+	tree.endRow++
+	tree.endCol = tree.charPos
+}
+
+func (tree *ParserT) GetColumnN() int { return tree.startCol - tree.charOffset }
+func (tree *ParserT) GetLineN() int   { return tree.startRow }
+
 func (tree *ParserT) appendAst(key symbols.Exp, value ...rune) {
 	tree.ast = append(tree.ast, &astNodeT{
-		key:   key,
-		value: value,
-		pos:   tree.charPos + tree.charOffset - len(value),
+		key:    key,
+		value:  value,
+		pos:    tree.charPos - len(value),
+		offset: tree.charOffset,
 	})
 }
 
 func (tree *ParserT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType) {
 	tree.ast = append(tree.ast, &astNodeT{
-		key: key,
-		dt:  dt,
-		pos: tree.charPos + tree.charOffset,
+		key:    key,
+		dt:     dt,
+		pos:    tree.charPos,
+		offset: tree.charOffset,
 	})
 }
 
@@ -154,7 +169,12 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 		}, nil
 
 	case symbols.QuoteDouble:
-		// TODO: expand vars
+		return &primitives.DataType{
+			Primitive: primitives.String,
+			Value:     node.Value(),
+		}, nil
+
+	case symbols.QuoteParenthesis:
 		return &primitives.DataType{
 			Primitive: primitives.String,
 			Value:     node.Value(),
@@ -172,11 +192,12 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 			Value:     nil,
 		}, nil
 
-	case symbols.Calculated:
+	case symbols.Calculated, symbols.SubExpressionBegin:
 		return &primitives.DataType{
 			Primitive: primitives.Null,
 			Value:     nil,
 		}, nil
+
 	}
 
 	return nil, raiseError(nil, node, 0, fmt.Sprintf("unexpected error converting node to primitive (%s)", consts.IssueTrackerURL))

@@ -51,21 +51,6 @@ func (dt *DataType) DataType() string {
 }
 
 func (dt *DataType) Marshal() ([]rune, error) {
-	/*switch v := dt.Value.(type) {
-	case string:
-		if len(v) == 0 {
-			return []rune{'"', '"'}, nil
-		}
-	case []byte:
-		if len(v) == 0 {
-			return []rune{'"', '"'}, nil
-		}
-	case []rune:
-		if len(v) == 0 {
-			return []rune{'"', '"'}, nil
-		}
-	}*/
-
 	b, err := json.Marshal(dt.Value)
 	if err != nil {
 		return nil, err

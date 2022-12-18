@@ -17,6 +17,8 @@ const (
 	varAsValue  varFormatting = 1
 )
 
+var errEmptyRange = "range '@%s[%s]%s' is empty"
+
 func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
 	var (
 		value    interface{}
@@ -131,7 +133,7 @@ func (tree *ParserT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal
 		block = createElementBlock(name, key)
 	}
 
-	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 	fork.Execute(block)
 	b, err := fork.Stdout.ReadAll()
 	if err != nil {
@@ -167,6 +169,37 @@ func createElementBlock(name, element []rune) []rune {
 	copy(block[l+5:], element)
 	copy(block[len(block)-2:], []rune{']', ']'})
 	return block
+}
+
+func createRangeBlock(name, key, flags []rune) []rune {
+	l := len(name) + 1
+
+	block := make([]rune, 7+len(name)+len(key)+len(flags))
+	block[0] = '$'
+	copy(block[1:], name)
+	copy(block[l:], []rune{'-', '>', ' ', '@', '['})
+	copy(block[l+5:], key)
+	block[l+len(key)+5] = ']'
+	copy(block[len(block)-len(flags):], flags)
+	return block
+}
+
+func (tree *ParserT) getVarRange(name, key, flags []rune) (interface{}, error) {
+	var array []interface{}
+
+	block := createRangeBlock(name, key, flags)
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+	fork.Execute(block)
+	fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+		array = append(array, v)
+	})
+
+	if len(array) == 0 && tree.StrictArrays() {
+		return nil, fmt.Errorf(errEmptyRange, string(name), string(key), string(flags))
+	}
+
+	return array, nil
+
 }
 
 func formatBytes(b []byte, dataType string, strOrVal varFormatting) (interface{}, error) {

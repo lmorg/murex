@@ -4,36 +4,36 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/utils/ansi"
 )
 
 func (tree *ParserT) createStringAst(qStart, qEnd rune, exec bool) error {
 	// create JSON dict
-	value, nEscapes, err := tree.parseString(qStart, qEnd, exec)
+	value, err := tree.parseString(qStart, qEnd, exec)
 	if err != nil {
 		return err
 	}
-	tree.charPos -= nEscapes
-	tree.appendAst(symbols.QuoteDouble, value...)
-	tree.charPos += nEscapes + 1
+	tree.appendAst(symbols.QuoteParenthesis, value...)
+	tree.charPos++
 	return nil
 }
 
-func (tree *ParserT) parseParen(exec bool) ([]rune, int, error) {
-	value, nEscape, err := tree.parseString('(', ')', exec)
+func (tree *ParserT) parseParen(exec bool) ([]rune, error) {
+	value, err := tree.parseString('(', ')', exec)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
 	tree.charPos++
 
-	if len(value) > 0 && exec {
-		return value, nEscape, nil
+	if exec {
+		value = []rune(ansi.ExpandConsts(string(value)))
 	}
 
-	return value, nEscape, nil
+	return value, nil
 }
 
-func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, int, error) {
+func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, error) {
 	if exec && qStart != '\'' {
 		return tree.parseStringInfix(qEnd, exec)
 	}
@@ -49,10 +49,15 @@ func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, int, err
 
 		switch {
 		case r == '(' && qEnd == ')':
-			_, _, err := tree.parseParen(exec)
+			v, err := tree.parseParen(false)
 			if err != nil {
-				return nil, 0, err
+				return nil, err
 			}
+			value = append(value, v...)
+
+		case r == '\n':
+			value = append(value, r)
+			tree.crLf()
 
 		case r == qEnd:
 			// end quote
@@ -64,7 +69,7 @@ func (tree *ParserT) parseString(qStart, qEnd rune, exec bool) ([]rune, int, err
 		}
 	}
 
-	return value, 0, raiseError(
+	return value, raiseError(
 		tree.expression, nil, tree.charPos, fmt.Sprintf(
 			"missing closing quote (%s)",
 			string([]rune{qEnd})))
@@ -75,14 +80,13 @@ endString:
 		value = append(value, qEnd)
 	}
 
-	return value, 0, nil
+	return value, nil
 }
 
-func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error) {
+func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 	var (
-		value    []rune
-		nEscapes int
-		escaped  bool
+		value   []rune
+		escaped bool
 	)
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
@@ -104,11 +108,14 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error)
 			}
 			// end escape
 			escaped = false
-			nEscapes++
 
 		case r == '\\' && qEnd != ')':
 			// start escape
 			escaped = true
+
+		case r == '\n':
+			value = append(value, r)
+			tree.crLf()
 
 		case r == '$':
 			switch {
@@ -116,7 +123,7 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error)
 				// inline scalar
 				scalar, v, _, err := tree.parseVarScalar(exec, varAsString)
 				if err != nil {
-					return nil, 0, err
+					return nil, err
 				}
 				if exec {
 					value = append(value, []rune(v.(string))...)
@@ -127,7 +134,7 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error)
 				// subshell
 				subshell, v, _, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
-					return nil, 0, err
+					return nil, err
 				}
 				if exec {
 					value = append(value, []rune(v.(string))...)
@@ -144,10 +151,11 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error)
 			value = append(value, []rune(tilde)...)
 
 		case r == '(' && qEnd == ')':
-			_, _, err := tree.parseParen(exec)
+			v, err := tree.parseParen(false)
 			if err != nil {
-				return nil, 0, err
+				return nil, err
 			}
+			value = append(value, v...)
 
 		case r == qEnd:
 			// end quote
@@ -159,14 +167,47 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, int, error)
 		}
 	}
 
-	return value, 0, raiseError(
+	return value, raiseError(
 		tree.expression, nil, tree.charPos, fmt.Sprintf(
 			"missing closing quote '%s'",
 			string([]rune{qEnd})))
 
 endString:
 	tree.charPos--
-	return value, nEscapes, nil
+	return value, nil
+}
+
+func (tree *ParserT) parseBackTick(quote rune, exec bool) ([]rune, error) {
+	if exec {
+		quote = '\''
+	}
+
+	var value []rune
+
+	value = []rune{quote}
+
+	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch r {
+		case '`':
+			// end quote
+			goto endBackTick
+
+		default:
+			// string
+			value = append(value, r)
+		}
+	}
+
+	return value, raiseError(
+		tree.expression, nil, tree.charPos, "missing closing backtick, '`'")
+
+endBackTick:
+	tree.charPos--
+	value = append(value, quote)
+
+	return value, nil
 }
 
 func (tree *ParserT) parseBlockQuote() ([]rune, error) {
@@ -179,24 +220,20 @@ func (tree *ParserT) parseBlockQuote() ([]rune, error) {
 		case '#':
 			tree.parseComment()
 
-		/*case '\'', '"':
-		_, _, err := tree.parseString(r, r, false)
-		if err != nil {
-			return nil, err
-		}
-		tree.charPos++*/
+		case '\n':
+			tree.crLf()
 
 		case '%':
 			switch tree.nextChar() {
 			case '[':
 				tree.charPos++
-				_, _, _, err := tree.parseArray(false)
+				_, _, err := tree.parseArray(false)
 				if err != nil {
 					return nil, err
 				}
 			case '{':
 				tree.charPos++
-				_, _, _, err := tree.parseObject(false)
+				_, _, err := tree.parseObject(false)
 				if err != nil {
 					return nil, err
 				}

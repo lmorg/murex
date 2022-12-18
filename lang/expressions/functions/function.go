@@ -13,7 +13,7 @@ type FunctionT struct {
 type Property int
 
 const (
-	P_NEW_CHAIN = 1 << iota
+	P_NEW_CHAIN Property = 1 << iota
 	P_METHOD
 	P_PIPE_OUT
 	P_PIPE_ERR

@@ -12,7 +12,8 @@ func (tree *ParserT) parseExpression(exec bool) error {
 		r := tree.expression[tree.charPos]
 		switch r {
 		case '#':
-			tree.parseComment()
+			tree.charPos--
+			return nil
 
 		case ' ', '\t', '\r':
 			// whitespace. do nothing
@@ -20,6 +21,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 		case '\n':
 			if len(tree.ast) == 0 {
 				// do nothing if just empty lines
+				tree.crLf()
 				continue
 			}
 			tree.charPos--
@@ -80,8 +82,6 @@ func (tree *ParserT) parseExpression(exec bool) error {
 					Primitive: primitives.String,
 					Value:     tree.parseVarTilde(exec),
 				})
-				//// unexpected symbol
-				//tree.appendAst(symbols.Unexpected)
 			}
 
 		case '>':
@@ -112,41 +112,34 @@ func (tree *ParserT) parseExpression(exec bool) error {
 
 		case '(':
 			// create sub expression
+			tree.charPos++
+			branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
+			branch.charOffset = tree.charPos + tree.charOffset
+			branch.subExp = true
+			err := branch.parseExpression(exec)
+			if err != nil {
+				return err
+			}
+			tree.charPos += branch.charPos - 1
 			if exec {
-				tree.charPos++
-				branch := NewParser(tree.p, tree.expression[tree.charPos:], 0)
-				branch.charOffset = tree.charPos + tree.charOffset
-				branch.isSubExp = true
-				err := branch.parseExpression(exec)
-				if err != nil {
-					return err
-				}
-
 				dt, err := branch.executeExpr()
 				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Exp(dt.Primitive), dt)
-				tree.charPos += branch.charPos - 1
 			} else {
-				i, err := ExpressionParser(tree.expression[tree.charPos+1:], tree.charPos+tree.charOffset+1, exec)
-				if err != nil {
-					return err
-				}
-				tree.appendAst(symbols.Calculated)
-				tree.charPos += i
+				tree.appendAst(symbols.SubExpressionBegin)
+				//tree.appendAst(symbols.Calculated)
 			}
 
 		case ')':
 			tree.charPos++
 			switch {
-			case tree.isSubExp:
+			case tree.subExp:
 				// end sub expression
 				return nil
-			case exec:
-				tree.appendAst(symbols.SubExpressionEnd, r)
 			default:
-				return nil
+				raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.SubExpressionEnd])
 			}
 
 		case '%':
@@ -170,7 +163,10 @@ func (tree *ParserT) parseExpression(exec bool) error {
 					return err
 				}
 			default:
+				//if exec {
 				tree.appendAst(symbols.Unexpected, r)
+				//-} else
+				raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
 			}
 
 		//case '[':
@@ -180,35 +176,27 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			// end JSON array
 			tree.appendAst(symbols.ArrayEnd, r)
 
-		//case '{':
-		// create JSON object
-		// TODO
-
 		case '}':
 			// end JSON object
 			tree.appendAst(symbols.ObjectEnd, r)
 
-			//TODO: ? pipe
-
 		case '\'', '`':
 			// start string / end string
-			value, nEscapes, err := tree.parseString(r, r, exec)
+			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
 			}
-			tree.charPos -= nEscapes
 			tree.appendAst(symbols.QuoteSingle, value...)
-			tree.charPos += nEscapes + 1
+			tree.charPos++
 
 		case '"':
 			// start string / end string
-			value, nEscapes, err := tree.parseString(r, r, exec)
+			value, err := tree.parseString(r, r, exec)
 			if err != nil {
 				return err
 			}
-			tree.charPos -= nEscapes
 			tree.appendAst(symbols.QuoteDouble, value...)
-			tree.charPos += nEscapes + 1
+			tree.charPos++
 
 		case '$':
 			switch {
@@ -240,8 +228,9 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			}
 
 		case '@': // TODO: test me please!
+			next := tree.nextChar()
 			switch {
-			case tree.nextChar() == '{':
+			case next == '{':
 				// subshell
 				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
@@ -251,7 +240,11 @@ func (tree *ParserT) parseExpression(exec bool) error {
 					Primitive: primitives.Array,
 					Value:     v,
 				})
-			case isBareChar(tree.nextChar()):
+			case next == '[':
+				// range (this needs to be a statement)
+				return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
+					errMessage[symbols.Unexpected], string(r)))
+			case isBareChar(next):
 				// start array
 				_, v, err := tree.parseVarArray(exec)
 				if err != nil {
@@ -350,8 +343,8 @@ func (tree *ParserT) parseExpression(exec bool) error {
 
 			default:
 				if !exec {
-					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s'",
-						errMessage[symbols.Unexpected], string(r)))
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s' (%d)",
+						errMessage[symbols.Unexpected], string(r), r))
 				}
 				tree.charPos++
 				tree.appendAst(symbols.Unexpected, r)
@@ -359,6 +352,9 @@ func (tree *ParserT) parseExpression(exec bool) error {
 		}
 	}
 
-	tree.charPos--
+	if tree.charPos >= len(tree.expression)-1 || tree.expression[tree.charPos] == 0 {
+		tree.charPos--
+	}
+
 	return nil
 }

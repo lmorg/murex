@@ -2,16 +2,18 @@ package lang
 
 import (
 	"context"
+	"strings"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/expressions/functions"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/runmode"
 	"github.com/lmorg/murex/lang/state"
 )
 
 var ParseBlock func(block []rune) (*[]functions.FunctionT, error)
 var ParseExpression func([]rune, int, bool) (int, error)
-var ParseStatementParameters func([]rune, *Process) error
+var ParseStatementParameters func([]rune, *Process) (string, []string, error)
 
 const ExpressionFunctionName = "expr"
 
@@ -24,15 +26,14 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		panic("nil tree")
 	}
 
-	rm := parent.RunMode // TODO: replimient this
-	/*if len(*tree) > 0 && (*tree)[0].Name == "runmode" {
-		params := parameters.Parameters{Tokens: (*tree)[0].ParamTokens}
-		err := ParseParameters(parent, &params)
+	rm := parent.RunMode
+	if len(*tree) > 0 && string((*tree)[0].Command) == "runmode" {
+		_, params, err := ParseStatementParameters((*tree)[0].Raw, parent)
 		if err != nil {
 			return nil, ErrUnableToParseParametersInRunmode
 		}
 
-		switch params.StringAll() {
+		switch strings.Join(params, " ") {
 		case "try function":
 			rm = runmode.FunctionTry
 			parent.Scope.RunMode = rm
@@ -56,7 +57,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		}
 
 		*tree = (*tree)[1:]
-	}*/
+	}
 
 	procs := make([]Process, len(*tree))
 
@@ -82,6 +83,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].CCExists = parent.CCExists
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
 		procs[i].Forks = NewForkManagement()
+
 		// TODO: add line numbers
 		/*if (*tree)[i].LineNumber == 0 {
 			procs[i].FileRef.Column = (*tree)[i].ColNumber + parent.FileRef.Column
@@ -94,6 +96,9 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		} else {
 			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line
 		}*/
+
+		procs[i].FileRef.Column = (*tree)[i].ColumnN
+		procs[i].FileRef.Line = (*tree)[i].LineN
 
 		// Define previous and next processes:
 		switch {

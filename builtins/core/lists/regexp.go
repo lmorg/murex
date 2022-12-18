@@ -208,7 +208,7 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 
 func regexSubstitute(p *lang.Process, rx *regexp.Regexp, sRegex []string, dt string) error {
 	if len(sRegex) < 3 {
-		return fmt.Errorf("Invalid regex (too few parameters - expecting s/find/substitute/) in: `%s`", p.Parameters.StringAll())
+		return fmt.Errorf("invalid regex: too few parameters\nexpecting s/find/substitute/ in: `%s`", p.Parameters.StringAll())
 	}
 
 	aw, err := p.Stdout.WriteArray(dt)

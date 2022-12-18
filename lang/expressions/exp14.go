@@ -94,11 +94,11 @@ func expAssignAdd(tree *ParserT) error {
 		}
 		result = float64(v.(int)) + right.dt.Value.(float64)
 
-	case types.Boolean, types.Null:
+	case types.Boolean:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 
-	case "":
+	case types.Null:
 		switch right.dt.Primitive {
 		case primitives.String:
 			result = right.dt.Value.(string)
@@ -162,7 +162,7 @@ func expAssignSubtract(tree *ParserT) error {
 		f = v.(float64) - right.dt.Value.(float64)
 	case types.Integer:
 		f = float64(v.(int)) - right.dt.Value.(float64)
-	case "":
+	case types.Null:
 		f = 0 - right.dt.Value.(float64)
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -214,7 +214,7 @@ func expAssignMultiply(tree *ParserT) error {
 		f = v.(float64) * right.dt.Value.(float64)
 	case types.Integer:
 		f = float64(v.(int)) * right.dt.Value.(float64)
-	case "":
+	case types.Null:
 		f = 0
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -266,7 +266,7 @@ func expAssignDivide(tree *ParserT) error {
 		f = v.(float64) / right.dt.Value.(float64)
 	case types.Integer:
 		f = float64(v.(int)) / right.dt.Value.(float64)
-	case "":
+	case types.Null:
 		f = 0 / right.dt.Value.(float64)
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(

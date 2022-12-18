@@ -77,12 +77,12 @@ func TestParseArray(t *testing.T) {
 			/////
 			{
 				input:    "%[$TestParseArray]",
-				expected: `[""]`,
+				expected: `[null]`,
 				pos:      16,
 			},
 			{
 				input:    "%[1,2,$TestParseArray]",
-				expected: `[1,2,""]`,
+				expected: `[1,2,null]`,
 				pos:      20,
 			},
 			{

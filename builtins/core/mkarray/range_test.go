@@ -11,57 +11,57 @@ func TestRangeMonth(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  `a: [June..October]`,
-			Stdout: "June\nJuly\nAugust\nSeptember\nOctober\n",
+			Stdout: "^June\nJuly\nAugust\nSeptember\nOctober\n$",
 		},
 		{
 			Block:  `a: [June..January]`,
-			Stdout: "June\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nJanuary\n",
+			Stdout: "^June\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nJanuary\n$",
 		},
 		{
 			Block:  `a: [December..June]`,
-			Stdout: "December\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\n",
+			Stdout: "^December\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\n$",
 		},
 		{
 			Block:   `a: [..June]`,
 			Stdout:  "",
-			Stderr:  "Error in `a` ( 1,1): unable to auto-detect range in `..June`\n",
+			Stderr:  "unable to auto-detect range in `..June`\n",
 			ExitNum: 1,
 		},
 		{
 			Block:   `a: [June..]`,
 			Stdout:  "",
-			Stderr:  "Error in `a` ( 1,1): unable to auto-detect range in `June..`\n",
+			Stderr:  "unable to auto-detect range in `June..`\n",
 			ExitNum: 1,
 		},
 		// lowercase
 		{
 			Block:  `a: [june..october]`,
-			Stdout: "june\njuly\naugust\nseptember\noctober\n",
+			Stdout: "^june\njuly\naugust\nseptember\noctober\n$",
 		},
 		{
 			Block:  `a: [june..january]`,
-			Stdout: "june\njuly\naugust\nseptember\noctober\nnovember\ndecember\njanuary\n",
+			Stdout: "^june\njuly\naugust\nseptember\noctober\nnovember\ndecember\njanuary\n$",
 		},
 		{
 			Block:  `a: [december..june]`,
-			Stdout: "december\njanuary\nfebruary\nmarch\napril\nmay\njune\n",
+			Stdout: "^december\njanuary\nfebruary\nmarch\napril\nmay\njune\n$",
 		},
 		// uppercase
 		{
 			Block:  `a: [JUNE..OCTOBER]`,
-			Stdout: "JUNE\nJULY\nAUGUST\nSEPTEMBER\nOCTOBER\n",
+			Stdout: "^JUNE\nJULY\nAUGUST\nSEPTEMBER\nOCTOBER\n$",
 		},
 		{
 			Block:  `a: [JUNE..JANUARY]`,
-			Stdout: "JUNE\nJULY\nAUGUST\nSEPTEMBER\nOCTOBER\nNOVEMBER\nDECEMBER\nJANUARY\n",
+			Stdout: "^JUNE\nJULY\nAUGUST\nSEPTEMBER\nOCTOBER\nNOVEMBER\nDECEMBER\nJANUARY\n$",
 		},
 		{
 			Block:  `a: [DECEMBER..JUNE]`,
-			Stdout: "DECEMBER\nJANUARY\nFEBRUARY\nMARCH\nAPRIL\nMAY\nJUNE\n",
+			Stdout: "^DECEMBER\nJANUARY\nFEBRUARY\nMARCH\nAPRIL\nMAY\nJUNE\n$",
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestRange(t *testing.T) {

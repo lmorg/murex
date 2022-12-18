@@ -7,6 +7,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/mkarray"
 	_ "github.com/lmorg/murex/builtins/core/ranges"
 	_ "github.com/lmorg/murex/builtins/types/string"
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 )
 

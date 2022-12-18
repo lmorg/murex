@@ -9,6 +9,7 @@ func isBareChar(r rune) bool {
 
 func (tree *ParserT) parseBareword() []rune {
 	i := tree.charPos + 1
+
 	for ; i < len(tree.expression); i++ {
 		switch {
 		case isBareChar(tree.expression[i]):

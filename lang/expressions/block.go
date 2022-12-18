@@ -9,6 +9,8 @@ type BlockT struct {
 	Functions    []functions.FunctionT
 	expression   []rune
 	charPos      int
+	row          int
+	offset       int
 	nextProperty functions.Property
 }
 

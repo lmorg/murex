@@ -273,7 +273,7 @@ func (v *Variables) GetDataType(name string) string {
 		return types.String
 	}
 
-	return ""
+	return types.Null
 }
 
 func (v *Variables) getDataType(name string) (string, bool) {

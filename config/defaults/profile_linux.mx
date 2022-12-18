@@ -24,7 +24,7 @@ if { which: systemctl } {
 
     function autocomplete.systemctl.flags {
         # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
-        systemctl: --help -> @[Unit Commands:..]s -> regexp m/(NAME|PATTERN)/ -> tabulate: --map --key-inc-hint -> formap key val {
+        systemctl: --help -> @[Unit Commands:..]s -> regexp (m/(NAME|PATTERN)/) -> tabulate: --map --key-inc-hint -> formap key val {
             out ("$key": [{
                 "Dynamic": ({ autocomplete.systemctl }),
                 "ListView": true,
@@ -81,11 +81,11 @@ if { which: systemctl } {
 function progress {
     # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
 
-    if { = `+"`${os}`==`linux`"+` } then {
+    if { ${os}=="linux" } then {
         #params -> [ 1 ] -> set pid
         $1 -> set pid
         
-        g <!null> /proc/$pid/fd/* -> regexp <!null> (f#/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
+        g <!null> /proc/$pid/fd/* -> regexp <!null> (f,/proc/[0-9]+/fd/([0-9]+)) -> foreach <!null> fd {
             trypipe <!null> {
                 open /proc/$pid/fdinfo/$fd -> cast yaml -> [ pos ] -> set pos
                 readlink: /proc/$pid/fd/$fd -> set file

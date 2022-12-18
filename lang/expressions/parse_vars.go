@@ -95,6 +95,10 @@ func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	tree.charPos++
 	value := tree.parseBareword()
 
+	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
+		return tree.parseVarRange(exec, value)
+	}
+
 	tree.charPos--
 
 	if !exec {
@@ -105,6 +109,53 @@ func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 
 	v, err := tree.getArray(value)
 	return value, v, err
+}
+
+func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface{}, error) {
+	var escape bool
+
+	start := tree.charPos
+
+	tree.charPos++
+
+	for ; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch {
+		case escape:
+			escape = false
+
+		case r == '\\':
+			escape = true
+
+		case r == '[':
+			return nil, "", raiseError(
+				tree.expression, nil, tree.charPos, "too many nested square '[' brackets")
+
+		case r == ']':
+			goto endRange
+		}
+	}
+
+	return nil, "", raiseError(
+		tree.expression, nil, tree.charPos, "missing closing bracket ']'")
+
+endRange:
+	key := tree.expression[start+1 : tree.charPos]
+	tree.charPos++
+	flags := tree.parseBareword()
+	value := tree.expression[start-len(varName)-1 : tree.charPos]
+	tree.charPos--
+
+	if !exec {
+		return value, "", nil
+	}
+
+	v, err := tree.getVarRange(varName, key, flags)
+	if err != nil {
+		return nil, "", err
+	}
+	return nil, v, nil
 }
 
 func isUserNameChar(r rune) bool {

@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// TODO: check if pipes are being written with <>
+// TODO: check this works
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"

@@ -26,6 +26,10 @@ func cmdExpressions(p *lang.Process) error {
 		return err
 	}
 
+	if dt == types.Boolean && !types.IsTrue(b, 0) {
+		p.ExitNum = 1
+	}
+
 	_, err = p.Stdout.Write(b)
 	return err
 }

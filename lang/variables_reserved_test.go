@@ -138,7 +138,7 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams
 			`,
-			Stdout: "TestVarParams\n",
+			Stdout: "^TestVarParams\n$",
 		},
 		{
 			Block: `
@@ -147,7 +147,7 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams 1 2 3
 			`,
-			Stdout: "TestVarParams\n",
+			Stdout: "^TestVarParams\n$",
 		},
 		{
 			Block: `
@@ -156,7 +156,7 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams
 			`,
-			Stderr:  "Error in `out` ( 3,6): array '@PARAMS' is empty\n",
+			Stderr:  "array '@PARAMS' is empty\n",
 			ExitNum: 1,
 		},
 		{
@@ -166,7 +166,7 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams 1 2 3
 			`,
-			Stdout: "1 2 3\n",
+			Stdout: "^1 2 3\n$",
 		},
 		{
 			Block: `
@@ -175,7 +175,7 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams 1   2   3
 			`,
-			Stdout: "1 2 3\n",
+			Stdout: "^1 2 3\n$",
 		},
 		{
 			Block: `
@@ -184,11 +184,11 @@ func TestVarParams(t *testing.T) {
 				}
 				TestVarParams 1   2   3
 			`,
-			Stdout: `["1","2","3"]` + "\n",
+			Stdout: `\["1","2","3"\]`,
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestVarHostname(t *testing.T) {

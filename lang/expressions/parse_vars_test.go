@@ -200,3 +200,65 @@ func TestParseVarsIndex(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseVarsElementSlash(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsElement0=%[1..3];$TestParseVarsElement0[[/1]]`,
+			Stdout: `2`,
+		},
+		{
+			Block:  `TestParseVarsElement1=%[1..3];TestParseVarsElement1=$TestParseVarsElement1[[/2]];$TestParseVarsElement1`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsElement2=%[1..3];TestParseVarsElement2="-$TestParseVarsElement2[[/1]]-";$TestParseVarsElement2`,
+			Stdout: `-2-`,
+		},
+		{
+			Block:  `TestParseVarsElement3=%[1..3];%[1 2 3 $TestParseVarsElement3[[/1]] 1 2 3]`,
+			Stdout: `[1,2,3,2,1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsElement4=%[1..3];%{$TestParseVarsElement4[[/1]]:a}`,
+			Stdout: `{"2":"a"}`,
+		},
+		{
+			Block:  `TestParseVarsElement5=%[1..3];%{a:$TestParseVarsElement5[[/1]]}`,
+			Stdout: `{"a":2}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsElementDot(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsElement0=%[1..3];$TestParseVarsElement0[[.1]]`,
+			Stdout: `2`,
+		},
+		{
+			Block:  `TestParseVarsElement1=%[1..3];TestParseVarsElement1=$TestParseVarsElement1[[.2]];$TestParseVarsElement1`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsElement2=%[1..3];TestParseVarsElement2="-$TestParseVarsElement2[[.1]]-";$TestParseVarsElement2`,
+			Stdout: `-2-`,
+		},
+		{
+			Block:  `TestParseVarsElement3=%[1..3];%[1 2 3 $TestParseVarsElement3[[.1]] 1 2 3]`,
+			Stdout: `[1,2,3,2,1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsElement4=%[1..3];%{$TestParseVarsElement4[[.1]]:a}`,
+			Stdout: `{"2":"a"}`,
+		},
+		{
+			Block:  `TestParseVarsElement5=%[1..3];%{a:$TestParseVarsElement5[[.1]]}`,
+			Stdout: `{"a":2}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

@@ -47,7 +47,6 @@ const (
 	fEvents             = "--events"
 	fAutocomplete       = "--autocomplete"
 	fMemstats           = "--memstats"
-	fAstCache           = "--astcache"
 	fTests              = "--tests"
 	fTestResults        = "--test-results"
 	fModules            = "--modules"
@@ -84,7 +83,6 @@ var flags = map[string]string{
 	fEvents:             types.Boolean,
 	fAutocomplete:       types.Boolean,
 	fMemstats:           types.Boolean,
-	fAstCache:           types.Boolean,
 	fTests:              types.Boolean,
 	fTestResults:        types.Boolean,
 	fModules:            types.Boolean,

@@ -8,7 +8,7 @@ import (
 
 func TestParseQuoteParen(t *testing.T) {
 	tests := expTestsT{
-		symbol: symbols.QuoteDouble,
+		symbol: symbols.QuoteParenthesis,
 		tests: []expTestT{
 			{
 				input:    `%()`,
