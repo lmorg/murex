@@ -177,3 +177,52 @@ func TestArrayHex(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestArrayBugFix489(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `a: [1..3`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		{
+			Block:  `a: [1..`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		{
+			Block:  `a: [..3`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		{
+			Block:  `a: [..`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		/////
+		{
+			Block:  `a: [mon..fri`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		{
+			Block:  `a: [mon..`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		{
+			Block:  `a: [..fri`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+		/////
+		{
+			Block:  `a: [ 1 .. 2`,
+			Stderr: "missing closing square bracket",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}

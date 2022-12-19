@@ -156,6 +156,10 @@ func mkArray(p *lang.Process, dataType string) error {
 		}
 	}
 
+	if open {
+		return fmt.Errorf("missing closing square bracket, ']', in: %s", string(expression))
+	}
+
 	// Group the parameters to handle recursive matching
 	groups := make([][]ast, 1)
 	for i := range nodes {
