@@ -40,6 +40,19 @@ func TestParseVarsScalar(t *testing.T) {
 			Block:  `TestParseVarsScalar6=6;%{"foobar": $TestParseVarsScalar6}`,
 			Stdout: `{"foobar":6}`,
 		},
+		/////
+		{
+			Block:  `TestParseVarsScalar7=1;TestParseVarsScalar7=2;TestParseVarsScalar7=3;$TestParseVarsScalar7`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsScalar8=1;TestParseVarsScalar8=2;TestParseVarsScalar8=3;;$TestParseVarsScalar8`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsScalar9=1;TestParseVarsScalar9=2;TestParseVarsScalar9=3;out bob;$TestParseVarsScalar9`,
+			Stdout: "bob\n3",
+		},
 	}
 
 	test.RunMurexTests(tests, t)
@@ -181,6 +194,68 @@ func TestParseVarsIndex(t *testing.T) {
 		},
 		{
 			Block:  `TestParseVarsIndex5=%[1..3];%{a:$TestParseVarsIndex5[1]}`,
+			Stdout: `{"a":2}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsElementSlash(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsElement0=%[1..3];$TestParseVarsElement0[[/1]]`,
+			Stdout: `2`,
+		},
+		{
+			Block:  `TestParseVarsElement1=%[1..3];TestParseVarsElement1=$TestParseVarsElement1[[/2]];$TestParseVarsElement1`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsElement2=%[1..3];TestParseVarsElement2="-$TestParseVarsElement2[[/1]]-";$TestParseVarsElement2`,
+			Stdout: `-2-`,
+		},
+		{
+			Block:  `TestParseVarsElement3=%[1..3];%[1 2 3 $TestParseVarsElement3[[/1]] 1 2 3]`,
+			Stdout: `[1,2,3,2,1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsElement4=%[1..3];%{$TestParseVarsElement4[[/1]]:a}`,
+			Stdout: `{"2":"a"}`,
+		},
+		{
+			Block:  `TestParseVarsElement5=%[1..3];%{a:$TestParseVarsElement5[[/1]]}`,
+			Stdout: `{"a":2}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsElementDot(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsElement0=%[1..3];$TestParseVarsElement0[[.1]]`,
+			Stdout: `2`,
+		},
+		{
+			Block:  `TestParseVarsElement1=%[1..3];TestParseVarsElement1=$TestParseVarsElement1[[.2]];$TestParseVarsElement1`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsElement2=%[1..3];TestParseVarsElement2="-$TestParseVarsElement2[[.1]]-";$TestParseVarsElement2`,
+			Stdout: `-2-`,
+		},
+		{
+			Block:  `TestParseVarsElement3=%[1..3];%[1 2 3 $TestParseVarsElement3[[.1]] 1 2 3]`,
+			Stdout: `[1,2,3,2,1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsElement4=%[1..3];%{$TestParseVarsElement4[[.1]]:a}`,
+			Stdout: `{"2":"a"}`,
+		},
+		{
+			Block:  `TestParseVarsElement5=%[1..3];%{a:$TestParseVarsElement5[[.1]]}`,
 			Stdout: `{"a":2}`,
 		},
 	}

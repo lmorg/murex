@@ -7,13 +7,13 @@ import (
 )
 
 func init() {
-	lang.DefineFunction(lang.ParserExpressions, cmdExpressions, types.Any)
+	lang.DefineFunction(lang.ExpressionFunctionName, cmdExpressions, types.Any)
 }
 
 func cmdExpressions(p *lang.Process) error {
 	expression := []rune(p.Parameters.StringAll())
 
-	result, err := expressions.Execute(p, expression)
+	result, err := expressions.ExecuteExpr(p, expression)
 	if err != nil {
 		return err
 	}
@@ -24,6 +24,10 @@ func cmdExpressions(p *lang.Process) error {
 	b, err := lang.MarshalData(p, dt, result.Value)
 	if err != nil {
 		return err
+	}
+
+	if dt == types.Boolean && !types.IsTrue(b, 0) {
+		p.ExitNum = 1
 	}
 
 	_, err = p.Stdout.Write(b)

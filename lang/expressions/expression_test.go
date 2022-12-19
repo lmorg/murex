@@ -7,10 +7,10 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-func TestChainParserOffset0(t *testing.T) {
+func TestExpressionParserOffset0(t *testing.T) {
 	tests := []string{
 		"1+2;other code",
-		"(1+2);other code",
+		//"(1+2);other code",
 		"foobar=1+2;other code",
 		"foobar=(1+2);other code",
 		"foobar=1+2;other code",
@@ -45,23 +45,25 @@ func TestChainParserOffset0(t *testing.T) {
 		expression := []rune(tests[j][0:])
 		split := strings.Split(tests[j], ";")
 
-		i, err := ChainParser(expression, 0)
+		i, err := ExpressionParser(expression, 0, false)
 		if err != nil || string(expression[:i+1]) != split[0] {
 			t.Errorf("Expression did not parse correctly in test %d:", j)
 			t.Log("            :           1         2         3         4         5")
 			t.Log("            :  12345678901234567890123456789012345678901234567890")
 			t.Logf("  Expression: '%s'", string(expression))
 			t.Logf("  Error:      %v", err)
+			t.Logf("  exp bytes:   %v", []byte(split[0]))
+			t.Logf("  act bytes:   %v", []byte(string(expression[:i+1])))
 			t.Logf("  Expected:   '%s'", split[0])
 			t.Logf("  Actual:     '%s'", string(expression[:i+1]))
 		}
 	}
 }
 
-func TestChainParserOffset5(t *testing.T) {
+func TestExpressionParserOffset5(t *testing.T) {
 	tests := []string{
 		"code;1+2;other code",
-		"code;(1+2);other code",
+		//"code;(1+2);other code",
 		"code;foobar=1+2;other code",
 		"code;foobar=(1+2);other code",
 		"code;foobar=1+2;other code",
@@ -93,7 +95,7 @@ func TestChainParserOffset5(t *testing.T) {
 		expression := []rune(tests[j][5:])
 		split := strings.Split(tests[j], ";")
 
-		i, err := ChainParser(expression, 5)
+		i, err := ExpressionParser(expression, 5, false)
 		if err != nil || string(expression[:i+1]) != split[1] {
 			t.Errorf("Expression did not parse correctly in test %d:", j)
 			t.Log("            :           1         2         3         4         5")
@@ -105,3 +107,18 @@ func TestChainParserOffset5(t *testing.T) {
 		}
 	}
 }
+
+/*func TestStrings(t *testing.T) {
+	tests := []string{
+		`'foobar'`,
+		`"foobar"`,
+		`(foobar)`,
+		`%(foobar)`,
+	}
+
+	for i := range tests {
+		mxtext:=test.MurexTest{
+			Std
+		}
+	}
+}*/

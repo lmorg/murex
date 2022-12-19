@@ -1,0 +1,29 @@
+autocomplete: set "[" { [{
+    "AnyValue": true,
+    "AllowMultiple": true,
+    "ExecCmdline": true,
+    "Dynamic": ({
+        switch ${ get-type: stdin } {
+            case * {
+                #<stdin> -> tabulate -> [ 0: ] -> format json -> [ 0 ]
+                <stdin> -> [ 0: ] -> format json -> [ 0 ] -> append "]"
+            }
+
+            case csv {
+                <stdin> -> [ 0: ] -> format json -> [ 0 ] -> append "]"
+            }
+            
+            case jsonl {
+                <stdin> -> [ 0 ] -> set header
+                $header -> cast utf8 -> [ 0 -1 ] -> set jsonl_format
+                if { = jsonl_format==`[]` } then {
+                    tout json $header -> append "]"
+                }
+            }
+
+            catch {
+                <stdin> -> formap k v { out $k } -> cast str -> append "]"
+            }
+        }
+    })
+}] }

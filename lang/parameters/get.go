@@ -96,17 +96,17 @@ func (p *Parameters) StringAll() string {
 // StringAllRange returns all parameters within range as one space-delimited string.
 // `start` is first point in array. `end` is last. Set `end` to `-1` if you want `[n:]`.
 func (p *Parameters) StringAllRange(start, end int) string {
-	p.mutex.RLock() 
+	p.mutex.RLock()
 
 	var s string
 
 	switch {
 	case len(p.params) == 0:
-		s= ""
+		s = ""
 	case end == -1:
-		s= strings.Join(p.params[start:], " ")
+		s = strings.Join(p.params[start:], " ")
 	default:
-		s= strings.Join(p.params[start:end], " ")
+		s = strings.Join(p.params[start:end], " ")
 	}
 
 	p.mutex.RUnlock()
@@ -176,23 +176,4 @@ func (p *Parameters) Len() int {
 	defer p.mutex.RUnlock()
 
 	return len(p.params)
-}
-
-// TokenLen returns the number of parameters from ParamTokens. This method is
-// not recommended for casual use - instead use Len() - however if you are
-// monitoring other processes and those processes might be in a state prior to
-// execution then you might want to check the parameter length before it has
-// been parsed. This is this methods _only_ use case.
-func (p *Parameters) TokenLen() int {
-	var count int
-	for _, tokens := range p.Tokens {
-		for i := range tokens {
-			if tokens[i].Type != TokenTypeNil && tokens[i].Type != TokenTypeNamedPipe {
-				count++
-				break
-			}
-		}
-	}
-
-	return count
 }

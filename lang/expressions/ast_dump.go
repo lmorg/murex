@@ -1,6 +1,6 @@
 package expressions
 
-func (tree *expTreeT) Dump() interface{} {
+func (tree *ParserT) Dump() interface{} {
 	var (
 		dump  = make(map[string]interface{})
 		nodes = make([]interface{}, len(tree.ast))

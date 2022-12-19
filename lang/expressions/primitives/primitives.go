@@ -1,6 +1,8 @@
 package primitives
 
 import (
+	"encoding/json"
+
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -46,4 +48,14 @@ func (dt *DataType) DataType() string {
 	default:
 		return types.Generic
 	}
+}
+
+func (dt *DataType) Marshal() ([]rune, error) {
+	b, err := json.Marshal(dt.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	r := []rune(string(b))
+	return r, nil
 }

@@ -132,7 +132,7 @@ func (p *Process) Fork(flags int) *Fork {
 	} else {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
-		fork.Parameters.CopyFrom(&p.Parameters)
+		//fork.Parameters.CopyFrom(&p.Parameters)
 		fork.Context, fork.Done = p.Context, p.Done
 
 		if p.Scope.RunMode > runmode.Default {
@@ -255,12 +255,17 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		defer fork.Stderr.Close()
 	}
 
-	tree, pErr := ParseBlock(block)
+	/*tree, pErr := ParseBlock(block)
 	if pErr.Code != 0 {
 		errMsg := fmt.Sprintf("syntax error at %d,%d+%d (%s): %s",
 			fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, fork.FileRef.Source.Module, pErr.Message)
 		fork.Stderr.Writeln([]byte(errMsg))
 		err = errors.New(errMsg)
+		return 1, err
+	}*/
+
+	tree, err := ParseBlock(block)
+	if err != nil {
 		return 1, err
 	}
 

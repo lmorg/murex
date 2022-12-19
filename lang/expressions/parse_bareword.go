@@ -7,8 +7,9 @@ func isBareChar(r rune) bool {
 		(r >= '0' && '9' >= r)
 }
 
-func (tree *expTreeT) parseBareword() []rune {
+func (tree *ParserT) parseBareword() []rune {
 	i := tree.charPos + 1
+
 	for ; i < len(tree.expression); i++ {
 		switch {
 		case isBareChar(tree.expression[i]):

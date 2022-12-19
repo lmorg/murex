@@ -10,8 +10,49 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func expEqualTo(tree *expTreeT) error {
+func expEqualFunc(tree *ParserT) (*primitives.DataType, error) {
 	left, right, err := tree.getLeftAndRightSymbols()
+	if err != nil {
+		return nil, err
+	}
+
+	var lv *interface{}
+	var rv *interface{}
+
+	switch left.dt.Value.(type) {
+	case string, float64, int, bool:
+		lv = &left.dt.Value
+	default:
+		r, err := left.dt.Marshal()
+		if err != nil {
+			return nil, err
+		}
+		var s interface{}
+		s = string(r)
+		lv = &s
+	}
+
+	switch right.dt.Value.(type) {
+	case string, float64, int, bool:
+		rv = &right.dt.Value
+	default:
+		r, err := right.dt.Marshal()
+		if err != nil {
+			return nil, err
+		}
+		var s interface{}
+		s = string(r)
+		rv = &s
+	}
+
+	return &primitives.DataType{
+		Primitive: primitives.Boolean,
+		Value:     *lv == *rv,
+	}, nil
+}
+
+func expEqualTo(tree *ParserT) error {
+	dt, err := expEqualFunc(tree)
 	if err != nil {
 		return err
 	}
@@ -19,30 +60,26 @@ func expEqualTo(tree *expTreeT) error {
 	return tree.foldAst(&astNodeT{
 		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     left.dt.Value == right.dt.Value,
-		},
+		dt:  dt,
 	})
 }
 
-func expNotEqualTo(tree *expTreeT) error {
-	left, right, err := tree.getLeftAndRightSymbols()
+func expNotEqualTo(tree *ParserT) error {
+	dt, err := expEqualFunc(tree)
 	if err != nil {
 		return err
 	}
 
+	dt.Value = !dt.Value.(bool)
+
 	return tree.foldAst(&astNodeT{
 		key: symbols.Boolean,
 		pos: tree.ast[tree.astPos].pos,
-		dt: &primitives.DataType{
-			Primitive: primitives.Boolean,
-			Value:     left.dt.Value != right.dt.Value,
-		},
+		dt:  dt,
 	})
 }
 
-func expLike(tree *expTreeT, eq bool) error {
+func expLike(tree *ParserT, eq bool) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -71,7 +108,7 @@ func expLike(tree *expTreeT, eq bool) error {
 	})
 }
 
-func expRegexp(tree *expTreeT, eq bool) error {
+func expRegexp(tree *ParserT, eq bool) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err

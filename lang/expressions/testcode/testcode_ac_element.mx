@@ -1,0 +1,6 @@
+autocomplete: set "[[" { [{
+    "AnyValue": true,
+    "ExecCmdline": true,
+    "AutoBranch": true,
+    "Dynamic": ({ -> struct-keys -> append "]]" })
+} ]}

@@ -1,6 +1,6 @@
 package lang
 
-import (
+/*import (
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
@@ -43,3 +43,4 @@ func TestAutoGlobPromptHintText(t *testing.T) {
 	}
 
 }
+*/

@@ -3,7 +3,6 @@ package defaults
 import (
 	"os"
 	"runtime"
-	"strings"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
@@ -318,27 +317,5 @@ func Config(c *config.Config, isInteractive bool) {
 		Description: "This is the character limit for the report message when the report is set to `table`. Set to zero, `0`, to disable message cropping",
 		Default:     100,
 		DataType:    types.Integer,
-	})
-}
-
-var murexProfile []string
-
-// AppendProfile is used as a way of creating a platform specific default
-// profile generated at compile time
-func AppendProfile(block string) {
-	murexProfile = append(murexProfile, "\n"+block+"\n")
-}
-
-type DefaultProfileT struct {
-	Name  string
-	Block []byte
-}
-
-var DefaultProfiles []*DefaultProfileT
-
-func AddMurexProfile() {
-	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile",
-		Block: []byte(strings.Join(murexProfile, "\n\n")),
 	})
 }

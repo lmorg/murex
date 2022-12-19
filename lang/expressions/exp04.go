@@ -7,7 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func expAdd(tree *expTreeT) error {
+func expAdd(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func expAdd(tree *expTreeT) error {
 
 }
 
-func expSubtract(tree *expTreeT) error {
+func expSubtract(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err

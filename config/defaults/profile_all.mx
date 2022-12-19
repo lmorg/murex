@@ -370,7 +370,7 @@ autocomplete: set !function { [{
 
 private autocomplete.privates {
     # Returns a map of all murex private functions
-    runtime: --privates  -> struct-keys: 3 -> regexp m,/.*?/.*?/, -> foreach --jmap private { $private } { runtime: --privates -> [[ $private/Summary ]] }
+    runtime: --privates -> struct-keys: 3 -> regexp m,/.*?/.*?/, -> foreach --jmap private { $private } { runtime: --privates -> [[ $private/Summary ]] }
 }
 
 test unit private autocomplete.privates {

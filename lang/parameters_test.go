@@ -19,7 +19,7 @@ func TestParamHangBug(t *testing.T) {
 		// string
 		{
 			Block:  `out: $FOO{BAR}`,
-			Stdout: "\n",
+			Stdout: "{BAR}\n",
 		},
 		{
 			Block:  `out: $ FOO{BAR}`,
@@ -38,11 +38,6 @@ func TestParamHangBug(t *testing.T) {
 			Stdout: "\n",
 		},
 		{
-			Block:  `out: $FOO[[BAR]]`,
-			Stdout: "\n",
-			Stderr: "Error in `[[` ( 4,9): murex doesn't know how to lookup `[][]string` (please file a bug with on the murex Github page: https://lmorg/murex)\n",
-		},
-		{
 			Block:  `out: $ FOO[BAR]`,
 			Stdout: "$ FOO[BAR]\n",
 		},
@@ -52,7 +47,7 @@ func TestParamHangBug(t *testing.T) {
 		},
 		{
 			Block:  `out: $FOO(BAR)`,
-			Stdout: "BAR\n",
+			Stdout: "(BAR)\n",
 		},
 		{
 			Block:  `out: $ FOO(BAR)`,
@@ -65,7 +60,7 @@ func TestParamHangBug(t *testing.T) {
 		// array
 		{
 			Block:  `out: @FOO{BAR}`,
-			Stdout: "\n",
+			Stdout: "{BAR}\n",
 		},
 		{
 			Block:  `out: @ FOO{BAR}`,
@@ -78,11 +73,6 @@ func TestParamHangBug(t *testing.T) {
 		{
 			Block:  `out: @FOO`,
 			Stdout: "\n",
-		},
-		{
-			Block:  `out: @FOO[BAR]`,
-			Stdout: "\n",
-			Stderr: "Error in `@[` ( 4,10): invalid syntax: could not separate component values: [].\n                     > Usage: [start..end] / [start..end]se\n                     > (start or end can be omitted)\n",
 		},
 		{
 			Block:  `out: @ FOO[BAR]`,
@@ -102,7 +92,7 @@ func TestParamHangBug(t *testing.T) {
 		},
 		{
 			Block:  `out: @FOO(BAR)`,
-			Stdout: "BAR\n",
+			Stdout: "(BAR)\n",
 		},
 		{
 			Block:  `out: @ FOO(BAR)`,
@@ -121,26 +111,7 @@ func TestParamHangBug(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
-func TestParamHangBugRx(t *testing.T) {
-	const config = `
-		config: set proc strict-vars false;
-		config: set proc strict-arrays false; 
-	`
 
-	tests := []test.MurexTest{
-		{
-			Block:  `out: @FOO[[BAR]]`,
-			Stdout: "\n",
-			Stderr: "executable file not found",
-		},
-	}
-
-	for i := range tests {
-		tests[i].Block = config + tests[i].Block
-	}
-
-	test.RunMurexTestsRx(tests, t)
-}
 
 func TestParamVarRange(t *testing.T) {
 	rand.Seed(time.Now().Unix())

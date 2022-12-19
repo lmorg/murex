@@ -68,6 +68,17 @@ func TestParseSubShellScalar(t *testing.T) {
 	test.RunMurexTests(tests, t)
 }
 
+func TestParseSubShellScalarParam(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `echo ${out foobar}`,
+			Stdout: "foobar\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
 func TestParseSubShellArray(t *testing.T) {
 	tests := []test.MurexTest{
 		{
@@ -98,6 +109,17 @@ func TestParseSubShellArray(t *testing.T) {
 		{
 			Block:  `%{a: "@{ja: [1..3]}"}`,
 			Stdout: `{"a":"@{ja: [1..3]}"}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseSubShellArrayParams(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `echo @{ja: [1..3]}`,
+			Stdout: "1 2 3\n",
 		},
 	}
 

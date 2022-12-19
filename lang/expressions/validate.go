@@ -1,25 +1,32 @@
 package expressions
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func validateExpression(tree *expTreeT) error {
+func (tree *ParserT) validateExpression() error {
 	// compile data types and check for errors in the AST
 	//
 	// first walk to ensure we have a:
 	// value, expression, value, expression, value....etc
 
-	if len(tree.ast) == 0 {
-		return errors.New("missing expression")
+	if tree.charPos < 0 {
+		tree.charPos = 0
 	}
+
+	if len(tree.ast) == 0 {
+		return fmt.Errorf("missing expression: '%s'", string(tree.expression[:tree.charPos]))
+	}
+
 	if len(tree.ast) == 1 &&
-		tree.ast[0].key != symbols.ArrayBegin && tree.ast[0].key != symbols.ObjectBegin &&
-		tree.ast[0].key != symbols.SubExpressionBegin && tree.ast[0].key != symbols.Calculated {
-		return fmt.Errorf("not an expression: '%s'", string(tree.expression))
+		(tree.ast[0].key == symbols.Bareword || tree.ast[0].key == symbols.SubExpressionBegin ||
+			tree.ast[0].key == symbols.QuoteSingle || tree.ast[0].key == symbols.QuoteDouble) {
+		if tree.charPos+1 > len(tree.expression) {
+			tree.charPos--
+		}
+		return fmt.Errorf("not an expression: '%s'", string(tree.expression[:tree.charPos+1]))
 	}
 
 	var expectValue bool
@@ -64,8 +71,8 @@ func validateExpression(tree *expTreeT) error {
 					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s barewords", node.key))
 				}
 			case symbols.Subtract, symbols.Divide, symbols.Multiply:
-				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated) ||
-					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated) {
+				if prev == nil || (prev.key != symbols.Number && prev.key != symbols.Calculated && prev.key != symbols.SubExpressionBegin) ||
+					next == nil || (next.key != symbols.Number && next.key != symbols.Calculated && next.key != symbols.SubExpressionBegin) {
 					return raiseError(tree.expression, node, 0, fmt.Sprintf("cannot %s non-numeric data types", node.key))
 				}
 			}

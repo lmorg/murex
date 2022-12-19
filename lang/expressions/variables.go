@@ -10,12 +10,16 @@ import (
 	"github.com/lmorg/murex/utils"
 )
 
+type varFormatting int
+
 const (
-	varAsString = true
-	varAsValue  = false
+	varAsString varFormatting = 0
+	varAsValue  varFormatting = 1
 )
 
-func (tree *expTreeT) getVar(name []rune, strOrVal bool) (interface{}, string, error) {
+var errEmptyRange = "range '@%s[%s]%s' is empty"
+
+func (tree *ParserT) getVar(name []rune, strOrVal varFormatting) (interface{}, string, error) {
 	var (
 		value    interface{}
 		dataType string
@@ -23,7 +27,7 @@ func (tree *expTreeT) getVar(name []rune, strOrVal bool) (interface{}, string, e
 		nameS    = string(name)
 	)
 
-	if strOrVal { // == varAsString
+	if strOrVal == varAsString {
 		value, err = tree.p.Variables.GetString(nameS)
 		if err != nil {
 			return nil, "", err
@@ -64,7 +68,7 @@ func (tree *expTreeT) getVar(name []rune, strOrVal bool) (interface{}, string, e
 
 const errEmptyArray = "array '@%s' is empty"
 
-func (tree *expTreeT) getArray(name []rune) (interface{}, error) {
+func (tree *ParserT) getArray(name []rune) (interface{}, error) {
 	var nameS = string(name)
 
 	data, err := tree.p.Variables.GetString(nameS)
@@ -93,7 +97,7 @@ func (tree *expTreeT) getArray(name []rune) (interface{}, error) {
 	return array, nil
 }
 
-func (tree *expTreeT) setVar(name []rune, value interface{}, dataType string) error {
+func (tree *ParserT) setVar(name []rune, value interface{}, dataType string) error {
 	nameS := string(name)
 	return tree.p.Variables.Set(tree.p, nameS, value, dataType)
 }
@@ -121,7 +125,7 @@ const (
 	getVarIsElement = 2
 )
 
-func (tree *expTreeT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal bool) (interface{}, string, error) {
+func (tree *ParserT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVal varFormatting) (interface{}, string, error) {
 	var block []rune
 	if isIorE == getVarIsIndex {
 		block = createIndexBlock(name, key)
@@ -129,7 +133,7 @@ func (tree *expTreeT) getVarIndexOrElement(name, key []rune, isIorE int, strOrVa
 		block = createElementBlock(name, key)
 	}
 
-	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
 	fork.Execute(block)
 	b, err := fork.Stdout.ReadAll()
 	if err != nil {
@@ -167,8 +171,39 @@ func createElementBlock(name, element []rune) []rune {
 	return block
 }
 
-func formatBytes(b []byte, dataType string, strOrVal bool) (interface{}, error) {
-	if strOrVal { // == varAsString
+func createRangeBlock(name, key, flags []rune) []rune {
+	l := len(name) + 1
+
+	block := make([]rune, 7+len(name)+len(key)+len(flags))
+	block[0] = '$'
+	copy(block[1:], name)
+	copy(block[l:], []rune{'-', '>', ' ', '@', '['})
+	copy(block[l+5:], key)
+	block[l+len(key)+5] = ']'
+	copy(block[len(block)-len(flags):], flags)
+	return block
+}
+
+func (tree *ParserT) getVarRange(name, key, flags []rune) (interface{}, error) {
+	var array []interface{}
+
+	block := createRangeBlock(name, key, flags)
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
+	fork.Execute(block)
+	fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
+		array = append(array, v)
+	})
+
+	if len(array) == 0 && tree.StrictArrays() {
+		return nil, fmt.Errorf(errEmptyRange, string(name), string(key), string(flags))
+	}
+
+	return array, nil
+
+}
+
+func formatBytes(b []byte, dataType string, strOrVal varFormatting) (interface{}, error) {
+	if strOrVal == varAsString {
 		return string(b), nil
 	}
 

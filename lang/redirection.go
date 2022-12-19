@@ -5,35 +5,16 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 )
 
-//var rxNamedPipe = regexp.MustCompile(`^<(state_|test_|\!)?[a-zA-Z0-9]+>$`)
+// TODO: check this works
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
 	//p.NamedPipeErr = "err"
 
-	for i := range p.Parameters.Tokens {
-		// nil tokens can sometimes get popped into the token array. This is really a "bug" of the parser where
-		// speed is valued over correctness. However it does mean we need to ignore them here
-		if p.Parameters.Tokens[i][0].Type == parameters.TokenTypeNil {
-			continue
-		}
-
-		if p.Parameters.Tokens[i][0].Type != parameters.TokenTypeNamedPipe {
-			break
-		}
-
-		l := len(p.Parameters.Tokens[i][0].Key)
-		if l < 2 || p.Parameters.Tokens[i][0].Key[l-1] != '>' {
-			pipeErr(p, fmt.Sprintf("invalid format used: '%s'", p.Parameters.Tokens[i][0].Key))
-			continue
-		}
-
-		name := p.Parameters.Tokens[i][0].Key[1 : l-1]
-
+	for _, name := range p.namedPipes {
 		switch {
 		case len(name) > 5 && name[:5] == "test_":
 			if p.NamedPipeTest == "" {

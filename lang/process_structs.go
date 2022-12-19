@@ -21,8 +21,10 @@ import (
 // External processes will also appear in the host OS's process list.
 type Process struct {
 	Id                 uint32
+	raw                []rune
 	Name               process.Name
 	Parameters         parameters.Parameters
+	namedPipes         []string
 	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io

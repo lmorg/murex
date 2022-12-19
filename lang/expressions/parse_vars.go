@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-func (tree *expTreeT) parseVarScalar(exec bool, strOrVal bool) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
 	}
@@ -23,14 +23,14 @@ func (tree *expTreeT) parseVarScalar(exec bool, strOrVal bool) ([]rune, interfac
 	if !exec {
 		// don't getVar() until we come to execute the expression, skip when only
 		// parsing syntax
-		return value, nil, "", nil
+		return append([]rune{'$'}, value...), nil, "", nil
 	}
 
 	v, dataType, err := tree.getVar(value, strOrVal)
 	return value, v, dataType, err
 }
 
-func (tree *expTreeT) parseVarIndexElement(exec bool, varName []rune, strOrVal bool) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	var (
 		brackets = 1
 		escape   bool
@@ -87,7 +87,7 @@ endIndexElement:
 	return nil, v, dt, nil
 }
 
-func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
+func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, errors.New("'@' symbol found but no variable name followed")
 	}
@@ -95,21 +95,74 @@ func (tree *expTreeT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	tree.charPos++
 	value := tree.parseBareword()
 
+	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
+		return tree.parseVarRange(exec, value)
+	}
+
+	tree.charPos--
+
 	if !exec {
 		// don't getArray() until we come to execute the expression, skip when only
 		// parsing syntax
-		return value, nil, nil
+		return append([]rune{'@'}, value...), nil, nil
 	}
 
 	v, err := tree.getArray(value)
 	return value, v, err
 }
 
+func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface{}, error) {
+	var escape bool
+
+	start := tree.charPos
+
+	tree.charPos++
+
+	for ; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch {
+		case escape:
+			escape = false
+
+		case r == '\\':
+			escape = true
+
+		case r == '[':
+			return nil, "", raiseError(
+				tree.expression, nil, tree.charPos, "too many nested square '[' brackets")
+
+		case r == ']':
+			goto endRange
+		}
+	}
+
+	return nil, "", raiseError(
+		tree.expression, nil, tree.charPos, "missing closing bracket ']'")
+
+endRange:
+	key := tree.expression[start+1 : tree.charPos]
+	tree.charPos++
+	flags := tree.parseBareword()
+	value := tree.expression[start-len(varName)-1 : tree.charPos]
+	tree.charPos--
+
+	if !exec {
+		return value, "", nil
+	}
+
+	v, err := tree.getVarRange(varName, key, flags)
+	if err != nil {
+		return nil, "", err
+	}
+	return nil, v, nil
+}
+
 func isUserNameChar(r rune) bool {
 	return isBareChar(r) || r == '.' || r == '-'
 }
 
-func (tree *expTreeT) parseVarTilde(exec bool) string {
+func (tree *ParserT) parseVarTilde(exec bool) string {
 	tree.charPos++
 	start := tree.charPos
 

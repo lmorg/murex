@@ -1,0 +1,13 @@
+if { = `${os}` != `windows` } then {
+    function agent {
+        # Launch ssh-agent
+        config: set proc strict-arrays false
+        ssh-agent -> head -n2 -> [ :0 ] -> prefix "export " -> source
+        ssh-add: @{g <!null> ~/.ssh/*.key} @{g <!null> ~/.ssh/*.pem}
+    }
+    
+} else {
+    function agent {
+        # On POSIX systems this would launch `ssh-agent` however on Windows it is an empty function
+    }
+}

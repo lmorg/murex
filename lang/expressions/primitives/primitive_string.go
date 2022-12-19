@@ -8,35 +8,38 @@ func _() {
 	// An "invalid array index" compiler error signifies that the constant values have changed.
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
-	_ = x[Number-14]
+	_ = x[Number-15]
 	_ = x[String-12]
-	_ = x[Boolean-15]
+	_ = x[Boolean-16]
 	_ = x[Array-11]
 	_ = x[Object-10]
-	_ = x[Null-16]
+	_ = x[Null-17]
 	_ = x[Bareword-0]
+	_ = x[Other - -1]
 }
 
 const (
-	_Primitive_name_0 = "Bareword"
+	_Primitive_name_0 = "OtherBareword"
 	_Primitive_name_1 = "ObjectArrayString"
 	_Primitive_name_2 = "NumberBooleanNull"
 )
 
 var (
+	_Primitive_index_0 = [...]uint8{0, 5, 13}
 	_Primitive_index_1 = [...]uint8{0, 6, 11, 17}
 	_Primitive_index_2 = [...]uint8{0, 6, 13, 17}
 )
 
 func (i Primitive) String() string {
 	switch {
-	case i == 0:
-		return _Primitive_name_0
+	case -1 <= i && i <= 0:
+		i -= -1
+		return _Primitive_name_0[_Primitive_index_0[i]:_Primitive_index_0[i+1]]
 	case 10 <= i && i <= 12:
 		i -= 10
 		return _Primitive_name_1[_Primitive_index_1[i]:_Primitive_index_1[i+1]]
-	case 14 <= i && i <= 16:
-		i -= 14
+	case 15 <= i && i <= 17:
+		i -= 15
 		return _Primitive_name_2[_Primitive_index_2[i]:_Primitive_index_2[i+1]]
 	default:
 		return "Primitive(" + strconv.FormatInt(int64(i), 10) + ")"

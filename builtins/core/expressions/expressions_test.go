@@ -5,7 +5,6 @@ import (
 
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
-	"github.com/lmorg/murex/test/count"
 )
 
 func TestExpressionsBuiltin(t *testing.T) {
@@ -156,8 +155,6 @@ func TestExpressionsBuiltin(t *testing.T) {
 		},
 	}
 
-	count.Tests(t, len(tests))
-
 	test.RunMurexTests(tests, t)
 }
 
@@ -173,7 +170,48 @@ func TestExpressionsScalars(t *testing.T) {
 		},
 	}
 
-	count.Tests(t, len(tests))
+	test.RunMurexTests(tests, t)
+}
+
+func TestExpressionsBuiltinSubExpr(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `(1+1);null`,
+			Stdout: `1+1`,
+		},
+		{
+			Block:  `(1+1) ;null`,
+			Stdout: `1+1`,
+		},
+		{
+			Block:  `(1+1) ; null`,
+			Stdout: `1+1`,
+		},
+		/////
+		{
+			Block:  `bob=(1+1);null`,
+			Stdout: ``,
+		},
+		{
+			Block:  `bob=(1+1) ;null`,
+			Stdout: ``,
+		},
+		{
+			Block:  `bob=(1+1) ; null`,
+			Stdout: ``,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestExpressionsBuiltinStrings(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `%(bob)`,
+			Stdout: `bob`,
+		},
+	}
 
 	test.RunMurexTests(tests, t)
 }

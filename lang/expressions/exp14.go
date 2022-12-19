@@ -9,7 +9,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func expAssign(tree *expTreeT) error {
+func expAssign(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -55,7 +55,7 @@ func expAssign(tree *expTreeT) error {
 	})
 }
 
-func expAssignAdd(tree *expTreeT) error {
+func expAssignAdd(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -94,11 +94,11 @@ func expAssignAdd(tree *expTreeT) error {
 		}
 		result = float64(v.(int)) + right.dt.Value.(float64)
 
-	case types.Boolean, types.Null:
+	case types.Boolean:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
 			"cannot %s %s", tree.currentSymbol().key, dt))
 
-	case "":
+	case types.Null:
 		switch right.dt.Primitive {
 		case primitives.String:
 			result = right.dt.Value.(string)
@@ -132,7 +132,7 @@ func expAssignAdd(tree *expTreeT) error {
 	})
 }
 
-func expAssignSubtract(tree *expTreeT) error {
+func expAssignSubtract(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -162,7 +162,7 @@ func expAssignSubtract(tree *expTreeT) error {
 		f = v.(float64) - right.dt.Value.(float64)
 	case types.Integer:
 		f = float64(v.(int)) - right.dt.Value.(float64)
-	case "":
+	case types.Null:
 		f = 0 - right.dt.Value.(float64)
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -184,7 +184,7 @@ func expAssignSubtract(tree *expTreeT) error {
 	})
 }
 
-func expAssignMultiply(tree *expTreeT) error {
+func expAssignMultiply(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -214,7 +214,7 @@ func expAssignMultiply(tree *expTreeT) error {
 		f = v.(float64) * right.dt.Value.(float64)
 	case types.Integer:
 		f = float64(v.(int)) * right.dt.Value.(float64)
-	case "":
+	case types.Null:
 		f = 0
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -236,7 +236,7 @@ func expAssignMultiply(tree *expTreeT) error {
 	})
 }
 
-func expAssignDivide(tree *expTreeT) error {
+func expAssignDivide(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -266,7 +266,7 @@ func expAssignDivide(tree *expTreeT) error {
 		f = v.(float64) / right.dt.Value.(float64)
 	case types.Integer:
 		f = float64(v.(int)) / right.dt.Value.(float64)
-	case "":
+	case types.Null:
 		f = 0 / right.dt.Value.(float64)
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(

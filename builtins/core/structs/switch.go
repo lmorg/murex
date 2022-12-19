@@ -1,11 +1,10 @@
 package structs
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/lang/parameters"
+	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/humannumbers"
@@ -23,14 +22,14 @@ const (
 func cmdSwitch(p *lang.Process) error {
 	switch p.Parameters.Len() {
 	case 0:
-		return fmt.Errorf(errSwitchParameters, "No")
+		return fmt.Errorf(errSwitchParameters, "no")
 	case 1:
 		return switchLogic(p, false, "")
 	case 2:
 		param, _ := p.Parameters.String(0)
 		return switchLogic(p, true, param)
 	default:
-		return fmt.Errorf(errSwitchParameters, "Too many")
+		return fmt.Errorf(errSwitchParameters, "too many")
 	}
 }
 
@@ -45,23 +44,17 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 		return err
 	}
 
-	ast, pErr := lang.ParseBlock(block)
-	if pErr.Code != 0 {
-		return errors.New(pErr.Message)
+	swt, err := expressions.ParseSwitch(p, block)
+	if err != nil {
+		return err
 	}
 
 	var prevIfPassed bool
 
-	for i := range *ast {
-		params := &parameters.Parameters{Tokens: (*ast)[i].ParamTokens}
-		err = lang.ParseParameters(p, params)
-		if err != nil {
-			return err
-		}
-
-		switch (*ast)[i].Name {
+	for i, token := range swt {
+		switch token.Condition {
 		case "if", "case":
-			caseIf, thenBlock, err := validateStatementParameters(ast, params, i, byVal)
+			caseIf, thenBlock, err := validateStatementParameters(token, i, byVal)
 			if err != nil {
 				return err
 			}
@@ -71,13 +64,13 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 				pass, err = compareConditional(p, val, caseIf)
 				if err != nil {
 					return fmt.Errorf("error comparing %s statement, %s conditional:\n%s",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error())
+						humannumbers.Ordinal(i+1), token.Condition, err.Error())
 				}
 			} else {
 				pass, err = executeConditional(p, caseIf)
 				if err != nil {
 					return fmt.Errorf("error executing %s statement, %s conditional:\n%s",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error())
+						humannumbers.Ordinal(i+1), token.Condition, err.Error())
 				}
 			}
 
@@ -88,7 +81,7 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 						humannumbers.Ordinal(i+1), err.Error())
 				}
 
-				switch (*ast)[i].Name {
+				switch swt[i].Condition {
 				case "if":
 					prevIfPassed = true
 					continue
@@ -97,12 +90,12 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 				}
 			}
 
-		case "catch", "else", "default":
+		case "default", "catch", "else":
 			if prevIfPassed {
 				return nil
 			}
 
-			_, thenBlock, err := validateStatementParameters(ast, params, i, byVal)
+			_, thenBlock, err := validateStatementParameters(token, i, byVal)
 			if err != nil {
 				return err
 			}
@@ -117,7 +110,7 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 
 		default:
 			return fmt.Errorf("error executing %s statement, `%s` is not a valid statement.\nExpecting `case`, `if`, `catch`",
-				humannumbers.Ordinal(i+1), (*ast)[i].Name)
+				humannumbers.Ordinal(i+1), token.Condition)
 		}
 	}
 
@@ -128,79 +121,79 @@ func switchLogic(p *lang.Process, byVal bool, val string) error {
 	return nil
 }
 
-func validateStatementParameters(ast *lang.AstNodes, params *parameters.Parameters, i int, byVal bool) ([]rune, []rune, error) {
+func validateStatementParameters(token *expressions.SwitchT, i int, byVal bool) ([]rune, []rune, error) {
 	var adjust int
 
-	switch (*ast)[i].Name {
+	switch token.Condition {
 	case "if", "case":
-		switch params.Len() {
+		switch token.ParametersLen() {
 		case 0:
 			return nil, nil,
 				fmt.Errorf("missing parameters for %s statement (%s)\n%s",
-					humannumbers.Ordinal(i+1), (*ast)[i].Name, errReferToDocs)
+					humannumbers.Ordinal(i+1), token.Condition, errReferToDocs)
 		case 1:
 			return nil, nil,
 				fmt.Errorf("too few parameters for %s statement (%s)\nExpected: conditional then { code block }\nFound: %s\n%s",
-					humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
+					humannumbers.Ordinal(i+1), token.Condition, token.ParametersStringAll(), errReferToDocs)
 
 		case 3:
-			if params.StringArray()[1] != "then" {
+			if token.ParametersString(1) != "then" {
 				return nil, nil,
 					fmt.Errorf("too many parameters for %s statement (%s) or typo in statements.\nExpecting 'then' statement\nFound: '%s'\n%s",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
+						humannumbers.Ordinal(i+1), token.Condition, token.ParametersStringAll(), errReferToDocs)
 			}
 			adjust = 1
 			fallthrough
 
 		case 2:
-			thenBlock, err := params.Block(1 + adjust)
+			thenBlock, err := token.Block(1 + adjust)
 			if err != nil {
 				return nil, nil,
 					fmt.Errorf("cannot compile %s statement (%s): %s\nExpecting code block, found: '%s'",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.StringArray()[1+adjust])
+						humannumbers.Ordinal(i+1), token.Condition, err.Error(), token.ParametersString(1+adjust))
 			}
 
 			if byVal {
-				return []rune(params.StringArray()[0]), thenBlock, nil
+				return token.Parameters[0], thenBlock, nil
 			}
 
-			caseIf, err := params.Block(0)
+			caseIf, err := token.Block(0)
 			if err != nil {
 				return nil, nil, fmt.Errorf("cannot compile %s statement (%s): %s\nExpecting %s conditional block, found: '%s'",
-					humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), (*ast)[i].Name, params.StringArray()[0])
+					humannumbers.Ordinal(i+1), token.Condition, err.Error(), token.Condition, token.ParametersString(0))
 			}
 			return caseIf, thenBlock, nil
 
 		default:
 			return nil, nil,
 				fmt.Errorf("too many parameters for %s statement (%s)\nFound: '%s'\n%s",
-					humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
+					humannumbers.Ordinal(i+1), token.Condition, token.ParametersStringAll(), errReferToDocs)
 		}
 
 	case "catch":
-		switch params.Len() {
+		switch token.ParametersLen() {
 		case 0:
 			return nil, nil, fmt.Errorf("missing parameters for %s statement (%s)\n%s",
-				humannumbers.Ordinal(i+1), (*ast)[i].Name, errReferToDocs)
+				humannumbers.Ordinal(i+1), token.Condition, errReferToDocs)
 
 		case 1:
-			thenBlock, err := params.Block(0)
+			thenBlock, err := token.Block(0)
 			if err != nil {
 				return nil, nil,
 					fmt.Errorf("cannot compile %s statement (%s): %s\nExpecting code block, found: '%s'",
-						humannumbers.Ordinal(i+1), (*ast)[i].Name, err.Error(), params.StringArray()[0])
+						humannumbers.Ordinal(i+1), token.Condition, err.Error(), token.ParametersString(0))
 			}
 			return nil, thenBlock, nil
 
 		default:
 			return nil, nil,
 				fmt.Errorf("too many parameters for %s statement (%s)\nFound: '%s'\n%s",
-					humannumbers.Ordinal(i+1), (*ast)[i].Name, params.StringAll(), errReferToDocs)
+					humannumbers.Ordinal(i+1), token.Condition, token.ParametersStringAll(), errReferToDocs)
 		}
 
 	default:
 		return nil, nil,
-			fmt.Errorf("invalid %s statement '%s'", humannumbers.Ordinal(i+1), (*ast)[i].Name)
+			fmt.Errorf("invalid %s statement '%s'", humannumbers.Ordinal(i+1), token.Condition)
 	}
 }
 

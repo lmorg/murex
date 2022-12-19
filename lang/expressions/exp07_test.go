@@ -33,6 +33,10 @@ func TestExpEqualTo(t *testing.T) {
 		///
 		{
 			Expression: `$variable == ""`,
+			Expected:   false,
+		},
+		{
+			Expression: `$variable == null`,
 			Expected:   true,
 		},
 	}

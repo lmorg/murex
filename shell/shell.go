@@ -226,7 +226,10 @@ func ShowPrompt() {
 			fork.PromptId = thisProc
 			fork.CCEvent = lang.ShellProcess.CCEvent
 			fork.CCExists = lang.ShellProcess.CCExists
-			lang.ShellExitNum, _ = fork.Execute(expanded)
+			lang.ShellExitNum, err = fork.Execute(expanded)
+			if err != nil {
+				fmt.Println(ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
+			}
 
 			if PromptId.NotEqual(thisProc) {
 				return

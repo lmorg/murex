@@ -8,46 +8,16 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
-func (tree *expTreeT) parseSubShell(exec bool, prefix rune, strOrVal bool) ([]rune, interface{}, string, error) {
-	var (
-		brackets = 1
-		escape   bool
-	)
-
+func (tree *ParserT) parseSubShell(exec bool, prefix rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	start := tree.charPos
 
 	tree.charPos += 2
 
-	for ; tree.charPos < len(tree.expression); tree.charPos++ {
-		r := tree.expression[tree.charPos]
-
-		switch {
-		case escape:
-			escape = false
-
-		case r == '\\':
-			escape = true
-
-		case r == '{':
-			return nil, "", "", raiseError(
-				tree.expression, nil, tree.charPos, fmt.Sprintf(
-					"too many nested brackets '{' %d",
-					tree.charPos))
-
-		case r == '}':
-			brackets--
-			if brackets == 0 {
-				goto endSubShell
-			}
-		}
+	_, err := tree.parseBlockQuote()
+	if err != nil {
+		return nil, "", "", err
 	}
 
-	return nil, nil, "", raiseError(
-		tree.expression, nil, tree.charPos, fmt.Sprintf(
-			"missing closing bracket '}' at %d\nExpression: %s",
-			tree.charPos, `...`+string(tree.expression[start:])))
-
-endSubShell:
 	value := tree.expression[start : tree.charPos+1]
 	block := tree.expression[start+2 : tree.charPos]
 
@@ -58,7 +28,6 @@ endSubShell:
 	var (
 		v        interface{}
 		dataType string
-		err      error
 	)
 
 	switch prefix {
@@ -69,10 +38,14 @@ endSubShell:
 	default:
 		err = fmt.Errorf("invalid prefix in expression '%s'. %s", string(prefix), consts.IssueTrackerURL)
 	}
+
 	return value, v, dataType, err
 }
 
-func execSubShellScalar(tree *expTreeT, block []rune, strOrVal bool) (interface{}, string, error) {
+func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (interface{}, string, error) {
+	if tree.p == nil {
+		panic("`tree.p` is undefined")
+	}
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
 	exitNum, err := fork.Execute(block)
 	if err != nil {
@@ -93,7 +66,7 @@ func execSubShellScalar(tree *expTreeT, block []rune, strOrVal bool) (interface{
 	return v, dataType, err
 }
 
-func execSubShellArray(tree *expTreeT, block []rune, strOrVal bool) ([]interface{}, error) {
+func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) ([]interface{}, error) {
 	var slice []interface{}
 
 	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_PARENT_VARTABLE)
@@ -105,14 +78,17 @@ func execSubShellArray(tree *expTreeT, block []rune, strOrVal bool) ([]interface
 		return nil, fmt.Errorf("subshell exit status %d", exitNum)
 	}
 
-	if strOrVal { // == varAsString
+	switch strOrVal {
+	case varAsString:
 		err = fork.Stdout.ReadArray(tree.p.Context, func(b []byte) {
 			slice = append(slice, string(b))
 		})
-	} else {
+	case varAsValue:
 		err = fork.Stdout.ReadArrayWithType(tree.p.Context, func(v interface{}, _ string) {
 			slice = append(slice, v)
 		})
+	default:
+		panic("invalid value set for strOrVal")
 	}
 	if err != nil {
 		return nil, err

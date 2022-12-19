@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	_ "github.com/lmorg/murex/builtins/core/io"
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 )
 

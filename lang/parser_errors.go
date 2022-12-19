@@ -31,8 +31,6 @@ const (
 	ErrUnknownParserErrorPipe
 	ErrUnableToParseParametersInRunmode
 	ErrInvalidParametersInRunmode
-	// Alternative parsers
-	ErrInExpressionParser
 )
 
 var errMessages = []string{
@@ -58,12 +56,4 @@ var errMessages = []string{
 	"Unexpected error parsing `|`. Reason unknown. Please file a bug at https://github.com/lmorg/murex/issues",
 	"Unable to parse parameters in `runmode`",
 	"Invalid parameters in `runmode`",
-}
-
-func raiseErr(code, endByte int) ParserError {
-	return ParserError{
-		Message: errMessages[code],
-		Code:    code,
-		EndByte: endByte,
-	}
 }
