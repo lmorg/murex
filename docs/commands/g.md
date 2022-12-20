@@ -52,10 +52,6 @@ Return all files apart from text files:
 
     !g: *.txt
     
-Auto-globbing (eg for Bash compatibility):
-
-    @g ls *.txt
-    
 Filtering a file list based on glob matches:
 
     f: +f -> g: *.md
@@ -71,25 +67,6 @@ Remove any glob matches from a file list:
 * `*` matches any number of (including zero) characters
 * `?` matches any single character
 
-### Auto-Globbing
-
-Any command prefixed with `@g` will be auto-globbed. For example, the two
-following commands will produce the same output:
-
-    » ls @{g: *.go}
-    benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
-    
-    » @g ls: *.go
-    benchmarks_test.go  defaults_test.go  flags.go  godoc.go  main.go  murex_test.go
-    
-The rational behind the ugly `@g` syntax is simply to make one-liners a bit
-less painful when coming from more traditional POSIX-like shells (eg Bash)
-where wildcards are automatically expanded. So if you type `ls *` (for example)
-then realise you've forgotten to subshell, you can just recall the last command
-with auto-globbing enabled:
-
-    @g ^!!
-    
 ### Inverse Matches
 
 If you want to exclude any matches based on wildcards, rather than include
@@ -120,7 +97,6 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
 ## Synonyms
 
 * `g`
-* `@g`
 * `!g`
 
 

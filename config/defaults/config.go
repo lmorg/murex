@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/noglob"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -243,14 +244,14 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "auto-glob-unsafe-commands", config.Properties{
-		Description: "Commands blacklisted for being unsafe to automatically glob",
-		Default:     lang.GetNoGlobCmds(),
+	c.Define("shell", "expand-glob-unsafe-commands", config.Properties{
+		Description: "Commands blacklisted for being unsafe to glob",
+		Default:     noglob.GetNoGlobCmds(),
 		DataType:    types.Json,
 		Global:      true,
 		GoFunc: config.GoFuncProperties{
-			Read:  lang.ReadNoGlobCmds,
-			Write: lang.WriteNoGlobCmds,
+			Read:  noglob.ReadNoGlobCmds,
+			Write: noglob.WriteNoGlobCmds,
 		},
 	})
 

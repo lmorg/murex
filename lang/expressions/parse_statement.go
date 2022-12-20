@@ -19,7 +19,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		if escape {
 			if r == '\n' {
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 				escape = false
 				continue
 			}
@@ -57,48 +59,59 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		case ' ', '\t', '\r':
 			// whitespace. do nothing
-			tree.statement.NextParameter()
+			if err := tree.nextParameter(); err != nil {
+				return err
+			}
 
 		case '\n':
 			// ignore empty lines while in the statement parser
 			if len(tree.statement.command) > 0 || len(tree.statement.paramTemp) > 0 {
-				tree.statement.NextParameter()
+				err := tree.nextParameter()
 				tree.charPos--
-				return nil
+				return err
 			}
 
 		case '?':
 			prev := tree.prevChar()
-			if prev != ' ' && prev != '\t' {
+			next := tree.nextChar()
+			if prev != ' ' && prev != '\t' &&
+				next != ' ' && next != '\t' {
+				tree.statement.possibleGlob = exec
 				appendToParam(tree, r)
 				continue
 			}
 			fallthrough
 
+		case '*':
+			tree.statement.possibleGlob = exec
+			appendToParam(tree, r)
+
 		case ';', '|':
 			// end expression
-			tree.statement.NextParameter()
+			err := tree.nextParameter()
 			tree.charPos--
-			return nil
+			return err
 
 		case '&':
 			if tree.nextChar() == '&' {
-				tree.statement.NextParameter()
+				err := tree.nextParameter()
 				tree.charPos--
-				return nil
+				return err
 			}
 			appendToParam(tree, r)
 
 		case ':':
-			processStatementColon(tree, exec)
+			if err := processStatementColon(tree, exec); err != nil {
+				return err
+			}
 
 		case '=':
 			switch tree.nextChar() {
 			case '>':
 				// generic pipe
-				tree.statement.NextParameter()
+				err := tree.nextParameter()
 				tree.charPos--
-				return nil
+				return err
 			default:
 				// assign value
 				appendToParam(tree, r)
@@ -127,7 +140,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				} else {
 					tree.statement.command = namedPipeFn
 					tree.statement.paramTemp = value
-					tree.statement.NextParameter()
+					if err := tree.nextParameter(); err != nil {
+						return err
+					}
 				}
 			case len(tree.statement.parameters) == 0:
 				// check if named pipe
@@ -148,11 +163,13 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				if len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0 {
 					appendToParam(tree, r, r)
 					tree.charPos++
-					tree.statement.NextParameter()
+					if err := tree.nextParameter(); err != nil {
+						return err
+					}
 				} else {
 					tree.charPos++
-					tree.statement.NextParameter()
-					return nil
+					err := tree.nextParameter()
+					return err
 				}
 			default:
 				appendToParam(tree, r)
@@ -161,7 +178,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		case '(':
 			if len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0 {
 				appendToParam(tree, r)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 				continue
 			}
 			prev := tree.prevChar()
@@ -226,11 +245,15 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				// element
 				appendToParam(tree, '[', '[')
 				tree.charPos++
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			default:
 				// index
 				appendToParam(tree, r)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			}
 
 		case '}':
@@ -292,7 +315,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				appendToParam(tree, r)
 			case next == '{':
 				// subshell
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 				value, v, _, err := tree.parseSubShell(exec, r, varAsString)
 				if err != nil {
 					return err
@@ -302,10 +327,14 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				// @[ command
 				appendToParam(tree, '@', '[')
 				tree.charPos++
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			case isBareChar(tree.nextChar()):
 				// start scalar
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 				value, v, err := tree.parseVarArray(exec)
 				if err != nil {
 					return err
@@ -319,9 +348,9 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			c := tree.nextChar()
 			switch {
 			case c == '>':
-				tree.statement.NextParameter()
+				err := tree.nextParameter()
 				tree.charPos--
-				return nil
+				return err
 			default:
 				// assign value
 				appendToParam(tree, r)
@@ -333,31 +362,37 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		}
 	}
 
-	tree.statement.NextParameter()
+	err := tree.nextParameter()
 	tree.charPos--
-	return nil
+	return err
 }
 
-func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec bool) {
+func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec bool) error {
 	if exec {
 		switch v.(type) {
 		case []string:
 			for i := range v.([]string) {
 				value = []rune(v.([]string)[i])
 				appendToParam(tree, value...)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			}
 		case [][]rune:
 			for i := range v.([][]rune) {
 				value = v.([][]rune)[i]
 				appendToParam(tree, value...)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			}
 		case [][]byte:
 			for i := range v.([][]byte) {
 				value = []rune(string(v.([][]rune)[i]))
 				appendToParam(tree, value...)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			}
 		case []interface{}:
 			for i := range v.([]interface{}) {
@@ -372,23 +407,29 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 					panic("unexpected data type")
 				}
 				appendToParam(tree, value...)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
 			}
 		case string:
 			appendToParam(tree, []rune(value)...)
-			tree.statement.NextParameter()
+			if err := tree.nextParameter(); err != nil {
+				return err
+			}
 		default:
 			panic("unexpected data type")
 		}
 
 	} else {
 		appendToParam(tree, value...)
-		tree.statement.NextParameter()
+		if err := tree.nextParameter(); err != nil {
+			return err
+		}
 	}
-	tree.statement.NextParameter()
+	return tree.nextParameter()
 }
 
-func processStatementColon(tree *ParserT, exec bool) {
+func processStatementColon(tree *ParserT, exec bool) error {
 	switch {
 	case len(tree.statement.command) == 0:
 		if len(tree.statement.paramTemp) > 0 {
@@ -396,7 +437,7 @@ func processStatementColon(tree *ParserT, exec bool) {
 			//if !exec {
 			//	appendToParam(tree, ':')
 			//}
-			tree.statement.NextParameter()
+			return tree.nextParameter()
 		} else {
 			// TODO: is a cast
 		}
@@ -404,6 +445,8 @@ func processStatementColon(tree *ParserT, exec bool) {
 		// is a value
 		appendToParam(tree, ':')
 	}
+
+	return nil
 }
 
 type parserMethodT func(bool) ([]rune, *primitives.DataType, error)

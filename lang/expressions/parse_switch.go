@@ -107,28 +107,38 @@ func (tree *ParserT) parseSwitch() (int, error) {
 
 		case ' ', '\t', '\r':
 			// whitespace. do nothing
-			tree.statement.NextParameter()
+			if err := tree.nextParameter(); err != nil {
+				return 0, err
+			}
 
 		case '\n', ';':
 			// ignore empty lines while in the statement parser
 			if len(tree.statement.command) > 0 {
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return 0, err
+				}
 				tree.charPos--
 				return tree.charPos, nil
 			}
 
 		case ':':
-			processStatementColon(tree, true)
+			if err := processStatementColon(tree, true); err != nil {
+				return 0, err
+			}
 
 		case '~':
 			// tilde
 			appendToParam(tree, []rune(tree.parseVarTilde(true))...)
-			tree.statement.NextParameter()
+			if err := tree.nextParameter(); err != nil {
+				return 0, err
+			}
 
 		case '(':
 			if len(tree.statement.command) == 0 && len(tree.statement.paramTemp) == 0 {
 				appendToParam(tree, r)
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return 0, err
+				}
 				continue
 			}
 			prev := tree.prevChar()
@@ -218,7 +228,9 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				appendToParam(tree, r)
 			case tree.nextChar() == '{':
 				// subshell
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return 0, err
+				}
 				value, v, _, err := tree.parseSubShell(true, r, varAsString)
 				if err != nil {
 					return 0, err
@@ -226,7 +238,9 @@ func (tree *ParserT) parseSwitch() (int, error) {
 				processStatementArrays(tree, value, v, true)
 			case isBareChar(tree.nextChar()):
 				// start scalar
-				tree.statement.NextParameter()
+				if err := tree.nextParameter(); err != nil {
+					return 0, err
+				}
 				value, v, err := tree.parseVarArray(true)
 				if err != nil {
 					return 0, err
@@ -242,7 +256,9 @@ func (tree *ParserT) parseSwitch() (int, error) {
 		}
 	}
 
-	tree.statement.NextParameter()
+	if err := tree.nextParameter(); err != nil {
+		return 0, err
+	}
 	tree.charPos--
 	return tree.charPos, nil
 }

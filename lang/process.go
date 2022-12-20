@@ -323,14 +323,6 @@ executeProcess:
 			p.Fork(F_PARENT_VARTABLE).Execute(block)
 		}
 
-	case name == "@g":
-		// auto globbing
-		err = autoGlob(p)
-		if err == nil {
-			name = p.Name.String()
-			goto executeProcess
-		}
-
 	case GoFunctions[name] != nil:
 		// murex builtins
 		err = GoFunctions[name](p)

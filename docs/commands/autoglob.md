@@ -2,9 +2,11 @@
 
 ## Command Reference: `@g` (autoglob) 
 
-> Command prefix to expand globbing
+> Command prefix to expand globbing (deprecated)
 
 ## Description
+
+**This feature is now deprecated and only applies to murex version 2:**
 
 By default _murex_ does not expand globbing (`*` and `?` wildcards) instead
 encouraging the use of `g` (and similar) inside a subshell. While the aim of
@@ -28,7 +30,8 @@ enabling the following `config` option:
 
     config: set shell auto-glob true
     
-To make this setting persistent you will need to add it to your `.murex_profile
+It is enabled by default on from version 3.x onwards (and renamed to
+`expand-glob`)
 
 ## See Also
 

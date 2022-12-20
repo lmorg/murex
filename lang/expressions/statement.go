@@ -2,6 +2,9 @@ package expressions
 
 import (
 	"errors"
+
+	"github.com/lmorg/murex/lang/expressions/noglob"
+	"github.com/lmorg/murex/utils/lists"
 )
 
 type StatementT struct {
@@ -11,6 +14,7 @@ type StatementT struct {
 	namedPipes []string
 
 	canHaveZeroLenStr bool // to get around $VARS being empty or unset
+	possibleGlob      bool // to signal to NextParameter of a possible glob
 }
 
 func (st *StatementT) String() string {
@@ -27,12 +31,30 @@ func (st *StatementT) Parameters() []string {
 	return params
 }
 
-func (st *StatementT) NextParameter() {
+func (tree *ParserT) nextParameter() error {
+	st := tree.statement
+
 	switch {
 
 	case len(st.command) == 0:
 		// no command yet so this must be a command
 		st.command = st.paramTemp
+		st.possibleGlob = false
+
+	case st.possibleGlob:
+		// glob
+		st.possibleGlob = false
+		if !tree.ExpandGlob() || lists.Match(noglob.GetNoGlobCmds(), st.String()) {
+			st.parameters = append(st.parameters, st.paramTemp)
+			break
+		}
+		v, err := tree.parseGlob(st.paramTemp)
+		if err != nil {
+			return err
+		}
+		for i := range v {
+			st.parameters = append(st.parameters, []rune(v[i]))
+		}
 
 	case st.canHaveZeroLenStr:
 		st.parameters = append(st.parameters, st.paramTemp)
@@ -40,7 +62,7 @@ func (st *StatementT) NextParameter() {
 
 	case len(st.paramTemp) == 0:
 		// just empty space. Nothing to do
-		return
+		return nil
 
 	default:
 		// just a regular old parameter
@@ -48,10 +70,12 @@ func (st *StatementT) NextParameter() {
 	}
 
 	st.paramTemp = []rune{}
+	return nil
 }
 
 func (st *StatementT) validate() error {
 	switch {
+
 	case len(st.command) == 0:
 		return errors.New("no command specified (empty command property)")
 

@@ -228,5 +228,8 @@ func (tree *ParserT) ExpandGlob() bool {
 		tree.expandGlob = true
 	}
 
+	tree.expandGlob = tree.expandGlob.(bool) && tree.p.Scope.Id == lang.ShellProcess.Id &&
+		tree.p.Parent.Id == lang.ShellProcess.Id && !tree.p.Background.Get() && lang.Interactive
+
 	return tree.expandGlob.(bool)
 }

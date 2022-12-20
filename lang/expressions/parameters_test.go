@@ -1,4 +1,4 @@
-package lang_test
+package expressions_test
 
 import (
 	"fmt"
@@ -110,8 +110,6 @@ func TestParamHangBug(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
-
-
 
 func TestParamVarRange(t *testing.T) {
 	rand.Seed(time.Now().Unix())
