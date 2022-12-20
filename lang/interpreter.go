@@ -27,7 +27,8 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 	}
 
 	rm := parent.RunMode
-	if len(*tree) > 0 && string((*tree)[0].Command) == "runmode" {
+	if len(*tree) > 0 && (string((*tree)[0].Command) == "runmode" ||
+		string((*tree)[0].Command) == "runmode:") {
 		_, params, err := ParseStatementParameters((*tree)[0].Raw, parent)
 		if err != nil {
 			return nil, ErrUnableToParseParametersInRunmode

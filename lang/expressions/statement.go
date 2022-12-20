@@ -15,6 +15,7 @@ type StatementT struct {
 
 	canHaveZeroLenStr bool // to get around $VARS being empty or unset
 	possibleGlob      bool // to signal to NextParameter of a possible glob
+	asStatement       bool // force murex to parse expression as statement
 }
 
 func (st *StatementT) String() string {
@@ -57,6 +58,7 @@ func (tree *ParserT) nextParameter() error {
 		}
 
 	case st.canHaveZeroLenStr:
+		// variable, possibly zero length
 		st.parameters = append(st.parameters, st.paramTemp)
 		st.canHaveZeroLenStr = false
 

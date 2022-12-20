@@ -224,11 +224,11 @@ func TestHistParam(t *testing.T) {
 
 	expected := []string{
 		"",
-		"out",
+		"out:",
 		"the",
 		"lazy",
 		"dog",
-		"out",
+		"out:",
 		"the",
 		"lazy",
 		"dog",

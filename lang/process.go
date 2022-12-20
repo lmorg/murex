@@ -179,7 +179,8 @@ func createProcess(p *Process, isMethod bool) {
 	p.State.Set(state.Assigned)
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
-	if name == "pipe" || name == "test" {
+	if name == "pipe:" || name == "test:" ||
+		name == "pipe" || name == "test" {
 		//err := ParseParameters(p, &p.Parameters)
 		_, params, err := ParseStatementParameters(p.raw, p)
 		if err != nil {
@@ -190,7 +191,7 @@ func createProcess(p *Process, isMethod bool) {
 
 		} else {
 			p.Parameters.DefineParsed(params)
-			err = GoFunctions[name](p)
+			err = GoFunctions[name[:4]](p)
 			if err != nil {
 				ShellProcess.Stderr.Writeln(writeError(p, err))
 				if p.ExitNum == 0 {

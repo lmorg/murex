@@ -71,6 +71,10 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				return err
 			}
 
+		case '*':
+			tree.statement.possibleGlob = exec
+			appendToParam(tree, r)
+
 		case '?':
 			prev := tree.prevChar()
 			next := tree.nextChar()
@@ -81,10 +85,6 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				continue
 			}
 			fallthrough
-
-		case '*':
-			tree.statement.possibleGlob = exec
-			appendToParam(tree, r)
 
 		case ';', '|':
 			// end expression
@@ -430,16 +430,18 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 }
 
 func processStatementColon(tree *ParserT, exec bool) error {
+	tree.statement.asStatement = true
+
 	switch {
 	case len(tree.statement.command) == 0:
 		if len(tree.statement.paramTemp) > 0 {
 			// is a command
-			//if !exec {
-			//	appendToParam(tree, ':')
-			//}
+			if !exec {
+				appendToParam(tree, ':')
+			}
 			return tree.nextParameter()
 		} else {
-			// TODO: is a cast
+			// is a cast
 		}
 	default:
 		// is a value
