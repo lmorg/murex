@@ -247,9 +247,15 @@ func getMacroVars(s string) ([]string, []string, error) {
 		return nil, nil, nil
 	}
 
+	assigned := make(map[string]bool)
+
 	match := rxMacroVar.FindAllString(s, -1)
 	vars := make([]string, len(match))
 	for i := range match {
+		if assigned[match[i]] {
+			continue
+		}
+
 		for {
 			rl := readline.NewInstance()
 			rl.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
@@ -265,6 +271,7 @@ func getMacroVars(s string) ([]string, []string, error) {
 			}
 			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
 		}
+		assigned[match[i]] = true
 	}
 
 	return match, vars, nil
