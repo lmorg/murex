@@ -21,9 +21,9 @@ loop, then it will be `if` or `foreach` (respectively).
 ## Examples
 
     function foo {
-        a [1..10] -> foreach i {
+        %[1..10] -> foreach i {
             out $i
-            if { = i==`5` } then {
+            if { $i == 5 } then {
                 out "exit running function"
                 break foo
                 out "ended"
@@ -48,11 +48,11 @@ running inside). For example, in the following code we are calling `break
 bar` (which is a different function) inside of the function `foo`:
 
     function foo {
-        a [1..10] -> foreach i {
+        %[1..10] -> foreach i {
             out $i
-            if { = i==`5` } then {
+            if { $i == 5 } then {
                 out "exit running function"
-                break foo
+                break bar
                 out "ended"
             }
         }
@@ -65,7 +65,7 @@ bar` (which is a different function) inside of the function `foo`:
 Regardless of whether we run `foo` or `bar`, both of those functions will
 raise the following error:
 
-    Error in `break` ( 7,17): no block found named `bar` within the scope of `foo`
+    Error in `break` (7,17): no block found named `bar` within the scope of `foo`
 
 ## See Also
 

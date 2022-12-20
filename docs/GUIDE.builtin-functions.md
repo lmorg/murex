@@ -94,7 +94,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`config`](commands/config.md):
   Query or define _murex_ runtime settings
 * [`continue`](commands/continue.md):
-  jumps back to 
+  terminate process of a block within a caller function
 * [`count`](commands/count.md):
   Count items in a map, list or array
 * [`cpuarch`](commands/cpuarch.md):

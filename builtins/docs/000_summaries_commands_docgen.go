@@ -30,7 +30,7 @@ func init() {
 		"catch":                 "Handles the exception code raised by `try` or `trypipe",
 		"cd":                    "Change (working) directory",
 		"config":                "Query or define _murex_ runtime settings",
-		"continue":              "jumps back to",
+		"continue":              "terminate process of a block within a caller function",
 		"count":                 "Count items in a map, list or array",
 		"cpuarch":               "Output the hosts CPU architecture",
 		"cpucount":              "Output the number of CPU cores available on your host",

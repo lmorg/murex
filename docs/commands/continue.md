@@ -2,33 +2,28 @@
 
 ## Command Reference: `continue`
 
-> jumps back to 
+> terminate process of a block within a caller function
 
 ## Description
 
-`break` will terminate execution of a block (eg `function`, `private`,
-`foreach`, `if`, etc).
-
-`break` requires a parameter and that parameter is the name of the caller
-block you wish to break out of. If it is a `function` or `private`, then it
-will be the name of that function or private. If it is an `if` or `foreach`
-loop, then it will be `if` or `foreach` (respectively).
+`continue` will terminate execution of a block (eg `function`, `private`,
+`foreach`, `if`, etc) right up until the caller function. In iteration loops
+like `foreach` and `formap` this will result in behavior similar to the
+`continue` statement in other programming languages.
 
 ## Usage
 
-    break block-name
+    continue block-name
 
 ## Examples
 
-    function foo {
-        a [1..10] -> foreach i {
-            out $i
-            if { = i==`5` } then {
-                out "exit running function"
-                break foo
-                out "ended"
-            }
+    %[1..10] -> foreach i {
+        if { $i == 5 } then {
+            out "continue"
+            continue foreach
+            out "skip this code"
         }
+        out $i
     }
     
 Running the above code would output:
@@ -38,21 +33,25 @@ Running the above code would output:
     2
     3
     4
-    5
-    exit running function
+    continue
+    6
+    7
+    8
+    9
+    10
 
 ## Detail
 
-`break` cannot escape the bounds of its scope (typically the function it is
-running inside). For example, in the following code we are calling `break
+`continue` cannot escape the bounds of its scope (typically the function it is
+running inside). For example, in the following code we are calling `continue
 bar` (which is a different function) inside of the function `foo`:
 
     function foo {
-        a [1..10] -> foreach i {
+        %[1..10] -> foreach i {
             out $i
-            if { = i==`5` } then {
+            if { $i == 5 } then {
                 out "exit running function"
-                break foo
+                continue bar
                 out "ended"
             }
         }
@@ -65,7 +64,7 @@ bar` (which is a different function) inside of the function `foo`:
 Regardless of whether we run `foo` or `bar`, both of those functions will
 raise the following error:
 
-    Error in `break` ( 7,17): no block found named `bar` within the scope of `foo`
+    Error in `continue` (7,17): no block found named `bar` within the scope of `foo`
 
 ## See Also
 
