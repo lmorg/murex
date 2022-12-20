@@ -150,7 +150,7 @@ func createProcess(p *Process, isMethod bool) {
 			p.stdoutOldPtr = p.Stdout
 			p.Stdout = pipe
 		} else {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+			p.Stderr.Writeln([]byte("invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
@@ -161,7 +161,7 @@ func createProcess(p *Process, isMethod bool) {
 		p.Stderr, stderr2 = streams.NewTee(p.Stderr)
 		err := p.Tests.SetStreams(p.NamedPipeTest, stdout2, stderr2, &p.ExitNum)
 		if err != nil {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+			p.Stderr.Writeln([]byte("invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
@@ -210,7 +210,7 @@ func executeProcess(p *Process) {
 	testStates(p)
 
 	if p.HasTerminated() || p.HasCancelled() ||
-		/*p.Parent.HasTerminated() || */ p.Parent.HasCancelled() {
+		/*p.Parent.HasTerminated() ||*/ p.Parent.HasCancelled() {
 		destroyProcess(p)
 		return
 	}
