@@ -61,12 +61,12 @@ func TestRegexpMatchNegative(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:   `ja: [Monday..Wednesday] -> regexp (m/S/)`,
-			Stderr:  "no data returned\n",
+			Stderr:  "nothing matched",
 			ExitNum: 1,
 		},
 		{
 			Block:   `ja: [Monday..Wednesday] -> regexp (m.S.)`,
-			Stderr:  "no data returned\n",
+			Stderr:  "nothing matched",
 			ExitNum: 1,
 		},
 	}
@@ -101,7 +101,7 @@ func TestRegexpMatchBangNegative(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:   `ja: [Monday..Wednesday] -> !regexp (m.day.)`,
-			Stderr:  "no data returned\n",
+			Stderr:  "nothing matched",
 			ExitNum: 1,
 		},
 	}

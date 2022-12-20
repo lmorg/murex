@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -169,15 +168,6 @@ func splitRegexDefault(regex []byte) (s []string, _ error) {
 	return
 }
 
-var rxCurlyBraceSplit = regexp.MustCompile(`\{(.*?)\}`)
-
-func splitRegexBraces(regex []byte) ([]string, error) {
-	s := rxCurlyBraceSplit.FindAllString(string(regex), -1)
-	s = append([]string{string(regex[0])}, s...)
-	debug.Json("s", s)
-	return s, nil
-}
-
 // -------- regex functions --------
 
 func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
@@ -185,11 +175,13 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 	if err != nil {
 		return err
 	}
+	var count int
 
 	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		matched := rx.Match(b)
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 
+			count++
 			err = aw.Write(b)
 			if err != nil {
 				p.Stdin.ForceClose()
@@ -201,6 +193,10 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 
 	if p.HasCancelled() {
 		return err
+	}
+
+	if count == 0 {
+		return fmt.Errorf("nothing matched: %s", rx.String())
 	}
 
 	return aw.Close()
