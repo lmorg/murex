@@ -74,12 +74,12 @@
   Related:
   - exit
   - foreach
+  - formap
   - if
   - function
   - private
   - out
-  - a
-  - die
+  - continue
 
 
 - DocumentID: continue
@@ -157,9 +157,9 @@
   Related:
   - exit
   - foreach
+  - formap
   - if
   - function
   - private
   - out
-  - a
-  - die
+  - break

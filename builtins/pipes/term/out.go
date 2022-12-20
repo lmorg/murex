@@ -5,6 +5,7 @@ package term
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/stdio"
@@ -21,7 +22,13 @@ type Out struct {
 }
 
 func OutSetDataTypeFd3() {
-	if _, exists := os.LookupEnv(consts.EnvDataType); !exists {
+	murexPid, exists := os.LookupEnv(consts.EnvMurexPid)
+
+	if !exists {
+		return
+	}
+
+	if strconv.Itoa(os.Getppid()) != murexPid {
 		return
 	}
 
@@ -40,9 +47,9 @@ func (t *Out) SetDataType(dt string) {
 	_, err := f.WriteString(dt + "\n")
 	if err != nil && debug.Enabled {
 		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
-		outSetDataTypeFd3 = false
 	}
 
+	outSetDataTypeFd3 = false
 	f.Close()
 }
 

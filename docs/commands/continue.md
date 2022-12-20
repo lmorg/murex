@@ -68,14 +68,14 @@ raise the following error:
 
 ## See Also
 
-* [commands/`a` (mkarray)](../commands/a.md):
-  A sophisticated yet simple way to build an array or list
-* [commands/`die`](../commands/die.md):
-  Terminate murex with an exit number of 1
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`exit`](../commands/exit.md):
   Exit murex
 * [commands/`foreach`](../commands/foreach.md):
   Iterate through an array
+* [commands/`formap`](../commands/formap.md):
+  Iterate through a map or other collection of data
 * [commands/`function`](../commands/function.md):
   Define a function block
 * [commands/`if`](../commands/if.md):

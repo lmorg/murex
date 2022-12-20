@@ -24,6 +24,8 @@ const (
 	envDataType = consts.EnvDataType + "="
 )
 
+var envMurexPid = fmt.Sprintf("%s=%d", consts.EnvMurexPid, os.Getpid())
+
 // External executes an external process.
 func External(p *Process) error {
 	if err := execute(p); err != nil {
@@ -73,16 +75,16 @@ func execute(p *Process) error {
 	case p.IsMethod:
 		cmd.Stdin = p.Stdin
 		if p.Background.Get() {
-			cmd.Env = append(os.Environ(), envMethodTrue, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
+			cmd.Env = append(os.Environ(), envMurexPid, envMethodTrue, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 		} else {
-			cmd.Env = append(os.Environ(), envMethodTrue, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
+			cmd.Env = append(os.Environ(), envMurexPid, envMethodTrue, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 		}
 	case p.Background.Get():
 		cmd.Stdin = new(null.Null)
-		cmd.Env = append(os.Environ(), envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
 		cmd.Stdin = os.Stdin
-		cmd.Env = append(os.Environ(), envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
+		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
 	// ***

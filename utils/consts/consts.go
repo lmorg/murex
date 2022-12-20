@@ -14,6 +14,7 @@ const (
 	EnvTrue  = "true"
 	EnvFalse = "false"
 
+	EnvMurexPid      = "MUREX_PID"
 	EnvDataType   = "MUREX_DATA_TYPE"
 	EnvMethod     = "MUREX_IS_METHOD"
 	EnvBackground = "MUREX_IS_BACKGROUND"
