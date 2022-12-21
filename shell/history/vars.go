@@ -17,9 +17,6 @@ var (
 	rxHistTag     = regexp.MustCompile(`(\^#[-_a-zA-Z0-9]+)`)
 	rxHistParam   = regexp.MustCompile(`\^\[([-]?[0-9]+)]`)
 	rxHistReplace = regexp.MustCompile(`\^s/(.*?[^\\])/(.*?[^\\])/`)
-
-	//rxHistAllPs    = regexp.MustCompile(`\^\[([-]?[0-9]+)]\[([-]?[0-9]+)]`)
-	//rxHistRepParam = regexp.MustCompile(`\^s([-]?[0-9]+)/(.*?[^\\])/(.*?[^\\])/`)
 )
 
 const (
@@ -60,10 +57,8 @@ func expandVariables(line []rune, rl *readline.Instance, skipFormatting bool) ([
 		expandHistIndex,
 		expandHistRegex,
 		expandHistHashtag,
-		//expandHistAllPs,
 		expandHistParam,
 		expandHistReplace,
-		//expandHistRepParam,
 	}
 
 	for f := range funcs {
@@ -95,6 +90,7 @@ func expandHistIndex(s string, rl *readline.Instance) (string, error) {
 		s = rxHistIndex.ReplaceAllString(s, noColon(getLine(val, rl)))
 		//return s, nil
 	}
+
 	return s, nil
 }
 
@@ -140,48 +136,6 @@ func expandHistHashtag(s string, rl *readline.Instance) (string, error) {
 
 	return s, nil
 }
-
-/*// Match last params (all of block)
-func expandHistAllPs(s string, rl *readline.Instance) (string, error) {
-	mhParam := rxHistAllPs.FindAllStringSubmatch(s, -1)
-	if len(mhParam) > 0 {
-		last := getLine(rl.History.Len(), rl)
-		nodes, pErr := lang.ParseBlock([]rune(last))
-		if pErr.Code != lang.NoParsingErrors {
-			//goto cannotParserxHistAllPs
-			return "", fmt.Errorf(errCannotParsePrevCmd)
-		}
-
-		for i := range mhParam {
-			cmd, _ := strconv.Atoi(mhParam[i][1])
-			if cmd < 0 {
-				cmd += len(nodes) + 1
-			}
-			val, _ := strconv.Atoi(mhParam[i][2])
-
-			if cmd < 0 || cmd+1 > len(nodes) {
-				return "", fmt.Errorf("(%s) Cannot extract parameter", mhParam[i][0])
-			}
-
-			p := parameters.Parameters{Tokens: nodes[cmd].ParamTokens}
-			lang.ParseParameters(lang.ShellProcess, &p)
-			if val < 0 {
-				val += p.Len() + 1
-			}
-
-			if val == 0 {
-				s = strings.Replace(s, mhParam[i][0], nodes[cmd].Name, -1)
-			} else if val > 0 && val-1 < p.Len() {
-				s = strings.Replace(s, mhParam[i][0], p.Params[val-1], -1)
-			}
-
-		}
-
-		//return []rune(s)
-	}
-
-	return s, nil
-}*/
 
 // Match last params (first command in block)
 func expandHistParam(s string, rl *readline.Instance) (string, error) {
@@ -238,51 +192,6 @@ func expandHistReplace(s string, rl *readline.Instance) (string, error) {
 
 	return s, nil
 }
-
-/*// Replace string from a parameter in the last command
-func expandHistRepParam(s string, rl *readline.Instance) (string, error) {
-	mhRepParam := rxHistRepParam.FindAllStringSubmatch(s, -1)
-	if len(mhRepParam) > 0 {
-		last := getLine(rl.History.Len()-1, rl)
-		nodes, pErr := lang.ParseBlock([]rune(last))
-		if pErr.Code != lang.NoParsingErrors {
-			return "", errors.New(errCannotParsePrevCmd)
-		}
-		p := parameters.Parameters{Tokens: nodes.Last().ParamTokens}
-		lang.ParseParameters(lang.ShellProcess, &p)
-
-		for i := range mhRepParam {
-			param, err := strconv.Atoi(mhRepParam[i][1])
-			if err != nil {
-				return "", fmt.Errorf("(%s) Unable to convert '%s' to int", mhRepParam[i][0], mhRepParam[i][1])
-			}
-			if param < 0 {
-				param += p.Len() + 1
-			}
-
-			rx, err := regexp.Compile(mhRepParam[i][2])
-			if err != nil {
-				return "", fmt.Errorf("(%s) Error compiling regexp '%s': %s", mhRepParam[i][0], mhRepParam[i][2], err.Error())
-			}
-			var old string
-			switch {
-			case param == 0:
-				old = nodes.Last().Name
-			case param > 0 && param-1 < p.Len():
-				old, err = p.String(param - 1)
-				if err != nil {
-					return "", fmt.Errorf("(%s) Parameter error for %d (derived from '%s'): %s", mhRepParam[i][0], param, mhRepParam[i][1], err.Error())
-				}
-			default:
-				return "", fmt.Errorf("(%s) Parameter index out of bounds: %d (derived from '%s')", mhRepParam[i][0], param, mhRepParam[i][1])
-			}
-			new := rx.ReplaceAllString(old, mhRepParam[i][3])
-			s = strings.Replace(s, mhRepParam[i][0], new, -1)
-		}
-
-	}
-	return s, nil
-}*/
 
 // Match history prefix
 func expandHistPrefix(s string, rl *readline.Instance) (string, error) {

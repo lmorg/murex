@@ -50,6 +50,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	Prompt.MaxTabCompleterRows = rows.(int)
 
 	switch {
+	case len(line) == 0:
+		autocompleteHistoryLine(&act)
+
 	case pt.Variable != "":
 		if pt.VarLoc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
@@ -70,7 +73,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		}
 
 	case pt.FuncName == "^":
-		autocompleteHistory(&act)
+		autocompleteHistoryHat(&act)
 
 	case pt.ExpectFunc:
 		go autocomplete.UpdateGlobalExeList()
@@ -169,7 +172,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	} else {
 		i = dedup.SortAndDedupString(act.Items)
 	}
-	autocomplete.FormatSuggestions(&act)
+	if !act.DoNotEscape {
+		autocomplete.FormatSuggestions(&act)
+	}
 
 	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
 }
@@ -178,18 +183,25 @@ func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	act.TabDisplayType = readline.TabDisplayGrid
 
 	autocomplete.MatchFunction(prefix, act)
-
-	/*sort.Strings(act.Items)
-	for i := 0; i < Prompt.MaxTabCompleterRows && i <= len(act.Items)-1; i++ {
-		cmd := prefix + act.Items[i]
-		if len(cmd) > 1 && cmd[len(cmd)-1] == ':' {
-			cmd = cmd[:len(cmd)-1]
-		}
-		act.Definitions[act.Items[i]] = string(hintsummary.Get(cmd, autocomplete.GlobalExes[cmd]))
-	}*/
 }
 
-func autocompleteHistory(act *autocomplete.AutoCompleteT) {
+func autocompleteHistoryLine(act *autocomplete.AutoCompleteT) {
+	dump := Prompt.History.Dump().([]history.Item)
+
+	for i := len(dump) - 1; i > -1; i-- {
+		if act.Definitions[dump[i].Block] == "" {
+			dateTime := dump[i].DateTime.Format("02-Jan-06 03:04")
+			act.Items = append(act.Items, dump[i].Block)
+			act.Definitions[dump[i].Block] = dateTime
+		}
+	}
+
+	act.TabDisplayType = readline.TabDisplayMap
+	act.DoNotEscape = true
+	act.DoNotSort = true
+}
+
+func autocompleteHistoryHat(act *autocomplete.AutoCompleteT) {
 	size := Prompt.History.Len()
 	act.Items = make([]string, size)
 	act.Definitions = make(map[string]string, size)
