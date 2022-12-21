@@ -13,9 +13,11 @@ type StatementT struct {
 	paramTemp  []rune
 	namedPipes []string
 
+	// parser states
 	canHaveZeroLenStr bool // to get around $VARS being empty or unset
 	possibleGlob      bool // to signal to NextParameter of a possible glob
 	asStatement       bool // force murex to parse expression as statement
+	ignoreCrLf        bool // allow '\' to escape a new line
 }
 
 func (st *StatementT) String() string {

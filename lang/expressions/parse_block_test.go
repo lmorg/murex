@@ -130,3 +130,36 @@ func TestParseBlockExistingCodeBugFixes1(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseBlockEscapedCrLf(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				out \
+				bob`,
+			Stdout: "bob\n",
+		},
+		/////
+		{
+			Block: `
+				out \ # comment
+				bob`,
+			Stdout: "bob\n",
+		},
+		{
+			Block: `
+				out \	# comment
+				bob`,
+			Stdout: "bob\n",
+		},
+		/////
+		/*{
+			Block: `
+				out # comment \
+				bob`,
+			Stdout: "bob\n",
+		},*/
+	}
+
+	test.RunMurexTests(tests, t)
+}
