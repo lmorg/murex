@@ -55,14 +55,14 @@ to return the same markdown-formatted document as those listed below. eg
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`@[` (range) ](commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [`@g` (autoglob) ](commands/autoglob.md):
   Command prefix to expand globbing (deprecated)
 * [`[[` (element)](commands/element.md):
   Outputs an element from a nested structure
 * [`[` (index)](commands/index.md):
   Outputs an element from an array, map or table
+* [`[` (range) ](commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](commands/addheading.md):

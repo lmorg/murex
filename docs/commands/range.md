@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Command Reference: `@[` (range) 
+## Command Reference: `[` (range) 
 
 > Outputs a ranged subset of data from STDIN
 
@@ -13,7 +13,15 @@ content of the array or it's index / row number. You can also omit either
 the start or the end of the search criteria to cover all items before or
 after the remaining search criteria.
 
+**Please note that `@[` syntax has been deprecated in favour of `[` syntax
+instead. Aside from its name dropping the `@` prefix, it will still perform
+identically**
+
 ## Usage
+
+    <stdin> -> @[start..end]flags -> <stdout>
+    
+Deprecated support:
 
     <stdin> -> @[start..end]flags -> <stdout>
 

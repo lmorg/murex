@@ -10,7 +10,7 @@ import (
 
 func TestCanGlobCmd(t *testing.T) {
 	falses := []string{"foo", "bar"}
-	trues := append(noGlobCmds, "cast", "format", "@g", "select", "find", "regexp")
+	trues := append(noGlobCmds, "cast", "format", "select", "find", "regexp")
 
 	count.Tests(t, len(trues)+len(falses))
 

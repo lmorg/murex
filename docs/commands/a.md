@@ -137,12 +137,12 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [commands/`@[` (range) ](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [commands/`[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [commands/`count`](../commands/count.md):
   Count items in a map, list or array
 * [commands/`ja` (mkarray)](../commands/ja.md):

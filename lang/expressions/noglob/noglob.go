@@ -10,8 +10,8 @@ import (
 // noGlobCmds is a list of all the functions considered unsafe to expand with
 // globbing
 var noGlobCmds = []string{
-	"@g", "rx", "g", "cast", "format", "select", "regexp",
-	"find", "expr",
+	"rx", "g", "cast", "format", "select", "regexp",
+	"find", "expr", "[", "[[",
 }
 
 func canGlobCmd(f string) bool {
