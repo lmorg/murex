@@ -2,6 +2,7 @@ package expressions
 
 import (
 	"github.com/lmorg/murex/lang/expressions/primitives"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -418,16 +419,11 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 			}
 		case []interface{}:
 			for i := range v.([]interface{}) {
-				switch v.([]interface{})[i].(type) {
-				case string:
-					value = []rune(v.([]interface{})[i].(string))
-				case []rune:
-					value = v.([]interface{})[i].([]rune)
-				case []byte:
-					value = []rune(string(v.([]interface{})[i].([]byte)))
-				default:
-					panic("unexpected data type")
+				s, err := types.ConvertGoType(v.([]interface{})[i], types.String)
+				if err != nil {
+					return err
 				}
+				value = []rune(s.(string))
 				appendToParam(tree, value...)
 				if err := tree.nextParameter(); err != nil {
 					return err
@@ -439,7 +435,12 @@ func processStatementArrays(tree *ParserT, value []rune, v interface{}, exec boo
 				return err
 			}
 		default:
-			panic("unexpected data type")
+			s, err := types.ConvertGoType(v.([]interface{}), types.String)
+			if err != nil {
+				return err
+			}
+			value = []rune(s.(string))
+			appendToParam(tree, value...)
 		}
 
 	} else {

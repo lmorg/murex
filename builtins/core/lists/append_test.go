@@ -46,7 +46,7 @@ func TestPrependJsonMixed(t *testing.T) {
 		`[1,2,3]`,
 		types.Json,
 		[]string{"new"},
-		"",//`["new","1","2","3"]`,
+		"", //`["new","1","2","3"]`,
 		errors.New("cannot convert 'new' to a floating point number: strconv.ParseFloat: parsing \"new\": invalid syntax"),
 	)
 }

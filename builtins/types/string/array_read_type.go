@@ -2,8 +2,8 @@ package string
 
 import (
 	"bufio"
-	"bytes"
 	"context"
+	"strings"
 
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -17,7 +17,7 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 			return scanner.Err()
 
 		default:
-			callback(bytes.TrimSpace(scanner.Bytes()), types.String)
+			callback(strings.TrimSpace(scanner.Text()), types.String)
 		}
 	}
 

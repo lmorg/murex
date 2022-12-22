@@ -145,6 +145,7 @@ func (v *Variables) getValue(name string) (value interface{}) {
 
 	value = variable.Value
 	v.mutex.Unlock()
+
 	return value
 }
 
