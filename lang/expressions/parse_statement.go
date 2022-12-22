@@ -184,9 +184,14 @@ func (tree *ParserT) parseStatement(exec bool) error {
 						return err
 					}
 				} else {
-					tree.charPos++
-					err := tree.nextParameter()
-					return err
+					if len(tree.statement.paramTemp) > 0 {
+						tree.statement.paramTemp = tree.statement.paramTemp[:len(tree.statement.paramTemp)-2]
+						if err := tree.nextParameter(); err != nil {
+							return err
+						}
+					}
+					tree.charPos--
+					return nil
 				}
 			default:
 				appendToParam(tree, r)

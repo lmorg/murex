@@ -229,17 +229,19 @@ func (blk *BlockT) ParseBlock() error {
 		case '>':
 			switch {
 			case blk.nextChar() == '>':
-				fallthrough
-			case tree == nil:
-				blk.nextProperty = fn.P_METHOD
-				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
+				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
+				var err error
+				tree, err = blk.parseStatementWithKnownCommand('>', '>')
+				if err != nil {
+					return err
+				}
+			default:
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
 				newPos, err := tree.preParser()
 				if err != nil {
 					return err
 				}
 				blk.charPos += newPos
-			default:
-				blk.panic('>', '>')
 			}
 
 		default:
@@ -259,6 +261,19 @@ func (blk *BlockT) ParseBlock() error {
 	}
 
 	return nil
+}
+
+func (blk *BlockT) parseStatementWithKnownCommand(command ...rune) (*ParserT, error) {
+	tree := NewParser(nil, blk.expression[blk.charPos:], 0)
+	tree.statement = new(StatementT)
+	tree.statement.command = command
+	tree.charPos = len(command)
+	err := tree.parseStatement(false)
+	if err != nil {
+		return nil, err
+	}
+	blk.charPos += tree.charPos
+	return tree, nil
 }
 
 func (blk *BlockT) panic(found rune, follows rune) {

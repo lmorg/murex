@@ -27,6 +27,10 @@ func (tree *ParserT) Dump() interface{} {
 	dump["charOffset"] = tree.charOffset
 	dump["astPos"] = tree.astPos
 	dump["expression"] = string(tree.expression)
+	dump["statement"] = map[string]interface{}{
+		"command":    tree.statement.String(),
+		"parameters": tree.statement.Parameters(),
+	}
 
 	return dump
 }
