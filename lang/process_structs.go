@@ -71,8 +71,7 @@ func (p *Process) Dump() interface{} {
 
 	dump["Id"] = p.Id
 	dump["Name"] = p.Name.String()
-	dump["Parameters"] = &p.Parameters
-	dump["Parameters.StringArray"] = p.Parameters.StringArray()
+	dump["Parameters"] = p.Parameters.Dump()
 	dump["Context_Set"] = p.Context != nil
 	dump["Stdin_Set"] = p.Stdin != nil
 	dump["Stdout_Set"] = p.Stdout != nil

@@ -64,7 +64,7 @@ func cmdDebugMethod(p *lang.Process) error {
 
 	obj, err := lang.UnmarshalData(p, dt)
 
-	j["Process"] = p.Previous
+	j["Process"] = p.Previous.Dump()
 	j["Data-Type"] = map[string]string{
 		"Murex":             dt,
 		"Go":                fmt.Sprintf("%T", obj),
