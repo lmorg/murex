@@ -47,6 +47,7 @@ func (tree *ParserT) nextParameter() error {
 	case st.possibleGlob:
 		// glob
 		st.possibleGlob = false
+		st.canHaveZeroLenStr = false
 		if !tree.ExpandGlob() || lists.Match(noglob.GetNoGlobCmds(), st.String()) {
 			st.parameters = append(st.parameters, st.paramTemp)
 			break
