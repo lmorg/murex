@@ -78,7 +78,6 @@ func (p *Process) Dump() interface{} {
 	dump["StdoutOldPtr_Set"] = p.stdoutOldPtr != nil
 	dump["Stderr_Set"] = p.Stderr != nil
 	dump["ExitNum"] = p.ExitNum
-	//dump["WaitForTermination"]
 	dump["Done_Set"] = p.Done != nil
 	dump["Kill_Set"] = p.Kill != nil
 	dump["Exec"] = &p.Exec
@@ -93,8 +92,8 @@ func (p *Process) Dump() interface{} {
 	dump["NamedPipeOut"] = p.NamedPipeOut
 	dump["NamedPipeErr"] = p.NamedPipeErr
 	dump["NamedPipeTest"] = p.NamedPipeTest
-	//dump["hasTerminatedM"]
-	dump["hasTerminatedV"] = p.hasTerminatedV
+	dump["HasTerminated"] = p.HasTerminated()
+	dump["HasCancelled"] = p.HasCancelled()
 	dump["State"] = p.State.String()
 	dump["Background"] = p.Background.String()
 	dump["RunMode"] = p.RunMode.String()
