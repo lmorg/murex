@@ -221,7 +221,7 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 4.1; true || true && echo foobar`,
-			Stdout: "4.1\ntruefoobar\n", // this seems wrong but if falls in line with how bash works
+			Stdout: "4.1\ntrue",
 		},
 		///
 		{

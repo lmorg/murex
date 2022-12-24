@@ -43,6 +43,7 @@ import (
 
 func runModeNormal(procs *[]Process) (exitNum int) {
 	var prev int
+	var skipPipeline bool
 
 	if len(*procs) == 0 {
 		return 1
@@ -61,13 +62,17 @@ func runModeNormal(procs *[]Process) (exitNum int) {
 				waitProcess(&(*procs)[prev])
 			}
 
-			if ((*procs)[i].OperatorLogicAnd && (*procs)[prev].ExitNum > 0) ||
-				((*procs)[i].OperatorLogicOr && (*procs)[prev].ExitNum < 1) {
+			if ((*procs)[i].OperatorLogicAnd && (*procs)[prev].ExitNum != 0) ||
+				((*procs)[i].OperatorLogicOr && (*procs)[prev].ExitNum == 0) ||
+				(skipPipeline && ((*procs)[i].OperatorLogicAnd || (*procs)[i].OperatorLogicOr)) {
 
 				(*procs)[i].hasTerminatedM.Lock()
 				(*procs)[i].hasTerminatedV = true
 				(*procs)[i].hasTerminatedM.Unlock()
 				(*procs)[i].ExitNum = (*procs)[prev].ExitNum
+				skipPipeline = true
+			} else {
+				skipPipeline = false
 			}
 		}
 

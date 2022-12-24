@@ -2,7 +2,9 @@ package expressions_test
 
 import (
 	"embed"
+	"fmt"
 	"testing"
+	"time"
 
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/lang/expressions"
@@ -153,12 +155,121 @@ func TestParseBlockEscapedCrLf(t *testing.T) {
 			Stdout: "bob\n",
 		},
 		/////
-		/*{
+		{
 			Block: `
 				out # comment \
 				bob`,
 			Stdout: "bob\n",
-		},*/
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockEqu(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `= true`,
+			Stdout: `true`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockPipeOverwriteFile1(t *testing.T) {
+	filename := fmt.Sprintf("%s-%d.testfile", t.Name(), time.Now().UnixNano())
+	tests := []test.MurexTest{
+		{
+			Block:  fmt.Sprintf(`> %s; open %s; rm %s`, filename, filename, filename),
+			Stdout: ``,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockPipeOverwriteFile2(t *testing.T) {
+	filename := fmt.Sprintf("%s-%d.testfile", t.Name(), time.Now().UnixNano())
+	tests := []test.MurexTest{
+		{
+			Block:  fmt.Sprintf(`%%(%s) |> %s; open %s; rm %s`, filename, filename, filename, filename),
+			Stdout: filename,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockPipeAppendFile1(t *testing.T) {
+	filename := fmt.Sprintf("%s-%d.testfile", t.Name(), time.Now().UnixNano())
+	tests := []test.MurexTest{
+		{
+			Block:  fmt.Sprintf(`%%(%s) >> %s; %%(%s) >> %s; open %s; rm %s`, filename, filename, filename, filename, filename, filename),
+			Stdout: filename + filename,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockPipeAppendFile2(t *testing.T) {
+	filename := fmt.Sprintf("%s-%d.testfile", t.Name(), time.Now().UnixNano())
+	tests := []test.MurexTest{
+		{
+			Block:  fmt.Sprintf(`echo %s >> %s; echo %s >> %s; open %s; rm %s`, filename, filename, filename, filename, filename, filename),
+			Stdout: fmt.Sprintf("%s\n%s\n", filename, filename),
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockLogicOperators(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `out 1 && out 2 && false && out 3`,
+			Stdout:  "1\n2\nfalse\n",
+			ExitNum: 1,
+		},
+		{
+			Block:   `out 1 && out 2 && false || out 3`,
+			Stdout:  "1\n2\nfalse3\n",
+			ExitNum: 0,
+		},
+		//
+		{
+			Block:   `out 1 || out 2 || false || out 3`,
+			Stdout:  "1\n",
+			ExitNum: 0,
+		},
+		{
+			Block:   `out 1 || out 2 || false && out 3`,
+			Stdout:  "1\n",
+			ExitNum: 0,
+		},
+		/////
+		{
+			Block:   `out 1 && out 2 && true && out 3`,
+			Stdout:  "1\n2\ntrue\n3\n",
+			ExitNum: 0,
+		},
+		{
+			Block:   `out 1 && out 2 && true || out 3`,
+			Stdout:  "1\n2\ntrue",
+			ExitNum: 0,
+		},
+		//
+		{
+			Block:   `out 1 || out 2 || true || out 3`,
+			Stdout:  "1\n",
+			ExitNum: 0,
+		},
+		{
+			Block:   `out 1 || out 2 || true && out 3`,
+			Stdout:  "1\n",
+			ExitNum: 0,
+		},
 	}
 
 	test.RunMurexTests(tests, t)

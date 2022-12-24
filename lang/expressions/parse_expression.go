@@ -92,7 +92,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				tree.charPos++
 			case '>':
 				// redirect (append)
-				tree.charPos++
+				tree.charPos--
 				return nil
 			default:
 				// greater than

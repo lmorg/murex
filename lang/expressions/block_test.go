@@ -294,3 +294,87 @@ func TestBlockPropertiesQuestionMark(t *testing.T) {
 		t.Errorf("function %d != P_METHOD <int>", i)
 	}
 }
+
+func TestBlockPropertiesFormatGeneric(t *testing.T) {
+	count.Tests(t, 1)
+	block := []rune("out 1 => out 2 => out 3")
+	blk := NewBlock(block)
+	err := blk.ParseBlock()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(blk.Functions) != 5 {
+		t.Fatalf("expecting 5 functions, instead got %d", len(blk.Functions))
+	}
+
+	i := 0
+
+	if !blk.Functions[i].Properties.NewChain() {
+		t.Errorf("function %d != NewChain() <func>", i)
+	}
+
+	if !blk.Functions[i].Properties.PipeOut() {
+		t.Errorf("function %d != PipeOut() <func>", i)
+	}
+
+	if blk.Functions[i].Properties != functions.P_NEW_CHAIN|functions.P_PIPE_OUT {
+		t.Errorf("function %d != P_NEW_CHAIN|P_PIPE_OUT <int>", i)
+	}
+
+	i = 1
+
+	if !blk.Functions[i].Properties.Method() {
+		t.Errorf("function %d != Method() <func>", i)
+	}
+
+	if !blk.Functions[i].Properties.PipeOut() {
+		t.Errorf("function %d != PipeOut() <func>", i)
+	}
+
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	}
+
+	i = 2
+
+	if !blk.Functions[i].Properties.Method() {
+		t.Errorf("function %d != Method() <func>", i)
+	}
+
+	if !blk.Functions[i].Properties.PipeOut() {
+		t.Errorf("function %d != PipeOut() <func>", i)
+	}
+
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	}
+
+	i = 3
+
+	if !blk.Functions[i].Properties.Method() {
+		t.Errorf("function %d != Method() <func>", i)
+	}
+
+	if !blk.Functions[i].Properties.PipeOut() {
+		t.Errorf("function %d != PipeOut() <func>", i)
+	}
+
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	}
+
+	i = 4
+
+	if !blk.Functions[i].Properties.Method() {
+		t.Errorf("function %d != Method() <func>", i)
+	}
+
+	if blk.Functions[i].Properties.PipeOut() {
+		t.Errorf("function %d == PipeOut() <func>", i)
+	}
+
+	if blk.Functions[i].Properties != functions.P_METHOD {
+		t.Errorf("function %d != P_METHOD <int>", i)
+	}
+}
