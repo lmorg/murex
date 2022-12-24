@@ -54,9 +54,13 @@ func TestParseArray(t *testing.T) {
 				error: true,
 			},
 			{
-				input:    `%[%]`,
+				input: `%[%]`,
+				error: true,
+			},
+			{
+				input:    `%[%(%)]`,
 				expected: `["%"]`,
-				pos:      2,
+				pos:      5,
 			},
 			{
 				input:    `%[  [1 2 3]  ,  [ "foo" "bar" ] ]`,
@@ -132,6 +136,36 @@ func TestParseArray(t *testing.T) {
 				input:    "%[1..3]",
 				expected: `[1,2,3]`,
 				pos:      5,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+func TestParseArrayBarewords(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ArrayBegin,
+		tests: []expTestT{
+			{
+				input:    `%[false,null,true]`,
+				expected: `[false,null,true]`,
+				pos:      16,
+			},
+			{
+				input:    `%[false null true]`,
+				expected: `[false,null,true]`,
+				pos:      16,
+			},
+			{
+				input:    "%[\nfalse\nnull\ntrue\n]",
+				expected: `[false,null,true]`,
+				pos:      18,
+			},
+			{ // TODO: true, false and null values shouldn't be applied to quoted strings
+				input:    `%["false" "null" "true"]`,
+				expected: `["false","null","true"]`,
+				pos:      22,
 			},
 		},
 	}
