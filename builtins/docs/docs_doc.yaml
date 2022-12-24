@@ -22,6 +22,8 @@
   Detail: |-
     These man pages are compiled into the _murex_ executable.
   Synonyms:
+  - murex-docs
+  - help
   Related:
   - tout
   - err

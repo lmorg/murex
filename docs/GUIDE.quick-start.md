@@ -1,4 +1,4 @@
-# Language Guide: Quick start guide for Bash developers
+# Language Guide: Quick start guide
 
 This is a cheat sheet reference for Bash developers wishing to accelerate
 their introduction into _murex_:
@@ -6,25 +6,29 @@ their introduction into _murex_:
 ## Functions / Methods
 
 _murex_ makes the distinction between commands that are designed to create data
-(functions) and those that process data (methods).
+(functions) and those that process data from STDIN (methods).
 
-An example function might be `ls` because it doesn't take any inputs but
+An example **function** might be `ls` because it doesn't take any inputs but
 produces an output.
 
-An example method might be `grep` because it takes an input from STDIN and
+An example **method** might be `grep` because it takes an input from STDIN and
 returns a result via STDOUT.
 
 Some commands might be both functions and methods.
+
+The reason for this distinction is to enable _murex_ to produce meaningful
+autocompletion suggestions. Because _murex_ pipes are typed, _murex_ can offer
+powerful suggestions based on the expected output of the previous command.
 
 > In the _murex_ docs you might notice commands are often followed by a colon,
 > for example:
 > ```
 > echo: bob | grep: foobar
 > ```
-> This colon is completely optional to include. It dates back to an earlier
-> version of the shell but has since been disabled as the default. However any
-> code written with the colon will still continue to work and there are no
-> plans to deprecate that support entirely.
+> This colon providers the parser with hints as to whether a line of code is
+> an executable or an expression. However _murex_ can make inference about the
+> code without the colon being included.
+
 
 ## Variables
 

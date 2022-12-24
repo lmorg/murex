@@ -51,3 +51,24 @@ func TestParseQuoteParenthesisBlock(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseQuoteParenthesisNestedWithVar(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				TestParseQuoteParenthesisNestedWithVar="foobar"
+				echo (($TestParseQuoteParenthesisNestedWithVar))
+			`,
+			Stdout: "(foobar)\n",
+		},
+		{
+			Block: `
+				TestParseQuoteParenthesisNestedWithVar="foobar"
+				echo ({$TestParseQuoteParenthesisNestedWithVar})
+			`,
+			Stdout: "{foobar}\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

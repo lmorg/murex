@@ -240,6 +240,7 @@ func init() {
 		"mtac":                  "mtac",
 		"list.reverse":          "mtac",
 		"murex-docs":            "murex-docs",
+		"help":                  "murex-docs",
 		"murex-package":         "murex-package",
 		"murex-parser":          "murex-parser",
 		"murex-update-exe-list": "murex-update-exe-list",
