@@ -42,14 +42,14 @@ import (
 }*/
 
 func runModeNormal(procs *[]Process) (exitNum int) {
-	var prev int
-	var skipPipeline bool
+	var (
+		prev         int
+		skipPipeline bool
+	)
 
 	if len(*procs) == 0 {
 		return 1
 	}
-
-	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := range *procs {
 		if i > 0 {
@@ -90,8 +90,6 @@ func runModeTry(procs *[]Process) (exitNum int) {
 	if len((*procs)) == 0 {
 		return 1
 	}
-
-	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := 0; i < len(*procs); i++ {
 		go executeProcess(&(*procs)[i])
@@ -144,8 +142,6 @@ func runModeTryPipe(procs *[]Process) (exitNum int) {
 	if len(*procs) == 0 {
 		return 1
 	}
-
-	//procs[0].Previous.SetTerminatedState(true)
 
 	for i := 0; i < len(*procs); i++ {
 		go executeProcess(&(*procs)[i])

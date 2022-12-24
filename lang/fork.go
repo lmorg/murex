@@ -255,15 +255,6 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		defer fork.Stderr.Close()
 	}
 
-	/*tree, pErr := ParseBlock(block)
-	if pErr.Code != 0 {
-		errMsg := fmt.Sprintf("syntax error at %d,%d+%d (%s): %s",
-			fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, fork.FileRef.Source.Module, pErr.Message)
-		fork.Stderr.Writeln([]byte(errMsg))
-		err = errors.New(errMsg)
-		return 1, err
-	}*/
-
 	tree, err := ParseBlock(block)
 	if err != nil {
 		return 1, err
