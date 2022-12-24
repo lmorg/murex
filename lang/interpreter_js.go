@@ -43,14 +43,13 @@ import (
 
 func runModeNormal(procs *[]Process) (exitNum int) {
 	var (
-		prev int
-	 skipPipeline bool
+		prev         int
+		skipPipeline bool
 	)
 
 	if len(*procs) == 0 {
 		return 1
 	}
-
 
 	for i := range *procs {
 		if i > 0 {
@@ -58,27 +57,26 @@ func runModeNormal(procs *[]Process) (exitNum int) {
 			prev = i - 1
 
 			if (*procs)[i].IsMethod {
-				/*go*/ waitProcess(&(*procs)[prev])
+				go waitProcess(&(*procs)[prev])
 			} else {
 				waitProcess(&(*procs)[prev])
 			}
 
-			if ((*procs)[i].OperatorLogicAnd && (*procs)[prev].ExitNum > 0) ||
-				((*procs)[i].OperatorLogicOr && (*procs)[prev].ExitNum < 1) ||
-				(skipPipeline && ((*procs)[i].OperatorLogicAnd || (*procs)[i].OperatorLogicOr)) {{
+			if ((*procs)[i].OperatorLogicAnd && (*procs)[prev].ExitNum != 0) ||
+				((*procs)[i].OperatorLogicOr && (*procs)[prev].ExitNum == 0) ||
+				(skipPipeline && ((*procs)[i].OperatorLogicAnd || (*procs)[i].OperatorLogicOr)) {
 
 				(*procs)[i].hasTerminatedM.Lock()
 				(*procs)[i].hasTerminatedV = true
 				(*procs)[i].hasTerminatedM.Unlock()
 				(*procs)[i].ExitNum = (*procs)[prev].ExitNum
 				skipPipeline = true
-				} else {
-					skipPipeline = false
-				}
+			} else {
+				skipPipeline = false
 			}
 		}
 
-		executeProcess(&(*procs)[i])
+		go executeProcess(&(*procs)[i])
 	}
 
 	waitProcess(&(*procs)[len(*procs)-1])
@@ -94,7 +92,7 @@ func runModeTry(procs *[]Process) (exitNum int) {
 	}
 
 	for i := 0; i < len(*procs); i++ {
-		executeProcess(&(*procs)[i])
+		go executeProcess(&(*procs)[i])
 		next := i + 1
 
 		if next == len((*procs)) || !(*procs)[next].IsMethod {
@@ -132,7 +130,7 @@ func runModeTry(procs *[]Process) (exitNum int) {
 			}
 
 		} else {
-			waitProcess(&(*procs)[i])
+			go waitProcess(&(*procs)[i])
 		}
 	}
 
@@ -146,7 +144,7 @@ func runModeTryPipe(procs *[]Process) (exitNum int) {
 	}
 
 	for i := 0; i < len(*procs); i++ {
-		executeProcess(&(*procs)[i])
+		go executeProcess(&(*procs)[i])
 		waitProcess(&(*procs)[i])
 
 		exitNum = (*procs)[i].ExitNum

@@ -162,19 +162,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 			Value:     f,
 		}, nil
 
-	case symbols.QuoteSingle:
-		return &primitives.DataType{
-			Primitive: primitives.String,
-			Value:     node.Value(),
-		}, nil
-
-	case symbols.QuoteDouble:
-		return &primitives.DataType{
-			Primitive: primitives.String,
-			Value:     node.Value(),
-		}, nil
-
-	case symbols.QuoteParenthesis:
+	case symbols.QuoteSingle, symbols.QuoteDouble, symbols.QuoteParenthesis:
 		return &primitives.DataType{
 			Primitive: primitives.String,
 			Value:     node.Value(),

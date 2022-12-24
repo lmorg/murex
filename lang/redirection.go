@@ -8,8 +8,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-// TODO: check this works
-
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
 	//p.NamedPipeErr = "err"

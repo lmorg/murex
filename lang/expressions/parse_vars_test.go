@@ -69,18 +69,18 @@ func TestParseVarsArray(t *testing.T) {
 			Stdout: `> [1,2,3] <`,
 		},
 		/////
-		/*{ TODO: fixme!
+		{
 			Block:  `TestParseVarsArray2=%[1..3];@TestParseVarsArray2`,
 			Stdout: `[1,2,3]`,
-		},*/
+		},
 		{
 			Block:  `TestParseVarsArray3=%[1..3];TestParseVarsArray3="> @TestParseVarsArray3 <";$TestParseVarsArray3`,
 			Stdout: `> @TestParseVarsArray3 <`,
 		},
-		/*{ TODO: fixme!
-			Block:  `TestParseVarsArray4=%[1..3];TestParseVarsArray4="> @TestParseVarsArray4 <";@TestParseVarsArray4`,
-			Stdout: `> @TestParseVarsArray4 <`,
-		},*/
+		{
+			Block:  `TestParseVarsArray4=%[1..3];TestParseVarsArray4=". @TestParseVarsArray4 .";@TestParseVarsArray4`,
+			Stdout: `[". @TestParseVarsArray4 ."]`,
+		},
 		/////
 		{
 			Block:  `TestParseVarsArray5=%[1..3];%[1 2 3 @TestParseVarsArray5]`,
