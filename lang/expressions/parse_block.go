@@ -108,7 +108,7 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 			Command:    expressionFunctionName,
 			Parameters: [][]rune{tree.expression[:tree.charPos+1]},
 			Properties: blk.nextProperty | this,
-			LineN:      tree.GetLineN(),
+			LineN:      blk.lineN + tree.GetLineN(),
 			ColumnN:    tree.GetColumnN(),
 		})
 
@@ -119,7 +119,7 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 			NamedPipes: tree.statement.namedPipes,
 			Raw:        tree.expression[:tree.charPos+1],
 			Properties: blk.nextProperty | this,
-			LineN:      tree.GetLineN(),
+			LineN:      blk.lineN + tree.GetLineN(),
 			ColumnN:    tree.GetColumnN(),
 		})
 
@@ -143,7 +143,7 @@ func (blk *BlockT) ParseBlock() error {
 		case '\n':
 			blk.append(tree, 0, fn.P_NEW_CHAIN)
 			tree = nil
-			blk.row++
+			blk.lineN++
 			blk.offset = blk.charPos
 			continue
 

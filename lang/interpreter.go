@@ -85,20 +85,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 		procs[i].FileRef = &ref.File{Source: parent.FileRef.Source}
 		procs[i].Forks = NewForkManagement()
 
-		// TODO: add line numbers
-		/*if (*tree)[i].LineNumber == 0 {
-			procs[i].FileRef.Column = (*tree)[i].ColNumber + parent.FileRef.Column
-		} else {
-			procs[i].FileRef.Column = (*tree)[i].ColNumber
-		}*/
-
-		/*if parent.Id == 0 {
-			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line + 1
-		} else {
-			procs[i].FileRef.Line = (*tree)[i].LineNumber + parent.FileRef.Line
-		}*/
-
-		procs[i].FileRef.Column = (*tree)[i].ColumnN
+		procs[i].FileRef.Column = parent.FileRef.Column + (*tree)[i].ColumnN
 		procs[i].FileRef.Line = (*tree)[i].LineN
 
 		// Define previous and next processes:

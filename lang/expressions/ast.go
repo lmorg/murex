@@ -59,7 +59,7 @@ func (tree *ParserT) crLf() {
 	tree.endCol = tree.charPos
 }
 
-func (tree *ParserT) GetColumnN() int { return tree.startCol - tree.charOffset }
+func (tree *ParserT) GetColumnN() int { return tree.charOffset - tree.startCol + 2 }
 func (tree *ParserT) GetLineN() int   { return tree.startRow }
 
 func (tree *ParserT) appendAst(key symbols.Exp, value ...rune) {

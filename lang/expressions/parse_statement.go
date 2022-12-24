@@ -20,6 +20,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		if escape {
 			if r == '\n' {
+				tree.crLf()
 				if err := tree.nextParameter(); err != nil {
 					return err
 				}
@@ -75,6 +76,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 
 		case '\n':
 			// '\' escaped used at end of line
+			tree.crLf()
 			if tree.statement.ignoreCrLf {
 				tree.statement.ignoreCrLf = false
 				if err := tree.nextParameter(); err != nil {
