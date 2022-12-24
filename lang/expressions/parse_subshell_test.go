@@ -125,3 +125,41 @@ func TestParseSubShellArrayParams(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseSubShellEmptyArrayBugFix(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				config: set proc strict-arrays false
+				echo: @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}
+			`,
+			Stdout: "\n",
+		},
+		{
+			Block: `
+				config: set proc strict-arrays false
+				bob = @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}
+				$bob
+			`,
+			Stdout: "null",
+		},
+		{
+			Block: `
+				config: set proc strict-arrays false
+				bob = @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}
+				echo bob = $bob
+			`,
+			Stdout: "bob = null\n",
+		},
+		{
+			Block: `
+				config: set proc strict-arrays false
+				bob = @{g: <!null> pseudo-random-string-that-will-not-be-matched-with-anything}
+				echo bob = @bob
+			`,
+			Stdout: "bob =\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}

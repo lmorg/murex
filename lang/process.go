@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -299,29 +298,6 @@ executeProcess:
 			if err == nil {
 				p.ExitNum, err = fork.Execute(fn.Block)
 			}
-		}
-
-	case len(name) > 0 && name[0] == '$':
-		// variables as functions
-		match := rxVariables.FindAllStringSubmatch(name+p.Parameters.StringAll(), -1)
-		switch {
-		case len(name) == 1:
-			err = errors.New("variable token, `$`, used without specifying variable name")
-		case len(match) == 0 || len(match[0]) == 0:
-			err = errors.New("`" + name[1:] + "` is not a valid variable name")
-		case match[0][2] == "":
-			var s string
-			s, err = p.Variables.GetString(match[0][1])
-			if err == nil {
-				p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))
-				_, err = p.Stdout.Write([]byte(s))
-			} else {
-				p.Stdout.SetDataType(types.Null)
-				//p.Stderr.Write([]byte(err.Error()))
-			}
-		default:
-			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
-			p.Fork(F_PARENT_VARTABLE).Execute(block)
 		}
 
 	case GoFunctions[name] != nil:

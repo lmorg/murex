@@ -54,6 +54,7 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/utils"
 )
 
 // ArrayTemplate is a template function for reading arrays from marshalled data
@@ -61,6 +62,10 @@ func ArrayTemplate(ctx context.Context, marshal func(interface{}) ([]byte, error
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
+	}
+
+	if len(utils.CrLfTrim(b)) == 0 {
+		return nil
 	}
 
 	var v interface{}

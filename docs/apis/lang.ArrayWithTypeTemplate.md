@@ -54,6 +54,7 @@ import (
 
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 // ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
@@ -61,6 +62,10 @@ func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(in
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
+	}
+
+	if len(utils.CrLfTrim(b)) == 0 {
+		return nil
 	}
 
 	var v interface{}

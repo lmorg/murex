@@ -21,6 +21,11 @@ func cmdExpressions(p *lang.Process) error {
 	dt := result.DataType()
 	p.Stdout.SetDataType(dt)
 
+	if result.Value == nil && dt == types.Json {
+		_, err = p.Stdout.Write([]byte{'n', 'u', 'l', 'l'})
+		return err
+	}
+
 	b, err := lang.MarshalData(p, dt, result.Value)
 	if err != nil {
 		return err
