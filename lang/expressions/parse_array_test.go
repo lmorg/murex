@@ -162,7 +162,7 @@ func TestParseArrayBarewords(t *testing.T) {
 				expected: `[false,null,true]`,
 				pos:      18,
 			},
-			{ // TODO: true, false and null values shouldn't be applied to quoted strings
+			{
 				input:    `%["false" "null" "true"]`,
 				expected: `["false","null","true"]`,
 				pos:      22,

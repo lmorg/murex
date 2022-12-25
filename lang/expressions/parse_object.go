@@ -242,7 +242,7 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 				fallthrough
 			case r >= '0' && '9' >= r:
 				// number
-				value := tree.parseNumber(r)
+				value := tree.parseNumber()
 				tree.charPos--
 				v, err := types.ConvertGoType(value, types.Number)
 				if err != nil {

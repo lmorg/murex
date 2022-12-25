@@ -283,7 +283,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			case c >= '0' && '9' >= c:
 				if len(tree.ast) == 0 || tree.ast[len(tree.ast)-1].key > symbols.Operations {
 					// number
-					value := tree.parseNumber(r)
+					value := tree.parseNumber()
 					tree.appendAst(symbols.Number, value...)
 					tree.charPos--
 				} else {
@@ -326,7 +326,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			switch {
 			case r >= '0' && '9' >= r:
 				// number
-				value := tree.parseNumber(r)
+				value := tree.parseNumber()
 				tree.appendAst(symbols.Number, value...)
 				tree.charPos--
 

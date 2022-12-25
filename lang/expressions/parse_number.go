@@ -1,15 +1,14 @@
 package expressions
 
-func (tree *ParserT) parseNumber(first rune) []rune {
-	// TODO: don't append each time, just return a range
-	value := []rune{first}
+func (tree *ParserT) parseNumber() []rune {
+	start := tree.charPos
 
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 
 		switch {
 		case (r >= '0' && '9' >= r) || r == '.':
-			value = append(value, r)
+			// valid numeric character
 
 		default:
 			// not a number
@@ -18,5 +17,5 @@ func (tree *ParserT) parseNumber(first rune) []rune {
 	}
 
 endNumber:
-	return value
+	return tree.expression[start:tree.charPos]
 }

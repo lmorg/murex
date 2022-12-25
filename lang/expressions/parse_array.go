@@ -168,7 +168,7 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				fallthrough
 			case r >= '0' && '9' >= r:
 				// number
-				value = append(value, tree.parseNumber(r)...)
+				value = append(value, tree.parseNumber()...)
 				tree.charPos--
 				v, err := types.ConvertGoType(value, types.Number)
 				if err != nil {
