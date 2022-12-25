@@ -104,7 +104,7 @@ const ( // function parameter error messages
 	fpeUnexpectedQuotationMark = "unexpected quotation mark '\"' (chr %d) at %d (%d,%d)"
 	fpeUnexpectedEndSquare     = "unexpected closing square bracket ']' (chr %d) at %d (%d,%d)"
 	fpeEofNameStart            = "missing variable name at %d (%d,%d)"
-	fpeEofNameRead             = "varaible name not terminated with a colon %d (%d,%d)"
+	fpeEofNameRead             = "variable name not terminated with a colon %d (%d,%d)"
 	fpeEofTypeStart            = "missing data type %d (%d,%d)"
 	fpeEofDescRead             = "missing closing quotation mark on description %d (%d,%d)"
 	fpeEofDefaultRead          = "missing closing square bracket on default %d (%d,%d)"

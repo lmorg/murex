@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func TestParseBlock(t *testing.T) {
@@ -269,6 +270,66 @@ func TestParseBlockLogicOperators(t *testing.T) {
 			Block:   `out 1 || out 2 || true && out 3`,
 			Stdout:  "1\n",
 			ExitNum: 0,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockAmpersand(t *testing.T) {
+	count.Tests(t, 1)
+
+	block := "&foobar"
+
+	tree, err := expressions.ParseBlock([]rune(block))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err.Error())
+	}
+
+	if len(*tree) != 1 {
+		t.Fatalf("Invalid tree length: %v", len(*tree))
+	}
+
+	if string((*tree)[0].Command) != block {
+		t.Error("Invalid tree:")
+		t.Logf("  Command:     '%s'", string((*tree)[0].Command))
+		t.Logf("  Named Pipes: %v", json.LazyLogging(((*tree)[0].NamedPipes)))
+		t.Logf("  Parameters:  %v", ((*tree)[0].Parameters))
+	}
+}
+
+func TestParseBlockHyphen(t *testing.T) {
+	count.Tests(t, 1)
+
+	block := "-abc"
+
+	tree, err := expressions.ParseBlock([]rune(block))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err.Error())
+	}
+
+	if len(*tree) != 1 {
+		t.Fatalf("Invalid tree length: %v", len(*tree))
+	}
+
+	if string((*tree)[0].Command) != block {
+		t.Error("Invalid tree:")
+		t.Logf("  Command:     '%s'", string((*tree)[0].Command))
+		t.Logf("  Named Pipes: %v", json.LazyLogging(((*tree)[0].NamedPipes)))
+		t.Logf("  Parameters:  %v", ((*tree)[0].Parameters))
+	}
+}
+
+
+func TestParseBlockCommentHash(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block: `
+				out: 1
+				# out 2
+				out 3
+			`,
+			Stdout: "1\n3\n",
 		},
 	}
 

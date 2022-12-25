@@ -5,7 +5,10 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
+	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/home"
 	"github.com/lmorg/murex/utils/json"
 )
 
@@ -585,9 +588,6 @@ func TestParseStatementEscCrLf(t *testing.T) {
 			},
 			Exec: false,
 		},
-
-		/////
-
 		{
 			Statement: "echo 1\\\n2\\\n3\n",
 			Args: []string{
@@ -598,4 +598,113 @@ func TestParseStatementEscCrLf(t *testing.T) {
 	}
 
 	testParseStatement(t, tests)
+}
+
+func TestParseStatementEscape(t *testing.T) {
+	tests := []testParseStatementT{
+		{
+			Statement: `echo hello\sworld`,
+			Args: []string{
+				"echo", "hello\\sworld",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo hello\sworld`,
+			Args: []string{
+				"echo", "hello world",
+			},
+			Exec: true,
+		},
+		/////
+		{
+			Statement: `echo hello\tworld`,
+			Args: []string{
+				"echo", "hello\\tworld",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo hello\tworld`,
+			Args: []string{
+				"echo", "hello\tworld",
+			},
+			Exec: true,
+		},
+		/////
+		{
+			Statement: `echo hello\rworld`,
+			Args: []string{
+				"echo", "hello\\rworld",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo hello\rworld`,
+			Args: []string{
+				"echo", "hello\rworld",
+			},
+			Exec: true,
+		},
+		/////
+		{
+			Statement: `echo hello\nworld`,
+			Args: []string{
+				"echo", "hello\\nworld",
+			},
+			Exec: false,
+		},
+		{
+			Statement: `echo hello\nworld`,
+			Args: []string{
+				"echo", "hello\nworld",
+			},
+			Exec: true,
+		},
+	}
+
+	testParseStatement(t, tests)
+}
+
+func TestParseStatementStdin(t *testing.T) {
+	tests := []testParseStatementT{
+		{
+			Statement: "<stdin>",
+			Args: []string{
+				consts.NamedPipeProcName, "stdin",
+			},
+			Exec: false,
+		},
+		{
+			Statement: "<stdin>",
+			Args: []string{
+				consts.NamedPipeProcName, "stdin",
+			},
+			Exec: true,
+		},
+	}
+
+	testParseStatement(t, tests)
+}
+
+func TestParseStatementTilde(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  "echo ~",
+			Stdout: home.MyDir + "\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseStatementParenthesesQuote(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  "(echo foobar)",
+			Stdout: "echo foobar",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }

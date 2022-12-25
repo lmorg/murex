@@ -6,7 +6,6 @@ import (
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/utils/consts"
-	"github.com/lmorg/murex/utils/json"
 )
 
 func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
@@ -24,8 +23,8 @@ func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
 
 	if len(tree.ast) > 1 {
 		return nil, fmt.Errorf(
-			"expression failed to execute correctly (AST results > 1).\n%s\n%s",
-			json.LazyLoggingPretty(tree.Dump()),
+			"expression failed to execute correctly (AST results > 1).\n%s",
+			//json.LazyLoggingPretty(tree.Dump()),
 			consts.IssueTrackerURL)
 	}
 

@@ -50,6 +50,22 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 		}
 		return v[i], nil
 
+	case map[string]string:
+		switch {
+		case v[path[i]] != "":
+			return v[path[i]], nil
+		case v[strings.Title(path[i])] != "":
+			return v[strings.Title(path[i])], nil
+		case v[strings.ToLower(path[i])] != "":
+			return v[strings.ToLower(path[i])], nil
+		case v[strings.ToUpper(path[i])] != "":
+			return v[strings.ToUpper(path[i])], nil
+			//case v[strings.ToTitle(params[i])] != nil:
+			//	return v[strings.ToTitle(path[i])], nil
+		default:
+			return "", nil
+		}
+
 	case map[string]interface{}:
 		switch {
 		case v[path[i]] != nil:

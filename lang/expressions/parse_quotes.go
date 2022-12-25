@@ -239,13 +239,8 @@ func (tree *ParserT) parseBlockQuote() ([]rune, error) {
 				if err != nil {
 					return nil, err
 				}
+				tree.charPos++
 			}
-
-		/*case '(':
-		_, _, err := tree.parseParen(false)
-		if err != nil {
-			return nil, err
-		}*/
 
 		case '{':
 			_, err := tree.parseBlockQuote()
