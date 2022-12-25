@@ -2,6 +2,7 @@ package processes
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -11,7 +12,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["fid-list"] = cmdFidList
 	lang.DefineFunction("fid-list", cmdFidList, types.JsonLines)
 
 	defaults.AppendProfile(`
@@ -28,16 +28,15 @@ func init() {
 }
 
 func getParams(p *lang.Process) string {
-	params := p.Parameters.StringAll()
-	/*if len(params) == 0 && len(p.Parameters.Tokens) > 1 {
-		newParams := parameters.Parameters{
-			Tokens: p.Parameters.Tokens,
+	params := p.Parameters.StringArray()
+	if len(params) == 0 && len(p.Parameters.PreParsed) > 0 {
+		params = make([]string, len(p.Parameters.PreParsed))
+		for i := range p.Parameters.PreParsed {
+			params[i] = string(p.Parameters.PreParsed[i])
 		}
-		lang.ParseParameters(p, &newParams)
-		params = "(subject to change) " + newParams.StringAll()
-	}*/
-	// TODO: fix this
-	return params
+	}
+
+	return strings.Join(params, " ")
 }
 
 func cmdFidList(p *lang.Process) error {
