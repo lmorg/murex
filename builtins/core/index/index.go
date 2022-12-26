@@ -24,8 +24,8 @@ func init() {
 }
 
 func index(p *lang.Process) (err error) {
-	if ranges.RxSplitRangeLegacy.MatchString(p.Parameters.StringAll()) {
-		return ranges.CmdRangeLegacy(p)
+	if ranges.RxSplitRange.MatchString(p.Parameters.StringAll()) {
+		return ranges.CmdRange(p)
 	}
 
 	if !debug.Enabled {

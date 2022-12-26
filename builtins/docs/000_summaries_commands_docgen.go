@@ -152,7 +152,6 @@ func init() {
 		"![":                    "[",
 		"index":                 "[",
 		"@[":                    "@[",
-		"range":                 "@[",
 		"a":                     "a",
 		"addheading":            "addheading",
 		"alias":                 "alias",

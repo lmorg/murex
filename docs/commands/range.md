@@ -69,7 +69,6 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
 ## Synonyms
 
 * `@[`
-* `range`
 
 
 ## See Also
