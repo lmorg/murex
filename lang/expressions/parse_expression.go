@@ -317,6 +317,11 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				// equal divide
 				tree.appendAst(symbols.AssignAndDivide)
 				tree.charPos++
+			case '#':
+				// multi-line comment
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return err
+				}
 			default:
 				// divide
 				tree.appendAst(symbols.Divide)

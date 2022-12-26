@@ -152,6 +152,23 @@ func (blk *BlockT) ParseBlock() error {
 			comment.parseComment()
 			blk.charPos += comment.charPos
 
+		case '/':
+			switch {
+			case blk.nextChar() == '#':
+				comment := NewParser(nil, blk.expression[blk.charPos:], 0)
+				if err := comment.parseCommentMultiLine(); err != nil {
+					return err
+				}
+				blk.charPos += comment.charPos
+			default:
+				tree = NewParser(nil, blk.expression[blk.charPos:], blk.charPos-1)
+				newPos, err := tree.preParser()
+				if err != nil {
+					return err
+				}
+				blk.charPos += newPos
+			}
+
 		case ';':
 			blk.append(tree, 0, fn.P_NEW_CHAIN)
 			tree = nil

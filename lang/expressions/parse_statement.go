@@ -65,6 +65,15 @@ func (tree *ParserT) parseStatement(exec bool) error {
 		case '#':
 			tree.parseComment()
 
+		case '/':
+			if tree.nextChar() == '#' {
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return err
+				}
+			} else {
+				appendToParam(tree, r)
+			}
+
 		case '\\':
 			escape = true
 

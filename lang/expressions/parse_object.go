@@ -63,6 +63,15 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 		case '#':
 			tree.parseComment()
 
+		case '/':
+			if tree.nextChar() == '#' {
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return nil, nil, err
+				}
+			} else {
+				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
+			}
+
 		case '\'', '"':
 			// quoted string
 			str, err := tree.parseString(r, r, exec)

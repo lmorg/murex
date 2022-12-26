@@ -47,6 +47,18 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 		case '#':
 			tree.parseComment()
 
+		case '/':
+			// multiline comment
+			if tree.nextChar() == '#' {
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return nil, nil, err
+				}
+			} else {
+				// string
+				value := tree.parseArrayBareword()
+				slice = append(slice, formatArrayValue(value))
+			}
+
 		case '\'', '"':
 			// quoted string
 			value, err := tree.parseString(r, r, exec)
@@ -208,6 +220,10 @@ func (tree *ParserT) parseArrayBareword() []rune {
 		switch r {
 		case ',', ' ', '\t', '\r', '\n', '[', ']', '{', '$', '~', '@', '"', '\'', '%':
 			goto endArrayBareword
+		case '/':
+			if tree.nextChar() == '*' {
+				goto endArrayBareword
+			}
 		}
 	}
 
