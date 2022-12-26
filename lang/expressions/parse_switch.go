@@ -102,6 +102,15 @@ func (tree *ParserT) parseSwitch() (int, error) {
 		case '#':
 			tree.parseComment()
 
+		case '/':
+			if tree.nextChar() == '#' {
+				if err := tree.parseCommentMultiLine(); err != nil {
+					return 0, err
+				}
+			} else {
+				appendToParam(tree, r)
+			}
+
 		case '\\':
 			escape = true
 
