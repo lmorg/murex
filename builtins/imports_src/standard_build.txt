@@ -1,5 +1,4 @@
 optional-builtins.go
-optional-coreutils.go
 optional-select.go
 pipe-net.go
 type-apachelogs.go
