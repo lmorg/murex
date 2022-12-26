@@ -6,6 +6,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 31.12.2022 - [What's new in murex v3.0](changelog/v3.0.md)
+
+This is a major release that brings a significant number of changes and improvements, including a complete overhaul of the parser. Backwards compatibility is a high priority however these new features bring greater readability and consistency to shell scripting. So while the older syntax remains for compatibility, it is worth migrating over to the newer syntax for all new code being written
+
+
 ### 12.09.2022 - [What's new in murex v2.11](changelog/v2.11.md)
 
 This release mainly focuses on refinements in performance and usability, rather than introducing new features
