@@ -24,20 +24,21 @@ func (node *astNodeT) Value() string {
 }
 
 type ParserT struct {
-	ast          []*astNodeT
-	charPos      int
-	charOffset   int
-	astPos       int
-	startRow     int
-	endRow       int
-	startCol     int
-	endCol       int
-	expression   []rune
-	subExp       bool
-	p            *lang.Process
-	strictArrays interface{}
-	expandGlob   interface{}
-	statement    *StatementT
+	ast           []*astNodeT
+	statement     *StatementT
+	charPos       int
+	charOffset    int
+	astPos        int
+	startRow      int
+	endRow        int
+	startCol      int
+	endCol        int
+	expression    []rune
+	subExp        bool
+	p             *lang.Process
+	_strictTypes  interface{}
+	_strictArrays interface{}
+	_expandGlob   interface{}
 }
 
 func (tree *ParserT) nextChar() rune {
@@ -191,33 +192,47 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 	return nil, raiseError(nil, node, 0, fmt.Sprintf("unexpected error converting node to primitive (%s)", consts.IssueTrackerURL))
 }
 
-func (tree *ParserT) StrictArrays() bool {
-	if tree.strictArrays != nil {
-		return tree.strictArrays.(bool)
+func (tree *ParserT) StrictTypes() bool {
+	if tree._strictTypes != nil {
+		return tree._strictTypes.(bool)
 	}
 
 	var err error
-	tree.strictArrays, err = tree.p.Config.Get("proc", "strict-arrays", "bool")
+	tree._strictTypes, err = tree.p.Config.Get("proc", "strict-types", types.Boolean)
 	if err != nil {
-		tree.strictArrays = true
+		panic(err)
 	}
 
-	return tree.strictArrays.(bool)
+	return tree._strictTypes.(bool)
+}
+
+func (tree *ParserT) StrictArrays() bool {
+	if tree._strictArrays != nil {
+		return tree._strictArrays.(bool)
+	}
+
+	var err error
+	tree._strictArrays, err = tree.p.Config.Get("proc", "strict-arrays", types.Boolean)
+	if err != nil {
+		panic(err)
+	}
+
+	return tree._strictArrays.(bool)
 }
 
 func (tree *ParserT) ExpandGlob() bool {
-	if tree.expandGlob != nil {
-		return tree.expandGlob.(bool)
+	if tree._expandGlob != nil {
+		return tree._expandGlob.(bool)
 	}
 
 	var err error
-	tree.expandGlob, err = tree.p.Config.Get("shell", "expand-glob", "bool")
+	tree._expandGlob, err = tree.p.Config.Get("shell", "expand-globs", types.Boolean)
 	if err != nil {
-		tree.expandGlob = true
+		panic(err)
 	}
 
-	tree.expandGlob = tree.expandGlob.(bool) && tree.p.Scope.Id == lang.ShellProcess.Id &&
+	tree._expandGlob = tree._expandGlob.(bool) && tree.p.Scope.Id == lang.ShellProcess.Id &&
 		tree.p.Parent.Id == lang.ShellProcess.Id && !tree.p.Background.Get() && lang.Interactive
 
-	return tree.expandGlob.(bool)
+	return tree._expandGlob.(bool)
 }

@@ -263,6 +263,12 @@ func Config(c *config.Config, isInteractive bool) {
 		DataType:    types.Boolean,
 	})
 
+	c.Define("proc", "strict-types", config.Properties{
+		Description: "Enables or disables automatic type conversions in expressions. If enabled you might need to liberally use type tagging to ensure strings from random sources are treated as numbers",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
 	c.Define("proc", "strict-vars", config.Properties{
 		Description: "Return an error if an unset variable is used. Enabling this means all variables will need to be `set` before than can be used",
 		Default:     true,

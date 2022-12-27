@@ -14,7 +14,8 @@ import (
 // This code is ugly. Read at your own risk.
 
 func init() {
-	lang.DefineFunction("a", cmdJa, types.Json)
+	lang.DefineFunction("a", cmdA, types.String)
+	lang.DefineFunction("ja", cmdJa, types.Json)
 	lang.DefineFunction("ta", cmdTa, types.WriteArray)
 
 	defaults.AppendProfile(`alias ja=a`)
@@ -31,6 +32,10 @@ const (
 type ast struct {
 	Data []byte
 	Type int
+}
+
+func cmdA(p *lang.Process) error {
+	return mkArray(p, types.String)
 }
 
 func cmdJa(p *lang.Process) error {

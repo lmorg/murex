@@ -3,6 +3,7 @@ package noglob
 import (
 	"fmt"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -11,7 +12,8 @@ import (
 // globbing
 var noGlobCmds = []string{
 	"rx", "g", "cast", "format", "select", "regexp",
-	"find", "expr", "[", "[[",
+	"find", "[", "[[",
+	lang.ExpressionFunctionName,
 }
 
 func canGlobCmd(f string) bool {

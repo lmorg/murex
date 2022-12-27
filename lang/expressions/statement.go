@@ -56,6 +56,10 @@ func (tree *ParserT) nextParameter() error {
 		if err != nil {
 			return err
 		}
+		if v == nil {
+			st.parameters = append(st.parameters, st.paramTemp)
+			break
+		}
 		for i := range v {
 			st.parameters = append(st.parameters, []rune(v[i]))
 		}

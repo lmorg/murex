@@ -19,13 +19,15 @@ func (tree *ParserT) parseGlob(glob []rune) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if expand {
-		if globErr != nil {
-			return nil, fmt.Errorf("invalid glob: '%s'\n%s", globS, err.Error())
-		}
-		if len(match) == 0 {
-			return nil, fmt.Errorf("glob returned zero results.\nglob: '%s'", globS)
-		}
+	if !expand {
+		return nil, nil
+	}
+
+	if globErr != nil {
+		return nil, fmt.Errorf("invalid glob: '%s'\n%s", globS, err.Error())
+	}
+	if len(match) == 0 {
+		return nil, fmt.Errorf("glob returned zero results.\nglob: '%s'", globS)
 	}
 
 	return match, nil
