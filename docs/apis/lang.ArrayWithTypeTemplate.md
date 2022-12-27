@@ -212,16 +212,16 @@ func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, mar
 
 			case bool:
 				if v[i].(bool) {
-					callback(types.TrueByte, types.Boolean)
+					callback(true, types.Boolean)
 				} else {
-					callback(types.FalseByte, types.Boolean)
+					callback(false, types.Boolean)
 				}
 
 			case []byte:
-				callback(v[i].([]byte), types.String)
+				callback(string(v[i].([]byte)), types.String)
 
 			case nil:
-				callback([]byte{}, types.Null)
+				callback(nil, types.Null)
 
 			default:
 				jBytes, err := marshal(v[i])
