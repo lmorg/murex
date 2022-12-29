@@ -146,13 +146,6 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				appendToParam(tree, r)
 			}
 
-		/*case '!':
-		switch tree.nextChar() {
-		default:
-			// unexpected symbol
-			tree.appendAst(symbols.Unexpected)
-		}*/
-
 		case '~':
 			// tilde
 			appendToParam(tree, []rune(tree.parseVarTilde(exec))...)
@@ -476,6 +469,8 @@ func processStatementColon(tree *ParserT, exec bool) error {
 			return tree.nextParameter()
 		} else {
 			// is a cast
+			tree.charPos++
+			tree.statement.cast = tree.parseBareword()
 		}
 	default:
 		// is a value

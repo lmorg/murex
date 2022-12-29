@@ -39,7 +39,6 @@ func ExpressionParser(expression []rune, offset int, exec bool) (int, error) {
 func StatementParametersParser(expression []rune, p *lang.Process) (string, []string, error) {
 	if p.Name.String() == lang.ExpressionFunctionName {
 		return p.Name.String(), []string{string(p.Parameters.PreParsed[0])}, nil
-		//panic("expression parsed as statement")
 	}
 
 	tree := NewParser(nil, expression, 0)
@@ -117,6 +116,7 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 			Command:    tree.statement.command,
 			Parameters: tree.statement.parameters,
 			NamedPipes: tree.statement.namedPipes,
+			Cast:       tree.statement.cast,
 			Raw:        tree.expression[:tree.charPos+1],
 			Properties: blk.nextProperty | this,
 			LineN:      blk.lineN + tree.GetLineN(),

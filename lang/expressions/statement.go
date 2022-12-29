@@ -12,6 +12,7 @@ type StatementT struct {
 	parameters [][]rune
 	paramTemp  []rune
 	namedPipes []string
+	cast       []rune
 
 	// parser states
 	canHaveZeroLenStr bool // to get around $VARS being empty or unset

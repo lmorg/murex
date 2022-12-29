@@ -16,6 +16,7 @@ type testParseStatementT struct {
 	Statement string
 	Args      []string
 	Pipes     []string
+	Cast      string
 	Exec      bool
 	Error     bool
 }
@@ -45,7 +46,8 @@ func testParseStatement(t *testing.T, tests []testParseStatementT) {
 
 		if (err != nil) != test.Error ||
 			json.LazyLogging(test.Args) != json.LazyLogging(actual) ||
-			json.LazyLogging(test.Pipes) != json.LazyLogging(tree.statement.namedPipes) {
+			json.LazyLogging(test.Pipes) != json.LazyLogging(tree.statement.namedPipes) ||
+			test.Cast != string(tree.statement.cast) {
 			t.Errorf("Parser error in test %d", i)
 			t.Logf("  Statement: %s", test.Statement)
 			t.Logf("  Exec:      %v", test.Exec)
@@ -55,6 +57,8 @@ func testParseStatement(t *testing.T, tests []testParseStatementT) {
 			t.Logf("  pipe exp:  %s", json.LazyLogging(test.Pipes))
 			t.Logf("  pipe act:  %s", json.LazyLogging(tree.statement.namedPipes))
 			t.Logf("  pipe len:  %d", len(tree.statement.namedPipes))
+			t.Logf("  exp cast:  %s", test.Cast)
+			t.Logf("  act cast:  %s", string(tree.statement.cast))
 			t.Logf("  exp err:   %v", test.Error)
 			t.Logf("  act err:   %v", err)
 		}
@@ -707,4 +711,44 @@ func TestParseStatementParenthesesQuote(t *testing.T) {
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestParseStatementCast(t *testing.T) {
+	tests := []testParseStatementT{
+		{
+			Statement: ":str cat",
+			Args: []string{
+				"cat",
+			},
+			Cast: "str",
+			Exec: false,
+		},
+		{
+			Statement: ":str cat",
+			Args: []string{
+				"cat",
+			},
+			Cast: "str",
+			Exec: true,
+		},
+		/////
+		{
+			Statement: ":str cat: bob",
+			Args: []string{
+				"cat:", "bob",
+			},
+			Cast: "str",
+			Exec: false,
+		},
+		{
+			Statement: ":str cat: bob",
+			Args: []string{
+				"cat", "bob",
+			},
+			Cast: "str",
+			Exec: true,
+		},
+	}
+
+	testParseStatement(t, tests)
 }

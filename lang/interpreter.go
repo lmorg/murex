@@ -157,6 +157,10 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 			procs[i].Stderr.ForceClose()
 			procs[i].Done()
 		}
+
+		if len((*tree)[i].Cast) != 0 {
+			procs[i].Stdin.SetDataType(string((*tree)[i].Cast))
+		}
 	}
 
 	for i := range *tree {

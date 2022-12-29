@@ -4,6 +4,7 @@ type FunctionT struct {
 	Command    []rune
 	Parameters [][]rune
 	NamedPipes []string
+	Cast       []rune
 	Properties Property
 	LineN      int
 	ColumnN    int
