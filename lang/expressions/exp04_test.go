@@ -4,14 +4,14 @@ import "testing"
 
 func TestExpAdd(t *testing.T) {
 	tests := []expressionTestT{
-		{
+		/*{
 			Expression: `"foo" + "bar"`,
 			Expected:   `foobar`,
 		},
 		{
 			Expression: `"foo"+ "bar"`,
 			Expected:   `foobar`,
-		},
+		},*/
 		///
 		{
 			Expression: `1 + 2`,
@@ -28,7 +28,7 @@ func TestExpAdd(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpSubtract(t *testing.T) {
@@ -69,5 +69,5 @@ func TestExpSubtract(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }

@@ -2,7 +2,7 @@ package expressions
 
 import "testing"
 
-func TestExpMultiply(t *testing.T) {
+func TestExpMultiplyStrict(t *testing.T) {
 	tests := []expressionTestT{
 		{
 			Expression: `"foo" * "bar"`,
@@ -44,7 +44,7 @@ func TestExpMultiply(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpDivide(t *testing.T) {
@@ -89,5 +89,5 @@ func TestExpDivide(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }

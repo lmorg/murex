@@ -22,7 +22,7 @@ func TestExpAssign(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpAssignAdd(t *testing.T) {
@@ -49,7 +49,7 @@ func TestExpAssignAdd(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpAssignSubtract(t *testing.T) {
@@ -76,7 +76,7 @@ func TestExpAssignSubtract(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpAssignMultiply(t *testing.T) {
@@ -103,7 +103,7 @@ func TestExpAssignMultiply(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpAssignDivide(t *testing.T) {
@@ -130,5 +130,5 @@ func TestExpAssignDivide(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }

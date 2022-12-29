@@ -126,7 +126,7 @@ func TestExpressions(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestStupidOffByOneErrorsInSubExpressions(t *testing.T) {
@@ -161,5 +161,5 @@ func TestStupidOffByOneErrorsInSubExpressions(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }

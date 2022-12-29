@@ -41,7 +41,7 @@ func TestExpEqualTo(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpNotEqualTo(t *testing.T) {
@@ -74,7 +74,7 @@ func TestExpNotEqualTo(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpLike(t *testing.T) {
@@ -120,7 +120,7 @@ func TestExpLike(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpNotLike(t *testing.T) {
@@ -166,7 +166,7 @@ func TestExpNotLike(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpRegexp(t *testing.T) {
@@ -208,7 +208,7 @@ func TestExpRegexp(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpNotRegexp(t *testing.T) {
@@ -250,5 +250,5 @@ func TestExpNotRegexp(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }

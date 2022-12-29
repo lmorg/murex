@@ -1,10 +1,10 @@
 package lang
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
-	"regexp"
 	"strings"
 	"time"
 
@@ -73,10 +73,14 @@ func DefineFunction(name string, fn func(*Process) error, StdoutDataType string)
 	MethodStdout.Define(name, StdoutDataType)
 }
 
-var (
-	//rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
-	rxVariables = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
-)
+func indentError(err error) error {
+	if err == nil {
+		return err
+	}
+
+	s := strings.ReplaceAll(err.Error(), "\n", "\n    ")
+	return errors.New(s)
+}
 
 func writeError(p *Process, err error) []byte {
 	var msg string
@@ -310,9 +314,9 @@ executeProcess:
 		p.Name.Set("exec")
 		err = GoFunctions["exec"](p)
 		if err != nil && strings.Contains(err.Error(), "executable file not found") {
-			_, cpErr := ParseExpression([]rune(p.Parameters.StringAll()), 0, false)
-			err = fmt.Errorf("not a valid expression:\n%v\n...nor a valid statement `%s`:\n%v",
-				cpErr, name, err)
+			_, cpErr := ParseExpression(p.raw, 0, false)
+			err = fmt.Errorf("Not a valid expression:\n    %v\nNor a valid statement:\n    %v",
+				indentError(cpErr), indentError(err))
 		}
 	}
 

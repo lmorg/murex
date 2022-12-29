@@ -244,7 +244,7 @@ autocomplete: set config { [{
             { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) },
             { "Dynamic": ({
 				switch {
-					case { = `${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Data-Type ]}`==`bool` } {
+					case { ${ config -> [[ /$PARAMS[1]/$PARAMS[2]/Data-Type ]] } == "bool" } {
 						ja [true,false]
 					}
 

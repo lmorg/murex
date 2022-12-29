@@ -21,10 +21,17 @@ type StatementT struct {
 }
 
 func (st *StatementT) String() string {
+	if st == nil {
+		return "<nil>"
+	}
 	return string(st.command)
 }
 
 func (st *StatementT) Parameters() []string {
+	if st == nil {
+		return nil
+	}
+
 	params := make([]string, len(st.parameters))
 
 	for i := range st.parameters {

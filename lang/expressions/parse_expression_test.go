@@ -144,7 +144,7 @@ type expressionTestT struct {
 	Error      bool
 }
 
-func testExpression(t *testing.T, tests []expressionTestT) {
+func testExpression(t *testing.T, tests []expressionTestT, strictTypes bool) {
 	t.Helper()
 
 	count.Tests(t, len(tests))
@@ -152,8 +152,15 @@ func testExpression(t *testing.T, tests []expressionTestT) {
 	lang.InitEnv()
 	defaults.Config(lang.ShellProcess.Config, false)
 	p := lang.NewTestProcess()
-	p.Config.Set("proc", "strict-vars", false, nil)
-	p.Config.Set("proc", "strict-arrays", false, nil)
+	if err := p.Config.Set("proc", "strict-vars", false, nil); err != nil {
+		panic(err)
+	}
+	if err := p.Config.Set("proc", "strict-arrays", false, nil); err != nil {
+		panic(err)
+	}
+	if err := p.Config.Set("proc", "strict-types", strictTypes, nil); err != nil {
+		panic(err)
+	}
 
 	for i, test := range tests {
 		tree := NewParser(p, []rune(test.Expression), 0)

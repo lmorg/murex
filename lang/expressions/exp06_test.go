@@ -44,7 +44,7 @@ func TestExpGreaterThan(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpGreaterThanOrEqual(t *testing.T) {
@@ -89,7 +89,7 @@ func TestExpGreaterThanOrEqual(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpLessThan(t *testing.T) {
@@ -134,7 +134,7 @@ func TestExpLessThan(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
 
 func TestExpLessThanOrEqual(t *testing.T) {
@@ -179,5 +179,5 @@ func TestExpLessThanOrEqual(t *testing.T) {
 		},
 	}
 
-	testExpression(t, tests)
+	testExpression(t, tests, true)
 }
