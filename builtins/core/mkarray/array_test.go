@@ -96,6 +96,22 @@ func TestArrayDecTyped(t *testing.T) {
 			Stdout: "[0,1,2,3,4,5,6,7,8,9,10]",
 		},
 		{
+			Block:  `ta: json [1,3..5,7]`,
+			Stdout: "[1,3,4,5,7]",
+		},
+		{
+			Block:  `ta: json [01,3..5,7]`,
+			Stdout: `["01","3","4","5","7"]`,
+		},
+		{
+			Block:  `ta: json [1,03..5,7]`,
+			Stdout: `["1","03","04","05","7"]`,
+		},
+		{
+			Block:  `ta: json [1,3..5,07]`,
+			Stdout: `["1","3","4","5","07"]`,
+		},
+		{
 			Block:  `ta: json [01..10]`,
 			Stdout: `["01","02","03","04","05","06","07","08","09","10"]`,
 		},
@@ -139,6 +155,38 @@ func TestArrayDecTyped(t *testing.T) {
 		{
 			Block:  `ja: [10..00]`,
 			Stdout: `["10","09","08","07","06","05","04","03","02","01","00"]`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestArrayJson(t *testing.T) {
+	tests := []test.MurexTest{
+		// Decimal, typed
+		{
+			Block:  `ja: [0..10]`,
+			Stdout: "[0,1,2,3,4,5,6,7,8,9,10]",
+		},
+		{
+			Block:  `ja: [1,3..5,7]`,
+			Stdout: "[1,3,4,5,7]",
+		},
+		{
+			Block:  `ja: [01,3..5,7]`,
+			Stdout: `["01","3","4","5","7"]`,
+		},
+		{
+			Block:  `ja: [1,03..5,7]`,
+			Stdout: `["1","03","04","05","7"]`,
+		},
+		{
+			Block:  `ja: [1,3..5,07]`,
+			Stdout: `["1","3","4","5","07"]`,
+		},
+		{
+			Block:  `ja: [01..10]`,
+			Stdout: `["01","02","03","04","05","06","07","08","09","10"]`,
 		},
 	}
 
