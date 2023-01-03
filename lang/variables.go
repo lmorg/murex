@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
@@ -304,9 +305,37 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
-	s, err := types.ConvertGoType(value, types.String)
+	var (
+		s     string
+		iface interface{}
+		err   error
+	)
+
+	switch v := value.(type) {
+	case float64, int, bool, nil:
+		s, err = varConvertPrimitive(value)
+		iface = value
+	case string:
+		if dataType != types.String && dataType != types.Generic {
+			iface, err = varConvertString([]byte(v), dataType)
+		}
+		s = v
+	case []byte:
+		if dataType != types.String && dataType != types.Generic {
+			iface, err = varConvertString(v, dataType)
+		}
+		s = string(v)
+	case []rune:
+		if dataType != types.String && dataType != types.Generic {
+			iface, err = varConvertString([]byte(string(v)), dataType)
+		}
+		s = string(v)
+	default:
+		s, err = varConvertInterface(v, dataType)
+		iface = value
+	}
 	if err != nil {
-		return fmt.Errorf("cannot store variable: %s", err.Error())
+		return err
 	}
 
 	fileRef := v.process.FileRef
@@ -317,8 +346,8 @@ notReserved:
 	v.mutex.Lock()
 
 	v.vars[name] = &variable{
-		Value:    value,
-		String:   s.(string),
+		Value:    iface,
+		String:   s,
 		DataType: dataType,
 		Modify:   time.Now(),
 		FileRef:  fileRef,
@@ -327,6 +356,42 @@ notReserved:
 	v.mutex.Unlock()
 
 	return nil
+}
+
+const errCannotStoreVariable = "cannot store variable"
+
+func varConvertPrimitive(value interface{}) (string, error) {
+	s, err := types.ConvertGoType(value, types.String)
+	if err != nil {
+		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	return s.(string), nil
+}
+
+func varConvertString(value []byte, dataType string) (interface{}, error) {
+	p := new(Process)
+	p.Stdin = streams.NewStdin()
+	_, err := p.Stdin.Write([]byte(value))
+	if err != nil {
+		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	v, err := UnmarshalData(p, dataType)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	return v, nil
+}
+
+func varConvertInterface(value interface{}, dataType string) (string, error) {
+	b, err := MarshalData(ShellProcess, dataType, value)
+	if err != nil {
+		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	s, err := types.ConvertGoType(b, types.String)
+	if err != nil {
+		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	return s.(string), nil
 }
 
 // Unset removes a variable from the table

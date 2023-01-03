@@ -243,9 +243,6 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 	case String:
 		return v, nil
 
-	//case Json, JsonLines:
-	//	return fmt.Sprintf(`{ "Value": %s }`, strconv.Quote(v)), nil
-
 	case Null:
 		return "", nil
 

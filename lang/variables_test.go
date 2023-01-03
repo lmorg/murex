@@ -30,7 +30,6 @@ func testVariables(t *testing.T, flags int, details string) {
 
 	InitEnv()
 
-	count.Tests(t, 4)
 	p := NewTestProcess()
 
 	// Create a referenced variable table

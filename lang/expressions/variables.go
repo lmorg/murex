@@ -208,7 +208,7 @@ func formatBytes(b []byte, dataType string, strOrVal varFormatting) (interface{}
 	}
 
 	switch dataType {
-	case types.Number, types.Integer, types.Boolean, types.Null, types.Float:
+	case types.Number, types.String, types.Integer, types.Boolean, types.Null, types.Float:
 		v, err := types.ConvertGoType(b, dataType)
 		if err != nil {
 			return nil, err

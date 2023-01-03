@@ -1,7 +1,6 @@
 package expressions
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/expressions/primitives"
@@ -27,20 +26,7 @@ func expAssign(tree *ParserT) error {
 			tree.currentSymbol().key, right.key))
 	}
 
-	var v interface{}
-	switch right.dt.Primitive {
-	case primitives.Array, primitives.Object, primitives.Other:
-		b, err := json.Marshal(right.dt.Value)
-		if err != nil {
-			return err
-		}
-		v = string(b)
-
-	default:
-		v = right.dt.Value
-	}
-
-	err = tree.setVar(left.value, v, right.dt.DataType())
+	err = tree.setVar(left.value, right.dt.Value, right.dt.DataType())
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}
