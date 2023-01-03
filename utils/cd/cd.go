@@ -55,6 +55,6 @@ func Chdir(p *lang.Process, path string) error {
 		pwdHist = []string{pwd}
 	}
 
-	lang.GlobalVariables.Set(p, GlobalVarName, pwdHist, types.Json)
+	err = lang.GlobalVariables.Set(p, GlobalVarName, pwdHist, types.Json)
 	return err
 }
