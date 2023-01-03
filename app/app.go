@@ -8,7 +8,7 @@ const Name = "murex"
 const Version = "3.0.9210 BETA"
 
 // Copyright is the copyright owner string
-const Copyright = "© 2018-2022 Laurence Morgan"
+const Copyright = "© 2018-2023 Laurence Morgan"
 
 // License is the projects software license
 const License = "License GPL v2"
