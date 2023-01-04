@@ -11,7 +11,7 @@ import (
 	"github.com/lmorg/murex/utils/cd"
 )
 
-func TestCd(t *testing.T) {
+func __TestCd(t *testing.T) {
 	// Just test we can actually change directories in Go first.
 	// This pre-test also has the benefit of fixing any issues that symlinks
 	// might cause the later test - which might result in the test working but

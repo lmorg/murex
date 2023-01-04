@@ -7,7 +7,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
@@ -305,7 +304,7 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
-	var (
+	/*var (
 		s     string
 		iface interface{}
 		err   error
@@ -336,6 +335,11 @@ notReserved:
 	}
 	if err != nil {
 		return err
+	}*/
+
+	s, err := types.ConvertGoType(value, types.String)
+	if err != nil {
+		return fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
 
 	fileRef := v.process.FileRef
@@ -346,8 +350,8 @@ notReserved:
 	v.mutex.Lock()
 
 	v.vars[name] = &variable{
-		Value:    iface,
-		String:   s,
+		Value:    value,
+		String:   s.(string),
 		DataType: dataType,
 		Modify:   time.Now(),
 		FileRef:  fileRef,
@@ -360,7 +364,7 @@ notReserved:
 
 const errCannotStoreVariable = "cannot store variable"
 
-func varConvertPrimitive(value interface{}) (string, error) {
+/*func varConvertPrimitive(value interface{}) (string, error) {
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
@@ -392,7 +396,7 @@ func varConvertInterface(value interface{}, dataType string) (string, error) {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
 	return s.(string), nil
-}
+}*/
 
 // Unset removes a variable from the table
 func (v *Variables) Unset(name string) error {
