@@ -60,22 +60,22 @@ func testVariables(t *testing.T, flags int, details string) {
 	// test GetValue
 	count.Tests(t, 4)
 
-	v, _ := copy.GetValue("number")
+	v := panicErr(copy.GetValue("number"))
 	if v.(float64) != copyNum {
 		t.Error("Copy var table not returning correct number using GetValue.")
 	}
 
-	v, _ = copy.GetValue("integer")
+	v = panicErr(copy.GetValue("integer"))
 	if v.(int) != copyInt {
 		t.Error("Copy var table not returning correct integer using GetValue.")
 	}
 
-	v, _ = copy.GetValue("string")
+	v = panicErr(copy.GetValue("string"))
 	if v.(string) != copyStr {
 		t.Error("Copy var table not returning correct string using GetValue.")
 	}
 
-	v, _ = copy.GetValue("boolean")
+	v = panicErr(copy.GetValue("boolean"))
 	if v.(bool) != copyBool {
 		t.Error("Copy var table not returning correct boolean using GetValue.")
 	}
@@ -101,8 +101,16 @@ func testVariables(t *testing.T, flags int, details string) {
 	}
 }
 
+func panicErr(v interface{}, err error) interface{} {
+	if err != nil {
+		panic(err)
+	}
+
+	return v
+}
+
 // TestReservedVariables tests the Vars structure
-func TestReservedVarables(t *testing.T) {
+func TestReservedVariables(t *testing.T) {
 	p := NewTestProcess()
 
 	reserved := []string{

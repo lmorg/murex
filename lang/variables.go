@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
@@ -304,7 +305,7 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
-	/*var (
+	var (
 		s     string
 		iface interface{}
 		err   error
@@ -315,31 +316,32 @@ notReserved:
 		s, err = varConvertPrimitive(value)
 		iface = value
 	case string:
+		s = v
 		if dataType != types.String && dataType != types.Generic {
 			iface, err = varConvertString([]byte(v), dataType)
+		} else {
+			iface = s
 		}
-		s = v
 	case []byte:
+		s = string(v)
 		if dataType != types.String && dataType != types.Generic {
 			iface, err = varConvertString(v, dataType)
+		} else {
+			iface = s
 		}
-		s = string(v)
 	case []rune:
+		s = string(v)
 		if dataType != types.String && dataType != types.Generic {
 			iface, err = varConvertString([]byte(string(v)), dataType)
+		} else {
+			iface = s
 		}
-		s = string(v)
 	default:
 		s, err = varConvertInterface(v, dataType)
 		iface = value
 	}
 	if err != nil {
 		return err
-	}*/
-
-	s, err := types.ConvertGoType(value, types.String)
-	if err != nil {
-		return fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
 
 	fileRef := v.process.FileRef
@@ -350,8 +352,8 @@ notReserved:
 	v.mutex.Lock()
 
 	v.vars[name] = &variable{
-		Value:    value,
-		String:   s.(string),
+		Value:    iface,
+		String:   s,
 		DataType: dataType,
 		Modify:   time.Now(),
 		FileRef:  fileRef,
@@ -364,7 +366,7 @@ notReserved:
 
 const errCannotStoreVariable = "cannot store variable"
 
-/*func varConvertPrimitive(value interface{}) (string, error) {
+func varConvertPrimitive(value interface{}) (string, error) {
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
@@ -373,13 +375,20 @@ const errCannotStoreVariable = "cannot store variable"
 }
 
 func varConvertString(value []byte, dataType string) (interface{}, error) {
+	UnmarshalData := Unmarshallers[dataType]
+
+	// no unmarshaller exists so lets just return the bare string
+	if UnmarshalData == nil {
+		return string(value), nil
+	}
+
 	p := new(Process)
 	p.Stdin = streams.NewStdin()
 	_, err := p.Stdin.Write([]byte(value))
 	if err != nil {
 		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
-	v, err := UnmarshalData(p, dataType)
+	v, err := UnmarshalData(p)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
@@ -387,7 +396,18 @@ func varConvertString(value []byte, dataType string) (interface{}, error) {
 }
 
 func varConvertInterface(value interface{}, dataType string) (string, error) {
-	b, err := MarshalData(ShellProcess, dataType, value)
+	MarshalData := Marshallers[dataType]
+
+	// no marshaller exists so lets just return the bare string
+	if MarshalData == nil {
+		s, err := types.ConvertGoType(value, types.String)
+		if err != nil {
+			return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		}
+		return s.(string), nil
+	}
+
+	b, err := MarshalData(ShellProcess, value)
 	if err != nil {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
@@ -396,7 +416,7 @@ func varConvertInterface(value interface{}, dataType string) (string, error) {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
 	return s.(string), nil
-}*/
+}
 
 // Unset removes a variable from the table
 func (v *Variables) Unset(name string) error {

@@ -5,13 +5,14 @@ import (
 	"strings"
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/cd"
 )
 
-func __TestCd(t *testing.T) {
+func TestCd(t *testing.T) {
 	// Just test we can actually change directories in Go first.
 	// This pre-test also has the benefit of fixing any issues that symlinks
 	// might cause the later test - which might result in the test working but

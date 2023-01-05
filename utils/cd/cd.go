@@ -8,7 +8,6 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/cd/cache"
-	"github.com/lmorg/murex/utils/json"
 )
 
 // GlobalVarName is the name of the path history variable that `cd` writes to
@@ -56,10 +55,6 @@ func Chdir(p *lang.Process, path string) error {
 		pwdHist = []string{pwd}
 	}
 
-	b, _ := json.Marshal(pwdHist, true)
-	if err != nil {
-		return err
-	}
-	err = lang.GlobalVariables.Set(p, GlobalVarName, string(b), types.Json)
+	err = lang.GlobalVariables.Set(p, GlobalVarName, pwdHist, types.Json)
 	return err
 }
