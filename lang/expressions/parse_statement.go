@@ -366,7 +366,11 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				if err != nil {
 					return err
 				}
-				processStatementArrays(tree, value, v, exec)
+				if exec {
+					processStatementArrays(tree, value, v, exec)
+				} else {
+					appendToParam(tree, value...)
+				}
 			default:
 				appendToParam(tree, r)
 			}

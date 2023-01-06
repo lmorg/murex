@@ -320,7 +320,6 @@ func TestParseBlockHyphen(t *testing.T) {
 	}
 }
 
-
 func TestParseBlockCommentHash(t *testing.T) {
 	tests := []test.MurexTest{
 		{
@@ -334,4 +333,46 @@ func TestParseBlockCommentHash(t *testing.T) {
 	}
 
 	test.RunMurexTests(tests, t)
+}
+
+func TestParseBlockArrayPanicBugFix(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:   `TestParseBlockArrayPanicBugFix0 = @TestParseBlockArrayPanicBugFix0[0]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `@TestParseBlockArrayPanicBugFix1[1]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `echo @TestParseBlockArrayPanicBugFix2[22]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `echo @3[333]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `echo @44[44]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `echo @555[5]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+		{
+			Block:   `echo @6666[]`,
+			Stderr:  `Error`,
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
 }

@@ -91,3 +91,4 @@ func TestParseBareword(t *testing.T) {
 
 	testParserSymbol(t, tests)
 }
+

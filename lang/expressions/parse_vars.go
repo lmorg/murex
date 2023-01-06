@@ -116,9 +116,7 @@ func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface
 
 	start := tree.charPos
 
-	tree.charPos++
-
-	for ; tree.charPos < len(tree.expression); tree.charPos++ {
+	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 
 		switch {
@@ -142,10 +140,13 @@ func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface
 
 endRange:
 	key := tree.expression[start+1 : tree.charPos]
-	tree.charPos++
-	flags := tree.parseBareword()
+	flags := []rune{}
+	if isBareChar(tree.nextChar()) {
+		tree.charPos++
+		flags = tree.parseBareword()
+		tree.charPos--
+	}
 	value := tree.expression[start-len(varName)-1 : tree.charPos]
-	tree.charPos--
 
 	if !exec {
 		return value, "", nil
