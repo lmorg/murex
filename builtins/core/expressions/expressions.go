@@ -26,18 +26,16 @@ func cmdExpressions(p *lang.Process) error {
 		return err
 	}
 
-	/*if lang.Marshallers[dt] == nil {
-		pipe := streams.NewStdin()
-		_, err = pipe.Write([]byte(result.Value.(string)))
+	var b []byte
+
+	switch result.Value.(type) {
+	case string:
+		b = []byte(result.Value.(string))
+	default:
+		b, err = lang.MarshalData(p, dt, result.Value)
 		if err != nil {
 			return err
 		}
-		return open.OpenPipe(p, pipe)
-	}*/
-
-	b, err := lang.MarshalData(p, dt, result.Value)
-	if err != nil {
-		return err
 	}
 
 	if dt == types.Boolean && !types.IsTrue(b, 0) {

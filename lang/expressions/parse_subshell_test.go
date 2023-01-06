@@ -163,3 +163,29 @@ func TestParseSubShellEmptyArrayBugFix(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseSubShellArrayJson(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `echo @{tout json [1,2,3] }`,
+			Stdout: "1 2 3\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseSubShellBugFixJsonStr(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseSubShellBugFixJsonStr0 = %[1 2 3]; echo @{ $TestParseSubShellBugFixJsonStr0 }`,
+			Stdout: "1 2 3\n",
+		},
+		{
+			Block:  `TestParseSubShellBugFixJsonStr1 = %{a:1, b:2, c:[1 2 3]}; echo @{ $TestParseSubShellBugFixJsonStr1[c] }`,
+			Stdout: "1 2 3\n",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
