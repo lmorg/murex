@@ -7,6 +7,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/types/generic"
 	_ "github.com/lmorg/murex/builtins/types/json"
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/test"
 )
 
 func TestParseArray(t *testing.T) {
@@ -171,4 +172,15 @@ func TestParseArrayBarewords(t *testing.T) {
 	}
 
 	testParserObject(t, tests)
+}
+
+func TestParseArrayWithArrayVar(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `bob = %{a:1, b:2, c:[a b c]}; %[x y z @bob[c] ]`,
+			Stdout: `["x","y","z","a","b","c"]`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }

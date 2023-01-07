@@ -1,10 +1,12 @@
 package ranges
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -31,7 +33,11 @@ func CmdRange(p *lang.Process) (err error) {
 
 	split := RxSplitRange.FindStringSubmatch(s)
 	if len(split) != 4 {
-		return fmt.Errorf("invalid syntax: could not separate component values: %v.%s", split, usage)
+		err = indexAndExpand(p, dt)
+		if err != nil {
+			return fmt.Errorf("Not a valid range: %v.%s\nNor a valid index: %v", split, usage, err)
+		}
+		return nil
 	}
 
 	r := &rangeParameters{
@@ -89,4 +95,51 @@ func CmdRange(p *lang.Process) (err error) {
 	}
 
 	return readArray(p, r, dt)
+}
+
+func indexAndExpand(p *lang.Process, dt string) (err error) {
+	if !debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("panic caught, please report this to https://github.com/lmorg/murex/issues : %s", r)
+			}
+		}()
+	}
+
+	// We will set data type from the index function but fallback to this just
+	// in case it's forgotten about in the index function. This is safe because
+	// SetDataType() cannot overwrite the data type once set.
+	defer p.Stdout.SetDataType(dt)
+
+	params := p.Parameters.StringArray()
+	l := len(params) - 1
+	if l < 0 {
+		return errors.New("missing parameters. Please select 1 or more indexes")
+	}
+
+	switch {
+	case params[l] == "]":
+		params = params[:l]
+	case strings.HasSuffix(params[l], "]"):
+		params[l] = params[l][:len(params[l])-1]
+	default:
+		return errors.New("missing closing bracket, ` ]`")
+	}
+
+	f := lang.ReadIndexes[dt]
+	if f == nil {
+		return errors.New("i don't know how to get an index from this data type: `" + dt + "`")
+	}
+
+	silent, err := p.Config.Get("index", "silent", types.Boolean)
+	if err != nil {
+		silent = false
+	}
+
+	err = f(p, params)
+	if silent.(bool) {
+		return nil
+	}
+
+	return err
 }

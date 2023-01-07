@@ -140,12 +140,12 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				if err != nil {
 					return nil, nil, err
 				}
-
 			default:
 				name, v, err = tree.parseVarArray(exec)
 				if err != nil {
 					return nil, nil, err
 				}
+				//tree.charPos++
 			}
 			switch t := v.(type) {
 			case nil:
@@ -154,10 +154,13 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 				slice = append(slice, t...)
 			case []string, []float64, []int:
 				slice = append(slice, v.([]interface{})...)
+			case string:
+				slice = append(slice, t)
 			default:
-				return nil, nil, fmt.Errorf(
-					"cannot expand %T into an array type\nVariable name: @%s",
-					t, string(name))
+				return nil, nil, raiseError(tree.expression, nil, tree.charPos,
+					fmt.Sprintf(
+						"cannot expand %T into an array type\nVariable name: @%s",
+						t, string(name)))
 			}
 
 		case '\n':
