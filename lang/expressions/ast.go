@@ -187,6 +187,12 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 			Value:     nil,
 		}, nil
 
+	case symbols.Null:
+		return &primitives.DataType{
+			Primitive: primitives.Null,
+			Value:     nil,
+		}, nil
+
 	}
 
 	return nil, raiseError(nil, node, 0, fmt.Sprintf("unexpected error converting node to primitive (%s)", consts.IssueTrackerURL))

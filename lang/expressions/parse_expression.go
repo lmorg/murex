@@ -341,6 +341,8 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				switch string(value) {
 				case "true", "false":
 					tree.appendAst(symbols.Boolean, value...)
+				case "null":
+					tree.appendAst(symbols.Null, value...)
 				default:
 					tree.appendAst(symbols.Bareword, value...)
 				}

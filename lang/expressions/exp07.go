@@ -16,38 +16,14 @@ func expEqualFunc(tree *ParserT) (*primitives.DataType, error) {
 		return nil, err
 	}
 
-	var lv *interface{}
-	var rv *interface{}
-
-	switch left.dt.Value.(type) {
-	case string, float64, int, bool:
-		lv = &left.dt.Value
-	default:
-		r, err := left.dt.Marshal()
-		if err != nil {
-			return nil, err
-		}
-		var s interface{}
-		s = string(r)
-		lv = &s
-	}
-
-	switch right.dt.Value.(type) {
-	case string, float64, int, bool:
-		rv = &right.dt.Value
-	default:
-		r, err := right.dt.Marshal()
-		if err != nil {
-			return nil, err
-		}
-		var s interface{}
-		s = string(r)
-		rv = &s
+	lv, rv, err := compareTypes(tree, left, right)
+	if err != nil {
+		return nil, err
 	}
 
 	return &primitives.DataType{
 		Primitive: primitives.Boolean,
-		Value:     *lv == *rv,
+		Value:     lv == rv,
 	}, nil
 }
 

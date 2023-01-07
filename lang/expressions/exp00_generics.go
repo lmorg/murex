@@ -42,7 +42,6 @@ func validateNumericalDataTypes(tree *ParserT, left *astNodeT, right *astNodeT, 
 			}
 			return lv, rv, nil
 		}
-
 	}
 
 	lv, err := types.ConvertGoType(left.dt.Value, types.Number)
@@ -56,4 +55,31 @@ func validateNumericalDataTypes(tree *ParserT, left *astNodeT, right *astNodeT, 
 	}
 
 	return lv.(float64), rv.(float64), nil
+}
+
+func compareTypes(tree *ParserT, left *astNodeT, right *astNodeT) (interface{}, interface{}, error) {
+	if tree.StrictTypes() {
+		if left.dt.Primitive != right.dt.Primitive {
+			return nil, nil, raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
+				"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
+			))
+		}
+		return left.dt.Value, right.dt.Value, nil
+	}
+
+	if left.dt.Primitive == right.dt.Primitive {
+		return left.dt.Value, right.dt.Value, nil
+	}
+
+	lv, err := types.ConvertGoType(left.dt.Value, types.String)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	rv, err := types.ConvertGoType(right.dt.Value, types.String)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return lv, rv, nil
 }

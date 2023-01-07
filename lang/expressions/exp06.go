@@ -13,20 +13,19 @@ func expGreaterThan(tree *ParserT) error {
 		return err
 	}
 
-	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
-		))
-	}
-
 	var value bool
 
-	switch left.dt.Primitive {
-	case primitives.Number:
-		value = left.dt.Value.(float64) > right.dt.Value.(float64)
+	lv, rv, err := compareTypes(tree, left, right)
+	if err != nil {
+		return err
+	}
 
-	case primitives.String:
-		value = left.dt.Value.(string) > right.dt.Value.(string)
+	switch lv.(type) {
+	case float64:
+		value = lv.(float64) > rv.(float64)
+
+	case string:
+		value = lv.(string) > rv.(string)
 
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -50,20 +49,19 @@ func expGreaterThanOrEqual(tree *ParserT) error {
 		return err
 	}
 
-	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
-		))
-	}
-
 	var value bool
 
-	switch left.dt.Primitive {
-	case primitives.Number:
-		value = left.dt.Value.(float64) >= right.dt.Value.(float64)
+	lv, rv, err := compareTypes(tree, left, right)
+	if err != nil {
+		return err
+	}
 
-	case primitives.String:
-		value = left.dt.Value.(string) >= right.dt.Value.(string)
+	switch lv.(type) {
+	case float64:
+		value = lv.(float64) >= rv.(float64)
+
+	case string:
+		value = lv.(string) >= rv.(string)
 
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -87,20 +85,19 @@ func expLessThan(tree *ParserT) error {
 		return err
 	}
 
-	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
-		))
-	}
-
 	var value bool
 
-	switch left.dt.Primitive {
-	case primitives.Number:
-		value = left.dt.Value.(float64) < right.dt.Value.(float64)
+	lv, rv, err := compareTypes(tree, left, right)
+	if err != nil {
+		return err
+	}
 
-	case primitives.String:
-		value = left.dt.Value.(string) < right.dt.Value.(string)
+	switch lv.(type) {
+	case float64:
+		value = lv.(float64) < rv.(float64)
+
+	case string:
+		value = lv.(string) < rv.(string)
 
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
@@ -124,20 +121,19 @@ func expLessThanOrEqual(tree *ParserT) error {
 		return err
 	}
 
-	if left.dt.Primitive != right.dt.Primitive {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
-			"cannot compare %s with %s", left.dt.Primitive, right.dt.Primitive,
-		))
-	}
-
 	var value bool
 
-	switch left.dt.Primitive {
-	case primitives.Number:
-		value = left.dt.Value.(float64) <= right.dt.Value.(float64)
+	lv, rv, err := compareTypes(tree, left, right)
+	if err != nil {
+		return err
+	}
 
-	case primitives.String:
-		value = left.dt.Value.(string) <= right.dt.Value.(string)
+	switch lv.(type) {
+	case float64:
+		value = lv.(float64) <= rv.(float64)
+
+	case string:
+		value = lv.(string) <= rv.(string)
 
 	default:
 		return raiseError(tree.expression, tree.currentSymbol(), 0, fmt.Sprintf(
