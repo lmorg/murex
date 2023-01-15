@@ -35,7 +35,7 @@ func OutSetDataTypeIPC() {
 
 // SetDataType writes the data type to a special pipe when run under murex
 func (t *Out) SetDataType(dt string) {
-	/*if !outSetDataTypeFd3 || len(dt) == 0 || dt == types.Null {
+	/*if !OutSetDataTypeIPC || len(dt) == 0 || dt == types.Null {
 		return
 	}
 
@@ -45,7 +45,7 @@ func (t *Out) SetDataType(dt string) {
 		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
 	}
 
-	outSetDataTypeFd3 = false
+	OutSetDataTypeIPC = false
 	f.Close()*/
 }
 

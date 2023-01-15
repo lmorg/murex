@@ -56,7 +56,7 @@ func validateProfilePath(envvar, defaultFileName string) string {
 	return path
 }
 
-// MudulePath returns the install path of the murex modules / packages
+// ModulePath returns the install path of the murex modules / packages
 func ModulePath() string {
 	path := os.Getenv(ModuleEnvVar)
 	if strings.TrimSpace(path) == "" {
