@@ -24,8 +24,6 @@ var (
 	fVersion2    bool
 	fSh          bool
 	fRunTests    bool
-	fCpuProfile  string
-	fMemProfile  string
 )
 
 func readFlags() {
@@ -47,9 +45,6 @@ func readFlags() {
 
 	flag.BoolVar(&lang.FlagTry, "try", false, "Enable a global `try` block")
 	flag.BoolVar(&lang.FlagTryPipe, "trypipe", false, "Enable a global `trypipe` block")
-
-	flag.StringVar(&fCpuProfile, "cpuprofile", "", "Write cpu profile to `file`")
-	flag.StringVar(&fMemProfile, "memprofile", "", "Write memory profile to `file`")
 
 	flag.Parse()
 

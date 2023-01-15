@@ -26,6 +26,7 @@ wasm_exec.js
 /test/tmp
 *.test
 *.prof
+*.pprof
 
 # IDE
 .idea/

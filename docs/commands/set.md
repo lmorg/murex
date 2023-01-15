@@ -2,13 +2,11 @@
 
 ## Command Reference: `set`
 
-> Define a local variable and set it's value (deprecated)
+> Define a local variable and set it's value
 
 ## Description
 
 Defines, updates or deallocates a local variable.
-
-**This is a deprecated feature. Please refer to [`expr`](expr.md) instead.**
 
 ## Usage
 
@@ -207,6 +205,8 @@ quotes:
   Runs an executable
 * [commands/`export`](../commands/export.md):
   Define an environmental variable and set it's value
+* [commands/`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):

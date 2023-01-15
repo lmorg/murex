@@ -185,4 +185,4 @@ _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More 
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

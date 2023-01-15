@@ -204,7 +204,9 @@ quotes:
   Outputs an element from an array, map or table
 * [commands/`export`](../commands/export.md):
   Define an environmental variable and set it's value
+* [commands/`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

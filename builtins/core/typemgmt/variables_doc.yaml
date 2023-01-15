@@ -3,11 +3,9 @@
     `set`
   CategoryID: commands
   Summary: >-
-    Define a local variable and set it's value (deprecated)
+    Define a local variable and set it's value
   Description: |-
     Defines, updates or deallocates a local variable.
-
-    **This is a deprecated feature. Please refer to [`expr`](expr.md) instead.**
   Usage: |-
     ```
     <stdin> -> set var_name
@@ -59,6 +57,7 @@
   - global
   - let
   - equ
+  - expr
   - export
   - exec
   - brace-quote
@@ -128,6 +127,7 @@
   - set
   - let
   - equ
+  - expr
   - export
   - brace-quote
   - index
@@ -212,6 +212,7 @@
   - set
   - let
   - equ
+  - expr
   - global
   - brace-quote
   - user-guide/scoping

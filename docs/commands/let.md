@@ -335,4 +335,4 @@ quotes:
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

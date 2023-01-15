@@ -147,4 +147,4 @@ Separator can also be multiple characters:
 * [commands/`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

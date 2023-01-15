@@ -151,6 +151,6 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value
 * [commands/`switch`](../commands/switch.md):
   Blocks of cascading conditionals

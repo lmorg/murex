@@ -3,7 +3,31 @@
 This is a cheat sheet reference for Bash developers wishing to accelerate
 their introduction into _murex_:
 
-## Functions / Methods
+## Expressions and Statements
+
+An **expression** is an evaluation, operation or assignment, for example:
+```
+» 6 > 5
+» fruit = %[ apples oranges bananas ]
+» 5 + 5
+```
+
+Whereas a **statement** is simple a shell command:
+```
+» echo "hello world"
+```
+
+Due to the expectation of shell commands supporting bareword parameters,
+expressions have to be parsed differently to statements. _murex_ first parses
+a command line to see if it is a valid expression, and if it is not, it then
+assumes it is an statement and parses it as such.
+
+Expressions and statements can still be used interchangeably in a pipeline. eg
+```
+» 5 + 5 | grep 10
+```
+
+## Functions and Methods
 
 _murex_ makes the distinction between commands that are designed to create data
 (functions) and those that process data from STDIN (methods).
@@ -23,7 +47,7 @@ powerful suggestions based on the expected output of the previous command.
 > In the _murex_ docs you might notice commands are often followed by a colon,
 > for example:
 > ```
-> echo: bob | grep: foobar
+> » echo: bob | grep: foobar
 > ```
 > This colon providers the parser with hints as to whether a line of code is
 > an executable or an expression. However _murex_ can make inference about the
@@ -34,9 +58,16 @@ powerful suggestions based on the expected output of the previous command.
 
 All variables are defined with one of three key words:
 
-* set    - local variables         ([read more](commands/set.md))
-* global - global variables        ([read more](commands/global.md))
-* export - environmental variables ([read more](commands/export.md))
+* `set`    - local variables         ([read more](commands/set.md))
+* `global` - global variables        ([read more](commands/global.md))
+* `export` - environmental variables ([read more](commands/export.md))
+
+...or via an expression:
+
+* `name = "bob"`
+* `age = 20 * 2`
+* `fruit = %[ apples oranges bananas ]`
+
 
 If any variables are unset then reading from them will produce an error (under
 _murex_'s default behavior):

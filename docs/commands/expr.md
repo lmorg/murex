@@ -35,4 +35,4 @@ JSON array:
 * [commands/`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

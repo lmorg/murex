@@ -323,7 +323,7 @@ functions.
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
 * [commands/`test`](../commands/test.md):

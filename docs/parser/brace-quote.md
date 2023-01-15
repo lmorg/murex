@@ -58,4 +58,4 @@ Quotes can also work over multiple lines
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

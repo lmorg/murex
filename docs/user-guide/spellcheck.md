@@ -156,4 +156,4 @@ and what the package names are for `aspell` and its corresponding dictionaries.
 * [commands/`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value

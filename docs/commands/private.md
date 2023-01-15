@@ -111,6 +111,6 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [commands/`method`](../commands/method.md):
   Define a methods supported data-types
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value
 * [commands/`source` ](../commands/source.md):
   Import _murex_ code from another file of code block

@@ -88,7 +88,7 @@ when there are more than 2 columns. In those instances you're better off using
 * [types/`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value
 * [commands/`tabulate`](../commands/tabulate.md):
   Table transformation tools
 * [commands/`while`](../commands/while.md):

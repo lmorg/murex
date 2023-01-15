@@ -71,4 +71,4 @@ handles any programs that aren't native to _murex_.
 * [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
 * [commands/`set`](../commands/set.md):
-  Define a local variable and set it's value (deprecated)
+  Define a local variable and set it's value
