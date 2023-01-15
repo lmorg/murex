@@ -18,47 +18,55 @@ const (
 )
 
 func init() {
-	lang.ProfCpuCleanUp = cpuProfile
-	lang.ProfMemCleanUp = memProfile
+	lang.ProfCpuCleanUp = cpuProfile()
+	lang.ProfMemCleanUp = memProfile()
 }
 
-func cpuProfile() {
-	fmt.Fprintf(os.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
+func cpuProfile() func() {
+	if fCpuProfile != "" {
+		fmt.Fprintf(os.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
 
-	f, err := os.Create(fCpuProfile)
-	if err != nil {
-		panic(err)
-	}
-	if err := pprof.StartCPUProfile(f); err != nil {
-		panic(err)
-	}
-
-	return func() {
-		pprof.StopCPUProfile()
-		if err = f.Close(); err != nil {
+		f, err := os.Create(fCpuProfile)
+		if err != nil {
+			panic(err)
+		}
+		if err := pprof.StartCPUProfile(f); err != nil {
 			panic(err)
 		}
 
-		fmt.Fprintf(os.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
+		return func() {
+			pprof.StopCPUProfile()
+			if err = f.Close(); err != nil {
+				panic(err)
+			}
+
+			fmt.Fprintf(os.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
+		}
 	}
+
+	return func() {}
 }
 
-func memProfile() {
-	fmt.Fprintf(os.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
+func memProfile() func() {
+	if fMemProfile != "" {
+		fmt.Fprintf(os.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
 
-	f, err := os.Create(fMemProfile)
-	if err != nil {
-		panic(err)
-	}
-
-	return func() {
-		runtime.GC() // get up-to-date statistics
-		if err := pprof.WriteHeapProfile(f); err != nil {
+		f, err := os.Create(fMemProfile)
+		if err != nil {
 			panic(err)
 		}
-		if err = f.Close(); err != nil {
-			panic(err)
+
+		return func() {
+			runtime.GC() // get up-to-date statistics
+			if err := pprof.WriteHeapProfile(f); err != nil {
+				panic(err)
+			}
+			if err = f.Close(); err != nil {
+				panic(err)
+			}
+			fmt.Fprintf(os.Stderr, "Memory profile written to '%s'\n", fMemProfile)
 		}
-		fmt.Fprintf(os.Stderr, "Memory profile written to '%s'\n", fMemProfile)
 	}
+
+	return func() {}
 }

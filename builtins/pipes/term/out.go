@@ -5,13 +5,9 @@ package term
 
 import (
 	"os"
-	"strconv"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/stdio"
-	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 // Terminal: Standard Out
@@ -21,8 +17,8 @@ type Out struct {
 	term
 }
 
-func OutSetDataTypeFd3() {
-	murexPid, exists := os.LookupEnv(consts.EnvMurexPid)
+func OutSetDataTypeIPC() {
+	/*murexPid, exists := os.LookupEnv(consts.EnvMurexPid)
 
 	if !exists {
 		return
@@ -32,14 +28,14 @@ func OutSetDataTypeFd3() {
 		return
 	}
 
-	outSetDataTypeFd3 = true
+	outSetDataTypeFd3 = true*/
 }
 
-var outSetDataTypeFd3 bool
+//var OutSetDataTypeIPC bool
 
 // SetDataType writes the data type to a special pipe when run under murex
 func (t *Out) SetDataType(dt string) {
-	if !outSetDataTypeFd3 || len(dt) == 0 || dt == types.Null {
+	/*if !outSetDataTypeFd3 || len(dt) == 0 || dt == types.Null {
 		return
 	}
 
@@ -50,7 +46,7 @@ func (t *Out) SetDataType(dt string) {
 	}
 
 	outSetDataTypeFd3 = false
-	f.Close()
+	f.Close()*/
 }
 
 // Write is the io.Writer() interface for term

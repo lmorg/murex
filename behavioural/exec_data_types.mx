@@ -1,6 +1,6 @@
 # This file tests murex data types are being sent and received across `exec` process boundaries
 
-function exec.datatypes.murex.mx {
+/#function exec.datatypes.murex.mx {
     tout foo 5 | exec $MUREX_EXE behavioural/exec_data_types.mx.murex
 }
 
@@ -36,4 +36,4 @@ if { os posix } then {
         "StdoutMatch": "rab\n",
         "ExitNum":     0
     }
-}
+}#/

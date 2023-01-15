@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -120,7 +119,7 @@ func execute(p *Process) error {
 	// Define MUREX DATA TYPE (fd 3)
 	// ***
 
-	var failedPipe bool
+	/*var failedPipe bool
 	mxdtR, mxdtW, err := os.Pipe()
 	if err != nil {
 		os.Stderr.WriteString("unable to create murex data type output file for external process: " + err.Error() + "\n")
@@ -130,7 +129,7 @@ func execute(p *Process) error {
 
 	} else {
 		cmd.ExtraFiles = []*os.File{mxdtW}
-	}
+	}*/
 
 	// ***
 	// Start process
@@ -138,8 +137,8 @@ func execute(p *Process) error {
 
 	if err := cmd.Start(); err != nil {
 		//if !strings.HasPrefix(err.Error(), "signal:") {
-		mxdtW.Close()
-		mxdtR.Close()
+		//mxdtW.Close()
+		//mxdtR.Close()
 		return err
 		//}
 	}
@@ -148,7 +147,7 @@ func execute(p *Process) error {
 	// Get murex data type
 	// ***
 
-	go func() {
+	/*go func() {
 		if failedPipe {
 			p.Stdout.SetDataType(types.Generic)
 			return
@@ -169,24 +168,24 @@ func execute(p *Process) error {
 
 		p.Stdout.SetDataType(dt)
 		mxdtR.Close()
-	}()
+	}()*/
 
 	/////////
 
 	p.Exec.Set(cmd.Process.Pid, cmd)
 
-	if err := mxdtW.Close(); err != nil {
+	/*if err := mxdtW.Close(); err != nil {
 		os.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
-	}
+	}*/
 
 	if err := cmd.Wait(); err != nil {
 		if !strings.HasPrefix(err.Error(), "signal:") {
-			mxdtR.Close()
+			//mxdtR.Close()
 			return err
 		}
 	}
 
-	mxdtR.Close()
+	//mxdtR.Close()
 	return nil
 }
 

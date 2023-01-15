@@ -92,7 +92,7 @@ func runCommandLine(commandLine string) {
 	}
 
 	// read block from command line parameters
-	term.OutSetDataTypeFd3()
+	term.OutSetDataTypeIPC()
 	execSource([]rune(commandLine), nil)
 
 	if fInteractive {
@@ -116,7 +116,7 @@ func runSource(filename string) {
 	}
 
 	// read block from disk
-	term.OutSetDataTypeFd3()
+	term.OutSetDataTypeIPC()
 	disk, err := diskSource(filename)
 	if err != nil {
 		_, err := os.Stderr.WriteString(err.Error() + "\n")
