@@ -125,12 +125,6 @@ Some of _murex_'s extended features will have additional external dependencies.
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
   [http://aspell.net](http://aspell.net)
 
-* `bzip`: This is used for the `bson` data type. By default this data type is
-  not compiled because of this dependency and thus if you require `bson`
-  support you will need to enable it manually (see **Including Optional Builtins**
-  section above).
-  [http://www.bzip.org](http://www.bzip.org)
-
 ## Recommended Terminal Typeface
 
 This is obviously just a subjective matter and everyone will have their own
