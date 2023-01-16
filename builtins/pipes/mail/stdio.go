@@ -2,6 +2,7 @@ package mail
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"io"
 	"net/smtp"
@@ -43,12 +44,12 @@ func (m *Mail) ReadLine(func([]byte)) error {
 }
 
 // ReadArray is an empty method because you cannot read a sent email
-func (m *Mail) ReadArray(func([]byte)) error {
+func (m *Mail) ReadArray(context.Context, func([]byte)) error {
 	return errors.New("ReadArray() is not supported by mail pipes")
 }
 
 // ReadArrayWithType is an empty method because you cannot read a sent email
-func (m *Mail) ReadArrayWithType(func([]byte, string)) error {
+func (m *Mail) ReadArrayWithType(context.Context, func(interface{}, string)) error {
 	return errors.New("ReadArrayWithType() is not supported by mail pipes")
 }
 

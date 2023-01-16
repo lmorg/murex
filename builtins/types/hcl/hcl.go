@@ -1,6 +1,7 @@
 package hcl
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/hashicorp/hcl"
@@ -37,22 +38,22 @@ func init() {
 	lang.SetFileExtensions(typeName, "hcl", "tf", "tfvars")
 }
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayTemplate(marshaller, hcl.Unmarshal, read, callback)
+	return lang.ArrayTemplate(ctx, marshaller, hcl.Unmarshal, read, callback)
 }
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayWithTypeTemplate(types.Json, marshaller, hcl.Unmarshal, read, callback)
+	return lang.ArrayWithTypeTemplate(ctx, types.Json, marshaller, hcl.Unmarshal, read, callback)
 }
 
 func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {

@@ -1,6 +1,9 @@
 package io
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -38,10 +41,15 @@ func cmdOut(p *lang.Process) (err error) {
 }
 
 func cmdOutNoCR(p *lang.Process) (err error) {
+	s := p.Parameters.StringAll()
+
+	if len(s) == 0 || !strings.HasSuffix(s, ")") {
+		return errors.New("missing closing ')'")
+	}
+
 	p.Stdout.SetDataType(types.String)
 
-	s := p.Parameters.StringAll()
-	s = ansi.ExpandConsts(s)
+	s = ansi.ExpandConsts(s[:len(s)-1])
 
 	_, err = p.Stdout.Write([]byte(s))
 	return

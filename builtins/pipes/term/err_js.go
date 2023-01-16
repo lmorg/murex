@@ -15,6 +15,9 @@ type Err struct {
 	term
 }
 
+// SetDataType is a null method because the term interface is write-only
+func (t *Err) SetDataType(string) {}
+
 // Write is the io.Writer() interface for term
 func (t *Err) Write(b []byte) (int, error) {
 	t.mutex.Lock()

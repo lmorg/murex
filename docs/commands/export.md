@@ -211,10 +211,12 @@ quotes:
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function
+  Evaluate a mathematical function (deprecated)
+* [commands/`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`set`](../commands/set.md):
   Define a local variable and set it's value

@@ -4,12 +4,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"runtime"
-	"runtime/pprof"
 
+	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
@@ -26,9 +25,6 @@ const (
 func main() {
 	readFlags()
 
-	lang.ProfCpuCleanUp = cpuProfile()
-	lang.ProfMemCleanUp = memProfile()
-
 	switch {
 	case fRunTests:
 		runTests()
@@ -44,55 +40,6 @@ func main() {
 	}
 
 	debug.Log("[FIN]")
-}
-
-func cpuProfile() func() {
-	if fCpuProfile != "" {
-		fmt.Fprintf(os.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
-
-		f, err := os.Create(fCpuProfile)
-		if err != nil {
-			panic(err)
-		}
-		if err := pprof.StartCPUProfile(f); err != nil {
-			panic(err)
-		}
-
-		return func() {
-			pprof.StopCPUProfile()
-			if err = f.Close(); err != nil {
-				panic(err)
-			}
-
-			fmt.Fprintf(os.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
-		}
-	}
-
-	return func() {}
-}
-
-func memProfile() func() {
-	if fMemProfile != "" {
-		fmt.Fprintf(os.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
-
-		f, err := os.Create(fMemProfile)
-		if err != nil {
-			panic(err)
-		}
-
-		return func() {
-			runtime.GC() // get up-to-date statistics
-			if err := pprof.WriteHeapProfile(f); err != nil {
-				panic(err)
-			}
-			if err = f.Close(); err != nil {
-				panic(err)
-			}
-			fmt.Fprintf(os.Stderr, "Memory profile written to '%s'\n", fMemProfile)
-		}
-	}
-
-	return func() {}
 }
 
 func runTests() error {
@@ -146,6 +93,7 @@ func runCommandLine(commandLine string) {
 	}
 
 	// read block from command line parameters
+	term.OutSetDataTypeIPC()
 	execSource([]rune(commandLine), nil)
 
 	if fInteractive {
@@ -169,6 +117,7 @@ func runSource(filename string) {
 	}
 
 	// read block from disk
+	term.OutSetDataTypeIPC()
 	disk, err := diskSource(filename)
 	if err != nil {
 		_, err := os.Stderr.WriteString(err.Error() + "\n")
@@ -195,5 +144,6 @@ func startMurex() {
 	profile.Execute(profile.F_PRELOAD | profile.F_MODULES | profile.F_PROFILE)
 
 	// start interactive shell
+	whatsnew.Display()
 	shell.Start()
 }

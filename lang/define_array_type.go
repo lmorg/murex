@@ -1,15 +1,22 @@
 package lang
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils"
 )
 
 // ArrayWithTypeTemplate is a template function for reading arrays from marshalled data
-func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte, string)) error {
+func ArrayWithTypeTemplate(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func(interface{}, string)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
+	}
+
+	if len(utils.CrLfTrim(b)) == 0 {
+		return nil
 	}
 
 	var v interface{}
@@ -20,14 +27,29 @@ func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, e
 	}
 
 	switch v := v.(type) {
+	case []interface{}:
+		return readArrayWithTypeBySliceInterface(ctx, dataType, marshal, v, callback)
+
+	case []string:
+		return readArrayWithTypeBySliceString(ctx, v, callback)
+
+	case []float64:
+		return readArrayWithTypeBySliceFloat(ctx, v, callback)
+
+	case []int:
+		return readArrayWithTypeBySliceInt(ctx, v, callback)
+
 	case string:
 		return readArrayWithTypeByString(v, callback)
 
-	case []string:
-		return readArrayWithTypeBySliceString(v, callback)
+	case []byte:
+		return readArrayWithTypeByString(string(v), callback)
 
-	case []interface{}:
-		return readArrayWithTypeBySliceInterface(dataType, marshal, v, callback)
+	case []rune:
+		return readArrayWithTypeByString(string(v), callback)
+
+	case []bool:
+		return readArrayWithTypeBySliceBool(ctx, v, callback)
 
 	/*case map[string]string:
 		return readArrayWithTypeByMapStrStr(v, callback)
@@ -54,45 +76,111 @@ func ArrayWithTypeTemplate(dataType string, marshal func(interface{}) ([]byte, e
 	}
 }
 
-func readArrayWithTypeByString(v string, callback func([]byte, string)) error {
-	callback([]byte(v), types.String)
+func readArrayWithTypeByString(v string, callback func(interface{}, string)) error {
+	callback(v, types.String)
 
 	return nil
 }
 
-func readArrayWithTypeBySliceString(v []string, callback func([]byte, string)) error {
+func readArrayWithTypeBySliceInt(ctx context.Context, v []int, callback func(interface{}, string)) error {
 	for i := range v {
-		callback([]byte(v[i]), types.String)
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.Integer)
+		}
 	}
 
 	return nil
 }
 
-func readArrayWithTypeBySliceInterface(dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte, string)) error {
+func readArrayWithTypeBySliceFloat(ctx context.Context, v []float64, callback func(interface{}, string)) error {
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.Number)
+		}
+	}
+
+	return nil
+}
+
+func readArrayWithTypeBySliceBool(ctx context.Context, v []bool, callback func(interface{}, string)) error {
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.Boolean)
+
+		}
+	}
+
+	return nil
+}
+
+func readArrayWithTypeBySliceString(ctx context.Context, v []string, callback func(interface{}, string)) error {
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback(v[i], types.String)
+		}
+	}
+
+	return nil
+}
+
+func readArrayWithTypeBySliceInterface(ctx context.Context, dataType string, marshal func(interface{}) ([]byte, error), v []interface{}, callback func(interface{}, string)) error {
 	if len(v) == 0 {
 		return nil
 	}
 
-	switch v[0].(type) {
-	case string:
-		for i := range v {
-			callback([]byte(v[i].(string)), types.String)
-		}
+	for i := range v {
+		select {
+		case <-ctx.Done():
+			return nil
 
-	case []byte:
-		for i := range v {
-			callback(v[i].([]byte), types.String)
-		}
+		default:
+			switch v[i].(type) {
 
-	default:
-		for i := range v {
+			case string:
+				callback((v[i].(string)), types.String)
 
-			jBytes, err := marshal(v[i])
-			if err != nil {
-				return err
+			case float64:
+				callback(v[i].(float64), types.Number)
+
+			case int:
+				callback(v[i].(int), types.Integer)
+
+			case bool:
+				if v[i].(bool) {
+					callback(true, types.Boolean)
+				} else {
+					callback(false, types.Boolean)
+				}
+
+			case []byte:
+				callback(string(v[i].([]byte)), types.String)
+
+			case nil:
+				callback(nil, types.Null)
+
+			default:
+				jBytes, err := marshal(v[i])
+				if err != nil {
+					return err
+				}
+				callback(jBytes, dataType)
 			}
-			callback(jBytes, dataType)
-
 		}
 	}
 
@@ -101,46 +189,58 @@ func readArrayWithTypeBySliceInterface(dataType string, marshal func(interface{}
 
 /*func readArrayWithTypeByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		bKey := []byte(fmt.Sprint(key) + ": ")
 		b, err := marshal(val)
 		if err != nil {
 			return err
 		}
 		callback(append(bKey, b...))
-	}
+	}}
 
 	return nil
 }
 
 func readArrayWithTypeByMapStrStr(v map[string]string, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		callback([]byte(key + ": " + val))
-	}
+	}}
 
 	return nil
 }
 
 func readArrayWithTypeByMapStrIface(marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		bKey := []byte(key + ": ")
 		b, err := marshal(val)
 		if err != nil {
 			return err
 		}
 		callback(append(bKey, b...))
-	}
+	}}
 
 	return nil
 }
 
 func readArrayWithTypeByMapIfaceStr(v map[interface{}]string, callback func([]byte, string)) error {
 	for key, val := range v {
-
+	select {
+		case <-ctx.Done():
+			return nil
+		default:
 		callback([]byte(fmt.Sprint(key) + ": " + val))
-	}
+	}}
 
 	return nil
 }

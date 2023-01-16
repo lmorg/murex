@@ -147,7 +147,7 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`private`](../commands/private.md):
   Define a private function block
 * [commands/`set`](../commands/set.md):

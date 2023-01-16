@@ -40,13 +40,11 @@ func (rl *Instance) getTabCompletion() {
 
 	rl.tabMutex.Lock()
 	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = prefix, suggestions, descriptions, displayType
-
 	if len(rl.tcDescriptions) == 0 {
 		// probably not needed, but just in case someone doesn't initialize the
 		// map in their API call.
 		rl.tcDescriptions = make(map[string]string)
 	}
-
 	rl.tabMutex.Unlock()
 
 	rl.initTabCompletion()

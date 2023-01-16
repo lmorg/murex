@@ -19,7 +19,7 @@ Please note that indexes in _murex_ are counted from zero.
 
 ## Examples
 
-Return the 2nd (1), 4th (3) and 6th (5) element in an array
+Return the 2nd (1), 4th (3) and 6th (5) element in an array:
 
     » ja [0..9] -> [ 1 3 5 ]
     [
@@ -28,7 +28,7 @@ Return the 2nd (1), 4th (3) and 6th (5) element in an array
         "5"
     ]
     
-Return the data-type and description of **config shell syntax-highlighting**
+Return the data-type and description of **config shell syntax-highlighting**:
 
     » config -> [[ /shell/syntax-highlighting ]] -> [ Data-Type Description ]
     [
@@ -36,7 +36,7 @@ Return the data-type and description of **config shell syntax-highlighting**
         "Syntax highlighting of murex code when in the interactive shell"
     ]
     
-Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th)
+Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th):
 
     » a: [0..9]-> ![ 1 3 5 ]
     0
@@ -47,7 +47,7 @@ Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th)
     8
     9
     
-Return all elements except for the data-type and description
+Return all elements except for the data-type and description:
 
     » config -> [[ /shell/syntax-highlighting ]] -> ![ Data-Type Description ]
     {
@@ -56,6 +56,30 @@ Return all elements except for the data-type and description
         "Global": true,
         "Value": true
     }
+    
+Return the top 5 processes from `ps`, ordered by memory usage:
+
+    » ps aux -> [PID %MEM COMMAND] -> sort -nrk2 -> [..5]
+    915961  14.4  /home/lau/dev/go/bin/gopls
+    916184  4.4   /opt/visual-studio-code/code
+    108025  2.9   /usr/lib/firefox/firefox
+    1036    2.4   /usr/lib/baloo_file
+    915710  1.9   /opt/visual-studio-code/code
+    
+Return the 1st and 30th row:
+
+    » ps aux -> [*1 *30]
+    USER    PID     %CPU    %MEM    VSZ     RSS     TTY     STAT    START   TIME    COMMAND
+    root    37      0.0     0.0     0       0       ?       I<      Dec18   0:00    [kworker/3:0H-events_highpri]
+    
+Return the 1st and 5th column:
+
+    » ps aux -> [*A *E] -> head -n5                                                                                                                                                                                                       
+    USER    VSZ
+    root    168284
+    root    0
+    root    0
+    root    0
 
 ## Detail
 
@@ -90,10 +114,10 @@ you can disable this behavior in `config`
 
 ## See Also
 
-* [commands/`@[` (range) ](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
+* [commands/`[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [commands/`config`](../commands/config.md):

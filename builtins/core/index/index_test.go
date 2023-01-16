@@ -7,6 +7,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/io"
 	_ "github.com/lmorg/murex/builtins/types/json"
 	_ "github.com/lmorg/murex/builtins/types/jsonlines"
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/utils/json"
 )

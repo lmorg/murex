@@ -181,6 +181,8 @@ false.
   Reads the STDIN and exit number from previous process and not's it's condition
 * [commands/`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
+* [commands/`break`](../commands/break.md):
+  terminate execution of a block within your processes scope
 * [commands/`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
 * [commands/`false`](../commands/false.md):
@@ -188,7 +190,7 @@ false.
 * [commands/`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [commands/`set`](../commands/set.md):

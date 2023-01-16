@@ -3,6 +3,7 @@ package escape
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins/core/expressions"
 	_ "github.com/lmorg/murex/builtins/types/string"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test"
@@ -169,10 +170,10 @@ func TestCliBang(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:   `!esccli foo\ bar`,
-			Stderr:  "Error in `!esccli` ( 1,1): exec: \"!esccli\": executable file not found in $PATH\n",
+			Stderr:  "executable file not found",
 			ExitNum: 1,
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }

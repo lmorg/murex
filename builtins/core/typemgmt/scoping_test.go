@@ -3,6 +3,7 @@ package typemgmt_test
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 )
 
@@ -11,7 +12,7 @@ func TestScopingSet(t *testing.T) {
 		{
 			Block: `set TestScopingSet0=1
 					out $TestScopingSet0`,
-			Stdout: "1\n",
+			Stdout: "^1\n$",
 		},
 		{
 			Block: `function TestScopingSet1 {
@@ -19,7 +20,7 @@ func TestScopingSet(t *testing.T) {
 						out $TestScopingSet1
 					}
 					TestScopingSet1`,
-			Stdout: "1\n",
+			Stdout: "^1\n$",
 		},
 		{
 			Block: `function TestScopingSet2 {
@@ -27,17 +28,17 @@ func TestScopingSet(t *testing.T) {
 					}
 					set TestScopingSet2=1
 					TestScopingSet2`,
-			Stderr:  "Error in `out` ( 2,7): variable 'TestScopingSet2' does not exist\n",
+			Stderr:  "variable 'TestScopingSet2' does not exist\n",
 			ExitNum: 1,
 		},
 		{
 			Block: `function TestScopingSet3 {
-						set TestScopingSet3=2
+						set: TestScopingSet3=2
 					}
-					set TestScopingSet3=1
+					set: TestScopingSet3=1
 					TestScopingSet3
-					out $TestScopingSet3`,
-			Stdout: "1\n",
+					out: $TestScopingSet3`,
+			Stdout: "^1\n$",
 		},
 		{
 			Block: `function TestScopingSet4.0 {
@@ -52,7 +53,7 @@ func TestScopingSet(t *testing.T) {
 					TestScopingSet4.0
 					TestScopingSet4.1
 					out $TestScopingSet4`,
-			Stdout: "231\n",
+			Stdout: "^231\n$",
 		},
 		{
 			Block: `function TestScopingSet5.0 {
@@ -67,7 +68,7 @@ func TestScopingSet(t *testing.T) {
 					set TestScopingSet5=1
 					TestScopingSet5.0
 					out $TestScopingSet5`,
-			Stdout: "231\n",
+			Stdout: "^231\n$",
 		},
 		{
 			Block: `function TestScopingSet6.0 {
@@ -81,13 +82,13 @@ func TestScopingSet(t *testing.T) {
 					}
 					TestScopingSet6.0
 					out $TestScopingSet6`,
-			Stdout:  "23",
-			Stderr:  "Error in `out` ( 11,6): variable 'TestScopingSet6' does not exist\n",
+			Stdout:  "^23$",
+			Stderr:  "variable 'TestScopingSet6' does not exist\n",
 			ExitNum: 1,
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }
 
 func TestScopingGlobal(t *testing.T) {

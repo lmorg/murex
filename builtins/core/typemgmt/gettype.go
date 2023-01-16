@@ -2,7 +2,6 @@ package typemgmt
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -34,8 +33,9 @@ func cmdGetType(p *lang.Process) error {
 		if len(v) == 1 {
 			return errors.New("variable data-type requested but with no variable name")
 		}
-		if p.Variables.GetValue(v[1:]) == nil {
-			return fmt.Errorf("no variable set with the name `%s`", v[1:])
+		_, err := p.Variables.GetValue(v[1:])
+		if err != nil {
+			return err
 		}
 		dt = p.Variables.GetDataType(v[1:])
 

@@ -1,23 +1,26 @@
-package test
+package test_test
 
 import (
 	"testing"
+
+	_ "github.com/lmorg/murex/builtins"
+	"github.com/lmorg/murex/test"
 )
 
 // TestMurex proves the murex's scripting wrapper for Go's test framework works.
 // Please note this shouldn't be confused with the murex scripting language's inbuilt testing framework!
 func TestMurex(t *testing.T) {
-	tests := []MurexTest{
+	tests := []test.MurexTest{
 		{
 			Block:  "true",
-			Stdout: "true\n",
+			Stdout: "true",
 		},
 		{
 			Block:   "false",
-			Stdout:  "false\n",
+			Stdout:  "false",
 			ExitNum: 1,
 		},
 	}
 
-	RunMurexTests(tests, t)
+	test.RunMurexTests(tests, t)
 }

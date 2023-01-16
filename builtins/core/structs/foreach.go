@@ -24,6 +24,15 @@ func cmdForEach(p *lang.Process) (err error) {
 	}
 }
 
+func convertToByte(v interface{}) ([]byte, error) {
+	s, err := types.ConvertGoType(v, "str")
+	if err != nil {
+		return nil, err
+	}
+
+	return []byte(s.(string)), nil
+}
+
 func cmdForEachDefault(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	if dt == types.Json {
@@ -59,13 +68,20 @@ func cmdForEachDefault(p *lang.Process) (err error) {
 		return errors.New("invalid number of parameters")
 	}
 
-	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {
+	err = p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
+		var b []byte
+		b, err = convertToByte(v)
+		if err != nil {
+			p.Done()
+			return
+		}
+
 		if len(b) == 0 || p.HasCancelled() {
 			return
 		}
 
 		if varName != "!" {
-			p.Variables.Set(p, varName, string(b), dt)
+			p.Variables.Set(p, varName, v, dt)
 		}
 
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
@@ -97,13 +113,20 @@ func cmdForEachJmap(p *lang.Process) error {
 
 	m := make(map[string]string)
 
-	err = p.Stdin.ReadArrayWithType(func(b []byte, dt string) {
+	err = p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
+		var b []byte
+		b, err = convertToByte(v)
+		if err != nil {
+			p.Done()
+			return
+		}
+
 		if len(b) == 0 || p.HasCancelled() {
 			return
 		}
 
 		if varName != "!" {
-			p.Variables.Set(p, varName, string(b), dt)
+			p.Variables.Set(p, varName, v, dt)
 		}
 
 		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)

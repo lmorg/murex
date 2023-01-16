@@ -25,6 +25,7 @@ type AutoCompleteT struct {
 	ParsedTokens      parser.ParsedTokens
 	CacheDynamic      bool
 	DoNotSort         bool
+	DoNotEscape       bool
 	TimeOut           time.Time
 }
 

@@ -37,13 +37,3 @@ func DumpMarshaller() (dump []string) {
 	sort.Strings(dump)
 	return
 }
-
-/*// DumpMime returns a map of MIME-types and their associated murex data type
-func DumpMime() map[string]string {
-	return mimes
-}
-
-// DumpFileExts returns a map of file extensions and their associated murex data type
-func DumpFileExts() map[string]string {
-	return fileExts
-}*/

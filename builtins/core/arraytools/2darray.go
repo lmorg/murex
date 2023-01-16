@@ -74,7 +74,7 @@ func twoDArray(p *lang.Process) (err error) {
 				fork.Stderr.Write([]byte(fmt.Sprintf("error executing fork (block %d): %s", index, err.Error())))
 			}
 
-			err = fork.Stdout.ReadArray(func(b []byte) {
+			err = fork.Stdout.ReadArray(p.Context, func(b []byte) {
 				count++
 				array.Append(index, count, string(b))
 			})

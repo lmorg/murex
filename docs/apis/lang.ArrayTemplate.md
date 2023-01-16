@@ -25,18 +25,20 @@ Example calling `lang.ArrayTemplate()` function:
 package json
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayTemplate(marshaller, json.Unmarshal, read, callback)
+	return lang.ArrayTemplate(ctx, marshaller, json.Unmarshal, read, callback)
 }
 ```
 
@@ -48,16 +50,22 @@ func readArray(read stdio.Io, callback func([]byte)) error {
 package lang
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/utils"
 )
 
 // ArrayTemplate is a template function for reading arrays from marshalled data
-func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte)) error {
+func ArrayTemplate(ctx context.Context, marshal func(interface{}) ([]byte, error), unmarshal func([]byte, interface{}) error, read stdio.Io, callback func([]byte)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
+	}
+
+	if len(utils.CrLfTrim(b)) == 0 {
+		return nil
 	}
 
 	var v interface{}
@@ -72,22 +80,22 @@ func ArrayTemplate(marshal func(interface{}) ([]byte, error), unmarshal func([]b
 		return readArrayByString(v, callback)
 
 	case []string:
-		return readArrayBySliceString(v, callback)
+		return readArrayBySliceString(ctx, v, callback)
 
 	case []interface{}:
-		return readArrayBySliceInterface(marshal, v, callback)
+		return readArrayBySliceInterface(ctx, marshal, v, callback)
 
 	case map[string]string:
-		return readArrayByMapStrStr(v, callback)
+		return readArrayByMapStrStr(ctx, v, callback)
 
 	case map[string]interface{}:
-		return readArrayByMapStrIface(marshal, v, callback)
+		return readArrayByMapStrIface(ctx, marshal, v, callback)
 
 	case map[interface{}]string:
-		return readArrayByMapIfaceStr(v, callback)
+		return readArrayByMapIfaceStr(ctx, v, callback)
 
 	case map[interface{}]interface{}:
-		return readArrayByMapIfaceIface(marshal, v, callback)
+		return readArrayByMapIfaceIface(ctx, marshal, v, callback)
 
 	default:
 		jBytes, err := marshal(v)
@@ -108,80 +116,112 @@ func readArrayByString(v string, callback func([]byte)) error {
 	return nil
 }
 
-func readArrayBySliceString(v []string, callback func([]byte)) error {
+func readArrayBySliceString(ctx context.Context, v []string, callback func([]byte)) error {
 	for i := range v {
-		callback([]byte(v[i]))
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			callback([]byte(v[i]))
+		}
 	}
 
 	return nil
 }
 
-func readArrayBySliceInterface(marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
+func readArrayBySliceInterface(ctx context.Context, marshal func(interface{}) ([]byte, error), v []interface{}, callback func([]byte)) error {
 	if len(v) == 0 {
 		return nil
 	}
 
 	for i := range v {
-		switch v := v[i].(type) {
-		case string:
-			callback([]byte(v))
-
-		case []byte:
-			callback(v)
+		select {
+		case <-ctx.Done():
+			return nil
 
 		default:
-			jBytes, err := marshal(v)
+			switch v := v[i].(type) {
+			case string:
+				callback([]byte(v))
+
+			case []byte:
+				callback(v)
+
+			default:
+				jBytes, err := marshal(v)
+				if err != nil {
+					return err
+				}
+				callback(jBytes)
+			}
+		}
+	}
+
+	return nil
+}
+
+func readArrayByMapIfaceIface(ctx context.Context, marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte)) error {
+	for key, val := range v {
+		select {
+		case <-ctx.Done():
+			return nil
+
+		default:
+			bKey := []byte(fmt.Sprint(key) + ": ")
+			b, err := marshal(val)
 			if err != nil {
 				return err
 			}
-			callback(jBytes)
+			callback(append(bKey, b...))
 		}
 	}
 
 	return nil
 }
 
-func readArrayByMapIfaceIface(marshal func(interface{}) ([]byte, error), v map[interface{}]interface{}, callback func([]byte)) error {
+func readArrayByMapStrStr(ctx context.Context, v map[string]string, callback func([]byte)) error {
 	for key, val := range v {
+		select {
+		case <-ctx.Done():
+			return nil
 
-		bKey := []byte(fmt.Sprint(key) + ": ")
-		b, err := marshal(val)
-		if err != nil {
-			return err
+		default:
+			callback([]byte(key + ": " + val))
 		}
-		callback(append(bKey, b...))
 	}
 
 	return nil
 }
 
-func readArrayByMapStrStr(v map[string]string, callback func([]byte)) error {
+func readArrayByMapStrIface(ctx context.Context, marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte)) error {
 	for key, val := range v {
+		select {
+		case <-ctx.Done():
+			return nil
 
-		callback([]byte(key + ": " + val))
-	}
-
-	return nil
-}
-
-func readArrayByMapStrIface(marshal func(interface{}) ([]byte, error), v map[string]interface{}, callback func([]byte)) error {
-	for key, val := range v {
-
-		bKey := []byte(key + ": ")
-		b, err := marshal(val)
-		if err != nil {
-			return err
+		default:
+			bKey := []byte(key + ": ")
+			b, err := marshal(val)
+			if err != nil {
+				return err
+			}
+			callback(append(bKey, b...))
 		}
-		callback(append(bKey, b...))
 	}
 
 	return nil
 }
 
-func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) error {
+func readArrayByMapIfaceStr(ctx context.Context, v map[interface{}]string, callback func([]byte)) error {
 	for key, val := range v {
+		select {
+		case <-ctx.Done():
+			return nil
 
-		callback([]byte(fmt.Sprint(key) + ": " + val))
+		default:
+			callback([]byte(fmt.Sprint(key) + ": " + val))
+		}
 	}
 
 	return nil
@@ -199,6 +239,8 @@ func readArrayByMapIfaceStr(v map[interface{}]string, callback func([]byte)) err
 
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):

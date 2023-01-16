@@ -80,7 +80,7 @@ well as used naked. But they cannot be expanded inside single quotes.
 * [commands/`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [commands/`set`](../commands/set.md):

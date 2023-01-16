@@ -3,10 +3,10 @@ package defaults
 import (
 	"os"
 	"runtime"
-	"strings"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/expressions/noglob"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/autocomplete"
@@ -130,8 +130,8 @@ func Config(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
-		Description: "Run the command hint summary pre-cacher upon murex's start up (warning: only enable this on fast systems with an SSD)",
-		Default:     false,
+		Description: "Run the command hint summary pre-cache upon murex's start up (warning: only enable this on fast systems with an SSD)",
+		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
 	})
@@ -237,17 +237,34 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "auto-glob", config.Properties{
-		Description: "Automatically expand globs in the REPL shell (globs in functions / modules will still need to be invoked via the `g` function)",
-		Default:     false,
+	c.Define("shell", "expand-globs", config.Properties{
+		Description: "Expand globs in the REPL shell (globs in functions / modules will still need to be invoked via the `g` function)",
+		Default:     true,
 		DataType:    types.Boolean,
 		Global:      true,
+	})
+
+	c.Define("shell", "expand-glob-unsafe-commands", config.Properties{
+		Description: "Commands blacklisted for being unsafe to glob",
+		Default:     noglob.GetNoGlobCmds(),
+		DataType:    types.Json,
+		Global:      true,
+		GoFunc: config.GoFuncProperties{
+			Read:  noglob.ReadNoGlobCmds,
+			Write: noglob.WriteNoGlobCmds,
+		},
 	})
 
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{
 		Description: "This is used to override the red highlighting on STDERR on a per-process level",
+		Default:     false,
+		DataType:    types.Boolean,
+	})
+
+	c.Define("proc", "strict-types", config.Properties{
+		Description: "Enables or disables automatic type conversions in expressions. If enabled you might need to liberally use type tagging to ensure strings from random sources are treated as numbers",
 		Default:     false,
 		DataType:    types.Boolean,
 	})
@@ -308,21 +325,4 @@ func Config(c *config.Config, isInteractive bool) {
 		Default:     100,
 		DataType:    types.Integer,
 	})
-}
-
-var murexProfile []string
-
-// AppendProfile is used as a way of creating a platform specific default
-// profile generated at compile time
-func AppendProfile(block string) {
-	murexProfile = append(murexProfile, "\n"+block+"\n")
-}
-
-// DefaultMurexProfile is what was formally the example murex_profile but
-// this has now been converted into a this format so it can not only be
-// auto-loaded as part of the default murex binary ship (ie more user
-// friendly), but it also allows me to write a tailored murex profile per
-// target platform.
-func DefaultMurexProfile() []rune {
-	return []rune(strings.Join(murexProfile, "\r\n\r\n"))
 }

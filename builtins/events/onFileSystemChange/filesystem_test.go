@@ -3,6 +3,7 @@ package onfilesystemchange_test
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test"
 )
 

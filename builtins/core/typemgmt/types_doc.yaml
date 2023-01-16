@@ -85,6 +85,7 @@
   Related:
   - exit
   - devnull
+  - break
 
 
 - DocumentID: exit
@@ -115,6 +116,7 @@
   Related:
   - die
   - devnull
+  - break
 
 
 - DocumentID: devnull
@@ -147,6 +149,7 @@
   Related:
   - die
   - exit
+  - break
 
 
 - DocumentID: "true"

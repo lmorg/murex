@@ -1,6 +1,6 @@
 module github.com/lmorg/murex
 
-go 1.18
+go 1.19
 
 require (
 	github.com/Knetic/govaluate v3.0.0+incompatible
@@ -14,7 +14,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
 	go.mongodb.org/mongo-driver v1.10.0
-	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
 	gopkg.in/yaml.v3 v3.0.1
 )
 

@@ -206,9 +206,9 @@ func ShowPrompt() {
 			}
 
 			if len(macroFind) > 0 {
-				if !rxHashTag.MatchString(merged) {
-					merged = expandMacroVars(merged, macroFind, macroReplace)
-				}
+				//if !rxHashTag.MatchString(merged) {
+				//	merged = expandMacroVars(merged, macroFind, macroReplace)
+				//}
 				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
 			}
 
@@ -226,7 +226,10 @@ func ShowPrompt() {
 			fork.PromptId = thisProc
 			fork.CCEvent = lang.ShellProcess.CCEvent
 			fork.CCExists = lang.ShellProcess.CCExists
-			lang.ShellExitNum, _ = fork.Execute(expanded)
+			lang.ShellExitNum, err = fork.Execute(expanded)
+			if err != nil {
+				fmt.Println(ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
+			}
 
 			if PromptId.NotEqual(thisProc) {
 				return
@@ -244,9 +247,15 @@ func getMacroVars(s string) ([]string, []string, error) {
 		return nil, nil, nil
 	}
 
+	assigned := make(map[string]bool)
+
 	match := rxMacroVar.FindAllString(s, -1)
 	vars := make([]string, len(match))
 	for i := range match {
+		if assigned[match[i]] {
+			continue
+		}
+
 		for {
 			rl := readline.NewInstance()
 			rl.SetPrompt(ansi.ExpandConsts(fmt.Sprintf(
@@ -262,6 +271,7 @@ func getMacroVars(s string) ([]string, []string, error) {
 			}
 			os.Stderr.WriteString(ansi.ExpandConsts("{RED}Cannot use zero length strings. Please enter a value or press CTRL+C to cancel.{RESET}\n"))
 		}
+		assigned[match[i]] = true
 	}
 
 	return match, vars, nil

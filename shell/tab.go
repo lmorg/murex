@@ -2,12 +2,14 @@ package shell
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
+	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
@@ -48,6 +50,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	Prompt.MaxTabCompleterRows = rows.(int)
 
 	switch {
+	case len(line) == 0:
+		autocompleteHistoryLine(&act)
+
 	case pt.Variable != "":
 		if pt.VarLoc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
@@ -67,7 +72,12 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 			}
 		}
 
+	case pt.FuncName == "^":
+		autocompleteHistoryHat(&act)
+
 	case pt.ExpectFunc:
+		go autocomplete.UpdateGlobalExeList()
+
 		if pt.Loc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
@@ -77,6 +87,8 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 			autocomplete.MatchFunction(prefix, &act)
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
+			globalExes := autocomplete.GlobalExes.Get()
+
 			if lang.MethodStdout.Exists(pt.LastFuncName, types.Any) {
 				// match everything
 				dump := lang.MethodStdout.Dump()
@@ -85,7 +97,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 					for dt := range dump {
 						act.Items = append(act.Items, dump[dt]...)
 						for i := range dump[dt] {
-							act.Definitions[dump[dt][i]] = string(hintsummary.Get(dump[dt][i], autocomplete.GlobalExes[dump[dt][i]]))
+							act.Definitions[dump[dt][i]] = string(hintsummary.Get(dump[dt][i], (*globalExes)[dump[dt][i]]))
 						}
 					}
 
@@ -95,7 +107,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 						for i := range dump[dt] {
 							if strings.HasPrefix(dump[dt][i], prefix) {
 								act.Items = append(act.Items, dump[dt][i][len(prefix):])
-								act.Definitions[dump[dt][i][len(prefix):]] = string(hintsummary.Get(dump[dt][i], autocomplete.GlobalExes[dump[dt][i]]))
+								act.Definitions[dump[dt][i][len(prefix):]] = string(hintsummary.Get(dump[dt][i], (*globalExes)[dump[dt][i]]))
 							}
 						}
 					}
@@ -110,14 +122,14 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 					if len(prefix) == 0 {
 						act.Items = append(act.Items, inTypes...)
 						for j := range inTypes {
-							act.Definitions[inTypes[j]] = string(hintsummary.Get(inTypes[j], autocomplete.GlobalExes[inTypes[j]]))
+							act.Definitions[inTypes[j]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
 						}
 						continue
 					}
 					for j := range inTypes {
 						if strings.HasPrefix(inTypes[j], prefix) {
 							act.Items = append(act.Items, inTypes[j][len(prefix):])
-							act.Definitions[inTypes[j][len(prefix):]] = string(hintsummary.Get(inTypes[j], autocomplete.GlobalExes[inTypes[j]]))
+							act.Definitions[inTypes[j][len(prefix):]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
 						}
 					}
 				}
@@ -160,7 +172,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	} else {
 		i = dedup.SortAndDedupString(act.Items)
 	}
-	autocomplete.FormatSuggestions(&act)
+	if !act.DoNotEscape {
+		autocomplete.FormatSuggestions(&act)
+	}
 
 	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
 }
@@ -169,13 +183,38 @@ func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	act.TabDisplayType = readline.TabDisplayGrid
 
 	autocomplete.MatchFunction(prefix, act)
+}
 
-	/*sort.Strings(act.Items)
-	for i := 0; i < Prompt.MaxTabCompleterRows && i <= len(act.Items)-1; i++ {
-		cmd := prefix + act.Items[i]
-		if len(cmd) > 1 && cmd[len(cmd)-1] == ':' {
-			cmd = cmd[:len(cmd)-1]
+func autocompleteHistoryLine(act *autocomplete.AutoCompleteT) {
+	dump := Prompt.History.Dump().([]history.Item)
+
+	for i := len(dump) - 1; i > -1; i-- {
+		if act.Definitions[dump[i].Block] == "" {
+			dateTime := dump[i].DateTime.Format("02-Jan-06 03:04")
+			act.Items = append(act.Items, dump[i].Block)
+			act.Definitions[dump[i].Block] = dateTime
 		}
-		act.Definitions[act.Items[i]] = string(hintsummary.Get(cmd, autocomplete.GlobalExes[cmd]))
-	}*/
+	}
+
+	act.TabDisplayType = readline.TabDisplayMap
+	act.DoNotEscape = true
+	act.DoNotSort = true
+}
+
+func autocompleteHistoryHat(act *autocomplete.AutoCompleteT) {
+	size := Prompt.History.Len()
+	act.Items = make([]string, size)
+	act.Definitions = make(map[string]string, size)
+	dump := Prompt.History.Dump().([]history.Item)
+
+	j := len(dump)
+	for i := range dump {
+		j--
+		s := strconv.Itoa(dump[i].Index)
+		act.Definitions[s] = dump[i].Block
+		act.Items[j] = s
+	}
+
+	act.TabDisplayType = readline.TabDisplayList
+	act.DoNotSort = true
 }

@@ -5,20 +5,22 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 
+	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/utils/json"
 )
 
 const (
 	// ErrDataTypeDefaulted is returned if the murex data type is unknown
-	ErrDataTypeDefaulted = "Unexpected or unknown murex data type"
+	ErrDataTypeDefaulted = "unexpected or unknown murex data type"
 
 	// ErrUnexpectedGoType is returned if the Go data type is unhandled
-	ErrUnexpectedGoType = "Unexpected Go type"
+	ErrUnexpectedGoType = "unexpected Go type"
 
 	// ErrCannotConvertGoType is returned if the Go data type cannot be converted
 	// to the murex data type (eg there is no numeric data in a string of characters)
-	ErrCannotConvertGoType = "Cannot convert Go type into murex data type (eg no numeric data in a string)"
+	ErrCannotConvertGoType = "cannot convert Go type into murex data type (eg no numeric data in a string)"
 )
 
 var (
@@ -30,30 +32,30 @@ var (
 func ConvertGoType(v interface{}, dataType string) (interface{}, error) {
 	//debug.Log("ConvertGoType:", fmt.Sprintf("%t %s %v", v, dataType, v))
 
-	switch v.(type) {
+	switch t := v.(type) {
 	case nil:
 		return goNilRecast(dataType)
 
 	case int:
-		return goIntegerRecast(v.(int), dataType)
+		return goIntegerRecast(t, dataType)
 
 	//case float32:
-	//	return goFloatRecast(float64(v.(float64)), dataType)
+	//	return goFloatRecast(t, dataType)
 
 	case float64:
-		return goFloatRecast(v.(float64), dataType)
+		return goFloatRecast(t, dataType)
 
 	case bool:
-		return goBooleanRecast(v.(bool), dataType)
+		return goBooleanRecast(t, dataType)
 
 	case string:
-		return goStringRecast(v.(string), dataType)
+		return goStringRecast(t, dataType)
 
 	case []byte:
-		return goStringRecast(string(v.([]byte)), dataType)
+		return goStringRecast(string(t), dataType)
 
 	case []rune:
-		return goStringRecast(string(v.([]rune)), dataType)
+		return goStringRecast(string(t), dataType)
 
 	default:
 		return goDefaultRecast(v, dataType)
@@ -241,9 +243,6 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 	case String:
 		return v, nil
 
-	//case Json, JsonLines:
-	//	return fmt.Sprintf(`{ "Value": %s }`, strconv.Quote(v)), nil
-
 	case Null:
 		return "", nil
 
@@ -255,6 +254,82 @@ func goStringRecast(v string, dataType string) (interface{}, error) {
 
 func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 	switch dataType {
+	case Generic:
+		switch t := v.(type) {
+		case []string:
+			return strings.Join(t, " "), nil
+		case []interface{}:
+			a := make([]string, len(t))
+			for i := range t {
+				a[i] = fmt.Sprint(t[i])
+			}
+			return strings.Join(a, " "), nil
+		case []int:
+			a := make([]string, len(t))
+			for i := range t {
+				a[i] = strconv.Itoa(t[i])
+			}
+			return strings.Join(a, " "), nil
+		case []float64:
+			a := make([]string, len(t))
+			for i := range t {
+				a[i] = FloatToString(t[i])
+			}
+			return strings.Join(a, " "), nil
+		case []bool:
+			a := make([]string, len(t))
+			for i := range t {
+				if t[i] {
+					a[i] = TrueString
+				} else {
+					a[i] = FalseString
+				}
+			}
+			return strings.Join(a, " "), nil
+		default:
+			//return fmt.Sprintf("%t", v), nil // debugging
+			b, err := json.Marshal(v, false)
+			return string(b), err
+		}
+
+	case String:
+		switch t := v.(type) {
+		case []string:
+			return strings.Join(t, "\n"), nil
+		case []interface{}:
+			a := make([]string, len(t))
+			for i := range t {
+				a[i] = fmt.Sprint(t[i])
+			}
+			return strings.Join(a, "\n"), nil
+		case []int:
+			a := make([]string, len(t))
+			for i := range t {
+				a[i] = strconv.Itoa(t[i])
+			}
+			return strings.Join(a, "\n"), nil
+		case []float64:
+			a := make([]string, len(t))
+			for i := range t {
+				a[i] = FloatToString(t[i])
+			}
+			return strings.Join(a, "\n"), nil
+		case []bool:
+			a := make([]string, len(t))
+			for i := range t {
+				if t[i] {
+					a[i] = TrueString
+				} else {
+					a[i] = FalseString
+				}
+			}
+			return strings.Join(a, "\n"), nil
+		default:
+			//return fmt.Sprintf("%t", v), nil // debugging
+			b, err := json.Marshal(v, false)
+			return string(b), err
+		}
+
 	case Integer:
 		s := fmt.Sprint(v)
 		i := rxFirstInt.FindStringSubmatch(s)
@@ -284,12 +359,12 @@ func goDefaultRecast(v interface{}, dataType string) (interface{}, error) {
 	case Null:
 		return nil, nil
 
-	case String, Json, JsonLines:
+	case Json, JsonLines:
 		b, err := json.Marshal(v, false)
 		return string(b), err
 
 	default:
-		return nil, errors.New(ErrUnexpectedGoType)
+		return nil, fmt.Errorf(ErrUnexpectedGoType+": Go '%T', %s '%s'", v, app.Name, dataType)
 	}
 }
 

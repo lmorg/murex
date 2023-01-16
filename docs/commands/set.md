@@ -196,7 +196,7 @@ quotes:
 * [commands/`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [commands/`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function
+  Evaluate a mathematical function (deprecated)
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
@@ -205,7 +205,9 @@ quotes:
   Runs an executable
 * [commands/`export`](../commands/export.md):
   Define an environmental variable and set it's value
+* [commands/`expr`](../commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)

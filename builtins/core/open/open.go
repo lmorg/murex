@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
@@ -20,24 +21,10 @@ func init() {
 }
 
 func open(p *lang.Process) (err error) {
-	var (
-		ext      string
-		dataType string
-	)
+	var dataType string
 
 	if p.IsMethod {
-		dataType = p.Stdin.GetDataType()
-		p.Stdout.SetDataType(dataType)
-
-		ext = GetExt("", dataType)
-		tmp, err := utils.NewTempFile(p.Stdin, ext)
-		defer tmp.Close()
-
-		if err != nil {
-			return err
-		}
-
-		return preview(p, tmp.FileName, dataType)
+		return OpenPipe(p, p.Stdin)
 	}
 
 	path, err := p.Parameters.String(0)
@@ -56,6 +43,21 @@ func open(p *lang.Process) (err error) {
 	}
 
 	return CloseFiles(closers)
+}
+
+func OpenPipe(p *lang.Process, pipe stdio.Io) error {
+	dataType := pipe.GetDataType()
+	p.Stdout.SetDataType(dataType)
+
+	ext := GetExt("", dataType)
+	tmp, err := utils.NewTempFile(p.Stdin, ext)
+	defer tmp.Close()
+
+	if err != nil {
+		return err
+	}
+
+	return preview(p, tmp.FileName, dataType)
 }
 
 func OpenFile(p *lang.Process, path *string, dataType *string) ([]io.Closer, error) {

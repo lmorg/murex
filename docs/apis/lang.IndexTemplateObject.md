@@ -85,8 +85,8 @@ func itoIndex(p *Process, params []string, object *interface{}, marshaller func(
 				return err
 			}
 			if i < 0 {
-				//return errors.New("cannot have negative keys in array")
-				i = len(v) + i
+				//i = len(v) + i
+				i += len(v)
 			}
 			if i >= len(v) {
 				return errors.New("key '" + key + "' greater than number of items in array")
@@ -380,6 +380,8 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
 * [apis/`ReadMap()` (type)](../apis/ReadMap.md):

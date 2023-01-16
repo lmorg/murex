@@ -73,6 +73,8 @@ both agnostic to the bang prefix.
   Bang prefixing to reverse default actions
 * [apis/`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
+* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+  Read from a data type one array element at a time and return the elements contents and data type
 * [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
 * [apis/`WriteArray()` (type)](../apis/WriteArray.md):

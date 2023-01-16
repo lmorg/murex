@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/envvars"
@@ -76,59 +77,63 @@ type variable struct {
 // GetValue will return nil. Please check if p.Config.Get("proc", "strict-vars", "bool")
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
-func (v *Variables) GetValue(name string) interface{} {
+func (v *Variables) GetValue(name string) (interface{}, error) {
 	switch name {
 	case SELF:
-		return getVarSelf(v.process)
+		return getVarSelf(v.process), nil
 
 	case ARGS:
-		return getVarArgs(v.process)
+		return getVarArgs(v.process), nil
 
 	case PARAMS:
-		return v.process.Scope.Parameters.StringArray()
+		return v.process.Scope.Parameters.StringArray(), nil
 
 	case MUREX_EXE:
-		return getVarMurexExe()
+		return getVarMurexExe(), nil
 
 	case HOSTNAME:
-		return getHostname()
+		return getHostname(), nil
 
 	case PWD:
-		return getPwd()
+		return getPwd(), nil
 
 	case "0":
-		return v.process.Scope.Name.String()
+		return v.process.Scope.Name.String(), nil
 	}
 
 	if i, err := strconv.Atoi(name); err == nil && i > 0 {
 		s, err := v.process.Scope.Parameters.String(i - 1)
 		if err != nil {
-			return nil
+			return nil, nil
 		}
-		return s
+		return s, nil
 	}
 
 	if v.global {
-		return v.getValue(name)
+		return v.getValue(name), nil
 	}
 
 	value := v.getValue(name)
 	if value != nil {
-		return value
+		return value, nil
 	}
 
 	value = GlobalVariables.getValue(name)
 	if value != nil {
-		return value
+		return value, nil
 	}
 
 	// variable not found so lets fallback to the environmental variables
 	value = os.Getenv(name)
 	if value != "" {
-		return value
+		return value, nil
 	}
 
-	return nil
+	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
+	if err != nil || strictVars.(bool) {
+		return nil, errVarNotExist(name)
+	}
+	return nil, nil
 }
 
 func (v *Variables) getValue(name string) (value interface{}) {
@@ -141,6 +146,7 @@ func (v *Variables) getValue(name string) (value interface{}) {
 
 	value = variable.Value
 	v.mutex.Unlock()
+
 	return value
 }
 
@@ -198,7 +204,8 @@ func (v *Variables) GetString(name string) (string, error) {
 	// variable not found so lets fallback to the environmental variables
 	s, exists = os.LookupEnv(name)
 
-	if v, err := v.process.Config.Get("proc", "strict-vars", "bool"); err == nil && v.(bool) && !exists {
+	strictVars, err := v.process.Config.Get("proc", "strict-vars", "bool")
+	if (err != nil || strictVars.(bool)) && !exists {
 		return "", errVarNotExist(name)
 	}
 
@@ -268,7 +275,7 @@ func (v *Variables) GetDataType(name string) string {
 		return types.String
 	}
 
-	return ""
+	return types.Null
 }
 
 func (v *Variables) getDataType(name string) (string, bool) {
@@ -298,10 +305,43 @@ func (v *Variables) Set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
+	var (
+		s     string
+		iface interface{}
+		err   error
+	)
 
-	s, err := types.ConvertGoType(value, types.String)
+	switch v := value.(type) {
+	case float64, int, bool, nil:
+		s, err = varConvertPrimitive(value)
+		iface = value
+	case string:
+		s = v
+		if dataType != types.String && dataType != types.Generic {
+			iface, err = varConvertString([]byte(v), dataType)
+		} else {
+			iface = s
+		}
+	case []byte:
+		s = string(v)
+		if dataType != types.String && dataType != types.Generic {
+			iface, err = varConvertString(v, dataType)
+		} else {
+			iface = s
+		}
+	case []rune:
+		s = string(v)
+		if dataType != types.String && dataType != types.Generic {
+			iface, err = varConvertString([]byte(string(v)), dataType)
+		} else {
+			iface = s
+		}
+	default:
+		s, err = varConvertInterface(v, dataType)
+		iface = value
+	}
 	if err != nil {
-		return fmt.Errorf("cannot store variable: %s", err.Error())
+		return err
 	}
 
 	fileRef := v.process.FileRef
@@ -312,8 +352,8 @@ notReserved:
 	v.mutex.Lock()
 
 	v.vars[name] = &variable{
-		Value:    value,
-		String:   s.(string),
+		Value:    iface,
+		String:   s,
 		DataType: dataType,
 		Modify:   time.Now(),
 		FileRef:  fileRef,
@@ -322,6 +362,60 @@ notReserved:
 	v.mutex.Unlock()
 
 	return nil
+}
+
+const errCannotStoreVariable = "cannot store variable"
+
+func varConvertPrimitive(value interface{}) (string, error) {
+	s, err := types.ConvertGoType(value, types.String)
+	if err != nil {
+		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	return s.(string), nil
+}
+
+func varConvertString(value []byte, dataType string) (interface{}, error) {
+	UnmarshalData := Unmarshallers[dataType]
+
+	// no unmarshaller exists so lets just return the bare string
+	if UnmarshalData == nil {
+		return string(value), nil
+	}
+
+	p := new(Process)
+	p.Stdin = streams.NewStdin()
+	_, err := p.Stdin.Write([]byte(value))
+	if err != nil {
+		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	v, err := UnmarshalData(p)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	return v, nil
+}
+
+func varConvertInterface(value interface{}, dataType string) (string, error) {
+	MarshalData := Marshallers[dataType]
+
+	// no marshaller exists so lets just return the bare string
+	if MarshalData == nil {
+		s, err := types.ConvertGoType(value, types.String)
+		if err != nil {
+			return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		}
+		return s.(string), nil
+	}
+
+	b, err := MarshalData(ShellProcess, value)
+	if err != nil {
+		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	s, err := types.ConvertGoType(b, types.String)
+	if err != nil {
+		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+	}
+	return s.(string), nil
 }
 
 // Unset removes a variable from the table
@@ -366,12 +460,12 @@ func DumpVariables(p *Process) map[string]interface{} {
 	}
 	p.Variables.mutex.Unlock()
 
-	m[SELF] = p.Variables.GetValue(SELF)
-	m[ARGS] = p.Variables.GetValue(ARGS)
-	m[PARAMS] = p.Variables.GetValue(PARAMS)
-	m[MUREX_EXE] = p.Variables.GetValue(MUREX_EXE)
-	m[MUREX_ARGS] = p.Variables.GetValue(MUREX_ARGS)
-	m[HOSTNAME] = p.Variables.GetValue(HOSTNAME)
-	m[PWD] = p.Variables.GetValue(PWD)
+	m[SELF], _ = p.Variables.GetValue(SELF)
+	m[ARGS], _ = p.Variables.GetValue(ARGS)
+	m[PARAMS], _ = p.Variables.GetValue(PARAMS)
+	m[MUREX_EXE], _ = p.Variables.GetValue(MUREX_EXE)
+	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
+	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
+	m[PWD], _ = p.Variables.GetValue(PWD)
 	return m
 }

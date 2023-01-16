@@ -38,16 +38,23 @@ package string
 
 import (
 	"bufio"
-	"bytes"
+	"context"
+	"strings"
 
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
-		callback(bytes.TrimSpace(scanner.Bytes()), types.String)
+		select {
+		case <-ctx.Done():
+			return scanner.Err()
+
+		default:
+			callback(strings.TrimSpace(scanner.Text()), types.String)
+		}
 	}
 
 	return scanner.Err()
@@ -66,19 +73,21 @@ For example:
 package json
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
 	// Create a marshaller function to pass to ArrayWithTypeTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayWithTypeTemplate(types.Json, marshaller, json.Unmarshal, read, callback)
+	return lang.ArrayWithTypeTemplate(ctx, types.Json, marshaller, json.Unmarshal, read, callback)
 }
 ```
 
@@ -89,7 +98,7 @@ pipelines.
 ## Parameters
 
 1. `stdio.Io`: stream to read from (eg STDIN)
-2. `func([]byte, string)`: callback function. Each callback will be a []byte slice containing an array element
+2. `func(interface{}, string)`: callback function. Each callback will be the value in its native Go data type (eg string, int, float64, bool) for an array element
 
 ## See Also
 
@@ -103,3 +112,5 @@ pipelines.
   Write a data type, one array element at a time
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array with data type included

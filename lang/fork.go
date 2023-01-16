@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"context"
 	"errors"
 	"fmt"
 
@@ -80,18 +81,16 @@ type Fork struct {
 	newTestScope  bool
 }
 
+const ForkSuffix = " (fork)"
+
 // Fork will create a new handle for executing a code block
 func (p *Process) Fork(flags int) *Fork {
 	fork := new(Fork)
 	fork.Process = new(Process)
-	fork.Kill = func() {
-		if debug.Enabled {
-			ShellProcess.Stderr.Writeln([]byte("!!! Murex currently doesn't support killing `(fork)` functions !!!"))
-		}
-	}
+	fork.SetTerminatedState(true)
+	fork.Forks = p.Forks
 
 	fork.State.Set(state.MemAllocated)
-	fork.PromptId = p.PromptId
 	fork.Background.Set(flags&F_BACKGROUND != 0 || p.Background.Get())
 	fork.PromptId = p.PromptId
 
@@ -100,7 +99,7 @@ func (p *Process) Fork(flags int) *Fork {
 	fork.OperatorLogicOr = p.OperatorLogicOr
 	fork.IsNot = p.IsNot
 
-	fork.Previous = p
+	fork.Previous = p.Previous
 	fork.Next = p.Next
 
 	if p.Id == ShellProcess.Id {
@@ -118,6 +117,8 @@ func (p *Process) Fork(flags int) *Fork {
 	if flags&F_FUNCTION != 0 {
 		fork.Scope = fork.Process
 		fork.Parent = fork.Process
+		fork.Context, fork.Done = context.WithCancel(context.Background())
+		fork.Kill = fork.Done
 
 		fork.Variables = NewVariables(fork.Process)
 		GlobalFIDs.Register(fork.Process)
@@ -131,7 +132,8 @@ func (p *Process) Fork(flags int) *Fork {
 	} else {
 		fork.Scope = p.Scope
 		fork.Name.Set(p.Name.String())
-		fork.Parameters.CopyFrom(&p.Parameters)
+		//fork.Parameters.CopyFrom(&p.Parameters)
+		fork.Context, fork.Done = p.Context, p.Done
 
 		if p.Scope.RunMode > runmode.Default {
 			fork.RunMode = p.Scope.RunMode
@@ -142,23 +144,23 @@ func (p *Process) Fork(flags int) *Fork {
 
 		switch {
 		case flags&F_PARENT_VARTABLE != 0:
-			fork.Parent = p
+			fork.Parent = p.Parent
 			fork.Variables = p.Variables
 			fork.Id = p.Id
 
 		case flags&F_NEW_VARTABLE != 0:
-			fork.Parent = p
+			fork.Parent = p.Parent
 			fork.Variables = p.Variables
-			fork.Name.Append(" (fork)")
+			fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 
 		default:
 			//panic("must include either F_PARENT_VARTABLE or F_NEW_VARTABLE")
-			fork.Parent = p
+			fork.Parent = p.Parent
 			fork.Variables = NewVariables(fork.Process)
 			fork.Variables = p.Variables
-			fork.Name.Append(" (fork)")
+			fork.Name.Append(ForkSuffix)
 			GlobalFIDs.Register(fork.Process)
 			fork.fidRegistered = true
 		}
@@ -248,33 +250,36 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 	if fork.fidRegistered {
 		defer deregisterProcess(fork.Process)
 	} else {
+		defer fork.SetTerminatedState(true)
 		defer fork.Stdout.Close()
 		defer fork.Stderr.Close()
 	}
 
-	tree, pErr := ParseBlock(block)
-	if pErr.Code != 0 {
-		errMsg := fmt.Sprintf("syntax error at %d,%d+%d: %s", fork.FileRef.Line, fork.FileRef.Column, pErr.EndByte, pErr.Message)
-		fork.Stderr.Writeln([]byte(errMsg))
-		err = errors.New(errMsg)
+	tree, err := ParseBlock(block)
+	if err != nil {
 		return 1, err
 	}
 
 	procs, errNo := compile(tree, fork.Process)
 	if errNo != 0 {
-		errMsg := fmt.Sprintf("compilation Error at %d,%d+0: %s", fork.FileRef.Line, fork.FileRef.Column, errMessages[errNo])
+		errMsg := fmt.Sprintf("compilation Error at %d,%d+0 (%s): %s",
+			fork.FileRef.Line, fork.FileRef.Column, fork.FileRef.Source.Module, errMessages[errNo])
 		fork.Stderr.Writeln([]byte(errMsg))
 		return errNo, errors.New(errMsg)
 	}
-	if len(procs) == 0 {
+	if len(*procs) == 0 {
 		if debug.Enabled {
-			err = fmt.Errorf("compilation Error at %d,%d+0: Empty code block", fork.FileRef.Line, fork.FileRef.Column)
+			err = fmt.Errorf("compilation Error at %d,%d+0 (%s): Empty code block",
+				fork.FileRef.Line, fork.FileRef.Column, fork.FileRef.Source.Module)
 		}
 		return 0, err
 	}
 
+	id := fork.Process.Forks.add(procs)
+	defer fork.Process.Forks.delete(id)
+
 	if !fork.Background.Get() {
-		ForegroundProc.Set(&procs[0])
+		ForegroundProc.Set(&(*procs)[0])
 	}
 
 	// Support for different run modes:

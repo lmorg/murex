@@ -1,0 +1,100 @@
+function murex-dev {
+    # Sets murex up so I can dev it easier
+    source {
+        cd: $GOPATH/src/github.com/lmorg/murex
+        export MUREX_DEV=true
+        config: set shell prompt (murex-dev» )
+        config: set shell titlebar-func { $PWD->regexp (f|.*/(.*)$|) }
+        agent
+    }
+
+    if { $TMUX } then {
+        tmux set-option allow-rename on
+        ({ESC}kdev{ESC}\)
+    }
+        
+    function mxbuild {
+        # Builds murex then launches it
+        try {
+            out: "Running docgen...."
+            docgen: -panic -config gen/docgen.yaml
+            out: "Formatting generated source...."
+            go: <null> fmt @{g: builtins/docs/*.go}
+            go: <null> fmt @{g: config/defaults/*.go}
+            out: "Compiling murex...."
+            go: build github.com/lmorg/murex
+            out: "Starting...."
+            ./murex
+        }
+    }
+
+    function mxwasm {
+        # Builds WASM and launches web server
+        try {
+            out: "Building wasm binary...."
+            export: GOOS=js
+            export: GOARCH=wasm
+            go: build -o gen/website/wasm/murex.wasm
+            !export: GOOS
+            !export: GOARCH
+            
+            cp: -v ${go: env GOROOT}/misc/wasm/wasm_exec.js ./gen/website/wasm/
+
+            out: "Building web server...."
+            go: build -o wasmserver utils/wasmserver/main.go
+            
+            out: "Starting service...."
+            ./wasmserver:
+        }
+    }
+
+    function mxdebug {
+        # Builds murex then launches it
+        try {
+            out: "Running docgen...."
+            docgen: -warning -panic -verbose -config gen/docgen.yaml
+            out: "Formatting generated source...."
+            go: <null> fmt @{g: builtins/docs/*.go}
+            go: <null> fmt @{g: config/defaults/*.go}
+            out: "Compiling murex...."
+            go: build github.com/lmorg/murex
+            out: "Starting...."
+            ./murex --debug
+        }
+    }
+
+    function mxtest {
+        # Builds murex then runs the testing frameworks against the compiled binary
+        try {
+            out: "Running go generate..."
+            go generate ./...
+            out: "Running docgen...."
+            docgen: -warning -config gen/docgen.yaml
+            out: "Formatting generated source...."
+            go: <null> fmt @{g: builtins/docs/*.go}
+            go: <null> fmt @{g: config/defaults/*.go}
+            out: "Compiling murex...."
+            go: build github.com/lmorg/murex
+            out: "Running test suites...."
+            go: test ./... -count 10 --race -covermode=atomic
+            ./murex --load-modules -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
+            ./test/test_goos.mx
+        }
+        catch {
+            out: "{RED}Testing failed :({RESET}"
+        }
+    }
+
+    alias: mxinstall=go install -v github.com/lmorg/murex
+    alias: mxdocgen=go install -v github.com/lmorg/murex/utils/docgen
+
+    function mxbuiltin-src {
+        # Find which .go file contains the import for a murex builtin
+        find: $GOPATH/src/github.com/lmorg/murex/builtins/ -name *.go -exec grep -E -H (lang\.Define(Function|Method)\("$ARGS[1]".*\)) {} \; -> regexp: s,$GOPATH/src/github.com/lmorg/murex/builtins/,,
+    }
+
+    function mxgrep {
+        # Grep through murex's source code
+        find: $GOPATH/src/github.com/lmorg/murex/ -name *.go -not -path */vendor/* -not -path */builtins/docs/* -name *.go -exec grep -H ($ARGS[1]) {} \; -> regexp: s,$GOPATH/src/github.com/lmorg/murex/,,
+    }
+}

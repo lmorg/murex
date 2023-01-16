@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#export MUREXVERSION="$(cat app/app.go | grep 'const Version' | egrep -o '[0-9]+\.[0-9]+\.[0-9]+')"
+#export MUREXVERSION="$(cat app/app.go | grep 'const Version' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
 
 pandoc "$1" > "$1.tmp"
 

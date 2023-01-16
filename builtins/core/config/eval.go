@@ -25,13 +25,16 @@ func evalConfig(p *lang.Process) error {
 		return err
 	}
 
-	v, err := p.Config.Get(app, key, types.String)
+	dataType := p.Config.DataType(app, key)
+
+	v, err := p.Config.Get(app, key, dataType)
 	if err != nil {
 		return err
 	}
 
 	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN | lang.F_CREATE_STDOUT)
-	fork.Stdin.SetDataType(p.Config.DataType(app, key))
+	fork.Stdin.SetDataType(dataType)
+
 	_, err = fork.Stdin.Write([]byte(v.(string)))
 	if err != nil {
 		return errors.New("Couldn't write to eval's stdin: " + err.Error())

@@ -57,6 +57,7 @@
   - global
   - let
   - equ
+  - expr
   - export
   - exec
   - brace-quote
@@ -126,6 +127,7 @@
   - set
   - let
   - equ
+  - expr
   - export
   - brace-quote
   - index
@@ -210,6 +212,7 @@
   - set
   - let
   - equ
+  - expr
   - global
   - brace-quote
   - user-guide/scoping

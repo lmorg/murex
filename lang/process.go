@@ -1,12 +1,10 @@
 package lang
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"io"
 	"os"
-	"regexp"
 	"strings"
 	"time"
 
@@ -18,7 +16,6 @@ import (
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
-	"github.com/lmorg/murex/utils/consts"
 )
 
 var (
@@ -76,10 +73,14 @@ func DefineFunction(name string, fn func(*Process) error, StdoutDataType string)
 	MethodStdout.Define(name, StdoutDataType)
 }
 
-var (
-	rxNamedPipeStdinOnly = regexp.MustCompile(`^<[a-zA-Z0-9]+>$`)
-	rxVariables          = regexp.MustCompile(`^\$([_a-zA-Z0-9]+)(\[(.*?)\]|)$`)
-)
+func indentError(err error) error {
+	if err == nil {
+		return err
+	}
+
+	s := strings.ReplaceAll(err.Error(), "\n", "\n    ")
+	return errors.New(s)
+}
 
 func writeError(p *Process, err error) []byte {
 	var msg string
@@ -94,8 +95,9 @@ func writeError(p *Process, err error) []byte {
 
 	if p.FileRef.Source.Module == app.ShellModule {
 		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
+	} else {
+		msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
 	}
-	msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
 
 	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", len(msg)-2)+"> ")
 	return []byte(msg + sErr)
@@ -109,12 +111,6 @@ func createProcess(p *Process, isMethod bool) {
 	parseRedirection(p)
 
 	name := p.Name.String()
-
-	if rxNamedPipeStdinOnly.MatchString(name) {
-		p.Parameters.SetPrepend(name[1 : len(name)-1])
-		p.Name.Set(consts.NamedPipeProcName)
-		name = consts.NamedPipeProcName
-	}
 
 	if name[0] == '!' {
 		p.IsNot = true
@@ -157,7 +153,7 @@ func createProcess(p *Process, isMethod bool) {
 			p.stdoutOldPtr = p.Stdout
 			p.Stdout = pipe
 		} else {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+			p.Stderr.Writeln([]byte("invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
@@ -168,7 +164,7 @@ func createProcess(p *Process, isMethod bool) {
 		p.Stderr, stderr2 = streams.NewTee(p.Stderr)
 		err := p.Tests.SetStreams(p.NamedPipeTest, stdout2, stderr2, &p.ExitNum)
 		if err != nil {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+			p.Stderr.Writeln([]byte("invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
@@ -186,8 +182,10 @@ func createProcess(p *Process, isMethod bool) {
 	p.State.Set(state.Assigned)
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
-	if name == "pipe" || name == "test" {
-		err := ParseParameters(p, &p.Parameters)
+	if name == "pipe:" || name == "test:" ||
+		name == "pipe" || name == "test" {
+		//err := ParseParameters(p, &p.Parameters)
+		_, params, err := ParseStatementParameters(p.raw, p)
 		if err != nil {
 			ShellProcess.Stderr.Writeln(writeError(p, err))
 			if p.ExitNum == 0 {
@@ -195,8 +193,8 @@ func createProcess(p *Process, isMethod bool) {
 			}
 
 		} else {
-
-			err = GoFunctions[name](p)
+			p.Parameters.DefineParsed(params)
+			err = GoFunctions[name[:4]](p)
 			if err != nil {
 				ShellProcess.Stderr.Writeln(writeError(p, err))
 				if p.ExitNum == 0 {
@@ -211,10 +209,11 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
-	//debug.Json("Execute process ()", p)
+	//debug.Json("Execute process ()", p.Dump())
 	testStates(p)
 
-	if p.HasTerminated() {
+	if p.HasTerminated() || p.HasCancelled() ||
+		/*p.Parent.HasTerminated() ||*/ p.Parent.HasCancelled() {
 		destroyProcess(p)
 		return
 	}
@@ -227,26 +226,23 @@ func executeProcess(p *Process) {
 	if err != nil {
 		echo = false
 	}
+
 	tmux, err := p.Config.Get("proc", "echo-tmux", types.Boolean)
 	if err != nil {
 		tmux = false
 	}
 
-	p.Context, p.Done = context.WithCancel(context.Background())
-
-	p.Kill = func() {
-		p.Stdin.ForceClose()
-		p.Stdout.ForceClose()
-		p.Stderr.ForceClose()
-		p.Done()
-	}
-
 	var parsedAlias bool
 
-	err = ParseParameters(p, &p.Parameters)
+	n, params, err := ParseStatementParameters(p.raw, p)
 	if err != nil {
 		goto cleanUpProcess
 	}
+	if n != name {
+		p.Name.Set(n)
+		name = n
+	}
+	p.Parameters.DefineParsed(params)
 
 	// Execute function.
 	p.State.Set(state.Executing)
@@ -308,37 +304,6 @@ executeProcess:
 			}
 		}
 
-	case len(name) > 0 && name[0] == '$':
-		// variables as functions
-		match := rxVariables.FindAllStringSubmatch(name+p.Parameters.StringAll(), -1)
-		switch {
-		case len(name) == 1:
-			err = errors.New("variable token, `$`, used without specifying variable name")
-		case len(match) == 0 || len(match[0]) == 0:
-			err = errors.New("`" + name[1:] + "` is not a valid variable name")
-		case match[0][2] == "":
-			var s string
-			s, err = p.Variables.GetString(match[0][1])
-			if err == nil {
-				p.Stdout.SetDataType(p.Variables.GetDataType(match[0][1]))
-				_, err = p.Stdout.Write([]byte(s))
-			} else {
-				p.Stdout.SetDataType(types.Null)
-				//p.Stderr.Write([]byte(err.Error()))
-			}
-		default:
-			block := []rune("$" + match[0][1] + "->[" + match[0][3] + "]")
-			p.Fork(F_PARENT_VARTABLE).Execute(block)
-		}
-
-	case name == "@g":
-		// auto globbing
-		err = autoGlob(p)
-		if err == nil {
-			name = p.Name.String()
-			goto executeProcess
-		}
-
 	case GoFunctions[name] != nil:
 		// murex builtins
 		err = GoFunctions[name](p)
@@ -347,11 +312,13 @@ executeProcess:
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")
-		//name = "exec"
 		err = GoFunctions["exec"](p)
+		if err != nil && strings.Contains(err.Error(), "executable file not found") {
+			_, cpErr := ParseExpression(p.raw, 0, false)
+			err = fmt.Errorf("Not a valid expression:\n    %v\nNor a valid statement:\n    %v",
+				indentError(cpErr), indentError(err))
+		}
 	}
-
-	//p.Stdout.DefaultDataType(err != nil)
 
 cleanUpProcess:
 	//debug.Json("Execute process (cleanUpProcess)", p)
@@ -438,15 +405,14 @@ func deregisterProcess(p *Process) {
 
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
-		if p.Next == nil {
+		/*if p.Next == nil {
 			//debug.Json("deregisterProcess (p.Next == nill)", p)
-		}
+		}*/
 		ForegroundProc.Set(p.Next)
 	}
 
 	go func() {
 		p.State.Set(state.AwaitingGC)
-		//CloseScopedVariables(p)
 		GlobalFIDs.Deregister(p.Id)
 	}()
 

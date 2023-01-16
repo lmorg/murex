@@ -78,6 +78,34 @@ func TestConvertGoTypeGeneric(t *testing.T) {
 			DataType: types.Generic,
 			Out:      `{ "foo": "bar" }`,
 		},
+
+		///
+
+		{
+			In:       []string{"foo", "bar"},
+			DataType: types.Generic,
+			Out:      `foo bar`,
+		},
+		{
+			In:       []int{1, 2},
+			DataType: types.Generic,
+			Out:      `1 2`,
+		},
+		{
+			In:       []float64{1.2, 1.3},
+			DataType: types.Generic,
+			Out:      `1.2 1.3`,
+		},
+		{
+			In:       []bool{true, false},
+			DataType: types.Generic,
+			Out:      `true false`,
+		},
+		{
+			In:       []interface{}{"foo", 1, 2.2, true, "bar"},
+			DataType: types.Generic,
+			Out:      `foo 1 2.2 true bar`,
+		},
 	}
 
 	testConvertGoType(t, tests)

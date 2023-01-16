@@ -32,8 +32,13 @@ func TestDefaultProfileCompiles(t *testing.T) {
 	lang.InitEnv()
 	lang.ShellProcess.Config = config.InitConf
 
+	var block string
+	for _, profile := range defaults.DefaultProfiles {
+		block += "\n\n" + string(profile.Block)
+	}
+
 	fork := lang.ShellProcess.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
-	exitNum, err := fork.Execute(defaults.DefaultMurexProfile())
+	exitNum, err := fork.Execute([]rune(block))
 
 	if err != nil {
 		t.Error("Error compiling murex_profile:")

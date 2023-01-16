@@ -154,7 +154,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				incManPages bool
 			)
 
-			err := stdout.ReadArray(func(b []byte) {
+			err := stdout.ReadArray(hardCtx, func(b []byte) {
 				//s := string(bytes.TrimSpace(b))
 				s := string(b)
 

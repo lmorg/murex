@@ -1,6 +1,7 @@
 package yaml
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 
@@ -33,12 +34,12 @@ func init() {
 	lang.SetFileExtensions(typeName, "yaml", "yml")
 }
 
-func readArray(read stdio.Io, callback func([]byte)) error {
-	return lang.ArrayTemplate(yaml.Marshal, yaml.Unmarshal, read, callback)
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
+	return lang.ArrayTemplate(ctx, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
-func readArrayWithType(read stdio.Io, callback func([]byte, string)) error {
-	return lang.ArrayWithTypeTemplate(typeName, yaml.Marshal, yaml.Unmarshal, read, callback)
+func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
+	return lang.ArrayWithTypeTemplate(ctx, typeName, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
 func noCrLf(b []byte) []byte {

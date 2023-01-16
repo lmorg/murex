@@ -1,43 +1,27 @@
 package ranges
 
 import (
-	"bytes"
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/rmbs"
 )
 
 func init() {
-	//lang.GoFunctions["@["] = cmdRange
-	lang.DefineMethod("@[", cmdRange, types.ReadArray, types.WriteArray)
+	lang.DefineMethod("@[", CmdRange, types.ReadArray, types.WriteArray)
 }
 
-const usage = "\nUsage: @[start..end] / @[start..end]se\n(start or end can be omitted)"
+const usage = "\nUsage: [start..end] / [start..end]se\n(start or end can be omitted)"
 
 // if additional ranges are added here, they will also need to be added to
 // /home/lau/dev/go/src/github.com/lmorg/murex/lang/parameters.go
-var rxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8erns]*)\s*$`)
+var RxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8ernsi]*)\s*$`)
 
-type rangeParameters struct {
-	Exclude    bool
-	RmBS       bool
-	StripBlank bool
-	TrimSpace  bool
-	Start      string
-	End        string
-	Match      rangeFuncs
-}
-
-type rangeFuncs interface {
-	Start([]byte) bool
-	End([]byte) bool
-}
-
-func cmdRange(p *lang.Process) (err error) {
+func CmdRange(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(dt)
 
@@ -47,9 +31,13 @@ func cmdRange(p *lang.Process) (err error) {
 
 	s := p.Parameters.StringAll()
 
-	split := rxSplitRange.FindStringSubmatch(s)
+	split := RxSplitRange.FindStringSubmatch(s)
 	if len(split) != 4 {
-		return fmt.Errorf("invalid syntax: could not separate component values: %v.%s", split, usage)
+		err = indexAndExpand(p, dt)
+		if err != nil {
+			return fmt.Errorf("Not a valid range: %v.%s\nNor a valid index: %v", split, usage, err)
+		}
+		return nil
 	}
 
 	r := &rangeParameters{
@@ -89,10 +77,17 @@ func cmdRange(p *lang.Process) (err error) {
 		err = newString(r)
 
 	case "n":
-		fallthrough
+		err = newNumber(r)
+
+	case "i":
+		err = newIndex(r)
 
 	default:
-		err = newNumber(r)
+		if p.Name.String() == "@[" {
+			err = newNumber(r)
+		} else {
+			err = newIndex(r)
+		}
 	}
 
 	if err != nil {
@@ -102,70 +97,49 @@ func cmdRange(p *lang.Process) (err error) {
 	return readArray(p, r, dt)
 }
 
-func readArray(p *lang.Process, r *rangeParameters, dt string) error {
-	var (
-		nestedErr      error
-		started, ended bool
-	)
-
-	if r.Start == "" {
-		started = true
-	}
-
-	array, err := p.Stdout.WriteArray(dt)
-	if err != nil {
-		return err
-	}
-
-	err = p.Stdin.ReadArray(func(b []byte) {
-		if ended {
-			return
-		}
-
-		if r.RmBS {
-			b = []byte(rmbs.Remove(string(b)))
-		}
-
-		if r.TrimSpace {
-			b = bytes.TrimSpace(b)
-		}
-
-		if r.StripBlank && len(b) == 0 {
-			return
-		}
-
-		if !started {
-			if r.Match.Start(b) {
-				started = true
-				if r.Exclude {
-					return
-				}
-
-			} else {
-				return
+func indexAndExpand(p *lang.Process, dt string) (err error) {
+	if !debug.Enabled {
+		defer func() {
+			if r := recover(); r != nil {
+				err = fmt.Errorf("panic caught, please report this to https://github.com/lmorg/murex/issues : %s", r)
 			}
-		}
-
-		if r.End != "" && r.Match.End(b) {
-			ended = true
-			if r.Exclude {
-				return
-			}
-		}
-
-		nestedErr = array.Write(b)
-		if nestedErr != nil {
-			return
-		}
-	})
-
-	if nestedErr != nil {
-		return nestedErr
+		}()
 	}
 
+	// We will set data type from the index function but fallback to this just
+	// in case it's forgotten about in the index function. This is safe because
+	// SetDataType() cannot overwrite the data type once set.
+	defer p.Stdout.SetDataType(dt)
+
+	params := p.Parameters.StringArray()
+	l := len(params) - 1
+	if l < 0 {
+		return errors.New("missing parameters. Please select 1 or more indexes")
+	}
+
+	switch {
+	case params[l] == "]":
+		params = params[:l]
+	case strings.HasSuffix(params[l], "]"):
+		params[l] = params[l][:len(params[l])-1]
+	default:
+		return errors.New("missing closing bracket, ` ]`")
+	}
+
+	f := lang.ReadIndexes[dt]
+	if f == nil {
+		return errors.New("i don't know how to get an index from this data type: `" + dt + "`")
+	}
+
+	silent, err := p.Config.Get("index", "silent", types.Boolean)
 	if err != nil {
-		return err
+		silent = false
 	}
 
-	return array.Close()
+	err = f(p, params)
+	if silent.(bool) {
+		return nil
+	}
+
+	return err
 }

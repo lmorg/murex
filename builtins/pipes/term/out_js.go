@@ -15,6 +15,9 @@ type Out struct {
 	term
 }
 
+// SetDataType is a null method because the term interface is write-only
+func (t *Out) SetDataType(string) {}
+
 // Write is the io.Writer() interface for term
 func (t *Out) Write(b []byte) (int, error) {
 	t.mutex.Lock()

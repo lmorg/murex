@@ -50,19 +50,19 @@ to return the same markdown-formatted document as those listed below. eg
 * [`<stdin>` ](commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`=` (arithmetic evaluation)](commands/equ.md):
-  Evaluate a mathematical function
+  Evaluate a mathematical function (deprecated)
 * [`>>` (append file)](commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`@[` (range) ](commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [`@g` (autoglob) ](commands/autoglob.md):
-  Command prefix to expand globbing
+  Command prefix to expand globbing (deprecated)
 * [`[[` (element)](commands/element.md):
   Outputs an element from a nested structure
 * [`[` (index)](commands/index.md):
   Outputs an element from an array, map or table
+* [`[` (range) ](commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`addheading` ](commands/addheading.md):
@@ -83,6 +83,8 @@ to return the same markdown-formatted document as those listed below. eg
   Check which builtins exist
 * [`bg`](commands/bg.md):
   Run processes in the background
+* [`break`](commands/break.md):
+  terminate execution of a block within your processes scope
 * [`cast`](commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`catch`](commands/catch.md):
@@ -91,6 +93,8 @@ to return the same markdown-formatted document as those listed below. eg
   Change (working) directory
 * [`config`](commands/config.md):
   Query or define _murex_ runtime settings
+* [`continue`](commands/continue.md):
+  terminate process of a block within a caller function
 * [`count`](commands/count.md):
   Count items in a map, list or array
 * [`cpuarch`](commands/cpuarch.md):
@@ -123,6 +127,8 @@ to return the same markdown-formatted document as those listed below. eg
   Output the exit number of the previous process
 * [`export`](commands/export.md):
   Define an environmental variable and set it's value
+* [`expr`](commands/expr.md):
+  Expressions: mathematical, string comparisons, logical operators
 * [`f`](commands/f.md):
   Lists or filters file system objects (eg files)
 * [`false`](commands/false.md):
@@ -168,7 +174,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`left`](commands/left.md):
   Left substring every item in a list
 * [`let`](commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [`lockfile`](commands/lockfile.md):
   Create and manage lock files
 * [`man-get-flags` ](commands/man-get-flags.md):

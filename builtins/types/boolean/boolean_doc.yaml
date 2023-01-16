@@ -1,0 +1,21 @@
+- DocumentID: bool
+  Title: >-
+    `bool` 
+  CategoryID: types
+  Summary: >-
+    Boolean (primitive)
+  Description: |-
+    A true or false value.
+  Usage:
+  Examples:
+  Hooks:
+    Marshal(): Supported
+    Unmarshal(): Supported
+  Detail:
+  Associations:
+  Related:
+  - str
+  - num
+  - apis/Marshal
+  - apis/Unmarshal
+

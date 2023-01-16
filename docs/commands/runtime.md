@@ -309,7 +309,7 @@ functions.
 * [commands/`global`](../commands/global.md):
   Define a global variable and set it's value
 * [commands/`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable
+  Evaluate a mathematical function and assign to variable (deprecated)
 * [commands/`method`](../commands/method.md):
   Define a methods supported data-types
 * [commands/`open`](../commands/open.md):

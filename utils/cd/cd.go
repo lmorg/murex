@@ -35,8 +35,6 @@ func Chdir(p *lang.Process, path string) error {
 		go cache.GatherFileCompletions(pwd)
 	}
 
-	//ansititle.Icon([]byte(pwd))
-
 	// Update $PWD environmental variable for compatibility reasons
 	err = os.Setenv("PWD", pwd)
 	if err != nil {
@@ -44,16 +42,19 @@ func Chdir(p *lang.Process, path string) error {
 	}
 
 	// Update $PWDHIST murex variable - a more idiomatic approach to PWD
-	pwdhist := lang.GlobalVariables.GetValue(GlobalVarName)
-
-	switch pwdhist.(type) {
-	case []string:
-		pwdhist = append(pwdhist.([]string), pwd)
-	default:
-		debug.Log(fmt.Sprintf("$%s has become corrupt (%t) so regenerating", GlobalVarName, pwdhist))
-		pwdhist = []string{pwd}
+	pwdHist, err := lang.GlobalVariables.GetValue(GlobalVarName)
+	if err != nil {
+		return err
 	}
 
-	lang.GlobalVariables.Set(p, GlobalVarName, pwdhist, types.Json)
+	switch pwdHist.(type) {
+	case []string:
+		pwdHist = append(pwdHist.([]string), pwd)
+	default:
+		debug.Log(fmt.Sprintf("$%s has become corrupt (%t) so regenerating", GlobalVarName, pwdHist))
+		pwdHist = []string{pwd}
+	}
+
+	err = lang.GlobalVariables.Set(p, GlobalVarName, pwdHist, types.Json)
 	return err
 }

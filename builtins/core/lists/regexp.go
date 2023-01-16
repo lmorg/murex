@@ -6,17 +6,11 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 )
 
 func init() {
-	//lang.GoFunctions["match"] = cmdMatch
-	//lang.GoFunctions["!match"] = cmdMatch
-	//lang.GoFunctions["regexp"] = cmdRegexp
-	//lang.GoFunctions["!regexp"] = cmdRegexp
-
 	lang.DefineMethod("match", cmdMatch, types.ReadArray, types.WriteArray)
 	lang.DefineMethod("!match", cmdMatch, types.ReadArray, types.WriteArray)
 	lang.DefineMethod("regexp", cmdRegexp, types.ReadArray, types.WriteArray)
@@ -40,7 +34,7 @@ func cmdMatch(p *lang.Process) error {
 		return err
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		matched := bytes.Contains(b, p.Parameters.ByteAll())
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 			err = aw.Write(b)
@@ -174,15 +168,6 @@ func splitRegexDefault(regex []byte) (s []string, _ error) {
 	return
 }
 
-var rxCurlyBraceSplit = regexp.MustCompile(`\{(.*?)\}`)
-
-func splitRegexBraces(regex []byte) ([]string, error) {
-	s := rxCurlyBraceSplit.FindAllString(string(regex), -1)
-	s = append([]string{string(regex[0])}, s...)
-	debug.Json("s", s)
-	return s, nil
-}
-
 // -------- regex functions --------
 
 func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
@@ -190,11 +175,13 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 	if err != nil {
 		return err
 	}
+	var count int
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		matched := rx.Match(b)
 		if (matched && !p.IsNot) || (!matched && p.IsNot) {
 
+			count++
 			err = aw.Write(b)
 			if err != nil {
 				p.Stdin.ForceClose()
@@ -208,12 +195,16 @@ func regexMatch(p *lang.Process, rx *regexp.Regexp, dt string) error {
 		return err
 	}
 
+	if count == 0 {
+		return fmt.Errorf("nothing matched: %s", rx.String())
+	}
+
 	return aw.Close()
 }
 
 func regexSubstitute(p *lang.Process, rx *regexp.Regexp, sRegex []string, dt string) error {
 	if len(sRegex) < 3 {
-		return fmt.Errorf("Invalid regex (too few parameters - expecting s/find/substitute/) in: `%s`", p.Parameters.StringAll())
+		return fmt.Errorf("invalid regex: too few parameters\nexpecting s/find/substitute/ in: `%s`", p.Parameters.StringAll())
 	}
 
 	aw, err := p.Stdout.WriteArray(dt)
@@ -223,7 +214,7 @@ func regexSubstitute(p *lang.Process, rx *regexp.Regexp, sRegex []string, dt str
 
 	sub := []byte(sRegex[2])
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		err = aw.Write(rx.ReplaceAll(b, sub))
 		if err != nil {
 			p.Stdin.ForceClose()
@@ -244,7 +235,7 @@ func regexFind(p *lang.Process, rx *regexp.Regexp, dt string) error {
 		return err
 	}
 
-	p.Stdin.ReadArray(func(b []byte) {
+	p.Stdin.ReadArray(p.Context, func(b []byte) {
 		match := rx.FindAllStringSubmatch(string(b), -1)
 		for _, found := range match {
 			if len(found) > 1 {

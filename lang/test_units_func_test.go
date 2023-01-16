@@ -16,6 +16,7 @@ package lang_test
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
@@ -151,10 +152,10 @@ func TestRunTestStdin(t *testing.T) {
 			TestBlock: `-> set foo; $foo`,
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
-				Stdin:       "bar",
-				StdinType:   "notjson",
-				StdoutMatch: "bar",
-				StdoutType:  "notjson",
+				Stdin:       "[1,2,3]",
+				StdinType:   types.Json,
+				StdoutMatch: "[1,2,3]",
+				StdoutType:  types.Json,
 			},
 		},
 		{
@@ -163,7 +164,7 @@ func TestRunTestStdin(t *testing.T) {
 			Passed:    true,
 			UTP: lang.UnitTestPlan{
 				Stdin:       "bar",
-				StdinType:   "notjson",
+				StdinType:   types.Generic,
 				StdoutMatch: "bar\n",
 				StdoutType:  types.String,
 			},

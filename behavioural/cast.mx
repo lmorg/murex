@@ -1,0 +1,15 @@
+# This file tests murex data types are being cast
+
+function cast.test.worker {
+    sleep 2
+    <stdin> -> :foo debug -> [[ /Data-Type/Murex ]]
+}
+
+function cast.test {
+    tout bar rab -> cast.test.worker
+}
+
+test: unit function cast.test {
+    "StdoutMatch": "foo",
+    "ExitNum":     0
+}

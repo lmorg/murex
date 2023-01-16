@@ -14,6 +14,10 @@ import (
 
 func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 	switch v := iface.(type) {
+	case string:
+		b = []byte(v)
+		return
+
 	case []string:
 		for i := range v {
 			b = append(b, []byte(v[i]+utils.NewLineString)...)
@@ -84,12 +88,11 @@ func iface2str(iface *interface{}) (b []byte) {
 	case interface{}:
 		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 
-	default:
-		return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
 		//default:
-		//	panic(fmt.Sprintf("Cannot marshal %T", v))
+		//	return []byte(fmt.Sprintf("%v%s", v, utils.NewLineString))
+	default:
+		panic(fmt.Sprintf("cannot marshal %T", v))
 	}
-
 }
 
 func tabWriter(v [][]string) ([]byte, error) {

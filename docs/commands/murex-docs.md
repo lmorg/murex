@@ -26,6 +26,12 @@ Displays the man pages for _murex_ builtins.
 
 These man pages are compiled into the _murex_ executable.
 
+## Synonyms
+
+* `murex-docs`
+* `help`
+
+
 ## See Also
 
 * [commands/`(` (brace quote)](../commands/brace-quote.md):

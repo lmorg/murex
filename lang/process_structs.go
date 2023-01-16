@@ -21,14 +21,17 @@ import (
 // External processes will also appear in the host OS's process list.
 type Process struct {
 	Id                 uint32
+	raw                []rune
 	Name               process.Name
 	Parameters         parameters.Parameters
+	namedPipes         []string
 	Context            context.Context
 	Stdin              stdio.Io
 	Stdout             stdio.Io
 	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
 	Stderr             stdio.Io
 	ExitNum            int
+	Forks              *ForkManagement
 	WaitForTermination chan bool `json:"-"`
 	Done               func()    `json:"-"`
 	Kill               func()    `json:"-"`
@@ -45,7 +48,7 @@ type Process struct {
 	NamedPipeOut       string
 	NamedPipeErr       string
 	NamedPipeTest      string
-	hasTerminatedM     sync.Mutex
+	hasTerminatedM     sync.Mutex `json:"-"`
 	hasTerminatedV     bool
 	State              state.State
 	Background         process.Background
@@ -63,6 +66,53 @@ type Process struct {
 	CCErr              *streams.Stdin         `json:"-"`
 }
 
+func (p *Process) Dump() interface{} {
+	dump := make(map[string]interface{})
+
+	dump["Id"] = p.Id
+	dump["Name"] = p.Name.String()
+	dump["Parameters"] = p.Parameters.Dump()
+	dump["Context_Set"] = p.Context != nil
+	dump["Stdin_Set"] = p.Stdin != nil
+	dump["Stdout_Set"] = p.Stdout != nil
+	dump["StdoutOldPtr_Set"] = p.stdoutOldPtr != nil
+	dump["Stderr_Set"] = p.Stderr != nil
+	dump["ExitNum"] = p.ExitNum
+	dump["Done_Set"] = p.Done != nil
+	dump["Kill_Set"] = p.Kill != nil
+	dump["Exec"] = &p.Exec
+	dump["PromptId"] = p.PromptId
+	dump["Scope.Id"] = p.Scope.Id
+	dump["Parent.Id"] = p.Parent.Id
+	dump["Previous.Id"] = p.Previous.Id
+	dump["IsNot"] = p.IsNot
+	dump["IsMethod"] = p.IsMethod
+	dump["OperatorLogicAnd"] = p.OperatorLogicAnd
+	dump["OperatorLogicOr"] = p.OperatorLogicOr
+	dump["NamedPipeOut"] = p.NamedPipeOut
+	dump["NamedPipeErr"] = p.NamedPipeErr
+	dump["NamedPipeTest"] = p.NamedPipeTest
+	dump["HasTerminated"] = p.HasTerminated()
+	dump["HasCancelled"] = p.HasCancelled()
+	dump["State"] = p.State.String()
+	dump["Background"] = p.Background.String()
+	dump["RunMode"] = p.RunMode.String()
+	dump["RunMode.IsStrict"] = p.RunMode.IsStrict()
+	dump["Config_Set"] = p.Config != nil
+	dump["Tests_Set"] = p.Tests != nil
+	dump["testState"] = p.testState
+	dump["Variables_Set"] = p.Variables != nil
+	dump["CreationTime"] = p.CreationTime
+	dump["StartTime"] = p.StartTime
+	dump["FileRef"] = p.FileRef
+	dump["CCEvent_Set"] = p.CCEvent != nil
+	dump["CCExists_Set"] = p.CCExists != nil
+	dump["CCOut_Set"] = p.CCOut != nil
+	dump["CCErr_Set"] = p.CCErr != nil
+
+	return dump
+}
+
 // HasTerminated checks if process has terminated.
 // This is a function because terminated state can be subject to race conditions
 // so we need a mutex to make the state thread safe.
@@ -75,9 +125,10 @@ func (p *Process) HasTerminated() (state bool) {
 
 // HasCancelled is a wrapper function around context because it's a pretty ugly API
 func (p *Process) HasCancelled() (state bool) {
-	if p.Context == nil {
+	/*if p.Context == nil {
+		fmt.Printf("(nil ctx %s %d", p.Name.String(), p.Id)
 		return false
-	}
+	}*/
 
 	select {
 	case <-p.Context.Done():

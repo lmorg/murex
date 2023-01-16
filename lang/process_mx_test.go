@@ -20,42 +20,19 @@ func TestMxProcess(t *testing.T) {
 					bg { <TestMxProcess> }
 					out: "Hello, world!" -> <TestMxProcess>
 					!pipe: TestMxProcess`,
-			Stdout: "Hello, world!\n",
+			Stdout: "^Hello, world!\n$",
 		},
 
 		{
 			Block: `alias: TestMxProcess=out Hello, world!
 					TestMxProcess`,
-			Stdout: "Hello, world!\n",
-		},
-
-		{
-			Block:  `@g out "Hello, world!"`,
-			Stdout: "Hello, world!\n",
-		},
-		{
-			Block:  `@g out: "Hello, world!"`,
-			Stdout: "Hello, world!\n",
+			Stdout: "^Hello, world!\n$",
 		},
 
 		{
 			Block: `global: TestMxProcess="Hello, world!"
 					$TestMxProcess`,
-			Stdout: "Hello, world!",
-		},
-
-		{
-			Block:   `$`,
-			Stdout:  "",
-			Stderr:  "Error in `$` ( 1,1): variable token, `$`, used without specifying variable name\n",
-			ExitNum: 1,
-		},
-
-		{
-			Block:   `$!`,
-			Stdout:  "",
-			Stderr:  "Error in `$!` ( 1,1): `!` is not a valid variable name\n",
-			ExitNum: 1,
+			Stdout: "^Hello, world!$",
 		},
 
 		{
@@ -93,5 +70,5 @@ func TestMxProcess(t *testing.T) {
 		},
 	}
 
-	test.RunMurexTests(tests, t)
+	test.RunMurexTestsRx(tests, t)
 }

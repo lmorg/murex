@@ -34,14 +34,21 @@ package string
 import (
 	"bufio"
 	"bytes"
+	"context"
 
 	"github.com/lmorg/murex/lang/stdio"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
-		callback(bytes.TrimSpace(scanner.Bytes()))
+		select {
+		case <-ctx.Done():
+			return scanner.Err()
+
+		default:
+			callback(bytes.TrimSpace(scanner.Bytes()))
+		}
 	}
 
 	return scanner.Err()
@@ -60,18 +67,20 @@ For example:
 package json
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/utils/json"
 )
 
-func readArray(read stdio.Io, callback func([]byte)) error {
+func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error {
 	// Create a marshaller function to pass to ArrayTemplate
 	marshaller := func(v interface{}) ([]byte, error) {
 		return json.Marshal(v, read.IsTTY())
 	}
 
-	return lang.ArrayTemplate(marshaller, json.Unmarshal, read, callback)
+	return lang.ArrayTemplate(ctx, marshaller, json.Unmarshal, read, callback)
 }
 ```
 
@@ -96,3 +105,5 @@ pipelines.
   Write a data type, one array element at a time
 * [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
+* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+  Unmarshals a data type into a Go struct and returns the results as an array with data type included

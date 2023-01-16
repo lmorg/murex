@@ -6,6 +6,7 @@ import (
 
 	_ "github.com/lmorg/murex/builtins/core/io"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -35,6 +36,10 @@ func VariableTests(tests []Test, t *testing.T) {
 	count.Tests(t, len(tests)*2)
 
 	for i := range tests {
+		if tests[i].DataType == "" {
+			tests[i].DataType = types.Null
+		}
+
 		fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_CREATE_STDERR)
 		fork.Name.Set("VariableTests()")
 		_, err := fork.Execute([]rune(tests[i].Block))
@@ -50,7 +55,7 @@ func VariableTests(tests []Test, t *testing.T) {
 		value, err := fork.Variables.GetString(tests[i].Name)
 		dataType := fork.Variables.GetDataType(tests[i].Name)
 
-		if err != nil {
+		if (err != nil) != tests[i].Fail {
 			t.Errorf("Test %d failed on %s:", i, t.Name())
 			t.Logf("  code block:    %s", tests[i].Block)
 			t.Logf("  variable name: %s", tests[i].Name)

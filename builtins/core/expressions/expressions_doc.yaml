@@ -1,0 +1,39 @@
+- DocumentID: expr
+  Title: >+
+    `expr`
+  CategoryID: commands
+  Summary: >-
+    Expressions: mathematical, string comparisons, logical operators
+  Description: |-
+    
+  Usage: |-
+    ```
+    expr: expression -> <stdout>
+    ```
+  Examples: |-
+    Order of operations:
+
+    ```
+    » 3 * (3 + 1)                                                                                                                                                                                                                         
+    12
+    ```
+
+    JSON array:
+
+    ```
+    » %[apples oranges grapes]
+    [
+        "apples",
+        "oranges",
+        "grapes"
+    ]
+    ```
+  Detail: |-
+
+  
+  Synonyms:
+  Related:
+  - equ
+  - set
+  - let
+

@@ -34,9 +34,9 @@ func ReadSafeCmds() (interface{}, error) {
 // slice.
 // This is only intended to be used by `config.Properties.GoFunc.Write()`
 func WriteSafeCmds(v interface{}) error {
-	switch v.(type) {
+	switch v := v.(type) {
 	case string:
-		return json.Unmarshal([]byte(v.(string)), &safeCmds)
+		return json.Unmarshal([]byte(v), &safeCmds)
 
 	default:
 		return fmt.Errorf("invalid data-type. Expecting a %s encoded string", types.Json)

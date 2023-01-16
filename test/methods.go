@@ -10,11 +10,19 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
+func errString(err error) string {
+	if err != nil {
+		return err.Error()
+	}
+
+	return ""
+}
+
 // RunMethodTest is a template function for testing builtins run as methods.
 // dataType should be preloaded in calling functions, eg
 //
-//     _ "github.com/lmorg/murex/builtins/types/generic"
-//	   _ "github.com/lmorg/murex/builtins/types/json"
+//	    _ "github.com/lmorg/murex/builtins/types/generic"
+//		   _ "github.com/lmorg/murex/builtins/types/json"
 func RunMethodTest(t *testing.T, cmd func(*lang.Process) error, methodName string, input string, dataType string, params []string, output string, expectedError error) {
 	t.Helper()
 	count.Tests(t, 1)
@@ -30,19 +38,15 @@ func RunMethodTest(t *testing.T, cmd func(*lang.Process) error, methodName strin
 	p.Stdout = streams.NewStdin()
 
 	err := cmd(p)
-	if err != nil && err != expectedError {
-		t.Error(err)
+
+	b, readErr := p.Stdout.ReadAll()
+	if readErr != nil {
+		t.Error("Error reading from STDOUT")
+		t.Log(readErr)
 		return
 	}
 
-	b, err := p.Stdout.ReadAll()
-	if err != nil {
-		t.Error("Error reading from STDOUT")
-		t.Log(err)
-		//return
-	}
-
-	if string(b) != output || expectedError != nil {
+	if string(b) != output || errString(expectedError) != errString(err) {
 		t.Errorf("Unexpected `%s` return", methodName)
 		t.Log("  input:          ", strings.Replace(input, "\n", `\n`, -1))
 		t.Log("  input data type:", dataType)
@@ -60,8 +64,8 @@ func RunMethodTest(t *testing.T, cmd func(*lang.Process) error, methodName strin
 // run as methods.
 // dataType should be preloaded in calling functions, eg
 //
-//     _ "github.com/lmorg/murex/builtins/types/generic"
-//	   _ "github.com/lmorg/murex/builtins/types/json"
+//	    _ "github.com/lmorg/murex/builtins/types/generic"
+//		   _ "github.com/lmorg/murex/builtins/types/json"
 func RunMethodRegexTest(t *testing.T, cmd func(*lang.Process) error, methodName string, input string, dataType string, params []string, outputMatchRx string) {
 	t.Helper()
 	count.Tests(t, 1)
@@ -92,7 +96,7 @@ func RunMethodRegexTest(t *testing.T, cmd func(*lang.Process) error, methodName 
 	if err != nil {
 		t.Error("Error reading from STDOUT")
 		t.Log(err)
-		//return
+		return
 	}
 
 	if !rx.MatchString(string(b)) {

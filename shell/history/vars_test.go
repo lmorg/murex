@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/lmorg/murex/lang"
+	_ "github.com/lmorg/murex/lang/expressions"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -223,11 +224,11 @@ func TestHistParam(t *testing.T) {
 
 	expected := []string{
 		"",
-		"out",
+		"out:",
 		"the",
 		"lazy",
 		"dog",
-		"out",
+		"out:",
 		"the",
 		"lazy",
 		"dog",

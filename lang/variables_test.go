@@ -30,7 +30,6 @@ func testVariables(t *testing.T, flags int, details string) {
 
 	InitEnv()
 
-	count.Tests(t, 4)
 	p := NewTestProcess()
 
 	// Create a referenced variable table
@@ -61,19 +60,23 @@ func testVariables(t *testing.T, flags int, details string) {
 	// test GetValue
 	count.Tests(t, 4)
 
-	if copy.GetValue("number").(float64) != copyNum {
+	v := panicErr(copy.GetValue("number"))
+	if v.(float64) != copyNum {
 		t.Error("Copy var table not returning correct number using GetValue.")
 	}
 
-	if copy.GetValue("integer").(int) != copyInt {
+	v = panicErr(copy.GetValue("integer"))
+	if v.(int) != copyInt {
 		t.Error("Copy var table not returning correct integer using GetValue.")
 	}
 
-	if copy.GetValue("string").(string) != copyStr {
+	v = panicErr(copy.GetValue("string"))
+	if v.(string) != copyStr {
 		t.Error("Copy var table not returning correct string using GetValue.")
 	}
 
-	if copy.GetValue("boolean").(bool) != copyBool {
+	v = panicErr(copy.GetValue("boolean"))
+	if v.(bool) != copyBool {
 		t.Error("Copy var table not returning correct boolean using GetValue.")
 	}
 
@@ -92,14 +95,22 @@ func testVariables(t *testing.T, flags int, details string) {
 		t.Error("Copy var table not returning correct string converted value using GetString.")
 	}
 
-	v, err := copy.GetString("boolean")
-	if types.IsTrue([]byte(v), 0) != copyBool || err != nil {
+	s, err := copy.GetString("boolean")
+	if types.IsTrue([]byte(s), 0) != copyBool || err != nil {
 		t.Error("Copy var table not returning correct boolean converted value using GetString.")
 	}
 }
 
+func panicErr(v interface{}, err error) interface{} {
+	if err != nil {
+		panic(err)
+	}
+
+	return v
+}
+
 // TestReservedVariables tests the Vars structure
-func TestReservedVarables(t *testing.T) {
+func TestReservedVariables(t *testing.T) {
 	p := NewTestProcess()
 
 	reserved := []string{

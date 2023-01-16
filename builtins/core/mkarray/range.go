@@ -15,7 +15,7 @@ var (
 	rxAltNumberBase = regexp.MustCompile(`^([a-zA-Z0-9]+)\.\.([a-zA-Z0-9]+)[\.x]([0-9]+)$`)
 )
 
-func rangeToArray(b []byte) ([]string, error) {
+func rangeToArrayString(b []byte) ([]string, error) {
 	split := strings.Split(string(b), "..")
 	if len(split) > 2 {
 		return nil, fmt.Errorf("invalid syntax. Too many double periods, `..`, in range`%s`. Please escape periods, `\\.`, if you wish to include period in your range", string(b))
@@ -116,7 +116,7 @@ func rangeToArray(b []byte) ([]string, error) {
 		split = rxAltNumberBase.FindStringSubmatch(string(b))
 		base, err := strconv.Atoi(split[3])
 		if err != nil {
-			return nil, errors.New("unable to determin number base: " + err.Error())
+			return nil, errors.New("unable to determine number base: " + err.Error())
 		}
 		if base < 2 || base > 36 {
 			return nil, errors.New("number base must be between 2 and 36 (inclusive)")
@@ -124,12 +124,12 @@ func rangeToArray(b []byte) ([]string, error) {
 
 		i1, err := strconv.ParseInt(split[1], base, 64)
 		if err != nil {
-			return nil, errors.New("unable to determin start of range: " + err.Error())
+			return nil, errors.New("unable to determine start of range: " + err.Error())
 		}
 
 		i2, err := strconv.ParseInt(split[2], base, 64)
 		if err != nil {
-			return nil, errors.New("unable to determin end of range: " + err.Error())
+			return nil, errors.New("unable to determine end of range: " + err.Error())
 		}
 
 		switch {
@@ -242,6 +242,49 @@ func rangeToArray(b []byte) ([]string, error) {
 	}
 
 	return nil, fmt.Errorf("unable to auto-detect range in `%s`", string(b))
+}
+
+func rangeToArrayNumber(b []byte) ([]int, bool, error) {
+	split := strings.Split(string(b), "..")
+	if len(split) > 2 {
+		return nil, false, fmt.Errorf("invalid syntax. Too many double periods, `..`, in range`%s`. Please escape periods, `\\.`, if you wish to include period in your range", string(b))
+	}
+
+	if len(split) < 2 {
+		return nil, false, fmt.Errorf("invalid syntax. Range periods, `..`, found but cannot determine start and end range in `%s`", string(b))
+	}
+
+	if len(split[0]) > 1 && split[0][0] == '0' || len(split[1]) > 1 && split[1][0] == '0' {
+		return nil, false, nil
+	}
+
+	i1, e1 := strconv.Atoi(split[0])
+	i2, e2 := strconv.Atoi(split[1])
+
+	if e1 == nil && e2 == nil {
+		switch {
+		case i1 < i2:
+			array := make([]int, i2-i1+1)
+			for i := range array {
+				array[i] = i + i1
+			}
+			return array, true, nil
+
+		case i1 > i2:
+			array := make([]int, i1-i2+1)
+			for i := range array {
+				array[i] = i1 - i
+			}
+			return array, true, nil
+
+		default:
+			array := make([]int, 1)
+			array[0] = i1
+			return array, true, nil
+		}
+	}
+
+	return nil, false, nil
 }
 
 func mapArray(start, end int, constMap map[string]int, c int) (matched bool, array []string) {

@@ -1,0 +1,33 @@
+function mkmodule {
+    # Create new murex module
+
+    trypipe {
+        set name = $PARAMS[0]
+        mkdir ~/.murex_modules/$name
+        cd ~/.murex_modules/$name
+
+        out ({
+	"Name": "$name",
+	"Version": "0.1"
+}) |> package.json
+
+        touch $name.mx
+        out ([
+	{
+		"Name": "$name",
+		"Summary": "PLEASE ADD A SUMMARY",
+		"Version": "0.1",
+		"Source": "$name.mx",
+		"Dependencies": {
+			"Optional": [],
+			"Required": [],
+			"Platform": [ "posix" ]
+		}
+	}
+]) |> module.json
+
+        if { $EDITOR } then {
+		exec $EDITOR $name.mx module.json
+        }
+    }
+}

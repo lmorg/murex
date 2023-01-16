@@ -57,11 +57,3 @@ var errMessages = []string{
 	"Unable to parse parameters in `runmode`",
 	"Invalid parameters in `runmode`",
 }
-
-func raiseErr(code, endByte int) ParserError {
-	return ParserError{
-		Message: errMessages[code],
-		Code:    code,
-		EndByte: endByte,
-	}
-}

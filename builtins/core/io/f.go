@@ -40,7 +40,7 @@ func cmdLsF(p *lang.Process) (err error) {
 	var files, matched []string
 
 	if p.IsMethod {
-		p.Stdin.ReadArray(func(b []byte) {
+		p.Stdin.ReadArray(p.Context, func(b []byte) {
 			files = append(files, string(b))
 		})
 

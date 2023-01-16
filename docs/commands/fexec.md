@@ -53,9 +53,8 @@ There is an order of precedence for which commands are looked up:
 5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
    Also environmental variables too, declared via `export`.
 
-6. Auto-globbing prefix: `@g`. This is largely a deprecated feature, replaced
-   with a smarter auto-globbing parser that can be enabled via `config: set
-   shell auto-glob true`.
+6. globbing: however this only applies for commands executed in the interactive
+   shell.
 
 7. _murex_ builtins.
 

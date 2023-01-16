@@ -26,16 +26,10 @@
 
 ## Detail
 
-It's worth noting that `prepend` and `append` are not data type aware. So 
-any integers in data type aware structures will be converted into strings:
+`prepend` and `append` are data type aware:
 
-    » tout: json [1,2,3] -> append: new 
-    [
-        "1",
-        "2",
-        "3",
-        "new"
-    ]
+    » tout json [1,2,3] -> append 4 5 6 bob
+    Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
 
 ## Synonyms
 
@@ -45,14 +39,14 @@ any integers in data type aware structures will be converted into strings:
 
 ## See Also
 
-* [commands/`@[` (range) ](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [commands/`[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [commands/`addheading` ](../commands/addheading.md):

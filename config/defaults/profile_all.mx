@@ -1,3 +1,5 @@
+alias help=murex-docs
+
 function h {
     # Output the murex history log in a human readable format
     history -> foreach { -> set json line; out "$line[Index]: $line[Block]" } -> cast *
@@ -97,6 +99,7 @@ private autocomplete.variables.globals {
 
 private autocomplete.variables {
     # Returns all global and local variable names
+    cast: str
     autocomplete.variables.locals
     autocomplete.variables.globals
 }
@@ -241,7 +244,7 @@ autocomplete: set config { [{
             { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) },
             { "Dynamic": ({
 				switch {
-					case { = `${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Data-Type ]}`==`bool` } {
+					case { ${ config -> [[ /$PARAMS[1]/$PARAMS[2]/Data-Type ]] } == "bool" } {
 						ja [true,false]
 					}
 
@@ -367,7 +370,7 @@ autocomplete: set !function { [{
 
 private autocomplete.privates {
     # Returns a map of all murex private functions
-    runtime: --privates  -> struct-keys: 3 -> regexp m,/.*?/.*?/, -> foreach --jmap private { $private } { runtime: --privates -> [[ $private/Summary ]] }
+    runtime: --privates -> struct-keys: 3 -> regexp m,/.*?/.*?/, -> foreach --jmap private { $private } { runtime: --privates -> [[ $private/Summary ]] }
 }
 
 test unit private autocomplete.privates {
@@ -928,7 +931,7 @@ openagent set image {
     }
 }
 
-if { microk8s } then {
+if { which: microk8s } then {
 
     private autocomplete.microk8s {
         # Top level completion results for microk8s
@@ -1011,7 +1014,6 @@ if { microk8s } then {
         }
     ]}
 
-
     autocomplete: set kubectl {[
         {
             "DynamicDesc":   ({ autocomplete.microk8s.kubectl }),
@@ -1051,7 +1053,9 @@ if { which yarn } then {
                 g: ${yarn <!null> bin}/* -> regexp: s,^.*/,,
             }),
             "FlagsDesc": ${
-                yarn <!null> help -> tabulate: --key-value --split-comma --key-inc-hint --map
+                trypipe <!null> {
+                    yarn help -> tabulate: --key-value --split-comma --key-inc-hint --map
+                }
             },
             "Optional": true,
             "AllowMultiple": true,
@@ -1072,23 +1076,27 @@ if { which yarn } then {
         },
         {
             "Flags": ${
-                yarn <!null> help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+                trypipe <!null> {
+                    yarn help -> @[Commands..Run]re -> [:1] -> cast str -> format json
+                }
             },
             "FlagValues": {
                 ${
-                    yarn <!null> help -> @[Commands..Run]re -> [:1] -> foreach cmd {
-                        out ("$cmd":
-                            [{
-                                "DynamicDesc": ({ 
-                                    yarn <!null> help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
-                                }),
-                                "AllowMultiple": true,
-                                "AllowNoFlagValue": true,
-                                "FlagValues": {"*": [
-                                    { "IncDirs": true },
-                                    { "Goto": "/2/add/0" }
-                                ]}
-                            }],)
+                    trypipe <!null> {
+                        yarn help -> @[Commands..Run]re -> [:1] -> foreach cmd {
+                            out ("$cmd":
+                                [{
+                                    "DynamicDesc": ({ 
+                                        yarn help $cmd -> tabulate: --key-value --split-comma --key-inc-hint --map
+                                    }),
+                                    "AllowMultiple": true,
+                                    "AllowNoFlagValue": true,
+                                    "FlagValues": {"*": [
+                                        { "IncDirs": true },
+                                        { "Goto": "/2/add/0" }
+                                    ]}
+                                }],)
+                        }
                     }
                 }
                 "": [{ }]

@@ -3,6 +3,7 @@ package lang_test
 import (
 	"testing"
 
+	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/test"
 )
 
@@ -172,23 +173,23 @@ func TestOperatorsTry(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:  `out: 0; false; echo foobar`,
-			Stdout: "0\nfalse\nfoobar\n",
+			Stdout: "0\nfalsefoobar\n",
 		},
 		{
 			Block:  `out: 1; true || echo foobar`,
-			Stdout: "1\ntrue\n",
+			Stdout: "1\ntrue",
 		},
 		{
 			Block:  `out: 1.1; true || true || echo foobar`,
-			Stdout: "1.1\ntrue\n",
+			Stdout: "1.1\ntrue",
 		},
 		{
 			Block:  `out: 1.2; true || false || echo foobar`,
-			Stdout: "1.2\ntrue\n",
+			Stdout: "1.2\ntrue",
 		},
 		{
 			Block:  `out: 1.3; false || true || echo foobar`,
-			Stdout: "1.3\nfalse\ntrue\n",
+			Stdout: "1.3\nfalsetrue",
 		},
 		{
 			Block:  `out: 2; true && echo foobar`,
@@ -211,7 +212,7 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 3; false || echo foobar`,
-			Stdout: "3\nfalse\nfoobar\n",
+			Stdout: "3\nfalsefoobar\n",
 		},
 		{
 			Block:   `out: 4; false && echo foobar`,
@@ -220,17 +221,17 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 4.1; true || true && echo foobar`,
-			Stdout: "4.1\ntrue\nfoobar\n", // this seems wrong but if falls in line with how bash works
+			Stdout: "4.1\ntrue",
 		},
 		///
 		{
 			Block:   `out: 5; try { false; echo foobar }`,
-			Stdout:  "5\nfalse\n",
+			Stdout:  "5\nfalse",
 			ExitNum: 1,
 		},
 		{
 			Block:  `out: 6; try { true || echo foobar }`,
-			Stdout: "6\ntrue\n",
+			Stdout: "6\ntrue",
 		},
 		{
 			Block:  `out: 7; try { true && echo foobar }`,
@@ -238,7 +239,7 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 8; try { false || echo foobar }`,
-			Stdout: "8\nfalse\nfoobar\n",
+			Stdout: "8\nfalsefoobar\n",
 		},
 		{
 			Block:   `out: 9; try { false && echo foobar }`,
@@ -247,21 +248,21 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 9.1; try { true || true; echo foobar }`,
-			Stdout: "9.1\ntrue\nfoobar\n",
+			Stdout: "9.1\ntruefoobar\n",
 		},
 		{
 			Block:  `out: 9.1; try { true || true && echo foobar }`,
-			Stdout: "9.1\ntrue\nfoobar\n",
+			Stdout: "9.1\ntruefoobar\n",
 		},
 		///
 		{
 			Block:   `out: 10; trypipe { false; echo foobar }`,
-			Stdout:  "10\nfalse\n",
+			Stdout:  "10\nfalse",
 			ExitNum: 1,
 		},
 		{
 			Block:  `out: 11; trypipe { true || echo foobar }`,
-			Stdout: "11\ntrue\n",
+			Stdout: "11\ntrue",
 		},
 		{
 			Block:  `out: 12; trypipe { true && echo foobar }`,
@@ -269,7 +270,7 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 13; trypipe { false || echo foobar }`,
-			Stdout: "13\nfalse\nfoobar\n",
+			Stdout: "13\nfalsefoobar\n",
 		},
 		{
 			Block:   `out: 14; trypipe { false && echo foobar }`,
@@ -278,11 +279,11 @@ func TestOperatorsTry(t *testing.T) {
 		},
 		{
 			Block:  `out: 14.1; trypipe { true || true ; echo foobar }`,
-			Stdout: "14.1\ntrue\nfoobar\n",
+			Stdout: "14.1\ntruefoobar\n",
 		},
 		{
 			Block:  `out: 14.1; trypipe { true || true && echo foobar }`,
-			Stdout: "14.1\ntrue\nfoobar\n",
+			Stdout: "14.1\ntruefoobar\n",
 		},
 	}
 

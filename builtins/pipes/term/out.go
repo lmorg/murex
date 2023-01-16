@@ -17,6 +17,38 @@ type Out struct {
 	term
 }
 
+func OutSetDataTypeIPC() {
+	/*murexPid, exists := os.LookupEnv(consts.EnvMurexPid)
+
+	if !exists {
+		return
+	}
+
+	if strconv.Itoa(os.Getppid()) != murexPid {
+		return
+	}
+
+	outSetDataTypeFd3 = true*/
+}
+
+//var OutSetDataTypeIPC bool
+
+// SetDataType writes the data type to a special pipe when run under murex
+func (t *Out) SetDataType(dt string) {
+	/*if !OutSetDataTypeIPC || len(dt) == 0 || dt == types.Null {
+		return
+	}
+
+	f := os.NewFile(3, "dt")
+	_, err := f.WriteString(dt + "\n")
+	if err != nil && debug.Enabled {
+		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
+	}
+
+	OutSetDataTypeIPC = false
+	f.Close()*/
+}
+
 // Write is the io.Writer() interface for term
 func (t *Out) Write(b []byte) (i int, err error) {
 	t.mutex.Lock()

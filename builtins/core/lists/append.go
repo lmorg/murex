@@ -18,17 +18,30 @@ func cmdPrepend(p *lang.Process) error {
 		return err
 	}
 
-	var array []string
+	var (
+		array    []interface{}
+		cachedDt string
+	)
 
-	err := p.Stdin.ReadArray(func(b []byte) {
-		array = append(array, string(b))
+	err := p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
+		array = append(array, v)
+		cachedDt = dt
 	})
 
 	if err != nil {
 		return err
 	}
 
-	array = append(p.Parameters.StringArray(), array...)
+	var new []interface{}
+	params := p.Parameters.StringArray()
+	for i := range params {
+		v, err := types.ConvertGoType(params[i], cachedDt)
+		if err != nil {
+			return err
+		}
+		new = append(new, v)
+	}
+	array = append(new, array...)
 
 	b, err := lang.MarshalData(p, dt, array)
 	if err != nil {
@@ -47,17 +60,28 @@ func cmdAppend(p *lang.Process) error {
 		return err
 	}
 
-	var array []string
+	var (
+		array    []interface{}
+		cachedDt string
+	)
 
-	err := p.Stdin.ReadArray(func(b []byte) {
-		array = append(array, string(b))
+	err := p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
+		array = append(array, v)
+		cachedDt = dt
 	})
 
 	if err != nil {
 		return err
 	}
 
-	array = append(array, p.Parameters.StringArray()...)
+	params := p.Parameters.StringArray()
+	for i := range params {
+		v, err := types.ConvertGoType(params[i], cachedDt)
+		if err != nil {
+			return err
+		}
+		array = append(array, v)
+	}
 
 	b, err := lang.MarshalData(p, dt, array)
 	if err != nil {

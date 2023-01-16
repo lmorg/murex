@@ -26,11 +26,6 @@ func hintText(line []rune, pos int) []rune {
 
 	pt, _ := parser.Parse(line, 0)
 	cmd := pt.FuncName
-	//var summary string
-
-	/*if pt.ExpectFunc == false {
-		// autocomplete hint
-	}*/
 
 	if cmd == "cd" && len(pt.Parameters) > 0 && len(pt.Parameters[0]) > 0 {
 		path := utils.NormalisePath(pt.Parameters[0])
@@ -38,13 +33,8 @@ func hintText(line []rune, pos int) []rune {
 	}
 
 	// check if a custom summary has been set
-	r = hintsummary.Get(cmd, autocomplete.GlobalExes[cmd])
-
-	/*if pt.ExpectParam && len(r) == 0 && !utils.Exists(cmd) {
-		r = append(r, []rune(
-			fmt.Sprintf("%starget `"+cmd+"` was not found%s", ansi.FgRed, ansi.Reset),
-		)...)
-	}*/
+	globalExes := autocomplete.GlobalExes.Get()
+	r = hintsummary.Get(cmd, (*globalExes)[cmd])
 
 	if len(r) > 0 {
 		return r

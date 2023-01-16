@@ -32,7 +32,6 @@ func UnmarshalMurex(data []byte, v interface{}) error {
 	}
 
 	_, mxerr := mxjson.Parse(data)
-
 	return fmt.Errorf("mxjson parse error: %s\n%s", err, mxerr)
 }
 

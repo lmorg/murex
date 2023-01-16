@@ -1,6 +1,8 @@
 package term
 
 import (
+	"context"
+
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -43,10 +45,10 @@ func (t *term) Read([]byte) (int, error) { return 0, io.EOF }
 func (t *term) ReadLine(func([]byte)) error { return nil }
 
 // ReadArray is a null method because the term interface is write-only
-func (t *term) ReadArray(func([]byte)) error { return nil }
+func (t *term) ReadArray(context.Context, func([]byte)) error { return nil }
 
 // ReadArray is a null method because the term interface is write-only
-func (t *term) ReadArrayWithType(func([]byte, string)) error { return nil }
+func (t *term) ReadArrayWithType(context.Context, func(interface{}, string)) error { return nil }
 
 // ReadMap is a null method because the term interface is write-only
 func (t *term) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
@@ -59,9 +61,6 @@ func (t *term) WriteTo(io.Writer) (int64, error) { return 0, io.EOF }
 
 // GetDataType is a null method because the term interface is write-only
 func (t *term) GetDataType() string { return types.Null }
-
-// SetDataType is a null method because the term interface is write-only
-func (t *term) SetDataType(string) {}
 
 // DefaultDataType is a null method because the term interface is write-only
 func (t *term) DefaultDataType(bool) {}

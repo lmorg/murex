@@ -1,0 +1,36 @@
+autocomplete: set config { [{
+    "Flags": [ "get", "set", "eval", "define", "default" ],
+    "FlagValues": {
+        "get": [
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
+        ],               
+        "set": [
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) },
+            { "Dynamic": ({
+				switch {
+					case { = `${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Data-Type ]}`==`bool` } {
+						ja [true,false]
+					}
+
+					case { config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ <!null> Options ] } {
+						config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Options ]
+					}
+					
+                	catch {
+						out ${ config -> [ $PARAMS[1] ] -> [ $PARAMS[2] ] -> [ Default ]}
+					}
+				}
+			}) }
+        ],
+        "eval": [
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
+        ],
+        "default": [
+            { "Dynamic": ({ autocomplete.config.get.apps }) },
+            { "Dynamic": ({ autocomplete.config.get.keys $PARAMS[1] }) }
+        ]
+    }
+}] }

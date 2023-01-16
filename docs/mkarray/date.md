@@ -22,10 +22,14 @@ Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarr
     a: [start..end,start..end] -> <stdout>
     a: [start..end][start..end] -> <stdout>
     
-All usages also work with `ja` and `ta` as well:
+All usages also work with `ja` and `ta` as well, eg:
 
     ja: [start..end] -> <stdout>
     ta: data-type [start..end] -> <stdout>
+    
+You can also inline arrays with the `%[]` syntax, eg:
+
+    %[start..end]
 
 ## Examples
 
@@ -169,12 +173,12 @@ If you do need any other formatting options not supported there, you can use
 
 * [mkarray/Special Ranges](../mkarray/special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
-* [commands/`@[` (range) ](../commands/range.md):
-  Outputs a ranged subset of data from STDIN
 * [commands/`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [commands/`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
+* [commands/`[` (range) ](../commands/range.md):
+  Outputs a ranged subset of data from STDIN
 * [commands/`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [commands/`count`](../commands/count.md):
