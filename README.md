@@ -90,6 +90,10 @@ Letter is loaded
 
 See [INSTALL](INSTALL.md) for details.
 
+## Quick start guide
+
+Read the [quick start guide](docs/GUIDE.quick-start.md) to get started
+
 ## Known bugs / TODO
 
 _murex_ is considered stable, however if you do run into problems then please
