@@ -69,8 +69,8 @@ But I mostly love oranges.
 ### Iteration:
 
 ```
-%[A[3..5],letter] | foreach page_size {
-    if { $page_size == 'letter' } then {
+%[ A[1..3],Letter ] | foreach page_size {
+    if { $page_size == 'Letter' } then {
         out: "$page_size is loaded"
     } else {
         out: "$page_size is unsupported"
@@ -83,7 +83,7 @@ Outputs:
 A3 is unsupported
 A4 is unsupported
 A5 is unsupported
-letter is loaded
+Letter is loaded
 ```
 
 ## Install instructions
