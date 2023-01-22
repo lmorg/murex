@@ -15,15 +15,21 @@ A non-exhaustive list features would include:
   for complex data formats like JSON or tables. Meaning all of your existing
   UNIX tools to work more intelligently and without any additional configuration.
 
-  ![json-example](images/murex-open-foreach.png)
-  ![tabulated-data-example](images/murex-ps-select.png)
+  JSON wrangling:
+  </br>![json-example](images/murex-open-foreach.png)
+  
+  Running SQL queries on the output of standard UNIX tools:
+  </br>![tabulated-data-example](images/murex-ps-select.png)
 
 * **Usability improvements** such as in-line spell checking, context sensitive
   hint text that details a commands behavior before you hit return, and
   auto-parsing man pages for auto-completions on commands that don't have auto-completions already defined.
 
-  ![spellchecking](images/murex-spellchecker.png)
-  ![smarter-autocomplete](images/murex-kill-autocomplete.png)
+  Inline spellchecking:
+  </br>![spellchecking](images/murex-spellchecker.png)
+
+  Autcomplete descriptions, process IDs accompanied by process names:
+  </br>![smarter-autocomplete](images/murex-kill-autocomplete.png)
   
 * **Smarter handling of errors** and **debugging tools**. For example try/catch
   blocks, line numbers included in error messages, STDOUT highlighted in red
