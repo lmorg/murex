@@ -17,6 +17,7 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/counter"
@@ -72,6 +73,15 @@ func Start() {
 		v = 4
 	}
 	Prompt.MaxTabCompleterRows = v.(int)
+
+	pwd, _ := lang.ShellProcess.Config.Get("shell", "start-directory", types.String)
+	pwd = strings.TrimSpace(pwd.(string))
+	if pwd != "" {
+		err := cd.Chdir(lang.ShellProcess, pwd.(string))
+		if err != nil {
+			os.Stderr.WriteString(err.Error())
+		}
+	}
 
 	ShowPrompt()
 

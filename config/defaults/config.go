@@ -255,6 +255,13 @@ func Config(c *config.Config, isInteractive bool) {
 		},
 	})
 
+	c.Define("shell", "start-directory", config.Properties{
+		Description: "If set, this is the default working directory for each new instance of murex. If unset murex will default to the current working directory",
+		Default:     "",
+		DataType:    types.String,
+		Global:      true,
+	})
+
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{
