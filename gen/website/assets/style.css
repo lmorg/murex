@@ -253,6 +253,16 @@ td {
   padding: 10px;
 }
 
+table {
+  padding-right: 40px;
+}
+
+td > code {
+  background: #e0e0da;
+  font-weight: bold;
+  color: #2020D0;
+  font-size: 14px;
+}
 
 .ddg {
   overflow: hidden;

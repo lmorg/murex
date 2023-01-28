@@ -10,13 +10,6 @@ If you already know what you're trying to do in Bash and looking for the
 equivalent syntax in _murex_, then you might find the [Rosetta Stone](user-guide/rosetta-stone.md)
 a useful reference.
 
-### Footnotes
-
-1. Supported for compatibility with traditional shells like Bash.
-2. Unlike Bash, whitespace (or the absence of) is optional.
-3. Environmental variables can only be stored as a string. This is a limitation of current operating systems.
-4. Path separator can be any 1 byte wide character, eg `/`. The path separator is defined by the first character in a path.
-
 ## Expressions and Statements
 
 An **expression** is an evaluation, operation or assignment, for example:
@@ -123,25 +116,33 @@ Any pipes prefixed by a bang means reading from that processes STDERR.
 
 So to redirect STDERR to STDOUT you would use `<!out>`:
 
-    err: <!out> "error message redirected to stdout"
+```
+err: <!out> "error message redirected to stdout"
+```
 
 And to redirect STDOUT to STDERR you would use `<err>`:
 
-    out: <err> "output redirected to stderr"
+```
+out: <err> "output redirected to stderr"
+```
 
 Likewise you can redirect either STDOUT, or STDERR to `/dev/null` via `<null>`
 or `<!null>` respectively.
 
-    command: <!null> # ignore STDERR
-    command: <null>  # ignore STDOUT
+```
+command: <!null> # ignore STDERR
+command: <null>  # ignore STDOUT
+```
 
 You can also create your own pipes that are files, network connections, or any
 other custom data input or output endpoint. [read more](user-guide/namedpipes.md)
 
 ### Redirecting to files
 
-    out: "message" |> truncate-file.txt
-    out: "message" >> append-file.txt
+```
+out: "message" |> truncate-file.txt
+out: "message" >> append-file.txt
+```
 
 ## Emendable sub-shells
 
@@ -156,8 +157,10 @@ There are two types of emendable sub-shells: strings and arrays.
 
 Examples:
 
-    touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
-    touch @{ %[1,2,3] } # creates three files, named '1', '2' and '3'
+```
+touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
+touch @{ %[1,2,3] } # creates three files, named '1', '2' and '3'
+```
 
 The reason _murex_ breaks from the POSIX tradition of using backticks and
 parentheses is because _murex_ works on the principle that everything inside
@@ -175,20 +178,26 @@ accidental damage. Instead globbing is achieved via sub-shells using either:
 
 Examples:
 
-    # all text files via globbing:
-    ls -l @{g *.txt}
-
-    # all text and markdown files via regexp:
-    ls -l @{rx '\.(txt|md)$'}
-
-    # all directories via type matching:
-    ls -l @{f +d}
+```
+# all text files via globbing:
+ls -l @{g *.txt}
+```
+```
+# all text and markdown files via regexp:
+ls -l @{rx '\.(txt|md)$'}
+```
+```
+# all directories via type matching:
+ls -l @{f +d}
+```
 
 You can also using type matching against globbing and regexp to filter
 out types in conjunction with file name matching:
 
-    # all directories named *.txt
-    ls -l @{g *.txt -> f +d}
+```
+# all directories named *.txt
+ls -l @{g *.txt -> f +d}
+```
 
 ## Brace expansion
 
@@ -196,6 +205,8 @@ In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#B
 using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
 expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
+
+Since 
 
 ## Exit code
 
