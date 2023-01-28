@@ -90,19 +90,31 @@ blockquote {
 
 code {
   font-family: 'Source Code Pro', monospace;
-  color: #004000;
-  background: #f0f0ff;
+  color: #2020D0;
+  /*background: #f0f0ff;*/
   border-radius: 5px;
   line-height: 130%;
   padding-left: 3px;
   padding-right: 3px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 pre code {
   padding: 0px;
+  font-size: 16px;
+  font-weight: normal;
 }
 
-a code:hover {
+a:link > code, a:visited > code, a:active > code {
+  background: #e0e0da;
+  font-weight: bold;
+  color: #590808;
+  font-size: 14px;
+  padding: 0px;
+}
+
+a:hover > code {
   color: #ff2020;
 }
 

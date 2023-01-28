@@ -7,27 +7,12 @@
   Description: |-
     {{ include "gen/user-guide/rosetta-stone.inc.md" }}
   Related:
-    - commands/out
-    - commands/err
-    - commands/set
-    - commands/global
-    - commands/export
-    - commands/murex-docs
     - user-guide/namedpipes
     - commands/try
     - commands/trypipe
     - commands/runmode
-    - commands/fid-list
-    - commands/bg
-    - commands/fg
-    - commands/g
-    - commands/rx
-    - commands/f
-    - commands/foreach
-    - commands/formap
     - parser/logical-and
     - parser/logical-or
-    - parser/pipe-arrow
     - parser/pipe-append
     - commands/greater-than
     - commands/greater-than-greater-than

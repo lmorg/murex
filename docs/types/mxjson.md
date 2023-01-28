@@ -46,7 +46,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ## See Also
 
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [parser/Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [user-guide/Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed

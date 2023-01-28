@@ -192,7 +192,7 @@ quotes:
     » out '$foo'
     $foo
     
-    » out ($foo)
+    » out %($foo)
     bar
 
 ## Synonyms

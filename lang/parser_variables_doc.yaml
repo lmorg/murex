@@ -38,7 +38,7 @@
     » out: "Hello $example"
     Hello World!
 
-    » out: (Hello $example)
+    » out: %(Hello $example)
     Hello World!
     ```
   Related:
@@ -78,10 +78,10 @@
     » out: "foo @{ ja: [1..5] } bar"
     foo  1 2 3 4 5  bar
 
-    » (${ ja: [1..5] })
+    » %(${ ja: [1..5] })
     ["1","2","3","4","5"]   
 
-    » (@{ ja: [1..5] })
+    » %(@{ ja: [1..5] })
     @{ ja: [1..5] } 
     ```
   Related:
@@ -127,7 +127,7 @@
     » out: "~"
     /home/bob
 
-    » out: (~)
+    » out: %(~)
     /home/bob
     ```
   Related:

@@ -24,8 +24,8 @@ part of a command name.
 
 Quotes can also work over multiple lines
 
-    » out: (foo
-    » bar)
+    » out: "foo
+    » bar"
     foo
     bar
 
@@ -33,7 +33,7 @@ Quotes can also work over multiple lines
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [parser/Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block

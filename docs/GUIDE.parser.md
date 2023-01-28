@@ -29,7 +29,7 @@ files.
   Expand values as an array
 * [Arrow Pipe (`->`) Token](parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Brace Quote (`(`, `)`) Tokens](parser/brace-quote.md):
+* [Brace Quote (`%(`, `)`) Tokens](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Curly Brace (`{`, `}`) Tokens](parser/curly-brace.md):
   Initiates or terminates a code block
