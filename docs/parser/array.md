@@ -43,15 +43,15 @@ inside quoted strings like you can with a string variable:
     » out: "foo @{ ja: [1..5] } bar"
     foo  1 2 3 4 5  bar
     
-    » (${ ja: [1..5] })
+    » %(${ ja: [1..5] })
     ["1","2","3","4","5"]   
     
-    » (@{ ja: [1..5] })
+    » %(@{ ja: [1..5] })
     @{ ja: [1..5] } 
 
 ## See Also
 
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [parser/Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)

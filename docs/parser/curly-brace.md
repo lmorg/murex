@@ -62,7 +62,7 @@ constants are available.
   Infixed constants that return ANSI escape sequences
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [parser/Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [user-guide/Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed

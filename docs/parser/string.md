@@ -58,14 +58,14 @@ well as used naked. But they cannot be expanded inside single quotes.
     » out: "Hello $example"
     Hello World!
     
-    » out: (Hello $example)
+    » out: %(Hello $example)
     Hello World!
 
 ## See Also
 
 * [parser/Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [parser/Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [parser/Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)

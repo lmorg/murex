@@ -6,8 +6,12 @@
 
 ## Description
 
-`fid-kill` will terminate a running _murex_ function in a similar way
-that the POSIX `kill` (superficially speaking).
+`fid-list` is a tool for outputting all the functions currently managed by that
+_murex_ session. Those functions could be _murex_ functions, builtins or any
+external executables launched from _murex_.
+
+Conceptually `fid-list` is a little like `ps` (on POSIX systems) however
+`fid-list` was not written to be POSIX compliant.
 
 Multiple flags cannot be used with each other.
 

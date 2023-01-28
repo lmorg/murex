@@ -146,6 +146,6 @@ bar
 » out '$foo'
 $foo
 
-» out ($foo)
+» out %($foo)
 bar
 ```
