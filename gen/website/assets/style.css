@@ -242,6 +242,18 @@ hr {
   margin-right: 40px;
 }
 
+th {
+  background-color: #f0f0f0;
+} 
+
+td {
+  border-block-end-style: dotted;
+  border-block-color: #a0a0a0;
+  border-block-width: 1px;
+  padding: 10px;
+}
+
+
 .ddg {
   overflow: hidden;
   margin: 5px;
