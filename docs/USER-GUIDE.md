@@ -35,6 +35,8 @@ on the core builtins.
   Overview of what a "pipeline" is
 * [Reserved Variables](user-guide/reserved-vars.md):
   Special variables reserved by _murex_
+* [Rosetta Stone](user-guide/rosetta-stone.md):
+  A tabulated list of _murex_ vs Bashism's
 * [Schedulers](user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
 * [Spellcheck](user-guide/spellcheck.md):
