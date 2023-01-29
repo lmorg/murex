@@ -14,7 +14,6 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
-//go:embed murex_profile
 //go:embed *.mx
 var testcode embed.FS
 
