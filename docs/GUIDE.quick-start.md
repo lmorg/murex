@@ -1,16 +1,53 @@
-# Language Guide: Quick start guide
+<h1>Language Guide: Quick Tour</h1>
 
-This is a cheat sheet reference for new comers and experienced users alike. It
-touches on a broad range of features at a high level without delving deep into
-the mechanics nor options available for each syntax sugar nor builtin function.
+<div class="toc">
 
-## Bash / _murex_ Rosetta Stone
+- [Introduction](#introduction)
+  - [Barewords](#barewords)
+  - [Expressions and Statements](#expressions-and-statements)
+  - [Functions and Methods](#functions-and-methods)
+- [Rosetta Stone](#rosetta-stone)
+- [Basic Syntax](#basic-syntax)
+  - [Quoting Strings](#quoting-strings)
+  - [Comments](#comments)
+- [Variables](#variables)
+  - [Scalars](#scalars)
+  - [Arrays](#arrays)
+- [Piping and redirection](#piping-and-redirection)
+  - [Pipes](#pipes)
+  - [Redirection](#redirection)
+  - [Redirecting to files](#redirecting-to-files)
+- [Emendable sub-shells](#emendable-sub-shells)
+- [Globbing](#globbing)
+- [Brace expansion](#brace-expansion)
+- [Exit code](#exit-code)
 
-If you already know what you're trying to do in Bash and looking for the
-equivalent syntax in _murex_, then you might find the [Rosetta Stone](user-guide/rosetta-stone.md)
-a useful reference.
+</div>
 
-## Expressions and Statements
+## Introduction
+
+_murex_ is a typed shell. By this we mean it still passes byte streams along
+POSIX pipes (and thus will work with all your existing command line tools) but
+in addition will add annotations to describe the type of data that is being
+written and read. This allows _murex_ to expand upon your command line tools
+with some really interesting and advanced features not available in traditional
+shells.
+
+> POSIX is a set of underlying standards that Linux, macOS and various other
+> operating systems support.
+
+### Barewords
+
+Shells need to [balance scripting with an efficient interactive terminal](blog/split_personalities.md)
+interface. One of the most common approaches to solving that conflict between
+readability and terseness is to make heavy use of barewords. Barewords are
+ostensibly just instructions that are not quoted. In our case, command names
+and command parameters.
+
+_murex_ also makes heavy use of barewords and so that places requirements on
+the choice of syntax we can use.
+
+### Expressions and Statements
 
 An **expression** is an evaluation, operation or assignment, for example:
 ```
@@ -19,10 +56,15 @@ An **expression** is an evaluation, operation or assignment, for example:
 » 5 + 5
 ```
 
+> Expressions are type sensitive
+
 Whereas a **statement** is a shell command to execute:
 ```
-» echo "hello world"
+» echo "Hello Murex"
+» kill 1234
 ```
+
+> All values in a statement are treated as strings
 
 Due to the expectation of shell commands supporting bareword parameters,
 expressions have to be parsed differently to statements. Thus _murex_ first
@@ -33,6 +75,63 @@ This allow expressions and statements to be used interchangeably in a pipeline:
 ```
 » 5 + 5 | grep 10
 ```
+
+### Functions and Methods
+
+A **function** is command that doesn't take data from STDIN whereas a **method**
+is any command that does.
+```
+echo "Hello Murex" | grep "Murex"
+^ a function         ^ a method
+```
+
+In practical terms, functions and methods are executed in exactly the same way
+however some builtins might behave differently depending on whether values are
+passed via STDIN or as parameters. Thus you will often find references to
+functions and methods, and sometimes for the same command, within these
+documents.
+
+## Rosetta Stone
+
+If you already know Bash and looking for the equivalent syntax in _murex_, then
+our [Rosetta Stone](user-guide/rosetta-stone.md) reference will help you to
+translate your Bash code into _murex_ code.
+
+## Basic Syntax
+
+### Quoting Strings
+
+> It is important to note that all strings in expressions are quoted whereas
+> strings in statements can be barewords.
+
+There are three ways to quote a string in _murex_:
+
+* `'single quote'`: use this for string literals    ([read more](parser/single-quote.md))
+* `"double quote"`: use this for infixing variables ([read more](parser/double-quote.md))
+* `%(brace quote)`: use this for nesting quotes     ([read more](parser/brace-quote.md))
+
+### Comments
+
+You can comment out a single like, or end of a line with `#`:
+```
+# this is a comment
+
+echo Hello Murex # this is also a comment
+```
+
+Multiple lines or mid-line comments can be achieved with `/#` and `#/` tokens:
+```
+/#
+This is
+a multi-line
+command
+#/
+
+echo Hello /# comment #/ Murex
+```
+
+(`/#` was chosen because it is similar to C-style comments however `/*` is a
+valid glob so _murex_ has substituted the asterisks with a hash symbol instead)
 
 ## Variables
 
@@ -54,6 +153,8 @@ _murex_'s default behavior):
 » echo $foobar
 Error in `echo` (1,1): variable 'foobar' does not exist
 ```
+
+> Please note that when using `set` and `global` as a function
 
 ### Scalars
 
