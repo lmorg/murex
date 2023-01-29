@@ -49,7 +49,7 @@ then please write it as `os posix plan9`.
 
 ## See Also
 
-* [commands/`cpuarch`](../commands/cpuarch.md):
+* [`cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [commands/`cpucount`](../commands/cpucount.md):
+* [`cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host

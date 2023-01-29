@@ -139,49 +139,49 @@ cases for JSON lines.
 
 ## See Also
 
-* [types/`*` (generic) ](../types/generic.md):
+* [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [apis/`Marshal()` (type)](../apis/Marshal.md):
+* [`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+* [`ReadArray()` (type)](../apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+* [`ReadIndex()` (type)](../apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+* [`ReadMap()` (type)](../apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+* [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
+* [`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+* [`WriteArray()` (type)](../apis/WriteArray.md):
   Write a data type, one array element at a time
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [types/`csv` ](../types/csv.md):
+* [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`format`](../commands/format.md):
+* [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`hcl` ](../types/hcl.md):
+* [`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [types/`json` ](../types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [types/`jsonc` ](../types/jsonc.md):
+* [`jsonc` ](../types/jsonc.md):
   Concatenated JSON
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`pretty`](../commands/pretty.md):
+* [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/`toml` ](../types/toml.md):
+* [`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [types/`yaml` ](../types/yaml.md):
+* [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [types/mxjson](../types/mxjson.md):
+* [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

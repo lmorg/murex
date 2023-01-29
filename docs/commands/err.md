@@ -45,27 +45,27 @@ a new _murex_ named pipe.
 
 ## See Also
 
-* [user-guide/ANSI Constants](../user-guide/ansi.md):
+* [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [commands/`>` (truncate file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`pipe`](../commands/pipe.md):
+* [`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
-* [commands/`pretty`](../commands/pretty.md):
+* [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [commands/`pt`](../commands/pt.md):
+* [`pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [commands/`tout`](../commands/tout.md):
+* [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

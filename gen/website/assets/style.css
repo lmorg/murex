@@ -90,19 +90,32 @@ blockquote {
 
 code {
   font-family: 'Source Code Pro', monospace;
-  color: #004000;
-  background: #f0f0ff;
+  color: #2020D0;
+  /*background: #f0f0ff;*/
   border-radius: 5px;
   line-height: 130%;
   padding-left: 3px;
   padding-right: 3px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 pre code {
   padding: 0px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #064928;
 }
 
-a code:hover {
+a:link > code, a:visited > code, a:active > code {
+  background: #e0e0da;
+  font-weight: bold;
+  color: #590808;
+  font-size: 14px;
+  padding: 0px;
+}
+
+a:hover > code {
   color: #ff2020;
 }
 
@@ -158,17 +171,22 @@ a img:hover {
   border-width: 0px;
 }
 
-.figure {
+.figure, figure {
   display: block;
   margin: auto;
   text-align: center;
 }
 
-.caption {
+.caption, figcaption {
   color: #404040;
   font-size: 10px;
   text-align: center;
   margin-top: 0px;
+}
+
+.readme {
+  text-align: left;
+  margin-left: 0px;
 }
 
 #side-bar {
@@ -242,6 +260,44 @@ hr {
   margin-right: 40px;
 }
 
+th {
+  background-color: #f0f0f0;
+} 
+
+td {
+  border-block-end-style: dotted;
+  border-block-color: #a0a0a0;
+  border-block-width: 1px;
+  padding: 10px;
+}
+
+table {
+  padding-right: 40px;
+}
+
+td > code {
+  background: #e0e0da;
+  font-weight: bold;
+  color: #2020D0;
+  font-size: 14px;
+}
+
+#toc {
+  column-count: 3;
+  column-fill: balance;
+  margin-left: 20px;
+}
+
+#toc ul {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+#toc li {
+  margin-top: 0px;
+  margin-bottom: -10px;
+}
+
 .ddg {
   overflow: hidden;
   margin: 5px;
@@ -256,6 +312,10 @@ hr {
 
 .ddg:hover, .ddg:focus {
   border-color: #ff2020;
+}
+
+@media screen and (max-width: 1100px) {
+    #toc { column-count: 2; }
 }
 
 @media screen and (max-width: 678px) {
@@ -275,6 +335,7 @@ hr {
   h2, h3 { margin-right: 0px; }
   hr { margin-right: 0px; }
   li { padding-right: 0px; }
+  #toc { column-count: 1; }
   .ddg { margin: 0px 0px 0px 10px; width:308px; border-width: 0px; }
 }
 

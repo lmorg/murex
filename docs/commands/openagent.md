@@ -38,13 +38,13 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
 
 ## See Also
 
-* [user-guide/FileRef](../user-guide/fileref.md):
+* [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
-* [user-guide/Modules and Packages](../user-guide/modules.md):
+* [Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [commands/`fexec` ](../commands/fexec.md):
+* [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

@@ -100,9 +100,9 @@ any matches from the `+` flags.
 
 ## See Also
 
-* [commands/`g`](../commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [types/`json` ](../types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [commands/`rx`](../commands/rx.md):
+* [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)

@@ -77,19 +77,19 @@ when there are more than 2 columns. In those instances you're better off using
 
 ## See Also
 
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`for`](../commands/for.md):
+* [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [types/`json` ](../types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`tabulate`](../commands/tabulate.md):
+* [`tabulate`](../commands/tabulate.md):
   Table transformation tools
-* [commands/`while`](../commands/while.md):
+* [`while`](../commands/while.md):
   Loop until condition false

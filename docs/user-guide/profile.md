@@ -75,9 +75,9 @@ how you define that value.
 
 ## See Also
 
-* [user-guide/Modules and Packages](../user-guide/modules.md):
+* [Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [commands/`export`](../commands/export.md):
+* [`export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [commands/`murex-package`](../commands/murex-package.md):
+* [`murex-package`](../commands/murex-package.md):
   _murex_'s package manager

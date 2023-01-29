@@ -48,27 +48,27 @@ handles any programs that aren't native to _murex_.
 
 ## See Also
 
-* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
+* [`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function (deprecated)
-* [commands/`bexists`](../commands/bexists.md):
+* [`bexists`](../commands/bexists.md):
   Check which builtins exist
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`builtins`](../commands/runtime.md):
+* [`builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`fg`](../commands/fg.md):
+* [`fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [commands/`fid-kill`](../commands/fid-kill.md):
+* [`fid-kill`](../commands/fid-kill.md):
   Terminate a running _murex_ function
-* [commands/`fid-killall`](../commands/fid-killall.md):
+* [`fid-killall`](../commands/fid-killall.md):
   Terminate _all_ running _murex_ functions
-* [commands/`fid-list`](../commands/fid-list.md):
+* [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`jobs`](../commands/fid-list.md):
+* [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

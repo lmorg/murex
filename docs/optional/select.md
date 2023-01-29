@@ -129,13 +129,13 @@ If you do run into any issues then please raise them on [Github](https://github.
 
 ## See Also
 
-* [changelog/What's new in murex v2.1](../changelog/v2.1.md):
+* [What's new in murex v2.1](../changelog/v2.1.md):
   This release comes with support for inlining SQL and some major bug fixes plus a breaking change for `config`. Please read for details.
-* [types/`*` (generic) ](../types/generic.md):
+* [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [types/`csv` ](../types/csv.md):
+* [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
-* [types/`jsonl` ](../types/jsonl.md):
+* [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)

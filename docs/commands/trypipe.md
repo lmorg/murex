@@ -43,17 +43,17 @@ command.
 
 ## See Also
 
-* [user-guide/Schedulers](../user-guide/schedulers.md):
+* [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
-* [commands/`catch`](../commands/catch.md):
+* [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
-* [commands/`fid-list`](../commands/fid-list.md):
+* [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`runmode`](../commands/runmode.md):
+* [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
-* [commands/`switch`](../commands/switch.md):
+* [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [commands/`try`](../commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code

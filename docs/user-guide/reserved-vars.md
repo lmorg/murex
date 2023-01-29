@@ -126,31 +126,31 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 
 ## See Also
 
-* [parser/Array (`@`) Token](../parser/array.md):
+* [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [user-guide/Bang Prefix](../user-guide/bang-prefix.md):
+* [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [user-guide/Modules and Packages](../user-guide/modules.md):
+* [Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [parser/String (`$`) Token](../parser/string.md):
+* [String (`$`) Token](../parser/string.md):
   Expand values as a string
-* [user-guide/Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within _murex_
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`switch`](../commands/switch.md):
+* [`switch`](../commands/switch.md):
   Blocks of cascading conditionals

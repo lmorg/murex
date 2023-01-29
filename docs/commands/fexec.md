@@ -64,27 +64,27 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [commands/`alias`](../commands/alias.md):
+* [`alias`](../commands/alias.md):
   Create an alias for a command
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`builtins`](../commands/runtime.md):
+* [`builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`event`](../commands/event.md):
+* [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [commands/`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`fg`](../commands/fg.md):
+* [`fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`jobs`](../commands/fid-list.md):
+* [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block

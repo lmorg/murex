@@ -43,19 +43,19 @@ Undefine a summary
 
 ## See Also
 
-* [commands/`bexists`](../commands/bexists.md):
+* [`bexists`](../commands/bexists.md):
   Check which builtins exist
-* [commands/`builtins`](../commands/runtime.md):
+* [`builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`fid-list`](../commands/fid-list.md):
+* [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`murex-docs`](../commands/murex-docs.md):
+* [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
-* [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

@@ -58,30 +58,30 @@ well as used naked. But they cannot be expanded inside single quotes.
     » out: "Hello $example"
     Hello World!
     
-    » out: (Hello $example)
+    » out: %(Hello $example)
     Hello World!
 
 ## See Also
 
-* [parser/Array (`@`) Token](../parser/array.md):
+* [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [parser/Double Quote (`"`) Token](../parser/double-quote.md):
+* [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [parser/Single Quote (`'`) Token](../parser/single-quote.md):
+* [Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [parser/Tilde (`~`) Token](../parser/tilde.md):
+* [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

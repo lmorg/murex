@@ -284,47 +284,47 @@ functions.
 
 ## See Also
 
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`debug`](../commands/debug.md):
+* [`debug`](../commands/debug.md):
   Debugging information
-* [commands/`event`](../commands/event.md):
+* [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [commands/`export`](../commands/export.md):
+* [`export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [commands/`fid-list`](../commands/fid-list.md):
+* [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`format`](../commands/format.md):
+* [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`global`](../commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`method`](../commands/method.md):
+* [`method`](../commands/method.md):
   Define a methods supported data-types
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`openagent`](../commands/openagent.md):
+* [`openagent`](../commands/openagent.md):
   Creates a handler function for `open
-* [commands/`pipe`](../commands/pipe.md):
+* [`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes
-* [commands/`pretty`](../commands/pretty.md):
+* [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/`test`](../commands/test.md):
+* [`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts

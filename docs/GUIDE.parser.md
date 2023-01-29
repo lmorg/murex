@@ -8,11 +8,14 @@ This section is a glossary of _murex_ tokens and parser behavior.
 
 ### Language Guides
 
-1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-on the core builtins.
+1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+   the _murex_ language.
 
-2. [GUIDE.control-structures](./GUIDE.control-structures.md), which
-contains builtins required for building logic.
+2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+   table comparing Bash syntax to _murex_'s.
+
+3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
+   on the core builtins.
 
 ### _murex_'s Source Code
 
@@ -29,7 +32,7 @@ files.
   Expand values as an array
 * [Arrow Pipe (`->`) Token](parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Brace Quote (`(`, `)`) Tokens](parser/brace-quote.md):
+* [Brace Quote (`%(`, `)`) Tokens](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Curly Brace (`{`, `}`) Tokens](parser/curly-brace.md):
   Initiates or terminates a code block

@@ -30,23 +30,23 @@ AMD64 or other 64bit built of _murex_ would see the range from
 
 ## See Also
 
-* [apis/`Marshal()` (type)](../apis/Marshal.md):
+* [`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
+* [`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`format`](../commands/format.md):
+* [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`num` (number)](../types/num.md):
+* [`num` (number)](../types/num.md):
   Floating point number (primitive)
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/`str` (string) ](../types/str.md):
+* [`str` (string) ](../types/str.md):
   string (primitive)

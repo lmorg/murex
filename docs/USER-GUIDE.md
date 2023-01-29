@@ -12,10 +12,14 @@ commands and such like:
 
 ### Language Guides
 
-1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-on the core builtins.
+1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+   the _murex_ language.
 
-2. [GUIDE.parser](./GUIDE.parser.md), which details a lot of the logic.
+2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+   table comparing Bash syntax to _murex_'s.
+
+3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
+   on the core builtins.
 
 ## Pages
 
@@ -35,6 +39,8 @@ on the core builtins.
   Overview of what a "pipeline" is
 * [Reserved Variables](user-guide/reserved-vars.md):
   Special variables reserved by _murex_
+* [Rosetta Stone](user-guide/rosetta-stone.md):
+  A tabulated list of Bashism's and their equivalent _murex_ syntax
 * [Schedulers](user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
 * [Spellcheck](user-guide/spellcheck.md):

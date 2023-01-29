@@ -61,6 +61,36 @@ that variable name without a following value. For example
     » out: $foo
     rab
     
+### Type Annotations
+
+When `set` or `global` are used as a function, the parameters are passed as a
+string which means the variables are defined as a `str`. If you wish to define
+them as an alternate data type then you should add type annotations:
+
+    » set: int age = 30
+    (`$age` is an integer, `int`)
+
+    » global: bool dark_theme = true
+    
+(`$dark_theme` is a boolean, `bool`)
+
+When using `set` or `global` as a method, by default they will define the
+variable as the data type of the pipe:
+
+    » open: example.json -> set: file
+    
+(`$file` is defined a `json` type because `open` wrote to `set`'s pipe with a
+`json` type)
+
+You can also annotate `set` and `global` when used as a method too:
+
+    out: 30 -> set: int age
+    
+(`$age` is an integer, `int`, despite `out` writing a string, `str, to the pipe)
+
+> `export` does not support type annotations because environmental variables
+> must always be strings. This is a limitation of the current operating systems.
+
 ### Scoping
 
 Variable scoping is simplified to three layers:
@@ -192,7 +222,7 @@ quotes:
     » out '$foo'
     $foo
     
-    » out ($foo)
+    » out %($foo)
     bar
 
 ## Synonyms
@@ -204,19 +234,19 @@ quotes:
 
 ## See Also
 
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [user-guide/Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within _murex_
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
+* [`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function (deprecated)
-* [commands/`expr`](../commands/expr.md):
+* [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [commands/`global`](../commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

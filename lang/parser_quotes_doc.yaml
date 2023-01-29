@@ -62,8 +62,8 @@
     Quotes can also work over multiple lines
 
     ```
-    » out: (foo
-    » bar)
+    » out: "foo
+    » bar"
     foo
     bar
     ```
@@ -81,7 +81,7 @@
 
 - DocumentID: brace-quote
   Title: >-
-    Brace Quote (`(`, `)`) Tokens
+    Brace Quote (`%(`, `)`) Tokens
   CategoryID: parser
   Summary: >-
     Initiates or terminates a string (variables expanded)
@@ -95,26 +95,71 @@
     when nesting quotes as it saves the developer from having to carefully escape
     the nested quotation marks just the right number of times.
 
-    Commands cannot be quoted using double quotes because `(` is recognized as its
-    own command.
+    Commands cannot be quoted using brace quotes because `%(` is recognized as its
+    own function.
   Examples: |-
+    #### As a parameter:
+
+    ```
+    name = %(Bob)
+    ```
+
+    #### As a function:
+
+    ```
+    » %(hello world)
+    hello world
+    ```
+
+    #### Nested quotes:
+
+    ```
+    » murex -c %(out: %(Hello "${murex -c %(out: %(Bob))}"))
+    Hello "Bob"
+    ```
+
+    In this example we are calling _murex_ to execute code as a command line
+    parameter (the `-c` flag). That code outputs `Hello "..."` but inside the
+    double quotes is a name that is generated from a sub-shell. That sub-shell
+    itself runs another murex instance which also executes another command line
+    parameter, this time outputting the name **Bob**.
+
+    The example is contrived but it does demonstrate how you can heavily nest
+    quotes and even mix and match that with other quotation marks if desired.
+
+    This is something that is extremely difficult to write in traditional shells
+    because it would require lots of escaping, and even escaping the escape
+    characters (and so on) the further deep you get in your nest.
+  Detail: |-
+    ### Multi-Line Quotes
+
+    Quotes can also work over multiple lines
+
+    ```
+    » out: %(foo
+    » bar)
+    foo
+    bar
+    ```
+
+    ### Legacy Support
+
+    Version 3.x of _murex_ introduced support for the `%` token, before that brace
+    quotes worked without it. However to retain backwards compatibility, the older
+    syntax is still supported...albeit officially classed as "deprecated" and may
+    be removed from a future release.
+
+    Below is a little detail about how the legacy syntax worked:
+
+    #### Deprecated Syntax
+    
     The open brace character is only recognized as a brace quote token if it is the
     start of a parameter.
 
     ```
     » set: example=(World!)
-    
     » out: (Hello $example)
     Hello (World!)
-    ```
-  Detail: |-
-    Quotes can also work over multiple lines
-
-    ```
-    » out: (foo
-    » bar)
-    foo
-    bar
     ```
   Related:
   - tilde

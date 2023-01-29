@@ -189,7 +189,7 @@ over ALGOL style named scopes:
     
 **Murex:**
 
-    if { = 0 == 1 } then {
+    if { 0 == 1 } then {
         echo '0 == 1'
     } else {
         echo '0 != 1'
@@ -200,7 +200,7 @@ superfluous words that only exist for readability. So then we can make them
 optional. And you end up with a syntax that allows for a certain amount of
 golfing in the REPL should the operator want to save a few key strokes
 
-    if { = 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
+    if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
     
 ### Conclusion
 
@@ -219,9 +219,9 @@ Published: 02.10.2021 at 22:42
 
 ## See Also
 
-* [changelog/What's new in murex v2.3](../changelog/v2.3.md):
-  This release includes significant changes to the interactive terminal
-* [user-guide/_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
+* [Rosetta Stone](../user-guide/rosetta-stone.md):
+  A tabulated list of Bashism's and their equivalent _murex_ syntax
+* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
   What's different about _murex_'s interactive shell?
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition

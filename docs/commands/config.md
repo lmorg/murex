@@ -186,27 +186,27 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 
 ## See Also
 
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`append`](../commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`event`](../commands/event.md):
+* [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`get`](../commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [commands/`getfile`](../commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [commands/`match`](../commands/match.md):
+* [`match`](../commands/match.md):
   Match an exact value in an array
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`post`](../commands/post.md):
+* [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/mxjson](../types/mxjson.md):
+* [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

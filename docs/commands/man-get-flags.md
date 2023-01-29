@@ -21,5 +21,5 @@ the command as a parameter.
 
 ## See Also
 
-* [commands/`murex-docs`](../commands/murex-docs.md):
+* [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for _murex_ builtins

@@ -100,25 +100,25 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [commands/`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`export`](../commands/export.md):
+* [`export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [commands/`fexec` ](../commands/fexec.md):
+* [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`g`](../commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [commands/`global`](../commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`method`](../commands/method.md):
+* [`method`](../commands/method.md):
   Define a methods supported data-types
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block

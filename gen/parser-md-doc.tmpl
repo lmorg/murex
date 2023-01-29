@@ -33,5 +33,5 @@
 ## See Also
 
 {{ range $i,$a := .Related }}{{ if gt $i 0 }}
-{{ end }}* [{{ .CategoryID }}/{{ md .Title }}](../{{ md .Hierarchy }}.md):
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ end }}

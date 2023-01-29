@@ -60,11 +60,11 @@ brace block might be JSON).
 
 ## See Also
 
-* [user-guide/ANSI Constants](../user-guide/ansi.md):
+* [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [user-guide/Schedulers](../user-guide/schedulers.md):
+* [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_

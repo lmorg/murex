@@ -30,21 +30,21 @@ Quotes can also work over multiple lines
 
 ## See Also
 
-* [parser/Array (`@`) Token](../parser/array.md):
+* [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [parser/Brace Quote (`(`, `)`) Tokens](../parser/brace-quote.md):
+* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [parser/Double Quote (`"`) Token](../parser/double-quote.md):
+* [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
-* [parser/String (`$`) Token](../parser/string.md):
+* [String (`$`) Token](../parser/string.md):
   Expand values as a string
-* [parser/Tilde (`~`) Token](../parser/tilde.md):
+* [Tilde (`~`) Token](../parser/tilde.md):
   Home directory path variable
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

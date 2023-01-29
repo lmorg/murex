@@ -124,6 +124,10 @@ The problem with building JSON structures from existing structures is that you
 can quickly end up with invalid JSON due to the specifications strict use of
 commas.
 
+For example in the code below, each item block is it's own object and there are
+no `[ ... ]` encapsulating them to denote it is an array of objects, nor are
+the objects terminated by a comma.
+
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar }
     {
         "Data-Type": "bool",
@@ -154,7 +158,8 @@ commas.
     }
     ...
     
-Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
+Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
+`cast` this output as `jsonl` then `format` it back into valid JSON:
 
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar } -> cast jsonl -> format json
     [
@@ -206,21 +211,21 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 ## See Also
 
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`while`](../commands/while.md):
+* [`while`](../commands/while.md):
   Loop until condition false

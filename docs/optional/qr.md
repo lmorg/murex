@@ -31,7 +31,7 @@ have to `cast` the output in some circumstances.
 
 ## See Also
 
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`open-image` ](../commands/open-image.md):
+* [`open-image` ](../commands/open-image.md):
   Renders bitmap image data on your terminal

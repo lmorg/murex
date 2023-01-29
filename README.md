@@ -15,74 +15,37 @@ A non-exhaustive list features would include:
   for complex data formats like JSON or tables. Meaning all of your existing
   UNIX tools to work more intelligently and without any additional configuration.
 
-  ![json-example](images/murex-open-foreach.png)
-  ![tabulated-data-example](images/murex-ps-select.png)
-
 * **Usability improvements** such as in-line spell checking, context sensitive
   hint text that details a commands behavior before you hit return, and
   auto-parsing man pages for auto-completions on commands that don't have auto-completions already defined.
-
-  ![spellchecking](images/murex-spellchecker.png)
-  ![smarter-autocomplete](images/murex-kill-autocomplete.png)
   
 * **Smarter handling of errors** and **debugging tools**. For example try/catch
   blocks, line numbers included in error messages, STDOUT highlighted in red
   and script testing and debugging frameworks baked into the language itself.
 
-## More Examples!
+## Examples
 
-### Getting indexes from tabulated data:
+**JSON wrangling:**
 
-```
-ps aux | [PID %CPU COMMAND] | head -n5
-```
+<img src="images/murex-open-foreach.png" class="readme">
 
-Outputs:
-```
-PID     %CPU    COMMAND
-77045   127.5   /usr/sbin/netbiosd
-85046   14.9    /Applications/iTerm.app/Contents/MacOS/iTerm2
-371     3.7     /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer
-4302    3.3     /Applications/Firefox.app/Contents/MacOS/firefox
-```
+**Inline spellchecking:**
 
-### Arrays used as parameters:
+<img src="images/murex-spellchecker.png" class="readme">
 
-```
-fruit = %[apples oranges bananas]
-out: "I have the following fruit in my fruit bowl:" @fruit ","
-out: "But I mostly love $fruit[1]."
-```
+**Autocomplete descriptions, process IDs accompanied by process names:**
 
-Outputs:
-```
-I have the following fruit in my fruit bowl: apples oranges bananas,
-But I mostly love oranges.
-```
+<img src="images/murex-kill-autocomplete.png" class="readme">
 
-### Iteration:
-
-```
-%[A[3..5],letter] | foreach page_size {
-    if { $page_size == 'letter' } then {
-        out: "$page_size is loaded"
-    } else {
-        out: "$page_size is unsupported"
-    }
-}
-```
-
-Outputs:
-```
-A3 is unsupported
-A4 is unsupported
-A5 is unsupported
-letter is loaded
-```
+More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
 ## Install instructions
 
 See [INSTALL](INSTALL.md) for details.
+
+## Language Tour
+
+Read the [language tour](docs/GUIDE.quick-start.md) to get started.
 
 ## Known bugs / TODO
 

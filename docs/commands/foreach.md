@@ -156,6 +156,10 @@ The problem with building JSON structures from existing structures is that you
 can quickly end up with invalid JSON due to the specifications strict use of
 commas.
 
+For example in the code below, each item block is it's own object and there are
+no `[ ... ]` encapsulating them to denote it is an array of objects, nor are
+the objects terminated by a comma.
+
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar }
     {
         "Data-Type": "bool",
@@ -186,7 +190,8 @@ commas.
     }
     ...
     
-Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
+Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
+`cast` this output as `jsonl` then `format` it back into valid JSON:
 
     » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar } -> cast jsonl -> format json
     [
@@ -238,37 +243,37 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 ## See Also
 
-* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+* [`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`debug`](../commands/debug.md):
+* [`debug`](../commands/debug.md):
   Debugging information
-* [commands/`for`](../commands/for.md):
+* [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`format`](../commands/format.md):
+* [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [types/`json` ](../types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [types/`jsonl` ](../types/jsonl.md):
+* [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
-* [commands/`left`](../commands/left.md):
+* [`left`](../commands/left.md):
   Left substring every item in a list
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`while`](../commands/while.md):
+* [`while`](../commands/while.md):
   Loop until condition false
-* [types/`yaml` ](../types/yaml.md):
+* [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)

@@ -65,6 +65,9 @@ sed -i '0,/<img src/s//<img class="no-border" src/;
 sed -i '0,/<img src/s//<img class="no-border" src/;' \
         DOWNLOAD.html
 
+sed -i 's.\\|.|.g;' \
+        docs/user-guide/rosetta-stone.html
+
 echo "$MUREXVERSION" > VERSION
 
 mv VERSION *.html *.svg gen/website/assets/* ./docs ./images /website/

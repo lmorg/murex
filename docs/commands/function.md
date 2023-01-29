@@ -77,7 +77,7 @@ within the function declaration:
 
 First off, the syntax doesn't have to follow exactly as above:
 
-* Variables shouldn't be prefixed with a dollar (`$`). This is a little like
+* **Variables** shouldn't be prefixed with a dollar (`$`). This is a little like
   declaring variables via `set`, etc. However it should be followed by a colon
   (`:`) or comma (`,`). Normal rules apply with regards to allowed characters
   in variable names: limited to ASCII letters (upper and lower case), numbers,
@@ -87,14 +87,14 @@ First off, the syntax doesn't have to follow exactly as above:
 * **data-type** is the _murex_ data type. This is an optional field in version
   `2.8.x` (defaults to `str`) but is required in `2.7.x`.
 
-* The default value must be inside square brackets (`[...]`). Any value is
+* The **default value** must be inside square brackets (`[...]`). Any value is
   allowed (including Unicode) _except_ for carriage returns / new lines (`\r`,
   `\n`) and a closing square bracket (`]`) as the latter would indicate the end
   of this field. You cannot escape these characters either.
 
   This field is optional.
 
-* The description must sit inside double quotes (`"..."`). Any value is allowed
+* The **description** must sit inside double quotes (`"..."`). Any value is allowed
   (including Unicode) _except_ for carriage returns / new lines (`\r`, `\n`)
   and double quotes (`"`) as the latter would indicate the end of this field.
   You cannot escape these characters either.
@@ -222,33 +222,33 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [commands/`alias`](../commands/alias.md):
+* [`alias`](../commands/alias.md):
   Create an alias for a command
-* [commands/`args` ](../commands/args.md):
+* [`args` ](../commands/args.md):
   Command line flag parser for _murex_ shell scripting
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`export`](../commands/export.md):
+* [`export`](../commands/export.md):
   Define an environmental variable and set it's value
-* [commands/`fexec` ](../commands/fexec.md):
+* [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [commands/`g`](../commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [commands/`global`](../commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`method`](../commands/method.md):
+* [`method`](../commands/method.md):
   Define a methods supported data-types
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/`version` ](../commands/version.md):
+* [`version` ](../commands/version.md):
   Get _murex_ version
