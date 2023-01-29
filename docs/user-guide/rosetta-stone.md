@@ -2,7 +2,13 @@
 
 ## User Guide: Rosetta Stone
 
-> A tabulated list of _murex_ vs Bashism's
+> A tabulated list of Bashism's and their equivalent _murex_ syntax
+
+Below is a reference table of common Bash code and how it could be written in
+_murex_.
+
+It is also recommended that you read the language [tour](../GUIDE.quick-start.md)
+if you want to learn more about shell scripting in _murex_.
 
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|

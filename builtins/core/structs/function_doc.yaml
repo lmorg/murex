@@ -163,7 +163,7 @@
 
     First off, the syntax doesn't have to follow exactly as above:
 
-    * Variables shouldn't be prefixed with a dollar (`$`). This is a little like
+    * **Variables** shouldn't be prefixed with a dollar (`$`). This is a little like
       declaring variables via `set`, etc. However it should be followed by a colon
       (`:`) or comma (`,`). Normal rules apply with regards to allowed characters
       in variable names: limited to ASCII letters (upper and lower case), numbers,
@@ -173,14 +173,14 @@
     * **data-type** is the _murex_ data type. This is an optional field in version
       `2.8.x` (defaults to `str`) but is required in `2.7.x`.
 
-    * The default value must be inside square brackets (`[...]`). Any value is
+    * The **default value** must be inside square brackets (`[...]`). Any value is
       allowed (including Unicode) _except_ for carriage returns / new lines (`\r`,
       `\n`) and a closing square bracket (`]`) as the latter would indicate the end
       of this field. You cannot escape these characters either.
 
       This field is optional.
 
-    * The description must sit inside double quotes (`"..."`). Any value is allowed
+    * The **description** must sit inside double quotes (`"..."`). Any value is allowed
       (including Unicode) _except_ for carriage returns / new lines (`\r`, `\n`)
       and double quotes (`"`) as the latter would indicate the end of this field.
       You cannot escape these characters either.

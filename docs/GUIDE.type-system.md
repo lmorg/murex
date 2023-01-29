@@ -6,35 +6,10 @@ This section is a glossary of data-types which _murex_ is natively aware.
 
 Most of the time you will not need to worry about typing in_murex_ as the
 shell is designed around productivity as opposed to strictness despite
-generally following a strictly typed design. Examples of this are:
+generally following a strictly typed design.
 
-* Variables when outputted are automatically converted to strings
+Read the [Language Tour](../GUIDE.quick-start.md) for more detail on this topic.
 
-* `=` and `let` functions evaluate the data type as well as the value.
-  An example of strict typing in `=` can be seen with these 2 blocks:
-
-  1. adding numbers:
-
-          » let a=1  # define 'a' as number
-          » let b=1  # define 'b' as number
-          » = a+b
-          2
-              
-      (returns '2' as both `$a` and `$b` are numbers)
-
-  2. adding strings:
-
-          » set a=1  # define 'a' as string
-          » let b=1  # define 'b' as number
-          » = a+b
-          11
-          
-      (returns '11' as `$a` is string so values are concatenated)
-
-* Data can be case into other data-types using the `cast` command:
-
-        » echo '{ "key": "value" }' -> cast json 
-        
 ## Definitions
 
 For clarity, it is worth explaining a couple of terms:

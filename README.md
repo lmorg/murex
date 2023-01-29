@@ -29,7 +29,7 @@ A non-exhaustive list features would include:
 
 <img src="images/murex-open-foreach.png" class="readme">
 
-**Inline spellchecking**
+**Inline spellchecking:**
 
 <img src="images/murex-spellchecker.png" class="readme">
 

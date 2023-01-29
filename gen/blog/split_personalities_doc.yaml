@@ -203,7 +203,7 @@
     **Murex:**
 
     ```
-    if { = 0 == 1 } then {
+    if { 0 == 1 } then {
         echo '0 == 1'
     } else {
         echo '0 != 1'
@@ -216,7 +216,7 @@
     golfing in the REPL should the operator want to save a few key strokes
 
     ```
-    if { = 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
+    if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
     ```
     
     ### Conclusion
@@ -232,7 +232,7 @@
   Synonyms:
   Related:
   - commands/if
-  - changelog/v2.3
+  - user-guide/rosetta-stone
   - user-guide/interactive-shell
 
 
