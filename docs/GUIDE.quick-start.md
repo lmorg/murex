@@ -1,5 +1,6 @@
 <h1>Language Guide: Quick Tour</h1>
 
+<h2>Table of Contents</h2>
 <div id="toc">
 
 - [Introduction](#introduction)

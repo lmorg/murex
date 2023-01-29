@@ -1,0 +1,17 @@
+#!/usr/bin/env murex
+#
+# This example demonstrates `foreach`
+
+%[ 1..5 ] | foreach i {
+    echo $i
+}
+
+/#
+    Outputs:
+
+    1
+    2
+    3
+    4
+    5
+#/

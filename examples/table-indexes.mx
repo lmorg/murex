@@ -1,0 +1,15 @@
+#!/usr/bin/env murex
+#
+# This gets indexes from tabulated data
+
+ps aux | [PID %CPU COMMAND] | head -n5
+
+/#
+    Outputs:
+
+    PID     %CPU    COMMAND
+    77045   127.5   /usr/sbin/netbiosd
+    85046   14.9    /Applications/iTerm.app/Contents/MacOS/iTerm2
+    371     3.7     /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer
+    4302    3.3     /Applications/Firefox.app/Contents/MacOS/firefox
+#/

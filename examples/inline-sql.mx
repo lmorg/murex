@@ -1,0 +1,20 @@
+#!/usr/bin/env murex
+#
+# This example uses SQL to filter output from a POSIX command
+
+ps aux | select USER, PID, COMMAND where USER = `lau` order by PID ASC | head -n10
+
+/#
+    Outputs:
+
+    USER  PID     COMMAND
+    lau   943     /usr/lib/systemd/systemd --user
+    lau   944     (sd-pam)
+    lau   954     /usr/bin/kwalletd5 --pam-login 6 8
+    lau   955     /usr/bin/startplasma-x11
+    lau   960     /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+    lau   987     /usr/lib/baloo_file
+    lau   991     /usr/lib/xdg-desktop-portal
+    lau   1004    /usr/lib/xdg-document-portal
+    lau   1008    /usr/lib/xdg-permission-store
+#/
