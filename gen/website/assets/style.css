@@ -277,6 +277,22 @@ td > code {
   font-size: 14px;
 }
 
+#toc {
+  column-count: 3;
+  column-fill: balance;
+  margin-left: 20px;
+}
+
+#toc ul {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+#toc li {
+  margin-top: 0px;
+  margin-bottom: -10px;
+}
+
 .ddg {
   overflow: hidden;
   margin: 5px;
@@ -291,6 +307,10 @@ td > code {
 
 .ddg:hover, .ddg:focus {
   border-color: #ff2020;
+}
+
+@media screen and (max-width: 1100px) {
+    #toc { column-count: 2; }
 }
 
 @media screen and (max-width: 678px) {
@@ -310,6 +330,7 @@ td > code {
   h2, h3 { margin-right: 0px; }
   hr { margin-right: 0px; }
   li { padding-right: 0px; }
+  #toc { column-count: 1; }
   .ddg { margin: 0px 0px 0px 10px; width:308px; border-width: 0px; }
 }
 

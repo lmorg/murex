@@ -1,6 +1,6 @@
 <h1>Language Guide: Quick Tour</h1>
 
-<div class="toc">
+<div id="toc">
 
 - [Introduction](#introduction)
   - [Barewords](#barewords)
@@ -20,7 +20,6 @@
 - [Emendable sub-shells](#emendable-sub-shells)
 - [Globbing](#globbing)
 - [Brace expansion](#brace-expansion)
-- [Exit code](#exit-code)
 
 </div>
 
@@ -154,7 +153,8 @@ _murex_'s default behavior):
 Error in `echo` (1,1): variable 'foobar' does not exist
 ```
 
-> Please note that when using `set` and `global` as a function
+> Please note that when using `set` and `global` as a function, all assignments
+> will be strings unless you specifically annotate your variables.
 
 ### Scalars
 
@@ -306,13 +306,4 @@ In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#B
 using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
 expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
-
-Since 
-
-## Exit code
-
-In bash the variable `$?` would store the exit code. This doesn't exist
-in _murex_. Instead there a separate command `exitnum`:
-
-    open: test/fox.txt -> grep: foobar; exitnum
 
