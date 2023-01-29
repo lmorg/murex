@@ -7,7 +7,7 @@
   - [Barewords](#barewords)
   - [Expressions and Statements](#expressions-and-statements)
   - [Functions and Methods](#functions-and-methods)
-  - [The Bang Prefix: `!`](#the-bang-prefix-)
+  - [The Bang Prefix](#the-bang-prefix)
 - [Rosetta Stone](#rosetta-stone)
 - [Basic Syntax](#basic-syntax)
   - [Quoting Strings](#quoting-strings)
@@ -29,7 +29,8 @@
 - [Aliases](#aliases)
 - [Functions](#functions)
 - [Control Flow](#control-flow)
-  - [`if` Statements](#if-statements)
+  - [if Statements](#if-statements)
+  - [switch Statements](#switch-statements)
 
 </div>
 
@@ -100,9 +101,16 @@ passed via STDIN or as parameters. Thus you will often find references to
 functions and methods, and sometimes for the same command, within these
 documents.
 
-### The Bang Prefix: `!`
+### The Bang Prefix
 
-A lot of _murex_ builtins support a bang prefix. This prefix alters the behavior
+Some _murex_ builtins support a bang prefix. This prefix alters the behavior of
+those builtins to perform the conceptual opposite of their primary role.
+
+For example, to define a variable you might `set foo=bar` but to undefine it
+you would `!set foo`.
+
+The details for each supported bang prefix will be in the documents for their
+respective builtin.
 
 ## Rosetta Stone
 
@@ -377,11 +385,34 @@ You can create custom functions in _murex_ using `function`. ([read more](comman
 
 ## Control Flow
 
-### `if` Statements
+### if Statements
 
 `if` can be used in a number of different ways, the most common being:
 ```
 if { true } then {
     # do something
+} else {
+    # do something else
 }
 ```
+
+`if` supports a flexible variety of incarnation to solve different problems. ([read more](commands/if.md))
+
+### switch Statements
+
+Because `if ... else if` chains are ugly, _murex_ supports `switch` statements:
+```
+switch ${whoami} {
+    case "Tom" {
+        out: "Hello Tom" }
+    case "Dick" {
+        out: "Howdie Richard" }
+    case "Sally" {
+        out: "Nice to meet you" }
+    default {
+        out: "I don't know who you are" }
+}
+```
+
+`switch` supports a flexible variety of different usages to solve different
+problems. ([read more](commands/switch.md))
