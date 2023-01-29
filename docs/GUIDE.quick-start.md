@@ -1,4 +1,4 @@
-<h1>Language Guide: Quick Tour</h1>
+<h1>Language Tour</h1>
 
 <h2>Table of Contents</h2>
 <div id="toc">
@@ -250,29 +250,29 @@ Redirection of stdout and stderr is very different in _murex_. There is no
 support for the `2>` or `&1` tokens,  instead you name the pipe inside angle
 brackets, in the first parameter(s).
 
-`out` is that processes STDOUT (fd1), `err` is that processes STDERR (fd2), and
+`out` is that processes stdout (fd1), `err` is that processes stderr (fd2), and
 `null` is the equivalent of piping to `/dev/null`.
 
-Any pipes prefixed by a bang means reading from that processes STDERR.
+Any pipes prefixed by a bang means reading from that processes stderr.
 
-So to redirect STDERR to STDOUT you would use `<!out>`:
+So to redirect stderr to stdout you would use `<!out>`:
 
 ```
 err <!out> "error message redirected to stdout"
 ```
 
-And to redirect STDOUT to STDERR you would use `<err>`:
+And to redirect stdout to stderr you would use `<err>`:
 
 ```
 out <err> "output redirected to stderr"
 ```
 
-Likewise you can redirect either STDOUT, or STDERR to `/dev/null` via `<null>`
+Likewise you can redirect either stdout, or stderr to `/dev/null` via `<null>`
 or `<!null>` respectively.
 
 ```
-command <!null> # ignore STDERR
-command <null>  # ignore STDOUT
+command <!null> # ignore stderr
+command <null>  # ignore stdout
 ```
 
 You can also create your own pipes that are files, network connections, or any
