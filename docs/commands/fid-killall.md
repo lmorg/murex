@@ -16,7 +16,7 @@
 
 `fid-killall` works by the same mechanisms as `fid-kill`, described below:
 
-`fid-kill` doesn't send a kernel signal to the process but since _murex_ is
+`fid-kill` doesn't send a kernel signal to the process since _murex_ is
 a multi-threaded shell with a single signal, `fid-kill` will send a
 cancellation context to any builtins executing (which covers builtins,
 aliases, public and private functions and any external executables running
