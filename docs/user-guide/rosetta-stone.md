@@ -79,31 +79,31 @@
 
 ## See Also
 
-* [parser/And (`&&`) Logical Operator](../parser/logical-and.md):
+* [And (`&&`) Logical Operator](../parser/logical-and.md):
   Continues next operation if previous operation passes
-* [parser/Append Pipe (`>>`) Token](../parser/pipe-append.md):
+* [Append Pipe (`>>`) Token](../parser/pipe-append.md):
   Redirects STDOUT to a file and append its contents
-* [parser/Array (`@`) Token](../parser/array.md):
+* [Array (`@`) Token](../parser/array.md):
   Expand values as an array
-* [user-guide/Murex Named Pipes](../user-guide/namedpipes.md):
+* [Murex Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in _murex_
-* [parser/Or (`||`) Logical Operator](../parser/logical-or.md):
+* [Or (`||`) Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
-* [parser/String (`$`) Token](../parser/string.md):
+* [String (`$`) Token](../parser/string.md):
   Expand values as a string
-* [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [commands/`>` (truncate file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (range) ](../commands/range.md):
+* [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [commands/`runmode`](../commands/runmode.md):
+* [`runmode`](../commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
-* [commands/`try`](../commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/`trypipe`](../commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

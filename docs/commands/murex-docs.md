@@ -34,21 +34,21 @@ These man pages are compiled into the _murex_ executable.
 
 ## See Also
 
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [commands/`>` (truncate file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [commands/`man-get-flags` ](../commands/man-get-flags.md):
+* [`man-get-flags` ](../commands/man-get-flags.md):
   Parses man page files for command line flags 
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`tout`](../commands/tout.md):
+* [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
-* [commands/`tread`](../commands/tread.md):
+* [`tread`](../commands/tread.md):
   `read` a line of input from the user and store as a user defined *typed* variable

@@ -78,5 +78,5 @@ exit number if there is an error when parsing.
 
 ## See Also
 
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_

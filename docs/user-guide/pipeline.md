@@ -61,17 +61,17 @@ document but you can read more on them in links the links below.
 
 ## See Also
 
-* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [user-guide/Bang Prefix](../user-guide/bang-prefix.md):
+* [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [parser/Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
+* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [user-guide/Schedulers](../user-guide/schedulers.md):
+* [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background

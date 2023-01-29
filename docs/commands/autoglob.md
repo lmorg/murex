@@ -35,13 +35,13 @@ It is enabled by default on from version 3.x onwards (and renamed to
 
 ## See Also
 
-* [user-guide/_murex_ Profile Files](../user-guide/profile.md):
+* [_murex_ Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`f`](../commands/f.md):
+* [`f`](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [commands/`g`](../commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [commands/`rx`](../commands/rx.md):
+* [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)

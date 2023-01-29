@@ -42,7 +42,7 @@ Output the the file name and path of a lock file with the name `identifier`
 
 ## See Also
 
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character

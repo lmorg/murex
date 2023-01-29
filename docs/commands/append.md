@@ -39,31 +39,31 @@
 
 ## See Also
 
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (range) ](../commands/range.md):
+* [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`addheading` ](../commands/addheading.md):
+* [`addheading` ](../commands/addheading.md):
   Adds headings to a table
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`count`](../commands/count.md):
+* [`count`](../commands/count.md):
   Count items in a map, list or array
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`match`](../commands/match.md):
+* [`match`](../commands/match.md):
   Match an exact value in an array
-* [commands/`msort` ](../commands/msort.md):
+* [`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
-* [commands/`mtac`](../commands/mtac.md):
+* [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [commands/`prepend` ](../commands/prepend.md):
+* [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [commands/`regexp`](../commands/regexp.md):
+* [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings

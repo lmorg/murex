@@ -50,21 +50,21 @@ Supported data types can queried via `runtime`
 
 ## See Also
 
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`count`](../commands/count.md):
+* [`count`](../commands/count.md):
   Count items in a map, list or array
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
+* [`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
   Converts structured memory into a _murex_ data-type (eg for stdio)
-* [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
+* [`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
   Converts a _murex_ data-type into structured memory
-* [commands/`prefix`](../commands/prefix.md):
+* [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [commands/`right`](../commands/right.md):
+* [`right`](../commands/right.md):
   Right substring every item in a list
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`suffix`](../commands/suffix.md):
+* [`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list

@@ -68,19 +68,19 @@ raise the following error:
 
 ## See Also
 
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`exit`](../commands/exit.md):
+* [`exit`](../commands/exit.md):
   Exit murex
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block

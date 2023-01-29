@@ -190,23 +190,23 @@ func MimeToMurex(mimeType string) string {
 
 ## See Also
 
-* [types/`*` (generic) ](../types/generic.md):
+* [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`fexec` ](../commands/fexec.md):
+* [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`get`](../commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [commands/`getfile`](../commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [commands/`openagent`](../commands/openagent.md):
+* [`openagent`](../commands/openagent.md):
   Creates a handler function for `open
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`post`](../commands/post.md):
+* [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return

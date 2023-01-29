@@ -45,9 +45,9 @@ You can call a named pipe as either a method, function, or parameter.
 
 ## See Also
 
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`<stdin>` ](../commands/stdin.md):
+* [`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [commands/`test`](../commands/test.md):
+* [`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts

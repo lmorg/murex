@@ -66,27 +66,27 @@ if `runmode ... module` is set.
 
 ## See Also
 
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [user-guide/Schedulers](../user-guide/schedulers.md):
+* [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`catch`](../commands/catch.md):
+* [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
-* [commands/`event`](../commands/event.md):
+* [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [commands/`fid-list`](../commands/fid-list.md):
+* [`fid-list`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`read`](../commands/read.md):
+* [`read`](../commands/read.md):
   `read` a line of input from the user and store as a variable
-* [commands/`try`](../commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/`trypipe`](../commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

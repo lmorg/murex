@@ -96,11 +96,11 @@ which itself is located in the appropriate temp directory for the host OS (eg
 
 ## See Also
 
-* [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [commands/`>` (truncate file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [commands/`open`](../commands/open.md):
+* [`open`](../commands/open.md):
   Open a file with a preferred handler
-* [commands/`pipe`](../commands/pipe.md):
+* [`pipe`](../commands/pipe.md):
   Manage _murex_ named pipes

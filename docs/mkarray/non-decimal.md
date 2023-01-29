@@ -109,21 +109,21 @@ arrays such as JSON (`ja`).
 
 ## See Also
 
-* [mkarray/Character arrays](../mkarray/character.md):
+* [Character arrays](../mkarray/character.md):
   Making character arrays (a to z)
-* [mkarray/Decimal Ranges](../mkarray/decimal.md):
+* [Decimal Ranges](../mkarray/decimal.md):
   Create arrays of decimal integers
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (range) ](../commands/range.md):
+* [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`count`](../commands/count.md):
+* [`count`](../commands/count.md):
   Count items in a map, list or array
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`ta` (mkarray)](../commands/ta.md):
+* [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

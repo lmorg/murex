@@ -135,25 +135,25 @@ and what the package names are for `aspell` and its corresponding dictionaries.
 
 ## See Also
 
-* [user-guide/ANSI Constants](../user-guide/ansi.md):
+* [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [user-guide/Code Block Parsing](../user-guide/code-block.md):
+* [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [user-guide/_murex_ Profile Files](../user-guide/profile.md):
+* [_murex_ Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [user-guide/_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
+* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
   What's different about _murex_'s interactive shell?
-* [commands/`alter`](../commands/alter.md):
+* [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [commands/`append`](../commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [types/`json` ](../types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [commands/`jsplit` ](../commands/jsplit.md):
+* [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

@@ -39,15 +39,15 @@ As a function
 
 ## See Also
 
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`alias`](../commands/alias.md):
+* [`alias`](../commands/alias.md):
   Create an alias for a command
-* [commands/`escape`](../commands/escape.md):
+* [`escape`](../commands/escape.md):
   Escape or unescape input 
-* [commands/`eschtml`](../commands/eschtml.md):
+* [`eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [commands/`escurl`](../commands/escurl.md):
+* [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character

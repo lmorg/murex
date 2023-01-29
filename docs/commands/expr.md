@@ -30,9 +30,9 @@ JSON array:
 
 ## See Also
 
-* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
+* [`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function (deprecated)
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

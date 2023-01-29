@@ -141,19 +141,19 @@ arrays. For more details on these please refer to the documents for each format
 
 ## See Also
 
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (range) ](../commands/range.md):
+* [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [commands/`count`](../commands/count.md):
+* [`count`](../commands/count.md):
   Count items in a map, list or array
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`mtac`](../commands/mtac.md):
+* [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [types/`str` (string) ](../types/str.md):
+* [`str` (string) ](../types/str.md):
   string (primitive)
-* [commands/`ta` (mkarray)](../commands/ta.md):
+* [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

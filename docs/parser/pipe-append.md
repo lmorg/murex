@@ -39,19 +39,19 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 
 ## See Also
 
-* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [commands/`>` (truncate file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array

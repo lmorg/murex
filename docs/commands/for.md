@@ -206,21 +206,21 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`)
 
 ## See Also
 
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`while`](../commands/while.md):
+* [`while`](../commands/while.md):
   Loop until condition false

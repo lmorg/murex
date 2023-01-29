@@ -46,15 +46,15 @@ Unescape
 
 ## See Also
 
-* [commands/`escape`](../commands/escape.md):
+* [`escape`](../commands/escape.md):
   Escape or unescape input 
-* [commands/`esccli`](../commands/esccli.md):
+* [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [commands/`eschtml`](../commands/eschtml.md):
+* [`eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [commands/`get`](../commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [commands/`getfile`](../commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
-* [commands/`post`](../commands/post.md):
+* [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return

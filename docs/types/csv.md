@@ -64,27 +64,27 @@ use `config`)
 
 ## See Also
 
-* [types/`*` (generic) ](../types/generic.md):
+* [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [apis/`Marshal()` (type)](../apis/Marshal.md):
+* [`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
+* [`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`format`](../commands/format.md):
+* [`format`](../commands/format.md):
   Reformat one data-type into another data-type
-* [types/`int` ](../types/int.md):
+* [`int` ](../types/int.md):
   Whole number (primitive)
-* [types/`jsonl` ](../types/jsonl.md):
+* [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
-* [optional/`select` ](../optional/select.md):
+* [`select` ](../optional/select.md):
   Inlining SQL into shell pipelines
-* [types/`str` (string) ](../types/str.md):
+* [`str` (string) ](../types/str.md):
   string (primitive)

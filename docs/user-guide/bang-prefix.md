@@ -20,17 +20,17 @@ bang prefix and what the behavior of that prefix is.
 
 ## See Also
 
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [commands/`!` (not)](../commands/not.md):
+* [`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [commands/`and`](../commands/and.md):
+* [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`or`](../commands/or.md):
+* [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

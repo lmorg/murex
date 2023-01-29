@@ -103,13 +103,13 @@ empty Filename string.
 
 ## See Also
 
-* [user-guide/FileRef](../user-guide/fileref.md):
+* [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
-* [commands/`murex-package`](../commands/murex-package.md):
+* [`murex-package`](../commands/murex-package.md):
   _murex_'s package manager
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/`test`](../commands/test.md):
+* [`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts

@@ -67,13 +67,13 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 ## See Also
 
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`get`](../commands/get.md):
+* [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [commands/`getfile`](../commands/getfile.md):
+* [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.

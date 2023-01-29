@@ -64,17 +64,17 @@ var GroupMath = []string{
 
 ## See Also
 
-* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [user-guide/_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
+* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
   What's different about _murex_'s interactive shell?
-* [commands/`alias`](../commands/alias.md):
+* [`alias`](../commands/alias.md):
   Create an alias for a command
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

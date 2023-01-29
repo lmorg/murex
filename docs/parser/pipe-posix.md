@@ -28,19 +28,19 @@ In this example the first command is writing to STDERR rather than STDOUT so
 
 ## See Also
 
-* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [parser/Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
+* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`regexp`](../commands/regexp.md):
+* [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings

@@ -86,31 +86,31 @@ same data-type.
 
 ## See Also
 
-* [commands/`2darray` ](../commands/2darray.md):
+* [`2darray` ](../commands/2darray.md):
   Create a 2D JSON array from multiple input sources
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`append`](../commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`count`](../commands/count.md):
+* [`count`](../commands/count.md):
   Count items in a map, list or array
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [commands/`jsplit` ](../commands/jsplit.md):
+* [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [commands/`map` ](../commands/map.md):
+* [`map` ](../commands/map.md):
   Creates a map from two data sources
-* [commands/`match`](../commands/match.md):
+* [`match`](../commands/match.md):
   Match an exact value in an array
-* [commands/`msort` ](../commands/msort.md):
+* [`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
-* [commands/`prefix`](../commands/prefix.md):
+* [`prefix`](../commands/prefix.md):
   Prefix a string to every item in a list
-* [commands/`prepend` ](../commands/prepend.md):
+* [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
-* [commands/`pretty`](../commands/pretty.md):
+* [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
-* [commands/`suffix`](../commands/suffix.md):
+* [`suffix`](../commands/suffix.md):
   Prefix a string to every item in a list
-* [commands/`ta` (mkarray)](../commands/ta.md):
+* [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

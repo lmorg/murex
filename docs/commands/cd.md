@@ -37,7 +37,7 @@ You can then use that to change to a previous directory
 
 ## See Also
 
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block

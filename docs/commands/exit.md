@@ -22,9 +22,9 @@ supplied) or a custom value specified by the first parameter.
 
 ## See Also
 
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`die`](../commands/die.md):
+* [`die`](../commands/die.md):
   Terminate murex with an exit number of 1
-* [commands/`null`](../commands/devnull.md):
+* [`null`](../commands/devnull.md):
   null function. Similar to /dev/null

@@ -96,7 +96,7 @@ flushes the table of pending reports.
 
 ## See Also
 
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings

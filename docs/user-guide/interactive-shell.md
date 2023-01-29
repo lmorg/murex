@@ -181,23 +181,23 @@ Syntax highlighting can be disabled by running:
 
 ## See Also
 
-* [user-guide/ANSI Constants](../user-guide/ansi.md):
+* [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [parser/Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [user-guide/Code Block Parsing](../user-guide/code-block.md):
+* [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [parser/Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [parser/POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [user-guide/Spellcheck](../user-guide/spellcheck.md):
+* [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`method`](../commands/method.md):
+* [`method`](../commands/method.md):
   Define a methods supported data-types
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
