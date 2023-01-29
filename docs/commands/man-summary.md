@@ -20,9 +20,9 @@ summary (if one exists).
 
 ## See Also
 
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`murex-docs`](../commands/murex-docs.md):
+* [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
-* [commands/`summary` ](../commands/summary.md):
+* [`summary` ](../commands/summary.md):
   Defines a summary help text for a command

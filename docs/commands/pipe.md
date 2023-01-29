@@ -108,21 +108,21 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## See Also
 
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`<>` / `read-named-pipe`](../commands/namedpipe.md):
+* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
   Reads from a _murex_ named pipe
-* [commands/`<stdin>` ](../commands/stdin.md):
+* [`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`match`](../commands/match.md):
+* [`match`](../commands/match.md):
   Match an exact value in an array
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`test`](../commands/test.md):
+* [`test`](../commands/test.md):
   _murex_'s test framework - define tests, run tests and debug shell scripts

@@ -51,13 +51,13 @@ for dynamically turning command like program help output into JSON maps for
 
 ## See Also
 
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`format`](../commands/format.md):
+* [`format`](../commands/format.md):
   Reformat one data-type into another data-type

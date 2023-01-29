@@ -98,11 +98,11 @@ The reason for this behavior is to separate this from `!regexp` and `!match`.
 
 ## See Also
 
-* [commands/`f`](../commands/f.md):
+* [`f`](../commands/f.md):
   Lists or filters file system objects (eg files)
-* [commands/`g`](../commands/g.md):
+* [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [commands/`match`](../commands/match.md):
+* [`match`](../commands/match.md):
   Match an exact value in an array
-* [commands/`regexp`](../commands/regexp.md):
+* [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings

@@ -209,13 +209,13 @@ it persistent.
 
 ## See Also
 
-* [user-guide/_murex_ Profile Files](../user-guide/profile.md):
+* [_murex_ Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`tout`](../commands/tout.md):
+* [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

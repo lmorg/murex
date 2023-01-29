@@ -47,19 +47,19 @@ code-blocks are unsuccessful (ie the opposite of `or`).
 
 ## See Also
 
-* [commands/`!` (not)](../commands/not.md):
+* [`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [commands/`and`](../commands/and.md):
+* [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [commands/`catch`](../commands/catch.md):
+* [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
-* [commands/`false`](../commands/false.md):
+* [`false`](../commands/false.md):
   Returns a `false` value
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`true`](../commands/true.md):
+* [`true`](../commands/true.md):
   Returns a `true` value
-* [commands/`try`](../commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/`trypipe`](../commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

@@ -177,29 +177,29 @@ false.
 
 ## See Also
 
-* [commands/`!` (not)](../commands/not.md):
+* [`!` (not)](../commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [commands/`and`](../commands/and.md):
+* [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [commands/`break`](../commands/break.md):
+* [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
-* [commands/`catch`](../commands/catch.md):
+* [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
-* [commands/`false`](../commands/false.md):
+* [`false`](../commands/false.md):
   Returns a `false` value
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`or`](../commands/or.md):
+* [`or`](../commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`true`](../commands/true.md):
+* [`true`](../commands/true.md):
   Returns a `true` value
-* [commands/`try`](../commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/`trypipe`](../commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [commands/`while`](../commands/while.md):
+* [`while`](../commands/while.md):
   Loop until condition false

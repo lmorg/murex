@@ -91,27 +91,27 @@
 
 ## See Also
 
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`[` (range) ](../commands/range.md):
+* [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [commands/`a` (mkarray)](../commands/a.md):
+* [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [commands/`append`](../commands/append.md):
+* [`append`](../commands/append.md):
   Add data to the end of an array
-* [commands/`count`](../commands/count.md):
+* [`count`](../commands/count.md):
   Count items in a map, list or array
-* [commands/`ja` (mkarray)](../commands/ja.md):
+* [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [types/`json` ](../types/json.md):
+* [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
-* [commands/`jsplit` ](../commands/jsplit.md):
+* [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [commands/`map` ](../commands/map.md):
+* [`map` ](../commands/map.md):
   Creates a map from two data sources
-* [commands/`msort` ](../commands/msort.md):
+* [`msort` ](../commands/msort.md):
   Sorts an array - data type agnostic
-* [commands/`mtac`](../commands/mtac.md):
+* [`mtac`](../commands/mtac.md):
   Reverse the order of an array
-* [commands/`prepend` ](../commands/prepend.md):
+* [`prepend` ](../commands/prepend.md):
   Add data to the start of an array

@@ -69,19 +69,19 @@ Until false
 
 ## See Also
 
-* [commands/`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [commands/`for`](../commands/for.md):
+* [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`formap`](../commands/formap.md):
+* [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [commands/`global`](../commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

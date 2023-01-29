@@ -21,9 +21,9 @@ program and you want it to appear in tab completion) then you can run `murex-upd
 
 ## See Also
 
-* [commands/`cpuarch`](../commands/cpuarch.md):
+* [`cpuarch`](../commands/cpuarch.md):
   Output the hosts CPU architecture
-* [commands/`cpucount`](../commands/cpucount.md):
+* [`cpucount`](../commands/cpucount.md):
   Output the number of CPU cores available on your host
-* [commands/`os`](../commands/os.md):
+* [`os`](../commands/os.md):
   Output the auto-detected OS name

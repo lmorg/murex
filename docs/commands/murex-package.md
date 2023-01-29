@@ -86,19 +86,19 @@ If you wish to view what modules are loaded in a current session then use
 
 ## See Also
 
-* [user-guide/Modules and Packages](../user-guide/modules.md):
+* [Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [user-guide/_murex_ Profile Files](../user-guide/profile.md):
+* [_murex_ Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [commands/`alias`](../commands/alias.md):
+* [`alias`](../commands/alias.md):
   Create an alias for a command
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`murex-docs`](../commands/murex-docs.md):
+* [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for _murex_ builtins
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

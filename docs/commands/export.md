@@ -204,19 +204,19 @@ quotes:
 
 ## See Also
 
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [user-guide/Variable and Config Scoping](../user-guide/scoping.md):
+* [Variable and Config Scoping](../user-guide/scoping.md):
   How scoping works within _murex_
-* [commands/`(` (brace quote)](../commands/brace-quote.md):
+* [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [commands/`=` (arithmetic evaluation)](../commands/equ.md):
+* [`=` (arithmetic evaluation)](../commands/equ.md):
   Evaluate a mathematical function (deprecated)
-* [commands/`expr`](../commands/expr.md):
+* [`expr`](../commands/expr.md):
   Expressions: mathematical, string comparisons, logical operators
-* [commands/`global`](../commands/global.md):
+* [`global`](../commands/global.md):
   Define a global variable and set it's value
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value

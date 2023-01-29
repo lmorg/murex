@@ -43,9 +43,9 @@ Escape
 
 ## See Also
 
-* [commands/`esccli`](../commands/esccli.md):
+* [`esccli`](../commands/esccli.md):
   Escapes an array so output is valid shell code
-* [commands/`eschtml`](../commands/eschtml.md):
+* [`eschtml`](../commands/eschtml.md):
   Encode or decodes text for HTML
-* [commands/`escurl`](../commands/escurl.md):
+* [`escurl`](../commands/escurl.md):
   Encode or decodes text for the URL

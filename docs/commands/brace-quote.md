@@ -46,19 +46,19 @@ characters if you don't want them nested.
 
 ## See Also
 
-* [user-guide/ANSI Constants](../user-guide/ansi.md):
+* [ANSI Constants](../user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [commands/`>>` (append file)](../commands/greater-than-greater-than.md):
+* [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [commands/`>` (truncate file)](../commands/greater-than.md):
+* [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [commands/`cast`](../commands/cast.md):
+* [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [commands/`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`pt`](../commands/pt.md):
+* [`pt`](../commands/pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [commands/`tout`](../commands/tout.md):
+* [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type

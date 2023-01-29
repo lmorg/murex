@@ -61,29 +61,29 @@ include:
 
 ## See Also
 
-* [types/`*` (generic) ](../types/generic.md):
+* [`*` (generic) ](../types/generic.md):
   generic (primitive)
-* [commands/`bexists`](../commands/bexists.md):
+* [`bexists`](../commands/bexists.md):
   Check which builtins exist
-* [commands/`bg`](../commands/bg.md):
+* [`bg`](../commands/bg.md):
   Run processes in the background
-* [commands/`builtins`](../commands/runtime.md):
+* [`builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [types/`csv` ](../types/csv.md):
+* [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
-* [commands/`exec`](../commands/exec.md):
+* [`exec`](../commands/exec.md):
   Runs an executable
-* [commands/`fexec` ](../commands/fexec.md):
+* [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [commands/`fg`](../commands/fg.md):
+* [`fg`](../commands/fg.md):
   Sends a background process into the foreground
-* [commands/`fid-kill`](../commands/fid-kill.md):
+* [`fid-kill`](../commands/fid-kill.md):
   Terminate a running _murex_ function
-* [commands/`fid-killall`](../commands/fid-killall.md):
+* [`fid-killall`](../commands/fid-killall.md):
   Terminate _all_ running _murex_ functions
-* [commands/`jobs`](../commands/fid-list.md):
+* [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [types/`jsonl` ](../types/jsonl.md):
+* [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
-* [commands/`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables

@@ -412,23 +412,23 @@ flags.
 
 ## See Also
 
-* [commands/`<stdin>` ](../commands/stdin.md):
+* [`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [commands/`[` (index)](../commands/index.md):
+* [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
-* [commands/`alias`](../commands/alias.md):
+* [`alias`](../commands/alias.md):
   Create an alias for a command
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`get-type`](../commands/get-type.md):
+* [`get-type`](../commands/get-type.md):
   Returns the data-type of a variable or pipe
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`summary` ](../commands/summary.md):
+* [`summary` ](../commands/summary.md):
   Defines a summary help text for a command
-* [commands/`switch`](../commands/switch.md):
+* [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
-* [types/mxjson](../types/mxjson.md):
+* [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (primitive)

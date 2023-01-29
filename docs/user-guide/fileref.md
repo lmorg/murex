@@ -52,13 +52,13 @@ empty Filename string.
 
 ## See Also
 
-* [user-guide/Modules and Packages](../user-guide/modules.md):
+* [Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [commands/`[[` (element)](../commands/element.md):
+* [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [commands/`murex-package`](../commands/murex-package.md):
+* [`murex-package`](../commands/murex-package.md):
   _murex_'s package manager
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block

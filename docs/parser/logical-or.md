@@ -40,17 +40,17 @@ There is no workaround for `trypipe`.
 
 ## See Also
 
-* [user-guide/Pipeline](../user-guide/pipeline.md):
+* [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [parser/STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [user-guide/Schedulers](../user-guide/schedulers.md):
+* [Schedulers](../user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in _murex_
-* [commands/`err`](../commands/err.md):
+* [`err`](../commands/err.md):
   Print a line to the STDERR
-* [commands/`out`](../commands/out.md):
+* [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [commands/`try`](../commands/try.md):
+* [`try`](../commands/try.md):
   Handles errors inside a block of code
-* [commands/`trypipe`](../commands/trypipe.md):
+* [`trypipe`](../commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

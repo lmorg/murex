@@ -38,19 +38,19 @@ Ran with the `--short` parameter
 
 ## See Also
 
-* [commands/`args` ](../commands/args.md):
+* [`args` ](../commands/args.md):
   Command line flag parser for _murex_ shell scripting
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`murex-parser` ](../commands/murex-parser.md):
+* [`murex-parser` ](../commands/murex-parser.md):
   Runs the _murex_ parser against a block of code 
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block

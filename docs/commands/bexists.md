@@ -38,9 +38,9 @@ that reason alone it has been spared from the axe.
 
 ## See Also
 
-* [user-guide/Modules and Packages](../user-guide/modules.md):
+* [Modules and Packages](../user-guide/modules.md):
   An introduction to _murex_ modules and packages
-* [commands/`fexec` ](../commands/fexec.md):
+* [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [commands/`runtime`](../commands/runtime.md):
+* [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_

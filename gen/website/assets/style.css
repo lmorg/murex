@@ -104,6 +104,7 @@ pre code {
   padding: 0px;
   font-size: 16px;
   font-weight: normal;
+  color: #064928;
 }
 
 a:link > code, a:visited > code, a:active > code {

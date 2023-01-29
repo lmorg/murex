@@ -47,29 +47,29 @@ scope. Subshells also do not create a new scoping either.
 
 ## See Also
 
-* [user-guide/Reserved Variables](../user-guide/reserved-vars.md):
+* [Reserved Variables](../user-guide/reserved-vars.md):
   Special variables reserved by _murex_
-* [commands/`autocomplete`](../commands/autocomplete.md):
+* [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [commands/`config`](../commands/config.md):
+* [`config`](../commands/config.md):
   Query or define _murex_ runtime settings
-* [commands/`event`](../commands/event.md):
+* [`event`](../commands/event.md):
   Event driven programming for shell scripts
-* [commands/`foreach`](../commands/foreach.md):
+* [`foreach`](../commands/foreach.md):
   Iterate through an array
-* [commands/`function`](../commands/function.md):
+* [`function`](../commands/function.md):
   Define a function block
-* [commands/`if`](../commands/if.md):
+* [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [commands/`let`](../commands/let.md):
+* [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [commands/`openagent`](../commands/openagent.md):
+* [`openagent`](../commands/openagent.md):
   Creates a handler function for `open
-* [commands/`private`](../commands/private.md):
+* [`private`](../commands/private.md):
   Define a private function block
-* [commands/`set`](../commands/set.md):
+* [`set`](../commands/set.md):
   Define a local variable and set it's value
-* [commands/`source` ](../commands/source.md):
+* [`source` ](../commands/source.md):
   Import _murex_ code from another file of code block
-* [commands/`switch`](../commands/switch.md):
+* [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
