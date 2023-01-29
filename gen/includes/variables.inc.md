@@ -1,3 +1,41 @@
+### Type Annotations
+
+When `set` or `global` are used as a function, the parameters are passed as a
+string which means the variables are defined as a `str`. If you wish to define
+them as an alternate data type then you should add type annotations:
+
+```
+» set: int age = 30
+```
+(`$age` is an integer, `int`)
+
+```
+» global: bool dark_theme = true
+```
+
+(`$dark_theme` is a boolean, `bool`)
+
+When using `set` or `global` as a method, by default they will define the
+variable as the data type of the pipe:
+
+```
+» open: example.json -> set: file
+```
+
+(`$file` is defined a `json` type because `open` wrote to `set`'s pipe with a
+`json` type)
+
+You can also annotate `set` and `global` when used as a method too:
+
+```
+out: 30 -> set: int age
+```
+
+(`$age` is an integer, `int`, despite `out` writing a string, `str, to the pipe)
+
+> `export` does not support type annotations because environmental variables
+> must always be strings. This is a limitation of the current operating systems.
+
 ### Scoping
 
 Variable scoping is simplified to three layers:

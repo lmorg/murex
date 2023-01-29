@@ -1,6 +1,6 @@
 <h1>Language Guide: Quick Tour</h1>
 
-<div class="toc">
+<div id="toc">
 
 - [Introduction](#introduction)
   - [Barewords](#barewords)
@@ -11,16 +11,19 @@
   - [Quoting Strings](#quoting-strings)
   - [Comments](#comments)
 - [Variables](#variables)
+  - [Type Inference](#type-inference)
   - [Scalars](#scalars)
   - [Arrays](#arrays)
-- [Piping and redirection](#piping-and-redirection)
+- [Type Conversion](#type-conversion)
+  - [Cast](#cast)
+  - [Format](#format)
+- [Piping and Redirection](#piping-and-redirection)
   - [Pipes](#pipes)
   - [Redirection](#redirection)
   - [Redirecting to files](#redirecting-to-files)
 - [Emendable sub-shells](#emendable-sub-shells)
 - [Globbing](#globbing)
 - [Brace expansion](#brace-expansion)
-- [Exit code](#exit-code)
 
 </div>
 
@@ -154,7 +157,15 @@ _murex_'s default behavior):
 Error in `echo` (1,1): variable 'foobar' does not exist
 ```
 
-> Please note that when using `set` and `global` as a function
+> Please note that when using `set` and `global` as a function, all assignments
+> will be strings unless you specifically annotate your variables.
+
+### Type Inference
+
+In general, _murex_ will try to infer the data type of a variable or pipe. It
+can do this by checking the `Content-Type` HTTP header, the file name
+extension or just looking at how that data was constructed (when defined via
+expressions). However sometimes you may need to annotate your types. [Read more](commands/set.md#type-annotations)
 
 ### Scalars
 
@@ -183,7 +194,35 @@ additional variable construct for arrays. These are `@` prefixed:
 file1.txt  file2.txt
 ```
 
-## Piping and redirection
+## Type Conversion
+
+Aside from annotating variables upon definition, you can also transform data
+along the pipeline.
+
+### Cast
+
+Casting doesn't alter the data, it simply changes the meta-information about
+how that data should be read.
+```
+» out [1,2,3] | cast json -> foreach { ... }
+```
+
+There is also a little syntactic sugar to do the same:
+```
+» out [1,2,3] | :json: foreach { ... }
+```
+
+### Format
+
+`format` takes the source data and reformats it into another data format:
+```
+» out [1,2,3] -> :json: format yaml
+- 1
+- 2
+- 3
+```
+
+## Piping and Redirection
 
 ### Pipes
 
@@ -218,21 +257,21 @@ Any pipes prefixed by a bang means reading from that processes STDERR.
 So to redirect STDERR to STDOUT you would use `<!out>`:
 
 ```
-err: <!out> "error message redirected to stdout"
+err <!out> "error message redirected to stdout"
 ```
 
 And to redirect STDOUT to STDERR you would use `<err>`:
 
 ```
-out: <err> "output redirected to stderr"
+out <err> "output redirected to stderr"
 ```
 
 Likewise you can redirect either STDOUT, or STDERR to `/dev/null` via `<null>`
 or `<!null>` respectively.
 
 ```
-command: <!null> # ignore STDERR
-command: <null>  # ignore STDOUT
+command <!null> # ignore STDERR
+command <null>  # ignore STDOUT
 ```
 
 You can also create your own pipes that are files, network connections, or any
@@ -241,8 +280,8 @@ other custom data input or output endpoint. [read more](user-guide/namedpipes.md
 ### Redirecting to files
 
 ```
-out: "message" |> truncate-file.txt
-out: "message" >> append-file.txt
+out "message" |> truncate-file.txt
+out "message" >> append-file.txt
 ```
 
 ## Emendable sub-shells
@@ -306,13 +345,4 @@ In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#B
 using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
 expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
-
-Since 
-
-## Exit code
-
-In bash the variable `$?` would store the exit code. This doesn't exist
-in _murex_. Instead there a separate command `exitnum`:
-
-    open: test/fox.txt -> grep: foobar; exitnum
 
