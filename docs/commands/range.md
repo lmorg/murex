@@ -19,7 +19,7 @@ identically**
 
 ## Usage
 
-    <stdin> -> @[start..end]flags -> <stdout>
+    <stdin> -> [start..end]flags -> <stdout>
     
 Deprecated support:
 
@@ -29,7 +29,7 @@ Deprecated support:
 
 Range over all months after March:
 
-    » a: [January..December] -> @[March..]se
+    » a: [January..December] -> [March..]se
     April
     May
     June
@@ -42,7 +42,7 @@ Range over all months after March:
     
 Range from the 6th to the 10th month (indexes start from zero, `0`):
 
-    » a: [January..December] -> @[5..9]
+    » a: [January..December] -> [5..9]
     June
     July
     August
