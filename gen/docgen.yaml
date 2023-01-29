@@ -18,18 +18,15 @@ Categories:
 
       ### Language Guides
 
-      1. [GUIDE.control-structures](./GUIDE.control-structures.md), which
-      contains builtins required for building logic.
+      1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+         the _murex_ language.
+
+      2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+         table comparing Bash syntax to _murex_'s.
 
       ### _murex_'s Source Code
 
-      In _murex_'s source under the `lang/builtins` path of the project files
-      is several directories, each hosting different categories of _murex_
-      builtins. From core commands through to data-types and methods.
-      
-      Each package will include a README.md file with a basic summary of what
-      that package is used for and all you to enable or disable builtins, should
-      you decide to compile the shell from source.
+      The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/core).
 
       ### Shell Commands For Querying Builtins
 
@@ -82,28 +79,22 @@ Categories:
       It might also be because that specific builtin is in an alpha stage and thus
       not ready to ship with _murex_.
 
-      There are also optional some builtins which are automatically be built on
-      Windows to include a few coreutils commands missing Windows.
-  
       ## Other Reference Material
 
       ### Language Guides
 
       1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-      on the core builtins.
+         on the core builtins.
 
-      2. [GUIDE.control-structures](./GUIDE.control-structures.md), which
-      contains builtins required for building logic.
+      2. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+         the _murex_ language.
+
+      3. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+         table comparing Bash syntax to _murex_'s.
 
       ### _murex_'s Source Code
 
-      In _murex_'s source under the `lang/builtins` path of the project files
-      is several directories, each hosting different categories of _murex_
-      builtins. From core commands through to data-types and methods.
-      
-      Each package will include a README.md file with a basic summary of what
-      that package is used for and all you to enable or disable builtins, should
-      you decide to compile the shell from source.
+      The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/optional).
 
       ### Shell Commands For Querying Builtins
 
@@ -137,11 +128,14 @@ Categories:
 
       ### Language Guides
 
-      1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-      on the core builtins.
+      1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+         the _murex_ language.
 
-      2. [GUIDE.control-structures](./GUIDE.control-structures.md), which
-      contains builtins required for building logic.
+      2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+         table comparing Bash syntax to _murex_'s.
+
+      3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
+         on the core builtins.
 
       ### _murex_'s Source Code
 
@@ -165,40 +159,9 @@ Categories:
 
       Most of the time you will not need to worry about typing in_murex_ as the
       shell is designed around productivity as opposed to strictness despite
-      generally following a strictly typed design. Examples of this are:
+      generally following a strictly typed design.
 
-      * Variables when outputted are automatically converted to strings
-
-      * `=` and `let` functions evaluate the data type as well as the value.
-        An example of strict typing in `=` can be seen with these 2 blocks:
-
-        1. adding numbers:
-
-      ```
-            » let a=1  # define 'a' as number
-            » let b=1  # define 'b' as number
-            » = a+b
-            2
-            ```
-          
-            (returns '2' as both `$a` and `$b` are numbers)
-
-        2. adding strings:
-
-      ```
-            » set a=1  # define 'a' as string
-            » let b=1  # define 'b' as number
-            » = a+b
-            11
-            ```
-
-            (returns '11' as `$a` is string so values are concatenated)
-
-      * Data can be case into other data-types using the `cast` command:
-
-      ```
-          » echo '{ "key": "value" }' -> cast json 
-          ```
+      Read the [Language Tour](../GUIDE.quick-start.md) for more detail on this topic.
 
       ## Definitions
       
@@ -280,10 +243,14 @@ Categories:
 
       ### Language Guides
 
-      1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-      on the core builtins.
+      1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+         the _murex_ language.
 
-      2. [GUIDE.parser](./GUIDE.parser.md), which details a lot of the logic.
+      2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+         table comparing Bash syntax to _murex_'s.
+
+      3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
+         on the core builtins.
 
     Templates:
     - OutputPath: docs/user-guide

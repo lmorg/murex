@@ -15,18 +15,15 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [GUIDE.control-structures](./GUIDE.control-structures.md), which
-contains builtins required for building logic.
+1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+   the _murex_ language.
+
+2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+   table comparing Bash syntax to _murex_'s.
 
 ### _murex_'s Source Code
 
-In _murex_'s source under the `lang/builtins` path of the project files
-is several directories, each hosting different categories of _murex_
-builtins. From core commands through to data-types and methods.
-
-Each package will include a README.md file with a basic summary of what
-that package is used for and all you to enable or disable builtins, should
-you decide to compile the shell from source.
+The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/core).
 
 ### Shell Commands For Querying Builtins
 

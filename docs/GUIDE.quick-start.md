@@ -1,4 +1,4 @@
-<h1>Language Guide: Quick Tour</h1>
+<h1>Language Tour</h1>
 
 <h2>Table of Contents</h2>
 <div id="toc">
@@ -7,6 +7,7 @@
   - [Barewords](#barewords)
   - [Expressions and Statements](#expressions-and-statements)
   - [Functions and Methods](#functions-and-methods)
+  - [The Bang Prefix: `!`](#the-bang-prefix-)
 - [Rosetta Stone](#rosetta-stone)
 - [Basic Syntax](#basic-syntax)
   - [Quoting Strings](#quoting-strings)
@@ -22,9 +23,13 @@
   - [Pipes](#pipes)
   - [Redirection](#redirection)
   - [Redirecting to files](#redirecting-to-files)
-- [Emendable sub-shells](#emendable-sub-shells)
-- [Globbing](#globbing)
+- [Sub-Shells](#sub-shells)
+- [Filesystem Wildcards (Globbing)](#filesystem-wildcards-globbing)
 - [Brace expansion](#brace-expansion)
+- [Aliases](#aliases)
+- [Functions](#functions)
+- [Control Flow](#control-flow)
+  - [`if` Statements](#if-statements)
 
 </div>
 
@@ -94,6 +99,10 @@ however some builtins might behave differently depending on whether values are
 passed via STDIN or as parameters. Thus you will often find references to
 functions and methods, and sometimes for the same command, within these
 documents.
+
+### The Bang Prefix: `!`
+
+A lot of _murex_ builtins support a bang prefix. This prefix alters the behavior
 
 ## Rosetta Stone
 
@@ -205,12 +214,12 @@ along the pipeline.
 Casting doesn't alter the data, it simply changes the meta-information about
 how that data should be read.
 ```
-» out [1,2,3] | cast json -> foreach { ... }
+out [1,2,3] | cast json -> foreach { ... }
 ```
 
 There is also a little syntactic sugar to do the same:
 ```
-» out [1,2,3] | :json: foreach { ... }
+out [1,2,3] | :json: foreach { ... }
 ```
 
 ### Format
@@ -250,29 +259,29 @@ Redirection of stdout and stderr is very different in _murex_. There is no
 support for the `2>` or `&1` tokens,  instead you name the pipe inside angle
 brackets, in the first parameter(s).
 
-`out` is that processes STDOUT (fd1), `err` is that processes STDERR (fd2), and
+`out` is that processes stdout (fd1), `err` is that processes stderr (fd2), and
 `null` is the equivalent of piping to `/dev/null`.
 
-Any pipes prefixed by a bang means reading from that processes STDERR.
+Any pipes prefixed by a bang means reading from that processes stderr.
 
-So to redirect STDERR to STDOUT you would use `<!out>`:
+So to redirect stderr to stdout you would use `<!out>`:
 
 ```
 err <!out> "error message redirected to stdout"
 ```
 
-And to redirect STDOUT to STDERR you would use `<err>`:
+And to redirect stdout to stderr you would use `<err>`:
 
 ```
 out <err> "output redirected to stderr"
 ```
 
-Likewise you can redirect either STDOUT, or STDERR to `/dev/null` via `<null>`
+Likewise you can redirect either stdout, or stderr to `/dev/null` via `<null>`
 or `<!null>` respectively.
 
 ```
-command <!null> # ignore STDERR
-command <null>  # ignore STDOUT
+command <!null> # ignore stderr
+command <null>  # ignore stdout
 ```
 
 You can also create your own pipes that are files, network connections, or any
@@ -285,7 +294,7 @@ out "message" |> truncate-file.txt
 out "message" >> append-file.txt
 ```
 
-## Emendable sub-shells
+## Sub-Shells
 
 There are two types of emendable sub-shells: strings and arrays.
 
@@ -296,7 +305,7 @@ There are two types of emendable sub-shells: strings and arrays.
 * array sub-shells, `@{ command }`, take the results from the sub-shell
   and expand it as parameters.
 
-Examples:
+**Examples:**
 
 ```
 touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
@@ -307,7 +316,7 @@ The reason _murex_ breaks from the POSIX tradition of using backticks and
 parentheses is because _murex_ works on the principle that everything inside
 a curly bracket is considered a new block of code.
 
-## Globbing
+## Filesystem Wildcards (Globbing)
 
 While glob expansion is supported in the interactive shell, there isn't
 auto-expansion of globbing in shell scripts. This is to protect against
@@ -317,28 +326,33 @@ accidental damage. Instead globbing is achieved via sub-shells using either:
 * `rx` - regexp matching in current directory only ([read more](commands/rx.md))
 * `f`  - file type matching ([read more](commands/f.md))
 
-Examples:
+**Examples:**
 
+All text files via globbing:
 ```
-# all text files via globbing:
-ls -l @{g *.txt}
-```
-```
-# all text and markdown files via regexp:
-ls -l @{rx '\.(txt|md)$'}
-```
-```
-# all directories via type matching:
-ls -l @{f +d}
+g *.txt
 ```
 
-You can also using type matching against globbing and regexp to filter
-out types in conjunction with file name matching:
+All text and markdown files via regexp:
+```
+rx '\.(txt|md)$'
+```
 
+All directories via type matching:
 ```
-# all directories named *.txt
-ls -l @{g *.txt -> f +d}
+f +d
 ```
+
+You can also chain them together, eg all directories named `*.txt`:
+```
+g *.txt | f +d
+```
+
+To use them in a shell script it could look something a like this:
+```
+rm @{g *.txt | f +s}
+```
+(this deletes any symlinks called `*.txt`)
 
 ## Brace expansion
 
@@ -347,3 +361,27 @@ using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
 expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
 
+## Aliases
+
+You can create "aliases" to common commands to save you a few keystrokes. For
+example:
+```
+alias gc=git commit
+```
+
+`alias` behaves slightly differently to Bash. ([read more](commands/alias.md))
+
+## Functions
+
+You can create custom functions in _murex_ using `function`. ([read more](commands/function.md))
+
+## Control Flow
+
+### `if` Statements
+
+`if` can be used in a number of different ways, the most common being:
+```
+if { true } then {
+    # do something
+}
+```

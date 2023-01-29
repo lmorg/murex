@@ -171,17 +171,22 @@ a img:hover {
   border-width: 0px;
 }
 
-.figure {
+.figure, figure {
   display: block;
   margin: auto;
   text-align: center;
 }
 
-.caption {
+.caption, figcaption {
   color: #404040;
   font-size: 10px;
   text-align: center;
   margin-top: 0px;
+}
+
+.readme {
+  text-align: left;
+  margin-left: 0px;
 }
 
 #side-bar {

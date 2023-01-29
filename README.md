@@ -27,15 +27,15 @@ A non-exhaustive list features would include:
 
 **JSON wrangling:**
 
-![json-example](images/murex-open-foreach.png)
+<img src="images/murex-open-foreach.png" class="readme">
 
-**Inline spellchecking**
+**Inline spellchecking:**
 
-![spellchecking](images/murex-spellchecker.png)
+<img src="images/murex-spellchecker.png" class="readme">
 
 **Autocomplete descriptions, process IDs accompanied by process names:**
 
-![smarter-autocomplete](images/murex-kill-autocomplete.png)
+<img src="images/murex-kill-autocomplete.png" class="readme">
 
 More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
