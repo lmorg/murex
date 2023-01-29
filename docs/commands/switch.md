@@ -14,7 +14,7 @@
       case | if { conditional } [then] { code-block }
       case | if { conditional } [then] { code-block }
       ...
-      [ catch { code-block } ]
+      [ default { code-block } ]
     } -> <stdout>
     
 The first parameter should be either **case** or **if** -- the statements are
@@ -50,7 +50,7 @@ A higher/lower game written using `switch`:
               out: "Too high"
             }
     
-            catch: {
+            default: {
               out: "Correct"
               let: rand=0
             }
@@ -66,7 +66,7 @@ String matching with `switch`:
         case "Tom"   { out: "I have a brother called Tom" }
         case "Dick"  { out: "I have an uncle called Dick" }
         case "Sally" { out: "I have a sister called Sally" }
-        catch        { err: "That is an odd name" }
+        default      { err: "That is an odd name" }
     }
 
 ## Detail
@@ -111,7 +111,7 @@ This is simply written as:
 
     switch { ... }
     
-### When To Use `case`, `if` and `catch`?
+### When To Use `case`, `if` and `default`?
 
 A `switch` command may contain multiple **case** and **if** blocks. These
 statements subtly alter the behavior of `switch`. You can mix and match **if**
@@ -152,9 +152,9 @@ the **if** statement is **true**.
         }
     }
     
-### catch
+### default
 
-**catch** statements are only run if _all_ **case** _and_ **if** statements are
+**default** statements are only run if _all_ **case** _and_ **if** statements are
 false.
 
     switch {
@@ -170,10 +170,16 @@ false.
         if { false } then {
             # ignored because if == false
         }
-        catch {
+        default {
             # ignored because one or more previous if's were true
         }
     }
+    
+> **default** was added in _murex_ version 3.1
+
+### catch
+
+**catch** has been deprecated in version 3.1 and replaced with **default**.
 
 ## See Also
 

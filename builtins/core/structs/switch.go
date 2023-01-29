@@ -170,7 +170,7 @@ func validateStatementParameters(token *expressions.SwitchT, i int, byVal bool) 
 					humannumbers.Ordinal(i+1), token.Condition, token.ParametersStringAll(), errReferToDocs)
 		}
 
-	case "catch":
+	case "catch", "default":
 		switch token.ParametersLen() {
 		case 0:
 			return nil, nil, fmt.Errorf("missing parameters for %s statement (%s)\n%s",
