@@ -11,26 +11,38 @@
 - [Rosetta Stone](#rosetta-stone)
 - [Basic Syntax](#basic-syntax)
   - [Quoting Strings](#quoting-strings)
-  - [Comments](#comments)
+  - [Code Comments](#code-comments)
 - [Variables](#variables)
   - [Type Inference](#type-inference)
   - [Scalars](#scalars)
   - [Arrays](#arrays)
-- [Type Conversion](#type-conversion)
-  - [Cast](#cast)
-  - [Format](#format)
 - [Piping and Redirection](#piping-and-redirection)
   - [Pipes](#pipes)
   - [Redirection](#redirection)
   - [Redirecting to files](#redirecting-to-files)
+  - [Type Conversion](#type-conversion)
+    - [Cast](#cast)
+    - [Format](#format)
 - [Sub-Shells](#sub-shells)
 - [Filesystem Wildcards (Globbing)](#filesystem-wildcards-globbing)
 - [Brace expansion](#brace-expansion)
-- [Aliases](#aliases)
-- [Functions](#functions)
-- [Control Flow](#control-flow)
+- [Executables](#executables)
+  - [Aliases](#aliases)
+  - [Public Functions](#public-functions)
+  - [Private Functions](#private-functions)
+  - [External Executables](#external-executables)
+- [Control Structures](#control-structures)
   - [if Statements](#if-statements)
   - [switch Statements](#switch-statements)
+  - [foreach Loops](#foreach-loops)
+  - [formap Loops](#formap-loops)
+- [Stopping Execution](#stopping-execution)
+  - [continue Statement](#continue-statement)
+  - [break Statement](#break-statement)
+  - [exit Statement](#exit-statement)
+  - [SIGINT](#sigint)
+  - [SIGQUIT](#sigquit)
+  - [SIGTSTP](#sigtstp)
 
 </div>
 
@@ -131,7 +143,7 @@ There are three ways to quote a string in _murex_:
 * `"double quote"`: use this for infixing variables ([read more](parser/double-quote.md))
 * `%(brace quote)`: use this for nesting quotes     ([read more](parser/brace-quote.md))
 
-### Comments
+### Code Comments
 
 You can comment out a single like, or end of a line with `#`:
 ```
@@ -212,34 +224,6 @@ additional variable construct for arrays. These are `@` prefixed:
 file1.txt  file2.txt
 ```
 
-## Type Conversion
-
-Aside from annotating variables upon definition, you can also transform data
-along the pipeline.
-
-### Cast
-
-Casting doesn't alter the data, it simply changes the meta-information about
-how that data should be read.
-```
-out [1,2,3] | cast json -> foreach { ... }
-```
-
-There is also a little syntactic sugar to do the same:
-```
-out [1,2,3] | :json: foreach { ... }
-```
-
-### Format
-
-`format` takes the source data and reformats it into another data format:
-```
-» out [1,2,3] -> :json: format yaml
-- 1
-- 2
-- 3
-```
-
 ## Piping and Redirection
 
 ### Pipes
@@ -273,20 +257,17 @@ brackets, in the first parameter(s).
 Any pipes prefixed by a bang means reading from that processes stderr.
 
 So to redirect stderr to stdout you would use `<!out>`:
-
 ```
 err <!out> "error message redirected to stdout"
 ```
 
 And to redirect stdout to stderr you would use `<err>`:
-
 ```
 out <err> "output redirected to stderr"
 ```
 
 Likewise you can redirect either stdout, or stderr to `/dev/null` via `<null>`
 or `<!null>` respectively.
-
 ```
 command <!null> # ignore stderr
 command <null>  # ignore stdout
@@ -300,6 +281,34 @@ other custom data input or output endpoint. [read more](user-guide/namedpipes.md
 ```
 out "message" |> truncate-file.txt
 out "message" >> append-file.txt
+```
+
+### Type Conversion
+
+Aside from annotating variables upon definition, you can also transform data
+along the pipeline.
+
+#### Cast
+
+Casting doesn't alter the data, it simply changes the meta-information about
+how that data should be read.
+```
+out [1,2,3] | cast json | foreach { ... }
+```
+
+There is also a little syntactic sugar to do the same:
+```
+out [1,2,3] | :json: foreach { ... }
+```
+
+#### Format
+
+`format` takes the source data and reformats it into another data format:
+```
+» out [1,2,3] | :json: format yaml
+- 1
+- 2
+- 3
 ```
 
 ## Sub-Shells
@@ -369,7 +378,9 @@ using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
 expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
 
-## Aliases
+## Executables
+
+### Aliases
 
 You can create "aliases" to common commands to save you a few keystrokes. For
 example:
@@ -379,11 +390,36 @@ alias gc=git commit
 
 `alias` behaves slightly differently to Bash. ([read more](commands/alias.md))
 
-## Functions
+### Public Functions
 
 You can create custom functions in _murex_ using `function`. ([read more](commands/function.md))
+```
+function gc (message: str) {
+    # shorthand for `git commit`
+    
+    git commit -m $message
+}
+```
 
-## Control Flow
+### Private Functions
+
+`private` functions are like [public functions](#public-functions) except they
+are only available within their own modules namespace. ([read more](commands/private.md))
+
+### External Executables
+
+External executables (including any programs located in `$PATH`) are invoked
+via the `exec` builtin ([read more](commands/exec.md)) however if a command
+isn't an expression, alias, function nor builtin, then _murex_ assumes it is an
+external executable and automatically invokes `exec`.
+
+For example the two following statements are the same:
+1. `exec uname`
+2. `uname`
+
+Thus for normal day to day usage, you shouldn't need to include `exec`.
+
+## Control Structures
 
 ### if Statements
 
@@ -416,3 +452,94 @@ switch ${whoami} {
 
 `switch` supports a flexible variety of different usages to solve different
 problems. ([read more](commands/switch.md))
+
+### foreach Loops
+
+`foreach` allows you to easily iterate through an array or list of any type: ([read more](commands/foreach.md))
+```
+%[ apples bananas oranges ] | foreach fruit { out "I like $fruit" }
+```
+
+### formap Loops
+
+`formap` loops are the equivalent of `foreach` but against map objects: ([read more](commands/formap.md))
+```
+%{
+    Bob:     {age: 10},
+    Richard: {age: 20},
+    Sally:   {age: 30}
+} | formap name person {
+    out "$name is $person[age] years old"
+}
+```
+
+## Stopping Execution
+
+### continue Statement
+
+`continue` will terminate execution of an inner block in iteration loops like
+`foreach` and `formap`. Thus _continuing_ the loop from the next iteration:
+```
+%[1..10] | foreach i {
+    if { $i == 5 } then {
+        continue foreach
+        # ^ jump back to the next iteration
+    }
+
+    out $i
+}
+```
+
+`continue` requires a parameter to define while block to iterate on. This means
+you can use `continue` within nested loops and still have readable code. ([read more](commands/continue.md))
+
+### break Statement
+
+`break` will terminate execution of a block (eg `function`, `private`, `if`,
+`foreach`, etc):
+```
+%[1..10] | foreach i {
+    if { $i == 5 } then {
+        break foreach
+        # ^ exit foreach
+    }
+
+    out $i
+}
+```
+
+`break` requires a parameter to define while block to end. Thus `break` can be
+considered to exhibit the behavior of _return_ as well as _break_ in other
+languages:
+```
+function example {
+    if { $USER == "root" } then {
+        err "Don't run this as root"
+        break example
+    }
+
+    # ... do something ...
+}
+```
+
+`break` cannot exit anything above it's callers scope. ([read more](commands/break.md))
+
+### exit Statement
+
+Terminates _murex_. `exit` is not scope aware; if it is included in a function
+then the whole shell will still exist and not just that function. ([read more](commands/exit.md))
+
+### SIGINT
+
+This can be invoked by pressing `Ctrl` + `c`. 
+
+### SIGQUIT
+
+This can be invoked by pressing `Ctrl` + `\`
+
+Sending SIGQUIT will terminate all running functions in the current _murex_
+session. Which is a handy escape hatch if your shell code starts misbehaving.
+
+### SIGTSTP
+
+This can be invoked by pressing `Ctrl` + `z`

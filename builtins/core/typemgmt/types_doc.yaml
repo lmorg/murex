@@ -37,6 +37,11 @@
     » exec printf "Hello, world!"
     Hello, world!
     ```
+
+    **Working around aliases:**
+
+    If you have an alias like `alias ls=ls --color=auto` and you wanted to run `ls`
+    but without colour, you might run `exec ls`.
   Flags:
   Detail: |-
     If any command doesn't exist as a builtin, function nor alias, then _murex_
@@ -45,13 +50,11 @@
     show up in both the operating systems process viewer (eg `ps`) but also
     _murex_'s own process viewer, `fid-list`. However inside `fid-list` you will
     notice that all external processes are listed as `exec` with the process name
-    as part of `exec`'s parameters. That is because that is literally how _murex_
-    handles any programs that aren't native to _murex_.
+    as part of `exec`'s parameters. That is because `exec` is handler for programs
+    that aren't native to _murex_.
   Synonyms:
   Related:
   - set
-  - let
-  - equ
   - fid-list
   - fid-kill
   - fid-killall
@@ -97,6 +100,9 @@
   Description: |-
     Exit's _murex_ with either a exit number of 0 (by default if no parameters
     supplied) or a custom value specified by the first parameter.
+
+    `exit` is not scope aware; if it is included in a function then the whole
+    shell will still exist and not just that function.
   Usage: |-
     ```
     exit
