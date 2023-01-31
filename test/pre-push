@@ -25,7 +25,7 @@ echo "$(cat ./test/murex-test-count.txt) tests completed"
 
 echo "Running murex behavioural tests...."
 go build github.com/lmorg/murex || exit 1
-./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}' || exit 1
+./murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; try {test: run *}' || exit 1
 
 echo "Writing automated assets...."
 #export MUREXVERSION="$(./murex -c 'version --no-app-name')"
