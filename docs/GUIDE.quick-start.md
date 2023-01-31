@@ -33,17 +33,17 @@
   - [Private Functions](#private-functions)
   - [External Executables](#external-executables)
 - [Control Structures](#control-structures)
-  - [if Statements](#if-statements)
-  - [switch Statements](#switch-statements)
-  - [foreach Loops](#foreach-loops)
-  - [formap Loops](#formap-loops)
+  - [Using `if` Statements](#using-if-statements)
+  - [Using `switch` Statements](#using-switch-statements)
+  - [Using `foreach` Loops](#using-foreach-loops)
+  - [Using `formap` Loops](#using-formap-loops)
 - [Stopping Execution](#stopping-execution)
-  - [continue Statement](#continue-statement)
-  - [break Statement](#break-statement)
-  - [exit Statement](#exit-statement)
-  - [SIGINT](#sigint)
-  - [SIGQUIT](#sigquit)
-  - [SIGTSTP](#sigtstp)
+  - [The `continue` Statement](#the-continue-statement)
+  - [The `break` Statement](#the-break-statement)
+  - [The `exit` Statement](#the-exit-statement)
+  - [Signal: SIGINT](#signal-sigint)
+  - [Signal: SIGQUIT](#signal-sigquit)
+  - [Signal: SIGTSTP](#signal-sigtstp)
 
 </div>
 
@@ -428,7 +428,7 @@ Thus for normal day to day usage, you shouldn't need to include `exec`.
 
 ## Control Structures
 
-### if Statements
+### Using `if` Statements
 
 `if` can be used in a number of different ways, the most common being:
 ```
@@ -441,7 +441,7 @@ if { true } then {
 
 `if` supports a flexible variety of incarnation to solve different problems. ([read more](commands/if.md))
 
-### switch Statements
+### Using `switch` Statements
 
 Because `if ... else if` chains are ugly, _murex_ supports `switch` statements:
 ```
@@ -459,14 +459,14 @@ switch $USER {
 `switch` supports a flexible variety of different usages to solve different
 problems. ([read more](commands/switch.md))
 
-### foreach Loops
+### Using `foreach` Loops
 
 `foreach` allows you to easily iterate through an array or list of any type: ([read more](commands/foreach.md))
 ```
 %[ apples bananas oranges ] | foreach fruit { out "I like $fruit" }
 ```
 
-### formap Loops
+### Using `formap` Loops
 
 `formap` loops are the equivalent of `foreach` but against map objects: ([read more](commands/formap.md))
 ```
@@ -481,7 +481,7 @@ problems. ([read more](commands/switch.md))
 
 ## Stopping Execution
 
-### continue Statement
+### The `continue` Statement
 
 `continue` will terminate execution of an inner block in iteration loops like
 `foreach` and `formap`. Thus _continuing_ the loop from the next iteration:
@@ -499,7 +499,7 @@ problems. ([read more](commands/switch.md))
 `continue` requires a parameter to define while block to iterate on. This means
 you can use `continue` within nested loops and still have readable code. ([read more](commands/continue.md))
 
-### break Statement
+### The `break` Statement
 
 `break` will terminate execution of a block (eg `function`, `private`, `if`,
 `foreach`, etc):
@@ -530,22 +530,22 @@ function example {
 
 `break` cannot exit anything above it's callers scope. ([read more](commands/break.md))
 
-### exit Statement
+### The `exit` Statement
 
 Terminates _murex_. `exit` is not scope aware; if it is included in a function
 then the whole shell will still exist and not just that function. ([read more](commands/exit.md))
 
-### SIGINT
+### Signal: SIGINT
 
 This can be invoked by pressing `Ctrl` + `c`. 
 
-### SIGQUIT
+### Signal: SIGQUIT
 
 This can be invoked by pressing `Ctrl` + `\`
 
 Sending SIGQUIT will terminate all running functions in the current _murex_
 session. Which is a handy escape hatch if your shell code starts misbehaving.
 
-### SIGTSTP
+### Signal: SIGTSTP
 
 This can be invoked by pressing `Ctrl` + `z`
