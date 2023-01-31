@@ -5,7 +5,7 @@
 - [Overview](#overview)
 - [Spellchecker](#spellchecker)
 - [Hint Text](#hint-text)
-  - [Enable / Disable Hint Text](#enable--disable-hint-text)
+  - [Disable Hint Text](#disable-hint-text)
   - [Hint Text Colour](#hint-text-colour)
   - [Custom Hint Text Statuses](#custom-hint-text-statuses)
 - [Autocompletion](#autocompletion)
@@ -58,7 +58,7 @@ your prompt. The idea behind the **hint text** is to provide clues to you as
 type instructions into the prompt; but without adding distractions. It is there
 to be used if you want it while keeping out of the way when you don't want it.
 
-### Enable / Disable Hint Text
+### Disable Hint Text
 
 It is enabled by default but can be disabled if you prefer a more minimal
 prompt:
