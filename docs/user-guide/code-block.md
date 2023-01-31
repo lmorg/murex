@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Code Block Parsing
+# User Guide: Code Block Parsing
 
 > Overview of how code blocks are parsed
 

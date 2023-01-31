@@ -10,7 +10,7 @@
 
     The following is a list of reserved variables, their data type, and its usage:
     
-    ### `SELF` (json)
+    ## `SELF` (json)
 
     This returns meta information about the running scope.
 

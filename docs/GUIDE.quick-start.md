@@ -4,6 +4,7 @@
 <div id="toc">
 
 - [Introduction](#introduction)
+  - [Read–Eval–Print Loop](#readevalprint-loop)
   - [Barewords](#barewords)
   - [Expressions and Statements](#expressions-and-statements)
   - [Functions and Methods](#functions-and-methods)
@@ -57,6 +58,11 @@ shells.
 
 > POSIX is a set of underlying standards that Linux, macOS and various other
 > operating systems support.
+
+### Read–Eval–Print Loop
+
+If you want to learn more about the interactive shell then there is a dedicated
+document detailing [_murex_'s REPL features](user-guide/interactive-shell.md).
 
 ### Barewords
 
@@ -414,6 +420,7 @@ isn't an expression, alias, function nor builtin, then _murex_ assumes it is an
 external executable and automatically invokes `exec`.
 
 For example the two following statements are the same:
+
 1. `exec uname`
 2. `uname`
 
@@ -438,15 +445,14 @@ if { true } then {
 
 Because `if ... else if` chains are ugly, _murex_ supports `switch` statements:
 ```
-switch ${whoami} {
-    case "Tom" {
-        out: "Hello Tom" }
-    case "Dick" {
-        out: "Howdie Richard" }
-    case "Sally" {
-        out: "Nice to meet you" }
+switch $USER {
+    case "Tom"   { out: "Hello Tom" }
+    case "Dick"  { out: "Howdie Richard" }
+    case "Sally" { out: "Nice to meet you" }
+
     default {
-        out: "I don't know who you are" }
+        out: "I don't know who you are"
+    }
 }
 ```
 

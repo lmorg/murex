@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: _murex_ Profile Files
+# User Guide: _murex_ Profile Files
 
 > A breakdown of the different files loaded on start up
 

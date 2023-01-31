@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Variable and Config Scoping
+# User Guide: Variable and Config Scoping
 
 > How scoping works within _murex_
 
@@ -36,7 +34,7 @@ Then lets set **foo** outside of that function and see what happens:
 Despite setting a variable named **foo**, the value inside **example** does not
 overwrite the value outside **example** because they occupy different scoping.
 
-### What Instantiates A New Scope?
+## What Instantiates A New Scope?
 
 A new scope is instantiated by anything which resembles a function. This would
 be code inside events, dynamic autocompletes, open agents, any code blocks

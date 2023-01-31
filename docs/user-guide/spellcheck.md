@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Spellcheck
+# User Guide: Spellcheck
 
 > How to enable inline spellchecking
 
@@ -11,7 +9,7 @@ _murex_ supports inline spellchecking, where errors are underlined. For example
 However to use this there needs to be a few satisfied prerequisites, not all of
 which will be enabled by default:
 
-### CLI Spellchecker (3rd Party Software)
+## CLI Spellchecker (3rd Party Software)
 
 A CLI spellchecker needs to be installed. The recommendation is `aspell`. This
 might already be installed by default with your OS or has been included as a
@@ -26,16 +24,16 @@ Please consult your OS docs for how to install software.
 For help debugging issues with `aspell`, please see the last section in this
 document.
 
-### _murex_ Config
+## _murex_ Config
 
-#### ANSI Escape Sequences
+### ANSI Escape Sequences
 
 ANSI escape sequences need to be enabled (which they are by default). This
 option is found in `config` under **shell**, **color**.
 
     config: set shell color true
     
-#### Spellcheck Enable
+### Spellcheck Enable
 
 Spellcheck needs to be enabled. This option can be found in `config` under
 **shell**, **spellcheck-enabled**.
@@ -50,7 +48,7 @@ the change persistent.
 > Please note that this option will automatically be enabled is `aspell` is
 > installed.
 
-#### Spellcheck _murex_ Code
+### Spellcheck _murex_ Code
 
 This shouldn't need tweaking if you're running `aspell` but other spellcheckers
 will require updated code. The default will look something like this:
@@ -61,7 +59,7 @@ will require updated code. The default will look something like this:
 The default should be good enough for most people but should you want to run an
 alternative spellchecker then follow the instructions in the next section:
 
-### How To Write Your Own `spellcheck-func`
+## How To Write Your Own `spellcheck-func`
 
 You might legitimately want to run a different spellchecker and if so you'll
 need to write your own **spellcheck-func**. Fortunately this is simple:
@@ -87,7 +85,7 @@ POSIX friendly and thus most spellcheckers are likely to support it. eg
     fuubar
     madeupword
     
-### User Dictionary
+## User Dictionary
 
 _murex_ has it's own user dictionary, which is held as a JSON array:
 
@@ -105,7 +103,7 @@ or
 > Don't forget to record these in your _murex_ profile, `~/.murex_profile` to
 > make the changes persistent.
 
-#### Ignored By Default
+### Ignored By Default
 
 Sometimes commands are not valid words in ones native language. Thus any words
 that fall into the following categories are ignored by default:

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Bang Prefix
+# User Guide: Bang Prefix
 
 > Bang prefixing to reverse default actions
 
