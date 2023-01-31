@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Pipeline
+# User Guide: Pipeline
 
 > Overview of what a "pipeline" is
 

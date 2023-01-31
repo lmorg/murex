@@ -1,10 +1,8 @@
-# _murex_ Shell Docs
-
-## User Guide: Murex Named Pipes
+# User Guide: Murex Named Pipes
 
 > A detailed breakdown of named pipes in _murex_
 
-### Background
+## Background
 
 [Wikipedia describes](https://en.wikipedia.org/wiki/Named_pipe) a named pipe as the following:
 
@@ -23,7 +21,7 @@ allows for more user friendly tooling and syntactic sugar to implemented around
 it while largely still having the same functionality as a more traditional file
 based named pipe.
 
-### In _murex_
+## In _murex_
 
 In _murex_, named pipes are described in code as a value inside angle brackets.
 There are four named pipes pre-configured: `<in>` (STDIN), `<out>` (STDOUT),

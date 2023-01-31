@@ -15,10 +15,10 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
    the _murex_ language.
 
-2. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to _murex_'s.
 
 ### _murex_'s Source Code

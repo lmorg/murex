@@ -20,6 +20,8 @@ loop, then it will be `if` or `foreach` (respectively).
 
 ## Examples
 
+**Exiting an iteration block:**
+
     function foo {
         %[1..10] -> foreach i {
             out $i
@@ -40,6 +42,20 @@ Running the above code would output:
     4
     5
     exit running function
+    
+**Exiting a function:**
+
+`break` can be considered to exhibit the behavior of _return_ (from other
+languages) too
+
+    function example {
+        if { $USER == "root" } then {
+            err "Don't run this as root"
+            break example
+        }
+        
+        # ... do something ...
+    }
 
 ## Detail
 

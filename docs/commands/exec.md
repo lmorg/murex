@@ -34,6 +34,11 @@ then you could prefix the variable with exec:
 
     » exec printf "Hello, world!"
     Hello, world!
+    
+**Working around aliases:**
+
+If you have an alias like `alias ls=ls --color=auto` and you wanted to run `ls`
+but without colour, you might run `exec ls`.
 
 ## Detail
 
@@ -43,13 +48,11 @@ absolute path or the order of precedence in `$PATH`). Any forked process will
 show up in both the operating systems process viewer (eg `ps`) but also
 _murex_'s own process viewer, `fid-list`. However inside `fid-list` you will
 notice that all external processes are listed as `exec` with the process name
-as part of `exec`'s parameters. That is because that is literally how _murex_
-handles any programs that aren't native to _murex_.
+as part of `exec`'s parameters. That is because `exec` is handler for programs
+that aren't native to _murex_.
 
 ## See Also
 
-* [`=` (arithmetic evaluation)](../commands/equ.md):
-  Evaluate a mathematical function (deprecated)
 * [`bexists`](../commands/bexists.md):
   Check which builtins exist
 * [`bg`](../commands/bg.md):
@@ -66,8 +69,6 @@ handles any programs that aren't native to _murex_.
   Lists all running functions within the current _murex_ session
 * [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current _murex_ session
-* [`let`](../commands/let.md):
-  Evaluate a mathematical function and assign to variable (deprecated)
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces _murex_ to rescan $PATH looking for exectables
 * [`set`](../commands/set.md):

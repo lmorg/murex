@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: ANSI Constants
+# User Guide: ANSI Constants
 
 > Infixed constants that return ANSI escape sequences
 
@@ -8,7 +6,7 @@ ANSI Constants is a _murex_ convention of passing ANSI escape sequences into
 strings. It uses the `{}` notation with the constant name placed in between two
 curly braces. eg `{GREEN}`. 
 
-### Constants
+## Constants
 
 Rather than duplicate the constants from source, and risk the documentation and
 implementation drifting, this document will embed the source directly below.
@@ -173,7 +171,7 @@ var sgr = map[string][]byte{
 }
 ```
 
-#### How To Read The Code Above
+### How To Read The Code Above
 
 Each line will look something a little like
 
@@ -185,7 +183,7 @@ sequence of bytes that are infixed.
 So the example above will replace `{GREEN}` from within a string with the
 byte values of 27, 91, 51, 50 and 109 (in that order).
 
-### Unsupported Constants
+## Unsupported Constants
 
 If a constant does not exist in the above code, then the infix string is left
 unedited.
@@ -198,7 +196,7 @@ unedited.
     » out: "{GREEEEN}PASSED{RESET}"
     {GREEEEN}PASSED
     
-### Enabling / Disabling ANSI Escape Sequences
+## Enabling / Disabling ANSI Escape Sequences
 
 These sequences are enabled by default. To disable run the following:
 
