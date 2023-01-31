@@ -1,7 +1,3 @@
-# User Guide: _murex_'s Interactive Shell
-
-> What's different about _murex_'s interactive shell?
-
 <h2>Table of Contents</h2>
 
 <div id="toc">
@@ -67,22 +63,28 @@ to be used if you want it while keeping out of the way when you don't want it.
 It is enabled by default but can be disabled if you prefer a more minimal
 prompt:
 
-    » config: set shell hint-text-enabled false
-    
+```
+» config: set shell hint-text-enabled false
+```
+
 ### Hint Text Colour
 
 By default the **hint text** will appear blue. This is also customizable:
 
-    » config get shell hint-text-formatting
-    {BLUE}
-    
+```
+» config get shell hint-text-formatting
+{BLUE}
+```
+
 The formatting config takes a string and supports [ANSI constants](ansi.md).
 
 It is also worth noting that if colour is disabled then the **hint text** will
 not be coloured even if **hint-text-formatting** includes colour codes:
 
-    » config: set shell color false
-    
+```
+» config: set shell color false
+```
+
 (please note that **syntax highlighting** is unaffected by the above config)
 
 ### Custom Hint Text Statuses
@@ -93,61 +95,65 @@ displayed then _murex_ can fallback to a default **hint text** status. This
 default is a user defined function. At time of writing this document the author
 has the following function defined:
 
-    » config: get shell hint-text-func
-    {
-        trypipe <!null> {
-            git status --porcelain -b -> set gitstatus
-            #$gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
-            $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /' -> set gitbranch
-            let gitchanges=${ out $gitstatus -> sed 1d -> wc -l }
-            !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
-            (Git{BLUE}: $gitbranch ($gitchanges pending). )
-        }
-        catch {
-            ({YELLOW}Git{BLUE}: Not a git repository. )
-        }
-    
-        if { $SSH_AGENT_PID } then {
-            ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
-        } else {
-            ({RED}ssh-agent{BLUE}: No env set. )
-        }
-    
-        if { pgrep: vpnc } then {
-            ({YELLOW}VPN{BLUE}: vpnc is active. )
-        }
-    
-        if { ps aux -> regexp m/openvpn --errors-to-stderr --log/ } then {
-            ({YELLOW}VPN{BLUE}: openvpn is active. )
-        }
-    
-        trypipe <!null> {
-            open: main.tf -> format json -> [ terraform ] -> [ 0 ] -> [ required_version ] -> sed -r 's/\s0\./ /' -> set tfmod
-            terraform: version -> head -n1 -> regexp (f/Terraform v0\.([0-9.]+)$) -> set tfver
-            if { = tfmod >= tfver } then { ({GREEN}) } else { ({RED}) }
-            (Terraform{BLUE}: $tfver; required $tfmod. )
-        }
-    
-        if { $AWS_SESSION_TOKEN } then {
-            set aws_expiration
-            set int date=${ date +%s }
-    
-            if { os linux } then {
-                set int aws_expiration=${ date -d $AWS_SESSION_EXPIRATION +%s }
-            } else {
-                set int aws_expiration=${ date -j -f "%FT%R:%SZ" $AWS_SESSION_EXPIRATION +%s }
-            }
-    
-            = (($aws_expiration-$date)/60) -> format int -> set aws_session_time
-            if { = aws_session_time < 1 } then { ({RED}) } else { ({GREEN}) }
-            (awscon{BLUE}: $AWS_SESSION_NAME => $aws_session_time mins. )
-        }
+```
+» config: get shell hint-text-func
+{
+    trypipe <!null> {
+        git status --porcelain -b -> set gitstatus
+        #$gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
+        $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /' -> set gitbranch
+        let gitchanges=${ out $gitstatus -> sed 1d -> wc -l }
+        !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
+        (Git{BLUE}: $gitbranch ($gitchanges pending). )
     }
-    
+    catch {
+        ({YELLOW}Git{BLUE}: Not a git repository. )
+    }
+
+    if { $SSH_AGENT_PID } then {
+        ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
+    } else {
+        ({RED}ssh-agent{BLUE}: No env set. )
+    }
+
+    if { pgrep: vpnc } then {
+        ({YELLOW}VPN{BLUE}: vpnc is active. )
+    }
+
+    if { ps aux -> regexp m/openvpn --errors-to-stderr --log/ } then {
+        ({YELLOW}VPN{BLUE}: openvpn is active. )
+    }
+
+    trypipe <!null> {
+        open: main.tf -> format json -> [ terraform ] -> [ 0 ] -> [ required_version ] -> sed -r 's/\s0\./ /' -> set tfmod
+        terraform: version -> head -n1 -> regexp (f/Terraform v0\.([0-9.]+)$) -> set tfver
+        if { = tfmod >= tfver } then { ({GREEN}) } else { ({RED}) }
+        (Terraform{BLUE}: $tfver; required $tfmod. )
+    }
+
+    if { $AWS_SESSION_TOKEN } then {
+        set aws_expiration
+        set int date=${ date +%s }
+
+        if { os linux } then {
+            set int aws_expiration=${ date -d $AWS_SESSION_EXPIRATION +%s }
+        } else {
+            set int aws_expiration=${ date -j -f "%FT%R:%SZ" $AWS_SESSION_EXPIRATION +%s }
+        }
+
+        = (($aws_expiration-$date)/60) -> format int -> set aws_session_time
+        if { = aws_session_time < 1 } then { ({RED}) } else { ({GREEN}) }
+        (awscon{BLUE}: $AWS_SESSION_NAME => $aws_session_time mins. )
+    }
+}
+```
+
 ...which produces a colorized status that looks something like the following:
 
-    Git: develop => origin/develop [ahead 1] (9 pending). ssh-agent: 34607.
-    
+```
+Git: develop => origin/develop [ahead 1] (9 pending). ssh-agent: 34607.
+```
+
 ## Autocompletion
 
 Autocompletion happen when you press **{TAB}** and will differ slightly depending
@@ -165,11 +171,13 @@ in an intelligent and readable yet succinct way.
 You can add your own commands and functions to _murex_ as methods by defining
 them with `method`. For example if we were to add `jq` as a method:
 
-    method: define jq {
-        "Stdin":  "json",
-        "Stdout": "@Any"
-    }
-    
+```
+method: define jq {
+    "Stdin":  "json",
+    "Stdout": "@Any"
+}
+```
+
 ### Tab Completion: `Grid`
 
 This is where the completion suggestions are arranged in a grid. This is the
@@ -193,27 +201,6 @@ to what one expects from an IDE.
 
 Syntax highlighting can be disabled by running:
 
-    » config: set shell syntax-highlighting off
-
-## See Also
-
-* [ANSI Constants](../user-guide/ansi.md):
-  Infixed constants that return ANSI escape sequences
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Code Block Parsing](../user-guide/code-block.md):
-  Overview of how code blocks are parsed
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
-  Initiates or terminates a code block
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
-  Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Spellcheck](../user-guide/spellcheck.md):
-  How to enable inline spellchecking
-* [`autocomplete`](../commands/autocomplete.md):
-  Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
-* [`method`](../commands/method.md):
-  Define a methods supported data-types
-* [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+```
+» config: set shell syntax-highlighting off
+```

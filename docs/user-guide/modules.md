@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Modules and Packages
+# User Guide: Modules and Packages
 
 > An introduction to _murex_ modules and packages
 
@@ -24,7 +22,7 @@ What _murex_'s package system provides is:
 Before I address those points in more detail, a bit of background into what
 modules and packages are:
 
-#### What Are Packages And Modules?
+### What Are Packages And Modules?
 
 _murex_ comes with it's own package manager to make managing plugins easier.
 
@@ -40,9 +38,9 @@ The way packages and modules are represented is as a path:
 `murex-package` is a package management tool for administrating murex modules
 and packages.
 
-### Using Packages And Modules
+## Using Packages And Modules
 
-#### Consistency
+### Consistency
 
 Package database are stored locally at `~/.murex_modules/packages.json`. This
 file is portable so any new machine can have `packages.json` imported. The
@@ -55,26 +53,26 @@ tools and terminal preferences is the following:
 
     murex-package: import https://gist.githubusercontent.com/lmorg/770c71786935b44ba6667eaa9d470888/raw/fb7b79d592672d90ecb733944e144d722f77fdee/packages.json
     
-#### Extendability
+### Extendability
 
 Namespacing allows for `private` functions which allows you to write smaller
 functions. Smaller functions are easier to write tests against (_murex_ also
 has an inbuilt testing and debugging tools).
 
-#### Sharing Code
+### Sharing Code
 
 Packages can be hosted via HTTP(S) or git. Anyone can import anyone elses
 packages using `murex-package`. 
 
     murex-package: install https://github.com/lmorg/murex-module-murex-dev.git
     
-#### Updating Packages
+### Updating Packages
 
 Updating packages is easy:
 
     murex-package: update
     
-#### Tracking Code
+### Tracking Code
 
 All code loaded in _murex_, every function, variable and event (etc) is stored
 in memory with metadata about where it was loaded from; which package, file and

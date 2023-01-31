@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide: Reserved Variables
+# User Guide: Reserved Variables
 
 > Special variables reserved by _murex_
 
@@ -9,7 +7,7 @@ _murex_ reserves a few special variables which cannot be assigned via `set` nor
 
 The following is a list of reserved variables, their data type, and its usage:
 
-### `SELF` (json)
+## `SELF` (json)
 
 This returns meta information about the running scope.
 

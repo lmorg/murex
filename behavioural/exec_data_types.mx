@@ -1,7 +1,7 @@
 # This file tests murex data types are being sent and received across `exec` process boundaries
 
 /#function exec.datatypes.murex.mx {
-    tout foo 5 | exec $MUREX_EXE behavioural/exec_data_types.mx.murex
+    tout foo 5 | exec $MUREX_EXE behavioural/exec_data_types.mx.resource
 }
 
 test: unit function exec.datatypes.murex.mx {
@@ -20,7 +20,7 @@ test: unit function exec.datatypes.murex.c {
 
 if { os posix } then {
     function exec.datatypes.bourne.sh {
-        tout oof 5 | sh behavioural/exec_data_types.mx.sh
+        tout oof 5 | sh behavioural/exec_data_types.sh.resource
     }
 
     test: unit function exec.datatypes.bourne.sh {

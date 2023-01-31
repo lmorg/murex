@@ -17,10 +17,10 @@ not ready to ship with _murex_.
 1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
    on the core builtins.
 
-2. [Language Tour](../GUIDE.quick-start.md), which is an introduction into
+2. [Language Tour](GUIDE.quick-start.md), which is an introduction into
    the _murex_ language.
 
-3. [Rosetta Stone](../user-guide/rosetta-stone.md), which is a reference
+3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to _murex_'s.
 
 ### _murex_'s Source Code
