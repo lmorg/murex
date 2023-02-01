@@ -32,8 +32,6 @@ var (
 	// PromptId is an custom defined ID for each prompt Goprocess so we don't
 	// accidentally end up with multiple prompts running
 	PromptId = new(counter.MutexCounter)
-
-	rxHashTag = regexp.MustCompile(`#[-_a-zA-Z0-9]+$`)
 )
 
 // Start the interactive shell
@@ -65,6 +63,7 @@ func Start() {
 	Prompt.TempDirectory = consts.TempDir
 
 	definePromptHistory()
+	Prompt.AutocompleteHistory = autocompleteHistoryLine
 
 	SignalHandler(true)
 
@@ -118,8 +117,6 @@ func ShowPrompt() {
 	}
 
 	for {
-		//debug.Log("ShowPrompt (for{})")
-
 		signalRegister(true)
 
 		setPromptHistory()
@@ -141,7 +138,6 @@ func ShowPrompt() {
 			writeTitlebar()
 		}
 
-		//debug.Log("ShowPrompt (Prompt.Readline())")
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err {
@@ -153,7 +149,6 @@ func ShowPrompt() {
 
 			case readline.EOF:
 				fmt.Println(utils.NewLineString)
-				//return
 				lang.Exit(0)
 
 			default:
@@ -216,9 +211,6 @@ func ShowPrompt() {
 			}
 
 			if len(macroFind) > 0 {
-				//if !rxHashTag.MatchString(merged) {
-				//	merged = expandMacroVars(merged, macroFind, macroReplace)
-				//}
 				expanded = []rune(expandMacroVars(string(expanded), macroFind, macroReplace))
 			}
 

@@ -67,6 +67,10 @@ type Instance struct {
 	// default this will just be blue.
 	HintFormatting string
 
+	// AutocompleteHistory is another customization allowing for alternative
+	// results when [ctrl]+[r]
+	AutocompleteHistory func() ([]string, map[string]string)
+
 	// TempDirectory is the path to write temporary files when editing a line in
 	// $EDITOR. This will default to os.TempDir()
 	TempDirectory string

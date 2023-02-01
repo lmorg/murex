@@ -138,6 +138,10 @@ func (rl *Instance) walkHistory(i int) {
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
+	if rl.AutocompleteHistory != nil {
+		return rl.AutocompleteHistory()
+	}
+
 	var (
 		items []string
 		descs = make(map[string]string)
