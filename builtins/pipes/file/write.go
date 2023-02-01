@@ -26,7 +26,7 @@ func (f *File) Write(b []byte) (int, error) {
 
 	f.mutex.Lock()
 	f.bWritten += uint64(i)
-	f.mutex.Lock()
+	f.mutex.Unlock()
 
 	return i, err
 }
