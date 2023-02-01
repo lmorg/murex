@@ -4,7 +4,6 @@
 package lang
 
 import (
-	"os"
 	"os/exec"
 	"syscall"
 )
@@ -20,8 +19,8 @@ func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
 	return
 }
 
-func osSyscalls(cmd *exec.Cmd) {
+func osSyscalls(cmd *exec.Cmd, fd int) {
 	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Ctty: int(os.Stdout.Fd()),
+		Ctty: fd,
 	}
 }

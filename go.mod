@@ -6,6 +6,7 @@ require (
 	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/abesto/sexp v0.0.1
 	github.com/boombuler/barcode v1.0.1
+	github.com/creack/pty v1.1.18
 	github.com/eliukblau/pixterm v1.3.1
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/hashicorp/hcl v1.0.0

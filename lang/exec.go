@@ -90,10 +90,10 @@ func execute(p *Process) error {
 	// Define STANDARD OUT (fd 1)
 	// ***
 
-	if p.Stdout.IsTTY() {
+	if p.Stdout.IsTTY() && p.ttyout != nil {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
-		osSyscalls(cmd)
-		cmd.Stdout = os.Stdout
+		osSyscalls(cmd, int(p.ttyout.Fd()))
+		cmd.Stdout = p.ttyout
 	} else {
 		// ....otherwise we just treat the program as a regular piped util
 		cmd.Stdout = p.Stdout

@@ -3,6 +3,7 @@ package lang
 import (
 	"context"
 	"fmt"
+	"os"
 	"sync"
 	"time"
 
@@ -29,6 +30,7 @@ type Process struct {
 	Stdin              stdio.Io
 	Stdout             stdio.Io
 	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
+	ttyout             *os.File `json:"-"`
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
