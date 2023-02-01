@@ -3,16 +3,21 @@
 <div id="toc">
 
 - [Overview](#overview)
-- [Spellchecker](#spellchecker)
-- [Hint Text](#hint-text)
-  - [Disable Hint Text](#disable-hint-text)
-  - [Hint Text Colour](#hint-text-colour)
-  - [Custom Hint Text Statuses](#custom-hint-text-statuses)
-- [Autocompletion](#autocompletion)
-  - [Tab Completion: `Grid`](#tab-completion-grid)
-  - [Tab Completion: `ListView`](#tab-completion-listview)
-- [Syntax Completion](#syntax-completion)
+- [readline](#readline)
+  - [Hotkeys](#hotkeys)
+    - [Hotkey: `tab`](#hotkey-tab)
+    - [Hotkey: `ctrl`+`f`](#hotkey-ctrlf)
+    - [Hotkey: `ctrl`+`r`](#hotkey-ctrlr)
+    - [Hotkey: `esc` (aka "vim keys")](#hotkey-esc-aka-vim-keys)
+    - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
+  - [Autocompletion](#autocompletion)
+  - [Syntax Completion](#syntax-completion)
 - [Syntax Highlighting](#syntax-highlighting)
+  - [Spellchecker](#spellchecker)
+  - [Hint Text](#hint-text)
+    - [Configuring Hint Text Colour](#configuring-hint-text-colour)
+  - [Custom Hint Text Statuses](#custom-hint-text-statuses)
+    - [Disabling Hint Text](#disabling-hint-text)
 
 </div>
 
@@ -42,7 +47,89 @@ library:
     the preview option that’s available as part of the aforementioned warning
 * and VIM keys (enabled by pressing `[ESC]`)
 
-## Spellchecker
+## readline
+
+_murex_ uses a custom `readline` library to enable support for new features on
+in addition to the existing uses you'd normally expect from a shell. It is
+because of this _murex_ provides one of the best user experiences of any of the
+shells available today.
+
+### Hotkeys
+
+#### Hotkey: `tab`
+
+Provides autocompletion suggestions. Press escape to hide suggestions.
+
+#### Hotkey: `ctrl`+`f`
+
+This will allow you to perform a regexp search through the autocompletion
+suggestions. Thus allowing you to quickly navigate complex command options or
+jump to specific sub-directories.
+
+Press escape to cancel regexp search.
+
+#### Hotkey: `ctrl`+`r`
+
+This brings up your timestamped shell history as an autocomplete list with
+regexp search activated. Using `ctrl`+`r` you can rapidly rerun previous
+command lines.
+
+Press escape to cancel history completion.
+
+#### Hotkey: `esc` (aka "vim keys")
+
+Pressing escape while no autocomplete suggestions are shown will switch the
+line editor into **vim keys** mode.
+
+Press `i` to return to normal editing mode.
+
+#### Full Screen Editing via `$EDITOR`
+
+When in "vim keys" mode, press `v` to bring up the visual editor. The editor
+will be whichever command is stored in the `$EDITOR` environmental variable.
+
+### Autocompletion
+
+Autocompletion happen when you press **{TAB}** and will differ slightly depending
+on what is defined in `autocomplete` and whether you use the traditional
+[POSIX pipe token](../parser/pipe-posix.md), `|`, or the [arrow pipe](../parser/pipe-arrow.md),
+`->`.
+
+The `|` token will behave much like any other shell however `->` will offer
+suggestions with matching data types (as seen in `runtime --methods`). This is
+a way of helping highlight commands that naturally follow after another in a
+pipeline. Which is particularly important in _murex_ as it introduces data
+types and dozens of new builtins specifically for working with data structures
+in an intelligent and readable yet succinct way.
+
+You can add your own commands and functions to _murex_ as methods by defining
+them with `method`. For example if we were to add `jq` as a method:
+
+```
+method: define jq {
+    "Stdin":  "json",
+    "Stdout": "@Any"
+}
+```
+
+### Syntax Completion
+
+Like with most IDEs, _murex_ will auto close brackets et al.
+
+[![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
+
+## Syntax Highlighting
+
+Pipelines in the interactive terminal are syntax highlighted. This is similar
+to what one expects from an IDE.
+
+Syntax highlighting can be disabled by running:
+
+```
+» config: set shell syntax-highlighting off
+```
+
+### Spellchecker
 
 _murex_ supports inline spellchecking, where errors are underlined. For example
 
@@ -51,23 +138,14 @@ _murex_ supports inline spellchecking, where errors are underlined. For example
 This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
 for more details.
 
-## Hint Text
+### Hint Text
 
 The **hint text** is a (typically) blue status line that appears directly below
 your prompt. The idea behind the **hint text** is to provide clues to you as
 type instructions into the prompt; but without adding distractions. It is there
 to be used if you want it while keeping out of the way when you don't want it.
 
-### Disable Hint Text
-
-It is enabled by default but can be disabled if you prefer a more minimal
-prompt:
-
-```
-» config: set shell hint-text-enabled false
-```
-
-### Hint Text Colour
+#### Configuring Hint Text Colour
 
 By default the **hint text** will appear blue. This is also customizable:
 
@@ -154,53 +232,11 @@ has the following function defined:
 Git: develop => origin/develop [ahead 1] (9 pending). ssh-agent: 34607.
 ```
 
-## Autocompletion
+#### Disabling Hint Text
 
-Autocompletion happen when you press **{TAB}** and will differ slightly depending
-on what is defined in `autocomplete` and whether you use the traditional
-[POSIX pipe token](../parser/pipe-posix.md), `|`, or the [arrow pipe](../parser/pipe-arrow.md),
-`->`.
-
-The `|` token will behave much like any other shell however `->` will offer
-suggestions with matching data types (as seen in `runtime --methods`). This is
-a way of helping highlight commands that naturally follow after another in a
-pipeline. Which is particularly important in _murex_ as it introduces data
-types and dozens of new builtins specifically for working with data structures
-in an intelligent and readable yet succinct way.
-
-You can add your own commands and functions to _murex_ as methods by defining
-them with `method`. For example if we were to add `jq` as a method:
+It is enabled by default but can be disabled if you prefer a more minimal
+prompt:
 
 ```
-method: define jq {
-    "Stdin":  "json",
-    "Stdout": "@Any"
-}
-```
-
-### Tab Completion: `Grid`
-
-This is where the completion suggestions are arranged in a grid. This is the
-default.
-
-### Tab Completion: `ListView`
-
-This is where the completion suggestions are arranged in a list with a
-description along the side.
-
-## Syntax Completion
-
-Like with most IDEs, _murex_ will auto close brackets et al.
-
-[![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
-
-## Syntax Highlighting
-
-Pipelines in the interactive terminal are syntax highlighted. This is similar
-to what one expects from an IDE.
-
-Syntax highlighting can be disabled by running:
-
-```
-» config: set shell syntax-highlighting off
+» config: set shell hint-text-enabled false
 ```

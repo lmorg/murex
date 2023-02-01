@@ -30,6 +30,10 @@ var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
 func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType) {
 	var prefix string
 
+	if pos < 0 {
+		return "", []string{}, nil, readline.TabDisplayGrid
+	}
+
 	if len(line) > pos-1 {
 		line = line[:pos]
 	}
@@ -185,7 +189,7 @@ func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	autocomplete.MatchFunction(prefix, act)
 }
 
-func autocompleteHistoryLine() ([]string, map[string]string) {
+func autocompleteHistoryLine(prefix string) ([]string, map[string]string) {
 	var (
 		items       []string
 		definitions = make(map[string]string)
@@ -194,16 +198,24 @@ func autocompleteHistoryLine() ([]string, map[string]string) {
 	dump := Prompt.History.Dump().([]history.Item)
 
 	for i := len(dump) - 1; i > -1; i-- {
-		if definitions[dump[i].Block] == "" {
-			dateTime := dump[i].DateTime.Format("02-Jan-06 15:04")
-			items = append(items, dump[i].Block)
-			definitions[dump[i].Block] = dateTime
+		if len(dump[i].Block) <= len(prefix) {
+			continue
 		}
-	}
 
-	//act.TabDisplayType = readline.TabDisplayMap
-	//act.DoNotEscape = true
-	//act.DoNotSort = true
+		if !strings.HasPrefix(dump[i].Block, prefix) {
+			continue
+		}
+
+		item := dump[i].Block[len(prefix):]
+
+		if definitions[item] != "" {
+			continue
+		}
+
+		dateTime := dump[i].DateTime.Format("02-Jan-06 15:04")
+		items = append(items, item)
+		definitions[item] = dateTime
+	}
 
 	return items, definitions
 }

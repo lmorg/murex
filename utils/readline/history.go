@@ -139,7 +139,8 @@ func (rl *Instance) walkHistory(i int) {
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 	if rl.AutocompleteHistory != nil {
-		return rl.AutocompleteHistory()
+		rl.tcPrefix = string(rl.line)
+		return rl.AutocompleteHistory(rl.tcPrefix)
 	}
 
 	var (
