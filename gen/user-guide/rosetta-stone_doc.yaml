@@ -14,6 +14,7 @@
     {{ include "gen/user-guide/rosetta-stone.inc.md" }}
   Related:
     - user-guide/namedpipes
+    - user-guide/terminal-keys
     - commands/try
     - commands/trypipe
     - commands/runmode
