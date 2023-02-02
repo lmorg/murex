@@ -8,10 +8,11 @@ action to default behavior. For example, `set` defines a variable where as
 
 Sometimes the shortcut will be logical, like a **not** operator, as is the case
 with `and` where typically each result has to equal **true** normally or
-**false** if used in `!and`. Sometimes the shortcut will be more philosophical,
-such as with `config` where normal operations is to query or set configuration
-but `!config` resets the configuration to defaults (thus operating the same as
-`config default`).
+**false** if used in `!and`.
+
+Sometimes the shortcut will be more philosophical, such as with `config` where
+normal operations is to query or set configuration but `!config` resets the
+configuration to defaults (thus operating the same as `config default`).
 
 Please read the respecting commands doc for details on whether it supports a
 bang prefix and what the behavior of that prefix is.
