@@ -3,8 +3,10 @@ package readline
 import (
 	"bytes"
 	"os"
+	"os/signal"
 	"regexp"
 	"sync/atomic"
+	"syscall"
 )
 
 var rxMultiline = regexp.MustCompile(`[\r\n]+`)
@@ -16,6 +18,18 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.Active = true
 	fd := int(os.Stdin.Fd())
 	state, err := MakeRaw(fd)
+
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGWINCH)
+	go func() {
+		for range ch {
+			print(seqClearLineBefore + seqClearLineAfter + seqClearScreenBelow + "\r")
+			print(rl.prompt + string(rl.line))
+			rl.updateHelpers()
+			//rl.renderHelpers()
+		}
+	}()
+
 	rl.fdMutex.Unlock()
 
 	if err != nil {
@@ -23,6 +37,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 	defer func() {
 		rl.fdMutex.Lock()
+
+		signal.Stop(ch)
+		close(ch)
+
 		rl.Active = false
 		// return an error if Restore fails. However we don't want to return
 		// `nil` if there is no error because there might be a CtrlC or EOF

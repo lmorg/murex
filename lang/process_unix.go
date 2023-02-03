@@ -6,6 +6,8 @@ package lang
 import (
 	"io"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/creack/pty"
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -28,11 +30,14 @@ func ttys(p *Process) {
 				return
 			}
 
-			size, err := pty.GetsizeFull(os.Stdout)
-			if err == nil {
-				_ = pty.Setsize(tty, size)
-				_ = pty.Setsize(ptyout, size)
-			}
+			_ = pty.InheritSize(os.Stdout, ptyout)
+			ch := make(chan os.Signal, 1)
+			signal.Notify(ch, syscall.SIGWINCH)
+			go func() {
+				for range ch {
+					_ = pty.InheritSize(os.Stdout, ptyout)
+				}
+			}()
 
 			_, err = readline.MakeRaw(int(ptyout.Fd()))
 			if err != nil {
@@ -41,7 +46,11 @@ func ttys(p *Process) {
 			}
 
 			p.ttyout = ptyout
-			go func() { _, _ = io.Copy(p.Stdout, tty) }()
+			go func() {
+				_, _ = io.Copy(p.Stdout, tty)
+				signal.Stop(ch)
+				close(ch)
+			}()
 		}
 
 	}
