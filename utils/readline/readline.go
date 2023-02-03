@@ -23,10 +23,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 	signal.Notify(ch, syscall.SIGWINCH)
 	go func() {
 		for range ch {
-			print(seqClearLineBefore + seqClearLineAfter + seqClearScreenBelow + "\r")
+			print("\r" + seqUp + seqClearScreenBelow + seqDown)
 			print(rl.prompt + string(rl.line))
 			rl.updateHelpers()
-			//rl.renderHelpers()
 		}
 	}()
 

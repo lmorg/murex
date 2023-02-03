@@ -57,7 +57,7 @@ const (
 	seqClearLineAfter   = "\x1b[0k"
 	seqClearLineBefore  = "\x1b[1k"
 	seqClearLine        = "\x1b[2k"
-	seqClearScreenBelow = "\x1b[0J"
+	seqClearScreenBelow = "\x1b[J"
 
 	seqGetCursorPos = "\x1b6n" // response: "\x1b{Line};{Column}R"
 )
