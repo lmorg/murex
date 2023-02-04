@@ -262,6 +262,20 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "preview-enabled", config.Properties{
+		Description: "If set, will show file previews in the top right third of the terminal",
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
+	c.Define("shell", "preview-images", config.Properties{
+		Description: "If set, file previews will display images as ANSI art rendered graphics rather than text descriptions",
+		Default:     false,
+		DataType:    types.String,
+		Global:      true,
+	})
+
 	// --- proc ---
 
 	c.Define("proc", "force-tty", config.Properties{

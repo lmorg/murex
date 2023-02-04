@@ -61,11 +61,9 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 }
 
-var (
-	rxImage = regexp.MustCompile(`\.(bmp|jpg|jpeg|png|gif|tiff|webp)$`)
-)
+var rxImage = regexp.MustCompile(`\.(bmp|jpg|jpeg|png|gif|tiff|webp)$`)
 
-func previewCompile(filename string, size *previewSizeT) ([]string, error) {
+func previewCompile(filename string, incImages bool, size *previewSizeT) ([]string, error) {
 	p := make([]byte, 1*1024*1024)
 	var i int
 
@@ -85,8 +83,8 @@ func previewCompile(filename string, size *previewSizeT) ([]string, error) {
 		lines []string
 	)
 
-	if rxImage.MatchString(filename) {
-		img, err := ansimage.NewScaledFromReader(f, 2*(size.Height)-1, size.Width, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
+	if incImages && rxImage.MatchString(filename) {
+		img, err := ansimage.NewScaledFromReader(f, 2*size.Height-1, size.Width, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
 		if err != nil {
 			return nil, err
 		}
@@ -119,6 +117,8 @@ parsePreview:
 				return []string{"file contains binary data"}, nil
 			}
 			i = copy(p, file)
+			line = []byte{}
+			lines = []string{}
 			goto parsePreview
 		}
 
@@ -126,9 +126,6 @@ parsePreview:
 		case '\r':
 			continue
 		case '\n':
-			/*if len(lines) == 0 {
-				continue
-			}*/
 			lines = append(lines, string(line))
 			line = []byte{}
 		case '\t':
@@ -141,10 +138,6 @@ parsePreview:
 			lines = append(lines, string(line))
 			line = []byte{}
 		}
-
-		/*if len(lines) > size.Height {
-			break
-		}*/
 	}
 
 	if len(line) > 0 {
@@ -208,7 +201,10 @@ func (rl *Instance) writePreview(item string) {
 			rl.previewCache = nil
 			return
 		}
-		lines, err := previewCompile(item, size)
+
+		item = strings.ReplaceAll(item, "\\", "")
+
+		lines, err := previewCompile(item, rl.PreviewImages, size)
 		if err != nil {
 			rl.previewCache = nil
 			return

@@ -18,5 +18,5 @@ func previewFile(filename string) []byte {
 		return nil
 	}
 
-	return out.Bytes()
+	return bytes.ReplaceAll(out.Bytes(), []byte{',', ' '}, []byte{',', '\n', '>', ' '})
 }

@@ -128,7 +128,7 @@ func ShowPrompt() {
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
-		Prompt.ShowPreviews = true
+		getPreviewSettings()
 		cachedHintText = []rune{}
 
 		if nLines > 1 {
@@ -318,6 +318,13 @@ func getHintTextFormatting() {
 		formatting = ""
 	}
 	Prompt.HintFormatting = ansi.ExpandConsts(formatting.(string))
+}
+
+func getPreviewSettings() {
+	previewEnabled, _ := lang.ShellProcess.Config.Get("shell", "preview-enabled", types.Boolean)
+	previewImages, _ := lang.ShellProcess.Config.Get("shell", "preview-images", types.Boolean)
+	Prompt.ShowPreviews = previewEnabled.(bool)
+	Prompt.PreviewImages = previewImages.(bool)
 }
 
 var ignoreSpellCheckErr bool

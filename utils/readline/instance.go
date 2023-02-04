@@ -106,8 +106,9 @@ type Instance struct {
 	hintY    int //= 0
 	hintText []rune
 
-	ShowPreviews bool
-	previewCache *previewCacheT
+	ShowPreviews  bool
+	previewCache  *previewCacheT
+	PreviewImages bool
 
 	// tab completion
 	modeTabCompletion bool
