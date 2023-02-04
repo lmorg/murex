@@ -109,6 +109,7 @@ func (rl *Instance) writeTabGrid() {
 
 	x := 0
 	y := 1
+	var item string
 
 	for i := range suggestions {
 		x++
@@ -125,6 +126,7 @@ func (rl *Instance) writeTabGrid() {
 
 		if x == rl.tcPosX && y == rl.tcPosY {
 			print(seqBgWhite + seqFgBlack)
+			item = rl.tcPrefix + suggestions[i]
 		}
 
 		value := rl.tcPrefix + suggestions[i]
@@ -137,6 +139,16 @@ func (rl *Instance) writeTabGrid() {
 	}
 
 	rl.tcUsedY = y
+
+	x, y, err := getPreviewXY()
+	if err != nil {
+		return
+	}
+	lines, err := previewCompile(item, x, y)
+	if err != nil {
+		return
+	}
+	_ = previewDraw(lines, x, y)
 }
 
 func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {

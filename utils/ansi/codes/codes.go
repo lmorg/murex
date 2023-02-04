@@ -69,3 +69,4 @@ const (
 	Forwards  = "\x1b[1C"
 	Backwards = "\x1b[1D"
 )
+

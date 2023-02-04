@@ -34,6 +34,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	if err != nil {
 		return "", err
 	}
+
 	defer func() {
 		rl.fdMutex.Lock()
 
@@ -48,6 +49,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		if r != nil {
 			err = r
 		}
+
 		rl.fdMutex.Unlock()
 	}()
 
