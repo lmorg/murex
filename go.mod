@@ -21,6 +21,7 @@ require (
 require (
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
+	github.com/lmorg/readline v0.0.0-20210316231630-be4b7d79fc3a // indirect
 	github.com/lucasb-eyer/go-colorful v1.0.3 // indirect
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/image v0.0.0-20191206065243-da761ea9ff43 // indirect

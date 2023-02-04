@@ -140,15 +140,7 @@ func (rl *Instance) writeTabGrid() {
 
 	rl.tcUsedY = y
 
-	x, y, err := getPreviewXY()
-	if err != nil {
-		return
-	}
-	lines, err := previewCompile(item, x, y)
-	if err != nil {
-		return
-	}
-	_ = previewDraw(lines, x, y)
+	rl.writePreview(item)
 }
 
 func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {

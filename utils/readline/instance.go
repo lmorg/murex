@@ -106,6 +106,9 @@ type Instance struct {
 	hintY    int //= 0
 	hintText []rune
 
+	ShowPreviews bool
+	previewCache *previewCacheT
+
 	// tab completion
 	modeTabCompletion bool
 	tabMutex          sync.Mutex

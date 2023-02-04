@@ -411,6 +411,14 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
+	case seqPageUp:
+		rl.previewPageUp()
+		return
+
+	case seqPageDown:
+		rl.previewPageDown()
+		return
+
 	default:
 		if rl.modeTabFind {
 			return

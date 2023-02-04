@@ -128,6 +128,7 @@ func ShowPrompt() {
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
+		Prompt.ShowPreviews = true
 		cachedHintText = []rune{}
 
 		if nLines > 1 {

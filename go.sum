@@ -24,6 +24,8 @@ github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
 github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad h1:TQcz4T52CwRmLT4KexBSPAL2XxAWKlsbpPyQ1hg9T50=
 github.com/lmorg/apachelogs v0.0.0-20161115121556-e5f3eae677ad/go.mod h1:ZCbRp0gZDkH+2t/flBuXpT4+FyrVodEONI0l5jUwYH0=
+github.com/lmorg/readline v0.0.0-20210316231630-be4b7d79fc3a h1:xiaNGfMrhqdK89RvLnc6WAe4Pe/HKaluZmipsYF3E0o=
+github.com/lmorg/readline v0.0.0-20210316231630-be4b7d79fc3a/go.mod h1:DidBcghSSS00hj06CkehMGDhZ/25vZDdydkeTVUy6lY=
 github.com/lucasb-eyer/go-colorful v1.0.3 h1:QIbQXiugsb+q10B+MI+7DI1oQLdmnep86tWFlaaUAac=
 github.com/lucasb-eyer/go-colorful v1.0.3/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i7ruzyGqttikkLy0=
 github.com/mattn/go-sqlite3 v1.14.14 h1:qZgc/Rwetq+MtyE18WhzjokPD93dNqLGNT3QJuLvBGw=
@@ -45,6 +47,7 @@ golang.org/x/image v0.0.0-20191206065243-da761ea9ff43/go.mod h1:FeLwcggjj3mMvU+o
 golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20210316164454-77fc1eacc6aa/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20220412211240-33da011f77ad/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f h1:v4INt8xihDGvnrfjMDVXGxw9wrfxYyCjk0KbXjhR55s=
 golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
