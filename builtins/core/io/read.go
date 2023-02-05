@@ -115,7 +115,7 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 
 	if s == "" {
 		s = defaultVal
-		//os.Stdout.WriteString(s)
+		//tty.Stdout.WriteString(s)
 	}
 
 	v, err := types.ConvertGoType(s, dt)

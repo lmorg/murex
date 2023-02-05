@@ -58,15 +58,16 @@ const (
 
 // Clear terminal
 const (
-	ClearScreen = "\x1b[2J"
-	ClearLine   = "\x1b[K"
+	ClearScreen      = "\x1b[2J"
+	ClearLine        = "\x1b[K"
+	ClearScreenBelow = "\x1b[J"
 )
 
 // Cursor Movement
 const (
+	Home      = "\x1b[H"
 	Up        = "\x1b[1A"
 	Down      = "\x1b[1B"
 	Forwards  = "\x1b[1C"
 	Backwards = "\x1b[1D"
 )
-

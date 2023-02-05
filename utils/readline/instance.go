@@ -7,6 +7,12 @@ import (
 
 var term *os.File = os.Stdout
 
+func SetTTY(tty *os.File) {
+	term = tty
+}
+
+var ForceCrLf = true
+
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
@@ -144,6 +150,7 @@ type Instance struct {
 	// event
 	evtKeyPress map[string]func(string, []rune, int) *EventReturn
 
+	//ForceCrLf          bool
 	EnableGetCursorPos bool
 }
 
@@ -165,6 +172,8 @@ func NewInstance() *Instance {
 	rl.MaxCacheSize = 256
 	rl.cacheHint.Init(rl)
 	rl.cacheSyntax.Init(rl)
+
+	//rl.ForceCrLf = true
 
 	return rl
 }

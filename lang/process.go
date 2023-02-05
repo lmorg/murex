@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"strings"
 	"time"
 
@@ -13,6 +12,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/pipes"
 	"github.com/lmorg/murex/lang/state"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -254,7 +254,7 @@ executeProcess:
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {
 			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
-			os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+			tty.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
 		}
 
 		if tmux.(bool) {
@@ -399,10 +399,10 @@ func deregisterProcess(p *Process) {
 	p.Stdout.Close()
 	p.Stderr.Close()
 
-	if p.ttyout != nil && int(p.ttyout.Fd()) != int(os.Stdout.Fd()) {
+	if p.ttyout != nil && int(p.ttyout.Fd()) != int(tty.Stdout.Fd()) {
 		err := p.ttyout.Close()
 		if err != nil {
-			os.Stderr.WriteString("Unable to close PTY: " + err.Error())
+			tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
 		}
 	}
 

@@ -319,7 +319,7 @@ func matchFlags(flags []Flags, nest int, partial, exe string, params []string, p
 				}
 
 				//b, _ := json.Marshal(f[i], true)
-				//os.Stderr.WriteString(fmt.Sprintf("%d: %s", i, string(b)))
+				//tty.Stderr.WriteString(fmt.Sprintf("%d: %s", i, string(b)))
 				return matchFlags(f, i, partial, exe, params, pIndex, args, act)
 			}
 

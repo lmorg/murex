@@ -9,6 +9,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -61,7 +62,7 @@ func execute(p *Process) error {
 		err := cmd.Process.Signal(syscall.SIGTERM)
 		if err != nil {
 			name, _ := p.Args()
-			os.Stderr.WriteString(
+			tty.Stderr.WriteString(
 				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", name, err.Error()))
 		}
 	}
@@ -82,7 +83,7 @@ func execute(p *Process) error {
 		cmd.Stdin = new(null.Null)
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
-		cmd.Stdin = os.Stdin
+		cmd.Stdin = tty.Stdin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
@@ -110,7 +111,7 @@ func execute(p *Process) error {
 	//
 	//     config set proc force-tty true
 	if p.Stderr.IsTTY() && forceTTY(p) {
-		cmd.Stderr = os.Stderr
+		cmd.Stderr = tty.Stderr
 	} else {
 		cmd.Stderr = p.Stderr
 	}
@@ -122,7 +123,7 @@ func execute(p *Process) error {
 	/*var failedPipe bool
 	mxdtR, mxdtW, err := os.Pipe()
 	if err != nil {
-		os.Stderr.WriteString("unable to create murex data type output file for external process: " + err.Error() + "\n")
+		tty.Stderr.WriteString("unable to create murex data type output file for external process: " + err.Error() + "\n")
 		failedPipe = true
 		mxdtR = new(os.File)
 		mxdtW = new(os.File)
@@ -175,7 +176,7 @@ func execute(p *Process) error {
 	p.Exec.Set(cmd.Process.Pid, cmd)
 
 	/*if err := mxdtW.Close(); err != nil {
-		os.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
+		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
 	}*/
 
 	if err := cmd.Wait(); err != nil {

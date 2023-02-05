@@ -11,12 +11,13 @@ import (
 
 	"github.com/creack/pty"
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 func ttys(p *Process) {
-	p.ttyout = os.Stdout
+	p.ttyout = tty.Stdout
 
 	if p.CCExists != nil && p.CCExists(p.Name.String()) {
 		p.Stderr, p.CCErr = streams.NewTee(p.Stderr)
@@ -24,17 +25,17 @@ func ttys(p *Process) {
 
 		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
 		if p.Stdout.IsTTY() {
-			ptyout, tty, err := pty.Open()
+			ptyout, ttyout, err := pty.Open()
 			if err != nil {
 				return
 			}
 
-			_ = pty.InheritSize(os.Stdout, ptyout)
+			_ = pty.InheritSize(tty.Stdout, ptyout)
 			ch := make(chan os.Signal, 1)
 			signal.Notify(ch, syscall.SIGWINCH)
 			go func() {
 				for range ch {
-					_ = pty.InheritSize(os.Stdout, ptyout)
+					_ = pty.InheritSize(tty.Stdout, ptyout)
 				}
 			}()
 
@@ -45,7 +46,7 @@ func ttys(p *Process) {
 
 			p.ttyout = ptyout
 			go func() {
-				_, _ = io.Copy(p.Stdout, tty)
+				_, _ = io.Copy(p.Stdout, ttyout)
 				signal.Stop(ch)
 				close(ch)
 			}()

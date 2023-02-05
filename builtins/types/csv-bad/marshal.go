@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"os"
 	"sort"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -149,7 +149,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	case []map[string]interface{}:
@@ -176,7 +176,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	case []map[interface{}]string:
@@ -203,7 +203,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	case []map[interface{}]interface{}:
@@ -231,7 +231,7 @@ func marshal(p *lang.Process, iface interface{}) (b []byte, err error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	default:
