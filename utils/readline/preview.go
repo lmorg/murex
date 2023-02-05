@@ -31,7 +31,7 @@ type previewCacheT struct {
 }
 
 func getPreviewXY() (*previewSizeT, error) {
-	width, height, err := GetSize(int(os.Stdout.Fd()))
+	width, height, err := GetSize(int(term.Fd()))
 	if err != nil {
 		return nil, err
 	}
@@ -158,46 +158,37 @@ const (
 func previewDraw(preview []string, size *previewSizeT) error {
 	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
 
-	_, _ = os.Stdout.WriteString(curPosSave + curHome)
+	print(curPosSave + curHome)
 	defer func() {
-		_, _ = os.Stdout.WriteString(curPosRestore)
+		print(curPosRestore)
 	}()
 
 	moveCursorForwards(size.Forward)
 	hr := strings.Repeat("─", size.Width)
-	_, err := os.Stdout.WriteString("╭" + hr + "╮\r\n")
-	if err != nil {
-		return err
-	}
+	print("╭" + hr + "╮\r\n")
 
 	for i := 0; i <= size.Height; i++ {
 		moveCursorForwards(size.Forward)
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
-			_, err = os.Stdout.WriteString("│" + blank + "│\r\n")
-			if err != nil {
-				return err
-			}
+			print("│" + blank + "│\r\n")
 			continue
 		}
 
 		out := fmt.Sprintf(pf, preview[i])
-		_, err = os.Stdout.WriteString(out)
-		if err != nil {
-			return err
-		}
+		print(out)
 	}
 
 	moveCursorForwards(size.Forward)
-	_, err = os.Stdout.WriteString("╰" + hr + "╯\r\n")
-	return err
+	print("╰" + hr + "╯\r\n")
+	return nil
 }
 
 func (rl *Instance) writePreview(item string) {
 	if rl.ShowPreviews {
 		size, err := getPreviewXY()
-		if err != nil {
+		if err != nil || size.Height < 8 || size.Width < 25 {
 			rl.previewCache = nil
 			return
 		}

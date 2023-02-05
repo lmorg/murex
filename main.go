@@ -4,8 +4,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -13,6 +11,7 @@ import (
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -61,7 +60,7 @@ func runTests() error {
 	if err := lang.ShellProcess.Config.Set("test", "verbose", false, nil); err != nil {
 		return err
 	}
-	tty := readline.IsTerminal(int(os.Stdout.Fd()))
+	tty := readline.IsTerminal(int(tty.Stdout.Fd()))
 	if err := lang.ShellProcess.Config.Set("shell", "color", tty, nil); err != nil {
 		return err
 	}
@@ -120,7 +119,7 @@ func runSource(filename string) {
 	term.OutSetDataTypeIPC()
 	disk, err := diskSource(filename)
 	if err != nil {
-		_, err := os.Stderr.WriteString(err.Error() + "\n")
+		_, err := tty.Stderr.WriteString(err.Error() + "\n")
 		if err != nil {
 			// wouldn't really make any difference at this point because we
 			// cannot write to stderr anyway :(
@@ -132,6 +131,8 @@ func runSource(filename string) {
 }
 
 func startMurex() {
+	tty.CreatePTY()
+
 	lang.InitEnv()
 
 	// default config

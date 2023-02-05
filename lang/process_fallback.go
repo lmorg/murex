@@ -12,7 +12,7 @@ import (
 
 func ttys(p *Process) {
 	p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
-	p.ttyout = os.Stdout
+	p.ttyout = tty.Stdout
 
 	p.Stderr, p.CCErr = streams.NewTee(p.Stderr)
 	p.CCErr.SetDataType(types.Generic)

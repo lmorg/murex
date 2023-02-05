@@ -2,13 +2,13 @@ package events
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -24,7 +24,7 @@ var events = make(map[string]eventType)
 // AddEventType registers your event type handlers
 func AddEventType(eventTypeName string, handlerInterface eventType, err error) error {
 	if err != nil {
-		os.Stderr.WriteString(
+		tty.Stderr.WriteString(
 			fmt.Sprintf("cannot add event module %s: %s", eventTypeName, err),
 		)
 	}
@@ -44,7 +44,7 @@ func Callback(name string, interrupt interface{}, block []rune, fileRef *ref.Fil
 		if debug.Enabled {
 			panic("fileRef should not be nil value")
 		}
-		os.Stderr.WriteString("Murex error with `event`: '" + name + "'. fileRef should not be nil value. Creating empty object to continue. Please report this https://github.com/lmorg/murex/issues\n")
+		tty.Stderr.WriteString("Murex error with `event`: '" + name + "'. fileRef should not be nil value. Creating empty object to continue. Please report this https://github.com/lmorg/murex/issues\n")
 		fileRef = &ref.File{
 			Source: &ref.Source{
 				Filename: "UNKNOWN: forked from `event` " + name,

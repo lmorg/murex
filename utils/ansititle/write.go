@@ -1,12 +1,12 @@
 package ansititle
 
-import "os"
+import "github.com/lmorg/murex/lang/tty"
 
 func write(ansi []byte) error {
 	if ansi == nil {
 		return nil
 	}
 
-	_, err := os.Stdout.Write(ansi)
+	_, err := tty.Stdout.Write(ansi)
 	return err
 }

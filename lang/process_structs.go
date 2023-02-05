@@ -127,11 +127,6 @@ func (p *Process) HasTerminated() (state bool) {
 
 // HasCancelled is a wrapper function around context because it's a pretty ugly API
 func (p *Process) HasCancelled() (state bool) {
-	/*if p.Context == nil {
-		fmt.Printf("(nil ctx %s %d", p.Name.String(), p.Id)
-		return false
-	}*/
-
 	select {
 	case <-p.Context.Done():
 		return true

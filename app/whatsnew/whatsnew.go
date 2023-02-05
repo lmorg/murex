@@ -8,6 +8,7 @@ import (
 
 	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/config/profile"
+	"github.com/lmorg/murex/lang/tty"
 )
 
 func Display() {
@@ -34,7 +35,7 @@ func Display() {
 	}
 
 changelog:
-	fmt.Printf("Welcome to murex %d.%d.%d\nChangelog: https://murex.rocks/docs/CHANGELOG.html\n",
+	fmt.Fprintf(tty.Stdout, "Welcome to murex %d.%d.%d\nChangelog: https://murex.rocks/docs/CHANGELOG.html\n",
 		app.Major, app.Minor, app.Revision)
 
 	f, err = os.OpenFile(profile.ModulePath()+"/version", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)

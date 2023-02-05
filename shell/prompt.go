@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/utils/ansititle"
 )
 
-func getPrompt() {
+func getPrompt() []byte{
 	var (
 		err, err2 error
 		exitNum   int
@@ -33,10 +33,10 @@ func getPrompt() {
 		b = []byte("murex » ")
 	}
 
-	Prompt.SetPrompt(string(b))
+	return b
 }
 
-func getMultilinePrompt(nLines int) {
+func getMultilinePrompt(nLines int)[]byte {
 	var (
 		err, err2 error
 		exitNum   int
@@ -59,7 +59,7 @@ func getMultilinePrompt(nLines int) {
 		b = []byte(fmt.Sprintf("%5d » ", nLines))
 	}
 
-	Prompt.SetPrompt(string(b))
+	return b
 }
 
 func writeTitlebar() {

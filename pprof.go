@@ -10,6 +10,7 @@ import (
 	"runtime/pprof"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/tty"
 )
 
 const (
@@ -24,7 +25,7 @@ func init() {
 
 func cpuProfile() func() {
 	if fCpuProfile != "" {
-		fmt.Fprintf(os.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
+		fmt.Fprintf(tty.Stderr, "Writing CPU profile to '%s'\n", fCpuProfile)
 
 		f, err := os.Create(fCpuProfile)
 		if err != nil {
@@ -40,7 +41,7 @@ func cpuProfile() func() {
 				panic(err)
 			}
 
-			fmt.Fprintf(os.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
+			fmt.Fprintf(tty.Stderr, "CPU profile written to '%s'\n", fCpuProfile)
 		}
 	}
 
@@ -49,7 +50,7 @@ func cpuProfile() func() {
 
 func memProfile() func() {
 	if fMemProfile != "" {
-		fmt.Fprintf(os.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
+		fmt.Fprintf(tty.Stderr, "Writing memory profile to '%s'\n", fMemProfile)
 
 		f, err := os.Create(fMemProfile)
 		if err != nil {
@@ -64,7 +65,7 @@ func memProfile() func() {
 			if err = f.Close(); err != nil {
 				panic(err)
 			}
-			fmt.Fprintf(os.Stderr, "Memory profile written to '%s'\n", fMemProfile)
+			fmt.Fprintf(tty.Stderr, "Memory profile written to '%s'\n", fMemProfile)
 		}
 	}
 

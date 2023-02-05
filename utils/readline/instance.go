@@ -5,6 +5,14 @@ import (
 	"sync"
 )
 
+var term *os.File = os.Stdout
+
+func SetTTY(tty *os.File) {
+	term = tty
+}
+
+var ForceCrLf = true
+
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
@@ -142,6 +150,7 @@ type Instance struct {
 	// event
 	evtKeyPress map[string]func(string, []rune, int) *EventReturn
 
+	//ForceCrLf          bool
 	EnableGetCursorPos bool
 }
 
@@ -149,8 +158,6 @@ type Instance struct {
 // defaults.
 func NewInstance() *Instance {
 	rl := new(Instance)
-
-	//GetTermWidth()
 
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
@@ -162,11 +169,11 @@ func NewInstance() *Instance {
 
 	rl.TempDirectory = os.TempDir()
 
-	//rl.EnableGetCursorPos = true
-
 	rl.MaxCacheSize = 256
 	rl.cacheHint.Init(rl)
 	rl.cacheSyntax.Init(rl)
+
+	//rl.ForceCrLf = true
 
 	return rl
 }

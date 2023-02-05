@@ -25,7 +25,7 @@ func SignalHandler(interactive bool) {
 				sigterm(interactive)
 
 			default:
-				os.Stderr.WriteString("Unhandled signal: " + sig.String())
+				tty.Stderr.WriteString("Unhandled signal: " + sig.String())
 			}
 		}
 	}()

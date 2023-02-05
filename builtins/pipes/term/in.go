@@ -2,10 +2,10 @@ package term
 
 import (
 	"errors"
-	"os"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/tty"
 )
 
 // Terminal: Standard In
@@ -24,9 +24,9 @@ func NewIn(dataType string) stdio.Io {
 }
 
 func backgroundRead(t *In) {
-	_, err := t.ReadFrom(os.Stdin)
+	_, err := t.ReadFrom(tty.Stdin)
 	if err != nil {
-		os.Stderr.WriteString("Error reading from STDIN: " + err.Error())
+		tty.Stderr.WriteString("Error reading from STDIN: " + err.Error())
 	}
 }
 
