@@ -61,8 +61,6 @@ details about specific hooks.
   JSON Lines (primitive)
 * [`num` (number)](types/num.md):
   Floating point number (primitive)
-* [`path` (string) ](types/path.md):
-  path data type
 * [`str` (string) ](types/str.md):
   string (primitive)
 * [`toml` ](types/toml.md):
