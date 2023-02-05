@@ -3,10 +3,8 @@ package readline
 import (
 	"bytes"
 	"os"
-	"os/signal"
 	"regexp"
 	"sync/atomic"
-	"syscall"
 )
 
 var rxMultiline = regexp.MustCompile(`[\r\n]+`)
@@ -19,15 +17,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	fd := int(os.Stdin.Fd())
 	state, err := MakeRaw(fd)
 
-	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, syscall.SIGWINCH)
-	go func() {
-		for range ch {
-			print("\r" + seqUp + seqClearScreenBelow + seqDown)
-			print(rl.prompt + string(rl.line))
-			rl.updateHelpers()
-		}
-	}()
+	rl.sigwinch()
 
 	rl.fdMutex.Unlock()
 
@@ -38,8 +28,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	defer func() {
 		rl.fdMutex.Lock()
 
-		signal.Stop(ch)
-		close(ch)
+		rl.closeSigwinch()
 
 		rl.Active = false
 		// return an error if Restore fails. However we don't want to return

@@ -11,7 +11,8 @@ import (
 type Instance struct {
 	fdMutex sync.Mutex
 
-	Active bool
+	Active        bool
+	closeSigwinch func()
 
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
