@@ -1,5 +1,5 @@
-//go:build windows && js
-// +build windows,js
+//go:build windows || js
+// +build windows js
 
 package readline
 
