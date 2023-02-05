@@ -4,5 +4,7 @@
 package readline
 
 func (rl *Instance) sigwinch() {
-	rl.closeSigwinch = func() {}
+	rl.closeSigwinch = func() {
+		// empty function because SIGWINCH isn't supported on these platforms
+	}
 }

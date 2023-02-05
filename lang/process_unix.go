@@ -26,7 +26,6 @@ func ttys(p *Process) {
 		if p.Stdout.IsTTY() {
 			ptyout, tty, err := pty.Open()
 			if err != nil {
-				//panic(err)
 				return
 			}
 
@@ -41,7 +40,6 @@ func ttys(p *Process) {
 
 			_, err = readline.MakeRaw(int(ptyout.Fd()))
 			if err != nil {
-				//panic(err)
 				return
 			}
 
