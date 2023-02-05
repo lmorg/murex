@@ -3,11 +3,6 @@
 
 package readline
 
-import (
-	"bytes"
-	"os/exec"
-)
-
 func previewFile(filename string) []byte {
 	return nil
 }

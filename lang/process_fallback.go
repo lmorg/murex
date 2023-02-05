@@ -4,13 +4,10 @@
 package lang
 
 import (
-	"io"
 	"os"
 
-	"github.com/creack/pty"
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/readline"
 )
 
 func ttys(p *Process) {
