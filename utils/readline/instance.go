@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+var term *os.File = os.Stdout
+
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
@@ -150,8 +152,6 @@ type Instance struct {
 func NewInstance() *Instance {
 	rl := new(Instance)
 
-	//GetTermWidth()
-
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
 	rl.MaxTabCompleterRows = 4
@@ -161,8 +161,6 @@ func NewInstance() *Instance {
 	rl.evtKeyPress = make(map[string]func(string, []rune, int) *EventReturn)
 
 	rl.TempDirectory = os.TempDir()
-
-	//rl.EnableGetCursorPos = true
 
 	rl.MaxCacheSize = 256
 	rl.cacheHint.Init(rl)

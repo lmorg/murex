@@ -197,7 +197,7 @@ func previewDraw(preview []string, size *previewSizeT) error {
 func (rl *Instance) writePreview(item string) {
 	if rl.ShowPreviews {
 		size, err := getPreviewXY()
-		if err != nil || size.Height < 25 || size.Width < 80 {
+		if err != nil || size.Height < 8 || size.Width < 25 {
 			rl.previewCache = nil
 			return
 		}
