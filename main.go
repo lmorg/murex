@@ -132,7 +132,6 @@ func runSource(filename string) {
 
 func startMurex() {
 	tty.CreatePTY()
-
 	lang.InitEnv()
 
 	// default config

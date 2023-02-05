@@ -2,6 +2,7 @@ package readline
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"regexp"
 	"sync/atomic"
@@ -22,7 +23,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.fdMutex.Unlock()
 
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("unable to modify fd %d: %s", fd, err.Error())
 	}
 
 	defer func() {

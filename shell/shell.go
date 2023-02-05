@@ -2,6 +2,7 @@ package shell
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 	"runtime"
 	"strings"
@@ -155,7 +156,7 @@ func ShowPrompt() {
 				lang.Exit(0)
 
 			default:
-				panic(err)
+				fmt.Fprint(os.Stderr, err.Error())
 			}
 		}
 
