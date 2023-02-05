@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 	"time"
 
@@ -18,8 +19,9 @@ import (
 )
 
 var (
-	buffer []byte
-	height int
+	buffer   []byte
+	bufMutex sync.Mutex
+	height   int
 )
 
 func ConfigRead() (interface{}, error) {
@@ -55,44 +57,43 @@ func EnableDisable(v bool) error {
 }
 
 func CreatePTY() error {
-	p, t, err := pty.Open()
+	pOut, tOut, err := pty.Open()
 	if err != nil {
-		return err
+		return fmt.Errorf("unable to open pty for stdout: %s", err.Error())
 	}
 
 	size, err := pty.GetsizeFull(os.Stdout)
 	if err != nil {
-		return err
+		return fmt.Errorf("unable to get tty size for stdout: %s", err.Error())
 	}
-	err = pty.Setsize(p, size)
+
+	err = pty.Setsize(pOut, size)
 	if err != nil {
-		return err
+		return fmt.Errorf("unable to set pty size for stdout: %s", err.Error())
 	}
+
 	height = int(size.Rows)
-	//_ = pty.InheritSize(os.Stdout, p)
+
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGWINCH)
 	go func() {
 		for range ch {
 			size, _ := pty.GetsizeFull(os.Stdout)
-			pty.Setsize(p, size)
+			pty.Setsize(pOut, size)
 			height = int(size.Rows)
-			//_ = pty.InheritSize(os.Stdout, p)
 		}
 	}()
 
-	_, err = readline.MakeRaw(int(p.Fd()))
+	_, err = readline.MakeRaw(int(pOut.Fd()))
 	if err != nil {
-		return err
+		return fmt.Errorf("unable to set put pty for stdout into 'raw' mode: %s", err.Error())
 	}
 
 	os.Stdout.WriteString(codes.ClearScreen + codes.Home)
-	Stdout, Stderr = p, p
-	readline.SetTTY(os.Stdout) // this doesn't behave as expected
-	//readline.SetTTY(p) // this doesn't behave as expected
+	Stdin, Stdout, Stderr = os.Stdin, pOut, pOut
 	readline.ForceCrLf = false
 	go func() {
-		ptyBuffer(os.Stdout, t)
+		ptyBuffer(os.Stdout, tOut)
 		signal.Stop(ch)
 		close(ch)
 	}()
@@ -103,7 +104,9 @@ func DestroyPty() {
 	_ = Stdout.Close()
 	Stdout, Stderr = os.Stdout, os.Stderr
 	height = 0
+	bufMutex.Lock()
 	buffer = []byte{}
+	bufMutex.Unlock()
 }
 
 func ptyBuffer(dst, src *os.File) {
@@ -138,6 +141,7 @@ func ptyBuffer(dst, src *os.File) {
 }
 
 func bufferWrite(b []byte) {
+	bufMutex.Lock()
 	buffer = append(buffer, b...)
 	var i, count int
 	for i = len(buffer) - 1; i != 0; i-- {
@@ -146,9 +150,11 @@ func bufferWrite(b []byte) {
 		}
 		if count == height {
 			buffer = buffer[i:]
+			bufMutex.Unlock()
 			return
 		}
 	}
+	bufMutex.Unlock()
 }
 
 func BufferRecall(prompt []byte, line string) {
@@ -174,5 +180,7 @@ func BufferRecall(prompt []byte, line string) {
 	_, _ = os.Stdout.WriteString(codes.Reset)
 	_, _ = os.Stdout.WriteString(codes.Home + codes.ClearScreenBelow)
 
+	bufMutex.Lock()
 	_, _ = os.Stdout.Write(buffer)
+	bufMutex.Unlock()
 }
