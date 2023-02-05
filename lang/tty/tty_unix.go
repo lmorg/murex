@@ -78,8 +78,8 @@ func CreatePTY() error {
 	signal.Notify(ch, syscall.SIGWINCH)
 	go func() {
 		for range ch {
-			size, _ := pty.GetsizeFull(os.Stdout)
-			pty.Setsize(pOut, size)
+			size, _ := pty.GetsizeFull(pOut)
+			pty.Setsize(os.Stdout, size)
 			height = int(size.Rows)
 		}
 	}()
