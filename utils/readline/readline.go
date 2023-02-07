@@ -14,7 +14,7 @@ var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 func (rl *Instance) Readline() (_ string, err error) {
 	rl.fdMutex.Lock()
 	rl.Active = true
-	fd := int(primary.Fd())
+	fd := int(replica.Fd())
 	state, err := MakeRaw(fd)
 
 	rl.sigwinch()

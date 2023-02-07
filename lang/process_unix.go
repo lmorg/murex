@@ -25,28 +25,35 @@ func ttys(p *Process) {
 
 		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
 		if p.Stdout.IsTTY() {
-			ptyout, ttyout, err := pty.Open()
+			primary, replica, err := pty.Open()
 			if err != nil {
 				return
 			}
 
-			_ = pty.InheritSize(tty.Stdout, ptyout)
+			_ = pty.InheritSize(tty.Stdout, primary)
 			ch := make(chan os.Signal, 1)
 			signal.Notify(ch, syscall.SIGWINCH)
 			go func() {
 				for range ch {
-					_ = pty.InheritSize(tty.Stdout, ptyout)
+					_ = pty.InheritSize(tty.Stdout, primary)
 				}
 			}()
-
-			_, err = readline.MakeRaw(int(ptyout.Fd()))
+			state, err := readline.MakeRaw(int(tty.Stdin.Fd()))
+			if err != nil {
+				return
+			}
+			_, err = readline.MakeRaw(int(primary.Fd()))
 			if err != nil {
 				return
 			}
 
-			p.ttyout = ptyout
+			p.ttyout = primary
 			go func() {
-				_, _ = io.Copy(p.Stdout, ttyout)
+				_, _ = io.Copy(replica, tty.Stdin)
+				readline.Restore(int(tty.Stdin.Fd()), state)
+			}()
+			go func() {
+				_, _ = io.Copy(p.Stdout, replica)
 				signal.Stop(ch)
 				close(ch)
 			}()

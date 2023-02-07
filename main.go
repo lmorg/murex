@@ -5,9 +5,7 @@ package main
 
 import (
 	"os"
-	"strings"
 
-	"github.com/lmorg/murex/app"
 	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -135,7 +133,7 @@ func runSource(filename string) {
 }
 
 func startMurex() {
-	if os.Getenv("MUREX_EXPERIMENTAL") != "" && strings.Contains(os.Getenv("SHELL"), app.Name) {
+	if os.Getenv("MUREX_EXPERIMENTAL") != "" && os.Getenv("MUREX_PID") == "" {
 		tty.CreatePTY()
 	}
 

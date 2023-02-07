@@ -57,6 +57,11 @@ func EnableDisable(v bool) error {
 }
 
 func CreatePTY() error {
+	/*state, err := readline.GetState(int(os.Stdin.Fd()))
+	if err != nil {
+		return fmt.Errorf("unable to get tty state: %s", err.Error())
+	}*/
+
 	primary, replica, err := pty.Open()
 	if err != nil {
 		return fmt.Errorf("unable to open pty: %s", err.Error())
@@ -71,8 +76,9 @@ func CreatePTY() error {
 	if err != nil {
 		return fmt.Errorf("unable to set pty size: %s", err.Error())
 	}
-
 	height = int(size.Rows)
+
+	//readline.Restore(int(primary.Fd()), state)
 
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGWINCH)
@@ -84,15 +90,23 @@ func CreatePTY() error {
 		}
 	}()
 
+	state, err := readline.MakeRaw(int(os.Stdin.Fd()))
+	if err != nil {
+		return fmt.Errorf("unable to put tty into 'raw' mode: %s", err.Error())
+	}
 	_, err = readline.MakeRaw(int(primary.Fd()))
 	if err != nil {
 		return fmt.Errorf("unable to put pty into 'raw' mode: %s", err.Error())
 	}
 
 	os.Stdout.WriteString(codes.ClearScreen + codes.Home)
-	Stdin, Stdout, Stderr = os.Stdin, primary, primary
+	Stdin, Stdout, Stderr = primary, primary, primary
 	readline.ForceCrLf = false
-	//readline.SetTTY(replica, primary)
+	readline.SetTTY(os.Stdout, primary)
+	go func() {
+		_, _ = io.Copy(replica, os.Stdin)
+		readline.Restore(int(os.Stdin.Fd()), state)
+	}()
 	go func() {
 		ptyBuffer(os.Stdout, replica)
 		signal.Stop(ch)
@@ -103,8 +117,8 @@ func CreatePTY() error {
 
 func DestroyPty() {
 	_ = Stdout.Close()
-	_ = Stdin.Close()
-	Stdout, Stderr = os.Stdout, os.Stderr
+	//_ = Stdin.Close()
+	Stdin, Stdout, Stderr = os.Stdin, os.Stdout, os.Stderr
 	height = 0
 	bufMutex.Lock()
 	buffer = []byte{}

@@ -11,7 +11,8 @@ var (
 )
 
 func SetTTY(primaryTTY, replicaTTY *os.File) {
-	primary, replica = primaryTTY, replicaTTY
+	primary = primaryTTY
+	replica = replicaTTY
 }
 
 var ForceCrLf = true
