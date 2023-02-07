@@ -3,7 +3,6 @@ package readline
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"regexp"
 	"sync/atomic"
 )
@@ -15,7 +14,7 @@ var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 func (rl *Instance) Readline() (_ string, err error) {
 	rl.fdMutex.Lock()
 	rl.Active = true
-	fd := int(term.Fd())
+	fd := int(primary.Fd())
 	state, err := MakeRaw(fd)
 
 	rl.sigwinch()
@@ -505,7 +504,7 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 
 		b := make([]byte, 1024*1024)
 
-		i, err := os.Stdin.Read(b)
+		i, err := read(b)
 		if err != nil {
 			return false
 		}

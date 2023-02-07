@@ -4,9 +4,9 @@
 package readline
 
 func print(s string) {
-	term.WriteString(s)
+	primary.WriteString(s)
 }
 
 func printErr(s string) {
-	term.WriteString(s)
+	primary.WriteString(s)
 }

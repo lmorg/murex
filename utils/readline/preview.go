@@ -31,7 +31,7 @@ type previewCacheT struct {
 }
 
 func getPreviewXY() (*previewSizeT, error) {
-	width, height, err := GetSize(int(term.Fd()))
+	width, height, err := GetSize(int(primary.Fd()))
 	if err != nil {
 		return nil, err
 	}

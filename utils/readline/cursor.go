@@ -6,7 +6,7 @@ import (
 )
 
 func leftMost() []byte {
-	fd := int(term.Fd())
+	fd := int(primary.Fd())
 	w, _, err := GetSize(fd)
 	if err != nil {
 		return []byte{'\r', '\n'}
@@ -42,7 +42,7 @@ func (rl *Instance) getCursorPos() (x int, y int) {
 
 	print(seqGetCursorPos)
 	b := make([]byte, 64)
-	i, err := term.Read(b)
+	i, err := read(b)
 	if err != nil {
 		return disable()
 	}
