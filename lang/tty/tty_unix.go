@@ -24,6 +24,10 @@ var (
 	height   int
 )
 
+func Enabled() bool {
+	return height > 0
+}
+
 func ConfigRead() (interface{}, error) {
 	return height > 0, nil
 }
@@ -57,11 +61,6 @@ func EnableDisable(v bool) error {
 }
 
 func CreatePTY() error {
-	/*state, err := readline.GetState(int(os.Stdin.Fd()))
-	if err != nil {
-		return fmt.Errorf("unable to get tty state: %s", err.Error())
-	}*/
-
 	primary, replica, err := pty.Open()
 	if err != nil {
 		return fmt.Errorf("unable to open pty: %s", err.Error())
@@ -78,8 +77,6 @@ func CreatePTY() error {
 	}
 	height = int(size.Rows)
 
-	//readline.Restore(int(primary.Fd()), state)
-
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGWINCH)
 	go func() {
@@ -90,23 +87,15 @@ func CreatePTY() error {
 		}
 	}()
 
-	state, err := readline.MakeRaw(int(os.Stdin.Fd()))
-	if err != nil {
-		return fmt.Errorf("unable to put tty into 'raw' mode: %s", err.Error())
-	}
 	_, err = readline.MakeRaw(int(primary.Fd()))
 	if err != nil {
 		return fmt.Errorf("unable to put pty into 'raw' mode: %s", err.Error())
 	}
 
 	os.Stdout.WriteString(codes.ClearScreen + codes.Home)
-	Stdin, Stdout, Stderr = primary, primary, primary
+	Stdin, Stdout, Stderr = os.Stdin, primary, primary
 	readline.ForceCrLf = false
-	readline.SetTTY(os.Stdout, primary)
-	go func() {
-		_, _ = io.Copy(replica, os.Stdin)
-		readline.Restore(int(os.Stdin.Fd()), state)
-	}()
+	readline.SetTTY(os.Stdout, os.Stdin)
 	go func() {
 		ptyBuffer(os.Stdout, replica)
 		signal.Stop(ch)

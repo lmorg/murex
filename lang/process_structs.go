@@ -28,9 +28,10 @@ type Process struct {
 	namedPipes         []string
 	Context            context.Context
 	Stdin              stdio.Io
+	ttyin              *os.File
 	Stdout             stdio.Io
 	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
-	ttyout             *os.File `json:"-"`
+	ttyout             *os.File
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement

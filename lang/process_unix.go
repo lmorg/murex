@@ -17,6 +17,7 @@ import (
 )
 
 func ttys(p *Process) {
+	p.ttyin = tty.Stdin
 	p.ttyout = tty.Stdout
 
 	if p.CCExists != nil && p.CCExists(p.Name.String()) {
@@ -24,6 +25,7 @@ func ttys(p *Process) {
 		p.CCErr.SetDataType(types.Generic)
 
 		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
+
 		if p.Stdout.IsTTY() {
 			primary, replica, err := pty.Open()
 			if err != nil {
@@ -38,20 +40,14 @@ func ttys(p *Process) {
 					_ = pty.InheritSize(tty.Stdout, primary)
 				}
 			}()
-			state, err := readline.MakeRaw(int(tty.Stdin.Fd()))
-			if err != nil {
-				return
-			}
+
 			_, err = readline.MakeRaw(int(primary.Fd()))
 			if err != nil {
 				return
 			}
 
+			p.ttyin = tty.Stdin
 			p.ttyout = primary
-			go func() {
-				_, _ = io.Copy(replica, tty.Stdin)
-				readline.Restore(int(tty.Stdin.Fd()), state)
-			}()
 			go func() {
 				_, _ = io.Copy(p.Stdout, replica)
 				signal.Stop(ch)

@@ -399,6 +399,12 @@ func deregisterProcess(p *Process) {
 	p.Stdout.Close()
 	p.Stderr.Close()
 
+	if p.ttyin != nil && int(p.ttyin.Fd()) != int(tty.Stdin.Fd()) {
+		err := p.ttyin.Close()
+		if err != nil {
+			tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+		}
+	}
 	if p.ttyout != nil && int(p.ttyout.Fd()) != int(tty.Stdout.Fd()) {
 		err := p.ttyout.Close()
 		if err != nil {
