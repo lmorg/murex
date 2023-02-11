@@ -4,15 +4,16 @@
 package shell
 
 import (
-	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/lmorg/murex/lang/tty"
 )
 
 // Handler is an internal function to capture and handle OS signals (eg SIGTERM).
 func SignalHandler(interactive bool) {
 	signalRegister(interactive)
-	
+
 	go func() {
 		for {
 			sig := <-signalChan

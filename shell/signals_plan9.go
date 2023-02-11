@@ -4,9 +4,10 @@
 package shell
 
 import (
-	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/lmorg/murex/lang/tty"
 )
 
 // SignalHandler is an internal function to capture and handle OS signals (eg SIGTERM).

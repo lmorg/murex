@@ -1,5 +1,5 @@
-//go:build !windows && !plan && !js
-// +build !windows,!plan,!js
+//go:build !windows && !plan9 && !js
+// +build !windows,!plan9,!js
 
 package tty
 

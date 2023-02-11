@@ -3,7 +3,16 @@
 
 package tty
 
+import (
+	"errors"
+	"runtime"
+)
+
 const errMessage = "This isn't supported on " + runtime.GOOS
+
+func Enabled() bool {
+	return false
+}
 
 func CreatePTY() error {
 	return errors.New(errMessage)

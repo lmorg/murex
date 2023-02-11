@@ -4,9 +4,8 @@
 package lang
 
 import (
-	"os"
-
 	"github.com/lmorg/murex/builtins/pipes/streams"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 )
 
