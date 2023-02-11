@@ -52,6 +52,7 @@ import (
 
 	// Data types:
 	_ "github.com/lmorg/murex/builtins/types/boolean"    // boolean data type
+	_ "github.com/lmorg/murex/builtins/types/columns"    // programmatic columns
 	_ "github.com/lmorg/murex/builtins/types/generic"    // generic data type
 	_ "github.com/lmorg/murex/builtins/types/json"       // JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonconcat" // concatenated JSON data type

@@ -61,6 +61,9 @@ func execute(p *Process) error {
 		//ctxCancel()
 		err := cmd.Process.Signal(syscall.SIGTERM)
 		if err != nil {
+			if err.Error() == os.ErrProcessDone.Error() {
+				return
+			}
 			name, _ := p.Args()
 			tty.Stderr.WriteString(
 				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", name, err.Error()))
@@ -83,7 +86,7 @@ func execute(p *Process) error {
 		cmd.Stdin = new(null.Null)
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
-		cmd.Stdin = tty.Stdin
+		cmd.Stdin = p.ttyin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
@@ -91,9 +94,10 @@ func execute(p *Process) error {
 	// Define STANDARD OUT (fd 1)
 	// ***
 
-	if p.Stdout.IsTTY() && p.ttyout != nil {
+	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
-		osSyscalls(cmd, int(p.ttyout.Fd()))
+		//osSyscalls(cmd, int(p.ttyout.Fd()))
+		osSyscalls(cmd, int(os.Stdin.Fd()))
 		cmd.Stdout = p.ttyout
 	} else {
 		// ....otherwise we just treat the program as a regular piped util

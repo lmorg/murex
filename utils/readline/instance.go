@@ -5,10 +5,14 @@ import (
 	"sync"
 )
 
-var term *os.File = os.Stdout
+var (
+	primary *os.File = os.Stdout
+	replica *os.File = os.Stdin
+)
 
-func SetTTY(tty *os.File) {
-	term = tty
+func SetTTY(primaryTTY, replicaTTY *os.File) {
+	primary = primaryTTY
+	replica = replicaTTY
 }
 
 var ForceCrLf = true

@@ -11,8 +11,8 @@ import (
 // noGlobCmds is a list of all the functions considered unsafe to expand with
 // globbing
 var noGlobCmds = []string{
-	"rx", "g", "cast", "format", "select", "regexp",
-	"find", "[", "[[",
+	"rx", "!rx", "g", "!g", "cast", "format", "select", "!regexp", "regexp",
+	"find", "[", "![", "[[",
 	lang.ExpressionFunctionName,
 }
 

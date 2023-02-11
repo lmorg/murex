@@ -11,6 +11,8 @@ import (
 )
 
 func ttys(p *Process) {
+	p.ttyin = tty.Stdin
+
 	p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
 	p.ttyout = tty.Stdout
 

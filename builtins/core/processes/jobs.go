@@ -22,7 +22,6 @@ func cmdJobs(p *lang.Process) error {
 		return err
 	}
 
-	//if p.Stdout.IsTTY() {
 	b, err := lang.MarshalData(p, dtLine, []interface{}{
 		"PID",
 		"State",
@@ -37,7 +36,6 @@ func cmdJobs(p *lang.Process) error {
 	if err != nil {
 		return err
 	}
-	//}
 
 	procs := lang.GlobalFIDs.ListAll()
 	for _, process := range procs {

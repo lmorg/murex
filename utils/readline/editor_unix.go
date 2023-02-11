@@ -24,9 +24,9 @@ func (rl *Instance) launchEditor(multiline []rune) ([]rune, error) {
 
 	cmd := exec.Command(editor, name)
 
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = term
-	cmd.Stderr = term
+	cmd.Stdin = replica
+	cmd.Stdout = primary
+	cmd.Stderr = primary
 
 	if err := cmd.Start(); err != nil {
 		return multiline, err

@@ -4,6 +4,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/lmorg/murex/app/whatsnew"
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -131,7 +133,9 @@ func runSource(filename string) {
 }
 
 func startMurex() {
-	tty.CreatePTY()
+	if os.Getenv("MUREX_EXPERIMENTAL") != "" && os.Getenv("MUREX_PID") == "" {
+		tty.CreatePTY()
+	}
 
 	lang.InitEnv()
 
