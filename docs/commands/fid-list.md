@@ -47,6 +47,7 @@ operating systems default process viewer (eg `ps`) to list _murex_ functions.
 This is where `fid-list` comes into play. It is used to view all the functions
 and processes that are managed by the current _murex_ session. That would
 include:
+
 * any aliases within _murex_
 * public and private _murex_ functions
 * builtins (eg `fid-list` is a builtin command)
