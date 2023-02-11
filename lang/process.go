@@ -399,24 +399,28 @@ func deregisterProcess(p *Process) {
 	p.Stdout.Close()
 	p.Stderr.Close()
 
-	if p.ttyin != nil && int(p.ttyin.Fd()) != int(tty.Stdin.Fd()) {
-		err := p.ttyin.Close()
-		if err != nil {
-			tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+	// this causes `config` to file when switching tty buffering on and off
+	/*if p.ttyin != nil {
+		fd := int(p.ttyin.Fd())
+		if fd != int(tty.Stdin.Fd()) && fd != int(os.Stdin.Fd()) {
+			err := p.ttyin.Close()
+			if err != nil {
+				tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+			}
 		}
 	}
-	if p.ttyout != nil && int(p.ttyout.Fd()) != int(tty.Stdout.Fd()) {
-		err := p.ttyout.Close()
-		if err != nil {
-			tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+	if p.ttyout != nil {
+		fd := int(p.ttyin.Fd())
+		if fd != int(tty.Stdout.Fd()) && fd != int(os.Stdout.Fd()) {
+			err := p.ttyout.Close()
+			if err != nil {
+				tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+			}
 		}
-	}
+	}*/
 
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
-		/*if p.Next == nil {
-			//debug.Json("deregisterProcess (p.Next == nill)", p)
-		}*/
 		ForegroundProc.Set(p.Next)
 	}
 
@@ -424,6 +428,4 @@ func deregisterProcess(p *Process) {
 		p.State.Set(state.AwaitingGC)
 		GlobalFIDs.Deregister(p.Id)
 	}()
-
-	//debug.Json("deregisterProcess (end)", p)
 }

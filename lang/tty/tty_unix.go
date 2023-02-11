@@ -43,7 +43,7 @@ func ConfigWrite(v interface{}) error {
 		}
 		return EnableDisable(v.(bool))
 	default:
-		return fmt.Errorf("expectig a bool, instead got %T", t)
+		return fmt.Errorf("expecting a bool, instead got %T", t)
 	}
 }
 
@@ -68,7 +68,7 @@ func CreatePTY() error {
 
 	size, err := pty.GetsizeFull(os.Stdout)
 	if err != nil {
-		return fmt.Errorf("unable to get tty sizet: %s", err.Error())
+		return fmt.Errorf("unable to get tty size: %s", err.Error())
 	}
 
 	err = pty.Setsize(primary, size)
@@ -135,7 +135,7 @@ func ptyBuffer(dst, src *os.File) {
 			return
 		}
 		if written != i {
-			if _, err := os.Stderr.WriteString(fmt.Sprintf("write mistmatch: written %d of %d", written, i)); err != nil {
+			if _, err := os.Stderr.WriteString(fmt.Sprintf("write mismatch: written %d of %d", written, i)); err != nil {
 				panic(err)
 			}
 			return

@@ -133,7 +133,7 @@ func runSource(filename string) {
 }
 
 func startMurex() {
-	if os.Getenv("MUREX_EXPERIMENTAL") != "" && os.Getenv("MUREX_PID") == "" {
+	if os.Getenv("MUREX_EXPERIMENTAL") != "" {
 		tty.CreatePTY()
 	}
 
