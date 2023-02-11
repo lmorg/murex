@@ -105,7 +105,7 @@ func CreatePTY() error {
 }
 
 func DestroyPty() {
-	_ = Stdout.Close()
+	//_ = Stdout.Close()
 	//_ = Stdin.Close()
 	Stdin, Stdout, Stderr = os.Stdin, os.Stdout, os.Stderr
 	height = 0
@@ -182,10 +182,17 @@ func BufferRecall(prompt []byte, line string) {
 	Stdout.WriteString(codes.Reset)
 	Stdout.Write([]byte{'\r', '\n'})
 
+	// first pass (to reduce flicker)
+	_, _ = os.Stdout.WriteString(codes.Reset)
+	_, _ = os.Stdout.WriteString(codes.Home)
+
+	bufMutex.Lock()
+	_, _ = os.Stdout.Write(buffer)
+
+	// second pass (to clear noise)
 	_, _ = os.Stdout.WriteString(codes.Reset)
 	_, _ = os.Stdout.WriteString(codes.Home + codes.ClearScreenBelow)
 
-	bufMutex.Lock()
 	_, _ = os.Stdout.Write(buffer)
 	bufMutex.Unlock()
 }
