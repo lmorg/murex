@@ -64,3 +64,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simply way to build a JSON array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [create-array](../parser/create-array.md):
+  

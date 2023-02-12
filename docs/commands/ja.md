@@ -10,6 +10,9 @@ _murex_ has a pretty sophisticated builtin for generating JSON arrays.
 It works a little bit like Bash's `{1..9}` syntax but includes a few
 additional nifty features.
 
+**Please note that while this builtin is not marked for deprecation, it has
+been superseded by the `%[]` tokens.** ([read more](../parser/create-array.md))
+
 ## Usage
 
     ja: [start..end] -> <stdout>
@@ -65,3 +68,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [create-array](../parser/create-array.md):
+  

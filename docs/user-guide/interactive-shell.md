@@ -238,60 +238,19 @@ displayed then _murex_ can fallback to a default **hint text** status. This
 default is a user defined function. At time of writing this document the author
 has the following function defined:
 
-    » config: get shell hint-text-func
-    {
+    config: set shell hint-text-func {
         trypipe <!null> {
             git status --porcelain -b -> set gitstatus
-            #$gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
-            $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /' -> set gitbranch
-            let gitchanges=${ out $gitstatus -> sed 1d -> wc -l }
-            !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
-            (Git{BLUE}: $gitbranch ($gitchanges pending). )
+            $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /'
         }
         catch {
-            ({YELLOW}Git{BLUE}: Not a git repository. )
-        }
-    
-        if { $SSH_AGENT_PID } then {
-            ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
-        } else {
-            ({RED}ssh-agent{BLUE}: No env set. )
-        }
-    
-        if { pgrep: vpnc } then {
-            ({YELLOW}VPN{BLUE}: vpnc is active. )
-        }
-    
-        if { ps aux -> regexp m/openvpn --errors-to-stderr --log/ } then {
-            ({YELLOW}VPN{BLUE}: openvpn is active. )
-        }
-    
-        trypipe <!null> {
-            open: main.tf -> format json -> [ terraform ] -> [ 0 ] -> [ required_version ] -> sed -r 's/\s0\./ /' -> set tfmod
-            terraform: version -> head -n1 -> regexp (f/Terraform v0\.([0-9.]+)$) -> set tfver
-            if { = tfmod >= tfver } then { ({GREEN}) } else { ({RED}) }
-            (Terraform{BLUE}: $tfver; required $tfmod. )
-        }
-    
-        if { $AWS_SESSION_TOKEN } then {
-            set aws_expiration
-            set int date=${ date +%s }
-    
-            if { os linux } then {
-                set int aws_expiration=${ date -d $AWS_SESSION_EXPIRATION +%s }
-            } else {
-                set int aws_expiration=${ date -j -f "%FT%R:%SZ" $AWS_SESSION_EXPIRATION +%s }
-            }
-    
-            = (($aws_expiration-$date)/60) -> format int -> set aws_session_time
-            if { = aws_session_time < 1 } then { ({RED}) } else { ({GREEN}) }
-            (awscon{BLUE}: $AWS_SESSION_NAME => $aws_session_time mins. )
+            out "Not a git repository."
         }
     }
     
 ...which produces a colorized status that looks something like the following:
 
-    Git: develop => origin/develop [ahead 1] (9 pending). ssh-agent: 34607.
+    develop => origin/develop
     
 #### Disabling Hint Text
 
