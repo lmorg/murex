@@ -52,7 +52,6 @@ find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
 sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;
-        0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;' \
         README.html
 

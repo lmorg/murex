@@ -18,8 +18,10 @@ commands and such like:
 2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to _murex_'s.
 
-3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-   on the core builtins.
+3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
+
+4. [Syntax](./GUIDE.parser.md), lists tokens and other syntactic sugar
+   supported by _murex_'s parser.
 
 ## Pages
 
@@ -31,8 +33,6 @@ commands and such like:
   Overview of how code blocks are parsed
 * [FileRef](user-guide/fileref.md):
   How to track what code was loaded and from where
-* [FileRef](user-guide/terminal-keys.md):
-  A list of all the terminal hotkeys and their uses
 * [Modules and Packages](user-guide/modules.md):
   An introduction to _murex_ modules and packages
 * [Murex Named Pipes](user-guide/namedpipes.md):
@@ -47,6 +47,8 @@ commands and such like:
   Overview of the different schedulers (or 'run modes') in _murex_
 * [Spellcheck](user-guide/spellcheck.md):
   How to enable inline spellchecking
+* [Terminal Hotkeys](user-guide/terminal-keys.md):
+  A list of all the terminal hotkeys and their uses
 * [Variable and Config Scoping](user-guide/scoping.md):
   How scoping works within _murex_
 * [_murex_ Profile Files](user-guide/profile.md):
