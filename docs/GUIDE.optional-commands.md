@@ -14,7 +14,7 @@ not ready to ship with _murex_.
 
 ### Language Guides
 
-1. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
+1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
    on the core builtins.
 
 2. [Language Tour](GUIDE.quick-start.md), which is an introduction into

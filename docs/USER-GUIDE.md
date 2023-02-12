@@ -18,8 +18,10 @@ commands and such like:
 2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to _murex_'s.
 
-3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-   on the core builtins.
+3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
+
+4. [Syntax](./GUIDE.parser.md), lists tokens and other syntactic sugar
+   supported by _murex_'s parser.
 
 ## Pages
 

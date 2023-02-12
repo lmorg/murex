@@ -14,8 +14,7 @@ This section is a glossary of _murex_ tokens and parser behavior.
 2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
    table comparing Bash syntax to _murex_'s.
 
-3. [GUIDE.builtin-functions](./GUIDE.builtin-functions.md), for docs
-   on the core builtins.
+3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
 
 ### _murex_'s Source Code
 
