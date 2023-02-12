@@ -54,7 +54,6 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 
 	if rl.hintY > 3 {
 		rl.hintY = 3
-		//hintText = hintText[:(rl.termWidth*3)-4] + "..."
 		hintText = hintText[:(rl.termWidth*3)-2] + "…"
 	} else {
 		padding := (rl.hintY * rl.termWidth) - len(hintText)

@@ -9,6 +9,7 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/null"
 	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -60,8 +61,11 @@ func execute(p *Process) error {
 		//ctxCancel()
 		err := cmd.Process.Signal(syscall.SIGTERM)
 		if err != nil {
+			if err.Error() == os.ErrProcessDone.Error() {
+				return
+			}
 			name, _ := p.Args()
-			os.Stderr.WriteString(
+			tty.Stderr.WriteString(
 				fmt.Sprintf("\nError sending SIGTERM to `%s`: %s\n", name, err.Error()))
 		}
 	}
@@ -82,7 +86,7 @@ func execute(p *Process) error {
 		cmd.Stdin = new(null.Null)
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundTrue, envDataType+p.Stdin.GetDataType())
 	default:
-		cmd.Stdin = os.Stdin
+		cmd.Stdin = p.ttyin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
 
@@ -92,8 +96,9 @@ func execute(p *Process) error {
 
 	if p.Stdout.IsTTY() {
 		// If Stdout is a TTY then set the appropriate syscalls to allow the calling program to own the TTY....
-		osSyscalls(cmd)
-		cmd.Stdout = os.Stdout
+		//osSyscalls(cmd, int(p.ttyout.Fd()))
+		osSyscalls(cmd, int(os.Stdin.Fd()))
+		cmd.Stdout = p.ttyout
 	} else {
 		// ....otherwise we just treat the program as a regular piped util
 		cmd.Stdout = p.Stdout
@@ -110,7 +115,7 @@ func execute(p *Process) error {
 	//
 	//     config set proc force-tty true
 	if p.Stderr.IsTTY() && forceTTY(p) {
-		cmd.Stderr = os.Stderr
+		cmd.Stderr = tty.Stderr
 	} else {
 		cmd.Stderr = p.Stderr
 	}
@@ -122,7 +127,7 @@ func execute(p *Process) error {
 	/*var failedPipe bool
 	mxdtR, mxdtW, err := os.Pipe()
 	if err != nil {
-		os.Stderr.WriteString("unable to create murex data type output file for external process: " + err.Error() + "\n")
+		tty.Stderr.WriteString("unable to create murex data type output file for external process: " + err.Error() + "\n")
 		failedPipe = true
 		mxdtR = new(os.File)
 		mxdtW = new(os.File)
@@ -175,7 +180,7 @@ func execute(p *Process) error {
 	p.Exec.Set(cmd.Process.Pid, cmd)
 
 	/*if err := mxdtW.Close(); err != nil {
-		os.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
+		tty.Stderr.WriteString("error closing murex data type output file write pipe:" + err.Error() + "\n")
 	}*/
 
 	if err := cmd.Wait(); err != nil {

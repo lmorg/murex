@@ -230,7 +230,7 @@ func TestParseBlockLogicOperators(t *testing.T) {
 	tests := []test.MurexTest{
 		{
 			Block:   `out 1 && out 2 && false && out 3`,
-			Stdout:  "1\n2\nfalse\n",
+			Stdout:  "1\n2\nfalse",
 			ExitNum: 1,
 		},
 		{
@@ -252,7 +252,7 @@ func TestParseBlockLogicOperators(t *testing.T) {
 		/////
 		{
 			Block:   `out 1 && out 2 && true && out 3`,
-			Stdout:  "1\n2\ntrue\n3\n",
+			Stdout:  "1\n2\ntrue3\n",
 			ExitNum: 0,
 		},
 		{

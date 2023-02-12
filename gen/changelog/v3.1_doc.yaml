@@ -1,0 +1,53 @@
+- DocumentID: v3.1
+  Title: >-
+    What's new in murex v3.1
+  CategoryID: changelog
+  DateTime: 2023-02-12 21:22
+  Summary: >-
+    This release includes mostly bug fixes and new experimental features which are opt into. To enable all experimental features, set the environmental variable `MUREX_EXPERIMENTAL` to any value. Or you can enable specific features individually via `config`
+  Description: |-
+    Breaking Changes:
+
+    * None
+    
+    Features:
+
+    * `default` statement added to `switch` (this will deprecate `catch`, albeit `catch` will remain supported for compatibility)
+
+    * Option to change start directory: `config: set shell start-directory $path` (where $path is the working directory you wish to start the shell in)
+
+    * `onCommandCompletion` event no spawns a pty. This allows capturing of stdout while still presenting a tty to the executing process
+
+    * EXPERIMENTAL: preview files. This can be enabled via `config: set shell preview-enabled true`
+
+    * EXPERIMENTAL: preview images. This can be enabled via `config: set shell preview-images true`
+
+    * EXPERIMENTAL: tty buffer. This can be enabled via `config: set shell tty-buffer-enabled true`
+
+    * `ctrl`+`r` has been tweaked to make it more user friendly
+
+    * Long overdue SIGWINCH signal handler to reflow after terminal resized
+
+    * Lots of improvements to documentation
+
+    Non-User Facing / Maintenance Changes
+
+    * none
+    
+    Bug Fixes:
+
+    * re-added `columns` data-type to fix `jobs` builtin
+
+    * added bang alternatives to the glob exception list
+
+    * added missing support for `&&` tokens in expressions
+
+    * `![]` can now produce empty maps
+
+    * fixed regression bug in file pipe mutex
+
+    * fixed missing bounds check in statement parser
+
+  Related:
+    - user-guide/rosetta-stone
+    - commands/switch

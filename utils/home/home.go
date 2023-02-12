@@ -4,9 +4,9 @@
 package home
 
 import (
-	"os"
 	"os/user"
 
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -18,7 +18,7 @@ var MyDir string
 func init() {
 	usr, err := user.Current()
 	if err != nil {
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		tty.Stderr.WriteString(err.Error() + utils.NewLineString)
 		MyDir = consts.PathSlash
 		return
 	}

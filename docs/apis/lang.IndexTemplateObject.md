@@ -301,14 +301,14 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 			}
 		}
 
-		if len(objArray) > 0 {
-			b, err := marshaller(objArray)
-			if err != nil {
-				return err
-			}
-			p.Stdout.Writeln(b)
+		//if len(objArray) > 0 {
+		b, err := marshaller(objArray)
+		if err != nil {
+			return err
 		}
-		return nil
+		_, err = p.Stdout.Writeln(b)
+		//}
+		return err
 
 	case map[string]interface{}:
 		objMap := make(map[string]interface{})
@@ -327,13 +327,13 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 			}
 		}
 
-		if len(objMap) > 0 {
-			b, err := marshaller(objMap)
-			if err != nil {
-				return err
-			}
-			p.Stdout.Writeln(b)
+		//if len(objMap) > 0 {
+		b, err := marshaller(objMap)
+		if err != nil {
+			return err
 		}
+		p.Stdout.Writeln(b)
+		//}
 		return nil
 
 	case map[interface{}]interface{}:
@@ -354,14 +354,14 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 			}
 		}
 
-		if len(objMap) > 0 {
-			b, err := marshaller(objMap)
-			if err != nil {
-				return err
-			}
-			p.Stdout.Writeln(b)
+		//if len(objMap) > 0 {
+		b, err := marshaller(objMap)
+		if err != nil {
+			return err
 		}
-		return nil
+		_, err = p.Stdout.Writeln(b)
+		//}
+		return err
 
 	default:
 		return errors.New("object cannot be !indexed")

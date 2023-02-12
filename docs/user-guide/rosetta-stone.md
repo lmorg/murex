@@ -89,6 +89,8 @@ if you want to learn more about shell scripting in _murex_.
   Redirects STDOUT to a file and append its contents
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
+* [FileRef](../user-guide/terminal-keys.md):
+  A list of all the terminal hotkeys and their uses
 * [Murex Named Pipes](../user-guide/namedpipes.md):
   A detailed breakdown of named pipes in _murex_
 * [Or (`||`) Logical Operator](../parser/logical-or.md):

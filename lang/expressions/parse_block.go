@@ -83,7 +83,7 @@ func (tree *ParserT) preParser() (int, error) {
 	}
 
 	if stErr == nil && !tree.statement.asStatement &&
-		len(tree.statement.parameters) > 0 && tree.statement.parameters[0][0] == '=' {
+		len(tree.statement.parameters) > 0 && len(tree.statement.parameters[0]) > 0 && tree.statement.parameters[0][0] == '=' {
 		// i _still_ think this is probably an expression
 		return 0, expErr
 	}

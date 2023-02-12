@@ -32,8 +32,9 @@ func NewTee(primary stdio.Io) (primaryTee *Tee, secondaryTee *Stdin) {
 }
 
 // IsTTY calls the primary STDOUT stream in tee to see if it's a TTY
-// func (tee *Tee) IsTTY() bool { retur-n tee.primary.IsTTY() }
-func (tee *Tee) IsTTY() bool { return false }
+func (tee *Tee) IsTTY() bool {
+	return tee.primary.IsTTY()
+}
 
 // Stats is stored against the primary STDOUT stream in tee
 func (tee *Tee) Stats() (uint64, uint64) {

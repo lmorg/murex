@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 // Package peercred is an easy to use wrapper around the Linux
 // SO_PEERCRED socket option on Unix domain sockets.  It degrades
 // gracefully with an unsupported error on other operating systems.

@@ -3,6 +3,7 @@ package lang
 import (
 	"context"
 	"fmt"
+	"os"
 	"sync"
 	"time"
 
@@ -27,8 +28,10 @@ type Process struct {
 	namedPipes         []string
 	Context            context.Context
 	Stdin              stdio.Io
+	ttyin              *os.File
 	Stdout             stdio.Io
 	stdoutOldPtr       stdio.Io // only used when stdout is a tmp named pipe
+	ttyout             *os.File
 	Stderr             stdio.Io
 	ExitNum            int
 	Forks              *ForkManagement
@@ -125,11 +128,6 @@ func (p *Process) HasTerminated() (state bool) {
 
 // HasCancelled is a wrapper function around context because it's a pretty ugly API
 func (p *Process) HasCancelled() (state bool) {
-	/*if p.Context == nil {
-		fmt.Printf("(nil ctx %s %d", p.Name.String(), p.Id)
-		return false
-	}*/
-
 	select {
 	case <-p.Context.Done():
 		return true

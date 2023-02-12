@@ -65,19 +65,7 @@ var orderOfOperations = []symbols.Exp{
 }
 
 func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
-	/*defer func() {
-		if err := recover(); err != nil {
-			err = fmt.Errorf("panic caught: %v\nExpression: %s\nnode: %d\nAST: %s",
-				err,
-				string(tree.expression),
-				tree.astPos,
-				json.LazyLoggingPretty(tree.Dump()))
-
-		}
-	}()*/
-
 	for tree.astPos = 0; tree.astPos < len(tree.ast); tree.astPos++ {
-		//fmt.Println(tree.astPos, json.LazyLogging(tree.Dump()))
 		node := tree.ast[tree.astPos]
 
 		if node.key < order {

@@ -2,7 +2,7 @@ package readline
 
 import (
 	"bytes"
-	"os"
+	"fmt"
 	"regexp"
 	"sync/atomic"
 )
@@ -14,23 +14,30 @@ var rxMultiline = regexp.MustCompile(`[\r\n]+`)
 func (rl *Instance) Readline() (_ string, err error) {
 	rl.fdMutex.Lock()
 	rl.Active = true
-	fd := int(os.Stdin.Fd())
-	state, err := MakeRaw(fd)
+
+	state, err := MakeRaw(int(replica.Fd()))
+	rl.sigwinch()
+
 	rl.fdMutex.Unlock()
 
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("unable to modify fd %d: %s", replica.Fd(), err.Error())
 	}
+
 	defer func() {
 		rl.fdMutex.Lock()
+
+		rl.closeSigwinch()
+
 		rl.Active = false
 		// return an error if Restore fails. However we don't want to return
 		// `nil` if there is no error because there might be a CtrlC or EOF
 		// that needs to be returned
-		r := Restore(fd, state)
+		r := Restore(int(replica.Fd()), state)
 		if r != nil {
 			err = r
 		}
+
 		rl.fdMutex.Unlock()
 	}()
 
@@ -76,9 +83,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			// clear the cache when the line is cleared
 			rl.cacheHint.Init(rl)
 			rl.cacheSyntax.Init(rl)
-		} /*else if rl.line[0] == 16 { // fix bug editing pasted lines
-			//rl.line = rl.line[1:]
-		}*/
+		}
 
 		go delayedSyntaxTimer(rl, atomic.LoadInt32(&rl.delayedSyntaxCount))
 		rl.viUndoSkipAppend = false
@@ -392,6 +397,14 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
+	case seqPageUp:
+		rl.previewPageUp()
+		return
+
+	case seqPageDown:
+		rl.previewPageDown()
+		return
+
 	default:
 		if rl.modeTabFind {
 			return
@@ -488,7 +501,7 @@ func (rl *Instance) allowMultiline(data []byte) bool {
 
 		b := make([]byte, 1024*1024)
 
-		i, err := os.Stdin.Read(b)
+		i, err := read(b)
 		if err != nil {
 			return false
 		}

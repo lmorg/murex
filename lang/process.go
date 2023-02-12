@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"strings"
 	"time"
 
@@ -13,6 +12,7 @@ import (
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/pipes"
 	"github.com/lmorg/murex/lang/state"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansititle"
@@ -168,11 +168,7 @@ func createProcess(p *Process, isMethod bool) {
 		}
 	}
 
-	if p.CCExists != nil && p.CCExists(p.Name.String()) {
-		p.Stdout, p.CCOut = streams.NewTee(p.Stdout)
-		p.Stderr, p.CCErr = streams.NewTee(p.Stderr)
-		p.CCErr.SetDataType(types.Generic)
-	}
+	ttys(p)
 
 	p.Stdout.Open()
 	p.Stderr.Open()
@@ -258,7 +254,7 @@ executeProcess:
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {
 			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
-			os.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
+			tty.Stdout.WriteString("# " + name + `("` + params + `");` + utils.NewLineString)
 		}
 
 		if tmux.(bool) {
@@ -403,11 +399,28 @@ func deregisterProcess(p *Process) {
 	p.Stdout.Close()
 	p.Stderr.Close()
 
+	// this causes `config` to file when switching tty buffering on and off
+	/*if p.ttyin != nil {
+		fd := int(p.ttyin.Fd())
+		if fd != int(tty.Stdin.Fd()) && fd != int(os.Stdin.Fd()) {
+			err := p.ttyin.Close()
+			if err != nil {
+				tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+			}
+		}
+	}
+	if p.ttyout != nil {
+		fd := int(p.ttyin.Fd())
+		if fd != int(tty.Stdout.Fd()) && fd != int(os.Stdout.Fd()) {
+			err := p.ttyout.Close()
+			if err != nil {
+				tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
+			}
+		}
+	}*/
+
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
-		/*if p.Next == nil {
-			//debug.Json("deregisterProcess (p.Next == nill)", p)
-		}*/
 		ForegroundProc.Set(p.Next)
 	}
 
@@ -415,6 +428,4 @@ func deregisterProcess(p *Process) {
 		p.State.Set(state.AwaitingGC)
 		GlobalFIDs.Deregister(p.Id)
 	}()
-
-	//debug.Json("deregisterProcess (end)", p)
 }

@@ -311,6 +311,9 @@ notReserved:
 		err   error
 	)
 
+	/*if name == "TestBug507" {
+		panic(fmt.Sprintf("value of value (%s) == '%v' (%T, %s)", name, value, value, dataType))
+	}*/
 	switch v := value.(type) {
 	case float64, int, bool, nil:
 		s, err = varConvertPrimitive(value)

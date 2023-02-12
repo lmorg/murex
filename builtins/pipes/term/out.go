@@ -4,9 +4,8 @@
 package term
 
 import (
-	"os"
-
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -42,7 +41,7 @@ func (t *Out) SetDataType(dt string) {
 	f := os.NewFile(3, "dt")
 	_, err := f.WriteString(dt + "\n")
 	if err != nil && debug.Enabled {
-		os.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
+		tty.Stderr.WriteString("Error writing data type: " + err.Error() + "\n")
 	}
 
 	OutSetDataTypeIPC = false
@@ -55,9 +54,9 @@ func (t *Out) Write(b []byte) (i int, err error) {
 	t.bWritten += uint64(len(b))
 	t.mutex.Unlock()
 
-	i, err = os.Stdout.Write(b)
+	i, err = tty.Stdout.Write(b)
 	if err != nil {
-		os.Stderr.WriteString(err.Error())
+		tty.Stderr.WriteString(err.Error())
 	}
 
 	return

@@ -10,10 +10,10 @@ const Name = "murex"
 // Version number of $SHELL
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
 const (
-	version  = "%d.%d.%d"
+	version  = "%d.%d.%d BETA"
 	Major    = 3
-	Minor    = 0
-	Revision = 9310
+	Minor    = 1
+	Revision = 3100
 )
 
 var Version string

@@ -30,6 +30,10 @@ var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
 func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType) {
 	var prefix string
 
+	if pos < 0 {
+		return "", []string{}, nil, readline.TabDisplayGrid
+	}
+
 	if len(line) > pos-1 {
 		line = line[:pos]
 	}
@@ -50,9 +54,6 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 	Prompt.MaxTabCompleterRows = rows.(int)
 
 	switch {
-	case len(line) == 0:
-		autocompleteHistoryLine(&act)
-
 	case pt.Variable != "":
 		if pt.VarLoc < len(line) {
 			prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
@@ -76,6 +77,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		autocompleteHistoryHat(&act)
 
 	case pt.ExpectFunc:
+		if len(line) == 0 {
+			Prompt.ForceHintTextUpdate("Tip: press [ctrl]+r to recall previously used command lines")
+		}
 		go autocomplete.UpdateGlobalExeList()
 
 		if pt.Loc < len(line) {
@@ -185,20 +189,35 @@ func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
 	autocomplete.MatchFunction(prefix, act)
 }
 
-func autocompleteHistoryLine(act *autocomplete.AutoCompleteT) {
+func autocompleteHistoryLine(prefix string) ([]string, map[string]string) {
+	var (
+		items       []string
+		definitions = make(map[string]string)
+	)
+
 	dump := Prompt.History.Dump().([]history.Item)
 
 	for i := len(dump) - 1; i > -1; i-- {
-		if act.Definitions[dump[i].Block] == "" {
-			dateTime := dump[i].DateTime.Format("02-Jan-06 03:04")
-			act.Items = append(act.Items, dump[i].Block)
-			act.Definitions[dump[i].Block] = dateTime
+		if len(dump[i].Block) <= len(prefix) {
+			continue
 		}
+
+		if !strings.HasPrefix(dump[i].Block, prefix) {
+			continue
+		}
+
+		item := dump[i].Block[len(prefix):]
+
+		if definitions[item] != "" {
+			continue
+		}
+
+		dateTime := dump[i].DateTime.Format("02-Jan-06 15:04")
+		items = append(items, item)
+		definitions[item] = dateTime
 	}
 
-	act.TabDisplayType = readline.TabDisplayMap
-	act.DoNotEscape = true
-	act.DoNotSort = true
+	return items, definitions
 }
 
 func autocompleteHistoryHat(act *autocomplete.AutoCompleteT) {

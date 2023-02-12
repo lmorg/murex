@@ -5,13 +5,26 @@ import (
 	"sync"
 )
 
+var (
+	primary *os.File = os.Stdout
+	replica *os.File = os.Stdin
+)
+
+func SetTTY(primaryTTY, replicaTTY *os.File) {
+	primary = primaryTTY
+	replica = replicaTTY
+}
+
+var ForceCrLf = true
+
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
 type Instance struct {
 	fdMutex sync.Mutex
 
-	Active bool
+	Active        bool
+	closeSigwinch func()
 
 	// PasswordMask is what character to hide password entry behind.
 	// Once enabled, set to 0 (zero) to disable the mask again.
@@ -67,6 +80,10 @@ type Instance struct {
 	// default this will just be blue.
 	HintFormatting string
 
+	// AutocompleteHistory is another customization allowing for alternative
+	// results when [ctrl]+[r]
+	AutocompleteHistory func(string) ([]string, map[string]string)
+
 	// TempDirectory is the path to write temporary files when editing a line in
 	// $EDITOR. This will default to os.TempDir()
 	TempDirectory string
@@ -102,6 +119,10 @@ type Instance struct {
 	hintY    int //= 0
 	hintText []rune
 
+	ShowPreviews  bool
+	previewCache  *previewCacheT
+	PreviewImages bool
+
 	// tab completion
 	modeTabCompletion bool
 	tabMutex          sync.Mutex
@@ -133,6 +154,7 @@ type Instance struct {
 	// event
 	evtKeyPress map[string]func(string, []rune, int) *EventReturn
 
+	//ForceCrLf          bool
 	EnableGetCursorPos bool
 }
 
@@ -140,8 +162,6 @@ type Instance struct {
 // defaults.
 func NewInstance() *Instance {
 	rl := new(Instance)
-
-	//GetTermWidth()
 
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
@@ -153,11 +173,11 @@ func NewInstance() *Instance {
 
 	rl.TempDirectory = os.TempDir()
 
-	//rl.EnableGetCursorPos = true
-
 	rl.MaxCacheSize = 256
 	rl.cacheHint.Init(rl)
 	rl.cacheSyntax.Init(rl)
+
+	//rl.ForceCrLf = true
 
 	return rl
 }

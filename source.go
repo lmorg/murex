@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/consts"
@@ -66,7 +67,7 @@ func execSource(source []rune, sourceRef *ref.Source) {
 		if exitNum == 0 {
 			exitNum = 1
 		}
-		os.Stderr.WriteString(err.Error() + utils.NewLineString)
+		tty.Stderr.WriteString(err.Error() + utils.NewLineString)
 		lang.Exit(exitNum)
 	}
 

@@ -138,6 +138,11 @@ func (rl *Instance) walkHistory(i int) {
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
+	if rl.AutocompleteHistory != nil {
+		rl.tcPrefix = string(rl.line)
+		return rl.AutocompleteHistory(rl.tcPrefix)
+	}
+
 	var (
 		items []string
 		descs = make(map[string]string)

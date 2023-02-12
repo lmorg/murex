@@ -10,22 +10,23 @@ import (
 
 // Write is the io.Writer interface
 func (f *File) Write(b []byte) (int, error) {
-	f.mutex.Lock()
-	defer f.mutex.Unlock()
-
-	if f == nil || f.file == nil {
+	if f.file == nil {
 		return 0, errors.New("no file open")
 	}
 
-	if f.dependents < 1 {
+	f.mutex.Lock()
+	dep := f.dependents
+	f.mutex.Unlock()
+
+	if dep < 1 {
 		return 0, io.ErrClosedPipe
 	}
 
-	f.mutex.Unlock()
 	i, err := f.file.Write(b)
 
 	f.mutex.Lock()
 	f.bWritten += uint64(i)
+	f.mutex.Unlock()
 
 	return i, err
 }

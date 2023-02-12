@@ -167,7 +167,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	case []map[string]interface{}:
@@ -194,7 +194,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	case []map[interface{}]string:
@@ -221,7 +221,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil
 
 	case []map[interface{}]interface{}:
@@ -249,7 +249,7 @@ func marshal(p *lang.Process, iface interface{}) ([]byte, error) {
 			b = append(b, utils.NewLineByte...)
 			b = append(b, w.ArrayToCsv(records)...)
 		}
-		os.Stderr.WriteString("Warning: untested!\n")
+		tty.Stderr.WriteString("Warning: untested!\n")
 		return b, nil*/
 
 	default:

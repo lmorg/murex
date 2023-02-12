@@ -31,6 +31,8 @@ commands and such like:
   Overview of how code blocks are parsed
 * [FileRef](user-guide/fileref.md):
   How to track what code was loaded and from where
+* [FileRef](user-guide/terminal-keys.md):
+  A list of all the terminal hotkeys and their uses
 * [Modules and Packages](user-guide/modules.md):
   An introduction to _murex_ modules and packages
 * [Murex Named Pipes](user-guide/namedpipes.md):

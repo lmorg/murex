@@ -11,7 +11,8 @@ import (
 	"sync"
 )
 
-// We don't register these pipes because we don't want users creating them adhoc inside murex
+// We don't register these pipes because we don't want users creating them
+// adhoc inside murex
 /*func init() {
 	stdio.RegisterPipe("term-out", func(string) (stdio.Io, error) {
 		return nil, errors.New("`term-out` is a system device and cannot be created")
@@ -22,7 +23,8 @@ import (
 	})
 }*/
 
-// NewErr returns either Err or ErrRed depending on whether colourised output was defined via `colorise`
+// NewErr returns either Err or ErrRed depending on whether colourised output
+// was defined via `colorise`
 func NewErr(colourise bool) stdio.Io {
 	if colourise {
 		return new(ErrRed)
@@ -30,8 +32,9 @@ func NewErr(colourise bool) stdio.Io {
 	return new(Err)
 }
 
-// term structure exists as a wrapper around os.Stdout and os.Stderr so they can be easily interchanged with this
-// shells streams (which has a larger array of methods to enable easier writing of builtin shell functions.
+// term structure exists as a wrapper around tty.Stdout and tty.Stderr so they
+// can be easily interchanged with this shells streams (which has a larger
+// array of methods to enable easier writing of builtin shell functions.
 type term struct {
 	mutex    sync.Mutex
 	bWritten uint64
@@ -75,7 +78,8 @@ func (t *term) Close() {}
 // ForceClose is a null method because the OS standard streams shouldn't be closed
 func (t *term) ForceClose() {}
 
-// IsTTY always returns `true` because you are writing to a TTY. All over stream.Io interfaces should return `false`.
+// IsTTY always returns `true` because you are writing to a TTY. All over
+// stream.Io interfaces should return `false`
 func (t *term) IsTTY() bool { return true }
 
 // Stats returns the bytes written and bytes read from the term interface

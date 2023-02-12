@@ -3,16 +3,27 @@
 <div id="toc">
 
 - [Overview](#overview)
-- [Spellchecker](#spellchecker)
-- [Hint Text](#hint-text)
-  - [Enable / Disable Hint Text](#enable--disable-hint-text)
-  - [Hint Text Colour](#hint-text-colour)
-  - [Custom Hint Text Statuses](#custom-hint-text-statuses)
-- [Autocompletion](#autocompletion)
-  - [Tab Completion: `Grid`](#tab-completion-grid)
-  - [Tab Completion: `ListView`](#tab-completion-listview)
-- [Syntax Completion](#syntax-completion)
+- [readline](#readline)
+  - [Hotkeys](#hotkeys)
+    - [Hotkey: `tab`](#hotkey-tab)
+    - [Hotkey: `ctrl`+`c`](#hotkey-ctrlc)
+    - [Hotkey: `ctrl`+`d`](#hotkey-ctrld)
+    - [Hotkey: `ctrl`+`f`](#hotkey-ctrlf)
+    - [Hotkey: `ctrl`+`r`](#hotkey-ctrlr)
+    - [Hotkey: `ctrl`+`u`](#hotkey-ctrlu)
+    - [Hotkey: `ctrl`+`\`](#hotkey-ctrl)
+    - [Hotkey: `ctrl`+`z`](#hotkey-ctrlz)
+    - [Hotkey: `alt`+number (`1` to `9`)](#hotkey-altnumber-1-to-9)
+    - [Hotkey: `esc` (aka "vim keys")](#hotkey-esc-aka-vim-keys)
+    - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
+  - [Autocompletion](#autocompletion)
+  - [Syntax Completion](#syntax-completion)
 - [Syntax Highlighting](#syntax-highlighting)
+  - [Spellchecker](#spellchecker)
+  - [Hint Text](#hint-text)
+    - [Configuring Hint Text Colour](#configuring-hint-text-colour)
+  - [Custom Hint Text Statuses](#custom-hint-text-statuses)
+    - [Disabling Hint Text](#disabling-hint-text)
 
 </div>
 
@@ -42,7 +53,152 @@ library:
     the preview option that’s available as part of the aforementioned warning
 * and VIM keys (enabled by pressing `[ESC]`)
 
-## Spellchecker
+## readline
+
+_murex_ uses a custom `readline` library to enable support for new features on
+in addition to the existing uses you'd normally expect from a shell. It is
+because of this _murex_ provides one of the best user experiences of any of the
+shells available today.
+
+### Hotkeys
+
+#### Hotkey: `tab`
+
+Provides autocompletion suggestions. Press escape to hide suggestions.
+
+#### Hotkey: `ctrl`+`c`
+
+Pressing this will send a cancel request to the foreground process.
+
+#### Hotkey: `ctrl`+`d`
+
+Send EOF (end of file). If the shell is sat on the prompt then this will exit
+that running session.
+
+#### Hotkey: `ctrl`+`f`
+
+This will allow you to perform a regexp search through the autocompletion
+suggestions. Thus allowing you to quickly navigate complex command options or
+jump to specific sub-directories.
+
+Press escape to cancel regexp search.
+
+#### Hotkey: `ctrl`+`r`
+
+This brings up your timestamped shell history as an autocomplete list with
+regexp search activated. Using `ctrl`+`r` you can rapidly rerun previous
+command lines.
+
+Press escape to cancel history completion.
+
+#### Hotkey: `ctrl`+`u`
+
+Clears the current line.
+
+#### Hotkey: `ctrl`+`\`
+
+This will kill all processes owned by the current _murex_ session. Including
+any background processes too.
+
+This function is a effectively an emergency kill switch to bring you back to
+the command prompt.
+
+Use sparingly because it doesn't allow processes to end graceful.
+
+#### Hotkey: `ctrl`+`z`
+
+Suspends the execution of the current foreground process. You can then use job
+control to resume execution in either the foreground or background. ([read more](../commands/fid-list.md))
+
+#### Hotkey: `alt`+number (`1` to `9`)
+
+This will paste in the _n_'th word from the previous command line.
+
+#### Hotkey: `esc` (aka "vim keys")
+
+Pressing escape while no autocomplete suggestions are shown will switch the
+line editor into **vim keys** mode.
+
+Press `i` to return to normal editing mode.
+
+Supported keys:
+
+* `a`: insert after current character
+* `A`: insert at end of line
+* `b`: jump to beginning of word
+* `B`: jump to previous whitespace
+* `d`: delete mode
+* `D`: delete characters
+* `e`: jump to end of word
+* `E`: jump to next whitespace
+* `h`: previous character (like `🠔`)
+* `i`: insert mode
+* `I`: insert at beginning of line
+* `l`: next character (like `🠖`)
+* `p`: paste after
+* `P`: paste before
+* `r`: replace character (replace once)
+* `R`: replace many characters
+* `u`: undo
+* `v`: visual editor (opens line in `$EDITOR`)
+* `w`: jump to end of word
+* `W`: jump to next whitespace
+* `x`: delete character
+* `y`: yank (copy line)
+* `Y`: same as `y`
+* `[`: jump to previous brace
+* `]`: jump to next brace
+* `$`: jump to end of line
+* `%`: jump to either end of matching bracket
+* `0` to `9`: repeat action _n_ times. eg `5x` would delete five (`5`) characters (`x`)
+
+#### Full Screen Editing via `$EDITOR`
+
+When in "vim keys" mode, press `v` to bring up the visual editor. The editor
+will be whichever command is stored in the `$EDITOR` environmental variable.
+
+### Autocompletion
+
+Autocompletion happen when you press **{TAB}** and will differ slightly depending
+on what is defined in `autocomplete` and whether you use the traditional
+[POSIX pipe token](../parser/pipe-posix.md), `|`, or the [arrow pipe](../parser/pipe-arrow.md),
+`->`.
+
+The `|` token will behave much like any other shell however `->` will offer
+suggestions with matching data types (as seen in `runtime --methods`). This is
+a way of helping highlight commands that naturally follow after another in a
+pipeline. Which is particularly important in _murex_ as it introduces data
+types and dozens of new builtins specifically for working with data structures
+in an intelligent and readable yet succinct way.
+
+You can add your own commands and functions to _murex_ as methods by defining
+them with `method`. For example if we were to add `jq` as a method:
+
+```
+method: define jq {
+    "Stdin":  "json",
+    "Stdout": "@Any"
+}
+```
+
+### Syntax Completion
+
+Like with most IDEs, _murex_ will auto close brackets et al.
+
+[![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
+
+## Syntax Highlighting
+
+Pipelines in the interactive terminal are syntax highlighted. This is similar
+to what one expects from an IDE.
+
+Syntax highlighting can be disabled by running:
+
+```
+» config: set shell syntax-highlighting off
+```
+
+### Spellchecker
 
 _murex_ supports inline spellchecking, where errors are underlined. For example
 
@@ -51,23 +207,14 @@ _murex_ supports inline spellchecking, where errors are underlined. For example
 This might require some manual steps to enable, please see the [spellcheck user guide](spellcheck.md)
 for more details.
 
-## Hint Text
+### Hint Text
 
 The **hint text** is a (typically) blue status line that appears directly below
 your prompt. The idea behind the **hint text** is to provide clues to you as
 type instructions into the prompt; but without adding distractions. It is there
 to be used if you want it while keeping out of the way when you don't want it.
 
-### Enable / Disable Hint Text
-
-It is enabled by default but can be disabled if you prefer a more minimal
-prompt:
-
-```
-» config: set shell hint-text-enabled false
-```
-
-### Hint Text Colour
+#### Configuring Hint Text Colour
 
 By default the **hint text** will appear blue. This is also customizable:
 
@@ -96,54 +243,13 @@ default is a user defined function. At time of writing this document the author
 has the following function defined:
 
 ```
-» config: get shell hint-text-func
-{
+config: set shell hint-text-func {
     trypipe <!null> {
         git status --porcelain -b -> set gitstatus
-        #$gitstatus -> head -n1 -> sed -r 's/^## //;s/\.\.\./ => /' -> set gitbranch
-        $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /' -> set gitbranch
-        let gitchanges=${ out $gitstatus -> sed 1d -> wc -l }
-        !if { $gitchanges } then { ({GREEN}) } else { ({RED}) }
-        (Git{BLUE}: $gitbranch ($gitchanges pending). )
+        $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /'
     }
     catch {
-        ({YELLOW}Git{BLUE}: Not a git repository. )
-    }
-
-    if { $SSH_AGENT_PID } then {
-        ({GREEN}ssh-agent{BLUE}: $SSH_AGENT_PID. )
-    } else {
-        ({RED}ssh-agent{BLUE}: No env set. )
-    }
-
-    if { pgrep: vpnc } then {
-        ({YELLOW}VPN{BLUE}: vpnc is active. )
-    }
-
-    if { ps aux -> regexp m/openvpn --errors-to-stderr --log/ } then {
-        ({YELLOW}VPN{BLUE}: openvpn is active. )
-    }
-
-    trypipe <!null> {
-        open: main.tf -> format json -> [ terraform ] -> [ 0 ] -> [ required_version ] -> sed -r 's/\s0\./ /' -> set tfmod
-        terraform: version -> head -n1 -> regexp (f/Terraform v0\.([0-9.]+)$) -> set tfver
-        if { = tfmod >= tfver } then { ({GREEN}) } else { ({RED}) }
-        (Terraform{BLUE}: $tfver; required $tfmod. )
-    }
-
-    if { $AWS_SESSION_TOKEN } then {
-        set aws_expiration
-        set int date=${ date +%s }
-
-        if { os linux } then {
-            set int aws_expiration=${ date -d $AWS_SESSION_EXPIRATION +%s }
-        } else {
-            set int aws_expiration=${ date -j -f "%FT%R:%SZ" $AWS_SESSION_EXPIRATION +%s }
-        }
-
-        = (($aws_expiration-$date)/60) -> format int -> set aws_session_time
-        if { = aws_session_time < 1 } then { ({RED}) } else { ({GREEN}) }
-        (awscon{BLUE}: $AWS_SESSION_NAME => $aws_session_time mins. )
+        out "Not a git repository."
     }
 }
 ```
@@ -151,56 +257,14 @@ has the following function defined:
 ...which produces a colorized status that looks something like the following:
 
 ```
-Git: develop => origin/develop [ahead 1] (9 pending). ssh-agent: 34607.
+develop => origin/develop
 ```
 
-## Autocompletion
+#### Disabling Hint Text
 
-Autocompletion happen when you press **{TAB}** and will differ slightly depending
-on what is defined in `autocomplete` and whether you use the traditional
-[POSIX pipe token](../parser/pipe-posix.md), `|`, or the [arrow pipe](../parser/pipe-arrow.md),
-`->`.
-
-The `|` token will behave much like any other shell however `->` will offer
-suggestions with matching data types (as seen in `runtime --methods`). This is
-a way of helping highlight commands that naturally follow after another in a
-pipeline. Which is particularly important in _murex_ as it introduces data
-types and dozens of new builtins specifically for working with data structures
-in an intelligent and readable yet succinct way.
-
-You can add your own commands and functions to _murex_ as methods by defining
-them with `method`. For example if we were to add `jq` as a method:
+It is enabled by default but can be disabled if you prefer a more minimal
+prompt:
 
 ```
-method: define jq {
-    "Stdin":  "json",
-    "Stdout": "@Any"
-}
-```
-
-### Tab Completion: `Grid`
-
-This is where the completion suggestions are arranged in a grid. This is the
-default.
-
-### Tab Completion: `ListView`
-
-This is where the completion suggestions are arranged in a list with a
-description along the side.
-
-## Syntax Completion
-
-Like with most IDEs, _murex_ will auto close brackets et al.
-
-[![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
-
-## Syntax Highlighting
-
-Pipelines in the interactive terminal are syntax highlighted. This is similar
-to what one expects from an IDE.
-
-Syntax highlighting can be disabled by running:
-
-```
-» config: set shell syntax-highlighting off
+» config: set shell hint-text-enabled false
 ```

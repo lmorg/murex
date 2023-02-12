@@ -48,16 +48,18 @@ var (
 	seqEndSc     = string([]byte{27, 91, 52, 126})
 	seqDelete    = string([]byte{27, 91, 51, 126})
 	seqShiftTab  = string([]byte{27, 91, 90})
+	seqPageUp    = string([]byte{27, 91, 53, 126})
+	seqPageDown  = string([]byte{27, 91, 54, 126})
 )
 
 const (
-	seqPosSave    = "\x1b[s"
-	seqPosRestore = "\x1b[u"
+	//seqPosSave    = "\x1b[s"
+	//seqPosRestore = "\x1b[u"
 
 	seqClearLineAfter   = "\x1b[0k"
 	seqClearLineBefore  = "\x1b[1k"
 	seqClearLine        = "\x1b[2k"
-	seqClearScreenBelow = "\x1b[0J"
+	seqClearScreenBelow = "\x1b[J"
 
 	seqGetCursorPos = "\x1b6n" // response: "\x1b{Line};{Column}R"
 )
@@ -81,14 +83,14 @@ const (
 	seqFgCyan    = "\x1b[36m"
 	seqFgWhite   = "\x1b[37m"
 
-	seqFgBlackBright   = "\x1b[1;30m"
+	/*seqFgBlackBright   = "\x1b[1;30m"
 	seqFgRedBright     = "\x1b[1;31m"
 	seqFgGreenBright   = "\x1b[1;32m"
 	seqFgYellowBright  = "\x1b[1;33m"
 	seqFgBlueBright    = "\x1b[1;34m"
 	seqFgMagentaBright = "\x1b[1;35m"
 	seqFgCyanBright    = "\x1b[1;36m"
-	seqFgWhiteBright   = "\x1b[1;37m"
+	seqFgWhiteBright   = "\x1b[1;37m"*/
 )
 
 // Background colours
@@ -102,12 +104,12 @@ const (
 	seqBgCyan    = "\x1b[46m"
 	seqBgWhite   = "\x1b[47m"
 
-	seqBgBlackBright   = "\x1b[1;40m"
+	/*seqBgBlackBright   = "\x1b[1;40m"
 	seqBgRedBright     = "\x1b[1;41m"
 	seqBgGreenBright   = "\x1b[1;42m"
 	seqBgYellowBright  = "\x1b[1;43m"
 	seqBgBlueBright    = "\x1b[1;44m"
 	seqBgMagentaBright = "\x1b[1;45m"
 	seqBgCyanBright    = "\x1b[1;46m"
-	seqBgWhiteBright   = "\x1b[1;47m"
+	seqBgWhiteBright   = "\x1b[1;47m"*/
 )

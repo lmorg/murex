@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -174,7 +175,7 @@ func LoadPackage(path string, execute bool) ([]Module, error) {
 
 		err = os.Chdir(path)
 		if err != nil {
-			os.Stderr.WriteString(err.Error())
+			tty.Stderr.WriteString(err.Error())
 		}
 
 		module[i].Loaded = true

@@ -1,13 +1,12 @@
 package readline
 
 import (
-	"os"
 	"regexp"
 	"strconv"
 )
 
 func leftMost() []byte {
-	fd := int(os.Stdout.Fd())
+	fd := int(primary.Fd())
 	w, _, err := GetSize(fd)
 	if err != nil {
 		return []byte{'\r', '\n'}
@@ -20,11 +19,17 @@ func leftMost() []byte {
 	b[w] = '\r'
 
 	return b
+
+	//return []byte{}
 }
 
 var rxRcvCursorPos = regexp.MustCompile("^\x1b([0-9]+);([0-9]+)R$")
 
 func (rl *Instance) getCursorPos() (x int, y int) {
+	if !ForceCrLf {
+		return 0, 0
+	}
+
 	if !rl.EnableGetCursorPos {
 		return -1, -1
 	}
@@ -37,7 +42,7 @@ func (rl *Instance) getCursorPos() (x int, y int) {
 
 	print(seqGetCursorPos)
 	b := make([]byte, 64)
-	i, err := os.Stdin.Read(b)
+	i, err := read(b)
 	if err != nil {
 		return disable()
 	}

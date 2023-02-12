@@ -8,6 +8,7 @@ import (
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -49,14 +50,14 @@ func readFlags() {
 	flag.Parse()
 
 	if fHelp1 || fHelp2 || fHelp3 {
-		fmt.Printf("%s v%s\n", app.Name, app.Version)
+		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version)
 		flag.Usage()
 		lang.Exit(1)
 	}
 
 	if fVersion1 || fVersion2 {
-		fmt.Printf("%s v%s\n", app.Name, app.Version)
-		fmt.Printf("%s\n%s\n", app.License, app.Copyright)
+		fmt.Fprintf(tty.Stdout, "%s v%s\n", app.Name, app.Version)
+		fmt.Fprintf(tty.Stdout, "%s\n%s\n", app.License, app.Copyright)
 		lang.Exit(0)
 	}
 

@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"os"
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/types"
@@ -65,6 +66,36 @@ func WriteTo(std Io, w io.Writer) (int64, error) {
 
 	for {
 		i, err = std.Read(p)
+
+		if err == io.EOF {
+			return total, nil
+		}
+
+		if err != nil {
+			return total, err
+		}
+
+		n, err = w.Write(p[:i])
+		total += int64(n)
+
+		if err != nil {
+			return total, err
+		}
+
+	}
+}
+
+// WriteToFromFile is a template function for stdio.Io
+func WriteToFromFile(f *os.File, w io.Writer) (int64, error) {
+	var (
+		total int64
+		i, n  int
+		p     = make([]byte, 1024*10)
+		err   error
+	)
+
+	for {
+		i, err = f.Read(p)
 
 		if err == io.EOF {
 			return total, nil

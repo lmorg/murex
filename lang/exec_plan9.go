@@ -18,6 +18,6 @@ func getCmdTokens(p *Process) (exe string, parameters []string, err error) {
 	return
 }
 
-func osSyscalls(cmd *exec.Cmd) {
+func osSyscalls(_ *exec.Cmd, _ int) {
 	return
 }
