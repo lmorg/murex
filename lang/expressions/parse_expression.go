@@ -32,6 +32,14 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			tree.charPos--
 			return nil
 
+		case '&':
+			if tree.nextChar() == '&' {
+				tree.charPos--
+				return nil
+			}
+			tree.appendAst(symbols.Unexpected, r)
+			raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
+
 		case '=':
 			switch tree.nextChar() {
 			case '=':
@@ -163,9 +171,7 @@ func (tree *ParserT) parseExpression(exec bool) error {
 					return err
 				}
 			default:
-				//if exec {
 				tree.appendAst(symbols.Unexpected, r)
-				//-} else
 				raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
 			}
 

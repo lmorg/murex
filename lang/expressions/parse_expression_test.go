@@ -6,6 +6,7 @@ import (
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -195,4 +196,20 @@ func testExpression(t *testing.T, tests []expressionTestT, strictTypes bool) {
 		t.Logf("  Dump():     %s", json.LazyLoggingPretty(tree.Dump()))
 		t.Logf("  raw memory: %v", tree)
 	}
+}
+
+func TestParseExprLogicalAnd(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  "true == true && true == true",
+			Stdout: "truetrue",
+		},
+		{
+			Block:  "true == false && true == true",
+			Stdout: "false",
+			ExitNum: 1,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }
