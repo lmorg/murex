@@ -52,6 +52,8 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
+* [Create array](../parser/create-array.md):
+  Quickly generate arrays
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [`[` (index)](../commands/index.md):
@@ -68,5 +70,3 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [create-array](../parser/create-array.md):
-  
