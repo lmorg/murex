@@ -147,18 +147,54 @@ func ptyBuffer(dst, src *os.File) {
 
 func bufferWrite(b []byte) {
 	bufMutex.Lock()
+
 	buffer = append(buffer, b...)
+
 	var i, count int
+
 	for i = len(buffer) - 1; i != 0; i-- {
 		if buffer[i] == '\n' {
 			count++
+			if count == height {
+				buffer = buffer[i:]
+
+				bufMutex.Unlock()
+				return
+			}
 		}
-		if count == height {
-			buffer = buffer[i:]
+
+		// clear / cls
+		if buffer[i] == 'J' && i > 3 &&
+			buffer[i-3] == 27 && buffer[i-2] == '[' &&
+			(buffer[i-1] == '2' || buffer[i-1] == '3') {
+
+			if i == len(buffer)-1 {
+				buffer = []byte{}
+			} else {
+				buffer = buffer[i+1:]
+			}
+
+			bufMutex.Unlock()
+			return
+		}
+
+		// disable alternative screen buffer
+		// \e[?1049l
+		if buffer[i] == 'l' && i > 7 &&
+			buffer[i-7] == 27 && buffer[i-6] == '[' && buffer[i-5] == '?' &&
+			buffer[i-4] == '1' && buffer[i-3] == '0' && buffer[i-2] == '4' && buffer[i-1] == '9' {
+
+			if i == len(buffer)-1 {
+				buffer = []byte{}
+			} else {
+				buffer = buffer[i+1:]
+			}
+
 			bufMutex.Unlock()
 			return
 		}
 	}
+
 	bufMutex.Unlock()
 }
 
@@ -173,6 +209,8 @@ func BufferRecall(prompt []byte, line string) {
 		buffer = append(buffer, '\r', '\n')
 	}*/
 
+	bufMutex.Lock()
+
 	Stdout.WriteString(codes.Reset)
 	Stdout.Write(prompt)
 	Stdout.WriteString(line)
@@ -183,11 +221,10 @@ func BufferRecall(prompt []byte, line string) {
 	Stdout.Write([]byte{'\r', '\n'})
 
 	// first pass (to reduce flicker)
-	_, _ = os.Stdout.WriteString(codes.Reset)
+	/*_, _ = os.Stdout.WriteString(codes.Reset)
 	_, _ = os.Stdout.WriteString(codes.Home)
 
-	bufMutex.Lock()
-	_, _ = os.Stdout.Write(buffer)
+	_, _ = os.Stdout.Write(buffer)*/
 
 	// second pass (to clear noise)
 	_, _ = os.Stdout.WriteString(codes.Reset)
