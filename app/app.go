@@ -12,8 +12,8 @@ const Name = "murex"
 const (
 	version  = "%d.%d.%d"
 	Major    = 3
-	Minor    = 1
-	Revision = 3100
+	Minor    = 2
+	Revision = 100
 )
 
 var Version string

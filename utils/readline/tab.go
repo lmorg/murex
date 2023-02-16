@@ -36,10 +36,10 @@ func (rl *Instance) getTabCompletion() {
 	rl.delayedTabContext = DelayedTabContext{rl: rl}
 	rl.delayedTabContext.Context, rl.delayedTabContext.cancel = context.WithCancel(context.Background())
 
-	prefix, suggestions, descriptions, displayType := rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
+	r := rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
 
 	rl.tabMutex.Lock()
-	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = prefix, suggestions, descriptions, displayType
+	rl.tcPrefix, rl.tcSuggestions, rl.tcDescriptions, rl.tcDisplayType = r.Prefix, r.Suggestions, r.Descriptions, r.DisplayType
 	if len(rl.tcDescriptions) == 0 {
 		// probably not needed, but just in case someone doesn't initialize the
 		// map in their API call.

@@ -17,6 +17,14 @@ func SetTTY(primaryTTY, replicaTTY *os.File) {
 
 var ForceCrLf = true
 
+type TabCompleterReturnT struct {
+	Prefix       string
+	Suggestions  []string
+	Descriptions map[string]string
+	DisplayType  TabDisplayType
+	HintCache    func([]string) []string
+}
+
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
 // captures without having to repeatedly unload configuration.
@@ -44,12 +52,10 @@ type Instance struct {
 	// HistoryAutoWrite defines whether items automatically get written to
 	// history.
 	// Enabled by default. Set to false to disable.
-	HistoryAutoWrite bool // = true
+	HistoryAutoWrite bool
 
-	// TabCompleter is a simple function that offers completion suggestions.
-	// It takes the readline line ([]rune) and cursor pos. Returns a prefix
-	// string, an array of suggestions and a map of definitions (optional).
-	TabCompleter      func([]rune, int, DelayedTabContext) (string, []string, map[string]string, TabDisplayType)
+	// TabCompleter is a function that offers completion suggestions.
+	TabCompleter      func([]rune, int, DelayedTabContext) *TabCompleterReturnT
 	delayedTabContext DelayedTabContext
 
 	MinTabItemLength int
@@ -57,7 +63,7 @@ type Instance struct {
 
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
-	MaxTabCompleterRows int // = 4
+	MaxTabCompleterRows int
 
 	// SyntaxCompletion is used to autocomplete code syntax (like braces and
 	// quotation marks). If you want to complete words or phrases then you might

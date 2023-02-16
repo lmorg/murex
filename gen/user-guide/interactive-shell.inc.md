@@ -4,9 +4,10 @@
 
 - [Overview](#overview)
 - [readline](#readline)
+  - [Hotkeys](#hotkeys)
   - [Autocompletion](#autocompletion)
   - [Syntax Completion](#syntax-completion)
-- [Syntax Highlighting](#syntax-highlighting)
+  - [Syntax Highlighting](#syntax-highlighting)
   - [Spellchecker](#spellchecker)
   - [Hint Text](#hint-text)
     - [Configuring Hint Text Colour](#configuring-hint-text-colour)
@@ -34,12 +35,12 @@ library:
 * tab-completion in list view (seen when selecting a process name to `kill`
     where the process ID was substituted when selected)
 * regex searching through the tab-completion suggestions (seen in both `cd` and
-    `kill` - enabled by pressing `[CTRL+f]`)
-* line editing using $EDITOR (`vi` in the example - enabled by pressing `[ESC]`
+    `kill` - enabled by pressing `[ctrl]`+`[f]`)
+* line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
     followed by `[v]`)
 * readline’s warning before pasting multiple lines of data into the buffer and
     the preview option that’s available as part of the aforementioned warning
-* and VIM keys (enabled by pressing `[ESC]`)
+* and VIM keys (enabled by pressing `[esc]`)
 
 ## readline
 
@@ -48,11 +49,13 @@ in addition to the existing uses you'd normally expect from a shell. It is
 because of this _murex_ provides one of the best user experiences of any of the
 shells available today.
 
+### Hotkeys
+
 A full breakdown of supported hotkeys is available at [terminal-keys.md](terminal-keys.md).
 
 ### Autocompletion
 
-Autocompletion happen when you press **{TAB}** and will differ slightly depending
+Autocompletion happen when you press `[tab]` and will differ slightly depending
 on what is defined in `autocomplete` and whether you use the traditional
 [POSIX pipe token](../parser/pipe-posix.md), `|`, or the [arrow pipe](../parser/pipe-arrow.md),
 `->`.
@@ -80,7 +83,7 @@ Like with most IDEs, _murex_ will auto close brackets et al.
 
 [![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
 
-## Syntax Highlighting
+### Syntax Highlighting
 
 Pipelines in the interactive terminal are syntax highlighted. This is similar
 to what one expects from an IDE.
