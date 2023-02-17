@@ -80,12 +80,12 @@ func TestParseObject(t *testing.T) {
 			},
 			{
 				input:    `%{nan:-}`,
-				expected: `{"nan":"-"}`,
+				expected: `{"NaN":"-"}`,
 				pos:      6,
 			},
 			{
 				input:    `%{nan:-one}`,
-				expected: `{"nan":"-one"}`,
+				expected: `{"NaN":"-one"}`,
 				pos:      9,
 			},
 		},

@@ -241,27 +241,14 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			continue
 
 		default:
-			switch {
-			case r == '-':
-				next := tree.nextChar()
-				if next < '0' || '9' < next {
-					o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
-					continue
-				}
-				fallthrough
-			case r >= '0' && '9' >= r:
-				// number
-				value := tree.parseNumber()
-				tree.charPos--
-				v, err := types.ConvertGoType(value, types.Number)
-				if err != nil {
-					return nil, nil, err
-				}
+			value := tree.parseArrayBareword()
+			v, err := types.ConvertGoType(value, types.Number)
+			if err == nil {
+				// is a number
 				o.keyValueI[o.stage&1] = v
-
-			default:
-				// string
-				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
+			} else {
+				// is a string
+				o.keyValueI[o.stage&1] = string(value)
 			}
 		}
 	}

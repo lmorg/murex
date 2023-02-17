@@ -171,31 +171,13 @@ func (tree *ParserT) parseArray(exec bool) ([]rune, *primitives.DataType, error)
 			// do nothing
 
 		default:
-			var value []rune
-			switch {
-			case r == '-':
-				next := tree.nextChar()
-				if next < '0' || '9' < next {
-					value = tree.parseArrayBareword()
-					slice = append(slice, formatArrayValue(value))
-					continue
-				}
-				fallthrough
-			case r >= '0' && '9' >= r:
-				// number
-				value = append(value, tree.parseNumber()...)
-				tree.charPos--
-				v, err := types.ConvertGoType(value, types.Number)
-				if err != nil {
-					err = raiseError(tree.expression, nil, tree.charPos-len(value)+2,
-						fmt.Sprintf("%v\nIf this is a range then try surrounding in square brackets, eg: [%s]\nIf this is a string then try surround in quotes, eg: '%s'",
-							err, string(value), string(value)))
-					return nil, nil, err
-				}
+			value := tree.parseArrayBareword()
+			v, err := types.ConvertGoType(value, types.Number)
+			if err == nil {
+				// is a number
 				slice = append(slice, v)
-			default:
-				// string
-				value := tree.parseArrayBareword()
+			} else {
+				// is a string
 				slice = append(slice, formatArrayValue(value))
 			}
 		}
@@ -221,7 +203,7 @@ func (tree *ParserT) parseArrayBareword() []rune {
 		r := tree.expression[tree.charPos]
 
 		switch r {
-		case ',', ' ', '\t', '\r', '\n', '[', ']', '{', '$', '~', '@', '"', '\'', '%':
+		case ',', ' ', '\t', '\r', '\n', '[', ']', '{', '}', ':', '$', '~', '@', '"', '\'', '%':
 			goto endArrayBareword
 		case '/':
 			if tree.nextChar() == '*' {
