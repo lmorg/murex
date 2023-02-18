@@ -33,3 +33,11 @@ func ConfigRead() (interface{}, error) {
 func ConfigWrite(_ interface{}) error {
 	return errors.New(errMessage)
 }
+
+func MissingCrLf() bool {
+	return false
+}
+
+func WriteCrLf() {
+	// empty function for cross compiling compatibility
+}

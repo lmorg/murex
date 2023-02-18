@@ -142,6 +142,10 @@ func ShowPrompt() {
 		}
 		Prompt.SetPrompt(string(prompt))
 
+		if tty.MissingCrLf() {
+			tty.WriteCrLf()
+		}
+
 		line, err := Prompt.Readline()
 		if err != nil {
 			switch err {
@@ -237,6 +241,10 @@ func ShowPrompt() {
 			lang.ShellExitNum, err = fork.Execute(expanded)
 			if err != nil {
 				fmt.Fprintln(tty.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
+			}
+
+			if tty.MissingCrLf() {
+				tty.WriteCrLf()
 			}
 
 			if PromptId.NotEqual(thisProc) {

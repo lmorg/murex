@@ -8,12 +8,11 @@ import (
 	"errors"
 	"os"
 
-	"github.com/lmorg/murex/lang/tty"
 	"github.com/lmorg/murex/utils/readline"
 )
 
 func Write(title []byte) error {
-	fd := tty.Stdout.Fd()
+	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
 		return errors.New("not a TTY")
 	}
@@ -36,7 +35,7 @@ func formatTitle(title []byte) []byte {
 }
 
 func Icon(title []byte) error {
-	fd := tty.Stdout.Fd()
+	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
 		return errors.New("not a TTY")
 	}
@@ -59,7 +58,7 @@ func formatIcon(title []byte) []byte {
 }
 
 func Tmux(title []byte) error {
-	fd := tty.Stdout.Fd()
+	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
 		return errors.New("not a TTY")
 	}

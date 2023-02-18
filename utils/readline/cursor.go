@@ -19,8 +19,6 @@ func leftMost() []byte {
 	b[w] = '\r'
 
 	return b
-
-	//return []byte{}
 }
 
 var rxRcvCursorPos = regexp.MustCompile("^\x1b([0-9]+);([0-9]+)R$")

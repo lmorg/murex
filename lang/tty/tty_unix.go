@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"os/signal"
+	"regexp"
 	"sync"
 	"syscall"
 	"time"
@@ -105,9 +106,9 @@ func CreatePTY() error {
 }
 
 func DestroyPty() {
-	//_ = Stdout.Close()
-	//_ = Stdin.Close()
 	Stdin, Stdout, Stderr = os.Stdin, os.Stdout, os.Stderr
+	readline.SetTTY(os.Stdout, os.Stdin)
+	readline.ForceCrLf = true
 	height = 0
 	bufMutex.Lock()
 	buffer = []byte{}
@@ -127,6 +128,7 @@ func ptyBuffer(dst, src *os.File) {
 			}
 			return
 		}
+		bufferWrite(p[:i])
 		written, err := dst.Write(p[:i])
 		if err != nil {
 			if _, err := os.Stderr.WriteString("error writing to term: " + err.Error()); err != nil {
@@ -140,8 +142,6 @@ func ptyBuffer(dst, src *os.File) {
 			}
 			return
 		}
-
-		bufferWrite(p[:i])
 	}
 }
 
@@ -204,11 +204,6 @@ func BufferRecall(prompt []byte, line string) {
 		return
 	}
 
-	/*if len(buffer) > 0 && buffer[len(buffer)-1] != '\n' {
-		//Stdout.Write([]byte{'\r', '\n'})
-		buffer = append(buffer, '\r', '\n')
-	}*/
-
 	bufMutex.Lock()
 
 	Stdout.WriteString(codes.Reset)
@@ -220,16 +215,35 @@ func BufferRecall(prompt []byte, line string) {
 	Stdout.WriteString(codes.Reset)
 	Stdout.Write([]byte{'\r', '\n'})
 
-	// first pass (to reduce flicker)
-	/*_, _ = os.Stdout.WriteString(codes.Reset)
-	_, _ = os.Stdout.WriteString(codes.Home)
-
-	_, _ = os.Stdout.Write(buffer)*/
-
-	// second pass (to clear noise)
 	_, _ = os.Stdout.WriteString(codes.Reset)
 	_, _ = os.Stdout.WriteString(codes.Home + codes.ClearScreenBelow)
 
 	_, _ = os.Stdout.Write(buffer)
+
+	bufMutex.Unlock()
+}
+
+var rxEsc = regexp.MustCompile(string([]byte{27, ']', '.', '*', '?', 7})) // no titlebar ANSI escape sequences
+
+func MissingCrLf() bool {
+	if height == 0 {
+		return false
+	}
+
+	bufMutex.Lock()
+	buffer := rxEsc.ReplaceAll(buffer, []byte{})
+
+	if len(buffer) > 0 && buffer[len(buffer)-1] != '\n' {
+		bufMutex.Unlock()
+		return true
+	}
+
+	bufMutex.Unlock()
+	return false
+}
+
+func WriteCrLf() {
+	bufMutex.Lock()
+	_, _ = Stdout.Write(NewLine)
 	bufMutex.Unlock()
 }
