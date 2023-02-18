@@ -17,13 +17,18 @@ func SetTTY(primaryTTY, replicaTTY *os.File) {
 
 var ForceCrLf = true
 
+type HintCacheFuncT func(prefix string, items []string) []string
+
 type TabCompleterReturnT struct {
 	Prefix       string
 	Suggestions  []string
 	Descriptions map[string]string
 	DisplayType  TabDisplayType
-	HintCache    func([]string) []string
+	HintCache    HintCacheFuncT
+	Preview      PreviewFuncT
 }
+
+type PreviewFuncT func(filename string, incImages bool, size *PreviewSizeT) (lines []string, err error)
 
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
@@ -57,6 +62,8 @@ type Instance struct {
 	// TabCompleter is a function that offers completion suggestions.
 	TabCompleter      func([]rune, int, DelayedTabContext) *TabCompleterReturnT
 	delayedTabContext DelayedTabContext
+
+	tcr *TabCompleterReturnT
 
 	MinTabItemLength int
 	MaxTabItemLength int

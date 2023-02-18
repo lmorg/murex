@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/preview"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
@@ -83,6 +84,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 			r.Prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
 
+		r.HintCache = cacheHints
+		r.Preview = preview.Command
+
 		switch pt.PipeToken {
 		case parser.PipeTokenPosix:
 			autocomplete.MatchFunction(r.Prefix, &act)
@@ -152,6 +156,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		}
 
 		autocomplete.MatchFlags(&act)
+		r.Preview = preview.File
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
@@ -237,4 +242,23 @@ func autocompleteHistoryHat(act *autocomplete.AutoCompleteT) {
 
 	act.TabDisplayType = readline.TabDisplayList
 	act.DoNotSort = true
+}
+
+func cacheHints(prefix string, exes []string) []string {
+	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.String)
+	if err != nil {
+		v = ""
+	}
+	if v.(string) != "on-tab" {
+		return nil
+	}
+
+	hints := make([]string, len(exes))
+	external := autocomplete.GlobalExes.Get()
+	for i := range exes {
+		exe := strings.TrimSpace(prefix + exes[i])
+		hints[i] = string(hintsummary.Get(exe, (*external)[exe]))
+	}
+
+	return hints
 }

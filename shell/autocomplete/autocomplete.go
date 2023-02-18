@@ -93,9 +93,11 @@ func CacheHints() {
 	exes := allExecutables(true)
 
 	for exe := range exes {
-		hintsummary.Cache.Set(exe, hintsummary.Get(exe, true))
+		hintsummary.Get(exe, true)
 	}
 }
+
+//func CacheHints
 
 // MatchVars returns autocomplete suggestions for variables based on a partial
 // string

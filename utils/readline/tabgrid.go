@@ -6,7 +6,6 @@ import (
 
 func (rl *Instance) initTabGrid() {
 	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
 
 	var suggestions []string
 	if rl.modeTabFind {
@@ -39,6 +38,32 @@ func (rl *Instance) initTabGrid() {
 	}
 
 	rl.tcMaxY = rl.MaxTabCompleterRows
+
+	// pre-cache
+	max := rl.tcMaxX * rl.tcMaxY
+	if max > len(rl.tcSuggestions) {
+		max = len(rl.tcSuggestions)
+	}
+	subset := rl.tcSuggestions[:max]
+
+	rl.tabMutex.Unlock()
+
+	if rl.tcr.HintCache == nil {
+		return
+	}
+
+	go func() {
+		hints := rl.tcr.HintCache(rl.tcPrefix, subset)
+		if len(hints) != len(subset) {
+			return
+		}
+
+		rl.tabMutex.Lock()
+		for i := range subset {
+			rl.tcDescriptions[subset[i]] = hints[i]
+		}
+		rl.tabMutex.Unlock()
+	}()
 }
 
 func (rl *Instance) moveTabGridHighlight(x, y int) {

@@ -52,11 +52,11 @@ func Start() {
 		go cache.GatherFileCompletions(".")
 	}
 
-	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
+	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.String)
 	if err != nil {
-		v = false
+		v = ""
 	}
-	if v.(bool) {
+	if v.(string) == types.TrueString || v.(string) == "on-start" {
 		go autocomplete.CacheHints()
 	}
 
