@@ -34,7 +34,7 @@ library:
 * tab-completion in gridded mode (seen when typing `cd`)
 * tab-completion in list view (seen when selecting a process name to `kill`
     where the process ID was substituted when selected)
-* regex searching through the tab-completion suggestions (seen in both `cd` and
+* searching through the tab-completion suggestions (seen in both `cd` and
     `kill` - enabled by pressing `[ctrl]`+`[f]`)
 * line editing using $EDITOR (`vi` in the example - enabled by pressing `[esc]`
     followed by `[v]`)
