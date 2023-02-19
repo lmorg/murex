@@ -127,7 +127,7 @@ func ShowPrompt() {
 		Prompt.HistoryAutoWrite = false
 
 		if tty.Enabled() {
-			Prompt.ScreenRefresh = tty.BufferRecall
+			Prompt.ScreenRefresh = tty.BufferGet
 		}
 
 		getSyntaxHighlighting()

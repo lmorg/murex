@@ -10,6 +10,8 @@ import (
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -22,17 +24,13 @@ func (col color) RGBA() (uint32, uint32, uint32, uint32) {
 
 var rxImage = regexp.MustCompile(`\.(bmp|jpg|jpeg|png|gif|tiff|webp)$`)
 
-func File(filename string, incImages bool, size *readline.PreviewSizeT) ([]string, error) {
+func File(_ []rune, filename string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	p := make([]byte, 1*1024*1024)
 	var i int
 
-	if strings.HasSuffix(filename, " ") {
-		filename = strings.TrimSpace(filename)
-	}
-
 	f, err := os.OpenFile(filename, os.O_RDONLY, 0)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	defer f.Close()
 
@@ -41,7 +39,7 @@ func File(filename string, incImages bool, size *readline.PreviewSizeT) ([]strin
 	if incImages && rxImage.MatchString(filename) {
 		img, err := ansimage.NewScaledFromReader(f, 2*size.Height-1, size.Width, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		}
 		lines = strings.Split(img.Render(), "\n")
 		for i := range lines {
@@ -50,7 +48,7 @@ func File(filename string, incImages bool, size *readline.PreviewSizeT) ([]strin
 				lines[i] += strings.Repeat(" ", size.Width-count)
 			}
 		}
-		return lines, nil
+		return lines, 0, nil
 	}
 
 	i, err = f.Read(p)
@@ -58,21 +56,21 @@ func File(filename string, incImages bool, size *readline.PreviewSizeT) ([]strin
 		i = copy(p, []byte(err.Error()))
 	}
 
-	lines, err = parse(p[:i], size)
+	lines, _, err = parse(p[:i], size)
 	if err != nil && err.Error() == errBinaryFile.Error() {
 		file := previewFile(filename)
 		if len(file) == 0 {
-			return []string{err.Error()}, nil
+			return []string{err.Error()}, 0, nil
 		}
 		return parse(file, size)
 	}
 
-	return lines, err
+	return lines, 0, err
 }
 
 var errBinaryFile = errors.New("file contains binary data")
 
-func parse(p []byte, size *readline.PreviewSizeT) ([]string, error) {
+func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 	var (
 		lines []string
 		line  []byte
@@ -97,7 +95,7 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, error) {
 		}
 
 		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
-			return nil, errBinaryFile
+			return nil, 0, errBinaryFile
 		}
 
 		switch b {
@@ -122,22 +120,18 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, error) {
 		lines = append(lines, string(line))
 	}
 
-	return lines, nil
+	return lines, 0, nil
 }
 
-func Command(command string, _ bool, size *readline.PreviewSizeT) ([]string, error) {
-	if strings.HasSuffix(command, " ") {
-		command = strings.TrimSpace(command)
-	}
-
+func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	if lang.GlobalAliases.Exists(command) {
-		return nil, nil
+		return nil, 0, nil
 	}
 
 	if lang.MxFunctions.Exists(command) {
 		r, err := lang.MxFunctions.Block(command)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		}
 		return parse([]byte(string(r)), size)
 	}
@@ -151,5 +145,24 @@ func Command(command string, _ bool, size *readline.PreviewSizeT) ([]string, err
 		return parse(manPage(command, size), size)
 	}
 
-	return nil, nil
+	return nil, 0, nil
+}
+
+func Parameter(block []rune, parameter string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
+	if utils.Exists(parameter) {
+		return File(nil, parameter, incImages, size)
+	}
+
+	pt, _ := parser.Parse(block, 0)
+	lines, _, err := Command(nil, pt.FuncName, false, size)
+	if err != nil {
+		return lines, 0, err
+	}
+	for i := range lines {
+		if strings.Contains(lines[i], parameter) {
+			return lines, i, nil
+		}
+	}
+
+	return lines, 0, nil
 }

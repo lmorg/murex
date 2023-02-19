@@ -120,7 +120,6 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 
 func (rl *Instance) writeTabGrid() {
 	rl.tabMutex.Lock()
-	defer rl.tabMutex.Unlock()
 
 	var suggestions []string
 	if rl.modeTabFind {
@@ -164,6 +163,7 @@ func (rl *Instance) writeTabGrid() {
 	}
 
 	rl.tcUsedY = y
+	rl.tabMutex.Unlock()
 
 	rl.writePreview(item)
 }

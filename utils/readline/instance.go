@@ -18,6 +18,7 @@ func SetTTY(primaryTTY, replicaTTY *os.File) {
 var ForceCrLf = true
 
 type HintCacheFuncT func(prefix string, items []string) []string
+type PreviewFuncT func(line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
 
 type TabCompleterReturnT struct {
 	Prefix       string
@@ -27,8 +28,6 @@ type TabCompleterReturnT struct {
 	HintCache    HintCacheFuncT
 	Preview      PreviewFuncT
 }
-
-type PreviewFuncT func(filename string, incImages bool, size *PreviewSizeT) (lines []string, err error)
 
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
@@ -132,7 +131,7 @@ type Instance struct {
 	hintY    int
 	hintText []rune
 
-	ScreenRefresh func([]byte, string)
+	ScreenRefresh func()
 
 	ShowPreviews  bool
 	previewCache  *previewCacheT

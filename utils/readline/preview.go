@@ -50,6 +50,62 @@ func getPreviewXY() (*PreviewSizeT, error) {
 	return size, nil
 }
 
+func (rl *Instance) writePreview(item string) {
+	if rl.previewCache != nil {
+		// refresh screen if preview written previously and this one empty
+		defer func() {
+			if rl.previewCache == nil {
+				rl.screenRefresh()
+			}
+		}()
+	}
+
+	if rl.ShowPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
+		size, err := getPreviewXY()
+		if err != nil || size.Height < 8 || size.Width < 25 {
+			rl.previewCache = nil
+			return
+		}
+
+		item = strings.ReplaceAll(item, "\\", "")
+		item = strings.TrimSpace(item)
+
+		lines, pos, err := rl.tcr.Preview(rl.line, item, rl.PreviewImages, size)
+		if len(lines) == 0 || err != nil {
+			rl.previewCache = nil
+			return
+		}
+		err = previewDraw(lines[pos:], size)
+		if err != nil {
+			rl.previewCache = nil
+			return
+		}
+
+		rl.previewCache = &previewCacheT{
+			pos:   pos,
+			len:   size.Height,
+			lines: lines,
+			size:  size,
+		}
+
+		return
+	}
+
+	rl.previewCache = nil
+}
+
+func (rl *Instance) screenRefresh() {
+	if rl.ScreenRefresh == nil {
+		return
+	}
+
+	rl.ScreenRefresh()
+	print(rl.prompt + string(rl.line))
+	rl.writeHintText(false)
+	rl.writeTabCompletion(false)
+	print("\r\n")
+}
+
 const (
 	curHome       = "\x1b[H"
 	curPosSave    = "\x1b[s"
@@ -84,58 +140,6 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 	moveCursorForwards(size.Forward)
 	print("╰" + hr + "╯\r\n")
 	return nil
-}
-
-func (rl *Instance) screenRefresh() {
-	if rl.ScreenRefresh == nil {
-		return
-	}
-
-	rl.ScreenRefresh([]byte(rl.prompt), string(rl.line))
-
-}
-
-func (rl *Instance) writePreview(item string) {
-	if rl.previewCache != nil {
-		// refresh screen if preview written previously and this one empty
-		defer func() {
-			if rl.previewCache == nil {
-				rl.screenRefresh()
-			}
-		}()
-	}
-
-	if rl.ShowPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
-		size, err := getPreviewXY()
-		if err != nil || size.Height < 8 || size.Width < 25 {
-			rl.previewCache = nil
-			return
-		}
-
-		item = strings.ReplaceAll(item, "\\", "")
-
-		lines, err := rl.tcr.Preview(item, rl.PreviewImages, size)
-		if len(lines) == 0 || err != nil {
-			rl.previewCache = nil
-			return
-		}
-		err = previewDraw(lines, size)
-		if err != nil {
-			rl.previewCache = nil
-			return
-		}
-
-		rl.previewCache = &previewCacheT{
-			pos:   0,
-			len:   size.Height,
-			lines: lines,
-			size:  size,
-		}
-
-		return
-	}
-
-	rl.previewCache = nil
 }
 
 func (rl *Instance) previewPageUp() {

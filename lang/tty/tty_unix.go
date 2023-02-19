@@ -4,6 +4,7 @@
 package tty
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -92,6 +93,9 @@ func CreatePTY() error {
 	if err != nil {
 		return fmt.Errorf("unable to put pty into 'raw' mode: %s", err.Error())
 	}
+
+	buffer = bytes.Repeat([]byte{'\n'}, height)
+	_, _ = primary.Write(buffer)
 
 	os.Stdout.WriteString(codes.ClearScreen + codes.Home)
 	Stdin, Stdout, Stderr = os.Stdin, primary, primary
@@ -221,6 +225,11 @@ func BufferRecall(prompt []byte, line string) {
 	_, _ = os.Stdout.Write(buffer)
 
 	bufMutex.Unlock()
+}
+
+func BufferGet() {
+	_, _ = os.Stdout.WriteString(codes.Reset + codes.Home + codes.ClearScreenBelow)
+	_, _ = os.Stdout.Write(buffer)
 }
 
 var rxEsc = regexp.MustCompile(string([]byte{27, ']', '.', '*', '?', 7})) // no titlebar ANSI escape sequences

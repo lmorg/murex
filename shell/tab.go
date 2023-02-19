@@ -156,7 +156,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		}
 
 		autocomplete.MatchFlags(&act)
-		r.Preview = preview.File
+		r.Preview = preview.Parameter
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
