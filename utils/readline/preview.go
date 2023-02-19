@@ -86,7 +86,25 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 	return nil
 }
 
+func (rl *Instance) screenRefresh() {
+	if rl.ScreenRefresh == nil {
+		return
+	}
+
+	rl.ScreenRefresh([]byte(rl.prompt), string(rl.line))
+
+}
+
 func (rl *Instance) writePreview(item string) {
+	if rl.previewCache != nil {
+		// refresh screen if preview written previously and this one empty
+		defer func() {
+			if rl.previewCache == nil {
+				rl.screenRefresh()
+			}
+		}()
+	}
+
 	if rl.ShowPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
 		size, err := getPreviewXY()
 		if err != nil || size.Height < 8 || size.Width < 25 {
@@ -113,7 +131,11 @@ func (rl *Instance) writePreview(item string) {
 			lines: lines,
 			size:  size,
 		}
+
+		return
 	}
+
+	rl.previewCache = nil
 }
 
 func (rl *Instance) previewPageUp() {

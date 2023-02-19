@@ -129,8 +129,10 @@ type Instance struct {
 	histPos int
 
 	// hint text
-	hintY    int //= 0
+	hintY    int
 	hintText []rune
+
+	ScreenRefresh func([]byte, string)
 
 	ShowPreviews  bool
 	previewCache  *previewCacheT

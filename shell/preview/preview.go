@@ -2,7 +2,6 @@ package preview
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"regexp"
 	"strings"
@@ -11,7 +10,6 @@ import (
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
-	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -99,7 +97,6 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, error) {
 		}
 
 		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
-			panic(fmt.Sprint(line, json.LazyLoggingPretty(lines)))
 			return nil, errBinaryFile
 		}
 
@@ -145,8 +142,9 @@ func Command(command string, _ bool, size *readline.PreviewSizeT) ([]string, err
 		return parse([]byte(string(r)), size)
 	}
 
-	if lang.GoFunctions[command] != nil {
-		return parse([]byte(docs.Definition[command]), size)
+	syn := docs.Synonym[command]
+	if syn != "" {
+		return parse([]byte(docs.Definition[syn]), size)
 	}
 
 	if (*autocomplete.GlobalExes.Get())[command] {

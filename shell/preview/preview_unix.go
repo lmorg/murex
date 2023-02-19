@@ -32,8 +32,8 @@ func manPage(exe string, size *readline.PreviewSizeT) []byte {
 	cmd.Stdout = &out
 	cmd.Stderr = &err
 
-	if err := cmd.Run(); err != nil {
-		return []byte(err.Error())
+	if e := cmd.Run(); e != nil {
+		return err.Bytes()
 	}
 
 	if out.Len() == 0 {

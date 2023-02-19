@@ -126,6 +126,10 @@ func ShowPrompt() {
 		Prompt.DelayedSyntaxWorker = Spellchecker
 		Prompt.HistoryAutoWrite = false
 
+		if tty.Enabled() {
+			Prompt.ScreenRefresh = tty.BufferRecall
+		}
+
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
