@@ -173,9 +173,9 @@ func bufferWrite(b []byte) {
 			(buffer[i-1] == '2' || buffer[i-1] == '3') {
 
 			if i == len(buffer)-1 {
-				buffer = []byte{}
+				buffer = bytes.Repeat([]byte{'\n'}, height)
 			} else {
-				buffer = buffer[i+1:]
+				buffer = append(bytes.Repeat([]byte{'\n'}, height), buffer[i+1:]...)
 			}
 
 			bufMutex.Unlock()
@@ -189,9 +189,9 @@ func bufferWrite(b []byte) {
 			buffer[i-4] == '1' && buffer[i-3] == '0' && buffer[i-2] == '4' && buffer[i-1] == '9' {
 
 			if i == len(buffer)-1 {
-				buffer = []byte{}
+				buffer = bytes.Repeat([]byte{'\n'}, height)
 			} else {
-				buffer = buffer[i+1:]
+				buffer = append(bytes.Repeat([]byte{'\n'}, height), buffer[i+1:]...)
 			}
 
 			bufMutex.Unlock()
