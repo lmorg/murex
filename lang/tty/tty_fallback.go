@@ -26,8 +26,8 @@ func BufferRecall(_ []byte, _ string) {
 	// not supported on this platform
 }
 
-func BufferGet() []byte {
-	return []byte{}
+func BufferGet() {
+	// not supported on this platform
 }
 
 func ConfigRead() (interface{}, error) {
