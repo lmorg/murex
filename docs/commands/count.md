@@ -10,7 +10,7 @@
 
 ## Usage
 
-    <stdin> -> count: [ --merge | --sum | --total ] -> <stdout>
+    <stdin> -> count: [ --duplications | --unique | --total ] -> <stdout>
 
 ## Examples
 
@@ -105,6 +105,12 @@ unique count should be one less than the total count:
     8
     » out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --total
     9
+
+## Synonyms
+
+* `count`
+* `len`
+
 
 ## See Also
 

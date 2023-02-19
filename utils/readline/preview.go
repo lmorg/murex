@@ -139,6 +139,7 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 
 	moveCursorForwards(size.Forward)
 	print("╰" + hr + "╯\r\n")
+
 	return nil
 }
 
