@@ -5,11 +5,10 @@ import (
 
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/json"
 	"github.com/lmorg/murex/utils/lists"
 )
 
-func sumMap(v interface{}, new *string) (ret interface{}, err error) {
+func sumMap(v interface{}, new *interface{}) (ret interface{}, err error) {
 	if !debug.Enabled {
 		defer func() {
 			if r := recover(); r != nil {
@@ -18,16 +17,10 @@ func sumMap(v interface{}, new *string) (ret interface{}, err error) {
 		}()
 	}
 
-	var jMap map[string]interface{}
-	err = json.Unmarshal([]byte(*new), &jMap)
-	if err != nil {
-		return ret, fmt.Errorf("cannot unmarshal new map: %s", err)
-	}
-
 	switch ret := v.(type) {
 	case map[string]int:
 		newV := make(map[string]int)
-		for k, v := range jMap {
+		for k, v := range (*new).(map[string]int) {
 			f, err := types.ConvertGoType(v, types.Integer)
 			if err != nil {
 				return ret, err
@@ -39,7 +32,7 @@ func sumMap(v interface{}, new *string) (ret interface{}, err error) {
 
 	case map[string]float64:
 		newV := make(map[string]float64)
-		for k, v := range jMap {
+		for k, v := range (*new).(map[string]float64) {
 			f, err := types.ConvertGoType(v, types.Float)
 			if err != nil {
 				return ret, err
@@ -50,7 +43,7 @@ func sumMap(v interface{}, new *string) (ret interface{}, err error) {
 		lists.SumFloat64(ret, newV)
 
 	case map[string]interface{}:
-		err := lists.SumInterface(ret, jMap)
+		err := lists.SumInterface(ret, (*new).(map[string]interface{}))
 		return ret, err
 
 	default:

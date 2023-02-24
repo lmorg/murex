@@ -1,15 +1,18 @@
 package lang
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/alter"
 	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -148,6 +151,19 @@ func (v *Variables) getValue(name string) (value interface{}) {
 	v.mutex.Unlock()
 
 	return value
+}
+
+func (v *Variables) GetNestedValue(path string) (interface{}, error) {
+	split := strings.Split(path, ".")
+	if len(split) == 0 {
+		return nil, errors.New("invalid path in variable name. Expecting a dot separated path")
+	}
+	val, err := v.GetValue(split[0])
+	if err != nil {
+		return nil, err
+	}
+
+	return ElementLookup(val, "."+strings.Join(split[1:], "."))
 }
 
 // GetString returns a string representation of the data stored in the requested variable
@@ -419,6 +435,26 @@ func varConvertInterface(value interface{}, dataType string) (string, error) {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
 	return s.(string), nil
+}
+
+func (v *Variables) SetNestedValue(p *Process, path string, value interface{}) error {
+	var err error
+
+	split := strings.Split(path, ".")
+	if len(split) == 0 {
+		return errors.New("invalid path in variable name. Expecting a dot separated path")
+	}
+
+	variable, err := v.GetValue(split[0])
+	if err != nil {
+		return err
+	}
+
+	dataType := v.GetDataType(split[0])
+
+	variable, err = alter.Alter(p.Context, variable, split[1:], value)
+
+	return v.Set(p, split[0], variable, dataType)
 }
 
 // Unset removes a variable from the table

@@ -100,10 +100,11 @@ func cmdAlter(p *lang.Process) error {
 		}
 	}
 
-	new, err := p.Parameters.String(1 + offset)
+	newS, err := p.Parameters.String(1 + offset)
 	if err != nil {
 		return err
 	}
+	new := alter.StrToInterface(newS)
 
 	path, err := alter.SplitPath(s)
 	if err != nil {
