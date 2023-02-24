@@ -6,8 +6,14 @@ import (
 )
 
 func getPreviewWidth(width int) (preview, forward int) {
+	if width < 80 {
+		return 0, 0
+	}
 	preview = width / 3
-	forward = preview * 2
+	if preview < 80 {
+		preview = 80
+	}
+	forward = width - preview
 	preview += width - (preview + forward)
 	forward -= 2
 	return
@@ -62,7 +68,7 @@ func (rl *Instance) writePreview(item string) {
 
 	if rl.ShowPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
 		size, err := getPreviewXY()
-		if err != nil || size.Height < 8 || size.Width < 25 {
+		if err != nil || size.Height < 8 || size.Width < 40 {
 			rl.previewCache = nil
 			return
 		}

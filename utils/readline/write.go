@@ -80,12 +80,12 @@ func lineWrap(rl *Instance, termWidth int) []string {
 	}
 
 	n := float64(len(rl.line)+1) / (float64(termWidth) - float64(promptLen))
-	if n < 0 {
+	ceil := int(math.Ceil(n))
+	if ceil < 0 {
 		return []string{" "}
 	}
 
 	var (
-		ceil = int(math.Ceil(n))
 		wrap = make([]string, ceil)
 		l    = termWidth - promptLen
 		line = string(rl.line) + " "
