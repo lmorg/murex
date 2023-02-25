@@ -80,7 +80,24 @@ type variable struct {
 // GetValue will return nil. Please check if p.Config.Get("proc", "strict-vars", "bool")
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
-func (v *Variables) GetValue(name string) (interface{}, error) {
+func (v *Variables) GetValue(path string) (interface{}, error) {
+	split := strings.Split(path, ".")
+	switch len(split) {
+	case 0:
+		return nil, errors.New("missing variable name")
+	case 1:
+		return v._GetValue(split[0])
+	default:
+		val, err := v.GetValue(split[0])
+		if err != nil {
+			return nil, err
+		}
+
+		return ElementLookup(val, "."+strings.Join(split[1:], "."))
+	}
+}
+
+func (v *Variables) _GetValue(name string) (interface{}, error) {
 	switch name {
 	case SELF:
 		return getVarSelf(v.process), nil
@@ -153,21 +170,32 @@ func (v *Variables) getValue(name string) (value interface{}) {
 	return value
 }
 
-func (v *Variables) GetNestedValue(path string) (interface{}, error) {
+// GetString returns a string representation of the data stored in the requested variable
+func (v *Variables) GetString(path string) (string, error) {
 	split := strings.Split(path, ".")
-	if len(split) == 0 {
-		return nil, errors.New("invalid path in variable name. Expecting a dot separated path")
-	}
-	val, err := v.GetValue(split[0])
-	if err != nil {
-		return nil, err
-	}
+	switch len(split) {
+	case 0:
+		return "", errors.New("missing variable name")
+	case 1:
+		return v._GetString(split[0])
+	default:
+		val, err := v.GetValue(split[0])
+		if err != nil {
+			return "", err
+		}
 
-	return ElementLookup(val, "."+strings.Join(split[1:], "."))
+		val, err = ElementLookup(val, "."+strings.Join(split[1:], "."))
+		if err != nil {
+			return "", err
+		}
+
+		dataType := v.GetDataType(split[0])
+		b, err := MarshalData(v.process, dataType, val)
+		return string(b), err
+	}
 }
 
-// GetString returns a string representation of the data stored in the requested variable
-func (v *Variables) GetString(name string) (string, error) {
+func (v *Variables) _GetString(name string) (string, error) {
 	switch name {
 	case SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
@@ -203,16 +231,16 @@ func (v *Variables) GetString(name string) (string, error) {
 	}
 
 	if v.global {
-		val, _ := v.getString(name)
+		val, _ := v.getStringValue(name)
 		return val, nil
 	}
 
-	s, exists := v.getString(name)
+	s, exists := v.getStringValue(name)
 	if exists {
 		return s, nil
 	}
 
-	s, exists = GlobalVariables.getString(name)
+	s, exists = GlobalVariables.getStringValue(name)
 	if exists {
 		return s, nil
 	}
@@ -228,7 +256,7 @@ func (v *Variables) GetString(name string) (string, error) {
 	return s, nil
 }
 
-func (v *Variables) getString(name string) (string, bool) {
+func (v *Variables) getStringValue(name string) (string, bool) {
 	v.mutex.Lock()
 	variable := v.vars[name]
 	if variable == nil {

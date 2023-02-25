@@ -2,25 +2,15 @@ package lang
 
 import "os"
 
-type self struct {
-	Parent     uint32
-	Scope      uint32
-	TTY        bool
-	Method     bool
-	Not        bool
-	Background bool
-	Module     string
-}
-
 func getVarSelf(p *Process) interface{} {
-	return self{
-		Parent:     p.Scope.Parent.Id,
-		Scope:      p.Scope.Id,
-		TTY:        p.Scope.Stdout.IsTTY(),
-		Method:     p.Scope.IsMethod,
-		Not:        p.Scope.IsNot,
-		Background: p.Scope.Background.Get(),
-		Module:     p.Scope.FileRef.Source.Module,
+	return map[string]interface{}{
+		"Parent":     int(p.Scope.Parent.Id),
+		"Scope":      int(p.Scope.Id),
+		"TTY":        p.Scope.Stdout.IsTTY(),
+		"Method":     p.Scope.IsMethod,
+		"Not":        p.Scope.IsNot,
+		"Background": p.Scope.Background.Get(),
+		"Module":     p.Scope.FileRef.Source.Module,
 	}
 }
 

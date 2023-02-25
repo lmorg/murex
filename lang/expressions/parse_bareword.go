@@ -1,7 +1,7 @@
 package expressions
 
 func isBareChar(r rune) bool {
-	return r == '_' ||
+	return r == '_' || r == '.' ||
 		(r >= 'a' && 'z' >= r) ||
 		(r >= 'A' && 'Z' >= r) ||
 		(r >= '0' && '9' >= r)
