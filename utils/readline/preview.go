@@ -6,15 +6,16 @@ import (
 )
 
 func getPreviewWidth(width int) (preview, forward int) {
-	if width < 80 {
+	switch {
+	case width < 80:
 		return 0, 0
-	}
-	preview = width / 3
-	if preview < 80 {
+	case width < 90:
+		preview = 40
+	default:
 		preview = 80
 	}
+
 	forward = width - preview
-	preview += width - (preview + forward)
 	forward -= 2
 	return
 }
