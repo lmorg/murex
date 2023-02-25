@@ -270,7 +270,42 @@ func (v *Variables) getStringValue(name string) (string, bool) {
 }
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
-func (v *Variables) GetDataType(name string) string {
+func (v *Variables) GetDataType(path string) string {
+	split := strings.Split(path, ".")
+	switch len(split) {
+	case 0:
+		return types.Null
+	case 1:
+		return v.getDataType(split[0])
+	default:
+		val, err := v.getValue(split[0])
+		if err != nil {
+			return v.getDataType(split[0])
+		}
+
+		val, err = ElementLookup(val, "."+strings.Join(split[1:], "."))
+		if err != nil {
+			return v.getDataType(split[0])
+		}
+
+		switch val.(type) {
+		case int:
+			return types.Integer
+		case float64:
+			return types.Number
+		case string, []byte, []rune:
+			return types.String
+		case bool:
+			return types.Boolean
+		case nil:
+			return types.Null
+		default:
+			return v.getDataType(split[0])
+		}
+	}
+}
+
+func (v *Variables) getDataType(name string) string {
 	switch name {
 	case SELF:
 		return types.Json
@@ -299,16 +334,16 @@ func (v *Variables) GetDataType(name string) string {
 	}
 
 	if v.global {
-		dt, _ := v.getDataType(name)
+		dt, _ := v.getDataTypeValue(name)
 		return dt
 	}
 
-	s, exists := v.getDataType(name)
+	s, exists := v.getDataTypeValue(name)
 	if exists {
 		return s
 	}
 
-	s, exists = GlobalVariables.getDataType(name)
+	s, exists = GlobalVariables.getDataTypeValue(name)
 	if exists {
 		return s
 	}
@@ -322,7 +357,7 @@ func (v *Variables) GetDataType(name string) string {
 	return types.Null
 }
 
-func (v *Variables) getDataType(name string) (string, bool) {
+func (v *Variables) getDataTypeValue(name string) (string, bool) {
 	v.mutex.Lock()
 	variable := v.vars[name]
 	if variable == nil {
