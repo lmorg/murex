@@ -86,9 +86,9 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 	case 0:
 		return nil, errors.New("missing variable name")
 	case 1:
-		return v._GetValue(split[0])
+		return v.getValue(split[0])
 	default:
-		val, err := v.GetValue(split[0])
+		val, err := v.getValue(split[0])
 		if err != nil {
 			return nil, err
 		}
@@ -97,7 +97,7 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 	}
 }
 
-func (v *Variables) _GetValue(name string) (interface{}, error) {
+func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
 	case SELF:
 		return getVarSelf(v.process), nil
@@ -130,15 +130,15 @@ func (v *Variables) _GetValue(name string) (interface{}, error) {
 	}
 
 	if v.global {
-		return v.getValue(name), nil
+		return v.getValueValue(name), nil
 	}
 
-	value := v.getValue(name)
+	value := v.getValueValue(name)
 	if value != nil {
 		return value, nil
 	}
 
-	value = GlobalVariables.getValue(name)
+	value = GlobalVariables.getValueValue(name)
 	if value != nil {
 		return value, nil
 	}
@@ -156,7 +156,7 @@ func (v *Variables) _GetValue(name string) (interface{}, error) {
 	return nil, nil
 }
 
-func (v *Variables) getValue(name string) (value interface{}) {
+func (v *Variables) getValueValue(name string) (value interface{}) {
 	v.mutex.Lock()
 	variable := v.vars[name]
 	if variable == nil {
@@ -177,9 +177,9 @@ func (v *Variables) GetString(path string) (string, error) {
 	case 0:
 		return "", errors.New("missing variable name")
 	case 1:
-		return v._GetString(split[0])
+		return v.getString(split[0])
 	default:
-		val, err := v.GetValue(split[0])
+		val, err := v.getValue(split[0])
 		if err != nil {
 			return "", err
 		}
@@ -195,7 +195,7 @@ func (v *Variables) GetString(path string) (string, error) {
 	}
 }
 
-func (v *Variables) _GetString(name string) (string, error) {
+func (v *Variables) getString(name string) (string, error) {
 	switch name {
 	case SELF:
 		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
@@ -335,8 +335,37 @@ func (v *Variables) getDataType(name string) (string, bool) {
 	return dt, true
 }
 
+func errCannotUpdateNested(name string, err error) error {
+	return fmt.Errorf("cannot update element inside %s: %s", name, err.Error())
+}
+
+func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
+	split := strings.Split(path, ".")
+	switch len(split) {
+	case 0:
+		return errors.New("missing variable name")
+	case 1:
+		return v.set(p, split[0], value, dataType)
+	default:
+		variable, err := v.getValue(split[0])
+		if err != nil {
+			return errCannotUpdateNested(split[0], err)
+		}
+
+		variable, err = alter.Alter(p.Context, variable, split[1:], value)
+		if err != nil {
+			return errCannotUpdateNested(split[0], err)
+		}
+		err = v.set(p, split[0], variable, v.GetDataType(split[0]))
+		if err != nil {
+			return errCannotUpdateNested(split[0], err)
+		}
+		return nil
+	}
+}
+
 // Set writes a variable
-func (v *Variables) Set(p *Process, name string, value interface{}, dataType string) error {
+func (v *Variables) set(p *Process, name string, value interface{}, dataType string) error {
 	switch name {
 	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
 		return errVariableReserved(name)
@@ -463,26 +492,6 @@ func varConvertInterface(value interface{}, dataType string) (string, error) {
 		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
 	}
 	return s.(string), nil
-}
-
-func (v *Variables) SetNestedValue(p *Process, path string, value interface{}) error {
-	var err error
-
-	split := strings.Split(path, ".")
-	if len(split) == 0 {
-		return errors.New("invalid path in variable name. Expecting a dot separated path")
-	}
-
-	variable, err := v.GetValue(split[0])
-	if err != nil {
-		return err
-	}
-
-	dataType := v.GetDataType(split[0])
-
-	variable, err = alter.Alter(p.Context, variable, split[1:], value)
-
-	return v.Set(p, split[0], variable, dataType)
 }
 
 // Unset removes a variable from the table
