@@ -5,7 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
-
+// $bob[?key=="name"?value]
 func TestParseBareword(t *testing.T) {
 	tests := expTestsT{
 		symbol: symbols.Bareword,
