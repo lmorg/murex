@@ -71,7 +71,7 @@ func TestParseBareword(t *testing.T) {
 			},
 			/////
 			{
-				input:    `foo0bar.`,
+				input:    `foo0bar!`,
 				expected: `foo0bar`,
 			},
 			{
@@ -80,7 +80,8 @@ func TestParseBareword(t *testing.T) {
 			},
 			{
 				input:    `foo.bar`,
-				expected: `foo`,
+				expected: `foo.bar`,
+				pos:      0,
 			},
 			{
 				input:    `foo=bar`,
@@ -91,4 +92,3 @@ func TestParseBareword(t *testing.T) {
 
 	testParserSymbol(t, tests)
 }
-
