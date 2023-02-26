@@ -29,9 +29,12 @@ func errVarNoParam(i int, err error) error {
 	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
 }
 
+var errZeroLengthPath = errors.New("zero length path")
+
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
 const (
+	DOT        = ""
 	SELF       = "SELF"
 	ARGS       = "ARGS"
 	PARAMS     = "PARAMS"
@@ -81,10 +84,14 @@ type variable struct {
 // matters for your usage of GetValue because this API doesn't care. If in doubt
 // use GetString instead.
 func (v *Variables) GetValue(path string) (interface{}, error) {
+	if path == "." {
+		return v.getValue("")
+	}
+
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return nil, errors.New("missing variable name")
+		return nil, errors.New("zero length path")
 	case 1:
 		return v.getValue(split[0])
 	default:
@@ -172,10 +179,14 @@ func (v *Variables) getValueValue(name string) (value interface{}) {
 
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(path string) (string, error) {
+	if path == "." {
+		return v.getString("")
+	}
+
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return "", errors.New("missing variable name")
+		return "", errZeroLengthPath
 	case 1:
 		return v.getString(split[0])
 	default:
@@ -271,10 +282,14 @@ func (v *Variables) getStringValue(name string) (string, bool) {
 
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(path string) string {
+	if path == "." {
+		return v.getDataType("")
+	}
+
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return types.Null
+		return ""
 	case 1:
 		return v.getDataType(split[0])
 	default:
@@ -378,7 +393,7 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return errors.New("missing variable name")
+		return errZeroLengthPath
 	case 1:
 		return v.set(p, split[0], value, dataType)
 	default:
@@ -404,6 +419,8 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 	switch name {
 	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
 		return errVariableReserved(name)
+	case "":
+		goto notReserved
 	}
 	for _, r := range name {
 		if r < '0' || r > '9' {
@@ -419,9 +436,6 @@ notReserved:
 		err   error
 	)
 
-	/*if name == "TestBug507" {
-		panic(fmt.Sprintf("value of value (%s) == '%v' (%T, %s)", name, value, value, dataType))
-	}*/
 	switch v := value.(type) {
 	case float64, int, bool, nil:
 		s, err = varConvertPrimitive(value)
