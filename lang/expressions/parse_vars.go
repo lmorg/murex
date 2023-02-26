@@ -2,11 +2,19 @@ package expressions
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/utils/home"
 )
 
 func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+	var paren bool
+
+	if tree.nextChar() == '(' {
+		tree.charPos++
+		paren = true
+	}
+
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
 	}
@@ -15,19 +23,45 @@ func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, 
 	value := tree.parseBareword()
 
 	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
-		return tree.parseVarIndexElement(exec, value, strOrVal)
+		if paren {
+			r, v, s, err := tree.parseVarIndexElement(exec, value, strOrVal)
+			if tree.nextChar() == ')' {
+				tree.charPos++
+				return r, v, s, err
+			}
+			return nil, nil, "", fmt.Errorf("expecting closing parenthesis, ')', after variable reference")
+
+		} else {
+			return tree.parseVarIndexElement(exec, value, strOrVal)
+		}
+	}
+
+	if paren {
+		if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == ')' {
+			tree.charPos++
+		} else {
+			return nil, nil, "", fmt.Errorf("expecting closing parenthesis, ')', after variable reference")
+		}
 	}
 
 	tree.charPos--
 
-	if !exec {
-		// don't getVar() until we come to execute the expression, skip when only
-		// parsing syntax
-		return append([]rune{'$'}, value...), nil, "", nil
+	if exec {
+		v, dataType, err := tree.getVar(value, strOrVal)
+		return value, v, dataType, err
 	}
 
-	v, dataType, err := tree.getVar(value, strOrVal)
-	return value, v, dataType, err
+	// don't getVar() until we come to execute the expression, skip when only
+	// parsing syntax
+	if paren {
+		r := make([]rune, len(value)+3)
+		copy(r, []rune{'$', '('})
+		copy(r[2:], value)
+		r[len(r)-1] = ')'
+		return r, nil, "", nil
+	} else {
+		return append([]rune{'$'}, value...), nil, "", nil
+	}
 }
 
 func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {

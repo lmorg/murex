@@ -82,12 +82,28 @@ func TestParseQuoteSingle(t *testing.T) {
 				expected: `foo-$bar-bar`,
 			},
 			{
+				input:    `'foo-$(bar)-bar'`,
+				expected: `foo-$(bar)-bar`,
+			},
+			{
 				input:    `'foo-@bar-bar'`,
 				expected: `foo-@bar-bar`,
 			},
 			{
-				input:    `'\s\t\r\n'`,
-				expected: `\s\t\r\n`,
+				input:    `'\s'`,
+				expected: `\s`,
+			},
+			{
+				input:    `'\t'`,
+				expected: `\t`,
+			},
+			{
+				input:    `'\r'`,
+				expected: `\r`,
+			},
+			{
+				input:    `'\n'`,
+				expected: `\n`,
 			},
 		},
 	}

@@ -119,17 +119,6 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 
 		case r == '$':
 			switch {
-			case isBareChar(tree.nextChar()):
-				// inline scalar
-				scalar, v, _, err := tree.parseVarScalar(exec, varAsString)
-				if err != nil {
-					return nil, err
-				}
-				if exec {
-					value = append(value, []rune(v.(string))...)
-				} else {
-					value = append(value, scalar...)
-				}
 			case tree.nextChar() == '{':
 				// subshell
 				subshell, v, _, err := tree.parseSubShell(exec, r, varAsString)
@@ -142,7 +131,16 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 					value = append(value, subshell...)
 				}
 			default:
-				value = append(value, r)
+				// inline scalar
+				scalar, v, _, err := tree.parseVarScalar(exec, varAsString)
+				if err != nil {
+					return nil, err
+				}
+				if exec {
+					value = append(value, []rune(v.(string))...)
+				} else {
+					value = append(value, scalar...)
+				}
 			}
 
 		case r == '~':

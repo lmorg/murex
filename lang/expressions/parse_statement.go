@@ -1,6 +1,8 @@
 package expressions
 
 import (
+	"fmt"
+
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
@@ -318,11 +320,12 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				} else {
 					appendToParam(tree, value...)
 				}
-			case isBareChar(tree.nextChar()):
+			default:
 				// start scalar
 				value, v, _, err := tree.parseVarScalar(exec, varAsString)
 				if err != nil {
-					return err
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
+						err.Error(), string(r)))
 				}
 				if exec {
 					appendToParam(tree, []rune(v.(string))...)
@@ -330,8 +333,6 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				} else {
 					appendToParam(tree, value...)
 				}
-			default:
-				appendToParam(tree, r)
 			}
 
 		case '@':
