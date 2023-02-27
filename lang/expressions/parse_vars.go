@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/home"
 )
 
@@ -18,7 +19,8 @@ func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, 
 	}
 
 	if !isBareChar(tree.nextChar()) {
-		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
+		// always print $
+		return []rune{'$'}, "$", types.String, nil
 	}
 
 	tree.charPos++
@@ -251,8 +253,12 @@ func (tree *ParserT) parseLambdaArray(varName []rune) ([]rune, interface{}, erro
 	case []interface{}:
 		pos := tree.charPos
 		array := make([]interface{}, len(t))
-		var item interface{}
-		var r []rune
+
+		var (
+			item interface{}
+			r    []rune
+			j    int
+		)
 
 		for i := range t {
 			tree.charPos = pos
@@ -270,14 +276,28 @@ func (tree *ParserT) parseLambdaArray(varName []rune) ([]rune, interface{}, erro
 				return nil, nil, fmt.Errorf("unable to set `$.`: %s", err.Error())
 			}
 
-			r, item, _, err = tree.parseSubShell(true, '@', varAsValue)
+			r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
 			if err != nil {
 				return nil, nil, err
 			}
-			array[i] = item
+			switch item.(type) {
+			case string:
+				if len(item.(string)) > 0 {
+					array[j] = item
+					j++
+				}
+			case bool:
+				if item.(bool) {
+					array[j] = value
+					j++
+				}
+			default:
+				array[j] = item
+				j++
+			}
 		}
 
-		return r, array, nil
+		return r, array[:j], nil
 
 	default:
 		return nil, nil, fmt.Errorf("cannot run lambda. Expecting an array, instead got '%T' in '%s'", t, path)

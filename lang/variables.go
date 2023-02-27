@@ -101,6 +101,22 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 		}
 
 		return ElementLookup(val, "."+strings.Join(split[1:], "."))
+		/*obj, err := ElementLookup(val, "."+strings.Join(split[1:], "."))
+		if err != nil {
+			return nil, err
+		}
+
+		switch obj.(type) {
+		case string:
+			dt := v.getDataType(split[0])
+			if len(obj.(string)) > 0 && obj.(string)[0] == '"' && obj.(string)[len(obj.(string))-1] == '"' &&
+				(dt == types.Json || dt == types.JsonLines) {
+				return obj.(string)[1 : len(obj.(string))-1], nil
+			}
+			return obj, nil
+		default:
+			return obj, nil
+		}*/
 	}
 }
 
@@ -200,9 +216,18 @@ func (v *Variables) GetString(path string) (string, error) {
 			return "", err
 		}
 
-		dataType := v.GetDataType(split[0])
-		b, err := MarshalData(v.process, dataType, val)
-		return string(b), err
+		switch val.(type) {
+		case int, float64, string, bool, nil:
+			s, err := types.ConvertGoType(val, types.String)
+			if err != nil {
+				return "", err
+			}
+			return s.(string), nil
+		default:
+			dataType := v.GetDataType(split[0])
+			b, err := MarshalData(v.process, dataType, val)
+			return string(b), err
+		}
 	}
 }
 
