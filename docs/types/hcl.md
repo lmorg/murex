@@ -120,4 +120,4 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (primitive)
+  Murex-flavoured JSON (deprecated)

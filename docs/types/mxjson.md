@@ -2,9 +2,11 @@
 
 ## Data-Type Reference: mxjson
 
-> Murex-flavoured JSON (primitive)
+> Murex-flavoured JSON (deprecated)
 
 ## Description
+
+> This format has been deprecated in favour of `%{}` constructors.
 
 mxjson is an extension to JSON designed to integrate more seamlessly when
 use as a configuration file. Thus mxjson supports comments and _murex_ code
@@ -12,7 +14,7 @@ blocks embedded into the JSON schema.
 
 > mxjson is a format that is pre-parsed into a valid JSON format.
 
-mxjson isn't currently a proper _murex_ data-type in that you cannot marshal
+mxjson isn't a _murex_ data-type in that you cannot marshal
 and unmarshal mxjson files. Currently it is a format that is only supported
 by a small subset of _murex_ builtins (eg `config` and `autocomplete`) where
 config might embed _murex_ code blocks.
@@ -50,6 +52,8 @@ Any block quoted by this method will be converted to the following valid JSON:
   Initiates or terminates a string (variables expanded)
 * [Code Block Parsing](../user-guide/code-block.md):
   Overview of how code blocks are parsed
+* [Create array (`%[]`) constructor](../parser/create-array.md):
+  Quickly generate arrays
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
 * [`Marshal()` (type)](../apis/Marshal.md):
@@ -86,3 +90,5 @@ Any block quoted by this method will be converted to the following valid JSON:
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [create-objects](../parser/create-objects.md):
+  

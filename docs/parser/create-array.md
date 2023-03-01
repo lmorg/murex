@@ -1,6 +1,6 @@
 # _murex_ Shell Docs
 
-## Parser Reference: Create array
+## Parser Reference: Create array (`%[]`) constructor
 
 > Quickly generate arrays
 
