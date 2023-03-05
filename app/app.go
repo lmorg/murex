@@ -11,9 +11,9 @@ const Name = "murex"
 // Format of version string should be "(major).(minor).(revision) DESCRIPTION"
 const (
 	version  = "%d.%d.%d"
-	Major    = 3
-	Minor    = 2
-	Revision = 7500
+	Major    = 4
+	Minor    = 0
+	Revision = 7650
 )
 
 var Version string

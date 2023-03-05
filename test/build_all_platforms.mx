@@ -1,18 +1,18 @@
 #!/usr/bin/env murex
 
-set project=github.com/lmorg/murex
+project = "github.com/lmorg/murex"
 
-args: args {
-    "AllowAdditional": false,
-    "Flags": {
-        "--no-colour":  "bool",
-        "--no-color":   "--no-colour",
-        "--compress":   "bool",
-        "--inc-latest": "bool"
+args: args %{
+    AllowAdditional: false,
+    Flags: {
+        --no-colour:  bool,
+        --no-color:   --no-colour,
+        --compress:   bool,
+        --inc-latest: bool
     }
 }
 catch {
-    err $args[Error]
+    err $args.Error
     exit 1
 }
 
@@ -26,11 +26,11 @@ if { $args->[[/Flags/--no-colour]] } then {
 }
 
 function compress {
-    if { $ARGS[2] } then {
-        zip -q $ARGS[1].zip $ARGS[1]
-        rm $ARGS[1]
+    if { $ARGS.2 } then {
+        zip -q $(ARGS.1).zip $ARGS.1
+        rm $ARGS.1
     } else {
-        gzip $ARGS[1]
+        gzip $ARGS.1
     }
 }
 
@@ -38,36 +38,36 @@ mkdir -p bin
 
 # Platforms supported by the go compiler.
 # All 32bit ARM targets will be for ARMv7.
-set json targets = ({
-    "linux":     [ "386", "amd64", "arm", "arm64" ],
-    "freebsd":   [ "386", "amd64", "arm"          ],
-    "openbsd":   [ "386", "amd64", "arm"          ],
-    "netbsd":    [ "386", "amd64", "arm"          ],
-    "dragonfly": [        "amd64"                 ],
-    "darwin":    [        "amd64"                 ],
-    "solaris":   [        "amd64"                 ],
-    "plan9":     [ "386", "amd64", "arm"          ],
-    "windows":   [ "386", "amd64", "arm"          ]
-})
+set json targets = %{
+    linux:     [ 386, amd64, arm, arm64 ],
+    freebsd:   [ 386, amd64, arm        ],
+    openbsd:   [ 386, amd64, arm        ],
+    netbsd:    [ 386, amd64, arm        ],
+    dragonfly: [      amd64             ],
+    darwin:    [      amd64             ],
+    solaris:   [      amd64             ],
+    plan9:     [ 386, amd64, arm        ],
+    windows:   [ 386, amd64, arm        ]
+}
 
 # Add support for arm64 on supporting Go releases
-if { = goversion >= 1.16 } then {
-    $targets -> alter: -m /darwin  (["arm64"]) -> set targets
-    $targets -> alter: -m /freebsd (["arm64"]) -> set targets
-    $targets -> alter: -m /openbsd (["arm64"]) -> set targets
-    $targets -> alter: -m /netbsd  (["arm64"]) -> set targets
+if { $goversion >= 1.16 } then {
+    $targets -> alter: -m /darwin  %[arm64] -> set targets
+    $targets -> alter: -m /freebsd %[arm64] -> set targets
+    $targets -> alter: -m /openbsd %[arm64] -> set targets
+    $targets -> alter: -m /netbsd  %[arm64] -> set targets
 }
 
-if { = goversion >= 1.17 } then {
-    $targets -> alter: -m /windows (["arm64"]) -> set targets
+if { $goversion >= 1.17 } then {
+    $targets -> alter: -m /windows %[arm64] -> set targets
 }
 
-let status=0
+status = 0
 
 # Assumes the same version is running this script as the source.
 # This is a bad assumption to make and ideally there should be a pre-compiled
 # version.
-set version=${version --short}
+version = ${version --short}
 
 #export CGO_CPPFLAGS="$CPPFLAGS"
 #export CGO_CFLAGS="$CFLAGS"
@@ -77,7 +77,7 @@ set version=${version --short}
 $targets -> formap os cpus {
     $cpus -> foreach arch {
         set ext
-        if { =os==`windows` } then { set ext=.exe }
+        if { $os == "windows" } then { set ext=".exe" }
 
         try {
             ({BLUE}Building $os/$arch....{RESET})
@@ -108,7 +108,7 @@ if { and { $args->[[/Flags/--inc-latest]] } { os posix } } then {
     cd bin
     mkdir -p latest
     g * -> foreach src {
-        if { = src!=`latest` } then {
+        if { $src != "latest" } then {
             $src -> sed s/-$version// -> set dest
             cp -v $src latest/$dest
         }
