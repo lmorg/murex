@@ -1,6 +1,10 @@
 package lang
 
-import "os"
+import (
+	"os"
+
+	"github.com/lmorg/murex/utils/path"
+)
 
 func getVarSelf(p *Process) interface{} {
 	return map[string]interface{}{
@@ -18,13 +22,13 @@ func getVarArgs(p *Process) interface{} {
 	return append([]string{p.Scope.Name.String()}, p.Scope.Parameters.StringArray()...)
 }
 
-func getVarMurexExe() interface{} {
-	path, err := os.Executable()
+func getVarMurexExeValue() (interface{}, error) {
+	pwd, err := os.Executable()
 	if err != nil {
-		return err.Error()
+		return nil, err
 	}
 
-	return path
+	return path.Unmarshal([]byte(pwd))
 }
 
 func getHostname() string {
@@ -32,7 +36,11 @@ func getHostname() string {
 	return name
 }
 
-func getPwd() string {
-	pwd, _ := os.Getwd()
-	return pwd
+func getPwdValue() (interface{}, error) {
+	pwd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	return path.Unmarshal([]byte(pwd))
 }

@@ -8,22 +8,28 @@ import (
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
+	"github.com/lmorg/murex/utils/path"
 )
 
 func marshalPath(_ *lang.Process, v interface{}) ([]byte, error) {
-	return marshal(typePath, v, []byte(consts.PathSlash))
+	return path.Marshal(v)
+}
+
+func unmarshalPath(p *lang.Process) (interface{}, error) {
+	b, err := p.Stdin.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return path.Unmarshal(b)
 }
 
 func marshalPaths(_ *lang.Process, v interface{}) ([]byte, error) {
-	return marshal(typePath, v, []byte{':'})
-}
-
-func marshal(dataType string, v interface{}, separator []byte) ([]byte, error) {
 	switch t := v.(type) {
 	case string:
 		return []byte(t), nil
 	case []string:
-		s := strings.Join(t, string(separator))
+		s := consts.PathSlash + strings.Join(t, string(pathsSeparator))
 		return []byte(s), nil
 	case []interface{}:
 		a := make([]string, len(t))
@@ -34,27 +40,19 @@ func marshal(dataType string, v interface{}, separator []byte) ([]byte, error) {
 			}
 			a[i] = s.(string)
 		}
-		return []byte(strings.Join(a, string(separator))), nil
+		return []byte(strings.Join(a, consts.PathSlash+string(pathsSeparator))), nil
 	default:
-		return nil, fmt.Errorf("%s can only marshal arrays. Instead got %T", dataType, t)
+		return nil, fmt.Errorf("%s can only marshal arrays. Instead got %T", types.Paths, t)
 	}
 }
 
-func unmarshalPath(p *lang.Process) (interface{}, error) {
-	return unmarshal(p, []byte(consts.PathSlash))
-}
-
 func unmarshalPaths(p *lang.Process) (interface{}, error) {
-	return unmarshal(p, []byte{':'})
-}
-
-func unmarshal(p *lang.Process, separator []byte) (interface{}, error) {
 	b, err := p.Stdin.ReadAll()
 	if err != nil {
 		return nil, err
 	}
 
-	split := bytes.Split(b, separator)
+	split := bytes.Split(b, pathsSeparator)
 	a := make([]string, len(split))
 	for i := range split {
 		a[i] = string(split[i])

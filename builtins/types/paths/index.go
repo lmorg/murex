@@ -2,6 +2,7 @@ package paths
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/utils/path"
 )
 
 func indexPath(p *lang.Process, params []string) error {
@@ -10,11 +11,7 @@ func indexPath(p *lang.Process, params []string) error {
 		return err
 	}
 
-	marshaller := func(v interface{}) ([]byte, error) {
-		return marshalPath(nil, v)
-	}
-
-	return lang.IndexTemplateObject(p, params, &v, marshaller)
+	return lang.IndexTemplateObject(p, params, &v, path.Marshal)
 }
 
 func indexPaths(p *lang.Process, params []string) error {

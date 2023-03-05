@@ -29,7 +29,9 @@ func errVarNoParam(i int, err error) error {
 	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
 }
 
-var errZeroLengthPath = errors.New("zero length path")
+var (
+	errZeroLengthPath = errors.New("zero length path")
+)
 
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
@@ -132,13 +134,13 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 		return v.process.Scope.Parameters.StringArray(), nil
 
 	case MUREX_EXE:
-		return getVarMurexExe(), nil
+		return getVarMurexExeValue()
 
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
-		return getPwd(), nil
+		return getPwdValue()
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -246,13 +248,13 @@ func (v *Variables) getString(name string) (string, error) {
 		return string(b), nil
 
 	case MUREX_EXE:
-		return getVarMurexExe().(string), nil
+		return os.Executable()
 
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
-		return getPwd(), nil
+		return os.Getwd()
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -357,10 +359,10 @@ func (v *Variables) getDataType(name string) string {
 		return types.Json
 
 	case MUREX_EXE:
-		return types.String
+		return types.Path
 
 	case PWD:
-		return types.String
+		return types.Path
 
 	case "0":
 		return types.String

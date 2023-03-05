@@ -1,2 +1,2 @@
-// Package json provides definitions for the `json` data type
+// Package paths provides definitions for the `path` and `paths` data types
 package paths
