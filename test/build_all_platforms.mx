@@ -69,11 +69,6 @@ status = 0
 # version.
 version = ${version --short}
 
-#export CGO_CPPFLAGS="$CPPFLAGS"
-#export CGO_CFLAGS="$CFLAGS"
-#export CGO_CXXFLAGS="$CXXFLAGS"
-#export CGO_LDFLAGS="$LDFLAGS"
-
 $targets -> formap os cpus {
     $cpus -> foreach arch {
         set ext
