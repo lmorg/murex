@@ -80,7 +80,7 @@ $targets -> formap os cpus {
         if { $os == "windows" } then { set ext=".exe" }
 
         try {
-            ({BLUE}Building $os/$arch....{RESET})
+            ({BLUE}Building $(os)/$(arch)....{RESET})
             export GOOS=$os
             export GOARCH=$arch
             export GOARM=7
