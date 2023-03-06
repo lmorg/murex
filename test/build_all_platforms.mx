@@ -38,7 +38,7 @@ mkdir -p bin
 
 # Platforms supported by the go compiler.
 # All 32bit ARM targets will be for ARMv7.
-set json targets = %{
+targets = %{
     linux:     [ 386, amd64, arm, arm64 ],
     freebsd:   [ 386, amd64, arm        ],
     openbsd:   [ 386, amd64, arm        ],
