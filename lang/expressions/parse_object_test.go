@@ -139,3 +139,23 @@ func TestParseObjectLf(t *testing.T) {
 
 	testParserObject(t, tests)
 }
+
+func TestParseObjectBool(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    "%{foo:true}",
+				expected: `{"foo":true}`,
+				pos:      9,
+			},
+			{
+				input:    "%{foo:false}",
+				expected: `{"foo":false}`,
+				pos:      10,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}

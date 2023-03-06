@@ -249,7 +249,15 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 				o.keyValueI[o.stage&1] = v
 			} else {
 				// is a string
-				o.keyValueI[o.stage&1] = string(value)
+				s := string(value)
+				switch s {
+				case "true":
+					o.keyValueI[o.stage&1] = true
+				case "false":
+					o.keyValueI[o.stage&1] = false
+				default:
+					o.keyValueI[o.stage&1] = s
+				}
 			}
 		}
 	}

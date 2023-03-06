@@ -4,7 +4,7 @@ project = "github.com/lmorg/murex"
 
 args: args %{
     AllowAdditional: false,
-    Flags: {
+    Flags: %{
         --no-colour:  bool,
         --no-color:   --no-colour,
         --compress:   bool,
@@ -12,7 +12,7 @@ args: args %{
     }
 }
 catch {
-    err $args.Error
+    err $args[Error]
     exit 1
 }
 
