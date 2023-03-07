@@ -498,3 +498,41 @@ func TestFuncSummary(t *testing.T) {
 		}
 	}
 }
+
+func TestFuncParseDocExamples(t *testing.T) {
+	tests := []testFuncParseDataTypesT{
+		{
+			Parameters: `var:datatype [default-value] "description"`,
+			Expected: []MxFunctionParams{
+				{
+					Name:        "var",
+					DataType:    "datatype",
+					Default:     "default-value",
+					Description: "description",
+				},
+			},
+		},
+		{
+			Parameters: `
+				variable1: data-type [default-value] "description",
+				variable2: data-type [default-value] "description"
+			`,
+			Expected: []MxFunctionParams{
+				{
+					Name:        "variable1",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "description",
+				},
+				{
+					Name:        "variable2",
+					DataType:    "data-type",
+					Default:     "default-value",
+					Description: "description",
+				},
+			},
+		},
+	}
+
+	testFuncParseDataTypes(t, tests)
+}
