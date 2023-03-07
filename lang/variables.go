@@ -44,6 +44,8 @@ const (
 	MUREX_ARGS = "MUREX_ARGS"
 	HOSTNAME   = "HOSTNAME"
 	PWD        = "PWD"
+	ENV        = "ENV"
+	GLOBAL     = "GLOBAL"
 )
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -103,27 +105,17 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 		}
 
 		return ElementLookup(val, "."+strings.Join(split[1:], "."))
-		/*obj, err := ElementLookup(val, "."+strings.Join(split[1:], "."))
-		if err != nil {
-			return nil, err
-		}
-
-		switch obj.(type) {
-		case string:
-			dt := v.getDataType(split[0])
-			if len(obj.(string)) > 0 && obj.(string)[0] == '"' && obj.(string)[len(obj.(string))-1] == '"' &&
-				(dt == types.Json || dt == types.JsonLines) {
-				return obj.(string)[1 : len(obj.(string))-1], nil
-			}
-			return obj, nil
-		default:
-			return obj, nil
-		}*/
 	}
 }
 
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
+	case ENV:
+		return getEnvVarValue(), nil
+
+	case GLOBAL:
+		return getGlobalValues(), nil
+
 	case SELF:
 		return getVarSelf(v.process), nil
 
@@ -235,17 +227,25 @@ func (v *Variables) GetString(path string) (string, error) {
 
 func (v *Variables) getString(name string) (string, error) {
 	switch name {
+	case ENV:
+		b, err := json.Marshal(getEnvVarValue(), v.process.Stdout.IsTTY())
+		return string(b), err
+
+	case GLOBAL:
+		b, err := json.Marshal(getGlobalValues(), v.process.Stdout.IsTTY())
+		return string(b), err
+
 	case SELF:
-		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
-		return string(b), nil
+		b, err := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
+		return string(b), err
 
 	case ARGS:
-		b, _ := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
-		return string(b), nil
+		b, err := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
+		return string(b), err
 
 	case PARAMS:
-		b, _ := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
-		return string(b), nil
+		b, err := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
+		return string(b), err
 
 	case MUREX_EXE:
 		return os.Executable()
@@ -349,6 +349,12 @@ func (v *Variables) GetDataType(path string) string {
 
 func (v *Variables) getDataType(name string) string {
 	switch name {
+	case ENV:
+		return types.Json
+
+	case GLOBAL:
+		return types.Json
+
 	case SELF:
 		return types.Json
 
@@ -619,5 +625,7 @@ func DumpVariables(p *Process) map[string]interface{} {
 	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
 	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
 	m[PWD], _ = p.Variables.GetValue(PWD)
+	m[ENV], _ = p.Variables.GetValue(ENV)
+	m[GLOBAL] = nil
 	return m
 }

@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
+	"github.com/lmorg/murex/utils/objectkeys"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -26,7 +27,10 @@ func errCallback(err error) {
 	Prompt.ForceHintTextUpdate(s)
 }
 
-var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
+var (
+	rxHistTag       = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
+	rxValidVariable = regexp.MustCompile(`^[._a-zA-Z0-9]+$`)
+)
 
 func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
 	r := new(readline.TabCompleterReturnT)
@@ -57,7 +61,35 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 			r.Prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
 		r.Prefix = pt.Variable + r.Prefix
-		act.Items = autocomplete.MatchVars(r.Prefix)
+		if strings.Contains(r.Prefix, ".") {
+			name := strings.Split(r.Prefix, ".")[0][1:]
+			v, err := lang.ShellProcess.Variables.GetValue(name)
+			if err != nil {
+				act.ErrCallback(err)
+			}
+
+			nameLen := len(name) + 1
+			prefixLen := len(r.Prefix) - len(name) - 1
+			writeString := func(s string) error {
+				if len(s) < prefixLen ||
+					s[:prefixLen] != r.Prefix[nameLen:] ||
+					!rxValidVariable.MatchString(s) {
+
+					return nil
+				}
+
+				act.Items = append(act.Items, s[prefixLen:])
+				return nil
+			}
+
+			err = objectkeys.Recursive(dtc.Context, "", v, ".", writeString, -1)
+			if err != nil {
+				act.ErrCallback(err)
+			}
+
+		} else {
+			act.Items = autocomplete.MatchVars(r.Prefix)
+		}
 
 	case pt.Comment && pt.FuncName == "^":
 		for h := Prompt.History.Len() - 1; h > -1; h-- {

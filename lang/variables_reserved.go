@@ -3,6 +3,7 @@ package lang
 import (
 	"os"
 
+	"github.com/lmorg/murex/utils/envvars"
 	"github.com/lmorg/murex/utils/path"
 )
 
@@ -43,4 +44,22 @@ func getPwdValue() (interface{}, error) {
 	}
 
 	return path.Unmarshal([]byte(pwd))
+}
+
+func getEnvVarValue() interface{} {
+	v := make(map[string]interface{})
+	envvars.All(v)
+	return v
+}
+
+func getGlobalValues() interface{} {
+	m := make(map[string]interface{})
+
+	GlobalVariables.mutex.Lock()
+	for name, v := range GlobalVariables.vars {
+		m[name] = v.Value
+	}
+	GlobalVariables.mutex.Unlock()
+
+	return m
 }
