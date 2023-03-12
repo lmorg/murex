@@ -11,11 +11,10 @@ import (
 var (
 	pathSlashByte   = consts.PathSlash[0]
 	pathSlashSlice  = []byte(consts.PathSlash)
-	relativePrefix  = []byte{'.', pathSlashByte}
 	rxCropPathSlash = regexp.MustCompile(fmt.Sprintf(`%s%s+`, consts.PathSlash, consts.PathSlash))
 )
 
-func SplitPath(b []byte) ([][]byte, error) {
+func Split(b []byte) ([][]byte, error) {
 	if len(b) == 0 {
 		return nil, nil
 	}

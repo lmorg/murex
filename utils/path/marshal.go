@@ -21,6 +21,13 @@ import (
 		]
 */
 
+const (
+	IS_RELATIVE = "IsRelative"
+	IS_DIR      = "IsDir"
+	VALUE       = "Value"
+	EXISTS      = "Exists"
+)
+
 func Marshal(v interface{}) ([]byte, error) {
 	switch t := v.(type) {
 	case string:
@@ -31,9 +38,9 @@ func Marshal(v interface{}) ([]byte, error) {
 		return []byte(s), nil
 
 	case map[string]interface{}:
-		name, err := types.ConvertGoType(t["value"], types.String)
+		name, err := types.ConvertGoType(t[VALUE], types.String)
 		if err != nil {
-			return nil, fmt.Errorf("unable to get 'value' from %v", t)
+			return nil, fmt.Errorf("unable to get '%s' from %v", VALUE, t)
 		}
 		return []byte(name.(string)), nil
 
@@ -51,22 +58,22 @@ func Marshal(v interface{}) ([]byte, error) {
 func marshalPathInterface(v []interface{}) ([]byte, error) {
 	a := make([]string, len(v))
 
-	root, err := types.ConvertGoType(v[0].(map[string]interface{})["root"], types.Boolean)
+	relative, err := types.ConvertGoType(v[0].(map[string]interface{})[IS_RELATIVE], types.Boolean)
 	if err != nil {
-		return nil, fmt.Errorf("unable to get 'root' from %v", v[0])
+		return nil, fmt.Errorf("unable to get '%s' from %v", IS_RELATIVE, v[0])
 	}
 
-	dir, err := types.ConvertGoType(v[len(v)-1].(map[string]interface{})["dir"], types.Boolean)
+	dir, err := types.ConvertGoType(v[len(v)-1].(map[string]interface{})[IS_DIR], types.Boolean)
 	if err != nil {
-		return nil, fmt.Errorf("unable to get 'dir' from %v", v[len(v)-1])
+		return nil, fmt.Errorf("unable to get '%s' from %v", IS_DIR, v[len(v)-1])
 	}
 
 	for i := range v {
 		switch v[i].(type) {
 		case map[string]interface{}:
-			name, err := types.ConvertGoType(v[i].(map[string]interface{})["value"], types.String)
+			name, err := types.ConvertGoType(v[i].(map[string]interface{})[VALUE], types.String)
 			if err != nil {
-				return nil, fmt.Errorf("unable to get 'value' from %v", v[i])
+				return nil, fmt.Errorf("unable to get '%s' from %v", VALUE, v[i])
 			}
 			a[i] = name.(string)
 
@@ -80,7 +87,7 @@ func marshalPathInterface(v []interface{}) ([]byte, error) {
 	}
 
 	b := []byte(strings.Join(a, consts.PathSlash))
-	if root.(bool) {
+	if relative.(bool) {
 		b = append(pathSlashSlice, b...)
 	}
 
@@ -96,16 +103,12 @@ func Unmarshal(b []byte) (interface{}, error) {
 		b = []byte{'.'}
 	}
 
-	root := b[0] == pathSlashByte
-
-	/*if !root && !bytes.HasPrefix(b, relativePrefix) {
-		b = append(relativePrefix, b...)
-	}*/
+	relative := b[0] != pathSlashByte
 
 	f, err := os.Stat(string(b))
 	dir := err == nil && f.IsDir()
 
-	split, err := SplitPath(b)
+	split, err := Split(b)
 	if err != nil {
 		return nil, err
 	}
@@ -119,9 +122,9 @@ func Unmarshal(b []byte) (interface{}, error) {
 
 	for i := range split {
 		v[i] = map[string]interface{}{
-			"root":  root && i == 0,
-			"dir":   (dir && i == len(split)-1) || i < len(split)-1,
-			"value": string(split[i]),
+			IS_RELATIVE: relative && i == 0,
+			IS_DIR:      (dir && i == len(split)-1) || i < len(split)-1,
+			VALUE:       string(split[i]),
 		}
 	}
 

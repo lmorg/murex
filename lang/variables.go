@@ -89,7 +89,7 @@ type variable struct {
 // use GetString instead.
 func (v *Variables) GetValue(path string) (interface{}, error) {
 	if path == "." {
-		return v.getValue("")
+		return v.getValue(DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -190,7 +190,7 @@ func (v *Variables) getValueValue(name string) (value interface{}) {
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(path string) (string, error) {
 	if path == "." {
-		return v.getString("")
+		return v.getString(DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -310,7 +310,7 @@ func (v *Variables) getStringValue(name string) (string, bool) {
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(path string) string {
 	if path == "." {
-		return v.getDataType("")
+		return v.getDataType(DOT)
 	}
 
 	split := strings.Split(path, ".")

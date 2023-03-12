@@ -15,7 +15,7 @@ func readArrayWithTypePath(ctx context.Context, read stdio.Io, callback func(int
 		return err
 	}
 
-	split, err := path.SplitPath(b)
+	split, err := path.Split(b)
 	if split == nil {
 		return err
 	}
