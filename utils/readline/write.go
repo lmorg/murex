@@ -81,7 +81,7 @@ func lineWrap(rl *Instance, termWidth int) []string {
 
 	n := float64(len(rl.line)+1) / (float64(termWidth) - float64(promptLen))
 	ceil := int(math.Ceil(n))
-	if ceil < 0 {
+	if ceil < 1 || ceil > 2000000000 {
 		return []string{" "}
 	}
 

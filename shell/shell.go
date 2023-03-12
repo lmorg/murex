@@ -209,7 +209,7 @@ func ShowPrompt() {
 			continue
 
 		default:
-			tty.BufferRecall(prompt, syntaxHighlight(block))
+			//tty.BufferRecall(prompt, syntaxHighlight(block))
 
 			merged += line
 			mergedExp, err := history.ExpandVariablesInLine([]rune(merged), Prompt)

@@ -188,10 +188,13 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			o.keyValueI[0] = string(o.keyValueR[0])
 
 		case '\n':
-			if o.stage&1 == 0 && (len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil) {
-				return nil, nil, raiseError(
-					tree.expression, nil, tree.charPos,
-					"unexpected new line, expecting ':' instead")
+			if o.stage&1 == 0 {
+				if len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil {
+					return nil, nil, raiseError(
+						tree.expression, nil, tree.charPos,
+						"unexpected new line, expecting ':' instead")
+				}
+				continue
 			}
 
 			err := o.WriteKeyValuePair(tree.charPos)
@@ -246,7 +249,15 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 				o.keyValueI[o.stage&1] = v
 			} else {
 				// is a string
-				o.keyValueI[o.stage&1] = string(value)
+				s := string(value)
+				switch s {
+				case "true":
+					o.keyValueI[o.stage&1] = true
+				case "false":
+					o.keyValueI[o.stage&1] = false
+				default:
+					o.keyValueI[o.stage&1] = s
+				}
 			}
 		}
 	}

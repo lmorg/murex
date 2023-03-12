@@ -405,6 +405,11 @@ func (rl *Instance) escapeSeq(r []rune) {
 		rl.previewPageDown()
 		return
 
+	case seqF1, seqF1VT100:
+		rl.ShowPreviews = !rl.ShowPreviews
+		//rl.screenRefresh()
+		return
+
 	default:
 		if rl.modeTabFind {
 			return

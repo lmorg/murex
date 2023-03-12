@@ -21,6 +21,8 @@ const (
 	Number    = "num"
 	Integer   = "int"
 	Float     = "float"
+	Path      = "path"
+	Paths     = "paths"
 )
 
 // TrueString is `true` boolean value

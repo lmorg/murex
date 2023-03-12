@@ -2,6 +2,7 @@ package readline
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -106,11 +107,20 @@ func (rl *Instance) screenRefresh() {
 		return
 	}
 
+	/*print := func(s string) {
+		_, _ = os.Stdout.WriteString(s)
+	}*/
+
+	old := primary
+	primary = os.Stdout
+
 	rl.ScreenRefresh()
-	print(rl.prompt + string(rl.line))
+	/*print(rl.prompt + string(rl.line))
 	rl.writeHintText(false)
 	rl.writeTabCompletion(false)
-	print("\r\n")
+	print("\r\n")*/
+
+	primary = old
 }
 
 const (
@@ -120,6 +130,10 @@ const (
 )
 
 func previewDraw(preview []string, size *PreviewSizeT) error {
+	print := func(s string) {
+		_, _ = os.Stdout.WriteString(s)
+	}
+
 	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
 
 	print(curPosSave + curHome)
@@ -127,12 +141,14 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 		print(curPosRestore)
 	}()
 
-	moveCursorForwards(size.Forward)
+	//moveCursorForwards(size.Forward)
+	print(fmt.Sprintf("\x1b[%dC", size.Forward))
 	hr := strings.Repeat("─", size.Width)
 	print("╭" + hr + "╮\r\n")
 
 	for i := 0; i <= size.Height; i++ {
-		moveCursorForwards(size.Forward)
+		//moveCursorForwards(size.Forward)
+		print(fmt.Sprintf("\x1b[%dC", size.Forward))
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
@@ -140,11 +156,11 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 			continue
 		}
 
-		out := fmt.Sprintf(pf, preview[i])
-		print(out)
+		print(fmt.Sprintf(pf, preview[i]))
 	}
 
-	moveCursorForwards(size.Forward)
+	//moveCursorForwards(size.Forward)
+	print(fmt.Sprintf("\x1b[%dC", size.Forward))
 	print("╰" + hr + "╯\r\n")
 
 	return nil

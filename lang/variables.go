@@ -29,7 +29,9 @@ func errVarNoParam(i int, err error) error {
 	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
 }
 
-var errZeroLengthPath = errors.New("zero length path")
+var (
+	errZeroLengthPath = errors.New("zero length path")
+)
 
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
@@ -42,6 +44,8 @@ const (
 	MUREX_ARGS = "MUREX_ARGS"
 	HOSTNAME   = "HOSTNAME"
 	PWD        = "PWD"
+	ENV        = "ENV"
+	GLOBAL     = "GLOBAL"
 )
 
 // Variables is a table of all the variables. This will be local to the scope's
@@ -85,7 +89,7 @@ type variable struct {
 // use GetString instead.
 func (v *Variables) GetValue(path string) (interface{}, error) {
 	if path == "." {
-		return v.getValue("")
+		return v.getValue(DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -106,6 +110,12 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
+	case ENV:
+		return getEnvVarValue(), nil
+
+	case GLOBAL:
+		return getGlobalValues(), nil
+
 	case SELF:
 		return getVarSelf(v.process), nil
 
@@ -116,13 +126,13 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 		return v.process.Scope.Parameters.StringArray(), nil
 
 	case MUREX_EXE:
-		return getVarMurexExe(), nil
+		return getVarMurexExeValue()
 
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
-		return getPwd(), nil
+		return getPwdValue()
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -180,7 +190,7 @@ func (v *Variables) getValueValue(name string) (value interface{}) {
 // GetString returns a string representation of the data stored in the requested variable
 func (v *Variables) GetString(path string) (string, error) {
 	if path == "." {
-		return v.getString("")
+		return v.getString(DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -200,34 +210,51 @@ func (v *Variables) GetString(path string) (string, error) {
 			return "", err
 		}
 
-		dataType := v.GetDataType(split[0])
-		b, err := MarshalData(v.process, dataType, val)
-		return string(b), err
+		switch val.(type) {
+		case int, float64, string, bool, nil:
+			s, err := types.ConvertGoType(val, types.String)
+			if err != nil {
+				return "", err
+			}
+			return s.(string), nil
+		default:
+			dataType := v.GetDataType(split[0])
+			b, err := MarshalData(v.process, dataType, val)
+			return string(b), err
+		}
 	}
 }
 
 func (v *Variables) getString(name string) (string, error) {
 	switch name {
+	case ENV:
+		b, err := json.Marshal(getEnvVarValue(), v.process.Stdout.IsTTY())
+		return string(b), err
+
+	case GLOBAL:
+		b, err := json.Marshal(getGlobalValues(), v.process.Stdout.IsTTY())
+		return string(b), err
+
 	case SELF:
-		b, _ := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
-		return string(b), nil
+		b, err := json.Marshal(getVarSelf(v.process), v.process.Stdout.IsTTY())
+		return string(b), err
 
 	case ARGS:
-		b, _ := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
-		return string(b), nil
+		b, err := json.Marshal(getVarArgs(v.process), v.process.Stdout.IsTTY())
+		return string(b), err
 
 	case PARAMS:
-		b, _ := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
-		return string(b), nil
+		b, err := json.Marshal(v.process.Scope.Parameters.StringArray(), v.process.Stdout.IsTTY())
+		return string(b), err
 
 	case MUREX_EXE:
-		return getVarMurexExe().(string), nil
+		return os.Executable()
 
 	case HOSTNAME:
 		return getHostname(), nil
 
 	case PWD:
-		return getPwd(), nil
+		return os.Getwd()
 
 	case "0":
 		return v.process.Scope.Name.String(), nil
@@ -283,7 +310,7 @@ func (v *Variables) getStringValue(name string) (string, bool) {
 // GetDataType returns the data type of the variable stored in the referenced VarTable
 func (v *Variables) GetDataType(path string) string {
 	if path == "." {
-		return v.getDataType("")
+		return v.getDataType(DOT)
 	}
 
 	split := strings.Split(path, ".")
@@ -322,6 +349,12 @@ func (v *Variables) GetDataType(path string) string {
 
 func (v *Variables) getDataType(name string) string {
 	switch name {
+	case ENV:
+		return types.Json
+
+	case GLOBAL:
+		return types.Json
+
 	case SELF:
 		return types.Json
 
@@ -332,10 +365,10 @@ func (v *Variables) getDataType(name string) string {
 		return types.Json
 
 	case MUREX_EXE:
-		return types.String
+		return types.Path
 
 	case PWD:
-		return types.String
+		return types.Path
 
 	case "0":
 		return types.String
@@ -592,5 +625,7 @@ func DumpVariables(p *Process) map[string]interface{} {
 	m[MUREX_ARGS], _ = p.Variables.GetValue(MUREX_ARGS)
 	m[HOSTNAME], _ = p.Variables.GetValue(HOSTNAME)
 	m[PWD], _ = p.Variables.GetValue(PWD)
+	m[ENV], _ = p.Variables.GetValue(ENV)
+	m[GLOBAL] = nil
 	return m
 }

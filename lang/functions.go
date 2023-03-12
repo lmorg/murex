@@ -83,18 +83,6 @@ exitParser:
 	return strings.TrimSpace(string(summary))
 }
 
-const ( // function parameter contexts
-	fpcNameStart = 0
-	fpcNameRead  = iota
-	fpcTypeStart
-	fpcTypeRead
-	fpcDescStart
-	fpcDescRead
-	fpcDescEnd
-	fpcDefaultRead
-	fpcDefaultEnd
-)
-
 const ( // function parameter error messages
 	fpeUnexpectedWhiteSpace    = "unexpected whitespace character (chr %d) at %d (%d,%d)"
 	fpeUnexpectedNewLine       = "unexpected new line at %d (%d,%d)"
@@ -112,11 +100,23 @@ const ( // function parameter error messages
 	fpeParameterNoDataType     = "parameter %d is missing a data type"
 )
 
+const ( // function parameter contexts
+	fpcNameStart = 0
+	fpcNameRead  = iota
+	fpcTypeStart
+	fpcTypeRead
+	fpcDescStart
+	fpcDescRead
+	fpcDescEnd
+	fpcDefaultRead
+	fpcDefaultEnd
+)
+
 // Parse the function parameter and data type block
 func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 	/* function example (
-		name: str "User name" [Bob],
-		age:  num "How old are you?" [100]
+		name: str [Bob] "User name",
+		age:  num [100] "How old are you?"
 	   ) {}*/
 
 	var (
@@ -131,9 +131,12 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 		x++
 
 		switch r {
-		case '\r', '\n':
+		case '\r':
+			// do nothing
+
+		case '\n':
 			switch context {
-			case fpcNameStart:
+			case fpcNameStart, fpcDescEnd, fpcDefaultEnd:
 				y++
 				x = 1
 			default:
@@ -148,6 +151,8 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 				context++
 			case fpcDescRead:
 				mfp[counter].Description += " "
+			case fpcDefaultRead:
+				mfp[counter].Default += " "
 			default:
 				// do nothing
 				continue
@@ -171,6 +176,8 @@ func ParseMxFunctionParameters(parameters string) ([]MxFunctionParams, error) {
 				mfp[counter].Default += "\""
 			case fpcDescStart, fpcDescRead:
 				context++
+			case fpcDefaultEnd:
+				context = fpcDescRead
 			default:
 				return nil, fmt.Errorf(fpeUnexpectedQuotationMark, r, i+1, y, x)
 			}

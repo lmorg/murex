@@ -119,3 +119,43 @@ func TestParseObjectBadGrammar(t *testing.T) {
 
 	testParserObject(t, tests)
 }
+
+func TestParseObjectLf(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    "%{\nfoo:bar}",
+				expected: `{"foo":"bar"}`,
+				pos:      9,
+			},
+			{
+				input:    "%{\n foo:bar}",
+				expected: `{"foo":"bar"}`,
+				pos:      10,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+func TestParseObjectBool(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    "%{foo:true}",
+				expected: `{"foo":true}`,
+				pos:      9,
+			},
+			{
+				input:    "%{foo:false}",
+				expected: `{"foo":false}`,
+				pos:      10,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}

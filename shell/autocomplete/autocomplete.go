@@ -110,7 +110,6 @@ func MatchVars(partial string) (items []string) {
 		}
 	}
 
-	//sort.Strings(items)
 	return
 }
 

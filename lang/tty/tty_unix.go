@@ -4,7 +4,6 @@
 package tty
 
 import (
-	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -12,7 +11,6 @@ import (
 	"regexp"
 	"sync"
 	"syscall"
-	"time"
 
 	"github.com/creack/pty"
 	"github.com/lmorg/murex/lang/types"
@@ -94,13 +92,14 @@ func CreatePTY() error {
 		return fmt.Errorf("unable to put pty into 'raw' mode: %s", err.Error())
 	}
 
-	buffer = bytes.Repeat([]byte{'\n'}, height)
-	_, _ = primary.Write(buffer)
+	// move cursor to bottom of screen
+	//buffer = bytes.Repeat([]byte{'\n'}, height)
+	//_, _ = primary.Write(buffer)
 
-	os.Stdout.WriteString(codes.ClearScreen + codes.Home)
+	//os.Stdout.WriteString(codes.ClearScreen + codes.Home)
 	Stdin, Stdout, Stderr = os.Stdin, primary, primary
 	readline.ForceCrLf = false
-	readline.SetTTY(os.Stdout, os.Stdin)
+	readline.SetTTY(primary, os.Stdin)
 	go func() {
 		ptyBuffer(os.Stdout, replica)
 		signal.Stop(ch)
@@ -132,7 +131,7 @@ func ptyBuffer(dst, src *os.File) {
 			}
 			return
 		}
-		bufferWrite(p[:i])
+		go bufferWrite(p[:i])
 		written, err := dst.Write(p[:i])
 		if err != nil {
 			if _, err := os.Stderr.WriteString("error writing to term: " + err.Error()); err != nil {
@@ -172,11 +171,12 @@ func bufferWrite(b []byte) {
 			buffer[i-3] == 27 && buffer[i-2] == '[' &&
 			(buffer[i-1] == '2' || buffer[i-1] == '3') {
 
-			if i == len(buffer)-1 {
+			/*if i == len(buffer)-1 {
 				buffer = bytes.Repeat([]byte{'\n'}, height)
 			} else {
 				buffer = append(bytes.Repeat([]byte{'\n'}, height), buffer[i+1:]...)
-			}
+			}*/
+			buffer = buffer[i+1:]
 
 			bufMutex.Unlock()
 			return
@@ -188,11 +188,12 @@ func bufferWrite(b []byte) {
 			buffer[i-7] == 27 && buffer[i-6] == '[' && buffer[i-5] == '?' &&
 			buffer[i-4] == '1' && buffer[i-3] == '0' && buffer[i-2] == '4' && buffer[i-1] == '9' {
 
-			if i == len(buffer)-1 {
+			/*if i == len(buffer)-1 {
 				buffer = bytes.Repeat([]byte{'\n'}, height)
 			} else {
 				buffer = append(bytes.Repeat([]byte{'\n'}, height), buffer[i+1:]...)
-			}
+			}*/
+			buffer = buffer[i+1:]
 
 			bufMutex.Unlock()
 			return
@@ -210,14 +211,14 @@ func BufferRecall(prompt []byte, line string) {
 
 	bufMutex.Lock()
 
-	Stdout.WriteString(codes.Reset)
+	/*Stdout.WriteString(codes.Reset)
 	Stdout.Write(prompt)
 	Stdout.WriteString(line)
 	Stdout.Write([]byte{'\r', '\n'})
 	Stdout.WriteString(codes.BgBlackBright + codes.FgWhiteBright)
 	Stdout.WriteString(time.Now().Format(time.RubyDate))
 	Stdout.WriteString(codes.Reset)
-	Stdout.Write([]byte{'\r', '\n'})
+	Stdout.Write([]byte{'\r', '\n'})*/
 
 	_, _ = os.Stdout.WriteString(codes.Reset)
 	_, _ = os.Stdout.WriteString(codes.Home + codes.ClearScreenBelow)

@@ -68,4 +68,4 @@ details about specific hooks.
 * [`yaml` ](types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](types/mxjson.md):
-  Murex-flavoured JSON (primitive)
+  Murex-flavoured JSON (deprecated)

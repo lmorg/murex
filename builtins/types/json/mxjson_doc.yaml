@@ -3,15 +3,17 @@
     mxjson
   CategoryID: types
   Summary: >-
-    Murex-flavoured JSON (primitive)
+    Murex-flavoured JSON (deprecated)
   Description: |-
+    > This format has been deprecated in favour of `%{}` constructors.
+
     mxjson is an extension to JSON designed to integrate more seamlessly when
     use as a configuration file. Thus mxjson supports comments and _murex_ code
     blocks embedded into the JSON schema.
 
     > mxjson is a format that is pre-parsed into a valid JSON format.
 
-    mxjson isn't currently a proper _murex_ data-type in that you cannot marshal
+    mxjson isn't a _murex_ data-type in that you cannot marshal
     and unmarshal mxjson files. Currently it is a format that is only supported
     by a small subset of _murex_ builtins (eg `config` and `autocomplete`) where
     config might embed _murex_ code blocks.
@@ -71,4 +73,6 @@
   - apis/Unmarshal
   - parser/curly-brace
   - parser/brace-quote
+  - parser/create-array
+  - parser/create-objects
   - user-guide/code-block

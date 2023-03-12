@@ -277,14 +277,14 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "preview-enabled", config.Properties{
 		Description: "If set, will show file previews in the top right third of the terminal",
-		Default:     tty.Enabled(),
+		Default:     false, //tty.Enabled(),
 		DataType:    types.Boolean,
 		Global:      true,
 	})
 
 	c.Define("shell", "preview-images", config.Properties{
 		Description: "If set, file previews will display images as ANSI art rendered graphics rather than text descriptions",
-		Default:     tty.Enabled(),
+		Default:     true, //tty.Enabled(),
 		DataType:    types.String,
 		Global:      true,
 	})

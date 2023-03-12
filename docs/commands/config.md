@@ -209,4 +209,4 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of _murex_
 * [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (primitive)
+  Murex-flavoured JSON (deprecated)
