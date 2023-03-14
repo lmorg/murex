@@ -1,34 +1,29 @@
 package path
 
 import (
-	"bytes"
-	"fmt"
-	"regexp"
+	"path"
+	"strings"
 
 	"github.com/lmorg/murex/utils/consts"
 )
 
-var (
-	pathSlashByte   = consts.PathSlash[0]
-	pathSlashSlice  = []byte(consts.PathSlash)
-	rxCropPathSlash = regexp.MustCompile(fmt.Sprintf(`%s%s+`, consts.PathSlash, consts.PathSlash))
-)
-
-func Split(b []byte) ([][]byte, error) {
-	if len(b) == 0 {
-		return nil, nil
+func Split(s string) []string {
+	if len(s) == 0 {
+		return []string{"."}
 	}
 
-	if b[0] == pathSlashByte {
-		b = b[1:]
+	s = path.Clean(s)
+
+	split := strings.Split(s, consts.PathSlash)
+
+	if len(split) == 0 {
+		// this should never happen
+		return []string{"."}
 	}
 
-	if b[len(b)-1] == pathSlashByte {
-		b = b[:len(b)-1]
+	if len(split) > 0 && split[0] == "" {
+		split[0] = consts.PathSlash
 	}
 
-	b = rxCropPathSlash.ReplaceAll(b, pathSlashSlice)
-	split := bytes.Split(b, pathSlashSlice)
-
-	return split, nil
+	return split
 }

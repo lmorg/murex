@@ -2,6 +2,7 @@ package paths
 
 import (
 	"fmt"
+	gopath "path"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
@@ -26,7 +27,7 @@ func (mxi *mxiPath) GetValue() interface{} {
 }
 
 func (mxi *mxiPath) GetString() string {
-	return mxi.path
+	return gopath.Clean(mxi.path)
 }
 
 func (mxi *mxiPath) Set(v interface{}, changePath []string) error {
