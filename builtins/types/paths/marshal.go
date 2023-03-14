@@ -7,7 +7,6 @@ import (
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/path"
 )
 
@@ -29,7 +28,7 @@ func marshalPaths(_ *lang.Process, v interface{}) ([]byte, error) {
 	case string:
 		return []byte(t), nil
 	case []string:
-		s := consts.PathSlash + strings.Join(t, string(pathsSeparator))
+		s := strings.Join(t, string(pathsSeparator))
 		return []byte(s), nil
 	case []interface{}:
 		a := make([]string, len(t))
@@ -40,7 +39,7 @@ func marshalPaths(_ *lang.Process, v interface{}) ([]byte, error) {
 			}
 			a[i] = s.(string)
 		}
-		return []byte(strings.Join(a, consts.PathSlash+string(pathsSeparator))), nil
+		return []byte(strings.Join(a, string(pathsSeparator))), nil
 	default:
 		return nil, fmt.Errorf("%s can only marshal arrays. Instead got %T", types.Paths, t)
 	}
