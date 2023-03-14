@@ -72,12 +72,13 @@ func (tree *ParserT) appendAst(key symbols.Exp, value ...rune) {
 	})
 }
 
-func (tree *ParserT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType) {
+func (tree *ParserT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType, value ...rune) {
 	tree.ast = append(tree.ast, &astNodeT{
 		key:    key,
-		dt:     dt,
-		pos:    tree.charPos,
+		value:  value,
+		pos:    tree.charPos - len(value),
 		offset: tree.charOffset,
+		dt:     dt,
 	})
 }
 

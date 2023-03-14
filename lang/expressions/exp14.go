@@ -9,11 +9,25 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+func convertCalculatedToBareword(node *astNodeT) {
+	if node.key == symbols.Calculated && len(node.value) > 1 &&
+		node.value[0] == '$' && node.value[1] != '{' {
+		node.key = symbols.Bareword
+		if node.value[1] == '(' {
+			node.value = node.value[2 : len(node.value)-1]
+		} else {
+			node.value = node.value[1:]
+		}
+	}
+}
+
 func expAssign(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
+
+	convertCalculatedToBareword(left)
 
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
@@ -29,7 +43,7 @@ func expAssign(tree *ParserT) error {
 
 	var v interface{}
 	switch right.dt.Primitive {
-	case primitives.Array, primitives.Object: //, primitives.Other:
+	case primitives.Array, primitives.Object:
 		b, err := json.Marshal(right.dt.Value)
 		if err != nil {
 			return err

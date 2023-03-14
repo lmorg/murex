@@ -50,22 +50,24 @@ func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, 
 
 	tree.charPos--
 
-	if exec {
-		v, dataType, err := tree.getVar(value, strOrVal)
-		return value, v, dataType, err
+	var r []rune
+	if paren {
+		r = make([]rune, len(value)+3)
+		copy(r, []rune{'$', '('})
+		copy(r[2:], value)
+		r[len(r)-1] = ')'
+	} else {
+		r = append([]rune{'$'}, value...)
 	}
 
 	// don't getVar() until we come to execute the expression, skip when only
 	// parsing syntax
-	if paren {
-		r := make([]rune, len(value)+3)
-		copy(r, []rune{'$', '('})
-		copy(r[2:], value)
-		r[len(r)-1] = ')'
-		return r, nil, "", nil
-	} else {
-		return append([]rune{'$'}, value...), nil, "", nil
+	if exec {
+		v, dataType, err := tree.getVar(value, strOrVal)
+		return r, v, dataType, err
 	}
+
+	return r, nil, "", nil
 }
 
 func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
