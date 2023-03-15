@@ -9,15 +9,22 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func convertCalculatedToBareword(node *astNodeT) {
-	if node.key == symbols.Calculated && len(node.value) > 1 &&
+func scalarNameDetokenised(r []rune) []rune {
+	//r := make([]rune, len(scalar))
+	//copy(r, scalar)
+	if r[1] == '(' {
+		return r[2 : len(r)-1]
+	} else {
+		return r[1:]
+	}
+}
+
+func convertScalarToBareword(node *astNodeT) {
+	if node.key == symbols.Scalar && len(node.value) > 1 &&
 		node.value[0] == '$' && node.value[1] != '{' {
+
 		node.key = symbols.Bareword
-		if node.value[1] == '(' {
-			node.value = node.value[2 : len(node.value)-1]
-		} else {
-			node.value = node.value[1:]
-		}
+		node.value = scalarNameDetokenised(node.value)
 	}
 }
 
@@ -27,7 +34,7 @@ func expAssign(tree *ParserT) error {
 		return err
 	}
 
-	convertCalculatedToBareword(left)
+	convertScalarToBareword(left)
 
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(

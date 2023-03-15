@@ -506,6 +506,8 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 	switch name {
 	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
 		return errVariableReserved(name)
+	case ENV:
+		return setEnvVar(value, changePath)
 	case DOT:
 		goto notReserved
 	}
@@ -527,12 +529,16 @@ notReserved:
 	if mxi != nil {
 		mxvar := v.vars[name]
 		if mxvar != nil && mxvar.IsInterface {
+
 			v.mutex.Lock()
+
 			err := mxvar.Value.(MxInterface).Set(value, changePath)
 			if err != nil {
 				v.vars[name].Modify = time.Now()
 			}
+
 			v.mutex.Unlock()
+
 			return err
 		}
 
@@ -579,6 +585,27 @@ notReserved:
 	v.mutex.Unlock()
 
 	return nil
+}
+
+func setEnvVar(v interface{}, changePath []string) (err error) {
+	var value interface{}
+
+	if len(changePath) == 0 {
+		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$ENV.EXAMPLE`", ENV)
+	}
+
+	switch t := v.(type) {
+	case map[string]interface{}:
+		value, err = types.ConvertGoType(t[changePath[0]], types.String)
+		if err != nil {
+			return err
+		}
+
+	default:
+		return fmt.Errorf("expecting a map of environmental variables. Instead got a %T", t)
+	}
+
+	return os.Setenv(changePath[0], value.(string))
 }
 
 const errCannotStoreVariable = "cannot store variable"

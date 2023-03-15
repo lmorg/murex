@@ -216,15 +216,19 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				dt.Value = v
 				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 			default:
-				// start scalar
-				runes, v, mxDt, err := tree.parseVarScalar(exec, varAsValue)
+				// scalar
+				runes, v, mxDt, err := tree.parseVarScalar(exec, false, varAsValue)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						err.Error(), string(r)))
 				}
-				dt := scalar2Primitive(mxDt)
-				dt.Value = v
-				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+				if exec && v == nil && mxDt == "" {
+					tree.appendAst(symbols.Scalar, runes...)
+				} else {
+					dt := scalar2Primitive(mxDt)
+					dt.Value = v
+					tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+				}
 			}
 
 		case '@': // TODO: test me please!

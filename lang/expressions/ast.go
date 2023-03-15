@@ -182,7 +182,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 			Value:     nil,
 		}, nil
 
-	case symbols.Calculated, symbols.SubExpressionBegin:
+	case symbols.Calculated, symbols.Scalar, symbols.SubExpressionBegin:
 		return &primitives.DataType{
 			Primitive: primitives.Null,
 			Value:     nil,

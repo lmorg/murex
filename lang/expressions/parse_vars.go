@@ -8,14 +8,10 @@ import (
 	"github.com/lmorg/murex/utils/home"
 )
 
-var errUnexpectedClosingParenthesis = fmt.Errorf("expecting closing parenthesis, ')', after variable reference")
-
-func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
-	var paren bool
-
+func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if tree.nextChar() == '(' {
 		tree.charPos++
-		paren = true
+		return tree.parseVarParenthesis(execScalars, strOrVal)
 	}
 
 	if !isBareChar(tree.nextChar()) {
@@ -27,47 +23,51 @@ func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, 
 	value := tree.parseBareword()
 
 	if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == '[' {
-		if paren {
-			r, v, s, err := tree.parseVarIndexElement(exec, value, strOrVal)
-			if tree.nextChar() == ')' {
-				tree.charPos++
-				return r, v, s, err
-			}
-			return nil, nil, "", errUnexpectedClosingParenthesis
-
-		} else {
-			return tree.parseVarIndexElement(exec, value, strOrVal)
-		}
-	}
-
-	if paren {
-		if tree.charPos < len(tree.expression) && tree.expression[tree.charPos] == ')' {
-			tree.charPos++
-		} else {
-			return nil, nil, "", errUnexpectedClosingParenthesis
-		}
+		return tree.parseVarIndexElement(exec, value, strOrVal)
 	}
 
 	tree.charPos--
 
-	var r []rune
-	if paren {
-		r = make([]rune, len(value)+3)
-		copy(r, []rune{'$', '('})
-		copy(r[2:], value)
-		r[len(r)-1] = ')'
-	} else {
-		r = append([]rune{'$'}, value...)
-	}
+	r := append([]rune{'$'}, value...)
 
 	// don't getVar() until we come to execute the expression, skip when only
 	// parsing syntax
-	if exec {
+	if execScalars {
 		v, dataType, err := tree.getVar(value, strOrVal)
 		return r, v, dataType, err
 	}
 
 	return r, nil, "", nil
+}
+
+func (tree *ParserT) parseVarParenthesis(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+	start := tree.charPos
+
+	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch {
+		case r == ')':
+			goto endParenthesis
+		}
+	}
+
+	return nil, nil, "", raiseError(
+		tree.expression, nil, tree.charPos, "expecting closing parenthesis, ')', after variable reference")
+
+endParenthesis:
+	path := tree.expression[start+1 : tree.charPos]
+	value := tree.expression[start-1 : tree.charPos+1]
+
+	if !exec {
+		return value, nil, "", nil
+	}
+
+	v, dt, err := tree.getVar(path, strOrVal)
+	if err != nil {
+		return value, nil, "", err
+	}
+	return value, v, dt, nil
 }
 
 func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {

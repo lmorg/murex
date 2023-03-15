@@ -35,6 +35,7 @@ const (
 	Number
 	Boolean
 	Null
+	Scalar
 	Calculated // data fields that are a result of a calculation
 
 	/*

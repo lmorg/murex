@@ -322,7 +322,7 @@ func (tree *ParserT) parseStatement(exec bool) error {
 				}
 			default:
 				// start scalar
-				value, v, _, err := tree.parseVarScalar(exec, varAsString)
+				value, v, _, err := tree.parseVarScalar(exec, exec, varAsString)
 				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 						err.Error(), string(r)))

@@ -6,7 +6,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/symbols"
 )
 
-func (tree *ParserT) validateExpression() error {
+func (tree *ParserT) validateExpression(exec bool) error {
 	// compile data types and check for errors in the AST
 	//
 	// first walk to ensure we have a:
@@ -48,6 +48,19 @@ func (tree *ParserT) validateExpression() error {
 			if (node.key < symbols.DataValues) ||
 				node.key > symbols.Operations {
 				return raiseError(tree.expression, node, 0, "expecting a data value")
+			}
+
+			if node.key == symbols.Scalar && exec &&
+				(next == nil || next.key > symbols.AssignAndMultiply) {
+
+				v, mxDt, err := tree.getVar(scalarNameDetokenised(node.value), varAsValue)
+				if err != nil {
+					return err
+				}
+				dt := scalar2Primitive(mxDt)
+				dt.Value = v
+				node.key = symbols.Calculated
+				node.dt = dt
 			}
 
 			if node.dt != nil {
