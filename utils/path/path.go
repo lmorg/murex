@@ -25,5 +25,9 @@ func Split(s string) []string {
 		split[0] = consts.PathSlash
 	}
 
+	if split[len(split)-1] == "" {
+		split = split[:len(split)-1]
+	}
+
 	return split
 }
