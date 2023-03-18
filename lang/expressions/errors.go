@@ -28,9 +28,9 @@ func raiseError(expression []rune, node *astNodeT, pos int, message string) erro
 			if pos < 1 {
 				pos = 1
 			}
-			return fmt.Errorf("%s at char %d\nExpression: %s\n          : %s",
-				message, pos,
-				expr, strings.Repeat(" ", pos-1)+"^")
+			return fmt.Errorf("%s\nExpression: %s\n          : %s\nCharacter : %d",
+				message, expr,
+				strings.Repeat(" ", pos-1)+"^", pos)
 		}
 		return fmt.Errorf("%s\nExpression: %s", message, expr)
 	}
@@ -41,9 +41,9 @@ func raiseError(expression []rune, node *astNodeT, pos int, message string) erro
 	}
 
 	if expression != nil {
-		return fmt.Errorf("%s at char %d\nExpression: %s\n          : %s\nSymbol    : %s\nValue     : '%s'",
-			message, pos+1,
-			expr, strings.Repeat(" ", pos)+"^",
+		return fmt.Errorf("%s\nExpression: %s\n          : %s\nCharacter : %d\nSymbol    : %s\nValue     : '%s'",
+			message, expr,
+			strings.Repeat(" ", pos)+"^", pos+1,
 			node.key.String(), node.Value())
 	} else {
 		return fmt.Errorf("%s at char %d\nSymbol    : %s\nValue     : '%s'",

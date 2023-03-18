@@ -9,7 +9,7 @@ import (
 )
 
 func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
-	err := tree.validateExpression()
+	err := tree.validateExpression(true)
 	if err != nil {
 		return nil, err
 	}

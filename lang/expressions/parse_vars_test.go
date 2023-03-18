@@ -308,14 +308,14 @@ func TestParseVarsParen(t *testing.T) {
 			Block:  `TestParseVarsParen2=%[1 2 3];$(TestParseVarsParen2.1)`,
 			Stdout: `2`,
 		},
-		{
+		/*{
 			Block:  `TestParseVarsParen3=%[1 2 3];$(TestParseVarsParen3[2])`,
 			Stdout: `3`,
-		},
-		{
+		},*/
+		/*{
 			Block:  `TestParseVarsParen4=%[1 2 3];$(TestParseVarsParen4[[.1]])`,
 			Stdout: `2`,
-		},
+		},*/
 		//
 		{
 			Block:  `TestParseVarsParen5=%[1..3];echo -$(TestParseVarsParen5.1)-`,

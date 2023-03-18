@@ -9,11 +9,32 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
+func scalarNameDetokenised(r []rune) []rune {
+	//r := make([]rune, len(scalar))
+	//copy(r, scalar)
+	if r[1] == '(' {
+		return r[2 : len(r)-1]
+	} else {
+		return r[1:]
+	}
+}
+
+func convertScalarToBareword(node *astNodeT) {
+	if node.key == symbols.Scalar && len(node.value) > 1 &&
+		node.value[0] == '$' && node.value[1] != '{' {
+
+		node.key = symbols.Bareword
+		node.value = scalarNameDetokenised(node.value)
+	}
+}
+
 func expAssign(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
 	}
+
+	convertScalarToBareword(left)
 
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
@@ -29,7 +50,7 @@ func expAssign(tree *ParserT) error {
 
 	var v interface{}
 	switch right.dt.Primitive {
-	case primitives.Array, primitives.Object: //, primitives.Other:
+	case primitives.Array, primitives.Object:
 		b, err := json.Marshal(right.dt.Value)
 		if err != nil {
 			return err

@@ -132,7 +132,7 @@ func (tree *ParserT) parseStringInfix(qEnd rune, exec bool) ([]rune, error) {
 				}
 			default:
 				// inline scalar
-				scalar, v, _, err := tree.parseVarScalar(exec, varAsString)
+				scalar, v, _, err := tree.parseVarScalar(exec, exec, varAsString)
 				if err != nil {
 					return nil, err
 				}

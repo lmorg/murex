@@ -3,23 +3,12 @@ package path
 import (
 	"fmt"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/consts"
 )
-
-/*
-	struct:
-		[
-			{
-				"root":  bool,    // only true on top level element if absolute path
-				"dir":   bool,    // only false on last element if exists and a directory
-				"value": string,  // value of element
-			},
-			...
-		]
-*/
 
 const (
 	IS_RELATIVE = "IsRelative"
@@ -58,16 +47,6 @@ func Marshal(v interface{}) ([]byte, error) {
 func marshalPathInterface(v []interface{}) ([]byte, error) {
 	a := make([]string, len(v))
 
-	relative, err := types.ConvertGoType(v[0].(map[string]interface{})[IS_RELATIVE], types.Boolean)
-	if err != nil {
-		return nil, fmt.Errorf("unable to get '%s' from %v", IS_RELATIVE, v[0])
-	}
-
-	dir, err := types.ConvertGoType(v[len(v)-1].(map[string]interface{})[IS_DIR], types.Boolean)
-	if err != nil {
-		return nil, fmt.Errorf("unable to get '%s' from %v", IS_DIR, v[len(v)-1])
-	}
-
 	for i := range v {
 		switch v[i].(type) {
 		case map[string]interface{}:
@@ -86,17 +65,17 @@ func marshalPathInterface(v []interface{}) ([]byte, error) {
 		}
 	}
 
-	b := []byte(strings.Join(a, consts.PathSlash))
-	if relative.(bool) {
-		b = append(pathSlashSlice, b...)
+	s := strings.Join(a, consts.PathSlash)
+	if f, _ := os.Stat(s); f != nil && f.IsDir() {
+		s += consts.PathSlash
 	}
 
-	if dir.(bool) {
-		b = append(b, pathSlashByte)
-	}
+	s = path.Clean(s)
 
-	return b, nil
+	return []byte(s), nil
 }
+
+var pathSlashByte = consts.PathSlash[0]
 
 func Unmarshal(b []byte) (interface{}, error) {
 	if len(b) == 0 {
@@ -104,18 +83,20 @@ func Unmarshal(b []byte) (interface{}, error) {
 	}
 
 	relative := b[0] != pathSlashByte
+	path := string(b)
 
-	f, err := os.Stat(string(b))
+	f, err := os.Stat(path)
 	dir := err == nil && f.IsDir()
 
-	split, err := Split(b)
-	if err != nil {
-		return nil, err
-	}
+	split := Split(path)
 
-	a := make([]string, len(split))
-	for i := range split {
-		a[i] = string(split[i])
+	notExists := make([]bool, len(split))
+	for i := len(split) - 1; i > -1; i-- {
+		notExists[i] = os.IsNotExist(err)
+		if !notExists[i] {
+			break
+		}
+		_, err = os.Stat(strings.Join(split[:i], consts.PathSlash))
 	}
 
 	v := make([]interface{}, len(split))
@@ -124,7 +105,8 @@ func Unmarshal(b []byte) (interface{}, error) {
 		v[i] = map[string]interface{}{
 			IS_RELATIVE: relative && i == 0,
 			IS_DIR:      (dir && i == len(split)-1) || i < len(split)-1,
-			VALUE:       string(split[i]),
+			VALUE:       split[i],
+			EXISTS:      !notExists[i],
 		}
 	}
 

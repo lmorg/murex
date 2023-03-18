@@ -15,17 +15,15 @@ func readArrayWithTypePath(ctx context.Context, read stdio.Io, callback func(int
 		return err
 	}
 
-	split, err := path.Split(b)
-	if split == nil {
-		return err
-	}
+	s := string(b)
+	split := path.Split(s)
 
 	for i := range split {
 		select {
 		case <-ctx.Done():
 			return nil
 		default:
-			callback(string(split[i]), types.String)
+			callback(split[i], types.String)
 		}
 	}
 

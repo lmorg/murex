@@ -20,6 +20,8 @@ var (
 
 	// Marshallers defines the Go functions for converting a Go interface into a murex data type
 	Marshallers = make(map[string]func(*Process, interface{}) ([]byte, error))
+
+	MxInterfaces = make(map[string]MxInterface)
 )
 
 var (

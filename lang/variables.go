@@ -76,11 +76,12 @@ func NewGlobals() *Variables {
 
 // variable is an individual variable or global variable
 type variable struct {
-	DataType string
-	Value    interface{}
-	String   string
-	Modify   time.Time
-	FileRef  *ref.File // only needed for globals
+	DataType    string
+	Value       interface{}
+	String      string
+	IsInterface bool
+	Modify      time.Time
+	FileRef     *ref.File // only needed for globals
 }
 
 // GetValue return the value of a variable. If a variable does not exist then
@@ -107,6 +108,45 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 		return ElementLookup(val, "."+strings.Join(split[1:], "."))
 	}
 }
+
+/*func (v *Variables) isObject(name string) bool {
+	if v.global {
+		isObject := v.isObjectValue(name)
+		if isObject == nil {
+			return false
+		}
+		return isObject.(bool)
+	}
+
+	isObject := v.isObjectValue(name)
+	if isObject != nil {
+		return isObject.(bool)
+	}
+
+	isObject = GlobalVariables.getValueValue(name)
+	if isObject == nil {
+		return false
+	}
+	return isObject.(bool)
+}
+
+// Return values:
+// * true:  var exists and is object
+// * false: var exists and not an object
+// * nil:   var does not exist
+func (v *Variables) isObjectValue(name string) interface{} {
+	v.mutex.Lock()
+	variable := v.vars[name]
+	if variable == nil {
+		v.mutex.Unlock()
+		return nil
+	}
+
+	isObject := variable.IsObject
+	v.mutex.Unlock()
+
+	return isObject
+}*/
 
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
@@ -173,7 +213,7 @@ func (v *Variables) getValue(name string) (interface{}, error) {
 	return nil, nil
 }
 
-func (v *Variables) getValueValue(name string) (value interface{}) {
+func (v *Variables) getValueValue(name string) interface{} {
 	v.mutex.Lock()
 	variable := v.vars[name]
 	if variable == nil {
@@ -181,9 +221,16 @@ func (v *Variables) getValueValue(name string) (value interface{}) {
 		return nil
 	}
 
-	value = variable.Value
-	v.mutex.Unlock()
+	if variable.IsInterface {
+		value := variable.Value.(MxInterface).GetValue()
 
+		v.mutex.Unlock()
+		return value
+	}
+
+	value := variable.Value
+
+	v.mutex.Unlock()
 	return value
 }
 
@@ -300,6 +347,13 @@ func (v *Variables) getStringValue(name string) (string, bool) {
 	if variable == nil {
 		v.mutex.Unlock()
 		return "", false
+	}
+
+	if variable.IsInterface {
+		s := variable.Value.(MxInterface).GetString()
+
+		v.mutex.Unlock()
+		return s, true
 	}
 
 	s := variable.String
@@ -428,7 +482,7 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 	case 0:
 		return errZeroLengthPath
 	case 1:
-		return v.set(p, split[0], value, dataType)
+		return v.set(p, split[0], value, dataType, nil)
 	default:
 		variable, err := v.getValue(split[0])
 		if err != nil {
@@ -439,7 +493,7 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 		if err != nil {
 			return errCannotUpdateNested(split[0], err)
 		}
-		err = v.set(p, split[0], variable, v.GetDataType(split[0]))
+		err = v.set(p, split[0], variable, v.GetDataType(split[0]), split[1:])
 		if err != nil {
 			return errCannotUpdateNested(split[0], err)
 		}
@@ -448,11 +502,13 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 }
 
 // Set writes a variable
-func (v *Variables) set(p *Process, name string, value interface{}, dataType string) error {
+func (v *Variables) set(p *Process, name string, value interface{}, dataType string, changePath []string) error {
 	switch name {
 	case SELF, ARGS, PARAMS, MUREX_EXE, MUREX_ARGS, HOSTNAME, PWD, "_":
 		return errVariableReserved(name)
-	case "":
+	case ENV:
+		return setEnvVar(value, changePath)
+	case DOT:
 		goto notReserved
 	}
 	for _, r := range name {
@@ -463,6 +519,98 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 	return errVariableReserved(name)
 
 notReserved:
+
+	fileRef := v.process.FileRef
+	if v.global {
+		fileRef = p.FileRef
+	}
+
+	mxi := MxInterfaces[dataType]
+	if mxi != nil {
+		mxvar := v.vars[name]
+		if mxvar != nil && mxvar.IsInterface {
+
+			v.mutex.Lock()
+
+			err := mxvar.Value.(MxInterface).Set(value, changePath)
+			if err != nil {
+				v.vars[name].Modify = time.Now()
+			}
+
+			v.mutex.Unlock()
+
+			return err
+		}
+
+		s, _, err := convertDataType(value, dataType)
+		if err != nil {
+			return err
+		}
+
+		mxi, err := mxi.New(s)
+		if err != nil {
+			return err
+		}
+
+		v.mutex.Lock()
+
+		v.vars[name] = &variable{
+			Value:       mxi,
+			DataType:    dataType,
+			Modify:      time.Now(),
+			FileRef:     fileRef,
+			IsInterface: true,
+		}
+
+		v.mutex.Unlock()
+
+		return nil
+	}
+
+	s, iface, err := convertDataType(value, dataType)
+	if err != nil {
+		return err
+	}
+
+	v.mutex.Lock()
+
+	v.vars[name] = &variable{
+		Value:    iface,
+		String:   s,
+		DataType: dataType,
+		Modify:   time.Now(),
+		FileRef:  fileRef,
+	}
+
+	v.mutex.Unlock()
+
+	return nil
+}
+
+func setEnvVar(v interface{}, changePath []string) (err error) {
+	var value interface{}
+
+	if len(changePath) == 0 {
+		return fmt.Errorf("invalid use of $%s. Expecting an environmental variable name, eg `$ENV.EXAMPLE`", ENV)
+	}
+
+	switch t := v.(type) {
+	case map[string]interface{}:
+		value, err = types.ConvertGoType(t[changePath[0]], types.String)
+		if err != nil {
+			return err
+		}
+
+	default:
+		return fmt.Errorf("expecting a map of environmental variables. Instead got a %T", t)
+	}
+
+	return os.Setenv(changePath[0], value.(string))
+}
+
+const errCannotStoreVariable = "cannot store variable"
+
+func convertDataType(value interface{}, dataType string) (string, interface{}, error) {
 	var (
 		s     string
 		iface interface{}
@@ -498,31 +646,8 @@ notReserved:
 		s, err = varConvertInterface(v, dataType)
 		iface = value
 	}
-	if err != nil {
-		return err
-	}
-
-	fileRef := v.process.FileRef
-	if v.global {
-		fileRef = p.FileRef
-	}
-
-	v.mutex.Lock()
-
-	v.vars[name] = &variable{
-		Value:    iface,
-		String:   s,
-		DataType: dataType,
-		Modify:   time.Now(),
-		FileRef:  fileRef,
-	}
-
-	v.mutex.Unlock()
-
-	return nil
+	return s, iface, err
 }
-
-const errCannotStoreVariable = "cannot store variable"
 
 func varConvertPrimitive(value interface{}) (string, error) {
 	s, err := types.ConvertGoType(value, types.String)
