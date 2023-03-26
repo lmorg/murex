@@ -184,3 +184,33 @@ func TestParseArrayWithArrayVar(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseArrayObjects(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ArrayBegin,
+		tests: []expTestT{
+			{
+				input:    `%[{a:1},{b:2},{c:3}]`,
+				expected: `[{"a":1},{"b":2},{"c":3}]`,
+				pos:      18,
+			},
+			{
+				input: `%[
+					{
+						a:1
+					},
+					{
+						b:2
+					},
+					{
+						c:3
+					}
+				]`,
+				expected: `[{"a":1},{"b":2},{"c":3}]`,
+				pos:      80,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
