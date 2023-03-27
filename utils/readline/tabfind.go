@@ -11,7 +11,6 @@ func (rl *Instance) backspaceTabFind() {
 
 func (rl *Instance) updateTabFind(r []rune) {
 	rl.tfLine = append(rl.tfLine, r...)
-	rl.hintText = append([]rune("regex find: "), rl.tfLine...)
 
 	defer func() {
 		rl.clearHelpers()
@@ -27,11 +26,18 @@ func (rl *Instance) updateTabFind(r []rune) {
 		return
 	}
 
-	find, err := newFuzzyFind(string(rl.tfLine))
+	var (
+		find findT
+		err  error
+	)
+
+	find, rl.rFindSearch, rl.rFindCancel, err = newFuzzyFind(string(rl.tfLine))
 	if err != nil {
 		rl.tfSuggestions = []string{err.Error()}
 		return
 	}
+
+	rl.hintText = append(rl.rFindSearch, rl.tfLine...)
 
 	rl.tfSuggestions = make([]string, 0)
 	for i := range rl.tcSuggestions {
@@ -51,7 +57,7 @@ func (rl *Instance) resetTabFind() {
 	if rl.modeAutoFind {
 		rl.hintText = []rune{}
 	} else {
-		rl.hintText = []rune("Cancelled regex suggestion find.")
+		rl.hintText = rl.rFindCancel
 	}
 
 	rl.clearHelpers()

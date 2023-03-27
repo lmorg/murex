@@ -5,6 +5,14 @@ import (
 	"strings"
 )
 
+var (
+	rFindSearchRegex = []rune("regexp match: ")
+	rFindCancelRegex = []rune("Cancelled regexp match")
+
+	rFindSearchPart = []rune("partial word match: ")
+	rFindCancelPart = []rune("Cancelled partial word match")
+)
+
 type findT interface {
 	MatchString(string) bool
 }
@@ -78,14 +86,14 @@ func (ff *fuzzyFindT) matchNone(item string) bool {
 	return true
 }
 
-func newFuzzyFind(pattern string) (findT, error) {
+func newFuzzyFind(pattern string) (findT, []rune, []rune, error) {
 	pattern = strings.ToLower(pattern)
 	ff := new(fuzzyFindT)
 	ff.tokens = strings.Split(pattern, " ")
 
 	for {
 		if len(ff.tokens) == 0 {
-			return ff, nil
+			return ff, rFindSearchPart, rFindCancelPart, nil
 		}
 
 		if ff.tokens[len(ff.tokens)-1] == "" {
@@ -107,11 +115,12 @@ func newFuzzyFind(pattern string) (findT, error) {
 	case "rx":
 		ff.mode = ffMatchRegexp
 		pattern = strings.Join(ff.tokens[1:], " ")
-		return regexp.Compile("(?i)" + pattern)
+		find, err := regexp.Compile("(?i)" + pattern)
+		return find, rFindSearchRegex, rFindCancelRegex, err
 
 		//case "*":
 
 	}
 
-	return ff, nil
+	return ff, rFindSearchPart, rFindCancelPart, nil
 }

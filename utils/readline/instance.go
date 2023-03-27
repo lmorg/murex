@@ -154,6 +154,8 @@ type Instance struct {
 
 	// tab find
 	modeTabFind   bool
+	rFindSearch   []rune // searching message
+	rFindCancel   []rune // search cancelled message
 	tfLine        []rune
 	tfSuggestions []string
 	modeAutoFind  bool // for when invoked via ^R or ^F outside of [tab]
