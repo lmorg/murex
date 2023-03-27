@@ -3,6 +3,8 @@ package readline
 import (
 	"context"
 	"sync/atomic"
+
+	"github.com/lmorg/murex/utils/lists"
 )
 
 func delayedSyntaxTimer(rl *Instance, i int32) {
@@ -56,7 +58,13 @@ func (dtc *DelayedTabContext) AppendSuggestions(suggestions []string) {
 		return
 	}
 
+	max := dtc.rl.MaxTabCompleterRows * 20
+
 	dtc.rl.tabMutex.Lock()
+
+	if dtc.rl.tcDescriptions == nil {
+		dtc.rl.tcDescriptions = make(map[string]string)
+	}
 
 	for i := range suggestions {
 		select {
@@ -65,8 +73,10 @@ func (dtc *DelayedTabContext) AppendSuggestions(suggestions []string) {
 			return
 
 		default:
-			if dtc.rl.tcDescriptions == nil {
-				dtc.rl.tcDescriptions = make(map[string]string)
+			if dtc.rl.tcDescriptions[suggestions[i]] != "" ||
+				(len(dtc.rl.tcSuggestions) < max && lists.Match(dtc.rl.tcSuggestions, suggestions[i])) {
+				// dedup
+				continue
 			}
 			dtc.rl.tcDescriptions[suggestions[i]] = dtc.rl.tcPrefix + suggestions[i]
 			dtc.rl.tcSuggestions = append(dtc.rl.tcSuggestions, suggestions[i])
@@ -90,6 +100,8 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 		return
 	}
 
+	max := dtc.rl.MaxTabCompleterRows * 20
+
 	dtc.rl.tabMutex.Lock()
 
 	for k := range suggestions {
@@ -99,6 +111,11 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 			return
 
 		default:
+			if dtc.rl.tcDescriptions[k] != "" ||
+				(len(dtc.rl.tcSuggestions) < max && lists.Match(dtc.rl.tcSuggestions, k)) {
+				// dedup
+				continue
+			}
 			dtc.rl.tcDescriptions[k] = suggestions[k]
 			dtc.rl.tcSuggestions = append(dtc.rl.tcSuggestions, k)
 		}

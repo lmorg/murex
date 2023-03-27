@@ -52,18 +52,20 @@ func (rl *Instance) initTabGrid() {
 		return
 	}
 
-	go func() {
-		hints := rl.tcr.HintCache(rl.tcPrefix, subset)
-		if len(hints) != len(subset) {
-			return
-		}
+	go rl.tabHintCache(subset)
+}
 
-		rl.tabMutex.Lock()
-		for i := range subset {
-			rl.tcDescriptions[subset[i]] = hints[i]
-		}
-		rl.tabMutex.Unlock()
-	}()
+func (rl *Instance) tabHintCache(subset []string) {
+	hints := rl.tcr.HintCache(rl.tcPrefix, subset)
+	if len(hints) != len(subset) {
+		return
+	}
+
+	rl.tabMutex.Lock()
+	for i := range subset {
+		rl.tcDescriptions[subset[i]] = hints[i]
+	}
+	rl.tabMutex.Unlock()
 }
 
 func (rl *Instance) moveTabGridHighlight(x, y int) {
