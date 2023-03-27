@@ -22,6 +22,7 @@ func (rl *Instance) updateTabFind(r []rune) {
 	defer rl.tabMutex.Unlock()
 
 	if len(rl.tfLine) == 0 {
+		rl.hintText = rFindSearchPart
 		rl.tfSuggestions = append(rl.tcSuggestions, []string{}...)
 		return
 	}

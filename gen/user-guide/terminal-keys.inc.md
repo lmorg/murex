@@ -31,6 +31,8 @@ term is any of these:
   `! .md .txt` will match all files except markdown and txt files (when finding
   files in completion suggestions).
 
+* `g`: show only results that match a shell glob. eg `*.txt`.
+
 * `rx`: use a regexp pattern matcher instead of any fuzzy search. Expressions
   will be case insensitive and non-greedy by default.
 
