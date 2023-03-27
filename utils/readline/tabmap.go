@@ -1,7 +1,7 @@
 package readline
 
 import (
-	"strconv"
+	runewidth "github.com/mattn/go-runewidth"
 )
 
 func (rl *Instance) initTabMap() {
@@ -102,19 +102,14 @@ func (rl *Instance) writeTabMap() {
 	}
 	maxDescWidth := rl.termWidth - maxLength - 4
 
-	cellWidth := strconv.Itoa(maxLength)
-	itemWidth := strconv.Itoa(maxDescWidth)
+	//cellWidth := strconv.Itoa(maxLength)
+	//itemWidth := strconv.Itoa(maxDescWidth)
 
 	y := 0
 
 	moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
 
-	highlight := func(y int) string {
-		if y == rl.tcPosY {
-			return seqBgWhite + seqFgBlack
-		}
-		return ""
-	}
+	isTabDisplayList := rl.tcDisplayType == TabDisplayList
 
 	var item, description string
 	for i := rl.tcOffset; i < len(suggestions); i++ {
@@ -123,35 +118,46 @@ func (rl *Instance) writeTabMap() {
 			break
 		}
 
-		if rl.tcDisplayType == TabDisplayList {
-			item = rl.tcPrefix + suggestions[i]
+		if isTabDisplayList {
+			/*item = rl.tcPrefix + suggestions[i]
 			if len(item) > maxLength {
 				item = item[:maxLength-3] + "..."
-			}
+			}*/
+			item = runewidth.Truncate(rl.tcPrefix+suggestions[i], maxLength, "…")
 
-			description = rl.tcDescriptions[suggestions[i]]
+			/*description = rl.tcDescriptions[suggestions[i]]
 			if len(description) > maxDescWidth {
 				description = description[:maxDescWidth-3] + "..."
-			}
+			}*/
+			description = runewidth.Truncate(rl.tcDescriptions[suggestions[i]], maxDescWidth, "…")
 
 		} else {
-			item = rl.tcPrefix + suggestions[i]
+			/*item = rl.tcPrefix + suggestions[i]
 			if len(item) > maxDescWidth {
 				item = item[:maxDescWidth-3] + "..."
-			}
+			}*/
+			item = runewidth.Truncate(rl.tcPrefix+suggestions[i], maxDescWidth, "…")
 
-			description = rl.tcDescriptions[suggestions[i]]
+			/*description = rl.tcDescriptions[suggestions[i]]
 			if len(description) > maxLength {
 				description = description[:maxLength-3] + "..."
-			}
+			}*/
+			description = runewidth.Truncate(rl.tcDescriptions[suggestions[i]], maxLength, "…")
 		}
 
-		if rl.tcDisplayType == TabDisplayList {
-			printf("\r\n%s %-"+cellWidth+"s %s %s",
-				highlight(y), item, seqReset, description)
+		if isTabDisplayList {
+			//printf("\r\n%s %-"+cellWidth+"s %s %s",
+			//	highlight(rl, y), item, seqReset, description)
+			printf("\r\n%s %s %s %s",
+				highlight(rl, y), runewidth.FillRight(item, maxLength),
+				seqReset, description)
+
 		} else {
-			printf("\r\n %-"+cellWidth+"s %s %-"+itemWidth+"s %s",
-				description, highlight(y), item, seqReset)
+			//printf("\r\n %-"+cellWidth+"s %s %-"+itemWidth+"s %s",
+			//	description, highlight(rl, y), item, seqReset)
+			printf("\r\n %s %s %s %s",
+				runewidth.FillRight(description, maxLength), highlight(rl, y),
+				runewidth.FillRight(item, maxDescWidth), seqReset)
 		}
 	}
 
@@ -160,4 +166,11 @@ func (rl *Instance) writeTabMap() {
 	} else {
 		rl.tcUsedY = rl.tcMaxY
 	}
+}
+
+func highlight(rl *Instance, y int) string {
+	if y == rl.tcPosY {
+		return seqBgWhite + seqFgBlack
+	}
+	return ""
 }

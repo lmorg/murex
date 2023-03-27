@@ -2,6 +2,8 @@ package readline
 
 import (
 	"strconv"
+
+	"github.com/mattn/go-runewidth"
 )
 
 func (rl *Instance) initTabGrid() {
@@ -175,17 +177,29 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 	case iCellWidth == 0:
 		// this condition shouldn't ever happen but lets cover it just in case
 		return ""
+
+	case runewidth.StringWidth(caption) != len(caption):
+		// string length != rune width. So lets not do anything too clever
+		return runewidth.Truncate(caption, iCellWidth, "…")
+
 	case len(caption) < tcMaxLength:
 		return caption
 	case len(caption) < 5:
 		return caption
 	case len(caption) <= iCellWidth:
 		return caption
+
 	case len(caption)-iCellWidth+6 < 1:
+		// truncate the end
 		return caption[:iCellWidth-1] + "…"
+
 	case len(caption) > 5+len(caption)-iCellWidth+6:
+		// truncate long lines in the middle
 		return caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
+
 	default:
-		return caption[:iCellWidth-1] + "…"
+		// edge case reached. lets truncate the most conservative way we can,
+		// just in case
+		return runewidth.Truncate(caption, iCellWidth, "…")
 	}
 }
