@@ -52,10 +52,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 	print(rl.prompt)
 
-	rl.line.Value = []rune{}
+	rl.line.Set([]rune{})
+	rl.line.SetRunePos(0)
 	rl.lineChange = ""
-	rl.viUndoHistory = []undoItem{{line: "", pos: 0}}
-	rl.pos = 0
+	rl.viUndoHistory = []*unicodeT{rl.line.Duplicate()}
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 	atomic.StoreInt32(&rl.delayedSyntaxCount, 0)
@@ -79,7 +79,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
-		if rl.line.Len() == 0 {
+		if rl.line.RuneLen() == 0 {
 			// clear the cache when the line is cleared
 			rl.cacheHint.Init(rl)
 			rl.cacheSyntax.Init(rl)
@@ -131,12 +131,13 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			ret := rl.evtKeyPress[s](s, rl.line.Value, rl.pos)
+			ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
 
 			rl.clearLine()
-			rl.line.Value = append(ret.NewLine, []rune{}...)
+			rl.line.Set(append(ret.NewLine, []rune{}...))
 			rl.echo()
-			rl.pos = ret.NewPos
+			// TODO: should this be above echo?
+			rl.line.SetRunePos(ret.NewPos)
 
 			if ret.ClearHelpers {
 				rl.resetHelpers()
@@ -301,8 +302,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 
 		default:
-			if rl.pos == rl.line.Len() && rl.line.Len() > 0 {
-				rl.pos--
+			if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
+				rl.line.SetRunePos(rl.line.RunePos() - 1)
 				moveCursorBackwards(1)
 			}
 			rl.modeViMode = vimKeys
@@ -326,9 +327,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		_, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 		if posY > 0 {
-			rl.moveCursorByAdjust(-rl.termWidth + rl.promptLen)
+			// TODO: check if promptLen takes into account wide runes
+			rl.moveCursorByRuneAdjust(-rl.termWidth + rl.promptLen)
 			return
 		}
 		rl.walkHistory(-1)
@@ -341,10 +343,11 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-		_, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
+		_, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+		_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
 		if posY < lineY {
-			rl.moveCursorByAdjust(rl.termWidth - rl.promptLen)
+			// TODO: check if promptLen takes into account wide runes
+			rl.moveCursorByRuneAdjust(rl.termWidth - rl.promptLen)
 			return
 		}
 		rl.walkHistory(1)
@@ -356,8 +359,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if rl.pos > 0 {
-			rl.moveCursorByAdjust(-1)
+		if rl.line.RunePos() > 0 {
+			rl.moveCursorByRuneAdjust(-1)
 		}
 		rl.viUndoSkipAppend = true
 
@@ -368,9 +371,9 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if (rl.modeViMode == vimInsert && rl.pos < rl.line.Len()) ||
-			(rl.modeViMode != vimInsert && rl.pos < rl.line.Len()-1) {
-			rl.moveCursorByAdjust(1)
+		if (rl.modeViMode == vimInsert && rl.line.RunePos() < rl.line.RuneLen()) ||
+			(rl.modeViMode != vimInsert && rl.line.RunePos() < rl.line.RuneLen()-1) {
+			rl.moveCursorByRuneAdjust(1)
 		}
 		rl.viUndoSkipAppend = true
 
@@ -379,7 +382,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		rl.moveCursorByAdjust(-rl.pos)
+		rl.moveCursorByRuneAdjust(-rl.line.RunePos())
 		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
@@ -387,7 +390,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		rl.moveCursorByAdjust(rl.line.Len() - rl.pos)
+		rl.moveCursorByRuneAdjust(rl.line.RuneLen() - rl.line.RunePos())
 		rl.viUndoSkipAppend = true
 
 	case seqShiftTab:

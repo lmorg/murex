@@ -78,7 +78,7 @@ func (rl *Instance) writePreview(item string) {
 		item = strings.ReplaceAll(item, "\\", "")
 		item = strings.TrimSpace(item)
 
-		lines, pos, err := rl.tcr.Preview(rl.line.Value, item, rl.PreviewImages, size)
+		lines, pos, err := rl.tcr.Preview(rl.line.Runes(), item, rl.PreviewImages, size)
 		if len(lines) == 0 || err != nil {
 			rl.previewCache = nil
 			return

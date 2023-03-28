@@ -96,42 +96,42 @@ func moveCursorBackwards(i int) {
 }
 
 func (rl *Instance) moveCursorToStart() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 
 	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
 }
 
 func (rl *Instance) moveCursorFromStartToLinePos() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
 func (rl *Instance) moveCursorFromEndToLinePos() {
-	lineX, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	lineX, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
+	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 	moveCursorBackwards(lineX - posX)
 	moveCursorUp(lineY - posY)
 }
 
-func (rl *Instance) moveCursorByAdjust(adjust int) {
-	oldX, oldY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
+	oldX, oldY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 
-	rl.line.RunePos += adjust
+	rl.line.SetRunePos(rl.line.RunePos() + rAdjust)
 
-	if rl.line.CellPos() < 0 {
-		rl.pos = 0
+	if rl.line.RunePos() < 0 {
+		rl.line.SetRunePos(0)
 	}
-	if rl.pos > rl.line.Len() {
-		rl.pos = rl.line.Len()
-	}
-
-	if rl.modeViMode != vimInsert && rl.line.CellPos() == rl.line.Len() {
-		rl.line.RunePos--
+	if rl.line.RunePos() > rl.line.RuneLen() {
+		rl.line.SetRunePos(rl.line.RuneLen())
 	}
 
-	newX, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	if rl.modeViMode != vimInsert && rl.line.RunePos() == rl.line.RuneLen() {
+		rl.line.SetRunePos(rl.line.RunePos() - 1)
+	}
+
+	newX, newY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 
 	y := newY - oldY
 	switch {

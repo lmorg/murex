@@ -76,8 +76,7 @@ func TestLineWrap(t *testing.T) {
 	for i, test := range tests {
 		rl := NewInstance()
 		rl.SetPrompt(test.Prompt)
-		//rl.lineBuf = test.Line
-		rl.line.Value = []rune(test.Line)
+		rl.line.Set([]rune(test.Line))
 
 		wrap := lineWrap(rl, test.TermWidth)
 		if len(wrap) != len(test.Expected) {
@@ -92,8 +91,7 @@ func TestLineWrap(t *testing.T) {
 			t.Logf("  Slice a:  '%s'", fmt.Sprint(wrap))
 			t.Logf("  rl.promptLen: %d'", rl.promptLen)
 			t.Logf("  rl.line:     '%s'", rl.line.String())
-			t.Logf("  rl.lineBuf:  '%s'", rl.lineBuf)
-			t.Logf("  n:            %.10f'", float64(rl.line.Len())/(float64(test.TermWidth)-float64(rl.promptLen)))
+			t.Logf("  n:            %.10f'", float64(rl.line.RuneLen())/(float64(test.TermWidth)-float64(rl.promptLen)))
 		}
 
 		for j := range wrap {
@@ -222,10 +220,10 @@ func TestLineWrapPos(t *testing.T) {
 	count.Tests(t, len(tests))
 	for i, test := range tests {
 
-		x, y := lineWrapPos(len(test.Prompt), len(test.Line), test.TermWidth)
+		x, y := lineWrapCellPos(len(test.Prompt), len(test.Line), test.TermWidth)
 
 		if (test.Expected.X != x) || (test.Expected.Y != y) {
-			t.Error("X or Y does not matxh:")
+			t.Error("X or Y does not match:")
 			t.Logf("  Test:      %d (%s)", i, t.Name())
 			t.Logf("  Prompt:   '%s'", test.Prompt)
 			t.Logf("  Line:     '%s'", test.Line)

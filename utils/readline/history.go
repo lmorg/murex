@@ -123,13 +123,13 @@ func (rl *Instance) walkHistory(i int) {
 
 		rl.histPos += i
 		rl.line = new(unicodeT)
-		rl.line.Value = []rune(newLine)
+		rl.line.Set([]rune(newLine))
 
-		_, y := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
+		_, y := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
 		print(strings.Repeat("\r\n", y))
 	}
 
-	rl.pos = rl.line.Len()
+	rl.line.SetRunePos(rl.line.RuneLen())
 	rl.echo()
 
 	rl.updateHelpers()
@@ -166,7 +166,7 @@ func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 			continue
 		}
 
-		line = strings.Replace(line, "\n", ` `, -1)[rl.line.Len():]
+		line = strings.Replace(line, "\n", ` `, -1)[rl.line.RuneLen():]
 
 		if descs[line] != "" {
 			continue

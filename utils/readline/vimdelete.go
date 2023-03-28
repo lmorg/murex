@@ -55,57 +55,57 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 	// the logic
 	newLine, backOne := rl.viDeleteByAdjustLogic(&adjust)
 
-	moveCursorBackwards(rl.pos)
-	print(strings.Repeat(" ", rl.line.Len()))
-	moveCursorBackwards(rl.line.Len() - rl.pos)
+	moveCursorBackwards(rl.line.CellPos())
+	print(strings.Repeat(" ", rl.line.CellLen()))
+	moveCursorBackwards(rl.line.CellLen() - rl.line.CellPos())
 
-	rl.line.Value = newLine
+	rl.line.Set(newLine)
 
 	rl.echo()
 
 	if adjust < 0 {
-		rl.moveCursorByAdjust(adjust)
+		rl.moveCursorByRuneAdjust(adjust)
 	}
 
 	if backOne {
 		moveCursorBackwards(1)
-		rl.pos--
+		rl.line.SetRunePos(rl.line.RunePos() - 1)
 	}
 }
 
 func (rl *Instance) viDeleteByAdjustLogic(adjust *int) (newLine []rune, backOne bool) {
 	switch {
-	case rl.line.Len() == 0:
+	case rl.line.RuneLen() == 0:
 		*adjust = 0
 		newLine = []rune{}
-	case rl.pos+*adjust > rl.line.Len()-1:
-		*adjust -= (rl.pos + *adjust) - (rl.line.Len() - 1)
+
+	case rl.line.RunePos()+*adjust > rl.line.RuneLen()-1:
+		*adjust -= (rl.line.RunePos() + *adjust) - (rl.line.RuneLen() - 1)
 		fallthrough
-	case rl.pos+*adjust == rl.line.Len()-1:
-		newLine = rl.line.Value[:rl.pos]
+
+	case rl.line.RunePos()+*adjust == rl.line.RuneLen()-1:
+		newLine = rl.line.Runes()[:rl.line.RunePos()]
 		backOne = true
-	case rl.pos+*adjust < 0:
-		*adjust = rl.pos
+
+	case rl.line.RunePos()+*adjust < 0:
+		*adjust = rl.line.RunePos()
 		fallthrough
-	case rl.pos+*adjust == 0:
-		newLine = rl.line.Value[rl.pos:]
+
+	case rl.line.RunePos()+*adjust == 0:
+		newLine = rl.line.Runes()[rl.line.RunePos():]
+
 	case *adjust < 0:
-		newLine = append(rl.line.Value[:rl.pos+*adjust], rl.line.Value[rl.pos:]...)
+		newLine = append(rl.line.Runes()[:rl.line.RunePos()+*adjust], rl.line.Runes()[rl.line.RunePos():]...)
+
 	default:
-		newLine = append(rl.line.Value[:rl.pos], rl.line.Value[rl.pos+*adjust:]...)
+		newLine = append(rl.line.Runes()[:rl.line.RunePos()], rl.line.Runes()[rl.line.RunePos()+*adjust:]...)
 	}
 
 	return
 }
 
 func (rl *Instance) vimDeleteToken(r rune) bool {
-	/*line, err := rl.History.GetLine(rl.History.Len() - 1)
-	if err != nil {
-		return false
-	}*/
-
-	//tokens, _, _ := tokeniseSplitSpaces([]rune(line), 0)
-	tokens, _, _ := tokeniseSplitSpaces(rl.line.Value, 0)
+	tokens, _, _ := tokeniseSplitSpaces(rl.line.Runes(), 0)
 	pos := int(r) - 48 // convert ASCII to integer
 	if pos > len(tokens) {
 		return false
@@ -117,19 +117,19 @@ func (rl *Instance) vimDeleteToken(r rune) bool {
 		return false
 	}
 
-	moveCursorBackwards(rl.pos)
-	print(strings.Repeat(" ", rl.line.Len()))
-	moveCursorBackwards(rl.line.Len() - rl.pos)
+	moveCursorBackwards(rl.line.CellPos())
+	print(strings.Repeat(" ", rl.line.CellLen()))
+	moveCursorBackwards(rl.line.CellLen() - rl.line.CellPos())
 
-	rl.line.Value = []rune(newLine)
+	rl.line.Set([]rune(newLine))
 
 	rl.echo()
 
-	if rl.pos > rl.line.Len() {
+	if rl.line.RunePos() > rl.line.RuneLen() {
 		moveCursorBackwards(GetTermWidth())
-		moveCursorForwards(rl.promptLen + rl.line.Len() - 1)
+		moveCursorForwards(rl.promptLen + rl.line.CellLen() - 1)
 		// ^ this is lazy
-		rl.pos = rl.line.Len() - 1
+		rl.line.SetRunePos(rl.line.RuneLen() - 1)
 	}
 
 	return true

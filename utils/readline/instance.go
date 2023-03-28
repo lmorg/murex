@@ -32,32 +32,72 @@ type TabCompleterReturnT struct {
 }
 
 type unicodeT struct {
-	Value []rune
-	pos   int
+	value []rune
+	rPos  int
+	cPos  int
+}
+
+func (u *unicodeT) Set(r []rune) {
+	u.value = r
+	u.cPos = u.cellPos()
+}
+
+func (u *unicodeT) Runes() []rune {
+	return u.value
 }
 
 func (u *unicodeT) String() string {
-	return string(u.Value)
-}
-
-func (u *unicodeT) Len() int {
-	return runewidth.StringWidth(u.String())
+	return string(u.value)
 }
 
 func (u *unicodeT) RuneLen() int {
-	return len(u.Value)
+	return len(u.value)
 }
 
 func (u *unicodeT) RunePos() int {
-	return u.pos
+	return u.rPos
+}
+
+func (u *unicodeT) SetRunePos(i int) {
+	u.rPos = i
+	u.cPos = u.cellPos()
+}
+
+/*func (u *unicodeT) SetCellPos(cPos int) {
+	var rPos, width int
+	for rPos = range u.value {
+		width += runewidth.RuneWidth(u.value[rPos])
+		if width >= cPos {
+			break
+		}
+	}
+
+	u.rPos = rPos
+}*/
+
+func (u *unicodeT) Duplicate() *unicodeT {
+	dup := new(unicodeT)
+	dup.value = make([]rune, len(u.value))
+	copy(dup.value, u.value)
+	dup.rPos = u.rPos
+	dup.cPos = u.cPos
+	return dup
+}
+
+func (u *unicodeT) CellLen() int {
+	return runewidth.StringWidth(u.String())
+}
+
+func (u *unicodeT) cellPos() int {
+	var cPos, i int
+	for ; i < len(u.value) && i < u.rPos; i++ {
+		cPos += runewidth.RuneWidth(u.value[i])
+	}
+	return cPos + (u.rPos - i)
 }
 
 func (u *unicodeT) CellPos() int {
-	var cellPos int
-	for i := 0; i <= u.RunePos; i++ {
-		cellPos = +runewidth.RuneWidth(u.Value[i])
-	}
-	return cellPos
+	return u.cPos
 }
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -193,7 +233,7 @@ type Instance struct {
 	// vim
 	modeViMode       viMode //= vimInsert
 	viIteration      string
-	viUndoHistory    []undoItem
+	viUndoHistory    []*unicodeT
 	viUndoSkipAppend bool
 	viYankBuffer     string
 

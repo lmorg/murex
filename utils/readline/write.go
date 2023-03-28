@@ -29,8 +29,8 @@ func (rl *Instance) echo() {
 		rl.syntaxCompletion()
 	}
 
-	lineX, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	lineX, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
+	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 
 	moveCursorBackwards(posX)
 	moveCursorUp(posY)
@@ -40,9 +40,9 @@ func (rl *Instance) echo() {
 
 	switch {
 	case rl.PasswordMask != 0:
-		print(strings.Repeat(string(rl.PasswordMask), rl.line.Len()) + " \r\n")
+		print(strings.Repeat(string(rl.PasswordMask), rl.line.CellLen()) + " \r\n")
 
-	case rl.line.Len()+rl.promptLen > rl.termWidth:
+	case rl.line.CellLen()+rl.promptLen > rl.termWidth:
 		fallthrough
 
 	case rl.SyntaxHighlighter == nil:
@@ -52,16 +52,16 @@ func (rl *Instance) echo() {
 		}
 
 	default:
-		syntax := rl.cacheSyntax.Get(rl.line.Value)
+		syntax := rl.cacheSyntax.Get(rl.line.Runes())
 		if len(syntax) > 0 {
 			print(syntax + " \r\n")
 
 		} else {
-			syntax = rl.SyntaxHighlighter(rl.line.Value)
+			syntax = rl.SyntaxHighlighter(rl.line.Runes())
 			print(syntax + " \r\n")
 
 			if rl.DelayedSyntaxWorker == nil {
-				rl.cacheSyntax.Append(rl.line.Value, syntax)
+				rl.cacheSyntax.Append(rl.line.Runes(), syntax)
 			}
 		}
 		//print(string(rl.line) + " \r\n")
@@ -81,7 +81,7 @@ func lineWrap(rl *Instance, termWidth int) []string {
 		promptLen = rl.promptLen
 	}
 
-	n := float64(rl.line.Len()+1) / (float64(termWidth) - float64(promptLen))
+	n := float64(rl.line.CellLen()+1) / (float64(termWidth) - float64(promptLen))
 	ceil := int(math.Ceil(n))
 	if ceil < 1 || ceil > 2000000000 {
 		return []string{" "}
@@ -130,7 +130,7 @@ func lineWrapCellPos(promptLen, lineLength, termWidth int) (x, y int) {
 }
 
 func (rl *Instance) clearLine() {
-	if rl.line.Len() == 0 {
+	if rl.line.RuneLen() == 0 {
 		return
 	}
 
@@ -144,8 +144,8 @@ func (rl *Instance) clearLine() {
 	moveCursorBackwards(rl.termWidth)
 	print(rl.prompt)
 
-	rl.line.Value = []rune{}
-	rl.pos = 0
+	rl.line.Set([]rune{})
+	rl.line.SetRunePos(0)
 }
 
 func (rl *Instance) resetHelpers() {
@@ -156,8 +156,8 @@ func (rl *Instance) resetHelpers() {
 }
 
 func (rl *Instance) clearHelpers() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-	_, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
+	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
 	y := lineY - posY
 
 	moveCursorDown(y)
