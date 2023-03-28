@@ -18,7 +18,7 @@ const (
 func (rl *Instance) vi(r rune) {
 	switch r {
 	case 'a':
-		if len(rl.line) > 0 {
+		if rl.line.Len() > 0 {
 			moveCursorForwards(1)
 			rl.pos++
 		}
@@ -27,9 +27,9 @@ func (rl *Instance) vi(r rune) {
 		rl.viUndoSkipAppend = true
 
 	case 'A':
-		if len(rl.line) > 0 {
-			moveCursorForwards(len(rl.line) - rl.pos)
-			rl.pos = len(rl.line)
+		if rl.line.Len() > 0 {
+			moveCursorForwards(rl.line.Len() - rl.pos)
+			rl.pos = rl.line.Len()
 		}
 		rl.modeViMode = vimInsert
 		rl.viIteration = ""
@@ -55,10 +55,11 @@ func (rl *Instance) vi(r rune) {
 
 	case 'D':
 		moveCursorBackwards(rl.pos)
-		print(strings.Repeat(" ", len(rl.line)))
+		print(strings.Repeat(" ", rl.line.Len()))
 
-		moveCursorBackwards(len(rl.line) - rl.pos)
-		rl.line = rl.line[:rl.pos]
+		moveCursorBackwards(rl.line.Len() - rl.pos)
+		// TODO: this isn't unicode safe
+		rl.line.Value = rl.line.Value[:rl.pos]
 		rl.echo()
 
 		moveCursorBackwards(2)
@@ -99,8 +100,9 @@ func (rl *Instance) vi(r rune) {
 		rl.pos = 0
 
 	case 'l':
-		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
-			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
+		// TODO: this might not be unicode safe (-1)
+		if (rl.modeViMode == vimInsert && rl.pos < rl.line.Len()) ||
+			(rl.modeViMode != vimInsert && rl.pos < rl.line.Len()-1) {
 			moveCursorForwards(1)
 			rl.pos++
 		}
@@ -144,9 +146,9 @@ func (rl *Instance) vi(r rune) {
 		rl.clearHelpers()
 		var multiline []rune
 		if rl.GetMultiLine == nil {
-			multiline = rl.line
+			multiline = rl.line.Value
 		} else {
-			multiline = rl.GetMultiLine(rl.line)
+			multiline = rl.GetMultiLine(rl.line.Value)
 		}
 
 		new, err := rl.launchEditor(multiline)
@@ -176,13 +178,13 @@ func (rl *Instance) vi(r rune) {
 		for i := 1; i <= vii; i++ {
 			rl.delete()
 		}
-		if rl.pos == len(rl.line) && len(rl.line) > 0 {
+		if rl.pos == rl.line.Len() && rl.line.Len() > 0 {
 			moveCursorBackwards(1)
 			rl.pos--
 		}
 
 	case 'y', 'Y':
-		rl.viYankBuffer = string(rl.line)
+		rl.viYankBuffer = rl.line.String()
 		rl.viUndoSkipAppend = true
 		//rl.hintText = []rune("-- LINE YANKED --")
 		//rl.renderHelpers()
@@ -196,8 +198,8 @@ func (rl *Instance) vi(r rune) {
 		rl.moveCursorByAdjust(rl.viJumpNextBrace())
 
 	case '$':
-		moveCursorForwards(len(rl.line) - rl.pos)
-		rl.pos = len(rl.line)
+		moveCursorForwards(rl.line.Len() - rl.pos)
+		rl.pos = rl.line.Len()
 		rl.viUndoSkipAppend = true
 
 	case '%':
@@ -243,7 +245,7 @@ func (rl *Instance) viHintMessage() {
 }
 
 func (rl *Instance) viJumpB(tokeniser func([]rune, int) ([]string, int, int)) (adjust int) {
-	split, index, pos := tokeniser(rl.line, rl.pos)
+	split, index, pos := tokeniser(rl.line.Value, rl.pos)
 	switch {
 	case len(split) == 0:
 		return
@@ -258,7 +260,7 @@ func (rl *Instance) viJumpB(tokeniser func([]rune, int) ([]string, int, int)) (a
 }
 
 func (rl *Instance) viJumpE(tokeniser func([]rune, int) ([]string, int, int)) (adjust int) {
-	split, index, pos := tokeniser(rl.line, rl.pos)
+	split, index, pos := tokeniser(rl.line.Value, rl.pos)
 	if len(split) == 0 {
 		return
 	}
@@ -281,12 +283,12 @@ func (rl *Instance) viJumpE(tokeniser func([]rune, int) ([]string, int, int)) (a
 }
 
 func (rl *Instance) viJumpW(tokeniser func([]rune, int) ([]string, int, int)) (adjust int) {
-	split, index, pos := tokeniser(rl.line, rl.pos)
+	split, index, pos := tokeniser(rl.line.Value, rl.pos)
 	switch {
 	case len(split) == 0:
 		return
 	case index+1 == len(split):
-		adjust = len(rl.line) - 1 - rl.pos
+		adjust = rl.line.Len() - 1 - rl.pos
 	default:
 		adjust = len(split[index]) - pos
 	}
@@ -299,7 +301,7 @@ func (rl *Instance) viJumpPreviousBrace() (adjust int) {
 	}
 
 	for i := rl.pos - 1; i != 0; i-- {
-		if rl.line[i] == '{' {
+		if rl.line.Value[i] == '{' {
 			return i - rl.pos
 		}
 	}
@@ -308,12 +310,12 @@ func (rl *Instance) viJumpPreviousBrace() (adjust int) {
 }
 
 func (rl *Instance) viJumpNextBrace() (adjust int) {
-	if rl.pos >= len(rl.line)-1 {
+	if rl.pos >= rl.line.Len()-1 {
 		return 0
 	}
 
-	for i := rl.pos + 1; i < len(rl.line); i++ {
-		if rl.line[i] == '{' {
+	for i := rl.pos + 1; i < rl.line.Len(); i++ {
+		if rl.line.Value[i] == '{' {
 			return i - rl.pos
 		}
 	}
@@ -322,7 +324,7 @@ func (rl *Instance) viJumpNextBrace() (adjust int) {
 }
 
 func (rl *Instance) viJumpBracket() (adjust int) {
-	split, index, pos := tokeniseBrackets(rl.line, rl.pos)
+	split, index, pos := tokeniseBrackets(rl.line.Value, rl.pos)
 	switch {
 	case len(split) == 0:
 		return

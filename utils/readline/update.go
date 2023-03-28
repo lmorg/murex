@@ -13,15 +13,16 @@ func (rl *Instance) insert(r []rune) {
 	}
 
 	switch {
-	case len(rl.line) == 0:
-		rl.line = r
+	case rl.line.Len() == 0:
+		rl.line.Value = r
 	case rl.pos == 0:
-		rl.line = append(r, rl.line...)
-	case rl.pos < len(rl.line):
-		r := append(r, rl.line[rl.pos:]...)
-		rl.line = append(rl.line[:rl.pos], r...)
+		rl.line.Value = append(r, rl.line.Value...)
+	case rl.pos < rl.line.Len():
+		// TODO: this isn't unicode safe
+		r := append(r, rl.line.Value[rl.pos:]...)
+		rl.line.Value = append(rl.line.Value[:rl.pos], r...)
 	default:
-		rl.line = append(rl.line, r...)
+		rl.line.Value = append(rl.line.Value, r...)
 	}
 
 	rl.moveCursorByAdjust(len(r))
@@ -33,7 +34,7 @@ func (rl *Instance) insert(r []rune) {
 }
 
 func (rl *Instance) backspace() {
-	if len(rl.line) == 0 || rl.pos == 0 {
+	if rl.line.Len() == 0 || rl.pos == 0 {
 		return
 	}
 
@@ -44,22 +45,22 @@ func (rl *Instance) backspace() {
 
 func (rl *Instance) delete() {
 	switch {
-	case len(rl.line) == 0:
+	case rl.line.Len() == 0:
 		return
 	case rl.pos == 0:
-		rl.line = rl.line[1:]
+		// TODO: this isn't unicode safe
+		rl.line.Value = rl.line.Value[1:]
 		rl.echo()
-		//moveCursorBackwards(1)
-	case rl.pos > len(rl.line):
+	case rl.pos > rl.line.Len():
 		rl.backspace()
-	case rl.pos == len(rl.line):
-		rl.line = rl.line[:rl.pos]
+	case rl.pos == rl.line.Len():
+		// TODO: this isn't unicode safe
+		rl.line.Value = rl.line.Value[:rl.pos]
 		rl.echo()
-		//moveCursorBackwards(1)
 	default:
-		rl.line = append(rl.line[:rl.pos], rl.line[rl.pos+1:]...)
+		// TODO: this isn't unicode safe
+		rl.line.Value = append(rl.line.Value[:rl.pos], rl.line.Value[rl.pos+1:]...)
 		rl.echo()
-		//moveCursorBackwards(1)
 	}
 
 	rl.updateHelpers()

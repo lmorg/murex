@@ -77,7 +77,7 @@ func TestLineWrap(t *testing.T) {
 		rl := NewInstance()
 		rl.SetPrompt(test.Prompt)
 		//rl.lineBuf = test.Line
-		rl.line = []rune(test.Line)
+		rl.line.Value = []rune(test.Line)
 
 		wrap := lineWrap(rl, test.TermWidth)
 		if len(wrap) != len(test.Expected) {
@@ -91,9 +91,9 @@ func TestLineWrap(t *testing.T) {
 			t.Logf("  Slice e:  '%s'", fmt.Sprint(test.Expected))
 			t.Logf("  Slice a:  '%s'", fmt.Sprint(wrap))
 			t.Logf("  rl.promptLen: %d'", rl.promptLen)
-			t.Logf("  rl.line:     '%s'", string(rl.line))
+			t.Logf("  rl.line:     '%s'", rl.line.String())
 			t.Logf("  rl.lineBuf:  '%s'", rl.lineBuf)
-			t.Logf("  n:            %.10f'", float64(len(rl.line))/(float64(test.TermWidth)-float64(rl.promptLen)))
+			t.Logf("  n:            %.10f'", float64(rl.line.Len())/(float64(test.TermWidth)-float64(rl.promptLen)))
 		}
 
 		for j := range wrap {

@@ -52,7 +52,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 	print(rl.prompt)
 
-	rl.line = []rune{}
+	rl.line.Value = []rune{}
 	rl.lineChange = ""
 	rl.viUndoHistory = []undoItem{{line: "", pos: 0}}
 	rl.pos = 0
@@ -71,7 +71,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		} else {
 			rl.multiSplit = []string{}
 		}
-		return string(rl.line), nil
+		return rl.line.String(), nil
 	}
 
 	rl.termWidth = GetTermWidth()
@@ -79,7 +79,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
-		if len(rl.line) == 0 {
+		if rl.line.Len() == 0 {
 			// clear the cache when the line is cleared
 			rl.cacheHint.Init(rl)
 			rl.cacheSyntax.Init(rl)
@@ -126,15 +126,15 @@ func (rl *Instance) Readline() (_ string, err error) {
 			} else {
 				rl.multiSplit = []string{}
 			}
-			return string(rl.line), nil
+			return rl.line.String(), nil
 		}
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
+			ret := rl.evtKeyPress[s](s, rl.line.Value, rl.pos)
 
 			rl.clearLine()
-			rl.line = append(ret.NewLine, []rune{}...)
+			rl.line.Value = append(ret.NewLine, []rune{}...)
 			rl.echo()
 			rl.pos = ret.NewPos
 
@@ -155,7 +155,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 			if ret.CloseReadline {
 				rl.clearHelpers()
-				return string(rl.line), nil
+				return rl.line.String(), nil
 			}
 		}
 
@@ -249,7 +249,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				continue
 			}
 			rl.carriageReturn()
-			return string(rl.line), nil
+			return rl.line.String(), nil
 
 		case charBackspace, charBackspace2:
 			if rl.modeTabFind {
@@ -301,7 +301,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 
 		default:
-			if rl.pos == len(rl.line) && len(rl.line) > 0 {
+			if rl.pos == rl.line.Len() && rl.line.Len() > 0 {
 				rl.pos--
 				moveCursorBackwards(1)
 			}
@@ -342,7 +342,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 
 		// are we midway through a long line that wrap multiple terminal lines?
 		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+		_, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
 		if posY < lineY {
 			rl.moveCursorByAdjust(rl.termWidth - rl.promptLen)
 			return
@@ -368,8 +368,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
-			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
+		if (rl.modeViMode == vimInsert && rl.pos < rl.line.Len()) ||
+			(rl.modeViMode != vimInsert && rl.pos < rl.line.Len()-1) {
 			rl.moveCursorByAdjust(1)
 		}
 		rl.viUndoSkipAppend = true
@@ -387,7 +387,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		rl.moveCursorByAdjust(len(rl.line) - rl.pos)
+		rl.moveCursorByAdjust(rl.line.Len() - rl.pos)
 		rl.viUndoSkipAppend = true
 
 	case seqShiftTab:
@@ -482,7 +482,7 @@ func (rl *Instance) carriageReturn() {
 	print("\r\n")
 	if rl.HistoryAutoWrite {
 		var err error
-		rl.histPos, err = rl.History.Write(string(rl.line))
+		rl.histPos, err = rl.History.Write(rl.line.String())
 		if err != nil {
 			print(err.Error() + "\r\n")
 		}

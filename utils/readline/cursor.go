@@ -96,50 +96,39 @@ func moveCursorBackwards(i int) {
 }
 
 func (rl *Instance) moveCursorToStart() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 
 	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
 }
 
 func (rl *Instance) moveCursorFromStartToLinePos() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
 func (rl *Instance) moveCursorFromEndToLinePos() {
-	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	lineX, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
+	posX, posY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 	moveCursorBackwards(lineX - posX)
 	moveCursorUp(lineY - posY)
 }
 
-/*// moveCursorToLinePos should only be used on extreme circumstances because it
-// causes the cursor to jump around quite a bit
-func (rl *Instance) moveCursorFromUnknownToLinePos() {
-	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-	//moveCursorBackwards(lineX)
-	print("\r")
-	moveCursorForwards(posX)
-	moveCursorUp(lineY - posY)
-}*/
-
 func (rl *Instance) moveCursorByAdjust(adjust int) {
-	oldX, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	oldX, oldY := lineWrapPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
 
-	rl.pos += adjust
+	rl.line.RunePos += adjust
 
-	if rl.pos < 0 {
+	if rl.line.CellPos() < 0 {
 		rl.pos = 0
 	}
-	if rl.pos > len(rl.line) {
-		rl.pos = len(rl.line)
+	if rl.pos > rl.line.Len() {
+		rl.pos = rl.line.Len()
 	}
 
-	if rl.modeViMode != vimInsert && rl.pos == len(rl.line) {
-		rl.pos--
+	if rl.modeViMode != vimInsert && rl.line.CellPos() == rl.line.Len() {
+		rl.line.RunePos--
 	}
 
 	newX, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)

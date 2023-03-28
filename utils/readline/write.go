@@ -5,7 +5,8 @@ import (
 	"math"
 	"regexp"
 	"strings"
-	"unicode/utf8"
+
+	"github.com/mattn/go-runewidth"
 )
 
 func printf(format string, a ...interface{}) {
@@ -19,7 +20,8 @@ var rxAnsiSgr = regexp.MustCompile(`\x1b\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]`)
 // Gets the number of runes in a string and
 func strLen(s string) int {
 	s = rxAnsiSgr.ReplaceAllString(s, "")
-	return utf8.RuneCountInString(s)
+	//return utf8.RuneCountInString(s)
+	return runewidth.StringWidth(s)
 }
 
 func (rl *Instance) echo() {
@@ -27,7 +29,7 @@ func (rl *Instance) echo() {
 		rl.syntaxCompletion()
 	}
 
-	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	lineX, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
 	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	moveCursorBackwards(posX)
@@ -38,9 +40,9 @@ func (rl *Instance) echo() {
 
 	switch {
 	case rl.PasswordMask != 0:
-		print(strings.Repeat(string(rl.PasswordMask), len(rl.line)) + " \r\n")
+		print(strings.Repeat(string(rl.PasswordMask), rl.line.Len()) + " \r\n")
 
-	case len(rl.line)+rl.promptLen > rl.termWidth:
+	case rl.line.Len()+rl.promptLen > rl.termWidth:
 		fallthrough
 
 	case rl.SyntaxHighlighter == nil:
@@ -50,16 +52,16 @@ func (rl *Instance) echo() {
 		}
 
 	default:
-		syntax := rl.cacheSyntax.Get(rl.line)
+		syntax := rl.cacheSyntax.Get(rl.line.Value)
 		if len(syntax) > 0 {
 			print(syntax + " \r\n")
 
 		} else {
-			syntax = rl.SyntaxHighlighter(rl.line)
+			syntax = rl.SyntaxHighlighter(rl.line.Value)
 			print(syntax + " \r\n")
 
 			if rl.DelayedSyntaxWorker == nil {
-				rl.cacheSyntax.Append(rl.line, syntax)
+				rl.cacheSyntax.Append(rl.line.Value, syntax)
 			}
 		}
 		//print(string(rl.line) + " \r\n")
@@ -79,7 +81,7 @@ func lineWrap(rl *Instance, termWidth int) []string {
 		promptLen = rl.promptLen
 	}
 
-	n := float64(len(rl.line)+1) / (float64(termWidth) - float64(promptLen))
+	n := float64(rl.line.Len()+1) / (float64(termWidth) - float64(promptLen))
 	ceil := int(math.Ceil(n))
 	if ceil < 1 || ceil > 2000000000 {
 		return []string{" "}
@@ -88,7 +90,7 @@ func lineWrap(rl *Instance, termWidth int) []string {
 	var (
 		wrap = make([]string, ceil)
 		l    = termWidth - promptLen
-		line = string(rl.line) + " "
+		line = rl.line.String() + " "
 	)
 
 	for i := 0; i < ceil; i++ {
@@ -105,7 +107,7 @@ func lineWrap(rl *Instance, termWidth int) []string {
 	return wrap
 }
 
-func lineWrapPos(promptLen, lineLength, termWidth int) (x, y int) {
+func lineWrapCellPos(promptLen, lineLength, termWidth int) (x, y int) {
 	if promptLen >= termWidth {
 		promptLen = 0
 	}
@@ -128,7 +130,7 @@ func lineWrapPos(promptLen, lineLength, termWidth int) (x, y int) {
 }
 
 func (rl *Instance) clearLine() {
-	if len(rl.line) == 0 {
+	if rl.line.Len() == 0 {
 		return
 	}
 
@@ -142,7 +144,7 @@ func (rl *Instance) clearLine() {
 	moveCursorBackwards(rl.termWidth)
 	print(rl.prompt)
 
-	rl.line = []rune{}
+	rl.line.Value = []rune{}
 	rl.pos = 0
 }
 
@@ -155,7 +157,7 @@ func (rl *Instance) resetHelpers() {
 
 func (rl *Instance) clearHelpers() {
 	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	_, lineY := lineWrapPos(rl.promptLen, rl.line.Len(), rl.termWidth)
 	y := lineY - posY
 
 	moveCursorDown(y)

@@ -15,7 +15,7 @@ func (rl *Instance) undoAppendHistory() {
 	}
 
 	rl.viUndoHistory = append(rl.viUndoHistory, undoItem{
-		line: string(rl.line),
+		line: rl.line.String(),
 		pos:  rl.pos,
 	})
 }
@@ -28,7 +28,7 @@ func (rl *Instance) undoLast() {
 		}
 		undo = rl.viUndoHistory[len(rl.viUndoHistory)-1]
 		rl.viUndoHistory = rl.viUndoHistory[:len(rl.viUndoHistory)-1]
-		if string(undo.line) != string(rl.line) {
+		if undo.line != rl.line.String() {
 			break
 		}
 	}
@@ -36,16 +36,16 @@ func (rl *Instance) undoLast() {
 	rl.clearHelpers()
 
 	moveCursorBackwards(rl.pos)
-	print(strings.Repeat(" ", len(rl.line)))
-	moveCursorBackwards(len(rl.line))
+	print(strings.Repeat(" ", rl.line.Len()))
+	moveCursorBackwards(rl.line.Len())
 	moveCursorForwards(undo.pos)
 
-	rl.line = []rune(undo.line)
+	rl.line.Value = []rune(undo.line)
 	rl.pos = undo.pos
 
 	rl.echo()
 
-	if rl.modeViMode != vimInsert && len(rl.line) > 0 && rl.pos == len(rl.line) {
+	if rl.modeViMode != vimInsert && rl.line.Len() > 0 && rl.pos == rl.line.Len() {
 		rl.pos--
 		moveCursorBackwards(1)
 	}

@@ -3,6 +3,8 @@ package readline
 import (
 	"os"
 	"sync"
+
+	"github.com/mattn/go-runewidth"
 )
 
 var (
@@ -27,6 +29,35 @@ type TabCompleterReturnT struct {
 	DisplayType  TabDisplayType
 	HintCache    HintCacheFuncT
 	Preview      PreviewFuncT
+}
+
+type unicodeT struct {
+	Value []rune
+	pos   int
+}
+
+func (u *unicodeT) String() string {
+	return string(u.Value)
+}
+
+func (u *unicodeT) Len() int {
+	return runewidth.StringWidth(u.String())
+}
+
+func (u *unicodeT) RuneLen() int {
+	return len(u.Value)
+}
+
+func (u *unicodeT) RunePos() int {
+	return u.pos
+}
+
+func (u *unicodeT) CellPos() int {
+	var cellPos int
+	for i := 0; i <= u.RunePos; i++ {
+		cellPos = +runewidth.RuneWidth(u.Value[i])
+	}
+	return cellPos
 }
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -115,16 +146,15 @@ type Instance struct {
 	// readline operating parameters
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
-	line          []rune
+	line          *unicodeT
 	lineChange    string // cache what had changed from previous line
-	pos           int
 	termWidth     int
 	multiline     []byte
 	multiSplit    []string
 	skipStdinRead bool
 
 	// history
-	lineBuf string
+	lineBuf *unicodeT
 	histPos int
 
 	// hint text
@@ -179,6 +209,8 @@ type Instance struct {
 func NewInstance() *Instance {
 	rl := new(Instance)
 
+	rl.line = new(unicodeT)
+	rl.lineBuf = new(unicodeT)
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
 	rl.MaxTabCompleterRows = 4

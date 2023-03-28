@@ -13,7 +13,7 @@ import (
 )
 
 func (rl *Instance) writeTempFile(content []byte) (string, error) {
-	fileID := strconv.Itoa(time.Now().Nanosecond()) + ":" + string(rl.line)
+	fileID := strconv.Itoa(time.Now().Nanosecond()) + ":" + rl.line.String()
 
 	h := md5.New()
 	_, err := h.Write([]byte(fileID))
