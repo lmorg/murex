@@ -2,11 +2,6 @@ package readline
 
 import "strings"
 
-type undoItem struct {
-	line string
-	pos  int
-}
-
 func (rl *Instance) undoAppendHistory() {
 	defer func() { rl.viUndoSkipAppend = false }()
 
@@ -14,39 +9,35 @@ func (rl *Instance) undoAppendHistory() {
 		return
 	}
 
-	rl.viUndoHistory = append(rl.viUndoHistory, undoItem{
-		line: string(rl.line),
-		pos:  rl.pos,
-	})
+	rl.viUndoHistory = append(rl.viUndoHistory, rl.line.Duplicate())
 }
 
 func (rl *Instance) undoLast() {
-	var undo undoItem
+	var undo *unicodeT
 	for {
 		if len(rl.viUndoHistory) == 0 {
 			return
 		}
 		undo = rl.viUndoHistory[len(rl.viUndoHistory)-1]
 		rl.viUndoHistory = rl.viUndoHistory[:len(rl.viUndoHistory)-1]
-		if string(undo.line) != string(rl.line) {
+		if undo.String() != rl.line.String() {
 			break
 		}
 	}
 
 	rl.clearHelpers()
 
-	moveCursorBackwards(rl.pos)
-	print(strings.Repeat(" ", len(rl.line)))
-	moveCursorBackwards(len(rl.line))
-	moveCursorForwards(undo.pos)
+	moveCursorBackwards(rl.line.CellPos())
+	print(strings.Repeat(" ", rl.line.CellLen()))
+	moveCursorBackwards(rl.line.CellLen())
+	moveCursorForwards(undo.CellPos())
 
-	rl.line = []rune(undo.line)
-	rl.pos = undo.pos
+	rl.line = undo.Duplicate()
 
 	rl.echo()
 
-	if rl.modeViMode != vimInsert && len(rl.line) > 0 && rl.pos == len(rl.line) {
-		rl.pos--
+	if rl.modeViMode != vimInsert && rl.line.RuneLen() > 0 && rl.line.RunePos() == rl.line.RuneLen() {
+		rl.line.SetRunePos(rl.line.RuneLen() - 1)
 		moveCursorBackwards(1)
 	}
 

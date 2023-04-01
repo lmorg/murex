@@ -3,6 +3,8 @@ package readline
 import (
 	"os"
 	"sync"
+
+	"github.com/mattn/go-runewidth"
 )
 
 var (
@@ -27,6 +29,75 @@ type TabCompleterReturnT struct {
 	DisplayType  TabDisplayType
 	HintCache    HintCacheFuncT
 	Preview      PreviewFuncT
+}
+
+type unicodeT struct {
+	value []rune
+	rPos  int
+	cPos  int
+}
+
+func (u *unicodeT) Set(r []rune) {
+	u.value = r
+	u.cPos = u.cellPos()
+}
+
+func (u *unicodeT) Runes() []rune {
+	return u.value
+}
+
+func (u *unicodeT) String() string {
+	return string(u.value)
+}
+
+func (u *unicodeT) RuneLen() int {
+	return len(u.value)
+}
+
+func (u *unicodeT) RunePos() int {
+	return u.rPos
+}
+
+func (u *unicodeT) SetRunePos(i int) {
+	u.rPos = i
+	u.cPos = u.cellPos()
+}
+
+/*func (u *unicodeT) SetCellPos(cPos int) {
+	var rPos, width int
+	for rPos = range u.value {
+		width += runewidth.RuneWidth(u.value[rPos])
+		if width >= cPos {
+			break
+		}
+	}
+
+	u.rPos = rPos
+}*/
+
+func (u *unicodeT) Duplicate() *unicodeT {
+	dup := new(unicodeT)
+	dup.value = make([]rune, len(u.value))
+	copy(dup.value, u.value)
+	dup.rPos = u.rPos
+	dup.cPos = u.cPos
+	return dup
+}
+
+func (u *unicodeT) CellLen() int {
+	return runewidth.StringWidth(u.String())
+}
+
+func (u *unicodeT) cellPos() int {
+	var cPos, i int
+	for ; i < len(u.value) && i < u.rPos; i++ {
+		cPos += runewidth.RuneWidth(u.value[i])
+	}
+	return cPos + (u.rPos - i)
+}
+
+func (u *unicodeT) CellPos() int {
+	return u.cPos
 }
 
 // Instance is used to encapsulate the parameter group and run time of any given
@@ -115,16 +186,15 @@ type Instance struct {
 	// readline operating parameters
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
-	line          []rune
+	line          *unicodeT
 	lineChange    string // cache what had changed from previous line
-	pos           int
 	termWidth     int
 	multiline     []byte
 	multiSplit    []string
 	skipStdinRead bool
 
 	// history
-	lineBuf string
+	lineBuf *unicodeT
 	histPos int
 
 	// hint text
@@ -154,6 +224,8 @@ type Instance struct {
 
 	// tab find
 	modeTabFind   bool
+	rFindSearch   []rune // searching message
+	rFindCancel   []rune // search cancelled message
 	tfLine        []rune
 	tfSuggestions []string
 	modeAutoFind  bool // for when invoked via ^R or ^F outside of [tab]
@@ -161,7 +233,7 @@ type Instance struct {
 	// vim
 	modeViMode       viMode //= vimInsert
 	viIteration      string
-	viUndoHistory    []undoItem
+	viUndoHistory    []*unicodeT
 	viUndoSkipAppend bool
 	viYankBuffer     string
 
@@ -177,6 +249,8 @@ type Instance struct {
 func NewInstance() *Instance {
 	rl := new(Instance)
 
+	rl.line = new(unicodeT)
+	rl.lineBuf = new(unicodeT)
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
 	rl.MaxTabCompleterRows = 4

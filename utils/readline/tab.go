@@ -36,7 +36,7 @@ func (rl *Instance) getTabCompletion() {
 	rl.delayedTabContext = DelayedTabContext{rl: rl}
 	rl.delayedTabContext.Context, rl.delayedTabContext.cancel = context.WithCancel(context.Background())
 
-	rl.tcr = rl.TabCompleter(rl.line, rl.pos, rl.delayedTabContext)
+	rl.tcr = rl.TabCompleter(rl.line.Runes(), rl.line.RunePos(), rl.delayedTabContext)
 	if rl.tcr == nil {
 		return
 	}
@@ -75,8 +75,8 @@ func (rl *Instance) writeTabCompletion(resetCursorPos bool) {
 		return
 	}
 
-	_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+	_, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
 	moveCursorDown(rl.hintY + lineY - posY)
 	print("\r\n" + seqClearScreenBelow)
 

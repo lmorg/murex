@@ -5,13 +5,13 @@ func (rl *Instance) syntaxCompletion() {
 		return
 	}
 
-	newLine, newPos := rl.SyntaxCompleter(rl.line, rl.lineChange, rl.pos-1)
-	if string(newLine) == string(rl.line) {
+	newLine, newPos := rl.SyntaxCompleter(rl.line.Runes(), rl.lineChange, rl.line.RunePos()-1)
+	if string(newLine) == rl.line.String() {
 		return
 	}
 
 	newPos++
 
-	rl.line = newLine
-	rl.pos = newPos
+	rl.line.Set(newLine)
+	rl.line.SetRunePos(newPos)
 }

@@ -1,8 +1,20 @@
 package readline
 
 import (
+	"path"
 	"regexp"
 	"strings"
+)
+
+var (
+	rFindSearchPart = []rune("partial word match: ")
+	rFindCancelPart = []rune("Cancelled partial word match")
+
+	rFindSearchGlob = []rune("globbing match: ")
+	rFindCancelGlob = []rune("Cancelled globbing match")
+
+	rFindSearchRegex = []rune("regexp match: ")
+	rFindCancelRegex = []rune("Cancelled regexp match")
 )
 
 type findT interface {
@@ -78,14 +90,27 @@ func (ff *fuzzyFindT) matchNone(item string) bool {
 	return true
 }
 
-func newFuzzyFind(pattern string) (findT, error) {
+type globFindT struct{ pattern string }
+
+func (gf *globFindT) MatchString(item string) bool {
+	found, _ := path.Match(gf.pattern, item)
+	return found
+}
+
+func newGlobFind(pattern string) (*globFindT, error) {
+	gf := new(globFindT)
+	gf.pattern = pattern
+	return gf, nil
+}
+
+func newFuzzyFind(pattern string) (findT, []rune, []rune, error) {
 	pattern = strings.ToLower(pattern)
 	ff := new(fuzzyFindT)
 	ff.tokens = strings.Split(pattern, " ")
 
 	for {
 		if len(ff.tokens) == 0 {
-			return ff, nil
+			return ff, rFindSearchPart, rFindCancelPart, nil
 		}
 
 		if ff.tokens[len(ff.tokens)-1] == "" {
@@ -107,11 +132,15 @@ func newFuzzyFind(pattern string) (findT, error) {
 	case "rx":
 		ff.mode = ffMatchRegexp
 		pattern = strings.Join(ff.tokens[1:], " ")
-		return regexp.Compile("(?i)" + pattern)
+		find, err := regexp.Compile("(?i)" + pattern)
+		return find, rFindSearchRegex, rFindCancelRegex, err
 
-		//case "*":
-
+	case "g":
+		ff.mode = ffMatchGlob
+		pattern = strings.Join(ff.tokens[1:], " ")
+		find, err := newGlobFind(pattern)
+		return find, rFindSearchGlob, rFindCancelGlob, err
 	}
 
-	return ff, nil
+	return ff, rFindSearchPart, rFindCancelPart, nil
 }

@@ -15,7 +15,7 @@ func (rl *Instance) sigwinch() {
 	go func() {
 		for range ch {
 			print("\r" + seqUp + seqClearScreenBelow + seqDown)
-			print(rl.prompt + string(rl.line))
+			print(rl.prompt + rl.line.String())
 			rl.updateHelpers()
 		}
 	}()

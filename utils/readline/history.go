@@ -89,9 +89,10 @@ func (h *NullHistory) Dump() interface{} {
 // Browse historic lines
 func (rl *Instance) walkHistory(i int) {
 	var (
-		old, new string
-		dedup    bool
-		err      error
+		oldLine string
+		newLine string
+		dedup   bool
+		err     error
 	)
 
 	switch rl.histPos + i {
@@ -101,12 +102,12 @@ func (rl *Instance) walkHistory(i int) {
 	case rl.History.Len():
 		rl.clearLine()
 		rl.histPos += i
-		rl.line = []rune(rl.lineBuf)
+		rl.line = rl.lineBuf
 
 	default:
 		dedup = true
-		old = string(rl.line)
-		new, err = rl.History.GetLine(rl.histPos + i)
+		oldLine = rl.line.String()
+		newLine, err = rl.History.GetLine(rl.histPos + i)
 		if err != nil {
 			rl.resetHelpers()
 			print("\r\n" + err.Error() + "\r\n")
@@ -115,31 +116,32 @@ func (rl *Instance) walkHistory(i int) {
 		}
 
 		if rl.histPos == rl.History.Len() {
-			rl.lineBuf = string(rl.line)
+			rl.lineBuf = rl.line
 		}
 
 		rl.clearLine()
 
 		rl.histPos += i
-		rl.line = []rune(new)
+		rl.line = new(unicodeT)
+		rl.line.Set([]rune(newLine))
 
-		_, y := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+		_, y := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
 		print(strings.Repeat("\r\n", y))
 	}
 
-	rl.pos = len(rl.line)
+	rl.line.SetRunePos(rl.line.RuneLen())
 	rl.echo()
 
 	rl.updateHelpers()
 
-	if dedup && old == new {
+	if dedup && oldLine == newLine {
 		rl.walkHistory(i)
 	}
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 	if rl.AutocompleteHistory != nil {
-		rl.tcPrefix = string(rl.line)
+		rl.tcPrefix = rl.line.String()
 		return rl.AutocompleteHistory(rl.tcPrefix)
 	}
 
@@ -152,7 +154,7 @@ func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 		err  error
 	)
 
-	rl.tcPrefix = string(rl.line)
+	rl.tcPrefix = rl.line.String()
 	//for i := 0; i < rl.History.Len(); i++ {
 	for i := rl.History.Len() - 1; i >= 0; i-- {
 		line, err = rl.History.GetLine(i)
@@ -164,7 +166,7 @@ func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 			continue
 		}
 
-		line = strings.Replace(line, "\n", ` `, -1)[len(rl.line):]
+		line = strings.Replace(line, "\n", ` `, -1)[rl.line.RuneLen():]
 
 		if descs[line] != "" {
 			continue
