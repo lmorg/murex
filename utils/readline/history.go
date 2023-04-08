@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 // History is an interface to allow you to write your own history logging
@@ -102,7 +104,7 @@ func (rl *Instance) walkHistory(i int) {
 	case rl.History.Len():
 		rl.clearLine()
 		rl.histPos += i
-		rl.line = rl.lineBuf
+		rl.line = rl.lineBuf.Duplicate()
 
 	default:
 		dedup = true
@@ -116,22 +118,25 @@ func (rl *Instance) walkHistory(i int) {
 		}
 
 		if rl.histPos == rl.History.Len() {
-			rl.lineBuf = rl.line
+			rl.lineBuf = rl.line.Duplicate()
 		}
 
 		rl.clearLine()
 
 		rl.histPos += i
-		rl.line = new(unicodeT)
+		rl.line = new(unicode.UnicodeT)
 		rl.line.Set([]rune(newLine))
 
-		_, y := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
+		_, y := rl.lineWrapCellLen()
 		print(strings.Repeat("\r\n", y))
 	}
 
-	rl.line.SetRunePos(rl.line.RuneLen())
+	if i > 0 {
+		rl.line.SetRunePos(rl.line.RuneLen())
+	} else {
+		rl.line.SetCellPos(rl.termWidth - rl.promptLen - 1)
+	}
 	rl.echo()
-
 	rl.updateHelpers()
 
 	if dedup && oldLine == newLine {
@@ -155,7 +160,6 @@ func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 	)
 
 	rl.tcPrefix = rl.line.String()
-	//for i := 0; i < rl.History.Len(); i++ {
 	for i := rl.History.Len() - 1; i >= 0; i-- {
 		line, err = rl.History.GetLine(i)
 		if err != nil {

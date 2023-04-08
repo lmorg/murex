@@ -2,7 +2,6 @@ package readline
 
 import (
 	"fmt"
-	"math"
 	"regexp"
 	"strings"
 
@@ -20,7 +19,6 @@ var rxAnsiSgr = regexp.MustCompile(`\x1b\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]`)
 // Gets the number of runes in a string and
 func strLen(s string) int {
 	s = rxAnsiSgr.ReplaceAllString(s, "")
-	//return utf8.RuneCountInString(s)
 	return runewidth.StringWidth(s)
 }
 
@@ -29,8 +27,8 @@ func (rl *Instance) echo() {
 		rl.syntaxCompletion()
 	}
 
-	lineX, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	lineX, lineY := rl.lineWrapCellLen()
+	posX, posY := rl.lineWrapCellPos()
 
 	moveCursorBackwards(posX)
 	moveCursorUp(posY)
@@ -64,11 +62,7 @@ func (rl *Instance) echo() {
 				rl.cacheSyntax.Append(rl.line.Runes(), syntax)
 			}
 		}
-		//print(string(rl.line) + " \r\n")
 	}
-
-	//lineX, lineY := lineWrapPos(rl.promptLen, strLen(string(rl.line)), rl.termWidth)
-	//posX, posY = lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
 
 	moveCursorUp(lineY + 1)
 	moveCursorDown(posY)
@@ -81,33 +75,46 @@ func lineWrap(rl *Instance, termWidth int) []string {
 		promptLen = rl.promptLen
 	}
 
-	n := float64(rl.line.CellLen()+1) / (float64(termWidth) - float64(promptLen))
-	ceil := int(math.Ceil(n))
-	if ceil < 1 || ceil > 2000000000 {
-		return []string{" "}
-	}
-
 	var (
-		wrap = make([]string, ceil)
-		l    = termWidth - promptLen
-		line = rl.line.String() + " "
+		wrap       []string
+		wrapRunes  [][]rune
+		bufCellLen int
+		length     = termWidth - promptLen
+		line       = append(rl.line.Runes(), []rune{' '}...) // double space to work around wide characters
+		lPos       int
 	)
 
-	for i := 0; i < ceil; i++ {
-		if i > 0 {
-			wrap[i] = strings.Repeat(" ", promptLen)
+	wrapRunes = append(wrapRunes, []rune{})
+
+	for r := range line {
+		w := runewidth.RuneWidth(line[r])
+		if bufCellLen+w > length {
+			wrapRunes = append(wrapRunes, []rune(strings.Repeat(" ", promptLen)))
+			lPos++
+			bufCellLen = 0
 		}
-		if i == ceil-1 {
-			wrap[i] += line[l*i:]
-			break
-		}
-		wrap[i] += line[l*i : l*(i+1)]
+		bufCellLen += w
+		wrapRunes[lPos] = append(wrapRunes[lPos], line[r])
 	}
 
+	wrap = make([]string, lPos+1)
+	for i := range wrap {
+		wrap[i] = string(wrapRunes[i])
+	}
+
+	// shouldn't get this far either, but just in case
 	return wrap
 }
 
-func lineWrapCellPos(promptLen, lineLength, termWidth int) (x, y int) {
+func (rl *Instance) lineWrapCellLen() (x, y int) {
+	return lineWrapCell(rl.promptLen, rl.line.Runes(), rl.termWidth)
+}
+
+func (rl *Instance) lineWrapCellPos() (x, y int) {
+	return lineWrapCell(rl.promptLen, rl.line.Runes()[:rl.line.RunePos()], rl.termWidth)
+}
+
+func lineWrapCell(promptLen int, line []rune, termWidth int) (x, y int) {
 	if promptLen >= termWidth {
 		promptLen = 0
 	}
@@ -117,14 +124,15 @@ func lineWrapCellPos(promptLen, lineLength, termWidth int) (x, y int) {
 		return 0, 0
 	}
 
-	y = lineLength / (termWidth - promptLen)
-	if y < 0 {
-		return 0, 0
+	x = promptLen
+	for i := range line {
+		w := runewidth.RuneWidth(line[i])
+		if x+w > termWidth {
+			x = promptLen
+			y++
+		}
+		x += w
 	}
-
-	l := termWidth - promptLen
-	x = lineLength - (l * y)
-	x += promptLen
 
 	return
 }
@@ -156,8 +164,8 @@ func (rl *Instance) resetHelpers() {
 }
 
 func (rl *Instance) clearHelpers() {
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
-	_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
+	_, lineY := rl.lineWrapCellLen()
 	y := lineY - posY
 
 	moveCursorDown(y)

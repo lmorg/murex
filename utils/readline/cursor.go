@@ -96,27 +96,27 @@ func moveCursorBackwards(i int) {
 }
 
 func (rl *Instance) moveCursorToStart() {
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
 
 	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
 }
 
 func (rl *Instance) moveCursorFromStartToLinePos() {
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
 func (rl *Instance) moveCursorFromEndToLinePos() {
-	lineX, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	lineX, lineY := rl.lineWrapCellLen()
+	posX, posY := rl.lineWrapCellPos()
 	moveCursorBackwards(lineX - posX)
 	moveCursorUp(lineY - posY)
 }
 
 func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
-	oldX, oldY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	oldX, oldY := rl.lineWrapCellPos()
 
 	rl.line.SetRunePos(rl.line.RunePos() + rAdjust)
 
@@ -131,7 +131,7 @@ func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
 		rl.line.SetRunePos(rl.line.RunePos() - 1)
 	}
 
-	newX, newY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	newX, newY := rl.lineWrapCellPos()
 
 	y := newY - oldY
 	switch {

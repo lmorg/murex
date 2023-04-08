@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"regexp"
 	"sync/atomic"
+
+	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 var rxMultiline = regexp.MustCompile(`[\r\n]+`)
@@ -55,7 +57,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.line.Set([]rune{})
 	rl.line.SetRunePos(0)
 	rl.lineChange = ""
-	rl.viUndoHistory = []*unicodeT{rl.line.Duplicate()}
+	rl.viUndoHistory = []*unicode.UnicodeT{rl.line.Duplicate()}
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 	atomic.StoreInt32(&rl.delayedSyntaxCount, 0)
@@ -327,12 +329,27 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+		_, posY := rl.lineWrapCellPos()
 		if posY > 0 {
-			// TODO: check if promptLen takes into account wide runes
-			rl.moveCursorByRuneAdjust(-rl.termWidth + rl.promptLen)
+			//init := rl.line.CellPos()
+			pos := rl.line.CellPos() - rl.termWidth + rl.promptLen
+			rl.line.SetCellPos(pos)
+
+			offset := rl.line.CellPos() - pos
+			/*if offset != 0 {
+				panic(fmt.Sprintf("[%d:%d:%d]", init, rl.line.CellPos(), pos))
+			}*/
+			switch {
+			case offset > 0:
+				moveCursorForwards(offset)
+			case offset < 0:
+				moveCursorBackwards(offset * -1)
+			}
+
+			moveCursorUp(1)
 			return
 		}
+
 		rl.walkHistory(-1)
 
 	case seqDown:
@@ -343,13 +360,29 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
-		_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
+		_, posY := rl.lineWrapCellPos()
+		_, lineY := rl.lineWrapCellLen()
 		if posY < lineY {
-			// TODO: check if promptLen takes into account wide runes
-			rl.moveCursorByRuneAdjust(rl.termWidth - rl.promptLen)
+			//init := rl.line.CellPos()
+			pos := rl.line.CellPos() + rl.termWidth - rl.promptLen
+			rl.line.SetCellPos(pos)
+
+			offset := rl.line.CellPos() - pos
+			/*if offset != 0 {
+				panic(fmt.Sprintf("[%d:%d:%d]", init, rl.line.CellPos(), pos))
+			}*/
+			switch {
+			case offset > 0:
+				moveCursorForwards(offset)
+			case offset < 0:
+				//panic(offset)
+				moveCursorBackwards(offset * -1)
+			}
+
+			moveCursorDown(1)
 			return
 		}
+
 		rl.walkHistory(1)
 
 	case seqBackwards:
@@ -359,9 +392,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if rl.line.RunePos() > 0 {
-			rl.moveCursorByRuneAdjust(-1)
-		}
+		rl.moveCursorByRuneAdjust(-1)
 		rl.viUndoSkipAppend = true
 
 	case seqForwards:
@@ -371,10 +402,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if (rl.modeViMode == vimInsert && rl.line.RunePos() < rl.line.RuneLen()) ||
-			(rl.modeViMode != vimInsert && rl.line.RunePos() < rl.line.RuneLen()-1) {
-			rl.moveCursorByRuneAdjust(1)
-		}
+		//if (rl.modeViMode == vimInsert && rl.line.RunePos() < rl.line.RuneLen()) ||
+		//	(rl.modeViMode != vimInsert && rl.line.RunePos() < rl.line.RuneLen()-1) {
+		rl.moveCursorByRuneAdjust(1)
+		//}
 		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
