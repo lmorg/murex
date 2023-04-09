@@ -329,16 +329,13 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := rl.lineWrapCellPos()
+		posX, posY := rl.lineWrapCellPos()
 		if posY > 0 {
-			//init := rl.line.CellPos()
 			pos := rl.line.CellPos() - rl.termWidth + rl.promptLen
 			rl.line.SetCellPos(pos)
 
-			offset := rl.line.CellPos() - pos
-			/*if offset != 0 {
-				panic(fmt.Sprintf("[%d:%d:%d]", init, rl.line.CellPos(), pos))
-			}*/
+			newX, _ := rl.lineWrapCellPos()
+			offset := newX - posX
 			switch {
 			case offset > 0:
 				moveCursorForwards(offset)
@@ -360,22 +357,18 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := rl.lineWrapCellPos()
+		posX, posY := rl.lineWrapCellPos()
 		_, lineY := rl.lineWrapCellLen()
 		if posY < lineY {
-			//init := rl.line.CellPos()
 			pos := rl.line.CellPos() + rl.termWidth - rl.promptLen
 			rl.line.SetCellPos(pos)
 
-			offset := rl.line.CellPos() - pos
-			/*if offset != 0 {
-				panic(fmt.Sprintf("[%d:%d:%d]", init, rl.line.CellPos(), pos))
-			}*/
+			newX, _ := rl.lineWrapCellPos()
+			offset := newX - posX
 			switch {
 			case offset > 0:
 				moveCursorForwards(offset)
 			case offset < 0:
-				//panic(offset)
 				moveCursorBackwards(offset * -1)
 			}
 

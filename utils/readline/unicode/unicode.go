@@ -79,5 +79,8 @@ func (u *UnicodeT) SetCellPos(cPos int) {
 		last = w
 	}
 
+	if last == 2 {
+		u.cPos--
+	}
 	u.rPos = len(u.value)
 }
