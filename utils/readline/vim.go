@@ -163,7 +163,7 @@ func (rl *Instance) vi(r rune) {
 			rl.viUndoSkipAppend = true
 			return
 		}
-		rl.clearLine()
+		rl.clearPrompt()
 		rl.multiline = []byte(string(new))
 
 	case 'w':

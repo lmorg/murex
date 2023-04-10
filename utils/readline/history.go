@@ -102,7 +102,7 @@ func (rl *Instance) walkHistory(i int) {
 		return
 
 	case rl.History.Len():
-		rl.clearLine()
+		rl.clearPrompt()
 		rl.histPos += i
 		rl.line = rl.lineBuf.Duplicate()
 
@@ -121,7 +121,7 @@ func (rl *Instance) walkHistory(i int) {
 			rl.lineBuf = rl.line.Duplicate()
 		}
 
-		rl.clearLine()
+		rl.clearPrompt()
 
 		rl.histPos += i
 		rl.line = new(unicode.UnicodeT)

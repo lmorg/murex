@@ -32,6 +32,15 @@ func (rl *Instance) echo() {
 
 	moveCursorBackwards(posX)
 	moveCursorUp(posY)
+
+	// clear the line
+	var clear string
+	for i := 0; i <= lineY; i++ {
+		clear += "\x1b[2K\x1b[1B"
+	}
+	print(clear)
+	moveCursorUp(lineY + 1)
+
 	if rl.promptLen < rl.termWidth {
 		print(rl.prompt)
 	}
@@ -80,7 +89,7 @@ func lineWrap(rl *Instance, termWidth int) []string {
 		wrapRunes  [][]rune
 		bufCellLen int
 		length     = termWidth - promptLen
-		line       = append(rl.line.Runes(), []rune{' '}...) // double space to work around wide characters
+		line       = rl.line.Runes() //append(rl.line.Runes(), []rune{' ', ' '}...) // double space to work around wide characters
 		lPos       int
 	)
 
@@ -102,7 +111,6 @@ func lineWrap(rl *Instance, termWidth int) []string {
 		wrap[i] = string(wrapRunes[i])
 	}
 
-	// shouldn't get this far either, but just in case
 	return wrap
 }
 
@@ -137,7 +145,7 @@ func lineWrapCell(promptLen int, line []rune, termWidth int) (x, y int) {
 	return
 }
 
-func (rl *Instance) clearLine() {
+func (rl *Instance) clearPrompt() {
 	if rl.line.RuneLen() == 0 {
 		return
 	}

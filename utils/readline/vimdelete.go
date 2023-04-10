@@ -13,7 +13,7 @@ func (rl *Instance) vimDelete(r []rune) {
 		rl.viDeleteByAdjust(rl.viJumpB(tokeniseSplitSpaces))
 
 	case 'd':
-		rl.clearLine()
+		rl.clearPrompt()
 		rl.resetHelpers()
 		rl.getHintText()
 

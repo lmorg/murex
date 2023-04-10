@@ -135,7 +135,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		if rl.evtKeyPress[s] != nil {
 			ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
 
-			rl.clearLine()
+			rl.clearPrompt()
 			rl.line.Set(append(ret.NewLine, []rune{}...))
 			rl.echo()
 			// TODO: should this be above echo?
@@ -213,7 +213,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.viUndoSkipAppend = true
 
 		case charCtrlU:
-			rl.clearLine()
+			rl.clearPrompt()
 			rl.resetHelpers()
 
 		case charTab:
