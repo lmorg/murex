@@ -10,21 +10,16 @@
     string. One handy common use case is file names where traditional POSIX shells
     would treat spaces as a new file, whereas _murex_ treats spaces as a printable
     character unless explicitly told to do otherwise.
+
+    The string token must be followed with one of the following characters: 
+    alpha, numeric, underscore (`_`) or a full stop / period (`.`).
+ 
   Examples: |-
     {{ include "gen/includes/parser-var-tokens.inc.md" }}
 
-    The string token can also be used as a command too
-
-    ```
-    » set: example="Hello World!"
-
-    » $example
-    Hello World!
-    ```
-
   Detail: |-
-    Variables and subshells can be expanded inside double quotes, brace quotes as
-    well as used naked. But they cannot be expanded inside single quotes.
+    Strings and subshells can be expanded inside double quotes, brace quotes as
+    well as used as barewords. But they cannot be expanded inside single quotes.
     
     ```
     » set: example="World!"
@@ -41,6 +36,12 @@
     » out: %(Hello $example)
     Hello World!
     ```
+
+    However you cannot expand arrays (`@`) inside any form of quotation since
+    it wouldn't be clear how that value should be expanded relative to the
+    other values inside the quote. This is why array and object builders (`%[]`
+    and `%{}` respectively) support array variables but string builders (`%()`)
+    do not.
   Related:
   - tilde
   - array
