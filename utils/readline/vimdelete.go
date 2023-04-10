@@ -55,10 +55,6 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 	// the logic
 	newLine, backOne := rl.viDeleteByAdjustLogic(&adjust)
 
-	moveCursorBackwards(rl.line.CellPos())
-	print(strings.Repeat(" ", rl.line.CellLen()))
-	moveCursorBackwards(rl.line.CellLen() - rl.line.CellPos())
-
 	rl.line.Set(newLine)
 
 	rl.echo()

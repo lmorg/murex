@@ -127,11 +127,11 @@ func (rl *Instance) walkHistory(i int) {
 		rl.line = new(unicode.UnicodeT)
 		rl.line.Set([]rune(newLine))
 
-		_, y := rl.lineWrapCellLen()
-		print(strings.Repeat("\r\n", y))
 	}
 
 	if i > 0 {
+		_, y := rl.lineWrapCellLen()
+		print(strings.Repeat("\r\n", y))
 		rl.line.SetRunePos(rl.line.RuneLen())
 	} else {
 		rl.line.SetCellPos(rl.termWidth - rl.promptLen - 1)

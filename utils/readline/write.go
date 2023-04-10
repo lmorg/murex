@@ -30,52 +30,55 @@ func (rl *Instance) echo() {
 	lineX, lineY := rl.lineWrapCellLen()
 	posX, posY := rl.lineWrapCellPos()
 
-	moveCursorBackwards(posX)
-	moveCursorUp(posY)
+	// reset cursor to start
+	line := "\r"
+	if posY > 0 {
+		line += fmt.Sprintf(cursorUpf, posY)
+	}
 
 	// clear the line
-	var clear string
-	for i := 0; i <= lineY; i++ {
-		clear += "\x1b[2K\x1b[1B"
-	}
-	print(clear)
-	moveCursorUp(lineY + 1)
+	//line += strings.Repeat("\x1b[2K\n", lineY+1) // clear line + move cursor down 1
+	//line += fmt.Sprintf(cursorUpf, lineY+1)
+	line += seqClearScreenBelow
 
-	if rl.promptLen < rl.termWidth {
-		print(rl.prompt)
+	promptLen := rl.promptLen
+	if promptLen < rl.termWidth {
+		line += rl.prompt
+	} else {
+		promptLen = 0
 	}
 
 	switch {
 	case rl.PasswordMask != 0:
-		print(strings.Repeat(string(rl.PasswordMask), rl.line.CellLen()) + " \r\n")
+		line += strings.Repeat(string(rl.PasswordMask), rl.line.CellLen())
 
-	case rl.line.CellLen()+rl.promptLen > rl.termWidth:
+	case rl.line.CellLen()+promptLen > rl.termWidth:
 		fallthrough
 
 	case rl.SyntaxHighlighter == nil:
-		wrap := lineWrap(rl, rl.termWidth)
-		for i := range wrap {
-			print(wrap[i] + "\r\n")
-		}
+		line += strings.Join(lineWrap(rl, rl.termWidth), "\r\n")
 
 	default:
 		syntax := rl.cacheSyntax.Get(rl.line.Runes())
-		if len(syntax) > 0 {
-			print(syntax + " \r\n")
-
-		} else {
+		if len(syntax) == 0 {
 			syntax = rl.SyntaxHighlighter(rl.line.Runes())
-			print(syntax + " \r\n")
 
 			if rl.DelayedSyntaxWorker == nil {
 				rl.cacheSyntax.Append(rl.line.Runes(), syntax)
 			}
 		}
+		line += syntax
 	}
 
-	moveCursorUp(lineY + 1)
-	moveCursorDown(posY)
-	moveCursorBackwards(lineX - posX + 1)
+	y := lineY - posY
+	if y > 0 {
+		line += fmt.Sprintf(cursorUpf, y)
+	}
+	x := lineX - posX + 1
+	if x > 0 {
+		line += fmt.Sprintf(cursorBackf, x)
+	}
+	print(line)
 }
 
 func lineWrap(rl *Instance, termWidth int) []string {
