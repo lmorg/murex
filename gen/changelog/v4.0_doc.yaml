@@ -4,24 +4,24 @@
   CategoryID: changelog
   DateTime: 2023-03-26 17:50
   Summary: >-
-    
+    This release sees significant improvements for use with non-latin characters in both the interactive prompt and shell scripting. It introduces new syntax to make working with structured data even easier than before. As well as new data types and smoother user experience.
   Description: |-
     Breaking Changes:
 
     * `$PWD` is no longer a `str`. If you need to parse `$PWD` as a string then you should `out: $PWD` or use `${pwd}`
 
-    * `.` is now a valid bareword character for variables. This will break any instances in code that contain something like `out $hello.`. You can use `out $(hello).` syntax for safer string infixing
+    * `.` is now a valid bareword character for variables. This will break any instances in code that contain something like `out $hello.` however you can now use `out $(hello).` syntax for safer string infixing
 
     Features:
 
-    * dot notation added for variables which allow accessing and writing to object properties
+    * dot notation added for variables which allow accessing and writing to object properties. eg `$json.array.index`
 
     * added support variable encapsulation via `$()` to avoid variable barewords from leaking into other values when infixed. eg `$(foobar)` is the same as `$foobar`
 
     * variable names can now be Unicode, eg `$(比如) = "举手之劳就可以使办公室更加环保，比如，使用再生纸。"`
 
     * Unicode wide characters are properly handled in readline
-    
+
     * new data type `path` that is an object
 
     * new data type `paths`
@@ -29,20 +29,26 @@
     * support for lambdas added 
 
     * readline `[ctrl]`+`[f]` now supports word matching as well as regexp
-    
+
     * readline `[ctrl]`+`[f]` now supports glob filters (eg `*.txt`) too
 
     * `$ENV` and `$GLOBAL` objects (deprecates the need for `global` and `export`)
 
     * improved error messages in expressions
 
-    * scalars can be used as assignees in expressions, eg `$foo = "bar"` 
+    * scalars can be used as assignees in expressions, eg `$foo = "bar"`
+
+    * added `-i` flag to ssh autocompletion
+
+    * readline prompts are now buffered to reduce cursor flickering
 
     Non-User Facing / Maintenance Changes:
 
     * backend support added for data types to be dynamic objects
 
     Bug Fixes:
+
+    * better wide character support in auto completion suggestions
 
     * function parameters default and comment fields are no longer order dependent
 
