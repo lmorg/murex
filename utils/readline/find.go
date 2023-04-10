@@ -106,6 +106,7 @@ func newGlobFind(pattern string) (*globFindT, error) {
 func newFuzzyFind(pattern string) (findT, []rune, []rune, error) {
 	pattern = strings.ToLower(pattern)
 	ff := new(fuzzyFindT)
+
 	ff.tokens = strings.Split(pattern, " ")
 
 	for {
@@ -140,6 +141,13 @@ func newFuzzyFind(pattern string) (findT, []rune, []rune, error) {
 		pattern = strings.Join(ff.tokens[1:], " ")
 		find, err := newGlobFind(pattern)
 		return find, rFindSearchGlob, rFindCancelGlob, err
+
+	default:
+		if strings.Contains(pattern, "*") {
+			ff.mode = ffMatchGlob
+			find, err := newGlobFind(pattern)
+			return find, rFindSearchGlob, rFindCancelGlob, err
+		}
 	}
 
 	return ff, rFindSearchPart, rFindCancelPart, nil

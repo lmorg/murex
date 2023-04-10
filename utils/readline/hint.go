@@ -64,8 +64,8 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 	}
 
 	if resetCursorPos {
-		_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
-		posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+		_, lineY := rl.lineWrapCellLen()
+		posX, posY := rl.lineWrapCellPos()
 		y := lineY - posY
 		moveCursorDown(y)
 

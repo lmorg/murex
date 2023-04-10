@@ -75,8 +75,8 @@ func (rl *Instance) writeTabCompletion(resetCursorPos bool) {
 		return
 	}
 
-	_, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
-	_, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
+	_, posY := rl.lineWrapCellPos()
+	_, lineY := rl.lineWrapCellLen()
 	moveCursorDown(rl.hintY + lineY - posY)
 	print("\r\n" + seqClearScreenBelow)
 

@@ -13,7 +13,7 @@ func (rl *Instance) vimDelete(r []rune) {
 		rl.viDeleteByAdjust(rl.viJumpB(tokeniseSplitSpaces))
 
 	case 'd':
-		rl.clearLine()
+		rl.clearPrompt()
 		rl.resetHelpers()
 		rl.getHintText()
 
@@ -54,10 +54,6 @@ func (rl *Instance) viDeleteByAdjust(adjust int) {
 	// Separate out the cursor movement from the logic so we can run tests on
 	// the logic
 	newLine, backOne := rl.viDeleteByAdjustLogic(&adjust)
-
-	moveCursorBackwards(rl.line.CellPos())
-	print(strings.Repeat(" ", rl.line.CellLen()))
-	moveCursorBackwards(rl.line.CellLen() - rl.line.CellPos())
 
 	rl.line.Set(newLine)
 

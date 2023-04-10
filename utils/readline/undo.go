@@ -1,6 +1,10 @@
 package readline
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/lmorg/murex/utils/readline/unicode"
+)
 
 func (rl *Instance) undoAppendHistory() {
 	defer func() { rl.viUndoSkipAppend = false }()
@@ -13,7 +17,7 @@ func (rl *Instance) undoAppendHistory() {
 }
 
 func (rl *Instance) undoLast() {
-	var undo *unicodeT
+	var undo *unicode.UnicodeT
 	for {
 		if len(rl.viUndoHistory) == 0 {
 			return

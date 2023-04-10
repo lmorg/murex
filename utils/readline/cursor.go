@@ -63,12 +63,19 @@ func (rl *Instance) getCursorPos() (x int, y int) {
 	return x, y
 }
 
+const (
+	cursorUpf   = "\x1b[%dA"
+	cursorDownf = "\x1b[%dB"
+	cursorForwf = "\x1b[%dC"
+	cursorBackf = "\x1b[%dD"
+)
+
 func moveCursorUp(i int) {
 	if i < 1 {
 		return
 	}
 
-	printf("\x1b[%dA", i)
+	printf(cursorUpf, i)
 }
 
 func moveCursorDown(i int) {
@@ -76,7 +83,7 @@ func moveCursorDown(i int) {
 		return
 	}
 
-	printf("\x1b[%dB", i)
+	printf(cursorDownf, i)
 }
 
 func moveCursorForwards(i int) {
@@ -84,7 +91,7 @@ func moveCursorForwards(i int) {
 		return
 	}
 
-	printf("\x1b[%dC", i)
+	printf(cursorForwf, i)
 }
 
 func moveCursorBackwards(i int) {
@@ -92,31 +99,31 @@ func moveCursorBackwards(i int) {
 		return
 	}
 
-	printf("\x1b[%dD", i)
+	printf(cursorBackf, i)
 }
 
 func (rl *Instance) moveCursorToStart() {
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
 
 	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
 }
 
 func (rl *Instance) moveCursorFromStartToLinePos() {
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
 func (rl *Instance) moveCursorFromEndToLinePos() {
-	lineX, lineY := lineWrapCellPos(rl.promptLen, rl.line.CellLen(), rl.termWidth)
-	posX, posY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	lineX, lineY := rl.lineWrapCellLen()
+	posX, posY := rl.lineWrapCellPos()
 	moveCursorBackwards(lineX - posX)
 	moveCursorUp(lineY - posY)
 }
 
 func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
-	oldX, oldY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	oldX, oldY := rl.lineWrapCellPos()
 
 	rl.line.SetRunePos(rl.line.RunePos() + rAdjust)
 
@@ -131,7 +138,7 @@ func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
 		rl.line.SetRunePos(rl.line.RunePos() - 1)
 	}
 
-	newX, newY := lineWrapCellPos(rl.promptLen, rl.line.CellPos(), rl.termWidth)
+	newX, newY := rl.lineWrapCellPos()
 
 	y := newY - oldY
 	switch {
