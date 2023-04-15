@@ -141,14 +141,12 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 		print(curPosRestore)
 	}()
 
-	//moveCursorForwards(size.Forward)
-	print(fmt.Sprintf("\x1b[%dC", size.Forward))
+	print(fmt.Sprintf(cursorForwf, size.Forward))
 	hr := strings.Repeat("─", size.Width)
 	print("╭" + hr + "╮\r\n")
 
 	for i := 0; i <= size.Height; i++ {
-		//moveCursorForwards(size.Forward)
-		print(fmt.Sprintf("\x1b[%dC", size.Forward))
+		print(fmt.Sprintf(cursorForwf, size.Forward))
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
@@ -159,8 +157,7 @@ func previewDraw(preview []string, size *PreviewSizeT) error {
 		print(fmt.Sprintf(pf, preview[i]))
 	}
 
-	//moveCursorForwards(size.Forward)
-	print(fmt.Sprintf("\x1b[%dC", size.Forward))
+	print(fmt.Sprintf(cursorForwf, size.Forward))
 	print("╰" + hr + "╯\r\n")
 
 	return nil
