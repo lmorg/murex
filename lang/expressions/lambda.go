@@ -47,7 +47,11 @@ func (tree *ParserT) parseLambda(varName []rune) ([]rune, interface{}, error) {
 	}
 }
 
-var rxLineSeparator = regexp.MustCompile(`(\r*\n)+`)
+var (
+	errUnableToSetLambdaVar = "unable to set `$.`: %s"
+	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
+)
+
 
 func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{}, error) {
 	var (
@@ -65,7 +69,7 @@ func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{
 		tree.charPos = pos
 		err = tree.p.Variables.Set(tree.p, "", split[i], types.String)
 		if err != nil {
-			return nil, nil, fmt.Errorf("unable to set `$.`: %s", err.Error())
+			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
 
 		r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
@@ -114,7 +118,7 @@ func parseLambdaArray[V any](tree *ParserT, t []V, path string) ([]rune, interfa
 
 		err = tree.p.Variables.Set(tree.p, "", value, dataType)
 		if err != nil {
-			return nil, nil, fmt.Errorf("unable to set `$.`: %s", err.Error())
+			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
 
 		r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
@@ -170,7 +174,7 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 
 		err = tree.p.Variables.Set(tree.p, "", string(element), types.Json)
 		if err != nil {
-			return nil, nil, fmt.Errorf("unable to set `$.`: %s", err.Error())
+			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
 
 		r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
