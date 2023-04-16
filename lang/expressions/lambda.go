@@ -30,18 +30,19 @@ func (tree *ParserT) parseLambda(varName []rune) ([]rune, interface{}, error) {
 		return parseLambdaString(tree, string(t), path)
 	case []rune:
 		return parseLambdaString(tree, string(t), path)
-	case []interface{}:
-		return parseLambdaArray(tree, t, path)
 	case []string:
 		return parseLambdaArray(tree, t, path)
 	case []float64:
 		return parseLambdaArray(tree, t, path)
 	case []int:
 		return parseLambdaArray(tree, t, path)
-	case map[string]interface{}:
-		return parseLambdaMap(tree, t, path)
+	case []interface{}:
+		return parseLambdaArray(tree, t, path)
 	case map[string]string:
 		return parseLambdaMap(tree, t, path)
+	case map[string]interface{}:
+		return parseLambdaMap(tree, t, path)
+
 	default:
 		return nil, nil, fmt.Errorf("cannot run lambda. Expecting an array, instead got '%T' in '%s'", t, path)
 	}
@@ -51,7 +52,6 @@ var (
 	errUnableToSetLambdaVar = "unable to set `$.`: %s"
 	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
 )
-
 
 func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{}, error) {
 	var (
