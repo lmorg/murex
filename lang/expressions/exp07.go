@@ -116,7 +116,7 @@ func expRegexp(tree *ParserT, eq bool) error {
 
 	rx, err := regexp.Compile(right.dt.Value.(string))
 	if err != nil {
-		raiseError(tree.expression, right, 0, err.Error())
+		return raiseError(tree.expression, right, 0, err.Error())
 	}
 
 	return tree.foldAst(&astNodeT{
