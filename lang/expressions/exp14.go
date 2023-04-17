@@ -10,8 +10,6 @@ import (
 )
 
 func scalarNameDetokenised(r []rune) []rune {
-	//r := make([]rune, len(scalar))
-	//copy(r, scalar)
 	if r[1] == '(' {
 		return r[2 : len(r)-1]
 	} else {

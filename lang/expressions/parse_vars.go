@@ -72,7 +72,7 @@ endParenthesis:
 
 func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	if tree.nextChar() == '{' {
-		return tree.parseLambda(exec, '$', varName, strOrVal)
+		return tree.parseLambdaScala(exec, '$', varName, strOrVal)
 	}
 
 	var (
@@ -131,8 +131,7 @@ endIndexElement:
 	return nil, v, dt, nil
 }
 
-func treePlusPlus(tree *ParserT) { tree.charPos++ }
-func (tree *ParserT) parseLambda(exec bool, prefix rune, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseLambdaScala(exec bool, prefix rune, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
 	defer treePlusPlus(tree)
 	if exec {
 		if tree.p == nil {
@@ -184,9 +183,9 @@ func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface{}, error) {
 	if tree.nextChar() == '{' {
 		if exec {
-			return tree.parseLambdaArray(varName)
+			return tree.parseLambda(varName)
 		} else {
-			r, v, _, err := tree.parseLambda(exec, '@', varName, varAsValue)
+			r, v, _, err := tree.parseLambdaScala(false, '@', varName, varAsValue) // just parsing source
 			return r, v, err
 		}
 	}
@@ -236,74 +235,6 @@ endRange:
 		return nil, "", err
 	}
 	return nil, v, nil
-}
-
-func (tree *ParserT) parseLambdaArray(varName []rune) ([]rune, interface{}, error) {
-	// no `exec` boolean here because this method should only be invoked when `exec == true`
-	defer treePlusPlus(tree)
-	if tree.p == nil {
-		panic("`tree.p` is undefined")
-	}
-
-	path := string(varName)
-	v, err := tree.p.Variables.GetValue(path)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	switch t := v.(type) {
-	case []interface{}:
-		pos := tree.charPos
-		array := make([]interface{}, len(t))
-
-		var (
-			item interface{}
-			r    []rune
-			j    int
-		)
-
-		for i := range t {
-			tree.charPos = pos
-			element := fmt.Sprintf("%s.%d", path, i)
-
-			value, err := tree.p.Variables.GetValue(element)
-			if err != nil {
-				return nil, nil, err
-			}
-
-			dataType := tree.p.Variables.GetDataType(element)
-
-			err = tree.p.Variables.Set(tree.p, "", value, dataType)
-			if err != nil {
-				return nil, nil, fmt.Errorf("unable to set `$.`: %s", err.Error())
-			}
-
-			r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
-			if err != nil {
-				return nil, nil, err
-			}
-			switch item.(type) {
-			case string:
-				if len(item.(string)) > 0 {
-					array[j] = item
-					j++
-				}
-			case bool:
-				if item.(bool) {
-					array[j] = value
-					j++
-				}
-			default:
-				array[j] = item
-				j++
-			}
-		}
-
-		return r, array[:j], nil
-
-	default:
-		return nil, nil, fmt.Errorf("cannot run lambda. Expecting an array, instead got '%T' in '%s'", t, path)
-	}
 }
 
 func isUserNameChar(r rune) bool {

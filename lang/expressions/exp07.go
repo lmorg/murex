@@ -90,10 +90,22 @@ func expRegexp(tree *ParserT, eq bool) error {
 		return err
 	}
 
-	if left.dt.Primitive != primitives.String {
-		return raiseError(tree.expression, left, 0, fmt.Sprintf(
-			"left side should be %s, instead received %s",
-			primitives.String, left.dt.Primitive))
+	var lv string
+
+	if tree.StrictTypes() {
+		if left.dt.Primitive != primitives.String {
+			return raiseError(tree.expression, left, 0, fmt.Sprintf(
+				"left side should be %s, instead received %s",
+				primitives.String, left.dt.Primitive))
+		}
+		lv = left.dt.Value.(string)
+	} else {
+		v, err := types.ConvertGoType(left.dt.Value, types.String)
+		if err != nil {
+			return fmt.Errorf("cannot convert left side %s into a %s: %s",
+				left.dt.Primitive, primitives.String, err.Error())
+		}
+		lv = v.(string)
 	}
 
 	if right.dt.Primitive != primitives.String {
@@ -104,7 +116,7 @@ func expRegexp(tree *ParserT, eq bool) error {
 
 	rx, err := regexp.Compile(right.dt.Value.(string))
 	if err != nil {
-		raiseError(tree.expression, right, 0, err.Error())
+		return raiseError(tree.expression, right, 0, err.Error())
 	}
 
 	return tree.foldAst(&astNodeT{
@@ -112,7 +124,7 @@ func expRegexp(tree *ParserT, eq bool) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Boolean,
-			Value:     rx.MatchString(left.dt.Value.(string)) == eq,
+			Value:     rx.MatchString(lv) == eq,
 		},
 	})
 }

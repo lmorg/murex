@@ -109,45 +109,6 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 	}
 }
 
-/*func (v *Variables) isObject(name string) bool {
-	if v.global {
-		isObject := v.isObjectValue(name)
-		if isObject == nil {
-			return false
-		}
-		return isObject.(bool)
-	}
-
-	isObject := v.isObjectValue(name)
-	if isObject != nil {
-		return isObject.(bool)
-	}
-
-	isObject = GlobalVariables.getValueValue(name)
-	if isObject == nil {
-		return false
-	}
-	return isObject.(bool)
-}
-
-// Return values:
-// * true:  var exists and is object
-// * false: var exists and not an object
-// * nil:   var does not exist
-func (v *Variables) isObjectValue(name string) interface{} {
-	v.mutex.Lock()
-	variable := v.vars[name]
-	if variable == nil {
-		v.mutex.Unlock()
-		return nil
-	}
-
-	isObject := variable.IsObject
-	v.mutex.Unlock()
-
-	return isObject
-}*/
-
 func (v *Variables) getValue(name string) (interface{}, error) {
 	switch name {
 	case ENV:
@@ -508,6 +469,8 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 		return errVariableReserved(name)
 	case ENV:
 		return setEnvVar(value, changePath)
+	case GLOBAL:
+		return setGlobalVar(value, dataType, changePath)
 	case DOT:
 		goto notReserved
 	}
@@ -606,6 +569,20 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	}
 
 	return os.Setenv(changePath[0], value.(string))
+}
+
+func setGlobalVar(v interface{}, dataType string, changePath []string) (err error) {
+	if len(changePath) == 0 {
+		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", ENV)
+	}
+
+	switch t := v.(type) {
+	case map[string]interface{}:
+		return ShellProcess.Variables.Set(ShellProcess, changePath[0], t[changePath[0]], dataType)
+
+	default:
+		return fmt.Errorf("expecting a map of global variables. Instead got a %T", t)
+	}
 }
 
 const errCannotStoreVariable = "cannot store variable"
