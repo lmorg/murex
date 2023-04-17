@@ -454,12 +454,19 @@ func (v *Variables) Set(p *Process, path string, value interface{}, dataType str
 		if err != nil {
 			return errCannotUpdateNested(split[0], err)
 		}
-		err = v.set(p, split[0], variable, v.GetDataType(split[0]), split[1:])
+		err = v.set(p, split[0], variable, v.getNestedDataType(split[0], dataType), split[1:])
 		if err != nil {
 			return errCannotUpdateNested(split[0], err)
 		}
 		return nil
 	}
+}
+
+func (v *Variables) getNestedDataType(name string, dataType string) string {
+	if name == GLOBAL {
+		return dataType
+	}
+	return v.GetDataType(name)
 }
 
 // Set writes a variable
@@ -470,7 +477,7 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 	case ENV:
 		return setEnvVar(value, changePath)
 	case GLOBAL:
-		return setGlobalVar(value, dataType, changePath)
+		return setGlobalVar(p, value, changePath, dataType)
 	case DOT:
 		goto notReserved
 	}
@@ -550,6 +557,20 @@ notReserved:
 	return nil
 }
 
+func setGlobalVar(p *Process, v interface{}, changePath []string, dataType string) (err error) {
+	if len(changePath) == 0 {
+		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", ENV)
+	}
+
+	switch t := v.(type) {
+	case map[string]interface{}:
+		return GlobalVariables.Set(ShellProcess, changePath[0], t[changePath[0]], dataType)
+
+	default:
+		return fmt.Errorf("expecting a map of global variables. Instead got a %T", t)
+	}
+}
+
 func setEnvVar(v interface{}, changePath []string) (err error) {
 	var value interface{}
 
@@ -569,20 +590,6 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	}
 
 	return os.Setenv(changePath[0], value.(string))
-}
-
-func setGlobalVar(v interface{}, dataType string, changePath []string) (err error) {
-	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", ENV)
-	}
-
-	switch t := v.(type) {
-	case map[string]interface{}:
-		return ShellProcess.Variables.Set(ShellProcess, changePath[0], t[changePath[0]], dataType)
-
-	default:
-		return fmt.Errorf("expecting a map of global variables. Instead got a %T", t)
-	}
 }
 
 const errCannotStoreVariable = "cannot store variable"
