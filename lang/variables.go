@@ -512,7 +512,7 @@ notReserved:
 			return err
 		}
 
-		s, _, err := convertDataType(value, dataType)
+		s, _, err := convertDataType(p, value, dataType)
 		if err != nil {
 			return err
 		}
@@ -537,7 +537,7 @@ notReserved:
 		return nil
 	}
 
-	s, iface, err := convertDataType(value, dataType)
+	s, iface, err := convertDataType(p, value, dataType)
 	if err != nil {
 		return err
 	}
@@ -594,7 +594,7 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 
 const errCannotStoreVariable = "cannot store variable"
 
-func convertDataType(value interface{}, dataType string) (string, interface{}, error) {
+func convertDataType(p *Process, value interface{}, dataType string) (string, interface{}, error) {
 	var (
 		s     string
 		iface interface{}
@@ -608,21 +608,21 @@ func convertDataType(value interface{}, dataType string) (string, interface{}, e
 	case string:
 		s = v
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString([]byte(v), dataType)
+			iface, err = varConvertString(p, []byte(v), dataType)
 		} else {
 			iface = s
 		}
 	case []byte:
 		s = string(v)
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString(v, dataType)
+			iface, err = varConvertString(p, v, dataType)
 		} else {
 			iface = s
 		}
 	case []rune:
 		s = string(v)
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString([]byte(string(v)), dataType)
+			iface, err = varConvertString(p, []byte(string(v)), dataType)
 		} else {
 			iface = s
 		}
@@ -641,7 +641,7 @@ func varConvertPrimitive(value interface{}) (string, error) {
 	return s.(string), nil
 }
 
-func varConvertString(value []byte, dataType string) (interface{}, error) {
+func varConvertString(parent *Process, value []byte, dataType string) (interface{}, error) {
 	UnmarshalData := Unmarshallers[dataType]
 
 	// no unmarshaller exists so lets just return the bare string
@@ -650,6 +650,7 @@ func varConvertString(value []byte, dataType string) (interface{}, error) {
 	}
 
 	p := new(Process)
+	p.Config = parent.Config
 	p.Stdin = streams.NewStdin()
 	_, err := p.Stdin.Write([]byte(value))
 	if err != nil {
