@@ -8,19 +8,19 @@
 # --num: num == numeric data type
 # --bool: bool == flag used == true, missing == false
 # -b: --bool == alias of --bool flag
-args: args {
-    "AllowAdditional": true,
-    "Flags": {
-        "--str": "str",
-        "--num": "num",
-        "--bool": "bool",
-        "-b": "--bool"
+args: args %{
+    AllowAdditional: true
+    Flags: {
+        --str:  str
+        --num:  num
+        --bool: bool
+        -b: --bool
     }
 }
 catch {
     # Lets check for errors in the command line parameters. If they exist then
     # print the error and then exit.
-    err $args[Error]
+    err $args.error
     exit 1
 }
 
@@ -30,25 +30,25 @@ out "The structure of \$args is: ${$args->pretty}\n\n"
 # Some example usage:
 # -------------------
 
-!if { $args->[[ /Flags/--bool ]] } {
+!if { $(args.Flags.--bool) } {
     out "Flag `--bool` was not set."
 }
 
 # `<!null>` redirects the STDERR to a named pipe. In this instance it's the 'null' pipe so equivalent to 2>/dev/null
 # thus we are just suppressing any error messages.
 try <!null> {
-    $args -> [[ /Flags/--str ]] -> set fStr
-    $args -> [[ /Flags/--num ]] -> set fNum
+    $(args.Flags.--str) -> set fStr
+    $(args.Flags.--num) -> set fNum
 
     out "Defined Flags:"
-    out "  --str == $fStr"
-    out "  --num == $fNum"
+    out "  --str == $(fStr)"
+    out "  --num == $(fNum)"
 }
 
 catch {
     err "Missing `--str` and/or `--num` flags."
 }
 
-$args -> [ Additional ] -> foreach flag {
-    out "Additional argument (ie not assigned to a flag): `$flag`."
+$args[Additional] -> foreach flag {
+    out "Additional argument (ie not assigned to a flag): `$(flag)`."
 }

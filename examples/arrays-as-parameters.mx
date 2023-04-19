@@ -4,7 +4,7 @@
 
 fruit = %[apples oranges bananas]
 out: "I have the following fruit in my fruit bowl:" @fruit ","
-out: "But I mostly love $fruit[1]."
+out: "But I mostly love $(fruit.1)."
 
 /#
     Outputs:
