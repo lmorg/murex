@@ -42,7 +42,7 @@ term is any of these:
 
 The fuzzy finder search is not case sensitive.
 
-Press `esc` to cancel regexp search.
+Press `esc` to cancel search.
 
 ## `ctrl`+`r`: search shell history
 

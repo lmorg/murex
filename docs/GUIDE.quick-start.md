@@ -14,6 +14,8 @@
   - [Quoting Strings](#quoting-strings)
   - [Code Comments](#code-comments)
 - [Variables](#variables)
+  - [Global variables](#global-variables)
+  - [Environmental Variables](#environmental-variables)
   - [Type Inference](#type-inference)
   - [Scalars](#scalars)
   - [Arrays](#arrays)
@@ -124,8 +126,8 @@ documents.
 Some _murex_ builtins support a bang prefix. This prefix alters the behavior of
 those builtins to perform the conceptual opposite of their primary role.
 
-For example, to define a variable you might `set foo=bar` but to undefine it
-you would `!set foo`.
+For example, you could grep a file with `regexp 'm/(dogs|cats)/'` but then you
+might want to exclude any matches by using `!regexp 'm/(dogs|cats)/'` instead.
 
 The details for each supported bang prefix will be in the documents for their
 respective builtin.
@@ -165,8 +167,10 @@ This is
 a multi-line
 command
 #/
-
-echo Hello /# comment #/ Murex
+```
+...which can also be inlined...
+```
+» echo Hello /# comment #/ Murex
 ```
 
 (`/#` was chosen because it is similar to C-style comments however `/*` is a
@@ -174,13 +178,7 @@ valid glob so _murex_ has substituted the asterisks with a hash symbol instead)
 
 ## Variables
 
-All variables are defined with one of three key words:
-
-* `set`    - local variables         ([read more](commands/set.md))
-* `global` - global variables        ([read more](commands/global.md))
-* `export` - environmental variables ([read more](commands/export.md))
-
-...or via an expression:
+All variables can be defined as expressions and their data types are inferred:
 
 * `name = "bob"`
 * `age = 20 * 2`
@@ -193,8 +191,41 @@ _murex_'s default behavior):
 Error in `echo` (1,1): variable 'foobar' does not exist
 ```
 
-> Please note that when using `set` and `global` as a function, all assignments
-> will be strings unless you specifically annotate your variables.
+### Global variables
+
+Global variables can be defined using the `$GLOBAL` namespace:
+```
+» $GLOBAL.foo = "bar"
+```
+
+You can also force _murex_ to read the global assignment of `$foo` (ignoring
+any local assignments, should they exist) using the same syntax. eg:
+```
+» $GLOBAL.name = "Tom"
+» out $name
+Tom
+
+» $name = "Sally"
+» out $GLOBAL.name
+Tom
+» out $name
+Sally
+```
+
+### Environmental Variables
+
+Environmental Variables are like global variables except they are copied to any
+other programs that are launched from your shell session.
+
+Environmental variables can be assigned using the `$ENV` namespace:
+```
+» $ENV.foo = "bar"
+```
+as well as using the `export` statement like with traditional shells. ([read more](commands/export.md))
+
+Like with global variables, you can force _murex_ to read the environmental
+variable, bypassing and local or global variables of the same name, by also
+using the `$ENV` namespace prefix.
 
 ### Type Inference
 
