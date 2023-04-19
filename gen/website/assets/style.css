@@ -98,7 +98,6 @@ blockquote {
 code {
   font-family: 'Source Code Pro', monospace;
   color: #2020D0;
-  /*background: #f0f0ff;*/
   border-radius: 5px;
   line-height: 130%;
   padding-left: 3px;
@@ -110,7 +109,7 @@ code {
 pre code {
   font-size: 16px;
   font-weight: normal;
-  color: #064928;
+  color: #063928;
 }
 
 a:link > code, a:visited > code, a:active > code {
@@ -146,9 +145,9 @@ pre {
 img {
   max-width: 100%;
   max-height: 400px;
-  border-radius: 10px;
+  border-radius:5px;
   border-width: 1px;
-  border-color: #303133;
+  border-color: #a0a0a0;
   border-style: solid;
   margin-left: auto;
   margin-right: auto;
