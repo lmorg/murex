@@ -43,7 +43,7 @@ jobs:
   website:
     working_directory: /go/src/github.com/lmorg/murex
     docker:
-      - image: lmorg/murex:ci
+      - image: ghcr.io/lmorg/murex:ci
         environment:
           GOPATH: /go
           MUREX_BUILD_FLAGS: --no-colour
@@ -62,7 +62,7 @@ jobs:
   codecov:
     working_directory: /go/src/github.com/lmorg/murex
     docker:
-      - image: lmorg/murex:ci
+      - image: ghcr.io/lmorg/murex:ci
         environment:
           GOPATH: /go
           MUREX_BUILD_FLAGS: --no-colour
