@@ -11,7 +11,7 @@
   - [MacPorts](#macports)
 - [Compiling From Source](#compiling-from-source)
   - [Prerequisites](#prerequisites)
-    - [Further Reading:](#further-reading)
+    - [Further Reading](#further-reading)
   - [Installation From Source Steps](#installation-from-source-steps)
     - [Importing the source code](#importing-the-source-code)
     - [Test the code (optional stage)](#test-the-code-optional-stage)
@@ -74,7 +74,7 @@ These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems
 package manager first but see further reading below if you get stuck.
 
-#### Further Reading:
+#### Further Reading
 
 - [How to install Go](https://golang.org/doc/install)
 - [How to install git](https://github.com/git-guides/install-git)
