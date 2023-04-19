@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  IMAGE_TAG: latest
+  IMAGE_TAG: ci
 
 
 jobs:
@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
-          file: ./test/buildserver/ci.env
+          file: ./test/buildserver/ci
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.IMAGE_TAG }}
           cache-from: type=gha
