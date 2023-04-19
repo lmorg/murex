@@ -4,8 +4,8 @@
 
 out "Iteration over a foreach loop:"
 
-a: [0..4] -> foreach i {
-    out "  a: [0..4] -> foreach i { $i -> ... }"
+%[0..4] -> foreach i {
+    out "  %[0..4] -> foreach i { $i -> ... }"
 }
 
 
@@ -13,10 +13,10 @@ a: [0..4] -> foreach i {
 
 out "Iteration over a while loop:"
 
-let i=0
-while { = i < 5 } {
-    out "  while { = $i < 5 } { ... }"
-    let i++
+i = 0
+while { $i < 5 } {
+    out "  while { $i < 5 } { ... }"
+    i += 1
 }
 
 

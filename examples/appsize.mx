@@ -9,5 +9,5 @@ try {
     out: "The $name executable is $size big!"
 }
 catch {
-    err: "`$name` not found in \$PATH"
+    err: "`$(name)` not found in \$PATH"
 }
