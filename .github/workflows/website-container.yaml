@@ -18,12 +18,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    #permissions:
-    #  contents: read
-    #  packages: write
-    #  # This is used to complete the identity challenge
-    #  # with sigstore/fulcio when running outside of PRs.
-    #  id-token: write
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -61,7 +61,7 @@ jobs:
           file: ./test/buildserver/ci
           build-args: VERSION=${{ env.GO_VERSION }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.IMAGE_TAG }}
+          tags: ghcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
