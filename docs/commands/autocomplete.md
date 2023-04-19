@@ -431,4 +431,4 @@ flags.
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (primitive)
+  Murex-flavoured JSON (deprecated)

@@ -75,13 +75,28 @@ func TestParseQuoteDouble(t *testing.T) {
 				pos:      4,
 			},
 			{
+				input:    `"foo-$(bar)-bar"`,
+				expected: `foo--bar`,
+				pos:      6,
+			},
+			{
 				input:    `"foo-$b-bar"`,
 				expected: `foo--bar`,
 				pos:      2,
 			},
 			{
+				input:    `"foo-$(b)-bar"`,
+				expected: `foo--bar`,
+				pos:      4,
+			},
+			{
 				input:    `"foo-\$bar-bar"`,
 				expected: `foo-$bar-bar`,
+				pos:      1,
+			},
+			{
+				input:    `"foo-\$(bar)-bar"`,
+				expected: `foo-$(bar)-bar`,
 				pos:      1,
 			},
 			{
@@ -94,9 +109,24 @@ func TestParseQuoteDouble(t *testing.T) {
 				expected: `foo-@bar-bar`,
 			},
 			{
-				input:    `"\s\t\r\n"`,
-				expected: " \t\r\n",
-				pos:      4,
+				input:    `"\s"`,
+				expected: " ",
+				pos:      1,
+			},
+			{
+				input:    `"\t"`,
+				expected: "\t",
+				pos:      1,
+			},
+			{
+				input:    `"\r"`,
+				expected: "\r",
+				pos:      1,
+			},
+			{
+				input:    `"\n"`,
+				expected: "\n",
+				pos:      1,
 			},
 		},
 	}

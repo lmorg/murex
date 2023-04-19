@@ -33,7 +33,7 @@ files.
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Brace Quote (`%(`, `)`) Tokens](parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [Create array](parser/create-array.md):
+* [Create array (`%[]`) constructor](parser/create-array.md):
   Quickly generate arrays
 * [Curly Brace (`{`, `}`) Tokens](parser/curly-brace.md):
   Initiates or terminates a code block

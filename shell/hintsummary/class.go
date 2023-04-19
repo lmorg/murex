@@ -38,7 +38,7 @@ func (hs *HintSummary) Delete(exe string) error {
 	hs.mutex.Lock()
 	if hs.m[exe] == "" {
 		hs.mutex.Unlock()
-		return fmt.Errorf("No summary set for '%s'", exe)
+		return fmt.Errorf("no summary set for '%s'", exe)
 	}
 
 	delete(hs.m, exe)

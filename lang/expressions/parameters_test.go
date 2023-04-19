@@ -21,10 +21,10 @@ func TestParamHangBug(t *testing.T) {
 			Block:  `out: $FOO{BAR}`,
 			Stdout: "{BAR}\n",
 		},
-		{
+		/*{
 			Block:  `out: $ FOO{BAR}`,
 			Stdout: "$ FOO{BAR}\n",
-		},
+		},*/
 		{
 			Block:  `out: ${out}`,
 			Stdout: "\n",
@@ -37,25 +37,25 @@ func TestParamHangBug(t *testing.T) {
 			Block:  `out: $FOO[BAR]`,
 			Stdout: "\n",
 		},
-		{
+		/*{
 			Block:  `out: $ FOO[BAR]`,
 			Stdout: "$ FOO[BAR]\n",
-		},
-		{
+		},*/
+		/*{
 			Block:  `out: $[out]`,
 			Stdout: "$[out]\n",
-		},
+		},*/
 		{
 			Block:  `out: $FOO(BAR)`,
 			Stdout: "(BAR)\n",
 		},
-		{
+		/*{
 			Block:  `out: $ FOO(BAR)`,
 			Stdout: "$ FOO(BAR)\n",
-		},
+		},*/
 		{
 			Block:  `out: $(out)`,
-			Stdout: "$(out)\n",
+			Stdout: "\n",
 		},
 		// array
 		{

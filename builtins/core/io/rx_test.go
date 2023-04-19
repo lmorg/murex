@@ -14,7 +14,7 @@ func TestLsRx(t *testing.T) {
 			Stdout: "README.md",
 		},
 		{
-			Block:   "rx: README$",
+			Block:   "rx: 'README$'",
 			Stderr:  "Error",
 			ExitNum: 1,
 		},
@@ -39,7 +39,7 @@ func TestLsRx(t *testing.T) {
 			ExitNum: 1,
 		},
 		{
-			Block:   "rx: README$ ->  rx: .*md",
+			Block:   "rx: 'README$' ->  rx: .*md",
 			Stderr:  "Error",
 			ExitNum: 1,
 		},
@@ -54,7 +54,7 @@ func TestLsRx(t *testing.T) {
 			Stdout: "README.md",
 		},
 		{
-			Block:   "rx: README$ -> !rx: .*md",
+			Block:   "rx: 'README$' -> !rx: .*md",
 			Stderr:  "Error",
 			ExitNum: 1,
 		},

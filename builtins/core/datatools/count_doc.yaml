@@ -8,7 +8,7 @@
 
   Usage: |-
     ```
-    <stdin> -> count: [ --merge | --sum | --total ] -> <stdout>
+    <stdin> -> count: [ --duplications | --unique | --total ] -> <stdout>
     ```
   Examples: |-
     Count number of items in a map, list or array:
@@ -103,6 +103,8 @@
     "--total"       : Read an array, list or map from STDIN and output the length for that array (default behaviour)
     "-t"            : Alias for `--total`
   Synonyms:
+  - count
+  - len
   Related:
   - prepend
   - append

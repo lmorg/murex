@@ -174,6 +174,7 @@ func init() {
 		"!config":               "config",
 		"continue":              "continue",
 		"count":                 "count",
+		"len":                   "count",
 		"cpuarch":               "cpuarch",
 		"cpucount":              "cpucount",
 		"datetime":              "datetime",

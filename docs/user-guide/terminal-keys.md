@@ -17,11 +17,30 @@ Pressing this will send a kill (SIGINT) request to the foreground process.
 Send EOF (end of file). If the shell is sat on the prompt then this will exit
 that running session.
 
-## `ctrl`+`f`: search autocomplete suggestions
+## `ctrl`+`f`: find in autocomplete suggestions
 
-This will allow you to perform a regexp search through the autocompletion
-suggestions. Thus allowing you to quickly navigate complex command options or
-jump to specific sub-directories.
+This will allow you to perform a search through the autocompletion suggestions,
+allowing you to quickly navigate complex command options or jump to specific
+sub-directories.
+
+By default the fuzzy finder will look for any item that includes _all_ of the
+search words. However the search behavior can be changed if the first search
+term is any of these:
+
+* `or`: show results that match _any_ of the search terms. eg `or .md .txt`
+  will match both markdown and txt files (when finding files in completion
+  suggestions).
+
+* `!`: only show suggestions that do not match any of the search terms. eg
+  `! .md .txt` will match all files except markdown and txt files (when finding
+  files in completion suggestions).
+
+* `g`: show only results that match a shell glob. eg `*.txt`.
+
+* `rx`: use a regexp pattern matcher instead of any fuzzy search. Expressions
+  will be case insensitive and non-greedy by default.
+
+The fuzzy finder search is not case sensitive.
 
 Press `esc` to cancel regexp search.
 

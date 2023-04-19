@@ -80,6 +80,11 @@ func TestParseQuoteParen(t *testing.T) {
 				pos:      5,
 			},
 			{
+				input:    `%(foo-$(bar)-bar)`,
+				expected: `foo--bar`,
+				pos:      7,
+			},
+			{
 				input:    `%(foo-$b-bar)`,
 				expected: `foo--bar`,
 				pos:      3,
@@ -88,6 +93,11 @@ func TestParseQuoteParen(t *testing.T) {
 				input:    `%(foo-\$bar-bar)`,
 				expected: `foo-\-bar`,
 				pos:      5,
+			},
+			{
+				input:    `%(foo-\$(bar)-bar)`,
+				expected: `foo-\-bar`,
+				pos:      7,
 			},
 			{
 				input:    `%(\foo-\$bar-\bar)`,
@@ -100,8 +110,23 @@ func TestParseQuoteParen(t *testing.T) {
 				pos:      1,
 			},
 			{
-				input:    `%(\s\t\r\n)`,
-				expected: `\s\t\r\n`,
+				input:    `%(\s)`,
+				expected: `\s`,
+				pos:      1,
+			},
+			{
+				input:    `%(\t)`,
+				expected: `\t`,
+				pos:      1,
+			},
+			{
+				input:    `%(\r)`,
+				expected: `\r`,
+				pos:      1,
+			},
+			{
+				input:    `%(\n)`,
+				expected: `\n`,
 				pos:      1,
 			},
 		},

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"regexp"
 	"sync/atomic"
+
+	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 var rxMultiline = regexp.MustCompile(`[\r\n]+`)
@@ -52,10 +54,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 	print(rl.prompt)
 
-	rl.line = []rune{}
+	rl.line.Set([]rune{})
+	rl.line.SetRunePos(0)
 	rl.lineChange = ""
-	rl.viUndoHistory = []undoItem{{line: "", pos: 0}}
-	rl.pos = 0
+	rl.viUndoHistory = []*unicode.UnicodeT{rl.line.Duplicate()}
 	rl.histPos = rl.History.Len()
 	rl.modeViMode = vimInsert
 	atomic.StoreInt32(&rl.delayedSyntaxCount, 0)
@@ -71,7 +73,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 		} else {
 			rl.multiSplit = []string{}
 		}
-		return string(rl.line), nil
+		return rl.line.String(), nil
 	}
 
 	rl.termWidth = GetTermWidth()
@@ -79,7 +81,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 	rl.renderHelpers()
 
 	for {
-		if len(rl.line) == 0 {
+		if rl.line.RuneLen() == 0 {
 			// clear the cache when the line is cleared
 			rl.cacheHint.Init(rl)
 			rl.cacheSyntax.Init(rl)
@@ -126,17 +128,18 @@ func (rl *Instance) Readline() (_ string, err error) {
 			} else {
 				rl.multiSplit = []string{}
 			}
-			return string(rl.line), nil
+			return rl.line.String(), nil
 		}
 
 		s := string(r[:i])
 		if rl.evtKeyPress[s] != nil {
-			ret := rl.evtKeyPress[s](s, rl.line, rl.pos)
+			ret := rl.evtKeyPress[s](s, rl.line.Runes(), rl.line.RunePos())
 
-			rl.clearLine()
-			rl.line = append(ret.NewLine, []rune{}...)
+			rl.clearPrompt()
+			rl.line.Set(append(ret.NewLine, []rune{}...))
 			rl.echo()
-			rl.pos = ret.NewPos
+			// TODO: should this be above echo?
+			rl.line.SetRunePos(ret.NewPos)
 
 			if ret.ClearHelpers {
 				rl.resetHelpers()
@@ -155,7 +158,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			}
 			if ret.CloseReadline {
 				rl.clearHelpers()
-				return string(rl.line), nil
+				return rl.line.String(), nil
 			}
 		}
 
@@ -210,7 +213,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.viUndoSkipAppend = true
 
 		case charCtrlU:
-			rl.clearLine()
+			rl.clearPrompt()
 			rl.resetHelpers()
 
 		case charTab:
@@ -249,7 +252,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				continue
 			}
 			rl.carriageReturn()
-			return string(rl.line), nil
+			return rl.line.String(), nil
 
 		case charBackspace, charBackspace2:
 			if rl.modeTabFind {
@@ -301,8 +304,8 @@ func (rl *Instance) escapeSeq(r []rune) {
 			rl.renderHelpers()
 
 		default:
-			if rl.pos == len(rl.line) && len(rl.line) > 0 {
-				rl.pos--
+			if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
+				rl.line.SetRunePos(rl.line.RunePos() - 1)
 				moveCursorBackwards(1)
 			}
 			rl.modeViMode = vimKeys
@@ -326,11 +329,24 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		posX, posY := rl.lineWrapCellPos()
 		if posY > 0 {
-			rl.moveCursorByAdjust(-rl.termWidth + rl.promptLen)
+			pos := rl.line.CellPos() - rl.termWidth + rl.promptLen
+			rl.line.SetCellPos(pos)
+
+			newX, _ := rl.lineWrapCellPos()
+			offset := newX - posX
+			switch {
+			case offset > 0:
+				moveCursorForwards(offset)
+			case offset < 0:
+				moveCursorBackwards(offset * -1)
+			}
+
+			moveCursorUp(1)
 			return
 		}
+
 		rl.walkHistory(-1)
 
 	case seqDown:
@@ -341,12 +357,25 @@ func (rl *Instance) escapeSeq(r []rune) {
 		}
 
 		// are we midway through a long line that wrap multiple terminal lines?
-		_, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
+		posX, posY := rl.lineWrapCellPos()
+		_, lineY := rl.lineWrapCellLen()
 		if posY < lineY {
-			rl.moveCursorByAdjust(rl.termWidth - rl.promptLen)
+			pos := rl.line.CellPos() + rl.termWidth - rl.promptLen
+			rl.line.SetCellPos(pos)
+
+			newX, _ := rl.lineWrapCellPos()
+			offset := newX - posX
+			switch {
+			case offset > 0:
+				moveCursorForwards(offset)
+			case offset < 0:
+				moveCursorBackwards(offset * -1)
+			}
+
+			moveCursorDown(1)
 			return
 		}
+
 		rl.walkHistory(1)
 
 	case seqBackwards:
@@ -356,9 +385,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if rl.pos > 0 {
-			rl.moveCursorByAdjust(-1)
-		}
+		rl.moveCursorByRuneAdjust(-1)
 		rl.viUndoSkipAppend = true
 
 	case seqForwards:
@@ -368,10 +395,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		if (rl.modeViMode == vimInsert && rl.pos < len(rl.line)) ||
-			(rl.modeViMode != vimInsert && rl.pos < len(rl.line)-1) {
-			rl.moveCursorByAdjust(1)
-		}
+		//if (rl.modeViMode == vimInsert && rl.line.RunePos() < rl.line.RuneLen()) ||
+		//	(rl.modeViMode != vimInsert && rl.line.RunePos() < rl.line.RuneLen()-1) {
+		rl.moveCursorByRuneAdjust(1)
+		//}
 		rl.viUndoSkipAppend = true
 
 	case seqHome, seqHomeSc:
@@ -379,7 +406,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		rl.moveCursorByAdjust(-rl.pos)
+		rl.moveCursorByRuneAdjust(-rl.line.RunePos())
 		rl.viUndoSkipAppend = true
 
 	case seqEnd, seqEndSc:
@@ -387,7 +414,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-		rl.moveCursorByAdjust(len(rl.line) - rl.pos)
+		rl.moveCursorByRuneAdjust(rl.line.RuneLen() - rl.line.RunePos())
 		rl.viUndoSkipAppend = true
 
 	case seqShiftTab:
@@ -403,6 +430,11 @@ func (rl *Instance) escapeSeq(r []rune) {
 
 	case seqPageDown:
 		rl.previewPageDown()
+		return
+
+	case seqF1, seqF1VT100:
+		rl.ShowPreviews = !rl.ShowPreviews
+		//rl.screenRefresh()
 		return
 
 	default:
@@ -477,7 +509,7 @@ func (rl *Instance) carriageReturn() {
 	print("\r\n")
 	if rl.HistoryAutoWrite {
 		var err error
-		rl.histPos, err = rl.History.Write(string(rl.line))
+		rl.histPos, err = rl.History.Write(rl.line.String())
 		if err != nil {
 			print(err.Error() + "\r\n")
 		}

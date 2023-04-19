@@ -22,7 +22,7 @@ var (
 	hlError       = codes.FgRed + codes.Invert
 	hlRedirect    = codes.FgGreen
 
-	rxAllowedVarChars = regexp.MustCompile(`^[_a-zA-Z0-9]$`)
+	rxAllowedVarChars = regexp.MustCompile(`^[._a-zA-Z0-9]$`)
 )
 
 // ParsedTokens is a struct that returns a tokenized version of the selected command

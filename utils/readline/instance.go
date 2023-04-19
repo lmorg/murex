@@ -3,6 +3,8 @@ package readline
 import (
 	"os"
 	"sync"
+
+	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 var (
@@ -16,6 +18,18 @@ func SetTTY(primaryTTY, replicaTTY *os.File) {
 }
 
 var ForceCrLf = true
+
+type HintCacheFuncT func(prefix string, items []string) []string
+type PreviewFuncT func(line []rune, item string, incImages bool, size *PreviewSizeT) (lines []string, pos int, err error)
+
+type TabCompleterReturnT struct {
+	Prefix       string
+	Suggestions  []string
+	Descriptions map[string]string
+	DisplayType  TabDisplayType
+	HintCache    HintCacheFuncT
+	Preview      PreviewFuncT
+}
 
 // Instance is used to encapsulate the parameter group and run time of any given
 // readline instance so that you can reuse the readline API for multiple entry
@@ -44,20 +58,20 @@ type Instance struct {
 	// HistoryAutoWrite defines whether items automatically get written to
 	// history.
 	// Enabled by default. Set to false to disable.
-	HistoryAutoWrite bool // = true
+	HistoryAutoWrite bool
 
-	// TabCompleter is a simple function that offers completion suggestions.
-	// It takes the readline line ([]rune) and cursor pos. Returns a prefix
-	// string, an array of suggestions and a map of definitions (optional).
-	TabCompleter      func([]rune, int, DelayedTabContext) (string, []string, map[string]string, TabDisplayType)
+	// TabCompleter is a function that offers completion suggestions.
+	TabCompleter      func([]rune, int, DelayedTabContext) *TabCompleterReturnT
 	delayedTabContext DelayedTabContext
+
+	tcr *TabCompleterReturnT
 
 	MinTabItemLength int
 	MaxTabItemLength int
 
 	// MaxTabCompletionRows is the maximum number of rows to display in the tab
 	// completion grid.
-	MaxTabCompleterRows int // = 4
+	MaxTabCompleterRows int
 
 	// SyntaxCompletion is used to autocomplete code syntax (like braces and
 	// quotation marks). If you want to complete words or phrases then you might
@@ -103,21 +117,22 @@ type Instance struct {
 	// readline operating parameters
 	prompt        string //  = ">>> "
 	promptLen     int    //= 4
-	line          []rune
+	line          *unicode.UnicodeT
 	lineChange    string // cache what had changed from previous line
-	pos           int
 	termWidth     int
 	multiline     []byte
 	multiSplit    []string
 	skipStdinRead bool
 
 	// history
-	lineBuf string
+	lineBuf *unicode.UnicodeT
 	histPos int
 
 	// hint text
-	hintY    int //= 0
+	hintY    int
 	hintText []rune
+
+	ScreenRefresh func()
 
 	ShowPreviews  bool
 	previewCache  *previewCacheT
@@ -140,6 +155,8 @@ type Instance struct {
 
 	// tab find
 	modeTabFind   bool
+	rFindSearch   []rune // searching message
+	rFindCancel   []rune // search cancelled message
 	tfLine        []rune
 	tfSuggestions []string
 	modeAutoFind  bool // for when invoked via ^R or ^F outside of [tab]
@@ -147,7 +164,7 @@ type Instance struct {
 	// vim
 	modeViMode       viMode //= vimInsert
 	viIteration      string
-	viUndoHistory    []undoItem
+	viUndoHistory    []*unicode.UnicodeT
 	viUndoSkipAppend bool
 	viYankBuffer     string
 
@@ -163,6 +180,8 @@ type Instance struct {
 func NewInstance() *Instance {
 	rl := new(Instance)
 
+	rl.line = new(unicode.UnicodeT)
+	rl.lineBuf = new(unicode.UnicodeT)
 	rl.History = new(ExampleHistory)
 	rl.HistoryAutoWrite = true
 	rl.MaxTabCompleterRows = 4

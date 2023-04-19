@@ -8,9 +8,9 @@ import (
 	"io"
 	"os"
 	"os/signal"
+	"regexp"
 	"sync"
 	"syscall"
-	"time"
 
 	"github.com/creack/pty"
 	"github.com/lmorg/murex/lang/types"
@@ -92,10 +92,14 @@ func CreatePTY() error {
 		return fmt.Errorf("unable to put pty into 'raw' mode: %s", err.Error())
 	}
 
-	os.Stdout.WriteString(codes.ClearScreen + codes.Home)
+	// move cursor to bottom of screen
+	//buffer = bytes.Repeat([]byte{'\n'}, height)
+	//_, _ = primary.Write(buffer)
+
+	//os.Stdout.WriteString(codes.ClearScreen + codes.Home)
 	Stdin, Stdout, Stderr = os.Stdin, primary, primary
 	readline.ForceCrLf = false
-	readline.SetTTY(os.Stdout, os.Stdin)
+	readline.SetTTY(primary, os.Stdin)
 	go func() {
 		ptyBuffer(os.Stdout, replica)
 		signal.Stop(ch)
@@ -105,9 +109,9 @@ func CreatePTY() error {
 }
 
 func DestroyPty() {
-	//_ = Stdout.Close()
-	//_ = Stdin.Close()
 	Stdin, Stdout, Stderr = os.Stdin, os.Stdout, os.Stderr
+	readline.SetTTY(os.Stdout, os.Stdin)
+	readline.ForceCrLf = true
 	height = 0
 	bufMutex.Lock()
 	buffer = []byte{}
@@ -127,6 +131,7 @@ func ptyBuffer(dst, src *os.File) {
 			}
 			return
 		}
+		go bufferWrite(p[:i])
 		written, err := dst.Write(p[:i])
 		if err != nil {
 			if _, err := os.Stderr.WriteString("error writing to term: " + err.Error()); err != nil {
@@ -140,25 +145,61 @@ func ptyBuffer(dst, src *os.File) {
 			}
 			return
 		}
-
-		bufferWrite(p[:i])
 	}
 }
 
 func bufferWrite(b []byte) {
 	bufMutex.Lock()
+
 	buffer = append(buffer, b...)
+
 	var i, count int
+
 	for i = len(buffer) - 1; i != 0; i-- {
 		if buffer[i] == '\n' {
 			count++
+			if count == height {
+				buffer = buffer[i:]
+
+				bufMutex.Unlock()
+				return
+			}
 		}
-		if count == height {
-			buffer = buffer[i:]
+
+		// clear / cls
+		if buffer[i] == 'J' && i > 3 &&
+			buffer[i-3] == 27 && buffer[i-2] == '[' &&
+			(buffer[i-1] == '2' || buffer[i-1] == '3') {
+
+			/*if i == len(buffer)-1 {
+				buffer = bytes.Repeat([]byte{'\n'}, height)
+			} else {
+				buffer = append(bytes.Repeat([]byte{'\n'}, height), buffer[i+1:]...)
+			}*/
+			buffer = buffer[i+1:]
+
+			bufMutex.Unlock()
+			return
+		}
+
+		// disable alternative screen buffer
+		// \e[?1049l
+		if buffer[i] == 'l' && i > 7 &&
+			buffer[i-7] == 27 && buffer[i-6] == '[' && buffer[i-5] == '?' &&
+			buffer[i-4] == '1' && buffer[i-3] == '0' && buffer[i-2] == '4' && buffer[i-1] == '9' {
+
+			/*if i == len(buffer)-1 {
+				buffer = bytes.Repeat([]byte{'\n'}, height)
+			} else {
+				buffer = append(bytes.Repeat([]byte{'\n'}, height), buffer[i+1:]...)
+			}*/
+			buffer = buffer[i+1:]
+
 			bufMutex.Unlock()
 			return
 		}
 	}
+
 	bufMutex.Unlock()
 }
 
@@ -168,31 +209,51 @@ func BufferRecall(prompt []byte, line string) {
 		return
 	}
 
-	/*if len(buffer) > 0 && buffer[len(buffer)-1] != '\n' {
-		//Stdout.Write([]byte{'\r', '\n'})
-		buffer = append(buffer, '\r', '\n')
-	}*/
+	bufMutex.Lock()
 
-	Stdout.WriteString(codes.Reset)
+	/*Stdout.WriteString(codes.Reset)
 	Stdout.Write(prompt)
 	Stdout.WriteString(line)
 	Stdout.Write([]byte{'\r', '\n'})
 	Stdout.WriteString(codes.BgBlackBright + codes.FgWhiteBright)
 	Stdout.WriteString(time.Now().Format(time.RubyDate))
 	Stdout.WriteString(codes.Reset)
-	Stdout.Write([]byte{'\r', '\n'})
+	Stdout.Write([]byte{'\r', '\n'})*/
 
-	// first pass (to reduce flicker)
-	_, _ = os.Stdout.WriteString(codes.Reset)
-	_, _ = os.Stdout.WriteString(codes.Home)
-
-	bufMutex.Lock()
-	_, _ = os.Stdout.Write(buffer)
-
-	// second pass (to clear noise)
 	_, _ = os.Stdout.WriteString(codes.Reset)
 	_, _ = os.Stdout.WriteString(codes.Home + codes.ClearScreenBelow)
 
 	_, _ = os.Stdout.Write(buffer)
+
+	bufMutex.Unlock()
+}
+
+func BufferGet() {
+	_, _ = os.Stdout.WriteString(codes.Reset + codes.Home + codes.ClearScreenBelow)
+	_, _ = os.Stdout.Write(buffer)
+}
+
+var rxEsc = regexp.MustCompile(string([]byte{27, ']', '.', '*', '?', 7})) // no titlebar ANSI escape sequences
+
+func MissingCrLf() bool {
+	if height == 0 {
+		return false
+	}
+
+	bufMutex.Lock()
+	buffer := rxEsc.ReplaceAll(buffer, []byte{})
+
+	if len(buffer) > 0 && buffer[len(buffer)-1] != '\n' {
+		bufMutex.Unlock()
+		return true
+	}
+
+	bufMutex.Unlock()
+	return false
+}
+
+func WriteCrLf() {
+	bufMutex.Lock()
+	_, _ = Stdout.Write(NewLine)
 	bufMutex.Unlock()
 }

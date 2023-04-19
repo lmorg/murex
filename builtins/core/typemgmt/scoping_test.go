@@ -1,3 +1,4 @@
+
 package typemgmt_test
 
 import (
@@ -28,7 +29,7 @@ func TestScopingSet(t *testing.T) {
 					}
 					set TestScopingSet2=1
 					TestScopingSet2`,
-			Stderr:  "variable 'TestScopingSet2' does not exist\n",
+			Stderr:  "variable 'TestScopingSet2' does not exist",
 			ExitNum: 1,
 		},
 		{
@@ -83,7 +84,7 @@ func TestScopingSet(t *testing.T) {
 					TestScopingSet6.0
 					out $TestScopingSet6`,
 			Stdout:  "^23$",
-			Stderr:  "variable 'TestScopingSet6' does not exist\n",
+			Stderr:  "variable 'TestScopingSet6' does not exist",
 			ExitNum: 1,
 		},
 	}

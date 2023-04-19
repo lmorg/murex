@@ -26,10 +26,22 @@ func BufferRecall(_ []byte, _ string) {
 	// not supported on this platform
 }
 
+func BufferGet() {
+	// not supported on this platform
+}
+
 func ConfigRead() (interface{}, error) {
 	return false, nil
 }
 
 func ConfigWrite(_ interface{}) error {
 	return errors.New(errMessage)
+}
+
+func MissingCrLf() bool {
+	return false
+}
+
+func WriteCrLf() {
+	// empty function for cross compiling compatibility
 }

@@ -2,13 +2,21 @@ package expressions
 
 import (
 	"errors"
+	"fmt"
 
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/home"
 )
 
-func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+func (tree *ParserT) parseVarScalar(exec, execScalars bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+	if tree.nextChar() == '(' {
+		tree.charPos++
+		return tree.parseVarParenthesis(execScalars, strOrVal)
+	}
+
 	if !isBareChar(tree.nextChar()) {
-		return nil, nil, "", errors.New("'$' symbol found but no variable name followed")
+		// always print $
+		return []rune{'$'}, "$", types.String, nil
 	}
 
 	tree.charPos++
@@ -20,17 +28,53 @@ func (tree *ParserT) parseVarScalar(exec bool, strOrVal varFormatting) ([]rune, 
 
 	tree.charPos--
 
-	if !exec {
-		// don't getVar() until we come to execute the expression, skip when only
-		// parsing syntax
-		return append([]rune{'$'}, value...), nil, "", nil
+	r := append([]rune{'$'}, value...)
+
+	// don't getVar() until we come to execute the expression, skip when only
+	// parsing syntax
+	if execScalars {
+		v, dataType, err := tree.getVar(value, strOrVal)
+		return r, v, dataType, err
 	}
 
-	v, dataType, err := tree.getVar(value, strOrVal)
-	return value, v, dataType, err
+	return r, nil, "", nil
+}
+
+func (tree *ParserT) parseVarParenthesis(exec bool, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+	start := tree.charPos
+
+	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
+		r := tree.expression[tree.charPos]
+
+		switch {
+		case r == ')':
+			goto endParenthesis
+		}
+	}
+
+	return nil, nil, "", raiseError(
+		tree.expression, nil, tree.charPos, "expecting closing parenthesis, ')', after variable reference")
+
+endParenthesis:
+	path := tree.expression[start+1 : tree.charPos]
+	value := tree.expression[start-1 : tree.charPos+1]
+
+	if !exec {
+		return value, nil, "", nil
+	}
+
+	v, dt, err := tree.getVar(path, strOrVal)
+	if err != nil {
+		return value, nil, "", err
+	}
+	return value, v, dt, nil
 }
 
 func (tree *ParserT) parseVarIndexElement(exec bool, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+	if tree.nextChar() == '{' {
+		return tree.parseLambdaScala(exec, '$', varName, strOrVal)
+	}
+
 	var (
 		brackets = 1
 		escape   bool
@@ -87,6 +131,31 @@ endIndexElement:
 	return nil, v, dt, nil
 }
 
+func (tree *ParserT) parseLambdaScala(exec bool, prefix rune, varName []rune, strOrVal varFormatting) ([]rune, interface{}, string, error) {
+	defer treePlusPlus(tree)
+	if exec {
+		if tree.p == nil {
+			panic("`tree.p` is undefined")
+		}
+
+		path := string(varName)
+
+		value, err := tree.p.Variables.GetValue(path)
+		if err != nil {
+			return nil, nil, "", err
+		}
+
+		dataType := tree.p.Variables.GetDataType(path)
+
+		err = tree.p.Variables.Set(tree.p, "", value, dataType)
+		if err != nil {
+			return nil, nil, "", fmt.Errorf("unable to set `$.`: %s", err.Error())
+		}
+	}
+
+	return tree.parseSubShell(exec, prefix, strOrVal)
+}
+
 func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 	if !isBareChar(tree.nextChar()) {
 		return nil, nil, errors.New("'@' symbol found but no variable name followed")
@@ -112,6 +181,15 @@ func (tree *ParserT) parseVarArray(exec bool) ([]rune, interface{}, error) {
 }
 
 func (tree *ParserT) parseVarRange(exec bool, varName []rune) ([]rune, interface{}, error) {
+	if tree.nextChar() == '{' {
+		if exec {
+			return tree.parseLambda(varName)
+		} else {
+			r, v, _, err := tree.parseLambdaScala(false, '@', varName, varAsValue) // just parsing source
+			return r, v, err
+		}
+	}
+
 	var escape bool
 
 	start := tree.charPos

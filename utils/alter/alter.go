@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/lmorg/murex/lang/types"
-	"github.com/lmorg/murex/utils/json"
 )
 
 const (
@@ -24,12 +23,12 @@ const (
 // any pull requests from other developers wishing to improve this - or other -
 // functions. I'm also open to any breaking changes those optimisations might
 // bring (at least until the project reaches version 1.0).
-func Alter(ctx context.Context, v interface{}, path []string, new string) (interface{}, error) {
+func Alter(ctx context.Context, v interface{}, path []string, new interface{}) (interface{}, error) {
 	return loop(ctx, v, 0, path, &new, actionAlter)
 }
 
 // Merge a data structure; like Alter but merges arrays and maps where possible
-func Merge(ctx context.Context, v interface{}, path []string, new string) (interface{}, error) {
+func Merge(ctx context.Context, v interface{}, path []string, new interface{}) (interface{}, error) {
 	if len(path) == 1 && path[0] == "" {
 		path = []string{}
 	}
@@ -38,7 +37,7 @@ func Merge(ctx context.Context, v interface{}, path []string, new string) (inter
 
 // Sum a data structure; like Merge but sums values in arrays and maps where
 // duplication exists
-func Sum(ctx context.Context, v interface{}, path []string, new string) (interface{}, error) {
+func Sum(ctx context.Context, v interface{}, path []string, new interface{}) (interface{}, error) {
 	if len(path) == 1 && path[0] == "" {
 		path = []string{}
 	}
@@ -56,7 +55,7 @@ const (
 	errIndexGreaterThanArray     = "index greater than length of array in path element"
 )
 
-func loop(ctx context.Context, v interface{}, i int, path []string, new *string, action int) (ret interface{}, err error) {
+func loop(ctx context.Context, v interface{}, i int, path []string, new *interface{}, action int) (ret interface{}, err error) {
 	select {
 	case <-ctx.Done():
 		return nil, errors.New("cancelled")
@@ -82,7 +81,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[pathI] = parseString(new)
+				v[pathI] = *new
 
 			}
 			if err == nil {
@@ -106,7 +105,11 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[pathI] = parseString(new).(string)
+				s, err := types.ConvertGoType(*new, types.String)
+				if err != nil {
+					return nil, err
+				}
+				v[pathI] = s.(string)
 
 			}
 			if err == nil {
@@ -130,7 +133,11 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[pathI] = parseString(new).(int)
+				i, err := types.ConvertGoType(*new, types.Integer)
+				if err != nil {
+					return nil, err
+				}
+				v[pathI] = i.(int)
 
 			}
 			if err == nil {
@@ -154,7 +161,11 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[pathI] = parseString(new).(float64)
+				f, err := types.ConvertGoType(*new, types.Float)
+				if err != nil {
+					return nil, err
+				}
+				v[pathI] = f.(float64)
 
 			}
 			if err == nil {
@@ -178,7 +189,11 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 
 			ret, err = loop(ctx, v[pathI], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[pathI] = parseString(new).(bool)
+				b, err := types.ConvertGoType(*new, types.Boolean)
+				if err != nil {
+					return nil, err
+				}
+				v[pathI] = b.(bool)
 
 			}
 			if err == nil {
@@ -189,7 +204,8 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 		case map[interface{}]interface{}:
 			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[path[i]] = parseString(new)
+				v[path[i]] = *new
+
 			}
 			if err == nil {
 				v[path[i]] = ret
@@ -199,7 +215,8 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 		case map[string]interface{}:
 			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[path[i]] = parseString(new)
+				v[path[i]] = *new
+
 			}
 			if err == nil {
 				v[path[i]] = ret
@@ -209,7 +226,12 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 		case map[interface{}]string:
 			ret, err = loop(ctx, v[path[i]], i+1, path, new, action)
 			if err == errOverwritePath {
-				v[path[i]] = fmt.Sprint(parseString(new))
+				s, err := types.ConvertGoType(*new, types.String)
+				if err != nil {
+					return nil, err
+				}
+				v[path[i]] = s.(string)
+
 			}
 			if err == nil {
 				v[path[i]] = ret.(string)
@@ -230,34 +252,42 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 	case i == len(path):
 		switch v.(type) {
 		case string:
-			ret = *new
+			s, err := types.ConvertGoType(*new, types.String)
+			if err != nil {
+				return nil, err
+			}
+			ret = s.(string)
 
 		case int:
-			num, err := strconv.Atoi(*new)
+			i, err := types.ConvertGoType(*new, types.Integer)
 			if err != nil {
 				return nil, err
 			}
-			ret = num
+			ret = i.(int)
 
 		case float64:
-			num, err := strconv.ParseFloat(*new, 64)
+			f, err := types.ConvertGoType(*new, types.Float)
 			if err != nil {
 				return nil, err
 			}
-			ret = num
+			ret = f.(float64)
 
 		case bool:
-			ret = types.IsTrue([]byte(*new), 0)
+			b, err := types.ConvertGoType(*new, types.Boolean)
+			if err != nil {
+				return nil, err
+			}
+			ret = b.(bool)
 
 		case nil:
-			ret = parseString(new)
+			ret = *new
 
 		case []string, []bool, []float64, []int, []interface{}:
 			switch action {
 			case actionMerge, actionSum:
 				return mergeArray(v, new)
 			case actionAlter:
-				ret = parseString(new)
+				ret = *new
 			default:
 				return nil, errInvalidAction
 			}
@@ -271,7 +301,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 			case actionSum:
 				return sumMap(v, new)
 			case actionAlter:
-				ret = parseString(new)
+				ret = *new
 			default:
 				return nil, errInvalidAction
 			}
@@ -282,7 +312,7 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 			case actionMerge, actionSum:
 				return mergeMap(v, new)
 			case actionAlter:
-				ret = parseString(new)
+				ret = *new
 			default:
 				return nil, errInvalidAction
 			}
@@ -302,15 +332,4 @@ func loop(ctx context.Context, v interface{}, i int, path []string, new *string,
 		err = nil
 	}
 	return
-}
-
-func parseString(new *string) (v interface{}) {
-	// Regardless of the output format of `alter` - we only really want to accept JSON input
-	// because that's how murex's parser is designed to read multiline structures.
-	err := json.Unmarshal([]byte(*new), &v)
-	if err == nil {
-		return v
-	}
-
-	return new
 }

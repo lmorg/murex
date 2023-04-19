@@ -19,8 +19,6 @@ func leftMost() []byte {
 	b[w] = '\r'
 
 	return b
-
-	//return []byte{}
 }
 
 var rxRcvCursorPos = regexp.MustCompile("^\x1b([0-9]+);([0-9]+)R$")
@@ -65,12 +63,19 @@ func (rl *Instance) getCursorPos() (x int, y int) {
 	return x, y
 }
 
+const (
+	cursorUpf   = "\x1b[%dA"
+	cursorDownf = "\x1b[%dB"
+	cursorForwf = "\x1b[%dC"
+	cursorBackf = "\x1b[%dD"
+)
+
 func moveCursorUp(i int) {
 	if i < 1 {
 		return
 	}
 
-	printf("\x1b[%dA", i)
+	printf(cursorUpf, i)
 }
 
 func moveCursorDown(i int) {
@@ -78,7 +83,7 @@ func moveCursorDown(i int) {
 		return
 	}
 
-	printf("\x1b[%dB", i)
+	printf(cursorDownf, i)
 }
 
 func moveCursorForwards(i int) {
@@ -86,7 +91,7 @@ func moveCursorForwards(i int) {
 		return
 	}
 
-	printf("\x1b[%dC", i)
+	printf(cursorForwf, i)
 }
 
 func moveCursorBackwards(i int) {
@@ -94,57 +99,46 @@ func moveCursorBackwards(i int) {
 		return
 	}
 
-	printf("\x1b[%dD", i)
+	printf(cursorBackf, i)
 }
 
 func (rl *Instance) moveCursorToStart() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
 
 	moveCursorBackwards(posX - rl.promptLen)
 	moveCursorUp(posY)
 }
 
 func (rl *Instance) moveCursorFromStartToLinePos() {
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	posX, posY := rl.lineWrapCellPos()
 	moveCursorForwards(posX)
 	moveCursorDown(posY)
 }
 
 func (rl *Instance) moveCursorFromEndToLinePos() {
-	lineX, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	lineX, lineY := rl.lineWrapCellLen()
+	posX, posY := rl.lineWrapCellPos()
 	moveCursorBackwards(lineX - posX)
 	moveCursorUp(lineY - posY)
 }
 
-/*// moveCursorToLinePos should only be used on extreme circumstances because it
-// causes the cursor to jump around quite a bit
-func (rl *Instance) moveCursorFromUnknownToLinePos() {
-	_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
-	posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
-	//moveCursorBackwards(lineX)
-	print("\r")
-	moveCursorForwards(posX)
-	moveCursorUp(lineY - posY)
-}*/
+func (rl *Instance) moveCursorByRuneAdjust(rAdjust int) {
+	oldX, oldY := rl.lineWrapCellPos()
 
-func (rl *Instance) moveCursorByAdjust(adjust int) {
-	oldX, oldY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	rl.line.SetRunePos(rl.line.RunePos() + rAdjust)
 
-	rl.pos += adjust
-
-	if rl.pos < 0 {
-		rl.pos = 0
+	if rl.line.RunePos() < 0 {
+		rl.line.SetRunePos(0)
 	}
-	if rl.pos > len(rl.line) {
-		rl.pos = len(rl.line)
+	if rl.line.RunePos() > rl.line.RuneLen() {
+		rl.line.SetRunePos(rl.line.RuneLen())
 	}
 
-	if rl.modeViMode != vimInsert && rl.pos == len(rl.line) {
-		rl.pos--
+	if rl.modeViMode != vimInsert && rl.line.RunePos() == rl.line.RuneLen() {
+		rl.line.SetRunePos(rl.line.RunePos() - 1)
 	}
 
-	newX, newY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+	newX, newY := rl.lineWrapCellPos()
 
 	y := newY - oldY
 	switch {

@@ -208,29 +208,27 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			switch {
 			case tree.nextChar() == '{':
 				// subshell
-				_, v, mxDt, err := tree.parseSubShell(exec, r, varAsValue)
+				runes, v, mxDt, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
 				}
 				dt := scalar2Primitive(mxDt)
 				dt.Value = v
-				tree.appendAstWithPrimitive(symbols.Calculated, dt)
-			case isBareChar(tree.nextChar()):
-				// start scalar
-				_, v, mxDt, err := tree.parseVarScalar(exec, varAsValue)
-				if err != nil {
-					return err
-				}
-				dt := scalar2Primitive(mxDt)
-				dt.Value = v
-				tree.appendAstWithPrimitive(symbols.Calculated, dt)
+				tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
 			default:
-				if !exec {
+				// scalar
+				runes, v, mxDt, err := tree.parseVarScalar(exec, false, varAsValue)
+				if err != nil {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
-						errMessage[symbols.Unexpected], string(r)))
+						err.Error(), string(r)))
 				}
-				tree.charPos++
-				tree.appendAst(symbols.Unexpected, r)
+				if exec && v == nil && mxDt == "" {
+					tree.appendAst(symbols.Scalar, runes...)
+				} else {
+					dt := scalar2Primitive(mxDt)
+					dt.Value = v
+					tree.appendAstWithPrimitive(symbols.Calculated, dt, runes...)
+				}
 			}
 
 		case '@': // TODO: test me please!
@@ -238,28 +236,28 @@ func (tree *ParserT) parseExpression(exec bool) error {
 			switch {
 			case next == '{':
 				// subshell
-				_, v, _, err := tree.parseSubShell(exec, r, varAsValue)
+				runes, v, _, err := tree.parseSubShell(exec, r, varAsValue)
 				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
 					Primitive: primitives.Array,
 					Value:     v,
-				})
+				}, runes...)
 			case next == '[':
 				// range (this needs to be a statement)
 				return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",
 					errMessage[symbols.Unexpected], string(r)))
 			case isBareChar(next):
 				// start array
-				_, v, err := tree.parseVarArray(exec)
+				runes, v, err := tree.parseVarArray(exec)
 				if err != nil {
 					return err
 				}
 				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
 					Primitive: primitives.Array,
 					Value:     v,
-				})
+				}, runes...)
 			default:
 				if !exec {
 					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s: '%s'",

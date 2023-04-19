@@ -262,3 +262,82 @@ func TestParseVarsElementDot(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+func TestParseVarsDotNotation(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsDotNotation0=%[1..3];$TestParseVarsDotNotation0.1`,
+			Stdout: `2`,
+		},
+		{
+			Block:  `TestParseVarsDotNotation1=%[1..3];TestParseVarsDotNotation1=$TestParseVarsDotNotation1.2;$TestParseVarsDotNotation1`,
+			Stdout: `3`,
+		},
+		{
+			Block:  `TestParseVarsDotNotation2=%[1..3];TestParseVarsDotNotation2="-$TestParseVarsDotNotation2.1-";$TestParseVarsDotNotation2`,
+			Stdout: `-2-`,
+		},
+		{
+			Block:  `TestParseVarsDotNotation3=%[1..3];%[1 2 3 $TestParseVarsDotNotation3.1 1 2 3]`,
+			Stdout: `[1,2,3,2,1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsDotNotation4=%[1..3];%{$TestParseVarsDotNotation4.1:a}`,
+			Stdout: `{"2":"a"}`,
+		},
+		{
+			Block:  `TestParseVarsDotNotation5=%[1..3];%{a:$TestParseVarsDotNotation5.1}`,
+			Stdout: `{"a":2}`,
+		},
+	}
+
+	test.RunMurexTests(tests, t)
+}
+
+func TestParseVarsParen(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  `TestParseVarsParen0="foobar";$(TestParseVarsParen0)`,
+			Stdout: `^foobar$`,
+		},
+		{
+			Block:  `TestParseVarsParen1=%[1 2 3];$(TestParseVarsParen1)`,
+			Stdout: `[1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsParen2=%[1 2 3];$(TestParseVarsParen2.1)`,
+			Stdout: `2`,
+		},
+		/*{
+			Block:  `TestParseVarsParen3=%[1 2 3];$(TestParseVarsParen3[2])`,
+			Stdout: `3`,
+		},*/
+		/*{
+			Block:  `TestParseVarsParen4=%[1 2 3];$(TestParseVarsParen4[[.1]])`,
+			Stdout: `2`,
+		},*/
+		//
+		{
+			Block:  `TestParseVarsParen5=%[1..3];echo -$(TestParseVarsParen5.1)-`,
+			Stdout: `^-2-\n$`,
+		},
+		{
+			Block:  `TestParseVarsParen6=%[1..3];TestParseVarsParen6="-$(TestParseVarsParen6.1)-";$(TestParseVarsParen6)`,
+			Stdout: `^-2-$`,
+		},
+		{
+			Block:  `TestParseVarsParen7=%[1..3];%[1 2 3 $(TestParseVarsParen7.1) 1 2 3]`,
+			Stdout: `[1,2,3,2,1,2,3]`,
+		},
+		{
+			Block:  `TestParseVarsParen8=%[1..3];%{$(TestParseVarsParen8.1):a}`,
+			Stdout: `{"2":"a"}`,
+		},
+		{
+			Block:  `TestParseVarsParen9=%[1..3];%{a:$(TestParseVarsParen9.1)}`,
+			Stdout: `{"a":2}`,
+		},
+	}
+
+	test.RunMurexTestsRx(tests, t)
+}

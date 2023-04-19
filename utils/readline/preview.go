@@ -3,21 +3,25 @@ package readline
 import (
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
-
-	"github.com/eliukblau/pixterm/pkg/ansimage"
 )
 
 func getPreviewWidth(width int) (preview, forward int) {
-	preview = width / 3
-	forward = preview * 2
-	preview += width - (preview + forward)
+	switch {
+	case width < 80:
+		return 0, 0
+	case width < 90:
+		preview = 40
+	default:
+		preview = 80
+	}
+
+	forward = width - preview
 	forward -= 2
 	return
 }
 
-type previewSizeT struct {
+type PreviewSizeT struct {
 	Height  int
 	Width   int
 	Forward int
@@ -27,10 +31,10 @@ type previewCacheT struct {
 	pos   int
 	len   int
 	lines []string
-	size  *previewSizeT
+	size  *PreviewSizeT
 }
 
-func getPreviewXY() (*previewSizeT, error) {
+func getPreviewXY() (*PreviewSizeT, error) {
 	width, height, err := GetSize(int(primary.Fd()))
 	if err != nil {
 		return nil, err
@@ -45,7 +49,7 @@ func getPreviewXY() (*previewSizeT, error) {
 	}
 
 	preview, forward := getPreviewWidth(width)
-	size := &previewSizeT{
+	size := &PreviewSizeT{
 		Height:  height / 3,
 		Width:   preview,
 		Forward: forward,
@@ -54,108 +58,82 @@ func getPreviewXY() (*previewSizeT, error) {
 	return size, nil
 }
 
-type color struct{}
+func (rl *Instance) writePreview(item string) {
+	if rl.previewCache != nil {
+		// refresh screen if preview written previously and this one empty
+		defer func() {
+			if rl.previewCache == nil {
+				rl.screenRefresh()
+			}
+		}()
+	}
 
-// RGBA is required for the Go color.Color interface.
-func (col color) RGBA() (uint32, uint32, uint32, uint32) {
-	return 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	if rl.ShowPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
+		size, err := getPreviewXY()
+		if err != nil || size.Height < 8 || size.Width < 40 {
+			rl.previewCache = nil
+			return
+		}
+
+		item = strings.ReplaceAll(item, "\\", "")
+		item = strings.TrimSpace(item)
+
+		lines, pos, err := rl.tcr.Preview(rl.line.Runes(), item, rl.PreviewImages, size)
+		if len(lines) == 0 || err != nil {
+			rl.previewCache = nil
+			return
+		}
+		err = previewDraw(lines[pos:], size)
+		if err != nil {
+			rl.previewCache = nil
+			return
+		}
+
+		rl.previewCache = &previewCacheT{
+			pos:   pos,
+			len:   size.Height,
+			lines: lines,
+			size:  size,
+		}
+
+		return
+	}
+
+	rl.previewCache = nil
 }
 
-var rxImage = regexp.MustCompile(`\.(bmp|jpg|jpeg|png|gif|tiff|webp)$`)
-
-func previewCompile(filename string, incImages bool, size *previewSizeT) ([]string, error) {
-	p := make([]byte, 1*1024*1024)
-	var i int
-
-	if strings.HasSuffix(filename, " ") {
-		filename = strings.TrimSpace(filename)
+func (rl *Instance) screenRefresh() {
+	if rl.ScreenRefresh == nil {
+		return
 	}
 
-	f, err := os.OpenFile(filename, os.O_RDONLY, 0)
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
+	/*print := func(s string) {
+		_, _ = os.Stdout.WriteString(s)
+	}*/
 
-	var (
-		b     byte
-		line  []byte
-		lines []string
-	)
+	old := primary
+	primary = os.Stdout
 
-	if incImages && rxImage.MatchString(filename) {
-		img, err := ansimage.NewScaledFromReader(f, 2*size.Height-1, size.Width, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
-		if err != nil {
-			return nil, err
-		}
-		lines = strings.Split(img.Render(), "\n")
-		for i := range lines {
-			count := strings.Count(lines[i], "\x1b") / 2
-			if count < size.Width {
-				lines[i] += strings.Repeat(" ", size.Width-count)
-			}
-		}
-		return lines, nil
-	}
+	rl.ScreenRefresh()
+	/*print(rl.prompt + string(rl.line))
+	rl.writeHintText(false)
+	rl.writeTabCompletion(false)
+	print("\r\n")*/
 
-	i, err = f.Read(p)
-	if err != nil {
-		i = copy(p, []byte(err.Error()))
-	}
-
-parsePreview:
-	for j := 0; j <= i; j++ {
-		if j < i {
-			b = p[j]
-		} else {
-			b = ' '
-		}
-
-		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
-			file := previewFile(filename)
-			if len(file) == 0 {
-				return []string{"file contains binary data"}, nil
-			}
-			i = copy(p, file)
-			line = []byte{}
-			lines = []string{}
-			goto parsePreview
-		}
-
-		switch b {
-		case '\r':
-			continue
-		case '\n':
-			lines = append(lines, string(line))
-			line = []byte{}
-		case '\t':
-			line = append(line, ' ', ' ', ' ', ' ')
-		default:
-			line = append(line, b)
-		}
-
-		if len(line) >= size.Width {
-			lines = append(lines, string(line))
-			line = []byte{}
-		}
-	}
-
-	if len(line) > 0 {
-		lines = append(lines, string(line))
-	}
-
-	return lines, nil
+	primary = old
 }
 
 const (
-	//screenSave    = "\x1b[?47h"
-	//screenRestore = "\x1b[?47l"
 	curHome       = "\x1b[H"
 	curPosSave    = "\x1b[s"
 	curPosRestore = "\x1b[u"
 )
 
-func previewDraw(preview []string, size *previewSizeT) error {
+func previewDraw(preview []string, size *PreviewSizeT) error {
+	print := func(s string) {
+		_, _ = os.Stdout.WriteString(s)
+	}
+
 	pf := fmt.Sprintf("│%%-%ds│\r\n", size.Width)
 
 	print(curPosSave + curHome)
@@ -163,12 +141,12 @@ func previewDraw(preview []string, size *previewSizeT) error {
 		print(curPosRestore)
 	}()
 
-	moveCursorForwards(size.Forward)
+	print(fmt.Sprintf(cursorForwf, size.Forward))
 	hr := strings.Repeat("─", size.Width)
 	print("╭" + hr + "╮\r\n")
 
 	for i := 0; i <= size.Height; i++ {
-		moveCursorForwards(size.Forward)
+		print(fmt.Sprintf(cursorForwf, size.Forward))
 
 		if i >= len(preview) {
 			blank := strings.Repeat(" ", size.Width)
@@ -176,43 +154,13 @@ func previewDraw(preview []string, size *previewSizeT) error {
 			continue
 		}
 
-		out := fmt.Sprintf(pf, preview[i])
-		print(out)
+		print(fmt.Sprintf(pf, preview[i]))
 	}
 
-	moveCursorForwards(size.Forward)
+	print(fmt.Sprintf(cursorForwf, size.Forward))
 	print("╰" + hr + "╯\r\n")
+
 	return nil
-}
-
-func (rl *Instance) writePreview(item string) {
-	if rl.ShowPreviews {
-		size, err := getPreviewXY()
-		if err != nil || size.Height < 8 || size.Width < 25 {
-			rl.previewCache = nil
-			return
-		}
-
-		item = strings.ReplaceAll(item, "\\", "")
-
-		lines, err := previewCompile(item, rl.PreviewImages, size)
-		if err != nil {
-			rl.previewCache = nil
-			return
-		}
-		err = previewDraw(lines, size)
-		if err != nil {
-			rl.previewCache = nil
-			return
-		}
-
-		rl.previewCache = &previewCacheT{
-			pos:   0,
-			len:   size.Height,
-			lines: lines,
-			size:  size,
-		}
-	}
 }
 
 func (rl *Instance) previewPageUp() {

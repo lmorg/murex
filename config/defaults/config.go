@@ -131,9 +131,10 @@ func Config(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "pre-cache-hint-summaries", config.Properties{
-		Description: "Run the command hint summary pre-cache upon murex's start up (warning: only enable this on fast systems with an SSD)",
-		Default:     true,
-		DataType:    types.Boolean,
+		Description: "Run the command hint summary pre-cache",
+		Default:     "on-tab",
+		Options:     []string{"on-start", "on-tab", "false"},
+		DataType:    types.String,
 		Global:      true,
 	})
 
@@ -276,14 +277,14 @@ func Config(c *config.Config, isInteractive bool) {
 
 	c.Define("shell", "preview-enabled", config.Properties{
 		Description: "If set, will show file previews in the top right third of the terminal",
-		Default:     tty.Enabled(),
+		Default:     false, //tty.Enabled(),
 		DataType:    types.Boolean,
 		Global:      true,
 	})
 
 	c.Define("shell", "preview-images", config.Properties{
 		Description: "If set, file previews will display images as ANSI art rendered graphics rather than text descriptions",
-		Default:     tty.Enabled(),
+		Default:     true, //tty.Enabled(),
 		DataType:    types.String,
 		Global:      true,
 	})

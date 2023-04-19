@@ -8,14 +8,14 @@ func (rl *Instance) getHintText() {
 		return
 	}
 
-	hint := rl.cacheHint.Get(rl.line)
+	hint := rl.cacheHint.Get(rl.line.Runes())
 	if len(hint) > 0 {
 		rl.hintText = hint
 		return
 	}
 
-	rl.hintText = rl.HintText(rl.line, rl.pos)
-	rl.cacheHint.Append(rl.line, rl.hintText)
+	rl.hintText = rl.HintText(rl.line.Runes(), rl.line.RunePos())
+	rl.cacheHint.Append(rl.line.Runes(), rl.hintText)
 }
 
 func (rl *Instance) writeHintText(resetCursorPos bool) {
@@ -64,8 +64,8 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 	}
 
 	if resetCursorPos {
-		_, lineY := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
-		posX, posY := lineWrapPos(rl.promptLen, rl.pos, rl.termWidth)
+		_, lineY := rl.lineWrapCellLen()
+		posX, posY := rl.lineWrapCellPos()
 		y := lineY - posY
 		moveCursorDown(y)
 

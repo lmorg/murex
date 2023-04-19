@@ -173,4 +173,4 @@ parser is still in beta), it is shipped as an additional data-type.
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (primitive)
+  Murex-flavoured JSON (deprecated)

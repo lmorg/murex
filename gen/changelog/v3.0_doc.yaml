@@ -58,7 +58,7 @@
 
     * Revamped README / website landing page
 
-    Non-User Facing / Maintenance Changes
+    Non-User Facing / Maintenance Changes:
 
     * Minimum Go version supported is now 1.17.x
 

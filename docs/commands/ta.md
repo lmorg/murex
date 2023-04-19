@@ -50,7 +50,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
 
 ## See Also
 
-* [Create array](../parser/create-array.md):
+* [Create array (`%[]`) constructor](../parser/create-array.md):
   Quickly generate arrays
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure

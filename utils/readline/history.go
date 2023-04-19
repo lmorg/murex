@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+
+	"github.com/lmorg/murex/utils/readline/unicode"
 )
 
 // History is an interface to allow you to write your own history logging
@@ -89,9 +91,10 @@ func (h *NullHistory) Dump() interface{} {
 // Browse historic lines
 func (rl *Instance) walkHistory(i int) {
 	var (
-		old, new string
-		dedup    bool
-		err      error
+		oldLine string
+		newLine string
+		dedup   bool
+		err     error
 	)
 
 	switch rl.histPos + i {
@@ -99,14 +102,14 @@ func (rl *Instance) walkHistory(i int) {
 		return
 
 	case rl.History.Len():
-		rl.clearLine()
+		rl.clearPrompt()
 		rl.histPos += i
-		rl.line = []rune(rl.lineBuf)
+		rl.line = rl.lineBuf.Duplicate()
 
 	default:
 		dedup = true
-		old = string(rl.line)
-		new, err = rl.History.GetLine(rl.histPos + i)
+		oldLine = rl.line.String()
+		newLine, err = rl.History.GetLine(rl.histPos + i)
 		if err != nil {
 			rl.resetHelpers()
 			print("\r\n" + err.Error() + "\r\n")
@@ -115,31 +118,35 @@ func (rl *Instance) walkHistory(i int) {
 		}
 
 		if rl.histPos == rl.History.Len() {
-			rl.lineBuf = string(rl.line)
+			rl.lineBuf = rl.line.Duplicate()
 		}
 
-		rl.clearLine()
+		rl.clearPrompt()
 
 		rl.histPos += i
-		rl.line = []rune(new)
+		rl.line = new(unicode.UnicodeT)
+		rl.line.Set([]rune(newLine))
 
-		_, y := lineWrapPos(rl.promptLen, len(rl.line), rl.termWidth)
-		print(strings.Repeat("\r\n", y))
 	}
 
-	rl.pos = len(rl.line)
+	if i > 0 {
+		_, y := rl.lineWrapCellLen()
+		print(strings.Repeat("\r\n", y))
+		rl.line.SetRunePos(rl.line.RuneLen())
+	} else {
+		rl.line.SetCellPos(rl.termWidth - rl.promptLen - 1)
+	}
 	rl.echo()
-
 	rl.updateHelpers()
 
-	if dedup && old == new {
+	if dedup && oldLine == newLine {
 		rl.walkHistory(i)
 	}
 }
 
 func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 	if rl.AutocompleteHistory != nil {
-		rl.tcPrefix = string(rl.line)
+		rl.tcPrefix = rl.line.String()
 		return rl.AutocompleteHistory(rl.tcPrefix)
 	}
 
@@ -152,8 +159,7 @@ func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 		err  error
 	)
 
-	rl.tcPrefix = string(rl.line)
-	//for i := 0; i < rl.History.Len(); i++ {
+	rl.tcPrefix = rl.line.String()
 	for i := rl.History.Len() - 1; i >= 0; i-- {
 		line, err = rl.History.GetLine(i)
 		if err != nil {
@@ -164,7 +170,7 @@ func (rl *Instance) autocompleteHistory() ([]string, map[string]string) {
 			continue
 		}
 
-		line = strings.Replace(line, "\n", ` `, -1)[len(rl.line):]
+		line = strings.Replace(line, "\n", ` `, -1)[rl.line.RuneLen():]
 
 		if descs[line] != "" {
 			continue

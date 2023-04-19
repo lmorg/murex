@@ -52,11 +52,11 @@ func Start() {
 		go cache.GatherFileCompletions(".")
 	}
 
-	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.Boolean)
+	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.String)
 	if err != nil {
-		v = false
+		v = ""
 	}
-	if v.(bool) {
+	if v.(string) == types.TrueString || v.(string) == "on-start" {
 		go autocomplete.CacheHints()
 	}
 
@@ -126,6 +126,10 @@ func ShowPrompt() {
 		Prompt.DelayedSyntaxWorker = Spellchecker
 		Prompt.HistoryAutoWrite = false
 
+		if tty.Enabled() {
+			Prompt.ScreenRefresh = tty.BufferGet
+		}
+
 		getSyntaxHighlighting()
 		getHintTextEnabled()
 		getHintTextFormatting()
@@ -141,6 +145,10 @@ func ShowPrompt() {
 			writeTitlebar()
 		}
 		Prompt.SetPrompt(string(prompt))
+
+		if tty.MissingCrLf() {
+			tty.WriteCrLf()
+		}
 
 		line, err := Prompt.Readline()
 		if err != nil {
@@ -201,7 +209,7 @@ func ShowPrompt() {
 			continue
 
 		default:
-			tty.BufferRecall(prompt, syntaxHighlight(block))
+			//tty.BufferRecall(prompt, syntaxHighlight(block))
 
 			merged += line
 			mergedExp, err := history.ExpandVariablesInLine([]rune(merged), Prompt)
@@ -237,6 +245,10 @@ func ShowPrompt() {
 			lang.ShellExitNum, err = fork.Execute(expanded)
 			if err != nil {
 				fmt.Fprintln(tty.Stdout, ansi.ExpandConsts(fmt.Sprintf("{RED}%v{RESET}", err)))
+			}
+
+			if tty.MissingCrLf() {
+				tty.WriteCrLf()
 			}
 
 			if PromptId.NotEqual(thisProc) {

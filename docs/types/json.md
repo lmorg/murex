@@ -244,4 +244,4 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):
-  Murex-flavoured JSON (primitive)
+  Murex-flavoured JSON (deprecated)

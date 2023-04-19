@@ -72,12 +72,13 @@ func (tree *ParserT) appendAst(key symbols.Exp, value ...rune) {
 	})
 }
 
-func (tree *ParserT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType) {
+func (tree *ParserT) appendAstWithPrimitive(key symbols.Exp, dt *primitives.DataType, value ...rune) {
 	tree.ast = append(tree.ast, &astNodeT{
 		key:    key,
-		dt:     dt,
-		pos:    tree.charPos,
+		value:  value,
+		pos:    tree.charPos - len(value),
 		offset: tree.charOffset,
+		dt:     dt,
 	})
 }
 
@@ -181,7 +182,7 @@ func node2primitive(node *astNodeT) (*primitives.DataType, error) {
 			Value:     nil,
 		}, nil
 
-	case symbols.Calculated, symbols.SubExpressionBegin:
+	case symbols.Calculated, symbols.Scalar, symbols.SubExpressionBegin:
 		return &primitives.DataType{
 			Primitive: primitives.Null,
 			Value:     nil,

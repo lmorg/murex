@@ -132,7 +132,6 @@ func (m *Module) execute() error {
 	// for any strange reason
 	fork.Stdout = term.NewErr(false)
 	fork.Stderr = term.NewErr(ansi.IsAllowed())
-	//moduleName := "profile/" + m.Package + "/" + m.Name
 	moduleName := m.Package + "/" + m.Name
 	fork.FileRef = &ref.File{Source: &ref.Source{Module: moduleName}}
 	fork.FileRef.Source = ref.History.AddSource(m.Path(), moduleName, b)

@@ -10,9 +10,11 @@ import (
 	"github.com/lmorg/murex/shell/autocomplete"
 	"github.com/lmorg/murex/shell/hintsummary"
 	"github.com/lmorg/murex/shell/history"
+	"github.com/lmorg/murex/shell/preview"
 	"github.com/lmorg/murex/utils/ansi"
 	"github.com/lmorg/murex/utils/ansi/codes"
 	"github.com/lmorg/murex/utils/dedup"
+	"github.com/lmorg/murex/utils/objectkeys"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
 )
@@ -25,13 +27,16 @@ func errCallback(err error) {
 	Prompt.ForceHintTextUpdate(s)
 }
 
-var rxHistTag = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
+var (
+	rxHistTag       = regexp.MustCompile(`^[-_a-zA-Z0-9]+$`)
+	rxValidVariable = regexp.MustCompile(`^[._a-zA-Z0-9]+$`)
+)
 
-func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string, []string, map[string]string, readline.TabDisplayType) {
-	var prefix string
+func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
+	r := new(readline.TabCompleterReturnT)
 
 	if pos < 0 {
-		return "", []string{}, nil, readline.TabDisplayGrid
+		return r
 	}
 
 	if len(line) > pos-1 {
@@ -47,19 +52,44 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		ParsedTokens:      pt,
 	}
 
-	rows, err := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
-	if err != nil {
-		rows = 8
-	}
+	rows, _ := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
 	Prompt.MaxTabCompleterRows = rows.(int)
 
 	switch {
 	case pt.Variable != "":
 		if pt.VarLoc < len(line) {
-			prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
+			r.Prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
-		prefix = pt.Variable + prefix
-		act.Items = autocomplete.MatchVars(prefix)
+		r.Prefix = pt.Variable + r.Prefix
+		if strings.Contains(r.Prefix, ".") {
+			name := strings.Split(r.Prefix, ".")[0][1:]
+			v, err := lang.ShellProcess.Variables.GetValue(name)
+			if err != nil {
+				act.ErrCallback(err)
+			}
+
+			nameLen := len(name) + 1
+			prefixLen := len(r.Prefix) - len(name) - 1
+			writeString := func(s string) error {
+				if len(s) < prefixLen ||
+					s[:prefixLen] != r.Prefix[nameLen:] ||
+					!rxValidVariable.MatchString(s) {
+
+					return nil
+				}
+
+				act.Items = append(act.Items, s[prefixLen:])
+				return nil
+			}
+
+			err = objectkeys.Recursive(dtc.Context, "", v, ".", writeString, -1)
+			if err != nil {
+				act.ErrCallback(err)
+			}
+
+		} else {
+			act.Items = autocomplete.MatchVars(r.Prefix)
+		}
 
 	case pt.Comment && pt.FuncName == "^":
 		for h := Prompt.History.Len() - 1; h > -1; h-- {
@@ -69,7 +99,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 				suggestion := linePt.CommentMsg[len(pt.CommentMsg):]
 				act.Items = append(act.Items, suggestion)
 				act.Definitions[suggestion] = line
-				prefix = pt.CommentMsg
+				r.Prefix = pt.CommentMsg
 			}
 		}
 
@@ -78,17 +108,20 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 	case pt.ExpectFunc:
 		if len(line) == 0 {
-			Prompt.ForceHintTextUpdate("Tip: press [ctrl]+r to recall previously used command lines")
+			Prompt.ForceHintTextUpdate("Tip: press [ctrl]+[r] to recall previously used command lines")
 		}
 		go autocomplete.UpdateGlobalExeList()
 
 		if pt.Loc < len(line) {
-			prefix = strings.TrimSpace(string(line[pt.Loc:]))
+			r.Prefix = strings.TrimSpace(string(line[pt.Loc:]))
 		}
+
+		r.HintCache = cacheHints
+		r.Preview = preview.Command
 
 		switch pt.PipeToken {
 		case parser.PipeTokenPosix:
-			autocomplete.MatchFunction(prefix, &act)
+			autocomplete.MatchFunction(r.Prefix, &act)
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
 			globalExes := autocomplete.GlobalExes.Get()
@@ -97,7 +130,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 				// match everything
 				dump := lang.MethodStdout.Dump()
 
-				if len(prefix) == 0 {
+				if len(r.Prefix) == 0 {
 					for dt := range dump {
 						act.Items = append(act.Items, dump[dt]...)
 						for i := range dump[dt] {
@@ -109,9 +142,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 					for dt := range dump {
 						for i := range dump[dt] {
-							if strings.HasPrefix(dump[dt][i], prefix) {
-								act.Items = append(act.Items, dump[dt][i][len(prefix):])
-								act.Definitions[dump[dt][i][len(prefix):]] = string(hintsummary.Get(dump[dt][i], (*globalExes)[dump[dt][i]]))
+							if strings.HasPrefix(dump[dt][i], r.Prefix) {
+								act.Items = append(act.Items, dump[dt][i][len(r.Prefix):])
+								act.Definitions[dump[dt][i][len(r.Prefix):]] = string(hintsummary.Get(dump[dt][i], (*globalExes)[dump[dt][i]]))
 							}
 						}
 					}
@@ -123,7 +156,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 				outTypes = append(outTypes, types.Any)
 				for i := range outTypes {
 					inTypes := lang.MethodStdin.Get(outTypes[i])
-					if len(prefix) == 0 {
+					if len(r.Prefix) == 0 {
 						act.Items = append(act.Items, inTypes...)
 						for j := range inTypes {
 							act.Definitions[inTypes[j]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
@@ -131,9 +164,9 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 						continue
 					}
 					for j := range inTypes {
-						if strings.HasPrefix(inTypes[j], prefix) {
-							act.Items = append(act.Items, inTypes[j][len(prefix):])
-							act.Definitions[inTypes[j][len(prefix):]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
+						if strings.HasPrefix(inTypes[j], r.Prefix) {
+							act.Items = append(act.Items, inTypes[j][len(r.Prefix):])
+							act.Definitions[inTypes[j][len(r.Prefix):]] = string(hintsummary.Get(inTypes[j], (*globalExes)[inTypes[j]]))
 						}
 					}
 				}
@@ -141,20 +174,21 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 
 			// If `->` returns no results then fall back to returning everything
 			if len(act.Items) == 0 {
-				autocompleteFunctions(&act, prefix)
+				autocompleteFunctions(&act, r.Prefix)
 			}
 
 		default:
-			autocompleteFunctions(&act, prefix)
+			autocompleteFunctions(&act, r.Prefix)
 		}
 
 	default:
 		autocomplete.InitExeFlags(pt.FuncName)
 		if !pt.ExpectParam && len(act.ParsedTokens.Parameters) > 0 {
-			prefix = pt.Parameters[len(pt.Parameters)-1]
+			r.Prefix = pt.Parameters[len(pt.Parameters)-1]
 		}
 
 		autocomplete.MatchFlags(&act)
+		r.Preview = preview.Parameter
 	}
 
 	Prompt.MinTabItemLength = act.MinTabItemLength
@@ -180,7 +214,11 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) (string
 		autocomplete.FormatSuggestions(&act)
 	}
 
-	return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
+	//return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
+	r.Suggestions = act.Items[:i]
+	r.Descriptions = act.Definitions
+	r.DisplayType = act.TabDisplayType
+	return r
 }
 
 func autocompleteFunctions(act *autocomplete.AutoCompleteT, prefix string) {
@@ -236,4 +274,23 @@ func autocompleteHistoryHat(act *autocomplete.AutoCompleteT) {
 
 	act.TabDisplayType = readline.TabDisplayList
 	act.DoNotSort = true
+}
+
+func cacheHints(prefix string, exes []string) []string {
+	v, err := lang.ShellProcess.Config.Get("shell", "pre-cache-hint-summaries", types.String)
+	if err != nil {
+		v = ""
+	}
+	if v.(string) != "on-tab" {
+		return nil
+	}
+
+	hints := make([]string, len(exes))
+	external := autocomplete.GlobalExes.Get()
+	for i := range exes {
+		exe := strings.TrimSpace(prefix + exes[i])
+		hints[i] = string(hintsummary.Get(exe, (*external)[exe]))
+	}
+
+	return hints
 }

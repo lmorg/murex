@@ -10,6 +10,7 @@ import (
 )
 
 func mergeTest(t *testing.T, test *plan) {
+	t.Helper()
 	count.Tests(t, 1)
 
 	pathS, err := alter.SplitPath(test.path)
@@ -40,7 +41,9 @@ func mergeTest(t *testing.T, test *plan) {
 		return
 	}
 
-	v, err := alter.Merge(context.TODO(), old, pathS, test.change)
+	new := alter.StrToInterface(test.change)
+
+	v, err := alter.Merge(context.TODO(), old, pathS, new)
 	if err != nil {
 		t.Error("Error received from alter.Alter()")
 		t.Logf("  original: %s", test.original)

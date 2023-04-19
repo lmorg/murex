@@ -80,12 +80,12 @@ func TestParseObject(t *testing.T) {
 			},
 			{
 				input:    `%{nan:-}`,
-				expected: `{"nan":"-"}`,
+				expected: `{"NaN":"-"}`,
 				pos:      6,
 			},
 			{
 				input:    `%{nan:-one}`,
-				expected: `{"nan":"-one"}`,
+				expected: `{"NaN":"-one"}`,
 				pos:      9,
 			},
 		},
@@ -113,6 +113,46 @@ func TestParseObjectBadGrammar(t *testing.T) {
 			{
 				input: `%{foo:bar`,
 				error: true,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+func TestParseObjectLf(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    "%{\nfoo:bar}",
+				expected: `{"foo":"bar"}`,
+				pos:      9,
+			},
+			{
+				input:    "%{\n foo:bar}",
+				expected: `{"foo":"bar"}`,
+				pos:      10,
+			},
+		},
+	}
+
+	testParserObject(t, tests)
+}
+
+func TestParseObjectBool(t *testing.T) {
+	tests := expTestsT{
+		symbol: symbols.ObjectBegin,
+		tests: []expTestT{
+			{
+				input:    "%{foo:true}",
+				expected: `{"foo":true}`,
+				pos:      9,
+			},
+			{
+				input:    "%{foo:false}",
+				expected: `{"foo":false}`,
+				pos:      10,
 			},
 		},
 	}

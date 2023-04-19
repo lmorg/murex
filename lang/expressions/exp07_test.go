@@ -278,7 +278,7 @@ func TestExpRegexp(t *testing.T) {
 			Expected:   true,
 		},
 		{
-			Expression: `"foobar" =~ "foo$"`,
+			Expression: `"foobar" =~ 'foo$'`,
 			Expected:   false,
 		},
 	}
@@ -320,7 +320,7 @@ func TestExpNotRegexp(t *testing.T) {
 			Expected:   false,
 		},
 		{
-			Expression: `"foobar" !~ "foo$"`,
+			Expression: `"foobar" !~ 'foo$'`,
 			Expected:   true,
 		},
 	}

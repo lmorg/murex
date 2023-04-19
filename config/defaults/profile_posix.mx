@@ -92,9 +92,21 @@ test unit private getHostsFile {
     "StdoutIsArray": true
 }
 
-autocomplete set ssh { [{
-    "Dynamic": ({ getHostsFile })
-}] }
+autocomplete set ssh %[
+    {
+        Dynamic: %({ getHostsFile }),
+        IncManPage: true,
+        AllowAny: true,
+        FlagValues: {
+            "-i": [{ 
+                IncFiles: true
+            }],
+        }
+    },
+    {
+        Goto: "/0"
+    }
+]
 
 autocomplete set ping { [ {
     "Dynamic": ({ getHostsFile })

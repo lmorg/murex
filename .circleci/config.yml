@@ -26,7 +26,7 @@ steps: &steps
     - run:
         name: build all standalone targets
         command: |
-          ./murex ./test/build_all_platforms.mx
+          ./murex ./test/build_all_platforms.mx --no-colour
     - run:
         name: build web assembly
         command: |
@@ -105,6 +105,7 @@ workflows:
     jobs:
       - website
       - latest
-      - go1.17
       - go1.18
+      - go1.19
+      - go1.20
       - codecov

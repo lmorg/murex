@@ -50,6 +50,13 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 		}
 		return v[i], nil
 
+	case []map[string]interface{}:
+		i, err := isValidElementIndex(path[i], len(v))
+		if err != nil {
+			return nil, err
+		}
+		return v[i], nil
+
 	case map[string]string:
 		switch {
 		case v[path[i]] != "":

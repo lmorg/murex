@@ -415,11 +415,6 @@ autocomplete: set autocomplete { [{
     }
 }] }
 
-#private git-branch {
-#    # Returns a list of branches excluding checked-out branch in the current git repository
-#    git -c color.ui=no branch -a -> [ :0 ] -> !match *
-#}
-
 private git-refs {
     # Returns a map of branches and tags excluding checked-out branch in the current git repository
     map {
@@ -437,167 +432,82 @@ private git-refs {
     } 
 }
 
-autocomplete: set git { [{
-    "DynamicDesc": ({
-        git: help -a -> @[..^Ancillary]re -> tabulate: --map
-    }),
-    "ListView": true,
-    "FlagValues": {
-        "init": [{
-            "Flags": ["--bare"]
-        }],
-        "add": [{
-            "AllowMultiple": true,
-            "AllowAny": true,
-            "Dynamic": ({
+autocomplete: set git %[{
+    DynamicDesc: %({ git: help -a -> @[..^Ancillary]re -> tabulate: --map })
+    ListView: true
+    FlagValues: {
+        init: [{
+            Flags: [--bare]
+        }]
+        add: [{
+            AllowMultiple: true
+            AllowAny: true
+            Dynamic: %({
                 git -c color.ui=no status -s -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' -> cast str
             })
+        }]
+        diff: [{
+            AllowMultiple: true
+            Dynamic: %({ git -c color.ui=no status -s -> [:1] })
+        }]
+        mv: [{ 
+            IncFiles: true
         }],
-        "diff": [{
-            "AllowMultiple": true,
-            "Dynamic": ({
-                git -c color.ui=no status -s -> [:1]
-            })
+        rm: [{
+            IncFiles:      true
+            AllowMultiple: true
+        }]
+        checkout: [{
+            DynamicDesc: %({ git-refs })
+            Flags: [ -b ]
+        }]
+        merge: [{
+            DynamicDesc: %({ git-refs })
+        }]
+        commit: [{
+            Flags: [-a -m --amend]
+            FlagValues: {
+                --amend: [{ AnyValue: true }]
+            }
+            AllowMultiple: true
+            AllowAny: true
+        }]
+        push: [{
+            Flags: [--tags]
         }],
-        "mv": [{ 
-            "IncFiles": true
-        }],
-        "rm": [{
-            "IncFiles": true,
-            "AllowMultiple": true
-        }],
-        "checkout": [{
-            "DynamicDesc": ({ git-refs }),
-            "Flags": [ "-b" ]
-        }],
-        "merge": [{
-            "DynamicDesc": ({ git-refs })
-        }],
-        "commit": [{
-            "Flags": ["-a", "-m", "--amend"],
-            "FlagValues": {
-                "--amend": [{ "AnyValue": true }]
-            },
-            "AllowMultiple": true,
-            "AllowAny": true
-        }],
-        "push": [{
-            "Flags": ["--tags"]
+        branch: [{
+            Flags: [-d --delete]
+            FlagValues: {
+                -d:       [{ DynamicDesc: %({ git-refs }) }]
+                --delete: [{ DynamicDesc: %({ git-refs }) }]
+            }
         }],
         "": [{
-            "Dynamic": ({ git --help $1 -> man-get-flags }),
-            "AllowMultiple": true,
-            "AllowAny": true
+            Dynamic: '{ git --help $1 -> man-get-flags }'
+            AllowMultiple: true
+            AllowAny: true
         }]
     }
-}] }
+}]
 
-autocomplete: set docker { [
+autocomplete: set docker %[
     {
-        "DynamicDesc": ({
+        DynamicDesc: %({
             docker help -> @[^Usage:..]re -> tabulate: --split-comma --map
-        }),
+        })
 
-        #"AllowMultiple": true,
-        #"AnyValue": true,
-        "ListView": true,
+        ListView: true
 
         "FlagValues": {
-            "builder": [{
-                "DynamicDesc": ({
-                    docker help builder -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "config": [{
-                "DynamicDesc": ({
-                    docker help config -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "container": [{
-                "DynamicDesc": ({
-                    docker help container -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "context": [{
-                "DynamicDesc": ({
-                    docker help context -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "image": [{
-                "DynamicDesc": ({
-                    docker help image -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "network": [{
-                "DynamicDesc": ({
-                    docker help network -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "node": [{
-                "DynamicDesc": ({
-                    docker help node -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "plugin": [{
-                "DynamicDesc": ({
-                    docker help plugin -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "secret": [{
-                "DynamicDesc": ({
-                    docker help secret -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "service": [{
-                "DynamicDesc": ({
-                    docker help service -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "stack": [{
-                "DynamicDesc": ({
-                    docker help stack -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "swarm": [{
-                "DynamicDesc": ({
-                    docker help swarm -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "system": [{
-                "DynamicDesc": ({
-                    docker help system -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "trust": [{
-                "DynamicDesc": ({
-                    docker help trust -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
-            }],
-
-            "volume": [{
-                "DynamicDesc": ({
-                    docker help volume -> @[^Usage:..]re -> tabulate: --split-comma --map
-                })
+            "": [{
+                "DynamicDesc": '{
+                    docker help $1 -> @[^Usage:..]re -> tabulate: --split-comma --map 
+                }'
             }]
         }
-    },
-    {
-        "IncFiles": true
     }
-] }
+    { IncFiles: true }
+]
 
 private autocomplete.docker-compose.services {
     # Returns a list of services described in docker-compose.yaml

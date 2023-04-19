@@ -125,18 +125,6 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 
 		case '$':
 			switch {
-			case isBareChar(tree.nextChar()):
-				// inline scalar
-				strOrVal := varFormatting(o.stage & 1)
-				scalar, v, _, err := tree.parseVarScalar(exec, strOrVal)
-				if err != nil {
-					return nil, nil, err
-				}
-				if exec {
-					o.keyValueI[o.stage&1] = v
-				} else {
-					o.keyValueI[o.stage&1] = string(scalar)
-				}
 			case tree.nextChar() == '{':
 				// inline subshell
 				strOrVal := varFormatting(o.stage & 1)
@@ -150,7 +138,17 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 					o.keyValueI[o.stage&1] = string(subshell)
 				}
 			default:
-				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
+				// inline scalar
+				strOrVal := varFormatting(o.stage & 1)
+				scalar, v, _, err := tree.parseVarScalar(exec, exec, strOrVal)
+				if err != nil {
+					return nil, nil, err
+				}
+				if exec {
+					o.keyValueI[o.stage&1] = v
+				} else {
+					o.keyValueI[o.stage&1] = string(scalar)
+				}
 			}
 
 		case '~':
@@ -190,10 +188,13 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			o.keyValueI[0] = string(o.keyValueR[0])
 
 		case '\n':
-			if o.stage&1 == 0 && (len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil) {
-				return nil, nil, raiseError(
-					tree.expression, nil, tree.charPos,
-					"unexpected new line, expecting ':' instead")
+			if o.stage&1 == 0 {
+				if len(o.keyValueR[0]) > 0 || o.keyValueI[0] != nil {
+					return nil, nil, raiseError(
+						tree.expression, nil, tree.charPos,
+						"unexpected new line, expecting ':' instead")
+				}
+				continue
 			}
 
 			err := o.WriteKeyValuePair(tree.charPos)
@@ -241,27 +242,22 @@ func (tree *ParserT) parseObject(exec bool) ([]rune, *primitives.DataType, error
 			continue
 
 		default:
-			switch {
-			case r == '-':
-				next := tree.nextChar()
-				if next < '0' || '9' < next {
-					o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
-					continue
-				}
-				fallthrough
-			case r >= '0' && '9' >= r:
-				// number
-				value := tree.parseNumber()
-				tree.charPos--
-				v, err := types.ConvertGoType(value, types.Number)
-				if err != nil {
-					return nil, nil, err
-				}
+			value := tree.parseArrayBareword()
+			v, err := types.ConvertGoType(value, types.Number)
+			if err == nil {
+				// is a number
 				o.keyValueI[o.stage&1] = v
-
-			default:
-				// string
-				o.keyValueR[o.stage&1] = append(o.keyValueR[o.stage&1], r)
+			} else {
+				// is a string
+				s := string(value)
+				switch s {
+				case "true":
+					o.keyValueI[o.stage&1] = true
+				case "false":
+					o.keyValueI[o.stage&1] = false
+				default:
+					o.keyValueI[o.stage&1] = s
+				}
 			}
 		}
 	}
