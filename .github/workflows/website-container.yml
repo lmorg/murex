@@ -1,4 +1,4 @@
-name: website-container
+name: Build Website Container
 
 on:
   push:
