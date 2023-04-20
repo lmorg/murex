@@ -1,5 +1,7 @@
 #!/bin/env murex
 
+config: set proc echo true
+
 $filename = $2
 
 pandoc $filename |> $(filename).tmp
