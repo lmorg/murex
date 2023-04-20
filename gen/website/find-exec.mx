@@ -1,6 +1,6 @@
 #!/bin/env murex
 
-config: set proc echo true
+#config: set proc echo true
 
 $filename = $2
 
@@ -17,7 +17,7 @@ sed -i %(s/\.md/.html/g;
 
 cat gen/website/header.html $(filename).tmp gen/website/footer.html |> $html
 
-open $filename -> regexp %(f,<h1>(.*?)</h1>,) -> set title
+cat $filename -> regexp %(f,<h1.*?>(.*?)</h1>,) -> set title
 
 sed -i "s,<title></title>,<title>$title - Murex Shell</title>," $html
 
