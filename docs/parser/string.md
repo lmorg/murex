@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: String (`$`) Token
+# String (`$`) Token - Parser Reference
 
 > Expand values as a string
 

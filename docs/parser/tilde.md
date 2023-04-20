@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Tilde (`~`) Token
+# Tilde (`~`) Token - Parser Reference
 
 > Home directory path variable
 

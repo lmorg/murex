@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `expr`
+# `expr` - Command Reference
 
 > Expressions: mathematical, string comparisons, logical operators
 

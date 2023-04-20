@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `true`
+# `true` - Command Reference
 
 > Returns a `true` value
 

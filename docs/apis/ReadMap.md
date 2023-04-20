@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `ReadMap()` (type)
+# `ReadMap()` (type) - API Reference
 
 > Treat data type as a key/value structure and read its contents
 

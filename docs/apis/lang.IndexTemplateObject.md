@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `lang.IndexTemplateObject()` (template API)
+# `lang.IndexTemplateObject()` (template API) - API Reference
 
 > Returns element(s) from a data structure
 

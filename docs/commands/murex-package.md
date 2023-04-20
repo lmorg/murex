@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `murex-package`
+# `murex-package` - Command Reference
 
 > _murex_'s package manager
 

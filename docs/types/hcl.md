@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `hcl` 
+# `hcl`  - Data-Type Reference
 
 > HashiCorp Configuration Language (HCL)
 

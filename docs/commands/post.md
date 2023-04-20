@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `post`
+# `post` - Command Reference
 
 > HTTP POST request with a JSON-parsable return
 

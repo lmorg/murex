@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `export`
+# `export` - Command Reference
 
 > Define an environmental variable and set it's value
 

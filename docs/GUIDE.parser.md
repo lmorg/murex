@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference
+# Parser Reference
 
 This section is a glossary of _murex_ tokens and parser behavior.
 

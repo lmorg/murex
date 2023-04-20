@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `escurl`
+# `escurl` - Command Reference
 
 > Encode or decodes text for the URL
 

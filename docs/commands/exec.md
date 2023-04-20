@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `exec`
+# `exec` - Command Reference
 
 > Runs an executable
 

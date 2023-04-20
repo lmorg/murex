@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `base64` 
+# `base64`  - Optional Command Reference
 
 > Encode or decode a base64 string
 

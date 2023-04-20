@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `set`
+# `set` - Command Reference
 
 > Define a local variable and set it's value
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `null`
+# `null` - Command Reference
 
 > null function. Similar to /dev/null
 

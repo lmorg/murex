@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `break`
+# `break` - Command Reference
 
 > terminate execution of a block within your processes scope
 

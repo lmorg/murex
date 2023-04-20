@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `exitnum`
+# `exitnum` - Command Reference
 
 > Output the exit number of the previous process
 

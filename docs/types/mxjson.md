@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: mxjson
+# mxjson - Data-Type Reference
 
 > Murex-flavoured JSON (deprecated)
 

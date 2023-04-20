@@ -1,4 +1,4 @@
-# User Guide: Code Block Parsing
+# Code Block Parsing - User Guide
 
 > Overview of how code blocks are parsed
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Blog
+# Blog
 
 Collection of _murex_ related documents and personal thoughts.
 

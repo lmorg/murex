@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `exit`
+# `exit` - Command Reference
 
 > Exit murex
 

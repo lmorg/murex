@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference
+# API Reference
 
 This section is a glossary of APIs.
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `format`
+# `format` - Command Reference
 
 > Reformat one data-type into another data-type
 

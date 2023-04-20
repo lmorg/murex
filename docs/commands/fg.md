@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `fg`
+# `fg` - Command Reference
 
 > Sends a background process into the foreground
 

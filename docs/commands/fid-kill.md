@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `fid-kill`
+# `fid-kill` - Command Reference
 
 > Terminate a running _murex_ function
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `mtac`
+# `mtac` - Command Reference
 
 > Reverse the order of an array
 

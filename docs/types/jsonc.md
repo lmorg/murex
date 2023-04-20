@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `jsonc` 
+# `jsonc`  - Data-Type Reference
 
 > Concatenated JSON
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `let`
+# `let` - Command Reference
 
 > Evaluate a mathematical function and assign to variable (deprecated)
 

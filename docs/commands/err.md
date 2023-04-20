@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `err`
+# `err` - Command Reference
 
 > Print a line to the STDERR
 

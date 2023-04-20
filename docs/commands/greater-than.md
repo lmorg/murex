@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `>` (truncate file)
+# `>` (truncate file) - Command Reference
 
 > Writes STDIN to disk - overwriting contents if file already exists
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `if`
+# `if` - Command Reference
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 

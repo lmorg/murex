@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `catch`
+# `catch` - Command Reference
 
 > Handles the exception code raised by `try` or `trypipe` 
 

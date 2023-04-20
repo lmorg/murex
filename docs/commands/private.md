@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `private`
+# `private` - Command Reference
 
 > Define a private function block
 

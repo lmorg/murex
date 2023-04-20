@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `cd`
+# `cd` - Command Reference
 
 > Change (working) directory
 

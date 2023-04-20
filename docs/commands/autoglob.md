@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `@g` (autoglob) 
+# `@g` (autoglob)  - Command Reference
 
 > Command prefix to expand globbing (deprecated)
 

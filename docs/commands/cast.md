@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `cast`
+# `cast` - Command Reference
 
 > Alters the data type of the previous function without altering it's output
 

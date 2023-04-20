@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `pipe`
+# `pipe` - Command Reference
 
 > Manage _murex_ named pipes
 

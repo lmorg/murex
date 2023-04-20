@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `man-get-flags` 
+# `man-get-flags`  - Command Reference
 
 > Parses man page files for command line flags 
 

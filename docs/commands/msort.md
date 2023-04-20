@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `msort` 
+# `msort`  - Command Reference
 
 > Sorts an array - data type agnostic
 

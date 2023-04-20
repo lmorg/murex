@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference
+# Data-Type Reference
 
 This section is a glossary of data-types which _murex_ is natively aware.
 

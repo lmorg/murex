@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `regexp`
+# `regexp` - Command Reference
 
 > Regexp tools for arrays / lists of strings
 

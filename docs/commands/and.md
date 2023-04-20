@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `and`
+# `and` - Command Reference
 
 > Returns `true` or `false` depending on whether multiple conditions are met
 

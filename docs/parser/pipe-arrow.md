@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Arrow Pipe (`->`) Token
+# Arrow Pipe (`->`) Token - Parser Reference
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 

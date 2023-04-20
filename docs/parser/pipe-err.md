@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: STDERR Pipe (`?`) Token
+# STDERR Pipe (`?`) Token - Parser Reference
 
 > Pipes STDERR from the left hand command to STDIN of the right hand command
 

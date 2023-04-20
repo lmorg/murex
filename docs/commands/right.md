@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `right`
+# `right` - Command Reference
 
 > Right substring every item in a list
 

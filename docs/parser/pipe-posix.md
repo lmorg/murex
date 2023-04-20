@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: POSIX Pipe (`|`) Token
+# POSIX Pipe (`|`) Token - Parser Reference
 
 > Pipes STDOUT from the left hand command to STDIN of the right hand command
 

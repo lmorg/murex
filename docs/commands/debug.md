@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `debug`
+# `debug` - Command Reference
 
 > Debugging information
 

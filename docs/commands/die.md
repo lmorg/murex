@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `die`
+# `die` - Command Reference
 
 > Terminate murex with an exit number of 1
 

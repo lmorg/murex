@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `Unmarshal()` (type)
+# `Unmarshal()` (type) - API Reference
 
 > Converts a structured file format into structured memory
 

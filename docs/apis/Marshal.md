@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `Marshal()` (type)
+# `Marshal()` (type) - API Reference
 
 > Converts structured memory into a structured file format (eg for stdio)
 

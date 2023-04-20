@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `murex-parser` 
+# `murex-parser`  - Command Reference
 
 > Runs the _murex_ parser against a block of code 
 

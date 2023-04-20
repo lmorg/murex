@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `rx`
+# `rx` - Command Reference
 
 > Regexp pattern matching for file system objects (eg `.*\\.txt`)
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `append`
+# `append` - Command Reference
 
 > Add data to the end of an array
 

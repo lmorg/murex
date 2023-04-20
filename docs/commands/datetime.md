@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `datetime` 
+# `datetime`  - Command Reference
 
 > A date and/or time conversion tool (like `printf` but for date and time values)
 

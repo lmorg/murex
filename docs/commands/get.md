@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `get`
+# `get` - Command Reference
 
 > Makes a standard HTTP request and returns the result as a JSON object
 

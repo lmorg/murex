@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `*` (generic) 
+# `*` (generic)  - Data-Type Reference
 
 > generic (primitive)
 

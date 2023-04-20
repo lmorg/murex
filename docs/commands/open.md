@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `open`
+# `open` - Command Reference
 
 > Open a file with a preferred handler
 

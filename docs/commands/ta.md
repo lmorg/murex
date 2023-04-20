@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `ta` (mkarray)
+# `ta` (mkarray) - Command Reference
 
 > A sophisticated yet simple way to build an array of a user defined data-type
 

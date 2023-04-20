@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `escape`
+# `escape` - Command Reference
 
 > Escape or unescape input 
 

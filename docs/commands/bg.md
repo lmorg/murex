@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `bg`
+# `bg` - Command Reference
 
 > Run processes in the background
 

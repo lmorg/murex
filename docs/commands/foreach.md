@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `foreach`
+# `foreach` - Command Reference
 
 > Iterate through an array
 

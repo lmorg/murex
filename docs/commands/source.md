@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `source` 
+# `source`  - Command Reference
 
 > Import _murex_ code from another file of code block
 

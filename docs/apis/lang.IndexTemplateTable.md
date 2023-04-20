@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `lang.IndexTemplateTable()` (template API)
+# `lang.IndexTemplateTable()` (template API) - API Reference
 
 > Returns element(s) from a table
 

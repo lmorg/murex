@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `WriteArray()` (type)
+# `WriteArray()` (type) - API Reference
 
 > Write a data type, one array element at a time
 

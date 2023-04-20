@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `lang.UnmarshalData()` (system API)
+# `lang.UnmarshalData()` (system API) - API Reference
 
 > Converts a _murex_ data-type into structured memory
 

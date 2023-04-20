@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `cpuarch`
+# `cpuarch` - Command Reference
 
 > Output the hosts CPU architecture
 

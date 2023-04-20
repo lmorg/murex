@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `<>` / `read-named-pipe`
+# `<>` / `read-named-pipe` - Command Reference
 
 > Reads from a _murex_ named pipe
 

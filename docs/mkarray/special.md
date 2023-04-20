@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## mkarray: Special Ranges
+# Special Ranges - mkarray
 
 > Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 

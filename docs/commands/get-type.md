@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `get-type`
+# `get-type` - Command Reference
 
 > Returns the data-type of a variable or pipe
 

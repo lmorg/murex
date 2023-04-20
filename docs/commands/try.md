@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `try`
+# `try` - Command Reference
 
 > Handles errors inside a block of code
 

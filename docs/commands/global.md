@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `global`
+# `global` - Command Reference
 
 > Define a global variable and set it's value
 

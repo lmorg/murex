@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Array (`@`) Token
+# Array (`@`) Token - Parser Reference
 
 > Expand values as an array
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference
+# Optional Command Reference
 
 This section is a glossary of _murex_ optional builtins.
 

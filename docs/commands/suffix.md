@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `suffix`
+# `suffix` - Command Reference
 
 > Prefix a string to every item in a list
 

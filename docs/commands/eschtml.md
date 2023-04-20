@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `eschtml`
+# `eschtml` - Command Reference
 
 > Encode or decodes text for HTML
 

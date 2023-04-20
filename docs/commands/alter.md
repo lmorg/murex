@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `alter`
+# `alter` - Command Reference
 
 > Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 

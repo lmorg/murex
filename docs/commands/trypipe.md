@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `trypipe`
+# `trypipe` - Command Reference
 
 > Checks state of each function in a pipeline and exits block on error
 
