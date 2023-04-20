@@ -53,7 +53,6 @@ jobs:
         with:
           context: .
           file: ./test/buildserver/ci
-          build-args: VERSION=${{ env.GO_VERSION }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           cache-from: type=gha
