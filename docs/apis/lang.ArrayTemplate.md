@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `lang.ArrayTemplate()` (template API)
+# `lang.ArrayTemplate()` (template API) - API Reference
 
 > Unmarshals a data type into a Go struct and returns the results as an array
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `fid-list`
+# `fid-list` - Command Reference
 
 > Lists all running functions within the current _murex_ session
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `event`
+# `event` - Command Reference
 
 > Event driven programming for shell scripts
 

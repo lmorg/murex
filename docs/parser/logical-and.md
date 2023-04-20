@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: And (`&&`) Logical Operator
+# And (`&&`) Logical Operator - Parser Reference
 
 > Continues next operation if previous operation passes
 

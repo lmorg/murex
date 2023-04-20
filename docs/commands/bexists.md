@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `bexists`
+# `bexists` - Command Reference
 
 > Check which builtins exist
 

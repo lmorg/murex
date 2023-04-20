@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `switch`
+# `switch` - Command Reference
 
 > Blocks of cascading conditionals
 

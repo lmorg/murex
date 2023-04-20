@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `ReadIndex()` (type)
+# `ReadIndex()` (type) - API Reference
 
 > Data type handler for the index, `[`, builtin
 

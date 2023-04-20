@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `left`
+# `left` - Command Reference
 
 > Left substring every item in a list
 

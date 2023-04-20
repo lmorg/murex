@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `continue`
+# `continue` - Command Reference
 
 > terminate process of a block within a caller function
 

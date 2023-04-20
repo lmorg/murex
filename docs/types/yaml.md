@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `yaml` 
+# `yaml`  - Data-Type Reference
 
 > YAML Ain't Markup Language (YAML)
 

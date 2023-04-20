@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `runtime`
+# `runtime` - Command Reference
 
 > Returns runtime information on the internal state of _murex_
 

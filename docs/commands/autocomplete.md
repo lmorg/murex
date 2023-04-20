@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `autocomplete`
+# `autocomplete` - Command Reference
 
 > Set definitions for tab-completion in the command line
 

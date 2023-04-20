@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `cpucount`
+# `cpucount` - Command Reference
 
 > Output the number of CPU cores available on your host
 

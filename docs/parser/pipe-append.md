@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Append Pipe (`>>`) Token
+# Append Pipe (`>>`) Token - Parser Reference
 
 > Redirects STDOUT to a file and append its contents
 

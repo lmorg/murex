@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `summary` 
+# `summary`  - Command Reference
 
 > Defines a summary help text for a command
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `float` (floating point number)
+# `float` (floating point number) - Data-Type Reference
 
 > Floating point number (primitive)
 

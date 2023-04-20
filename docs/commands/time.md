@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `time` 
+# `time`  - Command Reference
 
 > Returns the execution run time of a command or block
 

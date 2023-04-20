@@ -1,4 +1,4 @@
-# User Guide: _murex_ Profile Files
+# _murex_ Profile Files - User Guide
 
 > A breakdown of the different files loaded on start up
 

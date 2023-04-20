@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `count`
+# `count` - Command Reference
 
 > Count items in a map, list or array
 

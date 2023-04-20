@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## mkarray: Calendar Date Ranges
+# Calendar Date Ranges - mkarray
 
 > Create arrays of dates
 

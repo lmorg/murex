@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `match`
+# `match` - Command Reference
 
 > Match an exact value in an array
 

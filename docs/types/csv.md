@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `csv` 
+# `csv`  - Data-Type Reference
 
 > CSV files (and other character delimited tables)
 

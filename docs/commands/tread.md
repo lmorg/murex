@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `tread`
+# `tread` - Command Reference
 
 > `read` a line of input from the user and store as a user defined *typed* variable
 

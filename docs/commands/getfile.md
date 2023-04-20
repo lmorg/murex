@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `getfile`
+# `getfile` - Command Reference
 
 > Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `jsonl` 
+# `jsonl`  - Data-Type Reference
 
 > JSON Lines (primitive)
 

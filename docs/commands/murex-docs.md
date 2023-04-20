@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `murex-docs`
+# `murex-docs` - Command Reference
 
 > Displays the man pages for _murex_ builtins
 

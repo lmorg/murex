@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `ja` (mkarray)
+# `ja` (mkarray) - Command Reference
 
 > A sophisticated yet simply way to build a JSON array
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `method`
+# `method` - Command Reference
 
 > Define a methods supported data-types
 

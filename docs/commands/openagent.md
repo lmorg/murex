@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `openagent`
+# `openagent` - Command Reference
 
 > Creates a handler function for `open
 

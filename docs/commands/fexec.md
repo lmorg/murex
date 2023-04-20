@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `fexec` 
+# `fexec`  - Command Reference
 
 > Execute a command or function, bypassing the usual order of precedence.
 

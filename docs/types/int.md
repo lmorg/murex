@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `int` 
+# `int`  - Data-Type Reference
 
 > Whole number (primitive)
 

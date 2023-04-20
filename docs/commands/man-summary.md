@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `man-summary`
+# `man-summary` - Command Reference
 
 > Outputs a man page summary of a command
 

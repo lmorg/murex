@@ -1,4 +1,4 @@
-# User Guide: Pipeline
+# Pipeline - User Guide
 
 > Overview of what a "pipeline" is
 

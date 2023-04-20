@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `rand`
+# `rand` - Command Reference
 
 > Random field generator
 

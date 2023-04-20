@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `open-image` 
+# `open-image`  - Command Reference
 
 > Renders bitmap image data on your terminal
 

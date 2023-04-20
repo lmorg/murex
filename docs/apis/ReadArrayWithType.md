@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `ReadArrayWithType()` (type)
+# `ReadArrayWithType()` (type) - API Reference
 
 > Read from a data type one array element at a time and return the elements contents and data type
 

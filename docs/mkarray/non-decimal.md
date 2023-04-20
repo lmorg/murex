@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## mkarray: Non-Decimal Ranges
+# Non-Decimal Ranges - mkarray
 
 > Create arrays of integers from non-decimal number bases
 

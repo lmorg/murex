@@ -1,4 +1,4 @@
-# User Guide: Bang Prefix
+# Bang Prefix - User Guide
 
 > Bang prefixing to reverse default actions
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `while`
+# `while` - Command Reference
 
 > Loop until condition false
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## mkarray: Decimal Ranges
+# Decimal Ranges - mkarray
 
 > Create arrays of decimal integers
 

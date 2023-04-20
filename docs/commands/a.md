@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `a` (mkarray)
+# `a` (mkarray) - Command Reference
 
 > A sophisticated yet simple way to build an array or list
 

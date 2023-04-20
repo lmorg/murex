@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `f`
+# `f` - Command Reference
 
 > Lists or filters file system objects (eg files)
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `murex-update-exe-list`
+# `murex-update-exe-list` - Command Reference
 
 > Forces _murex_ to rescan $PATH looking for exectables
 

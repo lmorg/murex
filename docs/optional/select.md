@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `select` 
+# `select`  - Optional Command Reference
 
 > Inlining SQL into shell pipelines
 

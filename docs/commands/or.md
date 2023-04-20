@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `or`
+# `or` - Command Reference
 
 > Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 

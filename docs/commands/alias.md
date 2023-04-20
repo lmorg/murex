@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `alias`
+# `alias` - Command Reference
 
 > Create an alias for a command
 

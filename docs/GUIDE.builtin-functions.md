@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference
+# Command Reference
 
 This section is a glossary of _murex_ builtin commands.
 

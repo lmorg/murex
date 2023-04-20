@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `[` (range) 
+# `[` (range)  - Command Reference
 
 > Outputs a ranged subset of data from STDIN
 

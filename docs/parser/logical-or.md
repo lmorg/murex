@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Or (`||`) Logical Operator
+# Or (`||`) Logical Operator - Parser Reference
 
 > Continues next operation only if previous operation fails
 

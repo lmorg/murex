@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Double Quote (`"`) Token
+# Double Quote (`"`) Token - Parser Reference
 
 > Initiates or terminates a string (variables expanded)
 

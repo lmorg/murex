@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `tmp`
+# `tmp` - Command Reference
 
 > Create a temporary file and write to it
 

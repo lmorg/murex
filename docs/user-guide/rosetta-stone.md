@@ -1,4 +1,4 @@
-# User Guide: Rosetta Stone
+# Rosetta Stone - User Guide
 
 > A tabulated list of Bashism's and their equivalent _murex_ syntax
 

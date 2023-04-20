@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `>>` (append file)
+# `>>` (append file) - Command Reference
 
 > Writes STDIN to disk - appending contents if file already exists
 

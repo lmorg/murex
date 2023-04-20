@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `commonlog` 
+# `commonlog`  - Data-Type Reference
 
 > Apache httpd "common" log format
 

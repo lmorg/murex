@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `qr` 
+# `qr`  - Optional Command Reference
 
 > Creates a QR code from STDIN
 

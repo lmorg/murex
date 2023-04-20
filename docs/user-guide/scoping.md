@@ -1,4 +1,4 @@
-# User Guide: Variable and Config Scoping
+# Variable and Config Scoping - User Guide
 
 > How scoping works within _murex_
 

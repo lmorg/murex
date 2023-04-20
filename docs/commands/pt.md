@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `pt`
+# `pt` - Command Reference
 
 > Pipe telemetry. Writes data-types and bytes written
 

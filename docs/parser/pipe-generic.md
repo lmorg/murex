@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Generic Pipe (`=>`) Token
+# Generic Pipe (`=>`) Token - Parser Reference
 
 > Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 

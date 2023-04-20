@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `pretty`
+# `pretty` - Command Reference
 
 > Prettifies JSON to make it human readable
 

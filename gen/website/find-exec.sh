@@ -1,18 +1,20 @@
-#!/bin/sh
+#!/bin/env murex
 
-#export MUREXVERSION="$(cat app/app.go | grep 'const Version' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
-
-pandoc "$1" > "$1.tmp"
+pandoc $1 |> $1.tmp
 
 # html file extension
-html=$(printf "$1" | sed 's/\.md/.html/')
+$1 -> regexp 's/\.md/.html/' -> set html
 
 # replace all hyperlinks to .md with .html
-sed -i 's/\.md/.html/g;
-        s/<li><p>/<li>/;
-        s,</p></li>,</li>,;
-        s/version\.svg/version.svg\?v='"$MUREXVERSION/" "$1.tmp"
+sed -i %(s/\.md/.html/g;
+         s/<li><p>/<li>/;
+         s,</p></li>,</li>,;
+         s/version\.svg/version.svg\?v=$MUREXVERSION/) $1.tmp
 
-cat gen/website/header.html "$1.tmp" gen/website/footer.html > "$html"
+cat gen/website/header.html $1.tmp gen/website/footer.html |> $html
 
-rm "$1.tmp" "$1"
+open $1 -> regexp %(f,<h1>(.*?)</h1>,) -> set title
+
+sed -i "s,<title></title>,<title>$title - Murex Shell</title>," $html
+
+rm $1.tmp $1

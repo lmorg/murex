@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `formap`
+# `formap` - Command Reference
 
 > Iterate through a map or other collection of data
 

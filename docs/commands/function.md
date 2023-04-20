@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `function`
+# `function` - Command Reference
 
 > Define a function block
 

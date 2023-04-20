@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `args` 
+# `args`  - Command Reference
 
 > Command line flag parser for _murex_ shell scripting
 

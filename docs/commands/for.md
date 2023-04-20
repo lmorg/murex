@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `for`
+# `for` - Command Reference
 
 > A more familiar iteration loop to existing developers
 

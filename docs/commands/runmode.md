@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `runmode`
+# `runmode` - Command Reference
 
 > Alter the scheduler's behaviour at higher scoping level
 

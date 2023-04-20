@@ -1,4 +1,4 @@
-# User Guide: _murex_'s Interactive Shell
+# _murex_'s Interactive Shell - User Guide
 
 > What's different about _murex_'s interactive shell?
 

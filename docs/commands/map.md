@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `map` 
+# `map`  - Command Reference
 
 > Creates a map from two data sources
 

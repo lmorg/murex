@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `struct-keys`
+# `struct-keys` - Command Reference
 
 > Outputs all the keys in a structure as a file path
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `(` (brace quote)
+# `(` (brace quote) - Command Reference
 
 > Write a string to the STDOUT without new line
 

@@ -1,6 +1,4 @@
-# _murex_ Blog
-
-## The Split Personalities of Shell Usage
+# The Split Personalities of Shell Usage - Blog
 
 > Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
 

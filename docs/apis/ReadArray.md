@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## API Reference: `ReadArray()` (type)
+# `ReadArray()` (type) - API Reference
 
 > Read from a data type one array element at a time
 

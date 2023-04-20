@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `sleep` 
+# `sleep`  - Optional Command Reference
 
 > Suspends the shell for a number of seconds
 

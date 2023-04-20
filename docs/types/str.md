@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `str` (string) 
+# `str` (string)  - Data-Type Reference
 
 > string (primitive)
 

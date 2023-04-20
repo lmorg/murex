@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `=` (arithmetic evaluation)
+# `=` (arithmetic evaluation) - Command Reference
 
 > Evaluate a mathematical function (deprecated)
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `bool` 
+# `bool`  - Data-Type Reference
 
 > Boolean (primitive)
 

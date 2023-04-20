@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `!` (not)
+# `!` (not) - Command Reference
 
 > Reads the STDIN and exit number from previous process and not's it's condition
 

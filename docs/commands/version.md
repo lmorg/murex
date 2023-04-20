@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `version` 
+# `version`  - Command Reference
 
 > Get _murex_ version
 

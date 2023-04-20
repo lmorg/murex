@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## User Guide
+# User Guide
 
 This section contains miscellaneous documents on using and configuring the
 shell and _murex_'s numerous features.

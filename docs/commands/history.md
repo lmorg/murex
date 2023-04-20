@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `history`
+# `history` - Command Reference
 
 > Outputs murex's command history
 

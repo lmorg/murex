@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `2darray` 
+# `2darray`  - Command Reference
 
 > Create a 2D JSON array from multiple input sources
 

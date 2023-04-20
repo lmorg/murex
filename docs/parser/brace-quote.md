@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Brace Quote (`%(`, `)`) Tokens
+# Brace Quote (`%(`, `)`) Tokens - Parser Reference
 
 > Initiates or terminates a string (variables expanded)
 

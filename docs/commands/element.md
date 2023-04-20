@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `[[` (element)
+# `[[` (element) - Command Reference
 
 > Outputs an element from a nested structure
 

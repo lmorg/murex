@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Change Log
+# Change Log
 
 Track new features, any breaking changes, and the release history here.
 

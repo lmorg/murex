@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `[` (index)
+# `[` (index) - Command Reference
 
 > Outputs an element from an array, map or table
 

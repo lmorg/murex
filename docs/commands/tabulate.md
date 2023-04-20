@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `tabulate`
+# `tabulate` - Command Reference
 
 > Table transformation tools
 

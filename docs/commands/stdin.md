@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `<stdin>` 
+# `<stdin>`  - Command Reference
 
 > Read the STDIN belonging to the parent code block
 

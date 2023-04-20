@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `config`
+# `config` - Command Reference
 
 > Query or define _murex_ runtime settings
 

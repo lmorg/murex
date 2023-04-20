@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `prepend` 
+# `prepend`  - Command Reference
 
 > Add data to the start of an array
 

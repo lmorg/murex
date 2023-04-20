@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `json` 
+# `json`  - Data-Type Reference
 
 > JavaScript Object Notation (JSON) (primitive)
 
