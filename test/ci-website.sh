@@ -47,7 +47,7 @@ sed -i "s/\$DATE/`date`/;
 
 cp gen/website/404.md .
 for f in *.md; do
-        gen/website/find-exec.sh $f
+        gen/website/find-exec.mx $f
 done
 find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
 
