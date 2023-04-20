@@ -7,18 +7,18 @@ $filename = $2
 pandoc $filename |> $(filename).tmp
 
 # html file extension
-$filename -> regexp 's/\.md/.html/' -> set html
+$filename -> regexp 's,\.md,.html,' -> set html
 
 # replace all hyperlinks to .md with .html
-sed -i %(s/\.md/.html/g;
-         s/<li><p>/<li>/;
-         s,</p></li>,</li>,;
-         s/version\.svg/version.svg\?v=$(MUREXVERSION)/) $(filename).tmp
+sed -i %(s,\.md,.html,g;
+         s,<li><p>,<li>,g;
+         s,</p></li>,</li>,g;
+         s,version\.svg,version.svg\?v=$(MUREXVERSION),g;) $(filename).tmp
 
 cat gen/website/header.html $(filename).tmp gen/website/footer.html |> $html
 
-cat $filename -> regexp %(f,<h1.*?>(.*?)</h1>,) -> set title
+cat $(filename).tmp -> regexp %(f,<h1.*?>(.*?)</h1>,) -> set title
 
-sed -i "s,<title></title>,<title>$title - Murex Shell</title>," $html
+sed -i "s#<title></title>#<title>$title - Murex Shell</title>#" $html
 
 rm $(filename).tmp $filename
