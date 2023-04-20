@@ -3,12 +3,14 @@ name: Build Website Container
 on:
   push:
     branches: [ master ]
+    paths:
+      - "test/**"
+      - ".github/workflows/**"
 
   workflow_dispatch:
 
 
 env:
-  GO_VERSION: '1.20.3'
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: ci
