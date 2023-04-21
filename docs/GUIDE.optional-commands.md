@@ -15,7 +15,7 @@ not ready to ship with Murex.
 1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
    on the core builtins.
 
-2. [Language Tour](GUIDE.quick-start.md), which is an introduction into
+2. [Language Tour](tour.md), which is an introduction into
    the Murex language.
 
 3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference

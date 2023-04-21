@@ -13,7 +13,7 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
+1. [Language Tour](tour.md), which is an introduction into
    the Murex language.
 
 2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
