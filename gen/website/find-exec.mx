@@ -4,6 +4,8 @@
 
 $filename = $2
 
+out "processing $(filename)..."
+
 pandoc $filename |> $(filename).tmp
 
 # html file extension
