@@ -6,7 +6,7 @@
 
 Outputs an element or multiple elements from an array, map or table.
 
-Please note that indexes in _murex_ are counted from zero.
+Please note that indexes in Murex are counted from zero.
 
 ## Usage
 
@@ -83,7 +83,7 @@ Return the 1st and 5th column:
 
 ### Index counts from zero
 
-Indexes in _murex_ behave like any other computer array in that all arrays
+Indexes in Murex behave like any other computer array in that all arrays
 start from zero (`0`).
 
 ### Include vs exclude
@@ -119,7 +119,7 @@ you can disable this behavior in `config`
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):

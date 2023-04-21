@@ -132,7 +132,7 @@ The `%` prefix for the nested object is optional.
 
 ## Detail
 
-_murex_ supports a number of different formats that can be used to generate
+Murex supports a number of different formats that can be used to generate
 arrays. For more details on these please refer to the documents for each format
 
 * [Calendar Date Ranges](../mkarray/date.md):

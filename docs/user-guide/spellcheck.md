@@ -2,7 +2,7 @@
 
 > How to enable inline spellchecking
 
-_murex_ supports inline spellchecking, where errors are underlined. For example
+Murex supports inline spellchecking, where errors are underlined. For example
 
 [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
 
@@ -24,7 +24,7 @@ Please consult your OS docs for how to install software.
 For help debugging issues with `aspell`, please see the last section in this
 document.
 
-## _murex_ Config
+## Murex Config
 
 ### ANSI Escape Sequences
 
@@ -42,13 +42,13 @@ To enable this run:
 
     config: set shell spellcheck-enabled true
     
-...or add the above line to your _murex_ profile, `~/.murex_profile` to make
+...or add the above line to your Murex profile, `~/.murex_profile` to make
 the change persistent.
 
 > Please note that this option will automatically be enabled is `aspell` is
 > installed.
 
-### Spellcheck _murex_ Code
+### Spellcheck Murex Code
 
 This shouldn't need tweaking if you're running `aspell` but other spellcheckers
 will require updated code. The default will look something like this:
@@ -76,7 +76,7 @@ the following
     
 The output of the function must me an array containing the misspelt words only.
 That array can be JSON just as long as you have set STDOUT's data type to
-`json`. Similarly, other supported _murex_ data types can be used too. However
+`json`. Similarly, other supported Murex data types can be used too. However
 in general you might just want to go with a misspelling per line as it's pretty
 POSIX friendly and thus most spellcheckers are likely to support it. eg
 
@@ -87,7 +87,7 @@ POSIX friendly and thus most spellcheckers are likely to support it. eg
     
 ## User Dictionary
 
-_murex_ has it's own user dictionary, which is held as a JSON array:
+Murex has it's own user dictionary, which is held as a JSON array:
 
     » config: get shell spellcheck-user-dictionary
     ["murex"]
@@ -100,7 +100,7 @@ or
 
     » config: eval shell spellcheck-user-dictionary { -> alter: --merge / (["word1", "word2", "word3"]) }
     
-> Don't forget to record these in your _murex_ profile, `~/.murex_profile` to
+> Don't forget to record these in your Murex profile, `~/.murex_profile` to
 > make the changes persistent.
 
 ### Ignored By Default
@@ -109,7 +109,7 @@ Sometimes commands are not valid words in ones native language. Thus any words
 that fall into the following categories are ignored by default:
 
 * words that are also the names of commands found in `$PATH`
-* words that are the names of _murex_ functions (defined via `function`)
+* words that are the names of Murex functions (defined via `function`)
 * words that are builtins (eg `config` and `jsplit`)
 * any global aliases
 * also any words that are also the names of global variables
@@ -139,16 +139,16 @@ and what the package names are for `aspell` and its corresponding dictionaries.
   Overview of how code blocks are parsed
 * [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
   Initiates or terminates a code block
-* [_murex_ Profile Files](../user-guide/profile.md):
+* [Murex Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about _murex_'s interactive shell?
+* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
 * [`alter`](../commands/alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
 * [`append`](../commands/append.md):
   Add data to the end of an array
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`json` ](../types/json.md):
   JavaScript Object Notation (JSON) (primitive)
 * [`jsplit` ](../commands/jsplit.md):

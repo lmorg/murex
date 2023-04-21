@@ -8,9 +8,9 @@ I wasn't satisfied with the state of existing Go packages for readline (at that
 time they were either bugger and/or poorly maintained, or lacked features I
 desired). The state of things for readline in Go may have changed since then
 however own package had also matured and grown to include many more features
-that has arisen during the development of _murex_. So it seemed only fair to
+that has arisen during the development of Murex. So it seemed only fair to
 give back to the community considering it was other peoples readline libraries
-that allowed me rapidly prototype _murex_ during it's early stages of
+that allowed me rapidly prototype Murex during it's early stages of
 development.
 
 ## `readline` In Action

@@ -39,7 +39,7 @@ automatically expanded.
 The `Content-Type` HTTP header is compared against a list of MIME types, which
 are stored in `config` under the app and key names of **shell**, **mime-types**.
 
-There is a little bit of additional logic to determine the _murex_ data-type to
+There is a little bit of additional logic to determine the Murex data-type to
 use should the MIME type not appear in `config`, as seen in the following code:
 
 ```go
@@ -191,7 +191,7 @@ func MimeToMurex(mimeType string) string {
 * [`*` (generic) ](../types/generic.md):
   generic (primitive)
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`fexec` ](../commands/fexec.md):
@@ -201,7 +201,7 @@ func MimeToMurex(mimeType string) string {
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
-  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`openagent`](../commands/openagent.md):
   Creates a handler function for `open
 * [`out`](../commands/out.md):

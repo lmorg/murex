@@ -4,7 +4,7 @@
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 
 It's called by builtins to allow them to read data structures one key/value
 pair at a time.
@@ -90,7 +90,7 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 ## Detail
 
 There isn't (yet) a template read function for types to call. However that
-might follow in a future release of _murex_.
+might follow in a future release of Murex.
 
 ## Parameters
 

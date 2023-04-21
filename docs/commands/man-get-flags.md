@@ -20,4 +20,4 @@ the command as a parameter.
 ## See Also
 
 * [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for _murex_ builtins
+  Displays the man pages for Murex builtins

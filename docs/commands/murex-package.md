@@ -1,10 +1,10 @@
 # `murex-package` - Command Reference
 
-> _murex_'s package manager
+> Murex's package manager
 
 ## Description
 
-_murex_ comes with it's own package manager to make managing plugins easier.
+Murex comes with it's own package manager to make managing plugins easier.
 
 The format of the packages is a directory, typically located at `~/.murex_modules`,
 which contains one or more murex scripts. Each script can be it's own module.
@@ -74,7 +74,7 @@ Check status of murex packages
 ### `murex-package: list`... `enabled` vs `loaded`
 
 `enabled` and `disabled` reads the package status from disk rather than the
-package cache in your current _murex_ session (like `runtime` reports). This
+package cache in your current Murex session (like `runtime` reports). This
 because the typical use for `murex-package list enabled|disabled` is to view
 which packages and modules will be loaded with any new murex session.
 
@@ -85,18 +85,18 @@ If you wish to view what modules are loaded in a current session then use
 ## See Also
 
 * [Modules and Packages](../user-guide/modules.md):
-  An introduction to _murex_ modules and packages
-* [_murex_ Profile Files](../user-guide/profile.md):
+  An introduction to Murex modules and packages
+* [Murex Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`function`](../commands/function.md):
   Define a function block
 * [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for _murex_ builtins
+  Displays the man pages for Murex builtins
 * [`private`](../commands/private.md):
   Define a private function block
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

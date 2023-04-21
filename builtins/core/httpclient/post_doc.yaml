@@ -51,7 +51,7 @@
 
     ### Configurable options
 
-    `post` has a number of behavioral options which can be configured via _murex_'s
+    `post` has a number of behavioral options which can be configured via Murex's
     standard `config` tool:
 
     ```

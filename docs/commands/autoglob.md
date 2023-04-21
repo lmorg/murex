@@ -6,7 +6,7 @@
 
 **This feature is now deprecated and only applies to murex version 2:**
 
-By default _murex_ does not expand globbing (`*` and `?` wildcards) instead
+By default Murex does not expand globbing (`*` and `?` wildcards) instead
 encouraging the use of `g` (and similar) inside a subshell. While the aim of
 this is to promote correctness, it can be a little annoying while working in
 the interactive shell. For this reason you can prefix any command with `@g` to
@@ -22,7 +22,7 @@ enable Bash-like globbing.
 
 ## Detail
 
-As of _murex_ `2.9` and above it is possible to enable automatic globbing in
+As of Murex `2.9` and above it is possible to enable automatic globbing in
 the interactive shell without having to prefix the command with `@g` by
 enabling the following `config` option:
 
@@ -33,10 +33,10 @@ It is enabled by default on from version 3.x onwards (and renamed to
 
 ## See Also
 
-* [_murex_ Profile Files](../user-guide/profile.md):
+* [Murex Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`f`](../commands/f.md):
   Lists or filters file system objects (eg files)
 * [`g`](../commands/g.md):

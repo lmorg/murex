@@ -26,6 +26,6 @@ cat $(filename).tmp \
     -> regexp 's,&,\&,' \ # fix bug where &gt; / &lt; formatting breaks in sed
     -> set title
 
-sed -i "s#<title></title>#<title>$title - Murex Shell</title>#" $html
+sed -i "s#\{\{WEBSITE_PAGE_TITLE\}\}#$title - Murex Shell#" $html
 
 rm $(filename).tmp $filename

@@ -39,7 +39,7 @@
     The `Content-Type` HTTP header is compared against a list of MIME types, which
     are stored in `config` under the app and key names of **shell**, **mime-types**.
 
-    There is a little bit of additional logic to determine the _murex_ data-type to
+    There is a little bit of additional logic to determine the Murex data-type to
     use should the MIME type not appear in `config`, as seen in the following code:
 
     ```go

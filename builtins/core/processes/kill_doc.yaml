@@ -3,9 +3,9 @@
     `fid-kill`
   CategoryID: commands
   Summary: >-
-    Terminate a running _murex_ function
+    Terminate a running Murex function
   Description: |-
-    `fid-kill` will terminate a running _murex_ function in a similar way
+    `fid-kill` will terminate a running Murex function in a similar way
     that the POSIX `kill` (superficially speaking).
   Usage: |-
     ```
@@ -34,9 +34,9 @@
     `fid-killall`
   CategoryID: commands
   Summary: >-
-    Terminate _all_ running _murex_ functions
+    Terminate _all_ running Murex functions
   Description: |-
-    `fid-killall` will terminate _all_ running _murex_ functions.
+    `fid-killall` will terminate _all_ running Murex functions.
   Usage: |-
     ```
     fid-killall

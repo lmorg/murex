@@ -56,7 +56,7 @@ around strings, commas to separate parameters and semi-colons to terminate the
 line. Even the C shell, `csh` then later `tcsh`, doesn't follow C's syntax that
 strictly -- instead understanding that brevity is required for interactive use.
 
-When I first started writing my own shell, _murex_, I originally started out
+When I first started writing my own shell, Murex, I originally started out
 with syntax that was inspired by the C. A pipeline would look something like
 the following:
 
@@ -168,7 +168,7 @@ across.
 
 ![Murex](/images/blog/split_personalities/murex.png)
 
-The approach _murex_ takes sits somewhere in between the previous two shells.
+The approach Murex takes sits somewhere in between the previous two shells.
 It attempts to retain familiarity with POSIX syntax but isn't afraid to break
 compatibility where it makes sense. The emphasis is on creating grammar that
 is both succinct but also readable. This mission was driven from originally
@@ -207,7 +207,7 @@ write-once read-many demands of scripting might be difficult to consolidate
 but I do think it is achievable and I'm not convinced the current heavy weights
 do a good job at addressing those conflicting concerns. Whereas alternative
 shells like [Oil](https://www.oilshell.org/), [Elfish](https://elv.sh/) and
-[_murex_](https://github.com/lmorg/murex) seem to be putting a lot more thought
+[Murex](https://github.com/lmorg/murex) seem to be putting a lot more thought
 into this problem and it is really exciting seeing the different ideas that are
 being produced.
 
@@ -218,8 +218,8 @@ Published: 02.10.2021 at 22:42
 ## See Also
 
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
-  A tabulated list of Bashism's and their equivalent _murex_ syntax
-* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about _murex_'s interactive shell?
+  A tabulated list of Bashism's and their equivalent Murex syntax
+* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition

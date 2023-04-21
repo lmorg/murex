@@ -3,9 +3,9 @@
     `runtime`
   CategoryID: commands
   Summary: >-
-    Returns runtime information on the internal state of _murex_
+    Returns runtime information on the internal state of Murex
   Description: |-
-    `runtime` is a tool for querying the internal state of _murex_. It's output
+    `runtime` is a tool for querying the internal state of Murex. It's output
     will be JSON dumps.
   Usage: |-
     ```
@@ -143,17 +143,17 @@
     ```
   Flags:
     --variables: >-
-      Lists all local _murex_ variables which doesn't include environmental nor
+      Lists all local Murex variables which doesn't include environmental nor
       global variables
     --globals: >-
       Lists all global variables
     --exports: >-
-      Outputs environmental variables. For _murex_ variables (`global` and
+      Outputs environmental variables. For Murex variables (`global` and
       `set`/`let`) use `--variables`
     --aliases: >-
       Lists all aliases
     --builtins: >-
-      Lists all builtin commands, compiled into _murex_
+      Lists all builtin commands, compiled into Murex
     --methods: >-
       Lists all commands with a defined STDOUT and STDIN data type. This is used to
       generate smarter autocompletion suggestions with `->`
@@ -162,12 +162,12 @@
     --named-pipes: >-
       Lists all named pipes defined
     --pipes: >-
-      Lists builtin pipes compiled into _murex_. These can be then be defined as
+      Lists builtin pipes compiled into Murex. These can be then be defined as
       named-pipes
     --functions: >-
-      Lists all _murex_ global functions
+      Lists all Murex global functions
     --privates: >-
-      Lists all _murex_ private functions
+      Lists all Murex private functions
     --open-agents: >-
       Lists all registered `open` handlers 
     --fids: >-
@@ -216,9 +216,9 @@
     ### Usage in scripts
 
     `runtime` should not be used in scripts because the output of `runtime` may
-    be subject to change as and when the internal mechanics of _murex_ change.
+    be subject to change as and when the internal mechanics of Murex change.
     The purpose behind `runtime` is not to provide an API but rather to provide
-    a verbose "dump" of the internal running state of _murex_.
+    a verbose "dump" of the internal running state of Murex.
 
     If you require a stable API to script against then please use the respective
     command line tool. For example `fid-list` instead of `runtime --fids`. Some
@@ -276,7 +276,7 @@
 
     Some of the JSON dumps produced from `runtime` will include a map called
     `FileRef`. This is a trace of the source file that defined it. It is used
-    by _murex_ to help provide meaningful errors (eg with line and character
+    by Murex to help provide meaningful errors (eg with line and character
     positions) however it is also useful for manually debugging user-defined
     properties such as which module or script defined an `autocomplete` schema.
     

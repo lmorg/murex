@@ -59,7 +59,7 @@ List a count of all the processes running against each user ID:
 ### Default Table Name
 
 The table created is called `main`, however you do not need to include a `FROM`
-condition in your SQL as _murex_ will inject `FROM main` into your SQL if it is
+condition in your SQL as Murex will inject `FROM main` into your SQL if it is
 missing. In fact, it is recommended that you exclude `FROM` from your SQL
 queries for the sake of brevity.
 
@@ -132,7 +132,7 @@ If you do run into any issues then please raise them on [Github](https://github.
 * [`*` (generic) ](../types/generic.md):
   generic (primitive)
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`jsonl` ](../types/jsonl.md):

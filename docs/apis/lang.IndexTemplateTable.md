@@ -9,7 +9,7 @@ This is a template API you can use for your custom data types.
 It should only be called from `ReadIndex()` and `ReadNotIndex()` functions.
 
 This function ensures consistency with the index, `[`, builtin when used with
-different _murex_ data types. Thus making indexing a data type agnostic
+different Murex data types. Thus making indexing a data type agnostic
 capability.
 
 

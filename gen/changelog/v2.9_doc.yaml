@@ -26,7 +26,7 @@
 
     * Additional flags added to range, `@[`
 
-    * New builtin, `man-get-flags`. This exposes _murex_'s internal man page parser to the command line scripts
+    * New builtin, `man-get-flags`. This exposes Murex's internal man page parser to the command line scripts
 
     * Binaries now produced for ARM64 Windows
 
@@ -40,9 +40,9 @@
 
     * New autocomplete for yarn, `yarn`
 
-    * _murex_ unit tests should report progressively rather than everything upon completion
+    * Murex unit tests should report progressively rather than everything upon completion
 
-    * Minimum recommended version of Go has been raised to 1.15. This is due to some bugs in dependencies when running tests against v1.13 and v1.14. _murex_ will technically compile and work on them but it not worth my time debugging why the CircleCI tests fail for those versions given their age
+    * Minimum recommended version of Go has been raised to 1.15. This is due to some bugs in dependencies when running tests against v1.13 and v1.14. Murex will technically compile and work on them but it not worth my time debugging why the CircleCI tests fail for those versions given their age
 
     * Vendor directory removed. This isn't really needed now support is focused on newer versions of Go
 

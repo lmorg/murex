@@ -2,7 +2,7 @@
 
 > Infixed constants that return ANSI escape sequences
 
-ANSI Constants is a _murex_ convention of passing ANSI escape sequences into
+ANSI Constants is a Murex convention of passing ANSI escape sequences into
 strings. It uses the `{}` notation with the constant name placed in between two
 curly braces. eg `{GREEN}`. 
 
@@ -202,12 +202,12 @@ These sequences are enabled by default. To disable run the following:
 
     » config: set shell color false
     
-You will need to add this to your _murex_ profile, `~/.murex_profile` to make
+You will need to add this to your Murex profile, `~/.murex_profile` to make
 it persistent.
 
 ## See Also
 
-* [_murex_ Profile Files](../user-guide/profile.md):
+* [Murex Profile Files](../user-guide/profile.md):
   A breakdown of the different files loaded on start up
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line

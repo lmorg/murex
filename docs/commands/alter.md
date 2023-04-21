@@ -63,7 +63,7 @@ Numbers will also follow the same transparent conversion treatment:
 > instead took the STDOUT from `config`, altered a value and then passed that
 > new complete structure through it's STDOUT.
 >
-> If you require modifying a structure inside _murex_ config (such as http
+> If you require modifying a structure inside Murex config (such as http
 > headers) then you can use `config alter`. Read the config docs for reference.
 
 ### -m / --merge
@@ -141,10 +141,10 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

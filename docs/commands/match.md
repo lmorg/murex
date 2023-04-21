@@ -49,7 +49,7 @@ Match everything except **Wed**
 ## Detail
 
 `match` is data-type aware so will work against lists or arrays of whichever
-_murex_ data-type is passed to it via STDIN and return the output in the
+Murex data-type is passed to it via STDIN and return the output in the
 same data-type.
 
 ## Synonyms

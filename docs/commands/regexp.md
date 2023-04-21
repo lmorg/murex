@@ -5,7 +5,7 @@
 ## Description
 
 `regexp` provides a few tools for text matching and manipulation against an
-array or list of strings - thus `regexp` is _murex_ data-type aware.
+array or list of strings - thus `regexp` is Murex data-type aware.
 
 ## Usage
 
@@ -72,7 +72,7 @@ Elements excluding
 ## Detail
 
 `regexp` is data-type aware so will work against lists or arrays of whichever
-_murex_ data-type is passed to it via STDIN and return the output in the
+Murex data-type is passed to it via STDIN and return the output in the
 same data-type.
 
 ## Synonyms

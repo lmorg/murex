@@ -99,7 +99,7 @@
   Description: |-
     This token behaves much like the `|` pipe would except it injects `format
     generic` into the pipeline. The purpose of a formatted pipe is to support
-    piping out to external commands which don't support _murex_ data types. For
+    piping out to external commands which don't support Murex data types. For
     example they might expect arrays as lists rather than JSON objects).
   Examples: |-
     ```
@@ -203,7 +203,7 @@
 
     This behaves similarly to the [Bash (et al) token](https://www.gnu.org/software/bash/manual/bash.html#Appending-Redirected-Output)
     except it doesn't support adding alternative file descriptor numbers. Instead
-    you will need to use named pipes to achieve the same effect in _murex_.
+    you will need to use named pipes to achieve the same effect in Murex.
   Examples: |-
     ```
     » out: "Hello" >> example.txt

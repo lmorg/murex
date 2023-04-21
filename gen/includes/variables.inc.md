@@ -134,7 +134,7 @@ including those running in other threads.
 #### Environmental variables
 
 Exported variables (defined via `export`) are system environmental variables.
-Inside _murex_ environmental variables behave much like `global` variables
+Inside Murex environmental variables behave much like `global` variables
 however their real purpose is passing data to external processes. For example
 `env` is an external process on Linux (eg `/usr/bin/env` on ArchLinux):
 
@@ -150,7 +150,7 @@ As a security feature function names cannot include variables. This is done to
 reduce the risk of code executing by mistake due to executables being hidden
 behind variable names.
 
-Instead _murex_ will assume you want the output of the variable printed:
+Instead Murex will assume you want the output of the variable printed:
 
 ```
 » out "Hello, world!" -> set hw
@@ -173,7 +173,7 @@ is considered bad form because it reduces the readability of your shell scripts.
 
 ### Usage Inside Quotation Marks
 
-Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
+Like with Bash, Perl and PHP: Murex will expand the variable when it is used
 inside a double quotes but will escape the variable name when used inside single
 quotes:
 

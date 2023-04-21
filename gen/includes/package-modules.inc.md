@@ -1,4 +1,4 @@
-_murex_ comes with it's own package manager to make managing plugins easier.
+Murex comes with it's own package manager to make managing plugins easier.
 
 The format of the packages is a directory, typically located at `~/.murex_modules`,
 which contains one or more murex scripts. Each script can be it's own module.

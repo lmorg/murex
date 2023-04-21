@@ -5,13 +5,13 @@
   Summary: >-
     Converts structured memory into a structured file format (eg for stdio)
   Description: |-
-    This is a function you would write when programming a _murex_ data-type.
+    This is a function you would write when programming a Murex data-type.
     The marshal function takes in a Go (golang) `type` or `struct` and returns
     a byte slice of a "string" representation of that format (eg in JSON) or an
     error.
 
-    This marshaller is then registered to _murex_ inside an `init()` function
-    and _murex_ builtins can use that marshaller via the `MarshalData()` API.
+    This marshaller is then registered to Murex inside an `init()` function
+    and Murex builtins can use that marshaller via the `MarshalData()` API.
   Usage: |-
     Registering `Marshal()` (for writing builtin data-types)
     
@@ -47,7 +47,7 @@
     `lang.MarshalData()` (system API)
   CategoryID: apis
   Summary: >-
-    Converts structured memory into a _murex_ data-type (eg for stdio)
+    Converts structured memory into a Murex data-type (eg for stdio)
   Description:
   Usage: |-
     ```go
@@ -80,7 +80,7 @@
     ```
   Parameters:
   - "`*lang.Process`: Process's runtime state. Typically expressed as the variable `p` "
-  - "`string`: _murex_ data type" 
+  - "`string`: Murex data type" 
   - "`interface{}`: data you wish to marshal"
   Related:
   - Marshal

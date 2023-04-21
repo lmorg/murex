@@ -50,7 +50,7 @@ Fetches a page from a URL via HTTP/S GET request
     
     ### Configurable options
     
-    `get` has a number of behavioral options which can be configured via _murex_'s
+    `get` has a number of behavioral options which can be configured via Murex's
     standard `config` tool:
     
     config: -> [ http ]
@@ -70,8 +70,8 @@ get: google.com
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`getfile`](../commands/getfile.md):
-  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return

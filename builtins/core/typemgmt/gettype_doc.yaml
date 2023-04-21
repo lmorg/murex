@@ -5,7 +5,7 @@
   Summary: >-
     Returns the data-type of a variable or pipe
   Description: |-
-    `get-type` returns the _murex_ data-type of a variable or pipe without
+    `get-type` returns the Murex data-type of a variable or pipe without
     reading the data from it.
   Usage: |-
     ```
@@ -36,7 +36,7 @@
     json
     ```
 
-    Get the data-type of a _murex_ named pipe
+    Get the data-type of a Murex named pipe
 
     ```
     » pipe: example

@@ -22,7 +22,7 @@
 
     * Hint summaries are now cached, to improve performance on slower machines
 
-    * Opt in support to pre-cache hint summaries. This will also auto-disable appending colon to command suggestions in autocomplete. This is not enabled by default because it could negatively affect performance on some slower machines and is more of an aesthetic improvement. You can enable it by adding `config: set shell pre-cache-hint-summaries true` to your _murex_ profile
+    * Opt in support to pre-cache hint summaries. This will also auto-disable appending colon to command suggestions in autocomplete. This is not enabled by default because it could negatively affect performance on some slower machines and is more of an aesthetic improvement. You can enable it by adding `config: set shell pre-cache-hint-summaries true` to your Murex profile
 
     * New autocompletions for `yay` (ArchLinux)
     

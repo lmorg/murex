@@ -4,7 +4,7 @@
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 
 It's called by the index, `[`, builtin.
 

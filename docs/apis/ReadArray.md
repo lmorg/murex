@@ -4,7 +4,7 @@
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 
 It's called by builtins to allow them to read data structures one array element
 at a time.
@@ -57,7 +57,7 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 
 If your data type is not a stream-able array, it is then recommended that
 you pass your array to  `lang.ArrayTemplate()` which is a handler to convert Go
-structures into _murex_ arrays. This also makes writing `ReadArray()` handlers
+structures into Murex arrays. This also makes writing `ReadArray()` handlers
 easier since you can just pass `lang.ArrayTemplate()` your marshaller.
 For example:
 

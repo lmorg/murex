@@ -4,7 +4,7 @@
 
 ## Description
 
-JSON is a primitive data-type within _murex_.
+JSON is a primitive data-type within Murex.
 
 ## Examples
 
@@ -183,7 +183,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * `ReadArray()`
     Works with JSON arrays. Maps are converted into arrays
 * `ReadArrayWithType()`
-    Works with JSON arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the JSON type of the element
+    Works with JSON arrays. Maps are converted into arrays. Elements data-type in Murex mirrors the JSON type of the element
 * `ReadIndex()`
     Works against all properties in JSON
 * `ReadMap()`
@@ -236,7 +236,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):

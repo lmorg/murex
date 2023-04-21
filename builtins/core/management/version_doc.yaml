@@ -3,9 +3,9 @@
     `version` 
   CategoryID: commands
   Summary: >-
-    Get _murex_ version
+    Get Murex version
   Description: |-
-    Returns _murex_ version number
+    Returns Murex version number
   Usage: |-
     ```
     version [ flags ] -> <stdout>

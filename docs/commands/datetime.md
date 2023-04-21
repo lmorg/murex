@@ -50,14 +50,14 @@ Convert value passed as a command line argument:
 
 #### `{py}`: Python strftime / strptime format codes
 
-_murex_ doesn't support all the language and locale features of Python, instead
+Murex doesn't support all the language and locale features of Python, instead
 defaulting to English. However enough support is there to cover most use cases.
 
 Documentation regarding these format codes can be found on [docs.python.org](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
 
 #### `{go}`: Go (lang) time.Time format codes
 
-_murex_ has full support for Go's date/time parsing.
+Murex has full support for Go's date/time parsing.
 
 Documentation regarding these format codes can be found on [pkg.go.dev](https://pkg.go.dev/time#pkg-constants).
 

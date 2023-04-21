@@ -1,6 +1,6 @@
 # Blog
 
-Collection of _murex_ related documents and personal thoughts.
+Collection of Murex related documents and personal thoughts.
 
 ## Articles
 

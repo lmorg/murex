@@ -4,7 +4,7 @@
 
 ## Description
 
-Unlike bash, _murex_ also supports some special ranges:
+Unlike bash, Murex also supports some special ranges:
 
 ```  
 » a: [mon..sun]

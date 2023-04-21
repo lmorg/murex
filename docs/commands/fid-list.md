@@ -1,12 +1,12 @@
 # `fid-list` - Command Reference
 
-> Lists all running functions within the current _murex_ session
+> Lists all running functions within the current Murex session
 
 ## Description
 
 `fid-list` is a tool for outputting all the functions currently managed by that
-_murex_ session. Those functions could be _murex_ functions, builtins or any
-external executables launched from _murex_.
+Murex session. Those functions could be Murex functions, builtins or any
+external executables launched from Murex.
 
 Conceptually `fid-list` is a little like `ps` (on POSIX systems) however
 `fid-list` was not written to be POSIX compliant.
@@ -39,15 +39,15 @@ Multiple flags cannot be used with each other.
 
 ## Detail
 
-Because _murex_ is a multi-threaded shell, builtins are not forked processes
+Because Murex is a multi-threaded shell, builtins are not forked processes
 like in a traditional / POSIX shell. This means that you cannot use the
-operating systems default process viewer (eg `ps`) to list _murex_ functions.
+operating systems default process viewer (eg `ps`) to list Murex functions.
 This is where `fid-list` comes into play. It is used to view all the functions
-and processes that are managed by the current _murex_ session. That would
+and processes that are managed by the current Murex session. That would
 include:
 
-* any aliases within _murex_
-* public and private _murex_ functions
+* any aliases within Murex
+* public and private Murex functions
 * builtins (eg `fid-list` is a builtin command)
 * any external processes that were launched from within this shell session
 * any background functions or processes of any of the above
@@ -67,7 +67,7 @@ include:
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`exec`](../commands/exec.md):
@@ -77,12 +77,12 @@ include:
 * [`fg`](../commands/fg.md):
   Sends a background process into the foreground
 * [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running _murex_ function
+  Terminate a running Murex function
 * [`fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running _murex_ functions
+  Terminate _all_ running Murex functions
 * [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
-  Forces _murex_ to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for exectables

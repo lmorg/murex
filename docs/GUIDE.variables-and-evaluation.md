@@ -1,8 +1,8 @@
 # Language Guide: Variables And Evaluation
 
-## OS env var vs _murex_ variables
+## OS env var vs Murex variables
 
-OS environmental variables and _murex_ local variables are both recalled
+OS environmental variables and Murex local variables are both recalled
 the same way:
 
     # output
@@ -14,8 +14,8 @@ the same way:
     # evaluated
     = varname==`value`
 
-If a _murex_ variable shares the same name as an OS env var, then the
-_murex_ variable will take precedence. eg
+If a Murex variable shares the same name as an OS env var, then the
+Murex variable will take precedence. eg
 
     # define OS env var
     out murex-var -> set example
@@ -28,10 +28,10 @@ _murex_ variable will take precedence. eg
     # returns "example=os-env-var"
 
 It is recommended that you use UPPERCASE to define OS env vars and
-lowercase to define _murex_ variables. However you can use this feature
+lowercase to define Murex variables. However you can use this feature
 to override the env vars at a local level if needed.
 
-Please note that because the _murex_ variables are only local, they will
+Please note that because the Murex variables are only local, they will
 not affect the `PATH` lookup, `LD_LIBRARY_PATH` et al, nor be forwarded
 to any external processes (eg invoked via `exec`).
 
