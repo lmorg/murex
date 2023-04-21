@@ -1,12 +1,12 @@
 # Rosetta Stone - User Guide
 
-> A tabulated list of Bashism's and their equivalent _murex_ syntax
+> A tabulated list of Bashism's and their equivalent Murex syntax
 
 Below is a reference table of common Bash code and how it could be written in
-_murex_.
+Murex.
 
 It is also recommended that you read the language [tour](../GUIDE.quick-start.md)
-if you want to learn more about shell scripting in _murex_.
+if you want to learn more about shell scripting in Murex.
 
 | Description   | Bash          | Murex  |
 |---------------|---------------|--------|
@@ -53,7 +53,7 @@ if you want to learn more about shell scripting in _murex_.
 | [Assign a local variable](../commands/set.md) | `local foo="bar"` | `$foo = "bar"` [[2]](#footnotes) [[6]](#footnotes)<br/><br/>`out "bar" \| set foo` |
 | [Assign a global variable](../commands/global.md) | `foo="bar"` | `$GLOBAL.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| global foo` |
 | [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[1]](#footnotes) [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`$ENV.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| export foo` [[3]](#footnotes) |
-| [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in _murex_)|
+| [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex)|
 | <br/> | | |
 | **Arrays**<br/>(eg arrays, lists) | | |
 | Creating an array | `array_name=(value1 value2 value3)` | `%[value1 value2 value3]` <br/><br/>`%[value1, value2, value3]` <br/><br/> eg `array_name = %[1, 2, 3]`, <br/> eg `%[hello world] \| foreach { ... }`|
@@ -80,7 +80,7 @@ if you want to learn more about shell scripting in _murex_.
 2. Unlike Bash, whitespace (or the absence of) is optional.
 3. Environmental variables can only be stored as a string. This is a limitation of current operating systems.
 4. Path separator can be any 1 byte wide character, eg `/`. The path separator is defined by the first character in a path.
-5. _murex_ uses `${}` for subshells and `$()` for variables, the reverse of what Bash and others use. The reason for this difference is because `{}` always denotes a code block and `()` denotes strings. So `${foobar}` makes more sense as a subshell executing the command `foobar`, while `$(foobar)` makes more sense as the variable `$foobar`.
+5. Murex uses `${}` for subshells and `$()` for variables, the reverse of what Bash and others use. The reason for this difference is because `{}` always denotes a code block and `()` denotes strings. So `${foobar}` makes more sense as a subshell executing the command `foobar`, while `$(foobar)` makes more sense as the variable `$foobar`.
 6. When assigning a variable where the right hand side is an expression, eg `$foo = "bar"`, the dollar prefix is optional. The `set`, `global` and `export` keywords are considered deprecated.
 
 ## See Also
@@ -92,7 +92,7 @@ if you want to learn more about shell scripting in _murex_.
 * [Array (`@`) Token](../parser/array.md):
   Expand values as an array
 * [Murex Named Pipes](../user-guide/namedpipes.md):
-  A detailed breakdown of named pipes in _murex_
+  A detailed breakdown of named pipes in Murex
 * [Or (`||`) Logical Operator](../parser/logical-or.md):
   Continues next operation only if previous operation fails
 * [String (`$`) Token](../parser/string.md):

@@ -1,4 +1,4 @@
-# _murex_ Shell Docs
+# Murex Shell Docs
 
 ## Command Reference: `len` 
 

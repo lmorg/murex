@@ -59,7 +59,7 @@ the process name (eg: `o\ut: "hello world"`).
 ## Piping
 
 To pass streams into processes you use pipes like you would in your standard
-shell. However _murex_ pipes are typically written as arrows, `->`, because
+shell. However Murex pipes are typically written as arrows, `->`, because
 that helps illustrate the direction of the stream and thus improves readability.
 However for compatibility reasons the standard pipe character is also supported
 
@@ -69,14 +69,14 @@ However for compatibility reasons the standard pipe character is also supported
     # POSIX (Bourne, Bash, Zsh, etc) shells and also supported in murex:
     out "hello world" | grep "world"
 
-So while the idiomatic way to write _murex_ code would be using arrow pipes,
+So while the idiomatic way to write Murex code would be using arrow pipes,
 there isn't any danger in using the traditional pipe character since those two
 tokens are interchangeable.
 
 ### Redirection
 
 Another important difference in piping is the way redirection is handled. In
-_murex_ you define redirection as the first parameter(s). For example:
+Murex you define redirection as the first parameter(s). For example:
 
     err: <!out> "error message redirected to stdout"
     out: <err> "output redirected to stderr"
@@ -106,7 +106,7 @@ sit on the same code pipeline.
     a: <foobar> [1..1000]
     !pipe: foobar
 
-(**PLEASE NOTE** that _murex_ named pipes are not file system FIFO objects)
+(**PLEASE NOTE** that Murex named pipes are not file system FIFO objects)
 
 ### `null` pipe
 
@@ -185,7 +185,7 @@ variables (eg `$variableName`)
 
 Some builtins support an optional bang (!) prefix. These are similar to the
 bang operator in some languages where bang will perform a boolean `not`.
-However in _murex_, builtins prefixed with a bang will perform the opposite functional task rather than logical operation.
+However in Murex, builtins prefixed with a bang will perform the opposite functional task rather than logical operation.
 
 For example `out: hello world -> !match: world` would return no results as the
 `!match` builtin will look for strings that **don't**  match "world" (rather
@@ -215,7 +215,7 @@ the delimitation is already clear:
 
     if { = 1==2 } then { out: "The laws of the universe are broken" }
 
-Commands without a parameter don't need a colon and some of _murex_'s primitive
+Commands without a parameter don't need a colon and some of Murex's primitive
 builtins (`[`, `[[`, `(`, `=`) also look cleaner without a colon.
 
 However these are only recommendations for writing readable code rather than
@@ -230,7 +230,7 @@ anything that requires any level of maintainability), sometimes when in the
 interactive command line you might wish to minify your code when typing a
 one-liner for the sake of convenience.
 
-The syntax of _murex_ is designed to be flexible enough to write readable and
+The syntax of Murex is designed to be flexible enough to write readable and
 maintainable multi-line scripts but also to be terse enough to write "golfed"
 one-liners.
 
@@ -239,7 +239,7 @@ For example, one of the earlier code examples could be written like this:
     out:foo\nbar|match:bar|if{(bar found)}
 
 It is suggested that you don't write reusable code in this style and even the
-autocompletion tools built into _murex_'s interactive command line will guide
+autocompletion tools built into Murex's interactive command line will guide
 you towards writing readable code (albeit the autocompletion tools are built
 around intuitive and non-intrusive suggestions so are easy to ignore / override
 should you wish to)

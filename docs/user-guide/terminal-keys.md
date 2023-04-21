@@ -58,7 +58,7 @@ Clears the current line.
 
 ## `ctrl`+`\`: kill all running processes
 
-This will kill all processes owned by the current _murex_ session. Including
+This will kill all processes owned by the current Murex session. Including
 any background processes too.
 
 This function is a effectively an emergency kill switch to bring you back to
@@ -116,5 +116,5 @@ will be whichever command is stored in the `$EDITOR` environmental variable.
 
 ## See Also
 
-* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about _murex_'s interactive shell?
+* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?

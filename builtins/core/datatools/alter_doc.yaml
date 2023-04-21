@@ -71,7 +71,7 @@
     > instead took the STDOUT from `config`, altered a value and then passed that
     > new complete structure through it's STDOUT.
     >
-    > If you require modifying a structure inside _murex_ config (such as http
+    > If you require modifying a structure inside Murex config (such as http
     > headers) then you can use `config alter`. Read the config docs for reference.
   
     ### -m / --merge

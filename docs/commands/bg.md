@@ -49,10 +49,10 @@ cross platform while `bg int` currently does not work on Windows nor Plan 9.
 * [`fg`](../commands/fg.md):
   Sends a background process into the foreground
 * [`fid-kill`](../commands/fid-kill.md):
-  Terminate a running _murex_ function
+  Terminate a running Murex function
 * [`fid-killall`](../commands/fid-killall.md):
-  Terminate _all_ running _murex_ functions
+  Terminate _all_ running Murex functions
 * [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session

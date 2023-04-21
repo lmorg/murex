@@ -3,9 +3,9 @@
     Reserved Variables
   CategoryID: user-guide
   Summary: >-
-    Special variables reserved by _murex_
+    Special variables reserved by Murex
   Description: |-
-    _murex_ reserves a few special variables which cannot be assigned via `set` nor
+    Murex reserves a few special variables which cannot be assigned via `set` nor
     `let`.
 
     The following is a list of reserved variables, their data type, and its usage:
@@ -14,8 +14,8 @@
 
     This returns meta information about the running scope.
 
-    A 'scope' in _murex_ is a collection of code blocks to which variables and
-    config are persistent within. In _murex_, a variable declared inside an `if` or
+    A 'scope' in Murex is a collection of code blocks to which variables and
+    config are persistent within. In Murex, a variable declared inside an `if` or
     `foreach` block will be persistent outside of their blocks as long as you're
     still inside the same function.
 
@@ -118,7 +118,7 @@
 
     ### `HOSTNAME` (str)
 
-    This returns the hostname of the machine _murex_ is running from.
+    This returns the hostname of the machine Murex is running from.
 
     ### `0` (str)
 

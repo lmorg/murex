@@ -32,7 +32,7 @@ own function.
     » murex -c %(out: %(Hello "${murex -c %(out: %(Bob))}"))
     Hello "Bob"
     
-In this example we are calling _murex_ to execute code as a command line
+In this example we are calling Murex to execute code as a command line
 parameter (the `-c` flag). That code outputs `Hello "..."` but inside the
 double quotes is a name that is generated from a sub-shell. That sub-shell
 itself runs another murex instance which also executes another command line
@@ -58,7 +58,7 @@ Quotes can also work over multiple lines
     
 ### Legacy Support
 
-Version 3.x of _murex_ introduced support for the `%` token, before that brace
+Version 3.x of Murex introduced support for the `%` token, before that brace
 quotes worked without it. However to retain backwards compatibility, the older
 syntax is still supported...albeit officially classed as "deprecated" and may
 be removed from a future release.

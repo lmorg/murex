@@ -3,15 +3,15 @@
     `<>` / `read-named-pipe`
   CategoryID: commands
   Summary: >-
-    Reads from a _murex_ named pipe
+    Reads from a Murex named pipe
   Description: |-
-    Sometimes you will need to start a command line with a _murex_ named pipe, eg
+    Sometimes you will need to start a command line with a Murex named pipe, eg
 
     ```
     » <namedpipe> -> match: foobar
     ```
 
-    > See the documentation on `pipe` for more details about _murex_ named pipes.
+    > See the documentation on `pipe` for more details about Murex named pipes.
   Usage: |-
     Read from pipe
 

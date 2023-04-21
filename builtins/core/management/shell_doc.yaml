@@ -60,7 +60,7 @@
     `murex-parser` 
   CategoryID: commands
   Summary: >-
-    Runs the _murex_ parser against a block of code 
+    Runs the Murex parser against a block of code 
   Description: |-
     `summary` define help text for a command. This is effectively like a tooltip
     message that appears, by default, in blue in the interactive shell.
@@ -94,7 +94,7 @@
     `args` 
   CategoryID: commands
   Summary: >-
-    Command line flag parser for _murex_ shell scripting
+    Command line flag parser for Murex shell scripting
   Description: |-
     One of the nuisances of shell scripts is handling flags. More often than not
     your script will be littered with `$1` still variables and not handle flags

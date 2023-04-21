@@ -1,10 +1,10 @@
 # `version`  - Command Reference
 
-> Get _murex_ version
+> Get Murex version
 
 ## Description
 
-Returns _murex_ version number
+Returns Murex version number
 
 ## Usage
 
@@ -37,18 +37,18 @@ Ran with the `--short` parameter
 ## See Also
 
 * [`args` ](../commands/args.md):
-  Command line flag parser for _murex_ shell scripting
+  Command line flag parser for Murex shell scripting
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`function`](../commands/function.md):
   Define a function block
 * [`murex-parser` ](../commands/murex-parser.md):
-  Runs the _murex_ parser against a block of code 
+  Runs the Murex parser against a block of code 
 * [`private`](../commands/private.md):
   Define a private function block
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block

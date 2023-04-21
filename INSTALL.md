@@ -95,7 +95,7 @@ platform) and Windows. In the case of Windows you may run into issues with the
 
 #### Importing the source code
 
-At present, _murex_ depends on being in a specific directory hierarchy for
+At present, Murex depends on being in a specific directory hierarchy for
 the tests to work and packages to import correctly. These instructions will
 talk you through creating that initial structure ready to import the source
 into. Experienced users in Go may opt to ignore some of these steps and run
@@ -114,7 +114,7 @@ directory structure.
 
 At this point you can add and remove any optional builtins by following the
 instructions on this located further down this document. This is entirely
-optional as _murex_ attempts to ship with sane defaults.
+optional as Murex attempts to ship with sane defaults.
 
 #### Test the code (optional stage)
 
@@ -143,7 +143,7 @@ A tool will be introduced in a later version to automate this.
 
 ## External Dependencies (Optional)
 
-Some of _murex_'s extended features will have additional external dependencies.
+Some of Murex's extended features will have additional external dependencies.
 
 * `aspell`: This is used for spellchecking. Murex will automatically enable or
   disable spellchecking based on whether `aspell` can be found in your `$PATH`.
@@ -155,5 +155,5 @@ This is obviously just a subjective matter and everyone will have their own
 personal preference. However if I was asked what my preference was then that
 would be [Hasklig](https://github.com/i-tu/Hasklig). It's a clean typeface
 based off Source Code Pro but with a few added ligatures - albeit subtle ones
-designed to make Haskell more readable. Those ligatures also suite _murex_
+designed to make Haskell more readable. Those ligatures also suite Murex
 pretty well. So the overall experience is a clean and readable terminal.

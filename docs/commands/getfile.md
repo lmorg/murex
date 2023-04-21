@@ -1,6 +1,6 @@
 # `getfile` - Command Reference
 
-> Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+> Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 
 ## Description
 
@@ -28,7 +28,7 @@ terminal rendering.
 ### Configurable options
 
 `getfile` has a number of behavioral options which can be configured via
-_murex_'s standard `config` tool:
+Murex's standard `config` tool:
 
     config: -> [ http ]
     
@@ -43,7 +43,7 @@ This enables sane, repeatable and readable defaults. Read the documents on
 ## See Also
 
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`open`](../commands/open.md):

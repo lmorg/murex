@@ -6,7 +6,7 @@
 
 This token behaves much like the `|` pipe would except it injects `format
 generic` into the pipeline. The purpose of a formatted pipe is to support
-piping out to external commands which don't support _murex_ data types. For
+piping out to external commands which don't support Murex data types. For
 example they might expect arrays as lists rather than JSON objects).
 
 ## Examples
@@ -49,7 +49,7 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 * [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`ja` (mkarray)](../commands/ja.md):

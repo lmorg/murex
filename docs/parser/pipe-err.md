@@ -37,7 +37,7 @@ like any ordinary printable character:
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

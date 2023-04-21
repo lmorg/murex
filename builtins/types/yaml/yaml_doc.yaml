@@ -5,16 +5,16 @@
   Summary: >-
     YAML Ain't Markup Language (YAML)
   Description: |-
-    YAML support within _murex_ is pretty mature however it is not considered a
+    YAML support within Murex is pretty mature however it is not considered a
     primitive. Which means, while it is a recommended builtin which you should
-    expect in most deployments of _murex_, it's still an optional package and
+    expect in most deployments of Murex, it's still an optional package and
     thus may not be present in some edge cases. This is because it relies on
     external source packages for the shell to compile.
   Usage:
   Examples:
   Hooks:
     ReadArray(): Works with YAML arrays. Maps are converted into arrays
-    ReadArrayWithType(): Works with YAML arrays. Maps are converted into arrays. Element type returned in _murex_ should match element type in YAML
+    ReadArrayWithType(): Works with YAML arrays. Maps are converted into arrays. Element type returned in Murex should match element type in YAML
     ReadMap(): Works with YAML maps
     WriteArray(): Works with YAML arrays
     ReadIndex(): Works against all properties in YAML

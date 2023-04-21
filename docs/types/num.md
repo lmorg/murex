@@ -36,6 +36,6 @@ numbers.
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`str` (string) ](../types/str.md):
   string (primitive)

@@ -1,6 +1,6 @@
 # `args`  - Command Reference
 
-> Command line flag parser for _murex_ shell scripting
+> Command line flag parser for Murex shell scripting
 
 ## Description
 
@@ -77,4 +77,4 @@ exit number if there is an error when parsing.
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex

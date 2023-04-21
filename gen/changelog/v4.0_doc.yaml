@@ -56,7 +56,7 @@
 
     * better string parsing for barewords inside arrays and objects
 
-    * ahead of time hint caching now done on demand per hint page rather than against every executable upon _murex_ start up
+    * ahead of time hint caching now done on demand per hint page rather than against every executable upon Murex start up
 
     * new lines should be ignored in `%{}`
 

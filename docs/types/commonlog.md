@@ -4,7 +4,7 @@
 
 ## Description
 
-Apache httpd supports a few different log formats. This _murex_ type is for
+Apache httpd supports a few different log formats. This Murex type is for
 parsing the "common" log format.
 
 ## Detail

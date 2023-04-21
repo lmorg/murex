@@ -1,6 +1,6 @@
 # Supported Operating Systems
 
-The following is a list of platforms _murex_ has been tested on and the
+The following is a list of platforms Murex has been tested on and the
 level of support it had:
 
 ## Linux
@@ -16,7 +16,7 @@ hotkeys.
 
 ## Windows
 
-Windows is supported and part of the automated build tests so _murex_ will
+Windows is supported and part of the automated build tests so Murex will
 compile for that platform however there have been very little in the way of
 functional tests on recent versions.
 
@@ -29,9 +29,9 @@ internals are built. These cannot be easily worked around:
 
 * Windows sends parameters as a single string rather than an array of string.
   This is to retain backwards compatibility with DOS but it breaks the way how
-  quotation marks and escaping works. _murex_ will compile an array of
+  quotation marks and escaping works. Murex will compile an array of
   parameters based on the quotation strings (there are 3 different types of
-  quotations in _murex_), infixed variables, subshells, etc. These would not be
+  quotations in Murex), infixed variables, subshells, etc. These would not be
   honoured by any Windows commands because every Windows application then has
   to handle how the one long string of parameters is chopped up into different
   arguments; how quotation marks are handles, spaces, escaping, etc. This means
@@ -42,14 +42,14 @@ internals are built. These cannot be easily worked around:
   have an equivalent of the SIGSTSP (etc) POSIX signal. 
 
 * There is also the caveat that without a broad range of command line utilities
-  (eg GNU coreutils) the usefulness of _murex_ is seriously diminished. There
-  is some work underway to replicate some of the basics of coreutils as _murex_
+  (eg GNU coreutils) the usefulness of Murex is seriously diminished. There
+  is some work underway to replicate some of the basics of coreutils as Murex
   builtins but that level of work is massive, thankless, and targeting a niche
   audience; and so obviously a very low priority.
   
-Taking these points into account, the recommendation is to run _murex_ inside a
+Taking these points into account, the recommendation is to run Murex inside a
 POSIX compatability layer such as WSL (Windows Subsystem for Linux) on Windows
-10 and 11, or Cygwin. However if native Windows is your preference then _murex_
+10 and 11, or Cygwin. However if native Windows is your preference then Murex
 *should* function.
 
 ## FreeBSD
@@ -61,19 +61,19 @@ Github if you do encounter problems.
 
 ## OpenBSD
 
-Tested on an earlier version of _murex_.
+Tested on an earlier version of Murex.
 
 OpenBSD support is expected to be good but, as always, please log an issue via
 Github if you do encounter problems.
 
 ## NetBSD
 
-NetBSD is part of the automated build tests so _murex_ will compile on NetBSD.
+NetBSD is part of the automated build tests so Murex will compile on NetBSD.
 However no functional testing has been conducted on that particular platform.
 
 ## DragonflyBSD
 
-DragonflyBSD is part of the automated build tests so _murex_ will compile on
+DragonflyBSD is part of the automated build tests so Murex will compile on
 DragonflyBSD. However no functional testing has been conducted on that
 particular platform.
 
@@ -89,8 +89,8 @@ support all of the required signals. All other functions are expected to work.
 
 ## Other CPU architectures
 
-_murex_ is developed on AMD64 and that is also the architecture which runs all
-of the unit tests; however there is nothing CPU specific in _murex_'s source
+Murex is developed on AMD64 and that is also the architecture which runs all
+of the unit tests; however there is nothing CPU specific in Murex's source
 and the CI pipeline does compile binaries for 386, AMD64, ARMv7 (32bit) and
 ARMv8 (64bit) so the shell should be compatible for those architectures.
 

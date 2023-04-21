@@ -5,7 +5,7 @@
 ## Description
 
 This is a template API you can use for your custom data types to wrap around an
-existing Go marshaller and return a _murex_ array which is consistent with
+existing Go marshaller and return a Murex array which is consistent with
 other structures such as nested JSON or YAML documents.
 
 It should only be called from `ReadArray()` functions.

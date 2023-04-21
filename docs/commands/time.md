@@ -36,4 +36,4 @@ and STDERR as usual.
 * [`sleep` ](../optional/sleep.md):
   Suspends the shell for a number of seconds
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block

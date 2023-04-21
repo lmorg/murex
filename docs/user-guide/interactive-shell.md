@@ -1,6 +1,6 @@
-# _murex_'s Interactive Shell - User Guide
+# Murex's Interactive Shell - User Guide
 
-> What's different about _murex_'s interactive shell?
+> What's different about Murex's interactive shell?
 
 <h2>Table of Contents</h2>
 
@@ -22,13 +22,13 @@
 
 ## Overview
 
-Aside from _murex_ being carefully designed with scripting in mind, the
+Aside from Murex being carefully designed with scripting in mind, the
 interactive shell itself is also built around productivity. To achieve this
 we wrote our own readline library. Below is an example of that library in use:
 
 [![asciicast](https://asciinema.org/a/232714.svg)](https://asciinema.org/a/232714)
 
-The above demo includes the following features of _murex_'s bespoke readline
+The above demo includes the following features of Murex's bespoke readline
 library:
 
 * hint text - blue status text below the prompt (the colour is configurable)
@@ -48,9 +48,9 @@ library:
 
 ## readline
 
-_murex_ uses a custom `readline` library to enable support for new features on
+Murex uses a custom `readline` library to enable support for new features on
 in addition to the existing uses you'd normally expect from a shell. It is
-because of this _murex_ provides one of the best user experiences of any of the
+because of this Murex provides one of the best user experiences of any of the
 shells available today.
 
 ### Hotkeys
@@ -67,11 +67,11 @@ on what is defined in `autocomplete` and whether you use the traditional
 The `|` token will behave much like any other shell however `->` will offer
 suggestions with matching data types (as seen in `runtime --methods`). This is
 a way of helping highlight commands that naturally follow after another in a
-pipeline. Which is particularly important in _murex_ as it introduces data
+pipeline. Which is particularly important in Murex as it introduces data
 types and dozens of new builtins specifically for working with data structures
 in an intelligent and readable yet succinct way.
 
-You can add your own commands and functions to _murex_ as methods by defining
+You can add your own commands and functions to Murex as methods by defining
 them with `method`. For example if we were to add `jq` as a method:
 
     method: define jq {
@@ -81,7 +81,7 @@ them with `method`. For example if we were to add `jq` as a method:
     
 ### Syntax Completion
 
-Like with most IDEs, _murex_ will auto close brackets et al.
+Like with most IDEs, Murex will auto close brackets et al.
 
 [![asciicast](https://asciinema.org/a/408029.svg)](https://asciinema.org/a/408029)
 
@@ -96,7 +96,7 @@ Syntax highlighting can be disabled by running:
     
 ### Spellchecker
 
-_murex_ supports inline spellchecking, where errors are underlined. For example
+Murex supports inline spellchecking, where errors are underlined. For example
 
 [![asciicast](https://asciinema.org/a/408024.svg)](https://asciinema.org/a/408024)
 
@@ -128,9 +128,9 @@ not be coloured even if **hint-text-formatting** includes colour codes:
 
 ### Custom Hint Text Statuses
 
-There is a lot of behavior hardcoded into _murex_ like displaying the full path
+There is a lot of behavior hardcoded into Murex like displaying the full path
 to executables and the values of variables. However if there is no status to be
-displayed then _murex_ can fallback to a default **hint text** status. This
+displayed then Murex can fallback to a default **hint text** status. This
 default is a user defined function. At time of writing this document the author
 has the following function defined:
 
@@ -172,8 +172,8 @@ prompt:
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`method`](../commands/method.md):
   Define a methods supported data-types
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

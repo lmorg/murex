@@ -26,8 +26,8 @@
     Hello, world!
     ```
   Detail: |-
-    The temporary file name is a base64 encoded md5 hash of the time plus _murex_
-    function ID with _murex_ process ID appended:
+    The temporary file name is a base64 encoded md5 hash of the time plus Murex
+    function ID with Murex process ID appended:
 
     ```go
     {{ include "builtins/core/io/tmp.go" }}
@@ -36,7 +36,7 @@
     This should should provide enough distance to run `tmp` in parallel....should
     you ever want to.
     
-    `tmp` files are also located inside a unique per-process _murex_ temp directory
+    `tmp` files are also located inside a unique per-process Murex temp directory
     which itself is located in the appropriate temp directory for the host OS (eg
     `$TMPDIR` on macOS).
   Synonyms:

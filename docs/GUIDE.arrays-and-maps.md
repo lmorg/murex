@@ -3,9 +3,9 @@
 ## Working with structured data
 
 Firstly this shell doesn't have support for arrays as a native data type
-however since _murex_ is aware of the structure of various data formats
+however since Murex is aware of the structure of various data formats
 it is possible to use these formats to maintain complex structured data
-natively within _murex_. For example a `days.json` file might look like
+natively within Murex. For example a `days.json` file might look like
 
     [
             "monday",
@@ -17,7 +17,7 @@ natively within _murex_. For example a `days.json` file might look like
             "sunday"
     ]
 
-...which can be queried directly within _murex_ via a variety of builtins.
+...which can be queried directly within Murex via a variety of builtins.
 
 To iterate through the array and print each element and print the value:
 
@@ -63,7 +63,7 @@ of strings then it would return a the rows in the list.
 
 ## The `array` builtin
 
-_murex_ has a pretty sophisticated builtin for generating arrays. Think
+Murex has a pretty sophisticated builtin for generating arrays. Think
 like bash's `{1..9}` syntax:
 
     a: [1..9]
@@ -94,7 +94,7 @@ You can select a range of letters (a to z):
 
 ### Special ranges
 
-Unlike bash, _murex_ also supports some special ranges:
+Unlike bash, Murex also supports some special ranges:
 
     a: [mon..sun]
     a: [monday..sunday]
@@ -153,7 +153,7 @@ tool:
     Tuesday
     Monday
 
-(I may build a reverse builtin to standardise this and make _murex_ more
+(I may build a reverse builtin to standardise this and make Murex more
 accessible to Windows users)
 
 ### Advanced `array` syntax

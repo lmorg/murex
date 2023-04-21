@@ -3,9 +3,9 @@
     `murex-docs`
   CategoryID: commands
   Summary: >-
-    Displays the man pages for _murex_ builtins
+    Displays the man pages for Murex builtins
   Description: |-
-    Displays the man pages for _murex_ builtins.
+    Displays the man pages for Murex builtins.
   Usage: |-
     ```
     murex-docs: [ flag ] command -> <stdout>
@@ -20,7 +20,7 @@
       Returns an abridged description of the command rather than the entire
       help page.
   Detail: |-
-    These man pages are compiled into the _murex_ executable.
+    These man pages are compiled into the Murex executable.
   Synonyms:
   - murex-docs
   - help

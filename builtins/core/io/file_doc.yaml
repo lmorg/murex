@@ -84,7 +84,7 @@
     curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
     ```
 
-    (though _murex_ does also have it's own HTTP clients, `get`, `post` and
+    (though Murex does also have it's own HTTP clients, `get`, `post` and
     `getfile`)
   Detail:
   Synonyms:

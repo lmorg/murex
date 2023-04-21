@@ -14,7 +14,7 @@ There is an order of precedence for which commands are looked up:
 
 2. Aliases - defined via `alias`. All aliases are global.
 
-3. _murex_ functions - defined via `function`. All functions are global.
+3. Murex functions - defined via `function`. All functions are global.
 
 5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
    Also environmental variables too, declared via `export`.
@@ -22,7 +22,7 @@ There is an order of precedence for which commands are looked up:
 6. globbing: however this only applies for commands executed in the interactive
    shell.
 
-7. _murex_ builtins.
+7. Murex builtins.
 
 8. External executable files
 

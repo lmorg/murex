@@ -1,10 +1,10 @@
 # `murex-docs` - Command Reference
 
-> Displays the man pages for _murex_ builtins
+> Displays the man pages for Murex builtins
 
 ## Description
 
-Displays the man pages for _murex_ builtins.
+Displays the man pages for Murex builtins.
 
 ## Usage
 
@@ -22,7 +22,7 @@ Displays the man pages for _murex_ builtins.
 
 ## Detail
 
-These man pages are compiled into the _murex_ executable.
+These man pages are compiled into the Murex executable.
 
 ## Synonyms
 

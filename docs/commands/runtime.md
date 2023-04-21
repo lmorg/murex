@@ -1,10 +1,10 @@
 # `runtime` - Command Reference
 
-> Returns runtime information on the internal state of _murex_
+> Returns runtime information on the internal state of Murex
 
 ## Description
 
-`runtime` is a tool for querying the internal state of _murex_. It's output
+`runtime` is a tool for querying the internal state of Murex. It's output
 will be JSON dumps.
 
 ## Usage
@@ -142,7 +142,7 @@ flag names. eg
 * `--autocomplete`
     Lists all `autocomplete` schemas - both user defined and automatically generated one
 * `--builtins`
-    Lists all builtin commands, compiled into _murex_
+    Lists all builtin commands, compiled into Murex
 * `--config`
     Lists all properties available to `config
 * `--debug`
@@ -150,11 +150,11 @@ flag names. eg
 * `--events`
     Lists all builtin event types and any defined events
 * `--exports`
-    Outputs environmental variables. For _murex_ variables (`global` and `set`/`let`) use `--variables
+    Outputs environmental variables. For Murex variables (`global` and `set`/`let`) use `--variables
 * `--fids`
     Lists all running processes / functions
 * `--functions`
-    Lists all _murex_ global functions
+    Lists all Murex global functions
 * `--globals`
     Lists all global variables
 * `--help`
@@ -176,9 +176,9 @@ flag names. eg
 * `--open-agents`
     Lists all registered `open` handlers 
 * `--pipes`
-    Lists builtin pipes compiled into _murex_. These can be then be defined as named-pipes
+    Lists builtin pipes compiled into Murex. These can be then be defined as named-pipes
 * `--privates`
-    Lists all _murex_ private functions
+    Lists all Murex private functions
 * `--readarray`
     Lists all builtin data-types which support ReadArray()
 * `--readarraywithtype`
@@ -196,7 +196,7 @@ flag names. eg
 * `--unmarshallers`
     Lists all builtin data-types with unmarshallers (eg required for `format`)
 * `--variables`
-    Lists all local _murex_ variables which doesn't include environmental nor global variables
+    Lists all local Murex variables which doesn't include environmental nor global variables
 * `--writearray`
     Lists all builtin data-types which support WriteArray()
 
@@ -205,9 +205,9 @@ flag names. eg
 ### Usage in scripts
 
 `runtime` should not be used in scripts because the output of `runtime` may
-be subject to change as and when the internal mechanics of _murex_ change.
+be subject to change as and when the internal mechanics of Murex change.
 The purpose behind `runtime` is not to provide an API but rather to provide
-a verbose "dump" of the internal running state of _murex_.
+a verbose "dump" of the internal running state of Murex.
 
 If you require a stable API to script against then please use the respective
 command line tool. For example `fid-list` instead of `runtime --fids`. Some
@@ -263,7 +263,7 @@ a script parsable version when STDOUT is not a terminal.
 
 Some of the JSON dumps produced from `runtime` will include a map called
 `FileRef`. This is a trace of the source file that defined it. It is used
-by _murex_ to help provide meaningful errors (eg with line and character
+by Murex to help provide meaningful errors (eg with line and character
 positions) however it is also useful for manually debugging user-defined
 properties such as which module or script defined an `autocomplete` schema.
 
@@ -287,7 +287,7 @@ functions.
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`event`](../commands/event.md):
@@ -295,7 +295,7 @@ functions.
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`formap`](../commands/formap.md):
@@ -315,7 +315,7 @@ functions.
 * [`openagent`](../commands/openagent.md):
   Creates a handler function for `open
 * [`pipe`](../commands/pipe.md):
-  Manage _murex_ named pipes
+  Manage Murex named pipes
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`private`](../commands/private.md):
@@ -323,6 +323,6 @@ functions.
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block
 * [`test`](../commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts

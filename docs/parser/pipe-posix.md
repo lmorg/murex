@@ -35,7 +35,7 @@ In this example the first command is writing to STDERR rather than STDOUT so
 * [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

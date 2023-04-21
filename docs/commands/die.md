@@ -4,7 +4,7 @@
 
 ## Description
 
-Terminate _murex_ with an exit number of 1.
+Terminate Murex with an exit number of 1.
 
 ## Usage
 

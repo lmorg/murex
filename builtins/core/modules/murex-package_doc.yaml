@@ -3,7 +3,7 @@
     `murex-package`
   CategoryID: commands
   Summary: >-
-    _murex_'s package manager
+    Murex's package manager
   Description: |-
     {{ include "gen/includes/package-modules.inc.md" }}
   Usage: |-
@@ -61,7 +61,7 @@
     ### `murex-package: list`... `enabled` vs `loaded`
 
     `enabled` and `disabled` reads the package status from disk rather than the
-    package cache in your current _murex_ session (like `runtime` reports). This
+    package cache in your current Murex session (like `runtime` reports). This
     because the typical use for `murex-package list enabled|disabled` is to view
     which packages and modules will be loaded with any new murex session.
     

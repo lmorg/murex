@@ -70,7 +70,7 @@ described on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Concatenat
 >       }
 >     }
 
-...however in _murex_'s case, only single line concatenated JSON files
+...however in Murex's case, only single line concatenated JSON files
 (example 1) are supported; and that is only supported to cover some edge
 cases when writing JSON lines and a new line character isn't included. The
 primary example might be when generating JSON lines from inside a `for` loop.
@@ -83,7 +83,7 @@ line below.
 This format is sometimes also referred to as LDJSON and NDJSON, as described
 on [Wikipedia](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON).
 
-_murex_'s [`json` data-type document](json.md) also describes some use
+Murex's [`json` data-type document](json.md) also describes some use
 cases for JSON lines.
 
 ## Default Associations
@@ -176,7 +176,7 @@ cases for JSON lines.
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):

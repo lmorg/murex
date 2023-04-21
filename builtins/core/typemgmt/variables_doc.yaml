@@ -178,7 +178,7 @@
 
     For compatibility with other shells, `unset` is also supported but it's really
     not an idiomatic method of deallocation since it's name is misleading and
-    suggests it is a deallocator for local _murex_ variables defined via `set`.
+    suggests it is a deallocator for local Murex variables defined via `set`.
 
     ### Exporting a local or global variable
 

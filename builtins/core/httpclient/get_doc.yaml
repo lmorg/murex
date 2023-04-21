@@ -50,7 +50,7 @@
 
     ### Configurable options
 
-    `get` has a number of behavioral options which can be configured via _murex_'s
+    `get` has a number of behavioral options which can be configured via Murex's
     standard `config` tool:
 
     ```
@@ -81,8 +81,8 @@
     `getfile`
   CategoryID: commands
   Summary: >-
-    Makes a standard HTTP request and return the contents as _murex_-aware data type
-    for passing along _murex_ pipelines.
+    Makes a standard HTTP request and return the contents as Murex-aware data type
+    for passing along Murex pipelines.
   Description: |-
     Fetches a resource from a URL - setting STDOUT data-type
   Usage: |-
@@ -106,7 +106,7 @@
     ### Configurable options
 
     `getfile` has a number of behavioral options which can be configured via
-    _murex_'s standard `config` tool:
+    Murex's standard `config` tool:
 
     ```
     config: -> [ http ]

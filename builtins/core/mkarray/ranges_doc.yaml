@@ -270,7 +270,7 @@
   Summary: >-
     Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
   Description: |-
-    Unlike bash, _murex_ also supports some special ranges:
+    Unlike bash, Murex also supports some special ranges:
 
     ```  
     » a: [mon..sun]
@@ -403,7 +403,7 @@
   Summary: >-
     Create arrays of dates
   Description: |-
-    Unlike bash, _murex_ also supports date ranges:
+    Unlike bash, Murex also supports date ranges:
 
     ```  
     » a: [25-dec-2020..05-jan-2021]

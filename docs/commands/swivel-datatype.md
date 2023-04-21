@@ -1,4 +1,4 @@
-# _murex_ Shell Docs
+# Murex Shell Docs
 
 ## Command Reference: `swivel-datatype`
 
@@ -138,6 +138,6 @@ Marshallers are enabled at compile time from the `builtins/data-types` directory
 * [commands/`prepend` ](../commands/prepend.md):
   Add data to the start of an array
 * [commands/`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [commands/`swivel-table`](../commands/swivel-table.md):
   Rotates a table by 90 degrees

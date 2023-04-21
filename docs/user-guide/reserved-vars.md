@@ -1,8 +1,8 @@
 # Reserved Variables - User Guide
 
-> Special variables reserved by _murex_
+> Special variables reserved by Murex
 
-_murex_ reserves a few special variables which cannot be assigned via `set` nor
+Murex reserves a few special variables which cannot be assigned via `set` nor
 `let`.
 
 The following is a list of reserved variables, their data type, and its usage:
@@ -11,8 +11,8 @@ The following is a list of reserved variables, their data type, and its usage:
 
 This returns meta information about the running scope.
 
-A 'scope' in _murex_ is a collection of code blocks to which variables and
-config are persistent within. In _murex_, a variable declared inside an `if` or
+A 'scope' in Murex is a collection of code blocks to which variables and
+config are persistent within. In Murex, a variable declared inside an `if` or
 `foreach` block will be persistent outside of their blocks as long as you're
 still inside the same function.
 
@@ -109,7 +109,7 @@ This is TODO: [https://github.com/lmorg/murex/issues/304](Github issue 304)
 
 ### `HOSTNAME` (str)
 
-This returns the hostname of the machine _murex_ is running from.
+This returns the hostname of the machine Murex is running from.
 
 ### `0` (str)
 
@@ -129,15 +129,15 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 * [Bang Prefix](../user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
 * [Modules and Packages](../user-guide/modules.md):
-  An introduction to _murex_ modules and packages
+  An introduction to Murex modules and packages
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [String (`$`) Token](../parser/string.md):
   Expand values as a string
 * [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within _murex_
+  How scoping works within Murex
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`function`](../commands/function.md):

@@ -54,7 +54,7 @@ Clears the current line.
 
 ## `ctrl`+`\`: kill all running processes
 
-This will kill all processes owned by the current _murex_ session. Including
+This will kill all processes owned by the current Murex session. Including
 any background processes too.
 
 This function is a effectively an emergency kill switch to bring you back to

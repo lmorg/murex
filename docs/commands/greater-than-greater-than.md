@@ -32,12 +32,12 @@ Otherwise a new file is created.
 * [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`>` (truncate file)](../commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`pipe`](../commands/pipe.md):
-  Manage _murex_ named pipes
+  Manage Murex named pipes
 * [`tmp`](../commands/tmp.md):
   Create a temporary file and write to it

@@ -1,6 +1,6 @@
 # `lang.UnmarshalData()` (system API) - API Reference
 
-> Converts a _murex_ data-type into structured memory
+> Converts a Murex data-type into structured memory
 
 ## Description
 
@@ -70,7 +70,7 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 ## Parameters
 
 1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
-2. `string`: _murex_ data type
+2. `string`: Murex data type
 
 ## See Also
 
@@ -79,4 +79,4 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 * [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
   Converts a structured file format into structured memory
 * [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
-  Converts structured memory into a _murex_ data-type (eg for stdio)
+  Converts structured memory into a Murex data-type (eg for stdio)

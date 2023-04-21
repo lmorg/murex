@@ -7,7 +7,7 @@ much as possible and have the output a static CMS which
 can be hosted on GitHub or S3 (depending on whether your
 templates are markdown or HTML).
 
-It was written originally for the _murex_ project (https://github.com/lmorg/murex)
+It was written originally for the Murex project (https://github.com/lmorg/murex)
 however it is flexible enough to be useful in other projects
 as well.
 

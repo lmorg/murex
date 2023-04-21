@@ -3,9 +3,9 @@
     `pipe`
   CategoryID: commands
   Summary: >-
-    Manage _murex_ named pipes
+    Manage Murex named pipes
   Description: |-
-    `pipe` creates and destroys _murex_ named pipes.
+    `pipe` creates and destroys Murex named pipes.
   Usage: |-
     Create pipe
 

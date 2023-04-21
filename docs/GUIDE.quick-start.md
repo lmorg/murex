@@ -51,10 +51,10 @@
 
 ## Introduction
 
-_murex_ is a typed shell. By this we mean it still passes byte streams along
+Murex is a typed shell. By this we mean it still passes byte streams along
 POSIX pipes (and thus will work with all your existing command line tools) but
 in addition will add annotations to describe the type of data that is being
-written and read. This allows _murex_ to expand upon your command line tools
+written and read. This allows Murex to expand upon your command line tools
 with some really interesting and advanced features not available in traditional
 shells.
 
@@ -64,7 +64,7 @@ shells.
 ### Read–Eval–Print Loop
 
 If you want to learn more about the interactive shell then there is a dedicated
-document detailing [_murex_'s REPL features](user-guide/interactive-shell.md).
+document detailing [Murex's REPL features](user-guide/interactive-shell.md).
 
 ### Barewords
 
@@ -74,7 +74,7 @@ readability and terseness is to make heavy use of barewords. Barewords are
 ostensibly just instructions that are not quoted. In our case, command names
 and command parameters.
 
-_murex_ also makes heavy use of barewords and so that places requirements on
+Murex also makes heavy use of barewords and so that places requirements on
 the choice of syntax we can use.
 
 ### Expressions and Statements
@@ -97,7 +97,7 @@ Whereas a **statement** is a shell command to execute:
 > All values in a statement are treated as strings
 
 Due to the expectation of shell commands supporting bareword parameters,
-expressions have to be parsed differently to statements. Thus _murex_ first
+expressions have to be parsed differently to statements. Thus Murex first
 parses a command line to see if it is a valid expression, and if it is not, it
 then assumes it is an statement and parses it as such.
 
@@ -123,7 +123,7 @@ documents.
 
 ### The Bang Prefix
 
-Some _murex_ builtins support a bang prefix. This prefix alters the behavior of
+Some Murex builtins support a bang prefix. This prefix alters the behavior of
 those builtins to perform the conceptual opposite of their primary role.
 
 For example, you could grep a file with `regexp 'm/(dogs|cats)/'` but then you
@@ -134,9 +134,9 @@ respective builtin.
 
 ## Rosetta Stone
 
-If you already know Bash and looking for the equivalent syntax in _murex_, then
+If you already know Bash and looking for the equivalent syntax in Murex, then
 our [Rosetta Stone](user-guide/rosetta-stone.md) reference will help you to
-translate your Bash code into _murex_ code.
+translate your Bash code into Murex code.
 
 ## Basic Syntax
 
@@ -145,7 +145,7 @@ translate your Bash code into _murex_ code.
 > It is important to note that all strings in expressions are quoted whereas
 > strings in statements can be barewords.
 
-There are three ways to quote a string in _murex_:
+There are three ways to quote a string in Murex:
 
 * `'single quote'`: use this for string literals    ([read more](parser/single-quote.md))
 * `"double quote"`: use this for infixing variables ([read more](parser/double-quote.md))
@@ -174,7 +174,7 @@ command
 ```
 
 (`/#` was chosen because it is similar to C-style comments however `/*` is a
-valid glob so _murex_ has substituted the asterisks with a hash symbol instead)
+valid glob so Murex has substituted the asterisks with a hash symbol instead)
 
 ## Variables
 
@@ -185,7 +185,7 @@ All variables can be defined as expressions and their data types are inferred:
 * `fruit = %[ apples oranges bananas ]`
 
 If any variables are unset then reading from them will produce an error (under
-_murex_'s default behavior):
+Murex's default behavior):
 ```
 » echo $foobar
 Error in `echo` (1,1): variable 'foobar' does not exist
@@ -198,7 +198,7 @@ Global variables can be defined using the `$GLOBAL` namespace:
 » $GLOBAL.foo = "bar"
 ```
 
-You can also force _murex_ to read the global assignment of `$foo` (ignoring
+You can also force Murex to read the global assignment of `$foo` (ignoring
 any local assignments, should they exist) using the same syntax. eg:
 ```
 » $GLOBAL.name = "Tom"
@@ -223,13 +223,13 @@ Environmental variables can be assigned using the `$ENV` namespace:
 ```
 as well as using the `export` statement like with traditional shells. ([read more](commands/export.md))
 
-Like with global variables, you can force _murex_ to read the environmental
+Like with global variables, you can force Murex to read the environmental
 variable, bypassing and local or global variables of the same name, by also
 using the `$ENV` namespace prefix.
 
 ### Type Inference
 
-In general, _murex_ will try to infer the data type of a variable or pipe. It
+In general, Murex will try to infer the data type of a variable or pipe. It
 can do this by checking the `Content-Type` HTTP header, the file name
 extension or just looking at how that data was constructed (when defined via
 expressions). However sometimes you may need to annotate your types. [Read more](commands/set.md#type-annotations)
@@ -240,7 +240,7 @@ In traditional shells, variables are expanded in a way that results in spaces
 be parsed as different command parameters. This results in numerous problems
 where developers need to remember to enclose variables inside quotes.
 
-_murex_ parses variables as tokens and expands them into the command line
+Murex parses variables as tokens and expands them into the command line
 arguments intuitively. So, there are no more accidental bugs due to spaces in
 file names, or other such problems due to developers forgetting to quote
 variables. For example:
@@ -252,7 +252,7 @@ variables. For example:
 ```
 ### Arrays
 
-Due to variables not being expanded into arrays by default, _murex_ supports an
+Due to variables not being expanded into arrays by default, Murex supports an
 additional variable construct for arrays. These are `@` prefixed:
 ```
 » files = %[file1.txt, file2.txt, file3.txt]
@@ -265,7 +265,7 @@ file1.txt  file2.txt
 
 ### Pipes
 
-_murex_ supports multiple different pipe tokens. The main two being `|` and
+Murex supports multiple different pipe tokens. The main two being `|` and
 `->`.
 
 * `|` works exactly the same as in any normal shell ([read more](parser/pipe-posix.md))
@@ -274,7 +274,7 @@ _murex_ supports multiple different pipe tokens. The main two being `|` and
   of the previous command). Think of it a little like object orientated
   programming where an object will have functions (methods) attached. ([read more](parser/pipe-arrow.md))
 
-In _murex_ scripts you can use `|` and `->` interchangeably, so there's no need
+In Murex scripts you can use `|` and `->` interchangeably, so there's no need
 to remember which commands are methods and which are not. The difference only
 applies in the interactive shell where `->` can be used with tab-autocompletion
 to display a shortlist of supported functions that can manipulate the data from
@@ -284,7 +284,7 @@ tools.
 
 ### Redirection
 
-Redirection of stdout and stderr is very different in _murex_. There is no
+Redirection of stdout and stderr is very different in Murex. There is no
 support for the `2>` or `&1` tokens,  instead you name the pipe inside angle
 brackets, in the first parameter(s).
 
@@ -366,8 +366,8 @@ touch ${ %[1,2,3] } # creates a file named '[1,2,3]'
 touch @{ %[1,2,3] } # creates three files, named '1', '2' and '3'
 ```
 
-The reason _murex_ breaks from the POSIX tradition of using backticks and
-parentheses is because _murex_ works on the principle that everything inside
+The reason Murex breaks from the POSIX tradition of using backticks and
+parentheses is because Murex works on the principle that everything inside
 a curly bracket is considered a new block of code.
 
 ## Filesystem Wildcards (Globbing)
@@ -411,7 +411,7 @@ rm @{g *.txt | f +s}
 ## Brace expansion
 
 In [bash you can expand lists](https://en.wikipedia.org/wiki/Bash_(Unix_shell)#Brace_expansion)
-using the following syntax: `a{1..5}b`. In _murex_, like with globbing, brace
+using the following syntax: `a{1..5}b`. In Murex, like with globbing, brace
 expansion is a function: `a: a[1..5]b` and supports a much wider range of lists
 that can be expanded. ([read more](commands/a.md))
 
@@ -429,7 +429,7 @@ alias gc=git commit
 
 ### Public Functions
 
-You can create custom functions in _murex_ using `function`. ([read more](commands/function.md))
+You can create custom functions in Murex using `function`. ([read more](commands/function.md))
 ```
 function gc (message: str) {
     # shorthand for `git commit`
@@ -447,7 +447,7 @@ are only available within their own modules namespace. ([read more](commands/pri
 
 External executables (including any programs located in `$PATH`) are invoked
 via the `exec` builtin ([read more](commands/exec.md)) however if a command
-isn't an expression, alias, function nor builtin, then _murex_ assumes it is an
+isn't an expression, alias, function nor builtin, then Murex assumes it is an
 external executable and automatically invokes `exec`.
 
 For example the two following statements are the same:
@@ -474,7 +474,7 @@ if { true } then {
 
 ### Using `switch` Statements
 
-Because `if ... else if` chains are ugly, _murex_ supports `switch` statements:
+Because `if ... else if` chains are ugly, Murex supports `switch` statements:
 ```
 switch $USER {
     case "Tom"   { out: "Hello Tom" }
@@ -563,7 +563,7 @@ function example {
 
 ### The `exit` Statement
 
-Terminates _murex_. `exit` is not scope aware; if it is included in a function
+Terminates Murex. `exit` is not scope aware; if it is included in a function
 then the whole shell will still exist and not just that function. ([read more](commands/exit.md))
 
 ### Signal: SIGINT
@@ -574,7 +574,7 @@ This can be invoked by pressing `Ctrl` + `c`.
 
 This can be invoked by pressing `Ctrl` + `\`
 
-Sending SIGQUIT will terminate all running functions in the current _murex_
+Sending SIGQUIT will terminate all running functions in the current Murex
 session. Which is a handy escape hatch if your shell code starts misbehaving.
 
 ### Signal: SIGTSTP
