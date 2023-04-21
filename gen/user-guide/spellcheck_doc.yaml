@@ -54,7 +54,7 @@
     ...or add the above line to your Murex profile, `~/.murex_profile` to make
     the change persistent.
 
-    > Please note that this option will automatically be enabled is `aspell` is
+    > Please note that this option will automatically be enabled if `aspell` is
     > installed.
 
     ### Spellcheck Murex Code

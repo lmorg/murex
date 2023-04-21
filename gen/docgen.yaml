@@ -18,7 +18,7 @@ Categories:
 
       ### Language Guides
 
-      1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
+      1. [Language Tour](tour.md), which is an introduction into
          the Murex language.
 
       2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
@@ -86,7 +86,7 @@ Categories:
       1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
          on the core builtins.
 
-      2. [Language Tour](GUIDE.quick-start.md), which is an introduction into
+      2. [Language Tour](tour.md), which is an introduction into
          the Murex language.
 
       3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
@@ -128,7 +128,7 @@ Categories:
 
       ### Language Guides
 
-      1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
+      1. [Language Tour](tour.md), which is an introduction into
          the Murex language.
 
       2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
@@ -156,11 +156,11 @@ Categories:
     Description: |-
       This section is a glossary of data-types which Murex is natively aware.
 
-      Most of the time you will not need to worry about typing inMurex as the
+      Most of the time you will not need to worry about typing in Murex as the
       shell is designed around productivity as opposed to strictness despite
       generally following a strictly typed design.
 
-      Read the [Language Tour](GUIDE.quick-start.md) for more detail on this topic.
+      Read the [Language Tour](tour.md) for more detail on this topic.
 
       ## Definitions
       
@@ -178,8 +178,7 @@ Categories:
 
       2. "Primitive" data-types refer to types that are the required by Murex
       to function. These will be `int`, `float` / `number`, `bool`, `string`,
-      `generic`, `json`, and `null`. All other data-types are optional albeit
-      still recommended (unless described otherwise).
+      `generic`, and `null`.
 
       ## Feature Sets
       
@@ -234,29 +233,11 @@ Categories:
     Description: |-
       This section contains miscellaneous documents on using and configuring the
       shell and Murex's numerous features.
-
-      ## Other Reference Material
-
-      There are other sections for which are dedicated to Murex's parser, builtin
-      commands and such like:
-
-      ### Language Guides
-
-      1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-         the Murex language.
-
-      2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to Murex's.
-
-      3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
-
-      4. [Syntax](./GUIDE.parser.md), lists tokens and other syntactic sugar
-         supported by Murex's parser.
     Templates:
     - OutputPath: docs/user-guide
-      CategoryFile: ../USER-GUIDE.md
+      CategoryFile: ../user-guide.md
       OutputExt: .md
-      CategoryTemplate: gen/murex-md-cat.tmpl
+      CategoryTemplate: gen/userguide-md-cat.tmpl.md
       DocumentTemplate: gen/userguide-md-doc.tmpl
 
   # blog
