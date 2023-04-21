@@ -110,6 +110,7 @@ pre code {
   font-size: 16px;
   font-weight: normal;
   color: #063928;
+  padding: 0px;
 }
 
 a:link > code, a:visited > code, a:active > code {
@@ -140,6 +141,10 @@ pre {
   max-height: 300px;
   overflow: auto;
   text-shadow: none;
+}
+
+h1 code {
+  font-size: 26px;
 }
 
 img {
