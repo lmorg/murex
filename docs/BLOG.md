@@ -4,12 +4,12 @@ Collection of Murex related documents and personal thoughts.
 
 ## Articles
 
+### 22.04.2023 - [Reading Lists From The Command Line](blog/reading_lists.md)
+
+> How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? Or something more exotic like S-Expressions?
+
+
 ### 02.10.2021 - [The Split Personalities of Shell Usage](blog/split_personalities.md)
 
 > Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
-
-
-### 06.05.2021 - [Why Create A New Shell?](blog/why_create_a_new_shell.md)
-
-> This article discuses the motivation behind creating a new shell
 
