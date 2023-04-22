@@ -9,7 +9,7 @@ shell and Murex's numerous features.
 
 - [Language Tour](#language-tour)
 - [User Guides](#user-guides)
-- [Operators \& Tokens](#operators--tokens)
+- [Operators And Tokens](#operators-and-tokens)
 - [Builtin Commands](#builtin-commands)
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
@@ -55,7 +55,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 * [Variable and Config Scoping](user-guide/scoping.md):
   How scoping works within Murex
 
-## Operators & Tokens
+## Operators And Tokens
 
 * [Curly Brace (`{`, `}`) Tokens](parser/curly-brace.md):
   Initiates or terminates a code block
