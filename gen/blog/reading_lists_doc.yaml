@@ -1,0 +1,18 @@
+- DocumentID: why_create_a_new_shell
+  Title: >-
+    Why Create A New Shell?
+  CategoryID: blog
+  DateTime: 2021-05-06 08:24
+  Summary: >-
+    This article discuses the motivation behind creating a new shell
+  Description: |-
+    {{ include "gen/blog/reading_lists.inc.md" }}
+  Synonyms:
+  Related:
+  - commands/foreach
+  - commands/formap
+  - commands/mkarray
+  - parser/create-array
+  - commands/cast
+  
+

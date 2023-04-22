@@ -2,7 +2,7 @@
 
 > Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
 
-### A Very Brief History
+## A Very Brief History
 
 ![Thompson (sitting) and Ritchie working together at a PDP-11](/images/blog/split_personalities/thompson.jpg)
 
@@ -30,7 +30,7 @@ I believe it is these reasons why $SHELLs based on that lineage, be it the
 Bourne shell, Bash or Zsh, all share a scripting syntax which very much feels
 like it is extended from REPL usage.
 
-### Opposing Requirements
+## Opposing Requirements
 
 ![Opposing Requirements](/images/blog/split_personalities/conflict.png)
 
@@ -78,7 +78,7 @@ looking more like the example below:
 (please excuse the useless use of `cat` in these examples -- it's purely there
 for illustrative reasons)
 
-### The Traditional
+## The Traditional
 
 ![The Traditional](/images/blog/split_personalities/old.jpg)
 
@@ -103,13 +103,13 @@ then I salute them, their usage is as niche as those who enjoy using Bash for
 complex scripts. Perhaps the only language I've used which translates well both
 for terse REPLs and lengthier scripts is LISP.
 
-### The Modern
+## The Modern
 
 ![The Modern](/images/blog/split_personalities/new.jpg)
 
 So how are modern shells addressing these split concerns?
 
-#### Powershell
+### Powershell
 
 Microsoft had the benefit of being able to start from a clean room. They didn't
 need to inherit 50+ years of UNIX legacy when they wrote Powershell. So their
@@ -147,7 +147,7 @@ rather than treating everything as a flat stream of bytes)
 There is no question that Powershell is a more powerful REPL than Bash but it
 definitely slides more towards the "write-once read-many" end of the spectrum.
 
-#### Oil
+### Oil
 
 [Oil](https://www.oilshell.org/) describes itself as the following:
 
@@ -164,7 +164,7 @@ between "write-many" and "read-many" languages.
 This make Oil one of the most interesting alternative shells I have come
 across.
 
-#### Murex
+### Murex
 
 ![Murex](/images/blog/split_personalities/murex.png)
 
@@ -200,7 +200,7 @@ golfing in the REPL should the operator want to save a few key strokes
 
     if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
     
-### Conclusion
+## Conclusion
 
 The write-many read-once tendencies of the interactive terminal and the
 write-once read-many demands of scripting might be difficult to consolidate
@@ -223,3 +223,5 @@ Published: 02.10.2021 at 22:42
   A tabulated list of Bashism's and their equivalent Murex syntax
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
+* [reading_lists](../blog/reading_lists.md):
+  

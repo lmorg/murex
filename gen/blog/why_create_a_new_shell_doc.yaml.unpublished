@@ -1,21 +1,20 @@
-- DocumentID: why_create_a_new_shell
+- DocumentID: reading_lists
   Title: >-
-    Why Create A New Shell?
+    Reading Lists From The Command Line
   CategoryID: blog
-  DateTime: 2021-05-06 08:24
+  DateTime: 2023-04-22 11:43
   Summary: >-
-    This article discuses the motivation behind creating a new shell
+    How hard can it be to read a list of data from the command line? If your list
+    is line delimited then it should be easy. However what if your list is a JSON
+    array? Or S-Expression?
   Description: |-
-    
+    {{ include "gen/blog/reading_lists.inc.md" }}
   Synonyms:
   Related:
-  - optional/select
-  - types/jsonl
-  - types/csv
-  - types/generic
-  - commands/jobs
-  - commands/fg
-  - commands/bg
-  - apis/ReadArrayWithType
   - commands/foreach
+  - commands/formap
+  - commands/mkarray
+  - parser/create-array
+  - commands/cast
+  
 
