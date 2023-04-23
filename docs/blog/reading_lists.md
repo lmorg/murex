@@ -1,6 +1,6 @@
 # Reading Lists From The Command Line - Blog
 
-> How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? Or something more exotic like S-Expressions?
+> How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
 
 <h2>Table of Contents</h2>
 
@@ -135,11 +135,11 @@ Published: 22.04.2023 at 11:43
 
 * [Create array (`%[]`) constructor](../parser/create-array.md):
   Quickly generate arrays
+* [`a` (mkarray)](../commands/a.md):
+  A sophisticated yet simple way to build an array or list
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
-* [mkarray](../commands/mkarray.md):
-  

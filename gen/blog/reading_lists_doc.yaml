@@ -6,14 +6,15 @@
   Summary: >-
     How hard can it be to read a list of data from the command line? If your list
     is line delimited then it should be easy. However what if your list is a JSON
-    array? Or something more exotic like S-Expressions?
+    array? This post will explore how to work with lists in a different command
+    line environments.
   Description: |-
     {{ include "gen/blog/reading_lists.inc.md" }}
   Synonyms:
   Related:
   - commands/foreach
   - commands/formap
-  - commands/mkarray
+  - commands/a
   - parser/create-array
   - commands/cast
   
