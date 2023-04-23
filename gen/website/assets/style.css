@@ -143,9 +143,10 @@ pre {
   text-shadow: none;
 }
 
-h1 code {
-  font-size: 26px;
-}
+h1 code { font-size: 26px; }
+h2 code { font-size: 20px; }
+h3 code { font-size: 16px; }
+h4 code { font-size: 16px; }
 
 img {
   max-width: 100%;
