@@ -12,6 +12,7 @@
 - [Iteration in Bash via `jq`](#iteration-in-bash-via-jq)
 - [Iteration in Murex via `foreach`](#iteration-in-murex-via-foreach)
 - [Reading JSON arrays in PowerShell](#reading-json-arrays-in-powershell)
+- [Conclusion](#conclusion)
 
 </div>
 
@@ -121,6 +122,10 @@ Microsoft PowerShell is a typed shell, like Murex, which was originally built fo
 The first line is just creating a JSON string and allocating that to `$jsonString`. We can largely ignore that as it is the same as we've seen in Bash already. The second line is more interesting as that is where the type conversion happens. `ConvertFrom-Json` does exactly as it describes -- PowerShell is generally pretty good at having descriptive names for commands,
 
 From there on it looks relatively similar to Murex syntax: `foreach` being the statement name, followed by the variable name.
+
+## Conclusion
+
+Iterating over a JSON array from the command line can be done in various ways using different shells. PowerShell, `jq`, and Murex offer their unique approaches and syntaxes, making it easy to work with JSON data in different environments. Whether you're a Windows user who prefers PowerShell or a Linux user who prefers Bash or Murex, there are many options available to suit your needs. Regardless of the shell you choose, mastering the art of iterating over JSON arrays can greatly enhance your command-line skills and help you work more efficiently with JSON data.
 
 <hr>
 
