@@ -2,13 +2,26 @@
 
 > How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? Or something more exotic like S-Expressions?
 
+<h2>Table of Contents</h2>
+
+<div id="toc">
+
+- [Preface](#preface)
+- [Reading lines in Bash and similar shells](#reading-lines-in-bash-and-similar-shells)
+- [But what if my files aren't line delimited?](#but-what-if-my-files-arent-line-delimited)
+- [Iteration in Bash via `jq`](#iteration-in-bash-via-jq)
+- [Iteration in Murex via `foreach`](#iteration-in-murex-via-foreach)
+- [Reading JSON arrays in PowerShell](#reading-json-arrays-in-powershell)
+
+</div>
+
 ## Preface
 
 A common problem we resort to shell scripting for is iterating through lists. This was easy in the days of old when most data was `\n` (new line) delimited but these days structured data is common place with formats like JSON, YAML, TOML, XML and even S-Expressions appearing commonly throughout developer and DevOps tooling.
 
 So lets explore a few techniques for iterating through lists.
 
-## Reading lines
+## Reading lines in Bash and similar shells
 
 Bash shell is a popular command-line interface for Unix and Linux operating systems. One of its many useful features is the ability to read files line by line. This can be helpful for processing large files or performing repetitive tasks on a file's contents. The most basic way to read a file line by line is to use a while loop with the `read` command:
 
@@ -39,11 +52,11 @@ Of course you could just run
 
 The problem with Bash, and all traditional Linux or UNIX shells, is that they operate on byte streams. To be fair, this isn't so much a fault of Bash _per se_ but more a result of the design of UNIX where (almost) everything is a file, including pipes. This means everything is treated as bytes. Unlike, for example, Powershell which passes .NET objects around. Byte streams make complete sense when you're working on '70s or '80s mainframes but it is a little less productive in the modern world of structured formats like JSON.
 
-So how do you read lists from objects in, for example, JSON? In Bash, this isn't so easy. You need to rely on third party tools like `jq` and often end up throwing out all of the older core utilities, like `sed`, that have become muscle memory. In Powershell it is a lot easier but you then need .NET wrappers around your existing command line tools.
+So how do you read lists from objects in, for example, JSON? In Bash, this isn't so easy. You need to rely on third party tools like `jq`. However you do have the benefit of compatibility with all of the older core utilities, like `sed`, that have become muscle memory by now. This does also come with its own drawbacks as well, which I'll explore in the following section.
 
-## Iteration in `jq`
+## Iteration in Bash via `jq`
 
-`jq` is a fantastic tool that has become a staple of many a CI/CD pipeline however its syntax isn't always the easiest to grok when delving deep into nested JSON with conditionals and such like. We can delve into that in another article. For now we are going to keep things intentionally simple:
+`jq` is a fantastic tool that has become a staple of many a CI/CD pipeline however it is not part of most operating systems base platform, so it would need to be installed separately. This also creates additional complications whereby you end up having a language within a language -- like running `awk` or `sed` inside Bash, you're now introducing `jq` too. Thus its syntax isn't always the easiest to grok when delving deep into nested JSON with conditionals and such like compared with shells that offer first party tools for working with objects. We can delve deeper into the power of `jq` in another article but for now we are going to keep things intentionally simple:
 
 Lets create a JSON array:
 
@@ -66,7 +79,7 @@ The `-r` flag tells `jq` to strip quotation marks around the values. Without `-r
 
 `.[]` is `jq` syntax for "all elements (`[]`) in the root object space (`.`).
 
-## Structured iteration in Murex
+## Iteration in Murex via `foreach`
 
 Murex doesn't just treat files as byte streams, it passes type annotations too. And it uses those annotations to dynamically alter how to read files. The following examples will also use JSON as the input format, however Murex natively supports other structured data formats too, like YAML, CSV and S-Expressions.
 
@@ -89,15 +102,15 @@ The `jq` example rewritten in Murex would look like the following:
     
 What's happening here is `%[...]` creates the JSON array (as described above) and then the `foreach` builtin iterates through the array and assigns that element to a variable named `day`.
 
-> `out` is the equivalent of `echo` in Bash. In fact you can still use `echo` in Murex albeit that is just aliased to `out`
+> `out` in Murex is the equivalent of `echo` in Bash. In fact you can still use `echo` in Murex albeit that is just aliased to `out`.
 
-It is also worth noting that since Murex version 3.1 lambdas have been available, allowing you to write code that looks a little like this:
+It is also worth noting that since Murex version 3.1 lambdas have been available, allowing you to write code that looks a like this:
 
     $json[{out "Hello $."}]
     
 But more on that in a different article.
 
-## PowerShell
+## Reading JSON arrays in PowerShell
 
 Microsoft PowerShell is a typed shell, like Murex, which was originally built for Windows but has since been ported to macOS and Linux too. Where PowerShell differs is that rather than using byte streams with type annotations, PowerShell passes .NET objects. Thus you'll see a little more boilerplate code in PowerShell where you need to explicitly convert types -- whereas Murex can get away with implicit definitions.
 
