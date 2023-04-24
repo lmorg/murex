@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: mxjson
+# mxjson - Data-Type Reference
 
 > Murex-flavoured JSON (deprecated)
 
@@ -9,21 +7,21 @@
 > This format has been deprecated in favour of `%{}` constructors.
 
 mxjson is an extension to JSON designed to integrate more seamlessly when
-use as a configuration file. Thus mxjson supports comments and _murex_ code
+use as a configuration file. Thus mxjson supports comments and Murex code
 blocks embedded into the JSON schema.
 
 > mxjson is a format that is pre-parsed into a valid JSON format.
 
-mxjson isn't a _murex_ data-type in that you cannot marshal
+mxjson isn't a Murex data-type in that you cannot marshal
 and unmarshal mxjson files. Currently it is a format that is only supported
-by a small subset of _murex_ builtins (eg `config` and `autocomplete`) where
-config might embed _murex_ code blocks.
+by a small subset of Murex builtins (eg `config` and `autocomplete`) where
+config might embed Murex code blocks.
 
 **mxjson features the following enhancements:**
 
 ### Line Comments
 
-Line comments are prefixed with a 'hash', `#`, just like with regular _murex_
+Line comments are prefixed with a 'hash', `#`, just like with regular Murex
 code.
 
 ### Block Quotation
@@ -33,7 +31,7 @@ uses the `({ block quote })` method.
 
     {
         "ExampleFunction": ({
-            out: "This is an example _murex_ function"
+            out: "This is an example Murex function"
             if { =1==2 } then {
                 err: "The laws of the universe are broken"
             }
@@ -43,7 +41,7 @@ uses the `({ block quote })` method.
 Any block quoted by this method will be converted to the following valid JSON:
 
     {
-        "ExampleFunction": "\n    out: \"This is an example _murex_ function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
+        "ExampleFunction": "\n    out: \"This is an example Murex function\"\n    if { =1==2 } then {\n        err: \"The laws of the universe are broken\"\n    }"
     }
 
 ## See Also
@@ -69,7 +67,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`hcl` ](../types/hcl.md):
@@ -85,7 +83,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):

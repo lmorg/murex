@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `history`
+# `history` - Command Reference
 
 > Outputs murex's command history
 
@@ -40,6 +38,6 @@ The history file is typically located on disk in a file called `~/.murex.history
 ## See Also
 
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

@@ -1,24 +1,22 @@
-# _murex_ Shell Docs
+# Parser Reference
 
-## Parser Reference
-
-This section is a glossary of _murex_ tokens and parser behavior.
+This section is a glossary of Murex tokens and parser behavior.
 
 ## Other Reference Material
 
 ### Language Guides
 
-1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-   the _murex_ language.
+1. [Language Tour](tour.md), which is an introduction into
+   the Murex language.
 
 2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-   table comparing Bash syntax to _murex_'s.
+   table comparing Bash syntax to Murex's.
 
 3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
 
-### _murex_'s Source Code
+### Murex's Source Code
 
-The parser is located _murex_'s source under the `lang/` path of the project
+The parser is located Murex's source under the `lang/` path of the project
 files.
 
 ## Pages

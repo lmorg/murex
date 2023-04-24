@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `mtac`
+# `mtac` - Command Reference
 
 > Reverse the order of an array
 
@@ -13,7 +11,7 @@ like `cat` but returns the contents in the reverse order. The difference
 with the `mtac` builtin is that it is data-type aware. So it doesn't just
 function as a replacement for `tac` but it also works on JSON arrays,
 s-expressions, and any other data-type supporting arrays compiled into
-_murex_. 
+Murex. 
 
 ## Usage
 
@@ -42,7 +40,7 @@ _murex_.
 
 ## Detail
 
-Please bare in mind that while _murex_ is optimised with concurrency and
+Please bare in mind that while Murex is optimised with concurrency and
 streaming in mind, it's impossible to reverse an incomplete array. Thus all
 all of STDIN must have been read and that file closed before `mtac` can
 output.

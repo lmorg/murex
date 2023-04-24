@@ -1,15 +1,13 @@
-# _murex_ Shell Docs
-
-## Parser Reference: String (`$`) Token
+# String (`$`) Token - Parser Reference
 
 > Expand values as a string
 
 ## Description
 
-The string token is used to tell _murex_ to expand variables and subshells as a
+The string token is used to tell Murex to expand variables and subshells as a
 string (ie one single parameter) irrespective of the data that is stored in the
 string. One handy common use case is file names where traditional POSIX shells
-would treat spaces as a new file, whereas _murex_ treats spaces as a printable
+would treat spaces as a new file, whereas Murex treats spaces as a printable
 character unless explicitly told to do otherwise.
 
 The string token must be followed with one of the following characters: 
@@ -70,7 +68,7 @@ The string and array tokens also works for subshells:
 
 **Variable as a command:**
 
-If a variable is used as a commend then _murex_ will just print the content of
+If a variable is used as a commend then Murex will just print the content of
 that variable.
 
     » $example = "Hello World!"
@@ -112,7 +110,7 @@ do not.
 * [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex
 * [Single Quote (`'`) Token](../parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
 * [Tilde (`~`) Token](../parser/tilde.md):

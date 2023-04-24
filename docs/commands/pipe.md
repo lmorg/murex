@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
+# `pipe` - Command Reference
 
-## Command Reference: `pipe`
-
-> Manage _murex_ named pipes
+> Manage Murex named pipes
 
 ## Description
 
-`pipe` creates and destroys _murex_ named pipes.
+`pipe` creates and destroys Murex named pipes.
 
 ## Usage
 
@@ -36,18 +34,18 @@ Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 
 ## Detail
 
-### What are _murex_ named pipes?
+### What are Murex named pipes?
 
 In POSIX, there is a concept of STDIN, STDOUT and STDERR, these are FIFO files
 while are "piped" from one executable to another. ie STDOUT for application 'A'
 would be the same file as STDIN for application 'B' when A is piped to B:
-`A | B`. _murex_ adds a another layer around this to enable support for passing
+`A | B`. Murex adds a another layer around this to enable support for passing
 data types and builtins which are agnostic to the data serialization format
 traversing the pipeline. While this does add overhead the advantage is this new
 wrapper can be used as a primitive for channelling any data from one point to
 another.
 
-_murex_ named pipes are where these pipes are created in a global store,
+Murex named pipes are where these pipes are created in a global store,
 decoupled from any executing functions, named and can then be used to pass
 data along asynchronously.
 
@@ -84,9 +82,9 @@ Named pipes can also be inlined into the command parameters with `<>` tags
     
 > Please note this is also how `test` works.
 
-_murex_ named pipes can also represent network sockets, files on a disk or any
+Murex named pipes can also represent network sockets, files on a disk or any
 other read and/or write endpoint. Custom builtins can also be written in Golang
-to support different abstractions so your _murex_ code can work with those read
+to support different abstractions so your Murex code can work with those read
 or write endpoints transparently.
 
 To see the different supported types run
@@ -97,7 +95,7 @@ To see the different supported types run
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes
 to be used across different functions easily however it does pose a risk with
-name clashes where _murex_ named pipes are used heavily. Thus is it recommended
+name clashes where Murex named pipes are used heavily. Thus is it recommended
 that pipes created in modules should be prefixed with the name of its package.
 
 ## Synonyms
@@ -111,9 +109,9 @@ that pipes created in modules should be prefixed with the name of its package.
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`bg`](../commands/bg.md):
@@ -123,6 +121,6 @@ that pipes created in modules should be prefixed with the name of its package.
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`test`](../commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts

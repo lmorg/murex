@@ -1,9 +1,9 @@
 - DocumentID: interactive-shell
   Title: >-
-    _murex_'s Interactive Shell
+    Murex's Interactive Shell
   CategoryID: user-guide
   Summary: >-
-    What's different about _murex_'s interactive shell?
+    What's different about Murex's interactive shell?
   Description: |-
     {{ include "gen/user-guide/interactive-shell.inc.md" }}
   Synonyms:

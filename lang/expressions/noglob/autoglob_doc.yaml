@@ -7,7 +7,7 @@
   Description: |-
     **This feature is now deprecated and only applies to murex version 2:**
 
-    By default _murex_ does not expand globbing (`*` and `?` wildcards) instead
+    By default Murex does not expand globbing (`*` and `?` wildcards) instead
     encouraging the use of `g` (and similar) inside a subshell. While the aim of
     this is to promote correctness, it can be a little annoying while working in
     the interactive shell. For this reason you can prefix any command with `@g` to
@@ -21,7 +21,7 @@
     @g echo *
     ```
   Detail: |-
-    As of _murex_ `2.9` and above it is possible to enable automatic globbing in
+    As of Murex `2.9` and above it is possible to enable automatic globbing in
     the interactive shell without having to prefix the command with `@g` by
     enabling the following `config` option:
 

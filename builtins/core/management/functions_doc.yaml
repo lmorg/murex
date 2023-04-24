@@ -137,8 +137,8 @@
     ```
 
     It is also worth noting that the debugging information needs to be written
-    into the Go source code rather than in _murex_'s shell scripting language.
-    If you require debugging those processes then please use _murex_'s `test`
+    into the Go source code rather than in Murex's shell scripting language.
+    If you require debugging those processes then please use Murex's `test`
     framework
   Synonyms:
   Related:
@@ -284,10 +284,10 @@
     `murex-update-exe-list`
   CategoryID: commands
   Summary: >-
-    Forces _murex_ to rescan $PATH looking for exectables
+    Forces Murex to rescan $PATH looking for exectables
   Description: |-
-    On application lauch, _murex_ scans and caches all the executables found in
-    $PATH on your host. _murex_ then does regular scans there after. However if
+    On application lauch, Murex scans and caches all the executables found in
+    $PATH on your host. Murex then does regular scans there after. However if
     you want to force a new scan (for example you've just installed a new
     program and you want it to appear in tab completion) then you can run `murex-update-exe-list`.
   Usage: |-
@@ -384,7 +384,7 @@
     Check which builtins exist
   Description: |-
     `bexists` takes an array of parameters and returns which commands have been
-    compiled into _murex_. The 'b' in `bexists` stands for 'builtins'
+    compiled into Murex. The 'b' in `bexists` stands for 'builtins'
   Usage: |-
     ```
     bexists command... -> <stdout>
@@ -405,7 +405,7 @@
     ```
   Flags:
   Detail: |-
-    This builtin dates back to the start of _murex_ when all of the builtins were
+    This builtin dates back to the start of Murex when all of the builtins were
     considered optional. This was intended to be a way for scripts to determine
     which builtins were compiled. Since then `runtime` has absorbed and centralized
     a number of similar commands which have since been deprecated. The same fate

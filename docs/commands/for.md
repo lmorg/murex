@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `for`
+# `for` - Command Reference
 
 > A more familiar iteration loop to existing developers
 
@@ -8,7 +6,7 @@
 
 This `for` loop is fills a small niche where `foreach` or `formap` are
 inappropiate in your script. It's generally not recommended to use `for`
-because it performs slower and doesn't adhere to _murex_'s design
+because it performs slower and doesn't adhere to Murex's design
 philosophy. However it does offer additional flexibility around recursion. 
 
 ## Usage
@@ -28,7 +26,7 @@ philosophy. However it does offer additional flexibility around recursion.
 
 ### Syntax
 
-`for` is a little naughty in terms of breaking _murex_'s style guidelines due
+`for` is a little naughty in terms of breaking Murex's style guidelines due
 to the first parameter being entered as one string treated as 3 separate code
 blocks. The syntax is like this for two reasons:
   

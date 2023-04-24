@@ -6,8 +6,9 @@ set -ev
 
 mkdir -p /website
 
-#export MUREXVERSION="$(murex -c 'version --no-app-name')"
-export MUREXVERSION="$(cat app/app.go | grep 'const Version' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
+
+export MUREXVERSION="$(murex -c 'version --no-app-name')"
+#export MUREXVERSION="$(cat app/app.go | grep 'const Version' | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')"
 OLDVER="$(curl -s https://murex.rocks/VERSION | head -n1)"
 
 if [ "$MUREXVERSION" == "$OLDVER" ]; then
@@ -46,9 +47,9 @@ sed -i "s/\$DATE/`date`/;
 
 cp gen/website/404.md .
 for f in *.md; do
-        gen/website/find-exec.sh $f
+        murex gen/website/find-exec.mx $f
 done
-find docs -name "*.md" -exec gen/website/find-exec.sh {} \;
+find docs -name "*.md" -exec murex gen/website/find-exec.mx {} \;
 
 sed -i '0,/<img src/s//<img class="no-border" src/;
         0,/<img src/s//<img class="no-border" src/;

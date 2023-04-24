@@ -1,4 +1,4 @@
-# Download _murex_
+# Download Murex
 
 [![Version](version.svg)](DOWNLOAD.md)
 
@@ -74,7 +74,7 @@ so expect fewer issues than on the non-POSIX platforms.
 ### Plan 9
 
 Plan9 is untested. The code compiles and it is syscall compatible with Plan9
-operating systems, however you may experience bugs using _murex_ on Plan9. If
+operating systems, however you may experience bugs using Murex on Plan9. If
 you do encounter any issues then please raise them at:
 [github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
 
@@ -108,7 +108,7 @@ ourselves.
 ### Windows Instructions
 
 Click the Windows link that matches your CPU architecture. Unzip using your
-preferred too then launch using your preferred console. _murex_ cannot be
+preferred too then launch using your preferred console. Murex cannot be
 started via double clicking the executable -- it requires a starting from
 within an existing console session.
 

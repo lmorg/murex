@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Append Pipe (`>>`) Token
+# Append Pipe (`>>`) Token - Parser Reference
 
 > Redirects STDOUT to a file and append its contents
 
@@ -11,7 +9,7 @@ that file does not exist, then the file is created.
 
 This behaves similarly to the [Bash (et al) token](https://www.gnu.org/software/bash/manual/bash.html#Appending-Redirected-Output)
 except it doesn't support adding alternative file descriptor numbers. Instead
-you will need to use named pipes to achieve the same effect in _murex_.
+you will need to use named pipes to achieve the same effect in Murex.
 
 ## Examples
 
@@ -48,7 +46,7 @@ To truncate a file (ie overwrite its contents) use `|>` instead.
 * [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):

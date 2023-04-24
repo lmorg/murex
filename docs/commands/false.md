@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `false`
+# `false` - Command Reference
 
 > Returns a `false` value
 

@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## Command Reference: `exit`
+# `exit` - Command Reference
 
 > Exit murex
 
 ## Description
 
-Exit's _murex_ with either a exit number of 0 (by default if no parameters
+Exit's Murex with either a exit number of 0 (by default if no parameters
 supplied) or a custom value specified by the first parameter.
 
 `exit` is not scope aware; if it is included in a function then the whole

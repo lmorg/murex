@@ -1,8 +1,6 @@
-# _murex_ Shell Docs
+# `args`  - Command Reference
 
-## Command Reference: `args` 
-
-> Command line flag parser for _murex_ shell scripting
+> Command line flag parser for Murex shell scripting
 
 ## Description
 
@@ -31,19 +29,19 @@ exit number if there is an error when parsing.
     # --num: num == numeric data type
     # --bool: bool == flag used == true, missing == false
     # -b: --bool == alias of --bool flag
-    args: args {
-        "AllowAdditional": true,
-        "Flags": {
-            "--str": "str",
-            "--num": "num",
-            "--bool": "bool",
-            "-b": "--bool"
+    args: args %{
+        AllowAdditional: true
+        Flags: {
+            --str:  str
+            --num:  num
+            --bool: bool
+            -b: --bool
         }
     }
     catch {
         # Lets check for errors in the command line parameters. If they exist then
         # print the error and then exit.
-        err $args[Error]
+        err $args.error
         exit 1
     }
     
@@ -53,30 +51,30 @@ exit number if there is an error when parsing.
     # Some example usage:
     # -------------------
     
-    !if { $args->[[ /Flags/--bool ]] } {
+    !if { $(args.Flags.--bool) } {
         out "Flag `--bool` was not set."
     }
     
     # `<!null>` redirects the STDERR to a named pipe. In this instance it's the 'null' pipe so equivalent to 2>/dev/null
     # thus we are just suppressing any error messages.
     try <!null> {
-        $args -> [[ /Flags/--str ]] -> set fStr
-        $args -> [[ /Flags/--num ]] -> set fNum
+        $(args.Flags.--str) -> set fStr
+        $(args.Flags.--num) -> set fNum
     
         out "Defined Flags:"
-        out "  --str == $fStr"
-        out "  --num == $fNum"
+        out "  --str == $(fStr)"
+        out "  --num == $(fNum)"
     }
     
     catch {
         err "Missing `--str` and/or `--num` flags."
     }
     
-    $args -> [ Additional ] -> foreach flag {
-        out "Additional argument (ie not assigned to a flag): `$flag`."
+    $args[Additional] -> foreach flag {
+        out "Additional argument (ie not assigned to a flag): `$(flag)`."
     }
 
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex

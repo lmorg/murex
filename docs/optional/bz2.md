@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `!bz2` 
+# `!bz2`  - Optional Command Reference
 
 > Decompress a bz2 file
 

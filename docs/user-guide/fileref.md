@@ -1,4 +1,4 @@
-# User Guide: FileRef
+# FileRef - User Guide
 
 > How to track what code was loaded and from where
 
@@ -51,12 +51,12 @@ empty Filename string.
 ## See Also
 
 * [Modules and Packages](../user-guide/modules.md):
-  An introduction to _murex_ modules and packages
+  An introduction to Murex modules and packages
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
 * [`murex-package`](../commands/murex-package.md):
-  _murex_'s package manager
+  Murex's package manager
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block

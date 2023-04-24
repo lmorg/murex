@@ -1,14 +1,12 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `yaml` 
+# `yaml`  - Data-Type Reference
 
 > YAML Ain't Markup Language (YAML)
 
 ## Description
 
-YAML support within _murex_ is pretty mature however it is not considered a
+YAML support within Murex is pretty mature however it is not considered a
 primitive. Which means, while it is a recommended builtin which you should
-expect in most deployments of _murex_, it's still an optional package and
+expect in most deployments of Murex, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
@@ -29,7 +27,7 @@ external source packages for the shell to compile.
 * `ReadArray()`
     Works with YAML arrays. Maps are converted into arrays
 * `ReadArrayWithType()`
-    Works with YAML arrays. Maps are converted into arrays. Element type returned in _murex_ should match element type in YAML
+    Works with YAML arrays. Maps are converted into arrays. Element type returned in Murex should match element type in YAML
 * `ReadIndex()`
     Works against all properties in YAML
 * `ReadMap()`
@@ -76,4 +74,4 @@ external source packages for the shell to compile.
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

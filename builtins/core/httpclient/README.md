@@ -1,3 +1,3 @@
 # Builtins: `httpclient`
 
-Useful HTTP functions. This is a dependency for other functions within _murex_
+Useful HTTP functions. This is a dependency for other functions within Murex

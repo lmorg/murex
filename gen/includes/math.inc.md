@@ -72,13 +72,13 @@ false
 true
 ```
 
-Unfortunately is one of the biggest areas in _murex_ where you'd need to be
+Unfortunately is one of the biggest areas in Murex where you'd need to be
 careful. The simple addition or omission of the dollar prefix, `$`, can change
 the behavior of `=` and `let`.
 
 ### Strings
 
-Because the usual _murex_ tools for encapsulating a string (`"`, `'` and `()`)
+Because the usual Murex tools for encapsulating a string (`"`, `'` and `()`)
 are interpreted by the shell language parser, it means we need a new token for
 handling strings inside `=` and `let`. This is where backtick comes to our
 rescue.
@@ -127,4 +127,4 @@ foobar
 
 ### Read more
 
-_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's manual.
+Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's manual.

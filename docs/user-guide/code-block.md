@@ -1,4 +1,4 @@
-# User Guide: Code Block Parsing
+# Code Block Parsing - User Guide
 
 > Overview of how code blocks are parsed
 
@@ -17,7 +17,7 @@ When that code is run `function` is executed with the parameters `example` and
 `{ ... }` but the contents of `{ ... }` isn't converted into ASTs until someone
 calls `example` elsewhere in the shell.
 
-When `example` (the _murex_ function defined above) is executed the parser will
+When `example` (the Murex function defined above) is executed the parser will
 then generate AST of the commands inside said function but not any blocks that
 are associated with those functions. eg the AST would look something like this:
 
@@ -49,7 +49,7 @@ turned into ASTs and executed. Then the last parameter (the **then** block) is
 parsed and turned into ASTs, if the first conditional is true.
 
 This sequence of parsing is defined within the `if` builtin rather than
-_murex_'s parser. That means any code blocks are parsed only when a builtin
+Murex's parser. That means any code blocks are parsed only when a builtin
 specifically requests that they are executed.
 
 With murex, there's no distinction between text and code. It's up to commands
@@ -65,4 +65,4 @@ brace block might be JSON).
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in _murex_
+  Overview of the different schedulers (or 'run modes') in Murex

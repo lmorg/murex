@@ -1,17 +1,15 @@
-# _murex_ Shell Docs
-
-## API Reference: `Unmarshal()` (type)
+# `Unmarshal()` (type) - API Reference
 
 > Converts a structured file format into structured memory
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 The unmarshal function takes in a byte slice and returns a Go (golang)
 `type` or `struct` or an error.
 
-This unmarshaller is then registered to _murex_ inside an `init()` function
-and _murex_ builtins can use that unmarshaller via the `UnmarshalData()`
+This unmarshaller is then registered to Murex inside an `init()` function
+and Murex builtins can use that unmarshaller via the `UnmarshalData()`
 API.
 
 ## Usage
@@ -79,6 +77,6 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 * [apis/`Marshal()` (type)](../apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
 * [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
-  Converts structured memory into a _murex_ data-type (eg for stdio)
+  Converts structured memory into a Murex data-type (eg for stdio)
 * [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
-  Converts a _murex_ data-type into structured memory
+  Converts a Murex data-type into structured memory

@@ -98,7 +98,6 @@ blockquote {
 code {
   font-family: 'Source Code Pro', monospace;
   color: #2020D0;
-  /*background: #f0f0ff;*/
   border-radius: 5px;
   line-height: 130%;
   padding-left: 3px;
@@ -110,7 +109,8 @@ code {
 pre code {
   font-size: 16px;
   font-weight: normal;
-  color: #064928;
+  color: #063928;
+  padding: 0px;
 }
 
 a:link > code, a:visited > code, a:active > code {
@@ -143,12 +143,17 @@ pre {
   text-shadow: none;
 }
 
+h1 code { font-size: 26px; }
+h2 code { font-size: 20px; }
+h3 code { font-size: 16px; }
+h4 code { font-size: 16px; }
+
 img {
   max-width: 100%;
   max-height: 400px;
-  border-radius: 10px;
+  border-radius:5px;
   border-width: 1px;
-  border-color: #303133;
+  border-color: #a0a0a0;
   border-style: solid;
   margin-left: auto;
   margin-right: auto;
@@ -341,7 +346,7 @@ td > code {
   #build-spec { margin-inline-start: 0px; margin-inline-end: 0px; margin-right: 0px; }
   #commit-hash-short { display: inline; }
   #commit-hash-long { display: none; }
-  h2, h3 { margin-right: 0px; }
+  h2, h3, h4 { margin-left: 0px; margin-right: 0px; }
   hr { margin-right: 0px; }
   li { padding-right: 0px; }
   #toc { column-count: 1; }

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `alias`
+# `alias` - Command Reference
 
 > Create an alias for a command
 
@@ -31,7 +29,7 @@ entire alias within quotes. For example:
     
 Notice how only the command `out "Hello, World!"` is quoted in `alias` the
 same way you would have done if you'd run that command "naked" in the command
-line? This is how `alias` expects it's parameters and where `alias` on _murex_
+line? This is how `alias` expects it's parameters and where `alias` on Murex
 differs from `alias` in POSIX shells.
 
 In some ways this makes `alias` a little less flexible than it might
@@ -49,7 +47,7 @@ The following regex is used to validate the `alias`'s parameters:
 
 ### Undefining an alias
 
-Like all other definable states in _murex_, you can delete an alias with the
+Like all other definable states in Murex, you can delete an alias with the
 bang prefix:
 
     » alias hw=out "Hello, World!"
@@ -78,7 +76,7 @@ There is an order of precedence for which commands are looked up:
 
 2. Aliases - defined via `alias`. All aliases are global.
 
-3. _murex_ functions - defined via `function`. All functions are global.
+3. Murex functions - defined via `function`. All functions are global.
 
 5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
    Also environmental variables too, declared via `export`.
@@ -86,7 +84,7 @@ There is an order of precedence for which commands are looked up:
 6. globbing: however this only applies for commands executed in the interactive
    shell.
 
-7. _murex_ builtins.
+7. Murex builtins.
 
 8. External executable files
 
@@ -121,4 +119,4 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block

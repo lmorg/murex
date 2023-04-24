@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `esccli`
+# `esccli` - Command Reference
 
 > Escapes an array so output is valid shell code
 

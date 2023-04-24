@@ -1,10 +1,8 @@
-# _murex_ Blog
-
-## The Split Personalities of Shell Usage
+# The Split Personalities of Shell Usage - Blog
 
 > Shell usage is split between the need to write something quickly and frequently verses the need to write something more complex but only the once. In this article is explore those opposing use cases and how different $SHELLs have chosen to address them.
 
-### A Very Brief History
+## A Very Brief History
 
 ![Thompson (sitting) and Ritchie working together at a PDP-11](/images/blog/split_personalities/thompson.jpg)
 
@@ -32,7 +30,7 @@ I believe it is these reasons why $SHELLs based on that lineage, be it the
 Bourne shell, Bash or Zsh, all share a scripting syntax which very much feels
 like it is extended from REPL usage.
 
-### Opposing Requirements
+## Opposing Requirements
 
 ![Opposing Requirements](/images/blog/split_personalities/conflict.png)
 
@@ -58,7 +56,7 @@ around strings, commas to separate parameters and semi-colons to terminate the
 line. Even the C shell, `csh` then later `tcsh`, doesn't follow C's syntax that
 strictly -- instead understanding that brevity is required for interactive use.
 
-When I first started writing my own shell, _murex_, I originally started out
+When I first started writing my own shell, Murex, I originally started out
 with syntax that was inspired by the C. A pipeline would look something like
 the following:
 
@@ -80,7 +78,7 @@ looking more like the example below:
 (please excuse the useless use of `cat` in these examples -- it's purely there
 for illustrative reasons)
 
-### The Traditional
+## The Traditional
 
 ![The Traditional](/images/blog/split_personalities/old.jpg)
 
@@ -105,13 +103,13 @@ then I salute them, their usage is as niche as those who enjoy using Bash for
 complex scripts. Perhaps the only language I've used which translates well both
 for terse REPLs and lengthier scripts is LISP.
 
-### The Modern
+## The Modern
 
 ![The Modern](/images/blog/split_personalities/new.jpg)
 
 So how are modern shells addressing these split concerns?
 
-#### Powershell
+### Powershell
 
 Microsoft had the benefit of being able to start from a clean room. They didn't
 need to inherit 50+ years of UNIX legacy when they wrote Powershell. So their
@@ -149,7 +147,7 @@ rather than treating everything as a flat stream of bytes)
 There is no question that Powershell is a more powerful REPL than Bash but it
 definitely slides more towards the "write-once read-many" end of the spectrum.
 
-#### Oil
+### Oil
 
 [Oil](https://www.oilshell.org/) describes itself as the following:
 
@@ -166,11 +164,11 @@ between "write-many" and "read-many" languages.
 This make Oil one of the most interesting alternative shells I have come
 across.
 
-#### Murex
+### Murex
 
 ![Murex](/images/blog/split_personalities/murex.png)
 
-The approach _murex_ takes sits somewhere in between the previous two shells.
+The approach Murex takes sits somewhere in between the previous two shells.
 It attempts to retain familiarity with POSIX syntax but isn't afraid to break
 compatibility where it makes sense. The emphasis is on creating grammar that
 is both succinct but also readable. This mission was driven from originally
@@ -202,14 +200,14 @@ golfing in the REPL should the operator want to save a few key strokes
 
     if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
     
-### Conclusion
+## Conclusion
 
 The write-many read-once tendencies of the interactive terminal and the
 write-once read-many demands of scripting might be difficult to consolidate
 but I do think it is achievable and I'm not convinced the current heavy weights
 do a good job at addressing those conflicting concerns. Whereas alternative
 shells like [Oil](https://www.oilshell.org/), [Elfish](https://elv.sh/) and
-[_murex_](https://github.com/lmorg/murex) seem to be putting a lot more thought
+[Murex](https://github.com/lmorg/murex) seem to be putting a lot more thought
 into this problem and it is really exciting seeing the different ideas that are
 being produced.
 
@@ -219,9 +217,11 @@ Published: 02.10.2021 at 22:42
 
 ## See Also
 
+* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
+* [Reading Lists From The Command Line](../blog/reading_lists.md):
+  How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
 * [Rosetta Stone](../user-guide/rosetta-stone.md):
-  A tabulated list of Bashism's and their equivalent _murex_ syntax
-* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about _murex_'s interactive shell?
+  A tabulated list of Bashism's and their equivalent Murex syntax
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition

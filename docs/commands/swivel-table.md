@@ -1,4 +1,4 @@
-# _murex_ Shell Docs
+# Murex Shell Docs
 
 ## Command Reference: `swivel-table`
 
@@ -36,7 +36,7 @@ That data swivelled would look like the following:
     9       TIME    0:02    0:00    0:00    0:00
     10      COMMAND /sbin/init      [kthreadd]      [kworker/0:0H]  [mm_percpu_wq]
     
-Please note that column one is numbered because by default _murex_ couldn't
+Please note that column one is numbered because by default Murex couldn't
 guess whether the first line of generic output is a title or data. However if we
 format that as a CSV, which by default does have a title row (configurable via
 `config`), then you would see titles as column one:

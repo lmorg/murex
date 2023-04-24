@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `runmode`
+# `runmode` - Command Reference
 
 > Alter the scheduler's behaviour at higher scoping level
 
@@ -69,7 +67,7 @@ if `runmode ... module` is set.
 * [Pipeline](../user-guide/pipeline.md):
   Overview of what a "pipeline" is
 * [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in _murex_
+  Overview of the different schedulers (or 'run modes') in Murex
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`catch`](../commands/catch.md):
@@ -77,7 +75,7 @@ if `runmode ... module` is set.
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`function`](../commands/function.md):
   Define a function block
 * [`out`](../commands/out.md):

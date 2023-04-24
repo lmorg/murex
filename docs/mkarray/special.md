@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## mkarray: Special Ranges
+# Special Ranges - mkarray
 
 > Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 
 ## Description
 
-Unlike bash, _murex_ also supports some special ranges:
+Unlike bash, Murex also supports some special ranges:
 
 ```  
 » a: [mon..sun]

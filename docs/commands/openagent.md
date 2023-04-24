@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `openagent`
+# `openagent` - Command Reference
 
 > Creates a handler function for `open
 
@@ -41,10 +39,10 @@ handler by checking `runtime --open-agents` and checking it's **FileRef**.
 * [FileRef](../user-guide/fileref.md):
   How to track what code was loaded and from where
 * [Modules and Packages](../user-guide/modules.md):
-  An introduction to _murex_ modules and packages
+  An introduction to Murex modules and packages
 * [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

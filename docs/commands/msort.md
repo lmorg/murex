@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `msort` 
+# `msort`  - Command Reference
 
 > Sorts an array - data type agnostic
 
@@ -14,7 +12,7 @@ reversed order nor multi-column data. It is specifically designed to work
 with lists of data. For example arrays in data formats like JSON (`json`),
 YAML (`yaml`) or S-Expressions (`sexp`); or lists of strings (`str`). The
 intention is to cover use cases not already covered by UNIX sort while also
-providing something rudimentary for _murex_ scripts to function on Windows
+providing something rudimentary for Murex scripts to function on Windows
 without having to write lots of ugly platform-specific code. This is also
 the reason this builtin is called `msort` rather than conflicting with the
 existing UNIX name, `sort`.

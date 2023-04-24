@@ -12,15 +12,15 @@ coverage:
 #        target: 70
         threshold: 1%
         if_ci_failed: success
-#      docgen:
-#        paths:
-#          - tools/docgen
-#      readline:
-#        paths:
-#          - tools/readline
-#      wasmserver:
-#        paths:
-#          - tools/wasmserver
+      docgen:
+        paths:
+          - tools/docgen
+      readline:
+        paths:
+          - utils/readline
+      wasmserver:
+        paths:
+          - utils/wasmserver
 
 ignore:
   - "vendor"                # not my project files
@@ -29,5 +29,5 @@ ignore:
   - "**/*.mx"               # these are tested outside of codecov
   - "**/*.sh"               # these are just for bootstrapping development
   - "**/*.test"             # files generated for testing
-  - "tools/docgen"          # this is a separate project for bootstrapping development
-  - "tools/wasmserver"      # this is also a separate project for bootstrapping development
+  - "utils/docgen"          # this is a separate project for bootstrapping development
+  - "utils/wasmserver"      # this is also a separate project for bootstrapping development

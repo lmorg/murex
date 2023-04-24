@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `commonlog` 
+# `commonlog`  - Data-Type Reference
 
 > Apache httpd "common" log format
 
 ## Description
 
-Apache httpd supports a few different log formats. This _murex_ type is for
+Apache httpd supports a few different log formats. This Murex type is for
 parsing the "common" log format.
 
 ## Detail

@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## API Reference: `ReadArrayWithType()` (type)
+# `ReadArrayWithType()` (type) - API Reference
 
 > Read from a data type one array element at a time and return the elements contents and data type
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 
 It's called by builtins to allow them to read data structures one array element
 at a time.
@@ -65,7 +63,7 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 
 If your data type is not a stream-able array, it is then recommended that
 you pass your array to  `lang.ArrayWithTypeTemplate()` which is a handler to
-convert Go structures into _murex_ arrays. This also makes writing `ReadArray()`
+convert Go structures into Murex arrays. This also makes writing `ReadArray()`
 handlers easier since you can just pass `lang.ArrayTemplate()` your marshaller.
 For example:
 

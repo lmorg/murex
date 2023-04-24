@@ -1,0 +1,21 @@
+- DocumentID: reading_lists
+  Title: >-
+    Reading Lists From The Command Line
+  CategoryID: blog
+  DateTime: 2023-04-22 11:43
+  Summary: >-
+    How hard can it be to read a list of data from the command line? If your list
+    is line delimited then it should be easy. However what if your list is a JSON
+    array? This post will explore how to work with lists in a different command
+    line environments.
+  Description: |-
+    {{ include "gen/blog/reading_lists.inc.md" }}
+  Synonyms:
+  Related:
+  - commands/foreach
+  - commands/formap
+  - commands/a
+  - parser/create-array
+  - commands/cast
+  
+

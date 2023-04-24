@@ -1,9 +1,9 @@
-# User Guide: Variable and Config Scoping
+# Variable and Config Scoping - User Guide
 
-> How scoping works within _murex_
+> How scoping works within Murex
 
-A 'scope' in _murex_ is a collection of code blocks to which variables and
-config are persistent within. In _murex_, a variable declared inside an `if` or
+A 'scope' in Murex is a collection of code blocks to which variables and
+config are persistent within. In Murex, a variable declared inside an `if` or
 `foreach` block will be persistent outside of their blocks as long as you're
 still inside the same function.
 
@@ -46,11 +46,11 @@ scope. Subshells also do not create a new scoping either.
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`foreach`](../commands/foreach.md):
@@ -68,6 +68,6 @@ scope. Subshells also do not create a new scoping either.
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals

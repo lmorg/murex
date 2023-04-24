@@ -40,7 +40,7 @@
 
     ### "AllowAny": boolean (false)
 
-    The way autocompletion works in _murex_ is the suggestion engine looks for
+    The way autocompletion works in Murex is the suggestion engine looks for
     matches and if it fines one, it then moves onto the next index in the JSON
     schema. This means unexpected values typed in the interactive terminal will
     break the suggestion engine's ability to predict what the next expected
@@ -124,7 +124,7 @@
 
     ### "Dynamic": string ("")
 
-    This is a _murex_ block which returns an array of suggestions.
+    This is a Murex block which returns an array of suggestions.
 
     Code inside that block are executed like a function and the parameters will
     mirror the same as those parameters entered in the interactive terminal.
@@ -145,7 +145,7 @@
     returned from the commands that preceded it. For example the suggestions
     for `[` (index) will depend entirely on what data is piped into it.
 
-    **ExecCmdline** tells _murex_ to run the commandline up until the command
+    **ExecCmdline** tells Murex to run the commandline up until the command
     which your cursor is editing and pipe that output to the STDIN of that
     commands **Dynamic** or **DynamicDesc** code block.
 
@@ -169,7 +169,7 @@
     If these criteria are met, the commandline is considered "safe"; if any of
     those conditions fail then the commandline is considered "unsafe".
 
-    _murex_ will come with a number of sane commands already included in its
+    Murex will come with a number of sane commands already included in its
     `safe-commands` whitelist however you can add or remove them using `config`
 
     ```

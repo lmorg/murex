@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `function`
+# `function` - Command Reference
 
 > Define a function block
 
@@ -48,22 +46,22 @@ preference below).
 
 ### Undefining a function
 
-Like all other definable states in _murex_, you can delete a function with
+Like all other definable states in Murex, you can delete a function with
 the bang prefix (see the example above).
 
 ### Using parameterized variable names
 
-By default, if you wanted to query the parameters passed to a _murex_ function
+By default, if you wanted to query the parameters passed to a Murex function
 you would have to use either:
 
 * the Bash syntax where of `$2` style numbered reserved variables,
 
-* and/or the _murex_ convention of `$PARAM` / `$ARGS` arrays (see **reserved-vars**
+* and/or the Murex convention of `$PARAM` / `$ARGS` arrays (see **reserved-vars**
   document below),
   
-* and/or the older _murex_ convention of the `args` builtin for any flags.
+* and/or the older Murex convention of the `args` builtin for any flags.
 
-Starting from _murex_ `2.7.x` it's been possible to declare parameters from
+Starting from Murex `2.7.x` it's been possible to declare parameters from
 within the function declaration:
 
     function: name (
@@ -84,7 +82,7 @@ First off, the syntax doesn't have to follow exactly as above:
   underscore (`_`), and hyphen (`-`). Unicode characters as variable names are
   not currently supported.
 
-* **data-type** is the _murex_ data type. This is an optional field in version
+* **data-type** is the Murex data type. This is an optional field in version
   `2.8.x` (defaults to `str`) but is required in `2.7.x`.
 
 * The **default value** must be inside square brackets (`[...]`). Any value is
@@ -131,7 +129,7 @@ then you will be prompted for it's value. That could look something like this:
 
 #### Data-Types
 
-This is the _murex_ data type of the variable. From version `2.8.x` this field
+This is the Murex data type of the variable. From version `2.8.x` this field
 is optional and will default to `str` when omitted.
 
 The advantage of setting this field is that values are type checked and the
@@ -200,7 +198,7 @@ There is an order of precedence for which commands are looked up:
 
 2. Aliases - defined via `alias`. All aliases are global.
 
-3. _murex_ functions - defined via `function`. All functions are global.
+3. Murex functions - defined via `function`. All functions are global.
 
 5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
    Also environmental variables too, declared via `export`.
@@ -208,7 +206,7 @@ There is an order of precedence for which commands are looked up:
 6. globbing: however this only applies for commands executed in the interactive
    shell.
 
-7. _murex_ builtins.
+7. Murex builtins.
 
 8. External executable files
 
@@ -223,11 +221,11 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`args` ](../commands/args.md):
-  Command line flag parser for _murex_ shell scripting
+  Command line flag parser for Murex shell scripting
 * [`break`](../commands/break.md):
   terminate execution of a block within your processes scope
 * [`exec`](../commands/exec.md):
@@ -249,6 +247,6 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block
 * [`version` ](../commands/version.md):
-  Get _murex_ version
+  Get Murex version

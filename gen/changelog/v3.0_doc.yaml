@@ -8,9 +8,9 @@
   Description: |-
     Breaking Changes:
 
-    * Optional builtin removed: `bson`. This was disabled by default and likely never used. So it has been removed to reduce _murex_'s testing footprint. It can easily be re-added if anyone does actually use it
+    * Optional builtin removed: `bson`. This was disabled by default and likely never used. So it has been removed to reduce Murex's testing footprint. It can easily be re-added if anyone does actually use it
 
-    * Optional builtin removed: `coreutils`. This was actually enabled by default for Windows builds. However rewriting Linux/UNIX coreutils for Windows support is a massive project in its own right and with the maturity of WSL there's almost no reason to run _murex_ on "native Windows". So the `coreutils` builtin has been dropped to allow us to focus on the responsibilities of the shell
+    * Optional builtin removed: `coreutils`. This was actually enabled by default for Windows builds. However rewriting Linux/UNIX coreutils for Windows support is a massive project in its own right and with the maturity of WSL there's almost no reason to run Murex on "native Windows". So the `coreutils` builtin has been dropped to allow us to focus on the responsibilities of the shell
     
     Features:
 
@@ -40,7 +40,7 @@
 
     * Additional syntax for _index_ (`[`): `*1`: 1st row, `*A`: 1st column
 
-    * New alias: `help` -> `murex-docs`. This brings _murex_ a little more inline with Bash et al
+    * New alias: `help` -> `murex-docs`. This brings Murex a little more inline with Bash et al
 
     * **pre-cache-hint-summaries** now enabled by default after testing has demonstrated it doesn't have nearly as expensive footprint as first assumed
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `out`
+# `out` - Command Reference
 
 > Print a string to the STDOUT with a trailing new line character
 

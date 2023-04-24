@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `hcl` 
+# `hcl`  - Data-Type Reference
 
 > HashiCorp Configuration Language (HCL)
 
@@ -17,9 +15,9 @@ The description below is taken from the HCL git repository's [README](https://gi
 > valid input to a system expecting HCL. This helps makes systems interoperable
 > with other systems.
 
-HCL support within _murex_ is pretty mature however it is not considered a
+HCL support within Murex is pretty mature however it is not considered a
 primitive. Which means, while it is a recommended builtin which you should
-expect in most deployments of _murex_, it's still an optional package and
+expect in most deployments of Murex, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
@@ -71,7 +69,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * `ReadArray()`
     Works with HCL arrays. Maps are converted into arrays
 * `ReadArrayWithType()`
-    Works with HCL arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the HCL type of the element
+    Works with HCL arrays. Maps are converted into arrays. Elements data-type in Murex mirrors the HCL type of the element
 * `ReadIndex()`
     Works against all properties in HCL
 * `ReadMap()`
@@ -116,7 +114,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
 * [mxjson](../types/mxjson.md):

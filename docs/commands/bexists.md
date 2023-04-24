@@ -1,13 +1,11 @@
-# _murex_ Shell Docs
-
-## Command Reference: `bexists`
+# `bexists` - Command Reference
 
 > Check which builtins exist
 
 ## Description
 
 `bexists` takes an array of parameters and returns which commands have been
-compiled into _murex_. The 'b' in `bexists` stands for 'builtins'
+compiled into Murex. The 'b' in `bexists` stands for 'builtins'
 
 ## Usage
 
@@ -29,7 +27,7 @@ compiled into _murex_. The 'b' in `bexists` stands for 'builtins'
 
 ## Detail
 
-This builtin dates back to the start of _murex_ when all of the builtins were
+This builtin dates back to the start of Murex when all of the builtins were
 considered optional. This was intended to be a way for scripts to determine
 which builtins were compiled. Since then `runtime` has absorbed and centralized
 a number of similar commands which have since been deprecated. The same fate
@@ -39,8 +37,8 @@ that reason alone it has been spared from the axe.
 ## See Also
 
 * [Modules and Packages](../user-guide/modules.md):
-  An introduction to _murex_ modules and packages
+  An introduction to Murex modules and packages
 * [`fexec` ](../commands/fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

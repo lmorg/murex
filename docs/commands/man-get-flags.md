@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `man-get-flags` 
+# `man-get-flags`  - Command Reference
 
 > Parses man page files for command line flags 
 
@@ -22,4 +20,4 @@ the command as a parameter.
 ## See Also
 
 * [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for _murex_ builtins
+  Displays the man pages for Murex builtins

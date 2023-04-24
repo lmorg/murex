@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `[[` (element)
+# `[[` (element) - Command Reference
 
 > Outputs an element from a nested structure
 
@@ -13,7 +11,7 @@ comes with the drawback that you can only return one element.
 
 **Element** (`[[`) also doesn't support the bang prefix (unlike) **index**.
 
-Please note that indexes in _murex_ are counted from zero.
+Please note that indexes in Murex are counted from zero.
 
 ## Usage
 
@@ -39,7 +37,7 @@ Return the data-type and description of **config shell syntax-highlighting**
 
 ### Element counts from zero
 
-Indexes in _murex_ behave like any other computer array in that all arrays
+Indexes in Murex behave like any other computer array in that all arrays
 start from zero (`0`).
 
 ### Alternative path separators
@@ -87,7 +85,7 @@ However there are a few of caveats:
     
 ### Quoting parameters
 
-In _murex_, everything is a function. Thus even `[[` is a function name and
+In Murex, everything is a function. Thus even `[[` is a function name and
 the closing `]]` is actually a last parameter. This means the recommended way
 to quote **element** parameters is to quote specific key names or the entire
 path:
@@ -113,7 +111,7 @@ path:
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`ja` (mkarray)](../commands/ja.md):

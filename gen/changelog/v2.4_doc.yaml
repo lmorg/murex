@@ -18,7 +18,7 @@
 
     * Strict variables now supported (like `set -u` in Bash). This will mean any
       variables passed that haven't been initialized beforehand will cause that
-      pipeline to fail. Currently this is opt in, a future release of _murex_ will
+      pipeline to fail. Currently this is opt in, a future release of Murex will
       flip that and make it opt out. So take this opportunity to enable it in your
       `~/.murex_profile` and test your scripts. Enable this via `config`:
 
@@ -35,7 +35,7 @@
       start nor end date appears then mkarray assumes range starts or ends at
       current date.
 
-    * `openagent` profile for `image` data types has been improved. _murex_ now
+    * `openagent` profile for `image` data types has been improved. Murex now
       better supports tmux and iTerm2.
 
     * `runtime --config` now displays `FileRef` for every `set` as well as `define`,
@@ -70,7 +70,7 @@
       release. Also planned for the future is caching autocompletion suggestions.
 
     * Loading message added for the default profile, ie the one that is compiled
-      into and thus shipped with _murex_.
+      into and thus shipped with Murex.
 
     * Fixed bug with `fid-list` and `jobs` where they were outputting the `p.Name`
       struct rather than `p.Name.String()`. This lead to the process name appearing

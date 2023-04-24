@@ -1,10 +1,10 @@
-# User Guide: Schedulers
+# Schedulers - User Guide
 
-> Overview of the different schedulers (or 'run modes') in _murex_
+> Overview of the different schedulers (or 'run modes') in Murex
 
-There are a few distinct schedulers (or run modes) in _murex_ which are invoked
+There are a few distinct schedulers (or run modes) in Murex which are invoked
 by builtin commands. This means you can alter the way commands are executed
-dynamically within _murex_ shell scripts.
+dynamically within Murex shell scripts.
 
 ## Normal
 
@@ -16,7 +16,7 @@ commands (like above) or a single command (eg `top`).
 ## Try
 
 This is similar to normal where commands in a pipeline are run in parallel except
-_murex_ validates the stderr and exit status of the last command in any pipeline.
+Murex validates the stderr and exit status of the last command in any pipeline.
 
 If stderr is greater than stdout (per bytes written) **OR** the exit status is
 non-zero then the scheduler exits that entire block.

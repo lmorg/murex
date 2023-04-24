@@ -15,9 +15,9 @@
 
     Features:
 
-    * `select` builtin now added to the default build. This built in will stream tabulated data into an in memory sqlite3 database and take SQL arguments to query that data. Thus allowing you to inline SQL queries as part of your native command line. This addition will add complications for anyone building from source on Windows. If you are a Windows user you are recommended to use WSL or, if you desperately need to use _murex_ natively on Windows, download the appropriate per-compiled binary from the downloads page
+    * `select` builtin now added to the default build. This built in will stream tabulated data into an in memory sqlite3 database and take SQL arguments to query that data. Thus allowing you to inline SQL queries as part of your native command line. This addition will add complications for anyone building from source on Windows. If you are a Windows user you are recommended to use WSL or, if you desperately need to use Murex natively on Windows, download the appropriate per-compiled binary from the downloads page
     
-    * When used in WSL, any Windows mounts included in `$PATH` will now be subject to the same inclusion rules as Windows file systems when _murex_ is used in Windows. This means only executables (ie files with `.exe`, amongst other, extensions are present). This has dramatically cleaned up autocomplete suggestions when running _murex_ in WSL.
+    * When used in WSL, any Windows mounts included in `$PATH` will now be subject to the same inclusion rules as Windows file systems when Murex is used in Windows. This means only executables (ie files with `.exe`, amongst other, extensions are present). This has dramatically cleaned up autocomplete suggestions when running Murex in WSL.
     
     * New `autocomplete` directive: `FileRegexp`. Use this if you want to return only files where the file name matches a defined pattern (eg only **.txt** files: `\.txt$`)
     
@@ -35,7 +35,7 @@
     
     * debug message added to warn when fork FIDs are being killed
 
-    Non-user facing changes (internal changes to the _murex_ code base):
+    Non-user facing changes (internal changes to the Murex code base):
     
     * Additional tests
     
@@ -45,7 +45,7 @@
 
     Bug fixes:
     
-    * HTTP client (as used by `get`, `getfile`, `post`, `open`, etc) wasn't breaking down the `Content-Type` header correctly. This only affected unknown MIME types where _murex_ had to guess the correct data type to assign to STDOUT. This is an edge case bug.
+    * HTTP client (as used by `get`, `getfile`, `post`, `open`, etc) wasn't breaking down the `Content-Type` header correctly. This only affected unknown MIME types where Murex had to guess the correct data type to assign to STDOUT. This is an edge case bug.
     
     * `while`, when used without a separate parameter for the conditional logic, was buffering the STDOUT for each loop and outputting it after that iteration had ended. `while` now uses a "tee" stdio writer which means it can stream STDOUT while the iteration is in progress  Synonyms:
   Related:

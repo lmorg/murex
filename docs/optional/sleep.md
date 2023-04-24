@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `sleep` 
+# `sleep`  - Optional Command Reference
 
 > Suspends the shell for a number of seconds
 
@@ -31,6 +29,6 @@ or similar platforms then you will need to launch with the `exec` builtin:
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block
 * [`time` ](../commands/time.md):
   Returns the execution run time of a command or block

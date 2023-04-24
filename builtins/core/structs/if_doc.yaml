@@ -93,7 +93,7 @@
     the output streams to `null`.
 
     If you require output from the conditional blocks STDOUT then you will need to
-    use either a _murex_ named pipe to redirect the output, or test or debug flags
+    use either a Murex named pipe to redirect the output, or test or debug flags
     (depending on your use case) if you only need to occasionally inspect the
     conditionals output.
   Synonyms:

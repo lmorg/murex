@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `os`
+# `os` - Command Reference
 
 > Output the auto-detected OS name
 

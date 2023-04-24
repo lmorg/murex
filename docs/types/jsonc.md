@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `jsonc` 
+# `jsonc`  - Data-Type Reference
 
 > Concatenated JSON
 
@@ -70,7 +68,7 @@ This format is equatable to `generic` and `csv`.
 The advantage of concatenated JSON is that it supports everything jsonlines
 supports but without the dependency of a new line as a separator.
 
-Eventually it is planned that this _murex_ data-type will replace jsonlines
+Eventually it is planned that this Murex data-type will replace jsonlines
 and possibly even the regular JSON parser. However this concatenated JSON
 parser currently requires reading the entire file first before parsing whereas
 jsonlines can read one line at a time. Which makes jsonlines a better data-
@@ -167,7 +165,7 @@ parser is still in beta), it is shipped as an additional data-type.
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`toml` ](../types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):

@@ -65,7 +65,7 @@ Mon Tue Wed Thu Fri
 
 **Variable as a command:**
 
-If a variable is used as a commend then _murex_ will just print the content of
+If a variable is used as a commend then Murex will just print the content of
 that variable.
 
 ```

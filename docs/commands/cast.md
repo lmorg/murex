@@ -1,13 +1,11 @@
-# _murex_ Shell Docs
-
-## Command Reference: `cast`
+# `cast` - Command Reference
 
 > Alters the data type of the previous function without altering it's output
 
 ## Description
 
 `cast` works a little like when you case variables in lower level languages
-where the value of the variable is unchanged. In _murex_ the contents in
+where the value of the variable is unchanged. In Murex the contents in
 the pipeline are preserved however the reported data type is altered.
 
 ## Usage

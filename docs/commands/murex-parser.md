@@ -1,8 +1,6 @@
-# _murex_ Shell Docs
+# `murex-parser`  - Command Reference
 
-## Command Reference: `murex-parser` 
-
-> Runs the _murex_ parser against a block of code 
+> Runs the Murex parser against a block of code 
 
 ## Description
 
@@ -26,8 +24,8 @@ Please note this command is still very much in beta and is likely to change in i
 ## See Also
 
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for _murex_ builtins
+  Displays the man pages for Murex builtins
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

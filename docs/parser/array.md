@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Array (`@`) Token
+# Array (`@`) Token - Parser Reference
 
 > Expand values as an array
 
 ## Description
 
-The array token is used to tell _murex_ to expand the string as multiple
+The array token is used to tell Murex to expand the string as multiple
 parameters (an array) rather than as a single parameter string.
 
 ## Examples
@@ -64,7 +62,7 @@ The string and array tokens also works for subshells:
 
 **Variable as a command:**
 
-If a variable is used as a commend then _murex_ will just print the content of
+If a variable is used as a commend then Murex will just print the content of
 that variable.
 
     » $example = "Hello World!"

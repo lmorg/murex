@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## API Reference: `WriteArray()` (type)
+# `WriteArray()` (type) - API Reference
 
 > Write a data type, one array element at a time
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 
 It's called by builtins to allow them to write data structures one array
 element at a time.

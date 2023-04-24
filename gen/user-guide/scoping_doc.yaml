@@ -3,10 +3,10 @@
     Variable and Config Scoping
   CategoryID: user-guide
   Summary: >-
-    How scoping works within _murex_
+    How scoping works within Murex
   Description: |-
-    A 'scope' in _murex_ is a collection of code blocks to which variables and
-    config are persistent within. In _murex_, a variable declared inside an `if` or
+    A 'scope' in Murex is a collection of code blocks to which variables and
+    config are persistent within. In Murex, a variable declared inside an `if` or
     `foreach` block will be persistent outside of their blocks as long as you're
     still inside the same function.
 

@@ -1,13 +1,11 @@
-# _murex_ Shell Docs
+# Command Reference
 
-## Command Reference
+This section is a glossary of Murex builtin commands.
 
-This section is a glossary of _murex_ builtin commands.
-
-Because _murex_ is loosely modelled on the functional paradigm, it means
+Because Murex is loosely modelled on the functional paradigm, it means
 all language constructs are exposed via functions and those are typically
-builtins because they can share the _murex_ runtime virtual machine.
-However any executable command can also be called from within _murex_;
+builtins because they can share the Murex runtime virtual machine.
+However any executable command can also be called from within Murex;
 be that either via the `exec` builtin or natively like you would from any
 Linux, UNIX, or even Windows command prompt.
 
@@ -15,13 +13,13 @@ Linux, UNIX, or even Windows command prompt.
 
 ### Language Guides
 
-1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-   the _murex_ language.
+1. [Language Tour](tour.md), which is an introduction into
+   the Murex language.
 
 2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-   table comparing Bash syntax to _murex_'s.
+   table comparing Bash syntax to Murex's.
 
-### _murex_'s Source Code
+### Murex's Source Code
 
 The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/core).
 
@@ -43,7 +41,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`2darray` ](commands/2darray.md):
   Create a 2D JSON array from multiple input sources
 * [`<>` / `read-named-pipe`](commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`<stdin>` ](commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`=` (arithmetic evaluation)](commands/equ.md):
@@ -73,7 +71,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`append`](commands/append.md):
   Add data to the end of an array
 * [`args` ](commands/args.md):
-  Command line flag parser for _murex_ shell scripting
+  Command line flag parser for Murex shell scripting
 * [`autocomplete`](commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`bexists`](commands/bexists.md):
@@ -89,7 +87,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`cd`](commands/cd.md):
   Change (working) directory
 * [`config`](commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`continue`](commands/continue.md):
   terminate process of a block within a caller function
 * [`count`](commands/count.md):
@@ -135,11 +133,11 @@ to return the same markdown-formatted document as those listed below. eg
 * [`fg`](commands/fg.md):
   Sends a background process into the foreground
 * [`fid-kill`](commands/fid-kill.md):
-  Terminate a running _murex_ function
+  Terminate a running Murex function
 * [`fid-killall`](commands/fid-killall.md):
-  Terminate _all_ running _murex_ functions
+  Terminate _all_ running Murex functions
 * [`fid-list`](commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`for`](commands/for.md):
   A more familiar iteration loop to existing developers
 * [`foreach`](commands/foreach.md):
@@ -157,7 +155,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`get`](commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](commands/getfile.md):
-  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`global`](commands/global.md):
   Define a global variable and set it's value
 * [`history`](commands/history.md):
@@ -189,13 +187,13 @@ to return the same markdown-formatted document as those listed below. eg
 * [`mtac`](commands/mtac.md):
   Reverse the order of an array
 * [`murex-docs`](commands/murex-docs.md):
-  Displays the man pages for _murex_ builtins
+  Displays the man pages for Murex builtins
 * [`murex-package`](commands/murex-package.md):
-  _murex_'s package manager
+  Murex's package manager
 * [`murex-parser` ](commands/murex-parser.md):
-  Runs the _murex_ parser against a block of code 
+  Runs the Murex parser against a block of code 
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):
-  Forces _murex_ to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for exectables
 * [`null`](commands/devnull.md):
   null function. Similar to /dev/null
 * [`open-image` ](commands/open-image.md):
@@ -211,7 +209,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`out`](commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`pipe`](commands/pipe.md):
-  Manage _murex_ named pipes
+  Manage Murex named pipes
 * [`post`](commands/post.md):
   HTTP POST request with a JSON-parsable return
 * [`prefix`](commands/prefix.md):
@@ -235,13 +233,13 @@ to return the same markdown-formatted document as those listed below. eg
 * [`runmode`](commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
 * [`runtime`](commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`rx`](commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`set`](commands/set.md):
   Define a local variable and set it's value
 * [`source` ](commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block
 * [`struct-keys`](commands/struct-keys.md):
   Outputs all the keys in a structure as a file path
 * [`suffix`](commands/suffix.md):
@@ -255,7 +253,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`tabulate`](commands/tabulate.md):
   Table transformation tools
 * [`test`](commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts
 * [`time` ](commands/time.md):
   Returns the execution run time of a command or block
 * [`tmp`](commands/tmp.md):
@@ -271,7 +269,7 @@ to return the same markdown-formatted document as those listed below. eg
 * [`trypipe`](commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error
 * [`version` ](commands/version.md):
-  Get _murex_ version
+  Get Murex version
 * [`while`](commands/while.md):
   Loop until condition false
 

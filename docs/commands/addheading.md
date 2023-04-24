@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `addheading` 
+# `addheading`  - Command Reference
 
 > Adds headings to a table
 

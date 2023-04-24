@@ -5,12 +5,12 @@ Categories:
   - ID: commands
     Title: Command Reference
     Description: |-
-      This section is a glossary of _murex_ builtin commands.
+      This section is a glossary of Murex builtin commands.
       
-      Because _murex_ is loosely modelled on the functional paradigm, it means
+      Because Murex is loosely modelled on the functional paradigm, it means
       all language constructs are exposed via functions and those are typically
-      builtins because they can share the _murex_ runtime virtual machine.
-      However any executable command can also be called from within _murex_;
+      builtins because they can share the Murex runtime virtual machine.
+      However any executable command can also be called from within Murex;
       be that either via the `exec` builtin or natively like you would from any
       Linux, UNIX, or even Windows command prompt.
 
@@ -18,13 +18,13 @@ Categories:
 
       ### Language Guides
 
-      1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-         the _murex_ language.
+      1. [Language Tour](tour.md), which is an introduction into
+         the Murex language.
 
       2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to _murex_'s.
+         table comparing Bash syntax to Murex's.
 
-      ### _murex_'s Source Code
+      ### Murex's Source Code
 
       The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/core).
 
@@ -71,13 +71,13 @@ Categories:
   - ID: optional
     Title: Optional Command Reference
     Description: |-
-      This section is a glossary of _murex_ optional builtins.
+      This section is a glossary of Murex optional builtins.
       
-      These builtins likely wont be compiled with _murex_ unless you specifically
+      These builtins likely wont be compiled with Murex unless you specifically
       request them to be. This might be because they duplicate functionality
       already available on POSIX systems or introduce more complex dependencies.
       It might also be because that specific builtin is in an alpha stage and thus
-      not ready to ship with _murex_.
+      not ready to ship with Murex.
 
       ## Other Reference Material
 
@@ -86,13 +86,13 @@ Categories:
       1. [Core Builtins](./GUIDE.builtin-functions.md), for docs
          on the core builtins.
 
-      2. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-         the _murex_ language.
+      2. [Language Tour](tour.md), which is an introduction into
+         the Murex language.
 
       3. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to _murex_'s.
+         table comparing Bash syntax to Murex's.
 
-      ### _murex_'s Source Code
+      ### Murex's Source Code
 
       The source for each of these builtins can be found on [Github](https://github.com/lmorg/murex/tree/master/builtins/optional).
 
@@ -122,23 +122,23 @@ Categories:
   - ID: parser
     Title: Parser Reference
     Description: |-
-      This section is a glossary of _murex_ tokens and parser behavior.
+      This section is a glossary of Murex tokens and parser behavior.
   
       ## Other Reference Material
 
       ### Language Guides
 
-      1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-         the _murex_ language.
+      1. [Language Tour](tour.md), which is an introduction into
+         the Murex language.
 
       2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to _murex_'s.
+         table comparing Bash syntax to Murex's.
 
       3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
 
-      ### _murex_'s Source Code
+      ### Murex's Source Code
 
-      The parser is located _murex_'s source under the `lang/` path of the project
+      The parser is located Murex's source under the `lang/` path of the project
       files.
   
     Templates:
@@ -154,32 +154,31 @@ Categories:
   - ID: types
     Title: Data-Type Reference
     Description: |-
-      This section is a glossary of data-types which _murex_ is natively aware.
+      This section is a glossary of data-types which Murex is natively aware.
 
-      Most of the time you will not need to worry about typing in_murex_ as the
+      Most of the time you will not need to worry about typing in Murex as the
       shell is designed around productivity as opposed to strictness despite
       generally following a strictly typed design.
 
-      Read the [Language Tour](GUIDE.quick-start.md) for more detail on this topic.
+      Read the [Language Tour](tour.md) for more detail on this topic.
 
       ## Definitions
       
       For clarity, it is worth explaining a couple of terms:
       
-      1. "Data-types" in _murex_ are a description of the format of data. This
-      means that while any stdio stream in UNIX will by "bytes", _murex_ might
+      1. "Data-types" in Murex are a description of the format of data. This
+      means that while any stdio stream in UNIX will by "bytes", Murex might
       label that data as being a JSON string or CSV file (for example) which
       means any builtins that parse that stdio stream, for example to return
       the first 8 items, would need to parse those types differently. Thus a
-      "data-type" in _murex_ is actually more than just a description of a data
+      "data-type" in Murex is actually more than just a description of a data
       structure; it is a series of APIs to marshall and unmarshall data from
       complex file formats. This enables you to use the same command line tools
       to query any type of output.
 
-      2. "Primitive" data-types refer to types that are the required by _murex_
+      2. "Primitive" data-types refer to types that are the required by Murex
       to function. These will be `int`, `float` / `number`, `bool`, `string`,
-      `generic`, `json`, and `null`. All other data-types are optional albeit
-      still recommended (unless described otherwise).
+      `generic`, and `null`.
 
       ## Feature Sets
       
@@ -218,8 +217,8 @@ Categories:
       
       These APIs are provided for reference for any developers wishing to write
       their own builtins. However some APIs are still worth being aware of even
-      when just writing _murex_ scripts because they provide a background into
-      the internal logic of _murex_'s runtime.
+      when just writing Murex scripts because they provide a background into
+      the internal logic of Murex's runtime.
 
     Templates:
     - OutputPath: docs/apis
@@ -233,37 +232,19 @@ Categories:
     Title: User Guide
     Description: |-
       This section contains miscellaneous documents on using and configuring the
-      shell and _murex_'s numerous features.
-
-      ## Other Reference Material
-
-      There are other sections for which are dedicated to _murex_'s parser, builtin
-      commands and such like:
-
-      ### Language Guides
-
-      1. [Language Tour](GUIDE.quick-start.md), which is an introduction into
-         the _murex_ language.
-
-      2. [Rosetta Stone](user-guide/rosetta-stone.md), which is a reference
-         table comparing Bash syntax to _murex_'s.
-
-      3. [Builtins](./GUIDE.builtin-functions.md), for docs on the core builtins.
-
-      4. [Syntax](./GUIDE.parser.md), lists tokens and other syntactic sugar
-         supported by _murex_'s parser.
+      shell and Murex's numerous features.
     Templates:
     - OutputPath: docs/user-guide
-      CategoryFile: ../USER-GUIDE.md
+      CategoryFile: ../user-guide.md
       OutputExt: .md
-      CategoryTemplate: gen/murex-md-cat.tmpl
+      CategoryTemplate: gen/userguide-md-cat.tmpl.md
       DocumentTemplate: gen/userguide-md-doc.tmpl
 
   # blog
   - ID: blog
     Title: Blog
     Description: |-
-      Collection of _murex_ related documents and personal thoughts.
+      Collection of Murex related documents and personal thoughts.
     Templates:
     - OutputPath: docs/blog
       CategoryFile: ../BLOG.md

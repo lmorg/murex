@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Optional Command Reference: `gz` 
+# `gz`  - Optional Command Reference
 
 > Compress or decompress a gzip file
 

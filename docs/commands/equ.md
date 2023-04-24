@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `=` (arithmetic evaluation)
+# `=` (arithmetic evaluation) - Command Reference
 
 > Evaluate a mathematical function (deprecated)
 
@@ -104,13 +102,13 @@ variables this way is that their data-type is preserved.
     » = abc==123
     true
     
-Unfortunately is one of the biggest areas in _murex_ where you'd need to be
+Unfortunately is one of the biggest areas in Murex where you'd need to be
 careful. The simple addition or omission of the dollar prefix, `$`, can change
 the behavior of `=` and `let`.
 
 ### Strings
 
-Because the usual _murex_ tools for encapsulating a string (`"`, `'` and `()`)
+Because the usual Murex tools for encapsulating a string (`"`, `'` and `()`)
 are interpreted by the shell language parser, it means we need a new token for
 handling strings inside `=` and `let`. This is where backtick comes to our
 rescue.
@@ -153,7 +151,7 @@ Thus far the examples given have been focused on comparisons however `=` and
     
 ### Read more
 
-_murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's manual.
+Murex uses the [govaluate package](https://github.com/Knetic/govaluate). More information can be found in it's manual.
 
 ## Synonyms
 
@@ -163,9 +161,9 @@ _murex_ uses the [govaluate package](https://github.com/Knetic/govaluate). More 
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within _murex_
+  How scoping works within Murex
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`[[` (element)](../commands/element.md):

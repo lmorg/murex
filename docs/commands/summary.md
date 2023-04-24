@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `summary` 
+# `summary`  - Command Reference
 
 > Defines a summary help text for a command
 
@@ -46,16 +44,16 @@ Undefine a summary
 * [`bexists`](../commands/bexists.md):
   Check which builtins exist
 * [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`fid-list`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`murex-docs`](../commands/murex-docs.md):
-  Displays the man pages for _murex_ builtins
+  Displays the man pages for Murex builtins
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
-  Forces _murex_ to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for exectables
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

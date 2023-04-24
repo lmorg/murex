@@ -9,7 +9,7 @@
     article is explore those opposing use cases and how different $SHELLs have
     chosen to address them.
   Description: |-
-    ### A Very Brief History
+    ## A Very Brief History
 
     ![Thompson (sitting) and Ritchie working together at a PDP-11](/images/blog/split_personalities/thompson.jpg)
 
@@ -37,7 +37,7 @@
     Bourne shell, Bash or Zsh, all share a scripting syntax which very much feels
     like it is extended from REPL usage.
 
-    ### Opposing Requirements
+    ## Opposing Requirements
 
     ![Opposing Requirements](/images/blog/split_personalities/conflict.png)
 
@@ -63,7 +63,7 @@
     line. Even the C shell, `csh` then later `tcsh`, doesn't follow C's syntax that
     strictly -- instead understanding that brevity is required for interactive use.
 
-    When I first started writing my own shell, _murex_, I originally started out
+    When I first started writing my own shell, Murex, I originally started out
     with syntax that was inspired by the C. A pipeline would look something like
     the following:
 
@@ -89,7 +89,7 @@
     (please excuse the useless use of `cat` in these examples -- it's purely there
     for illustrative reasons)
 
-    ### The Traditional
+    ## The Traditional
 
     ![The Traditional](/images/blog/split_personalities/old.jpg)
 
@@ -114,13 +114,13 @@
     complex scripts. Perhaps the only language I've used which translates well both
     for terse REPLs and lengthier scripts is LISP.
 
-    ### The Modern
+    ## The Modern
 
     ![The Modern](/images/blog/split_personalities/new.jpg)
 
     So how are modern shells addressing these split concerns?
 
-    #### Powershell
+    ### Powershell
     
     Microsoft had the benefit of being able to start from a clean room. They didn't
     need to inherit 50+ years of UNIX legacy when they wrote Powershell. So their
@@ -160,7 +160,7 @@
     There is no question that Powershell is a more powerful REPL than Bash but it
     definitely slides more towards the "write-once read-many" end of the spectrum.
 
-    #### Oil
+    ### Oil
 
     [Oil](https://www.oilshell.org/) describes itself as the following:
 
@@ -177,11 +177,11 @@
     This make Oil one of the most interesting alternative shells I have come
     across.
 
-    #### Murex
+    ### Murex
 
     ![Murex](/images/blog/split_personalities/murex.png)
 
-    The approach _murex_ takes sits somewhere in between the previous two shells.
+    The approach Murex takes sits somewhere in between the previous two shells.
     It attempts to retain familiarity with POSIX syntax but isn't afraid to break
     compatibility where it makes sense. The emphasis is on creating grammar that
     is both succinct but also readable. This mission was driven from originally
@@ -219,14 +219,14 @@
     if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
     ```
     
-    ### Conclusion
+    ## Conclusion
 
     The write-many read-once tendencies of the interactive terminal and the
     write-once read-many demands of scripting might be difficult to consolidate
     but I do think it is achievable and I'm not convinced the current heavy weights
     do a good job at addressing those conflicting concerns. Whereas alternative
     shells like [Oil](https://www.oilshell.org/), [Elfish](https://elv.sh/) and
-    [_murex_](https://github.com/lmorg/murex) seem to be putting a lot more thought
+    [Murex](https://github.com/lmorg/murex) seem to be putting a lot more thought
     into this problem and it is really exciting seeing the different ideas that are
     being produced.
   Synonyms:
@@ -234,5 +234,6 @@
   - commands/if
   - user-guide/rosetta-stone
   - user-guide/interactive-shell
+  - reading_lists
 
 

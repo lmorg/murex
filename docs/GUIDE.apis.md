@@ -1,13 +1,11 @@
-# _murex_ Shell Docs
-
-## API Reference
+# API Reference
 
 This section is a glossary of APIs.
 
 These APIs are provided for reference for any developers wishing to write
 their own builtins. However some APIs are still worth being aware of even
-when just writing _murex_ scripts because they provide a background into
-the internal logic of _murex_'s runtime.
+when just writing Murex scripts because they provide a background into
+the internal logic of Murex's runtime.
 
 ## Pages
 
@@ -36,6 +34,6 @@ the internal logic of _murex_'s runtime.
 * [`lang.IndexTemplateTable()` (template API)](apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table
 * [`lang.MarshalData()` (system API)](apis/lang.MarshalData.md):
-  Converts structured memory into a _murex_ data-type (eg for stdio)
+  Converts structured memory into a Murex data-type (eg for stdio)
 * [`lang.UnmarshalData()` (system API)](apis/lang.UnmarshalData.md):
-  Converts a _murex_ data-type into structured memory
+  Converts a Murex data-type into structured memory

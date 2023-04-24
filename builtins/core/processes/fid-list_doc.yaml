@@ -3,11 +3,11 @@
     `fid-list`
   CategoryID: commands
   Summary: >-
-    Lists all running functions within the current _murex_ session
+    Lists all running functions within the current Murex session
   Description: |-
     `fid-list` is a tool for outputting all the functions currently managed by that
-    _murex_ session. Those functions could be _murex_ functions, builtins or any
-    external executables launched from _murex_.
+    Murex session. Those functions could be Murex functions, builtins or any
+    external executables launched from Murex.
 
     Conceptually `fid-list` is a little like `ps` (on POSIX systems) however
     `fid-list` was not written to be POSIX compliant.
@@ -39,15 +39,15 @@
     --help: >-
       Outputs a list of parameters and a descriptions
   Detail: |-
-    Because _murex_ is a multi-threaded shell, builtins are not forked processes
+    Because Murex is a multi-threaded shell, builtins are not forked processes
     like in a traditional / POSIX shell. This means that you cannot use the
-    operating systems default process viewer (eg `ps`) to list _murex_ functions.
+    operating systems default process viewer (eg `ps`) to list Murex functions.
     This is where `fid-list` comes into play. It is used to view all the functions
-    and processes that are managed by the current _murex_ session. That would
+    and processes that are managed by the current Murex session. That would
     include:
 
-    * any aliases within _murex_
-    * public and private _murex_ functions
+    * any aliases within Murex
+    * public and private Murex functions
     * builtins (eg `fid-list` is a builtin command)
     * any external processes that were launched from within this shell session
     * any background functions or processes of any of the above

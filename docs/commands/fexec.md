@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `fexec` 
+# `fexec`  - Command Reference
 
 > Execute a command or function, bypassing the usual order of precedence.
 
@@ -20,13 +18,13 @@ of precedence.
 ## Flags
 
 * `builtin`
-    Execute a _murex_ builtin
+    Execute a Murex builtin
 * `function`
-    Execute a _murex_ public function
+    Execute a Murex public function
 * `help`
     Display help message
 * `private`
-    Execute a _murex_ private function
+    Execute a Murex private function
 
 ## Detail
 
@@ -48,7 +46,7 @@ There is an order of precedence for which commands are looked up:
 
 2. Aliases - defined via `alias`. All aliases are global.
 
-3. _murex_ functions - defined via `function`. All functions are global.
+3. Murex functions - defined via `function`. All functions are global.
 
 5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
    Also environmental variables too, declared via `export`.
@@ -56,7 +54,7 @@ There is an order of precedence for which commands are looked up:
 6. globbing: however this only applies for commands executed in the interactive
    shell.
 
-7. _murex_ builtins.
+7. Murex builtins.
 
 8. External executable files
 
@@ -71,7 +69,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [`bg`](../commands/bg.md):
   Run processes in the background
 * [`builtins`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
 * [`exec`](../commands/exec.md):
@@ -81,10 +79,10 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [`function`](../commands/function.md):
   Define a function block
 * [`jobs`](../commands/fid-list.md):
-  Lists all running functions within the current _murex_ session
+  Lists all running functions within the current Murex session
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`private`](../commands/private.md):
   Define a private function block
 * [`source` ](../commands/source.md):
-  Import _murex_ code from another file of code block
+  Import Murex code from another file of code block

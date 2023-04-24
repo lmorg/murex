@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `read`
+# `read` - Command Reference
 
 > `read` a line of input from the user and store as a variable
 
@@ -47,7 +45,7 @@ Secrets:
 ## Flags
 
 * `--datatype`
-    _murex_ data-type for the read data (default: str)
+    Murex data-type for the read data (default: str)
 * `--default`
     If a zero length string is returned but neither ctrl+c nor ctrl+d were pressed, then the default value defined here will be returned
 * `--mask`

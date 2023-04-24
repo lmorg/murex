@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `export`
+# `export` - Command Reference
 
 > Define an environmental variable and set it's value
 
@@ -38,7 +36,7 @@ You can unset variable names with the bang prefix:
     
 For compatibility with other shells, `unset` is also supported but it's really
 not an idiomatic method of deallocation since it's name is misleading and
-suggests it is a deallocator for local _murex_ variables defined via `set`.
+suggests it is a deallocator for local Murex variables defined via `set`.
 
 ### Exporting a local or global variable
 
@@ -179,7 +177,7 @@ including those running in other threads.
 #### Environmental variables
 
 Exported variables (defined via `export`) are system environmental variables.
-Inside _murex_ environmental variables behave much like `global` variables
+Inside Murex environmental variables behave much like `global` variables
 however their real purpose is passing data to external processes. For example
 `env` is an external process on Linux (eg `/usr/bin/env` on ArchLinux):
 
@@ -193,7 +191,7 @@ As a security feature function names cannot include variables. This is done to
 reduce the risk of code executing by mistake due to executables being hidden
 behind variable names.
 
-Instead _murex_ will assume you want the output of the variable printed:
+Instead Murex will assume you want the output of the variable printed:
 
     » out "Hello, world!" -> set hw
     » $hw
@@ -212,7 +210,7 @@ is considered bad form because it reduces the readability of your shell scripts.
 
 ### Usage Inside Quotation Marks
 
-Like with Bash, Perl and PHP: _murex_ will expand the variable when it is used
+Like with Bash, Perl and PHP: Murex will expand the variable when it is used
 inside a double quotes but will escape the variable name when used inside single
 quotes:
 
@@ -235,9 +233,9 @@ quotes:
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within _murex_
+  How scoping works within Murex
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`=` (arithmetic evaluation)](../commands/equ.md):

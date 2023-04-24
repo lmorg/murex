@@ -1,10 +1,13 @@
-# _murex_ Shell Docs
+# Blog
 
-## Blog
-
-Collection of _murex_ related documents and personal thoughts.
+Collection of Murex related documents and personal thoughts.
 
 ## Articles
+
+### 22.04.2023 - [Reading Lists From The Command Line](blog/reading_lists.md)
+
+> How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
+
 
 ### 02.10.2021 - [The Split Personalities of Shell Usage](blog/split_personalities.md)
 

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `csv` 
+# `csv`  - Data-Type Reference
 
 > CSV files (and other character delimited tables)
 
@@ -77,7 +75,7 @@ use `config`)
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`int` ](../types/int.md):

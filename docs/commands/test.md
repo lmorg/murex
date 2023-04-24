@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
+# `test` - Command Reference
 
-## Command Reference: `test`
-
-> _murex_'s test framework - define tests, run tests and debug shell scripts
+> Murex's test framework - define tests, run tests and debug shell scripts
 
 ## Description
 
-`test` is used to define tests, run tests and debug _murex_ shell scripts.
+`test` is used to define tests, run tests and debug Murex shell scripts.
 
 ## Usage
 
@@ -97,6 +95,6 @@ flushes the table of pending reports.
 ## See Also
 
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings

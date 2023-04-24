@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## mkarray: Character arrays
+# Character arrays - mkarray
 
 > Making character arrays (a to z)
 

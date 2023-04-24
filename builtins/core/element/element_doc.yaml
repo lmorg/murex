@@ -12,7 +12,7 @@
 
     **Element** (`[[`) also doesn't support the bang prefix (unlike) **index**.
 
-    Please note that indexes in _murex_ are counted from zero.
+    Please note that indexes in Murex are counted from zero.
   Usage: |-
     ```
     <stdin> -> [[ element ]] -> <stdout>
@@ -39,7 +39,7 @@
   Detail: |-
     ### Element counts from zero
 
-    Indexes in _murex_ behave like any other computer array in that all arrays
+    Indexes in Murex behave like any other computer array in that all arrays
     start from zero (`0`).
 
     ### Alternative path separators
@@ -93,7 +93,7 @@
 
     ### Quoting parameters
 
-    In _murex_, everything is a function. Thus even `[[` is a function name and
+    In Murex, everything is a function. Thus even `[[` is a function name and
     the closing `]]` is actually a last parameter. This means the recommended way
     to quote **element** parameters is to quote specific key names or the entire
     path:

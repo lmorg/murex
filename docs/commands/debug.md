@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `debug`
+# `debug` - Command Reference
 
 > Debugging information
 
@@ -132,13 +130,13 @@ boolean type, it means you can use other boolean terms. eg
     » debug false
     
 It is also worth noting that the debugging information needs to be written
-into the Go source code rather than in _murex_'s shell scripting language.
-If you require debugging those processes then please use _murex_'s `test`
+into the Go source code rather than in Murex's shell scripting language.
+If you require debugging those processes then please use Murex's `test`
 framework
 
 ## See Also
 
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`test`](../commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts

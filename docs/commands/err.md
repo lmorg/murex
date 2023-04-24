@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `err`
+# `err` - Command Reference
 
 > Print a line to the STDERR
 
@@ -25,10 +23,10 @@ Write parameters to STDERR with a trailing new line character.
     
 However passing structured data-types along the STDERR stream is not recommended
 as any other function within your code might also pass error messages along the
-same stream and thus taint your structured data. This is why _murex_ does not
+same stream and thus taint your structured data. This is why Murex does not
 supply a `tout` function for STDERR. The recommended solution for passing
 messages like these which you want separate from your STDOUT stream is to create
-a new _murex_ named pipe.
+a new Murex named pipe.
 
     » pipe: --create messages
     » bg { <messages> -> pretty }
@@ -50,7 +48,7 @@ a new _murex_ named pipe.
 * [`(` (brace quote)](../commands/brace-quote.md):
   Write a string to the STDOUT without new line
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`>>` (append file)](../commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
 * [`>` (truncate file)](../commands/greater-than.md):
@@ -62,7 +60,7 @@ a new _murex_ named pipe.
 * [`out`](../commands/out.md):
   Print a string to the STDOUT with a trailing new line character
 * [`pipe`](../commands/pipe.md):
-  Manage _murex_ named pipes
+  Manage Murex named pipes
 * [`pretty`](../commands/pretty.md):
   Prettifies JSON to make it human readable
 * [`pt`](../commands/pt.md):

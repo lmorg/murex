@@ -1,7 +1,6 @@
 package lang
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -25,13 +24,26 @@ func errVarNotExist(name string) error {
 	return fmt.Errorf("variable '%s' does not exist", name)
 }
 
+func errVarCannotUpdateNested(name string, err error) error {
+	return fmt.Errorf("cannot update element inside %s: %s", name, err.Error())
+}
+
 func errVarNoParam(i int, err error) error {
 	return fmt.Errorf("variable '%d' cannot be defined: %s", i, err.Error())
 }
 
-var (
-	errZeroLengthPath = errors.New("zero length path")
-)
+func errVarZeroLengthPath(name string) error {
+	return fmt.Errorf("zero length path in variable name `%s`", name)
+}
+
+func errVarCannotGetProperty(name, path string, err error) error {
+	return fmt.Errorf("cannot get property '%s' for variable '%s'.\n%s.\nif this wasn't intended to be a property then try surrounding your variable name with parenthesis, eg:\n`  ...  $(%s).%s  ...  `",
+		path, name, err.Error(), name, path)
+}
+
+func errVarCannotStoreVariable(name string, err error) error {
+	return fmt.Errorf("cannot store variable '%s': %s", name, err.Error())
+}
 
 // Reserved variable names. Set as constants so any typos of these names within
 // the code will be raised as compiler errors
@@ -96,7 +108,7 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return nil, errors.New("zero length path")
+		return nil, errVarZeroLengthPath(path)
 	case 1:
 		return v.getValue(split[0])
 	default:
@@ -105,7 +117,12 @@ func (v *Variables) GetValue(path string) (interface{}, error) {
 			return nil, err
 		}
 
-		return ElementLookup(val, "."+strings.Join(split[1:], "."))
+		propertyPath := strings.Join(split[1:], ".")
+		value, err := ElementLookup(val, "."+propertyPath)
+		if err != nil {
+			err = errVarCannotGetProperty(split[0], propertyPath, err)
+		}
+		return value, err
 	}
 }
 
@@ -204,7 +221,7 @@ func (v *Variables) GetString(path string) (string, error) {
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return "", errZeroLengthPath
+		return "", errVarZeroLengthPath(path)
 	case 1:
 		return v.getString(split[0])
 	default:
@@ -213,9 +230,10 @@ func (v *Variables) GetString(path string) (string, error) {
 			return "", err
 		}
 
-		val, err = ElementLookup(val, "."+strings.Join(split[1:], "."))
+		propertyPath := strings.Join(split[1:], ".")
+		val, err = ElementLookup(val, "."+propertyPath)
 		if err != nil {
-			return "", err
+			return "", errVarCannotGetProperty(split[0], propertyPath, err)
 		}
 
 		switch val.(type) {
@@ -433,33 +451,36 @@ func (v *Variables) getDataTypeValue(name string) (string, bool) {
 	return dt, true
 }
 
-func errCannotUpdateNested(name string, err error) error {
-	return fmt.Errorf("cannot update element inside %s: %s", name, err.Error())
-}
-
 func (v *Variables) Set(p *Process, path string, value interface{}, dataType string) error {
 	split := strings.Split(path, ".")
 	switch len(split) {
 	case 0:
-		return errZeroLengthPath
+		return errVarZeroLengthPath(path)
 	case 1:
 		return v.set(p, split[0], value, dataType, nil)
 	default:
 		variable, err := v.getValue(split[0])
 		if err != nil {
-			return errCannotUpdateNested(split[0], err)
+			return errVarCannotUpdateNested(split[0], err)
 		}
 
 		variable, err = alter.Alter(p.Context, variable, split[1:], value)
 		if err != nil {
-			return errCannotUpdateNested(split[0], err)
+			return errVarCannotUpdateNested(split[0], err)
 		}
-		err = v.set(p, split[0], variable, v.GetDataType(split[0]), split[1:])
+		err = v.set(p, split[0], variable, v.getNestedDataType(split[0], dataType), split[1:])
 		if err != nil {
-			return errCannotUpdateNested(split[0], err)
+			return errVarCannotUpdateNested(split[0], err)
 		}
 		return nil
 	}
+}
+
+func (v *Variables) getNestedDataType(name string, dataType string) string {
+	if name == GLOBAL {
+		return dataType
+	}
+	return v.GetDataType(name)
 }
 
 // Set writes a variable
@@ -470,7 +491,7 @@ func (v *Variables) set(p *Process, name string, value interface{}, dataType str
 	case ENV:
 		return setEnvVar(value, changePath)
 	case GLOBAL:
-		return setGlobalVar(value, dataType, changePath)
+		return setGlobalVar(p, value, changePath, dataType)
 	case DOT:
 		goto notReserved
 	}
@@ -505,7 +526,7 @@ notReserved:
 			return err
 		}
 
-		s, _, err := convertDataType(value, dataType)
+		s, _, err := convertDataType(p, value, dataType, &name)
 		if err != nil {
 			return err
 		}
@@ -530,7 +551,7 @@ notReserved:
 		return nil
 	}
 
-	s, iface, err := convertDataType(value, dataType)
+	s, iface, err := convertDataType(p, value, dataType, &name)
 	if err != nil {
 		return err
 	}
@@ -548,6 +569,20 @@ notReserved:
 	v.mutex.Unlock()
 
 	return nil
+}
+
+func setGlobalVar(p *Process, v interface{}, changePath []string, dataType string) (err error) {
+	if len(changePath) == 0 {
+		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", GLOBAL)
+	}
+
+	switch t := v.(type) {
+	case map[string]interface{}:
+		return GlobalVariables.Set(ShellProcess, changePath[0], t[changePath[0]], dataType)
+
+	default:
+		return fmt.Errorf("expecting a map of global variables. Instead got a %T", t)
+	}
 }
 
 func setEnvVar(v interface{}, changePath []string) (err error) {
@@ -571,23 +606,7 @@ func setEnvVar(v interface{}, changePath []string) (err error) {
 	return os.Setenv(changePath[0], value.(string))
 }
 
-func setGlobalVar(v interface{}, dataType string, changePath []string) (err error) {
-	if len(changePath) == 0 {
-		return fmt.Errorf("invalid use of $%s. Expecting a global variable name, eg `$GLOBAL.example`", ENV)
-	}
-
-	switch t := v.(type) {
-	case map[string]interface{}:
-		return ShellProcess.Variables.Set(ShellProcess, changePath[0], t[changePath[0]], dataType)
-
-	default:
-		return fmt.Errorf("expecting a map of global variables. Instead got a %T", t)
-	}
-}
-
-const errCannotStoreVariable = "cannot store variable"
-
-func convertDataType(value interface{}, dataType string) (string, interface{}, error) {
+func convertDataType(p *Process, value interface{}, dataType string, name *string) (string, interface{}, error) {
 	var (
 		s     string
 		iface interface{}
@@ -596,45 +615,45 @@ func convertDataType(value interface{}, dataType string) (string, interface{}, e
 
 	switch v := value.(type) {
 	case float64, int, bool, nil:
-		s, err = varConvertPrimitive(value)
+		s, err = varConvertPrimitive(value, name)
 		iface = value
 	case string:
 		s = v
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString([]byte(v), dataType)
+			iface, err = varConvertString(p, []byte(v), dataType, name)
 		} else {
 			iface = s
 		}
 	case []byte:
 		s = string(v)
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString(v, dataType)
+			iface, err = varConvertString(p, v, dataType, name)
 		} else {
 			iface = s
 		}
 	case []rune:
 		s = string(v)
 		if dataType != types.String && dataType != types.Generic {
-			iface, err = varConvertString([]byte(string(v)), dataType)
+			iface, err = varConvertString(p, []byte(string(v)), dataType, name)
 		} else {
 			iface = s
 		}
 	default:
-		s, err = varConvertInterface(v, dataType)
+		s, err = varConvertInterface(v, dataType, name)
 		iface = value
 	}
 	return s, iface, err
 }
 
-func varConvertPrimitive(value interface{}) (string, error) {
+func varConvertPrimitive(value interface{}, name *string) (string, error) {
 	s, err := types.ConvertGoType(value, types.String)
 	if err != nil {
-		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		return "", errVarCannotStoreVariable(*name, err)
 	}
 	return s.(string), nil
 }
 
-func varConvertString(value []byte, dataType string) (interface{}, error) {
+func varConvertString(parent *Process, value []byte, dataType string, name *string) (interface{}, error) {
 	UnmarshalData := Unmarshallers[dataType]
 
 	// no unmarshaller exists so lets just return the bare string
@@ -643,37 +662,38 @@ func varConvertString(value []byte, dataType string) (interface{}, error) {
 	}
 
 	p := new(Process)
+	p.Config = parent.Config
 	p.Stdin = streams.NewStdin()
 	_, err := p.Stdin.Write([]byte(value))
 	if err != nil {
-		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		return nil, errVarCannotStoreVariable(*name, err)
 	}
 	v, err := UnmarshalData(p)
 	if err != nil {
-		return nil, fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		return nil, errVarCannotStoreVariable(*name, err)
 	}
 	return v, nil
 }
 
-func varConvertInterface(value interface{}, dataType string) (string, error) {
+func varConvertInterface(value interface{}, dataType string, name *string) (string, error) {
 	MarshalData := Marshallers[dataType]
 
 	// no marshaller exists so lets just return the bare string
 	if MarshalData == nil {
 		s, err := types.ConvertGoType(value, types.String)
 		if err != nil {
-			return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+			return "", errVarCannotStoreVariable(*name, err)
 		}
 		return s.(string), nil
 	}
 
 	b, err := MarshalData(ShellProcess, value)
 	if err != nil {
-		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		return "", errVarCannotStoreVariable(*name, err)
 	}
 	s, err := types.ConvertGoType(b, types.String)
 	if err != nil {
-		return "", fmt.Errorf("%s: %s", errCannotStoreVariable, err.Error())
+		return "", errVarCannotStoreVariable(*name, err)
 	}
 	return s.(string), nil
 }

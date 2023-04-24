@@ -60,7 +60,7 @@
     ### Default Table Name
 
     The table created is called `main`, however you do not need to include a `FROM`
-    condition in your SQL as _murex_ will inject `FROM main` into your SQL if it is
+    condition in your SQL as Murex will inject `FROM main` into your SQL if it is
     missing. In fact, it is recommended that you exclude `FROM` from your SQL
     queries for the sake of brevity.
 

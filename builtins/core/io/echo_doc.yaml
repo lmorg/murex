@@ -156,10 +156,10 @@
 
     However passing structured data-types along the STDERR stream is not recommended
     as any other function within your code might also pass error messages along the
-    same stream and thus taint your structured data. This is why _murex_ does not
+    same stream and thus taint your structured data. This is why Murex does not
     supply a `tout` function for STDERR. The recommended solution for passing
     messages like these which you want separate from your STDOUT stream is to create
-    a new _murex_ named pipe.
+    a new Murex named pipe.
 
     ```
     » pipe: --create messages

@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `lockfile`
+# `lockfile` - Command Reference
 
 > Create and manage lock files
 

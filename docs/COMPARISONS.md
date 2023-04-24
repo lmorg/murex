@@ -6,20 +6,20 @@ where members compared different shell one liners.
 ## Disclaimer
 
 While the intention of this document is to example the expressiveness
-and real world applications of _murex_, I want to stress that it is _not_
-an attempt to argue that _murex_ is better than any of the other shells
+and real world applications of Murex, I want to stress that it is _not_
+an attempt to argue that Murex is better than any of the other shells
 exampled.
 
 Further to that point it is worth remembering that some of the other
-shells described will have different goals to _murex_, such as POSIX
+shells described will have different goals to Murex, such as POSIX
 compatibility or a different approach to syntax. Or they might be a
 single domain utility like `jq`.
 
 Lastly in all of examples provided there will be a multitude of ways of
-writing the code. This is true for both _murex_ and the other tools too.
+writing the code. This is true for both Murex and the other tools too.
 
 So please treat these examples as a fun comparison between different
-tools to help demonstrate using _murex_ on real world problems rather
+tools to help demonstrate using Murex on real world problems rather
 than a recommendation nor "flamewar" about which method is best.
 
 ## Github issue parsing
@@ -68,7 +68,7 @@ Example taken from [oilshell.org/blog/2017/09/19.html](http://www.oilshell.org/b
       echo '</table>'
     }
 
-### _murex_
+### Murex
 
 This can be done in one line but I'll split it for readability:
 

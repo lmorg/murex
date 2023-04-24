@@ -1,13 +1,11 @@
-# _murex_ Shell Docs
+# `config` - Command Reference
 
-## Command Reference: `config`
-
-> Query or define _murex_ runtime settings
+> Query or define Murex runtime settings
 
 ## Description
 
-Rather than _murex_ runtime settings being definable via obscure environmental
-variables, _murex_ instead supports a registry of config defined via the
+Rather than Murex runtime settings being definable via obscure environmental
+variables, Murex instead supports a registry of config defined via the
 `config` command. This means any preferences and/or runtime config becomes
 centralised and discoverable.
 
@@ -58,11 +56,11 @@ in.
   
 Other app names include
 
-* `shell`: for "global" (system wide) _murex_ settings
-* `proc`: for scoped _murex_ settings
+* `shell`: for "global" (system wide) Murex settings
+* `proc`: for scoped Murex settings
 * `http`: for settings that are applied to any processes which use the builtin
    HTTP user agent (eg `open`, `get`, `getfile`, `post`)
-* `test`: settings for _murex_'s test frameworks
+* `test`: settings for Murex's test frameworks
 * `index`: settings for `[` (index)
 
 ### "key"
@@ -105,12 +103,12 @@ directive (or "required" if the directive must be included).
 
 ### "DataType": string (required)
 
-This is the _murex_ data-type for the value.
+This is the Murex data-type for the value.
 
 ### "Description": string (required)
 
 Description is a required field to force developers into writing meaning hints
-enabling the discoverability of settings within _murex_.
+enabling the discoverability of settings within Murex.
 
 ### "Global": boolean (false)
 
@@ -132,7 +130,7 @@ the interactive command line.
 ### "Dynamic": map of strings (nil)
 
 Only use this if config options need to be more than just static values stored
-inside _murex_'s runtime. Using **Dynamic** means `autocomplete get app key`
+inside Murex's runtime. Using **Dynamic** means `autocomplete get app key`
 and `autocomplete set app key value` will spawn off a subshell running a code
 block defined from the `Read` and `Write` mapped values. eg
 
@@ -161,7 +159,7 @@ The **Read** code block is being executed when the **Read** directive is being
 requested, whereas the **Default** code block is being executed when the JSON
 is being read.
 
-In technical terms, the **Default** code block is being executed by _murex_ 
+In technical terms, the **Default** code block is being executed by Murex 
 when `config define` is getting executed where as the **Read** and **Write**
 code blocks are getting stored as a JSON string and then executed only when
 those hooks are getting triggered.
@@ -199,7 +197,7 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
-  Makes a standard HTTP request and return the contents as _murex_-aware data type for passing along _murex_ pipelines.
+  Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 * [`match`](../commands/match.md):
   Match an exact value in an array
 * [`open`](../commands/open.md):
@@ -207,6 +205,6 @@ This is executed when `autocomplete` is setting a value (eg `set`, `default`,
 * [`post`](../commands/post.md):
   HTTP POST request with a JSON-parsable return
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

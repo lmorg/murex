@@ -1,8 +1,8 @@
-# User Guide: Pipeline
+# Pipeline - User Guide
 
 > Overview of what a "pipeline" is
 
-In the _murex_ docs you'll often see the term "pipeline". This refers to any
+In the Murex docs you'll often see the term "pipeline". This refers to any
 commands sequenced together.
 
 A pipeline can be joined via any pipe token (eg `|`, `->`, `=>`, `?`). But,
@@ -10,7 +10,7 @@ for the sake of documentation, a pipeline might even be a solitary command.
 
 ## Examples
 
-Typical _murex_ pipeline:
+Typical Murex pipeline:
 
     open: example.json -> [[ /node/0 ]]
     
@@ -18,7 +18,7 @@ Example of a single command pipeline:
 
     top
     
-Pipeline you might see in Bash / Zsh (this is also valid in _murex_):
+Pipeline you might see in Bash / Zsh (this is also valid in Murex):
 
     cat names.txt | sort | uniq
     
@@ -28,8 +28,8 @@ Pipeline filtering out a specific error from `example-cmd`
     
 ## Detail
 
-A pipeline isn't a _murex_ specific construct but rather something inherited
-from Unix. Where _murex_ differs is that it can support sending typed
+A pipeline isn't a Murex specific construct but rather something inherited
+from Unix. Where Murex differs is that it can support sending typed
 information to compatible functions (unlike standard Unix pipes which are
 dumb-byte streams).
 
@@ -70,6 +70,6 @@ document but you can read more on them in links the links below.
 * [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in _murex_
+  Overview of the different schedulers (or 'run modes') in Murex
 * [`bg`](../commands/bg.md):
   Run processes in the background

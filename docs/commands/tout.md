@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `tout`
+# `tout` - Command Reference
 
 > Print a string to the STDOUT and set it's data-type
 

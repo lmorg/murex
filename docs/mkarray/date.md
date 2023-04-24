@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## mkarray: Calendar Date Ranges
+# Calendar Date Ranges - mkarray
 
 > Create arrays of dates
 
 ## Description
 
-Unlike bash, _murex_ also supports date ranges:
+Unlike bash, Murex also supports date ranges:
 
 ```  
 » a: [25-dec-2020..05-jan-2021]

@@ -34,35 +34,35 @@
 | <br/> | | |
 | **Expressions** | | |
 | Assignment | `foobar = $((1 + 2 * 3))` | `foobar = 1 + 2 * 3` [[2]](#footnotes) |
-| Comparison, string | `[ "$(command)" == "value" ]` | `${command} == "value"` [[2]](#footnotes) |
+| Comparison, string | `[ "$(command)" == "value" ]` | `${command} == "value"` [[2]](#footnotes) [[5]](#footnotes) |
 | Comparison, numeric | `[ $integer -eq 5 ]` | `$number == 5` [[2]](#footnotes) |
-| Arithmetic | `echo $(( 1+2*3 ))` | `1 + 2 * 3` [[2]](#footnotes) <br/><br/> `out ${1+2*3}` [[2]](#footnotes) |
+| Arithmetic | `echo $(( 1+2*3 ))` | `1 + 2 * 3` [[2]](#footnotes) <br/><br/> `out ${1+2*3}` [[2]](#footnotes) [[5]](#footnotes) |
 | Supported data types | 1. String,<br/>2. Integer<br/>(all variables are strings) | 1. String,<br/>2. Integer,<br/>3. Float (default number type),<br/>4. Boolean<br/>5. Array,<br/>6. Object,<br/>7. Null<br/>(all variables can be treated as strings and/or their primitive) |
 | <br/>  | | |
 | **Variables**<br/> | | |
-| [Assign a local variable](../commands/set.md) | `local foo="bar"` | `foo = "bar"` [[2]](#footnotes)<br/><br/>`set str foo = "bar"` [[2]](#footnotes) <br/><br/>`out "bar" \| set foo` |
-| [Assign a global variable](../commands/global.md) | `foo="bar"` | `global str foo = "bar"` [[2]](#footnotes)<br/><br/>`out "bar" \| global foo` |
-| [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`out "bar" \| export foo` [[3]](#footnotes) |
-| [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` <br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in _murex_)|
+| [Assign a local variable](../commands/set.md) | `local foo="bar"` | `$foo = "bar"` [[2]](#footnotes) [[6]](#footnotes)<br/><br/>`out "bar" \| set foo` |
+| [Assign a global variable](../commands/global.md) | `foo="bar"` | `$GLOBAL.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| global foo` |
+| [Assign an environmental variable](../commands/export.md) | `export foo="bar"` | `export foo = "bar"` [[1]](#footnotes) [[2]](#footnotes) [[3]](#footnotes)<br/><br/>`$ENV.foo = "bar"` [[6]](#footnotes)<br/><br/>`out "bar" \| export foo` [[3]](#footnotes) |
+| [Printing a variable](../parser/string.md) | `echo "$foobar"` | `out $foobar` [[5]](#footnotes)<br/><br/>`$foobar` <br/><br/> (variables don't need to be quoted in Murex)|
 | <br/> | | |
 | **Arrays**<br/>(eg arrays, lists) | | |
 | Creating an array | `array_name=(value1 value2 value3)` | `%[value1 value2 value3]` <br/><br/>`%[value1, value2, value3]` <br/><br/> eg `array_name = %[1, 2, 3]`, <br/> eg `%[hello world] \| foreach { ... }`|
-| Accessing an array element | `${array_name[0]}` | `$array_name[0]` <br/><br/>`array \| [0]` |
-| Printing multiple elements | `echo ${array_name[1]} ${array_name[0]}` | `@array_name[1 0]` <br/><br/>`array \| [1 0]` |
+| Accessing an array element | `${array_name[0]}` | `$array_name[0]` (immutable) <br/><br/>`$array_name.0` (mutable) [[5]](#footnotes) <br/><br/> `array \| [0]` |
+| Printing multiple elements | `echo ${array_name[1]} ${array_name[0]}` | `@array_name[1 0]` <br/><br/> `array \| [1 0]` |
 | Printing a range of elements | n/a | `@array_name[1..3]` <br/><br/>`array \| [1..3]` |
 | [Printing all elements](../parser/array.md) | `echo ${array_name[*]}` | `@array_name` |
 | [Iterating through an array](../commands/foreach.md) | `for item in array; do;`<br/>&nbsp;&nbsp;&nbsp;&nbsp;`$item`<br/>`done;` | `array \| foreach item { $item }` <br/><br/> eg `%[Tom Richard Sally] \| foreach name { out "Hello $name" }` |
 | <br/> | | |
 | **Objects**<br/>(eg JSON objects, maps, hashes, dictionaries) | | |
 | Creating an object | n/a | `%{ key: value, array: [1, 2, 3] }` [[2]](#footnotes) <br/><br/> eg `object_name = %{ key: val, arr: [1,3,3] }` <br/> eg `%{ a:1, b:2, c:3 } \| formap { ... }` |
-| Accessing an element | n/a | `$object_name[key]` <br/><br/>`object \| [key]` |
+| Accessing an element | n/a | `$object_name[key]` (immutable) <br/><br/> `$object_name.key` [[5]](#footnotes) (mutable) <br/><br/> `object \| [key]` |
 | Printing multiple elements | n/a | `$object_name[key1 key2]` <br/><br/> `object \| [key1 key2]` |
-| Accessing a nested element | n/a | `$object_name[.path.to.element]]` [[4]](#footnotes)<br/><br/> `object \| [[.path.to.element]]` [[4]](#footnotes)<br/><br/>
+| Accessing a nested element | n/a | `$object_name[[.path.to.element]]` (immutable) [[4]](#footnotes)<br/><br/> `$object_name.path.to.element` (mutable)<br/><br/> `object \| [[.path.to.element]]` [[4]](#footnotes)<br/><br/>
 | [Iterating through an map](../commands/formap.md) | n/a | `object \| formap key value { $key; $value }` <br/><br/> eg `%{Bob: {age: 10}, Richard: {age: 20}, Sally: {age: 30} } \| formap name person { out "$name is $person[age] years old" }` |
 | <br/> | | |
 | **Sub-shells**<br/>| | |
-| Sub-shell, string | `"$(commands)"` <br/><br/> eg `"echo $(echo "Hello world")"` | `${commands}` <br/><br/> eg `out ${out Hello world}` |
-| Sub-shell, arrays | `$(commands)` <br/><br/> eg `$(echo 1 2 3)` | `@{commands}` <br/><br/> eg `out @{ %[1,2,3] }` |
+| Sub-shell, string | `"$(commands)"` <br/><br/> eg `"echo $(echo "Hello world")"` | `${commands}` [[5]](#footnotes) <br/><br/> eg `out ${out Hello world}` |
+| Sub-shell, arrays | `$(commands)` <br/><br/> eg `$(echo 1 2 3)` | `@{commands}` [[5]](#footnotes) <br/><br/> eg `out @{ %[1,2,3] }` |
 
 ### Footnotes
 
@@ -70,3 +70,5 @@
 2. Unlike Bash, whitespace (or the absence of) is optional.
 3. Environmental variables can only be stored as a string. This is a limitation of current operating systems.
 4. Path separator can be any 1 byte wide character, eg `/`. The path separator is defined by the first character in a path.
+5. Murex uses `${}` for subshells and `$()` for variables, the reverse of what Bash and others use. The reason for this difference is because `{}` always denotes a code block and `()` denotes strings. So `${foobar}` makes more sense as a subshell executing the command `foobar`, while `$(foobar)` makes more sense as the variable `$foobar`.
+6. When assigning a variable where the right hand side is an expression, eg `$foo = "bar"`, the dollar prefix is optional. The `set`, `global` and `export` keywords are considered deprecated.

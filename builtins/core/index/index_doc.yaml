@@ -7,7 +7,7 @@
   Description: |-
     Outputs an element or multiple elements from an array, map or table.
 
-    Please note that indexes in _murex_ are counted from zero.
+    Please note that indexes in Murex are counted from zero.
   Usage: |-
     ```
     <stdin> -> [ element ] -> <stdout>
@@ -95,7 +95,7 @@
   Detail: |-
     ### Index counts from zero
 
-    Indexes in _murex_ behave like any other computer array in that all arrays
+    Indexes in Murex behave like any other computer array in that all arrays
     start from zero (`0`).
     
     ### Include vs exclude

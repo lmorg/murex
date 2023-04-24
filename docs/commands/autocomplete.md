@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `autocomplete`
+# `autocomplete` - Command Reference
 
 > Set definitions for tab-completion in the command line
 
@@ -47,7 +45,7 @@ flag and then point all the synonyms as an alias to that definition.
 
 ### "AllowAny": boolean (false)
 
-The way autocompletion works in _murex_ is the suggestion engine looks for
+The way autocompletion works in Murex is the suggestion engine looks for
 matches and if it fines one, it then moves onto the next index in the JSON
 schema. This means unexpected values typed in the interactive terminal will
 break the suggestion engine's ability to predict what the next expected
@@ -123,7 +121,7 @@ suggestions the first time and instantly for the next 60 seconds after.
 
 ### "Dynamic": string ("")
 
-This is a _murex_ block which returns an array of suggestions.
+This is a Murex block which returns an array of suggestions.
 
 Code inside that block are executed like a function and the parameters will
 mirror the same as those parameters entered in the interactive terminal.
@@ -144,7 +142,7 @@ Sometimes you'd want your autocomplete suggestions to aware of the output
 returned from the commands that preceded it. For example the suggestions
 for `[` (index) will depend entirely on what data is piped into it.
 
-**ExecCmdline** tells _murex_ to run the commandline up until the command
+**ExecCmdline** tells Murex to run the commandline up until the command
 which your cursor is editing and pipe that output to the STDIN of that
 commands **Dynamic** or **DynamicDesc** code block.
 
@@ -168,7 +166,7 @@ execute if the following conditions are met:
 If these criteria are met, the commandline is considered "safe"; if any of
 those conditions fail then the commandline is considered "unsafe".
 
-_murex_ will come with a number of sane commands already included in its
+Murex will come with a number of sane commands already included in its
 `safe-commands` whitelist however you can add or remove them using `config`
 
     » function: foobar { -> match foobar }
@@ -419,7 +417,7 @@ flags.
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`config`](../commands/config.md):
-  Query or define _murex_ runtime settings
+  Query or define Murex runtime settings
 * [`function`](../commands/function.md):
   Define a function block
 * [`get-type`](../commands/get-type.md):

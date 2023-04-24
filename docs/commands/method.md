@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `method`
+# `method` - Command Reference
 
 > Define a methods supported data-types
 
@@ -24,7 +22,7 @@ and STDOUT.
 
 ### Type Groups
 
-You can define a _murex_ data type or use a type group. The following type
+You can define a Murex data type or use a type group. The following type
 groups are available to use:
 
 ```go
@@ -66,8 +64,8 @@ var GroupMath = []string{
 
 * [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [_murex_'s Interactive Shell](../user-guide/interactive-shell.md):
-  What's different about _murex_'s interactive shell?
+* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+  What's different about Murex's interactive shell?
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`autocomplete`](../commands/autocomplete.md):
@@ -77,4 +75,4 @@ var GroupMath = []string{
 * [`private`](../commands/private.md):
   Define a private function block
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

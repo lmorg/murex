@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## API Reference: `ReadNotIndex()` (type)
+# `ReadNotIndex()` (type) - API Reference
 
 > Data type handler for the bang-prefixed index, `![`, builtin
 
 ## Description
 
-This is a function you would write when programming a _murex_ data-type.
+This is a function you would write when programming a Murex data-type.
 
 It's called by the index, `![`, builtin.
 

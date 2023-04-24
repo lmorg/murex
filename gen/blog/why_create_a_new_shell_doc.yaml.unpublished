@@ -6,16 +6,13 @@
   Summary: >-
     This article discuses the motivation behind creating a new shell
   Description: |-
-    
+    {{ include "gen/blog/why_create_a_new_shell.inc.md" }}
   Synonyms:
   Related:
-  - optional/select
-  - types/jsonl
-  - types/csv
-  - types/generic
-  - commands/jobs
-  - commands/fg
-  - commands/bg
-  - apis/ReadArrayWithType
   - commands/foreach
+  - commands/formap
+  - commands/mkarray
+  - parser/create-array
+  - commands/cast
+  
 

@@ -1,17 +1,15 @@
-# _murex_ Shell Docs
-
-## Command Reference: `a` (mkarray)
+# `a` (mkarray) - Command Reference
 
 > A sophisticated yet simple way to build an array or list
 
 ## Description
 
-Pronounced "make array", like `mkdir` (etc), _murex_ has a pretty sophisticated
+Pronounced "make array", like `mkdir` (etc), Murex has a pretty sophisticated
 builtin for generating arrays. Think like bash's `{1..9}` syntax:
 
     a: [1..9]
     
-Except _murex_ also supports other sets of ranges like dates, days of the week,
+Except Murex also supports other sets of ranges like dates, days of the week,
 and alternative number bases.
 
 ## Usage
@@ -125,7 +123,7 @@ under `a`'s formatting (which uses the `str` data type).
 
 ### Smart arrays
 
-_murex_ supports a number of different formats that can be used to generate
+Murex supports a number of different formats that can be used to generate
 arrays. For more details on these please refer to the documents for each format
 
 * [Calendar Date Ranges](../mkarray/date.md):

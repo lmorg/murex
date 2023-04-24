@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: Curly Brace (`{`, `}`) Tokens
+# Curly Brace (`{`, `}`) Tokens - Parser Reference
 
 > Initiates or terminates a code block
 

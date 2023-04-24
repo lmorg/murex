@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `switch`
+# `switch` - Command Reference
 
 > Blocks of cascading conditionals
 
@@ -175,7 +173,7 @@ false.
         }
     }
     
-> **default** was added in _murex_ version 3.1
+> **default** was added in Murex version 3.1
 
 ### catch
 

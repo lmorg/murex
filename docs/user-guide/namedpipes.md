@@ -1,6 +1,6 @@
-# User Guide: Murex Named Pipes
+# Murex Named Pipes - User Guide
 
-> A detailed breakdown of named pipes in _murex_
+> A detailed breakdown of named pipes in Murex
 
 ## Background
 
@@ -15,15 +15,15 @@
 > the life of the process. It can be deleted if no longer used. Usually a named
 > pipe appears as a file, and generally processes attach to it for IPC.
 
-Where _murex_ differs from standard Linux/UNIX is that named pipes are not
+Where Murex differs from standard Linux/UNIX is that named pipes are not
 special files but rather an object or construct within the shell runtime. This
 allows for more user friendly tooling and syntactic sugar to implemented around
 it while largely still having the same functionality as a more traditional file
 based named pipe.
 
-## In _murex_
+## In Murex
 
-In _murex_, named pipes are described in code as a value inside angle brackets.
+In Murex, named pipes are described in code as a value inside angle brackets.
 There are four named pipes pre-configured: `<in>` (STDIN), `<out>` (STDOUT),
 `<err>` (STDERR), and `<null>` (/dev/null equivalent).
 
@@ -44,8 +44,8 @@ You can call a named pipe as either a method, function, or parameter.
 ## See Also
 
 * [`<>` / `read-named-pipe`](../commands/namedpipe.md):
-  Reads from a _murex_ named pipe
+  Reads from a Murex named pipe
 * [`<stdin>` ](../commands/stdin.md):
   Read the STDIN belonging to the parent code block
 * [`test`](../commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts

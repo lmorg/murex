@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `str` (string) 
+# `str` (string)  - Data-Type Reference
 
 > string (primitive)
 
@@ -51,4 +49,4 @@ This type is modelled closely on generic but is more tailored for textual
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

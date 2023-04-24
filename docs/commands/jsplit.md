@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `jsplit` 
+# `jsplit`  - Command Reference
 
 > Splits STDIN into a JSON array based on a regex parameter
 

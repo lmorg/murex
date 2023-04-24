@@ -1,14 +1,12 @@
-# _murex_ Shell Docs
-
-## Data-Type Reference: `toml` 
+# `toml`  - Data-Type Reference
 
 > Tom's Obvious, Minimal Language (TOML)
 
 ## Description
 
-TOML support within _murex_ is pretty mature however it is not considered a
+TOML support within Murex is pretty mature however it is not considered a
 primitive. Which means, while it is a recommended builtin which you should
-expect in most deployments of _murex_, it's still an optional package and
+expect in most deployments of Murex, it's still an optional package and
 thus may not be present in some edge cases. This is because it relies on
 external source packages for the shell to compile.
 
@@ -105,6 +103,6 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)

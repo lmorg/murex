@@ -38,7 +38,7 @@ term is any of these:
 
 The fuzzy finder search is not case sensitive.
 
-Press `esc` to cancel regexp search.
+Press `esc` to cancel search.
 
 ## `ctrl`+`r`: search shell history
 
@@ -54,7 +54,7 @@ Clears the current line.
 
 ## `ctrl`+`\`: kill all running processes
 
-This will kill all processes owned by the current _murex_ session. Including
+This will kill all processes owned by the current Murex session. Including
 any background processes too.
 
 This function is a effectively an emergency kill switch to bring you back to

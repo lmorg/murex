@@ -5,7 +5,7 @@
   Summary: >-
     JavaScript Object Notation (JSON) (primitive)
   Description: |-
-    JSON is a primitive data-type within _murex_.
+    JSON is a primitive data-type within Murex.
   Usage: |-
   Examples: |-
     Example JSON document taken from [Wikipedia](https://en.wikipedia.org/wiki/JSON)
@@ -42,7 +42,7 @@
     ```
   Hooks:
     ReadArray(): Works with JSON arrays. Maps are converted into arrays
-    ReadArrayWithType(): Works with JSON arrays. Maps are converted into arrays. Elements data-type in _murex_ mirrors the JSON type of the element
+    ReadArrayWithType(): Works with JSON arrays. Maps are converted into arrays. Elements data-type in Murex mirrors the JSON type of the element
     ReadMap(): Works with JSON maps
     WriteArray(): Works with JSON arrays
     ReadIndex(): Works against all properties in JSON

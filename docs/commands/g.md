@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `g`
+# `g` - Command Reference
 
 > Glob pattern matching for file system objects (eg `*.txt`)
 

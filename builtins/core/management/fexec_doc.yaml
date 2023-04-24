@@ -17,11 +17,11 @@
     ```
   Flags:
     function: >-
-      Execute a _murex_ public function
+      Execute a Murex public function
     private: >-
-      Execute a _murex_ private function
+      Execute a Murex private function
     builtin: >-
-      Execute a _murex_ builtin
+      Execute a Murex builtin
     help: >-
       Display help message
   Detail: |-

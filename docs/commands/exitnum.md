@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `exitnum`
+# `exitnum` - Command Reference
 
 > Output the exit number of the previous process
 
@@ -20,6 +18,6 @@ Output the exit number of the previous process.
 ## See Also
 
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`test`](../commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts

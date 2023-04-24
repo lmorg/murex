@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## Command Reference: `get-type`
+# `get-type` - Command Reference
 
 > Returns the data-type of a variable or pipe
 
 ## Description
 
-`get-type` returns the _murex_ data-type of a variable or pipe without
+`get-type` returns the Murex data-type of a variable or pipe without
 reading the data from it.
 
 ## Usage
@@ -35,7 +33,7 @@ Get the data-type of a functions STDIN
     » tout: json {[1,2,3]} -> example
     json
     
-Get the data-type of a _murex_ named pipe
+Get the data-type of a Murex named pipe
 
     » pipe: example
     » tout: <example> json {[1,2,3]}
@@ -46,17 +44,17 @@ Get the data-type of a _murex_ named pipe
 ## See Also
 
 * [Reserved Variables](../user-guide/reserved-vars.md):
-  Special variables reserved by _murex_
+  Special variables reserved by Murex
 * [Variable and Config Scoping](../user-guide/scoping.md):
-  How scoping works within _murex_
+  How scoping works within Murex
 * [`debug`](../commands/debug.md):
   Debugging information
 * [`function`](../commands/function.md):
   Define a function block
 * [`pipe`](../commands/pipe.md):
-  Manage _murex_ named pipes
+  Manage Murex named pipes
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`tout`](../commands/tout.md):

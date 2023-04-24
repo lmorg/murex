@@ -1,13 +1,11 @@
-# _murex_ Shell Docs
-
-## API Reference: `lang.ArrayWithTypeTemplate()` (template API)
+# `lang.ArrayWithTypeTemplate()` (template API) - API Reference
 
 > Unmarshals a data type into a Go struct and returns the results as an array with data type included
 
 ## Description
 
 This is a template API you can use for your custom data types to wrap around an
-existing Go marshaller and return a _murex_ array which is consistent with
+existing Go marshaller and return a Murex array which is consistent with
 other structures such as nested JSON or YAML documents.
 
 It should only be called from `ReadArrayWithType()` functions.

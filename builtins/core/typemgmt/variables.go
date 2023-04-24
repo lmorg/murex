@@ -1,4 +1,3 @@
-
 package typemgmt
 
 import (
@@ -193,7 +192,7 @@ func splitVarString(params []string) (name, value, dataType string, err error) {
 	for j := range params {
 		for _, r := range params[j] {
 			switch {
-			case (r >= 'a' && 'z' >= r) || (r >= 'A' && 'Z' >= r) || (r >= '0' && '9' >= r) || r == '_':
+			case (r >= 'a' && 'z' >= r) || (r >= 'A' && 'Z' >= r) || (r >= '0' && '9' >= r) || r == '_' || r == '.':
 				switch parserState {
 				case parserStateExpValue:
 					err = fmt.Errorf("invalid space or tab in variable name")

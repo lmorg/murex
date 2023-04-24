@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Parser Reference: And (`&&`) Logical Operator
+# And (`&&`) Logical Operator - Parser Reference
 
 > Continues next operation if previous operation passes
 
@@ -42,7 +40,7 @@ This is equivelent to a `try` block:
 * [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
 * [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in _murex_
+  Overview of the different schedulers (or 'run modes') in Murex
 * [`err`](../commands/err.md):
   Print a line to the STDERR
 * [`out`](../commands/out.md):

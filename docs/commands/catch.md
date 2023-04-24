@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `catch`
+# `catch` - Command Reference
 
 > Handles the exception code raised by `try` or `trypipe` 
 
@@ -47,7 +45,7 @@ handles the exceptions raised by the aforementioned.
 ## See Also
 
 * [Schedulers](../user-guide/schedulers.md):
-  Overview of the different schedulers (or 'run modes') in _murex_
+  Overview of the different schedulers (or 'run modes') in Murex
 * [`if`](../commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`runmode`](../commands/runmode.md):

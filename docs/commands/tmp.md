@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `tmp`
+# `tmp` - Command Reference
 
 > Create a temporary file and write to it
 
@@ -29,8 +27,8 @@ highlighting.
 
 ## Detail
 
-The temporary file name is a base64 encoded md5 hash of the time plus _murex_
-function ID with _murex_ process ID appended:
+The temporary file name is a base64 encoded md5 hash of the time plus Murex
+function ID with Murex process ID appended:
 
 ```go
 package io
@@ -90,7 +88,7 @@ func cmdTempFile(p *lang.Process) error {
 This should should provide enough distance to run `tmp` in parallel....should
 you ever want to.
 
-`tmp` files are also located inside a unique per-process _murex_ temp directory
+`tmp` files are also located inside a unique per-process Murex temp directory
 which itself is located in the appropriate temp directory for the host OS (eg
 `$TMPDIR` on macOS).
 
@@ -103,4 +101,4 @@ which itself is located in the appropriate temp directory for the host OS (eg
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`pipe`](../commands/pipe.md):
-  Manage _murex_ named pipes
+  Manage Murex named pipes

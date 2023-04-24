@@ -5,7 +5,7 @@
   Summary: >-
     Infixed constants that return ANSI escape sequences
   Description: |-
-    ANSI Constants is a _murex_ convention of passing ANSI escape sequences into
+    ANSI Constants is a Murex convention of passing ANSI escape sequences into
     strings. It uses the `{}` notation with the constant name placed in between two
     curly braces. eg `{GREEN}`. 
 
@@ -55,7 +55,7 @@
     » config: set shell color false
     ```
 
-    You will need to add this to your _murex_ profile, `~/.murex_profile` to make
+    You will need to add this to your Murex profile, `~/.murex_profile` to make
     it persistent.
   Synonyms:
   Related:

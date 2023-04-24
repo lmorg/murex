@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## Command Reference: `ta` (mkarray)
+# `ta` (mkarray) - Command Reference
 
 > A sophisticated yet simple way to build an array of a user defined data-type
 
 ## Description
 
-_murex_ has a pretty sophisticated builtin for generating arrays. It works
+Murex has a pretty sophisticated builtin for generating arrays. It works
 a little bit like Bash's `{1..9}` syntax but includes a few additional nifty
 features and the output format is user defined.
 

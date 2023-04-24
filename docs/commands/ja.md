@@ -1,12 +1,10 @@
-# _murex_ Shell Docs
-
-## Command Reference: `ja` (mkarray)
+# `ja` (mkarray) - Command Reference
 
 > A sophisticated yet simply way to build a JSON array
 
 ## Description
 
-_murex_ has a pretty sophisticated builtin for generating JSON arrays.
+Murex has a pretty sophisticated builtin for generating JSON arrays.
 It works a little bit like Bash's `{1..9}` syntax but includes a few
 additional nifty features.
 

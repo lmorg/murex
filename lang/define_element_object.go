@@ -105,6 +105,9 @@ func elementRecursiveLookup(path []string, i int, obj interface{}) (interface{},
 			return nil, fmt.Errorf("key '%s' not found", path[i])
 		}
 
+	case string, int, float64, bool, nil, []byte, []rune:
+		return nil, fmt.Errorf("primitives like %T cannot be split to return property '%s'", v, path[i])
+
 	default:
 		return nil, fmt.Errorf("murex doesn't know how to lookup `%T` (please file a bug with on the murex Github page: https://lmorg/murex)", v)
 	}

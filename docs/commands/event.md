@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `event`
+# `event` - Command Reference
 
 > Event driven programming for shell scripts
 
@@ -59,4 +57,4 @@ To list compiled event types:
 * [`private`](../commands/private.md):
   Define a private function block
 * [`runtime`](../commands/runtime.md):
-  Returns runtime information on the internal state of _murex_
+  Returns runtime information on the internal state of Murex

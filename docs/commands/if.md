@@ -1,6 +1,4 @@
-# _murex_ Shell Docs
-
-## Command Reference: `if`
+# `if` - Command Reference
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 
@@ -82,7 +80,7 @@ STDERR to the rest of the pipeline so you don't have to worry about redirecting
 the output streams to `null`.
 
 If you require output from the conditional blocks STDOUT then you will need to
-use either a _murex_ named pipe to redirect the output, or test or debug flags
+use either a Murex named pipe to redirect the output, or test or debug flags
 (depending on your use case) if you only need to occasionally inspect the
 conditionals output.
 
@@ -109,7 +107,7 @@ conditionals output.
 * [`switch`](../commands/switch.md):
   Blocks of cascading conditionals
 * [`test`](../commands/test.md):
-  _murex_'s test framework - define tests, run tests and debug shell scripts
+  Murex's test framework - define tests, run tests and debug shell scripts
 * [`true`](../commands/true.md):
   Returns a `true` value
 * [`try`](../commands/try.md):

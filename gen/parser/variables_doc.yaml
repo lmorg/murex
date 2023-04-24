@@ -5,10 +5,10 @@
   Summary: >-
     Expand values as a string
   Description: |-
-    The string token is used to tell _murex_ to expand variables and subshells as a
+    The string token is used to tell Murex to expand variables and subshells as a
     string (ie one single parameter) irrespective of the data that is stored in the
     string. One handy common use case is file names where traditional POSIX shells
-    would treat spaces as a new file, whereas _murex_ treats spaces as a printable
+    would treat spaces as a new file, whereas Murex treats spaces as a printable
     character unless explicitly told to do otherwise.
 
     The string token must be followed with one of the following characters: 
@@ -64,7 +64,7 @@
   Summary: >-
     Expand values as an array
   Description: |-
-    The array token is used to tell _murex_ to expand the string as multiple
+    The array token is used to tell Murex to expand the string as multiple
     parameters (an array) rather than as a single parameter string.
   Examples: |-
     {{ include "gen/includes/parser-var-tokens.inc.md" }}
