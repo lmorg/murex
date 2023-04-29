@@ -16,15 +16,17 @@ type Property int
 const (
 	P_NEW_CHAIN Property = 1 << iota
 	P_METHOD
+	P_FOLLOW_ON
 	P_PIPE_OUT
 	P_PIPE_ERR
 	P_LOGIC_AND
 	P_LOGIC_OR
 )
 
-func (prop Property) NewChain() bool { return prop&P_NEW_CHAIN != 0 }
-func (prop Property) Method() bool   { return prop&P_METHOD != 0 }
-func (prop Property) PipeOut() bool  { return prop&P_PIPE_OUT != 0 }
-func (prop Property) PipeErr() bool  { return prop&P_PIPE_ERR != 0 }
-func (prop Property) LogicAnd() bool { return prop&P_LOGIC_AND != 0 }
-func (prop Property) LogicOr() bool  { return prop&P_LOGIC_OR != 0 }
+func (prop Property) NewChain() bool   { return prop&P_NEW_CHAIN != 0 }
+func (prop Property) Method() bool     { return prop&P_METHOD != 0 }
+func (prop Property) FollowOnFn() bool { return prop&P_FOLLOW_ON != 0 }
+func (prop Property) PipeOut() bool    { return prop&P_PIPE_OUT != 0 }
+func (prop Property) PipeErr() bool    { return prop&P_PIPE_ERR != 0 }
+func (prop Property) LogicAnd() bool   { return prop&P_LOGIC_AND != 0 }
+func (prop Property) LogicOr() bool    { return prop&P_LOGIC_OR != 0 }
