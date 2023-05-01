@@ -3,6 +3,7 @@ package expressions
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	fn "github.com/lmorg/murex/lang/expressions/functions"
@@ -97,13 +98,21 @@ var expressionFunctionName = []rune(lang.ExpressionFunctionName)
 func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) error {
 	switch {
 
-	case len(blk.Functions) > 0 && tree == nil && blk.nextProperty.FollowOnFn():
-		return fmt.Errorf("invalid syntax at %d:%d. Unexpected semi-colon or line break following a pipeline continuation token",
-			blk.lineN, blk.charPos)
+	case tree == nil && blk.nextProperty.FollowOnFn():
+		exprRune, exprPos := cropCodeInErrMsg(blk.expression, blk.charPos)
+		return fmt.Errorf("invalid syntax at %d. Unexpected pipeline continuation token:\n> %s\n> %s\n> these tokens:     %s\n> shouldn't follow: %s",
+			blk.charPos,
+			string(exprRune), strings.Repeat(" ", exprPos)+"^",
+			next.Decompose(),
+			fn.Property(fn.P_PIPE_OUT|fn.P_PIPE_ERR|fn.P_LOGIC_AND|fn.P_LOGIC_OR).Decompose())
 
 	case len(blk.Functions) > 0 && tree == nil && next.FollowOnFn():
-		return fmt.Errorf("invalid syntax at %d:%d. Semi-colon or line break preceding a pipeline continuation token",
-			blk.lineN, blk.charPos)
+		exprRune, exprPos := cropCodeInErrMsg(blk.expression, blk.charPos)
+		return fmt.Errorf("invalid syntax at %d. Semi-colon or line break preceding a pipeline continuation token:\n> %s\n> %s\n> these tokens:     %s\n> shouldn't follow: %s",
+			blk.charPos,
+			string(exprRune), strings.Repeat(" ", exprPos)+"^",
+			this.Decompose(),
+			fn.Property(fn.P_NEW_CHAIN|fn.P_LOGIC_AND|fn.P_LOGIC_OR).Decompose())
 
 	case tree == nil:
 		// do nothing
@@ -274,6 +283,12 @@ func (blk *BlockT) ParseBlock() error {
 		case '>':
 			switch {
 			case blk.nextChar() == '>':
+				/*if len(blk.Functions) > 0 &&
+					len(blk.Functions[len(blk.Functions)-1].Raw) == 0 &&
+					!blk.Functions[len(blk.Functions)-1].Properties.Method() {
+					panic("ugh")
+				}*/
+
 				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
 				if err != nil {
 					return err
