@@ -28,7 +28,7 @@ func TestWriteFile(t *testing.T) {
 
 	tests := []test.MurexTest{
 		{
-			Block:  fmt.Sprintf(`out foo | > %s; out bar | > %s; open %s`, file, file, file),
+			Block:  fmt.Sprintf(`out foo |> %s; out bar |> %s; open %s`, file, file, file),
 			Stdout: "bar\n",
 		},
 	}
@@ -45,7 +45,7 @@ func TestAppendFile(t *testing.T) {
 
 	tests := []test.MurexTest{
 		{
-			Block:  fmt.Sprintf(`out foo | > %s; out bar | >> %s; open %s`, file, file, file),
+			Block:  fmt.Sprintf(`out foo |> %s; out bar >> %s; open %s`, file, file, file),
 			Stdout: "foo\nbar\n",
 		},
 	}
