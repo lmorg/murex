@@ -164,8 +164,8 @@ func TestBlockPropertiesPosixPipe(t *testing.T) {
 		t.Errorf("function %d != PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
-		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT|P_FOLLOW_ON <int>", i)
 	}
 
 	i = 2
@@ -178,8 +178,8 @@ func TestBlockPropertiesPosixPipe(t *testing.T) {
 		t.Errorf("function %d == PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD {
-		t.Errorf("function %d != P_METHOD <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_FOLLOW_ON <int>", i)
 	}
 }
 
@@ -220,8 +220,8 @@ func TestBlockPropertiesArrowPipe(t *testing.T) {
 		t.Errorf("function %d != PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
-		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT|P_FOLLOW_ON <int>", i)
 	}
 
 	i = 2
@@ -234,8 +234,8 @@ func TestBlockPropertiesArrowPipe(t *testing.T) {
 		t.Errorf("function %d == PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD {
-		t.Errorf("function %d != P_METHOD <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_FOLLOW_ON <int>", i)
 	}
 }
 
@@ -276,8 +276,8 @@ func TestBlockPropertiesQuestionMark(t *testing.T) {
 		t.Errorf("function %d != PipeErr() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_ERR {
-		t.Errorf("function %d != P_METHOD|P_PIPE_ERR <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_ERR|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_PIPE_ERR|P_FOLLOW_ON <int>", i)
 	}
 
 	i = 2
@@ -290,8 +290,8 @@ func TestBlockPropertiesQuestionMark(t *testing.T) {
 		t.Errorf("function %d == PipeErr() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD {
-		t.Errorf("function %d != P_METHOD <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_FOLLOW_ON <int>", i)
 	}
 }
 
@@ -332,8 +332,8 @@ func TestBlockPropertiesFormatGeneric(t *testing.T) {
 		t.Errorf("function %d != PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
-		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT|P_FOLLOW_ON <int>", i)
 	}
 
 	i = 2
@@ -346,8 +346,8 @@ func TestBlockPropertiesFormatGeneric(t *testing.T) {
 		t.Errorf("function %d != PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
-		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT|P_FOLLOW_ON <int>", i)
 	}
 
 	i = 3
@@ -360,8 +360,8 @@ func TestBlockPropertiesFormatGeneric(t *testing.T) {
 		t.Errorf("function %d != PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT {
-		t.Errorf("function %d != P_METHOD|P_PIPE_OUT <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_PIPE_OUT|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_PIPE_OUT|P_FOLLOW_ON <int>", i)
 	}
 
 	i = 4
@@ -374,7 +374,7 @@ func TestBlockPropertiesFormatGeneric(t *testing.T) {
 		t.Errorf("function %d == PipeOut() <func>", i)
 	}
 
-	if blk.Functions[i].Properties != functions.P_METHOD {
-		t.Errorf("function %d != P_METHOD <int>", i)
+	if blk.Functions[i].Properties != functions.P_METHOD|functions.P_FOLLOW_ON {
+		t.Errorf("function %d != P_METHOD|P_FOLLOW_ON <int>", i)
 	}
 }
