@@ -4,7 +4,7 @@
   CategoryID: changelog
   DateTime: 2023-04-02 20:09
   Summary: >-
-    The previous releases have brough significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to this document and available on (Github releases)[https://github.com/lmorg/murex/releases] too
+    The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.0.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
   Description: |-
     ### Breaking Changes
 
@@ -12,11 +12,11 @@
 
     ### Features
 
-    No new feature
+    No new features
 
-    ### Bug Fixes:
+    ### Bug Fixes
 
     * code references in error messages are cropped to terminal width
 
-    * error handling around multiple chained but incompatible tokens ((#566)[https://github.com/lmorg/murex/issues/566])
+    * error handling around multiple chained but incompatible tokens ([#566](https://github.com/lmorg/murex/issues/566))
     
