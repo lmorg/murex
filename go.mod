@@ -15,7 +15,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/pelletier/go-toml v1.9.5
 	github.com/phayes/permbits v0.0.0-20190612203442-39d7c581d2ee
-	golang.org/x/sys v0.6.0
+	golang.org/x/sys v0.7.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 

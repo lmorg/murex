@@ -3,6 +3,7 @@ package expressions
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/lang"
 	fn "github.com/lmorg/murex/lang/expressions/functions"
@@ -94,8 +95,25 @@ func (tree *ParserT) preParser() (int, error) {
 
 var expressionFunctionName = []rune(lang.ExpressionFunctionName)
 
-func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
+func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) error {
 	switch {
+
+	case tree == nil && blk.nextProperty.FollowOnFn():
+		exprRune, exprPos := cropCodeInErrMsg(blk.expression, blk.charPos)
+		return fmt.Errorf("invalid syntax at %d. Unexpected pipeline continuation token:\n> %s\n> %s\n> these tokens:     %s\n> shouldn't follow: %s",
+			blk.charPos,
+			string(exprRune), strings.Repeat(" ", exprPos)+"^",
+			next.Decompose(),
+			fn.Property(fn.P_PIPE_OUT|fn.P_PIPE_ERR|fn.P_LOGIC_AND|fn.P_LOGIC_OR).Decompose())
+
+	case len(blk.Functions) > 0 && tree == nil && next.FollowOnFn():
+		exprRune, exprPos := cropCodeInErrMsg(blk.expression, blk.charPos)
+		return fmt.Errorf("invalid syntax at %d. Semi-colon or line break preceding a pipeline continuation token:\n> %s\n> %s\n> these tokens:     %s\n> shouldn't follow: %s",
+			blk.charPos,
+			string(exprRune), strings.Repeat(" ", exprPos)+"^",
+			this.Decompose(),
+			fn.Property(fn.P_NEW_CHAIN|fn.P_LOGIC_AND|fn.P_LOGIC_OR).Decompose())
+
 	case tree == nil:
 		// do nothing
 
@@ -126,6 +144,7 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) {
 	}
 
 	blk.nextProperty = next
+	return nil
 }
 
 var formatGeneric = []rune("format " + types.Generic)
@@ -141,7 +160,9 @@ func (blk *BlockT) ParseBlock() error {
 			continue
 
 		case '\n':
-			blk.append(tree, 0, fn.P_NEW_CHAIN)
+			if err := blk.append(tree, 0, fn.P_NEW_CHAIN); err != nil {
+				return err
+			}
 			tree = nil
 			blk.lineN++
 			blk.offset = blk.charPos
@@ -170,14 +191,18 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case ';':
-			blk.append(tree, 0, fn.P_NEW_CHAIN)
+			if err := blk.append(tree, 0, fn.P_NEW_CHAIN); err != nil {
+				return err
+			}
 			tree = nil
 
 		case '&':
 			switch {
 			case blk.nextChar() == '&':
 				blk.charPos++
-				blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_LOGIC_AND)
+				if err := blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_FOLLOW_ON|fn.P_LOGIC_AND); err != nil {
+					return err
+				}
 				tree = nil
 			case tree == nil:
 				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
@@ -193,11 +218,15 @@ func (blk *BlockT) ParseBlock() error {
 		case '|':
 			if blk.nextChar() == '|' {
 				blk.charPos++
-				blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_LOGIC_OR)
+				if err := blk.append(tree, 0, fn.P_NEW_CHAIN|fn.P_FOLLOW_ON|fn.P_LOGIC_OR); err != nil {
+					return err
+				}
 				tree = nil
 
 			} else {
-				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
+				if err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
+					return err
+				}
 				tree = nil
 			}
 
@@ -205,7 +234,9 @@ func (blk *BlockT) ParseBlock() error {
 			switch {
 			case blk.nextChar() == '>':
 				blk.charPos++
-				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
+				if err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
+					return err
+				}
 				tree = nil
 			case tree == nil:
 				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
@@ -219,18 +250,24 @@ func (blk *BlockT) ParseBlock() error {
 			}
 
 		case '?':
-			blk.append(tree, fn.P_PIPE_ERR, fn.P_METHOD)
+			if err := blk.append(tree, fn.P_PIPE_ERR, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
+				return err
+			}
 			tree = nil
 
 		case '=':
 			switch {
 			case blk.nextChar() == '>':
 				blk.charPos++
-				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
+				if err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
+					return err
+				}
 				tree = nil
 				format := NewParser(nil, formatGeneric, 0)
 				_, _ = format.preParser()
-				blk.append(format, fn.P_PIPE_OUT, fn.P_METHOD)
+				if err := blk.append(format, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD); err != nil {
+					return err
+				}
 
 			case tree == nil:
 				tree = NewParser(nil, blk.expression[blk.charPos:], 0)
@@ -246,8 +283,16 @@ func (blk *BlockT) ParseBlock() error {
 		case '>':
 			switch {
 			case blk.nextChar() == '>':
-				blk.append(tree, fn.P_PIPE_OUT, fn.P_METHOD)
-				var err error
+				/*if len(blk.Functions) > 0 &&
+					len(blk.Functions[len(blk.Functions)-1].Raw) == 0 &&
+					!blk.Functions[len(blk.Functions)-1].Properties.Method() {
+					panic("ugh")
+				}*/
+
+				err := blk.append(tree, fn.P_PIPE_OUT, fn.P_FOLLOW_ON|fn.P_METHOD)
+				if err != nil {
+					return err
+				}
 				tree, err = blk.parseStatementWithKnownCommand('>', '>')
 				if err != nil {
 					return err
@@ -274,7 +319,9 @@ func (blk *BlockT) ParseBlock() error {
 	}
 
 	if blk.charPos >= len(blk.expression) {
-		blk.append(tree, 0, 0)
+		if err := blk.append(tree, 0, 0); err != nil {
+			return err
+		}
 	}
 
 	return nil
