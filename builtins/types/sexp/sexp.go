@@ -1,10 +1,7 @@
 package sexp
 
 import (
-	"strconv"
-
 	"github.com/abesto/sexp"
-	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
 )
@@ -44,36 +41,6 @@ func init() {
 	lang.SetFileExtensions(sexpr, "sexp")
 }
 
-func readMapC(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
-	return readMap(read, config, callback, true)
-}
-
-func readMapS(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
-	return readMap(read, config, callback, false)
-}
-
-func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool), canonical bool) error {
-	b, err := read.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	se, err := sexp.Unmarshal(b)
-	if err == nil {
-
-		for i := range se {
-			j, err := sexp.Marshal(se[i], canonical)
-			if err != nil {
-				return err
-			}
-			callback(strconv.Itoa(i), string(j), i != len(se)-1)
-		}
-
-		return nil
-	}
-	return err
-}
-
 func readIndexC(p *lang.Process, params []string) error { return readIndex(p, params, true) }
 func readIndexS(p *lang.Process, params []string) error { return readIndex(p, params, false) }
 
@@ -89,46 +56,6 @@ func readIndex(p *lang.Process, params []string, canonical bool) (err error) {
 	if err != nil {
 		return err
 	}
-
-	/*var seArray []interface{}
-
-	for _, key := range params {
-		i, err := strconv.Atoi(key)
-		if err != nil {
-			return err
-		}
-
-		if i < 0 {
-			return errors.New("Cannot have negative keys in array.")
-		}
-		if i >= len(se) {
-			return errors.New("Key '" + key + "' greater than number of items in array.")
-		}
-
-		if len(params) > 1 {
-			seArray = append(seArray, se[i])
-
-		} else {
-			switch se[i].(type) {
-			case string:
-				p.Stdout.Write([]byte(se[i].(string)))
-			default:
-				b, err := sexp.Marshal(se[i], canonical)
-				if err != nil {
-					return err
-				}
-				p.Stdout.Writeln(b)
-			}
-		}
-	}
-	if len(seArray) > 0 {
-		b, err := sexp.Marshal(seArray, canonical)
-		if err != nil {
-			return err
-		}
-		p.Stdout.Writeln(b)
-	}
-	return nil*/
 
 	marshaller := func(iface interface{}) ([]byte, error) {
 		return sexp.Marshal(iface, canonical)

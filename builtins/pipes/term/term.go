@@ -54,7 +54,7 @@ func (t *term) ReadArray(context.Context, func([]byte)) error { return nil }
 func (t *term) ReadArrayWithType(context.Context, func(interface{}, string)) error { return nil }
 
 // ReadMap is a null method because the term interface is write-only
-func (t *term) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
+func (t *term) ReadMap(*config.Config, func(*stdio.Map)) error { return nil }
 
 // ReadAll is a null method because the term interface is write-only
 func (t *term) ReadAll() ([]byte, error) { return []byte{}, nil }

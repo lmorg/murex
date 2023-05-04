@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/shell"
 	"github.com/lmorg/murex/shell/variables"
@@ -116,8 +117,9 @@ eventFound:
 		evt.events[i].name, interrupt, block, evt.events[i].fileRef, stdout, true)
 
 	ret := make(map[string]string)
-	err := stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
-		ret[key] = value
+	err := stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
+		v, _ := types.ConvertGoType(readmap.Value, types.String)
+		ret[readmap.Key] = v.(string)
 	})
 	if err != nil {
 		return &readline.EventReturn{

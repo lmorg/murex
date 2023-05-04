@@ -2,6 +2,7 @@ package structs
 
 import (
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/json"
@@ -23,7 +24,7 @@ func cmdForMap(p *lang.Process) (err error) {
 }
 
 func cmdForMapDefault(p *lang.Process) error {
-	dt := p.Stdin.GetDataType()
+	//dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(types.Generic)
 
 	block, err := p.Parameters.Block(2)
@@ -41,29 +42,42 @@ func cmdForMapDefault(p *lang.Process) error {
 		return err
 	}
 
-	err = p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
+	var varErr error
+	err = p.Stdin.ReadMap(p.Config, func(readmap *stdio.Map) {
 		if p.HasCancelled() {
 			return
 		}
 
 		if varKey != "!" {
-			p.Variables.Set(p, varKey, key, types.String)
+			varErr = p.Variables.Set(p, varKey, readmap.Key, types.String)
+			if varErr != nil {
+				p.Done()
+				return
+			}
 		}
+
 		if varVal != "!" {
-			p.Variables.Set(p, varVal, value, dt)
+			varErr = p.Variables.Set(p, varVal, readmap.Value, readmap.DataType)
+			if varErr != nil {
+				p.Done()
+				return
+			}
 		}
 
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
 		fork.Execute(block)
 	})
 
+	if varErr != nil {
+		return varErr
+	}
 	return err
 }
 
 // Example usage:
 // <stdin> -> formap --jmap k v { $k } { out: $v[summary] } -> <stdout>
 func cmdForMapJmap(p *lang.Process) error {
-	dt := p.Stdin.GetDataType()
+	//dt := p.Stdin.GetDataType()
 	p.Stdout.SetDataType(types.Json)
 
 	blockKey, err := p.Parameters.Block(3)
@@ -88,16 +102,16 @@ func cmdForMapJmap(p *lang.Process) error {
 
 	m := make(map[string]string)
 
-	err = p.Stdin.ReadMap(p.Config, func(key, value string, last bool) {
+	err = p.Stdin.ReadMap(p.Config, func(readmap *stdio.Map) {
 		if p.HasCancelled() {
 			return
 		}
 
 		if varKey != "!" {
-			p.Variables.Set(p, varKey, key, types.String)
+			p.Variables.Set(p, varKey, readmap.Key, types.String)
 		}
 		if varVal != "!" {
-			p.Variables.Set(p, varVal, value, dt)
+			p.Variables.Set(p, varVal, readmap.Value, readmap.DataType)
 		}
 
 		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)

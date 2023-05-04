@@ -69,6 +69,6 @@ func (n *Net) ReadArrayWithType(ctx context.Context, callback func(interface{}, 
 }
 
 // ReadMap treats net Io interface as an hash of data
-func (n *Net) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
+func (n *Net) ReadMap(config *config.Config, callback func(*stdio.Map)) error {
 	return stdio.ReadMap(n, config, callback)
 }

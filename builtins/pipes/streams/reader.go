@@ -112,7 +112,7 @@ func (r *Reader) ReadArrayWithType(ctx context.Context, callback func(interface{
 }
 
 // ReadMap returns a data type-specific key/values returned via a callback function
-func (r *Reader) ReadMap(config *config.Config, callback func(key, value string, last bool)) error {
+func (r *Reader) ReadMap(config *config.Config, callback func(*stdio.Map)) error {
 	return stdio.ReadMap(r, config, callback)
 }
 

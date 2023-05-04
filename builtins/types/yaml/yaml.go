@@ -2,14 +2,11 @@ package yaml
 
 import (
 	"context"
-	"fmt"
-	"strconv"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/stdio"
-	"gopkg.in/yaml.v3"
+	yaml "gopkg.in/yaml.v3"
 )
 
 const typeName = "yaml"
@@ -54,58 +51,8 @@ func noCrLf(b []byte) []byte {
 	return b
 }
 
-func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
-	b, err := read.ReadAll()
-	if err != nil {
-		return err
-	}
-
-	var jObj interface{}
-	err = yaml.Unmarshal(b, &jObj)
-	if err == nil {
-
-		switch v := jObj.(type) {
-		case []interface{}:
-			for i := range jObj.([]interface{}) {
-				j, err := yaml.Marshal(jObj.([]interface{})[i])
-				if err != nil {
-					return err
-				}
-				callback(strconv.Itoa(i), string(noCrLf(j)), i != len(jObj.([]interface{}))-1)
-			}
-
-		case map[string]interface{}:
-			i := 1
-			for key := range jObj.(map[string]interface{}) {
-				j, err := yaml.Marshal(jObj.(map[string]interface{})[key])
-				if err != nil {
-					return err
-				}
-				callback(key, string(noCrLf(j)), i != len(jObj.(map[string]interface{})))
-				i++
-			}
-			return nil
-
-		case map[interface{}]interface{}:
-			i := 1
-			for key := range jObj.(map[interface{}]interface{}) {
-				j, err := yaml.Marshal(jObj.(map[interface{}]interface{})[key])
-				if err != nil {
-					return err
-				}
-				callback(fmt.Sprint(key), string(noCrLf(j)), i != len(jObj.(map[interface{}]interface{})))
-				i++
-			}
-			return nil
-
-		default:
-			if debug.Enabled {
-				panic(v)
-			}
-		}
-		return nil
-	}
-	return err
+func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
+	return lang.MapTemplate(typeName, yaml.Marshal, yaml.Unmarshal, read, callback)
 }
 
 func readIndex(p *lang.Process, params []string) error {

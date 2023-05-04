@@ -17,7 +17,7 @@ var readArrayWithType = make(map[string]func(ctx context.Context, read Io, callb
 
 // ReadMap is where custom data formats can define how to iterate through structured data (eg `formap`).
 // This should only be read from by stream.Io interfaces and written to inside an init() function.
-var readMap = make(map[string]func(read Io, config *config.Config, callback func(key, value string, last bool)) error)
+var readMap = make(map[string]func(read Io, config *config.Config, callback func(*Map)) error)
 
 // WriteArray is where custom data formats can define how to do buffered writes
 var writeArray = make(map[string]func(read Io) (ArrayWriter, error))

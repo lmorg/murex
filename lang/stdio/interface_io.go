@@ -21,7 +21,7 @@ type Io interface {
 	ReadLine(callback func([]byte)) error
 	ReadArray(ctx context.Context, callback func([]byte)) error
 	ReadArrayWithType(ctx context.Context, callback func(interface{}, string)) error
-	ReadMap(*config.Config, func(string, string, bool)) error
+	ReadMap(*config.Config, func(*Map)) error
 	ReadAll() ([]byte, error)
 
 	Write([]byte) (int, error)
@@ -34,4 +34,11 @@ type Io interface {
 	Open()
 	Close()
 	ForceClose()
+}
+
+type Map struct {
+	Key      string
+	Value    interface{}
+	DataType string
+	Last     bool
 }

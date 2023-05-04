@@ -54,7 +54,7 @@ func (m *Mail) ReadArrayWithType(context.Context, func(interface{}, string)) err
 }
 
 // ReadMap is an empty method because you cannot read a sent email
-func (m *Mail) ReadMap(*config.Config, func(string, string, bool)) error {
+func (m *Mail) ReadMap(*config.Config, func(*stdio.Map)) error {
 	return errors.New("ReadMap() is not supported by mail pipes")
 }
 

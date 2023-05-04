@@ -9,6 +9,7 @@ import (
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/lists"
@@ -228,15 +229,16 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				wait <- true
 			}
 
-			stdout.ReadMap(lang.ShellProcess.Config, func(key string, value string, last bool) {
-				if strings.HasPrefix(key, partial) {
-					value = strings.Replace(value, "\r", "", -1)
-					value = strings.Replace(value, "\n", " ", -1)
+			stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
+				if strings.HasPrefix(readmap.Key, partial) {
+					value, _ := types.ConvertGoType(readmap.Value, types.String)
+					value = strings.Replace(value.(string), "\r", "", -1)
+					value = strings.Replace(value.(string), "\n", " ", -1)
 
 					if timeout {
-						items[key[len(partial):]] = value
+						items[readmap.Key[len(partial):]] = value.(string)
 					} else {
-						act.appendDef(key[len(partial):], value)
+						act.appendDef(readmap.Key[len(partial):], value.(string))
 					}
 				}
 			})

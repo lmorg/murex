@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -31,7 +32,7 @@ func (f *File) ReadArray(context.Context, func([]byte)) error { return nil }
 func (f *File) ReadArrayWithType(context.Context, func(interface{}, string)) error { return nil }
 
 // ReadMap is an empty method because file devices are write only
-func (f *File) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
+func (f *File) ReadMap(*config.Config, func(*stdio.Map)) error { return nil }
 
 // ReadAll is an empty method because file devices are write only
 func (f *File) ReadAll() ([]byte, error) { return []byte{}, nil }

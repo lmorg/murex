@@ -8,6 +8,8 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
 	"github.com/lmorg/murex/config"
+	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/test/count"
 )
 
@@ -112,8 +114,9 @@ func ReadMapOrderedTest(t *testing.T, dataType string, input []byte, expected []
 	}
 
 	actual := make([]ReadMapExpected, 0)
-	err = stdout.ReadMap(config, func(key, value string, last bool) {
-		actual = append(actual, ReadMapExpected{key, value, last})
+	err = stdout.ReadMap(config, func(readmap *stdio.Map) {
+		value, _ := types.ConvertGoType(readmap.Value, types.String)
+		actual = append(actual, ReadMapExpected{readmap.Key, value.(string), readmap.Last})
 	})
 	if err != nil {
 		t.Fatalf("Unable to ReadMap from stdout: %s", err)
@@ -147,8 +150,9 @@ func ReadMapUnorderedTest(t *testing.T, dataType string, input []byte, expected 
 	}
 
 	actual := make(map[string]ReadMapExpected)
-	err = stdout.ReadMap(config, func(key, value string, last bool) {
-		actual[key] = ReadMapExpected{key, value, last}
+	err = stdout.ReadMap(config, func(readmap *stdio.Map) {
+		value, _ := types.ConvertGoType(readmap.Value, types.String)
+		actual[readmap.Key] = ReadMapExpected{readmap.Key, value.(string), readmap.Last}
 	})
 	if err != nil {
 		t.Fatalf("Unable to ReadMap from stdout: %s", err)

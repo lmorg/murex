@@ -5,17 +5,22 @@ import (
 	"strconv"
 
 	"github.com/lmorg/murex/config"
-	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 )
 
-func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 	scanner := bufio.NewScanner(read)
 	for scanner.Scan() {
 		row := rxWhitespace.Split(scanner.Text(), -1)
-		debug.Json("row", row)
+
 		for i := range row {
-			callback(strconv.Itoa(i), row[i], i+1 == len(row))
+			callback(&stdio.Map{
+				Key:      strconv.Itoa(i),
+				Value:    row[i],
+				DataType: types.String,
+				Last:     i+1 == len(row),
+			})
 		}
 	}
 
