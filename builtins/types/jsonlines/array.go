@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"fmt"
 
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
@@ -21,7 +22,11 @@ func readArray(ctx context.Context, read stdio.Io, callback func([]byte)) error 
 		}
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while reading a %s array: %s", types.JsonLines, err.Error())
+	}
+	return nil
 }
 
 func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interface{}, string)) error {
@@ -36,7 +41,11 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 		}
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while reading a %s array: %s", types.JsonLines, err.Error())
+	}
+	return nil
 }
 
 type arrayWriter struct {

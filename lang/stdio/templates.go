@@ -17,8 +17,9 @@ import (
 func ReadArray(ctx context.Context, read Io, callback func([]byte)) error {
 	dt := read.GetDataType()
 
-	if readArray[dt] != nil {
-		return readArray[dt](ctx, read, callback)
+	fnReadArray := readArray[dt]
+	if fnReadArray != nil {
+		return fnReadArray(ctx, read, callback)
 	}
 
 	return readArray[types.Generic](ctx, read, callback)
@@ -28,19 +29,21 @@ func ReadArray(ctx context.Context, read Io, callback func([]byte)) error {
 func ReadArrayWithType(ctx context.Context, read Io, callback func(interface{}, string)) error {
 	dt := read.GetDataType()
 
-	if readArrayWithType[dt] != nil {
-		return readArrayWithType[dt](ctx, read, callback)
+	fnReadArray := readArrayWithType[dt]
+	if fnReadArray != nil {
+		return fnReadArray(ctx, read, callback)
 	}
 
 	return readArrayWithType[types.Generic](ctx, read, callback)
 }
 
 // ReadMap is a template function for stdio.Io
-func ReadMap(read Io, config *config.Config, callback func(key, value string, last bool)) error {
-	dt := read.GetDataType()
+func ReadMap(read Io, config *config.Config, callback func(*Map)) error {
+	dataType := read.GetDataType()
 
-	if readMap[dt] != nil {
-		return readMap[dt](read, config, callback)
+	fnReadMap := readMap[dataType]
+	if fnReadMap != nil {
+		return fnReadMap(read, config, callback)
 	}
 
 	return readMap[types.Generic](read, config, callback)

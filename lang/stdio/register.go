@@ -62,7 +62,7 @@ func RegisterReadArrayWithType(dataType string, function func(ctx context.Contex
 
 // RegisterReadMap is used by pipes (/builtins/) to regester themselves to murex.
 // This function should only be called from a packages Init() func.
-func RegisterReadMap(dataType string, function func(read Io, config *config.Config, callback func(key, value string, last bool)) error) {
+func RegisterReadMap(dataType string, function func(read Io, config *config.Config, callback func(*Map)) error) {
 	if readMap[dataType] != nil {
 		panic("readMap already registered for the data type: " + dataType)
 	}

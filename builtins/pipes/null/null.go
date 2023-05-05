@@ -32,7 +32,7 @@ func (t *Null) ReadArray(context.Context, func([]byte)) error { return nil }
 func (t *Null) ReadArrayWithType(context.Context, func(interface{}, string)) error { return nil }
 
 // ReadMap - null interface
-func (t *Null) ReadMap(*config.Config, func(string, string, bool)) error { return nil }
+func (t *Null) ReadMap(*config.Config, func(*stdio.Map)) error { return nil }
 
 // ReadAll - null interface
 func (t *Null) ReadAll() ([]byte, error) { return []byte{}, nil }

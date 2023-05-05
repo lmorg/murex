@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-func readMap(read stdio.Io, config *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, config *config.Config, callback func(*stdio.Map)) error {
 	reader := csv.NewReader(read)
 
 	v, err := config.Get("csv", "separator", types.String)
@@ -39,7 +39,12 @@ func readMap(read stdio.Io, config *config.Config, callback func(key, value stri
 		}
 
 		for i := range recs {
-			callback(strconv.Itoa(i), recs[i], i == len(recs)-1)
+			callback(&stdio.Map{
+				Key:      strconv.Itoa(i),
+				Value:    recs[i],
+				DataType: types.String,
+				Last:     i == len(recs)-1,
+			})
 		}
 	}
 }

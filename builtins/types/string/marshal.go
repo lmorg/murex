@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
 )
 
@@ -70,5 +71,9 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 	}
 
 	err := scanner.Err()
-	return s, err
+	if err != nil {
+		return s, fmt.Errorf("error while unmarshalling %s document: %s", types.String, err.Error())
+	}
+
+	return s, nil
 }

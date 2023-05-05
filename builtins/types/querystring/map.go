@@ -5,9 +5,10 @@ import (
 
 	"github.com/lmorg/murex/config"
 	"github.com/lmorg/murex/lang/stdio"
+	"github.com/lmorg/murex/lang/types"
 )
 
-func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, last bool)) error {
+func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 	b, err := read.ReadAll()
 	if err != nil {
 		return err
@@ -31,7 +32,12 @@ func readMap(read stdio.Io, _ *config.Config, callback func(key, value string, l
 
 	for k := range values {
 		for i := range values[k] {
-			callback(k, values[k][i], true)
+			callback(&stdio.Map{
+				Key:      k,
+				Value:    values[k][i],
+				DataType: types.String,
+				Last:     true,
+			})
 		}
 	}
 

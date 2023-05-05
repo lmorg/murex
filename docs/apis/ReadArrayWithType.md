@@ -37,6 +37,7 @@ package string
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/lmorg/murex/lang/stdio"
@@ -55,7 +56,11 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 		}
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while reading a %s array: %s", types.String, err.Error())
+	}
+	return nil
 }
 ```
 

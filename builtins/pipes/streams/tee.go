@@ -62,7 +62,7 @@ func (tee *Tee) ReadArrayWithType(ctx context.Context, callback func(interface{}
 }
 
 // ReadMap reads a hash table from STDIN (uses the primary tee stream)
-func (tee *Tee) ReadMap(config *config.Config, callback func(string, string, bool)) error {
+func (tee *Tee) ReadMap(config *config.Config, callback func(*stdio.Map)) error {
 	return tee.primary.ReadMap(config, callback)
 }
 
