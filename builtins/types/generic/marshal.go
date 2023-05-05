@@ -128,5 +128,8 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 	}
 
 	err := scanner.Err()
+	if err != nil {
+		return table, fmt.Errorf("error while unmarshalling a %s array: %s", types.Generic, err.Error())
+	}
 	return table, err
 }

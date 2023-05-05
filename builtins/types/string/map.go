@@ -3,6 +3,7 @@ package string
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"strconv"
 
 	"github.com/lmorg/murex/config"
@@ -24,5 +25,10 @@ func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 		})
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while reading a %s map: %s", types.String, err.Error())
+	}
+
+	return nil
 }

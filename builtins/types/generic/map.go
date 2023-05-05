@@ -2,6 +2,7 @@ package generic
 
 import (
 	"bufio"
+	"fmt"
 	"strconv"
 
 	"github.com/lmorg/murex/config"
@@ -25,6 +26,9 @@ func readMap(read stdio.Io, _ *config.Config, callback func(*stdio.Map)) error {
 	}
 
 	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while reading a %s map: %s", types.Generic, err.Error())
+	}
 	return err
 
 }

@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func iface2Str(a []interface{}) []string {
@@ -99,6 +100,10 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 	}
 
 	err = scanner.Err()
+	if err != nil {
+		return nil, fmt.Errorf("error while unmarshalling a %s: %s", types.JsonLines, err.Error())
+	}
+
 	if isStruct {
 		return jStruct, err
 	}

@@ -3,6 +3,7 @@ package net
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/lmorg/murex/builtins/pipes/streams"
@@ -37,7 +38,11 @@ func (n *Net) ReadLine(callback func([]byte)) error {
 		callback(append(scanner.Bytes(), utils.NewLineByte...))
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while ReadLine on network pipe: %s", err.Error())
+	}
+	return nil
 }
 
 // ReadAll data from net Io interface

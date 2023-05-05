@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func index(p *lang.Process, params []string) error {
@@ -34,5 +35,14 @@ func index(p *lang.Process, params []string) error {
 		i++
 	}
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	err = scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while indexing a %s map: %s", types.String, err.Error())
+	}
+
+	return nil
 }

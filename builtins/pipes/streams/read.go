@@ -3,6 +3,7 @@ package streams
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/lmorg/murex/config"
@@ -66,7 +67,11 @@ func (stdin *Stdin) ReadLine(callback func([]byte)) error {
 		callback(append(b, utils.NewLineByte...))
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error in stdin.ReadLine: %s", err.Error())
+	}
+	return nil
 }
 
 // ReadAll reads everything and dump it into one byte slice.

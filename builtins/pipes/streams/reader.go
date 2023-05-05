@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"sync"
 
@@ -74,13 +75,14 @@ func (r *Reader) ReadLine(callback func([]byte)) error {
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		b := scanner.Bytes()
-		//r.mutex.Lock()
-		//r.bRead += uint64(len(b))
-		//r.mutex.Unlock()
 		callback(append(b, utils.NewLineByte...))
 	}
 
-	return scanner.Err()
+	err := scanner.Err()
+	if err != nil {
+		return fmt.Errorf("error while reader.ReadLine: %s", err.Error())
+	}
+	return nil
 }
 
 // ReadAll reads everything and dump it into one byte slice.
