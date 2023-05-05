@@ -98,6 +98,10 @@ func evaluate(p *lang.Process, expression string) (value interface{}, dataType s
 	}
 
 	dataType = types.DataTypeFromInterface(value)
+	if dataType == types.String {
+		// this is purely here for backwards compatibility. All other consumers of DataTypeFromInterface should expect a string instead
+		dataType = types.Generic
+	}
 
 	return
 }
