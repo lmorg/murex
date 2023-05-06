@@ -28,9 +28,9 @@ func Source(packagePath []string) string {
 	if GOPATH != "" {
 		GOPATH += consts.PathSlash + strings.Join(path, consts.PathSlash)
 
+	} else {
 		// OK, GOPATH isn't set but we might be able to have an accurate
 		// guess based on the current working directory (we hope!)
-	} else {
 		GOPATH, err = os.Getwd()
 
 		// Lets guess the GOPATH based on a common install location
