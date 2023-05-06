@@ -2,8 +2,8 @@ name: Tests
 
 on:
   push:
-    paths:
-      - "**/*.go"
+    #paths:
+    #  - "**/*.go"
 
   workflow_dispatch:
 
