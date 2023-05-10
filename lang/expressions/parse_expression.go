@@ -175,8 +175,25 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				raiseError(tree.expression, nil, tree.charPos, errMessage[symbols.Unexpected])
 			}
 
-		//case '[':
-		//	tree.createArrayAst(exec)
+		case '[':
+			switch tree.nextChar() {
+			case '{':
+				runes, v, err := tree.parseLambdaStatement(exec)
+				if err != nil {
+					return err
+				}
+				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
+					Primitive: primitives.Array,
+					Value:     v,
+				}, runes...)
+			default:
+				if !exec {
+					return raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s' (%d)",
+						errMessage[symbols.Unexpected], string(r), r))
+				}
+				tree.charPos++
+				tree.appendAst(symbols.Unexpected, r)
+			}
 
 		case ']':
 			// end JSON array

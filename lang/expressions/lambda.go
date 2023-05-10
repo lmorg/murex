@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
 )
 
@@ -44,8 +45,51 @@ func (tree *ParserT) parseLambda(varName []rune) ([]rune, interface{}, error) {
 		return parseLambdaMap(tree, t, path)
 
 	default:
-		return nil, nil, fmt.Errorf("cannot run lambda. Expecting an array, instead got '%T' in '%s'", t, path)
+		return nil, nil, fmt.Errorf("cannot run lambda. Expecting an array or map, instead got '%T' in '%s'", t, path)
 	}
+}
+
+func (tree *ParserT) parseLambdaStatement(exec bool) ([]rune, interface{}, error) {
+	if exec {
+		if tree.p.IsMethod {
+			return tree.parseLambdaStdin()
+
+		} else {
+			r := tree.expression[tree.charPos]
+			return nil, nil, raiseError(tree.expression, nil, tree.charPos, fmt.Sprintf("%s '%s' (%d)",
+				errMessage[symbols.Unexpected], string(r), r))
+		}
+
+	} else {
+		r, v, _, err := tree.parseLambdaScala(false, '@', nil, varAsValue) // just parsing source
+		return r, v, err
+	}
+}
+
+func (tree *ParserT) parseLambdaStdin() ([]rune, interface{}, error) {
+	dataType := tree.p.Stdin.GetDataType()
+	b, err := tree.p.Stdin.ReadAll()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	name := fmt.Sprintf("_stdin_%d", tree.p.Id)
+	err = tree.p.Variables.Set(tree.p, name, b, dataType)
+	if err != nil {
+		return nil, nil, fmt.Errorf("unable to set temporary variable '%s' for piped lambda: %s", name, err.Error())
+	}
+
+	r, v, err := tree.parseLambda([]rune(name))
+	if err != nil {
+		return r, v, err
+	}
+
+	err = tree.p.Variables.Unset(name)
+	if err != nil {
+		return r, v, fmt.Errorf("unable to unset temporary variable '%s' for piped lambda: %s", name, err.Error())
+	}
+
+	return r, v, nil
 }
 
 var (
@@ -155,14 +199,6 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 
 	for key, value := range t {
 		tree.charPos = pos
-		//element := fmt.Sprintf("%s.%d", path, key)
-
-		/*value, err := tree.p.Variables.GetValue(element)
-		if err != nil {
-			return nil, nil, err
-		}*/
-
-		//dataType := tree.p.Variables.GetDataType(element)
 
 		element, err := json.Marshal(map[string]interface{}{
 			"key": key,
