@@ -28,11 +28,9 @@ func Json(context string, data interface{}) {
 func Dump() interface{} {
 	type status struct {
 		Debug bool
-		//Inspect bool
 	}
 
 	return status{
 		Debug: Enabled,
-		//Inspect: Inspect,
 	}
 }
