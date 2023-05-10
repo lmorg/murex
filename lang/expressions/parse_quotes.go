@@ -264,7 +264,7 @@ func (tree *ParserT) parseNamedPipe() []rune {
 	for tree.charPos++; tree.charPos < len(tree.expression); tree.charPos++ {
 		r := tree.expression[tree.charPos]
 
-		if isBareChar(r) || r == '!' || r == ':' || r == '.' {
+		if isBareChar(r) || r == '!' || r == ':' || r == '=' || r == '.' {
 			continue
 		}
 

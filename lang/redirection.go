@@ -5,12 +5,18 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/lmorg/murex/debug"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/json"
 )
 
 func parseRedirection(p *Process) {
 	//p.NamedPipeOut = "out"
 	//p.NamedPipeErr = "err"
+
+	if debug.Enabled && p.Name.String() == "env" {
+		panic(json.LazyLogging(p.namedPipes))
+	}
 
 	for _, name := range p.namedPipes {
 		switch {

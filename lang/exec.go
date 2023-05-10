@@ -89,6 +89,7 @@ func execute(p *Process) error {
 		cmd.Stdin = p.ttyin
 		cmd.Env = append(os.Environ(), envMurexPid, envMethodFalse, envBackgroundFalse, envDataType+p.Stdin.GetDataType())
 	}
+	cmd.Env = append(cmd.Env, p.Exec.Env...)
 
 	// ***
 	// Define STANDARD OUT (fd 1)
