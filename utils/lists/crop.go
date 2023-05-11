@@ -12,3 +12,14 @@ func CropPartial(list []string, partial string) []string {
 
 	return items
 }
+
+func CropPartialMapKeys(m map[string]string, partial string) map[string]string {
+	cropped := make(map[string]string)
+	for key, val := range m {
+		if strings.HasPrefix(key, partial) {
+			cropped[key[len(partial):]] = val
+		}
+	}
+
+	return cropped
+}

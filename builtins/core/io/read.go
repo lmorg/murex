@@ -9,6 +9,8 @@ import (
 	"github.com/lmorg/murex/lang/parameters"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/json"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/readline"
 )
 
@@ -35,6 +37,7 @@ const (
 	flagReadVariable = "--variable"
 	flagReadDataType = "--datatype"
 	flagReadMask     = "--mask"
+	flagReadComplete = "--autocomplete"
 )
 
 var readArguments = parameters.Arguments{
@@ -44,6 +47,7 @@ var readArguments = parameters.Arguments{
 		flagReadVariable: types.String,
 		flagReadDataType: types.String,
 		flagReadMask:     types.String,
+		flagReadComplete: types.String,
 	},
 	AllowAdditional: true,
 }
@@ -55,7 +59,7 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 		return errors.New("background processes cannot read from stdin")
 	}
 
-	var prompt, varName, defaultVal, mask string
+	var prompt, varName, defaultVal, mask, complete string
 
 	flags, additional, err := p.Parameters.ParseFlags(&readArguments)
 	if err != nil {
@@ -68,6 +72,7 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 		defaultVal = flags[flagReadDefault]
 		datatype := flags[flagReadDataType]
 		mask = flags[flagReadMask]
+		complete = flags[flagReadComplete]
 
 		if datatype != "" {
 			dt = datatype
@@ -104,6 +109,11 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 	rl.SetPrompt(prompt)
 	rl.History = new(readline.NullHistory)
 
+	err = tabCompleter(rl, []byte(complete))
+	if err != nil {
+		return err
+	}
+
 	if len(mask) > 0 {
 		rl.PasswordMask, _ = utf8.DecodeRuneInString(mask)
 	}
@@ -124,4 +134,95 @@ func read(p *lang.Process, dt string, paramAdjust int) error {
 	}
 
 	return p.Variables.Set(p, varName, v, dt)
+}
+
+func tabCompleter(rl *readline.Instance, b []byte) error {
+	if len(b) == 0 {
+		return nil
+	}
+
+	maxRows, _ := lang.ShellProcess.Config.Get("shell", "max-suggestions", types.Integer)
+	rl.MaxTabCompleterRows = maxRows.(int)
+
+	var v interface{}
+	err := json.UnmarshalMurex(b, &v)
+	if err != nil {
+		return fmt.Errorf("cannot unmarshal JSON input for `read`'s autocomplete: %s", err.Error())
+	}
+
+	switch t := v.(type) {
+	case []string:
+		rl.TabCompleter = func(r []rune, i int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
+			tcr := new(readline.TabCompleterReturnT)
+			if i > len(r) {
+				return tcr
+			}
+			tcr.Prefix = string(r[:i])
+			tcr.Suggestions = lists.CropPartial(t, tcr.Prefix)
+			return tcr
+		}
+
+	case []interface{}:
+		// this is horribly inefficient POC code
+		s := make([]string, len(t))
+		for i := range t {
+			s[i] = fmt.Sprint(t[i])
+		}
+		rl.TabCompleter = func(r []rune, i int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
+			tcr := new(readline.TabCompleterReturnT)
+			if i > len(r) {
+				return tcr
+			}
+			tcr.Prefix = string(r[:i])
+			tcr.Suggestions = lists.CropPartial(s, tcr.Prefix)
+			return tcr
+		}
+
+	case map[string]string:
+		// this is horribly inefficient POC code
+		s := make([]string, len(t))
+		var i int
+		for key := range t {
+			s[i] = key
+			i++
+		}
+		rl.TabCompleter = func(r []rune, i int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
+			tcr := new(readline.TabCompleterReturnT)
+			if i > len(r) {
+				return tcr
+			}
+			tcr.Prefix = string(r[:i])
+			tcr.Suggestions = lists.CropPartial(s, tcr.Prefix)
+			tcr.Descriptions = lists.CropPartialMapKeys(t, tcr.Prefix)
+			tcr.DisplayType = readline.TabDisplayList
+			return tcr
+		}
+
+	case map[string]interface{}:
+		// this is horribly inefficient POC code
+		s := make([]string, len(t))
+		var i int
+		m := make(map[string]string)
+		for key, val := range t {
+			s[i] = key
+			m[key] = fmt.Sprint(val)
+			i++
+		}
+		rl.TabCompleter = func(r []rune, i int, dtc readline.DelayedTabContext) *readline.TabCompleterReturnT {
+			tcr := new(readline.TabCompleterReturnT)
+			if i > len(r) {
+				return tcr
+			}
+			tcr.Prefix = string(r[:i])
+			tcr.Suggestions = lists.CropPartial(s, tcr.Prefix)
+			tcr.Descriptions = lists.CropPartialMapKeys(m, tcr.Prefix)
+			tcr.DisplayType = readline.TabDisplayList
+			return tcr
+		}
+
+	default:
+		return fmt.Errorf("autocomplete JSON unmarshalled to unsupported object %T. Expecting either a string or a map", t)
+	}
+
+	return nil
 }
