@@ -275,10 +275,10 @@ to return the same markdown-formatted document as those listed below. eg
 
 ## Optional Builtins
 
-* [`base64` ](optional/base64.md):
-  Encode or decode a base64 string
 * [`!bz2` ](optional/bz2.md):
   Decompress a bz2 file
+* [`base64` ](optional/base64.md):
+  Encode or decode a base64 string
 * [`gz` ](optional/gz.md):
   Compress or decompress a gzip file
 * [`qr` ](optional/qr.md):

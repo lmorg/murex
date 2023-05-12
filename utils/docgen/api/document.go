@@ -225,6 +225,10 @@ func (v sortableHookValues) Swap(i, j int)      { v[i], v[j] = v[j], v[i] }
 
 type documents []document
 
+func (d documents) Len() int           { return len(d) }
+func (d documents) Less(i, j int) bool { return d[i].Title < d[j].Title }
+func (d documents) Swap(i, j int)      { d[i], d[j] = d[j], d[i] }
+
 // ByID returns the from it's CategoryID and DocumentID
 func (d documents) ByID(requesterID, categoryID, documentID string) *document {
 	for i := range d {

@@ -123,8 +123,8 @@ func init() {
 		"version":               "Get Murex version",
 		"while":                 "Loop until condition false",
 
-		"base64": "Encode or decode a base64 string",
 		"!bz2":   "Decompress a bz2 file",
+		"base64": "Encode or decode a base64 string",
 		"gz":     "Compress or decompress a gzip file",
 		"qr":     "Creates a QR code from STDIN",
 		"select": "Inlining SQL into shell pipelines",
@@ -301,9 +301,9 @@ func init() {
 		"while":                 "while",
 		"!while":                "while",
 
+		"!bz2":    "!bz2",
 		"base64":  "base64",
 		"!base64": "base64",
-		"!bz2":    "!bz2",
 		"gz":      "gz",
 		"!gz":     "gz",
 		"qr":      "qr",
