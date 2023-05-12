@@ -2,11 +2,33 @@
 
 [![Version](version.svg)](DOWNLOAD.md)
 
+<h2>Table of Contents</h2>
+
+<div id="toc">
+
+- [Download Murex](#download-murex)
+  - [HTTPS Downloads](#https-downloads)
+    - [Darwin (macOS)](#darwin-macos)
+    - [BSD's](#bsds)
+      - [DragonflyBSD](#dragonflybsd)
+      - [FreeBSD](#freebsd)
+      - [NetBSD](#netbsd)
+      - [OpenBSD](#openbsd)
+    - [Linux](#linux)
+    - [Windows](#windows)
+    - [Solaris](#solaris)
+    - [Plan 9](#plan-9)
+  - [Download Instructions](#download-instructions)
+    - [Linux / UNIX / macOS Instructions](#linux--unix--macos-instructions)
+    - [Windows Instructions](#windows-instructions)
+
+</div>
+
 Below are the instructions to download a pre-compiled binary via HTTP. If you
 wish to install from source or use your preferred package manager, then please
 refer to the [INSTALL](INSTALL.md) page for further instructions.
 
-## HTTP Downloads
+## HTTPS Downloads
 
 Below are the latest builds from the stable (`master`) branch.
 
@@ -14,9 +36,8 @@ All files are approximately 6 MB in size (aside the Plan 9 builds which are 3 MB
 
 ### Darwin (macOS)
 
-The `arm64` builds should support the ARM-based M1 processor. However if you do
-run into any issues then log them at [github.com/lmorg/murex/issues](https://github.com/lmorg/murex/issues)
-and use the `amd64` builds in the meantime.
+The `arm64` builds support the ARM-based M1 processor. Older Macs will need to
+run `amd64`. Murex is also available on Homebrew and MacPorts.
 
 * [murex-darwin-amd64.gz](https://murex.rocks/bin/latest/murex-darwin-amd64.gz)
 * [murex-darwin-arm64.gz](https://murex.rocks/bin/latest/murex-darwin-amd64.gz)

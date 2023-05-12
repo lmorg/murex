@@ -47,6 +47,6 @@ sed "s/\$MUREXVERSION/$MUREXVERSION/g" \
 
 echo "Updating git...."
 find . -name "*_string.go" -exec git add -v {} \;
-git add -v docs config/defaults builtins/docgen_test.go docs/USER-GUIDE.md version.svg $docs $cdocs
+git add -v docs config/defaults builtins/docgen_test.go docs/user-guide.md version.svg $docs $cdocs
 
 echo "Allowing git commit to proceed...."

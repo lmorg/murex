@@ -10,9 +10,7 @@
   - [Homebrew](#homebrew)
   - [MacPorts](#macports)
 - [Compiling From Source](#compiling-from-source)
-  - [Prerequisites](#prerequisites)
-    - [Further Reading](#further-reading)
-    - [Installation From Source Steps](#installation-from-source-steps)
+  - [Installation From Source Steps](#installation-from-source-steps)
 - [Including Optional Builtins](#including-optional-builtins)
 - [External Dependencies (Optional)](#external-dependencies-optional)
 - [Recommended Terminal Typeface](#recommended-terminal-typeface)
@@ -58,7 +56,7 @@ Available as an AUR package:
 
 [![CircleCI](https://circleci.com/gh/lmorg/murex/tree/master.svg?style=svg)](https://circleci.com/gh/lmorg/murex/tree/master)
 
-### Prerequisites
+**Prerequisites:**
 
 You will need `go` (Golang) compiler, `gcc` (C compiler) and `git` installed
 as well as your `$GOPATH` environmental variable set. 
@@ -69,14 +67,14 @@ These should be easy to install on most operating systems however Windows is a
 lot more tricky with regards to `gcc`. Please check with your operating systems
 package manager first but see further reading below if you get stuck.
 
-#### Further Reading
+**Further Reading:**
 
 - [How to install Go](https://golang.org/doc/install)
 - [How to install git](https://github.com/git-guides/install-git)
 - [How to install gcc](https://gcc.gnu.org/install/)
 - [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
-#### Installation From Source Steps
+### Installation From Source Steps
 
 The following instructions are assuming you're compiling on a POSIX-compatible
 system like Linux, BSD or macOS. Compiling from source is untested on Plan 9
