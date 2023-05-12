@@ -157,7 +157,7 @@ parser is still in beta), it is shipped as an additional data-type.
 * [`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [`open`](../commands/open.md):

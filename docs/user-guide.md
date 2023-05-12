@@ -151,7 +151,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 * [`read`](commands/read.md):
   `read` a line of input from the user and store as a variable
 * [`tread`](commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable
+  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 * [`rx`](commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)
 * [`tmp`](commands/tmp.md):
@@ -363,7 +363,7 @@ are only included by default on Windows.
 * [`hcl` ](types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json` ](types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [mxjson](types/mxjson.md):
   Murex-flavoured JSON (deprecated)
 * [`jsonc` ](types/jsonc.md):

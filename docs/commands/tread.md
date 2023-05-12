@@ -1,11 +1,13 @@
 # `tread` - Command Reference
 
-> `read` a line of input from the user and store as a user defined *typed* variable
+> `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
 
 ## Description
 
-A readline function to allow a line of data inputed from the terminal and then
+A readline function to allow a line of data inputted from the terminal and then
 store that as a typed variable.
+
+**This builtin is now deprecated. Please use `read --datatype ...` instead**
 
 ## Usage
 

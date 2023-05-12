@@ -1,10 +1,12 @@
 # `json`  - Data-Type Reference
 
-> JavaScript Object Notation (JSON) (primitive)
+> JavaScript Object Notation (JSON)
 
 ## Description
 
-JSON is a primitive data-type within Murex.
+JSON is a structured data-type within Murex. It is the standard format for all
+structured data within Murex however other formats such as YAML, TOML and CSV
+are equally first class citizens.
 
 ## Examples
 

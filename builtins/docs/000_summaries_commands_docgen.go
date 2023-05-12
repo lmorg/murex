@@ -116,7 +116,7 @@ func init() {
 		"time":                  "Returns the execution run time of a command or block",
 		"tmp":                   "Create a temporary file and write to it",
 		"tout":                  "Print a string to the STDOUT and set it's data-type",
-		"tread":                 "`read` a line of input from the user and store as a user defined *typed* variable",
+		"tread":                 "`read` a line of input from the user and store as a user defined *typed* variable (deprecated)",
 		"true":                  "Returns a `true` value",
 		"try":                   "Handles errors inside a block of code",
 		"trypipe":               "Checks state of each function in a pipeline and exits block on error",

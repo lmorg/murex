@@ -150,7 +150,7 @@ and what the package names are for `aspell` and its corresponding dictionaries.
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`jsplit` ](../commands/jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
 * [`set`](../commands/set.md):

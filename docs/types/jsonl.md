@@ -168,7 +168,7 @@ cases for JSON lines.
 * [`hcl` ](../types/hcl.md):
   HashiCorp Configuration Language (HCL)
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`jsonc` ](../types/jsonc.md):
   Concatenated JSON
 * [`open`](../commands/open.md):

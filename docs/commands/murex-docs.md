@@ -49,4 +49,4 @@ These man pages are compiled into the Murex executable.
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable
+  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)

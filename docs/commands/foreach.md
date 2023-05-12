@@ -264,7 +264,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * [`ja` (mkarray)](../commands/ja.md):
   A sophisticated yet simply way to build a JSON array
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [`left`](../commands/left.md):

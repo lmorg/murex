@@ -63,7 +63,7 @@ Please read the documentation on `a` for a more detailed breakdown on of
 * [`count`](../commands/count.md):
   Count items in a map, list or array
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
