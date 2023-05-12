@@ -266,3 +266,106 @@ func TestMergeNestedArrayNumeric(t *testing.T) {
 
 	mergeTest(t, &test)
 }
+
+func TestMergeNestedArrayMap(t *testing.T) {
+	test := plan{
+		original: `
+			[
+				{
+					"foo": 1
+				}
+			]`,
+		path: "/",
+		change: `
+			[
+				{
+					"bar": 2
+				}
+			]`,
+		expected: `
+		[
+			{
+				"foo": 1
+			},
+			{
+				"bar": 2
+			}
+		]`,
+	}
+
+	mergeTest(t, &test)
+}
+
+func TestMergeNestedArrayArray(t *testing.T) {
+	test := plan{
+		original: `
+			[
+				[ 1, 2, 3 ]
+			]`,
+		path: "/",
+		change: `
+			[
+				[ 6, 7, 8 ]
+			]`,
+		expected: `
+			[
+				[ 1, 2, 3 ],
+				[ 6, 7, 8 ]
+			]
+		`,
+	}
+
+	mergeTest(t, &test)
+}
+
+func TestMergeNestedMapArray(t *testing.T) {
+	test := plan{
+		original: `
+			{
+				"foo": [ 1, 2, 3 ]
+			}`,
+		path: "/",
+		change: `
+			{
+				"foo": [ 6, 7, 8 ]
+			}`,
+		expected: `
+		{
+			"foo": [
+				1,
+				2,
+				3,
+				6,
+				7,
+				8
+			]
+		}`,
+	}
+
+	mergeTest(t, &test)
+}
+
+func TestMergeNestedMapMap(t *testing.T) {
+	test := plan{
+		original: `
+			{
+				"foo": { "a": 1, "b": 2 }
+			}`,
+		path: "/",
+		change: `
+			{
+				"foo": { "c": 3, "d": 4 }
+			}`,
+		expected: `
+		{
+			"foo": {
+				"a": 1,
+				"b": 2,
+				"c": 3,
+				"d": 4
+			}
+		}`,
+	}
+
+	mergeTest(t, &test)
+}

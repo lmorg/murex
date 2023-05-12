@@ -2,6 +2,7 @@ package alter
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/lmorg/murex/debug"
 )
@@ -54,7 +55,24 @@ func mergeMap(v interface{}, new *interface{}) (ret interface{}, err error) {
 	case map[string]interface{}:
 		ret = v
 		for key, val := range (*new).(map[string]interface{}) {
-			ret.(map[string]interface{})[key] = val
+			switch t := val.(type) {
+			case string, int, float64, bool, nil:
+				ret.(map[string]interface{})[key] = t
+			default:
+				oldKind := reflect.TypeOf(ret.(map[string]interface{})[key]).Kind()
+				newKind := reflect.TypeOf(val).Kind()
+				switch {
+				case oldKind != newKind:
+					ret.(map[string]interface{})[key] = t
+				case newKind == reflect.Slice:
+					ret.(map[string]interface{})[key], err = mergeArray(ret.(map[string]interface{})[key], &val)
+				case newKind == reflect.Map:
+					ret.(map[string]interface{})[key], err = mergeMap(ret.(map[string]interface{})[key], &val)
+				default:
+					// possibly not an object so lets just overwrite...
+					ret.(map[string]interface{})[key] = t
+				}
+			}
 		}
 
 	case map[interface{}]interface{}:
