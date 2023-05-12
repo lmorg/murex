@@ -266,7 +266,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * [`json` ](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`left`](../commands/left.md):
   Left substring every item in a list
 * [`out`](../commands/out.md):
