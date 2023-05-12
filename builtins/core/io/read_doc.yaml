@@ -22,10 +22,11 @@
           [ --variable var_name       ]
           [ --default "default value" ]
           [ --datatype data-type      ]
+          [ --autocomplete { json }   ]
           [ --mask character          ]
     ```
   Examples: |-
-    Classic usage:
+    **Classic usage:**
 
     ```
     read: "What is your name? " name
@@ -35,7 +36,7 @@
     out: "Hello $name"
     ```
 
-    Script usage:
+    **Script usage:**
 
     ```
     read: --prompt "Are you sure? [Y/n]" \
@@ -43,7 +44,7 @@
           --default Y
     ```
 
-    Secrets:
+    **Secrets:**
 
     ```
     read: --prompt "Password: " --variable pw --mask *
@@ -67,9 +68,10 @@
     --prompt: User notification to display
     --variable: "Variable name to store the read data (default: read)"
     --datatype: "Murex data-type for the read data (default: str)"
-    --default: If a zero length string is returned but neither ctrl+c nor ctrl+d
+    --default: If a zero length string is returned but neither `ctrl`+`c` nor `ctrl`+`d`
                were pressed, then the default value defined here will be returned
-    --mask: Optional password mask, for reading secrets
+    --autocomplete: "Autocompletion suggestions. Can be either a JSON array or a JSON object"
+    --mask: "Optional password mask, for reading secrets"
   Synonyms:
   Related:
   - tout
@@ -88,10 +90,12 @@
     `tread`
   CategoryID: commands
   Summary: >-
-    `read` a line of input from the user and store as a user defined *typed* variable
+    `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
   Description: |-
-    A readline function to allow a line of data inputed from the terminal and then
+    A readline function to allow a line of data inputted from the terminal and then
     store that as a typed variable.
+
+    **This builtin is now deprecated. Please use `read --datatype ...` instead**
   Usage: |-
     ```
     tread: data-type "prompt" var_name

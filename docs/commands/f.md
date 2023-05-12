@@ -101,6 +101,6 @@ any matches from the `+` flags.
 * [`g`](../commands/g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`rx`](../commands/rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)

@@ -3,24 +3,15 @@
 <h2>Table of Contents</h2>
 <div id="toc">
 
-- [Supported Platforms](#supported-platforms)
-- [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
-- [Installing From A Package Manager](#installing-from-a-package-manager)
-  - [ArchLinux](#archlinux)
-  - [Homebrew](#homebrew)
-  - [MacPorts](#macports)
-- [Compiling From Source](#compiling-from-source)
-  - [Prerequisites](#prerequisites)
-    - [Further Reading](#further-reading)
-  - [Installation From Source Steps](#installation-from-source-steps)
-    - [Importing the source code](#importing-the-source-code)
-    - [Test the code (optional stage)](#test-the-code-optional-stage)
-    - [Compile the code](#compile-the-code)
-    - [Test the executable (optional stage)](#test-the-executable-optional-stage)
-    - [Start the shell](#start-the-shell)
-- [Including Optional Builtins](#including-optional-builtins)
-- [External Dependencies (Optional)](#external-dependencies-optional)
-- [Recommended Terminal Typeface](#recommended-terminal-typeface)
+- [Installation From Source Steps](#installation-from-source-steps)
+      - [Importing the source code](#importing-the-source-code)
+      - [Test the code (optional stage)](#test-the-code-optional-stage)
+      - [Compile the code](#compile-the-code)
+      - [Test the executable (optional stage)](#test-the-executable-optional-stage)
+      - [Start the shell](#start-the-shell)
+  - [Including Optional Builtins](#including-optional-builtins)
+  - [External Dependencies (Optional)](#external-dependencies-optional)
+  - [Recommended Terminal Typeface](#recommended-terminal-typeface)
 
 </div>
 
@@ -81,7 +72,7 @@ package manager first but see further reading below if you get stuck.
 - [How to install gcc](https://gcc.gnu.org/install/)
 - [How to set GOPATH](https://github.com/golang/go/wiki/SettingGOPATH)
 
-### Installation From Source Steps
+#### Installation From Source Steps
 
 The following instructions are assuming you're compiling on a POSIX-compatible
 system like Linux, BSD or macOS. Compiling from source is untested on Plan 9
@@ -93,7 +84,7 @@ platform) and Windows. In the case of Windows you may run into issues with the
 > Compiling from source is not recommended unless you already have a strong
 > understanding of compiling Go projects for your specific platform.
 
-#### Importing the source code
+**Importing the source code:**
 
 At present, Murex depends on being in a specific directory hierarchy for
 the tests to work and packages to import correctly. These instructions will
@@ -116,19 +107,15 @@ At this point you can add and remove any optional builtins by following the
 instructions on this located further down this document. This is entirely
 optional as Murex attempts to ship with sane defaults.
 
-#### Test the code (optional stage)
-
-    go test ./...
-
-#### Compile the code
+**Compile the code:**
 
     go build github.com/lmorg/murex
 
-#### Test the executable (optional stage)
+**Test the executable (optional stage):**
 
-    ./murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
+    ./murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; try {test: run *}'
 
-#### Start the shell
+**Start the shell:**
 
     ./murex
 

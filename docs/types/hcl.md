@@ -106,7 +106,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
   JSON Lines (primitive)
 * [`open`](../commands/open.md):

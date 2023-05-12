@@ -20,11 +20,12 @@ Script usage:
           [ --variable var_name       ]
           [ --default "default value" ]
           [ --datatype data-type      ]
+          [ --autocomplete { json }   ]
           [ --mask character          ]
 
 ## Examples
 
-Classic usage:
+**Classic usage:**
 
     read: "What is your name? " name
     out: "Hello $name"
@@ -32,22 +33,24 @@ Classic usage:
     out: What is your name? -> read: name
     out: "Hello $name"
     
-Script usage:
+**Script usage:**
 
     read: --prompt "Are you sure? [Y/n]" \
           --variable yn \
           --default Y
     
-Secrets:
+**Secrets:**
 
     read: --prompt "Password: " --variable pw --mask *
 
 ## Flags
 
+* `--autocomplete`
+    Autocompletion suggestions. Can be either a JSON array or a JSON object
 * `--datatype`
     Murex data-type for the read data (default: str)
 * `--default`
-    If a zero length string is returned but neither ctrl+c nor ctrl+d were pressed, then the default value defined here will be returned
+    If a zero length string is returned but neither `ctrl`+`c` nor `ctrl`+`d` were pressed, then the default value defined here will be returned
 * `--mask`
     Optional password mask, for reading secrets
 * `--prompt`
@@ -89,4 +92,4 @@ with the `--datatype` flag as per the **script usage**.
 * [`tout`](../commands/tout.md):
   Print a string to the STDOUT and set it's data-type
 * [`tread`](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable
+  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)

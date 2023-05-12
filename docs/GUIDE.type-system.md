@@ -51,7 +51,7 @@ details about specific hooks.
 * [`int` ](types/int.md):
   Whole number (primitive)
 * [`json` ](types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`jsonc` ](types/jsonc.md):
   Concatenated JSON
 * [`jsonl` ](types/jsonl.md):

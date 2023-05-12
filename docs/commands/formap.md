@@ -84,7 +84,7 @@ when there are more than 2 columns. In those instances you're better off using
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`json` ](../types/json.md):
-  JavaScript Object Notation (JSON) (primitive)
+  JavaScript Object Notation (JSON)
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
 * [`tabulate`](../commands/tabulate.md):

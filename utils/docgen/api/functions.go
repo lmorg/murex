@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"text/template"
@@ -122,7 +123,7 @@ func funcHTML(s string) string {
 // Returns: contents of rendered document template
 func funcRenderedDocuments(cat, doc string, index int) (string, error) {
 	if len(Config.renderedDocuments[cat]) == 0 {
-		return "", errors.New("Category does not exist, doesn't have any documents, or hasn't yet been parsed")
+		return "", errors.New("category does not exist, doesn't have any documents, or hasn't yet been parsed")
 	}
 
 	if len(Config.renderedDocuments[cat][doc]) <= index {
@@ -140,7 +141,7 @@ func funcRenderedDocuments(cat, doc string, index int) (string, error) {
 // Returns: contents of rendered category template
 func funcRenderedCategories(cat string, index int) (string, error) {
 	if len(Config.renderedCategories[cat]) == 0 {
-		return "", errors.New("Category does not exist or hasn't yet been parsed")
+		return "", errors.New("category does not exist or hasn't yet been parsed")
 	}
 
 	if len(Config.renderedCategories[cat]) <= index {
@@ -227,5 +228,7 @@ func funcOtherDocs(id string) (d documents) {
 			d = append(d, Documents[i])
 		}
 	}
+
+	sort.Sort(d)
 	return
 }
