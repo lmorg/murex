@@ -3,15 +3,19 @@
 <h2>Table of Contents</h2>
 <div id="toc">
 
-- [Installation From Source Steps](#installation-from-source-steps)
-      - [Importing the source code](#importing-the-source-code)
-      - [Test the code (optional stage)](#test-the-code-optional-stage)
-      - [Compile the code](#compile-the-code)
-      - [Test the executable (optional stage)](#test-the-executable-optional-stage)
-      - [Start the shell](#start-the-shell)
-  - [Including Optional Builtins](#including-optional-builtins)
-  - [External Dependencies (Optional)](#external-dependencies-optional)
-  - [Recommended Terminal Typeface](#recommended-terminal-typeface)
+- [Supported Platforms](#supported-platforms)
+- [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
+- [Installing From A Package Manager](#installing-from-a-package-manager)
+  - [ArchLinux](#archlinux)
+  - [Homebrew](#homebrew)
+  - [MacPorts](#macports)
+- [Compiling From Source](#compiling-from-source)
+  - [Prerequisites](#prerequisites)
+    - [Further Reading](#further-reading)
+    - [Installation From Source Steps](#installation-from-source-steps)
+- [Including Optional Builtins](#including-optional-builtins)
+- [External Dependencies (Optional)](#external-dependencies-optional)
+- [Recommended Terminal Typeface](#recommended-terminal-typeface)
 
 </div>
 
