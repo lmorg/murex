@@ -371,7 +371,7 @@ are only included by default on Windows.
 * [`jsonc` ](types/jsonc.md):
   Concatenated JSON
 * [`jsonl` ](types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`num` (number)](types/num.md):
   Floating point number (primitive)
 * [`str` (string) ](types/str.md):

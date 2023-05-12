@@ -108,7 +108,7 @@ See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL sy
 * [`json` ](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`pretty`](../commands/pretty.md):

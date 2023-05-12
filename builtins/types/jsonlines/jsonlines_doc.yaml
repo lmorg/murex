@@ -3,7 +3,7 @@
     `jsonl` 
   CategoryID: types
   Summary: >-
-    JSON Lines (primitive)
+    JSON Lines
   Description: |-
     The following description is taken from [jsonlines.org](http://jsonlines.org/):
 

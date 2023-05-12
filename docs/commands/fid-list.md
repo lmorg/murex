@@ -83,6 +83,6 @@ include:
 * [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for exectables

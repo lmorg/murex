@@ -1,6 +1,6 @@
 # `jsonl`  - Data-Type Reference
 
-> JSON Lines (primitive)
+> JSON Lines
 
 ## Description
 

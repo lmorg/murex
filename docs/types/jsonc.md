@@ -159,7 +159,7 @@ parser is still in beta), it is shipped as an additional data-type.
 * [`json` ](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`pretty`](../commands/pretty.md):

@@ -66,7 +66,7 @@ external source packages for the shell to compile.
 * [`json` ](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
 * [`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):

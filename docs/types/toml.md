@@ -99,7 +99,7 @@ Example TOML document taken from [Wikipedia](https://en.wikipedia.org/wiki/TOML)
 * [`json` ](../types/json.md):
   JavaScript Object Notation (JSON)
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`runtime`](../commands/runtime.md):

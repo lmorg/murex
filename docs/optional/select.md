@@ -136,4 +136,4 @@ If you do run into any issues then please raise them on [Github](https://github.
 * [`csv` ](../types/csv.md):
   CSV files (and other character delimited tables)
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines

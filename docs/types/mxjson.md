@@ -77,7 +77,7 @@ Any block quoted by this method will be converted to the following valid JSON:
 * [`jsonc` ](../types/jsonc.md):
   Concatenated JSON
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`open`](../commands/open.md):
   Open a file with a preferred handler
 * [`pretty`](../commands/pretty.md):

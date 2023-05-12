@@ -228,7 +228,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * [`jsonc` ](../types/jsonc.md):
   Concatenated JSON
 * [`jsonl` ](../types/jsonl.md):
-  JSON Lines (primitive)
+  JSON Lines
 * [`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
 * [`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
