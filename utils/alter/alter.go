@@ -56,6 +56,13 @@ const (
 )
 
 func loop(ctx context.Context, v interface{}, i int, path []string, new *interface{}, action int) (ret interface{}, err error) {
+	defer func() {
+		r := recover()
+		if r != nil {
+			err = fmt.Errorf("unhandled error in type conversion: %v", r)
+		}
+	}()
+
 	select {
 	case <-ctx.Done():
 		return nil, errors.New("cancelled")
