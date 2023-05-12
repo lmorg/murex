@@ -109,6 +109,10 @@ func cmdCast(p *lang.Process) error {
 	}
 
 	p.Stdout.SetDataType(dt)
-	_, err = io.Copy(p.Stdout, p.Stdin)
+
+	if p.IsMethod {
+		_, err = io.Copy(p.Stdout, p.Stdin)
+	}
+
 	return err
 }
