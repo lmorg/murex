@@ -30,6 +30,9 @@ func (u *UnicodeT) RunePos() int {
 }
 
 func (u *UnicodeT) SetRunePos(i int) {
+	if i < 0 {
+		i = 0
+	}
 	u.rPos = i
 	u.cPos = u.cellPos()
 }
@@ -83,4 +86,7 @@ func (u *UnicodeT) SetCellPos(cPos int) {
 		u.cPos--
 	}
 	u.rPos = len(u.value)
+	if u.rPos < 0 {
+		u.rPos = 0
+	}
 }
