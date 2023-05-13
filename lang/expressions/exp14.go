@@ -7,6 +7,7 @@ import (
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
+	"github.com/lmorg/murex/utils/alter"
 )
 
 func scalarNameDetokenised(r []rune) []rune {
@@ -293,6 +294,46 @@ func expAssignDivide(tree *ParserT) error {
 	}
 
 	err = tree.setVar(left.value, f, right.dt.DataType())
+	if err != nil {
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+	}
+
+	return tree.foldAst(&astNodeT{
+		key: symbols.Calculated,
+		pos: tree.ast[tree.astPos].pos,
+		dt: &primitives.DataType{
+			Primitive: primitives.Null,
+			Value:     nil,
+		},
+	})
+}
+
+func expAssignMerge(tree *ParserT) error {
+	left, right, err := tree.getLeftAndRightSymbols()
+	if err != nil {
+		return err
+	}
+
+	if left.key != symbols.Bareword {
+		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+			"left side of %s should be a bareword, instead got %s",
+			tree.currentSymbol().key, left.key))
+	}
+
+	v, dt, err := tree.getVar(left.value, varAsValue)
+	if err != nil {
+		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+	}
+
+	merged, err := alter.Merge(tree.p.Context, v, nil, right.dt.Value)
+	if err != nil {
+		return raiseError(tree.expression, left, 0, fmt.Sprintf(
+			"cannot perform merge '%s' into '%s': %s",
+			right.Value(), left.Value(),
+			err.Error()))
+	}
+
+	err = tree.setVar(left.value, merged, dt)
 	if err != nil {
 		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 	}

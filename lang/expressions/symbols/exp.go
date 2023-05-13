@@ -50,6 +50,7 @@ const (
 	AssignAndSubtract
 	AssignAndDivide
 	AssignAndMultiply
+	AssignAndMerge
 
 	// 13. Conditional expression (ternary)
 	// 12. Logical OR

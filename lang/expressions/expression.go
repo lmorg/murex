@@ -86,6 +86,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expAssignDivide(tree)
 		case symbols.AssignAndMultiply:
 			err = expAssignMultiply(tree)
+		case symbols.AssignAndMerge:
+			err = expAssignMerge(tree)
 
 		// 13. Conditional expression (ternary)
 		// 12. Logical OR

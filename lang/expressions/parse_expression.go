@@ -113,6 +113,10 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				// less than or equal to
 				tree.appendAst(symbols.LessThanOrEqual)
 				tree.charPos++
+			case '~':
+				// assign and merge
+				tree.appendAst(symbols.AssignAndMerge)
+				tree.charPos++
 			default:
 				// less than
 				tree.appendAst(symbols.LessThan)
