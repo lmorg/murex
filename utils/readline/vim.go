@@ -113,6 +113,10 @@ func (rl *Instance) vi(r rune) {
 
 	case 'p':
 		// paste after
+		if len(rl.line.Runes()) == 0 {
+			return
+		}
+
 		rl.viUndoSkipAppend = true
 		w := runewidth.RuneWidth(rl.line.Runes()[rl.line.RunePos()])
 
