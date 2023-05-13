@@ -1,4 +1,4 @@
-# Download Murex
+<h1>Download Murex</h1>
 
 [![Version](version.svg)](DOWNLOAD.md)
 
@@ -6,31 +6,28 @@
 
 <div id="toc">
 
-- [Download Murex](#download-murex)
-  - [HTTPS Downloads](#https-downloads)
-    - [Darwin (macOS)](#darwin-macos)
-    - [BSD's](#bsds)
-      - [DragonflyBSD](#dragonflybsd)
-      - [FreeBSD](#freebsd)
-      - [NetBSD](#netbsd)
-      - [OpenBSD](#openbsd)
-    - [Linux](#linux)
-    - [Windows](#windows)
-    - [Solaris](#solaris)
-    - [Plan 9](#plan-9)
-  - [Download Instructions](#download-instructions)
-    - [Linux / UNIX / macOS Instructions](#linux--unix--macos-instructions)
-    - [Windows Instructions](#windows-instructions)
+- [Download Links](#download-links)
+  - [Darwin (macOS)](#darwin-macos)
+  - [BSD's](#bsds)
+    - [DragonflyBSD](#dragonflybsd)
+    - [FreeBSD](#freebsd)
+    - [NetBSD](#netbsd)
+    - [OpenBSD](#openbsd)
+  - [Linux](#linux)
+  - [Windows](#windows)
+  - [Solaris](#solaris)
+  - [Plan 9](#plan-9)
+- [Install Instructions](#install-instructions)
+  - [Linux / UNIX / macOS Instructions](#linux--unix--macos-instructions)
+  - [Windows Instructions](#windows-instructions)
 
 </div>
 
-Below are the instructions to download a pre-compiled binary via HTTP. If you
+## Download Links
+
+Below are the instructions to download a pre-compiled binary via HTTPS. If you
 wish to install from source or use your preferred package manager, then please
 refer to the [INSTALL](INSTALL.md) page for further instructions.
-
-## HTTPS Downloads
-
-Below are the latest builds from the stable (`master`) branch.
 
 All files are approximately 6 MB in size (aside the Plan 9 builds which are 3 MB).
 
@@ -103,7 +100,7 @@ you do encounter any issues then please raise them at:
 * [murex-plan9-amd64.gz](https://murex.rocks/bin/latest/murex-plan9-amd64.gz)
 * [murex-plan9-arm.gz](https://murex.rocks/bin/latest/murex-plan9-arm.gz)
 
-## Download Instructions
+## Install Instructions
 
 ### Linux / UNIX / macOS Instructions
 

@@ -51,7 +51,7 @@ func (tree *ParserT) validateExpression(exec bool) error {
 			}
 
 			if node.key == symbols.Scalar && exec &&
-				(next == nil || next.key > symbols.AssignAndMultiply) {
+				(next == nil || next.key > symbols.AssignAndMerge) {
 
 				v, mxDt, err := tree.getVar(scalarNameDetokenised(node.value), varAsValue)
 				if err != nil {
