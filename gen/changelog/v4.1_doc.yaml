@@ -2,11 +2,11 @@
   Title: >-
     What's new in murex v4.1
   CategoryID: changelog
-  DateTime: 2023-04-12 19:57
+  DateTime: 2023-04-13 14:34
   Summary: >-
     The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
   Description: |-
-    ## v4.1.3000
+    ## v4.1.3010
     
     ### Breaking Changes
 
@@ -27,6 +27,8 @@
     * fixed by where nested maps would overwrite when altered with `--merge`. Now they merge as expected
 
     * `alter` panics are caught issue ([#536](https://github.com/lmorg/murex/issues/536))
+
+    * remove debugging symbol in deprecated math builtin
 
     ## v4.1.1100
     
