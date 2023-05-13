@@ -16,8 +16,6 @@ func init() {
 }
 
 func cmdEqu(p *lang.Process) (err error) {
-	fmt.Printf("`=`")
-
 	if p.Parameters.Len() == 0 {
 		return errors.New("missing expression")
 	}
