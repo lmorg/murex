@@ -438,7 +438,9 @@ func (rl *Instance) escapeSeq(r []rune) {
 		return
 
 	default:
-		if rl.modeTabFind {
+		if rl.modeTabFind /*|| rl.modeAutoFind*/ {
+			//rl.modeTabFind = false
+			//rl.modeAutoFind = false
 			return
 		}
 		// alt+numeric append / delete

@@ -60,6 +60,7 @@ func (rl *Instance) resetTabFind() {
 	} else {
 		rl.hintText = rl.rFindCancel
 	}
+	rl.modeAutoFind = false
 
 	rl.clearHelpers()
 	rl.initTabCompletion()
