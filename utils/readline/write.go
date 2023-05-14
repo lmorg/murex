@@ -37,9 +37,9 @@ func (rl *Instance) echo() {
 	}
 
 	// clear the line
-	//line += strings.Repeat("\x1b[2K\n", lineY+1) // clear line + move cursor down 1
-	//line += fmt.Sprintf(cursorUpf, lineY+1)
-	line += seqClearScreenBelow
+	line += strings.Repeat("\x1b[2K\n", lineY+1) // clear line + move cursor down 1
+	line += fmt.Sprintf(cursorUpf, lineY+1)
+	//line += seqClearScreenBelow
 
 	promptLen := rl.promptLen
 	if promptLen < rl.termWidth {
