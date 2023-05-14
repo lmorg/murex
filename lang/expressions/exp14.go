@@ -3,6 +3,7 @@ package expressions
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
@@ -322,7 +323,23 @@ func expAssignMerge(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+			// var doesn't exist and we have strict types disabled so lets create var
+			err = tree.setVar(left.value, right.dt.Value, right.dt.DataType())
+			if err != nil {
+				return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+			}
+			return tree.foldAst(&astNodeT{
+				key: symbols.Calculated,
+				pos: tree.ast[tree.astPos].pos,
+				dt: &primitives.DataType{
+					Primitive: primitives.Null,
+					Value:     nil,
+				},
+			})
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	merged, err := alter.Merge(tree.p.Context, v, nil, right.dt.Value)
