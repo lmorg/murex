@@ -74,9 +74,9 @@ const (
 
 	// 05. Bitwise shift left and right
 	// 04. Addition and subtraction
-	Merge
 	Add
 	Subtract
+	MergeInto
 
 	// 03. Multiplication, division, modulo
 	Multiply

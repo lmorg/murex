@@ -50,7 +50,7 @@ func expSubtract(tree *ParserT) error {
 	})
 }
 
-func expMerge(tree *ParserT) error {
+func expMergeInto(tree *ParserT) error {
 	left, right, err := tree.getLeftAndRightSymbols()
 	if err != nil {
 		return err
@@ -69,6 +69,7 @@ func expMerge(tree *ParserT) error {
 		pos: tree.ast[tree.astPos].pos,
 		dt: &primitives.DataType{
 			Primitive: primitives.Other,
+			MxDT:      right.dt.MxDT,
 			Value:     merged,
 		},
 	})

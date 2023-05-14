@@ -124,6 +124,8 @@ func executeExpression(tree *ParserT, order symbols.Exp) (err error) {
 			err = expAdd(tree)
 		case symbols.Subtract:
 			err = expSubtract(tree)
+		case symbols.MergeInto:
+			err = expMergeInto(tree)
 
 		// 03. Multiplication, division, modulo
 		case symbols.Multiply:

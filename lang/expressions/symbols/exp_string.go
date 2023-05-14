@@ -44,20 +44,20 @@ func _() {
 	_ = x[GreaterThanOrEqual-34]
 	_ = x[LessThan-35]
 	_ = x[LessThanOrEqual-36]
-	_ = x[Merge-37]
-	_ = x[Add-38]
-	_ = x[Subtract-39]
+	_ = x[Add-37]
+	_ = x[Subtract-38]
+	_ = x[MergeInto-39]
 	_ = x[Multiply-40]
 	_ = x[Divide-41]
 }
 
 const (
 	_Exp_name_0 = "Undefined"
-	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualMergeAddSubtractMultiplyDivide"
+	_Exp_name_1 = "UnexpectedInvalidHyphenSubExpressionEndObjectEndArrayEndDataValuesBarewordSubExpressionBeginObjectBeginArrayBeginQuoteSingleQuoteDoubleQuoteParenthesisNumberBooleanNullScalarCalculatedOperationsAssignAssignAndAddAssignAndSubtractAssignAndDivideAssignAndMultiplyAssignAndMergeEqualToNotEqualToLikeNotLikeRegexpNotRegexpGreaterThanGreaterThanOrEqualLessThanLessThanOrEqualAddSubtractMergeIntoMultiplyDivide"
 )
 
 var (
-	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 229, 244, 261, 275, 282, 292, 296, 303, 309, 318, 329, 347, 355, 370, 375, 378, 386, 394, 400}
+	_Exp_index_1 = [...]uint16{0, 10, 23, 39, 48, 56, 66, 74, 92, 103, 113, 124, 135, 151, 157, 164, 168, 174, 184, 194, 200, 212, 229, 244, 261, 275, 282, 292, 296, 303, 309, 318, 329, 347, 355, 370, 373, 381, 390, 398, 404}
 )
 
 func (i Exp) String() string {

@@ -84,6 +84,10 @@ func (tree *ParserT) parseExpression(exec bool) error {
 				// like
 				tree.appendAst(symbols.Like)
 				tree.charPos++
+			case '>':
+				// merge into
+				tree.appendAst(symbols.MergeInto)
+				tree.charPos++
 			default:
 				// tilde
 				tree.appendAstWithPrimitive(symbols.Calculated, &primitives.DataType{
