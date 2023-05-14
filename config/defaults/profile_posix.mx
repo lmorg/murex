@@ -74,6 +74,7 @@ autocomplete set dd { [
 
 private getHostsFile {
     # Parse the hosts file and return uniq host names and IPs
+    
     cat /etc/hosts -> !regexp: 'm/^(#.*|\s*)$/' -> regexp: "s/[\s\t]+/\n/" -> sort -> uniq -> cast: str
     cat ~/.ssh/config -> regexp 'f/Host\s([-.a-zA-Z0-9]+)/' -> cast: str
 }
@@ -92,9 +93,22 @@ test unit private getHostsFile {
     "StdoutIsArray": true
 }
 
+private getHostsPrefixUser {
+    # prefixes getHostFile entries with $1 if that matches a `user@` pattern
+
+    cast str
+
+    if { $1 =~ '^[-_.a-zA-Z0-9]+@' } then {
+        $1 -> regexp 'f/(^[-_.a-zA-Z0-9]+@)' -> set prefix
+        getHostsFile -> prefix $prefix
+    } else {
+        getHostsFile
+    }
+}
+
 autocomplete set ssh %[
     {
-        Dynamic: %({ getHostsFile }),
+        Dynamic: '{ getHostsPrefixUser $PREFIX }',
         IncManPage: true,
         AllowAny: true,
         FlagValues: {

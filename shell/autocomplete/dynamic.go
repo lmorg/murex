@@ -104,6 +104,7 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			}
 			fork.Stdout = tee
 			fork.Process.Variables.Set(fork.Process, "ISMETHOD", act.ParsedTokens.PipeToken != parser.PipeTokenNone, types.Boolean)
+			fork.Process.Variables.Set(fork.Process, "PREFIX", partial, types.String)
 
 			exitNum, err := fork.Execute(block)
 			if err != nil {
