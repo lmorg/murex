@@ -39,6 +39,7 @@ var fFlagLookup = map[rune]fFlagsT{
 	'S': fSocket,
 	'p': fNamedPipe,
 	'?': fIrregular,
+	'i': fIrregular,
 
 	'r': fUserRead | fGroupRead | fOtherRead,
 	'R': fUserRead,

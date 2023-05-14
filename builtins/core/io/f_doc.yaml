@@ -56,7 +56,7 @@
     c: character devices
     S: sockets
     p: POSIX named pipes (FIFO)
-    "?": irregular files (nothing else is known about these files)
+    i: irregular files (nothing else is known about these files)
     
     r: read permissions (user, group, or other)
     R: user read permissions

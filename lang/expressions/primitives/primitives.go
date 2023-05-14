@@ -7,18 +7,18 @@ import (
 	"github.com/lmorg/murex/lang/types"
 )
 
-//go:generate stringer -type=Primitive
+//go:generate stringer -linecomment -type=Primitive
 type Primitive int
 
 const (
-	Number   Primitive = Primitive(symbols.Number)
-	String   Primitive = Primitive(symbols.QuoteSingle)
-	Boolean  Primitive = Primitive(symbols.Boolean)
-	Array    Primitive = Primitive(symbols.ArrayBegin)
-	Object   Primitive = Primitive(symbols.ObjectBegin)
-	Null     Primitive = Primitive(symbols.Null)
-	Bareword Primitive = 0
-	Other    Primitive = -1
+	Number   Primitive = Primitive(symbols.Number)      // number
+	String   Primitive = Primitive(symbols.QuoteSingle) // string
+	Boolean  Primitive = Primitive(symbols.Boolean)     // boolean
+	Array    Primitive = Primitive(symbols.ArrayBegin)  // array
+	Object   Primitive = Primitive(symbols.ObjectBegin) // object
+	Null     Primitive = Primitive(symbols.Null)        // null
+	Bareword Primitive = 0                              // bareword
+	Other    Primitive = -1                             // other
 )
 
 type DataType struct {
