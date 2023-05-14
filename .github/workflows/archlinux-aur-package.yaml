@@ -1,0 +1,52 @@
+name: ArchLinux AUR Release
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+env:
+  GO_VERSION: 1.20
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Go ${{ GO_VERSION }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ ENV.GO_VERSION }}
+
+      - name: Install Murex
+        run: |
+          go build -v github.com/lmorg/murex
+
+      - name: Update PKGBUILD and SRCINFO
+        run: |
+          export PKGBUILD=.github/workflows/aur/PKGBUILD
+          export SRCINFO=.github/workflows/aur/SRCINFO
+
+          export MUREX_VERSION=$(./murex -c "version --no-app-name")
+          export PKG_RELEASE="{{ github.run_number }}"
+          wget -O - https://github.com/lmorg/murex/archive/refs/tags/v${MUREX_VERSION}.tar.gz > murex.tar.gz
+          sha256sum murex.tar.gz | awk '{ print $1 }' > chksum
+          export CHECKSUM=$(cat chksum)
+
+          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION" $PKGBUILD
+          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER"    $PKGBUILD
+          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM"           $PKGBUILD
+          printf "# $PKGBUILD:\n\n"
+          cat $PKGBUILD
+
+          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION" $SRCINFO
+          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER"    $SRCINFO
+          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM"           $SRCINFO
+          printf "\n\n# $SRCINFO:\n\n"
+          cat $SRCINFO
