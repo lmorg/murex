@@ -1,11 +1,29 @@
 - DocumentID: v4.1
   Title: >-
-    What's new in murex v4.1
+    What's new in murex v4.1.x
   CategoryID: changelog
   DateTime: 2023-04-13 14:34
   Summary: >-
     The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
   Description: |-
+    ## v4.1.4200
+
+    ### Breaking Changes
+
+    None
+
+    ### Features
+
+    * Merge operator added: `<~`
+
+    ### Bug Fixes
+
+    * readline: fixed out of bounds errors when calculating unicode cell positions
+
+    * readline: fixed panic raised when vim key `p` is used on an empty buffer
+
+    * readline: fixed bug where vim mode became unavailable / `esc` didn't work as expected. This was due to autocompletion find (`^f`, `^r`) being launched before `tab` completions and state not being handled correctly
+
     ## v4.1.3010
     
     ### Breaking Changes
