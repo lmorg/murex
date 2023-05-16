@@ -56,7 +56,7 @@ func execSubShellScalar(tree *ParserT, block []rune, strOrVal varFormatting) (in
 	}
 	b, err := fork.Stdout.ReadAll()
 	if err != nil {
-		return nil, "", err
+		return nil, "", fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
 	}
 
 	b = utils.CrLfTrim(b)
@@ -91,7 +91,7 @@ func execSubShellArray(tree *ParserT, block []rune, strOrVal varFormatting) ([]i
 		panic("invalid value set for strOrVal")
 	}
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot read from subshell's STDOUT: %s", err.Error())
 	}
 
 	if len(slice) == 0 && tree.StrictArrays() {
