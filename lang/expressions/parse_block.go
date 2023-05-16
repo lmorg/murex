@@ -122,6 +122,7 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) err
 			tree.charPos = len(tree.expression) - 1
 		}
 		blk.Functions = append(blk.Functions, fn.FunctionT{
+			Raw:        tree.expression[:tree.charPos+1],
 			Command:    expressionFunctionName,
 			Parameters: [][]rune{tree.expression[:tree.charPos+1]},
 			Properties: blk.nextProperty | this,
@@ -131,11 +132,11 @@ func (blk *BlockT) append(tree *ParserT, this fn.Property, next fn.Property) err
 
 	default:
 		blk.Functions = append(blk.Functions, fn.FunctionT{
+			Raw:        tree.expression[:tree.charPos+1],
 			Command:    tree.statement.command,
 			Parameters: tree.statement.parameters,
 			NamedPipes: tree.statement.namedPipes,
 			Cast:       tree.statement.cast,
-			Raw:        tree.expression[:tree.charPos+1],
 			Properties: blk.nextProperty | this,
 			LineN:      blk.lineN + tree.GetLineN(),
 			ColumnN:    tree.GetColumnN(),

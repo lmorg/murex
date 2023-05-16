@@ -13,7 +13,7 @@ const (
 	version  = "%d.%d.%d"
 	Major    = 4
 	Minor    = 1
-	Revision = 5100
+	Revision = 5200
 )
 
 var Version string

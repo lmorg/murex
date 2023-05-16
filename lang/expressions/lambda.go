@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
 )
@@ -94,6 +95,7 @@ func (tree *ParserT) parseLambdaStdin() ([]rune, interface{}, error) {
 
 var (
 	errUnableToSetLambdaVar = "unable to set `$.`: %s"
+	errUnableToGetLambdaVar = "unable to retrieve value of `$.`: %s"
 	rxLineSeparator         = regexp.MustCompile(`(\r*\n)+`)
 )
 
@@ -142,11 +144,11 @@ func parseLambdaString(tree *ParserT, t string, path string) ([]rune, interface{
 
 func parseLambdaArray[V any](tree *ParserT, t []V, path string) ([]rune, interface{}, error) {
 	var (
-		array = make([]any, len(t))
-		pos   = tree.charPos
-		item  interface{}
-		r     []rune
-		j     int
+		array   = make([]any, len(t))
+		pos     = tree.charPos
+		exitNum int
+		r       []rune
+		j       int
 	)
 
 	for i := range t {
@@ -165,25 +167,22 @@ func parseLambdaArray[V any](tree *ParserT, t []V, path string) ([]rune, interfa
 			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
 
-		r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
+		r, exitNum, err = tree.parseLambdaRunSubShell()
 		if err != nil {
 			return nil, nil, err
 		}
-		switch item.(type) {
-		case string:
-			if len(item.(string)) > 0 {
-				array[j] = item
-				j++
-			}
-		case bool:
-			if item.(bool) {
-				array[j] = value
-				j++
-			}
-		default:
-			array[j] = item
-			j++
+
+		if exitNum > 0 {
+			continue
 		}
+
+		item, err := tree.p.Variables.GetValue("")
+		if err != nil {
+			return nil, nil, fmt.Errorf(errUnableToGetLambdaVar, err.Error())
+		}
+
+		array[j] = item
+		j++
 	}
 
 	return r, array[:j], nil
@@ -191,10 +190,10 @@ func parseLambdaArray[V any](tree *ParserT, t []V, path string) ([]rune, interfa
 
 func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) ([]rune, interface{}, error) {
 	var (
-		pos    = tree.charPos
-		object = make(map[string]interface{})
-		item   interface{}
-		r      []rune
+		pos     = tree.charPos
+		object  = make(map[string]interface{})
+		exitNum int
+		r       []rune
 	)
 
 	for key, value := range t {
@@ -213,14 +212,18 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 			return nil, nil, fmt.Errorf(errUnableToSetLambdaVar, err.Error())
 		}
 
-		r, item, _, err = tree.parseSubShell(true, '$', varAsValue)
+		r, exitNum, err = tree.parseLambdaRunSubShell()
 		if err != nil {
 			return nil, nil, err
 		}
 
+		if exitNum > 0 {
+			continue
+		}
+
 		kv, err := tree.p.Variables.GetValue("")
 		if err != nil {
-			return nil, nil, fmt.Errorf("unable to retrieve value of $.: %s", err.Error())
+			return nil, nil, fmt.Errorf(errUnableToGetLambdaVar, err.Error())
 		}
 
 		var (
@@ -237,15 +240,34 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 			}
 		}
 
-		switch item.(type) {
-		case bool:
-			if item.(bool) {
-				object[newKey] = newVal
-			}
-			//default:
-			//	object[newKey] = newVal
-		}
+		object[newKey] = newVal
 	}
 
 	return r, object, nil
+}
+
+func (tree *ParserT) parseLambdaRunSubShell() ([]rune, int, error) {
+	start := tree.charPos
+
+	tree.charPos += 2
+
+	_, err := tree.parseBlockQuote()
+	if err != nil {
+		return nil, 0, err
+	}
+
+	value := tree.expression[start : tree.charPos+1]
+	block := tree.expression[start+2 : tree.charPos]
+
+	if tree.p == nil {
+		panic("`tree.p` is undefined")
+	}
+
+	fork := tree.p.Fork(lang.F_NO_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR | lang.F_PARENT_VARTABLE)
+	exitNum, err := fork.Execute(block)
+	if err != nil {
+		return value, 1, fmt.Errorf("subshell failed: %s", err.Error())
+	}
+
+	return value, exitNum, err
 }
