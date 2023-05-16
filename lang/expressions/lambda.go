@@ -192,7 +192,7 @@ func parseLambdaArray[V any](tree *ParserT, t []V, path string) ([]rune, interfa
 func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) ([]rune, interface{}, error) {
 	var (
 		pos    = tree.charPos
-		object = make(map[K]V)
+		object = make(map[string]interface{})
 		item   interface{}
 		r      []rune
 	)
@@ -217,17 +217,33 @@ func parseLambdaMap[K comparable, V any](tree *ParserT, t map[K]V, path string) 
 		if err != nil {
 			return nil, nil, err
 		}
+
+		kv, err := tree.p.Variables.GetValue("")
+		if err != nil {
+			return nil, nil, fmt.Errorf("unable to retrieve value of $.: %s", err.Error())
+		}
+
+		var (
+			newKey string
+			newVal interface{}
+		)
+		switch kv.(type) {
+		case map[string]interface{}:
+			newKey = fmt.Sprint(kv.(map[string]interface{})["key"])
+			newVal = kv.(map[string]interface{})["val"]
+		default:
+			if err != nil {
+				return nil, nil, fmt.Errorf("$. is not %T not an object", kv)
+			}
+		}
+
 		switch item.(type) {
-		//case string:
-		//if len(item.(string)) > 0 {
-		//	array[j] = item
-		//}
 		case bool:
 			if item.(bool) {
-				object[key] = value
+				object[newKey] = newVal
 			}
 			//default:
-			//	object[key] = value
+			//	object[newKey] = newVal
 		}
 	}
 

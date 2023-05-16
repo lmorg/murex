@@ -1,0 +1,15 @@
+pkgbase = murex
+	pkgdesc = A smarter shell designed for greater commandline productivity and safer shell scripts
+	pkgver = xxxMUREX_VERSIONxxx
+	pkgrel = xxxPKG_RELEASExxx
+	url = https://github.com/lmorg/murex
+	arch = i686
+	arch = x86_64
+	license = GPL2
+	makedepends = go
+	optdepends = aspell: inline spell checking
+	replaces = murex-git
+	source = https://github.com/lmorg/murex/archive/refs/tags/vxxxMUREX_VERSIONxxx.tar.gz
+	sha256sums = xxxCHECKSUMxxx
+
+pkgname = murex

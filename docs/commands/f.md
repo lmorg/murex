@@ -45,7 +45,7 @@ Filter out files in a list (eg created by `g`) using conditions set by `f`:
 * `-`
     exclude files (pair this with any other flag apart from `+`)
 * `?`
-    irregular files (nothing else is known about these files)
+    deprecated -- use `i` instead
 * `D`
     regular directories
 * `E`
@@ -74,6 +74,8 @@ Filter out files in a list (eg created by `g`) using conditions set by `f`:
     group read permissions
 * `f`
     all files (inc symlinks, devices, sockets, name pipes, etc)
+* `i`
+    irregular files (nothing else is known about these files)
 * `l`
     symlinks
 * `p`

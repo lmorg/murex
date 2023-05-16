@@ -76,6 +76,7 @@ const (
 	// 04. Addition and subtraction
 	Add
 	Subtract
+	MergeInto
 
 	// 03. Multiplication, division, modulo
 	Multiply
