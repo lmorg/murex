@@ -102,6 +102,8 @@ func cmdLsFHelpLookup(r rune, f fFlagsT) string {
 		return "user, group and other write"
 	case 'x':
 		return "user, group and other execute"
+	case '?':
+		return "deprecated -- use `i` instead"
 	default:
 		return f.String()
 	}

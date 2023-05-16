@@ -44,6 +44,8 @@ Filter out files in a list (eg created by `g`) using conditions set by `f`:
     include files (pair this with any other flag apart from `-`)
 * `-`
     exclude files (pair this with any other flag apart from `+`)
+* `?`
+    deprecated -- use `i` instead
 * `D`
     regular directories
 * `E`

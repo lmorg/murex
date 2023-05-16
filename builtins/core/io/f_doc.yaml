@@ -57,6 +57,7 @@
     S: sockets
     p: POSIX named pipes (FIFO)
     i: irregular files (nothing else is known about these files)
+    '?': deprecated -- use `i` instead
     
     r: read permissions (user, group, or other)
     R: user read permissions
