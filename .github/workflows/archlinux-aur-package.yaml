@@ -39,14 +39,14 @@ jobs:
           sha256sum murex.tar.gz | awk '{ print $1 }' > chksum
           export CHECKSUM=$(cat chksum)
 
-          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION" $PKGBUILD
-          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER"    $PKGBUILD
-          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM"           $PKGBUILD
+          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION/" $PKGBUILD
+          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER/"    $PKGBUILD
+          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM/"           $PKGBUILD
           printf "# $PKGBUILD:\n\n"
           cat $PKGBUILD
 
-          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION" $SRCINFO
-          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER"    $SRCINFO
-          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM"           $SRCINFO
+          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION/" $SRCINFO
+          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER/"    $SRCINFO
+          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM/"           $SRCINFO
           printf "\n\n# $SRCINFO:\n\n"
           cat $SRCINFO
