@@ -24,6 +24,8 @@
 
     * Updated `autocomplete` docs ([read more](https://murex.rocks/docs/commands/autocomplete.html))
 
+    * command line is included in error message when error running inside another module
+
     ### Bug Fixes
 
     * `f` improved help message (previously some items displayed code numbers instead of descriptions)

@@ -93,13 +93,16 @@ func writeError(p *Process, err error) []byte {
 		}
 	}
 
+	var indentLen int
 	if p.FileRef.Source.Module == app.ShellModule {
 		msg = fmt.Sprintf("Error in `%s` (%d,%d): ", name, p.FileRef.Line, p.FileRef.Column)
+		indentLen = len(msg) - 2
 	} else {
-		msg = fmt.Sprintf("Error in `%s` (%s %d,%d): ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column)
+		msg = fmt.Sprintf("Error in `%s` (%s %d,%d):\n      Command: %s\n      Error: ", name, p.FileRef.Source.Filename, p.FileRef.Line+1, p.FileRef.Column, string(p.raw))
+		indentLen = 6 + 5
 	}
 
-	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", len(msg)-2)+"> ")
+	sErr := strings.ReplaceAll(err.Error(), utils.NewLineString, utils.NewLineString+strings.Repeat(" ", indentLen)+"> ")
 	return []byte(msg + sErr)
 }
 
@@ -398,26 +401,6 @@ func deregisterProcess(p *Process) {
 
 	p.Stdout.Close()
 	p.Stderr.Close()
-
-	// this causes `config` to file when switching tty buffering on and off
-	/*if p.ttyin != nil {
-		fd := int(p.ttyin.Fd())
-		if fd != int(tty.Stdin.Fd()) && fd != int(os.Stdin.Fd()) {
-			err := p.ttyin.Close()
-			if err != nil {
-				tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
-			}
-		}
-	}
-	if p.ttyout != nil {
-		fd := int(p.ttyin.Fd())
-		if fd != int(tty.Stdout.Fd()) && fd != int(os.Stdout.Fd()) {
-			err := p.ttyout.Close()
-			if err != nil {
-				tty.Stderr.WriteString("Unable to close PTY: " + err.Error())
-			}
-		}
-	}*/
 
 	p.SetTerminatedState(true)
 	if !p.Background.Get() {
