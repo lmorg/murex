@@ -8,6 +8,8 @@ on:
 
 env:
   GO_VERSION: "1.20"
+  PKGBUILD:   ".github/workflows/aur/PKGBUILD"
+  SRCINFO:    ".github/workflows/aur/SRCINFO"
 
 
 jobs:
@@ -28,25 +30,40 @@ jobs:
         run: |
           go build -v github.com/lmorg/murex
 
+      - name: Download Murex tarball
+        run: |
+          wget -O - https://github.com/lmorg/murex/archive/refs/tags/v${MUREX_VERSION}.tar.gz > murex.tar.gz
+
       - name: Update PKGBUILD and SRCINFO
         run: |
-          export PKGBUILD=.github/workflows/aur/PKGBUILD
-          export SRCINFO=.github/workflows/aur/SRCINFO
-
           export MUREX_VERSION=$(./murex -c "version --no-app-name")
-          export PKG_RELEASE="{{ github.run_number }}"
-          wget -O - https://github.com/lmorg/murex/archive/refs/tags/v${MUREX_VERSION}.tar.gz > murex.tar.gz
+          export PKG_RELEASE="${{ github.run_number }}"
           sha256sum murex.tar.gz | awk '{ print $1 }' > chksum
           export CHECKSUM=$(cat chksum)
 
-          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION/" $PKGBUILD
-          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER/"    $PKGBUILD
-          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM/"           $PKGBUILD
-          printf "# $PKGBUILD:\n\n"
-          cat $PKGBUILD
+          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION/" ${{ ENV.PKGBUILD }}
+          sed -i "s/xxxPKG_RELEASExxx/$PKG_RELEASE/"     ${{ ENV.PKGBUILD }}
+          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM/"           ${{ ENV.PKGBUILD }}
+          printf "# ${{ ENV.PKGBUILD }}:\n\n"
+          cat ${{ ENV.PKGBUILD }}
 
-          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION/" $SRCINFO
-          sed -i "s/xxxPKG_RELEASExxx/$BUILD_NUMBER/"    $SRCINFO
-          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM/"           $SRCINFO
-          printf "\n\n# $SRCINFO:\n\n"
-          cat $SRCINFO
+          sed -i "s/xxxMUREX_VERSIONxxx/$MUREX_VERSION/" ${{ ENV.SRCINFO }}
+          sed -i "s/xxxPKG_RELEASExxx/$PKG_RELEASE/"     ${{ ENV.SRCINFO }}
+          sed -i "s/xxxCHECKSUMxxx/$CHECKSUM/"           ${{ ENV.SRCINFO }}
+          printf "\n\n# ${{ ENV.SRCINFO }}:\n\n"
+          cat ${{ ENV.SRCINFO }}
+
+      - name: Clone AUR repo (murex)
+        run: |
+          echo "${{ secrets.AUR_SSH_PRIVATE }}" > ~/.ssh/id_rsa
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+          git clone ssh://aur@aur.archlinux.org/murex.git aur-murex
+
+      - name: Update repo
+        run: |
+          cp -v ${{ ENV.PKGBUILD }} aur-murex/PKGBUILD
+          cp -v ${{ ENV.SRCINFO }}  aur-murex/.SRCINFO
+          cd aur-murex
+          git commit -am "$(./murex -c "version --no-app-name"), ${{ github.run_number }}"
+          
+
