@@ -1,5 +1,5 @@
 pkgbase = murex
-	pkgdesc = A smarter shell designed for greater commandline productivity and safer shell scripts
+	pkgdesc = A smarter shell and scripting environment with advanced features designed for usability, safety and productivity (eg smarter DevOps tooling)
 	pkgver = xxxMUREX_VERSIONxxx
 	pkgrel = xxxPKG_RELEASExxx
 	url = https://github.com/lmorg/murex
