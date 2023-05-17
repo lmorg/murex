@@ -3,8 +3,10 @@ package expressions
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
@@ -315,17 +317,30 @@ func expAssignMerge(tree *ParserT) error {
 		return err
 	}
 
-	if left.key != symbols.Bareword {
+	if left.key != symbols.Bareword /*&& left.key != symbols.Scalar*/ {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
 			tree.currentSymbol().key, left.key))
+	}
+
+	rightVal := right.dt.Value
+	if right.dt.Primitive != primitives.String && reflect.TypeOf(rightVal).Kind() == reflect.String {
+		fork := tree.p.Fork(lang.F_CREATE_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
+		_, err = fork.Stdin.Write([]byte(rightVal.(string)))
+		if err != nil {
+			return fmt.Errorf("cannot write value to unmarshaller's buffer: %s", err.Error())
+		}
+		rightVal, err = lang.UnmarshalData(fork.Process, right.dt.MxDT)
+		if err != nil {
+			return fmt.Errorf("cannot unmarshal buffer: %s", err.Error())
+		}
 	}
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
 		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
 			// var doesn't exist and we have strict types disabled so lets create var
-			err = tree.setVar(left.value, right.dt.Value, right.dt.DataType())
+			err = tree.setVar(left.value, rightVal, right.dt.DataType())
 			if err != nil {
 				return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 			}
@@ -342,7 +357,7 @@ func expAssignMerge(tree *ParserT) error {
 		}
 	}
 
-	merged, err := alter.Merge(tree.p.Context, v, nil, right.dt.Value)
+	merged, err := alter.Merge(tree.p.Context, v, nil, rightVal)
 	if err != nil {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"cannot perform merge '%s' into '%s': %s",
