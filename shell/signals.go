@@ -42,9 +42,9 @@ func sigterm(interactive bool) {
 
 	switch {
 	case p == nil:
-		lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground process !!!"))
+		//lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground process !!!"))
 	case p.Kill == nil:
-		lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground kill function !!!"))
+		//lang.ShellProcess.Stderr.Writeln([]byte("!!! Unable to identify forground kill function !!!"))
 	default:
 		p.Kill()
 	}
