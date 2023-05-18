@@ -99,7 +99,12 @@ func expAssignAdd(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var result interface{}
@@ -179,7 +184,12 @@ func expAssignSubtract(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var f float64
@@ -233,7 +243,12 @@ func expAssignMultiply(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var f float64
@@ -287,7 +302,12 @@ func expAssignDivide(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var f float64

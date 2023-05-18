@@ -1,6 +1,10 @@
 package expressions
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/lmorg/murex/test"
+)
 
 func TestExpAssign(t *testing.T) {
 	tests := []expressionTestT{
@@ -131,4 +135,27 @@ func TestExpAssignDivide(t *testing.T) {
 	}
 
 	testExpression(t, tests, true)
+}
+
+func TestLazyAssigns(t *testing.T) {
+	tests := []test.MurexTest{
+		{
+			Block:  "TestLazyAssignsAdd1 += 5; $TestLazyAssignsAdd1 += 5; $TestLazyAssignsAdd1",
+			Stdout: "10",
+		},
+		{
+			Block:  "TestLazyAssignsSubtract1 -= 5; $TestLazyAssignsSubtract1 -= 5; $TestLazyAssignsSubtract1",
+			Stdout: "-10",
+		},
+		{
+			Block:  "TestLazyAssignsMultiply1 *= 5; $TestLazyAssignsMultiply1 *= 5; $TestLazyAssignsMultiply1",
+			Stdout: "0",
+		},
+		{
+			Block:  "TestLazyAssignsDivide1 /= 5; $TestLazyAssignsDivide1 /= 5; $TestLazyAssignsDivide1",
+			Stdout: "0",
+		},
+	}
+
+	test.RunMurexTests(tests, t)
 }
