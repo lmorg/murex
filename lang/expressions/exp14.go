@@ -84,6 +84,8 @@ func expAssignAdd(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -161,6 +163,8 @@ func expAssignSubtract(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -212,6 +216,8 @@ func expAssignMultiply(tree *ParserT) error {
 	if err != nil {
 		return err
 	}
+
+	convertScalarToBareword(left)
 
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
@@ -265,6 +271,8 @@ func expAssignDivide(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -317,7 +325,9 @@ func expAssignMerge(tree *ParserT) error {
 		return err
 	}
 
-	if left.key != symbols.Bareword /*&& left.key != symbols.Scalar*/ {
+	convertScalarToBareword(left)
+
+	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
 			tree.currentSymbol().key, left.key))
@@ -325,14 +335,9 @@ func expAssignMerge(tree *ParserT) error {
 
 	rightVal := right.dt.Value
 	if right.dt.Primitive != primitives.String && reflect.TypeOf(rightVal).Kind() == reflect.String {
-		fork := tree.p.Fork(lang.F_CREATE_STDIN | lang.F_NO_STDOUT | lang.F_NO_STDERR)
-		_, err = fork.Stdin.Write([]byte(rightVal.(string)))
+		rightVal, err = lang.UnmarshalDataBuffered(tree.p, []byte(rightVal.(string)), right.dt.MxDT)
 		if err != nil {
-			return fmt.Errorf("cannot write value to unmarshaller's buffer: %s", err.Error())
-		}
-		rightVal, err = lang.UnmarshalData(fork.Process, right.dt.MxDT)
-		if err != nil {
-			return fmt.Errorf("cannot unmarshal buffer: %s", err.Error())
+			return err
 		}
 	}
 

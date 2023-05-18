@@ -40,6 +40,7 @@ package lang
 
 import (
 	"errors"
+	"fmt"
 )
 
 // UnmarshalData is a global unmarshaller which should be called from within
@@ -61,6 +62,20 @@ func UnmarshalData(p *Process, dataType string) (v interface{}, err error) {
 	v, err = Unmarshallers[dataType](p)
 	if err != nil {
 		return nil, errors.New("[" + dataType + " unmarshaller] " + err.Error())
+	}
+
+	return v, nil
+}
+
+func UnmarshalDataBuffered(parent *Process, b []byte, dataType string) (interface{}, error) {
+	fork := parent.Fork(F_CREATE_STDIN | F_NO_STDOUT | F_NO_STDERR)
+	_, err := fork.Stdin.Write(b)
+	if err != nil {
+		return nil, fmt.Errorf("cannot write value to unmarshaller's buffer: %s", err.Error())
+	}
+	v, err := UnmarshalData(fork.Process, dataType)
+	if err != nil {
+		return nil, fmt.Errorf("cannot unmarshal buffer: %s", err.Error())
 	}
 
 	return v, nil
