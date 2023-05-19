@@ -62,14 +62,14 @@ var (
 	ShellExitNum int
 )
 
-func DefineMethod(name string, fn func(*Process) error, StdinDataType, StdoutDataType string) {
+func DefineFunction(name string, fn func(*Process) error, StdoutDataType string) {
 	GoFunctions[name] = fn
-	MethodStdin.Define(name, StdinDataType)
 	MethodStdout.Define(name, StdoutDataType)
 }
 
-func DefineFunction(name string, fn func(*Process) error, StdoutDataType string) {
+func DefineMethod(name string, fn func(*Process) error, StdinDataType, StdoutDataType string) {
 	GoFunctions[name] = fn
+	MethodStdin.Define(name, StdinDataType)
 	MethodStdout.Define(name, StdoutDataType)
 }
 
