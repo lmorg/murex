@@ -99,7 +99,7 @@ func expAssignAdd(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
 			v, dt, err = float64(0), types.Number, nil
 		} else {
@@ -184,7 +184,7 @@ func expAssignSubtract(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
 			v, dt, err = float64(0), types.Number, nil
 		} else {
@@ -243,7 +243,7 @@ func expAssignMultiply(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
 			v, dt, err = float64(0), types.Number, nil
 		} else {
@@ -302,7 +302,7 @@ func expAssignDivide(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
 			v, dt, err = float64(0), types.Number, nil
 		} else {
@@ -363,7 +363,7 @@ func expAssignMerge(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
 			err = tree.setVar(left.value, rightVal, right.dt.DataType())
 			if err != nil {
