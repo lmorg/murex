@@ -65,7 +65,7 @@ func compile(tree *[]functions.FunctionT, parent *Process) (*[]Process, int) {
 	for i := range *tree {
 		procs[i].State.Set(state.MemAllocated)
 		procs[i].raw = (*tree)[i].Raw
-		procs[i].Name.SetRune((*tree)[i].Command)
+		procs[i].Name.SetRune((*tree)[i].CommandName())
 		procs[i].Parameters.PreParsed = (*tree)[i].Parameters
 		procs[i].namedPipes = (*tree)[i].NamedPipes
 		procs[i].IsMethod = (*tree)[i].Properties.Method()

@@ -15,6 +15,14 @@ type FunctionT struct {
 	Raw        []rune
 }
 
+func (fn FunctionT) CommandName() []rune {
+	name := fn.Command
+	if len(name) > 0 && name[len(name)-1] == ':' {
+		name = name[:len(name)-1]
+	}
+	return name
+}
+
 type Property int
 
 const (
