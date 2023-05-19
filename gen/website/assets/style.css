@@ -20,7 +20,6 @@ p {
 h1, h2, h3, h4 {
   font-family: 'Jura', sans-serif;
   font-weight: 700;
-  padding-left: 10px;
   color: #000075;
 }
 
@@ -48,10 +47,10 @@ h3 {
   border-bottom-width: 2px;
   border-bottom-style: solid;
   border-bottom-color: #000075;
-  margin-right: 35px;
+  margin-left: 0px;
+  margin-right: 20px;
   padding-bottom: 5px;
-  padding-left: 0px;
-  margin-left: 20px;
+  padding-left: 10px;
 }
 
 h4 {
@@ -59,7 +58,7 @@ h4 {
   text-decoration: underline;
   text-underline-offset: 7px;
   padding-left: 0px;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 
 strong {
@@ -85,13 +84,13 @@ blockquote {
   border-width: 1px;
   border-style: solid;
   border-color: #4d69e6;
-  padding-left: 10px;
+  padding-left: 0px;
   color: #001369;
   background: #d6dee9;
   border-radius: 5px;
   border-right-width: 10px;
   margin-left: 20px;
-  margin-right:25px
+  margin-right: 10px
 }
 
 code {
@@ -133,7 +132,7 @@ pre {
   border-color: #0f600f;
   border-right-width: 10px;
   margin-left: 20px;
-  margin-right: 25px;
+  margin-right: 10px;
   padding-left: 15px;
   padding-top: 10px;
   padding-bottom: 10px;

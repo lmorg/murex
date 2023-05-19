@@ -3,8 +3,10 @@ package expressions
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
 
+	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
 	"github.com/lmorg/murex/lang/types"
@@ -82,6 +84,8 @@ func expAssignAdd(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -95,7 +99,12 @@ func expAssignAdd(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var result interface{}
@@ -159,6 +168,8 @@ func expAssignSubtract(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -173,7 +184,12 @@ func expAssignSubtract(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var f float64
@@ -211,6 +227,8 @@ func expAssignMultiply(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -225,7 +243,12 @@ func expAssignMultiply(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var f float64
@@ -263,6 +286,8 @@ func expAssignDivide(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
@@ -277,7 +302,12 @@ func expAssignDivide(tree *ParserT) error {
 
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
+			// var doesn't exist and we have strict types disabled so lets create var
+			v, dt, err = float64(0), types.Number, nil
+		} else {
+			return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
+		}
 	}
 
 	var f float64
@@ -315,17 +345,27 @@ func expAssignMerge(tree *ParserT) error {
 		return err
 	}
 
+	convertScalarToBareword(left)
+
 	if left.key != symbols.Bareword {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"left side of %s should be a bareword, instead got %s",
 			tree.currentSymbol().key, left.key))
 	}
 
+	rightVal := right.dt.Value
+	if right.dt.Primitive != primitives.String && reflect.TypeOf(rightVal).Kind() == reflect.String {
+		rightVal, err = lang.UnmarshalDataBuffered(tree.p, []byte(rightVal.(string)), right.dt.MxDT)
+		if err != nil {
+			return err
+		}
+	}
+
 	v, dt, err := tree.getVar(left.value, varAsValue)
 	if err != nil {
-		if !tree.StrictTypes() && strings.Contains(err.Error(), "does not exist") {
+		if !tree.StrictTypes() && strings.Contains(err.Error(), lang.ErrDoesNotExist) {
 			// var doesn't exist and we have strict types disabled so lets create var
-			err = tree.setVar(left.value, right.dt.Value, right.dt.DataType())
+			err = tree.setVar(left.value, rightVal, right.dt.DataType())
 			if err != nil {
 				return raiseError(tree.expression, tree.currentSymbol(), 0, err.Error())
 			}
@@ -342,7 +382,7 @@ func expAssignMerge(tree *ParserT) error {
 		}
 	}
 
-	merged, err := alter.Merge(tree.p.Context, v, nil, right.dt.Value)
+	merged, err := alter.Merge(tree.p.Context, v, nil, rightVal)
 	if err != nil {
 		return raiseError(tree.expression, left, 0, fmt.Sprintf(
 			"cannot perform merge '%s' into '%s': %s",

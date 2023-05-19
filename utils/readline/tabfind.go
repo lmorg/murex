@@ -39,6 +39,7 @@ func (rl *Instance) updateTabFind(r []rune) {
 	}
 
 	rl.hintText = append(rl.rFindSearch, rl.tfLine...)
+	rl.hintText = append(rl.hintText, []rune(seqReset+seqBlink+"_"+seqReset)...)
 
 	rl.tfSuggestions = make([]string, 0)
 	for i := range rl.tcSuggestions {

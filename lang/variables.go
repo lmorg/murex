@@ -20,8 +20,10 @@ func errVariableReserved(name string) error {
 	return fmt.Errorf("cannot set a reserved variable: %s", name)
 }
 
+const ErrDoesNotExist = "does not exist"
+
 func errVarNotExist(name string) error {
-	return fmt.Errorf("variable '%s' does not exist", name)
+	return fmt.Errorf("variable '%s' %s", name, ErrDoesNotExist)
 }
 
 func errVarCannotUpdateNested(name string, err error) error {
