@@ -492,7 +492,7 @@ autocomplete: set git %[{
             }
         }],
         "": [{
-            Dynamic: '{ git --help $1 -> man-get-flags -> set }'
+            Dynamic: '{ git --help $1 -> man-get-flags }'
             AllowMultiple: true
             AllowAny: true
         }]
