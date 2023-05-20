@@ -60,8 +60,8 @@ func cmdSource(p *lang.Process) error {
 		}
 	}
 
-	module := quickHash(name + time.Now().String())
-	fileRef := &ref.File{Source: ref.History.AddSource(name, "source/"+module, b)}
+	hash := ":" + quickHash(name+time.Now().String())
+	fileRef := &ref.File{Source: ref.History.AddSource(name, p.FileRef.Source.Module+hash, b)}
 
 	p.RunMode = runmode.Normal
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)
