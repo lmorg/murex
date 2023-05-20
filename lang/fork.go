@@ -108,10 +108,6 @@ func (p *Process) Fork(flags int) *Fork {
 
 	if flags&F_NEW_MODULE == 0 {
 		fork.FileRef = p.FileRef
-		//} else {
-		/*fork.FileRef = &ref.File{Source: &ref.Source{
-			Module: fmt.Sprintf("murex/undefined-%d", time.Now().Unix()),
-		}}*/
 	}
 
 	if flags&F_FUNCTION != 0 {

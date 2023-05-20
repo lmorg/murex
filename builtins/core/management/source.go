@@ -3,7 +3,7 @@ package management
 import (
 	"crypto/md5"
 	"encoding/base64"
-	"io/ioutil"
+	"io"
 	"os"
 	"time"
 
@@ -52,7 +52,7 @@ func cmdSource(p *lang.Process) error {
 				return err
 			}
 
-			b, err = ioutil.ReadAll(file)
+			b, err = io.ReadAll(file)
 			if err != nil {
 				return err
 			}
