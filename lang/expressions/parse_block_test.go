@@ -96,11 +96,11 @@ func TestParseBlockSubBlocks(t *testing.T) {
 		},
 		{
 			Block:  `function a {$PARAMS};a {({({4})})}{({({4})})}`,
-			Stdout: `["{({({4})})}{({({4})})}"]`,
+			Stdout: `["{({({4})})}","{({({4})})}"]`,
 		},
 		{
 			Block:  `function a {$PARAMS};a ${ out {({({5})})}{({({5})})} }`,
-			Stdout: `["{({({5})})}{({({5})})}"]`,
+			Stdout: `["{({({5})})} {({({5})})}"]`,
 		},
 		/*{
 			Block:  "function a {$PARAMS};a ${\n\nout ({\n(\n{\n(\n{\n5\n}\n)\n}\n)\n}\n{\n(\n{\n(\n{\n5\n}\n)\n}\n)\n}\n\n})",
