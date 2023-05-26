@@ -12,6 +12,7 @@ type rangeParameters struct {
 	RmBS       bool
 	StripBlank bool
 	TrimSpace  bool
+	Buffer     bool
 	Start      string
 	End        string
 	Match      rangeFuncs
@@ -20,12 +21,15 @@ type rangeParameters struct {
 type rangeFuncs interface {
 	Start([]byte) bool
 	End([]byte) bool
+	SetLength(int)
 }
 
 func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 	var (
 		nestedErr      error
 		started, ended bool
+		stdin          = p.Stdin
+		length         int
 	)
 
 	if r.Start == "" {
@@ -37,7 +41,15 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		return err
 	}
 
-	err = p.Stdin.ReadArray(p.Context, func(b []byte) {
+	if r.Buffer {
+		stdin, length, err = buffer(p, dt)
+		if err != nil {
+			return err
+		}
+		r.Match.SetLength(length)
+	}
+
+	err = stdin.ReadArray(p.Context, func(b []byte) {
 		if ended {
 			return
 		}
@@ -75,6 +87,7 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 
 		nestedErr = array.Write(b)
 		if nestedErr != nil {
+			p.Done()
 			return
 		}
 	})

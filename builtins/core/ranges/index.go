@@ -1,7 +1,7 @@
 package ranges
 
 import (
-	"errors"
+	"fmt"
 	"strconv"
 )
 
@@ -24,7 +24,12 @@ func (rf *rfIndex) End(_ []byte) bool {
 	return false
 }
 
-func newIndex(r *rangeParameters) (err error) {
+func (rf *rfIndex) SetLength(i int) {
+	rf.start += i + 1
+	rf.end += i + 1
+}
+
+func createRfIndex(r *rangeParameters) (*rfIndex, error) {
 	rf := new(rfIndex)
 
 	sStart := r.Start
@@ -38,18 +43,36 @@ func newIndex(r *rangeParameters) (err error) {
 		sEnd = "-1"
 	}
 
+	var err error
+
 	rf.start, err = strconv.Atoi(sStart)
 	if err != nil {
-		return errors.New("cannot convert start value to integer: " + err.Error())
+		return nil, fmt.Errorf("cannot convert start value to integer: %s", err.Error())
 	}
 
 	rf.end, err = strconv.Atoi(sEnd)
 	if err != nil {
-		return errors.New("cannot convert end value to integer: " + err.Error())
+		return nil, fmt.Errorf("cannot convert end value to integer: %s", err.Error())
+	}
+
+	if rf.start < 0 {
+		r.Buffer = true
+		if r.End == "" {
+			rf.end = 1
+		}
 	}
 
 	if rf.start > 0 && !r.Exclude {
 		rf.end++
+	}
+
+	return rf, nil
+}
+
+func newIndex(r *rangeParameters) error {
+	rf, err := createRfIndex(r)
+	if err != nil {
+		return err
 	}
 
 	rf.start -= 1
@@ -57,5 +80,5 @@ func newIndex(r *rangeParameters) (err error) {
 
 	r.Match = rf
 
-	return
+	return nil
 }

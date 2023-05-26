@@ -11,6 +11,7 @@ type rfRegexp struct {
 
 func (rf *rfRegexp) Start(b []byte) bool { return rf.rxStart.Match(b) }
 func (rf *rfRegexp) End(b []byte) bool   { return rf.rxEnd.Match(b) }
+func (rf *rfRegexp) SetLength(_ int)     { /* do nothing */ }
 
 func newRegexp(r *rangeParameters) (err error) {
 	rf := new(rfRegexp)
