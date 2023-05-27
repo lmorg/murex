@@ -25,8 +25,8 @@ func (rf *rfIndex) End(_ []byte) bool {
 }
 
 func (rf *rfIndex) SetLength(i int) {
-	rf.start += i + 1
-	rf.end += i + 1
+	rf.start += i
+	rf.end += i
 }
 
 func createRfIndex(r *rangeParameters) (*rfIndex, error) {

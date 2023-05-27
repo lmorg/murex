@@ -141,3 +141,70 @@ func TestRangeIndexByNumber(t *testing.T) {
 
 	test.RunMurexTests(tests, t)
 }
+
+
+func TestRangeIndexByNegativeNumber(t *testing.T) {
+	tests := []test.MurexTest{
+		// FLAGGED
+
+		// Include
+		{
+			Block:  `a: [January..December] -> [-5..-3]n`,
+			Stdout: "August\nSeptember\n",
+		},
+		{
+			Block:  `a: [January..December] -> [-5..]n`,
+			Stdout: "August\nSeptember\nOctober\nNovember\nDecember\n",
+		},
+		/*{
+			Block:  `a: [January..December] -> [..-6]n`,
+			Stdout: "January\nFebruary\nMarch\nApril\nMay\nJune\n",
+		},*/
+
+		// Exclude
+		{
+			Block:  `a: [January..December] -> [-5..-3]ne`,
+			Stdout: "September\n",
+		},
+		{
+			Block:  `a: [January..December] -> [-5..]ne`,
+			Stdout: "September\nOctober\nNovember\nDecember\n",
+		},
+		/*{
+			Block:  `a: [January..December] -> [..-6]ne`,
+			Stdout: "January\nFebruary\nMarch\nApril\nMay\nJune\n",
+		},*/
+
+		// DEFAULTED
+
+		// Include
+		{
+			Block:  `a: [January..December] -> @[-5..-3]`,
+			Stdout: "August\nSeptember\n",
+		},
+		{
+			Block:  `a: [January..December] -> @[-5..]`,
+			Stdout: "August\nSeptember\nOctober\nNovember\nDecember\n",
+		},
+		/*{
+			Block:  `a: [January..December] -> @[..-6]`,
+			Stdout: "January\nFebruary\nMarch\nApril\nMay\nJune\n",
+		},*/
+
+		// Exclude
+		{
+			Block:  `a: [January..December] -> @[-5..-3]e`,
+			Stdout: "September\n",
+		},
+		{
+			Block:  `a: [January..December] -> @[-5..]e`,
+			Stdout: "September\nOctober\nNovember\nDecember\n",
+		},
+		/*{
+			Block:  `a: [January..December] -> @[..-6]e`,
+			Stdout: "January\nFebruary\nMarch\nApril\nMay\nJune\n",
+		},*/
+	}
+
+	test.RunMurexTests(tests, t)
+}

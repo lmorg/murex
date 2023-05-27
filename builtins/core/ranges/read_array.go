@@ -49,6 +49,8 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		r.Match.SetLength(length)
 	}
 
+	//not := !p.IsNot
+
 	err = stdin.ReadArray(p.Context, func(b []byte) {
 		if ended {
 			return
