@@ -85,16 +85,23 @@ jobs:
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
 
-  go1.17:
+  go1.18:
     docker:
-      - image: golang:1.17
+      - image: golang:1.18
         <<: *env
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
 
-  go1.18:
+  go1.19:
     docker:
-      - image: golang:1.18
+      - image: golang:1.19
+        <<: *env
+    working_directory: /go/src/github.com/lmorg/murex
+    <<: *steps
+
+  go1.20:
+    docker:
+      - image: golang:1.20
         <<: *env
     working_directory: /go/src/github.com/lmorg/murex
     <<: *steps
