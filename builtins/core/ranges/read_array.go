@@ -26,10 +26,10 @@ type rangeFuncs interface {
 
 func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 	var (
-		nestedErr      error
-		started, ended bool
-		stdin          = p.Stdin
-		length         int
+		nestedErr error
+		started   bool
+		stdin     = p.Stdin
+		length    int
 	)
 
 	if r.Start == "" {
@@ -49,13 +49,16 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		r.Match.SetLength(length)
 	}
 
-	//not := !p.IsNot
+	//noBang := !p.IsNot
+
+	write := func(b []byte) {
+		nestedErr = array.Write(b)
+		if nestedErr != nil {
+			p.Done()
+		}
+	}
 
 	err = stdin.ReadArray(p.Context, func(b []byte) {
-		if ended {
-			return
-		}
-
 		if r.RmBS {
 			b = []byte(rmbs.Remove(string(b)))
 		}
@@ -81,17 +84,17 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		}
 
 		if r.End != "" && r.Match.End(b) {
-			ended = true
-			if r.Exclude {
-				return
+			if !r.Exclude {
+				write(b)
 			}
-		}
-
-		nestedErr = array.Write(b)
-		if nestedErr != nil {
 			p.Done()
 			return
 		}
+
+		if p.IsNot {
+			return
+		}
+		write(b)
 	})
 
 	if nestedErr != nil {
