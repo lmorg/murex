@@ -31,6 +31,7 @@ type ParsedTokens struct {
 	LastCharacter rune
 	Loc           int
 	VarLoc        int
+	VarBrace      bool
 	Escaped       bool
 	Comment       bool
 	CommentMsg    string
@@ -111,14 +112,12 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 		pt.ExpectParam = false
 		pt.Parameters = append(pt.Parameters, "")
 		pt.pop = &pt.Parameters[len(pt.Parameters)-1]
-		//syntaxHighlighted += string(block[i])
 	}
 
 	escaped := func() {
 		pt.Escaped = false
 		*pt.pop += string(block[i])
 		ansiReset(block[i])
-		//ansiResetNoChar()
 	}
 
 	next := func(r rune) bool {
@@ -138,9 +137,21 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.LastCharacter = block[i]
 		}
 
-		if pt.Variable != "" && !rxAllowedVarChars.MatchString(string(block[i])) {
-			pt.Variable = ""
-			ansiResetNoChar()
+		if pt.Variable != "" {
+			if !pt.VarBrace {
+				if !rxAllowedVarChars.MatchString(string(block[i])) {
+					pt.Variable = ""
+					ansiResetNoChar()
+				}
+			} else {
+				*pt.pop += string(block[i])
+				syntaxHighlighted += string(block[i])
+				if block[i] == ')' {
+					pt.Variable = ""
+					ansiResetNoChar()
+				}
+				continue
+			}
 		}
 
 		switch block[i] {
@@ -641,6 +652,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				*pt.pop += string(block[i])
 				pt.Variable = string(block[i])
 				ansiColour(hlVariable, block[i])
+				if next('(') {
+					pt.VarBrace = true
+				}
 			}
 
 		case '@':
