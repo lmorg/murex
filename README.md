@@ -40,11 +40,11 @@ More examples: [/examples](https://github.com/lmorg/murex/tree/master/examples)
 
 ## Install instructions
 
-See [INSTALL](INSTALL.md) for details.
+See [INSTALL](https://murex.rocks/INSTALL.md) for details.
 
 ## Language Tour
 
-Read the [language tour](docs/tour.md) to get started.
+Read the [language tour](https://murex.rocks/docs/tour.md) to get started.
 
 ## Known bugs / TODO
 
