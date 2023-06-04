@@ -6,6 +6,11 @@ func newNumber(r *rangeParameters) (err error) {
 		return err
 	}
 
+	if rf.start < 0 {
+		rf.start -= 2
+		rf.end -= 2
+	}
+
 	r.Match = rf
 	return nil
 }

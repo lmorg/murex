@@ -120,11 +120,11 @@ func TestRangeIndexByNegativeIndex(t *testing.T) {
 		// Include
 		{
 			Block:  `a: [January..December] -> [-6..-3]i`,
-			Stdout: "June\nJuly\nAugust\n",
+			Stdout: "July\nAugust\nSeptember\n",
 		},
 		{
 			Block:  `a: [January..December] -> [-6..]i`,
-			Stdout: "June\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\n",
+			Stdout: "July\nAugust\nSeptember\nOctober\nNovember\nDecember\n",
 		},
 		/*{
 			Block:  `a: [January..December] -> [..-6]i`,
@@ -134,11 +134,11 @@ func TestRangeIndexByNegativeIndex(t *testing.T) {
 		// Exclude
 		{
 			Block:  `a: [January..December] -> [-6..-3]ie`,
-			Stdout: "July\nAugust\n",
+			Stdout: "August\nSeptember\n",
 		},
 		{
 			Block:  `a: [January..December] -> [-6..]ie`,
-			Stdout: "July\nAugust\nSeptember\nOctober\nNovember\nDecember\n",
+			Stdout: "August\nSeptember\nOctober\nNovember\nDecember\n",
 		},
 		/*{
 			Block:  `a: [January..December] -> [..-6]ie`,
@@ -150,11 +150,11 @@ func TestRangeIndexByNegativeIndex(t *testing.T) {
 		// Include
 		{
 			Block:  `a: [January..December] -> [-6..-3]`,
-			Stdout: "June\nJuly\nAugust\n",
+			Stdout: "July\nAugust\nSeptember\n",
 		},
 		{
 			Block:  `a: [January..December] -> [-6..]`,
-			Stdout: "June\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\n",
+			Stdout: "July\nAugust\nSeptember\nOctober\nNovember\nDecember\n",
 		},
 		/*{
 			Block:  `a: [January..December] -> [..-6]`,
@@ -164,11 +164,11 @@ func TestRangeIndexByNegativeIndex(t *testing.T) {
 		// Exclude
 		{
 			Block:  `a: [January..December] -> [-6..-3]e`,
-			Stdout: "July\nAugust\n",
+			Stdout: "August\nSeptember\n",
 		},
 		{
 			Block:  `a: [January..December] -> [-6..]e`,
-			Stdout: "July\nAugust\nSeptember\nOctober\nNovember\nDecember\n",
+			Stdout: "August\nSeptember\nOctober\nNovember\nDecember\n",
 		},
 		/*{
 			Block:  `a: [January..December] -> [..-6]e`,
