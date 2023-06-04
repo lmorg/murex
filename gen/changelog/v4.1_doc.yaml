@@ -16,7 +16,7 @@
 
     * generic `*` data type marshaller can now marshal maps ([#593](https://github.com/lmorg/murex/issues/593))
 
-    * range can count from end when supplied with a negative index
+    * range can count from end when supplied with a negative index ([read more](https://murex.rocks/docs/commands/range.html))
 
     ### Bug Fixes
 
@@ -26,7 +26,7 @@
 
     * new code blocks, `{`, should force a new parameter when following a closing block, `}` ([#603](https://github.com/lmorg/murex/issues/603))
 
-    * fixed problem with encapsulated variables, eg $(PWD), not getting parsed correctly by syntax highlighter
+    * fixed problem with encapsulated variables, eg `$(PWD)`, not getting parsed correctly by syntax highlighter
 
     ## v4.1.6140
 
