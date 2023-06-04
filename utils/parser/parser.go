@@ -653,10 +653,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			switch {
 			case pt.Escaped:
 				escaped()
-			case pt.QuoteSingle:
-				*pt.pop += string(block[i])
-				syntaxHighlighted += string(block[i])
-			case next(' '), next('\t'):
+			case pt.QuoteSingle, next(' '), next('\t'):
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
 			default:
