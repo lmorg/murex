@@ -793,13 +793,13 @@ openagent set image {
 
     if { = mode==`auto` } {
         switch {
-            case { $TMUX }                 { set mode=compatible }
-            case { $KITTY_WINDOW_ID }      { set mode=kitty }
-            case { = TERM==`xterm-kitty` } { set mode=kitty }
-            case { $TERMINOLOGY }          { set mode=terminology }
-            case { = TERM_PROGRAM==`iTerm.app` } { set mode=iterm }
-            case { $ITERM_PROFILE }        { set mode=iterm }
-            catch                          { set mode=compatible }
+            case { $ITERM_PROFILE }               { set mode=iterm }
+            case { $TERM_PROGRAM == "iTerm.app" } { set mode=iterm }
+            case { $TMUX }                        { set mode=compatible }
+            case { $KITTY_WINDOW_ID }             { set mode=kitty }
+            case { $TERM == "xterm-kitty" }       { set mode=kitty }
+            case { $TERMINOLOGY }                 { set mode=terminology }
+            catch                                 { set mode=compatible }
         }
     }
 
@@ -824,7 +824,20 @@ openagent set image {
         }
 
         case iterm {
-            out "{ESC}]1337;File=inline=1:${base64 $file}{^G}"
+            if { $TERM =~ '^(screen|tmux)' } then {
+                if { ${tmux show -gw allow-passthrough} == "allow-passthrough on" } then {
+                    osc = '{ESC}Ptmux;{ESC}{ESC}]'
+                    st  = '{BELL}{ESC}\'
+                } else {
+                    open-image $file
+                    break switch
+                }
+            } else {
+                osc = '{ESC}]'
+                st  = '{BELL}'
+            }
+
+            out "$(osc)1337;File=inline=1:${base64 -i $file -o -}$(st)"
         }
 
         case terminology {
