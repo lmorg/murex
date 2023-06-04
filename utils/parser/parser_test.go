@@ -25,7 +25,7 @@ func testParser(t *testing.T, block string, pos int,
 	LastFuncName string,
 	FuncName string,
 	Parameters []string,
-	Variable string,
+	VarSigil string,
 	PipeToken parser.PipeToken) {
 
 	count.Tests(t, 1)
@@ -74,8 +74,8 @@ func testParser(t *testing.T, block string, pos int,
 		t.Errorf("FuncName mismatch: FuncName (%s) != pt.FuncName (%s)", FuncName, pt.FuncName)
 		e = true
 	}
-	if Variable != pt.Variable {
-		t.Errorf("Variable mismatch: Variable (%s) != pt.Variable (%s)", Variable, pt.Variable)
+	if VarSigil != pt.VarSigil {
+		t.Errorf("VarSigil mismatch: VarSigil (%s) != pt.VarSigil (%s)", VarSigil, pt.VarSigil)
 		e = true
 	}
 	if PipeToken != pt.PipeToken {
