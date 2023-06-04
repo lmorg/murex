@@ -3,7 +3,7 @@ package management
 import (
 	"crypto/md5"
 	"encoding/base64"
-	"io/ioutil"
+	"io"
 	"os"
 	"time"
 
@@ -52,7 +52,7 @@ func cmdSource(p *lang.Process) error {
 				return err
 			}
 
-			b, err = ioutil.ReadAll(file)
+			b, err = io.ReadAll(file)
 			if err != nil {
 				return err
 			}
@@ -60,8 +60,8 @@ func cmdSource(p *lang.Process) error {
 		}
 	}
 
-	module := quickHash(name + time.Now().String())
-	fileRef := &ref.File{Source: ref.History.AddSource(name, "source/"+module, b)}
+	hash := ":" + quickHash(name+time.Now().String())
+	fileRef := &ref.File{Source: ref.History.AddSource(name, p.FileRef.Source.Module+hash, b)}
 
 	p.RunMode = runmode.Normal
 	fork := p.Fork(lang.F_FUNCTION | lang.F_NEW_MODULE | lang.F_NO_STDIN)

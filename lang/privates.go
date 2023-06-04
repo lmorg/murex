@@ -7,6 +7,10 @@ import (
 	"github.com/lmorg/murex/lang/ref"
 )
 
+func ErrPrivateNotFound(module string) error {
+	return fmt.Errorf("no private functions exist for module `%s`", module)
+}
+
 type privateFunctions struct {
 	module map[string]*MurexFuncs
 }
@@ -33,6 +37,14 @@ func (pf *privateFunctions) get(name string, fileRef *ref.File) *murexFuncDetail
 	return pf.module[fileRef.Source.Module].get(name)
 }
 
+func (pf *privateFunctions) GetString(name string, module string) *murexFuncDetails {
+	if pf.module[module] == nil {
+		return nil
+	}
+
+	return pf.module[module].get(name)
+}
+
 func (pf *privateFunctions) Exists(name string, fileRef *ref.File) bool {
 	if pf.module[fileRef.Source.Module] == nil {
 		return false
@@ -51,7 +63,7 @@ func (pf *privateFunctions) ExistsString(name string, module string) bool {
 
 func (pf *privateFunctions) BlockString(name string, module string) ([]rune, error) {
 	if pf.module[module] == nil {
-		return nil, fmt.Errorf("no private functions exist for module `%s`", module)
+		return nil, ErrPrivateNotFound(module)
 	}
 
 	return pf.module[module].Block(name)
@@ -59,7 +71,7 @@ func (pf *privateFunctions) BlockString(name string, module string) ([]rune, err
 
 func (pf *privateFunctions) Summary(name string, fileRef *ref.File) (string, error) {
 	if pf.module[fileRef.Source.Module] == nil {
-		return "", fmt.Errorf("no private functions exist for module `%s`", fileRef.Source.Module)
+		return "", ErrPrivateNotFound(fileRef.Source.Module)
 	}
 
 	return pf.module[fileRef.Source.Module].Summary(name)
@@ -67,7 +79,7 @@ func (pf *privateFunctions) Summary(name string, fileRef *ref.File) (string, err
 
 func (pf *privateFunctions) Undefine(name string, fileRef *ref.File) error {
 	if pf.module[fileRef.Source.Module] == nil {
-		return fmt.Errorf("no private functions exist for module `%s`", fileRef.Source.Module)
+		return ErrPrivateNotFound(fileRef.Source.Module)
 	}
 
 	return pf.module[fileRef.Source.Module].Undefine(name)

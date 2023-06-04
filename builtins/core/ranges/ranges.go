@@ -19,7 +19,7 @@ const usage = "\nUsage: [start..end] / [start..end]se\n(start or end can be omit
 
 // if additional ranges are added here, they will also need to be added to
 // /home/lau/dev/go/src/github.com/lmorg/murex/lang/parameters.go
-var RxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8ernsi]*)\s*$`)
+var RxSplitRange = regexp.MustCompile(`^\s*(.*?)\s*\.\.\s*(.*?)\s*\]([bt8ernsiu]*)\s*$`)
 
 func CmdRange(p *lang.Process) (err error) {
 	dt := p.Stdin.GetDataType()
@@ -35,7 +35,7 @@ func CmdRange(p *lang.Process) (err error) {
 	if len(split) != 4 {
 		err = indexAndExpand(p, dt)
 		if err != nil {
-			return fmt.Errorf("Not a valid range: %v.%s\nNor a valid index: %v", split, usage, err)
+			return fmt.Errorf("not a valid range: %v.%s\nnor a valid index: %v", split, usage, err)
 		}
 		return nil
 	}

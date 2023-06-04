@@ -2,10 +2,32 @@
   Title: >-
     What's new in murex v4.1.x
   CategoryID: changelog
-  DateTime: 2023-04-19 23:27
+  DateTime: 2023-06-04 10:44
   Summary: >-
     The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too
   Description: |-
+    ## v4.1.7300
+
+    ### Breaking Changes
+
+    None
+
+    ### Features
+
+    * generic `*` data type marshaller can now marshal maps ([#593](https://github.com/lmorg/murex/issues/593))
+
+    * range can count from end when supplied with a negative index ([read more](https://murex.rocks/docs/commands/range.html))
+
+    ### Bug Fixes
+
+    * `fexec private` should inherit module string from the owners module ([#600](https://github.com/lmorg/murex/issues/600))
+
+    * `source`-ed files should be loaded into a module of a similar name to the parent module
+
+    * new code blocks, `{`, should force a new parameter when following a closing block, `}` ([#603](https://github.com/lmorg/murex/issues/603))
+
+    * fixed problem with encapsulated variables, eg `$(PWD)`, not getting parsed correctly by syntax highlighter
+
     ## v4.1.6140
 
     ### Breaking Changes

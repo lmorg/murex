@@ -72,17 +72,14 @@ func testSourceFileRef(t *testing.T, fork *lang.Fork, block string) {
 	v := ref.History.Dump()
 
 	for _, d := range v {
-		//if d.DateTime == nil{
-		//	t.Errorf("Source DateTime == nil")
-		//}
 		if d.Filename == "" {
 			t.Errorf("Source Filename == ``")
 		}
 		if d.Module == "" {
 			t.Errorf("Source Module == ``")
 		}
-		if !strings.HasPrefix(d.Module, "source/") {
-			t.Errorf("Source Module != `source/...`")
+		if !strings.HasPrefix(d.Module, fork.FileRef.Source.Module+":") {
+			t.Errorf("Source Module != `module:...`")
 		}
 		if d.Source == "" {
 			t.Errorf("Source Source == ``")

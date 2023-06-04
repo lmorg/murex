@@ -262,7 +262,18 @@ func (tree *ParserT) parseStatement(exec bool) error {
 			if err != nil {
 				return err
 			}
+			// is was this the start of a parameter...
+			var nextParam bool
+			if len(tree.statement.paramTemp) == 0 {
+				nextParam = true
+			}
 			appendToParam(tree, value...)
+			// ...if so lets create a new parameter
+			if nextParam {
+				if err := tree.nextParameter(); err != nil {
+					return err
+				}
+			}
 
 		case '[':
 			switch {

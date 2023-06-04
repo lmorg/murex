@@ -57,6 +57,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 
 	switch {
 	case pt.Variable != "":
+		//panic(json.LazyLoggingPretty(pt))
 		if pt.VarLoc < len(line) {
 			r.Prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}

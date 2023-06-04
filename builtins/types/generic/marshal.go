@@ -37,29 +37,28 @@ func marshal(_ *lang.Process, iface interface{}) (b []byte, err error) {
 		}
 		return
 
-	/*case map[string]string:
-		for s := range v {
-			b = append(b, []byte(s+": "+v[s]+utils.NewLineString)...)
-		}
-		return
-
+	case map[string]string:
+		return mapToArray(v)
+	case map[string]float64:
+		return mapToArray(v)
+	case map[string]int:
+		return mapToArray(v)
+	case map[string]bool:
+		return mapToArray(v)
 	case map[string]interface{}:
-		for s := range v {
-			b = append(b, []byte(fmt.Sprintf("%s: %s%s", s, fmt.Sprint(v[s]), utils.NewLineString))...)
-		}
-		return
+		return mapToArray(v)
 
 	case map[interface{}]interface{}:
 		for s := range v {
-			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), fmt.Sprint(v[s]), utils.NewLineString))...)
+			b = append(b, []byte(fmt.Sprintf("%s\t%s%s", fmt.Sprint(s), fmt.Sprint(v[s]), utils.NewLineString))...)
 		}
 		return
 
 	case map[interface{}]string:
 		for s := range v {
-			b = append(b, []byte(fmt.Sprintf("%s: %s%s", fmt.Sprint(s), v[s], utils.NewLineString))...)
+			b = append(b, []byte(fmt.Sprintf("%s\t%s%s", fmt.Sprint(s), v[s], utils.NewLineString))...)
 		}
-		return*/
+		return
 
 	/*case interface{}:
 	return []byte(fmt.Sprintln(iface)), nil*/
@@ -93,6 +92,14 @@ func iface2str(iface *interface{}) (b []byte) {
 	default:
 		panic(fmt.Sprintf("cannot marshal %T", v))
 	}
+}
+
+func mapToArray[K comparable, V string | float64 | int | bool | any](m map[K]V) ([]byte, error) {
+	var a [][]string
+	for k, v := range m {
+		a = append(a, []string{fmt.Sprint(k), fmt.Sprint(v)})
+	}
+	return tabWriter(a)
 }
 
 func tabWriter(v [][]string) ([]byte, error) {

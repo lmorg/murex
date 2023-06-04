@@ -12,6 +12,7 @@ type rangeParameters struct {
 	RmBS       bool
 	StripBlank bool
 	TrimSpace  bool
+	Buffer     bool
 	Start      string
 	End        string
 	Match      rangeFuncs
@@ -20,12 +21,15 @@ type rangeParameters struct {
 type rangeFuncs interface {
 	Start([]byte) bool
 	End([]byte) bool
+	SetLength(int)
 }
 
 func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 	var (
-		nestedErr      error
-		started, ended bool
+		nestedErr error
+		started   bool
+		stdin     = p.Stdin
+		length    int
 	)
 
 	if r.Start == "" {
@@ -37,11 +41,24 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		return err
 	}
 
-	err = p.Stdin.ReadArray(p.Context, func(b []byte) {
-		if ended {
-			return
+	if r.Buffer {
+		stdin, length, err = buffer(p, dt)
+		if err != nil {
+			return err
 		}
+		r.Match.SetLength(length)
+	}
 
+	//noBang := !p.IsNot
+
+	write := func(b []byte) {
+		nestedErr = array.Write(b)
+		if nestedErr != nil {
+			p.Done()
+		}
+	}
+
+	err = stdin.ReadArray(p.Context, func(b []byte) {
 		if r.RmBS {
 			b = []byte(rmbs.Remove(string(b)))
 		}
@@ -67,16 +84,17 @@ func readArray(p *lang.Process, r *rangeParameters, dt string) error {
 		}
 
 		if r.End != "" && r.Match.End(b) {
-			ended = true
-			if r.Exclude {
-				return
+			if !r.Exclude {
+				write(b)
 			}
-		}
-
-		nestedErr = array.Write(b)
-		if nestedErr != nil {
+			p.Done()
 			return
 		}
+
+		if p.IsNot {
+			return
+		}
+		write(b)
 	})
 
 	if nestedErr != nil {

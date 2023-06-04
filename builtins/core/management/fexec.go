@@ -6,6 +6,7 @@ import (
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
+	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils/json"
 )
@@ -94,11 +95,11 @@ func cmdFexec(p *lang.Process) error {
 	return fe[flag].fn(p, cmd, params)
 }
 
-func feBlock(p *lang.Process, block []rune, cmd string, params []string) (err error) {
+func feBlock(p *lang.Process, block []rune, cmd string, params []string, fileRef *ref.File) (err error) {
 	fork := p.Fork(lang.F_FUNCTION)
 	fork.Name.Set(cmd)
 	fork.Parameters.DefineParsed(params)
-	fork.FileRef = p.FileRef
+	fork.FileRef = fileRef
 	p.ExitNum, err = fork.Execute(block)
 	return
 }
@@ -109,7 +110,7 @@ func feFunction(p *lang.Process, cmd string, params []string) error {
 		return err
 	}
 
-	return feBlock(p, block, cmd, params)
+	return feBlock(p, block, cmd, params, p.FileRef)
 }
 
 func fePrivate(p *lang.Process, cmd string, params []string) error {
@@ -129,12 +130,12 @@ func fePrivate(p *lang.Process, cmd string, params []string) error {
 		mod = []string{strings.Join(mod[0:len(mod)-1], "/"), mod[2]}
 	}
 
-	block, err := lang.PrivateFunctions.BlockString(mod[1], mod[0])
-	if err != nil {
-		return err
+	pvt := lang.PrivateFunctions.GetString(mod[1], mod[0])
+	if pvt == nil {
+		return lang.ErrPrivateNotFound(mod[0])
 	}
 
-	return feBlock(p, block, mod[1], params)
+	return feBlock(p, pvt.Block, mod[1], params, pvt.FileRef)
 }
 
 func feBuiltin(p *lang.Process, cmd string, params []string) error {

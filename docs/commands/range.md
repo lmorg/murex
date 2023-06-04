@@ -12,20 +12,15 @@ the start or the end of the search criteria to cover all items before or
 after the remaining search criteria.
 
 **Please note that `@[` syntax has been deprecated in favour of `[` syntax
-instead. Aside from its name dropping the `@` prefix, it will still perform
-identically**
+instead**
 
 ## Usage
 
     <stdin> -> [start..end]flags -> <stdout>
-    
-Deprecated support:
-
-    <stdin> -> @[start..end]flags -> <stdout>
 
 ## Examples
 
-Range over all months after March:
+**Range over all months after March:**
 
     » a: [January..December] -> [March..]se
     April
@@ -38,14 +33,34 @@ Range over all months after March:
     November
     December
     
-Range from the 6th to the 10th month (indexes start from zero, `0`):
+**Range from the 6th to the 10th month:**
+
+By default, ranges start from one, `1`
 
     » a: [January..December] -> [5..9]
+    May
     June
     July
     August
     September
+    
+**Return the first 3 months:**
+
+This usage is similar to `head -n3`
+
+    » a: [January..December] -> [..3]
     October
+    November
+    December
+    
+**Return the last 3 months:**
+
+This usage is similar to `tail -n3`
+
+    » a: [January..December] -> [-3..]
+    October
+    November
+    December
 
 ## Flags
 
@@ -56,7 +71,7 @@ Range from the 6th to the 10th month (indexes start from zero, `0`):
 * `e`
     exclude the start and end search criteria from the range
 * `n`
-    array index
+    numeric offset (indexed from 0)
 * `r`
     regexp match
 * `s`
