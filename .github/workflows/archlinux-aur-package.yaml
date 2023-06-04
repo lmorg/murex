@@ -67,7 +67,7 @@ jobs:
           cd aur-murex
           git config --global user.email "mail@laurencemorgan.co.uk"
           git config --global user.name "lmorg"
-          git commit -am "$(./murex -c "version --no-app-name"), ${{ github.run_number }}"
+          git commit -am "$(../murex -c "version --no-app-name"), ${{ github.run_number }}"
           git push
           
 
