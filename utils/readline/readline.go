@@ -471,6 +471,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 // entry readline is currently configured for and then update the line entries
 // accordingly.
 func (rl *Instance) readlineInput(r []rune) {
+	if len(r) == 0 {
+		return
+	}
+
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(r[0])
