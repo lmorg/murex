@@ -153,7 +153,10 @@ func TestMethodTypes(t *testing.T) {
 		m.Define(test.Command, test.Type)
 	}
 
-	m.Degroup()
+	err := m.Degroup()
+	if err != nil {
+		t.Error(err)
+	}
 
 	for i, test := range tests {
 		actual := sortedSlice(m.Types(test.Command))

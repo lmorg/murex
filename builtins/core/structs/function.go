@@ -232,12 +232,18 @@ func cmdMethodDefine(p *lang.Process) error {
 
 	if mdt.Stdin != "" {
 		lang.MethodStdin.Define(name, mdt.Stdin)
-		lang.MethodStdin.Degroup()
+		err = lang.MethodStdin.Degroup()
+		if err != nil {
+			return err
+		}
 	}
 
 	if mdt.Stdout != "" {
 		lang.MethodStdout.Define(name, mdt.Stdout)
-		lang.MethodStdout.Degroup()
+		err = lang.MethodStdout.Degroup()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

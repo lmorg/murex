@@ -84,8 +84,12 @@ func InitEnv() {
 		GlobalVariables.Set(ShellProcess, "PWDHIST", string(b), types.Json)
 	}
 
-	MethodStdin.Degroup()
-	MethodStdout.Degroup()
+	if err = MethodStdin.Degroup(); err != nil {
+		panic(err.Error())
+	}
+	if err = MethodStdout.Degroup(); err != nil {
+		panic(err.Error())
+	}
 }
 
 // NewTestProcess creates a dummy process for testing in Go (ie `go test`)
