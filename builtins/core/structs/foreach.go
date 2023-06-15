@@ -38,6 +38,7 @@ func cmdForEach(p *lang.Process) (err error) {
 	switch {
 	case flags[foreachJmap] == types.TrueString:
 		return cmdForEachJmap(p)
+
 	default:
 		return cmdForEachDefault(p, flags, additional)
 	}
@@ -61,12 +62,12 @@ func getSteps(flags map[string]string) (int, []any, error) {
 	return steps.(int), make([]any, steps.(int)), nil
 }
 
-func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []string) (err error) {
-	dt := p.Stdin.GetDataType()
-	if dt == types.Json {
+func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []string) error {
+	dataType := p.Stdin.GetDataType()
+	if dataType == types.Json {
 		p.Stdout.SetDataType(types.JsonLines)
 	} else {
-		p.Stdout.SetDataType(dt)
+		p.Stdout.SetDataType(dataType)
 	}
 
 	var (
@@ -76,6 +77,7 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 
 	switch len(additional) {
 	case 1:
+		varName = "!"
 		block = []rune(additional[0])
 
 	case 2:
@@ -112,11 +114,15 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 		forEachInnerLoop(p, block, varName, v, dataType)
 	})
 
+	if err != nil {
+		return err
+	}
+
 	if steps > 0 && step > 0 {
 		forEachInnerLoop(p, block, varName, slice[:step], types.Json)
 	}
 
-	return
+	return nil
 }
 
 func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue interface{}, dataType string) {
