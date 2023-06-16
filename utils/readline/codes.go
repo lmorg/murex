@@ -77,8 +77,11 @@ const (
 	seqClearLineBefore  = "\x1b[1k"
 	seqClearLine        = "\x1b[2k"
 	seqClearScreenBelow = "\x1b[J"
+	seqClearScreen      = "\x1b[2J"
 
 	seqGetCursorPos = "\x1b6n" // response: "\x1b{Line};{Column}R"
+
+	seqSetCursorPosTopLeft = "\x1b[1;1H"
 )
 
 // Text effects

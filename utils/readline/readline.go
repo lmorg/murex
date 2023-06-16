@@ -198,6 +198,11 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.updateTabFind([]rune{})
 			rl.viUndoSkipAppend = true
 
+		case charCtrlL:
+			print(seqSetCursorPosTopLeft + seqClearScreen)
+			rl.echo()
+			rl.renderHelpers()
+
 		case charCtrlR:
 			rl.modeAutoFind = true
 			rl.tcOffset = 0
