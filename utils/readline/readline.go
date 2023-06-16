@@ -180,6 +180,14 @@ func (rl *Instance) Readline() (_ string, err error) {
 		}
 
 		switch b[0] {
+		case charCtrlA:
+			if rl.line.RuneLen() == 0 {
+				continue
+			}
+			rl.clearHelpers()
+			rl.line.SetCellPos(1)
+			rl.echo()
+
 		case charCtrlC:
 			rl.clearHelpers()
 			return "", CtrlC
@@ -188,15 +196,14 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.clearHelpers()
 			return "", EOF
 
-		case charCtrlA:
+		case charCtrlE:
+			if rl.line.RuneLen() == 0 {
+				continue
+			}
 			rl.clearHelpers()
-			rl.line.SetCellPos(1)
+			rl.line.SetRunePos(rl.line.RuneLen())
 			rl.echo()
-
-		/*case charCtrlE:
-		rl.clearHelpers()
-		rl.line.SetRunePos(rl.line.RuneLen())
-		rl.echo()*/
+			moveCursorForwards(1)
 
 		case charCtrlF:
 			if !rl.modeTabCompletion {
