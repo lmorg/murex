@@ -215,6 +215,15 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.updateTabFind([]rune{})
 			rl.viUndoSkipAppend = true
 
+		case charCtrlK:
+			if rl.line.RuneLen() == 0 {
+				continue
+			}
+			rl.clearHelpers()
+			rl.line.Set(rl.line.Runes()[:rl.line.RunePos()])
+			rl.echo()
+			moveCursorForwards(1)
+
 		case charCtrlL:
 			print(seqSetCursorPosTopLeft + seqClearScreen)
 			rl.echo()
