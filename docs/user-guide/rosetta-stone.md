@@ -33,7 +33,7 @@ if you want to learn more about shell scripting in Murex.
 | <br/> | | |
 | **Comments** | | |
 | Single line | `# comment` | `# comment` |
-| Multiple lines | n/a | `/#`<br/>`line 1`<br/>`line 2`<br/>`#/` |
+| Multiple lines | `:<<EOC`<br/>`line 1`<br/>`line 2`<br/>`EOC` | `/#`<br/>`line 1`<br/>`line 2`<br/>`#/` |
 | Mid-line | n/a | eg `out foo/#comment#/bar`
 | <br/> | | |
 | **File pattern matching**<br/>(also known as "wildcards") | | |
