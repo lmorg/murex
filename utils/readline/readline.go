@@ -188,6 +188,16 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.clearHelpers()
 			return "", EOF
 
+		case charCtrlA:
+			rl.clearHelpers()
+			rl.line.SetCellPos(1)
+			rl.echo()
+
+		/*case charCtrlE:
+		rl.clearHelpers()
+		rl.line.SetRunePos(rl.line.RuneLen())
+		rl.echo()*/
+
 		case charCtrlF:
 			if !rl.modeTabCompletion {
 				rl.modeAutoFind = true

@@ -68,6 +68,10 @@ func (u *UnicodeT) CellPos() int {
 }
 
 func (u *UnicodeT) SetCellPos(cPos int) {
+	if len(u.value) == 0 {
+		return
+	}
+
 	u.cPos = 0
 	var last int
 	for u.rPos = 0; u.rPos < len(u.value); u.rPos++ {
