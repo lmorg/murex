@@ -29,9 +29,13 @@ var argsForEach = &parameters.Arguments{
 	},
 }
 
-func cmdForEach(p *lang.Process) (err error) {
+func cmdForEach(p *lang.Process) error {
 	flags, additional, err := p.Parameters.ParseFlags(argsForEach)
+	//flags := map[string]string{}
+	//additional := p.Parameters.StringArray()
+	//var err error
 	if err != nil {
+		p.Stdout.SetDataType(types.Null)
 		return err
 	}
 
@@ -98,12 +102,12 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 
 	var step int
 
-	err = p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dataType string) {
+	err = p.Stdin.ReadArrayWithType(p.Context, func(varValue interface{}, dataType string) {
 		if steps > 0 {
 			step++
-			slice[step-1] = v
+			slice[step-1] = varValue
 			if step == steps {
-				v = json.LazyLogging(slice)
+				varValue = json.LazyLogging(slice)
 				dataType = types.Json
 				step = 0
 			} else {
@@ -111,7 +115,7 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 			}
 		}
 
-		forEachInnerLoop(p, block, varName, v, dataType)
+		forEachInnerLoop(p, block, varName, varValue, dataType)
 	})
 
 	if err != nil {
@@ -138,13 +142,28 @@ func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue in
 	}
 
 	if varName != "!" {
-		p.Variables.Set(p, varName, varValue, dataType)
+		err = p.Variables.Set(p, varName, varValue, dataType)
+		if err != nil {
+			p.Stderr.Writeln([]byte("error: " + err.Error()))
+			p.Done()
+			return
+		}
 	}
 
 	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
 	fork.Stdin.SetDataType(dataType)
-	fork.Stdin.Writeln(b)
-	fork.Execute(block)
+	_, err = fork.Stdin.Writeln(b)
+	if err != nil {
+		p.Stderr.Writeln([]byte("error: " + err.Error()))
+		p.Done()
+		return
+	}
+	_, err = fork.Execute(block)
+	if err != nil {
+		p.Stderr.Writeln([]byte("error: " + err.Error()))
+		p.Done()
+		return
+	}
 }
 
 func cmdForEachJmap(p *lang.Process) error {

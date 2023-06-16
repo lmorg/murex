@@ -90,7 +90,7 @@ func (stdin *Stdin) ReadAll() ([]byte, error) {
 		stdin.mutex.Lock()
 		closed := stdin.dependents < 1
 
-		stdin.mutex.Unlock()
+		stdin.mutex.Unlock() 
 
 		if closed {
 			break
