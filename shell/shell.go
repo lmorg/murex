@@ -18,6 +18,7 @@ import (
 	"github.com/lmorg/murex/shell/history"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/ansi"
+	"github.com/lmorg/murex/utils/ansititle"
 	"github.com/lmorg/murex/utils/cd"
 	"github.com/lmorg/murex/utils/cd/cache"
 	"github.com/lmorg/murex/utils/consts"
@@ -118,6 +119,11 @@ func ShowPrompt() {
 	}
 
 	for {
+		v, err := lang.ShellProcess.Config.Get("proc", "echo-tmux", types.Boolean)
+		if tmux, ok := v.(bool); ok && err == nil && tmux {
+			ansititle.Tmux([]byte(app.Name))
+		}
+
 		signalRegister(true)
 
 		setPromptHistory()

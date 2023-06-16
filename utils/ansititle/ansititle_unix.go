@@ -1,5 +1,5 @@
-//go:build !js
-// +build !js
+//go:build !windows && !plan9 && !js
+// +build !windows,!plan9,!js
 
 package ansititle
 

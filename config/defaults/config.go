@@ -138,9 +138,13 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	var defaultTitleBarFunc string
+	if runtime.GOOS != "windows" {
+		defaultTitleBarFunc = `{ out "$(USER)\@$(HOSTNAME):$(PWD)" }`
+	}
 	c.Define("shell", "titlebar-func", config.Properties{
-		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carrage returns and tabs are replaced with spaces",
-		Default:     `{ out "$USER@$HOSTNAME:$PWD" }`,
+		Description: "Linux and UNIX only! Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carriage returns and tabs are replaced with spaces",
+		Default:     defaultTitleBarFunc,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})

@@ -10,7 +10,7 @@ import (
 	"github.com/lmorg/murex/utils/ansititle"
 )
 
-func getPrompt() []byte{
+func getPrompt() []byte {
 	var (
 		err, err2 error
 		exitNum   int
@@ -36,7 +36,7 @@ func getPrompt() []byte{
 	return b
 }
 
-func getMultilinePrompt(nLines int)[]byte {
+func getMultilinePrompt(nLines int) []byte {
 	var (
 		err, err2 error
 		exitNum   int
@@ -63,34 +63,28 @@ func getMultilinePrompt(nLines int)[]byte {
 }
 
 func writeTitlebar() {
-	var (
-		err, err2 error
-		exitNum   int
-		b         []byte
-	)
+	v, err := lang.ShellProcess.Config.Get("shell", "titlebar-func", types.CodeBlock)
+	prompt, ok := v.(string)
+	if !ok || err != nil || len(prompt) == 0 {
+		return
+	}
 
-	prompt, err := lang.ShellProcess.Config.Get("shell", "titlebar-func", types.CodeBlock)
+	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
+	fork.Name.Set("(titlebar-func)")
+	exitNum, err := fork.Execute([]rune(prompt))
+
+	var b []byte
 	if err == nil {
-		fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
-		fork.Name.Set("(titlebar-func)")
-		fork.Execute([]rune(prompt.(string)))
-
-		b, err2 = fork.Stdout.ReadAll()
+		b, err = fork.Stdout.ReadAll()
 		b = utils.CrLfTrim(b)
 	}
 
-	if exitNum != 0 || err != nil || len(b) == 0 || err2 != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte("Invalid titlebar-func. Block returned false."))
+	if exitNum != 0 || err != nil || len(b) == 0 {
+		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Invalid titlebar-func: %V", err)))
 		ansititle.Write([]byte(app.Name))
-		if tmux, _ := lang.ShellProcess.Config.Get("proc", "echo-tmux", types.Boolean); tmux.(bool) {
-			ansititle.Tmux([]byte(app.Name))
-		}
 	}
 
 	ansititle.Write(b)
-	if tmux, _ := lang.ShellProcess.Config.Get("proc", "echo-tmux", types.Boolean); tmux.(bool) {
-		ansititle.Tmux(b)
-	}
 }
 
 // ConfigReadGetCursorPos is a dynamic config wrapper function for Prompt.EnableGetCursorPos
