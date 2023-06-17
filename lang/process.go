@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 	"time"
 
@@ -303,6 +304,19 @@ executeProcess:
 		err = GoFunctions[name](p)
 
 	default:
+		if p.Parameters.Len() == 0 {
+			v, _ := ShellProcess.Config.Get("shell", "auto-cd", types.Boolean)
+			autoCd, _ := v.(bool)
+			if autoCd {
+				fileInfo, _ := os.Stat(name)
+				if fileInfo != nil && fileInfo.IsDir() {
+					p.Parameters.Prepend([]string{name})
+					name = "cd"
+					goto executeProcess
+				}
+			}
+		}
+
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")

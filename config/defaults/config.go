@@ -289,7 +289,14 @@ func Config(c *config.Config, isInteractive bool) {
 	c.Define("shell", "preview-images", config.Properties{
 		Description: "If set, file previews will display images as ANSI art rendered graphics rather than text descriptions",
 		Default:     true, //tty.Enabled(),
-		DataType:    types.String,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
+	c.Define("shell", "auto-cd", config.Properties{
+		Description: "If set, `cd` is assumed when directory path supplied as a command",
+		Default:     false,
+		DataType:    types.Boolean,
 		Global:      true,
 	})
 
