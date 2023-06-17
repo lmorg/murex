@@ -8,7 +8,7 @@ import (
 	"github.com/lmorg/murex/utils/which"
 )
 
-func openSystemCommandGeneric(p *lang.Process, path string) error {
+func openSystemCommand(p *lang.Process, path string) error {
 	cmd, err := openCommand()
 	if err != nil {
 		return fmt.Errorf("cannot open '%s': %s", path, err.Error())

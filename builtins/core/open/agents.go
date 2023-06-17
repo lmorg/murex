@@ -10,6 +10,8 @@ import (
 // OpenAgents is the exported table of `open`'s helper functions
 var OpenAgents = newOpenAgents()
 
+var errNoAgent = errors.New("no agent set for that data type")
+
 type openBlocks struct {
 	Block   []rune
 	FileRef *ref.File
@@ -33,7 +35,7 @@ func (oa *openAgents) Get(dataType string) (*openBlocks, error) {
 	oa.mutex.Unlock()
 
 	if ob == nil {
-		return nil, errors.New("No agent set for that data type")
+		return nil, errNoAgent
 	}
 
 	return ob, nil
@@ -56,7 +58,7 @@ func (oa *openAgents) Unset(dataType string) error {
 	defer oa.mutex.Unlock()
 
 	if oa.agents[dataType] == nil {
-		return errors.New("No agent set for that data type")
+		return errNoAgent
 	}
 
 	oa.agents[dataType] = nil
