@@ -423,6 +423,12 @@ func (rl *Instance) escapeSeq(r []rune) {
 		//rl.screenRefresh()
 		return
 
+	case seqAltF:
+		HkFnJumpForwards(rl)
+
+	case seqAltB:
+		HkFnJumpBackwards(rl)
+
 	default:
 		if rl.modeTabFind /*|| rl.modeAutoFind*/ {
 			//rl.modeTabFind = false

@@ -76,3 +76,11 @@ func HkFnAutocomplete(rl *Instance) {
 	rl.renderHelpers()
 	rl.viUndoSkipAppend = true
 }
+
+func HkFnJumpForwards(rl *Instance) {
+	rl.moveCursorByRuneAdjust(rl.viJumpE(tokeniseLine))
+}
+
+func HkFnJumpBackwards(rl *Instance) {
+	rl.moveCursorByRuneAdjust(rl.viJumpB(tokeniseLine))
+}
