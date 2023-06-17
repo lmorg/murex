@@ -181,12 +181,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 		switch b[0] {
 		case charCtrlA:
-			if rl.line.RuneLen() == 0 {
-				continue
-			}
-			rl.clearHelpers()
-			rl.line.SetCellPos(1)
-			rl.echo()
+			HkFnMoveToStartOfLine(rl)
 
 		case charCtrlC:
 			rl.clearHelpers()
@@ -197,65 +192,25 @@ func (rl *Instance) Readline() (_ string, err error) {
 			return "", EOF
 
 		case charCtrlE:
-			if rl.line.RuneLen() == 0 {
-				continue
-			}
-			rl.clearHelpers()
-			rl.line.SetRunePos(rl.line.RuneLen())
-			rl.echo()
-			moveCursorForwards(1)
+			HkFnMoveToEndOfLine(rl)
 
 		case charCtrlF:
-			if !rl.modeTabCompletion {
-				rl.modeAutoFind = true
-				rl.getTabCompletion()
-			}
-
-			rl.modeTabFind = true
-			rl.updateTabFind([]rune{})
-			rl.viUndoSkipAppend = true
+			HkFnFuzzyFind(rl)
 
 		case charCtrlK:
-			if rl.line.RuneLen() == 0 {
-				continue
-			}
-			rl.clearHelpers()
-			rl.line.Set(rl.line.Runes()[:rl.line.RunePos()])
-			rl.echo()
-			moveCursorForwards(1)
+			HkFnClearAfterCursor(rl)
 
 		case charCtrlL:
-			print(seqSetCursorPosTopLeft + seqClearScreen)
-			rl.echo()
-			rl.renderHelpers()
+			HkFnClearScreen(rl)
 
 		case charCtrlR:
-			rl.modeAutoFind = true
-			rl.tcOffset = 0
-			rl.modeTabCompletion = true
-			rl.tcDisplayType = TabDisplayMap
-			rl.tabMutex.Lock()
-			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
-			rl.tabMutex.Unlock()
-			rl.initTabCompletion()
-
-			rl.modeTabFind = true
-			rl.updateTabFind([]rune{})
-			rl.viUndoSkipAppend = true
+			HkFnSearchHistory(rl)
 
 		case charCtrlU:
-			rl.clearPrompt()
-			rl.resetHelpers()
+			HkFnClearLine(rl)
 
 		case charTab:
-			if rl.modeTabCompletion {
-				rl.moveTabCompletionHighlight(1, 0)
-			} else {
-				rl.getTabCompletion()
-			}
-
-			rl.renderHelpers()
-			rl.viUndoSkipAppend = true
+			HkFnAutocomplete(rl)
 
 		case '\r':
 			fallthrough
