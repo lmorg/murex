@@ -64,14 +64,14 @@ func getMultilinePrompt(nLines int) []byte {
 
 func writeTitlebar() {
 	v, err := lang.ShellProcess.Config.Get("shell", "titlebar-func", types.CodeBlock)
-	prompt, ok := v.(string)
-	if !ok || err != nil || len(prompt) == 0 {
+	title, ok := v.(string)
+	if !ok || err != nil || title == `out: ''` {
 		return
 	}
 
 	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
 	fork.Name.Set("(titlebar-func)")
-	exitNum, err := fork.Execute([]rune(prompt))
+	exitNum, err := fork.Execute([]rune(title))
 
 	var b []byte
 	if err == nil {
