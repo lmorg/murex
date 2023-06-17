@@ -72,13 +72,6 @@
 
     * error not handled in regexp expression matches, `=~`
 
-
-
-
-
-
-
-
   Related:
     - parser/string
     - user-guide/terminal-keys
