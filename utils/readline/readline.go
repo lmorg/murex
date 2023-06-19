@@ -197,6 +197,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 		case charCtrlF:
 			HkFnFuzzyFind(rl)
 
+		case charCtrlG:
+			HkFnCancelAction(rl)
+
 		case charCtrlK:
 			HkFnClearAfterCursor(rl)
 
@@ -273,32 +276,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 func (rl *Instance) escapeSeq(r []rune) {
 	switch string(r) {
-	case string([]rune{charEscape}):
-		switch {
-		case rl.modeAutoFind:
-			rl.resetTabFind()
-			rl.clearHelpers()
-			rl.resetTabCompletion()
-			rl.renderHelpers()
-
-		case rl.modeTabFind:
-			rl.resetTabFind()
-
-		case rl.modeTabCompletion:
-			rl.clearHelpers()
-			rl.resetTabCompletion()
-			rl.renderHelpers()
-
-		default:
-			if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
-				rl.line.SetRunePos(rl.line.RunePos() - 1)
-				moveCursorBackwards(1)
-			}
-			rl.modeViMode = vimKeys
-			rl.viIteration = ""
-			rl.viHintMessage()
-		}
-		rl.viUndoSkipAppend = true
+	case seqEscape:
+		HkFnCancelAction(rl)
 
 	case seqDelete:
 		if rl.modeTabFind {

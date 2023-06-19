@@ -84,3 +84,31 @@ func HkFnJumpForwards(rl *Instance) {
 func HkFnJumpBackwards(rl *Instance) {
 	rl.moveCursorByRuneAdjust(rl.viJumpB(tokeniseLine))
 }
+
+func HkFnCancelAction(rl *Instance) {
+	switch {
+	case rl.modeAutoFind:
+		rl.resetTabFind()
+		rl.clearHelpers()
+		rl.resetTabCompletion()
+		rl.renderHelpers()
+
+	case rl.modeTabFind:
+		rl.resetTabFind()
+
+	case rl.modeTabCompletion:
+		rl.clearHelpers()
+		rl.resetTabCompletion()
+		rl.renderHelpers()
+
+	default:
+		if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
+			rl.line.SetRunePos(rl.line.RunePos() - 1)
+			moveCursorBackwards(1)
+		}
+		rl.modeViMode = vimKeys
+		rl.viIteration = ""
+		rl.viHintMessage()
+	}
+	rl.viUndoSkipAppend = true
+}

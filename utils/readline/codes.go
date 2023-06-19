@@ -134,9 +134,11 @@ const (
 	seqBgWhiteBright   = "\x1b[1;47m"*/
 )
 
-// generated using:
-// a [a..z] -> foreach c { -> tr [:lower:] [:upper:] -> set C; out (seqAlt$C = "\x1b$c") }
 const (
+	seqEscape = "\x1b"
+
+	// generated using:
+	// a [a..z] -> foreach c { -> tr [:lower:] [:upper:] -> set C; out (seqAlt$C = "\x1b$c") }
 	seqAltA = "\x1ba"
 	seqAltB = "\x1bb"
 	seqAltC = "\x1bc"
