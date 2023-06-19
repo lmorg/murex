@@ -17,6 +17,10 @@ import (
 	"github.com/lmorg/murex/utils/consts"
 )
 
+func MatchDirectories(prefix string, act *AutoCompleteT) {
+	act.append(matchDirs(prefix, act)...)
+}
+
 func matchDirs(s string, act *AutoCompleteT) []string {
 	return matchFilesystem(s, false, "", act)
 }
