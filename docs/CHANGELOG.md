@@ -4,11 +4,6 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
-### 19.06.2023 - [What's new in murex v4.2](changelog/v4.2.md)
-
-Murex usage has raised considerably in recent weeks. This release addresses a number of feature requests and bugs raised
-
-
 ### 04.06.2023 - [What's new in murex v4.1.x](changelog/v4.1.md)
 
 The previous releases have brought significant advancements to Murex's syntax but at the cost of longer gaps between releases. So the 4.1.x versions will be shorter releases but focusing on bug fixes. The 4.1.x release notes will be appended to [murex.rocks changelog](https://murex.rocks/docs/changelog/v4.1.html) and available on [Github releases](https://github.com/lmorg/murex/releases) too

@@ -793,9 +793,9 @@ openagent set image {
 
     if { = mode==`auto` } {
         switch {
+            case { $TMUX }                        { set mode=compatible }
             case { $ITERM_PROFILE }               { set mode=iterm }
             case { $TERM_PROGRAM == "iTerm.app" } { set mode=iterm }
-            case { $TMUX }                        { set mode=compatible }
             case { $KITTY_WINDOW_ID }             { set mode=kitty }
             case { $TERM == "xterm-kitty" }       { set mode=kitty }
             case { $TERMINOLOGY }                 { set mode=terminology }
