@@ -79,7 +79,7 @@ func writeTitlebar() {
 		b = utils.CrLfTrim(b)
 	}
 
-	if exitNum != 0 || err != nil || len(b) == 0 {
+	if exitNum != 0 || err != nil {
 		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("Invalid titlebar-func: %V", err)))
 		ansititle.Write([]byte(app.Name))
 	}
