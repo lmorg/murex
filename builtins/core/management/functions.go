@@ -17,7 +17,6 @@ import (
 )
 
 func init() {
-	//lang.GoFunctions["debug"] = cmdDebug
 	lang.DefineMethod("debug", cmdDebug, types.Any, types.Json)
 	lang.DefineFunction("exitnum", cmdExitNum, types.Integer)
 	lang.DefineFunction("bexists", cmdBuiltinExists, types.Json)

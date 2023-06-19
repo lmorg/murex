@@ -1,0 +1,79 @@
+- DocumentID: v4.2
+  Title: >-
+    What's new in murex v4.2
+  CategoryID: changelog
+  DateTime: 2023-06-19 23:15
+  Summary: >-
+    Murex usage has raised considerably in recent weeks. This release addresses a number of feature requests and bugs raised on Github.
+  Description: |-
+    ### Breaking Changes
+
+    none
+
+    ### Features
+
+    * new flag in `foreach`: `--step <int>`. This allows the `foreach` to jump indexes at a time. When used, all the lines jumped are merged into a JSON array and that is passed to the `foreach` nested code block
+
+    * new alias `builtin` => `fexec builtin`. This was added to bring more familiarity to those coming from Bash et al ([#608](https://github.com/lmorg/murex/issues/608))
+
+    * on Darwin, Homebrew defaults are imported, just like you'd expect them to be from any other shell
+
+    * aa few new hotkeys ([#611](https://github.com/lmorg/murex/issues/611)) ([#613](https://github.com/lmorg/murex/issues/613)):
+
+      1. `ctrl`+`a`: jump to beginning of line
+
+      2. `ctrl`+`e`: jump to end of line
+
+      3. `alt`+`f`: jump forwards a word at a time
+
+      4. `alt`+`b`: jump backwards a word at a time
+
+      5. `ctrl`+`k`: clear line after cursor position
+
+      6. `ctrl`+`l`: clear entire screen
+
+      7. `ctrl`+`g`: same as `esc`
+
+    * `open`` builtin should fallback to system default if type unknown ([#620](https://github.com/lmorg/murex/issues/620))
+
+    * `pre-prompt-func` added to `config`. Block runs before the interactive prompt is displayed
+
+    * `post-prompt-func` added to `config`. Block runs after the interactive prompt has been exited but before any command lines have been executed
+
+    * **auto-cd** option added to `config`: `config: set shell auto-cd true`. This allows you to traverse directories without having to prefix `cd`. By default it is disabled
+
+    * Meta values added to `foreach`, `formap`, and `while`. Meta values are a `$.` variable that holds meta-information about the running block, such as the number of iterations in a loop
+
+    * `command` alias for `exec` (for familiarity with Bash)
+
+    * `builtin` alias for `fexec builtin` (for familiarity with Bash)
+
+    ### Bug Fixes:
+
+    * brace encapsulated variables, eg `$(foobar)`, now autocomplete as expected
+
+    * improvements to inlining images in iTerm2 when shell running on top of `tmux`. It still doesn't work reliably but this is an issue with `tmux` rather than Murex
+
+    * `method` forwards exceptions rather than errors. This behaviour has been changed to surface issues as errors
+
+    * `profile_preload.mx` added to profile defaults. This will be loaded before any of the OS-specific profiles
+
+    * missing rune length check causing the shell to panic ([#617](https://github.com/lmorg/murex/issues/617))
+
+    * fixed deadlock in flag parsing
+
+    * zero length string title bars should be ignored ([#614](https://github.com/lmorg/murex/issues/614))
+
+    * minor improvements to documentation 
+
+  Related:
+    - parser/string
+    - user-guide/terminal-keys
+    - user-guide/interactive-shell
+    - commands/count
+    - commands/function
+    - parser/create-array
+    - parser/create-object
+    - types/path
+    - types/paths
+

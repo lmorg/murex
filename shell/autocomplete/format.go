@@ -39,7 +39,7 @@ func formatSuggestionsArray(pt parser.ParsedTokens, items []string) {
 			if items[i][len(items[i])-1] != ' ' &&
 				items[i][len(items[i])-1] != '=' &&
 				items[i][len(items[i])-1] != '/' &&
-				len(pt.Variable) == 0 {
+				len(pt.VarSigil) == 0 {
 
 				items[i] += " "
 			}
@@ -79,7 +79,7 @@ func formatSuggestionsMap(pt parser.ParsedTokens, definitions *map[string]string
 			if newKey[len(newKey)-1] != ' ' &&
 				newKey[len(newKey)-1] != '=' &&
 				newKey[len(newKey)-1] != '/' &&
-				len(pt.Variable) == 0 {
+				len(pt.VarSigil) == 0 {
 
 				newKey += " "
 			}

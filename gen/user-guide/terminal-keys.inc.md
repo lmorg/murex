@@ -105,7 +105,24 @@ Press `i` to return to normal editing mode.
 * `%`: jump to either end of matching bracket
 * `0` to `9`: repeat action _n_ times. eg `5x` would delete five (`5`) characters (`x`)
 
-### Full Screen Editing via `$EDITOR`
+### Full screen editing via `$EDITOR`
 
 When in "vim keys" mode, press `v` to bring up the visual editor. The editor
 will be whichever command is stored in the `$EDITOR` environmental variable.
+
+## Recalling previous words
+
+* `alt`+`1` recalls the first word
+* `alt`+`2` recalls the second word
+* ...
+* `alt`+`9` recalls the ninth word
+
+For example (code inside square brackets represent key presses rather than text):
+
+```
+» echo two three four five six seven eight nine
+two three four five six seven eight nine
+» [alt+1]echo [alt+5]five
+```
+
+Please note this isn't currently supported on all terminal emulators.

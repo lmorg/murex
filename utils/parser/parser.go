@@ -10,7 +10,7 @@ import (
 
 // syntax highlighting
 var (
-	hlFunction    = codes.Bold //+ codes.FgGreen
+	hlFunction    = codes.Bold
 	hlVariable    = codes.FgGreen
 	hlEscaped     = codes.FgYellow
 	hlSingleQuote = codes.FgBlue
@@ -32,6 +32,7 @@ type ParsedTokens struct {
 	Loc           int
 	VarLoc        int
 	VarBrace      bool
+	VarSigil      string
 	Escaped       bool
 	Comment       bool
 	CommentMsg    string
@@ -48,13 +49,12 @@ type ParsedTokens struct {
 	LastFuncName  string
 	FuncName      string
 	Parameters    []string
-	Variable      string
 	Unsafe        bool // if the pipeline is estimated to be safe enough to dynamically preview
 	LastFlowToken int
 	PipeToken     PipeToken
 }
 
-// PipeToken stores an interger value for the pipe token used in a pipeline
+// PipeToken stores an integer value for the pipe token used in a pipeline
 type PipeToken int
 
 // These are different pipe tokens
@@ -137,17 +137,17 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			pt.LastCharacter = block[i]
 		}
 
-		if pt.Variable != "" {
+		if pt.VarSigil != "" {
 			if !pt.VarBrace {
 				if !rxAllowedVarChars.MatchString(string(block[i])) {
-					pt.Variable = ""
+					pt.VarSigil = ""
 					ansiResetNoChar()
 				}
 			} else {
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
 				if block[i] == ')' {
-					pt.Variable = ""
+					pt.VarSigil = ""
 					ansiResetNoChar()
 				}
 				continue
@@ -290,8 +290,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.ExpectFunc = false
 				readFunc = false
 				pt.ExpectParam = true
-				//pt.Parameters = append(pt.Parameters, "")
-				//pt.pop = &pt.Parameters[0]
 				pt.Unsafe = isCmdUnsafe(pt.FuncName) || pt.Unsafe
 				ansiReset(block[i])
 			case pt.ExpectFunc:
@@ -368,11 +366,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					pt.PipeToken = PipeTokenGeneric
 				}
 				pt.pop = &pt.FuncName
-				//pt.Unsafe = true
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				syntaxHighlighted = syntaxHighlighted[:len(syntaxHighlighted)-1]
-				//ansiColour(hlPipe, '-')
 				ansiColour(hlPipe, block[i-1])
 				ansiReset('>')
 				syntaxHighlighted += hlFunction
@@ -426,7 +422,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenPosix
 				pt.pop = &pt.FuncName
-				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				if next('>') {
@@ -471,7 +466,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
-				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, '&', '&')
@@ -499,7 +493,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
-				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
@@ -524,7 +517,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenNone
 				pt.pop = &pt.FuncName
-				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				ansiChar(hlPipe, block[i])
@@ -548,7 +540,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 				pt.SquareBracket = false
 				pt.PipeToken = PipeTokenRedirect
 				pt.pop = &pt.FuncName
-				//pt.FuncName = ""
 				pt.LastFuncName = pt.FuncName
 				pt.Parameters = make([]string, 0)
 				pt.Unsafe = true
@@ -577,7 +568,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					i := pt.NestedBlock % len(hlBlock)
 					syntaxHighlighted += hlBlock[i] + "{" + codes.Reset + hlFunction
 				} else {
-					syntaxHighlighted += hlError + "{" //+ codes.Reset
+					syntaxHighlighted += hlError + "{"
 				}
 			}
 
@@ -593,7 +584,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 					i := pt.NestedBlock % len(hlBlock)
 					syntaxHighlighted += hlBlock[i] + "}" + codes.Reset
 				} else {
-					syntaxHighlighted += hlError + "}" //+ codes.Reset
+					syntaxHighlighted += hlError + "}"
 				}
 				pt.NestedBlock--
 				if pt.NestedBlock == 0 {
@@ -608,9 +599,7 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case readFunc:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
-				//if i > 0 && block[0] == '^' {
 				pt.SquareBracket = true
-				//}
 			case pt.ExpectFunc:
 				*pt.pop = string(block[i])
 				readFunc = true
@@ -640,7 +629,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			}
 
 		case '$':
-			pt.VarLoc = i
 			switch {
 			case pt.Escaped:
 				escaped()
@@ -650,30 +638,35 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			default:
 				pt.Unsafe = true
 				*pt.pop += string(block[i])
-				pt.Variable = string(block[i])
+				pt.VarSigil = string(block[i])
 				ansiColour(hlVariable, block[i])
 				if next('(') {
+					pt.VarLoc = i + 1
 					pt.VarBrace = true
+				} else {
+					pt.VarLoc = i
+					pt.VarBrace = false
 				}
 			}
 
 		case '@':
-			pt.VarLoc = i
 			switch {
 			case pt.Escaped:
 				escaped()
-			case pt.QuoteSingle:
+			case pt.QuoteSingle, next(' '), next('\t'):
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
 			default:
 				pt.Unsafe = true
 				*pt.pop += string(block[i])
-
-				if i > 0 && (block[i-1] == ' ' || block[i-1] == '\t') {
-					pt.Variable = string(block[i])
-					ansiColour(hlVariable, block[i])
+				pt.VarSigil = string(block[i])
+				ansiColour(hlVariable, block[i])
+				if next('(') {
+					pt.VarLoc = i + 1
+					pt.VarBrace = true
 				} else {
-					syntaxHighlighted += string(block[i])
+					pt.VarLoc = i
+					pt.VarBrace = false
 				}
 			}
 
@@ -700,7 +693,6 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.Escaped:
 				pt.Escaped = false
 				ansiReset(block[i])
-				//ansiResetNoChar()
 				switch block[i] {
 				case 'r':
 					*pt.pop = "\r"

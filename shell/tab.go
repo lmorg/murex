@@ -56,12 +56,12 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 	Prompt.MaxTabCompleterRows = rows.(int)
 
 	switch {
-	case pt.Variable != "":
+	case pt.VarSigil != "":
 		//panic(json.LazyLoggingPretty(pt))
 		if pt.VarLoc < len(line) {
 			r.Prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
-		r.Prefix = pt.Variable + r.Prefix
+		r.Prefix = pt.VarSigil + r.Prefix
 		if strings.Contains(r.Prefix, ".") {
 			name := strings.Split(r.Prefix, ".")[0][1:]
 			v, err := lang.ShellProcess.Variables.GetValue(name)
@@ -121,6 +121,13 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		r.Preview = preview.Command
 
 		switch pt.PipeToken {
+		case parser.PipeTokenNone:
+			v, _ := lang.ShellProcess.Config.Get("shell", "auto-cd", types.Boolean)
+			autoCd, _ := v.(bool)
+			if autoCd {
+				autocomplete.MatchDirectories(r.Prefix, &act)
+			}
+
 		case parser.PipeTokenPosix:
 			autocomplete.MatchFunction(r.Prefix, &act)
 		case parser.PipeTokenArrow:

@@ -60,6 +60,17 @@ There is an order of precedence for which commands are looked up:
 
 You can override this order of precedence via the `fexec` and `exec` builtins.
 
+### Compatibility with POSIX
+
+For compatibility with traditional shells like Bash and Zsh, `builtin` is an
+alias to `fexec builtin
+
+## Synonyms
+
+* `fexec`
+* `builtin`
+
+
 ## See Also
 
 * [`alias`](../commands/alias.md):

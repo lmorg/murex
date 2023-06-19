@@ -16,14 +16,14 @@ type Arguments struct {
 // ParseFlags parses the parameters and return which flags are set.
 // `Arguments` is a list of supported flags taken as a struct to enable easy querying from within murex shell scripts.
 //
-// 	   args {
-// 	   	   "allowadditional": true,
-// 	   	   "flags": {
-// 	 	     "--str": "str",
-// 	 	     "--num": "num",
-// 	 	     "--bool": "bool",
-// 	 	     "-b": "--bool"
-// 	   }
+//	  args {
+//	  	   "allowadditional": true,
+//	  	   "flags": {
+//		     "--str": "str",
+//		     "--num": "num",
+//		     "--bool": "bool",
+//		     "-b": "--bool"
+//	  }
 func ParseFlags(params []string, args *Arguments) (flags map[string]string, additional []string, err error) {
 	var previous string
 	flags = make(map[string]string)
@@ -70,7 +70,7 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 // lang.Process.Parameters object
 func (p *Parameters) ParseFlags(args *Arguments) (flags map[string]string, additional []string, err error) {
 	p.mutex.RLock()
-	defer p.mutex.RLocker()
+	defer p.mutex.RUnlock()
 
 	return ParseFlags(p.params, args)
 }

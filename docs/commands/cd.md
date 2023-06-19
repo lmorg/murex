@@ -32,6 +32,14 @@ You can then use that to change to a previous directory
     
     # Change to a previous directory
     » cd $PWDHIST[0]
+    
+### auto-cd
+
+Some people prefer to omit `cd` and just write the path, with their shell
+automatically changing to that directory if the "command" is just a directory.
+In Murex you can enable this behaviour by turning on "auto-cd":
+
+    config: set shell auto-cd true
 
 ## See Also
 

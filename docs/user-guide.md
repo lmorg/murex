@@ -251,7 +251,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 * [`murex-parser` ](commands/murex-parser.md):
   Runs the Murex parser against a block of code 
 * [`murex-update-exe-list`](commands/murex-update-exe-list.md):
-  Forces Murex to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for executables
 * [`null`](commands/devnull.md):
   null function. Similar to /dev/null
 * [`open-image` ](commands/open-image.md):

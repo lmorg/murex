@@ -12,7 +12,7 @@ import (
 // globbing
 var noGlobCmds = []string{
 	"rx", "!rx", "g", "!g", "cast", "format", "select", "!regexp", "regexp",
-	"find", "[", "![", "[[",
+	"find", "[", "![", "[[", "test",
 	lang.ExpressionFunctionName,
 }
 

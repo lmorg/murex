@@ -13,6 +13,8 @@
     terminal (eg using inlining images)
   - If STDOUT is a pipe then it will write a byte stream with the relevant
     data-type
+4. If there are no open handlers then it will fallback to the systems default.
+   eg `open` (on macOS, Linux), `open-xdg` (X11), etc.
 
 ## Usage
 
@@ -185,6 +187,16 @@ func MimeToMurex(mimeType string) string {
             "Value": "murex/1.7.0000 BETA"
         }
     }
+    
+### Open Flags
+
+If the `open` builtin falls back to using the systems default (like `open-xdg`)
+then the only thing that gets passed is the path being opened. If the path is
+stdin then a temporary file will be created. If you want to pass command line
+flags to `open-xdg` (for example), then you need to call that command directly.
+In the case of macOS and some Linux systems, that might look like:
+
+    exec open --flags filename
 
 ## See Also
 

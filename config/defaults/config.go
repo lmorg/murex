@@ -27,6 +27,20 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	c.Define("shell", "pre-prompt-func", config.Properties{
+		Description: "Code block executed before the interactive shell prompt",
+		Default:     "{  }",
+		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
+	c.Define("shell", "post-prompt-func", config.Properties{
+		Description: "Code block executed after the interactive shell prompt but before any running command lines",
+		Default:     "{  }",
+		DataType:    types.CodeBlock,
+		Global:      true,
+	})
+
 	c.Define("shell", "prompt-multiline", config.Properties{
 		Description: "Shell prompt when command line string spans multiple lines",
 		Default:     `{ out "$linenum » " }`,
@@ -138,9 +152,13 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
+	var defaultTitleBarFunc string
+	if runtime.GOOS != "windows" {
+		defaultTitleBarFunc = `{ out "$(USER)\@$(HOSTNAME):$(PWD)" }`
+	}
 	c.Define("shell", "titlebar-func", config.Properties{
-		Description: "Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carrage returns and tabs are replaced with spaces",
-		Default:     `{ out "$USER@$HOSTNAME:$PWD" }`,
+		Description: "Linux and UNIX only! Murex function to define your terminal emulators title bar text while you're sat on a prompt. Carriage returns and tabs are replaced with spaces",
+		Default:     defaultTitleBarFunc,
 		DataType:    types.CodeBlock,
 		Global:      true,
 	})
@@ -285,7 +303,14 @@ func Config(c *config.Config, isInteractive bool) {
 	c.Define("shell", "preview-images", config.Properties{
 		Description: "If set, file previews will display images as ANSI art rendered graphics rather than text descriptions",
 		Default:     true, //tty.Enabled(),
-		DataType:    types.String,
+		DataType:    types.Boolean,
+		Global:      true,
+	})
+
+	c.Define("shell", "auto-cd", config.Properties{
+		Description: "If set, `cd` is assumed when directory path supplied as a command",
+		Default:     false,
+		DataType:    types.Boolean,
 		Global:      true,
 	})
 

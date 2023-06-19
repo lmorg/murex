@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 	"time"
 
@@ -107,7 +108,6 @@ func writeError(p *Process, err error) []byte {
 }
 
 func createProcess(p *Process, isMethod bool) {
-	//debug.Json("Creating process", p)
 	GlobalFIDs.Register(p) // This also registers the variables process
 	p.CreationTime = time.Now()
 
@@ -207,7 +207,6 @@ func createProcess(p *Process, isMethod bool) {
 }
 
 func executeProcess(p *Process) {
-	//debug.Json("Execute process ()", p.Dump())
 	testStates(p)
 
 	if p.HasTerminated() || p.HasCancelled() ||
@@ -251,8 +250,6 @@ func executeProcess(p *Process) {
 	}
 
 executeProcess:
-	//debug.Json("Execute process (executeProcess)", p)
-
 	if !p.Background.Get() || debug.Enabled {
 		if echo.(bool) {
 			params := strings.Replace(strings.Join(p.Parameters.StringArray(), `", "`), "\n", "\n# ", -1)
@@ -263,7 +260,7 @@ executeProcess:
 			ansititle.Tmux([]byte(name))
 		}
 
-		ansititle.Write([]byte(name))
+		//ansititle.Write([]byte(name))
 	}
 
 	// execution mode:
@@ -307,6 +304,19 @@ executeProcess:
 		err = GoFunctions[name](p)
 
 	default:
+		if p.Parameters.Len() == 0 {
+			v, _ := ShellProcess.Config.Get("shell", "auto-cd", types.Boolean)
+			autoCd, _ := v.(bool)
+			if autoCd {
+				fileInfo, _ := os.Stat(name)
+				if fileInfo != nil && fileInfo.IsDir() {
+					p.Parameters.Prepend([]string{name})
+					name = "cd"
+					goto executeProcess
+				}
+			}
+		}
+
 		// shell execute
 		p.Parameters.Prepend([]string{name})
 		p.Name.Set("exec")

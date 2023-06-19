@@ -42,7 +42,10 @@ func cmdForMapDefault(p *lang.Process) error {
 		return err
 	}
 
-	var varErr error
+	var (
+		varErr    error
+		iteration int
+	)
 	err = p.Stdin.ReadMap(p.Config, func(readmap *stdio.Map) {
 		if p.HasCancelled() {
 			return
@@ -62,6 +65,10 @@ func cmdForMapDefault(p *lang.Process) error {
 				p.Done()
 				return
 			}
+		}
+		iteration++
+		if !setMetaValues(p, iteration) {
+			return
 		}
 
 		fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
@@ -100,18 +107,34 @@ func cmdForMapJmap(p *lang.Process) error {
 		return err
 	}
 
-	m := make(map[string]string)
-
+	var (
+		m         = make(map[string]string)
+		varErr    error
+		iteration int
+	)
 	err = p.Stdin.ReadMap(p.Config, func(readmap *stdio.Map) {
 		if p.HasCancelled() {
 			return
 		}
 
 		if varKey != "!" {
-			p.Variables.Set(p, varKey, readmap.Key, types.String)
+			varErr = p.Variables.Set(p, varKey, readmap.Key, types.String)
+			if varErr != nil {
+				p.Done()
+				return
+			}
 		}
+
 		if varVal != "!" {
-			p.Variables.Set(p, varVal, readmap.Value, readmap.DataType)
+			varErr = p.Variables.Set(p, varVal, readmap.Value, readmap.DataType)
+			if varErr != nil {
+				p.Done()
+				return
+			}
+		}
+		iteration++
+		if !setMetaValues(p, iteration) {
+			return
 		}
 
 		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)

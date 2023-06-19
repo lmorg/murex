@@ -49,6 +49,17 @@ notice that all external processes are listed as `exec` with the process name
 as part of `exec`'s parameters. That is because `exec` is handler for programs
 that aren't native to Murex.
 
+### Compatibility with POSIX
+
+For compatibility with traditional shells like Bash and Zsh, `command` is an
+alias for `exec`.
+
+## Synonyms
+
+* `exec`
+* `command`
+
+
 ## See Also
 
 * [`bexists`](../commands/bexists.md):
@@ -57,6 +68,8 @@ that aren't native to Murex.
   Run processes in the background
 * [`builtins`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex
+* [`fexec` ](../commands/fexec.md):
+  Execute a command or function, bypassing the usual order of precedence.
 * [`fg`](../commands/fg.md):
   Sends a background process into the foreground
 * [`fid-kill`](../commands/fid-kill.md):
@@ -68,6 +81,6 @@ that aren't native to Murex.
 * [`jobs`](../commands/fid-list.md):
   Lists all running functions within the current Murex session
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
-  Forces Murex to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for executables
 * [`set`](../commands/set.md):
   Define a local variable and set it's value

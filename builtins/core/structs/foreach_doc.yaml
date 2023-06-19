@@ -73,11 +73,61 @@
         "Wed": "Wednesday"
     } 
     ```
+
+    ### Using steps to jump iterations by more than 1 (one)
+
+    You can step through an array, list or table in jumps of user definable
+    quantities. The value passed in STDIN and $VAR will be an array of all
+    the records within that step range. For example:
+
+    ```
+    » %[1..10] -> foreach --step 3 value { out "Iteration $.i: $value" }
+    Iteration 1: [
+        1,
+        2,
+        3
+    ]
+    Iteration 2: [
+        4,
+        5,
+        6
+    ]
+    Iteration 3: [
+        7,
+        8,
+        9
+    ]
+    Iteration 4: [
+        10
+    ]
+    ```
   Flags:
     --jmap: >-
       Write a `json` map to STDOUT instead of an array
+    --step: >-
+      <int> Iterates in steps. Value passed to block is an array of items in the step range. Not (yet) supported with `--jmap`
+
   Detail: |-
-    ### Preserving The Data Type (when no flags used)
+    ### Meta values
+
+    Meta values are a JSON object stored as the variable `$.`. The meta variable
+    will get overwritten by any other block which invokes meta values. So if you
+    wish to persist meta values across blocks you will need to reassign `$.`, eg
+
+    ```
+    %[1..3] -> foreach {
+        meta_parent = $.
+        %[7..9] -> foreach {
+            out "$(meta_parent.i): $.i"
+        }
+    }
+    ```
+
+    The following meta values are defined:
+
+    * `i`: iteration number
+
+    ### Preserving the data type (when no flags used)
 
     `foreach` will preserve the data type read from STDIN in all instances where
     data is being passed along the pipeline and push that data type out at the

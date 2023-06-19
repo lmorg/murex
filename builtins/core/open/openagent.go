@@ -2,6 +2,7 @@ package open
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/config/defaults"
 	"github.com/lmorg/murex/lang"
@@ -77,6 +78,6 @@ func shell(p *lang.Process) error {
 		return nil
 
 	default:
-		return errors.New("Invalid option. " + usage)
+		return fmt.Errorf("invalid option\n%s", usage)
 	}
 }

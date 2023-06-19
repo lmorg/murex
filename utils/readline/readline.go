@@ -180,6 +180,9 @@ func (rl *Instance) Readline() (_ string, err error) {
 		}
 
 		switch b[0] {
+		case charCtrlA:
+			HkFnMoveToStartOfLine(rl)
+
 		case charCtrlC:
 			rl.clearHelpers()
 			return "", CtrlC
@@ -188,43 +191,29 @@ func (rl *Instance) Readline() (_ string, err error) {
 			rl.clearHelpers()
 			return "", EOF
 
-		case charCtrlF:
-			if !rl.modeTabCompletion {
-				rl.modeAutoFind = true
-				rl.getTabCompletion()
-			}
+		case charCtrlE:
+			HkFnMoveToEndOfLine(rl)
 
-			rl.modeTabFind = true
-			rl.updateTabFind([]rune{})
-			rl.viUndoSkipAppend = true
+		case charCtrlF:
+			HkFnFuzzyFind(rl)
+
+		case charCtrlG:
+			HkFnCancelAction(rl)
+
+		case charCtrlK:
+			HkFnClearAfterCursor(rl)
+
+		case charCtrlL:
+			HkFnClearScreen(rl)
 
 		case charCtrlR:
-			rl.modeAutoFind = true
-			rl.tcOffset = 0
-			rl.modeTabCompletion = true
-			rl.tcDisplayType = TabDisplayMap
-			rl.tabMutex.Lock()
-			rl.tcSuggestions, rl.tcDescriptions = rl.autocompleteHistory()
-			rl.tabMutex.Unlock()
-			rl.initTabCompletion()
-
-			rl.modeTabFind = true
-			rl.updateTabFind([]rune{})
-			rl.viUndoSkipAppend = true
+			HkFnSearchHistory(rl)
 
 		case charCtrlU:
-			rl.clearPrompt()
-			rl.resetHelpers()
+			HkFnClearLine(rl)
 
 		case charTab:
-			if rl.modeTabCompletion {
-				rl.moveTabCompletionHighlight(1, 0)
-			} else {
-				rl.getTabCompletion()
-			}
-
-			rl.renderHelpers()
-			rl.viUndoSkipAppend = true
+			HkFnAutocomplete(rl)
 
 		case '\r':
 			fallthrough
@@ -287,32 +276,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 
 func (rl *Instance) escapeSeq(r []rune) {
 	switch string(r) {
-	case string([]rune{charEscape}):
-		switch {
-		case rl.modeAutoFind:
-			rl.resetTabFind()
-			rl.clearHelpers()
-			rl.resetTabCompletion()
-			rl.renderHelpers()
-
-		case rl.modeTabFind:
-			rl.resetTabFind()
-
-		case rl.modeTabCompletion:
-			rl.clearHelpers()
-			rl.resetTabCompletion()
-			rl.renderHelpers()
-
-		default:
-			if rl.line.RunePos() == rl.line.RuneLen() && rl.line.RuneLen() > 0 {
-				rl.line.SetRunePos(rl.line.RunePos() - 1)
-				moveCursorBackwards(1)
-			}
-			rl.modeViMode = vimKeys
-			rl.viIteration = ""
-			rl.viHintMessage()
-		}
-		rl.viUndoSkipAppend = true
+	case seqEscape:
+		HkFnCancelAction(rl)
 
 	case seqDelete:
 		if rl.modeTabFind {
@@ -437,6 +402,12 @@ func (rl *Instance) escapeSeq(r []rune) {
 		//rl.screenRefresh()
 		return
 
+	case seqAltF:
+		HkFnJumpForwards(rl)
+
+	case seqAltB:
+		HkFnJumpBackwards(rl)
+
 	default:
 		if rl.modeTabFind /*|| rl.modeAutoFind*/ {
 			//rl.modeTabFind = false
@@ -471,6 +442,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 // entry readline is currently configured for and then update the line entries
 // accordingly.
 func (rl *Instance) readlineInput(r []rune) {
+	if len(r) == 0 {
+		return
+	}
+
 	switch rl.modeViMode {
 	case vimKeys:
 		rl.vi(r[0])

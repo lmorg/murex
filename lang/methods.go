@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/lmorg/murex/debug"
@@ -55,12 +56,17 @@ func (m *methods) Define(cmd, dataType string) {
 }
 
 // Degroup takes the commands assigned to group types and sorts them back into individual types
-func (m *methods) Degroup() {
+func (m *methods) Degroup() error {
 	for group := range m.dt {
 		if group[0] == '@' && group != types.Any {
-			m.degroup(group, groups(group))
+			gs, err := groups(group)
+			if err != nil {
+				return err
+			}
+			m.degroup(group, gs)
 		}
 	}
+	return nil
 }
 
 func (m *methods) degroup(group string, dataTypes []string) {
@@ -75,40 +81,40 @@ func (m *methods) degroup(group string, dataTypes []string) {
 	m.mutex.Unlock()
 }
 
-func groups(group string) []string {
+func groups(group string) ([]string, error) {
 	switch group {
 	case types.Text:
-		return types.GroupText
+		return types.GroupText, nil
 
 	case types.Math:
-		return types.GroupMath
+		return types.GroupMath, nil
 
 	case types.Marshal:
-		return DumpUnmarshaller()
+		return DumpUnmarshaller(), nil
 
 	case types.Unmarshal:
-		return DumpMarshaller()
+		return DumpMarshaller(), nil
 
 	case types.ReadArray:
-		return stdio.DumpReadArray()
+		return stdio.DumpReadArray(), nil
 
 	case types.ReadArrayWithType:
-		return stdio.DumpReadArrayWithType()
+		return stdio.DumpReadArrayWithType(), nil
 
 	case types.WriteArray:
-		return stdio.DumpWriteArray()
+		return stdio.DumpWriteArray(), nil
 
 	case types.ReadMap:
-		return stdio.DumpMap()
+		return stdio.DumpMap(), nil
 
 	case types.ReadIndex:
-		return DumpIndex()
+		return DumpIndex(), nil
 
 	case types.ReadNotIndex:
-		return DumpNotIndex()
+		return DumpNotIndex(), nil
 
 	default:
-		panic("Group name doesn't have a programmed list of data types: " + group)
+		return nil, fmt.Errorf("group name doesn't have a programmed list of data types: %s", group)
 	}
 }
 

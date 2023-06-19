@@ -13,12 +13,21 @@ coverage:
         threshold: 1%
         if_ci_failed: success
       docgen:
+#        target: 70
+        threshold: 1%
+        if_ci_failed: success
         paths:
           - tools/docgen
       readline:
+#        target: 70
+        threshold: 1%
+        if_ci_failed: success
         paths:
           - utils/readline
       wasmserver:
+#        target: 70
+        threshold: 1%
+        if_ci_failed: success
         paths:
           - utils/wasmserver
 

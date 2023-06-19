@@ -51,11 +51,10 @@ func OpenPipe(p *lang.Process, pipe stdio.Io) error {
 
 	ext := GetExt("", dataType)
 	tmp, err := utils.NewTempFile(p.Stdin, ext)
-	defer tmp.Close()
-
 	if err != nil {
 		return err
 	}
+	defer tmp.Close()
 
 	return preview(p, tmp.FileName, dataType)
 }
@@ -161,6 +160,10 @@ func preview(p *lang.Process, path, dataType string) error {
 
 	p.Stdout.SetDataType(dataType)
 	agent, err := OpenAgents.Get(dataType)
+
+	if p.Stdout.IsTTY() && dataType == types.Generic {
+		return openSystemCommand(p, path)
+	}
 
 	if !p.Stdout.IsTTY() || err != nil {
 		// Not a TTY or no open agent exists so fallback to passing []bytes along

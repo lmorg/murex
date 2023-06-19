@@ -1,5 +1,5 @@
-//go:build !js
-// +build !js
+//go:build !windows && !plan9 && !js
+// +build !windows,!plan9,!js
 
 package ansititle
 
@@ -11,10 +11,12 @@ import (
 	"github.com/lmorg/murex/utils/readline"
 )
 
+var ErrNotTTY = errors.New("not a TTY")
+
 func Write(title []byte) error {
 	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
-		return errors.New("not a TTY")
+		return ErrNotTTY
 	}
 
 	return write(formatTitle(title))
@@ -37,7 +39,7 @@ func formatTitle(title []byte) []byte {
 func Icon(title []byte) error {
 	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
-		return errors.New("not a TTY")
+		return ErrNotTTY
 	}
 
 	return write(formatIcon(title))
@@ -60,7 +62,7 @@ func formatIcon(title []byte) []byte {
 func Tmux(title []byte) error {
 	fd := os.Stdout.Fd()
 	if !readline.IsTerminal(int(fd)) {
-		return errors.New("not a TTY")
+		return ErrNotTTY
 	}
 	if value, exists := os.LookupEnv("TMUX"); !exists || value == "" {
 		return errors.New("tmux doesn't appear to be running")
