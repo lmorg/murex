@@ -57,7 +57,7 @@ func convertToByte(v interface{}) ([]byte, error) {
 	return []byte(s.(string)), nil
 }
 
-func getSteps(flags map[string]string) (int, []any, error) {
+func getSteps(flags map[string]string) (int, []interface{}, error) {
 	steps, err := types.ConvertGoType(flags[foreachStep], types.Integer)
 	if err != nil {
 		return 0, nil, fmt.Errorf(`expecting integer for %s, instead got "%s": %s`, foreachStep, flags[foreachStep], err.Error())
@@ -100,14 +100,18 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 		return err
 	}
 
-	var step int
+	var (
+		step      int
+		iteration int
+	)
 
 	err = p.Stdin.ReadArrayWithType(p.Context, func(varValue interface{}, dataType string) {
 		if steps > 0 {
+			varValue, _ = marshal(p, varValue, dataType)
+			slice[step] = varValue
 			step++
-			slice[step-1] = varValue
 			if step == steps {
-				varValue = json.LazyLogging(slice)
+				varValue = slice
 				dataType = types.Json
 				step = 0
 			} else {
@@ -115,7 +119,8 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 			}
 		}
 
-		forEachInnerLoop(p, block, varName, varValue, dataType)
+		iteration++
+		forEachInnerLoop(p, block, varName, varValue, dataType, iteration)
 	})
 
 	if err != nil {
@@ -123,13 +128,40 @@ func cmdForEachDefault(p *lang.Process, flags map[string]string, additional []st
 	}
 
 	if steps > 0 && step > 0 {
-		forEachInnerLoop(p, block, varName, slice[:step], types.Json)
+		forEachInnerLoop(p, block, varName, slice[:step], types.Json, iteration+1)
 	}
 
 	return nil
 }
 
-func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue interface{}, dataType string) {
+func marshal(p *lang.Process, v any, dataType string) (any, error) {
+	switch v.(type) {
+	case []byte:
+		if dataType != types.String && dataType != types.Generic {
+			return lang.UnmarshalDataBuffered(p, v.([]byte), dataType)
+		}
+	case string:
+		if dataType != types.String && dataType != types.Generic {
+			return lang.UnmarshalDataBuffered(p, []byte(v.(string)), dataType)
+		}
+	}
+	return v, nil
+}
+
+func setMetaValues(p *lang.Process, iteration int) bool {
+	meta := map[string]any{
+		"i": iteration,
+	}
+	err := p.Variables.Set(p, "", meta, types.Json)
+	if err != nil {
+		p.Stderr.Writeln([]byte("unable to set meta variable: " + err.Error()))
+		p.Done()
+		return false
+	}
+	return true
+}
+
+func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue interface{}, dataType string, iteration int) {
 	var b []byte
 	b, err := convertToByte(varValue)
 	if err != nil {
@@ -148,6 +180,10 @@ func forEachInnerLoop(p *lang.Process, block []rune, varName string, varValue in
 			p.Done()
 			return
 		}
+	}
+
+	if !setMetaValues(p, iteration) {
+		return
 	}
 
 	fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_CREATE_STDIN)
@@ -184,7 +220,10 @@ func cmdForEachJmap(p *lang.Process) error {
 		return err
 	}
 
-	m := make(map[string]string)
+	var (
+		m         = make(map[string]string)
+		iteration int
+	)
 
 	err = p.Stdin.ReadArrayWithType(p.Context, func(v interface{}, dt string) {
 		var b []byte
@@ -200,6 +239,11 @@ func cmdForEachJmap(p *lang.Process) error {
 
 		if varName != "!" {
 			p.Variables.Set(p, varName, v, dt)
+		}
+
+		iteration++
+		if !setMetaValues(p, iteration) {
+			return
 		}
 
 		forkKey := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN | lang.F_CREATE_STDOUT)
