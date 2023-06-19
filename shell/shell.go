@@ -146,6 +146,7 @@ func ShowPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
+			prePostPromptFunction("pre")
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -241,6 +242,8 @@ func ShowPrompt() {
 
 			nLines = 1
 			merged = ""
+
+			prePostPromptFunction("post")
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
