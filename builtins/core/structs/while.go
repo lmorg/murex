@@ -23,7 +23,7 @@ const (
 func cmdWhile(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Generic)
 
-	var state int
+	var state, iteration int
 
 	switch p.Parameters.Len() {
 	case 2:
@@ -47,6 +47,11 @@ func cmdWhile(p *lang.Process) error {
 		for {
 			if p.HasCancelled() {
 				return errors.New(errCancelled)
+			}
+
+			iteration++
+			if !setMetaValues(p, iteration) {
+				return fmt.Errorf("cancelled")
 			}
 
 			fork := p.Fork(lang.F_PARENT_VARTABLE | lang.F_NO_STDIN)
@@ -86,6 +91,11 @@ func cmdWhile(p *lang.Process) error {
 		for {
 			if p.HasTerminated() {
 				return nil
+			}
+
+			iteration++
+			if !setMetaValues(p, iteration) {
+				return fmt.Errorf("cancelled")
 			}
 
 			fork := p.Fork(lang.F_NO_STDIN | lang.F_CREATE_STDOUT | lang.F_NO_STDERR)
