@@ -33,6 +33,9 @@ func HkFnClearScreen(rl *Instance) {
 	print(seqSetCursorPosTopLeft + seqClearScreen)
 	rl.echo()
 	rl.renderHelpers()
+	if rl.line.RuneLen() == 0 {
+		moveCursorForwards(1)
+	}
 }
 
 func HkFnClearLine(rl *Instance) {
