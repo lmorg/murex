@@ -28,7 +28,14 @@
     ### Order of precedence
 
     {{ include "gen/includes/order-of-precedence.inc.md" }}
+
+    ### Compatibility with POSIX
+
+    For compatibility with traditional shells like Bash and Zsh, `builtin` is an
+    alias to `fexec builtin`
   Synonyms:
+  - fexec
+  - builtin
   Related:
   - function
   - private

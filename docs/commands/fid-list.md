@@ -85,4 +85,4 @@ include:
 * [`jsonl` ](../types/jsonl.md):
   JSON Lines
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
-  Forces Murex to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for executables

@@ -1,5 +1,6 @@
 alias help=murex-docs
 alias builtin=fexec builtin
+alias command=exec
 
 function h {
     # Output the murex history log in a human readable format

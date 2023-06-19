@@ -284,9 +284,9 @@
     `murex-update-exe-list`
   CategoryID: commands
   Summary: >-
-    Forces Murex to rescan $PATH looking for exectables
+    Forces Murex to rescan $PATH looking for executables
   Description: |-
-    On application lauch, Murex scans and caches all the executables found in
+    On application launch, Murex scans and caches all the executables found in
     $PATH on your host. Murex then does regular scans there after. However if
     you want to force a new scan (for example you've just installed a new
     program and you want it to appear in tab completion) then you can run `murex-update-exe-list`.
@@ -300,6 +300,8 @@
     ```
   Flags:
   Detail: |-
+    Murex will automatically update the exe list each time tab completion is
+    invoked for command name completion via the REPL shell.
   Synonyms:
   Related:
   - os
@@ -369,6 +371,16 @@
 
     # Change to a previous directory
     » cd $PWDHIST[0]
+    ```
+
+    ### auto-cd
+
+    Some people prefer to omit `cd` and just write the path, with their shell
+    automatically changing to that directory if the "command" is just a directory.
+    In Murex you can enable this behaviour by turning on "auto-cd":
+
+    ```
+    config: set shell auto-cd true
     ```
   Synonyms:
   Related:

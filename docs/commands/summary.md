@@ -54,6 +54,6 @@ Undefine a summary
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
-  Forces Murex to rescan $PATH looking for exectables
+  Forces Murex to rescan $PATH looking for executables
 * [`runtime`](../commands/runtime.md):
   Returns runtime information on the internal state of Murex

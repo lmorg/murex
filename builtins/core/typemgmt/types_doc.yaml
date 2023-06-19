@@ -52,8 +52,16 @@
     notice that all external processes are listed as `exec` with the process name
     as part of `exec`'s parameters. That is because `exec` is handler for programs
     that aren't native to Murex.
+
+    ### Compatibility with POSIX
+
+    For compatibility with traditional shells like Bash and Zsh, `command` is an
+    alias for `exec`.
   Synonyms:
+  - exec
+  - command
   Related:
+  - fexec
   - set
   - fid-list
   - fid-kill
