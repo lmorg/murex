@@ -18,7 +18,7 @@
 
     * on Darwin, Homebrew defaults are imported, just like you'd expect them to be from any other shell
 
-    * aa few new hotkeys ([#611](https://github.com/lmorg/murex/issues/611)) ([#613](https://github.com/lmorg/murex/issues/613)):
+    * new hotkeys ([#611](https://github.com/lmorg/murex/issues/611)) ([#613](https://github.com/lmorg/murex/issues/613)):
 
       1. `ctrl`+`a`: jump to beginning of line
 
@@ -34,7 +34,7 @@
 
       7. `ctrl`+`g`: same as `esc`
 
-    * `open`` builtin should fallback to system default if type unknown ([#620](https://github.com/lmorg/murex/issues/620))
+    * `open` builtin should fallback to system default if type unknown ([#620](https://github.com/lmorg/murex/issues/620))
 
     * `pre-prompt-func` added to `config`. Block runs before the interactive prompt is displayed
 
@@ -67,13 +67,15 @@
     * minor improvements to documentation 
 
   Related:
-    - parser/string
-    - user-guide/terminal-keys
+    - commands/open
+    - commands/exec
+    - commands/fexec
+    - commands/alias
+    - commands/formap
+    - commands/foreach
+    - commands/while
+    - commands/method
     - user-guide/interactive-shell
-    - commands/count
-    - commands/function
-    - parser/create-array
-    - parser/create-object
-    - types/path
-    - types/paths
+    - user-guide/terminal-keys
+    - commands/config
 
