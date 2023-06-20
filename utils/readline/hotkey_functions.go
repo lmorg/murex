@@ -24,7 +24,7 @@ func HkFnClearAfterCursor(rl *Instance) {
 		return
 	}
 	rl.clearHelpers()
-	rl.line.Set(rl.line.Runes()[:rl.line.RunePos()])
+	rl.line.Set(rl.line.Runes()[:rl.line.RunePos()-1])
 	rl.echo()
 	moveCursorForwards(1)
 }
