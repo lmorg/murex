@@ -122,6 +122,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 
 		switch pt.PipeToken {
 		case parser.PipeTokenNone:
+			autocompleteFunctions(&act, r.Prefix)
 			v, _ := lang.ShellProcess.Config.Get("shell", "auto-cd", types.Boolean)
 			autoCd, _ := v.(bool)
 			if autoCd {
@@ -130,6 +131,7 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 
 		case parser.PipeTokenPosix:
 			autocomplete.MatchFunction(r.Prefix, &act)
+
 		case parser.PipeTokenArrow:
 			act.TabDisplayType = readline.TabDisplayList
 			globalExes := autocomplete.GlobalExes.Get()
