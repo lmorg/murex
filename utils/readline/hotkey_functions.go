@@ -5,8 +5,9 @@ func HkFnMoveToStartOfLine(rl *Instance) {
 		return
 	}
 	rl.clearHelpers()
-	rl.line.SetCellPos(1)
+	rl.line.SetCellPos(0)
 	rl.echo()
+	moveCursorForwards(1)
 }
 
 func HkFnMoveToEndOfLine(rl *Instance) {
