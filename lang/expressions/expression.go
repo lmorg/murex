@@ -24,7 +24,6 @@ func (tree *ParserT) executeExpr() (*primitives.DataType, error) {
 	if len(tree.ast) > 1 {
 		return nil, fmt.Errorf(
 			"expression failed to execute correctly (AST results > 1).\n%s",
-			//json.LazyLoggingPretty(tree.Dump()),
 			consts.IssueTrackerURL)
 	}
 

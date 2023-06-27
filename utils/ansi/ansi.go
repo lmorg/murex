@@ -37,7 +37,7 @@ func expandConsts(s string, noColour bool) string {
 		// misc escape sequences
 		b := constants[match[i][1]]
 		if len(b) != 0 {
-			s = strings.Replace(s, match[i][0], string(b), -1)
+			s = strings.ReplaceAll(s, match[i][0], string(b))
 			continue
 		}
 
@@ -47,7 +47,7 @@ func expandConsts(s string, noColour bool) string {
 			if noColour {
 				b = []byte{}
 			}
-			s = strings.Replace(s, match[i][0], string(b), -1)
+			s = strings.ReplaceAll(s, match[i][0], string(b))
 			continue
 		}
 
