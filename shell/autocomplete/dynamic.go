@@ -157,7 +157,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			)
 
 			err := stdout.ReadArray(hardCtx, func(b []byte) {
-				//s := string(bytes.TrimSpace(b))
 				s := string(b)
 
 				if len(s) == 0 {
@@ -177,7 +176,9 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 					incManPages = true
 
 				default:
-					if strings.HasPrefix(s, partial) {
+					if f.IgnorePrefix {
+						items = append(items, "\x02"+s)
+					} else if strings.HasPrefix(s, partial) {
 						items = append(items, s[len(partial):])
 					}
 				}
@@ -212,7 +213,6 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			if timeout {
 				formatSuggestionsArray(act.ParsedTokens, items)
 				act.DelayedTabContext.AppendSuggestions(items)
-				//act.ErrCallback(fmt.Errorf(" ")) // clear slow autocomplete message
 			} else {
 				act.append(items...)
 			}
@@ -231,7 +231,20 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			}
 
 			stdout.ReadMap(lang.ShellProcess.Config, func(readmap *stdio.Map) {
-				if strings.HasPrefix(readmap.Key, partial) {
+				if f.IgnorePrefix {
+					value, _ := types.ConvertGoType(readmap.Value, types.String)
+					value = strings.Replace(value.(string), "\r", "", -1)
+					value = strings.Replace(value.(string), "\n", " ", -1)
+
+					key := "\x02" + readmap.Key
+
+					if timeout {
+						items[key] = value.(string)
+					} else {
+						act.appendDef(key, value.(string))
+					}
+
+				} else if strings.HasPrefix(readmap.Key, partial) {
 					value, _ := types.ConvertGoType(readmap.Value, types.String)
 					value = strings.Replace(value.(string), "\r", "", -1)
 					value = strings.Replace(value.(string), "\n", " ", -1)
@@ -251,23 +264,18 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 		}
 
 		done <- true
-		//act.ErrCallback(fmt.Errorf(" ")) // clear slow autocomplete message
 	}()
 
 	select {
 	case <-done:
-		//act.MinTabItemLength = 0
 		return
 	case <-wait:
 		<-done
-		//act.MinTabItemLength = 0
 		return
 
 	case <-softCtx.Done():
 		if len(act.Items) == 0 && len(act.Definitions) == 0 {
 			act.ErrCallback(fmt.Errorf("long running autocompletion pushed to the background"))
-			//act.appendDef("", "")
-			//act.MinTabItemLength = 0
 		}
 
 		return

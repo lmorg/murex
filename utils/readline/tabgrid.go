@@ -9,19 +9,26 @@ import (
 func (rl *Instance) initTabGrid() {
 	rl.tabMutex.Lock()
 
-	var suggestions []string
+	var suggestions *suggestionsT
 	if rl.modeTabFind {
-		suggestions = rl.tfSuggestions
+		suggestions = newSuggestionsT(rl, rl.tfSuggestions)
 	} else {
-		suggestions = rl.tcSuggestions
+		suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 	}
 
 	rl.tcMaxLength = rl.MinTabItemLength
-	for i := range suggestions {
+	/*for i := range suggestions {
 		if len(rl.tcPrefix+suggestions[i]) > rl.tcMaxLength {
 			rl.tcMaxLength = len([]rune(rl.tcPrefix + suggestions[i]))
 		}
+	}*/
+	for i := 0; i < suggestions.Len(); i++ {
+		l := suggestions.ItemLen(i)
+		if l > rl.tcMaxLength {
+			rl.tcMaxLength = l
+		}
 	}
+
 	if rl.tcMaxLength > rl.MaxTabItemLength && rl.MaxTabItemLength > 0 && rl.MaxTabItemLength > rl.MinTabItemLength {
 		rl.tcMaxLength = rl.MaxTabItemLength
 	}
@@ -74,11 +81,11 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 	rl.tabMutex.Lock()
 	defer rl.tabMutex.Unlock()
 
-	var suggestions []string
+	var suggestions *suggestionsT
 	if rl.modeTabFind {
-		suggestions = rl.tfSuggestions
+		suggestions = newSuggestionsT(rl, rl.tfSuggestions)
 	} else {
-		suggestions = rl.tcSuggestions
+		suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 	}
 
 	rl.tcPosX += x
@@ -102,9 +109,9 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 		rl.tcPosY = 1
 	}
 
-	if rl.tcPosY == rl.tcUsedY && (rl.tcMaxX*(rl.tcPosY-1))+rl.tcPosX > len(suggestions) {
+	if rl.tcPosY == rl.tcUsedY && (rl.tcMaxX*(rl.tcPosY-1))+rl.tcPosX > suggestions.Len() {
 		if x < 0 {
-			rl.tcPosX = len(suggestions) - (rl.tcMaxX * (rl.tcPosY - 1))
+			rl.tcPosX = suggestions.Len() - (rl.tcMaxX * (rl.tcPosY - 1))
 		}
 
 		if x > 0 {
@@ -125,11 +132,11 @@ func (rl *Instance) moveTabGridHighlight(x, y int) {
 func (rl *Instance) writeTabGrid() {
 	rl.tabMutex.Lock()
 
-	var suggestions []string
+	var suggestions *suggestionsT
 	if rl.modeTabFind {
-		suggestions = rl.tfSuggestions
+		suggestions = newSuggestionsT(rl, rl.tfSuggestions)
 	} else {
-		suggestions = rl.tcSuggestions
+		suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 	}
 
 	iCellWidth := (rl.termWidth / rl.tcMaxX) - 2
@@ -139,7 +146,7 @@ func (rl *Instance) writeTabGrid() {
 	y := 1
 	var item string
 
-	for i := range suggestions {
+	for i := 0; i < suggestions.Len(); i++ {
 		x++
 		if x > rl.tcMaxX {
 			x = 1
@@ -154,13 +161,13 @@ func (rl *Instance) writeTabGrid() {
 
 		if x == rl.tcPosX && y == rl.tcPosY {
 			print(seqBgWhite + seqFgBlack)
-			item = rl.tcPrefix + suggestions[i]
+			item = suggestions.ItemValue(i)
 		}
 
-		value := rl.tcPrefix + suggestions[i]
+		value := suggestions.ItemValue(i)
 		caption := cropCaption(value, rl.tcMaxLength, iCellWidth)
 		if caption != value {
-			rl.tcDescriptions[suggestions[i]] = value
+			rl.tcDescriptions[suggestions.ItemLookupValue(i)] = value
 		}
 
 		printf(" %-"+cellWidth+"s %s", caption, seqReset)

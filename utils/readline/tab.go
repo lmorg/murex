@@ -48,6 +48,14 @@ func (rl *Instance) getTabCompletion() {
 		// map in their API call.
 		rl.tcDescriptions = make(map[string]string)
 	}
+	/*if len(rl.tcSuggestions) == 0 && len(rl.tcPrefix) > 0 {
+
+			rl.tcr = rl.TabCompleter(rl.line.Runes(), rl.line.RunePos(), rl.delayedTabContext)
+			if rl.tcr == nil {
+				return
+			}
+
+	}*/
 	rl.tabMutex.Unlock()
 
 	rl.initTabCompletion()

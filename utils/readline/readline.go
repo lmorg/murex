@@ -218,12 +218,12 @@ func (rl *Instance) Readline() (_ string, err error) {
 		case '\r':
 			fallthrough
 		case '\n':
-			var suggestions []string
 			rl.tabMutex.Lock()
+			var suggestions *suggestionsT
 			if rl.modeTabFind {
-				suggestions = rl.tfSuggestions
+				suggestions = newSuggestionsT(rl, rl.tfSuggestions)
 			} else {
-				suggestions = rl.tcSuggestions
+				suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 			}
 			rl.tabMutex.Unlock()
 
@@ -233,8 +233,17 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.clearHelpers()
 				rl.resetTabCompletion()
 				rl.renderHelpers()
-				if len(suggestions) > 0 {
-					rl.insert([]rune(suggestions[cell]))
+				if suggestions.Len() > 0 {
+					prefix, line := suggestions.ItemCompletionReturn(cell)
+					if len(prefix) == 0 && len(rl.tcPrefix) > 0 {
+						l := -len(rl.tcPrefix)
+						if l == -1 && rl.line.RuneLen() > 0 && rl.line.RunePos() == rl.line.RuneLen() {
+							rl.line.Set(rl.line.Runes()[:rl.line.RuneLen()-1])
+						} else {
+							rl.viDeleteByAdjust(l)
+						}
+					}
+					rl.insert([]rune(line))
 				} else {
 					rl.insert(tfLine)
 				}
