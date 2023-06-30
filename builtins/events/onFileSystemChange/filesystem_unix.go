@@ -163,22 +163,16 @@ func (evt *watch) init() {
 }
 
 // Dump returns all the events in fsWatch
-func (evt *watch) Dump() interface{} {
-	type jsonable struct {
-		Path    string
-		Block   string
-		FileRef *ref.File
-	}
-
-	dump := make(map[string]jsonable)
+func (evt *watch) Dump() map[string]events.DumpT {
+	dump := make(map[string]events.DumpT)
 
 	evt.mutex.Lock()
 
 	for name, path := range evt.paths {
-		dump[name] = jsonable{
-			Path:    path,
-			Block:   string(evt.source[path].block),
-			FileRef: evt.source[path].fileRef,
+		dump[name] = events.DumpT{
+			Interrupt: path,
+			Block:     string(evt.source[path].block),
+			FileRef:   evt.source[path].fileRef,
 		}
 	}
 

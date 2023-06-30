@@ -154,22 +154,25 @@ func (cce *commandCompletionEvent) execEvent(name string, parameters []string, p
 		ExitNum:    p.ExitNum,
 	}
 
-	//tty.Stderr.WriteString("execing....\n")
 	events.Callback(name, interrupt, cce.Block, cce.FileRef, term.NewErr(false), false)
 
 	lang.GlobalPipes.Delete(stdout)
 	lang.GlobalPipes.Delete(stderr)
 }
 
-func (evt *commandCompletionEvents) Dump() interface{} {
-	dump := newCommandCompletion()
+func (evt *commandCompletionEvents) Dump() map[string]events.DumpT {
+	dump := make(map[string]events.DumpT)
 
 	evt.mutex.Lock()
 
 	for name, event := range evt.events {
-		dump.events[name] = event
+		dump[name] = events.DumpT{
+			Interrupt: event.Command,
+			Block:     string(event.Block),
+			FileRef:   event.FileRef,
+		}
 	}
 
 	evt.mutex.Unlock()
-	return dump.events
+	return dump
 }

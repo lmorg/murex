@@ -42,6 +42,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/events/onCommandCompletion" // timer-based event type
 	_ "github.com/lmorg/murex/builtins/events/onFileSystemChange"  // file system watcher event type
 	_ "github.com/lmorg/murex/builtins/events/onKeyPress"          // readline key-press event type
+	_ "github.com/lmorg/murex/builtins/events/onPrompt"            // REPL prompt triggers
 	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"    // triggered when a command finishes
 
 	// Pipes:

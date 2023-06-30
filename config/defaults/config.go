@@ -27,20 +27,6 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	c.Define("shell", "pre-prompt-func", config.Properties{
-		Description: "Code block executed before the interactive shell prompt",
-		Default:     "{  }",
-		DataType:    types.CodeBlock,
-		Global:      true,
-	})
-
-	c.Define("shell", "post-prompt-func", config.Properties{
-		Description: "Code block executed after the interactive shell prompt but before any running command lines",
-		Default:     "{  }",
-		DataType:    types.CodeBlock,
-		Global:      true,
-	})
-
 	c.Define("shell", "prompt-multiline", config.Properties{
 		Description: "Shell prompt when command line string spans multiple lines",
 		Default:     `{ out "$linenum » " }`,
