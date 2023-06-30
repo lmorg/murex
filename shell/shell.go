@@ -156,7 +156,7 @@ func ShowPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
-			callEvents("displayed")
+			callEvents("before")
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -174,7 +174,7 @@ func ShowPrompt() {
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(tty.Stdout, PromptSIGINT)
-				callEvents("cancelled")
+				callEvents("cancel")
 				continue
 
 			case readline.EOF:
@@ -253,7 +253,7 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			callEvents("completion")
+			callEvents("after")
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}

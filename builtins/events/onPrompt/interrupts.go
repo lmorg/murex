@@ -8,17 +8,17 @@ import (
 type opInterrupt string
 
 const (
-	opInterruptDisplayed  = "displayed"
-	opInterruptCompletion = "completion"
-	opInterruptEOF        = "eof"
-	opInterruptCancelled  = "cancelled"
+	opInterruptBefore = "before"
+	opInterruptAfter  = "after"
+	opInterruptEOF    = "eof"
+	opInterruptCancel = "cancel"
 )
 
 var interrupts = []string{
-	opInterruptDisplayed,
-	opInterruptCompletion,
+	opInterruptBefore,
+	opInterruptAfter,
 	opInterruptEOF,
-	opInterruptCancelled,
+	opInterruptCancel,
 }
 
 func isValidInterrupt(interrupt string) error {
