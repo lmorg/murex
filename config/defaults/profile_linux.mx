@@ -59,25 +59,6 @@ if { which: systemctl } {
 
 }
 
-# I have a feeling this is old code that needs replacing with the OSX code 
-#private kill-autocomplete {
-#    test define ps {
-#        "ExitNum": 0
-#    }
-#
-#    test define map {
-#        "StdoutRegex": (\{(".*?":".*?",?)+\})
-#    }
-#
-#    ps <test_ps> -A -o pid,cmd --no-headers -> set ps
-#    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
-#}
-#
-#test unit private kill-autocomplete {
-#    "StdoutType": "json",
-#    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
-#}
-
 function progress {
     # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
 
@@ -118,28 +99,30 @@ if { or { $WSLENV } { $WSL_DISTRO_NAME } } then {
         mount \
             -> regexp (m/[A-Z]:\\/) -> [:2] \
             -> cast str -> format json \
-            -> config: set wsl windows-mounts
+            -> config: set wsl windows-mounts true
     }
 }
 
-autocomplete set yay { [{
-    "FlagsDesc": {
-        "-h": "help",        "--help":        "help",
-        "-V": "version",     "--version":     "version",                                                                                                                                                                                            
-        "-D": "database",    "--database":    "database",
-        "-F": "files",       "--files":       "files",
-        "-Q": "query",       "--query":       "query",
-        "-R": "remove",      "--remove":      "remove",
-        "-S": "sync",        "--sync":        "sync",
-        "-T": "deptest",     "--deptest":     "deptest",
-        "-U": "upgrade",     "--upgrade":     "upgrade",
-        "-Y": "yay",         "--yay":         "yay",
-        "-P": "show",        "--show":        "show",
-        "-G": "getpkgbuild", "--getpkgbuild": "getpkgbuild"
-    },
-    "DynamicDesc": ({
-        yay --help -> @[New options..]r -> tabulate --map --split-space --key-inc-hint
-    }),
-    "AllowMultiple": true,
-    "IncFiles": true
-}] }
+if { which: yay } then {
+    autocomplete set yay { [{
+        "FlagsDesc": {
+            "-h": "help",        "--help":        "help",
+            "-V": "version",     "--version":     "version",                                                                                                                                                                                            
+            "-D": "database",    "--database":    "database",
+            "-F": "files",       "--files":       "files",
+            "-Q": "query",       "--query":       "query",
+            "-R": "remove",      "--remove":      "remove",
+            "-S": "sync",        "--sync":        "sync",
+            "-T": "deptest",     "--deptest":     "deptest",
+            "-U": "upgrade",     "--upgrade":     "upgrade",
+            "-Y": "yay",         "--yay":         "yay",
+            "-P": "show",        "--show":        "show",
+            "-G": "getpkgbuild", "--getpkgbuild": "getpkgbuild"
+        },
+        "DynamicDesc": ({
+            yay --help -> @[New options..]r -> tabulate --map --split-space --key-inc-hint
+        }),
+        "AllowMultiple": true,
+        "IncFiles": true
+    }] }
+}

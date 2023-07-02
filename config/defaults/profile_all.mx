@@ -703,7 +703,7 @@ autocomplete: set terraform {[
             cast json
             config: set proc strict-arrays false
             if {
-                and { = `$1`==`workspace` } { = `$2`==`select` }
+                and { $1 == "workspace" } { $2 == "select" }
             } then {
                 terraform: workspace list -> regexp: (s/^[\s\*]+//) -> @[..-2] -> suffix: ': "Terraform workspace"' -> grep: -v "^:" -> cast: yaml -> format: json
             } else {
@@ -1047,6 +1047,8 @@ if { which gping } then {
     }]
 
     private autocomplete.gping {
+        # autocompletions for gping: https://github.com/orf/gping
+
         test: define notempty %{
             StdoutRegex: '--cmd'
         }
