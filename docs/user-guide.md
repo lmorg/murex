@@ -386,6 +386,8 @@ are only included by default on Windows.
 
 ## Events
 
+* [`onFileSystemChange`](events/onfilesystemchange.md):
+  Add a filesystem watch
 * [`onPrompt`](events/onprompt.md):
   Events triggered by changes in state of the interactive shell
 * [`onSecondsElapsed`](events/onsecondselapsed.md):
