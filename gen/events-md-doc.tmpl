@@ -8,27 +8,21 @@
 
 {{ if .Usage }}## Usage
 
-{{ md (include .Usage) }}{{ end }}{{ if .Examples }}
-
-## Examples
-
-{{ md (include .Examples) }}{{ end }}{{ if .Flags }}
+{{ md (include .Usage) }}{{ end }}{{ if .Flags }}
 
 ## Valid Interrupts
 
 {{ range $i,$a := .Flags }}{{ if gt $i 0 }}
 {{ end }}* `{{ md .Flag }}`
-    {{ md .Description }}{{ end }}{{ end }}{{ if .Detail }}
+    {{ md .Description }}{{ end }}{{ end }}{{ if .Examples }}
+
+## Examples
+
+{{ md (include .Examples) }}{{ end }}{{ if .Detail }}
 
 ## Detail
 
-{{ md (include .Detail) }}{{ end }}{{ if .Synonyms }}
-
-## Synonyms
-
-{{ range $i,$a := .Synonyms }}{{ if gt $i 0 }}
-{{ end }}* `{{ md . }}`{{ end }}
-{{ end }}{{ if .Related }}
+{{ md (include .Detail) }}{{ end }}{{ if .Related }}
 
 ## See Also
 

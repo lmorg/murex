@@ -3,7 +3,6 @@ package onprompt
 import (
 	"fmt"
 	"sort"
-	"strings"
 
 	"github.com/lmorg/murex/builtins/events"
 	"github.com/lmorg/murex/lang"
@@ -23,7 +22,7 @@ func init() {
 // Interrupt is a JSONable structure passed to the murex function
 type Interrupt struct {
 	Name      string
-	Interrupt opInterrupt
+	Operation string
 	CmdLine   string
 }
 
@@ -106,7 +105,7 @@ func (evt *promptEvents) Remove(key string) error {
 	return fmt.Errorf("no %s event found called `%s`", eventType, key)
 }
 
-func (evt *promptEvents) callback(interrupt string) {
+func (evt *promptEvents) callback(interrupt string, cmdLine []rune) {
 	if err := isValidInterrupt(interrupt); err != nil {
 		panic(err.Error())
 	}
@@ -114,10 +113,12 @@ func (evt *promptEvents) callback(interrupt string) {
 	//evt.mutex.Lock()
 
 	for i := range evt.events {
-		if strings.HasPrefix(evt.events[i].Key, interrupt) {
+		split := getInterruptFromKey(evt.events[i].Key)
+		if split[0] == interrupt {
 			interruptValue := Interrupt{
-				Name:      evt.events[i].Key,
-				Interrupt: opInterrupt(interrupt),
+				Name:      split[1],
+				Operation: interrupt,
+				CmdLine:   string(cmdLine),
 			}
 			events.Callback(evt.events[i].Key, interruptValue, evt.events[i].Block, evt.events[i].FileRef, lang.ShellProcess.Stdout, false)
 		}

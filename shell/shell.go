@@ -36,14 +36,14 @@ var (
 	PromptId = new(counter.MutexCounter)
 
 	// Events is a callback for onPrompt events
-	Events func(string)
+	Events func(string, []rune)
 )
 
-func callEvents(interrupt string) {
+func callEvents(interrupt string, cmdLine []rune) {
 	if Events == nil {
 		return
 	}
-	Events(interrupt)
+	Events(interrupt, cmdLine)
 }
 
 // Start the interactive shell
@@ -156,7 +156,7 @@ func ShowPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
-			callEvents("before")
+			callEvents("before", nil)
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -174,12 +174,12 @@ func ShowPrompt() {
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(tty.Stdout, PromptSIGINT)
-				callEvents("cancel")
+				callEvents("cancel", nil)
 				continue
 
 			case readline.EOF:
 				fmt.Fprintln(tty.Stdout, utils.NewLineString)
-				callEvents("eof")
+				callEvents("eof", nil)
 				lang.Exit(0)
 
 			default:
@@ -253,7 +253,7 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			callEvents("after")
+			callEvents("after", block)
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
