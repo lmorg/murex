@@ -4,6 +4,11 @@ Track new features, any breaking changes, and the release history here.
 
 ## Articles
 
+### 02.07.2023 - [What's new in murex v4.3](changelog/v4.3.md)
+
+This brings improved support on Windows plus one breaking change from the previous release (v4.2)
+
+
 ### 19.06.2023 - [What's new in murex v4.2](changelog/v4.2.md)
 
 Murex usage has raised considerably in recent weeks. This release addresses a number of feature requests and bugs raised on Github.
