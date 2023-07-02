@@ -33,11 +33,11 @@ You can call a named pipe as either a method, function, or parameter.
 
     <in> -> command parameter1 parameter2 parameter3
     
-**As a function:
+**As a function:**
 
     command parameter1 parameter2 parameter3 -> <out>
     
-**As a parameter:
+**As a parameter:**
 
     command <out> <!err> parameter1 parameter2 parameter3
 

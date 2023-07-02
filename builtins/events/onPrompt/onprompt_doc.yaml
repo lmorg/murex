@@ -59,7 +59,7 @@
     eof: >-
       Triggered if `ctrl`+`d` pressed while in the interactive prompt
   Examples: |-
-    **before:**
+    **Interrupt 'before':**
 
     ```
     event: onPrompt example=before {
@@ -67,7 +67,7 @@
     }
     ```
 
-    **after:**
+    **Interrupt 'after':**
 
     ```
     event: onPrompt example=after {
@@ -76,7 +76,7 @@
     }
     ```
 
-    Echo the command line:
+    **Echo the command line:**
 
     ```
     » event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
@@ -113,6 +113,7 @@
   - onPrompt
   Related:
   - onkeypress
+  - oncommandcompletion
   - user-guide/terminal-keys
   - user-guide/interactive-shell
   - commands/event

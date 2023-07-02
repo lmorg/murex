@@ -60,20 +60,20 @@ Please note this is only populated if the interrupt is **after**.
 
 ## Examples
 
-**before:**
+**Interrupt 'before':**
 
     event: onPrompt example=before {
         out: "This will appear before your command prompt"
     }
     
-**after:**
+**Interrupt 'after':**
 
     event: onPrompt example=after {
         out: "This will appear after you've hit [enter] on your command prompt"
         out: "...but before the command executes"
     }
     
-Echo the command line:
+**Echo the command line:**
 
     » event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
     » echo hello world
@@ -116,5 +116,7 @@ that has elements triggered from different interrupts).
   Query or define Murex runtime settings
 * [`event`](../commands/event.md):
   Event driven programming for shell scripts
+* [`onCommandCompletion`](../events/oncommandcompletion.md):
+  Trigger an event upon a command's completion
 * [onkeypress](../events/onkeypress.md):
   
