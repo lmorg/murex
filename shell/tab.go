@@ -57,7 +57,6 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 
 	switch {
 	case pt.VarSigil != "":
-		//panic(json.LazyLoggingPretty(pt))
 		if pt.VarLoc < len(line) {
 			r.Prefix = strings.TrimSpace(string(line[pt.VarLoc:]))
 		}
@@ -224,7 +223,6 @@ func tabCompletion(line []rune, pos int, dtc readline.DelayedTabContext) *readli
 		autocomplete.FormatSuggestions(&act)
 	}
 
-	//return prefix, act.Items[:i], act.Definitions, act.TabDisplayType
 	r.Suggestions = act.Items[:i]
 	r.Descriptions = act.Definitions
 	r.DisplayType = act.TabDisplayType

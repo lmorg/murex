@@ -40,7 +40,7 @@ func cmdOut(p *lang.Process) (err error) {
 	return
 }
 
-func cmdOutNoCR(p *lang.Process) (err error) {
+func cmdOutNoCR(p *lang.Process) error {
 	s := p.Parameters.StringAll()
 
 	if len(s) == 0 || !strings.HasSuffix(s, ")") {
@@ -51,14 +51,14 @@ func cmdOutNoCR(p *lang.Process) (err error) {
 
 	s = ansi.ExpandConsts(s[:len(s)-1])
 
-	_, err = p.Stdout.Write([]byte(s))
-	return
+	_, err := p.Stdout.Write([]byte(s))
+	return err
 }
 
-func cmdTout(p *lang.Process) (err error) {
+func cmdTout(p *lang.Process) error {
 	dt, err := p.Parameters.String(0)
 	if err != nil {
-		return
+		return err
 	}
 
 	s := p.Parameters.StringAllRange(1, -1)
@@ -67,18 +67,18 @@ func cmdTout(p *lang.Process) (err error) {
 	p.Stdout.SetDataType(dt)
 
 	_, err = p.Stdout.Write([]byte(s))
-	return
+	return err
 }
 
-func cmdErr(p *lang.Process) (err error) {
+func cmdErr(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Null)
 	p.ExitNum = 1
 
 	s := p.Parameters.StringAll()
 	s = ansi.ExpandConsts(s)
 
-	_, err = p.Stderr.Writeln([]byte(s))
-	return
+	_, err := p.Stderr.Writeln([]byte(s))
+	return err
 }
 
 /*

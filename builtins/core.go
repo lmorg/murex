@@ -42,6 +42,7 @@ import (
 	_ "github.com/lmorg/murex/builtins/events/onCommandCompletion" // timer-based event type
 	_ "github.com/lmorg/murex/builtins/events/onFileSystemChange"  // file system watcher event type
 	_ "github.com/lmorg/murex/builtins/events/onKeyPress"          // readline key-press event type
+	_ "github.com/lmorg/murex/builtins/events/onPrompt"            // REPL prompt triggers
 	_ "github.com/lmorg/murex/builtins/events/onSecondsElapsed"    // triggered when a command finishes
 
 	// Pipes:
@@ -51,9 +52,10 @@ import (
 	_ "github.com/lmorg/murex/builtins/pipes/term"    // writing to the terminal / TTY (required!)
 
 	// Data types:
-	_ "github.com/lmorg/murex/builtins/types/boolean"    // boolean data type
-	_ "github.com/lmorg/murex/builtins/types/columns"    // programmatic columns
-	_ "github.com/lmorg/murex/builtins/types/generic"    // generic data type
+	_ "github.com/lmorg/murex/builtins/types/boolean" // boolean data type
+	_ "github.com/lmorg/murex/builtins/types/columns" // programmatic columns
+	_ "github.com/lmorg/murex/builtins/types/generic" // generic data type
+
 	_ "github.com/lmorg/murex/builtins/types/json"       // JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonconcat" // concatenated JSON data type
 	_ "github.com/lmorg/murex/builtins/types/jsonlines"  // jsonlines data type

@@ -26,6 +26,7 @@ define an autocomplete schema manually. **zls** stands for zero-length string
 - ["Flags": array of strings (auto-populated from man pages)](#flags-array-of-strings-auto-populated-from-man-pages)
 - ["FlagsDesc": map of strings (null)](#flagsdesc-map-of-strings-null)
 - ["Goto": string (zls)](#goto-string-zls)
+- ["IgnorePrefix": boolean (false)](#ignoreprefix-boolean-false)
 - ["IncDirs": boolean (false)](#incdirs-boolean-false)
 - ["IncExeAll": boolean (false)](#incexeall-boolean-false)
 - ["IncExePath": boolean (false)](#incexepath-boolean-false)
@@ -396,6 +397,12 @@ autocomplete set dd { [
 
 **Goto** is given precedence over any other directive. So ensure it's the only
 directive in it's group.
+
+### "IgnorePrefix": boolean (false)
+
+When set to `true`, this allows **Dynamic** and **DynamicDesc** functions to
+return every result and not just those that match the partial term (as would
+normally be the default).
 
 ### "IncDirs": boolean (false)
 

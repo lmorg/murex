@@ -188,24 +188,19 @@ eventFound:
 	}
 }
 
-func (evt *keyPressEvents) Dump() interface{} {
-	type kp struct {
-		KeySequence string
-		Block       string
-		FileRef     *ref.File
-	}
-
-	dump := make(map[string]kp)
+func (evt *keyPressEvents) Dump() map[string]events.DumpT {
+	dump := make(map[string]events.DumpT)
 
 	evt.mutex.Lock()
-	defer evt.mutex.Unlock()
 
 	for i := range evt.events {
-		dump[evt.events[i].name] = kp{
-			KeySequence: evt.events[i].keySeq,
-			Block:       string(evt.events[i].block),
-			FileRef:     evt.events[i].fileRef,
+		dump[evt.events[i].name] = events.DumpT{
+			Interrupt: evt.events[i].keySeq,
+			Block:     string(evt.events[i].block),
+			FileRef:   evt.events[i].fileRef,
 		}
 	}
+
+	evt.mutex.Unlock()
 	return dump
 }

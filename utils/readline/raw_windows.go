@@ -10,11 +10,11 @@
 //
 // Putting a terminal into raw mode is the most common requirement:
 //
-// 	oldState, err := terminal.MakeRaw(0)
-// 	if err != nil {
-// 	        panic(err)
-// 	}
-// 	defer terminal.Restore(0, oldState)
+//	oldState, err := terminal.MakeRaw(0)
+//	if err != nil {
+//	        panic(err)
+//	}
+//	defer terminal.Restore(0, oldState)
 package readline
 
 import (
@@ -41,6 +41,7 @@ func MakeRaw(fd int) (*State, error) {
 		return nil, err
 	}
 	raw := st &^ (windows.ENABLE_ECHO_INPUT | windows.ENABLE_PROCESSED_INPUT | windows.ENABLE_LINE_INPUT | windows.ENABLE_PROCESSED_OUTPUT)
+	raw |= windows.ENABLE_VIRTUAL_TERMINAL_INPUT
 	if err := windows.SetConsoleMode(windows.Handle(fd), raw); err != nil {
 		return nil, err
 	}
@@ -69,5 +70,5 @@ func GetSize(fd int) (width, height int, err error) {
 	if err := windows.GetConsoleScreenBufferInfo(windows.Handle(fd), &info); err != nil {
 		return 0, 0, err
 	}
-	return int(info.Size.X), int(info.Size.Y), nil
+	return int(info.Window.Right - info.Window.Left + 1), int(info.Window.Bottom - info.Window.Top + 1), nil
 }

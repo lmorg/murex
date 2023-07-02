@@ -16,7 +16,7 @@ import (
 type eventType interface {
 	Add(name, interrupt string, block []rune, fileRef *ref.File) (err error)
 	Remove(interrupt string) (err error)
-	Dump() (dump interface{})
+	Dump() (dump map[string]DumpT)
 }
 
 var events = make(map[string]eventType)
@@ -99,4 +99,10 @@ func DumpEvents() (dump map[string]interface{}) {
 	}
 
 	return
+}
+
+type DumpT struct {
+	Interrupt string
+	Block     string
+	FileRef   *ref.File
 }

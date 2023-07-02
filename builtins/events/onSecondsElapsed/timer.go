@@ -118,22 +118,16 @@ func (t *timer) Remove(name string) (err error) {
 }
 
 // Dump returns all the events in w
-func (t *timer) Dump() interface{} {
-	type te struct {
-		Interval int
-		Block    string
-		FileRef  *ref.File
-	}
-
-	dump := make(map[string]te)
+func (t *timer) Dump() map[string]events.DumpT {
+	dump := make(map[string]events.DumpT)
 
 	t.mutex.Lock()
 
 	for i := range t.events {
-		dump[t.events[i].Name] = te{
-			Interval: t.events[i].Interval,
-			Block:    string(t.events[i].Block),
-			FileRef:  t.events[i].FileRef,
+		dump[t.events[i].Name] = events.DumpT{
+			Interrupt: time.Duration(t.events[i].Interval * int(time.Second)).String(),
+			Block:     string(t.events[i].Block),
+			FileRef:   t.events[i].FileRef,
 		}
 	}
 

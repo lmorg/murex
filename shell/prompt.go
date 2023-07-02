@@ -116,15 +116,3 @@ func ConfigWriteGetCursorPos(v interface{}) error {
 
 	return nil
 }
-
-func prePostPromptFunction(preOrPost string) {
-	block, err := lang.ShellProcess.Config.Get("shell", preOrPost+"-prompt-func", types.CodeBlock)
-	if err != nil {
-		lang.ShellProcess.Stderr.Writeln([]byte(fmt.Sprintf("error: %s", err.Error())))
-		return
-	}
-
-	fork := lang.ShellProcess.Fork(lang.F_FUNCTION | lang.F_BACKGROUND | lang.F_NO_STDIN)
-	fork.Name.Set(fmt.Sprintf("(%s-prompt)", preOrPost))
-	fork.Execute([]rune(block.(string)))
-}

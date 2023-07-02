@@ -1,6 +1,7 @@
 package ansi
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/lmorg/murex/config"
@@ -55,4 +56,37 @@ func TestAnsiNoColour(t *testing.T) {
 	if output != text {
 		t.Error("No colour override: Source string does not match expected output string: " + output)
 	}
+}
+
+func TestChar20Leak(t *testing.T) {
+	tests := []string{
+		`{ESC}123`,
+		` {ESC}123`,
+		`  {ESC}123`,
+		"\t{ESC}123",
+		`123{ESC}123`,
+		`{ESC}123`,
+		`123123`,
+		`{ESC}`,
+	}
+
+	lang.ShellProcess.Config = config.InitConf
+	lang.ShellProcess.Config.Define("shell", "color", config.Properties{
+		DataType:    types.Boolean,
+		Default:     true,
+		Description: "test data",
+	})
+
+	for i, test := range tests {
+		expected := strings.ReplaceAll(test, "{ESC}", "\x1b")
+		actual := ExpandConsts(test)
+		if expected != actual {
+			t.Errorf("mismatch in test %d", i)
+			t.Logf("  test:    '%s'", test)
+			t.Logf("  expected: %v", []byte(expected))
+			t.Logf("  actual:   %v", []byte(actual))
+		}
+	}
+
+	count.Tests(t, len(tests))
 }

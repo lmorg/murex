@@ -34,7 +34,17 @@ var (
 	// PromptId is an custom defined ID for each prompt Goprocess so we don't
 	// accidentally end up with multiple prompts running
 	PromptId = new(counter.MutexCounter)
+
+	// Events is a callback for onPrompt events
+	Events func(string)
 )
+
+func callEvents(interrupt string) {
+	if Events == nil {
+		return
+	}
+	Events(interrupt)
+}
 
 // Start the interactive shell
 func Start() {
@@ -146,7 +156,7 @@ func ShowPrompt() {
 		if nLines > 1 {
 			prompt = getMultilinePrompt(nLines)
 		} else {
-			prePostPromptFunction("pre")
+			callEvents("before")
 			block = []rune{}
 			prompt = getPrompt()
 			writeTitlebar()
@@ -164,10 +174,12 @@ func ShowPrompt() {
 				merged = ""
 				nLines = 1
 				fmt.Fprintln(tty.Stdout, PromptSIGINT)
+				callEvents("cancel")
 				continue
 
 			case readline.EOF:
 				fmt.Fprintln(tty.Stdout, utils.NewLineString)
+				callEvents("eof")
 				lang.Exit(0)
 
 			default:
@@ -216,8 +228,6 @@ func ShowPrompt() {
 			continue
 
 		default:
-			//tty.BufferRecall(prompt, syntaxHighlight(block))
-
 			merged += line
 			mergedExp, err := history.ExpandVariablesInLine([]rune(merged), Prompt)
 			if err == nil {
@@ -243,7 +253,7 @@ func ShowPrompt() {
 			nLines = 1
 			merged = ""
 
-			prePostPromptFunction("post")
+			callEvents("after")
 
 			fork := lang.ShellProcess.Fork(lang.F_PARENT_VARTABLE | lang.F_NEW_MODULE | lang.F_NO_STDIN)
 			fork.FileRef = &ref.File{Source: &ref.Source{Module: app.ShellModule}}
