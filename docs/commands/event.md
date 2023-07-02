@@ -11,8 +11,6 @@ Create or destroy an event interrupt
     event: event-type name=interrupt { code block }
     
     !event: event-type name
-    
-No pages currently exist for this category.
 
 ## Examples
 
@@ -29,12 +27,21 @@ Destroy an event:
 
 ## Detail
 
+### Supported events
+
+* [`onPrompt`](../events/onprompt.md):
+  Changes in state of the interactive shell
+
+### ANSI constants
+
 The `interrupt` field in the CLI supports ANSI constants. eg
 
     event: onKeyPress f1={F1-VT100} {
         tout: qs HintText="Key F1 Pressed"
     }
     
+### Compiled events
+
 To list compiled event types:
 
     » runtime --events -> formap event ! { out $event }
