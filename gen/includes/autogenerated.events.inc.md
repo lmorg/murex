@@ -1,2 +1,4 @@
 * [`onPrompt`](../events/onprompt.md):
-  Changes in state of the interactive shell
+  Events triggered by changes in state of the interactive shell
+* [`onSecondsElapsed`](../events/onsecondselapsed.md):
+  Events triggered by time intervals

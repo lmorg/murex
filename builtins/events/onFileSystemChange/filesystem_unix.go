@@ -148,7 +148,7 @@ func (evt *watch) init() {
 				source.name,
 				Interrupt{
 					Path:      event.Name,
-					Operation: event.Op.String(),
+					Operation: strings.ToLower(event.Op.String()),
 				},
 				source.block,
 				source.fileRef,
