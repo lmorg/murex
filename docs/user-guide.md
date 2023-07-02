@@ -386,6 +386,8 @@ are only included by default on Windows.
 
 ## Events
 
+* [`onCommandCompletion`](events/oncommandcompletion.md):
+  Trigger an event upon a command's completion
 * [`onFileSystemChange`](events/onfilesystemchange.md):
   Add a filesystem watch
 * [`onPrompt`](events/onprompt.md):
