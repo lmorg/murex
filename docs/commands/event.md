@@ -11,6 +11,17 @@ Create or destroy an event interrupt
     event: event-type name=interrupt { code block }
     
     !event: event-type name
+    
+* [Calendar Date Ranges](../mkarray/date.md):
+  Create arrays of dates
+* [Character arrays](../mkarray/character.md):
+  Making character arrays (a to z)
+* [Decimal Ranges](../mkarray/decimal.md):
+  Create arrays of decimal integers
+* [Non-Decimal Ranges](../mkarray/non-decimal.md):
+  Create arrays of integers from non-decimal number bases
+* [Special Ranges](../mkarray/special.md):
+  Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
 
 ## Examples
 
@@ -35,9 +46,11 @@ The `interrupt` field in the CLI supports ANSI constants. eg
     
 To list compiled event types:
 
-    » runtime: --events -> formap k v { out $k }
+    » runtime --events -> formap event ! { out $event }
+    onCommandCompletion
     onFileSystemChange
     onKeyPress
+    onPrompt
     onSecondsElapsed
 
 ## Synonyms

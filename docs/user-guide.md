@@ -14,6 +14,7 @@ shell and Murex's numerous features.
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
+- [Events](#events)
 - [API Reference](#api-reference)
 
 </div>
@@ -382,6 +383,10 @@ are only included by default on Windows.
   YAML Ain't Markup Language (YAML)
 * [mxjson](types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+
+## Events
+
+No pages currently exist for this category.
 
 ## API Reference
 

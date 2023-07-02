@@ -23,7 +23,6 @@
     * Improved Windows support. Arrow keys and other special keys are now handled correctly ([#630](https://github.com/lmorg/murex/issues/630))
 
     * Fix `ctrl`+`a` offset by 1 error ([#628](https://github.com/lmorg/murex/pull/628))
-
   Related:
     - commands/event
     - commands/config
