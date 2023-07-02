@@ -14,10 +14,10 @@
     !event: onPrompt [before_|after_|abort_|eof_]name
     ```
   Flags:
-    - before: Triggered before readline displays the interactive prompt
-    - after: Triggered after user has written a command into the interactive prompt and then hit `enter`
-    - abort: Triggered if `ctrl`+`c` pressed while in the interactive prompt
-    - eof: Triggered if `ctrl`+`d` pressed while in the interactive prompt
+    before: Triggered before readline displays the interactive prompt
+    after: Triggered after user has written a command into the interactive prompt and then hit `enter`
+    abort: Triggered if `ctrl`+`c` pressed while in the interactive prompt
+    eof: Triggered if `ctrl`+`d` pressed while in the interactive prompt
   Detail: |-
     ### Stdout
 

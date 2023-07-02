@@ -27,4 +27,5 @@
     - commands/event
     - commands/config
     - commands/autocomplete
+    - events/onprompt
 
