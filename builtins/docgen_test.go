@@ -101,6 +101,7 @@ func init() {
 		"read":                  "read_commands_docgen.go",
 		"regexp":                "regexp_commands_docgen.go",
 		"right":                 "right_commands_docgen.go",
+		"round":                 "round_commands_docgen.go",
 		"runmode":               "runmode_commands_docgen.go",
 		"runtime":               "runtime_commands_docgen.go",
 		"rx":                    "rx_commands_docgen.go",

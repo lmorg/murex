@@ -8,39 +8,6 @@
 (often referred to as _readline_). Those states are defined in the interrupts
 section below.
 
-### Payload
-
-The following payload is passed to the function via STDIN:
-
-    {
-        "Name": "",
-        "Interrupt": {
-            "Name": "",
-            "Operation": "",
-            "CmdLine": ""
-        }
-    }
-    
-#### Name
-
-This is the **namespaced** name -- ie the name and operation.
-
-#### Interrupt/Name
-
-This is the name you specified when defining the event.
-
-#### Operation
-
-This is the interrupt you specified when defining the event.
-
-Valid interrupt operation values are specified below.
-
-#### CmdLine
-
-This is the commandline you typed in the prompt.
-
-Please note this is only populated if the interrupt is **after**.
-
 ## Usage
 
     event: onPrompt name=[before|after|abort|eof] { code block }
@@ -81,6 +48,39 @@ Please note this is only populated if the interrupt is **after**.
     hello world
 
 ## Detail
+
+### Payload
+
+The following payload is passed to the function via STDIN:
+
+    {
+        "Name": "",
+        "Interrupt": {
+            "Name": "",
+            "Operation": "",
+            "CmdLine": ""
+        }
+    }
+    
+#### Name
+
+This is the **namespaced** name -- ie the name and operation.
+
+#### Interrupt/Name
+
+This is the name you specified when defining the event.
+
+#### Operation
+
+This is the interrupt you specified when defining the event.
+
+Valid interrupt operation values are specified below.
+
+#### CmdLine
+
+This is the commandline you typed in the prompt.
+
+Please note this is only populated if the interrupt is **after**.
 
 ### Stdout
 

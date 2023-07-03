@@ -1,0 +1,25 @@
+- DocumentID: round
+  Title: >+
+    `round` 
+  CategoryID: commands
+  Summary: >-
+    Round a number by a user defined precision
+  Description: |-
+    `round` supports a few different levels of precision
+  Usage: |-
+    ```
+    round input precision -> <stdout>
+    ```
+  Examples: |-
+  Flags:
+    "--down": >-
+      Rounds down to the nearest multiple (not supported when precision is to decimal places)
+    "--up": >-
+      Rounds up to the nearest multiple (not supported when precision is to decimal places)
+    "-d": "alias of `--down`"
+    "-u": "alias of `--up`"
+  Detail:
+  Synonyms:
+  Related:
+  - expr
+

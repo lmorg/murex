@@ -4,7 +4,12 @@
 
 ## Description
 
+While `date` is a standard UNIX tool, it's syntax can vary from Linux to macOS.
+`datetype` aims to be a cross platform alternative while also offering a range
+of saner syntax options too.
 
+The syntax for `datetime` is modelled from date and time libraries from various
+popular programming languages.
 
 ## Usage
 
