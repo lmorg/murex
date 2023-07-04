@@ -1,7 +1,7 @@
 package parameters
 
 import (
-	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/lmorg/murex/lang/types"
@@ -9,9 +9,12 @@ import (
 
 // Arguments is a struct which holds the allowed flags supported when parsing the flags (with ParseFlags)
 type Arguments struct {
-	AllowAdditional bool
-	Flags           map[string]string
+	AllowAdditional    bool
+	IgnoreInvalidFlags bool
+	Flags              map[string]string
 }
+
+const invalidParameters = "invalid parameters"
 
 // ParseFlags parses the parameters and return which flags are set.
 // `Arguments` is a list of supported flags taken as a struct to enable easy querying from within murex shell scripts.
@@ -37,14 +40,19 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 			case strings.HasPrefix(args.Flags[params[i]], "-"):
 				params[i] = args.Flags[params[i]]
 				goto scanFlags
-			case previous != "":
-				return nil, nil, errors.New("Invalid parameters! Flag found without value: `" + previous + "`")
+			//case previous != "":
+			//	return nil, nil, fmt.Errorf("%s: flag found without value: `%s`", invalidParameters, previous)
 			case args.Flags[params[i]] == types.Boolean:
 				flags[params[i]] = types.TrueString
 			case args.Flags[params[i]] != "":
 				previous = params[i]
+			case previous != "":
+				flags[previous] = params[i]
+				previous = ""
+			case args.IgnoreInvalidFlags && args.AllowAdditional:
+				additional = append(additional, params[i])
 			default:
-				return nil, nil, errors.New("Invalid parameters! Flag not recognised: `" + params[i] + "`")
+				return nil, nil, fmt.Errorf("%s: flag not recognised: `%s`", invalidParameters, params[i])
 			}
 
 		case previous != "":
@@ -53,14 +61,14 @@ func ParseFlags(params []string, args *Arguments) (flags map[string]string, addi
 
 		default:
 			if !args.AllowAdditional {
-				return nil, nil, errors.New("Invalid parameters! Parameter found without a flag: `" + params[i] + "`")
+				return nil, nil, fmt.Errorf("%s: parameter found without a flag: `%s`", invalidParameters, params[i])
 			}
 			additional = append(additional, params[i])
 		}
 	}
 
 	if previous != "" {
-		return nil, nil, errors.New("Invalid parameters! Flag found without value: `" + previous + "`")
+		return nil, nil, fmt.Errorf("%s: flag found without value: `%s`", invalidParameters, previous)
 	}
 
 	return

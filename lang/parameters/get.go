@@ -37,9 +37,9 @@ func (p *Parameters) ByteAllRange(start, end int) []byte {
 	var b []byte
 	p.mutex.RLock()
 
-	if end == -1 {
+	/*if end == -1 {
 		b = []byte(strings.Join(p.params[start:], " "))
-	}
+	}*/
 	b = []byte(strings.Join(p.params[start:end], " "))
 
 	p.mutex.RUnlock()
