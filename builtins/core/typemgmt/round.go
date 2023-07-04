@@ -26,7 +26,8 @@ var roundArgs = &parameters.Arguments{
 		"-d":          flagRoundDown,
 		"-u":          flagRoundUp,
 	},
-	AllowAdditional: true,
+	AllowAdditional:    true,
+	IgnoreInvalidFlags: true,
 }
 
 func cmdRound(p *lang.Process) error {
@@ -37,20 +38,20 @@ func cmdRound(p *lang.Process) error {
 		return err
 	}
 	if len(params) != 2 {
-		return fmt.Errorf("invalid parameters. Expecting `round <value> <rounding>")
+		return fmt.Errorf("invalid parameters. Expecting `round <value> <precision>")
 	}
 
 	v, err := types.ConvertGoType(params[0], types.Float)
-	input := v.(float64)
 	if err != nil {
-		return fmt.Errorf("cannot convert '%s' to float: %s", params[0], err.Error())
+		return err
 	}
+	value := v.(float64)
 
 	v, err = types.ConvertGoType(params[1], types.Float)
 	if err != nil {
-		return fmt.Errorf("cannot convert '%s' to float: %s", params[1], err.Error())
+		return err
 	}
-	round := v.(float64)
+	precision := v.(float64)
 
 	roundDown := flags[flagRoundDown] == types.TrueString
 	roundUp := flags[flagRoundUp] == types.TrueString
@@ -60,32 +61,35 @@ func cmdRound(p *lang.Process) error {
 	}
 
 	switch {
-	case round == 0:
-		fallthrough
-	case round == 1:
-		switch {
-		case roundDown:
-			return roundWriter(p, roundDownInteger(input))
-		case roundUp:
-			return roundWriter(p, roundUpInteger(input))
-		default:
-			return roundWriter(p, roundNearestInteger(input))
+	case strings.Contains(params[1], "."):
+		if roundUp || roundDown {
+			return fmt.Errorf("you cannot use both %s/-d nor %s/-u when rounding to a decimal place (non-integer precision)", flagRoundDown, flagRoundUp)
 		}
+		split := strings.SplitN(params[1], ".", 2)
+		round := len(split[1])
+		return roundWriter(p, roundNearestDecimalPlace(value, round))
 
-	case round == float64(int(round)):
+	case precision == 0:
+		fallthrough
+	case precision == 1:
 		switch {
 		case roundDown:
-			return roundWriter(p, roundDownMultiple(int(input), int(round)))
+			return roundWriter(p, roundDownInteger(value))
 		case roundUp:
-			return roundWriter(p, roundUpMultiple(int(input), int(round)))
+			return roundWriter(p, roundUpInteger(value))
 		default:
-			return roundWriter(p, roundNearestMultiple(int(input), int(round)))
+			return roundWriter(p, roundNearestInteger(value))
 		}
 
 	default:
-		split := strings.SplitN(params[1], ".", 2)
-		round := len(split[1])
-		return roundWriter(p, roundNearestDecimalPlace(input, round))
+		switch {
+		case roundDown:
+			return roundWriter(p, roundDownMultiple(int(value), int(precision)))
+		case roundUp:
+			return roundWriter(p, roundUpMultiple(int(value), int(precision)))
+		default:
+			return roundWriter(p, roundNearestMultiple(int(value), int(precision)))
+		}
 	}
 }
 
