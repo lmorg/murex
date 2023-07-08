@@ -1,0 +1,28 @@
+autocomplete set gping %[{
+    DynamicDesc: '{
+        autocomplete.gping
+    }'
+}]
+
+private autocomplete.gping {
+    # autocompletions for gping: https://github.com/orf/gping
+
+    test: define notempty %{
+        StdoutRegex: '--cmd'
+    }
+
+    gping --help -> [Options..]re -> foreach --step 2 line {
+        out "$line[0]\t$line[1]"
+    } -> :str: mtac <test_notempty> -> tabulate --map --split-comma --key-inc-hint
+}
+
+test unit private autocomplete.gping %{
+    StdoutBlock: '{
+        -> count -> set len
+        if { $len < 20 } then {
+            err "Missing expected suggestions"
+        } else {
+            out "20 or more suggestions found"
+        }
+    }'
+}

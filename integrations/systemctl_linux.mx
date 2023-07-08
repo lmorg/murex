@@ -1,0 +1,55 @@
+if { which: systemctl } {
+    private autocomplete.systemctl {
+        # Returns all known systemd unit files
+        systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
+    }
+
+    test unit private autocomplete.systemctl {
+        "StdoutRegex": (shutdown\.target),
+        "StdoutType":  "str",
+        "StdoutBlock": ({
+            -> len -> set len;
+            if { = len>0 } then {
+                out "Len greater than 0"
+            } else {
+                err "No elements returned"
+            }
+        }),
+        "StdoutIsArray": true
+    }
+
+    function autocomplete.systemctl.flags {
+        # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
+        systemctl: --help -> @[Unit Commands:..]s -> regexp (m/(NAME|PATTERN)/) -> tabulate: --map --key-inc-hint -> formap key val {
+            out ("$key": [{
+                "Dynamic": ({ autocomplete.systemctl }),
+                "ListView": true,
+                "Optional": false,
+                "AllowMultiple": true
+            }],)
+        }
+        out ("": [{}]) # dummy value so there's no trailing comma
+    }
+
+    autocomplete set systemctl ([
+        {
+            "DynamicDesc": ({
+                systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
+            }),
+            "Optional": true,
+            "AllowMultiple": false
+        },
+        {
+            "DynamicDesc": ({
+                systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
+            }),
+            "Optional": false,
+            "AllowMultiple": false,
+            "FlagValues": {
+                ${ autocomplete.systemctl.flags }
+            }
+        }
+    ])
+
+    !function autocomplete.systemctl.flags
+}

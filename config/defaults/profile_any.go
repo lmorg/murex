@@ -4,12 +4,12 @@ import (
 	_ "embed"
 )
 
-//go:embed profile_all.mx
-var profileAll []byte
+//go:embed profile_any.mx
+var profileAny []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_all.mx",
-		Block: profileAll,
+		Name:  "profile_any.mx",
+		Block: profileAny,
 	})
 }

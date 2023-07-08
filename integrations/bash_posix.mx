@@ -1,0 +1,21 @@
+if { which bash } then {
+    function bash {
+        # Wrapper script around GNU bash
+        
+        config: set proc strict-arrays false
+        config: set proc force-tty true
+        
+        if { $ARGS -> len -> = -1 } then {
+            exec bash @{ $ARGS -> @[1..] }
+        
+        } else {
+            exec bash
+        }
+    }
+
+    trypipe {
+        man-summary: <!null> bash -> set: bash_summary
+        summary bash $bash_summary
+        !set bash_summary
+    }
+}

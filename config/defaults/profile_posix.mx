@@ -11,17 +11,17 @@ config: set shell prompt {
     }
 }
 
+config: set shell prompt-multiline {
+    let len = ${pwd_short -> grep -E -o '[^/]+$' -> wc -c} - 1
+    printf "%${$len}s » " $linenum
+}
+
 if { which: less } then {
     function murex-docs {
         # Wrapper around builtin to pipe to less
         config: set proc strict-arrays false
         fexec: builtin murex-docs @PARAMS | less
     }
-}
-
-config: set shell prompt-multiline {
-    let len = ${pwd_short -> grep -E -o '[^/]+$' -> wc -c} - 1
-    printf "%${$len}s » " $linenum
 }
 
 autocomplete set man { [{
@@ -49,26 +49,6 @@ autocomplete set sudo { [
     },
     {
         "NestedCommand": true
-    }
-] }
-
-autocomplete set dd { [
-    {
-        "Flags": [ "if=", "of=", "bs=", "iflag=", "oflag=", "count=", "status=" ],
-        "FlagValues": {
-            "if": [{ 
-                "IncFiles": true
-            }],
-            "of": [{ 
-                "IncFiles": true
-            }],
-            "*": [{
-                "AllowAny": true
-            }]
-        }
-    },
-    {
-        "Goto": "/0"
     }
 ] }
 
@@ -144,33 +124,6 @@ autocomplete set sftp { [ {
     "Dynamic": "{ getHostsFile }"
 }] }
 
-private autocomplete.kill {
-    # Autocomplete suggestion for `kill`
-    test define ps {
-        "ExitNum": 0
-    }
-    
-    test define map {
-        "StdoutRegex": (\{(".*?":".*?",?)+\})
-    }
-
-    ps <test_ps> -A -o pid -o command -> sed 1d -> set ps
-    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
-}
-
-test unit private autocomplete.kill {
-    "StdoutType": "json",
-    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
-}
-
-autocomplete set kill {
-    [{
-        "DynamicDesc": ({ autocomplete.kill }),
-        "ListView": true,
-        "AllowMultiple": true
-    }]
-}
-
 autocomplete: set bg {
     [{
         "DynamicDesc": ({ fid-list --stopped }),
@@ -187,105 +140,8 @@ autocomplete: set fg {
     }]
 }
 
-private go-package {
-    # returns all the packages in $GOPATH
-    find <!null> $GOPATH/src/ -type d -not -path */.* -> sed -r s:$GOPATH/src/::
-}
-
-autocomplete set go { [{
-    "Flags": [ "help" ],
-    "DynamicDesc": ({
-        go help -> @[^The commands are..^Use]r -> tabulate: --map
-    }),
-    "FlagValues": {
-        "get": [{
-            "Flags": [ "github.com/" ]
-        }],
-        "run": [{
-            "Dynamic": ({ go-package }),
-            "AutoBranch": true
-        }],
-        "test": [{
-            "Dynamic": ({ go-package }),
-            "AutoBranch": true,
-            "Flags": [ "./..." ]
-        }],
-        "mod": [{
-            "DynamicDesc": ({
-                go help mod -> @[^The commands are..^Use]r -> tabulate: --map
-            })
-        }],
-        "help": [{
-            "DynamicDesc": ({
-                go help -> tabulate: --map
-            })
-        }],
-        "build": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
-        "install": [{ "Dynamic": ({ go-package }), "AutoBranch": true }],
-        "fmt": [{ "IncFiles": true }],
-        "vet": [{ "IncFiles": true }],
-        "generate": [{ "IncFiles": true }]
-    }
-}] }
-
-autocomplete: set zfs {
-    [{
-        "Dynamic": ({
-             zfs ? grep -E "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
-autocomplete: set zpool {
-    [{
-        "Dynamic": ({
-             zpool ? grep -E "^\t[a-z]+" -> regexp 'f/\t+([a-z]+)/' -> uniq 
-        })
-    }]
-}
-
 config eval shell safe-commands {
     -> alter --merge / ([
         "cat", "ps", "grep", "egrep", "ls", "head", "tail", "printf", "awk", "sed", "td", "cut"
     ])
-}
-
-if { which bash } then {
-    function bash {
-        # Wrapper script around GNU bash
-        config: set proc strict-arrays false
-        config: set proc force-tty true
-        
-        if { $ARGS -> len -> = -1 } then {
-            exec bash @{ $ARGS -> @[1..] }
-        
-        } else {
-            exec bash
-        }
-    }
-
-    trypipe {
-        man-summary: <!null> bash -> set: bash_summary
-        summary bash $bash_summary
-        !set bash_summary
-    }
-}
-
-autocomplete set make { [
-    {
-        "DynamicDesc":  ({
-            make --help -> tabulate: --key-inc-hint --map --split-comma --column-wraps
-        }),
-        "Optional": true,
-        "AllowMultiple": true
-    },
-    {
-        "Dynamic": ({
-            grep '^[^\.][-a-zA-Z\.0-9_\/]*:' ./Makefile -> regexp 's/:.*//g' -> uniq
-        })
-    }
-] }
-
-if { which: aspell } then {
-    config: set shell spellcheck-enabled true
 }

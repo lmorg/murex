@@ -2,63 +2,6 @@ alias ls=ls --color=auto
 alias grep=grep --color=auto
 alias egrep=egrep --color=auto
 
-if { which: systemctl } {
-    private autocomplete.systemctl {
-        # Returns all known systemd unit files
-        systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
-    }
-
-    test unit private autocomplete.systemctl {
-        "StdoutRegex": (shutdown\.target),
-        "StdoutType":  "str",
-        "StdoutBlock": ({
-            -> len -> set len;
-            if { = len>0 } then {
-                out "Len greater than 0"
-            } else {
-                err "No elements returned"
-            }
-        }),
-        "StdoutIsArray": true
-    }
-
-    function autocomplete.systemctl.flags {
-        # Parses `systemctl --help` looking for flags then returns `autocomplete` config based on those flags
-        systemctl: --help -> @[Unit Commands:..]s -> regexp (m/(NAME|PATTERN)/) -> tabulate: --map --key-inc-hint -> formap key val {
-            out ("$key": [{
-                "Dynamic": ({ autocomplete.systemctl }),
-                "ListView": true,
-                "Optional": false,
-                "AllowMultiple": true
-            }],)
-        }
-        out ("": [{}]) # dummy value so there's no trailing comma
-    }
-
-    autocomplete set systemctl ([
-        {
-            "DynamicDesc": ({
-                systemctl: --help -> @[..Unit Commands:]s -> tabulate: --column-wraps --map --key-inc-hint --split-space
-            }),
-            "Optional": true,
-            "AllowMultiple": false
-        },
-        {
-            "DynamicDesc": ({
-                systemctl: --help -> @[Unit Commands:..]s -> tabulate: --column-wraps --map --key-inc-hint
-            }),
-            "Optional": false,
-            "AllowMultiple": false,
-            "FlagValues": {
-                ${ autocomplete.systemctl.flags }
-            }
-        }
-    ])
-
-    !function autocomplete.systemctl.flags
-
-}
-
 function progress {
     # Pulls the read progress of a Linux pid via /proc/$pid/fdinfo (only runs on Linux)
 
@@ -101,28 +44,4 @@ if { or { $WSLENV } { $WSL_DISTRO_NAME } } then {
             -> cast str -> format json \
             -> config: set wsl windows-mounts true
     }
-}
-
-if { which: yay } then {
-    autocomplete set yay { [{
-        "FlagsDesc": {
-            "-h": "help",        "--help":        "help",
-            "-V": "version",     "--version":     "version",                                                                                                                                                                                            
-            "-D": "database",    "--database":    "database",
-            "-F": "files",       "--files":       "files",
-            "-Q": "query",       "--query":       "query",
-            "-R": "remove",      "--remove":      "remove",
-            "-S": "sync",        "--sync":        "sync",
-            "-T": "deptest",     "--deptest":     "deptest",
-            "-U": "upgrade",     "--upgrade":     "upgrade",
-            "-Y": "yay",         "--yay":         "yay",
-            "-P": "show",        "--show":        "show",
-            "-G": "getpkgbuild", "--getpkgbuild": "getpkgbuild"
-        },
-        "DynamicDesc": ({
-            yay --help -> @[New options..]r -> tabulate --map --split-space --key-inc-hint
-        }),
-        "AllowMultiple": true,
-        "IncFiles": true
-    }] }
 }
