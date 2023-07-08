@@ -12,7 +12,7 @@ var profileNetbsd []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_netbsd.mx",
+		Name:  "profile_netbsd",
 		Block: profileNetbsd,
 	})
 }

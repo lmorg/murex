@@ -33,6 +33,7 @@ function murex.flag.trypipe.semicolon {
 test: unit function murex.flag.trypipe.semicolon {
     "StderrRegex": "foo",
     "ExitNum":     1
+
 }
 
 function murex.flag.trypipe.pipe {

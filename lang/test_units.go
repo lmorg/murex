@@ -353,10 +353,10 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 		}
 	}
 
-	if plan.StderrMatch != "" {
-		if string(stderr) == plan.StderrMatch {
-			addReport(TestInfo, tMsgStringMatch("StderrMatch"))
-		} else {
+	if string(stderr) == plan.StderrMatch {
+		addReport(TestInfo, tMsgStringMatch("StderrMatch"))
+	} else {
+		if plan.StderrMatch != "" || plan.StderrRegex == "" {
 			passed = false
 			addReport(TestFailed, tMsgStringMismatch("StderrMatch", stderr))
 		}

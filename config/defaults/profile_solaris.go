@@ -12,7 +12,7 @@ var profileSolaris []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_solaris.mx",
+		Name:  "profile_solaris",
 		Block: profileSolaris,
 	})
 }

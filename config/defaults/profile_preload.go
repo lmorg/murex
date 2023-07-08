@@ -10,7 +10,7 @@ var profilePreload []byte
 func init() {
 	// push to top of slice so it is first profile loaded
 	DefaultProfiles = append([]*DefaultProfileT{{
-		Name:  "profile_preload.mx",
+		Name:  "profile_preload",
 		Block: profilePreload,
 	}}, DefaultProfiles...)
 }

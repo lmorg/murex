@@ -9,7 +9,7 @@ var profileAny []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_any.mx",
+		Name:  "profile_any",
 		Block: profileAny,
 	})
 }

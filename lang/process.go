@@ -136,7 +136,7 @@ func createProcess(p *Process, isMethod bool) {
 		if err == nil {
 			p.Stderr = pipe
 		} else {
-			p.Stderr.Writeln([]byte("Invalid usage of named pipes: " + err.Error()))
+			p.Stderr.Writeln([]byte("invalid usage of named pipes: " + err.Error()))
 		}
 	}
 
