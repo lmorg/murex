@@ -446,6 +446,9 @@ autocomplete: set git %[{
         $commands ~> $aliases
     }'
     ListView: true
+    FlagsDesc: {
+        config: "Get and set repository or global options" # doesn't get added from `git help`
+    }
     FlagValues: {
         init: [{
             Flags: [--bare]
@@ -455,6 +458,11 @@ autocomplete: set git %[{
             AllowAny: true
             Dynamic: %({
                 git -c color.ui=no status -s -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' -> cast str
+            })
+        }]
+        config: [{
+            DynamicDesc: %({
+                git config ? tabulate --split-comma --map --key-inc-hint
             })
         }]
         diff: [{
