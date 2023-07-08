@@ -18,13 +18,13 @@ test: unit function murex.flag.try.pipe {
     "StdoutRegex": "bar"
 }
 
-/#function murex.flag.try.errpipe {
+function murex.flag.try.errpipe {
     exec: $MUREX_EXE --try -c (err: "foo" ? out "bar") 
 }
 
 test: unit function murex.flag.try.errpipe {
     "StdoutRegex": "bar"
-}#/
+}
 
 function murex.flag.trypipe.semicolon {
     exec: $MUREX_EXE --trypipe -c (err: "foo"; out "bar") 
@@ -49,5 +49,6 @@ function murex.flag.trypipe.errpipe {
 }
 
 test: unit function murex.flag.trypipe.errpipe {
+    "StderrRegex": "Error",
     "ExitNum":     1
 }
