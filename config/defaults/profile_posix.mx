@@ -62,14 +62,7 @@ private getHostsFile {
 test unit private getHostsFile {
     "StdoutRegex": "[-_.0-9a-zA-Z]+\n",
     "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
 

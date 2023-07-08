@@ -118,24 +118,25 @@ func (ut *UnitTests) Dump() interface{} {
 
 // UnitTestPlan is defined via JSON and specifies an individual test plan
 type UnitTestPlan struct {
-	Parameters    []string
-	Stdin         string
-	StdoutMatch   string
-	StderrMatch   string
-	StdinType     string
-	StdoutType    string
-	StderrType    string
-	StdoutRegex   string
-	StderrRegex   string
-	StdoutBlock   string
-	StderrBlock   string
-	StdoutIsArray bool
-	StderrIsArray bool
-	StdoutIsMap   bool
-	StderrIsMap   bool
-	ExitNum       int
-	PreBlock      string
-	PostBlock     string
+	Parameters        []string
+	Stdin             string
+	StdoutMatch       string
+	StderrMatch       string
+	StdinType         string
+	StdoutType        string
+	StderrType        string
+	StdoutRegex       string
+	StderrRegex       string
+	StdoutBlock       string
+	StderrBlock       string
+	StdoutIsArray     bool
+	StderrIsArray     bool
+	StdoutIsMap       bool
+	StderrIsMap       bool
+	ExitNum           int
+	StdoutGreaterThan int
+	PreBlock          string
+	PostBlock         string
 }
 
 func utAddReport(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, function string, status TestStatus, message string) {
@@ -171,6 +172,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 	}
 
 	fork := ShellProcess.Fork(fStdin | F_CREATE_STDOUT | F_CREATE_STDERR | F_FUNCTION)
+	fork.FileRef = fileRef
 	fork.Parameters.DefineParsed(plan.Parameters)
 
 	if len(plan.Stdin) > 0 {
@@ -187,7 +189,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// run any initializing code...if defined
 	if len(plan.PreBlock) > 0 {
-		preFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_CREATE_STDOUT | F_CREATE_STDERR)
+		preFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
 		preFork.FileRef = fileRef
 		preFork.Name.Set("(unit test PreBlock)")
 		preExitNum, preForkErr = preFork.Execute([]rune(plan.PreBlock))
@@ -214,7 +216,7 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	// run any clear down code...if defined
 	if len(plan.PostBlock) > 0 {
-		postFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_CREATE_STDOUT | F_CREATE_STDERR)
+		postFork := ShellProcess.Fork(F_FUNCTION | F_NEW_MODULE | F_NO_STDIN | F_CREATE_STDOUT | F_CREATE_STDERR)
 		postFork.Name.Set("(unit test PostBlock)")
 		postFork.FileRef = fileRef
 		postExitNum, postForkErr = postFork.Execute([]rune(plan.PostBlock))
@@ -273,6 +275,16 @@ func runTest(results *TestResults, fileRef *ref.File, plan *UnitTestPlan, functi
 
 	if plan.StdoutIsMap {
 		status, message := testIsMap(stdout, stdoutType, "StdoutIsMap")
+		if status == TestPassed {
+			addReport(TestInfo, message)
+		} else {
+			addReport(status, message)
+			passed = false
+		}
+	}
+
+	if plan.StdoutGreaterThan > 0 {
+		status, message := testIsGreaterThanOrEqualTo(stdout, stdoutType, "StdoutGreaterThan", plan.StdoutGreaterThan)
 		if status == TestPassed {
 			addReport(TestInfo, message)
 		} else {

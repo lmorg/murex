@@ -5,6 +5,7 @@ import (
 
 	"github.com/lmorg/murex/lang/expressions/primitives"
 	"github.com/lmorg/murex/lang/expressions/symbols"
+	"github.com/lmorg/murex/lang/types"
 )
 
 func expGreaterThan(tree *ParserT) error {
@@ -21,8 +22,8 @@ func expGreaterThan(tree *ParserT) error {
 	}
 
 	switch lv.(type) {
-	case float64:
-		value = lv.(float64) > rv.(float64)
+	case float64, int:
+		value = convertNumber(lv) > convertNumber(rv)
 
 	case string:
 		value = lv.(string) > rv.(string)
@@ -57,8 +58,8 @@ func expGreaterThanOrEqual(tree *ParserT) error {
 	}
 
 	switch lv.(type) {
-	case float64:
-		value = lv.(float64) >= rv.(float64)
+	case float64, int:
+		value = convertNumber(lv) >= convertNumber(rv)
 
 	case string:
 		value = lv.(string) >= rv.(string)
@@ -93,8 +94,8 @@ func expLessThan(tree *ParserT) error {
 	}
 
 	switch lv.(type) {
-	case float64:
-		value = lv.(float64) < rv.(float64)
+	case float64, int:
+		value = convertNumber(lv) < convertNumber(rv)
 
 	case string:
 		value = lv.(string) < rv.(string)
@@ -129,8 +130,8 @@ func expLessThanOrEqual(tree *ParserT) error {
 	}
 
 	switch lv.(type) {
-	case float64:
-		value = lv.(float64) <= rv.(float64)
+	case float64, int:
+		value = convertNumber(lv) <= convertNumber(rv)
 
 	case string:
 		value = lv.(string) <= rv.(string)
@@ -149,4 +150,12 @@ func expLessThanOrEqual(tree *ParserT) error {
 			Value:     value,
 		},
 	})
+}
+
+func convertNumber(v any) float64 {
+	f, err := types.ConvertGoType(v, types.Number)
+	if err != nil {
+		return 0
+	}
+	return f.(float64)
 }

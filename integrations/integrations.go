@@ -30,7 +30,7 @@ func Profiles() []*defaults.DefaultProfileT {
 			}
 
 			profiles = append(profiles, &defaults.DefaultProfileT{
-				Name:  f.Name(),
+				Name:  f.Name()[:len(f.Name())-3], // strip ".mx" from filename
 				Block: b,
 			})
 		}

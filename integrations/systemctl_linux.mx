@@ -9,11 +9,11 @@ if { which: systemctl } {
         "StdoutType":  "str",
         "StdoutBlock": ({
             -> len -> set len;
-            if { = len>0 } then {
+            if { $len > 0 } then {
                 out "Len greater than 0"
-            } else {
-                err "No elements returned"
+                break
             }
+            err "No elements returned"
         }),
         "StdoutIsArray": true
     }

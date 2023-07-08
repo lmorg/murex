@@ -4,7 +4,8 @@ function alias.len {
     a: [1..5] -> len
 }
 
-test: unit function alias.len {
-    "StdoutMatch": "5",
-    "ExitNum":     0
+test: unit function alias.len %{
+    StdoutMatch: "5"
+    DataType:    num
+    ExitNum:     0
 }

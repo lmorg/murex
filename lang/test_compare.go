@@ -158,3 +158,46 @@ func testIsArray(b []byte, dt string, property string) (TestStatus, string) {
 		return TestFailed, tMsgDataFormatInvalid(property, dt, v)
 	}
 }
+
+func testIsGreaterThanOrEqualTo(b []byte, dt string, property string, comparison int) (TestStatus, string) {
+	fork := ShellProcess.Fork(F_CREATE_STDIN)
+	fork.Stdin.SetDataType(dt)
+	_, err := fork.Stdin.Write(b)
+	if err != nil {
+		return TestError, tMsgWriteErr(property, err)
+	}
+
+	v, err := UnmarshalData(fork.Process, dt)
+	if err != nil {
+		return TestFailed, tMsgUnmarshalErr(property, dt, err)
+	}
+
+	var l int
+	switch t := v.(type) {
+	case []string:
+		l = len(t)
+	case []float64:
+		l = len(t)
+	case []int:
+		l = len(t)
+	case []bool:
+		l = len(t)
+	case []interface{}:
+		l = len(t)
+
+	case map[string]string:
+		l = len(t)
+	case map[string]any:
+		l = len(t)
+	case map[any]any:
+		l = len(t)
+
+	default:
+		return TestFailed, tMsgDataFormatInvalid(property, dt, v)
+	}
+
+	if l >= comparison {
+		return TestPassed, tMsgGtEqMatch(property, l, comparison)
+	}
+	return TestFailed, tMsgGtEqFail(property, l, comparison)
+}

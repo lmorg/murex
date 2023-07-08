@@ -17,12 +17,5 @@ private autocomplete.gping {
 }
 
 test unit private autocomplete.gping %{
-    StdoutBlock: '{
-        -> count -> set len
-        if { $len < 20 } then {
-            err "Missing expected suggestions"
-        } else {
-            out "20 or more suggestions found"
-        }
-    }'
+    "StdoutGreaterThan": 20
 }

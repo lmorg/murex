@@ -56,24 +56,18 @@ autocomplete: set format { [{
 
 private autocomplete.data-types {
     # Returns all murex data-types compiled
-    runtime: --readarray -> format: str
-    runtime: --writearray -> format: str
-    runtime: --readmap -> format: str
-    runtime: --marshallers -> format: str
-    runtime: --unmarshallers -> format: str
+    runtime: --readarray         -> format: str
+    runtime: --readarraywithtype -> format: str
+    runtime: --writearray        -> format: str
+    runtime: --readmap           -> format: str
+    runtime: --marshallers       -> format: str
+    runtime: --unmarshallers     -> format: str
 }
 
 test unit private autocomplete.data-types {
     "StdoutRegex": (^(([a-z0-9]+|\*)\n)+),
     "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
 
@@ -87,12 +81,14 @@ autocomplete: set tout { [{
 
 private autocomplete.variables.locals {
     # Returns all local variable names
-    runtime: --variables -> formap k v { out $k } -> cast: str
+    cast: str
+    runtime: --variables -> formap k v { out $k }
 }
 
 private autocomplete.variables.globals {
     # Returns all global variable names
-    runtime: --globals -> formap k v { out $k } -> cast: str
+    cast: str
+    runtime: --globals -> formap k v { out $k }
 }
 
 private autocomplete.variables {
@@ -102,20 +98,17 @@ private autocomplete.variables {
     autocomplete.variables.globals
 }
 
-test unit private autocomplete.variables {
-    "PreBlock": ({ global MUREX_UNIT_TEST=foobar }),
-    "PostBlock": ({ !global MUREX_UNIT_TEST }),
-    "StdoutRegex": (^([_a-zA-Z0-9]+\n)+),
-    "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
-    "StdoutIsArray": true
+test unit private autocomplete.variables %{
+    PreBlock: '{
+        GLOBAL.MUREX_UNIT_TEST = "foobar"
+    }'
+    PostBlock: '{
+        !global MUREX_UNIT_TEST
+    }'
+    StdoutRegex:       '([_a-zA-Z0-9]+\n)+'
+    StdoutType:        str
+    StdoutGreaterThan: 1
+    StdoutIsArray:     true
 }
 
 autocomplete: set set { [{
@@ -199,14 +192,7 @@ private autocomplete.config.get.apps {
 test unit private autocomplete.config.get.apps {
     "StdoutRegex": (shell),
     "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
 
@@ -219,14 +205,7 @@ test unit private autocomplete.config.get.keys {
     "Parameters": [ "shell" ],
     "StdoutRegex": (prompt),
     "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
 
@@ -318,14 +297,7 @@ private autocomplete.alias {
 test unit private autocomplete.alias {
     "StdoutRegex": (jobs),
 	"StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsMap": true
 }
 
@@ -350,15 +322,8 @@ test unit private autocomplete.functions {
     }),
     "StdoutRegex": (unit.test.autocomplete.functions),
 	"StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
-    "StdoutIsMap": true
+    "StdoutIsMap": true,
+    "StdoutGreaterThan": 1
 }
 
 autocomplete: set !function { [{
@@ -373,14 +338,7 @@ private autocomplete.privates {
 
 test unit private autocomplete.privates {
 	"StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsMap": true
 }
 
@@ -391,14 +349,7 @@ private autocomplete.builtins {
 
 test unit private autocomplete.builtins {
 	"StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsMap": true
 }
 
@@ -464,14 +415,7 @@ private: test.alias.builtins {
 test: unit private test.alias.builtins {
     "StdoutRegex": ("[a-z0-9]+",),
     "StdoutType":  "json",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
 
@@ -493,14 +437,7 @@ private: autocomplete.aliases.and.builtins {
 
 test: unit private autocomplete.aliases.and.builtins {
     "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { = len>0 } then {
-            out "Len greater than 0"
-        } else {
-            err "No elements returned"
-        }
-    }),
+    "StdoutGreaterThan": 1,
     "StdoutIsArray": true
 }
 
