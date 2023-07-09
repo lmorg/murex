@@ -81,8 +81,10 @@ func UpdateGlobalExeList() {
 // InitExeFlags initializes empty []Flags based on sane defaults and a quick scan of the man pages (OS dependant)
 func InitExeFlags(exe string) {
 	if len(ExesFlags[exe]) == 0 {
+		flags, descriptions := scanManPages(exe)
 		ExesFlags[exe] = []Flags{{
-			Flags:         scanManPages(exe),
+			Flags:         flags,
+			FlagsDesc:     descriptions,
 			IncFiles:      true,
 			AllowMultiple: true,
 			AllowAny:      true,
@@ -110,9 +112,9 @@ func RuntimeDump() interface{} {
 	return dump
 }
 
-func scanManPages(exe string) []string {
+func scanManPages(exe string) ([]string, map[string]string) {
 	paths := man.GetManPages(exe)
-	return man.ParseByPaths(paths)
+	return man.ParseByPaths(exe, paths)
 }
 
 func allExecutables(includeBuiltins bool) map[string]bool {
@@ -150,7 +152,11 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 	}
 
 	if f.IncManPage {
-		flags := scanManPages(args.exe)
+		flags, descriptions := scanManPages(args.exe)
+		descriptions = lists.CropPartialMapKeys(descriptions, partial)
+		for k, v := range descriptions {
+			act.appendDef(k, v)
+		}
 		act.append(lists.CropPartial(flags, partial)...)
 	}
 
