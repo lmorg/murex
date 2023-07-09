@@ -1,9 +1,71 @@
+- DocumentID: return
+  Title: >+
+    `return`
+  CategoryID: commands
+  Summary: >-
+    Exits current function scope
+  Description: |-
+    `return` will terminate execution of a block at the scope level (eg `function`,
+    `private`, etc)
+
+    Conceptually it is the same as `break` except it doesn't require the scope name
+    as a parameter and you can specify the exit number rather than defaulting to 0.
+  Usage: |-
+    ```
+    return [ exit-number ]
+    ```
+  Examples: |-
+    **Setting an exit number:**
+    
+    ```
+    function example {
+        out foo
+        return 13
+        out bar
+    }
+    example
+    exitnum
+    ```
+
+    Running the above code would output:
+
+    ```
+    foo
+    13
+    ```
+
+    **Returning withing an exit number:**
+    
+    If we were to run the same code as above but with `return` written without any
+    parameters (ie instead of `return 13` it would be just `return`), then you
+    would see the following output:
+
+    ```
+    foo
+    0
+    ```
+  Flags:
+  Detail: |-
+    Any process that has been initialised within a `return`ed scope will have their
+    exit number updated to the value specified in `return` (or `0` if no parameter
+    was passed).
+  Synonyms:
+  Related:
+  - exit
+  - function
+  - private
+  - out
+  - break
+  - continue
+  - exitnum
+
+
 - DocumentID: break
   Title: >+
     `break`
   CategoryID: commands
   Summary: >-
-    terminate execution of a block within your processes scope
+    Terminate execution of a block within your processes scope
   Description: |-
     `break` will terminate execution of a block (eg `function`, `private`,
     `foreach`, `if`, etc).
@@ -59,6 +121,9 @@
         # ... do something ...
     }
     ```
+
+    Though in this particular use case it is recommended that you use `return`
+    instead, the above code does illustrate how `break` behaves.
   Flags:
   Detail: |-
     `break` cannot escape the bounds of its scope (typically the function it is
@@ -98,6 +163,7 @@
   - private
   - out
   - continue
+  - return
 
 
 - DocumentID: continue
@@ -105,7 +171,7 @@
     `continue`
   CategoryID: commands
   Summary: >-
-    terminate process of a block within a caller function
+    Terminate process of a block within a caller function
   Description: |-
     `continue` will terminate execution of a block (eg `function`, `private`,
     `foreach`, `if`, etc) right up until the caller function. In iteration loops
@@ -181,3 +247,4 @@
   - private
   - out
   - break
+  - return

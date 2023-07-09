@@ -1,3 +1,7 @@
+!if { which gping } then {
+    return
+}
+
 autocomplete set gping %[{
     DynamicDesc: '{
         autocomplete.gping

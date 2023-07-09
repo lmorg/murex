@@ -227,7 +227,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [`args` ](../commands/args.md):
   Command line flag parser for Murex shell scripting
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`export`](../commands/export.md):
