@@ -17,7 +17,7 @@ Terminate Murex with an exit number of 1.
 ## See Also
 
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`exit`](../commands/exit.md):
   Exit murex
 * [`null`](../commands/devnull.md):

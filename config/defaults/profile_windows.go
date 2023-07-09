@@ -12,7 +12,7 @@ var profileWindows []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_windows.mx",
+		Name:  "profile_windows",
 		Block: profileWindows,
 	})
 }

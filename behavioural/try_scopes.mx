@@ -17,7 +17,7 @@ function: control.runmode.fail {
 
 test: unit function control.runmode.fail {
     "StdoutMatch": "foo\nbar\n",
-    "StderrRegexp": "should only be used as the first statement in a block",
+    "StderrRegex": "should only be used as the first statement in a block",
     "ExitNum": 0
 }
 
@@ -107,7 +107,7 @@ function try.scope.fn.read.fail {
 }
 
 test: unit function try.scope.fn.read.fail {
-    "StderrRegexp": "cannot read from",
+    "StderrRegex": "cannot read from",
     "ExitNum": 1
 }
 
@@ -147,7 +147,7 @@ function try.scope.mod.read.fail {
 }
 
 test: unit function try.scope.mod.read.fail {
-    "StderrRegexp": "cannot read from",
+    "StderrRegex": "cannot read from",
     "ExitNum": 1
 }
 
@@ -238,7 +238,7 @@ function trypipe.scope.fn.read.fail {
 }
 
 test: unit function trypipe.scope.fn.read.fail {
-    "StderrRegexp": "cannot read from",
+    "StderrRegex": "cannot read from",
     "ExitNum": 1
 }
 
@@ -278,6 +278,6 @@ function trypipe.scope.mod.read.fail {
 }
 
 test: unit function trypipe.scope.mod.read.fail {
-    "StderrRegexp": "cannot read from",
+    "StderrRegex": "cannot read from",
     "ExitNum": 1
 }

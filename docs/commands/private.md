@@ -91,7 +91,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 * [`alias`](../commands/alias.md):
   Create an alias for a command
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`export`](../commands/export.md):

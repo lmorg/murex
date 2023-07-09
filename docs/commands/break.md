@@ -1,6 +1,6 @@
 # `break` - Command Reference
 
-> terminate execution of a block within your processes scope
+> Terminate execution of a block within your processes scope
 
 ## Description
 
@@ -54,6 +54,9 @@ languages) too
         
         # ... do something ...
     }
+    
+Though in this particular use case it is recommended that you use `return`
+instead, the above code does illustrate how `break` behaves.
 
 ## Detail
 
@@ -84,7 +87,7 @@ raise the following error:
 ## See Also
 
 * [`continue`](../commands/continue.md):
-  terminate process of a block within a caller function
+  Terminate process of a block within a caller function
 * [`exit`](../commands/exit.md):
   Exit murex
 * [`foreach`](../commands/foreach.md):
@@ -99,3 +102,5 @@ raise the following error:
   Print a string to the STDOUT with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
+* [`return`](../commands/return.md):
+  Exits current function scope

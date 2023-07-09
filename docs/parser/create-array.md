@@ -166,5 +166,3 @@ arrays. For more details on these please refer to the documents for each format
   A sophisticated yet simple way to build an array of a user defined data-type
 * [create-object](../parser/create-object.md):
   
-* [mkarray](../commands/mkarray.md):
-  

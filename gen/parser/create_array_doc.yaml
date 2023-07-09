@@ -161,7 +161,6 @@
   - double-quote
   - brace-quote
   - commands/expr
-  - commands/mkarray
   - mkarray/special
   - commands/a
   - commands/ja

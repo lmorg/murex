@@ -1,6 +1,6 @@
 # `continue` - Command Reference
 
-> terminate process of a block within a caller function
+> Terminate process of a block within a caller function
 
 ## Description
 
@@ -67,7 +67,7 @@ raise the following error:
 ## See Also
 
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`exit`](../commands/exit.md):
   Exit murex
 * [`foreach`](../commands/foreach.md):
@@ -82,3 +82,5 @@ raise the following error:
   Print a string to the STDOUT with a trailing new line character
 * [`private`](../commands/private.md):
   Define a private function block
+* [`return`](../commands/return.md):
+  Exits current function scope

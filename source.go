@@ -7,6 +7,8 @@ import (
 
 	"github.com/lmorg/murex/builtins/pipes/term"
 	"github.com/lmorg/murex/config/defaults"
+	"github.com/lmorg/murex/debug"
+	"github.com/lmorg/murex/integrations"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/ref"
 	"github.com/lmorg/murex/lang/tty"
@@ -50,6 +52,10 @@ func diskSource(filename string) ([]byte, error) {
 }
 
 func execSource(source []rune, sourceRef *ref.Source) {
+	if debug.Enabled {
+		tty.Stderr.WriteString("Loading profile `" + sourceRef.Module + "`" + utils.NewLineString)
+	}
+
 	var stdin int
 	if os.Getenv(consts.EnvMethod) != consts.EnvTrue {
 		stdin = lang.F_NO_STDIN
@@ -80,7 +86,12 @@ func defaultProfile() {
 	defaults.AddMurexProfile()
 
 	for _, profile := range defaults.DefaultProfiles {
-		ref := ref.History.AddSource("(builtin)", "builtin/profile", profile.Block)
+		ref := ref.History.AddSource("(builtin)", "builtin/"+profile.Name, profile.Block)
+		execSource([]rune(string(profile.Block)), ref)
+	}
+
+	for _, profile := range integrations.Profiles() {
+		ref := ref.History.AddSource("(builtin)", "builtin/integrations_"+profile.Name, profile.Block)
 		execSource([]rune(string(profile.Block)), ref)
 	}
 }

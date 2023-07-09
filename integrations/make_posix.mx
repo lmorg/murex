@@ -1,0 +1,14 @@
+autocomplete set make { [
+    {
+        "DynamicDesc":  ({
+            make --help -> tabulate: --key-inc-hint --map --split-comma --column-wraps
+        }),
+        "Optional": true,
+        "AllowMultiple": true
+    },
+    {
+        "Dynamic": ({
+            grep '^[^\.][-a-zA-Z\.0-9_\/]*:' ./Makefile -> regexp 's/:.*//g' -> uniq
+        })
+    }
+] }

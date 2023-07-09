@@ -186,7 +186,7 @@ false.
 * [`and`](../commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`catch`](../commands/catch.md):
   Handles the exception code raised by `try` or `trypipe` 
 * [`false`](../commands/false.md):

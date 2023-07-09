@@ -12,7 +12,7 @@ var profileFreebsd []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_freebsd.mx",
+		Name:  "profile_freebsd",
 		Block: profileFreebsd,
 	})
 }

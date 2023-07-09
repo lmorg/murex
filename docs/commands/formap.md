@@ -95,7 +95,7 @@ The following meta values are defined:
 * [`[` (index)](../commands/index.md):
   Outputs an element from an array, map or table
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`for`](../commands/for.md):
   A more familiar iteration loop to existing developers
 * [`foreach`](../commands/foreach.md):

@@ -1,0 +1,48 @@
+- DocumentID: onsecondselapsed
+  Title: >+
+    `onSecondsElapsed`
+  CategoryID: events
+  Summary: >-
+    Events triggered by time intervals
+  Description: |-
+    `onSecondsElapsed` events are triggered every _n_ seconds.
+  Usage: |-
+    ```
+    event: onSecondsElapsed name=seconds { code block }
+
+    !event: onSecondsElapsed name
+    ```
+  Flags:
+    <seconds>: >-
+      Duration in seconds. eg `60` would be 60 seconds / 1 minute
+  Examples: |-
+    ```
+    event: onSecondsElapsed example=60 {
+        out: "60 seconds has passed"
+    }
+    ```
+  Detail: |-
+    ### Payload
+
+    The following payload is passed to the function via STDIN:
+
+    ```
+    {
+        "Name": "",
+        "Interrupt": 0
+    }
+    ```
+
+    #### Name
+
+    This is the name you specified when defining the event.
+
+    #### Interrupt
+
+    This is the duration you defined the event to wait for.
+  Synonyms:
+  - onsecondselapsed
+  - onSecondsElapsed
+  Related:
+  - commands/event
+  - commands/config

@@ -127,12 +127,11 @@ func TestGetUint32(t *testing.T) {
 // We don't test this because if this condition arises then it's because any Go
 // code for murex builtins is wrong, so a panic is absolutely the right way to
 // flush out those errors
-/*
-func TestGetBoundsNeg1(t *testing.T) {
+/*func TestGetBoundsNeg1(t *testing.T) {
 	count.Tests(t, 6)
 
 	p := new(parameters.Parameters)
-	p.Params = []string{"1"}
+	p.DefineParsed([]string{"1"})
 
 	var err error
 

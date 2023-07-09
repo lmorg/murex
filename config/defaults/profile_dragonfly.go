@@ -12,7 +12,7 @@ var profileDragonfly []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_dragonfly.mx",
+		Name:  "profile_dragonfly",
 		Block: profileDragonfly,
 	})
 }

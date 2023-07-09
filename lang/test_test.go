@@ -126,7 +126,7 @@ func TestMurexTestUnit(t *testing.T) {
 		{
 			Block: fmt.Sprintf(`
 					test: unit function test.%s.%d {
-						"StdoutRegexp": "%s.%d"
+						"StdoutRegex": "%s.%d"
 					}
 
 					function test.%s.%d {
@@ -167,7 +167,7 @@ func TestMurexTestUnit(t *testing.T) {
 		{
 			Block: fmt.Sprintf(`
 					test: unit function test.%s.%d {
-						"StderrRegexp": "%s.%d",
+						"StderrRegex": "%s.%d",
 						"ExitNum": 1
 					}
 

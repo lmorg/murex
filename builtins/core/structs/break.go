@@ -8,8 +8,14 @@ import (
 )
 
 func init() {
+	lang.DefineFunction("return", cmdReturn, types.Null)
 	lang.DefineFunction("break", cmdBreak, types.Null)
 	lang.DefineFunction("continue", cmdContinue, types.Null)
+}
+
+func cmdReturn(p *lang.Process) error {
+	p.ExitNum, _ = p.Parameters.Int(0)
+	return breakUpwards(p, p.Scope.Name.String(), p.ExitNum)
 }
 
 func cmdBreak(p *lang.Process) error {
@@ -17,17 +23,22 @@ func cmdBreak(p *lang.Process) error {
 	if name == "" {
 		p.Done()
 		p.Parent.Done()
-		killProcChain(p.Parent)
+		killProcChain(p.Parent, 0)
 		return fmt.Errorf(
 			"missing parameter. Stopping execution of `%s` as a precaution",
 			p.Parent.Name.String(),
 		)
 	}
 
+	return breakUpwards(p, name, 0)
+}
+
+func breakUpwards(p *lang.Process, name string, exitNum int) error {
 	scope := p.Scope.Id
 	proc := p.Parent
 	for {
-		killProcChain(proc)
+		proc.ExitNum = exitNum
+		killProcChain(proc, exitNum)
 		proc.Done()
 
 		if proc.Name.String() == name {
@@ -45,10 +56,11 @@ func cmdBreak(p *lang.Process) error {
 	}
 }
 
-func killProcChain(p *lang.Process) {
+func killProcChain(p *lang.Process, exitNum int) {
 	forks := p.Forks.GetForks()
 	for _, procs := range forks {
 		for i := range *procs {
+			(*procs)[i].ExitNum = exitNum
 			(*procs)[i].Done()
 		}
 	}

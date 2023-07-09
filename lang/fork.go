@@ -264,11 +264,11 @@ func (fork *Fork) Execute(block []rune) (exitNum int, err error) {
 		return errNo, errors.New(errMsg)
 	}
 	if len(*procs) == 0 {
-		if debug.Enabled {
-			err = fmt.Errorf("compilation Error at %d,%d+0 (%s): Empty code block",
+		/*if debug.Enabled {
+		/	return 0, fmt.Errorf("compilation Error at %d,%d+0 (%s): empty code block",
 				fork.FileRef.Line, fork.FileRef.Column, fork.FileRef.Source.Module)
-		}
-		return 0, err
+		}*/
+		return 0, nil
 	}
 
 	id := fork.Process.Forks.add(procs)

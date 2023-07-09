@@ -1,0 +1,123 @@
+private git-refs {
+    # Returns a map of branches and tags excluding checked-out branch in the current git repository
+    
+    map {
+        git branch -a --format='%(refname:strip=2)' \
+            -> [ :0 ] -> !match '*' \
+            -> regexp (s,^origin/,,)
+        git tag --format='%(refname:strip=2)' \
+            -> regexp (s,^origin/,,)
+    } {
+        git branch -a --format='%(refname:strip=0)' \
+            -> [ :0 ] -> !match '*' \
+            -> prefix "Branch Ref: "
+        git tag --format='%(refname:strip=0)' \
+            -> prefix "Tag Ref: "
+    } 
+}
+
+autocomplete: set git %[{
+    DynamicDesc: '{
+        cast json
+
+        # extract git commands from `git help`
+        git help -a -> @[..^Ancillary]re -> tabulate: --map -> set commands
+
+        # list all the git aliases
+        git config --list -> regexp %(f/alias\.(.*)$/) -> foreach --jmap alias {
+            $alias -> regexp %(f/^(.*?)=)
+        } {
+            $alias -> regexp %(f/=(.*)$) -> prefix %(alias: )
+        } -> set aliases
+
+        # merge the two JSON objects
+        $commands <~ $aliases
+
+        # return results
+        out $commands
+    }'
+    IncManPage: true
+    ListView: true
+    FlagsDesc: {
+        # `git config` isn't included in `git help`
+        config: "Get and set repository or global options" # doesn't get added from `git help`
+    }
+    FlagValues: {
+
+        add: [{
+            AllowMultiple: true
+            AllowAny: true
+            Dynamic: '{
+                # files highlighted in `git` as modified but not staged
+                git -c color.ui=no status -s \
+                    -> regexp %(f/^.[^\s] ["]?(.*?)["]?$/) \
+                    -> cast str
+            }'
+        }]
+
+        branch: [{
+            Flags: [-d --delete]
+            FlagValues: {
+                -d:       [{ DynamicDesc: '{ git-refs }' }]
+                --delete: [{ DynamicDesc: '{ git-refs }' }]
+            }
+        }]
+
+        checkout: [{
+            DynamicDesc: '{ git-refs }'
+            Flags: [ -b ]
+        }]
+
+        config: [{
+            DynamicDesc: '{
+                # `git config` flags and associated descriptions
+                git config ? tabulate --split-comma --map --key-inc-hint
+            }'
+        }]
+
+        commit: [{
+            Flags: [ -a, -m, --amend ]
+            FlagValues: {
+                --amend: [{ AnyValue: true }]
+            }
+            AllowMultiple: true
+            AllowAny: true
+        }]
+
+        diff: [{
+            AllowMultiple: true
+            Dynamic: '{
+                git -c color.ui=no status -s -> [:1]
+            }'
+        }]
+
+        init: [{
+            Flags: [--bare]
+        }]
+
+        merge: [{
+            DynamicDesc: '{ git-refs }'
+        }]
+
+        mv: [{ 
+            IncFiles: true
+        }]
+
+        push: [{
+            Flags: [--tags]
+        }]
+
+        rm: [{
+            IncFiles:      true
+            AllowMultiple: true
+        }]
+
+        *: [{
+            Dynamic: '{
+                git --help $1 -> man-get-flags
+            }'
+            AllowMultiple: true
+            AllowAny: true
+        }]
+    }
+}]

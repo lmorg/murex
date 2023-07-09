@@ -23,7 +23,6 @@ func init() {
 
 // Interrupt is a JSONable structure passed to the murex function
 type Interrupt struct {
-	Name       string
 	Command    string
 	Parameters []string
 	Stdout     string
@@ -146,7 +145,6 @@ func (cce *commandCompletionEvent) execEvent(name string, parameters []string, p
 	}
 
 	interrupt := Interrupt{
-		Name:       name,
 		Command:    cce.Command,
 		Parameters: parameters,
 		Stdout:     stdout,

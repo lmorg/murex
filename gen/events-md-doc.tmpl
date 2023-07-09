@@ -1,0 +1,31 @@
+# {{ md .Title }} - {{ md .CategoryTitle }}
+{{ if .Summary }}
+> {{ md .Summary }}{{ end }}
+
+## Description
+
+{{ md (include .Description) }}
+
+{{ if .Usage }}## Usage
+
+{{ md (include .Usage) }}{{ end }}{{ if .Flags }}
+
+## Valid Interrupts
+
+{{ range $i,$a := .Flags }}{{ if gt $i 0 }}
+{{ end }}* `{{ md .Flag }}`
+    {{ md .Description }}{{ end }}{{ end }}{{ if .Examples }}
+
+## Examples
+
+{{ md (include .Examples) }}{{ end }}{{ if .Detail }}
+
+## Detail
+
+{{ md (include .Detail) }}{{ end }}{{ if .Related }}
+
+## See Also
+
+{{ range $i,$a := .Related }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}](../{{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ end }}

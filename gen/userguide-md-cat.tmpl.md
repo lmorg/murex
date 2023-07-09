@@ -13,6 +13,7 @@
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
+- [Events](#events)
 - [API Reference](#api-reference)
 
 </div>
@@ -54,6 +55,12 @@ are only included by default on Windows.
 ## Data Types
 
 {{ if otherdocs "types" }}{{ range $i,$a := otherdocs "types" }}{{ if gt $i 0 }}
+{{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
+  {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
+
+## Events
+
+{{ if otherdocs "events" }}{{ range $i,$a := otherdocs "events" }}{{ if gt $i 0 }}
 {{ end }}* [{{ md .Title }}]({{ md .Hierarchy }}.md):
   {{ md .Summary }}{{ end }}{{ else }}No pages currently exist for this category.{{ end }}
 

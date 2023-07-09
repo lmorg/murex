@@ -30,7 +30,7 @@ use the named pipe property rather than piping to null:
 ## See Also
 
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`die`](../commands/die.md):
   Terminate murex with an exit number of 1
 * [`exit`](../commands/exit.md):

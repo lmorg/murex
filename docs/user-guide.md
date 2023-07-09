@@ -14,6 +14,7 @@ shell and Murex's numerous features.
   - [Standard Builtins](#standard-builtins)
   - [Optional Builtins](#optional-builtins)
 - [Data Types](#data-types)
+- [Events](#events)
 - [API Reference](#api-reference)
 
 </div>
@@ -137,7 +138,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 * [`bg`](commands/bg.md):
   Run processes in the background
 * [`break`](commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`cast`](commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`catch`](commands/catch.md):
@@ -147,7 +148,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 * [`config`](commands/config.md):
   Query or define Murex runtime settings
 * [`continue`](commands/continue.md):
-  terminate process of a block within a caller function
+  Terminate process of a block within a caller function
 * [`count`](commands/count.md):
   Count items in a map, list or array
 * [`cpuarch`](commands/cpuarch.md):
@@ -286,8 +287,12 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
   `read` a line of input from the user and store as a variable
 * [`regexp`](commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [`return`](commands/return.md):
+  Exits current function scope
 * [`right`](commands/right.md):
   Right substring every item in a list
+* [`round` ](commands/round.md):
+  Round a number by a user defined precision
 * [`runmode`](commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
 * [`runtime`](commands/runtime.md):
@@ -382,6 +387,17 @@ are only included by default on Windows.
   YAML Ain't Markup Language (YAML)
 * [mxjson](types/mxjson.md):
   Murex-flavoured JSON (deprecated)
+
+## Events
+
+* [`onCommandCompletion`](events/oncommandcompletion.md):
+  Trigger an event upon a command's completion
+* [`onFileSystemChange`](events/onfilesystemchange.md):
+  Add a filesystem watch
+* [`onPrompt`](events/onprompt.md):
+  Events triggered by changes in state of the interactive shell
+* [`onSecondsElapsed`](events/onsecondselapsed.md):
+  Events triggered by time intervals
 
 ## API Reference
 

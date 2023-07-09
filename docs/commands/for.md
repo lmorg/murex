@@ -212,7 +212,7 @@ Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`foreach`](../commands/foreach.md):
   Iterate through an array
 * [`formap`](../commands/formap.md):

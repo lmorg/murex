@@ -1,0 +1,61 @@
+private autocomplete.docker-compose.services {
+    # Returns a list of services described in docker-compose.yaml
+    open docker-compose.yaml -> [ services ] -> formap k v { out "$k" } -> cast str
+}
+
+autocomplete: set docker-compose { [{
+    "Flags": ["build","bundle","config","create","down","events","exec","help","images","kill","logs","pause","port","ps","pull","push","restart","rm","run","scale","start","stop","top","unpause","up","version"],
+    "FlagValues": {
+        "build": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "create": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "events": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "exec": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "kill": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "logs": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "pause": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "pull": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "push": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "restart": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "run": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "scale": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "start": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "stop": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "top": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "unpause": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }],
+        "up": [{
+            "Dynamic": ({ autocomplete.docker-compose.services })
+        }]
+    }
+}] }

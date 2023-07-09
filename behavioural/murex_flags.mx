@@ -49,5 +49,6 @@ function murex.flag.trypipe.errpipe {
 }
 
 test: unit function murex.flag.trypipe.errpipe {
+    "StderrRegex": "Error",
     "ExitNum":     1
 }
