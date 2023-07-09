@@ -128,10 +128,8 @@ func createProcess(p *Process, isMethod bool) {
 	case "err":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stderr defaults to <err>."))
 	case "out":
-		//p.Stderr.SetDataType(types.Generic)
-		p.Stderr = p.Next.Stdin //p.Next.Stdout
+		p.Stderr = p.Next.Stdin
 	default:
-		//p.Stderr.SetDataType(types.Generic)
 		pipe, err := GlobalPipes.Get(p.NamedPipeErr)
 		if err == nil {
 			p.Stderr = pipe
@@ -150,7 +148,6 @@ func createProcess(p *Process, isMethod bool) {
 	case "out":
 		//p.Stderr.Writeln([]byte("Invalid usage of named pipes: stdout defaults to <out>."))
 	default:
-		//p.Stdout.SetDataType(types.Null)
 		pipe, err := GlobalPipes.Get(p.NamedPipeOut)
 		if err == nil {
 			p.stdoutOldPtr = p.Stdout
@@ -176,13 +173,14 @@ func createProcess(p *Process, isMethod bool) {
 	p.Stdout.Open()
 	p.Stderr.Open()
 
-	//p.Stderr.SetDataType(types.Generic)
-
 	p.State.Set(state.Assigned)
 
 	// Lets run `pipe` and `test` ahead of time to fudge the use of named pipes
-	if name == "pipe" || name == "test" {
-		//err := ParseParameters(p, &p.Parameters)
+	if name == "pipe" || (name == "test" && len(p.Parameters.PreParsed) > 0 &&
+		(string(p.Parameters.PreParsed[0]) == "config" || // test config
+			string(p.Parameters.PreParsed[0]) == "define" || // test define
+			string(p.Parameters.PreParsed[0]) == "state")) { // test state
+
 		_, params, err := ParseStatementParameters(p.raw, p)
 		if err != nil {
 			ShellProcess.Stderr.Writeln(writeError(p, err))
