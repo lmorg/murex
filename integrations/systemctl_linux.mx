@@ -7,18 +7,11 @@ private autocomplete.systemctl {
     systemctl: list-unit-files -> !regexp m/unit files listed/ -> [:0] -> cast str
 }
 
-test unit private autocomplete.systemctl {
-    "StdoutRegex": (shutdown\.target),
-    "StdoutType":  "str",
-    "StdoutBlock": ({
-        -> len -> set len;
-        if { $len > 0 } then {
-            out "Len greater than 0"
-            break
-        }
-        err "No elements returned"
-    }),
-    "StdoutIsArray": true
+test unit private autocomplete.systemctl %{
+    StdoutRegex: '(shutdown\.target)'
+    StdoutType:  str
+    StdoutGreaterThan: 1
+    StdoutIsArray: true
 }
 
 function autocomplete.systemctl.flags {
