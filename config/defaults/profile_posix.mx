@@ -55,8 +55,13 @@ autocomplete set sudo { [
 private getHostsFile {
     # Parse the hosts file and return uniq host names and IPs
     
-    cat /etc/hosts -> !regexp: 'm/^(#.*|\s*)$/' -> regexp: "s/[\s\t]+/\n/" -> sort -> uniq -> cast: str
-    cat ~/.ssh/config -> regexp 'f/Host\s([-.a-zA-Z0-9]+)/' -> cast: str
+    cast: str
+    
+    cat /etc/hosts -> !regexp: 'm/^(#.*|\s*)$/' -> regexp: "s/[\s\t]+/\n/" -> sort -> uniq
+    
+    if { g ~/.ssh/config -> f +d } then {
+        cat ~/.ssh/config -> regexp 'f/Host\s([-.a-zA-Z0-9]+)/'
+    }
 }
 
 test unit private getHostsFile {
