@@ -50,7 +50,7 @@ autocomplete: set git %[{
             Dynamic: '{
                 # files highlighted in `git` as modified but not staged
                 git -c color.ui=no status -s \
-                    -> regexp 'f/^.[^\s] ["]?(.*?)["]?$/' \
+                    -> regexp %(f/^.[^\s] ["]?(.*?)["]?$/) \
                     -> cast str
             }'
         }]
