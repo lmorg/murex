@@ -19,7 +19,7 @@ func TestMan(t *testing.T) {
 		return
 	}
 
-	count.Tests(t, 3)
+	count.Tests(t, 2)
 
 	files := GetManPages("cat")
 	if len(files) == 0 || strings.Contains(files[0], "'unminimize'") {
@@ -32,15 +32,17 @@ func TestMan(t *testing.T) {
 		files = []string{gopath + "/src/github.com/lmorg/murex/test/cat.1.gz"}
 	}
 
-	/*lang.InitEnv()
-	flags, _ := ParseByPaths("cat", files)
-	if len(flags) == 0 {
-		t.Fatalf("No flags returned for `cat` in: %s", json.LazyLogging(files))
-	}
+	/*
+			defaults.Config(config.InitConf, false)
+			lang.InitEnv()
+			flags, _ := ParseByPaths("cat", files)
+			if len(flags) == 0 {
+				t.Fatalf("No flags returned for `cat` in: %s", json.LazyLogging(files))
+			}
 
-	if strings.HasPrefix(flags[0], errPrefix) {
-		t.Fatalf(flags[0])
-	}*/
+		if strings.HasPrefix(flags[0], errPrefix) {
+			t.Fatalf(flags[0])
+		}*/
 
 	s := ParseSummary(files)
 	if s == "" {
