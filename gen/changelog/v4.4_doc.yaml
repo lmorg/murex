@@ -20,7 +20,11 @@
     
     * Improved `git` autocompletions
 
+    * `find` autocompletions added
+
     * builtin profiles are now imported as separate modules. This makes debugging easier
+
+    * `/integrations` directory added to Murex source, the aim of which is to make it easier for people to contribute autocompletions and other integrations with common command line tools ([Github](https://github.com/lmorg/murex/tree/master/intergrations))
 
     ### Bug Fixes:
 
