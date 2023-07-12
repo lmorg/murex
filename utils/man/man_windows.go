@@ -15,7 +15,9 @@ func GetManPages(_ string) []string { return []string{} }
 // ParseByPaths - windows doesn't have man pages so lets just create an empty
 // function that returns a zero-length array so murex can compile on Windows
 // but without support for flag auto-detection.
-func ParseByPaths(_ []string) ([]string, map[string]string) { return []string{}, map[string]string{} }
+func ParseByPaths(_ string, _ []string) ([]string, map[string]string) {
+	return []string{}, map[string]string{}
+}
 
 // ParseByStdio - windows doesn't have man pages so lets just create an empty
 // function that returns a zero-length array so murex can compile on Windows
