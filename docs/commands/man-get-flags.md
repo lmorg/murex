@@ -8,16 +8,50 @@ Sometimes you might want to programmatically search `man` pages for any
 supported flag. Particularly if you're writing a dynamic autocompletion.
 `man-get-flags` does this and returns a JSON document.
 
-You can either pipe a man page to `man-get-flags`, or pass the name of
-the command as a parameter.
+You can either pipe a man page to `man-get-flags`, or pass the name of the
+command as a parameter.
+
+`man-get-flags` returns a JSON document. Either an array or an object,
+depending on what flags (if any) are passed.
+
+If no flags are passed, `man-get-flags` will default to just parsing the man
+page for anything that looks like a flag (ie no descriptions or other detail).
 
 ## Usage
 
-    <stdin> -> man-get-flags -> <stdout>
+    <stdin> -> man-get-flags [--descriptions] -> <stdout>
     
-    man-get-flags command -> <stdout>
+    man-get-flags command [--descriptions] -> <stdout>
+
+## Examples
+
+    » man-get-flags --descriptions find -> [{$.key =~ 'regex'}]
+    {
+        "-iregex": "eg: pattern -- Like -regex, but the match is case insensitive.",
+        "-regex": "eg: pattern -- True if the whole path of the file matches pattern using regular expression.  To match a file named “./foo/xyzzy”, you can use the regular expression “.*/[xyz]*” or “.*/foo/.*”, but not “xyzzy” or “/foo/”."
+    }
+
+## Flags
+
+* `--descriptions`
+    return a map of flags with their described usage
+* `-d`
+    shorthand for `--descriptions
+
+## Detail
+
+### Limitations
+
+Due to the freeform nature of man pages -- that they're intended to be human
+readable rather than machine readable -- and the flexibility that developers
+have to parse command line parameters however they wish, there will always be
+a margin for error with how reliably any parser can autodetect parameters.
 
 ## See Also
 
+* [`man-summary`](../commands/man-summary.md):
+  Outputs a man page summary of a command
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
+* [`summary` ](../commands/summary.md):
+  Defines a summary help text for a command

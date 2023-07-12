@@ -14,6 +14,7 @@ import (
 	"github.com/lmorg/murex/lang/stdio"
 	"github.com/lmorg/murex/lang/types"
 	"github.com/lmorg/murex/utils"
+	"github.com/lmorg/murex/utils/lists"
 	"github.com/lmorg/murex/utils/rmbs"
 )
 
@@ -40,6 +41,12 @@ func parseDescriptions(command string, fMap *map[string]string) {
 
 var rxHeading = regexp.MustCompile(`^[A-Z]+$`)
 
+var validSections = []string{
+	"DESCRIPTION",
+	"OPTIONS",
+	"PRIMARIES", // required for `find` on macOS
+}
+
 func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 	var pl *parsedLineT
 	var section string
@@ -52,7 +59,7 @@ func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 			section = string(heading)
 		}
 
-		if section != "DESCRIPTION" && section != "OPTIONS" {
+		if !lists.Match(validSections, section) {
 			return
 		}
 
@@ -72,6 +79,11 @@ func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 
 		case pl == nil:
 			return
+
+		case pl.Description != "" && len(pl.Description) < 30 && ws >= 8: // kludge for `find` style flags
+			pl.Example += " " + pl.Description
+			pl.Description = ""
+			fallthrough
 
 		case pl.Description == "":
 			pl.Position = ws
@@ -102,8 +114,8 @@ func updateFlagMap(pl *parsedLineT, fMap *map[string]string) {
 			(*fMap)[pl.Flags[i]] = strings.TrimSpace(pl.Description)
 		} else {
 			(*fMap)[pl.Flags[i]] = fmt.Sprintf(
-				"(%s) %s",
-				pl.Example, strings.TrimSpace(pl.Description))
+				"eg: %s -- %s",
+				strings.TrimSpace(pl.Example), strings.TrimSpace(pl.Description))
 		}
 	}
 }
