@@ -127,8 +127,6 @@ If you do run into any issues then please raise them on [Github](https://github.
 
 ## See Also
 
-* [What's new in murex v2.1](../changelog/v2.1.md):
-  This release comes with support for inlining SQL and some major bug fixes plus a breaking change for `config`. Please read for details.
 * [`*` (generic) ](../types/generic.md):
   generic (primitive)
 * [`config`](../commands/config.md):
@@ -137,3 +135,5 @@ If you do run into any issues then please raise them on [Github](https://github.
   CSV files (and other character delimited tables)
 * [`jsonl` ](../types/jsonl.md):
   JSON Lines
+* [v2.1](../changelog/v2.1.md):
+  This release comes with support for inlining SQL and some major bug fixes plus a breaking change for `config`. Please read for details.

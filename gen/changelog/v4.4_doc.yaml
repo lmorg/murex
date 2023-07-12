@@ -1,0 +1,50 @@
+- DocumentID: v4.4
+  Title: >-
+    v4.4
+  CategoryID: changelog
+  DateTime: 2023-07-12 22:33
+  Summary: >-
+    v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing.
+  Description: |-
+    ### Breaking Changes
+
+    * 'Name' field dropped from `onCommandCompletion` interrupt (this field was never documented)
+
+    ### Features
+
+    * New builtin, `round`, which can perform rounding operations on numerical inputs ([#630](https://github.com/lmorg/murex/issues/630), [read more](../commands/round.md)) 
+    
+    * Vastly improved automatic man page parsing. Now descriptions are pulled alongside the flags
+
+    * New builtin, `return`, which exits a given function scope (eg `function`, `private`, **Dynamic** block in `autocomplete`, etc)
+    
+    * Improved `git` autocompletions
+
+    * builtin profiles are now imported as separate modules. This makes debugging easier
+
+    ### Bug Fixes:
+
+    * `test` would always run first in any block, regardless of the preferred order of execution. This was because `test (unit|state|config)` required altering the execution state of the shell. The drawback was that `test (run|define|report)` would also run unexpectedly. This lead to hacks like `try { test run * }` to force the correct order of operations. Now the parameters of `test` are checked to determine when to execute the builtin.
+
+    * `int` types couldn't be compared against `num` types with `>`, `>=`, `<`, `<=` operators
+    
+    * readline: `^d` will not send EOF if line is not empty. The original behaviour was by design however after pressing `^d` a few too many times when I intended to press `^f` or `^r`, I decided the original design was wrong
+    
+    * `FileRef` wasn't being set in `test`. This caused some tests to fail if they called private functions
+
+    * Check `~/.ssh/config` exists before trying to parse it in `getHostsFile` private (used for SSH and similar tools autocompletions)
+   
+  Related:
+    - commands/event
+    - events/oncommandcompletion
+    - commands/round
+    - commands/return
+    - commands/test
+    - user-guide/fileref
+    - commands/private
+    - commands/function
+    - commands/autocomplete
+    - commands/expr
+    - types/num
+    - types/int
+
