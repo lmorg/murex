@@ -188,8 +188,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 			return "", CtrlC
 
 		case charEOF:
-			rl.clearHelpers()
-			return "", EOF
+			if rl.line.RuneLen() == 0 {
+				rl.clearHelpers()
+				return "", EOF
+			}
 
 		case charCtrlE:
 			HkFnMoveToEndOfLine(rl)
