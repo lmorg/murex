@@ -179,7 +179,7 @@ func cmdManParser(p *lang.Process) error {
 	}
 
 	if p.IsMethod {
-		flags = man.ParseByStdio(p.Stdin)
+		flags, descriptions = man.ParseByStdio(p.Stdin)
 
 	} else {
 		if len(additional) != 1 {

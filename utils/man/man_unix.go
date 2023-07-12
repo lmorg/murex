@@ -118,11 +118,13 @@ func createScanner(filename string) (*bufio.Scanner, func() error, error) {
 }
 
 // ParseByStdio runs the parser to locate any flags with hyphen prefixes
-func ParseByStdio(stream stdio.Io) []string {
-	scanner := bufio.NewScanner(stream)
+func ParseByStdio(io stdio.Io) ([]string, map[string]string) {
+	//scanner := bufio.NewScanner(io)
 
 	fMap := make(map[string]string)
-	parseFlags(&fMap, scanner)
+	//parseFlags(&fMap, scanner)
+
+	parseDescriptionsLines(io, &fMap)
 
 	flags := make([]string, len(fMap))
 	var i int
@@ -131,7 +133,8 @@ func ParseByStdio(stream stdio.Io) []string {
 		i++
 	}
 	sort.Strings(flags)
-	return flags
+
+	return flags, fMap
 }
 
 func parseFlags(flags *map[string]string, scanner *bufio.Scanner) {

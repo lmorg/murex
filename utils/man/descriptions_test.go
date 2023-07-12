@@ -21,6 +21,7 @@ func TestParseLineFlags(t *testing.T) {
 		`--list-cmds=group[,group...]`,
 		`--exec-path[=<path>]`,
 		`--config-env=<name>=<envvar>`,
+		`--[no]-help`,
 		`--help Output a usage message and exit.`,
 	}
 

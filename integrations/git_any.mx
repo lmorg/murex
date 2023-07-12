@@ -21,6 +21,7 @@ autocomplete: set git %[{
         cast json
 
         # extract git commands from `git help`
+        #git help -a -> tabulate: --map -> set commands
         git help -a -> @[..^Ancillary]re -> tabulate: --map -> set commands
 
         # list all the git aliases
@@ -112,9 +113,9 @@ autocomplete: set git %[{
             AllowMultiple: true
         }]
 
-        *: [{
-            Dynamic: '{
-                git --help $1 -> man-get-flags
+        "": [{
+            DynamicDesc: '{
+                git --help $1 -> man-get-flags -d
             }'
             AllowMultiple: true
             AllowAny: true

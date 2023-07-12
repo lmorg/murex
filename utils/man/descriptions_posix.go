@@ -4,6 +4,7 @@
 package man
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
 	"strings"
@@ -118,6 +119,7 @@ func countWhiteSpace(b []byte) int {
 }
 
 var (
+	//rxLineMatchFlag = regexp.MustCompile(`^-[-_a-zA-Z0-9]+`)
 	rxLineMatchFlag = regexp.MustCompile(`^-[-_a-zA-Z0-9]+`)
 	rxExampleCaps   = regexp.MustCompile(`^[A-Z]+([\t, ]|$)`)
 )
@@ -151,8 +153,10 @@ func parseLineFlags(b []byte) *parsedLineT {
 				pl.Description = string(b[pl.Position:])
 				return pl
 			}
-			pl.Flags = append(pl.Flags, string(match))
-			pl.Position += len(match)
+			//pl.Flags = append(pl.Flags, string(match))
+			//pl.Position += len(match)
+			i := parseFlag(b[pl.Position:], pl)
+			pl.Position += i
 
 		case '=', '[':
 			start := pl.Position
@@ -194,4 +198,74 @@ func parseLineFlags(b []byte) *parsedLineT {
 			return pl
 		}
 	}
+}
+
+func parseFlag(b []byte, pl *parsedLineT) int {
+	var bracket, split bool
+	for i, c := range b {
+		switch {
+		case isValidFlagChar(c):
+			continue
+
+		case c == '[':
+			switch {
+			case bracket:
+				return 0
+			case i+1 == len(b):
+				return 0
+			case b[i+1] == '=':
+				splitFlags(b[:i], split, pl)
+				return i
+			case isValidFlagChar(b[i+1]):
+				bracket = true
+			default:
+				return 0
+			}
+
+		case c == ']':
+			if !bracket {
+				return 0
+			}
+			bracket = false
+			split = true
+
+		default:
+			if bracket {
+				return 0
+			}
+			splitFlags(b[:i], split, pl)
+			return i
+		}
+	}
+
+	splitFlags(b, split, pl)
+	return len(b)
+}
+
+var (
+	empty      = []byte{}
+	braceOpen  = []byte{'['}
+	braceClose = []byte{']'}
+	rxNoBrace  = regexp.MustCompile(`\[.*?\]`)
+)
+
+func splitFlags(b []byte, split bool, pl *parsedLineT) {
+	if !split {
+		pl.Flags = append(pl.Flags, string(b))
+		return
+	}
+
+	full := bytes.ReplaceAll(b, braceOpen, empty)
+	full = bytes.ReplaceAll(full, braceClose, empty)
+
+	removed := rxNoBrace.ReplaceAll(b, empty)
+
+	pl.Flags = append(pl.Flags, string(full), string(removed))
+}
+
+func isValidFlagChar(c byte) bool {
+	return c == '-' ||
+		(c >= 'a' && c <= 'z') ||
+		(c >= 'A' && c <= 'Z') ||
+		(c >= '0' && c <= '9')
 }
