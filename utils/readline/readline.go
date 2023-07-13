@@ -413,10 +413,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 		//rl.screenRefresh()
 		return
 
-	case seqAltF:
+	case seqAltF, seqOptRight:
 		HkFnJumpForwards(rl)
 
-	case seqAltB:
+	case seqAltB, seqOptLeft:
 		HkFnJumpBackwards(rl)
 
 	default:
