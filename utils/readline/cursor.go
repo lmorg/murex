@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 )
@@ -69,6 +70,38 @@ const (
 	cursorForwf = "\x1b[%dC"
 	cursorBackf = "\x1b[%dD"
 )
+
+func moveCursorUpStr(i int) string {
+	if i < 1 {
+		return ""
+	}
+
+	return fmt.Sprintf(cursorUpf, i)
+}
+
+func moveCursorDownStr(i int) string {
+	if i < 1 {
+		return ""
+	}
+
+	return fmt.Sprintf(cursorDownf, i)
+}
+
+func moveCursorForwardsStr(i int) string {
+	if i < 1 {
+		return ""
+	}
+
+	return fmt.Sprintf(cursorForwf, i)
+}
+
+func moveCursorBackwardsStr(i int) string {
+	if i < 1 {
+		return ""
+	}
+
+	return fmt.Sprintf(cursorBackf, i)
+}
 
 func moveCursorUp(i int) {
 	if i < 1 {

@@ -260,7 +260,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.viUndoSkipAppend = true
 			} else {
 				rl.backspace()
-				rl.renderHelpers()
+				//rl.renderHelpers()
 			}
 
 		case charEscape:

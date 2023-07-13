@@ -42,7 +42,7 @@ func (rl *Instance) backspace() {
 		return
 	}
 
-	moveCursorBackwards(1)
+	//moveCursorBackwards(1)
 	rl.line.SetRunePos(rl.line.RunePos() - 1)
 	rl.delete()
 }

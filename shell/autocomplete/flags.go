@@ -169,7 +169,7 @@ func match(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT) int {
 		act.append(matchDirs(partial, act)...)
 	}
 
-	if /*len(f.FlagsDesc) > 0 &&*/ f.ListView {
+	if f.ListView {
 		act.TabDisplayType = readline.TabDisplayList
 	} else if f.MapView {
 		act.TabDisplayType = readline.TabDisplayMap

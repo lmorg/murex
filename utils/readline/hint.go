@@ -67,13 +67,14 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 		_, lineY := rl.lineWrapCellLen()
 		posX, posY := rl.lineWrapCellPos()
 		y := lineY - posY
-		moveCursorDown(y)
+		move := moveCursorDownStr(y)
 
-		print("\r\n" + rl.HintFormatting + hintText + seqReset)
+		move += "\r\n" + rl.HintFormatting + hintText + seqReset
 
-		moveCursorUp(rl.hintY + lineY - posY)
-		moveCursorBackwards(rl.termWidth)
-		moveCursorForwards(posX)
+		move += moveCursorUpStr(rl.hintY + lineY - posY)
+		move += moveCursorBackwardsStr(rl.termWidth)
+		move += moveCursorForwardsStr(posX)
+		print(move)
 	}
 }
 

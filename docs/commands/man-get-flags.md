@@ -42,10 +42,11 @@ page for anything that looks like a flag (ie no descriptions or other detail).
 
 ### Limitations
 
-Due to the freeform nature of man pages -- that they're intended to be human
-readable rather than machine readable -- and the flexibility that developers
+Due to the freeform nature of man pages - that they're intended to be human
+readable rather than machine readable - and the flexibility that developers
 have to parse command line parameters however they wish, there will always be
-a margin for error with how reliably any parser can autodetect parameters.
+a margin for error with how reliably any parser can autodetect parameters. one
+requirement is that flags are hyphen prefixed, eg `--flag`.
 
 ## See Also
 
