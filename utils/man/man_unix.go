@@ -34,6 +34,11 @@ var (
 
 // GetManPages executes `man -w` to locate the manual files
 func GetManPages(exe string) []string {
+	paths := Paths.Get(exe)
+	if paths != nil {
+		return paths
+	}
+
 	// Get paths
 	cmd := exec.Command("man", "-w", exe)
 	b, err := cmd.Output()
@@ -46,17 +51,25 @@ func GetManPages(exe string) []string {
 		return nil
 	}
 
-	return strings.Split(s, ":")
+	paths = strings.Split(s, ":")
+	Paths.Set(exe, paths)
+	return paths
 }
 
 func invalidMan(path string) bool {
 	return !rxMatchManSection.MatchString(path) &&
-		!strings.HasSuffix(path, "test/cat.1.gz")
+		!strings.HasSuffix(path, "test/cat.1.gz") // suppress errors when running a unit test
 }
 
 // ParseByPaths runs the parser to locate any flags with hyphen prefixes
 func ParseByPaths(command string, paths []string) ([]string, map[string]string) {
+	f := Flags.Get(command)
+	if f != nil {
+		return f.Flags, f.Descriptions
+	}
+
 	fMap := make(map[string]string)
+
 	for i := range paths {
 		if invalidMan(paths[i]) {
 			continue
@@ -84,6 +97,7 @@ func ParseByPaths(command string, paths []string) ([]string, map[string]string) 
 	}
 	sort.Strings(flags)
 
+	Flags.Set(command, flags, fMap)
 	return flags, fMap
 }
 
