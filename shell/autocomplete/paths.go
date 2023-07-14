@@ -73,6 +73,7 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 
 	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
 	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
+
 	done := make(chan bool)
 
 	act.largeMin() // assume recursive overruns
@@ -101,11 +102,12 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 
 	select {
 	case <-done:
-		return append(once, recursive...)
-
+		return once
 	case <-softCtx.Done():
 		return []string{}
 	}
+
+	select {}
 }
 
 func partialPath(s string) (path, partial string) {
