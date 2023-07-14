@@ -24,7 +24,7 @@ func (s *suggestionsT) ItemLen(index int) int {
 	// fast
 	switch {
 	case len(s.suggestions[index]) == 0:
-		return runewidth.StringWidth(s.rl.tcPrefix)
+		return s.prefixWidth
 
 	case s.suggestions[index][0] == 2:
 		if len(s.suggestions[index]) == 1 {
