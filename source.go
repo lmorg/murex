@@ -2,7 +2,7 @@ package main
 
 import (
 	"compress/gzip"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/lmorg/murex/builtins/pipes/term"
@@ -31,7 +31,7 @@ func diskSource(filename string) ([]byte, error) {
 			file.Close()
 			return nil, err
 		}
-		b, err = ioutil.ReadAll(gz)
+		b, err = io.ReadAll(gz)
 
 		file.Close()
 		gz.Close()
@@ -41,7 +41,7 @@ func diskSource(filename string) ([]byte, error) {
 		}
 
 	} else {
-		b, err = ioutil.ReadAll(file)
+		b, err = io.ReadAll(file)
 		file.Close()
 		if err != nil {
 			return nil, err
