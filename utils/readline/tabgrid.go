@@ -209,7 +209,7 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 
 	case len(caption) > 5+len(caption)-iCellWidth+6:
 		// truncate long lines in the middle
-		return caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
+		return caption[:5] + "…" + caption[len(caption)-iCellWidth+6:]
 
 	default:
 		// edge case reached. lets truncate the most conservative way we can,
