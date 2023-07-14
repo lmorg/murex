@@ -95,7 +95,7 @@ func runCommandLine(commandLine string) {
 
 	// read block from command line parameters
 	term.OutSetDataTypeIPC()
-	execSource([]rune(commandLine), nil)
+	execSource([]rune(commandLine), nil, true)
 
 	if fInteractive {
 		shell.Start()
@@ -129,7 +129,7 @@ func runSource(filename string) {
 		}
 		lang.Exit(1)
 	}
-	execSource([]rune(string(disk)), nil)
+	execSource([]rune(string(disk)), nil, true)
 }
 
 func startMurex() {

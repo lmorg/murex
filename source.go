@@ -51,7 +51,7 @@ func diskSource(filename string) ([]byte, error) {
 	return b, nil
 }
 
-func execSource(source []rune, sourceRef *ref.Source) {
+func execSource(source []rune, sourceRef *ref.Source, exitOnError bool) {
 	if debug.Enabled {
 		tty.Stderr.WriteString("Loading profile `" + sourceRef.Module + "`" + utils.NewLineString)
 	}
@@ -77,7 +77,7 @@ func execSource(source []rune, sourceRef *ref.Source) {
 		lang.Exit(exitNum)
 	}
 
-	if exitNum != 0 {
+	if exitNum != 0 && exitOnError {
 		lang.Exit(exitNum)
 	}
 }
@@ -87,11 +87,11 @@ func defaultProfile() {
 
 	for _, profile := range defaults.DefaultProfiles {
 		ref := ref.History.AddSource("(builtin)", "builtin/"+profile.Name, profile.Block)
-		execSource([]rune(string(profile.Block)), ref)
+		execSource([]rune(string(profile.Block)), ref, false)
 	}
 
 	for _, profile := range integrations.Profiles() {
 		ref := ref.History.AddSource("(builtin)", "builtin/integrations_"+profile.Name, profile.Block)
-		execSource([]rune(string(profile.Block)), ref)
+		execSource([]rune(string(profile.Block)), ref, false)
 	}
 }
