@@ -66,8 +66,7 @@ func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
 		ws := countWhiteSpace(b)
 		switch {
 		case ws == 0:
-			updateFlagMap(pl, fMap)
-			pl = nil
+			fallthrough
 
 		case ws == len(b)-1:
 			updateFlagMap(pl, fMap)

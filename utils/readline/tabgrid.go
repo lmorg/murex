@@ -196,11 +196,9 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 		//return runewidth.Truncate(caption, iCellWidth, "…")
 		return runeWidthTruncate(caption, iCellWidth)
 
-	case len(caption) < tcMaxLength:
-		return caption
-	case len(caption) < 5:
-		return caption
-	case len(caption) <= iCellWidth:
+	case len(caption) < tcMaxLength,
+		len(caption) < 5,
+		len(caption) <= iCellWidth:
 		return caption
 
 	case len(caption)-iCellWidth+6 < 1:

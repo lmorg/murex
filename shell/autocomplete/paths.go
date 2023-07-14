@@ -106,8 +106,6 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 	case <-softCtx.Done():
 		return []string{}
 	}
-
-	select {}
 }
 
 func partialPath(s string) (path, partial string) {
