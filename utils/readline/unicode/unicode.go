@@ -60,6 +60,7 @@ func (u *UnicodeT) cellPos() int {
 	if last == 2 {
 		cPos--
 	}
+
 	return cPos
 }
 

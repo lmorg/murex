@@ -20,6 +20,8 @@ summary (if one exists).
 
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
+* [`man-get-flags` ](../commands/man-get-flags.md):
+  Parses man page files for command line flags 
 * [`murex-docs`](../commands/murex-docs.md):
   Displays the man pages for Murex builtins
 * [`summary` ](../commands/summary.md):

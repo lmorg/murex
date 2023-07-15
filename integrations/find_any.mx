@@ -1,0 +1,23 @@
+autocomplete: set find %[
+    {
+        IncDirs: true
+    }
+    {
+        IncManPage: true
+        ListView: true
+        FlagValues: {
+            "": [{
+                AllowAny: true
+                Optional: true
+                AllowMultiple: true
+            }]
+        }
+    }
+    {
+        AllowAny: true
+        Optional: true
+    }
+    {
+        Goto: "/1"
+    }
+]

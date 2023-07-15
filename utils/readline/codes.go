@@ -50,6 +50,10 @@ var (
 	seqShiftTab  = string([]byte{27, 91, 90})
 	seqPageUp    = string([]byte{27, 91, 53, 126})
 	seqPageDown  = string([]byte{27, 91, 54, 126})
+	seqOptLeft   = string([]byte{27, 27, 91, 68})
+	seqOptRight  = string([]byte{27, 27, 91, 67})
+	seqCtrlLeft  = string([]byte{27, 91, 49, 59, 53, 68})
+	seqCtrlRight = string([]byte{27, 91, 49, 59, 53, 67})
 
 	seqF1VT100 = string([]byte{27, 79, 80})
 	//seqF2VT100 = string([]byte{27, 79, 81})

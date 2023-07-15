@@ -16,7 +16,7 @@ import (
 	"github.com/lmorg/murex/utils/rmbs"
 )
 
-const errPrefix = "Error parsing man page: "
+const errPrefix = "error parsing man page: "
 
 var (
 	rxMatchManSection   = regexp.MustCompile(`/man[1678]/`)
@@ -34,6 +34,11 @@ var (
 
 // GetManPages executes `man -w` to locate the manual files
 func GetManPages(exe string) []string {
+	paths := Paths.Get(exe)
+	if paths != nil {
+		return paths
+	}
+
 	// Get paths
 	cmd := exec.Command("man", "-w", exe)
 	b, err := cmd.Output()
@@ -46,17 +51,25 @@ func GetManPages(exe string) []string {
 		return nil
 	}
 
-	return strings.Split(s, ":")
+	paths = strings.Split(s, ":")
+	Paths.Set(exe, paths)
+	return paths
 }
 
 func invalidMan(path string) bool {
 	return !rxMatchManSection.MatchString(path) &&
-		!strings.HasSuffix(path, "test/cat.1.gz")
+		!strings.HasSuffix(path, "test/cat.1.gz") // suppress errors when running a unit test
 }
 
 // ParseByPaths runs the parser to locate any flags with hyphen prefixes
-func ParseByPaths(paths []string) []string {
-	fMap := make(map[string]bool)
+func ParseByPaths(command string, paths []string) ([]string, map[string]string) {
+	f := Flags.Get(command)
+	if f != nil {
+		return f.Flags, f.Descriptions
+	}
+
+	fMap := make(map[string]string)
+
 	for i := range paths {
 		if invalidMan(paths[i]) {
 			continue
@@ -65,14 +78,16 @@ func ParseByPaths(paths []string) []string {
 		scanner, closer, err := createScanner(paths[i])
 		switch {
 		case err != nil:
-			return []string{errPrefix + err.Error()}
+			return []string{errPrefix + err.Error()}, map[string]string{}
 		case scanner == nil:
-			return []string{errPrefix + "scanner is undefined"}
+			return []string{errPrefix + "scanner is undefined"}, map[string]string{}
 		default:
 			parseFlags(&fMap, scanner)
 			closer()
 		}
 	}
+
+	parseDescriptions(command, &fMap)
 
 	flags := make([]string, len(fMap))
 	var i int
@@ -81,7 +96,9 @@ func ParseByPaths(paths []string) []string {
 		i++
 	}
 	sort.Strings(flags)
-	return flags
+
+	Flags.Set(command, flags, fMap)
+	return flags, fMap
 }
 
 func createScanner(filename string) (*bufio.Scanner, func() error, error) {
@@ -115,11 +132,13 @@ func createScanner(filename string) (*bufio.Scanner, func() error, error) {
 }
 
 // ParseByStdio runs the parser to locate any flags with hyphen prefixes
-func ParseByStdio(stream stdio.Io) []string {
-	scanner := bufio.NewScanner(stream)
+func ParseByStdio(io stdio.Io) ([]string, map[string]string) {
+	//scanner := bufio.NewScanner(io)
 
-	fMap := make(map[string]bool)
-	parseFlags(&fMap, scanner)
+	fMap := make(map[string]string)
+	//parseFlags(&fMap, scanner)
+
+	parseDescriptionsLines(io, &fMap)
 
 	flags := make([]string, len(fMap))
 	var i int
@@ -128,10 +147,11 @@ func ParseByStdio(stream stdio.Io) []string {
 		i++
 	}
 	sort.Strings(flags)
-	return flags
+
+	return flags, fMap
 }
 
-func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
+func parseFlags(flags *map[string]string, scanner *bufio.Scanner) {
 	for scanner.Scan() {
 		s := rmbs.Remove(scanner.Text())
 
@@ -145,7 +165,7 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 			if strings.HasSuffix(s, "fR") || strings.HasSuffix(s, "fP") {
 				s = s[:len(s)-2]
 			}
-			(*flags)[s] = true
+			(*flags)[s] = ""
 		}
 
 		match = rxMatchFlagsQuoted.FindAllStringSubmatch(s, -1)
@@ -160,7 +180,7 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 					continue
 				}
 
-				(*flags)[flag[j][1]] = true
+				(*flags)[flag[j][1]] = ""
 			}
 		}
 
@@ -170,7 +190,7 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 				continue
 			}
 
-			(*flags)["-"+match[i][1]] = true
+			(*flags)["-"+match[i][1]] = ""
 		}
 
 		match = rxMatchFlagsOther.FindAllStringSubmatch(s, -1)
@@ -188,7 +208,7 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 					continue
 				}
 
-				(*flags)[flag[j][1]] = true
+				(*flags)[flag[j][1]] = ""
 			}
 		}
 
@@ -198,7 +218,7 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 				continue
 			}
 
-			(*flags)[match[i][1]] = true
+			(*flags)[match[i][1]] = ""
 		}
 
 		match = rxMatchGetFlag.FindAllStringSubmatch(s, -1)
@@ -210,102 +230,11 @@ func parseFlags(flags *map[string]bool, scanner *bufio.Scanner) {
 				continue
 			}
 
-			(*flags)[match[i][1]] = true
+			(*flags)[match[i][1]] = ""
 		}
 	}
 
 	if scanner.Err() != nil {
 		panic(errPrefix + scanner.Err().Error())
 	}
-}
-
-// ParseSummary runs the parser to locate a summary
-func ParseSummary(paths []string) string {
-	for i := range paths {
-		if invalidMan(paths[i]) {
-			continue
-		}
-		desc := SummaryCache.Get(paths[i])
-		if desc != "" {
-			return desc
-		}
-		desc = parseSummary(paths[i])
-		if desc != "" {
-			SummaryCache.Set(paths[i], desc)
-			return desc
-		}
-	}
-
-	return ""
-}
-
-func parseSummary(filename string) string {
-	file, err := os.Open(filename)
-	if err != nil {
-		return ""
-	}
-	defer file.Close()
-
-	var scanner *bufio.Scanner
-
-	if len(filename) > 3 && filename[len(filename)-3:] == ".gz" {
-		gz, err := gzip.NewReader(file)
-		if err != nil {
-			return ""
-		}
-		defer gz.Close()
-
-		scanner = bufio.NewScanner(gz)
-	} else {
-		scanner = bufio.NewScanner(file)
-	}
-
-	var (
-		read bool
-		desc string
-	)
-
-	for scanner.Scan() {
-		s := scanner.Text()
-
-		if strings.Contains(s, "SYNOPSIS") {
-			if len(desc) > 0 && desc[len(desc)-1] == '-' {
-				desc = desc[:len(desc)-1]
-			}
-			return strings.TrimSpace(desc)
-		}
-
-		if read {
-			// Tidy up man pages generated from reStructuredText
-			if strings.HasPrefix(s, `\\n[rst2man-indent`) ||
-				strings.HasPrefix(s, `\\$1 \\n`) ||
-				strings.HasPrefix(s, `level \\n`) ||
-				strings.HasPrefix(s, `level margin: \\n`) {
-				continue
-			}
-
-			s = strings.Replace(s, ".Nd ", " - ", -1)
-			s = strings.Replace(s, "\\(em ", " - ", -1)
-			s = strings.Replace(s, " , ", ", ", -1)
-			s = strings.Replace(s, "\\fB", "", -1)
-			s = strings.Replace(s, "\\fR", "", -1)
-			if strings.HasSuffix(s, " ,") {
-				s = s[:len(s)-2] + ", "
-			}
-			s = rxReplaceMarkup.ReplaceAllString(s, "")
-			s = strings.Replace(s, "\\", "", -1)
-
-			if strings.HasPrefix(s, `.`) {
-				continue
-			}
-
-			desc += s
-		}
-
-		if strings.Contains(s, "NAME") {
-			read = true
-		}
-	}
-
-	return ""
 }

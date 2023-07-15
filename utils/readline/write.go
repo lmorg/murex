@@ -179,11 +179,19 @@ func (rl *Instance) clearHelpers() {
 	_, lineY := rl.lineWrapCellLen()
 	y := lineY - posY
 
-	moveCursorDown(y)
+	/*moveCursorDown(y)
 	print("\r\n" + seqClearScreenBelow)
 
 	moveCursorUp(y + 1)
-	moveCursorForwards(posX)
+	moveCursorForwards(posX)*/
+
+	output := moveCursorDownStr(y)
+	output += "\r\n" + seqClearScreenBelow
+
+	output += moveCursorUpStr(y + 1)
+	output += moveCursorForwardsStr(posX)
+
+	print(output)
 }
 
 func (rl *Instance) renderHelpers() {

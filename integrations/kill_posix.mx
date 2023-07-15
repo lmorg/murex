@@ -1,0 +1,26 @@
+private autocomplete.kill {
+    # Autocomplete suggestion for `kill`
+    test define ps {
+        "ExitNum": 0
+    }
+    
+    test define map {
+        "StdoutRegex": (\{(".*?":".*?",?)+\})
+    }
+
+    ps <test_ps> -A -o pid -o command -> sed 1d -> set ps
+    map <test_map> { $ps[:0] } { $ps -> regexp 'f/^[ 0-9]+ (.*)$' }
+}
+
+test unit private autocomplete.kill {
+    "StdoutType": "json",
+    "StdoutRegex": "\\{\\\"[0-9]+\\\":\\\".*?\\\"(,|)\\}"
+}
+
+autocomplete set kill {
+    [{
+        "DynamicDesc": ({ autocomplete.kill }),
+        "ListView": true,
+        "AllowMultiple": true
+    }]
+}

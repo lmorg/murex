@@ -6,7 +6,8 @@ package man
 import "sync"
 
 type summaryCacheT struct {
-	mutex   sync.Mutex
+	mutex sync.Mutex
+	//mutex   debug.BadMutex
 	summary map[string]string
 }
 

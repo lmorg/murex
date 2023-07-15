@@ -12,7 +12,8 @@ if { os posix } then {
 
     test: unit function event.cc.panic.posix {
         "StdoutMatch": "test\n",
-        "ExitNum":     0
+        "ExitNum":     0,
+        "StderrRegex": "Error"
     }
 
 }

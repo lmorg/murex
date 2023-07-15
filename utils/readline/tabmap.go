@@ -1,8 +1,6 @@
 package readline
 
-import (
-	runewidth "github.com/mattn/go-runewidth"
-)
+import "fmt"
 
 func (rl *Instance) initTabMap() {
 	rl.tabMutex.Lock()
@@ -105,7 +103,8 @@ func (rl *Instance) writeTabMap() {
 
 	y := 0
 
-	moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
+	//moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
+	output := moveCursorUpStr(1)
 
 	isTabDisplayList := rl.tcDisplayType == TabDisplayList
 
@@ -117,25 +116,35 @@ func (rl *Instance) writeTabMap() {
 		}
 
 		if isTabDisplayList {
-			item = runewidth.Truncate(suggestions.ItemValue(i), maxLength, "…")
-			description = runewidth.Truncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxDescWidth, "…")
+			//item = runewidth.Truncate(suggestions.ItemValue(i), maxLength, "…")
+			item = runeWidthTruncate(suggestions.ItemValue(i), maxLength)
+			//description = runewidth.Truncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxDescWidth, "…")
+			description = runeWidthTruncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxDescWidth)
 
 		} else {
-			item = runewidth.Truncate(suggestions.ItemValue(i), maxDescWidth, "…")
-			description = runewidth.Truncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxLength, "…")
+			//item = runewidth.Truncate(suggestions.ItemValue(i), maxDescWidth, "…")
+			item = runeWidthTruncate(suggestions.ItemValue(i), maxDescWidth)
+			//description = runewidth.Truncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxLength, "…")
+			description = runeWidthTruncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxLength)
 		}
 
 		if isTabDisplayList {
-			printf("\r\n%s %s %s %s",
-				highlight(rl, y), runewidth.FillRight(item, maxLength),
+			output += fmt.Sprintf("\r\n%s %s %s %s",
+				//highlight(rl, y), runewidth.FillRight(item, maxLength),
+				highlight(rl, y), runeWidthFillRight(item, maxLength),
 				seqReset, description)
 
 		} else {
-			printf("\r\n %s %s %s %s",
-				runewidth.FillRight(description, maxLength), highlight(rl, y),
-				runewidth.FillRight(item, maxDescWidth), seqReset)
+			output += fmt.Sprintf("\r\n %s %s %s %s",
+				//runewidth.FillRight(description, maxLength), highlight(rl, y),
+				//runewidth.FillRight(item, maxDescWidth), seqReset)
+				runeWidthFillRight(description, maxLength), highlight(rl, y),
+				runeWidthFillRight(item, maxDescWidth), seqReset)
+
 		}
 	}
+
+	print(output)
 
 	if suggestions.Len() < rl.tcMaxX {
 		rl.tcUsedY = suggestions.Len()

@@ -12,7 +12,7 @@ var profileOpenbsd []byte
 
 func init() {
 	DefaultProfiles = append(DefaultProfiles, &DefaultProfileT{
-		Name:  "profile_openbsd.mx",
+		Name:  "profile_openbsd",
 		Block: profileOpenbsd,
 	})
 }

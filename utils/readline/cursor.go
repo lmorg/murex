@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 )
@@ -70,37 +71,42 @@ const (
 	cursorBackf = "\x1b[%dD"
 )
 
-func moveCursorUp(i int) {
+func moveCursorUpStr(i int) string {
 	if i < 1 {
-		return
+		return ""
 	}
 
-	printf(cursorUpf, i)
+	return fmt.Sprintf(cursorUpf, i)
 }
 
-func moveCursorDown(i int) {
+func moveCursorDownStr(i int) string {
 	if i < 1 {
-		return
+		return ""
 	}
 
-	printf(cursorDownf, i)
+	return fmt.Sprintf(cursorDownf, i)
 }
 
-func moveCursorForwards(i int) {
+func moveCursorForwardsStr(i int) string {
 	if i < 1 {
-		return
+		return ""
 	}
 
-	printf(cursorForwf, i)
+	return fmt.Sprintf(cursorForwf, i)
 }
 
-func moveCursorBackwards(i int) {
+func moveCursorBackwardsStr(i int) string {
 	if i < 1 {
-		return
+		return ""
 	}
 
-	printf(cursorBackf, i)
+	return fmt.Sprintf(cursorBackf, i)
 }
+
+func moveCursorUp(i int)        { printf(moveCursorUpStr(i)) }
+func moveCursorDown(i int)      { printf(moveCursorDownStr(i)) }
+func moveCursorForwards(i int)  { printf(moveCursorForwardsStr(i)) }
+func moveCursorBackwards(i int) { printf(moveCursorBackwardsStr(i)) }
 
 func (rl *Instance) moveCursorToStart() {
 	posX, posY := rl.lineWrapCellPos()

@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/lmorg/murex/lang"
@@ -67,40 +66,23 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 	var (
 		once      []string
 		recursive []string
-		wg        sync.WaitGroup
 	)
 
-	wg.Add(1)
-
 	softTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-soft-timeout", types.Integer)
-	//if err != nil {
-	//	softTimeout = 100
-	//}
-
 	hardTimeout, _ := lang.ShellProcess.Config.Get("shell", "autocomplete-hard-timeout", types.Integer)
-	//if err != nil {
-	//	hardTimeout = 5000
-	//}
 
 	softCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(softTimeout.(int)))*time.Millisecond)
 	hardCtx, _ := context.WithTimeout(context.Background(), time.Duration(int64(hardTimeout.(int)))*time.Millisecond)
+
 	done := make(chan bool)
 
+	act.largeMin() // assume recursive overruns
+
 	go func() {
-		act.largeMin() // assume recursive overruns
 		recursive = matchRecursive(hardCtx, s, filesToo, rx, act)
 
-		select {
-		case <-softCtx.Done():
-			formatSuggestionsArray(act.ParsedTokens, recursive)
-			act.DelayedTabContext.AppendSuggestions(recursive)
-		case <-hardCtx.Done():
-			formatSuggestionsArray(act.ParsedTokens, recursive)
-			act.DelayedTabContext.AppendSuggestions(recursive)
-		default:
-			act.MinTabItemLength = 0 // recursive hasn't overrun, set it back to default
-			done <- true
-		}
+		formatSuggestionsArray(act.ParsedTokens, recursive)
+		act.DelayedTabContext.AppendSuggestions(recursive)
 	}()
 
 	go func() {
@@ -109,28 +91,20 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 		} else {
 			once = matchDirsOnce(s)
 		}
-		wg.Done()
+		done <- true
+		select {
+		case <-softCtx.Done():
+			formatSuggestionsArray(act.ParsedTokens, once)
+			act.DelayedTabContext.AppendSuggestions(once)
+		default:
+		}
 	}()
 
 	select {
 	case <-done:
-		// The surface search should have already been completed but lets wait
-		// for it regardless because the last thing we need is a completely
-		// avoidable race condition
-		wg.Wait()
-		return append(once, recursive...)
-
+		return once
 	case <-softCtx.Done():
-		// Make sure the surface search has done. It should have, but we might
-		// be working on impossibly slow storage media
-		wg.Wait()
-		return once
-
-	case <-hardCtx.Done():
-		// Make sure the surface search has done. It should have, but we might
-		// be working on impossibly slow storage media
-		wg.Wait()
-		return once
+		return []string{}
 	}
 }
 
@@ -196,9 +170,6 @@ func matchRecursive(ctx context.Context, s string, filesToo bool, rx *regexp.Reg
 	s = variables.ExpandString(s)
 
 	maxDepth, _ := lang.ShellProcess.Config.Get("shell", "recursive-max-depth", types.Integer)
-	//if err != nil {
-	//	maxDepth = 5
-	//}
 
 	split := strings.Split(s, consts.PathSlash)
 	path := strings.Join(split[:len(split)-1], consts.PathSlash)

@@ -13,6 +13,37 @@ against accidental race conditions, infinite loops and breaking expected
 behaviour / the portability of Murex scripts. On those processes directly ran
 from the prompt can trigger this event.
 
+## Usage
+
+    event: onCommandCompletion name=command { code block }
+    
+    !event: onCommandCompletion name
+
+## Valid Interrupts
+
+* `<command>`
+    Name of command that triggers this event
+
+## Examples
+
+**Read STDERR:**
+
+In this example we check the output from `pacman`, which is ArchLinux's package
+management tool, to see if you have accidentally ran it as a non-root user. If
+the STDERR contains a message saying you are no root, then this event function
+will re-run `pacman` with `sudo`.
+
+    event: onCommandCompletion sudo-pacman=pacman {
+        <stdin> -> set event
+        read-named-pipe: $event.Interrupt.Stderr \
+        -> regexp 'm/error: you cannot perform this operation unless you are root/' \
+        -> if {
+              sudo pacman @event.Interrupt.Parameters
+           }
+    }
+
+## Detail
+
 ### Payload
 
 The following payload is passed to the function via STDIN:
@@ -63,37 +94,6 @@ You can read this with `read-named-pipe`. eg
 #### ExitNum
 
 This is the exit number returned from the executed command.
-
-## Usage
-
-    event: onCommandCompletion name=command { code block }
-    
-    !event: onCommandCompletion name
-
-## Valid Interrupts
-
-* `<command>`
-    Name of command that triggers this event
-
-## Examples
-
-**Read STDERR:**
-
-In this example we check the output from `pacman`, which is ArchLinux's package
-management tool, to see if you have accidentally ran it as a non-root user. If
-the STDERR contains a message saying you are no root, then this event function
-will re-run `pacman` with `sudo`.
-
-    event: onCommandCompletion sudo-pacman=pacman {
-        <stdin> -> set event
-        read-named-pipe: $event.Interrupt.Stderr \
-        -> regexp 'm/error: you cannot perform this operation unless you are root/' \
-        -> if {
-              sudo pacman @event.Interrupt.Parameters
-           }
-    }
-
-## Detail
 
 ### Stdout
 

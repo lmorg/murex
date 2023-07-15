@@ -24,7 +24,7 @@ shell will still exist and not just that function.
 ## See Also
 
 * [`break`](../commands/break.md):
-  terminate execution of a block within your processes scope
+  Terminate execution of a block within your processes scope
 * [`die`](../commands/die.md):
   Terminate murex with an exit number of 1
 * [`null`](../commands/devnull.md):

@@ -25,9 +25,22 @@
 
 ## Detail
 
-### Stdout
+### Payload
 
-Stdout is written to the terminal.
+The following payload is passed to the function via STDIN:
+
+    {
+        "Name": "",
+        "Interrupt": 0
+    }
+    
+#### Name
+
+This is the name you specified when defining the event.
+
+#### Interrupt
+
+This is the duration you defined the event to wait for.
 
 ## See Also
 

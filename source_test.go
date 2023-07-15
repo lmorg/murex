@@ -48,5 +48,5 @@ func TestExecSource(t *testing.T) {
 
 	source := `out: "testing"`
 	srcRef := ref.History.AddSource("(builtin)", "source/builtin", []byte(source))
-	execSource([]rune(source), srcRef)
+	execSource([]rune(source), srcRef, false)
 }

@@ -1,6 +1,7 @@
 package readline
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/mattn/go-runewidth"
@@ -75,6 +76,7 @@ func (rl *Instance) tabHintCache(subset []string) {
 		rl.tcDescriptions[subset[i]] = hints[i]
 	}
 	rl.tabMutex.Unlock()
+
 }
 
 func (rl *Instance) moveTabGridHighlight(x, y int) {
@@ -144,7 +146,7 @@ func (rl *Instance) writeTabGrid() {
 
 	x := 0
 	y := 1
-	var item string
+	var item, output string
 
 	for i := 0; i < suggestions.Len(); i++ {
 		x++
@@ -155,12 +157,14 @@ func (rl *Instance) writeTabGrid() {
 				y--
 				break
 			} else {
-				print("\r\n")
+				//print("\r\n")
+				output += "\r\n"
 			}
 		}
 
 		if x == rl.tcPosX && y == rl.tcPosY {
-			print(seqBgWhite + seqFgBlack)
+			//print(seqBgWhite + seqFgBlack)
+			output += seqBgWhite + seqFgBlack
 			item = suggestions.ItemValue(i)
 		}
 
@@ -170,9 +174,11 @@ func (rl *Instance) writeTabGrid() {
 			rl.tcDescriptions[suggestions.ItemLookupValue(i)] = value
 		}
 
-		printf(" %-"+cellWidth+"s %s", caption, seqReset)
+		//printf(" %-"+cellWidth+"s %s", caption, seqReset)
+		output += fmt.Sprintf(" %-"+cellWidth+"s %s", caption, seqReset)
 	}
 
+	print(output)
 	rl.tcUsedY = y
 	rl.tabMutex.Unlock()
 
@@ -187,13 +193,12 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 
 	case runewidth.StringWidth(caption) != len(caption):
 		// string length != rune width. So lets not do anything too clever
-		return runewidth.Truncate(caption, iCellWidth, "…")
+		//return runewidth.Truncate(caption, iCellWidth, "…")
+		return runeWidthTruncate(caption, iCellWidth)
 
-	case len(caption) < tcMaxLength:
-		return caption
-	case len(caption) < 5:
-		return caption
-	case len(caption) <= iCellWidth:
+	case len(caption) < tcMaxLength,
+		len(caption) < 5,
+		len(caption) <= iCellWidth:
 		return caption
 
 	case len(caption)-iCellWidth+6 < 1:
@@ -202,7 +207,7 @@ func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {
 
 	case len(caption) > 5+len(caption)-iCellWidth+6:
 		// truncate long lines in the middle
-		return caption[:4] + "…" + caption[len(caption)-iCellWidth+6:]
+		return caption[:5] + "…" + caption[len(caption)-iCellWidth+6:]
 
 	default:
 		// edge case reached. lets truncate the most conservative way we can,

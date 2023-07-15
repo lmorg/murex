@@ -1,0 +1,20 @@
+autocomplete: set docker %[
+    {
+        DynamicDesc: '{
+            docker help -> @[^Usage:..]re -> tabulate: --split-comma --map
+        }'
+
+        ListView: true
+
+        FlagValues: {
+            "": [{
+                DynamicDesc: '{
+                    docker help $1 -> @[^Usage:..]re -> tabulate: --split-comma --map 
+                }'
+            }]
+        }
+    }
+    {
+        IncFiles: true
+    }
+]

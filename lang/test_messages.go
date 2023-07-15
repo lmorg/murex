@@ -15,7 +15,7 @@ package lang
 
 import "fmt"
 
-//func tMsgPassed() string { return "All test conditions were met" }
+// func tMsgPassed() string { return "All test conditions were met" }
 func tMsgPassed() string { return "-" }
 func tMsgStdout(property string, stdout []byte) string {
 	return fmt.Sprintf("%s output: %s", property, stdout)
@@ -85,4 +85,11 @@ func tMsgRegexMismatch(property string, std []byte) string {
 }
 func tMsgRegexMatch(property string) string {
 	return fmt.Sprintf("%s matches expected regex expression", property)
+}
+
+func tMsgGtEqFail(property string, length, comparison int) string {
+	return fmt.Sprintf("%s length (%d) is less than %d", property, length, comparison)
+}
+func tMsgGtEqMatch(property string, length, comparison int) string {
+	return fmt.Sprintf("%s length (%d) is greater than or equal to %d", property, length, comparison)
 }

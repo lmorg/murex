@@ -188,8 +188,10 @@ func (rl *Instance) Readline() (_ string, err error) {
 			return "", CtrlC
 
 		case charEOF:
-			rl.clearHelpers()
-			return "", EOF
+			if rl.line.RuneLen() == 0 {
+				rl.clearHelpers()
+				return "", EOF
+			}
 
 		case charCtrlE:
 			HkFnMoveToEndOfLine(rl)
@@ -258,7 +260,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				rl.viUndoSkipAppend = true
 			} else {
 				rl.backspace()
-				rl.renderHelpers()
+				//rl.renderHelpers()
 			}
 
 		case charEscape:
@@ -411,10 +413,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 		//rl.screenRefresh()
 		return
 
-	case seqAltF:
+	case seqAltF, seqOptRight, seqCtrlRight:
 		HkFnJumpForwards(rl)
 
-	case seqAltB:
+	case seqAltB, seqOptLeft, seqCtrlLeft:
 		HkFnJumpBackwards(rl)
 
 	default:

@@ -2,6 +2,7 @@ package management
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/lang/parameters"
@@ -154,25 +155,48 @@ func cmdBangSummary(p *lang.Process) error {
 	return hintsummary.Summary.Delete(exe)
 }
 
+const manArgDescriptions = "--descriptions"
+
+var manArgs = &parameters.Arguments{
+	AllowAdditional: true,
+	Flags: map[string]string{
+		manArgDescriptions: types.Boolean,
+		"-d":               manArgDescriptions,
+	},
+}
+
 func cmdManParser(p *lang.Process) error {
 	p.Stdout.SetDataType(types.Json)
 
-	var flags []string
+	var (
+		flags        []string
+		descriptions = map[string]string{}
+	)
 
-	if p.IsMethod {
-		flags = man.ParseByStdio(p.Stdin)
-
-	} else {
-		exe, err := p.Parameters.String(0)
-		if err != nil {
-			return err
-		}
-
-		paths := man.GetManPages(exe)
-		flags = man.ParseByPaths(paths)
+	cmdFlags, additional, err := p.Parameters.ParseFlags(manArgs)
+	if err != nil {
+		return err
 	}
 
-	b, err := json.Marshal(flags, p.Stdout.IsTTY())
+	if p.IsMethod {
+		flags, descriptions = man.ParseByStdio(p.Stdin)
+
+	} else {
+		if len(additional) != 1 {
+			return fmt.Errorf("invalid parameters")
+		}
+		exe := additional[0]
+
+		paths := man.GetManPages(exe)
+		flags, descriptions = man.ParseByPaths(exe, paths)
+	}
+
+	var b []byte
+	if cmdFlags[manArgDescriptions] == types.TrueString {
+		b, err = json.Marshal(descriptions, p.Stdout.IsTTY())
+	} else {
+		b, err = json.Marshal(flags, p.Stdout.IsTTY())
+	}
 	if err != nil {
 		return err
 	}
