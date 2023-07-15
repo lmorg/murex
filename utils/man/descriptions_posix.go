@@ -44,7 +44,8 @@ var rxHeading = regexp.MustCompile(`^[A-Z]+$`)
 var validSections = []string{
 	"DESCRIPTION",
 	"OPTIONS",
-	"PRIMARIES", // required for `find` on macOS
+	"PRIMARIES",  // required for `find` on macOS
+	"EXPRESSION", // required for `find` on GNU
 }
 
 func parseDescriptionsLines(io stdio.Io, fMap *map[string]string) {
