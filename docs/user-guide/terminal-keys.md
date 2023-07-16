@@ -133,3 +133,7 @@ Please note this isn't currently supported on all terminal emulators.
 
 * [Murex's Interactive Shell](../user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
+* [Rosetta Stone](../user-guide/rosetta-stone.md):
+  A tabulated list of Bashism's and their equivalent Murex syntax
+* [Spellcheck](../user-guide/spellcheck.md):
+  How to enable inline spellchecking
