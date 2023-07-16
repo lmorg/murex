@@ -46,6 +46,10 @@ See [INSTALL](https://murex.rocks/INSTALL.html) for details.
 
 Read the [language tour](https://murex.rocks/docs/tour.html) to get started.
 
+## Discuss Murex
+
+Discussions presently happen in [Github discussions](https://github.com/lmorg/murex/discussions).
+
 ## Known bugs / TODO
 
 Murex is considered stable, however if you do run into problems then please
