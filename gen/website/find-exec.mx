@@ -1,31 +1,37 @@
 #!/bin/env murex
 
-#config: set proc echo true
+try {
 
-$filename = $2
+    $filename = $2
 
-out "processing $(filename)..."
+    out "processing $(filename)..."
 
-pandoc $filename |> $(filename).tmp
+    pandoc $filename |> $(filename).tmp
 
-# html file extension
-$filename -> regexp 's,\.md,.html,' -> set html
+    # html file extension
+    $filename -> regexp 's,\.md,.html,' -> set html
 
-# replace all hyperlinks to .md with .html
-sed -i %(s,\.md,.html,g;
-         s,<li><p>,<li>,g;
-         s,</p></li>,</li>,g;
-         s,version\.svg,version.svg\?v=$(MUREXVERSION),g;) $(filename).tmp
+    # replace all hyperlinks to .md with .html
+    sed -i %(s,\.md,.html,g;
+            s,<li><p>,<li>,g;
+            s,</p></li>,</li>,g;
+            s,version\.svg,version.svg\?v=$(MUREXVERSION),g;) $(filename).tmp
 
-cat gen/website/header.html $(filename).tmp gen/website/footer.html |> $html
+    cat gen/website/header.html $(filename).tmp gen/website/footer.html |> $html
 
-cat $(filename).tmp \
-    -> sed -z 's/\n//g' \ # remove line breaks (so sed can work with tags that span multiple lines)
-    -> regexp 'f,<h1.*?>(.*?)</h1>,' \ # search for h1 tag
-    -> regexp 's,<.*?>,,g' \ # remove any other HTML tags inside the h1 tag
-    -> regexp 's,&,\&,' \ # fix bug where &gt; / &lt; formatting breaks in sed
-    -> set title
+    cat $(filename).tmp \
+        -> sed -z 's/\n//g' \ # remove line breaks (so sed can work with tags that span multiple lines)
+        -> regexp 'f,<h1.*?>(.*?)</h1>,' \ # search for h1 tag
+        -> regexp 's,<.*?>,,g' \ # remove any other HTML tags inside the h1 tag
+        -> regexp 's,&,\&,' \ # fix bug where &gt; / &lt; formatting breaks in sed
+        -> set title
 
-sed -i "s#\{\{WEBSITE_PAGE_TITLE\}\}#$title - Murex Shell#" $html
+    sed -i "s#\{\{WEBSITE_PAGE_TITLE\}\}#$title - Murex Shell#" $html
 
-rm $(filename).tmp $filename
+    rm $(filename).tmp $filename
+
+}
+catch {
+    err "Could not write $filename ($title)"
+    exit 1
+}
