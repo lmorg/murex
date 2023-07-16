@@ -1,26 +1,22 @@
 # Supported Operating Systems
 
 The following is a list of platforms Murex has been tested on and the
-level of support it had:
+level of support it has:
 
 ## Linux
 
-This is one of the primary development platforms; all features should work. The
-shell has been extensively tested across a number of distributions and there
+The shell has been extensively tested across a number of distributions. There
 are no known distribution specific issues.
 
 ## OS X / Darwin
 
-This is one of the primary development platforms; all features work aside alt-
-hotkeys.
+All features work aside alt-hotkeys.
+
+Both x86 (Intel) and AMD (M2 etc) architectures are supported.
 
 ## Windows
 
-Windows is supported and part of the automated build tests so Murex will
-compile for that platform however there have been very little in the way of
-functional tests on recent versions.
-
-There are also few known bugs / lack of support due to the way how Windows
+Windows is supported there are a few known issue with the way how Windows
 internals are built. These cannot be easily worked around:
 
 * Windows doesn't decouple the terminal emulator and the shell Which means you
@@ -39,43 +35,27 @@ internals are built. These cannot be easily worked around:
   wouldn't.
 
 * Job control (`bg`, `^z`, `fg`, etc) isn't supported because Windows doesn't
-  have an equivalent of the SIGSTSP (etc) POSIX signal. 
+  have an equivalent of the SIGSTSP (etc) POSIX signals. 
 
 * There is also the caveat that without a broad range of command line utilities
-  (eg GNU coreutils) the usefulness of Murex is seriously diminished. There
-  is some work underway to replicate some of the basics of coreutils as Murex
-  builtins but that level of work is massive, thankless, and targeting a niche
-  audience; and so obviously a very low priority.
-  
-Taking these points into account, the recommendation is to run Murex inside a
-POSIX compatability layer such as WSL (Windows Subsystem for Linux) on Windows
-10 and 11, or Cygwin. However if native Windows is your preference then Murex
-*should* function.
+  (eg GNU coreutils) the usefulness of Murex is seriously diminished. You can
+  mitigate this by installing [MSYS2](https://www.msys2.org/) or [Cygwin](https://cygwin.com/).
 
 ## FreeBSD
 
-An older version was extensively tested inside a 10.3-RELEASE AMD64 jail.
-
-FreeBSD support is considered very good but, as always, please log an issue via
-Github if you do encounter problems.
+FreeBSD is officially supported and tested by the community.
 
 ## OpenBSD
 
-Tested on an earlier version of Murex.
-
-OpenBSD support is expected to be good but, as always, please log an issue via
-Github if you do encounter problems.
+FreeBSD is officially supported and tested by the community.
 
 ## NetBSD
 
-NetBSD is part of the automated build tests so Murex will compile on NetBSD.
-However no functional testing has been conducted on that particular platform.
+FreeBSD is officially supported and tested by the community.
 
 ## DragonflyBSD
 
-DragonflyBSD is part of the automated build tests so Murex will compile on
-DragonflyBSD. However no functional testing has been conducted on that
-particular platform.
+FreeBSD is officially supported and tested by the community.
 
 ## Plan 9
 
@@ -89,10 +69,8 @@ support all of the required signals. All other functions are expected to work.
 
 ## Other CPU architectures
 
-Murex is developed on AMD64 and that is also the architecture which runs all
-of the unit tests; however there is nothing CPU specific in Murex's source
-and the CI pipeline does compile binaries for 386, AMD64, ARMv7 (32bit) and
-ARMv8 (64bit) so the shell should be compatible for those architectures.
-
-If you do happen to run into any issues then please report them on the Github
-issue tracker.
+Several CPU architectures are supported:
+* 386 (x86 32bit),
+* AMD64 (x86 64bit),
+* ARMv7 (32bit) and
+* ARMv8 (64bit).
