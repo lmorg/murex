@@ -92,7 +92,8 @@ to what one expects from an IDE.
 
 Syntax highlighting can be disabled by running:
 
-    » config: set shell syntax-highlighting off
+    
+    config: set shell syntax-highlighting off
     
 ### Spellchecker
 
@@ -169,6 +170,8 @@ prompt:
   Pipes STDOUT from the left hand command to STDIN of the right hand command
 * [Spellcheck](../user-guide/spellcheck.md):
   How to enable inline spellchecking
+* [Terminal Hotkeys](../user-guide/terminal-keys.md):
+  A list of all the terminal hotkeys and their uses
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):

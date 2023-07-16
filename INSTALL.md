@@ -7,6 +7,7 @@
 - [Pre-Compiled Binaries (HTTPS download)](#pre-compiled-binaries-https-download)
 - [Installing From A Package Manager](#installing-from-a-package-manager)
   - [ArchLinux](#archlinux)
+  - [FreeBSD Ports](#freebsd-ports)
   - [Homebrew](#homebrew)
   - [MacPorts](#macports)
 - [Compiling From Source](#compiling-from-source)
@@ -44,13 +45,11 @@ page to select your platform.
 
 ### ArchLinux
 
-Available as an AUR package:
+Available as an [AUR package](https://aur.archlinux.org/packages/murex).
 
-* PKGBUILD file:
-  [https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex](https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=murex)
+### FreeBSD Ports
 
-* AUR package repository:
-  [https://aur.archlinux.org/packages/murex](https://aur.archlinux.org/packages/murex)
+Murex is available in [FreeBSD ports](https://www.freebsd.org/ports/).
 
 ### Homebrew
 

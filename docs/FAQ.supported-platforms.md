@@ -1,14 +1,29 @@
-# Supported Operating Systems
+<h1>Supported Operating Systems</h1>
 
 The following is a list of platforms Murex has been tested on and the
 level of support it has:
+
+<h2>Table of Contents</h2>
+<div id="toc">
+
+- [Linux](#linux)
+- [macOS (Darwin)](#macos-darwin)
+- [Windows](#windows)
+- [FreeBSD](#freebsd)
+- [OpenBSD](#openbsd)
+- [NetBSD](#netbsd)
+- [DragonflyBSD](#dragonflybsd)
+- [Plan 9](#plan-9)
+- [Other CPU architectures](#other-cpu-architectures)
+
+</div>
 
 ## Linux
 
 The shell has been extensively tested across a number of distributions. There
 are no known distribution specific issues.
 
-## OS X / Darwin
+## macOS (Darwin)
 
 All features work aside alt-hotkeys.
 
@@ -70,7 +85,8 @@ support all of the required signals. All other functions are expected to work.
 ## Other CPU architectures
 
 Several CPU architectures are supported:
-* 386 (x86 32bit),
-* AMD64 (x86 64bit),
-* ARMv7 (32bit) and
-* ARMv8 (64bit).
+
+* 386   (x86 32bit)
+* AMD64 (x86 64bit)
+* ARMv7 (32bit)
+* ARMv8 (64bit)
