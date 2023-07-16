@@ -3,4 +3,4 @@
 
 package man
 
-var manBlock = []rune(`man $command`)
+var manBlock = []rune(`man <env:MANWIDTH=1000> $command`)

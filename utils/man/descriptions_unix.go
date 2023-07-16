@@ -8,5 +8,5 @@ var manBlock = []rune(`
 		/usr/bin/zcat -f ${man -w $command} -> mandoc -O width=1000 -c
 	}
 	catch {
-		man $command
+		man <env:MANWIDTH=1000> $command
 	}`)
