@@ -2,28 +2,68 @@
 
 > A list of all the terminal hotkeys and their uses
 
-## `tab`: autocomplete
+<h2>Table of Contents</h2>
+<div id="toc">
 
-Provides autocompletion suggestions. Press `esc` to hide suggestions.
+- [Command Prompt](#command-prompt)
+  - [Autocomplete](#autocomplete)
+  - [Fuzzy Find Autocomplete](#fuzzy-find-autocomplete)
+  - [Line Editing](#line-editing)
+    - [Navigation](#navigation)
+    - [General Hotkeys](#general-hotkeys)
+  - [Vim Keys](#vim-keys)
+    - [Supported Keys](#supported-keys)
+    - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
+  - [Recalling Previous Words](#recalling-previous-words)
+- [Job Control](#job-control)
+- [Miscillanious](#miscillanious)
+  - [Cancel Prompt](#cancel-prompt)
+  - [End Of File](#end-of-file)
+  - [Alternative Cancel Key](#alternative-cancel-key)
+  - [Clear Screen](#clear-screen)
+- [Search Shell History](#search-shell-history)
 
-## `ctrl`+`c`: kill foreground process
+</div>
 
-Pressing this will send a kill (SIGINT) request to the foreground process.
+## Command Prompt
 
-## `ctrl`+`d`: end of file
+### Autocomplete
 
-Send EOF (end of file). If the shell is sat on the prompt then this will exit
-that running session.
+Pressing `tab` provides autocompletion suggestions. Suggestions can come in one
+of two formats:
 
-## `ctrl`+`f`: find in autocomplete suggestions
+1. a gridded view where the hint text (the, typically blue, text under the
+   prompt) provides the description
+2. a list view where the description is printed alongside the completion
+   suggestion.
 
-This will allow you to perform a search through the autocompletion suggestions,
-allowing you to quickly navigate complex command options or jump to specific
+While the autocompletion suggestions are open, the following keys are assigned
+roles:
+
+* arrow keys (`left`, `right`, `up`, `down`): highlight different suggestions
+  
+* `tab`: highlight the next suggestion
+  
+* `shift`+`tab`: highlight the previous suggestion
+  
+* `enter` / `return`: this selects the highlighted autocompletion
+  
+* `esc`: closes the suggestions without selecting one
+  
+* `ctrl`+`f`: fuzzy find in the suggestions
+
+### Fuzzy Find Autocomplete
+
+Pressing `ctrl`+`f` either from the prompt, or while the autocomplete
+suggestions are open, will open up the fuzzy find dialog to search through
+available suggestions. This can also be used to quickly jump to specific
 sub-directories.
+
+Your typed search terms will appear in the hint text.
 
 By default the fuzzy finder will look for any item that includes _all_ of the
 search words. However the search behavior can be changed if the first search
-term is any of these:
+term is any of the following:
 
 * `or`: show results that match _any_ of the search terms. eg `or .md .txt`
   will match both markdown and txt files (when finding files in completion
@@ -33,50 +73,67 @@ term is any of these:
   `! .md .txt` will match all files except markdown and txt files (when finding
   files in completion suggestions).
 
-* `g`: show only results that match a shell glob. eg `*.txt`.
+* `g`: show only results that match a shell glob. eg `*.txt`. This mode is
+  automatically assumed if you include an abstricts in your search term.
 
 * `rx`: use a regexp pattern matcher instead of any fuzzy search. Expressions
   will be case insensitive and non-greedy by default.
 
-The fuzzy finder search is not case sensitive.
+Aside from globbing matches, searching in fuzzy finder is not case sensitive.
 
-Press `esc` to cancel search.
+While the fuzzy finder is open, the following keys are assigned roles:
 
-## `ctrl`+`r`: search shell history
+* arrow keys (`left`, `right`, `up`, `down`): highlight different suggestions
+ 
+* `tab`: highlight the next suggestion
+  
+* `shift`+`tab`: highlight the previous suggestion
+  
+* `enter` / `return`: this selects the highlighted autocompletion
+  
+* `esc`: cancel search
 
-This brings up your timestamped shell history as an autocomplete list with
-regexp search activated. Using `ctrl`+`r` you can rapidly rerun previous
-command lines.
+### Line Editing
 
-Press `esc` to cancel history completion.
+These are the various hotkeys and editing modes available in Murex's
+interactive command prompt.
 
-## `ctrl`+`u`: clear line
+#### Navigation
 
-Clears the current line.
+* Arrow keys, `left` and `right`: move the cursor forwards or backwards in line
+  
+* Arrow keys, `up` and `down`: If the command line spans multiple lines on the
+  screen then this will jump up or down to the next/previous line. When at the
+  top or bottom line, the `up` or `down` keys will search through your history
+  of past command lines
 
-## `ctrl`+`\`: kill all running processes
+* `alt`+`b`: jump backwards a word at a time (Emacs compatibility)
+* `ctrl`+`left`: jump backwards a word at a time (IBM keyboard layouts)
+* `option`+`left`: jump backwards a word at a time (Apple keyboard layouts)
+  
+* `alt`+`f`: jump forwards a word at a time (Emacs compatibility)
+* `ctrl`+`right`: jump forwards a word at a time (IBM keyboard layouts)
+* `option`+`right`: jump forwards a word at a time (Apple keyboard layouts)
 
-This will kill all processes owned by the current Murex session. Including
-any background processes too.
+* `ctrl`+`a`: jump to begging of line
 
-This function is a effectively an emergency kill switch to bring you back to
-the command prompt.
+* `ctrl`+`e`: jump to end of line
 
-Use sparingly because it doesn't allow processes to end graceful.
 
-## `ctrl`+`z`: suspend foreground process
+#### General Hotkeys
 
-Suspends the execution of the current foreground process. You can then use job
-control to resume execution in either the foreground or background. ([read more](../commands/fid-list.md))
+* `ctrl`+`k`: clears line after cursor
+  
+* `ctrl`+`u`: clears the whole line
 
-## `esc` (aka "vim keys")
+### Vim Keys
 
 Pressing `esc` while no autocomplete suggestions are shown will switch the
 line editor into **vim keys** mode.
 
 Press `i` to return to normal editing mode.
 
-### Supported keys
+#### Supported Keys
 
 * `a`: insert after current character
 * `A`: insert at end of line
@@ -86,10 +143,10 @@ Press `i` to return to normal editing mode.
 * `D`: delete characters
 * `e`: jump to end of word
 * `E`: jump to next whitespace
-* `h`: previous character (like `🠔`)
+* `h`: previous character (like `left`)
 * `i`: insert mode
 * `I`: insert at beginning of line
-* `l`: next character (like `🠖`)
+* `l`: next character (like `right`)
 * `p`: paste after
 * `P`: paste before
 * `r`: replace character (replace once)
@@ -105,27 +162,77 @@ Press `i` to return to normal editing mode.
 * `]`: jump to next brace
 * `$`: jump to end of line
 * `%`: jump to either end of matching bracket
-* `0` to `9`: repeat action _n_ times. eg `5x` would delete five (`5`) characters (`x`)
+* `0` to `9`: repeat action _n_ times. eg `5x` would delete (`x`) five (`5`)
+  characters
 
-### Full screen editing via `$EDITOR`
+#### Full Screen Editing via `$EDITOR`
 
 When in "vim keys" mode, press `v` to bring up the visual editor. The editor
 will be whichever command is stored in the `$EDITOR` environmental variable.
 
-## Recalling previous words
+### Recalling Previous Words
 
 * `alt`+`1` recalls the first word
 * `alt`+`2` recalls the second word
 * ...
 * `alt`+`9` recalls the ninth word
 
-For example (code inside square brackets represent key presses rather than text):
+In the following example, code inside square brackets represent key presses
+rather than text:
 
     » echo two three four five six seven eight nine
     two three four five six seven eight nine
     » [alt+1]echo [alt+5]five
     
-Please note this isn't currently supported on all terminal emulators.
+Please note this isn't currently supported on all terminal emulators and thus
+this feature is likely to get remapped in the future.
+
+## Job Control
+
+While processes are running, the following keys are assigned roles:
+
+* `ctrl`+`c`: kill foreground process. Pressing this will send a kill (SIGINT)
+  request to the foreground process
+
+* `ctrl`+`\`: kill all running processes in current shell session, including
+  any background processes too. This hotkey is a effectively an emergency kill
+  switch to bring you back to the command prompt should `ctrl`+`c` prove
+  ineffective. Use this sparingly because it doesn't allow processes to end
+  gracefully
+
+* `ctrl`+`z`: suspend foreground process. This will take you back to the prompt
+  and from there you can then use job control to resume execution in either the
+  foreground or background. ([read more](../commands/fid-list.md))
+
+## Miscillanious
+
+### Cancel Prompt
+
+Pressing `ctrl`+`c` while on the prompt will clear the prompt. This is similar
+to `ctrl`+`u`.
+
+### End Of File
+
+Pressing `ctrl`+`d` on an empty prompt will send EOF (end of file). This will
+exit that running shell session.
+
+### Alternative Cancel Key
+
+`ctrl`+`g` performs the same action as `esc` at all states of the interactive
+shell.
+
+### Clear Screen
+
+Pressing `ctrl`+`l` will clear the screen.  
+
+## Search Shell History
+
+This displays up your timestamped shell history as an autocomplete list with
+fuzzy find activated. Using `ctrl`+`r` you can rapidly rerun previous
+command lines.
+
+From here, the usual autocomplete / fuzzy find hotkeys apply. Such as pressing
+`esc` to cancel history completion.
 
 ## See Also
 
