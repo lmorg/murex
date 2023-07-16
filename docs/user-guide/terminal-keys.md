@@ -2,8 +2,6 @@
 
 > A list of all the terminal hotkeys and their uses
 
-# Terminal Hotkeys
-
 ## `tab`: autocomplete
 
 Provides autocompletion suggestions. Press `esc` to hide suggestions.
