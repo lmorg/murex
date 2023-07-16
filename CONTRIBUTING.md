@@ -13,7 +13,7 @@ Murex is community project. We gratefully accept contributions.
   - [Committing Code](#committing-code)
   - [Blogging](#blogging)
 - [Rasing Pull Requests](#rasing-pull-requests)
-  - [Etiquette](#etiquette)
+- [Etiquette](#etiquette)
 - [Licensing](#licensing)
 
 
@@ -100,7 +100,7 @@ your Github account, Twitter or other social platforms and/or promotions.
 Pull requests should be raised against the `develop` branch. This allows us to
 stage and test changes before releasing them to everyone.
 
-### Etiquette
+## Etiquette
 
 Murex is a community project and as such, everyone is entitled to an opinion
 and opinions might differ. With that in mind, please be patient if discussions

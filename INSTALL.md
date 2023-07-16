@@ -11,6 +11,7 @@
   - [MacPorts](#macports)
 - [Compiling From Source](#compiling-from-source)
   - [Installation From Source Steps](#installation-from-source-steps)
+- [Compiling On Windows](#compiling-on-windows)
 - [Including Optional Builtins](#including-optional-builtins)
 - [External Dependencies (Optional)](#external-dependencies-optional)
 - [Recommended Terminal Typeface](#recommended-terminal-typeface)
@@ -21,6 +22,13 @@
 
 Linux, BSD and macOS are fully supported, with other platforms considered
 experimental and/or having known limitations.
+
+Windows is a supported platform however Murex doesn't aim to replace coreutils.
+So, depending on your required use case, you may need additional 3rd party
+software to provide those utilities.
+
+There is a more detailed breakdown of known compatibility issues at
+[docs/FAQ.supported-platforms.md](docs/FAQ.supported-platforms.md).
 
 ## Pre-Compiled Binaries (HTTPS download)
 
@@ -120,6 +128,20 @@ optional as Murex attempts to ship with sane defaults.
 **Start the shell:**
 
     ./murex
+
+## Compiling On Windows
+
+For building on Windows 10, a GCC compiler is needed for the [go-sqlite3]( https://github.com/mattn/go-sqlite3)
+module.
+
+Build instructions for the module support building Murex as well: https://github.com/mattn/go-sqlite3#windows
+
+1. Install a Windows `gcc` toolchain, for example https://jmeubank.github.io/tdm-gcc
+2. Ensure that `gcc` appears in the Windows path
+3. `go build` within the Murex source path
+
+These instructions are expected to work on other versions of Windows but, at
+time of writing, haven't yet been officially tested.
 
 ## Including Optional Builtins
 
