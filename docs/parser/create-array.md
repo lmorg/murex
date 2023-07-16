@@ -13,6 +13,9 @@ familiar with JSON.
 
 Additionally you can also embed `a` style parameters inside `%[]` arrays too.
 
+Like with YAML, strings in `%[]` do not need to be quoted unless you need to
+force numeric or boolean looking values to be stored as strings.
+
 ## Examples
 
 ### Arrays passed as a JSON string:
@@ -150,6 +153,8 @@ arrays. For more details on these please refer to the documents for each format
 
 * [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
+* [Create object (`%{}`) constructor](../parser/create-object.md):
+  Quickly generate objects and maps
 * [Double Quote (`"`) Token](../parser/double-quote.md):
   Initiates or terminates a string (variables expanded)
 * [Single Quote (`'`) Token](../parser/single-quote.md):
@@ -164,5 +169,3 @@ arrays. For more details on these please refer to the documents for each format
   A sophisticated yet simply way to build a JSON array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
-* [create-object](../parser/create-object.md):
-  

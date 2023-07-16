@@ -33,6 +33,8 @@ files.
   Initiates or terminates a string (variables expanded)
 * [Create array (`%[]`) constructor](parser/create-array.md):
   Quickly generate arrays
+* [Create object (`%{}`) constructor](parser/create-object.md):
+  Quickly generate objects and maps
 * [Curly Brace (`{`, `}`) Tokens](parser/curly-brace.md):
   Initiates or terminates a code block
 * [Double Quote (`"`) Token](parser/double-quote.md):

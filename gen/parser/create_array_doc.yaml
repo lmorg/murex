@@ -13,6 +13,9 @@
     familiar with JSON.
 
     Additionally you can also embed `a` style parameters inside `%[]` arrays too.
+
+    Like with YAML, strings in `%[]` do not need to be quoted unless you need to
+    force numeric or boolean looking values to be stored as strings.
   Examples: |-
     ### Arrays passed as a JSON string:
 
