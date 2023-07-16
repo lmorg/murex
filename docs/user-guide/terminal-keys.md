@@ -8,6 +8,7 @@
 - [Command Prompt](#command-prompt)
   - [Autocomplete](#autocomplete)
   - [Fuzzy Find Autocomplete](#fuzzy-find-autocomplete)
+  - [Search Shell History](#search-shell-history)
   - [Line Editing](#line-editing)
     - [Navigation](#navigation)
     - [General Hotkeys](#general-hotkeys)
@@ -16,12 +17,11 @@
     - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
   - [Recalling Previous Words](#recalling-previous-words)
 - [Job Control](#job-control)
-- [Miscillanious](#miscillanious)
+- [Miscellaneous](#miscellaneous)
   - [Cancel Prompt](#cancel-prompt)
   - [End Of File](#end-of-file)
   - [Alternative Cancel Key](#alternative-cancel-key)
   - [Clear Screen](#clear-screen)
-- [Search Shell History](#search-shell-history)
 
 </div>
 
@@ -92,6 +92,18 @@ While the fuzzy finder is open, the following keys are assigned roles:
 * `enter` / `return`: this selects the highlighted autocompletion
   
 * `esc`: cancel search
+
+### Search Shell History
+
+This displays up your timestamped shell history as an autocomplete list with
+fuzzy find activated. Using `ctrl`+`r` you can rapidly rerun previous
+command lines.
+
+From here, the usual autocomplete / fuzzy find hotkeys apply. Such as pressing
+`esc` to cancel history completion.
+
+If the prompt line is not empty, then the current line is included in the
+history search.
 
 ### Line Editing
 
@@ -204,7 +216,7 @@ While processes are running, the following keys are assigned roles:
   and from there you can then use job control to resume execution in either the
   foreground or background. ([read more](../commands/fid-list.md))
 
-## Miscillanious
+## Miscellaneous
 
 ### Cancel Prompt
 
@@ -223,16 +235,7 @@ shell.
 
 ### Clear Screen
 
-Pressing `ctrl`+`l` will clear the screen.  
-
-## Search Shell History
-
-This displays up your timestamped shell history as an autocomplete list with
-fuzzy find activated. Using `ctrl`+`r` you can rapidly rerun previous
-command lines.
-
-From here, the usual autocomplete / fuzzy find hotkeys apply. Such as pressing
-`esc` to cancel history completion.
+Pressing `ctrl`+`l` will clear the screen.
 
 ## See Also
 
