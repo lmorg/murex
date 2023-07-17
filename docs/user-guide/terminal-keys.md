@@ -127,10 +127,11 @@ interactive command prompt.
 * `ctrl`+`right`: jump forwards a word at a time (IBM keyboard layouts)
 * `option`+`right`: jump forwards a word at a time (Apple keyboard layouts)
 
-* `ctrl`+`a`: jump to begging of line
+* `ctrl`+`a`: jump to beginning of line
+* `home`: jump to beginning of line
 
 * `ctrl`+`e`: jump to end of line
-
+* `end`: jump to end of line
 
 #### General Hotkeys
 

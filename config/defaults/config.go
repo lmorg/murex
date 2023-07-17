@@ -66,13 +66,6 @@ func Config(c *config.Config, isInteractive bool) {
 		Global:      true,
 	})
 
-	/*c.Define("shell", "recursive-prefetch", config.Properties{
-		Description: "Maximum depth to scan through when compiling the recursive list for auto-completion",
-		Default:     false,
-		DataType:    types.Boolean,
-		Global:      true,
-	})*/
-
 	c.Define("shell", "autocomplete-soft-timeout", config.Properties{
 		Description: "Number of milliseconds (1/1000th second) to wait when running autocompletins before the task is backgrounded and the results appended to the existing completions (longer reduces responsiveness, shorter means autocompletion fields aren't sized to the longest suggestion)",
 		Default:     75,
@@ -95,11 +88,10 @@ func Config(c *config.Config, isInteractive bool) {
 	})
 
 	c.Define("shell", "color", config.Properties{
-		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, {SGR} variables, etc",
-		//Default:     (runtime.GOOS != "windows" && isInteractive),
-		Default:  true,
-		DataType: types.Boolean,
-		Global:   true,
+		Description: "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, variables, etc",
+		Default:     true,
+		DataType:    types.Boolean,
+		Global:      true,
 	})
 
 	c.Define("shell", "syntax-highlighting", config.Properties{
@@ -277,13 +269,6 @@ func Config(c *config.Config, isInteractive bool) {
 			Read:  tty.ConfigRead,
 			Write: tty.ConfigWrite,
 		},
-	})
-
-	c.Define("shell", "preview-enabled", config.Properties{
-		Description: "If set, will show file previews in the top right third of the terminal",
-		Default:     false, //tty.Enabled(),
-		DataType:    types.Boolean,
-		Global:      true,
 	})
 
 	c.Define("shell", "preview-images", config.Properties{

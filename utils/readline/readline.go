@@ -27,6 +27,8 @@ func (rl *Instance) Readline() (_ string, err error) {
 	}
 
 	defer func() {
+		rl.clearPreview()
+
 		rl.fdMutex.Lock()
 
 		rl.closeSigwinch()
@@ -400,16 +402,29 @@ func (rl *Instance) escapeSeq(r []rune) {
 			return
 		}
 
-	case seqPageUp:
+	case seqPageUp, seqOptUp, seqCtrlUp:
 		rl.previewPageUp()
 		return
 
-	case seqPageDown:
+	case seqPageDown, seqOptDown, seqCtrlDown:
 		rl.previewPageDown()
 		return
 
 	case seqF1, seqF1VT100:
-		rl.ShowPreviews = !rl.ShowPreviews
+		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind && !rl.showPreviews {
+			return
+		}
+
+		rl.showPreviews = !rl.showPreviews
+		if rl.showPreviews {
+			print(seqSaveBuffer)
+		} else {
+			print(seqRestoreBuffer)
+		}
+
+		rl.echo()
+		rl.renderHelpers()
+
 		//rl.screenRefresh()
 		return
 

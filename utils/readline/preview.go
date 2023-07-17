@@ -68,7 +68,7 @@ func (rl *Instance) writePreview(item string) {
 		}()
 	}
 
-	if rl.ShowPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
+	if rl.showPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
 		size, err := getPreviewXY()
 		if err != nil || size.Height < 8 || size.Width < 40 {
 			rl.previewCache = nil
@@ -190,4 +190,12 @@ func (rl *Instance) previewPageDown() {
 	}
 
 	_ = previewDraw(rl.previewCache.lines[rl.previewCache.pos:], rl.previewCache.size)
+}
+
+func (rl *Instance) clearPreview() {
+	if rl.showPreviews {
+		print(seqRestoreBuffer)
+		rl.showPreviews = false
+		rl.echo()
+	}
 }

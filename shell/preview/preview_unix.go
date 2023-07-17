@@ -9,6 +9,7 @@ import (
 	"os/exec"
 
 	"github.com/lmorg/murex/utils/readline"
+	"github.com/lmorg/murex/utils/rmbs"
 )
 
 func previewFile(filename string) []byte {
@@ -40,5 +41,6 @@ func manPage(exe string, size *readline.PreviewSizeT) []byte {
 		return err.Bytes()
 	}
 
-	return out.Bytes()
+	s := rmbs.Remove(out.String())
+	return []byte(s)
 }
