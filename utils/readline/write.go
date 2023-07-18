@@ -78,7 +78,7 @@ func (rl *Instance) echo() {
 	if x > 0 {
 		line += fmt.Sprintf(cursorBackf, x)
 	}
-	print(line)
+	print(line + moveCursorForwardsStr(1))
 }
 
 func lineWrap(rl *Instance, termWidth int) []string {
@@ -169,6 +169,7 @@ func (rl *Instance) clearPrompt() {
 
 func (rl *Instance) resetHelpers() {
 	rl.modeAutoFind = false
+	rl.clearPreview()
 	rl.clearHelpers()
 	rl.resetHintText()
 	rl.resetTabCompletion()
@@ -178,12 +179,6 @@ func (rl *Instance) clearHelpers() {
 	posX, posY := rl.lineWrapCellPos()
 	_, lineY := rl.lineWrapCellLen()
 	y := lineY - posY
-
-	/*moveCursorDown(y)
-	print("\r\n" + seqClearScreenBelow)
-
-	moveCursorUp(y + 1)
-	moveCursorForwards(posX)*/
 
 	output := moveCursorDownStr(y)
 	output += "\r\n" + seqClearScreenBelow

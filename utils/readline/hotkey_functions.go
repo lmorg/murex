@@ -89,6 +89,7 @@ func HkFnJumpBackwards(rl *Instance) {
 func HkFnCancelAction(rl *Instance) {
 	switch {
 	case rl.modeAutoFind:
+		rl.clearPreview()
 		rl.resetTabFind()
 		rl.clearHelpers()
 		rl.resetTabCompletion()
@@ -98,6 +99,7 @@ func HkFnCancelAction(rl *Instance) {
 		rl.resetTabFind()
 
 	case rl.modeTabCompletion:
+		rl.clearPreview()
 		rl.clearHelpers()
 		rl.resetTabCompletion()
 		rl.renderHelpers()

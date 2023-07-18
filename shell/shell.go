@@ -357,9 +357,7 @@ func getHintTextFormatting() {
 }
 
 func getPreviewSettings() {
-	previewEnabled, _ := lang.ShellProcess.Config.Get("shell", "preview-enabled", types.Boolean)
 	previewImages, _ := lang.ShellProcess.Config.Get("shell", "preview-images", types.Boolean)
-	Prompt.ShowPreviews = previewEnabled.(bool)
 	Prompt.PreviewImages = previewImages.(bool)
 }
 

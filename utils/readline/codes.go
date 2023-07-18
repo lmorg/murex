@@ -50,8 +50,12 @@ var (
 	seqShiftTab  = string([]byte{27, 91, 90})
 	seqPageUp    = string([]byte{27, 91, 53, 126})
 	seqPageDown  = string([]byte{27, 91, 54, 126})
+	seqOptUp     = string([]byte{27, 27, 91, 65})
+	seqOptDown   = string([]byte{27, 27, 91, 66})
 	seqOptLeft   = string([]byte{27, 27, 91, 68})
 	seqOptRight  = string([]byte{27, 27, 91, 67})
+	seqCtrlUp    = string([]byte{27, 91, 49, 59, 53, 65})
+	seqCtrlDown  = string([]byte{27, 91, 49, 59, 53, 66})
 	seqCtrlLeft  = string([]byte{27, 91, 49, 59, 53, 68})
 	seqCtrlRight = string([]byte{27, 91, 49, 59, 53, 67})
 
@@ -86,6 +90,8 @@ const (
 	seqGetCursorPos = "\x1b6n" // response: "\x1b{Line};{Column}R"
 
 	seqSetCursorPosTopLeft = "\x1b[1;1H"
+	seqSaveBuffer          = "\x1b[?47h"
+	seqRestoreBuffer       = "\x1b[?47l"
 )
 
 // Text effects

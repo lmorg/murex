@@ -109,13 +109,17 @@ func updateFlagMap(pl *parsedLineT, fMap *map[string]string) {
 	if pl == nil {
 		return
 	}
+
+	pl.Description = strings.TrimSpace(pl.Description)
+	pl.Description = strings.ReplaceAll(pl.Description, "  ", " ")
+
 	for i := range pl.Flags {
 		if pl.Example == "" {
-			(*fMap)[pl.Flags[i]] = strings.TrimSpace(pl.Description)
+			(*fMap)[pl.Flags[i]] = pl.Description
 		} else {
 			(*fMap)[pl.Flags[i]] = fmt.Sprintf(
 				"eg: %s -- %s",
-				strings.TrimSpace(pl.Example), strings.TrimSpace(pl.Description))
+				strings.TrimSpace(pl.Example), pl.Description)
 		}
 	}
 }

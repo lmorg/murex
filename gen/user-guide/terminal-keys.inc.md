@@ -4,6 +4,7 @@
 - [Command Prompt](#command-prompt)
   - [Autocomplete](#autocomplete)
   - [Fuzzy Find Autocomplete](#fuzzy-find-autocomplete)
+  - [Preview Box](#preview-box)
   - [Search Shell History](#search-shell-history)
   - [Line Editing](#line-editing)
     - [Navigation](#navigation)
@@ -48,6 +49,9 @@ roles:
   
 * `ctrl`+`f`: fuzzy find in the suggestions
 
+* `f1`: enable / disable preview box. This will hide your terminal output while
+  enabled. The preview box supports additional key bindings (see below)
+
 ### Fuzzy Find Autocomplete
 
 Pressing `ctrl`+`f` either from the prompt, or while the autocomplete
@@ -89,6 +93,34 @@ While the fuzzy finder is open, the following keys are assigned roles:
   
 * `esc`: cancel search
 
+* `f1`: enable / disable preview box. This will hide your terminal output while
+  enabled. The preview box supports additional key bindings (see below)
+
+### Preview Box
+
+The preview box is a way of quickly examining the contents of a function, man
+page, text file or even image, based on what autocomplete suggestion is
+highlighted.
+
+While the preview box is open, the rest of your terminal output will be hidden.
+However once you close it, that output will reappear.
+
+While the preview box is open, the following keys are assigned roles:
+
+* `f1`: closes the preview box
+  
+* `page up` scroll up the contents of the preview box, one page at a time
+* `ctrl`+`arrow up` scroll up the contents of the preview box, one page at a
+  time (IBM keyboard layouts)
+* `option`+`arrow up` scroll up the contents of the preview box, one page at a
+  time (Apple keyboard layouts)
+
+* `page down` scroll down the contents of the preview box, one page at a time
+* `ctrl`+`arrow down` scroll down the contents of the preview box, one page at
+  a time (IBM keyboard layouts)
+* `option`+`arrow down` scroll down the contents of the preview box, one page
+  at a time (Apple keyboard layouts)
+
 ### Search Shell History
 
 This displays up your timestamped shell history as an autocomplete list with
@@ -123,10 +155,11 @@ interactive command prompt.
 * `ctrl`+`right`: jump forwards a word at a time (IBM keyboard layouts)
 * `option`+`right`: jump forwards a word at a time (Apple keyboard layouts)
 
-* `ctrl`+`a`: jump to begging of line
+* `ctrl`+`a`: jump to beginning of line
+* `home`: jump to beginning of line
 
 * `ctrl`+`e`: jump to end of line
-
+* `end`: jump to end of line
 
 #### General Hotkeys
 

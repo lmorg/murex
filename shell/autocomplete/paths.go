@@ -94,6 +94,7 @@ func matchFilesystem(s string, filesToo bool, fileRegexp string, act *AutoComple
 		done <- true
 		select {
 		case <-softCtx.Done():
+			// don't wait too long for regular files. It might be a slow storage device
 			formatSuggestionsArray(act.ParsedTokens, once)
 			act.DelayedTabContext.AppendSuggestions(once)
 		default:
