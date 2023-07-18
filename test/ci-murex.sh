@@ -21,5 +21,5 @@ if [ "$MUREXVERSION" == "$OLDVER" ]; then
     echo "No version change, skipping tests."
 else
     echo "Running murex behavioural tests...."
-    murex -c 'g: behavioural/* -> foreach: f { source $f }; try {test: run *}'
+    murex -c 'g: behavioural/*.mx -> foreach: f { source $f }; test: run *'
 fi
