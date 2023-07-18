@@ -19,6 +19,9 @@ func (rl *Instance) getHintText() {
 }
 
 func (rl *Instance) writeHintText(resetCursorPos bool) {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	if rl.HintText == nil {
 		rl.hintY = 0
 		return
@@ -30,7 +33,6 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 
 	hintText := string(rl.hintText)
 
-	rl.tabMutex.Lock()
 	if rl.modeTabCompletion && rl.tcDisplayType == TabDisplayGrid &&
 		!rl.modeTabFind && len(rl.tcSuggestions) > 0 {
 		cell := (rl.tcMaxX * (rl.tcPosY - 1)) + rl.tcOffset + rl.tcPosX - 1
@@ -40,7 +42,6 @@ func (rl *Instance) writeHintText(resetCursorPos bool) {
 			hintText = description
 		}
 	}
-	rl.tabMutex.Unlock()
 
 	// fix bug https://github.com/lmorg/murex/issues/376
 	if rl.termWidth == 0 {

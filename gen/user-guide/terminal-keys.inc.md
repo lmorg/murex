@@ -213,10 +213,10 @@ will be whichever command is stored in the `$EDITOR` environmental variable.
 
 ### Recalling Previous Words
 
-* `alt`+`1` recalls the first word
-* `alt`+`2` recalls the second word
+* `shift`+`f1` recalls the first word
+* `shift`+`f2` recalls the second word
 * ...
-* `alt`+`9` recalls the ninth word
+* `shift`+`f12` recalls the twelfth word
 
 In the following example, code inside square brackets represent key presses
 rather than text:
@@ -224,11 +224,8 @@ rather than text:
 ```
 » echo two three four five six seven eight nine
 two three four five six seven eight nine
-» [alt+1]echo [alt+5]five
+» [shift+f1]echo [shift+f5]five
 ```
-
-Please note this isn't currently supported on all terminal emulators and thus
-this feature is likely to get remapped in the future.
 
 ## Job Control
 

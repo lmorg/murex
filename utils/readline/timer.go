@@ -84,8 +84,8 @@ func (dtc *DelayedTabContext) AppendSuggestions(suggestions []string) {
 	}
 
 	dtc.rl.tabMutex.Unlock()
-	//dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.clearHelpers()
+	//dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.renderHelpers()
 }
 
@@ -122,7 +122,7 @@ func (dtc *DelayedTabContext) AppendDescriptions(suggestions map[string]string) 
 	}
 
 	dtc.rl.tabMutex.Unlock()
-	//dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.clearHelpers()
+	//dtc.rl.ForceHintTextUpdate(" ")
 	dtc.rl.renderHelpers()
 }

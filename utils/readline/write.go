@@ -176,8 +176,12 @@ func (rl *Instance) resetHelpers() {
 }
 
 func (rl *Instance) clearHelpers() {
+	rl.tabMutex.Lock()
+	defer rl.tabMutex.Unlock()
+
 	posX, posY := rl.lineWrapCellPos()
 	_, lineY := rl.lineWrapCellLen()
+
 	y := lineY - posY
 
 	output := moveCursorDownStr(y)
@@ -192,6 +196,7 @@ func (rl *Instance) clearHelpers() {
 func (rl *Instance) renderHelpers() {
 	rl.writeHintText(true)
 	rl.writeTabCompletion(true)
+	rl.writePreview()
 }
 
 func (rl *Instance) updateHelpers() {

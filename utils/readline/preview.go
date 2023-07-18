@@ -58,7 +58,7 @@ func getPreviewXY() (*PreviewSizeT, error) {
 	return size, nil
 }
 
-func (rl *Instance) writePreview(item string) {
+func (rl *Instance) writePreview() {
 	/*if rl.previewCache != nil {
 		// refresh screen if preview written previously and this one empty
 		defer func() {
@@ -75,6 +75,7 @@ func (rl *Instance) writePreview(item string) {
 			return
 		}
 
+		item := rl.previewItem
 		item = strings.ReplaceAll(item, "\\", "")
 		item = strings.TrimSpace(item)
 

@@ -79,19 +79,10 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 	)
 
 	for j := 0; j <= i; j++ {
-		if j+1 < i && p[j+1] == 8 { // backspace
-			j += 2
-			continue
-		}
-
 		if j < i {
 			b = p[j]
 		} else {
 			b = ' '
-		}
-
-		if b == 8 { // backspace
-			continue
 		}
 
 		if b < ' ' && b != '\t' && b != '\r' && b != '\n' {
@@ -159,7 +150,7 @@ func Parameter(block []rune, parameter string, incImages bool, size *readline.Pr
 		return lines, 0, err
 	}
 	for i := range lines {
-		if strings.Contains(lines[i], parameter) {
+		if strings.Contains(lines[i], "  "+parameter) {
 			return lines, i, nil
 		}
 	}

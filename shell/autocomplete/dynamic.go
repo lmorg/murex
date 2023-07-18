@@ -149,11 +149,11 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 			}
 
 			var (
-				incFiles    bool
-				incDirs     bool
-				incExePath  bool
-				incExeAll   bool
-				incManPages bool
+				incFiles   bool
+				incDirs    bool
+				incExePath bool
+				incExeAll  bool
+				incManPage bool
 			)
 
 			err := stdout.ReadArray(hardCtx, func(b []byte) {
@@ -170,10 +170,10 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 					incDirs = true
 				case "@IncExePath":
 					incExePath = true
-				case "@incExeAll":
+				case "@IncExeAll":
 					incExeAll = true
-				case "@IncManPages":
-					incManPages = true
+				case "@IncManPage", "@IncManPages":
+					incManPage = true
 
 				default:
 					if f.IgnorePrefix {
@@ -192,12 +192,12 @@ func matchDynamic(f *Flags, partial string, args dynamicArgs, act *AutoCompleteT
 				files := matchDirs(partial, act)
 				items = append(items, files...)
 			case incExePath:
-				pathexes := allExecutables(false)
-				items = append(items, matchExes(partial, pathexes, false)...)
+				pathExes := allExecutables(false)
+				items = append(items, matchExes(partial, pathExes, false)...)
 			case incExeAll:
-				pathall := allExecutables(true)
-				items = append(items, matchExes(partial, pathall, false)...)
-			case incManPages:
+				pathAll := allExecutables(true)
+				items = append(items, matchExes(partial, pathAll, false)...)
+			case incManPage:
 				flags, _ := scanManPages(args.exe)
 				items = append(items, lists.CropPartial(flags, partial)...)
 			}
