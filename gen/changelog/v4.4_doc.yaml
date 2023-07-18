@@ -2,10 +2,28 @@
   Title: >-
     v4.4
   CategoryID: changelog
-  DateTime: 2023-07-12 22:33
+  DateTime: 2023-07-18 08:55
   Summary: >-
     v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness
   Description: |-
+    ## v4.4.7000
+    
+    ### Breaking Changes
+
+    * **preview-enabled** `config` option removed. This actually doesn't break anything, just produces a warning. The `config` option was also undocumented and experimental
+
+    ### Features
+
+    * Preview is now considered stable. Press `f1` while autocomplete is open to use ([read more](../user-guide/terminal-keys#preview-box))
+
+    ### Bug Fixes
+
+    * readline: render glitch fixed with delayed completions (most noticeable with path completions)
+
+    * readline: excess white spaces removed from man page descriptions
+
+    ## v4.4.x
+
     ### Breaking Changes
 
     * 'Name' field dropped from `onCommandCompletion` interrupt (this field was never documented)
@@ -67,4 +85,5 @@
     - types/num
     - types/int
     - commands/config
+    - user-guide/terminal-keys
 
