@@ -169,6 +169,7 @@ func (rl *Instance) clearPrompt() {
 
 func (rl *Instance) resetHelpers() {
 	rl.modeAutoFind = false
+	rl.clearPreview()
 	rl.clearHelpers()
 	rl.resetHintText()
 	rl.resetTabCompletion()

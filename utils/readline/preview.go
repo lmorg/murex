@@ -59,14 +59,14 @@ func getPreviewXY() (*PreviewSizeT, error) {
 }
 
 func (rl *Instance) writePreview(item string) {
-	if rl.previewCache != nil {
+	/*if rl.previewCache != nil {
 		// refresh screen if preview written previously and this one empty
 		defer func() {
 			if rl.previewCache == nil {
 				rl.screenRefresh()
 			}
 		}()
-	}
+	}*/
 
 	if rl.showPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
 		size, err := getPreviewXY()
@@ -79,9 +79,12 @@ func (rl *Instance) writePreview(item string) {
 		item = strings.TrimSpace(item)
 
 		lines, pos, err := rl.tcr.Preview(rl.line.Runes(), item, rl.PreviewImages, size)
-		if len(lines) == 0 || err != nil {
+		/*if len(lines) == 0 || err != nil {
 			rl.previewCache = nil
 			return
+		}*/
+		if err != nil {
+			rl.ForceHintTextUpdate(err.Error())
 		}
 		err = previewDraw(lines[pos:], size)
 		if err != nil {
@@ -102,26 +105,18 @@ func (rl *Instance) writePreview(item string) {
 	rl.previewCache = nil
 }
 
-func (rl *Instance) screenRefresh() {
+/*func (rl *Instance) screenRefresh() {
 	if rl.ScreenRefresh == nil {
 		return
 	}
-
-	/*print := func(s string) {
-		_, _ = os.Stdout.WriteString(s)
-	}*/
 
 	old := primary
 	primary = os.Stdout
 
 	rl.ScreenRefresh()
-	/*print(rl.prompt + string(rl.line))
-	rl.writeHintText(false)
-	rl.writeTabCompletion(false)
-	print("\r\n")*/
 
 	primary = old
-}
+}*/
 
 const (
 	curHome       = "\x1b[H"
