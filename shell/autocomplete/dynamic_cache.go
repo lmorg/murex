@@ -54,11 +54,9 @@ func (dc *dynamicCacheT) CreateHash(exe string, args []string, block []rune) []b
 }
 
 func (dc *dynamicCacheT) Get(hash []byte) ([]byte, string) {
-	s := string(hash)
-
 	dc.mutex.Lock()
 
-	cache := dc.hash[s]
+	cache := dc.hash[string(hash)]
 	if cache.time.After(time.Now()) {
 		b, s := cache.stdout, cache.dataType
 		dc.mutex.Unlock()

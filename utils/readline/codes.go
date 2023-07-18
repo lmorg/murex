@@ -75,6 +75,19 @@ var (
 	//seqF10     = string([]byte{27, 91, 50, 49, 126})
 	//seqF11     = string([]byte{27, 91, 50, 51, 126})
 	//seqF12     = string([]byte{27, 91, 50, 52, 126})
+
+	seqShiftF1  = string([]byte{27, 91, 49, 59, 50, 80})
+	seqShiftF2  = string([]byte{27, 91, 49, 59, 50, 81})
+	seqShiftF3  = string([]byte{27, 91, 49, 59, 50, 82})
+	seqShiftF4  = string([]byte{27, 91, 49, 59, 50, 83})
+	seqShiftF5  = string([]byte{27, 91, 49, 53, 59, 50, 126})
+	seqShiftF6  = string([]byte{27, 91, 49, 55, 59, 50, 126})
+	seqShiftF7  = string([]byte{27, 91, 49, 56, 59, 50, 126})
+	seqShiftF8  = string([]byte{27, 91, 49, 57, 59, 50, 126})
+	seqShiftF9  = string([]byte{27, 91, 50, 48, 59, 50, 126})
+	seqShiftF10 = string([]byte{27, 91, 50, 49, 59, 50, 126})
+	seqShiftF11 = string([]byte{27, 91, 50, 51, 59, 50, 126})
+	seqShiftF12 = string([]byte{27, 91, 50, 52, 59, 50, 126})
 )
 
 const (

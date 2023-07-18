@@ -2,10 +2,34 @@
   Title: >-
     v4.4
   CategoryID: changelog
-  DateTime: 2023-07-18 08:55
+  DateTime: 2023-07-18 22:58
   Summary: >-
     v4.4 features two new builtins, improvements in testing, and automatic generation of autocompletion suggestions backed by man page parsing. Plus there has been a lot of focus on improving _readline_ responsiveness
   Description: |-
+    ## v4.4.8000
+
+    ### Breaking Changes
+
+    * `alt`+`1`..`9` hotkeys replaced with `shift`+`f1`..`f12`. Changed because `alt`+numeric rarely worked ([read more](../user-guide/terminal-keys.md#recalling-previous-words))
+
+    ### Features
+
+    None
+
+    ### Bug Fixes
+
+    * `@IncManPages` `autocomplete` value for **Dynamic** directive renamed to `@IncManPage`, like the **IncManPage** directive
+
+    * readline: render glitch fixed with delayed completions racing against hint text updates
+
+    * readline: render glitches fixed when buffers are not being reset correctly after preview box has, or should have, closed
+
+    * readline: man page preview now removes backspace characters correctly from UNIX docs
+
+    * readline: man page preview now more reliably scrolls to the right line when a flag is highlighted in autocompletion
+
+    * readline: preview now works for list views as well as grid views
+
     ## v4.4.7000
     
     ### Breaking Changes
@@ -14,11 +38,11 @@
 
     ### Features
 
-    * Preview is now considered stable. Press `f1` while autocomplete is open to use ([read more](../user-guide/terminal-keys#preview-box))
+    * Preview is now considered stable. Press `f1` while autocomplete is open to use ([read more](../user-guide/terminal-keys.md#preview-box))
 
     ### Bug Fixes
 
-    * readline: render glitch fixed with delayed completions (most noticeable with path completions)
+    * readline: render glitch fixed with delayed path completions
 
     * readline: excess white spaces removed from man page descriptions
 

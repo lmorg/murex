@@ -146,6 +146,27 @@ Two variables are created for each **Dynamic** function:
             then `$PREFIX` would be set to **wor** for **hello**'s
             autocompletion.
 
+The expected STDOUT should be an array (list) of any data type. For example:
+
+```
+[
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+]
+```
+
+You can additionally include suggestions if any of the array items exactly
+matches any of the following strings:
+
+* `@IncFiles`   ([read more]((#incfiles-boolean-false)))
+* `@IncDirs`    ([read more]((#incdirs-boolean-false)))
+* `@IncExePath` ([read more]((#incexepath-boolean-false)))
+* `@IncExeAll`  ([read more]((#incexeall-boolean-false)))
+* `@IncManPage` ([read more]((#incmanpage-boolean-false)))
+
 ### "DynamicDesc": string (zls)
 
 This is very similar to **Dynamic** except your function should return a
@@ -164,6 +185,19 @@ Two variables are created for each **Dynamic** function:
 * `PREFIX`: contains the partial term. For example if you typed `hello wor[tab]`
             then `$PREFIX` would be set to **wor** for **hello**'s
             autocompletion.
+
+The expected STDOUT should be an object (map) of any data type. The key is the
+autocompletion suggestion, with the value being the description. For example:
+
+```
+{
+    "Monday": "First day of the week",
+    "Tuesday": "Second day of the week",
+    "Wednesday": "Third day of the week"
+    "Thursday": "Forth day of the week",
+    "Friday": "Fifth day of the week",
+}
+```
 
 ### "ExecCmdline": boolean (false)
 

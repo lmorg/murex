@@ -102,8 +102,9 @@ func (rl *Instance) writeTabMap() {
 	maxDescWidth := rl.termWidth - maxLength - 4
 
 	y := 0
+	rl.previewItem = ""
 
-	//moveCursorUp(1) // bit of a kludge. Really should find where the code is "\n"ing
+	// bit of a kludge. Really should find where the code is "\n"ing
 	output := moveCursorUpStr(1)
 
 	isTabDisplayList := rl.tcDisplayType == TabDisplayList
@@ -116,31 +117,28 @@ func (rl *Instance) writeTabMap() {
 		}
 
 		if isTabDisplayList {
-			//item = runewidth.Truncate(suggestions.ItemValue(i), maxLength, "…")
 			item = runeWidthTruncate(suggestions.ItemValue(i), maxLength)
-			//description = runewidth.Truncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxDescWidth, "…")
 			description = runeWidthTruncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxDescWidth)
 
 		} else {
-			//item = runewidth.Truncate(suggestions.ItemValue(i), maxDescWidth, "…")
 			item = runeWidthTruncate(suggestions.ItemValue(i), maxDescWidth)
-			//description = runewidth.Truncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxLength, "…")
 			description = runeWidthTruncate(rl.tcDescriptions[suggestions.ItemLookupValue(i)], maxLength)
 		}
 
 		if isTabDisplayList {
 			output += fmt.Sprintf("\r\n%s %s %s %s",
-				//highlight(rl, y), runewidth.FillRight(item, maxLength),
 				highlight(rl, y), runeWidthFillRight(item, maxLength),
 				seqReset, description)
 
 		} else {
 			output += fmt.Sprintf("\r\n %s %s %s %s",
-				//runewidth.FillRight(description, maxLength), highlight(rl, y),
-				//runewidth.FillRight(item, maxDescWidth), seqReset)
 				runeWidthFillRight(description, maxLength), highlight(rl, y),
 				runeWidthFillRight(item, maxDescWidth), seqReset)
 
+		}
+
+		if y == rl.tcPosY {
+			rl.previewItem = suggestions.ItemValue(i)
 		}
 	}
 

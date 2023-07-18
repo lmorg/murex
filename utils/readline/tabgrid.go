@@ -146,7 +146,8 @@ func (rl *Instance) writeTabGrid() {
 
 	x := 0
 	y := 1
-	var item, output string
+	rl.previewItem = ""
+	var output string
 
 	for i := 0; i < suggestions.Len(); i++ {
 		x++
@@ -157,15 +158,13 @@ func (rl *Instance) writeTabGrid() {
 				y--
 				break
 			} else {
-				//print("\r\n")
 				output += "\r\n"
 			}
 		}
 
 		if x == rl.tcPosX && y == rl.tcPosY {
-			//print(seqBgWhite + seqFgBlack)
 			output += seqBgWhite + seqFgBlack
-			item = suggestions.ItemValue(i)
+			rl.previewItem = suggestions.ItemValue(i)
 		}
 
 		value := suggestions.ItemValue(i)
@@ -174,7 +173,6 @@ func (rl *Instance) writeTabGrid() {
 			rl.tcDescriptions[suggestions.ItemLookupValue(i)] = value
 		}
 
-		//printf(" %-"+cellWidth+"s %s", caption, seqReset)
 		output += fmt.Sprintf(" %-"+cellWidth+"s %s", caption, seqReset)
 	}
 
@@ -182,7 +180,7 @@ func (rl *Instance) writeTabGrid() {
 	rl.tcUsedY = y
 	rl.tabMutex.Unlock()
 
-	rl.writePreview(item)
+	//rl.writePreview(item)
 }
 
 func cropCaption(caption string, tcMaxLength int, iCellWidth int) string {

@@ -135,6 +135,7 @@ type Instance struct {
 	ScreenRefresh func()
 
 	showPreviews  bool
+	previewItem   string
 	previewCache  *previewCacheT
 	PreviewImages bool
 

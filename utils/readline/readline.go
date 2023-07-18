@@ -186,11 +186,13 @@ func (rl *Instance) Readline() (_ string, err error) {
 			HkFnMoveToStartOfLine(rl)
 
 		case charCtrlC:
+			rl.clearPreview()
 			rl.clearHelpers()
 			return "", CtrlC
 
 		case charEOF:
 			if rl.line.RuneLen() == 0 {
+				rl.clearPreview()
 				rl.clearHelpers()
 				return "", EOF
 			}
@@ -230,6 +232,7 @@ func (rl *Instance) Readline() (_ string, err error) {
 				suggestions = newSuggestionsT(rl, rl.tcSuggestions)
 			}
 			rl.tabMutex.Unlock()
+			rl.clearPreview()
 
 			if rl.modeTabCompletion || len(rl.tfLine) != 0 /*&& len(suggestions) > 0*/ {
 				tfLine := rl.tfLine
@@ -434,6 +437,31 @@ func (rl *Instance) escapeSeq(r []rune) {
 	case seqAltB, seqOptLeft, seqCtrlLeft:
 		HkFnJumpBackwards(rl)
 
+	case seqShiftF1:
+		HkFnRecallWord1(rl)
+	case seqShiftF2:
+		HkFnRecallWord2(rl)
+	case seqShiftF3:
+		HkFnRecallWord3(rl)
+	case seqShiftF4:
+		HkFnRecallWord4(rl)
+	case seqShiftF5:
+		HkFnRecallWord5(rl)
+	case seqShiftF6:
+		HkFnRecallWord6(rl)
+	case seqShiftF7:
+		HkFnRecallWord7(rl)
+	case seqShiftF8:
+		HkFnRecallWord8(rl)
+	case seqShiftF9:
+		HkFnRecallWord9(rl)
+	case seqShiftF10:
+		HkFnRecallWord10(rl)
+	case seqShiftF11:
+		HkFnRecallWord11(rl)
+	case seqShiftF12:
+		HkFnRecallWord12(rl)
+
 	default:
 		if rl.modeTabFind /*|| rl.modeAutoFind*/ {
 			//rl.modeTabFind = false
@@ -447,7 +475,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 				return
 			}
 
-			line, err := rl.History.GetLine(rl.History.Len() - 1)
+			/*line, err := rl.History.GetLine(rl.History.Len() - 1)
 			if err != nil {
 				return
 			}
@@ -457,7 +485,7 @@ func (rl *Instance) escapeSeq(r []rune) {
 			if pos > len(tokens) {
 				return
 			}
-			rl.insert([]rune(tokens[pos-1]))
+			rl.insert([]rune(tokens[pos-1]))*/
 		} else {
 			rl.viUndoSkipAppend = true
 		}
