@@ -93,6 +93,9 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 		case '\r':
 			continue
 		case '\n':
+			if len(line) == 0 && len(lines) > 0 && len(lines[len(lines)-1]) == size.Width {
+				continue
+			}
 			lines = append(lines, string(line))
 			line = []byte{}
 		case '\t':
@@ -116,7 +119,11 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 
 func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	if lang.GlobalAliases.Exists(command) {
-		return nil, 0, nil
+		alias := lang.GlobalAliases.Get(command)
+		if len(alias) == 0 {
+			return nil, 0, nil
+		}
+		return Command(nil, alias[0], false, size)
 	}
 
 	if lang.MxFunctions.Exists(command) {
