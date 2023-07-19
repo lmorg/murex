@@ -148,3 +148,15 @@ func hkFnRecallWord(rl *Instance, i int) {
 
 	rl.insert([]rune(tokens[i-1] + " "))
 }
+
+func HkFnPreviewToggle(rl *Instance) {
+			rl.showPreviews = !rl.showPreviews
+		if rl.showPreviews {
+			print(seqSaveBuffer)
+		} else {
+			print(seqRestoreBuffer)
+		}
+
+		rl.echo()
+		rl.renderHelpers()
+}
