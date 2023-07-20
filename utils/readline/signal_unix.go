@@ -14,9 +14,21 @@ func (rl *Instance) sigwinch() {
 	signal.Notify(ch, syscall.SIGWINCH)
 	go func() {
 		for range ch {
-			print("\r" + seqUp + seqClearScreenBelow + seqDown)
-			print(rl.prompt + rl.line.String())
-			rl.updateHelpers()
+
+			width := GetTermWidth()
+
+			switch {
+			case !rl.modeTabCompletion || width == rl.termWidth:
+				// no nothing
+
+			case width < rl.termWidth:
+				rl.termWidth = width
+				HkFnClearScreen(rl)
+
+			default:
+				rl.termWidth = width
+			}
+
 		}
 	}()
 
