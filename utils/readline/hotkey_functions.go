@@ -33,6 +33,9 @@ func HkFnClearAfterCursor(rl *Instance) {
 }
 
 func HkFnClearScreen(rl *Instance) {
+	if rl.previewMode != previewModeClosed {
+		HkFnPreviewToggle(rl)
+	}
 	print(seqSetCursorPosTopLeft + seqClearScreen)
 	rl.echo()
 	rl.renderHelpers()
@@ -150,13 +153,20 @@ func hkFnRecallWord(rl *Instance, i int) {
 }
 
 func HkFnPreviewToggle(rl *Instance) {
-			rl.showPreviews = !rl.showPreviews
-		if rl.showPreviews {
-			print(seqSaveBuffer)
-		} else {
-			print(seqRestoreBuffer)
+	switch rl.previewMode {
+	case previewModeClosed:
+		print(seqSaveBuffer)
+		rl.previewMode++
+	case previewModeOpen:
+		rl.previewMode = previewModeClosed
+		print(seqRestoreBuffer)
+	case previewModeAutocomplete:
+		if rl.modeTabFind {
+			rl.resetTabFind()
 		}
+		HkFnCancelAction(rl)
+	}
 
-		rl.echo()
-		rl.renderHelpers()
+	rl.echo()
+	rl.renderHelpers()
 }

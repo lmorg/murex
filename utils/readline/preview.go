@@ -6,14 +6,26 @@ import (
 	"strings"
 )
 
+type previewModeT int
+
+const (
+	previewModeClosed       previewModeT = 0
+	previewModeOpen         previewModeT = 1
+	previewModeAutocomplete previewModeT = 2
+)
+
 func getPreviewWidth(width int) (preview, forward int) {
 	switch {
-	case width < 80:
+	case width < 5:
 		return 0, 0
-	case width < 90:
-		preview = 40
-	default:
+	case width < 85:
+		preview = width - 4
+	case width < 105:
 		preview = 80
+	case width < 120+5:
+		preview = width - 4
+	default:
+		preview = 120
 	}
 
 	forward = width - preview
@@ -68,7 +80,7 @@ func (rl *Instance) writePreview() {
 		}()
 	}*/
 
-	if rl.showPreviews && rl.tcr != nil && rl.tcr.Preview != nil {
+	if rl.previewMode > previewModeClosed && rl.tcr != nil && rl.tcr.Preview != nil {
 		size, err := getPreviewXY()
 		if err != nil || size.Height < 8 || size.Width < 40 {
 			rl.previewCache = nil
@@ -189,9 +201,9 @@ func (rl *Instance) previewPageDown() {
 }
 
 func (rl *Instance) clearPreview() {
-	if rl.showPreviews {
+	if rl.previewMode > previewModeClosed {
 		print(seqRestoreBuffer)
-		rl.showPreviews = false
 		rl.echo()
+		rl.previewMode = previewModeClosed
 	}
 }

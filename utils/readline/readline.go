@@ -414,9 +414,10 @@ func (rl *Instance) escapeSeq(r []rune) {
 		return
 
 	case seqF1, seqF1VT100:
-		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind && !rl.showPreviews {
-			//return
+		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
+			rl.previewMode == previewModeClosed {
 			HkFnAutocomplete(rl)
+			defer func() { rl.previewMode++ }()
 		}
 		HkFnPreviewToggle(rl)
 		return
