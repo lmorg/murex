@@ -15,7 +15,7 @@
     sed -i %(s,\.md,.html,g;
             s,<li><p>,<li>,g;
             s,</p></li>,</li>,g;
-            s,version\.svg,version.svg\?v=$(VERSION),g;) $(filename).tmp
+            s,version\.svg,version.svg\?v=$(MUREXVERSION),g;) $(filename).tmp
 
     cat gen/website/header.html $(filename).tmp gen/website/footer.html |> $html
 
