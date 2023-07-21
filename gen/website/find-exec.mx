@@ -1,6 +1,6 @@
 #!/bin/env murex
 
-try {
+#try {
 
     $filename = $2
 
@@ -15,7 +15,7 @@ try {
     sed -i %(s,\.md,.html,g;
             s,<li><p>,<li>,g;
             s,</p></li>,</li>,g;
-            s,version\.svg,version.svg\?v=$(MUREXVERSION),g;) $(filename).tmp
+            s,version\.svg,version.svg\?v=$(VERSION),g;) $(filename).tmp
 
     cat gen/website/header.html $(filename).tmp gen/website/footer.html |> $html
 
@@ -30,8 +30,8 @@ try {
 
     rm $(filename).tmp $filename
 
-}
-catch {
-    err "Could not write $filename ($title)"
-    exit 1
-}
+#}
+#catch {
+#    err "Could not write $filename ($title)"
+#    exit 1
+#}
