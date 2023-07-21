@@ -4,7 +4,6 @@
 package autocomplete
 
 import (
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -22,16 +21,17 @@ func listExes(path string, exes map[string]bool) {
 	}
 
 	// POSIX lookup
-	files, _ := ioutil.ReadDir(path)
+	files, _ := os.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
 			continue
 		}
-		perm := permbits.FileMode(f.Mode())
+		fi, _ := f.Info()
+		perm := permbits.FileMode(fi.Mode())
 		switch {
-		case perm.OtherExecute() && f.Mode().IsRegular():
+		case perm.OtherExecute() && fi.Mode().IsRegular():
 			exes[f.Name()] = true
-		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
+		case perm.OtherExecute() && fi.Mode()&os.ModeSymlink != 0:
 			ln, err := os.Readlink(path + consts.PathSlash + f.Name())
 			if err != nil {
 				continue

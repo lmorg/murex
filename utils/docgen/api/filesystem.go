@@ -1,7 +1,7 @@
 package docgen
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -16,7 +16,7 @@ func fileReader(path string) *os.File {
 }
 
 func readAll(f *os.File) []byte {
-	b, err := ioutil.ReadAll(f)
+	b, err := io.ReadAll(f)
 	if err != nil {
 		panic(err.Error())
 	}
