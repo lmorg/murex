@@ -414,21 +414,12 @@ func (rl *Instance) escapeSeq(r []rune) {
 		return
 
 	case seqF1, seqF1VT100:
-		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind && !rl.showPreviews {
-			return
+		if !rl.modeAutoFind && !rl.modeTabCompletion && !rl.modeTabFind &&
+			rl.previewMode == previewModeClosed {
+			HkFnAutocomplete(rl)
+			defer func() { rl.previewMode++ }()
 		}
-
-		rl.showPreviews = !rl.showPreviews
-		if rl.showPreviews {
-			print(seqSaveBuffer)
-		} else {
-			print(seqRestoreBuffer)
-		}
-
-		rl.echo()
-		rl.renderHelpers()
-
-		//rl.screenRefresh()
+		HkFnPreviewToggle(rl)
 		return
 
 	case seqAltF, seqOptRight, seqCtrlRight:

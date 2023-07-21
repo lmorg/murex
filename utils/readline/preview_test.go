@@ -14,8 +14,8 @@ func TestGetPreviewWidth(t *testing.T) {
 	}{
 		{
 			Term:    79,
-			Preview: 0,
-			Forward: 0,
+			Preview: 75,
+			Forward: 2,
 		},
 		{
 			Term:    92,
@@ -24,13 +24,18 @@ func TestGetPreviewWidth(t *testing.T) {
 		},
 		{
 			Term:    80,
-			Preview: 40,
-			Forward: 38,
+			Preview: 76,
+			Forward: 2,
 		},
 		{
 			Term:    120,
-			Preview: 80,
-			Forward: 38,
+			Preview: 116,
+			Forward: 2,
+		},
+		{
+			Term:    300,
+			Preview: 120,
+			Forward: 178,
 		},
 	}
 

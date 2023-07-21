@@ -37,7 +37,7 @@ func File(_ []rune, filename string, incImages bool, size *readline.PreviewSizeT
 	var lines []string
 
 	if incImages && rxImage.MatchString(filename) {
-		img, err := ansimage.NewScaledFromReader(f, 2*size.Height-1, size.Width, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
+		img, err := ansimage.NewScaledFromReader(f, (2*size.Height)+5, size.Width, color{}, ansimage.ScaleModeFit, ansimage.NoDithering)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -76,6 +76,7 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 		line  []byte
 		b     byte
 		i     = len(p)
+		last  byte
 	)
 
 	for j := 0; j <= i; j++ {
@@ -91,8 +92,14 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 
 		switch b {
 		case '\r':
+			last = b
 			continue
 		case '\n':
+			if (len(line) == 0 && len(lines) > 0 && len(lines[len(lines)-1]) == size.Width) ||
+				last == '\r' {
+				last = b
+				continue
+			}
 			lines = append(lines, string(line))
 			line = []byte{}
 		case '\t':
@@ -105,6 +112,7 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 			lines = append(lines, string(line))
 			line = []byte{}
 		}
+		last = b
 	}
 
 	if len(line) > 0 {
@@ -116,7 +124,11 @@ func parse(p []byte, size *readline.PreviewSizeT) ([]string, int, error) {
 
 func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]string, int, error) {
 	if lang.GlobalAliases.Exists(command) {
-		return nil, 0, nil
+		alias := lang.GlobalAliases.Get(command)
+		if len(alias) == 0 {
+			return nil, 0, nil
+		}
+		return Command(nil, alias[0], false, size)
 	}
 
 	if lang.MxFunctions.Exists(command) {
