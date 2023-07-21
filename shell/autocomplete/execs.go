@@ -3,7 +3,7 @@ package autocomplete
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/lmorg/murex/lang"
@@ -40,7 +40,7 @@ func listExesWindows(path string, exes map[string]bool) {
 		showExts = v.(bool)
 	}
 
-	files, _ := ioutil.ReadDir(path)
+	files, _ := os.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() {
 			continue

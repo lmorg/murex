@@ -4,7 +4,6 @@
 package autocomplete
 
 import (
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -25,7 +24,7 @@ func matchDirsOnce(s string) (items []string) {
 
 	var dirs []string
 
-	files, _ := ioutil.ReadDir(path)
+	files, _ := os.ReadDir(path)
 	for _, f := range files {
 		if f.IsDir() && (f.Name()[0] != '.' ||
 			(len(partial) > 0 && partial[0] == '.')) {
@@ -33,9 +32,10 @@ func matchDirsOnce(s string) (items []string) {
 			continue
 		}
 
-		perm := permbits.FileMode(f.Mode())
+		fi, _ := f.Info()
+		perm := permbits.FileMode(fi.Mode())
 		switch {
-		case perm.OtherExecute() && f.Mode()&os.ModeSymlink != 0:
+		case perm.OtherExecute() && fi.Mode()&os.ModeSymlink != 0:
 			ln, err := os.Readlink(path + consts.PathSlash + f.Name())
 			if err != nil {
 				continue

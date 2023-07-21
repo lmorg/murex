@@ -3,7 +3,7 @@ package count
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -54,7 +54,7 @@ func httpReq(t *testing.T, count int) {
 		return
 	}
 
-	b, err := ioutil.ReadAll(req.Body)
+	b, err := io.ReadAll(req.Body)
 	if err != nil {
 		t.Errorf("Potential mismatch logging test counts via HTTP (export %s=http): %s", Env, err)
 	}
