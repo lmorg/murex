@@ -1,7 +1,6 @@
 package consts
 
 import (
-	"io/ioutil"
 	"os"
 
 	"github.com/lmorg/murex/app"
@@ -14,7 +13,7 @@ var TempDir string
 func init() {
 	var err error
 
-	TempDir, err = ioutil.TempDir("", app.Name)
+	TempDir, err = os.MkdirTemp("", app.Name)
 	if err != nil || TempDir == "" {
 		TempDir = tempDir
 	}

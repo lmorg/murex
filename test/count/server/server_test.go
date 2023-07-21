@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"regexp"
 	"testing"
@@ -55,7 +55,7 @@ func testCount(t *testing.T) {
 		return
 	}
 
-	b, err := ioutil.ReadAll(req.Body)
+	b, err := io.ReadAll(req.Body)
 	if err != nil {
 		t.Errorf("Potential mismatch logging test counts via HTTP (export %s=http): %s", client.Env, err)
 	}
@@ -72,7 +72,7 @@ func testT(t *testing.T) {
 		return
 	}
 
-	b, err := ioutil.ReadAll(req.Body)
+	b, err := io.ReadAll(req.Body)
 	if err != nil {
 		t.Errorf("Potential mismatch logging test counts via HTTP (export %s=http): %s", client.Env, err)
 	}

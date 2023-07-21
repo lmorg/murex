@@ -2,7 +2,7 @@ package profile
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 
 	"github.com/lmorg/murex/utils/json"
@@ -15,7 +15,7 @@ func ReadJson(path string, v interface{}) error {
 		return fmt.Errorf("Cannot open `%s` for read: %s", path, err.Error())
 	}
 
-	b, err := ioutil.ReadAll(file)
+	b, err := io.ReadAll(file)
 	if err != nil {
 		return fmt.Errorf("Cannot read contents of  `%s`: %s", path, err.Error())
 	}

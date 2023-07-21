@@ -1,7 +1,7 @@
 package profile
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 	"strings"
 
@@ -77,7 +77,7 @@ func profile(name, path string) error {
 
 	defer file.Close()
 
-	b, err := ioutil.ReadAll(file)
+	b, err := io.ReadAll(file)
 	if err != nil {
 		return err
 	}
