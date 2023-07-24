@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -35,7 +35,7 @@ func (h testHTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func count(w http.ResponseWriter, r *http.Request) {
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error reading count: %s\n", err)
 	}

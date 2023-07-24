@@ -2,7 +2,6 @@ package autocomplete
 
 import (
 	"context"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -139,7 +138,7 @@ func matchFilesAndDirsOnce(s string, rx *regexp.Regexp) (items []string) {
 
 	var item []string
 
-	files, _ := ioutil.ReadDir(path)
+	files, _ := os.ReadDir(path)
 	for _, f := range files {
 		if f.Name()[0] == '.' && (len(partial) == 0 || partial[0] != '.') {
 			// hide hidden files and directories unless you press dot / period.
