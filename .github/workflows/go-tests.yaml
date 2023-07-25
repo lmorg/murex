@@ -16,9 +16,7 @@ jobs:
         go-version: [ '1.18', '1.19', '1.20' ]
     env:
       MUREX_BUILD_FLAGS: --no-colour
-      MUREX_TEST_SKIP_EXISTS: true
       MUREX_TEST_NO_EXEC_DEPS: true
-      MUREX_TEST_SKIP_MAN: true
 
     steps:
       - uses: actions/checkout@v3
