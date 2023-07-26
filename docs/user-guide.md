@@ -262,7 +262,7 @@ The [Language Tour](tour.md) is a great introduction into the Murex language.
 * [`open`](commands/open.md):
   Open a file with a preferred handler
 * [`openagent`](commands/openagent.md):
-  Creates a handler function for `open
+  Creates a handler function for `open`
 * [`or`](commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
 * [`os`](commands/os.md):

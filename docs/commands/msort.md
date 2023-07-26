@@ -19,26 +19,32 @@ existing UNIX name, `sort`.
 
 ## Usage
 
-    <stdin> -> msort -> <stdout>
+```
+<stdin> -> msort -> <stdout>
+```
 
 ## Examples
 
-    » tout: json (["c", "b", "a"]) -> msort   
-    [
-        "a",
-        "b",
-        "c"
-    ]
-    
+```
+» tout: json (["c", "b", "a"]) -> msort   
+[
+    "a",
+    "b",
+    "c"
+]
+```
+
 Since `msort` does not support reversed order, you will need to pipe the
 output of `msort` into another builtin:
 
-    » tout: json (["c", "b", "a"]) -> msort -> mtac 
-    [
-        "c",
-        "b",
-        "a"
-    ]
+```
+» tout: json (["c", "b", "a"]) -> msort -> mtac 
+[
+    "c",
+    "b",
+    "a"
+]
+```
 
 ## Synonyms
 

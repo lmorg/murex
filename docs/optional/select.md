@@ -10,49 +10,55 @@ data type as the input type
 
 ## Usage
 
-    <stdin> -> select * | ... WHERE ... -> <stdout>
-    
-    select * | ... FROM file[.gz] WHERE ... -> <stdout>
+```
+<stdin> -> select * | ... WHERE ... -> <stdout>
+
+select * | ... FROM file[.gz] WHERE ... -> <stdout>
+```
 
 ## Examples
 
 List a count of all the processes running against each user ID:
 
-    » ps aux -> select count(*), user GROUP BY user ORDER BY 1
-    count(*) USER
-    1       _analyticsd
-    1       _applepay
-    1       _atsserver
-    1       _captiveagent
-    1       _cmiodalassistants
-    1       _ctkd
-    1       _datadetectors
-    1       _displaypolicyd
-    1       _distnote
-    1       _gamecontrollerd
-    1       _hidd
-    1       _iconservices
-    1       _installcoordinationd
-    1       _mdnsresponder
-    1       _netbios
-    1       _networkd
-    1       _reportmemoryexception
-    1       _timed
-    1       _usbmuxd
-    2       _appleevents
-    3       _assetcache
-    3       _fpsd
-    3       _nsurlsessiond
-    3       _softwareupdate
-    4       _windowserver
-    5       _coreaudiod
-    6       _spotlight
-    7       _locationd
-    144     root
-    308     foobar
-    
-    
-    select count(*)
+```
+» ps aux -> select count(*), user GROUP BY user ORDER BY 1
+count(*) USER
+1       _analyticsd
+1       _applepay
+1       _atsserver
+1       _captiveagent
+1       _cmiodalassistants
+1       _ctkd
+1       _datadetectors
+1       _displaypolicyd
+1       _distnote
+1       _gamecontrollerd
+1       _hidd
+1       _iconservices
+1       _installcoordinationd
+1       _mdnsresponder
+1       _netbios
+1       _networkd
+1       _reportmemoryexception
+1       _timed
+1       _usbmuxd
+2       _appleevents
+3       _assetcache
+3       _fpsd
+3       _nsurlsessiond
+3       _softwareupdate
+4       _windowserver
+5       _coreaudiod
+6       _spotlight
+7       _locationd
+144     root
+308     foobar
+```
+
+```
+
+select count(*)
+```
 
 ## Detail
 
@@ -67,42 +73,44 @@ queries for the sake of brevity.
 
 `select`'s behavior is configurable:
 
-    » config -> [ select ]
-    {
-        "fail-irregular-columns": {
-            "Data-Type": "bool",
-            "Default": false,
-            "Description": "When importing a table into sqlite3, fail if there is an irregular number of columns",
-            "Dynamic": false,
-            "Global": false,
-            "Value": false
-        },
-        "merge-trailing-columns": {
-            "Data-Type": "bool",
-            "Default": true,
-            "Description": "When importing a table into sqlite3, if `fail-irregular-columns` is set to `false` and there are more columns than headings, then any additional columns are concatenated into the last column (space delimitated). If `merge-trailing-columns` is set to `false` then any trailing columns are ignored",
-            "Dynamic": false,
-            "Global": false,
-            "Value": true
-        },
-        "print-headings": {
-            "Data-Type": "bool",
-            "Default": true,
-            "Description": "Print headings when writing results",
-            "Dynamic": false,
-            "Global": false,
-            "Value": true
-        },
-        "table-includes-headings": {
-            "Data-Type": "bool",
-            "Default": true,
-            "Description": "When importing a table into sqlite3, treat the first row as headings (if `false`, headings are Excel style column references starting at `A`)",
-            "Dynamic": false,
-            "Global": false,
-            "Value": true
-        }
+```
+» config -> [ select ]
+{
+    "fail-irregular-columns": {
+        "Data-Type": "bool",
+        "Default": false,
+        "Description": "When importing a table into sqlite3, fail if there is an irregular number of columns",
+        "Dynamic": false,
+        "Global": false,
+        "Value": false
+    },
+    "merge-trailing-columns": {
+        "Data-Type": "bool",
+        "Default": true,
+        "Description": "When importing a table into sqlite3, if `fail-irregular-columns` is set to `false` and there are more columns than headings, then any additional columns are concatenated into the last column (space delimitated). If `merge-trailing-columns` is set to `false` then any trailing columns are ignored",
+        "Dynamic": false,
+        "Global": false,
+        "Value": true
+    },
+    "print-headings": {
+        "Data-Type": "bool",
+        "Default": true,
+        "Description": "Print headings when writing results",
+        "Dynamic": false,
+        "Global": false,
+        "Value": true
+    },
+    "table-includes-headings": {
+        "Data-Type": "bool",
+        "Default": true,
+        "Description": "When importing a table into sqlite3, treat the first row as headings (if `false`, headings are Excel style column references starting at `A`)",
+        "Dynamic": false,
+        "Global": false,
+        "Value": true
     }
-    
+}
+```
+
 (See below for how to use `config`)
 
 ### Read All vs Sequential Reads

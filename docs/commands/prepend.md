@@ -8,31 +8,37 @@
 
 ## Usage
 
-    <stdin> -> prepend: value -> <stdout>
+```
+<stdin> -> prepend: value -> <stdout>
+```
 
 ## Examples
 
-    » a: [January..December] -> prepend: 'New Year'
-    New Year
-    January
-    February
-    March
-    April
-    May
-    June
-    July
-    August
-    September
-    October
-    November
-    December
+```
+» a: [January..December] -> prepend: 'New Year'
+New Year
+January
+February
+March
+April
+May
+June
+July
+August
+September
+October
+November
+December
+```
 
 ## Detail
 
 `prepend` and `append` are data type aware:
 
-    » tout json [1,2,3] -> append 4 5 6 bob
-    Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
+```
+» tout json [1,2,3] -> append 4 5 6 bob
+Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
+```
 
 ## Synonyms
 

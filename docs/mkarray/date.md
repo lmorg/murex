@@ -16,39 +16,49 @@ Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarr
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
+```
+a: [start..end] -> <stdout>
+a: [start..end,start..end] -> <stdout>
+a: [start..end][start..end] -> <stdout>
+```
+
 All usages also work with `ja` and `ta` as well, eg:
 
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
-    
+```
+ja: [start..end] -> <stdout>
+ta: data-type [start..end] -> <stdout>
+```
+
 You can also inline arrays with the `%[]` syntax, eg:
 
-    %[start..end]
+```
+%[start..end]
+```
 
 ## Examples
 
-    » a: [25-Dec-2020..01-Jan-2021]
-    25-Dec-2020
-    26-Dec-2020
-    27-Dec-2020
-    28-Dec-2020
-    29-Dec-2020
-    30-Dec-2020
-    31-Dec-2020
-    01-Jan-2021
-    
-    » a: [31-Dec..25-Dec]
-    31-Dec
-    30-Dec
-    29-Dec
-    28-Dec
-    27-Dec
-    26-Dec
-    25-Dec
+```
+» a: [25-Dec-2020..01-Jan-2021]
+25-Dec-2020
+26-Dec-2020
+27-Dec-2020
+28-Dec-2020
+29-Dec-2020
+30-Dec-2020
+31-Dec-2020
+01-Jan-2021
+```
+
+```
+» a: [31-Dec..25-Dec]
+31-Dec
+30-Dec
+29-Dec
+28-Dec
+27-Dec
+26-Dec
+25-Dec
+```
 
 ## Detail
 
@@ -62,21 +72,27 @@ the start value, as usual, and count up or down to the current date.
 
 For example, if today was 25th December 2020:
 
-    » a: [23-December-2020..]
-    23-December-2020
-    24-December-2020
-    25-December-2020
-    
-    » a: [..23-December-2020]
-    25-December-2020
-    24-December-2020
-    23-December-2020
-    
+```
+» a: [23-December-2020..]
+23-December-2020
+24-December-2020
+25-December-2020
+```
+
+```
+» a: [..23-December-2020]
+25-December-2020
+24-December-2020
+23-December-2020
+```
+
 This can lead so some fun like countdowns:
 
-    » out: "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
-    7 days until the new year!
-    
+```
+» out: "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
+7 days until the new year!
+```
+
 ### Case Sensitivity
 
 Date ranges are case aware. If the ranges are uppercase then the return will be
@@ -85,25 +101,31 @@ will be in title case.
 
 #### lower case
 
-    » a: [01-jan..03-jan]
-    01-jan
-    02-jan
-    03-jan
-    
+```
+» a: [01-jan..03-jan]
+01-jan
+02-jan
+03-jan
+```
+
 #### Title Case
 
-    » a: [01-Jan..03-Jan]
-    01-Jan
-    02-Jan
-    03-Jan
-    
+```
+» a: [01-Jan..03-Jan]
+01-Jan
+02-Jan
+03-Jan
+```
+
 #### UPPER CASE
 
-    » a: [01-JAN..03-JAN]
-    01-JAN
-    02-JAN
-    03-JAN
-    
+```
+» a: [01-JAN..03-JAN]
+01-JAN
+02-JAN
+03-JAN
+```
+
 ### Supported Date Formatting
 
 Below is the source for the supported formatting options for date ranges:
@@ -162,10 +184,12 @@ var dateFormat = []string{
 If you do need any other formatting options not supported there, you can use
 `datetime` to convert the output of `a`. eg:
 
-    » a: [01-Jan-2020..03-Jan-2020] -> foreach { -> datetime --in "{go}02-Jan-2006" --out "{py}%A, %d %B"; echo }
-    Wednesday, 01 January
-    Thursday, 02 January
-    Friday, 03 January
+```
+» a: [01-Jan-2020..03-Jan-2020] -> foreach { -> datetime --in "{go}02-Jan-2006" --out "{py}%A, %d %B"; echo }
+Wednesday, 01 January
+Thursday, 02 January
+Friday, 03 January
+```
 
 ## See Also
 

@@ -10,12 +10,16 @@ the pipeline are preserved however the reported data type is altered.
 
 ## Usage
 
-    <stdin> -> cast data-type -> <stdout>
+```
+<stdin> -> cast data-type -> <stdout>
+```
 
 ## Examples
 
-    » out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
-    {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+```
+» out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+{"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+```
 
 ## Detail
 

@@ -8,18 +8,24 @@ Returns a `true` value.
 
 ## Usage
 
-    true -> <stdout>
+```
+true -> <stdout>
+```
 
 ## Examples
 
 By default, `true` also outputs the term "true":
 
-    » true
-    true
-    
+```
+» true
+true
+```
+
 However you can suppress that with the silent flag:
 
-    » true -s
+```
+» true -s
+```
 
 ## Flags
 

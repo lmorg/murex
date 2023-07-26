@@ -8,24 +8,32 @@ Returns Murex version number
 
 ## Usage
 
-    version [ flags ] -> <stdout>
+```
+version [ flags ] -> <stdout>
+```
 
 ## Examples
 
 Ran without any parameters
 
-    » version
-    murex: 0.51.1200 BETA
-    
+```
+» version
+murex: 0.51.1200 BETA
+```
+
 Ran with the `--no-app-name` parameter
 
-    » version --no-app-name
-    0.51.1200 BETA
-    
+```
+» version --no-app-name
+0.51.1200 BETA
+```
+
 Ran with the `--short` parameter
 
-    » version --short
-    0.51
+```
+» version --short
+0.51
+```
 
 ## Flags
 

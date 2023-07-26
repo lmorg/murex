@@ -9,12 +9,16 @@ directly to the OS's STDERR so to preserved the pipeline.
 
 ## Usage
 
-    <stdin> -> pt -> <stdout>
+```
+<stdin> -> pt -> <stdout>
+```
 
 ## Examples
 
-    curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
-    
+```
+curl -s https://example.com/bigfile.bin -> pt -> > bigfile.bin
+```
+
 (though Murex does also have it's own HTTP clients, `get`, `post` and
 `getfile`)
 

@@ -9,14 +9,18 @@ and STDOUT.
 
 ## Usage
 
-    method: define name { json }
+```
+method: define name { json }
+```
 
 ## Examples
 
-    method: define name {
-        "Stdin":  "@Any",
-        "Stdout": "json"
-    }
+```
+method: define name {
+    "Stdin":  "@Any",
+    "Stdout": "json"
+}
+```
 
 ## Detail
 

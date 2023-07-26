@@ -10,30 +10,36 @@ command parameters.
 
 ## Usage
 
-    <stdin> -> esccli -> <stdout>
-    
-    esccli @array -> <stdout>
+```
+<stdin> -> esccli -> <stdout>
+
+esccli @array -> <stdout>
+```
 
 ## Examples
 
 As a method
 
-    » alias foobar=out 'foo$b@r'
-    » alias -> [foobar]
-    [
-        "out",
-        "foo$b@r"
-    ]
-    » alias -> [foobar] -> esccli
-    out foo\$b\@r
-    
+```
+» alias foobar=out 'foo$b@r'
+» alias -> [foobar]
+[
+    "out",
+    "foo$b@r"
+]
+» alias -> [foobar] -> esccli
+out foo\$b\@r
+```
+
 As a function
 
-    » alias -> [foobar] -> set: fb
-    » $fb
-    ["out","foo$b@r"]
-    » esccli: @fb
-    out foo\$b\@r
+```
+» alias -> [foobar] -> set: fb
+» $fb
+["out","foo$b@r"]
+» esccli: @fb
+out foo\$b\@r
+```
 
 ## See Also
 

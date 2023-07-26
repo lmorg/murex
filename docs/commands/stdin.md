@@ -9,34 +9,44 @@ STDIN down a pipeline
 
 ## Usage
 
-    <stdin> -> <stdout>
+```
+<stdin> -> <stdout>
+```
 
 ## Examples
 
 When writing more complex scripts, you cannot always invoke your read as the
 first command in a code block. For example a simple pipeline might be:
 
-    » function: example { -> match: 2 }
-    
+```
+» function: example { -> match: 2 }
+```
+
 But this only works if `->` is the very first command. The following would
 fail:
 
-    # Incorrect code
-    function: example {
-        out: "only match 2"
-        -> match 2
-    }
-    
+```
+# Incorrect code
+function: example {
+    out: "only match 2"
+    -> match 2
+}
+```
+
 This is where `<stdin>` comes to our rescue:
 
-    function: example {
-        out: "only match 2"
-        <stdin> -> match 2
-    }
-    
+```
+function: example {
+    out: "only match 2"
+    <stdin> -> match 2
+}
+```
+
 This could also be written as:
 
-    function: example { out: "only match 2"; <stdin> -> match 2 }
+```
+function: example { out: "only match 2"; <stdin> -> match 2 }
+```
 
 ## Detail
 
@@ -61,35 +71,39 @@ data along asynchronously.
 
 For example
 
-    pipe: example
-    
-    bg {
-        <example> -> match: Hello
-    }
-    
-    out: "foobar"        -> <example>
-    out: "Hello, world!" -> <example>
-    out: "foobar"        -> <example>
-    
-    !pipe: example
-    
+```
+pipe: example
+
+bg {
+    <example> -> match: Hello
+}
+
+out: "foobar"        -> <example>
+out: "Hello, world!" -> <example>
+out: "foobar"        -> <example>
+
+!pipe: example
+```
+
 This returns `Hello, world!` because `out` is writing to the **example** named
 pipe and `match` is also reading from it in the background (`bg`).
 
 Named pipes can also be inlined into the command parameters with `<>` tags
 
-    pipe: example
-    
-    bg {
-        <example> -> match: Hello
-    }
-    
-    out: <example> "foobar"
-    out: <example> "Hello, world!"
-    out: <example> "foobar"
-    
-    !pipe: example
-    
+```
+pipe: example
+
+bg {
+    <example> -> match: Hello
+}
+
+out: <example> "foobar"
+out: <example> "Hello, world!"
+out: <example> "foobar"
+
+!pipe: example
+```
+
 > Please note this is also how `test` works.
 
 Murex named pipes can also represent network sockets, files on a disk or any
@@ -99,8 +113,10 @@ or write endpoints transparently.
 
 To see the different supported types run
 
-    runtime --pipes
-    
+```
+runtime --pipes
+```
+
 ### Namespaces and usage in modules and packages
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes

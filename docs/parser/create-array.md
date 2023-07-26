@@ -20,117 +20,139 @@ force numeric or boolean looking values to be stored as strings.
 
 ### Arrays passed as a JSON string:
 
-    » echo %[1..3]
-    [1,2,3]
-    
-    » %[1..3] -> cat
-    [1,2,3]
-    
+```
+» echo %[1..3]
+[1,2,3]
+
+» %[1..3] -> cat
+[1,2,3]
+```
+
 ### Different supported syntax for creating a numeric array:
 
 #### As a range
 
-    » %[1..3]
-    [
-        1,
-        2,
-        3
-    ]
-    
+```
+» %[1..3]
+[
+    1,
+    2,
+    3
+]
+```
+
 #### JSON formatted
 
-    » %[1,2,3]
-    [
-        1,
-        2,
-        3
-    ]
-    
+```
+» %[1,2,3]
+[
+    1,
+    2,
+    3
+]
+```
+
 #### Whitespace separated
 
-    » %[1 2 3]
-    [
-        1,
-        2,
-        3
-    ]
-    
+```
+» %[1 2 3]
+[
+    1,
+    2,
+    3
+]
+```
+
 #### Values and ranges
 
-    » %[1,2..3]
-    [
-        1,
-        2,
-        3
-    ]
-    
+```
+» %[1,2..3]
+[
+    1,
+    2,
+    3
+]
+```
+
 ### Strings:
 
 #### barewords and whitespace separated
 
 This will allow you to copy/paste lists from traditional shells like Bash
 
-    » %[foo bar]
-    [
-        "foo",
-        "bar"
-    ]
-    
+```
+» %[foo bar]
+[
+    "foo",
+    "bar"
+]
+```
+
 #### JSON formatted
 
-    » %["foo", "bar"]
-    [
-        "foo",
-        "bar"
-    ]
-    
+```
+» %["foo", "bar"]
+[
+    "foo",
+    "bar"
+]
+```
+
 ### Special ranges
 
-    » %[June..August]
-    [
-        "June",
-        "July",
-        "August"
-    ]
-    
+```
+» %[June..August]
+[
+    "June",
+    "July",
+    "August"
+]
+```
+
 A full list of special ranges are available at [docs/mkarray/special](../mkarray/special.md)
 
 ### Multiple expansion blocks:
 
-    » %[[A,B]:[1..4]]
-    [
-        "A:1",
-        "A:2",
-        "A:3",
-        "A:4",
-        "B:1",
-        "B:2",
-        "B:3",
-        "B:4"
-    ]
-    
+```
+» %[[A,B]:[1..4]]
+[
+    "A:1",
+    "A:2",
+    "A:3",
+    "A:4",
+    "B:1",
+    "B:2",
+    "B:3",
+    "B:4"
+]
+```
+
 ### Nested arrays:
 
-    » %[foo [bar]]
+```
+» %[foo [bar]]
+[
+    "foo",
     [
-        "foo",
-        [
-            "bar"
-        ]
+        "bar"
     ]
-    
+]
+```
+
 The `%` prefix for the nested array is optional.
 
 ### JSON objects within arrays
 
-    » %[foo {bar: baz}]
-    [
-        "foo",
-        {
-            "bar": "baz"
-        }
-    ]
-    
+```
+» %[foo {bar: baz}]
+[
+    "foo",
+    {
+        "bar": "baz"
+    }
+]
+```
+
 The `%` prefix for the nested object is optional.
 
 ## Detail

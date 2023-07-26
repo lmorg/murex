@@ -16,51 +16,61 @@ instead**
 
 ## Usage
 
-    <stdin> -> [start..end]flags -> <stdout>
+```
+<stdin> -> [start..end]flags -> <stdout>
+```
 
 ## Examples
 
 **Range over all months after March:**
 
-    » a: [January..December] -> [March..]se
-    April
-    May
-    June
-    July
-    August
-    September
-    October
-    November
-    December
-    
+```
+» a: [January..December] -> [March..]se
+April
+May
+June
+July
+August
+September
+October
+November
+December
+```
+
 **Range from the 6th to the 10th month:**
 
 By default, ranges start from one, `1`
 
-    » a: [January..December] -> [5..9]
-    May
-    June
-    July
-    August
-    September
-    
+```
+» a: [January..December] -> [5..9]
+May
+June
+July
+August
+September
+```
+
 **Return the first 3 months:**
 
 This usage is similar to `head -n3`
 
-    » a: [January..December] -> [..3]
-    October
-    November
-    December
-    
+```
+» a: [January..December] -> [..3]
+October
+November
+December
+```
+
 **Return the last 3 months:**
 
 This usage is similar to `tail -n3`
 
-    » a: [January..December] -> [-3..]
-    October
-    November
-    December
+```
+» a: [January..December] -> [-3..]
+October
+November
+December
+```
 
 ## Flags
 

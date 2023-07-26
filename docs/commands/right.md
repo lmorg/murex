@@ -11,34 +11,42 @@ the parameter is a negative then `right` counts from the left.
 
 ## Usage
 
-    <stdin> -> right int -> <stdout>
+```
+<stdin> -> right int -> <stdout>
+```
 
 ## Examples
 
 Count from the right
 
-    » ja: [Monday..Wednesday] -> right 4
-    [
-        "nday",
-        "sday",
-        "sday"
-    ]
-    
+```
+» ja: [Monday..Wednesday] -> right 4
+[
+    "nday",
+    "sday",
+    "sday"
+]
+```
+
 Count from the left
 
-    » ja: [Monday..Wednesday] -> left -3
-    [
-        "day",
-        "sday",
-        "nesday"
-    ]
+```
+» ja: [Monday..Wednesday] -> left -3
+[
+    "day",
+    "sday",
+    "nesday"
+]
+```
 
 ## Detail
 
 Supported data types can queried via `runtime`
 
-    runtime: --marshallers
-    runtime: --unmarshallers
+```
+runtime: --marshallers
+runtime: --unmarshallers
+```
 
 ## Synonyms
 

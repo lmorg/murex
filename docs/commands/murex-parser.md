@@ -13,9 +13,11 @@ if neither exist or if you wish to override their text, then you can use
 
 ## Usage
 
-    <stdin> -> murex-parser -> <stdout>
-    
-    murex-parser { code-block } -> <stdout>
+```
+<stdin> -> murex-parser -> <stdout>
+
+murex-parser { code-block } -> <stdout>
+```
 
 ## Detail
 

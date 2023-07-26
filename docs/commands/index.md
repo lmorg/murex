@@ -10,74 +10,90 @@ Please note that indexes in Murex are counted from zero.
 
 ## Usage
 
-    <stdin> -> [ element ] -> <stdout>
-    $variable[ element ] -> <stdout>
-    
-    <stdin> -> ![ element ] -> <stdout>
+```
+<stdin> -> [ element ] -> <stdout>
+$variable[ element ] -> <stdout>
+
+<stdin> -> ![ element ] -> <stdout>
+```
 
 ## Examples
 
 Return the 2nd (1), 4th (3) and 6th (5) element in an array:
 
-    » ja [0..9] -> [ 1 3 5 ]
-    [
-        "1",
-        "3",
-        "5"
-    ]
-    
+```
+» ja [0..9] -> [ 1 3 5 ]
+[
+    "1",
+    "3",
+    "5"
+]
+```
+
 Return the data-type and description of **config shell syntax-highlighting**:
 
-    » config -> [[ /shell/syntax-highlighting ]] -> [ Data-Type Description ]
-    [
-        "bool",
-        "Syntax highlighting of murex code when in the interactive shell"
-    ]
-    
+```
+» config -> [[ /shell/syntax-highlighting ]] -> [ Data-Type Description ]
+[
+    "bool",
+    "Syntax highlighting of murex code when in the interactive shell"
+]
+```
+
 Return all elements _except_ for 1 (2nd), 3 (4th) and 5 (6th):
 
-    » a: [0..9]-> ![ 1 3 5 ]
-    0
-    2
-    4
-    6
-    7
-    8
-    9
-    
+```
+» a: [0..9]-> ![ 1 3 5 ]
+0
+2
+4
+6
+7
+8
+9
+```
+
 Return all elements except for the data-type and description:
 
-    » config -> [[ /shell/syntax-highlighting ]] -> ![ Data-Type Description ]
-    {
-        "Default": true,
-        "Dynamic": false,
-        "Global": true,
-        "Value": true
-    }
-    
+```
+» config -> [[ /shell/syntax-highlighting ]] -> ![ Data-Type Description ]
+{
+    "Default": true,
+    "Dynamic": false,
+    "Global": true,
+    "Value": true
+}
+```
+
 Return the top 5 processes from `ps`, ordered by memory usage:
 
-    » ps aux -> [PID %MEM COMMAND] -> sort -nrk2 -> [..5]
-    915961  14.4  /home/lau/dev/go/bin/gopls
-    916184  4.4   /opt/visual-studio-code/code
-    108025  2.9   /usr/lib/firefox/firefox
-    1036    2.4   /usr/lib/baloo_file
-    915710  1.9   /opt/visual-studio-code/code
-    
+```
+» ps aux -> [PID %MEM COMMAND] -> sort -nrk2 -> [..5]
+915961  14.4  /home/lau/dev/go/bin/gopls
+916184  4.4   /opt/visual-studio-code/code
+108025  2.9   /usr/lib/firefox/firefox
+1036    2.4   /usr/lib/baloo_file
+915710  1.9   /opt/visual-studio-code/code
+```
+
 Return the 1st and 30th row:
 
-    » ps aux -> [*1 *30]
-    USER    PID     %CPU    %MEM    VSZ     RSS     TTY     STAT    START   TIME    COMMAND
-    root    37      0.0     0.0     0       0       ?       I<      Dec18   0:00    [kworker/3:0H-events_highpri]
-    
+```
+» ps aux -> [*1 *30]
+USER    PID     %CPU    %MEM    VSZ     RSS     TTY     STAT    START   TIME    COMMAND
+root    37      0.0     0.0     0       0       ?       I<      Dec18   0:00    [kworker/3:0H-events_highpri]
+```
+
 Return the 1st and 5th column:
 
-    » ps aux -> [*A *E] -> head -n5                                                                                                                                                                                                       
-    USER    VSZ
-    root    168284
-    root    0
-    root    0
-    root    0
+```
+» ps aux -> [*A *E] -> head -n5                                                                                                                                                                                                       
+USER    VSZ
+root    168284
+root    0
+root    0
+root    0
+```
 
 ## Detail
 
@@ -96,12 +112,14 @@ where as `![` specifies elements to exclude.
 By default, **index** generates an error if an element doesn't exist. However
 you can disable this behavior in `config`
 
-    » config -> [ foobar ]
-    Error in `[` ((builtin) 2,11): Key 'foobar' not found
-    
-    » config set index silent true
-    
-    » config -> [ foobar ]
+```
+» config -> [ foobar ]
+Error in `[` ((builtin) 2,11): Key 'foobar' not found
+
+» config set index silent true
+
+» config -> [ foobar ]
+```
 
 ## Synonyms
 

@@ -8,28 +8,32 @@ Outputs _mutex_'s command history.
 
 ## Usage
 
-    history -> <stdout>
+```
+history -> <stdout>
+```
 
 ## Examples
 
-    » history
-    ...
-    {
-        "Index": 16782,
-        "DateTime": "2019-01-19T22:43:21.124273664Z",
-        "Block": "tout: json ([\"a\", \"b\", \"c\"]) -\u003e len"
-    },
-    {
-        "Index": 16783,
-        "DateTime": "2019-01-19T22:50:42.114986768Z",
-        "Block": "clear"
-    },
-    {
-        "Index": 16784,
-        "DateTime": "2019-01-19T22:51:39.82077789Z",
-        "Block": "map { tout: json ([\"key 1\", \"key 2\", \"key 3\"]) }"
-    },
-    ...
+```
+» history
+...
+{
+    "Index": 16782,
+    "DateTime": "2019-01-19T22:43:21.124273664Z",
+    "Block": "tout: json ([\"a\", \"b\", \"c\"]) -\u003e len"
+},
+{
+    "Index": 16783,
+    "DateTime": "2019-01-19T22:50:42.114986768Z",
+    "Block": "clear"
+},
+{
+    "Index": 16784,
+    "DateTime": "2019-01-19T22:51:39.82077789Z",
+    "Block": "map { tout: json ([\"key 1\", \"key 2\", \"key 3\"]) }"
+},
+...
+```
 
 ## Detail
 

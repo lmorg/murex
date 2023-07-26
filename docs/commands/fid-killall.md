@@ -8,7 +8,9 @@
 
 ## Usage
 
-    fid-killall
+```
+fid-killall
+```
 
 ## Detail
 

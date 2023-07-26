@@ -8,28 +8,32 @@ The tilde token is used as a lazy reference to the users home directory.
 
 ## Examples
 
-    » out: ~
-    /home/bob
-    
-    » out: ~joe
-    /home/joe
+```
+» out: ~
+/home/bob
+
+» out: ~joe
+/home/joe
+```
 
 ## Detail
 
 Tilde can be expanded inside double quotes, brace quotes as well as used naked.
 But it cannot be expanded inside single quotes.
 
-    » out: ~
-    /home/bob
-    
-    » out: '~'
-    ~
-    
-    » out: "~"
-    /home/bob
-    
-    » out: %(~)
-    /home/bob
+```
+» out: ~
+/home/bob
+
+» out: '~'
+~
+
+» out: "~"
+/home/bob
+
+» out: %(~)
+/home/bob
+```
 
 ## See Also
 

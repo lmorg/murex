@@ -74,11 +74,13 @@ in an intelligent and readable yet succinct way.
 You can add your own commands and functions to Murex as methods by defining
 them with `method`. For example if we were to add `jq` as a method:
 
-    method: define jq {
-        "Stdin":  "json",
-        "Stdout": "@Any"
-    }
-    
+```
+method: define jq {
+    "Stdin":  "json",
+    "Stdout": "@Any"
+}
+```
+
 ### Syntax Completion
 
 Like with most IDEs, Murex will auto close brackets et al.
@@ -92,9 +94,11 @@ to what one expects from an IDE.
 
 Syntax highlighting can be disabled by running:
 
-    
-    config: set shell syntax-highlighting off
-    
+```
+
+config: set shell syntax-highlighting off
+```
+
 ### Spellchecker
 
 Murex supports inline spellchecking, where errors are underlined. For example
@@ -115,16 +119,20 @@ to be used if you want it while keeping out of the way when you don't want it.
 
 By default the **hint text** will appear blue. This is also customizable:
 
-    » config get shell hint-text-formatting
-    {BLUE}
-    
+```
+» config get shell hint-text-formatting
+{BLUE}
+```
+
 The formatting config takes a string and supports [ANSI constants](ansi.md).
 
 It is also worth noting that if colour is disabled then the **hint text** will
 not be coloured even if **hint-text-formatting** includes colour codes:
 
-    » config: set shell color false
-    
+```
+» config: set shell color false
+```
+
 (please note that **syntax highlighting** is unaffected by the above config)
 
 ### Custom Hint Text Statuses
@@ -135,26 +143,32 @@ displayed then Murex can fallback to a default **hint text** status. This
 default is a user defined function. At time of writing this document the author
 has the following function defined:
 
-    config: set shell hint-text-func {
-        trypipe <!null> {
-            git status --porcelain -b -> set gitstatus
-            $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /'
-        }
-        catch {
-            out "Not a git repository."
-        }
+```
+config: set shell hint-text-func {
+    trypipe <!null> {
+        git status --porcelain -b -> set gitstatus
+        $gitstatus -> head -n1 -> regexp 's/^## //' -> regexp 's/\.\.\./ => /'
     }
-    
+    catch {
+        out "Not a git repository."
+    }
+}
+```
+
 ...which produces a colorized status that looks something like the following:
 
-    develop => origin/develop
-    
+```
+develop => origin/develop
+```
+
 #### Disabling Hint Text
 
 It is enabled by default but can be disabled if you prefer a more minimal
 prompt:
 
-    » config: set shell hint-text-enabled false
+```
+» config: set shell hint-text-enabled false
+```
 
 ## See Also
 

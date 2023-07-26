@@ -8,7 +8,9 @@
 
 ## Usage
 
-    <stdin> -> !bz2 -> <stdout>
+```
+<stdin> -> !bz2 -> <stdout>
+```
 
 ## Detail
 

@@ -8,26 +8,32 @@
 
 ## Usage
 
-    <stdin> -> append: value -> <stdout>
+```
+<stdin> -> append: value -> <stdout>
+```
 
 ## Examples
 
-    » a: [Monday..Sunday] -> append: Funday
-    Monday
-    Tuesday
-    Wednesday
-    Thursday
-    Friday
-    Saturday
-    Sunday
-    Funday
+```
+» a: [Monday..Sunday] -> append: Funday
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+Sunday
+Funday
+```
 
 ## Detail
 
 `prepend` and `append` are data type aware:
 
-    » tout json [1,2,3] -> append 4 5 6 bob
-    Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
+```
+» tout json [1,2,3] -> append 4 5 6 bob
+Error in `append` (1,22): cannot convert 'bob' to a floating point number: strconv.ParseFloat: parsing "bob": invalid syntax
+```
 
 ## Synonyms
 

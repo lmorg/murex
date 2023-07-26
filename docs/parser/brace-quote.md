@@ -20,18 +20,24 @@ own function.
 
 #### As a parameter:
 
-    name = %(Bob)
-    
+```
+name = %(Bob)
+```
+
 #### As a function:
 
-    » %(hello world)
-    hello world
-    
+```
+» %(hello world)
+hello world
+```
+
 #### Nested quotes:
 
-    » murex -c %(out: %(Hello "${murex -c %(out: %(Bob))}"))
-    Hello "Bob"
-    
+```
+» murex -c %(out: %(Hello "${murex -c %(out: %(Bob))}"))
+Hello "Bob"
+```
+
 In this example we are calling Murex to execute code as a command line
 parameter (the `-c` flag). That code outputs `Hello "..."` but inside the
 double quotes is a name that is generated from a sub-shell. That sub-shell
@@ -51,11 +57,13 @@ characters (and so on) the further deep you get in your nest.
 
 Quotes can also work over multiple lines
 
-    » out: %(foo
-    » bar)
-    foo
-    bar
-    
+```
+» out: %(foo
+» bar)
+foo
+bar
+```
+
 ### Legacy Support
 
 Version 3.x of Murex introduced support for the `%` token, before that brace
@@ -70,9 +78,11 @@ Below is a little detail about how the legacy syntax worked:
 The open brace character is only recognized as a brace quote token if it is the
 start of a parameter.
 
-    » set: example=(World!)
-    » out: (Hello $example)
-    Hello (World!)
+```
+» set: example=(World!)
+» out: (Hello $example)
+Hello (World!)
+```
 
 ## See Also
 

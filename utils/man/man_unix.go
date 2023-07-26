@@ -56,11 +56,6 @@ func GetManPages(exe string) []string {
 	return paths
 }
 
-func invalidMan(path string) bool {
-	return !rxMatchManSection.MatchString(path) &&
-		!strings.HasSuffix(path, "test/cat.1.gz") // suppress errors when running a unit test
-}
-
 // ParseByPaths runs the parser to locate any flags with hyphen prefixes
 func ParseByPaths(command string, paths []string) ([]string, map[string]string) {
 	f := Flags.Get(command)
@@ -71,7 +66,7 @@ func ParseByPaths(command string, paths []string) ([]string, map[string]string) 
 	fMap := make(map[string]string)
 
 	for i := range paths {
-		if invalidMan(paths[i]) {
+		if !rxMatchManSection.MatchString(paths[i]) {
 			continue
 		}
 

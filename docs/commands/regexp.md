@@ -9,19 +9,23 @@ array or list of strings - thus `regexp` is Murex data-type aware.
 
 ## Usage
 
-    <stdin> -> regexp expression -> <stdout>
+```
+<stdin> -> regexp expression -> <stdout>
+```
 
 ## Examples
 
 ### Find elements
 
-    » ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
-    [
-        "mon",
-        "fri",
-        "sun"
-    ]
-    
+```
+» ja: [monday..sunday] -> regexp 'f/^([a-z]{3})day/'
+[
+    "mon",
+    "fri",
+    "sun"
+]
+```
+
 This returns only 3 days because only 3 days match the expression (where
 the days have to be 6 characters long) and then it only returns the first 3
 characters because those are inside the parenthesis.
@@ -30,35 +34,41 @@ characters because those are inside the parenthesis.
 
 Elements containing
 
-    » ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
-    [
-        "monday",
-        "friday",
-        "sunday"
-    ]
-    
+```
+» ja: [monday..sunday] -> regexp 'm/(mon|fri|sun)day/'
+[
+    "monday",
+    "friday",
+    "sunday"
+]
+```
+
 Elements excluding
 
-    » ja: [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
-    [
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "saturday"
-    ]
-    
+```
+» ja: [monday..sunday] -> !regexp 'm/(mon|fri|sun)day/'
+[
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "saturday"
+]
+```
+
 ### Substitute expression
 
-    » ja: [monday..sunday] -> regexp 's/day/night/'
-    [
-        "monnight",
-        "tuesnight",
-        "wednesnight",
-        "thursnight",
-        "frinight",
-        "saturnight",
-        "sunnight"
-    ]
+```
+» ja: [monday..sunday] -> regexp 's/day/night/'
+[
+    "monnight",
+    "tuesnight",
+    "wednesnight",
+    "thursnight",
+    "frinight",
+    "saturnight",
+    "sunnight"
+]
+```
 
 ## Flags
 

@@ -14,27 +14,35 @@ and returns its unescaped counterpart.
 
 Escape
 
-    <stdin> -> escurl -> <stdout>
-    
-    escurl string to escape -> <stdout>
-    
+```
+<stdin> -> escurl -> <stdout>
+
+escurl string to escape -> <stdout>
+```
+
 Unescape
 
-    <stdin> -> !escurl -> <stdout>
-    
-    !escurl string to unescape -> <stdout>
+```
+<stdin> -> !escurl -> <stdout>
+
+!escurl string to unescape -> <stdout>
+```
 
 ## Examples
 
 Escape
 
-    » out: "!? <>" -> escurl
-    %21%3F%20%3C%3E%0A 
-    
+```
+» out: "!? <>" -> escurl
+%21%3F%20%3C%3E%0A 
+```
+
 Unescape
 
-    out: '%21%3F%20%3C%3E%0A' -> !escurl
-    !? <>
+```
+out: '%21%3F%20%3C%3E%0A' -> !escurl
+!? <>
+```
 
 ## Synonyms
 

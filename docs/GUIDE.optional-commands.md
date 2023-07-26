@@ -32,7 +32,9 @@ From the shell itself: run `builtins` to list the builtin command.
 If you require a manual on any of those commands, you can run `murex-docs`
 to return the same markdown-formatted document as those listed below. eg
 
-    murex-docs trypipe
+```
+murex-docs trypipe
+```
 
 ## Pages
 

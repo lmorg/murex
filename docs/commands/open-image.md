@@ -10,19 +10,25 @@ colour sequences.
 
 ## Usage
 
-    <stdin> -> open-image -> <stdout>
-    
-    open-image file-path -> <stdout>
+```
+<stdin> -> open-image -> <stdout>
+
+open-image file-path -> <stdout>
+```
 
 ## Examples
 
 As a method
 
-    » cat example.png -> open-image
-    
+```
+» cat example.png -> open-image
+```
+
 As a function
 
-    » open-image example.png
+```
+» open-image example.png
+```
 
 ## Detail
 

@@ -10,13 +10,17 @@ prepend to tables.
 
 ## Usage
 
-    <stdin> -> addheading: value value value ... -> <stdout>
+```
+<stdin> -> addheading: value value value ... -> <stdout>
+```
 
 ## Examples
 
-    » tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
-    ["name","age","active"]
-    ["Bob","23","true"]
+```
+» tout: jsonl '["Bob", 23, true]' -> addheading name age active                                                                                   
+["name","age","active"]
+["Bob","23","true"]
+```
 
 ## See Also
 

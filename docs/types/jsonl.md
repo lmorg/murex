@@ -18,20 +18,24 @@ Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/exa
 
 ### Tabulated data
 
-    ["Name", "Session", "Score", "Completed"]
-    ["Gilbert", "2013", 24, true]
-    ["Alexa", "2013", 29, true]
-    ["May", "2012B", 14, false]
-    ["Deloise", "2012A", 19, true] 
-    
+```
+["Name", "Session", "Score", "Completed"]
+["Gilbert", "2013", 24, true]
+["Alexa", "2013", 29, true]
+["May", "2012B", 14, false]
+["Deloise", "2012A", 19, true] 
+```
+
 This format is equatable to `generic` and `csv`.
 
 ### Nested objects
 
-    {"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
-    {"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
-    {"name": "May", "wins": []}
-    {"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+```
+{"name": "Gilbert", "wins": [["straight", "7♣"], ["one pair", "10♥"]]}
+{"name": "Alexa", "wins": [["two pair", "4♠"], ["two pair", "9♠"]]}
+{"name": "May", "wins": []}
+{"name": "Deloise", "wins": [["three of a kind", "5♣"]]}
+```
 
 ## Detail
 

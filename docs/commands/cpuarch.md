@@ -8,12 +8,16 @@ Output the hosts CPU architecture.
 
 ## Usage
 
-    cpuarch -> <stdout>
+```
+cpuarch -> <stdout>
+```
 
 ## Examples
 
-    » cpuarch
-    amd64
+```
+» cpuarch
+amd64
+```
 
 ## See Also
 

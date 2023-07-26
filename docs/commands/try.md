@@ -17,16 +17,20 @@ similar operators). If you need the entire pipeline checked then use `trypipe`.
 
 ## Usage
 
-    try { code-block } -> <stdout>
-    
-    <stdin> -> try { -> code-block } -> <stdout>
+```
+try { code-block } -> <stdout>
+
+<stdin> -> try { -> code-block } -> <stdout>
+```
 
 ## Examples
 
-    try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
-    }
+```
+try {
+    out: "Hello, World!" -> grep: "non-existent string"
+    out: "This command will be ignored"
+}
+```
 
 ## Detail
 

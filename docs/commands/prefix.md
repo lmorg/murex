@@ -8,23 +8,29 @@ Takes a list from STDIN and returns that same list with each element prefixed.
 
 ## Usage
 
-    <stdin> -> prefix str -> <stdout>
+```
+<stdin> -> prefix str -> <stdout>
+```
 
 ## Examples
 
-    » ja: [Monday..Wednesday] -> prefix foobar
-    [
-        "foobarMonday",
-        "foobarTuesday",
-        "foobarWednesday"
-    ]
+```
+» ja: [Monday..Wednesday] -> prefix foobar
+[
+    "foobarMonday",
+    "foobarTuesday",
+    "foobarWednesday"
+]
+```
 
 ## Detail
 
 Supported data types can queried via `runtime`
 
-    runtime: --marshallers
-    runtime: --unmarshallers
+```
+runtime: --marshallers
+runtime: --unmarshallers
+```
 
 ## Synonyms
 

@@ -5,14 +5,16 @@
 The murex parser creates ASTs ahead of interpreting each block of code. However
 the AST is only generated for a block at a time. Take this sample code:
 
-    function example {
-        # An example function
-        if { $ENVVAR } then {
-            out: 'foobar'
-        }
-        out: 'Finished!'
+```
+function example {
+    # An example function
+    if { $ENVVAR } then {
+        out: 'foobar'
     }
-    
+    out: 'Finished!'
+}
+```
+
 When that code is run `function` is executed with the parameters `example` and
 `{ ... }` but the contents of `{ ... }` isn't converted into ASTs until someone
 calls `example` elsewhere in the shell.
@@ -21,23 +23,25 @@ When `example` (the Murex function defined above) is executed the parser will
 then generate AST of the commands inside said function but not any blocks that
 are associated with those functions. eg the AST would look something like this:
 
-    [
-        {
-            "Command": "if",
-            "Parameters": [
-                "{ $ENVVAR }",
-                "then",
-                "{\n        out: 'foobar'\n    }"
-            ]
-        },
-        {
-            "Command": "out",
-            "Parameters": [
-                "Finished!"
-            ]
-        }
-    ]
-    
+```
+[
+    {
+        "Command": "if",
+        "Parameters": [
+            "{ $ENVVAR }",
+            "then",
+            "{\n        out: 'foobar'\n    }"
+        ]
+    },
+    {
+        "Command": "out",
+        "Parameters": [
+            "Finished!"
+        ]
+    }
+]
+```
+
 > Please note this is a mock JSON structure rather than a representation of the
 > actual AST that would be created. Parameters are stored differently to allow
 > infixing of variables; and there also needs to be data shared about how

@@ -9,7 +9,9 @@ that the POSIX `kill` (superficially speaking).
 
 ## Usage
 
-    fid-kill fid
+```
+fid-kill fid
+```
 
 ## Detail
 

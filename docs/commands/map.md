@@ -10,16 +10,20 @@ The first block is the key and the second is the value.
 
 ## Usage
 
-    map { code-block } { code-block } -> <stdout>
+```
+map { code-block } { code-block } -> <stdout>
+```
 
 ## Examples
 
-    » map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
-    {
-        "key 1": "value 1",
-        "key 2": "value 2",
-        "key 3": "value 3"
-    }
+```
+» map { tout: json (["key 1", "key 2", "key 3"]) } { tout: json (["value 1", "value 2", "value 3"]) } 
+{
+    "key 1": "value 1",
+    "key 2": "value 2",
+    "key 3": "value 3"
+}
+```
 
 ## See Also
 

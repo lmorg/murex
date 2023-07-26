@@ -8,18 +8,24 @@ Returns a `false` value.
 
 ## Usage
 
-    false -> <stdout>
+```
+false -> <stdout>
+```
 
 ## Examples
 
 By default, `false` also outputs the term "false":
 
-    » false
-    false
-    
+```
+» false
+false
+```
+
 However you can suppress that with the silent flag:
 
-    » false -s
+```
+» false -s
+```
 
 ## Flags
 

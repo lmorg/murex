@@ -11,16 +11,20 @@ philosophy. However it does offer additional flexibility around recursion.
 
 ## Usage
 
-    for ( variable; conditional; incrementation ) { code-block } -> <stdout>
+```
+for ( variable; conditional; incrementation ) { code-block } -> <stdout>
+```
 
 ## Examples
 
-    » for ( i=1; i<6; i++ ) { echo $i }
-    1
-    2
-    3
-    4
-    5
+```
+» for ( i=1; i<6; i++ ) { echo $i }
+1
+2
+3
+4
+5
+```
 
 ## Detail
 
@@ -53,29 +57,35 @@ to achieve the same thing...most of the time at least.
 
 For example:
 
-    a: [1..5] -> foreach: i { echo $i }
-    1
-    2
-    3
-    4
-    5
-    
+```
+a: [1..5] -> foreach: i { echo $i }
+1
+2
+3
+4
+5
+```
+
 The different in performance can be measured. eg:
 
-    » time { a: [1..9999] -> foreach: i { out: <null> $i } }
-    0.097643108
-    
-    » time { for ( i=1; i<10000; i=i+1 ) { out: <null> $i } }
-    0.663812496
-    
+```
+» time { a: [1..9999] -> foreach: i { out: <null> $i } }
+0.097643108
+
+» time { for ( i=1; i<10000; i=i+1 ) { out: <null> $i } }
+0.663812496
+```
+
 You can also do step ranges with `foreach`:
 
-    » time { for ( i=10; i<10001; i=i+2 ) { out: <null> $i } }
-    0.346254973
-    
-    » time { a: [1..999][0,2,4,6,8],10000 -> foreach i { out: <null> $i } }
-    0.053924326
-    
+```
+» time { for ( i=10; i<10001; i=i+2 ) { out: <null> $i } }
+0.346254973
+
+» time { a: [1..999][0,2,4,6,8],10000 -> foreach i { out: <null> $i } }
+0.053924326
+```
+
 ...though granted the latter is a little less readable.
 
 The big catch with using `a` piped into `foreach` is that values are passed
@@ -88,34 +98,38 @@ JSON is that parsers generally expect a complete file for processing in that
 the JSON specification requires closing tags for every opening tag. This means
 it's not always suitable for streaming. For example
 
-    » ja [1..3] -> foreach i { out ({ "$i": $i }) }
-    { "1": 1 }
-    { "2": 2 }
-    { "3": 3 }
-    
+```
+» ja [1..3] -> foreach i { out ({ "$i": $i }) }
+{ "1": 1 }
+{ "2": 2 }
+{ "3": 3 }
+```
+
 **What does this even mean and how can you build a JSON file up sequentially?**
 
 One answer if to write the output in a streaming file format and convert back
 to JSON
 
-    » ja [1..3] -> foreach i { out (- "$i": $i) }
-    - "1": 1
-    - "2": 2
-    - "3": 3
-    
-    » ja [1..3] -> foreach i { out (- "$i": $i) } -> cast yaml -> format json
-    [
-        {
-            "1": 1
-        },
-        {
-            "2": 2
-        },
-        {
-            "3": 3
-        }
-    ]
-    
+```
+» ja [1..3] -> foreach i { out (- "$i": $i) }
+- "1": 1
+- "2": 2
+- "3": 3
+
+» ja [1..3] -> foreach i { out (- "$i": $i) } -> cast yaml -> format json
+[
+    {
+        "1": 1
+    },
+    {
+        "2": 2
+    },
+    {
+        "3": 3
+    }
+]
+```
+
 **What if I'm returning an object rather than writing one?**
 
 The problem with building JSON structures from existing structures is that you
@@ -126,86 +140,92 @@ For example in the code below, each item block is it's own object and there are
 no `[ ... ]` encapsulating them to denote it is an array of objects, nor are
 the objects terminated by a comma.
 
-    » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar }
-    {
-        "Data-Type": "bool",
-        "Default": true,
-        "Description": "Display the interactive shell's hint text helper. Please note, even when this is disabled, it will still appear when used for regexp searches and other readline-specific functions",
-        "Dynamic": false,
-        "Foo": "Bar",
-        "Global": true,
-        "Value": true
-    }
-    {
-        "Data-Type": "block",
-        "Default": "{ progress $PID }",
-        "Description": "Murex function to execute when an `exec` process is stopped",
-        "Dynamic": false,
-        "Foo": "Bar",
-        "Global": true,
-        "Value": "{ progress $PID }"
-    }
-    {
-        "Data-Type": "bool",
-        "Default": true,
-        "Description": "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, {SGR} variables, etc",
-        "Dynamic": false,
-        "Foo": "Bar",
-        "Global": true,
-        "Value": true
-    }
-    ...
-    
+```
+» config -> [ shell ] -> formap k v { $v -> alter /Foo Bar }
+{
+    "Data-Type": "bool",
+    "Default": true,
+    "Description": "Display the interactive shell's hint text helper. Please note, even when this is disabled, it will still appear when used for regexp searches and other readline-specific functions",
+    "Dynamic": false,
+    "Foo": "Bar",
+    "Global": true,
+    "Value": true
+}
+{
+    "Data-Type": "block",
+    "Default": "{ progress $PID }",
+    "Description": "Murex function to execute when an `exec` process is stopped",
+    "Dynamic": false,
+    "Foo": "Bar",
+    "Global": true,
+    "Value": "{ progress $PID }"
+}
+{
+    "Data-Type": "bool",
+    "Default": true,
+    "Description": "ANSI escape sequences in Murex builtins to highlight syntax errors, history completions, {SGR} variables, etc",
+    "Dynamic": false,
+    "Foo": "Bar",
+    "Global": true,
+    "Value": true
+}
+...
+```
+
 Luckily JSON also has it's own streaming format: JSON lines (`jsonl`). We can
 `cast` this output as `jsonl` then `format` it back into valid JSON:
 
-    » config -> [ shell ] -> formap k v { $v -> alter /Foo Bar } -> cast jsonl -> format json
-    [
-        {
-            "Data-Type": "bool",
-            "Default": true,
-            "Description": "Write shell history (interactive shell) to disk",
-            "Dynamic": false,
-            "Foo": "Bar",
-            "Global": true,
-            "Value": true
-        },
-        {
-            "Data-Type": "int",
-            "Default": 4,
-            "Description": "Maximum number of lines with auto-completion suggestions to display",
-            "Dynamic": false,
-            "Foo": "Bar",
-            "Global": true,
-            "Value": "6"
-        },
-        {
-            "Data-Type": "bool",
-            "Default": true,
-            "Description": "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs)",
-            "Dynamic": false,
-            "Foo": "Bar",
-            "Global": true,
-            "Value": true
-        },
-    ...
-    
+```
+» config -> [ shell ] -> formap k v { $v -> alter /Foo Bar } -> cast jsonl -> format json
+[
+    {
+        "Data-Type": "bool",
+        "Default": true,
+        "Description": "Write shell history (interactive shell) to disk",
+        "Dynamic": false,
+        "Foo": "Bar",
+        "Global": true,
+        "Value": true
+    },
+    {
+        "Data-Type": "int",
+        "Default": 4,
+        "Description": "Maximum number of lines with auto-completion suggestions to display",
+        "Dynamic": false,
+        "Foo": "Bar",
+        "Global": true,
+        "Value": "6"
+    },
+    {
+        "Data-Type": "bool",
+        "Default": true,
+        "Description": "Display some status information about the stop process when ctrl+z is pressed (conceptually similar to ctrl+t / SIGINFO on some BSDs)",
+        "Dynamic": false,
+        "Foo": "Bar",
+        "Global": true,
+        "Value": true
+    },
+...
+```
+
 #### `foreach` will automatically cast it's output as `jsonl` _if_ it's STDIN type is `json`
 
-    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name }
-    Hello Tom
-    Hello Dick
-    Hello Sally
-    
-    » ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> debug -> [[ /Data-Type/Murex ]]
-    jsonl
-    
-    » ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name } -> format: json
-    [
-        "Hello Tom",
-        "Hello Dick",
-        "Hello Sally"
-    ]
+```
+» ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name }
+Hello Tom
+Hello Dick
+Hello Sally
+
+» ja [Tom,Dick,Sally] -> foreach name { out Hello $name } -> debug -> [[ /Data-Type/Murex ]]
+jsonl
+
+» ja: [Tom,Dick,Sally] -> foreach: name { out Hello $name } -> format: json
+[
+    "Hello Tom",
+    "Hello Dick",
+    "Hello Sally"
+]
+```
 
 ## See Also
 

@@ -10,53 +10,71 @@ Output is a JSON list.
 
 ## Usage
 
-    g: pattern -> <stdout>
-    
-    [ <stdin> -> ] @g command pattern [ -> <stdout> ]
-    
-    !g: pattern -> <stdout>
-    
-    <stdin> -> g: pattern -> <stdout>
-    
-    <stdin> -> !g: pattern -> <stdout>
+```
+g: pattern -> <stdout>
+
+[ <stdin> -> ] @g command pattern [ -> <stdout> ]
+
+!g: pattern -> <stdout>
+
+<stdin> -> g: pattern -> <stdout>
+
+<stdin> -> !g: pattern -> <stdout>
+```
 
 ## Examples
 
 Inline globbing:
 
-    cat: @{ g: *.txt }
-    
+```
+cat: @{ g: *.txt }
+```
+
 Writing a JSON array of files to disk:
 
-    g: *.txt |> filelist.json
-    
+```
+g: *.txt |> filelist.json
+```
+
 Writing a list of files to disk:
 
-    g: *.txt -> format str |> filelist.txt
-    
+```
+g: *.txt -> format str |> filelist.txt
+```
+
 Checking if a file exists:
 
-    if { g: somefile.txt } then {
-        # file exists
-    }
-    
+```
+if { g: somefile.txt } then {
+    # file exists
+}
+```
+
 Checking if a file does not exist:
 
-    !if { g: somefile.txt } then {
-        # file does not exist
-    }
-    
+```
+!if { g: somefile.txt } then {
+    # file does not exist
+}
+```
+
 Return all files apart from text files:
 
-    !g: *.txt
-    
+```
+!g: *.txt
+```
+
 Filtering a file list based on glob matches:
 
-    f: +f -> g: *.md
-    
+```
+f: +f -> g: *.md
+```
+
 Remove any glob matches from a file list:
 
-    f: +f -> !g: *.md
+```
+f: +f -> !g: *.md
+```
 
 ## Detail
 
@@ -70,14 +88,16 @@ Remove any glob matches from a file list:
 If you want to exclude any matches based on wildcards, rather than include
 them, then you can use the bang prefix. eg
 
-    » g: READ*
-    [
-        "README.md"
-    ]
-    
-    » !g: *
-    Error in `!g` (1,1): No data returned.
-    
+```
+» g: READ*
+[
+    "README.md"
+]
+
+» !g: *
+Error in `!g` (1,1): No data returned.
+```
+
 ### When Used As A Method
 
 `!g` first looks for files that match its pattern, then it reads the file list

@@ -10,31 +10,39 @@
 
 Define a function:
 
-    function: name { code-block }
-    
+```
+function: name { code-block }
+```
+
 Define a function with variable names defined (**default value** and
 **description** are optional parameters):
 
-    function: name (
-        variable1: data-type [default-value] "description",
-        variable2: data-type [default-value] "description"
-    ) {
-        code-block
-    }
-    
+```
+function: name (
+    variable1: data-type [default-value] "description",
+    variable2: data-type [default-value] "description"
+) {
+    code-block
+}
+```
+
 Undefine a function:
 
-    !function: command
+```
+!function: command
+```
 
 ## Examples
 
-    » function hw { out "Hello, World!" }
-    » hw
-    Hello, World!
-    
-    » !function hw
-    » hw
-    exec: "hw": executable file not found in $PATH
+```
+» function hw { out "Hello, World!" }
+» hw
+Hello, World!
+
+» !function hw
+» hw
+exec: "hw": executable file not found in $PATH
+```
 
 ## Detail
 
@@ -64,13 +72,15 @@ you would have to use either:
 Starting from Murex `2.7.x` it's been possible to declare parameters from
 within the function declaration:
 
-    function: name (
-        variable1: data-type [default-value] "description",
-        variable2: data-type [default-value] "description"
-    ) {
-        code-block
-    }
-    
+```
+function: name (
+    variable1: data-type [default-value] "description",
+    variable2: data-type [default-value] "description"
+) {
+    code-block
+}
+```
+
 #### Syntax
 
 First off, the syntax doesn't have to follow exactly as above:
@@ -109,22 +119,26 @@ First off, the syntax doesn't have to follow exactly as above:
 Any variable name you declare in your function declaration will be exposed in
 your function body as a local variable. For example:
 
-    function: hello (name: str) {
-        out: "Hello $name, pleased to meet you."
-    }
-    
+```
+function: hello (name: str) {
+    out: "Hello $name, pleased to meet you."
+}
+```
+
 If the function isn't called with the complete list of parameters and it is
 running in the foreground (ie not part of `autocomplete`, `event`, `bg`, etc)
 then you will be prompted for it's value. That could look something like this:
 
-    » function: hello (name: str) {
-    »     out: "Hello $name, pleased to meet you."
-    » }
-    
-    » hello
-    Please enter a value for 'name': Bob
-    Hello Bob, pleased to meet you.
-    
+```
+» function: hello (name: str) {
+»     out: "Hello $name, pleased to meet you."
+» }
+
+» hello
+Please enter a value for 'name': Bob
+Hello Bob, pleased to meet you.
+```
+
 (in this example you typed `Bob` when prompted)
 
 #### Data-Types
@@ -135,51 +149,61 @@ is optional and will default to `str` when omitted.
 The advantage of setting this field is that values are type checked and the
 function will fail early if an incorrect value is presented. For example:
 
-    » function: age (age: int) { out: "$age is a great age." }
-    
-    » age
-    Please enter a value for 'age': ten
-    Error in `age` ( 2,1): cannot convert parameter 1 'ten' to data type 'int'
-    
-    » age ten
-    Error in `age` ( 2,1): cannot convert parameter 1 'ten' to data type 'int'
-    
+```
+» function: age (age: int) { out: "$age is a great age." }
+
+» age
+Please enter a value for 'age': ten
+Error in `age` ( 2,1): cannot convert parameter 1 'ten' to data type 'int'
+
+» age ten
+Error in `age` ( 2,1): cannot convert parameter 1 'ten' to data type 'int'
+```
+
 However it will try to automatically convert values if it can:
 
-    » age 1.2
-    1 is a great age.
-    
+```
+» age 1.2
+1 is a great age.
+```
+
 #### Default values
 
 Default values are only relevant when functions are run interactively. It
 allows the user to press enter without inputting a value:
 
-    » function: hello (name: str [John]) { out: "Hello $name, pleased to meet you." }
-    
-    » hello
-    Please enter a value for 'name' [John]: 
-    Hello John, pleased to meet you.
-    
+```
+» function: hello (name: str [John]) { out: "Hello $name, pleased to meet you." }
+
+» hello
+Please enter a value for 'name' [John]: 
+Hello John, pleased to meet you.
+```
+
 Here no value was entered so `$name` defaulted to `John`.
 
 Default values will not auto-populate when the function is run in the
 background. For example:
 
-    » bg {hello}
-    Error in `hello` ( 2,2): cannot prompt for parameters when a function is run in the background: too few parameters
-    
+```
+» bg {hello}
+Error in `hello` ( 2,2): cannot prompt for parameters when a function is run in the background: too few parameters
+```
+
 #### Description
 
 Descriptions are only relevant when functions are run interactively. It allows
 you to define a more useful prompt should that function be called without
 sufficient parameters. For example:
 
-    » function hello (name: str "What is your name?") { out "Hello $name" }
-    
-    » hello
-    What is your name?: Sally
-    Hello Sally
-    
+```
+» function hello (name: str "What is your name?") { out "Hello $name" }
+
+» hello
+What is your name?: Sally
+Hello Sally
+```
+
 ### Order of precedence
 
 There is an order of precedence for which commands are looked up:

@@ -8,14 +8,18 @@
 
 ## Usage
 
-    <stdin> -> count: [ --duplications | --unique | --total ] -> <stdout>
+```
+<stdin> -> count: [ --duplications | --unique | --total ] -> <stdout>
+```
 
 ## Examples
 
 Count number of items in a map, list or array:
 
-    » tout: json (["a", "b", "c"]) -> count 
-    3
+```
+» tout: json (["a", "b", "c"]) -> count 
+3
+```
 
 ## Flags
 
@@ -26,11 +30,11 @@ Count number of items in a map, list or array:
 * `--unique`
     Print the number of unique elements in a list or array
 * `-d`
-    Alias for `--duplications
+    Alias for `--duplications`
 * `-t`
-    Alias for `--total
+    Alias for `--total`
 * `-u`
-    Alias for `--unique
+    Alias for `--unique`
 
 ## Detail
 
@@ -43,9 +47,11 @@ If no flags are set, `count` will default to using `--total`.
 This will read an array, list or map from STDIN and output the length for
 that array.
 
-    » a [25-Dec-2020..05-Jan-2021] -> count 
-    12
-    
+```
+» a [25-Dec-2020..05-Jan-2021] -> count 
+12
+```
+
 > This also replaces the older `len` method.
 
 Please note that this returns the length of the _array_ rather than string.
@@ -55,22 +61,24 @@ would return `2`). If you need to count characters in a string and are
 running POSIX (eg Linux / BSD / OSX) then it is recommended to use `wc`
 instead. But be mindful that `wc` will also count new line characters.
 
-    » out: "foobar" -> count
-    1
-    
-    » out: "foo\nbar" -> count
-    2
-    
-    » out: "foobar" -> wc: -c
-    7
-    
-    » out: "foo\nbar" -> wc: -c
-    8
-    
-    » printf: "foobar" -> wc: -c
-    6
-    # (printf does not print a trailing new line)
-    
+```
+» out: "foobar" -> count
+1
+
+» out: "foo\nbar" -> count
+2
+
+» out: "foobar" -> wc: -c
+7
+
+» out: "foo\nbar" -> wc: -c
+8
+
+» printf: "foobar" -> wc: -c
+6
+# (printf does not print a trailing new line)
+```
+
 #### Duplications: `--duplications` / `-d`
 
 This returns a JSON map of items and the number of their occurrences in a list
@@ -80,18 +88,20 @@ For example in the quote below, only the word "the" is repeated so that entry
 will have a value of `2` while ever other entry has a value of `1` because they
 only appear once in the quote.
 
-    » out: "the quick brown fox jumped over the lazy dog" -> jsplit: \s -> count: --duplications
-    {
-        "brown": 1,
-        "dog": 1,
-        "fox": 1,
-        "jumped": 1,
-        "lazy": 1,
-        "over": 1,
-        "quick": 1,
-        "the": 2
-    }
-    
+```
+» out: "the quick brown fox jumped over the lazy dog" -> jsplit: \s -> count: --duplications
+{
+    "brown": 1,
+    "dog": 1,
+    "fox": 1,
+    "jumped": 1,
+    "lazy": 1,
+    "over": 1,
+    "quick": 1,
+    "the": 2
+}
+```
+
 #### Unique: `--unique` / `-u`
 
 Returns the number of unique elements in a list or array.
@@ -99,10 +109,12 @@ Returns the number of unique elements in a list or array.
 For example in the quote below, only the word "the" is repeated, thus the
 unique count should be one less than the total count:
 
-    » out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --unique
-    8
-    » out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --total
-    9
+```
+» out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --unique
+8
+» out "the quick brown fox jumped over the lazy dog" -> jsplit \s -> count --total
+9
+```
 
 ## Synonyms
 

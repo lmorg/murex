@@ -12,14 +12,20 @@ shell will still exist and not just that function.
 
 ## Usage
 
-    exit
-    exit number
+```
+exit
+exit number
+```
 
 ## Examples
 
-    » exit
-    
-    » exit 42
+```
+» exit
+```
+
+```
+» exit 42
+```
 
 ## See Also
 

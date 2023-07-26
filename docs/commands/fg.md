@@ -10,7 +10,9 @@
 
 POSIX only:
 
-    fg fid
+```
+fg fid
+```
 
 ## Detail
 

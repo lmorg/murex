@@ -9,21 +9,25 @@ compiled into Murex. The 'b' in `bexists` stands for 'builtins'
 
 ## Usage
 
-    bexists command... -> <stdout>
+```
+bexists command... -> <stdout>
+```
 
 ## Examples
 
-    » bexists: qr gzip runtime config
-    {
-        "Installed": [
-            "runtime",
-            "config"
-        ],
-        "Missing": [
-            "qr",
-            "gzip"
-        ]
-    }
+```
+» bexists: qr gzip runtime config
+{
+    "Installed": [
+        "runtime",
+        "config"
+    ],
+    "Missing": [
+        "qr",
+        "gzip"
+    ]
+}
+```
 
 ## Detail
 

@@ -9,11 +9,15 @@ of precedence.
 
 ## Usage
 
-    fexec: flag command [ parameters... ] -> <stdout>
+```
+fexec: flag command [ parameters... ] -> <stdout>
+```
 
 ## Examples
 
-    fexec: private /source/builtin/autocomplete.alias
+```
+fexec: private /source/builtin/autocomplete.alias
+```
 
 ## Flags
 
@@ -63,7 +67,7 @@ You can override this order of precedence via the `fexec` and `exec` builtins.
 ### Compatibility with POSIX
 
 For compatibility with traditional shells like Bash and Zsh, `builtin` is an
-alias to `fexec builtin
+alias to `fexec builtin`
 
 ## Synonyms
 

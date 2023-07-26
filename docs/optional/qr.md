@@ -9,17 +9,23 @@ input from STDIN. `qr` must be run as a method.
 
 ## Usage
 
-    <stdin> -> qr -> <stdout>
+```
+<stdin> -> qr -> <stdout>
+```
 
 ## Examples
 
 Write the PNG to disk
 
-    » out "Hello, World!" -> qr -> > qr.png
-    
+```
+» out "Hello, World!" -> qr -> > qr.png
+```
+
 Display PNG in the terminal
 
-    » out "Hello, World!" -> qr -> open-image
+```
+» out "Hello, World!" -> qr -> open-image
+```
 
 ## Detail
 

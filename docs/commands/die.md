@@ -8,11 +8,15 @@ Terminate Murex with an exit number of 1.
 
 ## Usage
 
-    die
+```
+die
+```
 
 ## Examples
 
-    » die
+```
+» die
+```
 
 ## See Also
 

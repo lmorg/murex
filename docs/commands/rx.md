@@ -10,47 +10,63 @@ Output is a JSON list.
 
 ## Usage
 
-    rx: pattern -> <stdout>
-    
-    !rx: pattern -> <stdout>
-    
-    <stdin> -> rx: pattern -> <stdout>
-    
-    <stdin> -> !rx: pattern -> <stdout>
+```
+rx: pattern -> <stdout>
+
+!rx: pattern -> <stdout>
+
+<stdin> -> rx: pattern -> <stdout>
+
+<stdin> -> !rx: pattern -> <stdout>
+```
 
 ## Examples
 
 Inline regex file matching:
 
-    cat: @{ rx: '.*\.txt' }
-    
+```
+cat: @{ rx: '.*\.txt' }
+```
+
 Writing a list of files to disk:
 
-    rx: '.*\.go' |> filelist.txt
-    
+```
+rx: '.*\.go' |> filelist.txt
+```
+
 Checking if files exist:
 
-    if { rx: somefiles.* } then {
-        # files exist
-    }
-    
+```
+if { rx: somefiles.* } then {
+    # files exist
+}
+```
+
 Checking if files do not exist:
 
-    !if { rx: somefiles.* } then {
-        # files do not exist
-    }
-    
+```
+!if { rx: somefiles.* } then {
+    # files do not exist
+}
+```
+
 Return all files apart from text files:
 
-    !g: '\.txt$'
-    
+```
+!g: '\.txt$'
+```
+
 Filtering a file list based on regexp matches file:
 
-    f: +f -> rx: '.*\.txt'
-    
+```
+f: +f -> rx: '.*\.txt'
+```
+
 Remove any regexp file matches from a file list:
 
-    f: +f -> !rx: '.*\.txt'
+```
+f: +f -> !rx: '.*\.txt'
+```
 
 ## Detail
 
@@ -66,14 +82,16 @@ only designed to match file system objects in the current working directory.
 If you want to exclude any matches based on wildcards, rather than include
 them, then you can use the bang prefix. eg
 
-    » rx: READ*                                                                                                                                                              
-    [
-        "README.md"
-    ]
-    
-    murex-dev» !rx: .*
-    Error in `!rx` (1,1): No data returned.
-    
+```
+» rx: READ*                                                                                                                                                              
+[
+    "README.md"
+]
+
+murex-dev» !rx: .*
+Error in `!rx` (1,1): No data returned.
+```
+
 ### When Used As A Method
 
 `!rx` first looks for files that match its pattern, then it reads the file list

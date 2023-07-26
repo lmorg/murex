@@ -8,16 +8,20 @@
 
 ## Usage
 
-    <STDIN> -> jsplit: regex -> <stdout>
+```
+<STDIN> -> jsplit: regex -> <stdout>
+```
 
 ## Examples
 
-    » (hello, world) -> jsplit: l+ 
-    [
-        "he",
-        "o, wor",
-        "d"
-    ]
+```
+» (hello, world) -> jsplit: l+ 
+[
+    "he",
+    "o, wor",
+    "d"
+]
+```
 
 ## Detail
 

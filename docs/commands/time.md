@@ -9,19 +9,23 @@ returns it's running time.
 
 ## Usage
 
-    time: command parameters -> <stderr>
-    
-    time: { code-block } -> <stderr>
+```
+time: command parameters -> <stderr>
+
+time: { code-block } -> <stderr>
+```
 
 ## Examples
 
-    » time: sleep 5
-    5.000151513
-    
-    » time { out "Going to sleep"; sleep 5; out "Waking up" }
-    Going to sleep
-    Waking up
-    5.000240977
+```
+» time: sleep 5
+5.000151513
+
+» time { out "Going to sleep"; sleep 5; out "Waking up" }
+Going to sleep
+Waking up
+5.000240977
+```
 
 ## Detail
 

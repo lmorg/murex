@@ -23,32 +23,34 @@ external source packages for the shell to compile.
 
 ## Examples
 
-    terraform {
-      required_version = "~> 0.11.5"
+```
+terraform {
+  required_version = "~> 0.11.5"
+}
+
+data "aws_availability_zones" "available" {}
+
+data "aws_vpc" "vpc" {
+  id = "${var.vpc_id}"
+}
+
+data "aws_route53_zone" "external" {
+  zone_id = "${var.external_hosted_zone_id}"
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+
+    principals {
+      identifiers = ["ec2.amazonaws.com"]
+      type        = "Service"
     }
-    
-    data "aws_availability_zones" "available" {}
-    
-    data "aws_vpc" "vpc" {
-      id = "${var.vpc_id}"
-    }
-    
-    data "aws_route53_zone" "external" {
-      zone_id = "${var.external_hosted_zone_id}"
-    }
-    
-    data "aws_iam_policy_document" "assume_role_policy" {
-      statement {
-        actions = ["sts:AssumeRole"]
-        effect  = "Allow"
-    
-        principals {
-          identifiers = ["ec2.amazonaws.com"]
-          type        = "Service"
-        }
-      }
-    }
-    
+  }
+}
+```
+
 See the HashiCorp's [documentation](https://github.com/hashicorp/hcl) for HCL syntax.
 
 ## Default Associations

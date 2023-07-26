@@ -15,10 +15,14 @@ Multiple flags cannot be used with each other.
 
 ## Usage
 
-    fid-list [ flag ] -> <stdout>
-    
+```
+fid-list [ flag ] -> <stdout>
+```
+
 `jobs` is an alias for `fid-list: --jobs`:
-    jobs -> <stdout>
+```
+jobs -> <stdout>
+```
 
 ## Flags
 

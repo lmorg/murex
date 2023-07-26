@@ -13,17 +13,21 @@ highlighting.
 
 ## Usage
 
-    <stdin> -> tmp [ file-extension ] -> <stdout>
+```
+<stdin> -> tmp [ file-extension ] -> <stdout>
+```
 
 ## Examples
 
-    » out: "Hello, world!" -> set: tmp
-    
-    » out: $tmp
-    /var/folders/3t/267q_b0j27d29bnf6pf7m7vm0000gn/T/murex838290600/8ec6936c1ac1c347bf85675eab4a0877-13893
-    
-    » open: $tmp
-    Hello, world!
+```
+» out: "Hello, world!" -> set: tmp
+
+» out: $tmp
+/var/folders/3t/267q_b0j27d29bnf6pf7m7vm0000gn/T/murex838290600/8ec6936c1ac1c347bf85675eab4a0877-13893
+
+» open: $tmp
+Hello, world!
+```
 
 ## Detail
 

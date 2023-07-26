@@ -8,23 +8,29 @@
 
 ## Usage
 
-    expr: expression -> <stdout>
+```
+expr: expression -> <stdout>
+```
 
 ## Examples
 
 Order of operations:
 
-    » 3 * (3 + 1)                                                                                                                                                                                                                         
-    12
-    
+```
+» 3 * (3 + 1)                                                                                                                                                                                                                         
+12
+```
+
 JSON array:
 
-    » %[apples oranges grapes]
-    [
-        "apples",
-        "oranges",
-        "grapes"
-    ]
+```
+» %[apples oranges grapes]
+[
+    "apples",
+    "oranges",
+    "grapes"
+]
+```
 
 ## See Also
 

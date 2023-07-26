@@ -11,11 +11,15 @@ Otherwise a new file is created.
 
 ## Usage
 
-    <stdin> |> filename
+```
+<stdin> |> filename
+```
 
 ## Examples
 
-    g * |> files.txt
+```
+g * |> files.txt
+```
 
 ## Synonyms
 

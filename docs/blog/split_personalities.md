@@ -60,8 +60,10 @@ When I first started writing my own shell, Murex, I originally started out
 with syntax that was inspired by the C. A pipeline would look something like
 the following:
 
-    cat ("./example.csv") | grep ("-n", "foobar")
-    
+```
+cat ("./example.csv") | grep ("-n", "foobar")
+```
+
 While this came with some readability improvements, it was a _massive_ pain to
 write over and over. So I added some syntax completion to the terminal,
 inspired by IDE's and how they attempt to minimize the repetition of entering
@@ -73,8 +75,10 @@ the same syntax for writing commands as everyone had already been using for a
 multitude of decades prior. What started out as the example above ended up
 looking more like the example below:
 
-    cat ./example.csv | grep -n foobar
-    
+```
+cat ./example.csv | grep -n foobar
+```
+
 (please excuse the useless use of `cat` in these examples -- it's purely there
 for illustrative reasons)
 
@@ -128,8 +132,10 @@ Where Powershell falls down for me is in two key areas:
 1. Many of the flags passed are verbose. Calling .NET objects can be verbose.
    Take this example of base64 encoding a string:
 
-        [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
-     
+   ```
+ [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("TextToEncode"))
+ ```
+
 2. Powershell doesn't play nicely with POSIX. Okay, I'm arguably contradicting
    myself now because earlier I raised this as a benefit. And in many ways it
    is. However if you wish to run Powershell on Linux, which you can do, you
@@ -179,27 +185,33 @@ over ALGOL style named scopes:
 
 **POSIX:**
 
-    if [ 0 -eq 1 ]; then 
-        echo '0 == 1'
-    else
-        echo '0 != 1'
-    fi
-    
+```
+if [ 0 -eq 1 ]; then 
+    echo '0 == 1'
+else
+    echo '0 != 1'
+fi
+```
+
 **Murex:**
 
-    if { 0 == 1 } then {
-        echo '0 == 1'
-    } else {
-        echo '0 != 1'
-    }
-    
+```
+if { 0 == 1 } then {
+    echo '0 == 1'
+} else {
+    echo '0 != 1'
+}
+```
+
 But since the curly braces are tokens, grammar like `then` / `else` become
 superfluous words that only exist for readability. So then we can make them
 optional. And you end up with a syntax that allows for a certain amount of
 golfing in the REPL should the operator want to save a few key strokes
 
-    if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
-    
+```
+if { 0 == 1 } { echo '0 == 1' } { echo '0 != 1' }
+```
+
 ## Conclusion
 
 The write-many read-once tendencies of the interactive terminal and the

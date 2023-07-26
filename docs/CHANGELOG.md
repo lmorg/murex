@@ -31,7 +31,7 @@ This release sees significant improvements for use with non-latin characters in 
 
 ### 12.02.2023 - [v3.1](changelog/v3.1.md)
 
-This release includes mostly bug fixes and new experimental features which are opt into. To enable all experimental features, set the environmental variable `MUREX_EXPERIMENTAL` to any value. Or you can enable specific features individually via `config
+This release includes mostly bug fixes and new experimental features which are opt into. To enable all experimental features, set the environmental variable `MUREX_EXPERIMENTAL` to any value. Or you can enable specific features individually via `config`
 
 
 ### 31.12.2022 - [v3.0](changelog/v3.0.md)

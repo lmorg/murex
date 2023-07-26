@@ -9,15 +9,19 @@ output's data-type to the value of the first parameter.
 
 ## Usage
 
-    tout: data-type "string to write" -> <stdout>
+```
+tout: data-type "string to write" -> <stdout>
+```
 
 ## Examples
 
-    » tout: json { "Code": 404, "Message": "Page not found" } -> pretty
-    {
-        "Code": 404,
-        "Message": "Page not found"
-    }
+```
+» tout: json { "Code": 404, "Message": "Page not found" } -> pretty
+{
+    "Code": 404,
+    "Message": "Page not found"
+}
+```
 
 ## Detail
 

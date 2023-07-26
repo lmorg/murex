@@ -175,8 +175,10 @@ var sgr = map[string][]byte{
 
 Each line will look something a little like
 
-    "GREEN":   {27, 91, 51, 50, 109},
-    
+```
+"GREEN":   {27, 91, 51, 50, 109},
+```
+
 The part within quotes is the constant name, and the part that follows is the
 sequence of bytes that are infixed.
 
@@ -188,20 +190,24 @@ byte values of 27, 91, 51, 50 and 109 (in that order).
 If a constant does not exist in the above code, then the infix string is left
 unedited.
 
-    # Green spelt correctly
-    » out: "{GREEN}PASSED{RESET}"
-    PASSED
-    
-    # Green spelt incorrectly (ie so that it doesn't exist as a valid constant)
-    » out: "{GREEEEN}PASSED{RESET}"
-    {GREEEEN}PASSED
-    
+```
+# Green spelt correctly
+» out: "{GREEN}PASSED{RESET}"
+PASSED
+
+# Green spelt incorrectly (ie so that it doesn't exist as a valid constant)
+» out: "{GREEEEN}PASSED{RESET}"
+{GREEEEN}PASSED
+```
+
 ## Enabling / Disabling ANSI Escape Sequences
 
 These sequences are enabled by default. To disable run the following:
 
-    » config: set shell color false
-    
+```
+» config: set shell color false
+```
+
 You will need to add this to your Murex profile, `~/.murex_profile` to make
 it persistent.
 

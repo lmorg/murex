@@ -225,10 +225,12 @@ will be whichever command is stored in the `$EDITOR` environmental variable.
 In the following example, code inside square brackets represent key presses
 rather than text:
 
-    » echo two three four five six seven eight nine
-    two three four five six seven eight nine
-    » [shift+f1]echo [shift+f5]five
-    
+```
+» echo two three four five six seven eight nine
+two three four five six seven eight nine
+» [shift+f1]echo [shift+f5]five
+```
+
 ## Job Control
 
 While processes are running, the following keys are assigned roles:

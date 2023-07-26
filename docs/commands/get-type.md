@@ -9,37 +9,45 @@ reading the data from it.
 
 ## Usage
 
-    get-type: \$variable -> <stdout>
-    
-    get-type: stdin -> <stdout>
-    
-    get-type: pipe -> <stdout>
+```
+get-type: \$variable -> <stdout>
+
+get-type: stdin -> <stdout>
+
+get-type: pipe -> <stdout>
+```
 
 ## Examples
 
 Get the data-type of a variable
 
-    » set: json example={[1,2,3]}
-    » get-type: \$example
-    json
-    
+```
+» set: json example={[1,2,3]}
+» get-type: \$example
+json
+```
+
 > Please note that you will need to escape the dollar sign. If you don't
 > the value of the variable will be passed to `get-type` rather than the
 > name.
 
 Get the data-type of a functions STDIN
 
-    » function: example { get-type stdin }
-    » tout: json {[1,2,3]} -> example
-    json
-    
+```
+» function: example { get-type stdin }
+» tout: json {[1,2,3]} -> example
+json
+```
+
 Get the data-type of a Murex named pipe
 
-    » pipe: example
-    » tout: <example> json {[1,2,3]}
-    » get-type: example
-    » !pipe: example
-    json
+```
+» pipe: example
+» tout: <example> json {[1,2,3]}
+» get-type: example
+» !pipe: example
+json
+```
 
 ## See Also
 

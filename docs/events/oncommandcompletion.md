@@ -15,9 +15,11 @@ from the prompt can trigger this event.
 
 ## Usage
 
-    event: onCommandCompletion name=command { code block }
-    
-    !event: onCommandCompletion name
+```
+event: onCommandCompletion name=command { code block }
+
+!event: onCommandCompletion name
+```
 
 ## Valid Interrupts
 
@@ -33,14 +35,16 @@ management tool, to see if you have accidentally ran it as a non-root user. If
 the STDERR contains a message saying you are no root, then this event function
 will re-run `pacman` with `sudo`.
 
-    event: onCommandCompletion sudo-pacman=pacman {
-        <stdin> -> set event
-        read-named-pipe: $event.Interrupt.Stderr \
-        -> regexp 'm/error: you cannot perform this operation unless you are root/' \
-        -> if {
-              sudo pacman @event.Interrupt.Parameters
-           }
-    }
+```
+event: onCommandCompletion sudo-pacman=pacman {
+    <stdin> -> set event
+    read-named-pipe: $event.Interrupt.Stderr \
+    -> regexp 'm/error: you cannot perform this operation unless you are root/' \
+    -> if {
+          sudo pacman @event.Interrupt.Parameters
+       }
+}
+```
 
 ## Detail
 
@@ -48,17 +52,19 @@ will re-run `pacman` with `sudo`.
 
 The following payload is passed to the function via STDIN:
 
-    {
-        "Name": "",
-        "Interrupt": {
-            "Command": "",
-            "Parameters": [],
-            "Stdout": "",
-            "Stderr": "",
-            "ExitNum": 0
-        }
+```
+{
+    "Name": "",
+    "Interrupt": {
+        "Command": "",
+        "Parameters": [],
+        "Stdout": "",
+        "Stderr": "",
+        "ExitNum": 0
     }
-    
+}
+```
+
 #### Name
 
 This is the name you specified when defining the event.
@@ -78,9 +84,11 @@ from the command which executed prior to this event.
 
 You can read this with `read-named-pipe`. eg
 
-    » <stdin> -> set: event
-    » read-named-pipe: $event.Interrupt.Stdout -> ...
-    
+```
+» <stdin> -> set: event
+» read-named-pipe: $event.Interrupt.Stdout -> ...
+```
+
 #### Stderr
 
 This is the name of the Murex named pipe which contains a copy of the STDERR
@@ -88,9 +96,11 @@ from the command which executed prior to this event.
 
 You can read this with `read-named-pipe`. eg
 
-    » <stdin> -> set: event
-    » read-named-pipe: $event.Interrupt.Stderr -> ...
-    
+```
+» <stdin> -> set: event
+» read-named-pipe: $event.Interrupt.Stderr -> ...
+```
+
 #### ExitNum
 
 This is the exit number returned from the executed command.

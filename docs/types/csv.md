@@ -12,25 +12,27 @@ or any other exotic characters used as a delimiter.
 The CSV parser is configurable via `config` (see link below for docs on how to
 use `config`)
 
-    » config: -> [csv]      
-    {
-        "comment": {
-            "Data-Type": "str",
-            "Default": "#",
-            "Description": "The prefix token for comments in a CSV table.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": "#"
-        },
-        "separator": {
-            "Data-Type": "str",
-            "Default": ",",
-            "Description": "The delimiter for records in a CSV file.",
-            "Dynamic": false,
-            "Global": false,
-            "Value": ","
-        }
+```
+» config: -> [csv]      
+{
+    "comment": {
+        "Data-Type": "str",
+        "Default": "#",
+        "Description": "The prefix token for comments in a CSV table.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": "#"
+    },
+    "separator": {
+        "Data-Type": "str",
+        "Default": ",",
+        "Description": "The delimiter for records in a CSV file.",
+        "Dynamic": false,
+        "Global": false,
+        "Value": ","
     }
+}
+```
 
 ## Default Associations
 

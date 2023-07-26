@@ -6,41 +6,53 @@
 
 You can create arrays from a range of letters (a to z):
 
-    » a: [a..z]
-    » a: [z..a]
-    » a: [A..Z]
-    » a: [Z..A]
-    
+```
+» a: [a..z]
+» a: [z..a]
+» a: [A..Z]
+» a: [Z..A]
+```
+
 ...or any characters within that range.
 
 Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarray.
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
+```
+a: [start..end] -> <stdout>
+a: [start..end,start..end] -> <stdout>
+a: [start..end][start..end] -> <stdout>
+```
+
 All usages also work with `ja` and `ta` as well, eg:
 
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
-    
+```
+ja: [start..end] -> <stdout>
+ta: data-type [start..end] -> <stdout>
+```
+
 You can also inline arrays with the `%[]` syntax, eg:
 
-    %[start..end]
+```
+%[start..end]
+```
 
 ## Examples
 
-    » a: [a..c]
-    a
-    b
-    c
-    
-    » a: [c..a]
-    c
-    b
-    a
+```
+» a: [a..c]
+a
+b
+c
+```
+
+```
+» a: [c..a]
+c
+b
+a
+```
 
 ## See Also
 

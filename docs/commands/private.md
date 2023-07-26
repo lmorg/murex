@@ -14,31 +14,35 @@ a module or source file without cluttering up the global namespace.
 
 ## Usage
 
-    private: name { code-block }
+```
+private: name { code-block }
+```
 
 ## Examples
 
-    # The following cannot be entered via the command line. You need to write
-    # it to a file and execute it from there.
-    
-    private hw {
-        out "Hello, World!"
-    }
-    
-    function tom {
-        hw
-        out "My name is Tom."
-    }
-    
-    function dick {
-        hw
-        out "My name is Dick."
-    }
-    
-    function harry {
-        hw
-        out "My name is Harry."
-    }
+```
+# The following cannot be entered via the command line. You need to write
+# it to a file and execute it from there.
+
+private hw {
+    out "Hello, World!"
+}
+
+function tom {
+    hw
+    out "My name is Tom."
+}
+
+function dick {
+    hw
+    out "My name is Dick."
+}
+
+function harry {
+    hw
+    out "My name is Harry."
+}
+```
 
 ## Detail
 

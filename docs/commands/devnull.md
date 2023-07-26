@@ -9,18 +9,24 @@ UNIX /dev/null device.
 
 ## Usage
 
-    <stdin> -> null
+```
+<stdin> -> null
+```
 
 ## Examples
 
-    » out: "Hello, world!" -> null
+```
+» out: "Hello, world!" -> null
+```
 
 ## Detail
 
 While this method does exist, a more idiomatic way to suppress STDOUT is to
 use the named pipe property rather than piping to null:
 
-    » out: <null> "Hello, world!"
+```
+» out: <null> "Hello, world!"
+```
 
 ## Synonyms
 

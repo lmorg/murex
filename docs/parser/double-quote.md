@@ -13,19 +13,23 @@ part of a command name.
 
 ## Examples
 
-    » set: example="World!"
-    
-    » out: "Hello $example"
-    Hello World!
+```
+» set: example="World!"
+
+» out: "Hello $example"
+Hello World!
+```
 
 ## Detail
 
 Quotes can also work over multiple lines
 
-    » out: "foo
-    » bar"
-    foo
-    bar
+```
+» out: "foo
+» bar"
+foo
+bar
+```
 
 ## See Also
 
