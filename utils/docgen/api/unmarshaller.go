@@ -16,7 +16,7 @@ func parseSourceFile(path string, structure interface{}) {
 	}
 }
 
-func structuredMessage(message string, v interface{}) string {
+/*func structuredMessage(message string, v interface{}) string {
 	b, err := yaml.Marshal(v)
 	if err != nil {
 		panic(err.Error())
@@ -24,3 +24,4 @@ func structuredMessage(message string, v interface{}) string {
 
 	return message + "\n" + string(b)
 }
+*/

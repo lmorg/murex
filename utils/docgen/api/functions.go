@@ -33,7 +33,7 @@ var funcMap = template.FuncMap{
 // Takes: string (contents as read from YAML in a machine readable subset of markdown)
 // Returns: markdown contents cleaned up for printing
 func funcMarkdown(s string) string {
-	var (
+	/*var (
 		new          []rune
 		backtick     int
 		code         bool
@@ -61,7 +61,7 @@ func funcMarkdown(s string) string {
 			}
 
 		case '\r':
-			// strip carridge returns from output (even on Windows)
+			// strip carriage returns from output (even on Windows)
 
 		case '\n':
 			for i := 0; i < backtick; i++ {
@@ -91,8 +91,12 @@ func funcMarkdown(s string) string {
 		new = new[:len(new)-5]
 	}
 
-	s = strings.TrimSuffix(string(new), "\n")
-	return strings.TrimSuffix(s, "\r")
+
+	s = strings.TrimSuffix(string(new), "\n")*/
+
+	s = strings.ReplaceAll(s, "\r", "")
+	s = strings.TrimSuffix(s, "\n")
+	return s
 }
 
 /************
