@@ -1,4 +1,4 @@
-# `die` - Command Reference
+# `die`
 
 > Terminate murex with an exit number of 1
 
@@ -12,13 +12,15 @@ Terminate Murex with an exit number of 1.
 
 ## Examples
 
-    » die
+```
+» die
+```
 
 ## See Also
 
-* [`break`](../commands/break.md):
+- [`break`](./break.md):
   Terminate execution of a block within your processes scope
-* [`exit`](../commands/exit.md):
+- [`exit`](./exit.md):
   Exit murex
-* [`null`](../commands/devnull.md):
+- [`null`](./devnull.md):
   null function. Similar to /dev/null

@@ -1,4 +1,4 @@
-# `fid-killall` - Command Reference
+# `fid-killall`
 
 > Terminate _all_ running Murex functions
 
@@ -25,23 +25,23 @@ PID (process ID). You can obtain a FID from `fid-list`.
 
 ## See Also
 
-* [`bexists`](../commands/bexists.md):
+- [`bexists`](./bexists.md):
   Check which builtins exist
-* [`bg`](../commands/bg.md):
+- [`bg`](./bg.md):
   Run processes in the background
-* [`builtins`](../commands/runtime.md):
+- [`builtins`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`fexec` ](../commands/fexec.md):
+- [`fexec` ](./fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`fg`](../commands/fg.md):
+- [`fg`](./fg.md):
   Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
+- [`fid-kill`](./fid-kill.md):
   Terminate a running Murex function
-* [`fid-list`](../commands/fid-list.md):
+- [`fid-list`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
+- [`jobs`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+- [`murex-update-exe-list`](./murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables

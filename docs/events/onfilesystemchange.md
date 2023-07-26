@@ -1,4 +1,4 @@
-# `onFileSystemChange` - events
+# `onFileSystemChange`
 
 > Add a filesystem watch
 
@@ -18,7 +18,7 @@ The following payload is passed to the function via STDIN:
             "Operation": ""
         }
     }
-    
+
 #### Name
 
 This is the name you specified when defining the event
@@ -32,11 +32,11 @@ The path of the file that has triggered the event
 This is the filesystem operation that triggered the event. The following
 strings could be present in the **Operation** field:
 
-* `create`: filesystem object created
-* `remove`: filesystem object deleted
-* `write`:  filesystem object has been written to
-* `rename`: filesystem object has been renamed
-* `chmod`:  filesystem object has had its POSIX permissions updated
+- `create`: filesystem object created
+- `remove`: filesystem object deleted
+- `write`: filesystem object has been written to
+- `rename`: filesystem object has been renamed
+- `chmod`: filesystem object has had its POSIX permissions updated
 
 Sometimes you might see more than one operation per interrupt. If that happens
 the operation will be pipe delimited. For example `create|chmod
@@ -44,13 +44,13 @@ the operation will be pipe delimited. For example `create|chmod
 ## Usage
 
     event: onFileSystemChange name=path { code block }
-    
+
     !event: onFileSystemChange name
 
 ## Valid Interrupts
 
-* `<path>`
-    Path of directory or file to watch for filesystem events
+- `<path>`
+  Path of directory or file to watch for filesystem events
 
 ## Examples
 
@@ -79,7 +79,7 @@ event to Linux, macOS and UNIX systems instead.
 
 ## See Also
 
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`event`](../commands/event.md):
+- [`event`](/commands/event.md):
   Event driven programming for shell scripts

@@ -1,4 +1,4 @@
-# `float` (floating point number) - Data-Type Reference
+# `float` (floating point number)
 
 > Floating point number (primitive)
 
@@ -12,18 +12,18 @@ numbers.
 
 ## Supported Hooks
 
-* `Marshal()`
-    Supported
-* `Unmarshal()`
-    Supported
+- `Marshal()`
+  Supported
+- `Unmarshal()`
+  Supported
 
 ## See Also
 
-* [`Marshal()` (type)](../apis/Marshal.md):
+- [`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
+- [`Unmarshal()` (type)](/apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [`int` ](../types/int.md):
+- [`int` ](/types/int.md):
   Whole number (primitive)
-* [`num` (number)](../types/num.md):
+- [`num` (number)](/types/num.md):
   Floating point number (primitive)

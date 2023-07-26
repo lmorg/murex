@@ -1,4 +1,4 @@
-# `onCommandCompletion` - events
+# `onCommandCompletion`
 
 > Trigger an event upon a command's completion
 
@@ -16,13 +16,13 @@ from the prompt can trigger this event.
 ## Usage
 
     event: onCommandCompletion name=command { code block }
-    
+
     !event: onCommandCompletion name
 
 ## Valid Interrupts
 
-* `<command>`
-    Name of command that triggers this event
+- `<command>`
+  Name of command that triggers this event
 
 ## Examples
 
@@ -34,7 +34,7 @@ the STDERR contains a message saying you are no root, then this event function
 will re-run `pacman` with `sudo`.
 
     event: onCommandCompletion sudo-pacman=pacman {
-        <stdin> -> set event
+        `<stdin>` -> set event
         read-named-pipe: $event.Interrupt.Stderr \
         -> regexp 'm/error: you cannot perform this operation unless you are root/' \
         -> if {
@@ -48,6 +48,7 @@ will re-run `pacman` with `sudo`.
 
 The following payload is passed to the function via STDIN:
 
+```
     {
         "Name": "",
         "Interrupt": {
@@ -58,7 +59,8 @@ The following payload is passed to the function via STDIN:
             "ExitNum": 0
         }
     }
-    
+```
+
 #### Name
 
 This is the name you specified when defining the event.
@@ -78,9 +80,9 @@ from the command which executed prior to this event.
 
 You can read this with `read-named-pipe`. eg
 
-    » <stdin> -> set: event
+    » `<stdin>` -> set: event
     » read-named-pipe: $event.Interrupt.Stdout -> ...
-    
+
 #### Stderr
 
 This is the name of the Murex named pipe which contains a copy of the STDERR
@@ -88,9 +90,9 @@ from the command which executed prior to this event.
 
 You can read this with `read-named-pipe`. eg
 
-    » <stdin> -> set: event
+    » `<stdin>` -> set: event
     » read-named-pipe: $event.Interrupt.Stderr -> ...
-    
+
 #### ExitNum
 
 This is the exit number returned from the executed command.
@@ -103,23 +105,23 @@ prompt itself and three extra lines for the hint text.
 
 ## See Also
 
-* [Murex Named Pipes](../user-guide/namedpipes.md):
+- [Murex Named Pipes](/user-guide/namedpipes.md):
   A detailed breakdown of named pipes in Murex
-* [`<stdin>` ](../commands/stdin.md):
+- [`<stdin>` ](/commands/stdin.md):
   Read the STDIN belonging to the parent code block
-* [`alias`](../commands/alias.md):
+- [`alias`](/commands/alias.md):
   Create an alias for a command
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`event`](../commands/event.md):
+- [`event`](/commands/event.md):
   Event driven programming for shell scripts
-* [`function`](../commands/function.md):
+- [`function`](/commands/function.md):
   Define a function block
-* [`if`](../commands/if.md):
+- [`if`](/commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`onPrompt`](../events/onprompt.md):
+- [`onPrompt`](./onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [`regexp`](../commands/regexp.md):
+- [`regexp`](/commands/regexp.md):
   Regexp tools for arrays / lists of strings
-* [read-named-pipe](../commands/namedpipe.md):
+- [read-named-pipe](/commands/namedpipe.md):
   Reads from a Murex named pipe

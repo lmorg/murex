@@ -1,4 +1,4 @@
-# `return` - Command Reference
+# `return`
 
 > Exits current function scope
 
@@ -25,12 +25,12 @@ as a parameter and you can specify the exit number rather than defaulting to 0.
     }
     example
     exitnum
-    
+
 Running the above code would output:
 
     foo
     13
-    
+
 **Returning withing an exit number:**
 
 If we were to run the same code as above but with `return` written without any
@@ -48,17 +48,17 @@ was passed).
 
 ## See Also
 
-* [`break`](../commands/break.md):
+- [`break`](./break.md):
   Terminate execution of a block within your processes scope
-* [`continue`](../commands/continue.md):
+- [`continue`](./continue.md):
   Terminate process of a block within a caller function
-* [`exit`](../commands/exit.md):
+- [`exit`](./exit.md):
   Exit murex
-* [`exitnum`](../commands/exitnum.md):
+- [`exitnum`](./exitnum.md):
   Output the exit number of the previous process
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block

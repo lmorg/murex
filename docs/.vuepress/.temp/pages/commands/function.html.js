@@ -1,0 +1,14 @@
+export const data = JSON.parse("{\"key\":\"v-667cf6f3\",\"path\":\"/commands/function.html\",\"title\":\"function\",\"lang\":\"en-US\",\"frontmatter\":{\"description\":\"Define a function block Description function defines a block of code as a function Usage Define a function: function: name { code-block } Define a function with variable names d...\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://vuepress-theme-hope-docs-demo.netlify.app/commands/function.html\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"function\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"Define a function block Description function defines a block of code as a function Usage Define a function: function: name { code-block } Define a function with variable names d...\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"en-US\"}],[\"meta\",{\"property\":\"article:author\",\"content\":\"Laurence Morgan\"}],[\"script\",{\"type\":\"application/ld+json\"},\"{\\\"@context\\\":\\\"https://schema.org\\\",\\\"@type\\\":\\\"Article\\\",\\\"headline\\\":\\\"function\\\",\\\"image\\\":[\\\"\\\"],\\\"dateModified\\\":null,\\\"author\\\":[{\\\"@type\\\":\\\"Person\\\",\\\"name\\\":\\\"Laurence Morgan\\\",\\\"url\\\":\\\"https://github.com/lmorg\\\"}]}\"]]},\"headers\":[{\"level\":2,\"title\":\"Description\",\"slug\":\"description\",\"link\":\"#description\",\"children\":[]},{\"level\":2,\"title\":\"Usage\",\"slug\":\"usage\",\"link\":\"#usage\",\"children\":[]},{\"level\":2,\"title\":\"Examples\",\"slug\":\"examples\",\"link\":\"#examples\",\"children\":[]},{\"level\":2,\"title\":\"Detail\",\"slug\":\"detail\",\"link\":\"#detail\",\"children\":[{\"level\":3,\"title\":\"Allowed characters\",\"slug\":\"allowed-characters\",\"link\":\"#allowed-characters\",\"children\":[]},{\"level\":3,\"title\":\"Undefining a function\",\"slug\":\"undefining-a-function\",\"link\":\"#undefining-a-function\",\"children\":[]},{\"level\":3,\"title\":\"Using parameterized variable names\",\"slug\":\"using-parameterized-variable-names\",\"link\":\"#using-parameterized-variable-names\",\"children\":[]},{\"level\":3,\"title\":\"Order of precedence\",\"slug\":\"order-of-precedence\",\"link\":\"#order-of-precedence\",\"children\":[]}]},{\"level\":2,\"title\":\"Synonyms\",\"slug\":\"synonyms\",\"link\":\"#synonyms\",\"children\":[]},{\"level\":2,\"title\":\"See Also\",\"slug\":\"see-also\",\"link\":\"#see-also\",\"children\":[]}],\"readingTime\":{\"minutes\":3.93,\"words\":1179},\"filePathRelative\":\"commands/function.md\",\"autoDesc\":true,\"excerpt\":\"\"}")
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

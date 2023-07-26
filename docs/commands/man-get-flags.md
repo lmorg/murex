@@ -1,6 +1,6 @@
-# `man-get-flags`  - Command Reference
+# `man-get-flags`
 
-> Parses man page files for command line flags 
+> Parses man page files for command line flags
 
 ## Description
 
@@ -19,9 +19,9 @@ page for anything that looks like a flag (ie no descriptions or other detail).
 
 ## Usage
 
-    <stdin> -> man-get-flags [--descriptions] -> <stdout>
-    
-    man-get-flags command [--descriptions] -> <stdout>
+    `<stdin>` -> man-get-flags [--descriptions] -> `<stdout>`
+
+    man-get-flags command [--descriptions] -> `<stdout>`
 
 ## Examples
 
@@ -33,10 +33,10 @@ page for anything that looks like a flag (ie no descriptions or other detail).
 
 ## Flags
 
-* `--descriptions`
-    return a map of flags with their described usage
-* `-d`
-    shorthand for `--descriptions
+- `--descriptions`
+  return a map of flags with their described usage
+- `-d`
+  shorthand for `--descriptions
 
 ## Detail
 
@@ -50,9 +50,9 @@ requirement is that flags are hyphen prefixed, eg `--flag`.
 
 ## See Also
 
-* [`man-summary`](../commands/man-summary.md):
+- [`man-summary`](./man-summary.md):
   Outputs a man page summary of a command
-* [`murex-docs`](../commands/murex-docs.md):
+- [`murex-docs`](./murex-docs.md):
   Displays the man pages for Murex builtins
-* [`summary` ](../commands/summary.md):
+- [`summary` ](./summary.md):
   Defines a summary help text for a command

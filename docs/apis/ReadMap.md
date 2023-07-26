@@ -1,4 +1,4 @@
-# `ReadMap()` (type) - API Reference
+# `ReadMap()` (type)
 
 > Treat data type as a key/value structure and read its contents
 
@@ -60,13 +60,13 @@ might follow in a future release of Murex.
 
 ## See Also
 
-* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+- [apis/`ReadArray()` (type)](/apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+- [apis/`ReadArrayWithType()` (type)](/apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [apis/`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [apis/`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+- [apis/`WriteArray()` (type)](/apis/WriteArray.md):
   Write a data type, one array element at a time

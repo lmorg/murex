@@ -6,25 +6,25 @@
 
 Unlike bash, Murex also supports date ranges:
 
-```  
+```
 » a: [25-dec-2020..05-jan-2021]
 » a: [..25-dec-2020]
 » a: [25-dec-2020..]
 ```
 
-Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarray.
+Please refer to [a (mkarray)](/commands/a.md) for more detailed usage of mkarray.
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
+    a: [start..end] -> `<stdout>`
+    a: [start..end,start..end] -> `<stdout>`
+    a: [start..end][start..end] -> `<stdout>`
+
 All usages also work with `ja` and `ta` as well, eg:
 
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
-    
+    ja: [start..end] -> `<stdout>`
+    ta: data-type [start..end] -> `<stdout>`
+
 You can also inline arrays with the `%[]` syntax, eg:
 
     %[start..end]
@@ -40,7 +40,7 @@ You can also inline arrays with the `%[]` syntax, eg:
     30-Dec-2020
     31-Dec-2020
     01-Jan-2021
-    
+
     » a: [31-Dec..25-Dec]
     31-Dec
     30-Dec
@@ -66,17 +66,17 @@ For example, if today was 25th December 2020:
     23-December-2020
     24-December-2020
     25-December-2020
-    
+
     » a: [..23-December-2020]
     25-December-2020
     24-December-2020
     23-December-2020
-    
+
 This can lead so some fun like countdowns:
 
     » out: "${a: [..01-January-2021] -> len -> =-1} days until the new year!"
     7 days until the new year!
-    
+
 ### Case Sensitivity
 
 Date ranges are case aware. If the ranges are uppercase then the return will be
@@ -89,21 +89,21 @@ will be in title case.
     01-jan
     02-jan
     03-jan
-    
+
 #### Title Case
 
     » a: [01-Jan..03-Jan]
     01-Jan
     02-Jan
     03-Jan
-    
+
 #### UPPER CASE
 
     » a: [01-JAN..03-JAN]
     01-JAN
     02-JAN
     03-JAN
-    
+
 ### Supported Date Formatting
 
 Below is the source for the supported formatting options for date ranges:
@@ -169,23 +169,23 @@ If you do need any other formatting options not supported there, you can use
 
 ## See Also
 
-* [Special Ranges](../mkarray/special.md):
+- [Special Ranges](./special.md):
   Create arrays from ranges of dictionary terms (eg weekdays, months, seasons, etc)
-* [`[[` (element)](../commands/element.md):
+- [`[[` (element)](/commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [`[` (range) ](../commands/range.md):
+- [`[` (range) ](/commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`a` (mkarray)](../commands/a.md):
+- [`a` (mkarray)](/commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`count`](../commands/count.md):
+- [`count`](/commands/count.md):
   Count items in a map, list or array
-* [`datetime` ](../commands/datetime.md):
+- [`datetime` ](/commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](/commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
+- [`mtac`](/commands/mtac.md):
   Reverse the order of an array
-* [`ta` (mkarray)](../commands/ta.md):
+- [`ta` (mkarray)](/commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

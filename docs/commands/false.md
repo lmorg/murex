@@ -1,4 +1,4 @@
-# `false` - Command Reference
+# `false`
 
 > Returns a `false` value
 
@@ -8,7 +8,7 @@ Returns a `false` value.
 
 ## Usage
 
-    false -> <stdout>
+    false -> `<stdout>`
 
 ## Examples
 
@@ -16,25 +16,25 @@ By default, `false` also outputs the term "false":
 
     » false
     false
-    
+
 However you can suppress that with the silent flag:
 
     » false -s
 
 ## Flags
 
-* `-s`
-    silent - don't output the term "false"
+- `-s`
+  silent - don't output the term "false"
 
 ## See Also
 
-* [`!` (not)](../commands/not.md):
+- [`!` (not)](./not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [`and`](../commands/and.md):
+- [`and`](./and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [`if`](../commands/if.md):
+- [`if`](./if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`or`](../commands/or.md):
+- [`or`](./or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`true`](../commands/true.md):
+- [`true`](./true.md):
   Returns a `true` value

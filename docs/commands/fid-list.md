@@ -1,4 +1,4 @@
-# `fid-list` - Command Reference
+# `fid-list`
 
 > Lists all running functions within the current Murex session
 
@@ -15,27 +15,27 @@ Multiple flags cannot be used with each other.
 
 ## Usage
 
-    fid-list [ flag ] -> <stdout>
-    
+    fid-list [ flag ] -> `<stdout>`
+
 `jobs` is an alias for `fid-list: --jobs`:
-    jobs -> <stdout>
+jobs -> `<stdout>`
 
 ## Flags
 
-* `--background`
-    Returns a `json` map of background jobs
-* `--csv`
-    Output table in a `csv` format
-* `--help`
-    Outputs a list of parameters and a descriptions
-* `--jobs`
-    Show background and stopped jobs
-* `--jsonl`
-    Output table in a jsonlines (`jsonl`) format (defaulted to when piped)
-* `--stopped`
-    Returns a `json` map of stopped jobs
-* `--tty`
-    Force default TTY output even when piped
+- `--background`
+  Returns a `json` map of background jobs
+- `--csv`
+  Output table in a `csv` format
+- `--help`
+  Outputs a list of parameters and a descriptions
+- `--jobs`
+  Show background and stopped jobs
+- `--jsonl`
+  Output table in a jsonlines (`jsonl`) format (defaulted to when piped)
+- `--stopped`
+  Returns a `json` map of stopped jobs
+- `--tty`
+  Force default TTY output even when piped
 
 ## Detail
 
@@ -46,43 +46,42 @@ This is where `fid-list` comes into play. It is used to view all the functions
 and processes that are managed by the current Murex session. That would
 include:
 
-* any aliases within Murex
-* public and private Murex functions
-* builtins (eg `fid-list` is a builtin command)
-* any external processes that were launched from within this shell session
-* any background functions or processes of any of the above
+- any aliases within Murex
+- public and private Murex functions
+- builtins (eg `fid-list` is a builtin command)
+- any external processes that were launched from within this shell session
+- any background functions or processes of any of the above
 
 ## Synonyms
 
-* `fid-list`
-* `jobs`
-
+- `fid-list`
+- `jobs`
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+- [`*` (generic) ](/types/generic.md):
   generic (primitive)
-* [`bexists`](../commands/bexists.md):
+- [`bexists`](./bexists.md):
   Check which builtins exist
-* [`bg`](../commands/bg.md):
+- [`bg`](./bg.md):
   Run processes in the background
-* [`builtins`](../commands/runtime.md):
+- [`builtins`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`csv` ](../types/csv.md):
+- [`csv` ](/types/csv.md):
   CSV files (and other character delimited tables)
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`fexec` ](../commands/fexec.md):
+- [`fexec` ](./fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`fg`](../commands/fg.md):
+- [`fg`](./fg.md):
   Sends a background process into the foreground
-* [`fid-kill`](../commands/fid-kill.md):
+- [`fid-kill`](./fid-kill.md):
   Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
+- [`fid-killall`](./fid-killall.md):
   Terminate _all_ running Murex functions
-* [`jobs`](../commands/fid-list.md):
+- [`jobs`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`jsonl` ](../types/jsonl.md):
+- [`jsonl` ](/types/jsonl.md):
   JSON Lines
-* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+- [`murex-update-exe-list`](./murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables

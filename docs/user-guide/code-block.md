@@ -1,18 +1,20 @@
-# Code Block Parsing - User Guide
+# Code Block Parsing
 
 > Overview of how code blocks are parsed
 
 The murex parser creates ASTs ahead of interpreting each block of code. However
 the AST is only generated for a block at a time. Take this sample code:
 
-    function example {
-        # An example function
-        if { $ENVVAR } then {
-            out: 'foobar'
-        }
-        out: 'Finished!'
+```
+function example {
+    # An example function
+    if { $ENVVAR } then {
+        out: 'foobar'
     }
-    
+    out: 'Finished!'
+}
+```
+
 When that code is run `function` is executed with the parameters `example` and
 `{ ... }` but the contents of `{ ... }` isn't converted into ASTs until someone
 calls `example` elsewhere in the shell.
@@ -21,23 +23,25 @@ When `example` (the Murex function defined above) is executed the parser will
 then generate AST of the commands inside said function but not any blocks that
 are associated with those functions. eg the AST would look something like this:
 
-    [
-        {
-            "Command": "if",
-            "Parameters": [
-                "{ $ENVVAR }",
-                "then",
-                "{\n        out: 'foobar'\n    }"
-            ]
-        },
-        {
-            "Command": "out",
-            "Parameters": [
-                "Finished!"
-            ]
-        }
-    ]
-    
+```
+[
+    {
+        "Command": "if",
+        "Parameters": [
+            "{ $ENVVAR }",
+            "then",
+            "{\n        out: 'foobar'\n    }"
+        ]
+    },
+    {
+        "Command": "out",
+        "Parameters": [
+            "Finished!"
+        ]
+    }
+]
+```
+
 > Please note this is a mock JSON structure rather than a representation of the
 > actual AST that would be created. Parameters are stored differently to allow
 > infixing of variables; and there also needs to be data shared about how
@@ -58,11 +62,11 @@ brace block might be JSON).
 
 ## See Also
 
-* [ANSI Constants](../user-guide/ansi.md):
+- [ANSI Constants](/user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+- [Curly Brace (`{`, `}`) Tokens](/parser/curly-brace.md):
   Initiates or terminates a code block
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Schedulers](../user-guide/schedulers.md):
+- [Schedulers](/user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex

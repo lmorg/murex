@@ -1,4 +1,4 @@
-# `*` (generic)  - Data-Type Reference
+# `*` (generic)
 
 > generic (primitive)
 
@@ -9,44 +9,44 @@ executables.
 
 ## Supported Hooks
 
-* `Marshal()`
-    Supported. Tables columns are aligned
-* `ReadArray()`
-    Treats each new line as a new array element
-* `ReadArrayWithType()`
-    Treats each new line as a new array element, each element is `*` 
-* `ReadIndex()`
-    Indexes treated as table coordinates
-* `ReadMap()`
-    Works against tables such as the output from `ps -fe` 
-* `ReadNotIndex()`
-    Indexes treated as table coordinates
-* `Unmarshal()`
-    Supported
-* `WriteArray()`
-    Writes a new line per array element - tabs are treated as columns
+- `Marshal()`
+  Supported. Tables columns are aligned
+- `ReadArray()`
+  Treats each new line as a new array element
+- `ReadArrayWithType()`
+  Treats each new line as a new array element, each element is `*`
+- `ReadIndex()`
+  Indexes treated as table coordinates
+- `ReadMap()`
+  Works against tables such as the output from `ps -fe`
+- `ReadNotIndex()`
+  Indexes treated as table coordinates
+- `Unmarshal()`
+  Supported
+- `WriteArray()`
+  Writes a new line per array element - tabs are treated as columns
 
 ## See Also
 
-* [`Marshal()` (type)](../apis/Marshal.md):
+- [`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
+- [`Unmarshal()` (type)](/apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [`[[` (element)](../commands/element.md):
+- [`[[` (element)](/commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [`cast`](../commands/cast.md):
+- [`cast`](/commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`format`](../commands/format.md):
+- [`format`](/commands/format.md):
   Reformat one data-type into another data-type
-* [`int` ](../types/int.md):
+- [`int` ](/types/int.md):
   Whole number (primitive)
-* [`num` (number)](../types/num.md):
+- [`num` (number)](/types/num.md):
   Floating point number (primitive)
-* [`open`](../commands/open.md):
+- [`open`](/commands/open.md):
   Open a file with a preferred handler
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](/commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`str` (string) ](../types/str.md):
+- [`str` (string) ](/types/str.md):
   string (primitive)

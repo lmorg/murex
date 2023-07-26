@@ -1,4 +1,4 @@
-# Generic Pipe (`=>`) Token - Parser Reference
+# Generic Pipe (`=>`) Token
 
 > Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
 
@@ -15,22 +15,22 @@ example they might expect arrays as lists rather than JSON objects).
     Mon
     Tue
     Wed
-    
+
 The above is literally the same as typing:
 
     » ja: [Mon..Wed] -> format generic -> cat
     Mon
     Tue
     Wed
-    
+
 To demonstrate how the previous pipeline might look without a formatted pipe:
 
     » ja: [Mon..Wed] -> cat
     ["Mon","Tue","Wed"]
-    
+
     » ja: [Mon..Wed] | cat
     ["Mon","Tue","Wed"]
-    
+
     » ja: [Mon..Wed]
     [
         "Mon",
@@ -40,17 +40,17 @@ To demonstrate how the previous pipeline might look without a formatted pipe:
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](/parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+- [POSIX Pipe (`|`) Token](/parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+- [STDERR Pipe (`?`) Token](/parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+- [`<>` / `read-named-pipe`](/commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`format`](../commands/format.md):
+- [`format`](/commands/format.md):
   Reformat one data-type into another data-type
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](/commands/ja.md):
   A sophisticated yet simply way to build a JSON array

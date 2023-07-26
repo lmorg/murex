@@ -1,4 +1,4 @@
-# `onPrompt` - events
+# `onPrompt`
 
 > Events triggered by changes in state of the interactive shell
 
@@ -11,19 +11,19 @@ section below.
 ## Usage
 
     event: onPrompt name=[before|after|abort|eof] { code block }
-    
+
     !event: onPrompt [before_|after_|abort_|eof_]name
 
 ## Valid Interrupts
 
-* `abort`
-    Triggered if `ctrl`+`c` pressed while in the interactive prompt
-* `after`
-    Triggered after user has written a command into the interactive prompt and then hit `enter
-* `before`
-    Triggered before readline displays the interactive prompt
-* `eof`
-    Triggered if `ctrl`+`d` pressed while in the interactive prompt
+- `abort`
+  Triggered if `ctrl`+`c` pressed while in the interactive prompt
+- `after`
+  Triggered after user has written a command into the interactive prompt and then hit `enter
+- `before`
+  Triggered before readline displays the interactive prompt
+- `eof`
+  Triggered if `ctrl`+`d` pressed while in the interactive prompt
 
 ## Examples
 
@@ -32,14 +32,14 @@ section below.
     event: onPrompt example=before {
         out: "This will appear before your command prompt"
     }
-    
+
 **Interrupt 'after':**
 
     event: onPrompt example=after {
         out: "This will appear after you've hit [enter] on your command prompt"
         out: "...but before the command executes"
     }
-    
+
 **Echo the command line:**
 
     » event: onPrompt echo=after { -> set event; out $event.Interrupt.CmdLine }
@@ -61,7 +61,7 @@ The following payload is passed to the function via STDIN:
             "CmdLine": ""
         }
     }
-    
+
 #### Name
 
 This is the **namespaced** name -- ie the name and operation.
@@ -98,7 +98,7 @@ of execution matters, then you can prefix the names with a number, eg `10_jump`
 
 The `onPrompt` event differs a little from other events when it comes to the
 namespacing of interrupts. Typically you cannot have multiple interrupts with
-the same name for an event. However with `onPrompt` their names are further 
+the same name for an event. However with `onPrompt` their names are further
 namespaced by the interrupt name. In layman's terms this means `example=before`
 wouldn't overwrite `example=after`.
 
@@ -108,15 +108,14 @@ that has elements triggered from different interrupts).
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+- [Murex's Interactive Shell](/user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
-* [Terminal Hotkeys](../user-guide/terminal-keys.md):
+- [Terminal Hotkeys](/user-guide/terminal-keys.md):
   A list of all the terminal hotkeys and their uses
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`event`](../commands/event.md):
+- [`event`](/commands/event.md):
   Event driven programming for shell scripts
-* [`onCommandCompletion`](../events/oncommandcompletion.md):
+- [`onCommandCompletion`](./oncommandcompletion.md):
   Trigger an event upon a command's completion
-* [onkeypress](../events/onkeypress.md):
-  
+- [onkeypress](./onkeypress.md):

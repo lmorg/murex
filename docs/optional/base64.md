@@ -1,4 +1,4 @@
-# `base64`  - Optional Command Reference
+# `base64`
 
 > Encode or decode a base64 string
 
@@ -8,21 +8,27 @@ An optional builtin to encode or decode a base64 string.
 
 ## Usage
 
-    <stdin> -> base64 -> <stdout>
-    
-    <stdin> -> !base64 -> <stdout>
+```
+<stdin> -> base64 -> <stdout>
+
+<stdin> -> !base64 -> <stdout>
+```
 
 ## Examples
 
 Encode base64 string
 
-    » out: "Hello, World!" -> base64
-    SGVsbG8sIFdvcmxkIQo=
-    
+```
+» out: "Hello, World!" -> base64
+SGVsbG8sIFdvcmxkIQo=
+```
+
 Decode base64 string
 
-    » out: "SGVsbG8sIFdvcmxkIQo=" -> !base64
-    Hello, World!
+```
+» out: "SGVsbG8sIFdvcmxkIQo=" -> !base64
+Hello, World!
+```
 
 ## Detail
 
@@ -32,30 +38,29 @@ or similar platforms then you will need to launch with the `exec` builtin:
 
     » out: "Hello, World!" -> exec: base64
     SGVsbG8sIFdvcmxkIQo=
-    
+
     » out: "SGVsbG8sIFdvcmxkIQo=" -> exec: base64 -d
     Hello, World!
-    
+
 However for simple tasks this builtin will out perform external tools because
 it doesn't require the OS fork processes.
 
 ## Synonyms
 
-* `base64`
-* `!base64`
-
+- `base64`
+- `!base64`
 
 ## See Also
 
-* [`!bz2` ](../optional/bz2.md):
+- [`!bz2` ](./bz2.md):
   Decompress a bz2 file
-* [`escape`](../commands/escape.md):
-  Escape or unescape input 
-* [`esccli`](../commands/esccli.md):
+- [`escape`](/commands/escape.md):
+  Escape or unescape input
+- [`esccli`](/commands/esccli.md):
   Escapes an array so output is valid shell code
-* [`eschtml`](../commands/eschtml.md):
+- [`eschtml`](/commands/eschtml.md):
   Encode or decodes text for HTML
-* [`escurl`](../commands/escurl.md):
+- [`escurl`](/commands/escurl.md):
   Encode or decodes text for the URL
-* [`gz` ](../optional/gz.md):
+- [`gz` ](./gz.md):
   Compress or decompress a gzip file

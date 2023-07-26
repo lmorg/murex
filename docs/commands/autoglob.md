@@ -1,4 +1,4 @@
-# `@g` (autoglob)  - Command Reference
+# `@g` (autoglob)
 
 > Command prefix to expand globbing (deprecated)
 
@@ -18,7 +18,9 @@ enable Bash-like globbing.
 
 ## Examples
 
-    @g echo *
+```
+@g echo *
+```
 
 ## Detail
 
@@ -27,19 +29,19 @@ the interactive shell without having to prefix the command with `@g` by
 enabling the following `config` option:
 
     config: set shell auto-glob true
-    
+
 It is enabled by default on from version 3.x onwards (and renamed to
 `expand-glob`)
 
 ## See Also
 
-* [Murex Profile Files](../user-guide/profile.md):
+- [Murex Profile Files](/user-guide/profile.md):
   A breakdown of the different files loaded on start up
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`f`](../commands/f.md):
+- [`f`](./f.md):
   Lists or filters file system objects (eg files)
-* [`g`](../commands/g.md):
+- [`g`](./g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [`rx`](../commands/rx.md):
+- [`rx`](./rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)

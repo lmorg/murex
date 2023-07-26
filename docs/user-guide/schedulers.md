@@ -1,4 +1,4 @@
-# Schedulers - User Guide
+# Schedulers
 
 > Overview of the different schedulers (or 'run modes') in Murex
 
@@ -30,23 +30,23 @@ the pipeline (eg `start -> middle -> end`), or anywhere else.
 Like with `try`, if stderr is greater than stdout (per bytes written) **OR**
 the exit status is non-zero then the scheduler exits that entire block. Unlike
 with `try`, this check happens on every command rather than the last command in
-the pipeline. 
+the pipeline.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](/parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
+- [Generic Pipe (`=>`) Token](/parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+- [POSIX Pipe (`|`) Token](/parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+- [STDERR Pipe (`?`) Token](/parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`runmode`](../commands/runmode.md):
+- [`runmode`](/commands/runmode.md):
   Alter the scheduler's behaviour at higher scoping level
-* [`try`](../commands/try.md):
+- [`try`](/commands/try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](/commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

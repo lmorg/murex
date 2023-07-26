@@ -1,10 +1,8 @@
-# `lang.MarshalData()` (system API) - API Reference
+# `lang.MarshalData()` (system API)
 
 > Converts structured memory into a Murex data-type (eg for stdio)
 
 ## Description
-
-
 
 ## Usage
 
@@ -71,15 +69,15 @@ func MarshalData(p *Process, dataType string, data interface{}) (b []byte, err e
 
 ## Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p`
 2. `string`: Murex data type
 3. `interface{}`: data you wish to marshal
 
 ## See Also
 
-* [apis/`Marshal()` (type)](../apis/Marshal.md):
+- [apis/`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`Unmarshal()` (type)](../apis/Unmarshal.md):
+- [apis/`Unmarshal()` (type)](/apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
+- [apis/`lang.UnmarshalData()` (system API)](/apis/lang.UnmarshalData.md):
   Converts a Murex data-type into structured memory

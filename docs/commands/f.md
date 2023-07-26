@@ -1,4 +1,4 @@
-# `f` - Command Reference
+# `f`
 
 > Lists or filters file system objects (eg files)
 
@@ -18,80 +18,80 @@ Output is a JSON array as this format preserves whitespace in file names.
 
 ## Usage
 
-    f: options -> <stdout>
-    
-    <stdin> -> f: options -> <stdout>
+    f: options -> `<stdout>`
+
+    `<stdin>` -> f: options -> `<stdout>`
 
 ## Examples
 
 Return only directories:
 
     f: +d
-    
+
 Return file and directories but exclude symlinks:
 
     f: +fd -s
-    
+
 Filter out files in a list (eg created by `g`) using conditions set by `f`:
 
     g: '*.go' -> f: +f
-    
+
     rx: '\.(txt|md)' -> f: +fw
 
 ## Flags
 
-* `+`
-    include files (pair this with any other flag apart from `-`)
-* `-`
-    exclude files (pair this with any other flag apart from `+`)
-* `?`
-    deprecated -- use `i` instead
-* `D`
-    regular directories
-* `E`
-    other read permissions
-* `F`
-    regular files (exc symlinks, devices, sockets, named pipes, etc)
-* `Q`
-    other write permissions
-* `R`
-    user read permissions
-* `S`
-    sockets
-* `W`
-    user write permissions
-* `X`
-    user execute permissions
-* `Z`
-    other execute permissions
-* `b`
-    block devices
-* `c`
-    character devices
-* `d`
-    all directories (inc symlinks)
-* `e`
-    group read permissions
-* `f`
-    all files (inc symlinks, devices, sockets, name pipes, etc)
-* `i`
-    irregular files (nothing else is known about these files)
-* `l`
-    symlinks
-* `p`
-    POSIX named pipes (FIFO)
-* `q`
-    group write permissions
-* `r`
-    read permissions (user, group, or other)
-* `s`
-    symlinks
-* `w`
-    write permissions (user, group, or other)
-* `x`
-    execute permissions (user, group, or other)
-* `z`
-    group execute permissions
+- `+`
+  include files (pair this with any other flag apart from `-`)
+- `-`
+  exclude files (pair this with any other flag apart from `+`)
+- `?`
+  deprecated -- use `i` instead
+- `D`
+  regular directories
+- `E`
+  other read permissions
+- `F`
+  regular files (exc symlinks, devices, sockets, named pipes, etc)
+- `Q`
+  other write permissions
+- `R`
+  user read permissions
+- `S`
+  sockets
+- `W`
+  user write permissions
+- `X`
+  user execute permissions
+- `Z`
+  other execute permissions
+- `b`
+  block devices
+- `c`
+  character devices
+- `d`
+  all directories (inc symlinks)
+- `e`
+  group read permissions
+- `f`
+  all files (inc symlinks, devices, sockets, name pipes, etc)
+- `i`
+  irregular files (nothing else is known about these files)
+- `l`
+  symlinks
+- `p`
+  POSIX named pipes (FIFO)
+- `q`
+  group write permissions
+- `r`
+  read permissions (user, group, or other)
+- `s`
+  symlinks
+- `w`
+  write permissions (user, group, or other)
+- `x`
+  execute permissions (user, group, or other)
+- `z`
+  group execute permissions
 
 ## Detail
 
@@ -100,9 +100,9 @@ any matches from the `+` flags.
 
 ## See Also
 
-* [`g`](../commands/g.md):
+- [`g`](./g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [`json` ](../types/json.md):
+- [`json` ](/types/json.md):
   JavaScript Object Notation (JSON)
-* [`rx`](../commands/rx.md):
+- [`rx`](./rx.md):
   Regexp pattern matching for file system objects (eg `.*\\.txt`)

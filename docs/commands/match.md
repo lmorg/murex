@@ -1,4 +1,4 @@
-# `match` - Command Reference
+# `match`
 
 > Match an exact value in an array
 
@@ -14,18 +14,18 @@ string and white space delimited. eg all three of the below are the same:
     match a\sb\sc
     match a b c
     match a    b    c
-    
+
 If you want to return everything except the search string then use `!match
 
 ## Usage
 
 Match every occurrence of search string
 
-    <stdin> -> match search string -> <stdout>
-    
+    `<stdin>` -> match search string -> `<stdout>`
+
 Match everything except search string
 
-    <stdin> -> !match search string -> <stdout>
+    `<stdin>` -> !match search string -> `<stdout>`
 
 ## Examples
 
@@ -35,7 +35,7 @@ Match **Wed**
     [
         "Wednesday"
     ]
-    
+
 Match everything except **Wed**
 
     » ja: [Monday..Friday] -> !match Wed
@@ -44,7 +44,7 @@ Match everything except **Wed**
         "Tuesday",
         "Thursday",
         "Friday"
-    ] 
+    ]
 
 ## Detail
 
@@ -54,38 +54,37 @@ same data-type.
 
 ## Synonyms
 
-* `match`
-* `!match`
-* `list.string`
-
+- `match`
+- `!match`
+- `list.string`
 
 ## See Also
 
-* [`2darray` ](../commands/2darray.md):
+- [`2darray` ](./2darray.md):
   Create a 2D JSON array from multiple input sources
-* [`a` (mkarray)](../commands/a.md):
+- [`a` (mkarray)](./a.md):
   A sophisticated yet simple way to build an array or list
-* [`append`](../commands/append.md):
+- [`append`](./append.md):
   Add data to the end of an array
-* [`count`](../commands/count.md):
+- [`count`](./count.md):
   Count items in a map, list or array
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](./ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
+- [`jsplit` ](./jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`map` ](../commands/map.md):
+- [`map` ](./map.md):
   Creates a map from two data sources
-* [`msort` ](../commands/msort.md):
+- [`msort` ](./msort.md):
   Sorts an array - data type agnostic
-* [`prefix`](../commands/prefix.md):
+- [`prefix`](./prefix.md):
   Prefix a string to every item in a list
-* [`prepend` ](../commands/prepend.md):
+- [`prepend` ](./prepend.md):
   Add data to the start of an array
-* [`pretty`](../commands/pretty.md):
+- [`pretty`](./pretty.md):
   Prettifies JSON to make it human readable
-* [`regexp`](../commands/regexp.md):
+- [`regexp`](./regexp.md):
   Regexp tools for arrays / lists of strings
-* [`suffix`](../commands/suffix.md):
+- [`suffix`](./suffix.md):
   Prefix a string to every item in a list
-* [`ta` (mkarray)](../commands/ta.md):
+- [`ta` (mkarray)](./ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

@@ -1,4 +1,4 @@
-# `tout` - Command Reference
+# `tout`
 
 > Print a string to the STDOUT and set it's data-type
 
@@ -9,7 +9,7 @@ output's data-type to the value of the first parameter.
 
 ## Usage
 
-    tout: data-type "string to write" -> <stdout>
+    tout: data-type "string to write" -> `<stdout>`
 
 ## Examples
 
@@ -27,17 +27,17 @@ Unlike `out`, `tout` does not append a carriage return / line feed.
 
 ## See Also
 
-* [ANSI Constants](../user-guide/ansi.md):
+- [ANSI Constants](/user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`(` (brace quote)](../commands/brace-quote.md):
+- [`(` (brace quote)](./brace-quote.md):
   Write a string to the STDOUT without new line
-* [`cast`](../commands/cast.md):
+- [`cast`](./cast.md):
   Alters the data type of the previous function without altering it's output
-* [`err`](../commands/err.md):
+- [`err`](./err.md):
   Print a line to the STDERR
-* [`format`](../commands/format.md):
+- [`format`](./format.md):
   Reformat one data-type into another data-type
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`pretty`](../commands/pretty.md):
+- [`pretty`](./pretty.md):
   Prettifies JSON to make it human readable

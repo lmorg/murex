@@ -1,4 +1,4 @@
-# `lang.IndexTemplateObject()` (template API) - API Reference
+# `lang.IndexTemplateObject()` (template API)
 
 > Returns element(s) from a data structure
 
@@ -11,8 +11,6 @@ It should only be called from `ReadIndex()` and `ReadNotIndex()` functions.
 This function ensures consistency with the index, `[`, builtin when used with
 different Murex data types. Thus making indexing a data type agnostic
 capability.
-
-
 
 ## Examples
 
@@ -369,26 +367,26 @@ func itoNot(p *Process, params []string, object *interface{}, marshaller func(in
 
 ## Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
-2. `[]string`: slice of parameters used in `[` / `![` 
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p`
+2. `[]string`: slice of parameters used in `[` / `![`
 3. `*interface{}`: a pointer to the data structure being indexed
 4. `func(interface{}) ([]byte, error)`: data type marshaller function
 
 ## See Also
 
-* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+- [apis/`ReadArray()` (type)](/apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+- [apis/`ReadArrayWithType()` (type)](/apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [apis/`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+- [apis/`ReadMap()` (type)](/apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [apis/`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+- [apis/`WriteArray()` (type)](/apis/WriteArray.md):
   Write a data type, one array element at a time
-* [commands/`[` (index)](../commands/index.md):
+- [commands/`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
+- [apis/`lang.IndexTemplateTable()` (template API)](/apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table

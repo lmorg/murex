@@ -1,30 +1,6 @@
-# Terminal Hotkeys - User Guide
+# Terminal Hotkeys
 
 > A list of all the terminal hotkeys and their uses
-
-<h2>Table of Contents</h2>
-<div id="toc">
-
-- [Command Prompt](#command-prompt)
-  - [Autocomplete](#autocomplete)
-  - [Fuzzy Find Autocomplete](#fuzzy-find-autocomplete)
-  - [Preview Box](#preview-box)
-  - [Search Shell History](#search-shell-history)
-  - [Line Editing](#line-editing)
-    - [Navigation](#navigation)
-    - [General Hotkeys](#general-hotkeys)
-  - [Vim Keys](#vim-keys)
-    - [Supported Keys](#supported-keys)
-    - [Full Screen Editing via `$EDITOR`](#full-screen-editing-via-editor)
-  - [Recalling Previous Words](#recalling-previous-words)
-- [Job Control](#job-control)
-- [Miscellaneous](#miscellaneous)
-  - [Cancel Prompt](#cancel-prompt)
-  - [End Of File](#end-of-file)
-  - [Alternative Cancel Key](#alternative-cancel-key)
-  - [Clear Screen](#clear-screen)
-
-</div>
 
 ## Command Prompt
 
@@ -41,19 +17,14 @@ of two formats:
 While the autocompletion suggestions are open, the following keys are assigned
 roles:
 
-* arrow keys (`left`, `right`, `up`, `down`): highlight different suggestions
-  
-* `tab`: highlight the next suggestion
-  
-* `shift`+`tab`: highlight the previous suggestion
-  
-* `enter` / `return`: this selects the highlighted autocompletion
-  
-* `esc`: closes the suggestions without selecting one
-  
-* `ctrl`+`f`: fuzzy find in the suggestions
+- arrow keys (`left`, `right`, `up`, `down`): highlight different suggestions
+- `tab`: highlight the next suggestion
+- `shift`+`tab`: highlight the previous suggestion
+- `enter` / `return`: this selects the highlighted autocompletion
+- `esc`: closes the suggestions without selecting one
+- `ctrl`+`f`: fuzzy find in the suggestions
 
-* `f1`: enable / disable preview box. This will hide your terminal output while
+- `f1`: enable / disable preview box. This will hide your terminal output while
   enabled. The preview box supports additional key bindings (see below)
 
 ### Fuzzy Find Autocomplete
@@ -69,35 +40,32 @@ By default the fuzzy finder will look for any item that includes _all_ of the
 search words. However the search behavior can be changed if the first search
 term is any of the following:
 
-* `or`: show results that match _any_ of the search terms. eg `or .md .txt`
+- `or`: show results that match _any_ of the search terms. eg `or .md .txt`
   will match both markdown and txt files (when finding files in completion
   suggestions).
 
-* `!`: only show suggestions that do not match any of the search terms. eg
+- `!`: only show suggestions that do not match any of the search terms. eg
   `! .md .txt` will match all files except markdown and txt files (when finding
   files in completion suggestions).
 
-* `g`: show only results that match a shell glob. eg `*.txt`. This mode is
+- `g`: show only results that match a shell glob. eg `*.txt`. This mode is
   automatically assumed if you include an abstricts in your search term.
 
-* `rx`: use a regexp pattern matcher instead of any fuzzy search. Expressions
+- `rx`: use a regexp pattern matcher instead of any fuzzy search. Expressions
   will be case insensitive and non-greedy by default.
 
 Aside from globbing matches, searching in fuzzy finder is not case sensitive.
 
 While the fuzzy finder is open, the following keys are assigned roles:
 
-* arrow keys (`left`, `right`, `up`, `down`): highlight different suggestions
- 
-* `tab`: highlight the next suggestion
-  
-* `shift`+`tab`: highlight the previous suggestion
-  
-* `enter` / `return`: this selects the highlighted autocompletion
-  
-* `esc`: cancel search
+- arrow keys (`left`, `right`, `up`, `down`): highlight different suggestions
 
-* `f1`: enable / disable preview box. This will hide your terminal output while
+- `tab`: highlight the next suggestion
+- `shift`+`tab`: highlight the previous suggestion
+- `enter` / `return`: this selects the highlighted autocompletion
+- `esc`: cancel search
+
+- `f1`: enable / disable preview box. This will hide your terminal output while
   enabled. The preview box supports additional key bindings (see below)
 
 ### Preview Box
@@ -111,18 +79,17 @@ However once you close it, that output will reappear.
 
 While the preview box is open, the following keys are assigned roles:
 
-* `f1`: closes the preview box
-  
-* `page up` scroll up the contents of the preview box, one page at a time
-* `ctrl`+`arrow up` scroll up the contents of the preview box, one page at a
+- `f1`: closes the preview box
+- `page up` scroll up the contents of the preview box, one page at a time
+- `ctrl`+`arrow up` scroll up the contents of the preview box, one page at a
   time (IBM keyboard layouts)
-* `option`+`arrow up` scroll up the contents of the preview box, one page at a
+- `option`+`arrow up` scroll up the contents of the preview box, one page at a
   time (Apple keyboard layouts)
 
-* `page down` scroll down the contents of the preview box, one page at a time
-* `ctrl`+`arrow down` scroll down the contents of the preview box, one page at
+- `page down` scroll down the contents of the preview box, one page at a time
+- `ctrl`+`arrow down` scroll down the contents of the preview box, one page at
   a time (IBM keyboard layouts)
-* `option`+`arrow down` scroll down the contents of the preview box, one page
+- `option`+`arrow down` scroll down the contents of the preview box, one page
   at a time (Apple keyboard layouts)
 
 ### Search Shell History
@@ -144,32 +111,29 @@ interactive command prompt.
 
 #### Navigation
 
-* Arrow keys, `left` and `right`: move the cursor forwards or backwards in line
-  
-* Arrow keys, `up` and `down`: If the command line spans multiple lines on the
+- Arrow keys, `left` and `right`: move the cursor forwards or backwards in line
+- Arrow keys, `up` and `down`: If the command line spans multiple lines on the
   screen then this will jump up or down to the next/previous line. When at the
   top or bottom line, the `up` or `down` keys will search through your history
   of past command lines
 
-* `alt`+`b`: jump backwards a word at a time (Emacs compatibility)
-* `ctrl`+`left`: jump backwards a word at a time (IBM keyboard layouts)
-* `option`+`left`: jump backwards a word at a time (Apple keyboard layouts)
-  
-* `alt`+`f`: jump forwards a word at a time (Emacs compatibility)
-* `ctrl`+`right`: jump forwards a word at a time (IBM keyboard layouts)
-* `option`+`right`: jump forwards a word at a time (Apple keyboard layouts)
+- `alt`+`b`: jump backwards a word at a time (Emacs compatibility)
+- `ctrl`+`left`: jump backwards a word at a time (IBM keyboard layouts)
+- `option`+`left`: jump backwards a word at a time (Apple keyboard layouts)
+- `alt`+`f`: jump forwards a word at a time (Emacs compatibility)
+- `ctrl`+`right`: jump forwards a word at a time (IBM keyboard layouts)
+- `option`+`right`: jump forwards a word at a time (Apple keyboard layouts)
 
-* `ctrl`+`a`: jump to beginning of line
-* `home`: jump to beginning of line
+- `ctrl`+`a`: jump to beginning of line
+- `home`: jump to beginning of line
 
-* `ctrl`+`e`: jump to end of line
-* `end`: jump to end of line
+- `ctrl`+`e`: jump to end of line
+- `end`: jump to end of line
 
 #### General Hotkeys
 
-* `ctrl`+`k`: clears line after cursor
-  
-* `ctrl`+`u`: clears the whole line
+- `ctrl`+`k`: clears line after cursor
+- `ctrl`+`u`: clears the whole line
 
 ### Vim Keys
 
@@ -180,34 +144,34 @@ Press `i` to return to normal editing mode.
 
 #### Supported Keys
 
-* `a`: insert after current character
-* `A`: insert at end of line
-* `b`: jump to beginning of word
-* `B`: jump to previous whitespace
-* `d`: delete mode
-* `D`: delete characters
-* `e`: jump to end of word
-* `E`: jump to next whitespace
-* `h`: previous character (like `left`)
-* `i`: insert mode
-* `I`: insert at beginning of line
-* `l`: next character (like `right`)
-* `p`: paste after
-* `P`: paste before
-* `r`: replace character (replace once)
-* `R`: replace many characters
-* `u`: undo
-* `v`: visual editor (opens line in `$EDITOR`)
-* `w`: jump to end of word
-* `W`: jump to next whitespace
-* `x`: delete character
-* `y`: yank (copy line)
-* `Y`: same as `y`
-* `[`: jump to previous brace
-* `]`: jump to next brace
-* `$`: jump to end of line
-* `%`: jump to either end of matching bracket
-* `0` to `9`: repeat action _n_ times. eg `5x` would delete (`x`) five (`5`)
+- `a`: insert after current character
+- `A`: insert at end of line
+- `b`: jump to beginning of word
+- `B`: jump to previous whitespace
+- `d`: delete mode
+- `D`: delete characters
+- `e`: jump to end of word
+- `E`: jump to next whitespace
+- `h`: previous character (like `left`)
+- `i`: insert mode
+- `I`: insert at beginning of line
+- `l`: next character (like `right`)
+- `p`: paste after
+- `P`: paste before
+- `r`: replace character (replace once)
+- `R`: replace many characters
+- `u`: undo
+- `v`: visual editor (opens line in `$EDITOR`)
+- `w`: jump to end of word
+- `W`: jump to next whitespace
+- `x`: delete character
+- `y`: yank (copy line)
+- `Y`: same as `y`
+- `[`: jump to previous brace
+- `]`: jump to next brace
+- `$`: jump to end of line
+- `%`: jump to either end of matching bracket
+- `0` to `9`: repeat action _n_ times. eg `5x` would delete (`x`) five (`5`)
   characters
 
 #### Full Screen Editing via `$EDITOR`
@@ -217,34 +181,36 @@ will be whichever command is stored in the `$EDITOR` environmental variable.
 
 ### Recalling Previous Words
 
-* `shift`+`f1` recalls the first word
-* `shift`+`f2` recalls the second word
-* ...
-* `shift`+`f12` recalls the twelfth word
+- `shift`+`f1` recalls the first word
+- `shift`+`f2` recalls the second word
+- ...
+- `shift`+`f12` recalls the twelfth word
 
 In the following example, code inside square brackets represent key presses
 rather than text:
 
-    » echo two three four five six seven eight nine
-    two three four five six seven eight nine
-    » [shift+f1]echo [shift+f5]five
-    
+```
+» echo two three four five six seven eight nine
+two three four five six seven eight nine
+» [shift+f1]echo [shift+f5]five
+```
+
 ## Job Control
 
 While processes are running, the following keys are assigned roles:
 
-* `ctrl`+`c`: kill foreground process. Pressing this will send a kill (SIGINT)
+- `ctrl`+`c`: kill foreground process. Pressing this will send a kill (SIGINT)
   request to the foreground process
 
-* `ctrl`+`\`: kill all running processes in current shell session, including
+- `ctrl`+`\`: kill all running processes in current shell session, including
   any background processes too. This hotkey is a effectively an emergency kill
   switch to bring you back to the command prompt should `ctrl`+`c` prove
   ineffective. Use this sparingly because it doesn't allow processes to end
   gracefully
 
-* `ctrl`+`z`: suspend foreground process. This will take you back to the prompt
+- `ctrl`+`z`: suspend foreground process. This will take you back to the prompt
   and from there you can then use job control to resume execution in either the
-  foreground or background. ([read more](../commands/fid-list.md))
+  foreground or background. ([read more](/commands/fid-list.md))
 
 ## Miscellaneous
 
@@ -269,9 +235,9 @@ Pressing `ctrl`+`l` will clear the screen.
 
 ## See Also
 
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+- [Murex's Interactive Shell](/user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
-* [Rosetta Stone](../user-guide/rosetta-stone.md):
+- [Rosetta Stone](/rosetta):
   A tabulated list of Bashism's and their equivalent Murex syntax
-* [Spellcheck](../user-guide/spellcheck.md):
+- [Spellcheck](/user-guide/spellcheck.md):
   How to enable inline spellchecking

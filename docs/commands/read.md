@@ -1,4 +1,4 @@
-# `read` - Command Reference
+# `read`
 
 > `read` a line of input from the user and store as a variable
 
@@ -11,9 +11,9 @@ A readline function to allow a line of data inputed from the terminal.
 Classic usage:
 
     read: "prompt" var_name
-    
-    <stdin> -> read: var_name
-    
+
+    `<stdin>` -> read: var_name
+
 Script usage:
 
     read: [ --prompt "prompt"         ]
@@ -29,34 +29,34 @@ Script usage:
 
     read: "What is your name? " name
     out: "Hello $name"
-    
+
     out: What is your name? -> read: name
     out: "Hello $name"
-    
+
 **Script usage:**
 
     read: --prompt "Are you sure? [Y/n]" \
           --variable yn \
           --default Y
-    
+
 **Secrets:**
 
     read: --prompt "Password: " --variable pw --mask *
 
 ## Flags
 
-* `--autocomplete`
-    Autocompletion suggestions. Can be either a JSON array or a JSON object
-* `--datatype`
-    Murex data-type for the read data (default: str)
-* `--default`
-    If a zero length string is returned but neither `ctrl`+`c` nor `ctrl`+`d` were pressed, then the default value defined here will be returned
-* `--mask`
-    Optional password mask, for reading secrets
-* `--prompt`
-    User notification to display
-* `--variable`
-    Variable name to store the read data (default: read)
+- `--autocomplete`
+  Autocompletion suggestions. Can be either a JSON array or a JSON object
+- `--datatype`
+  Murex data-type for the read data (default: str)
+- `--default`
+  If a zero length string is returned but neither `ctrl`+`c` nor `ctrl`+`d` were pressed, then the default value defined here will be returned
+- `--mask`
+  Optional password mask, for reading secrets
+- `--prompt`
+  User notification to display
+- `--variable`
+  Variable name to store the read data (default: read)
 
 ## Detail
 
@@ -77,19 +77,19 @@ with the `--datatype` flag as per the **script usage**.
 
 ## See Also
 
-* [`(` (brace quote)](../commands/brace-quote.md):
+- [`(` (brace quote)](./brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+- [`>>` (append file)](./greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+- [`>` (truncate file)](./greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`cast`](../commands/cast.md):
+- [`cast`](./cast.md):
   Alters the data type of the previous function without altering it's output
-* [`err`](../commands/err.md):
+- [`err`](./err.md):
   Print a line to the STDERR
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`tout`](../commands/tout.md):
+- [`tout`](./tout.md):
   Print a string to the STDOUT and set it's data-type
-* [`tread`](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+- [`tread`](./tread.md):
+  `read` a line of input from the user and store as a user defined _typed_ variable (deprecated)

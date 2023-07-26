@@ -1,4 +1,4 @@
-# `ReadArrayWithType()` (type) - API Reference
+# `ReadArrayWithType()` (type)
 
 > Read from a data type one array element at a time and return the elements contents and data type
 
@@ -67,7 +67,7 @@ func readArrayWithType(ctx context.Context, read stdio.Io, callback func(interfa
 ## Detail
 
 If your data type is not a stream-able array, it is then recommended that
-you pass your array to  `lang.ArrayWithTypeTemplate()` which is a handler to
+you pass your array to `lang.ArrayWithTypeTemplate()` which is a handler to
 convert Go structures into Murex arrays. This also makes writing `ReadArray()`
 handlers easier since you can just pass `lang.ArrayTemplate()` your marshaller.
 For example:
@@ -105,15 +105,15 @@ pipelines.
 
 ## See Also
 
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [apis/`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+- [apis/`ReadMap()` (type)](/apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [apis/`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+- [apis/`WriteArray()` (type)](/apis/WriteArray.md):
   Write a data type, one array element at a time
-* [apis/`lang.ArrayTemplate()` (template API)](../apis/lang.ArrayTemplate.md):
+- [apis/`lang.ArrayTemplate()` (template API)](/apis/lang.ArrayTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array
-* [apis/`lang.ArrayWithTypeTemplate()` (template API)](../apis/lang.ArrayWithTypeTemplate.md):
+- [apis/`lang.ArrayWithTypeTemplate()` (template API)](/apis/lang.ArrayWithTypeTemplate.md):
   Unmarshals a data type into a Go struct and returns the results as an array with data type included

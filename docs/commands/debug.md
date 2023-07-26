@@ -1,4 +1,4 @@
-# `debug` - Command Reference
+# `debug`
 
 > Debugging information
 
@@ -16,17 +16,17 @@ This will enable or disable debugging mode.
 
 ## Usage
 
-    <stdin> -> debug -> <stdout>
-    
-    debug: boolean -> <stdout>
-    
-    debug -> <stdout>
+    `<stdin>` -> debug -> `<stdout>`
+
+    debug: boolean -> `<stdout>`
+
+    debug -> `<stdout>`
 
 ## Examples
 
 Return debugging information on the previous function:
 
-    » echo: "hello, world!" -> debug 
+    » echo: "hello, world!" -> debug
     {
         "DataType": {
             "Go": "[]string",
@@ -98,15 +98,15 @@ Return debugging information on the previous function:
             "StartTime": "2019-01-20T00:00:52.167776212Z"
         }
     }
-    
+
 Enable or disable debug mode:
 
     » debug: on
     true
-    
+
     » debug: off
     false
-    
+
 Output whether debug mode is enabled or disabled:
 
     » debug
@@ -122,13 +122,13 @@ boolean type, it means you can use other boolean terms. eg
     » debug on
     » debug yes
     » debug true
-    
+
     # disable debugging
     » debug 0
     » debug off
     » debug no
     » debug false
-    
+
 It is also worth noting that the debugging information needs to be written
 into the Go source code rather than in Murex's shell scripting language.
 If you require debugging those processes then please use Murex's `test`
@@ -136,7 +136,7 @@ framework
 
 ## See Also
 
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`test`](../commands/test.md):
+- [`test`](./test.md):
   Murex's test framework - define tests, run tests and debug shell scripts

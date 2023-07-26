@@ -1,4 +1,4 @@
-# `break` - Command Reference
+# `break`
 
 > Terminate execution of a block within your processes scope
 
@@ -20,41 +20,47 @@ loop, then it will be `if` or `foreach` (respectively).
 
 **Exiting an iteration block:**
 
-    function foo {
-        %[1..10] -> foreach i {
-            out $i
-            if { $i == 5 } then {
-                out "exit running function"
-                break foo
-                out "ended"
-            }
+```
+function foo {
+    %[1..10] -> foreach i {
+        out $i
+        if { $i == 5 } then {
+            out "exit running function"
+            break foo
+            out "ended"
         }
     }
-    
+}
+```
+
 Running the above code would output:
 
-    » foo
-    1
-    2
-    3
-    4
-    5
-    exit running function
-    
+```
+» foo
+1
+2
+3
+4
+5
+exit running function
+```
+
 **Exiting a function:**
 
 `break` can be considered to exhibit the behavior of _return_ (from other
 languages) too
 
-    function example {
-        if { $USER == "root" } then {
-            err "Don't run this as root"
-            break example
-        }
-        
-        # ... do something ...
+```
+function example {
+    if { $USER == "root" } then {
+        err "Don't run this as root"
+        break example
     }
-    
+
+    # ... do something ...
+}
+```
+
 Though in this particular use case it is recommended that you use `return`
 instead, the above code does illustrate how `break` behaves.
 
@@ -64,21 +70,23 @@ instead, the above code does illustrate how `break` behaves.
 running inside). For example, in the following code we are calling `break
 bar` (which is a different function) inside of the function `foo`:
 
-    function foo {
-        %[1..10] -> foreach i {
-            out $i
-            if { $i == 5 } then {
-                out "exit running function"
-                break bar
-                out "ended"
-            }
+```
+function foo {
+    %[1..10] -> foreach i {
+        out $i
+        if { $i == 5 } then {
+            out "exit running function"
+            break bar
+            out "ended"
         }
     }
-    
-    function bar {
-        foo
-    }
-    
+}
+
+function bar {
+    foo
+}
+```
+
 Regardless of whether we run `foo` or `bar`, both of those functions will
 raise the following error:
 
@@ -86,21 +94,21 @@ raise the following error:
 
 ## See Also
 
-* [`continue`](../commands/continue.md):
+- [`continue`](./continue.md):
   Terminate process of a block within a caller function
-* [`exit`](../commands/exit.md):
+- [`exit`](./exit.md):
   Exit murex
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](./foreach.md):
   Iterate through an array
-* [`formap`](../commands/formap.md):
+- [`formap`](./formap.md):
   Iterate through a map or other collection of data
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`if`](../commands/if.md):
+- [`if`](./if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block
-* [`return`](../commands/return.md):
+- [`return`](./return.md):
   Exits current function scope

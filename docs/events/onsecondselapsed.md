@@ -1,4 +1,4 @@
-# `onSecondsElapsed` - events
+# `onSecondsElapsed`
 
 > Events triggered by time intervals
 
@@ -9,13 +9,13 @@
 ## Usage
 
     event: onSecondsElapsed name=seconds { code block }
-    
+
     !event: onSecondsElapsed name
 
 ## Valid Interrupts
 
-* `<seconds>`
-    Duration in seconds. eg `60` would be 60 seconds / 1 minute
+- `<seconds>`
+  Duration in seconds. eg `60` would be 60 seconds / 1 minute
 
 ## Examples
 
@@ -33,7 +33,7 @@ The following payload is passed to the function via STDIN:
         "Name": "",
         "Interrupt": 0
     }
-    
+
 #### Name
 
 This is the name you specified when defining the event.
@@ -44,7 +44,7 @@ This is the duration you defined the event to wait for.
 
 ## See Also
 
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`event`](../commands/event.md):
+- [`event`](/commands/event.md):
   Event driven programming for shell scripts

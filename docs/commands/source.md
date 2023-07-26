@@ -1,4 +1,4 @@
-# `source`  - Command Reference
+# `source`
 
 > Import Murex code from another file of code block
 
@@ -12,59 +12,70 @@ Python, Perl, etc).
 
 Execute source from STDIN
 
-    <stdin> -> source
-    
+```
+<stdin> -> source
+```
+
 Execute source from a file
 
-    source: filename.mx
-    
+```
+source: filename.mx
+```
+
 Execute a code block from parameter
 
-    source: { code-block }
+```
+source: { code-block }
+```
 
 ## Examples
 
 Execute source from stdin:
 
-    » tout: block { out: "Hello, world!" } -> source
-    Hello, world!
-    
+```
+» tout: block { out: "Hello, world!" } -> source
+Hello, world!
+```
+
 Execute source from file:
 
-    » tout: block { out: "Hello, world!" } |> example.mx
-    » source: example.mx
-    Hello, world!
-    
+```
+» tout: block { out: "Hello, world!" } |> example.mx
+» source: example.mx
+Hello, world!
+```
+
 Execute a code block from parameter
 
-    » source { out: "Hello, world!" }
-    Hello, world!
+```
+» source { out: "Hello, world!" }
+Hello, world!
+```
 
 ## Synonyms
 
-* `source`
-* `.`
-
+- `source`
+- `.`
 
 ## See Also
 
-* [`args` ](../commands/args.md):
+- [`args` ](./args.md):
   Command line flag parser for Murex shell scripting
-* [`autocomplete`](../commands/autocomplete.md):
+- [`autocomplete`](./autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`fexec` ](../commands/fexec.md):
+- [`fexec` ](./fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`murex-parser` ](../commands/murex-parser.md):
-  Runs the Murex parser against a block of code 
-* [`private`](../commands/private.md):
+- [`murex-parser` ](./murex-parser.md):
+  Runs the Murex parser against a block of code
+- [`private`](./private.md):
   Define a private function block
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`version` ](../commands/version.md):
+- [`version` ](./version.md):
   Get Murex version

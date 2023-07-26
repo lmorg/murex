@@ -1,4 +1,4 @@
-# `sleep`  - Optional Command Reference
+# `sleep`
 
 > Suspends the shell for a number of seconds
 
@@ -26,9 +26,9 @@ or similar platforms then you will need to launch with the `exec` builtin:
 
 ## See Also
 
-* [`exec`](../commands/exec.md):
+- [`exec`](/commands/exec.md):
   Runs an executable
-* [`source` ](../commands/source.md):
+- [`source` ](/commands/source.md):
   Import Murex code from another file of code block
-* [`time` ](../commands/time.md):
+- [`time` ](/commands/time.md):
   Returns the execution run time of a command or block

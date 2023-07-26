@@ -1,4 +1,4 @@
-# `method` - Command Reference
+# `method`
 
 > Define a methods supported data-types
 
@@ -62,17 +62,17 @@ var GroupMath = []string{
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](/parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Murex's Interactive Shell](../user-guide/interactive-shell.md):
+- [Murex's Interactive Shell](/user-guide/interactive-shell.md):
   What's different about Murex's interactive shell?
-* [`alias`](../commands/alias.md):
+- [`alias`](./alias.md):
   Create an alias for a command
-* [`autocomplete`](../commands/autocomplete.md):
+- [`autocomplete`](./autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex

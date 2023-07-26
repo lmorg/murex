@@ -1,4 +1,4 @@
-# `jsonl`  - Data-Type Reference
+# `jsonl`
 
 > JSON Lines
 
@@ -22,8 +22,8 @@ Example JSON lines documents taken from [jsonlines.org](http://jsonlines.org/exa
     ["Gilbert", "2013", 24, true]
     ["Alexa", "2013", 29, true]
     ["May", "2012B", 14, false]
-    ["Deloise", "2012A", 19, true] 
-    
+    ["Deloise", "2012A", 19, true]
+
 This format is equatable to `generic` and `csv`.
 
 ### Nested objects
@@ -88,98 +88,97 @@ cases for JSON lines.
 
 ## Default Associations
 
-* **Extension**: `json-lines`
-* **Extension**: `jsonl`
-* **Extension**: `jsonlines`
-* **Extension**: `ldjson`
-* **Extension**: `murex_history`
-* **Extension**: `ndjson`
-* **MIME**: `application/json-lines`
-* **MIME**: `application/jsonl`
-* **MIME**: `application/jsonlines`
-* **MIME**: `application/ldjson`
-* **MIME**: `application/ndjson`
-* **MIME**: `application/x-json-lines`
-* **MIME**: `application/x-jsonl`
-* **MIME**: `application/x-jsonlines`
-* **MIME**: `application/x-ldjson`
-* **MIME**: `application/x-ndjson`
-* **MIME**: `text/json-lines`
-* **MIME**: `text/jsonl`
-* **MIME**: `text/jsonlines`
-* **MIME**: `text/ldjson`
-* **MIME**: `text/ndjson`
-* **MIME**: `text/x-json-lines`
-* **MIME**: `text/x-jsonl`
-* **MIME**: `text/x-jsonlines`
-* **MIME**: `text/x-ldjson`
-* **MIME**: `text/x-ndjson`
-
+- **Extension**: `json-lines`
+- **Extension**: `jsonl`
+- **Extension**: `jsonlines`
+- **Extension**: `ldjson`
+- **Extension**: `murex_history`
+- **Extension**: `ndjson`
+- **MIME**: `application/json-lines`
+- **MIME**: `application/jsonl`
+- **MIME**: `application/jsonlines`
+- **MIME**: `application/ldjson`
+- **MIME**: `application/ndjson`
+- **MIME**: `application/x-json-lines`
+- **MIME**: `application/x-jsonl`
+- **MIME**: `application/x-jsonlines`
+- **MIME**: `application/x-ldjson`
+- **MIME**: `application/x-ndjson`
+- **MIME**: `text/json-lines`
+- **MIME**: `text/jsonl`
+- **MIME**: `text/jsonlines`
+- **MIME**: `text/ldjson`
+- **MIME**: `text/ndjson`
+- **MIME**: `text/x-json-lines`
+- **MIME**: `text/x-jsonl`
+- **MIME**: `text/x-jsonlines`
+- **MIME**: `text/x-ldjson`
+- **MIME**: `text/x-ndjson`
 
 ## Supported Hooks
 
-* `Marshal()`
-    Supported
-* `ReadArray()`
-    Works with JSON arrays. Maps are converted into arrays
-* `ReadArrayWithType()`
-    Works with JSON arrays. Maps are converted into arrays. Element data type is `json` 
-* `ReadIndex()`
-    Works against all properties in JSON
-* `ReadMap()`
-    Not currently supported.
-* `ReadNotIndex()`
-    Works against all properties in JSON
-* `Unmarshal()`
-    Supported
-* `WriteArray()`
-    Supported
+- `Marshal()`
+  Supported
+- `ReadArray()`
+  Works with JSON arrays. Maps are converted into arrays
+- `ReadArrayWithType()`
+  Works with JSON arrays. Maps are converted into arrays. Element data type is `json`
+- `ReadIndex()`
+  Works against all properties in JSON
+- `ReadMap()`
+  Not currently supported.
+- `ReadNotIndex()`
+  Works against all properties in JSON
+- `Unmarshal()`
+  Supported
+- `WriteArray()`
+  Supported
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+- [`*` (generic) ](/types/generic.md):
   generic (primitive)
-* [`Marshal()` (type)](../apis/Marshal.md):
+- [`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`ReadArray()` (type)](../apis/ReadArray.md):
+- [`ReadArray()` (type)](/apis/ReadArray.md):
   Read from a data type one array element at a time
-* [`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [`ReadMap()` (type)](../apis/ReadMap.md):
+- [`ReadMap()` (type)](/apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
+- [`Unmarshal()` (type)](/apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [`WriteArray()` (type)](../apis/WriteArray.md):
+- [`WriteArray()` (type)](/apis/WriteArray.md):
   Write a data type, one array element at a time
-* [`[[` (element)](../commands/element.md):
+- [`[[` (element)](/commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [`cast`](../commands/cast.md):
+- [`cast`](/commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`csv` ](../types/csv.md):
+- [`csv` ](/types/csv.md):
   CSV files (and other character delimited tables)
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](/commands/foreach.md):
   Iterate through an array
-* [`format`](../commands/format.md):
+- [`format`](/commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+- [`hcl` ](/types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` ](../types/json.md):
+- [`json` ](/types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonc` ](../types/jsonc.md):
+- [`jsonc` ](/types/jsonc.md):
   Concatenated JSON
-* [`open`](../commands/open.md):
+- [`open`](/commands/open.md):
   Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
+- [`pretty`](/commands/pretty.md):
   Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](/commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+- [`toml` ](/types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+- [`yaml` ](/types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [mxjson](../types/mxjson.md):
+- [mxjson](/types/mxjson.md):
   Murex-flavoured JSON (deprecated)

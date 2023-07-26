@@ -1,4 +1,4 @@
-# `(` (brace quote) - Command Reference
+# `(` (brace quote)
 
 > Write a string to the STDOUT without new line
 
@@ -12,19 +12,21 @@ Write parameters to STDOUT (does not include a new line)
 
 ## Examples
 
-    » (Hello, World!)
-    Hello, World!
-    
-    » (Hello,\nWorld!)
-    Hello,
-    World!
-    
-    » ((Hello,) (World!))
-    (Hello,) (World!)
-    
-    # Print "Hello, World!" in red text
-    » {RED}Hello, World!{RESET}
-    Hello, World!
+```
+» (Hello, World!)
+Hello, World!
+
+» (Hello,\nWorld!)
+Hello,
+World!
+
+» ((Hello,) (World!))
+(Hello,) (World!)
+
+# Print "Hello, World!" in red text
+» {RED}Hello, World!{RESET}
+Hello, World!
+```
 
 ## Detail
 
@@ -39,24 +41,23 @@ characters if you don't want them nested.
 
 ## Synonyms
 
-* `(`
-
+- `(`
 
 ## See Also
 
-* [ANSI Constants](../user-guide/ansi.md):
+- [ANSI Constants](/user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+- [`>>` (append file)](./greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+- [`>` (truncate file)](./greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`cast`](../commands/cast.md):
+- [`cast`](./cast.md):
   Alters the data type of the previous function without altering it's output
-* [`err`](../commands/err.md):
+- [`err`](./err.md):
   Print a line to the STDERR
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`pt`](../commands/pt.md):
+- [`pt`](./pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [`tout`](../commands/tout.md):
+- [`tout`](./tout.md):
   Print a string to the STDOUT and set it's data-type

@@ -1,4 +1,4 @@
-# `<>` / `read-named-pipe` - Command Reference
+# `<>` / `read-named-pipe`
 
 > Reads from a Murex named pipe
 
@@ -7,18 +7,18 @@
 Sometimes you will need to start a command line with a Murex named pipe, eg
 
     » <namedpipe> -> match: foobar
-    
+
 > See the documentation on `pipe` for more details about Murex named pipes.
 
 ## Usage
 
 Read from pipe
 
-    <namedpipe> -> <stdout>
-    
+    <namedpipe> -> `<stdout>`
+
 Write to pipe
 
-    <stdin> -> <namedpipe>
+    `<stdin>` -> <namedpipe>
 
 ## Examples
 
@@ -50,34 +50,34 @@ data along asynchronously.
 For example
 
     pipe: example
-    
+
     bg {
         <example> -> match: Hello
     }
-    
+
     out: "foobar"        -> <example>
     out: "Hello, world!" -> <example>
     out: "foobar"        -> <example>
-    
+
     !pipe: example
-    
+
 This returns `Hello, world!` because `out` is writing to the **example** named
 pipe and `match` is also reading from it in the background (`bg`).
 
 Named pipes can also be inlined into the command parameters with `<>` tags
 
     pipe: example
-    
+
     bg {
         <example> -> match: Hello
     }
-    
+
     out: <example> "foobar"
     out: <example> "Hello, world!"
     out: <example> "foobar"
-    
+
     !pipe: example
-    
+
 > Please note this is also how `test` works.
 
 Murex named pipes can also represent network sockets, files on a disk or any
@@ -88,7 +88,7 @@ or write endpoints transparently.
 To see the different supported types run
 
     runtime --pipes
-    
+
 ### Namespaces and usage in modules and packages
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes
@@ -98,22 +98,21 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## Synonyms
 
-* `(murex named pipe)`
-* `<>`
-* `read-named-pipe`
-
+- `(murex named pipe)`
+- `<>`
+- `read-named-pipe`
 
 ## See Also
 
-* [`<stdin>` ](../commands/stdin.md):
+- [`<stdin>` ](./stdin.md):
   Read the STDIN belonging to the parent code block
-* [`a` (mkarray)](../commands/a.md):
+- [`a` (mkarray)](./a.md):
   A sophisticated yet simple way to build an array or list
-* [`bg`](../commands/bg.md):
+- [`bg`](./bg.md):
   Run processes in the background
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](./ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`pipe`](../commands/pipe.md):
+- [`pipe`](./pipe.md):
   Manage Murex named pipes
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex

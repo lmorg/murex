@@ -1,4 +1,4 @@
-# Pipeline - User Guide
+# Pipeline
 
 > Overview of what a "pipeline" is
 
@@ -12,20 +12,28 @@ for the sake of documentation, a pipeline might even be a solitary command.
 
 Typical Murex pipeline:
 
-    open: example.json -> [[ /node/0 ]]
-    
+```
+open: example.json -> [[ /node/0 ]]
+```
+
 Example of a single command pipeline:
 
-    top
-    
+```
+top
+```
+
 Pipeline you might see in Bash / Zsh (this is also valid in Murex):
 
-    cat names.txt | sort | uniq
-    
+```
+cat names.txt | sort | uniq
+```
+
 Pipeline filtering out a specific error from `example-cmd`
 
-    example-cmd ? grep: "File not found"
-    
+```
+example-cmd ? grep: "File not found"
+```
+
 ## Detail
 
 A pipeline isn't a Murex specific construct but rather something inherited
@@ -33,7 +41,7 @@ from Unix. Where Murex differs is that it can support sending typed
 information to compatible functions (unlike standard Unix pipes which are
 dumb-byte streams).
 
-Wikipedia has a page on [Pipeline (Unix)](https://en.wikipedia.org/wiki/Pipeline_(Unix)):
+Wikipedia has a page on [Pipeline (Unix)](<https://en.wikipedia.org/wiki/Pipeline_(Unix)>):
 
 > In Unix-like computer operating systems, a pipeline is a mechanism for
 > inter-process communication using message passing. A pipeline is a set of
@@ -45,7 +53,7 @@ Wikipedia has a page on [Pipeline (Unix)](https://en.wikipedia.org/wiki/Pipeline
 > the development of Unix, shaping its toolbox philosophy. It is named by
 > analogy to a physical pipeline. A key feature of these pipelines is their
 > "hiding of internals" (Ritchie & Thompson, 1974). This in turn allows for
-> more clarity and simplicity in the system. 
+> more clarity and simplicity in the system.
 
 ## Named Pipes
 
@@ -59,17 +67,17 @@ document but you can read more on them in links the links below.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](/parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Bang Prefix](../user-guide/bang-prefix.md):
+- [Bang Prefix](/user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [Generic Pipe (`=>`) Token](../parser/pipe-generic.md):
+- [Generic Pipe (`=>`) Token](/parser/pipe-generic.md):
   Pipes a reformatted STDOUT stream from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+- [POSIX Pipe (`|`) Token](/parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+- [STDERR Pipe (`?`) Token](/parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [Schedulers](../user-guide/schedulers.md):
+- [Schedulers](/user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`bg`](../commands/bg.md):
+- [`bg`](/commands/bg.md):
   Run processes in the background

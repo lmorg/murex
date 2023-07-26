@@ -1,4 +1,4 @@
-# `round`  - Command Reference
+# `round`
 
 > Round a number by a user defined precision
 
@@ -45,7 +45,7 @@ match in either direction.
 
 ## Usage
 
-    round value precision -> <stdout>
+    round value precision -> `<stdout>`
 
 ## Examples
 
@@ -56,16 +56,16 @@ match in either direction.
 
 ## Flags
 
-* `--down`
-    Rounds down to the nearest multiple (not supported when precision is to decimal places)
-* `--up`
-    Rounds up to the nearest multiple (not supported when precision is to decimal places)
-* `-d`
-    shorthand for `--down
-* `-u`
-    shorthand for `--up
+- `--down`
+  Rounds down to the nearest multiple (not supported when precision is to decimal places)
+- `--up`
+  Rounds up to the nearest multiple (not supported when precision is to decimal places)
+- `-d`
+  shorthand for `--down
+- `-u`
+  shorthand for `--up
 
 ## See Also
 
-* [`expr`](../commands/expr.md):
+- [`expr`](./expr.md):
   Expressions: mathematical, string comparisons, logical operators
