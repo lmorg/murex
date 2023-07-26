@@ -1,4 +1,4 @@
-# mxjson - Data-Type Reference
+# mxjson
 
 > Murex-flavoured JSON (deprecated)
 
@@ -37,7 +37,7 @@ uses the `({ block quote })` method.
             }
         })
     }
-    
+
 Any block quoted by this method will be converted to the following valid JSON:
 
     {
@@ -46,47 +46,46 @@ Any block quoted by this method will be converted to the following valid JSON:
 
 ## See Also
 
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
+- [Brace Quote (`%(`, `)`) Tokens](/parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [Code Block Parsing](../user-guide/code-block.md):
+- [Code Block Parsing](/user-guide/code-block.md):
   Overview of how code blocks are parsed
-* [Create array (`%[]`) constructor](../parser/create-array.md):
+- [Create array (`%[]`) constructor](/parser/create-array.md):
   Quickly generate arrays
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+- [Curly Brace (`{`, `}`) Tokens](/parser/curly-brace.md):
   Initiates or terminates a code block
-* [`Marshal()` (type)](../apis/Marshal.md):
+- [`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
+- [`Unmarshal()` (type)](/apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [`[[` (element)](../commands/element.md):
+- [`[[` (element)](/commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [`autocomplete`](../commands/autocomplete.md):
+- [`autocomplete`](/commands/autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`cast`](../commands/cast.md):
+- [`cast`](/commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`format`](../commands/format.md):
+- [`format`](/commands/format.md):
   Reformat one data-type into another data-type
-* [`hcl` ](../types/hcl.md):
+- [`hcl` ](/types/hcl.md):
   HashiCorp Configuration Language (HCL)
-* [`json` ](../types/json.md):
+- [`json` ](/types/json.md):
   JavaScript Object Notation (JSON)
-* [`jsonc` ](../types/jsonc.md):
+- [`jsonc` ](/types/jsonc.md):
   Concatenated JSON
-* [`jsonl` ](../types/jsonl.md):
+- [`jsonl` ](/types/jsonl.md):
   JSON Lines
-* [`open`](../commands/open.md):
+- [`open`](/commands/open.md):
   Open a file with a preferred handler
-* [`pretty`](../commands/pretty.md):
+- [`pretty`](/commands/pretty.md):
   Prettifies JSON to make it human readable
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](/commands/runtime.md):
   Returns runtime information on the internal state of Murex
-* [`toml` ](../types/toml.md):
+- [`toml` ](/types/toml.md):
   Tom's Obvious, Minimal Language (TOML)
-* [`yaml` ](../types/yaml.md):
+- [`yaml` ](/types/yaml.md):
   YAML Ain't Markup Language (YAML)
-* [create-objects](../parser/create-objects.md):
-  
+- [`create-object`](/parser/create-object.md):

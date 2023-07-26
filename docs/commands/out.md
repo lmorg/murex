@@ -1,4 +1,4 @@
-# `out` - Command Reference
+# `out`
 
 > Print a string to the STDOUT with a trailing new line character
 
@@ -8,13 +8,13 @@ Write parameters to STDOUT with a trailing new line character.
 
 ## Usage
 
-    out: string to write -> <stdout>
+    out: string to write -> `<stdout>`
 
 ## Examples
 
     » out Hello, World!
     Hello, World!
-    
+
 For compatibility with other shells, `echo` is also supported:
 
     » echo Hello, World!
@@ -31,29 +31,28 @@ For compatibility with other shells, `echo` is also supported:
 
 ## Synonyms
 
-* `out`
-* `echo`
-
+- `out`
+- `echo`
 
 ## See Also
 
-* [ANSI Constants](../user-guide/ansi.md):
+- [ANSI Constants](/user-guide/ansi.md):
   Infixed constants that return ANSI escape sequences
-* [`(` (brace quote)](../commands/brace-quote.md):
+- [`(` (brace quote)](./brace-quote.md):
   Write a string to the STDOUT without new line
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+- [`>>` (append file)](./greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+- [`>` (truncate file)](./greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`cast`](../commands/cast.md):
+- [`cast`](./cast.md):
   Alters the data type of the previous function without altering it's output
-* [`err`](../commands/err.md):
+- [`err`](./err.md):
   Print a line to the STDERR
-* [`pt`](../commands/pt.md):
+- [`pt`](./pt.md):
   Pipe telemetry. Writes data-types and bytes written
-* [`read`](../commands/read.md):
+- [`read`](./read.md):
   `read` a line of input from the user and store as a variable
-* [`tout`](../commands/tout.md):
+- [`tout`](./tout.md):
   Print a string to the STDOUT and set it's data-type
-* [`tread`](../commands/tread.md):
-  `read` a line of input from the user and store as a user defined *typed* variable (deprecated)
+- [`tread`](./tread.md):
+  `read` a line of input from the user and store as a user defined _typed_ variable (deprecated)

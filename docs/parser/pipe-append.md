@@ -1,4 +1,4 @@
-# Append Pipe (`>>`) Token - Parser Reference
+# Append Pipe (`>>`) Token
 
 > Redirects STDOUT to a file and append its contents
 
@@ -25,31 +25,31 @@ This is just syntactic sugar for `-> >>`. Thus when the parser reads code like
 the following:
 
     echo "foobar" >> example.txt
-    
+
 it will compile an abstract syntax tree which would reflect the following code
 instead:
 
     echo "foobar" | >> example.txt
-    
+
 ### Truncating a file
 
 To truncate a file (ie overwrite its contents) use `|>` instead.
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](/parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+- [POSIX Pipe (`|`) Token](/parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+- [STDERR Pipe (`?`) Token](/parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+- [`<>` / `read-named-pipe`](/commands/namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+- [`>>` (append file)](/commands/greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+- [`>` (truncate file)](/commands/greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](/commands/ja.md):
   A sophisticated yet simply way to build a JSON array

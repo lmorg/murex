@@ -1,4 +1,4 @@
-# `cpuarch` - Command Reference
+# `cpuarch`
 
 > Output the hosts CPU architecture
 
@@ -8,7 +8,7 @@ Output the hosts CPU architecture.
 
 ## Usage
 
-    cpuarch -> <stdout>
+    cpuarch -> `<stdout>`
 
 ## Examples
 
@@ -17,7 +17,7 @@ Output the hosts CPU architecture.
 
 ## See Also
 
-* [`cpucount`](../commands/cpucount.md):
+- [`cpucount`](./cpucount.md):
   Output the number of CPU cores available on your host
-* [`os`](../commands/os.md):
+- [`os`](./os.md):
   Output the auto-detected OS name

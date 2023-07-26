@@ -1,0 +1,71 @@
+<template><div><h1 id="onfilesystemchange" tabindex="-1"><a class="header-anchor" href="#onfilesystemchange" aria-hidden="true">#</a> <code v-pre>onFileSystemChange</code></h1>
+<blockquote>
+<p>Add a filesystem watch</p>
+</blockquote>
+<h2 id="description" tabindex="-1"><a class="header-anchor" href="#description" aria-hidden="true">#</a> Description</h2>
+<p><code v-pre>onFileSystemChange</code> events are triggered whenever there is a change to a
+watched path or file.</p>
+<h3 id="payload" tabindex="-1"><a class="header-anchor" href="#payload" aria-hidden="true">#</a> Payload</h3>
+<p>The following payload is passed to the function via STDIN:</p>
+<pre><code>{
+    &quot;Name&quot;: &quot;&quot;,
+    &quot;Interrupt&quot;: {
+        &quot;Path&quot;: &quot;&quot;,
+        &quot;Operation&quot;: &quot;&quot;
+    }
+}
+</code></pre>
+<h4 id="name" tabindex="-1"><a class="header-anchor" href="#name" aria-hidden="true">#</a> Name</h4>
+<p>This is the name you specified when defining the event</p>
+<h4 id="path" tabindex="-1"><a class="header-anchor" href="#path" aria-hidden="true">#</a> Path</h4>
+<p>The path of the file that has triggered the event</p>
+<h4 id="operation" tabindex="-1"><a class="header-anchor" href="#operation" aria-hidden="true">#</a> Operation</h4>
+<p>This is the filesystem operation that triggered the event. The following
+strings could be present in the <strong>Operation</strong> field:</p>
+<ul>
+<li><code v-pre>create</code>: filesystem object created</li>
+<li><code v-pre>remove</code>: filesystem object deleted</li>
+<li><code v-pre>write</code>: filesystem object has been written to</li>
+<li><code v-pre>rename</code>: filesystem object has been renamed</li>
+<li><code v-pre>chmod</code>: filesystem object has had its POSIX permissions updated</li>
+</ul>
+<p>Sometimes you might see more than one operation per interrupt. If that happens
+the operation will be pipe delimited. For example `create|chmod</p>
+<h2 id="usage" tabindex="-1"><a class="header-anchor" href="#usage" aria-hidden="true">#</a> Usage</h2>
+<pre><code>event: onFileSystemChange name=path { code block }
+
+!event: onFileSystemChange name
+</code></pre>
+<h2 id="valid-interrupts" tabindex="-1"><a class="header-anchor" href="#valid-interrupts" aria-hidden="true">#</a> Valid Interrupts</h2>
+<ul>
+<li><code v-pre>&lt;path&gt;</code>
+Path of directory or file to watch for filesystem events</li>
+</ul>
+<h2 id="examples" tabindex="-1"><a class="header-anchor" href="#examples" aria-hidden="true">#</a> Examples</h2>
+<p>This will automatically add any new files in your current working directory to
+git upon file creation:</p>
+<pre><code>event: onFileSystemChange example=. {
+    -&gt; set event
+    if { $event.Interrupt.Operation =~ &quot;create&quot; } then {
+        git add $event.Interrupt.Path
+    }
+}
+</code></pre>
+<h2 id="detail" tabindex="-1"><a class="header-anchor" href="#detail" aria-hidden="true">#</a> Detail</h2>
+<h3 id="stdout" tabindex="-1"><a class="header-anchor" href="#stdout" aria-hidden="true">#</a> Stdout</h3>
+<p>Stdout is written to the terminal.</p>
+<h3 id="posix-only" tabindex="-1"><a class="header-anchor" href="#posix-only" aria-hidden="true">#</a> POSIX only</h3>
+<p>At this stage, this event isn't available for Windows nor Plan 9. This is
+chiefly down to a lack of testers on either platform so rather than release
+untested and potentially broken code, the decision was made to restrict this
+event to Linux, macOS and UNIX systems instead.</p>
+<h2 id="see-also" tabindex="-1"><a class="header-anchor" href="#see-also" aria-hidden="true">#</a> See Also</h2>
+<ul>
+<li><RouterLink to="/commands/config.html"><code v-pre>config</code></RouterLink>:
+Query or define Murex runtime settings</li>
+<li><RouterLink to="/commands/event.html"><code v-pre>event</code></RouterLink>:
+Event driven programming for shell scripts</li>
+</ul>
+</div></template>
+
+

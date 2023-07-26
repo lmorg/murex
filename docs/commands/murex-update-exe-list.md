@@ -1,4 +1,4 @@
-# `murex-update-exe-list` - Command Reference
+# `murex-update-exe-list`
 
 > Forces Murex to rescan $PATH looking for executables
 
@@ -15,7 +15,9 @@ program and you want it to appear in tab completion) then you can run `murex-upd
 
 ## Examples
 
-    » murex-update-exe-list
+```
+» murex-update-exe-list
+```
 
 ## Detail
 
@@ -24,9 +26,9 @@ invoked for command name completion via the REPL shell.
 
 ## See Also
 
-* [`cpuarch`](../commands/cpuarch.md):
+- [`cpuarch`](./cpuarch.md):
   Output the hosts CPU architecture
-* [`cpucount`](../commands/cpucount.md):
+- [`cpucount`](./cpucount.md):
   Output the number of CPU cores available on your host
-* [`os`](../commands/os.md):
+- [`os`](./os.md):
   Output the auto-detected OS name

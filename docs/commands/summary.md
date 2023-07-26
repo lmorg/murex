@@ -1,4 +1,4 @@
-# `summary`  - Command Reference
+# `summary`
 
 > Defines a summary help text for a command
 
@@ -15,45 +15,52 @@ if neither exist or if you wish to override their text, then you can use
 
 Define a commands summary
 
-    summary command description
-    
+```
+summary command description
+```
+
 Undefine a summary
 
-    !summary command
+```
+!summary command
+```
 
 ## Examples
 
 Define a commands summary
 
-    » summary: foobar "Hello, world!"
-    » runtime: --summaries -> [ foobar ]
-    Hello, world! 
-    
+```
+» summary: foobar "Hello, world!"
+» runtime: --summaries -> [ foobar ]
+Hello, world!
+```
+
 Undefine a summary
 
-    » !summary: foobar
+```
+» !summary: foobar
+```
 
 ## Synonyms
 
-* `summary`
-* `!summary`
-
+- `summary`
+- `!summary`
 
 ## See Also
 
-* [`bexists`](../commands/bexists.md):
+- [`bexists`](./bexists.md):
   Check which builtins exist
-* [`builtins`](../commands/runtime.md):
+- [`builtins`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`fid-list`](../commands/fid-list.md):
+- [`fid-list`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`murex-docs`](../commands/murex-docs.md):
+- [`murex-docs`](./murex-docs.md):
   Displays the man pages for Murex builtins
-* [`murex-update-exe-list`](../commands/murex-update-exe-list.md):
+- [`murex-update-exe-list`](./murex-update-exe-list.md):
   Forces Murex to rescan $PATH looking for executables
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex

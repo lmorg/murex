@@ -1,6 +1,6 @@
 # Murex Shell Docs
 
-## Data-Type Reference: `path` (string) 
+## Data-Type Reference: `path` (string)
 
 > path data type
 
@@ -11,22 +11,22 @@ This type is modelled closely on generic but is more tailored for textual
 
 ## Supported Hooks
 
-* `Marshal()`
-    Supported
-* `ReadArray()`
-    Treats each new directory as a new array element
-* `ReadArrayWithType()`
-    Treats each directory as a new array element, each array element is `str` 
-* `ReadIndex()`
-    Indexes treated as a path separated list
-* `ReadMap()`
-    Treats each new directory as a numbered map element
-* `Unmarshal()`
-    Supported
-* `WriteArray()`
-    Writes a new path, each array element as a directory
+- `Marshal()`
+  Supported
+- `ReadArray()`
+  Treats each new directory as a new array element
+- `ReadArrayWithType()`
+  Treats each directory as a new array element, each array element is `str`
+- `ReadIndex()`
+  Indexes treated as a path separated list
+- `ReadMap()`
+  Treats each new directory as a numbered map element
+- `Unmarshal()`
+  Supported
+- `WriteArray()`
+  Writes a new path, each array element as a directory
 
 ## See Also
 
-* [`str` (string) ](../types/str.md):
+- [`str` (string) ](/types/str.md):
   string (primitive)

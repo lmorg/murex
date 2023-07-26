@@ -1,4 +1,4 @@
-# `lang.IndexTemplateTable()` (template API) - API Reference
+# `lang.IndexTemplateTable()` (template API)
 
 > Returns element(s) from a table
 
@@ -11,8 +11,6 @@ It should only be called from `ReadIndex()` and `ReadNotIndex()` functions.
 This function ensures consistency with the index, `[`, builtin when used with
 different Murex data types. Thus making indexing a data type agnostic
 capability.
-
-
 
 ## Examples
 
@@ -454,26 +452,26 @@ func ittNot(p *Process, params []string, cRecords chan []string, marshaller func
 
 ## Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
-2. `[]string`: slice of parameters used in `[` / `![` 
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p`
+2. `[]string`: slice of parameters used in `[` / `![`
 3. `chan []string`: a channel for rows (each element in the slice is a column within the row). This allows tables to be stream-able
 4. `func(interface{}) ([]byte, error)`: data type marshaller function
 
 ## See Also
 
-* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+- [apis/`ReadArray()` (type)](/apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+- [apis/`ReadArrayWithType()` (type)](/apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [apis/`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+- [apis/`ReadMap()` (type)](/apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [apis/`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+- [apis/`WriteArray()` (type)](/apis/WriteArray.md):
   Write a data type, one array element at a time
-* [commands/`[` (index)](../commands/index.md):
+- [commands/`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
+- [apis/`lang.IndexTemplateObject()` (template API)](/apis/lang.IndexTemplateObject.md):
   Returns element(s) from a data structure

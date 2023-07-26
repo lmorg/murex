@@ -1,4 +1,4 @@
-# `cast` - Command Reference
+# `cast`
 
 > Alters the data type of the previous function without altering it's output
 
@@ -14,8 +14,10 @@ the pipeline are preserved however the reported data type is altered.
 
 ## Examples
 
-    » out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
-    {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+```
+» out: {"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}} -> cast json
+{"Array":[1,2,3],"Map":{"String": "Foobar","Number":123.456}}
+```
 
 ## Detail
 
@@ -24,9 +26,9 @@ instead.
 
 ## See Also
 
-* [`format`](../commands/format.md):
+- [`format`](./format.md):
   Reformat one data-type into another data-type
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`tout`](../commands/tout.md):
+- [`tout`](./tout.md):
   Print a string to the STDOUT and set it's data-type

@@ -1,4 +1,4 @@
-# `format` - Command Reference
+# `format`
 
 > Reformat one data-type into another data-type
 
@@ -13,18 +13,20 @@ specified data-type
 
 ## Examples
 
-    » tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
-    One: 1
-    Three: 3
-    Two: 2
+```
+» tout json { "One": 1, "Two": 2, "Three": 3 } -> format yaml
+One: 1
+Three: 3
+Two: 2
+```
 
 ## See Also
 
-* [`Marshal()` (type)](../apis/Marshal.md):
+- [`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [`Unmarshal()` (type)](../apis/Unmarshal.md):
+- [`Unmarshal()` (type)](/apis/Unmarshal.md):
   Converts a structured file format into structured memory
-* [`cast`](../commands/cast.md):
+- [`cast`](./cast.md):
   Alters the data type of the previous function without altering it's output
-* [`tout`](../commands/tout.md):
+- [`tout`](./tout.md):
   Print a string to the STDOUT and set it's data-type

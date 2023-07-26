@@ -1,4 +1,4 @@
-# `event` - Command Reference
+# `event`
 
 > Event driven programming for shell scripts
 
@@ -22,7 +22,7 @@ little like the following:
         "Name": "",
         "Interrupt": {}
     }
-    
+
 **Name** will always refer to the name you passed when defining the event. And
 **Interrupt** will carry any event specific metadata that might be useful to
 the event function. Thus the value of **Interrupt** will vary from one event to
@@ -31,7 +31,7 @@ another.
 ## Usage
 
     event: event-type name=interrupt { code block }
-    
+
     !event: event-type name
 
 ## Examples
@@ -42,7 +42,7 @@ Create an event:
         out "You're 60 second timeout has elapsed. Quitting murex"
         exit 1
     }
-    
+
 Destroy an event:
 
     !event onSecondsElapsed autoquit
@@ -51,13 +51,13 @@ Destroy an event:
 
 ### Supported events
 
-* [`onCommandCompletion`](../events/oncommandcompletion.md):
+- [`onCommandCompletion`](/events/oncommandcompletion.md):
   Trigger an event upon a command's completion
-* [`onFileSystemChange`](../events/onfilesystemchange.md):
+- [`onFileSystemChange`](/events/onfilesystemchange.md):
   Add a filesystem watch
-* [`onPrompt`](../events/onprompt.md):
+- [`onPrompt`](/events/onprompt.md):
   Events triggered by changes in state of the interactive shell
-* [`onSecondsElapsed`](../events/onsecondselapsed.md):
+- [`onSecondsElapsed`](/events/onsecondselapsed.md):
   Events triggered by time intervals
 
 ### ANSI constants
@@ -67,7 +67,7 @@ The `interrupt` field in the CLI supports ANSI constants. eg
     event: onKeyPress f1={F1-VT100} {
         tout: qs HintText="Key F1 Pressed"
     }
-    
+
 ### Compiled events
 
 To list compiled event types:
@@ -81,19 +81,18 @@ To list compiled event types:
 
 ## Synonyms
 
-* `event`
-* `!event`
-
+- `event`
+- `!event`
 
 ## See Also
 
-* [`formap`](../commands/formap.md):
+- [`formap`](./formap.md):
   Iterate through a map or other collection of data
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`open`](../commands/open.md):
+- [`open`](./open.md):
   Open a file with a preferred handler
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex

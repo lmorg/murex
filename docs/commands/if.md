@@ -1,4 +1,4 @@
-# `if` - Command Reference
+# `if`
 
 > Conditional statement to execute different blocks of code depending on the result of the condition
 
@@ -19,7 +19,7 @@ previous function succeeds then the condition is `true`).
     } else {
         # false
     }
-    
+
 ### Method `if`:
 
     command -> if {
@@ -27,20 +27,21 @@ previous function succeeds then the condition is `true`).
     } else {
         # false
     }
-    
+
 ### Negative Function `if`:
 
     !if { code-block } then {
         # false
     }
-    
+
 ### Negative Method `if`:
 
     command -> !if {
         # false
     }
-    
+
 ### Please Note:
+
 the `then` and `else` statements are optional. So the first usage could
 also be written as:
 
@@ -49,7 +50,7 @@ also be written as:
     } {
         # false
     }
-    
+
 However the practice of omitting those statements isn't recommended beyond
 writing short one liners in the interactive command prompt.
 
@@ -60,13 +61,13 @@ Check if a file exists:
     if { g somefile.txt } then {
         out "File exists"
     }
-    
+
 ...or does not exist (both ways are valid):
 
     !if { g somefile.txt } then {
         out "File does not exist"
     }
-    
+
     if { g somefile.txt } else {
         out "File does not exist"
     }
@@ -86,31 +87,30 @@ conditionals output.
 
 ## Synonyms
 
-* `if`
-* `!if`
-
+- `if`
+- `!if`
 
 ## See Also
 
-* [`!` (not)](../commands/not.md):
+- [`!` (not)](./not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [`and`](../commands/and.md):
+- [`and`](./and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
-* [`debug`](../commands/debug.md):
+- [`catch`](./catch.md):
+  Handles the exception code raised by `try` or `trypipe`
+- [`debug`](./debug.md):
   Debugging information
-* [`false`](../commands/false.md):
+- [`false`](./false.md):
   Returns a `false` value
-* [`or`](../commands/or.md):
+- [`or`](./or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`switch`](../commands/switch.md):
+- [`switch`](./switch.md):
   Blocks of cascading conditionals
-* [`test`](../commands/test.md):
+- [`test`](./test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
-* [`true`](../commands/true.md):
+- [`true`](./true.md):
   Returns a `true` value
-* [`try`](../commands/try.md):
+- [`try`](./try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](./trypipe.md):
   Checks state of each function in a pipeline and exits block on error

@@ -1,4 +1,4 @@
-# `and` - Command Reference
+# `and`
 
 > Returns `true` or `false` depending on whether multiple conditions are met
 
@@ -9,17 +9,19 @@ code-blocks included as parameters are successful or not.
 
 ## Usage
 
-    and: { code-block } { code-block } -> <stdout>
-    
-    !and: { code-block } { code-block } -> <stdout>
-    
+    and: { code-block } { code-block } -> `<stdout>`
+
+    !and: { code-block } { code-block } -> `<stdout>`
+
 `and` supports as many or as few code-blocks as you wish.
 
 ## Examples
 
-    if { and { = 1+1==2 } { = 2+2==4 } { = 3+3==6 } } then {
-        out: The laws of mathematics still exist in this universe.
-    }
+```
+if { and { = 1+1==2 } { = 2+2==4 } { = 3+3==6 } } then {
+    out: The laws of mathematics still exist in this universe.
+}
+```
 
 ## Detail
 
@@ -31,33 +33,32 @@ are unsuccessful.
 
 ### Code-Block Testing
 
-* `and` tests all code-blocks up until one of the code-blocks is unsuccessful,
+- `and` tests all code-blocks up until one of the code-blocks is unsuccessful,
   then `and` exits and returns `false`.
 
-* `!and` tests all code-blocks up until one of the code-blocks is successful,
+- `!and` tests all code-blocks up until one of the code-blocks is successful,
   then `!and` exits and returns `false` (ie `!and` is `not`ing every code-block).
 
 ## Synonyms
 
-* `and`
-* `!and`
-
+- `and`
+- `!and`
 
 ## See Also
 
-* [`!` (not)](../commands/not.md):
+- [`!` (not)](./not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
-* [`false`](../commands/false.md):
+- [`catch`](./catch.md):
+  Handles the exception code raised by `try` or `trypipe`
+- [`false`](./false.md):
   Returns a `false` value
-* [`if`](../commands/if.md):
+- [`if`](./if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`or`](../commands/or.md):
+- [`or`](./or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`true`](../commands/true.md):
+- [`true`](./true.md):
   Returns a `true` value
-* [`try`](../commands/try.md):
+- [`try`](./try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](./trypipe.md):
   Checks state of each function in a pipeline and exits block on error

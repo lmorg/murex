@@ -1,4 +1,4 @@
-# `exitnum` - Command Reference
+# `exitnum`
 
 > Output the exit number of the previous process
 
@@ -8,7 +8,7 @@ Output the exit number of the previous process.
 
 ## Usage
 
-    exitnum -> <stdout>
+    exitnum -> `<stdout>`
 
 ## Examples
 
@@ -17,7 +17,7 @@ Output the exit number of the previous process.
 
 ## See Also
 
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`test`](../commands/test.md):
+- [`test`](./test.md):
   Murex's test framework - define tests, run tests and debug shell scripts

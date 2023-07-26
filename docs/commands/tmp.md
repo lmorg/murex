@@ -1,4 +1,4 @@
-# `tmp` - Command Reference
+# `tmp`
 
 > Create a temporary file and write to it
 
@@ -13,15 +13,15 @@ highlighting.
 
 ## Usage
 
-    <stdin> -> tmp [ file-extension ] -> <stdout>
+    `<stdin>` -> tmp [ file-extension ] -> `<stdout>`
 
 ## Examples
 
     » out: "Hello, world!" -> set: tmp
-    
+
     » out: $tmp
     /var/folders/3t/267q_b0j27d29bnf6pf7m7vm0000gn/T/murex838290600/8ec6936c1ac1c347bf85675eab4a0877-13893
-    
+
     » open: $tmp
     Hello, world!
 
@@ -94,11 +94,11 @@ which itself is located in the appropriate temp directory for the host OS (eg
 
 ## See Also
 
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+- [`>>` (append file)](./greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`>` (truncate file)](../commands/greater-than.md):
+- [`>` (truncate file)](./greater-than.md):
   Writes STDIN to disk - overwriting contents if file already exists
-* [`open`](../commands/open.md):
+- [`open`](./open.md):
   Open a file with a preferred handler
-* [`pipe`](../commands/pipe.md):
+- [`pipe`](./pipe.md):
   Manage Murex named pipes

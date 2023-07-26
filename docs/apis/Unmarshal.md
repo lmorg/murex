@@ -1,4 +1,4 @@
-# `Unmarshal()` (type) - API Reference
+# `Unmarshal()` (type)
 
 > Converts a structured file format into structured memory
 
@@ -70,13 +70,13 @@ func unmarshal(p *lang.Process) (interface{}, error) {
 
 ## Parameters
 
-1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p` 
+1. `*lang.Process`: Process's runtime state. Typically expressed as the variable `p`
 
 ## See Also
 
-* [apis/`Marshal()` (type)](../apis/Marshal.md):
+- [apis/`Marshal()` (type)](/apis/Marshal.md):
   Converts structured memory into a structured file format (eg for stdio)
-* [apis/`lang.MarshalData()` (system API)](../apis/lang.MarshalData.md):
+- [apis/`lang.MarshalData()` (system API)](/apis/lang.MarshalData.md):
   Converts structured memory into a Murex data-type (eg for stdio)
-* [apis/`lang.UnmarshalData()` (system API)](../apis/lang.UnmarshalData.md):
+- [apis/`lang.UnmarshalData()` (system API)](/apis/lang.UnmarshalData.md):
   Converts a Murex data-type into structured memory

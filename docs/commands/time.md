@@ -1,4 +1,4 @@
-# `time`  - Command Reference
+# `time`
 
 > Returns the execution run time of a command or block
 
@@ -10,14 +10,14 @@ returns it's running time.
 ## Usage
 
     time: command parameters -> <stderr>
-    
+
     time: { code-block } -> <stderr>
 
 ## Examples
 
     » time: sleep 5
     5.000151513
-    
+
     » time { out "Going to sleep"; sleep 5; out "Waking up" }
     Going to sleep
     Waking up
@@ -31,9 +31,9 @@ and STDERR as usual.
 
 ## See Also
 
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`sleep` ](../optional/sleep.md):
+- [`sleep` ](/optional/sleep.md):
   Suspends the shell for a number of seconds
-* [`source` ](../commands/source.md):
+- [`source` ](./source.md):
   Import Murex code from another file of code block

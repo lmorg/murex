@@ -1,4 +1,4 @@
-# `[` (range)  - Command Reference
+# `[` (range)
 
 > Outputs a ranged subset of data from STDIN
 
@@ -16,7 +16,7 @@ instead**
 
 ## Usage
 
-    <stdin> -> [start..end]flags -> <stdout>
+    `<stdin>` -> [start..end]flags -> `<stdout>`
 
 ## Examples
 
@@ -32,7 +32,7 @@ instead**
     October
     November
     December
-    
+
 **Range from the 6th to the 10th month:**
 
 By default, ranges start from one, `1`
@@ -43,7 +43,7 @@ By default, ranges start from one, `1`
     July
     August
     September
-    
+
 **Return the first 3 months:**
 
 This usage is similar to `head -n3`
@@ -52,7 +52,7 @@ This usage is similar to `head -n3`
     October
     November
     December
-    
+
 **Return the last 3 months:**
 
 This usage is similar to `tail -n3`
@@ -64,43 +64,42 @@ This usage is similar to `tail -n3`
 
 ## Flags
 
-* `8`
-    handles backspace characters (char 8) instead of treating it like a printable character
-* `b`
-    removes blank (empty) lines from source
-* `e`
-    exclude the start and end search criteria from the range
-* `n`
-    numeric offset (indexed from 0)
-* `r`
-    regexp match
-* `s`
-    exact string match
-* `t`
-    trims whitespace from source
+- `8`
+  handles backspace characters (char 8) instead of treating it like a printable character
+- `b`
+  removes blank (empty) lines from source
+- `e`
+  exclude the start and end search criteria from the range
+- `n`
+  numeric offset (indexed from 0)
+- `r`
+  regexp match
+- `s`
+  exact string match
+- `t`
+  trims whitespace from source
 
 ## Synonyms
 
-* `@[`
-
+- `@[`
 
 ## See Also
 
-* [`[[` (element)](../commands/element.md):
+- [`[[` (element)](./element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](./index2.md):
   Outputs an element from an array, map or table
-* [`a` (mkarray)](../commands/a.md):
+- [`a` (mkarray)](./a.md):
   A sophisticated yet simple way to build an array or list
-* [`alter`](../commands/alter.md):
+- [`alter`](./alter.md):
   Change a value within a structured data-type and pass that change along the pipeline without altering the original source input
-* [`append`](../commands/append.md):
+- [`append`](./append.md):
   Add data to the end of an array
-* [`count`](../commands/count.md):
+- [`count`](./count.md):
   Count items in a map, list or array
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](./ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`jsplit` ](../commands/jsplit.md):
+- [`jsplit` ](./jsplit.md):
   Splits STDIN into a JSON array based on a regex parameter
-* [`prepend` ](../commands/prepend.md):
+- [`prepend` ](./prepend.md):
   Add data to the start of an array

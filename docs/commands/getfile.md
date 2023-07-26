@@ -1,4 +1,4 @@
-# `getfile` - Command Reference
+# `getfile`
 
 > Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
 
@@ -8,11 +8,11 @@ Fetches a resource from a URL - setting STDOUT data-type
 
 ## Usage
 
-    getfile url -> <stdout>
+    getfile url -> `<stdout>`
 
 ## Examples
 
-    getfile google.com 
+    getfile google.com
 
 ## Detail
 
@@ -31,22 +31,22 @@ terminal rendering.
 Murex's standard `config` tool:
 
     config: -> [ http ]
-    
+
 To change a default, for example the user agent string:
 
     config: set http user-agent "bob"
     getfile: google.com
-    
+
 This enables sane, repeatable and readable defaults. Read the documents on
 `config` for more details about it's usage and the rational behind the command.
 
 ## See Also
 
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`get`](../commands/get.md):
+- [`get`](./get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [`open`](../commands/open.md):
+- [`open`](./open.md):
   Open a file with a preferred handler
-* [`post`](../commands/post.md):
+- [`post`](./post.md):
   HTTP POST request with a JSON-parsable return

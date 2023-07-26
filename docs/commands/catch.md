@@ -1,6 +1,6 @@
-# `catch` - Command Reference
+# `catch`
 
-> Handles the exception code raised by `try` or `trypipe` 
+> Handles the exception code raised by `try` or `trypipe`
 
 ## Description
 
@@ -9,26 +9,30 @@ handles the exceptions raised by the aforementioned.
 
 ## Usage
 
+```
     [ try | trypipe ] { code-block } -> <stdout>
-    
+
     catch { code-block } -> <stdout>
-    
+
     !catch { code-block } -> <stdout>
+```
 
 ## Examples
 
-    try {
-        out: "Hello, World!" -> grep: "non-existent string"
-        out: "This command will be ignored"
-    }
-    
-    catch {
-        out: "An error was caught"
-    }
-    
-    !catch {
-        out: "No errors were raised"
-    }
+```
+try {
+    out: "Hello, World!" -> grep: "non-existent string"
+    out: "This command will be ignored"
+}
+
+catch {
+    out: "An error was caught"
+}
+
+!catch {
+    out: "No errors were raised"
+}
+```
 
 ## Detail
 
@@ -38,21 +42,20 @@ handles the exceptions raised by the aforementioned.
 
 ## Synonyms
 
-* `catch`
-* `!catch`
-
+- `catch`
+- `!catch`
 
 ## See Also
 
-* [Schedulers](../user-guide/schedulers.md):
+- [Schedulers](/user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`if`](../commands/if.md):
+- [`if`](./if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`runmode`](../commands/runmode.md):
+- [`runmode`](./runmode.md):
   Alter the scheduler's behaviour at higher scoping level
-* [`switch`](../commands/switch.md):
+- [`switch`](./switch.md):
   Blocks of cascading conditionals
-* [`try`](../commands/try.md):
+- [`try`](./try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](./trypipe.md):
   Checks state of each function in a pipeline and exits block on error

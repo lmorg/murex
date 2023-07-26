@@ -1,4 +1,4 @@
-# Reserved Variables - User Guide
+# Reserved Variables
 
 > Special variables reserved by Murex
 
@@ -18,18 +18,20 @@ still inside the same function.
 
 Please see scoping document (link below) for more information on scoping.
 
-    » function example { out $SELF }
-    » example
-    {
-        "Parent": 11357,
-        "Scope": 11357,
-        "TTY": true,
-        "Method": false,
-        "Not": false,
-        "Background": false,
-        "Module": "murex"
-    }
-    
+```
+» function example { out $SELF }
+» example
+{
+    "Parent": 11357,
+    "Scope": 11357,
+    "TTY": true,
+    "Method": false,
+    "Not": false,
+    "Background": false,
+    "Module": "murex"
+}
+```
+
 #### Parent (num)
 
 This is the function ID of the parent function that created the scope. In
@@ -49,7 +51,7 @@ terminal (TTY) or a pipe?)
 #### Method (bool)
 
 A boolean value to describe whether the current scope is a method (ie being
-called mid-way or at the end of a pipeline). 
+called mid-way or at the end of a pipeline).
 
 #### Not (bool)
 
@@ -72,31 +74,35 @@ scope.
 
 Unlike `$PARAMS`, `$ARGS` includes the function name.
 
-    » function example { out $ARGS }
-    » example abc 1 2 3
-    [
-        "example",
-        "abc",
-        "1",
-        "2",
-        "3"
-    ]
-    
+```
+» function example { out $ARGS }
+» example abc 1 2 3
+[
+    "example",
+    "abc",
+    "1",
+    "2",
+    "3"
+]
+```
+
 ### `PARAMS` (json)
 
 This returns a JSON array of the parameters within a given scope.
 
 Unlike `$ARGS`, `$PARAMS` does not include the function name.
 
-    » function example { out $PARAMS }
-    » example abc 1 2 3
-    [
-        "abc",
-        "1",
-        "2",
-        "3"
-    ]
-    
+```
+» function example { out $PARAMS }
+» example abc 1 2 3
+[
+    "abc",
+    "1",
+    "2",
+    "3"
+]
+```
+
 ### `MUREX_EXE` (str)
 
 This is very similar to the `$SHELL` environmental variable in that it holds
@@ -124,31 +130,31 @@ then variables `$1` through to `$19` (inclusive) will all be set.
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
+- [Array (`@`) Token](/parser/array.md):
   Expand values as an array
-* [Bang Prefix](../user-guide/bang-prefix.md):
+- [Bang Prefix](/user-guide/bang-prefix.md):
   Bang prefixing to reverse default actions
-* [Modules and Packages](../user-guide/modules.md):
+- [Modules and Packages](/user-guide/modules.md):
   An introduction to Murex modules and packages
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [String (`$`) Token](../parser/string.md):
+- [String (`$`) Token](/parser/string.md):
   Expand values as a string
-* [Variable and Config Scoping](../user-guide/scoping.md):
+- [Variable and Config Scoping](/user-guide/scoping.md):
   How scoping works within Murex
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](/commands/foreach.md):
   Iterate through an array
-* [`function`](../commands/function.md):
+- [`function`](/commands/function.md):
   Define a function block
-* [`if`](../commands/if.md):
+- [`if`](/commands/if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`let`](../commands/let.md):
+- [`let`](/commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`private`](../commands/private.md):
+- [`private`](/commands/private.md):
   Define a private function block
-* [`set`](../commands/set.md):
+- [`set`](/commands/set.md):
   Define a local variable and set it's value
-* [`switch`](../commands/switch.md):
+- [`switch`](/commands/switch.md):
   Blocks of cascading conditionals

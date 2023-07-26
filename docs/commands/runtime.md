@@ -1,4 +1,4 @@
-# `runtime` - Command Reference
+# `runtime`
 
 > Returns runtime information on the internal state of Murex
 
@@ -9,11 +9,11 @@ will be JSON dumps.
 
 ## Usage
 
-    runtime: flags -> <stdout>
-    
+    runtime: flags -> `<stdout>`
+
 `builtins` is an alias for `runtime: --builtins`:
 
-    builtins -> <stdout>
+    builtins -> `<stdout>`
 
 ## Examples
 
@@ -33,7 +33,7 @@ List all the builtin data-types that support WriteArray()
         "toml",
         "yaml"
     ]
-    
+
 List all the functions
 
     » runtime: --functions -> [ agent aliases ]
@@ -65,7 +65,7 @@ List all the functions
             "Summary": "Output the aliases in human readable format"
         }
     ]
-    
+
 To get a list of every flag supported by `runtime`
 
     » runtime: --help
@@ -96,7 +96,7 @@ To get a list of every flag supported by `runtime`
         "--variables",
         "--writearray"
     ]
-    
+
 Please also note that you can supply more than one flag. However when you
 do use multiple flags the top level of the JSON output will be a map of the
 flag names. eg
@@ -116,7 +116,7 @@ flag names. eg
             "test": []
         }
     }
-    
+
     » runtime: --pipes
     [
         "file",
@@ -126,7 +126,7 @@ flag names. eg
         "udp-dial",
         "udp-listen"
     ]
-    
+
     » runtime: --tests
     {
         "state": {},
@@ -135,70 +135,70 @@ flag names. eg
 
 ## Flags
 
-* `--aliases`
-    Lists all aliases
-* `--astcache`
-    Lists some data about cached ASTs 
-* `--autocomplete`
-    Lists all `autocomplete` schemas - both user defined and automatically generated one
-* `--builtins`
-    Lists all builtin commands, compiled into Murex
-* `--config`
-    Lists all properties available to `config
-* `--debug`
-    Outputs the state of debug and inspect mode
-* `--events`
-    Lists all builtin event types and any defined events
-* `--exports`
-    Outputs environmental variables. For Murex variables (`global` and `set`/`let`) use `--variables
-* `--fids`
-    Lists all running processes / functions
-* `--functions`
-    Lists all Murex global functions
-* `--globals`
-    Lists all global variables
-* `--help`
-    Outputs a list of `runtimes`'s flags
-* `--indexes`
-    Lists all builtin data-types which are supported by index (`[`)
-* `--marshallers`
-    Lists all builtin data-types with marshallers (eg required for `format`)
-* `--memstats`
-    Outputs the running state of Go's runtime
-* `--methods`
-    Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->
-* `--modules`
-    Lists all installed modules
-* `--named-pipes`
-    Lists all named pipes defined
-* `--not-indexes`
-    Lists all builtin data-types which are supported by index (`![`)
-* `--open-agents`
-    Lists all registered `open` handlers 
-* `--pipes`
-    Lists builtin pipes compiled into Murex. These can be then be defined as named-pipes
-* `--privates`
-    Lists all Murex private functions
-* `--readarray`
-    Lists all builtin data-types which support ReadArray()
-* `--readarraywithtype`
-    Lists all builtin data-types which support ReadArrayWithType()
-* `--readmap`
-    Lists all builtin data-types which support ReadMap()
-* `--sources`
-    Lists all loaded murex sources
-* `--summaries`
-    Outputs all the override summaries 
-* `--test-results`
-    A dump of any unreported test results
-* `--tests`
-    Lists defined tests
-* `--unmarshallers`
-    Lists all builtin data-types with unmarshallers (eg required for `format`)
-* `--variables`
-    Lists all local Murex variables which doesn't include environmental nor global variables
-* `--writearray`
-    Lists all builtin data-types which support WriteArray()
+- `--aliases`
+  Lists all aliases
+- `--astcache`
+  Lists some data about cached ASTs
+- `--autocomplete`
+  Lists all `autocomplete` schemas - both user defined and automatically generated one
+- `--builtins`
+  Lists all builtin commands, compiled into Murex
+- `--config`
+  Lists all properties available to `config
+- `--debug`
+  Outputs the state of debug and inspect mode
+- `--events`
+  Lists all builtin event types and any defined events
+- `--exports`
+  Outputs environmental variables. For Murex variables (`global` and `set`/`let`) use `--variables
+- `--fids`
+  Lists all running processes / functions
+- `--functions`
+  Lists all Murex global functions
+- `--globals`
+  Lists all global variables
+- `--help`
+  Outputs a list of `runtimes`'s flags
+- `--indexes`
+  Lists all builtin data-types which are supported by index (`[`)
+- `--marshallers`
+  Lists all builtin data-types with marshallers (eg required for `format`)
+- `--memstats`
+  Outputs the running state of Go's runtime
+- `--methods`
+  Lists all commands with a defined STDOUT and STDIN data type. This is used to generate smarter autocompletion suggestions with `->
+- `--modules`
+  Lists all installed modules
+- `--named-pipes`
+  Lists all named pipes defined
+- `--not-indexes`
+  Lists all builtin data-types which are supported by index (`![`)
+- `--open-agents`
+  Lists all registered `open` handlers
+- `--pipes`
+  Lists builtin pipes compiled into Murex. These can be then be defined as named-pipes
+- `--privates`
+  Lists all Murex private functions
+- `--readarray`
+  Lists all builtin data-types which support ReadArray()
+- `--readarraywithtype`
+  Lists all builtin data-types which support ReadArrayWithType()
+- `--readmap`
+  Lists all builtin data-types which support ReadMap()
+- `--sources`
+  Lists all loaded murex sources
+- `--summaries`
+  Outputs all the override summaries
+- `--test-results`
+  A dump of any unreported test results
+- `--tests`
+  Lists defined tests
+- `--unmarshallers`
+  Lists all builtin data-types with unmarshallers (eg required for `format`)
+- `--variables`
+  Lists all local Murex variables which doesn't include environmental nor global variables
+- `--writearray`
+  Lists all builtin data-types which support WriteArray()
 
 ## Detail
 
@@ -218,7 +218,7 @@ a script parsable version when STDOUT is not a terminal.
         FID   Parent    Scope  State         Run Mode  BG   Out Pipe    Err Pipe    Command     Parameters
           0        0        0  Executing     Shell     no                           -murex
      265499        0        0  Executing     Normal    no   out         err         fid-list
-    
+
     » fid-list -> pretty
     [
         {
@@ -258,7 +258,7 @@ a script parsable version when STDOUT is not a terminal.
             "Parameters": ""
         }
     ]
-    
+
 ### File reference
 
 Some of the JSON dumps produced from `runtime` will include a map called
@@ -276,53 +276,52 @@ functions.
 
 ## Synonyms
 
-* `runtime`
-* `builtins`
-
+- `runtime`
+- `builtins`
 
 ## See Also
 
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](./index2.md):
   Outputs an element from an array, map or table
-* [`autocomplete`](../commands/autocomplete.md):
+- [`autocomplete`](./autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`debug`](../commands/debug.md):
+- [`debug`](./debug.md):
   Debugging information
-* [`event`](../commands/event.md):
+- [`event`](./event.md):
   Event driven programming for shell scripts
-* [`export`](../commands/export.md):
+- [`export`](./export.md):
   Define an environmental variable and set it's value
-* [`fid-list`](../commands/fid-list.md):
+- [`fid-list`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](./foreach.md):
   Iterate through an array
-* [`formap`](../commands/formap.md):
+- [`formap`](./formap.md):
   Iterate through a map or other collection of data
-* [`format`](../commands/format.md):
+- [`format`](./format.md):
   Reformat one data-type into another data-type
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`global`](../commands/global.md):
+- [`global`](./global.md):
   Define a global variable and set it's value
-* [`let`](../commands/let.md):
+- [`let`](./let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
+- [`method`](./method.md):
   Define a methods supported data-types
-* [`open`](../commands/open.md):
+- [`open`](./open.md):
   Open a file with a preferred handler
-* [`openagent`](../commands/openagent.md):
+- [`openagent`](./openagent.md):
   Creates a handler function for `open
-* [`pipe`](../commands/pipe.md):
+- [`pipe`](./pipe.md):
   Manage Murex named pipes
-* [`pretty`](../commands/pretty.md):
+- [`pretty`](./pretty.md):
   Prettifies JSON to make it human readable
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block
-* [`set`](../commands/set.md):
+- [`set`](./set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+- [`source` ](./source.md):
   Import Murex code from another file of code block
-* [`test`](../commands/test.md):
+- [`test`](./test.md):
   Murex's test framework - define tests, run tests and debug shell scripts

@@ -1,4 +1,4 @@
-# Bang Prefix - User Guide
+# Bang Prefix
 
 > Bang prefixing to reverse default actions
 
@@ -19,17 +19,17 @@ bang prefix and what the behavior of that prefix is.
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Reserved Variables](../user-guide/reserved-vars.md):
+- [Reserved Variables](/user-guide/reserved-vars.md):
   Special variables reserved by Murex
-* [`!` (not)](../commands/not.md):
+- [`!` (not)](/commands/not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [`and`](../commands/and.md):
+- [`and`](/commands/and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [`config`](../commands/config.md):
+- [`config`](/commands/config.md):
   Query or define Murex runtime settings
-* [`or`](../commands/or.md):
+- [`or`](/commands/or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`set`](../commands/set.md):
+- [`set`](/commands/set.md):
   Define a local variable and set it's value

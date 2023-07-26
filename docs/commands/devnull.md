@@ -1,4 +1,4 @@
-# `null` - Command Reference
+# `null`
 
 > null function. Similar to /dev/null
 
@@ -9,7 +9,7 @@ UNIX /dev/null device.
 
 ## Usage
 
-    <stdin> -> null
+    `<stdin>` -> null
 
 ## Examples
 
@@ -24,14 +24,13 @@ use the named pipe property rather than piping to null:
 
 ## Synonyms
 
-* `null`
-
+- `null`
 
 ## See Also
 
-* [`break`](../commands/break.md):
+- [`break`](./break.md):
   Terminate execution of a block within your processes scope
-* [`die`](../commands/die.md):
+- [`die`](./die.md):
   Terminate murex with an exit number of 1
-* [`exit`](../commands/exit.md):
+- [`exit`](./exit.md):
   Exit murex

@@ -1,4 +1,4 @@
-# `>` (truncate file) - Command Reference
+# `>` (truncate file)
 
 > Writes STDIN to disk - overwriting contents if file already exists
 
@@ -11,7 +11,7 @@ Otherwise a new file is created.
 
 ## Usage
 
-    <stdin> |> filename
+    `<stdin>` |> filename
 
 ## Examples
 
@@ -19,25 +19,24 @@ Otherwise a new file is created.
 
 ## Synonyms
 
-* `>`
-* `fwrite`
-
+- `>`
+- `fwrite`
 
 ## See Also
 
-* [Arrow Pipe (`->`) Token](../parser/pipe-arrow.md):
+- [Arrow Pipe (`->`) Token](/parser/pipe-arrow.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [POSIX Pipe (`|`) Token](../parser/pipe-posix.md):
+- [POSIX Pipe (`|`) Token](/parser/pipe-posix.md):
   Pipes STDOUT from the left hand command to STDIN of the right hand command
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+- [STDERR Pipe (`?`) Token](/parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+- [`<>` / `read-named-pipe`](./namedpipe.md):
   Reads from a Murex named pipe
-* [`>>` (append file)](../commands/greater-than-greater-than.md):
+- [`>>` (append file)](./greater-than-greater-than.md):
   Writes STDIN to disk - appending contents if file already exists
-* [`g`](../commands/g.md):
+- [`g`](./g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [`pipe`](../commands/pipe.md):
+- [`pipe`](./pipe.md):
   Manage Murex named pipes
-* [`tmp`](../commands/tmp.md):
+- [`tmp`](./tmp.md):
   Create a temporary file and write to it

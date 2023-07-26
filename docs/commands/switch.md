@@ -1,4 +1,4 @@
-# `switch` - Command Reference
+# `switch`
 
 > Blocks of cascading conditionals
 
@@ -8,13 +8,15 @@
 
 ## Usage
 
-    switch [value] {
-      case | if { conditional } [then] { code-block }
-      case | if { conditional } [then] { code-block }
-      ...
-      [ default { code-block } ]
-    } -> <stdout>
-    
+```
+switch [value] {
+  case | if { conditional } [then] { code-block }
+  case | if { conditional } [then] { code-block }
+  ...
+  [ default { code-block } ]
+} -> <stdout>
+```
+
 The first parameter should be either **case** or **if** -- the statements are
 subtly different and thus alter the behavior of `switch`.
 
@@ -24,48 +26,54 @@ subtly different and thus alter the behavior of `switch`.
 
 Output an array of editors installed:
 
-    switch {
-        if { which: vi    } { out: vi    }
-        if { which: vim   } { out: vim   }
-        if { which: nano  } { out: nano  }
-        if { which: emacs } { out: emacs }
-    } -> format: json
-    
+```
+switch {
+    if { which: vi    } { out: vi    }
+    if { which: vim   } { out: vim   }
+    if { which: nano  } { out: nano  }
+    if { which: emacs } { out: emacs }
+} -> format: json
+```
+
 A higher/lower game written using `switch`:
 
-    function higherlower {
-      try {
-        rand: int 100 -> set rand
-        while { $rand } {
-          read: guess "Guess a number between 1 and 100: "
-    
-          switch {
-            case: { = $guess < $rand } then {
-              out: "Too low"
-            }
-    
-            case: { = $guess > $rand } then {
-              out: "Too high"
-            }
-    
-            default: {
-              out: "Correct"
-              let: rand=0
-            }
-          }
+```
+function higherlower {
+  try {
+    rand: int 100 -> set rand
+    while { $rand } {
+      read: guess "Guess a number between 1 and 100: "
+
+      switch {
+        case: { = $guess < $rand } then {
+          out: "Too low"
+        }
+
+        case: { = $guess > $rand } then {
+          out: "Too high"
+        }
+
+        default: {
+          out: "Correct"
+          let: rand=0
         }
       }
     }
-    
+  }
+}
+```
+
 String matching with `switch`:
 
-    read: name "What is your name? "
-    switch $name {
-        case "Tom"   { out: "I have a brother called Tom" }
-        case "Dick"  { out: "I have an uncle called Dick" }
-        case "Sally" { out: "I have a sister called Sally" }
-        default      { err: "That is an odd name" }
-    }
+```
+read: name "What is your name? "
+switch $name {
+    case "Tom"   { out: "I have a brother called Tom" }
+    case "Dick"  { out: "I have an uncle called Dick" }
+    case "Sally" { out: "I have a sister called Sally" }
+    default      { err: "That is an odd name" }
+}
+```
 
 ## Detail
 
@@ -75,30 +83,36 @@ String matching with `switch`:
 
 If you supply a value with `switch`...
 
-    switch value { ... }
-    
+```
+switch value { ... }
+```
+
 ...then all the conditionals are compared against that value. For example:
 
-    switch foo {
-        case bar {
-            # not executed because foo != bar
-        }
-        case foo {
-            # executed because foo != foo
-        }
+```
+switch foo {
+    case bar {
+        # not executed because foo != bar
     }
-    
+    case foo {
+        # executed because foo != foo
+    }
+}
+```
+
 You can use code blocks to return strings too
 
-    switch foo {
-        case {out: bar} then {
-            # not executed because foo != bar
-        }
-        case {out: foo} then {
-            # executed because foo != foo
-        }
+```
+switch foo {
+    case {out: bar} then {
+        # not executed because foo != bar
     }
-    
+    case {out: foo} then {
+        # executed because foo != foo
+    }
+}
+```
+
 #### By Boolean State
 
 This style of syntax could be argued as a prettier counterpart to if/else if.
@@ -107,8 +121,10 @@ rather than string matching.
 
 This is simply written as:
 
-    switch { ... }
-    
+```
+switch { ... }
+```
+
 ### When To Use `case`, `if` and `default`?
 
 A `switch` command may contain multiple **case** and **if** blocks. These
@@ -121,58 +137,64 @@ A **case** statement will only move on to the next statement if the result of
 the **case** statement is **false**. If a **case** statement is **true** then
 `switch` will exit with an exit number of `0`.
 
-    switch {
-        case { false } then {
-            # ignored because case == false
-        }
-        case { true } then {
-            # executed because case == true
-        }
-        case { true } then {
-            # ignored because a previous case was true
-        }
+```
+switch {
+    case { false } then {
+        # ignored because case == false
     }
-    
+    case { true } then {
+        # executed because case == true
+    }
+    case { true } then {
+        # ignored because a previous case was true
+    }
+}
+```
+
 ### if
 
 An **if** statement will proceed to the next statement _even_ if the result of
 the **if** statement is **true**.
 
-    switch {
-        if { false } then {
-            # ignored because if == false
-        }
-        if { true } then {
-            # executed because if == true
-        }
-        if { true } then {
-            # executed because if == true
-        }
+```
+switch {
+    if { false } then {
+        # ignored because if == false
     }
-    
+    if { true } then {
+        # executed because if == true
+    }
+    if { true } then {
+        # executed because if == true
+    }
+}
+```
+
 ### default
 
 **default** statements are only run if _all_ **case** _and_ **if** statements are
 false.
 
-    switch {
-        if { false } then {
-            # ignored because if == false
-        }
-        if { true } then {
-            # executed because if == true
-        }
-        if { true } then {
-            # executed because if == true
-        }
-        if { false } then {
-            # ignored because if == false
-        }
-        default {
-            # ignored because one or more previous if's were true
-        }
+```
+switch {
+    if { false } then {
+        # ignored because if == false
     }
-    
+    if { true } then {
+        # executed because if == true
+    }
+    if { true } then {
+        # executed because if == true
+    }
+    if { false } then {
+        # ignored because if == false
+    }
+    default {
+        # ignored because one or more previous if's were true
+    }
+}
+```
+
 > **default** was added in Murex version 3.1
 
 ### catch
@@ -181,29 +203,29 @@ false.
 
 ## See Also
 
-* [`!` (not)](../commands/not.md):
+- [`!` (not)](./not.md):
   Reads the STDIN and exit number from previous process and not's it's condition
-* [`and`](../commands/and.md):
+- [`and`](./and.md):
   Returns `true` or `false` depending on whether multiple conditions are met
-* [`break`](../commands/break.md):
+- [`break`](./break.md):
   Terminate execution of a block within your processes scope
-* [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
-* [`false`](../commands/false.md):
+- [`catch`](./catch.md):
+  Handles the exception code raised by `try` or `trypipe`
+- [`false`](./false.md):
   Returns a `false` value
-* [`if`](../commands/if.md):
+- [`if`](./if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`let`](../commands/let.md):
+- [`let`](./let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`or`](../commands/or.md):
+- [`or`](./or.md):
   Returns `true` or `false` depending on whether one code-block out of multiple ones supplied is successful or unsuccessful.
-* [`set`](../commands/set.md):
+- [`set`](./set.md):
   Define a local variable and set it's value
-* [`true`](../commands/true.md):
+- [`true`](./true.md):
   Returns a `true` value
-* [`try`](../commands/try.md):
+- [`try`](./try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](./trypipe.md):
   Checks state of each function in a pipeline and exits block on error
-* [`while`](../commands/while.md):
+- [`while`](./while.md):
   Loop until condition false

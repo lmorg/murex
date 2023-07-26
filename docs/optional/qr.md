@@ -1,4 +1,4 @@
-# `qr`  - Optional Command Reference
+# `qr`
 
 > Creates a QR code from STDIN
 
@@ -15,11 +15,15 @@ input from STDIN. `qr` must be run as a method.
 
 Write the PNG to disk
 
-    » out "Hello, World!" -> qr -> > qr.png
-    
+```
+» out "Hello, World!" -> qr -> > qr.png
+```
+
 Display PNG in the terminal
 
-    » out "Hello, World!" -> qr -> open-image
+```
+» out "Hello, World!" -> qr -> open-image
+```
 
 ## Detail
 
@@ -29,7 +33,7 @@ have to `cast` the output in some circumstances.
 
 ## See Also
 
-* [`cast`](../commands/cast.md):
+- [`cast`](/commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`open-image` ](../commands/open-image.md):
+- [`open-image` ](/commands/open-image.md):
   Renders bitmap image data on your terminal

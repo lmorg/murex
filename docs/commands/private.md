@@ -1,4 +1,4 @@
-# `private` - Command Reference
+# `private`
 
 > Define a private function block
 
@@ -20,21 +20,21 @@ a module or source file without cluttering up the global namespace.
 
     # The following cannot be entered via the command line. You need to write
     # it to a file and execute it from there.
-    
+
     private hw {
         out "Hello, World!"
     }
-    
+
     function tom {
         hw
         out "My name is Tom."
     }
-    
+
     function dick {
         hw
         out "My name is Dick."
     }
-    
+
     function harry {
         hw
         out "My name is Harry."
@@ -65,50 +65,50 @@ There is an order of precedence for which commands are looked up:
 1. `test` and `pipe` functions also alter the behavior of the compiler and thus
    are executed ahead of any scripts.
 
-4. private functions - defined via `private`. Private's cannot be global and
+1. private functions - defined via `private`. Private's cannot be global and
    are scoped only to the module or source that defined them. For example, You
    cannot call a private function directly from the interactive command line
    (however you can force an indirect call via `fexec`).
 
-2. Aliases - defined via `alias`. All aliases are global.
+1. Aliases - defined via `alias`. All aliases are global.
 
-3. Murex functions - defined via `function`. All functions are global.
+1. Murex functions - defined via `function`. All functions are global.
 
-5. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
+1. Variables (dollar prefixed) which are declared via `global`, `set` or `let`.
    Also environmental variables too, declared via `export`.
 
-6. globbing: however this only applies for commands executed in the interactive
+1. globbing: however this only applies for commands executed in the interactive
    shell.
 
-7. Murex builtins.
+1. Murex builtins.
 
-8. External executable files
+1. External executable files
 
 You can override this order of precedence via the `fexec` and `exec` builtins.
 
 ## See Also
 
-* [`alias`](../commands/alias.md):
+- [`alias`](./alias.md):
   Create an alias for a command
-* [`break`](../commands/break.md):
+- [`break`](./break.md):
   Terminate execution of a block within your processes scope
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`export`](../commands/export.md):
+- [`export`](./export.md):
   Define an environmental variable and set it's value
-* [`fexec` ](../commands/fexec.md):
+- [`fexec` ](./fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`g`](../commands/g.md):
+- [`g`](./g.md):
   Glob pattern matching for file system objects (eg `*.txt`)
-* [`global`](../commands/global.md):
+- [`global`](./global.md):
   Define a global variable and set it's value
-* [`let`](../commands/let.md):
+- [`let`](./let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
-* [`method`](../commands/method.md):
+- [`method`](./method.md):
   Define a methods supported data-types
-* [`set`](../commands/set.md):
+- [`set`](./set.md):
   Define a local variable and set it's value
-* [`source` ](../commands/source.md):
+- [`source` ](./source.md):
   Import Murex code from another file of code block

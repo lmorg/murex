@@ -1,4 +1,4 @@
-# `history` - Command Reference
+# `history`
 
 > Outputs murex's command history
 
@@ -8,7 +8,7 @@ Outputs _mutex_'s command history.
 
 ## Usage
 
-    history -> <stdout>
+    history -> `<stdout>`
 
 ## Examples
 
@@ -37,7 +37,7 @@ The history file is typically located on disk in a file called `~/.murex.history
 
 ## See Also
 
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex

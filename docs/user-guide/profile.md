@@ -1,4 +1,4 @@
-# Murex Profile Files - User Guide
+# Profile Files
 
 > A breakdown of the different files loaded on start up
 
@@ -17,13 +17,15 @@ need to be set before the modules are loaded (eg including directories in
 
 Most of the time this file will be empty bar the standard warning message:
 
-    # This file is loaded before any murex modules. It should only contain
-    # environmental variables required for the modules to work eg:
-    #
-    #     export PATH=...
-    #
-    # Any other profile config belongs in your profile script instead:
-    # /home/$USER/.murex_profile
+```
+# This file is loaded before any murex modules. It should only contain
+# environmental variables required for the modules to work eg:
+#
+#     export PATH=...
+#
+# Any other profile config belongs in your profile script instead:
+# /home/$USER/.murex_profile
+```
 
 This file is created upon the first run of Murex.
 
@@ -62,10 +64,12 @@ named above.
 For people who wish to use XDG paths, in many instances you can get away
 with setting the follow prior to launching Murex (eg in `/etc/profile.d`):
 
-    MUREX_PRELOAD="$XDG_CONFIG_HOME/murex/"
-    MUREX_MODULES="$XDG_CONFIG_HOME/murex/"
-    MUREX_PROFILE="$XDG_CONFIG_HOME/murex/"
-    
+```
+MUREX_PRELOAD="$XDG_CONFIG_HOME/murex/"
+MUREX_MODULES="$XDG_CONFIG_HOME/murex/"
+MUREX_PROFILE="$XDG_CONFIG_HOME/murex/"
+```
+
 This, however, depends on `$XDG_CONFIG_HOME` pointing to a single path rather
 than an array of paths (like `$PATH`). In that instance you can still use
 custom paths in Murex but you might need to get a little more creative in
@@ -73,9 +77,9 @@ how you define that value.
 
 ## See Also
 
-* [Modules and Packages](../user-guide/modules.md):
+- [Modules and Packages](/user-guide/modules.md):
   An introduction to Murex modules and packages
-* [`export`](../commands/export.md):
+- [`export`](/commands/export.md):
   Define an environmental variable and set it's value
-* [`murex-package`](../commands/murex-package.md):
+- [`murex-package`](/commands/murex-package.md):
   Murex's package manager

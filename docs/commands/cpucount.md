@@ -1,4 +1,4 @@
-# `cpucount` - Command Reference
+# `cpucount`
 
 > Output the number of CPU cores available on your host
 
@@ -8,7 +8,7 @@ Output the number of CPU cores available on your host.
 
 ## Usage
 
-    cpucount -> <stdout>
+    cpucount -> `<stdout>`
 
 ## Examples
 
@@ -17,7 +17,7 @@ Output the number of CPU cores available on your host.
 
 ## See Also
 
-* [`cpuarch`](../commands/cpuarch.md):
+- [`cpuarch`](./cpuarch.md):
   Output the hosts CPU architecture
-* [`os`](../commands/os.md):
+- [`os`](./os.md):
   Output the auto-detected OS name

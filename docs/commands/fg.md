@@ -1,4 +1,4 @@
-# `fg` - Command Reference
+# `fg`
 
 > Sends a background process into the foreground
 
@@ -19,15 +19,15 @@ for Windows (due to the kernel not supporting the right signals) nor Plan 9.
 
 ## See Also
 
-* [`bg`](../commands/bg.md):
+- [`bg`](./bg.md):
   Run processes in the background
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`fid-kill`](../commands/fid-kill.md):
+- [`fid-kill`](./fid-kill.md):
   Terminate a running Murex function
-* [`fid-killall`](../commands/fid-killall.md):
+- [`fid-killall`](./fid-killall.md):
   Terminate _all_ running Murex functions
-* [`fid-list`](../commands/fid-list.md):
+- [`fid-list`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`jobs`](../commands/fid-list.md):
+- [`jobs`](./fid-list.md):
   Lists all running functions within the current Murex session

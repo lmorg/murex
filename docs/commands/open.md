@@ -1,4 +1,4 @@
-# `open` - Command Reference
+# `open`
 
 > Open a file with a preferred handler
 
@@ -9,16 +9,18 @@
 1. It will read a file from disk or a HTTP(S) endpoints
 2. Detect the file type via file extension or HTTP header `Content-Type`
 3. It intelligently writes to STDOUT
-  - If STDOUT is a TTY it will perform any transformations to render to the
-    terminal (eg using inlining images)
-  - If STDOUT is a pipe then it will write a byte stream with the relevant
-    data-type
+
+- If STDOUT is a TTY it will perform any transformations to render to the
+  terminal (eg using inlining images)
+- If STDOUT is a pipe then it will write a byte stream with the relevant
+  data-type
+
 4. If there are no open handlers then it will fallback to the systems default.
    eg `open` (on macOS, Linux), `open-xdg` (X11), etc.
 
 ## Usage
 
-    open filename[.gz]|uri -> <stdout>
+    open filename[.gz]|uri -> `<stdout>`
 
 ## Examples
 
@@ -187,7 +189,7 @@ func MimeToMurex(mimeType string) string {
             "Value": "murex/1.7.0000 BETA"
         }
     }
-    
+
 ### Open Flags
 
 If the `open` builtin falls back to using the systems default (like `open-xdg`)
@@ -200,23 +202,23 @@ In the case of macOS and some Linux systems, that might look like:
 
 ## See Also
 
-* [`*` (generic) ](../types/generic.md):
+- [`*` (generic) ](/types/generic.md):
   generic (primitive)
-* [`config`](../commands/config.md):
+- [`config`](./config.md):
   Query or define Murex runtime settings
-* [`exec`](../commands/exec.md):
+- [`exec`](./exec.md):
   Runs an executable
-* [`fexec` ](../commands/fexec.md):
+- [`fexec` ](./fexec.md):
   Execute a command or function, bypassing the usual order of precedence.
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](./foreach.md):
   Iterate through an array
-* [`get`](../commands/get.md):
+- [`get`](./get.md):
   Makes a standard HTTP request and returns the result as a JSON object
-* [`getfile`](../commands/getfile.md):
+- [`getfile`](./getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
-* [`openagent`](../commands/openagent.md):
+- [`openagent`](./openagent.md):
   Creates a handler function for `open
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`post`](../commands/post.md):
+- [`post`](./post.md):
   HTTP POST request with a JSON-parsable return

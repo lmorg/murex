@@ -1,0 +1,14 @@
+export const data = JSON.parse("{\"key\":\"v-7b80e7e4\",\"path\":\"/user-guide/modules.html\",\"title\":\"Modules and Packages\",\"lang\":\"en-US\",\"frontmatter\":{\"description\":\"An introduction to Murex modules and packages Murex has it's own module system with namespacing and a package manager. But why should a shell need all this? The answer comes fro...\",\"head\":[[\"meta\",{\"property\":\"og:url\",\"content\":\"https://vuepress-theme-hope-docs-demo.netlify.app/user-guide/modules.html\"}],[\"meta\",{\"property\":\"og:title\",\"content\":\"Modules and Packages\"}],[\"meta\",{\"property\":\"og:description\",\"content\":\"An introduction to Murex modules and packages Murex has it's own module system with namespacing and a package manager. But why should a shell need all this? The answer comes fro...\"}],[\"meta\",{\"property\":\"og:type\",\"content\":\"article\"}],[\"meta\",{\"property\":\"og:locale\",\"content\":\"en-US\"}],[\"meta\",{\"property\":\"article:author\",\"content\":\"Laurence Morgan\"}],[\"script\",{\"type\":\"application/ld+json\"},\"{\\\"@context\\\":\\\"https://schema.org\\\",\\\"@type\\\":\\\"Article\\\",\\\"headline\\\":\\\"Modules and Packages\\\",\\\"image\\\":[\\\"\\\"],\\\"dateModified\\\":null,\\\"author\\\":[{\\\"@type\\\":\\\"Person\\\",\\\"name\\\":\\\"Laurence Morgan\\\",\\\"url\\\":\\\"https://github.com/lmorg\\\"}]}\"]]},\"headers\":[{\"level\":3,\"title\":\"What Are Packages And Modules?\",\"slug\":\"what-are-packages-and-modules\",\"link\":\"#what-are-packages-and-modules\",\"children\":[]},{\"level\":2,\"title\":\"Using Packages And Modules\",\"slug\":\"using-packages-and-modules\",\"link\":\"#using-packages-and-modules\",\"children\":[{\"level\":3,\"title\":\"Consistency\",\"slug\":\"consistency\",\"link\":\"#consistency\",\"children\":[]},{\"level\":3,\"title\":\"Extendability\",\"slug\":\"extendability\",\"link\":\"#extendability\",\"children\":[]},{\"level\":3,\"title\":\"Sharing Code\",\"slug\":\"sharing-code\",\"link\":\"#sharing-code\",\"children\":[]},{\"level\":3,\"title\":\"Updating Packages\",\"slug\":\"updating-packages\",\"link\":\"#updating-packages\",\"children\":[]},{\"level\":3,\"title\":\"Tracking Code\",\"slug\":\"tracking-code\",\"link\":\"#tracking-code\",\"children\":[]},{\"level\":3,\"title\":\"Module Strings For Non-Module Code\",\"slug\":\"module-strings-for-non-module-code\",\"link\":\"#module-strings-for-non-module-code\",\"children\":[]}]},{\"level\":2,\"title\":\"See Also\",\"slug\":\"see-also\",\"link\":\"#see-also\",\"children\":[]}],\"readingTime\":{\"minutes\":2.07,\"words\":620},\"filePathRelative\":\"user-guide/modules.md\",\"autoDesc\":true,\"excerpt\":\"\"}")
+
+if (import.meta.webpackHot) {
+  import.meta.webpackHot.accept()
+  if (__VUE_HMR_RUNTIME__.updatePageData) {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  }
+}
+
+if (import.meta.hot) {
+  import.meta.hot.accept(({ data }) => {
+    __VUE_HMR_RUNTIME__.updatePageData(data)
+  })
+}

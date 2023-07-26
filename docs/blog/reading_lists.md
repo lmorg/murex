@@ -2,20 +2,6 @@
 
 > How hard can it be to read a list of data from the command line? If your list is line delimited then it should be easy. However what if your list is a JSON array? This post will explore how to work with lists in a different command line environments.
 
-<h2>Table of Contents</h2>
-
-<div id="toc">
-
-- [Preface](#preface)
-- [Reading lines in Bash and similar shells](#reading-lines-in-bash-and-similar-shells)
-- [But what if my files aren't line delimited?](#but-what-if-my-files-arent-line-delimited)
-- [Iteration in Bash via `jq`](#iteration-in-bash-via-jq)
-- [Iteration in Murex via `foreach`](#iteration-in-murex-via-foreach)
-- [Reading JSON arrays in PowerShell](#reading-json-arrays-in-powershell)
-- [Conclusion](#conclusion)
-
-</div>
-
 ## Preface
 
 A common problem we resort to shell scripting for is iterating through lists. This was easy in the days of old when most data was `\n` (new line) delimited but these days structured data is common place with formats like JSON, YAML, TOML, XML and even S-Expressions appearing commonly throughout developer and DevOps tooling.
@@ -29,7 +15,7 @@ Bash shell is a popular command-line interface for Unix and Linux operating syst
     while read line; do
         echo $line
     done < file.txt
-    
+
 In this example, the `while` loop reads each line of the `file.txt` file and stores it in the `$line` variable. The `echo` command then prints the contents of the `$line` variable to the console. The `<` symbol tells Bash to redirect the contents of the file into the loop.
 
 The `read` command is what actually reads each line of the file. By default, it reads one line at a time and stores it in the variable specified. You can also use the `-r` option with the `read` command to disable backslash interpretation, which can be useful when dealing with files that contain backslashes.
@@ -40,13 +26,13 @@ Another useful feature of Bash is the ability to perform operations on each line
         new_line=$(echo $line | sed 's/foo/bar/g')
         echo $new_line
     done < file.txt
-    
+
 In this example, `sed` replaces all instances of "foo" with "bar" in each line of the file. The modified line is then stored in the `$new_line` variable and printed to the console.
 
 Of course you could just run
 
     sed 's/foo/bar/g' file.txt
-    
+
 ...but the reasons for the for this contrived example will follow.
 
 ## But what if my files aren't line delimited?
@@ -62,7 +48,7 @@ So how do you read lists from objects in, for example, JSON? In Bash, this isn't
 Lets create a JSON array:
 
     json='["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]'
-    
+
 Straight away you should be able to see that Bash, with its reliance on whitespace delimitations, couldn't natively parse this. So now lets run it through `jq`:
 
     $ echo $json | jq -r '.[]' | while read -r day do; echo "Happy $day"; done
@@ -73,7 +59,7 @@ Straight away you should be able to see that Bash, with its reliance on whitespa
     Happy Friday
     Happy Saturday
     Happy Sunday
-    
+
 What's happening here is the `jq` tool is converting our JSON array into a `\n` delimited list. And from there, we can use `while` and `read` just like we did in our first example at the start of this article.
 
 The `-r` flag tells `jq` to strip quotation marks around the values. Without `-r` you'd see `Happy "Monday"'` and so on and so forth.
@@ -96,11 +82,11 @@ Lets use the same JSON array as we did earlier, except use one of Murex's featur
         "Saturday",
         "Sunday"
     ]
-    
+
 The `jq` example rewritten in Murex would look like the following:
 
     %[Monday..Sunday] | foreach day { out "Happy $day" }
-    
+
 What's happening here is `%[...]` creates the JSON array (as described above) and then the `foreach` builtin iterates through the array and assigns that element to a variable named `day`.
 
 > `out` in Murex is the equivalent of `echo` in Bash. In fact you can still use `echo` in Murex albeit that is just aliased to `out`.
@@ -108,7 +94,7 @@ What's happening here is `%[...]` creates the JSON array (as described above) an
 It is also worth noting that since Murex version 3.1 lambdas have been available, allowing you to write code that looks a like this:
 
     $json[{out "Hello $."}]
-    
+
 But more on that in a different article.
 
 ## Reading JSON arrays in PowerShell
@@ -117,8 +103,8 @@ Microsoft PowerShell is a typed shell, like Murex, which was originally built fo
 
     $jsonString = '["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]'
     $jsonObject = ConvertFrom-Json $jsonString
-    foreach ($day in $jsonObject) { Write-Host "Hello $day" } 
-    
+    foreach ($day in $jsonObject) { Write-Host "Hello $day" }
+
 The first line is just creating a JSON string and allocating that to `$jsonString`. We can largely ignore that as it is the same as we've seen in Bash already. The second line is more interesting as that is where the type conversion happens. `ConvertFrom-Json` does exactly as it describes -- PowerShell is generally pretty good at having descriptive names for commands,
 
 From there on it looks relatively similar to Murex syntax: `foreach` being the statement name, followed by the variable name.
@@ -133,13 +119,13 @@ Published: 22.04.2023 at 11:43
 
 ## See Also
 
-* [Create array (`%[]`) constructor](../parser/create-array.md):
+- [Create array (`%[]`) constructor](/parser/create-array.md):
   Quickly generate arrays
-* [`a` (mkarray)](../commands/a.md):
+- [`a` (mkarray)](/commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`cast`](../commands/cast.md):
+- [`cast`](/commands/cast.md):
   Alters the data type of the previous function without altering it's output
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](/commands/foreach.md):
   Iterate through an array
-* [`formap`](../commands/formap.md):
+- [`formap`](/commands/formap.md):
   Iterate through a map or other collection of data

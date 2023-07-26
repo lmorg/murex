@@ -6,7 +6,7 @@
 
 Unlike bash, Murex also supports some special ranges:
 
-```  
+```
 » a: [mon..sun]
 » a: [monday..sunday]
 » a: [jan..dec]
@@ -14,19 +14,19 @@ Unlike bash, Murex also supports some special ranges:
 » a: [spring..winter]
 ```
 
-Please refer to [a (mkarray)](../commands/a.md) for more detailed usage of mkarray.
+Please refer to [a (mkarray)](/commands/a.md) for more detailed usage of mkarray.
 
 ## Usage
 
-    a: [start..end] -> <stdout>
-    a: [start..end,start..end] -> <stdout>
-    a: [start..end][start..end] -> <stdout>
-    
+    a: [start..end] -> `<stdout>`
+    a: [start..end,start..end] -> `<stdout>`
+    a: [start..end][start..end] -> `<stdout>`
+
 All usages also work with `ja` and `ta` as well, eg:
 
-    ja: [start..end] -> <stdout>
-    ta: data-type [start..end] -> <stdout>
-    
+    ja: [start..end] -> `<stdout>`
+    ta: data-type [start..end] -> `<stdout>`
+
 You can also inline arrays with the `%[]` syntax, eg:
 
     %[start..end]
@@ -52,21 +52,21 @@ return will be in title case.
     monday
     tuesday
     wednesday
-    
+
 #### Title Case
 
     » a: [Monday..Wednesday]
     Monday
     Tuesday
     Wednesday
-    
+
 #### UPPER CASE
 
     » a: [MONDAY..WEDNESDAY]
     MONDAY
     TUESDAY
     WEDNESDAY
-    
+
 ### Looping vs Negative Ranges
 
 Where the special ranges differ from a regular range is they cannot
@@ -76,7 +76,7 @@ cannot down. eg `a: [3..1]` would output
     3
     2
     1
-    
+
 however a negative range in special ranges will cycle through to the end
 of the range and then loop back from the start:
 
@@ -88,7 +88,7 @@ of the range and then loop back from the start:
     Monday
     Tuesday
     Wednesday
-    
+
 This decision was made because generally with ranges of this type, you
 would more often prefer to cycle through values rather than iterate
 backwards through the list.
@@ -101,15 +101,15 @@ If you did want to reverse then pipe the output into another tool:
     Wednesday
     Tuesday
     Monday
-    
+
 There are other UNIX tools which aren't data type aware but would work in
 this specific scenario:
 
-* `tac` (Linux),
+- `tac` (Linux),
 
-* `tail -r` (BSD / OS X)
+- `tail -r` (BSD / OS X)
 
-* `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
+- `perl -e "print reverse <>"` (Multi-platform but requires Perl installed)
 
 ### Supported Dictionary Terms
 
@@ -198,23 +198,23 @@ var rangeMoon = map[string]int{
 
 ## See Also
 
-* [Calendar Date Ranges](../mkarray/date.md):
+- [Calendar Date Ranges](./date.md):
   Create arrays of dates
-* [`[[` (element)](../commands/element.md):
+- [`[[` (element)](/commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
+- [`[` (index)](/commands/index2.md):
   Outputs an element from an array, map or table
-* [`[` (range) ](../commands/range.md):
+- [`[` (range) ](/commands/range.md):
   Outputs a ranged subset of data from STDIN
-* [`a` (mkarray)](../commands/a.md):
+- [`a` (mkarray)](/commands/a.md):
   A sophisticated yet simple way to build an array or list
-* [`count`](../commands/count.md):
+- [`count`](/commands/count.md):
   Count items in a map, list or array
-* [`datetime` ](../commands/datetime.md):
+- [`datetime` ](/commands/datetime.md):
   A date and/or time conversion tool (like `printf` but for date and time values)
-* [`ja` (mkarray)](../commands/ja.md):
+- [`ja` (mkarray)](/commands/ja.md):
   A sophisticated yet simply way to build a JSON array
-* [`mtac`](../commands/mtac.md):
+- [`mtac`](/commands/mtac.md):
   Reverse the order of an array
-* [`ta` (mkarray)](../commands/ta.md):
+- [`ta` (mkarray)](/commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type

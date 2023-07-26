@@ -1,4 +1,4 @@
-# And (`&&`) Logical Operator - Parser Reference
+# And (`&&`) Logical Operator
 
 > Continues next operation if previous operation passes
 
@@ -18,7 +18,7 @@ Second command runs because the first command doesn't error:
     » out: one && out: two
     one
     two
-    
+
 Second command does not run because the first command produces an error:
 
     » err: one && out: two
@@ -35,17 +35,17 @@ This is equivelent to a `try` block:
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [STDERR Pipe (`?`) Token](../parser/pipe-err.md):
+- [STDERR Pipe (`?`) Token](/parser/pipe-err.md):
   Pipes STDERR from the left hand command to STDIN of the right hand command
-* [Schedulers](../user-guide/schedulers.md):
+- [Schedulers](/user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`err`](../commands/err.md):
+- [`err`](/commands/err.md):
   Print a line to the STDERR
-* [`out`](../commands/out.md):
+- [`out`](/commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`try`](../commands/try.md):
+- [`try`](/commands/try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](/commands/trypipe.md):
   Checks state of each function in a pipeline and exits block on error

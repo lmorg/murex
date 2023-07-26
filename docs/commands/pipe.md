@@ -1,4 +1,4 @@
-# `pipe` - Command Reference
+# `pipe`
 
 > Manage Murex named pipes
 
@@ -11,7 +11,7 @@
 Create pipe
 
     pipe: name [ pipe-type ]
-    
+
 Destroy pipe
 
     !pipe: name
@@ -21,11 +21,11 @@ Destroy pipe
 Create a standard pipe:
 
     pipe: example
-    
+
 Delete a pipe:
 
     !pipe: example
-    
+
 Create a TCP pipe (deleting a pipe is the same regardless of the type of pipe):
 
     pipe example --tcp-dial google.com:80
@@ -52,34 +52,34 @@ data along asynchronously.
 For example
 
     pipe: example
-    
+
     bg {
         <example> -> match: Hello
     }
-    
+
     out: "foobar"        -> <example>
     out: "Hello, world!" -> <example>
     out: "foobar"        -> <example>
-    
+
     !pipe: example
-    
+
 This returns `Hello, world!` because `out` is writing to the **example** named
 pipe and `match` is also reading from it in the background (`bg`).
 
 Named pipes can also be inlined into the command parameters with `<>` tags
 
     pipe: example
-    
+
     bg {
         <example> -> match: Hello
     }
-    
+
     out: <example> "foobar"
     out: <example> "Hello, world!"
     out: <example> "foobar"
-    
+
     !pipe: example
-    
+
 > Please note this is also how `test` works.
 
 Murex named pipes can also represent network sockets, files on a disk or any
@@ -90,7 +90,7 @@ or write endpoints transparently.
 To see the different supported types run
 
     runtime --pipes
-    
+
 ### Namespaces and usage in modules and packages
 
 Pipes created via `pipe` are created in the global namespace. This allows pipes
@@ -100,27 +100,26 @@ that pipes created in modules should be prefixed with the name of its package.
 
 ## Synonyms
 
-* `pipe`
-* `!pipe`
-
+- `pipe`
+- `!pipe`
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+- [`<>` / `read-named-pipe`](./namedpipe.md):
   Reads from a Murex named pipe
-* [`<>` / `read-named-pipe`](../commands/namedpipe.md):
+- [`<>` / `read-named-pipe`](./namedpipe.md):
   Reads from a Murex named pipe
-* [`<stdin>` ](../commands/stdin.md):
+- [`<stdin>` ](./stdin.md):
   Read the STDIN belonging to the parent code block
-* [`bg`](../commands/bg.md):
+- [`bg`](./bg.md):
   Run processes in the background
-* [`match`](../commands/match.md):
+- [`match`](./match.md):
   Match an exact value in an array
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`runtime`](../commands/runtime.md):
+- [`runtime`](./runtime.md):
   Returns runtime information on the internal state of Murex
-* [`test`](../commands/test.md):
+- [`test`](./test.md):
   Murex's test framework - define tests, run tests and debug shell scripts

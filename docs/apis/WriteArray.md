@@ -1,4 +1,4 @@
-# `WriteArray()` (type) - API Reference
+# `WriteArray()` (type)
 
 > Write a data type, one array element at a time
 
@@ -118,13 +118,13 @@ func (w *arrayWriter) Close() error {
 
 ## See Also
 
-* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+- [apis/`ReadArray()` (type)](/apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`ReadArrayWithType()` (type)](../apis/ReadArrayWithType.md):
+- [apis/`ReadArrayWithType()` (type)](/apis/ReadArrayWithType.md):
   Read from a data type one array element at a time and return the elements contents and data type
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [apis/`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+- [apis/`ReadMap()` (type)](/apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [apis/`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin

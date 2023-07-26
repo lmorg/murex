@@ -1,4 +1,4 @@
-# `continue` - Command Reference
+# `continue`
 
 > Terminate process of a block within a caller function
 
@@ -15,28 +15,32 @@ like `foreach` and `formap` this will result in behavior similar to the
 
 ## Examples
 
-    %[1..10] -> foreach i {
-        if { $i == 5 } then {
-            out "continue"
-            continue foreach
-            out "skip this code"
-        }
-        out $i
+```
+%[1..10] -> foreach i {
+    if { $i == 5 } then {
+        out "continue"
+        continue foreach
+        out "skip this code"
     }
-    
+    out $i
+}
+```
+
 Running the above code would output:
 
-    » foo
-    1
-    2
-    3
-    4
-    continue
-    6
-    7
-    8
-    9
-    10
+```
+» foo
+1
+2
+3
+4
+continue
+6
+7
+8
+9
+10
+```
 
 ## Detail
 
@@ -44,21 +48,23 @@ Running the above code would output:
 running inside). For example, in the following code we are calling `continue
 bar` (which is a different function) inside of the function `foo`:
 
-    function foo {
-        %[1..10] -> foreach i {
-            out $i
-            if { $i == 5 } then {
-                out "exit running function"
-                continue bar
-                out "ended"
-            }
+```
+function foo {
+    %[1..10] -> foreach i {
+        out $i
+        if { $i == 5 } then {
+            out "exit running function"
+            continue bar
+            out "ended"
         }
     }
-    
-    function bar {
-        foo
-    }
-    
+}
+
+function bar {
+    foo
+}
+```
+
 Regardless of whether we run `foo` or `bar`, both of those functions will
 raise the following error:
 
@@ -66,21 +72,21 @@ raise the following error:
 
 ## See Also
 
-* [`break`](../commands/break.md):
+- [`break`](./break.md):
   Terminate execution of a block within your processes scope
-* [`exit`](../commands/exit.md):
+- [`exit`](./exit.md):
   Exit murex
-* [`foreach`](../commands/foreach.md):
+- [`foreach`](./foreach.md):
   Iterate through an array
-* [`formap`](../commands/formap.md):
+- [`formap`](./formap.md):
   Iterate through a map or other collection of data
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`if`](../commands/if.md):
+- [`if`](./if.md):
   Conditional statement to execute different blocks of code depending on the result of the condition
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block
-* [`return`](../commands/return.md):
+- [`return`](./return.md):
   Exits current function scope

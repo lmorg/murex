@@ -1,4 +1,4 @@
-# Double Quote (`"`) Token - Parser Reference
+# Double Quote (`"`) Token
 
 > Initiates or terminates a string (variables expanded)
 
@@ -14,7 +14,7 @@ part of a command name.
 ## Examples
 
     » set: example="World!"
-    
+
     » out: "Hello $example"
     Hello World!
 
@@ -29,21 +29,21 @@ Quotes can also work over multiple lines
 
 ## See Also
 
-* [Array (`@`) Token](../parser/array.md):
+- [Array (`@`) Token](/parser/array.md):
   Expand values as an array
-* [Brace Quote (`%(`, `)`) Tokens](../parser/brace-quote.md):
+- [Brace Quote (`%(`, `)`) Tokens](/parser/brace-quote.md):
   Initiates or terminates a string (variables expanded)
-* [Curly Brace (`{`, `}`) Tokens](../parser/curly-brace.md):
+- [Curly Brace (`{`, `}`) Tokens](/parser/curly-brace.md):
   Initiates or terminates a code block
-* [Single Quote (`'`) Token](../parser/single-quote.md):
+- [Single Quote (`'`) Token](/parser/single-quote.md):
   Initiates or terminates a string (variables not expanded)
-* [String (`$`) Token](../parser/string.md):
+- [String (`$`) Token](/parser/string.md):
   Expand values as a string
-* [Tilde (`~`) Token](../parser/tilde.md):
+- [Tilde (`~`) Token](/parser/tilde.md):
   Home directory path variable
-* [`(` (brace quote)](../commands/brace-quote.md):
+- [`(` (brace quote)](/commands/brace-quote.md):
   Write a string to the STDOUT without new line
-* [`out`](../commands/out.md):
+- [`out`](/commands/out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`set`](../commands/set.md):
+- [`set`](/commands/set.md):
   Define a local variable and set it's value

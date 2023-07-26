@@ -1,4 +1,4 @@
-# `runmode` - Command Reference
+# `runmode`
 
 > Alter the scheduler's behaviour at higher scoping level
 
@@ -22,12 +22,12 @@ needs be the first command in a block.
 
     function hello {
         # Short conversation, exit on error
-        
+
         runmode: try function
-    
+
         read: name "What is your name? "
         out: "Hello $name, pleased to meet you"
-        
+
         read: mood "How are you feeling? "
         out: "I'm feeling $mood too"
     }
@@ -64,27 +64,27 @@ if `runmode ... module` is set.
 
 ## See Also
 
-* [Pipeline](../user-guide/pipeline.md):
+- [Pipeline](/user-guide/pipeline.md):
   Overview of what a "pipeline" is
-* [Schedulers](../user-guide/schedulers.md):
+- [Schedulers](/user-guide/schedulers.md):
   Overview of the different schedulers (or 'run modes') in Murex
-* [`autocomplete`](../commands/autocomplete.md):
+- [`autocomplete`](./autocomplete.md):
   Set definitions for tab-completion in the command line
-* [`catch`](../commands/catch.md):
-  Handles the exception code raised by `try` or `trypipe` 
-* [`event`](../commands/event.md):
+- [`catch`](./catch.md):
+  Handles the exception code raised by `try` or `trypipe`
+- [`event`](./event.md):
   Event driven programming for shell scripts
-* [`fid-list`](../commands/fid-list.md):
+- [`fid-list`](./fid-list.md):
   Lists all running functions within the current Murex session
-* [`function`](../commands/function.md):
+- [`function`](./function.md):
   Define a function block
-* [`out`](../commands/out.md):
+- [`out`](./out.md):
   Print a string to the STDOUT with a trailing new line character
-* [`private`](../commands/private.md):
+- [`private`](./private.md):
   Define a private function block
-* [`read`](../commands/read.md):
+- [`read`](./read.md):
   `read` a line of input from the user and store as a variable
-* [`try`](../commands/try.md):
+- [`try`](./try.md):
   Handles errors inside a block of code
-* [`trypipe`](../commands/trypipe.md):
+- [`trypipe`](./trypipe.md):
   Checks state of each function in a pipeline and exits block on error
