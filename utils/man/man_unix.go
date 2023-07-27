@@ -24,12 +24,9 @@ var (
 	rxMatchFlagsQuoted  = regexp.MustCompile(`\.IP "(.*?)"`)
 	rxMatchFlagsDarwin  = regexp.MustCompile(`\.It Fl ([a-zA-Z0-9])`)
 	rxMatchFlagsOther   = regexp.MustCompile(`\.B (.*?)`)
-	//rxMatchFlagsOther   = regexp.MustCompile(`\.B (.*?)\\fR`)
-	rxMatchFlagsNoFmt = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)=([_\-a-zA-Z0-9]+)`)
-
-	rxMatchGetFlag = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
-
-	rxReplaceMarkup = regexp.MustCompile(`\.[a-zA-Z]+(\s|)`)
+	rxMatchFlagsNoFmt   = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)=([_\-a-zA-Z0-9]+)`)
+	rxMatchGetFlag      = regexp.MustCompile(`(--[\-a-zA-Z0-9]+)`)
+	rxReplaceMarkup     = regexp.MustCompile(`\.[a-zA-Z]+(\s|)`)
 )
 
 // GetManPages executes `man -w` to locate the manual files
@@ -128,10 +125,7 @@ func createScanner(filename string) (*bufio.Scanner, func() error, error) {
 
 // ParseByStdio runs the parser to locate any flags with hyphen prefixes
 func ParseByStdio(io stdio.Io) ([]string, map[string]string) {
-	//scanner := bufio.NewScanner(io)
-
 	fMap := make(map[string]string)
-	//parseFlags(&fMap, scanner)
 
 	parseDescriptionsLines(io, &fMap)
 

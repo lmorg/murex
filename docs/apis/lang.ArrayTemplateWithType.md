@@ -15,8 +15,6 @@ It should only be called from `ReadArrayWithType()` functions.
 Because `lang.ArrayTemplateWithType()` relies on a marshaller, it means any types that
 rely on this API are not going to be stream-able.
 
-
-
 ## Examples
 
 Example calling `lang.ArrayTemplate()` function:
@@ -203,17 +201,17 @@ func readArrayWithTypeByMapIfaceStr(v map[interface{}]string, callback func([]by
 
 ## See Also
 
-* [apis/`ReadArray()` (type)](../apis/ReadArray.md):
+- [apis/`ReadArray()` (type)](/apis/ReadArray.md):
   Read from a data type one array element at a time
-* [apis/`ReadIndex()` (type)](../apis/ReadIndex.md):
+- [apis/`ReadIndex()` (type)](/apis/ReadIndex.md):
   Data type handler for the index, `[`, builtin
-* [apis/`ReadMap()` (type)](../apis/ReadMap.md):
+- [apis/`ReadMap()` (type)](/apis/ReadMap.md):
   Treat data type as a key/value structure and read its contents
-* [apis/`ReadNotIndex()` (type)](../apis/ReadNotIndex.md):
+- [apis/`ReadNotIndex()` (type)](/apis/ReadNotIndex.md):
   Data type handler for the bang-prefixed index, `![`, builtin
-* [apis/`WriteArray()` (type)](../apis/WriteArray.md):
+- [apis/`WriteArray()` (type)](/apis/WriteArray.md):
   Write a data type, one array element at a time
-* [apis/`lang.IndexTemplateObject()` (template API)](../apis/lang.IndexTemplateObject.md):
+- [apis/`lang.IndexTemplateObject()` (template API)](/apis/lang.IndexTemplateObject.md):
   Returns element(s) from a data structure
-* [apis/`lang.IndexTemplateTable()` (template API)](../apis/lang.IndexTemplateTable.md):
+- [apis/`lang.IndexTemplateTable()` (template API)](/apis/lang.IndexTemplateTable.md):
   Returns element(s) from a table

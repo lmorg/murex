@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o,c as s,d as t}from"./app-45f7c304.js";const c={},n=t("p",null,"THIS PAGE VANISHED!",-1),r=[n];function _(a,l){return o(),s("div",null,r)}const i=e(c,[["render",_],["__file","onkeypress.html.vue"]]);export{i as default};

@@ -1,0 +1,72 @@
+import{_ as u}from"./plugin-vue_export-helper-c27b6911.js";import{r,o as d,c as l,d as t,b as e,w as n,e as o,f as s}from"./app-45f7c304.js";const c={},i=s(`<h1 id="_2darray" tabindex="-1"><a class="header-anchor" href="#_2darray" aria-hidden="true">#</a> <code>2darray</code></h1><blockquote><p>Create a 2D JSON array from multiple input sources</p></blockquote><h2 id="description" tabindex="-1"><a class="header-anchor" href="#description" aria-hidden="true">#</a> Description</h2><p><code>2darray</code> merges multiple input sources to create a two dimensional array in JSON</p><h2 id="usage" tabindex="-1"><a class="header-anchor" href="#usage" aria-hidden="true">#</a> Usage</h2><pre><code>2darray: { code-block } { code-block } -&gt; \`&lt;stdout&gt;\`
+</code></pre><h2 id="examples" tabindex="-1"><a class="header-anchor" href="#examples" aria-hidden="true">#</a> Examples</h2><pre><code>» ps: -fe -&gt; head: -n 10 -&gt; set: ps
+» 2darray { $ps[UID] } { $ps[PID] } { $ps[TTY] } { $ps[TIME] }
+[
+    [
+        &quot;&quot;,
+        &quot;&quot;,
+        &quot;&quot;,
+        &quot;&quot;
+    ],
+    [
+        &quot;UID&quot;,
+        &quot;PID&quot;,
+        &quot;TTY&quot;,
+        &quot;TIME&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;1&quot;,
+        &quot;?&quot;,
+        &quot;00:00:02&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;2&quot;,
+        &quot;?&quot;,
+        &quot;00:00:00&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;3&quot;,
+        &quot;?&quot;,
+        &quot;00:00:00&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;4&quot;,
+        &quot;?&quot;,
+        &quot;00:00:00&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;6&quot;,
+        &quot;?&quot;,
+        &quot;00:00:00&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;8&quot;,
+        &quot;?&quot;,
+        &quot;00:00:00&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;9&quot;,
+        &quot;?&quot;,
+        &quot;00:00:03&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;10&quot;,
+        &quot;?&quot;,
+        &quot;00:00:19&quot;
+    ],
+    [
+        &quot;root&quot;,
+        &quot;11&quot;,
+        &quot;?&quot;,
+        &quot;00:00:01&quot;
+    ]
+]
+</code></pre><h2 id="detail" tabindex="-1"><a class="header-anchor" href="#detail" aria-hidden="true">#</a> Detail</h2><p><code>2darray</code> can have as many or as few code blocks as you wish.</p><h2 id="see-also" tabindex="-1"><a class="header-anchor" href="#see-also" aria-hidden="true">#</a> See Also</h2>`,11),q=t("code",null,"[",-1),h=t("code",null,"[",-1),m=t("code",null,"a",-1),p=t("code",null,"append",-1),_=t("code",null,"count",-1),f=t("code",null,"ja",-1),y=t("code",null,"json",-1),b=t("code",null,"jsplit",-1),x=t("code",null,"map",-1),g=t("code",null,"msort",-1),N=t("code",null,"mtac",-1),S=t("code",null,"prepend",-1);function k(D,T){const a=r("RouterLink");return d(),l("div",null,[i,t("ul",null,[t("li",null,[e(a,{to:"/commands/index2.html"},{default:n(()=>[q,o(" (index)")]),_:1}),o(": Outputs an element from an array, map or table")]),t("li",null,[e(a,{to:"/commands/range.html"},{default:n(()=>[h,o(" (range) ")]),_:1}),o(": Outputs a ranged subset of data from STDIN")]),t("li",null,[e(a,{to:"/commands/a.html"},{default:n(()=>[m,o(" (mkarray)")]),_:1}),o(": A sophisticated yet simple way to build an array or list")]),t("li",null,[e(a,{to:"/commands/append.html"},{default:n(()=>[p]),_:1}),o(": Add data to the end of an array")]),t("li",null,[e(a,{to:"/commands/count.html"},{default:n(()=>[_]),_:1}),o(": Count items in a map, list or array")]),t("li",null,[e(a,{to:"/commands/ja.html"},{default:n(()=>[f,o(" (mkarray)")]),_:1}),o(": A sophisticated yet simply way to build a JSON array")]),t("li",null,[e(a,{to:"/types/json.html"},{default:n(()=>[y]),_:1}),o(": JavaScript Object Notation (JSON)")]),t("li",null,[e(a,{to:"/commands/jsplit.html"},{default:n(()=>[b]),_:1}),o(": Splits STDIN into a JSON array based on a regex parameter")]),t("li",null,[e(a,{to:"/commands/map.html"},{default:n(()=>[x]),_:1}),o(": Creates a map from two data sources")]),t("li",null,[e(a,{to:"/commands/msort.html"},{default:n(()=>[g]),_:1}),o(": Sorts an array - data type agnostic")]),t("li",null,[e(a,{to:"/commands/mtac.html"},{default:n(()=>[N]),_:1}),o(": Reverse the order of an array")]),t("li",null,[e(a,{to:"/commands/prepend.html"},{default:n(()=>[S]),_:1}),o(": Add data to the start of an array")])])])}const O=u(c,[["render",k],["__file","2darray.html.vue"]]);export{O as default};
