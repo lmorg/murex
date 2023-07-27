@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"testing"
 
 	"github.com/lmorg/murex/lang"
@@ -9,11 +10,14 @@ import (
 	"github.com/lmorg/murex/test/count"
 )
 
+//go:embed test/source*
+var source embed.FS
+
 func TestDiskSource(t *testing.T) {
 	count.Tests(t, 1)
 
 	file := "test/source.mx"
-	test.Exists(t, file)
+	test.ExistsFs(t, file, source)
 
 	disk, err := diskSource(file)
 	if err != nil {
@@ -29,7 +33,7 @@ func TestDiskSourceGz(t *testing.T) {
 	count.Tests(t, 1)
 
 	file := "test/source.mx.gz"
-	test.Exists(t, file)
+	test.ExistsFs(t, file, source)
 
 	disk, err := diskSource(file)
 	if err != nil {

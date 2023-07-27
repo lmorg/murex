@@ -8,7 +8,6 @@ import (
 	_ "github.com/lmorg/murex/builtins"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/lmorg/murex/utils/home"
@@ -19,10 +18,7 @@ func TestProfilePaths(t *testing.T) {
 
 	var path string
 	home := home.MyDir
-	temp, err := test.TempDir()
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+	temp := t.TempDir()
 
 	// get running settings
 
@@ -72,7 +68,7 @@ func TestProfilePaths(t *testing.T) {
 
 	// set env vars (custom paths)
 
-	if os.Setenv(profile.PreloadEnvVar, temp) != nil {
+	if err := os.Setenv(profile.PreloadEnvVar, temp); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.PreloadEnvVar, err.Error())
 	}
 	path = profile.PreloadPath()
@@ -82,7 +78,7 @@ func TestProfilePaths(t *testing.T) {
 		t.Logf("Actual full path: '%s'", path)
 	}
 
-	if os.Setenv(profile.ModuleEnvVar, temp) != nil {
+	if err := os.Setenv(profile.ModuleEnvVar, temp); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ModuleEnvVar, err.Error())
 	}
 	path = profile.ModulePath()
@@ -92,7 +88,7 @@ func TestProfilePaths(t *testing.T) {
 		t.Logf("Actual full path: '%s'", path)
 	}
 
-	if os.Setenv(profile.ProfileEnvVar, temp) != nil {
+	if err := os.Setenv(profile.ProfileEnvVar, temp); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ProfileEnvVar, err.Error())
 	}
 	path = profile.ProfilePath()
@@ -104,7 +100,7 @@ func TestProfilePaths(t *testing.T) {
 
 	// set env vars (exact custom file names)
 
-	if os.Setenv(profile.PreloadEnvVar, temp+"foobar") != nil {
+	if err := os.Setenv(profile.PreloadEnvVar, temp+"foobar"); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.PreloadEnvVar, err.Error())
 	}
 	path = profile.PreloadPath()
@@ -114,7 +110,7 @@ func TestProfilePaths(t *testing.T) {
 		t.Logf("Actual path:    '%s'", path)
 	}
 
-	if os.Setenv(profile.ProfileEnvVar, temp+"foobar") != nil {
+	if err := os.Setenv(profile.ProfileEnvVar, temp+"foobar"); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ProfileEnvVar, err.Error())
 	}
 	path = profile.ProfilePath()
@@ -126,7 +122,7 @@ func TestProfilePaths(t *testing.T) {
 
 	// as above but negative test
 
-	if os.Setenv(profile.PreloadEnvVar, temp) != nil {
+	if err := os.Setenv(profile.PreloadEnvVar, temp); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.PreloadEnvVar, err.Error())
 	}
 	path = profile.PreloadPath()
@@ -136,7 +132,7 @@ func TestProfilePaths(t *testing.T) {
 		t.Logf("Actual full path: '%s'", path)
 	}
 
-	if os.Setenv(profile.ProfileEnvVar, temp) != nil {
+	if err := os.Setenv(profile.ProfileEnvVar, temp); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ProfileEnvVar, err.Error())
 	}
 	path = profile.ProfilePath()
@@ -154,10 +150,7 @@ func TestProfileAndCustomPaths(t *testing.T) {
 		profileFileName = "profile_TestProfileAndCustomPaths.mx"
 	)
 
-	path, err := test.TempDir()
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+	path := t.TempDir()
 
 	// get running settings
 
@@ -181,15 +174,15 @@ func TestProfileAndCustomPaths(t *testing.T) {
 
 	// set env vars
 
-	if os.Setenv(profile.PreloadEnvVar, path+preloadFileName) != nil {
+	if err := os.Setenv(profile.PreloadEnvVar, path+preloadFileName); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.PreloadEnvVar, err.Error())
 	}
 
-	if os.Setenv(profile.ModuleEnvVar, path+modulesPathName) != nil {
+	if err := os.Setenv(profile.ModuleEnvVar, path+modulesPathName); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ModuleEnvVar, err.Error())
 	}
 
-	if os.Setenv(profile.ProfileEnvVar, path+profileFileName) != nil {
+	if err := os.Setenv(profile.ProfileEnvVar, path+profileFileName); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ProfileEnvVar, err.Error())
 	}
 

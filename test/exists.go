@@ -1,29 +1,23 @@
 package test
 
 import (
-	"os"
-	"strings"
+	"embed"
 	"testing"
 
 	"github.com/lmorg/murex/test/count"
 )
 
-// Exists tests if a file exists
-func Exists(t *testing.T, path string) {
+func ExistsFs(t *testing.T, name string, res embed.FS) {
 	t.Helper()
-
-	if os.Getenv("MUREX_TEST_SKIP_EXISTS") != "" && os.Getenv("MUREX_TEST_SKIP_EXISTS") != "awscodebuild" {
-		t.Skip("Environmental variable `MUREX_TEST_SKIP_EXISTS` set")
-		return
-	}
-
 	count.Tests(t, 1)
 
-	if os.Getenv("MUREX_TEST_SKIP_EXISTS") == "awscodebuild" && strings.HasPrefix(path, "/go:/") {
-		path = path[4:]
+	b, err := res.ReadFile(name)
+	if err != nil {
+		t.Errorf("Cannot read file '%s': %s", name, err.Error())
+		t.FailNow()
 	}
 
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		t.Error("Missing file", path)
+	if len(b) == 0 {
+		t.Errorf("File is empty: %s", name)
 	}
 }
