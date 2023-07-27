@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
 )
 
