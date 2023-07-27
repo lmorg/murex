@@ -635,6 +635,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteSingle:
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				pt.Unsafe = true
 				*pt.pop += string(block[i])
@@ -656,6 +659,9 @@ func Parse(block []rune, pos int) (pt ParsedTokens, syntaxHighlighted string) {
 			case pt.QuoteSingle, next(' '), next('\t'):
 				*pt.pop += string(block[i])
 				syntaxHighlighted += string(block[i])
+			case pt.ExpectParam:
+				expectParam()
+				fallthrough
 			default:
 				pt.Unsafe = true
 				*pt.pop += string(block[i])

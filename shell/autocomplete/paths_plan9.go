@@ -18,7 +18,7 @@ func pathIsLocal(s string) bool {
 }
 
 func matchDirsOnce(s string) (items []string) {
-	s = variables.ExpandString(s)
+	//s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
 	var dirs []string
