@@ -28,7 +28,7 @@ Until false
 !while { condition } { code-block } -> <stdout>
 ```
 
-``
+```
 !while { code-block } -> <stdout>
 ```
 
@@ -37,7 +37,7 @@ Until false
 `while` **$i** is less then **5**
 
 ```
-» let i=0; while { =i<5 } { let i=i+1; out $i }
+» i=0; while { $i<5 } { i=$i+1; out $i }
 1
 2
 3
@@ -46,7 +46,7 @@ Until false
 ```
 
 ```
-» let i=0; while { let i=i+1; = i<5; out }
+» i=0; while { i=$i+1; $i<5; out }
 true
 true
 true
@@ -57,21 +57,12 @@ false
 `while` **$i** is _NOT_ greater than or equal to **5**
 
 ```
-» let i=0; !while { =i>=5 } { let i=i+1; out $i }
+» i=0; !while { $i >= 5 } { $i += 1; out $i }
 1
 2
 3
 4
 5
-```
-
-```
-» let i=0; while { let i=i+1; = i>=5; out }
-true
-true
-true
-true
-false
 ```
 
 ## Detail
