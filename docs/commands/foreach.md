@@ -18,19 +18,23 @@ additional flags are used such as `--jmap`.
 `{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT:
 
 ```
-<stdin> -> foreach variable { code-block } -> <stdout>
+`<stdin>` -> foreach variable { code-block } -> `<stdout>`
 ```
 
 `{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT:
 
 ```
-<stdin> -> foreach { -> code-block } -> <stdout>
+`<stdin>` -> foreach { -> code-block } -> `<stdout>`
 ```
 
 `foreach` writes to a buffered JSON map:
 
 ```
-<stdin> -> foreach --jmap variable { code-block (map key) } { code-block (map value) } -> <stdout>
+`<stdin>` -> foreach --jmap variable {
+    code-block (map key)
+} {
+    code-block (map value)
+} -> `<stdout>`
 ```
 
 ## Examples
