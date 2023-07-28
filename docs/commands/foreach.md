@@ -8,7 +8,7 @@
 a code block for each iteration with the value of the iterated element passed
 to it.
 
-By default `foreach`'s output data type is inherited from its input data type.
+By default `foreach` output data type is inherited from its input data type.
 For example is STDIN is `yaml` then so will STDOUT. The only exception to this
 is if STDIN is `json` in which case STDOUT will be jsonlines (`jsonl`), or when
 additional flags are used such as `--jmap`.
@@ -18,23 +18,23 @@ additional flags are used such as `--jmap`.
 `{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT:
 
 ```
-`<stdin>` -> foreach variable { code-block } -> `<stdout>`
+<stdin> -> foreach variable { code-block } -> <stdout>
 ```
 
 `{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT:
 
 ```
-`<stdin>` -> foreach { -> code-block } -> `<stdout>`
+<stdin> -> foreach { -> code-block } -> <stdout>
 ```
 
 `foreach` writes to a buffered JSON map:
 
 ```
-`<stdin>` -> foreach --jmap variable {
+<stdin> -> foreach --jmap variable {
     code-block (map key)
 } {
     code-block (map value)
-} -> `<stdout>`
+} -> <stdout>
 ```
 
 ## Examples
