@@ -5,11 +5,11 @@ on:
     branches:
       # make sure this is the branch you are using
       - main
-    # paths:
-    #   - docs
+  
+  workflow_dispatch:
 
 jobs:
-  deploy-gh-pages:
+  deploy-dev:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,6 +36,14 @@ jobs:
         run: |-
           pnpm run docs:build
           > docs/.vuepress/dist/.nojekyll
+
+      - name: Push to S3
+        env:
+          AWS_ACCESS_KEY_ID:     ${{ secrets.S3_ACCESS }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET }}
+          AWS_DEFAULT_REGION: eu-west-1
+          AWS_DEFAULT_OUTPUT: json
+        run: aws s3 sync docs s3://murex.rocks/vuepress/
 
 #      - name: Deploy Docs
 #        uses: JamesIves/github-pages-deploy-action@v4
