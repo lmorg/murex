@@ -3,8 +3,7 @@ name: Deploy Docs
 on:
   push:
     branches:
-      # make sure this is the branch you are using
-      - main
+      - new-website-pipeline
   
   workflow_dispatch:
 
