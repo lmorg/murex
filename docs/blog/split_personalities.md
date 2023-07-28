@@ -4,7 +4,7 @@
 
 ## A Very Brief History
 
-![Thompson (sitting) and Ritchie working together at a PDP-11](/images/blog/split_personalities/thompson.jpg)
+![Thompson (sitting) and Ritchie working together at a PDP-11](https://murex.rocks/images/blog/split_personalities/thompson.jpg)
 
 In the very early days of UNIX you had the Thompson shell which supported
 pipes, some basic control structures and wildcards. Thompson shell was based
@@ -32,7 +32,7 @@ like it is extended from REPL usage.
 
 ## Opposing Requirements
 
-![Opposing Requirements](/images/blog/split_personalities/conflict.png)
+![Opposing Requirements](https://murex.rocks/images/blog/split_personalities/conflict.png)
 
 The problem with shell usage is it falls into two contradictory categories
 equally:
@@ -84,7 +84,7 @@ for illustrative reasons)
 
 ## The Traditional
 
-![The Traditional](/images/blog/split_personalities/old.jpg)
+![The Traditional](https://murex.rocks/images/blog/split_personalities/old.jpg)
 
 As I've already hinted in the section before, Bourne, Bash, Zsh all fall nicely
 into the first camp. The write-many read-once camp. And that makes sense to me
@@ -109,7 +109,7 @@ for terse REPLs and lengthier scripts is LISP.
 
 ## The Modern
 
-![The Modern](/images/blog/split_personalities/new.jpg)
+![The Modern](https://murex.rocks/images/blog/split_personalities/new.jpg)
 
 So how are modern shells addressing these split concerns?
 
@@ -172,7 +172,7 @@ across.
 
 ### Murex
 
-![Murex](/images/blog/split_personalities/murex.png)
+![Murex](https://murex.rocks/images/blog/split_personalities/murex.png)
 
 The approach Murex takes sits somewhere in between the previous two shells.
 It attempts to retain familiarity with POSIX syntax but isn't afraid to break
