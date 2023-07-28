@@ -32,7 +32,7 @@ jobs:
 
       - name: Compile markdown docs
         run: |
-          ./docgen -panic -warning -config gen/docgen.yaml
+          ./docgen -panic -config gen/docgen.yaml
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
