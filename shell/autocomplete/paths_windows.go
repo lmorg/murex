@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
 )
 
@@ -16,7 +15,7 @@ func pathIsLocal(s string) bool {
 }
 
 func matchDirsOnce(s string) (items []string) {
-	s = variables.ExpandString(s)
+	//s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
 	var dirs []string

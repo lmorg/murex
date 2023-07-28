@@ -10,6 +10,7 @@ import (
 	"github.com/lmorg/murex/builtins/docs"
 	"github.com/lmorg/murex/lang"
 	"github.com/lmorg/murex/shell/autocomplete"
+	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils"
 	"github.com/lmorg/murex/utils/parser"
 	"github.com/lmorg/murex/utils/readline"
@@ -152,6 +153,7 @@ func Command(_ []rune, command string, _ bool, size *readline.PreviewSizeT) ([]s
 }
 
 func Parameter(block []rune, parameter string, incImages bool, size *readline.PreviewSizeT) ([]string, int, error) {
+	parameter = variables.ExpandString(parameter)
 	if utils.Exists(parameter) {
 		return File(nil, parameter, incImages, size)
 	}

@@ -9,7 +9,6 @@ import (
 	_ "github.com/lmorg/murex/builtins/core/structs"
 	"github.com/lmorg/murex/config/profile"
 	"github.com/lmorg/murex/lang"
-	"github.com/lmorg/murex/test"
 	"github.com/lmorg/murex/test/count"
 	"github.com/lmorg/murex/utils/consts"
 )
@@ -123,10 +122,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 		profileFileName = "profile_TestModulesAndCustomPaths.mx"
 	)
 
-	path, err := test.TempDir()
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+	path := t.TempDir()
 
 	// get running settings
 
@@ -150,15 +146,15 @@ func TestModulesAndCustomPaths(t *testing.T) {
 
 	// set env vars
 
-	if os.Setenv(profile.PreloadEnvVar, path+preloadFileName) != nil {
+	if err := os.Setenv(profile.PreloadEnvVar, path+preloadFileName); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.PreloadEnvVar, err.Error())
 	}
 
-	if os.Setenv(profile.ModuleEnvVar, path+modulesPathName) != nil {
+	if err := os.Setenv(profile.ModuleEnvVar, path+modulesPathName); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ModuleEnvVar, err.Error())
 	}
 
-	if os.Setenv(profile.ProfileEnvVar, path+profileFileName) != nil {
+	if err := os.Setenv(profile.ProfileEnvVar, path+profileFileName); err != nil {
 		t.Errorf("Unable to set env var %s: %s", profile.ProfileEnvVar, err.Error())
 	}
 
@@ -170,7 +166,7 @@ func TestModulesAndCustomPaths(t *testing.T) {
 	// initialize test package
 
 	packagePath := path + modulesPathName + consts.PathSlash + "TestPackage" + consts.PathSlash
-	if err = os.Mkdir(packagePath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
+	if err := os.Mkdir(packagePath, 0777); err != nil && !strings.Contains(err.Error(), "file exists") {
 		t.Fatalf("Unable to initialize test package: Cannot create dir: %s", err.Error())
 	}
 
