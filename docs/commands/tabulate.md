@@ -55,11 +55,11 @@ rsync --help -> @[^Options$..--help]re -> tabulate: --map --split-comma --column
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`format`](../commands/format.md):
   Reformat one data-type into another data-type
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

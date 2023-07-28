@@ -58,8 +58,6 @@ Please read the documentation on `a` for a more detailed breakdown on of
   Quickly generate arrays
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -70,3 +68,5 @@ Please read the documentation on `a` for a more detailed breakdown on of
   A sophisticated yet simply way to build a JSON array
 * [`mtac`](../commands/mtac.md):
   Reverse the order of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

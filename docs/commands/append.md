@@ -45,10 +45,6 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -71,3 +67,7 @@ Error in `append` (1,22): cannot convert 'bob' to a floating point number: strco
   Add data to the start of an array
 * [`regexp`](../commands/regexp.md):
   Regexp tools for arrays / lists of strings
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -222,8 +222,6 @@ var rangeMoon = map[string]int{
   Create arrays of dates
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -238,3 +236,5 @@ var rangeMoon = map[string]int{
   Reverse the order of an array
 * [`ta` (mkarray)](../commands/ta.md):
   A sophisticated yet simple way to build an array of a user defined data-type
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

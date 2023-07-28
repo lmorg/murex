@@ -261,8 +261,6 @@ bar
   Evaluate a mathematical function (deprecated)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`exec`](../commands/exec.md):
   Runs an executable
 * [`export`](../commands/export.md):
@@ -273,3 +271,5 @@ bar
   Define a global variable and set it's value
 * [`let`](../commands/let.md):
   Evaluate a mathematical function and assign to variable (deprecated)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

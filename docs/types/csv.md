@@ -72,8 +72,6 @@ use `config`)
   Converts a structured file format into structured memory
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`config`](../commands/config.md):
@@ -88,3 +86,5 @@ use `config`)
   Inlining SQL into shell pipelines
 * [`str` (string) ](../types/str.md):
   string (primitive)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

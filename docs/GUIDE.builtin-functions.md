@@ -56,7 +56,7 @@ murex-docs trypipe
   Command prefix to expand globbing (deprecated)
 * [`[[` (element)](commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](commands/index.md):
+* [`[` (index)](commands/item-index.md):
   Outputs an element from an array, map or table
 * [`[` (range) ](commands/range.md):
   Outputs a ranged subset of data from STDIN

@@ -77,11 +77,11 @@ This enables sane, repeatable and readable defaults. Read the documents on
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`config`](../commands/config.md):
   Query or define Murex runtime settings
 * [`get`](../commands/get.md):
   Makes a standard HTTP request and returns the result as a JSON object
 * [`getfile`](../commands/getfile.md):
   Makes a standard HTTP request and return the contents as Murex-aware data type for passing along Murex pipelines.
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

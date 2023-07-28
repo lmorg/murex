@@ -296,8 +296,6 @@ functions.
 
 ## See Also
 
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`autocomplete`](../commands/autocomplete.md):
   Set definitions for tab-completion in the command line
 * [`config`](../commands/config.md):
@@ -340,3 +338,5 @@ functions.
   Import Murex code from another file of code block
 * [`test`](../commands/test.md):
   Murex's test framework - define tests, run tests and debug shell scripts
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

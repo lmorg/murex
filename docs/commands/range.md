@@ -98,8 +98,6 @@ December
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`a` (mkarray)](../commands/a.md):
   A sophisticated yet simple way to build an array or list
 * [`alter`](../commands/alter.md):
@@ -114,3 +112,5 @@ December
   Splits STDIN into a JSON array based on a regex parameter
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

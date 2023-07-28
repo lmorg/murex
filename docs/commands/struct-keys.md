@@ -152,9 +152,9 @@ Separator can also be multiple characters:
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`formap`](../commands/formap.md):
   Iterate through a map or other collection of data
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

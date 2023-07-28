@@ -92,8 +92,6 @@ hosts = [
   Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`format`](../commands/format.md):
@@ -108,3 +106,5 @@ hosts = [
   Returns runtime information on the internal state of Murex
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

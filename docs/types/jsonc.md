@@ -148,8 +148,6 @@ parser is still in beta), it is shipped as an additional data-type.
   Write a data type, one array element at a time
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`cast`](../commands/cast.md):
   Alters the data type of the previous function without altering it's output
 * [`csv` ](../types/csv.md):
@@ -174,5 +172,7 @@ parser is still in beta), it is shipped as an additional data-type.
   Tom's Obvious, Minimal Language (TOML)
 * [`yaml` ](../types/yaml.md):
   YAML Ain't Markup Language (YAML)
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
 * [mxjson](../types/mxjson.md):
   Murex-flavoured JSON (deprecated)

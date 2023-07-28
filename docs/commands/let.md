@@ -404,8 +404,6 @@ bar
   Evaluate a mathematical function (deprecated)
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`export`](../commands/export.md):
   Define an environmental variable and set it's value
 * [`expr`](../commands/expr.md):
@@ -416,3 +414,5 @@ bar
   Conditional statement to execute different blocks of code depending on the result of the condition
 * [`set`](../commands/set.md):
   Define a local variable and set it's value
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -47,8 +47,6 @@ unwanted "noise" is stripped from the output.
   Create a 2D JSON array from multiple input sources
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -67,3 +65,5 @@ unwanted "noise" is stripped from the output.
   Reverse the order of an array
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table

@@ -29,8 +29,6 @@ map { code-block } { code-block } -> <stdout>
 
 * [`[[` (element)](../commands/element.md):
   Outputs an element from a nested structure
-* [`[` (index)](../commands/index.md):
-  Outputs an element from an array, map or table
 * [`[` (range) ](../commands/range.md):
   Outputs a ranged subset of data from STDIN
 * [`a` (mkarray)](../commands/a.md):
@@ -47,3 +45,5 @@ map { code-block } { code-block } -> <stdout>
   Splits STDIN into a JSON array based on a regex parameter
 * [`prepend` ](../commands/prepend.md):
   Add data to the start of an array
+* [index](../commands/item-index.md):
+  Outputs an element from an array, map or table
