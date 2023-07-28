@@ -7,7 +7,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lmorg/murex/shell/variables"
 	"github.com/lmorg/murex/utils/consts"
 	"github.com/phayes/permbits"
 )
@@ -19,7 +18,7 @@ func pathIsLocal(s string) bool {
 }
 
 func matchDirsOnce(s string) (items []string) {
-	s = variables.ExpandString(s)
+	//s = variables.ExpandString(s)
 	path, partial := partialPath(s)
 
 	var dirs []string
