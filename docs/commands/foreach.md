@@ -13,7 +13,29 @@ For example is STDIN is `yaml` then so will STDOUT. The only exception to this
 is if STDIN is `json` in which case STDOUT will be jsonlines (`jsonl`), or when
 additional flags are used such as `--jmap`.
 
+## Usage
 
+`{ code-block }` reads from a variable and writes to an array / unbuffered STDOUT:
+
+```
+<stdin> -> foreach variable { code-block } -> <stdout>
+```
+
+`{ code-block }` reads from STDIN and writes to an array / unbuffered STDOUT:
+
+```
+<stdin> -> foreach { -> code-block } -> <stdout>
+```
+
+`foreach` writes to a buffered JSON map:
+
+```
+<stdin> -> foreach --jmap variable {
+    code-block (map key)
+} {
+    code-block (map value)
+} -> <stdout>
+```
 
 ## Examples
 
@@ -92,7 +114,7 @@ Iteration 4: [
 * `--jmap`
     Write a `json` map to STDOUT instead of an array
 * `--step`
-    <int> Iterates in steps. Value passed to block is an array of items in the step range. Not (yet) supported with `--jmap`
+    `<int>` Iterates in steps. Value passed to block is an array of items in the step range. Not (yet) supported with `--jmap`
 
 ## Detail
 
