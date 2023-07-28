@@ -1,5 +1,0 @@
-
-User-agent:*
-Disallow:
-
-Sitemap: https://vuepress-theme-hope-docs-demo.netlify.app/murex-docs/sitemap.xml
